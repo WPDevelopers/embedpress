@@ -1,0 +1,22 @@
+{
+    "name": "ostraining/embera",
+    "type": "library",
+    "description": "Oembed consumer library, that gives information about urls. It helps you replace urls to 60+ sites like youtube or vimeo, with their html embed code.",
+    "keywords": ["Embed", "Oembed", "Auto embed", "Embed Text", "Url Embed", "Youtube",  "Vimeo", "Vine", "Twitter", "Instagram"],
+    "homepage": "https://github.com/OSTraining/Embera",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Pratt",
+            "email": "pratt@hablarmierda.net",
+            "homepage": "http://www.michael-pratt.com",
+            "role": "Author/Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3"
+    },
+    "autoload": {
+        "psr-0": {"Embera": "Lib/"}
+    }
+}

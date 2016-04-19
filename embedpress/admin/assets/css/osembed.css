@@ -1,0 +1,84 @@
+/**
+ * @package   OSEmbed
+ * @contact   www.alledia.com, hello@alledia.com
+ * @copyright 2016 Alledia.com, All rights reserved
+ * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
+ */
+
+.ose-dailymotion,
+.ose-kickstarter,
+.ose-rutube,
+.ose-ted,
+.ose-vimeo,
+.ose-youtube,
+.ose-ustream,
+.ose-google-docs,
+.ose-animatron,
+.ose-amcharts,
+.ose-on-aol-com,
+.ose-animoto,
+.ose-videojug {
+    overflow: hidden;
+    position: relative;
+    height: 0;
+}
+
+.ose-dailymotion iframe,
+.ose-kickstarter iframe,
+.ose-rutube iframe,
+.ose-ted iframe,
+.ose-vimeo iframe,
+.ose-vine iframe,
+.ose-youtube iframe,
+.ose-ustream iframe,
+.ose-google-docs iframe,
+.ose-animatron iframe,
+.ose-amcharts iframe,
+.ose-on-aol-com iframe,
+.ose-animoto iframe,
+.ose-videojug iframe {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+/* 16:9 aspect ratio */
+.ose-dailymotion,
+.ose-kickstarter,
+.ose-rutube,
+.ose-ted,
+.ose-vimeo,
+.ose-youtube,
+.ose-animatron,
+.ose-amcharts,
+.ose-on-aol-com,
+.ose-animoto,
+.ose-videojug {
+    padding-bottom: 56.25%;
+}
+
+/* 1:1 aspect ratio */
+.ose-vine {
+    padding-bottom: 100%;
+}
+
+/* Mixed aspect ratio */
+.ose-ustream {
+    padding-bottom: 63.3%;
+}
+
+.ose-google-docs {
+    padding-bottom: 62.6%;
+}
+
+.ose-google-docs.ose-google-docs-drawings {
+    padding-bottom: 74.5%;
+}
+
+.ose-google-docs.ose-google-docs-document,
+.ose-google-docs.ose-google-docs-forms,
+.ose-google-docs.ose-google-docs-spreadsheets {
+    padding-bottom: 142%;
+}

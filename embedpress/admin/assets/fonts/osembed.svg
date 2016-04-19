@@ -1,0 +1,14 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2015 by original authors @ fontello.com</metadata>
+<defs>
+<font id="osembed" horiz-adv-x="1000" >
+<font-face font-family="osembed" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="pencil" unicode="&#xe808;" d="m0-143l68 343 274-273z m137 392l422 422 259-260-421-422z m531 494q2 39 31 69t69 31 66-26l131-130q25-26 24-66t-30-69-69-30-66 24l-131 131q-27 27-25 66z" horiz-adv-x="989" />
+<glyph glyph-name="gear" unicode="&#xe809;" d="m0 272l0 156 150 16q14 45 38 88l-96 117 109 109 117-95q41 23 88 37l16 150 156 0 16-150q45-14 88-37l117 95 109-109-96-117q24-43 38-88l150-16 0-156-150-16q-14-47-38-88l96-117-109-109-117 96q-43-24-88-38l-16-150-156 0-16 150q-47 14-88 38l-117-96-109 109 96 117q-24 41-38 88z m355 78q0-60 42-102t103-42 103 42 42 102-42 103-103 42-103-42-42-103z" horiz-adv-x="1000" />
+<glyph glyph-name="x" unicode="&#xe80a;" d="m0 71l279 279-279 279 221 221 279-279 279 279 221-221-279-279 279-279-221-221-279 279-279-279z" horiz-adv-x="1000" />
+</font>
+</defs>
+</svg>

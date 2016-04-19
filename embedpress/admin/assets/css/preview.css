@@ -1,0 +1,76 @@
+.osembed_wrapper {
+    position: relative;
+    padding: 1px;
+    max-width: 500px;
+}
+
+.osembed_controller_panel {
+    display: inline-block;
+    position: absolute;
+    padding: 8px;
+    margin-left: -45px;
+    width: 62px;
+    top: 1px;
+    left: 50%;
+    background: #075c97;
+    border: 1px solid rgba(207, 235, 255, 0.8);
+    -webkit-box-shadow: 0px 10px 44px -5px rgba(0,0,0,0.66);
+    -moz-box-shadow: 0px 10px 44px -5px rgba(0,0,0,0.66);
+    box-shadow: 0px 10px 44px -5px rgba(0,0,0,0.66);
+    z-index: 999999;
+}
+
+.osembed_controller_panel div.osembed_controller_button {
+    color: #fff;
+    margin: 0 5px;
+    font-size: 15px;
+    cursor: pointer;
+    display: inline-block;
+    width: 20px;
+}
+
+.osembed_controller_panel div.osembed_controller_button:hover {
+    text-decoration: none;
+    color: #ccc;
+}
+
+.osembed_controller_panel.hidden {
+    visibility: hidden;
+}
+
+.osembed_wrapper.osembed_placeholder {
+    display: block;
+    padding: 10px;
+    background: #cbC5e3;
+    border: 1px solid #427F7f;
+    height: 120px;
+    width: 450px;
+    text-align: center;
+    box-sizing: border-box;
+    color: #000;
+}
+
+.osembed_wrapper.osembed_placeholder:before {
+    content: attr(data-loading-text);
+    display: block;
+    margin-top: 30px;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+.osembed_wrapper.osembed_placeholder:after {
+    content: attr(data-url);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-style: italic;
+    font-size: 11px;
+}
+
+.osembed_wrapper img {
+    max-width: 100%;
+    width: auto \9;
+    height: auto;
+    vertical-align: middle;
+    border: 0;
+}
