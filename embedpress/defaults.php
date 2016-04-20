@@ -24,3 +24,7 @@ if (!defined('EMBEDPRESS_PUBLIC_PATH')) {
 if (!defined('EMBEDPRESS_ADMIN_PATH')) {
     define('EMBEDPRESS_ADMIN_PATH', EMBEDPRESS_PATH ."admin");
 }
+
+if (!defined('EMBEDPRESS_SHORTCODE')) {
+    define('EMBEDPRESS_SHORTCODE', "embedpress");
+}

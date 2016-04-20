@@ -68,6 +68,7 @@ class EmbedPress
         $this->loadDependencies();
 
         $this->defineAdminHooks();
+        $this->definePublicHooks();
 
         return $this;
     }
@@ -83,6 +84,8 @@ class EmbedPress
         require_once EMBEDPRESS_LIBRARIES_PATH .'/autoload.php';
         require_once EMBEDPRESS_INCLUDES_PATH .'/EmbedPressLoader.php';
         require_once EMBEDPRESS_ADMIN_PATH .'/EmbedPressAdmin.php';
+        require_once EMBEDPRESS_PUBLIC_PATH .'/EmbedPressPublic.php';
+        require_once EMBEDPRESS_PUBLIC_PATH .'/EmbedPressPublicHelper.php';
 
         $this->loader = new EmbedPressLoader();
     }
@@ -104,6 +107,17 @@ class EmbedPress
         $onAjaxCallbackName = "decodeShortcodedContentToAjax";
         $this->loader->add_action('wp_ajax_embedpress_do_ajax_request', $plgAdminInstance, $onAjaxCallbackName);
         $this->loader->add_action('wp_ajax_nopriv_embedpress_do_ajax_request', $plgAdminInstance, $onAjaxCallbackName);
+    }
+
+    /**
+     * Register all of the hooks related to the public-facing functionality of the plugin
+     *
+     * @since   0.1
+     * @access  private
+     */
+    private function definePublicHooks()
+    {
+        $plgPublicInstance = new EmbedPressPublic($this->getPluginName(), $this->getVersion());
     }
 
     /**
