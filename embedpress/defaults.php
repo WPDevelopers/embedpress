@@ -26,5 +26,5 @@ if (!defined('EMBEDPRESS_ADMIN_PATH')) {
 }
 
 if (!defined('EMBEDPRESS_SHORTCODE')) {
-    define('EMBEDPRESS_SHORTCODE', "embedpress");
+    define('EMBEDPRESS_SHORTCODE', "embed");
 }

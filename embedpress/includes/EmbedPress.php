@@ -67,6 +67,9 @@ class EmbedPress
 
         $this->loadDependencies();
 
+        add_action('init', array('EmbedPressShortcode', 'removeDefaultEmbedDependencies'), 9999);
+        EmbedPressShortcode::register();
+
         $this->defineAdminHooks();
         $this->definePublicHooks();
 
@@ -83,9 +86,9 @@ class EmbedPress
     {
         require_once EMBEDPRESS_LIBRARIES_PATH .'/autoload.php';
         require_once EMBEDPRESS_INCLUDES_PATH .'/EmbedPressLoader.php';
+        require_once EMBEDPRESS_INCLUDES_PATH .'/EmbedPressShortcode.php';
         require_once EMBEDPRESS_ADMIN_PATH .'/EmbedPressAdmin.php';
         require_once EMBEDPRESS_PUBLIC_PATH .'/EmbedPressPublic.php';
-        require_once EMBEDPRESS_PUBLIC_PATH .'/EmbedPressPublicHelper.php';
 
         $this->loader = new EmbedPressLoader();
     }
@@ -193,5 +196,42 @@ class EmbedPress
         }
 
         return $content;
+    }
+
+    /**
+     * Remove embeds rewrite rules on plugin activation.
+     *
+     * @since   0.1
+     * @static
+     */
+    public static function onPluginActivationCallback()
+    {
+        add_filter('rewrite_rules_array', array('EmbedPressShortcode', 'disableDefaultEmbedsRewriteRules'));
+        flush_rewrite_rules();
+    }
+
+    /**
+     * Flush rewrite rules on plugin deactivation.
+     *
+     * @since   0.1
+     * @static
+     */
+    public static function onPluginDeactivationCallback()
+    {
+        remove_filter('rewrite_rules_array', array('EmbedPressShortcode', 'disableDefaultEmbedsRewriteRules'));
+        flush_rewrite_rules();
+    }
+
+    /**
+     * Disable all TinyMCE plugins related to the embed.
+     *
+     * @since   0.1
+     * @static
+     *
+     * @param   array   $plugins    An array containing enabled plugins.
+     */
+    public static function disableTinyMCERelatedPlugins($plugins)
+    {
+        return array_diff($plugins, array("wpembed", "wpview"));
     }
 }

@@ -46,18 +46,5 @@ class EmbedPressPublic
     {
         $this->pluginName = $pluginName;
         $this->pluginVersion = $pluginVersion;
-
-        $this->registerShortcode();
-    }
-
-    /**
-     * Register the plugin shortcode into WordPress.
-     *
-     * @since   0.1
-     * @access  private
-     */
-    private function registerShortcode()
-    {
-        add_shortcode(EMBEDPRESS_SHORTCODE, array('EmbedPressPublicHelper', 'decodeShortcodedContent'));
     }
 }
