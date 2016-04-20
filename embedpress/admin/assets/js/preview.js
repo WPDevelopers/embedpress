@@ -642,8 +642,9 @@
                 return content;
             };
 
-            self.decodeEmbedURLSpecialChars = function(content) {
+            self.decodeEmbedURLSpecialChars = function(content, applyShortcode) {
                 var encodingRegexpRule = /osembed(s?):\/\//;
+                applyShortcode = (typeof applyShortcode === "undefined") ? true : applyShortcode;
 
                 var isEncoded = content.match(encodingRegexpRule);
 
@@ -651,7 +652,7 @@
                 content = content.replace(/osembed(s?):\/\//, 'http$1://');
                 content = content.replace('::__at__::', '@').trim();
 
-                if (isEncoded) {
+                if (isEncoded && applyShortcode) {
                     content = '['+ $data.EMBEDPRESS_SHORTCODE +']'+ content +'[/'+ $data.EMBEDPRESS_SHORTCODE +']';
                 }
 
@@ -1003,7 +1004,7 @@
                 $dialog = $('#osembed-dialog-edit');
 
                 // Update the form fields
-                $('#osembed-edit-source').val(self.decodeEmbedURLSpecialChars($wrapper.data('url')));
+                $('#osembed-edit-source').val(self.decodeEmbedURLSpecialChars($wrapper.data('url'), false));
 
                 $dialog.dialog('open');
 
