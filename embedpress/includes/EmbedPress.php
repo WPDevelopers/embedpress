@@ -67,8 +67,7 @@ class EmbedPress
 
         $this->loadDependencies();
 
-        add_action('init', array('EmbedPressShortcode', 'removeDefaultEmbedDependencies'), 9999);
-        EmbedPressShortcode::register();
+        add_action('init', array('EmbedPressShortcode', 'overrideDefaultEmbedShortcode'), 9999);
 
         $this->defineAdminHooks();
         $this->definePublicHooks();

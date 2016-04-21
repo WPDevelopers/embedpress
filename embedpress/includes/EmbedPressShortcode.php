@@ -7,7 +7,7 @@ class EmbedPressShortcode
      * @since   0.1
      * @static
      */
-    public static function removeDefaultEmbedDependencies()
+    public static function overrideDefaultEmbedShortcode()
     {
         global $wp;
 
@@ -28,13 +28,33 @@ class EmbedPressShortcode
 
         // Remove oEmbed-specific JavaScript from the front-end and back-end.
         remove_action('wp_head', 'wp_oembed_add_host_js');
+
+        // Disable all TinyMCE plugins embed-related.
         add_filter('tiny_mce_plugins', array('EmbedPress', 'disableTinyMCERelatedPlugins' ));
+
+        remove_action('rest_api_init', 'wp_oembed_register_route');
+        // Remove embed-related scripts from the queue
+        remove_action('embed_head', 'enqueue_embed_scripts');
+        remove_action('embed_head', 'wp_print_head_scripts');
+
+        //wp_embed_unregister_handler("video");
+        //wp_embed_unregister_handler("youtube_embed_url");
+        //wp_embed_unregister_handler("googlevideo");
 
         // Remove all embeds rewrite rules.
         add_filter('rewrite_rules_array', array('EmbedPress', 'disableDefaultEmbedsRewriteRules' ));
 
-        // Remove the "embed" shortcode
+        // Disable the method that determines if default embed handlers should be loaded.
+        add_filter('wp_maybe_load_embeds', '__return_false');
+
+        // Disable the method that transform any URL from content to {@link WP_Embed::shortcode()}.
+        remove_filter('the_content', array('WP_Embed', 'autoembed'), 8);
+
+        // Remove {@link WP_Embed::shortcode()} from execution.
         remove_shortcode(EMBEDPRESS_SHORTCODE);
+
+        // Register the new shortcode for embeds.
+        self::register();
     }
 
     /**
@@ -45,7 +65,8 @@ class EmbedPressShortcode
      */
     public static function register()
     {
-        add_shortcode(EMBEDPRESS_SHORTCODE, array('EmbedPressShortcode', 'decode'));
+        // Register the new shortcode for embeds.
+        add_shortcode(EMBEDPRESS_SHORTCODE, array('EmbedPressShortcode', 'decode'), 999);
     }
 
     /**
