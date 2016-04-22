@@ -5,11 +5,21 @@
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
-(function(window, $, String, embedPressPreviewSettings){
+(function(window, $, String, $data){
     $(window.document).ready(function() {
         String.prototype.capitalizeFirstLetter = function() {
             return this.charAt(0).toUpperCase() + this.slice(1);
         }
+
+        String.prototype.isValidUrl = function() {
+            var match_url_re=/^(?:(?:https?|ftp|osembeds?):\/\/)(?:\S+(?::\S)?@)?(?:(?!10(?:.\d{1,3}){3})(?!127(?:.\d{1,3}){3})(?!169.254(?:.\d{1,3}){2})(?!192.168(?:.\d{1,3}){2})(?!172.(?:1[6-9]|2\d|3[0-1])(?:.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]+-?)[a-z\u00a1-\uffff0-9]+)(?:.(?:[a-z\u00a1-\uffff0-9]+-?)[a-z\u00a1-\uffff0-9]+)(?:.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/i;
+
+            var matches = this.match(match_url_re);
+
+            return matches !== null && matches.length > 0;
+        }
+
+        var SHORTCODE_REGEXP = new RegExp('\\[\/?'+ $data.EMBEDPRESS_SHORTCODE +'\\]', "gi");
 
         var OSEmbedPreview = function() {
             var self = this;
@@ -612,6 +622,17 @@
             };
 
             self.encodeEmbedURLSpecialChars = function(content) {
+                if (content.match(SHORTCODE_REGEXP)) {
+                    var subject = content.replace(SHORTCODE_REGEXP, '');
+
+                    if (!subject.isValidUrl()) {
+                        return content;
+                    }
+
+                    content = subject;
+                    subject = null;
+                }
+
                 // Bypass the autolink plugin, avoiding to have the url converted to a link automatically
                 content = content.replace(/http(s?)\:\/\//i, 'osembed$1://');
 
@@ -621,10 +642,19 @@
                 return content;
             };
 
-            self.decodeEmbedURLSpecialChars = function(content) {
+            self.decodeEmbedURLSpecialChars = function(content, applyShortcode) {
+                var encodingRegexpRule = /osembed(s?):\/\//;
+                applyShortcode = (typeof applyShortcode === "undefined") ? true : applyShortcode;
+
+                var isEncoded = content.match(encodingRegexpRule);
+
                 // Restore http[s] in the url (converted to bypass autolink plugin)
                 content = content.replace(/osembed(s?):\/\//, 'http$1://');
                 content = content.replace('::__at__::', '@').trim();
+
+                if (isEncoded && applyShortcode) {
+                    content = '['+ $data.EMBEDPRESS_SHORTCODE +']'+ content +'[/'+ $data.EMBEDPRESS_SHORTCODE +']';
+                }
 
                 return content;
             };
@@ -655,6 +685,22 @@
                 // @todo: Recognize <a> tags as well
                 self.editor.parser.addNodeFilter('#text', function addNodeFilterIntoParser(nodes, arg) {
                     self.each(nodes, function eachNodeInParser(node) {
+                        var subject = node.value;
+                        if (!subject.isValidUrl()) {
+                            if (!subject.match(SHORTCODE_REGEXP)) {
+                                return;
+                            }
+                        }
+
+                        subject = self.decodeEmbedURLSpecialChars(subject);
+                        if (!subject.isValidUrl()) {
+                            if (!subject.match(SHORTCODE_REGEXP)) {
+                                return;
+                            }
+                        }
+
+                        node.value = subject.replace(SHORTCODE_REGEXP, '').trim();
+
                         // These patterns need to have groups for the pre and post texts
                         var patterns = self.getProvidersURLPatterns();
 
@@ -958,7 +1004,7 @@
                 $dialog = $('#osembed-dialog-edit');
 
                 // Update the form fields
-                $('#osembed-edit-source').val(self.decodeEmbedURLSpecialChars($wrapper.data('url')));
+                $('#osembed-edit-source').val(self.decodeEmbedURLSpecialChars($wrapper.data('url'), false));
 
                 $dialog.dialog('open');
 
@@ -1164,6 +1210,6 @@
             window.OSEmbedPreview = new OSEmbedPreview();
         }
 
-        window.OSEmbedPreview.init(embedPressPreviewSettings);
+        window.OSEmbedPreview.init($data.previewSettings);
     });
-})(window, jQuery, String, embedPressPreviewSettings);
+})(window, jQuery, String, $data);
