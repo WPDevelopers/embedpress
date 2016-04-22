@@ -19,6 +19,64 @@
             return matches !== null && matches.length > 0;
         }
 
+        String.prototype.hasShortcode = function(shortcode) {
+            var shortcodeRule = new RegExp('\\['+ shortcode +'(?:\\]|.+?\\])', "ig");
+            return !!this.toString().match(shortcodeRule);
+        }
+
+        String.prototype.stripShortcode = function(shortcode) {
+            var stripRule = new RegExp('(\\['+ shortcode +'(?:\\]|.+?\\])|\\[\\/'+ shortcode +'\\])', "ig");
+            return this.toString().replace(stripRule, "");
+        }
+
+        String.prototype.setShortcodeAttribute = function(attr, value, shortcode, replaceInsteadOfMerge) {
+            replaceInsteadOfMerge = typeof replaceInsteadOfMerge === "undefined" ? false : replaceInsteadOfMerge;
+            var subject = this.toString();
+
+            if (subject.hasShortcode(shortcode)) {
+                var attributes = subject.getShortcodeAttributes(shortcode);
+
+                if (attributes.hasOwnProperty(attr)) {
+                    if (replaceInsteadOfMerge) {
+                        attributes[attr] = value;
+                    } else {
+                        attributes[attr] += " " + value;
+                    }
+                } else {
+                    attributes[attr] = value;
+                }
+
+                if (!!Object.keys(attributes).length) {
+                    var parsedAttributes = [];
+                    for (var attr in attributes) {
+                        parsedAttributes.push(attr + '="' + attributes[attr] + '"');
+                    }
+
+                    subject = '[' + shortcode + ' ' + parsedAttributes.join(" ") + ']' + subject.stripShortcode(shortcode) + '[/' + shortcode + ']';
+                } else {
+                    subject = '[' + shortcode + ']' + subject.stripShortcode(shortcode) + '[/' + shortcode + ']';
+                }
+
+                return subject;
+            } else {
+                return subject;
+            }
+        }
+
+        String.prototype.getShortcodeAttributes = function(shortcode) {
+            var subject = this.toString();
+            if (subject.hasShortcode(shortcode)) {
+                var extractAttributeRule = new RegExp(/(\w+(?:-\w+)?)=\"(.+?)\"/ig);
+
+                var match, attributes = [];
+                while (match = extractAttributeRule.exec(subject)) {
+                    attributes[match[1]] = match[2];
+                }
+
+                return attributes;
+            }
+        }
+
         var SHORTCODE_REGEXP = new RegExp('\\[\/?'+ $data.EMBEDPRESS_SHORTCODE +'\\]', "gi");
 
         var OSEmbedPreview = function() {
@@ -513,14 +571,20 @@
             self.addURLsPlaceholder = function(node, url) {
                 var uid = self.makeId();
 
+                var shortcodeAttributes = node.value.getShortcodeAttributes($data.EMBEDPRESS_SHORTCODE);
+
                 var wrapper = new self.Node('div', 1);
-                wrapper.attr({
+                var wrapperSettings = {
                     'class': 'osembed_wrapper osembed_placeholder',
                     'data-url': url,
                     'data-uid': uid,
                     'id': 'osembed_wrapper_' + uid,
                     'data-loading-text': 'Loading...'
-                });
+                };
+
+                wrapperSettings = $.extend({}, wrapperSettings, shortcodeAttributes);
+
+                wrapper.attr(wrapperSettings);
 
                 var panel = new self.Node('div', 1);
                 panel.attr({
@@ -642,9 +706,10 @@
                 return content;
             };
 
-            self.decodeEmbedURLSpecialChars = function(content, applyShortcode) {
+            self.decodeEmbedURLSpecialChars = function(content, applyShortcode, attributes) {
                 var encodingRegexpRule = /osembed(s?):\/\//;
                 applyShortcode = (typeof applyShortcode === "undefined") ? true : applyShortcode;
+                attributes = (typeof attributes === "undefined") ? {} : attributes;
 
                 var isEncoded = content.match(encodingRegexpRule);
 
@@ -653,7 +718,14 @@
                 content = content.replace('::__at__::', '@').trim();
 
                 if (isEncoded && applyShortcode) {
-                    content = '['+ $data.EMBEDPRESS_SHORTCODE +']'+ content +'[/'+ $data.EMBEDPRESS_SHORTCODE +']';
+                    var shortcode = '[' + $data.EMBEDPRESS_SHORTCODE;
+                    if (!!Object.keys(attributes).length) {
+                        for (var attr in attributes) {
+                            shortcode += ' ' + attr + '="' + attributes[attr] + '"';
+                        }
+                    }
+
+                    content = shortcode + ']' + content + '[/' + $data.EMBEDPRESS_SHORTCODE + ']';
                 }
 
                 return content;
@@ -750,9 +822,16 @@
                 self.editor.serializer.addNodeFilter('div', function addNodeFilterIntoSerializer(nodes, arg) {
                     self.each(nodes, function eachNodeInSerializer(node) {
                         if (node.attributes.map['class'] === 'osembed_wrapper' || node.attributes.map['class'] === 'osembed_placeholder') {
+                            var factoryAttributes = ["class", "id", "style", "data-loading-text", "data-uid", "data-url"];
+                            var customAttributes = {};
+                            for (var attr in node.attributes.map) {
+                                if (factoryAttributes.indexOf(attr) < 0) {
+                                    customAttributes[attr] = node.attributes.map[attr];
+                                }
+                            }
 
                             text = new self.Node('#text', 3);
-                            text.value = self.decodeEmbedURLSpecialChars(node.attributes.map['data-url'].trim());
+                            text.value = self.decodeEmbedURLSpecialChars(node.attributes.map['data-url'].trim(), true, customAttributes);
 
                             node.replace(text);
 
