@@ -771,7 +771,7 @@
                             }
                         }
 
-                        node.value = subject.replace(SHORTCODE_REGEXP, '').trim();
+                        subject = node.value.stripShortcode($data.EMBEDPRESS_SHORTCODE).trim();
 
                         // These patterns need to have groups for the pre and post texts
                         var patterns = self.getProvidersURLPatterns();
@@ -781,7 +781,7 @@
                                 matches,
                                 value;
 
-                            value = self.decodeEmbedURLSpecialChars(node.value).trim();
+                            value = self.decodeEmbedURLSpecialChars(subject).trim();
 
                             matches = value.match(regex);
 
