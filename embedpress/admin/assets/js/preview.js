@@ -671,6 +671,8 @@
 
                 // Get the parsed embed code from the OSEmbed plugin
                 self.getParsedContent(url, function getParsedContentCallback(result) {
+                    result.data.content = result.data.content.stripShortcode($data.EMBEDPRESS_SHORTCODE);
+
                     // Parse as DOM element
                     var $content;
                     try {
@@ -995,12 +997,6 @@
 
                     if (matches !== null && !!matches.length) {
                         event.preventDefault();
-
-                        url = matches[2];
-
-                        // Encode critical fragments in the URL to bypass some plugins
-                        content = self.encodeEmbedURLSpecialChars(content);
-
                         // Let TinyMCE do the heavy lifting for inserting that content into the self.editor
                         // We cancel the default behavior and insert using command to trigger the node change and the parser
                         self.editor.execCommand('mceInsertContent', false, content);
