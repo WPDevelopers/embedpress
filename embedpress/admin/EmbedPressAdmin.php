@@ -60,7 +60,7 @@ class EmbedPressAdmin
         wp_enqueue_script("bootbox", $assetsPath .'/js/bootbox.min.js', array('jquery', 'bootbox-bootstrap'), $this->pluginVersion, true);
         wp_enqueue_script($this->pluginName, $assetsPath .'/js/preview.js', array('jquery', 'bootbox'), $this->pluginVersion, true);
         wp_localize_script($this->pluginName, '$data', array(
-            'previewSettings'     => array(
+            'previewSettings'      => array(
                 'juriRoot'   => get_site_url() .'/',
                 'versionUID' => $this->pluginVersion,
                 'debug'      => true
