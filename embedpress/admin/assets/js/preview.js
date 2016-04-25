@@ -188,60 +188,6 @@
                 $style.appendTo(head);
             }
 
-            self.createEditForm = function() {
-
-                var $dialog = $(
-                    '<div id="osembed-dialog-edit" title="Edit URL">' +
-                    '  <form>' +
-                    '    <fieldset>' +
-                    '      <label for="source">URL</label>' +
-                    '      <input type="text" name="osembed-edit-source" id="osembed-edit-source" value="" class="text ui-widget-content ui-corner-all">' +
-                    '      <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">' +
-                    '    </fieldset>' +
-                    '  </form>' +
-                    '</div>'
-                );
-                $('body').append($dialog);
-                var $form = $dialog.find('form');
-
-                var dialog = $dialog.dialog({
-                    autoOpen: false,
-                    height: 200,
-                    width: 500,
-                    modal: true,
-                    buttons: {
-                        'Update': function() {
-                            $form.submit();
-                        }
-                    },
-                    close: function() {
-                        $form[0].reset();
-                        self.activeWrapperForModal = null;
-                    }
-                });
-
-                $form.on('submit', function(e) {
-                    e.preventDefault();
-
-                    var $wrapper = self.activeWrapperForModal;
-
-                    // Select the current wrapper as a base for the new element
-                    self.editor.focus();
-                    self.editor.selection.select($wrapper[0]);
-
-                    $wrapper.children().remove();
-                    $wrapper.remove();
-
-                    // We do not directly replace the node because it was causing a bug on a second edit attempt
-                    self.editor.execCommand('mceInsertContent', false, $('#osembed-edit-source').val());
-
-                    self.configureWrappers();
-                    dialog.dialog('close');
-
-                    return false;
-                });
-            };
-
             self.convertURLSchemeToPattern = function(scheme) {
                 var prefix = '(.*)((?:http|osembed)s?:\\/\\/(?:www\\.)?',
                     suffix = '[\\/]?)(.*)',
@@ -769,7 +715,6 @@
                 });
 
                 // Add the edit form
-                self.createEditForm();
 
                 // @todo: This is needed only for JCE, to fix the img placeholder. Try to find out a better approach to avoid the placeholder blink
                 window.setTimeout(
@@ -998,15 +943,31 @@
 
                 self.activeWrapperForModal = self.activeWrapper;
 
-                var $wrapper = self.activeWrapperForModal,
-                    $dialog;
+                var $wrapper = self.activeWrapperForModal;
 
-                $dialog = $('#osembed-dialog-edit');
+                bootbox.prompt({
+                    title: "Edit the URL",
+                    size: "small",
+                    message: "Testing...",
+                    value: self.decodeEmbedURLSpecialChars($wrapper.data('url'), false),
+                    callback: function(result) {
+                        if (result !== null) {
+                            var $wrapper = self.activeWrapperForModal;
 
-                // Update the form fields
-                $('#osembed-edit-source').val(self.decodeEmbedURLSpecialChars($wrapper.data('url'), false));
+                            // Select the current wrapper as a base for the new element
+                            self.editor.focus();
+                            self.editor.selection.select($wrapper[0]);
 
-                $dialog.dialog('open');
+                            $wrapper.children().remove();
+                            $wrapper.remove();
+
+                            // We do not directly replace the node because it was causing a bug on a second edit attempt
+                            self.editor.execCommand('mceInsertContent', false, result);
+
+                            self.configureWrappers();
+                        }
+                    }
+                });
 
                 return false;
             };
