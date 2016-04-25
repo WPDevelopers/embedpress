@@ -55,7 +55,9 @@ class EmbedPressAdmin
      */
     public function enqueueScripts()
     {
-        wp_enqueue_script($this->pluginName, plugin_dir_url(__FILE__) .'assets/js/preview.js', array('jquery', 'jquery-ui-dialog'), $this->pluginVersion, true);
+        $assetsPath = plugin_dir_url(__FILE__) .'assets';
+        wp_enqueue_script("bootbox", $assetsPath .'/js/bootbox.min.js', array('jquery', 'bootbox-bootstrap'), $this->pluginVersion, true);
+        wp_enqueue_script($this->pluginName, $assetsPath .'/js/preview.js', array('jquery', 'jquery-ui-dialog', 'bootbox'), $this->pluginVersion, true);
         wp_localize_script($this->pluginName, '$data', array(
             'previewSettings'     => array(
                 'juriRoot'   => get_site_url() .'/',
