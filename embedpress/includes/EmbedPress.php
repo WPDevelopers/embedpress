@@ -209,6 +209,9 @@ class EmbedPress
 
             static::$emberaInstance->setTemplate('<div class="osembed-wrapper ose-{provider_alias} {wrapper_class}'. $customClasses .'"'. $attributesString .'>{html}</div>');
 
+            // Strip any remaining shortcode-code on $content
+            $content = preg_replace('/(\['. EMBEDPRESS_SHORTCODE .'(?:\]|.+?\])|\[\/'. EMBEDPRESS_SHORTCODE .'\])/i', "", $content);
+
             $content = static::$emberaInstance->transform($content);
 
             if ($stripNewLine) {
