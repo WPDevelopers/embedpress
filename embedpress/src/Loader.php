@@ -1,5 +1,7 @@
 <?php
-defined('ABSPATH') or die("No direct script access allowed.");
+namespace EmbedPress;
+
+(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
 /**
  * Entity responsible for maintaining and registering all hooks that power the plugin.
@@ -10,7 +12,7 @@ defined('ABSPATH') or die("No direct script access allowed.");
  * @license     TODO
  * @since       0.1
  */
-class EmbedPressLoader
+class Loader
 {
     /**
      * The array of actions registered with WordPress.

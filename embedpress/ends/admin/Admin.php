@@ -1,5 +1,9 @@
 <?php
-defined('ABSPATH') or die("No direct script access allowed.");
+namespace EmbedPress\Ends;
+
+use EmbedPress\Shortcode;
+
+(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
 /**
  * The admin-facing functionality of the plugin.
@@ -12,49 +16,14 @@ defined('ABSPATH') or die("No direct script access allowed.");
  * @license     TODO
  * @since       0.1
  */
-class EmbedPressAdmin
+class Admin extends Handler
 {
-    /**
-     * The name of the plugin.
-     *
-     * @since   0.1
-     * @access  private
-     *
-     * @var     string    $pluginName    The name of the plugin.
-     */
-    private $pluginName;
-
-    /**
-     * The version of the plugin.
-     *
-     * @since   0.1
-     * @access  private
-     *
-     * @var     string    $pluginVersion     The version of the plugin.
-     */
-    private $pluginVersion;
-
-    /**
-     * Initialize the class and set its properties.
-     *
-     * @since   0.1
-     *
-     * @param   string    $pluginName - The name of the plugin.
-     * @param   string    $pluginVersion - The version of the plugin.
-     */
-    public function __construct($pluginName, $pluginVersion)
-    {
-        $this->pluginName = $pluginName;
-        $this->pluginVersion = $pluginVersion;
-    }
-
     /**
      * Method that register all scripts for the admin area.
      *
      * @since 0.1
      */
-    public function enqueueScripts()
-    {
+    public function enqueueScripts() {
         wp_enqueue_script($this->pluginName, plugin_dir_url(__FILE__) .'assets/js/preview.js', array('jquery', 'jquery-ui-dialog'), $this->pluginVersion, true);
         wp_localize_script($this->pluginName, '$data', array(
             'previewSettings'     => array(
@@ -71,8 +40,7 @@ class EmbedPressAdmin
      *
      * @since 0.1
      */
-    public function enqueueStyles()
-    {
+    public function enqueueStyles() {
         global $wp_scripts;
 
         wp_enqueue_style('jquery-ui-css', "http://ajax.googleapis.com/ajax/libs/jqueryui/". $wp_scripts->registered['jquery-ui-core']->ver ."/themes/ui-lightness/jquery-ui.min.css");
@@ -83,11 +51,11 @@ class EmbedPressAdmin
      *
      * @since 0.1
      */
-    public function decodeShortcodedContentToAjax()
+    public function doShortcodeReceivedViaAjax()
     {
         $response = array(
             'data' => array(
-                'content' => EmbedPress::parseContent(@$_POST['subject'], true)
+                'content' => Shortcode::parseContent(@$_POST['subject'], true)
             )
         );
 

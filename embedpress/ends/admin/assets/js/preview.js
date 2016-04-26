@@ -24,7 +24,7 @@
         var OSEmbedPreview = function() {
             var self = this;
 
-            var PLG_SYSTEM_ASSETS_CSS_PATH = "wp-content/plugins/EmbedPress/admin/assets/css";
+            var PLG_SYSTEM_ASSETS_CSS_PATH = "wp-content/plugins/embedpress/ends/admin/assets/css";
             var PLG_CONTENT_ASSETS_CSS_PATH = PLG_SYSTEM_ASSETS_CSS_PATH;
 
             /**
