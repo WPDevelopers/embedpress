@@ -198,8 +198,10 @@ class EmbedPress
                     unset($attributes['class']);
                 }
 
+                $attrNamePrefix = "data-";
                 $attributesString = [];
                 foreach ($attributes as $attrName => $attrValue) {
+                    $attrName = strpos($attrName, $attrNamePrefix) === 0 ? $attrName : ($attrNamePrefix . $attrName);
                     $attributesString[] = sprintf('%s="%s"', $attrName, $attrValue);
                 }
                 $attributesString = ' '. implode(' ', $attributesString);
