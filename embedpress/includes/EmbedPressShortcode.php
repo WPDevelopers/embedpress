@@ -37,12 +37,14 @@ class EmbedPressShortcode
         remove_action('embed_head', 'enqueue_embed_scripts');
         remove_action('embed_head', 'wp_print_head_scripts');
 
-        //wp_embed_unregister_handler("video");
-        //wp_embed_unregister_handler("youtube_embed_url");
-        //wp_embed_unregister_handler("googlevideo");
+        add_filter('load_default_embeds', false);
+
+        wp_embed_unregister_handler("video");
+        wp_embed_unregister_handler("youtube_embed_url");
+        wp_embed_unregister_handler("googlevideo");
 
         // Remove all embeds rewrite rules.
-        add_filter('rewrite_rules_array', array('EmbedPress', 'disableDefaultEmbedsRewriteRules' ));
+        add_filter('rewrite_rules_array', array('EmbedPressShortcode', 'disableDefaultEmbedRewriteRules' ));
 
         // Disable the method that determines if default embed handlers should be loaded.
         add_filter('wp_maybe_load_embeds', '__return_false');
@@ -52,6 +54,7 @@ class EmbedPressShortcode
 
         // Remove {@link WP_Embed::shortcode()} from execution.
         remove_shortcode(EMBEDPRESS_SHORTCODE);
+        remove_shortcode('video');
 
         // Register the new shortcode for embeds.
         self::register();

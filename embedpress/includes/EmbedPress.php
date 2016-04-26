@@ -230,7 +230,7 @@ class EmbedPress
      */
     public static function onPluginActivationCallback()
     {
-        add_filter('rewrite_rules_array', array('EmbedPressShortcode', 'disableDefaultEmbedsRewriteRules'));
+        add_filter('rewrite_rules_array', array('EmbedPressShortcode', 'disableDefaultEmbedRewriteRules'));
         flush_rewrite_rules();
     }
 
@@ -242,7 +242,7 @@ class EmbedPress
      */
     public static function onPluginDeactivationCallback()
     {
-        remove_filter('rewrite_rules_array', array('EmbedPressShortcode', 'disableDefaultEmbedsRewriteRules'));
+        remove_filter('rewrite_rules_array', array('EmbedPressShortcode', 'disableDefaultEmbedRewriteRules'));
         flush_rewrite_rules();
     }
 
