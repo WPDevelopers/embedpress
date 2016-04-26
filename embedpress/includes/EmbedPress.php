@@ -176,16 +176,36 @@ class EmbedPress
      *
      * @param   string      The raw content that will be replaced.
      * @param   boolean     Optional. If true, new lines at the end of the embeded code are stripped.
+     * @param   array       Optional. Wordpress (frontend) throws here all shortcode properties passed to $content.
      * @return  string
      */
-    public static function parseContent($content, $stripNewLine = false)
+    public static function parseContent($content, $stripNewLine = false, $attributes = array())
     {
         if (!isset(static::$emberaInstance)) {
             static::$emberaInstance = new Formatter(new Embera, true);
         }
 
         if (!empty($content)) {
-            static::$emberaInstance->setTemplate('<div class="osembed-wrapper ose-{provider_alias} {wrapper_class}">{html}</div>');
+            $customClasses = "";
+            $attributesString = "";
+
+            if (is_array($attributes) && !empty($attributes)) {
+                if (isset($attributes['class'])) {
+                    if (!empty($attributes['class'])) {
+                        $customClasses = ' '. $attributes['class'];
+                    }
+
+                    unset($attributes['class']);
+                }
+
+                $attributesString = [];
+                foreach ($attributes as $attrName => $attrValue) {
+                    $attributesString[] = sprintf('%s="%s"', $attrName, $attrValue);
+                }
+                $attributesString = ' '. implode(' ', $attributesString);
+            }
+
+            static::$emberaInstance->setTemplate('<div class="osembed-wrapper ose-{provider_alias} {wrapper_class}'. $customClasses .'"'. $attributesString .'>{html}</div>');
 
             $content = static::$emberaInstance->transform($content);
 

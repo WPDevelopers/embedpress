@@ -96,13 +96,13 @@ class EmbedPressShortcode
      * @since   0.1
      * @static
      *
-     * @param   array     $attributes   @TODO
+     * @param   array     $attributes   An array holding all properties of the shortcode.
      * @param   string    $subject      The given string
      * @return  string
      */
-    public static function decode($attributes, $subject = null)
+    public static function decode($attributes = array(), $subject = null)
     {
-        $decodedSubject = EmbedPress::parseContent($subject, true);
+        $decodedSubject = EmbedPress::parseContent($subject, true, $attributes);
 
         return $decodedSubject;
     }
