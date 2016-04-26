@@ -67,7 +67,7 @@ class EmbedPress
 
         $this->loadDependencies();
 
-        add_action('init', array('EmbedPressShortcode', 'overrideDefaultEmbedShortcode'), 9999);
+        add_action('init', array('EmbedPressShortcode', 'overrideDefaultEmbedShortcode'), 1);
 
         $this->defineAdminHooks();
         $this->definePublicHooks();
@@ -176,16 +176,41 @@ class EmbedPress
      *
      * @param   string      The raw content that will be replaced.
      * @param   boolean     Optional. If true, new lines at the end of the embeded code are stripped.
+     * @param   array       Optional. Wordpress (frontend) throws here all shortcode properties passed to $content.
      * @return  string
      */
-    public static function parseContent($content, $stripNewLine = false)
+    public static function parseContent($content, $stripNewLine = false, $attributes = array())
     {
         if (!isset(static::$emberaInstance)) {
             static::$emberaInstance = new Formatter(new Embera, true);
         }
 
         if (!empty($content)) {
-            static::$emberaInstance->setTemplate('<div class="osembed-wrapper ose-{provider_alias} {wrapper_class}">{html}</div>');
+            $customClasses = "";
+            $attributesString = "";
+
+            if (is_array($attributes) && !empty($attributes)) {
+                if (isset($attributes['class'])) {
+                    if (!empty($attributes['class'])) {
+                        $customClasses = ' '. $attributes['class'];
+                    }
+
+                    unset($attributes['class']);
+                }
+
+                $attrNamePrefix = "data-";
+                $attributesString = [];
+                foreach ($attributes as $attrName => $attrValue) {
+                    $attrName = strpos($attrName, $attrNamePrefix) === 0 ? $attrName : ($attrNamePrefix . $attrName);
+                    $attributesString[] = sprintf('%s="%s"', $attrName, $attrValue);
+                }
+                $attributesString = ' '. implode(' ', $attributesString);
+            }
+
+            static::$emberaInstance->setTemplate('<div class="osembed-wrapper ose-{provider_alias} {wrapper_class}'. $customClasses .'"'. $attributesString .'>{html}</div>');
+
+            // Strip any remaining shortcode-code on $content
+            $content = preg_replace('/(\['. EMBEDPRESS_SHORTCODE .'(?:\]|.+?\])|\[\/'. EMBEDPRESS_SHORTCODE .'\])/i', "", $content);
 
             $content = static::$emberaInstance->transform($content);
 
@@ -205,7 +230,7 @@ class EmbedPress
      */
     public static function onPluginActivationCallback()
     {
-        add_filter('rewrite_rules_array', array('EmbedPressShortcode', 'disableDefaultEmbedsRewriteRules'));
+        add_filter('rewrite_rules_array', array('EmbedPressShortcode', 'disableDefaultEmbedRewriteRules'));
         flush_rewrite_rules();
     }
 
@@ -217,7 +242,7 @@ class EmbedPress
      */
     public static function onPluginDeactivationCallback()
     {
-        remove_filter('rewrite_rules_array', array('EmbedPressShortcode', 'disableDefaultEmbedsRewriteRules'));
+        remove_filter('rewrite_rules_array', array('EmbedPressShortcode', 'disableDefaultEmbedRewriteRules'));
         flush_rewrite_rules();
     }
 

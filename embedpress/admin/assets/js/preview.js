@@ -12,11 +12,69 @@
         }
 
         String.prototype.isValidUrl = function() {
-            var match_url_re=/^(?:(?:https?|ftp|osembeds?):\/\/)(?:\S+(?::\S)?@)?(?:(?!10(?:.\d{1,3}){3})(?!127(?:.\d{1,3}){3})(?!169.254(?:.\d{1,3}){2})(?!192.168(?:.\d{1,3}){2})(?!172.(?:1[6-9]|2\d|3[0-1])(?:.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]+-?)[a-z\u00a1-\uffff0-9]+)(?:.(?:[a-z\u00a1-\uffff0-9]+-?)[a-z\u00a1-\uffff0-9]+)(?:.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/i;
+            var rule = /^(https?|ftp|osembeds?):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
 
-            var matches = this.match(match_url_re);
+            return rule.test(this.toString());
+        }
 
-            return matches !== null && matches.length > 0;
+        String.prototype.hasShortcode = function(shortcode) {
+            var shortcodeRule = new RegExp('\\['+ shortcode +'(?:\\]|.+?\\])', "ig");
+            return !!this.toString().match(shortcodeRule);
+        }
+
+        String.prototype.stripShortcode = function(shortcode) {
+            var stripRule = new RegExp('(\\['+ shortcode +'(?:\\]|.+?\\])|\\[\\/'+ shortcode +'\\])', "ig");
+            return this.toString().replace(stripRule, "");
+        }
+
+        String.prototype.setShortcodeAttribute = function(attr, value, shortcode, replaceInsteadOfMerge) {
+            replaceInsteadOfMerge = typeof replaceInsteadOfMerge === "undefined" ? false : replaceInsteadOfMerge;
+            var subject = this.toString();
+
+            if (subject.hasShortcode(shortcode)) {
+                var attributes = subject.getShortcodeAttributes(shortcode);
+
+                if (attributes.hasOwnProperty(attr)) {
+                    if (replaceInsteadOfMerge) {
+                        attributes[attr] = value;
+                    } else {
+                        attributes[attr] += " " + value;
+                    }
+                } else {
+                    attributes[attr] = value;
+                }
+
+                if (!!Object.keys(attributes).length) {
+                    var parsedAttributes = [];
+                    for (var attr in attributes) {
+                        parsedAttributes.push(attr + '="' + attributes[attr] + '"');
+                    }
+
+                    subject = '[' + shortcode + ' ' + parsedAttributes.join(" ") + ']' + subject.stripShortcode(shortcode) + '[/' + shortcode + ']';
+                } else {
+                    subject = '[' + shortcode + ']' + subject.stripShortcode(shortcode) + '[/' + shortcode + ']';
+                }
+
+                return subject;
+            } else {
+                return subject;
+            }
+        }
+
+        String.prototype.getShortcodeAttributes = function(shortcode) {
+            var subject = this.toString();
+            if (subject.hasShortcode(shortcode)) {
+                var extractAttributeRule = new RegExp(/(\w+(?:-\w+)?)=\"(.+?)\"/ig);
+
+                var match, attributes = [];
+                while (match = extractAttributeRule.exec(subject)) {
+                    attributes[match[1]] = match[2];
+                }
+
+                return attributes;
+            } else {
+                return {};
+            }
         }
 
         var SHORTCODE_REGEXP = new RegExp('\\[\/?'+ $data.EMBEDPRESS_SHORTCODE +'\\]', "gi");
@@ -513,14 +571,47 @@
             self.addURLsPlaceholder = function(node, url) {
                 var uid = self.makeId();
 
+                var wrapperClasses = ["osembed_wrapper", "osembed_placeholder"];
+
+                var shortcodeAttributes = node.value.getShortcodeAttributes($data.EMBEDPRESS_SHORTCODE);
+                var customClasses = "";
+                var customLoadingText
+                if (!!Object.keys(shortcodeAttributes).length) {
+                    var specialAttributes = ["class"];
+                    // Iterates over each attribute of shortcodeAttributes to add the prefix "data-" if missing
+                    var dataPrefix = "data-";
+                    var prefixedShortcodeAttributes = [];
+                    for (var attr in shortcodeAttributes) {
+                        if (specialAttributes.indexOf(attr) === -1) {
+                            if (attr.indexOf(dataPrefix) !== 0) {
+                                prefixedShortcodeAttributes[dataPrefix + attr] = shortcodeAttributes[attr];
+                            } else {
+                                prefixedShortcodeAttributes[attr] = shortcodeAttributes[attr];
+                            }
+                        } else {
+                            attr = attr.replace(dataPrefix, "");
+                            if (attr === "class") {
+                                wrapperClasses.push(shortcodeAttributes[attr]);
+                            }
+                        }
+                    }
+
+                    shortcodeAttributes = prefixedShortcodeAttributes;
+                    prefixedShortcodeAttributes = dataPrefix = null;
+                }
+
                 var wrapper = new self.Node('div', 1);
-                wrapper.attr({
-                    'class': 'osembed_wrapper osembed_placeholder',
+                var wrapperSettings = {
+                    'class': Array.from(new Set(wrapperClasses)).join(" "),
                     'data-url': url,
                     'data-uid': uid,
                     'id': 'osembed_wrapper_' + uid,
                     'data-loading-text': 'Loading...'
-                });
+                };
+
+                wrapperSettings = $.extend({}, wrapperSettings, shortcodeAttributes);
+
+                wrapper.attr(wrapperSettings);
 
                 var panel = new self.Node('div', 1);
                 panel.attr({
@@ -580,6 +671,8 @@
 
                 // Get the parsed embed code from the OSEmbed plugin
                 self.getParsedContent(url, function getParsedContentCallback(result) {
+                    result.data.content = result.data.content.stripShortcode($data.EMBEDPRESS_SHORTCODE);
+
                     // Parse as DOM element
                     var $content;
                     try {
@@ -642,9 +735,10 @@
                 return content;
             };
 
-            self.decodeEmbedURLSpecialChars = function(content, applyShortcode) {
+            self.decodeEmbedURLSpecialChars = function(content, applyShortcode, attributes) {
                 var encodingRegexpRule = /osembed(s?):\/\//;
                 applyShortcode = (typeof applyShortcode === "undefined") ? true : applyShortcode;
+                attributes = (typeof attributes === "undefined") ? {} : attributes;
 
                 var isEncoded = content.match(encodingRegexpRule);
 
@@ -653,7 +747,14 @@
                 content = content.replace('::__at__::', '@').trim();
 
                 if (isEncoded && applyShortcode) {
-                    content = '['+ $data.EMBEDPRESS_SHORTCODE +']'+ content +'[/'+ $data.EMBEDPRESS_SHORTCODE +']';
+                    var shortcode = '[' + $data.EMBEDPRESS_SHORTCODE;
+                    if (!!Object.keys(attributes).length) {
+                        for (var attr in attributes) {
+                            shortcode += ' ' + attr + '="' + attributes[attr] + '"';
+                        }
+                    }
+
+                    content = shortcode + ']' + content + '[/' + $data.EMBEDPRESS_SHORTCODE + ']';
                 }
 
                 return content;
@@ -699,7 +800,7 @@
                             }
                         }
 
-                        node.value = subject.replace(SHORTCODE_REGEXP, '').trim();
+                        subject = node.value.stripShortcode($data.EMBEDPRESS_SHORTCODE).trim();
 
                         // These patterns need to have groups for the pre and post texts
                         var patterns = self.getProvidersURLPatterns();
@@ -709,11 +810,10 @@
                                 matches,
                                 value;
 
-                            value = self.decodeEmbedURLSpecialChars(node.value).trim();
+                            value = self.decodeEmbedURLSpecialChars(subject).trim();
 
                             matches = value.match(regex);
-
-                            if (matches) {
+                            if (matches !== null && !!matches.length) {
                                 var preText  = matches[1];
                                 var url      = self.encodeEmbedURLSpecialChars(matches[2]);
                                 var postText = matches[3];
@@ -749,10 +849,40 @@
                 // Add the filter that will convert the preview box/embed code back to the raw url
                 self.editor.serializer.addNodeFilter('div', function addNodeFilterIntoSerializer(nodes, arg) {
                     self.each(nodes, function eachNodeInSerializer(node) {
-                        if (node.attributes.map['class'] === 'osembed_wrapper' || node.attributes.map['class'] === 'osembed_placeholder') {
+                        var nodeClasses = (node.attributes.map.class || "").split(' ');
+                        var wrapperFactoryClasses = ["osembed_wrapper", "osembed_placeholder"];
+
+                        var isWrapped = nodeClasses.filter(function(n) {
+                            return wrapperFactoryClasses.indexOf(n) != -1;
+                        }).length > 0;
+
+                        if (isWrapped) {
+                            var factoryAttributes = ["id", "style", "data-loading-text", "data-uid", "data-url"];
+                            var customAttributes = {};
+                            var dataPrefix = "data-";
+                            for (var attr in node.attributes.map) {
+                                if (attr.toLowerCase() !== "class") {
+                                    if (factoryAttributes.indexOf(attr) < 0) {
+                                        // Remove the "data-" prefix for more readability
+                                        customAttributes[attr.replace(dataPrefix, "")] = node.attributes.map[attr];
+                                    }
+                                } else {
+                                    var customClasses = [];
+                                    for (var wrapperClassIndex in nodeClasses) {
+                                        var wrapperClass = nodeClasses[wrapperClassIndex];
+                                        if (wrapperFactoryClasses.indexOf(wrapperClass) === -1) {
+                                            customClasses.push(wrapperClass);
+                                        }
+                                    }
+
+                                    if (!!customClasses.length) {
+                                        customAttributes.class = customClasses.join(" ");
+                                    }
+                                }
+                            }
 
                             text = new self.Node('#text', 3);
-                            text.value = self.decodeEmbedURLSpecialChars(node.attributes.map['data-url'].trim());
+                            text.value = self.decodeEmbedURLSpecialChars(node.attributes.map['data-url'].trim(), true, customAttributes);
 
                             node.replace(text);
 
@@ -865,14 +995,8 @@
                         matches = content.match(regex),
                         url;
 
-                    if (matches) {
+                    if (matches !== null && !!matches.length) {
                         event.preventDefault();
-
-                        url = matches[2];
-
-                        // Encode critical fragments in the URL to bypass some plugins
-                        content = self.encodeEmbedURLSpecialChars(content);
-
                         // Let TinyMCE do the heavy lifting for inserting that content into the self.editor
                         // We cancel the default behavior and insert using command to trigger the node change and the parser
                         self.editor.execCommand('mceInsertContent', false, content);

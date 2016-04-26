@@ -9,7 +9,7 @@ class EmbedPressShortcode
      */
     public static function overrideDefaultEmbedShortcode()
     {
-        global $wp;
+        global $wp, $wp_embed;
 
         // Remove the embed query var.
         $wp->public_query_vars = array_diff($wp->public_query_vars, array("embed"));
@@ -30,28 +30,34 @@ class EmbedPressShortcode
         remove_action('wp_head', 'wp_oembed_add_host_js');
 
         // Disable all TinyMCE plugins embed-related.
-        add_filter('tiny_mce_plugins', array('EmbedPress', 'disableTinyMCERelatedPlugins' ));
+        add_filter('tiny_mce_plugins', array('EmbedPress', 'disableTinyMCERelatedPlugins'));
 
         remove_action('rest_api_init', 'wp_oembed_register_route');
         // Remove embed-related scripts from the queue
         remove_action('embed_head', 'enqueue_embed_scripts');
         remove_action('embed_head', 'wp_print_head_scripts');
 
-        //wp_embed_unregister_handler("video");
-        //wp_embed_unregister_handler("youtube_embed_url");
-        //wp_embed_unregister_handler("googlevideo");
+        add_filter('load_default_embeds', false);
+
+        wp_embed_unregister_handler("video");
+        wp_embed_unregister_handler("youtube_embed_url");
+        wp_embed_unregister_handler("googlevideo");
 
         // Remove all embeds rewrite rules.
-        add_filter('rewrite_rules_array', array('EmbedPress', 'disableDefaultEmbedsRewriteRules' ));
+        add_filter('rewrite_rules_array', array('EmbedPressShortcode', 'disableDefaultEmbedRewriteRules'));
 
         // Disable the method that determines if default embed handlers should be loaded.
         add_filter('wp_maybe_load_embeds', '__return_false');
 
         // Disable the method that transform any URL from content to {@link WP_Embed::shortcode()}.
-        remove_filter('the_content', array('WP_Embed', 'autoembed'), 8);
+        remove_filter('the_content', array($wp_embed, 'run_shortcode'), 8);
+        remove_filter('the_content', array($wp_embed, 'autoembed'), 8);
 
         // Remove {@link WP_Embed::shortcode()} from execution.
         remove_shortcode(EMBEDPRESS_SHORTCODE);
+        remove_shortcode('video');
+
+        wp_deregister_script('wp-embed');
 
         // Register the new shortcode for embeds.
         self::register();
@@ -96,13 +102,13 @@ class EmbedPressShortcode
      * @since   0.1
      * @static
      *
-     * @param   array     $attributes   @TODO
+     * @param   array     $attributes   An array holding all properties of the shortcode.
      * @param   string    $subject      The given string
      * @return  string
      */
-    public static function decode($attributes, $subject = null)
+    public static function decode($attributes = array(), $subject = null)
     {
-        $decodedSubject = EmbedPress::parseContent($subject, true);
+        $decodedSubject = EmbedPress::parseContent($subject, true, $attributes);
 
         return $decodedSubject;
     }
