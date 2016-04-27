@@ -11,7 +11,7 @@
     "@brand-info": "#5bc0de",
     "@brand-warning": "#f0ad4e",
     "@brand-danger": "#d9534f",
-    "@body-bg": "#fff",
+    "@body-bg": "transparent",
     "@text-color": "@gray-dark",
     "@link-color": "@brand-primary",
     "@link-hover-color": "darken(@link-color, 15%)",
@@ -395,5 +395,5 @@
     "modal.js",
     "transition.js"
   ],
-  "customizerUrl": "http://getbootstrap.com/customize/?id=37ef34d346f5a4a1f229bdb9164c27f1"
+  "customizerUrl": "http://getbootstrap.com/customize/?id=f624d29c30a51734b2750528425144e5"
 }

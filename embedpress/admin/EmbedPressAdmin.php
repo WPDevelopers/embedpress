@@ -56,8 +56,8 @@ class EmbedPressAdmin
     public function enqueueScripts()
     {
         $assetsPath = plugin_dir_url(__FILE__) .'assets';
-        wp_enqueue_script("bootbox-bootstrap", $assetsPath .'/js/bootbox-bootstrap.min.js', array('jquery'), $this->pluginVersion, true);
-        wp_enqueue_script("bootbox", $assetsPath .'/js/bootbox.min.js', array('jquery', 'bootbox-bootstrap'), $this->pluginVersion, true);
+        wp_enqueue_script("bootbox-bootstrap", $assetsPath .'/js/vendor/bootstrap/bootstrap.min.js', array('jquery'), $this->pluginVersion, true);
+        wp_enqueue_script("bootbox", $assetsPath .'/js/vendor/bootbox.min.js', array('jquery', 'bootbox-bootstrap'), $this->pluginVersion, true);
         wp_enqueue_script($this->pluginName, $assetsPath .'/js/preview.js', array('jquery', 'bootbox'), $this->pluginVersion, true);
         wp_localize_script($this->pluginName, '$data', array(
             'previewSettings'      => array(
@@ -80,7 +80,7 @@ class EmbedPressAdmin
 
         $assetsPath = plugin_dir_url(__FILE__) .'assets';
 
-        wp_enqueue_style('bootbox-bootstrap', $assetsPath .'/css/bootbox-bootstrap.min.css');
+        wp_enqueue_style('bootbox-bootstrap', $assetsPath .'/css/vendor/bootstrap/bootstrap.min.css');
         wp_enqueue_style($this->pluginName, $assetsPath .'/css/preview.css');
     }
 
