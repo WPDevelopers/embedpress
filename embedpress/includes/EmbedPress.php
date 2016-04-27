@@ -120,6 +120,8 @@ class EmbedPress
     private function definePublicHooks()
     {
         $plgPublicInstance = new EmbedPressPublic($this->getPluginName(), $this->getVersion());
+
+        $this->loader->add_action("wp_enqueue_scripts", $plgPublicInstance, 'enqueueStyles');
     }
 
     /**

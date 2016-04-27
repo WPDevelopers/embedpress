@@ -47,4 +47,14 @@ class EmbedPressPublic
         $this->pluginName = $pluginName;
         $this->pluginVersion = $pluginVersion;
     }
+
+    /**
+     * Method that register all stylesheets for the public area.
+     *
+     * @since 0.1
+     */
+    public function enqueueStyles()
+    {
+        wp_enqueue_style(EMBEDPRESS_NAME, plugin_dir_url(__FILE__) .'assets/css/embedpress.css');
+    }
 }
