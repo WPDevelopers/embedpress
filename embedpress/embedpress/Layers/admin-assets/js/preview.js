@@ -24,7 +24,7 @@
         var OSEmbedPreview = function() {
             var self = this;
 
-            var PLG_SYSTEM_ASSETS_CSS_PATH = "wp-content/plugins/embedpress/ends/admin/assets/css";
+            var PLG_SYSTEM_ASSETS_CSS_PATH = $data.EMBEDPRESS_URL_ADMIN_ASSETS +"css";
             var PLG_CONTENT_ASSETS_CSS_PATH = PLG_SYSTEM_ASSETS_CSS_PATH;
 
             /**
@@ -184,7 +184,7 @@
             self.addStylesheet = function(url) {
                 var head = self.editor.getDoc().getElementsByTagName('head')[0];
 
-                $style = $('<link rel="stylesheet" type="text/css" href="' + self.params.juriRoot + url + '">');
+                $style = $('<link rel="stylesheet" type="text/css" href="' + url + '">');
                 $style.appendTo(head);
             }
 

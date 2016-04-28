@@ -1,8 +1,8 @@
 <?php
 namespace EmbedPress\Layers;
 
-use EmbedPress\Layers\Handler;
-use EmbedPress\Shortcode;
+use \EmbedPress\Layers\Handler;
+use \EmbedPress\Shortcode;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -32,7 +32,8 @@ class Admin extends Handler
                 'versionUID' => $this->pluginVersion,
                 'debug'      => true
             ),
-            'EMBEDPRESS_SHORTCODE' => EMBEDPRESS_SHORTCODE
+            'EMBEDPRESS_SHORTCODE' => EMBEDPRESS_SHORTCODE,
+            'EMBEDPRESS_URL_ADMIN_ASSETS' => EMBEDPRESS_URL_ADMIN_ASSETS
         ));
     }
 

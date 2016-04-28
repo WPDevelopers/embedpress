@@ -6,30 +6,18 @@
  * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
  */
 
-use EmbedPress\AutoLoader;
+use \EmbedPress\AutoLoader;
 
+defined('ABSPATH') or die("No direct script access allowed.");
 
-if (!defined('KLUSTER') || 1 == 1) {
-    define('KLUSTER', 1);
+$autoLoaderFullClassName = EMBEDPRESS_NAMESPACE .'\\'. EMBEDPRESS_AUTOLOADER_NAME;
+if (!defined('EMBEDPRESS_IS_LOADED') || !class_exists($autoLoaderFullClassName)) {
+    define('EMBEDPRESS_IS_LOADED', true);
 
-    define('KLUSTER_PATH', __DIR__);
-
-    // Setup autoloaded libraries
-    if (!class_exists('\\EmbedPress\\AutoLoader')) {
-        require_once KLUSTER_PATH .'/embedpress/AutoLoader.php';
+    if (!class_exists($autoLoaderFullClassName)) {
+        require_once EMBEDPRESS_PATH_CORE . EMBEDPRESS_AUTOLOADER_NAME .'.php';
     }
 
-    AutoLoader::register('EmbedPress', KLUSTER_PATH);
-
-    if (function_exists('spl_autoload_register')) {
-        spl_autoload_register(function($class) {
-            $class = __DIR__ . '/' . str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
-            if (file_exists($class)) {
-                require $class;
-            }
-        });
-    }
+    AutoLoader::register(str_replace('\\', "", EMBEDPRESS_NAMESPACE), EMBEDPRESS_PATH_CORE);
 }
-
-// Backward compatibility with the old autoloader. Avoids to break a legacy system plugin running while installing.
-//require_once "EmbedPressPsr4AutoLoader.php";
+unset($autoLoaderFullClassName);

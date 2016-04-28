@@ -1,8 +1,8 @@
 <?php
 namespace EmbedPress;
 
-use Embera\Embera;
-use Embera\Formatter;
+use \Embera\Embera;
+use \Embera\Formatter;
 
 class Shortcode
 {

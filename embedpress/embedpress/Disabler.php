@@ -1,7 +1,7 @@
 <?php
 namespace EmbedPress;
 
-use EmbedPress\Shortcode;
+use \EmbedPress\Shortcode;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 

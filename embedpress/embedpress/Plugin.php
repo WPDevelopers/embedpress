@@ -1,8 +1,8 @@
 <?php
 namespace EmbedPress;
 
-use EmbedPress\Loader;
-use EmbedPress\Layers\Admin as AdminHandler;
+use \EmbedPress\Loader;
+use \EmbedPress\Layers\Admin as AdminHandler;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -14,8 +14,8 @@ class Plugin
 
     public function __construct()
     {
-        $this->pluginName = EMBEDPRESS_NAME;
-        $this->pluginVersion = EMBEDPRESS_VERSION;
+        $this->pluginName = EMBEDPRESS_PLG_NAME;
+        $this->pluginVersion = EMBEDPRESS_PLG_VERSION;
 
         $this->loaderInstance = new Loader();
     }
@@ -39,7 +39,7 @@ class Plugin
     {
         global $wp_actions;
 
-        add_action('init', array('EmbedPress\Disabler', 'run'), 1);
+        add_action('init', array('\EmbedPress\Disabler', 'run'), 1);
 
         if (is_admin()) {
             $plgHandlerAdminInstance = new AdminHandler($this->getPluginName(), $this->getPluginVersion());
@@ -60,13 +60,13 @@ class Plugin
 
     public static function onPluginActivationCallback()
     {
-        remove_filter('rewrite_rules_array', array('EmbedPress\Disabler', 'disableDefaultEmbedRewriteRules'));
+        remove_filter('rewrite_rules_array', array('\EmbedPress\Disabler', 'disableDefaultEmbedRewriteRules'));
         flush_rewrite_rules();
     }
 
     public static function onPluginDeactivationCallback()
     {
-        remove_filter('rewrite_rules_array', array('EmbedPress\Disabler', 'disableDefaultEmbedRewriteRules'));
+        remove_filter('rewrite_rules_array', array('\EmbedPress\Disabler', 'disableDefaultEmbedRewriteRules'));
         flush_rewrite_rules();
     }
 }
