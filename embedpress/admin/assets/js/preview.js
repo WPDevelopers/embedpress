@@ -64,18 +64,81 @@
         String.prototype.getShortcodeAttributes = function(shortcode) {
             var subject = this.toString();
             if (subject.hasShortcode(shortcode)) {
-                var extractAttributeRule = new RegExp(/(\w+(?:-\w+)?)=\"(.+?)\"/ig);
+                var attributes = {};
+                var propertiesString = (new RegExp(/\[embed\s*(.*?)\]/, "ig")).exec(subject)[1]; // Separate all shortcode attributes from the rest of the string
+                if (propertiesString.length > 0) {
+                    var extractAttributesRule = new RegExp(/(\!?\w+-?\w*)(?:="(.+?)")?/, "ig"); // Extract attributes and their values
+                    var match;
+                    while (match = extractAttributesRule.exec(propertiesString)) {
+                        var attrName = match[1];
+                        var attrValue;
+                        if (match[2] === undefined) {
+                            if (attrName.indexOf('!') === 0) {
+                                attrName = attrName.replace('!', "");
+                                attrValue = "false";
+                            } else {
+                                attrValue = "true";
+                            }
+                        } else {
+                            attrValue = match[2];
+                            if (attrValue.isBoolean()) {
+                                attrValue = attrValue.isFalse() ? "false" : "true";
+                            }
+                        }
 
-                var match, attributes = [];
-                while (match = extractAttributeRule.exec(subject)) {
-                    attributes[match[1]] = match[2];
+                        attributes[attrName] = attrValue;
+                    }
+                    match = extractAttributesRule = null;
                 }
+                propertiesString = null;
 
                 return attributes;
             } else {
                 return {};
             }
         }
+
+        String.prototype.isBoolean = function() {
+            var subject = this.toString().trim().toLowerCase();
+
+            return subject.isTrue(false) || subject.isFalse();
+        };
+
+        String.prototype.isTrue = function(defaultValue) {
+            var subject = this.toString().trim().toLowerCase();
+            defaultValue = typeof defaultValue === undefined ? true : defaultValue;
+
+            switch (subject) {
+                case "":
+                    defaultValue += "";
+                    return !defaultValue.isFalse();
+                case "1":
+                case "true":
+                case "on":
+                case "yes":
+                case "y":
+                    return true;
+                default:
+                    return false;
+            }
+        };
+
+        String.prototype.isFalse = function() {
+            var subject = this.toString().trim().toLowerCase();
+
+            switch (subject) {
+                case "0":
+                case "false":
+                case "off":
+                case "no":
+                case "n":
+                case "nil":
+                case "null":
+                    return true;
+                default:
+                    return false;
+            }
+        };
 
         var SHORTCODE_REGEXP = new RegExp('\\[\/?'+ $data.EMBEDPRESS_SHORTCODE +'\\]', "gi");
 
@@ -695,9 +758,21 @@
                 if (isEncoded && applyShortcode) {
                     var shortcode = '[' + $data.EMBEDPRESS_SHORTCODE;
                     if (!!Object.keys(attributes).length) {
-                        for (var attr in attributes) {
-                            shortcode += ' ' + attr + '="' + attributes[attr] + '"';
+                        var attrValue;
+                        for (var attrName in attributes) {
+                            attrValue = attributes[attrName];
+                            if (attrValue.isBoolean()) {
+                                shortcode += " ";
+                                if (attrValue.isFalse()) {
+                                    shortcode += "!";
+                                }
+
+                                shortcode += attrName
+                            } else {
+                                shortcode += ' '+ attrName +'="'+ attrValue +'"';
+                            }
                         }
+                        attrValue = attrName = null;
                     }
 
                     content = shortcode + ']' + content + '[/' + $data.EMBEDPRESS_SHORTCODE + ']';

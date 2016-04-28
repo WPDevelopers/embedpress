@@ -181,47 +181,94 @@ class EmbedPress
      * @param   array       Optional. Wordpress (frontend) throws here all shortcode properties passed to $content.
      * @return  string
      */
-    public static function parseContent($content, $stripNewLine = false, $attributes = array())
+    public static function parseContent($content, $stripNewLine = false, $customAttributes = array())
     {
-        if (!isset(static::$emberaInstance)) {
-            static::$emberaInstance = new Formatter(new Embera, true);
+        if (!isset(self::$emberaInstance)) {
+            self::$emberaInstance = new Formatter(new Embera, true);
         }
 
         if (!empty($content)) {
-            $customClasses = "";
-            $attributesString = "";
-
-            if (is_array($attributes) && !empty($attributes)) {
-                if (isset($attributes['class'])) {
-                    if (!empty($attributes['class'])) {
-                        $customClasses = ' '. $attributes['class'];
-                    }
-
-                    unset($attributes['class']);
-                }
-
-                $attrNamePrefix = "data-";
-                $attributesString = [];
-                foreach ($attributes as $attrName => $attrValue) {
-                    $attrName = strpos($attrName, $attrNamePrefix) === 0 ? $attrName : ($attrNamePrefix . $attrName);
-                    $attributesString[] = sprintf('%s="%s"', $attrName, $attrValue);
-                }
-                $attributesString = ' '. implode(' ', $attributesString);
-            }
-
-            static::$emberaInstance->setTemplate('<div class="osembed-wrapper ose-{provider_alias} {wrapper_class}'. $customClasses .'"'. $attributesString .'>{html}</div>');
-
             // Strip any remaining shortcode-code on $content
             $content = preg_replace('/(\['. EMBEDPRESS_SHORTCODE .'(?:\]|.+?\])|\[\/'. EMBEDPRESS_SHORTCODE .'\])/i', "", $content);
 
-            $content = static::$emberaInstance->transform($content);
+            $attributes = self::parseContentAttributes($customAttributes);
+
+            $attributesHtml = [];
+            foreach ($attributes as $attrName => $attrValue) {
+                $attributesHtml[] = $attrName .'="'. $attrValue .'"';
+            }
+
+            $embedTemplate = '<div '. implode(' ', $attributesHtml) .'>{html}</div>';
+
+            self::$emberaInstance->setTemplate($embedTemplate);
+
+            $content = self::$emberaInstance->transform($content);
 
             if ($stripNewLine) {
-                $content = preg_replace('/\n/', '', $content);
+                $content = preg_replace('/\n/', "", $content);
             }
         }
 
         return $content;
+    }
+
+    private static function parseContentAttributes(array $customAttributes)
+    {
+        $attributes = array(
+            'class' => ["osembed-wrapper", '{wrapper_class}']
+        );
+
+        $embedShouldBeResponsive = null;
+
+        if (!empty($customAttributes)) {
+            if (isset($customAttributes['class'])) {
+                if (!empty($customAttributes['class'])) {
+                    $customAttributes['class'] = explode(' ', $customAttributes['class']);
+
+                    $attributes['class'] = array_merge($attributes['class'], $customAttributes['class']);
+                }
+
+                unset($customAttributes['class']);
+            }
+
+            if (!empty($customAttributes)) {
+                $attrNameDefaultPrefix = "data-";
+                foreach ($customAttributes as $attrName => $attrValue) {
+                    $attrName = strpos($attrName, $attrNameDefaultPrefix) === 0 ? $attrName : ($attrNameDefaultPrefix . $attrName);
+
+                    // Check if the property has an assumed value. I.e: "foo" would be true if <div foo> or false if <div !foo>
+                    if (preg_match('/'. $attrNameDefaultPrefix .'\d+/i', $attrName)) {
+                        if ($attrValue[0] === "!") {
+                            $attrName = substr($attrValue, 1);
+                            $attrValue = "false";
+                        } else {
+                            $attrName = $attrValue;
+                            $attrValue = "true";
+                        }
+                    }
+
+                    $attributes[$attrName] = $attrValue;
+                }
+            }
+
+            $responsiveAttributes = ["responsive", "data-responsive"];
+            foreach ($responsiveAttributes as $responsiveAttr) {
+                if (isset($attributes[$responsiveAttr])) {
+                    $embedShouldBeResponsive = !self::valueIsFalse($attributes[$responsiveAttr]);
+
+                    unset($attributes[$responsiveAttr]);
+                }
+            }
+            unset($responsiveAttr, $responsiveAttributes);
+        }
+
+        if ($embedShouldBeResponsive) {
+            $attributes['class'][] = 'ose-{provider_alias}';
+        }
+
+        $attributes['class'] = implode(' ', array_unique(array_filter($attributes['class'])));
+
+        return $attributes;
     }
 
     /**
@@ -259,5 +306,20 @@ class EmbedPress
     public static function disableTinyMCERelatedPlugins($plugins)
     {
         return array_diff($plugins, array("wpembed", "wpview"));
+    }
+
+    private static function valueIsFalse($subject) {
+        switch (trim(strtolower((string)$subject))) {
+            case "0":
+            case "false":
+            case "off":
+            case "no":
+            case "n":
+            case "nil":
+            case "null":
+                return true;
+            default:
+                return false;
+        }
     }
 }
