@@ -25,6 +25,7 @@ class EmbedPressPsr4AutoLoader extends AutoLoader
      */
     public function addNamespace($prefix, $baseDir, $prepend = false)
     {
+        var_dump('at least we are here'); die();
         static::register($prefix, $baseDir, $prepend);
     }
 }

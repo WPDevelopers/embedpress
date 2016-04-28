@@ -1,5 +1,5 @@
 <?php
-namespace EmbedPress\Ends;
+namespace EmbedPress\Layers;
 
 abstract class Handler
 {

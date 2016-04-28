@@ -2,7 +2,7 @@
 namespace EmbedPress;
 
 use EmbedPress\Loader;
-use EmbedPress\Ends\Admin as AdminHandler;
+use EmbedPress\Layers\Admin as AdminHandler;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 

@@ -1,6 +1,7 @@
 <?php
-namespace EmbedPress\Ends;
+namespace EmbedPress\Layers;
 
+use EmbedPress\Layers\Handler;
 use EmbedPress\Shortcode;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
@@ -24,7 +25,7 @@ class Admin extends Handler
      * @since 0.1
      */
     public function enqueueScripts() {
-        wp_enqueue_script($this->pluginName, plugin_dir_url(__FILE__) .'assets/js/preview.js', array('jquery', 'jquery-ui-dialog'), $this->pluginVersion, true);
+        wp_enqueue_script($this->pluginName, plugin_dir_url(__FILE__) .'admin-assets/js/preview.js', array('jquery', 'jquery-ui-dialog'), $this->pluginVersion, true);
         wp_localize_script($this->pluginName, '$data', array(
             'previewSettings'     => array(
                 'juriRoot'   => get_site_url() .'/',

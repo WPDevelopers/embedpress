@@ -19,8 +19,6 @@
  * Author URI:  http://www.ostraining.com
 */
 
-use EmbedPress\Plugin;
-
 require_once plugin_dir_path(__FILE__) .'includes.php';
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
@@ -38,4 +36,4 @@ function onPluginDeactivationCallback()
 register_activation_hook(__FILE__, 'onPluginActivationCallback');
 register_deactivation_hook(__FILE__, 'onPluginDeactivationCallback');
 
-(new Plugin())->initialize();
+(new \EmbedPress\Plugin())->initialize();
