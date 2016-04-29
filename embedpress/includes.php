@@ -22,7 +22,7 @@ if (!defined('EMBEDPRESS_PATH_LIBRARIES')) {
 }
 
 if (!defined('EMBEDPRESS_URL_ADMIN_ASSETS')) {
-    define('EMBEDPRESS_URL_ADMIN_ASSETS', plugins_url(EMBEDPRESS_PLG_NAME) ."/embedpress/Layers/admin-assets/");
+    define('EMBEDPRESS_URL_ADMIN_ASSETS', plugins_url(EMBEDPRESS_PLG_NAME) ."/assets/");
 }
 
 if (!defined('EMBEDPRESS_NAMESPACE')) {
