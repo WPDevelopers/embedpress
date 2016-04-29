@@ -55,37 +55,25 @@ class Shortcode
      * @param   boolean     Optional. If true, new lines at the end of the embeded code are stripped.
      * @return  string
      */
-    public static function parseContent($content, $stripNewLine = false, $attributes = array())
+    public static function parseContent($content, $stripNewLine = false, $customAttributes = array())
     {
         if (!isset(static::$emberaInstance)) {
             static::$emberaInstance = new Formatter(new Embera, true);
         }
 
         if (!empty($content)) {
-            $customClasses = "";
-            $attributesString = "";
+            $content = preg_replace('/(\['. EMBEDPRESS_SHORTCODE .'(?:\]|.+?\])|\[\/'. EMBEDPRESS_SHORTCODE .'\])/i', "", $content);
 
-            if (is_array($attributes) && !empty($attributes)) {
-                if (isset($attributes['class'])) {
-                    if (!empty($attributes['class'])) {
-                        $customClasses = ' '. $attributes['class'];
-                    }
-                    unset($attributes['class']);
-                }
+            $attributes = self::parseContentAttributes($customAttributes);
 
-                $attrNamePrefix = "data-";
-                $attributesString = [];
-                foreach ($attributes as $attrName => $attrValue) {
-                    $attrName = strpos($attrName, $attrNamePrefix) === 0 ? $attrName : ($attrNamePrefix . $attrName);
-                    $attributesString[] = sprintf('%s="%s"', $attrName, $attrValue);
-                }
-                $attributesString = ' '. implode(' ', $attributesString);
+            $attributesHtml = [];
+            foreach ($attributes as $attrName => $attrValue) {
+                $attributesHtml[] = $attrName .'="'. $attrValue .'"';
             }
 
-            static::$emberaInstance->setTemplate('<div class="osembed-wrapper ose-{provider_alias} {wrapper_class}'. $customClasses .'"'. $attributesString .'>{html}</div>');
+            $embedTemplate = '<div '. implode(' ', $attributesHtml) .'>{html}</div>';
+            self::$emberaInstance->setTemplate($embedTemplate);
 
-            // Strip any remaining shortcode-code on $content
-            $content = preg_replace('/(\['. EMBEDPRESS_SHORTCODE .'(?:\]|.+?\])|\[\/'. EMBEDPRESS_SHORTCODE .'\])/i', "", $content);
             $content = static::$emberaInstance->transform($content);
 
             if ($stripNewLine) {
@@ -94,5 +82,64 @@ class Shortcode
         }
 
         return $content;
+    }
+
+    private static function parseContentAttributes(array $customAttributes)
+    {
+        $attributes = array(
+            'class' => ["osembed-wrapper", '{wrapper_class}']
+        );
+
+        $embedShouldBeResponsive = null;
+
+        if (!empty($customAttributes)) {
+            if (isset($customAttributes['class'])) {
+                if (!empty($customAttributes['class'])) {
+                    $customAttributes['class'] = explode(' ', $customAttributes['class']);
+
+                    $attributes['class'] = array_merge($attributes['class'], $customAttributes['class']);
+                }
+
+                unset($customAttributes['class']);
+            }
+
+            if (!empty($customAttributes)) {
+                $attrNameDefaultPrefix = "data-";
+                foreach ($customAttributes as $attrName => $attrValue) {
+                    $attrName = strpos($attrName, $attrNameDefaultPrefix) === 0 ? $attrName : ($attrNameDefaultPrefix . $attrName);
+
+                    // Check if the property has an assumed value. I.e: "foo" would be true if <div foo> or false if <div !foo>
+                    if (preg_match('/'. $attrNameDefaultPrefix .'\d+/i', $attrName)) {
+                        if ($attrValue[0] === "!") {
+                            $attrName = substr($attrValue, 1);
+                            $attrValue = "false";
+                        } else {
+                            $attrName = $attrValue;
+                            $attrValue = "true";
+                        }
+                    }
+
+                    $attributes[$attrName] = $attrValue;
+                }
+            }
+
+            $responsiveAttributes = ["responsive", "data-responsive"];
+            foreach ($responsiveAttributes as $responsiveAttr) {
+                if (isset($attributes[$responsiveAttr])) {
+                    $embedShouldBeResponsive = !self::valueIsFalse($attributes[$responsiveAttr]);
+
+                    unset($attributes[$responsiveAttr]);
+                }
+            }
+            unset($responsiveAttr, $responsiveAttributes);
+        }
+
+        if ($embedShouldBeResponsive) {
+            $attributes['class'][] = 'ose-{provider_alias}';
+        }
+
+        $attributes['class'] = implode(' ', array_unique(array_filter($attributes['class'])));
+
+        return $attributes;
     }
 }
