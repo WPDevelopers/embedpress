@@ -19,12 +19,23 @@
  * Author URI:  http://www.ostraining.com
 */
 
-defined('ABSPATH') or die("No direct script access allowed.");
+use \EmbedPress\Plugin;
 
-require plugin_dir_path(__FILE__) .'defines.php';
-require EMBEDPRESS_INCLUDES_PATH .'/EmbedPress.php';
+require_once plugin_dir_path(__FILE__) .'includes.php';
 
-register_activation_hook(EMBEDPRESS_NAME, array('EmbedPress', 'onPluginActivationCallback'));
-register_deactivation_hook(EMBEDPRESS_NAME, array('EmbedPress', 'onPluginDeactivationCallback'));
+(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
-(new EmbedPress())->run();
+function onPluginActivationCallback()
+{
+    Plugin::onPluginActivationCallback();
+}
+
+function onPluginDeactivationCallback()
+{
+    Plugin::onPluginDeactivationCallback();
+}
+
+register_activation_hook(__FILE__, 'onPluginActivationCallback');
+register_deactivation_hook(__FILE__, 'onPluginDeactivationCallback');
+
+(new Plugin())->initialize();
