@@ -48,10 +48,8 @@ class Admin extends Handler
     public function enqueueStyles() {
         global $wp_scripts;
 
-        $assetsPath = plugin_dir_url(__FILE__) .'assets';
-
-        wp_enqueue_style('bootbox-bootstrap', $assetsPath .'/css/vendor/bootstrap/bootstrap.min.css');
-        wp_enqueue_style($this->pluginName, $assetsPath .'/css/preview.css');
+        wp_enqueue_style('bootbox-bootstrap', EMBEDPRESS_URL_ADMIN_ASSETS .'css/vendor/bootstrap/bootstrap.min.css');
+        wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ADMIN_ASSETS .'css/preview.css');
     }
 
     /**
