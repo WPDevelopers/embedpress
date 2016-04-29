@@ -1,13 +1,26 @@
 <?php
-class EmbedPressShortcode
+namespace EmbedPress;
+
+use \EmbedPress\Shortcode;
+
+(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
+
+class Disabler
 {
+    public function run()
+    {
+        self::overrideDefaultEmbedShortcode();
+
+        Shortcode::register();
+    }
+
     /**
      * Disable all actions/filters related to the embed. This is required to make sure our "shortcode" overrides the WordPress one.
      *
      * @since   0.1
      * @static
      */
-    public static function overrideDefaultEmbedShortcode()
+    protected static function overrideDefaultEmbedShortcode()
     {
         global $wp, $wp_embed;
 
@@ -30,9 +43,10 @@ class EmbedPressShortcode
         remove_action('wp_head', 'wp_oembed_add_host_js');
 
         // Disable all TinyMCE plugins embed-related.
-        add_filter('tiny_mce_plugins', array('EmbedPress', 'disableTinyMCERelatedPlugins'));
+        add_filter('tiny_mce_plugins', array('\EmbedPress\Disabler', 'disableDefaultEmbedTinyMCERelatedPlugins'));
 
         remove_action('rest_api_init', 'wp_oembed_register_route');
+
         // Remove embed-related scripts from the queue
         remove_action('embed_head', 'enqueue_embed_scripts');
         remove_action('embed_head', 'wp_print_head_scripts');
@@ -44,7 +58,7 @@ class EmbedPressShortcode
         wp_embed_unregister_handler("googlevideo");
 
         // Remove all embeds rewrite rules.
-        add_filter('rewrite_rules_array', array('EmbedPressShortcode', 'disableDefaultEmbedRewriteRules'));
+        add_filter('rewrite_rules_array', array('\EmbedPress\Disabler', 'disableDefaultEmbedRewriteRules'));
 
         // Disable the method that determines if default embed handlers should be loaded.
         add_filter('wp_maybe_load_embeds', '__return_false');
@@ -55,24 +69,8 @@ class EmbedPressShortcode
 
         // Remove {@link WP_Embed::shortcode()} from execution.
         remove_shortcode(EMBEDPRESS_SHORTCODE);
-        remove_shortcode('video');
 
         wp_deregister_script('wp-embed');
-
-        // Register the new shortcode for embeds.
-        self::register();
-    }
-
-    /**
-     * Register the plugin shortcode into WordPress.
-     *
-     * @since   0.1
-     * @static
-     */
-    public static function register()
-    {
-        // Register the new shortcode for embeds.
-        add_shortcode(EMBEDPRESS_SHORTCODE, array('EmbedPressShortcode', 'decode'), 999);
     }
 
     /**
@@ -83,8 +81,7 @@ class EmbedPressShortcode
      * @param   array   $rules  WordPress rewrite rules.
      * @return  array
      */
-    public static function disableDefaultEmbedRewriteRules($rules)
-    {
+    public static function disableDefaultEmbedRewriteRules() {
         if (count($rules) > 0) {
             foreach ($rules as $rule => $rewrite) {
                 if (strpos($rewrite, 'embed=true') !== false) {
@@ -97,19 +94,16 @@ class EmbedPressShortcode
     }
 
     /**
-     * Method that converts the plugin shortcoded-string into its complex content.
+     * Disable all TinyMCE plugins related to the embed.
      *
      * @since   0.1
      * @static
      *
-     * @param   array     $attributes   An array holding all properties of the shortcode.
-     * @param   string    $subject      The given string
-     * @return  string
+     * @param   array   $plugins    An array containing enabled plugins.
      */
-    public static function decode($attributes = array(), $subject = null)
-    {
-        $decodedSubject = EmbedPress::parseContent($subject, true, $attributes);
+    public static function disableDefaultEmbedTinyMCERelatedPlugins($plugins) {
+        $blackListedPlugins = ["wpembed", "wpview"];
 
-        return $decodedSubject;
+        return array_diff($plugins, $blackListedPlugins);
     }
 }
