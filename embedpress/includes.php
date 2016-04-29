@@ -21,8 +21,8 @@ if (!defined('EMBEDPRESS_PATH_LIBRARIES')) {
     define('EMBEDPRESS_PATH_LIBRARIES', EMBEDPRESS_PATH_BASE ."library/");
 }
 
-if (!defined('EMBEDPRESS_URL_ADMIN_ASSETS')) {
-    define('EMBEDPRESS_URL_ADMIN_ASSETS', plugins_url(EMBEDPRESS_PLG_NAME) ."/assets/");
+if (!defined('EMBEDPRESS_URL_ASSETS')) {
+    define('EMBEDPRESS_URL_ASSETS', plugins_url(EMBEDPRESS_PLG_NAME) ."/assets/");
 }
 
 if (!defined('EMBEDPRESS_NAMESPACE')) {

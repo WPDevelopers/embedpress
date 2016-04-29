@@ -32,7 +32,7 @@ class HandlerPublic extends Handler
      */
     public function enqueueStyles()
     {
-        wp_enqueue_style(EMBEDPRESS_NAME, EMBEDPRESS_URL_ADMIN_ASSETS .'css/osembed.css');
+        wp_enqueue_style(EMBEDPRESS_NAME, EMBEDPRESS_URL_ASSETS .'css/osembed.css');
 
     }
 }

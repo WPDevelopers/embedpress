@@ -82,7 +82,7 @@
         var OSEmbedPreview = function() {
             var self = this;
 
-            var PLG_SYSTEM_ASSETS_CSS_PATH = $data.EMBEDPRESS_URL_ADMIN_ASSETS +"css";
+            var PLG_SYSTEM_ASSETS_CSS_PATH = $data.EMBEDPRESS_URL_ASSETS +"css";
             var PLG_CONTENT_ASSETS_CSS_PATH = PLG_SYSTEM_ASSETS_CSS_PATH;
 
             /**

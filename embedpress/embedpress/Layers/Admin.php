@@ -26,9 +26,9 @@ class Admin extends Handler
      */
     public function enqueueScripts()
     {
-        wp_enqueue_script("bootbox-bootstrap", EMBEDPRESS_URL_ADMIN_ASSETS .'js/vendor/bootstrap/bootstrap.min.js', array('jquery'), $this->pluginVersion, true);
-        wp_enqueue_script("bootbox", EMBEDPRESS_URL_ADMIN_ASSETS .'js/vendor/bootbox.min.js', array('jquery', 'bootbox-bootstrap'), $this->pluginVersion, true);
-        wp_enqueue_script($this->pluginName, EMBEDPRESS_URL_ADMIN_ASSETS .'js/preview.js', array('jquery', 'bootbox'), $this->pluginVersion, true);
+        wp_enqueue_script("bootbox-bootstrap", EMBEDPRESS_URL_ASSETS .'js/vendor/bootstrap/bootstrap.min.js', array('jquery'), $this->pluginVersion, true);
+        wp_enqueue_script("bootbox", EMBEDPRESS_URL_ASSETS .'js/vendor/bootbox.min.js', array('jquery', 'bootbox-bootstrap'), $this->pluginVersion, true);
+        wp_enqueue_script($this->pluginName, EMBEDPRESS_URL_ASSETS .'js/preview.js', array('jquery', 'bootbox'), $this->pluginVersion, true);
         wp_localize_script($this->pluginName, '$data', array(
             'previewSettings'      => array(
                 'juriRoot'   => get_site_url() .'/',
@@ -36,7 +36,7 @@ class Admin extends Handler
                 'debug'      => true
             ),
             'EMBEDPRESS_SHORTCODE' => EMBEDPRESS_SHORTCODE,
-            'EMBEDPRESS_URL_ADMIN_ASSETS' => EMBEDPRESS_URL_ADMIN_ASSETS
+            'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS
         ));
     }
 
@@ -48,8 +48,8 @@ class Admin extends Handler
     public function enqueueStyles() {
         global $wp_scripts;
 
-        wp_enqueue_style('bootbox-bootstrap', EMBEDPRESS_URL_ADMIN_ASSETS .'css/vendor/bootstrap/bootstrap.min.css');
-        wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ADMIN_ASSETS .'css/preview.css');
+        wp_enqueue_style('bootbox-bootstrap', EMBEDPRESS_URL_ASSETS .'css/vendor/bootstrap/bootstrap.min.css');
+        wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS .'css/preview.css');
     }
 
     /**
