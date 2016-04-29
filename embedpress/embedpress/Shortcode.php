@@ -38,9 +38,9 @@ class Shortcode
      * @param   string    $subject      The given string
      * @return  string
      */
-    public static function do_shortcode($attributes, $subject = null)
+    public static function do_shortcode($attributes = array(), $subject = null)
     {
-        $decodedSubject = self::parseContent($subject, true);
+        $decodedSubject = self::parseContent($subject, true, $attributes);
 
         return $decodedSubject;
     }
