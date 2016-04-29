@@ -3,6 +3,7 @@ namespace EmbedPress;
 
 use \EmbedPress\Loader;
 use \EmbedPress\Layers\Admin as AdminHandler;
+use \EmbedPress\Layers\HandlerPublic as PublicHandler;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -53,6 +54,14 @@ class Plugin
             $this->loaderInstance->add_action('wp_ajax_nopriv_embedpress_do_ajax_request', $plgHandlerAdminInstance, $onAjaxCallbackName);
 
             unset($onAjaxCallbackName, $enqueueScriptsHookName, $plgHandlerAdminInstance);
+        } else {
+            $plgHandlerPublicInstance = new PublicHandler($this->getPluginName(), $this->getPluginVersion());
+
+            $enqueueScriptsHookName = "wp_enqueue_scripts";
+            $this->loaderInstance->add_action($enqueueScriptsHookName, $plgHandlerPublicInstance, 'enqueueScripts');
+            $this->loaderInstance->add_action($enqueueScriptsHookName, $plgHandlerPublicInstance, 'enqueueStyles');
+
+            unset($enqueueScriptsHookName, $plgHandlerPublicInstance);
         }
 
         $this->loaderInstance->run();

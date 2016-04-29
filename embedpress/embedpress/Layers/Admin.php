@@ -24,10 +24,13 @@ class Admin extends Handler
      *
      * @since 0.1
      */
-    public function enqueueScripts() {
-        wp_enqueue_script($this->pluginName, plugin_dir_url(__FILE__) .'admin-assets/js/preview.js', array('jquery', 'jquery-ui-dialog'), $this->pluginVersion, true);
+    public function enqueueScripts()
+    {
+        wp_enqueue_script("bootbox-bootstrap", EMBEDPRESS_URL_ADMIN_ASSETS .'js/vendor/bootstrap/bootstrap.min.js', array('jquery'), $this->pluginVersion, true);
+        wp_enqueue_script("bootbox", EMBEDPRESS_URL_ADMIN_ASSETS .'js/vendor/bootbox.min.js', array('jquery', 'bootbox-bootstrap'), $this->pluginVersion, true);
+        wp_enqueue_script($this->pluginName, EMBEDPRESS_URL_ADMIN_ASSETS .'js/preview.js', array('jquery', 'bootbox'), $this->pluginVersion, true);
         wp_localize_script($this->pluginName, '$data', array(
-            'previewSettings'     => array(
+            'previewSettings'      => array(
                 'juriRoot'   => get_site_url() .'/',
                 'versionUID' => $this->pluginVersion,
                 'debug'      => true
@@ -45,7 +48,10 @@ class Admin extends Handler
     public function enqueueStyles() {
         global $wp_scripts;
 
-        wp_enqueue_style('jquery-ui-css', "http://ajax.googleapis.com/ajax/libs/jqueryui/". $wp_scripts->registered['jquery-ui-core']->ver ."/themes/ui-lightness/jquery-ui.min.css");
+        $assetsPath = plugin_dir_url(__FILE__) .'assets';
+
+        wp_enqueue_style('bootbox-bootstrap', $assetsPath .'/css/vendor/bootstrap/bootstrap.min.css');
+        wp_enqueue_style($this->pluginName, $assetsPath .'/css/preview.css');
     }
 
     /**

@@ -55,16 +55,38 @@ class Shortcode
      * @param   boolean     Optional. If true, new lines at the end of the embeded code are stripped.
      * @return  string
      */
-    public static function parseContent($content, $stripNewLine = false)
+    public static function parseContent($content, $stripNewLine = false, $attributes = array())
     {
-        if (!isset(self::$emberaInstance)) {
-            self::$emberaInstance = new Formatter(new Embera, true);
+        if (!isset(static::$emberaInstance)) {
+            static::$emberaInstance = new Formatter(new Embera, true);
         }
 
         if (!empty($content)) {
-            self::$emberaInstance->setTemplate('<div class="osembed-wrapper ose-{provider_alias} {wrapper_class}">{html}</div>');
+            $customClasses = "";
+            $attributesString = "";
 
-            $content = self::$emberaInstance->transform($content);
+            if (is_array($attributes) && !empty($attributes)) {
+                if (isset($attributes['class'])) {
+                    if (!empty($attributes['class'])) {
+                        $customClasses = ' '. $attributes['class'];
+                    }
+                    unset($attributes['class']);
+                }
+
+                $attrNamePrefix = "data-";
+                $attributesString = [];
+                foreach ($attributes as $attrName => $attrValue) {
+                    $attrName = strpos($attrName, $attrNamePrefix) === 0 ? $attrName : ($attrNamePrefix . $attrName);
+                    $attributesString[] = sprintf('%s="%s"', $attrName, $attrValue);
+                }
+                $attributesString = ' '. implode(' ', $attributesString);
+            }
+
+            static::$emberaInstance->setTemplate('<div class="osembed-wrapper ose-{provider_alias} {wrapper_class}'. $customClasses .'"'. $attributesString .'>{html}</div>');
+
+            // Strip any remaining shortcode-code on $content
+            $content = preg_replace('/(\['. EMBEDPRESS_SHORTCODE .'(?:\]|.+?\])|\[\/'. EMBEDPRESS_SHORTCODE .'\])/i', "", $content);
+            $content = static::$emberaInstance->transform($content);
 
             if ($stripNewLine) {
                 $content = preg_replace('/\n/', '', $content);
