@@ -1,6 +1,7 @@
 <?php
 namespace EmbedPress;
 
+use \EmbedPress\Plugin;
 use \Embera\Embera;
 use \Embera\Formatter;
 
@@ -61,6 +62,13 @@ class Shortcode
             static::$emberaInstance = new Formatter(new Embera, true);
         }
 
+        $additionalServiceProviders = Plugin::getAdditionalServiceProviders();
+        if (!empty($additionalServiceProviders)) {
+            foreach ($additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls) {
+                self::addServiceProvider($serviceProviderClassName, $serviceProviderUrls);
+            }
+        }
+
         if (!empty($content)) {
             $customClasses = "";
             $attributesString = "";
@@ -94,5 +102,22 @@ class Shortcode
         }
 
         return $content;
+    }
+
+    private static function addServiceProvider($className, $reference)
+    {
+        if (empty($className) || empty($reference)) {
+            return false;
+        }
+
+        if (is_string($reference)) {
+            self::$emberaInstance->addProvider($reference, EMBEDPRESS_NAMESPACE ."\\Providers\\{$className}");
+        } else if (is_array($reference)) {
+            foreach ($reference as $serviceProviderUrl) {
+                self::addServiceProvider($className, $serviceProviderUrl);
+            }
+        } else {
+            return false;
+        }
     }
 }

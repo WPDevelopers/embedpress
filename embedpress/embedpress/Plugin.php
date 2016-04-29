@@ -78,4 +78,18 @@ class Plugin
         remove_filter('rewrite_rules_array', array('\EmbedPress\Disabler', 'disableDefaultEmbedRewriteRules'));
         flush_rewrite_rules();
     }
+
+    public static function getAdditionalServiceProviders()
+    {
+        $additionalProvidersFilePath = EMBEDPRESS_PATH_BASE .'providers.php';
+        if (file_exists($additionalProvidersFilePath)) {
+            include $additionalProvidersFilePath;
+
+            if (isset($additionalServiceProviders)) {
+                return $additionalServiceProviders;
+            }
+        }
+
+        return array();
+    }
 }
