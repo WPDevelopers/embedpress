@@ -583,8 +583,9 @@
                 var wrapperClasses = ["osembed_wrapper", "osembed_placeholder"];
 
                 var shortcodeAttributes = node.value.getShortcodeAttributes($data.EMBEDPRESS_SHORTCODE);
+                var customAttributes = shortcodeAttributes;
+
                 var customClasses = "";
-                var customLoadingText
                 if (!!Object.keys(shortcodeAttributes).length) {
                     var specialAttributes = ["class"];
                     // Iterates over each attribute of shortcodeAttributes to add the prefix "data-" if missing
@@ -669,14 +670,16 @@
 
                 // Trigger the timeout which will load the content
                 window.setTimeout(function() {
-                    self.parseContentAsync(uid, url);
+                    self.parseContentAsync(uid, url, customAttributes);
                 }, 800);
 
                 return wrapper;
             };
 
-            self.parseContentAsync = function(uid, url) {
-                url = self.decodeEmbedURLSpecialChars(url);
+            self.parseContentAsync = function(uid, url, customAttributes) {
+                customAttributes = typeof customAttributes === "undefined" ? {} : customAttributes;
+
+                url = self.decodeEmbedURLSpecialChars(url, true, customAttributes);
 
                 // Get the parsed embed code from the OSEmbed plugin
                 self.getParsedContent(url, function getParsedContentCallback(result) {
