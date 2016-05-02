@@ -17,7 +17,7 @@ Wordpress 4.x
 
 Supported Sites
 ===============
-EmbedPress supports over **60** sites. You can check out the full list [here](https://github.com/ostraining/OSEmbed-Pro/blob/master/PROVIDERS.md).
+EmbedPress supports over **60** sites. You can check out the full list [here](https://github.com/OSTraining/EmbedPress/blob/master/PROVIDERS.md).
 
 - [Facebook](http://www.facebook.com/)
 - * [Youtube](http://www.youtube.com/)
