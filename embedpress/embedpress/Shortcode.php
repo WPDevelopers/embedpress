@@ -135,20 +135,23 @@ class Shortcode
             if (!empty($customAttributes)) {
                 $attrNameDefaultPrefix = "data-";
                 foreach ($customAttributes as $attrName => $attrValue) {
-                    $attrName = strpos($attrName, $attrNameDefaultPrefix) === 0 ? $attrName : ($attrNameDefaultPrefix . $attrName);
+                    if (is_numeric($attrName)) {
+                        $attrName = $attrValue;
+                        $attrValue = "";
+                    }
 
-                    // Check if the property has an assumed value. I.e: "foo" would be true if <div foo> or false if <div !foo>
-                    if (preg_match('/'. $attrNameDefaultPrefix .'\d+/i', $attrName)) {
-                        if ($attrValue[0] === "!") {
-                            $attrName = substr($attrValue, 1);
+                    $attrName = str_replace($attrNameDefaultPrefix, "", $attrName);
+
+                    if (!strlen($attrValue)) {
+                        if ($attrName[0] === "!") {
                             $attrValue = "false";
+                            $attrName = substr($attrName, 1);
                         } else {
-                            $attrName = $attrValue;
                             $attrValue = "true";
                         }
                     }
 
-                    $attributes[$attrName] = $attrValue;
+                    $attributes[$attrNameDefaultPrefix . $attrName] = $attrValue;
                 }
             }
 
