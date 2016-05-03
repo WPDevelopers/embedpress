@@ -1146,27 +1146,55 @@
                 self.activeWrapperForModal = self.activeWrapper;
 
                 var $wrapper = self.activeWrapperForModal;
+                var wrapperUid = $wrapper.prop('id').replace("osembed_wrapper_", "");
 
-                bootbox.prompt({
-                    title: "Edit the URL",
-                    size: "small",
-                    message: "Testing...",
-                    value: self.decodeEmbedURLSpecialChars($wrapper.data('url'), false),
-                    callback: function(result) {
-                        if (result !== null) {
-                            var $wrapper = self.activeWrapperForModal;
+                var customAttributesList = [];
+                $('iframe', $wrapper).parent().each(function() {
+                    $.each(this.attributes, function() {
+                        if (this.specified) {
+                            if (this.name !== "class") {
+                                customAttributesList.push(this.name.replace('data-', "") +'="'+ this.value +'"');
+                            }
+                        }
+                    });
+                });
 
-                            // Select the current wrapper as a base for the new element
-                            self.editor.focus();
-                            self.editor.selection.select($wrapper[0]);
+                bootbox.dialog({
+                    title: "Editing Embed properties",
+                    message: '<form id="form-'+ wrapperUid +'">'+
+                                '<label>'+
+                                    'Url:'+
+                                    '<input type="url" id="input-url-'+ wrapperUid +'" value="'+ self.decodeEmbedURLSpecialChars($wrapper.data('url'), false) +'">'+
+                                '</label>'+
+                             '</form>',
+                    buttons: {
+                        danger: {
+                            label: "Cancel",
+                            className: "btn-default",
+                            callback: function() {
+                                // do nothing
+                                self.activeWrapperForModal = null;
+                            }
+                        },
+                        success: {
+                            label: "Save",
+                            className: "btn-primary",
+                            callback: function() {
+                                var $wrapper = self.activeWrapperForModal;
 
-                            $wrapper.children().remove();
-                            $wrapper.remove();
+                                // Select the current wrapper as a base for the new element
+                                self.editor.focus();
+                                self.editor.selection.select($wrapper[0]);
 
-                            // We do not directly replace the node because it was causing a bug on a second edit attempt
-                            self.editor.execCommand('mceInsertContent', false, result);
+                                $wrapper.children().remove();
+                                $wrapper.remove();
 
-                            self.configureWrappers();
+                                var shortcode = '['+ $data.EMBEDPRESS_SHORTCODE + (customAttributesList.length > 0 ? " "+ customAttributesList.join(" ") : "") +']'+ $('#input-url-'+ wrapperUid).val() +'[/'+ $data.EMBEDPRESS_SHORTCODE +']';
+                                // We do not directly replace the node because it was causing a bug on a second edit attempt
+                                self.editor.execCommand('mceInsertContent', false, shortcode);
+
+                                self.configureWrappers();
+                            }
                         }
                     }
                 });
