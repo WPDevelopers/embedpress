@@ -1148,12 +1148,14 @@
                 var $wrapper = self.activeWrapperForModal;
                 var wrapperUid = $wrapper.prop('id').replace("osembed_wrapper_", "");
 
-                var customAttributesList = [];
-                $('iframe', $wrapper).parent().each(function() {
+                var customAttributes = {};
+
+                var iframe = $('iframe', $wrapper);
+                iframe.parent().each(function() {
                     $.each(this.attributes, function() {
                         if (this.specified) {
                             if (this.name !== "class") {
-                                customAttributesList.push(this.name.replace('data-', "") +'="'+ this.value +'"');
+                                customAttributes[this.name.replace('data-', "")] = this.value;
                             }
                         }
                     });
@@ -1165,6 +1167,10 @@
                                 '<label>'+
                                     'Url:'+
                                     '<input type="url" id="input-url-'+ wrapperUid +'" value="'+ self.decodeEmbedURLSpecialChars($wrapper.data('url'), false) +'">'+
+                                '</label>'+
+                                '<label>'+
+                                    'Width:'+
+                                    '<input type="integer" id="input-width-'+ wrapperUid +'" value="'+ iframe.prop('width') +'">'+
                                 '</label>'+
                              '</form>',
                     buttons: {
@@ -1188,6 +1194,18 @@
 
                                 $wrapper.children().remove();
                                 $wrapper.remove();
+
+                                var embedCustomWidth = parseInt($('#input-width-'+ wrapperUid).val());
+                                if (embedCustomWidth > 0 && embedCustomWidth != 459) {
+                                    customAttributes['width'] = embedCustomWidth;
+                                }
+
+                                var customAttributesList = [];
+                                if (!!Object.keys(customAttributes).length) {
+                                    for (var attrName in customAttributes) {
+                                        customAttributesList.push(attrName + '="' + customAttributes[attrName] + '"');
+                                    }
+                                }
 
                                 var shortcode = '['+ $data.EMBEDPRESS_SHORTCODE + (customAttributesList.length > 0 ? " "+ customAttributesList.join(" ") : "") +']'+ $('#input-url-'+ wrapperUid).val() +'[/'+ $data.EMBEDPRESS_SHORTCODE +']';
                                 // We do not directly replace the node because it was causing a bug on a second edit attempt
