@@ -110,7 +110,7 @@ class Shortcode
             'class' => ["osembed-wrapper", '{wrapper_class}']
         );
 
-        $embedShouldBeResponsive = null;
+        $embedShouldBeResponsive = true;
         $embedShouldHaveCustomDimensions = false;
         if (!empty($customAttributes)) {
             if (isset($customAttributes['class'])) {
@@ -159,8 +159,8 @@ class Shortcode
             foreach ($responsiveAttributes as $responsiveAttr) {
                 if (isset($attributes[$responsiveAttr])) {
                     $embedShouldBeResponsive = !self::valueIsFalse($attributes[$responsiveAttr]);
-
                     unset($attributes[$responsiveAttr]);
+                    break;
                 }
             }
             unset($responsiveAttr, $responsiveAttributes);
