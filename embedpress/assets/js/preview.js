@@ -1191,7 +1191,7 @@
 
                                 var shortcode = '['+ $data.EMBEDPRESS_SHORTCODE + (customAttributesList.length > 0 ? " "+ customAttributesList.join(" ") : "") +']'+ $('#input-url-'+ wrapperUid).val() +'[/'+ $data.EMBEDPRESS_SHORTCODE +']';
                                 // We do not directly replace the node because it was causing a bug on a second edit attempt
-                                self.editor.execCommand('mceInsertContent', false, shortcode);
+                                self.editor.execCommand('mceInsertContent', false, '<p>'+ shortcode +'</p>');
 
                                 self.configureWrappers();
                             }
