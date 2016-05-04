@@ -1170,7 +1170,7 @@
                                 '</div>'+
                                 '<div class="form-group">'+
                                     '<label for="input-width-'+ wrapperUid +'">Width</label>'+
-                                    '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" value="'+ iframe.prop('width') +'">'+
+                                    '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" value="'+ $(iframe).parent().parent().width() +'">'+
                                 '</div>'+
                              '</form>',
                     buttons: {
@@ -1196,7 +1196,7 @@
                                 $wrapper.remove();
 
                                 var embedCustomWidth = parseInt($('#input-width-'+ wrapperUid).val());
-                                if (embedCustomWidth > 0 && embedCustomWidth != 459) {
+                                if (embedCustomWidth > 0) {
                                     customAttributes['width'] = embedCustomWidth;
                                 }
 
