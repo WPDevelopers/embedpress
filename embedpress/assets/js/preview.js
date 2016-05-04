@@ -1164,14 +1164,14 @@
                 bootbox.dialog({
                     title: "Editing Embed properties",
                     message: '<form id="form-'+ wrapperUid +'">'+
-                                '<label>'+
-                                    'Url:'+
-                                    '<input type="url" id="input-url-'+ wrapperUid +'" value="'+ self.decodeEmbedURLSpecialChars($wrapper.data('url'), false) +'">'+
-                                '</label>'+
-                                '<label>'+
-                                    'Width:'+
-                                    '<input type="integer" id="input-width-'+ wrapperUid +'" value="'+ iframe.prop('width') +'">'+
-                                '</label>'+
+                                '<div class="form-group">'+
+                                    '<label for="input-url-'+ wrapperUid +'">Url</label>'+
+                                    '<input class="form-control" type="url" id="input-url-'+ wrapperUid +'" value="'+ self.decodeEmbedURLSpecialChars($wrapper.data('url'), false) +'">'+
+                                '</div>'+
+                                '<div class="form-group">'+
+                                    '<label for="input-width-'+ wrapperUid +'">Width</label>'+
+                                    '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" value="'+ iframe.prop('width') +'">'+
+                                '</div>'+
                              '</form>',
                     buttons: {
                         danger: {
