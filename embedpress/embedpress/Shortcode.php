@@ -8,16 +8,6 @@ use \Embera\Formatter;
 class Shortcode
 {
     /**
-     * The Embera library singleton used to convert urls into specific and complex HTML.
-     *
-     * @since   0.1
-     * @access  protected
-     *
-     * @var     Embera\Formatter    $emberaInstance    The Embera instance
-     */
-    protected static $emberaInstance;
-
-    /**
      * Register the plugin shortcode into WordPress.
      *
      * @since   0.1
@@ -58,21 +48,24 @@ class Shortcode
      */
     public static function parseContent($content, $stripNewLine = false, $customAttributes = array())
     {
-        if (!isset(static::$emberaInstance)) {
-            static::$emberaInstance = new Formatter(new Embera, true);
-        }
-
-        $additionalServiceProviders = Plugin::getAdditionalServiceProviders();
-        if (!empty($additionalServiceProviders)) {
-            foreach ($additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls) {
-                self::addServiceProvider($serviceProviderClassName, $serviceProviderUrls);
-            }
-        }
-
         if (!empty($content)) {
+            if (empty($customAttributes)) {
+                $customAttributes = self::parseContentAttributesFromString($content);
+            }
+
             $content = preg_replace('/(\['. EMBEDPRESS_SHORTCODE .'(?:\]|.+?\])|\[\/'. EMBEDPRESS_SHORTCODE .'\])/i', "", $content);
 
+            $emberaInstanceSettings = array(
+                'params' => array()
+            );
+
             $attributes = self::parseContentAttributes($customAttributes);
+            if (isset($attributes['width']) || isset($attributes['height'])) {
+                if (isset($attributes['width'])) {
+                    $emberaInstanceSettings['params']['width'] = $attributes['width'];
+                    unset($attributes['width']);
+                }
+            }
 
             $attributesHtml = [];
             foreach ($attributes as $attrName => $attrValue) {
@@ -80,9 +73,20 @@ class Shortcode
             }
 
             $embedTemplate = '<div '. implode(' ', $attributesHtml) .'>{html}</div>';
-            self::$emberaInstance->setTemplate($embedTemplate);
 
-            $content = static::$emberaInstance->transform($content);
+            $emberaInstance = new Embera($emberaInstanceSettings);
+
+            $additionalServiceProviders = Plugin::getAdditionalServiceProviders();
+            if (!empty($additionalServiceProviders)) {
+                foreach ($additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls) {
+                    self::addServiceProvider($serviceProviderClassName, $serviceProviderUrls, $emberaInstance);
+                }
+            }
+
+            $emberaFormaterInstance = new Formatter($emberaInstance, true);
+            $emberaFormaterInstance->setTemplate($embedTemplate);
+
+            $content = $emberaFormaterInstance->transform($content);
 
             if ($stripNewLine) {
                 $content = preg_replace('/\n/', '', $content);
@@ -92,21 +96,38 @@ class Shortcode
         return $content;
     }
 
-    private static function addServiceProvider($className, $reference)
+    private static function addServiceProvider($className, $reference, &$emberaInstance)
     {
         if (empty($className) || empty($reference)) {
             return false;
         }
 
         if (is_string($reference)) {
-            self::$emberaInstance->addProvider($reference, EMBEDPRESS_NAMESPACE ."\\Providers\\{$className}");
+            $emberaInstance->addProvider($reference, EMBEDPRESS_NAMESPACE ."\\Providers\\{$className}");
         } else if (is_array($reference)) {
             foreach ($reference as $serviceProviderUrl) {
-                self::addServiceProvider($className, $serviceProviderUrl);
+                self::addServiceProvider($className, $serviceProviderUrl, $emberaInstance);
             }
         } else {
             return false;
         }
+    }
+
+    public static function parseContentAttributesFromString($subject)
+    {
+        $customAttributes = array();
+        if (preg_match('/\[embed\s*(.*?)\]/i', stripslashes($subject), $m)) {
+            if (preg_match_all('/(\!?\w+-?\w*)(?:="(.+?)")?/i', stripslashes($m[1]), $matches)) {
+                $attributes = $matches[1];
+                $attrValues = $matches[2];
+
+                foreach ($attributes as $attrIndex => $attrName) {
+                    $customAttributes[$attrName] = $attrValues[$attrIndex];
+                }
+            }
+        }
+
+        return $customAttributes;
     }
 
     private static function parseContentAttributes(array $customAttributes)
@@ -115,8 +136,8 @@ class Shortcode
             'class' => ["osembed-wrapper", '{wrapper_class}']
         );
 
-        $embedShouldBeResponsive = null;
-
+        $embedShouldBeResponsive = true;
+        $embedShouldHaveCustomDimensions = false;
         if (!empty($customAttributes)) {
             if (isset($customAttributes['class'])) {
                 if (!empty($customAttributes['class'])) {
@@ -128,23 +149,35 @@ class Shortcode
                 unset($customAttributes['class']);
             }
 
+            if (isset($customAttributes['width'])) {
+                if (!empty($customAttributes['width'])) {
+                    $attributes['width'] = (int)$customAttributes['width'];
+                    $embedShouldHaveCustomDimensions = true;
+                }
+
+                unset($customAttributes['width']);
+            }
+
             if (!empty($customAttributes)) {
                 $attrNameDefaultPrefix = "data-";
                 foreach ($customAttributes as $attrName => $attrValue) {
-                    $attrName = strpos($attrName, $attrNameDefaultPrefix) === 0 ? $attrName : ($attrNameDefaultPrefix . $attrName);
+                    if (is_numeric($attrName)) {
+                        $attrName = $attrValue;
+                        $attrValue = "";
+                    }
 
-                    // Check if the property has an assumed value. I.e: "foo" would be true if <div foo> or false if <div !foo>
-                    if (preg_match('/'. $attrNameDefaultPrefix .'\d+/i', $attrName)) {
-                        if ($attrValue[0] === "!") {
-                            $attrName = substr($attrValue, 1);
+                    $attrName = str_replace($attrNameDefaultPrefix, "", $attrName);
+
+                    if (!strlen($attrValue)) {
+                        if ($attrName[0] === "!") {
                             $attrValue = "false";
+                            $attrName = substr($attrName, 1);
                         } else {
-                            $attrName = $attrValue;
                             $attrValue = "true";
                         }
                     }
 
-                    $attributes[$attrName] = $attrValue;
+                    $attributes[$attrNameDefaultPrefix . $attrName] = $attrValue;
                 }
             }
 
@@ -152,14 +185,14 @@ class Shortcode
             foreach ($responsiveAttributes as $responsiveAttr) {
                 if (isset($attributes[$responsiveAttr])) {
                     $embedShouldBeResponsive = !self::valueIsFalse($attributes[$responsiveAttr]);
-
                     unset($attributes[$responsiveAttr]);
+                    break;
                 }
             }
             unset($responsiveAttr, $responsiveAttributes);
         }
 
-        if ($embedShouldBeResponsive) {
+        if ($embedShouldBeResponsive && !$embedShouldHaveCustomDimensions) {
             $attributes['class'][] = 'ose-{provider_alias}';
         }
 

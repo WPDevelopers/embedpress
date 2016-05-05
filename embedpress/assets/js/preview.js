@@ -583,8 +583,9 @@
                 var wrapperClasses = ["osembed_wrapper", "osembed_placeholder"];
 
                 var shortcodeAttributes = node.value.getShortcodeAttributes($data.EMBEDPRESS_SHORTCODE);
+                var customAttributes = shortcodeAttributes;
+
                 var customClasses = "";
-                var customLoadingText
                 if (!!Object.keys(shortcodeAttributes).length) {
                     var specialAttributes = ["class"];
                     // Iterates over each attribute of shortcodeAttributes to add the prefix "data-" if missing
@@ -669,14 +670,16 @@
 
                 // Trigger the timeout which will load the content
                 window.setTimeout(function() {
-                    self.parseContentAsync(uid, url);
+                    self.parseContentAsync(uid, url, customAttributes);
                 }, 800);
 
                 return wrapper;
             };
 
-            self.parseContentAsync = function(uid, url) {
-                url = self.decodeEmbedURLSpecialChars(url);
+            self.parseContentAsync = function(uid, url, customAttributes) {
+                customAttributes = typeof customAttributes === "undefined" ? {} : customAttributes;
+
+                url = self.decodeEmbedURLSpecialChars(url, true, customAttributes);
 
                 // Get the parsed embed code from the OSEmbed plugin
                 self.getParsedContent(url, function getParsedContentCallback(result) {
@@ -1143,27 +1146,73 @@
                 self.activeWrapperForModal = self.activeWrapper;
 
                 var $wrapper = self.activeWrapperForModal;
+                var wrapperUid = $wrapper.prop('id').replace("osembed_wrapper_", "");
 
-                bootbox.prompt({
-                    title: "Edit the URL",
-                    size: "small",
-                    message: "Testing...",
-                    value: self.decodeEmbedURLSpecialChars($wrapper.data('url'), false),
-                    callback: function(result) {
-                        if (result !== null) {
-                            var $wrapper = self.activeWrapperForModal;
+                var customAttributes = {};
 
-                            // Select the current wrapper as a base for the new element
-                            self.editor.focus();
-                            self.editor.selection.select($wrapper[0]);
+                var iframe = $('iframe', $wrapper);
+                iframe.parent().each(function() {
+                    $.each(this.attributes, function() {
+                        if (this.specified) {
+                            if (this.name !== "class") {
+                                customAttributes[this.name.replace('data-', "")] = this.value;
+                            }
+                        }
+                    });
+                });
 
-                            $wrapper.children().remove();
-                            $wrapper.remove();
+                bootbox.dialog({
+                    title: "Editing Embed properties",
+                    message: '<form id="form-'+ wrapperUid +'">'+
+                                '<div class="form-group">'+
+                                    '<label for="input-url-'+ wrapperUid +'">Url</label>'+
+                                    '<input class="form-control" type="url" id="input-url-'+ wrapperUid +'" value="'+ self.decodeEmbedURLSpecialChars($wrapper.data('url'), false) +'">'+
+                                '</div>'+
+                                '<div class="form-group">'+
+                                    '<label for="input-width-'+ wrapperUid +'">Width</label>'+
+                                    '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" value="'+ $(iframe).parent().parent().width() +'">'+
+                                '</div>'+
+                             '</form>',
+                    buttons: {
+                        danger: {
+                            label: "Cancel",
+                            className: "btn-default",
+                            callback: function() {
+                                // do nothing
+                                self.activeWrapperForModal = null;
+                            }
+                        },
+                        success: {
+                            label: "Save",
+                            className: "btn-primary",
+                            callback: function() {
+                                var $wrapper = self.activeWrapperForModal;
 
-                            // We do not directly replace the node because it was causing a bug on a second edit attempt
-                            self.editor.execCommand('mceInsertContent', false, result);
+                                // Select the current wrapper as a base for the new element
+                                self.editor.focus();
+                                self.editor.selection.select($wrapper[0]);
 
-                            self.configureWrappers();
+                                $wrapper.children().remove();
+                                $wrapper.remove();
+
+                                var embedCustomWidth = parseInt($('#input-width-'+ wrapperUid).val());
+                                if (embedCustomWidth > 0) {
+                                    customAttributes['width'] = embedCustomWidth;
+                                }
+
+                                var customAttributesList = [];
+                                if (!!Object.keys(customAttributes).length) {
+                                    for (var attrName in customAttributes) {
+                                        customAttributesList.push(attrName + '="' + customAttributes[attrName] + '"');
+                                    }
+                                }
+
+                                var shortcode = '['+ $data.EMBEDPRESS_SHORTCODE + (customAttributesList.length > 0 ? " "+ customAttributesList.join(" ") : "") +']'+ $('#input-url-'+ wrapperUid).val() +'[/'+ $data.EMBEDPRESS_SHORTCODE +']';
+                                // We do not directly replace the node because it was causing a bug on a second edit attempt
+                                self.editor.execCommand('mceInsertContent', false, '<p>'+ shortcode +'</p>');
+
+                                self.configureWrappers();
+                            }
                         }
                     }
                 });
