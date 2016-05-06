@@ -154,8 +154,13 @@ class Shortcode
                     $attributes['width'] = (int)$customAttributes['width'];
                     $embedShouldHaveCustomDimensions = true;
                 }
+            }
 
-                unset($customAttributes['width']);
+            if (isset($customAttributes['height'])) {
+                if (!empty($customAttributes['height'])) {
+                    $attributes['height'] = (int)$customAttributes['height'];
+                    $embedShouldHaveCustomDimensions = true;
+                }
             }
 
             if (!empty($customAttributes)) {
@@ -185,7 +190,6 @@ class Shortcode
             foreach ($responsiveAttributes as $responsiveAttr) {
                 if (isset($attributes[$responsiveAttr])) {
                     $embedShouldBeResponsive = !self::valueIsFalse($attributes[$responsiveAttr]);
-                    unset($attributes[$responsiveAttr]);
                     break;
                 }
             }
@@ -194,6 +198,8 @@ class Shortcode
 
         if ($embedShouldBeResponsive && !$embedShouldHaveCustomDimensions) {
             $attributes['class'][] = 'ose-{provider_alias}';
+        } else {
+            $attributes['responsive'] = "false";
         }
 
         $attributes['class'] = implode(' ', array_unique(array_filter($attributes['class'])));
