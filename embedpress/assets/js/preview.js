@@ -1159,22 +1159,50 @@
                     $.each(this.attributes, function() {
                         if (this.specified) {
                             if (this.name !== "class") {
-                                customAttributes[this.name.replace('data-', "")] = this.value;
+                                customAttributes[this.name.replace('data-', "").toLowerCase()] = this.value;
                             }
                         }
                     });
                 });
 
+                var responsiveCheckboxShouldBeChecked = true;
+                if ("width" in customAttributes || "height" in customAttributes) {
+                    responsiveCheckboxShouldBeChecked = false;
+                } else if ("responsive" in customAttributes && customAttributes['responsive'].isFalse()) {
+                    responsiveCheckboxShouldBeChecked = false;
+                }
+
                 bootbox.dialog({
                     title: "Editing Embed properties",
                     message: '<form id="form-'+ wrapperUid +'">'+
-                                '<div class="form-group">'+
-                                    '<label for="input-url-'+ wrapperUid +'">Url</label>'+
-                                    '<input class="form-control" type="url" id="input-url-'+ wrapperUid +'" value="'+ self.decodeEmbedURLSpecialChars($wrapper.data('url'), false) +'">'+
+                                '<div class="row">'+
+                                    '<div class="col-md-12">'+
+                                        '<div class="form-group">'+
+                                            '<label for="input-url-'+ wrapperUid +'">Url</label>'+
+                                            '<input class="form-control" type="url" id="input-url-'+ wrapperUid +'" value="'+ self.decodeEmbedURLSpecialChars($wrapper.data('url'), false) +'">'+
+                                        '</div>'+
+                                    '</div>'+
                                 '</div>'+
-                                '<div class="form-group">'+
-                                    '<label for="input-width-'+ wrapperUid +'">Width</label>'+
-                                    '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" value="'+ $(iframe).parent().parent().width() +'">'+
+                                '<div class="row">'+
+                                    '<div class="col-md-6">'+
+                                        '<div class="form-group">'+
+                                            '<label for="input-width-'+ wrapperUid +'">Width</label>'+
+                                            '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" placeholder="'+ $(iframe).parent().parent().width() +'">'+
+                                        '</div>'+
+                                    '</div>'+
+                                    '<div class="col-md-6">'+
+                                        '<div class="form-group">'+
+                                            '<label for="input-height-'+ wrapperUid +'">Height</label>'+
+                                            '<input class="form-control" type="integer" id="input-height-'+ wrapperUid +'" placeholder="'+ $(iframe).parent().parent().height() +'">'+
+                                        '</div>'+
+                                    '</div>'+
+                                    '<div class="col-md-12">'+
+                                        '<div class="checkbox">'+
+                                            '<label>'+
+                                                '<input type="checkbox" id="input-responsive-'+ wrapperUid +'" class="form-control"'+ (responsiveCheckboxShouldBeChecked ? ' checked' : "") +'>Responsive'+
+                                            '</label>'+
+                                        '</div>'+
+                                    '</div>'+
                                 '</div>'+
                              '</form>',
                     buttons: {
@@ -1199,9 +1227,23 @@
                                 $wrapper.children().remove();
                                 $wrapper.remove();
 
-                                var embedCustomWidth = parseInt($('#input-width-'+ wrapperUid).val());
-                                if (embedCustomWidth > 0) {
-                                    customAttributes['width'] = embedCustomWidth;
+                                if (!$('#input-responsive-'+ wrapperUid).is(':checked')) {
+                                    var embedCustomWidth = $('#input-width-'+ wrapperUid).val();
+                                    if (parseInt(embedCustomWidth) > 0) {
+                                        customAttributes['width'] = embedCustomWidth;
+                                    }
+
+                                    var embedCustomHeight = $('#input-height-'+ wrapperUid).val();
+                                    if (parseInt(embedCustomHeight) > 0) {
+                                        customAttributes['height'] = embedCustomHeight;
+                                    }
+
+                                    customAttributes['responsive'] = "false";
+                                } else {
+                                    delete customAttributes['width'];
+                                    delete customAttributes['height'];
+
+                                    customAttributes['responsive'] = "true";
                                 }
 
                                 var customAttributesList = [];
