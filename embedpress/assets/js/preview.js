@@ -1020,9 +1020,13 @@
 
                     if (matches !== null && !!matches.length) {
                         event.preventDefault();
+
+                        content += '<p><br/>&nbsp;</p>'; // This assures that the cursor are positioned after the embed
+
                         // Let TinyMCE do the heavy lifting for inserting that content into the self.editor
                         // We cancel the default behavior and insert using command to trigger the node change and the parser
                         self.editor.execCommand('mceInsertContent', false, content);
+
                         self.configureWrappers();
                     }
                 });
@@ -1209,7 +1213,7 @@
 
                                 var shortcode = '['+ $data.EMBEDPRESS_SHORTCODE + (customAttributesList.length > 0 ? " "+ customAttributesList.join(" ") : "") +']'+ $('#input-url-'+ wrapperUid).val() +'[/'+ $data.EMBEDPRESS_SHORTCODE +']';
                                 // We do not directly replace the node because it was causing a bug on a second edit attempt
-                                self.editor.execCommand('mceInsertContent', false, '<p>'+ shortcode +'</p>');
+                                self.editor.execCommand('mceInsertContent', false, shortcode);
 
                                 self.configureWrappers();
                             }
