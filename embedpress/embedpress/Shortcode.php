@@ -65,6 +65,11 @@ class Shortcode
                     $emberaInstanceSettings['params']['width'] = $attributes['width'];
                     unset($attributes['width']);
                 }
+
+                if (isset($attributes['height'])) {
+                    $emberaInstanceSettings['params']['height'] = $attributes['height'];
+                    unset($attributes['height']);
+                }
             }
 
             $attributesHtml = [];
@@ -87,6 +92,30 @@ class Shortcode
             $emberaFormaterInstance->setTemplate($embedTemplate);
 
             $content = $emberaFormaterInstance->transform($content);
+
+            // This assure that the iframe has the same dimensions the user wants to
+            if (isset($emberaInstanceSettings['params']['width']) || isset($emberaInstanceSettings['params']['height'])) {
+                if (isset($emberaInstanceSettings['params']['width']) && isset($emberaInstanceSettings['params']['height'])) {
+                    $customWidth = (int)$emberaInstanceSettings['params']['width'];
+                    $customHeight = (int)$emberaInstanceSettings['params']['height'];
+                } else {
+                    preg_match_all('/\<iframe\s+width="(\d+)"\s+height="(\d+)"/i', $content, $matches);
+                    $iframeWidth = (int)$matches[1][0];
+                    $iframeHeight = (int)$matches[2][0];
+                    $iframeRatio = ceil($iframeWidth / $iframeHeight);
+
+                    if (isset($emberaInstanceSettings['params']['width'])) {
+                        $customWidth = (int)$emberaInstanceSettings['params']['width'];
+                        $customHeight = ceil($customWidth / $iframeRatio);
+                    } else {
+                        $customHeight = (int)$emberaInstanceSettings['params']['height'];
+                        $customWidth = $iframeRatio * $customHeight;
+                    }
+                }
+
+                $content = preg_replace('/\s+width\=\"(\d+)\"/i', ' width="'. $customWidth .'"', $content);
+                $content = preg_replace('/\s+height\=\"(\d+)\"/i', ' height="'. $customHeight .'"', $content);
+            }
 
             if ($stripNewLine) {
                 $content = preg_replace('/\n/', '', $content);
@@ -156,6 +185,15 @@ class Shortcode
                 }
 
                 unset($customAttributes['width']);
+            }
+
+            if (isset($customAttributes['height'])) {
+                if (!empty($customAttributes['height'])) {
+                    $attributes['height'] = (int)$customAttributes['height'];
+                    $embedShouldHaveCustomDimensions = true;
+                }
+
+                unset($customAttributes['height']);
             }
 
             if (!empty($customAttributes)) {
