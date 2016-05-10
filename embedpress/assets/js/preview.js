@@ -1054,6 +1054,18 @@
                             }
                         });
                     }
+                } else if (e.element.tagName === "IFRAME") {
+                    if (e.parents.length > 0) {
+                        $.each(e.parents, function(index, parent) {
+                            parent = $(parent);
+                            if (parent.hasClass('osembed_wrapper')) {
+                                var wrapper = $('.osembed-wrapper', parent);
+                                if (wrapper.length > 1) {
+                                    wrapper.get(0).remove();
+                                }
+                            }
+                        });
+                    }
                 }
             };
 
