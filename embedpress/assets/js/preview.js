@@ -1021,7 +1021,7 @@
                     if (matches !== null && !!matches.length) {
                         event.preventDefault();
 
-                        content += '<p><br/>&nbsp;</p>'; // This assures that the cursor are positioned after the embed
+                        content += '<span>&nbsp;</span>'; // This assures that the cursor are positioned after the embed
 
                         // Let TinyMCE do the heavy lifting for inserting that content into the self.editor
                         // We cancel the default behavior and insert using command to trigger the node change and the parser
