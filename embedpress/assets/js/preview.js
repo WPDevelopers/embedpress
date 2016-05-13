@@ -630,6 +630,22 @@
                 });
                 wrapper.append(panel);
 
+                function createGhostNode(htmlTag, content) {
+                    htmlTag = htmlTag || "span";
+                    content = content || "&nbsp;";
+
+                    var ghostNode = new self.Node(htmlTag, 1);
+                    ghostNode.attr({
+                        'class': "hidden"
+                    });
+
+                    var ghostText = new self.Node('#text', 3);
+                    ghostText.value = content;
+                    ghostNode.append(ghostText);
+
+                    return ghostNode;
+                }
+
                 var editButton = new self.Node('div', 1);
                 editButton.attr({
                     'id': 'osembed_button_edit_' + uid,
@@ -639,6 +655,7 @@
                 editButtonIcon.attr({
                     'class': 'osembed-icon-pencil osembed_ignore_mouseout'
                 });
+                editButtonIcon.append(createGhostNode());
                 editButton.append(editButtonIcon);
                 panel.append(editButton);
 
@@ -663,6 +680,7 @@
                 removeButtonIcon.attr({
                     'class': 'osembed-icon-x osembed_ignore_mouseout'
                 });
+                removeButtonIcon.append(createGhostNode());
                 removeButton.append(removeButtonIcon);
                 panel.append(removeButton);
 
