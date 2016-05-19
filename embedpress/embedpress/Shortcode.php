@@ -192,15 +192,6 @@ class Shortcode
                 }
             }
 
-            if (isset($customAttributes['height'])) {
-                if (!empty($customAttributes['height'])) {
-                    $attributes['height'] = (int)$customAttributes['height'];
-                    $embedShouldHaveCustomDimensions = true;
-                }
-
-                unset($customAttributes['height']);
-            }
-
             if (!empty($customAttributes)) {
                 $attrNameDefaultPrefix = "data-";
                 foreach ($customAttributes as $attrName => $attrValue) {
