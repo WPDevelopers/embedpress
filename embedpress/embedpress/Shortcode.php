@@ -215,10 +215,16 @@ class Shortcode
                 }
             }
 
+            // Check if there's any "responsive" parameter
             $responsiveAttributes = ["responsive", "data-responsive"];
             foreach ($responsiveAttributes as $responsiveAttr) {
                 if (isset($attributes[$responsiveAttr])) {
-                    $embedShouldBeResponsive = !self::valueIsFalse($attributes[$responsiveAttr]);
+                    if (!strlen($attributes[$responsiveAttr])) { // If the parameter is passed but have no value, it will be true by default
+                        $embedShouldBeResponsive = true;
+                    } else {
+                        $embedShouldBeResponsive = !self::valueIsFalse($attributes[$responsiveAttr]);
+                    }
+
                     break;
                 }
             }
@@ -228,7 +234,7 @@ class Shortcode
         if ($embedShouldBeResponsive && !$embedShouldHaveCustomDimensions) {
             $attributes['class'][] = 'ose-{provider_alias}';
         } else {
-            $attributes['responsive'] = "false";
+            $attributes['data-responsive'] = "false";
         }
 
         $attributes['class'] = implode(' ', array_unique(array_filter($attributes['class'])));
