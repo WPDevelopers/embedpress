@@ -610,6 +610,10 @@
                     prefixedShortcodeAttributes = dataPrefix = null;
                 }
 
+                if (("data-width" in shortcodeAttributes || "data-height" in shortcodeAttributes) && "data-responsive" in shortcodeAttributes) {
+                    shortcodeAttributes['data-responsive'] = "false";
+                }
+
                 var wrapper = new self.Node('div', 1);
                 var wrapperSettings = {
                     'class': Array.from(new Set(wrapperClasses)).join(" "),
