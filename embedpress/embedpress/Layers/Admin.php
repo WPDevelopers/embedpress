@@ -3,6 +3,8 @@ namespace EmbedPress\Layers;
 
 use \EmbedPress\Layers\Handler;
 use \EmbedPress\Shortcode;
+use \EmbedPress\Plugin;
+use \Embera\Embera;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -64,6 +66,30 @@ class Admin extends Handler
                 'content' => Shortcode::parseContent(@$_POST['subject'], true)
             )
         );
+
+        header('Content-Type:application/json;charset=UTF-8');
+        echo json_encode($response);
+
+        exit();
+    }
+
+    public function getUrlInfoViaAjax()
+    {
+        $response = array(
+            'url'             => trim(@$_GET['url']),
+            'canBeResponsive' => false
+        );
+
+        if (!!strlen($response['url'])) {
+            $embera = new Embera();
+
+            $urlInfo = $embera->getUrlInfo($response['url']);
+            if (isset($urlInfo[$response['url']])) {
+                $urlInfo = (object)$urlInfo[$response['url']];
+
+                $response['canBeResponsive'] = Plugin::canServiceProviderBeResponsive($urlInfo->provider_alias);
+            }
+        }
 
         header('Content-Type:application/json;charset=UTF-8');
         echo json_encode($response);

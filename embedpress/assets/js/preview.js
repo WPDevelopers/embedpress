@@ -1195,102 +1195,130 @@
                     });
                 });
 
-                var responsiveCheckboxShouldBeChecked = true;
-                if ("width" in customAttributes || "height" in customAttributes) {
-                    responsiveCheckboxShouldBeChecked = false;
-                } else if ("responsive" in customAttributes && customAttributes['responsive'].isFalse()) {
-                    responsiveCheckboxShouldBeChecked = false;
-                }
-
-                bootbox.dialog({
-                    title: "Editing Embed properties",
-                    message: '<form id="form-'+ wrapperUid +'">'+
-                                '<div class="row">'+
-                                    '<div class="col-md-12">'+
-                                        '<div class="form-group">'+
-                                            '<label for="input-url-'+ wrapperUid +'">Url</label>'+
-                                            '<input class="form-control" type="url" id="input-url-'+ wrapperUid +'" value="'+ self.decodeEmbedURLSpecialChars($wrapper.data('url'), false) +'">'+
-                                        '</div>'+
-                                    '</div>'+
-                                '</div>'+
-                                '<div class="row">'+
-                                    '<div class="col-md-6">'+
-                                        '<div class="form-group">'+
-                                            '<label for="input-width-'+ wrapperUid +'">Width</label>'+
-                                            '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" placeholder="'+ $(iframe).parent().parent().width() +'">'+
-                                        '</div>'+
-                                    '</div>'+
-                                    '<div class="col-md-6">'+
-                                        '<div class="form-group">'+
-                                            '<label for="input-height-'+ wrapperUid +'">Height</label>'+
-                                            '<input class="form-control" type="integer" id="input-height-'+ wrapperUid +'" placeholder="'+ $(iframe).parent().parent().height() +'">'+
-                                        '</div>'+
-                                    '</div>'+
-                                    '<div class="col-md-12">'+
-                                        '<div class="checkbox">'+
-                                            '<label>'+
-                                                '<input type="checkbox" id="input-responsive-'+ wrapperUid +'" class="form-control"'+ (responsiveCheckboxShouldBeChecked ? ' checked' : "") +'>Responsive'+
-                                            '</label>'+
-                                        '</div>'+
-                                    '</div>'+
-                                '</div>'+
-                             '</form>',
-                    buttons: {
-                        danger: {
-                            label: "Cancel",
-                            className: "btn-default",
-                            callback: function() {
-                                // do nothing
-                                self.activeWrapperForModal = null;
-                            }
-                        },
-                        success: {
-                            label: "Save",
-                            className: "btn-primary",
-                            callback: function() {
-                                var $wrapper = self.activeWrapperForModal;
-
-                                // Select the current wrapper as a base for the new element
-                                self.editor.focus();
-                                self.editor.selection.select($wrapper[0]);
-
-                                $wrapper.children().remove();
-                                $wrapper.remove();
-
-                                if (!$('#input-responsive-'+ wrapperUid).is(':checked')) {
-                                    var embedCustomWidth = $('#input-width-'+ wrapperUid).val();
-                                    if (parseInt(embedCustomWidth) > 0) {
-                                        customAttributes['width'] = embedCustomWidth;
-                                    }
-
-                                    var embedCustomHeight = $('#input-height-'+ wrapperUid).val();
-                                    if (parseInt(embedCustomHeight) > 0) {
-                                        customAttributes['height'] = embedCustomHeight;
-                                    }
-
-                                    customAttributes['responsive'] = "false";
-                                } else {
-                                    delete customAttributes['width'];
-                                    delete customAttributes['height'];
-
-                                    customAttributes['responsive'] = "true";
-                                }
-
-                                var customAttributesList = [];
-                                if (!!Object.keys(customAttributes).length) {
-                                    for (var attrName in customAttributes) {
-                                        customAttributesList.push(attrName + '="' + customAttributes[attrName] + '"');
-                                    }
-                                }
-
-                                var shortcode = '['+ $data.EMBEDPRESS_SHORTCODE + (customAttributesList.length > 0 ? " "+ customAttributesList.join(" ") : "") +']'+ $('#input-url-'+ wrapperUid).val() +'[/'+ $data.EMBEDPRESS_SHORTCODE +']';
-                                // We do not directly replace the node because it was causing a bug on a second edit attempt
-                                self.editor.execCommand('mceInsertContent', false, shortcode);
-
-                                self.configureWrappers();
+                $.ajax({
+                    type: "GET",
+                    url: "admin-ajax.php",
+                    data: {
+                        action: "embedpress_get_embed_url_info",
+                        url: self.decodeEmbedURLSpecialChars($wrapper.data('url'), false)
+                    },
+                    success: function(response) {
+                        console.info(response);
+                        if (response.canBeResponsive) {
+                            var responsiveCheckboxShouldBeChecked = true;
+                            if ("width" in customAttributes || "height" in customAttributes) {
+                                responsiveCheckboxShouldBeChecked = false;
+                            } else if ("responsive" in customAttributes && customAttributes['responsive'].isFalse()) {
+                                responsiveCheckboxShouldBeChecked = false;
                             }
                         }
-                    }
+
+                        bootbox.dialog({
+                            title: "Editing Embed properties",
+                            message: '<form id="form-'+ wrapperUid +'">'+
+                                        '<div class="row">'+
+                                            '<div class="col-md-12">'+
+                                                '<div class="form-group">'+
+                                                    '<label for="input-url-'+ wrapperUid +'">Url</label>'+
+                                                    '<input class="form-control" type="url" id="input-url-'+ wrapperUid +'" value="'+ self.decodeEmbedURLSpecialChars($wrapper.data('url'), false) +'">'+
+                                                '</div>'+
+                                            '</div>'+
+                                        '</div>'+
+                                        '<div class="row">'+
+                                            '<div class="col-md-6">'+
+                                                '<div class="form-group">'+
+                                                    '<label for="input-width-'+ wrapperUid +'">Width</label>'+
+                                                    '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" placeholder="'+ $(iframe).parent().parent().width() +'">'+
+                                                '</div>'+
+                                            '</div>'+
+                                            '<div class="col-md-6">'+
+                                                '<div class="form-group">'+
+                                                    '<label for="input-height-'+ wrapperUid +'">Height</label>'+
+                                                    '<input class="form-control" type="integer" id="input-height-'+ wrapperUid +'" placeholder="'+ $(iframe).parent().parent().height() +'">'+
+                                                '</div>'+
+                                            '</div>'+
+                                            (response.canBeResponsive ?
+                                            '<div class="col-md-12">'+
+                                                '<div class="checkbox">'+
+                                                    '<label>'+
+                                                        '<input type="checkbox" id="input-responsive-'+ wrapperUid +'" class="form-control"'+ (responsiveCheckboxShouldBeChecked ? ' checked' : "") +'>Responsive'+
+                                                    '</label>'+
+                                                '</div>'+
+                                            '</div>' : '')+
+                                        '</div>'+
+                                     '</form>',
+                            buttons: {
+                                danger: {
+                                    label: "Cancel",
+                                    className: "btn-default",
+                                    callback: function() {
+                                        // do nothing
+                                        self.activeWrapperForModal = null;
+                                    }
+                                },
+                                success: {
+                                    label: "Save",
+                                    className: "btn-primary",
+                                    callback: function() {
+                                        var $wrapper = self.activeWrapperForModal;
+
+                                        // Select the current wrapper as a base for the new element
+                                        self.editor.focus();
+                                        self.editor.selection.select($wrapper[0]);
+
+                                        $wrapper.children().remove();
+                                        $wrapper.remove();
+
+                                        if (response.canBeResponsive) {
+                                            if (!$('#input-responsive-'+ wrapperUid).is(':checked')) {
+                                                var embedCustomWidth = $('#input-width-'+ wrapperUid).val();
+                                                if (parseInt(embedCustomWidth) > 0) {
+                                                    customAttributes['width'] = embedCustomWidth;
+                                                }
+
+                                                var embedCustomHeight = $('#input-height-'+ wrapperUid).val();
+                                                if (parseInt(embedCustomHeight) > 0) {
+                                                    customAttributes['height'] = embedCustomHeight;
+                                                }
+
+                                                customAttributes['responsive'] = "false";
+                                            } else {
+                                                delete customAttributes['width'];
+                                                delete customAttributes['height'];
+
+                                                customAttributes['responsive'] = "true";
+                                            }
+                                        } else {
+                                            var embedCustomWidth = $('#input-width-'+ wrapperUid).val();
+                                            if (parseInt(embedCustomWidth) > 0) {
+                                                customAttributes['width'] = embedCustomWidth;
+                                            }
+
+                                            var embedCustomHeight = $('#input-height-'+ wrapperUid).val();
+                                            if (parseInt(embedCustomHeight) > 0) {
+                                                customAttributes['height'] = embedCustomHeight;
+                                            }
+                                        }
+
+                                        var customAttributesList = [];
+                                        if (!!Object.keys(customAttributes).length) {
+                                            for (var attrName in customAttributes) {
+                                                customAttributesList.push(attrName + '="' + customAttributes[attrName] + '"');
+                                            }
+                                        }
+
+                                        var shortcode = '['+ $data.EMBEDPRESS_SHORTCODE + (customAttributesList.length > 0 ? " "+ customAttributesList.join(" ") : "") +']'+ $('#input-url-'+ wrapperUid).val() +'[/'+ $data.EMBEDPRESS_SHORTCODE +']';
+                                        // We do not directly replace the node because it was causing a bug on a second edit attempt
+                                        self.editor.execCommand('mceInsertContent', false, shortcode);
+
+                                        self.configureWrappers();
+                                    }
+                                }
+                            }
+                        });
+                    },
+                    dataType: "json",
+                    async: true
                 });
 
                 return false;
