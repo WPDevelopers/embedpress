@@ -1221,13 +1221,13 @@
                                     '<div class="col-md-6">'+
                                         '<div class="form-group">'+
                                             '<label for="input-width-'+ wrapperUid +'">Width</label>'+
-                                            '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" placeholder="'+ $(iframe).parent().parent().width() +'">'+
+                                            '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" placeholder="'+ $(iframe).parent().parent().data('width') +'">'+
                                         '</div>'+
                                     '</div>'+
                                     '<div class="col-md-6">'+
                                         '<div class="form-group">'+
                                             '<label for="input-height-'+ wrapperUid +'">Height</label>'+
-                                            '<input class="form-control" type="integer" id="input-height-'+ wrapperUid +'" placeholder="'+ $(iframe).parent().parent().height() +'">'+
+                                            '<input class="form-control" type="integer" id="input-height-'+ wrapperUid +'" placeholder="'+ $(iframe).parent().parent().data('height') +'">'+
                                         '</div>'+
                                     '</div>'+
                                     '<div class="col-md-12">'+
