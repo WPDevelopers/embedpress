@@ -232,7 +232,7 @@ class Shortcode
         }
 
         if ($embedShouldBeResponsive && !$embedShouldHaveCustomDimensions) {
-            $attributes['class'][] = 'ose-{provider_alias}';
+            $attributes['class'][] = 'ose-{provider_alias} responsive';
         } else {
             $attributes['data-responsive'] = "false";
         }
