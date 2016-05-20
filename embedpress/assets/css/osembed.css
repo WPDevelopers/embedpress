@@ -5,19 +5,19 @@
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
-.ose-dailymotion,
-.ose-kickstarter,
-.ose-rutube,
-.ose-ted,
-.ose-vimeo,
-.ose-youtube,
-.ose-ustream,
-.ose-google-docs,
-.ose-animatron,
-.ose-amcharts,
-.ose-on-aol-com,
-.ose-animoto,
-.ose-videojug {
+.ose-dailymotion.responsive,
+.ose-kickstarter.responsive,
+.ose-rutube.responsive,
+.ose-ted.responsive,
+.ose-vimeo.responsive,
+.ose-youtube.responsive,
+.ose-ustream.responsive,
+.ose-google-docs.responsive,
+.ose-animatron.responsive,
+.ose-amcharts.responsive,
+.ose-on-aol-com.responsive,
+.ose-animoto.responsive,
+.ose-videojug.responsive {
     overflow: hidden;
     position: relative;
     height: 0;

@@ -53,6 +53,8 @@ class Plugin
             $this->loaderInstance->add_action('wp_ajax_embedpress_do_ajax_request', $plgHandlerAdminInstance, $onAjaxCallbackName);
             $this->loaderInstance->add_action('wp_ajax_nopriv_embedpress_do_ajax_request', $plgHandlerAdminInstance, $onAjaxCallbackName);
 
+            $this->loaderInstance->add_action('wp_ajax_embedpress_get_embed_url_info', $plgHandlerAdminInstance, "getUrlInfoViaAjax");
+
             unset($onAjaxCallbackName, $enqueueScriptsHookName, $plgHandlerAdminInstance);
         } else {
             $plgHandlerPublicInstance = new PublicHandler($this->getPluginName(), $this->getPluginVersion());
@@ -91,5 +93,10 @@ class Plugin
         }
 
         return array();
+    }
+
+    public static function canServiceProviderBeResponsive($serviceProviderAlias)
+    {
+        return in_array($serviceProviderAlias, array("dailymotion", "kickstarter", "rutube", "ted", "vimeo", "youtube", "ustream", "google-docs", "animatron", "amcharts", "on-aol-com", "animoto", "videojug"));
     }
 }
