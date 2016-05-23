@@ -125,7 +125,7 @@ class Shortcode
         return $content;
     }
 
-    private static function addServiceProvider($className, $reference, &$emberaInstance)
+    public static function addServiceProvider($className, $reference, &$emberaInstance)
     {
         if (empty($className) || empty($reference)) {
             return false;

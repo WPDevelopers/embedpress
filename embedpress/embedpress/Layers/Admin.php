@@ -83,10 +83,16 @@ class Admin extends Handler
         if (!!strlen($response['url'])) {
             $embera = new Embera();
 
+            $additionalServiceProviders = Plugin::getAdditionalServiceProviders();
+            if (!empty($additionalServiceProviders)) {
+                foreach ($additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls) {
+                    Shortcode::addServiceProvider($serviceProviderClassName, $serviceProviderUrls, $embera);
+                }
+            }
+
             $urlInfo = $embera->getUrlInfo($response['url']);
             if (isset($urlInfo[$response['url']])) {
                 $urlInfo = (object)$urlInfo[$response['url']];
-
                 $response['canBeResponsive'] = Plugin::canServiceProviderBeResponsive($urlInfo->provider_alias);
             }
         }

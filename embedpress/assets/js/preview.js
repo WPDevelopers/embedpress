@@ -1231,6 +1231,14 @@
                                             '</div>'+
                                         '</div>'+
                                         '<div class="row">'+
+                                            (response.canBeResponsive ?
+                                            '<div class="col-md-12">'+
+                                                '<div class="checkbox">'+
+                                                    '<label>'+
+                                                        '<input type="checkbox" id="input-responsive-'+ wrapperUid +'" class="form-control"'+ (responsiveCheckboxShouldBeChecked ? ' checked' : "") +'>Responsive'+
+                                                    '</label>'+
+                                                '</div>'+
+                                            '</div>' : '')+
                                             '<div class="col-md-6">'+
                                                 '<div class="form-group">'+
                                                     '<label for="input-width-'+ wrapperUid +'">Width</label>'+
@@ -1243,14 +1251,6 @@
                                                     '<input class="form-control" type="integer" id="input-height-'+ wrapperUid +'" placeholder="'+ embedHeight +'">'+
                                                 '</div>'+
                                             '</div>'+
-                                            (response.canBeResponsive ?
-                                            '<div class="col-md-12">'+
-                                                '<div class="checkbox">'+
-                                                    '<label>'+
-                                                        '<input type="checkbox" id="input-responsive-'+ wrapperUid +'" class="form-control"'+ (responsiveCheckboxShouldBeChecked ? ' checked' : "") +'>Responsive'+
-                                                    '</label>'+
-                                                '</div>'+
-                                            '</div>' : '')+
                                         '</div>'+
                                      '</form>',
                             buttons: {
