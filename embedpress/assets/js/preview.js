@@ -1199,6 +1199,9 @@
                     });
                 });
 
+                var embedWidth = iframe.parent().parent().data('width') || iframe.width();
+                var embedHeight = iframe.parent().parent().data('height') || iframe.height();
+
                 $.ajax({
                     type: "GET",
                     url: "admin-ajax.php",
@@ -1207,7 +1210,6 @@
                         url: self.decodeEmbedURLSpecialChars($wrapper.data('url'), false)
                     },
                     success: function(response) {
-                        console.info(response);
                         if (response.canBeResponsive) {
                             var responsiveCheckboxShouldBeChecked = true;
                             if ("width" in customAttributes || "height" in customAttributes) {
@@ -1232,13 +1234,13 @@
                                             '<div class="col-md-6">'+
                                                 '<div class="form-group">'+
                                                     '<label for="input-width-'+ wrapperUid +'">Width</label>'+
-                                                    '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" placeholder="'+ $(iframe).parent().parent().width() +'">'+
+                                                    '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" placeholder="'+ embedWidth +'">'+
                                                 '</div>'+
                                             '</div>'+
                                             '<div class="col-md-6">'+
                                                 '<div class="form-group">'+
                                                     '<label for="input-height-'+ wrapperUid +'">Height</label>'+
-                                                    '<input class="form-control" type="integer" id="input-height-'+ wrapperUid +'" placeholder="'+ $(iframe).parent().parent().height() +'">'+
+                                                    '<input class="form-control" type="integer" id="input-height-'+ wrapperUid +'" placeholder="'+ embedHeight +'">'+
                                                 '</div>'+
                                             '</div>'+
                                             (response.canBeResponsive ?
