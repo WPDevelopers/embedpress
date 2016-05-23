@@ -23,20 +23,20 @@
     height: 0;
 }
 
-.ose-dailymotion iframe,
-.ose-kickstarter iframe,
-.ose-rutube iframe,
-.ose-ted iframe,
-.ose-vimeo iframe,
-.ose-vine iframe,
-.ose-youtube iframe,
-.ose-ustream iframe,
-.ose-google-docs iframe,
-.ose-animatron iframe,
-.ose-amcharts iframe,
-.ose-on-aol-com iframe,
-.ose-animoto iframe,
-.ose-videojug iframe {
+.ose-dailymotion.responsive iframe,
+.ose-kickstarter.responsive iframe,
+.ose-rutube.responsive iframe,
+.ose-ted.responsive iframe,
+.ose-vimeo.responsive iframe,
+.ose-vine.responsive iframe,
+.ose-youtube.responsive iframe,
+.ose-ustream.responsive iframe,
+.ose-google-docs.responsive iframe,
+.ose-animatron.responsive iframe,
+.ose-amcharts.responsive iframe,
+.ose-on-aol-com.responsive iframe,
+.ose-animoto.responsive iframe,
+.ose-videojug.responsive iframe {
     left: 0;
     top: 0;
     height: 100%;
@@ -45,40 +45,40 @@
 }
 
 /* 16:9 aspect ratio */
-.ose-dailymotion,
-.ose-kickstarter,
-.ose-rutube,
-.ose-ted,
-.ose-vimeo,
-.ose-youtube,
-.ose-animatron,
-.ose-amcharts,
-.ose-on-aol-com,
-.ose-animoto,
-.ose-videojug {
+.ose-dailymotion.responsive,
+.ose-kickstarter.responsive,
+.ose-rutube.responsive,
+.ose-ted.responsive,
+.ose-vimeo.responsive,
+.ose-youtube.responsive,
+.ose-animatron.responsive,
+.ose-amcharts.responsive,
+.ose-on-aol-com.responsive,
+.ose-animoto.responsive,
+.ose-videojug.responsive {
     padding-bottom: 56.25%;
 }
 
 /* 1:1 aspect ratio */
-.ose-vine {
+.ose-vine.responsive {
     padding-bottom: 100%;
 }
 
 /* Mixed aspect ratio */
-.ose-ustream {
+.ose-ustream.responsive {
     padding-bottom: 63.3%;
 }
 
-.ose-google-docs {
+.ose-google-docs.responsive {
     padding-bottom: 62.6%;
 }
 
-.ose-google-docs.ose-google-docs-drawings {
+.ose-google-docs.ose-google-docs-drawings.responsive {
     padding-bottom: 74.5%;
 }
 
-.ose-google-docs.ose-google-docs-document,
-.ose-google-docs.ose-google-docs-forms,
-.ose-google-docs.ose-google-docs-spreadsheets {
+.ose-google-docs.ose-google-docs-document.responsive,
+.ose-google-docs.ose-google-docs-forms.responsive,
+.ose-google-docs.ose-google-docs-spreadsheets.responsive {
     padding-bottom: 142%;
 }
