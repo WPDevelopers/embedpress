@@ -13,6 +13,10 @@ class Settings
         'displayPreviewBox' => array(
             'label'   => "Display Preview Box inside editor",
             'section' => "admin"
+        ),
+        'disablePluginInAdmin' => array(
+            'label'   => "Disable EmbedPress in the Admin area",
+            'section' => "admin"
         )
     );
 
@@ -56,7 +60,8 @@ class Settings
     public static function validateForm($freshData)
     {
         $data = array(
-            'displayPreviewBox' => (bool)$freshData['displayPreviewBox']
+            'displayPreviewBox'    => (bool)$freshData['displayPreviewBox'],
+            'disablePluginInAdmin' => (bool)$freshData['disablePluginInAdmin']
         );
 
         return $data;
@@ -74,5 +79,18 @@ class Settings
         echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
         echo "&nbsp;&nbsp;";
         echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
+    }
+
+    public static function renderField_disablePluginInAdmin()
+    {
+        $fieldName = "disablePluginInAdmin";
+
+        $options = get_option(self::$sectionGroupIdentifier);
+
+        $options[$fieldName] = !isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
+
+        echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Disable</label>';
+        echo "&nbsp;&nbsp;";
+        echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> Keep it enabled</label>';
     }
 }
