@@ -55,7 +55,11 @@ class Plugin
 
             $this->loaderInstance->add_action('wp_ajax_embedpress_get_embed_url_info', $plgHandlerAdminInstance, "getUrlInfoViaAjax");
 
-            unset($onAjaxCallbackName, $enqueueScriptsHookName, $plgHandlerAdminInstance);
+            $settingsClassNamespace = '\EmbedPress\Layers\Admin\Settings';
+            add_action('admin_menu', array($settingsClassNamespace, 'registerMenuItem'));
+            add_action('admin_init', array($settingsClassNamespace, 'registerActions'));
+
+            unset($onAjaxCallbackName, $enqueueScriptsHookName, $plgHandlerAdminInstance, $settingsClassNamespace);
         } else {
             $plgHandlerPublicInstance = new PublicHandler($this->getPluginName(), $this->getPluginVersion());
 
