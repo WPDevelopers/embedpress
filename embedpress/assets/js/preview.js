@@ -140,6 +140,10 @@
             }
         };
 
+        if (!$data.displayPreviewBox.length || $data.displayPreviewBox.isFalse()) {
+            return;
+        }
+
         var SHORTCODE_REGEXP = new RegExp('\\[\/?'+ $data.EMBEDPRESS_SHORTCODE +'\\]', "gi");
 
         var OSEmbedPreview = function() {
