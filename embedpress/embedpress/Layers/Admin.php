@@ -28,6 +28,8 @@ class Admin extends Handler
      */
     public function enqueueScripts()
     {
+        $plgSettings = get_option("embedpress_options");
+
         wp_enqueue_script("bootbox-bootstrap", EMBEDPRESS_URL_ASSETS .'js/vendor/bootstrap/bootstrap.min.js', array('jquery'), $this->pluginVersion, true);
         wp_enqueue_script("bootbox", EMBEDPRESS_URL_ASSETS .'js/vendor/bootbox.min.js', array('jquery', 'bootbox-bootstrap'), $this->pluginVersion, true);
         wp_enqueue_script($this->pluginName, EMBEDPRESS_URL_ASSETS .'js/preview.js', array('jquery', 'bootbox'), $this->pluginVersion, true);
@@ -38,7 +40,8 @@ class Admin extends Handler
                 'debug'      => true
             ),
             'EMBEDPRESS_SHORTCODE' => EMBEDPRESS_SHORTCODE,
-            'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS
+            'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
+            'displayPreviewBox' => (bool)$plgSettings['displayPreviewBox']
         ));
     }
 

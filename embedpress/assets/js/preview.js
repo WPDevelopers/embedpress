@@ -140,6 +140,10 @@
             }
         };
 
+        if (!$data.displayPreviewBox.length || $data.displayPreviewBox.isFalse()) {
+            return;
+        }
+
         var SHORTCODE_REGEXP = new RegExp('\\[\/?'+ $data.EMBEDPRESS_SHORTCODE +'\\]', "gi");
 
         var OSEmbedPreview = function() {
@@ -1242,13 +1246,13 @@
                                             '<div class="col-md-6">'+
                                                 '<div class="form-group">'+
                                                     '<label for="input-width-'+ wrapperUid +'">Width</label>'+
-                                                    '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" placeholder="'+ embedWidth +'">'+
+                                                    '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" value="'+ embedWidth +'">'+
                                                 '</div>'+
                                             '</div>'+
                                             '<div class="col-md-6">'+
                                                 '<div class="form-group">'+
                                                     '<label for="input-height-'+ wrapperUid +'">Height</label>'+
-                                                    '<input class="form-control" type="integer" id="input-height-'+ wrapperUid +'" placeholder="'+ embedHeight +'">'+
+                                                    '<input class="form-control" type="integer" id="input-height-'+ wrapperUid +'" value="'+ embedHeight +'">'+
                                                 '</div>'+
                                             '</div>'+
                                         '</div>'+
