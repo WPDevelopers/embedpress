@@ -49,7 +49,7 @@ class Plugin
             add_action('admin_init', array($settingsClassNamespace, 'registerActions'));
             unset($settingsClassNamespace);
 
-            if (!$plgSettings->disablePluginInAdmin) {
+            if ($plgSettings->enablePluginInAdmin) {
                 add_action('init', array('\EmbedPress\Disabler', 'run'), 1);
 
                 $plgHandlerAdminInstance = new AdminHandler($this->getPluginName(), $this->getPluginVersion());
@@ -120,8 +120,8 @@ class Plugin
             $settings['displayPreviewBox'] = true;
         }
 
-        if (!isset($settings['disablePluginInAdmin'])) {
-            $settings['disablePluginInAdmin'] = false;
+        if (!isset($settings['enablePluginInAdmin'])) {
+            $settings['enablePluginInAdmin'] = true;
         }
 
         return (object)$settings;

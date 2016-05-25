@@ -1,6 +1,8 @@
 <?php
 namespace EmbedPress\Layers\Admin;
 
+use \EmbedPress\Plugin;
+
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
 class Settings
@@ -10,12 +12,12 @@ class Settings
     private static $sectionAdminIdentifier = "embedpress_options_admin";
     private static $sectionGroupIdentifier = "embedpress_options";
     private static $fieldMap = array(
-        'displayPreviewBox' => array(
-            'label'   => "Display Preview Box inside editor",
+        'enablePluginInAdmin' => array(
+            'label'   => "Enable EmbedPress in the admin area",
             'section' => "admin"
         ),
-        'disablePluginInAdmin' => array(
-            'label'   => "Disable EmbedPress in the Admin area",
+        'displayPreviewBox' => array(
+            'label'   => "Display Preview Box inside editor",
             'section' => "admin"
         )
     );
@@ -60,8 +62,8 @@ class Settings
     public static function validateForm($freshData)
     {
         $data = array(
-            'displayPreviewBox'    => (bool)$freshData['displayPreviewBox'],
-            'disablePluginInAdmin' => (bool)$freshData['disablePluginInAdmin']
+            'displayPreviewBox'   => (bool)$freshData['displayPreviewBox'],
+            'enablePluginInAdmin' => (bool)$freshData['enablePluginInAdmin']
         );
 
         return $data;
@@ -76,21 +78,29 @@ class Settings
 
         $options = get_option(self::$sectionGroupIdentifier);
 
+        $activeOptions = Plugin::getSettings();
+        if (isset($activeOptions->enablePluginInAdmin) && (bool)$activeOptions->enablePluginInAdmin === false) {
+            $options[$fieldName] = false;
+        } else {
+            $options[$fieldName] = !isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
+        }
+        unset($activeOptions);
+
         echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
         echo "&nbsp;&nbsp;";
         echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
     }
 
-    public static function renderField_disablePluginInAdmin()
+    public static function renderField_enablePluginInAdmin()
     {
-        $fieldName = "disablePluginInAdmin";
+        $fieldName = "enablePluginInAdmin";
 
         $options = get_option(self::$sectionGroupIdentifier);
 
         $options[$fieldName] = !isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
 
-        echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Disable</label>';
+        echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
         echo "&nbsp;&nbsp;";
-        echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> Keep it enabled</label>';
+        echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
     }
 }
