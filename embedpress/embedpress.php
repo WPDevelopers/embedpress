@@ -11,10 +11,10 @@
  *
  * @embedpress
  * Plugin Name: EmbedPress
- * Plugin URI:  TODO
+ * Plugin URI:  TODO - Will be provided by WordPress team once the plugin package is submited and approved by them.
  * Description: EmbedPress lets you embed anything in WordPress! Also, you can enhance their uniqueness by passing custom parameters to each one of them.
  * Version:     0.1
- * Author:      OSTraining.com
+ * Author:      OSTraining
  * Author URI:  http://www.ostraining.com
 */
 
