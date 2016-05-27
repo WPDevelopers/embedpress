@@ -14,7 +14,7 @@ if (!defined('EMBEDPRESS_PATH_BASE')) {
 }
 
 if (!defined('EMBEDPRESS_PATH_CORE')) {
-    define('EMBEDPRESS_PATH_CORE', EMBEDPRESS_PATH_BASE ."embedpress/");
+    define('EMBEDPRESS_PATH_CORE', EMBEDPRESS_PATH_BASE ."EmbedPress/");
 }
 
 if (!defined('EMBEDPRESS_PATH_LIBRARIES')) {
