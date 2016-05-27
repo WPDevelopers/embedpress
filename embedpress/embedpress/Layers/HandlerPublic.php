@@ -12,7 +12,7 @@ use \EmbedPress\Layers\Handler;
  * @package     EmbedPress
  * @subpackage  EmbedPress/Public
  * @author      OSTraining <support@ostraining.com>
- * @copyright   TODO
+ * @copyright   2016 Open Source Training, LLC, All rights reserved.
  * @license     TODO
  * @since       0.1
  */
