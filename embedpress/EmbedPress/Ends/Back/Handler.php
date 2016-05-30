@@ -1,7 +1,7 @@
 <?php
-namespace EmbedPress\Layers\Back;
+namespace EmbedPress\Ends\Back;
 
-use \EmbedPress\Layers\Handler as EndHandlerAbstract;
+use \EmbedPress\Ends\Handler as EndHandlerAbstract;
 use \EmbedPress\Shortcode;
 use \EmbedPress\Plugin;
 use \Embera\Embera;
@@ -13,7 +13,7 @@ use \Embera\Embera;
  * Defines the plugin name, version, and enqueue the admin-specific stylesheets and scripts.
  *
  * @package     EmbedPress
- * @subpackage  EmbedPress/Layers
+ * @subpackage  EmbedPress/Ends
  * @author      OSTraining <support@ostraining.com>
  * @copyright   2016 Alledia.com, All rights reserved
  * @license     GPLv2 or later

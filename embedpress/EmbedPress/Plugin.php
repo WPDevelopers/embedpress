@@ -2,8 +2,8 @@
 namespace EmbedPress;
 
 use \EmbedPress\Loader;
-use \EmbedPress\Layers\Back\Handler as AdminHandler;
-use \EmbedPress\Layers\Front\Handler as PublicHandler;
+use \EmbedPress\Ends\Back\Handler as AdminHandler;
+use \EmbedPress\Ends\Front\Handler as PublicHandler;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -109,7 +109,7 @@ class Plugin
         if (is_admin()) {
             $plgSettings = self::getSettings();
 
-            $settingsClassNamespace = '\EmbedPress\Layers\Back\Settings';
+            $settingsClassNamespace = '\EmbedPress\Ends\Back\Settings';
             add_action('admin_menu', array($settingsClassNamespace, 'registerMenuItem'));
             add_action('admin_init', array($settingsClassNamespace, 'registerActions'));
             unset($settingsClassNamespace);

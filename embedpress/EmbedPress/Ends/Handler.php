@@ -1,5 +1,5 @@
 <?php
-namespace EmbedPress\Layers;
+namespace EmbedPress\Ends;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -7,7 +7,7 @@ namespace EmbedPress\Layers;
  * Modeling class to handle the plugin in different environments. I.e: public area/admin area.
  *
  * @package     EmbedPress
- * @subpackage  EmbedPress/Layers
+ * @subpackage  EmbedPress/Ends
  * @author      OSTraining <support@ostraining.com>
  * @copyright   2016 Alledia.com, All rights reserved
  * @license     GPLv2 or later
