@@ -6,7 +6,7 @@
  * @package     EmbedPress
  * @author      OSTraining <support@ostraining.com>
  * @copyright   2016 Open Source Training, LLC, All rights reserved.
- * @license     TODO
+ * @license     GPLv2 or later
  * @since       0.1
  *
  * @embedpress
