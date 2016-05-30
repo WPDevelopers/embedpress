@@ -3,6 +3,16 @@ namespace EmbedPress\Layers;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
+/**
+ * Modeling class to handle the plugin in different environments. I.e: public area/admin area.
+ *
+ * @package     EmbedPress
+ * @subpackage  EmbedPress/Layers
+ * @author      OSTraining <support@ostraining.com>
+ * @copyright   2016 Alledia.com, All rights reserved
+ * @license     GPLv2 or later
+ * @since       0.1
+ */
 abstract class Handler
 {
     /**
