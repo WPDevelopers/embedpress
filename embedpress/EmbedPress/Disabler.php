@@ -23,7 +23,7 @@ class Disabler
      */
     public function run()
     {
-        self::overrideDefaultEmbedShortcode();
+        self::disableNativeEmbedHooks();
 
         Shortcode::register();
     }
@@ -34,7 +34,7 @@ class Disabler
      * @since   0.1
      * @static
      */
-    protected static function overrideDefaultEmbedShortcode()
+    protected static function disableNativeEmbedHooks()
     {
         global $wp, $wp_embed;
 
