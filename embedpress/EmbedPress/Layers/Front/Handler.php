@@ -1,7 +1,7 @@
 <?php
-namespace EmbedPress\Layers;
+namespace EmbedPress\Layers\Front;
 
-use \EmbedPress\Layers\Handler;
+use \EmbedPress\Layers\Handler as EndHandlerAbstract;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -10,13 +10,13 @@ use \EmbedPress\Layers\Handler;
  * Defines the plugin name, version, and enqueue the public-specific stylesheets and scripts.
  *
  * @package     EmbedPress
- * @subpackage  EmbedPress/Layers
+ * @subpackage  EmbedPress/Layers/Front
  * @author      OSTraining <support@ostraining.com>
  * @copyright   2016 Alledia.com, All rights reserved
  * @license     GPLv2 or later
  * @since       0.1
  */
-class HandlerPublic extends Handler
+class Handler extends EndHandlerAbstract
 {
     /**
      * Method that register all scripts for the admin area.

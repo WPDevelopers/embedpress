@@ -2,8 +2,8 @@
 namespace EmbedPress;
 
 use \EmbedPress\Loader;
-use \EmbedPress\Layers\Back as AdminHandler;
-use \EmbedPress\Layers\HandlerPublic as PublicHandler;
+use \EmbedPress\Layers\Back\Handler as AdminHandler;
+use \EmbedPress\Layers\Front\Handler as PublicHandler;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 

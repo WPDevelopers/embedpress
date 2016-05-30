@@ -1,7 +1,7 @@
 <?php
-namespace EmbedPress\Layers;
+namespace EmbedPress\Layers\Back;
 
-use \EmbedPress\Layers\Handler;
+use \EmbedPress\Layers\Handler as EndHandlerAbstract;
 use \EmbedPress\Shortcode;
 use \EmbedPress\Plugin;
 use \Embera\Embera;
@@ -19,7 +19,7 @@ use \Embera\Embera;
  * @license     GPLv2 or later
  * @since       0.1
  */
-class Back extends Handler
+class Handler extends EndHandlerAbstract
 {
     /**
      * Method that register all scripts for the admin area.
