@@ -7,12 +7,52 @@ use \EmbedPress\Layers\HandlerPublic as PublicHandler;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
+/**
+ * Entity that glues together all pieces that the plugin is made of.
+ *
+ * @package     EmbedPress
+ * @author      OSTraining <support@ostraining.com>
+ * @copyright   2016 Alledia.com, All rights reserved
+ * @license     GPLv2 or later
+ * @since       0.1
+ */
 class Plugin
 {
+    /**
+     * The name of the plugin.
+     *
+     * @since   0.1
+     * @access  protected
+     *
+     * @var     string  $pluginName   The name of the plugin.
+     */
     protected $pluginName;
+
+    /**
+     * The version of the plugin.
+     *
+     * @since   0.1
+     * @access  protected
+     *
+     * @var     string  $pluginVersion  The version of the plugin.
+     */
     protected $pluginVersion;
+
+    /**
+     * An instance of the plugin loader.
+     *
+     * @since   0.1
+     * @access  protected
+     *
+     * @var     \EmbedPress\Loader  $pluginVersion  The version of the plugin.
+     */
     protected $loaderInstance;
 
+    /**
+     * Initialize the plugin and set its properties.
+     *
+     * @since   0.1
+     */
     public function __construct()
     {
         $this->pluginName = EMBEDPRESS_PLG_NAME;
@@ -21,25 +61,50 @@ class Plugin
         $this->loaderInstance = new Loader();
     }
 
+    /**
+     * Method that retrieves the plugin name.
+     *
+     * @since   0.1
+     *
+     * @return  string
+     */
     public function getPluginName()
     {
         return $this->pluginName;
     }
 
+    /**
+     * Method that retrieves the plugin version.
+     *
+     * @since   0.1
+     *
+     * @return  string
+     */
     public function getPluginVersion()
     {
         return $this->pluginVersion;
     }
 
+    /**
+     * Method that retrieves the loader instance.
+     *
+     * @since   0.1
+     *
+     * @return  \EmbedPress\Loader
+     */
     public function getLoader()
     {
         return $this->loaderInstance;
     }
 
+    /**
+     * Method responsible to connect all required hooks in order to make the plugin work.
+     *
+     * @since   0.1
+     */
     public function initialize()
     {
         global $wp_actions;
-
 
         if (is_admin()) {
             $plgSettings = self::getSettings();
@@ -81,18 +146,35 @@ class Plugin
         $this->loaderInstance->run();
     }
 
+    /**
+     * Callback called right after the plugin has been activated.
+     *
+     * @since   0.1
+     */
     public static function onPluginActivationCallback()
     {
         remove_filter('rewrite_rules_array', array('\EmbedPress\Disabler', 'disableDefaultEmbedRewriteRules'));
         flush_rewrite_rules();
     }
 
+    /**
+     * Callback called right after the plugin has been deactivated.
+     *
+     * @since   0.1
+     */
     public static function onPluginDeactivationCallback()
     {
         remove_filter('rewrite_rules_array', array('\EmbedPress\Disabler', 'disableDefaultEmbedRewriteRules'));
         flush_rewrite_rules();
     }
 
+    /**
+     * Method that retrieves all additional service providers defined in the ~<plugin_root_path>/providers.php file.
+     *
+     * @since   0.1
+     *
+     * @return  array
+     */
     public static function getAdditionalServiceProviders()
     {
         $additionalProvidersFilePath = EMBEDPRESS_PATH_BASE .'providers.php';
@@ -107,11 +189,25 @@ class Plugin
         return array();
     }
 
+    /**
+     * Method that checks if an embed of a given service provider can be responsive.
+     *
+     * @since   0.1
+     *
+     * @return  boolean
+     */
     public static function canServiceProviderBeResponsive($serviceProviderAlias)
     {
         return in_array($serviceProviderAlias, array("dailymotion", "kickstarter", "rutube", "ted", "vimeo", "youtube", "ustream", "google-docs", "animatron", "amcharts", "on-aol-com", "animoto", "videojug"));
     }
 
+    /**
+     * Method that retrieves the plugin settings defined by the user.
+     *
+     * @since   0.1
+     *
+     * @return  object
+     */
     public static function getSettings()
     {
         $settings = get_option("embedpress_options");
