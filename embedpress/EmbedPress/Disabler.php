@@ -5,8 +5,22 @@ use \EmbedPress\Shortcode;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
+/**
+ * Entity responsible for replace the WordPress default embed-related shortcodes with the EmbedPress one.
+ *
+ * @package     EmbedPress
+ * @author      OSTraining <support@ostraining.com>
+ * @copyright   2016 Alledia.com, All rights reserved
+ * @license     GPLv2 or later
+ * @since       0.1
+ */
 class Disabler
 {
+    /**
+     * Method that replaces the embed shortcodes.
+     *
+     * @since 0.1
+     */
     public function run()
     {
         self::overrideDefaultEmbedShortcode();
