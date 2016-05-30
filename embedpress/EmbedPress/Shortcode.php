@@ -7,10 +7,19 @@ use \Embera\Formatter;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
+/**
+ * Entity responsible to handle the plugin's shortcode events and behaviors.
+ *
+ * @package     EmbedPress
+ * @author      OSTraining <support@ostraining.com>
+ * @copyright   2016 Alledia.com, All rights reserved
+ * @license     GPLv2 or later
+ * @since       0.1
+ */
 class Shortcode
 {
     /**
-     * Register the plugin shortcode into WordPress.
+     * Register the plugin's shortcode into WordPress.
      *
      * @since   0.1
      * @static
@@ -127,6 +136,18 @@ class Shortcode
         return $content;
     }
 
+    /**
+     * Method that adds support to a given new service provider (SP).
+     *
+     * @since   0.1
+     * @static
+     *
+     * @param   string          $className      The new SP class name.
+     * @param   string          $reference      The new SP reference name.
+     * @param   \Embera\Embera  $emberaInstance The embera's instance where the SP will be registered in.
+     *
+     * @return  boolean
+     */
     public static function addServiceProvider($className, $reference, &$emberaInstance)
     {
         if (empty($className) || empty($reference)) {
@@ -144,6 +165,16 @@ class Shortcode
         }
     }
 
+    /**
+     * Method that retrieves all custom parameters from a shortcoded string.
+     *
+     * @since   0.1
+     * @static
+     *
+     * @param   string  $subject  The given shortcoded string.
+     *
+     * @return  array
+     */
     public static function parseContentAttributesFromString($subject)
     {
         $customAttributes = array();
@@ -161,6 +192,16 @@ class Shortcode
         return $customAttributes;
     }
 
+    /**
+     * Method that parses and adds the "data-" prefix to the given custom shortcode attributes.
+     *
+     * @since   0.1
+     * @static
+     *
+     * @param   array     $attributes   The array containing the embed attributes.
+     *
+     * @return  array
+     */
     private static function parseContentAttributes(array $customAttributes)
     {
         $attributes = array(
@@ -244,6 +285,16 @@ class Shortcode
         return $attributes;
     }
 
+    /**
+     * Method that checks if a given value is/can be identified as (bool)false.
+     *
+     * @since   0.1
+     * @static
+     *
+     * @param   mixed     $subject      The value to be checked.
+     *
+     * @return  boolean
+     */
     public static function valueIsFalse($subject)
     {
         $subject = strtolower(trim((string)$subject));
