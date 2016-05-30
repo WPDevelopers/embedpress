@@ -2,8 +2,8 @@
 namespace EmbedPress;
 
 use \EmbedPress\Loader;
-use \EmbedPress\Ends\Back\Handler as AdminHandler;
-use \EmbedPress\Ends\Front\Handler as PublicHandler;
+use \EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
+use \EmbedPress\Ends\Front\Handler as EndHandlerPublic;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -117,7 +117,7 @@ class Plugin
             if ($plgSettings->enablePluginInAdmin) {
                 add_action('init', array('\EmbedPress\Disabler', 'run'), 1);
 
-                $plgHandlerAdminInstance = new AdminHandler($this->getPluginName(), $this->getPluginVersion());
+                $plgHandlerAdminInstance = new EndHandlerAdmin($this->getPluginName(), $this->getPluginVersion());
 
                 $enqueueScriptsHookName = "admin_enqueue_scripts";
                 $this->loaderInstance->add_action($enqueueScriptsHookName, $plgHandlerAdminInstance, 'enqueueScripts');
@@ -134,7 +134,7 @@ class Plugin
         } else {
             add_action('init', array('\EmbedPress\Disabler', 'run'), 1);
 
-            $plgHandlerPublicInstance = new PublicHandler($this->getPluginName(), $this->getPluginVersion());
+            $plgHandlerPublicInstance = new EndHandlerPublic($this->getPluginName(), $this->getPluginVersion());
 
             $enqueueScriptsHookName = "wp_enqueue_scripts";
             $this->loaderInstance->add_action($enqueueScriptsHookName, $plgHandlerPublicInstance, 'enqueueScripts');
