@@ -10,7 +10,7 @@ use \EmbedPress\Layers\Handler;
  * Defines the plugin name, version, and enqueue the public-specific stylesheets and scripts.
  *
  * @package     EmbedPress
- * @subpackage  EmbedPress/Public
+ * @subpackage  EmbedPress/Layers
  * @author      OSTraining <support@ostraining.com>
  * @copyright   2016 Alledia.com, All rights reserved
  * @license     GPLv2 or later

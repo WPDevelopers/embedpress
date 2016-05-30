@@ -13,7 +13,7 @@ use \Embera\Embera;
  * Defines the plugin name, version, and enqueue the admin-specific stylesheets and scripts.
  *
  * @package     EmbedPress
- * @subpackage  EmbedPress/Admin
+ * @subpackage  EmbedPress/Layers
  * @author      OSTraining <support@ostraining.com>
  * @copyright   2016 Alledia.com, All rights reserved
  * @license     GPLv2 or later

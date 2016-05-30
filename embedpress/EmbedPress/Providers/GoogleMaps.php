@@ -9,7 +9,7 @@ use Embera\Adapters\Service as EmberaService;
  * Entity responsible to support GoogleMaps embeds.
  *
  * @package     EmbedPress
- * @subpackage  Providers
+ * @subpackage  EmbedPress/Providers
  * @author      OSTraining <support@ostraining.com>
  * @copyright   2016 Alledia.com, All rights reserved
  * @license     GPLv2 or later
