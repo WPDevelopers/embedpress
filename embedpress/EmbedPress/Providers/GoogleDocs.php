@@ -5,18 +5,36 @@ use Embera\Adapters\Service as EmberaService;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
+/**
+ * Entity responsible to support GoogleDocs embeds.
+ *
+ * @package     EmbedPress
+ * @subpackage  Providers
+ * @author      OSTraining <support@ostraining.com>
+ * @copyright   2016 Alledia.com, All rights reserved
+ * @license     GPLv2 or later
+ * @since       0.1
+ */
 class GoogleDocs extends EmberaService
 {
+    /**
+     * Method that verifies if the embed URL belongs to GoogleDocs.
+     *
+     * @since   0.1
+     *
+     * @return  boolean
+     */
     public function validateUrl()
     {
         return preg_match('~http[s]?:\/\/((?:www\.)?docs\.google\.com\/(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)~i', $this->url);
     }
 
     /**
-     * This method fakes a Oembed response.
+     * This method fakes an Oembed response.
      *
-     * @return array with data that the oembed response should have
-     * @codeCoverageIgnore
+     * @since   0.1
+     *
+     * @return  array
      */
     public function fakeResponse()
     {

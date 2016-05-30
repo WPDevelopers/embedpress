@@ -5,13 +5,37 @@ use Embera\Adapters\Service as EmberaService;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
+/**
+ * Entity responsible to support GoogleMaps embeds.
+ *
+ * @package     EmbedPress
+ * @subpackage  Providers
+ * @author      OSTraining <support@ostraining.com>
+ * @copyright   2016 Alledia.com, All rights reserved
+ * @license     GPLv2 or later
+ * @since       0.1
+ */
 class GoogleMaps extends EmberaService
 {
+    /**
+     * Method that verifies if the embed URL belongs to GoogleMaps.
+     *
+     * @since   0.1
+     *
+     * @return  boolean
+     */
     public function validateUrl()
     {
         return preg_match('~http[s]?:\/\/((?:www\.)?google\.com(\.[a-z]{2})?|(?:www\.)?maps\.google\.com(\.[a-z]{2})?)\/maps[/?][a-z0-9\/%,+\-_=!:@\.&*\$#?\']*~i', $this->url);
     }
 
+    /**
+     * This method fakes an Oembed response.
+     *
+     * @since   0.1
+     *
+     * @return  array
+     */
     public function fakeResponse()
     {
         $iframeSrc = '';
