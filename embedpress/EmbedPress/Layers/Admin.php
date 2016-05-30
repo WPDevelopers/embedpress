@@ -50,7 +50,8 @@ class Admin extends Handler
      *
      * @since 0.1
      */
-    public function enqueueStyles() {
+    public function enqueueStyles()
+    {
         global $wp_scripts;
 
         wp_enqueue_style('bootbox-bootstrap', EMBEDPRESS_URL_ASSETS .'css/vendor/bootstrap/bootstrap.min.css');
@@ -76,6 +77,11 @@ class Admin extends Handler
         exit();
     }
 
+    /**
+     * Method that receive an url via AJAX and return the info about that url/embed.
+     *
+     * @since 0.1
+     */
     public function getUrlInfoViaAjax()
     {
         $response = array(
