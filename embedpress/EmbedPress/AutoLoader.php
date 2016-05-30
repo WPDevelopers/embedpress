@@ -3,6 +3,15 @@ namespace EmbedPress;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
+/**
+ * Entity responsible for autoloading classes using the PSR-4 pattern.
+ *
+ * @package     EmbedPress
+ * @author      OSTraining <support@ostraining.com>
+ * @copyright   2016 Alledia.com, All rights reserved
+ * @license     GPLv2 or later
+ * @since       0.1
+ */
 class AutoLoader
 {
     /**
