@@ -1,6 +1,6 @@
 <?php
 /**
- * @package   AllediaFramework
+ * @package   EmbedPress
  * @contact   www.alledia.com, hello@alledia.com
  * @copyright 2016 Alledia.com, All rights reserved
  * @license   GPLv2 or later
