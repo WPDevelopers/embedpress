@@ -5,6 +5,8 @@ use \EmbedPress\Plugin;
 use \Embera\Embera;
 use \Embera\Formatter;
 
+(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
+
 class Shortcode
 {
     /**
