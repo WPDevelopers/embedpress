@@ -19,7 +19,7 @@ use \Embera\Embera;
  * @license     GPLv2 or later
  * @since       0.1
  */
-class Admin extends Handler
+class Back extends Handler
 {
     /**
      * Method that register all scripts for the admin area.

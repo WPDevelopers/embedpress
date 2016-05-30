@@ -1,5 +1,5 @@
 <?php
-namespace EmbedPress\Layers\Admin;
+namespace EmbedPress\Layers\Back;
 
 use \EmbedPress\Plugin;
 
@@ -9,7 +9,7 @@ use \EmbedPress\Plugin;
  * Entity that handles the plugin's settings page.
  *
  * @package     EmbedPress
- * @subpackage  EmbedPress/Layers/Admin
+ * @subpackage  EmbedPress/Layers/Back
  * @author      OSTraining <support@ostraining.com>
  * @copyright   2016 Alledia.com, All rights reserved
  * @license     GPLv2 or later
@@ -26,7 +26,7 @@ class Settings
      *
      * @var     string    $namespace
      */
-    private static $namespace = '\EmbedPress\Layers\Admin\Settings';
+    private static $namespace = '\EmbedPress\Layers\Back\Settings';
 
     /**
      * The plugin's unique identifier.
