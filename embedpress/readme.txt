@@ -1,5 +1,5 @@
 === EmbedPress ===
-Contributors: OSTraining
+Contributors: PressShack.com
 Tags: alledia, ostraining, embed, embera
 Requires at least: 4.0
 Tested up to: 4.5.2

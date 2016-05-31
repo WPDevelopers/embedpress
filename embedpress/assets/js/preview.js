@@ -1,8 +1,9 @@
 /**
- * @package   OSEmbed
- * @contact   www.alledia.com, support@alledia.com
- * @copyright Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
- * @license   GPLv2 or later
+ * @package     EmbedPress
+ * @author      PressShack.com <help@pressshack.com>
+ * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
+ * @license     GPLv2 or later
+ * @since       1.0
  */
 
 (function(window, $, String, $data){
