@@ -1,6 +1,16 @@
 <?php
 defined('ABSPATH') or die("No direct script access allowed.");
 
+/**
+ * File responsible for defining basic general constants used by the plugin.
+ *
+ * @package     EmbedPress
+ * @author      PressShack.com <help@pressshack.com>
+ * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
+ * @license     GPLv2 or later
+ * @since       0.1
+ */
+
 if (!defined('EMBEDPRESS_PLG_NAME')) {
     define('EMBEDPRESS_PLG_NAME', "embedpress");
 }
