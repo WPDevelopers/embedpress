@@ -10,7 +10,7 @@ use \EmbedPress\Shortcode;
  *
  * @package     EmbedPress
  * @author      OSTraining <support@ostraining.com>
- * @copyright   2016 Alledia.com, All rights reserved
+ * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
  * @since       0.1
  */
