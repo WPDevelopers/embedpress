@@ -7,13 +7,13 @@
  * @author      OSTraining <support@ostraining.com>
  * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
- * @since       0.1
+ * @since       1.0
  *
  * @embedpress
  * Plugin Name: EmbedPress
  * Plugin URI:  TODO - Will be provided by WordPress team once the plugin package is submited and approved by them.
  * Description: EmbedPress lets you embed anything in WordPress! Also, you can enhance their uniqueness by passing custom parameters to each one of them.
- * Version:     0.1
+ * Version:     1.0
  * Author:      OSTraining
  * Author URI:  http://www.ostraining.com
 */

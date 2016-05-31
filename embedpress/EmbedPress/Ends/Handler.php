@@ -11,14 +11,14 @@ namespace EmbedPress\Ends;
  * @author      PressShack.com <help@pressshack.com>
  * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
- * @since       0.1
+ * @since       1.0
  */
 abstract class Handler
 {
     /**
      * The name of the plugin.
      *
-     * @since   0.1
+     * @since   1.0
      * @access  private
      *
      * @var     string    $pluginName    The name of the plugin.
@@ -28,7 +28,7 @@ abstract class Handler
     /**
      * The version of the plugin.
      *
-     * @since   0.1
+     * @since   1.0
      * @access  private
      *
      * @var     string    $pluginVersion     The version of the plugin.
@@ -38,7 +38,7 @@ abstract class Handler
     /**
      * Initialize the class and set its properties.
      *
-     * @since   0.1
+     * @since   1.0
      *
      * @param   string    $pluginName - The name of the plugin.
      * @param   string    $pluginVersion - The version of the plugin.
@@ -51,14 +51,14 @@ abstract class Handler
     /**
      * Method that register all scripts for the admin area.
      *
-     * @since 0.1
+     * @since 1.0
      */
     abstract public function enqueueScripts();
 
     /**
      * Method that register all stylesheets for the admin area.
      *
-     * @since 0.1
+     * @since 1.0
      */
     abstract public function enqueueStyles();
 }
