@@ -147,17 +147,6 @@ class AutoLoader
      * if there is a matching file in the directory tree starting with $baseDir.
      * File names and directory names are all expected to be lower case.
      *
-     * Example:
-     *
-     * $prefix = 'Simplerenew'
-     * $baseDir = '/library/joomla'
-     *
-     * A class name of: SimplerenewViewAdmin
-     * Would be in    : /library/joomla/view/admin.php
-     *
-     * This system is intended for situations where full name spacing is either
-     * unavailable or impractical due to integration with other systems.
-     *
      * @param string $prefix
      * @param string $baseDir
      *
