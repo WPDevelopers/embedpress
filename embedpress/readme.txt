@@ -1,6 +1,6 @@
 === EmbedPress ===
 Contributors: PressShack.com
-Tags: alledia, ostraining, embed, embera
+Tags: embed, embera, embedding, pressshack, ostraining
 Requires at least: 4.0
 Tested up to: 4.5.2
 Stable tag: 1.0
@@ -17,13 +17,19 @@ Facebook, YouTube, Vimeo, DailyMotion, Instagram, SoundCloud, Twitter, Slideshar
 
 **BUT WAIT!** On top of all of that, you can also pass **custom parameters** to your embeds **individually**, like its dimensions or even toggle its responsiveness*.
 
-* Not all service providers support responsive embeds.
+\* Not all service providers support responsive embeds.
 
 == Installation ==
 You can install EmbedPres via the WordPress plugins directory or by uploading the files manually to your server.
 
+== Frequently Asked Questions ==
+
+== Screenshots ==
+
 == Changelog ==
-= [1.0](#) =
+= 1.0 =
 Release Date: ?
 
 * Initial release.
+
+== Upgrade Notice ==
