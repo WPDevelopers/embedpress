@@ -1,0 +1,85 @@
+/**
+ * @package     EmbedPress
+ * @author      PressShack.com <help@pressshack.com>
+ * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
+ * @license     GPLv2 or later
+ * @since       1.0
+ */
+
+.ose-dailymotion.responsive,
+.ose-kickstarter.responsive,
+.ose-rutube.responsive,
+.ose-ted.responsive,
+.ose-vimeo.responsive,
+.ose-youtube.responsive,
+.ose-ustream.responsive,
+.ose-google-docs.responsive,
+.ose-animatron.responsive,
+.ose-amcharts.responsive,
+.ose-on-aol-com.responsive,
+.ose-animoto.responsive,
+.ose-videojug.responsive {
+    overflow: hidden;
+    position: relative;
+    height: 0;
+}
+
+.ose-dailymotion.responsive iframe,
+.ose-kickstarter.responsive iframe,
+.ose-rutube.responsive iframe,
+.ose-ted.responsive iframe,
+.ose-vimeo.responsive iframe,
+.ose-vine.responsive iframe,
+.ose-youtube.responsive iframe,
+.ose-ustream.responsive iframe,
+.ose-google-docs.responsive iframe,
+.ose-animatron.responsive iframe,
+.ose-amcharts.responsive iframe,
+.ose-on-aol-com.responsive iframe,
+.ose-animoto.responsive iframe,
+.ose-videojug.responsive iframe {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+/* 16:9 aspect ratio */
+.ose-dailymotion.responsive,
+.ose-kickstarter.responsive,
+.ose-rutube.responsive,
+.ose-ted.responsive,
+.ose-vimeo.responsive,
+.ose-youtube.responsive,
+.ose-animatron.responsive,
+.ose-amcharts.responsive,
+.ose-on-aol-com.responsive,
+.ose-animoto.responsive,
+.ose-videojug.responsive {
+    padding-bottom: 56.25%;
+}
+
+/* 1:1 aspect ratio */
+.ose-vine.responsive {
+    padding-bottom: 100%;
+}
+
+/* Mixed aspect ratio */
+.ose-ustream.responsive {
+    padding-bottom: 63.3%;
+}
+
+.ose-google-docs.responsive {
+    padding-bottom: 62.6%;
+}
+
+.ose-google-docs.ose-google-docs-drawings.responsive {
+    padding-bottom: 74.5%;
+}
+
+.ose-google-docs.ose-google-docs-document.responsive,
+.ose-google-docs.ose-google-docs-forms.responsive,
+.ose-google-docs.ose-google-docs-spreadsheets.responsive {
+    padding-bottom: 142%;
+}
