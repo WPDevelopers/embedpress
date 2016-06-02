@@ -1193,19 +1193,30 @@
 
                 var customAttributes = {};
 
-                var iframe = $('iframe', $wrapper);
-                iframe.parent().each(function() {
-                    $.each(this.attributes, function() {
-                        if (this.specified) {
-                            if (this.name !== "class") {
-                                customAttributes[this.name.replace('data-', "").toLowerCase()] = this.value;
-                            }
-                        }
-                    });
-                });
+                var embedItem, embedWidth, embedHeight;
 
-                var embedWidth = iframe.parent().parent().data('width') || iframe.width();
-                var embedHeight = iframe.parent().parent().data('height') || iframe.height();
+                embedItem = $('iframe', $wrapper);
+                if (embedItem.length) {
+                    embedItem.parent().each(function() {
+                        $.each(this.attributes, function() {
+                            if (this.specified) {
+                                if (this.name !== "class") {
+                                    customAttributes[this.name.replace('data-', "").toLowerCase()] = this.value;
+                                }
+                            }
+                        });
+                    });
+
+                    embedWidth = embedItem.parent().parent().data('width') || embedItem.width();
+                    embedHeight = embedItem.parent().parent().data('height') || embedItem.height();
+                } else {
+                    var embedItem = $('img', $wrapper);
+
+                    embedWidth = embedItem.parent().parent().data('width') || embedItem.width();
+                    embedHeight = embedItem.parent().parent().data('height') || embedItem.height();
+                }
+
+                embedItem = null;
 
                 $.ajax({
                     type: "GET",
