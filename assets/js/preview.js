@@ -790,6 +790,29 @@
                 content = content.replace(/osembed(s?):\/\//, 'http$1://');
                 content = content.replace('::__at__::', '@').trim();
 
+                if ("class" in attributes) {
+                    var classesList = attributes.class.split(/\s/g);
+                    var shouldRemoveDynamicWidthClass = false;
+                    for (var classIndex = 0; classIndex < classesList.length; classIndex++) {
+                        if (classesList[classIndex] === "dynamic-width") {
+                            shouldRemoveDynamicWidthClass = classIndex;
+                            break;
+                        }
+                    }
+
+                    if (shouldRemoveDynamicWidthClass !== false) {
+                        classesList.splice(shouldRemoveDynamicWidthClass, 1);
+
+                        if (classesList.length === 0) {
+                            delete attributes.class;
+                        }
+
+                        attributes.class = classesList.join(" ");
+                    }
+
+                    shouldRemoveDynamicWidthClass = classesList = classIndex = null;
+                }
+
                 if (isEncoded && applyShortcode) {
                     var shortcode = '[' + $data.EMBEDPRESS_SHORTCODE;
                     if (!!Object.keys(attributes).length) {
