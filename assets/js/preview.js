@@ -74,20 +74,25 @@
                         var attrName = match[1];
                         var attrValue;
                         if (match[2] === undefined) {
-                            if (attrName.indexOf('!') === 0) {
-                                attrName = attrName.replace('!', "");
-                                attrValue = "false";
-                            } else {
-                                attrValue = "true";
+                            // Prevent `class` property being empty an treated as a boolean param
+                            if (attrName.toLowerCase() !== "class") {
+                                if (attrName.indexOf('!') === 0) {
+                                    attrName = attrName.replace('!', "");
+                                    attrValue = "false";
+                                } else {
+                                    attrValue = "true";
+                                }
+
+                                attributes[attrName] = attrValue;
                             }
                         } else {
                             attrValue = match[2];
                             if (attrValue.isBoolean()) {
                                 attrValue = attrValue.isFalse() ? "false" : "true";
                             }
-                        }
 
-                        attributes[attrName] = attrValue;
+                            attributes[attrName] = attrValue;
+                        }
                     }
                     match = extractAttributesRule = null;
                 }
@@ -817,17 +822,25 @@
                     var shortcode = '[' + $data.EMBEDPRESS_SHORTCODE;
                     if (!!Object.keys(attributes).length) {
                         var attrValue;
+
                         for (var attrName in attributes) {
                             attrValue = attributes[attrName];
-                            if (attrValue.isBoolean()) {
-                                shortcode += " ";
-                                if (attrValue.isFalse()) {
-                                    shortcode += "!";
-                                }
 
-                                shortcode += attrName
-                            } else {
-                                shortcode += ' '+ attrName +'="'+ attrValue +'"';
+                            // Prevent `class` property being empty an treated as a boolean param
+                            if (attrName.toLowerCase() === "class" && !attrValue.length) {
+                                continue;
+                            }
+                            else {
+                                if (attrValue.isBoolean()) {
+                                    shortcode += " ";
+                                    if (attrValue.isFalse()) {
+                                        shortcode += "!";
+                                    }
+
+                                    shortcode += attrName
+                                } else {
+                                    shortcode += ' '+ attrName +'="'+ attrValue +'"';
+                                }
                             }
                         }
                         attrValue = attrName = null;
