@@ -147,7 +147,7 @@
 
         var SHORTCODE_REGEXP = new RegExp('\\[\/?'+ $data.EMBEDPRESS_SHORTCODE +'\\]', "gi");
 
-        var OSEmbedPreview = function() {
+        var EmbedPressPreview = function() {
             var self = this;
 
             var PLG_SYSTEM_ASSETS_CSS_PATH = $data.EMBEDPRESS_URL_ASSETS +"css";
@@ -708,7 +708,7 @@
 
                 url = self.decodeEmbedURLSpecialChars(url, true, customAttributes);
 
-                // Get the parsed embed code from the OSEmbed plugin
+                // Get the parsed embed code from the EmbedPress plugin
                 self.getParsedContent(url, function getParsedContentCallback(result) {
                     result.data.content = result.data.content.stripShortcode($data.EMBEDPRESS_SHORTCODE);
 
@@ -1530,10 +1530,10 @@
             };
         };
 
-        if (!window.OSEmbedPreview) {
-            window.OSEmbedPreview = new OSEmbedPreview();
+        if (!window.EmbedPressPreview) {
+            window.EmbedPressPreview = new EmbedPressPreview();
         }
 
-        window.OSEmbedPreview.init($data.previewSettings);
+        window.EmbedPressPreview.init($data.previewSettings);
     });
 })(window, jQuery, String, $data);
