@@ -5,7 +5,7 @@ defined('ABSPATH') or die("No direct script access allowed.");
  * File responsible for defining basic general constants used by the plugin.
  *
  * @package     EmbedPress
- * @author      PressShack.com <help@pressshack.com>
+ * @author      PressShack <help@pressshack.com>
  * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0

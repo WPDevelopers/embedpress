@@ -9,7 +9,7 @@ use \EmbedPress\Shortcode;
  * Entity responsible for replace the WordPress default embed-related shortcodes with the EmbedPress one.
  *
  * @package     EmbedPress
- * @author      PressShack.com <help@pressshack.com>
+ * @author      PressShack <help@pressshack.com>
  * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0

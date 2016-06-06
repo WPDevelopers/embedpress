@@ -1,5 +1,5 @@
 === EmbedPress ===
-Contributors: PressShack.com
+Contributors: PressShack
 Tags: embed, embera, embedding, pressshack, ostraining
 Requires at least: 4.0
 Tested up to: 4.5.2
