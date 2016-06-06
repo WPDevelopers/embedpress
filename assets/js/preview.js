@@ -294,9 +294,7 @@
                 // Get the parsed content
                 $.ajax({
                     type: 'POST',
-                    //url : 'index.php?plg_task=osembedpreview.parse_content',
                     url: "admin-ajax.php",
-                    //data: {'content': content},
                     data: {
                         action: "embedpress_do_ajax_request",
                         subject: content
@@ -668,18 +666,6 @@
                 editButton.append(editButtonIcon);
                 panel.append(editButton);
 
-                // var paramsButton = new self.Node('div', 1);
-                // paramsButton.attr({
-                //     'id': 'embedpress_button_params_' + uid,
-                //     'class': 'embedpress_ignore_mouseout embedpress_controller_button'
-                // });
-                // paramsButtonIcon = new self.Node('i', 1);
-                // paramsButtonIcon.attr({
-                //     'class': 'embedpress-icon-gear embedpress_ignore_mouseout'
-                // });
-                // paramsButton.append(paramsButtonIcon);
-                // panel.append(paramsButton);
-
                 var removeButton = new self.Node('div', 1);
                 removeButton.attr({
                     'id': 'embedpress_button_remove_' + uid,
@@ -873,10 +859,8 @@
                                 // Add the pre text if exists
                                 var text;
                                 if (preText !== '') {
-                                    // p = new self.Node('p', 1);
                                     text = new self.Node('#text', 3);
                                     text.value = preText.trim();
-                                    // p.append(text);
 
                                     // Insert before
                                     wrapper.parent.insert(text, wrapper, true);
@@ -884,10 +868,8 @@
 
                                 // Add the post text if exists
                                 if (postText !== '') {
-                                    // p = new self.Node('p', 1);
                                     text = new self.Node('#text', 3);
                                     text.value = postText.trim();
-                                    // p.append(text)
 
                                     // Insert after
                                     wrapper.parent.insert(text, wrapper, false);
@@ -1336,21 +1318,6 @@
             };
 
             /**
-             * Method executed when the params button is clicked. It will display
-             * some fields which allow to configure the current embed code.
-             *
-             * @param  Object e The event
-             * @return void
-             */
-            // self.onClickParamsButton = function(e) {
-            //     // Prevent edition of the panel
-            //     self.cancelEvent(e);
-
-            //     // @todo: Implement onClickParamsButton
-            //     return false;
-            // };
-
-            /**
              * Method executed when the remove button is clicked. It will remove
              * the preview and embed code, adding a mark to ignore the url
              *
@@ -1500,11 +1467,9 @@
 
                     if (!$panel.data('event-set')) {
                         var $editButton = self.getElementInContentById('embedpress_button_edit_' + uid);
-                        // var $paramsButton = self.getElementInContentById('embedpress_button_params_' + uid);
                         var $removeButton = self.getElementInContentById('embedpress_button_remove_' + uid);
 
                         self.addEvent('mousedown', $editButton, self.onClickEditButton);
-                        // self.addEvent('mousedown', $paramsButton, self.onClickParamsButton);
                         self.addEvent('mousedown', $removeButton, self.onClickRemoveButton);
 
                         // Prevent the action of set cursor into the panel after click
