@@ -6,12 +6,12 @@
  * @since       1.0
  */
 
-.osembed_wrapper {
+.embedpress_wrapper {
     position: relative;
     padding: 1px;
 }
 
-.osembed_controller_panel {
+.embedpress_controller_panel {
     display: inline-block;
     position: absolute;
     padding: 8px;
@@ -27,7 +27,7 @@
     z-index: 999999;
 }
 
-.osembed_controller_panel div.osembed_controller_button {
+.embedpress_controller_panel div.embedpress_controller_button {
     color: #fff;
     margin: 0 5px;
     font-size: 15px;
@@ -36,16 +36,16 @@
     width: 20px;
 }
 
-.osembed_controller_panel div.osembed_controller_button:hover {
+.embedpress_controller_panel div.embedpress_controller_button:hover {
     text-decoration: none;
     color: #ccc;
 }
 
-.osembed_controller_panel.hidden {
+.embedpress_controller_panel.hidden {
     visibility: hidden;
 }
 
-.osembed_wrapper.osembed_placeholder {
+.embedpress_wrapper.embedpress_placeholder {
     display: block;
     padding: 10px;
     background: #cbC5e3;
@@ -57,7 +57,7 @@
     color: #000;
 }
 
-.osembed_wrapper.osembed_placeholder:before {
+.embedpress_wrapper.embedpress_placeholder:before {
     content: attr(data-loading-text);
     display: block;
     margin-top: 30px;
@@ -65,7 +65,7 @@
     font-weight: bold;
 }
 
-.osembed_wrapper.osembed_placeholder:after {
+.embedpress_wrapper.embedpress_placeholder:after {
     content: attr(data-url);
     overflow: hidden;
     text-overflow: ellipsis;
@@ -74,7 +74,7 @@
     font-size: 11px;
 }
 
-.osembed_wrapper img {
+.embedpress_wrapper img {
     max-width: 100%;
     width: auto \9;
     height: auto;

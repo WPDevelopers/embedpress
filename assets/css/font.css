@@ -27,7 +27,7 @@
 }
 */
 
- [class^="osembed-icon-"]:before, [class*=" osembed-icon-"]:before {
+ [class^="embedpress-icon-"]:before, [class*=" embedpress-icon-"]:before {
   font-family: "EmbedPress";
   font-style: normal;
   font-weight: normal;
@@ -62,7 +62,7 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-.osembed-icon-pencil:before {content:'\0041';}
-.osembed-icon-gear:before{content:'\0042';}
-.osembed-icon-x:before{content:'\0043';}
-.osembed-icon-reload:before{content:'\0044';}
+.embedpress-icon-pencil:before {content:'\0041';}
+.embedpress-icon-gear:before{content:'\0042';}
+.embedpress-icon-x:before{content:'\0043';}
+.embedpress-icon-reload:before{content:'\0044';}

@@ -585,7 +585,7 @@
             self.addURLsPlaceholder = function(node, url) {
                 var uid = self.makeId();
 
-                var wrapperClasses = ["osembed_wrapper", "osembed_placeholder"];
+                var wrapperClasses = ["embedpress_wrapper", "embedpress_placeholder"];
 
                 var shortcodeAttributes = node.value.getShortcodeAttributes($data.EMBEDPRESS_SHORTCODE);
                 var customAttributes = shortcodeAttributes;
@@ -624,7 +624,7 @@
                     'class': Array.from(new Set(wrapperClasses)).join(" "),
                     'data-url': url,
                     'data-uid': uid,
-                    'id': 'osembed_wrapper_' + uid,
+                    'id': 'embedpress_wrapper_' + uid,
                     'data-loading-text': 'Loading...'
                 };
 
@@ -634,8 +634,8 @@
 
                 var panel = new self.Node('div', 1);
                 panel.attr({
-                    'id': 'osembed_controller_panel_' + uid,
-                    'class': 'osembed_controller_panel osembed_ignore_mouseout hidden'
+                    'id': 'embedpress_controller_panel_' + uid,
+                    'class': 'embedpress_controller_panel embedpress_ignore_mouseout hidden'
                 });
                 wrapper.append(panel);
 
@@ -657,12 +657,12 @@
 
                 var editButton = new self.Node('div', 1);
                 editButton.attr({
-                    'id': 'osembed_button_edit_' + uid,
-                    'class': 'osembed_ignore_mouseout osembed_controller_button'
+                    'id': 'embedpress_button_edit_' + uid,
+                    'class': 'embedpress_ignore_mouseout embedpress_controller_button'
                 });
                 editButtonIcon = new self.Node('i', 1);
                 editButtonIcon.attr({
-                    'class': 'osembed-icon-pencil osembed_ignore_mouseout'
+                    'class': 'embedpress-icon-pencil embedpress_ignore_mouseout'
                 });
                 editButtonIcon.append(createGhostNode());
                 editButton.append(editButtonIcon);
@@ -670,24 +670,24 @@
 
                 // var paramsButton = new self.Node('div', 1);
                 // paramsButton.attr({
-                //     'id': 'osembed_button_params_' + uid,
-                //     'class': 'osembed_ignore_mouseout osembed_controller_button'
+                //     'id': 'embedpress_button_params_' + uid,
+                //     'class': 'embedpress_ignore_mouseout embedpress_controller_button'
                 // });
                 // paramsButtonIcon = new self.Node('i', 1);
                 // paramsButtonIcon.attr({
-                //     'class': 'osembed-icon-gear osembed_ignore_mouseout'
+                //     'class': 'embedpress-icon-gear embedpress_ignore_mouseout'
                 // });
                 // paramsButton.append(paramsButtonIcon);
                 // panel.append(paramsButton);
 
                 var removeButton = new self.Node('div', 1);
                 removeButton.attr({
-                    'id': 'osembed_button_remove_' + uid,
-                    'class': 'osembed_ignore_mouseout osembed_controller_button'
+                    'id': 'embedpress_button_remove_' + uid,
+                    'class': 'embedpress_ignore_mouseout embedpress_controller_button'
                 });
                 removeButtonIcon = new self.Node('i', 1);
                 removeButtonIcon.attr({
-                    'class': 'osembed-icon-x osembed_ignore_mouseout'
+                    'class': 'embedpress-icon-x embedpress_ignore_mouseout'
                 });
                 removeButtonIcon.append(createGhostNode());
                 removeButton.append(removeButtonIcon);
@@ -722,10 +722,10 @@
                         $content.html(result.data.content);
                     }
 
-                    var $wrapper = $(self.getElementInContentById('osembed_wrapper_' + uid));
+                    var $wrapper = $(self.getElementInContentById('embedpress_wrapper_' + uid));
                     var scripts = [];
 
-                    $wrapper.removeClass('osembed_placeholder');
+                    $wrapper.removeClass('embedpress_placeholder');
 
                     $.each($content, function appendEachEmbedElement(index, element) {
                         // Check if the element is a script and do not add it now (if added here it wouldn't be executed)
@@ -735,7 +735,7 @@
                             if (element.tagName.toLowerCase() === 'iframe') {
                                 $(element).ready(function() {
                                     window.setTimeout(function() {
-                                        $.each(self.editor.dom.select('div.osembed_wrapper iframe'), function(index, iframe) {
+                                        $.each(self.editor.dom.select('div.embedpress_wrapper iframe'), function(index, iframe) {
                                             self.fixIframeSize(iframe);
                                         });
                                     }, 300);
@@ -901,7 +901,7 @@
                 self.editor.serializer.addNodeFilter('div', function addNodeFilterIntoSerializer(nodes, arg) {
                     self.each(nodes, function eachNodeInSerializer(node) {
                         var nodeClasses = (node.attributes.map.class || "").split(' ');
-                        var wrapperFactoryClasses = ["osembed_wrapper", "osembed_placeholder"];
+                        var wrapperFactoryClasses = ["embedpress_wrapper", "embedpress_placeholder"];
 
                         var isWrapped = nodeClasses.filter(function(n) {
                             return wrapperFactoryClasses.indexOf(n) != -1;
@@ -1000,7 +1000,7 @@
                 // Chrome
                 if (self.isDefined(e.toElement)) {
                     if (e.toElement.parentElement == e.fromElement
-                        || $(e.toElement).hasClass('osembed_ignore_mouseout')
+                        || $(e.toElement).hasClass('embedpress_ignore_mouseout')
                     ) {
                         return false;
                     }
@@ -1008,7 +1008,7 @@
 
                 // Firefox
                 if (self.isDefined(e.relatedTarget)) {
-                    if ($(e.relatedTarget).hasClass('osembed_ignore_mouseout')) {
+                    if ($(e.relatedTarget).hasClass('embedpress_ignore_mouseout')) {
                         return false;
                     }
                 }
@@ -1075,7 +1075,7 @@
                     // Check one of the parent elements is a clonned embed wrapper
                     if (e.parents.length > 0) {
                         $.each(e.parents, function(index, parent) {
-                            if ($(parent).hasClass('osembed_wrapper')) {
+                            if ($(parent).hasClass('embedpress_wrapper')) {
                                 // Remove the cloned wrapper and replace with a 'br' tag
                                 $(parent).replaceWith($('<br>'));
                             }
@@ -1085,8 +1085,8 @@
                     if (e.parents.length > 0) {
                         $.each(e.parents, function(index, parent) {
                             parent = $(parent);
-                            if (parent.hasClass('osembed_wrapper')) {
-                                var wrapper = $('.osembed-wrapper', parent);
+                            if (parent.hasClass('embedpress_wrapper')) {
+                                var wrapper = $('.embedpress-wrapper', parent);
                                 if (wrapper.length > 1) {
                                     wrapper.get(0).remove();
                                 }
@@ -1105,7 +1105,7 @@
                         if (children.length > 0) {
                             $.each(children, function() {
                                 // On delete, make sure to remove the wrapper and children, not only the wrapper
-                                if ($(this).hasClass('osembed_wrapper') || $(this).hasClass('osembed_ignore_mouseout')) {
+                                if ($(this).hasClass('embedpress_wrapper') || $(this).hasClass('embedpress_ignore_mouseout')) {
                                     $(this).remove();
 
                                     self.editor.focus();
@@ -1119,13 +1119,13 @@
                     if (arrowsKeyCodes.indexOf(e.keyCode) == -1) {
 
                         // Check if we are inside a preview wrapper
-                        if ($(node).hasClass('osembed_wrapper') || $(node).hasClass('osembed_ignore_mouseout')) {
+                        if ($(node).hasClass('embedpress_wrapper') || $(node).hasClass('embedpress_ignore_mouseout')) {
                             // Avoid delete the wrapper or block line break if we are inside the wrapper
                             if (e.keyCode == 13) {
                                 wrapper = $(self.getWrapperFromChild(node));
                                 if (wrapper.length > 0) {
                                     // Creates a temporary element which will be inserted after the wrapper
-                                    var tmpId = '__osembed__tmp_' + self.makeId();
+                                    var tmpId = '__embedpress__tmp_' + self.makeId();
                                     wrapper.after($('<span id="' + tmpId + '"></span>'));
                                     // Get and select the temporary element
                                     var span = self.editor.dom.select('span#' + tmpId)[0];
@@ -1148,7 +1148,7 @@
 
             self.getWrapperFromChild = function(element) {
                 // Is the wrapper
-                if ($(element).hasClass('osembed_wrapper')) {
+                if ($(element).hasClass('embedpress_wrapper')) {
                     return element;
                 } else {
                     var $parent = $(element).parent();
@@ -1189,7 +1189,7 @@
                 self.activeWrapperForModal = self.activeWrapper;
 
                 var $wrapper = self.activeWrapperForModal;
-                var wrapperUid = $wrapper.prop('id').replace("osembed_wrapper_", "");
+                var wrapperUid = $wrapper.prop('id').replace("embedpress_wrapper_", "");
 
                 var customAttributes = {};
 
@@ -1416,7 +1416,7 @@
                             $iframe = null;
 
                         // Get all the wrappers
-                        var wrappers = doc.getElementsByClassName('osembed_wrapper');
+                        var wrappers = doc.getElementsByClassName('embedpress_wrapper');
                         total = wrappers.length;
                         if (total > 0) {
                             for (var i = 0; i < total; i++) {
@@ -1427,7 +1427,7 @@
                                     // A timeout was set to avoid block the content loading
                                     window.setTimeout(function() {
                                         // @todo: Check if we need a limit of levels to avoid use too much resources
-                                        self.recursivelyAddClass($wrapper, 'osembed_ignore_mouseout');
+                                        self.recursivelyAddClass($wrapper, 'embedpress_ignore_mouseout');
                                     }, 500);
 
                                     // Fix the wrapper size. Wait until find the child iframe. L
@@ -1496,12 +1496,12 @@
 
                 if (!self.controllerPanelIsActive()) {
                     var uid = $wrapper.data('uid');
-                    var $panel = self.getElementInContentById('osembed_controller_panel_' + uid);
+                    var $panel = self.getElementInContentById('embedpress_controller_panel_' + uid);
 
                     if (!$panel.data('event-set')) {
-                        var $editButton = self.getElementInContentById('osembed_button_edit_' + uid);
-                        // var $paramsButton = self.getElementInContentById('osembed_button_params_' + uid);
-                        var $removeButton = self.getElementInContentById('osembed_button_remove_' + uid);
+                        var $editButton = self.getElementInContentById('embedpress_button_edit_' + uid);
+                        // var $paramsButton = self.getElementInContentById('embedpress_button_params_' + uid);
+                        var $removeButton = self.getElementInContentById('embedpress_button_remove_' + uid);
 
                         self.addEvent('mousedown', $editButton, self.onClickEditButton);
                         // self.addEvent('mousedown', $paramsButton, self.onClickParamsButton);

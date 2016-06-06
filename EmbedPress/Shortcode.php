@@ -205,7 +205,7 @@ class Shortcode
     private static function parseContentAttributes(array $customAttributes)
     {
         $attributes = array(
-            'class' => ["osembed-wrapper", '{wrapper_class}']
+            'class' => ["embedpress-wrapper", '{wrapper_class}']
         );
 
         $embedShouldBeResponsive = true;
