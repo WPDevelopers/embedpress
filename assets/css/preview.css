@@ -11,6 +11,10 @@
     padding: 1px;
 }
 
+.osembed_wrapper.dynamic-width {
+    display: inline-block;
+}
+
 .osembed_controller_panel {
     display: inline-block;
     position: absolute;

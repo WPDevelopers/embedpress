@@ -74,20 +74,25 @@
                         var attrName = match[1];
                         var attrValue;
                         if (match[2] === undefined) {
-                            if (attrName.indexOf('!') === 0) {
-                                attrName = attrName.replace('!', "");
-                                attrValue = "false";
-                            } else {
-                                attrValue = "true";
+                            // Prevent `class` property being empty an treated as a boolean param
+                            if (attrName.toLowerCase() !== "class") {
+                                if (attrName.indexOf('!') === 0) {
+                                    attrName = attrName.replace('!', "");
+                                    attrValue = "false";
+                                } else {
+                                    attrValue = "true";
+                                }
+
+                                attributes[attrName] = attrValue;
                             }
                         } else {
                             attrValue = match[2];
                             if (attrValue.isBoolean()) {
                                 attrValue = attrValue.isFalse() ? "false" : "true";
                             }
-                        }
 
-                        attributes[attrName] = attrValue;
+                            attributes[attrName] = attrValue;
+                        }
                     }
                     match = extractAttributesRule = null;
                 }
@@ -740,6 +745,11 @@
                                         });
                                     }, 300);
                                 });
+                            } else if (element.tagName.toLowerCase() === "div") {
+                                if ($('img', $(element)).length) {
+                                    // This ensures that the embed wrapper have the same width as its content
+                                    $($(element).parents('.osembed_wrapper').get(0)).addClass('dynamic-width');
+                                }
                             }
                         } else {
 
@@ -785,21 +795,52 @@
                 content = content.replace(/osembed(s?):\/\//, 'http$1://');
                 content = content.replace('::__at__::', '@').trim();
 
+                if ("class" in attributes) {
+                    var classesList = attributes.class.split(/\s/g);
+                    var shouldRemoveDynamicWidthClass = false;
+                    for (var classIndex = 0; classIndex < classesList.length; classIndex++) {
+                        if (classesList[classIndex] === "dynamic-width") {
+                            shouldRemoveDynamicWidthClass = classIndex;
+                            break;
+                        }
+                    }
+
+                    if (shouldRemoveDynamicWidthClass !== false) {
+                        classesList.splice(shouldRemoveDynamicWidthClass, 1);
+
+                        if (classesList.length === 0) {
+                            delete attributes.class;
+                        }
+
+                        attributes.class = classesList.join(" ");
+                    }
+
+                    shouldRemoveDynamicWidthClass = classesList = classIndex = null;
+                }
+
                 if (isEncoded && applyShortcode) {
                     var shortcode = '[' + $data.EMBEDPRESS_SHORTCODE;
                     if (!!Object.keys(attributes).length) {
                         var attrValue;
+
                         for (var attrName in attributes) {
                             attrValue = attributes[attrName];
-                            if (attrValue.isBoolean()) {
-                                shortcode += " ";
-                                if (attrValue.isFalse()) {
-                                    shortcode += "!";
-                                }
 
-                                shortcode += attrName
-                            } else {
-                                shortcode += ' '+ attrName +'="'+ attrValue +'"';
+                            // Prevent `class` property being empty an treated as a boolean param
+                            if (attrName.toLowerCase() === "class" && !attrValue.length) {
+                                continue;
+                            }
+                            else {
+                                if (attrValue.isBoolean()) {
+                                    shortcode += " ";
+                                    if (attrValue.isFalse()) {
+                                        shortcode += "!";
+                                    }
+
+                                    shortcode += attrName
+                                } else {
+                                    shortcode += ' '+ attrName +'="'+ attrValue +'"';
+                                }
                             }
                         }
                         attrValue = attrName = null;
@@ -1193,8 +1234,12 @@
 
                 var customAttributes = {};
 
-                var iframe = $('iframe', $wrapper);
-                iframe.parent().each(function() {
+                var embedItem = $('iframe', $wrapper);
+                if (!embedItem.length) {
+                    embedItem = $('img', $wrapper);
+                }
+
+                embedItem.parent().each(function() {
                     $.each(this.attributes, function() {
                         if (this.specified) {
                             if (this.name !== "class") {
@@ -1204,8 +1249,10 @@
                     });
                 });
 
-                var embedWidth = iframe.parent().parent().data('width') || iframe.width();
-                var embedHeight = iframe.parent().parent().data('height') || iframe.height();
+                var embedWidth = embedItem.parent().parent().data('width') || embedItem.width();
+                var embedHeight = embedItem.parent().parent().data('height') || embedItem.height();
+
+                embedItem = null;
 
                 $.ajax({
                     type: "GET",
