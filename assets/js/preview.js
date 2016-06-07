@@ -13,7 +13,7 @@
         }
 
         String.prototype.isValidUrl = function() {
-            var rule = /^(https?|ftp|osembeds?):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
+            var rule = /^(https?|ftp|embedpresss?):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
 
             return rule.test(this.toString());
         }
@@ -152,7 +152,7 @@
 
         var SHORTCODE_REGEXP = new RegExp('\\[\/?'+ $data.EMBEDPRESS_SHORTCODE +'\\]', "gi");
 
-        var OSEmbedPreview = function() {
+        var EmbedPressPreview = function() {
             var self = this;
 
             var PLG_SYSTEM_ASSETS_CSS_PATH = $data.EMBEDPRESS_URL_ASSETS +"css";
@@ -299,9 +299,7 @@
                 // Get the parsed content
                 $.ajax({
                     type: 'POST',
-                    //url : 'index.php?plg_task=osembedpreview.parse_content',
                     url: "admin-ajax.php",
-                    //data: {'content': content},
                     data: {
                         action: "embedpress_do_ajax_request",
                         subject: content
@@ -320,7 +318,7 @@
             }
 
             self.convertURLSchemeToPattern = function(scheme) {
-                var prefix = '(.*)((?:http|osembed)s?:\\/\\/(?:www\\.)?',
+                var prefix = '(.*)((?:http|embedpress)s?:\\/\\/(?:www\\.)?',
                     suffix = '[\\/]?)(.*)',
                     pattern;
 
@@ -590,7 +588,7 @@
             self.addURLsPlaceholder = function(node, url) {
                 var uid = self.makeId();
 
-                var wrapperClasses = ["osembed_wrapper", "osembed_placeholder"];
+                var wrapperClasses = ["embedpress_wrapper", "embedpress_placeholder"];
 
                 var shortcodeAttributes = node.value.getShortcodeAttributes($data.EMBEDPRESS_SHORTCODE);
                 var customAttributes = shortcodeAttributes;
@@ -629,7 +627,7 @@
                     'class': Array.from(new Set(wrapperClasses)).join(" "),
                     'data-url': url,
                     'data-uid': uid,
-                    'id': 'osembed_wrapper_' + uid,
+                    'id': 'embedpress_wrapper_' + uid,
                     'data-loading-text': 'Loading...'
                 };
 
@@ -639,8 +637,8 @@
 
                 var panel = new self.Node('div', 1);
                 panel.attr({
-                    'id': 'osembed_controller_panel_' + uid,
-                    'class': 'osembed_controller_panel osembed_ignore_mouseout hidden'
+                    'id': 'embedpress_controller_panel_' + uid,
+                    'class': 'embedpress_controller_panel embedpress_ignore_mouseout hidden'
                 });
                 wrapper.append(panel);
 
@@ -662,37 +660,25 @@
 
                 var editButton = new self.Node('div', 1);
                 editButton.attr({
-                    'id': 'osembed_button_edit_' + uid,
-                    'class': 'osembed_ignore_mouseout osembed_controller_button'
+                    'id': 'embedpress_button_edit_' + uid,
+                    'class': 'embedpress_ignore_mouseout embedpress_controller_button'
                 });
                 editButtonIcon = new self.Node('i', 1);
                 editButtonIcon.attr({
-                    'class': 'osembed-icon-pencil osembed_ignore_mouseout'
+                    'class': 'embedpress-icon-pencil embedpress_ignore_mouseout'
                 });
                 editButtonIcon.append(createGhostNode());
                 editButton.append(editButtonIcon);
                 panel.append(editButton);
 
-                // var paramsButton = new self.Node('div', 1);
-                // paramsButton.attr({
-                //     'id': 'osembed_button_params_' + uid,
-                //     'class': 'osembed_ignore_mouseout osembed_controller_button'
-                // });
-                // paramsButtonIcon = new self.Node('i', 1);
-                // paramsButtonIcon.attr({
-                //     'class': 'osembed-icon-gear osembed_ignore_mouseout'
-                // });
-                // paramsButton.append(paramsButtonIcon);
-                // panel.append(paramsButton);
-
                 var removeButton = new self.Node('div', 1);
                 removeButton.attr({
-                    'id': 'osembed_button_remove_' + uid,
-                    'class': 'osembed_ignore_mouseout osembed_controller_button'
+                    'id': 'embedpress_button_remove_' + uid,
+                    'class': 'embedpress_ignore_mouseout embedpress_controller_button'
                 });
                 removeButtonIcon = new self.Node('i', 1);
                 removeButtonIcon.attr({
-                    'class': 'osembed-icon-x osembed_ignore_mouseout'
+                    'class': 'embedpress-icon-x embedpress_ignore_mouseout'
                 });
                 removeButtonIcon.append(createGhostNode());
                 removeButton.append(removeButtonIcon);
@@ -713,7 +699,7 @@
 
                 url = self.decodeEmbedURLSpecialChars(url, true, customAttributes);
 
-                // Get the parsed embed code from the OSEmbed plugin
+                // Get the parsed embed code from the EmbedPress plugin
                 self.getParsedContent(url, function getParsedContentCallback(result) {
                     result.data.content = result.data.content.stripShortcode($data.EMBEDPRESS_SHORTCODE);
 
@@ -727,10 +713,10 @@
                         $content.html(result.data.content);
                     }
 
-                    var $wrapper = $(self.getElementInContentById('osembed_wrapper_' + uid));
+                    var $wrapper = $(self.getElementInContentById('embedpress_wrapper_' + uid));
                     var scripts = [];
 
-                    $wrapper.removeClass('osembed_placeholder');
+                    $wrapper.removeClass('embedpress_placeholder');
 
                     $.each($content, function appendEachEmbedElement(index, element) {
                         // Check if the element is a script and do not add it now (if added here it wouldn't be executed)
@@ -740,7 +726,7 @@
                             if (element.tagName.toLowerCase() === 'iframe') {
                                 $(element).ready(function() {
                                     window.setTimeout(function() {
-                                        $.each(self.editor.dom.select('div.osembed_wrapper iframe'), function(index, iframe) {
+                                        $.each(self.editor.dom.select('div.embedpress_wrapper iframe'), function(index, iframe) {
                                             self.fixIframeSize(iframe);
                                         });
                                     }, 300);
@@ -748,7 +734,7 @@
                             } else if (element.tagName.toLowerCase() === "div") {
                                 if ($('img', $(element)).length) {
                                     // This ensures that the embed wrapper have the same width as its content
-                                    $($(element).parents('.osembed_wrapper').get(0)).addClass('dynamic-width');
+                                    $($(element).parents('.embedpress_wrapper').get(0)).addClass('dynamic-width');
                                 }
                             }
                         } else {
@@ -776,7 +762,7 @@
                 }
 
                 // Bypass the autolink plugin, avoiding to have the url converted to a link automatically
-                content = content.replace(/http(s?)\:\/\//i, 'osembed$1://');
+                content = content.replace(/http(s?)\:\/\//i, 'embedpress$1://');
 
                 // Bypass the autolink plugin, avoiding to have some urls with @ being treated as email address (e.g. GMaps)
                 content = content.replace('@', '::__at__::').trim();
@@ -785,14 +771,14 @@
             };
 
             self.decodeEmbedURLSpecialChars = function(content, applyShortcode, attributes) {
-                var encodingRegexpRule = /osembed(s?):\/\//;
+                var encodingRegexpRule = /embedpress(s?):\/\//;
                 applyShortcode = (typeof applyShortcode === "undefined") ? true : applyShortcode;
                 attributes = (typeof attributes === "undefined") ? {} : attributes;
 
                 var isEncoded = content.match(encodingRegexpRule);
 
                 // Restore http[s] in the url (converted to bypass autolink plugin)
-                content = content.replace(/osembed(s?):\/\//, 'http$1://');
+                content = content.replace(/embedpress(s?):\/\//, 'http$1://');
                 content = content.replace('::__at__::', '@').trim();
 
                 if ("class" in attributes) {
@@ -866,7 +852,7 @@
 
                 self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/font.css?' + self.params.versionUID);
                 self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/preview.css?' + self.params.versionUID);
-                self.addStylesheet(PLG_CONTENT_ASSETS_CSS_PATH + '/osembed.css?' + self.params.versionUID);
+                self.addStylesheet(PLG_CONTENT_ASSETS_CSS_PATH + '/embedpress.css?' + self.params.versionUID);
                 self.addEvent('paste', self.editor, self.onPaste);
                 self.addEvent('nodechange', self.editor, self.onNodeChange);
                 self.addEvent('keydown', self.editor, self.onKeyDown);
@@ -914,10 +900,8 @@
                                 // Add the pre text if exists
                                 var text;
                                 if (preText !== '') {
-                                    // p = new self.Node('p', 1);
                                     text = new self.Node('#text', 3);
                                     text.value = preText.trim();
-                                    // p.append(text);
 
                                     // Insert before
                                     wrapper.parent.insert(text, wrapper, true);
@@ -925,10 +909,8 @@
 
                                 // Add the post text if exists
                                 if (postText !== '') {
-                                    // p = new self.Node('p', 1);
                                     text = new self.Node('#text', 3);
                                     text.value = postText.trim();
-                                    // p.append(text)
 
                                     // Insert after
                                     wrapper.parent.insert(text, wrapper, false);
@@ -942,7 +924,7 @@
                 self.editor.serializer.addNodeFilter('div', function addNodeFilterIntoSerializer(nodes, arg) {
                     self.each(nodes, function eachNodeInSerializer(node) {
                         var nodeClasses = (node.attributes.map.class || "").split(' ');
-                        var wrapperFactoryClasses = ["osembed_wrapper", "osembed_placeholder"];
+                        var wrapperFactoryClasses = ["embedpress_wrapper", "embedpress_placeholder"];
 
                         var isWrapped = nodeClasses.filter(function(n) {
                             return wrapperFactoryClasses.indexOf(n) != -1;
@@ -1041,7 +1023,7 @@
                 // Chrome
                 if (self.isDefined(e.toElement)) {
                     if (e.toElement.parentElement == e.fromElement
-                        || $(e.toElement).hasClass('osembed_ignore_mouseout')
+                        || $(e.toElement).hasClass('embedpress_ignore_mouseout')
                     ) {
                         return false;
                     }
@@ -1049,7 +1031,7 @@
 
                 // Firefox
                 if (self.isDefined(e.relatedTarget)) {
-                    if ($(e.relatedTarget).hasClass('osembed_ignore_mouseout')) {
+                    if ($(e.relatedTarget).hasClass('embedpress_ignore_mouseout')) {
                         return false;
                     }
                 }
@@ -1116,7 +1098,7 @@
                     // Check one of the parent elements is a clonned embed wrapper
                     if (e.parents.length > 0) {
                         $.each(e.parents, function(index, parent) {
-                            if ($(parent).hasClass('osembed_wrapper')) {
+                            if ($(parent).hasClass('embedpress_wrapper')) {
                                 // Remove the cloned wrapper and replace with a 'br' tag
                                 $(parent).replaceWith($('<br>'));
                             }
@@ -1126,8 +1108,8 @@
                     if (e.parents.length > 0) {
                         $.each(e.parents, function(index, parent) {
                             parent = $(parent);
-                            if (parent.hasClass('osembed_wrapper')) {
-                                var wrapper = $('.osembed-wrapper', parent);
+                            if (parent.hasClass('embedpress_wrapper')) {
+                                var wrapper = $('.embedpress-wrapper', parent);
                                 if (wrapper.length > 1) {
                                     wrapper.get(0).remove();
                                 }
@@ -1146,7 +1128,7 @@
                         if (children.length > 0) {
                             $.each(children, function() {
                                 // On delete, make sure to remove the wrapper and children, not only the wrapper
-                                if ($(this).hasClass('osembed_wrapper') || $(this).hasClass('osembed_ignore_mouseout')) {
+                                if ($(this).hasClass('embedpress_wrapper') || $(this).hasClass('embedpress_ignore_mouseout')) {
                                     $(this).remove();
 
                                     self.editor.focus();
@@ -1160,13 +1142,13 @@
                     if (arrowsKeyCodes.indexOf(e.keyCode) == -1) {
 
                         // Check if we are inside a preview wrapper
-                        if ($(node).hasClass('osembed_wrapper') || $(node).hasClass('osembed_ignore_mouseout')) {
+                        if ($(node).hasClass('embedpress_wrapper') || $(node).hasClass('embedpress_ignore_mouseout')) {
                             // Avoid delete the wrapper or block line break if we are inside the wrapper
                             if (e.keyCode == 13) {
                                 wrapper = $(self.getWrapperFromChild(node));
                                 if (wrapper.length > 0) {
                                     // Creates a temporary element which will be inserted after the wrapper
-                                    var tmpId = '__osembed__tmp_' + self.makeId();
+                                    var tmpId = '__embedpress__tmp_' + self.makeId();
                                     wrapper.after($('<span id="' + tmpId + '"></span>'));
                                     // Get and select the temporary element
                                     var span = self.editor.dom.select('span#' + tmpId)[0];
@@ -1189,7 +1171,7 @@
 
             self.getWrapperFromChild = function(element) {
                 // Is the wrapper
-                if ($(element).hasClass('osembed_wrapper')) {
+                if ($(element).hasClass('embedpress_wrapper')) {
                     return element;
                 } else {
                     var $parent = $(element).parent();
@@ -1230,7 +1212,7 @@
                 self.activeWrapperForModal = self.activeWrapper;
 
                 var $wrapper = self.activeWrapperForModal;
-                var wrapperUid = $wrapper.prop('id').replace("osembed_wrapper_", "");
+                var wrapperUid = $wrapper.prop('id').replace("embedpress_wrapper_", "");
 
                 var customAttributes = {};
 
@@ -1254,81 +1236,105 @@
 
                 embedItem = null;
 
-                $.ajax({
-                    type: "GET",
-                    url: "admin-ajax.php",
-                    data: {
-                        action: "embedpress_get_embed_url_info",
-                        url: self.decodeEmbedURLSpecialChars($wrapper.data('url'), false)
-                    },
-                    success: function(response) {
-                        if (response.canBeResponsive) {
-                            var responsiveCheckboxShouldBeChecked = true;
-                            if ("width" in customAttributes || "height" in customAttributes) {
-                                responsiveCheckboxShouldBeChecked = false;
-                            } else if ("responsive" in customAttributes && customAttributes['responsive'].isFalse()) {
-                                responsiveCheckboxShouldBeChecked = false;
+                $('<div class="loader-indicator"><i class="embedpress-icon-reload"></i></div>').appendTo($wrapper);
+
+                setTimeout(function() {
+                    $.ajax({
+                        type: "GET",
+                        url: "admin-ajax.php",
+                        data: {
+                            action: "embedpress_get_embed_url_info",
+                            url: self.decodeEmbedURLSpecialChars($wrapper.data('url'), false)
+                        },
+                        beforeSend: function(request, requestSettings) {
+                            $('.loader-indicator', $wrapper).addClass('is-loading');
+                        },
+                        success: function(response) {
+                            if (response.canBeResponsive) {
+                                var responsiveCheckboxShouldBeChecked = true;
+                                if ("width" in customAttributes || "height" in customAttributes) {
+                                    responsiveCheckboxShouldBeChecked = false;
+                                } else if ("responsive" in customAttributes && customAttributes['responsive'].isFalse()) {
+                                    responsiveCheckboxShouldBeChecked = false;
+                                }
                             }
-                        }
 
-                        bootbox.dialog({
-                            title: "Editing Embed properties",
-                            message: '<form id="form-'+ wrapperUid +'">'+
-                                        '<div class="row">'+
-                                            '<div class="col-md-12">'+
-                                                '<div class="form-group">'+
-                                                    '<label for="input-url-'+ wrapperUid +'">Url</label>'+
-                                                    '<input class="form-control" type="url" id="input-url-'+ wrapperUid +'" value="'+ self.decodeEmbedURLSpecialChars($wrapper.data('url'), false) +'">'+
+                            bootbox.dialog({
+                                title: "Editing Embed properties",
+                                message: '<form id="form-'+ wrapperUid +'">'+
+                                            '<div class="row">'+
+                                                '<div class="col-md-12">'+
+                                                    '<div class="form-group">'+
+                                                        '<label for="input-url-'+ wrapperUid +'">Url</label>'+
+                                                        '<input class="form-control" type="url" id="input-url-'+ wrapperUid +'" value="'+ self.decodeEmbedURLSpecialChars($wrapper.data('url'), false) +'">'+
+                                                    '</div>'+
                                                 '</div>'+
                                             '</div>'+
-                                        '</div>'+
-                                        '<div class="row">'+
-                                            (response.canBeResponsive ?
-                                            '<div class="col-md-12">'+
-                                                '<div class="checkbox">'+
-                                                    '<label>'+
-                                                        '<input type="checkbox" id="input-responsive-'+ wrapperUid +'" class="form-control"'+ (responsiveCheckboxShouldBeChecked ? ' checked' : "") +'>Responsive'+
-                                                    '</label>'+
+                                            '<div class="row">'+
+                                                (response.canBeResponsive ?
+                                                '<div class="col-md-12">'+
+                                                    '<div class="checkbox">'+
+                                                        '<label>'+
+                                                            '<input type="checkbox" id="input-responsive-'+ wrapperUid +'" class="form-control"'+ (responsiveCheckboxShouldBeChecked ? ' checked' : "") +'>Responsive'+
+                                                        '</label>'+
+                                                    '</div>'+
+                                                '</div>' : '')+
+                                                '<div class="col-md-6">'+
+                                                    '<div class="form-group">'+
+                                                        '<label for="input-width-'+ wrapperUid +'">Width</label>'+
+                                                        '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" value="'+ embedWidth +'">'+
+                                                    '</div>'+
                                                 '</div>'+
-                                            '</div>' : '')+
-                                            '<div class="col-md-6">'+
-                                                '<div class="form-group">'+
-                                                    '<label for="input-width-'+ wrapperUid +'">Width</label>'+
-                                                    '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" value="'+ embedWidth +'">'+
+                                                '<div class="col-md-6">'+
+                                                    '<div class="form-group">'+
+                                                        '<label for="input-height-'+ wrapperUid +'">Height</label>'+
+                                                        '<input class="form-control" type="integer" id="input-height-'+ wrapperUid +'" value="'+ embedHeight +'">'+
+                                                    '</div>'+
                                                 '</div>'+
                                             '</div>'+
-                                            '<div class="col-md-6">'+
-                                                '<div class="form-group">'+
-                                                    '<label for="input-height-'+ wrapperUid +'">Height</label>'+
-                                                    '<input class="form-control" type="integer" id="input-height-'+ wrapperUid +'" value="'+ embedHeight +'">'+
-                                                '</div>'+
-                                            '</div>'+
-                                        '</div>'+
-                                     '</form>',
-                            buttons: {
-                                danger: {
-                                    label: "Cancel",
-                                    className: "btn-default",
-                                    callback: function() {
-                                        // do nothing
-                                        self.activeWrapperForModal = null;
-                                    }
-                                },
-                                success: {
-                                    label: "Save",
-                                    className: "btn-primary",
-                                    callback: function() {
-                                        var $wrapper = self.activeWrapperForModal;
+                                         '</form>',
+                                buttons: {
+                                    danger: {
+                                        label: "Cancel",
+                                        className: "btn-default",
+                                        callback: function() {
+                                            // do nothing
+                                            self.activeWrapperForModal = null;
+                                        }
+                                    },
+                                    success: {
+                                        label: "Save",
+                                        className: "btn-primary",
+                                        callback: function() {
+                                            var $wrapper = self.activeWrapperForModal;
 
-                                        // Select the current wrapper as a base for the new element
-                                        self.editor.focus();
-                                        self.editor.selection.select($wrapper[0]);
+                                            // Select the current wrapper as a base for the new element
+                                            self.editor.focus();
+                                            self.editor.selection.select($wrapper[0]);
 
-                                        $wrapper.children().remove();
-                                        $wrapper.remove();
+                                            $wrapper.children().remove();
+                                            $wrapper.remove();
 
-                                        if (response.canBeResponsive) {
-                                            if (!$('#input-responsive-'+ wrapperUid).is(':checked')) {
+                                            if (response.canBeResponsive) {
+                                                if (!$('#input-responsive-'+ wrapperUid).is(':checked')) {
+                                                    var embedCustomWidth = $('#input-width-'+ wrapperUid).val();
+                                                    if (parseInt(embedCustomWidth) > 0) {
+                                                        customAttributes['width'] = embedCustomWidth;
+                                                    }
+
+                                                    var embedCustomHeight = $('#input-height-'+ wrapperUid).val();
+                                                    if (parseInt(embedCustomHeight) > 0) {
+                                                        customAttributes['height'] = embedCustomHeight;
+                                                    }
+
+                                                    customAttributes['responsive'] = "false";
+                                                } else {
+                                                    delete customAttributes['width'];
+                                                    delete customAttributes['height'];
+
+                                                    customAttributes['responsive'] = "true";
+                                                }
+                                            } else {
                                                 var embedCustomWidth = $('#input-width-'+ wrapperUid).val();
                                                 if (parseInt(embedCustomWidth) > 0) {
                                                     customAttributes['width'] = embedCustomWidth;
@@ -1338,64 +1344,39 @@
                                                 if (parseInt(embedCustomHeight) > 0) {
                                                     customAttributes['height'] = embedCustomHeight;
                                                 }
-
-                                                customAttributes['responsive'] = "false";
-                                            } else {
-                                                delete customAttributes['width'];
-                                                delete customAttributes['height'];
-
-                                                customAttributes['responsive'] = "true";
-                                            }
-                                        } else {
-                                            var embedCustomWidth = $('#input-width-'+ wrapperUid).val();
-                                            if (parseInt(embedCustomWidth) > 0) {
-                                                customAttributes['width'] = embedCustomWidth;
                                             }
 
-                                            var embedCustomHeight = $('#input-height-'+ wrapperUid).val();
-                                            if (parseInt(embedCustomHeight) > 0) {
-                                                customAttributes['height'] = embedCustomHeight;
+                                            var customAttributesList = [];
+                                            if (!!Object.keys(customAttributes).length) {
+                                                for (var attrName in customAttributes) {
+                                                    customAttributesList.push(attrName + '="' + customAttributes[attrName] + '"');
+                                                }
                                             }
+
+                                            var shortcode = '['+ $data.EMBEDPRESS_SHORTCODE + (customAttributesList.length > 0 ? " "+ customAttributesList.join(" ") : "") +']'+ $('#input-url-'+ wrapperUid).val() +'[/'+ $data.EMBEDPRESS_SHORTCODE +']';
+                                            // We do not directly replace the node because it was causing a bug on a second edit attempt
+                                            self.editor.execCommand('mceInsertContent', false, shortcode);
+
+                                            self.configureWrappers();
                                         }
-
-                                        var customAttributesList = [];
-                                        if (!!Object.keys(customAttributes).length) {
-                                            for (var attrName in customAttributes) {
-                                                customAttributesList.push(attrName + '="' + customAttributes[attrName] + '"');
-                                            }
-                                        }
-
-                                        var shortcode = '['+ $data.EMBEDPRESS_SHORTCODE + (customAttributesList.length > 0 ? " "+ customAttributesList.join(" ") : "") +']'+ $('#input-url-'+ wrapperUid).val() +'[/'+ $data.EMBEDPRESS_SHORTCODE +']';
-                                        // We do not directly replace the node because it was causing a bug on a second edit attempt
-                                        self.editor.execCommand('mceInsertContent', false, shortcode);
-
-                                        self.configureWrappers();
                                     }
                                 }
-                            }
-                        });
-                    },
-                    dataType: "json",
-                    async: true
-                });
+                            });
+                        },
+                        complete: function(request, textStatus) {
+                            $('.loader-indicator', $wrapper).removeClass('is-loading');
+
+                            setTimeout(function() {
+                                $('.loader-indicator', $wrapper).remove();
+                            }, 350);
+                        },
+                        dataType: "json",
+                        async: true
+                    });
+                }, 200);
 
                 return false;
             };
-
-            /**
-             * Method executed when the params button is clicked. It will display
-             * some fields which allow to configure the current embed code.
-             *
-             * @param  Object e The event
-             * @return void
-             */
-            // self.onClickParamsButton = function(e) {
-            //     // Prevent edition of the panel
-            //     self.cancelEvent(e);
-
-            //     // @todo: Implement onClickParamsButton
-            //     return false;
-            // };
 
             /**
              * Method executed when the remove button is clicked. It will remove
@@ -1463,7 +1444,7 @@
                             $iframe = null;
 
                         // Get all the wrappers
-                        var wrappers = doc.getElementsByClassName('osembed_wrapper');
+                        var wrappers = doc.getElementsByClassName('embedpress_wrapper');
                         total = wrappers.length;
                         if (total > 0) {
                             for (var i = 0; i < total; i++) {
@@ -1474,7 +1455,7 @@
                                     // A timeout was set to avoid block the content loading
                                     window.setTimeout(function() {
                                         // @todo: Check if we need a limit of levels to avoid use too much resources
-                                        self.recursivelyAddClass($wrapper, 'osembed_ignore_mouseout');
+                                        self.recursivelyAddClass($wrapper, 'embedpress_ignore_mouseout');
                                     }, 500);
 
                                     // Fix the wrapper size. Wait until find the child iframe. L
@@ -1543,15 +1524,13 @@
 
                 if (!self.controllerPanelIsActive()) {
                     var uid = $wrapper.data('uid');
-                    var $panel = self.getElementInContentById('osembed_controller_panel_' + uid);
+                    var $panel = self.getElementInContentById('embedpress_controller_panel_' + uid);
 
                     if (!$panel.data('event-set')) {
-                        var $editButton = self.getElementInContentById('osembed_button_edit_' + uid);
-                        // var $paramsButton = self.getElementInContentById('osembed_button_params_' + uid);
-                        var $removeButton = self.getElementInContentById('osembed_button_remove_' + uid);
+                        var $editButton = self.getElementInContentById('embedpress_button_edit_' + uid);
+                        var $removeButton = self.getElementInContentById('embedpress_button_remove_' + uid);
 
                         self.addEvent('mousedown', $editButton, self.onClickEditButton);
-                        // self.addEvent('mousedown', $paramsButton, self.onClickParamsButton);
                         self.addEvent('mousedown', $removeButton, self.onClickRemoveButton);
 
                         // Prevent the action of set cursor into the panel after click
@@ -1577,10 +1556,10 @@
             };
         };
 
-        if (!window.OSEmbedPreview) {
-            window.OSEmbedPreview = new OSEmbedPreview();
+        if (!window.EmbedPressPreview) {
+            window.EmbedPressPreview = new EmbedPressPreview();
         }
 
-        window.OSEmbedPreview.init($data.previewSettings);
+        window.EmbedPressPreview.init($data.previewSettings);
     });
 })(window, jQuery, String, $data);
