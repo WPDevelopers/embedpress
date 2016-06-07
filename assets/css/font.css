@@ -65,4 +65,30 @@
 .embedpress-icon-pencil:before {content:'\0041';}
 .embedpress-icon-gear:before{content:'\0042';}
 .embedpress-icon-x:before{content:'\0043';}
+
+.embedpress-icon-reload {
+  -webkit-animation: embedpress-spin 2s infinite linear;
+  animation: embedpress-spin 2s infinite linear;
+}
 .embedpress-icon-reload:before{content:'\0044';}
+
+@-webkit-keyframes embedpress-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+@keyframes embedpress-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
