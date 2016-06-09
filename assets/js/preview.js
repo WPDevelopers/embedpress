@@ -1273,9 +1273,13 @@
                                             '<div class="row">'+
                                                 (response.canBeResponsive ?
                                                 '<div class="col-md-12">'+
-                                                    '<div class="checkbox">'+
-                                                        '<label>'+
-                                                            '<input type="checkbox" id="input-responsive-'+ wrapperUid +'" class="form-control"'+ (responsiveCheckboxShouldBeChecked ? ' checked' : "") +'>Responsive'+
+                                                    '<label>Responsive</label>'+
+                                                    '<div class="form-group">'+
+                                                        '<label class="radio-inline">'+
+                                                            '<input type="radio" name="input-responsive-'+ wrapperUid +'" id="input-responsive-1-'+ wrapperUid +'" value="1"'+ (responsiveCheckboxShouldBeChecked ? ' checked' : '') +'> Yes'+
+                                                        '</label>'+
+                                                        '<label class="radio-inline">'+
+                                                            '<input type="radio" name="input-responsive-'+ wrapperUid +'" id="input-responsive-0-'+ wrapperUid +'" value="0"'+ (!responsiveCheckboxShouldBeChecked ? ' checked' : '') +'> No'+
                                                         '</label>'+
                                                     '</div>'+
                                                 '</div>' : '')+
@@ -1316,7 +1320,7 @@
                                             $wrapper.remove();
 
                                             if (response.canBeResponsive) {
-                                                if (!$('#input-responsive-'+ wrapperUid).is(':checked')) {
+                                                if ($('#form-'+ wrapperUid +' input[name="input-responsive-'+ wrapperUid +'"]:checked').val().isFalse()) {
                                                     var embedCustomWidth = $('#input-width-'+ wrapperUid).val();
                                                     if (parseInt(embedCustomWidth) > 0) {
                                                         customAttributes['width'] = embedCustomWidth;
