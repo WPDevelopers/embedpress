@@ -67,14 +67,14 @@ class Shortcode
      * @param   boolean     Optional. If true, new lines at the end of the embeded code are stripped.
      * @return  string
      */
-    public static function parseContent($content, $stripNewLine = false, $customAttributes = array())
+    public static function parseContent($subject, $stripNewLine = false, $customAttributes = array())
     {
-        if (!empty($content)) {
+        if (!empty($subject)) {
             if (empty($customAttributes)) {
-                $customAttributes = self::parseContentAttributesFromString($content);
+                $customAttributes = self::parseContentAttributesFromString($subject);
             }
 
-            $content = preg_replace('/(\['. EMBEDPRESS_SHORTCODE .'(?:\]|.+?\])|\[\/'. EMBEDPRESS_SHORTCODE .'\])/i', "", $content);
+            $content = preg_replace('/(\['. EMBEDPRESS_SHORTCODE .'(?:\]|.+?\])|\[\/'. EMBEDPRESS_SHORTCODE .'\])/i', "", $subject);
 
             // Check if the WP_oEmbed class is loaded
             if (!self::$oEmbedInstance) {
@@ -180,9 +180,13 @@ class Shortcode
             if ($stripNewLine) {
                 $content = preg_replace('/\n/', '', $content);
             }
+
+            if (!empty($content)) {
+                return $content;
+            }
         }
 
-        return $content;
+        return $subject;
     }
 
     /**
