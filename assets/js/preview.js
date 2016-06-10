@@ -1231,8 +1231,8 @@
                     });
                 });
 
-                var embedWidth = embedItem.parent().parent().data('width') || embedItem.width();
-                var embedHeight = embedItem.parent().parent().data('height') || embedItem.height();
+                var embedWidth = (embedItem.parent().parent().data('width') || embedItem.width()) || "";
+                var embedHeight = (embedItem.parent().parent().data('height') || embedItem.height()) || "";
 
                 embedItem = null;
 
