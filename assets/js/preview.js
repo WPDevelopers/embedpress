@@ -332,6 +332,31 @@
             self.getProvidersURLPatterns = function() {
                 // @todo: Add option to disable/enable the providers
                 var urlSchemes = [
+                        // VideoPress
+                        'videopress.com/v/*',
+
+                        // Tumblr
+                        'tumblr.com/post/*',
+
+                        // SmugMug
+                        'smugmug.com/*',
+
+                        // SlideShare
+                        'slideshare.net/*',
+
+                        // Reddit
+                        'reddit.com/r/[^/]+/comments/*',
+
+                        // Photobucket
+                        'i*.photobucket.com/albums/*',
+                        'gi*.photobucket.com/groups/*',
+
+                        // Cloudup
+                        'cloudup.com/*',
+
+                        // Imgur
+                        'i.imgur.com/*',
+
                         // YouTube (http://www.youtube.com/)
                         'youtube.com/watch\\?*',
 
