@@ -106,11 +106,6 @@ class Shortcode
             // Gather info about the shortcode's link
             $urlData = self::$oEmbedInstance->fetch($serviceProvider, $content, $attributes);
 
-            // Replaces the `{wrapper_class}` flag with the "ose-<service-provider>". I.e.: YouTube: "ose-youtube"
-            $attributes['class'] = str_replace('{wrapper_class}', "ose-". strtolower($urlData->provider_name), $attributes['class']);
-
-            unset($urlData);
-
             // Transform all shortcode attributes into html form. I.e.: {foo: "joe"} -> foo="joe"
             $attributesHtml = [];
             foreach ($attributes as $attrName => $attrValue) {
@@ -149,9 +144,12 @@ class Shortcode
 
                 // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
                 $content = str_replace("'", '"', $content);
+
+                // Replace the flag `{provider_alias}` which is used by Embera with the "ose-<serviceProviderAlias>". I.e: YouTube -> "ose-youtube"
+                $content = preg_replace('/((?:ose-)?\{provider_alias\})/i', "ose-". strtolower($urlData->provider_name), $content);
             }
 
-            unset($embedTemplate);
+            unset($embedTemplate, $urlData, $serviceProvider);
 
             // This assure that the iframe has the same dimensions the user wants to
             if (isset($emberaInstanceSettings['params']['width']) || isset($emberaInstanceSettings['params']['height'])) {
@@ -256,7 +254,7 @@ class Shortcode
     private static function parseContentAttributes(array $customAttributes)
     {
         $attributes = array(
-            'class' => ["embedpress-wrapper", '{wrapper_class}']
+            'class' => ["embedpress-wrapper"]
         );
 
         $embedShouldBeResponsive = true;
