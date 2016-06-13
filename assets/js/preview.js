@@ -1251,17 +1251,17 @@
                         },
                         success: function(response) {
                             if (response.canBeResponsive) {
-                                var responsiveCheckboxShouldBeChecked = true;
+                                var embedShouldBeResponsive = true;
                                 if ("width" in customAttributes || "height" in customAttributes) {
-                                    responsiveCheckboxShouldBeChecked = false;
+                                    embedShouldBeResponsive = false;
                                 } else if ("responsive" in customAttributes && customAttributes['responsive'].isFalse()) {
-                                    responsiveCheckboxShouldBeChecked = false;
+                                    embedShouldBeResponsive = false;
                                 }
                             }
 
                             bootbox.dialog({
                                 title: "Editing Embed properties",
-                                message: '<form id="form-'+ wrapperUid +'">'+
+                                message: '<form id="form-'+ wrapperUid +'" embedpress>'+
                                             '<div class="row">'+
                                                 '<div class="col-md-12">'+
                                                     '<div class="form-group">'+
@@ -1276,23 +1276,23 @@
                                                     '<label>Responsive</label>'+
                                                     '<div class="form-group">'+
                                                         '<label class="radio-inline">'+
-                                                            '<input type="radio" name="input-responsive-'+ wrapperUid +'" id="input-responsive-1-'+ wrapperUid +'" value="1"'+ (responsiveCheckboxShouldBeChecked ? ' checked' : '') +'> Yes'+
+                                                            '<input type="radio" name="input-responsive-'+ wrapperUid +'" id="input-responsive-1-'+ wrapperUid +'" value="1"'+ (embedShouldBeResponsive ? ' checked' : '') +'> Yes'+
                                                         '</label>'+
                                                         '<label class="radio-inline">'+
-                                                            '<input type="radio" name="input-responsive-'+ wrapperUid +'" id="input-responsive-0-'+ wrapperUid +'" value="0"'+ (!responsiveCheckboxShouldBeChecked ? ' checked' : '') +'> No'+
+                                                            '<input type="radio" name="input-responsive-'+ wrapperUid +'" id="input-responsive-0-'+ wrapperUid +'" value="0"'+ (!embedShouldBeResponsive ? ' checked' : '') +'> No'+
                                                         '</label>'+
                                                     '</div>'+
                                                 '</div>' : '')+
                                                 '<div class="col-md-6">'+
                                                     '<div class="form-group">'+
                                                         '<label for="input-width-'+ wrapperUid +'">Width</label>'+
-                                                        '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" value="'+ embedWidth +'">'+
+                                                        '<input class="form-control" type="integer" id="input-width-'+ wrapperUid +'" value="'+ embedWidth +'"'+ (embedShouldBeResponsive ? ' disabled' : '') +'>'+
                                                     '</div>'+
                                                 '</div>'+
                                                 '<div class="col-md-6">'+
                                                     '<div class="form-group">'+
                                                         '<label for="input-height-'+ wrapperUid +'">Height</label>'+
-                                                        '<input class="form-control" type="integer" id="input-height-'+ wrapperUid +'" value="'+ embedHeight +'">'+
+                                                        '<input class="form-control" type="integer" id="input-height-'+ wrapperUid +'" value="'+ embedHeight +'"'+ (embedShouldBeResponsive ? ' disabled' : '') +'>'+
                                                     '</div>'+
                                                 '</div>'+
                                             '</div>'+
@@ -1365,6 +1365,13 @@
                                         }
                                     }
                                 }
+                            });
+
+                            $('form[embedpress]').on('change', 'input[type="radio"]', function(e) {
+                                var self = $(this);
+                                var form = self.parents('form[embedpress]');
+
+                                $('input[type="integer"]', form).prop('disabled', self.val().isTrue());
                             });
                         },
                         complete: function(request, textStatus) {
