@@ -153,7 +153,7 @@ class Plugin
      */
     public static function onPluginActivationCallback()
     {
-        remove_filter('rewrite_rules_array', array('\EmbedPress\Disabler', 'disableDefaultEmbedRewriteRules'));
+        add_filter('rewrite_rules_array', array('\EmbedPress\Disabler', 'disableDefaultEmbedRewriteRules'));
         flush_rewrite_rules();
     }
 

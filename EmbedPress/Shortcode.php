@@ -19,6 +19,16 @@ use \Embera\Formatter;
 class Shortcode
 {
     /**
+     * The WP_oEmbed class instance.
+     *
+     * @since   1.0
+     * @access  private
+     *
+     * @var     string  $oEmbedInstance
+     */
+    private static $oEmbedInstance = null;
+
+    /**
      * Register the plugin's shortcode into WordPress.
      *
      * @since   1.0
@@ -57,14 +67,21 @@ class Shortcode
      * @param   boolean     Optional. If true, new lines at the end of the embeded code are stripped.
      * @return  string
      */
-    public static function parseContent($content, $stripNewLine = false, $customAttributes = array())
+    public static function parseContent($subject, $stripNewLine = false, $customAttributes = array())
     {
-        if (!empty($content)) {
+        if (!empty($subject)) {
             if (empty($customAttributes)) {
-                $customAttributes = self::parseContentAttributesFromString($content);
+                $customAttributes = self::parseContentAttributesFromString($subject);
             }
 
-            $content = preg_replace('/(\['. EMBEDPRESS_SHORTCODE .'(?:\]|.+?\])|\[\/'. EMBEDPRESS_SHORTCODE .'\])/i', "", $content);
+            $content = preg_replace('/(\['. EMBEDPRESS_SHORTCODE .'(?:\]|.+?\])|\[\/'. EMBEDPRESS_SHORTCODE .'\])/i', "", $subject);
+
+            // Check if the WP_oEmbed class is loaded
+            if (!self::$oEmbedInstance) {
+                require_once ABSPATH .'wp-includes/class-oembed.php';
+
+                self::$oEmbedInstance = _wp_oembed_get_object();
+            }
 
             $emberaInstanceSettings = array(
                 'params' => array()
@@ -83,26 +100,56 @@ class Shortcode
                 }
             }
 
+            // Identify what service provider the shortcode's link belongs to
+            $serviceProvider = self::$oEmbedInstance->get_provider($content);
+
+            // Gather info about the shortcode's link
+            $urlData = self::$oEmbedInstance->fetch($serviceProvider, $content, $attributes);
+
+            // Transform all shortcode attributes into html form. I.e.: {foo: "joe"} -> foo="joe"
             $attributesHtml = [];
             foreach ($attributes as $attrName => $attrValue) {
                 $attributesHtml[] = $attrName .'="'. $attrValue .'"';
             }
 
+            // Define the EmbedPress html template where the generated embed will be injected in
             $embedTemplate = '<div '. implode(' ', $attributesHtml) .'>{html}</div>';
 
-            $emberaInstance = new Embera($emberaInstanceSettings);
+            // Try to generate the embed using WP API
+            $content = self::$oEmbedInstance->get_html($content, $attributes);
+            if (!$content) {
+                // If the embed couldn't be generated, we'll try to use Embera's API
+                $emberaInstance = new Embera($emberaInstanceSettings);
+                // Add support to the user's custom service providers
+                $additionalServiceProviders = Plugin::getAdditionalServiceProviders();
+                if (!empty($additionalServiceProviders)) {
+                    foreach ($additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls) {
+                        self::addServiceProvider($serviceProviderClassName, $serviceProviderUrls, $emberaInstance);
+                    }
 
-            $additionalServiceProviders = Plugin::getAdditionalServiceProviders();
-            if (!empty($additionalServiceProviders)) {
-                foreach ($additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls) {
-                    self::addServiceProvider($serviceProviderClassName, $serviceProviderUrls, $emberaInstance);
+                    unset($serviceProviderUrls, $serviceProviderClassName);
                 }
+
+                // Register the html template
+                $emberaFormaterInstance = new Formatter($emberaInstance, true);
+                $emberaFormaterInstance->setTemplate($embedTemplate);
+
+                // Try to generate the embed using Embera API
+                $content = $emberaFormaterInstance->transform($content);
+
+                unset($emberaFormaterInstance, $additionalServiceProviders, $emberaInstance);
+            } else {
+                // Inject the generated code inside the html template
+                $content = str_replace('{html}', $content, $embedTemplate);
+
+                // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
+                $content = str_replace("'", '"', $content);
+
+                // Replace the flag `{provider_alias}` which is used by Embera with the "ose-<serviceProviderAlias>". I.e: YouTube -> "ose-youtube"
+                $content = preg_replace('/((?:ose-)?\{provider_alias\})/i', "ose-". strtolower($urlData->provider_name), $content);
             }
 
-            $emberaFormaterInstance = new Formatter($emberaInstance, true);
-            $emberaFormaterInstance->setTemplate($embedTemplate);
-
-            $content = $emberaFormaterInstance->transform($content);
+            unset($embedTemplate, $urlData, $serviceProvider);
 
             // This assure that the iframe has the same dimensions the user wants to
             if (isset($emberaInstanceSettings['params']['width']) || isset($emberaInstanceSettings['params']['height'])) {
@@ -122,6 +169,8 @@ class Shortcode
                         $customHeight = (int)$emberaInstanceSettings['params']['height'];
                         $customWidth = $iframeRatio * $customHeight;
                     }
+
+                    unset($iframeRatio, $iframeHeight, $iframeWidth, $matches);
                 }
 
                 $content = preg_replace('/\s+width\=\"(\d+)\"/i', ' width="'. $customWidth .'"', $content);
@@ -131,9 +180,13 @@ class Shortcode
             if ($stripNewLine) {
                 $content = preg_replace('/\n/', '', $content);
             }
+
+            if (!empty($content)) {
+                return $content;
+            }
         }
 
-        return $content;
+        return $subject;
     }
 
     /**
@@ -205,7 +258,7 @@ class Shortcode
     private static function parseContentAttributes(array $customAttributes)
     {
         $attributes = array(
-            'class' => ["embedpress-wrapper", '{wrapper_class}']
+            'class' => ["embedpress-wrapper"]
         );
 
         $embedShouldBeResponsive = true;

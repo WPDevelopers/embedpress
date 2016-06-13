@@ -233,6 +233,26 @@
                 return text;
             };
 
+            self.loadAsyncDynamicJsCodeFromElement = function(subject, wrapper)
+            {
+                subject = $(subject);
+                if (subject.prop('tagName').toLowerCase() === "script") {
+                    var scriptSrc = subject.attr('src') || null;
+                    if (!scriptSrc) {
+                        self.addScriptDeclaration(wrapper, subject.html());
+                    } else {
+                        self.addScript(scriptSrc);
+                    }
+                } else {
+                    var innerScriptsList = $('script', subject);
+                    if (innerScriptsList.length > 0) {
+                        $.each(innerScriptsList, function(innerScriptIndex, innerScript) {
+                            self.loadAsyncDynamicJsCodeFromElement(innerScript);
+                        });
+                    }
+                }
+            }
+
             /**
              * Method executed on the document ready event
              *
@@ -332,6 +352,32 @@
             self.getProvidersURLPatterns = function() {
                 // @todo: Add option to disable/enable the providers
                 var urlSchemes = [
+                        // VideoPress
+                        'videopress.com/v/*',
+
+                        // Tumblr
+                        '*.tumblr.com/post/*',
+
+                        // SmugMug
+                        'smugmug.com/*',
+
+                        // SlideShare
+                        'slideshare.net/*',
+
+                        // Reddit
+                        'reddit.com/r/[^/]+/comments/*',
+
+                        // Photobucket
+                        'i*.photobucket.com/albums/*',
+                        'gi*.photobucket.com/groups/*',
+
+                        // Cloudup
+                        'cloudup.com/*',
+
+                        // Imgur
+                        'imgur.com/*',
+                        'i.imgur.com/*',
+
                         // YouTube (http://www.youtube.com/)
                         'youtube.com/watch\\?*',
 
@@ -737,14 +783,9 @@
                                     $($(element).parents('.embedpress_wrapper').get(0)).addClass('dynamic-width');
                                 }
                             }
-                        } else {
-
-                            if (typeof $(element).attr('src') !== 'undefined') {
-                                self.addScript($(element).attr('src'));
-                            } else {
-                                self.addScriptDeclaration($wrapper, $(element).html());
-                            }
                         }
+
+                       self.loadAsyncDynamicJsCodeFromElement(element, $wrapper);
                     });
                 });
             };
@@ -1231,8 +1272,8 @@
                     });
                 });
 
-                var embedWidth = embedItem.parent().parent().data('width') || embedItem.width();
-                var embedHeight = embedItem.parent().parent().data('height') || embedItem.height();
+                var embedWidth = (embedItem.parent().parent().data('width') || embedItem.width()) || "";
+                var embedHeight = (embedItem.parent().parent().data('height') || embedItem.height()) || "";
 
                 embedItem = null;
 
