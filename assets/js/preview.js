@@ -355,6 +355,7 @@
                         'cloudup.com/*',
 
                         // Imgur
+                        'imgur.com/*',
                         'i.imgur.com/*',
 
                         // YouTube (http://www.youtube.com/)
