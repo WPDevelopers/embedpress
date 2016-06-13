@@ -1,7 +1,7 @@
 <?php
 namespace EmbedPress\Providers;
 
-use Embera\Adapters\Service as EmberaService;
+use \Embera\Adapters\Service as EmberaService;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
