@@ -356,7 +356,7 @@
                         'videopress.com/v/*',
 
                         // Tumblr
-                        'tumblr.com/post/*',
+                        '*.tumblr.com/post/*',
 
                         // SmugMug
                         'smugmug.com/*',
