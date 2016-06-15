@@ -641,7 +641,7 @@
 
                 var customClasses = "";
                 if (!!Object.keys(shortcodeAttributes).length) {
-                    var specialAttributes = ["class"];
+                    var specialAttributes = ["class", "href", "data-href"];
                     // Iterates over each attribute of shortcodeAttributes to add the prefix "data-" if missing
                     var dataPrefix = "data-";
                     var prefixedShortcodeAttributes = [];
