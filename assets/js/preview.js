@@ -778,7 +778,7 @@
                                     }, 300);
                                 });
                             } else if (element.tagName.toLowerCase() === "div") {
-                                if ($('img', $(element)).length) {
+                                if ($('img', $(element)).length || $('blockquote', $wrapper).length) {
                                     // This ensures that the embed wrapper have the same width as its content
                                     $($(element).parents('.embedpress_wrapper').get(0)).addClass('dynamic-width');
                                 }
