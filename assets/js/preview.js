@@ -1272,8 +1272,15 @@
                     });
                 });
 
-                var embedWidth = (embedItem.parent().parent().data('width') || embedItem.width()) || "";
-                var embedHeight = (embedItem.parent().parent().data('height') || embedItem.height()) || "";
+                var embedWidth = (embedItem.parent().parent().data('width') || embedItem.width()) || 0;
+                if (!embedWidth) {
+                    embedWidth = $('.embedpress-wrapper', $wrapper).width() || "";
+                }
+
+                var embedHeight = (embedItem.parent().parent().data('height') || embedItem.height()) || 0;
+                if (!embedHeight) {
+                    embedHeight = $('.embedpress-wrapper', $wrapper).height() || "";
+                }
 
                 embedItem = null;
 
