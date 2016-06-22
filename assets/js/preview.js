@@ -782,6 +782,8 @@
                                     // This ensures that the embed wrapper have the same width as its content
                                     $($(element).parents('.embedpress_wrapper').get(0)).addClass('dynamic-width');
                                 }
+
+                                $(element).css('max-width', $($(element).parents('body').get(0)).width());
                             }
                         }
 
