@@ -1257,32 +1257,24 @@
 
                 var customAttributes = {};
 
+                var embedInnerWrapper = $('.embedpress-wrapper', $wrapper);
                 var embedItem = $('iframe', $wrapper);
                 if (!embedItem.length) {
-                    embedItem = $('img', $wrapper);
+                    embedItem = null;
                 }
 
-                embedItem.parent().each(function() {
-                    $.each(this.attributes, function() {
-                        if (this.specified) {
-                            if (this.name !== "class") {
-                                customAttributes[this.name.replace('data-', "").toLowerCase()] = this.value;
-                            }
+                $.each(embedInnerWrapper.attributes, function() {
+                    if (this.specified) {
+                        if (this.name !== "class") {
+                            customAttributes[this.name.replace('data-', "").toLowerCase()] = this.value;
                         }
-                    });
+                    }
                 });
 
-                var embedWidth = (embedItem.parent().parent().data('width') || embedItem.width()) || 0;
-                if (!embedWidth) {
-                    embedWidth = $('.embedpress-wrapper', $wrapper).width() || "";
-                }
+                var embedWidth = (((embedItem && embedItem.width()) || embedInnerWrapper.data('width')) || embedInnerWrapper.width()) || "";
+                var embedHeight = (((embedItem && embedItem.height()) || embedInnerWrapper.data('height')) || embedInnerWrapper.height()) || "";
 
-                var embedHeight = (embedItem.parent().parent().data('height') || embedItem.height()) || 0;
-                if (!embedHeight) {
-                    embedHeight = $('.embedpress-wrapper', $wrapper).height() || "";
-                }
-
-                embedItem = null;
+                embedItem = embedInnerWrapper = null;
 
                 $('<div class="loader-indicator"><i class="embedpress-icon-reload"></i></div>').appendTo($wrapper);
 
