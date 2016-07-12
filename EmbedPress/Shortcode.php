@@ -107,7 +107,7 @@ class Shortcode
             $urlData = self::$oEmbedInstance->fetch($serviceProvider, $content, $attributes);
 
             // Transform all shortcode attributes into html form. I.e.: {foo: "joe"} -> foo="joe"
-            $attributesHtml = [];
+            $attributesHtml = array();
             foreach ($attributes as $attrName => $attrValue) {
                 $attributesHtml[] = $attrName .'="'. $attrValue .'"';
             }
@@ -258,7 +258,7 @@ class Shortcode
     private static function parseContentAttributes(array $customAttributes)
     {
         $attributes = array(
-            'class' => ["embedpress-wrapper"]
+            'class' => array("embedpress-wrapper")
         );
 
         $embedShouldBeResponsive = true;
@@ -312,7 +312,7 @@ class Shortcode
             }
 
             // Check if there's any "responsive" parameter
-            $responsiveAttributes = ["responsive", "data-responsive"];
+            $responsiveAttributes = array("responsive", "data-responsive");
             foreach ($responsiveAttributes as $responsiveAttr) {
                 if (isset($attributes[$responsiveAttr])) {
                     if (!strlen($attributes[$responsiveAttr])) { // If the parameter is passed but have no value, it will be true by default

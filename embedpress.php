@@ -37,4 +37,5 @@ function onPluginDeactivationCallback()
 register_activation_hook(__FILE__, 'onPluginActivationCallback');
 register_deactivation_hook(__FILE__, 'onPluginDeactivationCallback');
 
-(new Plugin())->initialize();
+$embedPressPlugin = new Plugin();
+$embedPressPlugin->initialize();

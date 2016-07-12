@@ -116,7 +116,7 @@ class Disabler
      * @param   array   $plugins    An array containing enabled plugins.
      */
     public static function disableDefaultEmbedTinyMCERelatedPlugins($plugins) {
-        $blackListedPlugins = ["wpembed", "wpview"];
+        $blackListedPlugins = array("wpembed", "wpview");
 
         return array_diff($plugins, $blackListedPlugins);
     }
