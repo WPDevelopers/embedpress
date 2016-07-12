@@ -1291,6 +1291,11 @@
                             $('.loader-indicator', $wrapper).addClass('is-loading');
                         },
                         success: function(response) {
+                            if (!response) {
+                                bootbox.alert('Unable to get a valid response from the server.');
+                                return;
+                            }
+
                             if (response.canBeResponsive) {
                                 var embedShouldBeResponsive = true;
                                 if ("width" in customAttributes || "height" in customAttributes) {
