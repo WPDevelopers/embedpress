@@ -95,7 +95,7 @@ class Disabler
      * @param   array   $rules  WordPress rewrite rules.
      * @return  array
      */
-    public static function disableDefaultEmbedRewriteRules() {
+    public static function disableDefaultEmbedRewriteRules($rules) {
         if (count($rules) > 0) {
             foreach ($rules as $rule => $rewrite) {
                 if (strpos($rewrite, 'embed=true') !== false) {
