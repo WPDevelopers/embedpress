@@ -9,6 +9,9 @@
 .embedpress_wrapper {
     position: relative;
     padding: 1px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .embedpress_wrapper.dynamic-width {

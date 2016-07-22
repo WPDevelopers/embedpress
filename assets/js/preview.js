@@ -641,7 +641,7 @@
 
                 var customClasses = "";
                 if (!!Object.keys(shortcodeAttributes).length) {
-                    var specialAttributes = ["class"];
+                    var specialAttributes = ["class", "href", "data-href"];
                     // Iterates over each attribute of shortcodeAttributes to add the prefix "data-" if missing
                     var dataPrefix = "data-";
                     var prefixedShortcodeAttributes = [];
@@ -1291,6 +1291,11 @@
                             $('.loader-indicator', $wrapper).addClass('is-loading');
                         },
                         success: function(response) {
+                            if (!response) {
+                                bootbox.alert('Unable to get a valid response from the server.');
+                                return;
+                            }
+
                             if (response.canBeResponsive) {
                                 var embedShouldBeResponsive = true;
                                 if ("width" in customAttributes || "height" in customAttributes) {
