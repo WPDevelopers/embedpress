@@ -15,6 +15,6 @@
  */
 
 $additionalServiceProviders = array(
-    'GoogleMaps' => ["google.com", "google.com.*", "maps.google.com"],
-    'GoogleDocs' => ["docs.google.com"]
+    'GoogleMaps' => array("google.com", "google.com.*", "maps.google.com"),
+    'GoogleDocs' => array("docs.google.com")
 );

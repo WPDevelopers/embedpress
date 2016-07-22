@@ -107,7 +107,7 @@ class Shortcode
             $urlData = self::$oEmbedInstance->fetch($serviceProvider, $content, $attributes);
 
             // Transform all shortcode attributes into html form. I.e.: {foo: "joe"} -> foo="joe"
-            $attributesHtml = [];
+            $attributesHtml = array();
             foreach ($attributes as $attrName => $attrValue) {
                 $attributesHtml[] = $attrName .'="'. $attrValue .'"';
             }
@@ -116,8 +116,8 @@ class Shortcode
             $embedTemplate = '<div '. implode(' ', $attributesHtml) .'>{html}</div>';
 
             // Try to generate the embed using WP API
-            $content = self::$oEmbedInstance->get_html($content, $attributes);
-            if (!$content) {
+            $parsedContent = self::$oEmbedInstance->get_html($content, $attributes);
+            if (!$parsedContent) {
                 // If the embed couldn't be generated, we'll try to use Embera's API
                 $emberaInstance = new Embera($emberaInstanceSettings);
                 // Add support to the user's custom service providers
@@ -135,18 +135,18 @@ class Shortcode
                 $emberaFormaterInstance->setTemplate($embedTemplate);
 
                 // Try to generate the embed using Embera API
-                $content = $emberaFormaterInstance->transform($content);
+                $parsedContent = $emberaFormaterInstance->transform($content);
 
                 unset($emberaFormaterInstance, $additionalServiceProviders, $emberaInstance);
             } else {
                 // Inject the generated code inside the html template
-                $content = str_replace('{html}', $content, $embedTemplate);
+                $parsedContent = str_replace('{html}', $parsedContent, $embedTemplate);
 
                 // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
-                $content = str_replace("'", '"', $content);
+                $parsedContent = str_replace("'", '"', $parsedContent);
 
                 // Replace the flag `{provider_alias}` which is used by Embera with the "ose-<serviceProviderAlias>". I.e: YouTube -> "ose-youtube"
-                $content = preg_replace('/((?:ose-)?\{provider_alias\})/i', "ose-". strtolower($urlData->provider_name), $content);
+                $parsedContent = preg_replace('/((?:ose-)?\{provider_alias\})/i', "ose-". strtolower($urlData->provider_name), $parsedContent);
             }
 
             unset($embedTemplate, $urlData, $serviceProvider);
@@ -157,7 +157,7 @@ class Shortcode
                     $customWidth = (int)$emberaInstanceSettings['params']['width'];
                     $customHeight = (int)$emberaInstanceSettings['params']['height'];
                 } else {
-                    preg_match_all('/\<iframe\s+width="(\d+)"\s+height="(\d+)"/i', $content, $matches);
+                    preg_match_all('/\<iframe\s+width="(\d+)"\s+height="(\d+)"/i', $parsedContent, $matches);
                     $iframeWidth = (int)$matches[1][0];
                     $iframeHeight = (int)$matches[2][0];
                     $iframeRatio = ceil($iframeWidth / $iframeHeight);
@@ -173,16 +173,16 @@ class Shortcode
                     unset($iframeRatio, $iframeHeight, $iframeWidth, $matches);
                 }
 
-                $content = preg_replace('/\s+width\=\"(\d+)\"/i', ' width="'. $customWidth .'"', $content);
-                $content = preg_replace('/\s+height\=\"(\d+)\"/i', ' height="'. $customHeight .'"', $content);
+                $parsedContent = preg_replace('/\s+width\=\"(\d+)\"/i', ' width="'. $customWidth .'"', $parsedContent);
+                $parsedContent = preg_replace('/\s+height\=\"(\d+)\"/i', ' height="'. $customHeight .'"', $parsedContent);
             }
 
             if ($stripNewLine) {
-                $content = preg_replace('/\n/', '', $content);
+                $parsedContent = preg_replace('/\n/', '', $parsedContent);
             }
 
-            if (!empty($content)) {
-                return $content;
+            if (!empty($parsedContent)) {
+                return $parsedContent;
             }
         }
 
@@ -258,7 +258,7 @@ class Shortcode
     private static function parseContentAttributes(array $customAttributes)
     {
         $attributes = array(
-            'class' => ["embedpress-wrapper"]
+            'class' => array("embedpress-wrapper")
         );
 
         $embedShouldBeResponsive = true;
@@ -312,7 +312,7 @@ class Shortcode
             }
 
             // Check if there's any "responsive" parameter
-            $responsiveAttributes = ["responsive", "data-responsive"];
+            $responsiveAttributes = array("responsive", "data-responsive");
             foreach ($responsiveAttributes as $responsiveAttr) {
                 if (isset($attributes[$responsiveAttr])) {
                     if (!strlen($attributes[$responsiveAttr])) { // If the parameter is passed but have no value, it will be true by default
