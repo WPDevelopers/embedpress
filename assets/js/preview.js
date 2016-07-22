@@ -778,10 +778,12 @@
                                     }, 300);
                                 });
                             } else if (element.tagName.toLowerCase() === "div") {
-                                if ($('img', $(element)).length) {
+                                if ($('img', $(element)).length || $('blockquote', $wrapper).length) {
                                     // This ensures that the embed wrapper have the same width as its content
                                     $($(element).parents('.embedpress_wrapper').get(0)).addClass('dynamic-width');
                                 }
+
+                                $(element).css('max-width', $($(element).parents('body').get(0)).width());
                             }
                         }
 
@@ -1257,25 +1259,24 @@
 
                 var customAttributes = {};
 
+                var embedInnerWrapper = $('.embedpress-wrapper', $wrapper);
                 var embedItem = $('iframe', $wrapper);
                 if (!embedItem.length) {
-                    embedItem = $('img', $wrapper);
+                    embedItem = null;
                 }
 
-                embedItem.parent().each(function() {
-                    $.each(this.attributes, function() {
-                        if (this.specified) {
-                            if (this.name !== "class") {
-                                customAttributes[this.name.replace('data-', "").toLowerCase()] = this.value;
-                            }
+                $.each(embedInnerWrapper.attributes, function() {
+                    if (this.specified) {
+                        if (this.name !== "class") {
+                            customAttributes[this.name.replace('data-', "").toLowerCase()] = this.value;
                         }
-                    });
+                    }
                 });
 
-                var embedWidth = (embedItem.parent().parent().data('width') || embedItem.width()) || "";
-                var embedHeight = (embedItem.parent().parent().data('height') || embedItem.height()) || "";
+                var embedWidth = (((embedItem && embedItem.width()) || embedInnerWrapper.data('width')) || embedInnerWrapper.width()) || "";
+                var embedHeight = (((embedItem && embedItem.height()) || embedInnerWrapper.data('height')) || embedInnerWrapper.height()) || "";
 
-                embedItem = null;
+                embedItem = embedInnerWrapper = null;
 
                 $('<div class="loader-indicator"><i class="embedpress-icon-reload"></i></div>').appendTo($wrapper);
 
