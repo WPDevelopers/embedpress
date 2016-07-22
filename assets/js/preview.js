@@ -709,7 +709,7 @@
                     'id': 'embedpress_button_edit_' + uid,
                     'class': 'embedpress_ignore_mouseout embedpress_controller_button'
                 });
-                editButtonIcon = new self.Node('i', 1);
+                editButtonIcon = new self.Node('div', 1);
                 editButtonIcon.attr({
                     'class': 'embedpress-icon-pencil embedpress_ignore_mouseout'
                 });
@@ -722,7 +722,7 @@
                     'id': 'embedpress_button_remove_' + uid,
                     'class': 'embedpress_ignore_mouseout embedpress_controller_button'
                 });
-                removeButtonIcon = new self.Node('i', 1);
+                removeButtonIcon = new self.Node('div', 1);
                 removeButtonIcon.attr({
                     'class': 'embedpress-icon-x embedpress_ignore_mouseout'
                 });
