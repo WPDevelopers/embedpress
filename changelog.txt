@@ -1,5 +1,5 @@
 == Changelog ==
 = 1.0 =
-Release Date: 2016-06-17
+Release Date: 2016-07-27
 
 * Initial release.

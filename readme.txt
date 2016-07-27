@@ -16,7 +16,7 @@ Even if you are not an experienced developer, with EmbedPress, you can easily em
 Facebook, YouTube, Vimeo, DailyMotion, Instagram, SoundCloud, Twitter, Slideshare, Flickr, Hulu, Kickstarter, Vine, Getty Images and [many more](https://github.com/OSTraining/EmbedPress/blob/master/PROVIDERS.md)!
 
 == Installation ==
-There's two ways to install EmbedPress plugin:
+There're two ways to install EmbedPress plugin:
 
 **Through your WordPress site's admin**
 
@@ -37,7 +37,7 @@ There's two ways to install EmbedPress plugin:
 
 == Usage ==
 - Once the plugin is active, you can go on the editor and paste any URL as you normally would.
-- To pass custom parameters to an embed ou can do:
+- To pass custom parameters to an embed you can hover on the preview and click on the "Pencil" button. Optionally you can set custom parameters directly using short-codes like:
 
 `
 // This will render the iframe (if there's one. Some services may use other tags) having its dimensions fixed to 460x300px.
@@ -52,6 +52,6 @@ There's two ways to install EmbedPress plugin:
 
 == Changelog ==
 = 1.0 =
-Release Date: 2016-06-17
+Release Date: 2016-07-27
 
 * Initial release.
