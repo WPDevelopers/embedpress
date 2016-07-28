@@ -68,9 +68,9 @@
             var subject = this.toString();
             if (subject.hasShortcode(shortcode)) {
                 var attributes = {};
-                var propertiesString = (new RegExp(/\[embed\s*(.*?)\]/, "ig")).exec(subject)[1]; // Separate all shortcode attributes from the rest of the string
+                var propertiesString = (new RegExp(/\[embed\s*(.*?)\]/ig)).exec(subject)[1]; // Separate all shortcode attributes from the rest of the string
                 if (propertiesString.length > 0) {
-                    var extractAttributesRule = new RegExp(/(\!?\w+-?\w*)(?:="(.+?)")?/, "ig"); // Extract attributes and their values
+                    var extractAttributesRule = new RegExp(/(\!?\w+-?\w*)(?:="(.+?)")?/ig); // Extract attributes and their values
                     var match;
                     while (match = extractAttributesRule.exec(propertiesString)) {
                         var attrName = match[1];
