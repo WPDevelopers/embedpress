@@ -6,7 +6,9 @@
  * @since       1.0
  */
 
-(function(window, $, String, $data){
+(function(window, $, String, $data) {
+    "use strict";
+
     $(window.document).ready(function() {
         String.prototype.capitalizeFirstLetter = function() {
             return this.charAt(0).toUpperCase() + this.slice(1);
@@ -333,7 +335,7 @@
             self.addStylesheet = function(url) {
                 var head = self.editor.getDoc().getElementsByTagName('head')[0];
 
-                $style = $('<link rel="stylesheet" type="text/css" href="' + url + '">');
+                var $style = $('<link rel="stylesheet" type="text/css" href="' + url + '">');
                 $style.appendTo(head);
             }
 
@@ -709,7 +711,7 @@
                     'id': 'embedpress_button_edit_' + uid,
                     'class': 'embedpress_ignore_mouseout embedpress_controller_button'
                 });
-                editButtonIcon = new self.Node('div', 1);
+                var editButtonIcon = new self.Node('div', 1);
                 editButtonIcon.attr({
                     'class': 'embedpress-icon-pencil embedpress_ignore_mouseout'
                 });
@@ -722,7 +724,7 @@
                     'id': 'embedpress_button_remove_' + uid,
                     'class': 'embedpress_ignore_mouseout embedpress_controller_button'
                 });
-                removeButtonIcon = new self.Node('div', 1);
+                var removeButtonIcon = new self.Node('div', 1);
                 removeButtonIcon.attr({
                     'class': 'embedpress-icon-x embedpress_ignore_mouseout'
                 });
@@ -998,7 +1000,7 @@
                                 }
                             }
 
-                            text = new self.Node('#text', 3);
+                            var text = new self.Node('#text', 3);
                             text.value = self.decodeEmbedURLSpecialChars(node.attributes.map['data-url'].trim(), true, customAttributes);
 
                             node.replace(text);
