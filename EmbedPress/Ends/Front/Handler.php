@@ -23,7 +23,8 @@ class Handler extends EndHandlerAbstract
      *
      * @since 1.0
      */
-    public function enqueueScripts() {}
+    public function enqueueScripts()
+    {}
 
     /**
      * Method that register all stylesheets for the public area.

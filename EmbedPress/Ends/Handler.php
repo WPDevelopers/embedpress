@@ -43,7 +43,8 @@ abstract class Handler
      * @param   string    $pluginName - The name of the plugin.
      * @param   string    $pluginVersion - The version of the plugin.
      */
-    public function __construct($pluginName, $pluginVersion) {
+    public function __construct($pluginName, $pluginVersion)
+    {
         $this->pluginName = $pluginName;
         $this->pluginVersion = $pluginVersion;
     }

@@ -95,7 +95,8 @@ class Disabler
      * @param   array   $rules  WordPress rewrite rules.
      * @return  array
      */
-    public static function disableDefaultEmbedRewriteRules() {
+    public static function disableDefaultEmbedRewriteRules($rules)
+    {
         if (count($rules) > 0) {
             foreach ($rules as $rule => $rewrite) {
                 if (strpos($rewrite, 'embed=true') !== false) {
@@ -115,7 +116,8 @@ class Disabler
      *
      * @param   array   $plugins    An array containing enabled plugins.
      */
-    public static function disableDefaultEmbedTinyMCERelatedPlugins($plugins) {
+    public static function disableDefaultEmbedTinyMCERelatedPlugins($plugins)
+    {
         $blackListedPlugins = array("wpembed", "wpview");
 
         return array_diff($plugins, $blackListedPlugins);
