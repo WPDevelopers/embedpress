@@ -1309,6 +1309,7 @@
                             }
 
                             bootbox.dialog({
+                                className: "embedpress-modal",
                                 title: "Editing Embed properties",
                                 message: '<form id="form-'+ wrapperUid +'" embedpress>'+
                                             '<div class="row">'+
