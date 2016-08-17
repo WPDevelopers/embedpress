@@ -2,7 +2,7 @@
  * This file was generated through the Sass port of Bootstrap (https://github.com/twbs/bootstrap-sass).
  * The following modules were used: "forms", "buttons", "button-groups", "input-groups", "close", "modals".
  * - - - - - - - - - - - - - - - - - - - - - - - - -
- * Bootstrap v3.3.6 (http://getbootstrap.com)
+ * Bootstrap v3.3.7 (http://getbootstrap.com)
  * Copyright 2011-2016 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
@@ -53,7 +53,6 @@
 .embedpress-modal input[type="file"]:focus,
 .embedpress-modal input[type="radio"]:focus,
 .embedpress-modal input[type="checkbox"]:focus {
-  outline: thin dotted;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px; }
 
@@ -510,7 +509,6 @@ fieldset[disabled]
   -ms-user-select: none;
   user-select: none; }
   .embedpress-modal .btn:focus, .embedpress-modal .btn.focus, .embedpress-modal .btn:active:focus, .embedpress-modal .btn:active.focus, .embedpress-modal .btn.active:focus, .embedpress-modal .btn.active.focus {
-    outline: thin dotted;
     outline: 5px auto -webkit-focus-ring-color;
     outline-offset: -2px; }
   .embedpress-modal .btn:hover, .embedpress-modal .btn:focus, .embedpress-modal .btn.focus {
