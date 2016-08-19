@@ -354,6 +354,9 @@
             self.getProvidersURLPatterns = function() {
                 // @todo: Add option to disable/enable the providers
                 var urlSchemes = [
+                        // PollDaddy
+                        '*.polldaddy.com/s/*',
+
                         // VideoPress
                         'videopress.com/v/*',
 
