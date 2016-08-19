@@ -249,7 +249,7 @@
                     var innerScriptsList = $('script', subject);
                     if (innerScriptsList.length > 0) {
                         $.each(innerScriptsList, function(innerScriptIndex, innerScript) {
-                            self.loadAsyncDynamicJsCodeFromElement(innerScript);
+                            self.loadAsyncDynamicJsCodeFromElement(innerScript, wrapper);
                         });
                     }
                 }
