@@ -765,7 +765,6 @@
                     }
 
                     var $wrapper = $(self.getElementInContentById('embedpress_wrapper_' + uid));
-                    var scripts = [];
 
                     $wrapper.removeClass('embedpress_placeholder');
 
@@ -1172,7 +1171,7 @@
 
                 if (e.keyCode == 8 || e.keyCode == 46) {
                     if (node.nodeName.toLowerCase() === 'p') {
-                        children = $(node).children();
+                        var children = $(node).children();
                         if (children.length > 0) {
                             $.each(children, function() {
                                 // On delete, make sure to remove the wrapper and children, not only the wrapper
