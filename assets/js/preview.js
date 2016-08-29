@@ -357,6 +357,7 @@
                         // PollDaddy
                         '*.polldaddy.com/s/*',
                         'polldaddy.com/poll/*',
+                        'polldaddy.com/ratings/*',
 
                         // VideoPress
                         'videopress.com/v/*',
@@ -792,52 +793,50 @@
                                 iframe.class = "wpview-sandbox";
                                 iframe.style.width = (customAttributes.width ? customAttributes.width +'px' : '100%');
 
+                                dom.add(contentWrapper, iframe);
+
+                                var iframeWindow = iframe.contentWindow;
+                                var iframeDoc = iframeWindow.document;
+
                                 $(iframe).load(function() {
-                                    var iframeWindow = iframe.contentWindow;
-                                    var iframeDoc = iframeWindow.document;
-
-                                    iframeDoc.open();
-                                    iframeDoc.write(
-                                        '<!DOCTYPE html>'+
-                                        '<html>'+
-                                            '<head>'+
-                                                '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'+
-                                                '<style>'+
-                                                    'html {'+
-                                                        'background: transparent;'+
-                                                        'padding: 0;'+
-                                                        'margin: 0;'+
-                                                    '}'+
-                                                    'body#wpview-iframe-sandbox {'+
-                                                        'background: transparent;'+
-                                                        'padding: 1px 0 !important;'+
-                                                        'margin: -1px 0 0 !important;'+
-                                                    '}'+
-                                                    'body#wpview-iframe-sandbox:before,'+
-                                                    'body#wpview-iframe-sandbox:after {'+
-                                                        'display: none;'+
-                                                        'content: "";'+
-                                                    '}'+
-                                                '</style>'+
-                                            '</head>'+
-                                            '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'">'+
-                                                $content.html() +
-                                            '</body>'+
-                                        '</html>'
-                                    );
-                                    iframeDoc.close();
-
-                                    setTimeout(function() {
-                                        if (customAttributes.height) {
-                                            iframe.height = customAttributes.height;
-                                            iframe.style.height = customAttributes.height +'px';
-                                        } else {
-                                            iframe.height = iframeDoc.body.scrollHeight;
-                                        }
-                                    }, 1500);
+                                    if (customAttributes.height) {
+                                        iframe.height = customAttributes.height;
+                                        iframe.style.height = customAttributes.height +'px';
+                                    } else {
+                                        iframe.height = iframeDoc.body.scrollHeight;
+                                    }
                                 });
 
-                                dom.add(contentWrapper, iframe);
+                                iframeDoc.open();
+                                iframeDoc.write(
+                                    '<!DOCTYPE html>'+
+                                    '<html>'+
+                                        '<head>'+
+                                            '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'+
+                                            '<style>'+
+                                                'html {'+
+                                                    'background: transparent;'+
+                                                    'padding: 0;'+
+                                                    'margin: 0;'+
+                                                '}'+
+                                                'body#wpview-iframe-sandbox {'+
+                                                    'background: transparent;'+
+                                                    'padding: 1px 0 !important;'+
+                                                    'margin: -1px 0 0 !important;'+
+                                                '}'+
+                                                'body#wpview-iframe-sandbox:before,'+
+                                                'body#wpview-iframe-sandbox:after {'+
+                                                    'display: none;'+
+                                                    'content: "";'+
+                                                '}'+
+                                            '</style>'+
+                                        '</head>'+
+                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'">'+
+                                            $content.html() +
+                                        '</body>'+
+                                    '</html>'
+                                );
+                                iframeDoc.close();
                             });
                         }, 50);
                     } else {
