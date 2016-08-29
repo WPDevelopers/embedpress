@@ -243,13 +243,13 @@
                     if (!scriptSrc) {
                         self.addScriptDeclaration(wrapper, subject.html());
                     } else {
-                        self.addScript(scriptSrc);
+                        self.addScript(scriptSrc, null, wrapper);
                     }
                 } else {
                     var innerScriptsList = $('script', subject);
                     if (innerScriptsList.length > 0) {
                         $.each(innerScriptsList, function(innerScriptIndex, innerScript) {
-                            self.loadAsyncDynamicJsCodeFromElement(innerScript);
+                            self.loadAsyncDynamicJsCodeFromElement(innerScript, wrapper);
                         });
                     }
                 }
@@ -354,6 +354,11 @@
             self.getProvidersURLPatterns = function() {
                 // @todo: Add option to disable/enable the providers
                 var urlSchemes = [
+                        // PollDaddy
+                        '*.polldaddy.com/s/*',
+                        'polldaddy.com/poll/*',
+                        'polldaddy.com/ratings/*',
+
                         // VideoPress
                         'videopress.com/v/*',
 
@@ -610,18 +615,23 @@
                 return patterns;
             };
 
-            self.addScript = function(source, callback) {
-                var doc = self.editor.getDoc(),
-                    $script = $(doc.createElement('script')),
-                    $head = $(doc.getElementsByTagName('head')[0]);
-                $script.attr('async', 1);
-                $head.append($script);
+            self.addScript = function(source, callback, wrapper) {
+                var doc = self.editor.getDoc();
 
-                if (typeof callback !== 'undefined') {
+                if (typeof wrapper === 'undefined' || !wrapper) {
+                    wrapper = $(doc.getElementsByTagName('head')[0]);
+                }
+
+                var $script = $(doc.createElement('script'));
+                $script.attr('async', 1);
+
+                if (typeof callback === 'function') {
                     $script.ready(callback);
                 }
 
                 $script.attr('src', source);
+
+                wrapper.append($script);
             };
 
             self.addScriptDeclaration = function(wrapper, declaration) {
@@ -751,6 +761,8 @@
                 self.getParsedContent(url, function getParsedContentCallback(result) {
                     result.data.content = result.data.content.stripShortcode($data.EMBEDPRESS_SHORTCODE);
 
+                    var $wrapper = $(self.getElementInContentById('embedpress_wrapper_' + uid));
+
                     // Parse as DOM element
                     var $content;
                     try {
@@ -761,26 +773,97 @@
                         $content.html(result.data.content);
                     }
 
-                    var $wrapper = $(self.getElementInContentById('embedpress_wrapper_' + uid));
-                    var scripts = [];
+                    if (!$('iframe', $content).length) {
+                        var contentWrapper = $($content).clone();
+                        contentWrapper.html('');
 
-                    $wrapper.removeClass('embedpress_placeholder');
+                        var dom = self.editor.dom;
 
-                    $.each($content, function appendEachEmbedElement(index, element) {
+                        $wrapper.removeClass('embedpress_placeholder');
+
+                        $wrapper.append(contentWrapper);
+
+                        setTimeout(function() {
+                            self.editor.undoManager.transact(function() {
+                                var iframe = self.editor.getDoc().createElement('iframe');
+                                iframe.src = tinymce.Env.ie ? 'javascript:""' : '';
+                                iframe.frameBorder = '0';
+                                iframe.allowTransparency = 'true';
+                                iframe.scrolling = 'no';
+                                iframe.class = "wpview-sandbox";
+                                iframe.style.width = (customAttributes.width ? customAttributes.width +'px' : '100%');
+
+                                dom.add(contentWrapper, iframe);
+
+                                var iframeWindow = iframe.contentWindow;
+                                var iframeDoc = iframeWindow.document;
+
+                                $(iframe).load(function() {
+                                    if (customAttributes.height) {
+                                        iframe.height = customAttributes.height;
+                                        iframe.style.height = customAttributes.height +'px';
+                                    } else {
+                                        iframe.height = iframeDoc.body.scrollHeight;
+                                    }
+                                });
+
+                                iframeDoc.open();
+                                iframeDoc.write(
+                                    '<!DOCTYPE html>'+
+                                    '<html>'+
+                                        '<head>'+
+                                            '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'+
+                                            '<style>'+
+                                                'html {'+
+                                                    'background: transparent;'+
+                                                    'padding: 0;'+
+                                                    'margin: 0;'+
+                                                '}'+
+                                                'body#wpview-iframe-sandbox {'+
+                                                    'background: transparent;'+
+                                                    'padding: 1px 0 !important;'+
+                                                    'margin: -1px 0 0 !important;'+
+                                                '}'+
+                                                'body#wpview-iframe-sandbox:before,'+
+                                                'body#wpview-iframe-sandbox:after {'+
+                                                    'display: none;'+
+                                                    'content: "";'+
+                                                '}'+
+                                            '</style>'+
+                                        '</head>'+
+                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'">'+
+                                            $content.html() +
+                                        '</body>'+
+                                    '</html>'
+                                );
+                                iframeDoc.close();
+                            });
+                        }, 50);
+                    } else {
+                        $wrapper.removeClass('embedpress_placeholder');
+
+                        self.appendElementsIntoWrapper($content, $wrapper);
+                    }
+                });
+            };
+
+            self.appendElementsIntoWrapper = function(elementsList, wrapper) {
+                if (elementsList.length > 0) {
+                    $.each(elementsList, function appendElementIntoWrapper(elementIndex, element) {
                         // Check if the element is a script and do not add it now (if added here it wouldn't be executed)
                         if (element.tagName.toLowerCase() !== 'script') {
-                            $wrapper.append($(element));
+                            wrapper.append($(element));
 
                             if (element.tagName.toLowerCase() === 'iframe') {
                                 $(element).ready(function() {
                                     window.setTimeout(function() {
-                                        $.each(self.editor.dom.select('div.embedpress_wrapper iframe'), function(index, iframe) {
+                                        $.each(self.editor.dom.select('div.embedpress_wrapper iframe'), function(elementIndex, iframe) {
                                             self.fixIframeSize(iframe);
                                         });
                                     }, 300);
                                 });
                             } else if (element.tagName.toLowerCase() === "div") {
-                                if ($('img', $(element)).length || $('blockquote', $wrapper).length) {
+                                if ($('img', $(element)).length || $('blockquote', wrapper).length) {
                                     // This ensures that the embed wrapper have the same width as its content
                                     $($(element).parents('.embedpress_wrapper').get(0)).addClass('dynamic-width');
                                 }
@@ -789,9 +872,11 @@
                             }
                         }
 
-                       self.loadAsyncDynamicJsCodeFromElement(element, $wrapper);
+                        self.loadAsyncDynamicJsCodeFromElement(element, wrapper);
                     });
-                });
+                }
+
+                return wrapper;
             };
 
             self.encodeEmbedURLSpecialChars = function(content) {
@@ -1169,7 +1254,7 @@
 
                 if (e.keyCode == 8 || e.keyCode == 46) {
                     if (node.nodeName.toLowerCase() === 'p') {
-                        children = $(node).children();
+                        var children = $(node).children();
                         if (children.length > 0) {
                             $.each(children, function() {
                                 // On delete, make sure to remove the wrapper and children, not only the wrapper
