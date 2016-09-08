@@ -598,6 +598,7 @@
                         'google.com/*',
                         'google.com.*/*',
                         'maps.google.com/*',
+                        'goo.gl/maps/*',
 
                         // Google Docs
                         'docs.google.com/presentation/*',

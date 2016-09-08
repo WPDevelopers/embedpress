@@ -115,6 +115,27 @@ class Shortcode
             // Define the EmbedPress html template where the generated embed will be injected in
             $embedTemplate = '<div '. implode(' ', $attributesHtml) .'>{html}</div>';
 
+            // Check if $content is a google shortened url and tries to extract from it which Google service it refers to.
+            if (preg_match('/http[s]:\/\/goo\.gl\/([a-z]+)\//i', $content, $matches)) {
+                $service = strtoupper($matches[1]);
+                // Check if Google service is supported atm.
+                if (in_array($service, array('MAPS'))) {
+                    // Fetch all headers from the short-url so we can know how to handle its original content depending on the service.
+                    $headers = get_headers($content);
+                    // So $content is a Google Maps shortened url.
+                    if ($service === "MAPS") {
+                        // Extract the original maps url from "Location" header.
+                        foreach ($headers as $header) {
+                            if (preg_match('/^Location:\s+(http[s]?:\/\/.+)$/i', $header, $matches)) {
+                                // Replace the shortened url with its original url.
+                                $content = $matches[1];
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
             // Try to generate the embed using WP API
             $parsedContent = self::$oEmbedInstance->get_html($content, $attributes);
             if (!$parsedContent) {
