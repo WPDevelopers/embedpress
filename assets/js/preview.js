@@ -594,11 +594,13 @@
                         // Facebook
                         'facebook.com/*',
 
+                        // Google Shortened Url
+                        'goo.gl/*',
+
                         // Google Maps
                         'google.com/*',
                         'google.com.*/*',
                         'maps.google.com/*',
-                        'goo.gl/maps/*',
 
                         // Google Docs
                         'docs.google.com/presentation/*',
