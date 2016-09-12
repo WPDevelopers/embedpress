@@ -1621,6 +1621,8 @@
                                         }
                                     }, 500, 8000);
 
+                                    self.editor.execCommand('mceInsertRawHTML', false, '<span></span>');
+
                                     $wrapper.on('mouseenter', self.onMouseEnter);
                                     $wrapper.on('mouseout', self.onMouseOut);
                                     $wrapper.data('configured', true);
