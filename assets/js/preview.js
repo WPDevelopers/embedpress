@@ -980,143 +980,163 @@
                 self.JSON   = tinymce.util.JSON;
                 self.Node   = tinymce.html.Node;
 
-                self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/font.css?' + self.params.versionUID);
-                self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/preview.css?' + self.params.versionUID);
-                self.addStylesheet(PLG_CONTENT_ASSETS_CSS_PATH + '/embedpress.css?' + self.params.versionUID);
-                self.addEvent('paste', self.editor, self.onPaste);
-                self.addEvent('nodechange', self.editor, self.onNodeChange);
-                self.addEvent('keydown', self.editor, self.onKeyDown);
+                function onFindEditorCallback() {
+                    self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/font.css?' + self.params.versionUID);
+                    self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/preview.css?' + self.params.versionUID);
+                    self.addStylesheet(PLG_CONTENT_ASSETS_CSS_PATH + '/embedpress.css?' + self.params.versionUID);
+                    self.addEvent('paste', self.editor, self.onPaste);
+                    self.addEvent('nodechange', self.editor, self.onNodeChange);
+                    self.addEvent('keydown', self.editor, self.onKeyDown);
 
-                self.addEvent('undo', self.editor, self.onUndo); // TinyMCE
-                self.addEvent('undo', self.editor.undoManager, self.onUndo); // JCE
+                    self.addEvent('undo', self.editor, self.onUndo); // TinyMCE
+                    self.addEvent('undo', self.editor.undoManager, self.onUndo); // JCE
 
-                // Add the node filter that will convert the url into the preview box for the embed code
-                // @todo: Recognize <a> tags as well
-                self.editor.parser.addNodeFilter('#text', function addNodeFilterIntoParser(nodes, arg) {
-                    self.each(nodes, function eachNodeInParser(node) {
-                        var subject = node.value;
-                        if (!subject.isValidUrl()) {
-                            if (!subject.match(SHORTCODE_REGEXP)) {
-                                return;
+                    // Add the node filter that will convert the url into the preview box for the embed code
+                    // @todo: Recognize <a> tags as well
+                    self.editor.parser.addNodeFilter('#text', function addNodeFilterIntoParser(nodes, arg) {
+                        self.each(nodes, function eachNodeInParser(node) {
+                            var subject = node.value;
+                            if (!subject.isValidUrl()) {
+                                if (!subject.match(SHORTCODE_REGEXP)) {
+                                    return;
+                                }
                             }
-                        }
 
-                        subject = self.decodeEmbedURLSpecialChars(subject);
-                        if (!subject.isValidUrl()) {
-                            if (!subject.match(SHORTCODE_REGEXP)) {
-                                return;
+                            subject = self.decodeEmbedURLSpecialChars(subject);
+                            if (!subject.isValidUrl()) {
+                                if (!subject.match(SHORTCODE_REGEXP)) {
+                                    return;
+                                }
                             }
-                        }
 
-                        subject = node.value.stripShortcode($data.EMBEDPRESS_SHORTCODE).trim();
+                            subject = node.value.stripShortcode($data.EMBEDPRESS_SHORTCODE).trim();
 
-                        // These patterns need to have groups for the pre and post texts
-                        var patterns = self.getProvidersURLPatterns();
+                            // These patterns need to have groups for the pre and post texts
+                            var patterns = self.getProvidersURLPatterns();
 
-                        self.each(patterns, function eachPatternForNodeFilterInParser(pattern) {
-                            var regex = new RegExp(pattern),
-                                matches,
-                                value;
+                            self.each(patterns, function eachPatternForNodeFilterInParser(pattern) {
+                                var regex = new RegExp(pattern),
+                                    matches,
+                                    value;
 
-                            value = self.decodeEmbedURLSpecialChars(subject).trim();
+                                value = self.decodeEmbedURLSpecialChars(subject).trim();
 
-                            matches = value.match(regex);
-                            if (matches !== null && !!matches.length) {
-                                var preText  = matches[1];
-                                var url      = self.encodeEmbedURLSpecialChars(matches[2]);
-                                var postText = matches[3];
-                                var wrapper = self.addURLsPlaceholder(node, url);
+                                matches = value.match(regex);
+                                if (matches !== null && !!matches.length) {
+                                    var preText  = matches[1];
+                                    var url      = self.encodeEmbedURLSpecialChars(matches[2]);
+                                    var postText = matches[3];
+                                    var wrapper = self.addURLsPlaceholder(node, url);
 
-                                // Add the pre text if exists
-                                var text;
-                                if (preText !== '') {
-                                    text = new self.Node('#text', 3);
-                                    text.value = preText.trim();
+                                    // Add the pre text if exists
+                                    var text;
+                                    if (preText !== '') {
+                                        text = new self.Node('#text', 3);
+                                        text.value = preText.trim();
 
-                                    // Insert before
-                                    wrapper.parent.insert(text, wrapper, true);
+                                        // Insert before
+                                        wrapper.parent.insert(text, wrapper, true);
+                                    }
+
+                                    // Add the post text if exists
+                                    if (postText !== '') {
+                                        text = new self.Node('#text', 3);
+                                        text.value = postText.trim();
+
+                                        // Insert after
+                                        wrapper.parent.insert(text, wrapper, false);
+                                    }
+                                }
+                            });
+                        });
+                    });
+
+                    // Add the filter that will convert the preview box/embed code back to the raw url
+                    self.editor.serializer.addNodeFilter('div', function addNodeFilterIntoSerializer(nodes, arg) {
+                        self.each(nodes, function eachNodeInSerializer(node) {
+                            var nodeClasses = (node.attributes.map.class || "").split(' ');
+                            var wrapperFactoryClasses = ["embedpress_wrapper", "embedpress_placeholder"];
+
+                            var isWrapped = nodeClasses.filter(function(n) {
+                                return wrapperFactoryClasses.indexOf(n) != -1;
+                            }).length > 0;
+
+                            if (isWrapped) {
+                                var factoryAttributes = ["id", "style", "data-loading-text", "data-uid", "data-url"];
+                                var customAttributes = {};
+                                var dataPrefix = "data-";
+                                for (var attr in node.attributes.map) {
+                                    if (attr.toLowerCase() !== "class") {
+                                        if (factoryAttributes.indexOf(attr) < 0) {
+                                            // Remove the "data-" prefix for more readability
+                                            customAttributes[attr.replace(dataPrefix, "")] = node.attributes.map[attr];
+                                        }
+                                    } else {
+                                        var customClasses = [];
+                                        for (var wrapperClassIndex in nodeClasses) {
+                                            var wrapperClass = nodeClasses[wrapperClassIndex];
+                                            if (wrapperFactoryClasses.indexOf(wrapperClass) === -1) {
+                                                customClasses.push(wrapperClass);
+                                            }
+                                        }
+
+                                        if (!!customClasses.length) {
+                                            customAttributes.class = customClasses.join(" ");
+                                        }
+                                    }
                                 }
 
-                                // Add the post text if exists
-                                if (postText !== '') {
-                                    text = new self.Node('#text', 3);
-                                    text.value = postText.trim();
+                                var text = new self.Node('#text', 3);
+                                text.value = self.decodeEmbedURLSpecialChars(node.attributes.map['data-url'].trim(), true, customAttributes);
 
-                                    // Insert after
-                                    wrapper.parent.insert(text, wrapper, false);
-                                }
+                                node.replace(text);
+
+                                // @todo: Remove/avoid to add empty paragraphs before and after the text every time we run this
                             }
                         });
                     });
-                });
 
-                // Add the filter that will convert the preview box/embed code back to the raw url
-                self.editor.serializer.addNodeFilter('div', function addNodeFilterIntoSerializer(nodes, arg) {
-                    self.each(nodes, function eachNodeInSerializer(node) {
-                        var nodeClasses = (node.attributes.map.class || "").split(' ');
-                        var wrapperFactoryClasses = ["embedpress_wrapper", "embedpress_placeholder"];
+                    // Add event to reconfigure wrappers every time the content is loaded
+                    tinymce.each(tinymce.editors, function onEachEditor(editor) {
+                        self.addEvent('loadContent', editor, function onInitEditor(ed) {
+                            self.configureWrappers();
+                        });
+                    });
 
-                        var isWrapped = nodeClasses.filter(function(n) {
-                            return wrapperFactoryClasses.indexOf(n) != -1;
-                        }).length > 0;
+                    // Add the edit form
 
-                        if (isWrapped) {
-                            var factoryAttributes = ["id", "style", "data-loading-text", "data-uid", "data-url"];
-                            var customAttributes = {};
-                            var dataPrefix = "data-";
-                            for (var attr in node.attributes.map) {
-                                if (attr.toLowerCase() !== "class") {
-                                    if (factoryAttributes.indexOf(attr) < 0) {
-                                        // Remove the "data-" prefix for more readability
-                                        customAttributes[attr.replace(dataPrefix, "")] = node.attributes.map[attr];
-                                    }
-                                } else {
-                                    var customClasses = [];
-                                    for (var wrapperClassIndex in nodeClasses) {
-                                        var wrapperClass = nodeClasses[wrapperClassIndex];
-                                        if (wrapperFactoryClasses.indexOf(wrapperClass) === -1) {
-                                            customClasses.push(wrapperClass);
-                                        }
-                                    }
+                    // @todo: This is needed only for JCE, to fix the img placeholder. Try to find out a better approach to avoid the placeholder blink
+                    window.setTimeout(
+                        function afterTimeoutOnFindEditor() {
+                            /*
+                             * This is required because after load/refresh the page, the
+                             * onLoadContent is not being triggered automatically, so
+                             * we force the event
+                             */
+                            self.editor.load();
+                        },
+                        // If in JCE the user see the placeholder (img) instead of the iframe after load/refresh the pagr, this time is too short
+                        500
+                    );
+                }
 
-                                    if (!!customClasses.length) {
-                                        customAttributes.class = customClasses.join(" ");
-                                    }
-                                }
-                            }
-
-                            var text = new self.Node('#text', 3);
-                            text.value = self.decodeEmbedURLSpecialChars(node.attributes.map['data-url'].trim(), true, customAttributes);
-
-                            node.replace(text);
-
-                            // @todo: Remove/avoid to add empty paragraphs before and after the text every time we run this
+                // Let's make sure the inner doc has been fully loaded first.
+                var checkTimesLimit = 100;
+                var checkIndex = 0;
+                var statusCheckerInterval = setInterval(function() {
+                    if (checkIndex === checkTimesLimit) {
+                        clearInterval(statusCheckerInterval);
+                        alert('For some reason TinyMCE was not fully loaded yet. Please, refresh the page and try again.');
+                    } else {
+                        var doc = self.editor.getDoc();
+                        if (doc) {
+                            clearInterval(statusCheckerInterval);
+                            onFindEditorCallback();
+                        } else {
+                            checkIndex++;
                         }
-                    });
-                });
-
-                // Add event to reconfigure wrappers every time the content is loaded
-                tinymce.each(tinymce.editors, function onEachEditor(editor) {
-                    self.addEvent('loadContent', editor, function onInitEditor(ed) {
-                        self.configureWrappers();
-                    });
-                });
-
-                // Add the edit form
-
-                // @todo: This is needed only for JCE, to fix the img placeholder. Try to find out a better approach to avoid the placeholder blink
-                window.setTimeout(
-                    function afterTimeoutOnFindEditor() {
-                        /*
-                         * This is required because after load/refresh the page, the
-                         * onLoadContent is not being triggered automatically, so
-                         * we force the event
-                         */
-                        self.editor.load();
-                    },
-                    // If in JCE the user see the placeholder (img) instead of the iframe after load/refresh the pagr, this time is too short
-                    500
-                );
+                    }
+                }, 250);
             };
 
             self.fixIframeSize = function(iframe) {
@@ -1620,8 +1640,6 @@
                                             });
                                         }
                                     }, 500, 8000);
-
-                                    self.editor.execCommand('mceInsertRawHTML', false, '<span></span>');
 
                                     $wrapper.on('mouseenter', self.onMouseEnter);
                                     $wrapper.on('mouseout', self.onMouseOut);
