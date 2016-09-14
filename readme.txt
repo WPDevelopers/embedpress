@@ -58,7 +58,7 @@ Release Date: 2016-09-14
 * Fixed bugs with PollDaddy urls;
 * A lot of other bug fixes.
 
-= 1.0 =
+= 1.0.0 =
 Release Date: 2016-07-27
 
 * Initial release.

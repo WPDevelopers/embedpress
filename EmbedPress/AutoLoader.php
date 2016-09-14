@@ -10,13 +10,15 @@ namespace EmbedPress;
  * @author      PressShack <help@pressshack.com>
  * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
- * @since       1.0
+ * @since       1.0.0
  */
 class AutoLoader
 {
     /**
      * Associative array where the key is a namespace prefix and the value
      * is an array of base directories for classes in that namespace.
+     *
+     * @since 1.0.0
      *
      * @var array
      */
@@ -26,15 +28,23 @@ class AutoLoader
      * Associative array of prefixes for loading specialized camelCase classes
      * where Uppercase letters in the class name indicate directory structure
      *
+     * @since   1.0.0
+     *
      * @var array
      */
     protected static $camelPrefixes = array();
 
     /**
+     * @since 1.0.0
      * @var AutoLoader
      */
     protected static $instance = null;
 
+    /**
+     *
+     *
+     * @since   1.0.0
+     */
     protected static function registerLoader($method)
     {
         if (static::$instance === null) {
@@ -46,6 +56,8 @@ class AutoLoader
 
     /**
      * Register a psr4 namespace
+     *
+     * @since 1.0.0
      *
      * @param string $prefix   The namespace prefix.
      * @param string $baseDir  A base directory for class files in the
@@ -90,6 +102,8 @@ class AutoLoader
     /**
      * Loads the class file for a given class name.
      *
+     * @since   1.0.0
+     *
      * @param string $class The fully-qualified class name.
      *
      * @return null|string The mapped file name on success, or boolean false on failure.
@@ -114,6 +128,8 @@ class AutoLoader
 
     /**
      * Load the mapped file for a namespace prefix and class.
+     *
+     * @since   1.0.0
      *
      * @param string $prefix    The namespace prefix.
      * @param string $className The relative class name.
@@ -147,6 +163,8 @@ class AutoLoader
      * if there is a matching file in the directory tree starting with $baseDir.
      * File names and directory names are all expected to be lower case.
      *
+     * @since   1.0.0
+     *
      * @param string $prefix
      * @param string $baseDir
      *
@@ -171,6 +189,8 @@ class AutoLoader
 
     /**
      * Autoload a class using the camelCase structure
+     *
+     * @since   1.0.0
      *
      * @param string $class
      *

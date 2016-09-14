@@ -8,7 +8,7 @@ defined('ABSPATH') or die("No direct script access allowed.");
  * @author      PressShack <help@pressshack.com>
  * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
- * @since       1.0
+ * @since       1.0.0
  */
 
 if (!defined('EMBEDPRESS_PLG_NAME')) {

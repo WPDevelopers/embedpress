@@ -14,14 +14,14 @@ use \Embera\Formatter;
  * @author      PressShack <help@pressshack.com>
  * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
- * @since       1.0
+ * @since       1.0.0
  */
 class Shortcode
 {
     /**
      * The WP_oEmbed class instance.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @access  private
      *
      * @var     string  $oEmbedInstance
@@ -31,7 +31,7 @@ class Shortcode
     /**
      * Register the plugin's shortcode into WordPress.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @static
      */
     public static function register()
@@ -43,7 +43,7 @@ class Shortcode
     /**
      * Method that converts the plugin shortcoded-string into its complex content.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @static
      *
      * @param   array     $attributes   @TODO
@@ -60,7 +60,7 @@ class Shortcode
     /**
      * Replace a given content with its embeded HTML code.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @static
      *
      * @param   string      The raw content that will be replaced.
@@ -192,7 +192,7 @@ class Shortcode
     /**
      * Method that adds support to a given new service provider (SP).
      *
-     * @since   1.0
+     * @since   1.0.0
      * @static
      *
      * @param   string          $className      The new SP class name.
@@ -221,7 +221,7 @@ class Shortcode
     /**
      * Method that retrieves all custom parameters from a shortcoded string.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @static
      *
      * @param   string  $subject  The given shortcoded string.
@@ -248,7 +248,7 @@ class Shortcode
     /**
      * Method that parses and adds the "data-" prefix to the given custom shortcode attributes.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @static
      *
      * @param   array     $attributes   The array containing the embed attributes.
@@ -341,7 +341,7 @@ class Shortcode
     /**
      * Method that checks if a given value is/can be identified as (bool)false.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @static
      *
      * @param   mixed     $subject      The value to be checked.

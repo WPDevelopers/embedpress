@@ -6,7 +6,7 @@ Release Date: 2016-09-14
 * Fixed uncommon bug that was breaking the plugin on some environments;
 * A lot of other bug fixes and enhancements.
 
-= 1.0 =
+= 1.0.0 =
 Release Date: 2016-07-27
 
 * Initial release.
