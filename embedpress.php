@@ -13,7 +13,7 @@
  * Plugin Name: EmbedPress
  * Plugin URI:  http://pressshack.com/embedpress/
  * Description: EmbedPress lets you embed anything in WordPress! Also, you can enhance their uniqueness by passing custom parameters to each one of them.
- * Version:     1.0
+ * Version:     1.1.0
  * Author:      PressShack
  * Author URI:  http://pressshack.com/
 */
