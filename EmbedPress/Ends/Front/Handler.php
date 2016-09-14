@@ -21,7 +21,9 @@ class Handler extends EndHandlerAbstract
     /**
      * Method that register all scripts for the admin area.
      *
-     * @since 1.0.0
+     * @since   1.0.0
+     *
+     * @return  void
      */
     public function enqueueScripts()
     {}
@@ -29,11 +31,12 @@ class Handler extends EndHandlerAbstract
     /**
      * Method that register all stylesheets for the public area.
      *
-     * @since 1.0.0
+     * @since   1.0.0
+     *
+     * @return  void
      */
     public function enqueueStyles()
     {
         wp_enqueue_style(EMBEDPRESS_NAME, EMBEDPRESS_URL_ASSETS .'css/embedpress.css');
-
     }
 }

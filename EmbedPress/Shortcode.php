@@ -23,6 +23,7 @@ class Shortcode
      *
      * @since   1.0.0
      * @access  private
+     * @static
      *
      * @var     string  $oEmbedInstance
      */
@@ -33,6 +34,8 @@ class Shortcode
      *
      * @since   1.0.0
      * @static
+     *
+     * @return  void
      */
     public static function register()
     {
@@ -198,7 +201,6 @@ class Shortcode
      * @param   string          $className      The new SP class name.
      * @param   string          $reference      The new SP reference name.
      * @param   \Embera\Embera  $emberaInstance The embera's instance where the SP will be registered in.
-     *
      * @return  boolean
      */
     public static function addServiceProvider($className, $reference, &$emberaInstance)
@@ -225,7 +227,6 @@ class Shortcode
      * @static
      *
      * @param   string  $subject  The given shortcoded string.
-     *
      * @return  array
      */
     public static function parseContentAttributesFromString($subject)
@@ -249,10 +250,10 @@ class Shortcode
      * Method that parses and adds the "data-" prefix to the given custom shortcode attributes.
      *
      * @since   1.0.0
+     * @access  private
      * @static
      *
      * @param   array     $attributes   The array containing the embed attributes.
-     *
      * @return  array
      */
     private static function parseContentAttributes(array $customAttributes)
@@ -345,7 +346,6 @@ class Shortcode
      * @static
      *
      * @param   mixed     $subject      The value to be checked.
-     *
      * @return  boolean
      */
     public static function valueIsFalse($subject)

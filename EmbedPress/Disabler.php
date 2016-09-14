@@ -19,7 +19,9 @@ class Disabler
     /**
      * Method that replaces the embed shortcodes.
      *
-     * @since 1.0.0
+     * @since   1.0.0
+     *
+     * @return  void
      */
     public function run()
     {
@@ -32,7 +34,10 @@ class Disabler
      * Disable all actions/filters related to the embed. This is required to make sure our "shortcode" overrides the WordPress one.
      *
      * @since   1.0.0
+     * @access  protected
      * @static
+     *
+     * @return  void
      */
     protected static function disableNativeEmbedHooks()
     {
@@ -91,6 +96,7 @@ class Disabler
      * Remove all rewrite rules related to embeds.
      *
      * @since   1.0.0
+     * @static
      *
      * @param   array   $rules  WordPress rewrite rules.
      * @return  array
@@ -115,6 +121,7 @@ class Disabler
      * @static
      *
      * @param   array   $plugins    An array containing enabled plugins.
+     * @return  array
      */
     public static function disableDefaultEmbedTinyMCERelatedPlugins($plugins)
     {

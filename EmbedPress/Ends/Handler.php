@@ -42,6 +42,7 @@ abstract class Handler
      *
      * @param   string    $pluginName - The name of the plugin.
      * @param   string    $pluginVersion - The version of the plugin.
+     * @return  void
      */
     public function __construct($pluginName, $pluginVersion)
     {
@@ -52,14 +53,20 @@ abstract class Handler
     /**
      * Method that register all scripts for the admin area.
      *
-     * @since 1.0.0
+     * @since       1.0.0
+     * @abstract
+     *
+     * @return      void
      */
     abstract public function enqueueScripts();
 
     /**
      * Method that register all stylesheets for the admin area.
      *
-     * @since 1.0.0
+     * @since       1.0.0
+     * @abstract
+     *
+     * @return      void
      */
     abstract public function enqueueStyles();
 }

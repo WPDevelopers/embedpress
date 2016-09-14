@@ -52,6 +52,8 @@ class Plugin
      * Initialize the plugin and set its properties.
      *
      * @since   1.0.0
+     *
+     * @return  void
      */
     public function __construct()
     {
@@ -101,6 +103,8 @@ class Plugin
      * Method responsible to connect all required hooks in order to make the plugin work.
      *
      * @since   1.0.0
+     *
+     * @return  void
      */
     public function initialize()
     {
@@ -150,6 +154,9 @@ class Plugin
      * Callback called right after the plugin has been activated.
      *
      * @since   1.0.0
+     * @static
+     *
+     * @return  void
      */
     public static function onPluginActivationCallback()
     {
@@ -161,6 +168,9 @@ class Plugin
      * Callback called right after the plugin has been deactivated.
      *
      * @since   1.0.0
+     * @static
+     *
+     * @return  void
      */
     public static function onPluginDeactivationCallback()
     {
@@ -172,6 +182,7 @@ class Plugin
      * Method that retrieves all additional service providers defined in the ~<plugin_root_path>/providers.php file.
      *
      * @since   1.0.0
+     * @static
      *
      * @return  array
      */
@@ -193,6 +204,7 @@ class Plugin
      * Method that checks if an embed of a given service provider can be responsive.
      *
      * @since   1.0.0
+     * @static
      *
      * @return  boolean
      */
@@ -205,6 +217,7 @@ class Plugin
      * Method that retrieves the plugin settings defined by the user.
      *
      * @since   1.0.0
+     * @static
      *
      * @return  object
      */
