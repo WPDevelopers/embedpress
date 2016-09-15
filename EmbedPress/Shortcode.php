@@ -118,6 +118,43 @@ class Shortcode
             // Define the EmbedPress html template where the generated embed will be injected in
             $embedTemplate = '<div '. implode(' ', $attributesHtml) .'>{html}</div>';
 
+            // Check if $content is a google shortened url and tries to extract from it which Google service it refers to.
+            if (preg_match('/http[s]?:\/\/goo\.gl\/(?:([a-z]+)\/)?[a-z0-9]+\/?$/i', $content, $matches)) {
+                // Fetch all headers from the short-url so we can know how to handle its original content depending on the service.
+                $headers = get_headers($content);
+
+                $supportedServicesHeadersPatterns = array(
+                    'maps' => '/^Location:\s+(http[s]?:\/\/.+)$/i'
+                );
+
+                $service = strtolower(@$matches[1]);
+                // No specific service was found in the url.
+                if (empty($service)) {
+                    // Let's try to guess which service the original url belongs to.
+                    foreach ($headers as $header) {
+                        // Check if the short-url reffers to a Google Maps url.
+                        if (preg_match($supportedServicesHeadersPatterns['maps'], $header, $matches)) {
+                            // Replace the shortened url with its original url.
+                            $content = $matches[1];
+                            break;
+                        }
+                    }
+                    unset($header);
+                } else {
+                    // Check if the Google service is supported atm.
+                    if (isset($supportedServicesHeadersPatterns[$service])) {
+                        // Tries to extract the url based on its headers.
+                        $originalUrl = self::extractContentFromHeaderAsArray($supportedServicesHeadersPatterns[$service], $headers);
+                        // Replace the shortened url with its original url if the specific header was found.
+                        if (!empty($originalUrl)) {
+                            $content = $originalUrl;
+                        }
+                        unset($originalUrl);
+                    }
+                }
+                unset($service, $supportedServicesHeadersPatterns, $headers, $matches);
+            }
+
             // Try to generate the embed using WP API
             $parsedContent = self::$oEmbedInstance->get_html($content, $attributes);
             if (!$parsedContent) {
@@ -363,5 +400,32 @@ class Shortcode
             default:
                 return false;
         }
+    }
+
+    /**
+     * Return the value from a header which is in an array resulted from a get_headers() call.
+     * If the header cannot be found, this method will return null instead.
+     *
+     * @since   1.1.0
+     * @access  private
+     * @static
+     *
+     * @param   string  $headerPattern  Regex pattern the header and its value must match.
+     * @param   array   $headersList    A list of headers resulted from a get_headers() call.
+     *
+     * @return  mixed
+     */
+    private static function extractContentFromHeaderAsArray($headerPattern, $headersList)
+    {
+        $headerValue = null;
+
+        foreach ($headersList as $header) {
+            if (preg_match($headerPattern, $header, $matches)) {
+                $headerValue = $matches[1];
+                break;
+            }
+        }
+
+        return $headerValue;
     }
 }

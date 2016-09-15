@@ -594,6 +594,9 @@
                         // Facebook
                         'facebook.com/*',
 
+                        // Google Shortened Url
+                        'goo.gl/*',
+
                         // Google Maps
                         'google.com/*',
                         'google.com.*/*',
@@ -794,8 +797,12 @@
                                 iframe.style.width = (customAttributes.width ? customAttributes.width +'px' : '100%');
 
                                 dom.add(contentWrapper, iframe);
-
                                 var iframeWindow = iframe.contentWindow;
+                                // Content failed to load.
+                                if (!iframeWindow) {
+                                    return;
+                                }
+
                                 var iframeDoc = iframeWindow.document;
 
                                 $(iframe).load(function() {
