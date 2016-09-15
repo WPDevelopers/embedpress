@@ -1,4 +1,9 @@
 == Changelog ==
+= 1.1.1 =
+Release Date: 2016-09-15
+
+* Fixed missing bug that was breaking the plugin on some environments.
+
 = 1.1.0 =
 Release Date: 2016-09-14
 
