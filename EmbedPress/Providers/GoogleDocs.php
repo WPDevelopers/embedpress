@@ -13,14 +13,14 @@ use \Embera\Adapters\Service as EmberaService;
  * @author      PressShack <help@pressshack.com>
  * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
- * @since       1.0
+ * @since       1.0.0
  */
 class GoogleDocs extends EmberaService
 {
     /**
      * Method that verifies if the embed URL belongs to GoogleDocs.
      *
-     * @since   1.0
+     * @since   1.0.0
      *
      * @return  boolean
      */
@@ -32,7 +32,7 @@ class GoogleDocs extends EmberaService
     /**
      * This method fakes an Oembed response.
      *
-     * @since   1.0
+     * @since   1.0.0
      *
      * @return  array
      */

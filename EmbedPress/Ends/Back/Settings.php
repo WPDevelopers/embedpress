@@ -13,14 +13,14 @@ use \EmbedPress\Plugin;
  * @author      PressShack <help@pressshack.com>
  * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
- * @since       1.0
+ * @since       1.0.0
  */
 class Settings
 {
     /**
      * This class namespace.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @access  private
      * @static
      *
@@ -31,7 +31,7 @@ class Settings
     /**
      * The plugin's unique identifier.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @access  private
      * @static
      *
@@ -42,7 +42,7 @@ class Settings
     /**
      * Unique identifier to the plugin's admin settings section.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @access  private
      * @static
      *
@@ -53,7 +53,7 @@ class Settings
     /**
      * Unique identifier to the plugin's general settings section.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @access  private
      * @static
      *
@@ -64,7 +64,7 @@ class Settings
     /**
      * Map to all settings.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @access  private
      * @static
      *
@@ -84,7 +84,7 @@ class Settings
     /**
      * Class constructor. This prevents the class being directly instantiated.
      *
-     * @since   1.0
+     * @since   1.0.0
      */
     public function __construct()
     {}
@@ -92,7 +92,7 @@ class Settings
     /**
      * This prevents the class being cloned.
      *
-     * @since   1.0
+     * @since   1.0.0
      */
     public function __clone()
     {}
@@ -100,7 +100,7 @@ class Settings
     /**
      * Method that adds an sub-item for EmbedPress to the WordPress Settings menu.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @static
      */
     public static function registerMenuItem()
@@ -111,7 +111,7 @@ class Settings
     /**
      * Method that configures the EmbedPress settings page.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @static
      */
     public static function registerActions()
@@ -128,7 +128,7 @@ class Settings
     /**
      * Method that render the settings's form.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @static
      */
     public static function renderForm()
@@ -149,7 +149,7 @@ class Settings
     /**
      * Method that validates the form data.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @static
      *
      * @param   mixed   $freshData  Data received from the form.
@@ -169,7 +169,7 @@ class Settings
     /**
      * Method that prints help info for the form.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @static
      *
      * @return  string
@@ -182,7 +182,7 @@ class Settings
     /**
      * Method that renders the displayPreviewBox input.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @static
      */
     public static function renderField_displayPreviewBox()
@@ -207,7 +207,7 @@ class Settings
     /**
      * Method that renders the enablePluginInAdmin input.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @static
      */
     public static function renderField_enablePluginInAdmin()

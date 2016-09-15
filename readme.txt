@@ -2,8 +2,8 @@
 Contributors: PressShack
 Tags: embed, embera, embedding, pressshack, ostraining
 Requires at least: 4.0
-Tested up to: 4.5.2
-Stable tag: 1.0
+Tested up to: 4.6.1
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -51,7 +51,14 @@ There're two ways to install EmbedPress plugin:
 `
 
 == Changelog ==
-= 1.0 =
+= 1.1.0 =
+Release Date: 2016-09-14
+
+* Fixed uncommon bug that was breaking the plugin on some environments;
+* Fixed bugs with PollDaddy urls;
+* A lot of other bug fixes.
+
+= 1.0.0 =
 Release Date: 2016-07-27
 
 * Initial release.

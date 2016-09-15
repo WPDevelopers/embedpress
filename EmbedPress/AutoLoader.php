@@ -10,7 +10,7 @@ namespace EmbedPress;
  * @author      PressShack <help@pressshack.com>
  * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
- * @since       1.0
+ * @since       1.0.0
  */
 class AutoLoader
 {
@@ -18,7 +18,11 @@ class AutoLoader
      * Associative array where the key is a namespace prefix and the value
      * is an array of base directories for classes in that namespace.
      *
-     * @var array
+     * @since   1.0.0
+     * @access  protected
+     * @static
+     *
+     * @var     array
      */
     protected static $prefixes = array();
 
@@ -26,15 +30,33 @@ class AutoLoader
      * Associative array of prefixes for loading specialized camelCase classes
      * where Uppercase letters in the class name indicate directory structure
      *
-     * @var array
+     * @since   1.0.0
+     * @access  protected
+     * @static
+     *
+     * @var     array
      */
     protected static $camelPrefixes = array();
 
     /**
-     * @var AutoLoader
+     * @since   1.0.0
+     * @access  protected
+     * @static
+     *
+     * @var     AutoLoader
      */
     protected static $instance = null;
 
+    /**
+     * Register a new loader.
+     *
+     * @since   1.0.0
+     * @access  protected
+     * @static
+     *
+     * @param   string $method  The method name which will be called.
+     * @return  void
+     */
     protected static function registerLoader($method)
     {
         if (static::$instance === null) {
@@ -47,14 +69,15 @@ class AutoLoader
     /**
      * Register a psr4 namespace
      *
-     * @param string $prefix   The namespace prefix.
-     * @param string $baseDir  A base directory for class files in the
-     *                         namespace.
-     * @param bool   $prepend  If true, prepend the base directory to the stack
-     *                         instead of appending it; this causes it to be searched first rather
-     *                         than last.
+     * @since   1.0.0
+     * @static
      *
-     * @return void
+     * @param   string  $prefix   The namespace prefix.
+     * @param   string  $baseDir  A base directory for class files in the namespace.
+     * @param   bool    $prepend  If true, prepend the base directory to the stack instead of
+     *                            appending it; this causes it to be searched first rather than last.
+     *
+     * @return  void
      */
     public static function register($prefix = null, $baseDir = null, $prepend = false)
     {
@@ -90,9 +113,13 @@ class AutoLoader
     /**
      * Loads the class file for a given class name.
      *
-     * @param string $class The fully-qualified class name.
+     * @since   1.0.0
+     * @access  protected
+     * @static
      *
-     * @return null|string The mapped file name on success, or boolean false on failure.
+     * @param   string  $class  The fully-qualified class name.
+     *
+     * @return  mixed           The mapped file name on success, or boolean false on failure.
      */
     protected function loadClass($class)
     {
@@ -115,10 +142,14 @@ class AutoLoader
     /**
      * Load the mapped file for a namespace prefix and class.
      *
-     * @param string $prefix    The namespace prefix.
-     * @param string $className The relative class name.
+     * @since   1.0.0
+     * @access  protected
+     * @static
      *
-     * @return bool|string false if no mapped file can be loaded | path that was loaded
+     * @param   string  $prefix     The namespace prefix.
+     * @param   string  $className  The relative class name.
+     *
+     * @return  mixed               False if no mapped file can be loaded | path that was loaded
      */
     protected function loadMappedFile($prefix, $className)
     {
@@ -147,8 +178,11 @@ class AutoLoader
      * if there is a matching file in the directory tree starting with $baseDir.
      * File names and directory names are all expected to be lower case.
      *
-     * @param string $prefix
-     * @param string $baseDir
+     * @since   1.0.0
+     * @static
+     *
+     * @param   string  $prefix
+     * @param   string  $baseDir
      *
      * @return void
      * @throws \Exception
@@ -172,9 +206,12 @@ class AutoLoader
     /**
      * Autoload a class using the camelCase structure
      *
-     * @param string $class
+     * @since   1.0.0
+     * @access  protected
      *
-     * @return bool|string
+     * @param   string      $class
+     *
+     * @return  mixed       Bool/string
      */
     protected function loadCamelClass($class)
     {
