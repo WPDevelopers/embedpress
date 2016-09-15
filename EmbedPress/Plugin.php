@@ -14,14 +14,14 @@ use \EmbedPress\Ends\Front\Handler as EndHandlerPublic;
  * @author      PressShack <help@pressshack.com>
  * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
- * @since       1.0
+ * @since       1.0.0
  */
 class Plugin
 {
     /**
      * The name of the plugin.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @access  protected
      *
      * @var     string  $pluginName   The name of the plugin.
@@ -31,7 +31,7 @@ class Plugin
     /**
      * The version of the plugin.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @access  protected
      *
      * @var     string  $pluginVersion  The version of the plugin.
@@ -41,7 +41,7 @@ class Plugin
     /**
      * An instance of the plugin loader.
      *
-     * @since   1.0
+     * @since   1.0.0
      * @access  protected
      *
      * @var     \EmbedPress\Loader  $pluginVersion  The version of the plugin.
@@ -51,7 +51,9 @@ class Plugin
     /**
      * Initialize the plugin and set its properties.
      *
-     * @since   1.0
+     * @since   1.0.0
+     *
+     * @return  void
      */
     public function __construct()
     {
@@ -64,7 +66,7 @@ class Plugin
     /**
      * Method that retrieves the plugin name.
      *
-     * @since   1.0
+     * @since   1.0.0
      *
      * @return  string
      */
@@ -76,7 +78,7 @@ class Plugin
     /**
      * Method that retrieves the plugin version.
      *
-     * @since   1.0
+     * @since   1.0.0
      *
      * @return  string
      */
@@ -88,7 +90,7 @@ class Plugin
     /**
      * Method that retrieves the loader instance.
      *
-     * @since   1.0
+     * @since   1.0.0
      *
      * @return  \EmbedPress\Loader
      */
@@ -100,7 +102,9 @@ class Plugin
     /**
      * Method responsible to connect all required hooks in order to make the plugin work.
      *
-     * @since   1.0
+     * @since   1.0.0
+     *
+     * @return  void
      */
     public function initialize()
     {
@@ -149,7 +153,10 @@ class Plugin
     /**
      * Callback called right after the plugin has been activated.
      *
-     * @since   1.0
+     * @since   1.0.0
+     * @static
+     *
+     * @return  void
      */
     public static function onPluginActivationCallback()
     {
@@ -160,7 +167,10 @@ class Plugin
     /**
      * Callback called right after the plugin has been deactivated.
      *
-     * @since   1.0
+     * @since   1.0.0
+     * @static
+     *
+     * @return  void
      */
     public static function onPluginDeactivationCallback()
     {
@@ -171,7 +181,8 @@ class Plugin
     /**
      * Method that retrieves all additional service providers defined in the ~<plugin_root_path>/providers.php file.
      *
-     * @since   1.0
+     * @since   1.0.0
+     * @static
      *
      * @return  array
      */
@@ -192,7 +203,8 @@ class Plugin
     /**
      * Method that checks if an embed of a given service provider can be responsive.
      *
-     * @since   1.0
+     * @since   1.0.0
+     * @static
      *
      * @return  boolean
      */
@@ -204,7 +216,8 @@ class Plugin
     /**
      * Method that retrieves the plugin settings defined by the user.
      *
-     * @since   1.0
+     * @since   1.0.0
+     * @static
      *
      * @return  object
      */

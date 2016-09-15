@@ -17,14 +17,16 @@ use \Embera\Embera;
  * @author      PressShack <help@pressshack.com>
  * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
- * @since       1.0
+ * @since       1.0.0
  */
 class Handler extends EndHandlerAbstract
 {
     /**
      * Method that register all scripts for the admin area.
      *
-     * @since 1.0
+     * @since   1.0.0
+     *
+     * @return  void
      */
     public function enqueueScripts()
     {
@@ -48,7 +50,9 @@ class Handler extends EndHandlerAbstract
     /**
      * Method that register all stylesheets for the admin area.
      *
-     * @since 1.0
+     * @since   1.0.0
+     *
+     * @return  void
      */
     public function enqueueStyles()
     {
@@ -61,7 +65,9 @@ class Handler extends EndHandlerAbstract
     /**
      * Method that receive a string via AJAX and return the decoded-shortcoded-version of that string.
      *
-     * @since 1.0
+     * @since   1.0.0
+     *
+     * @return  void
      */
     public function doShortcodeReceivedViaAjax()
     {
@@ -80,7 +86,9 @@ class Handler extends EndHandlerAbstract
     /**
      * Method that receive an url via AJAX and return the info about that url/embed.
      *
-     * @since 1.0
+     * @since   1.0.0
+     *
+     * @return  void
      */
     public function getUrlInfoViaAjax()
     {
