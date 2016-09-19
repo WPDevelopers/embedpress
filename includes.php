@@ -12,11 +12,11 @@ defined('ABSPATH') or die("No direct script access allowed.");
  */
 
 if (!defined('EMBEDPRESS_PLG_NAME')) {
-    define('EMBEDPRESS_PLG_NAME', "EmbedPress");
+    define('EMBEDPRESS_PLG_NAME', "embedpress");
 }
 
 if (!defined('EMBEDPRESS_PLG_VERSION')) {
-    define('EMBEDPRESS_PLG_VERSION', "1.1.0");
+    define('EMBEDPRESS_PLG_VERSION', "1.1.2");
 }
 
 if (!defined('EMBEDPRESS_PATH_BASE')) {
