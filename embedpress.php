@@ -12,8 +12,8 @@
  * @embedpress
  * Plugin Name: EmbedPress
  * Plugin URI:  http://pressshack.com/embedpress/
- * Description: EmbedPress lets you embed anything in WordPress! Also, you can enhance their uniqueness by passing custom parameters to each one of them.
  * Version:     1.1.1
+ * Description: WordPress is good with embeds. EmbedPress is great! WordPress supports around 35 media sources and then EmbedPress adds over 40 more, including Facebook, Google Maps, Google Docs, and UStream.
  * Author:      PressShack
  * Author URI:  http://pressshack.com/
 */

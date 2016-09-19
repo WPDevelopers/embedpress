@@ -7,7 +7,7 @@ Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-EmbedPress - Embed anything in WordPress! But now, you can enhance your embeds by passing custom parameters to each one of them.
+WordPress is good with embeds. EmbedPress is great! WordPress supports around 35 media sources and then EmbedPress adds over 40 more, including Facebook, Google Maps, Google Docs, and UStream.
 
 == Description ==
 EmbedPress makes embedding super-easy. All you need is the URL and you can embed almost anything into a WordPress site! You can even pass custom attributes to the generated html.
