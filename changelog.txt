@@ -1,4 +1,9 @@
 == Changelog ==
+= 1.1.3 =
+Release Date: 2016-09-20
+
+* Updated plugin's description to a more concise text.
+
 = 1.1.2 =
 Release Date: 2016-09-19
 
