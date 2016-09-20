@@ -12,8 +12,8 @@
  * @embedpress
  * Plugin Name: EmbedPress
  * Plugin URI:  http://pressshack.com/embedpress/
- * Version:     1.1.2
- * Description: WordPress is good with embeds. EmbedPress is great! WordPress supports around 35 media sources and then EmbedPress adds over 40 more, including Facebook, Google Maps, Google Docs, and UStream.
+ * Version:     1.1.3
+ * Description: WordPress supports around 35 embed sources, but EmbedPress adds over 40 more, including Facebook, Google Maps, Google Docs, UStream! Just use the URL!
  * Author:      PressShack
  * Author URI:  http://pressshack.com/
 */
