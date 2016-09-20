@@ -7,7 +7,7 @@ Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-WordPress is good with embeds. EmbedPress is great! WordPress supports around 35 media sources and then EmbedPress adds over 40 more, including Facebook, Google Maps, Google Docs, and UStream.
+WordPress supports around 35 embed sources, but EmbedPress adds over 40 more, including Facebook, Google Maps, Google Docs, UStream! Just use the URL!
 
 == Description ==
 The goal of EmbedPress is to embed ANYTHING in WordPress.
