@@ -690,7 +690,7 @@
                     'data-raw-url': rawUrl,
                     'data-uid': uid,
                     'id': 'embedpress_wrapper_' + uid,
-                    'data-loading-text': 'Loading...'
+                    'data-loading-text': 'Loading embed...'
                 };
 
                 wrapperSettings = $.extend({}, wrapperSettings, shortcodeAttributes);
