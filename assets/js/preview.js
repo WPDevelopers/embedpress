@@ -646,7 +646,7 @@
                 $script.text(declaration);
             };
 
-            self.addURLsPlaceholder = function(node, url) {
+            self.addURLsPlaceholder = function(node, url, rawUrl) {
                 var uid = self.makeId();
 
                 var wrapperClasses = ["embedpress_wrapper", "embedpress_placeholder"];
@@ -687,6 +687,7 @@
                 var wrapperSettings = {
                     'class': Array.from(new Set(wrapperClasses)).join(" "),
                     'data-url': url,
+                    'data-raw-url': rawUrl,
                     'data-uid': uid,
                     'id': 'embedpress_wrapper_' + uid,
                     'data-loading-text': 'Loading...'
@@ -1037,7 +1038,7 @@
                                     var preText  = matches[1];
                                     var url      = self.encodeEmbedURLSpecialChars(matches[2]);
                                     var postText = matches[3];
-                                    var wrapper = self.addURLsPlaceholder(node, url);
+                                    var wrapper = self.addURLsPlaceholder(node, url, matches[2]);
 
                                     // Add the pre text if exists
                                     var text;
@@ -1073,7 +1074,7 @@
                             }).length > 0;
 
                             if (isWrapped) {
-                                var factoryAttributes = ["id", "style", "data-loading-text", "data-uid", "data-url"];
+                                var factoryAttributes = ["id", "style", "data-loading-text", "data-uid", "data-url", "data-raw-url"];
                                 var customAttributes = {};
                                 var dataPrefix = "data-";
                                 for (var attr in node.attributes.map) {

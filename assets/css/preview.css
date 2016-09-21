@@ -104,7 +104,7 @@
 }
 
 .embedpress_wrapper.embedpress_placeholder:after {
-    content: attr(data-url);
+    content: attr(data-raw-url);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
