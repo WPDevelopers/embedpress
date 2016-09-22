@@ -809,12 +809,15 @@
                                 var iframeDoc = iframeWindow.document;
 
                                 $(iframe).load(function() {
-                                    if (customAttributes.height) {
-                                        iframe.height = customAttributes.height;
-                                        iframe.style.height = customAttributes.height +'px';
-                                    } else {
-                                        iframe.height = iframeDoc.body.scrollHeight;
-                                    }
+                                    setTimeout(function() {
+                                        if (customAttributes.height) {
+                                            iframe.height = customAttributes.height;
+                                            iframe.style.height = customAttributes.height +'px';
+                                        } else {
+                                            iframe.height = iframeDoc.body.scrollHeight;
+                                            console.log(iframeDoc.body.scrollHeight);
+                                        }
+                                    }, 500);
                                 });
 
                                 iframeDoc.open();
