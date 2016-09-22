@@ -356,6 +356,9 @@
                 var urlSchemes = [
                         // PollDaddy
                         '*.polldaddy.com/s/*',
+                        '*.polldaddy.com/poll/*',
+                        '*.polldaddy.com/ratings/*',
+                        'polldaddy.com/s/*',
                         'polldaddy.com/poll/*',
                         'polldaddy.com/ratings/*',
 
