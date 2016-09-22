@@ -104,15 +104,6 @@
     font-family: 'Source Sans Pro', sans-serif;
 }
 
-.embedpress_wrapper.embedpress_placeholder:after {
-    content: attr(data-raw-url);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-size: 11px;
-    font-family: 'Source Sans Pro', sans-serif;
-}
-
 .embedpress_wrapper img {
     max-width: 100%;
     width: auto \9;
