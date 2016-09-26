@@ -1233,7 +1233,7 @@
 
                         // Check if content matches the url pattern.
                         if (matches && matches !== null && !!matches.length) {
-                            //
+                            // Cancel the default behavior.
                             event.preventDefault();
                             event.stopPropagation();
 
