@@ -372,7 +372,8 @@
                         'smugmug.com/*',
 
                         // SlideShare
-                        'slideshare.net/*',
+                        'slideshare.net/*/*',
+                        '*.slideshare.net/*/*',
 
                         // Reddit
                         'reddit.com/r/[^/]+/comments/*',
@@ -418,11 +419,6 @@
                         'sta.sh/*',
 
                         // SlideShare (http://www.slideshare.net/)
-                        'slideshare.net/*/*',
-                        'fr.slideshare.net/*/*',
-                        'de.slideshare.net/*/*',
-                        'es.slideshare.net/*/*',
-                        'pt.slideshare.net/*/*',
 
                         // chirbit.com (http://www.chirbit.com/)
                         'chirb.it/*',
