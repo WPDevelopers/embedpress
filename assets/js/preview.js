@@ -1023,40 +1023,43 @@
                             // These patterns need to have groups for the pre and post texts
                             var patterns = self.getProvidersURLPatterns();
 
-                            self.each(patterns, function eachPatternForNodeFilterInParser(pattern) {
-                                var regex = new RegExp(pattern),
-                                    matches,
-                                    value;
+                            (function tryToMatchContentAgainstUrlPatternWithIndex(urlPatternIndex) {
+                                if (urlPatternIndex < patterns.length) {
+                                    var urlPattern = patterns[urlPatternIndex];
+                                    var urlPatternRegex = new RegExp(urlPattern);
 
-                                value = self.decodeEmbedURLSpecialChars(subject).trim();
+                                    var url = self.decodeEmbedURLSpecialChars(subject).trim();
 
-                                matches = value.match(regex);
-                                if (matches !== null && !!matches.length) {
-                                    var preText  = matches[1];
-                                    var url      = self.encodeEmbedURLSpecialChars(matches[2]);
-                                    var postText = matches[3];
-                                    var wrapper = self.addURLsPlaceholder(node, url);
+                                    var matches = url.match(urlPatternRegex);
+                                    // Check if content matches the url pattern.
+                                    if (matches && matches !== null && !!matches.length) {
+                                        url = self.encodeEmbedURLSpecialChars(matches[2]);
 
-                                    // Add the pre text if exists
-                                    var text;
-                                    if (preText !== '') {
-                                        text = new self.Node('#text', 3);
-                                        text.value = preText.trim();
+                                        var wrapper = self.addURLsPlaceholder(node, url);
 
-                                        // Insert before
-                                        wrapper.parent.insert(text, wrapper, true);
-                                    }
+                                        // Look for a pre-text and adds it on content if exists.
+                                        var preText = matches[1];
+                                        if (!!preText.length) {
+                                            var text = new self.Node('#text', 3);
+                                            text.value = preText.trim();
 
-                                    // Add the post text if exists
-                                    if (postText !== '') {
-                                        text = new self.Node('#text', 3);
-                                        text.value = postText.trim();
+                                            wrapper.parent.insert(text, wrapper, true);
+                                        }
 
-                                        // Insert after
-                                        wrapper.parent.insert(text, wrapper, false);
+                                        // Look for a post-text and adds it on content if exists.
+                                        var postText = matches[3];
+                                        if (!!postText.length) {
+                                            var text = new self.Node('#text', 3);
+                                            text.value = postText.trim();
+
+                                            wrapper.parent.insert(text, wrapper, false);
+                                        }
+                                    } else {
+                                        // No match. So we move on to check the next url pattern.
+                                        tryToMatchContentAgainstUrlPatternWithIndex(urlPatternIndex + 1);
                                     }
                                 }
-                            });
+                            })(0);
                         });
                     });
 
