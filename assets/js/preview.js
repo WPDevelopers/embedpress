@@ -1205,40 +1205,55 @@
              * @return void
              */
             self.onPaste = function(e, b) {
-                var event;
+                var event = null;
 
                 // Prevent default paste behavior. We have 2 arguments because the difference between JCE and TinyMCE.
-                // Sometimes, the argument e is the editor, instead of the event
+                // Sometimes, the argument e is the editor, instead of the event.
                 if (e.preventDefault) {
                     event = e;
                 } else {
                     event = b;
                 }
 
-                // Check for clipboard data in various places for cross-browser compatibility
-                // Get that data as text
+                // Check for clipboard data in various places for cross-browser compatibility and get its data as text.
                 var content = ((event.originalEvent || event).clipboardData || window.clipboardData).getData('Text');
 
                 // Check if the pasted content has a recognized embed url pattern
                 var patterns = self.getProvidersURLPatterns();
 
-                self.each(patterns, function eachPatternForOnPaste(pattern) {
-                    var regex   = new RegExp(pattern),
-                        matches = content.match(regex),
-                        url;
-
-                    if (matches !== null && !!matches.length) {
-                        event.preventDefault();
-
-                        content += '<span>&nbsp;</span>'; // This assures that the cursor are positioned after the embed
-
-                        // Let TinyMCE do the heavy lifting for inserting that content into the self.editor
-                        // We cancel the default behavior and insert using command to trigger the node change and the parser
+                (function tryToMatchContentAgainstUrlPatternWithIndex(urlPatternIndex) {
+                    // There wasn't a match.
+                    if (urlPatternIndex === content.length) {
                         self.editor.execCommand('mceInsertContent', false, content);
+                    } else {
+                        var urlPattern = patterns[urlPatternIndex];
 
-                        self.configureWrappers();
+                        var urlPatternRegex = new RegExp(urlPattern);
+                        var matches = content.match(urlPatternRegex) || null;
+
+                        // Check if content matches the url pattern.
+                        if (matches && matches !== null && !!matches.length) {
+                            //
+                            event.preventDefault();
+                            event.stopPropagation();
+
+                            // Remove "www." subdomain from Slideshare.net urls that was causing bugs on TinyMCE.
+                            content = content.replace(/www\.slideshare\.net\//i, 'slideshare.net/');
+
+                            // Make sure that the cursor will be positioned after the embed.
+                            content += '<span>&nbsp;</span>';
+
+                            // Let TinyMCE do the heavy lifting for inserting that content into the self.editor.
+                            // We cancel the default behavior and insert the embed-content using a command to trigger the node change and the parser.
+                            self.editor.execCommand('mceInsertContent', false, content);
+
+                            self.configureWrappers();
+                        } else {
+                            // No match. So we move on to check the next url pattern.
+                            tryToMatchContentAgainstUrlPatternWithIndex(urlPatternIndex + 1);
+                        }
                     }
-                });
+                })(0);
             };
 
             /**
