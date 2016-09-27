@@ -1225,10 +1225,7 @@
                 var patterns = self.getProvidersURLPatterns();
 
                 (function tryToMatchContentAgainstUrlPatternWithIndex(urlPatternIndex) {
-                    // There wasn't a match.
-                    if (urlPatternIndex === content.length) {
-                        self.editor.execCommand('mceInsertContent', false, content);
-                    } else {
+                    if (urlPatternIndex < content.length) {
                         var urlPattern = patterns[urlPatternIndex];
 
                         var urlPatternRegex = new RegExp(urlPattern);
