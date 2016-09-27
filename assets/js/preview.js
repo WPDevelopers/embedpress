@@ -370,6 +370,7 @@
 
                         // SmugMug
                         'smugmug.com/*',
+                        '*.smugmug.com/*',
 
                         // SlideShare
                         'slideshare.net/*/*',
