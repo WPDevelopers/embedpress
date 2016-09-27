@@ -588,7 +588,7 @@
                         'videojug.com/*',
 
                         // https://vine.com
-                        'vine.co/*',
+                        'vine.co/v/*',
 
                         // Facebook
                         'facebook.com/*',
