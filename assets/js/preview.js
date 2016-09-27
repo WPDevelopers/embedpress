@@ -805,15 +805,22 @@
                                 var iframeDoc = iframeWindow.document;
 
                                 $(iframe).load(function() {
-                                    setTimeout(function() {
-                                        if (customAttributes.height) {
-                                            iframe.height = customAttributes.height;
-                                            iframe.style.height = customAttributes.height +'px';
+                                    var maximumChecksAllowed = 25;
+                                    var checkIndex = 0;
+                                    var checkerInterval = setInterval(function() {
+                                        if (checkIndex === maximumChecksAllowed) {
+                                            clearInterval(checkerInterval);
                                         } else {
-                                            iframe.height = iframeDoc.body.scrollHeight;
-                                            console.log(iframeDoc.body.scrollHeight);
+                                            if (customAttributes.height) {
+                                                iframe.height = customAttributes.height;
+                                                iframe.style.height = customAttributes.height +'px';
+                                            } else {
+                                                iframe.height = iframeDoc.body.scrollHeight;
+                                            }
+
+                                            checkIndex++;
                                         }
-                                    }, 500);
+                                    }, 100);
                                 });
 
                                 iframeDoc.open();
@@ -840,7 +847,7 @@
                                                 '}'+
                                             '</style>'+
                                         '</head>'+
-                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'">'+
+                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'" style="display: inline-block;">'+
                                             $content.html() +
                                         '</body>'+
                                     '</html>'
