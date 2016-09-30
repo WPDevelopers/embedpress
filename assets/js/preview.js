@@ -557,6 +557,7 @@
 
                         // Twitter
                         'twitter.com/*/status/*',
+                        'twitter.com/i/moments/*',
 
                         // http://bambuser.com
                         'bambuser.com/v/*',
