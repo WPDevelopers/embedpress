@@ -807,17 +807,34 @@
                                 var iframeDoc = iframeWindow.document;
 
                                 $(iframe).load(function() {
-                                    var maximumChecksAllowed = 25;
+                                    var maximumChecksAllowed = 50;
                                     var checkIndex = 0;
                                     var checkerInterval = setInterval(function() {
                                         if (checkIndex === maximumChecksAllowed) {
                                             clearInterval(checkerInterval);
+
+                                            setTimeout(function() {
+                                                iframe.height = $(iframeDoc.body).height();
+                                                iframe.width = $(iframeDoc.body).width();
+
+                                                $wrapper.attr('width', iframe.width);
+                                                $wrapper.css('width', iframe.width + 'px');
+
+                                                $($wrapper).after('<p>&nbsp;</p>');
+                                            }, 250);
                                         } else {
                                             if (customAttributes.height) {
                                                 iframe.height = customAttributes.height;
                                                 iframe.style.height = customAttributes.height +'px';
                                             } else {
                                                 iframe.height = iframeDoc.body.scrollHeight;
+                                            }
+
+                                            if (customAttributes.width) {
+                                                iframe.width = customAttributes.width;
+                                                iframe.style.width = customAttributes.width +'px';
+                                            } else {
+                                                iframe.width = $(iframeDoc.body).width();
                                             }
 
                                             checkIndex++;
