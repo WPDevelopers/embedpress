@@ -689,10 +689,12 @@
                     'data-url': url,
                     'data-uid': uid,
                     'id': 'embedpress_wrapper_' + uid,
-                    'data-loading-text': 'Loading...'
+                    'data-loading-text': 'Loading your embed...'
                 };
 
                 wrapperSettings = $.extend({}, wrapperSettings, shortcodeAttributes);
+
+                wrapperSettings.class += " is-loading";
 
                 wrapper.attr(wrapperSettings);
 
@@ -765,6 +767,8 @@
                     result.data.content = result.data.content.stripShortcode($data.EMBEDPRESS_SHORTCODE);
 
                     var $wrapper = $(self.getElementInContentById('embedpress_wrapper_' + uid));
+
+                    $wrapper.removeClass('is-loading');
 
                     // Parse as DOM element
                     var $content;
@@ -1695,7 +1699,7 @@
                     self.hidePreviewControllerPanel();
                 }
 
-                if (!self.controllerPanelIsActive()) {
+                if (!self.controllerPanelIsActive() && !$wrapper.hasClass('is-loading')) {
                     var uid = $wrapper.data('uid');
                     var $panel = self.getElementInContentById('embedpress_controller_panel_' + uid);
 
