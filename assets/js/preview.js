@@ -356,6 +356,9 @@
                 var urlSchemes = [
                         // PollDaddy
                         '*.polldaddy.com/s/*',
+                        '*.polldaddy.com/poll/*',
+                        '*.polldaddy.com/ratings/*',
+                        'polldaddy.com/s/*',
                         'polldaddy.com/poll/*',
                         'polldaddy.com/ratings/*',
 
@@ -367,9 +370,11 @@
 
                         // SmugMug
                         'smugmug.com/*',
+                        '*.smugmug.com/*',
 
                         // SlideShare
-                        'slideshare.net/*',
+                        'slideshare.net/*/*',
+                        '*.slideshare.net/*/*',
 
                         // Reddit
                         'reddit.com/r/[^/]+/comments/*',
@@ -387,9 +392,6 @@
 
                         // YouTube (http://www.youtube.com/)
                         'youtube.com/watch\\?*',
-
-                        // IFTTT (http://www.ifttt.com/)
-                        'ifttt.com/recipes/*',
 
                         // Flickr (http://www.flickr.com/)
                         'flickr.com/photos/*/*',
@@ -415,11 +417,6 @@
                         'sta.sh/*',
 
                         // SlideShare (http://www.slideshare.net/)
-                        'slideshare.net/*/*',
-                        'fr.slideshare.net/*/*',
-                        'de.slideshare.net/*/*',
-                        'es.slideshare.net/*/*',
-                        'pt.slideshare.net/*/*',
 
                         // chirbit.com (http://www.chirbit.com/)
                         'chirb.it/*',
@@ -557,6 +554,8 @@
 
                         // Twitter
                         'twitter.com/*/status/*',
+                        'twitter.com/i/moments/*',
+                        'twitter.com/*/timelines/*',
 
                         // http://bambuser.com
                         'bambuser.com/v/*',
@@ -589,10 +588,13 @@
                         'videojug.com/*',
 
                         // https://vine.com
-                        'vine.co/*',
+                        'vine.co/v/*',
 
                         // Facebook
                         'facebook.com/*',
+
+                        // Google Shortened Url
+                        'goo.gl/*',
 
                         // Google Maps
                         'google.com/*',
@@ -686,10 +688,12 @@
                     'data-url': url,
                     'data-uid': uid,
                     'id': 'embedpress_wrapper_' + uid,
-                    'data-loading-text': 'Loading...'
+                    'data-loading-text': 'Loading your embed...'
                 };
 
                 wrapperSettings = $.extend({}, wrapperSettings, shortcodeAttributes);
+
+                wrapperSettings.class += " is-loading";
 
                 wrapper.attr(wrapperSettings);
 
@@ -747,7 +751,7 @@
                 // Trigger the timeout which will load the content
                 window.setTimeout(function() {
                     self.parseContentAsync(uid, url, customAttributes);
-                }, 800);
+                }, 200);
 
                 return wrapper;
             };
@@ -762,6 +766,8 @@
                     result.data.content = result.data.content.stripShortcode($data.EMBEDPRESS_SHORTCODE);
 
                     var $wrapper = $(self.getElementInContentById('embedpress_wrapper_' + uid));
+
+                    $wrapper.removeClass('is-loading');
 
                     // Parse as DOM element
                     var $content;
@@ -794,17 +800,48 @@
                                 iframe.style.width = (customAttributes.width ? customAttributes.width +'px' : '100%');
 
                                 dom.add(contentWrapper, iframe);
-
                                 var iframeWindow = iframe.contentWindow;
+                                // Content failed to load.
+                                if (!iframeWindow) {
+                                    return;
+                                }
+
                                 var iframeDoc = iframeWindow.document;
 
                                 $(iframe).load(function() {
-                                    if (customAttributes.height) {
-                                        iframe.height = customAttributes.height;
-                                        iframe.style.height = customAttributes.height +'px';
-                                    } else {
-                                        iframe.height = iframeDoc.body.scrollHeight;
-                                    }
+                                    var maximumChecksAllowed = 50;
+                                    var checkIndex = 0;
+                                    var checkerInterval = setInterval(function() {
+                                        if (checkIndex === maximumChecksAllowed) {
+                                            clearInterval(checkerInterval);
+
+                                            setTimeout(function() {
+                                                iframe.height = $(iframeDoc.body).height();
+                                                iframe.width = $(iframeDoc.body).width();
+
+                                                $wrapper.attr('width', iframe.width);
+                                                $wrapper.css('width', iframe.width + 'px');
+
+                                                $($wrapper).after('<p>&nbsp;</p>');
+                                            }, 250);
+                                        } else {
+                                            if (customAttributes.height) {
+                                                iframe.height = customAttributes.height;
+                                                iframe.style.height = customAttributes.height +'px';
+                                            } else {
+                                                iframe.height = iframeDoc.body.scrollHeight;
+                                            }
+
+                                            if (customAttributes.width) {
+                                                iframe.width = customAttributes.width;
+                                                iframe.style.width = customAttributes.width +'px';
+                                            } else {
+                                                iframe.width = $(iframeDoc.body).width();
+                                            }
+
+                                            checkIndex++;
+                                        }
+                                    }, 100);
                                 });
 
                                 iframeDoc.open();
@@ -831,7 +868,7 @@
                                                 '}'+
                                             '</style>'+
                                         '</head>'+
-                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'">'+
+                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'" style="display: inline-block;">'+
                                             $content.html() +
                                         '</body>'+
                                     '</html>'
@@ -1014,40 +1051,43 @@
                             // These patterns need to have groups for the pre and post texts
                             var patterns = self.getProvidersURLPatterns();
 
-                            self.each(patterns, function eachPatternForNodeFilterInParser(pattern) {
-                                var regex = new RegExp(pattern),
-                                    matches,
-                                    value;
+                            (function tryToMatchContentAgainstUrlPatternWithIndex(urlPatternIndex) {
+                                if (urlPatternIndex < patterns.length) {
+                                    var urlPattern = patterns[urlPatternIndex];
+                                    var urlPatternRegex = new RegExp(urlPattern);
 
-                                value = self.decodeEmbedURLSpecialChars(subject).trim();
+                                    var url = self.decodeEmbedURLSpecialChars(subject).trim();
 
-                                matches = value.match(regex);
-                                if (matches !== null && !!matches.length) {
-                                    var preText  = matches[1];
-                                    var url      = self.encodeEmbedURLSpecialChars(matches[2]);
-                                    var postText = matches[3];
-                                    var wrapper = self.addURLsPlaceholder(node, url);
+                                    var matches = url.match(urlPatternRegex);
+                                    // Check if content matches the url pattern.
+                                    if (matches && matches !== null && !!matches.length) {
+                                        url = self.encodeEmbedURLSpecialChars(matches[2]);
 
-                                    // Add the pre text if exists
-                                    var text;
-                                    if (preText !== '') {
-                                        text = new self.Node('#text', 3);
-                                        text.value = preText.trim();
+                                        var wrapper = self.addURLsPlaceholder(node, url);
 
-                                        // Insert before
-                                        wrapper.parent.insert(text, wrapper, true);
-                                    }
+                                        // Look for a pre-text and adds it on content if exists.
+                                        var preText = matches[1];
+                                        if (!!preText.length) {
+                                            var text = new self.Node('#text', 3);
+                                            text.value = preText.trim();
 
-                                    // Add the post text if exists
-                                    if (postText !== '') {
-                                        text = new self.Node('#text', 3);
-                                        text.value = postText.trim();
+                                            wrapper.parent.insert(text, wrapper, true);
+                                        }
 
-                                        // Insert after
-                                        wrapper.parent.insert(text, wrapper, false);
+                                        // Look for a post-text and adds it on content if exists.
+                                        var postText = matches[3];
+                                        if (!!postText.length) {
+                                            var text = new self.Node('#text', 3);
+                                            text.value = postText.trim();
+
+                                            wrapper.parent.insert(text, wrapper, false);
+                                        }
+                                    } else {
+                                        // No match. So we move on to check the next url pattern.
+                                        tryToMatchContentAgainstUrlPatternWithIndex(urlPatternIndex + 1);
                                     }
                                 }
-                            });
+                            })(0);
                         });
                     });
 
@@ -1196,40 +1236,52 @@
              * @return void
              */
             self.onPaste = function(e, b) {
-                var event;
+                var event = null;
 
                 // Prevent default paste behavior. We have 2 arguments because the difference between JCE and TinyMCE.
-                // Sometimes, the argument e is the editor, instead of the event
+                // Sometimes, the argument e is the editor, instead of the event.
                 if (e.preventDefault) {
                     event = e;
                 } else {
                     event = b;
                 }
 
-                // Check for clipboard data in various places for cross-browser compatibility
-                // Get that data as text
+                // Check for clipboard data in various places for cross-browser compatibility and get its data as text.
                 var content = ((event.originalEvent || event).clipboardData || window.clipboardData).getData('Text');
 
                 // Check if the pasted content has a recognized embed url pattern
                 var patterns = self.getProvidersURLPatterns();
 
-                self.each(patterns, function eachPatternForOnPaste(pattern) {
-                    var regex   = new RegExp(pattern),
-                        matches = content.match(regex),
-                        url;
+                (function tryToMatchContentAgainstUrlPatternWithIndex(urlPatternIndex) {
+                    if (urlPatternIndex < content.length) {
+                        var urlPattern = patterns[urlPatternIndex];
 
-                    if (matches !== null && !!matches.length) {
-                        event.preventDefault();
+                        var urlPatternRegex = new RegExp(urlPattern);
+                        var matches = content.match(urlPatternRegex) || null;
 
-                        content += '<span>&nbsp;</span>'; // This assures that the cursor are positioned after the embed
+                        // Check if content matches the url pattern.
+                        if (matches && matches !== null && !!matches.length) {
+                            // Cancel the default behavior.
+                            event.preventDefault();
+                            event.stopPropagation();
 
-                        // Let TinyMCE do the heavy lifting for inserting that content into the self.editor
-                        // We cancel the default behavior and insert using command to trigger the node change and the parser
-                        self.editor.execCommand('mceInsertContent', false, content);
+                            // Remove "www." subdomain from Slideshare.net urls that was causing bugs on TinyMCE.
+                            content = content.replace(/www\.slideshare\.net\//i, 'slideshare.net/');
 
-                        self.configureWrappers();
+                            // Make sure that the cursor will be positioned after the embed.
+                            content += '<span>&nbsp;</span>';
+
+                            // Let TinyMCE do the heavy lifting for inserting that content into the self.editor.
+                            // We cancel the default behavior and insert the embed-content using a command to trigger the node change and the parser.
+                            self.editor.execCommand('mceInsertContent', false, content);
+
+                            self.configureWrappers();
+                        } else {
+                            // No match. So we move on to check the next url pattern.
+                            tryToMatchContentAgainstUrlPatternWithIndex(urlPatternIndex + 1);
+                        }
                     }
-                });
+                })(0);
             };
 
             /**
@@ -1688,7 +1740,7 @@
                     self.hidePreviewControllerPanel();
                 }
 
-                if (!self.controllerPanelIsActive()) {
+                if (!self.controllerPanelIsActive() && !$wrapper.hasClass('is-loading')) {
                     var uid = $wrapper.data('uid');
                     var $panel = self.getElementInContentById('embedpress_controller_panel_' + uid);
 

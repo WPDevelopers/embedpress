@@ -6,12 +6,20 @@
  * @since       1.0
  */
 
+#tinymce {
+    max-width: 100% !important;
+}
+
 .embedpress_wrapper {
     position: relative;
     padding: 1px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.embedpress_wrapper.is-loading {
+    cursor: progress;
 }
 
 .embedpress_wrapper.dynamic-width {
@@ -53,11 +61,11 @@
     width: 62px;
     top: 1px;
     left: 50%;
-    background: #075c97;
-    border: 1px solid rgba(207, 235, 255, 0.8);
-    -webkit-box-shadow: 0px 10px 44px -5px rgba(0,0,0,0.66);
-    -moz-box-shadow: 0px 10px 44px -5px rgba(0,0,0,0.66);
-    box-shadow: 0px 10px 44px -5px rgba(0,0,0,0.66);
+    background: #796FAB;
+    border: 1px solid rgba(151, 142, 196, 0.8);
+    -webkit-box-shadow: 0px 10px 44px -5px rgba(0, 0, 0, 0.66);
+    -moz-box-shadow: 0px 10px 44px -5px rgba(0, 0, 0, 0.66);
+    box-shadow: 0px 10px 44px -5px rgba(0, 0, 0, 0.66);
     z-index: 999999;
 }
 
@@ -72,7 +80,7 @@
 
 .embedpress_controller_panel div.embedpress_controller_button:hover {
     text-decoration: none;
-    color: #ccc;
+    color: #978EC4;
 }
 
 .embedpress_controller_panel.hidden {
@@ -82,30 +90,28 @@
 .embedpress_wrapper.embedpress_placeholder {
     display: block;
     padding: 10px;
-    background: #cbC5e3;
-    border: 1px solid #427F7f;
+    background: #796FAB;
+    border: 1px solid #978EC4;
     height: 120px;
     width: 450px;
     text-align: center;
     box-sizing: border-box;
-    color: #000;
+    color: #FFF;
 }
 
 .embedpress_wrapper.embedpress_placeholder:before {
     content: attr(data-loading-text);
-    display: block;
-    margin-top: 30px;
-    margin-bottom: 7px;
     font-weight: bold;
-}
-
-.embedpress_wrapper.embedpress_placeholder:after {
-    content: attr(data-url);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    font-style: italic;
-    font-size: 11px;
+    font-family: 'Source Sans Pro', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
 }
 
 .embedpress_wrapper img {

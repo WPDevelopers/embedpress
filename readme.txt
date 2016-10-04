@@ -1,9 +1,9 @@
 === EmbedPress ===
 Contributors: PressShack
-Tags: 23hq, amcharts, animoto, aol on, bambuser, cacoo, chartblocks, chirbit, circuitlab, cloudup, clyp, collegehumor, coub, crowd ranking, daily mile, dailymotion, devianart, dipity, dotsub, edocr, facebook, flickr, funnyordie, gettyimages, github gist, google docs, google drawings, google maps, google sheets, google slides, huffduffer, hulu, ifttt, imgur, infogram, instagram, issuu, kickstarter, meetup, mixcloud, mobypicture, nfb, photobucket, polldaddy, porfolium, reddit, release wire, reverbnation, roomshare, rutube, sapo videos, scribd, shortnote, shoudio, sketchfab, slideshare, smugmug, soundcloud, speaker deck, spotify, ted, tumblr, twitter, ustream, viddler, videojug, videopress, vimeo, vine, wordpress tv, youtube
+Tags: 23hq, amcharts, animoto, aol on, bambuser, cacoo, chartblocks, chirbit, circuitlab, cloudup, clyp, collegehumor, coub, crowd ranking, daily mile, dailymotion, devianart, dipity, dotsub, edocr, facebook, flickr, funnyordie, gettyimages, github gist, google docs, google drawings, google maps, google sheets, google slides, huffduffer, hulu, imgur, infogram, instagram, issuu, kickstarter, meetup, mixcloud, mobypicture, nfb, photobucket, polldaddy, porfolium, reddit, release wire, reverbnation, roomshare, rutube, sapo videos, scribd, shortnote, shoudio, sketchfab, slideshare, smugmug, soundcloud, speaker deck, spotify, ted, tumblr, twitter, ustream, viddler, videojug, videopress, vimeo, vine, wordpress tv, youtube
 Requires at least: 4.0
 Tested up to: 4.6.1
-Stable tag: 1.1.3
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -41,7 +41,6 @@ In addition to the default WordPress sources, EmbedPress supports these provider
 - [Google Sheets](https://www.google.com/sheets/) <em>(Spreadsheets)</em>
 - [Google Slides](https://google.com/slides) <em>(Presentation Slideshows)</em>
 - [HuffDuffer](http://huffduffer.com/) <em>(Audios)</em>
-- [IFTTT](http://ifttt.com/) <em>(Idea)</em>
 - [Infogram](https://infogr.am/) <em>(Charts)</em>
 - [MobyPicture](http://mobypicture.com/) <em>(Image)</em>
 - [NFB](http://www.nfb.ca/) <em>(Videos)</em>
@@ -93,6 +92,23 @@ There're two ways to install EmbedPress plugin:
 `
 
 == Changelog ==
+= 1.2.0 =
+Release Date: 2016-10-04
+
+* Fixed bugs with PollDaddy embeds;
+* Fixed bugs with Vine embeds;
+* Fixed bugs with Twitter Collection and Moments embeds;
+* Fixed bugs with SmugMug embeds;
+* Fixed bugs with SlideShare embeds;
+* Fixed bugs with Infogram embeds;
+* Fixed bugs with MobyPicture embeds;
+* Dropped support to IFTTT embeds;
+* Probably fixed the double embed on paste bug;
+* Prevent mouse interaction with the embed while its being loaded;
+* Changed the general look of EmbedPress embeds;
+* General code enhancements;
+* General minor optimizations.
+
 = 1.1.3 =
 Release Date: 2016-09-20
 
