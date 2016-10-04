@@ -393,9 +393,6 @@
                         // YouTube (http://www.youtube.com/)
                         'youtube.com/watch\\?*',
 
-                        // IFTTT (http://www.ifttt.com/)
-                        'ifttt.com/recipes/*',
-
                         // Flickr (http://www.flickr.com/)
                         'flickr.com/photos/*/*',
                         'flic.kr/p/*',

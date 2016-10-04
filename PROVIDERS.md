@@ -25,7 +25,6 @@ In addition to the default WordPress sources, EmbedPress supports these provider
 - Google Sheets (Spreadsheets)
 - Google Slides (Presentation Slideshows)
 - HuffDuffer (Audios)
-- IFTTT (Idea)
 - Infogram (Charts)
 - MobyPicture (Image)
 - NFB (Videos)
