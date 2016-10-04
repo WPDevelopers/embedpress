@@ -3,7 +3,7 @@ Contributors: PressShack
 Tags: 23hq, amcharts, animoto, aol on, bambuser, cacoo, chartblocks, chirbit, circuitlab, cloudup, clyp, collegehumor, coub, crowd ranking, daily mile, dailymotion, devianart, dipity, dotsub, edocr, facebook, flickr, funnyordie, gettyimages, github gist, google docs, google drawings, google maps, google sheets, google slides, huffduffer, hulu, imgur, infogram, instagram, issuu, kickstarter, meetup, mixcloud, mobypicture, nfb, photobucket, polldaddy, porfolium, reddit, release wire, reverbnation, roomshare, rutube, sapo videos, scribd, shortnote, shoudio, sketchfab, slideshare, smugmug, soundcloud, speaker deck, spotify, ted, tumblr, twitter, ustream, viddler, videojug, videopress, vimeo, vine, wordpress tv, youtube
 Requires at least: 4.0
 Tested up to: 4.6.1
-Stable tag: 1.1.3
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,10 +92,8 @@ There're two ways to install EmbedPress plugin:
 `
 
 == Changelog ==
-= [WIP β] 2.0.0 =
-Release Date: not released yet
-
-b1.0.0
+= 1.2.0 =
+Release Date: 2016-10-04
 
 * Fixed bugs with PollDaddy embeds;
 * Fixed bugs with Vine embeds;
