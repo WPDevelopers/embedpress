@@ -754,7 +754,7 @@
                 // Trigger the timeout which will load the content
                 window.setTimeout(function() {
                     self.parseContentAsync(uid, url, customAttributes);
-                }, 800);
+                }, 200);
 
                 return wrapper;
             };
