@@ -6,6 +6,10 @@
  * @since       1.0
  */
 
+#tinymce {
+    max-width: 100% !important;
+}
+
 .embedpress_wrapper {
     position: relative;
     padding: 1px;

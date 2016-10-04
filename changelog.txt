@@ -11,6 +11,7 @@ b1.0.0
 * Fixed bugs with SlideShare embeds;
 * Fixed bugs with Infogram embeds;
 * Fixed bugs with MobyPicture embeds;
+* Dropped support to IFTTT embeds;
 * Probably fixed the double embed on paste bug;
 * Prevent mouse interaction with the embed while its being loaded;
 * Changed the general look of EmbedPress embeds;
