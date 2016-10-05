@@ -868,7 +868,7 @@
                                                 '}'+
                                             '</style>'+
                                         '</head>'+
-                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'" style="display: inline-block;">'+
+                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'" style="width: 100%: display: inline-block;">'+
                                             $content.html() +
                                         '</body>'+
                                     '</html>'
