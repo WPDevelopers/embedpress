@@ -482,6 +482,7 @@
 
                         // Crowd Ranking (http://crowdranking.com)
                         'crowdranking.com/*/*',
+                        'c9ng.com/*/*',
 
                         // CircuitLab (https://www.circuitlab.com/)
                         'circuitlab.com/circuit/*',
