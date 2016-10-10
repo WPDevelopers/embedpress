@@ -563,9 +563,6 @@
                         // https://clyp.it
                         'clyp.it/*',
 
-                        // http://www.edocr.com
-                        'edocr.com/doc/*',
-
                         // https://gist.github.com
                         'gist.github.com/*',
 
