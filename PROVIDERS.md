@@ -14,7 +14,6 @@ In addition to the default WordPress sources, EmbedPress supports these provider
 - Devianart (Images)
 - Dipity (Timelines)
 - Dotsub (Videos)
-- Edocr (Documents)
 - Facebook (Posts)
 - GettyImages (Images)
 - Github Gist (Code)

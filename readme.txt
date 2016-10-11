@@ -1,6 +1,6 @@
 === EmbedPress ===
 Contributors: PressShack
-Tags: 23hq, amcharts, animoto, bambuser, cacoo, chartblocks, chirbit, circuitlab, cloudup, clyp, collegehumor, coub, crowd ranking, daily mile, dailymotion, devianart, dipity, dotsub, edocr, facebook, flickr, funnyordie, gettyimages, github gist, google docs, google drawings, google maps, google sheets, google slides, huffduffer, hulu, imgur, infogram, instagram, issuu, kickstarter, meetup, mixcloud, mobypicture, nfb, photobucket, polldaddy, porfolium, reddit, release wire, reverbnation, roomshare, rutube, sapo videos, scribd, shortnote, shoudio, sketchfab, slideshare, smugmug, soundcloud, speaker deck, spotify, ted, tumblr, twitter, ustream, viddler, videojug, videopress, vimeo, vine, wordpress tv, youtube
+Tags: 23hq, amcharts, animoto, bambuser, cacoo, chartblocks, chirbit, circuitlab, cloudup, clyp, collegehumor, coub, crowd ranking, daily mile, dailymotion, devianart, dipity, dotsub, facebook, flickr, funnyordie, gettyimages, github gist, google docs, google drawings, google maps, google sheets, google slides, huffduffer, hulu, imgur, infogram, instagram, issuu, kickstarter, meetup, mixcloud, mobypicture, nfb, photobucket, polldaddy, porfolium, reddit, release wire, reverbnation, roomshare, rutube, sapo videos, scribd, shortnote, shoudio, sketchfab, slideshare, smugmug, soundcloud, speaker deck, spotify, ted, tumblr, twitter, ustream, viddler, videojug, videopress, vimeo, vine, wordpress tv, youtube
 Requires at least: 4.0
 Tested up to: 4.6.1
 Stable tag: 1.2.0
@@ -30,7 +30,6 @@ In addition to the default WordPress sources, EmbedPress supports these provider
 - [Devianart](http://deviantart.com/) <em>(Images)</em>
 - [Dipity](http://www.dipity.com/) <em>(Timelines)</em>
 - [Dotsub](http://dotsub.com/) <em>(Videos)</em>
-- [Edocr](http://edocr.com/) <em>(Documents)</em>
 - [Facebook](https://www.facebook.com/) <em>(Posts)</em>
 - [GettyImages](http://www.gettyimages.com/) <em>(Images)</em>
 - [Github Gist](https://gist.github.com/) <em>(Code)</em>
