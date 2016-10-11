@@ -803,7 +803,7 @@
                                 var iframeDoc = iframeWindow.document;
 
                                 $(iframe).load(function() {
-                                    var maximumChecksAllowed = 50;
+                                    var maximumChecksAllowed = 100;
                                     var checkIndex = 0;
                                     var checkerInterval = setInterval(function() {
                                         if (checkIndex === maximumChecksAllowed) {
