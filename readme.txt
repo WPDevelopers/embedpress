@@ -1,6 +1,6 @@
 === EmbedPress ===
 Contributors: PressShack
-Tags: 23hq, amcharts, animoto, aol on, bambuser, cacoo, chartblocks, chirbit, circuitlab, cloudup, clyp, collegehumor, coub, crowd ranking, daily mile, dailymotion, devianart, dipity, dotsub, edocr, facebook, flickr, funnyordie, gettyimages, github gist, google docs, google drawings, google maps, google sheets, google slides, huffduffer, hulu, imgur, infogram, instagram, issuu, kickstarter, meetup, mixcloud, mobypicture, nfb, photobucket, polldaddy, porfolium, reddit, release wire, reverbnation, roomshare, rutube, sapo videos, scribd, shortnote, shoudio, sketchfab, slideshare, smugmug, soundcloud, speaker deck, spotify, ted, tumblr, twitter, ustream, viddler, videojug, videopress, vimeo, vine, wordpress tv, youtube
+Tags: 23hq, amcharts, animoto, bambuser, cacoo, chartblocks, chirbit, circuitlab, cloudup, clyp, collegehumor, coub, crowd ranking, daily mile, dailymotion, devianart, dipity, dotsub, edocr, facebook, flickr, funnyordie, gettyimages, github gist, google docs, google drawings, google maps, google sheets, google slides, huffduffer, hulu, imgur, infogram, instagram, issuu, kickstarter, meetup, mixcloud, mobypicture, nfb, photobucket, polldaddy, porfolium, reddit, release wire, reverbnation, roomshare, rutube, sapo videos, scribd, shortnote, shoudio, sketchfab, slideshare, smugmug, soundcloud, speaker deck, spotify, ted, tumblr, twitter, ustream, viddler, videojug, videopress, vimeo, vine, wordpress tv, youtube
 Requires at least: 4.0
 Tested up to: 4.6.1
 Stable tag: 1.2.0
@@ -18,7 +18,6 @@ In addition to the default WordPress sources, EmbedPress supports these provider
 
 - [23h](http://23hq.com/) <em>(Images)</em>
 - [AmCharts](http://live.amcharts.com/) <em>(Charts)</em>
-- [Aol On](http://on.aol.com/) <em>(Videos)</em>
 - [Bambuser](http://bambuser.com/) <em>(Videos)</em>
 - [Cacoo](http://cacoo.com/) <em>(Charts)</em>
 - [ChartBlocks](http://chartblocks.com/) <em>(Charts)</em>

@@ -500,9 +500,6 @@
                         // SoundCloud (http://soundcloud.com/)
                         'soundcloud.com/*',
 
-                        // On Aol (http://on.aol.com/)
-                        'on.aol.com/video/*',
-
                         // Kickstarter (http://www.kickstarter.com)
                         'kickstarter.com/projects/*',
 
