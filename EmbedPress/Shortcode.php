@@ -157,7 +157,7 @@ class Shortcode
 
             // Try to generate the embed using WP API
             $parsedContent = self::$oEmbedInstance->get_html($content, $attributes);
-            if (!$parsedContent) {
+            if (!$parsedContent || in_array($urlData->provider_name, array('Facebook'))) {
                 // If the embed couldn't be generated, we'll try to use Embera's API
                 $emberaInstance = new Embera($emberaInstanceSettings);
                 // Add support to the user's custom service providers
