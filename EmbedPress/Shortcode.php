@@ -160,12 +160,14 @@ class Shortcode
             if (in_array($urlData->provider_name, array('Facebook'))) {
                 // Check if this is a Facebook profile url.
                 if (preg_match('/facebook\.com\/(?:[^\/]+?)\/?$/', $content, $match)) {
+                    // Try to embed the url using WP's OSEmbed.
                     $parsedContent = self::$oEmbedInstance->get_html($content, $attributes);
                 } else {
-                    // Set as false so EmbedPress can try to embed the url using Embera.
+                    // Try to embed the url using EmbedPress' Embera.
                     $parsedContent = false;
                 }
             } else {
+                // Try to embed the url using WP's OSEmbed.
                 $parsedContent = self::$oEmbedInstance->get_html($content, $attributes);
             }
 
