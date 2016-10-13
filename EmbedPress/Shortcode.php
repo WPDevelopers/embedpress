@@ -155,9 +155,21 @@ class Shortcode
                 unset($service, $supportedServicesHeadersPatterns, $headers, $matches);
             }
 
-            // Try to generate the embed using WP API
-            $parsedContent = self::$oEmbedInstance->get_html($content, $attributes);
-            if (!$parsedContent || in_array($urlData->provider_name, array('Facebook'))) {
+            // Facebook is a special case. WordPress will try to embed them using OEmbed, but they always end up embedding the profile page, regardless
+            // if the url was pointing to a photo, a post, etc. So, since Embera can embed only facebook-media/posts, we'll use it only for that.
+            if (in_array($urlData->provider_name, array('Facebook'))) {
+                // Check if this is a Facebook profile url.
+                if (preg_match('/facebook\.com\/(?:[^\/]+?)\/?$/', $content, $match)) {
+                    $parsedContent = self::$oEmbedInstance->get_html($content, $attributes);
+                } else {
+                    // Set as false so EmbedPress can try to embed the url using Embera.
+                    $parsedContent = false;
+                }
+            } else {
+                $parsedContent = self::$oEmbedInstance->get_html($content, $attributes);
+            }
+
+            if (!$parsedContent) {
                 // If the embed couldn't be generated, we'll try to use Embera's API
                 $emberaInstance = new Embera($emberaInstanceSettings);
                 // Add support to the user's custom service providers
