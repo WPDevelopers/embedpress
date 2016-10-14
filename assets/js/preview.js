@@ -678,10 +678,10 @@
 
                 var wrapper = new self.Node('div', 1);
                 var wrapperSettings = {
-                    'class': Array.from(new Set(wrapperClasses)).join(" "),
-                    'data-url': url,
-                    'data-uid': uid,
-                    'id': 'embedpress_wrapper_' + uid,
+                    'class'            : Array.from(new Set(wrapperClasses)).join(" "),
+                    'data-url'         : url,
+                    'data-uid'         : uid,
+                    'id'               : 'embedpress_wrapper_' + uid,
                     'data-loading-text': 'Loading your embed...'
                 };
 
@@ -693,7 +693,7 @@
 
                 var panel = new self.Node('div', 1);
                 panel.attr({
-                    'id': 'embedpress_controller_panel_' + uid,
+                    'id'   : 'embedpress_controller_panel_' + uid,
                     'class': 'embedpress_controller_panel embedpress_ignore_mouseout hidden'
                 });
                 wrapper.append(panel);
@@ -716,7 +716,7 @@
 
                 var editButton = new self.Node('div', 1);
                 editButton.attr({
-                    'id': 'embedpress_button_edit_' + uid,
+                    'id'   : 'embedpress_button_edit_' + uid,
                     'class': 'embedpress_ignore_mouseout embedpress_controller_button'
                 });
                 var editButtonIcon = new self.Node('div', 1);
@@ -729,7 +729,7 @@
 
                 var removeButton = new self.Node('div', 1);
                 removeButton.attr({
-                    'id': 'embedpress_button_remove_' + uid,
+                    'id'   : 'embedpress_button_remove_' + uid,
                     'class': 'embedpress_ignore_mouseout embedpress_controller_button'
                 });
                 var removeButtonIcon = new self.Node('div', 1);
