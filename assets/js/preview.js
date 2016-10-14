@@ -760,6 +760,19 @@
                     result.data.content = result.data.content.stripShortcode($data.EMBEDPRESS_SHORTCODE);
 
                     var $wrapper = $(self.getElementInContentById('embedpress_wrapper_' + uid));
+                    var wrapperParent = $($wrapper.parent());
+
+                    // Check if $wrapper was rendered inside a <p> element.
+                    if (wrapperParent.prop('tagName').toUpperCase() === "P") {
+                        wrapperParent.replaceWith($wrapper);
+                        // Check if there's at least one "space" after $wrapper.
+                        var nextSibling = $($wrapper).next();
+                        if (!nextSibling.length || nextSibling.prop('tagName').toUpperCase() !== "P") {
+                            $('<p>&nbsp;</p>').insertAfter($wrapper);
+                        }
+                        nextSibling = null;
+                    }
+                    wrapperParent = null;
 
                     $wrapper.removeClass('is-loading');
 
