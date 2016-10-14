@@ -1022,6 +1022,12 @@
                     self.addEvent('undo', self.editor, self.onUndo); // TinyMCE
                     self.addEvent('undo', self.editor.undoManager, self.onUndo); // JCE
 
+                    var doc = self.editor.getDoc();
+                    $(doc).on('mouseenter', '.embedpress_wrapper', self.onMouseEnter);
+                    $(doc).on('mouseout', '.embedpress_wrapper', self.onMouseOut);
+                    $(doc).on('mousedown', '.embedpress_wrapper > .embedpress_controller_panel', self.cancelEvent);
+                    doc = null;
+
                     // Add the node filter that will convert the url into the preview box for the embed code
                     // @todo: Recognize <a> tags as well
                     self.editor.parser.addNodeFilter('#text', function addNodeFilterIntoParser(nodes, arg) {
@@ -1687,8 +1693,6 @@
                                         }
                                     }, 500, 8000);
 
-                                    $wrapper.on('mouseenter', self.onMouseEnter);
-                                    $wrapper.on('mouseout', self.onMouseOut);
                                     $wrapper.data('configured', true);
                                 }
                             }
@@ -1744,9 +1748,6 @@
 
                         self.addEvent('mousedown', $editButton, self.onClickEditButton);
                         self.addEvent('mousedown', $removeButton, self.onClickRemoveButton);
-
-                        // Prevent the action of set cursor into the panel after click
-                        self.addEvent('mousedown', $panel, self.cancelEvent);
 
                         $panel.data('event-set', true);
                     }
