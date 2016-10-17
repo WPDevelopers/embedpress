@@ -526,6 +526,7 @@
 
                         // Getty Images (http://www.gettyimages.com/)
                         'gty.im/*',
+                        'gettyimages.com/detail/photo/*',
 
                         // amCharts Live Editor (http://live.amcharts.com/)
                         'live.amcharts.com/*',
