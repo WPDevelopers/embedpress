@@ -562,7 +562,7 @@
                         'clyp.it/*',
 
                         // https://gist.github.com
-                        'gist.github.com/*',
+                        'gist.github.com/*/*',
 
                         // http://issuu.com
                          'issuu.com/*',
