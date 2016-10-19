@@ -643,7 +643,7 @@
             self.addURLsPlaceholder = function(node, url) {
                 var uid = self.makeId();
 
-                var wrapperClasses = ["embedpress_wrapper", "embedpress_placeholder"];
+                var wrapperClasses = ["embedpress_wrapper", "embedpress_placeholder", "wpview", "wpview-wrap"];
 
                 var shortcodeAttributes = node.value.getShortcodeAttributes($data.EMBEDPRESS_SHORTCODE);
                 var customAttributes = shortcodeAttributes;
@@ -688,7 +688,9 @@
 
                 wrapperSettings = $.extend({}, wrapperSettings, shortcodeAttributes);
 
-                wrapperSettings.class += " is-loading";
+                if (wrapperSettings.class.indexOf('is-loading') === -1) {
+                    wrapperSettings.class += " is-loading";
+                }
 
                 wrapper.attr(wrapperSettings);
 
@@ -741,6 +743,7 @@
                 removeButton.append(removeButtonIcon);
                 panel.append(removeButton);
 
+                node.value = node.value.trim();
                 node.replace(wrapper);
 
                 // Trigger the timeout which will load the content
@@ -889,6 +892,9 @@
 
                         self.appendElementsIntoWrapper($content, $wrapper);
                     }
+
+                    $wrapper.append($('<span class="mce-shim"></span>'));
+                    $wrapper.append($('<span class="wpview-end"></span>'));
                 });
             };
 
@@ -1109,7 +1115,7 @@
                     self.editor.serializer.addNodeFilter('div', function addNodeFilterIntoSerializer(nodes, arg) {
                         self.each(nodes, function eachNodeInSerializer(node) {
                             var nodeClasses = (node.attributes.map.class || "").split(' ');
-                            var wrapperFactoryClasses = ["embedpress_wrapper", "embedpress_placeholder"];
+                            var wrapperFactoryClasses = ["embedpress_wrapper", "embedpress_placeholder", "wpview", "wpview-wrap"];
 
                             var isWrapped = nodeClasses.filter(function(n) {
                                 return wrapperFactoryClasses.indexOf(n) != -1;
