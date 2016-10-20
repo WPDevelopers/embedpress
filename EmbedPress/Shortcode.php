@@ -203,6 +203,11 @@ class Shortcode
                 $parsedContent = preg_replace('/((?:ose-)?\{provider_alias\})/i', "ose-". strtolower($urlData->provider_name), $parsedContent);
             }
 
+            // NFB seems to always return their embed code with all HTML entities into their applicable characters string.
+            if (strtoupper($urlData->provider_name) === "NATIONAL FILM BOARD OF CANADA") {
+                $parsedContent = html_entity_decode($parsedContent);
+            }
+
             unset($embedTemplate, $urlData, $serviceProvider);
 
             // This assure that the iframe has the same dimensions the user wants to
