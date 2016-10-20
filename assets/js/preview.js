@@ -758,6 +758,7 @@
                 customAttributes = typeof customAttributes === "undefined" ? {} : customAttributes;
 
                 url = self.decodeEmbedURLSpecialChars(url, true, customAttributes);
+                var rawUrl = url.stripShortcode($data.EMBEDPRESS_SHORTCODE);
 
                 // Get the parsed embed code from the EmbedPress plugin
                 self.getParsedContent(url, function getParsedContentCallback(result) {
@@ -777,6 +778,13 @@
                         nextSibling = null;
                     }
                     wrapperParent = null;
+
+                    // Check if the url could not be embedded for some reason.
+                    if (rawUrl === result.data.content) {
+                        // Echoes the raw url
+                        $wrapper.replaceWith($('<p>'+ rawUrl +'</p>'));
+                        return;
+                    }
 
                     $wrapper.removeClass('is-loading');
 
