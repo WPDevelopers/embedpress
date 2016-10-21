@@ -1,4 +1,19 @@
 == Changelog ==
+= 1.3.0-beta-1 =
+Release Date: nry
+
+* Enhanced Crowd Ranking url detection;
+* Minor CSS fixes and enhancements;
+* Fixed a lot of bugs with Facebook urls;
+* Fixed bug where the embed controllers were not appearing to some serivce providers;
+* Fixed a lot of bugs with GettyImage urls;
+* Fixed a lot of bugs with Github Gist urls;
+* Fixed a lot of bugs with VideoJug urls;
+* Fixed a lot of bugs with NFB urls;
+* Fixed bug where the editor was treating non-embeddable urls as normal embeds;
+* Dropped support to Edocr due to embed inconsistency;
+* Dropped support to Aol On Videos.
+
 = 1.2.0 =
 Release Date: 2016-10-04
 
