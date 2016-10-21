@@ -155,8 +155,22 @@ class Shortcode
                 unset($service, $supportedServicesHeadersPatterns, $headers, $matches);
             }
 
-            // Try to generate the embed using WP API
-            $parsedContent = self::$oEmbedInstance->get_html($content, $attributes);
+            // Facebook is a special case. WordPress will try to embed them using OEmbed, but they always end up embedding the profile page, regardless
+            // if the url was pointing to a photo, a post, etc. So, since Embera can embed only facebook-media/posts, we'll use it only for that.
+            if (in_array($urlData->provider_name, array('Facebook'))) {
+                // Check if this is a Facebook profile url.
+                if (preg_match('/facebook\.com\/(?:[^\/]+?)\/?$/', $content, $match)) {
+                    // Try to embed the url using WP's OSEmbed.
+                    $parsedContent = self::$oEmbedInstance->get_html($content, $attributes);
+                } else {
+                    // Try to embed the url using EmbedPress' Embera.
+                    $parsedContent = false;
+                }
+            } else {
+                // Try to embed the url using WP's OSEmbed.
+                $parsedContent = self::$oEmbedInstance->get_html($content, $attributes);
+            }
+
             if (!$parsedContent) {
                 // If the embed couldn't be generated, we'll try to use Embera's API
                 $emberaInstance = new Embera($emberaInstanceSettings);
@@ -187,6 +201,11 @@ class Shortcode
 
                 // Replace the flag `{provider_alias}` which is used by Embera with the "ose-<serviceProviderAlias>". I.e: YouTube -> "ose-youtube"
                 $parsedContent = preg_replace('/((?:ose-)?\{provider_alias\})/i', "ose-". strtolower($urlData->provider_name), $parsedContent);
+            }
+
+            // NFB seems to always return their embed code with all HTML entities into their applicable characters string.
+            if (strtoupper($urlData->provider_name) === "NATIONAL FILM BOARD OF CANADA") {
+                $parsedContent = html_entity_decode($parsedContent);
             }
 
             unset($embedTemplate, $urlData, $serviceProvider);

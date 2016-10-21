@@ -481,7 +481,7 @@
                         'dailymotion.com/video/*',
 
                         // Crowd Ranking (http://crowdranking.com)
-                        'crowdranking.com/*/*',
+                        'c9ng.com/*/*',
 
                         // CircuitLab (https://www.circuitlab.com/)
                         'circuitlab.com/circuit/*',
@@ -499,9 +499,6 @@
 
                         // SoundCloud (http://soundcloud.com/)
                         'soundcloud.com/*',
-
-                        // On Aol (http://on.aol.com/)
-                        'on.aol.com/video/*',
 
                         // Kickstarter (http://www.kickstarter.com)
                         'kickstarter.com/projects/*',
@@ -529,6 +526,7 @@
 
                         // Getty Images (http://www.gettyimages.com/)
                         'gty.im/*',
+                        'gettyimages.com/detail/photo/*',
 
                         // amCharts Live Editor (http://live.amcharts.com/)
                         'live.amcharts.com/*',
@@ -563,11 +561,8 @@
                         // https://clyp.it
                         'clyp.it/*',
 
-                        // http://www.edocr.com
-                        'edocr.com/doc/*',
-
                         // https://gist.github.com
-                        'gist.github.com/*',
+                        'gist.github.com/*/*',
 
                         // http://issuu.com
                          'issuu.com/*',
@@ -648,7 +643,7 @@
             self.addURLsPlaceholder = function(node, url) {
                 var uid = self.makeId();
 
-                var wrapperClasses = ["embedpress_wrapper", "embedpress_placeholder"];
+                var wrapperClasses = ["embedpress_wrapper", "embedpress_placeholder", "wpview", "wpview-wrap"];
 
                 var shortcodeAttributes = node.value.getShortcodeAttributes($data.EMBEDPRESS_SHORTCODE);
                 var customAttributes = shortcodeAttributes;
@@ -684,22 +679,24 @@
 
                 var wrapper = new self.Node('div', 1);
                 var wrapperSettings = {
-                    'class': Array.from(new Set(wrapperClasses)).join(" "),
-                    'data-url': url,
-                    'data-uid': uid,
-                    'id': 'embedpress_wrapper_' + uid,
+                    'class'            : Array.from(new Set(wrapperClasses)).join(" "),
+                    'data-url'         : url,
+                    'data-uid'         : uid,
+                    'id'               : 'embedpress_wrapper_' + uid,
                     'data-loading-text': 'Loading your embed...'
                 };
 
                 wrapperSettings = $.extend({}, wrapperSettings, shortcodeAttributes);
 
-                wrapperSettings.class += " is-loading";
+                if (wrapperSettings.class.indexOf('is-loading') === -1) {
+                    wrapperSettings.class += " is-loading";
+                }
 
                 wrapper.attr(wrapperSettings);
 
                 var panel = new self.Node('div', 1);
                 panel.attr({
-                    'id': 'embedpress_controller_panel_' + uid,
+                    'id'   : 'embedpress_controller_panel_' + uid,
                     'class': 'embedpress_controller_panel embedpress_ignore_mouseout hidden'
                 });
                 wrapper.append(panel);
@@ -722,7 +719,7 @@
 
                 var editButton = new self.Node('div', 1);
                 editButton.attr({
-                    'id': 'embedpress_button_edit_' + uid,
+                    'id'   : 'embedpress_button_edit_' + uid,
                     'class': 'embedpress_ignore_mouseout embedpress_controller_button'
                 });
                 var editButtonIcon = new self.Node('div', 1);
@@ -735,7 +732,7 @@
 
                 var removeButton = new self.Node('div', 1);
                 removeButton.attr({
-                    'id': 'embedpress_button_remove_' + uid,
+                    'id'   : 'embedpress_button_remove_' + uid,
                     'class': 'embedpress_ignore_mouseout embedpress_controller_button'
                 });
                 var removeButtonIcon = new self.Node('div', 1);
@@ -746,6 +743,7 @@
                 removeButton.append(removeButtonIcon);
                 panel.append(removeButton);
 
+                node.value = node.value.trim();
                 node.replace(wrapper);
 
                 // Trigger the timeout which will load the content
@@ -760,12 +758,33 @@
                 customAttributes = typeof customAttributes === "undefined" ? {} : customAttributes;
 
                 url = self.decodeEmbedURLSpecialChars(url, true, customAttributes);
+                var rawUrl = url.stripShortcode($data.EMBEDPRESS_SHORTCODE);
 
                 // Get the parsed embed code from the EmbedPress plugin
                 self.getParsedContent(url, function getParsedContentCallback(result) {
                     result.data.content = result.data.content.stripShortcode($data.EMBEDPRESS_SHORTCODE);
 
                     var $wrapper = $(self.getElementInContentById('embedpress_wrapper_' + uid));
+                    var wrapperParent = $($wrapper.parent());
+
+                    // Check if $wrapper was rendered inside a <p> element.
+                    if (wrapperParent.prop('tagName').toUpperCase() === "P") {
+                        wrapperParent.replaceWith($wrapper);
+                        // Check if there's at least one "space" after $wrapper.
+                        var nextSibling = $($wrapper).next();
+                        if (!nextSibling.length || nextSibling.prop('tagName').toUpperCase() !== "P") {
+                            $('<p>&nbsp;</p>').insertAfter($wrapper);
+                        }
+                        nextSibling = null;
+                    }
+                    wrapperParent = null;
+
+                    // Check if the url could not be embedded for some reason.
+                    if (rawUrl === result.data.content) {
+                        // Echoes the raw url
+                        $wrapper.replaceWith($('<p>'+ rawUrl +'</p>'));
+                        return;
+                    }
 
                     $wrapper.removeClass('is-loading');
 
@@ -809,7 +828,7 @@
                                 var iframeDoc = iframeWindow.document;
 
                                 $(iframe).load(function() {
-                                    var maximumChecksAllowed = 50;
+                                    var maximumChecksAllowed = 100;
                                     var checkIndex = 0;
                                     var checkerInterval = setInterval(function() {
                                         if (checkIndex === maximumChecksAllowed) {
@@ -868,7 +887,7 @@
                                                 '}'+
                                             '</style>'+
                                         '</head>'+
-                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'" style="display: inline-block;">'+
+                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'" style="width: 100%; display: inline-block;">'+
                                             $content.html() +
                                         '</body>'+
                                     '</html>'
@@ -881,6 +900,9 @@
 
                         self.appendElementsIntoWrapper($content, $wrapper);
                     }
+
+                    $wrapper.append($('<span class="mce-shim"></span>'));
+                    $wrapper.append($('<span class="wpview-end"></span>'));
                 });
             };
 
@@ -1028,6 +1050,12 @@
                     self.addEvent('undo', self.editor, self.onUndo); // TinyMCE
                     self.addEvent('undo', self.editor.undoManager, self.onUndo); // JCE
 
+                    var doc = self.editor.getDoc();
+                    $(doc).on('mouseenter', '.embedpress_wrapper', self.onMouseEnter);
+                    $(doc).on('mouseout', '.embedpress_wrapper', self.onMouseOut);
+                    $(doc).on('mousedown', '.embedpress_wrapper > .embedpress_controller_panel', self.cancelEvent);
+                    doc = null;
+
                     // Add the node filter that will convert the url into the preview box for the embed code
                     // @todo: Recognize <a> tags as well
                     self.editor.parser.addNodeFilter('#text', function addNodeFilterIntoParser(nodes, arg) {
@@ -1095,7 +1123,7 @@
                     self.editor.serializer.addNodeFilter('div', function addNodeFilterIntoSerializer(nodes, arg) {
                         self.each(nodes, function eachNodeInSerializer(node) {
                             var nodeClasses = (node.attributes.map.class || "").split(' ');
-                            var wrapperFactoryClasses = ["embedpress_wrapper", "embedpress_placeholder"];
+                            var wrapperFactoryClasses = ["embedpress_wrapper", "embedpress_placeholder", "wpview", "wpview-wrap"];
 
                             var isWrapped = nodeClasses.filter(function(n) {
                                 return wrapperFactoryClasses.indexOf(n) != -1;
@@ -1693,8 +1721,6 @@
                                         }
                                     }, 500, 8000);
 
-                                    $wrapper.on('mouseenter', self.onMouseEnter);
-                                    $wrapper.on('mouseout', self.onMouseOut);
                                     $wrapper.data('configured', true);
                                 }
                             }
@@ -1750,9 +1776,6 @@
 
                         self.addEvent('mousedown', $editButton, self.onClickEditButton);
                         self.addEvent('mousedown', $removeButton, self.onClickRemoveButton);
-
-                        // Prevent the action of set cursor into the panel after click
-                        self.addEvent('mousedown', $panel, self.cancelEvent);
 
                         $panel.data('event-set', true);
                     }
