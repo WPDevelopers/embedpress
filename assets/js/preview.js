@@ -1093,23 +1093,42 @@
 
                                         var wrapper = self.addURLsPlaceholder(node, url);
 
-                                        // Look for a pre-text and adds it on content if exists.
-                                        var preText = matches[1];
-                                        if (!!preText.length) {
-                                            var text = new self.Node('#text', 3);
-                                            text.value = preText.trim();
+                                        setTimeout(function() {
+                                            var doc = self.editor.getDoc();
 
-                                            wrapper.parent.insert(text, wrapper, true);
-                                        }
+                                            var previewWrapper = $(doc.querySelector('#'+ wrapper.attributes.map['id']));
+                                            var previewWrapperParent = $(previewWrapper.parent());
 
-                                        // Look for a post-text and adds it on content if exists.
-                                        var postText = matches[3];
-                                        if (!!postText.length) {
-                                            var text = new self.Node('#text', 3);
-                                            text.value = postText.trim();
+                                            if (previewWrapperParent.prop('tagName').toUpperCase() === "P") {
+                                                previewWrapperParent.replaceWith(previewWrapper);
+                                            }
 
-                                            wrapper.parent.insert(text, wrapper, false);
-                                        }
+                                            var previewWrapperOlderSibling = previewWrapper.prev();
+                                            if (previewWrapperOlderSibling && previewWrapperOlderSibling.prop('tagName') && previewWrapperOlderSibling.prop('tagName').toUpperCase() === "P" && !previewWrapperOlderSibling.html().replace(/\&nbsp\;/i, '').length) {
+                                                previewWrapperOlderSibling.remove();
+                                            }
+
+                                            var previewWrapperYoungerSibling = previewWrapper.next();
+                                            if (previewWrapperYoungerSibling && previewWrapperYoungerSibling.prop('tagName') && previewWrapperYoungerSibling.prop('tagName').toUpperCase() === "P" && !previewWrapperYoungerSibling.html().replace(/\&nbsp\;/i, '').length) {
+                                                if (wrapper.next && wrapper.next.isEmpty() && (!wrapper.next.next || wrapper.next.next.isEmpty())) {
+                                                    wrapper.next.remove();
+                                                }
+                                            }
+
+                                            setTimeout(function() {
+                                                var previewWrapperYoungerSibling = previewWrapper.next();
+                                                if (previewWrapperYoungerSibling && previewWrapperYoungerSibling.prop('tagName') && previewWrapperYoungerSibling.prop('tagName').toUpperCase() === "P" && !previewWrapperYoungerSibling.html().length) {
+                                                    previewWrapperYoungerSibling.html('&nbsp;');
+                                                }
+
+                                                var bogusNode = self.editor.dom.select('p > br[data-mce-bogus]');
+                                                if (bogusNode && bogusNode.length) {
+                                                    self.editor.selection.select(bogusNode[0]);
+                                                    $(doc.querySelector('p[data-mce-bogus]')).attr('data-mce-bogus', null);
+                                                    self.editor.selection.collapse(false);
+                                                }
+                                            }, 50);
+                                        }, 50);
                                     } else {
                                         // No match. So we move on to check the next url pattern.
                                         tryToMatchContentAgainstUrlPatternWithIndex(urlPatternIndex + 1);
@@ -1157,9 +1176,37 @@
                                 var text = new self.Node('#text', 3);
                                 text.value = self.decodeEmbedURLSpecialChars(node.attributes.map['data-url'].trim(), true, customAttributes);
 
+                                if (text.prev && text.prev.isEmpty()) {
+                                    text.prev.remove();
+                                }
+
                                 node.replace(text);
 
-                                // @todo: Remove/avoid to add empty paragraphs before and after the text every time we run this
+                                if (text.next) {
+                                    var sibling = text.next;
+                                    if (!sibling.isEmpty()) {
+                                        if (sibling.name.toLowerCase() === "p") {
+                                            var children = sibling.getAll('#text');
+                                            self.each(sibling.getAll('#text'), function(child) {
+                                                child.value = child.value.trim();
+
+                                                if (!child.value.length) {
+                                                    child.remove();
+                                                } else {
+                                                    console.log('is NOT empty');
+                                                }
+                                            });
+                                        }
+                                    }
+                                }
+
+                                /*
+                                if (text.next && (text.next.isEmpty() || (text.firstChild && !text.firstChild.value.length))) {
+                                    if (!text.next.next || (text.next.next && text.next.next.isEmpty())) {
+                                        text.next.remove();
+                                    }
+                                }
+                                */
                             }
                         });
                     });
