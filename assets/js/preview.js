@@ -1180,6 +1180,11 @@
                                     text.prev.remove();
                                 }
 
+                                var spacerNode = new self.Node('p', 1);
+                                spacerNode.next = node.next;
+
+                                node.next = spacerNode;
+
                                 node.replace(text);
 
                                 if (text.next) {
