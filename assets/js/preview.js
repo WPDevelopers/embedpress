@@ -1118,6 +1118,11 @@
                                             } else {
                                                 $('<p>&nbsp;</p>').insertAfter(previewWrapper);
                                             }
+
+                                            setTimeout(function() {
+                                                self.editor.selection.select(self.editor.getBody(), true);
+                                                self.editor.selection.collapse(false);
+                                            }, 50);
                                         }, 50);
                                     } else {
                                         // No match. So we move on to check the next url pattern.
