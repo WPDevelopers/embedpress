@@ -744,6 +744,7 @@
                 panel.append(removeButton);
 
                 node.value = node.value.trim();
+
                 node.replace(wrapper);
 
                 // Trigger the timeout which will load the content
@@ -768,12 +769,12 @@
                     var wrapperParent = $($wrapper.parent());
 
                     // Check if $wrapper was rendered inside a <p> element.
-                    if (wrapperParent.prop('tagName').toUpperCase() === "P") {
+                    if (wrapperParent.prop('tagName') && wrapperParent.prop('tagName').toUpperCase() === "P") {
                         wrapperParent.replaceWith($wrapper);
                         // Check if there's at least one "space" after $wrapper.
                         var nextSibling = $($wrapper).next();
                         if (!nextSibling.length || nextSibling.prop('tagName').toUpperCase() !== "P") {
-                            $('<p>&nbsp;</p>').insertAfter($wrapper);
+                            //$('<p>&nbsp;</p>').insertAfter($wrapper);
                         }
                         nextSibling = null;
                     }
@@ -841,7 +842,7 @@
                                                 $wrapper.attr('width', iframe.width);
                                                 $wrapper.css('width', iframe.width + 'px');
 
-                                                $($wrapper).after('<p>&nbsp;</p>');
+                                                //$($wrapper).after('<p>&nbsp;</p>');
                                             }, 250);
                                         } else {
                                             if (customAttributes.height) {
@@ -1060,7 +1061,7 @@
                     // @todo: Recognize <a> tags as well
                     self.editor.parser.addNodeFilter('#text', function addNodeFilterIntoParser(nodes, arg) {
                         self.each(nodes, function eachNodeInParser(node) {
-                            var subject = node.value;
+                            var subject = node.value.trim();
                             if (!subject.isValidUrl()) {
                                 if (!subject.match(SHORTCODE_REGEXP)) {
                                     return;
@@ -1109,25 +1110,11 @@
                                             }
 
                                             var previewWrapperYoungerSibling = previewWrapper.next();
-                                            if (previewWrapperYoungerSibling && previewWrapperYoungerSibling.prop('tagName') && previewWrapperYoungerSibling.prop('tagName').toUpperCase() === "P" && !previewWrapperYoungerSibling.html().replace(/\&nbsp\;/i, '').length) {
-                                                if (wrapper.next && wrapper.next.isEmpty() && (!wrapper.next.next || wrapper.next.next.isEmpty())) {
-                                                    wrapper.next.remove();
+                                            if (previewWrapperYoungerSibling && previewWrapperYoungerSibling.length && previewWrapperYoungerSibling.prop('tagName').toUpperCase() === "P") {
+                                                if (!previewWrapperYoungerSibling.next().length && !previewWrapperYoungerSibling.html().replace(/\&nbsp\;/i, '').length) {
+                                                    previewWrapperYoungerSibling.remove();
                                                 }
                                             }
-
-                                            setTimeout(function() {
-                                                var previewWrapperYoungerSibling = previewWrapper.next();
-                                                if (previewWrapperYoungerSibling && previewWrapperYoungerSibling.prop('tagName') && previewWrapperYoungerSibling.prop('tagName').toUpperCase() === "P" && !previewWrapperYoungerSibling.html().length) {
-                                                    previewWrapperYoungerSibling.html('&nbsp;');
-                                                }
-
-                                                var bogusNode = self.editor.dom.select('p > br[data-mce-bogus]');
-                                                if (bogusNode && bogusNode.length) {
-                                                    self.editor.selection.select(bogusNode[0]);
-                                                    $(doc.querySelector('p[data-mce-bogus]')).attr('data-mce-bogus', null);
-                                                    self.editor.selection.collapse(false);
-                                                }
-                                            }, 50);
                                         }, 50);
                                     } else {
                                         // No match. So we move on to check the next url pattern.
@@ -1180,11 +1167,6 @@
                                     text.prev.remove();
                                 }
 
-                                var spacerNode = new self.Node('p', 1);
-                                spacerNode.next = node.next;
-
-                                node.next = spacerNode;
-
                                 node.replace(text);
 
                                 if (text.next) {
@@ -1197,21 +1179,11 @@
 
                                                 if (!child.value.length) {
                                                     child.remove();
-                                                } else {
-                                                    console.log('is NOT empty');
                                                 }
                                             });
                                         }
                                     }
                                 }
-
-                                /*
-                                if (text.next && (text.next.isEmpty() || (text.firstChild && !text.firstChild.value.length))) {
-                                    if (!text.next.next || (text.next.next && text.next.next.isEmpty())) {
-                                        text.next.remove();
-                                    }
-                                }
-                                */
                             }
                         });
                     });
@@ -1347,9 +1319,6 @@
 
                             // Remove "www." subdomain from Slideshare.net urls that was causing bugs on TinyMCE.
                             content = content.replace(/www\.slideshare\.net\//i, 'slideshare.net/');
-
-                            // Make sure that the cursor will be positioned after the embed.
-                            content += '<span>&nbsp;</span>';
 
                             // Let TinyMCE do the heavy lifting for inserting that content into the self.editor.
                             // We cancel the default behavior and insert the embed-content using a command to trigger the node change and the parser.
