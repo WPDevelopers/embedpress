@@ -1181,6 +1181,16 @@
                         });
                     });
 
+                    self.editor.serializer.addNodeFilter('p', function addNodeFilterIntoSerializer(nodes, arg) {
+                        self.each(nodes, function eachNodeInSerializer(node) {
+                            if (node.firstChild == node.lastChild) {
+                                if (node.firstChild.value === "&nbsp;" || !node.firstChild.value.trim().length) {
+                                    node.remove();
+                                }
+                            }
+                        });
+                    });
+
                     // Add event to reconfigure wrappers every time the content is loaded
                     tinymce.each(tinymce.editors, function onEachEditor(editor) {
                         self.addEvent('loadContent', editor, function onInitEditor(ed) {
