@@ -1,9 +1,9 @@
 === EmbedPress ===
 Contributors: PressShack
-Tags: 23hq, amcharts, animoto, aol on, bambuser, cacoo, chartblocks, chirbit, circuitlab, cloudup, clyp, collegehumor, coub, crowd ranking, daily mile, dailymotion, devianart, dipity, dotsub, edocr, facebook, flickr, funnyordie, gettyimages, github gist, google docs, google drawings, google maps, google sheets, google slides, huffduffer, hulu, imgur, infogram, instagram, issuu, kickstarter, meetup, mixcloud, mobypicture, nfb, photobucket, polldaddy, porfolium, reddit, release wire, reverbnation, roomshare, rutube, sapo videos, scribd, shortnote, shoudio, sketchfab, slideshare, smugmug, soundcloud, speaker deck, spotify, ted, tumblr, twitter, ustream, viddler, videojug, videopress, vimeo, vine, wordpress tv, youtube
+Tags: 23hq, amcharts, animoto, bambuser, cacoo, chartblocks, chirbit, circuitlab, cloudup, clyp, collegehumor, coub, crowd ranking, daily mile, dailymotion, devianart, dipity, dotsub, facebook, flickr, funnyordie, gettyimages, github gist, google docs, google drawings, google maps, google sheets, google slides, huffduffer, hulu, imgur, infogram, instagram, issuu, kickstarter, meetup, mixcloud, mobypicture, nfb, photobucket, polldaddy, porfolium, reddit, release wire, reverbnation, roomshare, rutube, sapo videos, scribd, shortnote, shoudio, sketchfab, slideshare, smugmug, soundcloud, speaker deck, spotify, ted, tumblr, twitter, ustream, viddler, videojug, videopress, vimeo, vine, wordpress tv, youtube
 Requires at least: 4.0
 Tested up to: 4.6.1
-Stable tag: 1.2.0
+Stable tag: 1.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +18,6 @@ In addition to the default WordPress sources, EmbedPress supports these provider
 
 - [23h](http://23hq.com/) <em>(Images)</em>
 - [AmCharts](http://live.amcharts.com/) <em>(Charts)</em>
-- [Aol On](http://on.aol.com/) <em>(Videos)</em>
 - [Bambuser](http://bambuser.com/) <em>(Videos)</em>
 - [Cacoo](http://cacoo.com/) <em>(Charts)</em>
 - [ChartBlocks](http://chartblocks.com/) <em>(Charts)</em>
@@ -31,7 +30,6 @@ In addition to the default WordPress sources, EmbedPress supports these provider
 - [Devianart](http://deviantart.com/) <em>(Images)</em>
 - [Dipity](http://www.dipity.com/) <em>(Timelines)</em>
 - [Dotsub](http://dotsub.com/) <em>(Videos)</em>
-- [Edocr](http://edocr.com/) <em>(Documents)</em>
 - [Facebook](https://www.facebook.com/) <em>(Posts)</em>
 - [GettyImages](http://www.gettyimages.com/) <em>(Images)</em>
 - [Github Gist](https://gist.github.com/) <em>(Code)</em>
@@ -92,6 +90,24 @@ There're two ways to install EmbedPress plugin:
 `
 
 == Changelog ==
+= 1.3.0 =
+Release Date: 2016-11-04
+
+* Enhanced Crowd Ranking url detection;
+* Ability to force a different language into Facebook embeds via settings page;
+* Minor CSS fixes and enhancements;
+* Fixed stylesheet conflicting with some other plugins;
+* Fixed a lot of bugs with Facebook urls;
+* Fixed bug where the embed controllers were not appearing to some serivce providers;
+* Fixed a lot of bugs with GettyImage urls;
+* Fixed a lot of bugs with Github Gist urls;
+* Fixed a lot of bugs with VideoJug urls;
+* Fixed a lot of bugs with NFB urls;
+* Fixed bug where the editor was treating non-embeddable urls as normal embeds;
+* Fixed bug where nbsp; were added before and after the embed every time the user switch from Visual to Text mode;
+* Dropped support to Edocr due to embed inconsistency;
+* Dropped support to Aol On Videos.
+
 = 1.2.0 =
 Release Date: 2016-10-04
 

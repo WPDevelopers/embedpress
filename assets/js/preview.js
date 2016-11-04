@@ -481,7 +481,7 @@
                         'dailymotion.com/video/*',
 
                         // Crowd Ranking (http://crowdranking.com)
-                        'crowdranking.com/*/*',
+                        'c9ng.com/*/*',
 
                         // CircuitLab (https://www.circuitlab.com/)
                         'circuitlab.com/circuit/*',
@@ -499,9 +499,6 @@
 
                         // SoundCloud (http://soundcloud.com/)
                         'soundcloud.com/*',
-
-                        // On Aol (http://on.aol.com/)
-                        'on.aol.com/video/*',
 
                         // Kickstarter (http://www.kickstarter.com)
                         'kickstarter.com/projects/*',
@@ -529,6 +526,7 @@
 
                         // Getty Images (http://www.gettyimages.com/)
                         'gty.im/*',
+                        'gettyimages.com/detail/photo/*',
 
                         // amCharts Live Editor (http://live.amcharts.com/)
                         'live.amcharts.com/*',
@@ -563,11 +561,8 @@
                         // https://clyp.it
                         'clyp.it/*',
 
-                        // http://www.edocr.com
-                        'edocr.com/doc/*',
-
                         // https://gist.github.com
-                        'gist.github.com/*',
+                        'gist.github.com/*/*',
 
                         // http://issuu.com
                          'issuu.com/*',
@@ -648,7 +643,7 @@
             self.addURLsPlaceholder = function(node, url) {
                 var uid = self.makeId();
 
-                var wrapperClasses = ["embedpress_wrapper", "embedpress_placeholder"];
+                var wrapperClasses = ["embedpress_wrapper", "embedpress_placeholder", "wpview", "wpview-wrap"];
 
                 var shortcodeAttributes = node.value.getShortcodeAttributes($data.EMBEDPRESS_SHORTCODE);
                 var customAttributes = shortcodeAttributes;
@@ -684,22 +679,24 @@
 
                 var wrapper = new self.Node('div', 1);
                 var wrapperSettings = {
-                    'class': Array.from(new Set(wrapperClasses)).join(" "),
-                    'data-url': url,
-                    'data-uid': uid,
-                    'id': 'embedpress_wrapper_' + uid,
+                    'class'            : Array.from(new Set(wrapperClasses)).join(" "),
+                    'data-url'         : url,
+                    'data-uid'         : uid,
+                    'id'               : 'embedpress_wrapper_' + uid,
                     'data-loading-text': 'Loading your embed...'
                 };
 
                 wrapperSettings = $.extend({}, wrapperSettings, shortcodeAttributes);
 
-                wrapperSettings.class += " is-loading";
+                if (wrapperSettings.class.indexOf('is-loading') === -1) {
+                    wrapperSettings.class += " is-loading";
+                }
 
                 wrapper.attr(wrapperSettings);
 
                 var panel = new self.Node('div', 1);
                 panel.attr({
-                    'id': 'embedpress_controller_panel_' + uid,
+                    'id'   : 'embedpress_controller_panel_' + uid,
                     'class': 'embedpress_controller_panel embedpress_ignore_mouseout hidden'
                 });
                 wrapper.append(panel);
@@ -722,7 +719,7 @@
 
                 var editButton = new self.Node('div', 1);
                 editButton.attr({
-                    'id': 'embedpress_button_edit_' + uid,
+                    'id'   : 'embedpress_button_edit_' + uid,
                     'class': 'embedpress_ignore_mouseout embedpress_controller_button'
                 });
                 var editButtonIcon = new self.Node('div', 1);
@@ -735,7 +732,7 @@
 
                 var removeButton = new self.Node('div', 1);
                 removeButton.attr({
-                    'id': 'embedpress_button_remove_' + uid,
+                    'id'   : 'embedpress_button_remove_' + uid,
                     'class': 'embedpress_ignore_mouseout embedpress_controller_button'
                 });
                 var removeButtonIcon = new self.Node('div', 1);
@@ -745,6 +742,8 @@
                 removeButtonIcon.append(createGhostNode());
                 removeButton.append(removeButtonIcon);
                 panel.append(removeButton);
+
+                node.value = node.value.trim();
 
                 node.replace(wrapper);
 
@@ -760,12 +759,33 @@
                 customAttributes = typeof customAttributes === "undefined" ? {} : customAttributes;
 
                 url = self.decodeEmbedURLSpecialChars(url, true, customAttributes);
+                var rawUrl = url.stripShortcode($data.EMBEDPRESS_SHORTCODE);
 
                 // Get the parsed embed code from the EmbedPress plugin
                 self.getParsedContent(url, function getParsedContentCallback(result) {
                     result.data.content = result.data.content.stripShortcode($data.EMBEDPRESS_SHORTCODE);
 
                     var $wrapper = $(self.getElementInContentById('embedpress_wrapper_' + uid));
+                    var wrapperParent = $($wrapper.parent());
+
+                    // Check if $wrapper was rendered inside a <p> element.
+                    if (wrapperParent.prop('tagName') && wrapperParent.prop('tagName').toUpperCase() === "P") {
+                        wrapperParent.replaceWith($wrapper);
+                        // Check if there's at least one "space" after $wrapper.
+                        var nextSibling = $($wrapper).next();
+                        if (!nextSibling.length || nextSibling.prop('tagName').toUpperCase() !== "P") {
+                            //$('<p>&nbsp;</p>').insertAfter($wrapper);
+                        }
+                        nextSibling = null;
+                    }
+                    wrapperParent = null;
+
+                    // Check if the url could not be embedded for some reason.
+                    if (rawUrl === result.data.content) {
+                        // Echoes the raw url
+                        $wrapper.replaceWith($('<p>'+ rawUrl +'</p>'));
+                        return;
+                    }
 
                     $wrapper.removeClass('is-loading');
 
@@ -809,7 +829,7 @@
                                 var iframeDoc = iframeWindow.document;
 
                                 $(iframe).load(function() {
-                                    var maximumChecksAllowed = 50;
+                                    var maximumChecksAllowed = 100;
                                     var checkIndex = 0;
                                     var checkerInterval = setInterval(function() {
                                         if (checkIndex === maximumChecksAllowed) {
@@ -821,8 +841,6 @@
 
                                                 $wrapper.attr('width', iframe.width);
                                                 $wrapper.css('width', iframe.width + 'px');
-
-                                                $($wrapper).after('<p>&nbsp;</p>');
                                             }, 250);
                                         } else {
                                             if (customAttributes.height) {
@@ -868,7 +886,7 @@
                                                 '}'+
                                             '</style>'+
                                         '</head>'+
-                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'" style="display: inline-block;">'+
+                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'" style="width: 100%; display: inline-block;">'+
                                             $content.html() +
                                         '</body>'+
                                     '</html>'
@@ -881,6 +899,9 @@
 
                         self.appendElementsIntoWrapper($content, $wrapper);
                     }
+
+                    $wrapper.append($('<span class="mce-shim"></span>'));
+                    $wrapper.append($('<span class="wpview-end"></span>'));
                 });
             };
 
@@ -1018,9 +1039,11 @@
                 self.Node   = tinymce.html.Node;
 
                 function onFindEditorCallback() {
-                    self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/font.css?' + self.params.versionUID);
-                    self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/preview.css?' + self.params.versionUID);
-                    self.addStylesheet(PLG_CONTENT_ASSETS_CSS_PATH + '/embedpress.css?' + self.params.versionUID);
+                    $(window.document.getElementsByTagName('head')[0]).append($('<link rel="stylesheet" type="text/css" href="' + (PLG_SYSTEM_ASSETS_CSS_PATH + '/vendor/bootstrap/bootstrap.min.css?v=' + self.params.versionUID) + '">'));
+
+                    self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/font.css?v=' + self.params.versionUID);
+                    self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/preview.css?v=' + self.params.versionUID);
+                    self.addStylesheet(PLG_CONTENT_ASSETS_CSS_PATH + '/embedpress.css?v=' + self.params.versionUID);
                     self.addEvent('paste', self.editor, self.onPaste);
                     self.addEvent('nodechange', self.editor, self.onNodeChange);
                     self.addEvent('keydown', self.editor, self.onKeyDown);
@@ -1028,11 +1051,17 @@
                     self.addEvent('undo', self.editor, self.onUndo); // TinyMCE
                     self.addEvent('undo', self.editor.undoManager, self.onUndo); // JCE
 
+                    var doc = self.editor.getDoc();
+                    $(doc).on('mouseenter', '.embedpress_wrapper', self.onMouseEnter);
+                    $(doc).on('mouseout', '.embedpress_wrapper', self.onMouseOut);
+                    $(doc).on('mousedown', '.embedpress_wrapper > .embedpress_controller_panel', self.cancelEvent);
+                    doc = null;
+
                     // Add the node filter that will convert the url into the preview box for the embed code
                     // @todo: Recognize <a> tags as well
                     self.editor.parser.addNodeFilter('#text', function addNodeFilterIntoParser(nodes, arg) {
                         self.each(nodes, function eachNodeInParser(node) {
-                            var subject = node.value;
+                            var subject = node.value.trim();
                             if (!subject.isValidUrl()) {
                                 if (!subject.match(SHORTCODE_REGEXP)) {
                                     return;
@@ -1065,23 +1094,38 @@
 
                                         var wrapper = self.addURLsPlaceholder(node, url);
 
-                                        // Look for a pre-text and adds it on content if exists.
-                                        var preText = matches[1];
-                                        if (!!preText.length) {
-                                            var text = new self.Node('#text', 3);
-                                            text.value = preText.trim();
+                                        setTimeout(function() {
+                                            var doc = self.editor.getDoc();
 
-                                            wrapper.parent.insert(text, wrapper, true);
-                                        }
+                                            var previewWrapper = $(doc.querySelector('#'+ wrapper.attributes.map['id']));
+                                            var previewWrapperParent = $(previewWrapper.parent());
 
-                                        // Look for a post-text and adds it on content if exists.
-                                        var postText = matches[3];
-                                        if (!!postText.length) {
-                                            var text = new self.Node('#text', 3);
-                                            text.value = postText.trim();
+                                            if (previewWrapperParent && previewWrapperParent.prop('tagName') && previewWrapperParent.prop('tagName').toUpperCase() === "P") {
+                                                previewWrapperParent.replaceWith(previewWrapper);
+                                            }
 
-                                            wrapper.parent.insert(text, wrapper, false);
-                                        }
+                                            var previewWrapperOlderSibling = previewWrapper.prev();
+                                            if (previewWrapperOlderSibling && previewWrapperOlderSibling.prop('tagName') && previewWrapperOlderSibling.prop('tagName').toUpperCase() === "P" && !previewWrapperOlderSibling.html().replace(/\&nbsp\;/i, '').length) {
+                                                previewWrapperOlderSibling.remove();
+                                            }
+
+                                            var previewWrapperYoungerSibling = previewWrapper.next();
+                                            if (previewWrapperYoungerSibling && previewWrapperYoungerSibling.length && previewWrapperYoungerSibling.prop('tagName').toUpperCase() === "P") {
+                                                if (!previewWrapperYoungerSibling.next().length && !previewWrapperYoungerSibling.html().replace(/\&nbsp\;/i, '').length) {
+                                                    previewWrapperYoungerSibling.remove();
+                                                    $('<p>&nbsp;</p>').insertAfter(previewWrapper);
+                                                } else {
+                                                    previewWrapperYoungerSibling.remove();
+                                                }
+                                            } else {
+                                                $('<p>&nbsp;</p>').insertAfter(previewWrapper);
+                                            }
+
+                                            setTimeout(function() {
+                                                self.editor.selection.select(self.editor.getBody(), true);
+                                                self.editor.selection.collapse(false);
+                                            }, 50);
+                                        }, 50);
                                     } else {
                                         // No match. So we move on to check the next url pattern.
                                         tryToMatchContentAgainstUrlPatternWithIndex(urlPatternIndex + 1);
@@ -1095,7 +1139,7 @@
                     self.editor.serializer.addNodeFilter('div', function addNodeFilterIntoSerializer(nodes, arg) {
                         self.each(nodes, function eachNodeInSerializer(node) {
                             var nodeClasses = (node.attributes.map.class || "").split(' ');
-                            var wrapperFactoryClasses = ["embedpress_wrapper", "embedpress_placeholder"];
+                            var wrapperFactoryClasses = ["embedpress_wrapper", "embedpress_placeholder", "wpview", "wpview-wrap"];
 
                             var isWrapped = nodeClasses.filter(function(n) {
                                 return wrapperFactoryClasses.indexOf(n) != -1;
@@ -1126,12 +1170,25 @@
                                     }
                                 }
 
+                                var p = new self.Node('p', 1);
+
                                 var text = new self.Node('#text', 3);
                                 text.value = self.decodeEmbedURLSpecialChars(node.attributes.map['data-url'].trim(), true, customAttributes);
 
-                                node.replace(text);
+                                p.append(text.clone());
 
-                                // @todo: Remove/avoid to add empty paragraphs before and after the text every time we run this
+                                node.replace(text);
+                                text.replace(p);
+                            }
+                        });
+                    });
+
+                    self.editor.serializer.addNodeFilter('p', function addNodeFilterIntoSerializer(nodes, arg) {
+                        self.each(nodes, function eachNodeInSerializer(node) {
+                            if (node.firstChild == node.lastChild) {
+                                if (node.firstChild.value === "&nbsp;" || !node.firstChild.value.trim().length) {
+                                    node.remove();
+                                }
                             }
                         });
                     });
@@ -1267,9 +1324,6 @@
 
                             // Remove "www." subdomain from Slideshare.net urls that was causing bugs on TinyMCE.
                             content = content.replace(/www\.slideshare\.net\//i, 'slideshare.net/');
-
-                            // Make sure that the cursor will be positioned after the embed.
-                            content += '<span>&nbsp;</span>';
 
                             // Let TinyMCE do the heavy lifting for inserting that content into the self.editor.
                             // We cancel the default behavior and insert the embed-content using a command to trigger the node change and the parser.
@@ -1693,8 +1747,6 @@
                                         }
                                     }, 500, 8000);
 
-                                    $wrapper.on('mouseenter', self.onMouseEnter);
-                                    $wrapper.on('mouseout', self.onMouseOut);
                                     $wrapper.data('configured', true);
                                 }
                             }
@@ -1750,9 +1802,6 @@
 
                         self.addEvent('mousedown', $editButton, self.onClickEditButton);
                         self.addEvent('mousedown', $removeButton, self.onClickRemoveButton);
-
-                        // Prevent the action of set cursor into the panel after click
-                        self.addEvent('mousedown', $panel, self.cancelEvent);
 
                         $panel.data('event-set', true);
                     }

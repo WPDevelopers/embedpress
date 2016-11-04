@@ -2,7 +2,6 @@ In addition to the default WordPress sources, EmbedPress supports these provider
 
 - 23h (Images)
 - AmCharts (Charts)
-- Aol On (Videos)
 - Bambuser (Videos)
 - Cacoo (Charts)
 - ChartBlocks (Charts)
@@ -15,7 +14,6 @@ In addition to the default WordPress sources, EmbedPress supports these provider
 - Devianart (Images)
 - Dipity (Timelines)
 - Dotsub (Videos)
-- Edocr (Documents)
 - Facebook (Posts)
 - GettyImages (Images)
 - Github Gist (Code)
