@@ -57,9 +57,6 @@ class Handler extends EndHandlerAbstract
     public function enqueueStyles()
     {
         global $wp_scripts;
-
-        wp_enqueue_style('bootbox-bootstrap', EMBEDPRESS_URL_ASSETS .'css/vendor/bootstrap/bootstrap.min.css');
-        wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS .'css/preview.css');
     }
 
     /**

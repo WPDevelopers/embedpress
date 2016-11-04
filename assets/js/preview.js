@@ -1039,9 +1039,11 @@
                 self.Node   = tinymce.html.Node;
 
                 function onFindEditorCallback() {
-                    self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/font.css?' + self.params.versionUID);
-                    self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/preview.css?' + self.params.versionUID);
-                    self.addStylesheet(PLG_CONTENT_ASSETS_CSS_PATH + '/embedpress.css?' + self.params.versionUID);
+                    $(window.document.getElementsByTagName('head')[0]).append($('<link rel="stylesheet" type="text/css" href="' + (PLG_SYSTEM_ASSETS_CSS_PATH + '/vendor/bootstrap/bootstrap.min.css?v=' + self.params.versionUID) + '">'));
+
+                    self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/font.css?v=' + self.params.versionUID);
+                    self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/preview.css?v=' + self.params.versionUID);
+                    self.addStylesheet(PLG_CONTENT_ASSETS_CSS_PATH + '/embedpress.css?v=' + self.params.versionUID);
                     self.addEvent('paste', self.editor, self.onPaste);
                     self.addEvent('nodechange', self.editor, self.onNodeChange);
                     self.addEvent('keydown', self.editor, self.onKeyDown);
