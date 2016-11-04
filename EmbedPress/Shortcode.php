@@ -206,6 +206,17 @@ class Shortcode
             // NFB seems to always return their embed code with all HTML entities into their applicable characters string.
             if (strtoupper($urlData->provider_name) === "NATIONAL FILM BOARD OF CANADA") {
                 $parsedContent = html_entity_decode($parsedContent);
+            } else if (strtoupper($urlData->provider_name) === "FACEBOOK") {
+                $plgSettings = Plugin::getSettings();
+
+                // Check if the user wants to force a certain language into Facebook embeds.
+                $locale = isset($plgSettings->fbLanguage) && !empty($plgSettings->fbLanguage) ? $plgSettings->fbLanguage : false;
+                if (!!$locale) {
+                    // Replace the automatically detected language by Facebook's API with the language chosen by the user.
+                    $parsedContent = preg_replace('/\/[a-z]{2}\_[a-z]{2}\/sdk\.js/i', "/{$locale}/sdk.js", $parsedContent);
+                }
+
+                unset($locale, $plgSettings);
             }
 
             unset($embedTemplate, $urlData, $serviceProvider);
