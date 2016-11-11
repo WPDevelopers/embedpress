@@ -118,6 +118,10 @@ class Plugin
             add_action('admin_init', array($settingsClassNamespace, 'registerActions'));
             unset($settingsClassNamespace);
 
+            // Load CSS
+            wp_register_style( 'embedpress-admin', plugins_url( 'embedpress/assets/css/admin.css' ) );
+            wp_enqueue_style( 'embedpress-admin' );
+
             if ($plgSettings->enablePluginInAdmin) {
                 add_action('init', array('\EmbedPress\Disabler', 'run'), 1);
 
