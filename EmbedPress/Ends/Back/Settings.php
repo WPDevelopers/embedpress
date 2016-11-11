@@ -144,7 +144,7 @@ class Settings
                 <?php settings_fields(self::$sectionGroupIdentifier); ?>
                 <?php do_settings_sections(self::$identifier); ?>
 
-                <input name="Submit" type="submit" value="Save changes" />
+                <input name="Submit" type="submit" class="button button-primary" value="Save changes" />
             </form>
         </div>
         <?php
