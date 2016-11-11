@@ -109,7 +109,7 @@ class Settings
      */
     public static function registerMenuItem()
     {
-        add_options_page('EmbedPress Settings', 'EmbedPress', 'manage_options', 'embedpress', array(self::$namespace, 'renderForm'));
+        add_object_page('EmbedPress Settings', 'EmbedPress', 'manage_options', 'embedpress', array(self::$namespace, 'renderForm'));
     }
 
     /**
