@@ -1186,7 +1186,7 @@
                     self.editor.serializer.addNodeFilter('p', function addNodeFilterIntoSerializer(nodes, arg) {
                         self.each(nodes, function eachNodeInSerializer(node) {
                             if (node.firstChild == node.lastChild) {
-                                if (node.firstChild.value === "&nbsp;" || !node.firstChild.value.trim().length) {
+                                if (node.firstChild && "value" in node.firstChild && (node.firstChild.value === "&nbsp;" || !node.firstChild.value.trim().length)) {
                                     node.remove();
                                 }
                             }
