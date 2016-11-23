@@ -239,4 +239,13 @@ class Plugin
 
         return (object)$settings;
     }
+
+    private static $plugins = array();
+
+    public static function registerPlugin($pluginSlug, $pluginNamespace)
+    {
+        if (!isset(self::$plugins[$pluginSlug])) {
+            self::$plugins[$pluginSlug] = $pluginNamespace;
+        }
+    }
 }
