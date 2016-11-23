@@ -9,22 +9,22 @@ class Plugin implements PluginInterface
     const EMBEDPRESS_PLUGIN_ALIAS = 'embedpress';
     const EMBEDPRESS_PLUGIN_URL = 'https://wordpress.org/plugins/embedpress';
 
-    protected static $_name = 'Plugin name not implemented';
-    protected static $_identifier = 'Plugin identifier not implemented';
+    protected static $name = 'Plugin name not implemented';
+    protected static $identifier = 'Plugin identifier not implemented';
 
     public static function getName()
     {
-        return static::$_name;
+        return static::$name;
     }
 
     public static function getIdentifier()
     {
-        return static::$_identifier;
+        return static::$identifier;
     }
 
     protected static function getSignature()
     {
-        $signature = self::EMBEDPRESS_PLUGIN_ALIAS .'-'. static::$_identifier .'/'. self::EMBEDPRESS_PLUGIN_ALIAS .'-'. static::$_identifier .'.php';
+        $signature = self::EMBEDPRESS_PLUGIN_ALIAS .'-'. static::$identifier .'/'. self::EMBEDPRESS_PLUGIN_ALIAS .'-'. static::$identifier .'.php';
 
         return $signature;
     }
@@ -39,7 +39,7 @@ class Plugin implements PluginInterface
     protected static function getErrorMessage($err = '')
     {
         if ($err === 'ERR_MISSING_DEPENDENCY') {
-            return __('Please, <strong>install</strong> and <strong>activate <a href="'. self::EMBEDPRESS_PLUGIN_URL .'" target="_blank">'. self::EMBEDPRESS_PLUGIN_NAME .'</a></strong> plugin in order to make <em>EmbedPress - '. static::$_name .'</em> to work.');
+            return __('Please, <strong>install</strong> and <strong>activate <a href="'. self::EMBEDPRESS_PLUGIN_URL .'" target="_blank">'. self::EMBEDPRESS_PLUGIN_NAME .'</a></strong> plugin in order to make <em>EmbedPress - '. static::$name .'</em> to work.');
         }
 
         return $err;
