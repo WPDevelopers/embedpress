@@ -10,21 +10,21 @@ class Plugin implements PluginInterface
     const EMBEDPRESS_PLUGIN_URL = 'https://wordpress.org/plugins/embedpress';
 
     protected static $name = 'Plugin name not implemented';
-    protected static $identifier = 'Plugin identifier not implemented';
+    protected static $slug = 'Plugin slug not implemented';
 
     public static function getName()
     {
         return static::$name;
     }
 
-    public static function getIdentifier()
+    public static function getSlug()
     {
-        return static::$identifier;
+        return static::$slug;
     }
 
     protected static function getSignature()
     {
-        $signature = self::EMBEDPRESS_PLUGIN_ALIAS .'-'. static::$identifier .'/'. self::EMBEDPRESS_PLUGIN_ALIAS .'-'. static::$identifier .'.php';
+        $signature = self::EMBEDPRESS_PLUGIN_ALIAS .'-'. static::$slug .'/'. self::EMBEDPRESS_PLUGIN_ALIAS .'-'. static::$slug .'.php';
 
         return $signature;
     }
@@ -73,6 +73,5 @@ class Plugin implements PluginInterface
 
     public static function getPath()
     {
-
     }
 }
