@@ -120,12 +120,25 @@ class Settings
      */
     public static function registerActions()
     {
-        register_setting(self::$sectionGroupIdentifier, self::$sectionGroupIdentifier, array(self::$namespace, "validateForm"));
+        $activeTab = strtolower(@$_GET['tab']);
+        if ($activeTab !== "embedpress") {
+            $action = "embedpress:{$activeTab}:settings:register";
+        } else {
+            $activeTab = "";
+        }
 
-        add_settings_section(self::$sectionAdminIdentifier, 'Admin Section Settings', array(self::$namespace, 'renderHelpText'), self::$identifier);
+        if (!empty($activeTab) && has_action($action)) {
+            do_action($action, array(
+                'id'   => self::$sectionAdminIdentifier,
+                'slug' => self::$identifier
+            ));
+        } else {
+            register_setting(self::$sectionGroupIdentifier, self::$sectionGroupIdentifier, array(self::$namespace, "validateForm"));
+            add_settings_section(self::$sectionAdminIdentifier, 'General Settings', null, self::$identifier);
 
-        foreach (self::$fieldMap as $fieldName => $field) {
-            add_settings_field($fieldName, $field['label'], array(self::$namespace, "renderField_{$fieldName}"), self::$identifier, self::${"section". ucfirst($field['section']) ."Identifier"});
+            foreach (self::$fieldMap as $fieldName => $field) {
+                add_settings_field($fieldName, $field['label'], array(self::$namespace, "renderField_{$fieldName}"), self::$identifier, self::${"section". ucfirst($field['section']) ."Identifier"});
+            }
         }
     }
 
@@ -137,12 +150,24 @@ class Settings
      */
     public static function renderForm()
     {
+        $activeTab = strtolower(@$_GET['tab']);
+        $settingsFieldsIdentifier = !empty($activeTab) ? "embedpress:{$activeTab}" : self::$sectionGroupIdentifier;
+        $settingsSectionsIdentifier = !empty($activeTab) ? "embedpress:{$activeTab}" : self::$identifier;
         ?>
         <div>
-            <h2>EmbedPress Settings Page</h2>
+            <h1>EmbedPress</h1>
+
+            <?php settings_errors(); ?>
+
+            <h2 class="nav-tab-wrapper">
+                <a href="?page=embedpress" class="nav-tab<?php echo $activeTab === 'embedpress' || empty($activeTab) ? ' nav-tab-active' : ''; ?> ">General settings</a>
+
+                <?php do_action('embedpress:settings:render:tab', $activeTab); ?>
+            </h2>
+
             <form action="options.php" method="POST">
-                <?php settings_fields(self::$sectionGroupIdentifier); ?>
-                <?php do_settings_sections(self::$identifier); ?>
+                <?php settings_fields($settingsFieldsIdentifier); ?>
+                <?php do_settings_sections($settingsSectionsIdentifier); ?>
 
                 <input name="Submit" type="submit" class="button button-primary" value="Save changes" />
             </form>
@@ -169,19 +194,6 @@ class Settings
         );
 
         return $data;
-    }
-
-    /**
-     * Method that prints help info for the form.
-     *
-     * @since   1.0.0
-     * @static
-     *
-     * @return  string
-     */
-    public static function renderHelpText()
-    {
-        return "";
     }
 
     /**

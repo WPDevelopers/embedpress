@@ -248,4 +248,9 @@ class Plugin
             self::$plugins[$pluginSlug] = $pluginNamespace;
         }
     }
+
+    public static function getPlugins()
+    {
+        return self::$plugins;
+    }
 }
