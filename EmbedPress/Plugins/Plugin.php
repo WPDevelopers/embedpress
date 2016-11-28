@@ -69,7 +69,7 @@ class Plugin implements PluginInterface
 
     public static function onDeactivationCallback()
     {
-        delete_option('embedpress:youtube');
+        delete_option('embedpress:'. self::getSlug());
     }
 
     public static function getPath()
