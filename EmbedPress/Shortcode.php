@@ -219,7 +219,7 @@ class Shortcode
                 unset($locale, $plgSettings);
             }
 
-            unset($embedTemplate, $urlData, $serviceProvider);
+            unset($embedTemplate, $serviceProvider);
 
             // This assure that the iframe has the same dimensions the user wants to
             if (isset($emberaInstanceSettings['params']['width']) || isset($emberaInstanceSettings['params']['height'])) {
@@ -252,7 +252,15 @@ class Shortcode
             }
 
             if (!empty($parsedContent)) {
-                return $parsedContent;
+                $embed = (object)array(
+                    'info'       => $urlData,
+                    'parameters' => $parameters,
+                    'html'       => $parsedContent
+                );
+
+                do_action('embedpress:onAfterEmbed', $embed);
+
+                return $embed->html;
             }
         }
 
