@@ -118,102 +118,17 @@ class Plugin implements PluginInterface
 
     public static function registerSettingsFields()
     {
-        $identifier = 'embedpress:'. self::getSlug();
+        $pluginSlug = self::getSlug();
+        $identifier = "embedpress:{$pluginSlug}";
 
         $schema = static::getOptionsSchema();
         foreach ($schema as $fieldSlug => $field) {
             $field['slug'] = $fieldSlug;
 
-            add_settings_field($fieldSlug, $field['label'], array(static::NMSPC, 'renderHtmlField'), $identifier, $identifier, $field);
+            add_settings_field($fieldSlug, $field['label'], array('EmbedPress\Plugins\Html\Field', 'render'), $identifier, $identifier, array(
+                'pluginSlug' => $pluginSlug,
+                'field'      => $field
+            ));
         }
-    }
-
-
-
-
-
-
-
-    protected static function generateHtmlFieldText($value)
-    {
-        $html = '<input type="text" name="embedpress:{{slug}}[{{name}}]" class="{{classes}}" placeholder="{{placeholder}}" value="'. (string)$value .'">';
-
-        return $html;
-    }
-
-    protected static function generateHtmlFieldTextarea($value)
-    {
-        $html = '<textarea name="embedpress:{{slug}}[{{name}}]" class="{{classes}}" placeholder="{{placeholder}}">'. (string)$value .'</textarea>';
-
-        return $html;
-    }
-
-    protected static function generateHtmlFieldRadio($options, $value = null)
-    {
-        $html = array();
-
-        foreach ((array)$options as $optionValue => $optionLabel) {
-            $html[] = '<label>';
-            $html[] = '<input type="radio" name="embedpress:{{slug}}[{{name}}]" class="{{classes}}" value="'. $optionValue .'"'. ($value === $optionValue ? ' checked' : '') .'>';
-            $html[] = '&nbsp;'. $optionLabel;
-            $html[] = '</label>&nbsp;&nbsp;';
-        }
-
-        $html = implode('', $html);
-
-        return $html;
-    }
-
-    protected static function generateHtmlFieldSelect($options, $value = null)
-    {
-        $html = array('<select name="embedpress:{{slug}}[{{name}}]" class="{{classes}}">');
-
-        foreach ((array)$options as $optionValue => $optionLabel) {
-            $html[] = '<option value="'. $optionValue .'"'. ($value === (string)$optionValue ? ' selected' : '') .'>'. $optionLabel .'</option>';
-        }
-
-        $html[] = '</select>';
-
-        $html = implode('', $html);
-
-        return $html;
-    }
-
-    public static function renderHtmlField($field)
-    {
-        $field = json_decode(json_encode($field));
-
-        $slug = self::getSlug();
-
-        $options = (array)get_option('embedpress:'. $slug);
-
-        $field->type = strtolower($field->type);
-
-        $value = isset($options[$field->slug]) ? $options[$field->slug] : (isset($field->default) ? $field->default : '');
-
-        if (in_array($field->type, array('bool', 'boolean'))) {
-            $html = self::generateHtmlFieldRadio(array(
-                0 => 'No',
-                1 => 'Yes'
-            ), (int)$value);
-        } else if (isset($field->options)) {
-            $html = self::generateHtmlFieldSelect((array)$field->options, (string)$value);
-        } else if (in_array($field->type, array('textarea'))) {
-            $html = self::generateHtmlFieldTextarea((string)$value);
-        } else {
-            $html =  self::generateHtmlFieldText((string)$value);
-        }
-
-        $html = str_replace('{{slug}}', $slug, $html);
-        $html = str_replace('{{name}}', $field->slug, $html);
-        $html = str_replace('{{classes}}', implode(' ', (array)@$field->classes), $html);
-        $html = str_replace('{{placeholder}}', $field->placeholder, $html);
-
-        if (!empty($field->description)) {
-            $html .= '<br/>';
-            $html .= '<p class="description">'. $field->description .'</p>';
-        }
-
-        echo $html;
     }
 }
