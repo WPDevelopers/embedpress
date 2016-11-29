@@ -249,6 +249,13 @@ class Plugin
 
             $pluginNamespace = "{$pluginBaseNamespace}\Plugin";
 
+            $pluginBootstrapFilePath = WP_PLUGIN_DIR ."/embedpress-{$pluginSlug}/embedpress-{$pluginSlug}.php";
+
+            register_activation_hook($pluginBootstrapFilePath, array($pluginNamespace::NMSPC, 'onActivationCallback'));
+            register_deactivation_hook($pluginBootstrapFilePath, array($pluginNamespace::NMSPC, 'onDeactivationCallback'));
+
+            add_action('admin_init', array($pluginNamespace, 'onLoadAdminCallback'));
+
             add_action("embedpress:{$pluginSlug}:settings:register", array($pluginNamespace, 'registerSettings'));
             add_action("embedpress:settings:render:tab", array($pluginNamespace, 'renderTab'));
 
