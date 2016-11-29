@@ -49,6 +49,17 @@ class Plugin
     protected $loaderInstance;
 
     /**
+     * An associative array storing all registered/active EmbedPress plugins and their namespaces.
+     *
+     * @since   1.4.0
+     * @access  private
+     * @static
+     *
+     * @var     array
+     */
+    private static $plugins = array();
+
+    /**
      * Initialize the plugin and set its properties.
      *
      * @since   1.0.0
@@ -210,6 +221,7 @@ class Plugin
      * @since   1.0.0
      * @static
      *
+     * @param   string      $serviceProviderAlias The service's slug.
      * @return  boolean
      */
     public static function canServiceProviderBeResponsive($serviceProviderAlias)
@@ -240,8 +252,16 @@ class Plugin
         return (object)$settings;
     }
 
-    private static $plugins = array();
-
+    /**
+     * Method that register an EmbedPress plugin.
+     *
+     * @since   1.4.0
+     * @static
+     *
+     * @param   string      The plugin slug.
+     * @param   string      The plugin's base namespace.
+     * @return  void
+     */
     public static function registerPlugin($pluginSlug, $pluginBaseNamespace)
     {
         if (!isset(self::$plugins[$pluginSlug])) {
@@ -263,6 +283,14 @@ class Plugin
         }
     }
 
+    /**
+     * Retrieve all registered plugins.
+     *
+     * @since   1.4.0
+     * @static
+     *
+     * @return  array
+     */
     public static function getPlugins()
     {
         return self::$plugins;

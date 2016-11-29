@@ -1,8 +1,29 @@
 <?php
 namespace EmbedPress\Plugins\Html;
 
+(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
+
+/**
+ * Entity responsible to generating and rendering html fields to the settings page.
+ *
+ * @package     EmbedPress
+ * @author      PressShack <help@pressshack.com>
+ * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
+ * @license     GPLv2 or later
+ * @since       1.4.0
+ */
+
 class Field
 {
+    /**
+     * Generates a text type input.
+     *
+     * @since   1.4.0
+     * @access  protected
+     * @static
+     *
+     * @return  string
+     */
     protected static function text($value)
     {
         $html = '<input type="text" name="embedpress:{{slug}}[{{name}}]" class="{{classes}}" placeholder="{{placeholder}}" value="'. (string)$value .'">';
@@ -10,6 +31,15 @@ class Field
         return $html;
     }
 
+    /**
+     * Generates a textarea input.
+     *
+     * @since   1.4.0
+     * @access  protected
+     * @static
+     *
+     * @return  string
+     */
     protected static function textarea($value)
     {
         $html = '<textarea name="embedpress:{{slug}}[{{name}}]" class="{{classes}}" placeholder="{{placeholder}}">'. (string)$value .'</textarea>';
@@ -17,6 +47,15 @@ class Field
         return $html;
     }
 
+    /**
+     * Generates a radio type input.
+     *
+     * @since   1.4.0
+     * @access  protected
+     * @static
+     *
+     * @return  string
+     */
     protected static function radio($options, $value = null)
     {
         $html = array();
@@ -33,6 +72,15 @@ class Field
         return $html;
     }
 
+    /**
+     * Generates a select input.
+     *
+     * @since   1.4.0
+     * @access  protected
+     * @static
+     *
+     * @return  string
+     */
     protected static function select($options, $value = null)
     {
         $html = array('<select name="embedpress:{{slug}}[{{name}}]" class="{{classes}}">');
@@ -48,6 +96,15 @@ class Field
         return $html;
     }
 
+    /**
+     * Render a field based on a field schema.
+     *
+     * @since   1.4.0
+     * @static
+     *
+     * @param   array       $params There's two available keys: 'field' which holds the field schema; and 'pluginSlug' which represents the slug of the plugin where the field belongs to.
+     * @return  void
+     */
     public static function render($params)
     {
         $field = json_decode(json_encode($params['field']));
