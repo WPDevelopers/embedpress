@@ -55,6 +55,8 @@ class Plugin implements PluginInterface
             '</div>';
 
             deactivate_plugins($pluginSignature);
+        } else {
+            static::registerSettings();
         }
     }
 
@@ -111,7 +113,7 @@ class Plugin implements PluginInterface
         $identifier = 'embedpress:'. self::getSlug();
 
         register_setting($identifier, $identifier, array(static::NMSPC, 'validateForm'));
-        add_settings_section($identifier, 'EmbedPress > '. self::getName() .' Settings', array(static::NMSPC, 'renderForm'), $identifier);
+        add_settings_section($identifier, 'EmbedPress > '. self::getName() .' Settings', array(static::NMSPC, 'onAfterRegisterSettings'), $identifier);
 
         self::registerSettingsFields();
     }
@@ -130,5 +132,13 @@ class Plugin implements PluginInterface
                 'field'      => $field
             ));
         }
+    }
+
+    public static function onAfterRegisterSettings()
+    {
+    }
+
+    public static function registerEvents()
+    {
     }
 }

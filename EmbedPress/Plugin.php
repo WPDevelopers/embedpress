@@ -251,6 +251,8 @@ class Plugin
 
             add_action("embedpress:{$pluginSlug}:settings:register", array($pluginNamespace, 'registerSettings'));
             add_action("embedpress:settings:render:tab", array($pluginNamespace, 'renderTab'));
+
+            $pluginNamespace::registerEvents();
         }
     }
 
