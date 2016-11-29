@@ -125,7 +125,7 @@ class Plugin implements PluginInterface
         foreach ($schema as $fieldSlug => $field) {
             $field['slug'] = $fieldSlug;
 
-            add_settings_field($fieldSlug, $field['label'], array('EmbedPress\Plugins\Html\Field', 'render'), $identifier, $identifier, array(
+            add_settings_field($fieldSlug, $field['label'], array(__NAMESPACE__ .'\Html\Field', 'render'), $identifier, $identifier, array(
                 'pluginSlug' => $pluginSlug,
                 'field'      => $field
             ));
