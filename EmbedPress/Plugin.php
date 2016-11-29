@@ -242,10 +242,15 @@ class Plugin
 
     private static $plugins = array();
 
-    public static function registerPlugin($pluginSlug, $pluginNamespace)
+    public static function registerPlugin($pluginSlug, $pluginBaseNamespace)
     {
         if (!isset(self::$plugins[$pluginSlug])) {
-            self::$plugins[$pluginSlug] = $pluginNamespace;
+            self::$plugins[$pluginSlug] = $pluginBaseNamespace;
+
+            $pluginNamespace = "{$pluginBaseNamespace}\Plugin";
+
+            add_action("embedpress:{$pluginSlug}:settings:register", array($pluginNamespace, 'registerSettings'));
+            add_action("embedpress:settings:render:tab", array($pluginNamespace, 'renderTab'));
         }
     }
 
