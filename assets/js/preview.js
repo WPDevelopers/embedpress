@@ -6,7 +6,7 @@
  * @since       1.0
  */
 
-(function($, String, $data, $plugins, undefined) {
+(function($, String, $data, undefined) {
     "use strict";
 
     $(window.document).ready(function() {
@@ -1844,4 +1844,4 @@
 
         window.EmbedPress.init($data.previewSettings);
     });
-})(jQuery, String, $data, $plugins);
+})(jQuery, String, $data);
