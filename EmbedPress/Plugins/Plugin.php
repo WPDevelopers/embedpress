@@ -1,8 +1,6 @@
 <?php
 namespace EmbedPress\Plugins;
 
-require_once dirname(__FILE__) .'/Interface.php';
-
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
 /**
@@ -14,7 +12,7 @@ require_once dirname(__FILE__) .'/Interface.php';
  * @license     GPLv2 or later
  * @since       1.4.0
  */
-class Plugin implements PluginInterface
+abstract class Plugin
 {
     /**
      * EmbedPress's name.
@@ -66,6 +64,28 @@ class Plugin implements PluginInterface
     protected static $slug = 'Plugin slug not implemented';
 
     /**
+     * Method that register all EmbedPress events.
+     *
+     * @since   1.4.0
+     * @static
+     * @abstract
+     *
+     * @return  void
+     */
+    abstract public static function registerEvents();
+
+    /**
+     * Method that return the absolute path to the plugin.
+     *
+     * @since   1.4.0
+     * @static
+     * @abstract
+     *
+     * @return  string
+     */
+    abstract public static function getPath();
+
+    /**
      * Retrieve the plugin's name.
      *
      * @since   1.4.0
@@ -89,22 +109,6 @@ class Plugin implements PluginInterface
     public static function getSlug()
     {
         return static::$slug;
-    }
-
-    /**
-     * Retrieve the plugin's signature. It follows the format: "embedpress-<plugin slug>/embedpress-<plugin slug>.php".
-     *
-     * @since   1.4.0
-     * @access  protected
-     * @static
-     *
-     * @return  string
-     */
-    protected static function getSignature()
-    {
-        $signature = self::EMBEDPRESS_PLUGIN_ALIAS .'-'. static::$slug .'/'. self::EMBEDPRESS_PLUGIN_ALIAS .'-'. static::$slug .'.php';
-
-        return $signature;
     }
 
     /**
@@ -152,7 +156,7 @@ class Plugin implements PluginInterface
      */
     public static function onLoadAdminCallback()
     {
-        $pluginSignature = static::getSignature();
+        $pluginSignature = self::EMBEDPRESS_PLUGIN_ALIAS .'-'. static::$slug .'/'. self::EMBEDPRESS_PLUGIN_ALIAS .'-'. static::$slug .'.php';
         if (is_admin() && !self::isEmbedPressActive() && is_plugin_active($pluginSignature)) {
             echo ''.
             '<div class="notice notice-warning">'.
@@ -193,18 +197,6 @@ class Plugin implements PluginInterface
     public static function onDeactivationCallback()
     {
         delete_option('embedpress:'. self::getSlug());
-    }
-
-    /**
-     * Method that return the absolute path to the plugin.
-     *
-     * @since   1.4.0
-     * @static
-     *
-     * @return  string
-     */
-    public static function getPath()
-    {
     }
 
     /**
@@ -306,17 +298,6 @@ class Plugin implements PluginInterface
      */
     public static function onAfterRegisterSettings()
     {
-    }
-
-    /**
-     * Method that register all EmbedPress events.
-     *
-     * @since   1.4.0
-     * @static
-     *
-     * @return  void
-     */
-    public static function registerEvents()
-    {
+        // do nothing
     }
 }
