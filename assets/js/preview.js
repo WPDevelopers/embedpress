@@ -6,7 +6,7 @@
  * @since       1.0
  */
 
-(function(window, $, String, $data) {
+(function($, String, $data, $plugins, undefined) {
     "use strict";
 
     $(window.document).ready(function() {
@@ -154,7 +154,7 @@
 
         var SHORTCODE_REGEXP = new RegExp('\\[\/?'+ $data.EMBEDPRESS_SHORTCODE +'\\]', "gi");
 
-        var EmbedPressPreview = function() {
+        var EmbedPress = function() {
             var self = this;
 
             var PLG_SYSTEM_ASSETS_CSS_PATH = $data.EMBEDPRESS_URL_ASSETS +"css";
@@ -761,9 +761,11 @@
                 url = self.decodeEmbedURLSpecialChars(url, true, customAttributes);
                 var rawUrl = url.stripShortcode($data.EMBEDPRESS_SHORTCODE);
 
+                $(self).triggerHandler('EmbedPress.beforeEmbed', rawUrl);
+
                 // Get the parsed embed code from the EmbedPress plugin
                 self.getParsedContent(url, function getParsedContentCallback(result) {
-                    result.data.content = result.data.content.stripShortcode($data.EMBEDPRESS_SHORTCODE);
+                    var embeddedContent = (typeof result.data === "object" ? result.data.html : result.data).stripShortcode($data.EMBEDPRESS_SHORTCODE);
 
                     var $wrapper = $(self.getElementInContentById('embedpress_wrapper_' + uid));
                     var wrapperParent = $($wrapper.parent());
@@ -781,7 +783,7 @@
                     wrapperParent = null;
 
                     // Check if the url could not be embedded for some reason.
-                    if (rawUrl === result.data.content) {
+                    if (rawUrl === embeddedContent) {
                         // Echoes the raw url
                         $wrapper.replaceWith($('<p>'+ rawUrl +'</p>'));
                         return;
@@ -792,11 +794,11 @@
                     // Parse as DOM element
                     var $content;
                     try {
-                        $content = $(result.data.content);
+                        $content = $(embeddedContent);
                     } catch(err) {
                         // Fallback to a div, if the result is not a html markup, e.g. a url
                         $content = $('<div>');
-                        $content.html(result.data.content);
+                        $content.html(embeddedContent);
                     }
 
                     if (!$('iframe', $content).length) {
@@ -902,6 +904,19 @@
 
                     $wrapper.append($('<span class="mce-shim"></span>'));
                     $wrapper.append($('<span class="wpview-end"></span>'));
+
+                    if (typeof result.data === "object" && result.data.info) {
+                        result.data.info.width = $($wrapper).width();
+                        result.data.info.height = $($wrapper).height();
+                        result.data.info.html = result.data.html;
+                    }
+
+                    $(self).triggerHandler('EmbedPress.afterEmbed', {
+                        'wrapper': $wrapper,
+                        'url'    : rawUrl,
+                        'attrs'  : customAttributes,
+                        'info'   : typeof result.data === "object" ? result.data.info : null
+                    });
                 });
             };
 
@@ -1823,10 +1838,10 @@
             };
         };
 
-        if (!window.EmbedPressPreview) {
-            window.EmbedPressPreview = new EmbedPressPreview();
+        if (!window.EmbedPress) {
+            window.EmbedPress = new EmbedPress();
         }
 
-        window.EmbedPressPreview.init($data.previewSettings);
+        window.EmbedPress.init($data.previewSettings);
     });
-})(window, jQuery, String, $data);
+})(jQuery, String, $data, $plugins);

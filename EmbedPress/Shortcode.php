@@ -55,9 +55,9 @@ class Shortcode
      */
     public static function do_shortcode($attributes = array(), $subject = null)
     {
-        $decodedSubject = self::parseContent($subject, true, $attributes);
+        $embed = self::parseContent($subject, true, $attributes);
 
-        return $decodedSubject;
+        return is_object($embed) ? $embed->html : $embed;
     }
 
     /**
@@ -260,7 +260,7 @@ class Shortcode
 
                 do_action('embedpress:onAfterEmbed', $embed);
 
-                return $embed->html;
+                return $embed;
             }
         }
 

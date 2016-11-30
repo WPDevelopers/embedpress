@@ -45,6 +45,16 @@ class Handler extends EndHandlerAbstract
             'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
             'displayPreviewBox'     => $plgSettings->displayPreviewBox
         ));
+
+        $installedPlugins = Plugin::getPlugins();
+        if (count($installedPlugins) > 0) {
+            foreach ($installedPlugins as $pluginSlug => $pluginNamespace) {
+                $scriptPath = WP_PLUGIN_DIR .'/embedpress-'. $pluginSlug .'/assets/js/plugin.js';
+                if (file_exists($scriptPath)) {
+                    wp_enqueue_script('embedpress-'. $pluginSlug, plugins_url('embedpress-'. $pluginSlug) .'/assets/js/embedpress.'. $pluginSlug .'.js', array($this->pluginName), $this->pluginVersion, true);
+                }
+            }
+        }
     }
 
     /**
@@ -69,9 +79,7 @@ class Handler extends EndHandlerAbstract
     public function doShortcodeReceivedViaAjax()
     {
         $response = array(
-            'data' => array(
-                'content' => Shortcode::parseContent(@$_POST['subject'], true)
-            )
+            'data' => Shortcode::parseContent(@$_POST['subject'], true)
         );
 
         header('Content-Type:application/json;charset=UTF-8');
