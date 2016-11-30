@@ -11,6 +11,7 @@ namespace EmbedPress\Plugins;
  * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.4.0
+ * @abstract
  */
 abstract class Plugin
 {
