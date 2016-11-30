@@ -48,10 +48,12 @@ class Handler extends EndHandlerAbstract
 
         $installedPlugins = Plugin::getPlugins();
         if (count($installedPlugins) > 0) {
-            foreach ($installedPlugins as $pluginSlug => $pluginNamespace) {
-                $scriptPath = WP_PLUGIN_DIR .'/embedpress-'. $pluginSlug .'/assets/js/plugin.js';
-                if (file_exists($scriptPath)) {
-                    wp_enqueue_script('embedpress-'. $pluginSlug, plugins_url('embedpress-'. $pluginSlug) .'/assets/js/embedpress.'. $pluginSlug .'.js', array($this->pluginName), $this->pluginVersion, true);
+            foreach ($installedPlugins as $plgSlug => $plgNamespace) {
+                $plgScriptPathRelative = "assets/js/embedpress.{$plgSlug}.js";
+                $plgName = "embedpress-{$plgSlug}";
+
+                if (file_exists(WP_PLUGIN_DIR . "/{$plgName}/{$plgScriptPathRelative}")) {
+                    wp_enqueue_script($plgName, plugins_url($plgName) .'/'. $plgScriptPathRelative, array($this->pluginName), $this->pluginVersion, true);
                 }
             }
         }
