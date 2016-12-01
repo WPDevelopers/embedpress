@@ -16,15 +16,6 @@ namespace EmbedPress\Plugins;
 abstract class Plugin
 {
     /**
-     * EmbedPress's url.
-     *
-     * @since   1.4.0
-     *
-     * @const   NMSPC
-     */
-    const EMBEDPRESS_PLUGIN_URL = 'https://wordpress.org/plugins/embedpress';
-
-    /**
      * Method that register all EmbedPress events.
      *
      * @since   1.4.0
@@ -64,7 +55,7 @@ abstract class Plugin
     protected static function getErrorMessage($err = '')
     {
         if ($err === 'ERR_MISSING_DEPENDENCY') {
-            return __('Please, <strong>install</strong> and <strong>activate <a href="'. self::EMBEDPRESS_PLUGIN_URL .'" target="_blank">'. EMBEDPRESS .'</a></strong> plugin in order to make <em>'. EMBEDPRESS .' - '. static::NAME .'</em> to work.');
+            return __('Please, <strong>install</strong> and <strong>activate <a href="https://wordpress.org/plugins/'. EMBEDPRESS_PLG_NAME .'" target="_blank">'. EMBEDPRESS .'</a></strong> plugin in order to make <em>'. EMBEDPRESS .' - '. static::NAME .'</em> to work.');
         }
 
         return $err;

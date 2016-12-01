@@ -266,26 +266,29 @@ class Plugin
     {
         $pluginMeta = json_decode(json_encode($pluginMeta));
 
-        if (!empty($pluginMeta) && !isset(self::$plugins[$pluginMeta->slug])) {
-            self::$plugins[$pluginMeta->slug] = $pluginMeta->namespace;
+        if (empty($pluginMeta->name) || empty($pluginMeta->slug) || empty($pluginMeta->namespace)) {
+            return;
+        }
 
-            $pluginPath = WP_PLUGIN_DIR ."/embedpress-{$pluginMeta->slug}";
-
-            AutoLoader::register($pluginMeta->namespace, "{$pluginPath}/{$pluginMeta->name}");
+        if (!isset(self::$plugins[$pluginMeta->slug])) {
+            AutoLoader::register($pluginMeta->namespace, WP_PLUGIN_DIR .'/'. EMBEDPRESS_PLG_NAME .'-'. $pluginMeta->slug .'/'. $pluginMeta->name);
 
             $plugin = "{$pluginMeta->namespace}\Plugin";
+            if (!empty(@$plugin::SLUG)) {
+                self::$plugins[$pluginMeta->slug] = $pluginMeta->namespace;
 
-            $pluginBootstrapFilePath = "{$pluginPath}/embedpress-{$pluginMeta->slug}.php";
+                $bsFilePath = $plugin::PATH . EMBEDPRESS_PLG_NAME .'-'. $plugin::SLUG .'.php';
 
-            register_activation_hook($pluginBootstrapFilePath, array($plugin::NMSPC, 'onActivationCallback'));
-            register_deactivation_hook($pluginBootstrapFilePath, array($plugin::NMSPC, 'onDeactivationCallback'));
+                register_activation_hook($bsFilePath, array($plugin::NMSPC, 'onActivationCallback'));
+                register_deactivation_hook($bsFilePath, array($plugin::NMSPC, 'onDeactivationCallback'));
 
-            add_action('admin_init', array($plugin, 'onLoadAdminCallback'));
+                add_action('admin_init', array($plugin, 'onLoadAdminCallback'));
 
-            add_action("embedpress:{$pluginMeta->slug}:settings:register", array($plugin, 'registerSettings'));
-            add_action("embedpress:settings:render:tab", array($plugin, 'renderTab'));
+                add_action(EMBEDPRESS_PLG_NAME .':'. $plugin::SLUG .':settings:register', array($plugin, 'registerSettings'));
+                add_action(EMBEDPRESS_PLG_NAME .':settings:render:tab', array($plugin, 'renderTab'));
 
-            $plugin::registerEvents();
+                $plugin::registerEvents();
+            }
         }
     }
 
