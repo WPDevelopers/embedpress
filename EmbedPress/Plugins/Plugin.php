@@ -76,43 +76,6 @@ abstract class Plugin
     abstract public static function registerEvents();
 
     /**
-     * Method that return the absolute path to the plugin.
-     *
-     * @since   1.4.0
-     * @static
-     * @abstract
-     *
-     * @return  string
-     */
-    abstract public static function getPath();
-
-    /**
-     * Retrieve the plugin's name.
-     *
-     * @since   1.4.0
-     * @static
-     *
-     * @return  string
-     */
-    public static function getName()
-    {
-        return static::$name;
-    }
-
-    /**
-     * Retrieve the plugin's slug.
-     *
-     * @since   1.4.0
-     * @static
-     *
-     * @return  string
-     */
-    public static function getSlug()
-    {
-        return static::$slug;
-    }
-
-    /**
      * Method that checks if EmbedPress is active or not.
      *
      * @since   1.4.0
@@ -197,7 +160,7 @@ abstract class Plugin
      */
     public static function onDeactivationCallback()
     {
-        delete_option('embedpress:'. self::getSlug());
+        delete_option('embedpress:'. static::SLUG);
     }
 
     /**
@@ -239,10 +202,9 @@ abstract class Plugin
      */
     public static function renderTab($activeTab)
     {
-        $slug = self::getSlug();
         ?>
 
-        <a href="?page=embedpress&tab=<?php echo $slug; ?>" class="nav-tab<?php echo $activeTab === $slug ? ' nav-tab-active' : ''; ?> "><?php echo self::getName(); ?></a>
+        <a href="?page=embedpress&tab=<?php echo static::SLUG; ?>" class="nav-tab<?php echo $activeTab === static::SLUG ? ' nav-tab-active' : ''; ?> "><?php echo static::NAME; ?></a>
 
         <?php
     }
@@ -257,10 +219,10 @@ abstract class Plugin
      */
     public static function registerSettings()
     {
-        $identifier = 'embedpress:'. self::getSlug();
+        $identifier = 'embedpress:'. static::SLUG;
 
         register_setting($identifier, $identifier, array(static::NMSPC, 'validateForm'));
-        add_settings_section($identifier, 'EmbedPress > '. self::getName() .' Settings', array(static::NMSPC, 'onAfterRegisterSettings'), $identifier);
+        add_settings_section($identifier, 'EmbedPress > '. static::NAME .' Settings', array(static::NMSPC, 'onAfterRegisterSettings'), $identifier);
 
         self::registerSettingsFields();
     }
@@ -275,15 +237,14 @@ abstract class Plugin
      */
     public static function registerSettingsFields()
     {
-        $pluginSlug = self::getSlug();
-        $identifier = "embedpress:{$pluginSlug}";
+        $identifier = 'embedpress:'. static::SLUG;
 
         $schema = static::getOptionsSchema();
         foreach ($schema as $fieldSlug => $field) {
             $field['slug'] = $fieldSlug;
 
             add_settings_field($fieldSlug, $field['label'], array(__NAMESPACE__ .'\Html\Field', 'render'), $identifier, $identifier, array(
-                'pluginSlug' => $pluginSlug,
+                'pluginSlug' => static::SLUG,
                 'field'      => $field
             ));
         }
