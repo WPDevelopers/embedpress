@@ -1,6 +1,7 @@
 <?php
 namespace EmbedPress;
 
+use \EmbedPress\AutoLoader;
 use \EmbedPress\Loader;
 use \EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
 use \EmbedPress\Ends\Front\Handler as EndHandlerPublic;
@@ -262,24 +263,30 @@ class Plugin
      * @param   string      The plugin's base namespace.
      * @return  void
      */
-    public static function registerPlugin($pluginSlug, $pluginBaseNamespace)
+    public static function registerPlugin($pluginMeta)
     {
-        if (!isset(self::$plugins[$pluginSlug])) {
-            self::$plugins[$pluginSlug] = $pluginBaseNamespace;
+        $pluginMeta = json_decode(json_encode($pluginMeta));
 
-            $pluginNamespace = "{$pluginBaseNamespace}\Plugin";
+        if (!empty($pluginMeta) && !isset(self::$plugins[$pluginMeta->slug])) {
+            self::$plugins[$pluginMeta->slug] = $pluginMeta->namespace;
 
-            $pluginBootstrapFilePath = WP_PLUGIN_DIR ."/embedpress-{$pluginSlug}/embedpress-{$pluginSlug}.php";
+            $pluginPath = WP_PLUGIN_DIR ."/embedpress-{$pluginMeta->slug}";
 
-            register_activation_hook($pluginBootstrapFilePath, array($pluginNamespace::NMSPC, 'onActivationCallback'));
-            register_deactivation_hook($pluginBootstrapFilePath, array($pluginNamespace::NMSPC, 'onDeactivationCallback'));
+            AutoLoader::register($pluginMeta->namespace, "{$pluginPath}/{$pluginMeta->name}");
 
-            add_action('admin_init', array($pluginNamespace, 'onLoadAdminCallback'));
+            $plugin = "{$pluginMeta->namespace}\Plugin";
 
-            add_action("embedpress:{$pluginSlug}:settings:register", array($pluginNamespace, 'registerSettings'));
-            add_action("embedpress:settings:render:tab", array($pluginNamespace, 'renderTab'));
+            $pluginBootstrapFilePath = "{$pluginPath}/embedpress-{$pluginMeta->slug}.php";
 
-            $pluginNamespace::registerEvents();
+            register_activation_hook($pluginBootstrapFilePath, array($plugin::NMSPC, 'onActivationCallback'));
+            register_deactivation_hook($pluginBootstrapFilePath, array($plugin::NMSPC, 'onDeactivationCallback'));
+
+            add_action('admin_init', array($plugin, 'onLoadAdminCallback'));
+
+            add_action("embedpress:{$pluginMeta->slug}:settings:register", array($plugin, 'registerSettings'));
+            add_action("embedpress:settings:render:tab", array($plugin, 'renderTab'));
+
+            $plugin::registerEvents();
         }
     }
 
