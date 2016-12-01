@@ -252,11 +252,11 @@ class Shortcode
             }
 
             if (!empty($parsedContent)) {
-                $embed = (object)array(
-                    'info'       => $urlData,
-                    'parameters' => $parameters,
-                    'html'       => $parsedContent
-                );
+                $embed = (object)array_merge((array)$urlData, array(
+                    'attributes' => (object)$attributes,
+                    'embed'      => $parsedContent,
+                    'url'        => $content
+                ));
 
                 do_action('embedpress:onAfterEmbed', $embed);
 

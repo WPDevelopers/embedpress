@@ -761,11 +761,16 @@
                 url = self.decodeEmbedURLSpecialChars(url, true, customAttributes);
                 var rawUrl = url.stripShortcode($data.EMBEDPRESS_SHORTCODE);
 
-                $(self).triggerHandler('EmbedPress.beforeEmbed', rawUrl);
+                $(self).triggerHandler('EmbedPress.beforeEmbed', {
+                    'url' : rawUrl,
+                    'meta': {
+                        'attributes': customAttributes || {}
+                    }
+                });
 
                 // Get the parsed embed code from the EmbedPress plugin
                 self.getParsedContent(url, function getParsedContentCallback(result) {
-                    var embeddedContent = (typeof result.data === "object" ? result.data.html : result.data).stripShortcode($data.EMBEDPRESS_SHORTCODE);
+                    var embeddedContent = (typeof result.data === "object" ? result.data.embed : result.data).stripShortcode($data.EMBEDPRESS_SHORTCODE);
 
                     var $wrapper = $(self.getElementInContentById('embedpress_wrapper_' + uid));
                     var wrapperParent = $($wrapper.parent());
@@ -905,17 +910,15 @@
                     $wrapper.append($('<span class="mce-shim"></span>'));
                     $wrapper.append($('<span class="wpview-end"></span>'));
 
-                    if (typeof result.data === "object" && result.data.info) {
-                        result.data.info.width = $($wrapper).width();
-                        result.data.info.height = $($wrapper).height();
-                        result.data.info.html = result.data.html;
+                    if (result && result.data && typeof result.data === "object") {
+                        result.data.width = $($wrapper).width();
+                        result.data.height = $($wrapper).height();
                     }
 
                     $(self).triggerHandler('EmbedPress.afterEmbed', {
-                        'wrapper': $wrapper,
+                        'meta'   : result.data,
                         'url'    : rawUrl,
-                        'attrs'  : customAttributes,
-                        'info'   : typeof result.data === "object" ? result.data.info : null
+                        'wrapper': $wrapper
                     });
                 });
             };
