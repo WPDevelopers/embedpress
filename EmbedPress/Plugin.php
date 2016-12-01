@@ -259,8 +259,7 @@ class Plugin
      * @since   1.4.0
      * @static
      *
-     * @param   string      The plugin slug.
-     * @param   string      The plugin's base namespace.
+     * @param   array       $pluginMeta Associative array containing plugin's name, slug and namespace
      * @return  void
      */
     public static function registerPlugin($pluginMeta)
