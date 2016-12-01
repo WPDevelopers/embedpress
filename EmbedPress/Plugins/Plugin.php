@@ -16,24 +16,6 @@ namespace EmbedPress\Plugins;
 abstract class Plugin
 {
     /**
-     * EmbedPress's name.
-     *
-     * @since   1.4.0
-     *
-     * @const   EMBEDPRESS_PLUGIN_NAME
-     */
-    const EMBEDPRESS_PLUGIN_NAME = 'EmbedPress';
-
-    /**
-     * EmbedPress's slug.
-     *
-     * @since   1.4.0
-     *
-     * @const   EMBEDPRESS_PLUGIN_ALIAS
-     */
-    const EMBEDPRESS_PLUGIN_ALIAS = 'embedpress';
-
-    /**
      * EmbedPress's url.
      *
      * @since   1.4.0
@@ -41,28 +23,6 @@ abstract class Plugin
      * @const   NMSPC
      */
     const EMBEDPRESS_PLUGIN_URL = 'https://wordpress.org/plugins/embedpress';
-
-    /**
-     * The name of the plugin.
-     *
-     * @since   1.4.0
-     * @access  protected
-     * @static
-     *
-     * @var     string      $name
-     */
-    protected static $name = 'Plugin name not implemented';
-
-    /**
-     * The slug of the plugin.
-     *
-     * @since   1.4.0
-     * @access  protected
-     * @static
-     *
-     * @var     string      $slug
-     */
-    protected static $slug = 'Plugin slug not implemented';
 
     /**
      * Method that register all EmbedPress events.
@@ -86,7 +46,7 @@ abstract class Plugin
      */
     protected static function isEmbedPressActive()
     {
-        $isEmbedPressActive = is_plugin_active(self::EMBEDPRESS_PLUGIN_ALIAS .'/'. self::EMBEDPRESS_PLUGIN_ALIAS .'.php');
+        $isEmbedPressActive = is_plugin_active(EMBEDPRESS_PLG_NAME .'/'. EMBEDPRESS_PLG_NAME .'.php');
 
         return $isEmbedPressActive;
     }
@@ -104,7 +64,7 @@ abstract class Plugin
     protected static function getErrorMessage($err = '')
     {
         if ($err === 'ERR_MISSING_DEPENDENCY') {
-            return __('Please, <strong>install</strong> and <strong>activate <a href="'. self::EMBEDPRESS_PLUGIN_URL .'" target="_blank">'. self::EMBEDPRESS_PLUGIN_NAME .'</a></strong> plugin in order to make <em>EmbedPress - '. static::$name .'</em> to work.');
+            return __('Please, <strong>install</strong> and <strong>activate <a href="'. self::EMBEDPRESS_PLUGIN_URL .'" target="_blank">'. EMBEDPRESS .'</a></strong> plugin in order to make <em>'. EMBEDPRESS .' - '. static::NAME .'</em> to work.');
         }
 
         return $err;
@@ -120,7 +80,8 @@ abstract class Plugin
      */
     public static function onLoadAdminCallback()
     {
-        $pluginSignature = self::EMBEDPRESS_PLUGIN_ALIAS .'-'. static::$slug .'/'. self::EMBEDPRESS_PLUGIN_ALIAS .'-'. static::$slug .'.php';
+        $pluginSignature = EMBEDPRESS_PLG_NAME .'-'. static::SLUG .'/'. EMBEDPRESS_PLG_NAME .'-'. static::SLUG .'.php';
+
         if (is_admin() && !self::isEmbedPressActive() && is_plugin_active($pluginSignature)) {
             echo ''.
             '<div class="notice notice-warning">'.
@@ -160,7 +121,7 @@ abstract class Plugin
      */
     public static function onDeactivationCallback()
     {
-        delete_option('embedpress:'. static::SLUG);
+        delete_option(EMBEDPRESS_PLG_NAME .':'. static::SLUG);
     }
 
     /**
@@ -204,7 +165,7 @@ abstract class Plugin
     {
         ?>
 
-        <a href="?page=embedpress&tab=<?php echo static::SLUG; ?>" class="nav-tab<?php echo $activeTab === static::SLUG ? ' nav-tab-active' : ''; ?> "><?php echo static::NAME; ?></a>
+        <a href="?page=<?php echo EMBEDPRESS_PLG_NAME; ?>&tab=<?php echo static::SLUG; ?>" class="nav-tab<?php echo $activeTab === static::SLUG ? ' nav-tab-active' : ''; ?> "><?php echo static::NAME; ?></a>
 
         <?php
     }
@@ -219,10 +180,10 @@ abstract class Plugin
      */
     public static function registerSettings()
     {
-        $identifier = 'embedpress:'. static::SLUG;
+        $identifier = EMBEDPRESS_PLG_NAME .':'. static::SLUG;
 
         register_setting($identifier, $identifier, array(static::NMSPC, 'validateForm'));
-        add_settings_section($identifier, 'EmbedPress > '. static::NAME .' Settings', array(static::NMSPC, 'onAfterRegisterSettings'), $identifier);
+        add_settings_section($identifier, EMBEDPRESS .' > '. static::NAME .' Settings', array(static::NMSPC, 'onAfterRegisterSettings'), $identifier);
 
         self::registerSettingsFields();
     }
@@ -237,7 +198,7 @@ abstract class Plugin
      */
     public static function registerSettingsFields()
     {
-        $identifier = 'embedpress:'. static::SLUG;
+        $identifier = EMBEDPRESS_PLG_NAME .':'. static::SLUG;
 
         $schema = static::getOptionsSchema();
         foreach ($schema as $fieldSlug => $field) {
@@ -261,5 +222,20 @@ abstract class Plugin
     public static function onAfterRegisterSettings()
     {
         // do nothing
+    }
+
+    /**
+     * Retrieve user defined options.
+     *
+     * @since   1.4.0
+     * @static
+     *
+     * @return  array
+     */
+    public static function getOptions()
+    {
+        $options = (array)get_option(EMBEDPRESS_PLG_NAME .':'. static::SLUG);
+
+        return $options;
     }
 }
