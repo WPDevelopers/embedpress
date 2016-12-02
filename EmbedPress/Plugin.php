@@ -289,6 +289,8 @@ class Plugin
                 add_action(EMBEDPRESS_PLG_NAME .':'. $plugin::SLUG .':settings:register', array($plugin, 'registerSettings'));
                 add_action(EMBEDPRESS_PLG_NAME .':settings:render:tab', array($plugin, 'renderTab'));
 
+                add_filter('plugin_action_links_embedpress-'. $plugin::SLUG .'/embedpress-'. $plugin::SLUG .'.php', array($plugin, 'handleActionLinks'), 10, 2);
+
                 $plugin::registerEvents();
             }
         }

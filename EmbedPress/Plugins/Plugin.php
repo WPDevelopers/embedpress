@@ -229,4 +229,21 @@ abstract class Plugin
 
         return $options;
     }
+
+    /**
+     * Handle links displayed below the plugin name in the WordPress Installed Plugins page.
+     *
+     * @since   1.4.0
+     * @static
+     *
+     * @return  array
+     */
+    public static function handleActionLinks($links, $file)
+    {
+        $settingsLink = '<a href="'. admin_url('admin.php?page='. EMBEDPRESS_PLG_NAME .'&tab='. static::SLUG) .'" aria-label="'. __('Open settings page', 'embedpress-'. static::SLUG) .'">'. __('Settings', 'embedpress-'. static::SLUG) .'</a>';
+
+        array_unshift($links, $settingsLink);
+
+        return $links;
+    }
 }
