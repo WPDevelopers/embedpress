@@ -130,6 +130,8 @@ class Plugin
             add_action('admin_init', array($settingsClassNamespace, 'registerActions'));
             unset($settingsClassNamespace);
 
+            add_filter('plugin_action_links_embedpress/embedpress.php', array('\EmbedPress\Plugin', 'handleActionLinks'), 10, 2);
+
             // Load CSS
             wp_register_style( 'embedpress-admin', plugins_url( 'embedpress/assets/css/admin.css' ) );
             wp_enqueue_style( 'embedpress-admin' );
@@ -303,5 +305,22 @@ class Plugin
     public static function getPlugins()
     {
         return self::$plugins;
+    }
+
+    /**
+     * Handle links displayed below the plugin name in the WordPress Installed Plugins page.
+     *
+     * @since   1.4.0
+     * @static
+     *
+     * @return  array
+     */
+    public static function handleActionLinks($links, $file)
+    {
+        $settingsLink = '<a href="'. admin_url('admin.php?page=embedpress') .'" aria-label="'. __('Open settings page', 'embedpress') .'">'. __('Settings', 'embedpress') .'</a>';
+
+        array_unshift($links, $settingsLink);
+
+        return $links;
     }
 }
