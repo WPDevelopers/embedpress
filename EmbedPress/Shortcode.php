@@ -109,6 +109,11 @@ class Shortcode
             // Gather info about the shortcode's link
             $urlData = self::$oEmbedInstance->fetch($serviceProvider, $content, $attributes);
 
+            $eventResults = apply_filters('embedpress:onBeforeEmbed', $urlData);
+            if (empty($eventResults)) {
+                return $subject;
+            }
+
             // Transform all shortcode attributes into html form. I.e.: {foo: "joe"} -> foo="joe"
             $attributesHtml = array();
             foreach ($attributes as $attrName => $attrValue) {
@@ -258,7 +263,7 @@ class Shortcode
                     'url'        => $content
                 ));
 
-                do_action('embedpress:onAfterEmbed', $embed);
+                $embed = apply_filters('embedpress:onAfterEmbed', $embed);
 
                 return $embed;
             }
