@@ -281,8 +281,8 @@ class Core
 
                 $bsFilePath = $plugin::PATH . EMBEDPRESS_PLG_NAME .'-'. $plugin::SLUG .'.php';
 
-                register_activation_hook($bsFilePath, array($plugin::NMSPC, 'onActivationCallback'));
-                register_deactivation_hook($bsFilePath, array($plugin::NMSPC, 'onDeactivationCallback'));
+                register_activation_hook($bsFilePath, array($plugin::NAMESPACE, 'onActivationCallback'));
+                register_deactivation_hook($bsFilePath, array($plugin::NAMESPACE, 'onDeactivationCallback'));
 
                 add_action('admin_init', array($plugin, 'onLoadAdminCallback'));
 
