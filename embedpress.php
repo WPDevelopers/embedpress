@@ -18,7 +18,7 @@
  * Author URI:  http://pressshack.com/
 */
 
-use \EmbedPress\Plugin;
+use \EmbedPress\Core;
 
 require_once plugin_dir_path(__FILE__) .'includes.php';
 
@@ -26,16 +26,16 @@ require_once plugin_dir_path(__FILE__) .'includes.php';
 
 function onPluginActivationCallback()
 {
-    Plugin::onPluginActivationCallback();
+    Core::onPluginActivationCallback();
 }
 
 function onPluginDeactivationCallback()
 {
-    Plugin::onPluginDeactivationCallback();
+    Core::onPluginDeactivationCallback();
 }
 
 register_activation_hook(__FILE__, 'onPluginActivationCallback');
 register_deactivation_hook(__FILE__, 'onPluginDeactivationCallback');
 
-$embedPressPlugin = new Plugin();
+$embedPressPlugin = new Core();
 $embedPressPlugin->initialize();

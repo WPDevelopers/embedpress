@@ -17,7 +17,7 @@ use \EmbedPress\Ends\Front\Handler as EndHandlerPublic;
  * @license     GPLv2 or later
  * @since       1.0.0
  */
-class Plugin
+class Core
 {
     /**
      * The name of the plugin.
@@ -130,7 +130,7 @@ class Plugin
             add_action('admin_init', array($settingsClassNamespace, 'registerActions'));
             unset($settingsClassNamespace);
 
-            add_filter('plugin_action_links_embedpress/embedpress.php', array('\EmbedPress\Plugin', 'handleActionLinks'), 10, 2);
+            add_filter('plugin_action_links_embedpress/embedpress.php', array('\EmbedPress\Core', 'handleActionLinks'), 10, 2);
 
             // Load CSS
             wp_register_style( 'embedpress-admin', plugins_url( 'embedpress/assets/css/admin.css' ) );

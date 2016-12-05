@@ -1,7 +1,7 @@
 <?php
 namespace EmbedPress;
 
-use \EmbedPress\Plugin;
+use \EmbedPress\Core;
 use \Embera\Embera;
 use \Embera\Formatter;
 
@@ -175,7 +175,7 @@ class Shortcode
                 // If the embed couldn't be generated, we'll try to use Embera's API
                 $emberaInstance = new Embera($emberaInstanceSettings);
                 // Add support to the user's custom service providers
-                $additionalServiceProviders = Plugin::getAdditionalServiceProviders();
+                $additionalServiceProviders = Core::getAdditionalServiceProviders();
                 if (!empty($additionalServiceProviders)) {
                     foreach ($additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls) {
                         self::addServiceProvider($serviceProviderClassName, $serviceProviderUrls, $emberaInstance);
@@ -207,7 +207,7 @@ class Shortcode
             if (strtoupper($urlData->provider_name) === "NATIONAL FILM BOARD OF CANADA") {
                 $parsedContent = html_entity_decode($parsedContent);
             } else if (strtoupper($urlData->provider_name) === "FACEBOOK") {
-                $plgSettings = Plugin::getSettings();
+                $plgSettings = Core::getSettings();
 
                 // Check if the user wants to force a certain language into Facebook embeds.
                 $locale = isset($plgSettings->fbLanguage) && !empty($plgSettings->fbLanguage) ? $plgSettings->fbLanguage : false;

@@ -1,7 +1,7 @@
 <?php
 namespace EmbedPress\Ends\Back;
 
-use \EmbedPress\Plugin;
+use \EmbedPress\Core;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -208,7 +208,7 @@ class Settings
 
         $options = get_option(self::$sectionGroupIdentifier);
 
-        $activeOptions = Plugin::getSettings();
+        $activeOptions = Core::getSettings();
         if (isset($activeOptions->enablePluginInAdmin) && (bool)$activeOptions->enablePluginInAdmin === false) {
             $options[$fieldName] = false;
         } else {
