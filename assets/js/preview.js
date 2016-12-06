@@ -907,7 +907,7 @@
                         self.appendElementsIntoWrapper($content, $wrapper);
                     }
 
-                    $wrapper.append($('<span class="mce-shim"></span>'));
+                    //$wrapper.append($('<span class="mce-shim"></span>'));
                     $wrapper.append($('<span class="wpview-end"></span>'));
 
                     if (result && result.data && typeof result.data === "object") {
