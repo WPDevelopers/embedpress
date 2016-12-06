@@ -90,6 +90,13 @@ There're two ways to install EmbedPress plugin:
 `
 
 == Changelog ==
+= 1.4.0 =
+Release Date: not-released-yet
+
+* Added support to plugins;
+* Fixed bug that was preventing interaction with some embeds;
+* Code enhancements.
+
 = 1.3.1 =
 Release Date: 2016-11-14
 
