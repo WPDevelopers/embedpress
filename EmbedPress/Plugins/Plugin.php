@@ -173,8 +173,8 @@ abstract class Plugin
     {
         $identifier = EMBEDPRESS_PLG_NAME .':'. static::SLUG;
 
-        register_setting($identifier, $identifier, array(static::NAMESPACE, 'validateForm'));
-        add_settings_section($identifier, EMBEDPRESS .' > '. static::NAME .' Settings', array(static::NAMESPACE, 'onAfterRegisterSettings'), $identifier);
+        register_setting($identifier, $identifier, array(static::NAMESPACE_STRING, 'validateForm'));
+        add_settings_section($identifier, EMBEDPRESS .' > '. static::NAME .' Settings', array(static::NAMESPACE_STRING, 'onAfterRegisterSettings'), $identifier);
 
         self::registerSettingsFields();
     }
