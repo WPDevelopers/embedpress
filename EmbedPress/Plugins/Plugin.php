@@ -72,13 +72,7 @@ abstract class Plugin
     public static function onLoadAdminCallback()
     {
         $pluginSignature = EMBEDPRESS_PLG_NAME .'-'. static::SLUG .'/'. EMBEDPRESS_PLG_NAME .'-'. static::SLUG .'.php';
-
         if (is_admin() && !self::isEmbedPressActive() && is_plugin_active($pluginSignature)) {
-            echo ''.
-            '<div class="notice notice-warning">'.
-                '<p>'. self::getErrorMessage('ERR_MISSING_DEPENDENCY') .'</p>'.
-            '</div>';
-
             deactivate_plugins($pluginSignature);
         } else {
             static::registerSettings();
@@ -96,7 +90,7 @@ abstract class Plugin
     public static function onActivationCallback()
     {
         if (is_admin() && !self::isEmbedPressActive()) {
-            echo '<p><a href="javascript:history.back();">'. __('Go back') .'</a></p>';
+            echo '<p><a href="'. admin_url('plugins.php') .'">'. __('Go back') .'</a></p>';
 
             wp_die(self::getErrorMessage('ERR_MISSING_DEPENDENCY'));
         }
