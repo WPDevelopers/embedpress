@@ -57,7 +57,7 @@ class Shortcode
     {
         $embed = self::parseContent($subject, true, $attributes);
 
-        return is_object($embed) ? $embed->html : $embed;
+        return is_object($embed) ? $embed->embed : $embed;
     }
 
     /**
