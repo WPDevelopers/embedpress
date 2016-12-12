@@ -2,6 +2,7 @@
 = 1.4.0 =
 Release Date: not-released-yet
 
+* Added support to WordPress 4.7;
 * Added support to plugins;
 * Fixed bug that was preventing interaction with some embeds;
 * Code enhancements.
