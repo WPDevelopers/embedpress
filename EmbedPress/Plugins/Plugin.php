@@ -139,6 +139,18 @@ abstract class Plugin
     }
 
     /**
+     * Method called right after the settings form being validated but before saving the data into DB.
+     *
+     * @param   array   Data after validation.
+     *
+     * @return  void
+     */
+    public static function onAfterFormValidation(&$data)
+    {
+        // do nothing
+    }
+
+    /**
      * Method that appends a tab in EmbedPress' Settings page to the plugin.
      *
      * @since   1.4.0
