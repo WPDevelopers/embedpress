@@ -133,6 +133,7 @@ class Field
         $html = str_replace('{{classes}}', implode(' ', (array)@$field->classes), $html);
         $html = str_replace('{{placeholder}}', $field->placeholder, $html);
 
+        $html .= wp_nonce_field("{$pluginSlug}:nonce", "{$pluginSlug}:nonce");
         if (!empty($field->description)) {
             $html .= '<br/>';
             $html .= '<p class="description">'. $field->description .'</p>';
