@@ -55,4 +55,3 @@ if (!defined('EMBEDPRESS_SHORTCODE')) {
 require_once EMBEDPRESS_PATH_LIBRARIES ."autoload.php";
 // Run the plugin autoload script
 require_once EMBEDPRESS_PATH_BASE ."autoloader.php";
-?>
