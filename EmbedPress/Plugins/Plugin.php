@@ -1,6 +1,8 @@
 <?php
 namespace EmbedPress\Plugins;
 
+use \EmbedPress\Updater;
+
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
 /**
@@ -76,6 +78,15 @@ abstract class Plugin
             deactivate_plugins($pluginSignature);
         } else {
             static::registerSettings();
+
+            $options = static::getOptions();
+
+            new Updater(EMBEDPRESS_LICENSES_API_URL, static::PATH . EMBEDPRESS_PLG_NAME .'-'. static::SLUG .'.php', array(
+                'version'   => static::VERSION,
+                'license'   => (string)@$options['license']['key'],
+                'item_name' => "EmbedPress - ". static::NAME,
+                'author'    => "PressShack"
+            ));
         }
     }
 
@@ -120,6 +131,11 @@ abstract class Plugin
      */
     public static function validateForm($postData)
     {
+        $pluginSlugNonce = EMBEDPRESS_PLG_NAME .':'. static::SLUG .':nonce';
+        if (!check_admin_referer($pluginSlugNonce, $pluginSlugNonce)) {
+            return;
+        }
+
         $data = array();
 
         $schema = static::getOptionsSchema();
@@ -133,6 +149,12 @@ abstract class Plugin
             settype($value, isset($field['type']) && in_array(strtolower($field['type']), array('bool', 'boolean', 'int', 'integer', 'float', 'string')) ? $field['type'] : 'string');
 
             $data[$fieldSlug] = $value;
+        }
+
+        static::onAfterFormValidation($data);
+
+        if (isset($data['license_key'])) {
+            unset($data['license_key']);
         }
 
         return $data;
@@ -232,6 +254,24 @@ abstract class Plugin
     public static function getOptions()
     {
         $options = (array)get_option(EMBEDPRESS_PLG_NAME .':'. static::SLUG);
+        if (empty($options) || (count($options) === 1 && empty($options[0]))) {
+            $options = array();
+            $schema = static::getOptionsSchema();
+            foreach ($schema as $fieldSlug => $field) {
+                $value = isset($field['default']) ? $field['default'] : "";
+
+                settype($value, isset($field['type']) && in_array(strtolower($field['type']), array('bool', 'boolean', 'int', 'integer', 'float', 'string')) ? $field['type'] : 'string');
+
+                if ($fieldSlug === "license_key") {
+                    $options['license'] = array(
+                        'key'    => $value,
+                        'status' => "missing"
+                    );
+                } else {
+                    $options[$fieldSlug] = $value;
+                }
+            }
+        }
 
         return $options;
     }
@@ -251,5 +291,42 @@ abstract class Plugin
         array_unshift($links, $settingsLink);
 
         return $links;
+    }
+
+    protected static function validateLicenseKey($licenseKey)
+    {
+        $pluginSlug = EMBEDPRESS_PLG_NAME .':'. static::SLUG;
+
+        $response = wp_remote_post(EMBEDPRESS_LICENSES_API_URL, array(
+            'timeout'   => 30,
+            'sslverify' => false,
+            'body'      => array(
+                'edd_action' => "activate_license",
+                'license'    => $licenseKey,
+                'item_name'  => "EmbedPress - ". static::NAME,
+                'url'        => home_url()
+            )
+        ));
+
+        $errMessage = "";
+        if (is_wp_error($response) || 200 !== wp_remote_retrieve_response_code($response)) {
+            $errMessage = (is_wp_error($response) && !empty($response->get_error_message())) ? $response->get_error_message() : __('An error occurred, please try again.');
+            return "";
+        } else {
+            $options = static::getOptions();
+
+            $licenseData = json_decode(wp_remote_retrieve_body($response));
+            if (empty($licenseData) || !is_object($licenseData)) {
+                $licenseNewStatus = "invalid";
+            } else {
+                if (@$licenseData->success === false) {
+                    $licenseNewStatus = !empty(@$licenseData->error) ? $licenseData->error : "invalid";
+                } else {
+                    $licenseNewStatus = "valid";
+                }
+            }
+
+            return $licenseNewStatus;
+        }
     }
 }

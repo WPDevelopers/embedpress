@@ -325,4 +325,25 @@ class Core
 
         return $links;
     }
+
+    /**
+     * Method that ensures the API's url are whitelisted to WordPress external requests.
+     *
+     * @since   1.4.0
+     * @static
+     *
+     * @param   boolean     $isAllowed
+     * @param   string      $host
+     * @param   string      $url
+     *
+     * @return  boolean
+     */
+    public static function allowApiHost($isAllowed, $host, $url)
+    {
+        if ($host === EMBEDPRESS_LICENSES_API_HOST) {
+            $isAllowed = true;
+        }
+
+        return $isAllowed;
+    }
 }

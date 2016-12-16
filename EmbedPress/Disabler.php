@@ -90,6 +90,8 @@ class Disabler
         remove_shortcode(EMBEDPRESS_SHORTCODE);
 
         wp_deregister_script('wp-embed');
+
+        add_filter('http_request_host_is_external', array('\EmbedPress\Core', 'allowApiHost'), 10, 3);
     }
 
     /**

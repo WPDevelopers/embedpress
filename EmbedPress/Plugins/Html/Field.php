@@ -109,11 +109,17 @@ class Field
     {
         $field = json_decode(json_encode($params['field']));
 
-        $options = (array)get_option("embedpress:{$params['pluginSlug']}");
+        $pluginSlug = "embedpress:{$params['pluginSlug']}";
+
+        $options = (array)get_option($pluginSlug);
 
         $field->type = strtolower($field->type);
 
-        $value = isset($options[$field->slug]) ? $options[$field->slug] : (isset($field->default) ? $field->default : '');
+        if ($field->slug === "license_key") {
+            $value = $options['license']['key'];
+        } else {
+            $value = isset($options[$field->slug]) ? $options[$field->slug] : (isset($field->default) ? $field->default : '');
+        }
 
         if (in_array($field->type, array('bool', 'boolean'))) {
             $html = self::radio(array(
@@ -134,6 +140,42 @@ class Field
         $html = str_replace('{{placeholder}}', $field->placeholder, $html);
 
         $html .= wp_nonce_field("{$pluginSlug}:nonce", "{$pluginSlug}:nonce");
+
+        if ($field->slug === "license_key") {
+            switch (trim(strtoupper($options['license']['status']))) {
+                case '':
+                    $licenseStatus = __('Missing license.');
+                    break;
+                case 'EXPIRED':
+                    $licenseStatus = __('Your license key is expired.');
+                    break;
+                case 'REVOKED':
+                    $licenseStatus = __('Your license key has been disabled.');
+                    break;
+                case 'MISSING':
+                case 'INVALID':
+                    $licenseStatus = __('Invalid license.');
+                    break;
+                case 'SITE_INACTIVE':
+                    $licenseStatus = __('Your license is not active for this URL.');
+                    break;
+                case 'ITEM_NAME_MISMATCH':
+                    $licenseStatus = sprintf(__('This appears to be an invalid license key for %s.'), EMBEDPRESS_EDD_SL_ITEM_NAME);
+                    break;
+                case 'NO_ACTIVATIONS_LEFT':
+                    $licenseStatus = __('Your license key has reached its activation limit.');
+                    break;
+                case 'VALID':
+                    $licenseStatus = __('Activated.');
+                    break;
+                default:
+                    $licenseStatus = __('Not validated yet.');
+                    break;
+            }
+
+            $html .= '<br/><br/><strong>Status:</strong> '. $licenseStatus .'<br/><br/><button type="submit" class="button-secondary">'. _(($options['license']['status'] !== "valid" ? 'Activate License' : 'Deactivate License')) .'</button><br/><br/><hr>';
+        }
+
         if (!empty($field->description)) {
             $html .= '<br/>';
             $html .= '<p class="description">'. $field->description .'</p>';

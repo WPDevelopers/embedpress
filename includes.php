@@ -51,6 +51,14 @@ if (!defined('EMBEDPRESS_SHORTCODE')) {
     define('EMBEDPRESS_SHORTCODE', "embed");
 }
 
+if (!defined('EMBEDPRESS_LICENSES_API_HOST')) {
+    define('EMBEDPRESS_LICENSES_API_HOST', "@todo");
+}
+
+if (!defined('EMBEDPRESS_LICENSES_API_URL')) {
+    define('EMBEDPRESS_LICENSES_API_URL', "@todo");
+}
+
 // Run libraries's autoload script
 require_once EMBEDPRESS_PATH_LIBRARIES ."autoload.php";
 // Run the plugin autoload script
