@@ -59,7 +59,7 @@ class Settings
      *
      * @var     string    $sectionGroupIdentifier    The name of the plugin.
      */
-    private static $sectionGroupIdentifier = "embedpress_options";
+    private static $sectionGroupIdentifier = "embedpress";
 
     /**
      * Map to all settings.
@@ -134,6 +134,7 @@ class Settings
             ));
         } else {
             register_setting(self::$sectionGroupIdentifier, self::$sectionGroupIdentifier, array(self::$namespace, "validateForm"));
+
             add_settings_section(self::$sectionAdminIdentifier, 'General Settings', null, self::$identifier);
 
             foreach (self::$fieldMap as $fieldName => $field) {
