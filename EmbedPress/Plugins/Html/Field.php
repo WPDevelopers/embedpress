@@ -116,7 +116,7 @@ class Field
         $field->type = strtolower($field->type);
 
         if ($field->slug === "license_key") {
-            $value = $options['license']['key'];
+            $value = @$options['license']['key'];
         } else {
             $value = isset($options[$field->slug]) ? $options[$field->slug] : (isset($field->default) ? $field->default : '');
         }
@@ -137,12 +137,12 @@ class Field
         $html = str_replace('{{slug}}', $params['pluginSlug'], $html);
         $html = str_replace('{{name}}', $field->slug, $html);
         $html = str_replace('{{classes}}', implode(' ', (array)@$field->classes), $html);
-        $html = str_replace('{{placeholder}}', $field->placeholder, $html);
+        $html = str_replace('{{placeholder}}', (string)@$field->placeholder, $html);
 
         $html .= wp_nonce_field("{$pluginSlug}:nonce", "{$pluginSlug}:nonce");
 
         if ($field->slug === "license_key") {
-            switch (trim(strtoupper($options['license']['status']))) {
+            switch (trim(strtoupper(@$options['license']['status']))) {
                 case '':
                     $licenseStatus = __('Missing license.');
                     break;
@@ -175,7 +175,7 @@ class Field
 
             $html .= '<br/><br/><strong>Status: '. $licenseStatus .'</strong><br/><br/>';
 
-            if ($options['license']['status'] !== 'valid') {
+            if (@$options['license']['status'] !== 'valid') {
                 $html .= '<button type="submit" class="button-secondary">Activate License</button><br/><br/>';
             }
 
