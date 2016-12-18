@@ -52,11 +52,11 @@ if (!defined('EMBEDPRESS_SHORTCODE')) {
 }
 
 if (!defined('EMBEDPRESS_LICENSES_API_HOST')) {
-    define('EMBEDPRESS_LICENSES_API_HOST', "@todo");
+    define('EMBEDPRESS_LICENSES_API_HOST', "pressshack.staging.wpengine.com");
 }
 
 if (!defined('EMBEDPRESS_LICENSES_API_URL')) {
-    define('EMBEDPRESS_LICENSES_API_URL', "@todo");
+    define('EMBEDPRESS_LICENSES_API_URL', "http://pressshack.staging.wpengine.com");
 }
 
 // Run libraries's autoload script
