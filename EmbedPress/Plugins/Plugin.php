@@ -22,11 +22,13 @@ abstract class Plugin
      *
      * @since   1.4.0
      * @static
-     * @abstract
      *
      * @return  void
      */
-    abstract public static function registerEvents();
+    public static function registerEvents()
+    {
+        // do nothing
+    }
 
     /**
      * Method that checks if EmbedPress is active or not.
