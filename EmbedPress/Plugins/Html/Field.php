@@ -173,7 +173,13 @@ class Field
                     break;
             }
 
-            $html .= '<br/><br/><strong>Status:</strong> '. $licenseStatus .'<br/><br/><button type="submit" class="button-secondary">'. _(($options['license']['status'] !== "valid" ? 'Activate License' : 'Deactivate License')) .'</button><br/><br/><hr>';
+            $html .= '<br/><br/><strong>Status: '. $licenseStatus .'</strong><br/><br/>';
+
+            if ($options['license']['status'] !== 'valid') {
+                $html .= '<button type="submit" class="button-secondary">Activate License</button><br/><br/>';
+            }
+
+            $html .= '<hr>';
         }
 
         if (!empty($field->description)) {
