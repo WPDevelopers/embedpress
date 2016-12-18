@@ -160,7 +160,7 @@ class Field
                     $licenseStatus = __('Your license is not active for this URL.');
                     break;
                 case 'ITEM_NAME_MISMATCH':
-                    $licenseStatus = sprintf(__('This appears to be an invalid license key for %s.'), EMBEDPRESS_EDD_SL_ITEM_NAME);
+                    $licenseStatus = __('This appears to be an invalid license key for this product.');
                     break;
                 case 'NO_ACTIVATIONS_LEFT':
                     $licenseStatus = __('Your license key has reached its activation limit.');
