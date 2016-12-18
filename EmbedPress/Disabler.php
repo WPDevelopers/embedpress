@@ -23,7 +23,7 @@ class Disabler
      *
      * @return  void
      */
-    public function run()
+    public static function run()
     {
         self::disableNativeEmbedHooks();
 
