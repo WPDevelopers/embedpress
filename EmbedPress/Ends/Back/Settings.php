@@ -72,15 +72,15 @@ class Settings
      */
     private static $fieldMap = array(
         'enablePluginInAdmin' => array(
-            'label'   => "Enable EmbedPress in the admin area",
+            'label'   => "Allow EmbedPress in Admin",
             'section' => "admin"
         ),
         'displayPreviewBox' => array(
-            'label'   => "Display Preview Box inside editor",
+            'label'   => "Load embeds inside Editors",
             'section' => "admin"
         ),
         'forceFacebookLanguage' => array(
-            'label'   => "Display Facebook embeds in a different language",
+            'label'   => "Facebook embeds language",
             'section' => "admin"
         )
     );
@@ -220,6 +220,7 @@ class Settings
         echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
         echo "&nbsp;&nbsp;";
         echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
+        echo '<p class="description">Load embeds automatically detected inside your editor\'s content (i.e. TinyMCE).</p>';
     }
 
     /**
@@ -239,6 +240,7 @@ class Settings
         echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
         echo "&nbsp;&nbsp;";
         echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
+        echo '<p class="description">Allow EmbedPress to run here in the Admin area. Disabling this <strong>will not</strong> affect your frontend embeds.</p>';
     }
 
     /**
@@ -265,6 +267,8 @@ class Settings
         }
         echo '</optgroup>';
         echo '</select>';
+
+        echo '<p class="description">Choose to force or not a different language into your Facebook embeds.</p>';
     }
 
     /**
