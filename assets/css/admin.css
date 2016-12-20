@@ -27,3 +27,22 @@
 #toplevel_page_embedpress .current .dashicons-admin-generic::before {
     background-position: 0 -60px;
 }
+
+/* Custom classes */
+
+.ep-label-danger {
+    color: #d54e21;
+}
+
+.ep-label-success {
+    color: #5ca410;
+}
+
+.ep-small-link {
+    line-height: 28px;
+    font-size: 0.8em;
+}
+
+.ep-small-spacing {
+    margin-left: 5px;
+}

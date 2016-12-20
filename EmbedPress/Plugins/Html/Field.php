@@ -144,39 +144,41 @@ class Field
         if ($field->slug === "license_key") {
             switch (trim(strtoupper(@$options['license']['status']))) {
                 case '':
-                    $licenseStatus = __('Missing license.');
+                    $licenseStatus = '<span class="ep-label-danger">' . __('Missing license.') . '</span>';
                     break;
                 case 'EXPIRED':
-                    $licenseStatus = __('Your license key is expired.');
+                    $licenseStatus = '<span class="ep-label-danger">' . __('Your license key is expired.') . '</span>';
                     break;
                 case 'REVOKED':
-                    $licenseStatus = __('Your license key has been disabled.');
+                    $licenseStatus = '<span class="ep-label-danger">' . __('Your license key has been disabled.') . '</span>';
                     break;
                 case 'MISSING':
                 case 'INVALID':
-                    $licenseStatus = __('Invalid license.');
+                    $licenseStatus = '<span class="ep-label-danger">' . __('Invalid license.') . '</span>';
                     break;
                 case 'SITE_INACTIVE':
-                    $licenseStatus = __('Your license is not active for this URL.');
+                    $licenseStatus = '<span class="ep-label-danger">' . __('Your license is not active for this URL.') . '</span>';
                     break;
                 case 'ITEM_NAME_MISMATCH':
-                    $licenseStatus = __('This appears to be an invalid license key for this product.');
+                    $licenseStatus = '<span class="ep-label-danger">' . __('This appears to be an invalid license key for this product.') . '</span>';
                     break;
                 case 'NO_ACTIVATIONS_LEFT':
-                    $licenseStatus = __('Your license key has reached its activation limit.');
+                    $licenseStatus = '<span class="ep-label-danger">' . __('Your license key has reached its activation limit.') . '</span>';
                     break;
                 case 'VALID':
-                    $licenseStatus = __('Activated.');
+                    $licenseStatus = '<span class="ep-label-success">' . __('Activated.') . '</span>';
                     break;
                 default:
-                    $licenseStatus = __('Not validated yet.');
+                    $licenseStatus = '<span class="ep-label-danger">' . __('Not validated yet.') . '</span>';
                     break;
             }
 
             $html .= '<br/><br/><strong>Status: '. $licenseStatus .'</strong><br/><br/>';
 
             if (@$options['license']['status'] !== 'valid') {
-                $html .= '<button type="submit" class="button-secondary">Activate License</button><br/><br/>';
+                $html .= '<button type="submit" class="button-secondary">' . __('Activate License') . '</button> ';
+                $html .= '<a href="https://pressshack.com/embedpress/docs/activate-license" target="_blank" class="ep-small-link ep-small-spacing">' . __('More information') . '</a>';
+                $html .= '<br/><br/>';
             }
 
             $html .= '<hr>';
