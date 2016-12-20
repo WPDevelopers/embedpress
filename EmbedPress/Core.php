@@ -242,7 +242,7 @@ class Core
      */
     public static function getSettings()
     {
-        $settings = get_option("embedpress_options");
+        $settings = get_option(EMBEDPRESS_PLG_NAME);
 
         if (!isset($settings['displayPreviewBox'])) {
             $settings['displayPreviewBox'] = true;
