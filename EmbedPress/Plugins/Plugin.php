@@ -315,8 +315,6 @@ abstract class Plugin
             $errMessage = (is_wp_error($response) && !empty($response->get_error_message())) ? $response->get_error_message() : __('An error occurred, please try again.');
             return "";
         } else {
-            $options = static::getOptions();
-
             $licenseData = json_decode(wp_remote_retrieve_body($response));
             if (empty($licenseData) || !is_object($licenseData)) {
                 $licenseNewStatus = "invalid";
