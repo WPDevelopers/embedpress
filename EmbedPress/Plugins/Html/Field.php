@@ -142,42 +142,43 @@ class Field
         $html .= wp_nonce_field("{$pluginSlug}:nonce", "{$pluginSlug}:nonce");
 
         if ($field->slug === "license_key") {
+            $licenseStatusClass = "ep-label-danger";
             switch (trim(strtoupper(@$options['license']['status']))) {
                 case '':
-                    $licenseStatus = '<span class="ep-label-danger">' . __('Missing license') . '</span>';
+                    $licenseStatusMessage = "Missing license";
                     break;
                 case 'EXPIRED':
-                    $licenseStatus = '<span class="ep-label-danger">' . __('Your license key is expired') . '</span>';
+                    $licenseStatusMessage = "Your license key is expired";
                     break;
                 case 'REVOKED':
-                    $licenseStatus = '<span class="ep-label-danger">' . __('Your license key has been disabled') . '</span>';
+                    $licenseStatusMessage = "Your license key has been disabled";
                     break;
                 case 'MISSING':
                 case 'INVALID':
-                    $licenseStatus = '<span class="ep-label-danger">' . __('Invalid license') . '</span>';
+                    $licenseStatusMessage = "Invalid license";
                     break;
                 case 'SITE_INACTIVE':
-                    $licenseStatus = '<span class="ep-label-danger">' . __('Your license is not active for this URL') . '</span>';
+                    $licenseStatusMessage = "Your license is not active for this URL";
                     break;
                 case 'ITEM_NAME_MISMATCH':
-                    $licenseStatus = '<span class="ep-label-danger">' . __('This appears to be an invalid license key for this product') . '</span>';
+                    $licenseStatusMessage = "This appears to be an invalid license key for this product";
                     break;
                 case 'NO_ACTIVATIONS_LEFT':
-                    $licenseStatus = '<span class="ep-label-danger">' . __('Your license key has reached its activation limit') . '</span>';
+                    $licenseStatusMessage = "Your license key has reached its activation limit";
                     break;
                 case 'VALID':
-                    $licenseStatus = '<span class="ep-label-success">' . __('Activated') . '</span>';
+                    $licenseStatusClass = "ep-label-success";
+                    $licenseStatusMessage = "Activated";
                     break;
                 default:
-                    $licenseStatus = '<span class="ep-label-danger">' . __('Not validated yet') . '</span>';
+                    $licenseStatusMessage = "Not validated yet";
                     break;
             }
 
-            $html .= '<br/><br/><strong>Status: '. $licenseStatus .'.</strong><br/><br/>';
-
+            $html .= '<br/><br/><strong>Status: <span class="'. $licenseStatusClass .'">'. __($licenseStatusMessage) .'</span>.</strong><br/><br/>';
             if (@$options['license']['status'] !== 'valid') {
                 $html .= '<button type="submit" class="button-secondary">' . __('Activate License') . '</button> ';
-                $html .= '<a href="https://pressshack.com/embedpress/docs/activate-license" target="_blank" class="ep-small-link ep-small-spacing" rel="noopener noreferrer" style="display: inline-block; margin-left: 20px;" title="'. __('Click here to read more about licenses.') .'">' . __('More information') . '</a>';
+                $html .= '<a href="'. EMBEDPRESS_LICENSES_MORE_INFO_URL .'" target="_blank" class="ep-small-link ep-small-spacing" rel="noopener noreferrer" style="display: inline-block; margin-left: 20px;" title="'. __('Click here to read more about licenses.') .'">' . __('More information') . '</a>';
                 $html .= '<br/><br/>';
             }
 

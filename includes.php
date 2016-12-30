@@ -59,6 +59,10 @@ if (!defined('EMBEDPRESS_LICENSES_API_URL')) {
     define('EMBEDPRESS_LICENSES_API_URL', "http://pressshack.staging.wpengine.com");
 }
 
+if (!defined('EMBEDPRESS_LICENSES_MORE_INFO_URL')) {
+    define('EMBEDPRESS_LICENSES_MORE_INFO_URL', "https://pressshack.com/embedpress/docs/activate-license");
+}
+
 // Run libraries's autoload script
 require_once EMBEDPRESS_PATH_LIBRARIES ."autoload.php";
 // Run the plugin autoload script
