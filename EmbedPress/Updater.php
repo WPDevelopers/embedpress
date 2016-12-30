@@ -177,7 +177,7 @@ class Updater
                 printf(
                     __( 'There is a new version of %1$s available. %2$sView version %3$s details%4$s.', 'easy-digital-downloads' ),
                     esc_html($version_info->name),
-                    '<a target="_blank" class="thickbox" href="'. esc_url($changelog_link) .'">',
+                    '<a target="_blank" class="thickbox" href="'. esc_url($changelog_link) .'" rel="noopener noreferrer">',
                     esc_html($version_info->new_version),
                     '</a>'
                 );
@@ -185,7 +185,7 @@ class Updater
                 printf(
                     __('There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s.', 'easy-digital-downloads'),
                     esc_html($version_info->name),
-                    '<a target="_blank" class="thickbox" href="'. esc_url($changelog_link) .'">',
+                    '<a target="_blank" class="thickbox" href="'. esc_url($changelog_link) .'" rel="noopener noreferrer">',
                     esc_html($version_info->new_version),
                     '</a>',
                     '<a href="'. esc_url(wp_nonce_url(self_admin_url('update.php?action=upgrade-plugin&plugin=') . $this->name, 'upgrade-plugin_'. $this->name)) .'">',

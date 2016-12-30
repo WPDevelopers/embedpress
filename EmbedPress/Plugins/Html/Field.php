@@ -177,7 +177,7 @@ class Field
 
             if (@$options['license']['status'] !== 'valid') {
                 $html .= '<button type="submit" class="button-secondary">' . __('Activate License') . '</button> ';
-                $html .= '<a href="https://pressshack.com/embedpress/docs/activate-license" target="_blank" class="ep-small-link ep-small-spacing">' . __('More information') . '</a>';
+                $html .= '<a href="https://pressshack.com/embedpress/docs/activate-license" target="_blank" class="ep-small-link ep-small-spacing" rel="noopener noreferrer">' . __('More information') . '</a>';
                 $html .= '<br/><br/>';
             }
 
