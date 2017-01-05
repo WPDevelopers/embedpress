@@ -49,7 +49,7 @@ class Shortcode
      * @since   1.0.0
      * @static
      *
-     * @param   array     $attributes   @TODO
+     * @param   array     $attributes   Array of attributes
      * @param   string    $subject      The given string
      * @return  string
      */
