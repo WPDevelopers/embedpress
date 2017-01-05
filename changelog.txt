@@ -1,9 +1,9 @@
 == Changelog ==
 = 1.4.0 =
-Release Date: not-released-yet
+Release Date: 2017-05-01
 
 * Added support to WordPress 4.7;
-* Added support to plugins;
+* Added support to Embedpress own plugins;
 * Fixed bug that was preventing interaction with some embeds;
 * Code enhancements.
 
