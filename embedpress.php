@@ -12,13 +12,13 @@
  * @embedpress
  * Plugin Name: EmbedPress
  * Plugin URI:  http://pressshack.com/embedpress/
- * Version:     1.3.1
+ * Version:     1.4.0
  * Description: WordPress supports around 35 embed sources, but EmbedPress adds over 40 more, including Facebook, Google Maps, Google Docs, UStream! Just use the URL!
  * Author:      PressShack
- * Author URI:  http://pressshack.com/
+ * Author URI:  http://pressshack.com
 */
 
-use \EmbedPress\Plugin;
+use \EmbedPress\Core;
 
 require_once plugin_dir_path(__FILE__) .'includes.php';
 
@@ -26,16 +26,16 @@ require_once plugin_dir_path(__FILE__) .'includes.php';
 
 function onPluginActivationCallback()
 {
-    Plugin::onPluginActivationCallback();
+    Core::onPluginActivationCallback();
 }
 
 function onPluginDeactivationCallback()
 {
-    Plugin::onPluginDeactivationCallback();
+    Core::onPluginDeactivationCallback();
 }
 
 register_activation_hook(__FILE__, 'onPluginActivationCallback');
 register_deactivation_hook(__FILE__, 'onPluginDeactivationCallback');
 
-$embedPressPlugin = new Plugin();
+$embedPressPlugin = new Core();
 $embedPressPlugin->initialize();

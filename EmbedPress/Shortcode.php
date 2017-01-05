@@ -1,7 +1,7 @@
 <?php
 namespace EmbedPress;
 
-use \EmbedPress\Plugin;
+use \EmbedPress\Core;
 use \Embera\Embera;
 use \Embera\Formatter;
 
@@ -49,15 +49,15 @@ class Shortcode
      * @since   1.0.0
      * @static
      *
-     * @param   array     $attributes   @TODO
+     * @param   array     $attributes   Array of attributes
      * @param   string    $subject      The given string
      * @return  string
      */
     public static function do_shortcode($attributes = array(), $subject = null)
     {
-        $decodedSubject = self::parseContent($subject, true, $attributes);
+        $embed = self::parseContent($subject, true, $attributes);
 
-        return $decodedSubject;
+        return is_object($embed) ? $embed->embed : $embed;
     }
 
     /**
@@ -108,6 +108,11 @@ class Shortcode
 
             // Gather info about the shortcode's link
             $urlData = self::$oEmbedInstance->fetch($serviceProvider, $content, $attributes);
+
+            $eventResults = apply_filters('embedpress:onBeforeEmbed', $urlData);
+            if (empty($eventResults)) {
+                return $subject;
+            }
 
             // Transform all shortcode attributes into html form. I.e.: {foo: "joe"} -> foo="joe"
             $attributesHtml = array();
@@ -175,7 +180,7 @@ class Shortcode
                 // If the embed couldn't be generated, we'll try to use Embera's API
                 $emberaInstance = new Embera($emberaInstanceSettings);
                 // Add support to the user's custom service providers
-                $additionalServiceProviders = Plugin::getAdditionalServiceProviders();
+                $additionalServiceProviders = Core::getAdditionalServiceProviders();
                 if (!empty($additionalServiceProviders)) {
                     foreach ($additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls) {
                         self::addServiceProvider($serviceProviderClassName, $serviceProviderUrls, $emberaInstance);
@@ -207,7 +212,7 @@ class Shortcode
             if (strtoupper($urlData->provider_name) === "NATIONAL FILM BOARD OF CANADA") {
                 $parsedContent = html_entity_decode($parsedContent);
             } else if (strtoupper($urlData->provider_name) === "FACEBOOK") {
-                $plgSettings = Plugin::getSettings();
+                $plgSettings = Core::getSettings();
 
                 // Check if the user wants to force a certain language into Facebook embeds.
                 $locale = isset($plgSettings->fbLanguage) && !empty($plgSettings->fbLanguage) ? $plgSettings->fbLanguage : false;
@@ -219,7 +224,7 @@ class Shortcode
                 unset($locale, $plgSettings);
             }
 
-            unset($embedTemplate, $urlData, $serviceProvider);
+            unset($embedTemplate, $serviceProvider);
 
             // This assure that the iframe has the same dimensions the user wants to
             if (isset($emberaInstanceSettings['params']['width']) || isset($emberaInstanceSettings['params']['height'])) {
@@ -252,7 +257,15 @@ class Shortcode
             }
 
             if (!empty($parsedContent)) {
-                return $parsedContent;
+                $embed = (object)array_merge((array)$urlData, array(
+                    'attributes' => (object)$attributes,
+                    'embed'      => $parsedContent,
+                    'url'        => $content
+                ));
+
+                $embed = apply_filters('embedpress:onAfterEmbed', $embed);
+
+                return $embed;
             }
         }
 

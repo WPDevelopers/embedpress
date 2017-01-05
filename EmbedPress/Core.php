@@ -1,6 +1,7 @@
 <?php
 namespace EmbedPress;
 
+use \EmbedPress\AutoLoader;
 use \EmbedPress\Loader;
 use \EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
 use \EmbedPress\Ends\Front\Handler as EndHandlerPublic;
@@ -16,7 +17,7 @@ use \EmbedPress\Ends\Front\Handler as EndHandlerPublic;
  * @license     GPLv2 or later
  * @since       1.0.0
  */
-class Plugin
+class Core
 {
     /**
      * The name of the plugin.
@@ -47,6 +48,17 @@ class Plugin
      * @var     \EmbedPress\Loader  $pluginVersion  The version of the plugin.
      */
     protected $loaderInstance;
+
+    /**
+     * An associative array storing all registered/active EmbedPress plugins and their namespaces.
+     *
+     * @since   1.4.0
+     * @access  private
+     * @static
+     *
+     * @var     array
+     */
+    private static $plugins = array();
 
     /**
      * Initialize the plugin and set its properties.
@@ -117,6 +129,8 @@ class Plugin
             add_action('admin_menu', array($settingsClassNamespace, 'registerMenuItem'));
             add_action('admin_init', array($settingsClassNamespace, 'registerActions'));
             unset($settingsClassNamespace);
+
+            add_filter('plugin_action_links_embedpress/embedpress.php', array('\EmbedPress\Core', 'handleActionLinks'), 10, 2);
 
             // Load CSS
             wp_register_style( 'embedpress-admin', plugins_url( 'embedpress/assets/css/admin.css' ) );
@@ -210,6 +224,7 @@ class Plugin
      * @since   1.0.0
      * @static
      *
+     * @param   string      $serviceProviderAlias The service's slug.
      * @return  boolean
      */
     public static function canServiceProviderBeResponsive($serviceProviderAlias)
@@ -227,7 +242,7 @@ class Plugin
      */
     public static function getSettings()
     {
-        $settings = get_option("embedpress_options");
+        $settings = get_option(EMBEDPRESS_PLG_NAME);
 
         if (!isset($settings['displayPreviewBox'])) {
             $settings['displayPreviewBox'] = true;
@@ -238,5 +253,97 @@ class Plugin
         }
 
         return (object)$settings;
+    }
+
+    /**
+     * Method that register an EmbedPress plugin.
+     *
+     * @since   1.4.0
+     * @static
+     *
+     * @param   array       $pluginMeta Associative array containing plugin's name, slug and namespace
+     * @return  void
+     */
+    public static function registerPlugin($pluginMeta)
+    {
+        $pluginMeta = json_decode(json_encode($pluginMeta));
+
+        if (empty($pluginMeta->name) || empty($pluginMeta->slug) || empty($pluginMeta->namespace)) {
+            return;
+        }
+
+        if (!isset(self::$plugins[$pluginMeta->slug])) {
+            AutoLoader::register($pluginMeta->namespace, WP_PLUGIN_DIR .'/'. EMBEDPRESS_PLG_NAME .'-'. $pluginMeta->slug .'/'. $pluginMeta->name);
+
+            $plugin = "{$pluginMeta->namespace}\Plugin";
+            if (!empty(@$plugin::SLUG)) {
+                self::$plugins[$pluginMeta->slug] = $pluginMeta->namespace;
+
+                $bsFilePath = $plugin::PATH . EMBEDPRESS_PLG_NAME .'-'. $plugin::SLUG .'.php';
+
+                register_activation_hook($bsFilePath, array($plugin::NAMESPACE_STRING, 'onActivationCallback'));
+                register_deactivation_hook($bsFilePath, array($plugin::NAMESPACE_STRING, 'onDeactivationCallback'));
+
+                add_action('admin_init', array($plugin, 'onLoadAdminCallback'));
+
+                add_action(EMBEDPRESS_PLG_NAME .':'. $plugin::SLUG .':settings:register', array($plugin, 'registerSettings'));
+                add_action(EMBEDPRESS_PLG_NAME .':settings:render:tab', array($plugin, 'renderTab'));
+
+                add_filter('plugin_action_links_embedpress-'. $plugin::SLUG .'/embedpress-'. $plugin::SLUG .'.php', array($plugin, 'handleActionLinks'), 10, 2);
+
+                $plugin::registerEvents();
+            }
+        }
+    }
+
+    /**
+     * Retrieve all registered plugins.
+     *
+     * @since   1.4.0
+     * @static
+     *
+     * @return  array
+     */
+    public static function getPlugins()
+    {
+        return self::$plugins;
+    }
+
+    /**
+     * Handle links displayed below the plugin name in the WordPress Installed Plugins page.
+     *
+     * @since   1.4.0
+     * @static
+     *
+     * @return  array
+     */
+    public static function handleActionLinks($links, $file)
+    {
+        $settingsLink = '<a href="'. admin_url('admin.php?page=embedpress') .'" aria-label="'. __('Open settings page', 'embedpress') .'">'. __('Settings', 'embedpress') .'</a>';
+
+        array_unshift($links, $settingsLink);
+
+        return $links;
+    }
+
+    /**
+     * Method that ensures the API's url are whitelisted to WordPress external requests.
+     *
+     * @since   1.4.0
+     * @static
+     *
+     * @param   boolean     $isAllowed
+     * @param   string      $host
+     * @param   string      $url
+     *
+     * @return  boolean
+     */
+    public static function allowApiHost($isAllowed, $host, $url)
+    {
+        if ($host === EMBEDPRESS_LICENSES_API_HOST) {
+            $isAllowed = true;
+        }
+
+        return $isAllowed;
     }
 }
