@@ -37,6 +37,6 @@ class Handler extends EndHandlerAbstract
      */
     public function enqueueStyles()
     {
-        wp_enqueue_style(EMBEDPRESS_NAME, EMBEDPRESS_URL_ASSETS .'css/embedpress.css');
+        wp_enqueue_style(EMBEDPRESS_PLG_NAME, EMBEDPRESS_URL_ASSETS .'css/embedpress.css');
     }
 }

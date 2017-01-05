@@ -3,7 +3,7 @@ namespace EmbedPress\Ends\Back;
 
 use \EmbedPress\Ends\Handler as EndHandlerAbstract;
 use \EmbedPress\Shortcode;
-use \EmbedPress\Plugin;
+use \EmbedPress\Core;
 use \Embera\Embera;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
@@ -30,7 +30,7 @@ class Handler extends EndHandlerAbstract
      */
     public function enqueueScripts()
     {
-        $plgSettings = Plugin::getSettings();
+        $plgSettings = Core::getSettings();
 
         wp_enqueue_script("bootbox-bootstrap", EMBEDPRESS_URL_ASSETS .'js/vendor/bootstrap/bootstrap.min.js', array('jquery'), $this->pluginVersion, true);
         wp_enqueue_script("bootbox", EMBEDPRESS_URL_ASSETS .'js/vendor/bootbox.min.js', array('jquery', 'bootbox-bootstrap'), $this->pluginVersion, true);
@@ -45,6 +45,18 @@ class Handler extends EndHandlerAbstract
             'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
             'displayPreviewBox'     => $plgSettings->displayPreviewBox
         ));
+
+        $installedPlugins = Core::getPlugins();
+        if (count($installedPlugins) > 0) {
+            foreach ($installedPlugins as $plgSlug => $plgNamespace) {
+                $plgScriptPathRelative = "assets/js/embedpress.{$plgSlug}.js";
+                $plgName = "embedpress-{$plgSlug}";
+
+                if (file_exists(WP_PLUGIN_DIR . "/{$plgName}/{$plgScriptPathRelative}")) {
+                    wp_enqueue_script($plgName, plugins_url($plgName) .'/'. $plgScriptPathRelative, array($this->pluginName), $this->pluginVersion, true);
+                }
+            }
+        }
     }
 
     /**
@@ -69,9 +81,7 @@ class Handler extends EndHandlerAbstract
     public function doShortcodeReceivedViaAjax()
     {
         $response = array(
-            'data' => array(
-                'content' => Shortcode::parseContent(@$_POST['subject'], true)
-            )
+            'data' => Shortcode::parseContent(@$_POST['subject'], true)
         );
 
         header('Content-Type:application/json;charset=UTF-8');
@@ -97,7 +107,7 @@ class Handler extends EndHandlerAbstract
         if (!!strlen($response['url'])) {
             $embera = new Embera();
 
-            $additionalServiceProviders = Plugin::getAdditionalServiceProviders();
+            $additionalServiceProviders = Core::getAdditionalServiceProviders();
             if (!empty($additionalServiceProviders)) {
                 foreach ($additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls) {
                     Shortcode::addServiceProvider($serviceProviderClassName, $serviceProviderUrls, $embera);
@@ -107,7 +117,7 @@ class Handler extends EndHandlerAbstract
             $urlInfo = $embera->getUrlInfo($response['url']);
             if (isset($urlInfo[$response['url']])) {
                 $urlInfo = (object)$urlInfo[$response['url']];
-                $response['canBeResponsive'] = Plugin::canServiceProviderBeResponsive($urlInfo->provider_alias);
+                $response['canBeResponsive'] = Core::canServiceProviderBeResponsive($urlInfo->provider_alias);
             }
         }
 

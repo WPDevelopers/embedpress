@@ -1,7 +1,7 @@
 <?php
 namespace EmbedPress\Ends\Back;
 
-use \EmbedPress\Plugin;
+use \EmbedPress\Core;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -59,7 +59,7 @@ class Settings
      *
      * @var     string    $sectionGroupIdentifier    The name of the plugin.
      */
-    private static $sectionGroupIdentifier = "embedpress_options";
+    private static $sectionGroupIdentifier = "embedpress";
 
     /**
      * Map to all settings.
@@ -72,15 +72,15 @@ class Settings
      */
     private static $fieldMap = array(
         'enablePluginInAdmin' => array(
-            'label'   => "Enable EmbedPress in the admin area",
+            'label'   => "Allow EmbedPress in Admin",
             'section' => "admin"
         ),
         'displayPreviewBox' => array(
-            'label'   => "Display Preview Box inside editor",
+            'label'   => "Load embeds inside Editors",
             'section' => "admin"
         ),
         'forceFacebookLanguage' => array(
-            'label'   => "Display Facebook embeds in a different language",
+            'label'   => "Facebook embeds language",
             'section' => "admin"
         )
     );
@@ -120,12 +120,26 @@ class Settings
      */
     public static function registerActions()
     {
-        register_setting(self::$sectionGroupIdentifier, self::$sectionGroupIdentifier, array(self::$namespace, "validateForm"));
+        $activeTab = strtolower(@$_GET['tab']);
+        if ($activeTab !== "embedpress") {
+            $action = "embedpress:{$activeTab}:settings:register";
+        } else {
+            $activeTab = "";
+        }
 
-        add_settings_section(self::$sectionAdminIdentifier, 'Admin Section Settings', array(self::$namespace, 'renderHelpText'), self::$identifier);
+        if (!empty($activeTab) && has_action($action)) {
+            do_action($action, array(
+                'id'   => self::$sectionAdminIdentifier,
+                'slug' => self::$identifier
+            ));
+        } else {
+            register_setting(self::$sectionGroupIdentifier, self::$sectionGroupIdentifier, array(self::$namespace, "validateForm"));
 
-        foreach (self::$fieldMap as $fieldName => $field) {
-            add_settings_field($fieldName, $field['label'], array(self::$namespace, "renderField_{$fieldName}"), self::$identifier, self::${"section". ucfirst($field['section']) ."Identifier"});
+            add_settings_section(self::$sectionAdminIdentifier, 'General Settings', null, self::$identifier);
+
+            foreach (self::$fieldMap as $fieldName => $field) {
+                add_settings_field($fieldName, $field['label'], array(self::$namespace, "renderField_{$fieldName}"), self::$identifier, self::${"section". ucfirst($field['section']) ."Identifier"});
+            }
         }
     }
 
@@ -137,12 +151,24 @@ class Settings
      */
     public static function renderForm()
     {
+        $activeTab = strtolower(@$_GET['tab']);
+        $settingsFieldsIdentifier = !empty($activeTab) ? "embedpress:{$activeTab}" : self::$sectionGroupIdentifier;
+        $settingsSectionsIdentifier = !empty($activeTab) ? "embedpress:{$activeTab}" : self::$identifier;
         ?>
         <div>
-            <h2>EmbedPress Settings Page</h2>
+            <h1>EmbedPress</h1>
+
+            <?php settings_errors(); ?>
+
+            <h2 class="nav-tab-wrapper">
+                <a href="?page=embedpress" class="nav-tab<?php echo $activeTab === 'embedpress' || empty($activeTab) ? ' nav-tab-active' : ''; ?> ">General settings</a>
+
+                <?php do_action('embedpress:settings:render:tab', $activeTab); ?>
+            </h2>
+
             <form action="options.php" method="POST">
-                <?php settings_fields(self::$sectionGroupIdentifier); ?>
-                <?php do_settings_sections(self::$identifier); ?>
+                <?php settings_fields($settingsFieldsIdentifier); ?>
+                <?php do_settings_sections($settingsSectionsIdentifier); ?>
 
                 <input name="Submit" type="submit" class="button button-primary" value="Save changes" />
             </form>
@@ -172,19 +198,6 @@ class Settings
     }
 
     /**
-     * Method that prints help info for the form.
-     *
-     * @since   1.0.0
-     * @static
-     *
-     * @return  string
-     */
-    public static function renderHelpText()
-    {
-        return "";
-    }
-
-    /**
      * Method that renders the displayPreviewBox input.
      *
      * @since   1.0.0
@@ -196,7 +209,7 @@ class Settings
 
         $options = get_option(self::$sectionGroupIdentifier);
 
-        $activeOptions = Plugin::getSettings();
+        $activeOptions = Core::getSettings();
         if (isset($activeOptions->enablePluginInAdmin) && (bool)$activeOptions->enablePluginInAdmin === false) {
             $options[$fieldName] = false;
         } else {
@@ -207,6 +220,7 @@ class Settings
         echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
         echo "&nbsp;&nbsp;";
         echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
+        echo '<p class="description">Load embeds automatically detected inside your editor\'s content (i.e. TinyMCE).</p>';
     }
 
     /**
@@ -226,6 +240,7 @@ class Settings
         echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
         echo "&nbsp;&nbsp;";
         echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
+        echo '<p class="description">Allow EmbedPress to run here in the Admin area. Disabling this <strong>will not</strong> affect your frontend embeds.</p>';
     }
 
     /**
@@ -252,6 +267,8 @@ class Settings
         }
         echo '</optgroup>';
         echo '</select>';
+
+        echo '<p class="description">Choose to force or not a different language into your Facebook embeds.</p>';
     }
 
     /**
