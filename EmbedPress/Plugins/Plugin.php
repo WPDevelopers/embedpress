@@ -165,8 +165,10 @@ abstract class Plugin
     /**
      * Method called right after the settings form being validated but before saving the data into DB.
      *
-     * @param   array   Data after validation.
+     * @since   1.4.0
+     * @static
      *
+     * @param   array   Data after validation.
      * @return  void
      */
     public static function onAfterFormValidation(&$data)
@@ -295,6 +297,15 @@ abstract class Plugin
         return $links;
     }
 
+    /**
+     * Method that validates a license key.
+     *
+     * @since   1.4.0
+     * @access  protected
+     * @static
+     *
+     * @return  mixed
+     */
     protected static function validateLicenseKey($licenseKey)
     {
         $pluginSlug = EMBEDPRESS_PLG_NAME .':'. static::SLUG;
