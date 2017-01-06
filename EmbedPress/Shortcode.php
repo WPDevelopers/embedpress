@@ -105,12 +105,30 @@ class Shortcode
 
             // Identify what service provider the shortcode's link belongs to
             $serviceProvider = self::$oEmbedInstance->get_provider($content);
+            // Check if OEmbed was unable to detect the url service provider.
+            if (empty($serviceProvider)) {
+                // Attempt to do the same using Embera.
+                $emberaInstance = new Embera($emberaInstanceSettings);
+                // Add support to the user's custom service providers
+                $additionalServiceProviders = Core::getAdditionalServiceProviders();
+                if (!empty($additionalServiceProviders)) {
+                    foreach ($additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls) {
+                        self::addServiceProvider($serviceProviderClassName, $serviceProviderUrls, $emberaInstance);
+                    }
 
-            // Gather info about the shortcode's link
-            $urlData = self::$oEmbedInstance->fetch($serviceProvider, $content, $attributes);
+                    unset($serviceProviderUrls, $serviceProviderClassName);
+                }
+
+                // Attempt to fetch more info about the url-embed.
+                $urlData = $emberaInstance->getUrlInfo($content);
+            } else {
+                // Attempt to fetch more info about the url-embed.
+                $urlData = self::$oEmbedInstance->fetch($serviceProvider, $content, $attributes);
+            }
 
             $eventResults = apply_filters('embedpress:onBeforeEmbed', $urlData);
             if (empty($eventResults)) {
+                // EmbedPress seems unable to embed the url.
                 return $subject;
             }
 
@@ -177,16 +195,18 @@ class Shortcode
             }
 
             if (!$parsedContent) {
-                // If the embed couldn't be generated, we'll try to use Embera's API
-                $emberaInstance = new Embera($emberaInstanceSettings);
-                // Add support to the user's custom service providers
-                $additionalServiceProviders = Core::getAdditionalServiceProviders();
-                if (!empty($additionalServiceProviders)) {
-                    foreach ($additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls) {
-                        self::addServiceProvider($serviceProviderClassName, $serviceProviderUrls, $emberaInstance);
-                    }
+                if (!isset($emberaInstance)) {
+                    // If the embed couldn't be generated, we'll try to use Embera's API
+                    $emberaInstance = new Embera($emberaInstanceSettings);
+                    // Add support to the user's custom service providers
+                    $additionalServiceProviders = Core::getAdditionalServiceProviders();
+                    if (!empty($additionalServiceProviders)) {
+                        foreach ($additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls) {
+                            self::addServiceProvider($serviceProviderClassName, $serviceProviderUrls, $emberaInstance);
+                        }
 
-                    unset($serviceProviderUrls, $serviceProviderClassName);
+                        unset($serviceProviderUrls, $serviceProviderClassName);
+                    }
                 }
 
                 // Register the html template
