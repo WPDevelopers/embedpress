@@ -91,7 +91,7 @@ There're two ways to install EmbedPress plugin:
 
 == Changelog ==
 = 1.4.0 =
-Release Date: 2017-05-01
+Release Date: 2017-01-06
 
 * Added support to WordPress 4.7;
 * Added support to Embedpress own plugins;
