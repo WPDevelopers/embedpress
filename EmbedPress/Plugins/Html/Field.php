@@ -116,7 +116,7 @@ class Field
         $field->type = strtolower($field->type);
 
         if ($field->slug === "license_key") {
-            $value = @$options['license']['key'];
+            $value = isset($options['license']['key']) ? (string)$options['license']['key'] : "";
         } else {
             $value = isset($options[$field->slug]) ? $options[$field->slug] : (isset($field->default) ? $field->default : '');
         }
@@ -136,14 +136,15 @@ class Field
 
         $html = str_replace('{{slug}}', $params['pluginSlug'], $html);
         $html = str_replace('{{name}}', $field->slug, $html);
-        $html = str_replace('{{classes}}', implode(' ', (array)@$field->classes), $html);
-        $html = str_replace('{{placeholder}}', (string)@$field->placeholder, $html);
+        $html = str_replace('{{classes}}', implode(' ', (!empty($field->classes) ? (array)$field->classes : array())), $html);
+        $html = str_replace('{{placeholder}}', (!empty($field->placeholder) ? (string)$field->placeholder : ""), $html);
 
         $html .= wp_nonce_field("{$pluginSlug}:nonce", "{$pluginSlug}:nonce");
 
         if ($field->slug === "license_key") {
             $licenseStatusClass = "ep-label-danger";
-            switch (trim(strtoupper(@$options['license']['status']))) {
+            $currentLicenseStatus = isset($options['license']['status']) ? trim(strtoupper($options['license']['status'])) : "";
+            switch ($currentLicenseStatus) {
                 case '':
                     $licenseStatusMessage = "Missing license";
                     break;
@@ -176,7 +177,8 @@ class Field
             }
 
             $html .= '<br/><br/><strong>Status: <span class="'. $licenseStatusClass .'">'. __($licenseStatusMessage) .'</span>.</strong><br/><br/>';
-            if (@$options['license']['status'] !== 'valid') {
+
+            if (!(isset($options['license']['status']) && $options['license']['status'] === 'valid')) {
                 $html .= '<button type="submit" class="button-secondary">' . __('Activate License') . '</button> ';
                 $html .= '<a href="'. EMBEDPRESS_LICENSES_MORE_INFO_URL .'" target="_blank" class="ep-small-link ep-small-spacing" rel="noopener noreferrer" style="display: inline-block; margin-left: 20px;" title="'. __('Click here to read more about licenses.') .'">' . __('More information') . '</a>';
                 $html .= '<br/><br/>';

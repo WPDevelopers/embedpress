@@ -80,8 +80,10 @@ class Handler extends EndHandlerAbstract
      */
     public function doShortcodeReceivedViaAjax()
     {
+        $subject = isset($_POST['subject']) ? $_POST['subject'] : "";
+
         $response = array(
-            'data' => Shortcode::parseContent(@$_POST['subject'], true)
+            'data' => Shortcode::parseContent($subject, true)
         );
 
         header('Content-Type:application/json;charset=UTF-8');
@@ -99,8 +101,10 @@ class Handler extends EndHandlerAbstract
      */
     public function getUrlInfoViaAjax()
     {
+        $url = isset($_GET['url']) ? trim($_GET['url']) : "";
+
         $response = array(
-            'url'             => trim(@$_GET['url']),
+            'url'             => $url,
             'canBeResponsive' => false
         );
 

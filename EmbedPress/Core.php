@@ -276,7 +276,7 @@ class Core
             AutoLoader::register($pluginMeta->namespace, WP_PLUGIN_DIR .'/'. EMBEDPRESS_PLG_NAME .'-'. $pluginMeta->slug .'/'. $pluginMeta->name);
 
             $plugin = "{$pluginMeta->namespace}\Plugin";
-            if (!empty(@$plugin::SLUG)) {
+            if (\defined("{$plugin}::SLUG") && $plugin::SLUG !== null) {
                 self::$plugins[$pluginMeta->slug] = $pluginMeta->namespace;
 
                 $bsFilePath = $plugin::PATH . EMBEDPRESS_PLG_NAME .'-'. $plugin::SLUG .'.php';

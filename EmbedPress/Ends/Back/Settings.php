@@ -120,7 +120,7 @@ class Settings
      */
     public static function registerActions()
     {
-        $activeTab = strtolower(@$_GET['tab']);
+        $activeTab = isset($_GET['tab']) ? strtolower($_GET['tab']) : "";
         if ($activeTab !== "embedpress") {
             $action = "embedpress:{$activeTab}:settings:register";
         } else {
@@ -151,7 +151,7 @@ class Settings
      */
     public static function renderForm()
     {
-        $activeTab = strtolower(@$_GET['tab']);
+        $activeTab = isset($_GET['tab']) ? strtolower($_GET['tab']) : "";
         $settingsFieldsIdentifier = !empty($activeTab) ? "embedpress:{$activeTab}" : self::$sectionGroupIdentifier;
         $settingsSectionsIdentifier = !empty($activeTab) ? "embedpress:{$activeTab}" : self::$identifier;
         ?>
@@ -268,7 +268,7 @@ class Settings
         echo '</optgroup>';
         echo '</select>';
 
-        echo '<p class="description">Choose to force or not a different language into your Facebook embeds.</p>';
+        echo '<p class="description">Choose a different language for your Facebook embeds.</p>';
     }
 
     /**
