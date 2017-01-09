@@ -93,7 +93,8 @@ There're two ways to install EmbedPress plugin:
 = 1.4.2 =
 Release Date: 2017-01-09
 
-* Fixed the plugin activation in older PHP environments (>= 5.3.0).
+* Fixed the plugin activation in older PHP environments (>= 5.3.0);
+* Option description enhancements.
 
 = 1.4.1 =
 Release Date: 2017-01-06
