@@ -268,7 +268,7 @@ class Settings
         echo '</optgroup>';
         echo '</select>';
 
-        echo '<p class="description">Choose to force or not a different language into your Facebook embeds.</p>';
+        echo '<p class="description">Choose a different language for your Facebook embeds.</p>';
     }
 
     /**
