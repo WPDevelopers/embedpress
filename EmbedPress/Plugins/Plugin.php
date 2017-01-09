@@ -83,9 +83,11 @@ abstract class Plugin
 
             $options = static::getOptions();
 
+            $licenseKey = isset($options['license']['key']) ? (string)$options['license']['key'] : "";
+
             new Updater(EMBEDPRESS_LICENSES_API_URL, static::PATH . EMBEDPRESS_PLG_NAME .'-'. static::SLUG .'.php', array(
                 'version'   => static::VERSION,
-                'license'   => (string)@$options['license']['key'],
+                'license'   => $licenseKey,
                 'item_name' => "EmbedPress - ". static::NAME,
                 'author'    => "PressShack"
             ));
@@ -321,19 +323,22 @@ abstract class Plugin
             )
         ));
 
-        $errMessage = "";
         if (is_wp_error($response) || 200 !== wp_remote_retrieve_response_code($response)) {
-            $errMessage = (is_wp_error($response) && !empty($response->get_error_message())) ? $response->get_error_message() : __('An error occurred, please try again.');
-            return "";
+            $errMessage = $response->get_error_message();
+            if (is_wp_error($response) && !empty($errMessage)) {
+                return $errMessage;
+            } else {
+                return __('An error occurred. Please, try again.');
+            }
         } else {
             $licenseData = json_decode(wp_remote_retrieve_body($response));
             if (empty($licenseData) || !is_object($licenseData)) {
                 $licenseNewStatus = "invalid";
             } else {
-                if (@$licenseData->success === false) {
-                    $licenseNewStatus = !empty(@$licenseData->error) ? $licenseData->error : "invalid";
-                } else {
+                if (isset($licenseData->success) && $licenseData->success === true) {
                     $licenseNewStatus = "valid";
+                } else {
+                    $licenseNewStatus = isset($licenseData->error) && !empty($licenseData->error) ? $licenseData->error : "invalid";
                 }
             }
 

@@ -150,7 +150,7 @@ class Shortcode
                     'maps' => '/^Location:\s+(http[s]?:\/\/.+)$/i'
                 );
 
-                $service = strtolower(@$matches[1]);
+                $service = isset($matches[1]) ? strtolower($matches[1]) : null;
                 // No specific service was found in the url.
                 if (empty($service)) {
                     // Let's try to guess which service the original url belongs to.

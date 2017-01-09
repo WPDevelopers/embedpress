@@ -120,7 +120,7 @@ class Settings
      */
     public static function registerActions()
     {
-        $activeTab = strtolower(@$_GET['tab']);
+        $activeTab = isset($_GET['tab']) ? strtolower($_GET['tab']) : "";
         if ($activeTab !== "embedpress") {
             $action = "embedpress:{$activeTab}:settings:register";
         } else {
@@ -151,7 +151,7 @@ class Settings
      */
     public static function renderForm()
     {
-        $activeTab = strtolower(@$_GET['tab']);
+        $activeTab = isset($_GET['tab']) ? strtolower($_GET['tab']) : "";
         $settingsFieldsIdentifier = !empty($activeTab) ? "embedpress:{$activeTab}" : self::$sectionGroupIdentifier;
         $settingsSectionsIdentifier = !empty($activeTab) ? "embedpress:{$activeTab}" : self::$identifier;
         ?>
