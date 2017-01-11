@@ -9,13 +9,12 @@ EmbedPress follows the [Semantic Versioning 2.0.0](http://semver.org), which mea
 
 
 ## Steps to publish a new release:
-
-    1. [Update version on some files](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#1-updating-plugin-version);
-    2. [Update changelog](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#2-updating-changelog);
-    3. [Update branches](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#3-updating-branches);
-    4. [Update GitHub tags/releases](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#4-updating-github-tagsreleases);
-    5. [Generating a ready-to-install package](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#5-generating-a-ready-to-install-package);
-    6. [Push changes to SVN](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#6-pushing-changes-to-svn).
+1. [Update version on some files](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#1-updating-plugin-version);
+2. [Update changelog](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#2-updating-changelog);
+3. [Update branches](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#3-updating-branches);
+4. [Update GitHub tags/releases](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#4-updating-github-tagsreleases);
+5. [Generating a ready-to-install package](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#5-generating-a-ready-to-install-package);
+6. [Push changes to SVN](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#6-pushing-changes-to-svn).
 
 
 First of all, we must ensure that everything is already tested and working properly.
