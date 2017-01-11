@@ -1,6 +1,6 @@
 # Contributing
 
-## Pushing New Releases
+## Publishing New Releases
 
 EmbedPress follows the [Semantic Versioning 2.0.0](http://semver.org), which means that given a version number we have `MAJOR`.`MINOR`.`PATCH`. We should increment these when:
  1. `MAJOR` version when we make incompatible API changes;
@@ -9,12 +9,14 @@ EmbedPress follows the [Semantic Versioning 2.0.0](http://semver.org), which mea
 
 
 Steps to publish a new release:
+
     1. Update version on some files;
     2. Update changelog;
     3. Update branches;
     4. Update GitHub tags/releases;
     5. Generating a ready-to-install package;
     6. Push changes to SVN.
+
 
 First of all, we must ensure that everything is already tested and working properly.
  - Define the plugin's new version and changelog;
