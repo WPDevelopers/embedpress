@@ -8,14 +8,14 @@ EmbedPress follows the [Semantic Versioning 2.0.0](http://semver.org), which mea
  3. `PATCH` version when we make backwards-compatible bug fixes.
 
 
-Steps to publish a new release:
+## Steps to publish a new release:
 
-    1. Update version on some files;
-    2. Update changelog;
-    3. Update branches;
-    4. Update GitHub tags/releases;
-    5. Generating a ready-to-install package;
-    6. Push changes to SVN.
+    1. [Update version on some files](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#1-updating-plugin-version);
+    2. [Update changelog](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#2-updating-changelog);
+    3. [Update branches](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#3-updating-branches);
+    4. [Update GitHub tags/releases](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#4-updating-github-tagsreleases);
+    5. [Generating a ready-to-install package](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#5-generating-a-ready-to-install-package);
+    6. [Push changes to SVN](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#6-pushing-changes-to-svn).
 
 
 First of all, we must ensure that everything is already tested and working properly.
@@ -23,7 +23,7 @@ First of all, we must ensure that everything is already tested and working prope
 
 ### 1. Updating plugin version
 - Make sure that all changes were already pushed to `development` branch;
-- Define the new version;
+- Define the new [plugin version](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#publishing-new-releases);
 - Go to `/readme.txt` and look for the line/code below. Replace `x.x.x` with the new version.
     ```
     Stable tag: x.x.x
@@ -36,6 +36,7 @@ First of all, we must ensure that everything is already tested and working prope
     ```
     * Version:     x.x.x
     ```
+
 ### 2. Updating changelog
 All changelogs must follow the same format (using the Markdown syntax), which is:
 ```
