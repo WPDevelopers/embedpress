@@ -17,9 +17,6 @@ EmbedPress follows the [Semantic Versioning 2.0.0](http://semver.org), which mea
 6. [Push changes to SVN](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#6-pushing-changes-to-svn).
 
 
-First of all, we must ensure that everything is already tested and working properly.
- - Define the plugin's new version and changelog;
-
 ### 1. Updating plugin version
 - Make sure that all changes were already pushed to `development` branch;
 - Define the new [plugin version](https://github.com/OSTraining/EmbedPress/blob/development/CONTRIBUTING.md#publishing-new-releases);
