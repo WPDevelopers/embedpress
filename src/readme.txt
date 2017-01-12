@@ -81,7 +81,7 @@ EmbedPress supports these providers:
 - [Vimeo](http://pressshack.com/embedpress/docs/embed-vimeo-video-wordpress/) <em>(Videos)</em>
 - [Vine](http://pressshack.com/embedpress/docs/embed-vine-videos-wordpress/) <em>(Videos)</em>
 - [WordPress.tv](http://pressshack.com/embedpress/docs/embed-wordpress-tv-videos-wordpress/) <em>(Videos)</em>
-- [YouTube](http://pressshack.com/embedpress/docs/youtube-wordpress/) <em>(Videos)
+- [YouTube](http://pressshack.com/embedpress/docs/youtube-wordpress/) <em>(Videos)</em>
 
 == Installation ==
 There're two ways to install EmbedPress plugin:
