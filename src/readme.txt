@@ -14,7 +14,7 @@ The goal of EmbedPress is to embed ANYTHING in WordPress.
 
 We’re starting with Facebook, Google, UStream and more. All you need is the URL and you can embed media from over 40 more providers into your WordPress site!
 
-EmbedPress supports these providers:
+In addition to the default WordPress sources, EmbedPress supports these providers:
 
 - [23hq](http://pressshack.com/embedpress/docs/embed-23hq-photos-wordpress/) <em>(Images)</em>
 - [AmCharts](http://pressshack.com/embedpress/docs/embed-amcharts-wordpress/) <em>(Charts)</em>
