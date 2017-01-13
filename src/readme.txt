@@ -3,7 +3,7 @@ Contributors: PressShack
 Tags: 23hq, amcharts, animoto, bambuser, cacoo, chartblocks, chirbit, circuitlab, cloudup, clyp, collegehumor, coub, crowd ranking, daily mile, dailymotion, devianart, dipity, dotsub, facebook, flickr, funnyordie, gettyimages, github gist, google docs, google drawings, google maps, google sheets, google slides, huffduffer, hulu, imgur, infogram, instagram, issuu, kickstarter, meetup, mixcloud, mobypicture, nfb, photobucket, polldaddy, porfolium, reddit, release wire, reverbnation, roomshare, rutube, sapo videos, scribd, shortnote, shoudio, sketchfab, slideshare, smugmug, soundcloud, speaker deck, spotify, ted, tumblr, twitter, ustream, viddler, videojug, videopress, vimeo, vine, wordpress tv, youtube
 Requires at least: 4.0
 Tested up to: 4.7
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,43 +16,72 @@ We’re starting with Facebook, Google, UStream and more. All you need is the UR
 
 In addition to the default WordPress sources, EmbedPress supports these providers:
 
-- [23h](http://23hq.com/) <em>(Images)</em>
-- [AmCharts](http://live.amcharts.com/) <em>(Charts)</em>
-- [Bambuser](http://bambuser.com/) <em>(Videos)</em>
-- [Cacoo](http://cacoo.com/) <em>(Charts)</em>
-- [ChartBlocks](http://chartblocks.com/) <em>(Charts)</em>
-- [Chirbit](http://chirb.it/) <em>(Audios)</em>
-- [Cly](http://clyp.it/) <em>(Audios)</em>
-- [CircuitLab](https://www.circuitlab.com/) <em>(Charts)</em>
-- [Coub](http://coub.com/) <em>(Videos)</em>
-- [Crowd Ranking](http://crowdranking.com/) <em>(Polls)</em>
-- [Daily Mile](http://dailymile.com/) <em>(Activity)</em>
-- [Devianart](http://deviantart.com/) <em>(Images)</em>
-- [Dipity](http://www.dipity.com/) <em>(Timelines)</em>
-- [Dotsub](http://dotsub.com/) <em>(Videos)</em>
-- [Facebook](https://www.facebook.com/) <em>(Posts)</em>
-- [GettyImages](http://www.gettyimages.com/) <em>(Images)</em>
-- [Github Gist](https://gist.github.com/) <em>(Code)</em>
-- [Google Docs ](https://docs.google.com/) <em>(Documents)</em>
-- [Google Maps](https://www.google.com/maps) <em>(Maps)</em>
-- [Google Drawings](http://drawings.google.com) <em>(Drawings)</em>
-- [Google Sheets](https://www.google.com/sheets/) <em>(Spreadsheets)</em>
-- [Google Slides](https://google.com/slides) <em>(Presentation Slideshows)</em>
-- [HuffDuffer](http://huffduffer.com/) <em>(Audios)</em>
-- [Infogram](https://infogr.am/) <em>(Charts)</em>
-- [MobyPicture](http://mobypicture.com/) <em>(Image)</em>
-- [NFB](http://www.nfb.ca/) <em>(Videos)</em>
-- [Porfolium](https://portfolium.com/) <em>(Projects)</em>
-- [Release Wire](http://releasewire.com/) <em>(Press releases)</em>
-- [Roomshare](http://roomshare.jp/) <em>(Listings, in Japanese)</em>
-- [Sapo Videos](http://videos.sapo.pt/) <em>(Videos, in Spanish)</em>
-- [ShortNote](https://www.shortnote.jp/) <em>(Notes, in Japanese)</em>
-- [Rutube](https://rutube.ru/) <em>(Videos, in Russian)</em>
-- [Shoudio](http://shoudio.com/) <em>(Audios)</em>
-- [Sketchfab](http://sketchfab.com/) <em>(Drawings)</em>
-- [Ustream](http://ustream.tv/) <em>(Videos)</em>
-- [Viddler](http://www.viddler.com/) <em>(Videos)</em>
-- [VideoJug](http://www.videojug.com/) <em>(Videos)</em>
+- [23hq](http://pressshack.com/embedpress/docs/embed-23hq-photos-wordpress/) <em>(Images)</em>
+- [AmCharts](http://pressshack.com/embedpress/docs/embed-amcharts-wordpress/) <em>(Charts)</em>
+- [Animoto](http://pressshack.com/embedpress/docs/embed-animoto-videos-wordpress/) <em>(Videos)</em>
+- [Bambuser](http://pressshack.com/embedpress/docs/embed-bambuser-videos-wordpress/) <em>(Videos)</em>
+- [Cacoo](http://pressshack.com/embedpress/docs/embed-cacoo-charts-wordpress/) <em>(Charts)</em>
+- [ChartBlocks](http://pressshack.com/embedpress/docs/embed-chartblocks-charts-wordpress/) <em>(Charts)</em>
+- [Chirbit](http://pressshack.com/embedpress/docs/embed-chirbit-audio-wordpress/) <em>(Audio)</em>
+- [Clyp](http://pressshack.com/embedpress/docs/embed-clypit-audio-wordpress/) <em>(Audio)</em>
+- [CircuitLab](http://pressshack.com/embedpress/docs/embed-circuitlab-circuit-wordpress/) <em>(Charts)</em>
+- [Cloudup](http://pressshack.com/embedpress/docs/embed-cloudup-videos-images-or-audios-wordpress/) <em>(Videos, Galleries, Images)</em>
+- [College Humor](http://pressshack.com/embedpress/docs/embed-collegehumor-videos-wordpress/) <em>(Videos)</em>
+- [Coub](http://pressshack.com/embedpress/docs/embed-coub-videos-iwordpress/) <em>(Videos)</em>
+- [Crowd Raniking](http://pressshack.com/embedpress/docs/embed-crowdranking-polls-wordpress/) <em>(Videos)</em>
+- [Daily Mile](http://pressshack.com/embedpress/docs/embed-dailymile-activity-wordpress/) <em>(Activity)</em>
+- [Daily Motion](http://pressshack.com/embedpress/docs/embed-dailymotion-videos-wordpress/) <em>(Videos)</em>
+- [Deviantart](http://pressshack.com/embedpress/docs/embed-deviantart-image-wordpress/) <em>(Images)</em>
+- [Dotsub](http://pressshack.com/embedpress/docs/embed-dotsub-videos-wordpress/) <em>(Videos)</em>
+- [Facebook](http://pressshack.com/embedpress/docs/embed-facebook-posts-wordpress/) <em>(Posts)</em>
+- [Flickr](http://pressshack.com/embedpress/docs/embed-flickr-image-wordpress/) <em>(Images)</em>
+- [Funny or Die](http://pressshack.com/embedpress/docs/embed-funnyordie-videos-wordpress/) <em>(Videos)</em>
+- [GettyImages](http://pressshack.com/embedpress/docs/embed-getty-images-wordpress/) <em>(Images)</em>
+- [Github Gist](http://pressshack.com/embedpress/docs/embed-github-gist-snippets-wordpress/) <em>(Code)</em>
+- [Google Docs](http://pressshack.com/embedpress/docs/google-docs-embed-wordpress/) <em>(Documents)</em>
+- [Google Maps](http://pressshack.com/embedpress/docs/google-maps-embed-wordpress/) <em>(Maps)</em>
+- [Google Drawings](http://pressshack.com/embedpress/docs/google-drawings-embed-wordpress/) <em>(Drawings)</em>
+- [Google Sheets](http://pressshack.com/embedpress/docs/embed-google-sheets-wordpress/) <em>(Spreadsheets)</em>
+- [Google Slides](http://pressshack.com/embedpress/docs/embed-google-slides-wordpress/) <em>(Presentations)</em>
+- [HuffDuffer](http://pressshack.com/embedpress/docs/embed-huffduffer-audios-wordpress/) <em>(Audio)</em>
+- [Hulu](http://pressshack.com/embedpress/docs/embed-hulu-videos-wordpress/) <em>(Videos)</em>
+- [Imgur](http://pressshack.com/embedpress/docs/embed-imgur-images-wordpress/) <em>(Videos)</em>
+- [Infogram](http://pressshack.com/embedpress/docs/embed-infogram-charts-wordpress/) <em>(Charts)</em>
+- [Instagram](http://pressshack.com/embedpress/docs/embed-instagram-wordpress/) <em>(Images)</em>
+- [Issuu](http://pressshack.com/embedpress/docs/embed-issuu-documents-wordpress/) <em>(Documents)</em>
+- [Kickstarter](http://pressshack.com/embedpress/docs/embed-kickstarter-videos-wordpress/) <em>(Videos)</em>
+- [Meetup](http://pressshack.com/embedpress/docs/embed-meetup-groups-events-wordpress/) <em>(Groups, Events)</em>
+- [Mixcloud](http://pressshack.com/embedpress/docs/embed-mixcloud-audio-wordpress/) <em>(Audio)</em>
+- [MobyPicture](http://pressshack.com/embedpress/docs/embed-mobypicture-photos-wordpress/) <em>(Image)</em>
+- [NFB](http://pressshack.com/embedpress/docs/embed-nfb-videos-wordpress/) <em>(Videos)</em>
+- [PhotoBucket](http://pressshack.com/embedpress/docs/embed-photobucket-images-wordpress/) <em>(Images)</em>
+- [PollDaddy](http://pressshack.com/embedpress/docs/polldaddy-embed-wordpress/) <em>(Polls, Surveys, Quizzes)</em>
+- [Porfolium](http://pressshack.com/embedpress/docs/embed-portfolium-projects-wordpress/) <em>(Projects)</em>
+- [Reddit](http://pressshack.com/embedpress/docs/embed-reddit-post-wordpress/) <em>(Posts, Comments)</em>
+- [ReleaseWire](http://pressshack.com/embedpress/docs/embed-releasewire-press-releases-wordpress/) <em>(Press releases)</em>
+- [ReverbNation](http://pressshack.com/embedpress/docs/embed-reverbnation-audio-wordpress/) <em>(Audio)</em>
+- [RoomShare](http://pressshack.com/embedpress/docs/embed-roomshare-listings-wordpress/) <em>(Listings in Japanese)</em>
+- [RuTube](http://pressshack.com/embedpress/docs/embed-rutube-videos-wordpress/) (Videos in Russian)</em>
+- [Sapo Videos](http://pressshack.com/embedpress/docs/embed-sapo-videos-wordpress/) <em>(Videos in Spanish)</em>
+- [Scribd](http://pressshack.com/embedpress/docs/embed-scribd-document-wordpress/) <em>(Documents)</em>
+- [Shoudio](http://pressshack.com/embedpress/docs/embed-shoudio-audios-wordpress/) <em>(Audio)</em>
+- [ShortNote](http://pressshack.com/embedpress/docs/embed-shortnote-notes-wordpress/) <em>(Notes in Japanese)</em>
+- [Sketchfab](http://pressshack.com/embedpress/docs/embed-sketchfab-drawings-wordpress/) <em>(Drawings)</em>
+- [SlideShare](http://pressshack.com/embedpress/docs/embed-slideshare-presentations-wordpress/) <em>(Presentations)</em>
+- [SmugMug](http://pressshack.com/embedpress/docs/embed-smugmug-images-wordpress/) <em>(Images)</em>
+- [SoundCloud](http://pressshack.com/embedpress/docs/embed-soundcloud-audio-wordpress/) <em>(Audio)</em>
+- [SpeakerDeck](http://pressshack.com/embedpress/docs/embed-speakerdeck-presentations-wordpress/) <em>(Presentations)</em>
+- [Spotify](http://pressshack.com/embedpress/docs/embed-spotify-audios-wordpress/) <em>(Audio)</em>
+- [TED](http://pressshack.com/embedpress/docs/embed-ted-videos-wordpress/) <em>(Videos)</em>
+- [Twitter](http://pressshack.com/embedpress/docs/embed-twitter-tweets-collections-moments-wordpress/) <em>(Tweets, Collections, Moments)</em>
+- [Ustream](http://pressshack.com/embedpress/docs/embed-ustream-videos-wordpress/) <em>(Videos)</em>
+- [Viddler](http://pressshack.com/embedpress/docs/embed-viddler-videos-wordpress/) <em>(Videos)</em>
+- [VideoJug](http://pressshack.com/embedpress/docs/embed-videojug-videos-wordpress/) <em>(Videos)</em>
+- [VideoPress](http://pressshack.com/embedpress/docs/embed-videopress-videos-wordpress/) <em>(Videos)</em>
+- [Vimeo](http://pressshack.com/embedpress/docs/embed-vimeo-video-wordpress/) <em>(Videos)</em>
+- [Vine](http://pressshack.com/embedpress/docs/embed-vine-videos-wordpress/) <em>(Videos)</em>
+- [WordPress.tv](http://pressshack.com/embedpress/docs/embed-wordpress-tv-videos-wordpress/) <em>(Videos)</em>
+- [YouTube](http://pressshack.com/embedpress/docs/youtube-wordpress/) <em>(Videos)</em>
 
 == Installation ==
 There're two ways to install EmbedPress plugin:
@@ -90,6 +119,13 @@ There're two ways to install EmbedPress plugin:
 `
 
 == Changelog ==
+= 1.4.3 =
+Release Date: 2017-01-13
+
+* Text fixes and enhancements;
+* Updated plugins url;
+* Updated list of supported providers.
+
 = 1.4.2 =
 Release Date: 2017-01-09
 

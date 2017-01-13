@@ -20,7 +20,7 @@ if (!defined('EMBEDPRESS_PLG_NAME')) {
 }
 
 if (!defined('EMBEDPRESS_PLG_VERSION')) {
-    define('EMBEDPRESS_PLG_VERSION', "1.4.2");
+    define('EMBEDPRESS_PLG_VERSION', "1.4.3");
 }
 
 if (!defined('EMBEDPRESS_PATH_BASE')) {
@@ -52,11 +52,11 @@ if (!defined('EMBEDPRESS_SHORTCODE')) {
 }
 
 if (!defined('EMBEDPRESS_LICENSES_API_HOST')) {
-    define('EMBEDPRESS_LICENSES_API_HOST', "pressshack.staging.wpengine.com");
+    define('EMBEDPRESS_LICENSES_API_HOST', "pressshack.com");
 }
 
 if (!defined('EMBEDPRESS_LICENSES_API_URL')) {
-    define('EMBEDPRESS_LICENSES_API_URL', "http://pressshack.staging.wpengine.com");
+    define('EMBEDPRESS_LICENSES_API_URL', "http://pressshack.com");
 }
 
 if (!defined('EMBEDPRESS_LICENSES_MORE_INFO_URL')) {
