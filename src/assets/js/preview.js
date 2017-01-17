@@ -1124,7 +1124,9 @@
 
                                             var previewWrapperOlderSibling = previewWrapper.prev();
                                             if (previewWrapperOlderSibling && previewWrapperOlderSibling.prop('tagName') && previewWrapperOlderSibling.prop('tagName').toUpperCase() === "P" && !previewWrapperOlderSibling.html().replace(/\&nbsp\;/i, '').length) {
-                                                previewWrapperOlderSibling.html('&nbsp;<br>');
+                                                if (previewWrapperOlderSibling.prev().prop('tagName')) {
+                                                    previewWrapperOlderSibling.remove();
+                                                }
                                             }
 
                                             var previewWrapperYoungerSibling = previewWrapper.next();
