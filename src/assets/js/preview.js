@@ -1313,7 +1313,7 @@
              * @return void
              */
             self.onPaste = function(e, b) {
-                var urlPatternRegex = new RegExp(/((https?):\/\/)?([w|W]{3}\.)+[a-zA-Z0-9\-\.]{3,}\.[a-zA-Z]{2,}(\.[a-zA-Z]{2,})?/);
+                var urlPatternRegex = new RegExp(/(https?):\/\/([w]{3}\.)?.+?(?:\s|$)/i);
 
                 var event = null;
                 if (e.preventDefault) {
@@ -1333,18 +1333,19 @@
                     // Check if there's a url into `line`.
                     if (line.match(urlPatternRegex)) {
                         // Split the current line across its space-characters to isolate the url.
-                        let termsList = line.trim().split(/\s+/g);
+                        let termsList = line.trim().split(/\s+/);
                         termsList = termsList.map(function(term, termIndex) {
                             // Check if the term into the current line is a url.
-                            if (term.match(urlPatternRegex)) {
+                            var match = term.match(urlPatternRegex);
+                            if (match) {
                                 // Isolates that url from the rest of the content.
-                                return `</p><p>${term}</p><p>`;
+                                return `</p><p>${match[0]}</p><p>`;
                             }
 
                             return term;
                         });
 
-                        line = termsList.join('');
+                        line = termsList.join(' ');
                     }
 
                     return `${line}<br>`;
