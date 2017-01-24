@@ -1124,15 +1124,16 @@
 
                                             var previewWrapperOlderSibling = previewWrapper.prev();
                                             if (previewWrapperOlderSibling && previewWrapperOlderSibling.prop('tagName') && previewWrapperOlderSibling.prop('tagName').toUpperCase() === "P" && !previewWrapperOlderSibling.html().replace(/\&nbsp\;/i, '').length) {
-                                                if (previewWrapperOlderSibling.prev().prop('tagName')) {
-                                                    previewWrapperOlderSibling.remove();
-                                                }
+                                                previewWrapperOlderSibling.remove();
                                             }
 
                                             var previewWrapperYoungerSibling = previewWrapper.next();
                                             if (previewWrapperYoungerSibling && previewWrapperYoungerSibling.length && previewWrapperYoungerSibling.prop('tagName').toUpperCase() === "P") {
                                                 if (!previewWrapperYoungerSibling.next().length && !previewWrapperYoungerSibling.html().replace(/\&nbsp\;/i, '').length) {
+                                                    previewWrapperYoungerSibling.remove();
                                                     $('<p>&nbsp;</p>').insertAfter(previewWrapper);
+                                                } else {
+                                                    previewWrapperYoungerSibling.remove();
                                                 }
                                             } else {
                                                 $('<p>&nbsp;</p>').insertAfter(previewWrapper);
