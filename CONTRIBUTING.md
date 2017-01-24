@@ -1,5 +1,7 @@
 # Contributing
 
+*Avoid sending detailed commits to the SVN Repo!* - Use the GIT repository to keep the detailed history and send to SVN only the "release" commit.
+
 ## Publishing New Releases
 
 EmbedPress follows the [Semantic Versioning 2.0.0](http://semver.org), which means that given a version number we have `MAJOR`.`MINOR`.`PATCH`. We should increment these when:

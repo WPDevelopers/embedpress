@@ -1074,9 +1074,9 @@
                     $(doc).on('mouseout', '.embedpress_wrapper', self.onMouseOut);
                     $(doc).on('mousedown', '.embedpress_wrapper > .embedpress_controller_panel', self.cancelEvent);
                     doc = null;
-
                     // Add the node filter that will convert the url into the preview box for the embed code
                     // @todo: Recognize <a> tags as well
+
                     self.editor.parser.addNodeFilter('#text', function addNodeFilterIntoParser(nodes, arg) {
                         self.each(nodes, function eachNodeInParser(node) {
                             var subject = node.value.trim();
@@ -1305,55 +1305,57 @@
             };
 
             /**
-             * Function called on paste event in the editor
+             * Callback triggered by paste events. Receives two arguments due to compatibility with JCE and TinyMCE that handles
+             * this event slightly different from each other.
              *
-             * @param  object e The event
+             * @param   mixed - Can be either the Editor or Event
+             * @param   mixed - Can be either the Editor or Event
+             *
              * @return void
              */
             self.onPaste = function(e, b) {
-                var event = null;
+                var urlPatternRegex = new RegExp(/(https?):\/\/([w]{3}\.)?.+?(?:\s|$)/i);
 
-                // Prevent default paste behavior. We have 2 arguments because the difference between JCE and TinyMCE.
-                // Sometimes, the argument e is the editor, instead of the event.
+                var event = null;
                 if (e.preventDefault) {
                     event = e;
                 } else {
                     event = b;
                 }
 
-                // Check for clipboard data in various places for cross-browser compatibility and get its data as text.
-                var content = ((event.originalEvent || event).clipboardData || window.clipboardData).getData('Text');
+                event.preventDefault();
 
-                // Check if the pasted content has a recognized embed url pattern
-                var patterns = self.getProvidersURLPatterns();
+                // Check for clipboard data in various places for cross-browser compatibility an get its data as text.
+                var rawContent = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
 
-                (function tryToMatchContentAgainstUrlPatternWithIndex(urlPatternIndex) {
-                    if (urlPatternIndex < content.length) {
-                        var urlPattern = patterns[urlPatternIndex];
+                // Split the pasted content into separated lines.
+                var contentLines = rawContent.split(/\n/g) || [];
+                contentLines = contentLines.map(function(line, itemIndex) {
+                    // Check if there's a url into `line`.
+                    if (line.match(urlPatternRegex)) {
+                        // Split the current line across its space-characters to isolate the url.
+                        let termsList = line.trim().split(/\s+/);
+                        termsList = termsList.map(function(term, termIndex) {
+                            // Check if the term into the current line is a url.
+                            var match = term.match(urlPatternRegex);
+                            if (match) {
+                                // Isolates that url from the rest of the content.
+                                return `</p><p>${match[0]}</p><p>`;
+                            }
 
-                        var urlPatternRegex = new RegExp(urlPattern);
-                        var matches = content.match(urlPatternRegex) || null;
+                            return term;
+                        });
 
-                        // Check if content matches the url pattern.
-                        if (matches && matches !== null && !!matches.length) {
-                            // Cancel the default behavior.
-                            event.preventDefault();
-                            event.stopPropagation();
-
-                            // Remove "www." subdomain from Slideshare.net urls that was causing bugs on TinyMCE.
-                            content = content.replace(/www\.slideshare\.net\//i, 'slideshare.net/');
-
-                            // Let TinyMCE do the heavy lifting for inserting that content into the self.editor.
-                            // We cancel the default behavior and insert the embed-content using a command to trigger the node change and the parser.
-                            self.editor.execCommand('mceInsertContent', false, content);
-
-                            self.configureWrappers();
-                        } else {
-                            // No match. So we move on to check the next url pattern.
-                            tryToMatchContentAgainstUrlPatternWithIndex(urlPatternIndex + 1);
-                        }
+                        line = termsList.join(' ');
                     }
-                })(0);
+
+                    return `${line}<br>`;
+                });
+
+                var content = `<p>${contentLines.join('')}</p>`;
+
+                // Insert the new content into the editor.
+                self.editor.execCommand('mceInsertContent', false, content);
             };
 
             /**
