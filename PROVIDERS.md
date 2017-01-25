@@ -37,3 +37,4 @@ In addition to the [default WordPress sources](https://codex.wordpress.org/Embed
 - Ustream (Videos)
 - Viddler (Videos)
 - VideoJug (Videos)
+- Twitch.tv (Videos, Chat)
