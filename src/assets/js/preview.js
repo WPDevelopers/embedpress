@@ -354,6 +354,8 @@
             self.getProvidersURLPatterns = function() {
                 // @todo: Add option to disable/enable the providers
                 var urlSchemes = [
+                        '*.twitch.tv/*',
+                        'twitch.tv/*',
                         // PollDaddy
                         '*.polldaddy.com/s/*',
                         '*.polldaddy.com/poll/*',
@@ -1325,6 +1327,8 @@
 
                 event.preventDefault();
 
+                var urlPatternsList = self.getProvidersURLPatterns();
+
                 // Check for clipboard data in various places for cross-browser compatibility an get its data as text.
                 var rawContent = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
 
@@ -1339,8 +1343,13 @@
                             // Check if the term into the current line is a url.
                             var match = term.match(urlPatternRegex);
                             if (match) {
-                                // Isolates that url from the rest of the content.
-                                return `</p><p>${match[0]}</p><p>`;
+                                for (var urlPatternIndex = 0; urlPatternIndex < urlPatternsList.length; urlPatternIndex++) {
+                                    // Isolates that url from the rest of the content if the service is supported.
+                                    var urlPattern = new RegExp(urlPatternsList[urlPatternIndex]);
+                                    if (urlPattern.test(term)) {
+                                        return `</p><p>${match[0]}</p><p>`;
+                                    }
+                                }
                             }
 
                             return term;
