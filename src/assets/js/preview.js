@@ -605,7 +605,11 @@
 
                         // Twitch.tv
                         '*.twitch.tv/*',
-                        'twitch.tv/*'
+                        'twitch.tv/*',
+
+                        // Giphy
+                        '*.giphy.com/gifs/*',
+                        'giphy.com/gifs/*'
                     ],
                     patterns = [];
 
