@@ -180,7 +180,7 @@ class Shortcode
 
             // Facebook is a special case. WordPress will try to embed them using OEmbed, but they always end up embedding the profile page, regardless
             // if the url was pointing to a photo, a post, etc. So, since Embera can embed only facebook-media/posts, we'll use it only for that.
-            if (in_array($urlData->provider_name, array('Facebook'))) {
+            if (isset($urlData->provider_name) && in_array($urlData->provider_name, array('Facebook'))) {
                 // Check if this is a Facebook profile url.
                 if (preg_match('/facebook\.com\/(?:[^\/]+?)\/?$/', $content, $match)) {
                     // Try to embed the url using WP's OSEmbed.
@@ -228,20 +228,22 @@ class Shortcode
                 $parsedContent = preg_replace('/((?:ose-)?\{provider_alias\})/i', "ose-". strtolower($urlData->provider_name), $parsedContent);
             }
 
-            // NFB seems to always return their embed code with all HTML entities into their applicable characters string.
-            if (strtoupper($urlData->provider_name) === "NATIONAL FILM BOARD OF CANADA") {
-                $parsedContent = html_entity_decode($parsedContent);
-            } else if (strtoupper($urlData->provider_name) === "FACEBOOK") {
-                $plgSettings = Core::getSettings();
+            if (isset($urlData->provider_name)) {
+                // NFB seems to always return their embed code with all HTML entities into their applicable characters string.
+                if (strtoupper($urlData->provider_name) === "NATIONAL FILM BOARD OF CANADA") {
+                    $parsedContent = html_entity_decode($parsedContent);
+                } else if (strtoupper($urlData->provider_name) === "FACEBOOK") {
+                    $plgSettings = Core::getSettings();
 
-                // Check if the user wants to force a certain language into Facebook embeds.
-                $locale = isset($plgSettings->fbLanguage) && !empty($plgSettings->fbLanguage) ? $plgSettings->fbLanguage : false;
-                if (!!$locale) {
-                    // Replace the automatically detected language by Facebook's API with the language chosen by the user.
-                    $parsedContent = preg_replace('/\/[a-z]{2}\_[a-z]{2}\/sdk\.js/i', "/{$locale}/sdk.js", $parsedContent);
+                    // Check if the user wants to force a certain language into Facebook embeds.
+                    $locale = isset($plgSettings->fbLanguage) && !empty($plgSettings->fbLanguage) ? $plgSettings->fbLanguage : false;
+                    if (!!$locale) {
+                        // Replace the automatically detected language by Facebook's API with the language chosen by the user.
+                        $parsedContent = preg_replace('/\/[a-z]{2}\_[a-z]{2}\/sdk\.js/i', "/{$locale}/sdk.js", $parsedContent);
+                    }
+
+                    unset($locale, $plgSettings);
                 }
-
-                unset($locale, $plgSettings);
             }
 
             unset($embedTemplate, $serviceProvider);
