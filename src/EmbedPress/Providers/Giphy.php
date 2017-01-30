@@ -25,7 +25,7 @@ class Giphy extends EmberaService
      *
      * @var     string
      */
-    private $urlRegexPattern = '~http[s]?:\/\/(?:www\.)?giphy\.com\/gifs\/([a-zA-Z0-9\-]+)~';
+    private $urlRegexPattern = '~http[s]?:\/\/(?:www\.)?giphy\.com\/gifs\/([a-zA-Z0-9\-]+)|i.giphy\.com\/([a-zA-Z0-9\-]+)(\.gif)~';
 
     /**
      * Method that verifies if the embed URL belongs to Giphy.
@@ -51,7 +51,7 @@ class Giphy extends EmberaService
         $url = $this->getUrl();
 
         if (preg_match($this->urlRegexPattern, $url, $matches)) {
-            $gifId = $matches[1];
+            $gifId = count($matches) > 3 && strtolower($matches[3]) === ".gif" ? $matches[2] : $matches[1];
 
             $html = ''.
                 '<a href="https://giphy.com/gifs/'. $gifId .'">'.

@@ -609,7 +609,8 @@
 
                         // Giphy
                         '*.giphy.com/gifs/*',
-                        'giphy.com/gifs/*'
+                        'giphy.com/gifs/*',
+                        'i.giphy.com/*'
                     ],
                     patterns = [];
 
