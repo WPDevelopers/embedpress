@@ -610,7 +610,8 @@
                         // Giphy
                         '*.giphy.com/gifs/*',
                         'giphy.com/gifs/*',
-                        'i.giphy.com/*'
+                        'i.giphy.com/*',
+                        'gph.is/*'
                     ],
                     patterns = [];
 
