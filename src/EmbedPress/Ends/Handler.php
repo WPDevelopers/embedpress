@@ -65,8 +65,9 @@ abstract class Handler
      *
      * @since       1.0.0
      * @abstract
+     * @static
      *
      * @return      void
      */
-    abstract public function enqueueStyles();
+    abstract public static function enqueueStyles();
 }

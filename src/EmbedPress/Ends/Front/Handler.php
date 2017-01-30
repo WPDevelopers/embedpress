@@ -32,10 +32,11 @@ class Handler extends EndHandlerAbstract
      * Method that register all stylesheets for the public area.
      *
      * @since   1.0.0
+     * @static
      *
      * @return  void
      */
-    public function enqueueStyles()
+    public static function enqueueStyles()
     {
         wp_enqueue_style(EMBEDPRESS_PLG_NAME, EMBEDPRESS_URL_ASSETS .'css/embedpress.css');
     }
