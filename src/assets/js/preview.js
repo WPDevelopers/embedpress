@@ -302,11 +302,15 @@
              * @return Object The editor
              */
             self.getEditor = function() {
-                if (window.tinymce.editors.length === 0) {
+                if (!window.tinymce || !window.tinymce.editors || window.tinymce.editors.length === 0) {
                     return null;
                 }
 
-                return window.tinymce.activeEditor;
+                if (!window.tinymce.editors.content) {
+                    return null;
+                }
+
+                return window.tinymce.editors.content;
             };
 
             /**
@@ -1315,6 +1319,7 @@
              *
              * @return void
              */
+
             self.onPaste = function(e, b) {
                 var urlPatternRegex = new RegExp(/(https?):\/\/([w]{3}\.)?.+?(?:\s|$)/i);
 
