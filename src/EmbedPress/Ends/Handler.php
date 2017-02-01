@@ -54,19 +54,20 @@ abstract class Handler
      * Method that register all scripts for the admin area.
      *
      * @since       1.0.0
-     * @abstract
      *
      * @return      void
      */
-    abstract public function enqueueScripts();
+    public function enqueueScripts()
+    {}
 
     /**
      * Method that register all stylesheets for the admin area.
      *
      * @since       1.0.0
-     * @abstract
+     * @static
      *
      * @return      void
      */
-    abstract public function enqueueStyles();
+    public static function enqueueStyles()
+    {}
 }
