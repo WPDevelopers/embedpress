@@ -89,6 +89,9 @@ class Disabler
         // Remove {@link WP_Embed::shortcode()} from execution.
         remove_shortcode(EMBEDPRESS_SHORTCODE);
 
+        // Attempts to embed all URLs in a post.
+        add_filter('the_content', array('\EmbedPress\Ends\Front\Handler', 'autoEmbedUrls'));
+
         wp_deregister_script('wp-embed');
 
         add_filter('http_request_host_is_external', array('\EmbedPress\Core', 'allowApiHost'), 10, 3);
