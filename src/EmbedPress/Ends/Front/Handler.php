@@ -19,16 +19,6 @@ use \EmbedPress\Ends\Handler as EndHandlerAbstract;
 class Handler extends EndHandlerAbstract
 {
     /**
-     * Method that register all scripts for the admin area.
-     *
-     * @since   1.0.0
-     *
-     * @return  void
-     */
-    public function enqueueScripts()
-    {}
-
-    /**
      * Method that register all stylesheets for the public area.
      *
      * @since   1.0.0
