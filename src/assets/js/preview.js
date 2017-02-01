@@ -354,8 +354,6 @@
             self.getProvidersURLPatterns = function() {
                 // @todo: Add option to disable/enable the providers
                 var urlSchemes = [
-                        '*.twitch.tv/*',
-                        'twitch.tv/*',
                         // PollDaddy
                         '*.polldaddy.com/s/*',
                         '*.polldaddy.com/poll/*',
@@ -603,7 +601,17 @@
                         'docs.google.com/document/*',
                         'docs.google.com/spreadsheets/*',
                         'docs.google.com/forms/*',
-                        'docs.google.com/drawings/*'
+                        'docs.google.com/drawings/*',
+
+                        // Twitch.tv
+                        '*.twitch.tv/*',
+                        'twitch.tv/*',
+
+                        // Giphy
+                        '*.giphy.com/gifs/*',
+                        'giphy.com/gifs/*',
+                        'i.giphy.com/*',
+                        'gph.is/*'
                     ],
                     patterns = [];
 
