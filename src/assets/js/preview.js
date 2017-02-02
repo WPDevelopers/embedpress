@@ -1139,6 +1139,12 @@
                                             var previewWrapperOlderSibling = previewWrapper.prev();
                                             if (previewWrapperOlderSibling && previewWrapperOlderSibling.prop('tagName') && previewWrapperOlderSibling.prop('tagName').toUpperCase() === "P" && !previewWrapperOlderSibling.html().replace(/\&nbsp\;/i, '').length) {
                                                 previewWrapperOlderSibling.remove();
+                                            } else {
+                                                if (previewWrapperOlderSibling.html().match(/<[\/]?br>/)) {
+                                                    if (!previewWrapperOlderSibling.prev().length) {
+                                                        previewWrapperOlderSibling.remove();
+                                                    }
+                                                }
                                             }
 
                                             var previewWrapperYoungerSibling = previewWrapper.next();
@@ -1146,8 +1152,6 @@
                                                 if (!previewWrapperYoungerSibling.next().length && !previewWrapperYoungerSibling.html().replace(/\&nbsp\;/i, '').length) {
                                                     previewWrapperYoungerSibling.remove();
                                                     $('<p>&nbsp;</p>').insertAfter(previewWrapper);
-                                                } else {
-                                                    previewWrapperYoungerSibling.remove();
                                                 }
                                             } else {
                                                 $('<p>&nbsp;</p>').insertAfter(previewWrapper);
@@ -1360,7 +1364,7 @@
                                     // Isolates that url from the rest of the content if the service is supported.
                                     var urlPattern = new RegExp(urlPatternsList[urlPatternIndex]);
                                     if (urlPattern.test(term)) {
-                                        return `</p><p>${match[0]}</p><p>`;
+                                        return '</p><p>'+ match[0] +'</p><p>';
                                     }
                                 }
                             }
@@ -1368,13 +1372,15 @@
                             return term;
                         });
 
+                        termsList[termsList.length - 1] = termsList[termsList.length - 1] + '<br>';
+
                         line = termsList.join(' ');
                     }
 
-                    return `${line}<br>`;
+                    return line;
                 });
 
-                var content = `<p>${contentLines.join('')}</p>`;
+                var content = '<p>'+ contentLines.join('') +'</p>';
 
                 // Insert the new content into the editor.
                 self.editor.execCommand('mceInsertContent', false, content);
