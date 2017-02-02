@@ -35,7 +35,7 @@ class Handler extends EndHandlerAbstract
     /**
      * Passes any unlinked URLs to EmbedPress\Shortcode::do_shortcode() for potential embedding.
      *
-     * @since   @todo
+     * @since   1.5.0
      * @static
      *
      * @param   string      $content    The content to be searched.
@@ -63,7 +63,7 @@ class Handler extends EndHandlerAbstract
     /**
      * Callback function for \EmbedPress\Ends\Front\Handler::autoEmbedUrls().
      *
-     * @since   @todo
+     * @since   1.5.0
      * @static
      *
      * @param   array       $match      A regex match array.

@@ -13,14 +13,14 @@ use \Embera\Adapters\Service as EmberaService;
  * @author      PressShack <help@pressshack.com>
  * @copyright   Copyright (C) 2017 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
- * @since       @todo
+ * @since       1.5.0
  */
 class Twitch extends EmberaService
 {
     /**
      * The regex which identifies Twitch.tv urls.
      *
-     * @since   @todo
+     * @since   1.5.0
      * @access  private
      *
      * @var     string
@@ -30,7 +30,7 @@ class Twitch extends EmberaService
     /**
      * Method that verifies if the embed URL belongs to Twitch.
      *
-     * @since   @todo
+     * @since   1.5.0
      *
      * @return  boolean
      */
@@ -42,7 +42,7 @@ class Twitch extends EmberaService
     /**
      * This method fakes an Oembed response.
      *
-     * @since   @todo
+     * @since   1.5.0
      *
      * @return  array
      */
