@@ -1,4 +1,14 @@
 == Changelog ==
+= 1.5.0 =
+Release Date: @todo
+
+* Added support to Giphy urls;
+* Added support to Twitch.tv streams and chat;
+* Fixed odd behavior with non-shortcoded embeddable urls;
+* Fixed bugs when having multiple editors in a single page;
+* Updated copyright info;
+* Code enhancements.
+
 = 1.4.4 =
 Release Date: 2017-01-24
 
