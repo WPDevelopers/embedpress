@@ -838,7 +838,7 @@
                                 iframe.allowTransparency = 'true';
                                 iframe.scrolling = 'no';
                                 iframe.class = "wpview-sandbox";
-                                iframe.style.width = (customAttributes.width ? customAttributes.width +'px' : '100%');
+                                iframe.style.width = (customAttributes.width ? customAttributes.width +'px' : '');
 
                                 dom.add(contentWrapper, iframe);
                                 var iframeWindow = iframe.contentWindow;
@@ -850,19 +850,19 @@
                                 var iframeDoc = iframeWindow.document;
 
                                 $(iframe).load(function() {
-                                    var maximumChecksAllowed = 100;
+                                    var maximumChecksAllowed = 8;
                                     var checkIndex = 0;
                                     var checkerInterval = setInterval(function() {
                                         if (checkIndex === maximumChecksAllowed) {
                                             clearInterval(checkerInterval);
 
                                             setTimeout(function() {
-                                                iframe.height = $(iframeDoc.body).height();
-                                                iframe.width = $(iframeDoc.body).width();
+                                                iframe.height = $(iframeWindow).height();
+                                                iframe.width = $(iframeWindow).width();
 
                                                 $wrapper.attr('width', iframe.width);
                                                 $wrapper.css('width', iframe.width + 'px');
-                                            }, 250);
+                                            }, 100);
                                         } else {
                                             if (customAttributes.height) {
                                                 iframe.height = customAttributes.height;
@@ -875,12 +875,12 @@
                                                 iframe.width = customAttributes.width;
                                                 iframe.style.width = customAttributes.width +'px';
                                             } else {
-                                                iframe.width = $(iframeDoc.body).width();
+                                                iframe.width = $(iframeDoc).width();
                                             }
 
                                             checkIndex++;
                                         }
-                                    }, 100);
+                                    }, 250);
                                 });
 
                                 iframeDoc.open();
@@ -907,7 +907,7 @@
                                                 '}'+
                                             '</style>'+
                                         '</head>'+
-                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'" style="width: 100%; display: inline-block;">'+
+                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'" style="display: inline-block;">'+
                                             $content.html() +
                                         '</body>'+
                                     '</html>'
