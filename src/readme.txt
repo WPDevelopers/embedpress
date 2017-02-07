@@ -1,6 +1,6 @@
 === EmbedPress ===
 Contributors: PressShack
-Tags: 23hq, amcharts, animoto, bambuser, cacoo, chartblocks, chirbit, circuitlab, cloudup, clyp, collegehumor, coub, crowd ranking, daily mile, dailymotion, devianart, dipity, dotsub, facebook, flickr, funnyordie, gettyimages, github gist, google docs, google drawings, google maps, google sheets, google slides, huffduffer, hulu, imgur, infogram, instagram, issuu, kickstarter, meetup, mixcloud, mobypicture, nfb, photobucket, polldaddy, porfolium, reddit, release wire, reverbnation, roomshare, rutube, sapo videos, scribd, shortnote, shoudio, sketchfab, slideshare, smugmug, soundcloud, speaker deck, spotify, ted, tumblr, twitter, ustream, viddler, videojug, videopress, vimeo, vine, wordpress tv, youtube, twitch tv
+Tags: 23hq, amcharts, animoto, bambuser, cacoo, chartblocks, chirbit, circuitlab, cloudup, clyp, collegehumor, coub, crowd ranking, daily mile, dailymotion, devianart, dipity, dotsub, facebook, flickr, funnyordie, gettyimages, giphy, github gist, google docs, google drawings, google maps, google sheets, google slides, huffduffer, hulu, imgur, infogram, instagram, issuu, kickstarter, meetup, mixcloud, mobypicture, nfb, photobucket, polldaddy, porfolium, reddit, release wire, reverbnation, roomshare, rutube, sapo videos, scribd, shortnote, shoudio, sketchfab, slideshare, smugmug, soundcloud, speaker deck, spotify, ted, tumblr, twitter, ustream, viddler, videojug, videopress, vimeo, vine, wordpress tv, youtube, twitch tv
 Requires at least: 4.0
 Tested up to: 4.7
 Stable tag: 1.5.0
@@ -37,6 +37,7 @@ In addition to the default WordPress sources, EmbedPress supports these provider
 - [Flickr](http://pressshack.com/embedpress/docs/embed-flickr-image-wordpress/) <em>(Images)</em>
 - [Funny or Die](http://pressshack.com/embedpress/docs/embed-funnyordie-videos-wordpress/) <em>(Videos)</em>
 - [GettyImages](http://pressshack.com/embedpress/docs/embed-getty-images-wordpress/) <em>(Images)</em>
+- [Giphy](http://pressshack.com/embedpress/docs/giphy/) <em>(Gifs)</em>
 - [Github Gist](http://pressshack.com/embedpress/docs/embed-github-gist-snippets-wordpress/) <em>(Code)</em>
 - [Google Docs](http://pressshack.com/embedpress/docs/google-docs-embed-wordpress/) <em>(Documents)</em>
 - [Google Maps](http://pressshack.com/embedpress/docs/google-maps-embed-wordpress/) <em>(Maps)</em>
