@@ -155,8 +155,14 @@ class Settings
         $settingsFieldsIdentifier = !empty($activeTab) ? "embedpress:{$activeTab}" : self::$sectionGroupIdentifier;
         $settingsSectionsIdentifier = !empty($activeTab) ? "embedpress:{$activeTab}" : self::$identifier;
         ?>
-        <div>
-            <h1>EmbedPress</h1>
+        <div id="embedpress-settings-wrapper">
+            <header>
+                <h1>EmbedPress <small><a href="//wordpress.org/plugins/embedpress/changelog/" target="_blank" rel="noopener noreferrer">v<?php echo EMBEDPRESS_PLG_VERSION; ?></a></small></h1>
+
+                <a href="//wordpress.org/plugins/embedpress" target="_blank" rel="noopener noreferrer" title="EmbedPress" class="presshack-logo">
+                    <img width="75" src="//pressshack.com/wp-content/uploads/2016/05/embedpress-150x150.png">
+                </a>
+            </header>
 
             <?php settings_errors(); ?>
 
@@ -166,12 +172,58 @@ class Settings
                 <?php do_action('embedpress:settings:render:tab', $activeTab); ?>
             </h2>
 
-            <form action="options.php" method="POST">
+            <form action="options.php" method="POST" style="padding-bottom: 20px;">
                 <?php settings_fields($settingsFieldsIdentifier); ?>
                 <?php do_settings_sections($settingsSectionsIdentifier); ?>
 
-                <input name="Submit" type="submit" class="button button-primary" value="Save changes" />
+                <button type="submit" class="button button-primary">Save changes</button>
             </form>
+
+            <hr>
+
+            <footer id="embedpress-settings-footer">
+                <div>
+                    <ul>
+                        <li>
+                            <a href="//pressshack.com/embedpress" target="_blank" rel="noopener noreferrer" title="About EmbedPress">About</a>
+                        </li>
+                        <li>
+                            <a href="//pressshack.com/embedpress/docs/sources-support" target="_blank" rel="noopener noreferrer" title="List of supported sources by EmbedPress">Supported sources</a>
+                        </li>
+                        <li>
+                            <a href="//pressshack.com/embedpress/docs" target="_blank" rel="noopener noreferrer" title="EmbedPress Documentation">Documentation</a>
+                        </li>
+                        <li>
+                            <a href="//pressshack.com/embedpress/youtube" target="_blank" rel="noopener noreferrer" title="EmbedPress Add-Ons">Add-Ons</a>
+                        </li>
+                        <li>
+                            <a href="//pressshack.com/contact" target="_blank" rel="noopener noreferrer" title="Contact the PressShack team">Contact</a>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            <a href="//twitter.com/pressshack" target="_blank" rel="noopener noreferrer">
+                                <span class="dashicons dashicons-twitter"></span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="//www.facebook.com/pressshack" target="_blank" rel="noopener noreferrer">
+                                <span class="dashicons dashicons-facebook"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div>
+                <p>
+                <small>Copyright &copy; 2017 Open Source Training LLC</small>
+                </p>
+                <p style="text-align: right; margin-top: 0;">
+                    <a href="//pressshack.com" target="_blank" rel="noopener noreferrer">
+                        <img width="100" src="//pressshack.com/wp-content/uploads/2016/11/logo-450.png" style="margin-top: 10px;">
+                    </a>
+                </p>
+                </div>
+            </footer>
         </div>
         <?php
     }
