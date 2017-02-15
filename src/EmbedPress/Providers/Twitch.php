@@ -6,7 +6,7 @@ use \Embera\Adapters\Service as EmberaService;
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
 /**
- * Entity responsible to support Twitch.tv embeds.
+ * Entity responsible to support Twitch embeds.
  *
  * @package     EmbedPress
  * @subpackage  EmbedPress/Providers
@@ -18,7 +18,7 @@ use \Embera\Adapters\Service as EmberaService;
 class Twitch extends EmberaService
 {
     /**
-     * The regex which identifies Twitch.tv urls.
+     * The regex which identifies Twitch URLs.
      *
      * @since   1.5.0
      * @access  private

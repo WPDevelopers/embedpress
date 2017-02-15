@@ -18,7 +18,7 @@ use \Embera\Adapters\Service as EmberaService;
 class Giphy extends EmberaService
 {
     /**
-     * The regex which identifies Giphy urls.
+     * The regex which identifies Giphy URLs.
      *
      * @since   1.5.0
      * @access  private
