@@ -6,7 +6,7 @@ defined('ABSPATH') or die("No direct script access allowed.");
  *
  * @package     EmbedPress
  * @author      PressShack <help@pressshack.com>
- * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
+ * @copyright   Copyright (C) 2017 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0.0
  */
@@ -20,7 +20,7 @@ if (!defined('EMBEDPRESS_PLG_NAME')) {
 }
 
 if (!defined('EMBEDPRESS_PLG_VERSION')) {
-    define('EMBEDPRESS_PLG_VERSION', "1.4.4");
+    define('EMBEDPRESS_PLG_VERSION', "1.5.0");
 }
 
 if (!defined('EMBEDPRESS_PATH_BASE')) {

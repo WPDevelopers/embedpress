@@ -13,7 +13,7 @@ use \EmbedPress\Ends\Front\Handler as EndHandlerPublic;
  *
  * @package     EmbedPress
  * @author      PressShack <help@pressshack.com>
- * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
+ * @copyright   Copyright (C) 2017 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0.0
  */
@@ -132,18 +132,14 @@ class Core
 
             add_filter('plugin_action_links_embedpress/embedpress.php', array('\EmbedPress\Core', 'handleActionLinks'), 10, 2);
 
-            // Load CSS
-            wp_register_style( 'embedpress-admin', plugins_url( 'embedpress/assets/css/admin.css' ) );
-            wp_enqueue_style( 'embedpress-admin' );
+            add_action('admin_enqueue_scripts', array('\EmbedPress\Ends\Back\Handler', 'enqueueStyles'));
 
             if ($plgSettings->enablePluginInAdmin) {
                 add_action('init', array('\EmbedPress\Disabler', 'run'), 1);
 
                 $plgHandlerAdminInstance = new EndHandlerAdmin($this->getPluginName(), $this->getPluginVersion());
 
-                $enqueueScriptsHookName = "admin_enqueue_scripts";
-                $this->loaderInstance->add_action($enqueueScriptsHookName, $plgHandlerAdminInstance, 'enqueueScripts');
-                $this->loaderInstance->add_action($enqueueScriptsHookName, $plgHandlerAdminInstance, 'enqueueStyles');
+                $this->loaderInstance->add_action('admin_enqueue_scripts', $plgHandlerAdminInstance, 'enqueueScripts');
 
                 $onAjaxCallbackName = "doShortcodeReceivedViaAjax";
                 $this->loaderInstance->add_action('wp_ajax_embedpress_do_ajax_request', $plgHandlerAdminInstance, $onAjaxCallbackName);
@@ -151,7 +147,7 @@ class Core
 
                 $this->loaderInstance->add_action('wp_ajax_embedpress_get_embed_url_info', $plgHandlerAdminInstance, "getUrlInfoViaAjax");
 
-                unset($onAjaxCallbackName, $enqueueScriptsHookName, $plgHandlerAdminInstance);
+                unset($onAjaxCallbackName, $plgHandlerAdminInstance);
             }
         } else {
             add_action('init', array('\EmbedPress\Disabler', 'run'), 1);

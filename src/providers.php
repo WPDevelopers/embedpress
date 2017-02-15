@@ -9,12 +9,14 @@
  *
  * @package     EmbedPress
  * @author      PressShack <help@pressshack.com>
- * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
+ * @copyright   Copyright (C) 2017 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0.0
  */
 
 $additionalServiceProviders = array(
     'GoogleMaps' => array("google.com", "google.com.*", "maps.google.com", "goo.gl"),
-    'GoogleDocs' => array("docs.google.com")
+    'GoogleDocs' => array("docs.google.com"),
+    'Twitch'     => array("twitch.tv"),
+    'Giphy'      => array("giphy.com", "i.giphy.com")
 );

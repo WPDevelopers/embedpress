@@ -10,7 +10,7 @@ use \EmbedPress\Shortcode;
  *
  * @package     EmbedPress
  * @author      PressShack <help@pressshack.com>
- * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
+ * @copyright   Copyright (C) 2017 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0.0
  */
@@ -88,6 +88,9 @@ class Disabler
 
         // Remove {@link WP_Embed::shortcode()} from execution.
         remove_shortcode(EMBEDPRESS_SHORTCODE);
+
+        // Attempts to embed all URLs in a post.
+        add_filter('the_content', array('\EmbedPress\Ends\Front\Handler', 'autoEmbedUrls'));
 
         wp_deregister_script('wp-embed');
 

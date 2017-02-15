@@ -1,7 +1,7 @@
 /**
  * @package     EmbedPress
  * @author      PressShack <help@pressshack.com>
- * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
+ * @copyright   Copyright (C) 2017 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0
  */
@@ -302,11 +302,15 @@
              * @return Object The editor
              */
             self.getEditor = function() {
-                if (window.tinymce.editors.length === 0) {
+                if (!window.tinymce || !window.tinymce.editors || window.tinymce.editors.length === 0) {
                     return null;
                 }
 
-                return window.tinymce.activeEditor;
+                if (!window.tinymce.editors.content) {
+                    return null;
+                }
+
+                return window.tinymce.editors.content;
             };
 
             /**
@@ -601,7 +605,17 @@
                         'docs.google.com/document/*',
                         'docs.google.com/spreadsheets/*',
                         'docs.google.com/forms/*',
-                        'docs.google.com/drawings/*'
+                        'docs.google.com/drawings/*',
+
+                        // Twitch.tv
+                        '*.twitch.tv/*',
+                        'twitch.tv/*',
+
+                        // Giphy
+                        '*.giphy.com/gifs/*',
+                        'giphy.com/gifs/*',
+                        'i.giphy.com/*',
+                        'gph.is/*'
                     ],
                     patterns = [];
 
@@ -824,7 +838,7 @@
                                 iframe.allowTransparency = 'true';
                                 iframe.scrolling = 'no';
                                 iframe.class = "wpview-sandbox";
-                                iframe.style.width = (customAttributes.width ? customAttributes.width +'px' : '100%');
+                                iframe.style.width = (customAttributes.width ? customAttributes.width +'px' : '');
 
                                 dom.add(contentWrapper, iframe);
                                 var iframeWindow = iframe.contentWindow;
@@ -836,19 +850,19 @@
                                 var iframeDoc = iframeWindow.document;
 
                                 $(iframe).load(function() {
-                                    var maximumChecksAllowed = 100;
+                                    var maximumChecksAllowed = 8;
                                     var checkIndex = 0;
                                     var checkerInterval = setInterval(function() {
                                         if (checkIndex === maximumChecksAllowed) {
                                             clearInterval(checkerInterval);
 
                                             setTimeout(function() {
-                                                iframe.height = $(iframeDoc.body).height();
-                                                iframe.width = $(iframeDoc.body).width();
+                                                iframe.height = $(iframeWindow).height();
+                                                iframe.width = $(iframeWindow).width();
 
                                                 $wrapper.attr('width', iframe.width);
                                                 $wrapper.css('width', iframe.width + 'px');
-                                            }, 250);
+                                            }, 100);
                                         } else {
                                             if (customAttributes.height) {
                                                 iframe.height = customAttributes.height;
@@ -861,12 +875,12 @@
                                                 iframe.width = customAttributes.width;
                                                 iframe.style.width = customAttributes.width +'px';
                                             } else {
-                                                iframe.width = $(iframeDoc.body).width();
+                                                iframe.width = $(iframeDoc).width();
                                             }
 
                                             checkIndex++;
                                         }
-                                    }, 100);
+                                    }, 250);
                                 });
 
                                 iframeDoc.open();
@@ -893,7 +907,7 @@
                                                 '}'+
                                             '</style>'+
                                         '</head>'+
-                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'" style="width: 100%; display: inline-block;">'+
+                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'" style="display: inline-block;">'+
                                             $content.html() +
                                         '</body>'+
                                     '</html>'
@@ -1125,6 +1139,12 @@
                                             var previewWrapperOlderSibling = previewWrapper.prev();
                                             if (previewWrapperOlderSibling && previewWrapperOlderSibling.prop('tagName') && previewWrapperOlderSibling.prop('tagName').toUpperCase() === "P" && !previewWrapperOlderSibling.html().replace(/\&nbsp\;/i, '').length) {
                                                 previewWrapperOlderSibling.remove();
+                                            } else {
+                                                if (previewWrapperOlderSibling.html().match(/<[\/]?br>/)) {
+                                                    if (!previewWrapperOlderSibling.prev().length) {
+                                                        previewWrapperOlderSibling.remove();
+                                                    }
+                                                }
                                             }
 
                                             var previewWrapperYoungerSibling = previewWrapper.next();
@@ -1132,8 +1152,6 @@
                                                 if (!previewWrapperYoungerSibling.next().length && !previewWrapperYoungerSibling.html().replace(/\&nbsp\;/i, '').length) {
                                                     previewWrapperYoungerSibling.remove();
                                                     $('<p>&nbsp;</p>').insertAfter(previewWrapper);
-                                                } else {
-                                                    previewWrapperYoungerSibling.remove();
                                                 }
                                             } else {
                                                 $('<p>&nbsp;</p>').insertAfter(previewWrapper);
@@ -1313,6 +1331,7 @@
              *
              * @return void
              */
+
             self.onPaste = function(e, b) {
                 var urlPatternRegex = new RegExp(/(https?):\/\/([w]{3}\.)?.+?(?:\s|$)/i);
 
@@ -1324,6 +1343,8 @@
                 }
 
                 event.preventDefault();
+
+                var urlPatternsList = self.getProvidersURLPatterns();
 
                 // Check for clipboard data in various places for cross-browser compatibility an get its data as text.
                 var rawContent = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
@@ -1339,20 +1360,27 @@
                             // Check if the term into the current line is a url.
                             var match = term.match(urlPatternRegex);
                             if (match) {
-                                // Isolates that url from the rest of the content.
-                                return `</p><p>${match[0]}</p><p>`;
+                                for (var urlPatternIndex = 0; urlPatternIndex < urlPatternsList.length; urlPatternIndex++) {
+                                    // Isolates that url from the rest of the content if the service is supported.
+                                    var urlPattern = new RegExp(urlPatternsList[urlPatternIndex]);
+                                    if (urlPattern.test(term)) {
+                                        return '</p><p>'+ match[0] +'</p><p>';
+                                    }
+                                }
                             }
 
                             return term;
                         });
 
+                        termsList[termsList.length - 1] = termsList[termsList.length - 1] + '<br>';
+
                         line = termsList.join(' ');
                     }
 
-                    return `${line}<br>`;
+                    return line;
                 });
 
-                var content = `<p>${contentLines.join('')}</p>`;
+                var content = '<p>'+ contentLines.join('') +'</p>';
 
                 // Insert the new content into the editor.
                 self.editor.execCommand('mceInsertContent', false, content);

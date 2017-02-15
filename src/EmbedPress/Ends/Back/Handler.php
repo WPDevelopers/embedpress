@@ -15,7 +15,7 @@ use \Embera\Embera;
  * @package     EmbedPress
  * @subpackage  EmbedPress/Ends/Back
  * @author      PressShack <help@pressshack.com>
- * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
+ * @copyright   Copyright (C) 2017 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0.0
  */
@@ -63,12 +63,13 @@ class Handler extends EndHandlerAbstract
      * Method that register all stylesheets for the admin area.
      *
      * @since   1.0.0
+     * @static
      *
      * @return  void
      */
-    public function enqueueStyles()
+    public static function enqueueStyles()
     {
-        global $wp_scripts;
+        wp_enqueue_style('embedpress-admin', plugins_url('embedpress/assets/css/admin.css'));
     }
 
     /**

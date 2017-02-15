@@ -9,7 +9,7 @@ namespace EmbedPress\Ends;
  * @package     EmbedPress
  * @subpackage  EmbedPress/Ends
  * @author      PressShack <help@pressshack.com>
- * @copyright   Copyright (C) 2016 Open Source Training, LLC. All rights reserved.
+ * @copyright   Copyright (C) 2017 Open Source Training, LLC. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0.0
  */
@@ -54,19 +54,20 @@ abstract class Handler
      * Method that register all scripts for the admin area.
      *
      * @since       1.0.0
-     * @abstract
      *
      * @return      void
      */
-    abstract public function enqueueScripts();
+    public function enqueueScripts()
+    {}
 
     /**
      * Method that register all stylesheets for the admin area.
      *
      * @since       1.0.0
-     * @abstract
+     * @static
      *
      * @return      void
      */
-    abstract public function enqueueStyles();
+    public static function enqueueStyles()
+    {}
 }

@@ -16,6 +16,7 @@ In addition to the [default WordPress sources](https://codex.wordpress.org/Embed
 - Dotsub (Videos)
 - Facebook (Posts)
 - GettyImages (Images)
+- Giphy (Gifs)
 - Github Gist (Code)
 - Google Docs (Documents)
 - Google Maps (Maps)
@@ -37,3 +38,4 @@ In addition to the [default WordPress sources](https://codex.wordpress.org/Embed
 - Ustream (Videos)
 - Viddler (Videos)
 - VideoJug (Videos)
+- Twitch (Videos, Chat)
