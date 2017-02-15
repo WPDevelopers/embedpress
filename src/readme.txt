@@ -37,7 +37,7 @@ In addition to the default WordPress sources, EmbedPress supports these provider
 - [Flickr](http://pressshack.com/embedpress/docs/embed-flickr-image-wordpress/) <em>(Images)</em>
 - [Funny or Die](http://pressshack.com/embedpress/docs/embed-funnyordie-videos-wordpress/) <em>(Videos)</em>
 - [GettyImages](http://pressshack.com/embedpress/docs/embed-getty-images-wordpress/) <em>(Images)</em>
-- [Giphy](http://pressshack.com/embedpress/docs/giphy/) <em>(Gifs)</em>
+- [Giphy](https://pressshack.com/embedpress/docs/embed-giphy-gifs-wordpress/) <em>(Gifs)</em>
 - [Github Gist](http://pressshack.com/embedpress/docs/embed-github-gist-snippets-wordpress/) <em>(Code)</em>
 - [Google Docs](http://pressshack.com/embedpress/docs/google-docs-embed-wordpress/) <em>(Documents)</em>
 - [Google Maps](http://pressshack.com/embedpress/docs/google-maps-embed-wordpress/) <em>(Maps)</em>
@@ -83,7 +83,7 @@ In addition to the default WordPress sources, EmbedPress supports these provider
 - [Vine](http://pressshack.com/embedpress/docs/embed-vine-videos-wordpress/) <em>(Videos)</em>
 - [WordPress.tv](http://pressshack.com/embedpress/docs/embed-wordpress-tv-videos-wordpress/) <em>(Videos)</em>
 - [YouTube](http://pressshack.com/embedpress/docs/youtube-wordpress/) <em>(Videos)</em>
-- [Twitch.tv](http://pressshack.com/embedpress/docs/twitch-tv/) <em>(Videos, Chat)</em>
+- [Twitch.tv](https://pressshack.com/embedpress/docs/embed-twitch-streams-chat/) <em>(Videos, Chat)</em>
 
 == Installation ==
 There're two ways to install EmbedPress plugin:
