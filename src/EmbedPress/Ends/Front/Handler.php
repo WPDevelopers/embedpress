@@ -48,7 +48,7 @@ class Handler extends EndHandlerAbstract
         $content = wp_replace_in_html_tags($content, array("\n" => '<!-- embedpress-line-break -->'));
 
         if (preg_match('#(^|\s|>)https?://#i', $content)) {
-            $callbackFingerprint = array(self, 'autoEmbedUrlsCallback');
+            $callbackFingerprint = array('\EmbedPress\Ends\Front\Handler', 'autoEmbedUrlsCallback');
 
             // Find URLs on their own line.
             $content = preg_replace_callback('|^(\s*)(https?://[^\s<>"]+)(\s*)$|im', $callbackFingerprint, $content);
