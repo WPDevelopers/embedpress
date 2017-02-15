@@ -122,13 +122,14 @@ There're two ways to install EmbedPress plugin:
 
 == Changelog ==
 = 1.5.0 =
-Release Date: @todo
+Release Date: 2017-02-15
 
-* Added support to Giphy urls;
-* Added support to Twitch.tv streams and chat;
-* Fixed odd behavior with non-shortcoded embeddable urls;
+* Added support to embed Giphy URLs;
+* Added support to embed Twitch streams & chat URLs;
+* Fixed odd behavior with non-shortcoded embeddable URLs;
 * Fixed bugs when having multiple editors in a single page;
 * Updated copyright info;
+* Updated Settings page layout;
 * Code enhancements.
 
 = 1.4.4 =
