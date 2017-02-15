@@ -74,6 +74,7 @@ In addition to the default WordPress sources, EmbedPress supports these provider
 - [SpeakerDeck](http://pressshack.com/embedpress/docs/embed-speakerdeck-presentations-wordpress/) <em>(Presentations)</em>
 - [Spotify](http://pressshack.com/embedpress/docs/embed-spotify-audios-wordpress/) <em>(Audio)</em>
 - [TED](http://pressshack.com/embedpress/docs/embed-ted-videos-wordpress/) <em>(Videos)</em>
+- [Twitch](https://pressshack.com/embedpress/docs/embed-twitch-streams-chat/) <em>(Videos, Chat)</em>
 - [Twitter](http://pressshack.com/embedpress/docs/embed-twitter-tweets-collections-moments-wordpress/) <em>(Tweets, Collections, Moments)</em>
 - [Ustream](http://pressshack.com/embedpress/docs/embed-ustream-videos-wordpress/) <em>(Videos)</em>
 - [Viddler](http://pressshack.com/embedpress/docs/embed-viddler-videos-wordpress/) <em>(Videos)</em>
@@ -83,7 +84,6 @@ In addition to the default WordPress sources, EmbedPress supports these provider
 - [Vine](http://pressshack.com/embedpress/docs/embed-vine-videos-wordpress/) <em>(Videos)</em>
 - [WordPress.tv](http://pressshack.com/embedpress/docs/embed-wordpress-tv-videos-wordpress/) <em>(Videos)</em>
 - [YouTube](http://pressshack.com/embedpress/docs/youtube-wordpress/) <em>(Videos)</em>
-- [Twitch](https://pressshack.com/embedpress/docs/embed-twitch-streams-chat/) <em>(Videos, Chat)</em>
 
 == Installation ==
 There're two ways to install EmbedPress plugin:
