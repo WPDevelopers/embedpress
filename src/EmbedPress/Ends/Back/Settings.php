@@ -182,7 +182,7 @@ class Settings
 
             <footer>
                 <p>
-                    <a href="//wordpress.org/support/plugin/embedpress/reviews/#new-post" target="_blank" rel="noopener noreferrer">If you like <strong>EmbedPress</strong> please leave us a @todo rating. Thank you!</a>
+                    <a href="//wordpress.org/support/plugin/embedpress/reviews/#new-post" target="_blank" rel="noopener noreferrer">If you like <strong>EmbedPress</strong> please leave us a <span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span> rating. Thank you!</a>
                 </p>
                 <hr>
                 <nav>
