@@ -202,8 +202,6 @@ class Settings
                         <li>
                             <a href="//pressshack.com/contact" target="_blank" rel="noopener noreferrer" title="Contact the PressShack team">Contact</a>
                         </li>
-                    </ul>
-                    <ul>
                         <li>
                             <a href="//twitter.com/pressshack" target="_blank" rel="noopener noreferrer">
                                 <span class="dashicons dashicons-twitter"></span>
