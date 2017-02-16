@@ -160,7 +160,7 @@ class Settings
                 <a href="//wordpress.org/plugins/embedpress" target="_blank" rel="noopener noreferrer" title="EmbedPress" class="presshack-logo">
                     <img width="35" src="//pressshack.com/wp-content/uploads/2016/05/embedpress-150x150.png">
                 </a>
-                <h1>EmbedPress <small>v<?php echo EMBEDPRESS_PLG_VERSION; ?></small></h1>
+                <h1>EmbedPress</h1>
             </header>
 
             <?php settings_errors(); ?>

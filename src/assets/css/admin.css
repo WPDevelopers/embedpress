@@ -71,11 +71,6 @@
     margin: .67em 0 15px .15em;
 }
 
-#embedpress-settings-wrapper > header h1 small {
-    font-size: .5em;
-    margin-left: .15em;
-    color: #666;
-}
 
 #embedpress-settings-wrapper > header a img {
     -webkit-transition: opacity 200ms ease-in-out;
