@@ -157,32 +157,35 @@ class Settings
         ?>
         <div id="embedpress-settings-wrapper">
             <header>
-                <h1>EmbedPress <small><a href="//wordpress.org/plugins/embedpress/changelog/" target="_blank" rel="noopener noreferrer">v<?php echo EMBEDPRESS_PLG_VERSION; ?></a></small></h1>
-
                 <a href="//wordpress.org/plugins/embedpress" target="_blank" rel="noopener noreferrer" title="EmbedPress" class="presshack-logo">
-                    <img width="75" src="//pressshack.com/wp-content/uploads/2016/05/embedpress-150x150.png">
+                    <img width="35" src="//pressshack.com/wp-content/uploads/2016/05/embedpress-150x150.png">
                 </a>
+                <h1>EmbedPress <small>v<?php echo EMBEDPRESS_PLG_VERSION; ?></small></h1>
             </header>
 
             <?php settings_errors(); ?>
 
-            <h2 class="nav-tab-wrapper">
-                <a href="?page=embedpress" class="nav-tab<?php echo $activeTab === 'embedpress' || empty($activeTab) ? ' nav-tab-active' : ''; ?> ">General settings</a>
+            <div>
+                <h2 class="nav-tab-wrapper">
+                    <a href="?page=embedpress" class="nav-tab<?php echo $activeTab === 'embedpress' || empty($activeTab) ? ' nav-tab-active' : ''; ?> ">General settings</a>
 
-                <?php do_action('embedpress:settings:render:tab', $activeTab); ?>
-            </h2>
+                    <?php do_action('embedpress:settings:render:tab', $activeTab); ?>
+                </h2>
 
-            <form action="options.php" method="POST" style="padding-bottom: 20px;">
-                <?php settings_fields($settingsFieldsIdentifier); ?>
-                <?php do_settings_sections($settingsSectionsIdentifier); ?>
+                <form action="options.php" method="POST" style="padding-bottom: 20px;">
+                    <?php settings_fields($settingsFieldsIdentifier); ?>
+                    <?php do_settings_sections($settingsSectionsIdentifier); ?>
 
-                <button type="submit" class="button button-primary">Save changes</button>
-            </form>
+                    <button type="submit" class="button button-primary">Save changes</button>
+                </form>
+            </div>
 
-            <hr>
-
-            <footer id="embedpress-settings-footer">
-                <div>
+            <footer>
+                <p>
+                    <a href="//wordpress.org/support/plugin/embedpress/reviews/#new-post" target="_blank" rel="noopener noreferrer">If you like <strong>EmbedPress</strong> please leave us a @todo rating. Thank you!</a>
+                </p>
+                <hr>
+                <nav>
                     <ul>
                         <li>
                             <a href="//pressshack.com/embedpress" target="_blank" rel="noopener noreferrer" title="About EmbedPress">About</a>
@@ -207,22 +210,17 @@ class Settings
                             </a>
                         </li>
                         <li>
-                            <a href="//www.facebook.com/pressshack" target="_blank" rel="noopener noreferrer">
+                            <a href="//facebook.com/pressshack" target="_blank" rel="noopener noreferrer">
                                 <span class="dashicons dashicons-facebook"></span>
                             </a>
                         </li>
                     </ul>
-                </div>
-                <div>
+                </nav>
                 <p>
-                <small>Copyright &copy; 2017 Open Source Training LLC</small>
-                </p>
-                <p style="text-align: right; margin-top: 0;">
                     <a href="//pressshack.com" target="_blank" rel="noopener noreferrer">
-                        <img width="100" src="//pressshack.com/wp-content/uploads/2016/11/logo-450.png" style="margin-top: 10px;">
+                        <img width="100" src="//pressshack.com/wp-content/uploads/2016/11/logo-450.png">
                     </a>
                 </p>
-                </div>
             </footer>
         </div>
         <?php
