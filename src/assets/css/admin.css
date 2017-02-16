@@ -71,14 +71,6 @@
     margin: .67em 0 15px .15em;
 }
 
-
-#embedpress-settings-wrapper > header a img {
-    -webkit-transition: opacity 200ms ease-in-out;
-    -moz-transition: opacity 200ms ease-in-out;
-    -o-transition: opacity 200ms ease-in-out;
-    transition: opacity 200ms ease-in-out;
-}
-
 #embedpress-settings-wrapper a:hover img {
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
     filter: alpha(opacity=80);
