@@ -134,6 +134,22 @@
     height: 16px;
 }
 
+#embedpress-settings-wrapper > footer .dashicons.dashicons-star-filled {
+    line-height: 18px;
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
+    color: #FFB300;
+    -webkit-transition: color 200ms ease-in-out;
+    -moz-transition: color 200ms ease-in-out;
+    -o-transition: color 200ms ease-in-out;
+    transition: color 200ms ease-in-out;
+}
+
+#embedpress-settings-wrapper > footer a:hover .dashicons.dashicons-star-filled {
+    color: #C58C07;
+}
+
 #embedpress-settings-wrapper > footer > nav ul {
     list-style: none;
 }
