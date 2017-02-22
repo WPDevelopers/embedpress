@@ -79,6 +79,9 @@ class Shortcode
 
             $content = preg_replace('/(\['. EMBEDPRESS_SHORTCODE .'(?:\]|.+?\])|\[\/'. EMBEDPRESS_SHORTCODE .'\])/i', "", $subject);
 
+            // Converts any special HTML entities back to characters.
+            $content = htmlspecialchars_decode($content);
+
             // Check if the WP_oEmbed class is loaded
             if (!self::$oEmbedInstance) {
                 require_once ABSPATH .'wp-includes/class-oembed.php';
