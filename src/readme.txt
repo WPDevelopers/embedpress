@@ -121,6 +121,12 @@ There're two ways to install EmbedPress plugin:
 `
 
 == Changelog ==
+= 1.5.1 =
+Release Date: @todo
+
+* Fixed some embeds not being rendered as they should due to invalid characters;
+* Tweaks on the plugin settings page.
+
 = 1.5.0 =
 Release Date: 2017-02-15
 
