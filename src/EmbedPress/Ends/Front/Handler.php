@@ -2,6 +2,7 @@
 namespace EmbedPress\Ends\Front;
 
 use \EmbedPress\Ends\Handler as EndHandlerAbstract;
+use \EmbedPress\Ends\Back\Handler as BackEndHandler;
 use \EmbedPress\Shortcode;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
@@ -74,5 +75,24 @@ class Handler extends EndHandlerAbstract
         $return = Shortcode::do_shortcode(array(), $match[2]);
 
         return $match[1] . $return . $match[3];
+    }
+
+    /**
+     * A callback called by the WP `the_editor` filter.
+     *
+     * @since   @todo
+     * @static
+     *
+     * @param   string      $editorHTML      The HTML which will be rendered as an editor, like TinyMCE.
+     *
+     * @return  string      The HTML which will be rendered as an editor, like TinyMCE
+     */
+    public static function renderPreviewBoxInEditors($editorHTML)
+    {
+        $backEndHandler = new BackEndHandler(EMBEDPRESS_PLG_NAME, EMBEDPRESS_PLG_VERSION);
+
+        $backEndHandler->enqueueScripts();
+
+        return $editorHTML;
     }
 }
