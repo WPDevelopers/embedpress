@@ -2,10 +2,10 @@
 = 1.6.0 =
 Release Date: @todo
 
-- Added support to preview embeds inside editors rendered in frontend;
-- Fixed some embeds not respecting custom dimensions;
-- Fixed some embeds not being rendered as they should in frontend due to invalid characters in the url;
-- Tweaks on the plugin settings page;
+* Added support to preview embeds inside editors rendered in frontend;
+* Fixed some embeds not respecting custom dimensions;
+* Fixed some embeds not being rendered as they should in frontend due to invalid characters in the url;
+* Tweaks on the plugin settings page;
 
 = 1.5.0 =
 Release Date: 2017-02-15
