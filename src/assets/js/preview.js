@@ -1073,8 +1073,6 @@
                 self.JSON   = tinymce.util.JSON;
                 self.Node   = tinymce.html.Node;
 
-                console.log(editorInstance);
-
                 function onFindEditorCallback() {
                     $(window.document.getElementsByTagName('head')[0]).append($('<link rel="stylesheet" type="text/css" href="' + (PLG_SYSTEM_ASSETS_CSS_PATH + '/vendor/bootstrap/bootstrap.min.css?v=' + self.params.versionUID) + '">'));
 
