@@ -841,7 +841,7 @@
                                 iframe.allowTransparency = 'true';
                                 iframe.scrolling = 'no';
                                 iframe.class = "wpview-sandbox";
-                                iframe.style.width = (customAttributes.width ? customAttributes.width +'px' : '');
+                                iframe.style.width = '100%';
 
                                 dom.add(contentWrapper, iframe);
                                 var iframeWindow = iframe.contentWindow;
@@ -860,25 +860,22 @@
                                             clearInterval(checkerInterval);
 
                                             setTimeout(function() {
-                                                iframe.height = $(iframeWindow).height();
-                                                iframe.width = $(iframeWindow).width();
-
-                                                $wrapper.attr('width', iframe.width);
-                                                $wrapper.css('width', iframe.width + 'px');
+                                                $wrapper.css('width', iframe.width);
+                                                $wrapper.css('height', iframe.height);
                                             }, 100);
                                         } else {
                                             if (customAttributes.height) {
                                                 iframe.height = customAttributes.height;
                                                 iframe.style.height = customAttributes.height +'px';
                                             } else {
-                                                iframe.height = iframeDoc.body.scrollHeight;
+                                                iframe.height = $('body', iframeDoc).height();
                                             }
 
                                             if (customAttributes.width) {
                                                 iframe.width = customAttributes.width;
                                                 iframe.style.width = customAttributes.width +'px';
                                             } else {
-                                                iframe.width = $(iframeDoc).width();
+                                                iframe.width = $('body', iframeDoc).width();
                                             }
 
                                             checkIndex++;
