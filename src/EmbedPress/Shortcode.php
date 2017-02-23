@@ -257,24 +257,44 @@ class Shortcode
                     $customWidth = (int)$emberaInstanceSettings['params']['width'];
                     $customHeight = (int)$emberaInstanceSettings['params']['height'];
                 } else {
-                    preg_match_all('/\<iframe\s+width="(\d+)"\s+height="(\d+)"/i', $parsedContent, $matches);
-                    $iframeWidth = (int)$matches[1][0];
-                    $iframeHeight = (int)$matches[2][0];
-                    $iframeRatio = ceil($iframeWidth / $iframeHeight);
-
-                    if (isset($emberaInstanceSettings['params']['width'])) {
-                        $customWidth = (int)$emberaInstanceSettings['params']['width'];
-                        $customHeight = ceil($customWidth / $iframeRatio);
-                    } else {
-                        $customHeight = (int)$emberaInstanceSettings['params']['height'];
-                        $customWidth = $iframeRatio * $customHeight;
+                    if (preg_match('~width="(\d+)"|width\s+:\s+(\d+)~i', $parsedContent, $matches)) {
+                        $iframeWidth = (int)$matches[1];
                     }
 
-                    unset($iframeRatio, $iframeHeight, $iframeWidth, $matches);
+                    if (preg_match('~height="(\d+)"|height\s+:\s+(\d+)~i', $parsedContent, $matches)) {
+                        $iframeHeight = (int)$matches[1];
+                    }
+
+                    if (isset($iframeWidth) && isset($iframeHeight) && $iframeWidth > 0 && $iframeHeight > 0) {
+                        $iframeRatio = ceil($iframeWidth / $iframeHeight);
+
+                        if (isset($emberaInstanceSettings['params']['width'])) {
+                            $customWidth = (int)$emberaInstanceSettings['params']['width'];
+                            $customHeight = ceil($customWidth / $iframeRatio);
+                        } else {
+                            $customHeight = (int)$emberaInstanceSettings['params']['height'];
+                            $customWidth = $iframeRatio * $customHeight;
+                        }
+                    }
                 }
 
-                $parsedContent = preg_replace('/\s+width\=\"(\d+)\"/i', ' width="'. $customWidth .'"', $parsedContent);
-                $parsedContent = preg_replace('/\s+height\=\"(\d+)\"/i', ' height="'. $customHeight .'"', $parsedContent);
+                if (isset($customWidth) && isset($customHeight)) {
+                    if (preg_match('~width="(\d+)"~i', $parsedContent)) {
+                        $parsedContent = preg_replace('~width="(\d+)"~i', 'width="'. $customWidth .'"', $parsedContent);
+                    }
+
+                    if (preg_match('~height="(\d+)"~i', $parsedContent)) {
+                        $parsedContent = preg_replace('~height="(\d+)"~i', 'height="'. $customHeight .'"', $parsedContent);
+                    }
+
+                    if (preg_match('~width\s+:\s+(\d+)~i', $parsedContent)) {
+                        $parsedContent = preg_replace('~width\s+:\s+(\d+)~i', 'width: '. $customWidth, $parseContent);
+                    }
+
+                    if (preg_match('~height\s+:\s+(\d+)~i', $parsedContent)) {
+                        $parsedContent = preg_replace('~height\s+:\s+(\d+)~i', 'height: '. $customHeight, $parseContent);
+                    }
+                }
             }
 
             if ($stripNewLine) {
