@@ -5,7 +5,6 @@
  * @license     GPLv2 or later
  * @since       1.0
  */
-
 (function($, String, $data, undefined) {
     "use strict";
 
@@ -191,6 +190,12 @@
             self.activeControllerPanel = null;
 
             /**
+             * A list containing all loaded editor instances on the page
+             * @type Array
+             */
+            self.loadedEditors = [];
+
+            /**
              * Init the plugin
              *
              * @param  object params Override the plugin's params
@@ -235,21 +240,21 @@
                 return text;
             };
 
-            self.loadAsyncDynamicJsCodeFromElement = function(subject, wrapper)
+            self.loadAsyncDynamicJsCodeFromElement = function(subject, wrapper, editorInstance)
             {
                 subject = $(subject);
                 if (subject.prop('tagName').toLowerCase() === "script") {
                     var scriptSrc = subject.attr('src') || null;
                     if (!scriptSrc) {
-                        self.addScriptDeclaration(wrapper, subject.html());
+                        self.addScriptDeclaration(wrapper, subject.html(), editorInstance);
                     } else {
-                        self.addScript(scriptSrc, null, wrapper);
+                        self.addScript(scriptSrc, null, wrapper, editorInstance);
                     }
                 } else {
                     var innerScriptsList = $('script', subject);
                     if (innerScriptsList.length > 0) {
                         $.each(innerScriptsList, function(innerScriptIndex, innerScript) {
-                            self.loadAsyncDynamicJsCodeFromElement(innerScript, wrapper);
+                            self.loadAsyncDynamicJsCodeFromElement(innerScript, wrapper, editorInstance);
                         });
                     }
                 }
@@ -265,18 +270,20 @@
                     // Wait until the editor is available
                     var interval = window.setInterval(
                         function() {
+                            var editorsFound = self.getEditors();
+                            if (editorsFound.length) {
+                                self.loadedEditors = editorsFound;
 
-                            // @todo: Support multiple editors
-                            self.editor = self.getEditor();
+                                for (var editorIndex = 0; editorIndex < self.loadedEditors.length; editorIndex++) {
+                                    self.onFindEditor(self.loadedEditors[editorIndex]);
+                                }
 
-                            if (self.editor !== null) {
                                 window.clearInterval(interval);
-                                interval = null;
 
-                                self.onFindEditor();
+                                return self.loadedEditors;
                             }
                         },
-                        200
+                        250
                     );
                 }
             };
@@ -301,16 +308,12 @@
              * Returns the editor
              * @return Object The editor
              */
-            self.getEditor = function() {
+            self.getEditors = function() {
                 if (!window.tinymce || !window.tinymce.editors || window.tinymce.editors.length === 0) {
-                    return null;
+                    return [];
                 }
 
-                if (!window.tinymce.editors.content) {
-                    return null;
-                }
-
-                return window.tinymce.editors.content;
+                return window.tinymce.editors || [];
             };
 
             /**
@@ -325,7 +328,7 @@
                 // Get the parsed content
                 $.ajax({
                     type: 'POST',
-                    url: "admin-ajax.php",
+                    url: "/wp-admin/admin-ajax.php",
                     data: {
                         action: "embedpress_do_ajax_request",
                         subject: content
@@ -336,8 +339,8 @@
                 });
             };
 
-            self.addStylesheet = function(url) {
-                var head = self.editor.getDoc().getElementsByTagName('head')[0];
+            self.addStylesheet = function(url, editorInstance) {
+                var head = editorInstance.getDoc().getElementsByTagName('head')[0];
 
                 var $style = $('<link rel="stylesheet" type="text/css" href="' + url + '">');
                 $style.appendTo(head);
@@ -626,8 +629,8 @@
                 return patterns;
             };
 
-            self.addScript = function(source, callback, wrapper) {
-                var doc = self.editor.getDoc();
+            self.addScript = function(source, callback, wrapper, editorInstance) {
+                var doc = editorInstance.getDoc();
 
                 if (typeof wrapper === 'undefined' || !wrapper) {
                     wrapper = $(doc.getElementsByTagName('head')[0]);
@@ -645,8 +648,8 @@
                 wrapper.append($script);
             };
 
-            self.addScriptDeclaration = function(wrapper, declaration) {
-                var doc = self.editor.getDoc(),
+            self.addScriptDeclaration = function(wrapper, declaration, editorInstance) {
+                var doc = editorInstance.getDoc(),
                     $script = $(doc.createElement('script'));
 
                 $(wrapper).append($script);
@@ -654,7 +657,7 @@
                 $script.text(declaration);
             };
 
-            self.addURLsPlaceholder = function(node, url) {
+            self.addURLsPlaceholder = function(node, url, editorInstance) {
                 var uid = self.makeId();
 
                 var wrapperClasses = ["embedpress_wrapper", "embedpress_placeholder", "wpview", "wpview-wrap"];
@@ -763,13 +766,13 @@
 
                 // Trigger the timeout which will load the content
                 window.setTimeout(function() {
-                    self.parseContentAsync(uid, url, customAttributes);
+                    self.parseContentAsync(uid, url, customAttributes, editorInstance);
                 }, 200);
 
                 return wrapper;
             };
 
-            self.parseContentAsync = function(uid, url, customAttributes) {
+            self.parseContentAsync = function(uid, url, customAttributes, editorInstance) {
                 customAttributes = typeof customAttributes === "undefined" ? {} : customAttributes;
 
                 url = self.decodeEmbedURLSpecialChars(url, true, customAttributes);
@@ -786,7 +789,7 @@
                 self.getParsedContent(url, function getParsedContentCallback(result) {
                     var embeddedContent = (typeof result.data === "object" ? result.data.embed : result.data).stripShortcode($data.EMBEDPRESS_SHORTCODE);
 
-                    var $wrapper = $(self.getElementInContentById('embedpress_wrapper_' + uid));
+                    var $wrapper = $(self.getElementInContentById('embedpress_wrapper_' + uid, editorInstance));
                     var wrapperParent = $($wrapper.parent());
 
                     // Check if $wrapper was rendered inside a <p> element.
@@ -824,21 +827,21 @@
                         var contentWrapper = $($content).clone();
                         contentWrapper.html('');
 
-                        var dom = self.editor.dom;
+                        var dom = editorInstance.dom;
 
                         $wrapper.removeClass('embedpress_placeholder');
 
                         $wrapper.append(contentWrapper);
 
                         setTimeout(function() {
-                            self.editor.undoManager.transact(function() {
-                                var iframe = self.editor.getDoc().createElement('iframe');
+                            editorInstance.undoManager.transact(function() {
+                                var iframe = editorInstance.getDoc().createElement('iframe');
                                 iframe.src = tinymce.Env.ie ? 'javascript:""' : '';
                                 iframe.frameBorder = '0';
                                 iframe.allowTransparency = 'true';
                                 iframe.scrolling = 'no';
                                 iframe.class = "wpview-sandbox";
-                                iframe.style.width = (customAttributes.width ? customAttributes.width +'px' : '');
+                                iframe.style.width = '100%';
 
                                 dom.add(contentWrapper, iframe);
                                 var iframeWindow = iframe.contentWindow;
@@ -857,25 +860,22 @@
                                             clearInterval(checkerInterval);
 
                                             setTimeout(function() {
-                                                iframe.height = $(iframeWindow).height();
-                                                iframe.width = $(iframeWindow).width();
-
-                                                $wrapper.attr('width', iframe.width);
-                                                $wrapper.css('width', iframe.width + 'px');
+                                                $wrapper.css('width', iframe.width);
+                                                $wrapper.css('height', iframe.height);
                                             }, 100);
                                         } else {
                                             if (customAttributes.height) {
                                                 iframe.height = customAttributes.height;
                                                 iframe.style.height = customAttributes.height +'px';
                                             } else {
-                                                iframe.height = iframeDoc.body.scrollHeight;
+                                                iframe.height = $('body', iframeDoc).height();
                                             }
 
                                             if (customAttributes.width) {
                                                 iframe.width = customAttributes.width;
                                                 iframe.style.width = customAttributes.width +'px';
                                             } else {
-                                                iframe.width = $(iframeDoc).width();
+                                                iframe.width = $('body', iframeDoc).width();
                                             }
 
                                             checkIndex++;
@@ -907,7 +907,7 @@
                                                 '}'+
                                             '</style>'+
                                         '</head>'+
-                                        '<body id="wpview-iframe-sandbox" class="'+ self.editor.getBody().className +'" style="display: inline-block;">'+
+                                        '<body id="wpview-iframe-sandbox" class="'+ editorInstance.getBody().className +'" style="display: inline-block;">'+
                                             $content.html() +
                                         '</body>'+
                                     '</html>'
@@ -918,7 +918,7 @@
                     } else {
                         $wrapper.removeClass('embedpress_placeholder');
 
-                        self.appendElementsIntoWrapper($content, $wrapper);
+                        self.appendElementsIntoWrapper($content, $wrapper, editorInstance);
                     }
 
                     //$wrapper.append($('<span class="mce-shim"></span>'));
@@ -937,7 +937,7 @@
                 });
             };
 
-            self.appendElementsIntoWrapper = function(elementsList, wrapper) {
+            self.appendElementsIntoWrapper = function(elementsList, wrapper, editorInstance) {
                 if (elementsList.length > 0) {
                     $.each(elementsList, function appendElementIntoWrapper(elementIndex, element) {
                         // Check if the element is a script and do not add it now (if added here it wouldn't be executed)
@@ -947,7 +947,7 @@
                             if (element.tagName.toLowerCase() === 'iframe') {
                                 $(element).ready(function() {
                                     window.setTimeout(function() {
-                                        $.each(self.editor.dom.select('div.embedpress_wrapper iframe'), function(elementIndex, iframe) {
+                                        $.each(editorInstance.dom.select('div.embedpress_wrapper iframe'), function(elementIndex, iframe) {
                                             self.fixIframeSize(iframe);
                                         });
                                     }, 300);
@@ -962,7 +962,7 @@
                             }
                         }
 
-                        self.loadAsyncDynamicJsCodeFromElement(element, wrapper);
+                        self.loadAsyncDynamicJsCodeFromElement(element, wrapper, editorInstance);
                     });
                 }
 
@@ -1064,7 +1064,7 @@
              *
              * @return void
              */
-            self.onFindEditor = function() {
+            self.onFindEditor = function(editorInstance) {
                 self.each   = tinymce.each;
                 self.extend = tinymce.extend;
                 self.JSON   = tinymce.util.JSON;
@@ -1073,25 +1073,37 @@
                 function onFindEditorCallback() {
                     $(window.document.getElementsByTagName('head')[0]).append($('<link rel="stylesheet" type="text/css" href="' + (PLG_SYSTEM_ASSETS_CSS_PATH + '/vendor/bootstrap/bootstrap.min.css?v=' + self.params.versionUID) + '">'));
 
-                    self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/font.css?v=' + self.params.versionUID);
-                    self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/preview.css?v=' + self.params.versionUID);
-                    self.addStylesheet(PLG_CONTENT_ASSETS_CSS_PATH + '/embedpress.css?v=' + self.params.versionUID);
-                    self.addEvent('paste', self.editor, self.onPaste);
-                    self.addEvent('nodechange', self.editor, self.onNodeChange);
-                    self.addEvent('keydown', self.editor, self.onKeyDown);
+                    self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/font.css?v=' + self.params.versionUID, editorInstance, editorInstance);
+                    self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/preview.css?v=' + self.params.versionUID, editorInstance, editorInstance);
+                    self.addStylesheet(PLG_CONTENT_ASSETS_CSS_PATH + '/embedpress.css?v=' + self.params.versionUID, editorInstance, editorInstance);
+                    self.addEvent('paste', editorInstance, function(a, b) {
+                        self.onPaste(a, b, editorInstance);
+                    });
+                    self.addEvent('nodechange', editorInstance, self.onNodeChange);
+                    self.addEvent('keydown', editorInstance, function(e) {
+                        self.onKeyDown(e, editorInstance);
+                    });
 
-                    self.addEvent('undo', self.editor, self.onUndo); // TinyMCE
-                    self.addEvent('undo', self.editor.undoManager, self.onUndo); // JCE
+                    var onUndoCallback = function(e) {
+                        self.onUndo(e, editorInstance);
+                    };
 
-                    var doc = self.editor.getDoc();
-                    $(doc).on('mouseenter', '.embedpress_wrapper', self.onMouseEnter);
+                    self.addEvent('undo', editorInstance, onUndoCallback); // TinyMCE
+                    self.addEvent('undo', editorInstance.undoManager, onUndoCallback); // JCE
+
+                    var doc = editorInstance.getDoc();
+                    $(doc).on('mouseenter', '.embedpress_wrapper', function(e) {
+                        self.onMouseEnter(e, editorInstance);
+                    });
                     $(doc).on('mouseout', '.embedpress_wrapper', self.onMouseOut);
-                    $(doc).on('mousedown', '.embedpress_wrapper > .embedpress_controller_panel', self.cancelEvent);
+                    $(doc).on('mousedown', '.embedpress_wrapper > .embedpress_controller_panel', function(e) {
+                        self.cancelEvent(e, editorInstance)
+                    });
                     doc = null;
                     // Add the node filter that will convert the url into the preview box for the embed code
                     // @todo: Recognize <a> tags as well
 
-                    self.editor.parser.addNodeFilter('#text', function addNodeFilterIntoParser(nodes, arg) {
+                    editorInstance.parser.addNodeFilter('#text', function addNodeFilterIntoParser(nodes, arg) {
                         self.each(nodes, function eachNodeInParser(node) {
                             var subject = node.value.trim();
                             if (!subject.isValidUrl()) {
@@ -1124,10 +1136,10 @@
                                     if (matches && matches !== null && !!matches.length) {
                                         url = self.encodeEmbedURLSpecialChars(matches[2]);
 
-                                        var wrapper = self.addURLsPlaceholder(node, url);
+                                        var wrapper = self.addURLsPlaceholder(node, url, editorInstance);
 
                                         setTimeout(function() {
-                                            var doc = self.editor.getDoc();
+                                            var doc = editorInstance.getDoc();
 
                                             var previewWrapper = $(doc.querySelector('#'+ wrapper.attributes.map['id']));
                                             var previewWrapperParent = $(previewWrapper.parent());
@@ -1158,8 +1170,8 @@
                                             }
 
                                             setTimeout(function() {
-                                                self.editor.selection.select(self.editor.getBody(), true);
-                                                self.editor.selection.collapse(false);
+                                                editorInstance.selection.select(editorInstance.getBody(), true);
+                                                editorInstance.selection.collapse(false);
                                             }, 50);
                                         }, 50);
                                     } else {
@@ -1172,7 +1184,7 @@
                     });
 
                     // Add the filter that will convert the preview box/embed code back to the raw url
-                    self.editor.serializer.addNodeFilter('div', function addNodeFilterIntoSerializer(nodes, arg) {
+                    editorInstance.serializer.addNodeFilter('div', function addNodeFilterIntoSerializer(nodes, arg) {
                         self.each(nodes, function eachNodeInSerializer(node) {
                             var nodeClasses = (node.attributes.map.class || "").split(' ');
                             var wrapperFactoryClasses = ["embedpress_wrapper", "embedpress_placeholder", "wpview", "wpview-wrap"];
@@ -1219,7 +1231,7 @@
                         });
                     });
 
-                    self.editor.serializer.addNodeFilter('p', function addNodeFilterIntoSerializer(nodes, arg) {
+                    editorInstance.serializer.addNodeFilter('p', function addNodeFilterIntoSerializer(nodes, arg) {
                         self.each(nodes, function eachNodeInSerializer(node) {
                             if (node.firstChild == node.lastChild) {
                                 if (node.firstChild && "value" in node.firstChild && (node.firstChild.value === "&nbsp;" || !node.firstChild.value.trim().length)) {
@@ -1229,10 +1241,11 @@
                         });
                     });
 
+                    //@todo:isthiseachreallynecessary?
                     // Add event to reconfigure wrappers every time the content is loaded
                     tinymce.each(tinymce.editors, function onEachEditor(editor) {
                         self.addEvent('loadContent', editor, function onInitEditor(ed) {
-                            self.configureWrappers();
+                            self.configureWrappers(editor);
                         });
                     });
 
@@ -1246,7 +1259,7 @@
                              * onLoadContent is not being triggered automatically, so
                              * we force the event
                              */
-                            self.editor.load();
+                            editorInstance.load();
                         },
                         // If in JCE the user see the placeholder (img) instead of the iframe after load/refresh the pagr, this time is too short
                         500
@@ -1261,7 +1274,7 @@
                         clearInterval(statusCheckerInterval);
                         alert('For some reason TinyMCE was not fully loaded yet. Please, refresh the page and try again.');
                     } else {
-                        var doc = self.editor.getDoc();
+                        var doc = editorInstance.getDoc();
                         if (doc) {
                             clearInterval(statusCheckerInterval);
                             onFindEditorCallback();
@@ -1291,8 +1304,8 @@
              * @param  object e The event
              * @return void
              */
-            self.onMouseEnter = function(e) {
-                self.displayPreviewControllerPanel($(e.currentTarget));
+            self.onMouseEnter = function(e, editorInstance) {
+                self.displayPreviewControllerPanel($(e.currentTarget), editorInstance);
             };
 
             /**
@@ -1332,7 +1345,7 @@
              * @return void
              */
 
-            self.onPaste = function(e, b) {
+            self.onPaste = function(e, b, editorInstance) {
                 var urlPatternRegex = new RegExp(/(https?):\/\/([w]{3}\.)?.+?(?:\s|$)/i);
 
                 var event = null;
@@ -1383,7 +1396,7 @@
                 var content = '<p>'+ contentLines.join('') +'</p>';
 
                 // Insert the new content into the editor.
-                self.editor.execCommand('mceInsertContent', false, content);
+                editorInstance.execCommand('mceInsertContent', false, content);
             };
 
             /**
@@ -1423,8 +1436,8 @@
                 }
             };
 
-            self.onKeyDown = function(e) {
-                var node = self.editor.selection.getNode();
+            self.onKeyDown = function(e, editorInstance) {
+                var node = editorInstance.selection.getNode();
 
                 if (e.keyCode == 8 || e.keyCode == 46) {
                     if (node.nodeName.toLowerCase() === 'p') {
@@ -1435,7 +1448,7 @@
                                 if ($(this).hasClass('embedpress_wrapper') || $(this).hasClass('embedpress_ignore_mouseout')) {
                                     $(this).remove();
 
-                                    self.editor.focus();
+                                    editorInstance.focus();
                                 }
                             });
                         }
@@ -1455,8 +1468,8 @@
                                     var tmpId = '__embedpress__tmp_' + self.makeId();
                                     wrapper.after($('<span id="' + tmpId + '"></span>'));
                                     // Get and select the temporary element
-                                    var span = self.editor.dom.select('span#' + tmpId)[0];
-                                    self.editor.selection.select(span);
+                                    var span = editorInstance.dom.select('span#' + tmpId)[0];
+                                    editorInstance.selection.select(span);
                                     // Remove the temporary element
                                     $(span).remove();
                                 }
@@ -1464,7 +1477,7 @@
                                 return true;
                             } else {
                                 // If we are inside the embed preview, ignore any key to avoid edition
-                                return self.cancelEvent(e);
+                                return self.cancelEvent(e, editorInstance);
                             }
                         }
                     }
@@ -1488,15 +1501,15 @@
                 return false;
             };
 
-            self.onUndo = function(e) {
+            self.onUndo = function(e, editorInstance) {
                 // Force re-render everything
-                self.editor.load();
+                editorInstance.load();
             };
 
-            self.cancelEvent = function(e) {
+            self.cancelEvent = function(e, editorInstance) {
                 e.preventDefault();
                 e.stopPropagation();
-                self.editor.dom.events.cancel();
+                editorInstance.dom.events.cancel();
 
                 return false;
             };
@@ -1509,9 +1522,9 @@
              * @param  Object e The event
              * @return void
              */
-            self.onClickEditButton = function(e) {
+            self.onClickEditButton = function(e, editorInstance) {
                 // Prevent edition of the panel
-                self.cancelEvent(e);
+                self.cancelEvent(e, editorInstance);
 
                 self.activeWrapperForModal = self.activeWrapper;
 
@@ -1622,8 +1635,8 @@
                                             var $wrapper = self.activeWrapperForModal;
 
                                             // Select the current wrapper as a base for the new element
-                                            self.editor.focus();
-                                            self.editor.selection.select($wrapper[0]);
+                                            editorInstance.focus();
+                                            editorInstance.selection.select($wrapper[0]);
 
                                             $wrapper.children().remove();
                                             $wrapper.remove();
@@ -1668,9 +1681,9 @@
 
                                             var shortcode = '['+ $data.EMBEDPRESS_SHORTCODE + (customAttributesList.length > 0 ? " "+ customAttributesList.join(" ") : "") +']'+ $('#input-url-'+ wrapperUid).val() +'[/'+ $data.EMBEDPRESS_SHORTCODE +']';
                                             // We do not directly replace the node because it was causing a bug on a second edit attempt
-                                            self.editor.execCommand('mceInsertContent', false, shortcode);
+                                            editorInstance.execCommand('mceInsertContent', false, shortcode);
 
-                                            self.configureWrappers();
+                                            self.configureWrappers(editorInstance);
                                         }
                                     }
                                 }
@@ -1705,9 +1718,9 @@
              * @param  Object e The event
              * @return void
              */
-            self.onClickRemoveButton = function(e) {
+            self.onClickRemoveButton = function(e, editorInstance) {
                 // Prevent edition of the panel
-                self.cancelEvent(e);
+                self.cancelEvent(e, editorInstance);
 
                 var $wrapper = self.activeWrapper;
 
@@ -1755,10 +1768,10 @@
              * Configure unconfigured embed wrappers, adding events and css
              * @return void
              */
-            self.configureWrappers = function() {
+            self.configureWrappers = function(editorInstance) {
                 window.setTimeout(
                     function configureWrappersTimeOut() {
-                        var doc = self.editor.getDoc(),
+                        var doc = editorInstance.getDoc(),
                             total = 0,
                             $wrapper = null,
                             $iframe = null;
@@ -1823,8 +1836,8 @@
              * @param  String id The element id
              * @return Element   The found element or null, wrapped by jQuery
              */
-            self.getElementInContentById = function(id) {
-                var doc = self.editor.getDoc();
+            self.getElementInContentById = function(id, editorInstance) {
+                var doc = editorInstance.getDoc();
 
                 return $(doc.getElementById(id));
             };
@@ -1835,21 +1848,26 @@
              * @param  element $wrapper The wrapper which will be activate
              * @return void
              */
-            self.displayPreviewControllerPanel = function($wrapper) {
+            self.displayPreviewControllerPanel = function($wrapper, editorInstance) {
                 if (self.controllerPanelIsActive() && $wrapper !== self.activeWrapper) {
                     self.hidePreviewControllerPanel();
                 }
 
                 if (!self.controllerPanelIsActive() && !$wrapper.hasClass('is-loading')) {
                     var uid = $wrapper.data('uid');
-                    var $panel = self.getElementInContentById('embedpress_controller_panel_' + uid);
+                    var $panel = self.getElementInContentById('embedpress_controller_panel_' + uid, editorInstance);
 
                     if (!$panel.data('event-set')) {
-                        var $editButton = self.getElementInContentById('embedpress_button_edit_' + uid);
-                        var $removeButton = self.getElementInContentById('embedpress_button_remove_' + uid);
+                        var $editButton = self.getElementInContentById('embedpress_button_edit_' + uid, editorInstance);
+                        var $removeButton = self.getElementInContentById('embedpress_button_remove_' + uid, editorInstance);
 
-                        self.addEvent('mousedown', $editButton, self.onClickEditButton);
-                        self.addEvent('mousedown', $removeButton, self.onClickRemoveButton);
+                        self.addEvent('mousedown', $editButton, function(e) {
+                            self.onClickEditButton(e, editorInstance);
+                        });
+
+                        self.addEvent('mousedown', $removeButton, function(e) {
+                            self.onClickRemoveButton(e, editorInstance);
+                        });
 
                         $panel.data('event-set', true);
                     }

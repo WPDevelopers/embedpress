@@ -58,12 +58,25 @@
 /**
  * EmbedPress Settings Wrapper.
  */
-#embedpress-settings-wrapper #setting-error-settings_updated {
-    margin-top: 42px;
+
+#embedpress-settings-wrapper {
+    margin-top: 20px;
 }
 
-#embedpress-settings-wrapper .nav-tab-wrapper .nav-tab:not(.nav-tab-active):hover {
-    color: #555;
+#embedpress-settings-wrapper > header > * {
+    display: inline-block;
+}
+
+#embedpress-settings-wrapper > header h1 {
+    margin: .67em 0 15px .15em;
+}
+
+#embedpress-settings-wrapper a:hover img {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+    -moz-opacity: .80;
+    -khtml-opacity: .80;
+    opacity: .80;
 }
 
 #embedpress-settings-wrapper .nav-tab-wrapper .nav-tab-active {
@@ -71,67 +84,8 @@
     color: #655997;
 }
 
-#embedpress-settings-wrapper > header {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
-
-#embedpress-settings-wrapper > header h1 small {
-    font-size: .5em;
-    margin-left: 15px;
-}
-
-#embedpress-settings-wrapper > header h1 small a {
-    color: #777;
-    text-decoration: none;
-}
-
-#embedpress-settings-wrapper > header > a {
-    margin-right: 16px;
-    margin-top: 10px;
-    max-height: 30px;
-}
-
-#embedpress-settings-wrapper > header > a img {
-    padding-top: 5px;
-}
-
-#embedpress-settings-wrapper a {
-    color: #777;
-}
-
-#embedpress-settings-wrapper a:link,
-#embedpress-settings-wrapper a:visited,
-#embedpress-settings-wrapper a:active,
-#embedpress-settings-wrapper a:hover {
-    text-decoration: none;
-}
-
-#embedpress-settings-wrapper > header a img,
-#embedpress-settings-wrapper a,
-#embedpress-settings-wrapper button,
-#embedpress-settings-wrapper button::before {
-    -webkit-transition: all 200ms ease-in-out;
-    -moz-transition: all 200ms ease-in-out;
-    -o-transition: all 200ms ease-in-out;
-    transition: all 200ms ease-in-out;
-}
-
-#embedpress-settings-wrapper a:hover {
-    color: #9D94C9;
-}
-
-#embedpress-settings-wrapper a:hover img {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)";
-    filter: alpha(opacity=75);
-    -moz-opacity: .75;
-    -khtml-opacity: .75;
-    opacity: .75;
+#embedpress-settings-wrapper .nav-tab-wrapper .nav-tab:not(.nav-tab-active):hover {
+    color: #555;
 }
 
 #embedpress-settings-wrapper input:not([type="checkbox"]):not([type="radio"]) {
@@ -165,6 +119,100 @@
     background-color: #9D94C9;
 }
 
+#embedpress-settings-wrapper > footer {
+    text-align: center;
+}
+
+#embedpress-settings-wrapper > footer p {
+    color: #666;
+    font-size: 12px;
+}
+
+#embedpress-settings-wrapper > footer .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+#embedpress-settings-wrapper > footer .dashicons.dashicons-star-filled {
+    line-height: 18px;
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
+    color: #FFB300;
+    -webkit-transition: color 200ms ease-in-out;
+    -moz-transition: color 200ms ease-in-out;
+    -o-transition: color 200ms ease-in-out;
+    transition: color 200ms ease-in-out;
+}
+
+#embedpress-settings-wrapper > footer a:hover .dashicons.dashicons-star-filled {
+    color: #C58C07;
+}
+
+#embedpress-settings-wrapper > footer > nav ul {
+    list-style: none;
+}
+
+#embedpress-settings-wrapper > footer > nav ul > li {
+    display: inline-block;
+}
+
+#embedpress-settings-wrapper > footer > nav ul > li:not(:first-child) {
+    margin-left: 15px;
+}
+
+#embedpress-settings-wrapper > footer > nav ul > li > a {
+    font-weight: bold;
+}
+
+#embedpress-settings-wrapper a {
+    color: #777;
+}
+
+#embedpress-settings-wrapper a,
+#embedpress-settings-wrapper button
+#embedpress-settings-wrapper button::before {
+    -webkit-transition: all 200ms ease-in-out;
+    -moz-transition: all 200ms ease-in-out;
+    -o-transition: all 200ms ease-in-out;
+    transition: all 200ms ease-in-out;
+}
+
+#embedpress-settings-wrapper a:link,
+#embedpress-settings-wrapper a:visited,
+#embedpress-settings-wrapper a:active,
+#embedpress-settings-wrapper a:hover {
+    text-decoration: none;
+}
+
+#embedpress-settings-wrapper a:hover {
+    color: #9D94C9;
+}
+
+#embedpress-settings-wrapper .button-primary {
+    background-color: #FFB300;
+    border-color: #C58C07;
+    color: #754D26;
+}
+
+#embedpress-settings-wrapper .button-primary:hover,
+#embedpress-settings-wrapper .button-primary:active,
+#embedpress-settings-wrapper .button-primary:focus {
+    background-color: #F3AC04;
+    color: #333;
+}
+
+#embedpress-settings-wrapper button:not(.notice-dismiss).button-secondary {
+    background-color: #655997;
+    border-color: #363050;
+    color: #FFF;
+}
+
+#embedpress-settings-wrapper button:not(.notice-dismiss).button-secondary:hover {
+    background-color: #5A4F87;
+}
+
 #embedpress-settings-wrapper button:not(.notice-dismiss) {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
@@ -191,43 +239,11 @@
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-#embedpress-settings-wrapper .button-primary {
-    background-color: #FFB300;
-    border-color: #C58C07;
-    color: #754D26;
+#embedpress-settings-wrapper > #setting-error-settings_updated {
+    margin-left: 0;
+    margin-bottom: 15px;
 }
 
-#embedpress-settings-wrapper .button-primary:hover,
-#embedpress-settings-wrapper .button-primary:active,
-#embedpress-settings-wrapper .button-primary:focus {
-    background-color: #F3AC04;
-    color: #333;
-}
-
-#embedpress-settings-wrapper button:not(.notice-dismiss).button-secondary {
-    background-color: #655997;
-    border-color: #363050;
-    color: #FFF;
-}
-
-#embedpress-settings-wrapper button:not(.notice-dismiss).button-secondary:hover {
-    background-color: #5A4F87;
-}
-
-#embedpress-settings-footer > div {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    justify-content: space-between;
-    padding-right: 16px;
-}
-
-#embedpress-settings-footer > div ul li {
-    display: inline;
-}
-
-#embedpress-settings-footer > div ul li:not(:first-child) {
-    margin-left: 15px;
+#embedpress-settings-wrapper > #setting-error-settings_updated button.notice-dismiss:hover::before {
+    color: #655997;
 }
