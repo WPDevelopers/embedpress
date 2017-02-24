@@ -4,6 +4,7 @@ namespace EmbedPress\Ends\Front;
 use \EmbedPress\Ends\Handler as EndHandlerAbstract;
 use \EmbedPress\Ends\Back\Handler as BackEndHandler;
 use \EmbedPress\Shortcode;
+use \EmbedPress\Core;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -89,9 +90,13 @@ class Handler extends EndHandlerAbstract
      */
     public static function renderPreviewBoxInEditors($editorHTML)
     {
-        $backEndHandler = new BackEndHandler(EMBEDPRESS_PLG_NAME, EMBEDPRESS_PLG_VERSION);
+        $plgSettings = Core::getSettings();
 
-        $backEndHandler->enqueueScripts();
+        if (!is_admin() && (bool)$plgSettings->enablePluginInFront) {
+            $backEndHandler = new BackEndHandler(EMBEDPRESS_PLG_NAME, EMBEDPRESS_PLG_VERSION);
+
+            $backEndHandler->enqueueScripts();
+        }
 
         return $editorHTML;
     }

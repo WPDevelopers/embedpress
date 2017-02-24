@@ -72,15 +72,15 @@ class Settings
      */
     private static $fieldMap = array(
         'enablePluginInAdmin' => array(
-            'label'   => "Allow EmbedPress in Admin",
+            'label'   => "Load previews in the editor",
             'section' => "admin"
         ),
-        'displayPreviewBox' => array(
-            'label'   => "Load embeds inside Editors",
+        'enablePluginInFront' => array(
+            'label'   => "Load previews in the editor in frontend",
             'section' => "admin"
         ),
         'forceFacebookLanguage' => array(
-            'label'   => "Facebook embeds language",
+            'label'   => "Facebook embed language",
             'section' => "admin"
         )
     );
@@ -135,7 +135,7 @@ class Settings
         } else {
             register_setting(self::$sectionGroupIdentifier, self::$sectionGroupIdentifier, array(self::$namespace, "validateForm"));
 
-            add_settings_section(self::$sectionAdminIdentifier, 'General Settings', null, self::$identifier);
+            add_settings_section(self::$sectionAdminIdentifier, '', null, self::$identifier);
 
             foreach (self::$fieldMap as $fieldName => $field) {
                 add_settings_field($fieldName, $field['label'], array(self::$namespace, "renderField_{$fieldName}"), self::$identifier, self::${"section". ucfirst($field['section']) ."Identifier"});
@@ -237,38 +237,12 @@ class Settings
     public static function validateForm($freshData)
     {
         $data = array(
-            'displayPreviewBox'   => (bool)$freshData['displayPreviewBox'],
             'enablePluginInAdmin' => (bool)$freshData['enablePluginInAdmin'],
+            'enablePluginInFront' => (bool)$freshData['enablePluginInFront'],
             'fbLanguage'          => $freshData['fbLanguage']
         );
 
         return $data;
-    }
-
-    /**
-     * Method that renders the displayPreviewBox input.
-     *
-     * @since   1.0.0
-     * @static
-     */
-    public static function renderField_displayPreviewBox()
-    {
-        $fieldName = "displayPreviewBox";
-
-        $options = get_option(self::$sectionGroupIdentifier);
-
-        $activeOptions = Core::getSettings();
-        if (isset($activeOptions->enablePluginInAdmin) && (bool)$activeOptions->enablePluginInAdmin === false) {
-            $options[$fieldName] = false;
-        } else {
-            $options[$fieldName] = !isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
-        }
-        unset($activeOptions);
-
-        echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
-        echo "&nbsp;&nbsp;";
-        echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
-        echo '<p class="description">Load embeds automatically detected inside your editor\'s content (i.e. TinyMCE).</p>';
     }
 
     /**
@@ -288,7 +262,27 @@ class Settings
         echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
         echo "&nbsp;&nbsp;";
         echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
-        echo '<p class="description">Allow EmbedPress to run here in the Admin area. Disabling this <strong>will not</strong> affect your frontend embeds.</p>';
+        echo '<p class="description">Do you want EmbedPress to run here in the admin area? Disabling this <strong>will not</strong> affect your frontend embeds.</p>';
+    }
+
+    /**
+     * Method that renders the enablePluginInFront input.
+     *
+     * @since   @todo
+     * @static
+     */
+    public static function renderField_enablePluginInFront()
+    {
+        $fieldName = "enablePluginInFront";
+
+        $options = get_option(self::$sectionGroupIdentifier);
+
+        $options[$fieldName] = !isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
+
+        echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
+        echo "&nbsp;&nbsp;";
+        echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
+        echo '<p class="description">Do you want EmbedPress to run within editors in frontend (if there\'s any)? Disabling this <strong>will not</strong> affect embeds seem by your regular users in frontend.</p>';
     }
 
     /**
@@ -316,7 +310,7 @@ class Settings
         echo '</optgroup>';
         echo '</select>';
 
-        echo '<p class="description">Choose a different language for your Facebook embeds.</p>';
+        echo '<p class="description">Sometimes Facebook can choose the wrong language for embeds. If this happens, choose the correct language here.</p>';
     }
 
     /**
