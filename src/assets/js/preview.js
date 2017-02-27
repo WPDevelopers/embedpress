@@ -161,7 +161,7 @@
              * @type Object
              */
             self.params = {
-                juriRoot: '',
+                baseUrl   : '',
                 versionUID: '0'
             };
 
@@ -324,7 +324,7 @@
                 // Get the parsed content
                 $.ajax({
                     type: 'POST',
-                    url: "/wp-admin/admin-ajax.php",
+                    url: self.params.baseUrl +"wp-admin/admin-ajax.php",
                     data: {
                         action: "embedpress_do_ajax_request",
                         subject: content
@@ -1553,7 +1553,7 @@
                 setTimeout(function() {
                     $.ajax({
                         type: "GET",
-                        url: "admin-ajax.php",
+                        url: self.params.baseUrl +"wp-admin/admin-ajax.php",
                         data: {
                             action: "embedpress_get_embed_url_info",
                             url: self.decodeEmbedURLSpecialChars($wrapper.data('url'), false)

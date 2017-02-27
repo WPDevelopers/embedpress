@@ -72,11 +72,11 @@ class Settings
      */
     private static $fieldMap = array(
         'enablePluginInAdmin' => array(
-            'label'   => "Load previews in the editor",
+            'label'   => "Load previews in the admin editor",
             'section' => "admin"
         ),
         'enablePluginInFront' => array(
-            'label'   => "Load previews in the editor in frontend",
+            'label'   => "Load previews in the frontend editor",
             'section' => "admin"
         ),
         'forceFacebookLanguage' => array(

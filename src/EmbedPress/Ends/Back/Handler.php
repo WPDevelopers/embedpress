@@ -37,7 +37,7 @@ class Handler extends EndHandlerAbstract
         wp_enqueue_script($this->pluginName, EMBEDPRESS_URL_ASSETS .'js/preview.js', array('jquery', 'bootbox'), $this->pluginVersion, true);
         wp_localize_script($this->pluginName, '$data', array(
             'previewSettings'       => array(
-                'juriRoot'   => get_site_url() .'/',
+                'baseUrl'    => get_site_url() .'/',
                 'versionUID' => $this->pluginVersion,
                 'debug'      => true
             ),
