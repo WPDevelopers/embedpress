@@ -5,6 +5,7 @@ Release Date: @todo
 * Added support to preview embeds inside editors rendered in frontend;
 * Fixed some embeds not respecting custom dimensions;
 * Fixed some embeds not being rendered as they should in frontend due to invalid characters in the url;
+* Fixed embeds not being rendered in editors on some WP instances;
 * Tweaks on the plugin settings page;
 * Code enhancements.
 
