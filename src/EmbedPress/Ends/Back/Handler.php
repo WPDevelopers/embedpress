@@ -42,8 +42,7 @@ class Handler extends EndHandlerAbstract
                 'debug'      => true
             ),
             'EMBEDPRESS_SHORTCODE'  => EMBEDPRESS_SHORTCODE,
-            'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
-            'displayPreviewBox'     => $plgSettings->displayPreviewBox
+            'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS
         ));
 
         $installedPlugins = Core::getPlugins();

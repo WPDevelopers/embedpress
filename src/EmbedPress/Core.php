@@ -134,21 +134,21 @@ class Core
 
             add_action('admin_enqueue_scripts', array('\EmbedPress\Ends\Back\Handler', 'enqueueStyles'));
 
-            if ($plgSettings->enablePluginInAdmin) {
-                add_action('init', array('\EmbedPress\Disabler', 'run'), 1);
+            add_action('init', array('\EmbedPress\Disabler', 'run'), 1);
 
-                $plgHandlerAdminInstance = new EndHandlerAdmin($this->getPluginName(), $this->getPluginVersion());
+            $plgHandlerAdminInstance = new EndHandlerAdmin($this->getPluginName(), $this->getPluginVersion());
 
+            if ((bool)$plgSettings->enablePluginInAdmin) {
                 $this->loaderInstance->add_action('admin_enqueue_scripts', $plgHandlerAdminInstance, 'enqueueScripts');
-
-                $onAjaxCallbackName = "doShortcodeReceivedViaAjax";
-                $this->loaderInstance->add_action('wp_ajax_embedpress_do_ajax_request', $plgHandlerAdminInstance, $onAjaxCallbackName);
-                $this->loaderInstance->add_action('wp_ajax_nopriv_embedpress_do_ajax_request', $plgHandlerAdminInstance, $onAjaxCallbackName);
-
-                $this->loaderInstance->add_action('wp_ajax_embedpress_get_embed_url_info', $plgHandlerAdminInstance, "getUrlInfoViaAjax");
-
-                unset($onAjaxCallbackName, $plgHandlerAdminInstance);
             }
+
+            $onAjaxCallbackName = "doShortcodeReceivedViaAjax";
+            $this->loaderInstance->add_action('wp_ajax_embedpress_do_ajax_request', $plgHandlerAdminInstance, $onAjaxCallbackName);
+            $this->loaderInstance->add_action('wp_ajax_nopriv_embedpress_do_ajax_request', $plgHandlerAdminInstance, $onAjaxCallbackName);
+
+            $this->loaderInstance->add_action('wp_ajax_embedpress_get_embed_url_info', $plgHandlerAdminInstance, "getUrlInfoViaAjax");
+
+            unset($onAjaxCallbackName, $plgHandlerAdminInstance);
         } else {
             add_action('init', array('\EmbedPress\Disabler', 'run'), 1);
 
@@ -240,12 +240,12 @@ class Core
     {
         $settings = get_option(EMBEDPRESS_PLG_NAME);
 
-        if (!isset($settings['displayPreviewBox'])) {
-            $settings['displayPreviewBox'] = true;
-        }
-
         if (!isset($settings['enablePluginInAdmin'])) {
             $settings['enablePluginInAdmin'] = true;
+        }
+
+        if (!isset($settings['enablePluginInFront'])) {
+            $settings['enablePluginInFront'] = true;
         }
 
         return (object)$settings;

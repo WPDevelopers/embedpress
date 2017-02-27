@@ -231,11 +231,11 @@ class Shortcode
                 $parsedContent = preg_replace('/((?:ose-)?\{provider_alias\})/i', "ose-". strtolower($urlData->provider_name), $parsedContent);
             }
 
-            if (isset($urlData->provider_name)) {
+            if (isset($urlData->provider_name) || isset($urlData[$content]['provider_name'])) {
                 // NFB seems to always return their embed code with all HTML entities into their applicable characters string.
-                if (strtoupper($urlData->provider_name) === "NATIONAL FILM BOARD OF CANADA") {
+                if ((isset($urlData->provider_name) && strtoupper($urlData->provider_name) === "NATIONAL FILM BOARD OF CANADA") || (is_array($urlData) && isset($urlData[$content]['provider_name']) && strtoupper($urlData[$content]['provider_name']) === "NATIONAL FILM BOARD OF CANADA")) {
                     $parsedContent = html_entity_decode($parsedContent);
-                } else if (strtoupper($urlData->provider_name) === "FACEBOOK") {
+                } else if ((isset($urlData->provider_name) && strtoupper($urlData->provider_name) === "FACEBOOK") || (is_array($urlData) && isset($urlData[$content]['provider_name']) && strtoupper($urlData[$content]['provider_name']) === "FACEBOOK")) {
                     $plgSettings = Core::getSettings();
 
                     // Check if the user wants to force a certain language into Facebook embeds.
@@ -243,6 +243,11 @@ class Shortcode
                     if (!!$locale) {
                         // Replace the automatically detected language by Facebook's API with the language chosen by the user.
                         $parsedContent = preg_replace('/\/[a-z]{2}\_[a-z]{2}\/sdk\.js/i', "/{$locale}/sdk.js", $parsedContent);
+                    }
+
+                    // Make sure `adapt_container_width` parameter is set to false. Setting to true, as it is by default, might cause Facebook to render embeds inside editors (in admin) with only 180px wide.
+                    if (is_admin()) {
+                        $parsedContent = preg_replace('~data\-adapt\-container\-width=\"(?:true|1)\"~i', 'data-adapt-container-width="0"', $parsedContent);
                     }
 
                     unset($locale, $plgSettings);

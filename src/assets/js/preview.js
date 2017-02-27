@@ -147,10 +147,6 @@
             }
         };
 
-        if (!$data.displayPreviewBox.length || $data.displayPreviewBox.isFalse()) {
-            return;
-        }
-
         var SHORTCODE_REGEXP = new RegExp('\\[\/?'+ $data.EMBEDPRESS_SHORTCODE +'\\]', "gi");
 
         var EmbedPress = function() {
@@ -855,6 +851,7 @@
                                 $(iframe).load(function() {
                                     var maximumChecksAllowed = 8;
                                     var checkIndex = 0;
+
                                     var checkerInterval = setInterval(function() {
                                         if (checkIndex === maximumChecksAllowed) {
                                             clearInterval(checkerInterval);
@@ -921,7 +918,6 @@
                         self.appendElementsIntoWrapper($content, $wrapper, editorInstance);
                     }
 
-                    //$wrapper.append($('<span class="mce-shim"></span>'));
                     $wrapper.append($('<span class="wpview-end"></span>'));
 
                     if (result && result.data && typeof result.data === "object") {
