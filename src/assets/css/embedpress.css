@@ -18,6 +18,7 @@
 .ose-amcharts.responsive,
 .ose-on-aol-com.responsive,
 .ose-animoto.responsive,
+.ose-soundcloud.responsive,
 .ose-videojug.responsive {
     overflow: hidden;
     position: relative;
@@ -37,6 +38,7 @@
 .ose-amcharts.responsive iframe,
 .ose-on-aol-com.responsive iframe,
 .ose-animoto.responsive iframe,
+.ose-soundcloud.responsive iframe,
 .ose-videojug.responsive iframe {
     left: 0;
     top: 0;
@@ -82,4 +84,8 @@
 .ose-google-docs.ose-google-docs-forms.responsive,
 .ose-google-docs.ose-google-docs-spreadsheets.responsive {
     padding-bottom: 142%;
+}
+
+.ose-soundcloud.responsive {
+    padding-bottom: 155px;
 }

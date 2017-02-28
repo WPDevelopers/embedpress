@@ -79,6 +79,9 @@ class Shortcode
 
             $content = preg_replace('/(\['. EMBEDPRESS_SHORTCODE .'(?:\]|.+?\])|\[\/'. EMBEDPRESS_SHORTCODE .'\])/i', "", $subject);
 
+            // Converts any special HTML entities back to characters.
+            $content = htmlspecialchars_decode($content);
+
             // Check if the WP_oEmbed class is loaded
             if (!self::$oEmbedInstance) {
                 require_once ABSPATH .'wp-includes/class-oembed.php';
@@ -228,11 +231,11 @@ class Shortcode
                 $parsedContent = preg_replace('/((?:ose-)?\{provider_alias\})/i', "ose-". strtolower($urlData->provider_name), $parsedContent);
             }
 
-            if (isset($urlData->provider_name)) {
+            if (isset($urlData->provider_name) || isset($urlData[$content]['provider_name'])) {
                 // NFB seems to always return their embed code with all HTML entities into their applicable characters string.
-                if (strtoupper($urlData->provider_name) === "NATIONAL FILM BOARD OF CANADA") {
+                if ((isset($urlData->provider_name) && strtoupper($urlData->provider_name) === "NATIONAL FILM BOARD OF CANADA") || (is_array($urlData) && isset($urlData[$content]['provider_name']) && strtoupper($urlData[$content]['provider_name']) === "NATIONAL FILM BOARD OF CANADA")) {
                     $parsedContent = html_entity_decode($parsedContent);
-                } else if (strtoupper($urlData->provider_name) === "FACEBOOK") {
+                } else if ((isset($urlData->provider_name) && strtoupper($urlData->provider_name) === "FACEBOOK") || (is_array($urlData) && isset($urlData[$content]['provider_name']) && strtoupper($urlData[$content]['provider_name']) === "FACEBOOK")) {
                     $plgSettings = Core::getSettings();
 
                     // Check if the user wants to force a certain language into Facebook embeds.
@@ -240,6 +243,11 @@ class Shortcode
                     if (!!$locale) {
                         // Replace the automatically detected language by Facebook's API with the language chosen by the user.
                         $parsedContent = preg_replace('/\/[a-z]{2}\_[a-z]{2}\/sdk\.js/i', "/{$locale}/sdk.js", $parsedContent);
+                    }
+
+                    // Make sure `adapt_container_width` parameter is set to false. Setting to true, as it is by default, might cause Facebook to render embeds inside editors (in admin) with only 180px wide.
+                    if (is_admin()) {
+                        $parsedContent = preg_replace('~data\-adapt\-container\-width=\"(?:true|1)\"~i', 'data-adapt-container-width="0"', $parsedContent);
                     }
 
                     unset($locale, $plgSettings);
@@ -254,24 +262,44 @@ class Shortcode
                     $customWidth = (int)$emberaInstanceSettings['params']['width'];
                     $customHeight = (int)$emberaInstanceSettings['params']['height'];
                 } else {
-                    preg_match_all('/\<iframe\s+width="(\d+)"\s+height="(\d+)"/i', $parsedContent, $matches);
-                    $iframeWidth = (int)$matches[1][0];
-                    $iframeHeight = (int)$matches[2][0];
-                    $iframeRatio = ceil($iframeWidth / $iframeHeight);
-
-                    if (isset($emberaInstanceSettings['params']['width'])) {
-                        $customWidth = (int)$emberaInstanceSettings['params']['width'];
-                        $customHeight = ceil($customWidth / $iframeRatio);
-                    } else {
-                        $customHeight = (int)$emberaInstanceSettings['params']['height'];
-                        $customWidth = $iframeRatio * $customHeight;
+                    if (preg_match('~width="(\d+)"|width\s+:\s+(\d+)~i', $parsedContent, $matches)) {
+                        $iframeWidth = (int)$matches[1];
                     }
 
-                    unset($iframeRatio, $iframeHeight, $iframeWidth, $matches);
+                    if (preg_match('~height="(\d+)"|height\s+:\s+(\d+)~i', $parsedContent, $matches)) {
+                        $iframeHeight = (int)$matches[1];
+                    }
+
+                    if (isset($iframeWidth) && isset($iframeHeight) && $iframeWidth > 0 && $iframeHeight > 0) {
+                        $iframeRatio = ceil($iframeWidth / $iframeHeight);
+
+                        if (isset($emberaInstanceSettings['params']['width'])) {
+                            $customWidth = (int)$emberaInstanceSettings['params']['width'];
+                            $customHeight = ceil($customWidth / $iframeRatio);
+                        } else {
+                            $customHeight = (int)$emberaInstanceSettings['params']['height'];
+                            $customWidth = $iframeRatio * $customHeight;
+                        }
+                    }
                 }
 
-                $parsedContent = preg_replace('/\s+width\=\"(\d+)\"/i', ' width="'. $customWidth .'"', $parsedContent);
-                $parsedContent = preg_replace('/\s+height\=\"(\d+)\"/i', ' height="'. $customHeight .'"', $parsedContent);
+                if (isset($customWidth) && isset($customHeight)) {
+                    if (preg_match('~width="(\d+)"~i', $parsedContent)) {
+                        $parsedContent = preg_replace('~width="(\d+)"~i', 'width="'. $customWidth .'"', $parsedContent);
+                    }
+
+                    if (preg_match('~height="(\d+)"~i', $parsedContent)) {
+                        $parsedContent = preg_replace('~height="(\d+)"~i', 'height="'. $customHeight .'"', $parsedContent);
+                    }
+
+                    if (preg_match('~width\s+:\s+(\d+)~i', $parsedContent)) {
+                        $parsedContent = preg_replace('~width\s+:\s+(\d+)~i', 'width: '. $customWidth, $parseContent);
+                    }
+
+                    if (preg_match('~height\s+:\s+(\d+)~i', $parsedContent)) {
+                        $parsedContent = preg_replace('~height\s+:\s+(\d+)~i', 'height: '. $customHeight, $parseContent);
+                    }
+                }
             }
 
             if ($stripNewLine) {

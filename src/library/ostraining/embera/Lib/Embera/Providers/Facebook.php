@@ -69,7 +69,6 @@ class Facebook extends \Embera\Adapters\Service
          '~facebook\.com/media/set/?\?set=(?:[^/ ]+)~i',
     );
 
-
     /** Patterns that match video urls */
     protected $videoPatterns = array(
         /**
@@ -85,11 +84,16 @@ class Facebook extends \Embera\Adapters\Service
         '~facebook\.com/video\.php\?(?:id|v)=(?:[^ ]+)~i',
     );
 
+    /** Patterns that match page urls */
+    protected $pagePatterns = array(
+        '~facebook\.com\/(?:[^\/]+)[\/]?$~'
+    );
+
     /** inline {@inheritdoc} */
     protected function validateUrl()
     {
         $this->url->convertToHttps();
-        return ($this->urlMatchesPattern(array_merge($this->postPatterns, $this->videoPatterns)));
+        return ($this->urlMatchesPattern(array_merge($this->postPatterns, $this->videoPatterns, $this->pagePatterns)));
     }
 
     /**
@@ -122,9 +126,12 @@ class Facebook extends \Embera\Adapters\Service
      */
     public function getInfo()
     {
-        $this->apiUrl = 'https://www.facebook.com/plugins/post/oembed.json/';
         if ($this->urlMatchesPattern($this->videoPatterns)) {
             $this->apiUrl = 'https://www.facebook.com/plugins/video/oembed.json/';
+        } else if ($this->urlMatchesPattern($this->postPatterns)) {
+            $this->apiUrl = 'https://www.facebook.com/plugins/post/oembed.json/';
+        } else {
+            $this->apiUrl = 'https://www.facebook.com/plugins/page/oembed.json/';
         }
 
         return parent::getInfo();

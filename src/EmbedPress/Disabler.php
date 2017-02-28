@@ -95,6 +95,8 @@ class Disabler
         wp_deregister_script('wp-embed');
 
         add_filter('http_request_host_is_external', array('\EmbedPress\Core', 'allowApiHost'), 10, 3);
+
+        add_filter('the_editor', array('\EmbedPress\Ends\Front\Handler', 'renderPreviewBoxInEditors'));
     }
 
     /**

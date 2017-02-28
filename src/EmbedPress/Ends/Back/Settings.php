@@ -72,15 +72,15 @@ class Settings
      */
     private static $fieldMap = array(
         'enablePluginInAdmin' => array(
-            'label'   => "Allow EmbedPress in Admin",
+            'label'   => "Load previews in the admin editor",
             'section' => "admin"
         ),
-        'displayPreviewBox' => array(
-            'label'   => "Load embeds inside Editors",
+        'enablePluginInFront' => array(
+            'label'   => "Load previews in the frontend editor",
             'section' => "admin"
         ),
         'forceFacebookLanguage' => array(
-            'label'   => "Facebook embeds language",
+            'label'   => "Facebook embed language",
             'section' => "admin"
         )
     );
@@ -135,7 +135,7 @@ class Settings
         } else {
             register_setting(self::$sectionGroupIdentifier, self::$sectionGroupIdentifier, array(self::$namespace, "validateForm"));
 
-            add_settings_section(self::$sectionAdminIdentifier, 'General Settings', null, self::$identifier);
+            add_settings_section(self::$sectionAdminIdentifier, '', null, self::$identifier);
 
             foreach (self::$fieldMap as $fieldName => $field) {
                 add_settings_field($fieldName, $field['label'], array(self::$namespace, "renderField_{$fieldName}"), self::$identifier, self::${"section". ucfirst($field['section']) ."Identifier"});
@@ -157,32 +157,35 @@ class Settings
         ?>
         <div id="embedpress-settings-wrapper">
             <header>
-                <h1>EmbedPress <small><a href="//wordpress.org/plugins/embedpress/changelog/" target="_blank" rel="noopener noreferrer">v<?php echo EMBEDPRESS_PLG_VERSION; ?></a></small></h1>
-
                 <a href="//wordpress.org/plugins/embedpress" target="_blank" rel="noopener noreferrer" title="EmbedPress" class="presshack-logo">
-                    <img width="75" src="//pressshack.com/wp-content/uploads/2016/05/embedpress-150x150.png">
+                    <img width="35" src="//pressshack.com/wp-content/uploads/2016/05/embedpress-150x150.png">
                 </a>
+                <h1>EmbedPress</h1>
             </header>
 
             <?php settings_errors(); ?>
 
-            <h2 class="nav-tab-wrapper">
-                <a href="?page=embedpress" class="nav-tab<?php echo $activeTab === 'embedpress' || empty($activeTab) ? ' nav-tab-active' : ''; ?> ">General settings</a>
+            <div>
+                <h2 class="nav-tab-wrapper">
+                    <a href="?page=embedpress" class="nav-tab<?php echo $activeTab === 'embedpress' || empty($activeTab) ? ' nav-tab-active' : ''; ?> ">General settings</a>
 
-                <?php do_action('embedpress:settings:render:tab', $activeTab); ?>
-            </h2>
+                    <?php do_action('embedpress:settings:render:tab', $activeTab); ?>
+                </h2>
 
-            <form action="options.php" method="POST" style="padding-bottom: 20px;">
-                <?php settings_fields($settingsFieldsIdentifier); ?>
-                <?php do_settings_sections($settingsSectionsIdentifier); ?>
+                <form action="options.php" method="POST" style="padding-bottom: 20px;">
+                    <?php settings_fields($settingsFieldsIdentifier); ?>
+                    <?php do_settings_sections($settingsSectionsIdentifier); ?>
 
-                <button type="submit" class="button button-primary">Save changes</button>
-            </form>
+                    <button type="submit" class="button button-primary">Save changes</button>
+                </form>
+            </div>
 
-            <hr>
-
-            <footer id="embedpress-settings-footer">
-                <div>
+            <footer>
+                <p>
+                    <a href="//wordpress.org/support/plugin/embedpress/reviews/#new-post" target="_blank" rel="noopener noreferrer">If you like <strong>EmbedPress</strong> please leave us a <span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span> rating. Thank you!</a>
+                </p>
+                <hr>
+                <nav>
                     <ul>
                         <li>
                             <a href="//pressshack.com/embedpress" target="_blank" rel="noopener noreferrer" title="About EmbedPress">About</a>
@@ -199,30 +202,23 @@ class Settings
                         <li>
                             <a href="//pressshack.com/contact" target="_blank" rel="noopener noreferrer" title="Contact the PressShack team">Contact</a>
                         </li>
-                    </ul>
-                    <ul>
                         <li>
                             <a href="//twitter.com/pressshack" target="_blank" rel="noopener noreferrer">
                                 <span class="dashicons dashicons-twitter"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="//www.facebook.com/pressshack" target="_blank" rel="noopener noreferrer">
+                            <a href="//facebook.com/pressshack" target="_blank" rel="noopener noreferrer">
                                 <span class="dashicons dashicons-facebook"></span>
                             </a>
                         </li>
                     </ul>
-                </div>
-                <div>
+                </nav>
                 <p>
-                <small>Copyright &copy; 2017 Open Source Training LLC</small>
-                </p>
-                <p style="text-align: right; margin-top: 0;">
                     <a href="//pressshack.com" target="_blank" rel="noopener noreferrer">
-                        <img width="100" src="//pressshack.com/wp-content/uploads/2016/11/logo-450.png" style="margin-top: 10px;">
+                        <img width="100" src="//pressshack.com/wp-content/uploads/2016/11/logo-450.png">
                     </a>
                 </p>
-                </div>
             </footer>
         </div>
         <?php
@@ -241,38 +237,12 @@ class Settings
     public static function validateForm($freshData)
     {
         $data = array(
-            'displayPreviewBox'   => (bool)$freshData['displayPreviewBox'],
             'enablePluginInAdmin' => (bool)$freshData['enablePluginInAdmin'],
+            'enablePluginInFront' => (bool)$freshData['enablePluginInFront'],
             'fbLanguage'          => $freshData['fbLanguage']
         );
 
         return $data;
-    }
-
-    /**
-     * Method that renders the displayPreviewBox input.
-     *
-     * @since   1.0.0
-     * @static
-     */
-    public static function renderField_displayPreviewBox()
-    {
-        $fieldName = "displayPreviewBox";
-
-        $options = get_option(self::$sectionGroupIdentifier);
-
-        $activeOptions = Core::getSettings();
-        if (isset($activeOptions->enablePluginInAdmin) && (bool)$activeOptions->enablePluginInAdmin === false) {
-            $options[$fieldName] = false;
-        } else {
-            $options[$fieldName] = !isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
-        }
-        unset($activeOptions);
-
-        echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
-        echo "&nbsp;&nbsp;";
-        echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
-        echo '<p class="description">Load embeds automatically detected inside your editor\'s content (i.e. TinyMCE).</p>';
     }
 
     /**
@@ -292,7 +262,27 @@ class Settings
         echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
         echo "&nbsp;&nbsp;";
         echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
-        echo '<p class="description">Allow EmbedPress to run here in the Admin area. Disabling this <strong>will not</strong> affect your frontend embeds.</p>';
+        echo '<p class="description">Do you want EmbedPress to run here in the admin area? Disabling this <strong>will not</strong> affect your frontend embeds.</p>';
+    }
+
+    /**
+     * Method that renders the enablePluginInFront input.
+     *
+     * @since   1.6.0
+     * @static
+     */
+    public static function renderField_enablePluginInFront()
+    {
+        $fieldName = "enablePluginInFront";
+
+        $options = get_option(self::$sectionGroupIdentifier);
+
+        $options[$fieldName] = !isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
+
+        echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
+        echo "&nbsp;&nbsp;";
+        echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
+        echo '<p class="description">Do you want EmbedPress to run within editors in frontend (if there\'s any)? Disabling this <strong>will not</strong> affect embeds seem by your regular users in frontend.</p>';
     }
 
     /**
@@ -320,7 +310,7 @@ class Settings
         echo '</optgroup>';
         echo '</select>';
 
-        echo '<p class="description">Choose a different language for your Facebook embeds.</p>';
+        echo '<p class="description">Sometimes Facebook can choose the wrong language for embeds. If this happens, choose the correct language here.</p>';
     }
 
     /**
