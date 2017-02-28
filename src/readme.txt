@@ -122,7 +122,7 @@ There're two ways to install EmbedPress plugin:
 
 == Changelog ==
 = 1.6.0 =
-Release Date: @todo
+Release Date: 2017-02-28
 
 * Added support to preview embeds inside editors rendered in frontend;
 * Fixed some embeds not respecting custom dimensions;
