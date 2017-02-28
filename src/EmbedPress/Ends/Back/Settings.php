@@ -268,7 +268,7 @@ class Settings
     /**
      * Method that renders the enablePluginInFront input.
      *
-     * @since   @todo
+     * @since   1.6.0
      * @static
      */
     public static function renderField_enablePluginInFront()

@@ -81,7 +81,7 @@ class Handler extends EndHandlerAbstract
     /**
      * A callback called by the WP `the_editor` filter.
      *
-     * @since   @todo
+     * @since   1.6.0
      * @static
      *
      * @param   string      $editorHTML      The HTML which will be rendered as an editor, like TinyMCE.
