@@ -129,6 +129,9 @@ class Shortcode
                 $urlData = self::$oEmbedInstance->fetch($serviceProvider, $content, $attributes);
             }
 
+            // Sanitize the data
+            $urlData = self::sanitizeUrlData($urlData);
+
             $eventResults = apply_filters('embedpress:onBeforeEmbed', $urlData);
             if (empty($eventResults)) {
                 // EmbedPress seems unable to embed the url.
@@ -520,5 +523,30 @@ class Shortcode
         }
 
         return $headerValue;
+    }
+
+    /**
+     * Sanitize the object returned by the embed source. Sometimes we need to convert
+     * attributes from "dash" separated to "underline" separated to be able to access
+     * those attributes from the object, without having to convert it to an array.
+     *
+     * @param object $data
+     *
+     * @return object
+     */
+    private static function sanitizeUrlData($data)
+    {
+        $attributes = get_object_vars($data);
+
+        foreach ($attributes as $key => $value) {
+            if (substr_count($key, '-')) {
+                unset($data->$key);
+                
+                $key = str_replace('-', '_', $key);
+                $data->$key = $value;
+            }
+        }
+
+        return $data;
     }
 }
