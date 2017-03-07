@@ -530,6 +530,10 @@ class Shortcode
      * attributes from "dash" separated to "underline" separated to be able to access
      * those attributes from the object, without having to convert it to an array.
      *
+     * @since   1.6.1
+     * @access  private
+     * @static
+     *
      * @param object $data
      *
      * @return object
