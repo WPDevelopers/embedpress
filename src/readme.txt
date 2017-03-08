@@ -118,15 +118,16 @@ There're two ways to install EmbedPress plugin:
 
 // This will render the html-embed having the class "cool-embed".
 [embed class="cool-embed"]your-other-link[/embed]
+`
 
 == Screenshots ==
 
-1. Paste the URL
-2. Loading the embed
-3. The embed in the editor
+1. Paste any URL as you normally would
+2. Loading the embed...
+3. See the embed inside the editor
 4. The embed in the site
-5. Options panel
-6. Custom options for the embeds
+5. Accessing the options panel you can remove or edit the embed
+6. You can customize each embed
 
 == Changelog ==
 
