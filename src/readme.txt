@@ -131,6 +131,11 @@ There're two ways to install EmbedPress plugin:
 
 == Changelog ==
 
+= 1.6.2a1 =
+Release Date: 
+
+* Fixed Issue embeds making them responsive
+
 = 1.6.1 =
 Release Date: 2017-03-07
 
