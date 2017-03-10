@@ -199,6 +199,26 @@ class RoboFile extends \Robo\Tasks
         return $return;
     }
 
+    /**
+     * Sync WP files with src files
+     */
+    public function syncWp()
+    {
+        $return = $this->_exec('sh ./sync-wp.sh');
+
+        return $return;
+    }
+
+    /**
+     * Sync src files with WP files
+     */
+    public function syncSrc()
+    {
+        $return = $this->_exec('sh ./sync-src.sh');
+
+        return $return;
+    }
+
     public function packCleanup()
     {
         shell_exec('git clean -xdf ' . self::SOURCE_PATH);
