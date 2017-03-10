@@ -19,7 +19,8 @@
 .ose-on-aol-com.responsive,
 .ose-animoto.responsive,
 .ose-soundcloud.responsive,
-.ose-videojug.responsive {
+.ose-videojug.responsive,
+.ose-issuu.responsive {
     overflow: hidden;
     position: relative;
     height: auto;
@@ -39,7 +40,8 @@
 .ose-on-aol-com.responsive iframe,
 .ose-animoto.responsive iframe,
 .ose-soundcloud.responsive iframe,
-.ose-videojug.responsive iframe {
+.ose-videojug.responsive iframe,
+.ose-issuu.responsive iframe {
     left: 0;
     top: 0;
     height: 100%;
@@ -88,4 +90,19 @@
 
 .ose-soundcloud.responsive {
     padding-bottom: 155px;
+}
+
+.ose-issuu.responsive iframe {
+    z-index: 2;
+}
+
+.ose-issuu.responsive {
+    padding-bottom: 31.25%;
+}
+
+.ose-issuu > div > div > div:last-child {
+    width: 100% !important;
+    z-index: 0;
+    position: absolute;
+    bottom: 0;
 }
