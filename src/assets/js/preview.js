@@ -1072,9 +1072,6 @@
                     self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/font.css?v=' + self.params.versionUID, editorInstance, editorInstance);
                     self.addStylesheet(PLG_SYSTEM_ASSETS_CSS_PATH + '/preview.css?v=' + self.params.versionUID, editorInstance, editorInstance);
                     self.addStylesheet(PLG_CONTENT_ASSETS_CSS_PATH + '/embedpress.css?v=' + self.params.versionUID, editorInstance, editorInstance);
-                    self.addEvent('paste', editorInstance, function(a, b) {
-                        self.onPaste(a, b, editorInstance);
-                    });
                     self.addEvent('nodechange', editorInstance, self.onNodeChange);
                     self.addEvent('keydown', editorInstance, function(e) {
                         self.onKeyDown(e, editorInstance);
@@ -1148,9 +1145,11 @@
                                             if (previewWrapperOlderSibling && previewWrapperOlderSibling.prop('tagName') && previewWrapperOlderSibling.prop('tagName').toUpperCase() === "P" && !previewWrapperOlderSibling.html().replace(/\&nbsp\;/i, '').length) {
                                                 previewWrapperOlderSibling.remove();
                                             } else {
-                                                if (previewWrapperOlderSibling.html().match(/<[\/]?br>/)) {
-                                                    if (!previewWrapperOlderSibling.prev().length) {
-                                                        previewWrapperOlderSibling.remove();
+                                                if (typeof previewWrapperOlderSibling.html() !== 'undefined') {
+                                                    if (previewWrapperOlderSibling.html().match(/<[\/]?br>/)) {
+                                                        if (!previewWrapperOlderSibling.prev().length) {
+                                                            previewWrapperOlderSibling.remove();
+                                                        }
                                                     }
                                                 }
                                             }
@@ -1332,34 +1331,22 @@
             };
 
             /**
-             * Callback triggered by paste events. Receives two arguments due to compatibility with JCE and TinyMCE that handles
-             * this event slightly different from each other.
+             * Callback triggered by paste events. This should be hooked by TinyMCE's paste_preprocess
+             * setting. A normal bind to the onPaste event doesn't work correctly all the times
+             * (specially when you copy and paste content from the same editor).
              *
-             * @param   mixed - Can be either the Editor or Event
-             * @param   mixed - Can be either the Editor or Event
+             * @param   mixed - plugin
+             * @param   mixed - args
              *
              * @return void
              */
 
-            self.onPaste = function(e, b, editorInstance) {
+            self.onPaste = function(plugin, args) {
                 var urlPatternRegex = new RegExp(/(https?):\/\/([w]{3}\.)?.+?(?:\s|$)/i);
-
-                var event = null;
-                if (e.preventDefault) {
-                    event = e;
-                } else {
-                    event = b;
-                }
-
-                event.preventDefault();
-
                 var urlPatternsList = self.getProvidersURLPatterns();
-
-                // Check for clipboard data in various places for cross-browser compatibility an get its data as text.
-                var rawContent = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
-
+                
                 // Split the pasted content into separated lines.
-                var contentLines = rawContent.split(/\n/g) || [];
+                var contentLines = args.content.split(/\n/g) || [];
                 contentLines = contentLines.map(function(line, itemIndex) {
                     // Check if there's a url into `line`.
                     if (line.match(urlPatternRegex)) {
@@ -1391,12 +1378,10 @@
 
                 // Check if the text was transformed or not. If it was, add wrappers
                 var content = contentLines.join('');
-                if (content.replace(/<br>$/, '') !== rawContent) {
-                    content = '<p>'+ content +'</p>';
-                }
 
-                // Insert the new content into the editor.
-                editorInstance.execCommand('mceInsertContent', false, content);
+                if (content.replace(/<br>$/, '') !== args.content) {
+                    args.content = '<p>'+ args.content +'</p>';
+                }
             };
 
             /**

@@ -135,6 +135,7 @@ class Core
             add_action('admin_enqueue_scripts', array('\EmbedPress\Ends\Back\Handler', 'enqueueStyles'));
 
             add_action('init', array('\EmbedPress\Disabler', 'run'), 1);
+            add_action('init', array($this, 'configureTinyMCE'), 1);
 
             $plgHandlerAdminInstance = new EndHandlerAdmin($this->getPluginName(), $this->getPluginVersion());
 
@@ -341,5 +342,35 @@ class Core
         }
 
         return $isAllowed;
+    }
+
+    /**
+     * Add filters to configure the TinyMCE editor.
+     *
+     * @since   1.6.2
+     */
+    public function configureTinyMCE()
+    {
+        add_filter('teeny_mce_before_init', array($this, 'hookOnPaste'));
+        add_filter('tiny_mce_before_init', array($this, 'hookOnPaste'));
+    }
+
+    /**
+     * Hook the onPaste methof to the paste_preprocess config in the editor.
+     *
+     * @since   1.6.2
+     * 
+     * @param  array  $mceInit
+     * 
+     * @return array
+     */
+    public function hookOnPaste($mceInit)
+    {
+        // We hook here because the onPaste is sometimes called after the content was already added to the editor.
+        // If you copy text from the editor and paste there, it will give no way to use a normal onPaste event hook
+        // to modify the input since it was already injected.
+        $mceInit['paste_preprocess'] = 'function (plugin, args) {EmbedPress.onPaste(plugin, args);}';
+
+        return $mceInit;
     }
 }
