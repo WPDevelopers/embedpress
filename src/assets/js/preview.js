@@ -1389,7 +1389,11 @@
                     return line;
                 });
 
-                var content = '<p>'+ contentLines.join('') +'</p>';
+                // Check if the text was transformed or not. If it was, add wrappers
+                var content = contentLines.join('');
+                if (content.replace(/<br>$/, '') !== rawContent) {
+                    content = '<p>'+ content +'</p>';
+                }
 
                 // Insert the new content into the editor.
                 editorInstance.execCommand('mceInsertContent', false, content);
