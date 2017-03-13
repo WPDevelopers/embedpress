@@ -149,3 +149,8 @@ span.hidden {
 .bootbox.modal {
     z-index: 100002;
 }
+
+/* Fix issuu preview */
+.ose-issuu.responsive {
+    padding-bottom: 71.25% !important;
+}
