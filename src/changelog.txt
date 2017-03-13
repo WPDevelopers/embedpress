@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 1.6.3 =
+Release Date: 2017-03-13
+
+* Fixed PHP Warning for Gist urls
+
 = 1.6.2 =
 Release Date: 2017-03-13
 

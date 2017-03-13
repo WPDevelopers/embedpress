@@ -3,7 +3,7 @@ Contributors: PressShack
 Tags: 23hq, amcharts, animoto, bambuser, cacoo, chartblocks, chirbit, circuitlab, cloudup, clyp, collegehumor, coub, crowd ranking, daily mile, dailymotion, devianart, dipity, dotsub, facebook, flickr, funnyordie, gettyimages, giphy, github gist, google docs, google drawings, google maps, google sheets, google slides, huffduffer, hulu, imgur, infogram, instagram, issuu, kickstarter, meetup, mixcloud, mobypicture, nfb, photobucket, polldaddy, porfolium, reddit, release wire, reverbnation, roomshare, rutube, sapo videos, scribd, shortnote, shoudio, sketchfab, slideshare, smugmug, soundcloud, speaker deck, spotify, ted, tumblr, twitter, ustream, viddler, videojug, videopress, vimeo, vine, wordpress tv, youtube, twitch tv
 Requires at least: 4.0
 Tested up to: 4.7
-Stable tag: 1.6.2
+Stable tag: 1.6.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -130,6 +130,11 @@ There're two ways to install EmbedPress plugin:
 6. You can customize each embed
 
 == Changelog ==
+
+= 1.6.3 =
+Release Date: 2017-03-13
+
+* Fixed PHP Warning for Gist urls
 
 = 1.6.2 =
 Release Date: 2017-03-13
