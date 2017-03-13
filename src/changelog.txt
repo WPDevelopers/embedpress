@@ -1,9 +1,12 @@
 == Changelog ==
 
-= 1.6.2a1 =
-Release Date: 
+= 1.6.2 =
+Release Date: 2017-03-13
 
 * Fixed Issue embeds making them responsive
+* Fixed pasted text with wrappers
+* Fixed issue with doubled content on paste
+* Fixed issue when pasting formated text, it was loosing the formatation
 
 = 1.6.1 =
 Release Date: 2017-03-07
