@@ -540,14 +540,25 @@ class Shortcode
      */
     private static function sanitizeUrlData($data)
     {
-        $attributes = get_object_vars($data);
+        if (is_object($data)) {
+            $attributes = get_object_vars($data);
 
-        foreach ($attributes as $key => $value) {
-            if (substr_count($key, '-')) {
-                unset($data->$key);
-                
-                $key = str_replace('-', '_', $key);
-                $data->$key = $value;
+            foreach ($attributes as $key => $value) {
+                if (substr_count($key, '-')) {
+                    unset($data->$key);
+                    
+                    $key = str_replace('-', '_', $key);
+                    $data->$key = $value;
+                }
+            }
+        } elseif (is_array($data)) {
+            foreach ($data as $key => $value) {
+                if (substr_count($key, '-')) {
+                    unset($data[$key]);
+                    
+                    $key = str_replace('-', '_', $key);
+                    $data[$key] = $value;
+                }
             }
         }
 
