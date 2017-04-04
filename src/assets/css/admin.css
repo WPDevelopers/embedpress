@@ -86,8 +86,12 @@
     color: #23282d;
 }
 
+#embedpress-settings-wrapper .nav-tab-wrapper .nav-tab {
+    color: inherit;
+}
+
 #embedpress-settings-wrapper .nav-tab-wrapper .nav-tab-active {
-    border-top: 2px solid #655997;
+    border-top-color: #655997;
     color: #655997;
 }
 
