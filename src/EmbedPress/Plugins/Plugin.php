@@ -104,11 +104,7 @@ abstract class Plugin
      */
     public static function onActivationCallback()
     {
-        if (is_admin() && !self::isEmbedPressActive()) {
-            echo '<p><a href="'. admin_url('plugins.php') .'">'. __('Go back') .'</a></p>';
-
-            wp_die(self::getErrorMessage('ERR_MISSING_DEPENDENCY'));
-        }
+        return true;
     }
 
     /**
