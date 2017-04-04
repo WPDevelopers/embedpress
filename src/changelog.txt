@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 1.7.0 =
+Release Date: 2017-04-05
+
+* Added support for color-picker field in add-on's settings
+
 = 1.6.3 =
 Release Date: 2017-03-13
 

@@ -3,7 +3,7 @@ Contributors: PressShack
 Tags: 23hq, amcharts, animoto, bambuser, cacoo, chartblocks, chirbit, circuitlab, cloudup, clyp, collegehumor, coub, crowd ranking, daily mile, dailymotion, devianart, dipity, dotsub, facebook, flickr, funnyordie, gettyimages, giphy, github gist, google docs, google drawings, google maps, google sheets, google slides, huffduffer, hulu, imgur, infogram, instagram, issuu, kickstarter, meetup, mixcloud, mobypicture, nfb, photobucket, polldaddy, porfolium, reddit, release wire, reverbnation, roomshare, rutube, sapo videos, scribd, shortnote, shoudio, sketchfab, slideshare, smugmug, soundcloud, speaker deck, spotify, ted, tumblr, twitter, ustream, viddler, videojug, videopress, vimeo, vine, wordpress tv, youtube, twitch tv
 Requires at least: 4.0
 Tested up to: 4.7
-Stable tag: 1.6.3
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -131,142 +131,12 @@ There're two ways to install EmbedPress plugin:
 
 == Changelog ==
 
+= 1.7.0 =
+Release Date: 2017-04-05
+
+* Added support for color-picker field in add-on's settings
+
 = 1.6.3 =
 Release Date: 2017-03-13
 
 * Fixed PHP Warning for Gist urls
-
-= 1.6.2 =
-Release Date: 2017-03-13
-
-* Fixed Issue embeds making them responsive
-* Fixed pasted text with wrappers
-* Fixed issue with doubled content on paste
-* Fixed issue when pasting formated text, it was loosing the formatation
-
-= 1.6.1 =
-Release Date: 2017-03-07
-
-* Fixed embed of links from reverbnation.com;
-
-= 1.6.0 =
-Release Date: 2017-02-28
-
-* Added support to preview embeds inside editors rendered in frontend;
-* Fixed some embeds not respecting custom dimensions;
-* Fixed some embeds not being rendered as they should in frontend due to invalid characters in the url;
-* Fixed embeds not being rendered in editors on some WP instances;
-* Tweaks on the plugin settings page;
-* Code enhancements.
-
-= 1.5.0 =
-Release Date: 2017-02-15
-
-* Added support to embed Giphy URLs;
-* Added support to embed Twitch streams & chat URLs;
-* Fixed odd behavior with non-shortcoded embeddable URLs;
-* Fixed bugs when having multiple editors in a single page;
-* Updated copyright info;
-* Updated Settings page layout;
-* Code enhancements.
-
-= 1.4.4 =
-Release Date: 2017-01-24
-
-* Pasted text containing urls no longer should lose its formatting;
-* Minor other enhancements.
-
-= 1.4.3 =
-Release Date: 2017-01-13
-
-* Text fixes and enhancements;
-* Updated plugins url;
-* Updated list of supported providers.
-
-= 1.4.2 =
-Release Date: 2017-01-09
-
-* Fixed the plugin activation in older PHP environments (>= 5.3.0);
-* Option description enhancements.
-
-= 1.4.1 =
-Release Date: 2017-01-06
-
-* Fixed Google services embeds.
-
-= 1.4.0 =
-Release Date: 2017-01-06
-
-* Added support to WordPress 4.7;
-* Added support to Embedpress own plugins;
-* Fixed bug that was preventing interaction with some embeds;
-* Code enhancements.
-
-= 1.3.1 =
-Release Date: 2016-11-14
-
-* Fixed a bug that could break the editor in some cases;
-* Moved EmbedPress Settings page link to the main admin-sidebar;
-* Minor CSS enhancements.
-
-= 1.3.0 =
-Release Date: 2016-11-04
-
-* Enhanced Crowd Ranking url detection;
-* Ability to force a different language into Facebook embeds via settings page;
-* Minor CSS fixes and enhancements;
-* Fixed stylesheet conflicting with some other plugins;
-* Fixed a lot of bugs with Facebook urls;
-* Fixed bug where the embed controllers were not appearing to some serivce providers;
-* Fixed a lot of bugs with GettyImage urls;
-* Fixed a lot of bugs with Github Gist urls;
-* Fixed a lot of bugs with VideoJug urls;
-* Fixed a lot of bugs with NFB urls;
-* Fixed bug where the editor was treating non-embeddable urls as normal embeds;
-* Fixed bug where nbsp; were added before and after the embed every time the user switch from Visual to Text mode;
-* Dropped support to Edocr due to embed inconsistency;
-* Dropped support to Aol On Videos.
-
-= 1.2.0 =
-Release Date: 2016-10-04
-
-* Fixed bugs with PollDaddy embeds;
-* Fixed bugs with Vine embeds;
-* Fixed bugs with Twitter Collection and Moments embeds;
-* Fixed bugs with SmugMug embeds;
-* Fixed bugs with SlideShare embeds;
-* Fixed bugs with Infogram embeds;
-* Fixed bugs with MobyPicture embeds;
-* Dropped support to IFTTT embeds;
-* Probably fixed the double embed on paste bug;
-* Prevent mouse interaction with the embed while its being loaded;
-* Changed the general look of EmbedPress embeds;
-* General code enhancements;
-* General minor optimizations.
-
-= 1.1.3 =
-Release Date: 2016-09-20
-
-* Updated plugin's description to a more concise text.
-
-= 1.1.2 =
-Release Date: 2016-09-19
-
-* Updated plugin's description and the list of supported service providers.
-
-= 1.1.1 =
-Release Date: 2016-09-15
-
-* Fixed missing bug that was breaking the plugin on some environments.
-
-= 1.1.0 =
-Release Date: 2016-09-14
-
-* Fixed uncommon bug that was breaking the plugin on some environments;
-* Fixed bugs with PollDaddy urls;
-* A lot of other bug fixes.
-
-= 1.0.0 =
-Release Date: 2016-07-27
-
-* Initial release.
