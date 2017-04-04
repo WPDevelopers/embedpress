@@ -60,23 +60,30 @@
  */
 
 #embedpress-settings-wrapper {
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
-#embedpress-settings-wrapper > header > * {
+#embedpress-settings-wrapper > header .pressshack-title {
     display: inline-block;
+    padding: 10px 0 10px 55px;
+    background-image: url(../images/icon-128x128.png);
+    background-size: 45px auto;
+    background-position: left center;
+    background-repeat: no-repeat;
+    background-color: transparent;
 }
 
 #embedpress-settings-wrapper > header h1 {
     margin: .67em 0 15px .15em;
+    font-weight: 600;
+    font-size: 2em;
 }
 
-#embedpress-settings-wrapper a:hover img {
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-    filter: alpha(opacity=80);
-    -moz-opacity: .80;
-    -khtml-opacity: .80;
-    opacity: .80;
+#embedpress-settings-wrapper > header h1 a,
+#embedpress-settings-wrapper > header h1 a:hover,
+#embedpress-settings-wrapper > header h1 a:focus,
+#embedpress-settings-wrapper > header h1 a:active {
+    color: #23282d;
 }
 
 #embedpress-settings-wrapper .nav-tab-wrapper .nav-tab-active {
