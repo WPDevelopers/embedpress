@@ -162,10 +162,11 @@ class Settings
         ?>
         <div id="embedpress-settings-wrapper">
             <header>
-                <a href="//wordpress.org/plugins/embedpress" target="_blank" rel="noopener noreferrer" title="EmbedPress" class="presshack-logo">
-                    <img width="35" src="//pressshack.com/wp-content/uploads/2016/05/embedpress-150x150.png">
-                </a>
-                <h1>EmbedPress</h1>
+                <h1 class="pressshack-title">
+                    <a href="//wordpress.org/plugins/embedpress" target="_blank" rel="noopener noreferrer" title="EmbedPress">
+                        EmbedPress
+                    </a>
+                </h1>
             </header>
 
             <?php settings_errors(); ?>
