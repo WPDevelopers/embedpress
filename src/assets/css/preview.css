@@ -150,6 +150,10 @@ span.hidden {
     z-index: 100002;
 }
 
+.modal-dialog .row {
+    width: 100%;
+}
+
 /* Fix issuu preview */
 .ose-issuu.responsive {
     padding-bottom: 71.25% !important;
