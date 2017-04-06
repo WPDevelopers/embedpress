@@ -32,6 +32,8 @@ class Handler extends EndHandlerAbstract
     {
         $plgSettings = Core::getSettings();
 
+        $urlSchemes = apply_filters('embedpress:getAdditionalURLSchemes', $this->getUrlSchemes());
+
         wp_enqueue_script("bootbox-bootstrap", EMBEDPRESS_URL_ASSETS .'js/vendor/bootstrap/bootstrap.min.js', array('jquery'), $this->pluginVersion, true);
         wp_enqueue_script("bootbox", EMBEDPRESS_URL_ASSETS .'js/vendor/bootbox.min.js', array('jquery', 'bootbox-bootstrap'), $this->pluginVersion, true);
         wp_enqueue_script($this->pluginName, EMBEDPRESS_URL_ASSETS .'js/preview.js', array('jquery', 'bootbox'), $this->pluginVersion, true);
@@ -42,7 +44,8 @@ class Handler extends EndHandlerAbstract
                 'debug'      => true
             ),
             'EMBEDPRESS_SHORTCODE'  => EMBEDPRESS_SHORTCODE,
-            'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS
+            'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
+            'urlSchemes'            => $urlSchemes
         ));
 
         $installedPlugins = Core::getPlugins();
@@ -129,5 +132,274 @@ class Handler extends EndHandlerAbstract
         echo json_encode($response);
 
         exit();
+    }
+
+    /**
+     * Returns a list of supported URL schemes for the preview script
+     *
+     * @return array
+     */
+    public function getUrlSchemes()
+    {
+        return array(
+            // PollDaddy
+            '*.polldaddy.com/s/*',
+            '*.polldaddy.com/poll/*',
+            '*.polldaddy.com/ratings/*',
+            'polldaddy.com/s/*',
+            'polldaddy.com/poll/*',
+            'polldaddy.com/ratings/*',
+
+            // VideoPress
+            'videopress.com/v/*',
+
+            // Tumblr
+            '*.tumblr.com/post/*',
+
+            // SmugMug
+            'smugmug.com/*',
+            '*.smugmug.com/*',
+
+            // SlideShare
+            'slideshare.net/*/*',
+            '*.slideshare.net/*/*',
+
+            // Reddit
+            'reddit.com/r/[^/]+/comments/*',
+
+            // Photobucket
+            'i*.photobucket.com/albums/*',
+            'gi*.photobucket.com/groups/*',
+
+            // Cloudup
+            'cloudup.com/*',
+
+            // Imgur
+            'imgur.com/*',
+            'i.imgur.com/*',
+
+            // YouTube (http://www.youtube.com/)
+            'youtube.com/watch\\?*',
+
+            // Flickr (http://www.flickr.com/)
+            'flickr.com/photos/*/*',
+            'flic.kr/p/*',
+
+            // Viddler (http://www.viddler.com/)
+            'viddler.com/v/*',
+
+            // Hulu (http://www.hulu.com/)
+            'hulu.com/watch/*',
+
+            // Vimeo (http://vimeo.com/)
+            'vimeo.com/*',
+            'vimeo.com/groups/*/videos/*',
+
+            // CollegeHumor (http://www.collegehumor.com/)
+            'collegehumor.com/video/*',
+
+            // Deviantart.com (http://www.deviantart.com)
+            '*.deviantart.com/art/*',
+            '*.deviantart.com/*#/d*',
+            'fav.me/*',
+            'sta.sh/*',
+
+            // SlideShare (http://www.slideshare.net/)
+
+            // chirbit.com (http://www.chirbit.com/)
+            'chirb.it/*',
+
+            // nfb.ca (http://www.nfb.ca/)
+            '*.nfb.ca/film/*',
+
+            // Scribd (http://www.scribd.com/)
+            'scribd.com/doc/*',
+
+            // Dotsub (http://dotsub.com/)
+            'dotsub.com/view/*',
+
+            // Animoto (http://animoto.com/)
+            'animoto.com/play/*',
+
+            // Rdio (http://rdio.com/)
+            '*.rdio.com/artist/*',
+            '*.rdio.com/people/*',
+
+            // MixCloud (http://mixcloud.com/)
+            'mixcloud.com/*/*/',
+
+            // FunnyOrDie (http://www.funnyordie.com/)
+            'funnyordie.com/videos/*',
+
+            // Ted (http://ted.com)
+            'ted.com/talks/*',
+
+            // Sapo Videos (http://videos.sapo.pt)
+            'videos.sapo.pt/*',
+
+            // Official FM (http://official.fm)
+            'official.fm/tracks/*',
+            'official.fm/playlists/*',
+
+            // HuffDuffer (http://huffduffer.com)
+            'huffduffer.com/*/*',
+
+            // Shoudio (http://shoudio.com)
+            'shoudio.com/*',
+            'shoud.io/*',
+
+            // Moby Picture (http://www.mobypicture.com)
+            'mobypicture.com/user/*/view/*',
+            'moby.to/*',
+
+            // 23HQ (http://www.23hq.com)
+            '23hq.com/*/photo/*',
+
+            // Cacoo (https://cacoo.com)
+            'cacoo.com/diagrams/*',
+
+            // Dipity (http://www.dipity.com)
+            'dipity.com/*/*/',
+
+            // Roomshare (http://roomshare.jp)
+            'roomshare.jp/post/*',
+            'roomshare.jp/en/post/*',
+
+            // Dailymotion (http://www.dailymotion.com)
+            'dailymotion.com/video/*',
+
+            // Crowd Ranking (http://crowdranking.com)
+            'c9ng.com/*/*',
+
+            // CircuitLab (https://www.circuitlab.com/)
+            'circuitlab.com/circuit/*',
+
+            // Coub (http://coub.com/)
+            'coub.com/view/*',
+            'coub.com/embed/*',
+
+            // SpeakerDeck (https://speakerdeck.com)
+            'speakerdeck.com/*/*',
+
+            // Instagram (https://instagram.com)
+            'instagram.com/p/*',
+            'instagr.am/p/*',
+
+            // SoundCloud (http://soundcloud.com/)
+            'soundcloud.com/*',
+
+            // Kickstarter (http://www.kickstarter.com)
+            'kickstarter.com/projects/*',
+
+            // Ustream (http://www.ustream.tv)
+            '*.ustream.tv/*',
+            '*.ustream.com/*',
+
+            // Daily Mile (http://www.dailymile.com)
+            'dailymile.com/people/*/entries/*',
+
+            // Sketchfab (http://sketchfab.com)
+            'sketchfab.com/models/*',
+            'sketchfab.com/*/folders/*',
+
+            // Meetup (http://www.meetup.com)
+            'meetup.com/*',
+            'meetu.ps/*',
+
+            // AudioSnaps (http://audiosnaps.com)
+            'audiosnaps.com/k/*',
+
+            // RapidEngage (https://rapidengage.com)
+            'rapidengage.com/s/*',
+
+            // Getty Images (http://www.gettyimages.com/)
+            'gty.im/*',
+            'gettyimages.com/detail/photo/*',
+
+            // amCharts Live Editor (http://live.amcharts.com/)
+            'live.amcharts.com/*',
+
+            // Infogram (https://infogr.am/)
+            'infogr.am/*',
+
+            // ChartBlocks (http://www.chartblocks.com/)
+            'public.chartblocks.com/c/*',
+
+            // ReleaseWire (http://www.releasewire.com/)
+            'rwire.com/*',
+
+            // ShortNote (https://www.shortnote.jp/)
+            'shortnote.jp/view/notes/*',
+
+            // EgliseInfo (http://egliseinfo.catholique.fr/)
+            'egliseinfo.catholique.fr/*',
+
+            // Silk (http://www.silk.co/)
+            '*.silk.co/explore/*',
+            '*.silk.co/s/embed/*',
+
+            // Twitter
+            'twitter.com/*/status/*',
+            'twitter.com/i/moments/*',
+            'twitter.com/*/timelines/*',
+
+            // http://bambuser.com
+            'bambuser.com/v/*',
+
+            // https://clyp.it
+            'clyp.it/*',
+
+            // https://gist.github.com
+            'gist.github.com/*/*',
+
+            // http://issuu.com
+             'issuu.com/*',
+
+            // https://portfolium.com
+            'portfolium.com/*',
+
+            // https://www.reverbnation.com
+            'reverbnation.com/*',
+
+            // http://rutube.ru
+            'rutube.ru/video/*',
+
+            // https://spotify.com/
+            'open.spotify.com/*',
+
+            // http://www.videojug.com
+            'videojug.com/*',
+
+            // https://vine.com
+            'vine.co/v/*',
+
+            // Facebook
+            'facebook.com/*',
+
+            // Google Shortened Url
+            'goo.gl/*',
+
+            // Google Maps
+            'google.com/*',
+            'google.com.*/*',
+            'maps.google.com/*',
+
+            // Google Docs
+            'docs.google.com/presentation/*',
+            'docs.google.com/document/*',
+            'docs.google.com/spreadsheets/*',
+            'docs.google.com/forms/*',
+            'docs.google.com/drawings/*',
+
+            // Twitch.tv
+            '*.twitch.tv/*',
+            'twitch.tv/*',
+
+            // Giphy
+            '*.giphy.com/gifs/*',
+            'giphy.com/gifs/*',
+            'i.giphy.com/*',
+            'gph.is/*'
+        );
     }
 }
