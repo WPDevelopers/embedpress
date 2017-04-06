@@ -134,7 +134,8 @@ There're two ways to install EmbedPress plugin:
 = 1.7.1 =
 Release Date: 2017-04-06
 
-* Removed the account menu
+* Removed the account submenu
+* Removed the Freemius tab
 * Fixed the menu color
 
 = 1.7.0 =
