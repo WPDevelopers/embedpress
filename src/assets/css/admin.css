@@ -9,7 +9,8 @@
 /**
  * WordPress's admin sidebar.
  */
-#toplevel_page_embedpress > a.current {
+#toplevel_page_embedpress > a.current,
+#toplevel_page_embedpress > a.wp-has-current-submenu {
     background-color: #655997 !important;
 }
 
@@ -31,6 +32,7 @@
     background-position: 0 -26px;
 }
 
+#toplevel_page_embedpress > a.wp-has-current-submenu .dashicons-admin-generic::before,
 #toplevel_page_embedpress .current .dashicons-admin-generic::before {
     background-position: 0 -60px;
 }
