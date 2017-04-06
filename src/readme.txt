@@ -132,9 +132,13 @@ There're two ways to install EmbedPress plugin:
 == Changelog ==
 
 = 1.7.0 =
-Release Date: 2017-04-05
+Release Date: 2017-04-06
 
 * Added support for color-picker field in add-on's settings
+* Added new filter allowing add-ons to register additional urls and providers
+* Added Freemius integration
+* Fixes some file permissions
+* Changed logo
 
 = 1.6.3 =
 Release Date: 2017-03-13
