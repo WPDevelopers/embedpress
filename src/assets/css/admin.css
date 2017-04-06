@@ -258,3 +258,7 @@
 #embedpress-settings-wrapper > #setting-error-settings_updated button.notice-dismiss:hover::before {
     color: #655997;
 }
+
+.modal-dialog .row {
+    width: 100%;
+}
