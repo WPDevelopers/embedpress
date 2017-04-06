@@ -27,6 +27,7 @@ function ep_fs() {
             'has_paid_plans'      => false,
             'menu'                => array(
                 'slug'           => 'embedpress',
+                'account'        => false,
                 'support'        => false,
             ),
         ) );
