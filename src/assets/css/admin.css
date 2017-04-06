@@ -262,3 +262,7 @@
 .modal-dialog .row {
     width: 100%;
 }
+
+.fs-secure-notice {
+    display: none;
+}
