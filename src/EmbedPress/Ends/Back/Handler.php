@@ -399,7 +399,11 @@ class Handler extends EndHandlerAbstract
             '*.giphy.com/gifs/*',
             'giphy.com/gifs/*',
             'i.giphy.com/*',
-            'gph.is/*'
+            'gph.is/*',
+
+            // Wistia
+            '*.wistia.com/medias/*',
+            'fast.wistia.com/embed/medias/*.jsonp'
         );
     }
 }
