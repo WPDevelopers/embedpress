@@ -1,5 +1,10 @@
 == Changelog ==
 
+= 1.7.3 =
+Release Date: 2017-04-10
+
+* Fixes support for Wistia URLs
+
 = 1.7.2 =
 Release Date: 2017-04-07
 
