@@ -10,3 +10,5 @@ Thumbs.db
 .idea
 packages/*
 !packages/.gitkeep
+/EmbedPress.sublime-project
+/EmbedPress.sublime-workspace
