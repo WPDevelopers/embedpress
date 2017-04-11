@@ -82,6 +82,7 @@ In addition to the default WordPress sources, EmbedPress supports these provider
 - [VideoPress embeds](https://pressshack.com/embedpress/docs/embed-videopress-videos-wordpress/) <em>(Videos)</em>
 - [Vimeo embeds](https://pressshack.com/embedpress/docs/embed-vimeo-video-wordpress/) <em>(Videos)</em>
 - [Vine embeds](https://pressshack.com/embedpress/docs/embed-vine-videos-wordpress/) <em>(Videos)</em>
+- [Wistia embeds](https://pressshack.com/embedpress/docs/add-wistia-videos-wordpress/) <em>(Videos)</em>
 - [WordPress.tv embeds](https://pressshack.com/embedpress/docs/embed-wordpress-tv-videos-wordpress/) <em>(Videos)</em>
 - [YouTube embeds](https://pressshack.com/embedpress/docs/youtube-wordpress/) <em>(Videos)</em>
 
