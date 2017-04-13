@@ -671,7 +671,8 @@
 			 * Only the original instantiator that calls dynamic_init can modify the module's path.
 			 */
 			// Find caller module.
-			$plugin_file = fs_find_caller_plugin_file();
+			$file_and_type = $this->get_caller_main_file_and_type();
+			$plugin_file   = $file_and_type->path;
 
 			$this->_storage->plugin_main_file = (object) array(
 				'path' => fs_normalize_path( $plugin_file ),
@@ -680,6 +681,84 @@
 			return $plugin_file;
 		}
 
+		/**
+		 * Identifies the caller path.
+		 *
+		 * @todo (Vova) When merging this branch with the theme's one, use the theme's one instead of this one.
+		 *
+		 * @author Leo Fajardo (@leorw)
+		 * @since  1.2.2
+		 *
+		 * @author Vova Feldman (@svovaf)
+		 * @since 1.2.2.3 Find the earliest module in the call stack that calls to the SDK. This fix is for cases when add-ons are relying on loading the SDK from the parent module, and also allows themes including the SDK an internal file instead of directly from functions.php.
+		 * @since 1.2.1.7 Knows how to handle cases when an add-on includes the parent module logic.
+		 */
+		private function get_caller_main_file_and_type() {
+			self::require_plugin_essentials();
+
+			$all_plugins       = get_plugins();
+			$all_plugins_paths = array();
+
+			// Get active plugin's main files real full names (might be symlinks).
+			foreach ( $all_plugins as $relative_path => &$data ) {
+				$all_plugins_paths[] = fs_normalize_path( realpath( WP_PLUGIN_DIR . '/' . $relative_path ) );
+			}
+
+			$caller_file_candidate = false;
+			$caller_map            = array();
+			$module_type           = WP_FS__MODULE_TYPE_PLUGIN;
+
+			for ( $i = 1, $bt = debug_backtrace(), $len = count( $bt ); $i < $len; $i ++ ) {
+				if ( empty( $bt[ $i ]['file'] ) ) {
+					continue;
+				}
+
+				if ( $i > 1 && ! empty( $bt[ $i - 1 ]['file'] ) && $bt[ $i ]['file'] === $bt[ $i - 1 ]['file'] ) {
+					// If file same as the prev file in the stack, skip it.
+					continue;
+				}
+
+				if ( ! empty( $bt[ $i ]['function'] ) && in_array( $bt[ $i ]['function'], array(
+						'do_action',
+						'apply_filter',
+						'require_once',
+						'require',
+						'include_once',
+						'include'
+					) )
+				) {
+					// Ignore call stack hooks and files inclusion.
+					continue;
+				}
+
+				$caller_file_path = fs_normalize_path( $bt[ $i ]['file'] );
+				$caller_file_hash = md5( $caller_file_path );
+
+				if ( ! isset( $caller_map[ $caller_file_hash ] ) ) {
+					foreach ( $all_plugins_paths as $plugin_path ) {
+						if ( false !== strpos( $caller_file_path, fs_normalize_path( dirname( $plugin_path ) . '/' ) ) ) {
+							$caller_map[ $caller_file_hash ] = fs_normalize_path( $plugin_path );
+							break;
+						}
+					}
+				}
+
+				if ( isset( $caller_map[ $caller_file_hash ] ) ) {
+					$module_type           = WP_FS__MODULE_TYPE_PLUGIN;
+					$caller_file_candidate = $caller_map[ $caller_file_hash ];
+				}
+			}
+
+			if ( empty( $caller_file_candidate ) ) {
+				// Throw an error to the developer in case of some edge case dev environment.
+				wp_die( __fs( 'failed-finding-main-path' ), __fs( 'error' ), array( 'back_link' => true ) );
+			}
+
+			return (object) array(
+				'module_type' => $module_type,
+				'path'        => $caller_file_candidate
+			);
+		}
 
 		#----------------------------------------------------------------------------------
 		#region Deactivation Feedback Form
@@ -1219,6 +1298,10 @@
 
 			self::add_ajax_action_static( 'get_debug_log', array( 'Freemius', '_get_debug_log' ) );
 
+			self::add_ajax_action_static( 'get_db_option', array( 'Freemius', '_get_db_option' ) );
+
+			self::add_ajax_action_static( 'set_db_option', array( 'Freemius', '_set_db_option' ) );
+
 			add_action( 'plugins_loaded', array( 'Freemius', '_load_textdomain' ), 1 );
 
 			self::$_statics_loaded = true;
@@ -1304,11 +1387,13 @@
 		 * @since  1.1.7.3
 		 */
 		static function _toggle_debug_mode() {
-			if ( fs_request_is_post() && in_array( $_POST['is_on'], array( 0, 1 ) ) ) {
-				update_option( 'fs_debug_mode', $_POST['is_on'] );
+			$is_on = fs_request_get('is_on', false, 'post');
+
+			if ( fs_request_is_post() && in_array( $is_on, array( 0, 1 ) ) ) {
+				update_option( 'fs_debug_mode', $is_on );
 
 				// Turn on/off storage logging.
-				FS_Logger::_set_storage_logging( ( 1 == $_POST['is_on'] ) );
+				FS_Logger::_set_storage_logging( ( 1 == $is_on ) );
 			}
 
 			exit;
@@ -1320,13 +1405,53 @@
 		 */
 		static function _get_debug_log() {
 			$logs = FS_Logger::load_db_logs(
-				! empty( $_POST['filters'] ) ? $_POST['filters'] : false,
+				fs_request_get('filters', false, 'post'),
 				! empty( $_POST['limit'] ) && is_numeric( $_POST['limit'] ) ? $_POST['limit'] : 200,
 				! empty( $_POST['offset'] ) && is_numeric( $_POST['offset'] ) ? $_POST['offset'] : 0
 			);
 
 			self::shoot_ajax_success( $logs );
 		}
+
+		/**
+		 * @author Vova Feldman (@svovaf)
+		 * @since  1.2.1.7
+		 */
+		static function _get_db_option() {
+			$option_name = fs_request_get( 'option_name' );
+
+			$value = get_option( $option_name );
+
+			$result = array(
+				'name' => $option_name,
+			);
+
+			if ( false !== $value ) {
+				if ( ! is_string( $value ) ) {
+					$value = json_encode( $value );
+				}
+
+				$result['value'] = $value;
+			}
+
+			self::shoot_ajax_success( $result );
+		}
+
+		/**
+		 * @author Vova Feldman (@svovaf)
+		 * @since  1.2.1.7
+		 */
+		static function _set_db_option() {
+			$option_name  = fs_request_get( 'option_name' );
+			$option_value = fs_request_get( 'option_value' );
+
+			if ( ! empty( $option_value ) ) {
+				update_option( $option_name, $option_value );
+			}
+
+			self::shoot_ajax_success();
+		}
+
 
 		/**
 		 * @author Vova Feldman (@svovaf)
@@ -1358,7 +1483,7 @@
 				check_admin_referer( 'download_logs' );
 
 				$download_url = FS_Logger::download_db_logs(
-					! empty( $_POST['filters'] ) ? $_POST['filters'] : false
+					fs_request_get('filters', false, 'post')
 				);
 
 				if ( false === $download_url ) {
@@ -1705,9 +1830,35 @@
 			) {
 				switch ( $api_result->error->code ) {
 					case 'curl_missing':
+						$missing_methods = '';
+						if (is_array($api_result->missing_methods) &&
+						    !empty($api_result->missing_methods)
+						) {
+							foreach ( $api_result->missing_methods as $m ) {
+								if ( 'curl_version' === $m ) {
+									continue;
+								}
+
+								if ( ! empty( $missing_methods ) ) {
+									$missing_methods .= ', ';
+								}
+
+								$missing_methods .= sprintf( '<code>%s</code>', $m );
+							}
+
+							if ( ! empty( $missing_methods ) ) {
+								$missing_methods = sprintf(
+									'<br><br><b>%s</b> %s',
+									__fs( 'curl-disabled-methods', $this->_slug ),
+									$missing_methods
+								);
+							}
+						}
+
 						$message = sprintf(
 							__fs( 'x-requires-access-to-api', $this->_slug ) . ' ' .
 							__fs( 'curl-missing-message', $this->_slug ) . ' ' .
+							$missing_methods .
 							' %s',
 							'<b>' . $this->get_plugin_name() . '</b>',
 							sprintf(
@@ -5040,7 +5191,13 @@
 		}
 
 		/**
-		 * Check if user is registered.
+		 * Check if user has connected his account (opted-in).
+		 *
+		 * Note:
+		 *      If the user opted-in and opted-out on a later stage,
+		 *      this will still return true. If you want to check if the
+		 *      user is currently opted-in, use:
+		 *          `$fs->is_registered() && $fs->is_tracking_allowed()`
 		 *
 		 * @author Vova Feldman (@svovaf)
 		 * @since  1.0.1
@@ -5683,6 +5840,27 @@
 		}
 
 		/**
+		 * Check if module has only one plan.
+		 *
+		 * @author Vova Feldman (@svovaf)
+		 * @since  1.2.1.7
+		 *
+		 * @return bool
+		 */
+		function is_single_plan() {
+			$this->_logger->entrance();
+
+			if ( ! $this->is_registered() ||
+			     ! is_array( $this->_plans ) ||
+			     0 === count( $this->_plans )
+			) {
+				return true;
+			}
+
+			return ( 1 === count( $this->_plans ) );
+		}
+
+		/**
 		 * Check if plan based on trial. If not in trial mode, should return false.
 		 *
 		 * @since  1.0.9
@@ -5863,7 +6041,7 @@
 				exit;
 			}
 
-			$slug      = $_POST['slug'];
+			$slug      = fs_request_get( 'slug', '', 'post' );
 			$fs        = ( ( $slug === $this->_slug ) ? $this : self::instance( $slug ) );
 			$error     = false;
 			$next_page = false;
@@ -5946,6 +6124,8 @@
 		 * @since  1.2.1.5
 		 */
 		function _start_trial_ajax_action() {
+			$this->_logger->entrance();
+
 			check_ajax_referer( $this->get_action_tag( 'start_trial' ), 'security' );
 
 			if ( ! current_user_can( 'activate_plugins' ) ) {
@@ -5982,11 +6162,10 @@
 		 * @since  1.2.0
 		 */
 		function _resend_license_key_ajax_action() {
-			if ( ! isset( $_POST['email'] ) ) {
-				exit;
-			}
+			$this->_logger->entrance();
 
-			$email_address = trim( $_POST['email'] );
+			$email_address = sanitize_email( trim( fs_request_get( 'email', '', 'post' ) ) );
+
 			if ( empty( $email_address ) ) {
 				exit;
 			}
@@ -7733,7 +7912,14 @@
 						);
 					}
 
-					$show_pricing = ( $this->has_paid_plan() && $this->_menu->is_submenu_item_visible( 'pricing' ) );
+					$show_pricing = (
+						// Has at least one paid plan.
+						$this->has_paid_plan() &&
+						// Didn't ask to hide the pricing page.
+						$this->_menu->is_submenu_item_visible( 'pricing' ) &&
+						// Don't have a valid active license or has more than one plan.
+						( !$this->is_paying() || !$this->is_single_plan() )
+					);
 					// If user don't have paid plans, add pricing page
 					// to support add-ons checkout but don't add the submenu item.
 					// || (isset( $_GET['page'] ) && $this->_menu->get_slug( 'pricing' ) == $_GET['page']);
@@ -7755,7 +7941,7 @@
 
 					// Add upgrade/pricing page.
 					$this->add_submenu_item(
-						__fs( $pricing_cta_slug, $this->_slug ) . '&nbsp;&nbsp;&#x27a4;',
+						__fs( $pricing_cta_slug, $this->_slug ) . '&nbsp;&nbsp;' . ( is_rtl() ? '&#x2190;' : '&#x27a4;' ),
 						array( &$this, '_pricing_page_render' ),
 						$this->get_plugin_name() . ' &ndash; ' . __fs( 'pricing', $this->_slug ),
 						'manage_options',
@@ -10294,8 +10480,17 @@
 		 * @return string
 		 */
 		private function get_activation_url( $params = array() ) {
+			if ( $this->is_addon() ) {
+				/**
+				 * @author Vova Feldman (@svovaf)
+				 * @since  1.2.1.7 Add-on's activation is the parent's module activation.
+				 */
+				return $this->get_parent_instance()->get_activation_url( $params );
+			}
+
 			return $this->apply_filters( 'connect_url', $this->_get_admin_page_url( '', $params ) );
 		}
+
 
 		/**
 		 * @author Vova Feldman (@svovaf)

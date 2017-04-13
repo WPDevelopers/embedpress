@@ -68,23 +68,25 @@
 
 	<div class="fs-header-actions">
 		<ul>
-			<li>
-				<form action="<?php echo $fs->_get_admin_page_url( 'account' ) ?>" method="POST">
-					<input type="hidden" name="fs_action" value="delete_account">
-					<?php wp_nonce_field( 'delete_account' ) ?>
-					<a href="#" onclick="if (confirm('<?php
-						if ( $is_active_subscription ) {
-							echo esc_attr( sprintf( __fs( 'delete-account-x-confirm', $slug ), $plan->title ) );
-						} else {
-							_efs( 'delete-account-confirm', $slug );
-						}
-					?>'))  this.parentNode.submit(); return false;"><i
-							class="dashicons dashicons-no"></i> <?php _efs( 'delete-account', $slug ) ?></a>
-				</form>
-			</li>
+			<?php if ( ! $is_paying ) : ?>
+				<li>
+					<form action="<?php echo $fs->_get_admin_page_url( 'account' ) ?>" method="POST">
+						<input type="hidden" name="fs_action" value="delete_account">
+						<?php wp_nonce_field( 'delete_account' ) ?>
+						<a href="#" onclick="if (confirm('<?php
+							if ( $is_active_subscription ) {
+								echo esc_attr( sprintf( __fs( 'delete-account-x-confirm', $slug ), $plan->title ) );
+							} else {
+								_efs( 'delete-account-confirm', $slug );
+							}
+						?>'))  this.parentNode.submit(); return false;"><i
+								class="dashicons dashicons-no"></i> <?php _efs( 'delete-account', $slug ) ?></a>
+					</form>
+				</li>
+				<li>&nbsp;&bull;&nbsp;</li>
+			<?php endif ?>
 			<?php if ( $is_paying ) : ?>
 				<li>
-					&nbsp;&bull;&nbsp;
 					<form action="<?php echo $fs->_get_admin_page_url( 'account' ) ?>" method="POST">
 						<input type="hidden" name="fs_action" value="deactivate_license">
 						<?php wp_nonce_field( 'deactivate_license' ) ?>
@@ -94,11 +96,11 @@
 						</a>
 					</form>
 				</li>
+				<li>&nbsp;&bull;&nbsp;</li>
 				<?php if ( ! $license->is_lifetime() &&
 				           $is_active_subscription
 				) : ?>
 					<li>
-						&nbsp;&bull;&nbsp;
 						<form action="<?php echo $fs->_get_admin_page_url( 'account' ) ?>" method="POST">
 							<input type="hidden" name="fs_action" value="downgrade_account">
 							<?php wp_nonce_field( 'downgrade_account' ) ?>
@@ -107,19 +109,20 @@
 								   printf( __fs( 'after-downgrade-non-blocking', $slug ), $plan->title );
 							   } else {
 								   printf( __fs( 'after-downgrade-blocking', $slug ), $plan->title );
-							   }?> <?php _efs( 'proceed-confirmation', $slug ) ?>')) this.parentNode.submit(); return false;"><i
-									class="dashicons dashicons-download"></i> <?php _efs( 'downgrade', $slug ) ?></a>
+							   }?> <?php _efs( 'proceed-confirmation', $slug ) ?>')) this.parentNode.submit(); return false;"><i class="dashicons dashicons-download"></i> <?php _efs( ( $fs->is_only_premium() ? 'cancel-subscription' : 'downgrade' ), $slug ) ?></a>
 						</form>
 					</li>
+					<li>&nbsp;&bull;&nbsp;</li>
 				<?php endif ?>
+				<?php if ( ! $fs->is_single_plan() ) : ?>
 				<li>
-					&nbsp;&bull;&nbsp;
 					<a href="<?php echo $fs->get_upgrade_url() ?>"><i
 							class="dashicons dashicons-grid-view"></i> <?php _efs( 'change-plan', $slug ) ?></a>
 				</li>
+				<li>&nbsp;&bull;&nbsp;</li>
+				<?php endif ?>
 			<?php elseif ( $is_paid_trial ) : ?>
 				<li>
-					&nbsp;&bull;&nbsp;
 					<form action="<?php echo $fs->_get_admin_page_url( 'account' ) ?>" method="POST">
 						<input type="hidden" name="fs_action" value="cancel_trial">
 						<?php wp_nonce_field( 'cancel_trial' ) ?>
@@ -128,9 +131,9 @@
 								class="dashicons dashicons-download"></i> <?php _efs( 'cancel-trial', $slug ) ?></a>
 					</form>
 				</li>
+				<li>&nbsp;&bull;&nbsp;</li>
 			<?php endif ?>
 			<li>
-				&nbsp;&bull;&nbsp;
 				<form action="<?php echo $fs->_get_admin_page_url( 'account' ) ?>" method="POST">
 					<input type="hidden" name="fs_action" value="<?php echo $slug ?>_sync_license">
 					<?php wp_nonce_field( $slug . '_sync_license' ) ?>
@@ -302,11 +305,14 @@
 										<input type="hidden" name="fs_action"
 										       value="<?php echo $slug ?>_sync_license">
 										<?php wp_nonce_field( $slug . '_sync_license' ) ?>
+										<?php if ( $show_upgrade || ! $fs->is_single_plan() ) : ?>
 										<a href="<?php echo $fs->get_upgrade_url() ?>"
-										   class="button<?php if ( $show_upgrade ) {
-											   echo ' button-primary';
-										   } ?> button-upgrade"><i
+										   class="button<?php
+											   echo $show_upgrade ?
+												   ' button-primary fs-upgrade' :
+												   ' fs-change-plan'; ?> button-upgrade"><i
 												class="dashicons dashicons-cart"></i> <?php fs_esc_html_echo( $show_upgrade ? 'upgrade' : 'change-plan', $slug ) ?></a>
+										<?php endif ?>
 									</form>
 								<?php endif ?>
 							</div>
