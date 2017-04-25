@@ -151,7 +151,7 @@ class Settings
      */
     public static function renderForm()
     {
-        // Add the color picker css file       
+        // Add the color picker css file
         wp_enqueue_style('wp-color-picker');
         // Include our custom jQuery file with WordPress Color Picker dependency
         wp_enqueue_script('ep-settings', EMBEDPRESS_URL_ASSETS .'js/settings.js', array('wp-color-picker'), EMBEDPRESS_PLG_VERSION, true);
@@ -203,7 +203,7 @@ class Settings
                             <a href="//pressshack.com/embedpress/docs" target="_blank" rel="noopener noreferrer" title="EmbedPress Documentation">Documentation</a>
                         </li>
                         <li>
-                            <a href="//pressshack.com/embedpress/youtube" target="_blank" rel="noopener noreferrer" title="EmbedPress Add-Ons">Add-Ons</a>
+                            <a href="//pressshack.com/embedpress/addons/" target="_blank" rel="noopener noreferrer" title="EmbedPress Add-Ons">Add-Ons</a>
                         </li>
                         <li>
                             <a href="//pressshack.com/contact" target="_blank" rel="noopener noreferrer" title="Contact the PressShack team">Contact</a>
