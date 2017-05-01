@@ -28,7 +28,7 @@ In addition to the default WordPress sources, EmbedPress supports these provider
 - [Cloudup embeds](https://pressshack.com/embedpress/docs/embed-cloudup-videos-images-or-audios-wordpress/) <em>(Videos, Galleries, Images)</em>
 - [College Humor embeds](https://pressshack.com/embedpress/docs/embed-collegehumor-videos-wordpress/) <em>(Videos)</em>
 - [Coub embeds](https://pressshack.com/embedpress/docs/embed-coub-videos-iwordpress/) <em>(Videos)</em>
-- [Crowd Raniking embeds](https://pressshack.com/embedpress/docs/embed-crowdranking-polls-wordpress/) <em>(Videos)</em>
+- [Crowd Ranking embeds](https://pressshack.com/embedpress/docs/embed-crowdranking-polls-wordpress/) <em>(Videos)</em>
 - [Daily Mile embeds](https://pressshack.com/embedpress/docs/embed-dailymile-activity-wordpress/) <em>(Activity)</em>
 - [Daily Motion embeds](https://pressshack.com/embedpress/docs/embed-dailymotion-videos-wordpress/) <em>(Videos)</em>
 - [Deviantart embeds](https://pressshack.com/embedpress/docs/embed-deviantart-image-wordpress/) <em>(Images)</em>
