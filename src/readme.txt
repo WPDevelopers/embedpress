@@ -107,19 +107,16 @@ There're two ways to install EmbedPress plugin:
 5. Activate the EmbedPress plugin.
 
 == Usage ==
-- Once the plugin is active, you can go on the editor and paste any URL as you normally would.
-- To pass custom parameters to an embed you can hover on the preview and click on the "Pencil" button. Optionally you can set custom parameters directly using short-codes like:
+* Once the plugin is active, you can go on the editor and paste any URL as you normally would.
+* To pass custom parameters to an embed you can hover on the preview and click on the "Pencil" button. Optionally you can set custom parameters directly using short-codes like:
+* // This will render the iframe (if there's one. Some services may use other tags) having its dimensions fixed to 460x300px.
+* [embed width="460" height="300" responsive="false"]your-link[/embed]
 
-`
-// This will render the iframe (if there's one. Some services may use other tags) having its dimensions fixed to 460x300px.
-[embed width="460" height="300" responsive="false"]your-link[/embed]
+* // This will render the html-embed having an additional html property data-foo="this is awesome".
+* [embed foo="this is awesome"]your-other-link[/embed]
 
-// This will render the html-embed having an additional html property data-foo="this is awesome".
-[embed foo="this is awesome"]your-other-link[/embed]
-
-// This will render the html-embed having the class "cool-embed".
-[embed class="cool-embed"]your-other-link[/embed]
-`
+* // This will render the html-embed having the class "cool-embed".
+* [embed class="cool-embed"]your-other-link[/embed]
 
 == Screenshots ==
 
