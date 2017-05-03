@@ -1,6 +1,6 @@
-=== EmbedPress ===
+=== EmbedPress - Embed ANY file Format with Embed Press including Facebook, Google Maps, Google Docs, UStream and more===
 Contributors: PressShack
-Tags: 23hq, amcharts, animoto, bambuser, cacoo, chartblocks, chirbit, circuitlab, cloudup, clyp, collegehumor, coub, crowd ranking, daily mile, dailymotion, devianart, dipity, dotsub, facebook, flickr, funnyordie, gettyimages, giphy, github gist, google docs, google drawings, google maps, google sheets, google slides, huffduffer, hulu, imgur, infogram, instagram, issuu, kickstarter, meetup, mixcloud, mobypicture, nfb, photobucket, polldaddy, porfolium, reddit, release wire, reverbnation, roomshare, rutube, sapo videos, scribd, shortnote, shoudio, sketchfab, slideshare, smugmug, soundcloud, speaker deck, spotify, ted, tumblr, twitter, ustream, viddler, videojug, videopress, vimeo, vine, wordpress tv, youtube, twitch tv, doc, pdf, pdf viewer, office, google, document, embed, intranet
+Tags: 23hq, amcharts, animoto, bambuser, cacoo, chartblocks, chirbit, circuitlab, cloudup, clyp, collegehumor, coub, crowd ranking, daily mile, dailymotion, devianart, dipity, dotsub, facebook, flickr, funnyordie, gettyimages, giphy, github gist, google docs, google drawings, google maps, google sheets, google slides, huffduffer, hulu, imgur, infogram, instagram, issuu, kickstarter, meetup, mixcloud, mobypicture, nfb, photobucket, polldaddy, porfolium, reddit, release wire, reverbnation, roomshare, rutube, sapo videos, scribd, shortnote, shoudio, sketchfab, slideshare, smugmug, soundcloud, speaker deck, spotify, ted, tumblr, twitter, ustream, viddler, videojug, videopress, vimeo, vine, wordpress tv, youtube, twitch tv
 Requires at least: 4.0
 Tested up to: 4.7
 Stable tag: 1.7.3
@@ -8,13 +8,17 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 WordPress supports around 35 embed sources, but EmbedPress adds over 40 more, including Facebook, Google Maps, Google Docs, UStream! Just use the URL!
+We’re starting with Facebook, Google, UStream and more. All you need is the URL and you can embed media from over 40 more providers into your WordPress site!
 
 == Description ==
 
 The goal of EmbedPress is to embed ANYTHING in WordPress.
-EmbedPress adds to the existing sources that WordPress supports.
-We’re starting with Facebook, Google, UStream and more. All you need is the URL and you can embed media from over 40 more providers into your WordPress site!
-Simply add the URL and EmbedPress will do the rest.
+
+WordPress supports around 40 media sources. The EmbedPress plugin adds support for over 40 more, including popular sources for social media, maps, video, audio, charts, and documents.
+
+All you need is the URL. Add the URL to a WordPress post, and you can embed media from over 75 providers into your site!
+
+EmbedPress supports <a href="https://pressshack.com/embedpress/docs/sources-support/" title="providers">these providers</a> including Facebook, Giphy, Twitch, all Google media (Docs, Maps, Sheets, Drawings, Slides), Instagram, and many more.
 
 In addition to the default WordPress sources, EmbedPress supports these providers:
 
@@ -111,9 +115,9 @@ There're two ways to install EmbedPress plugin:
 == Usage ==
 * Once the plugin is active, you can go on the editor and paste any URL as you normally would.
 * To pass custom parameters to an embed you can hover on the preview and click on the "Pencil" button. Optionally you can set custom parameters directly using short-codes like:
+*
 * // This will render the iframe (if there's one. Some services may use other tags) having its dimensions fixed to 460x300px.
 * [embed width="460" height="300" responsive="false"]your-link[/embed]
-
 * // This will render the html-embed having an additional html property data-foo="this is awesome".
 * [embed foo="this is awesome"]your-other-link[/embed]
 
