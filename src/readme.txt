@@ -182,6 +182,11 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= 1.7.4 =
+Release Date: UNRELEASD
+
+* Fixed JS incompatiblity with some 3rd part plugins
+
 = 1.7.3 =
 Release Date: 2017-04-10
 
