@@ -3,7 +3,7 @@ Contributors: PressShack
 Tags: YouTube, Google, Facebook, Wistia, Vimeo
 Requires at least: 4.0
 Tested up to: 4.7
-Stable tag: 1.7.3
+Stable tag: 1.7.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -183,7 +183,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 = 1.7.4 =
-Release Date: UNRELEASD
+Release Date: 2017-05-18
 
 * Fixed:
 * Fixed JS incompatiblity with some 3rd part plugins
