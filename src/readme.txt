@@ -185,7 +185,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 = 1.7.4 =
 Release Date: UNRELEASD
 
+* Fixed:
 * Fixed JS incompatiblity with some 3rd part plugins
+* Fixed the Add-on link in the footer
+* Fixed typos
+* Fixed the "Hello Dolly" message in the Freemius opt-in dialog
+
+* Changed:
+* Updated the text in the readme file
+* Updated the plugin name in the Freemius integration
+* Updated banner image
+* Simplifies the regex to detect URLs
 
 = 1.7.3 =
 Release Date: 2017-04-10
