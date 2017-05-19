@@ -1,0 +1,63 @@
+.ep-module-settings {
+    overflow: hidden;
+    padding-top: 20px;
+}
+
+.ep-module-settings:after {
+    clear: both;
+    content: "";
+    display: block;
+}
+
+.ep-module-settings td > button {
+    border: none !important;
+}
+
+.ep-block-addons-items {
+    margin: 0;
+    max-width: 740px;
+}
+
+.ep-block-addons-items li {
+    display: block;
+    width: 225px;
+    height: 450px;
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    background: #fff;
+}
+
+.ep-block-addons-items li img {
+    width: 100%;
+}
+
+.ep-block-addons-items li h3 {
+    padding: 0 10px;
+    text-align: center;
+    height: 40px;
+}
+
+.ep-block-addons-items li p {
+    padding: 0 10px;
+    height: 90px;
+}
+
+.ep-block-addons-items li div {
+    padding: 5px;
+    padding-top: 10px;
+    text-align: center;
+    margin: 0 10px;
+    background: #efefef;
+    height: 22px;
+}
+
+.ep-block-addons-items li a.button {
+    margin-left: 30px;
+    height: 34px;
+    text-shadow: none;
+    padding-top: 4px;
+    box-shadow: none;
+    border-width: 2px;
+    border-radius: 4px;
+}
