@@ -275,7 +275,7 @@ class Settings
                                             </div>
                                         <?php endif; ?>
                                     <?php else: ?>
-                                        <a href="https://pressshack.com/downloads/embedpress-bundle/" class="button button-primary">
+                                        <a href="https://pressshack.com/addons/embedpress-club/" class="button button-primary">
                                             <span class="dashicons dashicons-cart"></span> <?php echo __( 'Get Pro Add-ons!', 'embedpress' ); ?>
                                         </a>
                                     <?php endif; ?>
