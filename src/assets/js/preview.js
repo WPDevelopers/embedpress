@@ -14,7 +14,7 @@
         }
 
         String.prototype.isValidUrl = function() {
-            var rule = /^(https?|ftp|embedpresss?):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
+            var rule = /^(https?|embedpresss?):\/\//i;
 
             return rule.test(this.toString());
         }
@@ -833,18 +833,18 @@
                         self.cancelEvent(e, editorInstance)
                     });
                     doc = null;
-                    // Add the node filter that will convert the url into the preview box for the embed code
-                    // @todo: Recognize <a> tags as well
 
+                    // Add the node filter that will convert the url into the preview box for the embed code
                     editorInstance.parser.addNodeFilter('#text', function addNodeFilterIntoParser(nodes, arg) {
                         self.each(nodes, function eachNodeInParser(node) {
                             var subject = node.value.trim();
+
+
                             if (!subject.isValidUrl()) {
                                 if (!subject.match(SHORTCODE_REGEXP)) {
                                     return;
                                 }
                             }
-
                             subject = self.decodeEmbedURLSpecialChars(subject);
                             if (!subject.isValidUrl()) {
                                 if (!subject.match(SHORTCODE_REGEXP)) {
@@ -852,9 +852,11 @@
                                 }
                             }
 
+
                             subject = node.value.stripShortcode($data.EMBEDPRESS_SHORTCODE).trim();
 
                             // These patterns need to have groups for the pre and post texts
+                            // @TODO: maybe remove this list of URLs? Let the server side code decide what URL should be parsed
                             var patterns = self.getProvidersURLPatterns();
 
                             (function tryToMatchContentAgainstUrlPatternWithIndex(urlPatternIndex) {

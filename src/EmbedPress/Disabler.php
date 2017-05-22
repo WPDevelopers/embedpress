@@ -96,7 +96,7 @@ class Disabler
 
         add_filter('http_request_host_is_external', array('\EmbedPress\Core', 'allowApiHost'), 10, 3);
 
-        add_filter('the_editor', array('\EmbedPress\Ends\Front\Handler', 'renderPreviewBoxInEditors'));
+        add_action('tiny_mce_before_init', array('\EmbedPress\Ends\Front\Handler', 'renderPreviewBoxInEditors'));
     }
 
     /**

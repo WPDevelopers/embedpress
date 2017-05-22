@@ -88,7 +88,7 @@ abstract class Plugin
             new Updater(EMBEDPRESS_LICENSES_API_URL, static::PATH . EMBEDPRESS_PLG_NAME .'-'. static::SLUG .'.php', array(
                 'version'   => static::VERSION,
                 'license'   => $licenseKey,
-                'item_name' => "EmbedPress - ". static::NAME,
+                'item_name' => "EmbedPress " . static::NAME,
                 'author'    => "PressShack"
             ));
         }

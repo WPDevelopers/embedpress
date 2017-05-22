@@ -144,6 +144,28 @@ class Settings
     }
 
     /**
+     * Returns true if the plugin is active
+     *
+     * @param  string   $plugin
+     *
+     * @return boolean
+     */
+    protected static function is_plugin_active( $plugin ) {
+        return is_plugin_active( "{$plugin}/{$plugin}.php" );
+    }
+
+    /**
+     * Returns true if the plugin is installed
+     *
+     * @param  string   $plugin
+     *
+     * @return boolean
+     */
+    protected static function is_plugin_installed( $plugin ) {
+        return file_exists( plugin_dir_path( PUBLISHPRESS_ROOT ) . "{$plugin}/{$plugin}.php" );
+    }
+
+    /**
      * Method that render the settings's form.
      *
      * @since   1.0.0
@@ -151,7 +173,7 @@ class Settings
      */
     public static function renderForm()
     {
-        // Add the color picker css file       
+        // Add the color picker css file
         wp_enqueue_style('wp-color-picker');
         // Include our custom jQuery file with WordPress Color Picker dependency
         wp_enqueue_script('ep-settings', EMBEDPRESS_URL_ASSETS .'js/settings.js', array('wp-color-picker'), EMBEDPRESS_PLG_VERSION, true);
@@ -173,17 +195,98 @@ class Settings
 
             <div>
                 <h2 class="nav-tab-wrapper">
-                    <a href="?page=embedpress" class="nav-tab<?php echo $activeTab === 'embedpress' || empty($activeTab) ? ' nav-tab-active' : ''; ?> ">General settings</a>
+                    <a href="?page=embedpress" class="nav-tab<?php echo $activeTab === 'embedpress' || empty($activeTab) ? ' nav-tab-active' : ''; ?> ">
+                        General settings
+                    </a>
 
                     <?php do_action('embedpress:settings:render:tab', $activeTab); ?>
+
+                    <a href="?page=embedpress&tab=addons" class="nav-tab<?php echo $activeTab === 'addons' ? ' nav-tab-active' : ''; ?> ">
+                        Add-ons
+                    </a>
                 </h2>
 
-                <form action="options.php" method="POST" style="padding-bottom: 20px;">
-                    <?php settings_fields($settingsFieldsIdentifier); ?>
-                    <?php do_settings_sections($settingsSectionsIdentifier); ?>
+                <?php if ($activeTab !== 'addons') : ?>
+                    <form action="options.php" method="POST" style="padding-bottom: 20px;">
+                        <?php settings_fields($settingsFieldsIdentifier); ?>
+                        <?php do_settings_sections($settingsSectionsIdentifier); ?>
 
-                    <button type="submit" class="button button-primary">Save changes</button>
-                </form>
+                        <button type="submit" class="button button-primary">Save changes</button>
+                    </form>
+                <?php endif; ?>
+
+                <?php if ($activeTab === 'addons') : ?>
+                    <?php
+                    $icons_base_path = plugins_url( 'embedpress' ) . '/assets/images/' ;
+
+                    $addons = array(
+                        'embedpress-youtube' => array(
+                            'title'       => __( 'The YouTube Add-on for EmbedPress', 'embedpress' ),
+                            'description' => __( 'Get more features for your YouTube embeds in WordPress.', 'embedpress' ),
+                            'available'   => true,
+                            'installed'   => static::is_plugin_installed( 'embedpress-youtube' ),
+                            'active'      => static::is_plugin_active( 'embedpress-youtube' ),
+                        ),
+                        'embedpress-vimeo' => array(
+                            'title'       => __( 'The Vimeo Add-on for EmbedPress', 'embedpress' ),
+                            'description' => __( 'Get more features for your Vimeo embeds in WordPress.', 'embedpress' ),
+                            'available'   => true,
+                            'installed'   => static::is_plugin_installed( 'embedpress-vimeo' ),
+                            'active'      => static::is_plugin_active( 'embedpress-vimeo' ),
+                        ),
+                        'embedpress-wistia' => array(
+                            'title'       => __( 'The Wistia Add-on for EmbedPress', 'embedpress' ),
+                            'description' => __( 'Get more features for your Wistia embeds in WordPress.', 'embedpress' ),
+                            'available'   => true,
+                            'installed'   => static::is_plugin_installed( 'embedpress-wistia' ),
+                            'active'      => static::is_plugin_active( 'embedpress-wistia' ),
+                        ),
+                    );
+
+                    $args = array(
+                        'addons'          => $addons,
+                        'icons_base_path' => $icons_base_path,
+                        'labels'          => array(
+                            'active'         => __( 'Active', 'publishpress' ),
+                            'installed'      => __( 'Installed', 'publishpress' ),
+                            'get_pro_addons' => __( 'Get Pro Add-ons!', 'publishpress' ),
+                            'coming_soon'    => __( 'Coming soon', 'publishpress' ),
+                        ),
+                    );
+
+                    ?>
+                    <div class="ep-module-settings">
+                        <ul class="ep-block-addons-items">
+                        <?php foreach ( $addons as $name => $addon ): ?>
+                            <li class="ep-block-addons-item ">
+                                <img src="<?php echo $icons_base_path . $name; ?>.jpg">
+                                <h3><?php echo $addon['title']; ?></h3>
+                                <p><?php echo $addon['description']; ?></p>
+
+                                <?php if ( $addon['available'] ): ?>
+                                    <?php if ( $addon['installed'] ): ?>
+                                        <?php if ( $addon['active'] ): ?>
+                                            <div>
+                                                <span class="dashicons dashicons-yes"></span><span><?php echo __( 'Active', 'embedpress' ); ?></span>
+                                            </div>
+                                        <?php else: ?>
+                                            <div>
+                                                <span><?php echo __( 'Installed', 'embedpress' ); ?></span>
+                                            </div>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <a href="https://pressshack.com/addons/embedpress-club/" class="button button-primary">
+                                            <span class="dashicons dashicons-cart"></span> <?php echo __( 'Get Pro Add-ons!', 'embedpress' ); ?>
+                                        </a>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <div><?php echo __( 'Coming soon', 'embedpress' ); ?></div>
+                                <?php endif; ?>
+                            </li>
+                        <?php endforeach; ?>
+                        </ul>
+                    </div>
+                <?php endif; ?>
             </div>
 
             <footer>
@@ -203,7 +306,7 @@ class Settings
                             <a href="//pressshack.com/embedpress/docs" target="_blank" rel="noopener noreferrer" title="EmbedPress Documentation">Documentation</a>
                         </li>
                         <li>
-                            <a href="//pressshack.com/embedpress/youtube" target="_blank" rel="noopener noreferrer" title="EmbedPress Add-Ons">Add-Ons</a>
+                            <a href="//pressshack.com/embedpress/addons/" target="_blank" rel="noopener noreferrer" title="EmbedPress Add-Ons">Add-Ons</a>
                         </li>
                         <li>
                             <a href="//pressshack.com/contact" target="_blank" rel="noopener noreferrer" title="Contact the PressShack team">Contact</a>
