@@ -234,7 +234,7 @@ class Shortcode
                 $parsedContent = preg_replace('/((?:ose-)?\{provider_alias\})/i', "ose-". strtolower($urlData->provider_name), $parsedContent);
             }
 
-            if (isset($urlData->provider_name) || isset($urlData[$content]['provider_name'])) {
+            if (isset($urlData->provider_name) || (is_array($urlData) && isset($urlData[$content]['provider_name']))) {
                 // NFB seems to always return their embed code with all HTML entities into their applicable characters string.
                 if ((isset($urlData->provider_name) && strtoupper($urlData->provider_name) === "NATIONAL FILM BOARD OF CANADA") || (is_array($urlData) && isset($urlData[$content]['provider_name']) && strtoupper($urlData[$content]['provider_name']) === "NATIONAL FILM BOARD OF CANADA")) {
                     $parsedContent = html_entity_decode($parsedContent);
@@ -546,7 +546,7 @@ class Shortcode
             foreach ($attributes as $key => $value) {
                 if (substr_count($key, '-')) {
                     unset($data->$key);
-                    
+
                     $key = str_replace('-', '_', $key);
                     $data->$key = $value;
                 }
@@ -555,7 +555,7 @@ class Shortcode
             foreach ($data as $key => $value) {
                 if (substr_count($key, '-')) {
                     unset($data[$key]);
-                    
+
                     $key = str_replace('-', '_', $key);
                     $data[$key] = $value;
                 }
