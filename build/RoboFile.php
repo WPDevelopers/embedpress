@@ -9,7 +9,7 @@ use Robo\Exception\TaskExitException;
  */
 class RoboFile extends \Robo\Tasks
 {
-    const SOURCE_PATH = 'src';
+    const SOURCE_PATH = '../src';
 
     const PACKAGE_PATH = 'packages';
 
@@ -41,9 +41,25 @@ class RoboFile extends \Robo\Tasks
         $packPath = self::PACKAGE_PATH . '/'. $filename;
         $pack     = $this->taskPack($packPath);
 
+        // Remove existent package
+        if (file_exists($packPath)) {
+            unlink($packPath);
+        }
+
         $srcContent = scandir(self::SOURCE_PATH);
         foreach ($srcContent as $content) {
-            if (! in_array($content, array('.', '..'))) {
+            $ignore = array(
+                '.',
+                '..',
+                'build',
+                'tests',
+                '.git',
+                '.gitignore',
+                'README',
+                '.DS_Store',
+            );
+
+            if (! in_array($content, $ignore)) {
                 $path = self::SOURCE_PATH . '/' . $content;
 
                 if (is_file($path)) {
@@ -66,12 +82,23 @@ class RoboFile extends \Robo\Tasks
 
             $this->say('Moving the new package to ' . $destFile);
 
-            rename(self::PACKAGE_PATH . '/' . $filename, $destFile);
+            //rename(self::PACKAGE_PATH . '/' . $filename, $destFile);
         }
 
         $this->say("Package built successfully");
 
         return $return;
+    }
+
+    /**
+     * Build and move the package to a global path, set by PS_GLOBAL_PACKAGES_PATH
+     */
+    public function packBuildGlobal() {
+        $new_path = getenv('PS_GLOBAL_PACKAGES_PATH');
+
+        if (! empty($new_path)) {
+            $this->packBuild($new_path);
+        }
     }
 
     /**
@@ -139,9 +166,7 @@ class RoboFile extends \Robo\Tasks
      */
     protected function getPoFiles()
     {
-        $languageDir = 'src/languages';
-
-        return glob($languageDir . '/*.po');
+        return glob(SOURCE_PATH . 'languages' . '/*.po');
     }
 
     /**
@@ -202,9 +227,11 @@ class RoboFile extends \Robo\Tasks
     /**
      * Sync WP files with src files
      */
-    public function syncWp()
+    public function syncStaging()
     {
-        $return = $this->_exec('sh ./sync-wp.sh');
+        $PS_WP_PATH = getenv('PS_WP_PATH');
+
+        $return = $this->_exec('PS_WP_PATH=' . $PS_WP_PATH . ' sh ./sync-staging.sh');
 
         return $return;
     }
@@ -212,9 +239,11 @@ class RoboFile extends \Robo\Tasks
     /**
      * Sync src files with WP files
      */
-    public function syncSrc()
+    public function syncRepo()
     {
-        $return = $this->_exec('sh ./sync-src.sh');
+        $PS_WP_PATH = getenv('PS_WP_PATH');
+
+        $return = $this->_exec('PS_WP_PATH=' . $PS_WP_PATH . ' sh ./sync-repo.sh');
 
         return $return;
     }
