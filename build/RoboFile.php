@@ -82,7 +82,7 @@ class RoboFile extends \Robo\Tasks
 
             $this->say('Moving the new package to ' . $destFile);
 
-            //rename(self::PACKAGE_PATH . '/' . $filename, $destFile);
+            rename(self::PACKAGE_PATH . '/' . $filename, $destFile);
         }
 
         $this->say("Package built successfully");
