@@ -26,7 +26,7 @@ class GoogleMaps extends EmberaService
      */
     public function validateUrl()
     {
-        return preg_match('~http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)~i', $this->url);
+        return preg_match('~http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)~i', $this->url);
     }
 
     /**

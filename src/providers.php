@@ -15,7 +15,7 @@
  */
 
 $additionalServiceProviders = array(
-    'GoogleMaps' => array("google.com", "google.com.*", "maps.google.com", "goo.gl"),
+    'GoogleMaps' => array("google.com", "google.com.*", "maps.google.com", "goo.gl", "google.co.*"),
     'GoogleDocs' => array("docs.google.com"),
     'Twitch'     => array("twitch.tv"),
     'Giphy'      => array("giphy.com", "i.giphy.com")

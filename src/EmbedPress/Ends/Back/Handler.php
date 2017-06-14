@@ -383,6 +383,7 @@ class Handler extends EndHandlerAbstract
             // Google Maps
             'google.com/*',
             'google.com.*/*',
+            'google.co.*/*',
             'maps.google.com/*',
 
             // Google Docs
