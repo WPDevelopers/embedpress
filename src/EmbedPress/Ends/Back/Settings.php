@@ -162,7 +162,7 @@ class Settings
      * @return boolean
      */
     protected static function is_plugin_installed( $plugin ) {
-        return file_exists( plugin_dir_path( PUBLISHPRESS_ROOT ) . "{$plugin}/{$plugin}.php" );
+        return file_exists( plugin_dir_path( EMBEDPRESS_ROOT ) . "{$plugin}/{$plugin}.php" );
     }
 
     /**

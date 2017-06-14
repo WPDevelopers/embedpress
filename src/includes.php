@@ -25,6 +25,10 @@ if (!defined('EMBEDPRESS_PLG_VERSION')) {
     define('EMBEDPRESS_PLG_VERSION', "1.7.5a2");
 }
 
+if (!defined('EMBEDPRESS_ROOT')) {
+    define('EMBEDPRESS_ROOT', dirname(__FILE__));
+}
+
 if (!defined('EMBEDPRESS_PATH_BASE')) {
     define('EMBEDPRESS_PATH_BASE', plugin_dir_path(__FILE__));
 }
