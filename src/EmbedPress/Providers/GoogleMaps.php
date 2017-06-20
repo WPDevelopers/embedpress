@@ -11,7 +11,7 @@ use \Embera\Adapters\Service as EmberaService;
  * @package     EmbedPress
  * @subpackage  EmbedPress/Providers
  * @author      PressShack <help@pressshack.com>
- * @copyright   Copyright (C) 2017 Open Source Training, LLC. All rights reserved.
+ * @copyright   Copyright (C) 2017 PressShack. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0.0
  */
@@ -26,7 +26,7 @@ class GoogleMaps extends EmberaService
      */
     public function validateUrl()
     {
-        return preg_match('~http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)~i', $this->url);
+        return preg_match('~http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)~i', $this->url);
     }
 
     /**

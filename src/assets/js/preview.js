@@ -1,7 +1,7 @@
 /**
  * @package     EmbedPress
  * @author      PressShack <help@pressshack.com>
- * @copyright   Copyright (C) 2017 Open Source Training, LLC. All rights reserved.
+ * @copyright   Copyright (C) 2017 PressShack. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0
  */
@@ -1086,7 +1086,7 @@
             self.onPaste = function(plugin, args) {
                 var urlPatternRegex = new RegExp(/(https?):\/\/([w]{3}\.)?.+?(?:\s|$)/i);
                 var urlPatternsList = self.getProvidersURLPatterns();
-                
+
                 // Split the pasted content into separated lines.
                 var contentLines = args.content.split(/\n/g) || [];
                 contentLines = contentLines.map(function(line, itemIndex) {

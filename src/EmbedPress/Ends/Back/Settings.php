@@ -11,7 +11,7 @@ use \EmbedPress\Core;
  * @package     EmbedPress
  * @subpackage  EmbedPress/Ends/Back
  * @author      PressShack <help@pressshack.com>
- * @copyright   Copyright (C) 2017 Open Source Training, LLC. All rights reserved.
+ * @copyright   Copyright (C) 2017 PressShack. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0.0
  */
@@ -162,7 +162,7 @@ class Settings
      * @return boolean
      */
     protected static function is_plugin_installed( $plugin ) {
-        return file_exists( plugin_dir_path( PUBLISHPRESS_ROOT ) . "{$plugin}/{$plugin}.php" );
+        return file_exists( plugin_dir_path( EMBEDPRESS_ROOT ) . "{$plugin}/{$plugin}.php" );
     }
 
     /**

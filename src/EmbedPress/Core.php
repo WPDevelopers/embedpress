@@ -13,7 +13,7 @@ use \EmbedPress\Ends\Front\Handler as EndHandlerPublic;
  *
  * @package     EmbedPress
  * @author      PressShack <help@pressshack.com>
- * @copyright   Copyright (C) 2017 Open Source Training, LLC. All rights reserved.
+ * @copyright   Copyright (C) 2017 PressShack. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0.0
  */
@@ -359,9 +359,9 @@ class Core
      * Hook the onPaste methof to the paste_preprocess config in the editor.
      *
      * @since   1.6.2
-     * 
+     *
      * @param  array  $mceInit
-     * 
+     *
      * @return array
      */
     public function hookOnPaste($mceInit)
