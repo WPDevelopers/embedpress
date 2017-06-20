@@ -93,7 +93,9 @@ class Shortcode
                 'params' => array()
             );
 
-            $attributes = self::parseContentAttributes($customAttributes);
+            $content_uid = md5( $content );
+
+            $attributes = self::parseContentAttributes($customAttributes, $content_uid);
             if (isset($attributes['width']) || isset($attributes['height'])) {
                 if (isset($attributes['width'])) {
                     $emberaInstanceSettings['params']['width'] = $attributes['width'];
@@ -386,10 +388,11 @@ class Shortcode
      * @access  private
      * @static
      *
-     * @param   array     $attributes   The array containing the embed attributes.
+     * @param   array     $customAttributes   The array containing the embed attributes.
+     * @param   string    $content_uid        An optional string specifying a unique ID for the embed
      * @return  array
      */
-    private static function parseContentAttributes(array $customAttributes)
+    private static function parseContentAttributes(array $customAttributes, $content_uid = null)
     {
         $attributes = array(
             'class' => array("embedpress-wrapper")
@@ -461,8 +464,14 @@ class Shortcode
             unset($responsiveAttr, $responsiveAttributes);
         }
 
+        $attributes['class'][] = 'ose-{provider_alias}';
+
+        if (! empty($content_uid)) {
+            $attributes['class'][] = 'ose-uid-' . $content_uid;
+        }
+
         if ($embedShouldBeResponsive && !$embedShouldHaveCustomDimensions) {
-            $attributes['class'][] = 'ose-{provider_alias} responsive';
+            $attributes['class'][] = 'responsive';
         } else {
             $attributes['data-responsive'] = "false";
         }
