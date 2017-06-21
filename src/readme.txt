@@ -182,11 +182,13 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [1.7.5] - UNRELEASED =
+= [1.7.5] - 2017-06-21 =
 
 * Fixes PHP warning: Cannot use object of type stdClass as array, for imgur
 * Fixes PHP warning in the add-ons tab
 * Fixes embed for urls matching google.co.*
+* Fixes PHP Warning on the add-ons tab
+* Fixes CSS class for non-responsive embeds
 
 = [1.7.4] - 2017-05-18 =
 
