@@ -184,6 +184,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 = [1.7.5] - 2017-06-21 =
 
+* Fixed:
 * Fixes PHP warning: Cannot use object of type stdClass as array, for imgur
 * Fixes PHP warning in the add-ons tab
 * Fixes embed for urls matching google.co.*
