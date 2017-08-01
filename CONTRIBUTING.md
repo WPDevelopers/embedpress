@@ -4,7 +4,7 @@
 
 ## Publishing New Releases
 
-EmbedPress follows the [Semantic Versioning 2.0.0](http://semver.org), which means that given a version number we have `MAJOR`.`MINOR`.`PATCH`. We should increment these when:
+PublishPress Embeds follows the [Semantic Versioning 2.0.0](http://semver.org), which means that given a version number we have `MAJOR`.`MINOR`.`PATCH`. We should increment these when:
  1. `MAJOR` version when we make incompatible API changes;
  2. `MINOR` version when we add functionality in a backwards-compatible manner;
  3. `PATCH` version when we make backwards-compatible bug fixes.
@@ -69,7 +69,7 @@ Now that everything seems to be updated:
 - Copy all plugin-only files (basically the whole `src` folder) into a separate directory (without .gitignore, etc);
 - Rename this "new" folder to `embedpress`. All lowercased.
 - Compress the folder into a `.zip` file;
-- Rename the `.zip` file to `EmbedPress-vx.x.x.zip` - where you must replace `x.x.x` with the newest version;
+- Rename the `.zip` file to `embedpress-x.x.x.zip` - where you must replace `x.x.x` with the newest version;
 - Go to GitHub into your newest tag/release page (which you created on the previous step) and attach the  `.zip` file to the form and save.
 
 ### 6. Pushing changes to SVN
