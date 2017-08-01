@@ -1,21 +1,21 @@
-=== EmbedPress – Embed Google Docs, Vimeo and Wistia videos, Giphy and Imgur photos, and more ===
+=== PublishPress Embeds – Embed Google Docs, Vimeo and Wistia videos, Giphy and Imgur photos, and more ===
 Contributors: PressShack
 Tags: YouTube, Google, Facebook, Wistia, Vimeo
 Requires at least: 4.0
 Tested up to: 4.8
-Stable tag: 1.7.5
+Stable tag: 1.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-EmbedPress provides embeds for major sites, from YouTube and Twitch videos, to Google Maps and Docs, to Soundcloud and Spotify audio files.
+PublishPress Embeds provides embeds for major sites, from YouTube and Twitch videos, to Google Maps and Docs, to Soundcloud and Spotify audio files.
 
 == Description ==
 
-EmbedPress easily connects WordPress to all the web services you use.
+PublishPress Embeds easily connects WordPress to all the web services you use.
 
-With EmbedPress, all you need is the URL. Find the URL for your video, image, audio file or map and simply cut-and-paste the URL into a WordPress post. EmbedPress automatically understands the URL and embeds your content. You can embed media from over 75 sites.
+With PublishPress Embeds, all you need is the URL. Find the URL for your video, image, audio file or map and simply cut-and-paste the URL into a WordPress post. PublishPress Embeds automatically understands the URL and embeds your content. You can embed media from over 75 sites.
 
-Here are some of the most popular sites you can use with EmbedPress:
+Here are some of the most popular sites you can use with PublishPress Embeds:
 
 * **Google**: You can embed Google Maps, Docs, Forms, Sheets and more.
 * **Facebook**: You can embed Facebook posts and videos to your site.
@@ -25,7 +25,7 @@ Here are some of the most popular sites you can use with EmbedPress:
 
 = YOUTUBE, VIMEO AND WISTIA VIDEOS =
 
-The add-ons for EmbedPress give you far more control over your videos. With these add-ons, your videos will be responsive. You can also customize the video display to match your site’s design. Other features include auto-play and looping.  Click the links below to get a full listing of all the features the add-ons provide:
+The add-ons for PublishPress Embeds give you far more control over your videos. With these add-ons, your videos will be responsive. You can also customize the video display to match your site’s design. Other features include auto-play and looping.  Click the links below to get a full listing of all the features the add-ons provide:
 
 * [Click here to get more YouTube features](https://pressshack.com/addons/embedpress-youtube/)
 * [Click here to get more Vimeo features](https://pressshack.com/addons/embedpress-vimeo/)
@@ -33,7 +33,7 @@ The add-ons for EmbedPress give you far more control over your videos. With thes
 
 = GOOGLE DRIVE: DOCS, SHEETS, DRAWINGS, FORMS, SLIDES, MAPS =
 
-Google Drive is an enormously popular service that has replaced Microsoft Office for many companies. Using Google Drives can bring your information to life, whether it’s stored in documents, maps, drawings, spreadsheets, or presentations. EmbedPress supports all of these Google Drive options:
+Google Drive is an enormously popular service that has replaced Microsoft Office for many companies. Using Google Drives can bring your information to life, whether it’s stored in documents, maps, drawings, spreadsheets, or presentations. PublishPress Embeds supports all of these Google Drive options:
 
 * [How to use Google Docs in WordPress](https://pressshack.com/embedpress/docs/google-docs-embed-wordpress/)
 * [How to use Google Forms in WordPress](https://pressshack.com/embedpress/docs/google-forms-embed-wordpress/)
@@ -44,19 +44,19 @@ Google Drive is an enormously popular service that has replaced Microsoft Office
 
 = FACEBOOK POSTS AND VIDEOS =
 
-With EmbedPress, you can add Facebook Posts to WordPress, using just a URL. Facebook post embeds are possible, but they’re not easy to use via normal methods. EmbedPress is different:
+With PublishPress Embeds, you can add Facebook Posts to WordPress, using just a URL. Facebook post embeds are possible, but they’re not easy to use via normal methods. PublishPress Embeds is different:
 
 * [How to use Facebook embeds in WordPress](https://pressshack.com/embedpress/docs/embed-facebook-posts-wordpress/)
 
 = AUDIO: SPOTIFY, SOUNDCLOUD AND MIXCLOUD =
 
-EmbedPress supports all of these major options for audio on your WordPress site:
+PublishPress Embeds supports all of these major options for audio on your WordPress site:
 
 * [How to use Spotify in WordPress](https://pressshack.com/embedpress/docs/embed-spotify-audios-wordpress/)
 * [How to use MixCloud in WordPress](https://pressshack.com/embedpress/docs/embed-mixcloud-audio-wordpress/)
 * [How to use SoundCloud in WordPress](https://pressshack.com/embedpress/docs/embed-soundcloud-audio-wordpress/)
 
-Here are multiple other audio options supported by EmbedPress:
+Here are multiple other audio options supported by PublishPress Embeds:
 
 * [How to use Shoudio in WordPress](https://pressshack.com/embedpress/docs/embed-shoudio-audios-wordpress/)
 * [How to use HuffDuffer in WordPress](https://pressshack.com/embedpress/docs/embed-huffduffer-audios-wordpress/)
@@ -66,7 +66,7 @@ Here are multiple other audio options supported by EmbedPress:
 
 = PHOTOS: DEVIANTART, GIPHY, FLICK, IMGUR AND INSTAGRAM =
 
-EmbedPress supports most popular image-hosting sites, including Deviantart, Giphy, Imgur, Flick and Instagram:
+PublishPress Embeds supports most popular image-hosting sites, including Deviantart, Giphy, Imgur, Flick and Instagram:
 
 * [How to use Deviantart in WordPress](https://pressshack.com/embedpress/docs/embed-deviantart-image-wordpress/)
 * [How to use Giphy in WordPress](https://pressshack.com/embedpress/docs/embed-giphy-gifs-wordpress/)
@@ -76,7 +76,7 @@ EmbedPress supports most popular image-hosting sites, including Deviantart, Giph
 
 = CHARTS AND DIAGRAMS =
 
-With EmbedPress, you have a wide variety of options for adding charts and diagrams to your WordPress site. We already saw that EmbedPress supports Google Drawings, but here are 5 more options for charts:
+With PublishPress Embeds, you have a wide variety of options for adding charts and diagrams to your WordPress site. We already saw that PublishPress Embeds supports Google Drawings, but here are 5 more options for charts:
 
 * [AmCharts embeds](https://pressshack.com/embedpress/docs/embed-amcharts-wordpress/)
 * [Cacoo embeds](https://pressshack.com/embedpress/docs/embed-cacoo-charts-wordpress/)
@@ -86,7 +86,7 @@ With EmbedPress, you have a wide variety of options for adding charts and diagra
 
 = OTHER VIDEO OPTIONS =
 
-We’ve seen that EmbedPress supports YouTube, Wistia and Vimeo, but EmbedPress also supports around 20 more video sources:
+We’ve seen that PublishPress Embeds supports YouTube, Wistia and Vimeo, but PublishPress Embeds also supports around 20 more video sources:
 
 * [Animoto embeds](https://pressshack.com/embedpress/docs/embed-animoto-videos-wordpress/)
 * [Bambuser embeds](https://pressshack.com/embedpress/docs/embed-bambuser-videos-wordpress/)
@@ -131,7 +131,7 @@ We’ve seen that EmbedPress supports YouTube, Wistia and Vimeo, but EmbedPress 
 
 = ALSO CHECK OUT THE PUBLISHPRESS PLUGIN =
 
-If you like EmbedPress, then consider checking out [PublishPress](https://pressshack.com/publishpress/). The PublishPress plugin is essential for any WordPress site with multiple writers.
+If you like PublishPress Embeds, then consider checking out [PublishPress](https://pressshack.com/publishpress/). The PublishPress plugin is essential for any WordPress site with multiple writers.
 
 PublishPress is a plugin with several tools that help your team stay organized:
 
@@ -150,13 +150,13 @@ Visit [OSTraining](https://www.ostraining.com/) to learn from our [WordPress Tra
 
 == Installation ==
 
-You can install EmbedPress through your WordPress admin area:
+You can install PublishPress Embeds through your WordPress admin area:
 
 Access the “Plugins” page.
 Click on the “Add New” button.
-Search for “EmbedPress”.
-Install the EmbedPress plugin.
-Activate the EmbedPress plugin.
+Search for “PublishPress Embeds”.
+Install the PublishPress Embeds plugin.
+Activate the PublishPress Embeds plugin.
 
 == Frequently Asked Questions ==
 
@@ -164,7 +164,7 @@ Activate the EmbedPress plugin.
 
 You can ask for help via [the PublishPress contact form](https://pressshack.com/contact/).
 
-= Do I Need Coding Skills To Use EmbedPress? =
+= Do I Need Coding Skills To Use PublishPress Embeds? =
 
 Not at all. You can set up everything your team needs without any coding knowledge. We made it super easy.
 
@@ -182,7 +182,10 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [1.7.6] - UNRELEASED =
+= [2.0.0] - UNRELEASED =
+
+* Added:
+* New name: PublishPress Embeds
 
 * Fixed:
 * Fixed compatibility between Visual Composer and the modal window style;
