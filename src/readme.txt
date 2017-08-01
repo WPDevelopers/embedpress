@@ -1,7 +1,7 @@
 === PublishPress Embeds – Embed Google Docs, Vimeo and Wistia videos, Giphy and Imgur photos, and more ===
 Contributors: PressShack
 Tags: YouTube, Google, Facebook, Wistia, Vimeo
-Requires at least: 4.0
+Requires at least: 4.6
 Tested up to: 4.8
 Stable tag: 1.0.0
 License: GPLv2 or later
@@ -186,6 +186,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * Added:
 * New name: PublishPress Embeds
+
+* Changed:
+* Changed minimum WP version to 4.6
 
 * Fixed:
 * Fixed compatibility between Visual Composer and the modal window style;
