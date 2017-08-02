@@ -8,7 +8,6 @@
 ehthumbs.db
 Thumbs.db
 .idea
-packages/*
-!packages/.gitkeep
-/EmbedPress.sublime-project
-/EmbedPress.sublime-workspace
+/packages
+/vendor
+/composer.lock

@@ -13,7 +13,7 @@
  * Plugin Name: PublishPress Embeds
  * Plugin URI:  https://pressshack.com/embedpress/
  * Version:     2.0.0
- * Description: PublishPress Embeds provides embeds for major sites, from YouTube and Twitch videos, to Google Maps and Docs, to Soundcloud and Spotify audio files.
+ * Description: WordPress supports around 35 embed sources, but PublishPress Embeds adds over 40 more, including Facebook, Google Maps, Google Docs, UStream! Just use the URL!
  * Author:      PressShack
  * Author URI:  http://pressshack.com
 */

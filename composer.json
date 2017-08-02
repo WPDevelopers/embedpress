@@ -1,0 +1,22 @@
+{
+    "name": "pressshack/embedpress-youtube",
+    "type": "wordpress-plugin",
+    "license": "GPL-2",
+    "authors": [
+        {
+            "name": "PressShack",
+            "email": "help@pressshack.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/OSTraining/WordPress-Plugin-Builder"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require-dev": {
+        "pressshack/wordpress-plugin-builder": "*",
+        "consolidation/robo": "~1"
+    }
+}
