@@ -109,7 +109,7 @@ class Settings
      */
     public static function registerMenuItem()
     {
-        add_menu_page('PublishPress Embeds Settings', 'PublishPress Embeds', 'manage_options', 'embedpress', array(self::$namespace, 'renderForm'), null, 64);
+        add_menu_page('PublishPress Embeds Settings', 'Embeds', 'manage_options', 'embedpress', array(self::$namespace, 'renderForm'), null, 64);
     }
 
     /**
