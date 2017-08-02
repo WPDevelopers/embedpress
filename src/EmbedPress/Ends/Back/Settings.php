@@ -109,7 +109,7 @@ class Settings
      */
     public static function registerMenuItem()
     {
-        add_menu_page('EmbedPress Settings', 'EmbedPress', 'manage_options', 'embedpress', array(self::$namespace, 'renderForm'), null, 64);
+        add_menu_page('PublishPress Embeds Settings', 'Embeds', 'manage_options', 'embedpress', array(self::$namespace, 'renderForm'), null, 64);
     }
 
     /**
@@ -185,8 +185,8 @@ class Settings
         <div id="embedpress-settings-wrapper">
             <header>
                 <h1 class="pressshack-title">
-                    <a href="//wordpress.org/plugins/embedpress" target="_blank" rel="noopener noreferrer" title="EmbedPress">
-                        EmbedPress
+                    <a href="//wordpress.org/plugins/embedpress" target="_blank" rel="noopener noreferrer" title="PublishPress Embeds">
+                        PublishPress Embeds
                     </a>
                 </h1>
             </header>
@@ -221,21 +221,21 @@ class Settings
 
                     $addons = array(
                         'embedpress-youtube' => array(
-                            'title'       => __( 'The YouTube Add-on for EmbedPress', 'embedpress' ),
+                            'title'       => __( 'The YouTube Add-on for PublishPress', 'embedpress' ),
                             'description' => __( 'Get more features for your YouTube embeds in WordPress.', 'embedpress' ),
                             'available'   => true,
                             'installed'   => static::is_plugin_installed( 'embedpress-youtube' ),
                             'active'      => static::is_plugin_active( 'embedpress-youtube' ),
                         ),
                         'embedpress-vimeo' => array(
-                            'title'       => __( 'The Vimeo Add-on for EmbedPress', 'embedpress' ),
+                            'title'       => __( 'The Vimeo Add-on for PublishPress', 'embedpress' ),
                             'description' => __( 'Get more features for your Vimeo embeds in WordPress.', 'embedpress' ),
                             'available'   => true,
                             'installed'   => static::is_plugin_installed( 'embedpress-vimeo' ),
                             'active'      => static::is_plugin_active( 'embedpress-vimeo' ),
                         ),
                         'embedpress-wistia' => array(
-                            'title'       => __( 'The Wistia Add-on for EmbedPress', 'embedpress' ),
+                            'title'       => __( 'The Wistia Add-on for PublishPress', 'embedpress' ),
                             'description' => __( 'Get more features for your Wistia embeds in WordPress.', 'embedpress' ),
                             'available'   => true,
                             'installed'   => static::is_plugin_installed( 'embedpress-wistia' ),
@@ -291,7 +291,7 @@ class Settings
 
             <footer>
                 <p>
-                    <a href="//wordpress.org/support/plugin/embedpress/reviews/#new-post" target="_blank" rel="noopener noreferrer">If you like <strong>EmbedPress</strong> please leave us a <span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span> rating. Thank you!</a>
+                    <a href="//wordpress.org/support/plugin/embedpress/reviews/#new-post" target="_blank" rel="noopener noreferrer">If you like <strong>PublishPress Embeds</strong> please leave us a <span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span> rating. Thank you!</a>
                 </p>
                 <hr>
                 <nav>
@@ -306,7 +306,7 @@ class Settings
                             <a href="//pressshack.com/embedpress/docs" target="_blank" rel="noopener noreferrer" title="EmbedPress Documentation">Documentation</a>
                         </li>
                         <li>
-                            <a href="//pressshack.com/embedpress/addons/" target="_blank" rel="noopener noreferrer" title="EmbedPress Add-Ons">Add-Ons</a>
+                            <a href="//pressshack.com/publishpress/addons/" target="_blank" rel="noopener noreferrer" title="EmbedPress Add-Ons">Add-Ons</a>
                         </li>
                         <li>
                             <a href="//pressshack.com/contact" target="_blank" rel="noopener noreferrer" title="Contact the PressShack team">Contact</a>
@@ -371,7 +371,7 @@ class Settings
         echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
         echo "&nbsp;&nbsp;";
         echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
-        echo '<p class="description">Do you want EmbedPress to run here in the admin area? Disabling this <strong>will not</strong> affect your frontend embeds.</p>';
+        echo '<p class="description">Do you want PublishPress Embeds to run here in the admin area? Disabling this <strong>will not</strong> affect your frontend embeds.</p>';
     }
 
     /**
@@ -391,7 +391,7 @@ class Settings
         echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
         echo "&nbsp;&nbsp;";
         echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
-        echo '<p class="description">Do you want EmbedPress to run within editors in frontend (if there\'s any)? Disabling this <strong>will not</strong> affect embeds seem by your regular users in frontend.</p>';
+        echo '<p class="description">Do you want PublishPress Embeds to run within editors in frontend (if there\'s any)? Disabling this <strong>will not</strong> affect embeds seem by your regular users in frontend.</p>';
     }
 
     /**

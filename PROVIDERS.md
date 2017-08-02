@@ -1,4 +1,4 @@
-In addition to the [default WordPress sources](https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F), EmbedPress supports these providers:
+In addition to the [default WordPress sources](https://codex.wordpress.org/Embeds#Okay.2C_So_What_Sites_Can_I_Embed_From.3F), PublishPress Embeds supports these providers:
 
 - 23h (Images)
 - AmCharts (Charts)

@@ -14,15 +14,15 @@ defined('ABSPATH') or die("No direct script access allowed.");
 require_once 'freemius.php';
 
 if (!defined('EMBEDPRESS')) {
-    define('EMBEDPRESS', "EmbedPress");
+    define('EMBEDPRESS', "PublishPress Embeds");
 }
 
 if (!defined('EMBEDPRESS_PLG_NAME')) {
-    define('EMBEDPRESS_PLG_NAME', strtolower(EMBEDPRESS));
+    define('EMBEDPRESS_PLG_NAME', 'embedpress');
 }
 
 if (!defined('EMBEDPRESS_PLG_VERSION')) {
-    define('EMBEDPRESS_PLG_VERSION', "1.7.5");
+    define('EMBEDPRESS_PLG_VERSION', "2.0.0");
 }
 
 if (!defined('EMBEDPRESS_ROOT')) {
