@@ -184,11 +184,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 = [2.0.0] - 2017-08-02 =
 
-* Added:
-* New name: PublishPress Embeds
-
 * Changed:
-* Changed minimum WP version to 4.6
+* Renamed to PublishPress Embeds
+* Changed minimum WP version to 4.5
 
 * Fixed:
 * Fixed compatibility between Visual Composer and the modal window style;
