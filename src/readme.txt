@@ -182,12 +182,6 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [1.7.6] - UNRELEASED =
-
-* Fixed:
-* Fixed compatibility between Visual Composer and the modal window style;
-* Fixed the modal window to edit embeds to recognize the responsive field correctly from the shortcode's params;
-
 = [1.7.5] - 2017-06-21 =
 
 * Fixed:

@@ -1260,24 +1260,24 @@
 
                 var customAttributes = {};
 
-                var $embedInnerWrapper = $('.embedpress-wrapper', $wrapper);
+                var embedInnerWrapper = $('.embedpress-wrapper', $wrapper);
                 var embedItem = $('iframe', $wrapper);
                 if (!embedItem.length) {
                     embedItem = null;
                 }
 
-                $.each($embedInnerWrapper[0].attributes, function() {
+                $.each(embedInnerWrapper.attributes, function() {
                     if (this.specified) {
                         if (this.name !== "class") {
                             customAttributes[this.name.replace('data-', "").toLowerCase()] = this.value;
                         }
                     }
                 });
-                
-                var embedWidth = (((embedItem && embedItem.width()) || $embedInnerWrapper.data('width')) || $embedInnerWrapper.width()) || "";
-                var embedHeight = (((embedItem && embedItem.height()) || $embedInnerWrapper.data('height')) || $embedInnerWrapper.height()) || "";
 
-                embedItem = $embedInnerWrapper = null;
+                var embedWidth = (((embedItem && embedItem.width()) || embedInnerWrapper.data('width')) || embedInnerWrapper.width()) || "";
+                var embedHeight = (((embedItem && embedItem.height()) || embedInnerWrapper.data('height')) || embedInnerWrapper.height()) || "";
+
+                embedItem = embedInnerWrapper = null;
 
                 $('<div class="loader-indicator"><i class="embedpress-icon-reload"></i></div>').appendTo($wrapper);
 
@@ -1297,6 +1297,7 @@
                                 bootbox.alert('Unable to get a valid response from the server.');
                                 return;
                             }
+
                             if (response.canBeResponsive) {
                                 var embedShouldBeResponsive = true;
                                 if ("width" in customAttributes || "height" in customAttributes) {
@@ -1324,10 +1325,10 @@
                                                     '<label>Responsive</label>'+
                                                     '<div class="form-group">'+
                                                         '<label class="radio-inline">'+
-                                                            '<input type="radio" name="input-responsive-'+ wrapperUid +'" id="input-responsive-1-'+ wrapperUid +'" value="1"'+ (embedShouldBeResponsive ? ' checked="checked"' : '') +'> Yes'+
+                                                            '<input type="radio" name="input-responsive-'+ wrapperUid +'" id="input-responsive-1-'+ wrapperUid +'" value="1"'+ (embedShouldBeResponsive ? ' checked' : '') +'> Yes'+
                                                         '</label>'+
                                                         '<label class="radio-inline">'+
-                                                            '<input type="radio" name="input-responsive-'+ wrapperUid +'" id="input-responsive-0-'+ wrapperUid +'" value="0"'+ (!embedShouldBeResponsive ? ' checked="checked"' : '') +'> No'+
+                                                            '<input type="radio" name="input-responsive-'+ wrapperUid +'" id="input-responsive-0-'+ wrapperUid +'" value="0"'+ (!embedShouldBeResponsive ? ' checked' : '') +'> No'+
                                                         '</label>'+
                                                     '</div>'+
                                                 '</div>' : '')+
