@@ -19,7 +19,7 @@ function ep_fs() {
 
         $ep_fs = fs_dynamic_init( array(
             'id'                  => '949',
-            'slug'                => 'embedpress',
+            'slug'                => 'publishpress-embeds',
             'type'                => 'plugin',
             'public_key'          => 'pk_238342b79c9d480864db8f8a5c54b',
             'is_premium'          => false,
