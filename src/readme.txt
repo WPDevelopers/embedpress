@@ -193,6 +193,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Fixed:
 * Fixed compatibility between Visual Composer and the modal window style;
 * Fixed the modal window to edit embeds to recognize the responsive field correctly from the shortcode's params;
+* Fixed color picker padding for "Clear" button, and hex color input field;
 
 = [1.7.5] - 2017-06-21 =
 
