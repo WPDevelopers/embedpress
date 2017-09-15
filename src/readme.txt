@@ -1,5 +1,5 @@
 === PublishPress Embeds – Embed Google Docs, Vimeo and Wistia videos, Giphy and Imgur photos, and more ===
-Contributors: PressShack
+Contributors: PressShack, andergmartins
 Tags: YouTube, Google, Facebook, Wistia, Vimeo
 Requires at least: 4.5
 Tested up to: 4.8
