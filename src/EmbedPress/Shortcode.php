@@ -135,6 +135,7 @@ class Shortcode
 
             // Sanitize the data
             $urlData = self::sanitizeUrlData($urlData);
+            $urlData->originalContent = $content;
 
             $eventResults = apply_filters('embedpress:onBeforeEmbed', $urlData);
             if (empty($eventResults)) {

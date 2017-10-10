@@ -35,11 +35,14 @@ abstract class EmbedHandler
         // Start processing
 
         $handlerMap = [
-            'Twitter' => '\\EmbedPress\\AMP\\Adapter\\Twitter',
+            'twitter' => '\\EmbedPress\\AMP\\Adapter\\Twitter',
+            'reddit'  => '\\EmbedPress\\AMP\\Adapter\\Reddit',
         ];
 
         // Check if we have a mapped handler
-        if (isset($urlData->provider_name) && array_key_exists($urlData->provider_name, $handlerMap)) {
+        if (isset($urlData->provider_name)
+            && array_key_exists(strtolower($urlData->provider_name), $handlerMap)) {
+            
             $className = $handlerMap[$urlData->provider_name];
             $handler   = new $className($parsedContent, $urlData);
 
