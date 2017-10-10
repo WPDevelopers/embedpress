@@ -39,11 +39,12 @@ abstract class EmbedHandler
             'reddit'  => '\\EmbedPress\\AMP\\Adapter\\Reddit',
         ];
 
+        $providerName = strtolower($urlData->provider_name);
+
         // Check if we have a mapped handler
-        if (isset($urlData->provider_name)
-            && array_key_exists(strtolower($urlData->provider_name), $handlerMap)) {
-            
-            $className = $handlerMap[$urlData->provider_name];
+        if (isset($urlData->provider_name) && array_key_exists($providerName, $handlerMap)) {
+
+            $className = $handlerMap[$providerName];
             $handler   = new $className($parsedContent, $urlData);
 
             // Modify the HTML according to the AMP embed handler
