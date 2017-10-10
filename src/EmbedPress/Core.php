@@ -162,6 +162,9 @@ class Core
             unset($enqueueScriptsHookName, $plgHandlerPublicInstance);
         }
 
+        // Add support for embeds on AMP pages
+        add_filter('pp_embed_parsed_content', ['\EmbedPress\AMP\EmbedHandler', 'processParsedContent'], 10, 2);
+
         $this->loaderInstance->run();
     }
 

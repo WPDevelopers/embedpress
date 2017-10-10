@@ -110,6 +110,8 @@ class Shortcode
 
             // Identify what service provider the shortcode's link belongs to
             $serviceProvider = self::$oEmbedInstance->get_provider($content);
+
+
             // Check if OEmbed was unable to detect the url service provider.
             if (empty($serviceProvider)) {
                 // Attempt to do the same using Embera.
@@ -310,6 +312,8 @@ class Shortcode
             if ($stripNewLine) {
                 $parsedContent = preg_replace('/\n/', '', $parsedContent);
             }
+
+            $parsedContent = apply_filters('pp_embed_parsed_content', $parsedContent, $urlData);
 
             if (!empty($parsedContent)) {
                 $embed = (object)array_merge((array)$urlData, array(
