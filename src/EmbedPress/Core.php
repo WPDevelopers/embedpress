@@ -163,7 +163,7 @@ class Core
         }
 
         // Add support for embeds on AMP pages
-        add_filter('pp_embed_parsed_content', ['\EmbedPress\AMP\EmbedHandler', 'processParsedContent'], 10, 2);
+        add_filter('pp_embed_parsed_content', ['\EmbedPress\AMP\EmbedHandler', 'processParsedContent'], 10, 3);
 
         $this->loaderInstance->run();
     }

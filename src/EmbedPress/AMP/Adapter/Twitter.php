@@ -33,11 +33,16 @@ class Twitter
     private $parsedContent;
 
     /**
+     * @var array
+     */
+    private $attributes;
+
+    /**
      * The constructor.
      *
      * @param object  $urlData
      */
-    public function __construct($parsedContent, $urlData)
+    public function __construct($parsedContent, $urlData, $attributes)
     {
         if (class_exists('AMP_Twitter_Embed_Handler')) {
             $this->ampEmbedHandler = new \AMP_Twitter_Embed_Handler;
@@ -47,6 +52,7 @@ class Twitter
 
         $this->parsedContent = $parsedContent;
         $this->urlData       = $urlData;
+        $this->attributes    = $attributes;
     }
 
     /**

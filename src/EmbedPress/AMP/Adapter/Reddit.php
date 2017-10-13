@@ -33,16 +33,22 @@ class Reddit
     private $parsedContent;
 
     /**
+     * @var array
+     */
+    private $attributes;
+
+    /**
      * The constructor.
      *
      * @param object  $urlData
      */
-    public function __construct($parsedContent, $urlData)
+    public function __construct($parsedContent, $urlData, $attributes)
     {
         add_action( 'amp_post_template_head', [$this, 'addScripts']);
         
         $this->parsedContent = $parsedContent;
         $this->urlData       = $urlData;
+        $this->attributes    = $attributes;
     }
 
     /**
@@ -57,6 +63,11 @@ class Reddit
             return $this->parsedContent;
         }
 
+        $defaults = [
+            'data-width'  => 100,
+            'data-height' => 100,
+        ];
+        $attributes = wp_parse_args($this->attributes, $defaults);
 
         $parsedContent = \AMP_HTML_Utils::build_tag(
             'amp-reddit',
@@ -64,8 +75,8 @@ class Reddit
                 'data-src'       => $this->urlData->originalContent,
                 'layout'         => 'responsive',
                 'data-embedtype' => "post",
-                'width'          => "100",
-                'height'         => "100",
+                'width'          => $attributes['data-width'],
+                'height'         => $attributes['data-height'],
             )
         );
 

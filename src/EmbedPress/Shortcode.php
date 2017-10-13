@@ -314,7 +314,7 @@ class Shortcode
                 $parsedContent = preg_replace('/\n/', '', $parsedContent);
             }
 
-            $parsedContent = apply_filters('pp_embed_parsed_content', $parsedContent, $urlData);
+            $parsedContent = apply_filters('pp_embed_parsed_content', $parsedContent, $urlData, $attributes);
 
             if (!empty($parsedContent)) {
                 $embed = (object)array_merge((array)$urlData, array(
