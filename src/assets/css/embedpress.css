@@ -106,3 +106,7 @@
     position: absolute;
     bottom: 0;
 }
+
+.ose-mixcloud.responsive iframe {
+    width: 100%;
+}

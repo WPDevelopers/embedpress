@@ -182,6 +182,11 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [2.0.1] - UNRELEASED =
+
+* Fixed:
+* Fixed responsive support for Mixcloud embeds;
+
 = [2.0.0] - 2017-08-02 =
 
 * Changed:
