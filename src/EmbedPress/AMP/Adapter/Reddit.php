@@ -57,14 +57,15 @@ class Reddit
             return $this->parsedContent;
         }
 
+
         $parsedContent = \AMP_HTML_Utils::build_tag(
             'amp-reddit',
             array(
-                'data-src' => $this->urlData->originalContent,
-                'layout' => 'responsive',
+                'data-src'       => $this->urlData->originalContent,
+                'layout'         => 'responsive',
                 'data-embedtype' => "post",
-                'height' => '100',
-                'width'  => '100',
+                'width'          => "100",
+                'height'         => "100",
             )
         );
 
