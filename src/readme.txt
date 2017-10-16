@@ -3,7 +3,7 @@ Contributors: PressShack, andergmartins
 Tags: YouTube, Google, Facebook, Wistia, Vimeo
 Requires at least: 4.5
 Tested up to: 4.8
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -182,10 +182,12 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [2.0.1] - UNRELEASED =
+= [2.0.1] - 2017-10-16 =
 
 * Fixed:
 * Fixed responsive support for Mixcloud embeds;
+* Fixed scripts related to AMP avoiding to load them more than once;
+* Fixed custom attributes for Reddit on AMP pages;
 
 = [2.0.0] - 2017-08-02 =
 
