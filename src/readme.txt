@@ -182,6 +182,13 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [2.0.2] - UNRELEASED =
+
+* Fixed:
+* Fixed PHP 5.3 compatibility;
+* Fixed JS error which prevented to paste text in the editor if the preview was disabled;
+
+
 = [2.0.1] - 2017-10-16 =
 
 * Fixed:
