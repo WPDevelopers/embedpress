@@ -308,16 +308,23 @@ abstract class Plugin
     {
         $pluginSlug = EMBEDPRESS_PLG_NAME .':'. static::SLUG;
 
-        $response = wp_remote_post(EMBEDPRESS_LICENSES_API_URL, array(
-            'timeout'   => 30,
-            'sslverify' => false,
+        $params = array(
+            'timeout'     => 30,
+            'sslverify'   => false,
+            'redirection' => 1,
             'body'      => array(
                 'edd_action' => "activate_license",
                 'license'    => $licenseKey,
-                'item_name'  => "EmbedPress - ". static::NAME,
                 'url'        => home_url()
             )
-        ));
+        );
+        if (defined(get_called_class() . '::EDD_ID')) {
+            $params['body']['item_id'] = static::EDD_ID;
+        } else {
+            $params['body']['item_name'] = "PublishPress ". static::NAME;
+        }
+
+        $response = wp_remote_post(EMBEDPRESS_LICENSES_API_URL, $params);
 
         if (is_wp_error($response) || 200 !== wp_remote_retrieve_response_code($response)) {
             $errMessage = $response->get_error_message();
