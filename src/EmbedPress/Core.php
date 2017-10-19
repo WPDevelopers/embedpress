@@ -369,10 +369,15 @@ class Core
      */
     public function hookOnPaste($mceInit)
     {
-        // We hook here because the onPaste is sometimes called after the content was already added to the editor.
-        // If you copy text from the editor and paste there, it will give no way to use a normal onPaste event hook
-        // to modify the input since it was already injected.
-        $mceInit['paste_preprocess'] = 'function (plugin, args) {EmbedPress.onPaste(plugin, args);}';
+        $settings = self::getSettings();
+
+        if (isset($settings->enablePluginInAdmin) && $settings->enablePluginInAdmin) {
+            // We hook here because the onPaste is sometimes called after the content was already added to the editor.
+            // If you copy text from the editor and paste there, it will give no way to use a normal onPaste event hook
+            // to modify the input since it was already injected.
+            $mceInit['paste_preprocess'] = 'function (plugin, args) {EmbedPress.onPaste(plugin, args);}';
+        }
+        
 
         return $mceInit;
     }
