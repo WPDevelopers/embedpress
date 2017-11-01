@@ -214,7 +214,8 @@ class Handler extends EndHandlerAbstract
             '*.nfb.ca/film/*',
 
             // Scribd (http://www.scribd.com/)
-            'scribd.com/doc/*',
+            '*.scribd.com/doc/*',
+            '*.scribd.com/document/*',
 
             // Dotsub (http://dotsub.com/)
             'dotsub.com/view/*',

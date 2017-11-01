@@ -26,7 +26,7 @@ class Scribd extends \Embera\Adapters\Service
     {
         $this->url->stripQueryString();
 
-        return (preg_match('~scribd\.com/doc/(?:[0-9]+)/(?:[^/]+)/?$~i', $this->url));
+        return (preg_match('~scribd\.com/doc(?:ument)?/(?:[0-9]+)/(?:[^/]+)/?$~i', $this->url));
     }
 
     /** inline {@inheritdoc} */
@@ -44,7 +44,7 @@ class Scribd extends \Embera\Adapters\Service
     /** inline {@inheritdoc} */
     public function fakeResponse()
     {
-        preg_match('~/doc/([\d]+)/~i', $this->url, $matches);
+        preg_match('~/doc(?:ument)?/([\d]+)/~i', $this->url, $matches);
 
         return array(
             'type' => 'rich',
