@@ -184,33 +184,37 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 = [2.0.2] - 2017-10-26 =
 
-* Fixed:
+*Fixed:*
+
 * Fixed PHP 5.3 compatibility;
 * Fixed JS error which prevented to paste text in the editor if the preview was disabled;
 * Fixed validation and activation of license keys for plugins;
 
-
 = [2.0.1] - 2017-10-16 =
 
-* Fixed:
+*Fixed:*
+
 * Fixed responsive support for Mixcloud embeds;
 * Fixed scripts related to AMP avoiding to load them more than once;
 * Fixed custom attributes for Reddit on AMP pages;
 
 = [2.0.0] - 2017-08-02 =
 
-* Changed:
+*Changed:*
+
 * Renamed to PublishPress Embeds
 * Changed minimum WP version to 4.5
 
-* Fixed:
+*Fixed:*
+
 * Fixed compatibility between Visual Composer and the modal window style;
 * Fixed the modal window to edit embeds to recognize the responsive field correctly from the shortcode's params;
 * Fixed color picker padding for "Clear" button, and hex color input field;
 
 = [1.7.5] - 2017-06-21 =
 
-* Fixed:
+*Fixed:*
+
 * Fixes PHP warning: Cannot use object of type stdClass as array, for imgur
 * Fixes PHP warning in the add-ons tab
 * Fixes embed for urls matching google.co.*
@@ -219,13 +223,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 = [1.7.4] - 2017-05-18 =
 
-* Fixed:
+*Fixed:*
+
 * Fixed JS incompatiblity with some 3rd part plugins
 * Fixed the Add-on link in the footer
 * Fixed typos
 * Fixed the "Hello Dolly" message in the Freemius opt-in dialog
 
-* Changed:
+*Changed:*
+
 * Updated the text in the readme file
 * Updated the plugin name in the Freemius integration
 * Updated banner image
