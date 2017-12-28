@@ -187,6 +187,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 *Fixed:*
 
 * Fixed embeding for Scribd URLS with /document/;
+* Fixed scrolling on Google Docs for iOS devices;
 
 = [2.0.2] - 2017-10-26 =
 
