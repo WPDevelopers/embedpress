@@ -110,3 +110,9 @@
 .ose-mixcloud.responsive iframe {
     width: 100%;
 }
+
+/* Fix scrolling on iOS devices */
+.ose-google-docs.responsive {
+    -webkit-overflow-scrolling: touch;
+    overflow-y: auto;
+}
