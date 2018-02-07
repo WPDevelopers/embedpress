@@ -1,0 +1,122 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: EmbedPress\n"
+"POT-Creation-Date: 2018-02-07 17:45-0200\n"
+"PO-Revision-Date: 2016-04-22 07:37+0800\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: embedpress.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: EmbedPress/Core.php:322 EmbedPress/Plugins/Plugin.php:291
+msgid "Open settings page"
+msgstr ""
+
+#: EmbedPress/Core.php:322 EmbedPress/Plugins/Plugin.php:291
+msgid "Settings"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings.php:224
+msgid "The YouTube Add-on for EmbedPress"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings.php:225
+msgid "Get more features for your YouTube embeds in WordPress."
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings.php:231
+msgid "The Vimeo Add-on for EmbedPress"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings.php:232
+msgid "Get more features for your Vimeo embeds in WordPress."
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings.php:238
+msgid "The Wistia Add-on for EmbedPress"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings.php:239
+msgid "Get more features for your Wistia embeds in WordPress."
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings.php:250 EmbedPress/Ends/Back/Settings.php:270
+msgid "Active"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings.php:251 EmbedPress/Ends/Back/Settings.php:274
+msgid "Installed"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings.php:252 EmbedPress/Ends/Back/Settings.php:279
+msgid "Get Pro Add-ons!"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings.php:253 EmbedPress/Ends/Back/Settings.php:283
+msgid "Coming soon"
+msgstr ""
+
+#: EmbedPress/Plugins/Html/Field.php:182
+msgid "Activate License"
+msgstr ""
+
+#: EmbedPress/Plugins/Html/Field.php:183
+msgid "Click here to read more about licenses."
+msgstr ""
+
+#: EmbedPress/Plugins/Html/Field.php:183
+msgid "More information"
+msgstr ""
+
+#: EmbedPress/Plugins/Plugin.php:62
+msgid "Please, <strong>install</strong> and <strong>activate <a href=\"https://wordpress.org/plugins/"
+msgstr ""
+
+#: EmbedPress/Plugins/Plugin.php:334
+msgid "An error occurred. Please, try again."
+msgstr ""
+
+#: EmbedPress/Updater.php:178
+#, php-format
+msgid "There is a new version of %1$s available. %2$sView version %3$s details%4$s."
+msgstr ""
+
+#: EmbedPress/Updater.php:186
+#, php-format
+msgid "There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s."
+msgstr ""
+
+#: EmbedPress/Updater.php:339
+msgid "You do not have permission to install plugin updates"
+msgstr ""
+
+#: EmbedPress/Updater.php:339
+msgid "Error"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+#. Author of the plugin/theme
+msgid "EmbedPress"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://embedpress.com/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "WordPress supports around 35 embed sources, but PublishPress Embeds adds over 40 more, including Facebook, Google Maps, Google Docs, UStream! Just use the URL!"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://embedpress.com"
+msgstr ""
