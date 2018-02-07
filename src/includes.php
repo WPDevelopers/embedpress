@@ -5,8 +5,8 @@ defined('ABSPATH') or die("No direct script access allowed.");
  * File responsible for defining basic general constants used by the plugin.
  *
  * @package     EmbedPress
- * @author      PressShack <help@pressshack.com>
- * @copyright   Copyright (C) 2017 PressShack. All rights reserved.
+ * @author      EmbedPress <help@embedpress.com>
+ * @copyright   Copyright (C) 2018 EmbedPress. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0.0
  */
@@ -14,7 +14,7 @@ defined('ABSPATH') or die("No direct script access allowed.");
 require_once 'freemius.php';
 
 if (!defined('EMBEDPRESS')) {
-    define('EMBEDPRESS', "PublishPress Embeds");
+    define('EMBEDPRESS', "EmbedPress");
 }
 
 if (!defined('EMBEDPRESS_PLG_NAME')) {
@@ -58,15 +58,15 @@ if (!defined('EMBEDPRESS_SHORTCODE')) {
 }
 
 if (!defined('EMBEDPRESS_LICENSES_API_HOST')) {
-    define('EMBEDPRESS_LICENSES_API_HOST', "pressshack.com");
+    define('EMBEDPRESS_LICENSES_API_HOST', "embedpress.com");
 }
 
 if (!defined('EMBEDPRESS_LICENSES_API_URL')) {
-    define('EMBEDPRESS_LICENSES_API_URL', "http://pressshack.com");
+    define('EMBEDPRESS_LICENSES_API_URL', "http://embedpress.com");
 }
 
 if (!defined('EMBEDPRESS_LICENSES_MORE_INFO_URL')) {
-    define('EMBEDPRESS_LICENSES_MORE_INFO_URL', "https://pressshack.com/embedpress/docs/activate-license");
+    define('EMBEDPRESS_LICENSES_MORE_INFO_URL', "https://embedpress.com/docs/activate-license");
 }
 
 // Run libraries's autoload script

@@ -1,4 +1,4 @@
-=== PublishPress Embeds – Embed Google Docs, Vimeo and Wistia videos, Giphy and Imgur photos, and more ===
+=== EmbedPress – Embed Google Docs, Vimeo and Wistia videos, Giphy and Imgur photos, and more ===
 Contributors: PressShack, andergmartins
 Tags: YouTube, Google, Facebook, Wistia, Vimeo
 Requires at least: 4.5
@@ -7,15 +7,15 @@ Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-PublishPress Embeds provides embeds for major sites, from YouTube and Twitch videos, to Google Maps and Docs, to Soundcloud and Spotify audio files.
+EmbedPress provides embeds for major sites, from YouTube and Twitch videos, to Google Maps and Docs, to Soundcloud and Spotify audio files.
 
 == Description ==
 
-PublishPress Embeds easily connects WordPress to all the web services you use.
+EmbedPress easily connects WordPress to all the web services you use.
 
-With PublishPress Embeds, all you need is the URL. Find the URL for your video, image, audio file or map and simply cut-and-paste the URL into a WordPress post. PublishPress Embeds automatically understands the URL and embeds your content. You can embed media from over 75 sites.
+With EmbedPress, all you need is the URL. Find the URL for your video, image, audio file or map and simply cut-and-paste the URL into a WordPress post. EmbedPress automatically understands the URL and embeds your content. You can embed media from over 75 sites.
 
-Here are some of the most popular sites you can use with PublishPress Embeds:
+Here are some of the most popular sites you can use with EmbedPress:
 
 * **Google**: You can embed Google Maps, Docs, Forms, Sheets and more.
 * **Facebook**: You can embed Facebook posts and videos to your site.
@@ -25,120 +25,120 @@ Here are some of the most popular sites you can use with PublishPress Embeds:
 
 = YOUTUBE, VIMEO AND WISTIA VIDEOS =
 
-The add-ons for PublishPress Embeds give you far more control over your videos. With these add-ons, your videos will be responsive. You can also customize the video display to match your site’s design. Other features include auto-play and looping.  Click the links below to get a full listing of all the features the add-ons provide:
+The add-ons for EmbedPress give you far more control over your videos. With these add-ons, your videos will be responsive. You can also customize the video display to match your site’s design. Other features include auto-play and looping.  Click the links below to get a full listing of all the features the add-ons provide:
 
-* [Click here to get more YouTube features](https://pressshack.com/addons/embedpress-youtube/)
-* [Click here to get more Vimeo features](https://pressshack.com/addons/embedpress-vimeo/)
-* [Click here to get more Wistia features](https://pressshack.com/addons/embedpress-wistia/)
+* [Click here to get more YouTube features](https://embedpress.com/addons/embedpress-youtube/)
+* [Click here to get more Vimeo features](https://embedpress.com/addons/embedpress-vimeo/)
+* [Click here to get more Wistia features](https://embedpress.com/addons/embedpress-wistia/)
 
 = GOOGLE DRIVE: DOCS, SHEETS, DRAWINGS, FORMS, SLIDES, MAPS =
 
-Google Drive is an enormously popular service that has replaced Microsoft Office for many companies. Using Google Drives can bring your information to life, whether it’s stored in documents, maps, drawings, spreadsheets, or presentations. PublishPress Embeds supports all of these Google Drive options:
+Google Drive is an enormously popular service that has replaced Microsoft Office for many companies. Using Google Drives can bring your information to life, whether it’s stored in documents, maps, drawings, spreadsheets, or presentations. EmbedPress supports all of these Google Drive options:
 
-* [How to use Google Docs in WordPress](https://pressshack.com/embedpress/docs/google-docs-embed-wordpress/)
-* [How to use Google Forms in WordPress](https://pressshack.com/embedpress/docs/google-forms-embed-wordpress/)
-* [How to use Google Maps in WordPress ](https://pressshack.com/embedpress/docs/google-maps-embed-wordpress/)
-* [How to use Google Drawings in WordPress](https://pressshack.com/embedpress/docs/google-drawings-embed-wordpress/)
-* [How to use Google Sheets in WordPress](https://pressshack.com/embedpress/docs/embed-google-sheets-wordpress/)
-* [How to use Google Slides in WordPress](https://pressshack.com/embedpress/docs/embed-google-slides-wordpress/)
+* [How to use Google Docs in WordPress](https://embedpress.com/docs/google-docs-embed-wordpress/)
+* [How to use Google Forms in WordPress](https://embedpress.com/docs/google-forms-embed-wordpress/)
+* [How to use Google Maps in WordPress ](https://embedpress.com/docs/google-maps-embed-wordpress/)
+* [How to use Google Drawings in WordPress](https://embedpress.com/docs/google-drawings-embed-wordpress/)
+* [How to use Google Sheets in WordPress](https://embedpress.com/docs/embed-google-sheets-wordpress/)
+* [How to use Google Slides in WordPress](https://embedpress.com/docs/embed-google-slides-wordpress/)
 
 = FACEBOOK POSTS AND VIDEOS =
 
-With PublishPress Embeds, you can add Facebook Posts to WordPress, using just a URL. Facebook post embeds are possible, but they’re not easy to use via normal methods. PublishPress Embeds is different:
+With EmbedPress, you can add Facebook Posts to WordPress, using just a URL. Facebook post embeds are possible, but they’re not easy to use via normal methods. EmbedPress is different:
 
-* [How to use Facebook embeds in WordPress](https://pressshack.com/embedpress/docs/embed-facebook-posts-wordpress/)
+* [How to use Facebook embeds in WordPress](https://embedpress.com/docs/embed-facebook-posts-wordpress/)
 
 = AUDIO: SPOTIFY, SOUNDCLOUD AND MIXCLOUD =
 
-PublishPress Embeds supports all of these major options for audio on your WordPress site:
+EmbedPress supports all of these major options for audio on your WordPress site:
 
-* [How to use Spotify in WordPress](https://pressshack.com/embedpress/docs/embed-spotify-audios-wordpress/)
-* [How to use MixCloud in WordPress](https://pressshack.com/embedpress/docs/embed-mixcloud-audio-wordpress/)
-* [How to use SoundCloud in WordPress](https://pressshack.com/embedpress/docs/embed-soundcloud-audio-wordpress/)
+* [How to use Spotify in WordPress](https://embedpress.com/docs/embed-spotify-audios-wordpress/)
+* [How to use MixCloud in WordPress](https://embedpress.com/docs/embed-mixcloud-audio-wordpress/)
+* [How to use SoundCloud in WordPress](https://embedpress.com/docs/embed-soundcloud-audio-wordpress/)
 
-Here are multiple other audio options supported by PublishPress Embeds:
+Here are multiple other audio options supported by EmbedPress:
 
-* [How to use Shoudio in WordPress](https://pressshack.com/embedpress/docs/embed-shoudio-audios-wordpress/)
-* [How to use HuffDuffer in WordPress](https://pressshack.com/embedpress/docs/embed-huffduffer-audios-wordpress/)
-* [How to use Chirbit in WordPress](https://pressshack.com/embedpress/docs/embed-chirbit-audio-wordpress/)
-* [How to use Clyp in WordPress](https://pressshack.com/embedpress/docs/embed-clypit-audio-wordpress/)
-* [How to use ReverbNation in WordPress](https://pressshack.com/embedpress/docs/embed-reverbnation-audio-wordpress/)
+* [How to use Shoudio in WordPress](https://embedpress.com/docs/embed-shoudio-audios-wordpress/)
+* [How to use HuffDuffer in WordPress](https://embedpress.com/docs/embed-huffduffer-audios-wordpress/)
+* [How to use Chirbit in WordPress](https://embedpress.com/docs/embed-chirbit-audio-wordpress/)
+* [How to use Clyp in WordPress](https://embedpress.com/docs/embed-clypit-audio-wordpress/)
+* [How to use ReverbNation in WordPress](https://embedpress.com/docs/embed-reverbnation-audio-wordpress/)
 
 = PHOTOS: DEVIANTART, GIPHY, FLICK, IMGUR AND INSTAGRAM =
 
-PublishPress Embeds supports most popular image-hosting sites, including Deviantart, Giphy, Imgur, Flick and Instagram:
+EmbedPress supports most popular image-hosting sites, including Deviantart, Giphy, Imgur, Flick and Instagram:
 
-* [How to use Deviantart in WordPress](https://pressshack.com/embedpress/docs/embed-deviantart-image-wordpress/)
-* [How to use Giphy in WordPress](https://pressshack.com/embedpress/docs/embed-giphy-gifs-wordpress/)
-* [How to use Flickr in WordPress](https://pressshack.com/embedpress/docs/embed-flickr-image-wordpress/)
-* [How to use Imgur in WordPress](https://pressshack.com/embedpress/docs/embed-imgur-images-wordpress/)
-* [How to use Instagram in WordPress](https://pressshack.com/embedpress/docs/embed-instagram-wordpress/)
+* [How to use Deviantart in WordPress](https://embedpress.com/docs/embed-deviantart-image-wordpress/)
+* [How to use Giphy in WordPress](https://embedpress.com/docs/embed-giphy-gifs-wordpress/)
+* [How to use Flickr in WordPress](https://embedpress.com/docs/embed-flickr-image-wordpress/)
+* [How to use Imgur in WordPress](https://embedpress.com/docs/embed-imgur-images-wordpress/)
+* [How to use Instagram in WordPress](https://embedpress.com/docs/embed-instagram-wordpress/)
 
 = CHARTS AND DIAGRAMS =
 
-With PublishPress Embeds, you have a wide variety of options for adding charts and diagrams to your WordPress site. We already saw that PublishPress Embeds supports Google Drawings, but here are 5 more options for charts:
+With EmbedPress, you have a wide variety of options for adding charts and diagrams to your WordPress site. We already saw that EmbedPress supports Google Drawings, but here are 5 more options for charts:
 
-* [AmCharts embeds](https://pressshack.com/embedpress/docs/embed-amcharts-wordpress/)
-* [Cacoo embeds](https://pressshack.com/embedpress/docs/embed-cacoo-charts-wordpress/)
-* [ChartBlocks embeds](https://pressshack.com/embedpress/docs/embed-chartblocks-charts-wordpress/)
-* [CircuitLab embeds](https://pressshack.com/embedpress/docs/embed-circuitlab-circuit-wordpress/)
-* [Infogram embeds](https://pressshack.com/embedpress/docs/embed-infogram-charts-wordpress/)
+* [AmCharts embeds](https://embedpress.com/docs/embed-amcharts-wordpress/)
+* [Cacoo embeds](https://embedpress.com/docs/embed-cacoo-charts-wordpress/)
+* [ChartBlocks embeds](https://embedpress.com/docs/embed-chartblocks-charts-wordpress/)
+* [CircuitLab embeds](https://embedpress.com/docs/embed-circuitlab-circuit-wordpress/)
+* [Infogram embeds](https://embedpress.com/docs/embed-infogram-charts-wordpress/)
 
 = OTHER VIDEO OPTIONS =
 
-We’ve seen that PublishPress Embeds supports YouTube, Wistia and Vimeo, but PublishPress Embeds also supports around 20 more video sources:
+We’ve seen that EmbedPress supports YouTube, Wistia and Vimeo, but EmbedPress also supports around 20 more video sources:
 
-* [Animoto embeds](https://pressshack.com/embedpress/docs/embed-animoto-videos-wordpress/)
-* [Bambuser embeds](https://pressshack.com/embedpress/docs/embed-bambuser-videos-wordpress/)
-* [College Humor embeds](https://pressshack.com/embedpress/docs/embed-collegehumor-videos-wordpress/)
-* [Coub embeds](https://pressshack.com/embedpress/docs/embed-coub-videos-iwordpress/)
-* [Crowd Ranking embeds](https://pressshack.com/embedpress/docs/embed-crowdranking-polls-wordpress/)
-* [Cloudup embeds](https://pressshack.com/embedpress/docs/embed-cloudup-videos-images-or-audios-wordpress/)
-* [Daily Motion embeds](https://pressshack.com/embedpress/docs/embed-dailymotion-videos-wordpress/)
-* [Dotsub embeds](https://pressshack.com/embedpress/docs/embed-dotsub-videos-wordpress/)
-* [Funny or Die embeds](https://pressshack.com/embedpress/docs/embed-funnyordie-videos-wordpress/)
-* [Hulu embeds](https://pressshack.com/embedpress/docs/embed-hulu-videos-wordpress/)
-* [Kickstarter embeds](https://pressshack.com/embedpress/docs/embed-kickstarter-videos-wordpress/)
-* [NFB embeds](https://pressshack.com/embedpress/docs/embed-nfb-videos-wordpress/)
-* [RuTube embeds](https://pressshack.com/embedpress/docs/embed-rutube-videos-wordpress/)
-* [Sapo Videos embeds](https://pressshack.com/embedpress/docs/embed-sapo-videos-wordpress/)
-* [TED embeds](https://pressshack.com/embedpress/docs/embed-ted-videos-wordpress/)
-* [Ustream embeds](https://pressshack.com/embedpress/docs/embed-ustream-videos-wordpress/)
-* [Viddler embeds](https://pressshack.com/embedpress/docs/embed-viddler-videos-wordpress/)
-* [VideoJug embeds](https://pressshack.com/embedpress/docs/embed-videojug-videos-wordpress/)
-* [VideoPress embeds](https://pressshack.com/embedpress/docs/embed-videopress-videos-wordpress/)
+* [Animoto embeds](https://embedpress.com/docs/embed-animoto-videos-wordpress/)
+* [Bambuser embeds](https://embedpress.com/docs/embed-bambuser-videos-wordpress/)
+* [College Humor embeds](https://embedpress.com/docs/embed-collegehumor-videos-wordpress/)
+* [Coub embeds](https://embedpress.com/docs/embed-coub-videos-iwordpress/)
+* [Crowd Ranking embeds](https://embedpress.com/docs/embed-crowdranking-polls-wordpress/)
+* [Cloudup embeds](https://embedpress.com/docs/embed-cloudup-videos-images-or-audios-wordpress/)
+* [Daily Motion embeds](https://embedpress.com/docs/embed-dailymotion-videos-wordpress/)
+* [Dotsub embeds](https://embedpress.com/docs/embed-dotsub-videos-wordpress/)
+* [Funny or Die embeds](https://embedpress.com/docs/embed-funnyordie-videos-wordpress/)
+* [Hulu embeds](https://embedpress.com/docs/embed-hulu-videos-wordpress/)
+* [Kickstarter embeds](https://embedpress.com/docs/embed-kickstarter-videos-wordpress/)
+* [NFB embeds](https://embedpress.com/docs/embed-nfb-videos-wordpress/)
+* [RuTube embeds](https://embedpress.com/docs/embed-rutube-videos-wordpress/)
+* [Sapo Videos embeds](https://embedpress.com/docs/embed-sapo-videos-wordpress/)
+* [TED embeds](https://embedpress.com/docs/embed-ted-videos-wordpress/)
+* [Ustream embeds](https://embedpress.com/docs/embed-ustream-videos-wordpress/)
+* [Viddler embeds](https://embedpress.com/docs/embed-viddler-videos-wordpress/)
+* [VideoJug embeds](https://embedpress.com/docs/embed-videojug-videos-wordpress/)
+* [VideoPress embeds](https://embedpress.com/docs/embed-videopress-videos-wordpress/)
 
 = OTHER SITES SUPPORTED BY EMBEDPRESS =
 
-* [23hq embeds](https://pressshack.com/embedpress/docs/embed-23hq-photos-wordpress/) (Images)
-* [Daily Mile embeds](https://pressshack.com/embedpress/docs/embed-dailymile-activity-wordpress/) (Activity)
-* [GettyImages embeds](https://pressshack.com/embedpress/docs/embed-getty-images-wordpress/) (Images)
-* [Github Gist embeds](https://pressshack.com/embedpress/docs/embed-github-gist-snippets-wordpress/) (Code)
-* [Issuu embeds](https://pressshack.com/embedpress/docs/embed-issuu-documents-wordpress/) (Documents)
-* [Meetup embeds](https://pressshack.com/embedpress/docs/embed-meetup-groups-events-wordpress/) (Groups, Events)
-* [MobyPicture embeds](https://pressshack.com/embedpress/docs/embed-mobypicture-photos-wordpress/) (Image)
-* [PhotoBucket embeds](https://pressshack.com/embedpress/docs/embed-photobucket-images-wordpress/) (Images)
-* [PollDaddy embeds](https://pressshack.com/embedpress/docs/polldaddy-embed-wordpress/) (Polls, Surveys, Quizzes)
-* [Porfolium embeds](https://pressshack.com/embedpress/docs/embed-portfolium-projects-wordpress/) (Projects)
-* [Reddit embeds](https://pressshack.com/embedpress/docs/embed-reddit-post-wordpress/) (Posts, Comments)
-* [ReleaseWire embeds](https://pressshack.com/embedpress/docs/embed-releasewire-press-releases-wordpress/) (Press releases)
-* [Scribd embeds](https://pressshack.com/embedpress/docs/embed-scribd-document-wordpress/) (Documents)
-* [ShortNote embeds](https://pressshack.com/embedpress/docs/embed-shortnote-notes-wordpress/) (Notes in Japanese)
-* [Sketchfab embeds](https://pressshack.com/embedpress/docs/embed-sketchfab-drawings-wordpress/) (Drawings)
-* [SlideShare embeds](https://pressshack.com/embedpress/docs/embed-slideshare-presentations-wordpress/) (Presentations)
-* [SmugMug embeds](https://pressshack.com/embedpress/docs/embed-smugmug-images-wordpress/) (Images)
-* [SpeakerDeck embeds](https://pressshack.com/embedpress/docs/embed-speakerdeck-presentations-wordpress/) (Presentations)
+* [23hq embeds](https://embedpress.com/docs/embed-23hq-photos-wordpress/) (Images)
+* [Daily Mile embeds](https://embedpress.com/docs/embed-dailymile-activity-wordpress/) (Activity)
+* [GettyImages embeds](https://embedpress.com/docs/embed-getty-images-wordpress/) (Images)
+* [Github Gist embeds](https://embedpress.com/docs/embed-github-gist-snippets-wordpress/) (Code)
+* [Issuu embeds](https://embedpress.com/docs/embed-issuu-documents-wordpress/) (Documents)
+* [Meetup embeds](https://embedpress.com/docs/embed-meetup-groups-events-wordpress/) (Groups, Events)
+* [MobyPicture embeds](https://embedpress.com/docs/embed-mobypicture-photos-wordpress/) (Image)
+* [PhotoBucket embeds](https://embedpress.com/docs/embed-photobucket-images-wordpress/) (Images)
+* [PollDaddy embeds](https://embedpress.com/docs/polldaddy-embed-wordpress/) (Polls, Surveys, Quizzes)
+* [Porfolium embeds](https://embedpress.com/docs/embed-portfolium-projects-wordpress/) (Projects)
+* [Reddit embeds](https://embedpress.com/docs/embed-reddit-post-wordpress/) (Posts, Comments)
+* [ReleaseWire embeds](https://embedpress.com/docs/embed-releasewire-press-releases-wordpress/) (Press releases)
+* [Scribd embeds](https://embedpress.com/docs/embed-scribd-document-wordpress/) (Documents)
+* [ShortNote embeds](https://embedpress.com/docs/embed-shortnote-notes-wordpress/) (Notes in Japanese)
+* [Sketchfab embeds](https://embedpress.com/docs/embed-sketchfab-drawings-wordpress/) (Drawings)
+* [SlideShare embeds](https://embedpress.com/docs/embed-slideshare-presentations-wordpress/) (Presentations)
+* [SmugMug embeds](https://embedpress.com/docs/embed-smugmug-images-wordpress/) (Images)
+* [SpeakerDeck embeds](https://embedpress.com/docs/embed-speakerdeck-presentations-wordpress/) (Presentations)
 
 = ALSO CHECK OUT THE PUBLISHPRESS PLUGIN =
 
-If you like PublishPress Embeds, then consider checking out [PublishPress](https://pressshack.com/publishpress/). The PublishPress plugin is essential for any WordPress site with multiple writers.
+If you like EmbedPress, then consider checking out [PublishPress](https://embedpress.com/publishpress/). The PublishPress plugin is essential for any WordPress site with multiple writers.
 
 PublishPress is a plugin with several tools that help your team stay organized:
 
-* Use the [Editorial Calendar](https://pressshack.com/publishpress/docs/calendar/) and [Content Overview](https://pressshack.com/publishpress/docs/calendar/) to get a clear picture of all your planned and published content.
-* You can create [Comments](https://pressshack.com/publishpress/docs/editorial-comments/) and [Notifications](https://pressshack.com/publishpress/docs/notifications/) to leave feedback and keep your team in the loop.
-* You can add [Metadata](https://pressshack.com/publishpress/docs/editorial-metadata/) to give your team extra information about each post.
-* Create [Custom Statuses](https://pressshack.com/publishpress/docs/custom-statuses/) so that WordPress matches your team’s workflow.
+* Use the [Editorial Calendar](https://embedpress.com/publishpress/docs/calendar/) and [Content Overview](https://embedpress.com/publishpress/docs/calendar/) to get a clear picture of all your planned and published content.
+* You can create [Comments](https://embedpress.com/publishpress/docs/editorial-comments/) and [Notifications](https://embedpress.com/publishpress/docs/notifications/) to leave feedback and keep your team in the loop.
+* You can add [Metadata](https://embedpress.com/publishpress/docs/editorial-metadata/) to give your team extra information about each post.
+* Create [Custom Statuses](https://embedpress.com/publishpress/docs/custom-statuses/) so that WordPress matches your team’s workflow.
 
 = WORDPRESS TRAINING =
 
@@ -150,21 +150,21 @@ Visit [OSTraining](https://www.ostraining.com/) to learn from our [WordPress Tra
 
 == Installation ==
 
-You can install PublishPress Embeds through your WordPress admin area:
+You can install EmbedPress through your WordPress admin area:
 
 Access the “Plugins” page.
 Click on the “Add New” button.
-Search for “PublishPress Embeds”.
-Install the PublishPress Embeds plugin.
-Activate the PublishPress Embeds plugin.
+Search for “EmbedPress”.
+Install the EmbedPress plugin.
+Activate the EmbedPress plugin.
 
 == Frequently Asked Questions ==
 
 = Where Can I Get Support? =
 
-You can ask for help via [the PublishPress contact form](https://pressshack.com/contact/).
+You can ask for help via [the EmbedPress contact form](https://embedpress.com/contact/).
 
-= Do I Need Coding Skills To Use PublishPress Embeds? =
+= Do I Need Coding Skills To Use EmbedPress? =
 
 Not at all. You can set up everything your team needs without any coding knowledge. We made it super easy.
 
@@ -209,7 +209,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 *Changed:*
 
-* Renamed to PublishPress Embeds
+* Renamed to EmbedPress
 * Changed minimum WP version to 4.5
 
 *Fixed:*

@@ -14,8 +14,8 @@ use \Embera\Embera;
  *
  * @package     EmbedPress
  * @subpackage  EmbedPress/Ends/Back
- * @author      PressShack <help@pressshack.com>
- * @copyright   Copyright (C) 2017 PressShack. All rights reserved.
+ * @author      EmbedPress <help@embedpress.com>
+ * @copyright   Copyright (C) 2018 EmbedPress. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0.0
  */

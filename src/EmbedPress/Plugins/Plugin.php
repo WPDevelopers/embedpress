@@ -9,8 +9,8 @@ use \EmbedPress\Updater;
  * Entity that represents a model to EmbedPress plugins.
  *
  * @package     EmbedPress
- * @author      PressShack <help@pressshack.com>
- * @copyright   Copyright (C) 2017 PressShack. All rights reserved.
+ * @author      EmbedPress <help@embedpress.com>
+ * @copyright   Copyright (C) 2018 EmbedPress. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.4.0
  * @abstract
@@ -89,7 +89,7 @@ abstract class Plugin
                 'version'   => static::VERSION,
                 'license'   => $licenseKey,
                 'item_name' => "EmbedPress " . static::NAME,
-                'author'    => "PressShack"
+                'author'    => "EmbedPress"
             ));
         }
     }
@@ -321,7 +321,7 @@ abstract class Plugin
         if (defined(get_called_class() . '::EDD_ID')) {
             $params['body']['item_id'] = static::EDD_ID;
         } else {
-            $params['body']['item_name'] = "PublishPress ". static::NAME;
+            $params['body']['item_name'] = "EmbedPress ". static::NAME;
         }
 
         $response = wp_remote_post(EMBEDPRESS_LICENSES_API_URL, $params);

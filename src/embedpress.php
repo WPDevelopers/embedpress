@@ -1,21 +1,21 @@
 <?php
 /**
- * PublishPress Embeds plugin bootstrap file.
+ * EmbedPress plugin bootstrap file.
  *
- * @link        https://pressshack.com/embedpress/
+ * @link        https://embedpress.com
  * @package     EmbedPress
- * @author      PressShack <help@pressshack.com>
- * @copyright   Copyright (C) 2017 PressShack. All rights reserved.
+ * @author      EmbedPress <help@embedpress.com>
+ * @copyright   Copyright (C) 2018 EmbedPress. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.0.0
  *
  * @embedpress
- * Plugin Name: PublishPress Embeds
- * Plugin URI:  https://pressshack.com/embedpress/
+ * Plugin Name: EmbedPress
+ * Plugin URI:  https://embedpress.com/
  * Version:     2.0.3b1
  * Description: WordPress supports around 35 embed sources, but PublishPress Embeds adds over 40 more, including Facebook, Google Maps, Google Docs, UStream! Just use the URL!
  * Author:      PressShack
- * Author URI:  http://pressshack.com
+ * Author URI:  http://embedpress.com
 */
 
 use \EmbedPress\Core;

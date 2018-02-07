@@ -4,7 +4,7 @@
 
 ## Publishing New Releases
 
-PublishPress Embeds follows the [Semantic Versioning 2.0.0](http://semver.org), which means that given a version number we have `MAJOR`.`MINOR`.`PATCH`. We should increment these when:
+EmbedPress follows the [Semantic Versioning 2.0.0](http://semver.org), which means that given a version number we have `MAJOR`.`MINOR`.`PATCH`. We should increment these when:
  1. `MAJOR` version when we make incompatible API changes;
  2. `MINOR` version when we add functionality in a backwards-compatible manner;
  3. `PATCH` version when we make backwards-compatible bug fixes.
