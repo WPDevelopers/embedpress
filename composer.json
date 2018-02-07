@@ -20,6 +20,10 @@
         {
             "type": "git",
             "url": "https://github.com/OSTraining/EDD-License-handler"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/OSTraining/Embera"
         }
     ],
     "config": {
@@ -29,7 +33,8 @@
     "minimum-stability": "stable",
     "require": {
         "pimple/pimple": "~3.0",
-        "publishpress/wordpress-edd-license-integration": "~2.1"
+        "publishpress/wordpress-edd-license-integration": "~2.1",
+        "ostraining/embera": "*"
     },
     "require-dev": {
         "publishpress/wordpress-plugin-builder": "~1",

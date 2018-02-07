@@ -11,6 +11,7 @@ defined('ABSPATH') or die("No direct script access allowed.");
  * @since       1.0.0
  */
 
+
 if (!defined('EMBEDPRESS')) {
     define('EMBEDPRESS', "EmbedPress");
 }
@@ -33,10 +34,6 @@ if (!defined('EMBEDPRESS_PATH_BASE')) {
 
 if (!defined('EMBEDPRESS_PATH_CORE')) {
     define('EMBEDPRESS_PATH_CORE', EMBEDPRESS_PATH_BASE ."EmbedPress/");
-}
-
-if (!defined('EMBEDPRESS_PATH_LIBRARIES')) {
-    define('EMBEDPRESS_PATH_LIBRARIES', EMBEDPRESS_PATH_BASE ."library/");
 }
 
 if (!defined('EMBEDPRESS_URL_ASSETS')) {
@@ -67,7 +64,12 @@ if (!defined('EMBEDPRESS_LICENSES_MORE_INFO_URL')) {
     define('EMBEDPRESS_LICENSES_MORE_INFO_URL', "https://embedpress.com/docs/activate-license");
 }
 
-// Run libraries's autoload script
-require_once EMBEDPRESS_PATH_LIBRARIES ."autoload.php";
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+    require_once __DIR__ . '/vendor/autoload.php';
+}
+
+// Includes the EDD integration library
+require_once __DIR__ . '/vendor/publishpress/wordpress-edd-license-integration/src/includes.php';
+
 // Run the plugin autoload script
 require_once EMBEDPRESS_PATH_BASE ."autoloader.php";
