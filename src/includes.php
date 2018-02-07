@@ -11,8 +11,6 @@ defined('ABSPATH') or die("No direct script access allowed.");
  * @since       1.0.0
  */
 
-require_once 'freemius.php';
-
 if (!defined('EMBEDPRESS')) {
     define('EMBEDPRESS', "EmbedPress");
 }
