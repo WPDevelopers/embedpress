@@ -309,7 +309,7 @@ class Settings
                             <a href="//embedpress.com/addons/" target="_blank" rel="noopener noreferrer" title="EmbedPress Add-Ons">Add-Ons</a>
                         </li>
                         <li>
-                            <a href="//embedpress.com/contact" target="_blank" rel="noopener noreferrer" title="Contact the PressShack team">Contact</a>
+                            <a href="//embedpress.com/contact" target="_blank" rel="noopener noreferrer" title="Contact the EmbedPress team">Contact</a>
                         </li>
                         <li>
                             <a href="//twitter.com/embedpress" target="_blank" rel="noopener noreferrer">
