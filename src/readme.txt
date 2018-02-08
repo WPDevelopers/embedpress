@@ -184,11 +184,12 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= UNRELEASED =
+= [2.1.0] - 2018-02-08 =
 
 *Changed:*
 
 * Changed the label of the menu from Embeds to EmbedPress;
+* Updated structure for plugins to validate licenses on embedpress.com;
 
 = [2.0.3] = 2018-02-07 =
 
