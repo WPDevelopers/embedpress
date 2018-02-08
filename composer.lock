@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "0449c9a8ce219429d3fbf8bfcbeb0699",
+    "content-hash": "a814d8eac6c02c719751fa93a6029827",
     "packages": [
         {
             "name": "ostraining/embera",
@@ -148,6 +148,68 @@
                 "psr"
             ],
             "time": "2017-02-14T16:28:37+00:00"
+        },
+        {
+            "name": "publishpress/edd-license-handler",
+            "version": "1.6.14.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/OSTraining/EDD-License-handler",
+                "reference": "0cf8447b2dd73d4a916b2bdcf1e364c89218b25d"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "EDD_License_Handler.php",
+                    "EDD_SL_Plugin_Updater.php"
+                ]
+            },
+            "license": [
+                "GPL-2"
+            ],
+            "authors": [
+                {
+                    "name": "EasyDigitalDownloads",
+                    "email": "contact@easydigitaldownloads.com"
+                },
+                {
+                    "name": "PublishPress",
+                    "email": "help@publishpress.com"
+                }
+            ],
+            "time": "2018-02-07T10:08:34+00:00"
+        },
+        {
+            "name": "publishpress/wordpress-edd-license-integration",
+            "version": "2.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/OSTraining/WordPress-EDD-License-Integration",
+                "reference": "12c9768df10b7d16d12f2583a1dca9a6822cad7a"
+            },
+            "require": {
+                "pimple/pimple": "~3.2",
+                "publishpress/edd-license-handler": "~1.6"
+            },
+            "require-dev": {
+                "lucatume/wp-browser": "~1.22"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PublishPress\\EDD_License\\Core\\": "src/core/"
+                }
+            },
+            "license": [
+                "GPL-2"
+            ],
+            "authors": [
+                {
+                    "name": "PublishPress",
+                    "email": "help@publishpress.com"
+                }
+            ],
+            "time": "2018-02-07T10:11:15+00:00"
         }
     ],
     "packages-dev": [

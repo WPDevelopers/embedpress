@@ -68,5 +68,10 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
+// Includes the EDD integration library
+require_once __DIR__ . '/vendor/publishpress/wordpress-edd-license-integration/src/includes.php';
+
 // Run the plugin autoload script
-require_once EMBEDPRESS_PATH_BASE ."autoloader.php";
+if (!defined('EMBEDPRESS_IS_LOADED')) {
+    require_once EMBEDPRESS_PATH_BASE ."autoloader.php";
+}

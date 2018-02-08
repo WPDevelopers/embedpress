@@ -1,7 +1,9 @@
 <?php
 namespace EmbedPress\Plugins;
 
-use \EmbedPress\Updater;
+use PublishPress\EDD_License\Core\Container as EDDContainer;
+use PublishPress\EDD_License\Core\ServicesConfig as EDDServicesConfig;
+use PublishPress\EDD_License\Core\Services as EDDServices;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -17,6 +19,38 @@ use \EmbedPress\Updater;
  */
 abstract class Plugin
 {
+    const VERSION = '0.0.0';
+
+    protected static $eddContainer;
+
+    protected static function getEddContainer()
+    {
+        if (empty(static::$eddContainer)) {
+            $options = static::getOptions();
+
+            $licenseKey    = isset($options['license']['key']) ? (string)$options['license']['key'] : "";
+            $licenseStatus = isset($options['license']['status']) ? (string)$options['license']['status'] : "missed";
+
+            $config = new EDDServicesConfig();
+            $config->setApiUrl(EMBEDPRESS_LICENSES_API_URL);
+            $config->setLicenseKey($licenseKey);
+            $config->setLicenseStatus($licenseStatus);
+            $config->setPluginVersion(static::VERSION);
+            $config->setEddItemId(static::EDD_ID);
+            $config->setPluginAuthor('EmbedPress');
+            $config->setPluginFile(EMBEDPRESS_PLG_NAME .'/'. EMBEDPRESS_PLG_NAME .'.php');
+
+            $services = new EDDServices($config);
+
+            $eddContainer = new EDDContainer();
+            $eddContainer->register($services);
+
+            static::$eddContainer = $eddContainer;
+        }
+
+        return static::$eddContainer;
+    }
+
     /**
      * Method that register all EmbedPress events.
      *
@@ -81,16 +115,12 @@ abstract class Plugin
         } else {
             static::registerSettings();
 
-            $options = static::getOptions();
-
-            $licenseKey = isset($options['license']['key']) ? (string)$options['license']['key'] : "";
-
-            new Updater(EMBEDPRESS_LICENSES_API_URL, static::PATH . EMBEDPRESS_PLG_NAME .'-'. static::SLUG .'.php', array(
-                'version'   => static::VERSION,
-                'license'   => $licenseKey,
-                'item_name' => "EmbedPress " . static::NAME,
-                'author'    => "EmbedPress"
-            ));
+            $eddContainer = static::getEddContainer();
+            /*
+             * Instantiate the update manager. The variable is not used by purpose, only
+             * to instantiate the manager.
+             */
+            $update = $eddContainer['update_manager'];
         }
     }
 
@@ -306,46 +336,11 @@ abstract class Plugin
      */
     protected static function validateLicenseKey($licenseKey)
     {
-        $pluginSlug = EMBEDPRESS_PLG_NAME .':'. static::SLUG;
+        $licenseManager = static::$eddContainer['license_manager'];
 
-        $params = array(
-            'timeout'     => 30,
-            'sslverify'   => false,
-            'redirection' => 1,
-            'body'      => array(
-                'edd_action' => "activate_license",
-                'license'    => $licenseKey,
-                'url'        => home_url()
-            )
-        );
-        if (defined(get_called_class() . '::EDD_ID')) {
-            $params['body']['item_id'] = static::EDD_ID;
-        } else {
-            $params['body']['item_name'] = "EmbedPress ". static::NAME;
-        }
+        $licenseNewStatus = $licenseManager->validate_license_key($licenseKey, static::EDD_ID);
+        var_dump($licenseNewStatus);die;
 
-        $response = wp_remote_post(EMBEDPRESS_LICENSES_API_URL, $params);
-
-        if (is_wp_error($response) || 200 !== wp_remote_retrieve_response_code($response)) {
-            $errMessage = $response->get_error_message();
-            if (is_wp_error($response) && !empty($errMessage)) {
-                return $errMessage;
-            } else {
-                return __('An error occurred. Please, try again.');
-            }
-        } else {
-            $licenseData = json_decode(wp_remote_retrieve_body($response));
-            if (empty($licenseData) || !is_object($licenseData)) {
-                $licenseNewStatus = "invalid";
-            } else {
-                if (isset($licenseData->success) && $licenseData->success === true) {
-                    $licenseNewStatus = "valid";
-                } else {
-                    $licenseNewStatus = isset($licenseData->error) && !empty($licenseData->error) ? $licenseData->error : "invalid";
-                }
-            }
-
-            return $licenseNewStatus;
-        }
+        return $licenseNewStatus;
     }
 }
