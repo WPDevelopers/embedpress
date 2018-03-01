@@ -1,5 +1,5 @@
 === EmbedPress – Embed Google Docs, Vimeo and Wistia videos, Giphy and Imgur photos, and more ===
-Contributors: EmbedPress, andergmartins, stevejburge, pressshack
+Contributors: EmbedPress, andergmartins, stevejburge, pressshack, deenison
 Author: EmbedPress, PressShack
 Author URI: https://embedpress.com
 Tags: YouTube, Google, Facebook, Wistia, Vimeo
