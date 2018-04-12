@@ -20,6 +20,7 @@
 .ose-animoto.responsive,
 .ose-soundcloud.responsive,
 .ose-videojug.responsive,
+.ose-facebook.responsive,
 .ose-issuu.responsive {
     overflow: hidden;
     position: relative;
@@ -115,4 +116,9 @@
 .ose-google-docs.responsive {
     -webkit-overflow-scrolling: touch;
     overflow-y: auto;
+}
+
+.ose-facebook.responsive iframe {
+    padding-bottom: 0;
+    width: 100%;
 }
