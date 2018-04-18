@@ -339,7 +339,6 @@ abstract class Plugin
         $licenseManager = static::$eddContainer['license_manager'];
 
         $licenseNewStatus = $licenseManager->validate_license_key($licenseKey, static::EDD_ID);
-        var_dump($licenseNewStatus);die;
 
         return $licenseNewStatus;
     }

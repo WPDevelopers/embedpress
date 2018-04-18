@@ -179,7 +179,6 @@ class Field
             $html .= '<br/><br/><strong>Status: <span class="'. $licenseStatusClass .'">'. __($licenseStatusMessage) .'</span>.</strong><br/><br/>';
 
             if (!(isset($options['license']['status']) && $options['license']['status'] === 'valid')) {
-                $html .= '<button type="submit" class="button-secondary">' . __('Activate License') . '</button> ';
                 $html .= '<a href="'. EMBEDPRESS_LICENSES_MORE_INFO_URL .'" target="_blank" class="ep-small-link ep-small-spacing" rel="noopener noreferrer" style="display: inline-block; margin-left: 20px;" title="'. __('Click here to read more about licenses.') .'">' . __('More information') . '</a>';
                 $html .= '<br/><br/>';
             }

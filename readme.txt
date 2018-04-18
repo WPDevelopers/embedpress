@@ -1,11 +1,11 @@
 === EmbedPress – Embed Google Docs, Vimeo and Wistia videos, Giphy and Imgur photos, and more ===
-Contributors: EmbedPress, andergmartins, stevejburge, pressshack
+Contributors: EmbedPress, andergmartins, stevejburge, pressshack, deenison
 Author: EmbedPress, PressShack
 Author URI: https://embedpress.com
 Tags: YouTube, Google, Facebook, Wistia, Vimeo
 Requires at least: 4.6
 Tested up to: 4.9.4
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -183,6 +183,12 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [2.1.1] - 2018-04-18 =
+
+*Fixed:*
+
+* Fixed validation of license key for add-ons;
 
 = [2.1.0] - 2018-02-08 =
 
