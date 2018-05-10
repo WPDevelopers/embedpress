@@ -184,6 +184,12 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [2.1.2] - UNRELEASED =
+
+*Fixed:*
+
+* Fixed Twitch embeds with numbers;
+
 = [2.1.1] - 2018-04-18 =
 
 *Fixed:*
