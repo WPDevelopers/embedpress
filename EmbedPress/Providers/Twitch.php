@@ -64,11 +64,11 @@ class Twitch extends EmberaService
             }
 
             $response = array(
-                'type' => ($renderChatInsteadOfStream ? 'rich' : 'video'),
+                'type'          => ($renderChatInsteadOfStream ? 'rich' : 'video'),
                 'provider_name' => 'Twitch',
-                'provider_url' => $providerUrl,
-                'url' => $url,
-                'html' => $html
+                'provider_url'  => $providerUrl,
+                'url'           => $url,
+                'html'          => $html
             );
         } else {
             $response = array();
