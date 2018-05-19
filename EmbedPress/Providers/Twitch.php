@@ -25,7 +25,7 @@ class Twitch extends EmberaService
      *
      * @var     string
      */
-    private $urlRegexPattern = '~http[s]?:\/\/(?:www\.)twitch\.tv\/([a-zA-Z\-\_]+)\/?(chat\/?$)?~';
+    private $urlRegexPattern = '/http[s]?:\/\/(?:www\.|clips\.)twitch\.tv\/([0-9a-zA-Z\-\_]+)\/?(chat\/?$)?/';
 
     /**
      * Method that verifies if the embed URL belongs to Twitch.
@@ -53,15 +53,22 @@ class Twitch extends EmberaService
         if (preg_match("{$this->urlRegexPattern}i", $url, $matches)) {
             $channelName = $matches[1];
             $renderChatInsteadOfStream = (count($matches) > 2 && strtolower($matches[2]) === "chat");
+            $isClip = stristr($url, 'clips.twitch.tv');
 
-            $html = '<iframe src="https://www.twitch.tv/'. $channelName .'/'. ($renderChatInsteadOfStream ? 'chat' : 'embed' ) .'" height="{height}" width="{width}" scrolling="no" frameborder="0" title="" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+            if ($isClip !== False) {
+                $providerUrl = 'https://clips.twitch.tv';
+                $html = '<iframe src="https://clips.twitch.tv/embed?clip=' . $channelName . '&autoplay=false" height="{height}" width="{width}" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>';
+            } else {
+                $providerUrl = 'https://www.twitch.tv';
+                $html = '<iframe src="https://www.twitch.tv/' . $channelName . '/' . ($renderChatInsteadOfStream ? 'chat' : 'embed') . '" height="{height}" width="{width}" scrolling="no" frameborder="0" allowfullscreen="true"></iframe>';
+            }
 
             $response = array(
-                'type'          => ($renderChatInsteadOfStream ? 'rich' : 'video'),
+                'type' => ($renderChatInsteadOfStream ? 'rich' : 'video'),
                 'provider_name' => 'Twitch',
-                'provider_url'  => 'https://www.twitch.tv',
-                'url'           => $url,
-                'html'          => $html
+                'provider_url' => $providerUrl,
+                'url' => $url,
+                'html' => $html
             );
         } else {
             $response = array();
