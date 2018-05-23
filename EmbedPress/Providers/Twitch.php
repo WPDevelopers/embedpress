@@ -25,7 +25,7 @@ class Twitch extends EmberaService
      *
      * @var     string
      */
-    private $urlRegexPattern = '~http[s]?:\/\/(?:www\.)twitch\.tv\/([a-zA-Z\-\_]+)\/?(chat\/?$)?~';
+    private $urlRegexPattern = '~http[s]?:\/\/(?:www\.)twitch\.tv\/([0-9a-zA-Z\-\_]+)\/?(chat\/?$)?~';
 
     /**
      * Method that verifies if the embed URL belongs to Twitch.
