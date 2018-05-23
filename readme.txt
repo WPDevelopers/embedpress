@@ -190,6 +190,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 * Fixed Twitch embeds with numbers;
 
+*Added:*
+
+* Added support to Twitch clips;
+
 = [2.1.1] - 2018-04-18 =
 
 *Fixed:*
