@@ -55,7 +55,7 @@ class GoogleMaps extends EmberaService
         return array(
             'type'          => 'rich',
             'provider_name' => 'Google Maps',
-            'provider_url'  => 'http://maps.google.com',
+            'provider_url'  => 'https://maps.google.com',
             'title'         => 'Unknown title',
             'html'          => '<iframe width="600" height="450" src="' . $iframeSrc . '" frameborder="0"></iframe>',
         );
