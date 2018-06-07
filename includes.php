@@ -57,7 +57,7 @@ if (!defined('EMBEDPRESS_LICENSES_API_HOST')) {
 }
 
 if (!defined('EMBEDPRESS_LICENSES_API_URL')) {
-    define('EMBEDPRESS_LICENSES_API_URL', "http://embedpress.com");
+    define('EMBEDPRESS_LICENSES_API_URL', "https://embedpress.com");
 }
 
 if (!defined('EMBEDPRESS_LICENSES_MORE_INFO_URL')) {

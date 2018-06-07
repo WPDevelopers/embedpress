@@ -108,7 +108,7 @@ class GoogleDocs extends EmberaService
         return array(
             'type'          => 'rich',
             'provider_name' => 'Google Docs',
-            'provider_url'  => 'http://docs.google.com',
+            'provider_url'  => 'https://docs.google.com',
             'title'         => 'Unknown title',
             'html'          => $html,
             'wrapper_class' => 'ose-google-docs-' . $type
