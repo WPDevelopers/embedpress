@@ -5,7 +5,7 @@ Author URI: https://embedpress.com
 Tags: YouTube, Google, Facebook, Wistia, Vimeo
 Requires at least: 4.6
 Tested up to: 4.9.4
-Stable tag: 2.1.2
+Stable tag: 2.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -183,6 +183,14 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [2.1.3] - 2018-06-12 =
+
+*Fixed:*
+
+* Fixed Google Maps embeds over https;
+* Fixed the license API URL for using https;
+* Fixed Google Docs to use https;
 
 = [2.1.2] - 2018-05-23 =
 
