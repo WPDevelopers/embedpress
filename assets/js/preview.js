@@ -563,8 +563,6 @@
                         var contentWrapper = $($content).clone();
                         contentWrapper.html('');
 
-                        var dom = editorInstance.dom;
-
                         $wrapper.removeClass('embedpress_placeholder');
 
                         $wrapper.append(contentWrapper);
@@ -579,7 +577,8 @@
                                 iframe.class = "wpview-sandbox";
                                 iframe.style.width = '100%';
 
-                                dom.add(contentWrapper, iframe);
+                                contentWrapper.append(iframe);
+
                                 var iframeWindow = iframe.contentWindow;
                                 // Content failed to load.
                                 if (!iframeWindow) {
@@ -1273,7 +1272,7 @@
                         }
                     }
                 });
-                
+
                 var embedWidth = (((embedItem && embedItem.width()) || $embedInnerWrapper.data('width')) || $embedInnerWrapper.width()) || "";
                 var embedHeight = (((embedItem && embedItem.height()) || $embedInnerWrapper.data('height')) || $embedInnerWrapper.height()) || "";
 
