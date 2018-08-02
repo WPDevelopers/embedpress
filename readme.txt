@@ -184,6 +184,12 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= UNRELEASED =
+
+*Fixed:*
+
+* Fixed embed preview in the Beaver Builder;
+
 = [2.1.4] - 2018-06-27 =
 
 *Fixed:*
