@@ -282,6 +282,23 @@
                         250
                     );
                 }
+
+                // Add support for the Beaver Builder.
+                if (typeof FLLightbox !== 'undefined') {
+                    $.each(FLLightbox._instances, function(index, item) {
+                        FLLightbox._instances[index].on('open', function(e) {
+                            setTimeout(function() {
+                                window.EmbedPress.init($data.previewSettings);
+                            }, 500);
+                        });
+
+                        FLLightbox._instances[index].on('didHideLightbox', function(e) {
+                            setTimeout(function() {
+                                window.EmbedPress.init($data.previewSettings);
+                            }, 500);
+                        });
+                    });
+                }
             };
 
             /**
@@ -1497,15 +1514,12 @@
                 window.setTimeout(
                     function configureWrappersTimeOut() {
                         var doc = editorInstance.getDoc(),
-                            total = 0,
-                            $wrapper = null,
-                            $iframe = null;
+                            $wrapper = null;
 
                         // Get all the wrappers
                         var wrappers = doc.getElementsByClassName('embedpress_wrapper');
-                        total = wrappers.length;
-                        if (total > 0) {
-                            for (var i = 0; i < total; i++) {
+                        if (wrappers.length > 0) {
+                            for (var i = 0; i < wrappers.length; i++) {
                                 $wrapper = $(wrappers[i]);
 
                                 // Check if the wrapper wasn't already configured
@@ -1618,6 +1632,20 @@
             window.EmbedPress = new EmbedPress();
         }
 
+        // Initialize EmbedPress for all the current editors.
         window.EmbedPress.init($data.previewSettings);
+
+        /*
+         * If we are in the front-end using page builders like Beaver Builder, we need to initialize every time a
+         * block is edited.
+         */
+        if ($('body').hasClass('fl-builder')) {
+            // Enable support for Beaver Builder, initializing EmbedPress when we click on the text block edit button.
+            $('#tiptip_content').on('click', function() {
+                setTimeout(function () {
+                    window.EmbedPress.init($data.previewSettings);
+                }, 500);
+            });
+        }
     });
 })(jQuery, String, $data);

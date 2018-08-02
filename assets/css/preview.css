@@ -147,7 +147,7 @@ span.hidden {
 }
 
 .bootbox.modal {
-    z-index: 100002;
+    z-index: 100012;
 }
 
 .modal-dialog .row {

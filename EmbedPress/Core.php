@@ -155,11 +155,10 @@ class Core
 
             $plgHandlerPublicInstance = new EndHandlerPublic($this->getPluginName(), $this->getPluginVersion());
 
-            $enqueueScriptsHookName = "wp_enqueue_scripts";
-            $this->loaderInstance->add_action($enqueueScriptsHookName, $plgHandlerPublicInstance, 'enqueueScripts');
-            $this->loaderInstance->add_action($enqueueScriptsHookName, $plgHandlerPublicInstance, 'enqueueStyles');
+            $this->loaderInstance->add_action('wp_enqueue_scripts', $plgHandlerPublicInstance, 'enqueueScripts');
+            $this->loaderInstance->add_action('wp_enqueue_scripts', $plgHandlerPublicInstance, 'enqueueStyles');
 
-            unset($enqueueScriptsHookName, $plgHandlerPublicInstance);
+            unset($plgHandlerPublicInstance);
         }
 
         // Add support for embeds on AMP pages
@@ -377,7 +376,7 @@ class Core
             // to modify the input since it was already injected.
             $mceInit['paste_preprocess'] = 'function (plugin, args) {EmbedPress.onPaste(plugin, args);}';
         }
-        
+
 
         return $mceInit;
     }
