@@ -40,7 +40,7 @@ class Shortcode
     public static function register()
     {
         // Register the new shortcode for embeds.
-        add_shortcode(EMBEDPRESS_SHORTCODE, array('\\EmbedPress\\Shortcode', 'do_shortcode'), 1);
+        add_shortcode(EMBEDPRESS_SHORTCODE, array('\\EmbedPress\\Shortcode', 'do_shortcode'));
     }
 
     /**
