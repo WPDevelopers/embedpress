@@ -164,6 +164,9 @@ class Core
         // Add support for embeds on AMP pages
         add_filter('pp_embed_parsed_content', array('\EmbedPress\AMP\EmbedHandler', 'processParsedContent'), 10, 3);
 
+        // Add support for our embeds on Beaver Builder. Without this it only run the native embeds.
+	    add_filter('fl_builder_before_render_shortcodes', array('\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes'));
+
         $this->loaderInstance->run();
     }
 
