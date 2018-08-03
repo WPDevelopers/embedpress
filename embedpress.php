@@ -24,6 +24,8 @@ use \EmbedPress\Core;
 
 require_once plugin_dir_path(__FILE__) .'includes.php';
 
+include_once ABSPATH.'wp-admin/includes/plugin.php';
+
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
 function onPluginActivationCallback()
@@ -39,5 +41,7 @@ function onPluginDeactivationCallback()
 register_activation_hook(__FILE__, 'onPluginActivationCallback');
 register_deactivation_hook(__FILE__, 'onPluginDeactivationCallback');
 
-$embedPressPlugin = new Core();
-$embedPressPlugin->initialize();
+if (!is_plugin_active('gutenberg/gutenberg.php')) {
+	$embedPressPlugin = new Core();
+	$embedPressPlugin->initialize();
+}
