@@ -155,15 +155,17 @@ class Core
 
             $plgHandlerPublicInstance = new EndHandlerPublic($this->getPluginName(), $this->getPluginVersion());
 
-            $enqueueScriptsHookName = "wp_enqueue_scripts";
-            $this->loaderInstance->add_action($enqueueScriptsHookName, $plgHandlerPublicInstance, 'enqueueScripts');
-            $this->loaderInstance->add_action($enqueueScriptsHookName, $plgHandlerPublicInstance, 'enqueueStyles');
+            $this->loaderInstance->add_action('wp_enqueue_scripts', $plgHandlerPublicInstance, 'enqueueScripts');
+            $this->loaderInstance->add_action('wp_enqueue_scripts', $plgHandlerPublicInstance, 'enqueueStyles');
 
-            unset($enqueueScriptsHookName, $plgHandlerPublicInstance);
+            unset($plgHandlerPublicInstance);
         }
 
         // Add support for embeds on AMP pages
         add_filter('pp_embed_parsed_content', array('\EmbedPress\AMP\EmbedHandler', 'processParsedContent'), 10, 3);
+
+        // Add support for our embeds on Beaver Builder. Without this it only run the native embeds.
+	    add_filter('fl_builder_before_render_shortcodes', array('\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes'));
 
         $this->loaderInstance->run();
     }
@@ -377,7 +379,7 @@ class Core
             // to modify the input since it was already injected.
             $mceInit['paste_preprocess'] = 'function (plugin, args) {EmbedPress.onPaste(plugin, args);}';
         }
-        
+
 
         return $mceInit;
     }

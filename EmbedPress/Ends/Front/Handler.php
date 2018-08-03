@@ -49,6 +49,7 @@ class Handler extends EndHandlerAbstract
         // Replace line breaks from all HTML elements with placeholders.
         $content = wp_replace_in_html_tags($content, array("\n" => '<!-- embedpress-line-break -->'));
 
+        // Look for links in the content (not wrapped by shortcode)
         if (preg_match('#(^|\s|>)https?://#i', $content)) {
             $callbackFingerprint = array('\EmbedPress\Ends\Front\Handler', 'autoEmbedUrlsCallback');
 

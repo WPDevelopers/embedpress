@@ -262,7 +262,7 @@
              * @return void
              */
             self.onReady = function() {
-                if (self.tinymceIsAvailable()) {
+                var findEditors = function() {
                     // Wait until the editor is available
                     var interval = window.setInterval(
                         function() {
@@ -281,6 +281,27 @@
                         },
                         250
                     );
+                };
+
+                if (self.tinymceIsAvailable()) {
+                    findEditors();
+                }
+
+                // Add support for the Beaver Builder.
+                if (typeof FLLightbox !== 'undefined') {
+                    $.each(FLLightbox._instances, function(index) {
+                        FLLightbox._instances[index].on('open', function() {
+                            setTimeout(function() {
+                                findEditors();
+                            }, 500);
+                        });
+
+                        FLLightbox._instances[index].on('didHideLightbox', function() {
+                            setTimeout(function() {
+                                findEditors();
+                            }, 500);
+                        });
+                    });
                 }
             };
 
@@ -836,6 +857,11 @@
                     // Add the node filter that will convert the url into the preview box for the embed code
                     editorInstance.parser.addNodeFilter('#text', function addNodeFilterIntoParser(nodes, arg) {
                         self.each(nodes, function eachNodeInParser(node) {
+                            // Stop if the node is "isolated". It would generate an error in the browser console and break.
+                            if (node.parent === null && node.prev === null) {
+                                return;
+                            }
+
                             var subject = node.value.trim();
 
 
@@ -874,6 +900,10 @@
 
                                         setTimeout(function() {
                                             var doc = editorInstance.getDoc();
+
+                                            if (doc === null) {
+                                                return;
+                                            }
 
                                             var previewWrapper = $(doc.querySelector('#'+ wrapper.attributes.map['id']));
                                             var previewWrapperParent = $(previewWrapper.parent());
@@ -922,6 +952,11 @@
                     // Add the filter that will convert the preview box/embed code back to the raw url
                     editorInstance.serializer.addNodeFilter('div', function addNodeFilterIntoSerializer(nodes, arg) {
                         self.each(nodes, function eachNodeInSerializer(node) {
+                            // Stop if the node is "isolated". It would generate an error in the browser console and break.
+                            if (node.parent === null && node.prev === null) {
+                                return;
+                            }
+
                             var nodeClasses = (node.attributes.map.class || "").split(' ');
                             var wrapperFactoryClasses = ["embedpress_wrapper", "embedpress_placeholder", "wpview", "wpview-wrap"];
 
@@ -1497,15 +1532,12 @@
                 window.setTimeout(
                     function configureWrappersTimeOut() {
                         var doc = editorInstance.getDoc(),
-                            total = 0,
-                            $wrapper = null,
-                            $iframe = null;
+                            $wrapper = null;
 
                         // Get all the wrappers
                         var wrappers = doc.getElementsByClassName('embedpress_wrapper');
-                        total = wrappers.length;
-                        if (total > 0) {
-                            for (var i = 0; i < total; i++) {
+                        if (wrappers.length > 0) {
+                            for (var i = 0; i < wrappers.length; i++) {
                                 $wrapper = $(wrappers[i]);
 
                                 // Check if the wrapper wasn't already configured
@@ -1564,6 +1596,10 @@
             self.getElementInContentById = function(id, editorInstance) {
                 var doc = editorInstance.getDoc();
 
+                if (doc === null) {
+                    return;
+                }
+
                 return $(doc.getElementById(id));
             };
 
@@ -1618,6 +1654,7 @@
             window.EmbedPress = new EmbedPress();
         }
 
+        // Initialize EmbedPress for all the current editors.
         window.EmbedPress.init($data.previewSettings);
     });
 })(jQuery, String, $data);
