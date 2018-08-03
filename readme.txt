@@ -5,7 +5,7 @@ Author URI: https://embedpress.com
 Tags: YouTube, Google, Facebook, Wistia, Vimeo
 Requires at least: 4.6
 Tested up to: 4.9.4
-Stable tag: 2.1.4
+Stable tag: 2.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -184,11 +184,11 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= UNRELEASED =
+= [2.1.5] - 2018-08-03 =
 
 *Fixed:*
 
-* Fixed embed preview in the Beaver Builder;
+* Fixed embeds in the Beaver Builder;
 
 = [2.1.4] - 2018-06-27 =
 
