@@ -184,6 +184,12 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [2.1.6] - 2018-08-03 =
+
+*Fixed:*
+
+* Fixed a blank screen when Gutenberg is enabled - for now it disables if Gutenberg is enabled;
+
 = [2.1.5] - 2018-08-03 =
 
 *Fixed:*
