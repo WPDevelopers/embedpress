@@ -41,6 +41,7 @@ class Shortcode
     {
         // Register the new shortcode for embeds.
         add_shortcode(EMBEDPRESS_SHORTCODE, array('\\EmbedPress\\Shortcode', 'do_shortcode'));
+        add_shortcode('embed_oembed_html', array('\\EmbedPress\\Shortcode', 'do_shortcode'));
     }
 
     /**

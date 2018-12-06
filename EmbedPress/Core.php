@@ -125,20 +125,19 @@ class Core
         if (is_admin()) {
             $plgSettings = self::getSettings();
 
-            $settingsClassNamespace = '\EmbedPress\Ends\Back\Settings';
+            $settingsClassNamespace = '\\EmbedPress\\Ends\\Back\\Settings';
             add_action('admin_menu', array($settingsClassNamespace, 'registerMenuItem'));
             add_action('admin_init', array($settingsClassNamespace, 'registerActions'));
             unset($settingsClassNamespace);
 
-            add_filter('plugin_action_links_embedpress/embedpress.php', array('\EmbedPress\Core', 'handleActionLinks'), 10, 2);
+            add_filter('plugin_action_links_embedpress/embedpress.php', array('\\EmbedPress\\Core', 'handleActionLinks'), 10, 2);
 
-            add_action('admin_enqueue_scripts', array('\EmbedPress\Ends\Back\Handler', 'enqueueStyles'));
+            add_action('admin_enqueue_scripts', array('\\EmbedPress\\Ends\\Back\\Handler', 'enqueueStyles'));
 
             if ( ! Compatibility::isWordPress5()) {
                 add_action('init', array('\\EmbedPress\\Disabler', 'run'), 1);
             }
 
-            add_action('init', array('\EmbedPress\Disabler', 'run'), 1);
             add_action('init', array($this, 'configureTinyMCE'), 1);
 
             $plgHandlerAdminInstance = new EndHandlerAdmin($this->getPluginName(), $this->getPluginVersion());
@@ -155,7 +154,7 @@ class Core
 
             unset($onAjaxCallbackName, $plgHandlerAdminInstance);
         } else {
-            add_action('init', array('\EmbedPress\Disabler', 'run'), 1);
+            add_action('init', array('\\EmbedPress\\Disabler', 'run'), 1);
 
             $plgHandlerPublicInstance = new EndHandlerPublic($this->getPluginName(), $this->getPluginVersion());
 
@@ -166,10 +165,10 @@ class Core
         }
 
         // Add support for embeds on AMP pages
-        add_filter('pp_embed_parsed_content', array('\EmbedPress\AMP\EmbedHandler', 'processParsedContent'), 10, 3);
+        add_filter('pp_embed_parsed_content', array('\\EmbedPress\\AMP\\EmbedHandler', 'processParsedContent'), 10, 3);
 
         // Add support for our embeds on Beaver Builder. Without this it only run the native embeds.
-	    add_filter('fl_builder_before_render_shortcodes', array('\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes'));
+        add_filter('fl_builder_before_render_shortcodes', array('\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes'));
 
         $this->loaderInstance->run();
     }
@@ -184,7 +183,7 @@ class Core
      */
     public static function onPluginActivationCallback()
     {
-        add_filter('rewrite_rules_array', array('\EmbedPress\Disabler', 'disableDefaultEmbedRewriteRules'));
+        add_filter('rewrite_rules_array', array('\\EmbedPress\\Disabler', 'disableDefaultEmbedRewriteRules'));
         flush_rewrite_rules();
     }
 
@@ -198,7 +197,7 @@ class Core
      */
     public static function onPluginDeactivationCallback()
     {
-        remove_filter('rewrite_rules_array', array('\EmbedPress\Disabler', 'disableDefaultEmbedRewriteRules'));
+        remove_filter('rewrite_rules_array', array('\\EmbedPress\\Disabler', 'disableDefaultEmbedRewriteRules'));
         flush_rewrite_rules();
     }
 

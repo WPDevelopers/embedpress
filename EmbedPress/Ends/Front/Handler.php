@@ -51,7 +51,7 @@ class Handler extends EndHandlerAbstract
 
         // Look for links in the content (not wrapped by shortcode)
         if (preg_match('#(^|\s|>)https?://#i', $content)) {
-            $callbackFingerprint = array('\EmbedPress\Ends\Front\Handler', 'autoEmbedUrlsCallback');
+            $callbackFingerprint = array('\\EmbedPress\\Ends\\Front\\Handler', 'autoEmbedUrlsCallback');
 
             // Find URLs on their own line.
             $content = preg_replace_callback('|^(\s*)(https?://[^\s<>"]+)(\s*)$|im', $callbackFingerprint, $content);

@@ -26,7 +26,7 @@ class Settings
      *
      * @var     string    $namespace
      */
-    private static $namespace = '\EmbedPress\Ends\Back\Settings';
+    private static $namespace = '\\EmbedPress\\Ends\\Back\\Settings';
 
     /**
      * The plugin's unique identifier.
