@@ -134,6 +134,10 @@ class Core
 
             add_action('admin_enqueue_scripts', array('\EmbedPress\Ends\Back\Handler', 'enqueueStyles'));
 
+            if ( ! Compatibility::isWordPress5()) {
+                add_action('init', array('\\EmbedPress\\Disabler', 'run'), 1);
+            }
+
             add_action('init', array('\EmbedPress\Disabler', 'run'), 1);
             add_action('init', array($this, 'configureTinyMCE'), 1);
 
