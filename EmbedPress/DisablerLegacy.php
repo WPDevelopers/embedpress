@@ -14,7 +14,7 @@ use \EmbedPress\Shortcode;
  * @license     GPLv2 or later
  * @since       1.0.0
  */
-class Disabler
+class DisablerLegacy
 {
     /**
      * Method that replaces the embed shortcodes.
@@ -62,7 +62,7 @@ class Disabler
         remove_action('wp_head', 'wp_oembed_add_host_js');
 
         // Disable all TinyMCE plugins embed-related.
-        add_filter('tiny_mce_plugins', array('\\EmbedPress\\Disabler', 'disableDefaultEmbedTinyMCERelatedPlugins'));
+        add_filter('tiny_mce_plugins', array('DisablerLegacy', 'disableDefaultEmbedTinyMCERelatedPlugins'));
 
         remove_action('rest_api_init', 'wp_oembed_register_route');
 
@@ -77,7 +77,7 @@ class Disabler
         wp_embed_unregister_handler("googlevideo");
 
         // Remove all embeds rewrite rules.
-        add_filter('rewrite_rules_array', array('\\EmbedPress\\Disabler', 'disableDefaultEmbedRewriteRules'));
+        add_filter('rewrite_rules_array', array('DisablerLegacy', 'disableDefaultEmbedRewriteRules'));
 
         // Disable the method that determines if default embed handlers should be loaded.
         add_filter('wp_maybe_load_embeds', '__return_false');
@@ -94,7 +94,7 @@ class Disabler
 
         wp_deregister_script('wp-embed');
 
-        add_filter('http_request_host_is_external', array('\\EmbedPress\\Core', 'allowApiHost'), 10, 3);
+        add_filter('http_request_host_is_external', array('\\EmbedPress\\CoreLegacy', 'allowApiHost'), 10, 3);
 
         add_action('tiny_mce_before_init', array('\\EmbedPress\\Ends\\Front\\Handler', 'renderPreviewBoxInEditors'));
     }

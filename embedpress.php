@@ -20,8 +20,6 @@
  * @since       1.0.0
  */
 
-use \EmbedPress\Core;
-
 require_once plugin_dir_path(__FILE__) .'includes.php';
 
 include_once ABSPATH.'wp-admin/includes/plugin.php';
@@ -42,6 +40,11 @@ register_activation_hook(__FILE__, 'onPluginActivationCallback');
 register_deactivation_hook(__FILE__, 'onPluginDeactivationCallback');
 
 if (!is_plugin_active('gutenberg/gutenberg.php')) {
-	$embedPressPlugin = new Core();
+    if ( \EmbedPress\Compatibility::isWordPress5()) {
+        $embedPressPlugin = new \EmbedPress\Core();
+    } else {
+        $embedPressPlugin = new \EmbedPress\CoreLegacy();
+    }
+
 	$embedPressPlugin->initialize();
 }
