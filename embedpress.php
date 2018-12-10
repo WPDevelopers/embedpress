@@ -35,12 +35,12 @@ if (!defined('EMBEDPRESS_IS_LOADED')) {
 
 function onPluginActivationCallback()
 {
-    Core::onPluginActivationCallback();
+    \EmbedPress\Core::onPluginActivationCallback();
 }
 
 function onPluginDeactivationCallback()
 {
-    Core::onPluginDeactivationCallback();
+    \EmbedPress\Core::onPluginDeactivationCallback();
 }
 
 register_activation_hook(__FILE__, 'onPluginActivationCallback');
