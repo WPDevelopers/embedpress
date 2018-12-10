@@ -26,7 +26,7 @@ class GoogleDocs extends EmberaService
      */
     public function validateUrl()
     {
-        return preg_match('~http[s]?:\/\/((?:www\.)?docs\.google\.com\/(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)~i', $this->url);
+        return preg_match('~http[s]?:\/\/((?:www\.)?docs\.google\.com\/(?:.*/)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)~i', $this->url);
     }
 
     /**
@@ -41,7 +41,7 @@ class GoogleDocs extends EmberaService
         $iframeSrc = html_entity_decode($this->url);
 
         // Check the type of document
-        preg_match('~google\.com/(document|presentation|spreadsheets|forms|drawings)/~i', $iframeSrc, $matches);
+        preg_match('~google\.com/(?:.+/)?(document|presentation|spreadsheets|forms|drawings)/~i', $iframeSrc, $matches);
         $type = $matches[1];
 
         switch ($type) {

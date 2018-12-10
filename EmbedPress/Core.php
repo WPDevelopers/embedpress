@@ -310,11 +310,7 @@ class Core
             '#https?://(.+\.)?maps\.google\.com/.+#i' => 'googlemaps',
 
             // Google Docs
-            '#https?://(.+\.)?doc\.google\.com/presentation/.+#i' => 'googledocs',
-            '#https?://(.+\.)?doc\.google\.com/document/.+#i' => 'googledocs',
-            '#https?://(.+\.)?doc\.google\.com/spreadsheets/.+#i' => 'googledocs',
-            '#https?://(.+\.)?doc\.google\.com/forms/.+#i' => 'googledocs',
-            '#https?://(.+\.)?doc\.google\.com/drawings/.+#i' => 'googledocs',
+            '#https?://(.+\.)?docs\.google\.com/(.+/)?(document|presentation|spreadsheets|forms|drawings)/.+#i' => 'googledocs',
 
             // Twitch.tv
             '#https?://(.+\.)?twitch\.tv/.+#i' => 'twitch',
