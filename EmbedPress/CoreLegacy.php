@@ -70,7 +70,7 @@ class CoreLegacy
     public function __construct()
     {
         $this->pluginName = EMBEDPRESS_PLG_NAME;
-        $this->pluginVersion = EMBEDPRESS_PLG_VERSION;
+        $this->pluginVersion = EMBEDPRESS_VERSION;
 
         $this->loaderInstance = new Loader();
     }

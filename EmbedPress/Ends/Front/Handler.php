@@ -94,7 +94,7 @@ class Handler extends EndHandlerAbstract
         $plgSettings = Core::getSettings();
 
         if (!is_admin() && (bool)$plgSettings->enablePluginInFront) {
-            $backEndHandler = new BackEndHandler(EMBEDPRESS_PLG_NAME, EMBEDPRESS_PLG_VERSION);
+            $backEndHandler = new BackEndHandler(EMBEDPRESS_PLG_NAME, EMBEDPRESS_VERSION);
 
             $backEndHandler->enqueueScripts();
         }

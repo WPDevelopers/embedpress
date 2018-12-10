@@ -28,7 +28,7 @@ EmbedPress follows the [Semantic Versioning 2.0.0](http://semver.org), which mea
     ```
 - `/includes.php` - Look for the line/code below and replace `x.x.x` with the new version.
     ```
-    define('EMBEDPRESS_PLG_VERSION', "x.x.x");
+    define('EMBEDPRESS_VERSION', "x.x.x");
     ```
 - `/embedpress.php` - Look for the line/code below and replace `x.x.x` with the new version.
     ```

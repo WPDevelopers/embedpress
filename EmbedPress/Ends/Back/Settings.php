@@ -171,7 +171,7 @@ class Settings
         // Add the color picker css file
         wp_enqueue_style('wp-color-picker');
         // Include our custom jQuery file with WordPress Color Picker dependency
-        wp_enqueue_script('ep-settings', EMBEDPRESS_URL_ASSETS .'js/settings.js', array('wp-color-picker'), EMBEDPRESS_PLG_VERSION, true);
+        wp_enqueue_script('ep-settings', EMBEDPRESS_URL_ASSETS .'js/settings.js', array('wp-color-picker'), EMBEDPRESS_VERSION, true);
 
         $activeTab = isset($_GET['tab']) ? strtolower($_GET['tab']) : "";
         $settingsFieldsIdentifier = !empty($activeTab) ? "embedpress:{$activeTab}" : self::$sectionGroupIdentifier;
