@@ -1,7 +1,7 @@
 <?php
 namespace EmbedPress\Ends\Back;
 
-use \EmbedPress\Core;
+use EmbedPress\Compatibility;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -62,30 +62,6 @@ class Settings
     private static $sectionGroupIdentifier = "embedpress";
 
     /**
-     * Map to all settings.
-     *
-     * @since   1.0.0
-     * @access  private
-     * @static
-     *
-     * @var     string    $fieldMap
-     */
-    private static $fieldMap = array(
-        'enablePluginInAdmin' => array(
-            'label'   => "Load previews in the admin editor",
-            'section' => "admin"
-        ),
-        'enablePluginInFront' => array(
-            'label'   => "Load previews in the frontend editor",
-            'section' => "admin"
-        ),
-        'forceFacebookLanguage' => array(
-            'label'   => "Facebook embed language",
-            'section' => "admin"
-        )
-    );
-
-    /**
      * Class constructor. This prevents the class being directly instantiated.
      *
      * @since   1.0.0
@@ -137,7 +113,26 @@ class Settings
 
             add_settings_section(self::$sectionAdminIdentifier, '', null, self::$identifier);
 
-            foreach (self::$fieldMap as $fieldName => $field) {
+            $fieldMap = [];
+            if ( ! Compatibility::isWordPress5() || Compatibility::isClassicalEditorActive()) {
+                $fieldMap = [
+                    'enablePluginInAdmin' => [
+                        'label'   => "Load previews in the admin editor",
+                        'section' => "admin",
+                    ],
+                    'enablePluginInFront' => [
+                        'label'   => "Load previews in the frontend editor",
+                        'section' => "admin",
+                    ],
+                ];
+            }
+
+            $fieldMap['forceFacebookLanguage'] = [
+                'label'   => "Facebook embed language",
+                'section' => "admin",
+            ];
+
+            foreach ($fieldMap as $fieldName => $field) {
                 add_settings_field($fieldName, $field['label'], array(self::$namespace, "renderField_{$fieldName}"), self::$identifier, self::${"section". ucfirst($field['section']) ."Identifier"});
             }
         }
@@ -345,11 +340,11 @@ class Settings
      */
     public static function validateForm($freshData)
     {
-        $data = array(
-            'enablePluginInAdmin' => (bool)$freshData['enablePluginInAdmin'],
-            'enablePluginInFront' => (bool)$freshData['enablePluginInFront'],
+        $data = [
+            'enablePluginInAdmin' => isset($freshData['enablePluginInAdmin']) ? (bool)$freshData['enablePluginInAdmin'] : true,
+            'enablePluginInFront' => isset($freshData['enablePluginInFront']) ? (bool)$freshData['enablePluginInFront'] : true,
             'fbLanguage'          => $freshData['fbLanguage']
-        );
+        ];
 
         return $data;
     }
