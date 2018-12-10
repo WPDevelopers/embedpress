@@ -134,7 +134,7 @@ class CoreLegacy
 
             add_action('admin_enqueue_scripts', array('\\EmbedPress\\Ends\\Back\\Handler', 'enqueueStyles'));
 
-            add_action('init', array('DisablerLegacy', 'run'), 1);
+            add_action('init', array('\\EmbedPress\\DisablerLegacy', 'run'), 1);
             add_action('init', array($this, 'configureTinyMCE'), 1);
 
             $plgHandlerAdminInstance = new EndHandlerAdmin($this->getPluginName(), $this->getPluginVersion());
@@ -151,7 +151,7 @@ class CoreLegacy
 
             unset($onAjaxCallbackName, $plgHandlerAdminInstance);
         } else {
-            add_action('init', array('DisablerLegacy', 'run'), 1);
+            add_action('init', array('\\EmbedPress\\DisablerLegacy', 'run'), 1);
 
             $plgHandlerPublicInstance = new EndHandlerPublic($this->getPluginName(), $this->getPluginVersion());
 
@@ -180,7 +180,7 @@ class CoreLegacy
      */
     public static function onPluginActivationCallback()
     {
-        add_filter('rewrite_rules_array', array('DisablerLegacy', 'disableDefaultEmbedRewriteRules'));
+        add_filter('rewrite_rules_array', array('\\EmbedPress\\DisablerLegacy', 'disableDefaultEmbedRewriteRules'));
         flush_rewrite_rules();
     }
 
@@ -231,6 +231,10 @@ class CoreLegacy
      */
     public static function canServiceProviderBeResponsive($serviceProviderAlias)
     {
+        $providers = [
+
+        ];
+
         return in_array($serviceProviderAlias, array("dailymotion", "kickstarter", "rutube", "ted", "vimeo", "youtube", "ustream", "google-docs", "animatron", "amcharts", "on-aol-com", "animoto", "videojug", 'issuu'));
     }
 

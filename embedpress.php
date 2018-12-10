@@ -21,11 +21,17 @@
  * @since       1.0.0
  */
 
-require_once plugin_dir_path(__FILE__) .'includes.php';
+use EmbedPress\Compatibility;
 
-include_once ABSPATH.'wp-admin/includes/plugin.php';
+defined('ABSPATH') or die("No direct script access allowed.");
 
-(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
+require_once plugin_dir_path(__FILE__) . 'includes.php';
+
+include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+if (!defined('EMBEDPRESS_IS_LOADED')) {
+    return;
+}
 
 function onPluginActivationCallback()
 {
@@ -40,12 +46,12 @@ function onPluginDeactivationCallback()
 register_activation_hook(__FILE__, 'onPluginActivationCallback');
 register_deactivation_hook(__FILE__, 'onPluginDeactivationCallback');
 
-if (!is_plugin_active('gutenberg/gutenberg.php')) {
-    if ( \EmbedPress\Compatibility::isWordPress5()) {
+if ( ! is_plugin_active('gutenberg/gutenberg.php')) {
+    if (Compatibility::isWordPress5() && ! Compatibility::isClassicalEditorActive()) {
         $embedPressPlugin = new \EmbedPress\Core();
     } else {
         $embedPressPlugin = new \EmbedPress\CoreLegacy();
     }
 
-	$embedPressPlugin->initialize();
+    $embedPressPlugin->initialize();
 }

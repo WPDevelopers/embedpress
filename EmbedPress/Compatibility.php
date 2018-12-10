@@ -24,4 +24,11 @@ class Compatibility
 
         return version_compare($wp_version, '5.0', '>=') || substr($wp_version, 0, 2) === '5.';
     }
+
+    public static function isClassicalEditorActive()
+    {
+        $isActive = is_plugin_active('classic-editor/classic-editor.php');
+
+        return $isActive;
+    }
 }

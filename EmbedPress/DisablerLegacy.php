@@ -62,7 +62,7 @@ class DisablerLegacy
         remove_action('wp_head', 'wp_oembed_add_host_js');
 
         // Disable all TinyMCE plugins embed-related.
-        add_filter('tiny_mce_plugins', array('DisablerLegacy', 'disableDefaultEmbedTinyMCERelatedPlugins'));
+        add_filter('tiny_mce_plugins', array('\\EmbedPress\\DisablerLegacy', 'disableDefaultEmbedTinyMCERelatedPlugins'));
 
         remove_action('rest_api_init', 'wp_oembed_register_route');
 
@@ -77,7 +77,7 @@ class DisablerLegacy
         wp_embed_unregister_handler("googlevideo");
 
         // Remove all embeds rewrite rules.
-        add_filter('rewrite_rules_array', array('DisablerLegacy', 'disableDefaultEmbedRewriteRules'));
+        add_filter('rewrite_rules_array', array('\\EmbedPress\\DisablerLegacy', 'disableDefaultEmbedRewriteRules'));
 
         // Disable the method that determines if default embed handlers should be loaded.
         add_filter('wp_maybe_load_embeds', '__return_false');
