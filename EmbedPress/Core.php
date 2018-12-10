@@ -183,12 +183,14 @@ class Core
 
             // Deviantart.com (http://www.deviantart.com)
             '#https?://(.+\.)?deviantart\.com/art/.+#i' => 'devianart',
+            '#https?://(.+\.)?deviantart\.com/.+#i' => 'devianart',
             '#https?://(.+\.)?deviantart\.com/.*/d.+#i' => 'devianart',
             '#https?://(.+\.)?fav\.me/.+#i' => 'devianart',
             '#https?://(.+\.)?sta\.sh/.+#i' => 'devianart',
 
             // chirbit.com (http://www.chirbit.com/)
             '#https?://(.+\.)?chirb\.it/.+#i' => 'chirbit',
+
 
             // nfb.ca (http://www.nfb.ca/)
             '#https?://(.+\.)?nfb\.ca/film/.+#i' => 'nfb',
