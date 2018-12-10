@@ -1,10 +1,9 @@
 <?php
+
 namespace EmbedPress;
 
-use \EmbedPress\AutoLoader;
-use \EmbedPress\Loader;
-use \EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
-use \EmbedPress\Ends\Front\Handler as EndHandlerPublic;
+use EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
+use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -25,7 +24,7 @@ class CoreLegacy
      * @since   1.0.0
      * @access  protected
      *
-     * @var     string  $pluginName   The name of the plugin.
+     * @var     string $pluginName The name of the plugin.
      */
     protected $pluginName;
 
@@ -35,7 +34,7 @@ class CoreLegacy
      * @since   1.0.0
      * @access  protected
      *
-     * @var     string  $pluginVersion  The version of the plugin.
+     * @var     string $pluginVersion The version of the plugin.
      */
     protected $pluginVersion;
 
@@ -45,7 +44,7 @@ class CoreLegacy
      * @since   1.0.0
      * @access  protected
      *
-     * @var     \EmbedPress\Loader  $pluginVersion  The version of the plugin.
+     * @var     \EmbedPress\Loader $pluginVersion The version of the plugin.
      */
     protected $loaderInstance;
 
@@ -58,7 +57,7 @@ class CoreLegacy
      *
      * @var     array
      */
-    private static $plugins = array();
+    private static $plugins = [];
 
     /**
      * Initialize the plugin and set its properties.
@@ -69,7 +68,7 @@ class CoreLegacy
      */
     public function __construct()
     {
-        $this->pluginName = EMBEDPRESS_PLG_NAME;
+        $this->pluginName    = EMBEDPRESS_PLG_NAME;
         $this->pluginVersion = EMBEDPRESS_VERSION;
 
         $this->loaderInstance = new Loader();
@@ -126,16 +125,17 @@ class CoreLegacy
             $plgSettings = self::getSettings();
 
             $settingsClassNamespace = '\\EmbedPress\\Ends\\Back\\Settings';
-            add_action('admin_menu', array($settingsClassNamespace, 'registerMenuItem'));
-            add_action('admin_init', array($settingsClassNamespace, 'registerActions'));
+            add_action('admin_menu', [$settingsClassNamespace, 'registerMenuItem']);
+            add_action('admin_init', [$settingsClassNamespace, 'registerActions']);
             unset($settingsClassNamespace);
 
-            add_filter('plugin_action_links_embedpress/embedpress.php', array('\\EmbedPress\\CoreLegacy', 'handleActionLinks'), 10, 2);
+            add_filter('plugin_action_links_embedpress/embedpress.php',
+                ['\\EmbedPress\\CoreLegacy', 'handleActionLinks'], 10, 2);
 
-            add_action('admin_enqueue_scripts', array('\\EmbedPress\\Ends\\Back\\Handler', 'enqueueStyles'));
+            add_action('admin_enqueue_scripts', ['\\EmbedPress\\Ends\\Back\\Handler', 'enqueueStyles']);
 
-            add_action('init', array('\\EmbedPress\\DisablerLegacy', 'run'), 1);
-            add_action('init', array($this, 'configureTinyMCE'), 1);
+            add_action('init', ['\\EmbedPress\\DisablerLegacy', 'run'], 1);
+            add_action('init', [$this, 'configureTinyMCE'], 1);
 
             $plgHandlerAdminInstance = new EndHandlerAdmin($this->getPluginName(), $this->getPluginVersion());
 
@@ -144,14 +144,17 @@ class CoreLegacy
             }
 
             $onAjaxCallbackName = "doShortcodeReceivedViaAjax";
-            $this->loaderInstance->add_action('wp_ajax_embedpress_do_ajax_request', $plgHandlerAdminInstance, $onAjaxCallbackName);
-            $this->loaderInstance->add_action('wp_ajax_nopriv_embedpress_do_ajax_request', $plgHandlerAdminInstance, $onAjaxCallbackName);
+            $this->loaderInstance->add_action('wp_ajax_embedpress_do_ajax_request', $plgHandlerAdminInstance,
+                $onAjaxCallbackName);
+            $this->loaderInstance->add_action('wp_ajax_nopriv_embedpress_do_ajax_request', $plgHandlerAdminInstance,
+                $onAjaxCallbackName);
 
-            $this->loaderInstance->add_action('wp_ajax_embedpress_get_embed_url_info', $plgHandlerAdminInstance, "getUrlInfoViaAjax");
+            $this->loaderInstance->add_action('wp_ajax_embedpress_get_embed_url_info', $plgHandlerAdminInstance,
+                "getUrlInfoViaAjax");
 
             unset($onAjaxCallbackName, $plgHandlerAdminInstance);
         } else {
-            add_action('init', array('\\EmbedPress\\DisablerLegacy', 'run'), 1);
+            add_action('init', ['\\EmbedPress\\DisablerLegacy', 'run'], 1);
 
             $plgHandlerPublicInstance = new EndHandlerPublic($this->getPluginName(), $this->getPluginVersion());
 
@@ -162,10 +165,11 @@ class CoreLegacy
         }
 
         // Add support for embeds on AMP pages
-        add_filter('pp_embed_parsed_content', array('\\EmbedPress\\AMP\\EmbedHandler', 'processParsedContent'), 10, 3);
+        add_filter('pp_embed_parsed_content', ['\\EmbedPress\\AMP\\EmbedHandler', 'processParsedContent'], 10, 3);
 
         // Add support for our embeds on Beaver Builder. Without this it only run the native embeds.
-        add_filter('fl_builder_before_render_shortcodes', array('\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes'));
+        add_filter('fl_builder_before_render_shortcodes',
+            ['\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes']);
 
         $this->loaderInstance->run();
     }
@@ -180,7 +184,7 @@ class CoreLegacy
      */
     public static function onPluginActivationCallback()
     {
-        add_filter('rewrite_rules_array', array('\\EmbedPress\\DisablerLegacy', 'disableDefaultEmbedRewriteRules'));
+        add_filter('rewrite_rules_array', ['\\EmbedPress\\DisablerLegacy', 'disableDefaultEmbedRewriteRules']);
         flush_rewrite_rules();
     }
 
@@ -194,7 +198,7 @@ class CoreLegacy
      */
     public static function onPluginDeactivationCallback()
     {
-        remove_filter('rewrite_rules_array', array('\\EmbedPress\\DisablerLegacy', 'disableDefaultEmbedRewriteRules'));
+        remove_filter('rewrite_rules_array', ['\\EmbedPress\\DisablerLegacy', 'disableDefaultEmbedRewriteRules']);
         flush_rewrite_rules();
     }
 
@@ -208,7 +212,7 @@ class CoreLegacy
      */
     public static function getAdditionalServiceProviders()
     {
-        $additionalProvidersFilePath = EMBEDPRESS_PATH_BASE .'providers.php';
+        $additionalProvidersFilePath = EMBEDPRESS_PATH_BASE . 'providers.php';
         if (file_exists($additionalProvidersFilePath)) {
             include $additionalProvidersFilePath;
 
@@ -217,7 +221,7 @@ class CoreLegacy
             }
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -226,7 +230,8 @@ class CoreLegacy
      * @since   1.0.0
      * @static
      *
-     * @param   string      $serviceProviderAlias The service's slug.
+     * @param   string $serviceProviderAlias The service's slug.
+     *
      * @return  boolean
      */
     public static function canServiceProviderBeResponsive($serviceProviderAlias)
@@ -235,7 +240,22 @@ class CoreLegacy
 
         ];
 
-        return in_array($serviceProviderAlias, array("dailymotion", "kickstarter", "rutube", "ted", "vimeo", "youtube", "ustream", "google-docs", "animatron", "amcharts", "on-aol-com", "animoto", "videojug", 'issuu'));
+        return in_array($serviceProviderAlias, [
+            "dailymotion",
+            "kickstarter",
+            "rutube",
+            "ted",
+            "vimeo",
+            "youtube",
+            "ustream",
+            "google-docs",
+            "animatron",
+            "amcharts",
+            "on-aol-com",
+            "animoto",
+            "videojug",
+            'issuu',
+        ]);
     }
 
     /**
@@ -250,11 +270,11 @@ class CoreLegacy
     {
         $settings = get_option(EMBEDPRESS_PLG_NAME);
 
-        if (!isset($settings['enablePluginInAdmin'])) {
+        if ( ! isset($settings['enablePluginInAdmin'])) {
             $settings['enablePluginInAdmin'] = true;
         }
 
-        if (!isset($settings['enablePluginInFront'])) {
+        if ( ! isset($settings['enablePluginInFront'])) {
             $settings['enablePluginInFront'] = true;
         }
 
@@ -267,7 +287,8 @@ class CoreLegacy
      * @since   1.4.0
      * @static
      *
-     * @param   array       $pluginMeta Associative array containing plugin's name, slug and namespace
+     * @param   array $pluginMeta Associative array containing plugin's name, slug and namespace
+     *
      * @return  void
      */
     public static function registerPlugin($pluginMeta)
@@ -278,24 +299,27 @@ class CoreLegacy
             return;
         }
 
-        if (!isset(self::$plugins[$pluginMeta->slug])) {
-            AutoLoader::register($pluginMeta->namespace, WP_PLUGIN_DIR .'/'. EMBEDPRESS_PLG_NAME .'-'. $pluginMeta->slug .'/'. $pluginMeta->name);
+        if ( ! isset(self::$plugins[$pluginMeta->slug])) {
+            AutoLoader::register($pluginMeta->namespace,
+                WP_PLUGIN_DIR . '/' . EMBEDPRESS_PLG_NAME . '-' . $pluginMeta->slug . '/' . $pluginMeta->name);
 
             $plugin = "{$pluginMeta->namespace}\Plugin";
             if (\defined("{$plugin}::SLUG") && $plugin::SLUG !== null) {
                 self::$plugins[$pluginMeta->slug] = $pluginMeta->namespace;
 
-                $bsFilePath = $plugin::PATH . EMBEDPRESS_PLG_NAME .'-'. $plugin::SLUG .'.php';
+                $bsFilePath = $plugin::PATH . EMBEDPRESS_PLG_NAME . '-' . $plugin::SLUG . '.php';
 
-                register_activation_hook($bsFilePath, array($plugin::NAMESPACE_STRING, 'onActivationCallback'));
-                register_deactivation_hook($bsFilePath, array($plugin::NAMESPACE_STRING, 'onDeactivationCallback'));
+                register_activation_hook($bsFilePath, [$plugin::NAMESPACE_STRING, 'onActivationCallback']);
+                register_deactivation_hook($bsFilePath, [$plugin::NAMESPACE_STRING, 'onDeactivationCallback']);
 
-                add_action('admin_init', array($plugin, 'onLoadAdminCallback'));
+                add_action('admin_init', [$plugin, 'onLoadAdminCallback']);
 
-                add_action(EMBEDPRESS_PLG_NAME .':'. $plugin::SLUG .':settings:register', array($plugin, 'registerSettings'));
-                add_action(EMBEDPRESS_PLG_NAME .':settings:render:tab', array($plugin, 'renderTab'));
+                add_action(EMBEDPRESS_PLG_NAME . ':' . $plugin::SLUG . ':settings:register',
+                    [$plugin, 'registerSettings']);
+                add_action(EMBEDPRESS_PLG_NAME . ':settings:render:tab', [$plugin, 'renderTab']);
 
-                add_filter('plugin_action_links_embedpress-'. $plugin::SLUG .'/embedpress-'. $plugin::SLUG .'.php', array($plugin, 'handleActionLinks'), 10, 2);
+                add_filter('plugin_action_links_embedpress-' . $plugin::SLUG . '/embedpress-' . $plugin::SLUG . '.php',
+                    [$plugin, 'handleActionLinks'], 10, 2);
 
                 $plugin::registerEvents();
             }
@@ -325,7 +349,8 @@ class CoreLegacy
      */
     public static function handleActionLinks($links, $file)
     {
-        $settingsLink = '<a href="'. admin_url('admin.php?page=embedpress') .'" aria-label="'. __('Open settings page', 'embedpress') .'">'. __('Settings', 'embedpress') .'</a>';
+        $settingsLink = '<a href="' . admin_url('admin.php?page=embedpress') . '" aria-label="' . __('Open settings page',
+                'embedpress') . '">' . __('Settings', 'embedpress') . '</a>';
 
         array_unshift($links, $settingsLink);
 
@@ -338,9 +363,9 @@ class CoreLegacy
      * @since   1.4.0
      * @static
      *
-     * @param   boolean     $isAllowed
-     * @param   string      $host
-     * @param   string      $url
+     * @param   boolean $isAllowed
+     * @param   string  $host
+     * @param   string  $url
      *
      * @return  boolean
      */
@@ -360,8 +385,8 @@ class CoreLegacy
      */
     public function configureTinyMCE()
     {
-        add_filter('teeny_mce_before_init', array($this, 'hookOnPaste'));
-        add_filter('tiny_mce_before_init', array($this, 'hookOnPaste'));
+        add_filter('teeny_mce_before_init', [$this, 'hookOnPaste']);
+        add_filter('tiny_mce_before_init', [$this, 'hookOnPaste']);
     }
 
     /**
@@ -369,7 +394,7 @@ class CoreLegacy
      *
      * @since   1.6.2
      *
-     * @param  array  $mceInit
+     * @param  array $mceInit
      *
      * @return array
      */

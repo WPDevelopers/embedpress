@@ -1,7 +1,8 @@
 <?php
+
 namespace EmbedPress\Providers;
 
-use \Embera\Adapters\Service as EmberaService;
+use Embera\Adapters\Service as EmberaService;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -53,20 +54,20 @@ class Giphy extends EmberaService
         if (preg_match($this->urlRegexPattern, $url, $matches)) {
             $gifId = count($matches) > 3 && strtolower($matches[3]) === ".gif" ? $matches[2] : $matches[1];
 
-            $html = ''.
-                '<a href="https://giphy.com/gifs/'. $gifId .'">'.
-                    '<img src="https://media.giphy.com/media/'. $gifId .'/giphy.gif" alt="" width="{width}" height="{height}">'.
-                '</a>';
+            $html = '' .
+                    '<a href="https://giphy.com/gifs/' . $gifId . '">' .
+                    '<img src="https://media.giphy.com/media/' . $gifId . '/giphy.gif" alt="" width="{width}" height="{height}">' .
+                    '</a>';
 
-            $response = array(
+            $response = [
                 'type'          => 'image',
                 'provider_name' => 'Giphy',
                 'provider_url'  => 'https://giphy.com',
                 'url'           => $url,
-                'html'          => $html
-            );
+                'html'          => $html,
+            ];
         } else {
-            $response = array();
+            $response = [];
         }
 
         return $response;

@@ -1,4 +1,5 @@
 <?php
+
 namespace EmbedPress\AMP\Adapter;
 
 
@@ -15,7 +16,7 @@ namespace EmbedPress\AMP\Adapter;
  * @abstract
  */
 class Twitter
-{       
+{
     /**
      * @var object
      */
@@ -40,14 +41,14 @@ class Twitter
     /**
      * The constructor.
      *
-     * @param object  $urlData
+     * @param object $urlData
      */
     public function __construct($parsedContent, $urlData, $attributes)
     {
         if (class_exists('AMP_Twitter_Embed_Handler')) {
             $this->ampEmbedHandler = new \AMP_Twitter_Embed_Handler;
 
-            add_action( 'amp_post_template_head', [$this, 'addScripts']);
+            add_action('amp_post_template_head', [$this, 'addScripts']);
         }
 
         $this->parsedContent = $parsedContent;
@@ -63,7 +64,7 @@ class Twitter
     public function process()
     {
         // Check we have the adapter set
-        if (! isset($this->ampEmbedHandler)) {
+        if ( ! isset($this->ampEmbedHandler)) {
             return $this->parsedContent;
         }
 
@@ -81,10 +82,10 @@ class Twitter
      */
     public function addScripts()
     {
-        if ( ! defined( 'PPEMB_TWITTER_AMP_SCRIPT_LOADED' ) ) {
+        if ( ! defined('PPEMB_TWITTER_AMP_SCRIPT_LOADED')) {
             echo '<script async custom-element="amp-twitter" src="https://cdn.ampproject.org/v0/amp-twitter-0.1.js"></script>';
 
-            define( 'PPEMB_TWITTER_AMP_SCRIPT_LOADED', 1 );
+            define('PPEMB_TWITTER_AMP_SCRIPT_LOADED', 1);
         }
     }
 }

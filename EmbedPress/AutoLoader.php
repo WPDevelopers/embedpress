@@ -1,4 +1,5 @@
 <?php
+
 namespace EmbedPress;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
@@ -24,7 +25,7 @@ class AutoLoader
      *
      * @var     array
      */
-    protected static $prefixes = array();
+    protected static $prefixes = [];
 
     /**
      * Associative array of prefixes for loading specialized camelCase classes
@@ -36,7 +37,7 @@ class AutoLoader
      *
      * @var     array
      */
-    protected static $camelPrefixes = array();
+    protected static $camelPrefixes = [];
 
     /**
      * @since   1.0.0
@@ -54,7 +55,8 @@ class AutoLoader
      * @access  protected
      * @static
      *
-     * @param   string $method  The method name which will be called.
+     * @param   string $method The method name which will be called.
+     *
      * @return  void
      */
     protected static function registerLoader($method)
@@ -63,7 +65,7 @@ class AutoLoader
             static::$instance = new static();
         }
 
-        spl_autoload_register(array(static::$instance, $method));
+        spl_autoload_register([static::$instance, $method]);
     }
 
     /**
@@ -72,9 +74,9 @@ class AutoLoader
      * @since   1.0.0
      * @static
      *
-     * @param   string  $prefix   The namespace prefix.
-     * @param   string  $baseDir  A base directory for class files in the namespace.
-     * @param   bool    $prepend  If true, prepend the base directory to the stack instead of
+     * @param   string $prefix    The namespace prefix.
+     * @param   string $baseDir   A base directory for class files in the namespace.
+     * @param   bool   $prepend   If true, prepend the base directory to the stack instead of
      *                            appending it; this causes it to be searched first rather than last.
      *
      * @return  void
@@ -99,7 +101,7 @@ class AutoLoader
 
         // initialise the namespace prefix array
         if (empty(self::$prefixes[$prefix])) {
-            self::$prefixes[$prefix] = array();
+            self::$prefixes[$prefix] = [];
         }
 
         // retain the base directory for the namespace prefix
@@ -117,7 +119,7 @@ class AutoLoader
      * @access  protected
      * @static
      *
-     * @param   string  $class  The fully-qualified class name.
+     * @param   string $class The fully-qualified class name.
      *
      * @return  mixed           The mapped file name on success, or boolean false on failure.
      */
@@ -146,8 +148,8 @@ class AutoLoader
      * @access  protected
      * @static
      *
-     * @param   string  $prefix     The namespace prefix.
-     * @param   string  $className  The relative class name.
+     * @param   string $prefix    The namespace prefix.
+     * @param   string $className The relative class name.
      *
      * @return  mixed               False if no mapped file can be loaded | path that was loaded
      */
@@ -164,6 +166,7 @@ class AutoLoader
 
             if (is_file($path)) {
                 require_once $path;
+
                 return $path;
             }
         }
@@ -181,15 +184,15 @@ class AutoLoader
      * @since   1.0.0
      * @static
      *
-     * @param   string  $prefix
-     * @param   string  $baseDir
+     * @param   string $prefix
+     * @param   string $baseDir
      *
      * @return void
      * @throws \Exception
      */
     public static function registerCamelBase($prefix, $baseDir)
     {
-        if (!is_dir($baseDir)) {
+        if ( ! is_dir($baseDir)) {
             throw new \Exception("Cannot register '{$prefix}'. The requested base directory does not exist!'");
         }
 
@@ -209,13 +212,13 @@ class AutoLoader
      * @since   1.0.0
      * @access  protected
      *
-     * @param   string      $class
+     * @param   string $class
      *
      * @return  mixed       Bool/string
      */
     protected function loadCamelClass($class)
     {
-        if (!class_exists($class)) {
+        if ( ! class_exists($class)) {
             foreach (self::$camelPrefixes as $prefix => $baseDir) {
                 if (strpos($class, $prefix) === 0) {
                     $parts = preg_split('/(?<=[a-z])(?=[A-Z])/x', substr($class, strlen($prefix)));
@@ -225,6 +228,7 @@ class AutoLoader
 
                     if (is_file($filePath)) {
                         require_once $filePath;
+
                         return $filePath;
                     }
                 }

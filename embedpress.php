@@ -29,7 +29,7 @@ require_once plugin_dir_path(__FILE__) . 'includes.php';
 
 include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-if (!defined('EMBEDPRESS_IS_LOADED')) {
+if ( ! defined('EMBEDPRESS_IS_LOADED')) {
     return;
 }
 

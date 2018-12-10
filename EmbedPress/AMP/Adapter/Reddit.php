@@ -1,4 +1,5 @@
 <?php
+
 namespace EmbedPress\AMP\Adapter;
 
 
@@ -15,7 +16,7 @@ namespace EmbedPress\AMP\Adapter;
  * @abstract
  */
 class Reddit
-{       
+{
     /**
      * @var object
      */
@@ -40,12 +41,12 @@ class Reddit
     /**
      * The constructor.
      *
-     * @param object  $urlData
+     * @param object $urlData
      */
     public function __construct($parsedContent, $urlData, $attributes)
     {
-        add_action( 'amp_post_template_head', [$this, 'addScripts']);
-        
+        add_action('amp_post_template_head', [$this, 'addScripts']);
+
         $this->parsedContent = $parsedContent;
         $this->urlData       = $urlData;
         $this->attributes    = $attributes;
@@ -59,11 +60,11 @@ class Reddit
     public function process()
     {
         // Check we have the required class
-        if (! class_exists('AMP_HTML_Utils')) {
+        if ( ! class_exists('AMP_HTML_Utils')) {
             return $this->parsedContent;
         }
 
-        $defaults = [
+        $defaults   = [
             'data-width'  => 100,
             'data-height' => 100,
         ];
@@ -71,13 +72,13 @@ class Reddit
 
         $parsedContent = \AMP_HTML_Utils::build_tag(
             'amp-reddit',
-            array(
+            [
                 'data-src'       => $this->urlData->originalContent,
                 'layout'         => 'responsive',
                 'data-embedtype' => "post",
                 'width'          => $attributes['data-width'],
                 'height'         => $attributes['data-height'],
-            )
+            ]
         );
 
         return $parsedContent;
@@ -88,10 +89,10 @@ class Reddit
      */
     public function addScripts()
     {
-        if ( ! defined( 'PPEMB_REDDIT_AMP_SCRIPT_LOADED' ) ) {
+        if ( ! defined('PPEMB_REDDIT_AMP_SCRIPT_LOADED')) {
             echo '<script async custom-element="amp-reddit" src="https://cdn.ampproject.org/v0/amp-reddit-0.1.js"></script>';
 
-            define( 'PPEMB_REDDIT_AMP_SCRIPT_LOADED', 1 );
+            define('PPEMB_REDDIT_AMP_SCRIPT_LOADED', 1);
         }
     }
 }

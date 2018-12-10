@@ -5,10 +5,10 @@
  * @license     GPLv2 or later
  * @since       1.7.0
  */
-(function($) {
-    "use strict";
+(function ($) {
+    'use strict';
 
-    $(function() {
+    $(function () {
         $('.color-field').wpColorPicker();
     });
 })(jQuery);
