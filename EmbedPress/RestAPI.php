@@ -20,9 +20,6 @@ class RestAPI
      */
     public static function oembed($request)
     {
-        // @todo: Check referer?
-
-        //        $provider = $request->get_param('provider');
         $url = sanitize_url($request->get_param('url'));
 
         if (empty($url)) {
