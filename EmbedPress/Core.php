@@ -345,7 +345,7 @@ class Core
         register_rest_route(
             'embedpress/v1', '/oembed/(?P<provider>[a-zA-Z0-9\-]+)',
             [
-                'methods'  => 'GET',
+                'methods'  => \WP_REST_Server::READABLE,
                 'callback' => ['\\EmbedPress\\RestAPI', 'oembed'],
             ]
         );
