@@ -307,9 +307,6 @@ class Core
 
             // Google Maps
             '#https?://(.+\.)?google\.com/maps/.+#i'                                                            => 'googlemaps',
-            '#https?://(.+\.)?google\.com/.+#i'                                                                 => 'googlemaps',
-            '#https?://(.+\.)?google\.com\.*/.+#i'                                                              => 'googlemaps',
-            '#https?://(.+\.)?google\.co\.*/.+#i'                                                               => 'googlemaps',
             '#https?://(.+\.)?maps\.google\.com/.+#i'                                                           => 'googlemaps',
 
             // Google Docs
