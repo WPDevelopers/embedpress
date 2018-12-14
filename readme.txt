@@ -184,6 +184,11 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [2.2.2] - 2018-12-14 =
+
+* Fixed compatibility with Disable Gutenberg plugin if installed with JetPack and Classic Editor;
+* Updated the "Tested Up To" version to 5.0 in the readme file;
+
 = [2.2.1] - 2018-12-10 =
 
 * Add constant EMBEDPRESS_PLG_VERSION for keep backward compatibility with not updated add-ons;
