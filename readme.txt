@@ -4,8 +4,8 @@ Author: EmbedPress, PressShack
 Author URI: https://embedpress.com
 Tags: YouTube, Google, Facebook, Wistia, Vimeo
 Requires at least: 4.6
-Tested up to: 4.9.4
-Stable tag: 2.1.6
+Tested up to: 5.0
+Stable tag: 2.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -183,6 +183,24 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [2.2.2] - 2018-12-14 =
+
+* Fixed compatibility with Disable Gutenberg plugin if installed with JetPack and Classic Editor;
+* Updated the "Tested Up To" version to 5.0 in the readme file;
+
+= [2.2.1] - 2018-12-10 =
+
+* Add constant EMBEDPRESS_PLG_VERSION for keep backward compatibility with not updated add-ons;
+
+= [2.2.0] - 2018-12-10 =
+
+* Fixed compatibility with WordPress 5, Gutenberg, and WordPress 5 with Classic Editor;
+* Removed useless settings for showing or hidding the preview panel when Gutenberg is used;
+* Fixed Devianart embeds;
+* Fixed Google Docs embeds;
+* Fixed Google Maps embeds for urls from places;
+* Changed the constant for plugin version from EMBEDPRESS_PLG_VERSION to EMBEDPRESS_VERSION;
 
 = [2.1.6] - 2018-08-03 =
 

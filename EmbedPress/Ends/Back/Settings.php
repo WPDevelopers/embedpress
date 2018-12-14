@@ -1,7 +1,8 @@
 <?php
+
 namespace EmbedPress\Ends\Back;
 
-use \EmbedPress\Core;
+use EmbedPress\Compatibility;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -24,9 +25,9 @@ class Settings
      * @access  private
      * @static
      *
-     * @var     string    $namespace
+     * @var     string $namespace
      */
-    private static $namespace = '\EmbedPress\Ends\Back\Settings';
+    private static $namespace = '\\EmbedPress\\Ends\\Back\\Settings';
 
     /**
      * The plugin's unique identifier.
@@ -35,7 +36,7 @@ class Settings
      * @access  private
      * @static
      *
-     * @var     string    $identifier
+     * @var     string $identifier
      */
     private static $identifier = "plg_embedpress";
 
@@ -46,7 +47,7 @@ class Settings
      * @access  private
      * @static
      *
-     * @var     string    $sectionAdminIdentifier
+     * @var     string $sectionAdminIdentifier
      */
     private static $sectionAdminIdentifier = "embedpress_options_admin";
 
@@ -57,33 +58,9 @@ class Settings
      * @access  private
      * @static
      *
-     * @var     string    $sectionGroupIdentifier    The name of the plugin.
+     * @var     string $sectionGroupIdentifier The name of the plugin.
      */
     private static $sectionGroupIdentifier = "embedpress";
-
-    /**
-     * Map to all settings.
-     *
-     * @since   1.0.0
-     * @access  private
-     * @static
-     *
-     * @var     string    $fieldMap
-     */
-    private static $fieldMap = array(
-        'enablePluginInAdmin' => array(
-            'label'   => "Load previews in the admin editor",
-            'section' => "admin"
-        ),
-        'enablePluginInFront' => array(
-            'label'   => "Load previews in the frontend editor",
-            'section' => "admin"
-        ),
-        'forceFacebookLanguage' => array(
-            'label'   => "Facebook embed language",
-            'section' => "admin"
-        )
-    );
 
     /**
      * Class constructor. This prevents the class being directly instantiated.
@@ -91,7 +68,8 @@ class Settings
      * @since   1.0.0
      */
     public function __construct()
-    {}
+    {
+    }
 
     /**
      * This prevents the class being cloned.
@@ -99,7 +77,8 @@ class Settings
      * @since   1.0.0
      */
     public function __clone()
-    {}
+    {
+    }
 
     /**
      * Method that adds an sub-item for EmbedPress to the WordPress Settings menu.
@@ -109,7 +88,8 @@ class Settings
      */
     public static function registerMenuItem()
     {
-        add_menu_page('EmbedPress Settings', 'EmbedPress', 'manage_options', 'embedpress', array(self::$namespace, 'renderForm'), null, 64);
+        add_menu_page('EmbedPress Settings', 'EmbedPress', 'manage_options', 'embedpress',
+            [self::$namespace, 'renderForm'], null, 64);
     }
 
     /**
@@ -127,18 +107,39 @@ class Settings
             $activeTab = "";
         }
 
-        if (!empty($activeTab) && has_action($action)) {
-            do_action($action, array(
+        if ( ! empty($activeTab) && has_action($action)) {
+            do_action($action, [
                 'id'   => self::$sectionAdminIdentifier,
-                'slug' => self::$identifier
-            ));
+                'slug' => self::$identifier,
+            ]);
         } else {
-            register_setting(self::$sectionGroupIdentifier, self::$sectionGroupIdentifier, array(self::$namespace, "validateForm"));
+            register_setting(self::$sectionGroupIdentifier, self::$sectionGroupIdentifier,
+                [self::$namespace, "validateForm"]);
 
             add_settings_section(self::$sectionAdminIdentifier, '', null, self::$identifier);
 
-            foreach (self::$fieldMap as $fieldName => $field) {
-                add_settings_field($fieldName, $field['label'], array(self::$namespace, "renderField_{$fieldName}"), self::$identifier, self::${"section". ucfirst($field['section']) ."Identifier"});
+            $fieldMap = [];
+            if ( ! Compatibility::isWordPress5() || Compatibility::isClassicalEditorActive()) {
+                $fieldMap = [
+                    'enablePluginInAdmin' => [
+                        'label'   => "Load previews in the admin editor",
+                        'section' => "admin",
+                    ],
+                    'enablePluginInFront' => [
+                        'label'   => "Load previews in the frontend editor",
+                        'section' => "admin",
+                    ],
+                ];
+            }
+
+            $fieldMap['forceFacebookLanguage'] = [
+                'label'   => "Facebook embed language",
+                'section' => "admin",
+            ];
+
+            foreach ($fieldMap as $fieldName => $field) {
+                add_settings_field($fieldName, $field['label'], [self::$namespace, "renderField_{$fieldName}"],
+                    self::$identifier, self::${"section" . ucfirst($field['section']) . "Identifier"});
             }
         }
     }
@@ -146,23 +147,25 @@ class Settings
     /**
      * Returns true if the plugin is active
      *
-     * @param  string   $plugin
+     * @param  string $plugin
      *
      * @return boolean
      */
-    protected static function is_plugin_active( $plugin ) {
-        return is_plugin_active( "{$plugin}/{$plugin}.php" );
+    protected static function is_plugin_active($plugin)
+    {
+        return is_plugin_active("{$plugin}/{$plugin}.php");
     }
 
     /**
      * Returns true if the plugin is installed
      *
-     * @param  string   $plugin
+     * @param  string $plugin
      *
      * @return boolean
      */
-    protected static function is_plugin_installed( $plugin ) {
-        return file_exists( plugin_dir_path( EMBEDPRESS_ROOT ) . "{$plugin}/{$plugin}.php" );
+    protected static function is_plugin_installed($plugin)
+    {
+        return file_exists(plugin_dir_path(EMBEDPRESS_ROOT) . "{$plugin}/{$plugin}.php");
     }
 
     /**
@@ -176,16 +179,18 @@ class Settings
         // Add the color picker css file
         wp_enqueue_style('wp-color-picker');
         // Include our custom jQuery file with WordPress Color Picker dependency
-        wp_enqueue_script('ep-settings', EMBEDPRESS_URL_ASSETS .'js/settings.js', array('wp-color-picker'), EMBEDPRESS_PLG_VERSION, true);
+        wp_enqueue_script('ep-settings', EMBEDPRESS_URL_ASSETS . 'js/settings.js', ['wp-color-picker'],
+            EMBEDPRESS_VERSION, true);
 
-        $activeTab = isset($_GET['tab']) ? strtolower($_GET['tab']) : "";
-        $settingsFieldsIdentifier = !empty($activeTab) ? "embedpress:{$activeTab}" : self::$sectionGroupIdentifier;
-        $settingsSectionsIdentifier = !empty($activeTab) ? "embedpress:{$activeTab}" : self::$identifier;
+        $activeTab                  = isset($_GET['tab']) ? strtolower($_GET['tab']) : "";
+        $settingsFieldsIdentifier   = ! empty($activeTab) ? "embedpress:{$activeTab}" : self::$sectionGroupIdentifier;
+        $settingsSectionsIdentifier = ! empty($activeTab) ? "embedpress:{$activeTab}" : self::$identifier;
         ?>
         <div id="embedpress-settings-wrapper">
             <header>
                 <h1 class="pressshack-title">
-                    <a href="//wordpress.org/plugins/embedpress" target="_blank" rel="noopener noreferrer" title="EmbedPress">
+                    <a href="//wordpress.org/plugins/embedpress" target="_blank" rel="noopener noreferrer"
+                       title="EmbedPress">
                         EmbedPress
                     </a>
                 </h1>
@@ -195,13 +200,15 @@ class Settings
 
             <div>
                 <h2 class="nav-tab-wrapper">
-                    <a href="?page=embedpress" class="nav-tab<?php echo $activeTab === 'embedpress' || empty($activeTab) ? ' nav-tab-active' : ''; ?> ">
+                    <a href="?page=embedpress"
+                       class="nav-tab<?php echo $activeTab === 'embedpress' || empty($activeTab) ? ' nav-tab-active' : ''; ?> ">
                         General settings
                     </a>
 
                     <?php do_action('embedpress:settings:render:tab', $activeTab); ?>
 
-                    <a href="?page=embedpress&tab=addons" class="nav-tab<?php echo $activeTab === 'addons' ? ' nav-tab-active' : ''; ?> ">
+                    <a href="?page=embedpress&tab=addons"
+                       class="nav-tab<?php echo $activeTab === 'addons' ? ' nav-tab-active' : ''; ?> ">
                         Add-ons
                     </a>
                 </h2>
@@ -217,73 +224,77 @@ class Settings
 
                 <?php if ($activeTab === 'addons') : ?>
                     <?php
-                    $icons_base_path = plugins_url( 'embedpress' ) . '/assets/images/' ;
+                    $icons_base_path = plugins_url('embedpress') . '/assets/images/';
 
-                    $addons = array(
-                        'embedpress-youtube' => array(
-                            'title'       => __( 'The YouTube Add-on for EmbedPress', 'embedpress' ),
-                            'description' => __( 'Get more features for your YouTube embeds in WordPress.', 'embedpress' ),
+                    $addons = [
+                        'embedpress-youtube' => [
+                            'title'       => __('The YouTube Add-on for EmbedPress', 'embedpress'),
+                            'description' => __('Get more features for your YouTube embeds in WordPress.',
+                                'embedpress'),
                             'available'   => true,
-                            'installed'   => static::is_plugin_installed( 'embedpress-youtube' ),
-                            'active'      => static::is_plugin_active( 'embedpress-youtube' ),
-                        ),
-                        'embedpress-vimeo' => array(
-                            'title'       => __( 'The Vimeo Add-on for EmbedPress', 'embedpress' ),
-                            'description' => __( 'Get more features for your Vimeo embeds in WordPress.', 'embedpress' ),
+                            'installed'   => static::is_plugin_installed('embedpress-youtube'),
+                            'active'      => static::is_plugin_active('embedpress-youtube'),
+                        ],
+                        'embedpress-vimeo'   => [
+                            'title'       => __('The Vimeo Add-on for EmbedPress', 'embedpress'),
+                            'description' => __('Get more features for your Vimeo embeds in WordPress.', 'embedpress'),
                             'available'   => true,
-                            'installed'   => static::is_plugin_installed( 'embedpress-vimeo' ),
-                            'active'      => static::is_plugin_active( 'embedpress-vimeo' ),
-                        ),
-                        'embedpress-wistia' => array(
-                            'title'       => __( 'The Wistia Add-on for EmbedPress', 'embedpress' ),
-                            'description' => __( 'Get more features for your Wistia embeds in WordPress.', 'embedpress' ),
+                            'installed'   => static::is_plugin_installed('embedpress-vimeo'),
+                            'active'      => static::is_plugin_active('embedpress-vimeo'),
+                        ],
+                        'embedpress-wistia'  => [
+                            'title'       => __('The Wistia Add-on for EmbedPress', 'embedpress'),
+                            'description' => __('Get more features for your Wistia embeds in WordPress.', 'embedpress'),
                             'available'   => true,
-                            'installed'   => static::is_plugin_installed( 'embedpress-wistia' ),
-                            'active'      => static::is_plugin_active( 'embedpress-wistia' ),
-                        ),
-                    );
+                            'installed'   => static::is_plugin_installed('embedpress-wistia'),
+                            'active'      => static::is_plugin_active('embedpress-wistia'),
+                        ],
+                    ];
 
-                    $args = array(
+                    $args = [
                         'addons'          => $addons,
                         'icons_base_path' => $icons_base_path,
-                        'labels'          => array(
-                            'active'         => __( 'Active', 'publishpress' ),
-                            'installed'      => __( 'Installed', 'publishpress' ),
-                            'get_pro_addons' => __( 'Get Pro Add-ons!', 'publishpress' ),
-                            'coming_soon'    => __( 'Coming soon', 'publishpress' ),
-                        ),
-                    );
+                        'labels'          => [
+                            'active'         => __('Active', 'publishpress'),
+                            'installed'      => __('Installed', 'publishpress'),
+                            'get_pro_addons' => __('Get Pro Add-ons!', 'publishpress'),
+                            'coming_soon'    => __('Coming soon', 'publishpress'),
+                        ],
+                    ];
 
                     ?>
                     <div class="ep-module-settings">
                         <ul class="ep-block-addons-items">
-                        <?php foreach ( $addons as $name => $addon ): ?>
-                            <li class="ep-block-addons-item ">
-                                <img src="<?php echo $icons_base_path . $name; ?>.jpg">
-                                <h3><?php echo $addon['title']; ?></h3>
-                                <p><?php echo $addon['description']; ?></p>
+                            <?php foreach ($addons as $name => $addon): ?>
+                                <li class="ep-block-addons-item ">
+                                    <img src="<?php echo $icons_base_path . $name; ?>.jpg">
+                                    <h3><?php echo $addon['title']; ?></h3>
+                                    <p><?php echo $addon['description']; ?></p>
 
-                                <?php if ( $addon['available'] ): ?>
-                                    <?php if ( $addon['installed'] ): ?>
-                                        <?php if ( $addon['active'] ): ?>
-                                            <div>
-                                                <span class="dashicons dashicons-yes"></span><span><?php echo __( 'Active', 'embedpress' ); ?></span>
-                                            </div>
+                                    <?php if ($addon['available']): ?>
+                                        <?php if ($addon['installed']): ?>
+                                            <?php if ($addon['active']): ?>
+                                                <div>
+                                                    <span class="dashicons dashicons-yes"></span><span><?php echo __('Active',
+                                                            'embedpress'); ?></span>
+                                                </div>
+                                            <?php else: ?>
+                                                <div>
+                                                    <span><?php echo __('Installed', 'embedpress'); ?></span>
+                                                </div>
+                                            <?php endif; ?>
                                         <?php else: ?>
-                                            <div>
-                                                <span><?php echo __( 'Installed', 'embedpress' ); ?></span>
-                                            </div>
+                                            <a href="https://embedpress.com/embedpress-addons/"
+                                               class="button button-primary">
+                                                <span class="dashicons dashicons-cart"></span> <?php echo __('Get Pro Add-ons!',
+                                                    'embedpress'); ?>
+                                            </a>
                                         <?php endif; ?>
                                     <?php else: ?>
-                                        <a href="https://embedpress.com/embedpress-addons/" class="button button-primary">
-                                            <span class="dashicons dashicons-cart"></span> <?php echo __( 'Get Pro Add-ons!', 'embedpress' ); ?>
-                                        </a>
+                                        <div><?php echo __('Coming soon', 'embedpress'); ?></div>
                                     <?php endif; ?>
-                                <?php else: ?>
-                                    <div><?php echo __( 'Coming soon', 'embedpress' ); ?></div>
-                                <?php endif; ?>
-                            </li>
-                        <?php endforeach; ?>
+                                </li>
+                            <?php endforeach; ?>
                         </ul>
                     </div>
                 <?php endif; ?>
@@ -291,25 +302,36 @@ class Settings
 
             <footer>
                 <p>
-                    <a href="//wordpress.org/support/plugin/embedpress/reviews/#new-post" target="_blank" rel="noopener noreferrer">If you like <strong>EmbedPress</strong> please leave us a <span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span><span class="dashicons dashicons-star-filled"></span> rating. Thank you!</a>
+                    <a href="//wordpress.org/support/plugin/embedpress/reviews/#new-post" target="_blank"
+                       rel="noopener noreferrer">If you like <strong>EmbedPress</strong> please leave us a <span
+                                class="dashicons dashicons-star-filled"></span><span
+                                class="dashicons dashicons-star-filled"></span><span
+                                class="dashicons dashicons-star-filled"></span><span
+                                class="dashicons dashicons-star-filled"></span><span
+                                class="dashicons dashicons-star-filled"></span> rating. Thank you!</a>
                 </p>
                 <hr>
                 <nav>
                     <ul>
                         <li>
-                            <a href="//embedpress.com" target="_blank" rel="noopener noreferrer" title="About EmbedPress">About</a>
+                            <a href="//embedpress.com" target="_blank" rel="noopener noreferrer"
+                               title="About EmbedPress">About</a>
                         </li>
                         <li>
-                            <a href="//embedpress.com/docs/sources-support" target="_blank" rel="noopener noreferrer" title="List of supported sources by EmbedPress">Supported sources</a>
+                            <a href="//embedpress.com/docs/sources-support" target="_blank" rel="noopener noreferrer"
+                               title="List of supported sources by EmbedPress">Supported sources</a>
                         </li>
                         <li>
-                            <a href="//embedpress.com/docs" target="_blank" rel="noopener noreferrer" title="EmbedPress Documentation">Documentation</a>
+                            <a href="//embedpress.com/docs" target="_blank" rel="noopener noreferrer"
+                               title="EmbedPress Documentation">Documentation</a>
                         </li>
                         <li>
-                            <a href="//embedpress.com/addons/" target="_blank" rel="noopener noreferrer" title="EmbedPress Add-Ons">Add-Ons</a>
+                            <a href="//embedpress.com/addons/" target="_blank" rel="noopener noreferrer"
+                               title="EmbedPress Add-Ons">Add-Ons</a>
                         </li>
                         <li>
-                            <a href="//embedpress.com/contact" target="_blank" rel="noopener noreferrer" title="Contact the EmbedPress team">Contact</a>
+                            <a href="//embedpress.com/contact" target="_blank" rel="noopener noreferrer"
+                               title="Contact the EmbedPress team">Contact</a>
                         </li>
                         <li>
                             <a href="//twitter.com/embedpress" target="_blank" rel="noopener noreferrer">
@@ -339,17 +361,17 @@ class Settings
      * @since   1.0.0
      * @static
      *
-     * @param   mixed   $freshData  Data received from the form.
+     * @param   mixed $freshData Data received from the form.
      *
      * @return  array
      */
     public static function validateForm($freshData)
     {
-        $data = array(
-            'enablePluginInAdmin' => (bool)$freshData['enablePluginInAdmin'],
-            'enablePluginInFront' => (bool)$freshData['enablePluginInFront'],
-            'fbLanguage'          => $freshData['fbLanguage']
-        );
+        $data = [
+            'enablePluginInAdmin' => isset($freshData['enablePluginInAdmin']) ? (bool)$freshData['enablePluginInAdmin'] : true,
+            'enablePluginInFront' => isset($freshData['enablePluginInFront']) ? (bool)$freshData['enablePluginInFront'] : true,
+            'fbLanguage'          => $freshData['fbLanguage'],
+        ];
 
         return $data;
     }
@@ -366,11 +388,11 @@ class Settings
 
         $options = get_option(self::$sectionGroupIdentifier);
 
-        $options[$fieldName] = !isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
+        $options[$fieldName] = ! isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
 
-        echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
+        echo '<label><input type="radio" id="' . $fieldName . '_0" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="0" ' . (! $options[$fieldName] ? "checked" : "") . ' /> No</label>';
         echo "&nbsp;&nbsp;";
-        echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
+        echo '<label><input type="radio" id="' . $fieldName . '_1" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="1" ' . ($options[$fieldName] ? "checked" : "") . ' /> Yes</label>';
         echo '<p class="description">Do you want EmbedPress to run here in the admin area? Disabling this <strong>will not</strong> affect your frontend embeds.</p>';
     }
 
@@ -386,11 +408,11 @@ class Settings
 
         $options = get_option(self::$sectionGroupIdentifier);
 
-        $options[$fieldName] = !isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
+        $options[$fieldName] = ! isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
 
-        echo '<label><input type="radio" id="'. $fieldName .'_0" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="0" '. (!$options[$fieldName] ? "checked" : "") .' /> No</label>';
+        echo '<label><input type="radio" id="' . $fieldName . '_0" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="0" ' . (! $options[$fieldName] ? "checked" : "") . ' /> No</label>';
         echo "&nbsp;&nbsp;";
-        echo '<label><input type="radio" id="'. $fieldName .'_1" name="'. self::$sectionGroupIdentifier .'['. $fieldName .']" value="1" '. ($options[$fieldName] ? "checked" : "") .' /> Yes</label>';
+        echo '<label><input type="radio" id="' . $fieldName . '_1" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="1" ' . ($options[$fieldName] ? "checked" : "") . ' /> Yes</label>';
         echo '<p class="description">Do you want EmbedPress to run within editors in frontend (if there\'s any)? Disabling this <strong>will not</strong> affect embeds seem by your regular users in frontend.</p>';
     }
 
@@ -406,15 +428,15 @@ class Settings
 
         $options = get_option(self::$sectionGroupIdentifier);
 
-        $options[$fieldName] = !isset($options[$fieldName]) ? "" : $options[$fieldName];
+        $options[$fieldName] = ! isset($options[$fieldName]) ? "" : $options[$fieldName];
 
         $facebookLocales = self::getFacebookAvailableLocales();
 
-        echo '<select name="'. self::$sectionGroupIdentifier .'['. $fieldName .']">';
+        echo '<select name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']">';
         echo '<option value="0">Automatic (by Facebook)</option>';
         echo '<optgroup label="Available">';
         foreach ($facebookLocales as $locale => $localeName) {
-            echo '<option value="'. $locale .'"'. ($options[$fieldName] === $locale ? ' selected' : '') .'>'. $localeName .'</option>';
+            echo '<option value="' . $locale . '"' . ($options[$fieldName] === $locale ? ' selected' : '') . '>' . $localeName . '</option>';
         }
         echo '</optgroup>';
         echo '</select>';
@@ -432,7 +454,7 @@ class Settings
      */
     public static function getFacebookAvailableLocales()
     {
-        $locales = array(
+        $locales = [
             'af_ZA' => "Afrikaans",
             'ak_GH' => "Akan",
             'am_ET' => "Amharic",
@@ -574,8 +596,8 @@ class Settings
             'zh_HK' => "Traditional Chinese (Hong Kong)",
             'zh_TW' => "Traditional Chinese (Taiwan)",
             'zu_ZA' => "Zulu",
-            'zz_TR' => "Zazaki"
-        );
+            'zz_TR' => "Zazaki",
+        ];
 
         return $locales;
     }

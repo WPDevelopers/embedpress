@@ -1,4 +1,5 @@
 <?php
+
 namespace EmbedPress\AMP;
 
 
@@ -15,21 +16,21 @@ namespace EmbedPress\AMP;
  * @abstract
  */
 abstract class EmbedHandler
-{   
+{
     /**
      * Process embeds to check if need to adapt for AMP pages. This is compatible
      * witht the AMP plugin from Automattic.
      *
-     * @param string  $parsedContent
-     * @param object  $urlData
-     * @param array   $attributes
+     * @param string $parsedContent
+     * @param object $urlData
+     * @param array  $attributes
      *
      * @return object
      */
     static function processParsedContent($parsedContent, $urlData, $attributes)
     {
         // Check if we don't have the AMP plugin installed to bypass
-        if (! class_exists('AMP_Base_Embed_Handler')) {
+        if ( ! class_exists('AMP_Base_Embed_Handler')) {
             return $parsedContent;
         }
 

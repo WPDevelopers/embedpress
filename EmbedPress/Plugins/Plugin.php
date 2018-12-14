@@ -1,9 +1,10 @@
 <?php
+
 namespace EmbedPress\Plugins;
 
 use PublishPress\EDD_License\Core\Container as EDDContainer;
-use PublishPress\EDD_License\Core\ServicesConfig as EDDServicesConfig;
 use PublishPress\EDD_License\Core\Services as EDDServices;
+use PublishPress\EDD_License\Core\ServicesConfig as EDDServicesConfig;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -38,7 +39,7 @@ abstract class Plugin
             $config->setPluginVersion(static::VERSION);
             $config->setEddItemId(static::EDD_ID);
             $config->setPluginAuthor('EmbedPress');
-            $config->setPluginFile(EMBEDPRESS_PLG_NAME .'/'. EMBEDPRESS_PLG_NAME .'.php');
+            $config->setPluginFile(EMBEDPRESS_PLG_NAME . '/' . EMBEDPRESS_PLG_NAME . '.php');
 
             $services = new EDDServices($config);
 
@@ -75,7 +76,7 @@ abstract class Plugin
      */
     protected static function isEmbedPressActive()
     {
-        $isEmbedPressActive = is_plugin_active(EMBEDPRESS_PLG_NAME .'/'. EMBEDPRESS_PLG_NAME .'.php');
+        $isEmbedPressActive = is_plugin_active(EMBEDPRESS_PLG_NAME . '/' . EMBEDPRESS_PLG_NAME . '.php');
 
         return $isEmbedPressActive;
     }
@@ -87,13 +88,14 @@ abstract class Plugin
      * @access  protected
      * @static
      *
-     * @param   string      $err The error code.
+     * @param   string $err The error code.
+     *
      * @return  string
      */
     protected static function getErrorMessage($err = '')
     {
         if ($err === 'ERR_MISSING_DEPENDENCY') {
-            return __('Please, <strong>install</strong> and <strong>activate <a href="https://wordpress.org/plugins/'. EMBEDPRESS_PLG_NAME .'" target="_blank" rel="noopener noreferrer">'. EMBEDPRESS .'</a></strong> plugin in order to make <em>'. EMBEDPRESS .' - '. static::NAME .'</em> to work.');
+            return __('Please, <strong>install</strong> and <strong>activate <a href="https://wordpress.org/plugins/' . EMBEDPRESS_PLG_NAME . '" target="_blank" rel="noopener noreferrer">' . EMBEDPRESS . '</a></strong> plugin in order to make <em>' . EMBEDPRESS . ' - ' . static::NAME . '</em> to work.');
         }
 
         return $err;
@@ -109,8 +111,8 @@ abstract class Plugin
      */
     public static function onLoadAdminCallback()
     {
-        $pluginSignature = EMBEDPRESS_PLG_NAME .'-'. static::SLUG .'/'. EMBEDPRESS_PLG_NAME .'-'. static::SLUG .'.php';
-        if (is_admin() && !self::isEmbedPressActive() && is_plugin_active($pluginSignature)) {
+        $pluginSignature = EMBEDPRESS_PLG_NAME . '-' . static::SLUG . '/' . EMBEDPRESS_PLG_NAME . '-' . static::SLUG . '.php';
+        if (is_admin() && ! self::isEmbedPressActive() && is_plugin_active($pluginSignature)) {
             deactivate_plugins($pluginSignature);
         } else {
             static::registerSettings();
@@ -147,7 +149,7 @@ abstract class Plugin
      */
     public static function onDeactivationCallback()
     {
-        delete_option(EMBEDPRESS_PLG_NAME .':'. static::SLUG);
+        delete_option(EMBEDPRESS_PLG_NAME . ':' . static::SLUG);
     }
 
     /**
@@ -156,17 +158,18 @@ abstract class Plugin
      * @since   1.4.0
      * @static
      *
-     * @param   array       $postData The data coming from the form via POST.
+     * @param   array $postData The data coming from the form via POST.
+     *
      * @return  array
      */
     public static function validateForm($postData)
     {
-        $pluginSlugNonce = EMBEDPRESS_PLG_NAME .':'. static::SLUG .':nonce';
-        if (!check_admin_referer($pluginSlugNonce, $pluginSlugNonce)) {
+        $pluginSlugNonce = EMBEDPRESS_PLG_NAME . ':' . static::SLUG . ':nonce';
+        if ( ! check_admin_referer($pluginSlugNonce, $pluginSlugNonce)) {
             return;
         }
 
-        $data = array();
+        $data = [];
 
         $schema = static::getOptionsSchema();
         foreach ($schema as $fieldSlug => $field) {
@@ -176,7 +179,8 @@ abstract class Plugin
                 $value = isset($field['default']) ? $field['default'] : null;
             }
 
-            settype($value, isset($field['type']) && in_array(strtolower($field['type']), array('bool', 'boolean', 'int', 'integer', 'float', 'string')) ? $field['type'] : 'string');
+            settype($value, isset($field['type']) && in_array(strtolower($field['type']),
+                ['bool', 'boolean', 'int', 'integer', 'float', 'string']) ? $field['type'] : 'string');
 
             $data[$fieldSlug] = $value;
         }
@@ -197,6 +201,7 @@ abstract class Plugin
      * @static
      *
      * @param   array   Data after validation.
+     *
      * @return  void
      */
     public static function onAfterFormValidation(&$data)
@@ -216,7 +221,8 @@ abstract class Plugin
     {
         ?>
 
-        <a href="?page=<?php echo EMBEDPRESS_PLG_NAME; ?>&tab=<?php echo static::SLUG; ?>" class="nav-tab<?php echo $activeTab === static::SLUG ? ' nav-tab-active' : ''; ?> "><?php echo static::NAME; ?></a>
+        <a href="?page=<?php echo EMBEDPRESS_PLG_NAME; ?>&tab=<?php echo static::SLUG; ?>"
+           class="nav-tab<?php echo $activeTab === static::SLUG ? ' nav-tab-active' : ''; ?> "><?php echo static::NAME; ?></a>
 
         <?php
     }
@@ -231,10 +237,11 @@ abstract class Plugin
      */
     public static function registerSettings()
     {
-        $identifier = EMBEDPRESS_PLG_NAME .':'. static::SLUG;
+        $identifier = EMBEDPRESS_PLG_NAME . ':' . static::SLUG;
 
-        register_setting($identifier, $identifier, array(static::NAMESPACE_STRING, 'validateForm'));
-        add_settings_section($identifier, EMBEDPRESS .' > '. static::NAME .' Settings', array(static::NAMESPACE_STRING, 'onAfterRegisterSettings'), $identifier);
+        register_setting($identifier, $identifier, [static::NAMESPACE_STRING, 'validateForm']);
+        add_settings_section($identifier, EMBEDPRESS . ' > ' . static::NAME . ' Settings',
+            [static::NAMESPACE_STRING, 'onAfterRegisterSettings'], $identifier);
 
         self::registerSettingsFields();
     }
@@ -249,16 +256,17 @@ abstract class Plugin
      */
     public static function registerSettingsFields()
     {
-        $identifier = EMBEDPRESS_PLG_NAME .':'. static::SLUG;
+        $identifier = EMBEDPRESS_PLG_NAME . ':' . static::SLUG;
 
         $schema = static::getOptionsSchema();
         foreach ($schema as $fieldSlug => $field) {
             $field['slug'] = $fieldSlug;
 
-            add_settings_field($fieldSlug, $field['label'], array(__NAMESPACE__ .'\Html\Field', 'render'), $identifier, $identifier, array(
-                'pluginSlug' => static::SLUG,
-                'field'      => $field
-            ));
+            add_settings_field($fieldSlug, $field['label'], [__NAMESPACE__ . '\Html\Field', 'render'], $identifier,
+                $identifier, [
+                    'pluginSlug' => static::SLUG,
+                    'field'      => $field,
+                ]);
         }
     }
 
@@ -285,20 +293,21 @@ abstract class Plugin
      */
     public static function getOptions()
     {
-        $options = (array)get_option(EMBEDPRESS_PLG_NAME .':'. static::SLUG);
+        $options = (array)get_option(EMBEDPRESS_PLG_NAME . ':' . static::SLUG);
         if (empty($options) || (count($options) === 1 && empty($options[0]))) {
-            $options = array();
-            $schema = static::getOptionsSchema();
+            $options = [];
+            $schema  = static::getOptionsSchema();
             foreach ($schema as $fieldSlug => $field) {
                 $value = isset($field['default']) ? $field['default'] : "";
 
-                settype($value, isset($field['type']) && in_array(strtolower($field['type']), array('bool', 'boolean', 'int', 'integer', 'float', 'string')) ? $field['type'] : 'string');
+                settype($value, isset($field['type']) && in_array(strtolower($field['type']),
+                    ['bool', 'boolean', 'int', 'integer', 'float', 'string']) ? $field['type'] : 'string');
 
                 if ($fieldSlug === "license_key") {
-                    $options['license'] = array(
+                    $options['license'] = [
                         'key'    => $value,
-                        'status' => "missing"
-                    );
+                        'status' => "missing",
+                    ];
                 } else {
                     $options[$fieldSlug] = $value;
                 }
@@ -318,7 +327,8 @@ abstract class Plugin
      */
     public static function handleActionLinks($links, $file)
     {
-        $settingsLink = '<a href="'. admin_url('admin.php?page='. EMBEDPRESS_PLG_NAME .'&tab='. static::SLUG) .'" aria-label="'. __('Open settings page', 'embedpress-'. static::SLUG) .'">'. __('Settings', 'embedpress-'. static::SLUG) .'</a>';
+        $settingsLink = '<a href="' . admin_url('admin.php?page=' . EMBEDPRESS_PLG_NAME . '&tab=' . static::SLUG) . '" aria-label="' . __('Open settings page',
+                'embedpress-' . static::SLUG) . '">' . __('Settings', 'embedpress-' . static::SLUG) . '</a>';
 
         array_unshift($links, $settingsLink);
 

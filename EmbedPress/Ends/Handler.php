@@ -1,4 +1,5 @@
 <?php
+
 namespace EmbedPress\Ends;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
@@ -21,7 +22,7 @@ abstract class Handler
      * @since   1.0.0
      * @access  private
      *
-     * @var     string    $pluginName    The name of the plugin.
+     * @var     string $pluginName The name of the plugin.
      */
     protected $pluginName;
 
@@ -31,7 +32,7 @@ abstract class Handler
      * @since   1.0.0
      * @access  private
      *
-     * @var     string    $pluginVersion     The version of the plugin.
+     * @var     string $pluginVersion The version of the plugin.
      */
     protected $pluginVersion;
 
@@ -40,13 +41,14 @@ abstract class Handler
      *
      * @since   1.0.0
      *
-     * @param   string    $pluginName - The name of the plugin.
-     * @param   string    $pluginVersion - The version of the plugin.
+     * @param   string $pluginName    - The name of the plugin.
+     * @param   string $pluginVersion - The version of the plugin.
+     *
      * @return  void
      */
     public function __construct($pluginName, $pluginVersion)
     {
-        $this->pluginName = $pluginName;
+        $this->pluginName    = $pluginName;
         $this->pluginVersion = $pluginVersion;
     }
 
@@ -58,7 +60,8 @@ abstract class Handler
      * @return      void
      */
     public function enqueueScripts()
-    {}
+    {
+    }
 
     /**
      * Method that register all stylesheets for the admin area.
@@ -69,5 +72,6 @@ abstract class Handler
      * @return      void
      */
     public static function enqueueStyles()
-    {}
+    {
+    }
 }

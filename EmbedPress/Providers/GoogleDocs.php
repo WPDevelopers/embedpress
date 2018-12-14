@@ -1,7 +1,8 @@
 <?php
+
 namespace EmbedPress\Providers;
 
-use \Embera\Adapters\Service as EmberaService;
+use Embera\Adapters\Service as EmberaService;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -26,7 +27,8 @@ class GoogleDocs extends EmberaService
      */
     public function validateUrl()
     {
-        return preg_match('~http[s]?:\/\/((?:www\.)?docs\.google\.com\/(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)~i', $this->url);
+        return preg_match('~http[s]?:\/\/((?:www\.)?docs\.google\.com\/(?:.*/)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)~i',
+            $this->url);
     }
 
     /**
@@ -41,13 +43,13 @@ class GoogleDocs extends EmberaService
         $iframeSrc = html_entity_decode($this->url);
 
         // Check the type of document
-        preg_match('~google\.com/(document|presentation|spreadsheets|forms|drawings)/~i', $iframeSrc, $matches);
+        preg_match('~google\.com/(?:.+/)?(document|presentation|spreadsheets|forms|drawings)/~i', $iframeSrc, $matches);
         $type = $matches[1];
 
         switch ($type) {
             case 'document':
                 // Check if the url still doesn't have the embedded param, and add if needed
-                if (!preg_match('~([?&])embedded=true~i', $iframeSrc, $matches)) {
+                if ( ! preg_match('~([?&])embedded=true~i', $iframeSrc, $matches)) {
                     if (substr_count($iframeSrc, '?')) {
                         $iframeSrc .= '&embedded=true';
                     } else {
@@ -69,8 +71,8 @@ class GoogleDocs extends EmberaService
                     $query = $query[1];
                     $query = explode('&', $query);
 
-                    if (!empty($query)) {
-                        $hasWidgetParam = false;
+                    if ( ! empty($query)) {
+                        $hasWidgetParam  = false;
                         $hasHeadersParam = false;
 
                         foreach ($query as $param) {
@@ -81,11 +83,11 @@ class GoogleDocs extends EmberaService
                             }
                         }
 
-                        if (!$hasWidgetParam) {
+                        if ( ! $hasWidgetParam) {
                             $iframeSrc .= '&widget=true';
                         }
 
-                        if (!$hasHeadersParam) {
+                        if ( ! $hasHeadersParam) {
                             $iframeSrc .= '&headers=false';
                         }
                     }
@@ -105,13 +107,13 @@ class GoogleDocs extends EmberaService
             $html = '<img src="' . $iframeSrc . '" width="960" height="720" />';
         }
 
-        return array(
+        return [
             'type'          => 'rich',
             'provider_name' => 'Google Docs',
             'provider_url'  => 'https://docs.google.com',
             'title'         => 'Unknown title',
             'html'          => $html,
-            'wrapper_class' => 'ose-google-docs-' . $type
-        );
+            'wrapper_class' => 'ose-google-docs-' . $type,
+        ];
     }
 }

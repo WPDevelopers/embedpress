@@ -2,10 +2,11 @@
 /**
  * Plugin Name: EmbedPress
  * Plugin URI:  https://embedpress.com/
- * Description: WordPress supports around 35 embed sources, but PublishPress Embeds adds over 40 more, including Facebook, Google Maps, Google Docs, UStream! Just use the URL!
- * Author:      EmbedPress
- * Author URI:  http://embedpress.com
- * Version: 2.1.6
+ * Description: WordPress supports around 35 embed sources, but PublishPress Embeds adds over 40 more, including
+ * Facebook, Google Maps, Google Docs, UStream! Just use the URL!
+ * Author:EmbedPress
+ * Author URI:http://embedpress.com
+ * Version: 2.2.2
  * Text Domain: embedpress
  * Domain Path: /languages
  *
@@ -20,28 +21,37 @@
  * @since       1.0.0
  */
 
-use \EmbedPress\Core;
+use EmbedPress\Compatibility;
 
-require_once plugin_dir_path(__FILE__) .'includes.php';
+defined('ABSPATH') or die("No direct script access allowed.");
 
-include_once ABSPATH.'wp-admin/includes/plugin.php';
+require_once plugin_dir_path(__FILE__) . 'includes.php';
 
-(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
+include_once ABSPATH . 'wp-admin/includes/plugin.php';
+
+if ( ! defined('EMBEDPRESS_IS_LOADED')) {
+    return;
+}
 
 function onPluginActivationCallback()
 {
-    Core::onPluginActivationCallback();
+    \EmbedPress\Core::onPluginActivationCallback();
 }
 
 function onPluginDeactivationCallback()
 {
-    Core::onPluginDeactivationCallback();
+    \EmbedPress\Core::onPluginDeactivationCallback();
 }
 
 register_activation_hook(__FILE__, 'onPluginActivationCallback');
 register_deactivation_hook(__FILE__, 'onPluginDeactivationCallback');
 
-if (!is_plugin_active('gutenberg/gutenberg.php')) {
-	$embedPressPlugin = new Core();
-	$embedPressPlugin->initialize();
+if ( ! is_plugin_active('gutenberg/gutenberg.php')) {
+    if (Compatibility::isWordPress5() && ! Compatibility::isClassicalEditorActive()) {
+        $embedPressPlugin = new \EmbedPress\Core();
+    } else {
+        $embedPressPlugin = new \EmbedPress\CoreLegacy();
+    }
+
+    $embedPressPlugin->initialize();
 }

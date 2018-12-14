@@ -1,4 +1,5 @@
 <?php
+
 namespace EmbedPress\ThirdParty;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
@@ -24,20 +25,20 @@ class BeaverBuilder
      */
     public static function before_render_shortcodes($content)
     {
-	    global $shortcode_tags;
+        global $shortcode_tags;
 
-	    // Back up current registered shortcodes and clear them all out
-	    $orig_shortcode_tags = $shortcode_tags;
-	    remove_all_shortcodes();
+        // Back up current registered shortcodes and clear them all out
+        $orig_shortcode_tags = $shortcode_tags;
+        remove_all_shortcodes();
 
-	    add_shortcode( EMBEDPRESS_SHORTCODE, array('\\EmbedPress\\Shortcode', 'do_shortcode') );
+        add_shortcode(EMBEDPRESS_SHORTCODE, ['\\EmbedPress\\Shortcode', 'do_shortcode']);
 
-	    // Do the shortcode (only the [embed] one is registered)
-	    $content = do_shortcode( $content, true );
+        // Do the shortcode (only the [embed] one is registered)
+        $content = do_shortcode($content, true);
 
-	    // Put the original shortcodes back
-	    $shortcode_tags = $orig_shortcode_tags;
+        // Put the original shortcodes back
+        $shortcode_tags = $orig_shortcode_tags;
 
-	    return $content;
+        return $content;
     }
 }

@@ -1,9 +1,9 @@
 <?php
+
 namespace EmbedPress;
 
-use \EmbedPress\Core;
-use \Embera\Embera;
-use \Embera\Formatter;
+use Embera\Embera;
+use Embera\Formatter;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -25,7 +25,7 @@ class Shortcode
      * @access  private
      * @static
      *
-     * @var     string  $oEmbedInstance
+     * @var     string $oEmbedInstance
      */
     private static $oEmbedInstance = null;
 
@@ -40,7 +40,8 @@ class Shortcode
     public static function register()
     {
         // Register the new shortcode for embeds.
-        add_shortcode(EMBEDPRESS_SHORTCODE, array('\\EmbedPress\\Shortcode', 'do_shortcode'));
+        add_shortcode(EMBEDPRESS_SHORTCODE, ['\\EmbedPress\\Shortcode', 'do_shortcode']);
+        add_shortcode('embed_oembed_html', ['\\EmbedPress\\Shortcode', 'do_shortcode']);
     }
 
     /**
@@ -49,11 +50,12 @@ class Shortcode
      * @since   1.0.0
      * @static
      *
-     * @param   array     $attributes   Array of attributes
-     * @param   string    $subject      The given string
+     * @param   array  $attributes Array of attributes
+     * @param   string $subject    The given string
+     *
      * @return  string
      */
-    public static function do_shortcode($attributes = array(), $subject = null)
+    public static function do_shortcode($attributes = [], $subject = null)
     {
         $embed = self::parseContent($subject, true, $attributes);
 
@@ -68,32 +70,34 @@ class Shortcode
      *
      * @param   string      The raw content that will be replaced.
      * @param   boolean     Optional. If true, new lines at the end of the embeded code are stripped.
+     *
      * @return  string
      */
-    public static function parseContent($subject, $stripNewLine = false, $customAttributes = array())
+    public static function parseContent($subject, $stripNewLine = false, $customAttributes = [])
     {
-        if (!empty($subject)) {
+        if ( ! empty($subject)) {
             if (empty($customAttributes)) {
                 $customAttributes = self::parseContentAttributesFromString($subject);
             }
 
-            $content = preg_replace('/(\['. EMBEDPRESS_SHORTCODE .'(?:\]|.+?\])|\[\/'. EMBEDPRESS_SHORTCODE .'\])/i', "", $subject);
+            $content = preg_replace('/(\[' . EMBEDPRESS_SHORTCODE . '(?:\]|.+?\])|\[\/' . EMBEDPRESS_SHORTCODE . '\])/i',
+                "", $subject);
 
             // Converts any special HTML entities back to characters.
             $content = htmlspecialchars_decode($content);
 
             // Check if the WP_oEmbed class is loaded
-            if (!self::$oEmbedInstance) {
-                require_once ABSPATH .'wp-includes/class-oembed.php';
+            if ( ! self::$oEmbedInstance) {
+                require_once ABSPATH . 'wp-includes/class-oembed.php';
 
                 self::$oEmbedInstance = _wp_oembed_get_object();
             }
 
-            $emberaInstanceSettings = array(
-                'params' => array()
-            );
+            $emberaInstanceSettings = [
+                'params' => [],
+            ];
 
-            $content_uid = md5( $content );
+            $content_uid = md5($content);
 
             $attributes = self::parseContentAttributes($customAttributes, $content_uid);
             if (isset($attributes['width']) || isset($attributes['height'])) {
@@ -118,7 +122,7 @@ class Shortcode
                 $emberaInstance = new Embera($emberaInstanceSettings);
                 // Add support to the user's custom service providers
                 $additionalServiceProviders = Core::getAdditionalServiceProviders();
-                if (!empty($additionalServiceProviders)) {
+                if ( ! empty($additionalServiceProviders)) {
                     foreach ($additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls) {
                         self::addServiceProvider($serviceProviderClassName, $serviceProviderUrls, $emberaInstance);
                     }
@@ -148,22 +152,22 @@ class Shortcode
             }
 
             // Transform all shortcode attributes into html form. I.e.: {foo: "joe"} -> foo="joe"
-            $attributesHtml = array();
+            $attributesHtml = [];
             foreach ($attributes as $attrName => $attrValue) {
-                $attributesHtml[] = $attrName .'="'. $attrValue .'"';
+                $attributesHtml[] = $attrName . '="' . $attrValue . '"';
             }
 
             // Define the EmbedPress html template where the generated embed will be injected in
-            $embedTemplate = '<div '. implode(' ', $attributesHtml) .'>{html}</div>';
+            $embedTemplate = '<div ' . implode(' ', $attributesHtml) . '>{html}</div>';
 
             // Check if $content is a google shortened url and tries to extract from it which Google service it refers to.
             if (preg_match('/http[s]?:\/\/goo\.gl\/(?:([a-z]+)\/)?[a-z0-9]+\/?$/i', $content, $matches)) {
                 // Fetch all headers from the short-url so we can know how to handle its original content depending on the service.
                 $headers = get_headers($content);
 
-                $supportedServicesHeadersPatterns = array(
-                    'maps' => '/^Location:\s+(http[s]?:\/\/.+)$/i'
-                );
+                $supportedServicesHeadersPatterns = [
+                    'maps' => '/^Location:\s+(http[s]?:\/\/.+)$/i',
+                ];
 
                 $service = isset($matches[1]) ? strtolower($matches[1]) : null;
                 // No specific service was found in the url.
@@ -182,9 +186,10 @@ class Shortcode
                     // Check if the Google service is supported atm.
                     if (isset($supportedServicesHeadersPatterns[$service])) {
                         // Tries to extract the url based on its headers.
-                        $originalUrl = self::extractContentFromHeaderAsArray($supportedServicesHeadersPatterns[$service], $headers);
+                        $originalUrl = self::extractContentFromHeaderAsArray($supportedServicesHeadersPatterns[$service],
+                            $headers);
                         // Replace the shortened url with its original url if the specific header was found.
-                        if (!empty($originalUrl)) {
+                        if ( ! empty($originalUrl)) {
                             $content = $originalUrl;
                         }
                         unset($originalUrl);
@@ -195,7 +200,7 @@ class Shortcode
 
             // Facebook is a special case. WordPress will try to embed them using OEmbed, but they always end up embedding the profile page, regardless
             // if the url was pointing to a photo, a post, etc. So, since Embera can embed only facebook-media/posts, we'll use it only for that.
-            if (isset($urlData->provider_name) && in_array($urlData->provider_name, array('Facebook'))) {
+            if (isset($urlData->provider_name) && in_array($urlData->provider_name, ['Facebook'])) {
                 // Check if this is a Facebook profile url.
                 if (preg_match('/facebook\.com\/(?:[^\/]+?)\/?$/', $content, $match)) {
                     // Try to embed the url using WP's OSEmbed.
@@ -209,13 +214,13 @@ class Shortcode
                 $parsedContent = self::$oEmbedInstance->get_html($content, $attributes);
             }
 
-            if (!$parsedContent) {
-                if (!isset($emberaInstance)) {
+            if ( ! $parsedContent) {
+                if ( ! isset($emberaInstance)) {
                     // If the embed couldn't be generated, we'll try to use Embera's API
                     $emberaInstance = new Embera($emberaInstanceSettings);
                     // Add support to the user's custom service providers
                     $additionalServiceProviders = Core::getAdditionalServiceProviders();
-                    if (!empty($additionalServiceProviders)) {
+                    if ( ! empty($additionalServiceProviders)) {
                         foreach ($additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls) {
                             self::addServiceProvider($serviceProviderClassName, $serviceProviderUrls, $emberaInstance);
                         }
@@ -240,26 +245,29 @@ class Shortcode
                 $parsedContent = str_replace("'", '"', $parsedContent);
 
                 // Replace the flag `{provider_alias}` which is used by Embera with the "ose-<serviceProviderAlias>". I.e: YouTube -> "ose-youtube"
-                $parsedContent = preg_replace('/((?:ose-)?\{provider_alias\})/i', "ose-". strtolower($urlData->provider_name), $parsedContent);
+                $parsedContent = preg_replace('/((?:ose-)?\{provider_alias\})/i',
+                    "ose-" . strtolower($urlData->provider_name), $parsedContent);
             }
 
             if (isset($urlData->provider_name) || (is_array($urlData) && isset($urlData[$content]['provider_name']))) {
                 // NFB seems to always return their embed code with all HTML entities into their applicable characters string.
                 if ((isset($urlData->provider_name) && strtoupper($urlData->provider_name) === "NATIONAL FILM BOARD OF CANADA") || (is_array($urlData) && isset($urlData[$content]['provider_name']) && strtoupper($urlData[$content]['provider_name']) === "NATIONAL FILM BOARD OF CANADA")) {
                     $parsedContent = html_entity_decode($parsedContent);
-                } else if ((isset($urlData->provider_name) && strtoupper($urlData->provider_name) === "FACEBOOK") || (is_array($urlData) && isset($urlData[$content]['provider_name']) && strtoupper($urlData[$content]['provider_name']) === "FACEBOOK")) {
+                } elseif ((isset($urlData->provider_name) && strtoupper($urlData->provider_name) === "FACEBOOK") || (is_array($urlData) && isset($urlData[$content]['provider_name']) && strtoupper($urlData[$content]['provider_name']) === "FACEBOOK")) {
                     $plgSettings = Core::getSettings();
 
                     // Check if the user wants to force a certain language into Facebook embeds.
-                    $locale = isset($plgSettings->fbLanguage) && !empty($plgSettings->fbLanguage) ? $plgSettings->fbLanguage : false;
-                    if (!!$locale) {
+                    $locale = isset($plgSettings->fbLanguage) && ! empty($plgSettings->fbLanguage) ? $plgSettings->fbLanguage : false;
+                    if ( ! ! $locale) {
                         // Replace the automatically detected language by Facebook's API with the language chosen by the user.
-                        $parsedContent = preg_replace('/\/[a-z]{2}\_[a-z]{2}\/sdk\.js/i', "/{$locale}/sdk.js", $parsedContent);
+                        $parsedContent = preg_replace('/\/[a-z]{2}\_[a-z]{2}\/sdk\.js/i', "/{$locale}/sdk.js",
+                            $parsedContent);
                     }
 
                     // Make sure `adapt_container_width` parameter is set to false. Setting to true, as it is by default, might cause Facebook to render embeds inside editors (in admin) with only 180px wide.
                     if (is_admin()) {
-                        $parsedContent = preg_replace('~data\-adapt\-container\-width=\"(?:true|1)\"~i', 'data-adapt-container-width="0"', $parsedContent);
+                        $parsedContent = preg_replace('~data\-adapt\-container\-width=\"(?:true|1)\"~i',
+                            'data-adapt-container-width="0"', $parsedContent);
                     }
 
                     unset($locale, $plgSettings);
@@ -271,7 +279,7 @@ class Shortcode
             // This assure that the iframe has the same dimensions the user wants to
             if (isset($emberaInstanceSettings['params']['width']) || isset($emberaInstanceSettings['params']['height'])) {
                 if (isset($emberaInstanceSettings['params']['width']) && isset($emberaInstanceSettings['params']['height'])) {
-                    $customWidth = (int)$emberaInstanceSettings['params']['width'];
+                    $customWidth  = (int)$emberaInstanceSettings['params']['width'];
                     $customHeight = (int)$emberaInstanceSettings['params']['height'];
                 } else {
                     if (preg_match('~width="(\d+)"|width\s+:\s+(\d+)~i', $parsedContent, $matches)) {
@@ -286,30 +294,33 @@ class Shortcode
                         $iframeRatio = ceil($iframeWidth / $iframeHeight);
 
                         if (isset($emberaInstanceSettings['params']['width'])) {
-                            $customWidth = (int)$emberaInstanceSettings['params']['width'];
+                            $customWidth  = (int)$emberaInstanceSettings['params']['width'];
                             $customHeight = ceil($customWidth / $iframeRatio);
                         } else {
                             $customHeight = (int)$emberaInstanceSettings['params']['height'];
-                            $customWidth = $iframeRatio * $customHeight;
+                            $customWidth  = $iframeRatio * $customHeight;
                         }
                     }
                 }
 
                 if (isset($customWidth) && isset($customHeight)) {
                     if (preg_match('~width="(\d+)"~i', $parsedContent)) {
-                        $parsedContent = preg_replace('~width="(\d+)"~i', 'width="'. $customWidth .'"', $parsedContent);
+                        $parsedContent = preg_replace('~width="(\d+)"~i', 'width="' . $customWidth . '"',
+                            $parsedContent);
                     }
 
                     if (preg_match('~height="(\d+)"~i', $parsedContent)) {
-                        $parsedContent = preg_replace('~height="(\d+)"~i', 'height="'. $customHeight .'"', $parsedContent);
+                        $parsedContent = preg_replace('~height="(\d+)"~i', 'height="' . $customHeight . '"',
+                            $parsedContent);
                     }
 
                     if (preg_match('~width\s+:\s+(\d+)~i', $parsedContent)) {
-                        $parsedContent = preg_replace('~width\s+:\s+(\d+)~i', 'width: '. $customWidth, $parseContent);
+                        $parsedContent = preg_replace('~width\s+:\s+(\d+)~i', 'width: ' . $customWidth, $parseContent);
                     }
 
                     if (preg_match('~height\s+:\s+(\d+)~i', $parsedContent)) {
-                        $parsedContent = preg_replace('~height\s+:\s+(\d+)~i', 'height: '. $customHeight, $parseContent);
+                        $parsedContent = preg_replace('~height\s+:\s+(\d+)~i', 'height: ' . $customHeight,
+                            $parseContent);
                     }
                 }
             }
@@ -320,12 +331,12 @@ class Shortcode
 
             $parsedContent = apply_filters('pp_embed_parsed_content', $parsedContent, $urlData, $attributes);
 
-            if (!empty($parsedContent)) {
-                $embed = (object)array_merge((array)$urlData, array(
+            if ( ! empty($parsedContent)) {
+                $embed = (object)array_merge((array)$urlData, [
                     'attributes' => (object)$attributes,
                     'embed'      => $parsedContent,
-                    'url'        => $content
-                ));
+                    'url'        => $content,
+                ]);
 
                 $embed = apply_filters('embedpress:onAfterEmbed', $embed);
 
@@ -342,9 +353,10 @@ class Shortcode
      * @since   1.0.0
      * @static
      *
-     * @param   string          $className      The new SP class name.
-     * @param   string          $reference      The new SP reference name.
-     * @param   \Embera\Embera  $emberaInstance The embera's instance where the SP will be registered in.
+     * @param   string         $className      The new SP class name.
+     * @param   string         $reference      The new SP reference name.
+     * @param   \Embera\Embera $emberaInstance The embera's instance where the SP will be registered in.
+     *
      * @return  boolean
      */
     public static function addServiceProvider($className, $reference, &$emberaInstance)
@@ -354,8 +366,8 @@ class Shortcode
         }
 
         if (is_string($reference)) {
-            $emberaInstance->addProvider($reference, EMBEDPRESS_NAMESPACE ."\\Providers\\{$className}");
-        } else if (is_array($reference)) {
+            $emberaInstance->addProvider($reference, EMBEDPRESS_NAMESPACE . "\\Providers\\{$className}");
+        } elseif (is_array($reference)) {
             foreach ($reference as $serviceProviderUrl) {
                 self::addServiceProvider($className, $serviceProviderUrl, $emberaInstance);
             }
@@ -370,12 +382,13 @@ class Shortcode
      * @since   1.0.0
      * @static
      *
-     * @param   string  $subject  The given shortcoded string.
+     * @param   string $subject The given shortcoded string.
+     *
      * @return  array
      */
     public static function parseContentAttributesFromString($subject)
     {
-        $customAttributes = array();
+        $customAttributes = [];
         if (preg_match('/\[embed\s*(.*?)\]/i', stripslashes($subject), $m)) {
             if (preg_match_all('/(\!?\w+-?\w*)(?:="(.+?)")?/i', stripslashes($m[1]), $matches)) {
                 $attributes = $matches[1];
@@ -397,21 +410,22 @@ class Shortcode
      * @access  private
      * @static
      *
-     * @param   array     $customAttributes   The array containing the embed attributes.
-     * @param   string    $content_uid        An optional string specifying a unique ID for the embed
+     * @param   array  $customAttributes The array containing the embed attributes.
+     * @param   string $content_uid      An optional string specifying a unique ID for the embed
+     *
      * @return  array
      */
     private static function parseContentAttributes(array $customAttributes, $content_uid = null)
     {
-        $attributes = array(
-            'class' => array("embedpress-wrapper")
-        );
+        $attributes = [
+            'class' => ["embedpress-wrapper"],
+        ];
 
-        $embedShouldBeResponsive = true;
+        $embedShouldBeResponsive         = true;
         $embedShouldHaveCustomDimensions = false;
-        if (!empty($customAttributes)) {
+        if ( ! empty($customAttributes)) {
             if (isset($customAttributes['class'])) {
-                if (!empty($customAttributes['class'])) {
+                if ( ! empty($customAttributes['class'])) {
                     $customAttributes['class'] = explode(' ', $customAttributes['class']);
 
                     $attributes['class'] = array_merge($attributes['class'], $customAttributes['class']);
@@ -421,33 +435,33 @@ class Shortcode
             }
 
             if (isset($customAttributes['width'])) {
-                if (!empty($customAttributes['width'])) {
-                    $attributes['width'] = (int)$customAttributes['width'];
+                if ( ! empty($customAttributes['width'])) {
+                    $attributes['width']             = (int)$customAttributes['width'];
                     $embedShouldHaveCustomDimensions = true;
                 }
             }
 
             if (isset($customAttributes['height'])) {
-                if (!empty($customAttributes['height'])) {
-                    $attributes['height'] = (int)$customAttributes['height'];
+                if ( ! empty($customAttributes['height'])) {
+                    $attributes['height']            = (int)$customAttributes['height'];
                     $embedShouldHaveCustomDimensions = true;
                 }
             }
 
-            if (!empty($customAttributes)) {
+            if ( ! empty($customAttributes)) {
                 $attrNameDefaultPrefix = "data-";
                 foreach ($customAttributes as $attrName => $attrValue) {
                     if (is_numeric($attrName)) {
-                        $attrName = $attrValue;
+                        $attrName  = $attrValue;
                         $attrValue = "";
                     }
 
                     $attrName = str_replace($attrNameDefaultPrefix, "", $attrName);
 
-                    if (!strlen($attrValue)) {
+                    if ( ! strlen($attrValue)) {
                         if ($attrName[0] === "!") {
                             $attrValue = "false";
-                            $attrName = substr($attrName, 1);
+                            $attrName  = substr($attrName, 1);
                         } else {
                             $attrValue = "true";
                         }
@@ -458,13 +472,13 @@ class Shortcode
             }
 
             // Check if there's any "responsive" parameter
-            $responsiveAttributes = array("responsive", "data-responsive");
+            $responsiveAttributes = ["responsive", "data-responsive"];
             foreach ($responsiveAttributes as $responsiveAttr) {
                 if (isset($attributes[$responsiveAttr])) {
-                    if (!strlen($attributes[$responsiveAttr])) { // If the parameter is passed but have no value, it will be true by default
+                    if ( ! strlen($attributes[$responsiveAttr])) { // If the parameter is passed but have no value, it will be true by default
                         $embedShouldBeResponsive = true;
                     } else {
-                        $embedShouldBeResponsive = !self::valueIsFalse($attributes[$responsiveAttr]);
+                        $embedShouldBeResponsive = ! self::valueIsFalse($attributes[$responsiveAttr]);
                     }
 
                     break;
@@ -475,11 +489,11 @@ class Shortcode
 
         $attributes['class'][] = 'ose-{provider_alias}';
 
-        if (! empty($content_uid)) {
+        if ( ! empty($content_uid)) {
             $attributes['class'][] = 'ose-uid-' . $content_uid;
         }
 
-        if ($embedShouldBeResponsive && !$embedShouldHaveCustomDimensions) {
+        if ($embedShouldBeResponsive && ! $embedShouldHaveCustomDimensions) {
             $attributes['class'][] = 'responsive';
         } else {
             $attributes['data-responsive'] = "false";
@@ -496,7 +510,8 @@ class Shortcode
      * @since   1.0.0
      * @static
      *
-     * @param   mixed     $subject      The value to be checked.
+     * @param   mixed $subject The value to be checked.
+     *
      * @return  boolean
      */
     public static function valueIsFalse($subject)
@@ -524,8 +539,8 @@ class Shortcode
      * @access  private
      * @static
      *
-     * @param   string  $headerPattern  Regex pattern the header and its value must match.
-     * @param   array   $headersList    A list of headers resulted from a get_headers() call.
+     * @param   string $headerPattern Regex pattern the header and its value must match.
+     * @param   array  $headersList   A list of headers resulted from a get_headers() call.
      *
      * @return  mixed
      */
@@ -565,7 +580,7 @@ class Shortcode
                 if (substr_count($key, '-')) {
                     unset($data->$key);
 
-                    $key = str_replace('-', '_', $key);
+                    $key        = str_replace('-', '_', $key);
                     $data->$key = $value;
                 }
             }
@@ -574,7 +589,7 @@ class Shortcode
                 if (substr_count($key, '-')) {
                     unset($data[$key]);
 
-                    $key = str_replace('-', '_', $key);
+                    $key        = str_replace('-', '_', $key);
                     $data[$key] = $value;
                 }
             }

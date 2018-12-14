@@ -1,15 +1,14 @@
 <?php
+
 namespace EmbedPress;
 
-use \EmbedPress\AutoLoader;
-use \EmbedPress\Loader;
-use \EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
-use \EmbedPress\Ends\Front\Handler as EndHandlerPublic;
+use EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
+use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
 /**
- * Entity that glues together all pieces that the plugin is made of.
+ * Entity that glues together all pieces that the plugin is made of, for WordPress 5+.
  *
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
@@ -25,7 +24,7 @@ class Core
      * @since   1.0.0
      * @access  protected
      *
-     * @var     string  $pluginName   The name of the plugin.
+     * @var     string $pluginName The name of the plugin.
      */
     protected $pluginName;
 
@@ -35,7 +34,7 @@ class Core
      * @since   1.0.0
      * @access  protected
      *
-     * @var     string  $pluginVersion  The version of the plugin.
+     * @var     string $pluginVersion The version of the plugin.
      */
     protected $pluginVersion;
 
@@ -45,7 +44,7 @@ class Core
      * @since   1.0.0
      * @access  protected
      *
-     * @var     \EmbedPress\Loader  $pluginVersion  The version of the plugin.
+     * @var     \EmbedPress\Loader $pluginVersion The version of the plugin.
      */
     protected $loaderInstance;
 
@@ -58,7 +57,7 @@ class Core
      *
      * @var     array
      */
-    private static $plugins = array();
+    private static $plugins = [];
 
     /**
      * Initialize the plugin and set its properties.
@@ -69,8 +68,8 @@ class Core
      */
     public function __construct()
     {
-        $this->pluginName = EMBEDPRESS_PLG_NAME;
-        $this->pluginVersion = EMBEDPRESS_PLG_VERSION;
+        $this->pluginName    = EMBEDPRESS_PLG_NAME;
+        $this->pluginVersion = EMBEDPRESS_VERSION;
 
         $this->loaderInstance = new Loader();
     }
@@ -122,37 +121,28 @@ class Core
     {
         global $wp_actions;
 
+        add_filter('oembed_providers', [$this, 'addOEmbedProviders']);
+        add_action('rest_api_init', [$this, 'registerOEmbedRestRoutes']);
+
         if (is_admin()) {
             $plgSettings = self::getSettings();
 
-            $settingsClassNamespace = '\EmbedPress\Ends\Back\Settings';
-            add_action('admin_menu', array($settingsClassNamespace, 'registerMenuItem'));
-            add_action('admin_init', array($settingsClassNamespace, 'registerActions'));
+            $settingsClassNamespace = '\\EmbedPress\\Ends\\Back\\Settings';
+            add_action('admin_menu', [$settingsClassNamespace, 'registerMenuItem']);
+            add_action('admin_init', [$settingsClassNamespace, 'registerActions']);
             unset($settingsClassNamespace);
 
-            add_filter('plugin_action_links_embedpress/embedpress.php', array('\EmbedPress\Core', 'handleActionLinks'), 10, 2);
+            add_filter('plugin_action_links_embedpress/embedpress.php', ['\\EmbedPress\\Core', 'handleActionLinks'], 10,
+                2);
 
-            add_action('admin_enqueue_scripts', array('\EmbedPress\Ends\Back\Handler', 'enqueueStyles'));
-
-            add_action('init', array('\EmbedPress\Disabler', 'run'), 1);
-            add_action('init', array($this, 'configureTinyMCE'), 1);
+            add_action('admin_enqueue_scripts', ['\\EmbedPress\\Ends\\Back\\Handler', 'enqueueStyles']);
 
             $plgHandlerAdminInstance = new EndHandlerAdmin($this->getPluginName(), $this->getPluginVersion());
 
             if ((bool)$plgSettings->enablePluginInAdmin) {
                 $this->loaderInstance->add_action('admin_enqueue_scripts', $plgHandlerAdminInstance, 'enqueueScripts');
             }
-
-            $onAjaxCallbackName = "doShortcodeReceivedViaAjax";
-            $this->loaderInstance->add_action('wp_ajax_embedpress_do_ajax_request', $plgHandlerAdminInstance, $onAjaxCallbackName);
-            $this->loaderInstance->add_action('wp_ajax_nopriv_embedpress_do_ajax_request', $plgHandlerAdminInstance, $onAjaxCallbackName);
-
-            $this->loaderInstance->add_action('wp_ajax_embedpress_get_embed_url_info', $plgHandlerAdminInstance, "getUrlInfoViaAjax");
-
-            unset($onAjaxCallbackName, $plgHandlerAdminInstance);
         } else {
-            add_action('init', array('\EmbedPress\Disabler', 'run'), 1);
-
             $plgHandlerPublicInstance = new EndHandlerPublic($this->getPluginName(), $this->getPluginVersion());
 
             $this->loaderInstance->add_action('wp_enqueue_scripts', $plgHandlerPublicInstance, 'enqueueScripts');
@@ -162,12 +152,215 @@ class Core
         }
 
         // Add support for embeds on AMP pages
-        add_filter('pp_embed_parsed_content', array('\EmbedPress\AMP\EmbedHandler', 'processParsedContent'), 10, 3);
+        add_filter('pp_embed_parsed_content', ['\\EmbedPress\\AMP\\EmbedHandler', 'processParsedContent'], 10, 3);
 
         // Add support for our embeds on Beaver Builder. Without this it only run the native embeds.
-	    add_filter('fl_builder_before_render_shortcodes', array('\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes'));
+        add_filter('fl_builder_before_render_shortcodes',
+            ['\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes']);
 
         $this->loaderInstance->run();
+    }
+
+    /**
+     * @param $providers
+     *
+     * @return mixed
+     */
+    public function addOEmbedProviders($providers)
+    {
+        $newProviders = [
+            // Viddler
+            '#https?://(.+\.)?viddler\.com/v/.+#i'                                                              => 'viddler',
+
+            // Deviantart.com (http://www.deviantart.com)
+            '#https?://(.+\.)?deviantart\.com/art/.+#i'                                                         => 'devianart',
+            '#https?://(.+\.)?deviantart\.com/.+#i'                                                             => 'devianart',
+            '#https?://(.+\.)?deviantart\.com/.*/d.+#i'                                                         => 'devianart',
+            '#https?://(.+\.)?fav\.me/.+#i'                                                                     => 'devianart',
+            '#https?://(.+\.)?sta\.sh/.+#i'                                                                     => 'devianart',
+
+            // chirbit.com (http://www.chirbit.com/)
+            '#https?://(.+\.)?chirb\.it/.+#i'                                                                   => 'chirbit',
+
+
+            // nfb.ca (http://www.nfb.ca/)
+            '#https?://(.+\.)?nfb\.ca/film/.+#i'                                                                => 'nfb',
+
+            // Dotsub (http://dotsub.com/)
+            '#https?://(.+\.)?dotsub\.com/view/.+#i'                                                            => 'dotsub',
+
+            // Rdio (http://rdio.com/)
+            '#https?://(.+\.)?rdio\.com/(artist|people)/.+#i'                                                   => 'rdio',
+
+            // Sapo Videos (http://videos.sapo.pt)
+            '#https?://(.+\.)?videos\.sapo\.pt/.+#i'                                                            => 'sapo',
+
+            // Official FM (http://official.fm)
+            '#https?://(.+\.)?official\.fm/(tracks|playlists)/.+#i'                                             => 'officialfm',
+
+            // HuffDuffer (http://huffduffer.com)
+            '#https?://(.+\.)?huffduffer\.com/.+#i'                                                             => 'huffduffer',
+
+            // Shoudio (http://shoudio.com)
+            '#https?://(.+\.)?shoudio\.(com|io)/.+#i'                                                           => 'shoudio',
+
+            // Moby Picture (http://www.mobypicture.com)
+            '#https?://(.+\.)?mobypicture\.com/user/.+/view/.+#i'                                               => 'mobypicture',
+            '#https?://(.+\.)?moby\.to/.+#i',
+
+            // 23HQ (http://www.23hq.com)
+            '#https?://(.+\.)?23hq\.com/.+/photo/.+#i'                                                          => '23hq',
+
+            // Cacoo (https://cacoo.com)
+            '#https?://(.+\.)?cacoo\.com/diagrams/.+#i'                                                         => 'cacoo',
+
+            // Dipity (http://www.dipity.com)
+            '#https?://(.+\.)?dipity\.com/.+#i'                                                                 => 'dipity',
+
+            // Roomshare (http://roomshare.jp)
+            '#https?://(.+\.)?roomshare\.jp/(en/)?post/.+#i'                                                    => 'roomshare',
+
+            // Crowd Ranking (http://crowdranking.com)
+            '#https?://(.+\.)?c9ng\.com/.+#i'                                                                   => 'crowd',
+
+            // CircuitLab (https://www.circuitlab.com/)
+            '#https?://(.+\.)?circuitlab\.com/circuit/.+#i'                                                     => 'circuitlab',
+
+            // Coub (http://coub.com/)
+            '#https?://(.+\.)?coub\.com/(view|embed)/.+#i'                                                      => 'coub',
+
+            // Ustream (http://www.ustream.tv)
+            '#https?://(.+\.)?ustream\.(tv|com)/.+#i'                                                           => 'ustream',
+
+            // Daily Mile (http://www.dailymile.com)
+            '#https?://(.+\.)?dailymile\.com/people/.+/entries/.+#i'                                            => 'daily',
+
+            // Sketchfab (http://sketchfab.com)
+            '#https?://(.+\.)?sketchfab\.com/models/.+#i'                                                       => 'sketchfab',
+            '#https?://(.+\.)?sketchfab\.com/.+/folders/.+#i'                                                   => 'sketchfab',
+
+            // AudioSnaps (http://audiosnaps.com)
+            '#https?://(.+\.)?audiosnaps\.com/k/.+#i'                                                           => 'audiosnaps',
+
+            // RapidEngage (https://rapidengage.com)
+            '#https?://(.+\.)?rapidengage\.com/s/.+#i'                                                          => 'rapidengage',
+
+            // Getty Images (http://www.gettyimages.com/)
+            '#https?://(.+\.)?gty\.im/.+#i'                                                                     => 'gettyimages',
+            '#https?://(.+\.)?gettyimages\.com/detail/photo/.+#i'                                               => 'gettyimages',
+
+            // amCharts Live Editor (http://live.amcharts.com/)
+            '#https?://(.+\.)?live\.amcharts\.com/.+#i'                                                         => 'amcharts',
+
+            // Infogram (https://infogr.am/)
+            '#https?://(.+\.)?infogr\.am/.+#i'                                                                  => 'infogram',
+
+            // ChartBlocks (http://www.chartblocks.com/)
+            '#https?://(.+\.)?public\.chartblocks\.com/c/.+#i'                                                  => 'chartblocks',
+
+            // ReleaseWire (http://www.releasewire.com/)
+            '#https?://(.+\.)?rwire\.com/.+#i'                                                                  => 'releasewire',
+
+            // ShortNote (https://www.shortnote.jp/)
+            '#https?://(.+\.)?shortnote\.jp/view/notes/.+#i'                                                    => 'shortnote',
+
+            // EgliseInfo (http://egliseinfo.catholique.fr/)
+            '#https?://(.+\.)?egliseinfo\.catholique\.fr/.+#i'                                                  => 'egliseinfo',
+
+            // Silk (http://www.silk.co/)
+            '#https?://(.+\.)?silk\.co/explore/.+#i'                                                            => 'silk',
+            '#https?://(.+\.)?silk\.co/s/embed/.+#i'                                                            => 'silk',
+
+            // http://bambuser.com
+            '#https?://(.+\.)?bambuser\.com/v/.+#i'                                                             => 'bambuser',
+
+            // https://clyp.it
+            '#https?://(.+\.)?clyp\.it/.+#i'                                                                    => 'clyp',
+
+            // https://gist.github.com
+            '#https?://(.+\.)?gist\.github\.com/.+#i'                                                           => 'github',
+
+            // https://portfolium.com
+            '#https?://(.+\.)?portfolium\.com/.+#i'                                                             => 'portfolium',
+
+            // http://rutube.ru
+            '#https?://(.+\.)?rutube\.ru/video/.+#i'                                                            => 'rutube',
+
+            // http://www.videojug.com
+            '#https?://(.+\.)?videojug\.com/.+#i'                                                               => 'videojug',
+
+            // https://vine.com
+            '#https?://(.+\.)?vine\.co/v/.+#i'                                                                  => 'vine',
+
+            // Google Shortened Url
+            '#https?://(.+\.)?goo\.gl/.+#i'                                                                     => 'google',
+
+            // Google Maps
+            '#https?://(.+\.)?google\.com/maps/.+#i'                                                            => 'googlemaps',
+            '#https?://(.+\.)?maps\.google\.com/.+#i'                                                           => 'googlemaps',
+
+            // Google Docs
+            '#https?://(.+\.)?docs\.google\.com/(.+/)?(document|presentation|spreadsheets|forms|drawings)/.+#i' => 'googledocs',
+
+            // Twitch.tv
+            '#https?://(.+\.)?twitch\.tv/.+#i'                                                                  => 'twitch',
+
+            // Giphy
+            '#https?://(.+\.)?giphy\.com/gifs/.+#i'                                                             => 'giphy',
+            '#https?://(.+\.)?i\.giphy\.com/.+#i'                                                               => 'giphy',
+            '#https?://(.+\.)?gph\.is/.+#i'                                                                     => 'giphy',
+
+            // Wistia
+            '#https?://(.+\.)?wistia\.com/medias/.+#i'                                                          => 'wistia',
+            '#https?://(.+\.)?fast\.wistia\.com/embed/medias/.+#i\.jsonp'                                       => 'wistia',
+        ];
+
+        /**
+         * ========================================
+         * Make sure the $wp_write global is set.
+         * This fix compatibility with JetPack, Classical Editor and Disable Gutenberg. JetPack makes
+         * the oembed_providers filter be called and this activates our class too, but one dependency
+         * of the rest_url method is not loaded yet.
+         */
+        global $wp_rewrite;
+
+        if ( ! class_exists('\\WP_Rewrite')) {
+            $path = ABSPATH . WPINC . '/class-wp-rewrite.php';
+            if (file_exists($path)) {
+                require_once $path;
+            }
+        }
+
+        if ( ! is_object($wp_rewrite)) {
+            $wp_rewrite           = new \WP_Rewrite();
+            $_GLOBALS['wp_write'] = $wp_rewrite;
+        }
+        /*========================================*/
+
+        foreach ($newProviders as $url => &$data) {
+            $data = [
+                rest_url('embedpress/v1/oembed/' . $data),
+                true,
+            ];
+        }
+
+        $providers = array_merge($providers, $newProviders);
+
+        return $providers;
+    }
+
+    /**
+     * Register OEmbed Rest Routes
+     */
+    public function registerOEmbedRestRoutes()
+    {
+        register_rest_route(
+            'embedpress/v1', '/oembed/(?P<provider>[a-zA-Z0-9\-]+)',
+            [
+                'methods'  => \WP_REST_Server::READABLE,
+                'callback' => ['\\EmbedPress\\RestAPI', 'oembed'],
+            ]
+        );
     }
 
     /**
@@ -180,7 +373,6 @@ class Core
      */
     public static function onPluginActivationCallback()
     {
-        add_filter('rewrite_rules_array', array('\EmbedPress\Disabler', 'disableDefaultEmbedRewriteRules'));
         flush_rewrite_rules();
     }
 
@@ -194,7 +386,6 @@ class Core
      */
     public static function onPluginDeactivationCallback()
     {
-        remove_filter('rewrite_rules_array', array('\EmbedPress\Disabler', 'disableDefaultEmbedRewriteRules'));
         flush_rewrite_rules();
     }
 
@@ -208,7 +399,7 @@ class Core
      */
     public static function getAdditionalServiceProviders()
     {
-        $additionalProvidersFilePath = EMBEDPRESS_PATH_BASE .'providers.php';
+        $additionalProvidersFilePath = EMBEDPRESS_PATH_BASE . 'providers.php';
         if (file_exists($additionalProvidersFilePath)) {
             include $additionalProvidersFilePath;
 
@@ -217,7 +408,7 @@ class Core
             }
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -226,12 +417,28 @@ class Core
      * @since   1.0.0
      * @static
      *
-     * @param   string      $serviceProviderAlias The service's slug.
+     * @param   string $serviceProviderAlias The service's slug.
+     *
      * @return  boolean
      */
     public static function canServiceProviderBeResponsive($serviceProviderAlias)
     {
-        return in_array($serviceProviderAlias, array("dailymotion", "kickstarter", "rutube", "ted", "vimeo", "youtube", "ustream", "google-docs", "animatron", "amcharts", "on-aol-com", "animoto", "videojug", 'issuu'));
+        return in_array($serviceProviderAlias, [
+            "dailymotion",
+            "kickstarter",
+            "rutube",
+            "ted",
+            "vimeo",
+            "youtube",
+            "ustream",
+            "google-docs",
+            "animatron",
+            "amcharts",
+            "on-aol-com",
+            "animoto",
+            "videojug",
+            'issuu',
+        ]);
     }
 
     /**
@@ -246,11 +453,11 @@ class Core
     {
         $settings = get_option(EMBEDPRESS_PLG_NAME);
 
-        if (!isset($settings['enablePluginInAdmin'])) {
+        if ( ! isset($settings['enablePluginInAdmin'])) {
             $settings['enablePluginInAdmin'] = true;
         }
 
-        if (!isset($settings['enablePluginInFront'])) {
+        if ( ! isset($settings['enablePluginInFront'])) {
             $settings['enablePluginInFront'] = true;
         }
 
@@ -263,7 +470,8 @@ class Core
      * @since   1.4.0
      * @static
      *
-     * @param   array       $pluginMeta Associative array containing plugin's name, slug and namespace
+     * @param   array $pluginMeta Associative array containing plugin's name, slug and namespace
+     *
      * @return  void
      */
     public static function registerPlugin($pluginMeta)
@@ -274,24 +482,27 @@ class Core
             return;
         }
 
-        if (!isset(self::$plugins[$pluginMeta->slug])) {
-            AutoLoader::register($pluginMeta->namespace, WP_PLUGIN_DIR .'/'. EMBEDPRESS_PLG_NAME .'-'. $pluginMeta->slug .'/'. $pluginMeta->name);
+        if ( ! isset(self::$plugins[$pluginMeta->slug])) {
+            AutoLoader::register($pluginMeta->namespace,
+                WP_PLUGIN_DIR . '/' . EMBEDPRESS_PLG_NAME . '-' . $pluginMeta->slug . '/' . $pluginMeta->name);
 
             $plugin = "{$pluginMeta->namespace}\Plugin";
             if (\defined("{$plugin}::SLUG") && $plugin::SLUG !== null) {
                 self::$plugins[$pluginMeta->slug] = $pluginMeta->namespace;
 
-                $bsFilePath = $plugin::PATH . EMBEDPRESS_PLG_NAME .'-'. $plugin::SLUG .'.php';
+                $bsFilePath = $plugin::PATH . EMBEDPRESS_PLG_NAME . '-' . $plugin::SLUG . '.php';
 
-                register_activation_hook($bsFilePath, array($plugin::NAMESPACE_STRING, 'onActivationCallback'));
-                register_deactivation_hook($bsFilePath, array($plugin::NAMESPACE_STRING, 'onDeactivationCallback'));
+                register_activation_hook($bsFilePath, [$plugin::NAMESPACE_STRING, 'onActivationCallback']);
+                register_deactivation_hook($bsFilePath, [$plugin::NAMESPACE_STRING, 'onDeactivationCallback']);
 
-                add_action('admin_init', array($plugin, 'onLoadAdminCallback'));
+                add_action('admin_init', [$plugin, 'onLoadAdminCallback']);
 
-                add_action(EMBEDPRESS_PLG_NAME .':'. $plugin::SLUG .':settings:register', array($plugin, 'registerSettings'));
-                add_action(EMBEDPRESS_PLG_NAME .':settings:render:tab', array($plugin, 'renderTab'));
+                add_action(EMBEDPRESS_PLG_NAME . ':' . $plugin::SLUG . ':settings:register',
+                    [$plugin, 'registerSettings']);
+                add_action(EMBEDPRESS_PLG_NAME . ':settings:render:tab', [$plugin, 'renderTab']);
 
-                add_filter('plugin_action_links_embedpress-'. $plugin::SLUG .'/embedpress-'. $plugin::SLUG .'.php', array($plugin, 'handleActionLinks'), 10, 2);
+                add_filter('plugin_action_links_embedpress-' . $plugin::SLUG . '/embedpress-' . $plugin::SLUG . '.php',
+                    [$plugin, 'handleActionLinks'], 10, 2);
 
                 $plugin::registerEvents();
             }
@@ -321,7 +532,8 @@ class Core
      */
     public static function handleActionLinks($links, $file)
     {
-        $settingsLink = '<a href="'. admin_url('admin.php?page=embedpress') .'" aria-label="'. __('Open settings page', 'embedpress') .'">'. __('Settings', 'embedpress') .'</a>';
+        $settingsLink = '<a href="' . admin_url('admin.php?page=embedpress') . '" aria-label="' . __('Open settings page',
+                'embedpress') . '">' . __('Settings', 'embedpress') . '</a>';
 
         array_unshift($links, $settingsLink);
 
@@ -334,9 +546,9 @@ class Core
      * @since   1.4.0
      * @static
      *
-     * @param   boolean     $isAllowed
-     * @param   string      $host
-     * @param   string      $url
+     * @param   boolean $isAllowed
+     * @param   string  $host
+     * @param   string  $url
      *
      * @return  boolean
      */
@@ -347,40 +559,5 @@ class Core
         }
 
         return $isAllowed;
-    }
-
-    /**
-     * Add filters to configure the TinyMCE editor.
-     *
-     * @since   1.6.2
-     */
-    public function configureTinyMCE()
-    {
-        add_filter('teeny_mce_before_init', array($this, 'hookOnPaste'));
-        add_filter('tiny_mce_before_init', array($this, 'hookOnPaste'));
-    }
-
-    /**
-     * Hook the onPaste methof to the paste_preprocess config in the editor.
-     *
-     * @since   1.6.2
-     *
-     * @param  array  $mceInit
-     *
-     * @return array
-     */
-    public function hookOnPaste($mceInit)
-    {
-        $settings = self::getSettings();
-
-        if (isset($settings->enablePluginInAdmin) && $settings->enablePluginInAdmin) {
-            // We hook here because the onPaste is sometimes called after the content was already added to the editor.
-            // If you copy text from the editor and paste there, it will give no way to use a normal onPaste event hook
-            // to modify the input since it was already injected.
-            $mceInit['paste_preprocess'] = 'function (plugin, args) {EmbedPress.onPaste(plugin, args);}';
-        }
-
-
-        return $mceInit;
     }
 }

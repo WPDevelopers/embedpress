@@ -1,4 +1,5 @@
 <?php
+
 namespace EmbedPress\Providers;
 
 use Embera\Adapters\Service as EmberaService;
@@ -39,28 +40,28 @@ class Twitch extends EmberaService
         return preg_match($this->urlRegexPattern, $this->url);
     }
 
-	/**
-	 * Return the type of the embed based on the URL.
-	 *
-	 * @param $url
-	 *
-	 * @return string
-	 */
+    /**
+     * Return the type of the embed based on the URL.
+     *
+     * @param $url
+     *
+     * @return string
+     */
     protected function getType($url)
     {
-	    if ( stristr($url, 'clips.twitch.tv') ) {
-    	    return 'clip';
-	    }
+        if (stristr($url, 'clips.twitch.tv')) {
+            return 'clip';
+        }
 
-	    if ( stristr($url, '/videos/') ) {
-		    return 'video';
-	    }
+        if (stristr($url, '/videos/')) {
+            return 'video';
+        }
 
-	    if ( preg_match('#/chat$#', $url) ) {
-		    return 'chat';
-	    }
+        if (preg_match('#/chat$#', $url)) {
+            return 'chat';
+        }
 
-	    return 'channel';
+        return 'channel';
     }
 
     /**
@@ -72,10 +73,10 @@ class Twitch extends EmberaService
      */
     public function fakeResponse()
     {
-	    $url         = $this->getUrl();
-	    $providerUrl = 'https://twitch.tv';
-	    $html        = '';
-	    $src         = '';
+        $url         = $this->getUrl();
+        $providerUrl = 'https://twitch.tv';
+        $html        = '';
+        $src         = '';
 
         if (preg_match("{$this->urlRegexPattern}i", $url, $matches)) {
             $channelName = $matches[1];
@@ -83,40 +84,40 @@ class Twitch extends EmberaService
             $type = $this->getType($url);
 
             // Clip, channel, chat, collection, or video?
-	        switch ($type) {
-		        case 'clip':
-			        $src   = 'https://clips.twitch.tv/embed?clip=' . $channelName . '&autoplay=false';
-			        $attrs = 'scrolling="no" frameborder="0" allowfullscreen="true"';
-			        break;
-
-		        case 'video':
-			        $channelName = $matches[2];
-			        $src   = 'https://player.twitch.tv/?video=' . $channelName;
-			        $attrs = 'scrolling="no" frameborder="0" allowfullscreen="true"';
+            switch ($type) {
+                case 'clip':
+                    $src   = 'https://clips.twitch.tv/embed?clip=' . $channelName . '&autoplay=false';
+                    $attrs = 'scrolling="no" frameborder="0" allowfullscreen="true"';
                     break;
 
-		        case 'channel':
+                case 'video':
+                    $channelName = $matches[2];
+                    $src         = 'https://player.twitch.tv/?video=' . $channelName;
+                    $attrs       = 'scrolling="no" frameborder="0" allowfullscreen="true"';
+                    break;
+
+                case 'channel':
                     $src   = 'https://player.twitch.tv/?channel=' . $channelName;
-			        $attrs = 'scrolling="no" frameborder="0" allowfullscreen="true"';
+                    $attrs = 'scrolling="no" frameborder="0" allowfullscreen="true"';
                     break;
 
-		        case 'chat':
-		        	$src   = 'http://www.twitch.tv/embed/' . $channelName . '/chat';
-			        $attrs = 'scrolling="yes" frameborder="0" allowfullscreen="true" id="' . $channelName . '"';
-		        	break;
+                case 'chat':
+                    $src   = 'http://www.twitch.tv/embed/' . $channelName . '/chat';
+                    $attrs = 'scrolling="yes" frameborder="0" allowfullscreen="true" id="' . $channelName . '"';
+                    break;
             }
 
             $html = '<iframe src="' . $src . '" height="{height}" width="{width}" ' . $attrs . '></iframe>';
 
-            $response = array(
+            $response = [
                 'type'          => $type,
                 'provider_name' => 'Twitch',
                 'provider_url'  => $providerUrl,
                 'url'           => $url,
-                'html'          => $html
-            );
+                'html'          => $html,
+            ];
         } else {
-            $response = array();
+            $response = [];
         }
 
         return $response;
