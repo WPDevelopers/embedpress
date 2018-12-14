@@ -123,7 +123,6 @@ class Core
 
         add_filter('oembed_providers', [$this, 'addOEmbedProviders']);
         add_action('rest_api_init', [$this, 'registerOEmbedRestRoutes']);
-        //        add_filter('oembed_result', [$this, 'oembedResult'], 10, 3);
 
         if (is_admin()) {
             $plgSettings = self::getSettings();
@@ -160,15 +159,6 @@ class Core
             ['\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes']);
 
         $this->loaderInstance->run();
-    }
-
-    public function oembedResult($html, $url, $args)
-    {
-        // apply_filters( 'oembed_result', $this->data2html( $data, $url ), $url, $args );
-        var_dump($html, $url, $args);
-        die;
-
-        return $html;
     }
 
     /**
