@@ -315,8 +315,33 @@ class Core
             '#https?://(.+\.)?fast\.wistia\.com/embed/medias/.+#i\.jsonp'                                       => 'wistia',
         ];
 
+        /**
+         * ========================================
+         * Make sure the $wp_write global is set.
+         * This fix compatibility with JetPack, Classical Editor and Disable Gutenberg. JetPack makes
+         * the oembed_providers filter be called and this activates our class too, but one dependency
+         * of the rest_url method is not loaded yet.
+         */
+        global $wp_rewrite;
+
+        if ( ! class_exists('\\WP_Rewrite')) {
+            $path = ABSPATH . WPINC . '/class-wp-rewrite.php';
+            if (file_exists($path)) {
+                require_once $path;
+            }
+        }
+
+        if ( ! is_object($wp_rewrite)) {
+            $wp_rewrite           = new \WP_Rewrite();
+            $_GLOBALS['wp_write'] = $wp_rewrite;
+        }
+        /*========================================*/
+
         foreach ($newProviders as $url => &$data) {
-            $data = [rest_url('embedpress/v1/oembed/' . $data), true];
+            $data = [
+                rest_url('embedpress/v1/oembed/' . $data),
+                true,
+            ];
         }
 
         $providers = array_merge($providers, $newProviders);
