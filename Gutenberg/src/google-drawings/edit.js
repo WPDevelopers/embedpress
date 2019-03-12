@@ -81,7 +81,7 @@ class GoogleFormsEdit extends Component {
         const { url, editingURL, fetching, cannotEmbed } = this.state;
         const { iframeSrc } = this.props.attributes;
 
-        const label = __( 'Google Drawings URL (Get your link from File -> Publish to the web -> Link)');
+        const label = __( 'Google Drawings URL');
 
         // No preview, or we can't embed the current URL, or we've clicked the edit button.
         if ( !iframeSrc  || editingURL ) {
