@@ -5,7 +5,7 @@ Author URI: https://embedpress.com
 Tags: YouTube, Google, Facebook, Wistia, Vimeo
 Requires at least: 4.6
 Tested up to: 5.0
-Stable tag: 2.2.2
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -183,6 +183,9 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+= [2.3.0] - 2019-03-06 =
+
+* Added blocks for Gutenberg for Google Docs, Google Slides, Google Sheets, Google Forms, Google Drawings and Google Maps;
 
 = [2.2.2] - 2018-12-14 =
 

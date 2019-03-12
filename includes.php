@@ -79,3 +79,6 @@ require_once __DIR__ . '/vendor/publishpress/wordpress-edd-license-integration/s
 if ( ! defined('EMBEDPRESS_IS_LOADED')) {
     require_once EMBEDPRESS_PATH_BASE . "autoloader.php";
 }
+
+// Includes the Gutenberg blocks for EmbedPress
+require_once __DIR__ . '/Gutenberg/plugin.php';
