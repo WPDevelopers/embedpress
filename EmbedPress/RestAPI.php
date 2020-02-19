@@ -2,6 +2,9 @@
 
 namespace EmbedPress;
 
+use WP_Error as WP_ErrorAlias;
+use WP_REST_Response;
+
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
 /**
@@ -16,14 +19,16 @@ namespace EmbedPress;
 class RestAPI
 {
     /**
-     * @param \WP_REST_Request $request
+     * @param  WP_REST_Request  $request
+     *
+     * @return WP_REST_Response
      */
     public static function oembed($request)
     {
         $url = sanitize_url($request->get_param('url'));
 
         if (empty($url)) {
-            return new \WP_Error('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
+            return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
         }
 
         $config = [];
@@ -43,9 +48,9 @@ class RestAPI
         }
 
         if (empty($urlInfo)) {
-            return new \WP_Error('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
+            return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
         }
 
-        return new \WP_REST_Response($urlInfo, 202);
+        return new WP_REST_Response($urlInfo, 202);
     }
 }

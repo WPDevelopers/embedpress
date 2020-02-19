@@ -55,6 +55,7 @@ class Shortcode
      *
      * @return  string
      */
+
     public static function do_shortcode($attributes = [], $subject = null)
     {
         $embed = self::parseContent($subject, true, $attributes);

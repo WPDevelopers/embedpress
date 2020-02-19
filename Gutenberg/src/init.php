@@ -50,6 +50,20 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 		// filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.build.js' ), // Version: File modification time.
 		true // Enqueue the script in the footer.
 	);
+	$wistia_labels = array(
+        'watch_from_beginning'       => __('Watch from the beginning', 'embedpress-wistia'),
+        'skip_to_where_you_left_off' => __('Skip to where you left off', 'embedpress-wistia'),
+        'you_have_watched_it_before' => __('It looks like you\'ve watched<br />part of this video before!', 'embedpress-wistia'),
+    );
+	$wistia_labels = json_encode($wistia_labels);
+	$wistia_options = null;
+	if(function_exists('embedpress_wisita_pro_get_options') ):
+		$wistia_options = embedpress_wisita_pro_get_options();
+	endif;
+	wp_localize_script( 'embedpress_blocks-cgb-block-js', 'embedpressObj', array(
+		'wistia_labels' 	=> $wistia_labels,
+		'wisita_options'	=>  $wistia_options
+	) );
 
 	// Styles.
 	wp_enqueue_style(
@@ -76,3 +90,7 @@ function embedpress_block_category( $categories, $post ) {
 	);
 }
 add_filter( 'block_categories', 'embedpress_block_category', 10, 2);
+
+foreach ( glob( plugin_dir_path(__FILE__) . '*/index.php' ) as $block_logic ) {
+	require $block_logic;
+}

@@ -6,7 +6,7 @@
  * Facebook, Google Maps, Google Docs, UStream! Just use the URL!
  * Author:EmbedPress
  * Author URI:http://embedpress.com
- * Version: 2.3.0
+ * Version: 2.3.3
  * Text Domain: embedpress
  * Domain Path: /languages
  *
