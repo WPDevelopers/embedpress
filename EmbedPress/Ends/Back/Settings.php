@@ -129,6 +129,14 @@ class Settings
                         'label'   => "Load previews in the frontend editor",
                         'section' => "admin",
                     ],
+                    'enableEmbedResizeHeight' => [
+                        'label'   => "Embed Iframe Height",
+                        'section' => "admin",
+                    ],
+                    'enableEmbedResizeWidth' => [
+                        'label'   => "Embed Iframe Width",
+                        'section' => "admin",
+                    ],
                 ];
             }
 
@@ -403,6 +411,46 @@ class Settings
      * @static
      */
     public static function renderField_enablePluginInFront()
+    {
+        $fieldName = "enablePluginInFront";
+
+        $options = get_option(self::$sectionGroupIdentifier);
+
+        $options[$fieldName] = ! isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
+
+        echo '<label><input type="radio" id="' . $fieldName . '_0" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="0" ' . (! $options[$fieldName] ? "checked" : "") . ' /> No</label>';
+        echo "&nbsp;&nbsp;";
+        echo '<label><input type="radio" id="' . $fieldName . '_1" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="1" ' . ($options[$fieldName] ? "checked" : "") . ' /> Yes</label>';
+        echo '<p class="description">Do you want EmbedPress to run within editors in frontend (if there\'s any)? Disabling this <strong>will not</strong> affect embeds seem by your regular users in frontend.</p>';
+    }
+
+    /**
+     * Method that renders the enableEmbedResizeHeight input.
+     *
+     * @since  2.4.0
+     * @static
+     */
+    public static function renderField_enableEmbedResizeHeight()
+    {
+        $fieldName = "enableEmbedResizeHeight";
+
+        $options = get_option(self::$sectionGroupIdentifier);
+
+        $options[$fieldName] = ! isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
+
+        echo '<label><input type="radio" id="' . $fieldName . '_0" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="0" ' . (! $options[$fieldName] ? "checked" : "") . ' /> No</label>';
+        echo "&nbsp;&nbsp;";
+        echo '<label><input type="radio" id="' . $fieldName . '_1" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="1" ' . ($options[$fieldName] ? "checked" : "") . ' /> Yes</label>';
+        echo '<p class="description">Do you want EmbedPress to run within editors in frontend (if there\'s any)? Disabling this <strong>will not</strong> affect embeds seem by your regular users in frontend.</p>';
+    }
+
+    /**
+     * Method that renders the enableEmbedResizeWidth input.
+     *
+     * @since  1.0.
+     * @static
+     */
+    public static function renderField_enableEmbedResizeWidth()
     {
         $fieldName = "enablePluginInFront";
 
