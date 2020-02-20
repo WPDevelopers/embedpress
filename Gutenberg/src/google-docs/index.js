@@ -65,7 +65,7 @@ registerBlockType( 'embedpress/google-docs-block', {
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
 	save: function( props ) {
-		const iframeSrc = props.attributes 
+		const { iframeSrc }  = props.attributes 
 		return (
 			<div class="ose-google-docs-document">
 				<iframe src={iframeSrc} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>

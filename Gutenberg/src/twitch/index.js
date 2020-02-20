@@ -9,7 +9,7 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import { googleSlidesIcon } from '../common/icons';
+import { twitchIcon } from '../common/icons';
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
@@ -26,15 +26,14 @@ const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.b
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType( 'embedpress/google-slides-block', {
+registerBlockType( 'embedpress/twitch-block', {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-	title: __( 'Google Slides' ), // Block title.
-	icon: googleSlidesIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
+	title: __( 'Twitch' ), // Block title.
+	icon: twitchIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
 	category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
 	keywords: [
 		__( 'embedpress' ),
-		__( 'google' ),
-		__( 'slides' ),
+		__( 'twitch' ),
 	],
 	attributes: {
 		url: {
@@ -42,6 +41,10 @@ registerBlockType( 'embedpress/google-slides-block', {
 			default: ''
 		},
 		iframeSrc: {
+			type: 'string',
+			default: ''
+		},
+		attrs: {
 			type: 'string',
 			default: ''
 		}
@@ -65,10 +68,10 @@ registerBlockType( 'embedpress/google-slides-block', {
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
 	save: function( props ) {
-		const { iframeSrc }  = props.attributes  
+		const { iframeSrc, attrs }  = props.attributes  
 		return (
-			<div class="ose-google-docs-presentation">
-				<iframe src={iframeSrc} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+			<div class="ose-twitch-presentation">
+				<iframe src={iframeSrc} { ...attrs } frameborder="0" width="600" height="450"></iframe>
 			</div>
 		);
 	},

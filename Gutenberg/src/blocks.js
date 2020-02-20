@@ -15,3 +15,5 @@ import './google-sheets/index.js';
 import './google-forms/index.js';
 import './google-drawings/index.js';
 import './google-maps/index.js';
+import './twitch/index.js';
+import './wistia/index.js';
