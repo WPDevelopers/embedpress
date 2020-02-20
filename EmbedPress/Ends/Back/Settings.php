@@ -361,7 +361,7 @@ class Settings
 
         echo '<input type="number" value="'.absint($value).'" class="regular-text" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']">';
 
-        echo '<p class="description">Global Embed Iframe Width</p>';
+        echo '<p class="description">Global Embed Iframe Height</p>';
     }
 
     /**
