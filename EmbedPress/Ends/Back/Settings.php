@@ -215,10 +215,6 @@ class Settings
 
                     <?php do_action('embedpress:settings:render:tab', $activeTab); ?>
 
-                    <a href="?page=embedpress&tab=addons"
-                       class="nav-tab<?php echo $activeTab === 'addons' ? ' nav-tab-active' : ''; ?> ">
-                        Add-ons
-                    </a>
                 </h2>
 
                 <?php if ($activeTab !== 'addons') : ?>
@@ -228,83 +224,6 @@ class Settings
 
                         <button type="submit" class="button button-primary">Save changes</button>
                     </form>
-                <?php endif; ?>
-
-                <?php if ($activeTab === 'addons') : ?>
-                    <?php
-                    $icons_base_path = plugins_url('embedpress') . '/assets/images/';
-
-                    $addons = [
-                        'embedpress-youtube' => [
-                            'title'       => __('The YouTube Add-on for EmbedPress', 'embedpress'),
-                            'description' => __('Get more features for your YouTube embeds in WordPress.',
-                                'embedpress'),
-                            'available'   => true,
-                            'installed'   => static::is_plugin_installed('embedpress-youtube'),
-                            'active'      => static::is_plugin_active('embedpress-youtube'),
-                        ],
-                        'embedpress-vimeo'   => [
-                            'title'       => __('The Vimeo Add-on for EmbedPress', 'embedpress'),
-                            'description' => __('Get more features for your Vimeo embeds in WordPress.', 'embedpress'),
-                            'available'   => true,
-                            'installed'   => static::is_plugin_installed('embedpress-vimeo'),
-                            'active'      => static::is_plugin_active('embedpress-vimeo'),
-                        ],
-                        'embedpress-wistia'  => [
-                            'title'       => __('The Wistia Add-on for EmbedPress', 'embedpress'),
-                            'description' => __('Get more features for your Wistia embeds in WordPress.', 'embedpress'),
-                            'available'   => true,
-                            'installed'   => static::is_plugin_installed('embedpress-wistia'),
-                            'active'      => static::is_plugin_active('embedpress-wistia'),
-                        ],
-                    ];
-
-                    $args = [
-                        'addons'          => $addons,
-                        'icons_base_path' => $icons_base_path,
-                        'labels'          => [
-                            'active'         => __('Active', 'publishpress'),
-                            'installed'      => __('Installed', 'publishpress'),
-                            'get_pro_addons' => __('Get Pro Add-ons!', 'publishpress'),
-                            'coming_soon'    => __('Coming soon', 'publishpress'),
-                        ],
-                    ];
-
-                    ?>
-                    <div class="ep-module-settings">
-                        <ul class="ep-block-addons-items">
-                            <?php foreach ($addons as $name => $addon): ?>
-                                <li class="ep-block-addons-item ">
-                                    <img src="<?php echo $icons_base_path . $name; ?>.jpg">
-                                    <h3><?php echo $addon['title']; ?></h3>
-                                    <p><?php echo $addon['description']; ?></p>
-
-                                    <?php if ($addon['available']): ?>
-                                        <?php if ($addon['installed']): ?>
-                                            <?php if ($addon['active']): ?>
-                                                <div>
-                                                    <span class="dashicons dashicons-yes"></span><span><?php echo __('Active',
-                                                            'embedpress'); ?></span>
-                                                </div>
-                                            <?php else: ?>
-                                                <div>
-                                                    <span><?php echo __('Installed', 'embedpress'); ?></span>
-                                                </div>
-                                            <?php endif; ?>
-                                        <?php else: ?>
-                                            <a href="https://embedpress.com/embedpress-addons/"
-                                               class="button button-primary">
-                                                <span class="dashicons dashicons-cart"></span> <?php echo __('Get Pro Add-ons!',
-                                                    'embedpress'); ?>
-                                            </a>
-                                        <?php endif; ?>
-                                    <?php else: ?>
-                                        <div><?php echo __('Coming soon', 'embedpress'); ?></div>
-                                    <?php endif; ?>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    </div>
                 <?php endif; ?>
             </div>
 
