@@ -58,6 +58,11 @@ class Shortcode
 
     public static function do_shortcode($attributes = [], $subject = null)
     {
+        $plgSettings = Core::getSettings();
+        $attributes = wp_parse_args($attributes,[
+            'width'     => $plgSettings->enableEmbedResizeWidth,
+            'height'    => $plgSettings->enableEmbedResizeHeight
+        ]);
         $embed = self::parseContent($subject, true, $attributes);
 
         return is_object($embed) ? $embed->embed : $embed;
