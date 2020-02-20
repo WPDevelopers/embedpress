@@ -65,7 +65,7 @@ registerBlockType( 'embedpress/google-drawings-block', {
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
 	save: function( props ) {
-		const iframeSrc = props.attributes 
+		const { iframeSrc }  = props.attributes  
 		return (
 			<div class="ose-google-docs-drawings">
                 <img src={iframeSrc} width="960" height="720"/>

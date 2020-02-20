@@ -12,7 +12,7 @@ import Iframe from '../common/Iframe';
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
 
-class GoogleFormsEdit extends Component {
+class TwitchEdit extends Component {
     constructor() {
         super( ...arguments );
         this.switchBackToURLInput = this.switchBackToURLInput.bind( this );
@@ -49,21 +49,67 @@ class GoogleFormsEdit extends Component {
         const { url } = this.state;
         const { setAttributes } = this.props;
         setAttributes( { url } );
-        if(url && url.match( /^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)){
+        var regEx= /http[s]?:\/\/(?:www\.|clips\.)twitch\.tv\/([0-9a-zA-Z\-\_]+)\/?(chat\/?$|[0-9a-z\-\_]*)?/
+        if(url && url.match( regEx )){
             var iframeSrc = this.decodeHTMLEntities(url);
-            var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i; 
             var match = regEx.exec(iframeSrc);
-            var type = match[1];
-            if(type && type == 'drawings') {
-                this.setState( { editingURL: false, cannotEmbed: false } );
-                setAttributes( {iframeSrc: iframeSrc })    
+            var channelName = match[1];
+            console.log(channelName);
+            var type = "channel";
+            var attrs;
+            if(url.indexOf('clips.twitch.tv') > -1 ) {
+                type = 'clip';
             }
-            else {
-                this.setState({
-                    cannotEmbed: true,
-                    editingURL: true
-                })
+            else if(url.indexOf('/videos/') > -1) {
+                type= 'video';
             }
+            else if(url.indexOf('#/chat$#') > -1) {
+                type= 'chat';
+            }
+            console.log(type)
+            switch(type) {
+                case 'channel':
+                    iframeSrc= 'https://player.twitch.tv/?channel=' + channelName;
+                    attrs =     {
+                        scrolling: "no",
+                        frameborder: "0",
+                        allowfullscreen: "true"
+                    };
+                break;
+                
+                case 'clip':
+                    iframeSrc   = 'https://clips.twitch.tv/embed?clip=' + channelName + '&autoplay=false';
+                    attrs =     {
+                        scrolling: "no",
+                        frameborder: "0",
+                        allowfullscreen: "true"
+                    };
+                break;
+
+                case 'video':
+                    channelName       = match[2];
+                    iframeSrc         = 'https://player.twitch.tv/?video=' + channelName;
+                    attrs             =     {
+                        scrolling: "no",
+                        frameborder: "0",
+                        allowfullscreen: "true"
+                    };
+                break;
+
+                case 'chat':
+                    iframeSrc         = 'http://www.twitch.tv/embed/' + channelName + '/chat';
+                    attrs             =  {
+                        scrolling: "yes",
+                        frameborder: "0",
+                        allowfullscreen: "true",
+                        id: "'" + channelName + "'"
+
+                    }
+                break;
+            }
+            console.log(iframeSrc);
+            this.setState( { editingURL: false, cannotEmbed: false } );
+            setAttributes( {iframeSrc, attrs })    
         }
         else {
             this.setState({
@@ -79,10 +125,9 @@ class GoogleFormsEdit extends Component {
     
     render() {
         const { url, editingURL, fetching, cannotEmbed } = this.state;
-        const { iframeSrc } = this.props.attributes;
+        const { iframeSrc, attrs } = this.props.attributes;
 
-        const label = __( 'Google Drawings URL (Get your link from File -> Publish to the web -> Link)');
-
+        const label = __( 'Twitch URL');
         // No preview, or we can't embed the current URL, or we've clicked the edit button.
         if ( !iframeSrc  || editingURL ) {
             return (
@@ -96,11 +141,10 @@ class GoogleFormsEdit extends Component {
             );
         }
         else {
-            
             return (
                 <Fragment>
                     {fetching  ?  <EmbedLoading /> : null}
-                    <img src={iframeSrc} onLoad={this.onLoad} style={{ display: fetching ? 'none' : '' }} width="960" height="720"/>
+                    <Iframe src={iframeSrc}  { ...attrs } onLoad={this.onLoad} style={{ display: fetching ? 'none' : '' }} width="600" height="450"  />
                     <EmbedControls
                         showEditButton={ iframeSrc && ! cannotEmbed }
                         switchBackToURLInput={ this.switchBackToURLInput }
@@ -111,4 +155,4 @@ class GoogleFormsEdit extends Component {
         }
     }
 };
-export default GoogleFormsEdit;
+export default TwitchEdit;
