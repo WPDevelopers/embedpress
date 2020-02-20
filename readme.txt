@@ -1,11 +1,11 @@
 === EmbedPress – Embed Google Docs, Vimeo and Wistia videos, Giphy and Imgur photos, and more ===
-Contributors: EmbedPress, andergmartins, stevejburge, pressshack, deenison
+Contributors: EmbedPress, andergmartins, stevejburge, pressshack, deenison, asif2bd, re_enter_rupok, wpdevteam 
 Author: EmbedPress, PressShack
 Author URI: https://embedpress.com
 Tags: YouTube, Google, Facebook, Wistia, Vimeo
 Requires at least: 4.6
-Tested up to: 5.2.4
-Stable tag: 2.3.3
+Tested up to: 5.3
+Stable tag: 2.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -183,8 +183,17 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+= [2.4.0] - 2020-02-20 = 
+* Gutenberg Compatibility improvement
+* wp ombed class update
+* Global iFrame resize capacity
+* Removal of all pro licensing class from free
+* Minor typo fix
+
+
 = [2.3.3] - 2019-11-11 = 
 Minor Fix for EmbedPress version in includes.php file
+
 = [2.3.2] - 2019-11-11 =
 Refactoring Gutenberg Blocks
 
