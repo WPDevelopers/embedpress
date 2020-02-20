@@ -129,14 +129,14 @@ class Settings
                         'label'   => "Load previews in the frontend editor",
                         'section' => "admin",
                     ],
-                    'enableEmbedResizeHeight' => [
-                        'label'   => "Embed Iframe Height",
-                        'section' => "admin",
-                    ],
                     'enableEmbedResizeWidth' => [
                         'label'   => "Embed Iframe Width",
                         'section' => "admin",
                     ],
+                    'enableEmbedResizeHeight' => [
+                        'label'   => "Embed Iframe Height",
+                        'section' => "admin",
+                    ]
                 ];
             }
 
@@ -376,9 +376,11 @@ class Settings
     public static function validateForm($freshData)
     {
         $data = [
-            'enablePluginInAdmin' => isset($freshData['enablePluginInAdmin']) ? (bool)$freshData['enablePluginInAdmin'] : true,
-            'enablePluginInFront' => isset($freshData['enablePluginInFront']) ? (bool)$freshData['enablePluginInFront'] : true,
-            'fbLanguage'          => $freshData['fbLanguage'],
+            'enablePluginInAdmin'       => isset($freshData['enablePluginInAdmin']) ? (bool)$freshData['enablePluginInAdmin'] : true,
+            'enablePluginInFront'       => isset($freshData['enablePluginInFront']) ? (bool)$freshData['enablePluginInFront'] : true,
+            'enableEmbedResizeHeight'   => isset($freshData['enableEmbedResizeHeight']) ? $freshData['enableEmbedResizeHeight'] : '',
+            'enableEmbedResizeWidth'    => isset($freshData['enableEmbedResizeWidth']) ? $freshData['enableEmbedResizeWidth'] : '',
+            'fbLanguage'                => $freshData['fbLanguage'],
         ];
 
         return $data;
@@ -436,32 +438,27 @@ class Settings
 
         $options = get_option(self::$sectionGroupIdentifier);
 
-        $options[$fieldName] = ! isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
+        $value = ! isset($options[$fieldName]) ? '' : $options[$fieldName];
 
-        echo '<label><input type="radio" id="' . $fieldName . '_0" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="0" ' . (! $options[$fieldName] ? "checked" : "") . ' /> No</label>';
-        echo "&nbsp;&nbsp;";
-        echo '<label><input type="radio" id="' . $fieldName . '_1" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="1" ' . ($options[$fieldName] ? "checked" : "") . ' /> Yes</label>';
-        echo '<p class="description">Do you want EmbedPress to run within editors in frontend (if there\'s any)? Disabling this <strong>will not</strong> affect embeds seem by your regular users in frontend.</p>';
+        echo '<input type="number" value="'.absint($value).'" class="regular-text" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']">';
+
+        echo '<p class="description">Do you want EmbedPress to run here in the admin area? Disabling this will not affect your frontend embeds.</p>';
     }
 
     /**
      * Method that renders the enableEmbedResizeWidth input.
      *
-     * @since  1.0.
+     * @since  2.4.0
      * @static
      */
     public static function renderField_enableEmbedResizeWidth()
     {
-        $fieldName = "enablePluginInFront";
-
+        $fieldName = "enableEmbedResizeWidth";
         $options = get_option(self::$sectionGroupIdentifier);
+        $value = ! isset($options[$fieldName]) ? '' : $options[$fieldName];
 
-        $options[$fieldName] = ! isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
-
-        echo '<label><input type="radio" id="' . $fieldName . '_0" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="0" ' . (! $options[$fieldName] ? "checked" : "") . ' /> No</label>';
-        echo "&nbsp;&nbsp;";
-        echo '<label><input type="radio" id="' . $fieldName . '_1" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="1" ' . ($options[$fieldName] ? "checked" : "") . ' /> Yes</label>';
-        echo '<p class="description">Do you want EmbedPress to run within editors in frontend (if there\'s any)? Disabling this <strong>will not</strong> affect embeds seem by your regular users in frontend.</p>';
+        echo '<input type="number" value="'.absint($value).'" class="regular-text" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']">';
+        echo '<p class="description">Sometimes Facebook can choose the wrong language for embeds. If this happens, choose the correct language here.</p>';
     }
 
     /**

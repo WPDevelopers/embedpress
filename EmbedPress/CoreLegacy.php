@@ -171,6 +171,8 @@ class CoreLegacy
         add_filter('fl_builder_before_render_shortcodes',
             ['\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes']);
 
+        add_filter('embed_defaults',[$this,'addDefaultEmbedSize'],10,2);
+
         $this->loaderInstance->run();
     }
 
@@ -411,5 +413,12 @@ class CoreLegacy
 
 
         return $mceInit;
+    }
+
+    public function addDefaultEmbedSize($embedSize,$url){
+        error_log('run');
+        $embed_size['width'] = 100;
+        $embed_size['height'] = 100;
+        return $embed_size;
     }
 }
