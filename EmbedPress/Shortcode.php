@@ -321,12 +321,12 @@ class Shortcode
                     }
 
                     if (preg_match('~width\s+:\s+(\d+)~i', $parsedContent)) {
-                        $parsedContent = preg_replace('~width\s+:\s+(\d+)~i', 'width: ' . $customWidth, $parseContent);
+                        $parsedContent = preg_replace('~width\s+:\s+(\d+)~i', 'width: ' . $customWidth, $parsedContent);
                     }
 
                     if (preg_match('~height\s+:\s+(\d+)~i', $parsedContent)) {
                         $parsedContent = preg_replace('~height\s+:\s+(\d+)~i', 'height: ' . $customHeight,
-                            $parseContent);
+                            $parsedContent);
                     }
                 }
             }
@@ -343,9 +343,7 @@ class Shortcode
                     'embed'      => $parsedContent,
                     'url'        => $content,
                 ]);
-
                 $embed = apply_filters('embedpress:onAfterEmbed', $embed);
-
                 return $embed;
             }
         }
@@ -506,6 +504,7 @@ class Shortcode
         }
 
         $attributes['class'] = implode(' ', array_unique(array_filter($attributes['class'])));
+        $attributes['style'] = "width:{$attributes['width'] }px;height:{$attributes['height'] }px;";
 
         return $attributes;
     }

@@ -357,11 +357,11 @@ class Settings
 
         $options = get_option(self::$sectionGroupIdentifier);
 
-        $value = ! isset($options[$fieldName]) ? '' : $options[$fieldName];
+        $value = ! isset($options[$fieldName]) ? '500' : $options[$fieldName];
 
         echo '<input type="number" value="'.absint($value).'" class="regular-text" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']">';
 
-        echo '<p class="description">Do you want EmbedPress to run here in the admin area? Disabling this will not affect your frontend embeds.</p>';
+        echo '<p class="description">Global Embed Iframe Width</p>';
     }
 
     /**
@@ -374,10 +374,10 @@ class Settings
     {
         $fieldName = "enableEmbedResizeWidth";
         $options = get_option(self::$sectionGroupIdentifier);
-        $value = ! isset($options[$fieldName]) ? '' : $options[$fieldName];
+        $value = ! isset($options[$fieldName]) ? '500' : $options[$fieldName];
 
         echo '<input type="number" value="'.absint($value).'" class="regular-text" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']">';
-        echo '<p class="description">Sometimes Facebook can choose the wrong language for embeds. If this happens, choose the correct language here.</p>';
+        echo '<p class="description">Global Embed Iframe Width </p>';
     }
 
     /**
