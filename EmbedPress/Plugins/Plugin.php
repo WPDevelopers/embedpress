@@ -2,10 +2,6 @@
 
 namespace EmbedPress\Plugins;
 
-use PublishPress\EDD_License\Core\Container as EDDContainer;
-use PublishPress\EDD_License\Core\Services as EDDServices;
-use PublishPress\EDD_License\Core\ServicesConfig as EDDServicesConfig;
-
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
 /**
@@ -21,36 +17,6 @@ use PublishPress\EDD_License\Core\ServicesConfig as EDDServicesConfig;
 abstract class Plugin
 {
     const VERSION = '0.0.0';
-
-    protected static $eddContainer;
-
-    protected static function getEddContainer()
-    {
-        if (empty(static::$eddContainer)) {
-            $options = static::getOptions();
-
-            $licenseKey    = isset($options['license']['key']) ? (string)$options['license']['key'] : "";
-            $licenseStatus = isset($options['license']['status']) ? (string)$options['license']['status'] : "missed";
-
-            $config = new EDDServicesConfig();
-            $config->setApiUrl(EMBEDPRESS_LICENSES_API_URL);
-            $config->setLicenseKey($licenseKey);
-            $config->setLicenseStatus($licenseStatus);
-            $config->setPluginVersion(static::VERSION);
-            $config->setEddItemId(static::EDD_ID);
-            $config->setPluginAuthor('EmbedPress');
-            $config->setPluginFile(EMBEDPRESS_PLG_NAME . '/' . EMBEDPRESS_PLG_NAME . '.php');
-
-            $services = new EDDServices($config);
-
-            $eddContainer = new EDDContainer();
-            $eddContainer->register($services);
-
-            static::$eddContainer = $eddContainer;
-        }
-
-        return static::$eddContainer;
-    }
 
     /**
      * Method that register all EmbedPress events.
@@ -76,9 +42,7 @@ abstract class Plugin
      */
     protected static function isEmbedPressActive()
     {
-        $isEmbedPressActive = is_plugin_active(EMBEDPRESS_PLG_NAME . '/' . EMBEDPRESS_PLG_NAME . '.php');
-
-        return $isEmbedPressActive;
+        return is_plugin_active(EMBEDPRESS_PLG_NAME . '/' . EMBEDPRESS_PLG_NAME . '.php');
     }
 
     /**
@@ -116,13 +80,6 @@ abstract class Plugin
             deactivate_plugins($pluginSignature);
         } else {
             static::registerSettings();
-
-            $eddContainer = static::getEddContainer();
-            /*
-             * Instantiate the update manager. The variable is not used by purpose, only
-             * to instantiate the manager.
-             */
-            $update = $eddContainer['update_manager'];
         }
     }
 
@@ -215,6 +172,8 @@ abstract class Plugin
      * @since   1.4.0
      * @static
      *
+     * @param $activeTab
+     *
      * @return  void
      */
     public static function renderTab($activeTab)
@@ -238,7 +197,6 @@ abstract class Plugin
     public static function registerSettings()
     {
         $identifier = EMBEDPRESS_PLG_NAME . ':' . static::SLUG;
-
         register_setting($identifier, $identifier, [static::NAMESPACE_STRING, 'validateForm']);
         add_settings_section($identifier, EMBEDPRESS . ' > ' . static::NAME . ' Settings',
             [static::NAMESPACE_STRING, 'onAfterRegisterSettings'], $identifier);
@@ -333,23 +291,5 @@ abstract class Plugin
         array_unshift($links, $settingsLink);
 
         return $links;
-    }
-
-    /**
-     * Method that validates a license key.
-     *
-     * @since   1.4.0
-     * @access  protected
-     * @static
-     *
-     * @return  mixed
-     */
-    protected static function validateLicenseKey($licenseKey)
-    {
-        $licenseManager = static::$eddContainer['license_manager'];
-
-        $licenseNewStatus = $licenseManager->validate_license_key($licenseKey, static::EDD_ID);
-
-        return $licenseNewStatus;
     }
 }
