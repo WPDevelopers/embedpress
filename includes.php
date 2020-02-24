@@ -28,12 +28,20 @@ if ( ! defined('EMBEDPRESS_VERSION')) {
     define('EMBEDPRESS_PLG_VERSION', EMBEDPRESS_VERSION);
 }
 
+if ( ! defined('EMBEDPRESS_PRO_VERSION')) {
+    define('EMBEDPRESS_PRO_VERSION', "2.0.0");
+}
+
 if ( ! defined('EMBEDPRESS_ROOT')) {
     define('EMBEDPRESS_ROOT', dirname(__FILE__));
 }
 
 if ( ! defined('EMBEDPRESS_PATH_BASE')) {
     define('EMBEDPRESS_PATH_BASE', plugin_dir_path(__FILE__));
+}
+
+if ( ! defined('EMBEDPRESS_PLUGIN_BASENAME')) {
+    define('EMBEDPRESS_PLUGIN_BASENAME', plugin_basename(__FILE__));
 }
 
 if ( ! defined('EMBEDPRESS_PATH_CORE')) {

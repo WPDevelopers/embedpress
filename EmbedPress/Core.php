@@ -5,6 +5,7 @@ namespace EmbedPress;
 use EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
 use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
 
+
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
 /**
@@ -17,6 +18,8 @@ use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
  * @since       1.0.0
  */
 class Core {
+    use \EmbedPress\Includes\Traits\Shared;
+
     /**
      * The name of the plugin.
      *
@@ -120,7 +123,7 @@ class Core {
 
         if (is_admin()) {
             $plgSettings = self::getSettings();
-
+            $this->admin_notice();
             $settingsClassNamespace = '\\EmbedPress\\Ends\\Back\\Settings';
             add_action('admin_menu', [$settingsClassNamespace, 'registerMenuItem']);
             add_action('admin_init', [$settingsClassNamespace, 'registerActions']);
@@ -151,7 +154,7 @@ class Core {
         // Add support for our embeds on Beaver Builder. Without this it only run the native embeds.
         add_filter('fl_builder_before_render_shortcodes',
             ['\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes']);
-
+        $this->start_plugin_tracking();
         $this->loaderInstance->run();
     }
 
@@ -543,4 +546,6 @@ class Core {
 
         return $isAllowed;
     }
+
+
 }
