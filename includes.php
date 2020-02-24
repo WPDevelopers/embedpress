@@ -13,6 +13,7 @@ defined('ABSPATH') or die("No direct script access allowed.");
 
 
 if ( ! defined('EMBEDPRESS')) {
+
     define('EMBEDPRESS', "EmbedPress");
 }
 
@@ -79,7 +80,6 @@ if ( ! defined('EMBEDPRESS_LICENSES_MORE_INFO_URL')) {
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
-
 // Run the plugin autoload script
 if ( ! defined('EMBEDPRESS_IS_LOADED')) {
     require_once EMBEDPRESS_PATH_BASE . "autoloader.php";

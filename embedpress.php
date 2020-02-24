@@ -46,12 +46,15 @@ function onPluginDeactivationCallback()
 register_activation_hook(__FILE__, 'onPluginActivationCallback');
 register_deactivation_hook(__FILE__, 'onPluginDeactivationCallback');
 
+
 if ( ! is_plugin_active('gutenberg/gutenberg.php')) {
+    add_action( 'plugins_loaded', function() {
+        do_action( 'emberpress_before_init' );
+    } );
     if (Compatibility::isWordPress5() && ! Compatibility::isClassicalEditorActive()) {
         $embedPressPlugin = new \EmbedPress\Core();
     } else {
         $embedPressPlugin = new \EmbedPress\CoreLegacy();
     }
-
     $embedPressPlugin->initialize();
 }

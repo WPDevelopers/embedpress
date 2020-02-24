@@ -205,15 +205,14 @@ class Settings
             </header>
 
             <?php settings_errors(); ?>
-
             <div>
                 <h2 class="nav-tab-wrapper">
                     <a href="?page=embedpress"
                        class="nav-tab<?php echo $activeTab === 'embedpress' || empty($activeTab) ? ' nav-tab-active' : ''; ?> ">
                         General settings
                     </a>
-
                     <?php do_action('embedpress:settings:render:tab', $activeTab); ?>
+                    <?php do_action('emberpress_license_tab',$activeTab); ?>
 
                 </h2>
 
@@ -221,9 +220,13 @@ class Settings
                     <form action="options.php" method="POST" style="padding-bottom: 20px;">
                         <?php settings_fields($settingsFieldsIdentifier); ?>
                         <?php do_settings_sections($settingsSectionsIdentifier); ?>
-
-                        <button type="submit" class="button button-primary">Save changes</button>
+                        <?php if ($activeTab !== 'emberpress_license') : ?>
+                            <button type="submit" class="button button-primary">Save changes</button>
+                        <?php endif; ?>
                     </form>
+                <?php endif; ?>
+                <?php if ($activeTab == 'emberpress_license') : ?>
+                        <?php echo do_action('emberpress_license'); ?>
                 <?php endif; ?>
             </div>
 
