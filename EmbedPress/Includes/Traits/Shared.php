@@ -102,7 +102,7 @@ trait Shared {
         // Update Notice For PRO Version
         if( $this->is_pro_active() && \version_compare( EMBEDPRESS_PRO_VERSION, '2.0.0', '<' ) ) {
             $notice->classes( 'update', 'notice is-dismissible ' );
-            $notice->message( 'update', '<p>'. __( 'You are using an incompatible version of Essential Addons PRO. Please update to v3.4.0+. <a href="https://essential-addons.com/elementor/docs/manually-update-essential-addons-pro/" target="_blank">Follow manual update guide.</a>', $notice->text_domain ) .'</p>' );
+            $notice->message( 'update', '<p>'. __( 'You are using an incompatible version of EmbedPress PRO. Please update to v3.4.0+. <a href="https://essential-addons.com/elementor/docs/manually-update-essential-addons-pro/" target="_blank">Follow manual update guide.</a>', $notice->text_domain ) .'</p>' );
             $notice->thumbnail( 'update', plugins_url( 'assets/images/icon-128x128.png', EMBEDPRESS_PLUGIN_BASENAME ) );
         }
 
