@@ -17,7 +17,7 @@ trait Shared {
      */
     public function start_plugin_tracking() {
         new EmbedPress_Plugin_Usage_Tracker(
-            EMBEDPRESS_ROOT,
+            EMBEDPRESS_FILE,
             'http://app.wpdeveloper.net',
             array(),
             true,

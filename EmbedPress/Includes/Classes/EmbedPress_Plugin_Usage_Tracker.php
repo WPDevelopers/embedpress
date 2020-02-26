@@ -188,7 +188,6 @@ class EmbedPress_Plugin_Usage_Tracker {
 
         // Use this to pass error messages back if necessary
         $body['message'] = '';
-
         // Use this array to send data back
         $body = array(
             'plugin_slug'		=> sanitize_text_field( $this->plugin_name ),
@@ -631,23 +630,23 @@ class EmbedPress_Plugin_Usage_Tracker {
                 $notice_text = __( 'Thank you for installing our plugin. We would like to track its usage on your site. We don\'t record any sensitive data, only information regarding the WordPress environment and plugin settings, which we will use to help us make improvements to the plugin. Tracking is completely optional.', 'notificationx' );
             } else {
                 // If we have option 1 for marketing, we include reference to sending product information here
-                $notice_text = __( 'Want to help make <strong>NotificationX</strong> even more awesome? You can get a <strong>10% discount coupon</strong> for Premium extensions if you allow us to track the usage. <a class="notificationx-insights-data-we-collect" href="#">What we collect.</a>', 'notificationx' );
+                $notice_text = __( 'Want to help make <strong>EmbedPress</strong> even more awesome? You can get a <strong>10% discount coupon</strong> for Premium extensions if you allow us to track the usage. <a class="embedpress-insights-data-we-collect" href="#">What we collect.</a>', 'notificationx' );
             }
             // And we allow you to filter the text anyway
             $notice_text = apply_filters( 'wpins_notice_text_' . esc_attr( $this->plugin_name ), $notice_text ); ?>
 
             <div class="notice notice-info updated put-dismiss-notice">
                 <p><?php echo __( $notice_text, 'notificationx' ); ?></p>
-                <div class="notificationx-insights-data" style="display: none;">
+                <div class="embedpress-insights-data" style="display: none;">
                 <p><?php echo __( 'We collect non-sensitive diagnostic data and plugin usage information. Your site URL, WordPress & PHP version, plugins & themes and email address to send you the discount coupon. This data lets us make sure this plugin always stays compatible with the most popular plugins and themes. No spam, I promise.', 'notificationx' ); ?></p>
                 </div>
                 <p>
                     <a href="<?php echo esc_url( $url_yes ); ?>" class="button-primary"><?php _e( 'Sure, I\'d like to help', 'notificationx' ); ?></a>
                     <a href="<?php echo esc_url( $url_no ); ?>" class="button-secondary"><?php _e( 'No Thanks', 'notificationx' ); ?></a>
                 </p>
-                <?php echo "<script type='text/javascript'>jQuery('.notificationx-insights-data-we-collect').on('click', function(e) {
+                <?php echo "<script type='text/javascript'>jQuery('.embedpress-insights-data-we-collect').on('click', function(e) {
                         e.preventDefault();
-                        jQuery('.notificationx-insights-data').slideToggle('fast');
+                        jQuery('.embedpress-insights-data').slideToggle('fast');
                     });
                     </script>";?>
             </div>

@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
 } // Exit if accessed directly.
 
 use EmbedPress\Includes\Classes\EmbedPress_Core_Installer;
-//Notice
+
 class EmbedPress_Notice {
     /**
      * Admin Notice Key

@@ -26,6 +26,7 @@ use EmbedPress\Compatibility;
 defined('ABSPATH') or die("No direct script access allowed.");
 
 define('EMBEDPRESS_PLUGIN_BASENAME', plugin_basename(__FILE__));
+define('EMBEDPRESS_FILE', __FILE__);
 
 require_once plugin_dir_path(__FILE__) . 'includes.php';
 
