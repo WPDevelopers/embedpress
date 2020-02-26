@@ -4,8 +4,8 @@ namespace EmbedPress\Includes\Traits;
 if (!defined('ABSPATH')) {
     exit;
 } // Exit if accessed directly
-use \EmbedPress\Includes\Classes\Plugin_Usage_Tracker;
-use \EmbedPress\Includes\Classes\Notice;
+use \EmbedPress\Includes\Classes\EmbedPress_Plugin_Usage_Tracker;
+use \EmbedPress\Includes\Classes\EmbedPress_Notice;
 
 trait Shared {
 
@@ -16,7 +16,7 @@ trait Shared {
      * @since v1.0.0
      */
     public function start_plugin_tracking() {
-        new Plugin_Usage_Tracker(
+        new EmbedPress_Plugin_Usage_Tracker(
             EMBEDPRESS_ROOT,
             'http://app.wpdeveloper.net',
             array(),
@@ -27,7 +27,7 @@ trait Shared {
     }
 
     public function admin_notice() {
-        $notice = new Notice(EMBEDPRESS_PLUGIN_BASENAME, EMBEDPRESS_VERSION);
+        $notice = new EmbedPress_Notice(EMBEDPRESS_PLUGIN_BASENAME, EMBEDPRESS_VERSION);
 
         /**
          * Current Notice End Time.
@@ -96,7 +96,7 @@ trait Shared {
          * Message message for showing.
          */
         $notice->classes( 'upsale', 'notice is-dismissible ' );
-        $notice->message( 'upsale', '<p>'. __( '8,000+ People already using <a href="https://wpdeveloper.net/ea/notificationX" target="_blank">NotificationX</a> to increase their Sales & Engagement!', $notice->text_domain ) .'</p>' );
+        $notice->message( 'upsale', '<p>'. __( '8,000+ People already using <a href="https://wpdeveloper.net/ea/notificationX" target="_blank">EmbedPress</a> to increase their Sales & Engagement!', $notice->text_domain ) .'</p>' );
         $notice->thumbnail( 'upsale', plugins_url( 'assets/images/nx-icon.svg', EMBEDPRESS_PLUGIN_BASENAME ) );
 
         // Update Notice For PRO Version
@@ -110,7 +110,7 @@ trait Shared {
             'slug'      => 'notificationx',
             'page_slug' => 'nx-builder',
             'file'      => 'notificationx.php',
-            'btn_text'  => __( 'Install Free', 'essential-addons-for-elementor-lite'),
+            'btn_text'  => __( 'Install Free', 'embedpress'),
             'condition' => [
                 'by' => 'class',
                 'class' => 'NotificationX'
@@ -132,7 +132,7 @@ trait Shared {
     }
 
     public function is_pro_active(){
-        return is_plugin_active('embedpress-pro/embedpress_pro.php');
+        return is_plugin_active('embedpress-pro/embedpress-pro.php');
     }
 
 }

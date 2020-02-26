@@ -11,7 +11,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }// Exit if accessed directly
 
-class Plugin_Usage_Tracker {
+class EmbedPress_Plugin_Usage_Tracker {
     private $wpins_version = '1.1.3';
     private $home_url = '';
     private $plugin_file = '';

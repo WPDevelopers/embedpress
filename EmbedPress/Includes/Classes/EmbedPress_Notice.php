@@ -5,9 +5,9 @@ if (!defined('ABSPATH')) {
     exit;
 } // Exit if accessed directly.
 
-use EmbedPress\Includes\Classes\WPDeveloper_Core_Installer;
-
-class Notice {
+use EmbedPress\Includes\Classes\EmbedPress_Core_Installer;
+//Notice
+class EmbedPress_Notice {
     /**
      * Admin Notice Key
      *
@@ -107,8 +107,7 @@ class Notice {
         $this->notice_id = 'wpdeveloper_notice_' . str_replace( '.', '_', $this->version );
 
         $this->do_notice_action = 'wpdeveloper_notices_for_' . $this->plugin_name;
-
-        new WPDeveloper_Core_Installer( $this->plugin_name );
+        new EmbedPress_Core_Installer( $this->plugin_name );
 
     }
     /**

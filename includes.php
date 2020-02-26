@@ -41,10 +41,6 @@ if ( ! defined('EMBEDPRESS_PATH_BASE')) {
     define('EMBEDPRESS_PATH_BASE', plugin_dir_path(__FILE__));
 }
 
-if ( ! defined('EMBEDPRESS_PLUGIN_BASENAME')) {
-    define('EMBEDPRESS_PLUGIN_BASENAME', plugin_basename(__FILE__));
-}
-
 if ( ! defined('EMBEDPRESS_PATH_CORE')) {
     define('EMBEDPRESS_PATH_CORE', EMBEDPRESS_PATH_BASE . "EmbedPress/");
 }

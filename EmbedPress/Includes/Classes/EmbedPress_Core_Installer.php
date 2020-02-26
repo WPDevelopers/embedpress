@@ -6,19 +6,20 @@ if (!defined('ABSPATH')) {
 } // Exit if accessed directly.
 
 /**
- * WPDeveloper Core Install
+ * EmbedPress Core Install
  */
-class WPDeveloper_Core_Installer {
+class EmbedPress_Core_Installer {
     /**
      * Plugin Base Name
      *
      * @var string
      */
     private $plugin_basename;
+
     /**
      * Instantiate the class
      *
-     * @param string $affiliate
+     * @param string $plugin_basename
      */
     function __construct( $plugin_basename = '' ) {
         $this->plugin_basename = $plugin_basename;

@@ -25,6 +25,8 @@ use EmbedPress\Compatibility;
 
 defined('ABSPATH') or die("No direct script access allowed.");
 
+define('EMBEDPRESS_PLUGIN_BASENAME', plugin_basename(__FILE__));
+
 require_once plugin_dir_path(__FILE__) . 'includes.php';
 
 include_once ABSPATH . 'wp-admin/includes/plugin.php';
