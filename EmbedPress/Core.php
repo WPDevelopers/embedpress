@@ -46,7 +46,7 @@ class Core {
      * @since   1.0.0
      * @access  protected
      *
-     * @var     \EmbedPress\Loader $pluginVersion The version of the plugin.
+     * @var     Loader $pluginVersion The version of the plugin.
      */
     protected $loaderInstance;
 
@@ -100,7 +100,7 @@ class Core {
     /**
      * Method that retrieves the loader instance.
      *
-     * @return  \EmbedPress\Loader
+     * @return  Loader
      * @since   1.0.0
      *
      */
@@ -449,6 +449,14 @@ class Core {
 
         if (!isset($settings['enablePluginInFront'])) {
             $settings['enablePluginInFront'] = true;
+        }
+
+        if (!isset($settings['enableEmbedResizeHeight'])) {
+            $settings['enableEmbedResizeHeight'] = 552;
+        }
+
+        if (!isset($settings['enableEmbedResizeWidth'])) {
+            $settings['enableEmbedResizeWidth'] = 652;
         }
 
         return (object) $settings;

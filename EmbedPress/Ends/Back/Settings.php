@@ -300,8 +300,8 @@ class Settings
         $data = [
             'enablePluginInAdmin'       => isset($freshData['enablePluginInAdmin']) ? (bool)$freshData['enablePluginInAdmin'] : true,
             'enablePluginInFront'       => isset($freshData['enablePluginInFront']) ? (bool)$freshData['enablePluginInFront'] : true,
-            'enableEmbedResizeHeight'   => isset($freshData['enableEmbedResizeHeight']) ? $freshData['enableEmbedResizeHeight'] : '',
-            'enableEmbedResizeWidth'    => isset($freshData['enableEmbedResizeWidth']) ? $freshData['enableEmbedResizeWidth'] : '',
+            'enableEmbedResizeHeight'   => isset($freshData['enableEmbedResizeHeight']) ? $freshData['enableEmbedResizeHeight'] : 552,
+            'enableEmbedResizeWidth'    => isset($freshData['enableEmbedResizeWidth']) ? $freshData['enableEmbedResizeWidth'] : 652,
             'fbLanguage'                => $freshData['fbLanguage'],
         ];
 
