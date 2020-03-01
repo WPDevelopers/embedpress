@@ -11,18 +11,6 @@
     "repositories": [
         {
             "type": "git",
-            "url": "https://github.com/OSTraining/WordPress-Plugin-Builder"
-        },
-        {
-            "type": "git",
-            "url": "https://github.com/OSTraining/WordPress-EDD-License-Integration"
-        },
-        {
-            "type": "git",
-            "url": "https://github.com/OSTraining/EDD-License-handler"
-        },
-        {
-            "type": "git",
             "url": "https://github.com/OSTraining/Embera"
         }
     ],
