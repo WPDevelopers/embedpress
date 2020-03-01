@@ -504,7 +504,9 @@ class Shortcode
         }
 
         $attributes['class'] = implode(' ', array_unique(array_filter($attributes['class'])));
-        $attributes['style'] = "width:{$attributes['width'] }px;height:{$attributes['height'] }px;";
+        if(isset($attributes['width'])){
+            $attributes['style'] = "width:{$attributes['width'] }px;height:{$attributes['height'] }px;";
+        }
 
         return $attributes;
     }
