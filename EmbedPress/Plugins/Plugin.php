@@ -141,13 +141,9 @@ abstract class Plugin
 
             $data[$fieldSlug] = $value;
         }
-
+	    $data['license_key'] = true;
         static::onAfterFormValidation($data);
-
-        if (isset($data['license_key'])) {
-            unset($data['license_key']);
-        }
-
+        
         return $data;
     }
 
@@ -263,7 +259,7 @@ abstract class Plugin
 
                 if ($fieldSlug === "license_key") {
                     $options['license'] = [
-                        'key'    => $value,
+                        'key'    => true,
                         'status' => "missing",
                     ];
                 } else {
@@ -271,7 +267,6 @@ abstract class Plugin
                 }
             }
         }
-
         return $options;
     }
 
