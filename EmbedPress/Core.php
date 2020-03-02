@@ -73,6 +73,8 @@ class Core {
         $this->pluginVersion = EMBEDPRESS_VERSION;
 
         $this->loaderInstance = new Loader();
+
+        add_action('admin_notices',[$this,'embedpress_admin_notice']);
     }
 
     /**

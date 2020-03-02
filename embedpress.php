@@ -61,25 +61,3 @@ if ( ! is_plugin_active('gutenberg/gutenberg.php')) {
     }
     $embedPressPlugin->initialize();
 }
-
-add_action('admin_notices',function(){
-	if (is_plugin_active('embedpress-pro/embedpress-pro.php')) {
-		return;
-	}
-
-	$plugin_list = [
-		'embedpress-vimeo/embedpress-vimeo.php',
-		'embedpress-wistia/embedpress-wistia.php',
-		'embedpress-youtube/embedpress-youtube.php',
-	];
-	$active_plugins = get_option('active_plugins');
-	foreach($active_plugins as $plugin){
-		if(in_array($plugin,$plugin_list)){
-			$msg = '<strong>[Good News]</strong> Introducing <strong>EmbedPress Pro</strong>! And as existing Loyal User you get Unlimited Sites access to EmbedPress Pro for free. Please update and claim your free license to continue. <br/><strong>[<a href="https://embedpress.com/ep-loyal-users" target="_blank" rel="noopener">Details</a>] - [<a href="https://embedpress.com/new-pro-2020-free" target="_blank" rel="noopener">Get EmbedPress Pro for Free</a>]</strong>';
-			echo '<div class="notice notice-info is-dismissible">
-					<p>'.$msg.'</p>
-				</div>';
-			break;
-		}
-	}
-});
