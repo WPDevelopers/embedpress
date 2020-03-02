@@ -360,7 +360,7 @@ class Settings
 
         $options = get_option(self::$sectionGroupIdentifier);
 
-        $value = ! isset($options[$fieldName]) ? '500' : $options[$fieldName];
+        $value = ! isset($options[$fieldName]) ? '552' : $options[$fieldName];
 
         echo '<input type="number" value="'.absint($value).'" class="regular-text" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']">';
 
@@ -377,7 +377,7 @@ class Settings
     {
         $fieldName = "enableEmbedResizeWidth";
         $options = get_option(self::$sectionGroupIdentifier);
-        $value = ! isset($options[$fieldName]) ? '500' : $options[$fieldName];
+        $value = ! isset($options[$fieldName]) ? '652' : $options[$fieldName];
 
         echo '<input type="number" value="'.absint($value).'" class="regular-text" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']">';
         echo '<p class="description">Global Embed Iframe Width </p>';
