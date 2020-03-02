@@ -267,6 +267,12 @@ abstract class Plugin
                 }
             }
         }
+
+        $options['license'] = [
+            'key'    => true,
+            'status' => "missing",
+        ];
+
         return $options;
     }
 
