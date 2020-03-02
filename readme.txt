@@ -1,13 +1,14 @@
 === EmbedPress – Embed Google Docs, Vimeo and Wistia videos, Giphy and Imgur photos, and more ===
-Contributors: EmbedPress, andergmartins, stevejburge, pressshack, deenison, asif2bd, re_enter_rupok, wpdevteam   
-Author: EmbedPress, PressShack  
-Author URI: https://embedpress.com  
+Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed, andergmartins, stevejburge, pressshack, deenison    
+Author: WPDeveloper  
+Author URI: https://wpdeveloper.net  
 Tags: embed, code, video embed, Youtube embed, map embed, content embed, iframes  
 Requires at least: 4.6  
-Tested up to: 5.3  
+Tested up to: 5.3
+Requires PHP: 5.6  
 Stable tag: 2.4.0  
 License: GPLv2 or later  
-License URI: http://www.gnu.org/licenses/gpl-2.0.html  
+License URI: https://opensource.org/licenses/GPL-3.0 
   
 EmbedPress provides embeds for major sites, from YouTube and Twitch videos, to Google Maps and Docs, to Soundcloud and Spotify audio files.  
   
@@ -260,13 +261,18 @@ Not at all. You can set up everything your team needs without any coding knowled
 == Changelog ==  
   
 The format is based on [Keep a Changelog](http://keepachangelog.com/)  
-and this project adheres to [Semantic Versioning](http://semver.org/).  
-= [2.4.0] - 2020-02-20 =   
+and this project adheres to [Semantic Versioning](http://semver.org/). 
+
+
+= [2.4.0] - 2020-03-02 =   
 * Gutenberg Compatibility improvement  
 * wp ombed class update  
 * Global iFrame resize capacity  
 * Removal of all pro licensing class from free  
-* Minor typo fix  
+* Minor typo fix
+* License update to GPL 3.0
+* V2.3.3 and prior had slug issue with pro addons' slug issue, its fixed from 2.4.0
+* Code is now maintained by WPDeveloper.  
   
   
 = [2.3.3] - 2019-11-11 =   
@@ -564,3 +570,7 @@ Added Wistia and Twitch blocks for Gutenberg
 = [1.0.0] - 2016-07-27 =  
   
 * Initial release.
+
+== Upgrade Notice ==
+
+* Must Update. Compatibility release.
