@@ -145,51 +145,6 @@ class Field
 
         $html .= wp_nonce_field("{$pluginSlug}:nonce", "{$pluginSlug}:nonce");
 
-        if ($field->slug === "license_key") {
-            $licenseStatusClass   = "ep-label-danger";
-            $currentLicenseStatus = isset($options['license']['status']) ? trim(strtoupper($options['license']['status'])) : "";
-            switch ($currentLicenseStatus) {
-                case '':
-                    $licenseStatusMessage = "Missing license";
-                    break;
-                case 'EXPIRED':
-                    $licenseStatusMessage = "Your license key is expired";
-                    break;
-                case 'REVOKED':
-                    $licenseStatusMessage = "Your license key has been disabled";
-                    break;
-                case 'MISSING':
-                case 'INVALID':
-                    $licenseStatusMessage = "Invalid license";
-                    break;
-                case 'SITE_INACTIVE':
-                    $licenseStatusMessage = "Your license is not active for this URL";
-                    break;
-                case 'ITEM_NAME_MISMATCH':
-                    $licenseStatusMessage = "This appears to be an invalid license key for this product";
-                    break;
-                case 'NO_ACTIVATIONS_LEFT':
-                    $licenseStatusMessage = "Your license key has reached its activation limit";
-                    break;
-                case 'VALID':
-                    $licenseStatusClass   = "ep-label-success";
-                    $licenseStatusMessage = "Activated";
-                    break;
-                default:
-                    $licenseStatusMessage = "Not validated yet";
-                    break;
-            }
-
-            $html .= '<br/><br/><strong>Status: <span class="' . $licenseStatusClass . '">' . __($licenseStatusMessage) . '</span>.</strong><br/><br/>';
-
-            if ( ! (isset($options['license']['status']) && $options['license']['status'] === 'valid')) {
-                $html .= '<a href="' . EMBEDPRESS_LICENSES_MORE_INFO_URL . '" target="_blank" class="ep-small-link ep-small-spacing" rel="noopener noreferrer" style="display: inline-block; margin-left: 20px;" title="' . __('Click here to read more about licenses.') . '">' . __('More information') . '</a>';
-                $html .= '<br/><br/>';
-            }
-
-            $html .= '<hr>';
-        }
-
         if ( ! empty($field->description)) {
             $html .= '<br/>';
             $html .= '<p class="description">' . $field->description . '</p>';

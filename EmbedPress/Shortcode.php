@@ -55,8 +55,14 @@ class Shortcode
      *
      * @return  string
      */
+
     public static function do_shortcode($attributes = [], $subject = null)
     {
+        $plgSettings = Core::getSettings();
+        $attributes = wp_parse_args($attributes,[
+            'width'     => $plgSettings->enableEmbedResizeWidth,
+            'height'    => $plgSettings->enableEmbedResizeHeight
+        ]);
         $embed = self::parseContent($subject, true, $attributes);
 
         return is_object($embed) ? $embed->embed : $embed;
@@ -88,7 +94,7 @@ class Shortcode
 
             // Check if the WP_oEmbed class is loaded
             if ( ! self::$oEmbedInstance) {
-                require_once ABSPATH . 'wp-includes/class-oembed.php';
+                require_once ABSPATH . 'wp-includes/class-wp-oembed.php';
 
                 self::$oEmbedInstance = _wp_oembed_get_object();
             }
@@ -315,12 +321,12 @@ class Shortcode
                     }
 
                     if (preg_match('~width\s+:\s+(\d+)~i', $parsedContent)) {
-                        $parsedContent = preg_replace('~width\s+:\s+(\d+)~i', 'width: ' . $customWidth, $parseContent);
+                        $parsedContent = preg_replace('~width\s+:\s+(\d+)~i', 'width: ' . $customWidth, $parsedContent);
                     }
 
                     if (preg_match('~height\s+:\s+(\d+)~i', $parsedContent)) {
                         $parsedContent = preg_replace('~height\s+:\s+(\d+)~i', 'height: ' . $customHeight,
-                            $parseContent);
+                            $parsedContent);
                     }
                 }
             }
@@ -337,9 +343,7 @@ class Shortcode
                     'embed'      => $parsedContent,
                     'url'        => $content,
                 ]);
-
                 $embed = apply_filters('embedpress:onAfterEmbed', $embed);
-
                 return $embed;
             }
         }
@@ -500,6 +504,9 @@ class Shortcode
         }
 
         $attributes['class'] = implode(' ', array_unique(array_filter($attributes['class'])));
+        if(isset($attributes['width'])){
+            $attributes['style'] = "width:{$attributes['width'] }px;height:{$attributes['height'] }px;";
+        }
 
         return $attributes;
     }

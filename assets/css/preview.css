@@ -56,9 +56,9 @@
 .embedpress_controller_panel {
     display: inline-block;
     position: absolute;
+    width: initial;
     padding: 8px;
     margin-left: -45px;
-    width: 62px;
     top: 1px;
     left: 50%;
     background: #796FAB;

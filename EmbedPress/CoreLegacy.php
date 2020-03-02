@@ -18,6 +18,7 @@ use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
  */
 class CoreLegacy
 {
+    use \EmbedPress\Includes\Traits\Shared;
     /**
      * The name of the plugin.
      *
@@ -72,6 +73,7 @@ class CoreLegacy
         $this->pluginVersion = EMBEDPRESS_VERSION;
 
         $this->loaderInstance = new Loader();
+        add_action('admin_notices',[$this,'embedpress_admin_notice']);
     }
 
     /**
@@ -123,7 +125,7 @@ class CoreLegacy
 
         if (is_admin()) {
             $plgSettings = self::getSettings();
-
+            $this->admin_notice();
             $settingsClassNamespace = '\\EmbedPress\\Ends\\Back\\Settings';
             add_action('admin_menu', [$settingsClassNamespace, 'registerMenuItem']);
             add_action('admin_init', [$settingsClassNamespace, 'registerActions']);
@@ -171,6 +173,7 @@ class CoreLegacy
         add_filter('fl_builder_before_render_shortcodes',
             ['\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes']);
 
+        $this->start_plugin_tracking();
         $this->loaderInstance->run();
     }
 

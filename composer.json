@@ -11,18 +11,6 @@
     "repositories": [
         {
             "type": "git",
-            "url": "https://github.com/OSTraining/WordPress-Plugin-Builder"
-        },
-        {
-            "type": "git",
-            "url": "https://github.com/OSTraining/WordPress-EDD-License-Integration"
-        },
-        {
-            "type": "git",
-            "url": "https://github.com/OSTraining/EDD-License-handler"
-        },
-        {
-            "type": "git",
             "url": "https://github.com/OSTraining/Embera"
         }
     ],
@@ -31,9 +19,6 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "pimple/pimple": "~3.0",
-        "ostraining/embera": "*",
-        "publishpress/wordpress-edd-license-integration": "~2.1",
-        "publishpress/wordpress-plugin-builder": "~2"
+        "ostraining/embera": "*"
     }
 }

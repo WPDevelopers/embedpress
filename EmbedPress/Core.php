@@ -5,6 +5,7 @@ namespace EmbedPress;
 use EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
 use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
 
+
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
 /**
@@ -16,8 +17,9 @@ use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
  * @license     GPLv2 or later
  * @since       1.0.0
  */
-class Core
-{
+class Core {
+    use \EmbedPress\Includes\Traits\Shared;
+
     /**
      * The name of the plugin.
      *
@@ -44,7 +46,7 @@ class Core
      * @since   1.0.0
      * @access  protected
      *
-     * @var     \EmbedPress\Loader $pluginVersion The version of the plugin.
+     * @var     Loader $pluginVersion The version of the plugin.
      */
     protected $loaderInstance;
 
@@ -62,63 +64,60 @@ class Core
     /**
      * Initialize the plugin and set its properties.
      *
+     * @return  void
      * @since   1.0.0
      *
-     * @return  void
      */
-    public function __construct()
-    {
-        $this->pluginName    = EMBEDPRESS_PLG_NAME;
+    public function __construct () {
+        $this->pluginName = EMBEDPRESS_PLG_NAME;
         $this->pluginVersion = EMBEDPRESS_VERSION;
 
         $this->loaderInstance = new Loader();
+
+        add_action('admin_notices',[$this,'embedpress_admin_notice']);
     }
 
     /**
      * Method that retrieves the plugin name.
      *
+     * @return  string
      * @since   1.0.0
      *
-     * @return  string
      */
-    public function getPluginName()
-    {
+    public function getPluginName () {
         return $this->pluginName;
     }
 
     /**
      * Method that retrieves the plugin version.
      *
+     * @return  string
      * @since   1.0.0
      *
-     * @return  string
      */
-    public function getPluginVersion()
-    {
+    public function getPluginVersion () {
         return $this->pluginVersion;
     }
 
     /**
      * Method that retrieves the loader instance.
      *
+     * @return  Loader
      * @since   1.0.0
      *
-     * @return  \EmbedPress\Loader
      */
-    public function getLoader()
-    {
+    public function getLoader () {
         return $this->loaderInstance;
     }
 
     /**
      * Method responsible to connect all required hooks in order to make the plugin work.
      *
+     * @return  void
      * @since   1.0.0
      *
-     * @return  void
      */
-    public function initialize()
-    {
+    public function initialize () {
         global $wp_actions;
 
         add_filter('oembed_providers', [$this, 'addOEmbedProviders']);
@@ -126,7 +125,7 @@ class Core
 
         if (is_admin()) {
             $plgSettings = self::getSettings();
-
+            $this->admin_notice();
             $settingsClassNamespace = '\\EmbedPress\\Ends\\Back\\Settings';
             add_action('admin_menu', [$settingsClassNamespace, 'registerMenuItem']);
             add_action('admin_init', [$settingsClassNamespace, 'registerActions']);
@@ -139,7 +138,7 @@ class Core
 
             $plgHandlerAdminInstance = new EndHandlerAdmin($this->getPluginName(), $this->getPluginVersion());
 
-            if ((bool)$plgSettings->enablePluginInAdmin) {
+            if ((bool) $plgSettings->enablePluginInAdmin) {
                 $this->loaderInstance->add_action('admin_enqueue_scripts', $plgHandlerAdminInstance, 'enqueueScripts');
             }
         } else {
@@ -157,7 +156,7 @@ class Core
         // Add support for our embeds on Beaver Builder. Without this it only run the native embeds.
         add_filter('fl_builder_before_render_shortcodes',
             ['\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes']);
-
+        $this->start_plugin_tracking();
         $this->loaderInstance->run();
     }
 
@@ -166,153 +165,152 @@ class Core
      *
      * @return mixed
      */
-    public function addOEmbedProviders($providers)
-    {
+    public function addOEmbedProviders ($providers) {
         $newProviders = [
             // Viddler
-            '#https?://(.+\.)?viddler\.com/v/.+#i'                                                              => 'viddler',
+            '#https?://(.+\.)?viddler\.com/v/.+#i' => 'viddler',
 
             // Deviantart.com (http://www.deviantart.com)
-            '#https?://(.+\.)?deviantart\.com/art/.+#i'                                                         => 'devianart',
-            '#https?://(.+\.)?deviantart\.com/.+#i'                                                             => 'devianart',
-            '#https?://(.+\.)?deviantart\.com/.*/d.+#i'                                                         => 'devianart',
-            '#https?://(.+\.)?fav\.me/.+#i'                                                                     => 'devianart',
-            '#https?://(.+\.)?sta\.sh/.+#i'                                                                     => 'devianart',
+            '#https?://(.+\.)?deviantart\.com/art/.+#i' => 'devianart',
+            '#https?://(.+\.)?deviantart\.com/.+#i' => 'devianart',
+            '#https?://(.+\.)?deviantart\.com/.*/d.+#i' => 'devianart',
+            '#https?://(.+\.)?fav\.me/.+#i' => 'devianart',
+            '#https?://(.+\.)?sta\.sh/.+#i' => 'devianart',
 
             // chirbit.com (http://www.chirbit.com/)
-            '#https?://(.+\.)?chirb\.it/.+#i'                                                                   => 'chirbit',
+            '#https?://(.+\.)?chirb\.it/.+#i' => 'chirbit',
 
 
             // nfb.ca (http://www.nfb.ca/)
-            '#https?://(.+\.)?nfb\.ca/film/.+#i'                                                                => 'nfb',
+            '#https?://(.+\.)?nfb\.ca/film/.+#i' => 'nfb',
 
             // Dotsub (http://dotsub.com/)
-            '#https?://(.+\.)?dotsub\.com/view/.+#i'                                                            => 'dotsub',
+            '#https?://(.+\.)?dotsub\.com/view/.+#i' => 'dotsub',
 
             // Rdio (http://rdio.com/)
-            '#https?://(.+\.)?rdio\.com/(artist|people)/.+#i'                                                   => 'rdio',
+            '#https?://(.+\.)?rdio\.com/(artist|people)/.+#i' => 'rdio',
 
             // Sapo Videos (http://videos.sapo.pt)
-            '#https?://(.+\.)?videos\.sapo\.pt/.+#i'                                                            => 'sapo',
+            '#https?://(.+\.)?videos\.sapo\.pt/.+#i' => 'sapo',
 
             // Official FM (http://official.fm)
-            '#https?://(.+\.)?official\.fm/(tracks|playlists)/.+#i'                                             => 'officialfm',
+            '#https?://(.+\.)?official\.fm/(tracks|playlists)/.+#i' => 'officialfm',
 
             // HuffDuffer (http://huffduffer.com)
-            '#https?://(.+\.)?huffduffer\.com/.+#i'                                                             => 'huffduffer',
+            '#https?://(.+\.)?huffduffer\.com/.+#i' => 'huffduffer',
 
             // Shoudio (http://shoudio.com)
-            '#https?://(.+\.)?shoudio\.(com|io)/.+#i'                                                           => 'shoudio',
+            '#https?://(.+\.)?shoudio\.(com|io)/.+#i' => 'shoudio',
 
             // Moby Picture (http://www.mobypicture.com)
-            '#https?://(.+\.)?mobypicture\.com/user/.+/view/.+#i'                                               => 'mobypicture',
+            '#https?://(.+\.)?mobypicture\.com/user/.+/view/.+#i' => 'mobypicture',
             '#https?://(.+\.)?moby\.to/.+#i',
 
             // 23HQ (http://www.23hq.com)
-            '#https?://(.+\.)?23hq\.com/.+/photo/.+#i'                                                          => '23hq',
+            '#https?://(.+\.)?23hq\.com/.+/photo/.+#i' => '23hq',
 
             // Cacoo (https://cacoo.com)
-            '#https?://(.+\.)?cacoo\.com/diagrams/.+#i'                                                         => 'cacoo',
+            '#https?://(.+\.)?cacoo\.com/diagrams/.+#i' => 'cacoo',
 
             // Dipity (http://www.dipity.com)
-            '#https?://(.+\.)?dipity\.com/.+#i'                                                                 => 'dipity',
+            '#https?://(.+\.)?dipity\.com/.+#i' => 'dipity',
 
             // Roomshare (http://roomshare.jp)
-            '#https?://(.+\.)?roomshare\.jp/(en/)?post/.+#i'                                                    => 'roomshare',
+            '#https?://(.+\.)?roomshare\.jp/(en/)?post/.+#i' => 'roomshare',
 
             // Crowd Ranking (http://crowdranking.com)
-            '#https?://(.+\.)?c9ng\.com/.+#i'                                                                   => 'crowd',
+            '#https?://(.+\.)?c9ng\.com/.+#i' => 'crowd',
 
             // CircuitLab (https://www.circuitlab.com/)
-            '#https?://(.+\.)?circuitlab\.com/circuit/.+#i'                                                     => 'circuitlab',
+            '#https?://(.+\.)?circuitlab\.com/circuit/.+#i' => 'circuitlab',
 
             // Coub (http://coub.com/)
-            '#https?://(.+\.)?coub\.com/(view|embed)/.+#i'                                                      => 'coub',
+            '#https?://(.+\.)?coub\.com/(view|embed)/.+#i' => 'coub',
 
             // Ustream (http://www.ustream.tv)
-            '#https?://(.+\.)?ustream\.(tv|com)/.+#i'                                                           => 'ustream',
+            '#https?://(.+\.)?ustream\.(tv|com)/.+#i' => 'ustream',
 
             // Daily Mile (http://www.dailymile.com)
-            '#https?://(.+\.)?dailymile\.com/people/.+/entries/.+#i'                                            => 'daily',
+            '#https?://(.+\.)?dailymile\.com/people/.+/entries/.+#i' => 'daily',
 
             // Sketchfab (http://sketchfab.com)
-            '#https?://(.+\.)?sketchfab\.com/models/.+#i'                                                       => 'sketchfab',
-            '#https?://(.+\.)?sketchfab\.com/.+/folders/.+#i'                                                   => 'sketchfab',
+            '#https?://(.+\.)?sketchfab\.com/models/.+#i' => 'sketchfab',
+            '#https?://(.+\.)?sketchfab\.com/.+/folders/.+#i' => 'sketchfab',
 
             // AudioSnaps (http://audiosnaps.com)
-            '#https?://(.+\.)?audiosnaps\.com/k/.+#i'                                                           => 'audiosnaps',
+            '#https?://(.+\.)?audiosnaps\.com/k/.+#i' => 'audiosnaps',
 
             // RapidEngage (https://rapidengage.com)
-            '#https?://(.+\.)?rapidengage\.com/s/.+#i'                                                          => 'rapidengage',
+            '#https?://(.+\.)?rapidengage\.com/s/.+#i' => 'rapidengage',
 
             // Getty Images (http://www.gettyimages.com/)
-            '#https?://(.+\.)?gty\.im/.+#i'                                                                     => 'gettyimages',
-            '#https?://(.+\.)?gettyimages\.com/detail/photo/.+#i'                                               => 'gettyimages',
+            '#https?://(.+\.)?gty\.im/.+#i' => 'gettyimages',
+            '#https?://(.+\.)?gettyimages\.com/detail/photo/.+#i' => 'gettyimages',
 
             // amCharts Live Editor (http://live.amcharts.com/)
-            '#https?://(.+\.)?live\.amcharts\.com/.+#i'                                                         => 'amcharts',
+            '#https?://(.+\.)?live\.amcharts\.com/.+#i' => 'amcharts',
 
             // Infogram (https://infogr.am/)
-            '#https?://(.+\.)?infogr\.am/.+#i'                                                                  => 'infogram',
+            '#https?://(.+\.)?infogr\.am/.+#i' => 'infogram',
 
             // ChartBlocks (http://www.chartblocks.com/)
-            '#https?://(.+\.)?public\.chartblocks\.com/c/.+#i'                                                  => 'chartblocks',
+            '#https?://(.+\.)?public\.chartblocks\.com/c/.+#i' => 'chartblocks',
 
             // ReleaseWire (http://www.releasewire.com/)
-            '#https?://(.+\.)?rwire\.com/.+#i'                                                                  => 'releasewire',
+            '#https?://(.+\.)?rwire\.com/.+#i' => 'releasewire',
 
             // ShortNote (https://www.shortnote.jp/)
-            '#https?://(.+\.)?shortnote\.jp/view/notes/.+#i'                                                    => 'shortnote',
+            '#https?://(.+\.)?shortnote\.jp/view/notes/.+#i' => 'shortnote',
 
             // EgliseInfo (http://egliseinfo.catholique.fr/)
-            '#https?://(.+\.)?egliseinfo\.catholique\.fr/.+#i'                                                  => 'egliseinfo',
+            '#https?://(.+\.)?egliseinfo\.catholique\.fr/.+#i' => 'egliseinfo',
 
             // Silk (http://www.silk.co/)
-            '#https?://(.+\.)?silk\.co/explore/.+#i'                                                            => 'silk',
-            '#https?://(.+\.)?silk\.co/s/embed/.+#i'                                                            => 'silk',
+            '#https?://(.+\.)?silk\.co/explore/.+#i' => 'silk',
+            '#https?://(.+\.)?silk\.co/s/embed/.+#i' => 'silk',
 
             // http://bambuser.com
-            '#https?://(.+\.)?bambuser\.com/v/.+#i'                                                             => 'bambuser',
+            '#https?://(.+\.)?bambuser\.com/v/.+#i' => 'bambuser',
 
             // https://clyp.it
-            '#https?://(.+\.)?clyp\.it/.+#i'                                                                    => 'clyp',
+            '#https?://(.+\.)?clyp\.it/.+#i' => 'clyp',
 
             // https://gist.github.com
-            '#https?://(.+\.)?gist\.github\.com/.+#i'                                                           => 'github',
+            '#https?://(.+\.)?gist\.github\.com/.+#i' => 'github',
 
             // https://portfolium.com
-            '#https?://(.+\.)?portfolium\.com/.+#i'                                                             => 'portfolium',
+            '#https?://(.+\.)?portfolium\.com/.+#i' => 'portfolium',
 
             // http://rutube.ru
-            '#https?://(.+\.)?rutube\.ru/video/.+#i'                                                            => 'rutube',
+            '#https?://(.+\.)?rutube\.ru/video/.+#i' => 'rutube',
 
             // http://www.videojug.com
-            '#https?://(.+\.)?videojug\.com/.+#i'                                                               => 'videojug',
+            '#https?://(.+\.)?videojug\.com/.+#i' => 'videojug',
 
             // https://vine.com
-            '#https?://(.+\.)?vine\.co/v/.+#i'                                                                  => 'vine',
+            '#https?://(.+\.)?vine\.co/v/.+#i' => 'vine',
 
             // Google Shortened Url
-            '#https?://(.+\.)?goo\.gl/.+#i'                                                                     => 'google',
+            '#https?://(.+\.)?goo\.gl/.+#i' => 'google',
 
             // Google Maps
-            '#https?://(.+\.)?google\.com/maps/.+#i'                                                            => 'googlemaps',
-            '#https?://(.+\.)?maps\.google\.com/.+#i'                                                           => 'googlemaps',
+            '#https?://(.+\.)?google\.com/maps/.+#i' => 'googlemaps',
+            '#https?://(.+\.)?maps\.google\.com/.+#i' => 'googlemaps',
 
             // Google Docs
             '#https?://(.+\.)?docs\.google\.com/(.+/)?(document|presentation|spreadsheets|forms|drawings)/.+#i' => 'googledocs',
 
             // Twitch.tv
-            '#https?://(.+\.)?twitch\.tv/.+#i'                                                                  => 'twitch',
+            '#https?://(.+\.)?twitch\.tv/.+#i' => 'twitch',
 
             // Giphy
-            '#https?://(.+\.)?giphy\.com/gifs/.+#i'                                                             => 'giphy',
-            '#https?://(.+\.)?i\.giphy\.com/.+#i'                                                               => 'giphy',
-            '#https?://(.+\.)?gph\.is/.+#i'                                                                     => 'giphy',
+            '#https?://(.+\.)?giphy\.com/gifs/.+#i' => 'giphy',
+            '#https?://(.+\.)?i\.giphy\.com/.+#i' => 'giphy',
+            '#https?://(.+\.)?gph\.is/.+#i' => 'giphy',
 
             // Wistia
-            '#https?://(.+\.)?wistia\.com/medias/.+#i'                                                          => 'wistia',
-            '#https?://(.+\.)?fast\.wistia\.com/embed/medias/.+#i\.jsonp'                                       => 'wistia',
+            '#https?://(.+\.)?wistia\.com/medias/.+#i' => 'wistia',
+            '#https?://(.+\.)?fast\.wistia\.com/embed/medias/.+#i\.jsonp' => 'wistia',
         ];
 
         /**
@@ -324,22 +322,22 @@ class Core
          */
         global $wp_rewrite;
 
-        if ( ! class_exists('\\WP_Rewrite')) {
-            $path = ABSPATH . WPINC . '/class-wp-rewrite.php';
+        if (!class_exists('\\WP_Rewrite')) {
+            $path = ABSPATH.WPINC.'/class-wp-rewrite.php';
             if (file_exists($path)) {
                 require_once $path;
             }
         }
 
-        if ( ! is_object($wp_rewrite)) {
-            $wp_rewrite           = new \WP_Rewrite();
+        if (!is_object($wp_rewrite)) {
+            $wp_rewrite = new \WP_Rewrite();
             $_GLOBALS['wp_write'] = $wp_rewrite;
         }
         /*========================================*/
 
         foreach ($newProviders as $url => &$data) {
             $data = [
-                rest_url('embedpress/v1/oembed/' . $data),
+                rest_url('embedpress/v1/oembed/'.$data),
                 true,
             ];
         }
@@ -352,12 +350,11 @@ class Core
     /**
      * Register OEmbed Rest Routes
      */
-    public function registerOEmbedRestRoutes()
-    {
+    public function registerOEmbedRestRoutes () {
         register_rest_route(
             'embedpress/v1', '/oembed/(?P<provider>[a-zA-Z0-9\-]+)',
             [
-                'methods'  => \WP_REST_Server::READABLE,
+                'methods' => \WP_REST_Server::READABLE,
                 'callback' => ['\\EmbedPress\\RestAPI', 'oembed'],
             ]
         );
@@ -366,40 +363,37 @@ class Core
     /**
      * Callback called right after the plugin has been activated.
      *
+     * @return  void
      * @since   1.0.0
      * @static
      *
-     * @return  void
      */
-    public static function onPluginActivationCallback()
-    {
+    public static function onPluginActivationCallback () {
         flush_rewrite_rules();
     }
 
     /**
      * Callback called right after the plugin has been deactivated.
      *
+     * @return  void
      * @since   1.0.0
      * @static
      *
-     * @return  void
      */
-    public static function onPluginDeactivationCallback()
-    {
+    public static function onPluginDeactivationCallback () {
         flush_rewrite_rules();
     }
 
     /**
      * Method that retrieves all additional service providers defined in the ~<plugin_root_path>/providers.php file.
      *
+     * @return  array
      * @since   1.0.0
      * @static
      *
-     * @return  array
      */
-    public static function getAdditionalServiceProviders()
-    {
-        $additionalProvidersFilePath = EMBEDPRESS_PATH_BASE . 'providers.php';
+    public static function getAdditionalServiceProviders () {
+        $additionalProvidersFilePath = EMBEDPRESS_PATH_BASE.'providers.php';
         if (file_exists($additionalProvidersFilePath)) {
             include $additionalProvidersFilePath;
 
@@ -414,15 +408,14 @@ class Core
     /**
      * Method that checks if an embed of a given service provider can be responsive.
      *
+     * @param  string  $serviceProviderAlias  The service's slug.
+     *
+     * @return  boolean
      * @since   1.0.0
      * @static
      *
-     * @param   string $serviceProviderAlias The service's slug.
-     *
-     * @return  boolean
      */
-    public static function canServiceProviderBeResponsive($serviceProviderAlias)
-    {
+    public static function canServiceProviderBeResponsive ($serviceProviderAlias) {
         return in_array($serviceProviderAlias, [
             "dailymotion",
             "kickstarter",
@@ -444,64 +437,70 @@ class Core
     /**
      * Method that retrieves the plugin settings defined by the user.
      *
+     * @return  object
      * @since   1.0.0
      * @static
      *
-     * @return  object
      */
-    public static function getSettings()
-    {
+    public static function getSettings () {
         $settings = get_option(EMBEDPRESS_PLG_NAME);
 
-        if ( ! isset($settings['enablePluginInAdmin'])) {
+        if (!isset($settings['enablePluginInAdmin'])) {
             $settings['enablePluginInAdmin'] = true;
         }
 
-        if ( ! isset($settings['enablePluginInFront'])) {
+        if (!isset($settings['enablePluginInFront'])) {
             $settings['enablePluginInFront'] = true;
         }
 
-        return (object)$settings;
+        if (!isset($settings['enableEmbedResizeHeight'])) {
+            $settings['enableEmbedResizeHeight'] = 552;
+        }
+
+        if (!isset($settings['enableEmbedResizeWidth'])) {
+            $settings['enableEmbedResizeWidth'] = 652;
+        }
+
+        return (object) $settings;
     }
 
     /**
      * Method that register an EmbedPress plugin.
      *
+     * @param  array  $pluginMeta  Associative array containing plugin's name, slug and namespace
+     *
+     * @return  void
      * @since   1.4.0
      * @static
      *
-     * @param   array $pluginMeta Associative array containing plugin's name, slug and namespace
-     *
-     * @return  void
      */
-    public static function registerPlugin($pluginMeta)
-    {
+    public static function registerPlugin ($pluginMeta) {
         $pluginMeta = json_decode(json_encode($pluginMeta));
 
         if (empty($pluginMeta->name) || empty($pluginMeta->slug) || empty($pluginMeta->namespace)) {
             return;
         }
 
-        if ( ! isset(self::$plugins[$pluginMeta->slug])) {
+        if (!isset(self::$plugins[$pluginMeta->slug])) {
             AutoLoader::register($pluginMeta->namespace,
-                WP_PLUGIN_DIR . '/' . EMBEDPRESS_PLG_NAME . '-' . $pluginMeta->slug . '/' . $pluginMeta->name);
+                WP_PLUGIN_DIR.'/'.EMBEDPRESS_PLG_NAME.'-'.$pluginMeta->slug.'/'.$pluginMeta->name);
 
             $plugin = "{$pluginMeta->namespace}\Plugin";
             if (\defined("{$plugin}::SLUG") && $plugin::SLUG !== null) {
                 self::$plugins[$pluginMeta->slug] = $pluginMeta->namespace;
 
-                $bsFilePath = $plugin::PATH . EMBEDPRESS_PLG_NAME . '-' . $plugin::SLUG . '.php';
+                $bsFilePath = $plugin::PATH.EMBEDPRESS_PLG_NAME.'-'.$plugin::SLUG.'.php';
 
                 register_activation_hook($bsFilePath, [$plugin::NAMESPACE_STRING, 'onActivationCallback']);
                 register_deactivation_hook($bsFilePath, [$plugin::NAMESPACE_STRING, 'onDeactivationCallback']);
 
                 add_action('admin_init', [$plugin, 'onLoadAdminCallback']);
 
-                add_action(EMBEDPRESS_PLG_NAME . ':' . $plugin::SLUG . ':settings:register',
+                add_action(EMBEDPRESS_PLG_NAME.':'.$plugin::SLUG.':settings:register',
                     [$plugin, 'registerSettings']);
-                add_action(EMBEDPRESS_PLG_NAME . ':settings:render:tab', [$plugin, 'renderTab']);
+                add_action(EMBEDPRESS_PLG_NAME.':settings:render:tab', [$plugin, 'renderTab']);
 
-                add_filter('plugin_action_links_embedpress-' . $plugin::SLUG . '/embedpress-' . $plugin::SLUG . '.php',
+                add_filter('plugin_action_links_embedpress-'.$plugin::SLUG.'/embedpress-'.$plugin::SLUG.'.php',
                     [$plugin, 'handleActionLinks'], 10, 2);
 
                 $plugin::registerEvents();
@@ -512,28 +511,26 @@ class Core
     /**
      * Retrieve all registered plugins.
      *
+     * @return  array
      * @since   1.4.0
      * @static
      *
-     * @return  array
      */
-    public static function getPlugins()
-    {
+    public static function getPlugins () {
         return self::$plugins;
     }
 
     /**
      * Handle links displayed below the plugin name in the WordPress Installed Plugins page.
      *
+     * @return  array
      * @since   1.4.0
      * @static
      *
-     * @return  array
      */
-    public static function handleActionLinks($links, $file)
-    {
-        $settingsLink = '<a href="' . admin_url('admin.php?page=embedpress') . '" aria-label="' . __('Open settings page',
-                'embedpress') . '">' . __('Settings', 'embedpress') . '</a>';
+    public static function handleActionLinks ($links, $file) {
+        $settingsLink = '<a href="'.admin_url('admin.php?page=embedpress').'" aria-label="'.__('Open settings page',
+                'embedpress').'">'.__('Settings', 'embedpress').'</a>';
 
         array_unshift($links, $settingsLink);
 
@@ -543,21 +540,22 @@ class Core
     /**
      * Method that ensures the API's url are whitelisted to WordPress external requests.
      *
+     * @param  boolean  $isAllowed
+     * @param  string   $host
+     * @param  string   $url
+     *
+     * @return  boolean
      * @since   1.4.0
      * @static
      *
-     * @param   boolean $isAllowed
-     * @param   string  $host
-     * @param   string  $url
-     *
-     * @return  boolean
      */
-    public static function allowApiHost($isAllowed, $host, $url)
-    {
+    public static function allowApiHost ($isAllowed, $host, $url) {
         if ($host === EMBEDPRESS_LICENSES_API_HOST) {
             $isAllowed = true;
         }
 
         return $isAllowed;
     }
+
+
 }
