@@ -215,7 +215,9 @@ abstract class Plugin
         $schema = static::getOptionsSchema();
         foreach ($schema as $fieldSlug => $field) {
             $field['slug'] = $fieldSlug;
-
+            if('license_key'===$fieldSlug){
+                continue;
+            }
             add_settings_field($fieldSlug, $field['label'], [__NAMESPACE__ . '\Html\Field', 'render'], $identifier,
                 $identifier, [
                     'pluginSlug' => static::SLUG,
