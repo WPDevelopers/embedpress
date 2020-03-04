@@ -453,6 +453,10 @@ class Core {
             $settings['enablePluginInFront'] = true;
         }
 
+        if (!isset($settings['enableGlobalEmbedResize'])) {
+            $settings['enableGlobalEmbedResize'] = false;
+        }
+
         if (!isset($settings['enableEmbedResizeHeight'])) {
             $settings['enableEmbedResizeHeight'] = 552;
         }
