@@ -11,4 +11,19 @@
     $(function () {
         $('.color-field').wpColorPicker();
     });
+
+    //control global embed iframe size
+    $('.enableglobalembedresize').on('change', embedpressEnableglobalembedresize);
+    embedpressEnableglobalembedresize();
+
+    function embedpressEnableglobalembedresize(e) {
+        var check = $('.enableglobalembedresize:checked').val();
+        var selector = $('.embedpress-allow-globla-dimension').closest( "tr" );
+        if(check!=='1'){
+            selector.hide();
+        }else{
+            selector.show();
+        }
+    }
+
 })(jQuery);

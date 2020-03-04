@@ -6,7 +6,7 @@
  * Facebook, Google Maps, Google Docs, UStream! Just use the URL!
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.net
- * Version: 2.4.0
+ * Version: 2.4.1
  * Text Domain: embedpress
  * Domain Path: /languages
  *
