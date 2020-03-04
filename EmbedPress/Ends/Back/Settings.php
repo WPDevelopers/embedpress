@@ -4,7 +4,7 @@ namespace EmbedPress\Ends\Back;
 
 use EmbedPress\Compatibility;
 
-(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
+(defined( 'ABSPATH' ) && defined( 'EMBEDPRESS_IS_LOADED' )) or die( "No direct script access allowed." );
 
 /**
  * Entity that handles the plugin's settings page.
@@ -16,8 +16,7 @@ use EmbedPress\Compatibility;
  * @license     GPLv2 or later
  * @since       1.0.0
  */
-class Settings
-{
+class Settings {
     /**
      * This class namespace.
      *
@@ -67,8 +66,7 @@ class Settings
      *
      * @since   1.0.0
      */
-    public function __construct()
-    {
+    public function __construct() {
     }
 
     /**
@@ -76,8 +74,7 @@ class Settings
      *
      * @since   1.0.0
      */
-    public function __clone()
-    {
+    public function __clone() {
     }
 
     /**
@@ -86,10 +83,9 @@ class Settings
      * @since   1.0.0
      * @static
      */
-    public static function registerMenuItem()
-    {
-        add_menu_page('EmbedPress Settings', 'EmbedPress', 'manage_options', 'embedpress',
-            [self::$namespace, 'renderForm'], null, 64);
+    public static function registerMenuItem() {
+        add_menu_page( 'EmbedPress Settings', 'EmbedPress', 'manage_options', 'embedpress',
+            [ self::$namespace, 'renderForm' ], null, 64 );
     }
 
     /**
@@ -98,38 +94,41 @@ class Settings
      * @since   1.0.0
      * @static
      */
-    public static function registerActions()
-    {
-        $activeTab = isset($_GET['tab']) ? strtolower($_GET['tab']) : "";
-        if ($activeTab !== "embedpress") {
+    public static function registerActions() {
+        $activeTab = isset( $_GET['tab'] ) ? strtolower( $_GET['tab'] ) : "";
+        if ( $activeTab !== "embedpress" ) {
             $action = "embedpress:{$activeTab}:settings:register";
         } else {
             $activeTab = "";
         }
 
-        if ( ! empty($activeTab) && has_action($action)) {
-            do_action($action, [
+        if ( !empty( $activeTab ) && has_action( $action ) ) {
+            do_action( $action, [
                 'id'   => self::$sectionAdminIdentifier,
                 'slug' => self::$identifier,
-            ]);
+            ] );
         } else {
-            register_setting(self::$sectionGroupIdentifier, self::$sectionGroupIdentifier,
-                [self::$namespace, "validateForm"]);
+            register_setting( self::$sectionGroupIdentifier, self::$sectionGroupIdentifier,
+                [ self::$namespace, "validateForm" ] );
 
-            add_settings_section(self::$sectionAdminIdentifier, '', null, self::$identifier);
+            add_settings_section( self::$sectionAdminIdentifier, '', null, self::$identifier );
 
             $fieldMap = [];
-            if ( ! Compatibility::isWordPress5() || Compatibility::isClassicalEditorActive()) {
+            if ( !Compatibility::isWordPress5() || Compatibility::isClassicalEditorActive() ) {
                 $fieldMap = [
-                    'enablePluginInAdmin' => [
+                    'enablePluginInAdmin'     => [
                         'label'   => "Load previews in the admin editor",
                         'section' => "admin",
                     ],
-                    'enablePluginInFront' => [
+                    'enablePluginInFront'     => [
                         'label'   => "Load previews in the frontend editor",
                         'section' => "admin",
                     ],
-                    'enableEmbedResizeWidth' => [
+                    'enableGlobalEmbedResize' => [
+                        'label'   => "Enable Global Embed Dimension",
+                        'section' => "admin",
+                    ],
+                    'enableEmbedResizeWidth'  => [
                         'label'   => "Embed Iframe Width",
                         'section' => "admin",
                     ],
@@ -145,9 +144,9 @@ class Settings
                 'section' => "admin",
             ];
 
-            foreach ($fieldMap as $fieldName => $field) {
-                add_settings_field($fieldName, $field['label'], [self::$namespace, "renderField_{$fieldName}"],
-                    self::$identifier, self::${"section" . ucfirst($field['section']) . "Identifier"});
+            foreach ( $fieldMap as $fieldName => $field ) {
+                add_settings_field( $fieldName, $field['label'], [ self::$namespace, "renderField_{$fieldName}" ],
+                    self::$identifier, self::${"section" . ucfirst( $field['section'] ) . "Identifier"} );
             }
         }
     }
@@ -155,25 +154,23 @@ class Settings
     /**
      * Returns true if the plugin is active
      *
-     * @param  string $plugin
+     * @param string $plugin
      *
      * @return boolean
      */
-    protected static function is_plugin_active($plugin)
-    {
-        return is_plugin_active("{$plugin}/{$plugin}.php");
+    protected static function is_plugin_active( $plugin ) {
+        return is_plugin_active( "{$plugin}/{$plugin}.php" );
     }
 
     /**
      * Returns true if the plugin is installed
      *
-     * @param  string $plugin
+     * @param string $plugin
      *
      * @return boolean
      */
-    protected static function is_plugin_installed($plugin)
-    {
-        return file_exists(plugin_dir_path(EMBEDPRESS_ROOT) . "{$plugin}/{$plugin}.php");
+    protected static function is_plugin_installed( $plugin ) {
+        return file_exists( plugin_dir_path( EMBEDPRESS_ROOT ) . "{$plugin}/{$plugin}.php" );
     }
 
     /**
@@ -182,17 +179,16 @@ class Settings
      * @since   1.0.0
      * @static
      */
-    public static function renderForm()
-    {
+    public static function renderForm() {
         // Add the color picker css file
-        wp_enqueue_style('wp-color-picker');
+        wp_enqueue_style( 'wp-color-picker' );
         // Include our custom jQuery file with WordPress Color Picker dependency
-        wp_enqueue_script('ep-settings', EMBEDPRESS_URL_ASSETS . 'js/settings.js', ['wp-color-picker'],
-            EMBEDPRESS_VERSION, true);
+        wp_enqueue_script( 'ep-settings', EMBEDPRESS_URL_ASSETS . 'js/settings.js', [ 'wp-color-picker' ],
+            EMBEDPRESS_VERSION, true );
 
-        $activeTab                  = isset($_GET['tab']) ? strtolower($_GET['tab']) : "";
-        $settingsFieldsIdentifier   = ! empty($activeTab) ? "embedpress:{$activeTab}" : self::$sectionGroupIdentifier;
-        $settingsSectionsIdentifier = ! empty($activeTab) ? "embedpress:{$activeTab}" : self::$identifier;
+        $activeTab                  = isset( $_GET['tab'] ) ? strtolower( $_GET['tab'] ) : "";
+        $settingsFieldsIdentifier   = !empty( $activeTab ) ? "embedpress:{$activeTab}" : self::$sectionGroupIdentifier;
+        $settingsSectionsIdentifier = !empty( $activeTab ) ? "embedpress:{$activeTab}" : self::$identifier;
         ?>
         <div id="embedpress-settings-wrapper">
             <header>
@@ -208,25 +204,26 @@ class Settings
             <div>
                 <h2 class="nav-tab-wrapper">
                     <a href="?page=embedpress"
-                       class="nav-tab<?php echo $activeTab === 'embedpress' || empty($activeTab) ? ' nav-tab-active' : ''; ?> ">
+                       class="nav-tab<?php echo $activeTab === 'embedpress' || empty( $activeTab ) ? ' nav-tab-active' : ''; ?> ">
                         General settings
                     </a>
-                    <?php do_action('embedpress:settings:render:tab', $activeTab); ?>
-                    <?php do_action('embedpress_license_tab',$activeTab); ?>
+                    <?php do_action( 'embedpress:settings:render:tab', $activeTab ); ?>
+                    <?php do_action( 'embedpress_license_tab', $activeTab ); ?>
 
                 </h2>
 
-                <?php if ($activeTab !== 'addons') : ?>
+                <?php if ( $activeTab !== 'addons' ) : ?>
                     <form action="options.php" method="POST" style="padding-bottom: 20px;">
-                        <?php settings_fields($settingsFieldsIdentifier); ?>
-                        <?php do_settings_sections($settingsSectionsIdentifier); ?>
-                        <?php if ($activeTab !== 'embedpress_license') : ?>
-                            <button type="submit" class="button button-primary embedpress-setting-save">Save changes</button>
+                        <?php settings_fields( $settingsFieldsIdentifier ); ?>
+                        <?php do_settings_sections( $settingsSectionsIdentifier ); ?>
+                        <?php if ( $activeTab !== 'embedpress_license' ) : ?>
+                            <button type="submit" class="button button-primary embedpress-setting-save">Save changes
+                            </button>
                         <?php endif; ?>
                     </form>
                 <?php endif; ?>
-                <?php if ($activeTab == 'embedpress_license') : ?>
-                        <?php echo do_action('embedpress_license'); ?>
+                <?php if ( $activeTab == 'embedpress_license' ) : ?>
+                    <?php echo do_action( 'embedpress_license' ); ?>
                 <?php endif; ?>
             </div>
 
@@ -288,21 +285,21 @@ class Settings
     /**
      * Method that validates the form data.
      *
+     * @param mixed $freshData Data received from the form.
+     *
+     * @return  array
      * @since   1.0.0
      * @static
      *
-     * @param   mixed $freshData Data received from the form.
-     *
-     * @return  array
      */
-    public static function validateForm($freshData)
-    {
+    public static function validateForm( $freshData ) {
         $data = [
-            'enablePluginInAdmin'       => isset($freshData['enablePluginInAdmin']) ? (bool)$freshData['enablePluginInAdmin'] : true,
-            'enablePluginInFront'       => isset($freshData['enablePluginInFront']) ? (bool)$freshData['enablePluginInFront'] : true,
-            'enableEmbedResizeHeight'   => isset($freshData['enableEmbedResizeHeight']) ? $freshData['enableEmbedResizeHeight'] : 552,
-            'enableEmbedResizeWidth'    => isset($freshData['enableEmbedResizeWidth']) ? $freshData['enableEmbedResizeWidth'] : 652,
-            'fbLanguage'                => $freshData['fbLanguage'],
+            'enablePluginInAdmin'     => isset( $freshData['enablePluginInAdmin'] ) ? (bool)$freshData['enablePluginInAdmin'] : true,
+            'enablePluginInFront'     => isset( $freshData['enablePluginInFront'] ) ? (bool)$freshData['enablePluginInFront'] : true,
+            'enableGlobalEmbedResize' => isset( $freshData['enableGlobalEmbedResize'] ) ? (bool)$freshData['enableGlobalEmbedResize'] : false,
+            'enableEmbedResizeHeight' => isset( $freshData['enableEmbedResizeHeight'] ) ? $freshData['enableEmbedResizeHeight'] : 552,
+            'enableEmbedResizeWidth'  => isset( $freshData['enableEmbedResizeWidth'] ) ? $freshData['enableEmbedResizeWidth'] : 652,
+            'fbLanguage'              => $freshData['fbLanguage'],
         ];
 
         return $data;
@@ -314,15 +311,14 @@ class Settings
      * @since   1.0.0
      * @static
      */
-    public static function renderField_enablePluginInAdmin()
-    {
+    public static function renderField_enablePluginInAdmin() {
         $fieldName = "enablePluginInAdmin";
 
-        $options = get_option(self::$sectionGroupIdentifier);
+        $options = get_option( self::$sectionGroupIdentifier );
 
-        $options[$fieldName] = ! isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
+        $options[$fieldName] = !isset( $options[$fieldName] ) ? true : (bool)$options[$fieldName];
 
-        echo '<label><input type="radio" id="' . $fieldName . '_0" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="0" ' . (! $options[$fieldName] ? "checked" : "") . ' /> No</label>';
+        echo '<label><input type="radio" id="' . $fieldName . '_0" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="0" ' . (!$options[$fieldName] ? "checked" : "") . ' /> No</label>';
         echo "&nbsp;&nbsp;";
         echo '<label><input type="radio" id="' . $fieldName . '_1" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="1" ' . ($options[$fieldName] ? "checked" : "") . ' /> Yes</label>';
         echo '<p class="description">Do you want EmbedPress to run here in the admin area? Disabling this <strong>will not</strong> affect your frontend embeds.</p>';
@@ -334,18 +330,36 @@ class Settings
      * @since   1.6.0
      * @static
      */
-    public static function renderField_enablePluginInFront()
-    {
+    public static function renderField_enablePluginInFront() {
         $fieldName = "enablePluginInFront";
 
-        $options = get_option(self::$sectionGroupIdentifier);
+        $options = get_option( self::$sectionGroupIdentifier );
 
-        $options[$fieldName] = ! isset($options[$fieldName]) ? true : (bool)$options[$fieldName];
+        $options[$fieldName] = !isset( $options[$fieldName] ) ? true : (bool)$options[$fieldName];
 
-        echo '<label><input type="radio" id="' . $fieldName . '_0" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="0" ' . (! $options[$fieldName] ? "checked" : "") . ' /> No</label>';
+        echo '<label><input type="radio" id="' . $fieldName . '_0" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="0" ' . (!$options[$fieldName] ? "checked" : "") . ' /> No</label>';
         echo "&nbsp;&nbsp;";
         echo '<label><input type="radio" id="' . $fieldName . '_1" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="1" ' . ($options[$fieldName] ? "checked" : "") . ' /> Yes</label>';
         echo '<p class="description">Do you want EmbedPress to run within editors in frontend (if there\'s any)? Disabling this <strong>will not</strong> affect embeds seem by your regular users in frontend.</p>';
+    }
+
+    /**
+     * Method that renders the enablePluginInAdmin input.
+     *
+     * @since   2.4.1
+     * @static
+     */
+    public static function renderField_enableGlobalEmbedResize() {
+        $fieldName = "enableGlobalEmbedResize";
+
+        $options = get_option( self::$sectionGroupIdentifier );
+
+        $options[$fieldName] = !isset( $options[$fieldName] ) ? false : (bool)$options[$fieldName];
+
+        echo '<label><input class="enableglobalembedresize" type="radio" id="' . $fieldName . '_0" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="0" ' . (!$options[$fieldName] ? "checked" : "") . ' /> No</label>';
+        echo "&nbsp;&nbsp;";
+        echo '<label><input class="enableglobalembedresize" type="radio" id="' . $fieldName . '_1" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']" value="1" ' . ($options[$fieldName] ? "checked" : "") . ' /> Yes</label>';
+        echo '<p class="description">Do you want use global embed dimension, Disabling this <strong>will not</strong> affect embeds.</p>';
     }
 
     /**
@@ -354,17 +368,16 @@ class Settings
      * @since  2.4.0
      * @static
      */
-    public static function renderField_enableEmbedResizeHeight()
-    {
+    public static function renderField_enableEmbedResizeHeight() {
         $fieldName = "enableEmbedResizeHeight";
 
-        $options = get_option(self::$sectionGroupIdentifier);
+        $options = get_option( self::$sectionGroupIdentifier );
 
-        $value = ! isset($options[$fieldName]) ? '552' : $options[$fieldName];
+        $value = !isset( $options[$fieldName] ) ? '552' : $options[$fieldName];
 
-        echo '<input type="number" value="'.absint($value).'" class="regular-text" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']">';
+        echo '<span class="embedpress-allow-globla-dimension"><input type="number" value="' . absint( $value ) . '" class="regular-text" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']">';
 
-        echo '<p class="description">Global Embed Iframe Height</p>';
+        echo '<p class="description">Global Embed Iframe Height</p></span>';
     }
 
     /**
@@ -373,14 +386,13 @@ class Settings
      * @since  2.4.0
      * @static
      */
-    public static function renderField_enableEmbedResizeWidth()
-    {
+    public static function renderField_enableEmbedResizeWidth() {
         $fieldName = "enableEmbedResizeWidth";
-        $options = get_option(self::$sectionGroupIdentifier);
-        $value = ! isset($options[$fieldName]) ? '652' : $options[$fieldName];
+        $options   = get_option( self::$sectionGroupIdentifier );
+        $value     = !isset( $options[$fieldName] ) ? '652' : $options[$fieldName];
 
-        echo '<input type="number" value="'.absint($value).'" class="regular-text" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']">';
-        echo '<p class="description">Global Embed Iframe Width </p>';
+        echo '<span class="embedpress-allow-globla-dimension"><input type="number" value="' . absint( $value ) . '" class="regular-text" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']">';
+        echo '<p class="description">Global Embed Iframe Width </p></span>';
     }
 
     /**
@@ -389,20 +401,19 @@ class Settings
      * @since   1.3.0
      * @static
      */
-    public static function renderField_forceFacebookLanguage()
-    {
+    public static function renderField_forceFacebookLanguage() {
         $fieldName = "fbLanguage";
 
-        $options = get_option(self::$sectionGroupIdentifier);
+        $options = get_option( self::$sectionGroupIdentifier );
 
-        $options[$fieldName] = ! isset($options[$fieldName]) ? "" : $options[$fieldName];
+        $options[$fieldName] = !isset( $options[$fieldName] ) ? "" : $options[$fieldName];
 
         $facebookLocales = self::getFacebookAvailableLocales();
 
         echo '<select name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']">';
         echo '<option value="0">Automatic (by Facebook)</option>';
         echo '<optgroup label="Available">';
-        foreach ($facebookLocales as $locale => $localeName) {
+        foreach ( $facebookLocales as $locale => $localeName ) {
             echo '<option value="' . $locale . '"' . ($options[$fieldName] === $locale ? ' selected' : '') . '>' . $localeName . '</option>';
         }
         echo '</optgroup>';
@@ -414,13 +425,12 @@ class Settings
     /**
      * Returns a list of locales that can be used on Facebook embeds.
      *
+     * @return  array
      * @since   1.3.0
      * @static
      *
-     * @return  array
      */
-    public static function getFacebookAvailableLocales()
-    {
+    public static function getFacebookAvailableLocales() {
         $locales = [
             'af_ZA' => "Afrikaans",
             'ak_GH' => "Akan",
