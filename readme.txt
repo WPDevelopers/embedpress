@@ -7,7 +7,7 @@ Tags: embed, code, video embed, Youtube embed, map embed, content embed, iframes
 Requires at least: 4.6
 Tested up to: 5.3
 Requires PHP: 5.6
-Stable tag: 2.4.0
+Stable tag: 2.4.1
 License: GPLv2 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -265,8 +265,10 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [2.4.1] - 2020-03-04 =
+* Fixed global iFrame resize capacity
 
-= [2.4.0] - 2020-03-02 =
+= [2.4.0] - 20compatibility20-03-02 =
 * Gutenberg Compatibility improvement
 * wp ombed class update
 * Global iFrame resize capacity
