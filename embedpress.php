@@ -61,3 +61,8 @@ if ( ! is_plugin_active('gutenberg/gutenberg.php')) {
     }
     $embedPressPlugin->initialize();
 }
+
+if (  is_plugin_active('elementor/elementor.php')) {
+    $embedPressElements = new \EmbedPress\Elementor\Embedpress_Elementor_Integration();
+    $embedPressElements->init();
+}
