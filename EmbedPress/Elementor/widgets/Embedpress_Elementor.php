@@ -4,8 +4,10 @@ namespace EmbedPress\Elementor\Widgets;
 
 
 use \Elementor\Controls_Manager as Controls_Manager;
+use Elementor\Group_Control_Css_Filter;
 use \Elementor\Widget_Base as Widget_Base;
 use \EmbedPress\Shortcode;
+
 (defined( 'ABSPATH' )) or die( "No direct script access allowed." );
 
 class Embedpress_Elementor extends Widget_Base {
@@ -45,8 +47,9 @@ class Embedpress_Elementor extends Widget_Base {
     }
 
     protected function _register_controls() {
+
         /**
-         * Call to Action Content Settings
+         * EmbedPress Content Settings
          */
         $this->start_controls_section(
             'embedpress_elementor_content_settings',
@@ -65,15 +68,58 @@ class Embedpress_Elementor extends Widget_Base {
 
             ]
         );
+        $this->end_controls_section();
+
+        $this->start_controls_section(
+            'embedpress_style_section',
+            [
+                'label' => __( 'Style', 'elementor' ),
+                'tab' => Controls_Manager::TAB_STYLE,
+            ]
+        );
+
+
+        $this->add_control(
+            'embedpress_elementor_aspect_ratio',
+            [
+                'label' => __( 'Aspect Ratio', 'elementor' ),
+                'type' => Controls_Manager::SELECT,
+                'options' => [
+                    '169' => '16:9',
+                    '219' => '21:9',
+                    '43' => '4:3',
+                    '32' => '3:2',
+                    '11' => '1:1',
+                    '916' => '9:16',
+                ],
+                'default' => '169',
+                'prefix_class' => 'embedpress-elements-aspect-ratio-',
+                'frontend_available' => true,
+            ]
+        );
+
+        $this->add_group_control(
+            Group_Control_Css_Filter::get_type(),
+            [
+                'name' => 'embedpress_elementor_css_filters',
+                'selector' => '{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper',
+            ]
+        );
 
         $this->end_controls_section();
     }
 
     protected function render() {
         $settings = $this->get_settings_for_display();
-        $embed      = Shortcode::parseContent( $settings['embedpress_embeded_link'], true, [] );
+        $embed    = Shortcode::parseContent( $settings['embedpress_embeded_link'], true, [] );
 
         $data = is_object( $embed ) ? $embed->embed : $embed;
-        echo $data;
+        ?>
+            <div class="embedpress-elements-wrapper">
+                <?php echo $data; ?>
+            </div>
+        <?php
     }
+
+
 }
