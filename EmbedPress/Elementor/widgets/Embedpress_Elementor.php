@@ -107,6 +107,8 @@ class Embedpress_Elementor extends Widget_Base {
         );
 
         $this->end_controls_section();
+
+        do_action('embedpress/control/extend', $this);
     }
 
     protected function render() {
