@@ -4,7 +4,7 @@ namespace EmbedPress\Elementor\Widgets;
 
 
 use \Elementor\Controls_Manager as Controls_Manager;
-use Elementor\Group_Control_Css_Filter;
+use \Elementor\Group_Control_Css_Filter;
 use \Elementor\Widget_Base as Widget_Base;
 use \EmbedPress\Shortcode;
 
@@ -13,11 +13,11 @@ use \EmbedPress\Shortcode;
 class Embedpress_Elementor extends Widget_Base {
 
     public function get_name() {
-        return 'embedpres-elementor';
+        return 'embedpres_elementor';
     }
 
     public function get_title() {
-        return esc_html__( 'Embedpress', 'embedoress' );
+        return esc_html__( 'EmbedPress', 'embedoress' );
     }
 
     public function get_categories() {
@@ -68,13 +68,16 @@ class Embedpress_Elementor extends Widget_Base {
 
             ]
         );
+
+        do_action( 'embedpress/embeded/extend', $this );
+
         $this->end_controls_section();
 
         $this->start_controls_section(
             'embedpress_style_section',
             [
                 'label' => __( 'Style', 'elementor' ),
-                'tab' => Controls_Manager::TAB_STYLE,
+                'tab'   => Controls_Manager::TAB_STYLE,
             ]
         );
 
@@ -82,44 +85,46 @@ class Embedpress_Elementor extends Widget_Base {
         $this->add_control(
             'embedpress_elementor_aspect_ratio',
             [
-                'label' => __( 'Aspect Ratio', 'elementor' ),
-                'type' => Controls_Manager::SELECT,
-                'options' => [
+                'label'              => __( 'Aspect Ratio', 'elementor' ),
+                'type'               => Controls_Manager::SELECT,
+                'options'            => [
                     '169' => '16:9',
                     '219' => '21:9',
-                    '43' => '4:3',
-                    '32' => '3:2',
-                    '11' => '1:1',
+                    '43'  => '4:3',
+                    '32'  => '3:2',
+                    '11'  => '1:1',
                     '916' => '9:16',
                 ],
-                'default' => '169',
-                'prefix_class' => 'embedpress-elements-aspect-ratio-',
+                'default'            => '169',
+                'prefix_class'       => 'embedpress-aspect-ratio-',
                 'frontend_available' => true,
             ]
         );
 
+
         $this->add_group_control(
             Group_Control_Css_Filter::get_type(),
             [
-                'name' => 'embedpress_elementor_css_filters',
+                'name'     => 'embedpress_elementor_css_filters',
                 'selector' => '{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper',
             ]
         );
 
         $this->end_controls_section();
 
-        do_action('embedpress/control/extend', $this);
+        do_action( 'embedpress/control/extend', $this );
     }
 
     protected function render() {
-        $settings = $this->get_settings_for_display();
-        $embed    = Shortcode::parseContent( $settings['embedpress_embeded_link'], true, [] );
+        $settings      = $this->get_settings_for_display();
+        $embed_content = Shortcode::parseContent( $settings['embedpress_embeded_link'], true, [] );
+        $embed         = apply_filters( 'embedpress_elementor_embed', $embed_content, $settings );
 
-        $data = is_object( $embed ) ? $embed->embed : $embed;
+        $content = is_object($embed)?$embed->embed:$embed;
         ?>
-            <div class="embedpress-elements-wrapper">
-                <?php echo $data; ?>
-            </div>
+        <div class="embedpress-elements-wrapper embedpress-fit-aspect-ratio">
+            <?php echo $content; ?>
+        </div>
         <?php
     }
 
