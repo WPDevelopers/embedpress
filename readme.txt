@@ -267,7 +267,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 = [2.4.1] - 2020-03-04 =
 * Fixed global iFrame resize capacity
 
-= [2.4.0] - 20compatibility20-03-02 =
+= [2.4.0] - 2020-03-02 =
 * Gutenberg Compatibility improvement
 * wp ombed class update
 * Global iFrame resize capacity
@@ -576,4 +576,4 @@ Added Wistia and Twitch blocks for Gutenberg
 
 == Upgrade Notice ==
 
-* Must Update. Compatibility release.
+* [Minor after 2.4.0] Fixed global iFrame resize capacity
