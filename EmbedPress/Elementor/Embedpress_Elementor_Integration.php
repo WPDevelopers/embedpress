@@ -19,7 +19,7 @@ class Embedpress_Elementor_Integration {
     /**
      * Add elementor category
      *
-     * @since v1.0.0
+     * @since 2.4.3
      */
     public function register_widget_categories( $elements_manager ) {
         $elements_manager->add_category(
@@ -31,12 +31,18 @@ class Embedpress_Elementor_Integration {
     }
 
     /**
+     * Load elementor widget
+     *
      * @since  2.4.2
      */
     public function register_widget( $widgets_manager ) {
         $widgets_manager->register_widget_type( new \EmbedPress\Elementor\Widgets\Embedpress_Elementor );
     }
 
+    /**
+     * Enqueue elementor assets
+     * @since  2.4.3
+     */
     public function embedpress_enqueue_style(){
         wp_enqueue_style(
             'embedpress-elementor-css',
