@@ -29,7 +29,7 @@ class Embedpress_Elementor extends Widget_Base {
     }
 
     public function get_icon() {
-        return 'eicon-document-file';
+        return 'eicon-frame-expand';
     }
 
     /**
