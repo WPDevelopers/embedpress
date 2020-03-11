@@ -64,6 +64,9 @@ class Embedpress_Elementor extends Widget_Base {
 
                 'label'       => __( 'Embeded Link', 'embedpress' ),
                 'type'        => Controls_Manager::TEXTAREA,
+                'dynamic' => [
+                    'active' => true,
+                ],
                 'placeholder' => __( 'Enter your Link', 'embedpress' )
 
             ]
