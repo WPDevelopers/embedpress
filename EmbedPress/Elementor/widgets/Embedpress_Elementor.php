@@ -119,8 +119,8 @@ class Embedpress_Elementor extends Widget_Base {
         $settings      = $this->get_settings_for_display();
         $embed_content = Shortcode::parseContent( $settings['embedpress_embeded_link'], true, [] );
         $embed         = apply_filters( 'embedpress_elementor_embed', $embed_content, $settings );
+        $content       = is_object( $embed ) ? $embed->embed : $embed;
 
-        $content = is_object($embed)?$embed->embed:$embed;
         ?>
         <div class="embedpress-elements-wrapper embedpress-fit-aspect-ratio">
             <?php echo $content; ?>
