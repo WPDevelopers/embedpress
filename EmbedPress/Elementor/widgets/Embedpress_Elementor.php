@@ -58,6 +58,8 @@ class Embedpress_Elementor extends Widget_Base {
             ]
         );
 
+        do_action( 'embedpress/embeded/extend', $this );
+
         $this->add_control(
             'embedpress_embeded_link',
             [
@@ -72,7 +74,7 @@ class Embedpress_Elementor extends Widget_Base {
             ]
         );
 
-        do_action( 'embedpress/embeded/extend', $this );
+
 
         $this->end_controls_section();
 
