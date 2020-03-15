@@ -1,4 +1,3 @@
-
 === EmbedPress – Embed Google Docs, Vimeo and Wistia videos, Giphy and Imgur photos, and more ===
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed, andergmartins, stevejburge, pressshack, deenison
 Author: WPDeveloper
