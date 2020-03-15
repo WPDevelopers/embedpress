@@ -30,7 +30,7 @@ registerBlockType( 'embedpress/google-drawings-block', {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 	title: __( 'Google Drawings' ), // Block title.
 	icon: googleDrawingsIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
-	category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
+	category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout Widgets, embed.
 	keywords: [
 		__( 'embedpress' ),
 		__( 'google' ),
@@ -65,7 +65,7 @@ registerBlockType( 'embedpress/google-drawings-block', {
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
 	save: function( props ) {
-		const { iframeSrc }  = props.attributes  
+		const { iframeSrc }  = props.attributes
 		return (
 			<div class="ose-google-docs-drawings">
                 <img src={iframeSrc} width="960" height="720"/>

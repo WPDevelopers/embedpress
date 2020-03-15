@@ -30,7 +30,7 @@ registerBlockType( 'embedpress/google-sheets-block', {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 	title: __( 'Google Sheets' ), // Block title.
 	icon: googleSheetsIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
-	category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
+	category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout Widgets, embed.
 	keywords: [
 		__( 'embedpress' ),
 		__( 'google' ),
@@ -65,7 +65,7 @@ registerBlockType( 'embedpress/google-sheets-block', {
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
 	save: function( props ) {
-		const { iframeSrc }  = props.attributes  
+		const { iframeSrc }  = props.attributes
 		return (
 			<div class="ose-google-docs-spreadsheets">
 				<iframe src={iframeSrc} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
