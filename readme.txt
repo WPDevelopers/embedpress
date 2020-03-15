@@ -267,7 +267,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 = [2.4.2] - 2020-03-05 =
 * Added EmbedPress widget for Elementor
-* Fixed Google map http protocol error
+* Fixed Google map http error
 
 = [2.4.1] - 2020-03-04 =
 * Fixed global iFrame resize capacity
