@@ -43,7 +43,7 @@ class Embedpress_Elementor extends Widget_Base {
      *
      */
     public function get_keywords() {
-        return [ 'embedpress', 'audio', 'video', 'map' ];
+        return [ 'embedpress', 'audio', 'video', 'map', 'youtube', 'vimeo', 'wistia' ];
     }
 
     protected function _register_controls() {
@@ -65,15 +65,15 @@ class Embedpress_Elementor extends Widget_Base {
             [
 
                 'label'       => __( 'Embeded Link', 'embedpress' ),
-                'type'        => Controls_Manager::TEXTAREA,
-                'dynamic' => [
+                'type'        => Controls_Manager::TEXT,
+                'dynamic'     => [
                     'active' => true,
                 ],
-                'placeholder' => __( 'Enter your Link', 'embedpress' )
+                'placeholder' => __( 'Enter your Link', 'embedpress' ),
+                'label_block' => true
 
             ]
         );
-
 
 
         $this->end_controls_section();
