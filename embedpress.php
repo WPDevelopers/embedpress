@@ -2,11 +2,10 @@
 /**
  * Plugin Name: EmbedPress
  * Plugin URI:  https://embedpress.com/
- * Description: WordPress supports around 35 embed sources, but PublishPress Embeds adds over 40 more, including
- * Facebook, Google Maps, Google Docs, UStream! Just use the URL!
+ * Description: EmbedPress lets you embed videos, images, posts, audio, maps and all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 75+ sources supported.
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.net
- * Version: 2.4.1
+ * Version: 2.5.0
  * Text Domain: embedpress
  * Domain Path: /languages
  *
@@ -60,4 +59,9 @@ if ( ! is_plugin_active('gutenberg/gutenberg.php')) {
         $embedPressPlugin = new \EmbedPress\CoreLegacy();
     }
     $embedPressPlugin->initialize();
+}
+
+if (  is_plugin_active('elementor/elementor.php')) {
+    $embedPressElements = new \EmbedPress\Elementor\Embedpress_Elementor_Integration();
+    $embedPressElements->init();
 }

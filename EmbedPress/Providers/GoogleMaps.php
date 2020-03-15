@@ -48,7 +48,7 @@ class GoogleMaps extends EmberaService
         } else {
             // Extract coordinates and zoom from the url
             if (preg_match('~@(-?[0-9\.]+,-?[0-9\.]+).+,([0-9\.]+[a-z])~i', $this->url, $matches)) {
-                $iframeSrc = 'http://maps.google.com/maps?hl=en&ie=UTF8&ll=' . $matches[1] . '&spn=' . $matches[1] . '&t=m&z=' . round($matches[2]) . '&output=embed';
+                $iframeSrc = 'https://maps.google.com/maps?hl=en&ie=UTF8&ll=' . $matches[1] . '&spn=' . $matches[1] . '&t=m&z=' . round($matches[2]) . '&output=embed';
             } else {
                 return [];
             }

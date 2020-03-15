@@ -30,7 +30,7 @@ registerBlockType( 'embedpress/google-maps-block', {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 	title: __( 'Google Maps' ), // Block title.
 	icon: googleMapsIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
-	category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
+	category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout Widgets, embed.
 	keywords: [
 		__( 'embedpress' ),
 		__( 'google' ),
@@ -65,7 +65,7 @@ registerBlockType( 'embedpress/google-maps-block', {
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
 	save: function( props ) {
-		const { iframeSrc }  = props.attributes  
+		const { iframeSrc }  = props.attributes
 		return (
 			<div class="ose-google-maps">
 				<iframe src={iframeSrc} frameborder="0" width="600" height="450" frameborder="0"></iframe>

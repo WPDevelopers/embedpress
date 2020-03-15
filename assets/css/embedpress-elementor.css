@@ -1,0 +1,42 @@
+.embedpress-aspect-ratio-219 .embedpress-fit-aspect-ratio .embedpress-wrapper {
+    padding-bottom: 42.8571%;
+}
+
+.embedpress-aspect-ratio-169 .embedpress-fit-aspect-ratio .embedpress-wrapper {
+    padding-bottom: 56.25%;
+}
+
+.embedpress-aspect-ratio-43 .embedpress-fit-aspect-ratio .embedpress-wrapper{
+    padding-bottom: 75%;
+}
+
+.embedpress-aspect-ratio-32 .embedpress-fit-aspect-ratio .embedpress-wrapper{
+    padding-bottom: 66.6666%;
+}
+
+.embedpress-aspect-ratio-11 .embedpress-fit-aspect-ratio .embedpress-wrapper {
+    padding-bottom: 100%;
+}
+
+.embedpress-aspect-ratio-916 .embedpress-fit-aspect-ratio .embedpress-wrapper {
+    padding-bottom: 177.8%;
+}
+
+.embedpress-fit-aspect-ratio .embedpress-wrapper {
+    position: relative;
+    height: 0;
+}
+
+.embedpress-fit-aspect-ratio .embedpress-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    border: 0;
+    background-color: #000;
+}
+
+.embedpress-fit-aspect-ratio video {
+    width: 100%;
+}

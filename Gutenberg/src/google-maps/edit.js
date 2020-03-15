@@ -51,7 +51,7 @@ class GoogleSlidesEdit extends Component {
         setAttributes( { url } );
         if(url && url.match(/^http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?(?:place\/)?(?:[a-z0-9\/%+\-_]*)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)/i) ) {
             var iframeSrc = this.decodeHTMLEntities(url);
-            /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i; 
+            /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
             if(url.match('~(maps/embed|output=embed)~i')) {
                 //do something
             }
@@ -59,7 +59,7 @@ class GoogleSlidesEdit extends Component {
                 var regEx =  /@(-?[0-9\.]+,-?[0-9\.]+).+,([0-9\.]+[a-z])/i;
                 var match = regEx.exec(iframeSrc);
                 if(match && match.length > 1 && match[1] && match[2]) {
-                    iframeSrc = 'http://maps.google.com/maps?hl=en&ie=UTF8&ll=' + match[1] + '&spn=' + match[1] + '&t=m&z=' + Math.round(parseInt(match[2])) + '&output=embed';
+                    iframeSrc = 'https://maps.google.com/maps?hl=en&ie=UTF8&ll=' + match[1] + '&spn=' + match[1] + '&t=m&z=' + Math.round(parseInt(match[2])) + '&output=embed';
                 }
                 else {
                     this.setState({
@@ -67,7 +67,7 @@ class GoogleSlidesEdit extends Component {
                         editingURL: true
                     })
                 }
-    
+
             }
             this.setState( { editingURL: false, cannotEmbed: false } );
             setAttributes( {iframeSrc: iframeSrc })
@@ -83,7 +83,7 @@ class GoogleSlidesEdit extends Component {
     switchBackToURLInput() {
         this.setState( { editingURL: true } );
     }
-    
+
     render() {
         const { url, editingURL, fetching, cannotEmbed } = this.state;
         const { iframeSrc } = this.props.attributes;
@@ -103,7 +103,7 @@ class GoogleSlidesEdit extends Component {
             );
         }
         else {
-            
+
             return (
                 <Fragment>
                     {fetching  ?  <EmbedLoading /> : null}
@@ -111,7 +111,7 @@ class GoogleSlidesEdit extends Component {
                     <EmbedControls
                         showEditButton={ iframeSrc && ! cannotEmbed }
                         switchBackToURLInput={ this.switchBackToURLInput }
-                    />  
+                    />
                 </Fragment>
 
             )
