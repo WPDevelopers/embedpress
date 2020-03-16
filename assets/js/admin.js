@@ -12,9 +12,10 @@
     $(document).on('click', '.embedpress-plugin-notice-dismissible.is-dismissible', function () {
         var data = {
             action: 'embedpress_notice_dismiss',
+            security: EMBEDPRESS_ADMIN_PARAMS.nonce,
         };
 
-        $.post( EMBEDPRESS_ADMIN_PARAMS.ajaxurl, data, function() {
+        $.post(EMBEDPRESS_ADMIN_PARAMS.ajaxurl, data, function () {
 
         });
     });
