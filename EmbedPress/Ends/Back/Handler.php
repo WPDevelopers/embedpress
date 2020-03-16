@@ -52,6 +52,15 @@ class Handler extends EndHandlerAbstract
             'urlSchemes'            => $urlSchemes,
         ]);
 
+        //load embedpress admin js
+
+        wp_enqueue_script('embedpress-admin', EMBEDPRESS_URL_ASSETS . 'js/admin.js', ['jquery'],
+            $this->pluginVersion, true);
+        wp_localize_script($this->pluginName, 'EMBEDPRESS_ADMIN_PARAMS', [
+            'ajaxurl'    => get_admin_url() . 'admin-ajax.php'
+        ]);
+
+
         $installedPlugins = Core::getPlugins();
         if (count($installedPlugins) > 0) {
             foreach ($installedPlugins as $plgSlug => $plgNamespace) {
@@ -413,5 +422,14 @@ class Handler extends EndHandlerAbstract
             '*.wistia.com/medias/*',
             'fast.wistia.com/embed/medias/*.jsonp',
         ];
+    }
+
+    /**
+     * Update admin notice view status
+     *
+     * @since  2.5.1
+     */
+    public function embedpress_notice_dismiss(){
+        update_option( 'embedpress_dismiss_notice', true );
     }
 }
