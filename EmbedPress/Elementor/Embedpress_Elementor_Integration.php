@@ -4,7 +4,7 @@ namespace EmbedPress\Elementor;
 
 
 (defined( 'ABSPATH' )) or die( "No direct script access allowed." );
-
+use EmbedPress\Compatibility;
 class Embedpress_Elementor_Integration {
 
     /**
@@ -54,8 +54,10 @@ class Embedpress_Elementor_Integration {
     }
 
     public function addOEmbedProviders( $providers ) {
-        unset( $providers['#https?://(.+\.)?wistia\.com/medias/.+#i'], $providers['#https?://(.+\.)?fast\.wistia\.com/embed/medias/.+#i\.jsonp'] );
-        error_log(print_r($providers,true));
+        if (Compatibility::isWordPress5() && ! Compatibility::isClassicalEditorActive()) {
+            unset( $providers['#https?://(.+\.)?wistia\.com/medias/.+#i'], $providers['#https?://(.+\.)?fast\.wistia\.com/embed/medias/.+#i\.jsonp'] );
+        }
+
         return $providers;
     }
 
