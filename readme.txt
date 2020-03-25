@@ -1,21 +1,21 @@
-=== EmbedPress – Embed Google Docs, Vimeo and Wistia videos, Giphy and Imgur photos, and more ===
+=== EmbedPress – Embed Google Docs, YouTube, Vimeo, Wistia Videos, Giphy Photos and More ===
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed, andergmartins, stevejburge, pressshack, deenison
 Author: WPDeveloper
 Author URI: https://wpdeveloper.net
-Tags: embed, code, video embed, Youtube embed, map embed, content embed, iframes
+Tags: embed, embed youtube, gutenberg embed, elementor embed, video embed, Google Doc, map embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, embed wordpress
 Requires at least: 4.6
 Tested up to: 5.3
 Requires PHP: 5.6
-Stable tag: 2.5.0
+Stable tag: 2.5.1
 License: GPLv2 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
-EmbedPress lets you embed videos, images, posts, audio, maps and all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors.
+EmbedPress lets you embed videos, images, posts, audio, maps and all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 
 
 == Description ==
 
 
-EmbedPress lets you embed videos, images, posts, audio, maps and all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors.
+EmbedPress lets you embed videos, images, posts, audio, maps and all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. Classic Editor, Gutenberg & Elementor all supported.
 
 🔥RICH MEDIA EMBEDS FROM MORE THAN 75 SITES
 
@@ -231,11 +231,13 @@ This embed plugin is brought to you by the team behind [WPDeveloper](https://wpd
 🔥 WHAT’S NEXT
 If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
-🔝[Essential Addons For Elementor](https://wordpress.org/plugins/essential-addons-for-elementor-lite/) – Most popular Elementor extensions with 400,000+ active users in the WordPress repository.
+🔝[Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 500,000+ active users in the WordPress repository.
 
-🔔[NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates,
+🔔[NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
 
-⏰[WP Scheduled Posts](https://wordpress.org/plugins/wp-scheduled-posts/)  – Complete solution for WordPress Post Scheduling to manage schedules through an editorial calendar.
+⏰[WP Scheduled Posts](https://wordpress.org/plugins/wp-scheduled-posts/)  – Complete solution for WordPress Post Scheduling to manage schedules through an editorial calendar & Social Share.
+
+🗒️ [BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, whcih also reduce your manual support request.
 
 
 Visit [WPDeveloper](https://wpdeveloper.net/) to learn more about how to do better in WordPress with [Help Tutorial, Tips & Tricks](https://wpdeveloper.net/blog).
@@ -263,6 +265,10 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [2.5.1] - 2020-03-25 =
+* Fixed Wistia video issue in Elementor
+* Fixed Admin notice dismissible
 
 = [2.5.0] - 2020-03-15 =
 * Added EmbedPress widget for Elementor

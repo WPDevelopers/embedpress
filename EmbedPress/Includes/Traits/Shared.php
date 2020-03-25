@@ -135,8 +135,14 @@ trait Shared {
         return is_plugin_active('embedpress-pro/embedpress-pro.php');
     }
 
+    /**
+     * Show Admin notice when one of embedpress old plugin active
+     *
+     * @since  2.4.0
+     */
     public function embedpress_admin_notice(){
-        if ($this->is_pro_active()) {
+
+        if (get_option( 'embedpress_dismiss_notice' ) == true || $this->is_pro_active() ) {
             return;
         }
 
@@ -149,7 +155,7 @@ trait Shared {
         foreach($active_plugins as $plugin){
             if(in_array($plugin,$plugin_list)){
                 $msg = '<strong>[Good News]</strong> Introducing <strong>EmbedPress Pro</strong>! And as existing Loyal User you get Unlimited Sites access to EmbedPress Pro for free. Please update and claim your free license to continue. <br/><strong>[<a href="https://embedpress.com/ep-loyal-users" target="_blank" rel="noopener">Details</a>] - [<a href="https://embedpress.com/new-pro-2020-free" target="_blank" rel="noopener">Get EmbedPress Pro for Free</a>]</strong>';
-                echo '<div class="notice notice-info is-dismissible">
+                echo '<div class="notice notice-info embedpress-plugin-notice-dismissible is-dismissible">
                 <p>'.$msg.'</p>
             </div>';
                 break;

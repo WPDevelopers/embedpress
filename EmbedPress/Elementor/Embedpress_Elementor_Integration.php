@@ -4,7 +4,7 @@ namespace EmbedPress\Elementor;
 
 
 (defined( 'ABSPATH' )) or die( "No direct script access allowed." );
-
+use EmbedPress\Compatibility;
 class Embedpress_Elementor_Integration {
 
     /**
@@ -14,6 +14,7 @@ class Embedpress_Elementor_Integration {
         add_action( 'elementor/frontend/after_enqueue_styles', [ $this, 'embedpress_enqueue_style' ] );
         add_action( 'elementor/elements/categories_registered', array( $this, 'register_widget_categories' ) );
         add_action( 'elementor/widgets/widgets_registered', array( $this, 'register_widget' ) );
+        add_filter( 'oembed_providers', [ $this, 'addOEmbedProviders' ] );
     }
 
     /**
@@ -43,13 +44,21 @@ class Embedpress_Elementor_Integration {
      * Enqueue elementor assets
      * @since  2.4.3
      */
-    public function embedpress_enqueue_style(){
+    public function embedpress_enqueue_style() {
         wp_enqueue_style(
             'embedpress-elementor-css',
             EMBEDPRESS_URL_ASSETS . 'css/embedpress-elementor.css',
             false,
             EMBEDPRESS_VERSION
         );
+    }
+
+    public function addOEmbedProviders( $providers ) {
+        if (Compatibility::isWordPress5() && ! Compatibility::isClassicalEditorActive()) {
+            unset( $providers['#https?://(.+\.)?wistia\.com/medias/.+#i'], $providers['#https?://(.+\.)?fast\.wistia\.com/embed/medias/.+#i\.jsonp'] );
+        }
+
+        return $providers;
     }
 
 }
