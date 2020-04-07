@@ -9,7 +9,7 @@
  */
 
 // Exit if accessed directly.
-if ( ! defined( 'ABSPATH' ) ) {
+if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
 
@@ -25,7 +25,7 @@ function embedpress_blocks_cgb_block_assets() { // phpcs:ignore
 		'embedpress_blocks-cgb-style-css', // Handle.
 		plugins_url( 'dist/blocks.style.build.css', dirname( __FILE__ ) ), // Block style CSS.
 		array( 'wp-editor' ) // Dependency to include the CSS after it.
-		// filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.style.build.css' ) // Version: File modification time.
+	// filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.style.build.css' ) // Version: File modification time.
 	);
 }
 
@@ -50,19 +50,19 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 		// filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.build.js' ), // Version: File modification time.
 		true // Enqueue the script in the footer.
 	);
-	$wistia_labels = array(
-        'watch_from_beginning'       => __('Watch from the beginning', 'embedpress-wistia'),
-        'skip_to_where_you_left_off' => __('Skip to where you left off', 'embedpress-wistia'),
-        'you_have_watched_it_before' => __('It looks like you\'ve watched<br />part of this video before!', 'embedpress-wistia'),
-    );
-	$wistia_labels = json_encode($wistia_labels);
+	$wistia_labels  = array(
+		'watch_from_beginning'       => __( 'Watch from the beginning', 'embedpress-wistia' ),
+		'skip_to_where_you_left_off' => __( 'Skip to where you left off', 'embedpress-wistia' ),
+		'you_have_watched_it_before' => __( 'It looks like you\'ve watched<br />part of this video before!', 'embedpress-wistia' ),
+	);
+	$wistia_labels  = json_encode( $wistia_labels );
 	$wistia_options = null;
-	if(function_exists('embedpress_wisita_pro_get_options') ):
+	if ( function_exists( 'embedpress_wisita_pro_get_options' ) ):
 		$wistia_options = embedpress_wisita_pro_get_options();
 	endif;
 	wp_localize_script( 'embedpress_blocks-cgb-block-js', 'embedpressObj', array(
-		'wistia_labels' 	=> $wistia_labels,
-		'wisita_options'	=>  $wistia_options
+		'wistia_labels'  => $wistia_labels,
+		'wisita_options' => $wistia_options
 	) );
 
 	// Styles.
@@ -70,7 +70,7 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 		'embedpress_blocks-cgb-block-editor-css', // Handle.
 		plugins_url( 'dist/blocks.editor.build.css', dirname( __FILE__ ) ), // Block editor CSS.
 		array( 'wp-edit-blocks' ) // Dependency to include the CSS after it.
-		// filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.editor.build.css' ) // Version: File modification time.
+	// filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.editor.build.css' ) // Version: File modification time.
 	);
 }
 
@@ -83,14 +83,36 @@ function embedpress_block_category( $categories, $post ) {
 		$categories,
 		array(
 			array(
-				'slug' => 'embedpress',
+				'slug'  => 'embedpress',
 				'title' => 'EmbedPress',
 			),
 		)
 	);
 }
-add_filter( 'block_categories', 'embedpress_block_category', 10, 2);
 
-foreach ( glob( plugin_dir_path(__FILE__) . '*/index.php' ) as $block_logic ) {
+add_filter( 'block_categories', 'embedpress_block_category', 10, 2 );
+
+/**
+ * Registers the embedpress gutneberg block on server.
+ */
+
+function embedpress_gutenberg_register_all_block() {
+	if ( function_exists( 'register_block_type' ) ) :
+		register_block_type( 'embedpress/twitch-block' );
+		register_block_type( 'embedpress/google-slides-block' );
+		register_block_type( 'embedpress/google-sheets-block' );
+		register_block_type( 'embedpress/google-maps-block' );
+		register_block_type( 'embedpress/google-forms-block' );
+		register_block_type( 'embedpress/google-drawings-block' );
+		register_block_type( 'embedpress/google-docs-block' );
+	endif;
+}
+
+add_action( 'init', 'embedpress_gutenberg_register_all_block' );
+
+
+foreach ( glob( plugin_dir_path( __FILE__ ) . '*/index.php' ) as $block_logic ) {
 	require $block_logic;
 }
+
+
