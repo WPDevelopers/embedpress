@@ -96,7 +96,7 @@ trait Shared {
          * Message message for showing.
          */
         $notice->classes( 'upsale', 'notice is-dismissible ' );
-        $notice->message( 'upsale', '<p>'. __( '300+ People already using <a href="https://essential-blocks.com/" target="_blank">Essential Blocks</a>', $notice->text_domain ) .'</p>' );
+        $notice->message( 'upsale', '<p>'. __( 'If you are using Gutenberg, you must install <a href="https://essential-blocks.com/" target="_blank">Essential Blocks</a>, it extends your capacity, with 22 Free Blocks!', $notice->text_domain ) .'</p>' );
         $notice->thumbnail( 'upsale', plugins_url( 'assets/images/essential-blocks.png', EMBEDPRESS_PLUGIN_BASENAME ) );
 
         // Update Notice For PRO Version
