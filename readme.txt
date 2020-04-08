@@ -4,7 +4,7 @@ Author: WPDeveloper
 Author URI: https://wpdeveloper.net
 Tags: embed, embed youtube, gutenberg embed, elementor embed, video embed, Google Doc, map embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, embed wordpress
 Requires at least: 4.6
-Tested up to: 5.3
+Tested up to: 5.4
 Requires PHP: 5.6
 Stable tag: 2.5.1
 License: GPLv2 or later
@@ -254,12 +254,14 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 == Screenshots ==
 
-1. Paste any URL as you normally would
-2. Loading the embed...
-3. See the embed inside the editor
-4. The embed in the site
-5. Accessing the options panel you can remove or edit the embed
-6. You can customize each embed
+1. YouTube Embeding
+2. Dashboard Screenshot
+3. EmbedPress Screenshot Google Map
+4. EmbedPress Screenshot Google Sheet
+5. EmbedPress Screenshot Twitter
+6. EmbedPress Screenshot Vimeo
+7. EmbedPress Screenshot Wistia
+8. EmbedPress Screenshot YouTube
 
 == Changelog ==
 
