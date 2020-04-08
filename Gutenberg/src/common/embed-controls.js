@@ -25,7 +25,7 @@ const EmbedControls = ( props ) => {
 					) }
 				</Toolbar>
 			</BlockControls>
-		
+
 		</Fragment>
 	);
 };

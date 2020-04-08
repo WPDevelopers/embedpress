@@ -51,11 +51,11 @@ class GoogleDocsEdit extends Component {
         setAttributes( { url } );
         if(url && url.match( /^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)){
             var iframeSrc = this.decodeHTMLEntities(url);
-            var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i; 
+            var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
             var match = regEx.exec(iframeSrc);
             var type = match[1];
             if(type && type == 'document') {
-                if(iframeSrc.match( /([?&])embedded=true/i)) {
+                if(!iframeSrc.match( /([?&])embedded=true/i)) {
                     if(iframeSrc.indexOf('?') > -1 ) {
                         iframeSrc += '&embedded=true';
                     }
@@ -64,7 +64,7 @@ class GoogleDocsEdit extends Component {
                     }
                 }
                 this.setState( { editingURL: false, cannotEmbed: false } );
-                setAttributes( {iframeSrc: iframeSrc })    
+                setAttributes( {iframeSrc: iframeSrc })
             }
             else {
                 this.setState({
@@ -84,7 +84,7 @@ class GoogleDocsEdit extends Component {
     switchBackToURLInput() {
         this.setState( { editingURL: true } );
     }
-    
+
     render() {
         const { url, editingURL, fetching, cannotEmbed } = this.state;
         const { iframeSrc } = this.props.attributes;
@@ -104,19 +104,21 @@ class GoogleDocsEdit extends Component {
             );
         }
         else {
-            
+
             return (
                 <Fragment>
                     {fetching  ?  <EmbedLoading /> : null}
                     <Iframe src={iframeSrc} onLoad={this.onLoad} style={{ display: fetching ? 'none' : '' }} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" />
                     <EmbedControls
-                    showEditButton={ iframeSrc && ! cannotEmbed }
-                    switchBackToURLInput={ this.switchBackToURLInput }
-                    />  
+						url={ this.state.url }
+                    	showEditButton={ cannotEmbed }
+						hasEmbed={ this.props.preview }
+                    	switchBackToURLInput={ this.switchBackToURLInput }
+                    />
                 </Fragment>
             )
         }
-        
+
     }
 };
 export default GoogleDocsEdit;
