@@ -96,7 +96,7 @@ trait Shared {
          * Message message for showing.
          */
         $notice->classes( 'upsale', 'notice is-dismissible ' );
-        $notice->message( 'upsale', '<p>'. __( '8,000+ People already using <a href="https://wpdeveloper.net/ea/notificationX" target="_blank">EmbedPress</a> to increase their Sales & Engagement!', $notice->text_domain ) .'</p>' );
+        $notice->message( 'upsale', '<p>'. __( '10,000+ People already using <a href="https://wpdeveloper.net/ea/notificationX" target="_blank">NotificationX</a> to increase their Sales & Engagement!', $notice->text_domain ) .'</p>' );
         $notice->thumbnail( 'upsale', plugins_url( 'assets/images/nx-icon.svg', EMBEDPRESS_PLUGIN_BASENAME ) );
 
         // Update Notice For PRO Version
