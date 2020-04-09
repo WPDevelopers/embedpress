@@ -7,7 +7,7 @@ Requires at least: 4.6
 Tested up to: 5.4
 Requires PHP: 5.6
 Stable tag: 2.5.2
-License: GPLv2 or later
+License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
 EmbedPress lets you embed videos, images, posts, audio, maps and all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 
@@ -254,14 +254,14 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 == Screenshots ==
 
-1. YouTube Embeding
-2. Dashboard Screenshot
-3. EmbedPress Screenshot Google Map
-4. EmbedPress Screenshot Google Sheet
-5. EmbedPress Screenshot Twitter
-6. EmbedPress Screenshot Vimeo
-7. EmbedPress Screenshot Wistia
-8. EmbedPress Screenshot YouTube
+1. YouTube Embeding Example
+2. EmbedPress Screenshot - Dashboard 
+3. EmbedPress Screenshot - Google Map
+4. EmbedPress Screenshot - Google Sheet
+5. EmbedPress Screenshot - Twitter
+6. EmbedPress Screenshot - Vimeo
+7. EmbedPress Screenshot - Wistia
+8. EmbedPress Screenshot - YouTube
 
 == Changelog ==
 
