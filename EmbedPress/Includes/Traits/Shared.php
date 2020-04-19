@@ -96,8 +96,8 @@ trait Shared {
          * Message message for showing.
          */
         $notice->classes( 'upsale', 'notice is-dismissible ' );
-        $notice->message( 'upsale', '<p>'. __( '8,000+ People already using <a href="https://wpdeveloper.net/ea/notificationX" target="_blank">EmbedPress</a> to increase their Sales & Engagement!', $notice->text_domain ) .'</p>' );
-        $notice->thumbnail( 'upsale', plugins_url( 'assets/images/nx-icon.svg', EMBEDPRESS_PLUGIN_BASENAME ) );
+        $notice->message( 'upsale', '<p>'. __( 'If you are using Gutenberg, you must install <a href="https://essential-blocks.com/" target="_blank">Essential Blocks</a>, it extends your capacity, with 22 Free Blocks!', $notice->text_domain ) .'</p>' );
+        $notice->thumbnail( 'upsale', plugins_url( 'assets/images/essential-blocks.png', EMBEDPRESS_PLUGIN_BASENAME ) );
 
         // Update Notice For PRO Version
         if( $this->is_pro_active() && \version_compare( EMBEDPRESS_PRO_VERSION, '2.0.0', '<' ) ) {
@@ -107,13 +107,13 @@ trait Shared {
         }
 
         $notice->upsale_args = array(
-            'slug'      => 'notificationx',
-            'page_slug' => 'nx-builder',
-            'file'      => 'notificationx.php',
+            'slug'      => 'essential-blocks',
+            'page_slug' => 'essential-blocks',
+            'file'      => 'essential-blocks.php',
             'btn_text'  => __( 'Install Free', 'embedpress'),
             'condition' => [
                 'by' => 'class',
-                'class' => 'NotificationX'
+                'class' => 'EssentialAdmin'
             ],
         );
 

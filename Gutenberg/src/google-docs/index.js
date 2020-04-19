@@ -66,10 +66,12 @@ registerBlockType( 'embedpress/google-docs-block', {
 	 */
 	save: function( props ) {
 		const { iframeSrc }  = props.attributes
-		return (
-			<div class="ose-google-docs-document">
-				<iframe src={iframeSrc} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-			</div>
-		);
+		if(iframeSrc){
+			return (
+				<div class="ose-google-docs-document">
+					<iframe src={iframeSrc} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+				</div>
+			);
+		}
 	},
 } );

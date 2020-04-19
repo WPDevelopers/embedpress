@@ -3,7 +3,7 @@
  */
 const { __, _x } = wp.i18n;
 const { Button, Placeholder } = wp.components;
-const { BlockIcon }  = wp.editor;
+const { BlockIcon }  = wp.blockEditor;
 
 const EmbedPlaceholder = ( props ) => {
 	const { icon, label, value, onSubmit, onChange, cannotEmbed } = props;
