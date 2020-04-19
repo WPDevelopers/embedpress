@@ -205,7 +205,7 @@ class Core {
 
             // Moby Picture (http://www.mobypicture.com)
             '#https?://(.+\.)?mobypicture\.com/user/.+/view/.+#i' => 'mobypicture',
-            '#https?://(.+\.)?moby\.to/.+#i',
+            '#https?://(.+\.)?moby\.to/.+#i' => 'mobypicture',
 
             // 23HQ (http://www.23hq.com)
             '#https?://(.+\.)?23hq\.com/.+/photo/.+#i' => '23hq',
