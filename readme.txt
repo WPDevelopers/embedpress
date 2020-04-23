@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, elementor embed, video embed, Googl
 Requires at least: 4.6
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 2.5.2
+Stable tag: 2.5.3
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -267,6 +267,10 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [2.5.3] - 2020-04-22 =
+* Fixed minor issue related to Google Sheets in Elementor without Classic Editor
+* License update to GPLv3 from GPLv2
 
 = [2.5.2] - 2020-04-09 =
 * Fixed Google doc design issue

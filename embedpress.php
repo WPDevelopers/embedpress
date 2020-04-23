@@ -5,7 +5,7 @@
  * Description: EmbedPress lets you embed videos, images, posts, audio, maps and all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 75+ sources supported.
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.net
- * Version: 2.5.2
+ * Version: 2.5.3
  * Text Domain: embedpress
  * Domain Path: /languages
  *
@@ -16,7 +16,7 @@
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
  * @copyright   Copyright (C) 2020 WPDeveloper. All rights reserved.
- * @license     GPLv2 or later
+ * @license     GPLv3 or later
  * @since       1.0.0
  */
 

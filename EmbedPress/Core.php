@@ -13,8 +13,8 @@ use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
  *
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
- * @copyright   Copyright (C) 2018 EmbedPress. All rights reserved.
- * @license     GPLv2 or later
+ * @copyright   Copyright (C) 2020 WPDeveloper. All rights reserved.
+ * @license     GPLv3 or later
  * @since       1.0.0
  */
 class Core {
@@ -205,7 +205,7 @@ class Core {
 
             // Moby Picture (http://www.mobypicture.com)
             '#https?://(.+\.)?mobypicture\.com/user/.+/view/.+#i' => 'mobypicture',
-            '#https?://(.+\.)?moby\.to/.+#i',
+            '#https?://(.+\.)?moby\.to/.+#i' => 'mobypicture',
 
             // 23HQ (http://www.23hq.com)
             '#https?://(.+\.)?23hq\.com/.+/photo/.+#i' => '23hq',
