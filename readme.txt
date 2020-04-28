@@ -1,4 +1,4 @@
-=== EmbedPress – Embed Google Docs, YouTube, Vimeo, Wistia Videos, Giphy Photos and More ===
+=== EmbedPress – Embed Google Docs, YouTube, Vimeo, Wistia Videos, Giphy Photos, Maps, etc ===
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed, andergmartins, stevejburge, pressshack, deenison
 Author: WPDeveloper
 Author URI: https://wpdeveloper.net
@@ -15,7 +15,9 @@ EmbedPress lets you embed videos, images, posts, audio, maps and all other types
 == Description ==
 
 
-EmbedPress lets you embed videos, images, posts, audio, maps and all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. Classic Editor, Gutenberg & Elementor all supported.
+[EmbedPress](https://embedpress.com/) lets you embed videos, images, posts, audio, maps and all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. Classic Editor, Gutenberg & Elementor all supported.
+
+https://www.youtube.com/watch?v=fvYKLkEnJbI
 
 🔥RICH MEDIA EMBEDS FROM MORE THAN 75 SITES
 
@@ -209,7 +211,7 @@ We’ve seen that EmbedPress supports YouTube, Wistia and Vimeo, but EmbedPress 
 
 ## 🚀BACKED BY A TRUSTED TEAM
 
-This embed plugin is brought to you by the team behind [WPDeveloper](https://wpdeveloper.net/), a dedicated marketplace for WordPress, trusted by 500,000+ happy users.
+This embed plugin is brought to you by the team behind [WPDeveloper](https://wpdeveloper.net/), a dedicated marketplace for WordPress, trusted by 600,000+ happy users.
 
 ### 👨‍💻 DOCUMENTATION AND SUPPORT
 
@@ -224,7 +226,7 @@ This embed plugin is brought to you by the team behind [WPDeveloper](https://wpd
 
 -   Join our [Facebook Group](https://www.facebook.com/groups/wpdeveloper.net/)
 
--   If you love EmbedPress, [rate us on WordPress](https://wordpress.org/support/plugin/embedpress/reviews/#new-post)
+-   If you love EmbedPress, [rate us on WordPress](https://wordpress.org/support/plugin/embedpress/reviews/?filter=5)
 
 
 
