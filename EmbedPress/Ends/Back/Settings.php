@@ -198,6 +198,13 @@ class Settings {
                         EmbedPress
                     </a>
                 </h1>
+                <div class="embedpress-version-name">
+                    <span class="free">Core Version: <?php echo EMBEDPRESS_VERSION; ?></span>
+                    
+                    <?php if ( defined('EMBEDPRESS_PRO_PLUGIN_VERSION')) { ?>
+                        <span class="pro"> Pro Version: <?php echo EMBEDPRESS_PRO_PLUGIN_VERSION; ?></span>
+                    <?php } ?>
+                </div>
             </header>
 
             <?php settings_errors(); ?>
@@ -209,7 +216,6 @@ class Settings {
                     </a>
                     <?php do_action( 'embedpress:settings:render:tab', $activeTab ); ?>
                     <?php do_action( 'embedpress_license_tab', $activeTab ); ?>
-
                 </h2>
 
                 <?php if ( $activeTab !== 'addons' ) : ?>

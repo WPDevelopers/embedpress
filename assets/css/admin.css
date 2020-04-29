@@ -65,6 +65,11 @@
     margin-top: 15px;
 }
 
+#embedpress-settings-wrapper > header {
+    display: flex;
+    justify-content: space-between;
+}
+
 #embedpress-settings-wrapper > header .pressshack-title {
     display: inline-block;
     padding: 10px 0 10px 55px;
@@ -266,6 +271,20 @@
 
 .modal-dialog .row {
     width: 100%;
+}
+
+.embedpress-version-name {
+    vertical-align: middle;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+.embedpress-version-name span{
+    color: #687b95;
+    font-size: 14px;
+    font-weight: 700;
+    text-align: right;
+    display: block;
+    padding-bottom: 5px;
 }
 
 
