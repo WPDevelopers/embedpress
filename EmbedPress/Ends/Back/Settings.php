@@ -245,7 +245,7 @@ class Settings {
                                title="About EmbedPress">About</a>
                         </li>
                         <li>
-                            <a href="//embedpress.com/docs/sources-support" target="_blank" rel="noopener noreferrer"
+                            <a href="//embedpress.com/sources/" target="_blank" rel="noopener noreferrer"
                                title="List of supported sources by EmbedPress">Supported sources</a>
                         </li>
                         <li>
@@ -253,8 +253,8 @@ class Settings {
                                title="EmbedPress Documentation">Documentation</a>
                         </li>
                         <li>
-                            <a href="//embedpress.com/addons/" target="_blank" rel="noopener noreferrer"
-                               title="EmbedPress Add-Ons">Add-Ons</a>
+                            <a href="//embedpress.com/#pricing" target="_blank" rel="noopener noreferrer"
+                               title="EmbedPress Add-Ons">Add Pro</a>
                         </li>
                         <li>
                             <a href="//embedpress.com/contact" target="_blank" rel="noopener noreferrer"
@@ -274,7 +274,7 @@ class Settings {
                 </nav>
                 <p>
                     <a href="//embedpress.com" target="_blank" rel="noopener noreferrer">
-                        <img width="100" src="//embedpress.com/wp-content/uploads/2018/01/ep-logo-2.png">
+                        <img width="100" src="<?php echo plugins_url( 'assets/images/embedpress.png', EMBEDPRESS_PLUGIN_BASENAME ); ?>">
                     </a>
                 </p>
             </footer>
