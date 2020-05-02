@@ -11,7 +11,7 @@ import Iframe from '../common/Iframe';
  */
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
-
+import { googleDocsIcon } from '../common/icons';
 class GoogleDocsEdit extends Component {
     constructor() {
         super( ...arguments );
@@ -89,22 +89,26 @@ class GoogleDocsEdit extends Component {
         const { url, editingURL, fetching, cannotEmbed } = this.state;
         const { iframeSrc } = this.props.attributes;
 
-        const label = __( 'Google Docs URL');
+        const label = __('Google Docs URL');
 
         // No preview, or we can't embed the current URL, or we've clicked the edit button.
         if ( !iframeSrc  || editingURL ) {
+			console.log('Load 12');
             return (
-                <EmbedPlaceholder
-                    label={ label }
-                    onSubmit={ this.setUrl }
-                    value={ url }
-                    cannotEmbed={ cannotEmbed }
-                    onChange={ ( event ) => this.setState( { url: event.target.value } ) }
-                />
-            );
-        }
-        else {
+				<Fragment>
+					<EmbedPlaceholder
+						label={label}
+						onSubmit={ this.setUrl }
+						value={ url }
+						cannotEmbed={ cannotEmbed }
+						onChange={ ( event ) => this.setState( { url: event.target.value } ) }
+						DocTitle={__('Learn more about Google doc')}
+						docLink={'https://embedpress.com/docs/embed-google-docs-wordpress/'}
+					/>
+				</Fragment>
 
+            );
+        } else {
             return (
                 <Fragment>
                     {fetching  ?  <EmbedLoading /> : null}

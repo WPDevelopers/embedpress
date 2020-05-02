@@ -2,11 +2,11 @@
  * WordPress dependencies
  */
 const { __, _x } = wp.i18n;
-const { Button, Placeholder } = wp.components;
+const { Button, Placeholder,ExternalLink } = wp.components;
 const { BlockIcon }  = wp.blockEditor;
 
 const EmbedPlaceholder = ( props ) => {
-	const { icon, label, value, onSubmit, onChange, cannotEmbed } = props;
+	const { icon, label, value, onSubmit, onChange, cannotEmbed,docLink,DocTitle } = props;
 	return (
 		<Placeholder icon={ <BlockIcon icon={ icon } showColors /> } label={ label } className="wp-block-embed">
 			<form onSubmit={ onSubmit }>
@@ -22,12 +22,20 @@ const EmbedPlaceholder = ( props ) => {
 					type="submit">
 					{ _x( 'Embed', 'button label' ) }
 				</Button>
+
 				{ cannotEmbed &&
 					<p className="components-placeholder__error">
 						{ __( 'Sorry, we could not embed that content.' ) }<br />
 					</p>
 				}
+
 			</form>
+			{docLink &&
+				<div className="components-placeholder__learn-more">
+					<ExternalLink href={docLink}>{DocTitle}</ExternalLink>
+				</div>
+			}
+
 		</Placeholder>
 	);
 };
