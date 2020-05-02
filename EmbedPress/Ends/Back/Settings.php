@@ -214,6 +214,12 @@ class Settings {
                        class="nav-tab<?php echo $activeTab === 'embedpress' || empty( $activeTab ) ? ' nav-tab-active' : ''; ?> ">
                         General settings
                     </a>
+                    <?php if(!defined('EMBEDPRESS_PRO_PLUGIN_VERSION')): ?>
+                    <a href="?page=embedpress&tab=embedpress_get_pro"
+                       class="nav-tab<?php echo $activeTab === 'embedpress_get_pro' ? ' nav-tab-active' : ''; ?> ">
+                        Go Premium
+                    </a>
+                    <?php endif; ?>
                     <?php do_action( 'embedpress:settings:render:tab', $activeTab ); ?>
                     <?php do_action( 'embedpress_license_tab', $activeTab ); ?>
                 </h2>
@@ -222,7 +228,7 @@ class Settings {
                     <form action="options.php" method="POST" style="padding-bottom: 20px;">
                         <?php settings_fields( $settingsFieldsIdentifier ); ?>
                         <?php do_settings_sections( $settingsSectionsIdentifier ); ?>
-                        <?php if ( $activeTab !== 'embedpress_license' ) : ?>
+                        <?php if ( $activeTab !== 'embedpress_license' && $activeTab !== 'embedpress_get_pro' ) : ?>
                             <button type="submit" class="button button-primary embedpress-setting-save">Save changes
                             </button>
                         <?php endif; ?>
@@ -230,6 +236,27 @@ class Settings {
                 <?php endif; ?>
                 <?php if ( $activeTab == 'embedpress_license' ) : ?>
                     <?php echo do_action( 'embedpress_license' ); ?>
+                <?php endif; ?>
+                <?php if ( $activeTab == 'embedpress_get_pro' && !defined('EMBEDPRESS_PRO_PLUGIN_VERSION') ) : ?>
+                    <div class=" embedpress-go-premium">
+                        <div class="embedpress-col-half">
+                            <div class="embedpress-admin-block-wrapper">
+                                <div class="embedpress-admin-block embedpress-admin-block-docs">
+                                    <header class="embedpress-admin-block-header">
+                                        <div class="embedpress-admin-block-header-icon">
+                                            <img src="<?php echo plugins_url( 'assets/images/icon-why-premium.svg', EMBEDPRESS_PLUGIN_BASENAME ); ?>" alt="embedpress-go-pro">
+                                        </div>
+                                        <h4 class="embedpress-admin-title">Why upgrade to Premium Version?</h4>
+                                    </header>
+                                    <div class="embedpress-admin-block-content">
+                                        <p>The premium version helps us to continue development of the product incorporating even more features and enhancements.</p>
+                                        <p>You will also get world class support from our dedicated team, 24/7.</p>
+                                        <a href="https://wpdeveloper.net/plugins/embedpress#pricing" target="_blank" class="button embedpress-btn">Get Premium Version</a>
+                                    </div>
+                                </div>
+                            </div><!--admin block-wrapper end-->
+                        </div>
+                    </div>
                 <?php endif; ?>
             </div>
 
