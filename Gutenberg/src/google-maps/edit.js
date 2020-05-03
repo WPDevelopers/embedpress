@@ -5,13 +5,14 @@ import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import Iframe from '../common/Iframe';
+import {googleFormsIcon} from "../common/icons";
 
 /**
  * WordPress dependencies
  */
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
-
+import {googleMapsIcon} from '../common/icons'
 class GoogleSlidesEdit extends Component {
     constructor() {
         super( ...arguments );
@@ -99,6 +100,9 @@ class GoogleSlidesEdit extends Component {
                     value={ url }
                     cannotEmbed={ cannotEmbed }
                     onChange={ ( event ) => this.setState( { url: event.target.value } ) }
+					icon={googleMapsIcon}
+					DocTitle={__('Learn more about Google map')}
+					docLink={'https://embedpress.com/docs/embed-google-maps-wordpress/'}
                 />
             );
         }

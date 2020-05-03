@@ -5,13 +5,14 @@ import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import Iframe from '../common/Iframe';
+import {googleDrawingsIcon} from "../common/icons";
 
 /**
  * WordPress dependencies
  */
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
-
+import { googleFormsIcon } from '../common/icons';
 class GoogleFormsEdit extends Component {
     constructor() {
         super( ...arguments );
@@ -51,12 +52,12 @@ class GoogleFormsEdit extends Component {
         setAttributes( { url } );
         if(url && url.match( /^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)){
             var iframeSrc = this.decodeHTMLEntities(url);
-            var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i; 
+            var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
             var match = regEx.exec(iframeSrc);
             var type = match[1];
             if(type && type == 'forms') {
                 this.setState( { editingURL: false, cannotEmbed: false } );
-                setAttributes( {iframeSrc: iframeSrc })    
+                setAttributes( {iframeSrc: iframeSrc })
             }
             else {
                 this.setState({
@@ -76,7 +77,7 @@ class GoogleFormsEdit extends Component {
     switchBackToURLInput() {
         this.setState( { editingURL: true } );
     }
-    
+
     render() {
         const { url, editingURL, fetching, cannotEmbed } = this.state;
         const { iframeSrc } = this.props.attributes;
@@ -92,11 +93,14 @@ class GoogleFormsEdit extends Component {
                     value={ url }
                     cannotEmbed={ cannotEmbed }
                     onChange={ ( event ) => this.setState( { url: event.target.value } ) }
+					icon={googleFormsIcon}
+					DocTitle={__('Learn more about Google forms')}
+					docLink={'https://embedpress.com/docs/embed-google-forms-wordpress/'}
                 />
             );
         }
         else {
-            
+
             return (
                 <Fragment>
                     {fetching  ?  <EmbedLoading /> : null}
@@ -104,7 +108,7 @@ class GoogleFormsEdit extends Component {
                     <EmbedControls
                         showEditButton={ iframeSrc && ! cannotEmbed }
                         switchBackToURLInput={ this.switchBackToURLInput }
-                    />  
+                    />
                 </Fragment>
 
             )

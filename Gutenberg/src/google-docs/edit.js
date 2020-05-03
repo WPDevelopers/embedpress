@@ -93,7 +93,6 @@ class GoogleDocsEdit extends Component {
 
         // No preview, or we can't embed the current URL, or we've clicked the edit button.
         if ( !iframeSrc  || editingURL ) {
-			console.log('Load 12');
             return (
 				<Fragment>
 					<EmbedPlaceholder
@@ -102,6 +101,7 @@ class GoogleDocsEdit extends Component {
 						value={ url }
 						cannotEmbed={ cannotEmbed }
 						onChange={ ( event ) => this.setState( { url: event.target.value } ) }
+						icon={googleDocsIcon}
 						DocTitle={__('Learn more about Google doc')}
 						docLink={'https://embedpress.com/docs/embed-google-docs-wordpress/'}
 					/>

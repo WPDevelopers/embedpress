@@ -11,7 +11,7 @@ import Iframe from '../common/Iframe';
  */
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
-
+import {googleMapsIcon, googleSheetsIcon} from '../common/icons'
 class GoogleSheetsEdit extends Component {
     constructor() {
         super( ...arguments );
@@ -51,7 +51,7 @@ class GoogleSheetsEdit extends Component {
         setAttributes( { url } );
         if(url && url.match( /^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)){
             var iframeSrc = this.decodeHTMLEntities(url);
-            var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i; 
+            var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
             var match = regEx.exec(iframeSrc);
             var type = match[1];
             if(type && type == 'spreadsheets') {
@@ -84,9 +84,9 @@ class GoogleSheetsEdit extends Component {
                     iframeSrc += '?widget=true&headers=false';
                 }
                 this.setState( { editingURL: false, cannotEmbed: false } );
-                setAttributes( {iframeSrc: iframeSrc })    
+                setAttributes( {iframeSrc: iframeSrc })
             }
-            else {  
+            else {
                 this.setState({
                     cannotEmbed: true,
                     editingURL: true
@@ -104,7 +104,7 @@ class GoogleSheetsEdit extends Component {
     switchBackToURLInput() {
         this.setState( { editingURL: true } );
     }
-    
+
     render() {
         const { url, editingURL, fetching, cannotEmbed } = this.state;
         const { iframeSrc } = this.props.attributes;
@@ -120,11 +120,14 @@ class GoogleSheetsEdit extends Component {
                     value={ url }
                     cannotEmbed={ cannotEmbed }
                     onChange={ ( event ) => this.setState( { url: event.target.value } ) }
+					icon={googleSheetsIcon}
+					DocTitle={__('Learn more about Google sheet')}
+					docLink={'https://embedpress.com/docs/embed-google-sheets-wordpress/'}
                 />
             );
         }
         else {
-            
+
             return (
                 <Fragment>
                     {fetching  ?  <EmbedLoading /> : null}
@@ -132,7 +135,7 @@ class GoogleSheetsEdit extends Component {
                     <EmbedControls
                         showEditButton={ iframeSrc && ! cannotEmbed }
                         switchBackToURLInput={ this.switchBackToURLInput }
-                    />  
+                    />
                 </Fragment>
 
             )

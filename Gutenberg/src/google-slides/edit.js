@@ -11,7 +11,7 @@ import Iframe from '../common/Iframe';
  */
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
-
+import {googleSheetsIcon, googleSlidesIcon} from '../common/icons'
 class GoogleSlidesEdit extends Component {
     constructor() {
         super( ...arguments );
@@ -51,7 +51,7 @@ class GoogleSlidesEdit extends Component {
         setAttributes( { url } );
         if(url && url.match( /^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)){
             var iframeSrc = this.decodeHTMLEntities(url);
-            var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i; 
+            var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
             var match = regEx.exec(iframeSrc);
             var type = match[1];
             if(type && type == 'presentation') {
@@ -59,7 +59,7 @@ class GoogleSlidesEdit extends Component {
                     iframeSrc = iframeSrc.replace('/pub?', '/embed?');
                 }
                 this.setState( { editingURL: false, cannotEmbed: false } );
-                setAttributes( {iframeSrc: iframeSrc })    
+                setAttributes( {iframeSrc: iframeSrc })
             }
             else {
                 this.setState({
@@ -79,7 +79,7 @@ class GoogleSlidesEdit extends Component {
     switchBackToURLInput() {
         this.setState( { editingURL: true } );
     }
-    
+
     render() {
         const { url, editingURL, fetching, cannotEmbed } = this.state;
         const { iframeSrc } = this.props.attributes;
@@ -95,11 +95,14 @@ class GoogleSlidesEdit extends Component {
                     value={ url }
                     cannotEmbed={ cannotEmbed }
                     onChange={ ( event ) => this.setState( { url: event.target.value } ) }
+					icon={googleSlidesIcon}
+					DocTitle={__('Learn more about Google slides')}
+					docLink={'https://embedpress.com/docs/embed-google-slides-wordpress/'}
                 />
             );
         }
         else {
-            
+
             return (
                 <Fragment>
                     {fetching  ?  <EmbedLoading /> : null}
@@ -107,7 +110,7 @@ class GoogleSlidesEdit extends Component {
                     <EmbedControls
                         showEditButton={ iframeSrc && ! cannotEmbed }
                         switchBackToURLInput={ this.switchBackToURLInput }
-                    />  
+                    />
                 </Fragment>
 
             )

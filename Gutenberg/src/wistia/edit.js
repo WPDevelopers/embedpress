@@ -5,13 +5,14 @@ import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import Iframe from '../common/Iframe';
+import {twitchIcon} from "../common/icons";
 
 /**
  * WordPress dependencies
  */
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
-
+import {wistiaIcon} from '../common/icons'
 class WistiaEdit extends Component {
     constructor() {
         super( ...arguments );
@@ -39,7 +40,7 @@ class WistiaEdit extends Component {
             });
         }
     }
-    
+
     onLoad() {
         this.setState({
             fetching: false
@@ -59,7 +60,7 @@ class WistiaEdit extends Component {
                 script.type = 'text/javascript';
                 script.innerHTML = 'window.pp_embed_wistia_labels = ' +  embedpressObj['wistia_labels'];
                 document.body.appendChild(script);
-    
+
                 script = document.createElement("script");
                 script.type = 'text/javascript';
                 script.innerHTML = 'wistiaEmbed = Wistia.embed( \"'+ $state.mediaId + '\", ' + embedpressObj.wisita_options  + ' );';
@@ -92,7 +93,7 @@ class WistiaEdit extends Component {
             let iframeSrc = '//fast.wistia.net/embed/iframe/' + mediaId;
 
             this.setState( { editingURL: false, cannotEmbed: false, mediaId } );
-            setAttributes( {iframeSrc });    
+            setAttributes( {iframeSrc });
         }
         else {
             this.setState({
@@ -105,7 +106,7 @@ class WistiaEdit extends Component {
     switchBackToURLInput() {
         this.setState( { editingURL: true } );
     }
-    
+
     render() {
         const { url, editingURL, fetching, cannotEmbed } = this.state;
         const { iframeSrc } = this.props.attributes;
@@ -121,6 +122,9 @@ class WistiaEdit extends Component {
                     value={ url }
                     cannotEmbed={ cannotEmbed }
                     onChange={ ( event ) => this.setState( { url: event.target.value } ) }
+					icon={wistiaIcon}
+					DocTitle={__('Learn more about Wistia')}
+					docLink={'https://embedpress.com/docs/embed-wistia-videos-wordpress/'}
                 />
             );
         }
@@ -134,7 +138,7 @@ class WistiaEdit extends Component {
                     <EmbedControls
                         showEditButton={ iframeSrc && ! cannotEmbed }
                         switchBackToURLInput={ this.switchBackToURLInput }
-                    />  
+                    />
                 </Fragment>
             );
         }

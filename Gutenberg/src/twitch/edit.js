@@ -11,7 +11,7 @@ import Iframe from '../common/Iframe';
  */
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
-
+import { twitchIcon} from '../common/icons'
 class TwitchEdit extends Component {
     constructor() {
         super( ...arguments );
@@ -76,7 +76,7 @@ class TwitchEdit extends Component {
                         allowfullscreen: "true"
                     };
                 break;
-                
+
                 case 'clip':
                     iframeSrc   = 'https://clips.twitch.tv/embed?clip=' + channelName + '&autoplay=false';
                     attrs =     {
@@ -109,7 +109,7 @@ class TwitchEdit extends Component {
             }
             console.log(iframeSrc);
             this.setState( { editingURL: false, cannotEmbed: false } );
-            setAttributes( {iframeSrc, attrs })    
+            setAttributes( {iframeSrc, attrs })
         }
         else {
             this.setState({
@@ -122,7 +122,7 @@ class TwitchEdit extends Component {
     switchBackToURLInput() {
         this.setState( { editingURL: true } );
     }
-    
+
     render() {
         const { url, editingURL, fetching, cannotEmbed } = this.state;
         const { iframeSrc, attrs } = this.props.attributes;
@@ -137,6 +137,9 @@ class TwitchEdit extends Component {
                     value={ url }
                     cannotEmbed={ cannotEmbed }
                     onChange={ ( event ) => this.setState( { url: event.target.value } ) }
+					icon={twitchIcon}
+					DocTitle={__('Learn more about twitch')}
+					docLink={'https://embedpress.com/docs/embed-twitch-streams-chat/'}
                 />
             );
         }
@@ -148,7 +151,7 @@ class TwitchEdit extends Component {
                     <EmbedControls
                         showEditButton={ iframeSrc && ! cannotEmbed }
                         switchBackToURLInput={ this.switchBackToURLInput }
-                    />  
+                    />
                 </Fragment>
 
             )
