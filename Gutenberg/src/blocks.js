@@ -17,3 +17,4 @@ import './google-drawings/index.js';
 import './google-maps/index.js';
 import './twitch/index.js';
 import './wistia/index.js';
+import './youtube/index.js';

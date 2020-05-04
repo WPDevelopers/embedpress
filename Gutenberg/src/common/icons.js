@@ -7,9 +7,9 @@ const {
 	Polygon,
 	SVG,
 } = wp.components;
-export const googleDocsIcon = 
+export const googleDocsIcon =
 		<SVG xmlns="http://www.w3.org/1999/xlink"
-				viewBox="0 0 48 48" 
+				viewBox="0 0 48 48"
 				>
 			<G>
 				<Path style= {{ fill: '#2196F3' }} d="M 37 45 L 11 45 C 9.34375 45 8 43.65625 8 42 L 8 6 C 8 4.34375 9.34375 3 11 3 L 30 3 L 40 13 L 40 42 C 40 43.65625 38.65625 45 37 45 Z "/>
@@ -21,35 +21,35 @@ export const googleDocsIcon =
 				<Path style= {{ fill: '#E3F2FD' }} d="M 15 35 L 25 35 L 25 37 L 15 37 Z "/>
 			</G>
 		</SVG>
-export const googleSlidesIcon = 
-		<SVG 
+export const googleSlidesIcon =
+		<SVG
 				xmlns="http://www.w3.org/1999/xlink"
-				enable-background="new 0 0 24 24" id="Layer_2" 
-				version="1.1" 
+				enable-background="new 0 0 24 24" id="Layer_2"
+				version="1.1"
 				viewBox="0 0 24 24">
 				<G>
-					<Path d="M21,6l-6-6H5C3.8954306,0,3,0.8954305,3,2v20c0,1.1045704,0.8954306,2,2,2h14c1.1045704,0,2-0.8954296,2-2   V6z" 
+					<Path d="M21,6l-6-6H5C3.8954306,0,3,0.8954305,3,2v20c0,1.1045704,0.8954306,2,2,2h14c1.1045704,0,2-0.8954296,2-2   V6z"
 							style={{ fill: "#FFC720" }}/>
-						
-					<Path d="M17,6c-0.5444336,0-1.0367432-0.2190552-1.3973999-0.5719604L21,10.8254395V6H17z" 
+
+					<Path d="M17,6c-0.5444336,0-1.0367432-0.2190552-1.3973999-0.5719604L21,10.8254395V6H17z"
 									style={{ fill: "url(#SVGID_1_)" }} />
-					<Path d="M19,23.75H5c-1.1045532,0-2-0.8954468-2-2V22c0,1.1045532,0.8954468,2,2,2h14c1.1045532,0,2-0.8954468,2-2   v-0.25C21,22.8545532,20.1045532,23.75,19,23.75z" 
+					<Path d="M19,23.75H5c-1.1045532,0-2-0.8954468-2-2V22c0,1.1045532,0.8954468,2,2,2h14c1.1045532,0,2-0.8954468,2-2   v-0.25C21,22.8545532,20.1045532,23.75,19,23.75z"
 								  style={{ opacity: "0.1" }} />
 					<Path d="M15,0v4c0,1.1045694,0.8954306,2,2,2h4L15,0z"  style= {{ fill: "#FFE083" }} />
 					<Path d="M17,5.75c-1.1045532,0-2-0.8954468-2-2V4c0,1.1045532,0.8954468,2,2,2h4l-0.25-0.25H17z" style={{ opacity:"0.1" }} />
 					<Path d="M15,0H5C3.8954468,0,3,0.8953857,3,2v0.25c0-1.1046143,0.8954468-2,2-2h10" style={{ fill: "#FFFFFF", opacity: "0.2" }} />
-					<Path d="M15.5,9h-7C7.6728516,9,7,9.6728516,7,10.5v6C7,17.3271484,7.6728516,18,8.5,18h7   c0.8271484,0,1.5-0.6728516,1.5-1.5v-6C17,9.6728516,16.3271484,9,15.5,9z M8,15.5V11h8v4.5H8z" 
+					<Path d="M15.5,9h-7C7.6728516,9,7,9.6728516,7,10.5v6C7,17.3271484,7.6728516,18,8.5,18h7   c0.8271484,0,1.5-0.6728516,1.5-1.5v-6C17,9.6728516,16.3271484,9,15.5,9z M8,15.5V11h8v4.5H8z"
 						 style={{ fill: "#FFFFFF" }} />
-					
+
 					<Path d="M21,6l-6-6H5C3.8954306,0,3,0.8954305,3,2v20c0,1.1045704,0.8954306,2,2,2h14   c1.1045704,0,2-0.8954296,2-2V6z" style={{ fill: "url(#SVGID_2_)" }} />
 				</G>
 				<G/><G/><G/><G/><G/><G/><G/><G/><G/><G/><G/><G/><G/><G/><G/>
 		</SVG>
 
-export const googleSheetsIcon = 
-		<SVG 
-			xmlns="http://www.w3.org/1999/xlink" 
-			viewBox="0 0 48 48" 
+export const googleSheetsIcon =
+		<SVG
+			xmlns="http://www.w3.org/1999/xlink"
+			viewBox="0 0 48 48"
 			version="1.1">
 				<G>
 					<Path style={{ fill: '#43A047' }} d="M 37 45 L 11 45 C 9.34375 45 8 43.65625 8 42 L 8 6 C 8 4.34375 9.34375 3 11 3 L 30 3 L 40 13 L 40 42 C 40 43.65625 38.65625 45 37 45 Z "/>
@@ -59,9 +59,9 @@ export const googleSheetsIcon =
 				</G>
 		</SVG>
 
-export const googleFormsIcon = 
+export const googleFormsIcon =
 		<SVG
-			xmlns="http://www.w3.org/1999/xlink" 
+			xmlns="http://www.w3.org/1999/xlink"
 			viewBox="0 0 48 48"
 			version="1.1"
 		    >
@@ -78,9 +78,9 @@ export const googleFormsIcon =
 			</G>
 		</SVG>
 
-export const googleDrawingsIcon= 
+export const googleDrawingsIcon=
 		<SVG
-			xmlns="http://www.w3.org/1999/xlink" 
+			xmlns="http://www.w3.org/1999/xlink"
 			viewBox="0 0 48 48"
 			version="1.1"
 		    >
@@ -95,7 +95,7 @@ export const googleDrawingsIcon=
 
 export const googleMapsIcon=
 		<SVG
-			xmlns="http://www.w3.org/1999/xlink" 
+			xmlns="http://www.w3.org/1999/xlink"
 			viewBox="0 0 48 48"
 			version="1.1"
 		>
@@ -111,12 +111,12 @@ export const googleMapsIcon=
 			</G>
 		</SVG>
 
-export const twitchIcon = 
+export const twitchIcon =
 		<SVG
-			xmlns="http://www.w3.org/1999/xlink" 
+			xmlns="http://www.w3.org/1999/xlink"
 			viewBox="0 0 48 48"
 			version="1.1"
-		>	
+		>
 			<G>
 				<Path style={{ fill: '#FFFFFF' }}  d="M 12 32 L 12 8 L 39 8 L 39 26 L 33 32 L 24 32 L 18 38 L 18 32 Z "/>
 				<Path style={{ fill: '#8E24AA' }}  d="M 9 5 L 6 12.121094 L 6 38 L 15 38 L 15 43 L 20 43 L 25 38 L 32 38 L 42 28 L 42 5 Z M 38 26 L 33 31 L 24 31 L 19 36 L 19 31 L 13 31 L 13 9 L 38 9 Z "/>
@@ -125,9 +125,9 @@ export const twitchIcon =
 			</G>
 		</SVG>
 
-export const wistiaIcon = 
+export const wistiaIcon =
 		<SVG
-			xmlns="http://www.w3.org/1999/xlink" 
+			xmlns="http://www.w3.org/1999/xlink"
 			viewBox="0 0 769 598"
 			version="1.1"
 		>
@@ -136,3 +136,17 @@ export const wistiaIcon =
 				<Path style={{ fill: '#54bbff' }}  d="M757.84,126.66c16.23,-98.97 -39.68,-126.16 -39.68,-126.16c0,0 2.36,80.57 -145.7,97.65c-131.42,15.16 -572.46,3.74 -572.46,3.74c0,0 0,0 141.74,162.54c38.39,44.06 58.76,49.17 101.92,52.22c43.16,2.89 138.42,1.86 202.99,-3.05c70.58,-5.41 171.17,-28.43 239.19,-81.11c34.88,-26.98 65.21,-64.48 72,-105.83z" />
 			</G>
 		</SVG>
+
+export const youtubeIcon = (
+	<SVG
+		xmlns="http://www.w3.org/2000/svg"
+		width="24"
+		height="24"
+		viewBox="0 0 24 24"
+		role="img"
+		aria-hidden="true"
+		focusable="false"
+	>
+		<Path d="M21.8 8s-.195-1.377-.795-1.984c-.76-.797-1.613-.8-2.004-.847-2.798-.203-6.996-.203-6.996-.203h-.01s-4.197 0-6.996.202c-.39.046-1.242.05-2.003.846C2.395 6.623 2.2 8 2.2 8S2 9.62 2 11.24v1.517c0 1.618.2 3.237.2 3.237s.195 1.378.795 1.985c.76.797 1.76.77 2.205.855 1.6.153 6.8.2 6.8.2s4.203-.005 7-.208c.392-.047 1.244-.05 2.005-.847.6-.607.795-1.985.795-1.985s.2-1.618.2-3.237v-1.517C22 9.62 21.8 8 21.8 8zM9.935 14.595v-5.62l5.403 2.82-5.403 2.8z" />
+	</SVG>
+);
