@@ -17,6 +17,7 @@ class GoogleDocsEdit extends Component {
         super( ...arguments );
         this.switchBackToURLInput = this.switchBackToURLInput.bind( this );
         this.setUrl = this.setUrl.bind( this );
+		this.updateAlignment = this.updateAlignment.bind( this );
         this.onLoad = this.onLoad.bind( this );
         this.state = {
             editingURL: false,
@@ -40,6 +41,18 @@ class GoogleDocsEdit extends Component {
         }
         return str;
     }
+
+	updateAlignment( nextAlign ) {
+		const { setAttributes } = this.props;
+		const extraUpdatedAttributes =
+			[ 'wide', 'full' ].indexOf( nextAlign ) !== -1
+				? { width: undefined, height: undefined }
+				: {};
+		setAttributes( {
+			...extraUpdatedAttributes,
+			align: nextAlign,
+		} );
+	}
 
 
     setUrl( event ) {
@@ -87,8 +100,7 @@ class GoogleDocsEdit extends Component {
 
     render() {
         const { url, editingURL, fetching, cannotEmbed } = this.state;
-        const { iframeSrc } = this.props.attributes;
-
+        const { iframeSrc,align } = this.props.attributes;
         const label = __('Google Docs URL');
 
         // No preview, or we can't embed the current URL, or we've clicked the edit button.
@@ -98,7 +110,9 @@ class GoogleDocsEdit extends Component {
 					<EmbedPlaceholder
 						label={label}
 						onSubmit={ this.setUrl }
+						alignChange={ this.updateAlignment }
 						value={ url }
+						align={align}
 						cannotEmbed={ cannotEmbed }
 						onChange={ ( event ) => this.setState( { url: event.target.value } ) }
 						icon={googleDocsIcon}
@@ -118,6 +132,8 @@ class GoogleDocsEdit extends Component {
                     	showEditButton={ cannotEmbed }
 						hasEmbed={ this.props.preview }
                     	switchBackToURLInput={ this.switchBackToURLInput }
+						alignChange={ this.updateAlignment }
+						align={align}
                     />
                 </Fragment>
             )
