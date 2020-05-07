@@ -3,24 +3,17 @@
  */
 const { __ } = wp.i18n;
 const { Fragment } = wp.element;
-import classnames from 'classnames';
 const { IconButton, Toolbar } = wp.components;
-const { BlockControls,BlockAlignmentToolbar } = wp.editor;
+const { BlockControls } = wp.editor;
 
 const EmbedControls = ( props ) => {
 	const {
 		showEditButton,
-		switchBackToURLInput,
-		align,
-		alignChange
+		switchBackToURLInput
 	} = props;
 	return (
 		<Fragment>
 			<BlockControls>
-				{/*<BlockAlignmentToolbar*/}
-				{/*	value={ align }*/}
-				{/*	onChange={alignChange}*/}
-				{/*/>*/}
 				<Toolbar>
 					{ showEditButton && (
 						<IconButton

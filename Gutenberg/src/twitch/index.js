@@ -9,9 +9,10 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import { twitchIcon } from '../common/icons';
-const { __ } = wp.i18n; // Import __() from wp.i18n
-const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
+import {twitchIcon} from '../common/icons';
+
+const {__} = wp.i18n; // Import __() from wp.i18n
+const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
 
 /**
  * Register: aa Gutenberg Block.
@@ -26,15 +27,19 @@ const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.b
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType( 'embedpress/twitch-block', {
+registerBlockType('embedpress/twitch-block', {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-	title: __( 'Twitch' ), // Block title.
+	title: __('Twitch'), // Block title.
 	icon: twitchIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
 	category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout Widgets, embed.
 	keywords: [
-		__( 'embedpress' ),
-		__( 'twitch' ),
+		__('embedpress'),
+		__('twitch'),
 	],
+	supports: {
+		align: true,
+		lightBlockWrapper: true,
+	},
 	attributes: {
 		url: {
 			type: 'string',
@@ -67,12 +72,13 @@ registerBlockType( 'embedpress/twitch-block', {
 	 *
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
-	save: function( props ) {
-		const { iframeSrc, attrs }  = props.attributes
+	save: function (props) {
+		const {iframeSrc, attrs} = props.attributes
+		const defaultClass = "ose-twitch-presentation"
 		return (
-			<div class="ose-twitch-presentation">
-				<iframe src={iframeSrc} { ...attrs } frameborder="0" width="600" height="450"></iframe>
-			</div>
+			<figure className={defaultClass}>
+				<iframe src={iframeSrc} {...attrs} frameborder="0" width="600" height="450"></iframe>
+			</figure>
 		);
 	},
-} );
+});

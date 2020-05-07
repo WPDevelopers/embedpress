@@ -12,7 +12,6 @@ import edit from './edit';
 import {googleDocsIcon} from '../common/icons';
 
 const {__} = wp.i18n; // Import __() from wp.i18n
-const {Fragment} = wp.element;
 const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
 
 /**

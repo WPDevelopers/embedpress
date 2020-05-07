@@ -12,6 +12,7 @@ import {youtubeIcon} from "../common/icons";
  */
 const {__} = wp.i18n;
 const {Component, Fragment} = wp.element;
+const {Disabled} = wp.components;
 
 class YoutubeEdit extends Component {
 	constructor() {
@@ -111,14 +112,17 @@ class YoutubeEdit extends Component {
 			return (
 				<Fragment>
 					{fetching ? <EmbedLoading/> : null}
-					<Iframe
-						src={iframeSrc}
-						{...attrs}
-						onLoad={this.onLoad}
-						style={{display: fetching ? "none" : ""}}
-						width="640"
-						height="360"
-					/>
+					<Disabled>
+						<Iframe
+							src={iframeSrc}
+							{...attrs}
+							onLoad={this.onLoad}
+							style={{display: fetching ? "none" : ""}}
+							width="640"
+							height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"
+						/>
+					</Disabled>
+
 					<EmbedControls
 						showEditButton={iframeSrc && !cannotEmbed}
 						switchBackToURLInput={this.switchBackToURLInput}

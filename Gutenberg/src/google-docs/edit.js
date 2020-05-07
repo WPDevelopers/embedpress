@@ -10,7 +10,7 @@ import Iframe from '../common/Iframe';
  * WordPress dependencies
  */
 const { __ } = wp.i18n;
-const { Component, Fragment } = wp.element;
+const { Component } = wp.element;
 const {Disabled} = wp.components;
 import { googleDocsIcon } from '../common/icons';
 class GoogleDocsEdit extends Component {

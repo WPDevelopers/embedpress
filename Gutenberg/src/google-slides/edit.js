@@ -11,7 +11,8 @@ import Iframe from '../common/Iframe';
  */
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
-import {googleSheetsIcon, googleSlidesIcon} from '../common/icons'
+const {Disabled} = wp.components;
+import { googleSlidesIcon} from '../common/icons'
 class GoogleSlidesEdit extends Component {
     constructor() {
         super( ...arguments );
@@ -106,7 +107,10 @@ class GoogleSlidesEdit extends Component {
             return (
                 <Fragment>
                     {fetching  ?  <EmbedLoading /> : null}
-                    <Iframe src={iframeSrc} onLoad={this.onLoad} style={{ display: fetching ? 'none' : '' }} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" />
+                    <Disabled>
+						<Iframe src={iframeSrc} onLoad={this.onLoad} style={{ display: fetching ? 'none' : '' }} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" />
+					</Disabled>
+
                     <EmbedControls
                         showEditButton={ iframeSrc && ! cannotEmbed }
                         switchBackToURLInput={ this.switchBackToURLInput }
