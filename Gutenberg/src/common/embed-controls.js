@@ -17,10 +17,10 @@ const EmbedControls = ( props ) => {
 	return (
 		<Fragment>
 			<BlockControls>
-				<BlockAlignmentToolbar
-					value={ align }
-					onChange={alignChange}
-				/>
+				{/*<BlockAlignmentToolbar*/}
+				{/*	value={ align }*/}
+				{/*	onChange={alignChange}*/}
+				{/*/>*/}
 				<Toolbar>
 					{ showEditButton && (
 						<IconButton
