@@ -11,6 +11,7 @@ import Iframe from '../common/Iframe';
  */
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
+const {Disabled} = wp.components;
 import { googleDocsIcon } from '../common/icons';
 class GoogleDocsEdit extends Component {
     constructor() {
@@ -106,36 +107,32 @@ class GoogleDocsEdit extends Component {
         // No preview, or we can't embed the current URL, or we've clicked the edit button.
         if ( !iframeSrc  || editingURL ) {
             return (
-				<Fragment>
+				<div>
 					<EmbedPlaceholder
 						label={label}
 						onSubmit={ this.setUrl }
-						alignChange={ this.updateAlignment }
 						value={ url }
-						align={align}
 						cannotEmbed={ cannotEmbed }
 						onChange={ ( event ) => this.setState( { url: event.target.value } ) }
 						icon={googleDocsIcon}
 						DocTitle={__('Learn more about Google doc')}
 						docLink={'https://embedpress.com/docs/embed-google-docs-wordpress/'}
 					/>
-				</Fragment>
+				</div>
 
             );
         } else {
             return (
-                <Fragment>
+                <div>
                     {fetching  ?  <EmbedLoading /> : null}
-                    <Iframe src={iframeSrc} onLoad={this.onLoad} style={{ display: fetching ? 'none' : '' }} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" />
+                    <Disabled>
+						<Iframe src={iframeSrc} onLoad={this.onLoad} style={{ display: fetching ? 'none' : '' }} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" />
+					</Disabled>
                     <EmbedControls
-						url={ this.state.url }
-                    	showEditButton={ cannotEmbed }
-						hasEmbed={ this.props.preview }
-                    	switchBackToURLInput={ this.switchBackToURLInput }
-						alignChange={ this.updateAlignment }
-						align={align}
+						showEditButton={ iframeSrc && ! cannotEmbed }
+						switchBackToURLInput={ this.switchBackToURLInput }
                     />
-                </Fragment>
+                </div>
             )
         }
 
