@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, elementor embed, video embed, Googl
 Requires at least: 4.6
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 2.5.3
+Stable tag: 2.5.4
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -62,6 +62,8 @@ Google Drive is an enormously popular service that has replaced Microsoft Office
 -   [How to use Google Sheets in WordPress](https://embedpress.com/docs/embed-google-sheets-wordpress/)
 
 -   [How to use Google Slides in WordPress](https://embedpress.com/docs/embed-google-slides-wordpress/)
+
+https://www.youtube.com/watch?v=3CWysKDRoG4
 
 
 #### 👍FACEBOOK POSTS AND VIDEOS
@@ -207,7 +209,7 @@ We’ve seen that EmbedPress supports YouTube, Wistia and Vimeo, but EmbedPress 
 -   [SpeakerDeck embeds](https://embedpress.com/docs/embed-speakerdeck-presentations-wordpress/) (Presentations)
 
 
-🙌After reading this feature list, you can probably imagine EmbedPress is the best plugin in the market. So, do you want to unlock the advanced features? [Upgrade to our Pro version.](https://embedpress.com/everything-club/)
+🙌After reading this feature list, you can probably imagine EmbedPress is the best plugin in the market. So, do you want to unlock the advanced features? [Upgrade to our Pro version.](https://embedpress.com/#pricing)
 
 ## 🚀BACKED BY A TRUSTED TEAM
 
@@ -269,6 +271,15 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [2.5.4] - 2020-05-10 =
+* Enhanched Alighment Control for all Gutenberg Blocks
+* Added a simple YouTube Blocks for Gutenberg
+* Added Docs Link for all Gutenberg Blocks
+* Added present version number in Option Screen for clarity
+* Fixed Links in Option Screen
+* Fixed Content Error in Blocks
+
 
 = [2.5.3] - 2020-04-22 =
 * Fixed minor issue related to Google Sheets in Elementor without Classic Editor
