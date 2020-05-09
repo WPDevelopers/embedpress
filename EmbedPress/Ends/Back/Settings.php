@@ -251,7 +251,7 @@ class Settings {
                                     <div class="embedpress-admin-block-content">
                                         <p>The premium version helps us to continue development of the product incorporating even more features and enhancements.</p>
                                         <p>You will also get world class support from our dedicated team, 24/7.</p>
-                                        <a href="https://wpdeveloper.net/plugins/embedpress#pricing" target="_blank" class="button embedpress-btn">Get Premium Version</a>
+                                        <a href="https://wpdeveloper.net/plugins/embedpress#pricing" target="_blank" class="button embedpress-btn">Get Pro Version</a>
                                     </div>
                                 </div>
                             </div><!--admin block-wrapper end-->
@@ -262,7 +262,7 @@ class Settings {
 
             <footer>
                 <p>
-                    <a href="//wordpress.org/support/plugin/embedpress/reviews/#new-post" target="_blank"
+                    <a href="//embedpress.com/go/review-ep" target="_blank"
                        rel="noopener noreferrer">If you like <strong>EmbedPress</strong> please leave us a <span
                                 class="dashicons dashicons-star-filled"></span><span
                                 class="dashicons dashicons-star-filled"></span><span
@@ -282,24 +282,24 @@ class Settings {
                                title="List of supported sources by EmbedPress">Supported sources</a>
                         </li>
                         <li>
-                            <a href="//embedpress.com/docs" target="_blank" rel="noopener noreferrer"
+                            <a href="//embedpress.com/documentation/" target="_blank" rel="noopener noreferrer"
                                title="EmbedPress Documentation">Documentation</a>
                         </li>
                         <li>
                             <a href="//embedpress.com/#pricing" target="_blank" rel="noopener noreferrer"
-                               title="EmbedPress Add-Ons">Add Pro</a>
+                               title="Get EmbedPress Pro">Get EmbedPress Pro</a>
                         </li>
                         <li>
-                            <a href="//embedpress.com/contact" target="_blank" rel="noopener noreferrer"
+                            <a href="//embedpress.com/support/" target="_blank" rel="noopener noreferrer"
                                title="Contact the EmbedPress team">Contact</a>
                         </li>
                         <li>
-                            <a href="//twitter.com/embedpress" target="_blank" rel="noopener noreferrer">
+                            <a href="//twitter.com/wpdevteam" target="_blank" rel="noopener noreferrer">
                                 <span class="dashicons dashicons-twitter"></span>
                             </a>
                         </li>
                         <li>
-                            <a href="//facebook.com/embedpress" target="_blank" rel="noopener noreferrer">
+                            <a href="//www.facebook.com/WPDeveloperNet/" target="_blank" rel="noopener noreferrer">
                                 <span class="dashicons dashicons-facebook"></span>
                             </a>
                         </li>
