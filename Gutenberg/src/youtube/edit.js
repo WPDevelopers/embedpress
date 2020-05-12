@@ -7,6 +7,7 @@ import EmbedPlaceholder from "../common/embed-placeholder";
 import Iframe from "../common/Iframe";
 import {youtubeIcon} from "../common/icons";
 
+
 /**
  * WordPress dependencies
  */
@@ -20,12 +21,26 @@ class YoutubeEdit extends Component {
 		this.switchBackToURLInput = this.switchBackToURLInput.bind(this);
 		this.setUrl = this.setUrl.bind(this);
 		this.onLoad = this.onLoad.bind(this);
+		this.hideOverlay = this.hideOverlay.bind( this );
 		this.state = {
 			editingURL: false,
 			url: this.props.attributes.url,
 			fetching: true,
-			cannotEmbed: false
+			cannotEmbed: false,
+			interactive: false
 		};
+	}
+
+	static getDerivedStateFromProps( nextProps, state ) {
+		if ( ! nextProps.isSelected && state.interactive ) {
+			return { interactive: false };
+		}
+
+		return null;
+	}
+
+	hideOverlay() {
+		this.setState( { interactive: true } );
 	}
 
 	componentWillMount() {
@@ -89,9 +104,10 @@ class YoutubeEdit extends Component {
 	}
 
 	render() {
-		const {url, editingURL, fetching, cannotEmbed} = this.state;
+		const {url, editingURL, fetching, cannotEmbed,interactive} = this.state;
 		const {iframeSrc, attrs} = this.props.attributes;
-		console.log(iframeSrc);
+		const {isSelected} = this.props;
+		console.log(isSelected);
 		const label = __("Youtube URL");
 		// No preview, or we can't embed the current URL, or we've clicked the edit button.
 		if (!iframeSrc || editingURL) {
@@ -112,16 +128,22 @@ class YoutubeEdit extends Component {
 			return (
 				<Fragment>
 					{fetching ? <EmbedLoading/> : null}
-					<Disabled>
+
 						<Iframe
 							src={iframeSrc}
 							{...attrs}
 							onLoad={this.onLoad}
 							style={{display: fetching ? "none" : ""}}
 							width="640"
+							onFocus={ this.hideOverlay }
 							height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"
 						/>
-					</Disabled>
+					{ ! interactive && (
+						<div
+							className="block-library-embed__interactive-overlay"
+							onMouseUp={ this.hideOverlay }
+						/>
+					) }
 
 					<EmbedControls
 						showEditButton={iframeSrc && !cannotEmbed}
