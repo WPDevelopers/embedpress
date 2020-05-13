@@ -13,8 +13,6 @@ const {__} = wp.i18n;
 const {Component, Fragment} = wp.element;
 import {googleMapsIcon} from '../common/icons'
 
-const {Disabled} = wp.components;
-
 class GoogleMapsEdit extends Component {
 	constructor() {
 		super(...arguments);
@@ -25,8 +23,21 @@ class GoogleMapsEdit extends Component {
 			editingURL: false,
 			url: this.props.attributes.url,
 			fetching: true,
-			cannotEmbed: false
+			cannotEmbed: false,
+			interactive: false
 		};
+	}
+
+	static getDerivedStateFromProps(nextProps, state) {
+		if (!nextProps.isSelected && state.interactive) {
+			return {interactive: false};
+		}
+
+		return null;
+	}
+
+	hideOverlay() {
+		this.setState({interactive: true});
 	}
 
 	onLoad() {
@@ -86,7 +97,7 @@ class GoogleMapsEdit extends Component {
 	}
 
 	render() {
-		const {url, editingURL, fetching, cannotEmbed} = this.state;
+		const {url, editingURL, fetching, cannotEmbed, interactive} = this.state;
 		const {iframeSrc} = this.props.attributes;
 
 		const label = __('Google Maps URL');
@@ -101,7 +112,7 @@ class GoogleMapsEdit extends Component {
 					cannotEmbed={cannotEmbed}
 					onChange={(event) => this.setState({url: event.target.value})}
 					icon={googleMapsIcon}
-					DocTitle={__('Learn more about Google map')}
+					DocTitle={__('Learn more about Google map embed')}
 					docLink={'https://embedpress.com/docs/embed-google-maps-wordpress/'}
 				/>
 			);
@@ -111,10 +122,17 @@ class GoogleMapsEdit extends Component {
 				<Fragment>
 					{fetching ? <EmbedLoading/> : null}
 					<Disabled>
-						<Iframe src={iframeSrc} onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}}
+						<Iframe src={iframeSrc} onFocus={ this.hideOverlay } onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}}
 								frameborder="0" width="600" height="450" allowfullscreen="true"
 								mozallowfullscreen="true" webkitallowfullscreen="true"/>
 					</Disabled>
+
+					{ ! interactive && (
+						<div
+							className="block-library-embed__interactive-overlay"
+							onMouseUp={ this.hideOverlay }
+						/>
+					) }
 
 					<EmbedControls
 						showEditButton={iframeSrc && !cannotEmbed}

@@ -11,7 +11,6 @@ import Iframe from '../common/Iframe';
  */
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
-const {Disabled} = wp.components;
 import { googleSlidesIcon} from '../common/icons'
 class GoogleSlidesEdit extends Component {
     constructor() {
@@ -19,13 +18,27 @@ class GoogleSlidesEdit extends Component {
         this.switchBackToURLInput = this.switchBackToURLInput.bind( this );
         this.setUrl = this.setUrl.bind( this );
         this.onLoad = this.onLoad.bind( this );
-        this.state = {
-            editingURL: false,
-            url: this.props.attributes.url,
-            fetching: true,
-            cannotEmbed: false
-        };
+		this.hideOverlay = this.hideOverlay.bind(this);
+		this.state = {
+			editingURL: false,
+			url: this.props.attributes.url,
+			fetching: true,
+			cannotEmbed: false,
+			interactive: false
+		};
     }
+
+	static getDerivedStateFromProps(nextProps, state) {
+		if (!nextProps.isSelected && state.interactive) {
+			return {interactive: false};
+		}
+
+		return null;
+	}
+
+	hideOverlay() {
+		this.setState({interactive: true});
+	}
 
     onLoad() {
         this.setState({
@@ -82,7 +95,7 @@ class GoogleSlidesEdit extends Component {
     }
 
     render() {
-        const { url, editingURL, fetching, cannotEmbed } = this.state;
+        const { url, editingURL, fetching, cannotEmbed, interactive} = this.state;
         const { iframeSrc } = this.props.attributes;
 
         const label = __( 'Google Slides URL');
@@ -97,7 +110,7 @@ class GoogleSlidesEdit extends Component {
                     cannotEmbed={ cannotEmbed }
                     onChange={ ( event ) => this.setState( { url: event.target.value } ) }
 					icon={googleSlidesIcon}
-					DocTitle={__('Learn more about Google slides')}
+					DocTitle={__('Learn more about Google slides embed')}
 					docLink={'https://embedpress.com/docs/embed-google-slides-wordpress/'}
                 />
             );
@@ -107,9 +120,14 @@ class GoogleSlidesEdit extends Component {
             return (
                 <Fragment>
                     {fetching  ?  <EmbedLoading /> : null}
-                    <Disabled>
-						<Iframe src={iframeSrc} onLoad={this.onLoad} style={{ display: fetching ? 'none' : '' }} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" />
-					</Disabled>
+
+                    <Iframe src={iframeSrc} onFocus={ this.hideOverlay } onLoad={this.onLoad} style={{ display: fetching ? 'none' : '' }} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" />
+					{ ! interactive && (
+						<div
+							className="block-library-embed__interactive-overlay"
+							onMouseUp={ this.hideOverlay }
+						/>
+					) }
 
                     <EmbedControls
                         showEditButton={ iframeSrc && ! cannotEmbed }

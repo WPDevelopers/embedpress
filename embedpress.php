@@ -53,7 +53,8 @@ if ( ! is_plugin_active('gutenberg/gutenberg.php')) {
     add_action( 'plugins_loaded', function() {
         do_action( 'embedpress_before_init' );
     } );
-    if (Compatibility::isWordPress5() && ! Compatibility::isClassicalEditorActive()) {
+    $editor_check = get_option('classic-editor-replace');
+    if ((Compatibility::isWordPress5() && ! Compatibility::isClassicalEditorActive()) || (Compatibility::isClassicalEditorActive() && 'block'=== $editor_check )) {
         $embedPressPlugin = new \EmbedPress\Core();
     } else {
         $embedPressPlugin = new \EmbedPress\CoreLegacy();

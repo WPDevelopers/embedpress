@@ -12,21 +12,34 @@ import Iframe from '../common/Iframe';
 const {__} = wp.i18n;
 const {Component, Fragment} = wp.element;
 import {wistiaIcon} from '../common/icons'
-const {Disabled} = wp.components;
 class WistiaEdit extends Component {
 	constructor() {
 		super(...arguments);
 		this.switchBackToURLInput = this.switchBackToURLInput.bind(this);
 		this.setUrl = this.setUrl.bind(this);
 		this.onLoad = this.onLoad.bind(this);
+		this.hideOverlay = this.hideOverlay.bind(this);
 		this.state = {
 			editingURL: false,
 			url: this.props.attributes.url,
 			fetching: true,
 			cannotEmbed: false,
+			interactive: false,
 			mediaId: null
 		};
 		this.setUrl();
+	}
+
+	static getDerivedStateFromProps(nextProps, state) {
+		if (!nextProps.isSelected && state.interactive) {
+			return {interactive: false};
+		}
+
+		return null;
+	}
+
+	hideOverlay() {
+		this.setState({interactive: true});
 	}
 
 
@@ -45,7 +58,6 @@ class WistiaEdit extends Component {
 		this.setState({
 			fetching: false
 		});
-		console.log(embedpressObj);
 		if (embedpressObj['wisita_options']) {
 			let $state = {...this.state}
 			setTimeout(function () {
@@ -108,7 +120,7 @@ class WistiaEdit extends Component {
 	}
 
 	render() {
-		const {url, editingURL, fetching, cannotEmbed} = this.state;
+		const {url, editingURL, fetching, cannotEmbed,interactive} = this.state;
 		const {iframeSrc} = this.props.attributes;
 
 		const label = __('Wistia URL');
@@ -123,7 +135,7 @@ class WistiaEdit extends Component {
 					cannotEmbed={cannotEmbed}
 					onChange={(event) => this.setState({url: event.target.value})}
 					icon={wistiaIcon}
-					DocTitle={__('Learn more about Wistia')}
+					DocTitle={__('Learn more about Wistia embed')}
 					docLink={'https://embedpress.com/docs/embed-wistia-videos-wordpress/'}
 				/>
 			);
@@ -131,13 +143,19 @@ class WistiaEdit extends Component {
 			return (
 				<Fragment>
 					{fetching ? <EmbedLoading/> : null}
-					<Disabled>
+
 						<div className="ose-wistia" id={"wistia_" + this.state.mediaId}>
-							<Iframe src={iframeSrc} onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}}
+							<Iframe src={iframeSrc} onFocus={ this.hideOverlay } onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}}
 									frameborder="0" width="600" height="330" allowfullscreen="true"
 									mozallowfullscreen="true" webkitallowfullscreen="true"/>
 						</div>
-					</Disabled>
+
+					{ ! interactive && (
+						<div
+							className="block-library-embed__interactive-overlay"
+							onMouseUp={ this.hideOverlay }
+						/>
+					) }
 
 					<EmbedControls
 						showEditButton={iframeSrc && !cannotEmbed}

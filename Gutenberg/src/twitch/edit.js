@@ -11,7 +11,6 @@ import Iframe from '../common/Iframe';
  */
 const {__} = wp.i18n;
 const {Component, Fragment} = wp.element;
-const {Disabled} = wp.components;
 import {twitchIcon} from '../common/icons'
 
 class TwitchEdit extends Component {
@@ -20,12 +19,26 @@ class TwitchEdit extends Component {
 		this.switchBackToURLInput = this.switchBackToURLInput.bind(this);
 		this.setUrl = this.setUrl.bind(this);
 		this.onLoad = this.onLoad.bind(this);
+		this.hideOverlay = this.hideOverlay.bind(this);
 		this.state = {
 			editingURL: false,
 			url: this.props.attributes.url,
 			fetching: true,
-			cannotEmbed: false
+			cannotEmbed: false,
+			interactive: false
 		};
+	}
+
+	static getDerivedStateFromProps(nextProps, state) {
+		if (!nextProps.isSelected && state.interactive) {
+			return {interactive: false};
+		}
+
+		return null;
+	}
+
+	hideOverlay() {
+		this.setState({interactive: true});
 	}
 
 	onLoad() {
@@ -108,7 +121,6 @@ class TwitchEdit extends Component {
 					}
 					break;
 			}
-			console.log(iframeSrc);
 			this.setState({editingURL: false, cannotEmbed: false});
 			setAttributes({iframeSrc, attrs})
 		} else {
@@ -124,7 +136,7 @@ class TwitchEdit extends Component {
 	}
 
 	render() {
-		const {url, editingURL, fetching, cannotEmbed} = this.state;
+		const {url, editingURL, fetching, cannotEmbed,interactive} = this.state;
 		const {iframeSrc, attrs} = this.props.attributes;
 
 		const label = __('Twitch URL');
@@ -138,7 +150,7 @@ class TwitchEdit extends Component {
 					cannotEmbed={cannotEmbed}
 					onChange={(event) => this.setState({url: event.target.value})}
 					icon={twitchIcon}
-					DocTitle={__('Learn more about twitch')}
+					DocTitle={__('Learn more about twitch embed')}
 					docLink={'https://embedpress.com/docs/embed-twitch-streams-chat/'}
 				/>
 			);
@@ -146,10 +158,20 @@ class TwitchEdit extends Component {
 			return (
 				<Fragment>
 					{fetching ? <EmbedLoading/> : null}
-					<Disabled>
-						<Iframe src={iframeSrc}  {...attrs} onLoad={this.onLoad}
-								style={{display: fetching ? 'none' : ''}} width="600" height="450"/>
-					</Disabled>
+
+					<Iframe src={iframeSrc}  {...attrs}
+							onLoad={this.onLoad}
+							style={{display: fetching ? 'none' : ''}}
+							onFocus={this.hideOverlay}
+							width="600"
+							height="450"/>
+
+					{ ! interactive && (
+						<div
+							className="block-library-embed__interactive-overlay"
+							onMouseUp={ this.hideOverlay }
+						/>
+					) }
 
 					<EmbedControls
 						showEditButton={iframeSrc && !cannotEmbed}

@@ -26,8 +26,21 @@ class GoogleFormsEdit extends Component {
 			editingURL: false,
 			url: this.props.attributes.url,
 			fetching: true,
-			cannotEmbed: false
+			cannotEmbed: false,
+			interactive: false
 		};
+	}
+
+	static getDerivedStateFromProps(nextProps, state) {
+		if (!nextProps.isSelected && state.interactive) {
+			return {interactive: false};
+		}
+
+		return null;
+	}
+
+	hideOverlay() {
+		this.setState({interactive: true});
 	}
 
 	onLoad() {
@@ -81,7 +94,7 @@ class GoogleFormsEdit extends Component {
 	}
 
 	render() {
-		const {url, editingURL, fetching, cannotEmbed} = this.state;
+		const {url, editingURL, fetching, cannotEmbed, interactive} = this.state;
 		const {iframeSrc} = this.props.attributes;
 
 		const label = __('Google Forms URL');
@@ -96,7 +109,7 @@ class GoogleFormsEdit extends Component {
 					cannotEmbed={cannotEmbed}
 					onChange={(event) => this.setState({url: event.target.value})}
 					icon={googleFormsIcon}
-					DocTitle={__('Learn more about Google forms')}
+					DocTitle={__('Learn more about Google forms embed')}
 					docLink={'https://embedpress.com/docs/embed-google-forms-wordpress/'}
 				/>
 			);
@@ -105,11 +118,18 @@ class GoogleFormsEdit extends Component {
 			return (
 				<Fragment>
 					{fetching ? <EmbedLoading/> : null}
-					<Disabled>
-						<Iframe src={iframeSrc} onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}}
+
+						<Iframe src={iframeSrc} onFocus={ this.hideOverlay } onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}}
 								frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true"
 								webkitallowfullscreen="true"/>
-					</Disabled>
+
+					{ ! interactive && (
+						<div
+							className="block-library-embed__interactive-overlay"
+							onMouseUp={ this.hideOverlay }
+						/>
+					) }
+
 					<EmbedControls
 						showEditButton={iframeSrc && !cannotEmbed}
 						switchBackToURLInput={this.switchBackToURLInput}

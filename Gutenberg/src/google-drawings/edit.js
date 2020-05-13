@@ -92,7 +92,7 @@ class GoogleDrawingEdit extends Component {
 					cannotEmbed={cannotEmbed}
 					onChange={(event) => this.setState({url: event.target.value})}
 					icon={googleDrawingsIcon}
-					DocTitle={__('Learn more about Google drawing')}
+					DocTitle={__('Learn more about Google drawing embed')}
 					docLink={'https://embedpress.com/docs/embed-google-drawings-wordpress/'}
 				/>
 			);
