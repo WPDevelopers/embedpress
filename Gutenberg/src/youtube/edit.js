@@ -5,7 +5,7 @@ import EmbedControls from "../common/embed-controls";
 import EmbedLoading from "../common/embed-loading";
 import EmbedPlaceholder from "../common/embed-placeholder";
 import Iframe from "../common/Iframe";
-import {youtubeNewIcon} from "../common/icons";
+import {youtubeIcon} from "../common/icons";
 
 
 /**
@@ -115,7 +115,7 @@ class YoutubeEdit extends Component {
 					value={url}
 					cannotEmbed={cannotEmbed}
 					onChange={event => this.setState({url: event.target.value})}
-					icon={youtubeNewIcon}
+					icon={youtubeIcon}
 					DocTitle={__('Learn More About Youtube Embed')}
 					docLink={'https://embedpress.com/docs/embed-youtube-wordpress/'}
 
