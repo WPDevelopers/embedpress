@@ -1,12 +1,12 @@
-=== EmbedPress – Embed Google Docs, YouTube, Vimeo, Wistia Videos, Giphy Photos, Maps, etc ===
-Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed, andergmartins, stevejburge, pressshack, deenison
+=== EmbedPress – Embed Google Docs, YouTube, Maps, Vimeo, Wistia Videos, Instagram & Anything ===
+Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed
 Author: WPDeveloper
 Author URI: https://wpdeveloper.net
-Tags: embed, embed youtube, gutenberg embed, elementor embed, video embed, Google Doc, map embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, embed wordpress
+Tags: embed, embed youtube, gutenberg embed, elementor embed, video embed, Google Doc, map embed, youTube Embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, embed wordpress
 Requires at least: 4.6
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 2.5.4
+Stable tag: 2.5.5
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -110,6 +110,8 @@ EmbedPress supports most popular image-hosting sites, including Deviantart, Giph
 -   [How to use Imgur in WordPress](https://embedpress.com/docs/embed-imgur-images-wordpress/)
 
 -   [How to use Instagram in WordPress](https://embedpress.com/docs/embed-instagram-wordpress/)
+
+https://www.youtube.com/watch?v=h8oPwlZ9P5A
 
 
 #### 📊CHARTS AND DIAGRAMS
@@ -246,6 +248,21 @@ If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
 Visit [WPDeveloper](https://wpdeveloper.net/) to learn more about how to do better in WordPress with [Help Tutorial, Tips & Tricks](https://wpdeveloper.net/blog).
 
+== Installation ==
+
+= Modern Way: =
+1. Go to the WordPress Dashboard "Add New Plugin" section.
+2. Search For "EmbedPress". 
+3. Install, then Activate it.
+4. Follow the [Documentation](https://embedpress.com/documentation/)
+
+= Old Way: =
+1. Upload `embedpress` to the `/wp-content/plugins/` directory
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Follow the [Documentation](https://embedpress.com/documentation/)
+
+
+
 == Frequently Asked Questions ==
 
 = Where Can I Get Support? =
@@ -271,6 +288,11 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [2.5.5] - 2020-05-19 =
+* Enhanched YouTube Playback control in Gutenberg
+* Fixed Gutenberg Block Icon
+* Fixed Conflict with Default Block if Classic Editor is Active
 
 = [2.5.4] - 2020-05-10 =
 * Enhanched Alighment Control for all Gutenberg Blocks
@@ -607,6 +629,7 @@ Added Wistia and Twitch blocks for Gutenberg
 
 * Initial release.
 
+
 == Upgrade Notice ==
 
-* [Minor after 2.4.0] Fixed global iFrame resize capacity
+* [Minor after 2.5.0] Gutenberg Block Update
