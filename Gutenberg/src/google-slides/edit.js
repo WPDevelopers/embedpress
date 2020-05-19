@@ -11,20 +11,34 @@ import Iframe from '../common/Iframe';
  */
 const { __ } = wp.i18n;
 const { Component, Fragment } = wp.element;
-
+import { googleSlidesIcon} from '../common/icons'
 class GoogleSlidesEdit extends Component {
     constructor() {
         super( ...arguments );
         this.switchBackToURLInput = this.switchBackToURLInput.bind( this );
         this.setUrl = this.setUrl.bind( this );
         this.onLoad = this.onLoad.bind( this );
-        this.state = {
-            editingURL: false,
-            url: this.props.attributes.url,
-            fetching: true,
-            cannotEmbed: false
-        };
+		this.hideOverlay = this.hideOverlay.bind(this);
+		this.state = {
+			editingURL: false,
+			url: this.props.attributes.url,
+			fetching: true,
+			cannotEmbed: false,
+			interactive: false
+		};
     }
+
+	static getDerivedStateFromProps(nextProps, state) {
+		if (!nextProps.isSelected && state.interactive) {
+			return {interactive: false};
+		}
+
+		return null;
+	}
+
+	hideOverlay() {
+		this.setState({interactive: true});
+	}
 
     onLoad() {
         this.setState({
@@ -51,7 +65,7 @@ class GoogleSlidesEdit extends Component {
         setAttributes( { url } );
         if(url && url.match( /^http[s]?:\/\/((?:www\.)?docs\.google\.com(?:.*)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)/i)){
             var iframeSrc = this.decodeHTMLEntities(url);
-            var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i; 
+            var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
             var match = regEx.exec(iframeSrc);
             var type = match[1];
             if(type && type == 'presentation') {
@@ -59,7 +73,7 @@ class GoogleSlidesEdit extends Component {
                     iframeSrc = iframeSrc.replace('/pub?', '/embed?');
                 }
                 this.setState( { editingURL: false, cannotEmbed: false } );
-                setAttributes( {iframeSrc: iframeSrc })    
+                setAttributes( {iframeSrc: iframeSrc })
             }
             else {
                 this.setState({
@@ -79,9 +93,9 @@ class GoogleSlidesEdit extends Component {
     switchBackToURLInput() {
         this.setState( { editingURL: true } );
     }
-    
+
     render() {
-        const { url, editingURL, fetching, cannotEmbed } = this.state;
+        const { url, editingURL, fetching, cannotEmbed, interactive} = this.state;
         const { iframeSrc } = this.props.attributes;
 
         const label = __( 'Google Slides URL');
@@ -95,19 +109,30 @@ class GoogleSlidesEdit extends Component {
                     value={ url }
                     cannotEmbed={ cannotEmbed }
                     onChange={ ( event ) => this.setState( { url: event.target.value } ) }
+					icon={googleSlidesIcon}
+					DocTitle={__('Learn more about Google slides embed')}
+					docLink={'https://embedpress.com/docs/embed-google-slides-wordpress/'}
                 />
             );
         }
         else {
-            
+
             return (
                 <Fragment>
                     {fetching  ?  <EmbedLoading /> : null}
-                    <Iframe src={iframeSrc} onLoad={this.onLoad} style={{ display: fetching ? 'none' : '' }} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" />
+
+                    <Iframe src={iframeSrc} onFocus={ this.hideOverlay } onLoad={this.onLoad} style={{ display: fetching ? 'none' : '' }} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" />
+					{ ! interactive && (
+						<div
+							className="block-library-embed__interactive-overlay"
+							onMouseUp={ this.hideOverlay }
+						/>
+					) }
+
                     <EmbedControls
                         showEditButton={ iframeSrc && ! cannotEmbed }
                         switchBackToURLInput={ this.switchBackToURLInput }
-                    />  
+                    />
                 </Fragment>
 
             )

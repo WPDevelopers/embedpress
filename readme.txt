@@ -1,12 +1,12 @@
-=== EmbedPress – Embed Google Docs, YouTube, Vimeo, Wistia Videos, Giphy Photos and More ===
-Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed, andergmartins, stevejburge, pressshack, deenison
+=== EmbedPress – Embed Google Docs, YouTube, Maps, Vimeo, Wistia Videos, Instagram & Anything ===
+Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed
 Author: WPDeveloper
 Author URI: https://wpdeveloper.net
-Tags: embed, embed youtube, gutenberg embed, elementor embed, video embed, Google Doc, map embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, embed wordpress
+Tags: embed, embed youtube, gutenberg embed, elementor embed, video embed, Google Doc, map embed, youTube Embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, embed wordpress
 Requires at least: 4.6
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 2.5.3
+Stable tag: 2.5.5
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -15,7 +15,9 @@ EmbedPress lets you embed videos, images, posts, audio, maps and all other types
 == Description ==
 
 
-EmbedPress lets you embed videos, images, posts, audio, maps and all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. Classic Editor, Gutenberg & Elementor all supported.
+[EmbedPress](https://embedpress.com/) lets you embed videos, images, posts, audio, maps and all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. Classic Editor, Gutenberg & Elementor all supported.
+
+https://www.youtube.com/watch?v=fvYKLkEnJbI
 
 🔥RICH MEDIA EMBEDS FROM MORE THAN 75 SITES
 
@@ -60,6 +62,8 @@ Google Drive is an enormously popular service that has replaced Microsoft Office
 -   [How to use Google Sheets in WordPress](https://embedpress.com/docs/embed-google-sheets-wordpress/)
 
 -   [How to use Google Slides in WordPress](https://embedpress.com/docs/embed-google-slides-wordpress/)
+
+https://www.youtube.com/watch?v=3CWysKDRoG4
 
 
 #### 👍FACEBOOK POSTS AND VIDEOS
@@ -106,6 +110,8 @@ EmbedPress supports most popular image-hosting sites, including Deviantart, Giph
 -   [How to use Imgur in WordPress](https://embedpress.com/docs/embed-imgur-images-wordpress/)
 
 -   [How to use Instagram in WordPress](https://embedpress.com/docs/embed-instagram-wordpress/)
+
+https://www.youtube.com/watch?v=h8oPwlZ9P5A
 
 
 #### 📊CHARTS AND DIAGRAMS
@@ -205,11 +211,11 @@ We’ve seen that EmbedPress supports YouTube, Wistia and Vimeo, but EmbedPress 
 -   [SpeakerDeck embeds](https://embedpress.com/docs/embed-speakerdeck-presentations-wordpress/) (Presentations)
 
 
-🙌After reading this feature list, you can probably imagine EmbedPress is the best plugin in the market. So, do you want to unlock the advanced features? [Upgrade to our Pro version.](https://embedpress.com/everything-club/)
+🙌After reading this feature list, you can probably imagine EmbedPress is the best plugin in the market. So, do you want to unlock the advanced features? [Upgrade to our Pro version.](https://embedpress.com/#pricing)
 
 ## 🚀BACKED BY A TRUSTED TEAM
 
-This embed plugin is brought to you by the team behind [WPDeveloper](https://wpdeveloper.net/), a dedicated marketplace for WordPress, trusted by 500,000+ happy users.
+This embed plugin is brought to you by the team behind [WPDeveloper](https://wpdeveloper.net/), a dedicated marketplace for WordPress, trusted by 600,000+ happy users.
 
 ### 👨‍💻 DOCUMENTATION AND SUPPORT
 
@@ -224,7 +230,7 @@ This embed plugin is brought to you by the team behind [WPDeveloper](https://wpd
 
 -   Join our [Facebook Group](https://www.facebook.com/groups/wpdeveloper.net/)
 
--   If you love EmbedPress, [rate us on WordPress](https://wordpress.org/support/plugin/embedpress/reviews/#new-post)
+-   If you love EmbedPress, [rate us on WordPress](https://wordpress.org/support/plugin/embedpress/reviews/?filter=5)
 
 
 
@@ -241,6 +247,21 @@ If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
 
 Visit [WPDeveloper](https://wpdeveloper.net/) to learn more about how to do better in WordPress with [Help Tutorial, Tips & Tricks](https://wpdeveloper.net/blog).
+
+== Installation ==
+
+= Modern Way: =
+1. Go to the WordPress Dashboard "Add New Plugin" section.
+2. Search For "EmbedPress". 
+3. Install, then Activate it.
+4. Follow the [Documentation](https://embedpress.com/documentation/)
+
+= Old Way: =
+1. Upload `embedpress` to the `/wp-content/plugins/` directory
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Follow the [Documentation](https://embedpress.com/documentation/)
+
+
 
 == Frequently Asked Questions ==
 
@@ -267,6 +288,20 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [2.5.5] - 2020-05-19 =
+* Enhanched YouTube Playback control in Gutenberg
+* Fixed Gutenberg Block Icon
+* Fixed Conflict with Default Block if Classic Editor is Active
+
+= [2.5.4] - 2020-05-10 =
+* Enhanched Alighment Control for all Gutenberg Blocks
+* Added a simple YouTube Blocks for Gutenberg
+* Added Docs Link for all Gutenberg Blocks
+* Added present version number in Option Screen for clarity
+* Fixed Links in Option Screen
+* Fixed Content Error in Blocks
+
 
 = [2.5.3] - 2020-04-22 =
 * Fixed minor issue related to Google Sheets in Elementor without Classic Editor
@@ -594,6 +629,7 @@ Added Wistia and Twitch blocks for Gutenberg
 
 * Initial release.
 
+
 == Upgrade Notice ==
 
-* [Minor after 2.4.0] Fixed global iFrame resize capacity
+* [Minor after 2.5.0] Gutenberg Block Update

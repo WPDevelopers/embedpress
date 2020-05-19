@@ -7,23 +7,25 @@
  *
  * @return string Returns the post slider.
  */
-function embedpress_gutenberg_render_block_wistia($attributes)
+function embedpress_gutenberg_render_block_wistia( $attributes )
 {
 	ob_start();
-	if (!empty($attributes) && !empty($attributes['url'])) :
-		preg_match('~medias/(.*)~i', $attributes['url'], $matches);
+	if ( !empty( $attributes ) && !empty( $attributes[ 'url' ] ) ) :
+		preg_match( '~medias/(.*)~i', $attributes[ 'url' ], $matches );
 		$id = false;
-		if (isset($matches[1])) {
-			$id = $matches[1];
+		if ( isset( $matches[ 1 ] ) ) {
+			$id = $matches[ 1 ];
 		}
-		if (!empty($id)) :
+		$align = 'align' . ( isset( $attributes[ 'align' ] ) ? $attributes[ 'align' ] : 'center' );
+		if ( !empty( $id ) ) :
 			?>
-			<div class="ose-wistia" id="wistia_<?php echo $id; ?>">
-				<iframe src="<?php echo $attributes['iframeSrc']; ?>" allowtransparency="true" frameborder="0" class="wistia_embed" name="wistia_embed" width="600" height="330"></iframe>
+			<div class="ose-wistia wp-block-embed-youtube <?php echo $align; ?>" id="wistia_<?php echo $id; ?>">
+				<iframe src="<?php echo $attributes[ 'iframeSrc' ]; ?>" allowtransparency="true" frameborder="0"
+				        class="wistia_embed" name="wistia_embed" width="600" height="330"></iframe>
 				<?php
-					do_action('embedpress_gutenberg_wistia_block_after_embed', $attributes); ?>
+				do_action( 'embedpress_gutenberg_wistia_block_after_embed', $attributes ); ?>
 			</div>
-<?php
+		<?php
 		endif;
 	endif;
 	return ob_get_clean();
@@ -34,19 +36,19 @@ function embedpress_gutenberg_render_block_wistia($attributes)
  */
 function embedpress_gutenberg_register_block_wistia()
 {
-	if (function_exists('register_block_type')) :
-		register_block_type('embedpress/wistia-block', array(
-			'attributes'      => array(
-				'url'      => array(
+	if ( function_exists( 'register_block_type' ) ) :
+		register_block_type( 'embedpress/wistia-block', [
+			'attributes'      => [
+				'url'       => [
 					'type' => 'string',
-				),
-				'iframeSrc'   => array(
+				],
+				'iframeSrc' => [
 					'type' => 'string',
-				),
-			),
+				],
+			],
 			'render_callback' => 'embedpress_gutenberg_render_block_wistia',
-		));
+		] );
 	endif;
 }
 
-add_action('init', 'embedpress_gutenberg_register_block_wistia');
+add_action( 'init', 'embedpress_gutenberg_register_block_wistia' );

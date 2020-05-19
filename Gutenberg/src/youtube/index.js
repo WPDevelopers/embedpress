@@ -9,10 +9,9 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import {googleFormsIcon} from '../common/icons';
-
-const {__} = wp.i18n; // Import __() from wp.i18n
-const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
+import { youtubeIcon } from '../common/icons';
+const { __ } = wp.i18n; // Import __() from wp.i18n
+const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
 /**
  * Register: aa Gutenberg Block.
@@ -27,29 +26,18 @@ const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blo
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType('embedpress/google-forms-block', {
+registerBlockType( 'embedpress/youtube-block', {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-	title: __('Google Forms'), // Block title.
-	icon: googleFormsIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
+	title: __( 'Youtube' ), // Block title.
+	icon: youtubeIcon,
 	category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout Widgets, embed.
 	keywords: [
-		__('embedpress'),
-		__('google'),
-		__('forms'),
+		__( 'embedpress' ),
+		__( 'youtube' ),
 	],
 	supports: {
 		align: true,
 		lightBlockWrapper: true,
-	},
-	attributes: {
-		url: {
-			type: 'string',
-			default: ''
-		},
-		iframeSrc: {
-			type: 'string',
-			default: ''
-		}
 	},
 	/**
 	 * The edit function describes the structure of your block in the context of the editor.
@@ -69,14 +57,7 @@ registerBlockType('embedpress/google-forms-block', {
 	 *
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
-	save: function (props) {
-		const {iframeSrc} = props.attributes
-		const defaultClass = 'ose-google-docs-forms'
-		return (
-			<figure className={defaultClass}>
-				<iframe src={iframeSrc} frameborder="0" width="600" height="450" allowfullscreen="true"
-						mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-			</figure>
-		);
-	},
-});
+	save: () => {
+		return null
+	}
+} );

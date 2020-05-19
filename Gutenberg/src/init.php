@@ -85,9 +85,11 @@ function embedpress_block_category( $categories, $post ) {
 			array(
 				'slug'  => 'embedpress',
 				'title' => 'EmbedPress',
+				'icon'  => '',
 			),
 		)
 	);
+
 }
 
 add_filter( 'block_categories', 'embedpress_block_category', 10, 2 );

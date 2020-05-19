@@ -36,6 +36,10 @@ registerBlockType( 'embedpress/google-slides-block', {
 		__( 'google' ),
 		__( 'slides' ),
 	],
+	supports: {
+		align: true,
+		lightBlockWrapper: true,
+	},
 	attributes: {
 		url: {
 			type: 'string',
@@ -66,10 +70,11 @@ registerBlockType( 'embedpress/google-slides-block', {
 	 */
 	save: function( props ) {
 		const { iframeSrc }  = props.attributes
+		const defaultClass = "ose-google-docs-presentation"
 		return (
-			<div class="ose-google-docs-presentation">
+			<figure className={defaultClass}>
 				<iframe src={iframeSrc} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
-			</div>
+			</figure>
 		);
 	},
 } );

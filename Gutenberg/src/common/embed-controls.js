@@ -9,7 +9,7 @@ const { BlockControls } = wp.editor;
 const EmbedControls = ( props ) => {
 	const {
 		showEditButton,
-		switchBackToURLInput,
+		switchBackToURLInput
 	} = props;
 	return (
 		<Fragment>
