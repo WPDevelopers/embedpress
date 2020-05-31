@@ -332,6 +332,7 @@ class Handler extends EndHandlerAbstract {
 
             // Infogram (https://infogr.am/)
             'infogr.am/*',
+            'infogram.com/*',
 
             // ChartBlocks (http://www.chartblocks.com/)
             'public.chartblocks.com/c/*',

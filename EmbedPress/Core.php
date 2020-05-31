@@ -253,6 +253,8 @@ class Core {
 
             // Infogram (https://infogr.am/)
             '#https?://(.+\.)?infogr\.am/.+#i' => 'infogram',
+            //(https://infogram.com/)
+            '#https?://(.+\.)?infogram\.com/.+#i' => 'infogram',
 
             // ChartBlocks (http://www.chartblocks.com/)
             '#https?://(.+\.)?public\.chartblocks\.com/c/.+#i' => 'chartblocks',
