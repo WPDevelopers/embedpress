@@ -544,7 +544,6 @@
                 // Get the parsed embed code from the EmbedPress plugin
                 self.getParsedContent(url, function getParsedContentCallback (result) {
                     var embeddedContent = (typeof result.data === 'object' ? result.data.embed : result.data).stripShortcode($data.EMBEDPRESS_SHORTCODE);
-
                     var $wrapper = $(self.getElementInContentById('embedpress_wrapper_' + uid, editorInstance));
                     var wrapperParent = $($wrapper.parent());
 
@@ -579,7 +578,7 @@
                         $content.html(embeddedContent);
                     }
 
-                    if (!$('iframe', $content).length) {
+                    if (!$('iframe', $content).length && result.data.provider_name!=='Infogram') {
                         var contentWrapper = $($content).clone();
                         contentWrapper.html('');
 
