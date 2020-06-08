@@ -1,9 +1,7 @@
 /**
  * Internal dependencies
  */
-import EmbedControls from '../common/embed-controls';
-import EmbedLoading from '../common/embed-loading';
-import EmbedPlaceholder from '../common/embed-placeholder';
+
 import Iframe from '../common/Iframe';
 
 /**
@@ -148,9 +146,11 @@ class DocumentEdit extends Component {
 				/>
 			);
 		} else {
+			const url = 'https://docs.google.com/viewer?url='+href+'&embedded=true';
 			return (
 				<Fragment>
-					<div>Upload File</div>
+					<Iframe src={url}
+							mozallowfullscreen="true" webkitallowfullscreen="true"/>
 				</Fragment>
 			);
 		}

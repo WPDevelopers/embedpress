@@ -77,11 +77,12 @@ registerBlockType( 'embedpress/document', {
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
 	save: function( props ) {
-		const { iframeSrc }  = props.attributes
-		const defaultClass = "ose-google-docs-presentation"
+		const { href }  = props.attributes
+		const iframeSrc = 'https://docs.google.com/viewer?url='+href+'&embedded=true';
+		const defaultClass = "ose-document-embed-presentation"
 		return (
 			<figure className={defaultClass}>
-				<iframe src={iframeSrc} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+				<iframe src={iframeSrc} frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 			</figure>
 		);
 	},
