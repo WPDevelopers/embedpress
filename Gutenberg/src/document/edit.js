@@ -15,6 +15,7 @@ const {BlockControls, BlockIcon, MediaPlaceholder, MediaReplaceFlow} = wp.editor
 const {Component, Fragment} = wp.element;
 const {BaseControl, Button, Disabled, PanelBody, withNotices,} = wp.components;
 import {googleSlidesIcon} from '../common/icons'
+import EmbedLoading from "../common/embed-loading";
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
@@ -37,9 +38,13 @@ class DocumentEdit extends Component {
 		);
 		this.changeOpenInNewWindow = this.changeOpenInNewWindow.bind(this);
 		this.onUploadError = this.onUploadError.bind(this);
+		this.onLoad = this.onLoad.bind(this);
+		this.hideOverlay = this.hideOverlay.bind(this);
 		this.state = {
 			hasError: false,
 			showCopyConfirmation: false,
+			fetching:false,
+			interactive: false
 		};
 	}
 
@@ -76,9 +81,26 @@ class DocumentEdit extends Component {
 		}
 	}
 
+	static getDerivedStateFromProps(nextProps, state) {
+		if (!nextProps.isSelected && state.interactive) {
+			return {interactive: false};
+		}
+
+		return null;
+	}
+
+	hideOverlay() {
+		this.setState({interactive: true});
+	}
+
+	onLoad() {
+		this.setState({
+			fetching:false
+		})
+	}
+
 	onSelectFile(media) {
 		if (media && media.url) {
-			console.log(media);
 			this.setState({hasError: false});
 			this.props.setAttributes({
 				href: media.url,
@@ -116,7 +138,6 @@ class DocumentEdit extends Component {
 
 
 	render() {
-		console.log(this.state);
 		const {className, isSelected, attributes, setAttributes, noticeUI, media} = this.props;
 		const {
 			id,
@@ -125,7 +146,7 @@ class DocumentEdit extends Component {
 			textLinkHref,
 			textLinkTarget
 		} = attributes;
-		const {hasError, showCopyConfirmation} = this.state;
+		const {hasError, showCopyConfirmation,interactive,fetching} = this.state;
 		const attachmentPage = media && media.link;
 
 		if (!href || hasError) {
@@ -149,8 +170,15 @@ class DocumentEdit extends Component {
 			const url = 'https://docs.google.com/viewer?url='+href+'&embedded=true';
 			return (
 				<Fragment>
-					<Iframe src={url}
+					{fetching ? <EmbedLoading/> : null}
+					<Iframe onMouseUponMouseUp={ this.hideOverlay } style={{height:'600px',width:'600px',display: fetching ? 'none' : ''}} onLoad={this.onLoad} style={{height:'600px',width:'600px',display: fetching ? 'none' : ''}}  src={url}
 							mozallowfullscreen="true" webkitallowfullscreen="true"/>
+					{ ! interactive && (
+						<div
+							className="block-library-embed__interactive-overlay"
+							onMouseUp={ this.hideOverlay }
+						/>
+					) }
 				</Fragment>
 			);
 		}

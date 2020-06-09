@@ -112,7 +112,7 @@ class GoogleDocsEdit extends Component {
 
 	render() {
 		const {url, editingURL, fetching, cannotEmbed, interactive} = this.state;
-		const {iframeSrc, align} = this.props.attributes;
+		const {iframeSrc} = this.props.attributes;
 		const label = __('Google Docs URL');
 
 		// No preview, or we can't embed the current URL, or we've clicked the edit button.

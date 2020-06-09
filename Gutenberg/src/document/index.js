@@ -82,7 +82,7 @@ registerBlockType( 'embedpress/document', {
 		const defaultClass = "ose-document-embed-presentation"
 		return (
 			<figure className={defaultClass}>
-				<iframe src={iframeSrc} frameborder="0" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+				<iframe src={iframeSrc} frameborder="0" allowfullscreen="true" style={{height:'600px',width:'600px'}}  mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
 			</figure>
 		);
 	},
