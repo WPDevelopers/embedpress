@@ -44,7 +44,9 @@ class DocumentEdit extends Component {
 			hasError: false,
 			showCopyConfirmation: false,
 			fetching:false,
-			interactive: false
+			interactive: false,
+			uniqId: 'embedpress-pdf-'+Date.now(),
+			loadPdf: true,
 		};
 	}
 
@@ -72,13 +74,21 @@ class DocumentEdit extends Component {
 
 			revokeBlobURL(href);
 		}
+
+		if(this.props.attributes.href && this.props.attributes.mime === 'application/pdf' && this.state.loadPdf){
+			this.setState({loadPdf: false});
+			PDFObject.embed(this.props.attributes.href, "#"+this.state.uniqId);
+		}
+
 	}
 
 	componentDidUpdate(prevProps) {
+
 		// Reset copy confirmation state when block is deselected
 		if (prevProps.isSelected && !this.props.isSelected) {
 			this.setState({showCopyConfirmation: false});
 		}
+
 	}
 
 	static getDerivedStateFromProps(nextProps, state) {
@@ -107,8 +117,13 @@ class DocumentEdit extends Component {
 				fileName: media.title,
 				textLinkHref: media.url,
 				id: media.id,
+				mime: media.mime,
 			});
+			if(media.mime === 'application/pdf'){
+				PDFObject.embed(media.url, "#"+this.state.uniqId);
+			}
 		}
+
 	}
 
 	onUploadError(message) {
@@ -137,6 +152,7 @@ class DocumentEdit extends Component {
 	}
 
 
+
 	render() {
 		const {className, isSelected, attributes, setAttributes, noticeUI, media} = this.props;
 		const {
@@ -146,7 +162,7 @@ class DocumentEdit extends Component {
 			textLinkHref,
 			textLinkTarget
 		} = attributes;
-		const {hasError, showCopyConfirmation,interactive,fetching} = this.state;
+		const {hasError, showCopyConfirmation,interactive,fetching,uniqId} = this.state;
 		const attachmentPage = media && media.link;
 
 		if (!href || hasError) {
@@ -170,15 +186,16 @@ class DocumentEdit extends Component {
 			const url = 'https://docs.google.com/viewer?url='+href+'&embedded=true';
 			return (
 				<Fragment>
-					{fetching ? <EmbedLoading/> : null}
-					<Iframe onMouseUponMouseUp={ this.hideOverlay } style={{height:'600px',width:'600px',display: fetching ? 'none' : ''}} onLoad={this.onLoad} style={{height:'600px',width:'600px',display: fetching ? 'none' : ''}}  src={url}
-							mozallowfullscreen="true" webkitallowfullscreen="true"/>
+					<div id={uniqId}><span className="embedpress-pdf-loading">Loading PDF....</span></div>
+					{/*<Iframe onMouseUponMouseUp={ this.hideOverlay } style={{height:'600px',width:'600px',display: fetching ? 'none' : ''}} onLoad={this.onLoad} src={url}*/}
+					{/*		mozallowfullscreen="true" webkitallowfullscreen="true"/>*/}
 					{ ! interactive && (
 						<div
 							className="block-library-embed__interactive-overlay"
 							onMouseUp={ this.hideOverlay }
 						/>
 					) }
+
 				</Fragment>
 			);
 		}

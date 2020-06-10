@@ -32,7 +32,9 @@ class Handler extends EndHandlerAbstract {
         $plgSettings = Core::getSettings();
 
         $urlSchemes = apply_filters( 'embedpress:getAdditionalURLSchemes', $this->getUrlSchemes() );
-
+		
+		wp_enqueue_script( 'embedpress-pdfobject', EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js', [],
+            $this->pluginVersion, false );
         wp_enqueue_script( "bootbox-bootstrap", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootstrap/bootstrap.min.js',
             [ 'jquery' ], $this->pluginVersion, true );
         wp_enqueue_script( "bootbox", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootbox.min.js',
@@ -54,6 +56,7 @@ class Handler extends EndHandlerAbstract {
 
         wp_enqueue_script( 'embedpress-admin', EMBEDPRESS_URL_ASSETS . 'js/admin.js', [ 'jquery' ],
             $this->pluginVersion, true );
+		
         wp_localize_script( $this->pluginName, 'EMBEDPRESS_ADMIN_PARAMS', [
             'ajaxurl' => admin_url('admin-ajax.php'),
             'nonce'   => wp_create_nonce('embedpress')

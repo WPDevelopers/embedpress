@@ -56,6 +56,9 @@ registerBlockType( 'embedpress/document', {
 		},
 		textLinkTarget: {
 			type: "string",
+		},
+		mime:{
+			type: "string",
 		}
 	},
 	/**
@@ -77,6 +80,7 @@ registerBlockType( 'embedpress/document', {
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
 	save: function( props ) {
+		//console.log(props)
 		const { href }  = props.attributes
 		const iframeSrc = 'https://docs.google.com/viewer?url='+href+'&embedded=true';
 		const defaultClass = "ose-document-embed-presentation"
@@ -86,4 +90,5 @@ registerBlockType( 'embedpress/document', {
 			</figure>
 		);
 	},
+
 } );
