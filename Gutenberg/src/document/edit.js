@@ -120,6 +120,7 @@ class DocumentEdit extends Component {
 				mime: media.mime,
 			});
 			if(media.mime === 'application/pdf'){
+				this.setState({loadPdf: false});
 				PDFObject.embed(media.url, "#"+this.state.uniqId);
 			}
 		}
@@ -162,7 +163,7 @@ class DocumentEdit extends Component {
 			textLinkHref,
 			textLinkTarget
 		} = attributes;
-		const {hasError, showCopyConfirmation,interactive,fetching,uniqId} = this.state;
+		const {hasError, showCopyConfirmation,interactive,fetching,uniqId,loadPdf} = this.state;
 		const attachmentPage = media && media.link;
 
 		if (!href || hasError) {
@@ -186,9 +187,9 @@ class DocumentEdit extends Component {
 			const url = 'https://docs.google.com/viewer?url='+href+'&embedded=true';
 			return (
 				<Fragment>
-					<div id={uniqId}><span className="embedpress-pdf-loading">Loading PDF....</span></div>
-					{/*<Iframe onMouseUponMouseUp={ this.hideOverlay } style={{height:'600px',width:'600px',display: fetching ? 'none' : ''}} onLoad={this.onLoad} src={url}*/}
-					{/*		mozallowfullscreen="true" webkitallowfullscreen="true"/>*/}
+					<div loadPdf style={{display: loadPdf ? 'none' : ''}} id={uniqId}><span className="embedpress-pdf-loading">Loading PDF....</span></div>
+					<Iframe onMouseUponMouseUp={ this.hideOverlay } style={{height:'600px',width:'600px',display: fetching || !loadPdf ? 'none' : ''}} onLoad={this.onLoad} src={url}
+							mozallowfullscreen="true" webkitallowfullscreen="true"/>
 					{ ! interactive && (
 						<div
 							className="block-library-embed__interactive-overlay"
