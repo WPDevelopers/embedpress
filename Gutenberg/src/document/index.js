@@ -9,7 +9,6 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import save from './save';
 import { googleSlidesIcon } from '../common/icons';
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
