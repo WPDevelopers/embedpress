@@ -43,7 +43,7 @@ registerBlockType( 'embedpress/document', {
 	},
 	attributes: {
 		id: {
-			type: "number"
+			type: "string"
 		},
 		href: {
 			type: "string"
@@ -81,14 +81,13 @@ registerBlockType( 'embedpress/document', {
 	 */
 	//save
 	save: function( props ) {
-		const { href,mime }  = props.attributes
+		const { href,mime,id }  = props.attributes
 		const iframeSrc = 'https://docs.google.com/viewer?url='+href+'&embedded=true';
 		const defaultClass = "embedpress-embed-document"
-		const id = 'abc-'+Date.now()
 		return (
 			<figure className={defaultClass}>
 				{  mime ==='application/pdf' && (
-					<div className={'embedpress-embed-document-pdf'} id={id} data-emsrc={href}></div>
+					<div className={'embedpress-embed-document-pdf'+' '+id} data-emid={id} data-emsrc={href}></div>
 				) }
 				{  mime !=='application/pdf' && (
 					<iframe style={{height:'600px',width:'600px'}}  src={iframeSrc} mozallowfullscreen="true" webkitallowfullscreen="true"/>

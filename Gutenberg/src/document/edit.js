@@ -76,7 +76,7 @@ class DocumentEdit extends Component {
 
 		if(this.props.attributes.href && this.props.attributes.mime === 'application/pdf' && this.state.loadPdf){
 			this.setState({loadPdf: false});
-			PDFObject.embed(this.props.attributes.href, "#"+this.state.uniqId);
+			PDFObject.embed(this.props.attributes.href, "."+this.props.attributes.id);
 		}
 
 	}
@@ -115,12 +115,12 @@ class DocumentEdit extends Component {
 				href: media.url,
 				fileName: media.title,
 				textLinkHref: media.url,
-				id: media.id,
+				id: 'embedpress-pdf-'+Date.now(),
 				mime: media.mime,
 			});
 			if(media.mime === 'application/pdf'){
 				this.setState({loadPdf: false});
-				PDFObject.embed(media.url, "#"+this.state.uniqId);
+				PDFObject.embed(media.url, "."+this.props.attributes.id);
 			}
 		}
 
@@ -155,7 +155,7 @@ class DocumentEdit extends Component {
 
 	render() {
 		const {className, isSelected, attributes, setAttributes, noticeUI, media} = this.props;
-		const {href,mime} = attributes;
+		const {href,mime,id} = attributes;
 		const {hasError, showCopyConfirmation,interactive,fetching,uniqId,loadPdf} = this.state;
 		const attachmentPage = media && media.link;
 
@@ -181,7 +181,7 @@ class DocumentEdit extends Component {
 			return (
 				<Fragment>
 					{ mime === 'application/pdf' && (
-						<div loadPdf style={{display: loadPdf ? 'none' : ''}} id={uniqId}><span className="embedpress-pdf-loading">Loading PDF....</span></div>
+						<div className={'embedpress-embed-document-pdf'+' '+id} data-emid={id} data-emsrc={href}></div>
 					) }
 					{ mime !== 'application/pdf' && (
 						<Iframe onMouseUponMouseUp={ this.hideOverlay } style={{height:'600px',width:'600px',display: fetching || !loadPdf ? 'none' : ''}} onLoad={this.onLoad} src={url}
