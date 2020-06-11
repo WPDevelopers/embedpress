@@ -34,6 +34,19 @@ class Handler extends EndHandlerAbstract
     {
         wp_enqueue_style(EMBEDPRESS_PLG_NAME, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css');
     }
+    
+    
+    public function enqueueScripts() {
+        
+        wp_enqueue_script( 'embedpress-pdfobject', EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js', [],
+            $this->pluginVersion, false );
+       
+        //load embedpress admin js
+        
+        wp_enqueue_script( 'embedpress-front', EMBEDPRESS_URL_ASSETS . 'js/front.js', [ 'jquery','embedpress-pdfobject' ],
+            $this->pluginVersion, true );
+        
+    }
 
     /**
      * Passes any unlinked URLs to EmbedPress\Shortcode::do_shortcode() for potential embedding.

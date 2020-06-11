@@ -15,7 +15,6 @@ const {BlockControls, BlockIcon, MediaPlaceholder, MediaReplaceFlow} = wp.editor
 const {Component, Fragment} = wp.element;
 const {BaseControl, Button, Disabled, PanelBody, withNotices,} = wp.components;
 import {googleSlidesIcon} from '../common/icons'
-import EmbedLoading from "../common/embed-loading";
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
@@ -156,13 +155,7 @@ class DocumentEdit extends Component {
 
 	render() {
 		const {className, isSelected, attributes, setAttributes, noticeUI, media} = this.props;
-		const {
-			id,
-			fileName,
-			href,
-			textLinkHref,
-			textLinkTarget
-		} = attributes;
+		const {href,mime} = attributes;
 		const {hasError, showCopyConfirmation,interactive,fetching,uniqId,loadPdf} = this.state;
 		const attachmentPage = media && media.link;
 
@@ -187,16 +180,19 @@ class DocumentEdit extends Component {
 			const url = 'https://docs.google.com/viewer?url='+href+'&embedded=true';
 			return (
 				<Fragment>
-					<div loadPdf style={{display: loadPdf ? 'none' : ''}} id={uniqId}><span className="embedpress-pdf-loading">Loading PDF....</span></div>
-					<Iframe onMouseUponMouseUp={ this.hideOverlay } style={{height:'600px',width:'600px',display: fetching || !loadPdf ? 'none' : ''}} onLoad={this.onLoad} src={url}
-							mozallowfullscreen="true" webkitallowfullscreen="true"/>
+					{ mime === 'application/pdf' && (
+						<div loadPdf style={{display: loadPdf ? 'none' : ''}} id={uniqId}><span className="embedpress-pdf-loading">Loading PDF....</span></div>
+					) }
+					{ mime !== 'application/pdf' && (
+						<Iframe onMouseUponMouseUp={ this.hideOverlay } style={{height:'600px',width:'600px',display: fetching || !loadPdf ? 'none' : ''}} onLoad={this.onLoad} src={url}
+								mozallowfullscreen="true" webkitallowfullscreen="true"/>
+					) }
 					{ ! interactive && (
 						<div
 							className="block-library-embed__interactive-overlay"
 							onMouseUp={ this.hideOverlay }
 						/>
 					) }
-
 				</Fragment>
 			);
 		}

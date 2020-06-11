@@ -9,6 +9,7 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
+import save from './save';
 import { googleSlidesIcon } from '../common/icons';
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
@@ -79,14 +80,20 @@ registerBlockType( 'embedpress/document', {
 	 *
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
+	//save
 	save: function( props ) {
-		//console.log(props)
-		const { href }  = props.attributes
+		const { href,mime }  = props.attributes
 		const iframeSrc = 'https://docs.google.com/viewer?url='+href+'&embedded=true';
-		const defaultClass = "ose-document-embed-presentation"
+		const defaultClass = "embedpress-embed-document"
+		const id = 'abc-'+Date.now()
 		return (
 			<figure className={defaultClass}>
-				<iframe src={iframeSrc} frameborder="0" allowfullscreen="true" style={{height:'600px',width:'600px'}}  mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+				{  mime ==='application/pdf' && (
+					<div className={'embedpress-embed-document-pdf'} id={id} data-emsrc={href}></div>
+				) }
+				{  mime !=='application/pdf' && (
+					<iframe style={{height:'600px',width:'600px'}}  src={iframeSrc} mozallowfullscreen="true" webkitallowfullscreen="true"/>
+				) }
 			</figure>
 		);
 	},
