@@ -30,14 +30,17 @@ class Embedpress_Elementor_Integration {
                 'icon'  => 'font',
             ], 1 );
     }
-
+    
     /**
      * Load elementor widget
      *
+     * @param $widgets_manager
+     * @throws \Exception
      * @since  2.4.2
      */
     public function register_widget( $widgets_manager ) {
         $widgets_manager->register_widget_type( new \EmbedPress\Elementor\Widgets\Embedpress_Elementor );
+        $widgets_manager->register_widget_type( new \EmbedPress\Elementor\Widgets\Embedpress_Document );
     }
 
     /**
