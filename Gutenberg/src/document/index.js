@@ -51,12 +51,6 @@ registerBlockType( 'embedpress/document', {
 		fileName: {
 			type: "string",
 		},
-		textLinkHref: {
-			type: "string",
-		},
-		textLinkTarget: {
-			type: "string",
-		},
 		mime:{
 			type: "string",
 		}

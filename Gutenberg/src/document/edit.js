@@ -11,9 +11,8 @@ import classnames from 'classnames';
 
 const {__} = wp.i18n;
 const {getBlobByURL, isBlobURL, revokeBlobURL} = wp.blob;
-const {BlockControls, BlockIcon, MediaPlaceholder, MediaReplaceFlow} = wp.editor;
+const {BlockIcon, MediaPlaceholder} = wp.editor;
 const {Component, Fragment} = wp.element;
-const {BaseControl, Button, Disabled, PanelBody, withNotices,} = wp.components;
 import {googleSlidesIcon} from '../common/icons'
 
 const ALLOWED_MEDIA_TYPES = [
@@ -30,21 +29,14 @@ class DocumentEdit extends Component {
 	constructor() {
 		super(...arguments);
 		this.onSelectFile = this.onSelectFile.bind(this);
-		this.confirmCopyURL = this.confirmCopyURL.bind(this);
-		this.resetCopyConfirmation = this.resetCopyConfirmation.bind(this);
-		this.changeLinkDestinationOption = this.changeLinkDestinationOption.bind(
-			this
-		);
-		this.changeOpenInNewWindow = this.changeOpenInNewWindow.bind(this);
+
 		this.onUploadError = this.onUploadError.bind(this);
 		this.onLoad = this.onLoad.bind(this);
 		this.hideOverlay = this.hideOverlay.bind(this);
 		this.state = {
 			hasError: false,
-			showCopyConfirmation: false,
 			fetching:false,
 			interactive: false,
-			uniqId: 'embedpress-pdf-'+Date.now(),
 			loadPdf: true,
 		};
 	}
@@ -114,7 +106,6 @@ class DocumentEdit extends Component {
 			this.props.setAttributes({
 				href: media.url,
 				fileName: media.title,
-				textLinkHref: media.url,
 				id: 'embedpress-pdf-'+Date.now(),
 				mime: media.mime,
 			});
@@ -132,32 +123,13 @@ class DocumentEdit extends Component {
 		noticeOperations.createErrorNotice(message);
 	}
 
-	confirmCopyURL() {
-		this.setState({showCopyConfirmation: true});
-	}
-
-	resetCopyConfirmation() {
-		this.setState({showCopyConfirmation: false});
-	}
-
-	changeLinkDestinationOption(newHref) {
-		// Choose Media File or Attachment Page (when file is in Media Library)
-		this.props.setAttributes({textLinkHref: newHref});
-	}
-
-	changeOpenInNewWindow(newValue) {
-		this.props.setAttributes({
-			textLinkTarget: newValue ? '_blank' : false,
-		});
-	}
 
 
 
 	render() {
-		const {className, isSelected, attributes, setAttributes, noticeUI, media} = this.props;
+		const {attributes, noticeUI} = this.props;
 		const {href,mime,id} = attributes;
-		const {hasError, showCopyConfirmation,interactive,fetching,uniqId,loadPdf} = this.state;
-		const attachmentPage = media && media.link;
+		const {hasError,interactive,fetching,loadPdf} = this.state;
 
 		if (!href || hasError) {
 
