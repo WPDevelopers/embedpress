@@ -4,10 +4,9 @@ namespace EmbedPress\Elementor\Widgets;
 
 
 use \Elementor\Controls_Manager as Controls_Manager;
-use Elementor\Group_Control_Image_Size;
 use \Elementor\Modules\DynamicTags\Module as TagsModule;
 use \Elementor\Widget_Base as Widget_Base;
-
+use \Elementor\Plugin;
 ( defined( 'ABSPATH' ) ) or die( "No direct script access allowed." );
 
 class Embedpress_Document extends Widget_Base
@@ -102,6 +101,50 @@ class Embedpress_Document extends Widget_Base
             ]
         );
         
+        $this->add_control(
+            'embedpress_elementor_document_width',
+            [
+                'label'     => __( 'Width', 'embedpress' ),
+                'type'      => Controls_Manager::SLIDER,
+                'default'   => [
+                    'unit' => 'px',
+                    'size' => 600,
+                ],
+                'range'     => [
+                    'px' => [
+                        'min' => 6,
+                        'max' => 1000,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .embedpress-document-embed iframe' => 'width: {{SIZE}}{{UNIT}} !important;',
+                    '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'width: {{SIZE}}{{UNIT}} !important;',
+                ],
+            ]
+        );
+        
+        $this->add_control(
+            'embedpress_elementor_document_height',
+            [
+                'label'     => __( 'Height', 'embedpress' ),
+                'type'      => Controls_Manager::SLIDER,
+                'default'   => [
+                    'unit' => 'px',
+                    'size' => 600,
+                ],
+                'range'     => [
+                    'px' => [
+                        'min' => 6,
+                        'max' => 1000,
+                    ],
+                ],
+                'selectors' => [
+                    '{{WRAPPER}} .embedpress-document-embed iframe' => 'height: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'height: {{SIZE}}{{UNIT}};',
+                ],
+            ]
+        );
+        
         
         $this->end_controls_section();
         
@@ -110,28 +153,60 @@ class Embedpress_Document extends Widget_Base
     
     private function is_pdf( $url )
     {
-        $arr = explode('.',$url);
-        return end($arr) === 'pdf';
+        $arr = explode( '.', $url );
+        return end( $arr ) === 'pdf';
     }
     
     protected function render()
     {
         $settings = $this->get_settings();
         $url = $settings[ 'embedpress_document_Uploader' ][ 'url' ];
-        
-        if ( $this->is_pdf( $url ) ) {
-            $this->add_render_attribute( 'embedpres-pdf-render', [
-               'class' =>  ['embedpress-embed-document-pdf','embedpress-pdf-'.$this->get_id()],
-               'data-emid' =>  'embedpress-pdf-'.$this->get_id(),
-               'data-emsrc' =>  $url,
-            ]);
-            $content = "<div ".$this->get_render_attribute_string( 'embedpres-pdf-render' )."></div>";
-        }else{
-            $view_link = 'https://docs.google.com/viewer?url='.$url.'&embedded=true';
-            $content = '<iframe style="width:600px;height:600px" src="'.$view_link.'"/>';
-        }
-        echo $content;
+        $id = 'embedpress-pdf-' . $this->get_id();
+        $dim = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
+        $this->add_render_attribute( 'embedpres-pdf-render', [
+            'class'     => ['embedpress-embed-document-pdf', $id],
+            'data-emid' => $id
+        ] );
+        $this->add_render_attribute( 'embedpress-document', [
+            'class' => ['embedpress-document-embed']
+        ] );
+        error_log($url);
+        ?>
+        <div <?php echo $this->get_render_attribute_string( 'embedpress-document' ); ?>>
+            <?php if ( $url != '' ) {
+                if ( $this->is_pdf( $url ) ) {
+                    $this->add_render_attribute( 'embedpres-pdf-render', 'data-emsrc', $url );
+                    ?>
+                    <div <?php echo $this->get_render_attribute_string( 'embedpres-pdf-render' ); ?>></div>
+                    <?php
+                    
+                    if(Plugin::$instance->editor->is_edit_mode()) $this->render_editor_script( $id, $url );
+                    
+                } else {
+                    $view_link = 'https://docs.google.com/viewer?url=' . $url . '&embedded=true';
+                    ?>
+                    <iframe style="<?php echo $dim; ?>" src="<?php echo $view_link; ?>"/>
+                    <?php
+                }
+            } ?>
+        </div>
+        <?php
     }
     
-    
+    protected function render_editor_script( $id , $url)
+    {
+        ?>
+        <script>
+            (function ($) {
+                'use strict';
+                $(document).ready(function () {
+                    var selector = $('.embedpress-embed-document-pdf');
+                    if(selector.length){
+                        PDFObject.embed("<?php echo $url; ?>", "<?php echo '.'.$id; ?>");
+                    }
+                });
+            })(jQuery);
+        </script>
+        <?php
+    }
 }
