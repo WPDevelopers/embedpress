@@ -34,7 +34,7 @@ class Embedpress_Document extends Widget_Base
     
     public function get_icon()
     {
-        return 'eicon-frame-expand';
+        return 'icon-pdf';
     }
     
     /**
