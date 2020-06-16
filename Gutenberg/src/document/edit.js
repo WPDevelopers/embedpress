@@ -13,7 +13,7 @@ const {__} = wp.i18n;
 const {getBlobByURL, isBlobURL, revokeBlobURL} = wp.blob;
 const {BlockIcon, MediaPlaceholder} = wp.editor;
 const {Component, Fragment} = wp.element;
-import {googleSlidesIcon} from '../common/icons'
+import {googleSlidesIcon,DocumentIcon} from '../common/icons'
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
@@ -135,7 +135,7 @@ class DocumentEdit extends Component {
 
 			return (
 				<MediaPlaceholder
-					icon={<BlockIcon icon={googleSlidesIcon}/>}
+					icon={<BlockIcon icon={DocumentIcon}/>}
 					labels={{
 						title: __('Document'),
 						instructions: __(
