@@ -9,7 +9,7 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import { googleSlidesIcon,DocumentIcon } from '../common/icons';
+import { DocumentIcon } from '../common/icons';
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
@@ -48,6 +48,14 @@ registerBlockType( 'embedpress/document', {
 		href: {
 			type: "string"
 		},
+		width: {
+			type: 'number',
+			default: 600,
+		},
+		height: {
+			type: 'number',
+			default: 600,
+		},
 		fileName: {
 			type: "string",
 		},
@@ -75,16 +83,16 @@ registerBlockType( 'embedpress/document', {
 	 */
 	//save
 	save: function( props ) {
-		const { href,mime,id }  = props.attributes
+		const { href,mime,id,width,height }  = props.attributes
 		const iframeSrc = 'https://docs.google.com/viewer?url='+href+'&embedded=true';
 		const defaultClass = "embedpress-embed-document"
 		return (
 			<figure className={defaultClass}>
 				{  mime ==='application/pdf' && (
-					<div className={'embedpress-embed-document-pdf'+' '+id} data-emid={id} data-emsrc={href}></div>
+					<div style={{height:height,width:width}} className={'embedpress-embed-document-pdf'+' '+id} data-emid={id} data-emsrc={href}></div>
 				) }
 				{  mime !=='application/pdf' && (
-					<iframe style={{height:'600px',width:'600px'}}  src={iframeSrc} mozallowfullscreen="true" webkitallowfullscreen="true"/>
+					<iframe style={{height:height,width:width}}  src={iframeSrc} mozallowfullscreen="true" webkitallowfullscreen="true"/>
 				) }
 			</figure>
 		);

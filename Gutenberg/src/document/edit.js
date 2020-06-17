@@ -11,9 +11,10 @@ import classnames from 'classnames';
 
 const {__} = wp.i18n;
 const {getBlobByURL, isBlobURL, revokeBlobURL} = wp.blob;
-const {BlockIcon, MediaPlaceholder} = wp.editor;
+const {BlockIcon, MediaPlaceholder ,InspectorControls} = wp.editor;
 const {Component, Fragment} = wp.element;
-import {googleSlidesIcon,DocumentIcon} from '../common/icons'
+const { RangeControl,PanelBody } = wp.components;
+import {DocumentIcon} from '../common/icons'
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
@@ -127,10 +128,11 @@ class DocumentEdit extends Component {
 
 
 	render() {
-		const {attributes, noticeUI} = this.props;
-		const {href,mime,id} = attributes;
+		const {attributes, noticeUI,setAttributes} = this.props;
+		const {href,mime,id,width,height} = attributes;
 		const {hasError,interactive,fetching,loadPdf} = this.state;
-
+		const min = 1;
+		const max = 1000;
 		if (!href || hasError) {
 
 			return (
@@ -153,10 +155,10 @@ class DocumentEdit extends Component {
 			return (
 				<Fragment>
 					{ mime === 'application/pdf' && (
-						<div className={'embedpress-embed-document-pdf'+' '+id} data-emid={id} data-emsrc={href}></div>
+						<div style={{height:height,width:width}} className={'embedpress-embed-document-pdf'+' '+id} data-emid={id} data-emsrc={href}></div>
 					) }
 					{ mime !== 'application/pdf' && (
-						<Iframe onMouseUponMouseUp={ this.hideOverlay } style={{height:'600px',width:'600px',display: fetching || !loadPdf ? 'none' : ''}} onLoad={this.onLoad} src={url}
+						<Iframe onMouseUponMouseUp={ this.hideOverlay } style={{height:height,width:width,display: fetching || !loadPdf ? 'none' : ''}} onLoad={this.onLoad} src={url}
 								mozallowfullscreen="true" webkitallowfullscreen="true"/>
 					) }
 					{ ! interactive && (
@@ -165,6 +167,36 @@ class DocumentEdit extends Component {
 							onMouseUp={ this.hideOverlay }
 						/>
 					) }
+					<InspectorControls key="inspector">
+						<PanelBody
+							title={ __( 'Embed Size', 'embedpress' ) }
+						>
+							<RangeControl
+								label={ __(
+									'Width',
+									'embedpress'
+								) }
+								value={ width }
+								onChange={ ( width ) =>
+									setAttributes( { width } )
+								}
+								max={ max }
+								min={ min }
+							/>
+							<RangeControl
+								label={ __(
+									'Height',
+									'embedpress'
+								) }
+								value={height }
+								onChange={ ( height ) =>
+									setAttributes( { height } )
+								}
+								max={ max }
+								min={ min }
+							/>
+						</PanelBody>
+					</InspectorControls>
 				</Fragment>
 			);
 		}
