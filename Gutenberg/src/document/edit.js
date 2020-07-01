@@ -13,7 +13,7 @@ const {__} = wp.i18n;
 const {getBlobByURL, isBlobURL, revokeBlobURL} = wp.blob;
 const {BlockIcon, MediaPlaceholder ,InspectorControls} = wp.editor;
 const {Component, Fragment} = wp.element;
-const { RangeControl,PanelBody } = wp.components;
+const { RangeControl,PanelBody, ExternalLink,Placeholder } = wp.components;
 import {DocumentIcon} from '../common/icons'
 
 const ALLOWED_MEDIA_TYPES = [
@@ -133,22 +133,33 @@ class DocumentEdit extends Component {
 		const {hasError,interactive,fetching,loadPdf} = this.state;
 		const min = 1;
 		const max = 1000;
+		const docLink = 'https://embedpress.com/docs/embed-docuemnt/'
 		if (!href || hasError) {
 
 			return (
-				<MediaPlaceholder
-					icon={<BlockIcon icon={DocumentIcon}/>}
-					labels={{
-						title: __('Document'),
-						instructions: __(
-							'Upload a file or pick one from your media library for embed'
-						),
-					}}
-					onSelect={this.onSelectFile}
-					notices={noticeUI}
-					allowedTypes={ALLOWED_MEDIA_TYPES}
-					onError={this.onUploadError}
-				/>
+				<div>
+					<MediaPlaceholder
+						icon={<BlockIcon icon={DocumentIcon}/>}
+						labels={{
+							title: __('Document'),
+							instructions: __(
+								'Upload a file or pick one from your media library for embed. Supported File Type: PDF, DOC/DOCX, PPT/PPTX, XLS/XLSX etc'
+							),
+						}}
+						onSelect={this.onSelectFile}
+						notices={noticeUI}
+						allowedTypes={ALLOWED_MEDIA_TYPES}
+						onError={this.onUploadError}
+
+					>
+
+						<div style={{width:'100%'}} className="components-placeholder__learn-more embedpress-doc-link">
+							<ExternalLink href={docLink}>Learn more about Embedded document </ExternalLink>
+						</div>
+					</MediaPlaceholder>
+
+				</div>
+
 			);
 		} else {
 			const url = 'https://docs.google.com/viewer?url='+href+'&embedded=true';

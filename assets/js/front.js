@@ -14,7 +14,7 @@
                 var $this = $(this),
                     id = $this.data('emid'),
                     src = $this.data('emsrc');
-               PDFObject.embed(src, "."+id);
+                    PDFObject.embed(src, "."+id);
             });
         }
     });
