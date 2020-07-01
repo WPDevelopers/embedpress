@@ -206,6 +206,10 @@ class DocumentEdit extends Component {
 								max={ max }
 								min={ min }
 							/>
+							{ __(
+								'Powered by EmbedPress',
+								'embedpress'
+							) }
 						</PanelBody>
 					</InspectorControls>
 				</Fragment>
