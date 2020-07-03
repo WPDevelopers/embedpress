@@ -43,7 +43,29 @@ class Embedpress_Elementor extends Widget_Base {
      *
      */
     public function get_keywords() {
-        return [ 'embedpress', 'audio', 'video', 'map', 'youtube', 'vimeo', 'wistia' ];
+        return [
+            'embedpress',
+            'audio',
+            'video',
+            'map',
+            'youtube',
+            'vimeo',
+            'wistia',
+            'twitch',
+            'soundcloud',
+            'giphy gifs',
+            'spotify',
+            'smugmug',
+            'meetup',
+            'dailymotion',
+            'instagram',
+            'slideshare',
+            'flickr',
+            'ted',
+            'google docs',
+            'google slides',
+            'google drawings'
+        ];
     }
 
     protected function _register_controls() {

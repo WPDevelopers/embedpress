@@ -38,12 +38,12 @@ class Embedpress_Document extends Widget_Base {
      * Retrieve the list of keywords the widget belongs to.
      *
      * @return array Widget keywords.
-     * @since 2.4.1
+     * @since 2.5.5
      * @access public
      *
      */
     public function get_keywords() {
-        return [ 'embedpress', 'audio', 'video', 'map', 'youtube', 'vimeo', 'wistia' ];
+        return [ 'embedpress', 'pdf','doc','docx','ppt','pptx','xls','xlsx','embedpress-document' ];
     }
 
     protected function _register_controls() {
@@ -92,7 +92,7 @@ class Embedpress_Document extends Widget_Base {
                     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                     'application/vnd.openxmlformats-officedocument.presentationml.presentation'
                 ],
-                'description' => __( 'Please upload pdf,doc,docs,ppt,xls for embed', 'embedpress' ),
+                'description' => __( 'Upload a file or pick one from your media library for embed. Supported File Type: PDF, DOC/DOCX, PPT/PPTX, XLS/XLSX etc.', 'embedpress' ),
                 'condition'   => [
                     'embedpress_document_type' => 'file'
                 ],
@@ -180,6 +180,14 @@ class Embedpress_Document extends Widget_Base {
                     ]
                 ],
                 'default' => 'center',
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_document_powered_by',
+            [
+                'label' => __( 'Powered By EmbedPress', 'embedpress' ),
+                'type' => Controls_Manager::HEADING,
             ]
         );
 
