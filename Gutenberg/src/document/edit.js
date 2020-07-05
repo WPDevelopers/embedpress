@@ -13,7 +13,7 @@ const {__} = wp.i18n;
 const {getBlobByURL, isBlobURL, revokeBlobURL} = wp.blob;
 const {BlockIcon, MediaPlaceholder ,InspectorControls} = wp.editor;
 const {Component, Fragment} = wp.element;
-const { RangeControl,PanelBody, ExternalLink,Placeholder } = wp.components;
+const { RangeControl,PanelBody, ExternalLink,ToggleControl } = wp.components;
 import {DocumentIcon} from '../common/icons'
 
 const ALLOWED_MEDIA_TYPES = [
@@ -129,7 +129,7 @@ class DocumentEdit extends Component {
 
 	render() {
 		const {attributes, noticeUI,setAttributes} = this.props;
-		const {href,mime,id,width,height} = attributes;
+		const {href,mime,id,width,height,powered_by} = attributes;
 		const {hasError,interactive,fetching,loadPdf} = this.state;
 		const min = 1;
 		const max = 1000;
@@ -167,6 +167,7 @@ class DocumentEdit extends Component {
 				<Fragment>
 					{ mime === 'application/pdf' && (
 						<div style={{height:height,width:width}} className={'embedpress-embed-document-pdf'+' '+id} data-emid={id} data-emsrc={href}></div>
+
 					) }
 					{ mime !== 'application/pdf' && (
 						<Iframe onMouseUponMouseUp={ this.hideOverlay } style={{height:height,width:width,display: fetching || !loadPdf ? 'none' : ''}} onLoad={this.onLoad} src={url}
@@ -178,6 +179,10 @@ class DocumentEdit extends Component {
 							onMouseUp={ this.hideOverlay }
 						/>
 					) }
+					{ powered_by && (
+						<p className="embedpress-el-powered">Powered By EmbedPress</p>
+					)}
+
 					<InspectorControls key="inspector">
 						<PanelBody
 							title={ __( 'Embed Size', 'embedpress' ) }
@@ -206,10 +211,13 @@ class DocumentEdit extends Component {
 								max={ max }
 								min={ min }
 							/>
-							{ __(
-								'Powered by EmbedPress',
-								'embedpress'
-							) }
+							<ToggleControl
+								label={ __( 'Powered By' ) }
+								onChange={ ( powered_by ) =>
+									setAttributes( { powered_by } )
+								}
+								checked={ powered_by }
+							/>
 						</PanelBody>
 					</InspectorControls>
 				</Fragment>

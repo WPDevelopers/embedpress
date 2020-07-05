@@ -48,6 +48,10 @@ registerBlockType( 'embedpress/document', {
 		href: {
 			type: "string"
 		},
+		powered_by: {
+			type: "boolean",
+			default: true,
+		},
 		width: {
 			type: 'number',
 			default: 600,
@@ -83,7 +87,7 @@ registerBlockType( 'embedpress/document', {
 	 */
 	//save
 	save: function( props ) {
-		const { href,mime,id,width,height }  = props.attributes
+		const { href,mime,id,width,height,powered_by }  = props.attributes
 		const iframeSrc = 'https://docs.google.com/viewer?url='+href+'&embedded=true';
 		const defaultClass = "embedpress-embed-document"
 		return (
@@ -94,6 +98,9 @@ registerBlockType( 'embedpress/document', {
 				{  mime !=='application/pdf' && (
 					<iframe style={{height:height,width:width}}  src={iframeSrc} mozallowfullscreen="true" webkitallowfullscreen="true"/>
 				) }
+				{ powered_by && (
+					<p className="embedpress-el-powered">Powered By EmbedPress</p>
+				)}
 			</figure>
 		);
 	},
