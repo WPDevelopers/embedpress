@@ -40,3 +40,8 @@
 .embedpress-fit-aspect-ratio video {
     width: 100%;
 }
+
+.embedpress-el-powered {
+    text-align: center;
+    margin: 0 auto;
+}

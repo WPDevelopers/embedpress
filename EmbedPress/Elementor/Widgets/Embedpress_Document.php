@@ -43,7 +43,7 @@ class Embedpress_Document extends Widget_Base {
      *
      */
     public function get_keywords() {
-        return [ 'embedpress', 'pdf','doc','docx','ppt','pptx','xls','xlsx','embedpress-document' ];
+        return [ 'embedpress', 'pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'embedpress-document' ];
     }
 
     protected function _register_controls() {
@@ -61,10 +61,10 @@ class Embedpress_Document extends Widget_Base {
         $this->add_control(
             'embedpress_document_type',
             [
-                'label'        => __( 'Document Type', 'embedpress' ),
-                'type'         => Controls_Manager::SELECT,
-                'default'      => 'file',
-                'options'      => [
+                'label'   => __( 'Document Type', 'embedpress' ),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'file',
+                'options' => [
                     'file' => __( 'File', 'embedpress' ),
                     'url'  => __( 'URL', 'embedpress' )
                 ],
@@ -186,8 +186,12 @@ class Embedpress_Document extends Widget_Base {
         $this->add_control(
             'embedpress_document_powered_by',
             [
-                'label' => __( 'Powered By EmbedPress', 'embedpress' ),
-                'type' => Controls_Manager::HEADING,
+                'label'        => __( 'Powered By', 'embedpress' ),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __( 'Show', 'embedpress' ),
+                'label_off'    => __( 'Hide', 'embedpress' ),
+                'return_value' => 'yes',
+                'default'      => 'yes',
             ]
         );
 
@@ -231,7 +235,11 @@ class Embedpress_Document extends Widget_Base {
                     <iframe style="<?php echo $dim; ?>" src="<?php echo $view_link; ?>"/>
                     <?php
                 }
+                if($settings['embedpress_document_powered_by']==='yes'){
+                    printf('<p class="embedpress-el-powered">%s</p>',__('Powered By EmbedPress','embedpress'));
+                }
             } ?>
+
         </div>
         <?php
     }
