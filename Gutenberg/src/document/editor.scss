@@ -4,3 +4,8 @@
  * CSS for just Backend enqueued after style.scss
  * which makes it higher in priority.
  */
+
+.embedpress-document-editmode .components-placeholder__instructions:after {
+  content:"\ASupported File Type: PDF, DOC, PPT, XLS etc ";
+  white-space: pre;
+}

@@ -137,13 +137,13 @@ class DocumentEdit extends Component {
 		if (!href || hasError) {
 
 			return (
-				<div>
+				<div className={"embedpress-document-editmode"}>
 					<MediaPlaceholder
 						icon={<BlockIcon icon={DocumentIcon}/>}
 						labels={{
 							title: __('Document'),
 							instructions: __(
-								'Upload a file or pick one from your media library for embed. Supported File Type: PDF, DOC/DOCX, PPT/PPTX, XLS/XLSX etc'
+								'Upload a file or pick one from your media library for embed.'
 							),
 						}}
 						onSelect={this.onSelectFile}
