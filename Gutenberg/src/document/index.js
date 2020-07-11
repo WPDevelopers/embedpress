@@ -9,9 +9,11 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import { DocumentIcon } from '../common/icons';
-const { __ } = wp.i18n; // Import __() from wp.i18n
-const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
+import {DocumentIcon} from '../common/icons';
+
+const {__} = wp.i18n; // Import __() from wp.i18n
+const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
+
 
 /**
  * Register: aa Gutenberg Block.
@@ -26,16 +28,16 @@ const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.b
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType( 'embedpress/document', {
+registerBlockType('embedpress/document', {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-	title: __( 'Document' ), // Block title.
+	title: __('Document'), // Block title.
 	icon: DocumentIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
 	category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout Widgets, embed.
 	keywords: [
-		__( 'embedpress' ),
-		__( 'pdf' ),
-		__( 'doc' ),
-		__( 'ppt' ),
+		__('embedpress'),
+		__('pdf'),
+		__('doc'),
+		__('ppt'),
 	],
 	supports: {
 		align: true,
@@ -63,7 +65,7 @@ registerBlockType( 'embedpress/document', {
 		fileName: {
 			type: "string",
 		},
-		mime:{
+		mime: {
 			type: "string",
 		}
 	},
@@ -86,23 +88,25 @@ registerBlockType( 'embedpress/document', {
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
 	//save
-	save: function( props ) {
-		const { href,mime,id,width,height,powered_by }  = props.attributes
-		const iframeSrc = 'https://docs.google.com/viewer?url='+href+'&embedded=true';
+	save: function (props) {
+		const {href, mime, id, width, height, powered_by} = props.attributes
+		const iframeSrc = 'https://docs.google.com/viewer?url=' + href + '&embedded=true';
 		const defaultClass = "embedpress-embed-document"
 		return (
 			<figure className={defaultClass}>
-				{  mime ==='application/pdf' && (
-					<div style={{height:height,width:width}} className={'embedpress-embed-document-pdf'+' '+id} data-emid={id} data-emsrc={href}></div>
-				) }
-				{  mime !=='application/pdf' && (
-					<iframe style={{height:height,width:width}}  src={iframeSrc} mozallowfullscreen="true" webkitallowfullscreen="true"/>
-				) }
-				{ powered_by && (
+				{mime === 'application/pdf' && (
+					<div style={{height: height, width: width}} className={'embedpress-embed-document-pdf' + ' ' + id}
+						 data-emid={id} data-emsrc={href}></div>
+				)}
+				{mime !== 'application/pdf' && (
+					<iframe style={{height: height, width: width}} src={iframeSrc} mozallowfullscreen="true"
+							webkitallowfullscreen="true"/>
+				)}
+				{powered_by && (
 					<p className="embedpress-el-powered">Powered By EmbedPress</p>
 				)}
 			</figure>
 		);
 	},
 
-} );
+});

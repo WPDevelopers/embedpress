@@ -8,30 +8,36 @@ use \Elementor\Modules\DynamicTags\Module as TagsModule;
 use \Elementor\Widget_Base as Widget_Base;
 use \Elementor\Plugin;
 
-(defined( 'ABSPATH' )) or die( "No direct script access allowed." );
+( defined( 'ABSPATH' ) ) or die( "No direct script access allowed." );
 
-class Embedpress_Document extends Widget_Base {
-
-    public function get_name() {
+class Embedpress_Document extends Widget_Base
+{
+    
+    public function get_name()
+    {
         return 'embedpres_document';
     }
-
-    public function get_title() {
+    
+    public function get_title()
+    {
         return esc_html__( 'EmbedPress Document', 'embedoress' );
     }
-
-    public function get_categories() {
-        return [ 'embedpress' ];
+    
+    public function get_categories()
+    {
+        return ['embedpress'];
     }
-
-    public function get_custom_help_url() {
+    
+    public function get_custom_help_url()
+    {
         return 'https://embedpress.com/documentation';
     }
-
-    public function get_icon() {
+    
+    public function get_icon()
+    {
         return 'icon-pdf';
     }
-
+    
     /**
      * Get widget keywords.
      *
@@ -42,12 +48,14 @@ class Embedpress_Document extends Widget_Base {
      * @access public
      *
      */
-    public function get_keywords() {
-        return [ 'embedpress', 'pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'embedpress-document' ];
+    public function get_keywords()
+    {
+        return ['embedpress', 'pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'embedpress-document'];
     }
-
-    protected function _register_controls() {
-
+    
+    protected function _register_controls()
+    {
+        
         /**
          * EmbedPress Content Settings
          */
@@ -57,7 +65,7 @@ class Embedpress_Document extends Widget_Base {
                 'label' => esc_html__( 'Content Settings', 'embedpress' ),
             ]
         );
-
+        
         $this->add_control(
             'embedpress_document_type',
             [
@@ -70,11 +78,11 @@ class Embedpress_Document extends Widget_Base {
                 ],
             ]
         );
-
+        
         $this->add_control(
             'embedpress_document_Uploader',
             [
-
+                
                 'label'       => __( 'Upload File', 'embedpress' ),
                 'type'        => Controls_Manager::MEDIA,
                 'dynamic'     => [
@@ -92,13 +100,14 @@ class Embedpress_Document extends Widget_Base {
                     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                     'application/vnd.openxmlformats-officedocument.presentationml.presentation'
                 ],
-                'description' => __( 'Upload a file or pick one from your media library for embed. Supported File Type: PDF, DOC/DOCX, PPT/PPTX, XLS/XLSX etc.', 'embedpress' ),
+                'description' => __( 'Upload a file or pick one from your media library for embed. Supported File Type: PDF, DOC/DOCX, PPT/PPTX, XLS/XLSX etc.',
+                    'embedpress' ),
                 'condition'   => [
                     'embedpress_document_type' => 'file'
                 ],
             ]
         );
-
+        
         $this->add_control(
             'embedpress_document_file_link',
             [
@@ -114,7 +123,7 @@ class Embedpress_Document extends Widget_Base {
                 ],
             ]
         );
-
+        
         $this->add_control(
             'embedpress_elementor_document_width',
             [
@@ -137,7 +146,7 @@ class Embedpress_Document extends Widget_Base {
                 ],
             ]
         );
-
+        
         $this->add_control(
             'embedpress_elementor_document_height',
             [
@@ -159,7 +168,7 @@ class Embedpress_Document extends Widget_Base {
                 ],
             ]
         );
-
+        
         $this->add_control(
             'embedpress_elementor_document_align',
             [
@@ -182,7 +191,7 @@ class Embedpress_Document extends Widget_Base {
                 'default' => 'center',
             ]
         );
-
+        
         $this->add_control(
             'embedpress_document_powered_by',
             [
@@ -191,30 +200,32 @@ class Embedpress_Document extends Widget_Base {
                 'label_on'     => __( 'Show', 'embedpress' ),
                 'label_off'    => __( 'Hide', 'embedpress' ),
                 'return_value' => 'yes',
-                'default'      => 'yes',
+                'default'      => apply_filters( 'embedpress_document_powered_by_control', 'yes' ),
             ]
         );
-
-
+        
+        
         $this->end_controls_section();
     }
-
-    private function is_pdf( $url ) {
+    
+    private function is_pdf( $url )
+    {
         $arr = explode( '.', $url );
         return end( $arr ) === 'pdf';
     }
-
-    protected function render() {
+    
+    protected function render()
+    {
         $settings = $this->get_settings();
-        $url      = $this->get_file_url();
-        $id       = 'embedpress-pdf-' . $this->get_id();
-        $dim      = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
+        $url = $this->get_file_url();
+        $id = 'embedpress-pdf-' . $this->get_id();
+        $dim = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
         $this->add_render_attribute( 'embedpres-pdf-render', [
-            'class'     => [ 'embedpress-embed-document-pdf', $id ],
+            'class'     => ['embedpress-embed-document-pdf', $id],
             'data-emid' => $id
         ] );
         $this->add_render_attribute( 'embedpress-document', [
-            'class' => [ 'embedpress-document-embed' ]
+            'class' => ['embedpress-document-embed']
         ] );
         ?>
         <div <?php echo $this->get_render_attribute_string( 'embedpress-document' ); ?>>
@@ -224,32 +235,34 @@ class Embedpress_Document extends Widget_Base {
                     ?>
                     <div <?php echo $this->get_render_attribute_string( 'embedpres-pdf-render' ); ?>></div>
                     <?php
-
+                    
                     if ( Plugin::$instance->editor->is_edit_mode() ) {
                         $this->render_editor_script( $id, $url );
                     }
-
+                    
                 } else {
                     $view_link = 'https://docs.google.com/viewer?url=' . $url . '&embedded=true';
                     ?>
                     <iframe style="<?php echo $dim; ?>" src="<?php echo $view_link; ?>"/>
                     <?php
                 }
-                if($settings['embedpress_document_powered_by']==='yes'){
-                    printf('<p class="embedpress-el-powered">%s</p>',__('Powered By EmbedPress','embedpress'));
+                if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
+                    printf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
                 }
             } ?>
 
         </div>
         <?php
     }
-
-    private function get_file_url() {
+    
+    private function get_file_url()
+    {
         $settings = $this->get_settings();
-        return $settings['embedpress_document_type'] === 'url' ? $settings['embedpress_document_file_link']['url'] : $settings['embedpress_document_Uploader']['url'];
+        return $settings[ 'embedpress_document_type' ] === 'url' ? $settings[ 'embedpress_document_file_link' ][ 'url' ] : $settings[ 'embedpress_document_Uploader' ][ 'url' ];
     }
-
-    protected function render_editor_script( $id, $url ) {
+    
+    protected function render_editor_script( $id, $url )
+    {
         ?>
         <script>
             (function ($) {

@@ -62,7 +62,9 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 	endif;
 	wp_localize_script( 'embedpress_blocks-cgb-block-js', 'embedpressObj', array(
 		'wistia_labels'  => $wistia_labels,
-		'wisita_options' => $wistia_options
+		'wisita_options' => $wistia_options,
+		'embedpress_powered_by' => apply_filters('embedpress_document_block_powered_by',true),
+		'embedpress_pro' => defined('EMBEDPRESS_PRO_PLUGIN_FILE')
 	) );
 
 	// Styles.

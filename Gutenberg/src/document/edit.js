@@ -110,6 +110,12 @@ class DocumentEdit extends Component {
 				id: 'embedpress-pdf-'+Date.now(),
 				mime: media.mime,
 			});
+
+			if(embedpressObj.embedpress_pro){
+				this.props.setAttributes({
+					powered_by: false
+				});
+			}
 			if(media.mime === 'application/pdf'){
 				this.setState({loadPdf: false});
 				PDFObject.embed(media.url, "."+this.props.attributes.id);
