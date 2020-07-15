@@ -56,7 +56,7 @@ registerBlockType('embedpress/document', {
 		},
 		width: {
 			type: 'number',
-			default: 770,
+			default: 600,
 		},
 		height: {
 			type: 'number',

@@ -219,7 +219,7 @@ class Embedpress_Document extends Widget_Base
         $settings = $this->get_settings();
         $url = $this->get_file_url();
         $id = 'embedpress-pdf-' . $this->get_id();
-        $dim = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
+        $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
         $this->add_render_attribute( 'embedpres-pdf-render', [
             'class'     => ['embedpress-embed-document-pdf', $id],
             'data-emid' => $id
@@ -243,8 +243,10 @@ class Embedpress_Document extends Widget_Base
                 } else {
                     $view_link = 'https://docs.google.com/viewer?url=' . $url . '&embedded=true';
                     ?>
-                    <iframe style="<?php echo $dim; ?>" src="<?php echo $view_link; ?>"/>
+                    <iframe allowfullscreen="true"
+                            mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo $dimension; ?>" src="<?php echo $view_link; ?>"/>
                     <?php
+                    
                 }
                 if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
                     printf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
@@ -252,6 +254,7 @@ class Embedpress_Document extends Widget_Base
             } ?>
 
         </div>
+        
         <?php
     }
     

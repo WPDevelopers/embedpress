@@ -7,7 +7,6 @@ import Iframe from '../common/Iframe';
 /**
  * WordPress dependencies
  */
-import classnames from 'classnames';
 
 const {__} = wp.i18n;
 const {getBlobByURL, isBlobURL, revokeBlobURL} = wp.blob;

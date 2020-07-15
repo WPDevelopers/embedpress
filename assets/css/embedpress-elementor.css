@@ -6,11 +6,11 @@
     padding-bottom: 56.25%;
 }
 
-.embedpress-aspect-ratio-43 .embedpress-fit-aspect-ratio .embedpress-wrapper{
+.embedpress-aspect-ratio-43 .embedpress-fit-aspect-ratio .embedpress-wrapper {
     padding-bottom: 75%;
 }
 
-.embedpress-aspect-ratio-32 .embedpress-fit-aspect-ratio .embedpress-wrapper{
+.embedpress-aspect-ratio-32 .embedpress-fit-aspect-ratio .embedpress-wrapper {
     padding-bottom: 66.6666%;
 }
 
@@ -39,6 +39,11 @@
 
 .embedpress-fit-aspect-ratio video {
     width: 100%;
+}
+
+.elementor-widget-container .pdfobject-container ,
+.elementor-widget-container .embedpress-document-embed iframe{
+    margin: 0 auto;
 }
 
 .embedpress-el-powered {
