@@ -3,7 +3,7 @@
  */
 
 import Iframe from '../common/Iframe';
-
+import EmbedLoading from '../common/embed-loading';
 /**
  * WordPress dependencies
  */
@@ -167,9 +167,10 @@ class DocumentEdit extends Component {
 
 			);
 		} else {
-			const url = 'https://docs.google.com/viewer?url='+href+'&embedded=true';
+			const url = '//view.officeapps.live.com/op/embed.aspx?src='+href;
 			return (
 				<Fragment>
+					{(fetching && mime !== 'application/pdf') ? <EmbedLoading/> : null}
 					{ mime === 'application/pdf' && (
 						<div style={{height:height,width:width}} className={'embedpress-embed-document-pdf'+' '+id} data-emid={id} data-emsrc={href}></div>
 

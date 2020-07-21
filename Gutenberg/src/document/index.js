@@ -90,7 +90,7 @@ registerBlockType('embedpress/document', {
 	//save
 	save: function (props) {
 		const {href, mime, id, width, height, powered_by} = props.attributes
-		const iframeSrc = 'https://docs.google.com/viewer?url=' + href + '&embedded=true';
+		const iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src='+href;
 		const defaultClass = "embedpress-embed-document"
 		return (
 			<figure className={defaultClass}>

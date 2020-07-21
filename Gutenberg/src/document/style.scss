@@ -20,6 +20,10 @@
 .embedpress-embed-document iframe ,
 [data-type="embedpress/document"] iframe{
 	margin: 0 auto;
+    display: block;
+}
+.embedpress-document-editmode .components-form-file-upload {
+  display: none !important;
 }
 
 
