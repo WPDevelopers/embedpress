@@ -1,21 +1,21 @@
-=== EmbedPress – Embed Google Docs, YouTube, Maps, Vimeo, Wistia Videos, Instagram & Anything ===
+=== EmbedPress – Embed Google Docs, YouTube, Maps, Vimeo, Wistia Videos, Instagram & PDF, PPT etc. ===
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed
 Author: WPDeveloper
 Author URI: https://wpdeveloper.net
-Tags: embed, embed youtube, gutenberg embed, elementor embed, video embed, Google Doc, map embed, youTube Embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, embed wordpress
+Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embed, video embed, Google Doc, map embed, youTube Embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, block editor, embed wordpress
 Requires at least: 4.6
-Tested up to: 5.4
+Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 2.5.5
+Stable tag: 2.6.0
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
-EmbedPress lets you embed videos, images, posts, audio, maps and all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 
+EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 
 
 == Description ==
 
 
-[EmbedPress](https://embedpress.com/) lets you embed videos, images, posts, audio, maps and all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. Classic Editor, Gutenberg & Elementor all supported.
+[EmbedPress](https://embedpress.com/) lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. Classic Editor, Gutenberg & Elementor all supported.
 
 https://www.youtube.com/watch?v=fvYKLkEnJbI
 
@@ -34,6 +34,12 @@ With EmbedPress, all you need is the URL. Find the URL for your video, image, au
 -   Audio: You can embed Spotify, Soundcloud and Mixcloud audio.
 
 -   Images: You can embed Imgur, Giphy and Deviantart images, plus others.
+
+
+📄 Upload PDF, DOC, PPT or almost any filetypes, right from WordPress
+
+-   Supported Filetypes: PDF, PPT (Powerpoint Presentration), DOCS, XLS (Excel Files)
+-   Supported Editors: Block Editor (Gutenberg) & Elementor
 
 
 #### 🎥YOUTUBE, VIMEO AND WISTIA VIDEOS
@@ -215,7 +221,7 @@ We’ve seen that EmbedPress supports YouTube, Wistia and Vimeo, but EmbedPress 
 
 ## 🚀BACKED BY A TRUSTED TEAM
 
-This embed plugin is brought to you by the team behind [WPDeveloper](https://wpdeveloper.net/), a dedicated marketplace for WordPress, trusted by 600,000+ happy users.
+This embed plugin is brought to you by the team behind [WPDeveloper](https://wpdeveloper.net/), a dedicated marketplace for WordPress, trusted by 800,000+ happy users.
 
 ### 👨‍💻 DOCUMENTATION AND SUPPORT
 
@@ -237,7 +243,7 @@ This embed plugin is brought to you by the team behind [WPDeveloper](https://wpd
 🔥 WHAT’S NEXT
 If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
-🔝[Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 500,000+ active users in the WordPress repository.
+🔝[Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 600,000+ active users in the WordPress repository.
 
 🔔[NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
 
@@ -288,6 +294,12 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [2.6.0] - 2020-07-22 =
+* Added Document Blocks for Gutenberg/Block Editor
+* Added Document widget for Elementor
+* Fixed Infogram embed issue
+* Fixed some minor issues
 
 = [2.5.5] - 2020-05-19 =
 * Enhanched YouTube Playback control in Gutenberg
