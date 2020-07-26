@@ -75,9 +75,10 @@ registerBlockType('embedpress/twitch-block', {
 	save: function (props) {
 		const {iframeSrc, attrs} = props.attributes
 		const defaultClass = "ose-twitch-presentation"
+		const IframeUrl = iframeSrc+'&parent='+embedpressObj.twitch_host;
 		return (
-			<figure className={defaultClass}>
-				<iframe src={iframeSrc} {...attrs} frameborder="0" width="600" height="450"></iframe>
+			<figure className={ defaultClass }>
+				<iframe src={IframeUrl} {...attrs} frameborder="0" width="600" height="450"></iframe>
 			</figure>
 		);
 	},

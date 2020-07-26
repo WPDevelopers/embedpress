@@ -60,11 +60,13 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 	if ( function_exists( 'embedpress_wisita_pro_get_options' ) ):
 		$wistia_options = embedpress_wisita_pro_get_options();
 	endif;
+	$pars_url = wp_parse_url(get_site_url());
 	wp_localize_script( 'embedpress_blocks-cgb-block-js', 'embedpressObj', array(
 		'wistia_labels'  => $wistia_labels,
 		'wisita_options' => $wistia_options,
 		'embedpress_powered_by' => apply_filters('embedpress_document_block_powered_by',true),
-		'embedpress_pro' => defined('EMBEDPRESS_PRO_PLUGIN_FILE')
+		'embedpress_pro' => defined('EMBEDPRESS_PRO_PLUGIN_FILE'),
+		'twitch_host' => !empty($pars_url['host'])?$pars_url['host']:''
 	) );
 
 	// Styles.

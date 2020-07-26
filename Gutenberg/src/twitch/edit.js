@@ -155,11 +155,12 @@ class TwitchEdit extends Component {
 				/>
 			);
 		} else {
+			const IframeUrl = iframeSrc+'&parent='+embedpressObj.twitch_host;
 			return (
 				<Fragment>
 					{fetching ? <EmbedLoading/> : null}
 
-					<Iframe src={iframeSrc}  {...attrs}
+					<Iframe src={IframeUrl}  {...attrs}
 							onLoad={this.onLoad}
 							style={{display: fetching ? 'none' : ''}}
 							onFocus={this.hideOverlay}

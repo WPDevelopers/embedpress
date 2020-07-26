@@ -107,6 +107,8 @@ class Twitch extends EmberaService
                     break;
             }
 
+            $pars_url = wp_parse_url(get_site_url());
+            $src = !empty($pars_url['host'])?$src.'&parent='.$pars_url['host']:$src;
             $html = '<iframe src="' . $src . '" height="{height}" width="{width}" ' . $attrs . '></iframe>';
 
             $response = [
