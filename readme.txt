@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 2.6.0
+Stable tag: 2.6.1
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -294,6 +294,10 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [2.6.1] - 2020-09-14 =
+* Twitch Issue Fixed
+* Fixed some minor issues
 
 = [2.6.0] - 2020-07-22 =
 * Added Document Blocks for Gutenberg/Block Editor
