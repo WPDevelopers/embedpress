@@ -35,10 +35,7 @@ registerBlockType('embedpress/wistia-block', {
 		__('embedpress'),
 		__('wistia'),
 	],
-	supports: {
-		align: true,
-		lightBlockWrapper: true,
-	},
+	supports: {align: ["wide", "full","right","left"], default: ''},
 	edit,
 	save: function(props) {
 		return null;

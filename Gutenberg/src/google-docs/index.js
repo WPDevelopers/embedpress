@@ -37,10 +37,7 @@ registerBlockType('embedpress/google-docs-block', {
 		__('google'),
 		__('docs'),
 	],
-	supports: {
-		align: true,
-		lightBlockWrapper: true,
-	},
+	supports: {align: ["wide", "full","right","left"], default: ''},
 	attributes: {
 		url: {
 			type: 'string',

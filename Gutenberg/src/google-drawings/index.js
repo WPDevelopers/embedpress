@@ -37,10 +37,7 @@ registerBlockType('embedpress/google-drawings-block', {
 		__('google'),
 		__('drawings'),
 	],
-	supports: {
-		align: true,
-		lightBlockWrapper: true,
-	},
+	supports: {align: ["wide", "full","right","left"], default: ''},
 	attributes: {
 		url: {
 			type: 'string',
