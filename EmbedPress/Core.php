@@ -359,6 +359,7 @@ class Core {
             [
                 'methods' => \WP_REST_Server::READABLE,
                 'callback' => ['\\EmbedPress\\RestAPI', 'oembed'],
+                'permission_callback' => '__return_true',
             ]
         );
     }
