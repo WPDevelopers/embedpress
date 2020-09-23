@@ -94,8 +94,12 @@ class Shortcode {
 
             // Check if the WP_oEmbed class is loaded
             if ( !self::$oEmbedInstance ) {
-                require_once ABSPATH . 'wp-includes/class-wp-oembed.php';
-
+                global $wp_version;
+                if ( version_compare( $wp_version, '5.3.0', '>=' ) ) {
+                    require_once ABSPATH . 'wp-includes/class-wp-oembed.php';
+                } else {
+                    require_once ABSPATH . 'wp-includes/class-oembed.php';
+                }
                 self::$oEmbedInstance = _wp_oembed_get_object();
             }
 
