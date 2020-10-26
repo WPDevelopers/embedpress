@@ -475,8 +475,8 @@ class Settings {
      */
     public static function renderField_heading_settings() {
         printf( "<h2>%s</h2>", esc_html__( 'Facebook and Instagram Embed Settings', 'embedpress' ) );
-        printf( __( '<p>Facebook developer app credentials are required to embed Facebook and Instagram content in the classic editor and EmbedPress elementor widget.You need to <br><a class="embedpress-settings-link" href="%s" target="_blank" rel="noopener noreferrer">register a Facebook app</a>, enable <a class="embedpress-settings-link" href="%s">oEmbed</a>, and add its App ID and secret in the fields below.</p>', "embedpress" ), esc_url( 'https://developers.facebook.com/apps/' ), esc_url( 'https://developers.facebook.com/docs/plugins/oembed' ) );
-        printf( __( '<p>A detailed guide is available at <a class="embedpress-settings-link" href="%s">EmbedPress guide</a></p>', 'embedpress' ), esc_url( 'https://embedpress.com/docs/how-to-connect-facebook-instagram-embedpress/' ) );
+        printf( __( '<p>Starting October 24th, due to changes in Facebook API, you will need Facebook Developer app credentials to embed Facebook & Instagram content on your WordPress website. You need to <a class="embedpress-settings-link" href="%s" target="_blank" rel="noopener noreferrer">register a Facebook app</a>, enable <a class="embedpress-settings-link" href="%s">oEmbed</a>, and add its `App ID` & `App secret` in the fields below.</p>', "embedpress" ), esc_url( 'https://developers.facebook.com/apps/' ), esc_url( 'https://developers.facebook.com/docs/plugins/oembed' ) );
+        printf( __( '<p>For more details, check out this documentation <a class="embedpress-settings-link" href="%s">Here</a></p>', 'embedpress' ), esc_url( 'https://embedpress.com/docs/how-to-connect-facebook-instagram-embedpress/' ) );
     }
 
     /**
