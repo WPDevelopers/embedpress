@@ -430,6 +430,6 @@ class Handler extends EndHandlerAbstract {
      */
     public static function embedpress_notice_dismiss() {
         check_ajax_referer( 'embedpress', 'security' );
-        update_option( 'embedpress_dismiss_notice', true );
+        update_option( 'embedpress_social_dismiss_notice', true );
     }
 }
