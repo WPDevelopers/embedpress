@@ -1,4 +1,4 @@
-=== EmbedPress – Embed Google Docs, YouTube, Maps, Vimeo, Wistia Videos, Instagram & PDF, PPT etc. ===
+=== EmbedPress – Embed Google Docs, YouTube, Maps, Vimeo, Wistia Videos & Upload PDF, PPT etc. ===
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed
 Author: WPDeveloper
 Author URI: https://wpdeveloper.net
@@ -13,7 +13,6 @@ License URI: https://opensource.org/licenses/GPL-3.0
 EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 
 
 == Description ==
-
 
 [EmbedPress](https://embedpress.com/) lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. Classic Editor, Gutenberg & Elementor all supported.
 
