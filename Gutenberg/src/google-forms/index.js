@@ -37,10 +37,7 @@ registerBlockType('embedpress/google-forms-block', {
 		__('google'),
 		__('forms'),
 	],
-	supports: {
-		align: true,
-		lightBlockWrapper: true,
-	},
+	supports: {align: ["wide", "full","right","left"], default: ''},
 	attributes: {
 		url: {
 			type: 'string',

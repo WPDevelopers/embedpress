@@ -36,10 +36,7 @@ registerBlockType( 'embedpress/google-sheets-block', {
 		__( 'google' ),
 		__( 'sheets' ),
 	],
-	supports: {
-		align: true,
-		lightBlockWrapper: true,
-	},
+	supports: {align: ["wide", "full","right","left"], default: ''},
 	attributes: {
 		url: {
 			type: 'string',

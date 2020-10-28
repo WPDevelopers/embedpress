@@ -36,10 +36,7 @@ registerBlockType('embedpress/twitch-block', {
 		__('embedpress'),
 		__('twitch'),
 	],
-	supports: {
-		align: true,
-		lightBlockWrapper: true,
-	},
+	supports: {align: ["wide", "full","right","left"], default: ''},
 	attributes: {
 		url: {
 			type: 'string',

@@ -37,10 +37,7 @@ registerBlockType('embedpress/google-maps-block', {
 		__('google'),
 		__('maps'),
 	],
-	supports: {
-		align: true,
-		lightBlockWrapper: true,
-	},
+	supports: {align: ["wide", "full","right","left"], default: ''},
 	attributes: {
 		url: {
 			type: 'string',

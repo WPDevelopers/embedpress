@@ -139,6 +139,21 @@ class Settings {
                 ];
             }
 
+            $fieldMap['heading_settings'] = [
+                'label'   => " ",
+                'section' => "admin",
+            ];
+
+            $fieldMap['facebook_app_code'] = [
+                'label'   => "App Code",
+                'section' => "admin",
+            ];
+
+            $fieldMap['facebook_app_secret'] = [
+                'label'   => "App Secret",
+                'section' => "admin",
+            ];
+
             $fieldMap['forceFacebookLanguage'] = [
                 'label'   => "Facebook embed language",
                 'section' => "admin",
@@ -200,8 +215,8 @@ class Settings {
                 </h1>
                 <div class="embedpress-version-name">
                     <span class="free">Core Version: <?php echo EMBEDPRESS_VERSION; ?></span>
-                    
-                    <?php if ( defined('EMBEDPRESS_PRO_PLUGIN_VERSION')) { ?>
+
+                    <?php if ( defined( 'EMBEDPRESS_PRO_PLUGIN_VERSION' ) ) { ?>
                         <span class="pro"> Pro Version: <?php echo EMBEDPRESS_PRO_PLUGIN_VERSION; ?></span>
                     <?php } ?>
                 </div>
@@ -214,11 +229,11 @@ class Settings {
                        class="nav-tab<?php echo $activeTab === 'embedpress' || empty( $activeTab ) ? ' nav-tab-active' : ''; ?> ">
                         General settings
                     </a>
-                    <?php if(!defined('EMBEDPRESS_PRO_PLUGIN_VERSION')): ?>
-                    <a href="?page=embedpress&tab=embedpress_get_pro"
-                       class="nav-tab<?php echo $activeTab === 'embedpress_get_pro' ? ' nav-tab-active' : ''; ?> ">
-                        Go Premium
-                    </a>
+                    <?php if ( !defined( 'EMBEDPRESS_PRO_PLUGIN_VERSION' ) ): ?>
+                        <a href="?page=embedpress&tab=embedpress_get_pro"
+                           class="nav-tab<?php echo $activeTab === 'embedpress_get_pro' ? ' nav-tab-active' : ''; ?> ">
+                            Go Premium
+                        </a>
                     <?php endif; ?>
                     <?php do_action( 'embedpress:settings:render:tab', $activeTab ); ?>
                     <?php do_action( 'embedpress_license_tab', $activeTab ); ?>
@@ -237,21 +252,24 @@ class Settings {
                 <?php if ( $activeTab == 'embedpress_license' ) : ?>
                     <?php echo do_action( 'embedpress_license' ); ?>
                 <?php endif; ?>
-                <?php if ( $activeTab == 'embedpress_get_pro' && !defined('EMBEDPRESS_PRO_PLUGIN_VERSION') ) : ?>
+                <?php if ( $activeTab == 'embedpress_get_pro' && !defined( 'EMBEDPRESS_PRO_PLUGIN_VERSION' ) ) : ?>
                     <div class=" embedpress-go-premium">
                         <div class="embedpress-col-half">
                             <div class="embedpress-admin-block-wrapper">
                                 <div class="embedpress-admin-block embedpress-admin-block-docs">
                                     <header class="embedpress-admin-block-header">
                                         <div class="embedpress-admin-block-header-icon">
-                                            <img src="<?php echo plugins_url( 'assets/images/icon-why-premium.svg', EMBEDPRESS_PLUGIN_BASENAME ); ?>" alt="embedpress-go-pro">
+                                            <img src="<?php echo plugins_url( 'assets/images/icon-why-premium.svg',
+                                                EMBEDPRESS_PLUGIN_BASENAME ); ?>" alt="embedpress-go-pro">
                                         </div>
                                         <h4 class="embedpress-admin-title">Why upgrade to Premium Version?</h4>
                                     </header>
                                     <div class="embedpress-admin-block-content">
-                                        <p>The premium version helps us to continue development of the product incorporating even more features and enhancements.</p>
+                                        <p>The premium version helps us to continue development of the product
+                                            incorporating even more features and enhancements.</p>
                                         <p>You will also get world class support from our dedicated team, 24/7.</p>
-                                        <a href="https://wpdeveloper.net/plugins/embedpress#pricing" target="_blank" class="button embedpress-btn">Get Pro Version</a>
+                                        <a href="https://wpdeveloper.net/plugins/embedpress#pricing" target="_blank"
+                                           class="button embedpress-btn">Get Pro Version</a>
                                     </div>
                                 </div>
                             </div><!--admin block-wrapper end-->
@@ -307,7 +325,8 @@ class Settings {
                 </nav>
                 <p>
                     <a href="//embedpress.com" target="_blank" rel="noopener noreferrer">
-                        <img width="100" src="<?php echo plugins_url( 'assets/images/embedpress.png', EMBEDPRESS_PLUGIN_BASENAME ); ?>">
+                        <img width="100" src="<?php echo plugins_url( 'assets/images/embedpress.png',
+                            EMBEDPRESS_PLUGIN_BASENAME ); ?>">
                     </a>
                 </p>
             </footer>
@@ -332,6 +351,8 @@ class Settings {
             'enableGlobalEmbedResize' => isset( $freshData['enableGlobalEmbedResize'] ) ? (bool)$freshData['enableGlobalEmbedResize'] : false,
             'enableEmbedResizeHeight' => isset( $freshData['enableEmbedResizeHeight'] ) ? $freshData['enableEmbedResizeHeight'] : 552,
             'enableEmbedResizeWidth'  => isset( $freshData['enableEmbedResizeWidth'] ) ? $freshData['enableEmbedResizeWidth'] : 652,
+            'facebook_app_code'       => isset( $freshData['facebook_app_code'] ) ? $freshData['facebook_app_code'] : 652,
+            'facebook_app_secret'     => isset( $freshData['facebook_app_secret'] ) ? $freshData['facebook_app_secret'] : 652,
             'fbLanguage'              => $freshData['fbLanguage'],
         ];
 
@@ -426,6 +447,53 @@ class Settings {
 
         echo '<span class="embedpress-allow-globla-dimension"><input type="number" value="' . absint( $value ) . '" class="regular-text" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']">';
         echo '<p class="description">Global Embed Iframe Width </p></span>';
+    }
+
+    /**
+     * Method that renders the forceFacebookLanguage input.
+     *
+     * @since   1.3.0
+     * @static
+     */
+    public static function renderField_facebook_app_code() {
+        $fieldName = "facebook_app_code";
+
+        $options = get_option( self::$sectionGroupIdentifier );
+
+        $options[$fieldName] = !isset( $options[$fieldName] ) ? "" : $options[$fieldName];
+
+        $facebookLocales = self::getFacebookAvailableLocales();
+
+        echo '<span><input type="text" value="' . $options[$fieldName] . '" class="regular-text" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']">';
+    }
+
+    /**
+     * Method that renders the forceFacebookLanguage input.
+     *
+     * @since   1.3.0
+     * @static
+     */
+    public static function renderField_heading_settings() {
+        printf( "<h2>%s</h2>", esc_html__( 'Facebook and Instagram Embed Settings', 'embedpress' ) );
+        printf( __( '<p>Starting October 24th, due to changes in Facebook API, you will need Facebook Developer app credentials to embed Facebook & Instagram content on your WordPress website. You need to <a class="embedpress-settings-link" href="%s" target="_blank" rel="noopener noreferrer">register a Facebook app</a>, enable <a class="embedpress-settings-link" href="%s">oEmbed</a>, and add its `App ID` & `App secret` in the fields below.</p>', "embedpress" ), esc_url( 'https://developers.facebook.com/apps/' ), esc_url( 'https://developers.facebook.com/docs/plugins/oembed' ) );
+        printf( __( '<p>For more details, check out this documentation <a class="embedpress-settings-link" href="%s">Here</a></p>', 'embedpress' ), esc_url( 'https://embedpress.com/docs/how-to-connect-facebook-instagram-embedpress/' ) );
+    }
+
+    /**
+     * Method that renders the forceFacebookLanguage input.
+     *
+     * @since   1.3.0
+     * @static
+     */
+    public static function renderField_facebook_app_secret() {
+        $fieldName = "facebook_app_secret";
+
+        $options = get_option( self::$sectionGroupIdentifier );
+
+        $options[$fieldName] = !isset( $options[$fieldName] ) ? "" : $options[$fieldName];
+
+
+        echo '<span><input type="text" value="' . $options[$fieldName] . '" class="regular-text" name="' . self::$sectionGroupIdentifier . '[' . $fieldName . ']">';
     }
 
     /**

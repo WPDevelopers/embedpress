@@ -36,10 +36,7 @@ registerBlockType( 'embedpress/google-slides-block', {
 		__( 'google' ),
 		__( 'slides' ),
 	],
-	supports: {
-		align: true,
-		lightBlockWrapper: true,
-	},
+	supports: {align: ["wide", "full","right","left"], default: ''},
 	attributes: {
 		url: {
 			type: 'string',

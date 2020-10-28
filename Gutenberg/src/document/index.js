@@ -39,10 +39,7 @@ registerBlockType('embedpress/document', {
 		__('doc'),
 		__('ppt'),
 	],
-	supports: {
-		align: true,
-		lightBlockWrapper: true,
-	},
+	supports: {align: ["wide", "full","right","left"], default: ''},
 	attributes: {
 		id: {
 			type: "string"

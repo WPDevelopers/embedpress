@@ -486,3 +486,7 @@
 .wpdeveloper-upsale-notice .wpdeveloper-notice-message .button {
     margin-left: 15px;
 }
+
+#embedpress-settings-wrapper a.embedpress-settings-link {
+    color: #0073aa;
+}
