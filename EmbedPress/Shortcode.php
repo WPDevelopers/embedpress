@@ -4,6 +4,8 @@ namespace EmbedPress;
 
 use Embera\Embera;
 use Embera\Formatter;
+use Embera\ProviderCollection\DefaultProviderCollection;
+use WP_oEmbed;
 
 ( defined( 'ABSPATH' ) && defined( 'EMBEDPRESS_IS_LOADED' ) ) or die( "No direct script access allowed." );
 
@@ -24,10 +26,20 @@ class Shortcode {
      * @access  private
      * @static
      *
-     * @var     string $oEmbedInstance
+     * @var     WP_oEmbed $oEmbedInstance
      */
     private static $oEmbedInstance = null;
-    
+    /**
+     * The DefaultProviderCollection class instance.
+     *
+     * @since   1.0.0
+     * @access  private
+     * @static
+     *
+     * @var     DefaultProviderCollection $collection
+     */
+    private static $collection = null;
+
     /**
      * Register the plugin's shortcode into WordPress.
      *
@@ -132,19 +144,21 @@ class Shortcode {
             // Check if OEmbed was unable to detect the url service provider.
             if ( empty( $serviceProvider ) ) {
                 // Attempt to do the same using Embera.
-                $emberaInstance = new Embera( $emberaInstanceSettings );
+
                 // Add support to the user's custom service providers
                 $additionalServiceProviders = Core::getAdditionalServiceProviders();
                 if ( !empty( $additionalServiceProviders ) ) {
                     foreach ( $additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls ) {
-                        self::addServiceProvider( $serviceProviderClassName, $serviceProviderUrls, $emberaInstance );
+                        self::addServiceProvider( $serviceProviderClassName, $serviceProviderUrls );
                     }
                     
                     unset( $serviceProviderUrls, $serviceProviderClassName );
                 }
                 
                 // Attempt to fetch more info about the url-embed.
-                $urlData = $emberaInstance->getUrlInfo( $content );
+                $emberaInstance = new Embera( $emberaInstanceSettings, self::$collection );
+
+                $urlData = $emberaInstance->getUrlData( $content );
             } else {
                 // Attempt to fetch more info about the url-embed.
                 $urlData = self::$oEmbedInstance->fetch( $serviceProvider, $content, $attributes );
@@ -376,7 +390,7 @@ class Shortcode {
      * @static
      *
      */
-    public static function addServiceProvider( $className, $reference, &$emberaInstance ) {
+    public static function backup__addServiceProvider( $className, $reference, &$emberaInstance ) {
         if ( empty( $className ) || empty( $reference ) ) {
             return false;
         }
@@ -387,6 +401,26 @@ class Shortcode {
             foreach ( $reference as $serviceProviderUrl ) {
                 self::addServiceProvider( $className, $serviceProviderUrl, $emberaInstance );
             }
+        } else {
+            return false;
+        }
+    }
+    public static function addServiceProvider( $className, $reference ) {
+        if ( empty( $className ) || empty( $reference ) ) {
+            return false;
+        }
+
+        if (is_null(self::$collection)) {
+            self::$collection = new DefaultProviderCollection();
+        }
+        if ( is_string( $reference ) ) {
+            self::$collection->addProvider( $reference, EMBEDPRESS_NAMESPACE . "\\Providers\\{$className}" );
+            return self::$collection;
+        } elseif ( is_array( $reference ) ) {
+            foreach ( $reference as $serviceProviderUrl ) {
+                self::addServiceProvider( $className, $serviceProviderUrl);
+            }
+            return self::$collection;
         } else {
             return false;
         }
