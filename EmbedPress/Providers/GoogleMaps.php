@@ -2,7 +2,9 @@
 
 namespace EmbedPress\Providers;
 
-use Embera\Adapters\Service as EmberaService;
+use Embera\Provider\ProviderAdapter;
+use Embera\Provider\ProviderInterface;
+use Embera\Url;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -16,19 +18,26 @@ use Embera\Adapters\Service as EmberaService;
  * @license     GPLv3 or later
  * @since       1.0.0
  */
-class GoogleMaps extends EmberaService
+class GoogleMaps extends ProviderAdapter implements ProviderInterface
 {
+    /** inline {@inheritdoc} */
+    protected static $hosts = [
+        '*.google.com'
+    ];
     /**
      * Method that verifies if the embed URL belongs to GoogleMaps.
      *
+     * @param Url $url
+     * @return  boolean
      * @since   1.0.0
      *
-     * @return  boolean
      */
-    public function validateUrl()
+    public function validateUrl(Url $url)
     {
-        return preg_match('~http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?(?:place\/)?(?:[a-z0-9\/%+\-_]*)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)~i',
-            $this->url);
+
+       return (bool) preg_match('~http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?(?:place\/)?(?:[a-z0-9\/%+\-_]*)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)~i',
+            (string) $url);
+
     }
 
     /**
@@ -62,4 +71,5 @@ class GoogleMaps extends EmberaService
             'html'          => '<iframe width="600" height="450" src="' . $iframeSrc . '" frameborder="0"></iframe>',
         ];
     }
+
 }
