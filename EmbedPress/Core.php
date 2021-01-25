@@ -4,6 +4,7 @@ namespace EmbedPress;
 
 use EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
 use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
+use EmbedPress\Includes\Traits\Shared;
 
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
@@ -18,7 +19,7 @@ use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
  * @since       1.0.0
  */
 class Core {
-    use \EmbedPress\Includes\Traits\Shared;
+    use Shared;
 
     /**
      * The name of the plugin.

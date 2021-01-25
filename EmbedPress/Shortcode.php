@@ -80,17 +80,16 @@ class Shortcode {
         
         return is_object( $embed ) ? $embed->embed : $embed;
     }
-    
+
     /**
      * Replace a given content with its embeded HTML code.
      *
      * @param string      The raw content that will be replaced.
-     * @param boolean     Optional. If true, new lines at the end of the embeded code are stripped.
-     *
+     * @param bool $stripNewLine
+     * @param array $customAttributes
      * @return  string
      * @since   1.0.0
      * @static
-     *
      */
     public static function parseContent( $subject, $stripNewLine = false, $customAttributes = [] ) {
         if ( !empty( $subject ) ) {
@@ -136,11 +135,14 @@ class Shortcode {
                     unset( $attributes[ 'height' ] );
                 }
             }
-            
+
             // Identify what service provider the shortcode's link belongs to
             $serviceProvider = self::$oEmbedInstance->get_provider( $content );
-            
-            
+//            error_log('here is the provider found:');
+//            error_log(print_r($serviceProvider, 1));
+            // For Triggering Embara for test purpose
+            //$serviceProvider = '';
+
             // Check if OEmbed was unable to detect the url service provider.
             if ( empty( $serviceProvider ) ) {
                 // Attempt to do the same using Embera.
@@ -159,10 +161,15 @@ class Shortcode {
                 $emberaInstance = new Embera( $emberaInstanceSettings, self::$collection );
 
                 $urlData = $emberaInstance->getUrlData( $content );
+//                error_log('it should be google parsing now');
+//                error_log(print_r($urlData, 1));
             } else {
                 // Attempt to fetch more info about the url-embed.
                 $urlData = self::$oEmbedInstance->fetch( $serviceProvider, $content, $attributes );
             }
+            //error_log('what is the url data we have got');
+            //error_log(print_r($urlData, 1));
+
             
             // Sanitize the data
             $urlData = self::sanitizeUrlData( $urlData );
@@ -224,24 +231,35 @@ class Shortcode {
                 unset( $service, $supportedServicesHeadersPatterns, $headers, $matches );
                 
             }
-            // Facebook is a special case. WordPress will try to embed them using OEmbed, but they always end up embedding the profile page, regardless
-            // if the url was pointing to a photo, a post, etc. So, since Embera can embed only facebook-media/posts, we'll use it only for that.
-//            if ( isset( $urlData->provider_name ) && in_array( $urlData->provider_name, ['Facebook'] ) ) {
-//                // Check if this is a Facebook profile url.
-//                if ( preg_match( '/facebook\.com\/(?:[^\/]+?)\/?$/', $content, $match ) ) {
-//                    // Try to embed the url using WP's OSEmbed.
-//                    $parsedContent = self::$oEmbedInstance->get_html( $content, $attributes );
-//                } else {
-//                    // Try to embed the url using EmbedPress' Embera.
-//                    $parsedContent = false;
-//                }
-//            } else {
-//                // Try to embed the url using WP's OSEmbed.
-//
-//            }
-    
+
+            // testing if google map embed works with direct injection inside iframe
+            add_filter('pre_oembed_result', function ($null, $url, $args){
+                $isGoogleMap = (bool) preg_match('~http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?(?:place\/)?(?:[a-z0-9\/%+\-_]*)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)~i',
+                    (string) $url);
+                if ($isGoogleMap) {
+//                    error_log('google map found');
+//                    error_log(print_r($url, 1));
+
+                    if (preg_match('~(maps/embed|output=embed)~i', $url)) {
+                        $iframeSrc = $url;
+                    } else {
+                        // Extract coordinates and zoom from the url
+                        if (preg_match('~@(-?[0-9\.]+,-?[0-9\.]+).+,([0-9\.]+[a-z])~i', $url, $matches)) {
+                            $iframeSrc = 'https://maps.google.com/maps?hl=en&ie=UTF8&ll=' . $matches[1] . '&spn=' . $matches[1] . '&t=m&z=' . round($matches[2]) . '&output=embed';
+                        } else {
+                            return [];
+                        }
+                    }
+                    return '<iframe width="600" height="450" src="' . $iframeSrc . '" frameborder="0"></iframe>';
+                }
+                return $null;
+
+            }, 10, 3);
             $parsedContent = self::$oEmbedInstance->get_html( $content, $attributes );
-            
+//            error_log('What is $parsedContent returned by  self::$oEmbedInstance->get_html(); ??');
+//            error_log(print_r($content, 1));
+//            error_log(print_r($parsedContent, 1));
+
             
             
             if ( !$parsedContent ) {
@@ -253,8 +271,7 @@ class Shortcode {
                     $additionalServiceProviders = Core::getAdditionalServiceProviders();
                     if ( !empty( $additionalServiceProviders ) ) {
                         foreach ( $additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls ) {
-                            self::addServiceProvider( $serviceProviderClassName, $serviceProviderUrls,
-                                $emberaInstance );
+                            self::addServiceProvider( $serviceProviderClassName, $serviceProviderUrls);
                         }
                         
                         unset( $serviceProviderUrls, $serviceProviderClassName );
@@ -262,23 +279,30 @@ class Shortcode {
                 }
                 
                 // Register the html template
-                $emberaFormaterInstance = new Formatter( $emberaInstance, true );
-                $emberaFormaterInstance->setTemplate( $embedTemplate );
+                //$emberaFormaterInstance = new Formatter( $emberaInstance, true );
+                //$emberaFormaterInstance->setTemplate( $embedTemplate );
                 
                 // Try to generate the embed using Embera API
-                $parsedContent = $emberaFormaterInstance->transform( $content );
-                
-                unset( $emberaFormaterInstance, $additionalServiceProviders, $emberaInstance );
+                //$parsedContent = $emberaFormaterInstance->transform( $content );
+                // Inject the generated code inside the html template
+                $parsedContent = str_replace( '{html}', $emberaInstance->autoEmbed($content), $embedTemplate );
+//                error_log('$content parsed using Embara');
+//                error_log(print_r($content, 1));
+//                error_log(print_r($parsedContent, 1));
+                //unset( $emberaFormaterInstance, $additionalServiceProviders, $emberaInstance );
             } else {
                 // Inject the generated code inside the html template
                 $parsedContent = str_replace( '{html}', $parsedContent, $embedTemplate );
                 
                 // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
                 $parsedContent = str_replace( "'", '"', $parsedContent );
-                
+//                error_log('what is url data at line 313 for $content');
+//                error_log(print_r($content, 1));
+//                error_log(print_r( $urlData, 1));
                 // Replace the flag `{provider_alias}` which is used by Embera with the "ose-<serviceProviderAlias>". I.e: YouTube -> "ose-youtube"
                 $parsedContent = preg_replace( '/((?:ose-)?\{provider_alias\})/i',
                     "ose-" . strtolower( $urlData->provider_name ), $parsedContent );
+
             }
             
             if ( isset( $urlData->provider_name ) || ( is_array( $urlData ) && isset( $urlData[ $content ][ 'provider_name' ] ) ) ) {
@@ -710,5 +734,10 @@ class Shortcode {
         } else {
             return null;
         }
+    }
+
+    public static function get_collection()
+    {
+        return self::$collection;
     }
 }

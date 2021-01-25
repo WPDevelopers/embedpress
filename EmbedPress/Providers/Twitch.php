@@ -2,7 +2,9 @@
 
 namespace EmbedPress\Providers;
 
-use Embera\Adapters\Service as EmberaService;
+use Embera\Provider\ProviderAdapter;
+use Embera\Provider\ProviderInterface;
+use Embera\Url;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -16,7 +18,7 @@ use Embera\Adapters\Service as EmberaService;
  * @license     GPLv3 or later
  * @since       1.5.0
  */
-class Twitch extends EmberaService
+class Twitch extends ProviderAdapter implements ProviderInterface
 {
     /**
      * The regex which identifies Twitch URLs.
@@ -31,13 +33,14 @@ class Twitch extends EmberaService
     /**
      * Method that verifies if the embed URL belongs to Twitch.
      *
+     * @param Url $url
+     * @return  boolean
      * @since   1.5.0
      *
-     * @return  boolean
      */
-    public function validateUrl()
+    public function validateUrl(Url $url)
     {
-        return preg_match($this->urlRegexPattern, $this->url);
+        return (bool) preg_match($this->urlRegexPattern, $this->url);
     }
 
     /**

@@ -12,3 +12,6 @@ package-lock.json
 /vendor
 .idea
 /dist
+
+#Suggested by Manzur Bhai
+composer.lock

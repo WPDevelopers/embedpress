@@ -145,7 +145,7 @@ class Embedpress_Elementor extends Widget_Base {
 
     protected function render() {
         $settings      = $this->get_settings_for_display();
-        $embed_content = Shortcode::parseContent( $settings['embedpress_embeded_link'], true, [] );
+        $embed_content = Shortcode::parseContent( $settings['embedpress_embeded_link'], true );
         $embed         = apply_filters( 'embedpress_elementor_embed', $embed_content, $settings );
         $content       = is_object( $embed ) ? $embed->embed : $embed;
 

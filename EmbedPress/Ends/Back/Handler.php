@@ -126,16 +126,16 @@ class Handler extends EndHandlerAbstract {
         ];
 
         if ( !!strlen( $response['url'] ) ) {
-            $embera = new Embera();
 
             $additionalServiceProviders = Core::getAdditionalServiceProviders();
             if ( !empty( $additionalServiceProviders ) ) {
                 foreach ( $additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls ) {
-                    Shortcode::addServiceProvider( $serviceProviderClassName, $serviceProviderUrls, $embera );
+                    Shortcode::addServiceProvider( $serviceProviderClassName, $serviceProviderUrls );
                 }
             }
+            $embera = new Embera([], Shortcode::get_collection());
 
-            $urlInfo = $embera->getUrlInfo( $response['url'] );
+            $urlInfo = $embera->getUrlData( $response['url'] );
             if ( isset( $urlInfo[$response['url']] ) ) {
                 $urlInfo                     = (object)$urlInfo[$response['url']];
                 $response['canBeResponsive'] = Core::canServiceProviderBeResponsive( $urlInfo->provider_alias );

@@ -49,8 +49,6 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
      */
     public function fakeResponse()
     {
-        $iframeSrc = '';
-
         // Check if the url is already converted to the embed format
         if (preg_match('~(maps/embed|output=embed)~i', $this->url)) {
             $iframeSrc = $this->url;

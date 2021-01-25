@@ -2,7 +2,9 @@
 
 namespace EmbedPress\Providers;
 
-use Embera\Adapters\Service as EmberaService;
+use Embera\Provider\ProviderAdapter;
+use Embera\Provider\ProviderInterface;
+use Embera\Url;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -16,19 +18,20 @@ use Embera\Adapters\Service as EmberaService;
  * @license     GPLv3 or later
  * @since       1.0.0
  */
-class GoogleDocs extends EmberaService
+class GoogleDocs extends ProviderAdapter implements ProviderInterface
 {
     /**
      * Method that verifies if the embed URL belongs to GoogleDocs.
      *
+     * @param Url $url
+     * @return  boolean
      * @since   1.0.0
      *
-     * @return  boolean
      */
-    public function validateUrl()
+    public function validateUrl(Url $url)
     {
-        return preg_match('~http[s]?:\/\/((?:www\.)?docs\.google\.com\/(?:.*/)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)~i',
-            $this->url);
+        return (bool) preg_match('~http[s]?:\/\/((?:www\.)?docs\.google\.com\/(?:.*/)?(?:document|presentation|spreadsheets|forms|drawings)\/[a-z0-9\/\?=_\-\.\,&%\$#\@\!\+]*)~i',
+            $url);
     }
 
     /**
