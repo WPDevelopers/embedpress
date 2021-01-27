@@ -119,4 +119,10 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
             'wrapper_class' => 'ose-google-docs-' . $type,
         ];
     }
+
+    /** inline @inheritDoc */
+    public function modifyResponse( array $response = [])
+    {
+        return $this->fakeResponse();
+    }
 }

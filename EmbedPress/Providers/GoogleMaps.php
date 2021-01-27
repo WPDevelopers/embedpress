@@ -21,9 +21,7 @@ use Embera\Url;
 class GoogleMaps extends ProviderAdapter implements ProviderInterface
 {
     /** inline {@inheritdoc} */
-    protected static $hosts = [
-        '*.google.com'
-    ];
+    protected static $hosts = ["google.com", "google.com.*", "maps.google.com", "goo.gl", "google.co.*"];
     /**
      * Method that verifies if the embed URL belongs to GoogleMaps.
      *
@@ -35,7 +33,7 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
     public function validateUrl(Url $url)
     {
 
-       return (bool) preg_match('~http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?(?:place\/)?(?:[a-z0-9\/%+\-_]*)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)~i',
+       return  (bool) preg_match('~http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?(?:place\/)?(?:[a-z0-9\/%+\-_]*)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)~i',
             (string) $url);
 
     }
@@ -68,6 +66,11 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
             'title'         => 'Unknown title',
             'html'          => '<iframe width="600" height="450" src="' . $iframeSrc . '" frameborder="0"></iframe>',
         ];
+    }
+    /** inline @inheritDoc */
+    public function modifyResponse( array $response = [])
+    {
+        return $this->fakeResponse();
     }
 
 }

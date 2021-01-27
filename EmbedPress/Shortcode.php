@@ -3,7 +3,7 @@
 namespace EmbedPress;
 
 use Embera\Embera;
-use Embera\Formatter;
+//use Embera\Formatter;
 use Embera\ProviderCollection\DefaultProviderCollection;
 use WP_oEmbed;
 
@@ -233,7 +233,7 @@ class Shortcode {
             }
 
             // testing if google map embed works with direct injection inside iframe
-            add_filter('pre_oembed_result', function ($null, $url, $args){
+            /*add_filter('pre_oembed_result', function ($null, $url, $args){
                 $isGoogleMap = (bool) preg_match('~http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?(?:place\/)?(?:[a-z0-9\/%+\-_]*)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)~i',
                     (string) $url);
                 if ($isGoogleMap) {
@@ -254,37 +254,39 @@ class Shortcode {
                 }
                 return $null;
 
-            }, 10, 3);
+            }, 10, 3);*/
             $parsedContent = self::$oEmbedInstance->get_html( $content, $attributes );
 //            error_log('What is $parsedContent returned by  self::$oEmbedInstance->get_html(); ??');
 //            error_log(print_r($content, 1));
 //            error_log(print_r($parsedContent, 1));
 
-            
+            $provider_name = '';
+            if (isset( $urlData->provider_name )) {
+                $provider_name = isset( $urlData->provider_name );
+            }elseif ( is_array( $urlData ) && isset( $urlData[ $content ][ 'provider_name' ] ) ) {
+                $provider_name = $urlData[ $content ][ 'provider_name' ];
+            }
+//            error_log('provider name found for ');
+//            error_log(print_r($content, 1));
+//            error_log(print_r($provider_name, 1));
             
             if ( !$parsedContent ) {
+                // If the embed couldn't be generated, we'll try to use Embera's API
                 if ( !isset( $emberaInstance ) ) {
-                    
-                    // If the embed couldn't be generated, we'll try to use Embera's API
-                    $emberaInstance = new Embera( $emberaInstanceSettings );
                     // Add support to the user's custom service providers
                     $additionalServiceProviders = Core::getAdditionalServiceProviders();
                     if ( !empty( $additionalServiceProviders ) ) {
                         foreach ( $additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls ) {
                             self::addServiceProvider( $serviceProviderClassName, $serviceProviderUrls);
                         }
-                        
+
                         unset( $serviceProviderUrls, $serviceProviderClassName );
                     }
+                $emberaInstance = new Embera( $emberaInstanceSettings );
                 }
-                
-                // Register the html template
-                //$emberaFormaterInstance = new Formatter( $emberaInstance, true );
-                //$emberaFormaterInstance->setTemplate( $embedTemplate );
-                
-                // Try to generate the embed using Embera API
-                //$parsedContent = $emberaFormaterInstance->transform( $content );
+
                 // Inject the generated code inside the html template
+                $emberaInstance->addFilter(['EmbedPress\Shortcode', 'filter_embara_output']);
                 $parsedContent = str_replace( '{html}', $emberaInstance->autoEmbed($content), $embedTemplate );
 //                error_log('$content parsed using Embara');
 //                error_log(print_r($content, 1));
@@ -300,16 +302,18 @@ class Shortcode {
 //                error_log(print_r($content, 1));
 //                error_log(print_r( $urlData, 1));
                 // Replace the flag `{provider_alias}` which is used by Embera with the "ose-<serviceProviderAlias>". I.e: YouTube -> "ose-youtube"
+
                 $parsedContent = preg_replace( '/((?:ose-)?\{provider_alias\})/i',
-                    "ose-" . strtolower( $urlData->provider_name ), $parsedContent );
+                    "ose-" . strtolower( $provider_name ), $parsedContent );
 
             }
             
-            if ( isset( $urlData->provider_name ) || ( is_array( $urlData ) && isset( $urlData[ $content ][ 'provider_name' ] ) ) ) {
+            if ( !empty($provider_name) ) {
                 // NFB seems to always return their embed code with all HTML entities into their applicable characters string.
-                if ( ( isset( $urlData->provider_name ) && strtoupper( $urlData->provider_name ) === "NATIONAL FILM BOARD OF CANADA" ) || ( is_array( $urlData ) && isset( $urlData[ $content ][ 'provider_name' ] ) && strtoupper( $urlData[ $content ][ 'provider_name' ] ) === "NATIONAL FILM BOARD OF CANADA" ) ) {
+                $PROVIDER_NAME_IN_CAP = strtoupper($provider_name);
+                if ( $PROVIDER_NAME_IN_CAP  === "NATIONAL FILM BOARD OF CANADA"  ) {
                     $parsedContent = html_entity_decode( $parsedContent );
-                } elseif ( ( isset( $urlData->provider_name ) && strtoupper( $urlData->provider_name ) === "FACEBOOK" ) || ( is_array( $urlData ) && isset( $urlData[ $content ][ 'provider_name' ] ) && strtoupper( $urlData[ $content ][ 'provider_name' ] ) === "FACEBOOK" ) ) {
+                } elseif ( $PROVIDER_NAME_IN_CAP === "FACEBOOK" ) {
                     $plgSettings = Core::getSettings();
                     
                     // Check if the user wants to force a certain language into Facebook embeds.
@@ -407,7 +411,7 @@ class Shortcode {
      *
      * @param string $className The new SP class name.
      * @param string $reference The new SP reference name.
-     * @param \Embera\Embera $emberaInstance The embera's instance where the SP will be registered in.
+     * @param Embera $emberaInstance The embera's instance where the SP will be registered in.
      *
      * @return  boolean
      * @since   1.0.0
@@ -739,5 +743,12 @@ class Shortcode {
     public static function get_collection()
     {
         return self::$collection;
+    }
+
+    public static function filter_embara_output($markup)
+    {
+        error_log('Filter triggered:markup found');
+        error_log(print_r($markup, 1));
+        return $markup;
     }
 }

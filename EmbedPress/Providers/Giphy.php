@@ -75,4 +75,9 @@ class Giphy extends ProviderAdapter implements ProviderInterface
 
         return $response;
     }
+    /** inline @inheritDoc */
+    public function modifyResponse( array $response = [])
+    {
+        return $this->fakeResponse();
+    }
 }

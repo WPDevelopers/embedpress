@@ -173,43 +173,43 @@ class Core {
             '#https?://(.+\.)?viddler\.com/v/.+#i' => 'viddler',
 
             // Deviantart.com (http://www.deviantart.com)
-            '#https?://(.+\.)?deviantart\.com/art/.+#i' => 'devianart',
-            '#https?://(.+\.)?deviantart\.com/.+#i' => 'devianart',
-            '#https?://(.+\.)?deviantart\.com/.*/d.+#i' => 'devianart',
-            '#https?://(.+\.)?fav\.me/.+#i' => 'devianart',
-            '#https?://(.+\.)?sta\.sh/.+#i' => 'devianart',
+//            '#https?://(.+\.)?deviantart\.com/art/.+#i' => 'devianart',
+//            '#https?://(.+\.)?deviantart\.com/.+#i' => 'devianart',
+//            '#https?://(.+\.)?deviantart\.com/.*/d.+#i' => 'devianart',
+//            '#https?://(.+\.)?fav\.me/.+#i' => 'devianart',
+//            '#https?://(.+\.)?sta\.sh/.+#i' => 'devianart',
 
             // chirbit.com (http://www.chirbit.com/)
-            '#https?://(.+\.)?chirb\.it/.+#i' => 'chirbit',
+            //'#https?://(.+\.)?chirb\.it/.+#i' => 'chirbit',
 
 
             // nfb.ca (http://www.nfb.ca/)
-            '#https?://(.+\.)?nfb\.ca/film/.+#i' => 'nfb',
+            //'#https?://(.+\.)?nfb\.ca/film/.+#i' => 'nfb',
 
             // Dotsub (http://dotsub.com/)
-            '#https?://(.+\.)?dotsub\.com/view/.+#i' => 'dotsub',
+            //'#https?://(.+\.)?dotsub\.com/view/.+#i' => 'dotsub',
 
             // Rdio (http://rdio.com/)
             '#https?://(.+\.)?rdio\.com/(artist|people)/.+#i' => 'rdio',
 
             // Sapo Videos (http://videos.sapo.pt)
-            '#https?://(.+\.)?videos\.sapo\.pt/.+#i' => 'sapo',
+            //'#https?://(.+\.)?videos\.sapo\.pt/.+#i' => 'sapo',
 
             // Official FM (http://official.fm)
             '#https?://(.+\.)?official\.fm/(tracks|playlists)/.+#i' => 'officialfm',
 
             // HuffDuffer (http://huffduffer.com)
-            '#https?://(.+\.)?huffduffer\.com/.+#i' => 'huffduffer',
+            //'#https?://(.+\.)?huffduffer\.com/.+#i' => 'huffduffer',
 
             // Shoudio (http://shoudio.com)
-            '#https?://(.+\.)?shoudio\.(com|io)/.+#i' => 'shoudio',
+            //'#https?://(.+\.)?shoudio\.(com|io)/.+#i' => 'shoudio',
 
             // Moby Picture (http://www.mobypicture.com)
             '#https?://(.+\.)?mobypicture\.com/user/.+/view/.+#i' => 'mobypicture',
             '#https?://(.+\.)?moby\.to/.+#i' => 'mobypicture',
 
             // 23HQ (http://www.23hq.com)
-            '#https?://(.+\.)?23hq\.com/.+/photo/.+#i' => '23hq',
+            //'#https?://(.+\.)?23hq\.com/.+/photo/.+#i' => '23hq',
 
             // Cacoo (https://cacoo.com)
             '#https?://(.+\.)?cacoo\.com/diagrams/.+#i' => 'cacoo',
@@ -218,19 +218,19 @@ class Core {
             '#https?://(.+\.)?dipity\.com/.+#i' => 'dipity',
 
             // Roomshare (http://roomshare.jp)
-            '#https?://(.+\.)?roomshare\.jp/(en/)?post/.+#i' => 'roomshare',
+            //'#https?://(.+\.)?roomshare\.jp/(en/)?post/.+#i' => 'roomshare',
 
             // Crowd Ranking (http://crowdranking.com)
             '#https?://(.+\.)?c9ng\.com/.+#i' => 'crowd',
 
             // CircuitLab (https://www.circuitlab.com/)
-            '#https?://(.+\.)?circuitlab\.com/circuit/.+#i' => 'circuitlab',
+            //'#https?://(.+\.)?circuitlab\.com/circuit/.+#i' => 'circuitlab',
 
             // Coub (http://coub.com/)
-            '#https?://(.+\.)?coub\.com/(view|embed)/.+#i' => 'coub',
+            //'#https?://(.+\.)?coub\.com/(view|embed)/.+#i' => 'coub',
 
             // Ustream (http://www.ustream.tv)
-            '#https?://(.+\.)?ustream\.(tv|com)/.+#i' => 'ustream',
+            //'#https?://(.+\.)?ustream\.(tv|com)/.+#i' => 'ustream',
 
             // Daily Mile (http://www.dailymile.com)
             '#https?://(.+\.)?dailymile\.com/people/.+/entries/.+#i' => 'daily',
@@ -246,25 +246,25 @@ class Core {
             '#https?://(.+\.)?rapidengage\.com/s/.+#i' => 'rapidengage',
 
             // Getty Images (http://www.gettyimages.com/)
-            '#https?://(.+\.)?gty\.im/.+#i' => 'gettyimages',
-            '#https?://(.+\.)?gettyimages\.com/detail/photo/.+#i' => 'gettyimages',
+            //'#https?://(.+\.)?gty\.im/.+#i' => 'gettyimages',
+            //'#https?://(.+\.)?gettyimages\.com/detail/photo/.+#i' => 'gettyimages',
 
             // amCharts Live Editor (http://live.amcharts.com/)
-            '#https?://(.+\.)?live\.amcharts\.com/.+#i' => 'amcharts',
+            //'#https?://(.+\.)?live\.amcharts\.com/.+#i' => 'amcharts',
 
             // Infogram (https://infogr.am/)
-            '#https?://(.+\.)?infogr\.am/.+#i' => 'infogram',
+            //'#https?://(.+\.)?infogr\.am/.+#i' => 'infogram',
             //(https://infogram.com/)
-            '#https?://(.+\.)?infogram\.com/.+#i' => 'infogram',
+            //'#https?://(.+\.)?infogram\.com/.+#i' => 'infogram',
 
             // ChartBlocks (http://www.chartblocks.com/)
-            '#https?://(.+\.)?public\.chartblocks\.com/c/.+#i' => 'chartblocks',
+            //'#https?://(.+\.)?public\.chartblocks\.com/c/.+#i' => 'chartblocks',
 
             // ReleaseWire (http://www.releasewire.com/)
-            '#https?://(.+\.)?rwire\.com/.+#i' => 'releasewire',
+            //'#https?://(.+\.)?rwire\.com/.+#i' => 'releasewire',
 
             // ShortNote (https://www.shortnote.jp/)
-            '#https?://(.+\.)?shortnote\.jp/view/notes/.+#i' => 'shortnote',
+            //'#https?://(.+\.)?shortnote\.jp/view/notes/.+#i' => 'shortnote',
 
             // EgliseInfo (http://egliseinfo.catholique.fr/)
             '#https?://(.+\.)?egliseinfo\.catholique\.fr/.+#i' => 'egliseinfo',
@@ -277,13 +277,13 @@ class Core {
             '#https?://(.+\.)?bambuser\.com/v/.+#i' => 'bambuser',
 
             // https://clyp.it
-            '#https?://(.+\.)?clyp\.it/.+#i' => 'clyp',
+            //'#https?://(.+\.)?clyp\.it/.+#i' => 'clyp',
 
             // https://gist.github.com
             '#https?://(.+\.)?gist\.github\.com/.+#i' => 'github',
 
             // https://portfolium.com
-            '#https?://(.+\.)?portfolium\.com/.+#i' => 'portfolium',
+            //'#https?://(.+\.)?portfolium\.com/.+#i' => 'portfolium',
 
             // http://rutube.ru
             '#https?://(.+\.)?rutube\.ru/video/.+#i' => 'rutube',
@@ -292,29 +292,29 @@ class Core {
             '#https?://(.+\.)?videojug\.com/.+#i' => 'videojug',
 
             // https://vine.com
-            '#https?://(.+\.)?vine\.co/v/.+#i' => 'vine',
+            //'#https?://(.+\.)?vine\.co/v/.+#i' => 'vine',
 
             // Google Shortened Url
             '#https?://(.+\.)?goo\.gl/.+#i' => 'google',
 
             // Google Maps
-            '#https?://(.+\.)?google\.com/maps/.+#i' => 'googlemaps',
-            '#https?://(.+\.)?maps\.google\.com/.+#i' => 'googlemaps',
+            //'#https?://(.+\.)?google\.com/maps/.+#i' => 'googlemaps',
+            //'#https?://(.+\.)?maps\.google\.com/.+#i' => 'googlemaps',
 
             // Google Docs
-            '#https?://(.+\.)?docs\.google\.com/(.+/)?(document|presentation|spreadsheets|forms|drawings)/.+#i' => 'googledocs',
+            //'#https?://(.+\.)?docs\.google\.com/(.+/)?(document|presentation|spreadsheets|forms|drawings)/.+#i' => 'googledocs',
 
             // Twitch.tv
-            '#https?://(.+\.)?twitch\.tv/.+#i' => 'twitch',
+            //'#https?://(.+\.)?twitch\.tv/.+#i' => 'twitch',
 
             // Giphy
-            '#https?://(.+\.)?giphy\.com/gifs/.+#i' => 'giphy',
-            '#https?://(.+\.)?i\.giphy\.com/.+#i' => 'giphy',
-            '#https?://(.+\.)?gph\.is/.+#i' => 'giphy',
+            //'#https?://(.+\.)?giphy\.com/gifs/.+#i' => 'giphy',
+            //'#https?://(.+\.)?i\.giphy\.com/.+#i' => 'giphy',
+            //'#https?://(.+\.)?gph\.is/.+#i' => 'giphy',
 
             // Wistia
-            '#https?://(.+\.)?wistia\.com/medias/.+#i' => 'wistia',
-            '#https?://(.+\.)?fast\.wistia\.com/embed/medias/.+#i\.jsonp' => 'wistia',
+            //'#https?://(.+\.)?wistia\.com/medias/.+#i' => 'wistia',
+            //'#https?://(.+\.)?fast\.wistia\.com/embed/medias/.+#i\.jsonp' => 'wistia',
         ];
 
         /**
