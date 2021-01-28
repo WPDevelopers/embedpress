@@ -3,7 +3,6 @@
 namespace EmbedPress;
 
 use Embera\Embera;
-//use Embera\Formatter;
 use Embera\ProviderCollection\DefaultProviderCollection;
 use WP_oEmbed;
 
@@ -138,37 +137,26 @@ class Shortcode {
 
             // Identify what service provider the shortcode's link belongs to
             $serviceProvider = self::$oEmbedInstance->get_provider( $content );
-//            error_log('here is the provider found:');
-//            error_log(print_r($serviceProvider, 1));
-            // For Triggering Embara for test purpose
-            //$serviceProvider = '';
 
             // Check if OEmbed was unable to detect the url service provider.
             if ( empty( $serviceProvider ) ) {
                 // Attempt to do the same using Embera.
-
                 // Add support to the user's custom service providers
                 $additionalServiceProviders = Core::getAdditionalServiceProviders();
                 if ( !empty( $additionalServiceProviders ) ) {
                     foreach ( $additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls ) {
                         self::addServiceProvider( $serviceProviderClassName, $serviceProviderUrls );
                     }
-                    
                     unset( $serviceProviderUrls, $serviceProviderClassName );
                 }
                 
                 // Attempt to fetch more info about the url-embed.
                 $emberaInstance = new Embera( $emberaInstanceSettings, self::$collection );
-
                 $urlData = $emberaInstance->getUrlData( $content );
-//                error_log('it should be google parsing now');
-//                error_log(print_r($urlData, 1));
             } else {
                 // Attempt to fetch more info about the url-embed.
                 $urlData = self::$oEmbedInstance->fetch( $serviceProvider, $content, $attributes );
             }
-            //error_log('what is the url data we have got');
-            //error_log(print_r($urlData, 1));
 
             
             // Sanitize the data
@@ -232,33 +220,8 @@ class Shortcode {
                 
             }
 
-            // testing if google map embed works with direct injection inside iframe
-            /*add_filter('pre_oembed_result', function ($null, $url, $args){
-                $isGoogleMap = (bool) preg_match('~http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?(?:place\/)?(?:[a-z0-9\/%+\-_]*)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)~i',
-                    (string) $url);
-                if ($isGoogleMap) {
-//                    error_log('google map found');
-//                    error_log(print_r($url, 1));
 
-                    if (preg_match('~(maps/embed|output=embed)~i', $url)) {
-                        $iframeSrc = $url;
-                    } else {
-                        // Extract coordinates and zoom from the url
-                        if (preg_match('~@(-?[0-9\.]+,-?[0-9\.]+).+,([0-9\.]+[a-z])~i', $url, $matches)) {
-                            $iframeSrc = 'https://maps.google.com/maps?hl=en&ie=UTF8&ll=' . $matches[1] . '&spn=' . $matches[1] . '&t=m&z=' . round($matches[2]) . '&output=embed';
-                        } else {
-                            return [];
-                        }
-                    }
-                    return '<iframe width="600" height="450" src="' . $iframeSrc . '" frameborder="0"></iframe>';
-                }
-                return $null;
-
-            }, 10, 3);*/
             $parsedContent = self::$oEmbedInstance->get_html( $content, $attributes );
-//            error_log('What is $parsedContent returned by  self::$oEmbedInstance->get_html(); ??');
-//            error_log(print_r($content, 1));
-//            error_log(print_r($parsedContent, 1));
 
             $provider_name = '';
             if (isset( $urlData->provider_name )) {
@@ -266,9 +229,7 @@ class Shortcode {
             }elseif ( is_array( $urlData ) && isset( $urlData[ $content ][ 'provider_name' ] ) ) {
                 $provider_name = $urlData[ $content ][ 'provider_name' ];
             }
-//            error_log('provider name found for ');
-//            error_log(print_r($content, 1));
-//            error_log(print_r($provider_name, 1));
+
             
             if ( !$parsedContent ) {
                 // If the embed couldn't be generated, we'll try to use Embera's API
@@ -286,26 +247,15 @@ class Shortcode {
                 }
 
                 // Inject the generated code inside the html template
-                $emberaInstance->addFilter(['EmbedPress\Shortcode', 'filter_embara_output']);
                 $parsedContent = str_replace( '{html}', $emberaInstance->autoEmbed($content), $embedTemplate );
-//                error_log('$content parsed using Embara');
-//                error_log(print_r($content, 1));
-//                error_log(print_r($parsedContent, 1));
-                //unset( $emberaFormaterInstance, $additionalServiceProviders, $emberaInstance );
+
             } else {
                 // Inject the generated code inside the html template
                 $parsedContent = str_replace( '{html}', $parsedContent, $embedTemplate );
-                
                 // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
                 $parsedContent = str_replace( "'", '"', $parsedContent );
-//                error_log('what is url data at line 313 for $content');
-//                error_log(print_r($content, 1));
-//                error_log(print_r( $urlData, 1));
-                // Replace the flag `{provider_alias}` which is used by Embera with the "ose-<serviceProviderAlias>". I.e: YouTube -> "ose-youtube"
-
                 $parsedContent = preg_replace( '/((?:ose-)?\{provider_alias\})/i',
                     "ose-" . strtolower( $provider_name ), $parsedContent );
-
             }
             
             if ( !empty($provider_name) ) {
@@ -405,34 +355,17 @@ class Shortcode {
         
         return $subject;
     }
-    
+
     /**
      * Method that adds support to a given new service provider (SP).
      *
      * @param string $className The new SP class name.
-     * @param string $reference The new SP reference name.
-     * @param Embera $emberaInstance The embera's instance where the SP will be registered in.
-     *
-     * @return  boolean
+     * @param string $reference The new SP reference name.*
+     * @return  DefaultProviderCollection|bool
      * @since   1.0.0
      * @static
      *
      */
-    public static function backup__addServiceProvider( $className, $reference, &$emberaInstance ) {
-        if ( empty( $className ) || empty( $reference ) ) {
-            return false;
-        }
-        
-        if ( is_string( $reference ) ) {
-            $emberaInstance->addProvider( $reference, EMBEDPRESS_NAMESPACE . "\\Providers\\{$className}" );
-        } elseif ( is_array( $reference ) ) {
-            foreach ( $reference as $serviceProviderUrl ) {
-                self::addServiceProvider( $className, $serviceProviderUrl, $emberaInstance );
-            }
-        } else {
-            return false;
-        }
-    }
     public static function addServiceProvider( $className, $reference ) {
         if ( empty( $className ) || empty( $reference ) ) {
             return false;
@@ -743,12 +676,5 @@ class Shortcode {
     public static function get_collection()
     {
         return self::$collection;
-    }
-
-    public static function filter_embara_output($markup)
-    {
-        error_log('Filter triggered:markup found');
-        error_log(print_r($markup, 1));
-        return $markup;
     }
 }
