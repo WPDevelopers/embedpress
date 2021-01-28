@@ -9,12 +9,17 @@
         }
     ],
     "repositories": [
+        {
+            "type": "git",
+            "url": "https://github.com/WPDevelopers/Embera"
+        }
     ],
     "config": {
         "preferred-install": "dist"
     },
     "minimum-stability": "stable",
     "require": {
-        "mpratt/embera": "~2.0"
+        "wpdevelopers/embera": "*"
     }
+
 }

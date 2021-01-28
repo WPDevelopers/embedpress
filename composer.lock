@@ -4,21 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "88ead07fd93eb080671bd958ee18230d",
+    "content-hash": "567fe20f51b4da52690d0f898fde21dc",
     "packages": [
         {
-            "name": "mpratt/embera",
-            "version": "2.0.16",
+            "name": "wpdevelopers/embera",
+            "version": "2.0.17",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mpratt/Embera.git",
-                "reference": "59155a8fd7d268a10bb79477f21e4865186f83d3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mpratt/Embera/zipball/59155a8fd7d268a10bb79477f21e4865186f83d3",
-                "reference": "59155a8fd7d268a10bb79477f21e4865186f83d3",
-                "shasum": ""
+                "url": "https://github.com/WPDevelopers/Embera",
+                "reference": "5f521fbe77fdfc992dc399ee39e5fdb338ea1f04"
             },
             "require": {
                 "ext-json": "*",
@@ -36,7 +30,16 @@
                     "Embera\\": "src/Embera"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
+            "autoload-dev": {
+                "psr-4": {
+                    "Embera\\": "tests/Embera"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ]
+            },
             "license": [
                 "MIT"
             ],
@@ -49,25 +52,21 @@
                 }
             ],
             "description": "Oembed consumer library. Converts urls into their html embed code. Supports 150+ sites, such as Youtube, Twitter, vimeo, Instagram etc.",
-            "homepage": "https://github.com/mpratt/Embera",
+            "homepage": "https://github.com/WPDevelopers/Embera",
             "keywords": [
                 "Auto embed",
+                "Embed",
                 "Embed Text",
+                "Instagram",
+                "Oembed",
                 "Responsive Embeds",
+                "Twitter",
                 "Url Embed",
-                "embed",
-                "instagram",
-                "oembed",
-                "twitter",
-                "vimeo",
-                "vine",
-                "youtube"
+                "Vimeo",
+                "Vine",
+                "Youtube"
             ],
-            "support": {
-                "issues": "https://github.com/mpratt/Embera/issues",
-                "source": "https://github.com/mpratt/Embera/tree/2.0.16"
-            },
-            "time": "2021-01-07T02:36:52+00:00"
+            "time": "2021-01-28T07:14:10+00:00"
         }
     ],
     "packages-dev": [],
