@@ -20,6 +20,7 @@ class GoogleDocsEdit extends Component {
 		this.setUrl = this.setUrl.bind(this);
 		this.updateAlignment = this.updateAlignment.bind(this);
 		this.onLoad = this.onLoad.bind(this);
+		this.hideOverlay = this.hideOverlay.bind(this);
 		this.state = {
 			editingURL: false,
 			url: this.props.attributes.url,
@@ -138,8 +139,8 @@ class GoogleDocsEdit extends Component {
 					{fetching ? <EmbedLoading/> : null}
 
 						<Iframe src={iframeSrc} onMouseUp={ this.hideOverlay } onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}}
-								frameborder="0" width="600" height="450" allowfullscreen="true"
-								mozallowfullscreen="true" webkitallowfullscreen="true"/>
+								frameBorder="0" width="600" height="450" allowFullScreen="true"
+								mozAllowFullScreen="true" webkitAllowFullScreen="true"/>
 
 					{ ! interactive && (
 						<div
