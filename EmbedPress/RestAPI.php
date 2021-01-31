@@ -52,6 +52,6 @@ class RestAPI
             return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
         }
 
-        return new WP_REST_Response($urlInfo, 202);
+        return new WP_REST_Response($urlInfo, 200);
     }
 }
