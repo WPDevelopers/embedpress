@@ -1,5 +1,5 @@
 === EmbedPress – Embed Google Docs, YouTube, Maps, Vimeo, Wistia Videos & Upload PDF, PPT etc. ===
-Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed
+Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed, kamalahmed
 Author: WPDeveloper
 Author URI: https://wpdeveloper.net
 Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embed, video embed, Google Doc, map embed, youTube Embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, block editor, embed wordpress
@@ -20,7 +20,7 @@ https://www.youtube.com/watch?v=fvYKLkEnJbI
 
 🔥RICH MEDIA EMBEDS FROM MORE THAN 100 SITES
 
-With EmbedPress, all you need is the URL. Find the URL for your video, image, audio file or map and simply cut-and-paste the URL into a WordPress post. EmbedPress automatically understands the URL and embeds your content. You can embed media from over 75 sites.
+With EmbedPress, all you need is the URL. Find the URL for your video, image, audio file or map and simply cut-and-paste the URL into a WordPress post. EmbedPress automatically understands the URL and embeds your content. You can embed media from over 100 sites.
 
 🌟Most Popular Sites People Are Embedding with EmbedPress:
 
