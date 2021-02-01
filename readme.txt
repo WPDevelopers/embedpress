@@ -4,9 +4,9 @@ Author: WPDeveloper
 Author URI: https://wpdeveloper.net
 Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embed, video embed, Google Doc, map embed, youTube Embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, block editor, embed wordpress
 Requires at least: 4.6
-Tested up to: 5.5
+Tested up to: 5.6
 Requires PHP: 5.6
-Stable tag: 2.6.2
+Stable tag: 2.7.0
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -18,7 +18,7 @@ EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC
 
 https://www.youtube.com/watch?v=fvYKLkEnJbI
 
-🔥RICH MEDIA EMBEDS FROM MORE THAN 75 SITES
+🔥RICH MEDIA EMBEDS FROM MORE THAN 100 SITES
 
 With EmbedPress, all you need is the URL. Find the URL for your video, image, audio file or map and simply cut-and-paste the URL into a WordPress post. EmbedPress automatically understands the URL and embeds your content. You can embed media from over 75 sites.
 
@@ -293,6 +293,11 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [2.7.0] - 2021-02-01 =
+* Updated: Embera PHP Package
+* Fixed: API response status
+* Few minor bug fix and improvements
 
 = [2.6.2] - 2020-10-28 =
 * Fixed: Facebook & Instagram Embedding issue 
@@ -654,4 +659,4 @@ Added Wistia and Twitch blocks for Gutenberg
 
 == Upgrade Notice ==
 
-* [Minor after 2.5.0] Gutenberg Block Update
+* [Major Update] Must Update
