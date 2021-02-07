@@ -111,6 +111,7 @@ function embedpress_gutenberg_register_all_block() {
 		register_block_type( 'embedpress/google-forms-block' );
 		register_block_type( 'embedpress/google-drawings-block' );
 		register_block_type( 'embedpress/google-docs-block' );
+		register_block_type( 'embedpress/embedpress' );
 	endif;
 }
 

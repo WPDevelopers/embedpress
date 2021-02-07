@@ -136,9 +136,8 @@ class Handler extends EndHandlerAbstract {
             $embera = new Embera([], Shortcode::get_collection());
 
             $urlInfo = $embera->getUrlData( $response['url'] );
-            if ( isset( $urlInfo[$response['url']] ) ) {
-                $urlInfo                     = (object)$urlInfo[$response['url']];
-                $response['canBeResponsive'] = Core::canServiceProviderBeResponsive( $urlInfo->provider_alias );
+            if ( isset( $urlInfo[$response['url']] ) && $urlInfo[$response['url']]['provider_name'] ) {
+                $response['canBeResponsive'] = Core::canServiceProviderBeResponsive( strtolower( $urlInfo[$response['url']]['provider_name']) );
             }
         }
 

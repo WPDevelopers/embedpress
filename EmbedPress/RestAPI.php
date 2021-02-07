@@ -43,9 +43,9 @@ class RestAPI
         }
         $embera = new Embera($config, Shortcode::get_collection());
         $urlInfo = $embera->getUrlData($url);
-        if (isset($urlInfo[$url])) {
+        if (isset($urlInfo[$url]) && isset( $urlInfo[$url]['provider_name'])) {
             $urlInfo                     = (object)$urlInfo[$url];
-            $response['canBeResponsive'] = Core::canServiceProviderBeResponsive($urlInfo->provider_alias);
+            $urlInfo->canBeResponsive = Core::canServiceProviderBeResponsive(strtolower( $urlInfo->provider_name));
         }
 
         if (empty($urlInfo)) {

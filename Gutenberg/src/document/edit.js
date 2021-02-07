@@ -176,8 +176,7 @@ class DocumentEdit extends Component {
 
 					) }
 					{ mime !== 'application/pdf' && (
-						<Iframe onMouseUponMouseUp={ this.hideOverlay } style={{height:height,width:width,display: fetching || !loadPdf ? 'none' : ''}} onLoad={this.onLoad} src={url}
-								mozallowfullscreen="true" webkitallowfullscreen="true"/>
+						<Iframe onMouseUponMouseUp={ this.hideOverlay } style={{height:height,width:width,display: fetching || !loadPdf ? 'none' : ''}} onLoad={this.onLoad} src={url}/>
 					) }
 					{ ! interactive && (
 						<div

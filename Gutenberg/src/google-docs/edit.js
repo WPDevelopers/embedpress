@@ -83,7 +83,7 @@ class GoogleDocsEdit extends Component {
 			var regEx = /google\.com(?:.+)?(document|presentation|spreadsheets|forms|drawings)/i;
 			var match = regEx.exec(iframeSrc);
 			var type = match[1];
-			if (type && type == 'document') {
+			if (type && type === 'document') {
 				if (!iframeSrc.match(/([?&])embedded=true/i)) {
 					if (iframeSrc.indexOf('?') > -1) {
 						iframeSrc += '&embedded=true';
@@ -139,8 +139,7 @@ class GoogleDocsEdit extends Component {
 					{fetching ? <EmbedLoading/> : null}
 
 						<Iframe src={iframeSrc} onMouseUp={ this.hideOverlay } onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}}
-								frameBorder="0" width="600" height="450" allowFullScreen="true"
-								mozAllowFullScreen="true" webkitAllowFullScreen="true"/>
+								frameBorder="0" width="600" height="450"/>
 
 					{ ! interactive && (
 						<div

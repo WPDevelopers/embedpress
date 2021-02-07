@@ -121,7 +121,7 @@ class GoogleSlidesEdit extends Component {
                 <Fragment>
                     {fetching  ?  <EmbedLoading /> : null}
 
-                    <Iframe src={iframeSrc} onFocus={ this.hideOverlay } onLoad={this.onLoad} style={{ display: fetching ? 'none' : '' }} frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" />
+                    <Iframe src={iframeSrc} onFocus={ this.hideOverlay } onLoad={this.onLoad} style={{ display: fetching ? 'none' : '' }} frameborder="0" width="600" height="450" />
 					{ ! interactive && (
 						<div
 							className="block-library-embed__interactive-overlay"

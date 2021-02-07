@@ -41,11 +41,9 @@ class CoreLegacy
 
     /**
      * An instance of the plugin loader.
-     *
      * @since   1.0.0
      * @access  protected
-     *
-     * @var     \EmbedPress\Loader $pluginVersion The version of the plugin.
+     * @var     Loader $pluginVersion The version of the plugin.
      */
     protected $loaderInstance;
 
@@ -105,9 +103,9 @@ class CoreLegacy
      *
      * @since   1.0.0
      *
-     * @return  \EmbedPress\Loader
+     * @return  Loader
      */
-    public function getLoader()
+	public function getLoader()
     {
         return $this->loaderInstance;
     }
@@ -240,10 +238,6 @@ class CoreLegacy
      */
     public static function canServiceProviderBeResponsive($serviceProviderAlias)
     {
-        $providers = [
-
-        ];
-
         return in_array($serviceProviderAlias, [
             "dailymotion",
             "kickstarter",

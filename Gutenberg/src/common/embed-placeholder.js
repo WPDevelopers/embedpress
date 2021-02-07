@@ -22,7 +22,7 @@ const EmbedPlaceholder = (props) => {
 						placeholder={__('Enter URL to embed here…')}
 						onChange={onChange}/>
 					<Button
-						isLarge
+						isSmall
 						type="submit">
 						{_x('Embed', 'button label')}
 					</Button>

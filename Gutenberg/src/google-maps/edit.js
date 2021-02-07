@@ -121,11 +121,8 @@ class GoogleMapsEdit extends Component {
 			return (
 				<Fragment>
 					{fetching ? <EmbedLoading/> : null}
-					<Disabled>
 						<Iframe src={iframeSrc} onFocus={ this.hideOverlay } onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}}
-								frameborder="0" width="600" height="450" allowfullscreen="true"
-								mozallowfullscreen="true" webkitallowfullscreen="true"/>
-					</Disabled>
+								frameborder="0" width="600" height="450"/>
 
 					{ ! interactive && (
 						<div

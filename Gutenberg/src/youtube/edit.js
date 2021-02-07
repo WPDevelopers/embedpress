@@ -133,7 +133,7 @@ class YoutubeEdit extends Component {
 							style={{display: fetching ? "none" : ""}}
 							width="640"
 							onFocus={ this.hideOverlay }
-							height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"
+							height="450"
 						/>
 					{ ! interactive && (
 						<div

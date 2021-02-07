@@ -146,8 +146,7 @@ class WistiaEdit extends Component {
 
 						<div className="ose-wistia" id={"wistia_" + this.state.mediaId}>
 							<Iframe src={iframeSrc} onFocus={ this.hideOverlay } onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}}
-									frameborder="0" width="600" height="330" allowfullscreen="true"
-									mozallowfullscreen="true" webkitallowfullscreen="true"/>
+									frameborder="0" width="600" height="330"/>
 						</div>
 
 					{ ! interactive && (

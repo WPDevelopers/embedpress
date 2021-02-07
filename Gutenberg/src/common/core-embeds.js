@@ -1,7 +1,7 @@
 /**
  * Internal dependencies
  */
-import { embedGoogleDocsIcon } from './icons';
+import { googleDocsIcon } from './icons';
 /**
  * WordPress dependencies
  */
@@ -12,7 +12,7 @@ export const common = [
 		name: 'embedpress-blocks/google',
 		settings: {
 			title: 'Google Docs',
-			icon: embedGoogleDocsIcon,
+			icon: googleDocsIcon,
 			keywords: [ 'google' , 'docs' ],
 			description: __( 'Embed a google document.' ),
 		},
