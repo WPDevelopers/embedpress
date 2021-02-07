@@ -9,7 +9,7 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import {googleDocsIcon} from '../common/icons';
+import {embedPressIcon} from '../common/icons';
 
 const {__} = wp.i18n; // Import __() from wp.i18n
 const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
@@ -30,7 +30,7 @@ const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blo
 registerBlockType('embedpress/embedpress', {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 	title: __('EmbedPress'), // Block title.
-	icon: googleDocsIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
+	icon: embedPressIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
 	category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
 	keywords: [
 		'embedpress',

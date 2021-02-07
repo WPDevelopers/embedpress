@@ -10,7 +10,7 @@ import Iframe from '../common/Iframe';
  * WordPress dependencies
  */
 const {__} = wp.i18n;
-import {googleDocsIcon} from '../common/icons';
+import {embedPressIcon} from '../common/icons';
 
 
 export default function EmbedPress({attributes, className, setAttributes}){
@@ -56,13 +56,13 @@ export default function EmbedPress({attributes, className, setAttributes}){
 		return (
 			<div>
 				<EmbedPlaceholder
-					label={__('Embedding....')}
+					label={__('EmbedPress - Embed anything from 100+ sites')}
 					onSubmit={embed}
 					value={url}
 					cannotEmbed={cannotEmbed}
 					onChange={(event) => setAttributes({url: event.target.value})}
-					icon={googleDocsIcon}
-					DocTitle={__('Learn more about embedpress')}
+					icon={embedPressIcon}
+					DocTitle={__('Learn more about EmbedPress')}
 					docLink={'https://embedpress.com/docs/'}
 				/>
 			</div>
