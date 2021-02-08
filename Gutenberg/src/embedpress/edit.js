@@ -21,6 +21,7 @@ export default function EmbedPress({attributes, className, setAttributes}){
 	function onLoad() {
 		setAttributes( {fetching: false});
 	}
+
 	function embed(event) {
 		if (event) event.preventDefault();
 		if (url) {
@@ -29,7 +30,7 @@ export default function EmbedPress({attributes, className, setAttributes}){
 				return await fetch(`/wp-json/embedpress/v1/oembed/embedpress?url=${url}`).then(response => response.json());
 			}
 			fetchData(url).then(data => {
-				if (data.data && data.data.status === 404){
+				if ((data.data && data.data.status === 404) || !data.html){
 					setAttributes({
 						cannotEmbed: true,
 						editingURL: true
@@ -70,7 +71,7 @@ export default function EmbedPress({attributes, className, setAttributes}){
 		);
 	} else {
 		return (
-			<div>
+			<div className={className}>
 				{fetching ? <EmbedLoading/> : null}
 
 				<Iframe src={iframeSrc} onLoad={onLoad} style={{display: fetching ? 'none' : ''}}
@@ -79,7 +80,7 @@ export default function EmbedPress({attributes, className, setAttributes}){
 				{ ! interactive && (
 					<div
 						className="block-library-embed__interactive-overlay"
-						onMouseUp={ console.log('hide overlay') }
+						onMouseUp={ () => setAttributes( {interactive: true}) }
 					/>
 				) }
 
