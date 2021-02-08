@@ -66,7 +66,8 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 		'wisita_options' => $wistia_options,
 		'embedpress_powered_by' => apply_filters('embedpress_document_block_powered_by',true),
 		'embedpress_pro' => defined('EMBEDPRESS_PRO_PLUGIN_FILE'),
-		'twitch_host' => !empty($pars_url['host'])?$pars_url['host']:''
+		'twitch_host' => !empty($pars_url['host'])?$pars_url['host']:'',
+		'site_url' => site_url(),
 	) );
 
 	// Styles.

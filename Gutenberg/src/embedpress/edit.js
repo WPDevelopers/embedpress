@@ -27,7 +27,7 @@ export default function EmbedPress({attributes, className, setAttributes}){
 		if (url) {
 			// send api request to get iframe url
 			let fetchData = async (url) => {
-				return await fetch(`/wp-json/embedpress/v1/oembed/embedpress?url=${url}`).then(response => response.json());
+				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}`).then(response => response.json());
 			}
 			fetchData(url).then(data => {
 				if ((data.data && data.data.status === 404) || !data.html){
