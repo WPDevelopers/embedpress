@@ -9,6 +9,7 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
+import save from './save';
 import {embedPressIcon} from '../common/icons';
 
 const {__} = wp.i18n; // Import __() from wp.i18n
@@ -49,6 +50,10 @@ registerBlockType('embedpress/embedpress', {
 			type: 'string',
 			default: ''
 		},
+		embedHTML: {
+			type: 'string',
+			default: ''
+		},
 		editingURL: {
 			type: 'boolean',
 			default: false
@@ -84,13 +89,5 @@ registerBlockType('embedpress/embedpress', {
 	 *
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
-	save: function (props) {
-		const {iframeSrc} = props.attributes
-		const defaultClass = 'embedpress embedpress-block-front'
-		return (
-			<div className={defaultClass}>
-				<iframe src={iframeSrc} frameborder="0" width="600" height="450" frameborder="0"></iframe>
-			</div>
-		);
-	},
+	save,
 });

@@ -4,7 +4,7 @@
 import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
-import Iframe from '../common/Iframe';
+import EmbedWrap from '../common/embed-wrap';
 
 /**
  * WordPress dependencies
@@ -14,11 +14,12 @@ import {embedPressIcon} from '../common/icons';
 
 
 export default function EmbedPress({attributes, className, setAttributes}){
-	const {url, iframeSrc, editingURL, fetching, cannotEmbed, interactive} = attributes;
+	const {url, iframeSrc, editingURL, fetching, cannotEmbed, interactive, embedHTML} = attributes;
 	function switchBackToURLInput() {
 		setAttributes( {editingURL: true});
 	}
 	function onLoad() {
+		alert('called on load');
 		setAttributes( {fetching: false});
 	}
 
@@ -36,12 +37,20 @@ export default function EmbedPress({attributes, className, setAttributes}){
 						editingURL: true
 					})
 				}else{
-					let match = data.html.match(/\<iframe.+src\=(?:\"|\')(.+?)(?:\"|\')(?:.+?)\>/)
 					setAttributes({
-						cannotEmbed: false,
-						editingURL: false,
-						iframeSrc: match[1],
-					})
+						embedHTML: data.html,
+						fetching: false,
+						iframeSrc: 'https://test.com',
+							cannotEmbed: false,
+							editingURL: false,
+					});
+
+					// let match = data.html.match(/\<iframe.+src\=(?:\"|\')(.+?)(?:\"|\')(?:.+?)\>/)
+					// setAttributes({
+					// 	cannotEmbed: false,
+					// 	editingURL: false,
+					// 	iframeSrc: match[1],
+					// })
 				}
 			});
 
@@ -73,16 +82,16 @@ export default function EmbedPress({attributes, className, setAttributes}){
 		return (
 			<div className={className}>
 				{fetching ? <EmbedLoading/> : null}
+				<EmbedWrap style={{display: fetching ? 'none' : ''}} dangerouslySetInnerHTML={{
+					__html: embedHTML
+				}}></EmbedWrap>
 
-				<Iframe src={iframeSrc} onLoad={onLoad} style={{display: fetching ? 'none' : ''}}
-						frameBorder="0" width="600" height="450"/>
-
-				{ ! interactive && (
-					<div
-						className="block-library-embed__interactive-overlay"
-						onMouseUp={ () => setAttributes( {interactive: true}) }
-					/>
-				) }
+				{/*{ ! interactive && (*/}
+				{/*	<div*/}
+				{/*		className="block-library-embed__interactive-overlay"*/}
+				{/*		onMouseUp={ () => setAttributes( {interactive: true}) }*/}
+				{/*	/>*/}
+				{/*) }*/}
 
 				<EmbedControls
 					showEditButton={iframeSrc && !cannotEmbed}
