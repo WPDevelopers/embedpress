@@ -117,7 +117,6 @@ class Shortcode {
                     self::get_modified_provider( self::get_access_token() ) );
             }
             $emberaInstanceSettings = [
-                'params' => [],
             ];
             
             $content_uid = md5( $content );
@@ -125,13 +124,13 @@ class Shortcode {
             $attributes = self::parseContentAttributes( $customAttributes, $content_uid );
             if ( isset( $attributes[ 'width' ] ) || isset( $attributes[ 'height' ] ) ) {
                 if ( isset( $attributes[ 'width' ] ) ) {
-                    $emberaInstanceSettings[ 'params' ][ 'width' ] = $attributes[ 'width' ];
-                    unset( $attributes[ 'width' ] );
+                    $emberaInstanceSettings[ 'maxwidth' ] = $attributes[ 'width' ];
+                    //unset( $attributes[ 'width' ] ); // we should not unset because we want to use it this attributes with WordPress's native embed.
                 }
                 
                 if ( isset( $attributes[ 'height' ] ) ) {
-                    $emberaInstanceSettings[ 'params' ][ 'height' ] = $attributes[ 'height' ];
-                    unset( $attributes[ 'height' ] );
+                    $emberaInstanceSettings[ 'maxheight' ] = $attributes[ 'height' ];
+                    //unset( $attributes[ 'height' ] );
                 }
             }
 
@@ -287,10 +286,10 @@ class Shortcode {
             unset( $embedTemplate, $serviceProvider );
             
             // This assure that the iframe has the same dimensions the user wants to
-            if ( isset( $emberaInstanceSettings[ 'params' ][ 'width' ] ) || isset( $emberaInstanceSettings[ 'params' ][ 'height' ] ) ) {
-                if ( isset( $emberaInstanceSettings[ 'params' ][ 'width' ] ) && isset( $emberaInstanceSettings[ 'params' ][ 'height' ] ) ) {
-                    $customWidth = (int)$emberaInstanceSettings[ 'params' ][ 'width' ];
-                    $customHeight = (int)$emberaInstanceSettings[ 'params' ][ 'height' ];
+            if ( isset( $emberaInstanceSettings[ 'width' ] ) || isset( $emberaInstanceSettings[ 'height' ] ) ) {
+                if ( isset( $emberaInstanceSettings[ 'width' ] ) && isset( $emberaInstanceSettings[ 'height' ] ) ) {
+                    $customWidth = (int)$emberaInstanceSettings[ 'width' ];
+                    $customHeight = (int)$emberaInstanceSettings[ 'height' ];
                 } else {
                     if ( preg_match( '~width="(\d+)"|width\s+:\s+(\d+)~i', $parsedContent, $matches ) ) {
                         $iframeWidth = (int)$matches[ 1 ];
@@ -303,11 +302,11 @@ class Shortcode {
                     if ( isset( $iframeWidth ) && isset( $iframeHeight ) && $iframeWidth > 0 && $iframeHeight > 0 ) {
                         $iframeRatio = ceil( $iframeWidth / $iframeHeight );
                         
-                        if ( isset( $emberaInstanceSettings[ 'params' ][ 'width' ] ) ) {
-                            $customWidth = (int)$emberaInstanceSettings[ 'params' ][ 'width' ];
+                        if ( isset( $emberaInstanceSettings[ 'width' ] ) ) {
+                            $customWidth = (int)$emberaInstanceSettings[ 'width' ];
                             $customHeight = ceil( $customWidth / $iframeRatio );
                         } else {
-                            $customHeight = (int)$emberaInstanceSettings[ 'params' ][ 'height' ];
+                            $customHeight = (int)$emberaInstanceSettings[ 'height' ];
                             $customWidth = $iframeRatio * $customHeight;
                         }
                     }
@@ -320,6 +319,8 @@ class Shortcode {
                     }
                     
                     if ( preg_match( '~height="(\d+)"~i', $parsedContent ) ) {
+                    	error_log( 'hit parsed content custom height');
+                    	error_log( print_r( $parsedContent,1));
                         $parsedContent = preg_replace( '~height="(\d+)"~i', 'height="' . $customHeight . '"',
                             $parsedContent );
                     }
@@ -409,7 +410,6 @@ class Shortcode {
                 }
             }
         }
-        
         return $customAttributes;
     }
     

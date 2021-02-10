@@ -113,7 +113,7 @@ class Embedpress_Elementor extends Widget_Base {
         $this->add_control(
             'embedpress_elementor_aspect_ratio',
             [
-                'label'              => __( 'Aspect Ratio', 'elementor' ),
+                'label'              => __( 'Aspect Ratio', 'embedpress' ),
                 'type'               => Controls_Manager::SELECT,
                 'options'            => [
                     '169' => '16:9',
@@ -138,6 +138,45 @@ class Embedpress_Elementor extends Widget_Base {
             ]
         );
 
+	    $this->add_control(
+		    'width',
+		    [
+			    'label' => __( 'Width', 'embedpress' ),
+			    'type' => Controls_Manager::SLIDER,
+			    'size_units' => [ 'px' ],
+			    'range' => [
+				    'px' => [
+					    'min' => 0,
+					    'max' => 1500,
+					    'step' => 5,
+				    ],
+			    ],
+			    'default' => [
+				    'unit' => 'px',
+				    'size' => 640,
+			    ]
+		    ]
+	    );
+	    $this->add_control(
+		    'height',
+		    [
+			    'label' => __( 'Height', 'embedpress' ),
+			    'type' => Controls_Manager::SLIDER,
+			    'size_units' => [ 'px' ],
+			    'range' => [
+				    'px' => [
+					    'min' => 0,
+					    'max' => 1500,
+					    'step' => 5,
+				    ],
+			    ],
+			    'default' => [
+				    'unit' => 'px',
+				    'size' => 350,
+			    ]
+		    ]
+	    );
+
         $this->end_controls_section();
 
 
@@ -145,7 +184,12 @@ class Embedpress_Elementor extends Widget_Base {
 
     protected function render() {
         $settings      = $this->get_settings_for_display();
-        $embed_content = Shortcode::parseContent( $settings['embedpress_embeded_link'], true );
+        $height = (!empty( $settings['height']) && !empty( $settings['height']['size'] ))
+            ? $settings['height']['size'] : null;
+	    $width = (!empty( $settings['width']) && !empty( $settings['width']['size'] ))
+		    ? $settings['width']['size'] : null;
+
+        $embed_content = Shortcode::parseContent( $settings['embedpress_embeded_link'], true, [ 'height'=> $height, 'width'=>$width ] );
         $embed         = apply_filters( 'embedpress_elementor_embed', $embed_content, $settings );
         $content       = is_object( $embed ) ? $embed->embed : $embed;
 
