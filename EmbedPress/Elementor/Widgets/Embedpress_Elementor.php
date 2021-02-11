@@ -4,6 +4,7 @@ namespace EmbedPress\Elementor\Widgets;
 
 
 use \Elementor\Controls_Manager as Controls_Manager;
+use Elementor\Group_Control_Background;
 use \Elementor\Group_Control_Css_Filter;
 use \Elementor\Widget_Base as Widget_Base;
 use \EmbedPress\Shortcode;
@@ -114,8 +115,10 @@ class Embedpress_Elementor extends Widget_Base {
             'embedpress_elementor_aspect_ratio',
             [
                 'label'              => __( 'Aspect Ratio', 'embedpress' ),
+                'description'              => __( 'Good for any video. You may turn it off for other embed type.', 'embedpress' ),
                 'type'               => Controls_Manager::SELECT,
                 'options'            => [
+                    0 => __('None'),
                     '169' => '16:9',
                     '219' => '21:9',
                     '43'  => '4:3',
@@ -126,15 +129,6 @@ class Embedpress_Elementor extends Widget_Base {
                 'default'            => '169',
                 'prefix_class'       => 'embedpress-aspect-ratio-',
                 'frontend_available' => true,
-            ]
-        );
-
-
-        $this->add_group_control(
-            Group_Control_Css_Filter::get_type(),
-            [
-                'name'     => 'embedpress_elementor_css_filters',
-                'selector' => '{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper',
             ]
         );
 
@@ -153,7 +147,7 @@ class Embedpress_Elementor extends Widget_Base {
 			    ],
 			    'default' => [
 				    'unit' => 'px',
-				    'size' => 640,
+				    'size' => 800,
 			    ]
 		    ]
 	    );
@@ -172,11 +166,49 @@ class Embedpress_Elementor extends Widget_Base {
 			    ],
 			    'default' => [
 				    'unit' => 'px',
-				    'size' => 350,
+				    'size' => 450,
 			    ]
 		    ]
 	    );
 
+	    $this->add_responsive_control(
+		    'margin',
+		    [
+			    'label' => __( 'Margin', 'embedpress' ),
+			    'type' => Controls_Manager::DIMENSIONS,
+			    'size_units' => [ 'px', '%', 'em' ],
+			    'selectors' => [
+				    '{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+			    ],
+		    ]
+	    );
+	    $this->add_responsive_control(
+		    'padding',
+		    [
+			    'label' => __( 'Padding', 'embedpress' ),
+			    'type' => Controls_Manager::DIMENSIONS,
+			    'size_units' => [ 'px', '%', 'em' ],
+			    'selectors' => [
+				    '{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+			    ],
+		    ]
+	    );
+	    $this->add_group_control(
+		    Group_Control_Background::get_type(),
+		    [
+			    'name' => 'background',
+			    'label' => __( 'Background', 'embedpress' ),
+			    'types' => [ 'classic', 'gradient' ],
+			    'selector' => '{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper, {{WRAPPER}} .embedpress-fit-aspect-ratio .embedpress-wrapper iframe',
+		    ]
+	    );
+	    $this->add_group_control(
+		    Group_Control_Css_Filter::get_type(),
+		    [
+			    'name'     => 'embedpress_elementor_css_filters',
+			    'selector' => '{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper',
+		    ]
+	    );
         $this->end_controls_section();
 
 
