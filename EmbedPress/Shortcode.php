@@ -125,12 +125,12 @@ class Shortcode {
             if ( isset( $attributes[ 'width' ] ) || isset( $attributes[ 'height' ] ) ) {
                 if ( isset( $attributes[ 'width' ] ) ) {
                     $emberaInstanceSettings[ 'maxwidth' ] = $attributes[ 'width' ];
-                    //unset( $attributes[ 'width' ] ); // we should not unset because we want to use it this attributes with WordPress's native embed.
+                    unset( $attributes[ 'width' ] );
                 }
                 
                 if ( isset( $attributes[ 'height' ] ) ) {
                     $emberaInstanceSettings[ 'maxheight' ] = $attributes[ 'height' ];
-                    //unset( $attributes[ 'height' ] );
+                    unset( $attributes[ 'height' ] );
                 }
             }
 
