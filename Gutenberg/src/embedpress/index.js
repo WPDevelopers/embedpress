@@ -9,7 +9,6 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import save from './save';
 import {embedPressIcon} from '../common/icons';
 
 const {__} = wp.i18n; // Import __() from wp.i18n
@@ -89,5 +88,5 @@ registerBlockType('embedpress/embedpress', {
 	 *
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
-	save,
+	save: () => null,
 });

@@ -33,21 +33,7 @@ class RestAPI
             return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
         }
 
-        $config = [];
-
-        $additionalServiceProviders = Core::getAdditionalServiceProviders();
-        if ( ! empty($additionalServiceProviders)) {
-            foreach ($additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls) {
-                Shortcode::addServiceProvider($serviceProviderClassName, $serviceProviderUrls);
-            }
-        }
-        $embera = new Embera($config, Shortcode::get_collection());
-        $urlInfo = $embera->getUrlData($url);
-        if (isset($urlInfo[$url]) && isset( $urlInfo[$url]['provider_name'])) {
-            $urlInfo                     = (object)$urlInfo[$url];
-            $urlInfo->canBeResponsive = Core::canServiceProviderBeResponsive(strtolower( $urlInfo->provider_name));
-        }
-
+        $urlInfo = Shortcode::parseContent( $url, true);
         if (empty($urlInfo)) {
             return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
         }

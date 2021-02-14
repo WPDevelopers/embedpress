@@ -105,6 +105,7 @@ add_filter( 'block_categories', 'embedpress_block_category', 10, 2 );
 
 function embedpress_gutenberg_register_all_block() {
 	if ( function_exists( 'register_block_type' ) ) :
+		require_once plugin_dir_path( __FILE__ ) . 'embedpress/index.php';
 		register_block_type( 'embedpress/twitch-block' );
 		register_block_type( 'embedpress/google-slides-block' );
 		register_block_type( 'embedpress/google-sheets-block' );
@@ -112,7 +113,10 @@ function embedpress_gutenberg_register_all_block() {
 		register_block_type( 'embedpress/google-forms-block' );
 		register_block_type( 'embedpress/google-drawings-block' );
 		register_block_type( 'embedpress/google-docs-block' );
-		register_block_type( 'embedpress/embedpress' );
+		register_block_type( 'embedpress/embedpress', [
+			'render_callback' => 'embedpress_render_block',
+		]);
+
 	endif;
 }
 
