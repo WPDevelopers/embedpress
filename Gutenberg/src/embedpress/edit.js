@@ -82,6 +82,11 @@ export default function EmbedPress({attributes, className, setAttributes}){
 					__html: embedHTML
 				}}></EmbedWrap>
 
+					<div
+						className="block-library-embed__interactive-overlay"
+						onMouseUp={ setAttributes({interactive: true}) }
+					/>
+
 				<EmbedControls
 					showEditButton={embedHTML && !cannotEmbed}
 					switchBackToURLInput={switchBackToURLInput}
