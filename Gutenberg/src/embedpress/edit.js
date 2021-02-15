@@ -11,10 +11,13 @@ import EmbedWrap from '../common/embed-wrap';
  */
 const {__} = wp.i18n;
 import {embedPressIcon} from '../common/icons';
-
+const {TextControl, PanelBody} = wp.components;
+const { InspectorControls } = wp.blockEditor;
+const { Fragment } = wp.element;
 
 export default function EmbedPress({attributes, className, setAttributes}){
-	const {url, editingURL, fetching, cannotEmbed, interactive, embedHTML} = attributes;
+	const {url, editingURL, fetching, cannotEmbed, interactive, embedHTML, height, width} = attributes;
+
 	function switchBackToURLInput() {
 		setAttributes( {editingURL: true});
 	}
@@ -30,7 +33,7 @@ export default function EmbedPress({attributes, className, setAttributes}){
 				setAttributes({
 					fetching: true
 				});
-				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}`).then(response => response.json());
+				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}`).then(response => response.json());
 			}
 			fetchData(url).then(data => {
 				setAttributes({
@@ -58,10 +61,24 @@ export default function EmbedPress({attributes, className, setAttributes}){
 			})
 		}
 	}
-	if (!embedHTML || editingURL) {
 		return (
-			<div>
-				<EmbedPlaceholder
+			<Fragment>
+				<InspectorControls>
+					<PanelBody title={__("Customize Embedded Link")}>
+						<TextControl
+							label={__("Width")}
+							value={ width }
+							onChange={ ( width ) => setAttributes( { width } ) }
+						/>
+						<TextControl
+							label={__("Height")}
+							value={ height }
+							onChange={ ( height ) => setAttributes( { height } ) }
+						/>
+					</PanelBody>
+				</InspectorControls>
+
+				{ (!embedHTML || editingURL) && <EmbedPlaceholder
 					label={__('EmbedPress - Embed anything from 100+ sites')}
 					onSubmit={embed}
 					value={url}
@@ -70,29 +87,29 @@ export default function EmbedPress({attributes, className, setAttributes}){
 					icon={embedPressIcon}
 					DocTitle={__('Learn more about EmbedPress')}
 					docLink={'https://embedpress.com/docs/'}
-				/>
-			</div>
+				/> }
 
-		);
-	} else {
-		return (
-			<div className={className}>
-				{fetching ? <EmbedLoading/> : null}
-				<EmbedWrap style={{display: fetching ? 'none' : ''}} dangerouslySetInnerHTML={{
-					__html: embedHTML
-				}}></EmbedWrap>
+				{(embedHTML && !editingURL) && <div className={className}>
+					{fetching ? <EmbedLoading/> : null}
+					<EmbedWrap style={{display: fetching ? 'none' : ''}} dangerouslySetInnerHTML={{
+						__html: embedHTML
+					}}></EmbedWrap>
 
 					<div
 						className="block-library-embed__interactive-overlay"
 						onMouseUp={ setAttributes({interactive: true}) }
 					/>
 
-				<EmbedControls
-					showEditButton={embedHTML && !cannotEmbed}
-					switchBackToURLInput={switchBackToURLInput}
-				/>
-			</div>
-		)
-	}
+					<EmbedControls
+						showEditButton={embedHTML && !cannotEmbed}
+						switchBackToURLInput={switchBackToURLInput}
+					/>
+				</div>}
+
+			</Fragment>
+
+		);
 
 }
+
+

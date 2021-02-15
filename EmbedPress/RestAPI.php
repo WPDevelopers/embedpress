@@ -28,12 +28,16 @@ class RestAPI
     public static function oembed($request)
     {
         $url = esc_url_raw($request->get_param('url'));
+		$atts = [
+			'width' => intval( $request->get_param('width')),
+			'height' => intval( $request->get_param('height')),
+		];
 
         if (empty($url)) {
             return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
         }
 
-        $urlInfo = Shortcode::parseContent( $url, true);
+        $urlInfo = Shortcode::parseContent( $url, true, $atts);
         if (empty($urlInfo)) {
             return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
         }

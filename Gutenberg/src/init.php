@@ -46,7 +46,7 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 	wp_enqueue_script(
 		'embedpress_blocks-cgb-block-js', // Handle.
 		plugins_url( '/dist/blocks.build.js', dirname( __FILE__ ) ), // Block.build.js: We register the block here. Built with Webpack.
-		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor','embedpress-pdfobject' ), // Dependencies, defined above.
+		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor','wp-components', 'embedpress-pdfobject' ), // Dependencies, defined above.
 		 filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.build.js' ), // Version: File modification time.
 		true // Enqueue the script in the footer.
 	);

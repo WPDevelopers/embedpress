@@ -53,6 +53,14 @@ registerBlockType('embedpress/embedpress', {
 			type: 'string',
 			default: ''
 		},
+		height: {
+			type: 'string',
+			default: '360'
+		},
+		width: {
+			type: 'string',
+			default: '600'
+		},
 		editingURL: {
 			type: 'boolean',
 			default: false
