@@ -147,7 +147,7 @@ class Embedpress_Elementor extends Widget_Base {
 			    ],
 			    'default' => [
 				    'unit' => 'px',
-				    'size' => 800,
+				    'size' => 600,
 			    ]
 		    ]
 	    );
@@ -166,7 +166,7 @@ class Embedpress_Elementor extends Widget_Base {
 			    ],
 			    'default' => [
 				    'unit' => 'px',
-				    'size' => 450,
+				    'size' => 400,
 			    ]
 		    ]
 	    );
