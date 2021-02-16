@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 5.6
 Requires PHP: 5.6
-Stable tag: 2.7.1
+Stable tag: 2.7.2
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -293,6 +293,14 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [2.7.2] - 2021-02-016 =
+* Added: New Gutenberg block that supports 100+ sites.
+* Added: Controls in elementor widget like height width, color etc
+* Fixed: Gutenberg editor preview issue on google maps and docs etc.
+* Fixed: Default aspect ratio and background issue in Elementor widget
+* Upgraded: cbg-scripts version
+* Few minor bug fix and improvements
 
 = [2.7.1] - 2021-02-01 =
 * Few minor bug fix and improvements
