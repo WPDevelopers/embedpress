@@ -37,6 +37,12 @@
     background-color: #000;
 }
 
+
+.embedpress-elements-wrapper .embedpress-wrapper iframe {
+    height: 100%;
+    width: 100%;
+    border: 0;
+}
 .embedpress-fit-aspect-ratio video {
     width: 100%;
 }
