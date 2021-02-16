@@ -126,7 +126,7 @@ class Embedpress_Elementor extends Widget_Base {
                     '11'  => '1:1',
                     '916' => '9:16',
                 ],
-                'default'            => '169',
+                'default'            => 0,
                 'prefix_class'       => 'embedpress-aspect-ratio-',
                 'frontend_available' => true,
             ]
@@ -226,7 +226,7 @@ class Embedpress_Elementor extends Widget_Base {
         $content       = is_object( $embed ) ? $embed->embed : $embed;
 
         ?>
-        <div class="embedpress-elements-wrapper embedpress-fit-aspect-ratio">
+        <div class="embedpress-elements-wrapper <?php echo !empty( $settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio': ''; ?>">
             <?php echo $content; ?>
         </div>
         <?php
