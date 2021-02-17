@@ -46,3 +46,5 @@ assets_wp
 vendor/wpdevelopers/embera/doc
 vendor/wpdevelopers/embera/LICENSE
 vendor/wpdevelopers/embera/phpunit.xml.dist
+Gutenberg/node_modules
+.eslintrc.json
