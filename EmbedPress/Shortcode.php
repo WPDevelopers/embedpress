@@ -111,13 +111,12 @@ class Shortcode {
                     require_once ABSPATH . 'wp-includes/class-oembed.php';
                 }
                 self::$oEmbedInstance = _wp_oembed_get_object();
-            };
+            }
             if ( !empty( self::get_access_token() ) ) {
                 self::$oEmbedInstance->providers = array_merge( self::$oEmbedInstance->providers,
                     self::get_modified_provider( self::get_access_token() ) );
             }
-            $emberaInstanceSettings = [
-            ];
+            $emberaInstanceSettings = [];
             
             $content_uid = md5( $content );
             
@@ -125,11 +124,13 @@ class Shortcode {
             if ( isset( $attributes[ 'width' ] ) || isset( $attributes[ 'height' ] ) ) {
                 if ( isset( $attributes[ 'width' ] ) ) {
                     $emberaInstanceSettings[ 'maxwidth' ] = $attributes[ 'width' ];
+                    $emberaInstanceSettings[ 'width' ] = $attributes[ 'width' ];
                     unset( $attributes[ 'width' ] );
                 }
                 
                 if ( isset( $attributes[ 'height' ] ) ) {
                     $emberaInstanceSettings[ 'maxheight' ] = $attributes[ 'height' ];
+                    $emberaInstanceSettings[ 'height' ] = $attributes[ 'height' ];
                     unset( $attributes[ 'height' ] );
                 }
             }
@@ -157,7 +158,6 @@ class Shortcode {
                 $urlData = self::$oEmbedInstance->fetch( $serviceProvider, $content, $attributes );
             }
 
-            
             // Sanitize the data
             $urlData = self::sanitizeUrlData( $urlData );
             // Stores the original content
@@ -173,10 +173,10 @@ class Shortcode {
             
             // Transform all shortcode attributes into html form. I.e.: {foo: "joe"} -> foo="joe"
             $attributesHtml = [];
-            foreach ( $attributes as $attrName => $attrValue ) {
-                $attributesHtml[] = $attrName . '="' . $attrValue . '"';
-            }
-            
+            //foreach ( $attributes as $attrName => $attrValue ) {
+            //    $attributesHtml[] = $attrName . '="' . $attrValue . '"';
+            //}
+
             // Define the EmbedPress html template where the generated embed will be injected in
             $embedTemplate = '<div ' . implode( ' ', $attributesHtml ) . '>{html}</div>';
             
@@ -284,12 +284,11 @@ class Shortcode {
             }
             
             unset( $embedTemplate, $serviceProvider );
-            
             // This assure that the iframe has the same dimensions the user wants to
-            if ( isset( $emberaInstanceSettings[ 'width' ] ) || isset( $emberaInstanceSettings[ 'height' ] ) ) {
-                if ( isset( $emberaInstanceSettings[ 'width' ] ) && isset( $emberaInstanceSettings[ 'height' ] ) ) {
-                    $customWidth = (int)$emberaInstanceSettings[ 'width' ];
-                    $customHeight = (int)$emberaInstanceSettings[ 'height' ];
+            if ( isset( $emberaInstanceSettings[ 'maxwidth' ] ) || isset( $emberaInstanceSettings[ 'maxheight' ] ) ) {
+                if ( isset( $emberaInstanceSettings[ 'maxwidth' ] ) && isset( $emberaInstanceSettings[ 'maxheight' ] ) ) {
+                    $customWidth = (int)$emberaInstanceSettings[ 'maxwidth' ];
+                    $customHeight = (int)$emberaInstanceSettings[ 'maxheight' ];
                 } else {
                     if ( preg_match( '~width="(\d+)"|width\s+:\s+(\d+)~i', $parsedContent, $matches ) ) {
                         $iframeWidth = (int)$matches[ 1 ];
@@ -302,27 +301,32 @@ class Shortcode {
                     if ( isset( $iframeWidth ) && isset( $iframeHeight ) && $iframeWidth > 0 && $iframeHeight > 0 ) {
                         $iframeRatio = ceil( $iframeWidth / $iframeHeight );
                         
-                        if ( isset( $emberaInstanceSettings[ 'width' ] ) ) {
-                            $customWidth = (int)$emberaInstanceSettings[ 'width' ];
+                        if ( isset( $emberaInstanceSettings[ 'maxwidth' ] ) ) {
+                            $customWidth = (int)$emberaInstanceSettings[ 'maxwidth' ];
                             $customHeight = ceil( $customWidth / $iframeRatio );
                         } else {
-                            $customHeight = (int)$emberaInstanceSettings[ 'height' ];
+                            $customHeight = (int)$emberaInstanceSettings[ 'maxheight' ];
                             $customWidth = $iframeRatio * $customHeight;
                         }
                     }
                 }
-                
+
                 if ( isset( $customWidth ) && isset( $customHeight ) ) {
                     if ( preg_match( '~width="(\d+)"~i', $parsedContent ) ) {
                         $parsedContent = preg_replace( '~width="(\d+)"~i', 'width="' . $customWidth . '"',
                             $parsedContent );
+                    } elseif  ( preg_match( '~width="({.+})"~i', $parsedContent ) ){
+                    	// this block was needed for twitch that has width="{width}" in iframe
+	                    $parsedContent = preg_replace( '~width="({.+})"~i', 'width="' . $customWidth . '"',
+		                    $parsedContent );
                     }
                     
                     if ( preg_match( '~height="(\d+)"~i', $parsedContent ) ) {
-                    	error_log( 'hit parsed content custom height');
-                    	error_log( print_r( $parsedContent,1));
                         $parsedContent = preg_replace( '~height="(\d+)"~i', 'height="' . $customHeight . '"',
                             $parsedContent );
+                    } elseif  ( preg_match( '~height="({.+})"~i', $parsedContent ) ){
+	                    $parsedContent = preg_replace( '~height="({.+})"~i', 'height="' . $customHeight . '"',
+		                    $parsedContent );
                     }
                     
                     if ( preg_match( '~width\s+:\s+(\d+)~i', $parsedContent ) ) {
