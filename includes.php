@@ -6,7 +6,7 @@ defined('ABSPATH') or die("No direct script access allowed.");
  *
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
- * @copyright   Copyright (C) 2020 WPDeveloper. All rights reserved.
+ * @copyright   Copyright (C) 2021 WPDeveloper. All rights reserved.
  * @license     GPLv3 or later
  * @since       1.0.0
  */
