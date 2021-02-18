@@ -41,6 +41,7 @@ node_modules
 *.zip
 src
 build
+build.sh
 build.xml
 assets_wp
 vendor/wpdevelopers/embera/doc
