@@ -299,8 +299,8 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [2.7.2] - 2021-02-16 =
-* Added: New Gutenberg block that supports 100+ sites.
+= [2.7.2] - 2021-02-18 =
+* Added: New Gutenberg block 'EmbedPress' that supports 100+ sites.
 * Added: Controls in elementor widget like height width, color etc
 * Fixed: Gutenberg editor preview issue on google maps and docs etc.
 * Fixed: Default aspect ratio and background issue in Elementor widget
