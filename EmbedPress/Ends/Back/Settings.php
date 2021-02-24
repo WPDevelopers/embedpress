@@ -28,6 +28,8 @@ class Settings {
      */
     private static $namespace = '\\EmbedPress\\Ends\\Back\\Settings';
 
+    private static $has_general_settings_fields = null;
+
     /**
      * The plugin's unique identifier.
      *
@@ -138,27 +140,27 @@ class Settings {
                     ]
                 ];
             }
-
-            $fieldMap['heading_settings'] = [
-                'label'   => " ",
-                'section' => "admin",
-            ];
-
-            $fieldMap['facebook_app_code'] = [
-                'label'   => "App Code",
-                'section' => "admin",
-            ];
-
-            $fieldMap['facebook_app_secret'] = [
-                'label'   => "App Secret",
-                'section' => "admin",
-            ];
-
-            $fieldMap['forceFacebookLanguage'] = [
-                'label'   => "Facebook embed language",
-                'section' => "admin",
-            ];
-
+            //
+            //$fieldMap['heading_settings'] = [
+            //    'label'   => " ",
+            //    'section' => "admin",
+            //];
+            //
+            //$fieldMap['facebook_app_code'] = [
+            //    'label'   => "App Code",
+            //    'section' => "admin",
+            //];
+            //
+            //$fieldMap['facebook_app_secret'] = [
+            //    'label'   => "App Secret",
+            //    'section' => "admin",
+            //];
+            //
+            //$fieldMap['forceFacebookLanguage'] = [
+            //    'label'   => "Facebook embed language",
+            //    'section' => "admin",
+            //];
+            self::$has_general_settings_fields = !empty( $fieldMap);
             foreach ( $fieldMap as $fieldName => $field ) {
                 add_settings_field( $fieldName, $field['label'], [ self::$namespace, "renderField_{$fieldName}" ],
                     self::$identifier, self::${"section" . ucfirst( $field['section'] ) . "Identifier"} );
@@ -202,6 +204,8 @@ class Settings {
             EMBEDPRESS_VERSION, true );
 
         $activeTab                  = isset( $_GET['tab'] ) ? strtolower( $_GET['tab'] ) : "";
+        $is_general_tab_active = self::$has_general_settings_fields && ($activeTab === 'embedpress' || empty( $activeTab ));
+        $is_pro_tab_active = $activeTab === 'embedpress_get_pro' || (!self::$has_general_settings_fields && empty( $activeTab ));
         $settingsFieldsIdentifier   = !empty( $activeTab ) ? "embedpress:{$activeTab}" : self::$sectionGroupIdentifier;
         $settingsSectionsIdentifier = !empty( $activeTab ) ? "embedpress:{$activeTab}" : self::$identifier;
         ?>
@@ -225,13 +229,16 @@ class Settings {
             <?php settings_errors(); ?>
             <div>
                 <h2 class="nav-tab-wrapper">
-                    <a href="?page=embedpress"
-                       class="nav-tab<?php echo $activeTab === 'embedpress' || empty( $activeTab ) ? ' nav-tab-active' : ''; ?> ">
-                        General settings
-                    </a>
+                    <?php if ( self::$has_general_settings_fields ) { ?>
+                        <a href="?page=embedpress"
+                           class="nav-tab<?php echo $is_general_tab_active ? ' nav-tab-active' : ''; ?> ">
+                           <?php esc_html_e( 'General settings', 'embedpress'); ?>
+                        </a>
+                <?php } ?>
+                    
                     <?php if ( !defined( 'EMBEDPRESS_PRO_PLUGIN_VERSION' ) ): ?>
                         <a href="?page=embedpress&tab=embedpress_get_pro"
-                           class="nav-tab<?php echo $activeTab === 'embedpress_get_pro' ? ' nav-tab-active' : ''; ?> ">
+                           class="nav-tab<?php echo $is_pro_tab_active ? ' nav-tab-active' : ''; ?> ">
                             Go Premium
                         </a>
                     <?php endif; ?>
@@ -243,7 +250,7 @@ class Settings {
                     <form action="options.php" method="POST" style="padding-bottom: 20px;">
                         <?php settings_fields( $settingsFieldsIdentifier ); ?>
                         <?php do_settings_sections( $settingsSectionsIdentifier ); ?>
-                        <?php if ( $activeTab !== 'embedpress_license' && $activeTab !== 'embedpress_get_pro' ) : ?>
+                        <?php if ( $activeTab !== 'embedpress_license' && !$is_pro_tab_active ) : ?>
                             <button type="submit" class="button button-primary embedpress-setting-save">Save changes
                             </button>
                         <?php endif; ?>
@@ -252,7 +259,7 @@ class Settings {
                 <?php if ( $activeTab == 'embedpress_license' ) : ?>
                     <?php echo do_action( 'embedpress_license' ); ?>
                 <?php endif; ?>
-                <?php if ( $activeTab == 'embedpress_get_pro' && !defined( 'EMBEDPRESS_PRO_PLUGIN_VERSION' ) ) : ?>
+                <?php if ( $is_pro_tab_active && !defined( 'EMBEDPRESS_PRO_PLUGIN_VERSION' ) ) : ?>
                     <div class=" embedpress-go-premium">
                         <div class="embedpress-col-half">
                             <div class="embedpress-admin-block-wrapper">
