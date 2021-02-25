@@ -45,10 +45,6 @@ registerBlockType('embedpress/embedpress', {
 			type: 'string',
 			default: ''
 		},
-		iframeSrc: {
-			type: 'string',
-			default: ''
-		},
 		embedHTML: {
 			type: 'string',
 			default: ''

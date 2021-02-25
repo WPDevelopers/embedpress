@@ -63,7 +63,7 @@ export default function EmbedPress({attributes, className, setAttributes}){
 	}
 		return (
 			<Fragment>
-				{(!embedHTML || editingURL) && <InspectorControls>
+				<InspectorControls>
 					<PanelBody title={__("Customize Embedded Link")}>
 						<p>{__("You can adjust the width and height of embedded content.")}</p>
 						<TextControl
@@ -76,8 +76,9 @@ export default function EmbedPress({attributes, className, setAttributes}){
 							value={ height }
 							onChange={ ( height ) => setAttributes( { height } ) }
 						/>
+						{(embedHTML && !editingURL) && <button onClick={embed}>{__('Apply')}</button>}
 					</PanelBody>
-				</InspectorControls>}
+				</InspectorControls>
 				{ (!embedHTML || editingURL) && <EmbedPlaceholder
 					label={__('EmbedPress - Embed anything from 100+ sites')}
 					onSubmit={embed}
