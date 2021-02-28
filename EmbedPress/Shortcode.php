@@ -112,10 +112,7 @@ class Shortcode {
                 }
                 self::$oEmbedInstance = _wp_oembed_get_object();
             }
-            if ( !empty( self::get_access_token() ) ) {
-                self::$oEmbedInstance->providers = array_merge( self::$oEmbedInstance->providers,
-                    self::get_modified_provider( self::get_access_token() ) );
-            }
+
             $emberaInstanceSettings = [];
             
             $content_uid = md5( $content );
@@ -609,72 +606,6 @@ class Shortcode {
         }
         
         return $data;
-    }
-    
-    public static function get_modified_provider( $access_token = null ) {
-        if ( empty( $access_token ) ) {
-            return [];
-        }
-        return [
-            '#https?://www\.facebook\.com/.*/posts/.*#i'       => [
-                'https://graph.facebook.com/v8.0/oembed_post?access_token=' . $access_token,
-                true
-            ],
-            '#https?://www\.facebook\.com/.*/activity/.*#i'    => [
-                'https://graph.facebook.com/v8.0/oembed_post?access_token=' . $access_token,
-                true
-            ],
-            '#https?://www\.facebook\.com/.*/photos/.*#i'      => [
-                'https://graph.facebook.com/v8.0/oembed_post?access_token=' . $access_token,
-                true
-            ],
-            '#https?://www\.facebook\.com/photo(s/|\.php).*#i' => [
-                'https://graph.facebook.com/v8.0/oembed_post?access_token=' . $access_token,
-                true
-            ],
-            '#https?://www\.facebook\.com/permalink\.php.*#i'  => [
-                'https://graph.facebook.com/v8.0/oembed_post?access_token=' . $access_token,
-                true
-            ],
-            '#https?://www\.facebook\.com/media/.*#i'          => [
-                'https://graph.facebook.com/v8.0/oembed_post?access_token=' . $access_token,
-                true
-            ],
-            '#https?://www\.facebook\.com/questions/.*#i'      => [
-                'https://graph.facebook.com/v8.0/oembed_post?access_token=' . $access_token,
-                true
-            ],
-            '#https?://www\.facebook\.com/notes/.*#i'          => [
-                'https://graph.facebook.com/v8.0/oembed_post?access_token=' . $access_token,
-                true
-            ],
-            '#https?://www\.facebook\.com/.*/videos/.*#i'      => [
-                'https://graph.facebook.com/v8.0/oembed_video?access_token=' . $access_token,
-                true
-            ],
-            '#https?://www\.facebook\.com/video\.php.*#i'      => [
-                'https://graph.facebook.com/v8.0/oembed_video?access_token=' . $access_token,
-                true
-            ],
-            '#https?://www\.facebook\.com/watch/?\?v=\d+#i'    => [
-                'https://graph.facebook.com/v8.0/oembed_video?access_token=' . $access_token,
-                true
-            ],
-            
-            '#https?://(www\.)?instagr(\.am|am\.com)/(p|tv)/.*#i' => [
-                'https://graph.facebook.com/v8.0/instagram_oembed?access_token=' . $access_token,
-                true
-            ]
-        ];
-    }
-    
-    public static function get_access_token() {
-        $plgSettings = Core::getSettings();
-        if ( !empty( $plgSettings->facebook_app_code ) && !empty( $plgSettings->facebook_app_secret ) ) {
-            return urlencode( $plgSettings->facebook_app_code . '|' . $plgSettings->facebook_app_secret );
-        } else {
-            return null;
-        }
     }
 
     public static function get_collection()
