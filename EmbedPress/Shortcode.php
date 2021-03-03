@@ -154,6 +154,9 @@ class Shortcode {
                 // Attempt to fetch more info about the url-embed.
                 $urlData = self::$oEmbedInstance->fetch( $serviceProvider, $content, $attributes );
             }
+	        //error_log( 'Printing $urlData');
+			//
+            //error_log( print_r( $urlData, 1));
 
             // Sanitize the data
             $urlData = self::sanitizeUrlData( $urlData );
@@ -253,7 +256,22 @@ class Shortcode {
                 $parsedContent = preg_replace( '/((?:ose-)?\{provider_alias\})/i',
                     "ose-" . strtolower( $provider_name ), $parsedContent );
             }
-            
+			//error_log( 'Printing $parsedContent');
+            //error_log( print_r( $parsedContent, 1));
+	        if ( !class_exists( '\simple_html_dom') ) {
+		        include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
+            }
+
+	        $dom = str_get_html($parsedContent);
+			$ifDom = $dom->find( 'iframe', 0);
+			if (!empty( $ifDom) && is_object( $ifDom)){
+				$ifDom->removeAttribute( 'sandbox');
+			}
+
+			ob_start();
+	        echo $dom;
+			$parsedContent = ob_get_clean();
+			//error_log( print_r( $parsedContent, 1));
             if ( !empty($provider_name) ) {
                 // NFB seems to always return their embed code with all HTML entities into their applicable characters string.
                 $PROVIDER_NAME_IN_CAP = strtoupper($provider_name);
@@ -341,6 +359,7 @@ class Shortcode {
             if ( $stripNewLine ) {
                 $parsedContent = preg_replace( '/\n/', '', $parsedContent );
             }
+
             
             $parsedContent = apply_filters( 'pp_embed_parsed_content', $parsedContent, $urlData, $attributes );
             

@@ -47,15 +47,6 @@ class TheNewYorkTimes extends ProviderAdapter implements ProviderInterface
         return $url;
     }
 
-    /** inline {@inheritdoc} */
-    public function modifyResponse(array $response = [])
-    {
-        if (!empty($response['html'])) {
-            $response['html'] = preg_replace('~title="(.+)"~i', 'title=""', $response['html']);
-        }
-
-        return $response;
-    }
 
     /** inline {@inheritdoc} */
     public function getFakeResponse()
