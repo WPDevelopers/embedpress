@@ -154,9 +154,6 @@ class Shortcode {
                 // Attempt to fetch more info about the url-embed.
                 $urlData = self::$oEmbedInstance->fetch( $serviceProvider, $content, $attributes );
             }
-	        //error_log( 'Printing $urlData');
-			//
-            //error_log( print_r( $urlData, 1));
 
             // Sanitize the data
             $urlData = self::sanitizeUrlData( $urlData );
@@ -172,14 +169,17 @@ class Shortcode {
             }
             
             // Transform all shortcode attributes into html form. I.e.: {foo: "joe"} -> foo="joe"
-            $attributesHtml = [];
+            $attributesHtml = ['class="ose-{provider_alias} ose-uid-' . $content_uid.'"'];
             //foreach ( $attributes as $attrName => $attrValue ) {
             //    $attributesHtml[] = $attrName . '="' . $attrValue . '"';
             //}
+	        if ( isset( $customAttributes['width'])) {
+		        $attributesHtml[] = "style=\"width:{$customAttributes['width']}px; max-width:100%; height: auto\"";
+	        }
 
             // Define the EmbedPress html template where the generated embed will be injected in
             $embedTemplate = '<div ' . implode( ' ', $attributesHtml ) . '>{html}</div>';
-            
+
             // Check if $content is a google shortened url and tries to extract from it which Google service it refers to.
             if ( preg_match( '/http[s]?:\/\/goo\.gl\/(?:([a-z]+)\/)?[a-z0-9]+\/?$/i', $content, $matches ) ) {
                 // Fetch all headers from the short-url so we can know how to handle its original content depending on the service.
@@ -224,9 +224,9 @@ class Shortcode {
 
             $provider_name = '';
             if (isset( $urlData->provider_name )) {
-                $provider_name = isset( $urlData->provider_name );
+                $provider_name = str_replace( [' ', ','], '-', strtolower( $urlData->provider_name));
             }elseif ( is_array( $urlData ) && isset( $urlData[ $content ][ 'provider_name' ] ) ) {
-                $provider_name = $urlData[ $content ][ 'provider_name' ];
+                $provider_name = str_replace( [' ', ','], '-', strtolower( $urlData[ $content ][ 'provider_name' ]));
             }
 
             
@@ -248,16 +248,15 @@ class Shortcode {
                 // Inject the generated code inside the html template
                 $parsedContent = str_replace( '{html}', $emberaInstance->autoEmbed($content), $embedTemplate );
 
+
             } else {
                 // Inject the generated code inside the html template
                 $parsedContent = str_replace( '{html}', $parsedContent, $embedTemplate );
-                // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
-                $parsedContent = str_replace( "'", '"', $parsedContent );
-                $parsedContent = preg_replace( '/((?:ose-)?\{provider_alias\})/i',
-                    "ose-" . strtolower( $provider_name ), $parsedContent );
             }
-			//error_log( 'Printing $parsedContent');
-            //error_log( print_r( $parsedContent, 1));
+	        // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
+
+	        $parsedContent = str_replace( "'", '"', $parsedContent );
+	        $parsedContent = str_replace( "{provider_alias}", $provider_name , $parsedContent );
 	        if ( !class_exists( '\simple_html_dom') ) {
 		        include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
             }
@@ -271,7 +270,6 @@ class Shortcode {
 			ob_start();
 	        echo $dom;
 			$parsedContent = ob_get_clean();
-			//error_log( print_r( $parsedContent, 1));
             if ( !empty($provider_name) ) {
                 // NFB seems to always return their embed code with all HTML entities into their applicable characters string.
                 $PROVIDER_NAME_IN_CAP = strtoupper($provider_name);
@@ -354,6 +352,22 @@ class Shortcode {
                             $parsedContent );
                     }
                 }
+            }
+
+	        if ( 'the-new-york-times' === $provider_name && isset( $customAttributes['height']) && isset( $customAttributes['width']) ) {
+		        $styles = <<<KAMAL
+<style>
+.ose-the-new-york-times iframe{
+	min-height: auto;
+	height: {height}px;
+	width: {width}px;
+	max-width:100%
+	max-height: 100%;
+}
+</style>
+KAMAL;
+		        $styles = str_replace( ['{height}', '{width}'], [$customAttributes['height'], $customAttributes['width']], $styles);
+		        $parsedContent = $styles.$parsedContent;
             }
             
             if ( $stripNewLine ) {

@@ -9,4 +9,11 @@
 //}
 .embedpress-gutenberg-wrapper {
 	margin: 30px auto;
+	iframe {
+		max-width: 100%;
+	}
+}
+.ose-the-new-york-times iframe{
+	min-height: 500px;
+	max-height: 100%;
 }
