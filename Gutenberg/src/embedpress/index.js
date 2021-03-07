@@ -51,11 +51,11 @@ registerBlockType('embedpress/embedpress', {
 		},
 		height: {
 			type: 'string',
-			default: ''
+			default: '450'
 		},
 		width: {
 			type: 'string',
-			default: ''
+			default: '600'
 		},
 		editingURL: {
 			type: 'boolean',

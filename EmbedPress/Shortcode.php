@@ -95,6 +95,14 @@ class Shortcode {
             if ( empty( $customAttributes ) ) {
                 $customAttributes = self::parseContentAttributesFromString( $subject );
             }
+            if (!empty( $customAttributes['width'])) {
+            	$customAttributes['width'] = 600;
+            }
+	        if (!empty( $customAttributes['height'])) {
+		        $customAttributes['height'] = 450;
+	        }
+
+
             
             $content = preg_replace( '/(\[' . EMBEDPRESS_SHORTCODE . '(?:\]|.+?\])|\[\/' . EMBEDPRESS_SHORTCODE . '\])/i',
                 "", $subject );
