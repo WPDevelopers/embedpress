@@ -29,8 +29,7 @@ export default function EmbedPress({attributes, className, setAttributes}){
 		if (event) event.preventDefault();
 		if (url) {
 			setAttributes({
-				fetching: true,
-				editingURL: false,
+				fetching: true
 			});
 			// send api request to get iframe url
 			let fetchData = async (url) => {
@@ -81,7 +80,7 @@ export default function EmbedPress({attributes, className, setAttributes}){
 						{(embedHTML && !editingURL) && <button onClick={embed}>{__('Apply')}</button>}
 					</PanelBody>
 				</InspectorControls>
-				{ (!embedHTML || editingURL) && <EmbedPlaceholder
+				{ ((!embedHTML || editingURL) && !fetching) && <EmbedPlaceholder
 					label={__('EmbedPress - Embed anything from 100+ sites')}
 					onSubmit={embed}
 					value={url}

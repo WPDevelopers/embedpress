@@ -28,6 +28,17 @@ class Shortcode {
      * @var     WP_oEmbed $oEmbedInstance
      */
     private static $oEmbedInstance = null;
+
+	/**
+	 * The Embera class instance.
+	 *
+	 * @since   2.7.4
+	 * @access  private
+	 * @static
+	 *
+	 * @var     Embera $embera_instance
+	 */
+	private static $embera_instance = null;
     /**
      * The DefaultProviderCollection class instance.
      *
@@ -39,7 +50,10 @@ class Shortcode {
      */
     private static $collection = null;
 
-    /**
+    private static $emberaInstanceSettings = [];
+	private static $ombed_attributes;
+
+	/**
      * Register the plugin's shortcode into WordPress.
      *
      * @return  void
@@ -95,84 +109,29 @@ class Shortcode {
             if ( empty( $customAttributes ) ) {
                 $customAttributes = self::parseContentAttributesFromString( $subject );
             }
-            if (!empty( $customAttributes['width'])) {
-            	$customAttributes['width'] = 600;
-            }
-	        if (!empty( $customAttributes['height'])) {
-		        $customAttributes['height'] = 450;
-	        }
-
-
-            
-            $content = preg_replace( '/(\[' . EMBEDPRESS_SHORTCODE . '(?:\]|.+?\])|\[\/' . EMBEDPRESS_SHORTCODE . '\])/i',
+            self::set_default_size( $customAttributes);
+            $url = preg_replace( '/(\[' . EMBEDPRESS_SHORTCODE . '(?:\]|.+?\])|\[\/' . EMBEDPRESS_SHORTCODE . '\])/i',
                 "", $subject );
             
             // Converts any special HTML entities back to characters.
-            $content = htmlspecialchars_decode( $content );
-            
-            // Check if the WP_oEmbed class is loaded
-            if ( !self::$oEmbedInstance ) {
-                global $wp_version;
-                if ( version_compare( $wp_version, '5.3.0', '>=' ) ) {
-                    require_once ABSPATH . 'wp-includes/class-wp-oembed.php';
-                } else {
-                    require_once ABSPATH . 'wp-includes/class-oembed.php';
-                }
-                self::$oEmbedInstance = _wp_oembed_get_object();
-            }
-
-            $emberaInstanceSettings = [];
-            
-            $content_uid = md5( $content );
-            
-            $attributes = self::parseContentAttributes( $customAttributes, $content_uid );
-            if ( isset( $attributes[ 'width' ] ) || isset( $attributes[ 'height' ] ) ) {
-                if ( isset( $attributes[ 'width' ] ) ) {
-                    $emberaInstanceSettings[ 'maxwidth' ] = $attributes[ 'width' ];
-                    $emberaInstanceSettings[ 'width' ] = $attributes[ 'width' ];
-                    unset( $attributes[ 'width' ] );
-                }
-                
-                if ( isset( $attributes[ 'height' ] ) ) {
-                    $emberaInstanceSettings[ 'maxheight' ] = $attributes[ 'height' ];
-                    $emberaInstanceSettings[ 'height' ] = $attributes[ 'height' ];
-                    unset( $attributes[ 'height' ] );
-                }
-            }
+            $url = htmlspecialchars_decode( $url );
+	        $content_uid = md5( $url );
+	        self::$ombed_attributes = self::parseContentAttributes( $customAttributes, $content_uid );
+	        self::set_embera_settings(self::$ombed_attributes);
 
             // Identify what service provider the shortcode's link belongs to
-            $serviceProvider = self::$oEmbedInstance->get_provider( $content );
-
-            // Check if OEmbed was unable to detect the url service provider.
-            if ( empty( $serviceProvider ) ) {
-                // Attempt to do the same using Embera.
-                // Add support to the user's custom service providers
-                $additionalServiceProviders = Core::getAdditionalServiceProviders();
-                if ( !empty( $additionalServiceProviders ) ) {
-                    foreach ( $additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls ) {
-                        self::addServiceProvider( $serviceProviderClassName, $serviceProviderUrls );
-                    }
-                    unset( $serviceProviderUrls, $serviceProviderClassName );
-                }
-                
-                // Attempt to fetch more info about the url-embed.
-                $emberaInstance = new Embera( $emberaInstanceSettings, self::$collection );
-                $urlData = $emberaInstance->getUrlData( $content );
-            } else {
-                // Attempt to fetch more info about the url-embed.
-                $urlData = self::$oEmbedInstance->fetch( $serviceProvider, $content, $attributes );
-            }
+            $serviceProvider = self::get_oembed()->get_provider( $url );
+            $urlData = self::get_url_data( $url, self::$ombed_attributes, $serviceProvider);
 
             // Sanitize the data
             $urlData = self::sanitizeUrlData( $urlData );
             // Stores the original content
             if ( is_object( $urlData ) ) {
-                $urlData->originalContent = $content;
+                $urlData->originalContent = $url;
             }
             
             $eventResults = apply_filters( 'embedpress:onBeforeEmbed', $urlData );
             if ( empty( $eventResults ) ) {
-                // EmbedPress seems unable to embed the url.
                 return $subject;
             }
             
@@ -185,126 +144,18 @@ class Shortcode {
 		        $attributesHtml[] = "style=\"width:{$customAttributes['width']}px; max-width:100%; height: auto\"";
 	        }
 
-            // Define the EmbedPress html template where the generated embed will be injected in
-            $embedTemplate = '<div ' . implode( ' ', $attributesHtml ) . '>{html}</div>';
-
-            // Check if $content is a google shortened url and tries to extract from it which Google service it refers to.
-            if ( preg_match( '/http[s]?:\/\/goo\.gl\/(?:([a-z]+)\/)?[a-z0-9]+\/?$/i', $content, $matches ) ) {
-                // Fetch all headers from the short-url so we can know how to handle its original content depending on the service.
-                $headers = get_headers( $content );
-                
-                $supportedServicesHeadersPatterns = [
-                    'maps' => '/^Location:\s+(http[s]?:\/\/.+)$/i',
-                ];
-                
-                $service = isset( $matches[ 1 ] ) ? strtolower( $matches[ 1 ] ) : null;
-                // No specific service was found in the url.
-                if ( empty( $service ) ) {
-                    // Let's try to guess which service the original url belongs to.
-                    foreach ( $headers as $header ) {
-                        // Check if the short-url reffers to a Google Maps url.
-                        if ( preg_match( $supportedServicesHeadersPatterns[ 'maps' ], $header, $matches ) ) {
-                            // Replace the shortened url with its original url.
-                            $content = $matches[ 1 ];
-                            break;
-                        }
-                    }
-                    unset( $header );
-                } else {
-                    // Check if the Google service is supported atm.
-                    if ( isset( $supportedServicesHeadersPatterns[ $service ] ) ) {
-                        // Tries to extract the url based on its headers.
-                        $originalUrl = self::extractContentFromHeaderAsArray( $supportedServicesHeadersPatterns[ $service ],
-                            $headers );
-                        // Replace the shortened url with its original url if the specific header was found.
-                        if ( !empty( $originalUrl ) ) {
-                            $content = $originalUrl;
-                        }
-                        unset( $originalUrl );
-                    }
-                }
-                unset( $service, $supportedServicesHeadersPatterns, $headers, $matches );
-                
-            }
-
-
-            $parsedContent = self::$oEmbedInstance->get_html( $content, $attributes );
-
-            $provider_name = '';
-            if (isset( $urlData->provider_name )) {
-                $provider_name = str_replace( [' ', ','], '-', strtolower( $urlData->provider_name));
-            }elseif ( is_array( $urlData ) && isset( $urlData[ $content ][ 'provider_name' ] ) ) {
-                $provider_name = str_replace( [' ', ','], '-', strtolower( $urlData[ $content ][ 'provider_name' ]));
-            }
-
-            
-            if ( !$parsedContent ) {
-                // If the embed couldn't be generated, we'll try to use Embera's API
-                if ( !isset( $emberaInstance ) ) {
-                    // Add support to the user's custom service providers
-                    $additionalServiceProviders = Core::getAdditionalServiceProviders();
-                    if ( !empty( $additionalServiceProviders ) ) {
-                        foreach ( $additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls ) {
-                            self::addServiceProvider( $serviceProviderClassName, $serviceProviderUrls);
-                        }
-
-                        unset( $serviceProviderUrls, $serviceProviderClassName );
-                    }
-                $emberaInstance = new Embera( $emberaInstanceSettings );
-                }
-
-                // Inject the generated code inside the html template
-                $parsedContent = str_replace( '{html}', $emberaInstance->autoEmbed($content), $embedTemplate );
-
-
-            } else {
-                // Inject the generated code inside the html template
-                $parsedContent = str_replace( '{html}', $parsedContent, $embedTemplate );
-            }
+	        // Check if $url is a google shortened url and tries to extract from it which Google service it refers to.
+	        self::check_for_google_url($url);
+            $provider_name = self::get_provider_name($urlData, $url);
+	        $embedTemplate = '<div ' . implode( ' ', $attributesHtml ) . '>{html}</div>';
+            $parsedContent = self::get_content_from_template($url, $embedTemplate);
 	        // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
-
 	        $parsedContent = str_replace( "'", '"', $parsedContent );
 	        $parsedContent = str_replace( "{provider_alias}", $provider_name , $parsedContent );
-	        if ( !class_exists( '\simple_html_dom') ) {
-		        include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
-            }
-
-	        $dom = str_get_html($parsedContent);
-			$ifDom = $dom->find( 'iframe', 0);
-			if (!empty( $ifDom) && is_object( $ifDom)){
-				$ifDom->removeAttribute( 'sandbox');
-			}
-
-			ob_start();
-	        echo $dom;
-			$parsedContent = ob_get_clean();
-            if ( !empty($provider_name) ) {
-                // NFB seems to always return their embed code with all HTML entities into their applicable characters string.
-                $PROVIDER_NAME_IN_CAP = strtoupper($provider_name);
-                if ( $PROVIDER_NAME_IN_CAP  === "NATIONAL FILM BOARD OF CANADA"  ) {
-                    $parsedContent = html_entity_decode( $parsedContent );
-                } elseif ( $PROVIDER_NAME_IN_CAP === "FACEBOOK" ) {
-                    $plgSettings = Core::getSettings();
-                    
-                    // Check if the user wants to force a certain language into Facebook embeds.
-                    $locale = isset( $plgSettings->fbLanguage ) && !empty( $plgSettings->fbLanguage ) ? $plgSettings->fbLanguage : false;
-                    if ( !!$locale ) {
-                        // Replace the automatically detected language by Facebook's API with the language chosen by the user.
-                        $parsedContent = preg_replace( '/\/[a-z]{2}\_[a-z]{2}\/sdk\.js/i', "/{$locale}/sdk.js",
-                            $parsedContent );
-                    }
-                    
-                    // Make sure `adapt_container_width` parameter is set to false. Setting to true, as it is by default, might cause Facebook to render embeds inside editors (in admin) with only 180px wide.
-                    if ( is_admin() ) {
-                        $parsedContent = preg_replace( '~data\-adapt\-container\-width=\"(?:true|1)\"~i',
-                            'data-adapt-container-width="0"', $parsedContent );
-                    }
-                    
-                    unset( $locale, $plgSettings );
-                }
-            }
-            
+			self::purify_html_content( $parsedContent);
+			self::modify_content_for_fb_and_canada( $provider_name, $parsedContent);
             unset( $embedTemplate, $serviceProvider );
+
             // This assure that the iframe has the same dimensions the user wants to
             if ( isset( $emberaInstanceSettings[ 'maxwidth' ] ) || isset( $emberaInstanceSettings[ 'maxheight' ] ) ) {
                 if ( isset( $emberaInstanceSettings[ 'maxwidth' ] ) && isset( $emberaInstanceSettings[ 'maxheight' ] ) ) {
@@ -383,13 +234,13 @@ KAMAL;
             }
 
             
-            $parsedContent = apply_filters( 'pp_embed_parsed_content', $parsedContent, $urlData, $attributes );
+            $parsedContent = apply_filters( 'pp_embed_parsed_content', $parsedContent, $urlData,  self::get_oembed_attributes() );
             
             if ( !empty( $parsedContent ) ) {
                 $embed = (object)array_merge( (array)$urlData, [
-                    'attributes' => (object)$attributes,
+                    'attributes' => (object) self::get_oembed_attributes(),
                     'embed'      => $parsedContent,
-                    'url'        => $content,
+                    'url'        => $url,
                 ] );
                 $embed = apply_filters( 'embedpress:onAfterEmbed', $embed );
                 return $embed;
@@ -397,6 +248,55 @@ KAMAL;
         }
         
         return $subject;
+    }
+
+	protected static function get_oembed() {
+		if ( !self::$oEmbedInstance ) {
+			global $wp_version;
+			if ( version_compare( $wp_version, '5.3.0', '>=' ) ) {
+				require_once ABSPATH . 'wp-includes/class-wp-oembed.php';
+			} else {
+				require_once ABSPATH . 'wp-includes/class-oembed.php';
+			}
+			self::$oEmbedInstance = _wp_oembed_get_object();
+		}
+		return self::$oEmbedInstance;
+    }
+
+	protected static function set_default_size( &$customAttributes ) {
+		if (empty( $customAttributes['width'])) {
+			$customAttributes['width'] = 600;
+		}
+		if (empty( $customAttributes['height'])) {
+			$customAttributes['height'] = 450;
+		}
+    }
+
+	protected static function get_url_data( $url, $attributes = [], $serviceProvider = '' ) {
+    	if ( !empty( $serviceProvider ) ) {
+			$urlData = self::get_oembed()->fetch( $serviceProvider, $url, $attributes );
+		} else {
+			$urlData = self::get_embera_instance()->getUrlData( $url );
+		}
+		return $urlData;
+    }
+
+	/**
+	 * @return null|Embera
+	 */
+	public static function get_embera_instance() {
+		if ( !self::$embera_instance) {
+			$additionalServiceProviders = Core::getAdditionalServiceProviders();
+			if ( !empty( $additionalServiceProviders ) ) {
+				foreach ( $additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls ) {
+					self::addServiceProvider( $serviceProviderClassName, $serviceProviderUrls );
+				}
+				unset( $serviceProviderUrls, $serviceProviderClassName );
+			}
+			self::$embera_instance = new Embera( self::get_embera_settings(), self::get_collection() );
+    	}
+
+		return self::$embera_instance;
     }
 
     /**
@@ -557,6 +457,27 @@ KAMAL;
         
         return $attributes;
     }
+
+	protected static function set_embera_settings(&$attributes) {
+		if ( isset( $attributes[ 'width' ] ) || isset( $attributes[ 'height' ] ) ) {
+			if ( isset( $attributes[ 'width' ] ) ) {
+				self::$emberaInstanceSettings[ 'maxwidth' ] = $attributes[ 'width' ];
+				self::$emberaInstanceSettings[ 'width' ] = $attributes[ 'width' ];
+				unset( $attributes[ 'width' ] );
+			}
+
+			if ( isset( $attributes[ 'height' ] ) ) {
+				self::$emberaInstanceSettings[ 'maxheight' ] = $attributes[ 'height' ];
+				self::$emberaInstanceSettings[ 'height' ] = $attributes[ 'height' ];
+				unset( $attributes[ 'height' ] );
+			}
+		}
+
+    }
+
+	protected static function get_embera_settings() {
+		return self::$emberaInstanceSettings;
+    }
     
     /**
      * Method that checks if a given value is/can be identified as (bool)false.
@@ -653,4 +574,114 @@ KAMAL;
     {
         return self::$collection;
     }
+
+	protected static function purify_html_content( &$html ) {
+		if ( !class_exists( '\simple_html_dom') ) {
+			include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
+		}
+
+		$dom = str_get_html($html);
+		$ifDom = $dom->find( 'iframe', 0);
+		if (!empty( $ifDom) && is_object( $ifDom)){
+			$ifDom->removeAttribute( 'sandbox');
+		}
+
+		ob_start();
+		echo $dom;
+		return ob_get_clean();
+    }
+
+	protected static function get_content_from_template( $url, $template ) {
+		$html = self::get_oembed()->get_html( $url, self::get_oembed_attributes() );
+		if ( !$html ) {
+			$html = str_replace( '{html}', self::get_embera_instance()->autoEmbed($url), $template );
+		}
+		return $html = str_replace( '{html}', $html, $template );
+	}
+
+	protected static function get_oembed_attributes() {
+		return self::$ombed_attributes;
+	}
+	protected static function set_oembed_attributes( $atts) {
+		self::$ombed_attributes = $atts;
+	}
+
+	protected static function check_for_google_url(&$url) {
+		if ( preg_match( '/http[s]?:\/\/goo\.gl\/(?:([a-z]+)\/)?[a-z0-9]+\/?$/i', $url, $matches ) ) {
+			// Fetch all headers from the short-url so we can know how to handle its original content depending on the service.
+			$headers = get_headers( $url );
+
+			$supportedServicesHeadersPatterns = [
+				'maps' => '/^Location:\s+(http[s]?:\/\/.+)$/i',
+			];
+
+			$service = isset( $matches[ 1 ] ) ? strtolower( $matches[ 1 ] ) : null;
+			// No specific service was found in the url.
+			if ( empty( $service ) ) {
+				// Let's try to guess which service the original url belongs to.
+				foreach ( $headers as $header ) {
+					// Check if the short-url reffers to a Google Maps url.
+					if ( preg_match( $supportedServicesHeadersPatterns[ 'maps' ], $header, $matches ) ) {
+						// Replace the shortened url with its original url.
+						$url = $matches[ 1 ];
+						break;
+					}
+				}
+				unset( $header );
+			} else {
+				// Check if the Google service is supported atm.
+				if ( isset( $supportedServicesHeadersPatterns[ $service ] ) ) {
+					// Tries to extract the url based on its headers.
+					$originalUrl = self::extractContentFromHeaderAsArray( $supportedServicesHeadersPatterns[ $service ],
+						$headers );
+					// Replace the shortened url with its original url if the specific header was found.
+					if ( !empty( $originalUrl ) ) {
+						$url = $originalUrl;
+					}
+					unset( $originalUrl );
+				}
+			}
+			unset( $service, $supportedServicesHeadersPatterns, $headers, $matches );
+
+		}
+
+	}
+
+	protected static function get_provider_name( $urlData, $url ) {
+		$provider_name = '';
+		if (isset( $urlData->provider_name )) {
+			$provider_name = str_replace( [' ', ','], '-', strtolower( $urlData->provider_name));
+		}elseif ( is_array( $urlData ) && isset( $urlData[ $url ][ 'provider_name' ] ) ) {
+			$provider_name = str_replace( [' ', ','], '-', strtolower( $urlData[ $url ][ 'provider_name' ]));
+		}
+		return $provider_name;
+	}
+
+	protected static function modify_content_for_fb_and_canada( $provider_name, &$html ) {
+		if ( !empty($provider_name) ) {
+			// NFB seems to always return their embed code with all HTML entities into their applicable characters string.
+			$PROVIDER_NAME_IN_CAP = strtoupper($provider_name);
+			if ( $PROVIDER_NAME_IN_CAP  === "NATIONAL FILM BOARD OF CANADA"  ) {
+				$html = html_entity_decode( $html );
+			} elseif ( $PROVIDER_NAME_IN_CAP === "FACEBOOK" ) {
+				$plgSettings = Core::getSettings();
+
+				// Check if the user wants to force a certain language into Facebook embeds.
+				$locale = isset( $plgSettings->fbLanguage ) && !empty( $plgSettings->fbLanguage ) ? $plgSettings->fbLanguage : false;
+				if ( !!$locale ) {
+					// Replace the automatically detected language by Facebook's API with the language chosen by the user.
+					$html = preg_replace( '/\/[a-z]{2}\_[a-z]{2}\/sdk\.js/i', "/{$locale}/sdk.js",
+						$html );
+				}
+
+				// Make sure `adapt_container_width` parameter is set to false. Setting to true, as it is by default, might cause Facebook to render embeds inside editors (in admin) with only 180px wide.
+				if ( is_admin() ) {
+					$html = preg_replace( '~data\-adapt\-container\-width=\"(?:true|1)\"~i',
+						'data-adapt-container-width="0"', $html );
+				}
+
+				unset( $locale, $plgSettings );
+			}
+		}
+	}
 }

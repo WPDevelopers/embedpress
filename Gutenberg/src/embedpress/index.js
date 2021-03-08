@@ -63,7 +63,7 @@ registerBlockType('embedpress/embedpress', {
 		},
 		fetching: {
 			type: 'boolean',
-			default: true
+			default: false
 		},
 		cannotEmbed: {
 			type: 'boolean',
