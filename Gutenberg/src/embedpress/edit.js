@@ -28,11 +28,12 @@ export default function EmbedPress({attributes, className, setAttributes}){
 	function embed(event) {
 		if (event) event.preventDefault();
 		if (url) {
+			setAttributes({
+				fetching: true,
+				editingURL: false,
+			});
 			// send api request to get iframe url
 			let fetchData = async (url) => {
-				setAttributes({
-					fetching: true
-				});
 				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}`).then(response => response.json());
 			}
 			fetchData(url).then(data => {
@@ -57,6 +58,7 @@ export default function EmbedPress({attributes, className, setAttributes}){
 		} else {
 			setAttributes({
 				cannotEmbed: true,
+				fetching: false,
 				editingURL: true
 			})
 		}
@@ -90,8 +92,9 @@ export default function EmbedPress({attributes, className, setAttributes}){
 					docLink={'https://embedpress.com/docs/'}
 				/> }
 
-				{(embedHTML && !editingURL) && <div className={className}>
-					{fetching ? <EmbedLoading/> : null}
+				{ fetching ? <div className={className}><EmbedLoading/> </div> : null}
+
+				{(embedHTML && !editingURL && !fetching) && <div className={className}>
 					<EmbedWrap style={{display: fetching ? 'none' : ''}} dangerouslySetInnerHTML={{
 						__html: embedHTML
 					}}></EmbedWrap>
