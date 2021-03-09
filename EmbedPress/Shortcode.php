@@ -157,10 +157,10 @@ class Shortcode {
             unset( $embedTemplate, $serviceProvider );
 
             // This assure that the iframe has the same dimensions the user wants to
-            if ( isset( $emberaInstanceSettings[ 'maxwidth' ] ) || isset( $emberaInstanceSettings[ 'maxheight' ] ) ) {
-                if ( isset( $emberaInstanceSettings[ 'maxwidth' ] ) && isset( $emberaInstanceSettings[ 'maxheight' ] ) ) {
-                    $customWidth = (int)$emberaInstanceSettings[ 'maxwidth' ];
-                    $customHeight = (int)$emberaInstanceSettings[ 'maxheight' ];
+            if ( isset( self::$emberaInstanceSettings[ 'maxwidth' ] ) || isset( self::$emberaInstanceSettings[ 'maxheight' ] ) ) {
+                if ( isset( self::$emberaInstanceSettings[ 'maxwidth' ] ) && isset( self::$emberaInstanceSettings[ 'maxheight' ] ) ) {
+                    $customWidth = (int)self::$emberaInstanceSettings[ 'maxwidth' ];
+                    $customHeight = (int)self::$emberaInstanceSettings[ 'maxheight' ];
                 } else {
                     if ( preg_match( '~width="(\d+)"|width\s+:\s+(\d+)~i', $parsedContent, $matches ) ) {
                         $iframeWidth = (int)$matches[ 1 ];
@@ -173,17 +173,18 @@ class Shortcode {
                     if ( isset( $iframeWidth ) && isset( $iframeHeight ) && $iframeWidth > 0 && $iframeHeight > 0 ) {
                         $iframeRatio = ceil( $iframeWidth / $iframeHeight );
                         
-                        if ( isset( $emberaInstanceSettings[ 'maxwidth' ] ) ) {
-                            $customWidth = (int)$emberaInstanceSettings[ 'maxwidth' ];
+                        if ( isset( self::$emberaInstanceSettings[ 'maxwidth' ] ) ) {
+                            $customWidth = (int)self::$emberaInstanceSettings[ 'maxwidth' ];
                             $customHeight = ceil( $customWidth / $iframeRatio );
                         } else {
-                            $customHeight = (int)$emberaInstanceSettings[ 'maxheight' ];
+                            $customHeight = (int)self::$emberaInstanceSettings[ 'maxheight' ];
                             $customWidth = $iframeRatio * $customHeight;
                         }
                     }
                 }
 
                 if ( isset( $customWidth ) && isset( $customHeight ) ) {
+                	error_log( 'are we here?');
                     if ( preg_match( '~width="(\d+)"~i', $parsedContent ) ) {
                         $parsedContent = preg_replace( '~width="(\d+)"~i', 'width="' . $customWidth . '"',
                             $parsedContent );
