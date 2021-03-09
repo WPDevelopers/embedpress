@@ -136,7 +136,7 @@ class Shortcode {
             }
             
             // Transform all shortcode attributes into html form. I.e.: {foo: "joe"} -> foo="joe"
-            $attributesHtml = ['class="ose-{provider_alias} ose-uid-' . $content_uid.'"'];
+            $attributesHtml = ['class="ose-{provider_alias} ose-uid-' . $content_uid.' ose-embedpress-responsive"'];
             //foreach ( $attributes as $attrName => $attrValue ) {
             //    $attributesHtml[] = $attrName . '="' . $attrValue . '"';
             //}
