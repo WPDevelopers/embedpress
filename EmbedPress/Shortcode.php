@@ -184,7 +184,6 @@ class Shortcode {
                 }
 
                 if ( isset( $customWidth ) && isset( $customHeight ) ) {
-                	error_log( 'are we here?');
                     if ( preg_match( '~width="(\d+)"~i', $parsedContent ) ) {
                         $parsedContent = preg_replace( '~width="(\d+)"~i', 'width="' . $customWidth . '"',
                             $parsedContent );
