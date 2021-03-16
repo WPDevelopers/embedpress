@@ -78,7 +78,6 @@ class Twitch extends ProviderAdapter implements ProviderInterface
     {
         $url         = $this->getUrl();
         $providerUrl = 'https://twitch.tv';
-        $html        = '';
         $src         = '';
 
         if (preg_match("{$this->urlRegexPattern}i", $url, $matches)) {
@@ -119,6 +118,7 @@ class Twitch extends ProviderAdapter implements ProviderInterface
 
             $response = [
                 'type'          => $type,
+                'content_id'          => $channelName,
                 'provider_name' => 'Twitch',
                 'provider_url'  => $providerUrl,
                 'url'           => $url,
