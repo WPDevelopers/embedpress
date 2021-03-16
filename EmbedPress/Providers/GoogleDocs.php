@@ -104,10 +104,15 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
                 break;
         }
 
+
+	    $width = isset( $this->config['maxwidth']) ? $this->config['maxwidth']: 600;
+	    $height = isset( $this->config['maxheight']) ? $this->config['maxheight']: 450;
         if ($type !== 'drawings') {
-            $html = '<iframe src="' . $iframeSrc . '" frameborder="0" width="600" height="450" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>';
+            $html = '<iframe src="' . $iframeSrc . '" frameborder="0" width="'.$width.'" height="'.$height.'" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>';
         } else {
-            $html = '<img src="' . $iframeSrc . '" width="960" height="720" />';
+	        $width = isset( $this->config['maxwidth']) ? $this->config['maxwidth']: 960;
+	        $height = isset( $this->config['maxheight']) ? $this->config['maxheight']: 720;
+            $html = '<img src="' . $iframeSrc . '" width="'.$width.'" height="'.$height.'" />';
         }
 
         return [

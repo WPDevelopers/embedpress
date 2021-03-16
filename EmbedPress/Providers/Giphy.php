@@ -56,10 +56,10 @@ class Giphy extends ProviderAdapter implements ProviderInterface
 
         if (preg_match($this->urlRegexPattern, $url, $matches)) {
             $gifId = count($matches) > 3 && strtolower($matches[3]) === ".gif" ? $matches[2] : $matches[1];
-
-            $html = '' .
-                    '<a href="https://giphy.com/gifs/' . $gifId . '">' .
-                    '<img src="https://media.giphy.com/media/' . $gifId . '/giphy.gif" alt="" width="{width}" height="{height}">' .
+	        $width = isset( $this->config['maxwidth']) ? $this->config['maxwidth']: 400;
+	        $height = isset( $this->config['maxheight']) ? $this->config['maxheight']: 400;
+            $html = '<a href="https://giphy.com/gifs/' . $gifId . '">' .
+                    '<img src="https://media.giphy.com/media/' . $gifId . '/giphy.gif" alt="" width="'.$width.'" height="'.$height.'">' .
                     '</a>';
 
             $response = [

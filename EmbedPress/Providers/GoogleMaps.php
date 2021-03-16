@@ -58,13 +58,14 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
                 return [];
             }
         }
-
+	    $width = isset( $this->config['maxwidth']) ? $this->config['maxwidth']: 600;
+	    $height = isset( $this->config['maxheight']) ? $this->config['maxheight']: 450;
         return [
             'type'          => 'rich',
             'provider_name' => 'Google Maps',
             'provider_url'  => 'https://maps.google.com',
             'title'         => 'Unknown title',
-            'html'          => '<iframe width="600" height="450" src="' . $iframeSrc . '" frameborder="0"></iframe>',
+            'html'          => '<iframe  width="'.$width.'" height="'.$height.'" src="' . $iframeSrc . '" frameborder="0"></iframe>',
         ];
     }
     /** inline @inheritDoc */
