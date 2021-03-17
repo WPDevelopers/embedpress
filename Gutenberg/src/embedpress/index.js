@@ -39,7 +39,7 @@ registerBlockType('embedpress/embedpress', {
 		'youtube',
 		'docs',
 	],
-	supports: {align: ["right","left","center"], default: 'center'},
+	supports: {align: ["right","left","center"], default: 'center',lightBlockWrapper: true},
 	attributes: {
 		url: {
 			type: 'string',

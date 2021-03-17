@@ -12,12 +12,12 @@ import EmbedWrap from '../common/embed-wrap';
 const {__} = wp.i18n;
 import {embedPressIcon} from '../common/icons';
 const {TextControl, PanelBody} = wp.components;
-const { InspectorControls } = wp.blockEditor;
+import { InspectorControls, useBlockProps } from '@wordpress/block-editor';
 const { Fragment } = wp.element;
 
 export default function EmbedPress({attributes, className, setAttributes}){
 	const {url, editingURL, fetching, cannotEmbed, interactive, embedHTML, height, width} = attributes;
-
+	///const blockProps = useBlockProps();
 	function switchBackToURLInput() {
 		setAttributes( {editingURL: true});
 	}
@@ -27,6 +27,7 @@ export default function EmbedPress({attributes, className, setAttributes}){
 
 	function embed(event) {
 		if (event) event.preventDefault();
+
 		if (url) {
 			setAttributes({
 				fetching: true
@@ -94,7 +95,7 @@ export default function EmbedPress({attributes, className, setAttributes}){
 
 				{ fetching ? <div className={className}><EmbedLoading/> </div> : null}
 
-				{(embedHTML && !editingURL && !fetching) && <div className={className}>
+				{(embedHTML && !editingURL && !fetching) && <figure {...useBlockProps()}>
 					<EmbedWrap style={{display: fetching ? 'none' : ''}} dangerouslySetInnerHTML={{
 						__html: embedHTML
 					}}></EmbedWrap>
@@ -108,7 +109,7 @@ export default function EmbedPress({attributes, className, setAttributes}){
 						showEditButton={embedHTML && !cannotEmbed}
 						switchBackToURLInput={switchBackToURLInput}
 					/>
-				</div>}
+				</figure>}
 
 			</Fragment>
 
