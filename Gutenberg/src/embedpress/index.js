@@ -39,7 +39,7 @@ registerBlockType('embedpress/embedpress', {
 		'youtube',
 		'docs',
 	],
-	supports: {align: ["wide", "full","right","left"], default: '', html:true},
+	supports: {align: ["right","left","center"], default: 'center'},
 	attributes: {
 		url: {
 			type: 'string',
@@ -72,6 +72,10 @@ registerBlockType('embedpress/embedpress', {
 		interactive: {
 			type: 'boolean',
 			default: false
+		},
+		align: {
+			type: 'string',
+			default: 'center'
 		},
 	},
 	/**
