@@ -4,9 +4,9 @@ Author: WPDeveloper
 Author URI: https://wpdeveloper.net
 Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embed, video embed, Google Doc, map embed, youTube Embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, block editor, embed wordpress, elementor
 Requires at least: 4.6
-Tested up to: 5.6.1
+Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: 2.7.2
+Stable tag: 2.7.3
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -298,6 +298,15 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [2.7.3] - 2021-03-21 =
+* Added: Dedicated button to apply height width on Block Editor.
+* Improved: Facebook and Instagram works without APP key
+* Fixed: Responsive issues for Gutenberg
+* Fixed: New York Times Video not embedding issue
+* Fixed: Sutori Content not embedding issue
+* Removed: Unused options from the settings page
+* Few minor bug fix and improvements
 
 = [2.7.2] - 2021-02-18 =
 * Added: New Gutenberg block 'EmbedPress' that supports 100+ sites.
