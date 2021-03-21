@@ -136,10 +136,11 @@ class Shortcode {
             }
             
             // Transform all shortcode attributes into html form. I.e.: {foo: "joe"} -> foo="joe"
-            $attributesHtml = ['class="ose-{provider_alias} ose-uid-' . $content_uid.' ose-embedpress-responsive"'];
-            //foreach ( $attributes as $attrName => $attrValue ) {
-            //    $attributesHtml[] = $attrName . '="' . $attrValue . '"';
-            //}
+            //$attributesHtml = ['class="ose-{provider_alias} ose-uid-' . $content_uid.' ose-embedpress-responsive"'];
+	        $attributesHtml = [];
+            foreach ( self::$ombed_attributes as $attrName => $attrValue ) {
+                $attributesHtml[] = $attrName . '="' . $attrValue . '"';
+            }
 	        if ( isset( $customAttributes['width'])) {
 		        $attributesHtml[] = "style=\"width:{$customAttributes['width']}px; max-width:100%; height: auto\"";
 	        }
@@ -268,7 +269,7 @@ KAMAL;
 			$customAttributes['width'] = 600;
 		}
 		if (empty( $customAttributes['height'])) {
-			$customAttributes['height'] = 450;
+			$customAttributes['height'] = 550;
 		}
     }
 
@@ -369,7 +370,7 @@ KAMAL;
      */
     private static function parseContentAttributes( array $customAttributes, $content_uid = null ) {
         $attributes = [
-            'class' => ["embedpress-wrapper"],
+            'class' => ["embedpress-wrapper ose-embedpress-responsive"],
         ];
         
         $embedShouldBeResponsive = true;
