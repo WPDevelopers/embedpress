@@ -136,11 +136,11 @@ class Shortcode {
             }
             
             // Transform all shortcode attributes into html form. I.e.: {foo: "joe"} -> foo="joe"
-            //$attributesHtml = ['class="ose-{provider_alias} ose-uid-' . $content_uid.' ose-embedpress-responsive"'];
-	        $attributesHtml = [];
-            foreach ( self::$ombed_attributes as $attrName => $attrValue ) {
-                $attributesHtml[] = $attrName . '="' . $attrValue . '"';
-            }
+            $attributesHtml = ['class="ose-{provider_alias} ose-uid-' . $content_uid.' ose-embedpress-responsive"'];
+	        //$attributesHtml = [];
+            //foreach ( self::$ombed_attributes as $attrName => $attrValue ) {
+            //    $attributesHtml[] = $attrName . '="' . $attrValue . '"';
+            //}
 	        if ( isset( $customAttributes['width'])) {
 		        $attributesHtml[] = "style=\"width:{$customAttributes['width']}px; max-width:100%; height: auto\"";
 	        }
