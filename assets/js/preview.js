@@ -1294,14 +1294,16 @@
                 if (!embedItem.length) {
                     embedItem = null;
                 }
-
-                $.each($embedInnerWrapper[0].attributes, function () {
-                    if (this.specified) {
-                        if (this.name !== 'class') {
-                            customAttributes[this.name.replace('data-', '').toLowerCase()] = this.value;
+                if ($embedInnerWrapper.length > 1){
+                    $.each($embedInnerWrapper[0].attributes, function () {
+                        if (this.specified) {
+                            if (this.name !== 'class') {
+                                customAttributes[this.name.replace('data-', '').toLowerCase()] = this.value;
+                            }
                         }
-                    }
-                });
+                    });
+                }
+
 
                 var embedWidth = (((embedItem && embedItem.width()) || $embedInnerWrapper.data('width')) || $embedInnerWrapper.width()) || '';
                 var embedHeight = (((embedItem && embedItem.height()) || $embedInnerWrapper.data('height')) || $embedInnerWrapper.height()) || '';
