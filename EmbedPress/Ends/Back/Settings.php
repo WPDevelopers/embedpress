@@ -248,7 +248,7 @@ class Settings {
                         </li>
                         <li>
                             <a href="//embedpress.com/#pricing" target="_blank" rel="noopener noreferrer"
-                               title="Get EmbedPress Pro"><?php esc_html_e( 'Get Elementor Pro', 'embedpress'); ?></a>
+                               title="Get EmbedPress Pro"><?php esc_html_e( 'Get EmbedPress Pro', 'embedpress'); ?></a>
                         </li>
                         <li>
                             <a href="//embedpress.com/support/" target="_blank" rel="noopener noreferrer"
