@@ -46,6 +46,9 @@ build.sh
 build.xml
 assets_wp
 vendor/wpdevelopers/embera/doc
+vendor/wpdevelopers/embera/tests
+vendor/wpdevelopers/embera/.gitattributes
+vendor/wpdevelopers/embera/FUNDING.yml
 vendor/wpdevelopers/embera/LICENSE
 vendor/wpdevelopers/embera/phpunit.xml.dist
 Gutenberg/node_modules

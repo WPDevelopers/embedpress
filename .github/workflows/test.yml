@@ -22,4 +22,7 @@ jobs:
         #     submodules: recursive
       - name: Running NPM Install & Build
         run: |
-          cd Gutenberg && npm install && npm run build
+          cd Gutenberg && npm install && npm run build && cd ..
+      - name: Running Composer Install
+        run: |
+          composer install
