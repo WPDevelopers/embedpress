@@ -8,6 +8,7 @@
 .git
 .github
 .gitignore
+.gitattributes
 .gitlab-ci.yml
 .travis.yml
 .DS_Store
@@ -49,3 +50,4 @@ vendor/wpdevelopers/embera/LICENSE
 vendor/wpdevelopers/embera/phpunit.xml.dist
 Gutenberg/node_modules
 .eslintrc.json
+.wordpress-org
