@@ -9,7 +9,7 @@ package-lock.json
 /.properties.ini
 
 /packages
-/vendor
+#/vendor removed vendor folder so that git pull can bring the easily without composer
 .idea
 /dist
 

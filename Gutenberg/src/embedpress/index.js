@@ -39,13 +39,9 @@ registerBlockType('embedpress/embedpress', {
 		'youtube',
 		'docs',
 	],
-	supports: {align: ["wide", "full","right","left"], default: '', html:true},
+	supports: {align: ["right","left","center"], default: 'center',lightBlockWrapper: true},
 	attributes: {
 		url: {
-			type: 'string',
-			default: ''
-		},
-		iframeSrc: {
 			type: 'string',
 			default: ''
 		},
@@ -55,7 +51,7 @@ registerBlockType('embedpress/embedpress', {
 		},
 		height: {
 			type: 'string',
-			default: '360'
+			default: '450'
 		},
 		width: {
 			type: 'string',
@@ -67,7 +63,7 @@ registerBlockType('embedpress/embedpress', {
 		},
 		fetching: {
 			type: 'boolean',
-			default: true
+			default: false
 		},
 		cannotEmbed: {
 			type: 'boolean',
@@ -76,6 +72,10 @@ registerBlockType('embedpress/embedpress', {
 		interactive: {
 			type: 'boolean',
 			default: false
+		},
+		align: {
+			type: 'string',
+			default: 'center'
 		},
 	},
 	/**

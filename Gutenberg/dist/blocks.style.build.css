@@ -1,2 +1,142 @@
-.pdfobject-container{height:600px;width:600px;margin:0 auto}.embedpress-el-powered{text-align:center;margin-top:0 !important;font-size:16px !important;font-weight:700}.embedpress-embed-document iframe,[data-type="embedpress/document"] iframe{margin:0 auto;display:block}.embedpress-document-editmode .components-form-file-upload{display:none !important}
-.embedpress-gutenberg-wrapper iframe{width:100%;height:100%}
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.pdfobject-container {
+  height: 600px;
+  width: 600px;
+  margin: 0 auto; }
+
+.embedpress-el-powered {
+  text-align: center;
+  margin-top: 0 !important;
+  font-size: 16px !important;
+  font-weight: 700; }
+
+.embedpress-embed-document iframe,
+[data-type="embedpress/document"] iframe {
+  margin: 0 auto;
+  display: block; }
+
+.embedpress-document-editmode .components-form-file-upload {
+  display: none !important; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.embedpress-gutenberg-wrapper {
+  margin: 30px auto; }
+  .embedpress-gutenberg-wrapper iframe {
+    max-width: 100%; }
+
+.ose-the-new-york-times iframe {
+  min-height: 500px;
+  max-height: 100%; }
