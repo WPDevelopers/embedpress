@@ -299,7 +299,7 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [2.7.3] - 2021-03-21 =
+= [2.7.3] - 2021-03-23 =
 * Added: Dedicated button to apply height width on Block Editor.
 * Improved: Facebook and Instagram works without APP key
 * Fixed: Responsive issues for Gutenberg
