@@ -6,11 +6,11 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: 2.7.3
+Stable tag: 2.7.4
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
-EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 
+EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors.
 
 == Description ==
 
@@ -262,7 +262,7 @@ Visit [WPDeveloper](https://wpdeveloper.net/) to learn more about how to do bett
 
 = Modern Way: =
 1. Go to the WordPress Dashboard "Add New Plugin" section.
-2. Search For "EmbedPress". 
+2. Search For "EmbedPress".
 3. Install, then Activate it.
 4. Follow the [Documentation](https://embedpress.com/documentation/)
 
@@ -286,7 +286,7 @@ Not at all. You can set up everything your team needs without any coding knowled
 == Screenshots ==
 
 1. YouTube Embeding Example
-2. EmbedPress Screenshot - Dashboard 
+2. EmbedPress Screenshot - Dashboard
 3. EmbedPress Screenshot - Google Map
 4. EmbedPress Screenshot - Google Sheet
 5. EmbedPress Screenshot - Twitter
@@ -298,6 +298,9 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [2.7.4] - 2021-03-23 =
+* Hotfix: Fatal Error
 
 = [2.7.3] - 2021-03-23 =
 * Added: Dedicated button to apply height width on Block Editor.
@@ -325,7 +328,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Few minor bug fix and improvements
 
 = [2.6.2] - 2020-10-28 =
-* Fixed: Facebook & Instagram Embedding issue 
+* Fixed: Facebook & Instagram Embedding issue
 * Fixed: PHP error on WordPress 4.9.8
 * Fixed: Additional stylesheets loaded in frontend
 * Fixed: Conflict with WordPress 5.5.1
