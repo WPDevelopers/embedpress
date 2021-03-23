@@ -27,6 +27,13 @@ defined('ABSPATH') or die("No direct script access allowed.");
 define('EMBEDPRESS_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('EMBEDPRESS_FILE', __FILE__);
 
+define('EMBEDPRESS_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
+define('EMBEDPRESS_PLUGIN_DIR_URL', plugin_dir_url(__FILE__));
+define('EMBEDPRESS_GUTENBERG_DIR_URL', plugin_dir_url(__FILE__).'Gutenberg/');
+define('EMBEDPRESS_GUTENBERG_DIR_PATH', plugin_dir_path(__FILE__).'Gutenberg/');
+
+define('EMBEDPRESS_PLUGIN_URL', plugins_url('/', __FILE__));
+
 require_once plugin_dir_path(__FILE__) . 'includes.php';
 
 include_once ABSPATH . 'wp-admin/includes/plugin.php';
