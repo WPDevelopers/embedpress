@@ -15,6 +15,20 @@ namespace EmbedPress\Plugins\Html;
  */
 class Field
 {
+	/**
+	 * Generates a number type input.
+	 *
+	 * @since   1.4.0
+	 * @access  protected
+	 * @static
+	 *
+	 * @return  string
+	 */
+	protected static function number($value)
+	{
+		return '<input type="number" name="embedpress:{{slug}}[{{name}}]" class="{{classes}}" placeholder="{{placeholder}}" value="' . (int)$value . '">';
+
+	}
     /**
      * Generates a text type input.
      *
@@ -26,9 +40,7 @@ class Field
      */
     protected static function text($value)
     {
-        $html = '<input type="text" name="embedpress:{{slug}}[{{name}}]" class="{{classes}}" placeholder="{{placeholder}}" value="' . (string)$value . '">';
-
-        return $html;
+	    return '<input type="text" name="embedpress:{{slug}}[{{name}}]" class="{{classes}}" placeholder="{{placeholder}}" value="' . (string)$value . '">';
     }
 
     /**
@@ -42,9 +54,7 @@ class Field
      */
     protected static function textarea($value)
     {
-        $html = '<textarea name="embedpress:{{slug}}[{{name}}]" class="{{classes}}" placeholder="{{placeholder}}">' . (string)$value . '</textarea>';
-
-        return $html;
+	    return '<textarea name="embedpress:{{slug}}[{{name}}]" class="{{classes}}" placeholder="{{placeholder}}">' . (string)$value . '</textarea>';
     }
 
     /**
@@ -67,9 +77,7 @@ class Field
             $html[] = '</label>&nbsp;&nbsp;';
         }
 
-        $html = implode('', $html);
-
-        return $html;
+        return implode('', $html);
     }
 
     /**
@@ -91,9 +99,7 @@ class Field
 
         $html[] = '</select>';
 
-        $html = implode('', $html);
-
-        return $html;
+        return implode('', $html);
     }
 
     /**
@@ -132,6 +138,8 @@ class Field
             $html = self::select((array)$field->options, (string)$value);
         } elseif (in_array($field->type, ['textarea'])) {
             $html = self::textarea((string)$value);
+        } elseif (in_array($field->type, ['number', 'NUMBER'])) {
+	        $html = self::number((int)$value);
         } else {
             $html = self::text((string)$value);
         }
