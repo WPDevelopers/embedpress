@@ -18,15 +18,32 @@ class Field
 	/**
 	 * Generates a number type input.
 	 *
-	 * @since   1.4.0
-	 * @access  protected
-	 * @static
+	 * @param $value
 	 *
 	 * @return  string
+	 * @since   2.7.5
+	 * @access  protected
+	 * @static
 	 */
 	protected static function number($value)
 	{
 		return '<input type="number" name="embedpress:{{slug}}[{{name}}]" class="{{classes}}" placeholder="{{placeholder}}" value="' . (int)$value . '">';
+
+	}
+
+	/**
+	 * Generates a url type input.
+	 *
+	 * @param $value
+	 *
+	 * @return  string
+	 * @since   2.7.5
+	 * @access  protected
+	 * @static
+	 */
+	protected static function url($value)
+	{
+		return '<input type="url" name="embedpress:{{slug}}[{{name}}]" class="{{classes}}" placeholder="{{placeholder}}" value="' . (string)$value . '">';
 
 	}
     /**
@@ -140,6 +157,8 @@ class Field
             $html = self::textarea((string)$value);
         } elseif (in_array($field->type, ['number', 'NUMBER'])) {
 	        $html = self::number((int)$value);
+        } elseif (in_array($field->type, ['url', 'link'])) {
+	        $html = self::url($value);
         } else {
             $html = self::text((string)$value);
         }

@@ -121,6 +121,7 @@ class Shortcode {
 
             // Identify what service provider the shortcode's link belongs to
             $serviceProvider = self::get_oembed()->get_provider( $url );
+
             $urlData = self::get_url_data( $url, self::$ombed_attributes, $serviceProvider);
 
             // Sanitize the data
