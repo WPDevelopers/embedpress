@@ -238,7 +238,7 @@
 
             self.loadAsyncDynamicJsCodeFromElement = function (subject, wrapper, editorInstance) {
                 subject = $(subject);
-                if (subject.prop('tagName').toLowerCase() === 'script') {
+                if (subject.prop('tagName') && subject.prop('tagName').toLowerCase() === 'script') {
                     var scriptSrc = subject.attr('src') || null;
                     if (!scriptSrc) {
                         self.addScriptDeclaration(wrapper, subject.html(), editorInstance);
@@ -695,7 +695,7 @@
                 if (elementsList.length > 0) {
                     $.each(elementsList, function appendElementIntoWrapper (elementIndex, element) {
                         // Check if the element is a script and do not add it now (if added here it wouldn't be executed)
-                        if (element.tagName.toLowerCase() !== 'script') {
+                        if (element.tagName && element.tagName.toLowerCase() !== 'script') {
                             wrapper.append($(element));
 
                             if (element.tagName.toLowerCase() === 'iframe') {
