@@ -27,9 +27,8 @@
 
 .icon-embedpress:before {
     content: "\e900";
-    color: #556068;
 }
+
 .icon-pdf:before {
     content: "\e926";
-    color: #556068;
 }
