@@ -148,14 +148,6 @@ trait Shared {
      */
     public function embedpress_admin_notice() {
 
-        if ( get_option( 'embedpress_social_dismiss_notice' ) == true ) {
-            return;
-        }
-
-        $msg = '<strong>Due to recent Facebook API changes, if you have embeded Facebook or Instagram link before, that won’t work. EmbedPress could help, configure <a href="'.admin_url( 'admin.php?page=embedpress' ).'">here</a>. [<a href="'.esc_url('https://embedpress.com/docs/how-to-connect-facebook-instagram-embedpress/').'">Read Details</a>] </strong>';
-        echo '<div class="notice notice-info embedpress-plugin-notice-dismissible is-dismissible">
-        <p>' . $msg . '</p>
-         </div>';
     }
 
 }
