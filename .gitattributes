@@ -41,7 +41,6 @@ node_modules  export-ignore
 *.tar.gz  export-ignore
 *.zip  export-ignore
 build  export-ignore
-src  export-ignore
 build.sh  export-ignore
 build.xml  export-ignore
 assets_wp  export-ignore
