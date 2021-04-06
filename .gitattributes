@@ -41,6 +41,7 @@ node_modules  export-ignore
 *.tar.gz  export-ignore
 *.zip  export-ignore
 build  export-ignore
+src  export-ignore
 build.sh  export-ignore
 build.xml  export-ignore
 assets_wp  export-ignore
@@ -51,5 +52,6 @@ vendor/wpdevelopers/embera/tests  export-ignore
 vendor/wpdevelopers/embera/.gitattributes  export-ignore
 vendor/wpdevelopers/embera/FUNDING.yml  export-ignore
 Gutenberg/node_modules  export-ignore
+Gutenberg/src  export-ignore
 .eslintrc.json  export-ignore
 .wordpress-org export-ignore

@@ -41,6 +41,7 @@ node_modules
 *.tar.gz
 *.zip
 build
+src
 build.sh
 build.xml
 assets_wp
@@ -51,5 +52,6 @@ vendor/wpdevelopers/embera/FUNDING.yml
 vendor/wpdevelopers/embera/LICENSE
 vendor/wpdevelopers/embera/phpunit.xml.dist
 Gutenberg/node_modules
+Gutenberg/src
 .eslintrc.json
 .wordpress-org
