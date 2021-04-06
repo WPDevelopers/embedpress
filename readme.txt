@@ -14,15 +14,17 @@ EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC
 
 == Description ==
 
-[EmbedPress](https://embedpress.com/) lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. Classic Editor, Gutenberg & Elementor all supported.
+= EmbedPress – Embed Google Docs, YouTube, Maps, Vimeo, Wistia Videos & Upload PDF, PPT etc. Elementor, Block Editor & Classic Editor Supported =
+
+[EmbedPress](https://embedpress.com/) lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. Classic Editor, Gutenberg (Block Editor) & Elementor all supported.
 
 https://www.youtube.com/watch?v=fvYKLkEnJbI
 
-🔥RICH MEDIA EMBEDS FROM MORE THAN 100 SITES
+### 🔥RICH MEDIA EMBEDS FROM MORE THAN 100 SITES
 
 With EmbedPress, all you need is the URL. Find the URL for your video, image, audio file or map and simply cut-and-paste the URL into a WordPress post. EmbedPress automatically understands the URL and embeds your content. You can embed media from over 100 sites.
 
-🌟Most Popular Sites People Are Embedding with EmbedPress:
+### 🌟Most Popular Sites People Are Embedding with EmbedPress:
 
 -   Google: You can embed Google Maps, Docs, Forms, Sheets and more.
 
@@ -35,13 +37,13 @@ With EmbedPress, all you need is the URL. Find the URL for your video, image, au
 -   Images: You can embed Imgur, Giphy and Deviantart images, plus others.
 
 
-📄 Upload PDF, DOC, PPT or almost any filetypes, right from WordPress
+### 📄 Upload PDF, DOC, PPT or almost any filetypes, right from WordPress
 
 -   Supported Filetypes: PDF, PPT (Powerpoint Presentration), DOCS, XLS (Excel Files)
 -   Supported Editors: Block Editor (Gutenberg) & Elementor
 
 
-#### 🎥YOUTUBE, VIMEO AND WISTIA VIDEOS
+### 🎥YOUTUBE, VIMEO AND WISTIA VIDEOS
 
 The add-ons for EmbedPress give you far more control over your videos. With these add-ons, your videos will be responsive. You can also customize the video display to match your site’s design. Other features include auto-play and looping. Click the links below to get a full listing of all the features the add-ons provide:
 
@@ -52,7 +54,7 @@ The add-ons for EmbedPress give you far more control over your videos. With thes
 -   [Click here to get more Wistia features](https://embedpress.com/addons/embedpress-wistia/)
 
 
-#### ☁️GOOGLE DRIVE: DOCS, SHEETS, DRAWINGS, FORMS, SLIDES, MAPS
+### ☁️GOOGLE DRIVE: DOCS, SHEETS, DRAWINGS, FORMS, SLIDES, MAPS
 
 Google Drive is an enormously popular service that has replaced Microsoft Office for many companies. Using Google Drives can bring your information to life, whether it’s stored in documents, maps, drawings, spreadsheets, or presentations. EmbedPress supports all of these Google Drive options:
 
@@ -71,14 +73,14 @@ Google Drive is an enormously popular service that has replaced Microsoft Office
 https://www.youtube.com/watch?v=3CWysKDRoG4
 
 
-#### 👍FACEBOOK POSTS AND VIDEOS
+### 👍FACEBOOK POSTS AND VIDEOS
 
 With EmbedPress, you can add Facebook Posts to WordPress, using just a URL. Facebook post embeds are possible, but they’re not easy to use via normal methods. EmbedPress is different:
 
 -   [How to use Facebook embeds in WordPress](https://embedpress.com/docs/embed-facebook-posts-wordpress/)
 
 
-#### 🎧AUDIO: SPOTIFY, SOUNDCLOUD AND MIXCLOUD
+### 🎧AUDIO: SPOTIFY, SOUNDCLOUD AND MIXCLOUD
 
 EmbedPress supports all of these major options for audio on your WordPress site:
 
@@ -102,7 +104,7 @@ Here are multiple other audio options supported by EmbedPress:
 -   [How to use ReverbNation in WordPress](https://embedpress.com/docs/embed-reverbnation-audio-wordpress/)
 
 
-#### 🖼️PHOTOS: DEVIANTART, GIPHY, FLICK, IMGUR AND INSTAGRAM
+### 🖼️PHOTOS: DEVIANTART, GIPHY, FLICK, IMGUR AND INSTAGRAM
 
 EmbedPress supports most popular image-hosting sites, including Deviantart, Giphy, Imgur, Flick and Instagram:
 
@@ -119,7 +121,7 @@ EmbedPress supports most popular image-hosting sites, including Deviantart, Giph
 https://www.youtube.com/watch?v=h8oPwlZ9P5A
 
 
-#### 📊CHARTS AND DIAGRAMS
+### 📊CHARTS AND DIAGRAMS
 
 With EmbedPress, you have a wide variety of options for adding charts and diagrams to your WordPress site. We already saw that EmbedPress supports Google Drawings, but here are 5 more options for charts:
 
@@ -134,7 +136,7 @@ With EmbedPress, you have a wide variety of options for adding charts and diagra
 -   [Infogram embeds](https://embedpress.com/docs/embed-infogram-charts-wordpress/)
 
 
-#### 🎬OTHER VIDEO OPTIONS
+### 🎬OTHER VIDEO OPTIONS
 
 We’ve seen that EmbedPress supports YouTube, Wistia and Vimeo, but EmbedPress also supports around 20 more video sources:
 
@@ -177,7 +179,7 @@ We’ve seen that EmbedPress supports YouTube, Wistia and Vimeo, but EmbedPress 
 -   [VideoPress embeds](https://embedpress.com/docs/embed-videopress-videos-wordpress/)
 
 
-#### ✅MORE SITES SUPPORTED BY EMBEDPRESS
+### ✅MORE SITES SUPPORTED BY EMBEDPRESS
 
 -   [23hq embeds](https://embedpress.com/docs/embed-23hq-photos-wordpress/) (Images)
 
@@ -218,7 +220,7 @@ We’ve seen that EmbedPress supports YouTube, Wistia and Vimeo, but EmbedPress 
 
 🙌After reading this feature list, you can probably imagine EmbedPress is the best plugin in the market. So, do you want to unlock the advanced features? [Upgrade to our Pro version.](https://embedpress.com/#pricing)
 
-## 🚀BACKED BY A TRUSTED TEAM
+### 🚀BACKED BY A TRUSTED TEAM
 
 This embed plugin is brought to you by the team behind [WPDeveloper](https://wpdeveloper.net/), a dedicated marketplace for WordPress, trusted by 3,000,000+ happy users.
 
@@ -239,10 +241,10 @@ This embed plugin is brought to you by the team behind [WPDeveloper](https://wpd
 
 
 
-🔥 WHAT’S NEXT
+### 🔥 WHAT’S NEXT
 If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
-🔝[Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 900,000+ active users in the WordPress repository.
+🔝[Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 1,000,000+ active users in the WordPress repository.
 
 🔔[NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
 
