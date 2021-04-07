@@ -17,14 +17,19 @@ trait Shared {
      * @since v1.0.0
      */
     public function start_plugin_tracking() {
-        new EmbedPress_Plugin_Usage_Tracker(
-            EMBEDPRESS_FILE,
-            'http://app.wpdeveloper.net',
-            array(),
-            true,
-            true,
-            1
-        );
+        $tracker = EmbedPress_Plugin_Usage_Tracker::get_instance( EMBEDPRESS_FILE, [
+            'opt_in'       => true,
+            'goodbye_form' => true,
+            'item_id'      => '98ba0ac16a4f7b3b940d'
+        ] );
+        $tracker->set_notice_options(array(
+            'notice' => __( 'Want to help make <strong>EmbedPress</strong> even more awesome? You can get a <strong>10% discount coupon</strong> for Premium extensions if you allow us to track the usage.', 'embedpress' ),
+            'extra_notice' => __( 'We collect non-sensitive diagnostic data and plugin usage information.
+            Your site URL, WordPress & PHP version, plugins & themes and email address to send you the
+            discount coupon. This data lets us make sure this plugin always stays compatible with the most
+            popular plugins and themes. No spam, I promise.', 'embedpress' ),
+        ));
+        $tracker->init();
     }
 
     public function admin_notice() {
