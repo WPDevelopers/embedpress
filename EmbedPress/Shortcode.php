@@ -116,9 +116,10 @@ class Shortcode {
             // Converts any special HTML entities back to characters.
             $url = htmlspecialchars_decode( $url );
 	        $content_uid = md5( $url );
+	        $hash = 'embedpress_'.$content_uid . md5( implode( ':', array_values( $customAttributes)));
 
 	        // check if we have data cached
-	        if ( $embed = get_transient( $content_uid) ) {
+	        if ( $embed = get_transient( $hash) ) {
 				return $embed;
 	        }
 	        self::$ombed_attributes = self::parseContentAttributes( $customAttributes, $content_uid );
@@ -244,13 +245,13 @@ KAMAL;
             $parsedContent = apply_filters( 'pp_embed_parsed_content', $parsedContent, $urlData,  self::get_oembed_attributes() );
             
             if ( !empty( $parsedContent ) ) {
-                $embed = (object)array_merge( (array)$urlData, [
+                $embed = (object) array_merge( (array)$urlData, [
                     'attributes' => (object) self::get_oembed_attributes(),
                     'embed'      => $parsedContent,
                     'url'        => $url,
                 ] );
                 $embed = apply_filters( 'embedpress:onAfterEmbed', $embed );
-                set_transient( $content_uid, $embed, HOUR_IN_SECONDS * 6);
+                set_transient( $hash, $embed, HOUR_IN_SECONDS * 6);
                 return $embed;
             }
         }
