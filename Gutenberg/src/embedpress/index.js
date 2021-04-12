@@ -98,3 +98,4 @@ registerBlockType('embedpress/embedpress', {
 	 */
 	save: () => null,
 });
+
