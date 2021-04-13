@@ -17,7 +17,7 @@ const { Fragment } = wp.element;
 
 export default function EmbedPress({attributes, className, setAttributes}){
 	const {url, editingURL, fetching, cannotEmbed, interactive, embedHTML, height, width} = attributes;
-	const blockProps = useBlockProps();
+	const blockProps = useBlockProps ? useBlockProps() : [];
 	function switchBackToURLInput() {
 		setAttributes( {editingURL: true});
 	}
