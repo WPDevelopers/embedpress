@@ -120,6 +120,7 @@ class Shortcode {
 
 	        // check if we have data cached
 	        if ( $embed = get_transient( $hash) ) {
+		        $embed = apply_filters( 'embedpress:onAfterEmbed', $embed );
 				return $embed;
 	        }
 	        self::$ombed_attributes = self::parseContentAttributes( $customAttributes, $content_uid );
