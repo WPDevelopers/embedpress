@@ -1,0 +1,104 @@
+// import files
+@import '../mixins/button';
+
+
+// button color control
+@each $parent, $color in $theme-colors {
+	@include button-emphasis-variant('.button__#{$parent}', $color);
+}
+
+.button {
+	text-align: center;
+	padding: 16px 30px;
+	line-height: 1;
+	color: $themeColor;
+	background: rgba($themeColor, .1);
+	border: 1px solid rgba($themeColor, .1);
+	font-size: 16px;
+	font-weight: 500;
+	font-family: $bodyFont;
+	cursor: pointer;
+	@include transition();
+	@include respond-below(sm) {
+		padding: 16px 25px;
+	}
+	&:hover {
+		background: $themeColor;
+		color: $white;
+		border-color: $themeColor;
+	}
+	.ss-icon {
+		font-size: 14px;
+		margin-right: 5px;
+	}
+}
+
+.button--lg {
+	padding: 20px 30px;
+}
+.button__flex {
+	display: inline-flex;
+	align-items: center;
+}
+
+.button__group {
+	.button {
+		margin-right: 13px;
+		margin-bottom: 15px;
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+}
+
+.radius-10 {
+	border-radius: 10px;
+}
+.radius-12 {
+	border-radius: 12px;
+}
+.radius-20 {
+	border-radius: 20px;
+}
+.radius-25 {
+	border-radius: 25px;
+}
+.radius-50 {
+	border-radius: 50px;
+}
+
+
+// Alert color control
+@each $parent, $color in $theme-colors {
+	@include alert-emphasis-variant('.label__#{$parent}', $color);
+}
+
+.text__label {
+	font-size: 14px;
+	font-weight: 500;
+	display: inline-block;
+	@extend %bodyFont;
+	padding: 3.5px 18px;
+	border-radius: 15px;
+	@include respond-below(md) {
+		font-size: 12px;
+		padding: 3px 12px;
+	}
+}
+
+.badge {
+	@include fontStyle(14px, 500);
+	@extend %bodyFont;
+	padding: 3.5px 20px;
+	border-radius: 20px;
+	display: inline-block;
+	@include respond-below(md) {
+		font-size: 12px;
+		padding: 3px 12px;
+	}
+}
+
+// badge color control
+@each $parent, $color in $theme-colors {
+	@include badge-emphasis-variant('.badge__#{$parent}', $color);
+}

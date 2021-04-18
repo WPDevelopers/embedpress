@@ -29,12 +29,13 @@ define('EMBEDPRESS_FILE', __FILE__);
 
 define('EMBEDPRESS_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 define('EMBEDPRESS_PLUGIN_DIR_URL', plugin_dir_url(__FILE__));
-define('EMBEDPRESS_GUTENBERG_DIR_URL', plugin_dir_url(__FILE__).'Gutenberg/');
-define('EMBEDPRESS_GUTENBERG_DIR_PATH', plugin_dir_path(__FILE__).'Gutenberg/');
-
+define('EMBEDPRESS_GUTENBERG_DIR_URL', EMBEDPRESS_PLUGIN_DIR_URL.'Gutenberg/');
+define('EMBEDPRESS_GUTENBERG_DIR_PATH', EMBEDPRESS_PLUGIN_DIR_PATH.'Gutenberg/');
+define('EMBEDPRESS_SETTINGS_ASSETS_URL', EMBEDPRESS_PLUGIN_DIR_URL.'EmbedPress/Ends/Back/Settings/assets/');
+define('EMBEDPRESS_SETTINGS_PATH', EMBEDPRESS_PLUGIN_DIR_PATH.'EmbedPress/Ends/Back/Settings/');
 define('EMBEDPRESS_PLUGIN_URL', plugins_url('/', __FILE__));
 
-require_once plugin_dir_path(__FILE__) . 'includes.php';
+require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'includes.php';
 
 include_once ABSPATH . 'wp-admin/includes/plugin.php';
 

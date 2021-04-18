@@ -1,0 +1,17 @@
+// import files
+@import '../mixins/background&color';
+
+// each function for content color
+@each $parent, $color in $theme-colors {
+	@include color-emphasis-variant('.color__#{$parent}', $color);
+}
+
+// each function for background color
+@each $parent, $color in $theme-colors {
+	@include background-emphasis-variant('.background__#{$parent}', $color);
+}
+
+// each function for background color
+@each $parent, $color in $theme-colors {
+	@include gradient-emphasis-variant('.gradient__#{$parent}', $color);
+}

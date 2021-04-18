@@ -3,6 +3,7 @@
 namespace EmbedPress;
 
 use EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
+use EmbedPress\Ends\Back\Settings\EmbedpressSettings;
 use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
 use EmbedPress\Includes\Traits\Shared;
 
@@ -125,6 +126,7 @@ class Core {
         add_action('rest_api_init', [$this, 'registerOEmbedRestRoutes']);
 
         if (is_admin()) {
+        	new EmbedpressSettings();
             $plgSettings = self::getSettings();
             $this->admin_notice();
             $settingsClassNamespace = '\\EmbedPress\\Ends\\Back\\Settings';

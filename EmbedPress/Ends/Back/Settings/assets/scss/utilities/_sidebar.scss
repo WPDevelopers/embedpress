@@ -1,0 +1,99 @@
+
+
+.embedpress-sidebar {
+    padding: 10px;
+    background: $white;
+    border-radius: 25px;
+    position: relative;
+    @include respond-below(md) {
+        padding: 0;
+        border-radius: 5px;
+        margin-bottom: 30px;
+    }
+    .sidebar__toggler {
+        display: none;
+        @include respond-below(md) {
+            display: block;
+            font-size: 24px;
+            padding: 5px 10px;
+            text-align: center;
+        }
+    }
+    .sidebar__menu {
+        @include respond-below(md) {
+            display: none;
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            background: $white;
+            min-width: 220px;
+            border-radius: 10px;
+            padding: 10px;
+            box-shadow: 3px 3px 5px 0px rgba($black, .2);
+        }
+        .sidebar__item {
+            margin-bottom: 10px;
+            &:hover {
+                .sidebar__link {
+                    background: $themeColor;
+                    color: $white;
+                }
+            }
+            &.show {
+                .sidebar__link {
+                    background: $themeColor;
+                    color: $white;
+                    &--toggler {
+                        &:before {
+                            transform: rotate(180deg);
+                        }
+                    }
+                }
+            }
+            .sidebar__link {
+                padding: 12px 20px;
+                width: 100%;
+                @include fontStyle(16px, 500, $astronaut);
+                border-radius: 15px;
+                position: relative;
+                &--toggler {
+                    &:before {
+                        content: '\e906';
+                        font-family: icomoon;
+                        position: absolute;
+                        top: 18px;
+                        right: 15px;
+                        font-size: 10px;
+                        transition: rotate .3s ease;
+                    }
+                }
+                span {
+                    display: inline-block;
+                    margin-right: 10px;
+                    width: 20px;
+                    text-align: center;
+                }
+            }
+            .dropdown__menu {
+                margin-left: 50px;
+                display: none;
+                .dropdown__item {
+                    &:not(:last-child) {
+                        margin-bottom: 5px;
+                    }
+                    .dropdown__link {
+                        padding: 5px;
+                        display: block;
+                        @include fontStyle(16px, 400, $wildBlue);
+                        &:hover {
+                            color: $themeColor;
+                        }
+                        &.active {
+                            color: $themeColor;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,196 @@
+
+
+.upgrade__card {
+    display: flex;
+    align-items: center;
+    background: $themeColor;
+    border-radius: 25px;
+    padding: 40px;
+    @include respond-below(lg) {
+        padding: 50px;
+    }
+    .icon {
+        margin-right: 40px;
+        min-width: 90px;
+        @include respond-below(sm) {
+            margin-right: 0;
+            margin-bottom: 20px;
+        }
+    }
+    .card__content {
+        margin-right: 30px;
+        @include respond-below(sm) {
+            margin-bottom: 20px;
+            margin-right: 0;
+        }
+        h4 {
+            @include fontStyle(26px, 500, $white);
+            @extend %bodyFont;
+            margin-bottom: 15px;
+            @include respond-below(sm) {
+                font-size: 22px;
+            }
+        }
+        p {
+            @include fontStyle(14px, 400, rgba($white, .5));
+            @extend %bodyFont;
+            max-width: 700px;
+        }
+    }
+    .button {
+        margin-left: auto;
+        min-width: 177px;
+        text-align: center;
+    }
+    @include respond-below(sm) {
+        display: block;
+        padding: 25px;
+    }
+}
+
+.upgrage__card__tab__style {
+    h3 {
+        @include fontStyle(30px, 700, $darkBlue);
+        @extend %bodyFont;
+        margin-bottom: 25px;
+        @include respond-below(sm) {
+            font-size: 24px;
+        }
+        @include respond-below(xs) {
+            font-size: 20px;
+        }
+    }
+    p {
+        @include fontStyle(14px, 400, $wildBlue);
+        @extend %bodyFont;
+        margin-bottom: 30px;
+        max-width: 1320px;
+        line-height: 1.85;
+    }
+}
+
+.embedpress-license__details {
+    display: grid;
+    grid-template-columns: 3.5fr 2fr;
+    gap: 5px;
+    @include respond-below(md) {
+        display: block;
+    }
+    .license__content {
+        background: $white;
+        padding: 100px;
+        padding-left: 50px;
+        @include respond-below(lg) {
+            padding: 50px;
+        }
+        @include respond-below(md) {
+            margin-bottom: 5px;
+        }
+        @include respond-below(sm) {
+            padding: 40px 30px;
+        }
+        @include respond-below(xs) {
+            .form__inline {
+                display: block;
+                .form__group {
+                    margin-bottom: 25px;
+                    margin-right: 0;
+                }
+            }
+        }
+        .thumb__area {
+            max-width: 450px;
+            text-align: center;
+            margin-bottom: 30px;
+            h2 {
+                @include fontStyle(30px, 400, $astronaut);
+                @extend %bodyFont;
+                margin-top: 10px;
+                @include respond-below(sm) {
+                    font-size: 24px;
+                }
+            }
+        }
+        p {
+            @include fontStyle(18px, 400, $astronaut);
+            @extend %bodyFont;
+            margin-bottom: 30px;
+            @include respond-below(sm) {
+                font-size: 16px;
+            }
+            a {
+                color: $themeColor;
+                text-decoration: underline;
+            }
+        }
+        ol {
+            list-style: decimal;
+            padding-left: 19px;
+            margin-bottom: 50px;
+            li {
+                @include fontStyle(18px, 400, $astronaut);
+                @extend %bodyFont;
+                &:not(:last-child) {
+                    margin-bottom: 15px;
+                }
+                @include respond-below(sm) {
+                    font-size: 16px;
+                }
+                a {
+                    color: $themeColor;
+                    text-decoration: underline;
+                }
+            }
+        }
+        .form__group {
+            flex-grow: 1;
+            position: relative;
+            .input__icon {
+                position: absolute;
+                top: 20px;
+                left: 20px;
+                color: $wildBlue;
+                pointer-events: none;
+                i {
+                    font-size: 20px;
+                }
+                @include respond-below(sm) {
+                    top: 15px;
+                    left: 15px;
+                    i {
+                        font-size: 16px;;
+                    }
+                }
+            }
+            .form__control {
+                height: 60px;
+                background: $liteGrey;
+                color: $wildBlue;
+                font-size: 20px;
+                padding-left: 50px;
+                @include placeholder {
+                    color: $wildBlue;
+                }
+                @include respond-below(xl) {
+                    font-size: 16px;
+                }
+                @include respond-below(sm) {
+                    height: 50px;
+                    padding-left: 35px;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+    .license__manage {
+        background: $white;
+        padding: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        .button {
+            margin-top: 30px;
+        }
+    }
+}

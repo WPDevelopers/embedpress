@@ -1,0 +1,121 @@
+
+.embedpress-card {
+    background: $grey2;
+    border-radius: 20px;
+    padding: 30px;
+    padding-left: 100px;
+    border:  2px solid rgba($themeColor, .1);
+    position: relative;
+    @include respond-below(sm) {
+        padding-left: 25px;
+        padding: 25px;
+    }
+    .icon {
+        position: absolute;
+        top: 30px;
+        left: 30px;
+        height: 50px;
+        width: 50px;
+        border-radius: 10px;
+        background: $themeColor;
+        text-align: center;
+        @include respond-below(sm) {
+            position: static;
+            margin-bottom: 20px;
+        }
+        i {
+            color: $white;
+            font-size: 20px;
+            line-height: 50px;
+        }
+    }
+    h3 {
+        @include fontStyle(26px, 500, $darkBlue);
+        @extend %bodyFont;
+        margin-bottom: 10px;
+        @include respond-below(sm) {
+            font-size: 22px;
+        }
+    }
+    p {
+        @include fontStyle(14px, 400, $wildBlue);
+        @extend %bodyFont;
+        margin-bottom: 20px;
+    }
+}
+
+.emement__item {
+    background: $grey2;
+    border-radius: 10px;
+    padding: 25px 30px;
+    border:  2px solid rgba($themeColor, .1);
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    @include respond-below(sm) {
+        padding: 20px;
+        padding-right: 15px;
+    }
+    &.isPro {
+        .pro__item {
+            display: block;
+        }
+    }
+    h5 {
+        @include fontStyle(20px, 700, $astronaut);
+        @extend %bodyFont;
+        margin-right: 15px;
+        @include respond-below(sm) {
+            font-size: 16px;
+        }
+    }
+    .has__question {
+        color: rgba($wildBlue, .5);
+        line-height: 1;
+        margin-top: 2px;
+        margin-right: 10px;
+    }
+    .input__switch {
+        margin-left: auto;
+    }
+    .pro__item {
+        position: absolute;
+        top: 5px;
+        left: -16px;
+        transform: rotate(-45deg);
+        @include fontStyle(12px, 400, $white);
+        @extend %bodyFont;
+        background: $themeColor;
+        padding: 0 20px;
+        text-transform: uppercase;
+        display: none;
+        @include respond-below(sm) {
+            font-size: 9px;
+        }
+    }
+}
+
+.embedpress--elements__wrap {
+    h3 {
+        @include fontStyle(30px, 700, $darkBlue);
+        @extend %bodyFont;
+        margin-bottom: 25px;
+        @include respond-below(sm) {
+            font-size: 24px;
+        }
+        @include respond-below(xs) {
+            font-size: 20px;
+        }
+    }
+    @include respond-below(md) {
+        .embedpress__row.grid__4 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    @include respond-below(xs) {
+        .embedpress__row.grid__4 {
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
+}

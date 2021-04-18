@@ -1,0 +1,12 @@
+
+@mixin fontStyle($fontsize: 14px, $fontweight: 400, $color: $grey) {
+    font-size: $fontsize;
+    font-weight: $fontweight;
+    color: $color;
+}
+%headerFont {
+    font-family: $headerFont;
+}
+%bodyFont {
+    font-family: $bodyFont;
+}
