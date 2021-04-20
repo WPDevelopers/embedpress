@@ -5,7 +5,7 @@
 ?>
 <div class="upgrade__card mb30">
     <div class="icon">
-        <img src="../assets/img/site-icon.svg" alt="">
+        <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/site-icon.svg" alt="">
     </div>
     <div class="card__content">
         <h4>Upgrade To Pro</h4>

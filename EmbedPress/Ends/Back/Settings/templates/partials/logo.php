@@ -4,5 +4,5 @@
  * */
 ?>
 <header class="embedpress-header">
-    <a href="#" class="site__logo"><img src="../assets/img/logo.svg" alt=""></a>
+    <a href="#" class="site__logo"><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/logo.svg" alt=""></a>
 </header>
