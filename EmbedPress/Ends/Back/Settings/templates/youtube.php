@@ -4,7 +4,7 @@
 ?>
 
 <div class="embedpress__settings background__white radius-25 p40">
-    <h3>Youtube Settings</h3>
+    <h3><?php esc_html_e( "Youtube Settings", "embedpress" ); ?></h3>
     <div class="embedpress__settings__form">
         <form action="" method="post" >
 	        <?php echo  $nonce_field ; ?>
