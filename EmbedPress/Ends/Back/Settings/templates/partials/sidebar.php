@@ -6,6 +6,7 @@
 $ep_page = admin_url('admin.php?page=embedpress-new');
 $gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['general', 'youtube', 'vimeo', 'wistia', 'twitch']);
 $brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-logo', 'branding',]);
+error_log( $template);
 ?>
 <div class="embedpress-sidebar">
 	<a href="#" class="sidebar__toggler"><i class="ep-icon ep-bar"></i></a>
@@ -13,7 +14,7 @@ $brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-l
 		<?php do_action( 'ep_before_general_menu'); ?>
         <li class="sidebar__item sidebar__dropdown <?php echo in_array( $template, $gen_menu_template_names)? 'show' : ''; ?>">
 			<a href="<?php echo esc_url( $ep_page.'&page_type=general'); ?>" class="sidebar__link sidebar__link--toggler <?php echo in_array( $template, $gen_menu_template_names)? 'active' : ''; ?>"><span><i class="ep-icon ep-gear"></i></span> General</a>
-			<ul class="dropdown__menu">
+			<ul class="dropdown__menu <?php echo in_array( $template, $gen_menu_template_names) ? 'show' : ''; ?>">
 				<?php do_action( 'ep_before_general_menu_items'); ?>
                 <li class="dropdown__item">
 					<a href="<?php echo esc_url( $ep_page.'&page_type=general'); ?>" class="dropdown__link <?php echo 'general' === $template ? 'active' : ''; ?>">Settings</a>
@@ -41,9 +42,9 @@ $brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-l
 	        <?php do_action( 'ep_after_element_item'); ?>
         </li>
 		<?php do_action( 'ep_before_branding_menu'); ?>
-        <li class="sidebar__item sidebar__dropdown  <?php echo in_array( $template, $brand_menu_template_names)? 'show' : ''; ?>">
+        <li class="sidebar__item sidebar__dropdown <?php echo in_array( $template, $brand_menu_template_names)? 'show' : ''; ?>">
 			<a href="<?php echo esc_url( $ep_page.'&page_type=custom-logo'); ?>" class="sidebar__link sidebar__link--toggler  <?php echo in_array( $template, $brand_menu_template_names)? 'active' : ''; ?>"><span><i class="ep-icon ep-branding"></i></span> Branding</a>
-			<ul class="dropdown__menu">
+			<ul class="dropdown__menu  <?php echo in_array( $template, $brand_menu_template_names)? 'show' : ''; ?>">
 				<?php do_action( 'ep_before_branding_menu_items'); ?>
                 <li class="dropdown__item">
 					<a href="<?php echo esc_url( $ep_page.'&page_type=custom-logo'); ?>" class="dropdown__link  <?php echo 'custom-logo' === $template ? 'active' : ''; ?>">Custom Logo</a>
