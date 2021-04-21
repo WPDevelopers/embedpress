@@ -11,7 +11,7 @@
 			<?php include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/sidebar.php'; ?>
             <div class="embedpress-content">
 				<?php include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/upgrade-card.php'; ?>
-	                <?php include_once EMBEDPRESS_SETTINGS_PATH . "templates/{$template}.php"; ?>
+                <?php include_once EMBEDPRESS_SETTINGS_PATH . "templates/{$template}.php"; ?>
             </div>
         </div>
 		<?php include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/footer.php'; ?>

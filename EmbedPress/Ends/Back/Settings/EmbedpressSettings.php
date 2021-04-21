@@ -12,6 +12,7 @@ class EmbedpressSettings {
 		$this->file_version = defined( 'WP_DEBUG') && WP_DEBUG ? time() : EMBEDPRESS_VERSION;
 		add_action('admin_enqueue_scripts', [$this, 'handle_scripts_and_styles']);
 		add_action('admin_menu', [$this, 'register_menu']);
+		add_action( 'init', [$this, 'save_settings']);
 
 	}
 
@@ -41,5 +42,9 @@ class EmbedpressSettings {
 	public function render_settings_page(  ) {
 		$template = !empty( $_GET['page_type'] ) ? sanitize_text_field( $_GET['page_type']) : 'general';
         include_once EMBEDPRESS_SETTINGS_PATH . 'templates/main-template.php';
+	}
+
+	public function save_settings(  ) {
+		//error_log( print_r( $_REQUEST, 1));
 	}
 }
