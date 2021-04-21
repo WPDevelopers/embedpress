@@ -57,6 +57,11 @@ error_log( $template);
             <a href="<?php echo esc_url( $ep_page.'&page_type=go-premium'); ?>" class="sidebar__link <?php echo 'premium' === $template ? 'active' : ''; ?>"><span><i class="ep-icon ep-premium"></i></span> Go Premium</a>
         </li>
 		<?php do_action( 'ep_after_premium_menu'); ?>
+		<?php do_action( 'ep_before_license_menu'); ?>
+        <li class="sidebar__item <?php echo 'license' === $template ? 'show' : ''; ?>">
+            <a href="<?php echo esc_url( $ep_page.'&page_type=license'); ?>" class="sidebar__link <?php echo 'license' === $template ? 'active' : ''; ?>"><span><i class="ep-icon ep-lock"></i></span> Licence</a>
+        </li>
+		<?php do_action( 'ep_after_license_menu'); ?>
 
     </ul>
 </div>

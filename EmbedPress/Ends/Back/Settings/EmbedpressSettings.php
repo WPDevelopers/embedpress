@@ -41,6 +41,7 @@ class EmbedpressSettings {
 
 	public function render_settings_page(  ) {
 		$template = !empty( $_GET['page_type'] ) ? sanitize_text_field( $_GET['page_type']) : 'general';
+		$nonce_field = wp_nonce_field('ep_settings_nonce', 'ep_settings_nonce', true, false);
         include_once EMBEDPRESS_SETTINGS_PATH . 'templates/main-template.php';
 	}
 

@@ -6,6 +6,7 @@
 	<h3>Global Embed Iframe</h3>
 	<div class="embedpress__settings__form">
 		<form action="" method="post">
+            <?php echo  $nonce_field ; ?>
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( 'Embed Iframe Height', 'embedpress'); ?></p>
 				<div class="form__control__wrap">

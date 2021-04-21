@@ -5,7 +5,8 @@
 <div class="embedpress__settings background__white radius-25 p40">
     <h3>Vimeo Settings</h3>
     <div class="embedpress__settings__form">
-        <form action="#">
+        <form action="" method="post" >
+	        <?php echo  $nonce_field ; ?>
             <div class="form__group">
                 <p class="form__label">Auto Play</p>
                 <div class="form__control__wrap">
