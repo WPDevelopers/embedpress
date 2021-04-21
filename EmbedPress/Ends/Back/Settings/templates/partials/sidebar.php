@@ -52,8 +52,8 @@ $brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-l
             </ul>
 		</li>
 		<?php do_action( 'ep_before_premium_menu'); ?>
-        <li class="sidebar__item <?php echo 'premium' === $template ? 'show' : ''; ?>">
-            <a href="<?php echo esc_url( $ep_page.'&page_type=premium'); ?>" class="sidebar__link <?php echo 'premium' === $template ? 'active' : ''; ?>"><span><i class="ep-icon ep-premium"></i></span> Go Premium</a>
+        <li class="sidebar__item <?php echo 'go-premium' === $template ? 'show' : ''; ?>">
+            <a href="<?php echo esc_url( $ep_page.'&page_type=go-premium'); ?>" class="sidebar__link <?php echo 'premium' === $template ? 'active' : ''; ?>"><span><i class="ep-icon ep-premium"></i></span> Go Premium</a>
         </li>
 		<?php do_action( 'ep_after_premium_menu'); ?>
 
