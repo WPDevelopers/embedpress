@@ -92,7 +92,7 @@
                     </label>
                 </div>
             </div>
-            <button class="button button__themeColor radius-10">Save Changes</button>
+            <button class="button button__themeColor radius-10" name="submit" value="custom-logo"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
         </form>
     </div>
 </div>

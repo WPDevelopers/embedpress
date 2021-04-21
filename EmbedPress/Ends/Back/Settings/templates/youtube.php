@@ -9,136 +9,122 @@
         <form action="" method="post" >
 	        <?php echo  $nonce_field ; ?>
             <div class="form__group">
-                <p class="form__label">Auto Play</p>
+                <p class="form__label"><?php esc_html_e( "Auto Play", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="autoplay">
-                            <span>No</span>
+                            <input type="radio" name="autoplay" value="0" checked>
+                            <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="autoplay">
-                            <span>Yes</span>
+                            <input type="radio" name="autoplay" value="1">
+                            <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label">Progress bar color</p>
+                <label class="form__label" for="color"><?php esc_html_e( "Progress bar color", "embedpress" ); ?></label>
                 <div class="form__control__wrap">
                     <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>
-                        <select>
-                            <option value="">Red</option>
-                            <option value="">Green</option>
-                            <option value="">Blue</option>
-                            <option value="">White</option>
-                            <option value="">Orange</option>
+                        <select name="color" id="color">
+                            <option value="red" selected><?php esc_html_e( "Red", "embedpress" ); ?></option>
+                            <option value="white"><?php esc_html_e( "White", "embedpress" ); ?></option>
                         </select>
                     </div>
-                    <p>Specifies the color that will be used in the player's video progress bar to highlight the amount of the video that the viewer has already seen. <br> Note: Setting the color to white will disable the Modest Branding option (causing a YouTube logo to be displayed in the control bar).</p>
+                    <p><?php printf( esc_html__( "Specifies the color that will be used in the player's video progress bar to highlight the amount of the video that the viewer has already seen. %s Note: Setting the color to white will disable the Modest Branding option (causing a YouTube logo to be displayed in the control bar).", 'embedpress'), '<br>'); ?></p>
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label">Force Closed Captions</p>
+                <p class="form__label"><?php esc_html_e( "Force Closed Captions", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="close">
-                            <span>No</span>
+                            <input type="radio" name="cc_load_policy" value="0" checked>
+                            <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="close">
-                            <span>Yes</span>
+                            <input type="radio" name="cc_load_policy" value="1">
+                            <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
                     <p>Setting this option to Yes causes closed captions to be shown by default, even if the user has turned captions off. This will be based on user preference otherwise.</p>
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label">Display Controls <span class="isPro">Pro</span></p>
+                <p class="form__label"><?php esc_html_e( "Display Controls", "embedpress" ); ?> <span class="isPro">Pro</span></p>
                 <div class="form__control__wrap">
                     <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>
-                        <select disabled>
-                            <option value="">Display immediately</option>
-                            <option value="">Display immediately</option>
-                            <option value="">Display immediately</option>
-                            <option value="">Display immediately</option>
-                            <option value="">Display immediately</option>
-                            <option value="">Display immediately</option>
+                        <select name="controls" disabled>
+                            <option value="1"><?php esc_html_e( 'Display immediately', 'embedpress'); ?></option>
+                            <option value="2"><?php esc_html_e( 'Display after user initiation', 'embedpress'); ?></option>
+                            <option value="0"><?php esc_html_e( 'Hide controls', 'embedpress'); ?></option>
                         </select>
                     </div>
-                    <p>Indicates whether the video player controls are displayed.</p>
+                    <p><?php esc_html_e( 'Indicates whether the video player controls are displayed.', 'embedpress'); ?> </p>
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label">Enable Fullscreen button</p>
+                <p class="form__label"><?php esc_html_e( "Enable Fullscreen button", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="fullscreen">
-                            <span>No</span>
+                            <input type="radio" name="fs" value="0">
+                            <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="fullscreen">
-                            <span>Yes</span>
+                            <input type="radio" name="fs" value="1" checked>
+                            <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
-                    <p>Indicates whether the fullscreen button is enabled.</p>
+                    <p><?php esc_html_e( "Indicates whether the fullscreen button is enabled.", "embedpress" ); ?></p>
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label">Display video annotations <span class="isPro">Pro</span></p>
+                <p class="form__label"><?php esc_html_e( "Display video annotations", "embedpress" ); ?> <span class="isPro">Pro</span></p>
                 <div class="form__control__wrap">
                     <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>
-                        <select disabled>
-                            <option value="">Display</option>
-                            <option value="">Display</option>
-                            <option value="">Display</option>
-                            <option value="">Display</option>
-                            <option value="">Display</option>
-                            <option value="">Display</option>
+                        <select name="iv_load_policy" disabled>
+                            <option value="1 selected"><?php esc_html_e( "Show", "embedpress" ); ?></option>
+                            <option value="3"><?php esc_html_e( "Hide", "embedpress" ); ?></option>
                         </select>
                     </div>
-                    <p>Indicates whether video annotations are displayed.</p>
+                    <p><?php esc_html_e( "Indicates whether video annotations are displayed.", "embedpress" ); ?></p>
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label">Display related videos</p>
+                <p class="form__label"><?php esc_html_e( "Display related videos", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="displayrelated">
-                            <span>No</span>
+                            <input type="radio" name="rel" value="0">
+                            <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="displayrelated">
-                            <span>Yes</span>
+                            <input type="radio" name="rel" value="1" checked>
+                            <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
-                    <p>Indicates whether the player should show related videos when playback of the initial video ends.</p>
+                    <p><?php esc_html_e( "Indicates whether the player should show related videos when playback of the initial video ends.", "embedpress" ); ?></p>
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label">Modest Branding</p>
+                <p class="form__label"><?php esc_html_e( "Modest Branding", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
                     <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>
-                        <select>
-                            <option value="">Display</option>
-                            <option value="">Display</option>
-                            <option value="">Display</option>
-                            <option value="">Display</option>
-                            <option value="">Display</option>
-                            <option value="">Display</option>
+                        <select name="modestbranding">
+                            <option value="1"><?php esc_html_e( "Show", "embedpress" ); ?></option>
+                            <option value="0" selected><?php esc_html_e( "Hide", "embedpress" ); ?></option>
                         </select>
                     </div>
-                    <p>Indicates whether the player should display a YouTube logo in the control bar.</p>
+                    <p><?php esc_html_e( "Indicates whether the player should display a YouTube logo in the control bar.", "embedpress" ); ?></p>
                 </div>
             </div>
-            <button class="button button__themeColor radius-10">Save Changes</button>
+            <button class="button button__themeColor radius-10" name="submit" value="youtube"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
         </form>
     </div>
 </div>

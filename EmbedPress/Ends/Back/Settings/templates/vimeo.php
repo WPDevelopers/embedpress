@@ -126,7 +126,7 @@
                     <p>Indicates whether the avatar is displayed.</p>
                 </div>
             </div>
-            <button class="button button__themeColor radius-10">Save Changes</button>
+            <button class="button button__themeColor radius-10" name="submit" value="vimeo"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
         </form>
     </div>
 </div>

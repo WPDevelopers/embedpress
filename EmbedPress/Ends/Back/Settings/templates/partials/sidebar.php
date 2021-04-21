@@ -3,9 +3,6 @@
  * Side of the settings page
  * all undefined vars like $template etc come from the main template
  * */
-$ep_page = admin_url('admin.php?page=embedpress-new');
-$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['general', 'youtube', 'vimeo', 'wistia', 'twitch']);
-$brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-logo', 'branding',]);
 error_log( $template);
 ?>
 <div class="embedpress-sidebar">

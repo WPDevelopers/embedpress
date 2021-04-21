@@ -43,7 +43,7 @@
 					</label>
 				</div>
 			</div>
-            <button class="button button__themeColor radius-10"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
+            <button class="button button__themeColor radius-10" name="submit" value="general"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
         </form>
 	</div>
 </div>

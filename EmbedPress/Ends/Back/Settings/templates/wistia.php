@@ -189,7 +189,7 @@
 					<p>The amount of time to rewind, in seconds.</p>
 				</div>
 			</div>
-			<button class="button button__themeColor radius-10">Save Changes</button>
+            <button class="button button__themeColor radius-10" name="submit" value="wistia"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
 		</form>
 	</div>
 </div>

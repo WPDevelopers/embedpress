@@ -2,13 +2,14 @@
 namespace EmbedPress\Ends\Back\Settings;
 
 class EmbedpressSettings {
-
+	var $page_slug = '';
 	/**
 	 * @var int|string
 	 */
 	protected $file_version;
 
-	public function __construct() {
+	public function __construct($page_slug = 'embedpress-new') {
+		$this->page_slug = $page_slug;
 		$this->file_version = defined( 'WP_DEBUG') && WP_DEBUG ? time() : EMBEDPRESS_VERSION;
 		add_action('admin_enqueue_scripts', [$this, 'handle_scripts_and_styles']);
 		add_action('admin_menu', [$this, 'register_menu']);
@@ -17,13 +18,15 @@ class EmbedpressSettings {
 	}
 
 	public function register_menu() {
-		add_menu_page( __('EmbedPress Settings', 'embedpress'), 'EmbedPress New', 'manage_options', 'embedpress-new',
+		add_menu_page( __('EmbedPress Settings', 'embedpress'), 'EmbedPress New', 'manage_options', $this->page_slug,
 			[ $this, 'render_settings_page' ], null, 64 );
 	}
 
 	public function handle_scripts_and_styles() {
-		$this->enqueue_styles();
-		$this->enqueue_scripts();
+		if ( !empty( $_REQUEST['page']) && $this->page_slug === $_REQUEST['page'] ) {
+			$this->enqueue_styles();
+			$this->enqueue_scripts();
+		}
 	}
 
 	public function enqueue_scripts() {
@@ -40,9 +43,13 @@ class EmbedpressSettings {
 	}
 
 	public function render_settings_page(  ) {
+		$page_slug = $this->page_slug; // make this available for included template
 		$template = !empty( $_GET['page_type'] ) ? sanitize_text_field( $_GET['page_type']) : 'general';
 		$nonce_field = wp_nonce_field('ep_settings_nonce', 'ep_settings_nonce', true, false);
-        include_once EMBEDPRESS_SETTINGS_PATH . 'templates/main-template.php';
+		$ep_page = admin_url('admin.php?page='.$this->page_slug);
+		$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['general', 'youtube', 'vimeo', 'wistia', 'twitch']);
+		$brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-logo', 'branding',]);
+		include_once EMBEDPRESS_SETTINGS_PATH . 'templates/main-template.php';
 	}
 
 	public function save_settings(  ) {

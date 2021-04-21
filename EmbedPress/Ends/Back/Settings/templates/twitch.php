@@ -86,7 +86,7 @@
 					<p>Set it to Yes to mute the video on start.</p>
 				</div>
 			</div>
-			<button class="button button__themeColor radius-10">Save Changes</button>
+            <button class="button button__themeColor radius-10" name="submit" value="twitch"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
 		</form>
 	</div>
 </div>
