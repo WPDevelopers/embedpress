@@ -74,7 +74,7 @@
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Color", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
-                    <input type="text" name="color" value="#00adef" style="display: none">
+                    <input type="text" class="form__control" name="color" value="#00adef">
                     <button id="ep_choose_color" class="button radius-10"><?php esc_html_e( "Select Color", "embedpress" ); ?></button>
                     <p><?php esc_html_e( "Specify the color of the video controls.", "embedpress" ); ?></p>
                 </div>
@@ -84,11 +84,11 @@
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="displaytitle">
+                            <input type="radio" name="display_title" value="0">
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="displaytitle">
+                            <input type="radio" name="display_title" value="1" checked>
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
@@ -100,11 +100,11 @@
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="displayauthor">
+                            <input type="radio" name="display_author" value="0">
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="displayauthor">
+                            <input type="radio" name="display_author" value="1" checked>
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
@@ -116,11 +116,11 @@
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="displayavatar" disabled>
+                            <input type="radio" name="display_avatar" value="0" disabled>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="displayavatar" disabled>
+                            <input type="radio" name="display_avatar" value="1" disabled>
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
