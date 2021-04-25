@@ -53,6 +53,42 @@ class EmbedpressSettings {
 	}
 
 	public function save_settings(  ) {
-		//error_log( print_r( $_REQUEST, 1));
+		/*
+		 * EMBEDPRESS_PLG_NAME.':twitch', youtube, vimeo, wistia
+		 *
+		 * */
+		if ( !empty( $_POST['ep_settings_nonce']) && wp_verify_nonce( $_POST['ep_settings_nonce'], 'ep_settings_nonce') ) {
+			$submit_type = !empty( $_POST['submit'] ) ? $_POST['submit'] : '';
+			$save_handler_method  = "save_{$submit_type}_settings";
+			if ( method_exists( $this, $save_handler_method ) ) {
+				$this->$save_handler_method();
+			}
+		}
+	}
+
+	public function save_general_settings() {
+		$settings = [
+			'enableEmbedResizeWidth' => !empty( $_POST['enableEmbedResizeWidth']) ? intval( $_POST['enableEmbedResizeWidth']) : 600,
+			'enableEmbedResizeHeight' => !empty( $_POST['enableEmbedResizeHeight']) ? intval( $_POST['enableEmbedResizeHeight']) : 550,
+			'g_lazyload' => !empty( $_POST['g_lazyload']) ? sanitize_text_field( $_POST['g_lazyload']) : '',
+		];
+
+		// Pro will handle g_loading_animation settings and other
+		$settings = apply_filters( 'ep_general_settings_before_save', $settings, $_POST);
+
+		update_option( EMBEDPRESS_PLG_NAME, $settings);
+
+	}
+
+	public function save_youtube_settings() {
+		$settings = [
+
+		];
+
+		// Pro will handle g_loading_animation settings and other
+		$settings = apply_filters( 'ep_youtube_settings_before_save', $settings, $_POST);
+
+		update_option( EMBEDPRESS_PLG_NAME.':youtube', $settings);
+
 	}
 }

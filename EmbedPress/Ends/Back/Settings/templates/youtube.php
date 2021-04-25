@@ -7,7 +7,9 @@
     <h3><?php esc_html_e( "Youtube Settings", "embedpress" ); ?></h3>
     <div class="embedpress__settings__form">
         <form action="" method="post" >
-	        <?php echo  $nonce_field ; ?>
+	        <?php
+	        do_action( 'embedpress_before_youtube_settings_fields');
+            echo  $nonce_field ; ?>
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Auto Play", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
@@ -124,6 +126,7 @@
                     <p><?php esc_html_e( "Indicates whether the player should display a YouTube logo in the control bar.", "embedpress" ); ?></p>
                 </div>
             </div>
+	        <?php do_action( 'embedpress_after_youtube_settings_fields'); ?>
             <button class="button button__themeColor radius-10" name="submit" value="youtube"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
         </form>
     </div>

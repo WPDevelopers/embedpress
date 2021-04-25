@@ -274,11 +274,12 @@ KAMAL;
     }
 
 	protected static function set_default_size( &$customAttributes ) {
+		$plgSettings = Core::getSettings();
 		if (empty( $customAttributes['width'])) {
-			$customAttributes['width'] = 600;
+			$customAttributes['width'] = !empty( $plgSettings->enableEmbedResizeWidth) ? $plgSettings->enableEmbedResizeWidth : 600;
 		}
 		if (empty( $customAttributes['height'])) {
-			$customAttributes['height'] = 550;
+			$customAttributes['height'] = !empty( $plgSettings->enableEmbedResizeHeight) ? $plgSettings->enableEmbedResizeHeight : 550;
 		}
     }
 

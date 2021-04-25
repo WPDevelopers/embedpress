@@ -10,7 +10,10 @@
 	<h3><?php esc_html_e( "Wistia Settings", "embedpress" ); ?></h3>
 	<div class="embedpress__settings__form">
 		<form action="" method="post" >
-			<?php echo  $nonce_field ; ?>
+			<?php
+			do_action( 'embedpress_before_wistia_settings_fields');
+            echo  $nonce_field ;
+            ?>
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Fullscreen Button", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
@@ -193,6 +196,7 @@
 					<p><?php esc_html_e( "The amount of time to rewind, in seconds.", "embedpress" ); ?></p>
 				</div>
 			</div>
+			<?php do_action( 'embedpress_after_wistia_settings_fields'); ?>
             <button class="button button__themeColor radius-10" name="submit" value="wistia"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
 		</form>
 	</div>

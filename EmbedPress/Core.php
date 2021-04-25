@@ -465,11 +465,11 @@ class Core {
         }
 
         if (!isset($settings['enableEmbedResizeHeight'])) {
-            $settings['enableEmbedResizeHeight'] = 552;
+            $settings['enableEmbedResizeHeight'] = 550; // old 552
         }
 
         if (!isset($settings['enableEmbedResizeWidth'])) {
-            $settings['enableEmbedResizeWidth'] = 652;
+            $settings['enableEmbedResizeWidth'] = 600; // old 652
         }
 
         return (object) $settings;

@@ -3,7 +3,6 @@
  * Side of the settings page
  * all undefined vars like $template etc come from the main template
  * */
-error_log( $template);
 ?>
 <div class="embedpress-sidebar">
 	<a href="#" class="sidebar__toggler"><i class="ep-icon ep-bar"></i></a>

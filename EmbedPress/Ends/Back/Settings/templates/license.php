@@ -17,11 +17,14 @@
 			<li>Click on "Activate License" button.</li>
 		</ol>
 		<form action="" method="post"  class="form__inline">
-			<?php echo  $nonce_field ; ?>
+			<?php
+			do_action( 'embedpress_before_license_settings_fields');
+			echo  $nonce_field ; ?>
 			<div class="form__group">
 				<span class="input__icon"><i class="ep-icon ep-lock"></i></span>
 				<input type="text" class="form__control" name="license-key" placeholder="Place your license kye and active">
 			</div>
+			<?php do_action( 'embedpress_after_license_settings_fields'); ?>
             <button class="button button__themeColor radius-10" name="submit" value="activate-license"><?php esc_html_e( 'Activate License', 'embedpress'); ?></button>
         </form>
 	</div>

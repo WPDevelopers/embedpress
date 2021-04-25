@@ -7,7 +7,9 @@
 	<h3>Twitch Settings</h3>
 	<div class="embedpress__settings__form">
 		<form action="" method="post" >
-			<?php echo  $nonce_field ; ?>
+			<?php
+            do_action( 'embedpress_before_twitch_settings_fields');
+            echo  $nonce_field ; ?>
 			<div class="form__group">
 				<p class="form__label">Start Time (in Secounds)</p>
 				<div class="form__control__wrap">
@@ -86,6 +88,7 @@
 					<p>Set it to Yes to mute the video on start.</p>
 				</div>
 			</div>
+			<?php do_action( 'embedpress_after_twitch_settings_fields'); ?>
             <button class="button button__themeColor radius-10" name="submit" value="twitch"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
 		</form>
 	</div>
