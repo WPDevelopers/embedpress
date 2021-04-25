@@ -76,7 +76,7 @@ class EmbedpressSettings {
 		$settings = apply_filters( 'ep_general_settings_before_save', $settings, $_POST);
 
 		update_option( EMBEDPRESS_PLG_NAME, $settings);
-
+		do_action( 'ep_general_settings_after_save', $settings, $_POST);
 	}
 
 	public function save_youtube_settings() {
@@ -90,8 +90,25 @@ class EmbedpressSettings {
 
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_youtube_settings_before_save', $settings, $_POST);
-
 		update_option( $opttion_name, $settings);
+		do_action( 'ep_youtube_settings_after_save', $settings, $_POST);
 
+	}
+
+	public function save_wistia_settings() {
+		$opttion_name = EMBEDPRESS_PLG_NAME.':wistia';
+		$settings = get_option( $opttion_name);
+		$settings['display_fullscreen_button'] = !empty( $_POST['display_fullscreen_button']) ? sanitize_text_field( $_POST['display_fullscreen_button']) : '';
+		$settings['display_playbar'] = !empty( $_POST['display_playbar']) ? sanitize_text_field( $_POST['display_playbar']) : '';
+		$settings['small_play_button'] = !empty( $_POST['small_play_button']) ? sanitize_text_field( $_POST['small_play_button']) : '';
+		$settings['autoplay'] = !empty( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
+		$settings['volume'] = !empty( $_POST['volume']) ? intval( $_POST['volume']) : '';
+		$settings['player_color'] = !empty( $_POST['player_color']) ? sanitize_text_field( $_POST['player_color']) : '';
+		$settings['plugin_rewind_time'] = !empty( $_POST['plugin_rewind_time']) ? sanitize_text_field( $_POST['plugin_rewind_time']) : '';
+
+		// Pro will handle g_loading_animation settings and other
+		$settings = apply_filters( 'ep_wistia_settings_before_save', $settings, $_POST);
+		update_option( $opttion_name, $settings);
+		do_action( 'ep_wistia_settings_after_save', $settings, $_POST);
 	}
 }
