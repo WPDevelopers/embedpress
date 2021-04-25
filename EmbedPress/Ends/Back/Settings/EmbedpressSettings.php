@@ -67,11 +67,10 @@ class EmbedpressSettings {
 	}
 
 	public function save_general_settings() {
-		$settings = [
-			'enableEmbedResizeWidth' => !empty( $_POST['enableEmbedResizeWidth']) ? intval( $_POST['enableEmbedResizeWidth']) : 600,
-			'enableEmbedResizeHeight' => !empty( $_POST['enableEmbedResizeHeight']) ? intval( $_POST['enableEmbedResizeHeight']) : 550,
-			'g_lazyload' => !empty( $_POST['g_lazyload']) ? sanitize_text_field( $_POST['g_lazyload']) : '',
-		];
+		$settings = get_option( EMBEDPRESS_PLG_NAME);
+		$settings ['enableEmbedResizeWidth'] = !empty( $_POST['enableEmbedResizeWidth']) ? intval( $_POST['enableEmbedResizeWidth']) : 600;
+		$settings ['enableEmbedResizeHeight'] = !empty( $_POST['enableEmbedResizeHeight']) ? intval( $_POST['enableEmbedResizeHeight']) : 550;
+		$settings['g_lazyload'] = !empty( $_POST['g_lazyload']) ? sanitize_text_field( $_POST['g_lazyload']) : '';
 
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_general_settings_before_save', $settings, $_POST);

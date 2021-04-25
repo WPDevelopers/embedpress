@@ -1,6 +1,9 @@
 <?php
 /*
  * General Settings page */
+
+$g_settings = get_option( EMBEDPRESS_PLG_NAME);
+
 ?>
 <div class="embedpress__settings background__white radius-25 p40">
 	<h3>Global Embed Iframe</h3>
@@ -32,7 +35,7 @@
 				<p class="form__label"><?php esc_html_e( 'Lazy Load', 'embedpress'); ?></p>
 				<div class="form__control__wrap">
 					<label class="input__switch switch__text">
-						<input type="checkbox" name="g_lazyload" value="yes" checked>
+						<input type="checkbox" name="g_lazyload" value="1" checked>
 						<span></span>
 					</label>
 				</div>
@@ -41,7 +44,7 @@
 				<p class="form__label"><?php esc_html_e( 'Loading Animation', 'embedpress'); ?> <span class="isPro">PRO</span></p>
 				<div class="form__control__wrap">
 					<label class="input__switch switch__text">
-						<input type="checkbox" name="g_loading_animation" value="yes" disabled>
+						<input type="checkbox" name="g_loading_animation" value="1" disabled>
 						<span></span>
 					</label>
 				</div>
