@@ -67,7 +67,7 @@ class EmbedpressSettings {
 	}
 
 	public function save_general_settings() {
-		$settings = get_option( EMBEDPRESS_PLG_NAME);
+		$settings = (array) get_option( EMBEDPRESS_PLG_NAME);
 		$settings ['enableEmbedResizeWidth'] = !empty( $_POST['enableEmbedResizeWidth']) ? intval( $_POST['enableEmbedResizeWidth']) : 600;
 		$settings ['enableEmbedResizeHeight'] = !empty( $_POST['enableEmbedResizeHeight']) ? intval( $_POST['enableEmbedResizeHeight']) : 550;
 		$settings['g_lazyload'] = !empty( $_POST['g_lazyload']) ? sanitize_text_field( $_POST['g_lazyload']) : '';
@@ -80,14 +80,18 @@ class EmbedpressSettings {
 	}
 
 	public function save_youtube_settings() {
-		$settings = [
-
-		];
+		$opttion_name = EMBEDPRESS_PLG_NAME.':youtube';
+		$settings = get_option( $opttion_name);
+		$settings['autoplay'] = !empty( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
+		$settings['color'] = !empty( $_POST['color']) ? sanitize_text_field( $_POST['color']) : '';
+		$settings['cc_load_policy'] = !empty( $_POST['cc_load_policy']) ? sanitize_text_field( $_POST['cc_load_policy']) : '';
+		$settings['rel'] = !empty( $_POST['rel']) ? sanitize_text_field( $_POST['rel']) : '';
+		$settings['modestbranding'] = !empty( $_POST['modestbranding']) ? sanitize_text_field( $_POST['modestbranding']) : '';
 
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_youtube_settings_before_save', $settings, $_POST);
 
-		update_option( EMBEDPRESS_PLG_NAME.':youtube', $settings);
+		update_option( $opttion_name, $settings);
 
 	}
 }
