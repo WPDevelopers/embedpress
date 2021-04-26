@@ -31,15 +31,15 @@
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Playbar", "embedpress" ); ?></p>
+				<p class="form__label"><?php esc_html_e( "Playbar", "embedpress" ); ?>  <span class="isPro">PRO</span></p>
 				<div class="form__control__wrap">
 					<div class="input__flex">
 						<label class="input__radio">
-							<input type="radio" value="0" name="display_playbar">
+							<input type="radio" value="0" name="display_playbar" disabled>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
 						</label>
 						<label class="input__radio">
-							<input type="radio" value="1" name="display_playbar" checked>
+							<input type="radio" value="1" name="display_playbar" disabled>
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
@@ -95,9 +95,9 @@
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Volume", "embedpress" ); ?></p>
+				<p class="form__label"><?php esc_html_e( "Volume", "embedpress" ); ?>  <span class="isPro">PRO</span></p>
 				<div class="form__control__wrap">
-					<input type="number" class="form__control" value="100" name="volume">
+					<input type="number" class="form__control" value="100" name="volume" disabled>
 					<p><?php esc_html_e( "Start the video with a custom volume level. Set values between 0 and 100.", "embedpress" ); ?></p>
 				</div>
 			</div>
@@ -174,15 +174,15 @@
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Plugin: Rewind", "embedpress" ); ?></p>
+				<p class="form__label"><?php esc_html_e( "Plugin: Rewind", "embedpress" ); ?> <span class="isPro">Pro</span></p>
 				<div class="form__control__wrap">
 					<div class="input__flex">
 						<label class="input__radio">
-							<input type="radio" value="0" name="plugin_rewind">
+							<input type="radio" value="0" name="plugin_rewind" disabled>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
 						</label>
 						<label class="input__radio">
-							<input type="radio" value="1" name="plugin_rewind">
+							<input type="radio" value="1" name="plugin_rewind" disabled>
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
@@ -190,9 +190,9 @@
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Rewind time (seconds)", "embedpress" ); ?></p>
+				<p class="form__label"><?php esc_html_e( "Rewind time (seconds)", "embedpress" ); ?> <span class="isPro">Pro</span></p>
 				<div class="form__control__wrap">
-					<input type="text" class="form__control" value="10" name="plugin_rewind_time">
+					<input type="text" class="form__control" value="10" name="plugin_rewind_time" disabled>
 					<p><?php esc_html_e( "The amount of time to rewind, in seconds.", "embedpress" ); ?></p>
 				</div>
 			</div>
