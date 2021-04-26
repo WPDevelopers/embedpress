@@ -22,11 +22,11 @@
 				<div class="form__control__wrap">
 					<div class="input__flex">
 						<label class="input__radio">
-							<input type="radio" name="autoplay" value="0">
+							<input type="radio" name="autoplay" value="no">
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
 						</label>
 						<label class="input__radio">
-							<input type="radio" name="autoplay" value="1">
+							<input type="radio" name="autoplay" value="yes">
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
@@ -38,11 +38,11 @@
 				<div class="form__control__wrap">
 					<div class="input__flex">
 						<label class="input__radio">
-							<input type="radio" name="show_chat" value="0" disabled>
+							<input type="radio" name="show_chat" value="no" disabled>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
 						</label>
 						<label class="input__radio">
-							<input type="radio" name="show_chat" value="1" disabled>
+							<input type="radio" name="show_chat" value="yes" disabled>
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
@@ -67,11 +67,11 @@
 				<div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="fs" value="0">
+                            <input type="radio" name="fs" value="no">
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="fs" value="1">
+                            <input type="radio" name="fs" value="yes">
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
@@ -83,11 +83,11 @@
 				<div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="mute" value="0" disabled>
+                            <input type="radio" name="mute" value="no" disabled>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="mute" value="1" disabled>
+                            <input type="radio" name="mute" value="yes" disabled>
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>

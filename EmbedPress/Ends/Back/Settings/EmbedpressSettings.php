@@ -111,7 +111,6 @@ class EmbedpressSettings {
 	}
 
 	public function save_vimeo_settings() {
-		//error_log( print_r( $_POST, 1));
 		$opttion_name = EMBEDPRESS_PLG_NAME.':vimeo';
 		$settings = get_option( $opttion_name);
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
@@ -122,5 +121,17 @@ class EmbedpressSettings {
 		$settings = apply_filters( 'ep_vimeo_settings_before_save', $settings, $_POST);
 		update_option( $opttion_name, $settings);
 		do_action( 'ep_vimeo_settings_after_save', $settings, $_POST);
+	}
+
+	public function save_twitch_settings() {
+		$opttion_name = EMBEDPRESS_PLG_NAME.':twitch';
+		$settings = get_option( $opttion_name);
+		$settings['embedpress_pro_twitch_autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
+		$settings['embedpress_pro_fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : '';
+
+		// Pro will handle g_loading_animation settings and other
+		$settings = apply_filters( 'ep_twitch_settings_before_save', $settings, $_POST);
+		update_option( $opttion_name, $settings);
+		do_action( 'ep_twitch_settings_after_save', $settings, $_POST);
 	}
 }
