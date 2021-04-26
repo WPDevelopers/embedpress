@@ -11,9 +11,9 @@
             do_action( 'embedpress_before_twitch_settings_fields');
             echo  $nonce_field ; ?>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Start Time (in Seconds)", "embedpress" ); ?></p>
+				<p class="form__label" ><?php esc_html_e( "Start Time (in Seconds)", "embedpress" ); ?> <span class="isPro">Pro</span></p>
 				<div class="form__control__wrap">
-					<input type="text" class="form__control">
+					<input type="text" name="start_time" id="start_time" class="form__control" value="" disabled>
 					<p><?php esc_html_e( "You can put a custom time in seconds to start video from. Example: 500", "embedpress" ); ?></p>
 				</div>
 			</div>
@@ -22,11 +22,11 @@
 				<div class="form__control__wrap">
 					<div class="input__flex">
 						<label class="input__radio">
-							<input type="radio" name="autoplay">
+							<input type="radio" name="autoplay" value="0">
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
 						</label>
 						<label class="input__radio">
-							<input type="radio" name="autoplay">
+							<input type="radio" name="autoplay" value="1">
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
@@ -38,11 +38,11 @@
 				<div class="form__control__wrap">
 					<div class="input__flex">
 						<label class="input__radio">
-							<input type="radio" name="fullbutton" disabled>
+							<input type="radio" name="show_chat" value="0" disabled>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
 						</label>
 						<label class="input__radio">
-							<input type="radio" name="fullbutton" disabled>
+							<input type="radio" name="show_chat" value="1" disabled>
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
@@ -50,41 +50,47 @@
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Theme", "embedpress" ); ?></p>
+				<p class="form__label"><?php esc_html_e( "Theme", "embedpress" ); ?> <span class="isPro">Pro</span></p>
 				<div class="form__control__wrap">
 					<div class="embedpress__select">
 						<span><i class="ep-icon ep-caret-down"></i></span>
-						<select>
-							<option value=""><?php esc_html_e( "Dark", "embedpress" ); ?></option>
-							<option value=""><?php esc_html_e( "Light", "embedpress" ); ?></option>
+						<select name="theme" disabled>
+							<option value="dark"><?php esc_html_e( "Dark", "embedpress" ); ?></option>
+							<option value="light"><?php esc_html_e( "Light", "embedpress" ); ?></option>
 						</select>
 					</div>
 					<p><?php esc_html_e( "Set dark or light theme for the twitch comment.", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Enable Fullsccreen button", "embedpress" ); ?> <span class="isPro">Pro</span></p>
+				<p class="form__label"><?php esc_html_e( "Enable Fullsccreen button", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
-					<div class="embedpress__select">
-						<span><i class="ep-icon ep-caret-down"></i></span>
-						<select disabled>
-							<option value=""><?php esc_html_e( "Yes", "embedpress" ); ?></option>
-							<option value=""><?php esc_html_e( "No", "embedpress" ); ?></option>
-						</select>
-					</div>
+                    <div class="input__flex">
+                        <label class="input__radio">
+                            <input type="radio" name="fs" value="0">
+                            <span><?php esc_html_e( "No", "embedpress" ); ?></span>
+                        </label>
+                        <label class="input__radio">
+                            <input type="radio" name="fs" value="1">
+                            <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
+                        </label>
+                    </div>
 					<p><?php esc_html_e( "Indicates whether the fullscreen button is enabled.", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Mute on start", "embedpress" ); ?></p>
+				<p class="form__label"><?php esc_html_e( "Mute on start", "embedpress" ); ?> <span class="isPro">Pro</span></p>
 				<div class="form__control__wrap">
-					<div class="embedpress__select">
-						<span><i class="ep-icon ep-caret-down"></i></span>
-						<select>
-							<option value=""><?php esc_html_e( "Yes", "embedpress" ); ?></option>
-							<option value=""><?php esc_html_e( "No", "embedpress" ); ?></option>
-						</select>
-					</div>
+                    <div class="input__flex">
+                        <label class="input__radio">
+                            <input type="radio" name="mute" value="0" disabled>
+                            <span><?php esc_html_e( "No", "embedpress" ); ?></span>
+                        </label>
+                        <label class="input__radio">
+                            <input type="radio" name="mute" value="1" disabled>
+                            <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
+                        </label>
+                    </div>
 					<p><?php esc_html_e( "Set it to Yes to mute the video on start.", "embedpress" ); ?></p>
 				</div>
 			</div>

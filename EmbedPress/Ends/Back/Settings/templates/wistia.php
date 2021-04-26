@@ -78,22 +78,7 @@
 					<p><?php esc_html_e( "Indicates whether the volume control is visible.", "embedpress" ); ?></p>
 				</div>
 			</div>
-			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Auto Play", "embedpress" ); ?></p>
-				<div class="form__control__wrap">
-					<div class="input__flex">
-						<label class="input__radio">
-							<input type="radio" value="0" name="autoplay" checked>
-							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
-						</label>
-						<label class="input__radio">
-							<input type="radio" value="1" name="autoplay">
-							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
-						</label>
-					</div>
-					<p><?php esc_html_e( "Automatically start to play the videos when the player loads.", "embedpress" ); ?></p>
-				</div>
-			</div>
+
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Volume", "embedpress" ); ?>  <span class="isPro">PRO</span></p>
 				<div class="form__control__wrap">
@@ -109,6 +94,23 @@
 					<p><?php esc_html_e( "Specify the color of the video controls.", "embedpress" ); ?></p>
 				</div>
 			</div>
+
+            <div class="form__group">
+                <p class="form__label"><?php esc_html_e( "Auto Play", "embedpress" ); ?></p>
+                <div class="form__control__wrap">
+                    <div class="input__flex">
+                        <label class="input__radio">
+                            <input type="radio" value="0" name="autoplay" checked>
+                            <span><?php esc_html_e( "No", "embedpress" ); ?></span>
+                        </label>
+                        <label class="input__radio">
+                            <input type="radio" value="1" name="autoplay">
+                            <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
+                        </label>
+                    </div>
+                    <p><?php esc_html_e( "Automatically start to play the videos when the player loads.", "embedpress" ); ?></p>
+                </div>
+            </div>
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Plugin: Resumable", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
