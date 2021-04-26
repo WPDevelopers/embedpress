@@ -82,10 +82,9 @@ class EmbedpressSettings {
 		$opttion_name = EMBEDPRESS_PLG_NAME.':youtube';
 		$settings = get_option( $opttion_name);
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
-		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : '';
-		$settings['cc_load_policy'] = isset( $_POST['cc_load_policy']) ? sanitize_text_field( $_POST['cc_load_policy']) : '';
-		$settings['rel'] = isset( $_POST['rel']) ? sanitize_text_field( $_POST['rel']) : '';
-		$settings['modestbranding'] = isset( $_POST['modestbranding']) ? sanitize_text_field( $_POST['modestbranding']) : '';
+		$settings['controls'] = isset( $_POST['controls']) ? sanitize_text_field( $_POST['controls']) : '';
+		$settings['fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : '';
+		$settings['iv_load_policy'] = isset( $_POST['iv_load_policy']) ? sanitize_text_field( $_POST['iv_load_policy']) : '';
 
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_youtube_settings_before_save', $settings, $_POST);
@@ -97,9 +96,9 @@ class EmbedpressSettings {
 	public function save_wistia_settings() {
 		$opttion_name = EMBEDPRESS_PLG_NAME.':wistia';
 		$settings = get_option( $opttion_name);
+		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['display_fullscreen_button'] = isset( $_POST['display_fullscreen_button']) ? sanitize_text_field( $_POST['display_fullscreen_button']) : '';
 		$settings['small_play_button'] = isset( $_POST['small_play_button']) ? sanitize_text_field( $_POST['small_play_button']) : '';
-		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['player_color'] = isset( $_POST['player_color']) ? sanitize_text_field( $_POST['player_color']) : '';
 		$settings['plugin_resumable'] = isset( $_POST['plugin_resumable']) ? sanitize_text_field( $_POST['plugin_resumable']) : '';
 		$settings['plugin_focus'] = isset( $_POST['plugin_focus']) ? sanitize_text_field( $_POST['plugin_focus']) : '';
