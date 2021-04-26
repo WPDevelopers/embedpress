@@ -26,15 +26,15 @@
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Loop", "embedpress" ); ?></p>
+                <p class="form__label"><?php esc_html_e( "Loop", "embedpress" ); ?> <span class="isPro">PRO</span></p>
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="loop" value="0" checked>
+                            <input type="radio" name="loop" value="0" disabled>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="loop" value="1">
+                            <input type="radio" name="loop" value="1" disabled>
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
@@ -58,15 +58,15 @@
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "DNT", "embedpress" ); ?></p>
+                <p class="form__label"><?php esc_html_e( "DNT", "embedpress" ); ?> <span class="isPro">PRO</span></p>
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="vimeo_dnt" value="0">
+                            <input type="radio" name="vimeo_dnt" value="0" disabled>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="vimeo_dnt" value="1" checked>
+                            <input type="radio" name="vimeo_dnt" value="1" disabled>
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
@@ -98,15 +98,15 @@
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Display Author", "embedpress" ); ?></p>
+                <p class="form__label"><?php esc_html_e( "Display Author", "embedpress" ); ?> <span class="isPro">PRO</span></p>
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="display_author" value="0">
+                            <input type="radio" name="display_author" value="0" disabled>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="display_author" value="1" checked>
+                            <input type="radio" name="display_author" value="1" disabled>
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
