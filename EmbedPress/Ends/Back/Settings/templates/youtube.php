@@ -26,11 +26,11 @@
                 </div>
             </div>
             <div class="form__group">
-                <label class="form__label" for="color"><?php esc_html_e( "Progress bar color", "embedpress" ); ?></label>
+                <label class="form__label" for="color"><?php esc_html_e( "Progress bar color", "embedpress" ); ?> <span class="isPro">PRO</span></label>
                 <div class="form__control__wrap">
                     <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>
-                        <select name="color" id="color">
+                        <select name="color" id="color" disabled>
                             <option value="red" selected><?php esc_html_e( "Red", "embedpress" ); ?></option>
                             <option value="white"><?php esc_html_e( "White", "embedpress" ); ?></option>
                         </select>
@@ -39,27 +39,27 @@
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Force Closed Captions", "embedpress" ); ?></p>
+                <p class="form__label"><?php esc_html_e( "Force Closed Captions", "embedpress" ); ?> <span class="isPro">PRO</span></p>
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="cc_load_policy" value="0" checked>
+                            <input type="radio" name="cc_load_policy" value="0" disabled>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="cc_load_policy" value="1">
+                            <input type="radio" name="cc_load_policy" value="1" disabled>
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
-                    <p>Setting this option to Yes causes closed captions to be shown by default, even if the user has turned captions off. This will be based on user preference otherwise.</p>
+                    <p><?php esc_html_e( "Setting this option to Yes causes closed captions to be shown by default, even if the user has turned captions off. This will be based on user preference otherwise.", "embedpress" ); ?></p>
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Display Controls", "embedpress" ); ?> <span class="isPro">Pro</span></p>
+                <p class="form__label"><?php esc_html_e( "Display Controls", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
                     <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>
-                        <select name="controls" disabled>
+                        <select name="controls">
                             <option value="1"><?php esc_html_e( 'Display immediately', 'embedpress'); ?></option>
                             <option value="2"><?php esc_html_e( 'Display after user initiation', 'embedpress'); ?></option>
                             <option value="0"><?php esc_html_e( 'Hide controls', 'embedpress'); ?></option>
@@ -85,11 +85,11 @@
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Display video annotations", "embedpress" ); ?> <span class="isPro">Pro</span></p>
+                <p class="form__label"><?php esc_html_e( "Display video annotations", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
                     <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>
-                        <select name="iv_load_policy" disabled>
+                        <select name="iv_load_policy">
                             <option value="1 selected"><?php esc_html_e( "Show", "embedpress" ); ?></option>
                             <option value="3"><?php esc_html_e( "Hide", "embedpress" ); ?></option>
                         </select>
@@ -98,15 +98,15 @@
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Display related videos", "embedpress" ); ?></p>
+                <p class="form__label"><?php esc_html_e( "Display related videos", "embedpress" ); ?> <span class="isPro">PRO</span></p>
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="rel" value="0">
+                            <input type="radio" name="rel" value="0" disabled>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="rel" value="1" checked>
+                            <input type="radio" name="rel" value="1" disabled>
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
@@ -114,11 +114,11 @@
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Modest Branding", "embedpress" ); ?></p>
+                <p class="form__label"><?php esc_html_e( "Modest Branding", "embedpress" ); ?> <span class="isPro">PRO</span></p>
                 <div class="form__control__wrap">
                     <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>
-                        <select name="modestbranding">
+                        <select name="modestbranding" disabled>
                             <option value="1"><?php esc_html_e( "Show", "embedpress" ); ?></option>
                             <option value="0" selected><?php esc_html_e( "Hide", "embedpress" ); ?></option>
                         </select>
