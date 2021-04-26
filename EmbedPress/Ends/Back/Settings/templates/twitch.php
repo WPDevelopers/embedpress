@@ -4,88 +4,88 @@
 ?>
 
 <div class="embedpress__settings background__white radius-25 p40">
-	<h3>Twitch Settings</h3>
+	<h3><?php esc_html_e( "Twitch Settings", "embedpress" ); ?></h3>
 	<div class="embedpress__settings__form">
 		<form action="" method="post" >
 			<?php
             do_action( 'embedpress_before_twitch_settings_fields');
             echo  $nonce_field ; ?>
 			<div class="form__group">
-				<p class="form__label">Start Time (in Secounds)</p>
+				<p class="form__label"><?php esc_html_e( "Start Time (in Seconds)", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
 					<input type="text" class="form__control">
-					<p>You can put a custom time in seconds to start video from. Example: 500</p>
+					<p><?php esc_html_e( "You can put a custom time in seconds to start video from. Example: 500", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label">Auto Play</p>
+				<p class="form__label"><?php esc_html_e( "Auto Play", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
 					<div class="input__flex">
 						<label class="input__radio">
 							<input type="radio" name="autoplay">
-							<span>No</span>
+							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
 						</label>
 						<label class="input__radio">
 							<input type="radio" name="autoplay">
-							<span>Yes</span>
+							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
-					<p>Automatically start to play the videos when the player loads.</p>
+					<p><?php esc_html_e( "Automatically start to play the videos when the player loads.", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label">Show chat <span class="isPro">Pro</span></p>
+				<p class="form__label"><?php esc_html_e( "Show chat", "embedpress" ); ?> <span class="isPro">Pro</span></p>
 				<div class="form__control__wrap">
 					<div class="input__flex">
 						<label class="input__radio">
 							<input type="radio" name="fullbutton" disabled>
-							<span>No</span>
+							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
 						</label>
 						<label class="input__radio">
 							<input type="radio" name="fullbutton" disabled>
-							<span>Yes</span>
+							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
-					<p>You can show or hide chat using this settings</p>
+					<p><?php esc_html_e( "You can show or hide chat using this settings", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label">Theme</p>
+				<p class="form__label"><?php esc_html_e( "Theme", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
 					<div class="embedpress__select">
 						<span><i class="ep-icon ep-caret-down"></i></span>
 						<select>
-							<option value="">Dark</option>
-							<option value="">Light</option>
+							<option value=""><?php esc_html_e( "Dark", "embedpress" ); ?></option>
+							<option value=""><?php esc_html_e( "Light", "embedpress" ); ?></option>
 						</select>
 					</div>
-					<p>Set dark or light theme for the twich comment.</p>
+					<p><?php esc_html_e( "Set dark or light theme for the twitch comment.", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label">Enable Fullsccreen button <span class="isPro">Pro</span></p>
+				<p class="form__label"><?php esc_html_e( "Enable Fullsccreen button", "embedpress" ); ?> <span class="isPro">Pro</span></p>
 				<div class="form__control__wrap">
 					<div class="embedpress__select">
 						<span><i class="ep-icon ep-caret-down"></i></span>
 						<select disabled>
-							<option value="">Yes</option>
-							<option value="">No</option>
+							<option value=""><?php esc_html_e( "Yes", "embedpress" ); ?></option>
+							<option value=""><?php esc_html_e( "No", "embedpress" ); ?></option>
 						</select>
 					</div>
-					<p>Indicates whether the fullscreen button is enabled.</p>
+					<p><?php esc_html_e( "Indicates whether the fullscreen button is enabled.", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label">Mute on start</p>
+				<p class="form__label"><?php esc_html_e( "Mute on start", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
 					<div class="embedpress__select">
 						<span><i class="ep-icon ep-caret-down"></i></span>
 						<select>
-							<option value="">Yes</option>
-							<option value="">No</option>
+							<option value=""><?php esc_html_e( "Yes", "embedpress" ); ?></option>
+							<option value=""><?php esc_html_e( "No", "embedpress" ); ?></option>
 						</select>
 					</div>
-					<p>Set it to Yes to mute the video on start.</p>
+					<p><?php esc_html_e( "Set it to Yes to mute the video on start.", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<?php do_action( 'embedpress_after_twitch_settings_fields'); ?>
