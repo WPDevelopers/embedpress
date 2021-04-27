@@ -77,10 +77,10 @@ class EmbedpressSettings {
 	public function save_youtube_settings() {
 		$opttion_name = EMBEDPRESS_PLG_NAME.':youtube';
 		$settings = get_option( $opttion_name);
-		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
-		$settings['controls'] = isset( $_POST['controls']) ? sanitize_text_field( $_POST['controls']) : '';
-		$settings['fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : '';
-		$settings['iv_load_policy'] = isset( $_POST['iv_load_policy']) ? sanitize_text_field( $_POST['iv_load_policy']) : '';
+		$settings['autoplay'] = !empty( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : 0;
+		$settings['controls'] = !empty( $_POST['controls']) ? sanitize_text_field( $_POST['controls']) : 0;
+		$settings['fs'] = !empty( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : 0;
+		$settings['iv_load_policy'] = !empty( $_POST['iv_load_policy']) ? sanitize_text_field( $_POST['iv_load_policy']) : 1;
 
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_youtube_settings_before_save', $settings);
@@ -108,8 +108,8 @@ class EmbedpressSettings {
 	public function save_vimeo_settings() {
 		$opttion_name = EMBEDPRESS_PLG_NAME.':vimeo';
 		$settings = get_option( $opttion_name);
-		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
-		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : '';
+		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : 0;
+		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : 0;
 		$settings['display_title'] = isset( $_POST['display_title']) ? sanitize_text_field( $_POST['display_title']) : '';
 
 		// Pro will handle g_loading_animation settings and other
