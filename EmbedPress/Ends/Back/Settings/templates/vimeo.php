@@ -7,7 +7,6 @@ $autoplay = !empty( $vm_settings['autoplay']) ? $vm_settings['autoplay'] : 0;
 $loop = !empty( $vm_settings['loop']) ? $vm_settings['loop'] : 0;
 $autopause = !empty( $vm_settings['autopause']) ? $vm_settings['autopause'] : 0;
 $vimeo_dnt = !empty( $vm_settings['vimeo_dnt']) ? $vm_settings['vimeo_dnt'] : 0;
-// pro
 $color = !empty( $vm_settings['color']) ? $vm_settings['color'] : '#00adef';
 $display_title = !empty( $vm_settings['display_title']) ? $vm_settings['display_title'] : 0;
 $display_author = !empty( $vm_settings['display_author']) ? $vm_settings['display_author'] : 0;

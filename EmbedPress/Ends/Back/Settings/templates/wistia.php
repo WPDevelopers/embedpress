@@ -3,7 +3,20 @@
  * Wistia Settings page
  * all undefined vars comes from EmbedPressSettings.php or sometime from main-template.php
  * */
-
+$wis_settings = get_option( EMBEDPRESS_PLG_NAME.':wistia' );
+$pro_active = is_embedpress_pro_active();
+$autoplay = !empty( $wis_settings['autoplay']) ? $wis_settings['autoplay'] : 0;
+$display_fullscreen_button = !empty( $wis_settings['display_fullscreen_button']) ? $wis_settings['display_fullscreen_button'] : 0;
+$small_play_button = !empty( $wis_settings['small_play_button']) ? $wis_settings['small_play_button'] : 0;
+$display_volume_control = !empty( $wis_settings['display_volume_control']) ? $wis_settings['display_volume_control'] : 0;
+$volume = !empty( $wis_settings['volume']) ? $wis_settings['volume'] : 0;
+$player_color = !empty( $wis_settings['player_color']) ? $wis_settings['player_color'] : '#00adef';
+$plugin_resumable = !empty( $wis_settings['plugin_resumable']) ? $wis_settings['plugin_resumable'] : 0;
+$plugin_captions = !empty( $wis_settings['plugin_captions']) ? $wis_settings['plugin_captions'] : 0;
+$plugin_captions_default = !empty( $wis_settings['plugin_captions_default']) ? $wis_settings['plugin_captions_default'] : 0;
+$plugin_focus = !empty( $wis_settings['plugin_focus']) ? $wis_settings['plugin_focus'] : 0;
+$plugin_rewind = !empty( $wis_settings['plugin_rewind']) ? $wis_settings['plugin_rewind'] : 0;
+$plugin_rewind_time = !empty( $wis_settings['plugin_rewind_time']) ? $wis_settings['plugin_rewind_time'] : 0;
 ?>
 
 <div class="embedpress__settings background__white radius-25 p40">
