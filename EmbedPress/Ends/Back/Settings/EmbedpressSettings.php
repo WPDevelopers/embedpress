@@ -109,8 +109,8 @@ class EmbedpressSettings {
 		$opttion_name = EMBEDPRESS_PLG_NAME.':vimeo';
 		$settings = get_option( $opttion_name);
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : 0;
-		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : 0;
-		$settings['display_title'] = isset( $_POST['display_title']) ? sanitize_text_field( $_POST['display_title']) : '';
+		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : '#00adef';
+		$settings['display_title'] = isset( $_POST['display_title']) ? sanitize_text_field( $_POST['display_title']) : 1;
 
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_vimeo_settings_before_save', $settings);
