@@ -52,11 +52,7 @@ class EmbedpressSettings {
 		include_once EMBEDPRESS_SETTINGS_PATH . 'templates/main-template.php';
 	}
 
-	public function save_settings(  ) {
-		/*
-		 * EMBEDPRESS_PLG_NAME.':twitch', youtube, vimeo, wistia
-		 *
-		 * */
+	public function save_settings() {
 		if ( !empty( $_POST['ep_settings_nonce']) && wp_verify_nonce( $_POST['ep_settings_nonce'], 'ep_settings_nonce') ) {
 			$submit_type = !empty( $_POST['submit'] ) ? $_POST['submit'] : '';
 			$save_handler_method  = "save_{$submit_type}_settings";

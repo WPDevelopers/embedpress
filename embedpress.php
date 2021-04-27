@@ -42,6 +42,13 @@ include_once ABSPATH . 'wp-admin/includes/plugin.php';
 if ( ! defined('EMBEDPRESS_IS_LOADED')) {
     return;
 }
+function is_embedpress_pro_active() {
+	if ( ! function_exists( 'is_plugin_active') ) {
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+
+	return is_plugin_active('embedpress-pro/embedpress-pro.php');
+}
 
 function onPluginActivationCallback()
 {

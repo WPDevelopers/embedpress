@@ -3,7 +3,10 @@
  * General Settings page */
 
 $g_settings = get_option( EMBEDPRESS_PLG_NAME);
-
+$pro_active = is_embedpress_pro_active();
+$lazy_load = isset( $g_settings['g_lazyload']) ? $g_settings['g_lazyload'] : '';
+$enableEmbedResizeHeight = isset( $g_settings['enableEmbedResizeHeight']) ? $g_settings['enableEmbedResizeHeight'] : 550;
+$enableEmbedResizeWidth = isset( $g_settings['enableEmbedResizeWidth']) ? $g_settings['enableEmbedResizeWidth'] : 600;
 ?>
 <div class="embedpress__settings background__white radius-25 p40">
 	<h3>Global Embed Iframe</h3>
@@ -17,7 +20,7 @@ $g_settings = get_option( EMBEDPRESS_PLG_NAME);
 				<p class="form__label"><?php esc_html_e( 'Embed Iframe Height', 'embedpress'); ?></p>
 				<div class="form__control__wrap">
 					<div class="input__flex">
-						<input type="number" name="enableEmbedResizeHeight" class="form__control" value="550">
+						<input type="number" name="enableEmbedResizeHeight" class="form__control" value="<?php echo esc_attr( $enableEmbedResizeHeight); ?>">
 						<span class="frame__unit">px</span>
 					</div>
 				</div>
@@ -26,16 +29,16 @@ $g_settings = get_option( EMBEDPRESS_PLG_NAME);
 				<p class="form__label"><?php esc_html_e( 'Embed Iframe Width', 'embedpress'); ?></p>
 				<div class="form__control__wrap">
 					<div class="input__flex">
-						<input type="number" name="enableEmbedResizeWidth" class="form__control" value="600">
+						<input type="number" name="enableEmbedResizeWidth" class="form__control" value="<?php echo esc_attr( $enableEmbedResizeWidth); ?>">
 						<span class="frame__unit">px</span>
 					</div>
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( 'Lazy Load', 'embedpress'); ?> <span class="isPro">PRO</span></p>
+				<p class="form__label"><?php esc_html_e( 'Lazy Load ', 'embedpress'); echo !$pro_active ? '<span class="isPro">PRO</span>' : ''; ?> </p>
 				<div class="form__control__wrap">
 					<label class="input__switch switch__text">
-						<input type="checkbox" name="g_lazyload" value="1" disabled>
+						<input type="checkbox" name="g_lazyload" value="1" <?php echo $pro_active ? '': 'disabled ';  echo ($lazy_load != '0') ? 'checked': ''; ?>>
 						<span></span>
 					</label>
 				</div>
