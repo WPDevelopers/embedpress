@@ -83,9 +83,9 @@ class EmbedpressSettings {
 		$settings['iv_load_policy'] = isset( $_POST['iv_load_policy']) ? sanitize_text_field( $_POST['iv_load_policy']) : '';
 
 		// Pro will handle g_loading_animation settings and other
-		$settings = apply_filters( 'ep_youtube_settings_before_save', $settings, $_POST);
+		$settings = apply_filters( 'ep_youtube_settings_before_save', $settings);
 		update_option( $opttion_name, $settings);
-		do_action( 'ep_youtube_settings_after_save', $settings, $_POST);
+		do_action( 'ep_youtube_settings_after_save', $settings);
 
 	}
 
@@ -100,9 +100,9 @@ class EmbedpressSettings {
 		$settings['plugin_focus'] = isset( $_POST['plugin_focus']) ? sanitize_text_field( $_POST['plugin_focus']) : '';
 
 		// Pro will handle g_loading_animation settings and other
-		$settings = apply_filters( 'ep_wistia_settings_before_save', $settings, $_POST);
+		$settings = apply_filters( 'ep_wistia_settings_before_save', $settings);
 		update_option( $opttion_name, $settings);
-		do_action( 'ep_wistia_settings_after_save', $settings, $_POST);
+		do_action( 'ep_wistia_settings_after_save', $settings);
 	}
 
 	public function save_vimeo_settings() {
@@ -113,9 +113,9 @@ class EmbedpressSettings {
 		$settings['display_title'] = isset( $_POST['display_title']) ? sanitize_text_field( $_POST['display_title']) : '';
 
 		// Pro will handle g_loading_animation settings and other
-		$settings = apply_filters( 'ep_vimeo_settings_before_save', $settings, $_POST);
+		$settings = apply_filters( 'ep_vimeo_settings_before_save', $settings);
 		update_option( $opttion_name, $settings);
-		do_action( 'ep_vimeo_settings_after_save', $settings, $_POST);
+		do_action( 'ep_vimeo_settings_after_save', $settings);
 	}
 
 	public function save_twitch_settings() {
@@ -125,8 +125,8 @@ class EmbedpressSettings {
 		$settings['embedpress_pro_fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : '';
 
 		// Pro will handle g_loading_animation settings and other
-		$settings = apply_filters( 'ep_twitch_settings_before_save', $settings, $_POST);
+		$settings = apply_filters( 'ep_twitch_settings_before_save', $settings);
 		update_option( $opttion_name, $settings);
-		do_action( 'ep_twitch_settings_after_save', $settings, $_POST);
+		do_action( 'ep_twitch_settings_after_save', $settings);
 	}
 }
