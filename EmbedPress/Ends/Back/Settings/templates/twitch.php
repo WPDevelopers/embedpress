@@ -5,12 +5,12 @@
  *  */
 
 $twitch_settings = get_option( EMBEDPRESS_PLG_NAME.':twitch');
-$embedpress_pro_video_start_time = !empty( $twitch_settings['embedpress_pro_video_start_time']) ? $twitch_settings['embedpress_pro_video_start_time'] : 0;
-$embedpress_pro_twitch_autoplay = !empty( $twitch_settings['embedpress_pro_twitch_autoplay']) ? $twitch_settings['embedpress_pro_twitch_autoplay'] : 'yes';
-$embedpress_pro_twitch_chat = !empty( $twitch_settings['embedpress_pro_twitch_chat']) ? $twitch_settings['embedpress_pro_twitch_chat'] : 'no';
-$embedpress_pro_twitch_theme = !empty( $twitch_settings['embedpress_pro_twitch_theme']) ? $twitch_settings['embedpress_pro_twitch_theme'] : 'light';
-$embedpress_pro_fs = !empty( $twitch_settings['embedpress_pro_fs']) ? $twitch_settings['embedpress_pro_fs'] : 'yes';
-$embedpress_pro_twitch_mute = !empty( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_settings['embedpress_pro_twitch_mute'] : 'yes';
+$start_time = !empty( $twitch_settings['embedpress_pro_video_start_time']) ? $twitch_settings['embedpress_pro_video_start_time'] : 0;
+$autoplay = !empty( $twitch_settings['embedpress_pro_twitch_autoplay']) ? $twitch_settings['embedpress_pro_twitch_autoplay'] : 'yes';
+$show_chat = !empty( $twitch_settings['embedpress_pro_twitch_chat']) ? $twitch_settings['embedpress_pro_twitch_chat'] : 'no';
+$theme = !empty( $twitch_settings['embedpress_pro_twitch_theme']) ? $twitch_settings['embedpress_pro_twitch_theme'] : 'light';
+$fs = !empty( $twitch_settings['embedpress_pro_fs']) ? $twitch_settings['embedpress_pro_fs'] : 'yes';
+$mute = !empty( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_settings['embedpress_pro_twitch_mute'] : 'yes';
 
 ?>
 
@@ -24,7 +24,7 @@ $embedpress_pro_twitch_mute = !empty( $twitch_settings['embedpress_pro_twitch_mu
 			<div class="form__group">
 				<p class="form__label" ><?php esc_html_e( "Start Time (in Seconds)", "embedpress" );   echo $pro_active ? '': ' <span class="isPro">PRO</span>';?> </p>
 				<div class="form__control__wrap">
-					<input type="text" name="start_time" id="start_time" class="form__control" value="" disabled>
+					<input type="text" name="start_time" id="start_time" class="form__control" value="<?php echo esc_attr( $start_time); ?>" disabled>
 					<p><?php esc_html_e( "You can put a custom time in seconds to start video from. Example: 500", "embedpress" ); ?></p>
 				</div>
 			</div>
@@ -33,11 +33,11 @@ $embedpress_pro_twitch_mute = !empty( $twitch_settings['embedpress_pro_twitch_mu
 				<div class="form__control__wrap">
 					<div class="input__flex">
 						<label class="input__radio">
-							<input type="radio" name="autoplay" value="no">
+							<input type="radio" name="autoplay" value="no" <?php checked( 'no', $autoplay); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
 						</label>
 						<label class="input__radio">
-							<input type="radio" name="autoplay" value="yes">
+							<input type="radio" name="autoplay" value="yes" <?php checked( 'yes', $autoplay); ?>>
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
@@ -49,11 +49,11 @@ $embedpress_pro_twitch_mute = !empty( $twitch_settings['embedpress_pro_twitch_mu
 				<div class="form__control__wrap">
 					<div class="input__flex">
 						<label class="input__radio">
-							<input type="radio" name="show_chat" value="no" disabled>
+							<input type="radio" name="show_chat" value="no" <?php echo $pro_active ? '' : 'disabled'; checked( 'no', $show_chat); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
 						</label>
 						<label class="input__radio">
-							<input type="radio" name="show_chat" value="yes" disabled>
+							<input type="radio" name="show_chat" value="yes" <?php echo $pro_active ? '' : 'disabled'; checked( 'yes', $show_chat); ?>>
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
@@ -65,9 +65,9 @@ $embedpress_pro_twitch_mute = !empty( $twitch_settings['embedpress_pro_twitch_mu
 				<div class="form__control__wrap">
 					<div class="embedpress__select">
 						<span><i class="ep-icon ep-caret-down"></i></span>
-						<select name="theme" disabled>
-							<option value="dark"><?php esc_html_e( "Dark", "embedpress" ); ?></option>
-							<option value="light"><?php esc_html_e( "Light", "embedpress" ); ?></option>
+						<select name="theme" <?php echo $pro_active ? '' : 'disabled'; ?>>
+							<option value="dark" <?php selected( 'dark', $theme); ?>><?php esc_html_e( "Dark", "embedpress" ); ?></option>
+							<option value="light" <?php selected( 'light', $theme); ?>><?php esc_html_e( "Light", "embedpress" ); ?></option>
 						</select>
 					</div>
 					<p><?php esc_html_e( "Set dark or light theme for the twitch comment.", "embedpress" ); ?></p>
@@ -78,11 +78,11 @@ $embedpress_pro_twitch_mute = !empty( $twitch_settings['embedpress_pro_twitch_mu
 				<div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="fs" value="no">
+                            <input type="radio" name="fs" value="no" <?php checked( 'no', $fs);  ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="fs" value="yes">
+                            <input type="radio" name="fs" value="yes" <?php checked( 'yes', $fs);  ?>>
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
@@ -94,11 +94,11 @@ $embedpress_pro_twitch_mute = !empty( $twitch_settings['embedpress_pro_twitch_mu
 				<div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="mute" value="no" disabled>
+                            <input type="radio" name="mute" value="no" <?php echo $pro_active ? '' : 'disabled'; checked( 'no', $mute); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="mute" value="yes" disabled>
+                            <input type="radio" name="mute" value="yes" <?php echo $pro_active ? '' : 'disabled'; checked( 'yes', $mute); ?>>
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
