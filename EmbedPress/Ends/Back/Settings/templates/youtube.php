@@ -115,11 +115,11 @@ $modestbranding = !empty( $yt_settings['modestbranding']) ? $yt_settings['modest
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="rel" value="0"  <?php echo !$pro_active ? 'disabled ' : ''; checked( '0', $rel); ?>>
+                            <input type="radio" name="rel" value="0" <?php echo !$pro_active ? 'disabled ' : ''; checked( '0', $rel); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="rel" value="1"  <?php echo !$pro_active ? 'disabled ' : ''; checked( '1', $rel); ?>>
+                            <input type="radio" name="rel" value="1" <?php echo !$pro_active ? 'disabled ' : ''; checked( '1', $rel); ?>>
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
