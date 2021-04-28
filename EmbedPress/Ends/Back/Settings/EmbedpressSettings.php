@@ -76,8 +76,8 @@ class EmbedpressSettings {
 	}
 
 	public function save_youtube_settings() {
-		$opttion_name = EMBEDPRESS_PLG_NAME.':youtube';
-		$settings = get_option( $opttion_name);
+		$option_name = EMBEDPRESS_PLG_NAME.':youtube';
+		$settings = get_option( $option_name);
 		$settings['autoplay'] = !empty( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : 0;
 		$settings['controls'] = !empty( $_POST['controls']) ? sanitize_text_field( $_POST['controls']) : 0;
 		$settings['fs'] = !empty( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : 0;
@@ -85,14 +85,14 @@ class EmbedpressSettings {
 
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_youtube_settings_before_save', $settings);
-		update_option( $opttion_name, $settings);
+		update_option( $option_name, $settings);
 		do_action( 'ep_youtube_settings_after_save', $settings);
 
 	}
 
 	public function save_wistia_settings() {
-		$opttion_name = EMBEDPRESS_PLG_NAME.':wistia';
-		$settings = get_option( $opttion_name);
+		$option_name = EMBEDPRESS_PLG_NAME.':wistia';
+		$settings = get_option( $option_name);
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['display_fullscreen_button'] = isset( $_POST['display_fullscreen_button']) ? sanitize_text_field( $_POST['display_fullscreen_button']) : '';
 		$settings['small_play_button'] = isset( $_POST['small_play_button']) ? sanitize_text_field( $_POST['small_play_button']) : '';
@@ -102,32 +102,46 @@ class EmbedpressSettings {
 
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_wistia_settings_before_save', $settings);
-		update_option( $opttion_name, $settings);
+		update_option( $option_name, $settings);
 		do_action( 'ep_wistia_settings_after_save', $settings);
 	}
 
 	public function save_vimeo_settings() {
-		$opttion_name = EMBEDPRESS_PLG_NAME.':vimeo';
-		$settings = get_option( $opttion_name);
+		$option_name = EMBEDPRESS_PLG_NAME.':vimeo';
+		$settings = get_option( $option_name);
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : 0;
 		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : '#00adef';
 		$settings['display_title'] = isset( $_POST['display_title']) ? sanitize_text_field( $_POST['display_title']) : 1;
 
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_vimeo_settings_before_save', $settings);
-		update_option( $opttion_name, $settings);
+		update_option( $option_name, $settings);
 		do_action( 'ep_vimeo_settings_after_save', $settings);
 	}
 
 	public function save_twitch_settings() {
-		$opttion_name = EMBEDPRESS_PLG_NAME.':twitch';
-		$settings = get_option( $opttion_name);
+		$option_name = EMBEDPRESS_PLG_NAME.':twitch';
+		$settings = get_option( $option_name);
 		$settings['embedpress_pro_twitch_autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['embedpress_pro_fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : '';
 
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_twitch_settings_before_save', $settings);
-		update_option( $opttion_name, $settings);
+		update_option( $option_name, $settings);
 		do_action( 'ep_twitch_settings_after_save', $settings);
+	}
+
+	public function save_custom_logo_settings() {
+		$yt_option_name = EMBEDPRESS_PLG_NAME.':youtube';
+		$yt_settings = get_option( $yt_option_name);
+		$yt_settings['logo_xpos'] = !empty( $_POST['yt_logo_xpos']) ? intval( $_POST['yt_logo_xpos']) : 10;
+		$yt_settings['logo_ypos'] = !empty( $_POST['yt_logo_ypos']) ? intval( $_POST['yt_logo_ypos']) : 10;
+		$yt_settings['logo_opacity'] = !empty( $_POST['yt_logo_opacity']) ? intval( $_POST['yt_logo_opacity']) : 50;
+		$yt_settings['cta_url'] = !empty( $_POST['yt_cta_url']) ? esc_url_raw( $_POST['yt_cta_url']) : '';
+
+		// Pro will handle g_loading_animation settings and other
+		$yt_settings = apply_filters( 'ep_youtube_branding_before_save', $yt_settings);
+		update_option( $yt_option_name, $yt_settings);
+		do_action( 'ep_youtube_branding_after_save', $yt_settings);
 	}
 }

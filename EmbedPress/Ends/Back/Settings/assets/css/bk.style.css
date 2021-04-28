@@ -2279,7 +2279,6 @@ button.button__instagram.hover__highlight:hover .icon {
 
 .logo__adjust__wrap {
     margin-top: 20px;
-    display: none;
 }
 
 .logo__adjust__wrap .logo__upload {
@@ -2409,8 +2408,8 @@ button.button__instagram.hover__highlight:hover .icon {
 
 .logo__adjust__wrap .logo__adjust .logo__adjust__preview {
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 500px;
-    flex: 0 0 500px;
+    -ms-flex: 0 0 400px;
+    flex: 0 0 400px;
 }
 
 @media (max-width: 1399px) {
@@ -2430,7 +2429,7 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 .logo__adjust__wrap .logo__adjust .logo__adjust__preview .preview__box {
-    height: 280px;
+    height: 226px;
     position: relative;
 }
 
@@ -2444,55 +2443,6 @@ button.button__instagram.hover__highlight:hover .icon {
     bottom: 10%;
     right: 6%;
     max-width: 50%;
-}
-
-.pro__alert__wrap {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background: rgb(0, 0, 0, 30%);
-    z-index: 99999;
-    display: none;
-}
-.pro__alert__wrap .pro__alert__card {
-    width: calc(100% - 30px);
-    max-width: 500px;
-    margin: 7% auto 0;
-    background: #fff;
-    border-radius: 20px;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-.pro__alert__wrap .pro__alert__card img {
-    height: 100px;
-    margin-bottom: 20px;
-}
-.pro__alert__wrap .pro__alert__card h2 {
-    font-size: 32px;
-    font-weight: 500;
-    color: #131F4D;
-    margin-bottom: 15px;
-}
-.pro__alert__wrap .pro__alert__card p {
-    font-size: 16px;
-    font-weight: 500;
-    color: #7C8DB5;
-    margin-bottom: 15px;
-}
-.pro__alert__wrap .pro__alert__card p a {
-    text-decoration: underline;
-    font-weight: 700;
-    color: #131F4D;
-}
-.pro__alert__wrap .pro__alert__card .button {
-    align-self: flex-end;
-    margin-top: 20px;
-    padding: 11px 30px;
 }
 
 .template__wrapper input[type=range] {
@@ -2987,7 +2937,7 @@ button.button__instagram.hover__highlight:hover .icon {
     -webkit-box-align: center;
     -ms-flex-align: center;
     align-items: center;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 
 @media (max-width: 767px) {
@@ -2998,7 +2948,7 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 .emement__item.isPro .pro__item {
-    /* display: block; */
+    display: block;
 }
 
 .emement__item h5 {
@@ -3019,37 +2969,8 @@ button.button__instagram.hover__highlight:hover .icon {
     line-height: 1;
     margin-top: 2px;
     margin-right: 10px;
-    position: relative;
 }
-.emement__item .has__question .element__tooltip {
-    position: absolute;
-    bottom: calc(100% + 12px);
-    left: -20px;
-    /* transform: translateX(-50%); */
-    background: #5B4E96;
-    color: #fff;
-    padding: 20px;
-    min-width: 200px;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: all .3s ease;
-    opacity: 0;
-    visibility: hidden;
-}
-.emement__item .has__question:hover .element__tooltip {
-    visibility: visible;
-    opacity: 1;
-}
-.emement__item .has__question .element__tooltip:before {
-    position: absolute;
-    top: 100%;
-    left: 18px;
-    /* transform: translateX(-50%); */
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid #5B4E96;
-    content: '';
-}
+
 .emement__item .input__switch {
     margin-left: auto;
 }
@@ -3107,6 +3028,4 @@ button.button__instagram.hover__highlight:hover .icon {
         grid-template-columns: repeat(1, 1fr);
     }
 }
-
-
-
+/*# sourceMappingURL=style.css.map */
