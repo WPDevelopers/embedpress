@@ -1,8 +1,9 @@
 <?php
 /*
- * Vimeo Settings page */
+ * Vimeo Settings page
+ *  All undefined vars comes from 'render_settings_page' method
+ *  */
 $vm_settings = get_option( EMBEDPRESS_PLG_NAME.':vimeo' );
-$pro_active = is_embedpress_pro_active();
 $autoplay = !empty( $vm_settings['autoplay']) ? $vm_settings['autoplay'] : 0;
 $loop = !empty( $vm_settings['loop']) ? $vm_settings['loop'] : 0;
 $autopause = !empty( $vm_settings['autopause']) ? $vm_settings['autopause'] : 0;

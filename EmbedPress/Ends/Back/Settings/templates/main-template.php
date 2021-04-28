@@ -1,7 +1,7 @@
 <?php
 /*
  * Main settings page
- * all defined vars are coming from @file EmbedpressSettings.php
+ *  All undefined vars comes from 'render_settings_page' method
  * */
 ?>
 <div class="template__wrapper background__liteGrey p30 pb50">

@@ -4,7 +4,6 @@
  * all undefined vars comes from EmbedPressSettings.php or sometime from main-template.php
  * */
 $wis_settings = get_option( EMBEDPRESS_PLG_NAME.':wistia' );
-$pro_active = is_embedpress_pro_active();
 $autoplay = !empty( $wis_settings['autoplay']) ? $wis_settings['autoplay'] : 0;
 $display_fullscreen_button = !empty( $wis_settings['display_fullscreen_button']) ? $wis_settings['display_fullscreen_button'] : 0;
 $display_playbar = !empty( $wis_settings['display_playbar']) ? $wis_settings['display_playbar'] : 0;

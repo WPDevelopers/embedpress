@@ -1,9 +1,10 @@
 <?php
 /*
- * YouTube Settings page */
+ * YouTube Settings page
+ *  All undefined vars comes from 'render_settings_page' method
+ *  */
 
 $yt_settings = get_option( EMBEDPRESS_PLG_NAME.':youtube');
-$pro_active = is_embedpress_pro_active();
 $autoplay = !empty( $yt_settings['autoplay']) ? $yt_settings['autoplay'] : 0;
 $controls = !empty( $yt_settings['controls']) ? $yt_settings['controls'] : 1;
 $fs = !empty( $yt_settings['fs']) ? $yt_settings['fs'] : 1;
@@ -39,7 +40,7 @@ $modestbranding = !empty( $yt_settings['modestbranding']) ? $yt_settings['modest
                 </div>
             </div>
             <div class="form__group">
-                <label class="form__label" for="color"><?php esc_html_e( "Progress bar color", "embedpress" ); echo !$pro_active ? ' <span class="isPro">PRO</span>' : '';?></label>
+                <label class="form__label" for="color"><?php esc_html_e( "Progress bar color", "embedpress" ); echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></label>
                 <div class="form__control__wrap">
                     <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>

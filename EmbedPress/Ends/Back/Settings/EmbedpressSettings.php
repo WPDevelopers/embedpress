@@ -49,6 +49,7 @@ class EmbedpressSettings {
 		$ep_page = admin_url('admin.php?page='.$this->page_slug);
 		$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['general', 'youtube', 'vimeo', 'wistia', 'twitch']);
 		$brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-logo', 'branding',]);
+		$pro_active = is_embedpress_pro_active();
 		include_once EMBEDPRESS_SETTINGS_PATH . 'templates/main-template.php';
 	}
 

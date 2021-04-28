@@ -1,9 +1,10 @@
 <?php
 /*
- * General Settings page */
+ * General Settings page
+ *  All undefined vars comes from 'render_settings_page' method
+ */
 
 $g_settings = get_option( EMBEDPRESS_PLG_NAME);
-$pro_active = is_embedpress_pro_active();
 $lazy_load = isset( $g_settings['g_lazyload']) ? $g_settings['g_lazyload'] : '';
 $enableEmbedResizeHeight = isset( $g_settings['enableEmbedResizeHeight']) ? $g_settings['enableEmbedResizeHeight'] : 550;
 $enableEmbedResizeWidth = isset( $g_settings['enableEmbedResizeWidth']) ? $g_settings['enableEmbedResizeWidth'] : 600;

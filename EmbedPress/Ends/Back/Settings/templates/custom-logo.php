@@ -1,6 +1,9 @@
 <?php
 /*
- * Custom Logo Settings page */
+ * Custom Logo Settings page
+ * All undefined vars comes from 'render_settings_page' method
+ *
+ *  */
 ?>
 
 <div class="embedpress__settings background__white radius-25 p40">

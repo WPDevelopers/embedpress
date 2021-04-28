@@ -1,6 +1,17 @@
 <?php
 /*
- * Twitch Settings page */
+ * Twitch Settings page
+ * All undefined vars comes from 'render_settings_page' method
+ *  */
+
+$twitch_settings = get_option( EMBEDPRESS_PLG_NAME.':twitch');
+$embedpress_pro_video_start_time = !empty( $twitch_settings['embedpress_pro_video_start_time']) ? $twitch_settings['embedpress_pro_video_start_time'] : 0;
+$embedpress_pro_twitch_autoplay = !empty( $twitch_settings['embedpress_pro_twitch_autoplay']) ? $twitch_settings['embedpress_pro_twitch_autoplay'] : 'yes';
+$embedpress_pro_twitch_chat = !empty( $twitch_settings['embedpress_pro_twitch_chat']) ? $twitch_settings['embedpress_pro_twitch_chat'] : 'no';
+$embedpress_pro_twitch_theme = !empty( $twitch_settings['embedpress_pro_twitch_theme']) ? $twitch_settings['embedpress_pro_twitch_theme'] : 'light';
+$embedpress_pro_fs = !empty( $twitch_settings['embedpress_pro_fs']) ? $twitch_settings['embedpress_pro_fs'] : 'yes';
+$embedpress_pro_twitch_mute = !empty( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_settings['embedpress_pro_twitch_mute'] : 'yes';
+
 ?>
 
 <div class="embedpress__settings background__white radius-25 p40">
@@ -11,7 +22,7 @@
             do_action( 'embedpress_before_twitch_settings_fields');
             echo  $nonce_field ; ?>
 			<div class="form__group">
-				<p class="form__label" ><?php esc_html_e( "Start Time (in Seconds)", "embedpress" ); ?> <span class="isPro">Pro</span></p>
+				<p class="form__label" ><?php esc_html_e( "Start Time (in Seconds)", "embedpress" );   echo $pro_active ? '': ' <span class="isPro">PRO</span>';?> </p>
 				<div class="form__control__wrap">
 					<input type="text" name="start_time" id="start_time" class="form__control" value="" disabled>
 					<p><?php esc_html_e( "You can put a custom time in seconds to start video from. Example: 500", "embedpress" ); ?></p>
@@ -34,7 +45,7 @@
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Show chat", "embedpress" ); ?> <span class="isPro">Pro</span></p>
+				<p class="form__label"><?php esc_html_e( "Show chat", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
 					<div class="input__flex">
 						<label class="input__radio">
@@ -50,7 +61,7 @@
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Theme", "embedpress" ); ?> <span class="isPro">Pro</span></p>
+				<p class="form__label"><?php esc_html_e( "Theme", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
 					<div class="embedpress__select">
 						<span><i class="ep-icon ep-caret-down"></i></span>
@@ -79,7 +90,7 @@
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Mute on start", "embedpress" ); ?> <span class="isPro">Pro</span></p>
+				<p class="form__label"><?php esc_html_e( "Mute on start", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
