@@ -33,7 +33,7 @@
                         <label class="logo__upload">
                             <input type="file" class="preview__logo__input" name="yt_logo_url">
                             <span class="icon"><i class="ep-icon ep-upload"></i></span>
-                            <span class="text"><?php esc_html_e( "Drag Or Choose File To Upload", "embedpress" ); ?></span>
+                            <span class="text"><?php esc_html_e( "Click To Upload", "embedpress" ); ?></span>
                         </label>
                         <div class="logo__adjust">
                             <div class="logo__adjust__controller">
