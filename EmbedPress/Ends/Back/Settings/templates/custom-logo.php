@@ -26,15 +26,21 @@
                 <p class="form__label"><?php esc_html_e( "YouTube Custom Branding", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">Pro</span>'; ?></p>
                 <div class="form__control__wrap">
                     <label class="input__switch switch__text <?php echo $pro_active ? '': 'isPro'; ?>">
-                        <input type="checkbox" name="yt_branding" value="yes">
+                        <input type="checkbox" name="yt_branding" value="yes" checked>
                         <span></span>
                     </label>
                     <div class="logo__adjust__wrap">
-                        <label class="logo__upload">
+                        <label class="logo__upload" id="yt_logo_upload_wrap" style="display:none;">
                             <input type="file" class="preview__logo__input" name="yt_logo_url">
                             <span class="icon"><i class="ep-icon ep-upload"></i></span>
                             <span class="text"><?php esc_html_e( "Click To Upload", "embedpress" ); ?></span>
                         </label>
+                        <div class="logo__upload__preview" id="yt_logo__upload__preview">
+                            <div class="instant__preview">
+                                <a href="#" id="yt_preview__remove" class="preview__remove"><i class="ep-icon ep-cross"></i></a>
+                                <img id="yt_logo_preview" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/logo.svg" alt="">
+                            </div>
+                        </div>
                         <div class="logo__adjust">
                             <div class="logo__adjust__controller">
                                 <div class="logo__adjust__controller__item">

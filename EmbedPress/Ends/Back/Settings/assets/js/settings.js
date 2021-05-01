@@ -26,12 +26,30 @@ jQuery(document).ready(function($){
     // Logo Upload
     $('.preview__logo__input').change(function(){
         var curElement = $('.preview__logo');
+        let $yt_logo_upload_wrap =  $("#yt_logo_upload_wrap");
+        let $yt_logo__upload__preview = $("#yt_logo__upload__preview");
+        let $preview__logo__input = $('.preview__logo__input');
+        let $yt_logo_preview = $("#yt_logo_preview");
         var reader = new FileReader();
         reader.onload = function (e) {
+           $yt_logo_upload_wrap.hide();
+            //$preview__logo__input.val(e.target.result);
+            $yt_logo_preview.attr('src', e.target.result).show();
+            $yt_logo__upload__preview.show();
             curElement.attr('src', e.target.result);
         };
         reader.readAsDataURL(this.files[0]);
     });
+
+    // Logo Remove
+    $('#yt_preview__remove').on('click', function(e) {
+        e.preventDefault();
+        $('.preview__logo__input').val('');
+        $("#yt_logo_preview").attr('src', '').hide();
+        $('.preview__box img').attr('src', '');
+        $("#yt_logo__upload__preview").hide();
+        $("#yt_logo_upload_wrap").show();
+    })
 
     // Logo Controller
     var rangeSlider = function(){
