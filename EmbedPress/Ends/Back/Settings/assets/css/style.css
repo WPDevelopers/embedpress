@@ -2853,6 +2853,7 @@ button.button__instagram.hover__highlight:hover .icon {
     left: 20px;
     color: #7C8DB5;
     pointer-events: none;
+    width: 20px;
 }
 
 .embedpress-license__details .license__content .form__group .input__icon i {
@@ -3134,7 +3135,10 @@ button.button__instagram.hover__highlight:hover .icon {
         grid-template-columns: repeat(1, 1fr);
     }
 }
-/*# sourceMappingURL=style.css.map */
+.valid-license-icon{
+    max-width: 100%;
+    width: 1.5rem;
+}
 
 
 

@@ -4,6 +4,16 @@
  * All undefined vars comes from 'render_settings_page' method
  *
  *  */
+
+$yt_option_name = EMBEDPRESS_PLG_NAME.':youtube';
+$yt_settings = get_option( $yt_option_name);
+error_log( print_r( $yt_settings, 1));
+$logo_xpos = !empty( $yt_settings['yt_logo_xpos']) ? intval( $yt_settings['yt_logo_xpos']) : 10;
+$logo_ypos = !empty( $yt_settings['yt_logo_ypos']) ? intval( $yt_settings['yt_logo_ypos']) : 10;
+$logo_opacity = !empty( $yt_settings['yt_logo_opacity']) ? intval( $yt_settings['yt_logo_opacity']) : 50;
+$logo_id = !empty( $yt_settings['yt_logo_id']) ? intval( $yt_settings['yt_logo_id']) : 0;
+$cta_url = !empty( $yt_settings['yt_cta_url']) ? esc_url( $yt_settings['yt_cta_url']) : '';
+$embedpress_document_powered_by = !empty( $yt_settings['embedpress_document_powered_by']) ? sanitize_text_field( $yt_settings['embedpress_document_powered_by']) : '';
 ?>
 
 <div class="embedpress__settings background__white radius-25 p40">
@@ -17,7 +27,7 @@
                 <p class="form__label">Powered by EmbedPress</p>
                 <div class="form__control__wrap">
                     <label class="input__switch switch__text">
-                        <input type="checkbox" value="yes" name="embedpress_document_powered_by">
+                        <input type="checkbox" value="yes" name="embedpress_document_powered_by" <?php checked( 'yes', $embedpress_document_powered_by );?>>
                         <span></span>
                     </label>
                 </div>

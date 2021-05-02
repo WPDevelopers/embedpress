@@ -133,11 +133,15 @@ class EmbedpressSettings {
 
 	public function save_custom_logo_settings() {
 		$yt_option_name = EMBEDPRESS_PLG_NAME.':youtube';
-		$yt_settings = get_option( $yt_option_name);
+		$yt_settings = (array) get_option( $yt_option_name, []);
 		$yt_settings['logo_xpos'] = !empty( $_POST['yt_logo_xpos']) ? intval( $_POST['yt_logo_xpos']) : 10;
 		$yt_settings['logo_ypos'] = !empty( $_POST['yt_logo_ypos']) ? intval( $_POST['yt_logo_ypos']) : 10;
 		$yt_settings['logo_opacity'] = !empty( $_POST['yt_logo_opacity']) ? intval( $_POST['yt_logo_opacity']) : 50;
 		$yt_settings['cta_url'] = !empty( $_POST['yt_cta_url']) ? esc_url_raw( $_POST['yt_cta_url']) : '';
+		// save branding
+		$settings = (array) get_option( EMBEDPRESS_PLG_NAME, []);
+		$settings['embedpress_document_powered_by'] = !empty( $_POST['embedpress_document_powered_by']) ? sanitize_text_field( $_POST['embedpress_document_powered_by']) : 'no';
+		update_option( EMBEDPRESS_PLG_NAME, $settings);
 
 		// Pro will handle g_loading_animation settings and other
 		$yt_settings = apply_filters( 'ep_youtube_branding_before_save', $yt_settings);
