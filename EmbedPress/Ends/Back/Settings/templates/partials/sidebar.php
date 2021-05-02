@@ -13,19 +13,19 @@
 			<ul class="dropdown__menu <?php echo in_array( $template, $gen_menu_template_names) ? 'show' : ''; ?>">
 				<?php do_action( 'ep_before_general_menu_items'); ?>
                 <li class="dropdown__item">
-					<a href="<?php echo esc_url( $ep_page.'&page_type=general'); ?>" class="dropdown__link <?php echo 'general' === $template ? 'active' : ''; ?>">Settings</a>
+					<a href="<?php echo esc_url( $ep_page.'&page_type=general'); ?>" class="dropdown__link <?php echo 'general' === $template ? 'active' : ''; ?>"><?php esc_html_e( "Settings", "embedpress" ); ?></a>
 				</li>
 				<li class="dropdown__item">
-					<a href="<?php echo esc_url( $ep_page.'&page_type=youtube'); ?>" class="dropdown__link <?php echo 'youtube' === $template ? 'active' : ''; ?>">YouTube</a>
+					<a href="<?php echo esc_url( $ep_page.'&page_type=youtube'); ?>" class="dropdown__link <?php echo 'youtube' === $template ? 'active' : ''; ?>"><?php esc_html_e( "YouTube", "embedpress" ); ?></a>
 				</li>
 				<li class="dropdown__item">
-					<a href="<?php echo esc_url( $ep_page.'&page_type=vimeo'); ?>" class="dropdown__link <?php echo 'vimeo' === $template ? 'active' : ''; ?>">Vimeo</a>
+					<a href="<?php echo esc_url( $ep_page.'&page_type=vimeo'); ?>" class="dropdown__link <?php echo 'vimeo' === $template ? 'active' : ''; ?>"><?php esc_html_e( "Vimeo", "embedpress" ); ?></a>
 				</li>
 				<li class="dropdown__item">
-					<a href="<?php echo esc_url( $ep_page.'&page_type=wistia'); ?>" class="dropdown__link <?php echo 'wistia' === $template ? 'active' : ''; ?>">Wistia</a>
+					<a href="<?php echo esc_url( $ep_page.'&page_type=wistia'); ?>" class="dropdown__link <?php echo 'wistia' === $template ? 'active' : ''; ?>"><?php esc_html_e( "Wistia", "embedpress" ); ?></a>
 				</li>
 				<li class="dropdown__item">
-					<a href="<?php echo esc_url( $ep_page.'&page_type=twitch'); ?>" class="dropdown__link <?php echo 'twitch' === $template ? 'active' : ''; ?>">Twitch</a>
+					<a href="<?php echo esc_url( $ep_page.'&page_type=twitch'); ?>" class="dropdown__link <?php echo 'twitch' === $template ? 'active' : ''; ?>"><?php esc_html_e( "Twitch", "embedpress" ); ?></a>
 				</li>
                 <?php do_action( 'ep_after_general_menu_items'); ?>
 			</ul>
@@ -34,7 +34,7 @@
 		<?php do_action( 'ep_before_element_menu'); ?>
         <li class="sidebar__item <?php echo 'elements' === $template ? 'show' : ''; ?>">
 	        <?php do_action( 'ep_before_element_item'); ?>
-            <a href="<?php echo esc_url( $ep_page.'&page_type=elements'); ?>" class="sidebar__link <?php echo 'elements' === $template ? 'active' : ''; ?>"><span><i class="ep-icon ep-cell"></i></span> Elements</a>
+            <a href="<?php echo esc_url( $ep_page.'&page_type=elements'); ?>" class="sidebar__link <?php echo 'elements' === $template ? 'active' : ''; ?>"><span><i class="ep-icon ep-cell"></i></span> <?php esc_html_e( "Elements", "embedpress" ); ?></a>
 	        <?php do_action( 'ep_after_element_item'); ?>
         </li>
 		<?php do_action( 'ep_before_branding_menu'); ?>
@@ -43,7 +43,7 @@
 			<ul class="dropdown__menu  <?php echo in_array( $template, $brand_menu_template_names)? 'show' : ''; ?>">
 				<?php do_action( 'ep_before_branding_menu_items'); ?>
                 <li class="dropdown__item">
-					<a href="<?php echo esc_url( $ep_page.'&page_type=custom-logo'); ?>" class="dropdown__link  <?php echo 'custom-logo' === $template ? 'active' : ''; ?>">Custom Logo</a>
+					<a href="<?php echo esc_url( $ep_page.'&page_type=custom-logo'); ?>" class="dropdown__link  <?php echo 'custom-logo' === $template ? 'active' : ''; ?>"><?php esc_html_e( "Custom Logo", "embedpress" ); ?></a>
 				</li>
 				<?php do_action( 'ep_after_branding_menu_items'); ?>
             </ul>
@@ -52,7 +52,7 @@
 		if ( empty( $pro_active) || !$pro_active) {
         do_action( 'ep_before_premium_menu'); ?>
         <li class="sidebar__item <?php echo 'go-premium' === $template ? 'show' : ''; ?>">
-            <a href="<?php echo esc_url( $ep_page.'&page_type=go-premium'); ?>" class="sidebar__link <?php echo 'premium' === $template ? 'active' : ''; ?>"><span><i class="ep-icon ep-premium"></i></span> Go Premium</a>
+            <a href="<?php echo esc_url( $ep_page.'&page_type=go-premium'); ?>" class="sidebar__link <?php echo 'premium' === $template ? 'active' : ''; ?>"><span><i class="ep-icon ep-premium"></i></span> <?php esc_html_e( "Go Premium", "embedpress" ); ?></a>
         </li>
 		<?php do_action( 'ep_after_premium_menu');
         }
@@ -61,7 +61,7 @@
 		if ( isset( $pro_active) && $pro_active) {
         do_action( 'ep_before_license_menu'); ?>
         <li class="sidebar__item <?php echo 'license' === $template ? 'show' : ''; ?>">
-            <a href="<?php echo esc_url( $ep_page.'&page_type=license'); ?>" class="sidebar__link <?php echo 'license' === $template ? 'active' : ''; ?>"><span><i class="ep-icon ep-lock"></i></span> Licence</a>
+            <a href="<?php echo esc_url( $ep_page.'&page_type=license'); ?>" class="sidebar__link <?php echo 'license' === $template ? 'active' : ''; ?>"><span><i class="ep-icon ep-lock"></i></span> <?php esc_html_e( "Licence", "embedpress" ); ?></a>
         </li>
 		<?php do_action( 'ep_after_license_menu');
         }

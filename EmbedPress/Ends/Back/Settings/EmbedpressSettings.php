@@ -134,9 +134,12 @@ class EmbedpressSettings {
 	public function save_custom_logo_settings() {
 		$yt_option_name = EMBEDPRESS_PLG_NAME.':youtube';
 		$yt_settings = (array) get_option( $yt_option_name, []);
+		$yt_settings['branding'] = !empty( $_POST['yt_branding']) ? sanitize_text_field( $_POST['yt_branding']) : 'no';
 		$yt_settings['logo_xpos'] = !empty( $_POST['yt_logo_xpos']) ? intval( $_POST['yt_logo_xpos']) : 10;
 		$yt_settings['logo_ypos'] = !empty( $_POST['yt_logo_ypos']) ? intval( $_POST['yt_logo_ypos']) : 10;
-		$yt_settings['logo_opacity'] = !empty( $_POST['yt_logo_opacity']) ? intval( $_POST['yt_logo_opacity']) : 50;
+		$yt_settings['logo_opacity'] = !empty( $_POST['yt_logo_opacity']) ? intval( $_POST['yt_logo_opacity']) : 0;
+		$yt_settings['logo_id'] = !empty( $_POST['yt_logo_id']) ? intval( $_POST['yt_logo_id']) : '';
+		$yt_settings['logo_url'] = !empty( $_POST['yt_logo_url']) ? esc_url_raw( $_POST['yt_logo_url']) : '';
 		$yt_settings['cta_url'] = !empty( $_POST['yt_cta_url']) ? esc_url_raw( $_POST['yt_cta_url']) : '';
 		// save branding
 		$settings = (array) get_option( EMBEDPRESS_PLG_NAME, []);
