@@ -96,7 +96,7 @@ jQuery(document).ready(function($){
     proFeatureAlert();
 
     // custom logo upload for youtube
-    $('body').on('click', '#yt_logo_upload_wrap', function(e){
+    $(document).on('click', '#yt_logo_upload_wrap', function(e){
         e.preventDefault();
         let curElement = $('.preview__logo');
         let $yt_logo_upload_wrap =  $("#yt_logo_upload_wrap");
@@ -117,7 +117,6 @@ jQuery(document).ready(function($){
                 multiple: false
             }).on('select', function() {
                 let attachment = yt_logo_uploader.state().get('selection').first().toJSON();
-                console.log(attachment);
                 if (attachment && attachment.id && attachment.url){
                     $yt_logo_upload_wrap.hide();
                     $yt_logo_url.val(attachment.url);
@@ -129,6 +128,40 @@ jQuery(document).ready(function($){
                     console.log('something went wrong using selected image');
                 }
             }).open();
+    });
+
+
+    // Elements
+    $(document).on('click', '.element_switch', function (e) {
+        console.log(e);
+        console.log(this);
+        console.log(e.target.nodeName );
+        if (e.target.nodeName === 'INPUT'){
+            return;
+        }
+        alert('caught');
+        let $input = $(this).find('input');
+
+        //e.preventDefault();
+        $.ajax({
+            url: ajaxurl,
+            type: 'post',
+            data: {
+                action: 'embedpress_elements_action',
+                _wpnonce: embedpressObj.nonce,
+                element_type: $input.data('type'),
+                element_name: $input.data('name'),
+                checked: $input.is(":checked"),
+            },
+            success: function(response) {
+                console.log(response);
+                console.log('Successfully saved!');
+            },
+            error: function(error) {
+                console.log(error);
+                console.log('Something went wrong!');
+            },
+        });
     });
 
 });

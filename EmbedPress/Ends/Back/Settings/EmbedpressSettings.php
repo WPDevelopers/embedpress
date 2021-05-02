@@ -15,6 +15,30 @@ class EmbedpressSettings {
 		add_action('admin_menu', [$this, 'register_menu']);
 		add_action( 'init', [$this, 'save_settings']);
 
+		// ajax
+		add_action( 'wp_ajax_embedpress_elements_action', [$this, 'update_elements_list']);
+
+	}
+
+	public function update_elements_list() {
+		if ( !empty($_POST['_wpnonce'] && wp_verify_nonce( $_POST['_wpnonce'], 'embedpress_elements_action')) ) {
+			//error_log( print_r( $_POST, 1));
+			$option = EMBEDPRESS_PLG_NAME.":elements";
+			$elements = (array) get_option( $option, []);
+			$type = !empty( $_POST['element_type']) ? sanitize_text_field( $_POST['element_type']) : '';
+			$name = !empty( $_POST['element_name']) ? sanitize_text_field( $_POST['element_name']) : '';
+			$checked = !empty( $_POST['checked']) ? (bool) $_POST['checked'] : false;
+			if ( $checked ) {
+				$elements[$type][$name] = $name;
+			}else{
+				if( isset( $elements[$type]) && isset( $elements[$type][$name])){
+					unset( $elements[$type][$name]);
+				}
+			}
+			update_option( $option, $elements);
+			wp_send_json_success();
+		}
+		wp_send_json_error();
 	}
 
 	public function register_menu() {
@@ -35,6 +59,10 @@ class EmbedpressSettings {
 		}
 		wp_register_script( 'ep-settings-script', EMBEDPRESS_SETTINGS_ASSETS_URL.'js/settings.js', ['jquery', 'wp-color-picker' ], $this->file_version, true );
 		wp_enqueue_script( 'ep-settings', EMBEDPRESS_URL_ASSETS . 'js/settings.js', ['jquery', 'wp-color-picker' ], $this->file_version, true );
+		wp_localize_script( 'ep-settings-script', 'embedpressObj', array(
+			'nonce'  => wp_create_nonce('embedpress_elements_action'),
+		) );
+
 		wp_enqueue_script( 'ep-settings-script');
 	}
 
