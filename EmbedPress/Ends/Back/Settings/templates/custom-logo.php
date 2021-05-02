@@ -8,13 +8,13 @@
 $option_name = EMBEDPRESS_PLG_NAME.':youtube';
 $yt_settings = get_option( $option_name);
 $gen_settings = get_option( EMBEDPRESS_PLG_NAME);
-$yt_branding = !empty( $yt_settings['branding']) ? sanitize_text_field( $yt_settings['branding']) : '';
 $yt_logo_xpos = !empty( $yt_settings['logo_xpos']) ? intval( $yt_settings['logo_xpos']) : 10;
 $yt_logo_ypos = !empty( $yt_settings['logo_ypos']) ? intval( $yt_settings['logo_ypos']) : 10;
 $yt_logo_opacity = !empty( $yt_settings['logo_opacity']) ? intval( $yt_settings['logo_opacity']) : 50;
 $yt_logo_id = !empty( $yt_settings['logo_id']) ? intval( $yt_settings['logo_id']) : 0;
 $yt_logo_url = !empty( $yt_settings['logo_url']) ? esc_url( $yt_settings['logo_url']) : '';
 $yt_cta_url = !empty( $yt_settings['cta_url']) ? esc_url( $yt_settings['cta_url']) : '';
+$yt_branding = !empty( $yt_settings['branding']) ? sanitize_text_field( $yt_settings['branding']) : (!empty( $yt_logo_url) ? 'yes': '');
 
 
 $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_powered_by']) ? sanitize_text_field( $gen_settings['embedpress_document_powered_by']) : '';
