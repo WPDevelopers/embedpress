@@ -8,7 +8,6 @@
 $option_name = EMBEDPRESS_PLG_NAME.':youtube';
 $yt_settings = get_option( $option_name);
 $gen_settings = get_option( EMBEDPRESS_PLG_NAME);
-//error_log( print_r( $yt_settings, 1));
 $yt_branding = !empty( $yt_settings['branding']) ? sanitize_text_field( $yt_settings['branding']) : '';
 $yt_logo_xpos = !empty( $yt_settings['logo_xpos']) ? intval( $yt_settings['logo_xpos']) : 10;
 $yt_logo_ypos = !empty( $yt_settings['logo_ypos']) ? intval( $yt_settings['logo_ypos']) : 10;
@@ -52,14 +51,12 @@ $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_pow
                             <span class="icon"><i class="ep-icon ep-upload"></i></span>
                             <span class="text"><?php esc_html_e( "Click To Upload", "embedpress" ); ?></span>
                         </label>
-	                    <?php if ( !empty( $yt_logo_url) ) {?>
-                            <div class="logo__upload__preview" id="yt_logo__upload__preview">
+                            <div class="logo__upload__preview" id="yt_logo__upload__preview" style="<?php if ( empty( $yt_logo_url) ) { echo 'display:none'; } ?> ">
                                 <div class="instant__preview">
                                     <a href="#" id="yt_preview__remove" class="preview__remove"><i class="ep-icon ep-cross"></i></a>
                                     <img id="yt_logo_preview" src="<?php echo $yt_logo_url; ?>" alt="">
                                 </div>
                             </div>
-	                    <?php } ?>
 
                         <div class="logo__adjust">
                             <div class="logo__adjust__controller">

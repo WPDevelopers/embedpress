@@ -30,8 +30,11 @@ class EmbedpressSettings {
 	}
 
 	public function enqueue_scripts() {
-		wp_register_script( 'ep-settings-script', EMBEDPRESS_SETTINGS_ASSETS_URL.'js/settings.js', null, $this->file_version, true );
-		wp_enqueue_script( 'ep-settings', EMBEDPRESS_URL_ASSETS . 'js/settings.js', [ 'wp-color-picker' ], $this->file_version, true );
+		if ( !did_action( 'wp_enqueue_media') ) {
+			wp_enqueue_media();
+		}
+		wp_register_script( 'ep-settings-script', EMBEDPRESS_SETTINGS_ASSETS_URL.'js/settings.js', ['jquery', 'wp-color-picker' ], $this->file_version, true );
+		wp_enqueue_script( 'ep-settings', EMBEDPRESS_URL_ASSETS . 'js/settings.js', ['jquery', 'wp-color-picker' ], $this->file_version, true );
 		wp_enqueue_script( 'ep-settings-script');
 	}
 
