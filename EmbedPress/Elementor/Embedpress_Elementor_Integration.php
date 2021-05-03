@@ -40,8 +40,15 @@ class Embedpress_Elementor_Integration {
      * @since  2.4.2
      */
     public function register_widget( $widgets_manager ) {
-        $widgets_manager->register_widget_type( new \EmbedPress\Elementor\Widgets\Embedpress_Elementor );
-        $widgets_manager->register_widget_type( new \EmbedPress\Elementor\Widgets\Embedpress_Document );
+	    $elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
+	    $e_blocks = isset( $elements['elementor']) ? (array) $elements['elementor'] : [];
+
+	    if ( !empty($e_blocks['embedpress']) ) {
+		    $widgets_manager->register_widget_type( new \EmbedPress\Elementor\Widgets\Embedpress_Elementor );
+	    }
+	    if ( !empty($e_blocks['embedpress-document']) ) {
+		    $widgets_manager->register_widget_type( new \EmbedPress\Elementor\Widgets\Embedpress_Document );
+	    }
     }
 
     /**
