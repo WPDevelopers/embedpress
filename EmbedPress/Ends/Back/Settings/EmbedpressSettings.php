@@ -23,18 +23,18 @@ class EmbedpressSettings {
 		if ( !get_option( $option, false) ) {
 			$elements_initial_states = [
 				'gutenberg' => [
-					'google-docs' => 'google-docs',
+					'google-docs-block' => 'google-docs-block',
 					'document' => 'document',
 					'embedpress' => 'embedpress',
-					'google-sheets' => 'google-sheets',
-					'google-slides' => 'google-slides',
-					'youtube' => 'youtube',
-					'google-forms' => 'google-forms',
-					'google-drawings' => 'google-drawings',
-					'google-maps' => 'google-maps',
-					'twitch' => 'twitch',
-					'wistia' => 'wistia',
-					'vimeo' => 'vimeo',
+					'google-sheets-block' => 'google-sheets-block',
+					'google-slides-block' => 'google-slides-block',
+					'youtube-block' => 'youtube-block',
+					'google-forms-block' => 'google-forms-block',
+					'google-drawings-block' => 'google-drawings-block',
+					'google-maps-maps' => 'google-maps-maps',
+					'twitch-block' => 'twitch-block',
+					'wistia-block' => 'wistia-block',
+					'vimeo-block' => 'vimeo-block',
 				],
 				'elementor' => [
 					'embedpress-document' => 'embedpress-document',

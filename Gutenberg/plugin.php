@@ -56,6 +56,8 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 		'skip_to_where_you_left_off' => __( 'Skip to where you left off', 'embedpress' ),
 		'you_have_watched_it_before' => __( 'It looks like you\'ve watched<br />part of this video before!', 'embedpress' ),
 	);
+	$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
+	$active_blocks = isset( $elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
 	$wistia_labels  = json_encode( $wistia_labels );
 	$wistia_options = null;
 	if ( function_exists( 'embedpress_wisita_pro_get_options' ) ):
@@ -69,6 +71,7 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 		'embedpress_pro' => defined('EMBEDPRESS_PRO_PLUGIN_FILE'),
 		'twitch_host' => !empty($pars_url['host'])?$pars_url['host']:'',
 		'site_url' => site_url(),
+		'active_blocks' => $active_blocks,
 	) );
 
 	// Styles.
@@ -111,16 +114,34 @@ foreach ( glob( EMBEDPRESS_GUTENBERG_DIR_PATH . 'block-backend/*.php' ) as $bloc
 
 function embedpress_gutenberg_register_all_block() {
 	if ( function_exists( 'register_block_type' ) ) :
-		register_block_type( 'embedpress/twitch-block' );
-		register_block_type( 'embedpress/google-slides-block' );
-		register_block_type( 'embedpress/google-sheets-block' );
-		register_block_type( 'embedpress/google-maps-block' );
-		register_block_type( 'embedpress/google-forms-block' );
-		register_block_type( 'embedpress/google-drawings-block' );
-		register_block_type( 'embedpress/google-docs-block' );
-		register_block_type( 'embedpress/embedpress', [
-			'render_callback' => 'embedpress_render_block',
-		]);
+
+		$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
+		$g_blocks = isset( $elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
+		$blocks_to_registers = [ 'twitch-block', 'google-slides-block','google-sheets-block', 'google-maps-block', 'google-forms-block', 'google-drawings-block', 'google-docs-block', 'embedpress'];
+
+		foreach ( $blocks_to_registers as $blocks_to_register ) {
+			if ( !empty($g_blocks[$blocks_to_register]) ) {
+				if ( 'embedpress' === $blocks_to_register ) {
+					register_block_type( 'embedpress/embedpress', [
+						'render_callback' => 'embedpress_render_block',
+					]);
+				}else{
+					register_block_type( 'embedpress/'.$blocks_to_register );
+				}
+			}else{
+				if ( WP_Block_Type_Registry::get_instance()->is_registered( 'embedpress/'.$blocks_to_register) ) {
+					unregister_block_type( 'embedpress/'.$blocks_to_register );
+				}
+			}
+		}
+
+		//register_block_type( 'embedpress/twitch-block' );
+		//register_block_type( 'embedpress/google-slides-block' );
+		//register_block_type( 'embedpress/google-sheets-block' );
+		//register_block_type( 'embedpress/google-maps-block' );
+		//register_block_type( 'embedpress/google-forms-block' );
+		//register_block_type( 'embedpress/google-drawings-block' );
+		//register_block_type( 'embedpress/google-docs-block' );
 
 	endif;
 }

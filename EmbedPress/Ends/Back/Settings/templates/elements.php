@@ -1,7 +1,11 @@
 <?php
 /*
  * YouTube Settings page */
+//rest option name: embedpress_elements_updated
+//delete_option( 'embedpress_elements_updated');
+//delete_option( EMBEDPRESS_PLG_NAME.":elements");
 $elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
+//error_log( print_r( $elements, 1));
 $g_blocks = isset( $elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
 $e_blocks = isset( $elements['elementor']) ? (array) $elements['elementor'] : [];
 $c_blocks = isset( $elements['classic']) ? (array) $elements['classic'] : [];
@@ -46,7 +50,7 @@ $c_blocks = isset( $elements['classic']) ? (array) $elements['classic'] : [];
                     <span class="element__tooltip"><?php esc_html_e( "It will enable YouTube Block", "embedpress" ); ?></span>
                 </a>
                 <label class="input__switch element_switch">
-                    <input class="element-check" type="checkbox" value="yes" data-name="youtube" data-type="gutenberg" <?php echo isset( $g_blocks['youtube']) ? 'checked': '';  ?> >
+                    <input class="element-check" type="checkbox" value="yes" data-name="youtube-block" data-type="gutenberg" <?php echo isset( $g_blocks['youtube-block']) ? 'checked': '';  ?> >
                     <span></span>
                 </label>
                 <?php if ( !$pro_active ) {?>
@@ -60,7 +64,7 @@ $c_blocks = isset( $elements['classic']) ? (array) $elements['classic'] : [];
                     <span class="element__tooltip"><?php esc_html_e( "It will enable Google Docs Block", "embedpress" ); ?></span>
                 </a>
                 <label class="input__switch element_switch">
-                    <input class="element-check" type="checkbox" value="yes" data-name="google-docs" data-type="gutenberg" <?php echo isset( $g_blocks['google-docs']) ? 'checked': '';  ?> >
+                    <input class="element-check" type="checkbox" value="yes" data-name="google-docs-block" data-type="gutenberg" <?php echo isset( $g_blocks['google-docs-block']) ? 'checked': '';  ?> >
                     <span></span>
                 </label>
                 <?php if ( !$pro_active ) {?>
@@ -74,7 +78,7 @@ $c_blocks = isset( $elements['classic']) ? (array) $elements['classic'] : [];
                     <span class="element__tooltip"><?php esc_html_e( "It will enable Google Slides Block", "embedpress" ); ?></span>
                 </a>
                 <label class="input__switch element_switch">
-                    <input class="element-check" type="checkbox" value="yes" data-name="google-slides" data-type="gutenberg" <?php echo isset( $g_blocks['google-slides']) ? 'checked': '';  ?> >
+                    <input class="element-check" type="checkbox" value="yes" data-name="google-slides-block" data-type="gutenberg" <?php echo isset( $g_blocks['google-slides-block']) ? 'checked': '';  ?> >
                     <span></span>
                 </label>
                 <?php if ( !$pro_active ) {?>
@@ -88,7 +92,7 @@ $c_blocks = isset( $elements['classic']) ? (array) $elements['classic'] : [];
                     <span class="element__tooltip"><?php esc_html_e( "It will enable Google Sheets Block", "embedpress" ); ?></span>
                 </a>
                 <label class="input__switch element_switch">
-                    <input class="element-check" type="checkbox" value="yes" data-name="google-sheets" data-type="gutenberg" <?php echo isset( $g_blocks['google-sheets']) ? 'checked': '';  ?> >
+                    <input class="element-check" type="checkbox" value="yes" data-name="google-sheets-block" data-type="gutenberg" <?php echo isset( $g_blocks['google-sheets-block']) ? 'checked': '';  ?> >
                     <span></span>
                 </label>
                 <?php if ( !$pro_active ) {?>
@@ -102,7 +106,7 @@ $c_blocks = isset( $elements['classic']) ? (array) $elements['classic'] : [];
                     <span class="element__tooltip"><?php esc_html_e( "It will enable Google Forms Block", "embedpress" ); ?></span>
                 </a>
                 <label class="input__switch element_switch">
-                    <input class="element-check" type="checkbox" value="yes" data-name="google-forms" data-type="gutenberg" <?php echo isset( $g_blocks['google-forms']) ? 'checked': '';  ?> >
+                    <input class="element-check" type="checkbox" value="yes" data-name="google-forms-block" data-type="gutenberg" <?php echo isset( $g_blocks['google-forms-block']) ? 'checked': '';  ?> >
                     <span></span>
                 </label>
                 <?php if ( !$pro_active ) {?>
@@ -116,7 +120,7 @@ $c_blocks = isset( $elements['classic']) ? (array) $elements['classic'] : [];
                     <span class="element__tooltip"><?php esc_html_e( "It will enable Google Drawings Block", "embedpress" ); ?></span>
                 </a>
                 <label class="input__switch element_switch">
-                    <input class="element-check" type="checkbox" value="yes" data-name="google-drawings" data-type="gutenberg" <?php echo isset( $g_blocks['google-drawings']) ? 'checked': '';  ?> >
+                    <input class="element-check" type="checkbox" value="yes" data-name="google-drawings-block" data-type="gutenberg" <?php echo isset( $g_blocks['google-drawings-block']) ? 'checked': '';  ?> >
                     <span></span>
                 </label>
                 <?php if ( !$pro_active ) {?>
@@ -130,7 +134,7 @@ $c_blocks = isset( $elements['classic']) ? (array) $elements['classic'] : [];
                     <span class="element__tooltip"><?php esc_html_e( "It will enable Google Maps Block", "embedpress" ); ?></span>
                 </a>
                 <label class="input__switch element_switch">
-                    <input class="element-check" type="checkbox" value="yes" data-name="google-maps" data-type="gutenberg" <?php echo isset( $g_blocks['google-maps']) ? 'checked': '';  ?> >
+                    <input class="element-check" type="checkbox" value="yes" data-name="google-maps-block" data-type="gutenberg" <?php echo isset( $g_blocks['google-maps-block']) ? 'checked': '';  ?> >
                     <span></span>
                 </label>
                 <?php if ( !$pro_active ) {?>
@@ -144,7 +148,7 @@ $c_blocks = isset( $elements['classic']) ? (array) $elements['classic'] : [];
                     <span class="element__tooltip"><?php esc_html_e( "It will enable Twitch Block", "embedpress" ); ?></span>
                 </a>
                 <label class="input__switch element_switch">
-                    <input class="element-check" type="checkbox" value="yes" data-name="twitch" data-type="gutenberg" <?php echo isset( $g_blocks['twitch']) ? 'checked': '';  ?> >
+                    <input class="element-check" type="checkbox" value="yes" data-name="twitch-block" data-type="gutenberg" <?php echo isset( $g_blocks['twitch-block']) ? 'checked': '';  ?> >
                     <span></span>
                 </label>
                 <?php if ( !$pro_active ) {?>
@@ -158,7 +162,7 @@ $c_blocks = isset( $elements['classic']) ? (array) $elements['classic'] : [];
                     <span class="element__tooltip"><?php esc_html_e( "It will enable Wistia Block", "embedpress" ); ?></span>
                 </a>
                 <label class="input__switch element_switch">
-                    <input class="element-check" type="checkbox" value="yes" data-name="wistia" data-type="gutenberg" <?php echo isset( $g_blocks['wistia']) ? 'checked': '';  ?> >
+                    <input class="element-check" type="checkbox" value="yes" data-name="wistia-block" data-type="gutenberg" <?php echo isset( $g_blocks['wistia-block']) ? 'checked': '';  ?> >
                     <span></span>
                 </label>
                 <?php if ( !$pro_active ) {?>
@@ -172,7 +176,7 @@ $c_blocks = isset( $elements['classic']) ? (array) $elements['classic'] : [];
                     <span class="element__tooltip"><?php esc_html_e( "It will enable Vimeo Block", "embedpress" ); ?></span>
                 </a>
                 <label class="input__switch element_switch">
-                    <input class="element-check" type="checkbox" value="yes" data-name="vimeo" data-type="gutenberg" <?php echo isset( $g_blocks['vimeo']) ? 'checked': '';  ?> >
+                    <input class="element-check" type="checkbox" value="yes" data-name="vimeo-block" data-type="gutenberg" <?php echo isset( $g_blocks['vimeo-block']) ? 'checked': '';  ?> >
                     <span></span>
                 </label>
                 <?php if ( !$pro_active ) {?>
