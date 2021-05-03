@@ -132,17 +132,8 @@ jQuery(document).ready(function($){
 
 
     // Elements
-    $(document).on('click', '.element_switch', function (e) {
-        console.log(e);
-        console.log(this);
-        console.log(e.target.nodeName );
-        if (e.target.nodeName === 'INPUT'){
-            return;
-        }
-        alert('caught');
-        let $input = $(this).find('input');
-
-        //e.preventDefault();
+    $(document).on('change', '.element-check', function (e) {
+        let $input = $(this);
         $.ajax({
             url: ajaxurl,
             type: 'post',
@@ -154,12 +145,14 @@ jQuery(document).ready(function($){
                 checked: $input.is(":checked"),
             },
             success: function(response) {
-                console.log(response);
-                console.log('Successfully saved!');
+                if (response && response.success){
+                    alert('Settings Updated');
+                }else{
+                    alert('Something went wrong.');
+                }
             },
             error: function(error) {
-                console.log(error);
-                console.log('Something went wrong!');
+                alert('Something went wrong.');
             },
         });
     });

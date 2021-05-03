@@ -18,17 +18,48 @@ class EmbedpressSettings {
 		// ajax
 		add_action( 'wp_ajax_embedpress_elements_action', [$this, 'update_elements_list']);
 
+		// Migration
+		$option = 'embedpress_elements_updated'; // to update initially for backward compatibility
+		if ( !get_option( $option, false) ) {
+			$elements_initial_states = [
+				'gutenberg' => [
+					'google-docs' => 'google-docs',
+					'document' => 'document',
+					'embedpress' => 'embedpress',
+					'google-sheets' => 'google-sheets',
+					'google-slides' => 'google-slides',
+					'youtube' => 'youtube',
+					'google-forms' => 'google-forms',
+					'google-drawings' => 'google-drawings',
+					'google-maps' => 'google-maps',
+					'twitch' => 'twitch',
+					'wistia' => 'wistia',
+					'vimeo' => 'vimeo',
+				],
+				'elementor' => [
+					'embedpress-document' => 'embedpress-document',
+					'embedpress' => 'embedpress',
+				],
+
+				'classic' => [
+					'frontend-preview' => 'frontend-preview',
+					'backend-preview' => 'backend-preview',
+				],
+			];
+			update_option( EMBEDPRESS_PLG_NAME.":elements", $elements_initial_states);
+			update_option( $option, true);
+		}
+
 	}
 
 	public function update_elements_list() {
 		if ( !empty($_POST['_wpnonce'] && wp_verify_nonce( $_POST['_wpnonce'], 'embedpress_elements_action')) ) {
-			//error_log( print_r( $_POST, 1));
 			$option = EMBEDPRESS_PLG_NAME.":elements";
 			$elements = (array) get_option( $option, []);
 			$type = !empty( $_POST['element_type']) ? sanitize_text_field( $_POST['element_type']) : '';
 			$name = !empty( $_POST['element_name']) ? sanitize_text_field( $_POST['element_name']) : '';
-			$checked = !empty( $_POST['checked']) ? (bool) $_POST['checked'] : false;
-			if ( $checked ) {
+			$checked = !empty( $_POST['checked']) ? $_POST['checked'] : false;
+			if ( 'false' != $checked ) {
 				$elements[$type][$name] = $name;
 			}else{
 				if( isset( $elements[$type]) && isset( $elements[$type][$name])){
