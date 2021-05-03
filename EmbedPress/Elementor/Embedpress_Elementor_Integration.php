@@ -5,17 +5,24 @@ namespace EmbedPress\Elementor;
 
 (defined( 'ABSPATH' )) or die( "No direct script access allowed." );
 use EmbedPress\Compatibility;
+use EmbedPress\Elementor\Widgets\Embedpress_Document;
+use EmbedPress\Elementor\Widgets\Embedpress_Elementor;
+
 class Embedpress_Elementor_Integration {
 
     /**
      * @since  2.4.2
      */
     public function init() {
-        add_action( 'elementor/frontend/after_enqueue_styles', [ $this, 'embedpress_enqueue_style' ] );
-        add_action('elementor/editor/before_enqueue_scripts', array($this, 'editor_enqueue_scripts'));
-        add_action( 'elementor/elements/categories_registered', array( $this, 'register_widget_categories' ) );
-        add_action( 'elementor/widgets/widgets_registered', array( $this, 'register_widget' ) );
-        add_filter( 'oembed_providers', [ $this, 'addOEmbedProviders' ] );
+	    $elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
+	    $e_blocks = isset( $elements['elementor']) ? (array) $elements['elementor'] : [];
+	    if ( !empty($e_blocks['embedpress']) || !empty($e_blocks['embedpress-document']) ) {
+		    add_action( 'elementor/frontend/after_enqueue_styles', [ $this, 'embedpress_enqueue_style' ] );
+		    add_action('elementor/editor/before_enqueue_scripts', array($this, 'editor_enqueue_scripts'));
+		    add_action( 'elementor/elements/categories_registered', array( $this, 'register_widget_categories' ) );
+		    add_action( 'elementor/widgets/widgets_registered', array( $this, 'register_widget' ) );
+		    add_filter( 'oembed_providers', [ $this, 'addOEmbedProviders' ] );
+	    }
     }
 
     /**
@@ -44,10 +51,10 @@ class Embedpress_Elementor_Integration {
 	    $e_blocks = isset( $elements['elementor']) ? (array) $elements['elementor'] : [];
 
 	    if ( !empty($e_blocks['embedpress']) ) {
-		    $widgets_manager->register_widget_type( new \EmbedPress\Elementor\Widgets\Embedpress_Elementor );
+		    $widgets_manager->register_widget_type( new Embedpress_Elementor );
 	    }
 	    if ( !empty($e_blocks['embedpress-document']) ) {
-		    $widgets_manager->register_widget_type( new \EmbedPress\Elementor\Widgets\Embedpress_Document );
+		    $widgets_manager->register_widget_type( new Embedpress_Document );
 	    }
     }
 
