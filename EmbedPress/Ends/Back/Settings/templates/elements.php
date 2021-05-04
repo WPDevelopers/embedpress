@@ -44,7 +44,7 @@ $c_blocks = isset( $elements['classic']) ? (array) $elements['classic'] : [];
 				<?php } ?>
             </div>
             <div class="emement__item">
-                <h5>Youtube</h5>
+                <h5>YouTube</h5>
                 <a href="#" class="has__question">
                     <i class="ep-icon ep-question"></i>
                     <span class="element__tooltip"><?php esc_html_e( "It will enable YouTube Block", "embedpress" ); ?></span>

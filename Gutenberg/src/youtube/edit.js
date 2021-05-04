@@ -105,7 +105,7 @@ class YoutubeEdit extends Component {
 	render() {
 		const {url, editingURL, fetching, cannotEmbed,interactive} = this.state;
 		const {iframeSrc, attrs} = this.props.attributes;
-		const label = __("Youtube URL");
+		const label = __("YouTube URL");
 		// No preview, or we can't embed the current URL, or we've clicked the edit button.
 		if (!iframeSrc || editingURL) {
 			return (
@@ -116,7 +116,7 @@ class YoutubeEdit extends Component {
 					cannotEmbed={cannotEmbed}
 					onChange={event => this.setState({url: event.target.value})}
 					icon={youtubeIcon}
-					DocTitle={__('Learn More About Youtube Embed')}
+					DocTitle={__('Learn More About YouTube Embed')}
 					docLink={'https://embedpress.com/docs/embed-youtube-wordpress/'}
 
 				/>

@@ -18,7 +18,7 @@ $modestbranding = !empty( $yt_settings['modestbranding']) ? $yt_settings['modest
 ?>
 
 <div class="embedpress__settings background__white radius-25 p40">
-    <h3><?php esc_html_e( "Youtube Settings", "embedpress" ); ?></h3>
+    <h3><?php esc_html_e( "YouTube Settings", "embedpress" ); ?></h3>
     <div class="embedpress__settings__form">
         <form action="" method="post" >
 	        <?php
@@ -40,7 +40,7 @@ $modestbranding = !empty( $yt_settings['modestbranding']) ? $yt_settings['modest
                 </div>
             </div>
             <div class="form__group">
-                <label class="form__label" for="color"><?php esc_html_e( "Progress bar color", "embedpress" ); echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></label>
+                <label class="form__label" for="color"><?php esc_html_e( "Progress Bar Color", "embedpress" ); echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></label>
                 <div class="form__control__wrap">
                     <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>
@@ -83,7 +83,7 @@ $modestbranding = !empty( $yt_settings['modestbranding']) ? $yt_settings['modest
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Enable Fullscreen button", "embedpress" ); ?></p>
+                <p class="form__label"><?php esc_html_e( "Enable Fullscreen Button", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
@@ -99,7 +99,7 @@ $modestbranding = !empty( $yt_settings['modestbranding']) ? $yt_settings['modest
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Display video annotations", "embedpress" ); ?></p>
+                <p class="form__label"><?php esc_html_e( "Display Video Annotations", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
                     <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>
@@ -112,7 +112,7 @@ $modestbranding = !empty( $yt_settings['modestbranding']) ? $yt_settings['modest
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Display related videos", "embedpress" );  echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></p>
+                <p class="form__label"><?php esc_html_e( "Display Related Videos", "embedpress" );  echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></p>
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">

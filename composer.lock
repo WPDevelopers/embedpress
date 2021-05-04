@@ -51,7 +51,7 @@
                     "role": "Author/Developer"
                 }
             ],
-            "description": "Oembed consumer library. Converts urls into their html embed code. Supports 150+ sites, such as Youtube, Twitter, vimeo, Instagram etc.",
+            "description": "Oembed consumer library. Converts urls into their html embed code. Supports 150+ sites, such as YouTube, Twitter, vimeo, Instagram etc.",
             "homepage": "https://github.com/WPDevelopers/Embera",
             "keywords": [
                 "Auto embed",

@@ -17,7 +17,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 
 	registerBlockType('embedpress/youtube-block', {
 		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-		title: __('Youtube'), // Block title.
+		title: __('YouTube'), // Block title.
 		icon: youtubeIcon,
 		category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout Widgets, embed.
 		keywords: [
