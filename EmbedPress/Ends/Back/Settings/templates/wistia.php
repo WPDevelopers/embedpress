@@ -102,8 +102,7 @@ $plugin_rewind_time = !empty( $wis_settings['plugin_rewind_time']) ? $wis_settin
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Color", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
-                    <input type="text" name="player_color" value="<?php echo esc_attr( $player_color ); ?>">
-					<a href="#" class="button radius-10"><?php esc_html_e( "Select Color", "embedpress" ); ?></a>
+                    <input type="text" class="ep-color-picker" name="player_color" value="<?php echo esc_attr( $player_color ); ?>">
 					<p><?php esc_html_e( "Specify the color of the video controls.", "embedpress" ); ?></p>
 				</div>
 			</div>

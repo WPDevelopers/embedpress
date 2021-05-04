@@ -157,4 +157,7 @@ jQuery(document).ready(function($){
         });
     });
 
+    $('.ep-color-picker').wpColorPicker();
+
+
 });

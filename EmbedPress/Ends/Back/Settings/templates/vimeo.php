@@ -87,8 +87,7 @@ $display_avatar = !empty( $vm_settings['display_avatar']) ? $vm_settings['displa
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Color", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
-                    <input type="text" class="form__control" name="color" value="<?php echo esc_attr( $color); ?>">
-                    <button id="ep_choose_color" class="button radius-10"><?php esc_html_e( "Select Color", "embedpress" ); ?></button>
+                    <input type="text" class="form__control ep-color-picker" name="color" value="<?php echo esc_attr( $color); ?>">
                     <p><?php esc_html_e( "Specify the color of the video controls. eg. #00adef", "embedpress" ); ?></p>
                 </div>
             </div>
