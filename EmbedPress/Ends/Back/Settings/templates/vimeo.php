@@ -53,7 +53,7 @@ $display_avatar = !empty( $vm_settings['display_avatar']) ? $vm_settings['displa
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Auto pause", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>';  ?></p>
+                <p class="form__label"><?php esc_html_e( "Auto Pause", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>';  ?></p>
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">

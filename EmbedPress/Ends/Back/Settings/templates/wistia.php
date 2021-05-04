@@ -136,7 +136,7 @@ $plugin_rewind_time = !empty( $wis_settings['plugin_rewind_time']) ? $wis_settin
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
-					<p><?php esc_html_e( "Indicates whether the Resumable plugin is active. Allow to resume the video or start from the begining.", "embedpress" ); ?></p>
+					<p><?php esc_html_e( "Indicates whether the Resumable plugin is active. Allow to resume the video or start from the beginning.", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">
@@ -204,9 +204,9 @@ $plugin_rewind_time = !empty( $wis_settings['plugin_rewind_time']) ? $wis_settin
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Rewind time (seconds)", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
+				<p class="form__label"><?php esc_html_e( "Rewind Time (In Seconds)", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-					<input type="text" class="form__control" value="<?php echo esc_attr( $plugin_rewind_time );?>" name="plugin_rewind_time" <?php echo $pro_active ? '' : 'disabled'; ?>>
+					<input type="number" class="form__control" value="<?php echo esc_attr( $plugin_rewind_time );?>" name="plugin_rewind_time" <?php echo $pro_active ? '' : 'disabled'; ?>>
 					<p><?php esc_html_e( "The amount of time to rewind, in seconds.", "embedpress" ); ?></p>
 				</div>
 			</div>
