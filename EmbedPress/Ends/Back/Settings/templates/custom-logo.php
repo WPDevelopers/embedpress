@@ -95,7 +95,7 @@ $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_pow
 	                <?php if ( !$pro_active ) { ?>
                         <div class="pro__alert__wrap">
                             <div class="pro__alert__card">
-                                <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/alert.png" alt="">
+                                <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/alert.svg" alt="">
                                 <h2><?php esc_html_e( "Opps...", "embedpress" ); ?></h2>
                                 <p><?php printf( __( 'You need to upgrade to the <a href="%s">Premium</a> Version to use this feature', "embedpress" ), 'https://embedpress.com'); ?></p>
                                 <a href="#" class="button radius-10"><?php esc_html_e( "Close", "embedpress" ); ?></a>
@@ -107,29 +107,60 @@ $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_pow
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Vimeo Custom Branding (Coming soon)", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">Pro</span>'; ?></p>
                 <div class="form__control__wrap">
-                    <label class="input__switch switch__text">
+                    <label class="input__switch switch__text <?php echo $pro_active ? '': 'isPro'; ?>">
                         <input type="checkbox" disabled>
                         <span></span>
                     </label>
+
+	                <?php if ( !$pro_active ) { ?>
+                        <div class="pro__alert__wrap">
+                            <div class="pro__alert__card">
+                                <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/alert.svg" alt="">
+                                <h2><?php esc_html_e( "Opps...", "embedpress" ); ?></h2>
+                                <p><?php printf( __( 'This feature is coming soon to the <a href="%s">Premium</a> Version', "embedpress" ), 'https://embedpress.com'); ?></p>
+                                <a href="#" class="button radius-10"><?php esc_html_e( "Close", "embedpress" ); ?></a>
+                            </div>
+                        </div>
+	                <?php } ?>
 
                 </div>
             </div>
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Wistia Custom Branding (Coming soon)", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">Pro</span>'; ?></p>
                 <div class="form__control__wrap">
-                    <label class="input__switch switch__text">
+                    <label class="input__switch switch__text <?php echo $pro_active ? '': 'isPro'; ?>">
                         <input type="checkbox" disabled>
                         <span></span>
                     </label>
+	                <?php if ( !$pro_active ) { ?>
+                        <div class="pro__alert__wrap">
+                            <div class="pro__alert__card">
+                                <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/alert.svg" alt="">
+                                <h2><?php esc_html_e( "Opps...", "embedpress" ); ?></h2>
+                                <p><?php printf( __( 'This feature is coming soon to the <a href="%s">Premium</a> Version', "embedpress" ), 'https://embedpress.com'); ?></p>
+                                <a href="#" class="button radius-10"><?php esc_html_e( "Close", "embedpress" ); ?></a>
+                            </div>
+                        </div>
+	                <?php } ?>
                 </div>
             </div>
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Twitch Custom Branding (Coming soon)", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">Pro</span>'; ?></p>
                 <div class="form__control__wrap">
-                    <label class="input__switch switch__text">
+                    <label class="input__switch switch__text <?php echo $pro_active ? '': 'isPro'; ?>">
                         <input type="checkbox" disabled>
                         <span></span>
                     </label>
+	                <?php if ( !$pro_active ) { ?>
+                        <div class="pro__alert__wrap">
+                            <div class="pro__alert__card">
+                                <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/alert.svg" alt="">
+                                <h2><?php esc_html_e( "Opps...", "embedpress" ); ?></h2>
+                                <p><?php printf( __( 'This feature is coming soon to the <a href="%s">Premium</a> Version', "embedpress" ), 'https://embedpress.com'); ?></p>
+                                <a href="#" class="button radius-10"><?php esc_html_e( "Close", "embedpress" ); ?></a>
+                            </div>
+                        </div>
+	                <?php } ?>
                 </div>
             </div>
 	        <?php  do_action( 'embedpress_after_custom_branding_settings_fields'); ?>
