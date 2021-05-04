@@ -22,10 +22,10 @@ $mute = !empty( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_settin
             do_action( 'embedpress_before_twitch_settings_fields');
             echo  $nonce_field ; ?>
 			<div class="form__group">
-				<p class="form__label" ><?php esc_html_e( "Start Time (in Seconds)", "embedpress" );   echo $pro_active ? '': ' <span class="isPro">PRO</span>';?> </p>
+				<p class="form__label" ><?php esc_html_e( "Start Time (In Seconds)", "embedpress" );   echo $pro_active ? '': ' <span class="isPro">PRO</span>';?> </p>
 				<div class="form__control__wrap">
 					<input type="text" name="start_time" id="start_time" class="form__control" value="<?php echo esc_attr( $start_time); ?>" disabled>
-					<p><?php esc_html_e( "You can put a custom time in seconds to start video from. Example: 500", "embedpress" ); ?></p>
+					<p><?php esc_html_e( "You can put a custom time in seconds to start video. Example: 500", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">
@@ -45,7 +45,7 @@ $mute = !empty( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_settin
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Show chat", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
+				<p class="form__label"><?php esc_html_e( "Show Chat", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
 					<div class="input__flex">
 						<label class="input__radio">
@@ -57,7 +57,7 @@ $mute = !empty( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_settin
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
-					<p><?php esc_html_e( "You can show or hide chat using this settings", "embedpress" ); ?></p>
+					<p><?php esc_html_e( "You can show or hide chat using this setting", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">
@@ -74,7 +74,7 @@ $mute = !empty( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_settin
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Enable Fullsccreen button", "embedpress" ); ?></p>
+				<p class="form__label"><?php esc_html_e( "Enable Fullscreen Button", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
@@ -90,7 +90,7 @@ $mute = !empty( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_settin
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Mute on start", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
+				<p class="form__label"><?php esc_html_e( "Mute On Start", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
