@@ -96,13 +96,14 @@ $plugin_rewind_time = !empty( $wis_settings['plugin_rewind_time']) ? $wis_settin
 
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Volume", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
-				<div class="form__control__wrap">
-					<input type="number" class="form__control <?php echo $pro_active ? '': 'isPro'; ?>" value="<?php echo esc_attr( $volume ); ?>" name="volume" <?php echo $pro_active ? '' : 'disabled'; ?>>
-					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+				<div class="form__control__wrap <?php echo $pro_active ? '': 'isPro'; ?>">
+					<input type="number" class="form__control" value="<?php echo esc_attr( $volume ); ?>" name="volume" <?php echo $pro_active ? '' : 'disabled'; ?>>
 
                     <p><?php esc_html_e( "Start the video with a custom volume level. Set values between 0 and 100.", "embedpress" ); ?></p>
 				</div>
-			</div>
+				<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+
+            </div>
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Color", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
@@ -212,12 +213,12 @@ $plugin_rewind_time = !empty( $wis_settings['plugin_rewind_time']) ? $wis_settin
 			</div>
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Rewind Time (In Seconds)", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
-				<div class="form__control__wrap">
-					<input type="number" class="form__control <?php echo $pro_active ? '': 'isPro'; ?>" value="<?php echo esc_attr( $plugin_rewind_time );?>" name="plugin_rewind_time" <?php echo $pro_active ? '' : 'disabled'; ?>>
-					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+				<div class="form__control__wrap <?php echo $pro_active ? '': 'isPro'; ?>">
+					<input type="number" class="form__control" value="<?php echo esc_attr( $plugin_rewind_time );?>" name="plugin_rewind_time" <?php echo $pro_active ? '' : 'disabled'; ?>>
 					<p><?php esc_html_e( "The amount of time to rewind, in seconds.", "embedpress" ); ?></p>
 				</div>
-			</div>
+				<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+            </div>
 			<?php do_action( 'embedpress_after_wistia_settings_fields'); ?>
             <button class="button button__themeColor radius-10" name="submit" value="wistia"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
 		</form>
