@@ -63,22 +63,22 @@ $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_pow
                                 <div class="logo__adjust__controller__item">
                                     <span class="controller__label">Logo Opacity (%)</span>
                                     <div class="logo__adjust__controller__inputs">
-                                        <input type="range" max="100" value="<?php echo $yt_logo_opacity; ?>" class="opacity__range" name="yt_logo_opacity">
-                                        <input type="number" class="form__control range__value" value="<?php echo $yt_logo_opacity; ?>" readonly>
+                                        <input type="range" max="100" value="<?php echo $yt_logo_opacity; ?>" class="opacity__range">
+                                        <input type="number" class="form__control range__value" name="yt_logo_opacity" value="<?php echo $yt_logo_opacity; ?>">
                                     </div>
                                 </div>
                                 <div class="logo__adjust__controller__item">
                                     <span class="controller__label">Logo X Position (%)</span>
                                     <div class="logo__adjust__controller__inputs">
-                                        <input type="range" max="100" value="<?php echo $yt_logo_xpos; ?>" class="x__range" name="yt_logo_xpos">
-                                        <input type="number" class="form__control range__value" value="<?php echo $yt_logo_xpos; ?>" readonly>
+                                        <input type="range" max="100" value="<?php echo $yt_logo_xpos; ?>" class="x__range">
+                                        <input type="number" class="form__control range__value"  name="yt_logo_xpos" value="<?php echo $yt_logo_xpos; ?>">
                                     </div>
                                 </div>
                                 <div class="logo__adjust__controller__item">
                                     <span class="controller__label">Logo Y Position (%)</span>
                                     <div class="logo__adjust__controller__inputs">
-                                        <input type="range" max="100" value="<?php echo $yt_logo_ypos; ?>" class="y__range" name="yt_logo_ypos">
-                                        <input type="number" class="form__control range__value" value="<?php echo $yt_logo_ypos; ?>" readonly>
+                                        <input type="range" max="100" value="<?php echo $yt_logo_ypos; ?>" class="y__range" >
+                                        <input type="number" class="form__control range__value" name="yt_logo_ypos" value="<?php echo $yt_logo_ypos; ?>">
                                     </div>
                                 </div>
                             </div>
