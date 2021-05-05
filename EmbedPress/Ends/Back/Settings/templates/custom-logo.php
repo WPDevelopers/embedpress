@@ -91,7 +91,7 @@ $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_pow
                             </div>
                         </div>
                     </div>
-	                <?php if ( !$pro_active ) {  include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
                 </div>
             </div>
             <div class="form__group">
@@ -104,7 +104,7 @@ $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_pow
                         <input type="checkbox" disabled>
                         <span></span>
                     </label>
-	                <?php  include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-coming-soon.php'; ?>
+	                <?php  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-coming-soon.php'; ?>
                 </div>
             </div>
             <div class="form__group">
@@ -117,7 +117,7 @@ $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_pow
                         <input type="checkbox" disabled>
                         <span></span>
                     </label>
-   	                <?php  include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-coming-soon.php'; ?>
+   	                <?php  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-coming-soon.php'; ?>
 
                 </div>
             </div>
@@ -130,7 +130,7 @@ $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_pow
                         <input type="checkbox" disabled>
                         <span></span>
                     </label>
-   	                <?php  include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-coming-soon.php'; ?>
+   	                <?php  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-coming-soon.php'; ?>
 
                 </div>
             </div>

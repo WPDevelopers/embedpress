@@ -42,16 +42,7 @@ $enableEmbedResizeWidth = isset( $g_settings['enableEmbedResizeWidth']) ? $g_set
 						<input type="checkbox" name="g_lazyload" value="1" <?php echo $pro_active ? '': 'disabled ';  checked( '1', $lazy_load) ?>>
 						<span></span>
 					</label>
-					<?php if ( !$pro_active ) { ?>
-                        <div class="pro__alert__wrap">
-                            <div class="pro__alert__card">
-                                <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/alert.svg" alt="">
-                                <h2><?php esc_html_e( "Opps...", "embedpress" ); ?></h2>
-                                <p><?php printf( __( 'You need to upgrade to the <a href="%s">Premium</a> Version to use this feature', "embedpress" ), 'https://embedpress.com'); ?></p>
-                                <a href="#" class="button radius-10"><?php esc_html_e( "Close", "embedpress" ); ?></a>
-                            </div>
-                        </div>
-					<?php } ?>
+					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 				</div>
 			</div>
 			<div class="form__group mb0">
@@ -62,20 +53,11 @@ $enableEmbedResizeWidth = isset( $g_settings['enableEmbedResizeWidth']) ? $g_set
                     echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?>
                 </p>
 				<div class="form__control__wrap">
-					<label class="input__switch switch__text  <?php echo $pro_active ? '': 'isPro'; ?>">
+					<label class="input__switch switch__text  isPro">
 						<input type="checkbox" name="g_loading_animation" value="1" disabled>
 						<span></span>
 					</label>
-					<?php if ( !$pro_active ) { ?>
-                        <div class="pro__alert__wrap">
-                            <div class="pro__alert__card">
-                                <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/alert.svg" alt="">
-                                <h2><?php esc_html_e( "Opps...", "embedpress" ); ?></h2>
-                                <p><?php printf( __( 'This feature is coming soon to the <a href="%s">Premium</a> Version', "embedpress" ), 'https://embedpress.com'); ?></p>
-                                <a href="#" class="button radius-10"><?php esc_html_e( "Close", "embedpress" ); ?></a>
-                            </div>
-                        </div>
-					<?php } ?>
+					<?php  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-coming-soon.php'; ?>
 				</div>
 			</div>
             <?php do_action( 'embedpress_after_general_settings_fields');  ?>

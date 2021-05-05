@@ -78,10 +78,11 @@ jQuery(document).ready(function($){
         var formWrap = $('.form__control__wrap');
 
         formWrap.each(function() {
-            $('.input__switch').on('click', function(e) {
-                if($(this).hasClass('isPro')) {
+            $('.input__switch, .embedpress__select, .input__flex').on('click', function(e) {
+                var $input = $(this);
+                if($input.hasClass('isPro')) {
                     e.preventDefault();
-                    $(this).siblings('.pro__alert__wrap').fadeIn();
+                    $input.siblings('.pro__alert__wrap').fadeIn();
                 }
             })
 
