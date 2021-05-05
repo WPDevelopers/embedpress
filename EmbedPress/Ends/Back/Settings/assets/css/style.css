@@ -1707,7 +1707,7 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 .embedpress-sidebar .sidebar__menu .sidebar__item .dropdown__menu {
-    margin-left: 50px;
+    margin-left: 35px;
     display: none;
 }
 
@@ -1717,10 +1717,15 @@ button.button__instagram.hover__highlight:hover .icon {
 
 .embedpress-sidebar .sidebar__menu .sidebar__item .dropdown__menu .dropdown__item .dropdown__link {
     padding: 5px;
-    display: block;
+    /* display: block; */
     font-size: 16px;
     font-weight: 400;
     color: #7C8DB5;
+    display: flex;
+}
+.embedpress-sidebar .sidebar__menu .sidebar__item .dropdown__menu .dropdown__item .dropdown__link img {
+    max-width: 16px;
+    margin-right: 7px;
 }
 
 .embedpress-sidebar .sidebar__menu .sidebar__item .dropdown__menu .dropdown__item .dropdown__link:hover {
@@ -1730,6 +1735,7 @@ button.button__instagram.hover__highlight:hover .icon {
 .embedpress-sidebar .sidebar__menu .sidebar__item .dropdown__menu .dropdown__item .dropdown__link.active {
     color: #5B4E96;
 }
+
 .embedpress-tab .nav__menu ul {
     display: -webkit-box;
     display: -ms-flexbox;
@@ -2470,7 +2476,7 @@ button.button__instagram.hover__highlight:hover .icon {
     position: absolute;
     bottom: 10%;
     right: 6%;
-    max-width: 50%;
+    max-height: 40px;
 }
 
 .pro__alert__wrap {
@@ -3142,3 +3148,44 @@ button.button__instagram.hover__highlight:hover .icon {
 
 
 
+
+.embedpress-toast__message {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    padding: 15px 25px;
+    border-radius: 10px;
+    max-width: 400px;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s ease;
+}
+.embedpress-toast__message.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.embedpress-toast__message.toast__message--error {
+    background: #FE504F;
+}
+
+.embedpress-toast__message.toast__message--success {
+    background: #00CC76;
+}
+
+.embedpress-toast__message img {
+    height: 40px;
+    margin-right: 20px;
+}
+
+.embedpress-toast__message p {
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.template__wrapper  .wp-color-result-text {
+    padding: 0 5px;
+}

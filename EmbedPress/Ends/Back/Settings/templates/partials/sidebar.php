@@ -13,19 +13,34 @@
 			<ul class="dropdown__menu <?php echo in_array( $template, $gen_menu_template_names) ? 'show' : ''; ?>">
 				<?php do_action( 'ep_before_general_menu_items'); ?>
                 <li class="dropdown__item">
-					<a href="<?php echo esc_url( $ep_page.'&page_type=general'); ?>" class="dropdown__link <?php echo 'general' === $template ? 'active' : ''; ?>"><?php esc_html_e( "Settings", "embedpress" ); ?></a>
+					<a href="<?php echo esc_url( $ep_page.'&page_type=general'); ?>" class="dropdown__link <?php echo 'general' === $template ? 'active' : ''; ?>">
+						<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/settings.svg" alt="">
+						<?php esc_html_e( "Settings", "embedpress" ); ?>
+					</a>
 				</li>
 				<li class="dropdown__item">
-					<a href="<?php echo esc_url( $ep_page.'&page_type=youtube'); ?>" class="dropdown__link <?php echo 'youtube' === $template ? 'active' : ''; ?>"><?php esc_html_e( "YouTube", "embedpress" ); ?></a>
+					<a href="<?php echo esc_url( $ep_page.'&page_type=youtube'); ?>" class="dropdown__link <?php echo 'youtube' === $template ? 'active' : ''; ?>">
+						<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/youtube.svg" alt="">
+						<?php esc_html_e( "YouTube", "embedpress" ); ?>
+					</a>
 				</li>
 				<li class="dropdown__item">
-					<a href="<?php echo esc_url( $ep_page.'&page_type=vimeo'); ?>" class="dropdown__link <?php echo 'vimeo' === $template ? 'active' : ''; ?>"><?php esc_html_e( "Vimeo", "embedpress" ); ?></a>
+					<a href="<?php echo esc_url( $ep_page.'&page_type=vimeo'); ?>" class="dropdown__link <?php echo 'vimeo' === $template ? 'active' : ''; ?>">
+						<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/vimeo.svg" alt="">
+						<?php esc_html_e( "Vimeo", "embedpress" ); ?>
+					</a>
 				</li>
 				<li class="dropdown__item">
-					<a href="<?php echo esc_url( $ep_page.'&page_type=wistia'); ?>" class="dropdown__link <?php echo 'wistia' === $template ? 'active' : ''; ?>"><?php esc_html_e( "Wistia", "embedpress" ); ?></a>
+					<a href="<?php echo esc_url( $ep_page.'&page_type=wistia'); ?>" class="dropdown__link <?php echo 'wistia' === $template ? 'active' : ''; ?>">
+						<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/wistia.svg" alt="">
+						<?php esc_html_e( "Wistia", "embedpress" ); ?>
+					</a>
 				</li>
 				<li class="dropdown__item">
-					<a href="<?php echo esc_url( $ep_page.'&page_type=twitch'); ?>" class="dropdown__link <?php echo 'twitch' === $template ? 'active' : ''; ?>"><?php esc_html_e( "Twitch", "embedpress" ); ?></a>
+					<a href="<?php echo esc_url( $ep_page.'&page_type=twitch'); ?>" class="dropdown__link <?php echo 'twitch' === $template ? 'active' : ''; ?>">
+						<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/twitch.svg" alt="">
+						<?php esc_html_e( "Twitch", "embedpress" ); ?>
+					</a>
 				</li>
                 <?php do_action( 'ep_after_general_menu_items'); ?>
 			</ul>
@@ -43,7 +58,10 @@
 			<ul class="dropdown__menu  <?php echo in_array( $template, $brand_menu_template_names)? 'show' : ''; ?>">
 				<?php do_action( 'ep_before_branding_menu_items'); ?>
                 <li class="dropdown__item">
-					<a href="<?php echo esc_url( $ep_page.'&page_type=custom-logo'); ?>" class="dropdown__link  <?php echo 'custom-logo' === $template ? 'active' : ''; ?>"><?php esc_html_e( "Custom Logo", "embedpress" ); ?></a>
+					<a href="<?php echo esc_url( $ep_page.'&page_type=custom-logo'); ?>" class="dropdown__link  <?php echo 'custom-logo' === $template ? 'active' : ''; ?>">
+					<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/brand.svg" alt="">
+						<?php esc_html_e( "Custom Logo", "embedpress" ); ?>
+					</a>
 				</li>
 				<?php do_action( 'ep_after_branding_menu_items'); ?>
             </ul>

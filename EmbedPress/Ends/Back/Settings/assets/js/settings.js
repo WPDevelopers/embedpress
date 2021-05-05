@@ -146,13 +146,16 @@ jQuery(document).ready(function($){
             },
             success: function(response) {
                 if (response && response.success){
-                    alert('Settings Updated');
+                    // alert('Settings Updated');
+                    $('.toast__message--success').addClass('show');
                 }else{
-                    alert('Something went wrong.');
+                    // alert('Something went wrong.');
+                    $('.toast__message--error').addClass('show');
                 }
             },
             error: function(error) {
-                alert('Something went wrong.');
+                // alert('Something went wrong.');
+                $('.toast__message--error').addClass('show');
             },
         });
     });
