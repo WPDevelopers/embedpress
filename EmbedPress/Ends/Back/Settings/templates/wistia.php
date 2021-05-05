@@ -46,7 +46,7 @@ $plugin_rewind_time = !empty( $wis_settings['plugin_rewind_time']) ? $wis_settin
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Playbar", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-					<div class="input__flex">
+					<div class="input__flex  <?php echo $pro_active ? '': 'isPro'; ?>">
 						<label class="input__radio">
 							<input type="radio" value="0" name="display_playbar" <?php echo $pro_active ? '' : 'disabled'; checked( '0', $display_playbar); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -56,7 +56,8 @@ $plugin_rewind_time = !empty( $wis_settings['plugin_rewind_time']) ? $wis_settin
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
-					<p><?php esc_html_e( "Indicates whether the playbar is visible.", "embedpress" ); ?></p>
+					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+                    <p><?php esc_html_e( "Indicates whether the playbar is visible.", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">
@@ -78,7 +79,7 @@ $plugin_rewind_time = !empty( $wis_settings['plugin_rewind_time']) ? $wis_settin
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Volume Control", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-					<div class="input__flex">
+					<div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
 						<label class="input__radio">
 							<input type="radio" value="0" name="display_volume_control" <?php echo $pro_active ? '' : 'disabled'; checked( '0', $display_volume_control); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -88,15 +89,18 @@ $plugin_rewind_time = !empty( $wis_settings['plugin_rewind_time']) ? $wis_settin
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
-					<p><?php esc_html_e( "Indicates whether the volume control is visible.", "embedpress" ); ?></p>
+					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+                    <p><?php esc_html_e( "Indicates whether the volume control is visible.", "embedpress" ); ?></p>
 				</div>
 			</div>
 
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Volume", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-					<input type="number" class="form__control" value="<?php echo esc_attr( $volume ); ?>" name="volume" <?php echo $pro_active ? '' : 'disabled'; ?>>
-					<p><?php esc_html_e( "Start the video with a custom volume level. Set values between 0 and 100.", "embedpress" ); ?></p>
+					<input type="number" class="form__control <?php echo $pro_active ? '': 'isPro'; ?>" value="<?php echo esc_attr( $volume ); ?>" name="volume" <?php echo $pro_active ? '' : 'disabled'; ?>>
+					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+
+                    <p><?php esc_html_e( "Start the video with a custom volume level. Set values between 0 and 100.", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">
@@ -142,7 +146,7 @@ $plugin_rewind_time = !empty( $wis_settings['plugin_rewind_time']) ? $wis_settin
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Plugin: Captions", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-					<div class="input__flex">
+					<div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
 						<label class="input__radio">
 							<input type="radio" value="0" name="plugin_captions" <?php echo $pro_active ? '' : 'disabled'; checked( '0', $plugin_captions); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -152,13 +156,14 @@ $plugin_rewind_time = !empty( $wis_settings['plugin_rewind_time']) ? $wis_settin
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
+					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 					<p><?php esc_html_e( "Indicates whether the Captions plugin is active.", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Captions Enabled By Default", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-					<div class="input__flex">
+					<div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
 						<label class="input__radio">
 							<input type="radio" value="0" name="plugin_captions_default" <?php echo $pro_active ? '' : 'disabled'; checked( '0', $plugin_captions_default); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -168,6 +173,7 @@ $plugin_rewind_time = !empty( $wis_settings['plugin_rewind_time']) ? $wis_settin
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
+					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 					<p><?php esc_html_e( "Indicates whether the Captions are enabled by default.", "embedpress" ); ?></p>
 				</div>
 			</div>
@@ -190,7 +196,7 @@ $plugin_rewind_time = !empty( $wis_settings['plugin_rewind_time']) ? $wis_settin
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Plugin: Rewind", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-					<div class="input__flex">
+					<div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
 						<label class="input__radio">
 							<input type="radio" value="0" name="plugin_rewind" <?php echo $pro_active ? '' : 'disabled'; checked( '0', $plugin_rewind); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -200,13 +206,15 @@ $plugin_rewind_time = !empty( $wis_settings['plugin_rewind_time']) ? $wis_settin
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
+					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 					<p><?php esc_html_e( "Indicates whether the Rewind plugin is active.", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Rewind Time (In Seconds)", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-					<input type="number" class="form__control" value="<?php echo esc_attr( $plugin_rewind_time );?>" name="plugin_rewind_time" <?php echo $pro_active ? '' : 'disabled'; ?>>
+					<input type="number" class="form__control <?php echo $pro_active ? '': 'isPro'; ?>" value="<?php echo esc_attr( $plugin_rewind_time );?>" name="plugin_rewind_time" <?php echo $pro_active ? '' : 'disabled'; ?>>
+					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 					<p><?php esc_html_e( "The amount of time to rewind, in seconds.", "embedpress" ); ?></p>
 				</div>
 			</div>

@@ -38,7 +38,7 @@ $enableEmbedResizeWidth = isset( $g_settings['enableEmbedResizeWidth']) ? $g_set
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( 'Lazy Load', 'embedpress'); echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?> </p>
 				<div class="form__control__wrap">
-					<label class="input__switch switch__text  <?php echo $pro_active ? '': 'isPro'; ?>">
+					<label class="input__switch switch__text <?php echo $pro_active ? '': 'isPro'; ?>">
 						<input type="checkbox" name="g_lazyload" value="1" <?php echo $pro_active ? '': 'disabled ';  checked( '1', $lazy_load) ?>>
 						<span></span>
 					</label>
