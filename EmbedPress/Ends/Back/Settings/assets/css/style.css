@@ -3139,6 +3139,8 @@ button.button__instagram.hover__highlight:hover .icon {
     max-width: 100%;
     width: 1.5rem;
 }
-
-
-
+.ep-coming-soon {
+    color:#5b4e96;
+    font-size: 12px;
+    font-weight: 900;
+}

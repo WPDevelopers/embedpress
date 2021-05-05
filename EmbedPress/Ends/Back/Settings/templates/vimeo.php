@@ -81,14 +81,14 @@ $display_avatar = !empty( $vm_settings['display_avatar']) ? $vm_settings['displa
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
-                    <p><?php esc_html_e( 'Setting this parameter to "yes" will block the player from tracking any session data, including all cookies', "embedpress" ); ?></p>
+                    <p><?php esc_html_e( 'Setting this parameter to "yes" will block the player from tracking any session data, including all cookies.', "embedpress" ); ?></p>
                 </div>
             </div>
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Color", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
                     <input type="text" class="form__control ep-color-picker" name="color" value="<?php echo esc_attr( $color); ?>">
-                    <p><?php esc_html_e( "Specify the color of the video controls. eg. #00adef", "embedpress" ); ?></p>
+                    <p><?php esc_html_e( "Specify the color of the video controls.", "embedpress" ); ?></p>
                 </div>
             </div>
             <div class="form__group">
