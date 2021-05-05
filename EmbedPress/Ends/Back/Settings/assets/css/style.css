@@ -1645,6 +1645,7 @@ button.button__instagram.hover__highlight:hover .icon {
         display: none;
         position: absolute;
         top: calc(100% + 10px);
+        z-index: 9;
         left: 0;
         background: #ffffff;
         min-width: 220px;
@@ -2756,7 +2757,7 @@ button.button__instagram.hover__highlight:hover .icon {
 
 @media (max-width: 1199px) {
     .embedpress-license__details .license__content {
-        padding: 50px;
+        padding: 30px;
     }
 }
 
@@ -2852,6 +2853,8 @@ button.button__instagram.hover__highlight:hover .icon {
     flex-grow: 1;
     position: relative;
 }
+
+
 
 .embedpress-license__details .license__content .form__group .input__icon {
     position: absolute;
@@ -3188,4 +3191,21 @@ button.button__instagram.hover__highlight:hover .icon {
 
 .template__wrapper  .wp-color-result-text {
     padding: 0 5px;
+}
+@media all and (max-width: 1600px) {
+    .embedpress-license__details .license__content .form__inline {
+        display: block;
+    }
+    .embedpress-license__details .license__content .form__group {
+        margin-bottom: 25px;
+        margin-right: 0;
+    }
+    .embedpress-license__details .license__content .form__group .form__control {
+        height: 50px;
+        font-size: 14px;
+    }
+    .embedpress-license__details .license__content .form__group .input__icon {
+        width: 18px;
+        top: 16px;
+    }
 }
