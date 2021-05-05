@@ -31,7 +31,7 @@ class EmbedpressSettings {
 					'youtube-block' => 'youtube-block',
 					'google-forms-block' => 'google-forms-block',
 					'google-drawings-block' => 'google-drawings-block',
-					'google-maps-maps' => 'google-maps-maps',
+					'google-maps-block' => 'google-maps-block',
 					'twitch-block' => 'twitch-block',
 					'wistia-block' => 'wistia-block',
 					'vimeo-block' => 'vimeo-block',
