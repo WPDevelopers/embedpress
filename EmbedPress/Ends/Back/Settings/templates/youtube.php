@@ -5,15 +5,15 @@
  *  */
 
 $yt_settings = get_option( EMBEDPRESS_PLG_NAME.':youtube');
-$autoplay = !empty( $yt_settings['autoplay']) ? $yt_settings['autoplay'] : 0;
-$controls = !empty( $yt_settings['controls']) ? $yt_settings['controls'] : 1;
-$fs = !empty( $yt_settings['fs']) ? $yt_settings['fs'] : 1;
-$iv_load_policy = !empty( $yt_settings['iv_load_policy']) ? $yt_settings['iv_load_policy'] : 1;
+$autoplay = isset( $yt_settings['autoplay']) ? $yt_settings['autoplay'] : 0;
+$controls = isset( $yt_settings['controls']) ? $yt_settings['controls'] : 1;
+$fs = isset( $yt_settings['fs']) ? $yt_settings['fs'] : 1;
+$iv_load_policy = isset( $yt_settings['iv_load_policy']) ? $yt_settings['iv_load_policy'] : 1;
 // pro
-$color = !empty( $yt_settings['color']) ? $yt_settings['color'] : 'red';
-$cc_load_policy = !empty( $yt_settings['cc_load_policy']) ? $yt_settings['cc_load_policy'] : 0;
-$rel = !empty( $yt_settings['rel']) ? $yt_settings['rel'] : 1;
-$modestbranding = !empty( $yt_settings['modestbranding']) ? $yt_settings['modestbranding'] : 0;
+$color = isset( $yt_settings['color']) ? $yt_settings['color'] : 'red';
+$cc_load_policy = isset( $yt_settings['cc_load_policy']) ? $yt_settings['cc_load_policy'] : 0;
+$rel = isset( $yt_settings['rel']) ? $yt_settings['rel'] : 1;
+$modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestbranding'] : 0;
 
 ?>
 
