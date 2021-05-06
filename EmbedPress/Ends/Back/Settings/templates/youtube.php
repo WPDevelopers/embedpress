@@ -140,8 +140,8 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
                     <div class="embedpress__select <?php echo $pro_active ? '': 'isPro'; ?>">
                         <span><i class="ep-icon ep-caret-down"></i></span>
                         <select name="modestbranding"  <?php echo !$pro_active ? 'disabled' : ''; ?>>
-                            <option value="1" <?php selected( '1', $modestbranding); ?>><?php esc_html_e( "Show", "embedpress" ); ?></option>
-                            <option value="0"  <?php selected( '0', $modestbranding); ?>><?php esc_html_e( "Hide", "embedpress" ); ?></option>
+                            <option value="1" <?php selected( '1', $modestbranding); ?>><?php esc_html_e( "Hide", "embedpress" ); ?></option>
+                            <option value="0"  <?php selected( '0', $modestbranding); ?>><?php esc_html_e( "Show", "embedpress" ); ?></option>
                         </select>
                     </div>
 	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
