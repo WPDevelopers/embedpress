@@ -97,7 +97,7 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? $wis_setting
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Volume", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap <?php echo $pro_active ? '': 'isPro'; ?>">
-					<input type="number" class="form__control" value="<?php echo esc_attr( $volume ); ?>" name="volume" <?php echo $pro_active ? '' : 'disabled'; ?>>
+					<input type="number" max="100" min="0" class="form__control" value="<?php echo esc_attr( $volume ); ?>" name="volume" <?php echo $pro_active ? '' : 'disabled'; ?>>
 
                     <p><?php esc_html_e( "Start the video with a custom volume level. Set values between 0 and 100.", "embedpress" ); ?></p>
 				</div>

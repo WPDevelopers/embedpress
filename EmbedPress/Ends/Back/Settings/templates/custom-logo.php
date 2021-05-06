@@ -63,22 +63,22 @@ $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_pow
                                 <div class="logo__adjust__controller__item">
                                     <span class="controller__label">Logo Opacity (%)</span>
                                     <div class="logo__adjust__controller__inputs">
-                                        <input type="range" max="100" value="<?php echo $yt_logo_opacity; ?>" class="opacity__range">
-                                        <input type="number" class="form__control range__value" name="yt_logo_opacity" value="<?php echo $yt_logo_opacity; ?>">
+                                        <input type="range" max="100" value="<?php echo $yt_logo_opacity; ?>" class="opacity__range" name="yt_logo_opacity">
+                                        <input readonly type="number" class="form__control range__value" value="<?php echo $yt_logo_opacity; ?>">
                                     </div>
                                 </div>
                                 <div class="logo__adjust__controller__item">
                                     <span class="controller__label">Logo X Position (%)</span>
                                     <div class="logo__adjust__controller__inputs">
-                                        <input type="range" max="100" value="<?php echo $yt_logo_xpos; ?>" class="x__range">
-                                        <input type="number" class="form__control range__value"  name="yt_logo_xpos" value="<?php echo $yt_logo_xpos; ?>">
+                                        <input type="range" max="100" value="<?php echo $yt_logo_xpos; ?>" class="x__range" name="yt_logo_xpos">
+                                        <input readonly type="number" class="form__control range__value"  value="<?php echo $yt_logo_xpos; ?>">
                                     </div>
                                 </div>
                                 <div class="logo__adjust__controller__item">
                                     <span class="controller__label">Logo Y Position (%)</span>
                                     <div class="logo__adjust__controller__inputs">
-                                        <input type="range" max="100" value="<?php echo $yt_logo_ypos; ?>" class="y__range" >
-                                        <input type="number" class="form__control range__value" name="yt_logo_ypos" value="<?php echo $yt_logo_ypos; ?>">
+                                        <input type="range" max="100" value="<?php echo esc_attr( $yt_logo_ypos ); ?>" class="y__range" name="yt_logo_ypos" >
+                                        <input readonly type="number" class="form__control range__value"  value="<?php echo esc_attr( $yt_logo_ypos ); ?>">
                                     </div>
                                 </div>
                             </div>
@@ -86,7 +86,7 @@ $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_pow
                                 <span class="title"><?php esc_html_e( "Live Preview", "embedpress" ); ?></span>
                                 <div class="preview__box">
                                     <iframe src="https://www.youtube.com/embed/2u0HRUdLHxo" frameborder="0"></iframe>
-                                    <img src="<?php echo $yt_logo_url; ?>" class="preview__logo" alt="">
+                                    <img src="<?php echo $yt_logo_url; ?>" class="preview__logo" style="bottom:<?php echo esc_attr( $yt_logo_ypos); ?>%; right:<?php echo esc_attr( $yt_logo_xpos); ?>%; opacity:<?php echo ($yt_logo_opacity/100); ?>;" alt="">
                                 </div>
                             </div>
                         </div>
