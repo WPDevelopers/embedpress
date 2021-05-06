@@ -3090,6 +3090,7 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 .emement__item .input__switch {
     margin-left: auto;
+    margin-bottom: 0;
 }
 
 .emement__item .pro__item {
