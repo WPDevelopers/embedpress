@@ -120,9 +120,12 @@ class EmbedpressSettings {
 		if ( !empty( $_POST['ep_settings_nonce']) && wp_verify_nonce( $_POST['ep_settings_nonce'], 'ep_settings_nonce') ) {
 			$submit_type = !empty( $_POST['submit'] ) ? $_POST['submit'] : '';
 			$save_handler_method  = "save_{$submit_type}_settings";
+			do_action( "before_{$save_handler_method}");
+			do_action( "before_embedpress_settings_save");
 			if ( method_exists( $this, $save_handler_method ) ) {
 				$this->$save_handler_method();
 			}
+			do_action( "after_embedpress_settings_save");
 		}
 	}
 
@@ -194,24 +197,12 @@ class EmbedpressSettings {
 		do_action( 'ep_twitch_settings_after_save', $settings);
 	}
 
-	public function save_custom_logo_settings() {
-		$yt_option_name = EMBEDPRESS_PLG_NAME.':youtube';
-		$yt_settings = (array) get_option( $yt_option_name, []);
-		$yt_settings['branding'] = isset( $_POST['yt_branding']) ? sanitize_text_field( $_POST['yt_branding']) : 'no';
-		$yt_settings['logo_xpos'] = isset( $_POST['yt_logo_xpos']) ? intval( $_POST['yt_logo_xpos']) : 10;
-		$yt_settings['logo_ypos'] = isset( $_POST['yt_logo_ypos']) ? intval( $_POST['yt_logo_ypos']) : 10;
-		$yt_settings['logo_opacity'] = isset( $_POST['yt_logo_opacity']) ? intval( $_POST['yt_logo_opacity']) : 0;
-		$yt_settings['logo_id'] = isset( $_POST['yt_logo_id']) ? intval( $_POST['yt_logo_id']) : '';
-		$yt_settings['logo_url'] = isset( $_POST['yt_logo_url']) ? esc_url_raw( $_POST['yt_logo_url']) : '';
-		$yt_settings['cta_url'] = isset( $_POST['yt_cta_url']) ? esc_url_raw( $_POST['yt_cta_url']) : '';
-		// save branding
+	public static function save_custom_logo_settings() {
+		do_action( 'before_embedpress_branding_save');
 		$settings = (array) get_option( EMBEDPRESS_PLG_NAME, []);
 		$settings['embedpress_document_powered_by'] = isset( $_POST['embedpress_document_powered_by']) ? sanitize_text_field( $_POST['embedpress_document_powered_by']) : 'no';
 		update_option( EMBEDPRESS_PLG_NAME, $settings);
+		do_action( 'after_embedpress_branding_save');
 
-		// Pro will handle g_loading_animation settings and other
-		$yt_settings = apply_filters( 'ep_youtube_branding_before_save', $yt_settings);
-		update_option( $yt_option_name, $yt_settings);
-		do_action( 'ep_youtube_branding_after_save', $yt_settings);
 	}
 }
