@@ -3,6 +3,7 @@
 namespace EmbedPress;
 
 use EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
+use EmbedPress\Ends\Back\Settings\EmbedpressSettings;
 use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
@@ -122,7 +123,8 @@ class CoreLegacy
         global $wp_actions;
 
         if (is_admin()) {
-            $plgSettings = self::getSettings();
+	        new EmbedpressSettings();
+	        $plgSettings = self::getSettings();
             $this->admin_notice();
             $settingsClassNamespace = '\\EmbedPress\\Ends\\Back\\Settings';
             add_action('admin_menu', [$settingsClassNamespace, 'registerMenuItem']);

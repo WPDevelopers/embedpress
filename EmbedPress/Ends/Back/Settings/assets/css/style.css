@@ -3152,7 +3152,6 @@ button.button__instagram.hover__highlight:hover .icon {
 
 
 
-
 .embedpress-toast__message {
     position: fixed;
     bottom: 50px;
@@ -3209,4 +3208,10 @@ button.button__instagram.hover__highlight:hover .icon {
         width: 18px;
         top: 16px;
     }
+}
+
+.ep-coming-soon {
+    color:#5b4e96;
+    font-size: 12px;
+    font-weight: 900;
 }

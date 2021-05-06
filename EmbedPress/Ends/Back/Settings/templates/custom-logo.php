@@ -63,22 +63,22 @@ $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_pow
                                 <div class="logo__adjust__controller__item">
                                     <span class="controller__label">Logo Opacity (%)</span>
                                     <div class="logo__adjust__controller__inputs">
-                                        <input type="range" max="100" value="<?php echo $yt_logo_opacity; ?>" class="opacity__range" name="yt_logo_opacity">
-                                        <input type="number" class="form__control range__value" value="<?php echo $yt_logo_opacity; ?>" readonly>
+                                        <input type="range" max="100" value="<?php echo $yt_logo_opacity; ?>" class="opacity__range">
+                                        <input type="number" class="form__control range__value" name="yt_logo_opacity" value="<?php echo $yt_logo_opacity; ?>">
                                     </div>
                                 </div>
                                 <div class="logo__adjust__controller__item">
                                     <span class="controller__label">Logo X Position (%)</span>
                                     <div class="logo__adjust__controller__inputs">
-                                        <input type="range" max="100" value="<?php echo $yt_logo_xpos; ?>" class="x__range" name="yt_logo_xpos">
-                                        <input type="number" class="form__control range__value" value="<?php echo $yt_logo_xpos; ?>" readonly>
+                                        <input type="range" max="100" value="<?php echo $yt_logo_xpos; ?>" class="x__range">
+                                        <input type="number" class="form__control range__value"  name="yt_logo_xpos" value="<?php echo $yt_logo_xpos; ?>">
                                     </div>
                                 </div>
                                 <div class="logo__adjust__controller__item">
                                     <span class="controller__label">Logo Y Position (%)</span>
                                     <div class="logo__adjust__controller__inputs">
-                                        <input type="range" max="100" value="<?php echo $yt_logo_ypos; ?>" class="y__range" name="yt_logo_ypos">
-                                        <input type="number" class="form__control range__value" value="<?php echo $yt_logo_ypos; ?>" readonly>
+                                        <input type="range" max="100" value="<?php echo $yt_logo_ypos; ?>" class="y__range" >
+                                        <input type="number" class="form__control range__value" name="yt_logo_ypos" value="<?php echo $yt_logo_ypos; ?>">
                                     </div>
                                 </div>
                             </div>
@@ -91,45 +91,47 @@ $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_pow
                             </div>
                         </div>
                     </div>
+	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+                </div>
+            </div>
+            <div class="form__group">
+                <p class="form__label"><?php
+	                printf( esc_html__( 'Vimeo Custom Branding %s', 'embedpress'), $coming_soon);
+	                echo $pro_active ? '': ' <span class="isPro">Pro</span>'; ?>
+                </p>
+                <div class="form__control__wrap">
+                    <label class="input__switch switch__text isPro">
+                        <input type="checkbox" disabled>
+                        <span></span>
+                    </label>
+	                <?php  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-coming-soon.php'; ?>
+                </div>
+            </div>
+            <div class="form__group">
+                <p class="form__label"><?php
+	                printf( esc_html__( 'Wistia Custom Branding %s', 'embedpress'), $coming_soon);
+                    echo $pro_active ? '': ' <span class="isPro">Pro</span>';
+                    ?></p>
+                <div class="form__control__wrap">
+                    <label class="input__switch switch__text isPro">
+                        <input type="checkbox" disabled>
+                        <span></span>
+                    </label>
+   	                <?php  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-coming-soon.php'; ?>
 
-	                <?php if ( !$pro_active ) { ?>
-                        <div class="pro__alert__wrap">
-                            <div class="pro__alert__card">
-                                <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/alert.png" alt="">
-                                <h2><?php esc_html_e( "Opps...", "embedpress" ); ?></h2>
-                                <p><?php printf( __( 'You need to upgrade to the <a href="%s">Premium</a> Version to use this feature', "embedpress" ), 'https://embedpress.com'); ?></p>
-                                <a href="#" class="button radius-10"><?php esc_html_e( "Close", "embedpress" ); ?></a>
-                            </div>
-                        </div>
-	                <?php } ?>
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Vimeo Custom Branding (Coming soon)", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">Pro</span>'; ?></p>
+                <p class="form__label"><?php
+	                printf( esc_html__( 'Twitch Custom Branding %s', 'embedpress'), $coming_soon);
+	                echo $pro_active ? '': ' <span class="isPro">Pro</span>'; ?></p>
                 <div class="form__control__wrap">
-                    <label class="input__switch switch__text">
+                    <label class="input__switch switch__text isPro">
                         <input type="checkbox" disabled>
                         <span></span>
                     </label>
+   	                <?php  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-coming-soon.php'; ?>
 
-                </div>
-            </div>
-            <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Wistia Custom Branding (Coming soon)", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">Pro</span>'; ?></p>
-                <div class="form__control__wrap">
-                    <label class="input__switch switch__text">
-                        <input type="checkbox" disabled>
-                        <span></span>
-                    </label>
-                </div>
-            </div>
-            <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Twitch Custom Branding (Coming soon)", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">Pro</span>'; ?></p>
-                <div class="form__control__wrap">
-                    <label class="input__switch switch__text">
-                        <input type="checkbox" disabled>
-                        <span></span>
-                    </label>
                 </div>
             </div>
 	        <?php  do_action( 'embedpress_after_custom_branding_settings_fields'); ?>

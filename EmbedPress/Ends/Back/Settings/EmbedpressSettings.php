@@ -31,7 +31,7 @@ class EmbedpressSettings {
 					'youtube-block' => 'youtube-block',
 					'google-forms-block' => 'google-forms-block',
 					'google-drawings-block' => 'google-drawings-block',
-					'google-maps-maps' => 'google-maps-maps',
+					'google-maps-block' => 'google-maps-block',
 					'twitch-block' => 'twitch-block',
 					'wistia-block' => 'wistia-block',
 					'vimeo-block' => 'vimeo-block',
@@ -112,6 +112,7 @@ class EmbedpressSettings {
 		$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['general', 'youtube', 'vimeo', 'wistia', 'twitch']);
 		$brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-logo', 'branding',]);
 		$pro_active = is_embedpress_pro_active();
+		$coming_soon = "<span class='ep-coming-soon'>". esc_html__( '(Coming soon)', 'embedpress'). "</span>";
 		include_once EMBEDPRESS_SETTINGS_PATH . 'templates/main-template.php';
 	}
 

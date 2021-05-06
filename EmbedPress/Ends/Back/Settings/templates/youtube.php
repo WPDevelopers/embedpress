@@ -5,15 +5,15 @@
  *  */
 
 $yt_settings = get_option( EMBEDPRESS_PLG_NAME.':youtube');
-$autoplay = !empty( $yt_settings['autoplay']) ? $yt_settings['autoplay'] : 0;
-$controls = !empty( $yt_settings['controls']) ? $yt_settings['controls'] : 1;
-$fs = !empty( $yt_settings['fs']) ? $yt_settings['fs'] : 1;
-$iv_load_policy = !empty( $yt_settings['iv_load_policy']) ? $yt_settings['iv_load_policy'] : 1;
+$autoplay = isset( $yt_settings['autoplay']) ? $yt_settings['autoplay'] : 0;
+$controls = isset( $yt_settings['controls']) ? $yt_settings['controls'] : 1;
+$fs = isset( $yt_settings['fs']) ? $yt_settings['fs'] : 1;
+$iv_load_policy = isset( $yt_settings['iv_load_policy']) ? $yt_settings['iv_load_policy'] : 1;
 // pro
-$color = !empty( $yt_settings['color']) ? $yt_settings['color'] : 'red';
-$cc_load_policy = !empty( $yt_settings['cc_load_policy']) ? $yt_settings['cc_load_policy'] : 0;
-$rel = !empty( $yt_settings['rel']) ? $yt_settings['rel'] : 1;
-$modestbranding = !empty( $yt_settings['modestbranding']) ? $yt_settings['modestbranding'] : 0;
+$color = isset( $yt_settings['color']) ? $yt_settings['color'] : 'red';
+$cc_load_policy = isset( $yt_settings['cc_load_policy']) ? $yt_settings['cc_load_policy'] : 0;
+$rel = isset( $yt_settings['rel']) ? $yt_settings['rel'] : 1;
+$modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestbranding'] : 0;
 
 ?>
 
@@ -42,20 +42,22 @@ $modestbranding = !empty( $yt_settings['modestbranding']) ? $yt_settings['modest
             <div class="form__group">
                 <label class="form__label" for="color"><?php esc_html_e( "Progress Bar Color", "embedpress" ); echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></label>
                 <div class="form__control__wrap">
-                    <div class="embedpress__select">
+                    <div class="embedpress__select <?php echo $pro_active ? '': 'isPro'; ?>">
                         <span><i class="ep-icon ep-caret-down"></i></span>
                         <select name="color" id="color" <?php echo !$pro_active ? 'disabled' : ''; ?>>
                             <option value="red" <?php selected( 'red', $color); ?> ><?php esc_html_e( "Red", "embedpress" ); ?></option>
                             <option value="white" <?php selected( 'white', $color); ?> ><?php esc_html_e( "White", "embedpress" ); ?></option>
                         </select>
                     </div>
+	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+
                     <p><?php printf( esc_html__( "Specifies the color that will be used in the player's video progress bar to highlight the amount of the video that the viewer has already seen. %s Note: Setting the color to white will disable the Modest Branding option (causing a YouTube logo to be displayed in the control bar).", 'embedpress'), '<br>'); ?></p>
                 </div>
             </div>
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Force Closed Captions", "embedpress" ); echo !$pro_active ? ' <span class="isPro">PRO</span>': ''; ?></p>
                 <div class="form__control__wrap">
-                    <div class="input__flex">
+                    <div class="input__flex  <?php echo $pro_active ? '': 'isPro'; ?>">
                         <label class="input__radio">
                             <input type="radio" name="cc_load_policy" value="0"  <?php echo !$pro_active ? 'disabled ' : ''; checked( '0', $cc_load_policy); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -65,6 +67,8 @@ $modestbranding = !empty( $yt_settings['modestbranding']) ? $yt_settings['modest
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
+	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+
                     <p><?php esc_html_e( "Setting this option to Yes causes closed captions to be shown by default, even if the user has turned captions off. This will be based on user preference otherwise.", "embedpress" ); ?></p>
                 </div>
             </div>
@@ -114,7 +118,7 @@ $modestbranding = !empty( $yt_settings['modestbranding']) ? $yt_settings['modest
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Display Related Videos", "embedpress" );  echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></p>
                 <div class="form__control__wrap">
-                    <div class="input__flex">
+                    <div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
                         <label class="input__radio">
                             <input type="radio" name="rel" value="0" <?php echo !$pro_active ? 'disabled ' : ''; checked( '0', $rel); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -124,19 +128,23 @@ $modestbranding = !empty( $yt_settings['modestbranding']) ? $yt_settings['modest
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
+	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+
                     <p><?php esc_html_e( "Indicates whether the player should show related videos when playback of the initial video ends.", "embedpress" ); ?></p>
                 </div>
             </div>
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Modest Branding", "embedpress" );  echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></p>
                 <div class="form__control__wrap">
-                    <div class="embedpress__select">
+                    <div class="embedpress__select <?php echo $pro_active ? '': 'isPro'; ?>">
                         <span><i class="ep-icon ep-caret-down"></i></span>
                         <select name="modestbranding"  <?php echo !$pro_active ? 'disabled' : ''; ?>>
                             <option value="1" <?php selected( '1', $modestbranding); ?>><?php esc_html_e( "Show", "embedpress" ); ?></option>
                             <option value="0"  <?php selected( '0', $modestbranding); ?>><?php esc_html_e( "Hide", "embedpress" ); ?></option>
                         </select>
                     </div>
+	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+
                     <p><?php esc_html_e( "Indicates whether the player should display a YouTube logo in the control bar.", "embedpress" ); ?></p>
                 </div>
             </div>

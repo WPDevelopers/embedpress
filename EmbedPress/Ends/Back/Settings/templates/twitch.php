@@ -23,11 +23,13 @@ $mute = !empty( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_settin
             echo  $nonce_field ; ?>
 			<div class="form__group">
 				<p class="form__label" ><?php esc_html_e( "Start Time (In Seconds)", "embedpress" );   echo $pro_active ? '': ' <span class="isPro">PRO</span>';?> </p>
-				<div class="form__control__wrap">
-					<input type="text" name="start_time" id="start_time" class="form__control" value="<?php echo esc_attr( $start_time); ?>" disabled>
+				<div class="form__control__wrap <?php echo $pro_active ? '': 'isPro'; ?>">
+					<input type="text"  name="start_time" id="start_time" class="form__control" value="<?php echo esc_attr( $start_time); ?>" <?php echo $pro_active ? '': ' disabled'; ?>>
 					<p><?php esc_html_e( "You can put a custom time in seconds to start video. Example: 500", "embedpress" ); ?></p>
 				</div>
-			</div>
+				<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+
+            </div>
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Auto Play", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
@@ -47,7 +49,7 @@ $mute = !empty( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_settin
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Show Chat", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-					<div class="input__flex">
+					<div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
 						<label class="input__radio">
 							<input type="radio" name="show_chat" value="no" <?php echo $pro_active ? '' : 'disabled'; checked( 'no', $show_chat); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -57,19 +59,21 @@ $mute = !empty( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_settin
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
+					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 					<p><?php esc_html_e( "You can show or hide chat using this setting", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Theme", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-					<div class="embedpress__select">
+					<div class="embedpress__select <?php echo $pro_active ? '': 'isPro'; ?>">
 						<span><i class="ep-icon ep-caret-down"></i></span>
 						<select name="theme" <?php echo $pro_active ? '' : 'disabled'; ?>>
 							<option value="dark" <?php selected( 'dark', $theme); ?>><?php esc_html_e( "Dark", "embedpress" ); ?></option>
 							<option value="light" <?php selected( 'light', $theme); ?>><?php esc_html_e( "Light", "embedpress" ); ?></option>
 						</select>
 					</div>
+					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 					<p><?php esc_html_e( "Set dark or light theme for the twitch comment.", "embedpress" ); ?></p>
 				</div>
 			</div>
@@ -92,7 +96,7 @@ $mute = !empty( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_settin
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Mute On Start", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-                    <div class="input__flex">
+                    <div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
                         <label class="input__radio">
                             <input type="radio" name="mute" value="no" <?php echo $pro_active ? '' : 'disabled'; checked( 'no', $mute); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -102,6 +106,7 @@ $mute = !empty( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_settin
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
+					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 					<p><?php esc_html_e( "Set it to Yes to mute the video on start.", "embedpress" ); ?></p>
 				</div>
 			</div>

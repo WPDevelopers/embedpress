@@ -38,19 +38,26 @@ $enableEmbedResizeWidth = isset( $g_settings['enableEmbedResizeWidth']) ? $g_set
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( 'Lazy Load', 'embedpress'); echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?> </p>
 				<div class="form__control__wrap">
-					<label class="input__switch switch__text">
-						<input type="checkbox" name="g_lazyload" value="1" <?php echo $pro_active ? '': 'disabled ';  echo ($lazy_load != '0') ? 'checked': ''; ?>>
+					<label class="input__switch switch__text <?php echo $pro_active ? '': 'isPro'; ?>">
+						<input type="checkbox" name="g_lazyload" value="1" <?php echo $pro_active ? '': 'disabled ';  checked( '1', $lazy_load) ?>>
 						<span></span>
 					</label>
+					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 				</div>
 			</div>
 			<div class="form__group mb0">
-				<p class="form__label"><?php esc_html_e( 'Loading Animation (Coming soon)', 'embedpress'); echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></p>
+				<p class="form__label"><?php
+                    /*translators: % means coming soon text markup*/
+                    printf( esc_html__( 'Loading Animation %s', 'embedpress'), $coming_soon);
+
+                    echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?>
+                </p>
 				<div class="form__control__wrap">
-					<label class="input__switch switch__text">
+					<label class="input__switch switch__text  isPro">
 						<input type="checkbox" name="g_loading_animation" value="1" disabled>
 						<span></span>
 					</label>
+					<?php  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-coming-soon.php'; ?>
 				</div>
 			</div>
             <?php do_action( 'embedpress_after_general_settings_fields');  ?>

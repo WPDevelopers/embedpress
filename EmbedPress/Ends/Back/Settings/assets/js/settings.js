@@ -76,21 +76,31 @@ jQuery(document).ready(function($){
 
     var proFeatureAlert = function() {
 
-        var formWrap = $('.form__control__wrap');
+        $(document).on('click', '.isPro', function () {
+            $(this).siblings('.pro__alert__wrap').fadeIn();
+        });
 
-        formWrap.each(function() {
-            $('.input__switch').on('click', function(e) {
-                if($(this).hasClass('isPro')) {
-                    e.preventDefault();
-                    $(this).siblings('.pro__alert__wrap').fadeIn();
-                }
-            })
-
-            $('.pro__alert__card .button').on('click', function(e) {
-                e.preventDefault();
-                $(this).parents('.pro__alert__wrap').fadeOut();
-            })
-        })
+        $(document).on('click', '.pro__alert__card .button', function (e) {
+            e.preventDefault();
+            $(this).parents('.pro__alert__wrap').fadeOut();
+        });
+        //
+        // var formWrap = $('.form__control__wrap');
+        //
+        // formWrap.each(function() {
+        //     $('.input__switch, .embedpress__select, .input__flex').on('click', function(e) {
+        //         var $input = $(this);
+        //         if($input.hasClass('isPro')) {
+        //             e.preventDefault();
+        //             $input.siblings('.pro__alert__wrap').fadeIn();
+        //         }
+        //     })
+        //
+        //     $('.pro__alert__card .button').on('click', function(e) {
+        //         e.preventDefault();
+        //         $(this).parents('.pro__alert__wrap').fadeOut();
+        //     })
+        // })
 
     }
 

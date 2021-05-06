@@ -13,7 +13,7 @@ if ( isset( $pro_active)  && $pro_active) {
     </div>
     <div class="card__content">
         <h4><?php esc_html_e( "Upgrade To Pro", "embedpress" ); ?></h4>
-        <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown</p>
+        <p><?php esc_html_e( "The premium version helps us to continue development of the product incorporating even more features and enhancements. You will also get world class support from our dedicated team, 24/7.", "embedpress" ); ?></p>
     </div>
-    <a href="https://embedpress.com" class="button button__white radius-10"><?php esc_html_e( "Upgrade To Pro", "embedpress" ); ?></a>
+    <a href="https://embedpress.com/#pricing" class="button button__white radius-10"><?php esc_html_e( "Upgrade To Pro", "embedpress" ); ?></a>
 </div>
