@@ -82,6 +82,14 @@ $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_pow
                                         <input readonly type="number" class="form__control range__value"  value="<?php echo esc_attr( $yt_logo_ypos ); ?>">
                                     </div>
                                 </div>
+                                <div class="logo__adjust__controller__item">
+                                    <label class="controller__label" for="yt_cta_url" ><?php esc_html_e( "Call to Action Link", "embedpress" );?> </label>
+                                    <div>
+                                        <input type="url"  name="yt_cta_url" id="yt_cta_url" class="form__control" value="<?php echo esc_attr( $yt_cta_url); ?>">
+
+                                        <p><?php esc_html_e( "You may link the logo to any CTA link.", "embedpress" ); ?></p>
+                                    </div>
+                                </div>
                             </div>
                             <div class="logo__adjust__preview">
                                 <span class="title"><?php esc_html_e( "Live Preview", "embedpress" ); ?></span>
