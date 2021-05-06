@@ -4,7 +4,7 @@
 <div class="background__white radius-25 p40">
 	<div class="upgrage__card__tab__style">
 		<h3><?php esc_html_e( "Why upgrade to Premium Version?", "embedpress" ); ?></h3>
-		<p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-		<a href="https://embedpress.com" class="button button__themeColor radius-10"><?php esc_html_e( "Get Premium Version", "embedpress" ); ?></a>
+        <p><?php esc_html_e( "The premium version helps us to continue development of the product incorporating even more features and enhancements. You will also get world class support from our dedicated team, 24/7.", "embedpress" ); ?></p>
+		<a href="https://embedpress.com/#pricing" class="button button__themeColor radius-10"><?php esc_html_e( "Get Premium Version", "embedpress" ); ?></a>
 	</div>
 </div>

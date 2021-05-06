@@ -37,6 +37,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
+                    <p><?php esc_html_e( "Automatically start to play the videos when the player loads.", "embedpress" ); ?></p>
                 </div>
             </div>
             <div class="form__group">
