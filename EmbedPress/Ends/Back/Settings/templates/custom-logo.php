@@ -41,11 +41,11 @@ $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_pow
                 <p class="form__label"><?php esc_html_e( "YouTube Custom Branding", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">Pro</span>'; ?></p>
                 <div class="form__control__wrap">
                     <label class="input__switch switch__text <?php echo $pro_active ? '': 'isPro'; ?>">
-                        <input type="checkbox" name="yt_branding" value="yes" <?php checked( 'yes', $yt_branding);?>>
+                        <input type="checkbox" name="yt_branding" value="yes" <?php checked( 'yes', $yt_branding);?> <?php echo $pro_active ? '': ' disabled'; ?>>
                         <span></span>
                     </label>
 
-                    <div class="logo__adjust__wrap" style="<?php if ( 'yes' !== $yt_branding ) { echo 'display:none;'; } ?>">
+                    <div class="logo__adjust__wrap <?php echo $pro_active ? '': 'proOverlay'; ?>" style="<?php if ( 'yes' !== $yt_branding ) { echo 'display:none;'; } ?>">
                         <label class="logo__upload" id="yt_logo_upload_wrap" style="<?php if (!empty( $yt_logo_url)) { echo 'display:none;'; } ?>">
                             <input type="hidden" class="preview__logo__input" name="yt_logo_url" id="yt_logo_url" value="<?php echo $yt_logo_url; ?>">
                             <input type="hidden" class="preview__logo__input_id" name="yt_logo_id" id="yt_logo_id" value="<?php echo $yt_logo_id; ?>">
