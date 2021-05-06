@@ -55,15 +55,15 @@ jQuery(document).ready(function($){
             opRange.on('input', function(){
                 $(this).next(value).val(this.value);
                 console.log(this.value / 100);
-                $(previewImg).css('opacity', this.value / 100);
+                previewImg.css('opacity', this.value / 100);
             });
             xRange.on('input', function(){
                 $(this).next(value).val(this.value);
-                $(previewImg).css('right', this.value + "%");
+                previewImg.css('right', this.value + "%");
             });
             yRange.on('input', function(){
                 $(this).next(value).val(this.value);
-                $(previewImg).css('bottom', this.value + "%");
+                previewImg.css('bottom', this.value + "%");
             });
         });
     };
