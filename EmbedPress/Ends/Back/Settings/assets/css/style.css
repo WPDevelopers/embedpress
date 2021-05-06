@@ -1645,7 +1645,7 @@ button.button__instagram.hover__highlight:hover .icon {
         display: none;
         position: absolute;
         top: calc(100% + 10px);
-        z-index: 9;
+        z-index: 90;
         left: 0;
         background: #ffffff;
         min-width: 220px;
@@ -3072,6 +3072,7 @@ button.button__instagram.hover__highlight:hover .icon {
     transition: all .3s ease;
     opacity: 0;
     visibility: hidden;
+    z-index: 9;
 }
 .emement__item .has__question:hover .element__tooltip {
     visibility: visible;

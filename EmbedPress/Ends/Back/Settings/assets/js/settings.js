@@ -9,6 +9,7 @@ jQuery(document).ready(function($){
         if($this.siblings('.dropdown__menu').hasClass('show')){
             $this.siblings('.dropdown__menu').removeClass('show');
             $this.siblings('.dropdown__menu').slideUp();
+            $('.sidebar__item').removeClass('show');
         }else{
             $('.dropdown__menu.show').slideUp().removeClass('show');
             $this.siblings('.dropdown__menu').addClass('show');
