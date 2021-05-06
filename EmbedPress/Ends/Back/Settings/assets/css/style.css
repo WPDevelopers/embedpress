@@ -3216,3 +3216,6 @@ button.button__instagram.hover__highlight:hover .icon {
     font-size: 12px;
     font-weight: 900;
 }
+.embedpress-card a{
+    color:#5b4e96;
+}

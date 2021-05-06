@@ -19,7 +19,10 @@
                 <i class="ep-icon ep-support"></i>
             </div>
             <h3><?php esc_html_e( "Need Help?", "embedpress" ); ?></h3>
-            <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p><?php esc_html_e( "Stuck with something? Get help from the community on", "embedpress" ); ?>
+                <a href="https://wordpress.org/plugins/embedpress/"><?php esc_html_e( "WordPress.org Forum", "embedpress" ); ?></a> or
+                <a href="https://www.facebook.com/groups/432798227512253"><?php esc_html_e( "Facebook Community", "embedpress" ); ?></a>. In case of emergency, initiate a live chat at
+                <a href="https://wpdeveloper.net/"><?php esc_html_e( "WPDeveloper website.", "embedpress" ); ?></a></p>
             <a href="https://wpdeveloper.net/support/" class="button radius-10"><?php esc_html_e( "Get Support", "embedpress" ); ?></a>
         </div>
         <div class="embedpress-card">
