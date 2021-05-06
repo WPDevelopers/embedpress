@@ -70,7 +70,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
                     </div>
 	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 
-                    <p><?php esc_html_e( "Setting this option to Yes causes closed captions to be shown by default, even if the user has turned captions off. This will be based on user preference otherwise.", "embedpress" ); ?></p>
+                    <p><?php printf( esc_html__( "Setting this option to %s causes closed captions to be shown by default, even if the user has turned captions off. This will be based on user preference otherwise.", "embedpress" ), '<strong>Yes</strong>'); ?></p>
                 </div>
             </div>
             <div class="form__group">
