@@ -4,14 +4,14 @@
  *  All undefined vars comes from 'render_settings_page' method
  *  */
 $vm_settings = get_option( EMBEDPRESS_PLG_NAME.':vimeo' );
-$autoplay = !empty( $vm_settings['autoplay']) ? $vm_settings['autoplay'] : 0;
-$loop = !empty( $vm_settings['loop']) ? $vm_settings['loop'] : 0;
-$autopause = !empty( $vm_settings['autopause']) ? $vm_settings['autopause'] : 0;
-$vimeo_dnt = !empty( $vm_settings['vimeo_dnt']) ? $vm_settings['vimeo_dnt'] : 0;
-$color = !empty( $vm_settings['color']) ? $vm_settings['color'] : '#5b4e96';
-$display_title = !empty( $vm_settings['display_title']) ? $vm_settings['display_title'] : 0;
-$display_author = !empty( $vm_settings['display_author']) ? $vm_settings['display_author'] : 0;
-$display_avatar = !empty( $vm_settings['display_avatar']) ? $vm_settings['display_avatar'] : 0;
+$autoplay = isset( $vm_settings['autoplay']) ? $vm_settings['autoplay'] : 0;
+$loop = isset( $vm_settings['loop']) ? $vm_settings['loop'] : 0;
+$autopause = isset( $vm_settings['autopause']) ? $vm_settings['autopause'] : 0;
+$vimeo_dnt = isset( $vm_settings['vimeo_dnt']) ? $vm_settings['vimeo_dnt'] : 0;
+$color = isset( $vm_settings['color']) ? $vm_settings['color'] : '#5b4e96';
+$display_title = isset( $vm_settings['display_title']) ? $vm_settings['display_title'] : 0;
+$display_author = isset( $vm_settings['display_author']) ? $vm_settings['display_author'] : 0;
+$display_avatar = isset( $vm_settings['display_avatar']) ? $vm_settings['display_avatar'] : 0;
 ?>
 <div class="embedpress__settings background__white radius-25 p40">
     <h3><?php esc_html_e( "Vimeo Settings", "embedpress" ); ?></h3>
