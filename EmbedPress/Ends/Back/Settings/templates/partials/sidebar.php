@@ -52,21 +52,14 @@
             <a href="<?php echo esc_url( $ep_page.'&page_type=elements'); ?>" class="sidebar__link <?php echo 'elements' === $template ? 'active' : ''; ?>"><span><i class="ep-icon ep-cell"></i></span> <?php esc_html_e( "Elements", "embedpress" ); ?></a>
 	        <?php do_action( 'ep_after_element_item'); ?>
         </li>
+
 		<?php do_action( 'ep_before_branding_menu'); ?>
-        <li class="sidebar__item sidebar__dropdown <?php echo in_array( $template, $brand_menu_template_names)? 'show' : ''; ?>">
-			<a href="<?php echo esc_url( $ep_page.'&page_type=custom-logo'); ?>" class="sidebar__link sidebar__link--toggler  <?php echo in_array( $template, $brand_menu_template_names)? 'active' : ''; ?>"><span><i class="ep-icon ep-branding"></i></span> Branding</a>
-			<ul class="dropdown__menu  <?php echo in_array( $template, $brand_menu_template_names)? 'show' : ''; ?>">
-				<?php do_action( 'ep_before_branding_menu_items'); ?>
-                <li class="dropdown__item">
-					<a href="<?php echo esc_url( $ep_page.'&page_type=custom-logo'); ?>" class="dropdown__link  <?php echo 'custom-logo' === $template ? 'active' : ''; ?>">
-					<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/brand.svg" alt="">
-						<?php esc_html_e( "Custom Logo", "embedpress" ); ?>
-					</a>
-				</li>
-				<?php do_action( 'ep_after_branding_menu_items'); ?>
-            </ul>
+        <li class="sidebar__item <?php echo 'custom-logo' === $template ? 'show' : ''; ?>">
+			<a href="<?php echo esc_url( $ep_page.'&page_type=custom-logo'); ?>" class="sidebar__link  <?php echo 'custom-logo' === $template ? 'active' : ''; ?>"><span><i class="ep-icon ep-branding"></i></span> Branding</a>
 		</li>
-		<?php
+		<?php do_action( 'ep_before_branding_menu'); ?>
+
+        <?php
 		if ( empty( $pro_active) || !$pro_active) {
         do_action( 'ep_before_premium_menu'); ?>
         <li class="sidebar__item <?php echo 'go-premium' === $template ? 'show' : ''; ?>">

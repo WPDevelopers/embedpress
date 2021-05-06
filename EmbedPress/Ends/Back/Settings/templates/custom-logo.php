@@ -21,7 +21,7 @@ $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_pow
 ?>
 
 <div class="embedpress__settings background__white radius-25 p40">
-    <h3><?php esc_html_e( "Custom Logo", "embedpress" ); ?></h3>
+    <h3><?php esc_html_e( "Global Branding Settings", "embedpress" ); ?></h3>
     <div class="embedpress__settings__form">
         <form action="" method="post" enctype="multipart/form-data">
 	        <?php
@@ -36,6 +36,7 @@ $embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_pow
                     </label>
                 </div>
             </div>
+            <h3><?php esc_html_e( "Custom Logo", "embedpress" ); ?></h3>
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "YouTube Custom Branding", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">Pro</span>'; ?></p>
                 <div class="form__control__wrap">
