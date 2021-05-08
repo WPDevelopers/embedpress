@@ -11,3 +11,20 @@
 	<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/error.svg" alt="">
 	<p><?php esc_html_e( "Ops! Something went wrong.", "embedpress" ); ?></p>
 </div>
+
+<?php
+if (!empty( $_GET['success'])){ ?>
+<script>
+    (function ($) {
+        let $success_message_node = $('.toast__message--success');
+        $success_message_node.addClass('show');
+        setTimeout(function (){
+            $success_message_node.removeClass('show');
+            history.pushState('', '', embedPressRemoveURLParameter(location.href, 'success'));
+        }, 2000);
+
+    })(jQuery);
+</script>
+<?php
+    unset( $_GET['success']);
+}

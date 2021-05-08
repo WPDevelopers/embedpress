@@ -126,6 +126,10 @@ class EmbedpressSettings {
 				$this->$save_handler_method();
 			}
 			do_action( "after_embedpress_settings_save");
+			$return_url = isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : admin_url();
+			$return_url = add_query_arg( 'success', 1, $return_url );
+			wp_safe_redirect( $return_url);
+			exit();
 		}
 	}
 
