@@ -26,5 +26,4 @@ if (!empty( $_GET['success'])){ ?>
     })(jQuery);
 </script>
 <?php
-    unset( $_GET['success']);
 }
