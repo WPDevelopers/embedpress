@@ -257,12 +257,3 @@ $c_blocks = isset( $elements['classic']) ? (array) $elements['classic'] : [];
 	</div>
 </div>
 
-<div class="embedpress-toast__message toast__message--success">
-    <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check.svg" alt="">
-    <p>Settings Updated</p>
-</div>
-
-<div class="embedpress-toast__message toast__message--error">
-    <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/error.svg" alt="">
-    <p>Something went wrong.</p>
-</div>

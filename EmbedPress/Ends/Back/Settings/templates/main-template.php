@@ -15,7 +15,10 @@
 					include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/upgrade-card.php';
 				}
                 ?>
-                <?php include_once EMBEDPRESS_SETTINGS_PATH . "templates/{$template}.php"; ?>
+                <?php
+                include_once EMBEDPRESS_SETTINGS_PATH . "templates/{$template}.php";
+				include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/toast-message.php';
+				?>
             </div>
         </div>
 		<?php include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/footer.php'; ?>
