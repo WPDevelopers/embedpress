@@ -157,19 +157,36 @@ jQuery(document).ready(function($){
             },
             success: function(response) {
                 if (response && response.success){
-                    // alert('Settings Updated');
-                    $('.toast__message--success').addClass('show');
+                    showSuccessMessage();
                 }else{
-                    // alert('Something went wrong.');
-                    $('.toast__message--error').addClass('show');
+                    showErrorMessage();
                 }
             },
             error: function(error) {
-                // alert('Something went wrong.');
-                $('.toast__message--error').addClass('show');
+                showErrorMessage();
             },
         });
     });
+    /**
+    * It shows success message in a toast alert
+    * */
+    function showSuccessMessage() {
+        let $success_message_node = $('.toast__message--success');
+        $success_message_node.addClass('show');
+        setTimeout(function (){
+            $success_message_node.removeClass('show');
+        }, 2000);
+    }
+    /**
+    * It shows error message in a toast alert
+    * */
+    function showErrorMessage(){
+        let $error_message_node = $('.toast__message--error');
+        $error_message_node.addClass('show');
+        setTimeout(function (){
+            $error_message_node.removeClass('show');
+        }, 2000);
+    }
 
     $('.ep-color-picker').wpColorPicker();
 
