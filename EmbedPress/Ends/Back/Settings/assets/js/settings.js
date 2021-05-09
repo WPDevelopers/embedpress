@@ -7,7 +7,7 @@ function embedPressRemoveURLParameter(url, parameter) {
         let pars = urlparts[1].split(/[&;]/g);
 
         //reverse iteration as may be destructive
-        for (var i = pars.length; i-- > 0;) {
+        for (let i = pars.length; i-- > 0;) {
             //idiom for string.startsWith
             if (pars[i].lastIndexOf(prefix, 0) !== -1) {
                 pars.splice(i, 1);
@@ -17,7 +17,7 @@ function embedPressRemoveURLParameter(url, parameter) {
         return urlparts[0] + (pars.length > 0 ? '?' + pars.join('&') : '');
     }
     return url;
-};
+}
 jQuery(document).ready( function($){
 
     // Sidebar Menu Toggle
@@ -69,7 +69,7 @@ jQuery(document).ready( function($){
         slider.each(function(){
 
             value.each(function(){
-                var value = $(this).prev().attr('value');
+                let value = $(this).prev().attr('value');
                 $(this).html(value);
             });
 
@@ -118,8 +118,7 @@ jQuery(document).ready( function($){
         let $yt_logo_preview = $("#yt_logo_preview");
         let $yt_logo_url = $('#yt_logo_url');
         let $yt_logo_id = $('#yt_logo_id');
-        let button = $(this),
-            yt_logo_uploader = wp.media({
+        let yt_logo_uploader = wp.media({
                 title: 'Custom Logo',
                 library : {
                     uploadedTo : wp.media.view.settings.post.id,
@@ -146,7 +145,7 @@ jQuery(document).ready( function($){
 
 
     // Elements
-    $(document).on('change', '.element-check', function (e) {
+    $(document).on('change', '.element-check', function () {
         let $input = $(this);
         $.ajax({
             url: ajaxurl,
@@ -165,7 +164,7 @@ jQuery(document).ready( function($){
                     showErrorMessage();
                 }
             },
-            error: function(error) {
+            error: function() {
                 showErrorMessage();
             },
         });
