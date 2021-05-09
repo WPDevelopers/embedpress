@@ -39,12 +39,7 @@ class EmbedpressSettings {
 				'elementor' => [
 					'embedpress-document' => 'embedpress-document',
 					'embedpress' => 'embedpress',
-				],
-
-				'classic' => [
-					'frontend-preview' => 'frontend-preview',
-					'backend-preview' => 'backend-preview',
-				],
+				]
 			];
 			update_option( EMBEDPRESS_PLG_NAME.":elements", $elements_initial_states);
 			update_option( $option, true);
@@ -56,16 +51,25 @@ class EmbedpressSettings {
 		if ( !empty($_POST['_wpnonce'] && wp_verify_nonce( $_POST['_wpnonce'], 'embedpress_elements_action')) ) {
 			$option = EMBEDPRESS_PLG_NAME.":elements";
 			$elements = (array) get_option( $option, []);
+			$settings = (array) get_option( EMBEDPRESS_PLG_NAME, []);
+
 			$type = !empty( $_POST['element_type']) ? sanitize_text_field( $_POST['element_type']) : '';
 			$name = !empty( $_POST['element_name']) ? sanitize_text_field( $_POST['element_name']) : '';
 			$checked = !empty( $_POST['checked']) ? $_POST['checked'] : false;
 			if ( 'false' != $checked ) {
 				$elements[$type][$name] = $name;
+				if ( $type === 'classic' ) {
+					$settings[$name]  = 1;
+				}
 			}else{
 				if( isset( $elements[$type]) && isset( $elements[$type][$name])){
 					unset( $elements[$type][$name]);
 				}
+				if ( $type === 'classic' ) {
+					$settings[$name]  = 0;
+				}
 			}
+			update_option( EMBEDPRESS_PLG_NAME, $settings);
 			update_option( $option, $elements);
 			wp_send_json_success();
 		}

@@ -159,12 +159,17 @@ class CoreLegacy
         } else {
             add_action('init', ['\\EmbedPress\\DisablerLegacy', 'run'], 1);
 
-            $plgHandlerPublicInstance = new EndHandlerPublic($this->getPluginName(), $this->getPluginVersion());
+	        $plgSettings = Core::getSettings();
 
-            $this->loaderInstance->add_action('wp_enqueue_scripts', $plgHandlerPublicInstance, 'enqueueScripts');
-            $this->loaderInstance->add_action('wp_enqueue_scripts', $plgHandlerPublicInstance, 'enqueueStyles');
+	        if (!is_admin() && $plgSettings->enablePluginInFront ) {
+		        $plgHandlerPublicInstance = new EndHandlerPublic($this->getPluginName(), $this->getPluginVersion());
 
-            unset($plgHandlerPublicInstance);
+		        $this->loaderInstance->add_action('wp_enqueue_scripts', $plgHandlerPublicInstance, 'enqueueScripts');
+		        $this->loaderInstance->add_action('wp_enqueue_scripts', $plgHandlerPublicInstance, 'enqueueStyles');
+
+		        unset($plgHandlerPublicInstance);
+	        }
+
         }
 
         // Add support for embeds on AMP pages

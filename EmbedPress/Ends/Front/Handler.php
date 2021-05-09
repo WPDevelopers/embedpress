@@ -60,6 +60,11 @@ class Handler extends EndHandlerAbstract
      */
     public static function autoEmbedUrls($content)
     {
+	    $plgSettings = Core::getSettings();
+
+	    if (!is_admin() &&(bool)$plgSettings->enablePluginInFront === false ) {
+			return $content;
+	    }
         // Replace line breaks from all HTML elements with placeholders.
         $content = wp_replace_in_html_tags($content, ["\n" => '<!-- embedpress-line-break -->']);
 
@@ -108,7 +113,6 @@ class Handler extends EndHandlerAbstract
     public static function renderPreviewBoxInEditors($editorHTML)
     {
         $plgSettings = Core::getSettings();
-
         if ( ! is_admin() && (bool)$plgSettings->enablePluginInFront) {
             $backEndHandler = new BackEndHandler(EMBEDPRESS_PLG_NAME, EMBEDPRESS_VERSION);
 
