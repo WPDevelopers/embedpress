@@ -72,7 +72,7 @@
 		if ( isset( $pro_active) && $pro_active) {
         do_action( 'ep_before_license_menu'); ?>
         <li class="sidebar__item <?php echo 'license' === $template ? 'show' : ''; ?>">
-            <a href="<?php echo esc_url( $ep_page.'&page_type=license'); ?>" class="sidebar__link <?php echo 'license' === $template ? 'active' : ''; ?>"><span><i class="ep-icon ep-lock"></i></span> <?php esc_html_e( "Licence", "embedpress" ); ?></a>
+            <a href="<?php echo esc_url( $ep_page.'&page_type=license'); ?>" class="sidebar__link <?php echo 'license' === $template ? 'active' : ''; ?>"><span><i class="ep-icon ep-lock"></i></span> <?php esc_html_e( "License", "embedpress" ); ?></a>
         </li>
 		<?php do_action( 'ep_after_license_menu');
         }

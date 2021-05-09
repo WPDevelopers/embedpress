@@ -23,13 +23,14 @@ jQuery(document).ready( function($){
     // Sidebar Menu Toggle
     $('.sidebar__dropdown .sidebar__link--toggler').on('click', function(e) {
         e.preventDefault();
-        var $this = $(this);
-        $('.sidebar__item').removeClass('show');
+        let $this = $(this);
+        let $sidebarItem =  $('.sidebar__item');
+        $sidebarItem.removeClass('show');
         $this.parent().addClass('show');
         if($this.siblings('.dropdown__menu').hasClass('show')){
             $this.siblings('.dropdown__menu').removeClass('show');
             $this.siblings('.dropdown__menu').slideUp();
-            $('.sidebar__item').removeClass('show');
+            $sidebarItem.removeClass('show');
         }else{
             $('.dropdown__menu.show').slideUp().removeClass('show');
             $this.siblings('.dropdown__menu').addClass('show');
@@ -57,8 +58,8 @@ jQuery(document).ready( function($){
     })
 
     // Logo Controller
-    var rangeSlider = function(){
-        var slider = $('.logo__adjust__controller__inputs'),
+    let rangeSlider = function(){
+        let slider = $('.logo__adjust__controller__inputs'),
             previewImg = $('.preview__logo'),
             opRange = $('.opacity__range'),
             xRange = $('.x__range'),
@@ -94,7 +95,7 @@ jQuery(document).ready( function($){
         $(this).parents('.form__control__wrap').children('.logo__adjust__wrap').slideToggle();
     })
 
-    var proFeatureAlert = function() {
+    let proFeatureAlert = function() {
 
         $(document).on('click', '.isPro', function () {
             $(this).siblings('.pro__alert__wrap').fadeIn();
@@ -104,24 +105,6 @@ jQuery(document).ready( function($){
             e.preventDefault();
             $(this).parents('.pro__alert__wrap').fadeOut();
         });
-        //
-        // var formWrap = $('.form__control__wrap');
-        //
-        // formWrap.each(function() {
-        //     $('.input__switch, .embedpress__select, .input__flex').on('click', function(e) {
-        //         var $input = $(this);
-        //         if($input.hasClass('isPro')) {
-        //             e.preventDefault();
-        //             $input.siblings('.pro__alert__wrap').fadeIn();
-        //         }
-        //     })
-        //
-        //     $('.pro__alert__card .button').on('click', function(e) {
-        //         e.preventDefault();
-        //         $(this).parents('.pro__alert__wrap').fadeOut();
-        //     })
-        // })
-
     }
 
     proFeatureAlert();

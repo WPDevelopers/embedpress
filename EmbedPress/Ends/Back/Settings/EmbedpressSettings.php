@@ -113,6 +113,8 @@ class EmbedpressSettings {
 		$brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-logo', 'branding',]);
 		$pro_active = is_embedpress_pro_active();
 		$coming_soon = "<span class='ep-coming-soon'>". esc_html__( '(Coming soon)', 'embedpress'). "</span>";
+		$success_message = esc_html__( "Settings Updated", "embedpress" );
+		$error_message = esc_html__( "Ops! Something went wrong.", "embedpress" );
 		include_once EMBEDPRESS_SETTINGS_PATH . 'templates/main-template.php';
 	}
 

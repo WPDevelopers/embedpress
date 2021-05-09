@@ -17,7 +17,9 @@
                 ?>
                 <?php
                 include_once EMBEDPRESS_SETTINGS_PATH . "templates/{$template}.php";
-				include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/toast-message.php';
+				if ( 'license' != $template) {
+					include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/toast-message.php';
+				}
 				?>
             </div>
         </div>
