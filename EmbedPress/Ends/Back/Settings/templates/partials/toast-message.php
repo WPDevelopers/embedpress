@@ -21,7 +21,7 @@ if (!empty( $_GET['success'])){ ?>
         setTimeout(function (){
             $success_message_node.removeClass('show');
             history.pushState('', '', embedPressRemoveURLParameter(location.href, 'success'));
-        }, 2000);
+        }, 3000);
 
     })(jQuery);
 </script>

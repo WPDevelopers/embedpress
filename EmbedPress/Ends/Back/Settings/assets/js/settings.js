@@ -18,7 +18,7 @@ function embedPressRemoveURLParameter(url, parameter) {
     }
     return url;
 };
-jQuery(document).on('load', function($){
+jQuery(document).ready( function($){
 
     // Sidebar Menu Toggle
     $('.sidebar__dropdown .sidebar__link--toggler').on('click', function(e) {
@@ -195,7 +195,7 @@ jQuery(document).on('load', function($){
         $success_message_node.addClass('show');
         setTimeout(function (){
             $success_message_node.removeClass('show');
-        }, 2000);
+        }, 3000);
     }
     /**
     * It shows error message in a toast alert
@@ -205,7 +205,7 @@ jQuery(document).on('load', function($){
         $error_message_node.addClass('show');
         setTimeout(function (){
             $error_message_node.removeClass('show');
-        }, 2000);
+        }, 3000);
     }
 
     $('.ep-color-picker').wpColorPicker();
