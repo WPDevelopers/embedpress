@@ -158,6 +158,7 @@ class EmbedpressSettings {
 		$settings['controls'] = isset( $_POST['controls']) ? sanitize_text_field( $_POST['controls']) : '';
 		$settings['fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : '';
 		$settings['iv_load_policy'] = isset( $_POST['iv_load_policy']) ? sanitize_text_field( $_POST['iv_load_policy']) : 1;
+		$settings['license_key'] = 1; // backward compatibility
 
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_youtube_settings_before_save', $settings);
@@ -175,7 +176,7 @@ class EmbedpressSettings {
 		$settings['player_color'] = isset( $_POST['player_color']) ? sanitize_text_field( $_POST['player_color']) : '';
 		$settings['plugin_resumable'] = isset( $_POST['plugin_resumable']) ? sanitize_text_field( $_POST['plugin_resumable']) : '';
 		$settings['plugin_focus'] = isset( $_POST['plugin_focus']) ? sanitize_text_field( $_POST['plugin_focus']) : '';
-
+		$settings['license_key'] = 1; // backward compatibility
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_wistia_settings_before_save', $settings);
 		update_option( $option_name, $settings);
@@ -188,7 +189,7 @@ class EmbedpressSettings {
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : '#00adef';
 		$settings['display_title'] = isset( $_POST['display_title']) ? sanitize_text_field( $_POST['display_title']) : 1;
-
+		$settings['license_key'] = 1; // backward compatibility
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_vimeo_settings_before_save', $settings);
 		update_option( $option_name, $settings);
@@ -198,9 +199,9 @@ class EmbedpressSettings {
 	public function save_twitch_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':twitch';
 		$settings = get_option( $option_name);
-		$settings['embedpress_pro_twitch_autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
-		$settings['embedpress_pro_fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : '';
-
+		$settings['embedpress_pro_twitch_autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : 'no';
+		$settings['embedpress_pro_fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : 'yes';
+		$settings['license_key'] = 1; // backward compatibility
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_twitch_settings_before_save', $settings);
 		update_option( $option_name, $settings);
