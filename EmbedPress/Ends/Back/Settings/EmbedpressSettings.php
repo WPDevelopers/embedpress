@@ -185,7 +185,7 @@ class EmbedpressSettings {
 	public function save_vimeo_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':vimeo';
 		$settings = get_option( $option_name);
-		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : 0;
+		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : '#00adef';
 		$settings['display_title'] = isset( $_POST['display_title']) ? sanitize_text_field( $_POST['display_title']) : 1;
 
