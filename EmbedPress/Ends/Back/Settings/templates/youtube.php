@@ -118,19 +118,17 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Display Related Videos", "embedpress" );  echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></p>
                 <div class="form__control__wrap">
-                    <div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
-                        <label class="input__radio">
-                            <input type="radio" name="rel" value="" <?php echo !$pro_active ? 'disabled ' : ''; checked( '', $rel); ?>>
-                            <span><?php esc_html_e( "No", "embedpress" ); ?></span>
-                        </label>
-                        <label class="input__radio">
-                            <input type="radio" name="rel" value="1" <?php echo !$pro_active ? 'disabled ' : ''; checked( '1', $rel); ?>>
-                            <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
-                        </label>
+                    <div class="embedpress__select  <?php echo $pro_active ? '': 'isPro'; ?>">
+                        <span><i class="ep-icon ep-caret-down"></i></span>
+                        <select name="rel">
+                            <option value="" <?php selected( '', $rel); ?>><?php esc_html_e( "From the same channel of the video", "embedpress" ); ?></option>
+                            <option value="1" <?php selected( '1', $rel); ?>><?php esc_html_e( "Based on User's watch history", "embedpress" ); ?></option>
+                        </select>
                     </div>
+
 	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 
-                    <p><?php esc_html_e( "Indicates whether the player should show related videos when playback of the initial video ends.", "embedpress" ); ?></p>
+                    <p><?php esc_html_e( "Indicates how the player should show related videos when playback of the video pauses or ends.", "embedpress" ); ?></p>
                 </div>
             </div>
             <div class="form__group">
