@@ -3,15 +3,14 @@
  * YouTube Settings page
  *  All undefined vars comes from 'render_settings_page' method
  *  */
-
 $yt_settings = get_option( EMBEDPRESS_PLG_NAME.':youtube');
-$autoplay = isset( $yt_settings['autoplay']) ? $yt_settings['autoplay'] : 0;
+$autoplay = isset( $yt_settings['autoplay']) ? $yt_settings['autoplay'] : '';
 $controls = isset( $yt_settings['controls']) ? $yt_settings['controls'] : 1;
 $fs = isset( $yt_settings['fs']) ? $yt_settings['fs'] : 1;
 $iv_load_policy = isset( $yt_settings['iv_load_policy']) ? $yt_settings['iv_load_policy'] : 1;
 // pro
 $color = isset( $yt_settings['color']) ? $yt_settings['color'] : 'red';
-$cc_load_policy = isset( $yt_settings['cc_load_policy']) ? $yt_settings['cc_load_policy'] : 0;
+$cc_load_policy = isset( $yt_settings['cc_load_policy']) ? $yt_settings['cc_load_policy'] : '';
 $rel = isset( $yt_settings['rel']) ? $yt_settings['rel'] : 1;
 $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestbranding'] : 0;
 
@@ -29,7 +28,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="autoplay" value="0" <?php checked( '0', $autoplay); ?>>
+                            <input type="radio" name="autoplay" value="" <?php checked( '', $autoplay); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
@@ -60,7 +59,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
                 <div class="form__control__wrap">
                     <div class="input__flex  <?php echo $pro_active ? '': 'isPro'; ?>">
                         <label class="input__radio">
-                            <input type="radio" name="cc_load_policy" value="0"  <?php echo !$pro_active ? 'disabled ' : ''; checked( '0', $cc_load_policy); ?>>
+                            <input type="radio" name="cc_load_policy" value=""  <?php echo !$pro_active ? 'disabled ' : ''; checked( '', $cc_load_policy); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
@@ -92,7 +91,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
                 <div class="form__control__wrap">
                     <div class="input__flex">
                         <label class="input__radio">
-                            <input type="radio" name="fs" value="0" <?php checked( '0', $fs); ?> >
+                            <input type="radio" name="fs" value="" <?php checked( '', $fs); ?> >
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
@@ -109,7 +108,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
                     <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>
                         <select name="iv_load_policy">
-                            <option value="1 <?php selected( '1', $iv_load_policy); ?>"><?php esc_html_e( "Show", "embedpress" ); ?></option>
+                            <option value="1" <?php selected( '1', $iv_load_policy); ?>><?php esc_html_e( "Show", "embedpress" ); ?></option>
                             <option value="3" <?php selected( '3', $iv_load_policy); ?>><?php esc_html_e( "Hide", "embedpress" ); ?></option>
                         </select>
                     </div>
@@ -121,7 +120,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
                 <div class="form__control__wrap">
                     <div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
                         <label class="input__radio">
-                            <input type="radio" name="rel" value="0" <?php echo !$pro_active ? 'disabled ' : ''; checked( '0', $rel); ?>>
+                            <input type="radio" name="rel" value="" <?php echo !$pro_active ? 'disabled ' : ''; checked( '', $rel); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">

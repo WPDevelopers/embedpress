@@ -154,9 +154,9 @@ class EmbedpressSettings {
 	public function save_youtube_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':youtube';
 		$settings = get_option( $option_name);
-		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : 0;
-		$settings['controls'] = isset( $_POST['controls']) ? sanitize_text_field( $_POST['controls']) : 0;
-		$settings['fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : 0;
+		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
+		$settings['controls'] = isset( $_POST['controls']) ? sanitize_text_field( $_POST['controls']) : '';
+		$settings['fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : '';
 		$settings['iv_load_policy'] = isset( $_POST['iv_load_policy']) ? sanitize_text_field( $_POST['iv_load_policy']) : 1;
 
 		// Pro will handle g_loading_animation settings and other
