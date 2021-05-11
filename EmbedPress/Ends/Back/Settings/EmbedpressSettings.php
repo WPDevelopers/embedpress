@@ -218,7 +218,7 @@ class EmbedpressSettings {
 		do_action( 'ep_twitch_settings_after_save', $settings);
 	}
 
-	public static function save_custom_logo_settings() {
+	public function save_custom_logo_settings() {
 		do_action( 'before_embedpress_branding_save');
 		$settings = (array) get_option( EMBEDPRESS_PLG_NAME, []);
 		$settings['embedpress_document_powered_by'] = isset( $_POST['embedpress_document_powered_by']) ? sanitize_text_field( $_POST['embedpress_document_powered_by']) : 'no';
