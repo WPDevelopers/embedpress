@@ -1735,6 +1735,7 @@ button.button__instagram.hover__highlight:hover .icon {
 
 .embedpress-sidebar .sidebar__menu .sidebar__item .dropdown__menu .dropdown__item .dropdown__link.active {
     color: #5B4E96;
+    font-weight: 500;
 }
 
 .embedpress-tab .nav__menu ul {

@@ -14,7 +14,7 @@
 				<?php do_action( 'ep_before_general_menu_items'); ?>
                 <li class="dropdown__item">
 					<a href="<?php echo esc_url( $ep_page.'&page_type=general'); ?>" class="dropdown__link <?php echo 'general' === $template ? 'active' : ''; ?>">
-						<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/settings.svg" alt="">
+						<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/settings-sub.svg" alt="">
 						<?php esc_html_e( "Settings", "embedpress" ); ?>
 					</a>
 				</li>
