@@ -120,7 +120,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
                 <div class="form__control__wrap">
                     <div class="embedpress__select  <?php echo $pro_active ? '': 'isPro'; ?>">
                         <span><i class="ep-icon ep-caret-down"></i></span>
-                        <select name="rel">
+                        <select name="rel" <?php echo $pro_active ? '' : 'disabled'; ?>>
                             <option value="" <?php selected( '', $rel); ?>><?php esc_html_e( "From the same channel of the video", "embedpress" ); ?></option>
                             <option value="1" <?php selected( '1', $rel); ?>><?php esc_html_e( "Based on User's watch history", "embedpress" ); ?></option>
                         </select>
