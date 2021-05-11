@@ -126,10 +126,10 @@ class CoreLegacy
 	        new EmbedpressSettings();
 	        $plgSettings = self::getSettings();
             $this->admin_notice();
-            $settingsClassNamespace = '\\EmbedPress\\Ends\\Back\\Settings';
-            add_action('admin_menu', [$settingsClassNamespace, 'registerMenuItem']);
-            add_action('admin_init', [$settingsClassNamespace, 'registerActions']);
-            unset($settingsClassNamespace);
+            //$settingsClassNamespace = '\\EmbedPress\\Ends\\Back\\Settings';
+            //add_action('admin_menu', [$settingsClassNamespace, 'registerMenuItem']);
+            //add_action('admin_init', [$settingsClassNamespace, 'registerActions']);
+            //unset($settingsClassNamespace);
 
             add_filter('plugin_action_links_embedpress/embedpress.php',
                 ['\\EmbedPress\\CoreLegacy', 'handleActionLinks'], 10, 2);

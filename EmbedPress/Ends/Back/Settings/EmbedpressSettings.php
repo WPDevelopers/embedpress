@@ -8,7 +8,7 @@ class EmbedpressSettings {
 	 */
 	protected $file_version;
 
-	public function __construct($page_slug = 'embedpress-new') {
+	public function __construct($page_slug = 'embedpress') {
 		$this->page_slug = $page_slug;
 		$this->file_version = defined( 'WP_DEBUG') && WP_DEBUG ? time() : EMBEDPRESS_VERSION;
 		add_action('admin_enqueue_scripts', [$this, 'handle_scripts_and_styles']);
@@ -87,7 +87,7 @@ class EmbedpressSettings {
 	}
 
 	public function register_menu() {
-		add_menu_page( __('EmbedPress Settings', 'embedpress'), 'EmbedPress New', 'manage_options', $this->page_slug,
+		add_menu_page( __('EmbedPress Settings', 'embedpress'), 'EmbedPress', 'manage_options', $this->page_slug,
 			[ $this, 'render_settings_page' ], null, 64 );
 	}
 
