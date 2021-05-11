@@ -41,7 +41,17 @@ class EmbedpressSettings {
 					'embedpress' => 'embedpress',
 				]
 			];
+
+			$settings = get_option( EMBEDPRESS_PLG_NAME, [] );
+			if ( !isset( $settings['enablePluginInAdmin']) ) {
+				$settings['enablePluginInAdmin'] = 1;
+			}
+			if ( !isset( $settings['enablePluginInFront']) ) {
+				$settings['enablePluginInFront'] = 1;
+			}
+
 			update_option( EMBEDPRESS_PLG_NAME.":elements", $elements_initial_states);
+			update_option( EMBEDPRESS_PLG_NAME, $settings);
 			update_option( $option, true);
 		}
 

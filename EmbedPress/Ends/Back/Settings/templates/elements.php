@@ -9,8 +9,8 @@ $elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
 $g_blocks = isset( $elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
 $e_blocks = isset( $elements['elementor']) ? (array) $elements['elementor'] : [];
 $settings = get_option( EMBEDPRESS_PLG_NAME, []);
-$enablePluginInAdmin = isset( $settings['enablePluginInAdmin'] ) && $settings['enablePluginInAdmin'];
-$enablePluginInFront = isset( $settings['enablePluginInFront'] ) && $settings['enablePluginInFront'];
+$enablePluginInAdmin = isset( $settings['enablePluginInAdmin'] ) ? $settings['enablePluginInAdmin'] : 1;
+$enablePluginInFront = isset( $settings['enablePluginInFront'] ) ? $settings['enablePluginInFront'] : 1;
 ?>
 
 <div class="background__white p40 radius-25 mb30">
@@ -194,7 +194,7 @@ $enablePluginInFront = isset( $settings['enablePluginInFront'] ) && $settings['e
                     <span class="element__tooltip"><?php esc_html_e( "Enable Preview in Frontend", "embedpress" ); ?></span>
                 </a>
 				<label class="input__switch element_switch">
-                    <input class="element-check" type="checkbox" value="yes" data-name="enablePluginInFront" data-type="classic" <?php echo $enablePluginInFront ? 'checked': '';  ?> >
+                    <input class="element-check" type="checkbox" value="1" data-name="enablePluginInFront" data-type="classic" <?php echo $enablePluginInFront ? 'checked': '';  ?> >
 					<span></span>
 				</label>
 
@@ -206,7 +206,7 @@ $enablePluginInFront = isset( $settings['enablePluginInFront'] ) && $settings['e
                     <span class="element__tooltip"><?php esc_html_e( "Enable Preview in Classic Editor", "embedpress" ); ?></span>
                 </a>
 				<label class="input__switch element_switch">
-                    <input class="element-check" type="checkbox" value="yes" data-name="enablePluginInAdmin" data-type="classic" <?php echo $enablePluginInAdmin ? 'checked': '';  ?> >
+                    <input class="element-check" type="checkbox" value="1" data-name="enablePluginInAdmin" data-type="classic" <?php echo $enablePluginInAdmin ? 'checked': '';  ?> >
 					<span></span>
 				</label>
 
