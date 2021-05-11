@@ -1656,7 +1656,7 @@ button.button__instagram.hover__highlight:hover .icon {
     }
 }
 
-.embedpress-sidebar .sidebar__menu .sidebar__item {
+.embedpress-sidebar .sidebar__menu .sidebar__item:not(:last-child) {
     margin-bottom: 10px;
 }
 
@@ -1846,6 +1846,10 @@ button.button__instagram.hover__highlight:hover .icon {
 
 .embedpress-tab .tab__item.active {
     display: block;
+}
+
+.embedpress__settings {
+    min-height: 100%;
 }
 
 .embedpress__settings h3 {
