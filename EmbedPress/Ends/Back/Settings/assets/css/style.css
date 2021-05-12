@@ -2000,10 +2000,6 @@ button.button__instagram.hover__highlight:hover .icon {
     cursor: pointer;
 }
 
-.isPro .input__radio span:after {
-    background: #f6f7f7;
-}
-
 .input__radio span:before {
     position: absolute;
     top: 5px;
@@ -2301,6 +2297,9 @@ button.button__instagram.hover__highlight:hover .icon {
     font-weight: 400;
     color: #7C8DB5;
     margin-top: 10px;
+}
+.embedpress__settings__form .form__group .form__control__wrap .isPro:not(.embedpress__select) {
+    opacity: 0.3;
 }
 
 .frame__size__wrap {
