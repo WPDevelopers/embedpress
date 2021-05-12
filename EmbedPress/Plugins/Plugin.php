@@ -292,7 +292,9 @@ abstract class Plugin
                 'embedpress-' . static::SLUG) . '">' . __('Settings', 'embedpress-' . static::SLUG) . '</a>';
 
         array_unshift($links, $settingsLink);
-
+	    if ( !is_embedpress_pro_active() ) {
+		    $links[] = '<a href="https://wpdeveloper.net/in/upgrade-embedpress" target="_blank" class="embedpress-go-pro-action">'.__('Go Pro', 'embedpress').'</a>';
+	    }
         return $links;
     }
 }
