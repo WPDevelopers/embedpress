@@ -539,14 +539,21 @@ class Core {
      * @static
      *
      */
-    public static function handleActionLinks ($links, $file) {
-        $settingsLink = '<a href="'.admin_url('admin.php?page=embedpress').'" aria-label="'.__('Open settings page',
-                'embedpress').'">'.__('Settings', 'embedpress').'</a>';
+	public static function handleActionLinks($links, $file)
+	{
+		$settingsLink = '<a href="' . admin_url('admin.php?page=embedpress') . '" aria-label="' . __('Open settings page',
+				'embedpress') . '">' . __('Settings', 'embedpress') . '</a>';
 
-        array_unshift($links, $settingsLink);
+		array_unshift($links, $settingsLink);
+		if ( !self::is_pro_active() ) {
+			$links[] = '<a href="https://wpdeveloper.net/in/upgrade-embedpress" target="_blank" class="embedpress-go-pro-action">'.__('Go Pro', 'embedpress').'</a>';
+		}
+		return $links;
+	}
 
-        return $links;
-    }
+	public static function is_pro_active() {
+		return is_plugin_active( 'embedpress-pro/embedpress-pro.php' );
+	}
 
     /**
      * Method that ensures the API's url are whitelisted to WordPress external requests.

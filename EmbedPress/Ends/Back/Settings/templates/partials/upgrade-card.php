@@ -15,5 +15,5 @@ if ( isset( $pro_active)  && $pro_active) {
         <h4><?php esc_html_e( "Upgrade To Pro", "embedpress" ); ?></h4>
         <p><?php esc_html_e( "The premium version helps us to continue the development of the product incorporating even more features and enhancements. You will also get world class support from our dedicated team, 24/7.", "embedpress" ); ?></p>
     </div>
-    <a href="https://embedpress.com/#pricing" target="_blank" class="button button__white radius-10"><?php esc_html_e( "Upgrade To Pro", "embedpress" ); ?></a>
+    <a href="https://wpdeveloper.net/in/upgrade-embedpress" target="_blank" class="button button__white radius-10"><?php esc_html_e( "Upgrade To Pro", "embedpress" ); ?></a>
 </div>

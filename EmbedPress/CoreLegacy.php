@@ -358,9 +358,15 @@ class CoreLegacy
                 'embedpress') . '">' . __('Settings', 'embedpress') . '</a>';
 
         array_unshift($links, $settingsLink);
-
-        return $links;
+	    if ( !self::is_pro_active() ) {
+		    $links[] = '<a href="https://wpdeveloper.net/in/upgrade-embedpress" target="_blank" class="embedpress-go-pro-action">'.__('Go Pro', 'embedpress').'</a>';
+	    }
+	    return $links;
     }
+
+	public static function is_pro_active() {
+		return is_plugin_active( 'embedpress-pro/embedpress-pro.php' );
+	}
 
     /**
      * Method that ensures the API's url are whitelisted to WordPress external requests.

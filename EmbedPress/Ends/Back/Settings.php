@@ -211,7 +211,7 @@ class Settings {
                                         <p><?php esc_html_e( 'The premium version helps us to continue development of the product
                                             incorporating even more features and enhancements.', 'embedpress'); ?></p>
                                         <p><?php esc_html_e( 'You will also get world class support from our dedicated team, 24/7.', 'embedpress'); ?></p>
-                                        <a href="https://wpdeveloper.net/plugins/embedpress#pricing" target="_blank"
+                                        <a href="https://wpdeveloper.net/in/upgrade-embedpress" target="_blank"
                                            class="button embedpress-btn"><?php esc_html_e( 'Get Pro Version', 'embedpress'); ?></a>
                                     </div>
                                 </div>
@@ -247,7 +247,7 @@ class Settings {
                                title="EmbedPress Documentation"><?php esc_html_e( 'Documentation', 'embedpress'); ?></a>
                         </li>
                         <li>
-                            <a href="//embedpress.com/#pricing" target="_blank" rel="noopener noreferrer"
+                            <a href="https://wpdeveloper.net/in/upgrade-embedpress" target="_blank" rel="noopener noreferrer"
                                title="Get EmbedPress Pro"><?php esc_html_e( 'Get EmbedPress Pro', 'embedpress'); ?></a>
                         </li>
                         <li>
