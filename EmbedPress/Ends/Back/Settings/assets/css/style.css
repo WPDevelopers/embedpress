@@ -1612,11 +1612,41 @@ button.button__instagram.hover__highlight:hover .icon {
 .embedpress-header {
     padding-bottom: 25px;
 }
+.embedpress-header {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+}
 .embedpress-sidebar {
     padding: 10px;
     background: #ffffff;
     border-radius: 25px;
     position: relative;
+}
+.embedpress-version-wrapper li {
+        font-size: 16px;
+        font-weight: 400;
+        color: #7C8DB5;
+        text-align: right;
+}
+
+@media all and (max-width: 767px) {
+    .embedpress-version-wrapper li {
+        font-size: 14px;
+    }
+}
+
+
+@media all and (max-width: 575px) {
+    .embedpress-header {
+        display: block;
+    }
+    .embedpress-header .embedpress-version-wrapper {
+        margin-top: 10px;
+    }
+    .embedpress-version-wrapper li {
+        text-align: left;
+    }
 }
 
 @media (max-width: 991px) {
@@ -1852,6 +1882,10 @@ button.button__instagram.hover__highlight:hover .icon {
     min-height: 100%;
 }
 
+.upgrade__card + .embedpress__settings {
+    min-height: auto;
+}
+
 .embedpress__settings h3 {
     font-size: 30px;
     font-weight: 700;
@@ -1965,6 +1999,10 @@ button.button__instagram.hover__highlight:hover .icon {
 
 .input__radio span {
     cursor: pointer;
+}
+
+.isPro .input__radio span:after {
+    background: #f6f7f7;
 }
 
 .input__radio span:before {
