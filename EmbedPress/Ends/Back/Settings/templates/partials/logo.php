@@ -7,7 +7,7 @@
     <a href="#" class="site__logo"><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/logo.svg" alt=""></a>
     <ul class="embedpress-version-wrapper">
         <li>Core Version: V<?php echo EMBEDPRESS_VERSION; ?></li>
-	    <?php if ( defined( 'EMBEDPRESS_PRO_VERSION') ) { ?>
+	    <?php if ( $pro_active ) { ?>
             <li>Pro Version: V<?php echo EMBEDPRESS_PRO_VERSION; ?></li>
 	    <?php }?>
     </ul>
