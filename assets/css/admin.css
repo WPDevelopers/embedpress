@@ -490,3 +490,9 @@
 #embedpress-settings-wrapper a.embedpress-settings-link {
     color: #0073aa;
 }
+
+.embedpress-go-pro-action {
+    color: #39b54a;
+    text-shadow: 1px 1px 1px #eee;
+    font-weight: bold;
+}
