@@ -17,7 +17,7 @@ $yt_cta_url = isset( $yt_settings['cta_url']) ? esc_url( $yt_settings['cta_url']
 $yt_branding = isset( $yt_settings['branding']) ? sanitize_text_field( $yt_settings['branding']) : (!empty( $yt_logo_url) ? 'yes': '');
 
 
-$embedpress_document_powered_by = !empty( $gen_settings['embedpress_document_powered_by']) ? sanitize_text_field( $gen_settings['embedpress_document_powered_by']) : '';
+$embedpress_document_powered_by = isset( $gen_settings['embedpress_document_powered_by']) ? sanitize_text_field( $gen_settings['embedpress_document_powered_by']) : 'yes';
 ?>
 
 <div class="embedpress__settings background__white radius-25 p40">
