@@ -10,11 +10,6 @@
         <div class="embedpress-body mb30">
 			<?php include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/sidebar.php'; ?>
             <div class="embedpress-content">
-				<?php
-				if ( (empty( $pro_active) || !$pro_active) && 'go-premium' != $template) {
-					include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/upgrade-card.php';
-				}
-                ?>
                 <?php
                 include_once EMBEDPRESS_SETTINGS_PATH . "templates/{$template}.php";
 				if ( 'license' != $template) {
