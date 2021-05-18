@@ -55,8 +55,23 @@ class EmbedpressSettings {
 			update_option( $option, true);
 		}
 
-	}
+		add_action( 'admin_init', [$this, 'embedpress_maybe_redirect_to_settings']  );
 
+	}
+	function embedpress_maybe_redirect_to_settings() {
+		if ( get_option( 'embedpress_activation_redirect_done' ) || wp_doing_ajax() ) {
+			return;
+		}
+
+		update_option( 'embedpress_activation_redirect_done', true );
+
+		if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
+			return;
+		}
+
+		wp_safe_redirect( admin_url('admin.php?page='.$this->page_slug) );
+		exit;
+	}
 	public function update_elements_list() {
 		if ( !empty($_POST['_wpnonce'] && wp_verify_nonce( $_POST['_wpnonce'], 'embedpress_elements_action')) ) {
 			$option = EMBEDPRESS_PLG_NAME.":elements";
@@ -89,6 +104,7 @@ class EmbedpressSettings {
 	public function register_menu() {
 		add_menu_page( __('EmbedPress Settings', 'embedpress'), 'EmbedPress', 'manage_options', $this->page_slug,
 			[ $this, 'render_settings_page' ], null, 64 );
+
 	}
 
 	public function handle_scripts_and_styles() {

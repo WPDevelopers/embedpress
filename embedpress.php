@@ -21,6 +21,9 @@
  */
 
 use EmbedPress\Compatibility;
+use EmbedPress\Core;
+use EmbedPress\CoreLegacy;
+use EmbedPress\Elementor\Embedpress_Elementor_Integration;
 
 defined('ABSPATH') or die("No direct script access allowed.");
 
@@ -52,12 +55,12 @@ function is_embedpress_pro_active() {
 
 function onPluginActivationCallback()
 {
-    \EmbedPress\Core::onPluginActivationCallback();
+    Core::onPluginActivationCallback();
 }
 
 function onPluginDeactivationCallback()
 {
-    \EmbedPress\Core::onPluginDeactivationCallback();
+    Core::onPluginDeactivationCallback();
 }
 
 register_activation_hook(__FILE__, 'onPluginActivationCallback');
@@ -70,14 +73,14 @@ if ( ! is_plugin_active('gutenberg/gutenberg.php')) {
     } );
     $editor_check = get_option('classic-editor-replace');
     if ((Compatibility::isWordPress5() && ! Compatibility::isClassicalEditorActive()) || (Compatibility::isClassicalEditorActive() && 'block'=== $editor_check )) {
-        $embedPressPlugin = new \EmbedPress\Core();
+        $embedPressPlugin = new Core();
     } else {
-        $embedPressPlugin = new \EmbedPress\CoreLegacy();
+        $embedPressPlugin = new CoreLegacy();
     }
     $embedPressPlugin->initialize();
 }
 
 if (  is_plugin_active('elementor/elementor.php')) {
-    $embedPressElements = new \EmbedPress\Elementor\Embedpress_Elementor_Integration();
+    $embedPressElements = new Embedpress_Elementor_Integration();
     $embedPressElements->init();
 }
