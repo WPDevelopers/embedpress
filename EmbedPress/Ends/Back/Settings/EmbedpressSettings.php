@@ -62,8 +62,13 @@ class EmbedpressSettings {
 		if ( get_option( 'embedpress_activation_redirect_done' ) || wp_doing_ajax() ) {
 			return;
 		}
-
+		$settings = get_option( EMBEDPRESS_PLG_NAME); // do not redirect old user after update
+		if ( !empty( $settings) ) {
+			update_option( 'embedpress_activation_redirect_done', true );
+			return;
+		}
 		update_option( 'embedpress_activation_redirect_done', true );
+
 
 		if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
 			return;
