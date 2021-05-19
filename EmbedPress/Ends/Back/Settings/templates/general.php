@@ -10,7 +10,7 @@ $enableEmbedResizeHeight = isset( $g_settings['enableEmbedResizeHeight']) ? $g_s
 $enableEmbedResizeWidth = isset( $g_settings['enableEmbedResizeWidth']) ? $g_settings['enableEmbedResizeWidth'] : 600;
 ?>
 <div class="embedpress__settings background__white radius-25 p40">
-	<h3>Global Embed Iframe</h3>
+	<h3>Global Embed iFrame</h3>
 	<div class="embedpress__settings__form">
 		<form action="" method="post">
             <?php
@@ -18,7 +18,7 @@ $enableEmbedResizeWidth = isset( $g_settings['enableEmbedResizeWidth']) ? $g_set
             echo  $nonce_field ;
             ?>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( 'Embed Iframe Height', 'embedpress'); ?></p>
+				<p class="form__label"><?php esc_html_e( 'Embed iFrame Height', 'embedpress'); ?></p>
 				<div class="form__control__wrap">
 					<div class="input__flex">
 						<input type="number" name="enableEmbedResizeHeight" class="form__control" value="<?php echo esc_attr( $enableEmbedResizeHeight); ?>">
@@ -27,7 +27,7 @@ $enableEmbedResizeWidth = isset( $g_settings['enableEmbedResizeWidth']) ? $g_set
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( 'Embed Iframe Width', 'embedpress'); ?></p>
+				<p class="form__label"><?php esc_html_e( 'Embed iFrame Width', 'embedpress'); ?></p>
 				<div class="form__control__wrap">
 					<div class="input__flex">
 						<input type="number" name="enableEmbedResizeWidth" class="form__control" value="<?php echo esc_attr( $enableEmbedResizeWidth); ?>">
