@@ -111,6 +111,13 @@ trait Shared {
             $notice->thumbnail( 'update', plugins_url( 'assets/images/icon-128x128.png', EMBEDPRESS_PLUGIN_BASENAME ) );
         }
 
+        if ( \version_compare( EMBEDPRESS_VERSION, '3.0.0', '=' ) ) {
+            $notice->classes( 'update', 'notice is-dismissible ' );
+            $notice->message( 'update', '<p>' . __( '
+            EmbedPress 3.0 is here with new features and options, read the details <a href="https://wpdeveloper.net/introducing-embedpress-3.0" target="_blank">here</a>, and check the new setting page. <a href="'. admin_url('admin.php?page=embedpress') .'">Click Here.</a>', $notice->text_domain ) . '</p>' );
+            $notice->thumbnail( 'update', plugins_url( 'assets/images/icon-128x128.png', EMBEDPRESS_PLUGIN_BASENAME ) );
+        }
+
         $notice->upsale_args = array(
             'href' => 'https://embedpress.com/?utm_source=plugin&utm_medium=free&utm_campaign=pro_upgrade#pricing',
             'btn_text'  => __( 'Learn More', 'embedpress' ),
@@ -118,7 +125,8 @@ trait Shared {
 
         $notice->options_args = array(
             'notice_will_show' => [
-                'opt_in' => $notice->timestamp,
+                'update' => $notice->timestamp,
+                'opt_in' => $notice->makeTime( $notice->timestamp, '3 Day' ),
                 'upsale' => $notice->makeTime( $notice->timestamp, '14 Day' ),
                 'review' => $notice->makeTime( $notice->timestamp, '7 Day' ), // after 3 days
             ],

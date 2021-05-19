@@ -344,7 +344,7 @@ class EmbedPress_Notice {
             $classes .= 'notice-has-thumbnail';
         }
 
-        echo '<div class="'. $classes .' wpdeveloper-'. $current_notice .'-notice">';
+        echo '<div data-notice="'. $current_notice .'" class="'. $classes .' wpdeveloper-'. $current_notice .'-notice">';
     }
     /**
      * After Notice
@@ -751,6 +751,7 @@ class EmbedPress_Notice {
     }
 
     public function notice_dissmiss(){
+
         if( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['_wpnonce'] ) ), 'wpdeveloper_notice_dissmiss' ) ) {
             return;
         }
@@ -799,31 +800,29 @@ class EmbedPress_Notice {
         <script type="text/javascript">
             jQuery(document).ready( function($) {
                 if( $('.notice').length > 0 ) {
-                    if( $('.notice').find('.notice-dismiss').length > 0 ) {
-                        $('.notice').on('click', 'button.notice-dismiss', function (e) {
-                            e.preventDefault();
-                            $.ajax({
-                                url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
-                                type: 'post',
-                                data: {
-                                    action: 'wpdeveloper_notice_dissmiss_for_<?php echo $this->plugin_name; ?>',
-                                    _wpnonce: '<?php echo wp_create_nonce('wpdeveloper_notice_dissmiss'); ?>',
-                                    dismiss: true,
-                                    notice: $(this).data('notice'),
-                                },
-                                success: function(response) {
-                                    $('.notice').hide();
-                                    console.log('Successfully saved!');
-                                },
-                                error: function(error) {
-                                    console.log('Something went wrong!');
-                                },
-                                complete: function() {
-                                    console.log('Its Complete.');
-                                }
-                            });
+                    $('.notice').on('click', 'button.notice-dismiss', function (e) {
+                        e.preventDefault();
+                        $.ajax({
+                            url: '<?php echo admin_url( 'admin-ajax.php' ); ?>',
+                            type: 'post',
+                            data: {
+                                action: 'wpdeveloper_notice_dissmiss_for_<?php echo $this->plugin_name; ?>',
+                                _wpnonce: '<?php echo wp_create_nonce('wpdeveloper_notice_dissmiss'); ?>',
+                                dismiss: true,
+                                notice: $(this).parents('.notice').data('notice'),
+                            },
+                            success: function(response) {
+                                $('.notice').hide();
+                                console.log('Successfully saved!');
+                            },
+                            error: function(error) {
+                                console.log('Something went wrong!');
+                            },
+                            complete: function() {
+                                console.log('Its Complete.');
+                            }
                         });
-                    }
+                    });
                 }
             } );
         </script>
