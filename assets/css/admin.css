@@ -408,15 +408,21 @@
     display: table;
     clear: both;
 }
+.wpdeveloper-update-notice{
+    margin-top: 20px;
+}
+.wpdeveloper-update-notice .notice-dismiss {
+    top: auto;
+}
 .wpdeveloper-notice-thumbnail {
-    width: 90px;
+    width: 40px;
     float: left;
     padding: 5px;
     text-align: center;
     border-right: 4px solid transparent;
 }
 .wpdeveloper-notice-thumbnail img {
-    width: 72px;
+    width: 100%;
     opacity: 0.85;
     -webkit-transition: all 0.3s;
     -o-transition: all 0.3s;
