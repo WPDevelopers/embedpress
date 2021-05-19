@@ -43,7 +43,8 @@ class EmbedpressSettings {
 			];
 
 			$settings = get_option( EMBEDPRESS_PLG_NAME, [] );
-			if ( empty( $settings) ) {
+			$yt = get_option( EMBEDPRESS_PLG_NAME.':youtube' );
+			if ( empty( $settings) && empty( $yt) ) {
 				$settings['need_first_time_redirect'] = true;
 			}
 			if ( !isset( $settings['enablePluginInAdmin']) ) {
