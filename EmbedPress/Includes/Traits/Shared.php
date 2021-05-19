@@ -114,7 +114,7 @@ trait Shared {
         if ( \version_compare( EMBEDPRESS_VERSION, '3.0.0', '=' ) ) {
             $notice->classes( 'update', 'notice is-dismissible ' );
             $notice->message( 'update', '<p>' . __( '
-            EmbedPress 3.0 is here with new features and options, read the details <a href="#" target="_blank">here</a>, and check the new setting page. <a href="'. admin_url('admin.php?page=embedpress') .'">Click Here.</a>', $notice->text_domain ) . '</p>' );
+            EmbedPress 3.0 is here with new features and options, read the details <a href="https://wpdeveloper.net/introducing-embedpress-3.0" target="_blank">here</a>, and check the new setting page. <a href="'. admin_url('admin.php?page=embedpress') .'">Click Here.</a>', $notice->text_domain ) . '</p>' );
             $notice->thumbnail( 'update', plugins_url( 'assets/images/icon-128x128.png', EMBEDPRESS_PLUGIN_BASENAME ) );
         }
 
