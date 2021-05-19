@@ -302,11 +302,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-Revamped : 
-
-Added : WordPress 5.6 Support
-Fixed : Few minor bug fix & improvements
-
 = [3.0.0] - 2021-05-19 =
 * Redesigned : Entire Settings panel.
 * Revamped : Code Structure for better performance
@@ -713,4 +708,4 @@ Added Wistia and Twitch blocks for Gutenberg
 
 == Upgrade Notice ==
 
-* [Minor Update] Hotfix
+* [Major Update] Must Update.
