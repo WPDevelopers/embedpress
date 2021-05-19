@@ -43,6 +43,9 @@ class EmbedpressSettings {
 			];
 
 			$settings = get_option( EMBEDPRESS_PLG_NAME, [] );
+			if ( empty( $settings) ) {
+				$settings['need_first_time_redirect'] = true;
+			}
 			if ( !isset( $settings['enablePluginInAdmin']) ) {
 				$settings['enablePluginInAdmin'] = 1;
 			}
@@ -54,28 +57,30 @@ class EmbedpressSettings {
 			update_option( EMBEDPRESS_PLG_NAME, $settings);
 			update_option( $option, true);
 		}
-
 		add_action( 'admin_init', [$this, 'embedpress_maybe_redirect_to_settings']  );
+
 
 	}
 	function embedpress_maybe_redirect_to_settings() {
-		if ( get_option( 'embedpress_activation_redirect_done' ) || wp_doing_ajax() ) {
-			return;
-		}
-		$settings = get_option( EMBEDPRESS_PLG_NAME); // do not redirect old user after update
-		if ( !empty( $settings) ) {
+		$settings = get_option( EMBEDPRESS_PLG_NAME, [] );
+		if ( isset( $settings['need_first_time_redirect']) && $settings['need_first_time_redirect'] ) {
+			if ( get_option( 'embedpress_activation_redirect_done' ) || wp_doing_ajax() ) {
+				return;
+			}
+
+
 			update_option( 'embedpress_activation_redirect_done', true );
-			return;
+			$settings['need_first_time_redirect'] = false;
+			update_option( EMBEDPRESS_PLG_NAME, $settings);
+
+			if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
+				return;
+			}
+
+			wp_safe_redirect( admin_url('admin.php?page='.$this->page_slug) );
+			exit;
 		}
-		update_option( 'embedpress_activation_redirect_done', true );
 
-
-		if ( is_network_admin() || isset( $_GET['activate-multi'] ) ) {
-			return;
-		}
-
-		wp_safe_redirect( admin_url('admin.php?page='.$this->page_slug) );
-		exit;
 	}
 	public function update_elements_list() {
 		if ( !empty($_POST['_wpnonce'] && wp_verify_nonce( $_POST['_wpnonce'], 'embedpress_elements_action')) ) {
