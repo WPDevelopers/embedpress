@@ -147,7 +147,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
                 </div>
             </div>
 	        <?php do_action( 'embedpress_after_youtube_settings_fields'); ?>
-            <button class="button button__themeColor radius-10" name="submit" value="youtube"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
+            <button class="button button__themeColor radius-10 embedpress-submit-btn" name="submit" value="youtube"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
         </form>
     </div>
 </div>

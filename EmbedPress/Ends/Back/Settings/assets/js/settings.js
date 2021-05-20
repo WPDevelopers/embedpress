@@ -170,6 +170,40 @@ jQuery(document).ready( function($){
             },
         });
     });
+
+    // Save EmbedPRess Settings data using Ajax
+    $(document).on('submit', 'form', function (e) {
+        e.preventDefault();
+        let $form = $(this);
+        const form_data = $form.serializeArray();
+        const $submit_type = $form.find('.embedpress-submit-btn').attr('value');
+
+        const ajaxAction = {
+            name: "action",
+            value: 'embedpress_settings_action'
+        };
+        form_data.push(ajaxAction);
+        form_data.push({
+            name: 'submit',
+            value: $submit_type,
+        });
+        $.ajax({
+            url: ajaxurl,
+            type: 'post',
+            dataType: 'json',
+            data: form_data,
+            success: function(response) {
+                if (response && response.success){
+                    showSuccessMessage();
+                }else{
+                    showErrorMessage();
+                }
+            },
+            error: function(error) {
+                showErrorMessage();
+            },
+        });
+    });
     /**
     * It shows success message in a toast alert
     * */

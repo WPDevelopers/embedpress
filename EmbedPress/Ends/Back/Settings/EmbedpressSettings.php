@@ -17,6 +17,7 @@ class EmbedpressSettings {
 
 		// ajax
 		add_action( 'wp_ajax_embedpress_elements_action', [$this, 'update_elements_list']);
+		add_action( 'wp_ajax_embedpress_settings_action', [$this, 'save_settings']);
 
 		// Migration
 		$option = 'embedpress_elements_updated'; // to update initially for backward compatibility
@@ -160,6 +161,8 @@ class EmbedpressSettings {
 	}
 
 	public function save_settings() {
+		// needs to check for ajax and return response accordingly.
+		//error_log( print_r( $_POST, 1));
 		if ( !empty( $_POST['ep_settings_nonce']) && wp_verify_nonce( $_POST['ep_settings_nonce'], 'ep_settings_nonce') ) {
 			$submit_type = !empty( $_POST['submit'] ) ? $_POST['submit'] : '';
 			$save_handler_method  = "save_{$submit_type}_settings";
@@ -171,6 +174,9 @@ class EmbedpressSettings {
 			do_action( "after_embedpress_settings_save");
 			$return_url = isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : admin_url();
 			$return_url = add_query_arg( 'success', 1, $return_url );
+			if ( wp_doing_ajax() ) {
+				wp_send_json_success();
+			}
 			wp_safe_redirect( $return_url);
 			exit();
 		}

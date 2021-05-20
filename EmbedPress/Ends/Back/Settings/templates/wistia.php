@@ -222,7 +222,7 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 				<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
             </div>
 			<?php do_action( 'embedpress_after_wistia_settings_fields'); ?>
-            <button class="button button__themeColor radius-10" name="submit" value="wistia"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
+            <button class="button button__themeColor radius-10 embedpress-submit-btn" name="submit" value="wistia"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
 		</form>
 	</div>
 </div>

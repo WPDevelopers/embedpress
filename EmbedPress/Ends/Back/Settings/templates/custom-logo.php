@@ -144,7 +144,7 @@ $embedpress_document_powered_by = isset( $gen_settings['embedpress_document_powe
                 </div>
             </div>
 	        <?php  do_action( 'embedpress_after_custom_branding_settings_fields'); ?>
-            <button class="button button__themeColor radius-10" name="submit" value="custom_logo"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
+            <button class="button button__themeColor radius-10 embedpress-submit-btn" name="submit" value="custom_logo"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
         </form>
     </div>
 </div>

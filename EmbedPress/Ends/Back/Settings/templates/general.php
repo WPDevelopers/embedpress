@@ -61,7 +61,7 @@ $enableEmbedResizeWidth = isset( $g_settings['enableEmbedResizeWidth']) ? $g_set
 				</div>
 			</div>
             <?php do_action( 'embedpress_after_general_settings_fields');  ?>
-            <button class="button button__themeColor radius-10" name="submit" value="general"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
+            <button class="button button__themeColor radius-10 embedpress-submit-btn" name="submit" value="general"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
         </form>
 	</div>
 </div>
