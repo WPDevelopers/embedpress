@@ -19,6 +19,70 @@ function embedPressRemoveURLParameter(url, parameter) {
     return url;
 }
 jQuery(document).ready( function($){
+    // jQuery helper plugin to track change in the form.
+    $.fn.extend({
+        trackChanges: function() {
+            $(":input",this).change(function() {
+                $(this.form).data("changed", true);
+            });
+        }
+        ,
+        hasChanged: function() {
+            return this.data("changed");
+        }
+    });
+
+    let formDataChanged = false;
+    let $settingsForm = $('.embedpress-settings-form');
+    let _$Forminputs = $('.embedpress-settings-form :input:not([type=submit])');
+    console.log('before EVENT');
+    console.log(formDataChanged);
+    _$Forminputs.on('change', function(e) {
+        //':input' selector get all form fields even textarea, input, or select
+        formDataChanged = false;
+        let fields_to_avoids = ['ep_settings_nonce', '_wp_http_referer', 'g_loading_animation', 'submit'];
+        let checkbox_or_radios = ['checkbox', 'radio'];
+        for (var i = 0; i < _$Forminputs.length; i++) {
+            let ip = _$Forminputs[i];
+            //console.log(ip.name);
+            if (!fields_to_avoids.includes(ip.name)){
+                let $e_input = $(ip);
+
+                if (checkbox_or_radios.includes(ip.type)){
+                    if ($e_input.is(":checked")){
+                        $e_input.data('value', '1');
+                    }else{
+                        $e_input.data('value', '0');
+                    }
+
+                    if ($e_input.data('value') != $e_input.data('default')) {
+                        formDataChanged = true;
+                        //break;
+                    }
+                    // console.log('--------value for A:  ' + ip.name);
+                    // console.log($e_input.data('value'));
+                    // console.log('DV for A:  ' + ip.name);
+                    // console.log($e_input.data('default'));
+                }else {
+                    if ($e_input.val() != $e_input.data('default')) {
+                        formDataChanged = true;
+                        //break;
+                    }
+                }
+
+
+            }
+
+        }
+
+        if (formDataChanged === true) {
+            console.log('form data changed');
+            $settingsForm.find('.embedpress-submit-btn').addClass('ep-settings-form-changed');
+        } else {
+            console.log('form data NOT changed');
+            $settingsForm.find('.embedpress-submit-btn').removeClass('ep-settings-form-changed');
+        }
+    });
 
     // Sidebar Menu Toggle
     $('.sidebar__dropdown .sidebar__link--toggler').on('click', function(e) {
@@ -171,13 +235,18 @@ jQuery(document).ready( function($){
         });
     });
 
+    // track changes in settings page
+
     // Save EmbedPRess Settings data using Ajax
     $(document).on('submit', 'form', function (e) {
         e.preventDefault();
         let $form = $(this);
+        let $submit_btn = $form.find('.embedpress-submit-btn');
+        let submit_text = $submit_btn.text();
         const form_data = $form.serializeArray();
-        const $submit_type = $form.find('.embedpress-submit-btn').attr('value');
+        const $submit_type = $submit_btn.attr('value');
 
+        $submit_btn.text('Saving...'); //@TODO; Translate the text;
         const ajaxAction = {
             name: "action",
             value: 'embedpress_settings_action'
@@ -193,13 +262,18 @@ jQuery(document).ready( function($){
             dataType: 'json',
             data: form_data,
             success: function(response) {
+                $submit_btn.removeClass('ep-settings-form-changed');
                 if (response && response.success){
                     showSuccessMessage();
+                    $submit_btn.text(submit_text);
                 }else{
+                    $submit_btn.text(submit_text);
                     showErrorMessage();
                 }
             },
             error: function(error) {
+                $submit_btn.removeClass('ep-settings-form-changed');
+                $submit_btn.text(submit_text);
                 showErrorMessage();
             },
         });

@@ -16,7 +16,7 @@ $display_avatar = isset( $vm_settings['display_avatar']) ? $vm_settings['display
 <div class="embedpress__settings background__white radius-25 p40">
     <h3><?php esc_html_e( "Vimeo Settings", "embedpress" ); ?></h3>
     <div class="embedpress__settings__form">
-        <form action="" method="post" >
+        <form action="" method="post" class="embedpress-settings-form" >
 	        <?php
 	        do_action( 'embedpress_before_vimeo_settings_fields');
             echo  $nonce_field ; ?>

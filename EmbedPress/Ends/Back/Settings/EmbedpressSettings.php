@@ -162,7 +162,6 @@ class EmbedpressSettings {
 
 	public function save_settings() {
 		// needs to check for ajax and return response accordingly.
-		//error_log( print_r( $_POST, 1));
 		if ( !empty( $_POST['ep_settings_nonce']) && wp_verify_nonce( $_POST['ep_settings_nonce'], 'ep_settings_nonce') ) {
 			$submit_type = !empty( $_POST['submit'] ) ? $_POST['submit'] : '';
 			$save_handler_method  = "save_{$submit_type}_settings";

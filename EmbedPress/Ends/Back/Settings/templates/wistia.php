@@ -22,7 +22,7 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 <div class="embedpress__settings background__white radius-25 p40">
 	<h3><?php esc_html_e( "Wistia Settings", "embedpress" ); ?></h3>
 	<div class="embedpress__settings__form">
-		<form action="" method="post" >
+		<form action="" method="post" class="embedpress-settings-form" >
 			<?php
 			do_action( 'embedpress_before_wistia_settings_fields');
             echo  $nonce_field ;

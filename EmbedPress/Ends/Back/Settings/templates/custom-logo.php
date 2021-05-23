@@ -23,7 +23,7 @@ $embedpress_document_powered_by = isset( $gen_settings['embedpress_document_powe
 <div class="embedpress__settings background__white radius-25 p40">
     <h3><?php esc_html_e( "Global Branding Settings", "embedpress" ); ?></h3>
     <div class="embedpress__settings__form">
-        <form action="" method="post" enctype="multipart/form-data">
+        <form action="" method="post" enctype="multipart/form-data"  class="embedpress-settings-form">
 	        <?php
 	        do_action( 'embedpress_before_custom_branding_settings_fields');
 	        echo  $nonce_field ; ?>

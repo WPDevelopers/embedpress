@@ -19,7 +19,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
 <div class="embedpress__settings background__white radius-25 p40">
     <h3><?php esc_html_e( "YouTube Settings", "embedpress" ); ?></h3>
     <div class="embedpress__settings__form">
-        <form action="" method="post" >
+        <form action="" method="post" class="embedpress-settings-form" >
 	        <?php
 	        do_action( 'embedpress_before_youtube_settings_fields');
             echo  $nonce_field ; ?>

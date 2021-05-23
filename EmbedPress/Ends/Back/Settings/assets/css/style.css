@@ -2307,7 +2307,10 @@ button.button__instagram.hover__highlight:hover .icon {
     display: -ms-flexbox;
     display: flex;
 }
-
+.template__wrapper .button.ep-settings-form-changed {
+    background: #f11d1d;
+    color:#fff;
+}
 @media (max-width: 1199px) {
     .frame__size__wrap {
         display: block;

@@ -16,7 +16,7 @@ $mute = isset( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_setting
 <div class="embedpress__settings background__white radius-25 p40">
 	<h3><?php esc_html_e( "Twitch Settings", "embedpress" ); ?></h3>
 	<div class="embedpress__settings__form">
-		<form action="" method="post" >
+		<form action="" method="post" class="embedpress-settings-form">
 			<?php
             do_action( 'embedpress_before_twitch_settings_fields');
             echo  $nonce_field ; ?>
