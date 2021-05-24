@@ -132,7 +132,7 @@ class Embedpress_Elementor extends Widget_Base {
             ]
         );
 
-	    $this->add_control(
+	    $this->add_responsive_control(
 		    'width',
 		    [
 			    'label' => __( 'Width', 'embedpress' ),
@@ -151,7 +151,7 @@ class Embedpress_Elementor extends Widget_Base {
 			    ]
 		    ]
 	    );
-	    $this->add_control(
+	    $this->add_responsive_control(
 		    'height',
 		    [
 			    'label' => __( 'Height', 'embedpress' ),
