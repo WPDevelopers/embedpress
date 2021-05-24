@@ -60,7 +60,8 @@ jQuery(document).ready( function($){
                 } else if ('checkbox' === input_type) {
                     console.log('CHECKBOX');
                     if ($e_input.is(":checked")){
-                        $e_input.data('value', '1');
+
+                        $e_input.data('value', $e_input.val());
                     }else{
                         $e_input.data('value', '0');
                     }

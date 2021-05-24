@@ -31,7 +31,7 @@ $embedpress_document_powered_by = isset( $gen_settings['embedpress_document_powe
                 <p class="form__label">Powered by EmbedPress</p>
                 <div class="form__control__wrap">
                     <label class="input__switch switch__text">
-                        <input type="checkbox" value="yes" name="embedpress_document_powered_by" <?php checked( 'yes', $embedpress_document_powered_by );?>>
+                        <input type="checkbox" data-default="<?php echo esc_attr(  $embedpress_document_powered_by ); ?>" data-value="<?php echo esc_attr(  $embedpress_document_powered_by ); ?>" value="yes" name="embedpress_document_powered_by" <?php checked( 'yes', $embedpress_document_powered_by );?>>
                         <span></span>
                     </label>
                 </div>
@@ -41,14 +41,14 @@ $embedpress_document_powered_by = isset( $gen_settings['embedpress_document_powe
                 <p class="form__label"><?php esc_html_e( "YouTube Custom Branding", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">Pro</span>'; ?></p>
                 <div class="form__control__wrap">
                     <label class="input__switch switch__text <?php echo $pro_active ? '': 'isPro'; ?>">
-                        <input type="checkbox" name="yt_branding" value="yes" <?php checked( 'yes', $yt_branding);?> <?php echo $pro_active ? '': ' disabled'; ?>>
+                        <input type="checkbox" name="yt_branding"  data-default="<?php echo esc_attr(  $yt_branding ); ?>" data-value="<?php echo esc_attr(  $yt_branding ); ?>"  value="yes" <?php checked( 'yes', $yt_branding);?> <?php echo $pro_active ? '': ' disabled'; ?>>
                         <span></span>
                     </label>
 
                     <div class="logo__adjust__wrap <?php echo $pro_active ? '': 'proOverlay'; ?>" style="<?php if ( ('yes' !== $yt_branding) || !$pro_active ) { echo 'display:none;'; } ?>">
                         <label class="logo__upload" id="yt_logo_upload_wrap" style="<?php if (!empty( $yt_logo_url)) { echo 'display:none;'; } ?>">
-                            <input type="hidden" class="preview__logo__input" name="yt_logo_url" id="yt_logo_url" value="<?php echo $yt_logo_url; ?>">
-                            <input type="hidden" class="preview__logo__input_id" name="yt_logo_id" id="yt_logo_id" value="<?php echo $yt_logo_id; ?>">
+                            <input type="hidden" class="preview__logo__input" name="yt_logo_url" id="yt_logo_url" data-default="<?php echo esc_attr( $yt_logo_url ); ?>" value="<?php echo $yt_logo_url; ?>">
+                            <input type="hidden" class="preview__logo__input_id" name="yt_logo_id" id="yt_logo_id" data-default="<?php echo esc_attr( $yt_logo_id ); ?>" value="<?php echo $yt_logo_id; ?>">
                             <span class="icon"><i class="ep-icon ep-upload"></i></span>
                             <span class="text"><?php esc_html_e( "Click To Upload", "embedpress" ); ?></span>
                         </label>
@@ -64,28 +64,28 @@ $embedpress_document_powered_by = isset( $gen_settings['embedpress_document_powe
                                 <div class="logo__adjust__controller__item">
                                     <span class="controller__label">Logo Opacity (%)</span>
                                     <div class="logo__adjust__controller__inputs">
-                                        <input type="range" max="100" value="<?php echo $yt_logo_opacity; ?>" class="opacity__range" name="yt_logo_opacity">
-                                        <input readonly type="number" class="form__control range__value" value="<?php echo $yt_logo_opacity; ?>">
+                                        <input type="range" max="100" data-default="<?php echo esc_attr( $yt_logo_opacity ); ?>" value="<?php echo $yt_logo_opacity; ?>" class="opacity__range" name="yt_logo_opacity">
+                                        <input readonly type="number" class="form__control range__value" data-default="<?php echo esc_attr( $yt_logo_opacity ); ?>" value="<?php echo $yt_logo_opacity; ?>">
                                     </div>
                                 </div>
                                 <div class="logo__adjust__controller__item">
                                     <span class="controller__label">Logo X Position (%)</span>
                                     <div class="logo__adjust__controller__inputs">
-                                        <input type="range" max="100" value="<?php echo $yt_logo_xpos; ?>" class="x__range" name="yt_logo_xpos">
-                                        <input readonly type="number" class="form__control range__value"  value="<?php echo $yt_logo_xpos; ?>">
+                                        <input type="range" max="100" data-default="<?php echo esc_attr( $yt_logo_xpos ); ?>" value="<?php echo $yt_logo_xpos; ?>" class="x__range" name="yt_logo_xpos">
+                                        <input readonly type="number" class="form__control range__value" data-default="<?php echo esc_attr( $yt_logo_xpos ); ?>" value="<?php echo $yt_logo_xpos; ?>">
                                     </div>
                                 </div>
                                 <div class="logo__adjust__controller__item">
                                     <span class="controller__label">Logo Y Position (%)</span>
                                     <div class="logo__adjust__controller__inputs">
-                                        <input type="range" max="100" value="<?php echo esc_attr( $yt_logo_ypos ); ?>" class="y__range" name="yt_logo_ypos" >
-                                        <input readonly type="number" class="form__control range__value"  value="<?php echo esc_attr( $yt_logo_ypos ); ?>">
+                                        <input type="range" max="100" data-default="<?php echo esc_attr( $yt_logo_ypos ); ?>" value="<?php echo esc_attr( $yt_logo_ypos ); ?>" class="y__range" name="yt_logo_ypos" >
+                                        <input readonly type="number" class="form__control range__value" data-default="<?php echo esc_attr( $yt_logo_ypos ); ?>"  value="<?php echo esc_attr( $yt_logo_ypos ); ?>">
                                     </div>
                                 </div>
                                 <div class="logo__adjust__controller__item">
                                     <label class="controller__label" for="yt_cta_url" ><?php esc_html_e( "Call to Action Link", "embedpress" );?> </label>
                                     <div>
-                                        <input type="url"  name="yt_cta_url" id="yt_cta_url" class="form__control" value="<?php echo esc_attr( $yt_cta_url); ?>">
+                                        <input type="url"  name="yt_cta_url" id="yt_cta_url" class="form__control" data-default="<?php echo esc_attr( $yt_cta_url ); ?>" value="<?php echo esc_attr( $yt_cta_url); ?>">
 
                                         <p><?php esc_html_e( "You may link the logo to any CTA link.", "embedpress" ); ?></p>
                                     </div>
