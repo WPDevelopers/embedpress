@@ -30,7 +30,7 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Fullscreen Button", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
-					<div class="input__flex">
+					<div data-default="<?php echo esc_attr(  $display_fullscreen_button ); ?>" data-value="<?php echo esc_attr(  $display_fullscreen_button ); ?>" class="input__flex input__radio_wrap">
 						<label class="input__radio">
 							<input type="radio" value="" name="display_fullscreen_button" <?php  checked( '', $display_fullscreen_button); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -46,7 +46,7 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Playbar", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-					<div class="input__flex  <?php echo $pro_active ? '': 'isPro'; ?>">
+					<div data-default="<?php echo esc_attr(  $display_playbar ); ?>" data-value="<?php echo esc_attr(  $display_playbar ); ?>" class="input__flex input__radio_wrap  <?php echo $pro_active ? '': 'isPro'; ?>">
 						<label class="input__radio">
 							<input type="radio" value="" name="display_playbar" <?php echo $pro_active ? '' : 'disabled'; checked( '', $display_playbar); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -63,7 +63,7 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Small Play Button", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
-					<div class="input__flex">
+					<div data-default="<?php echo esc_attr(  $small_play_button ); ?>" data-value="<?php echo esc_attr(  $small_play_button ); ?>" class="input__flex input__radio_wrap">
 						<label class="input__radio">
 							<input type="radio" value="" name="small_play_button" <?php checked( '', $small_play_button); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -79,7 +79,7 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Volume Control", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-					<div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
+					<div data-default="<?php echo esc_attr(  $display_volume_control ); ?>" data-value="<?php echo esc_attr(  $display_volume_control ); ?>" class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>">
 						<label class="input__radio">
 							<input type="radio" value="" name="display_volume_control" <?php echo $pro_active ? '' : 'disabled'; checked( '', $display_volume_control); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -97,7 +97,7 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Volume", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap <?php echo $pro_active ? '': 'isPro'; ?>">
-					<input type="number" max="100" min="0" class="form__control" value="<?php echo esc_attr( $volume ); ?>" name="volume" <?php echo $pro_active ? '' : 'disabled'; ?>>
+					<input type="number" max="100" min="0" class="form__control" data-default="<?php echo esc_attr( $volume ); ?>" value="<?php echo esc_attr( $volume ); ?>" name="volume" <?php echo $pro_active ? '' : 'disabled'; ?>>
 
                     <p><?php esc_html_e( "Start the video with a custom volume level. Set values between 0 and 100.", "embedpress" ); ?></p>
 				</div>
@@ -108,7 +108,7 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Auto Play", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
-                    <div class="input__flex">
+                    <div data-default="<?php echo esc_attr(  $autoplay ); ?>" data-value="<?php echo esc_attr(  $autoplay ); ?>" class="input__flex input__radio_wrap">
                         <label class="input__radio">
                             <input type="radio" value="" name="autoplay" <?php checked( '', $autoplay);?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -125,7 +125,7 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Color", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
-                    <input type="text" class="ep-color-picker" name="player_color" value="<?php echo esc_attr( $player_color ); ?>">
+                    <input type="text" class="ep-color-picker" name="player_color" data-default="<?php echo esc_attr( $player_color ); ?>" value="<?php echo esc_attr( $player_color ); ?>">
 					<p><?php esc_html_e( "Specify the color of the video controls.", "embedpress" ); ?></p>
 				</div>
 			</div>
@@ -133,7 +133,7 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Plugin: Resumable", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
-					<div class="input__flex">
+					<div data-default="<?php echo esc_attr(  $plugin_resumable ); ?>" data-value="<?php echo esc_attr(  $plugin_resumable ); ?>" class="input__flex input__radio_wrap">
 						<label class="input__radio">
 							<input type="radio" value="" name="plugin_resumable" <?php checked( '', $plugin_resumable);?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -149,7 +149,7 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Plugin: Captions", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-					<div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
+					<div data-default="<?php echo esc_attr(  $plugin_captions ); ?>" data-value="<?php echo esc_attr(  $plugin_captions ); ?>" class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>">
 						<label class="input__radio">
 							<input type="radio" value="" name="plugin_captions" <?php echo $pro_active ? '' : 'disabled'; checked( '', $plugin_captions); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -166,7 +166,7 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Captions Enabled By Default", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-					<div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
+					<div data-default="<?php echo esc_attr(  $plugin_captions_default ); ?>" data-value="<?php echo esc_attr(  $plugin_captions_default ); ?>" class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>">
 						<label class="input__radio">
 							<input type="radio" value="" name="plugin_captions_default" <?php echo $pro_active ? '' : 'disabled'; checked( '', $plugin_captions_default); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -183,7 +183,7 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 			<div class="form__group">
 				<p class="form__label">Plugin: Focus</p>
 				<div class="form__control__wrap">
-					<div class="input__flex">
+					<div data-default="<?php echo esc_attr(  $plugin_focus ); ?>" data-value="<?php echo esc_attr(  $plugin_focus ); ?>" class="input__flex input__radio_wrap">
 						<label class="input__radio">
 							<input type="radio" value="" name="plugin_focus" <?php checked( '', $plugin_focus); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -199,7 +199,7 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Plugin: Rewind", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-					<div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
+					<div data-default="<?php echo esc_attr(  $plugin_rewind ); ?>" data-value="<?php echo esc_attr(  $plugin_rewind ); ?>" class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>">
 						<label class="input__radio">
 							<input type="radio" value="" name="plugin_rewind" <?php echo $pro_active ? '' : 'disabled'; checked( '', $plugin_rewind); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -216,7 +216,7 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Rewind Time (In Seconds)", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap <?php echo $pro_active ? '': 'isPro'; ?>">
-					<input type="number" class="form__control" value="<?php echo esc_attr( $plugin_rewind_time );?>" name="plugin_rewind_time" <?php echo $pro_active ? '' : 'disabled'; ?>>
+					<input type="number" class="form__control" data-default="<?php echo esc_attr( $plugin_rewind_time );?>" value="<?php echo esc_attr( $plugin_rewind_time );?>" name="plugin_rewind_time" <?php echo $pro_active ? '' : 'disabled'; ?>>
 					<p><?php esc_html_e( "The amount of time to rewind, in seconds.", "embedpress" ); ?></p>
 				</div>
 				<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>

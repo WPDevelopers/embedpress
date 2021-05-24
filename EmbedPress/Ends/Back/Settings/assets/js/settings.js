@@ -19,38 +19,46 @@ function embedPressRemoveURLParameter(url, parameter) {
     return url;
 }
 jQuery(document).ready( function($){
+    $('.ep-color-picker').wpColorPicker();
+    $(document).on('change', '.ep-color-picker', function (e) {
+        console.log('color changed');
+    });
     let formDataChanged = false;
     let $settingsForm = $('.embedpress-settings-form');
     let _$Forminputs = $('.embedpress-settings-form :input:not([type=submit])');
-
+    console.log(_$Forminputs);
     _$Forminputs.on('change', function(e) {
         //':input' selector get all form fields even textarea, input, or select
         formDataChanged = false;
         let fields_to_avoids = ['ep_settings_nonce', '_wp_http_referer', 'g_loading_animation', 'submit'];
-        let checkbox_or_radios = ['checkbox', 'radio'];
+        let types_to_avoid = ['button'];
         let radio_names = [];
         for (var i = 0; i < _$Forminputs.length; i++) {
             let ip = _$Forminputs[i];
-            if (!fields_to_avoids.includes(ip.name)){
-                console.log(ip.name);
+            let input_type = ip.type;
+            console.log(input_type);
+            let input_name = ip.name;
+            if (!fields_to_avoids.includes(input_name) && !types_to_avoid.includes(input_type)){
                 let $e_input = $(ip);
-                if ('radio' === ip.type){
-                    if ( !radio_names.includes(ip.name)){
-                        let $checked_radio = $(`input[name="${ip.name}"]:checked`);
+                if ('radio' === input_type){
+                    if ( !radio_names.includes(input_name)){
+
+                        let $checked_radio = $(`input[name="${input_name}"]:checked`);
                         let $input__radio_wrap = $checked_radio.parents('.input__radio_wrap');
                         let checked_radio_value = $checked_radio.val();
-                        console.log('checked value is: ');
-                        console.log(checked_radio_value);
                         $input__radio_wrap.data('value', checked_radio_value);
-
+                        console.log('RADIOOOOOOOO');
+                        console.log(input_name);
+                        console.log('value: ' + $input__radio_wrap.data('value'));
+                        console.log('default value: ' + $input__radio_wrap.data('default'));
                         if ($input__radio_wrap.data('value') != $input__radio_wrap.data('default')) {
                             formDataChanged = true;
                             //break;
                         }
-                        radio_names.push(ip.name);
+                        radio_names.push(input_name);
                     }
-                } else if ('checkbox' === ip.type) {
-
+                } else if ('checkbox' === input_type) {
+                    console.log('CHECKBOX');
                     if ($e_input.is(":checked")){
                         $e_input.data('value', '1');
                     }else{
@@ -61,7 +69,9 @@ jQuery(document).ready( function($){
                         formDataChanged = true;
                     }
                 } else {
+                    console.log('----------');
                     console.log('inside else');
+                    console.log(input_name);
                     console.log('value: '+$e_input.val());
                     console.log('default value: ' + $e_input.data('default'));
                     if ($e_input.val() != $e_input.data('default')) {
@@ -298,7 +308,7 @@ jQuery(document).ready( function($){
         }, 3000);
     }
 
-    $('.ep-color-picker').wpColorPicker();
+
     // license
     $(document).on('click', '.embedpress-license-deactivation-btn', function (e) {
         let $this = $(this);
