@@ -23,7 +23,7 @@ $mute = isset( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_setting
 			<div class="form__group">
 				<p class="form__label" ><?php esc_html_e( "Start Time (In Seconds)", "embedpress" );   echo $pro_active ? '': ' <span class="isPro">PRO</span>';?> </p>
 				<div class="form__control__wrap <?php echo $pro_active ? '': 'isPro'; ?>">
-					<input type="number"  name="start_time" id="start_time" class="form__control" value="<?php echo esc_attr( $start_time); ?>" <?php echo $pro_active ? '': ' disabled'; ?>>
+					<input type="number"  name="start_time" id="start_time" class="form__control" data-default="<?php echo esc_attr( $start_time); ?>" value="<?php echo esc_attr( $start_time); ?>" <?php echo $pro_active ? '': ' disabled'; ?>>
 					<p><?php esc_html_e( "You can put a custom time in seconds to start video. Example: 500", "embedpress" ); ?></p>
 				</div>
 				<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
@@ -32,7 +32,7 @@ $mute = isset( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_setting
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Auto Play", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
-					<div class="input__flex">
+					<div data-default="<?php echo esc_attr(  $autoplay ); ?>" data-value="<?php echo esc_attr(  $autoplay ); ?>" class="input__flex input__radio_wrap">
 						<label class="input__radio">
 							<input type="radio" name="autoplay" value="no" <?php checked( 'no', $autoplay); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -48,7 +48,7 @@ $mute = isset( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_setting
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Show Chat", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-					<div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
+					<div data-default="<?php echo esc_attr(  $show_chat ); ?>" data-value="<?php echo esc_attr(  $show_chat ); ?>" class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>">
 						<label class="input__radio">
 							<input type="radio" name="show_chat" value="no" <?php echo $pro_active ? '' : 'disabled'; checked( 'no', $show_chat); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -67,7 +67,7 @@ $mute = isset( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_setting
 				<div class="form__control__wrap">
 					<div class="embedpress__select <?php echo $pro_active ? '': 'isPro'; ?>">
 						<span><i class="ep-icon ep-caret-down"></i></span>
-						<select name="theme" <?php echo $pro_active ? '' : 'disabled'; ?>>
+						<select name="theme" <?php echo $pro_active ? '' : 'disabled'; ?> data-default="<?php echo esc_attr( $theme); ?>">
 							<option value="dark" <?php selected( 'dark', $theme); ?>><?php esc_html_e( "Dark", "embedpress" ); ?></option>
 							<option value="light" <?php selected( 'light', $theme); ?>><?php esc_html_e( "Light", "embedpress" ); ?></option>
 						</select>
@@ -79,7 +79,7 @@ $mute = isset( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_setting
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Enable Fullscreen Button", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
-                    <div class="input__flex">
+                    <div data-default="<?php echo esc_attr(  $fs ); ?>" data-value="<?php echo esc_attr(  $fs ); ?>" class="input__flex input__radio_wrap">
                         <label class="input__radio">
                             <input type="radio" name="fs" value="no" <?php checked( 'no', $fs);  ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -95,7 +95,7 @@ $mute = isset( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_setting
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Mute On Start", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
 				<div class="form__control__wrap">
-                    <div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
+                    <div data-default="<?php echo esc_attr(  $mute ); ?>" data-value="<?php echo esc_attr(  $mute ); ?>" class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>">
                         <label class="input__radio">
                             <input type="radio" name="mute" value="no" <?php echo $pro_active ? '' : 'disabled'; checked( 'no', $mute); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
