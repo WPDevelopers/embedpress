@@ -23,7 +23,7 @@ $display_avatar = isset( $vm_settings['display_avatar']) ? $vm_settings['display
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Auto Play", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
-                    <div class="input__flex">
+                    <div data-default="<?php echo esc_attr(  $autoplay ); ?>" data-value="<?php echo esc_attr(  $autoplay ); ?>" class="input__flex input__radio_wrap">
                         <label class="input__radio">
                             <input type="radio" name="autoplay" value="" <?php checked( '', $autoplay); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -39,7 +39,7 @@ $display_avatar = isset( $vm_settings['display_avatar']) ? $vm_settings['display
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Loop", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?></p>
                 <div class="form__control__wrap">
-                    <div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
+                    <div data-default="<?php echo esc_attr(  $loop ); ?>" data-value="<?php echo esc_attr(  $loop ); ?>" class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>">
                         <label class="input__radio">
                             <input type="radio" name="loop" value="" <?php echo !$pro_active ? 'disabled ' : ''; checked( '', $loop); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -56,7 +56,7 @@ $display_avatar = isset( $vm_settings['display_avatar']) ? $vm_settings['display
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Auto Pause", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>';  ?></p>
                 <div class="form__control__wrap">
-                    <div class="input__flex  <?php echo $pro_active ? '': 'isPro'; ?>">
+                    <div data-default="<?php echo esc_attr(  $autopause ); ?>" data-value="<?php echo esc_attr(  $autopause ); ?>" class="input__flex input__radio_wrap  <?php echo $pro_active ? '': 'isPro'; ?>">
                         <label class="input__radio">
                             <input type="radio" name="autopause" value=""  <?php echo !$pro_active ? 'disabled ' : ''; checked( '', $autopause); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -73,7 +73,7 @@ $display_avatar = isset( $vm_settings['display_avatar']) ? $vm_settings['display
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "DNT", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>';  ?></p>
                 <div class="form__control__wrap">
-                    <div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
+                    <div data-default="<?php echo esc_attr(  $vimeo_dnt ); ?>" data-value="<?php echo esc_attr(  $vimeo_dnt ); ?>" class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>">
                         <label class="input__radio">
                             <input type="radio" name="vimeo_dnt" value=""  <?php echo !$pro_active ? 'disabled ' : ''; checked( '', $vimeo_dnt); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -90,7 +90,7 @@ $display_avatar = isset( $vm_settings['display_avatar']) ? $vm_settings['display
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Color", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
-                    <input type="text" class="form__control ep-color-picker" name="color" value="<?php echo esc_attr( $color); ?>">
+                    <input type="text" class="form__control ep-color-picker" name="color" value="<?php echo esc_attr( $color); ?>"  data-default="<?php echo esc_attr(  $color ); ?>">
 
                     <p><?php esc_html_e( "Specify the color of the video controls.", "embedpress" ); ?></p>
                 </div>
@@ -98,7 +98,7 @@ $display_avatar = isset( $vm_settings['display_avatar']) ? $vm_settings['display
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Display Title", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
-                    <div class="input__flex">
+                    <div data-default="<?php echo esc_attr(  $display_title ); ?>" data-value="<?php echo esc_attr(  $display_title ); ?>" class="input__flex input__radio_wrap">
                         <label class="input__radio">
                             <input type="radio" name="display_title" value=""  <?php checked( '', $display_title); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -114,7 +114,7 @@ $display_avatar = isset( $vm_settings['display_avatar']) ? $vm_settings['display
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Display Author", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?></p>
                 <div class="form__control__wrap">
-                    <div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
+                    <div data-default="<?php echo esc_attr(  $display_author ); ?>" data-value="<?php echo esc_attr(  $display_author ); ?>" class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>">
                         <label class="input__radio">
                             <input type="radio" name="display_author" value=""  <?php echo !$pro_active ? 'disabled ' : ''; checked( '', $display_author); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -131,7 +131,7 @@ $display_avatar = isset( $vm_settings['display_avatar']) ? $vm_settings['display
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Display Avatar", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>';  ?></p>
                 <div class="form__control__wrap">
-                    <div class="input__flex <?php echo $pro_active ? '': 'isPro'; ?>">
+                    <div data-default="<?php echo esc_attr(  $display_avatar ); ?>" data-value="<?php echo esc_attr(  $display_avatar ); ?>" class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>">
                         <label class="input__radio">
                             <input type="radio" name="display_avatar" value=""  <?php echo !$pro_active ? 'disabled ' : ''; checked( '', $display_avatar); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>

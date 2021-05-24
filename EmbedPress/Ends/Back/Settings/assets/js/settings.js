@@ -299,8 +299,6 @@ jQuery(document).ready( function($){
     }
 
     $('.ep-color-picker').wpColorPicker();
-
-
     // license
     $(document).on('click', '.embedpress-license-deactivation-btn', function (e) {
         let $this = $(this);
