@@ -26,7 +26,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Auto Play", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
-                    <div class="input__flex">
+                    <div class="input__flex input__radio_wrap" data-default="<?php echo esc_attr(  $autoplay ); ?>" data-value="<?php echo esc_attr(  $autoplay ); ?>">
                         <label class="input__radio">
                             <input type="radio" name="autoplay" value="" <?php checked( '', $autoplay); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -44,7 +44,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
                 <div class="form__control__wrap">
                     <div class="embedpress__select <?php echo $pro_active ? '': 'isPro'; ?>">
                         <span><i class="ep-icon ep-caret-down"></i></span>
-                        <select name="color" id="color" <?php echo !$pro_active ? 'disabled' : ''; ?>>
+                        <select name="color" id="color" <?php echo !$pro_active ? 'disabled' : ''; ?> data-default="<?php echo esc_attr( $color ); ?>">
                             <option value="red" <?php selected( 'red', $color); ?> ><?php esc_html_e( "Red", "embedpress" ); ?></option>
                             <option value="white" <?php selected( 'white', $color); ?> ><?php esc_html_e( "White", "embedpress" ); ?></option>
                         </select>
@@ -57,7 +57,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Force Closed Captions", "embedpress" ); echo !$pro_active ? ' <span class="isPro">PRO</span>': ''; ?></p>
                 <div class="form__control__wrap">
-                    <div class="input__flex  <?php echo $pro_active ? '': 'isPro'; ?>">
+                    <div class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>" data-default="<?php echo esc_attr(  $cc_load_policy ); ?>" data-value="<?php echo esc_attr(  $cc_load_policy ); ?>">
                         <label class="input__radio">
                             <input type="radio" name="cc_load_policy" value=""  <?php echo !$pro_active ? 'disabled ' : ''; checked( '', $cc_load_policy); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -77,7 +77,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
                 <div class="form__control__wrap">
                     <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>
-                        <select name="controls">
+                        <select name="controls" data-default="<?php echo esc_attr( $controls); ?>">
                             <option value="1" <?php selected( '1', $controls); ?>><?php esc_html_e( 'Display immediately', 'embedpress'); ?></option>
                             <option value="2" <?php selected( '2', $controls); ?>><?php esc_html_e( 'Display after user initiation', 'embedpress'); ?></option>
                             <option value="0" <?php selected( '0', $controls); ?>><?php esc_html_e( 'Hide controls', 'embedpress'); ?></option>
@@ -89,7 +89,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Enable Fullscreen Button", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
-                    <div class="input__flex">
+                    <div class="input__flex input__radio_wrap"  data-default="<?php echo esc_attr(  $fs ); ?>" data-value="<?php echo esc_attr(  $fs ); ?>">
                         <label class="input__radio">
                             <input type="radio" name="fs" value="" <?php checked( '', $fs); ?> >
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
@@ -107,7 +107,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
                 <div class="form__control__wrap">
                     <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>
-                        <select name="iv_load_policy">
+                        <select name="iv_load_policy" data-default="<?php echo esc_attr( $iv_load_policy ); ?>">
                             <option value="1" <?php selected( '1', $iv_load_policy); ?>><?php esc_html_e( "Show", "embedpress" ); ?></option>
                             <option value="3" <?php selected( '3', $iv_load_policy); ?>><?php esc_html_e( "Hide", "embedpress" ); ?></option>
                         </select>
@@ -120,7 +120,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
                 <div class="form__control__wrap">
                     <div class="embedpress__select  <?php echo $pro_active ? '': 'isPro'; ?>">
                         <span><i class="ep-icon ep-caret-down"></i></span>
-                        <select name="rel" <?php echo $pro_active ? '' : 'disabled'; ?>>
+                        <select name="rel" data-default="<?php echo esc_attr( $rel); ?>" <?php echo $pro_active ? '' : 'disabled'; ?>>
                             <option value="" <?php selected( '', $rel); ?>><?php esc_html_e( "From the same channel of the video", "embedpress" ); ?></option>
                             <option value="1" <?php selected( '1', $rel); ?>><?php esc_html_e( "Based on User's watch history", "embedpress" ); ?></option>
                         </select>
@@ -136,7 +136,7 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
                 <div class="form__control__wrap">
                     <div class="embedpress__select <?php echo $pro_active ? '': 'isPro'; ?>">
                         <span><i class="ep-icon ep-caret-down"></i></span>
-                        <select name="modestbranding"  <?php echo !$pro_active ? 'disabled' : ''; ?>>
+                        <select name="modestbranding" data-default="<?php echo esc_attr( $modestbranding); ?>" <?php echo !$pro_active ? 'disabled' : ''; ?>>
                             <option value="1" <?php selected( '1', $modestbranding); ?>><?php esc_html_e( "Hide", "embedpress" ); ?></option>
                             <option value="0"  <?php selected( '0', $modestbranding); ?>><?php esc_html_e( "Show", "embedpress" ); ?></option>
                         </select>

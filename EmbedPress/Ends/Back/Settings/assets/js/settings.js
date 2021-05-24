@@ -19,36 +19,38 @@ function embedPressRemoveURLParameter(url, parameter) {
     return url;
 }
 jQuery(document).ready( function($){
-    // jQuery helper plugin to track change in the form.
-    $.fn.extend({
-        trackChanges: function() {
-            $(":input",this).change(function() {
-                $(this.form).data("changed", true);
-            });
-        }
-        ,
-        hasChanged: function() {
-            return this.data("changed");
-        }
-    });
-
     let formDataChanged = false;
     let $settingsForm = $('.embedpress-settings-form');
     let _$Forminputs = $('.embedpress-settings-form :input:not([type=submit])');
-    console.log('before EVENT');
-    console.log(formDataChanged);
+
     _$Forminputs.on('change', function(e) {
         //':input' selector get all form fields even textarea, input, or select
         formDataChanged = false;
         let fields_to_avoids = ['ep_settings_nonce', '_wp_http_referer', 'g_loading_animation', 'submit'];
         let checkbox_or_radios = ['checkbox', 'radio'];
+        let radio_names = [];
         for (var i = 0; i < _$Forminputs.length; i++) {
             let ip = _$Forminputs[i];
-            //console.log(ip.name);
             if (!fields_to_avoids.includes(ip.name)){
+                console.log(ip.name);
                 let $e_input = $(ip);
+                if ('radio' === ip.type){
+                    if ( !radio_names.includes(ip.name)){
+                        let $checked_radio = $(`input[name="${ip.name}"]:checked`);
+                        let $input__radio_wrap = $checked_radio.parents('.input__radio_wrap');
+                        let checked_radio_value = $checked_radio.val();
+                        console.log('checked value is: ');
+                        console.log(checked_radio_value);
+                        $input__radio_wrap.data('value', checked_radio_value);
 
-                if (checkbox_or_radios.includes(ip.type)){
+                        if ($input__radio_wrap.data('value') != $input__radio_wrap.data('default')) {
+                            formDataChanged = true;
+                            //break;
+                        }
+                        radio_names.push(ip.name);
+                    }
+                } else if ('checkbox' === ip.type) {
+
                     if ($e_input.is(":checked")){
                         $e_input.data('value', '1');
                     }else{
@@ -57,24 +59,21 @@ jQuery(document).ready( function($){
 
                     if ($e_input.data('value') != $e_input.data('default')) {
                         formDataChanged = true;
-                        //break;
                     }
-                    // console.log('--------value for A:  ' + ip.name);
-                    // console.log($e_input.data('value'));
-                    // console.log('DV for A:  ' + ip.name);
-                    // console.log($e_input.data('default'));
-                }else {
+                } else {
+                    console.log('inside else');
+                    console.log('value: '+$e_input.val());
+                    console.log('default value: ' + $e_input.data('default'));
                     if ($e_input.val() != $e_input.data('default')) {
                         formDataChanged = true;
                         //break;
                     }
                 }
 
-
             }
 
         }
-
+        console.log(radio_names);
         if (formDataChanged === true) {
             console.log('form data changed');
             $settingsForm.find('.embedpress-submit-btn').addClass('ep-settings-form-changed');
