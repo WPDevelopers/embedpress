@@ -125,3 +125,12 @@
     padding-bottom: 0;
     width: 100%;
 }
+.elementor-widget-container iframe {
+    max-height: 100% !important;
+}
+
+@media only screen and (max-width: 800px) {
+    .elementor-widget-container iframe {
+        max-height: 100% !important;
+    }
+}
