@@ -20,13 +20,9 @@ function embedPressRemoveURLParameter(url, parameter) {
 }
 jQuery(document).ready( function($){
     $('.ep-color-picker').wpColorPicker();
-    $(document).on('change', '.ep-color-picker', function (e) {
-        console.log('color changed');
-    });
     let formDataChanged = false;
     let $settingsForm = $('.embedpress-settings-form');
-    let _$Forminputs = $('.embedpress-settings-form :input:not([type=submit])');
-    console.log(_$Forminputs);
+    let _$Forminputs = $('.embedpress-settings-form :input:not([type=submit], [disabled], button, [readonly])');
     _$Forminputs.on('change', function(e) {
         //':input' selector get all form fields even textarea, input, or select
         formDataChanged = false;
@@ -36,7 +32,6 @@ jQuery(document).ready( function($){
         for (var i = 0; i < _$Forminputs.length; i++) {
             let ip = _$Forminputs[i];
             let input_type = ip.type;
-            console.log(input_type);
             let input_name = ip.name;
             if (!fields_to_avoids.includes(input_name) && !types_to_avoid.includes(input_type)){
                 let $e_input = $(ip);
@@ -47,10 +42,7 @@ jQuery(document).ready( function($){
                         let $input__radio_wrap = $checked_radio.parents('.input__radio_wrap');
                         let checked_radio_value = $checked_radio.val();
                         $input__radio_wrap.data('value', checked_radio_value);
-                        console.log('RADIOOOOOOOO');
-                        console.log(input_name);
-                        console.log('value: ' + $input__radio_wrap.data('value'));
-                        console.log('default value: ' + $input__radio_wrap.data('default'));
+
                         if ($input__radio_wrap.data('value') != $input__radio_wrap.data('default')) {
                             formDataChanged = true;
                             //break;
@@ -58,23 +50,15 @@ jQuery(document).ready( function($){
                         radio_names.push(input_name);
                     }
                 } else if ('checkbox' === input_type) {
-                    console.log('CHECKBOX');
                     if ($e_input.is(":checked")){
-
                         $e_input.data('value', $e_input.val());
                     }else{
                         $e_input.data('value', '0');
                     }
-
                     if ($e_input.data('value') != $e_input.data('default')) {
                         formDataChanged = true;
                     }
                 } else {
-                    console.log('----------');
-                    console.log('inside else');
-                    console.log(input_name);
-                    console.log('value: '+$e_input.val());
-                    console.log('default value: ' + $e_input.data('default'));
                     if ($e_input.val() != $e_input.data('default')) {
                         formDataChanged = true;
                         //break;
@@ -84,15 +68,20 @@ jQuery(document).ready( function($){
             }
 
         }
-        console.log(radio_names);
         if (formDataChanged === true) {
-            console.log('form data changed');
             $settingsForm.find('.embedpress-submit-btn').addClass('ep-settings-form-changed');
         } else {
-            console.log('form data NOT changed');
             $settingsForm.find('.embedpress-submit-btn').removeClass('ep-settings-form-changed');
         }
     });
+
+    window.onbeforeunload = function() {
+        if (formDataChanged === true) {
+            return "You have unsaved data. Are you sure to leave without saving them?";
+        } else {
+            return;
+        }
+    };
 
     // Sidebar Menu Toggle
     $('.sidebar__dropdown .sidebar__link--toggler').on('click', function(e) {
@@ -129,6 +118,8 @@ jQuery(document).ready( function($){
         $('.preview__box img').attr('src', '');
         $("#yt_logo__upload__preview").hide();
         $("#yt_logo_upload_wrap").show();
+        $settingsForm.find('.embedpress-submit-btn').addClass('ep-settings-form-changed');
+        formDataChanged = true;
     })
 
     // Logo Controller
@@ -212,6 +203,8 @@ jQuery(document).ready( function($){
                     $yt_logo_preview.attr('src', attachment.url);
                     $yt_logo__upload__preview.show();
                     curElement.attr('src', attachment.url);
+                    $settingsForm.find('.embedpress-submit-btn').addClass('ep-settings-form-changed');
+                    formDataChanged = true;
                 }else{
                     console.log('something went wrong using selected image');
                 }
@@ -276,6 +269,7 @@ jQuery(document).ready( function($){
                 if (response && response.success){
                     showSuccessMessage();
                     $submit_btn.text(submit_text);
+                    formDataChanged = false;
                 }else{
                     $submit_btn.text(submit_text);
                     showErrorMessage();
