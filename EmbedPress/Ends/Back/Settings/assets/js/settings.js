@@ -28,6 +28,7 @@ jQuery(document).ready( function($){
         formDataChanged = false;
         let fields_to_avoids = ['ep_settings_nonce', '_wp_http_referer', 'g_loading_animation', 'submit'];
         let types_to_avoid = ['button'];
+        let yes_no_type_checkbox_radios = ['yt_branding', 'embedpress_document_powered_by', 'embedpress_pro_twitch_autoplay', 'embedpress_pro_twitch_chat'];
         let radio_names = [];
         for (var i = 0; i < _$Forminputs.length; i++) {
             let ip = _$Forminputs[i];
@@ -53,7 +54,11 @@ jQuery(document).ready( function($){
                     if ($e_input.is(":checked")){
                         $e_input.data('value', $e_input.val());
                     }else{
-                        $e_input.data('value', '0');
+                        if (yes_no_type_checkbox_radios.includes(input_name)){
+                            $e_input.data('value', 'no');
+                        }else{
+                            $e_input.data('value', '');
+                        }
                     }
                     if ($e_input.data('value') != $e_input.data('default')) {
                         formDataChanged = true;
