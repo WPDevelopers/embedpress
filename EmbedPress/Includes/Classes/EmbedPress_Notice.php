@@ -344,6 +344,10 @@ class EmbedPress_Notice {
             $classes .= 'notice-has-thumbnail';
         }
 
+        if( ! $this->has_notice( $current_notice ) ) {
+            return;
+        }
+
         echo '<div data-notice="'. $current_notice .'" class="'. $classes .' wpdeveloper-'. $current_notice .'-notice">';
     }
     /**
@@ -351,6 +355,10 @@ class EmbedPress_Notice {
      * @return void
      */
     public function after(){
+        $current_notice = current( $this->next_notice() );
+        if( ! $this->has_notice( $current_notice ) ) {
+            return;
+        }
         echo '</div>';
     }
     /**
@@ -457,6 +465,9 @@ class EmbedPress_Notice {
            return true;
         }
         return false;
+    }
+    private function has_notice( $notice ){
+        return isset( $this->data['message'], $this->data['message'][ $notice ] );
     }
     /**
      * This method is responsible for get messages.
@@ -613,15 +624,11 @@ class EmbedPress_Notice {
      * @return void
      */
     public function first_install_end(){
-        // $args = array(
-        //     'first_install' => 'deactivated'
-        // );
-        // $options_data = $this->get_options_data();
-        // if( isset( $options_data[ $this->plugin_name ] ) ) {
-        //     $args = wp_parse_args( $args, $options_data[ $this->plugin_name ] );
-        //     $this->update_options_data( $args );
-        // }
-        delete_option( 'wpdeveloper_plugins_data' );
+        $options_data = $this->get_options_data();
+        if( isset( $options_data[ $this->plugin_name ] ) ) {
+            unset( $options_data[ $this->plugin_name ] );
+            $this->update_options_data( $options_data, true );
+        }
     }
     /**
      * Get all options from database!
@@ -645,9 +652,13 @@ class EmbedPress_Notice {
      * @param array $args
      * @return void
      */
-    protected function update_options_data( $args = array() ){
-        $options_data = $this->get_options_data();
-        $options_data[ $this->plugin_name ] = $args;
+    protected function update_options_data( $args = array(), $update = false ){
+        if( $update ) {
+            $options_data = $args;
+        } else {
+            $options_data = $this->get_options_data();
+            $options_data[ $this->plugin_name ] = $args;
+        }
         update_option( 'wpdeveloper_plugins_data', $options_data );
     }
     /**
