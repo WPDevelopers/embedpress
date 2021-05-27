@@ -30,7 +30,7 @@ if ( ! defined('EMBEDPRESS_VERSION')) {
 }
 
 if ( ! defined('EMBEDPRESS_PRO_VERSION')) {
-    define('EMBEDPRESS_PRO_VERSION', "3.0.0");
+    define('EMBEDPRESS_PRO_VERSION', "3.0.1");
 }
 
 if ( ! defined('EMBEDPRESS_ROOT')) {
