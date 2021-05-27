@@ -6,9 +6,11 @@ class Feature_Enhancer {
 	public function __construct() {
 		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_youtube'] );
 		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_vimeo'] );
+		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_wistia'] );
 		add_filter( 'embedpress_gutenberg_youtube_params',
 			[$this, 'embedpress_gutenberg_register_block_youtube'] );
 		add_action( 'init', array( $this, 'embedpress_gutenberg_register_block_vimeo' ) );
+		add_action('embedpress_gutenberg_wistia_block_after_embed', array($this,'embedpress_wistia_block_after_embed'));
 
 	}
 
@@ -170,7 +172,6 @@ class Feature_Enhancer {
 		return $embed;
 	}
 	public function enhance_vimeo( $embed ) {
-	    error_log( ' vimeo got triggered');
 		if ( isset( $embed->provider_name )
 		     && strtoupper( $embed->provider_name ) === 'VIMEO'
 		     && isset( $embed->embed )
@@ -218,6 +219,121 @@ class Feature_Enhancer {
 			// Replaces the old url with the new one.
 			$embed->embed = str_replace( $url_full, $url_modified, $embed->embed );
 
+		}
+
+		return $embed;
+	}
+
+	public function enhance_wistia( $embed ) {
+		if (isset($embed->provider_name)
+		    && strtoupper($embed->provider_name) === 'WISTIA, INC.'
+		    && isset($embed->embed)
+		    && preg_match('/src=\"(.+?)\"/', $embed->embed, $match)) {
+			$options = $this->getOptions('wistia', $this->get_wistia_settings_schema());
+
+			$url_full = $match[1];
+
+			// Parse the url to retrieve all its info like variables etc.
+			$query = parse_url($embed->url, PHP_URL_QUERY);
+			$url = str_replace('?'.$query, '', $url_full);
+
+			parse_str($query, $params);
+
+			// Set the class in the attributes
+			$embed->attributes->class = str_replace('{provider_alias}', 'wistia', $embed->attributes->class);
+			$embed->embed = str_replace('ose-wistia, inc.', 'ose-wistia', $embed->embed);
+
+			// Embed Options
+			$embedOptions = new \stdClass;
+			$embedOptions->videoFoam = true;
+			$embedOptions->fullscreenButton = (isset($options['display_fullscreen_button']) && (bool) $options['display_fullscreen_button'] === true);
+			$embedOptions->smallPlayButton = (isset($options['small_play_button']) && (bool) $options['small_play_button'] === true);
+
+			$embedOptions->autoPlay = (isset($options['autoplay']) && (bool) $options['autoplay'] === true);
+
+
+			if (isset($options['player_color'])) {
+				$color = $options['player_color'];
+				if (null !== $color) {
+					$embedOptions->playerColor = $color;
+				}
+			}
+
+			// Plugins
+			$pluginsBaseURL = plugins_url('assets/js/wistia/min', dirname(__DIR__).'/embedpress-Wistia.php');
+
+			$pluginList = array();
+
+			// Resumable
+			if (isset($options['plugin_resumable'])) {
+				$isResumableEnabled = $options['plugin_resumable'];
+				if ($isResumableEnabled) {
+					// Add the resumable plugin
+					$pluginList['resumable'] = array(
+						'src' => $pluginsBaseURL.'/resumable.min.js',
+						'async' => false
+					);
+				}
+			}
+
+			// Add a fix for the autoplay and resumable work better together
+			if (isset($options->autoPlay)) {
+				if ($isResumableEnabled) {
+					$pluginList['fixautoplayresumable'] = array(
+						'src' => $pluginsBaseURL.'/fixautoplayresumable.min.js'
+					);
+				}
+			}
+
+			// Focus plugin
+			if (isset($options['plugin_focus'])) {
+				$isFocusEnabled = $options['plugin_focus'];
+				$pluginList['dimthelights'] = array(
+					'src' => $pluginsBaseURL.'/dimthelights.min.js',
+					'autoDim' => $isFocusEnabled
+				);
+				$embedOptions->focus = $isFocusEnabled;
+			}
+
+
+			$embedOptions->plugin = $pluginList;
+			$embedOptions = json_encode($embedOptions);
+
+			// Get the video ID
+			$videoId = $this->getVideoIDFromURL($embed->url);
+			$shortVideoId = substr($videoId, 0, 3);
+
+			// Responsive?
+
+			$class = array(
+				'wistia_embed',
+				'wistia_async_'.$videoId
+			);
+
+			$attribs = array(
+				sprintf('id="wistia_%s"', $videoId),
+				sprintf('class="%s"', join(' ', $class)),
+				sprintf('style="width:%spx; height:%spx;"', $embed->width, $embed->height)
+			);
+
+			$labels = array(
+				'watch_from_beginning' => __('Watch from the beginning', 'embedpress-wistia'),
+				'skip_to_where_you_left_off' => __('Skip to where you left off', 'embedpress-wistia'),
+				'you_have_watched_it_before' => __('It looks like you\'ve watched<br />part of this video before!',
+					'embedpress-wistia'),
+			);
+			$labels = json_encode($labels);
+
+			preg_match('/ose-uid-([a-z0-9]*)/', $embed->embed, $matches);
+			$uid = $matches[1];
+
+			$html = "<div class=\"embedpress-wrapper ose-wistia ose-uid-{$uid} responsive\">";
+			$html .= '<script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>';
+			$html .= "<script>window.pp_embed_wistia_labels = {$labels};</script>\n";
+			$html .= "<script>window._wq = window._wq || []; _wq.push({\"{$shortVideoId}\": {$embedOptions}});</script>\n";
+			$html .= '<div '.join(' ', $attribs)."></div>\n";
+			$html .= '</div>';
+			$embed->embed = $html;
 		}
 
 		return $embed;
@@ -407,6 +523,185 @@ class Feature_Enhancer {
 				'default' => true
 			)
 		);
+	}
+	public function get_wistia_settings_schema() {
+		$schema = array(
+			'display_fullscreen_button' => array(
+				'type' => 'bool',
+				'label' => __('Fullscreen Button', 'embedpress-wistia'),
+				'description' => __('Indicates whether the fullscreen button is visible.', 'embedpress-wistia'),
+				'default' => true
+			),
+			'display_playbar' => array(
+				'type' => 'bool',
+				'label' => __('Playbar', 'embedpress-wistia'),
+				'description' => __('Indicates whether the playbar is visible.', 'embedpress-wistia'),
+				'default' => true
+			),
+			'small_play_button' => array(
+				'type' => 'bool',
+				'label' => __('Small Play Button', 'embedpress-wistia'),
+				'description' => __('Indicates whether the small play button is visible on the bottom left.',
+					'embedpress-wistia'),
+				'default' => true
+			),
+			'display_volume_control' => array(
+				'type' => 'bool',
+				'label' => __('Volume Control', 'embedpress-wistia'),
+				'description' => __('Indicates whether the volume control is visible.', 'embedpress-wistia'),
+				'default' => true
+			),
+			'autoplay' => array(
+				'type' => 'bool',
+				'label' => __('Auto Play', 'embedpress-wistia'),
+				'description' => __('Automatically start to play the videos when the player loads.',
+					'embedpress-wistia'),
+				'default' => false
+			),
+			'volume' => array(
+				'type' => 'text',
+				'label' => __('Volume', 'embedpress-wistia'),
+				'description' => __('Start the video with a custom volume level. Set values between 0 and 100.',
+					'embedpress-wistia'),
+				'default' => '100'
+			),
+			'player_color' => array(
+				'type' => 'text',
+				'label' => __('Color', 'embedpress-wistia'),
+				'description' => __('Specify the color of the video controls.', 'embedpress-wistia'),
+				'default' => '#00adef',
+				'classes' => 'color-field'
+			),
+			'plugin_resumable' => array(
+				'type' => 'bool',
+				'label' => __('Plugin: Resumable', 'embedpress-wistia'),
+				'description' => __('Indicates whether the Resumable plugin is active. Allow to resume the video or start from the begining.',
+					'embedpress-wistia'),
+				'default' => false
+			),
+			'plugin_captions' => array(
+				'type' => 'bool',
+				'label' => __('Plugin: Captions', 'embedpress-wistia'),
+				'description' => __('Indicates whether the Captions plugin is active.', 'embedpress-wistia'),
+				'default' => false
+			),
+			'plugin_captions_default' => array(
+				'type' => 'bool',
+				'label' => __('Captions Enabled By Default', 'embedpress-wistia'),
+				'description' => __('Indicates whether the Captions are enabled by default.', 'embedpress-wistia'),
+				'default' => false
+			),
+			'plugin_focus' => array(
+				'type' => 'bool',
+				'label' => __('Plugin: Focus', 'embedpress-wistia'),
+				'description' => __('Indicates whether the Focus plugin is active.', 'embedpress-wistia'),
+				'default' => false
+			),
+			'plugin_rewind' => array(
+				'type' => 'bool',
+				'label' => __('Plugin: Rewind', 'embedpress-wistia'),
+				'description' => __('Indicates whether the Rewind plugin is active.', 'embedpress-wistia'),
+				'default' => false
+			),
+			'plugin_rewind_time' => array(
+				'type' => 'text',
+				'label' => __('Rewind time (seconds)', 'embedpress-wistia'),
+				'description' => __('The amount of time to rewind, in seconds.', 'embedpress-wistia'),
+				'default' => '10'
+			),
+		);
+
+		return $schema;
+	}
+	public function getVideoIDFromURL ($url) {
+		// https://fast.wistia.com/embed/medias/xf1edjzn92.jsonp
+		// https://ostraining-1.wistia.com/medias/xf1edjzn92
+		preg_match('#\/medias\\\?\/([a-z0-9]+)\.?#i', $url, $matches);
+
+		$id = false;
+		if (isset($matches[1])) {
+			$id = $matches[1];
+		}
+
+		return $id;
+	}
+
+	public function embedpress_wistia_block_after_embed( $attributes ){
+		$embedOptions= $this->embedpress_wisita_pro_get_options();
+		// Get the video ID
+		$videoId = $this->getVideoIDFromURL($attributes['url']);
+		$shortVideoId = $videoId;
+
+		$labels = array(
+			'watch_from_beginning'       => __('Watch from the beginning', 'embedpress-wistia'),
+			'skip_to_where_you_left_off' => __('Skip to where you left off', 'embedpress-wistia'),
+			'you_have_watched_it_before' => __('It looks like you\'ve watched<br />part of this video before!', 'embedpress-wistia'),
+		);
+		$labels = json_encode($labels);
+
+
+		$html = '<script src="https://fast.wistia.com/assets/external/E-v1.js"></script>';
+		$html .= "<script>window.pp_embed_wistia_labels = {$labels};</script>\n";
+		$html .= "<script>wistiaEmbed = Wistia.embed( \"{$shortVideoId}\", {$embedOptions} );</script>\n";
+		echo $html;
+	}
+	public function embedpress_wisita_pro_get_options() {
+		$options = $this->getOptions('wistia', $this->get_wistia_settings_schema());
+		// Embed Options
+		$embedOptions = new \stdClass;
+		$embedOptions->videoFoam        = true;
+		$embedOptions->fullscreenButton = (isset($options['display_fullscreen_button']) && (bool)$options['display_fullscreen_button'] === true);
+		$embedOptions->smallPlayButton  = (isset($options['small_play_button']) && (bool)$options['small_play_button'] === true);
+		$embedOptions->autoPlay         = (isset($options['autoplay']) && (bool)$options['autoplay'] === true);
+
+		if (isset($options['player_color'])) {
+			$color = $options['player_color'];
+			if (null !== $color) {
+				$embedOptions->playerColor = $color;
+			}
+		}
+
+		// Plugins
+		$pluginsBaseURL = plugins_url('assets/js/wistia/min', dirname(__DIR__) . '/embedpress-Wistia.php');
+
+		$pluginList = array();
+
+		// Resumable
+		if (isset($options['plugin_resumable'])) {
+			$isResumableEnabled = $options['plugin_resumable'];
+			if ($isResumableEnabled) {
+				// Add the resumable plugin
+				$pluginList['resumable'] = array(
+					'src'   => '//fast.wistia.com/labs/resumable/plugin.js',
+					'async' => false
+				);
+			}
+		}
+		// Add a fix for the autoplay and resumable work better together
+        //@TODO; check baseurl deeply, not looking good
+		if ($options['autoplay']) {
+			if ($isResumableEnabled) {
+				$pluginList['fixautoplayresumable'] = array(
+					'src' => $pluginsBaseURL . '/fixautoplayresumable.min.js'
+				);
+			}
+		}
+
+
+		// Focus plugin
+		if (isset($options['plugin_focus'])) {
+			$isFocusEnabled = $options['plugin_focus'];
+			$pluginList['dimthelights'] = array(
+				'src'     => '//fast.wistia.com/labs/dim-the-lights/plugin.js',
+				'autoDim' => $isFocusEnabled
+			);
+			$embedOptions->focus = $isFocusEnabled;
+		}
+
+		$embedOptions->plugin = $pluginList;
+		$embedOptions = apply_filters( 'embedpress_wistia_params', $embedOptions);
+		$embedOptions         = json_encode($embedOptions);
+		 return apply_filters( 'embedpress_wistia_params_after_encode', $embedOptions);
 	}
 
 }

@@ -78,9 +78,9 @@ if ( ! is_plugin_active('gutenberg/gutenberg.php')) {
     } else {
         $embedPressPlugin = new CoreLegacy();
     }
+
     $embedPressPlugin->initialize();
 	new Feature_Enhancer();
-
 }
 
 if (  is_plugin_active('elementor/elementor.php')) {
