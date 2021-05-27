@@ -24,6 +24,7 @@ use EmbedPress\Compatibility;
 use EmbedPress\Core;
 use EmbedPress\CoreLegacy;
 use EmbedPress\Elementor\Embedpress_Elementor_Integration;
+use EmbedPress\Includes\Classes\Feature_Enhancer;
 
 defined('ABSPATH') or die("No direct script access allowed.");
 
@@ -78,6 +79,8 @@ if ( ! is_plugin_active('gutenberg/gutenberg.php')) {
         $embedPressPlugin = new CoreLegacy();
     }
     $embedPressPlugin->initialize();
+	new Feature_Enhancer();
+
 }
 
 if (  is_plugin_active('elementor/elementor.php')) {
