@@ -627,7 +627,7 @@ class EmbedPress_Notice {
         $options_data = $this->get_options_data();
         if( isset( $options_data[ $this->plugin_name ] ) ) {
             unset( $options_data[ $this->plugin_name ] );
-            $this->update_options_data( $options_data );
+            $this->update_options_data( $options_data, true );
         }
     }
     /**
@@ -652,9 +652,13 @@ class EmbedPress_Notice {
      * @param array $args
      * @return void
      */
-    protected function update_options_data( $args = array() ){
-        $options_data = $this->get_options_data();
-        $options_data[ $this->plugin_name ] = $args;
+    protected function update_options_data( $args = array(), $update = false ){
+        if( $update ) {
+            $options_data = $args;
+        } else {
+            $options_data = $this->get_options_data();
+            $options_data[ $this->plugin_name ] = $args;
+        }
         update_option( 'wpdeveloper_plugins_data', $options_data );
     }
     /**
