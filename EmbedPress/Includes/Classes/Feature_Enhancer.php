@@ -7,6 +7,7 @@ class Feature_Enhancer {
 		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_youtube'] );
 		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_vimeo'] );
 		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_wistia'] );
+		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_twitch'] );
 		add_filter( 'embedpress_gutenberg_youtube_params',
 			[$this, 'embedpress_gutenberg_register_block_youtube'] );
 		add_action( 'init', array( $this, 'embedpress_gutenberg_register_block_vimeo' ) );
@@ -104,6 +105,7 @@ class Feature_Enhancer {
 		return apply_filters( 'embedpress_vimeo_params', $params);
 		
 	}
+
 	public function enhance_youtube( $embed )
 	{
 		$isYoutube = ( isset($embed->provider_name) && strtoupper( $embed->provider_name ) === 'YOUTUBE' ) || (isset( $embed->url) && isset( $embed->{$embed->url}) && isset( $embed->{$embed->url}['provider_name']) && strtoupper($embed->{$embed->url}['provider_name'] ) === 'YOUTUBE');
@@ -223,7 +225,6 @@ class Feature_Enhancer {
 
 		return $embed;
 	}
-
 	public function enhance_wistia( $embed ) {
 		if (isset($embed->provider_name)
 		    && strtoupper($embed->provider_name) === 'WISTIA, INC.'
@@ -338,6 +339,38 @@ class Feature_Enhancer {
 
 		return $embed;
 	}
+	public function enhance_twitch( $embed_content ) {
+		$e          = isset( $embed_content->url) && isset( $embed_content->{$embed_content->url}) ? $embed_content->{$embed_content->url} : [];
+		if ( isset( $e['provider_name'] ) && strtoupper( $e['provider_name'] ) === 'TWITCH' && isset( $embed_content->embed ) ) {
+			$settings = $this->getOptions('twitch', $this->get_twitch_settings_schema());
+
+			$atts = isset( $embed_content->attributes) ? $embed_content->attributes : [];
+			$type       = $e['type'];
+			$content_id = $e['content_id'];
+			$channel    = 'channel' === $type ? $content_id : '';
+			$video      = 'video' === $type ? $content_id : '';
+			$full_screen = ('yes' === $settings['embedpress_pro_fs']) ? 'true': 'false';
+			$autoplay = ('yes' === $settings['embedpress_pro_twitch_autoplay']) ? 'true': 'false';
+			$layout     = 'video';
+			$width      = !empty( $atts->{'data-width'}) ? (int) $atts->{'data-width'} : 800;
+			$height     = !empty( $atts->{'data-height'}) ? (int) $atts->{'data-height'} : 450;
+
+			$url = "https://embed.twitch.tv?autoplay={$autoplay}&channel={$channel}&height={$height}&layout={$layout}&migration=true&video={$video}&width={$width}&allowfullscreen={$full_screen}";
+			$pars_url = wp_parse_url(get_site_url());
+			$url = !empty($pars_url['host'])?$url.'&parent='.$pars_url['host']:$url;
+			ob_start();
+			?>
+            <div class="embedpress_wrapper" data-url="<?php echo esc_attr(esc_url( $embed_content->url));?>">
+                <iframe src="<?php echo esc_url(  $url); ?>" allowfullscreen="" scrolling="no" frameborder="0" allow="autoplay; fullscreen" title="Twitch" sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" width="<?php echo esc_attr($width); ?>" height="<?php echo esc_attr($height); ?>" style="max-width: 100%; max-height:<?php echo esc_attr($width); ?>px;"></iframe>
+            </div>
+			<?php
+			$c                    = ob_get_clean();
+			$embed_content->embed = $c;
+		}
+
+		return $embed_content;
+	}
+
 	public function embedpress_gutenberg_register_block_youtube( $youtube_params ) {
 		$youtube_options = $this->getOptions('youtube', $this->get_youtube_settings_schema());
 		return $this->get_youtube_params( $youtube_options );
@@ -702,6 +735,69 @@ class Feature_Enhancer {
 		$embedOptions = apply_filters( 'embedpress_wistia_params', $embedOptions);
 		$embedOptions         = json_encode($embedOptions);
 		 return apply_filters( 'embedpress_wistia_params_after_encode', $embedOptions);
+	}
+
+	public function get_twitch_settings_schema() {
+		return [
+			'embedpress_pro_video_start_time' => [
+				'type'        => 'number',
+				'label'       => __( 'Start Time (in Seconds)', 'embedpress-pro' ),
+				'description' => __( 'You can put a custom time in seconds to start the video from. Example: 500', 'embedpress-pro' ),
+				'default'     => 0,
+			],
+			'embedpress_pro_twitch_autoplay'  => [
+				'type'        => 'string',
+				'label'       => __( 'Auto Play', 'embedpress-pro' ),
+				'description' => __( 'Automatically start to play the videos when the player loads.', 'embedpress-pro' ),
+				'options'     => [
+					'yes' => __( 'Yes', 'embedpress-pro' ),
+					'no'  => __( 'No', 'embedpress-pro' ),
+				],
+				'default'     => 'no',
+			],
+			'embedpress_pro_twitch_chat'      => [
+				'type'        => 'string',
+				'label'       => __( 'Show chat', 'embedpress-pro' ),
+				'description' => __( 'You can show or hide chat using this settings' ),
+				'options'     => [
+					'yes' => __( 'Yes', 'embedpress-pro' ),
+					'no'  => __( 'No', 'embedpress-pro' ),
+				],
+				'default'     => 'no',
+			],
+
+			'embedpress_pro_twitch_theme' => [
+				'type'        => 'string',
+				'label'       => __( 'Theme', 'embedpress-pro' ),
+				'description' => __( 'Set dark or light theme for the twitch comment', 'embedpress-pro' ),
+				'options'     => [
+					'dark'  => __( 'Dark', 'embedpress-pro' ),
+					'light' => __( 'Light', 'embedpress-pro' ),
+				],
+				'default'     => 'dark',
+			],
+			'embedpress_pro_fs'           => [
+				'type'        => 'string',
+				'label'       => 'Enable Fullscreen button',
+				'description' => __( 'Indicates whether the fullscreen button is enabled.', 'embedpress-pro' ),
+				'options'     => [
+					'yes' => __( 'Yes', 'embedpress-pro' ),
+					'no'  => __( 'No', 'embedpress-pro' ),
+				],
+				'default'     => 'yes',
+			],
+			'embedpress_pro_twitch_mute'  => [
+				'type'        => 'string',
+				'label'       => __( 'Mute on start', 'embedpress-pro' ),
+				'description' => __( 'Set it to Yes to mute the video on start.', 'embedpress-pro' ),
+				'options'     => [
+					'yes' => __( 'Yes', 'embedpress-pro' ),
+					'no'  => __( 'No', 'embedpress-pro' ),
+				],
+				'default'     => 'yes',
+			],
+
+		];
 	}
 
 }
