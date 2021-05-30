@@ -53,35 +53,9 @@ $vm_cta_url = isset( $vm_settings['cta_url']) ? esc_url( $vm_settings['cta_url']
 	        <?php
             embedpress_print_branding_controls('youtube', 'yt');
             embedpress_print_branding_controls('vimeo', 'vm');
+            embedpress_print_branding_controls('wistia', 'wis');
+            embedpress_print_branding_controls('twitch', 'tw');
             ?>
-
-            <div class="form__group">
-                <p class="form__label"><?php
-	                printf( esc_html__( 'Wistia Custom Branding %s', 'embedpress'), $coming_soon);
-                    echo $pro_active ? '': ' <span class="isPro">Pro</span>';
-                    ?></p>
-                <div class="form__control__wrap">
-                    <label class="input__switch switch__text isPro">
-                        <input type="checkbox" disabled>
-                        <span></span>
-                    </label>
-   	                <?php  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-coming-soon.php'; ?>
-
-                </div>
-            </div>
-            <div class="form__group">
-                <p class="form__label"><?php
-	                printf( esc_html__( 'Twitch Custom Branding %s', 'embedpress'), $coming_soon);
-	                echo $pro_active ? '': ' <span class="isPro">Pro</span>'; ?></p>
-                <div class="form__control__wrap">
-                    <label class="input__switch switch__text isPro">
-                        <input type="checkbox" disabled>
-                        <span></span>
-                    </label>
-   	                <?php  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-coming-soon.php'; ?>
-
-                </div>
-            </div>
 	        <?php  do_action( 'embedpress_after_custom_branding_settings_fields'); ?>
             <button class="button button__themeColor radius-10 embedpress-submit-btn" name="submit" value="custom_logo"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
         </form>
