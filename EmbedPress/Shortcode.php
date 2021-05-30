@@ -119,10 +119,11 @@ class Shortcode {
 	        $hash = 'embedpress_'.$content_uid . md5( implode( ':', array_values( $customAttributes)));
 
 	        // check if we have data cached
-	        if ( $embed = get_transient( $hash) ) {
-		        $embed = apply_filters( 'embedpress:onAfterEmbed', $embed );
-				return $embed;
-	        }
+	        //@TODO; add caching later and remove caching on settings save
+	        //if ( $embed = get_transient( $hash) ) {
+		    //    $embed = apply_filters( 'embedpress:onAfterEmbed', $embed );
+			//	return $embed;
+	        //}
 	        self::$ombed_attributes = self::parseContentAttributes( $customAttributes, $content_uid );
 	        self::set_embera_settings(self::$ombed_attributes);
 

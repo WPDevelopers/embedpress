@@ -5,6 +5,7 @@ namespace EmbedPress;
 use EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
 use EmbedPress\Ends\Back\Settings\EmbedpressSettings;
 use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
+use EmbedPress\Includes\Classes\Feature_Enhancer;
 use EmbedPress\Includes\Traits\Shared;
 
 
@@ -121,7 +122,6 @@ class Core {
      */
     public function initialize () {
         global $wp_actions;
-
         add_filter('oembed_providers', [$this, 'addOEmbedProviders']);
         add_action('rest_api_init', [$this, 'registerOEmbedRestRoutes']);
 
@@ -162,6 +162,7 @@ class Core {
             ['\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes']);
         $this->start_plugin_tracking();
         $this->loaderInstance->run();
+
     }
 
     /**
