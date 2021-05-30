@@ -54,6 +54,30 @@ function is_embedpress_pro_active() {
 	return is_plugin_active('embedpress-pro/embedpress-pro.php');
 }
 
+/**
+ * Get the version of the currently activated embedpress pro plugin dynamically
+ * @return false|mixed
+ */
+function get_embedpress_pro_version() {
+	if ( is_embedpress_pro_active() ) {
+		$p = wp_get_active_and_valid_plugins();
+		$p = array_filter( $p, function ( $plugin){
+			return !empty( strpos( $plugin, 'embedpress-pro'));
+		});
+		$p = array_values( $p);
+		if ( !empty( $p[0]) ) {
+			$d = get_plugin_data($p[0]);
+			if ( isset( $d['Version']) ) {
+				return $d['Version'];
+			}
+			return false;
+		}
+		return false;
+	}
+	return false;
+
+}
+
 function onPluginActivationCallback()
 {
     Core::onPluginActivationCallback();

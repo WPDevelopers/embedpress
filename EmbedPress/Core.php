@@ -5,7 +5,6 @@ namespace EmbedPress;
 use EmbedPress\Ends\Back\Handler as EndHandlerAdmin;
 use EmbedPress\Ends\Back\Settings\EmbedpressSettings;
 use EmbedPress\Ends\Front\Handler as EndHandlerPublic;
-use EmbedPress\Includes\Classes\Feature_Enhancer;
 use EmbedPress\Includes\Traits\Shared;
 
 
