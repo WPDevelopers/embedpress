@@ -22,16 +22,13 @@ if ( ! defined('EMBEDPRESS_PLG_NAME')) {
 }
 
 if ( ! defined('EMBEDPRESS_VERSION')) {
-    define('EMBEDPRESS_VERSION', "3.0.1");
+    define('EMBEDPRESS_VERSION', "3.0.2");
     /**
      * @deprecated 2.2.0
      */
     define('EMBEDPRESS_PLG_VERSION', EMBEDPRESS_VERSION);
 }
 
-if ( ! defined('EMBEDPRESS_PRO_VERSION')) {
-    define('EMBEDPRESS_PRO_VERSION', "3.0.0");
-}
 
 if ( ! defined('EMBEDPRESS_ROOT')) {
     define('EMBEDPRESS_ROOT', dirname(__FILE__));

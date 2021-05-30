@@ -105,7 +105,7 @@ trait Shared {
         $notice->message( 'upsale', '<p>' . __( 'Thank you for relying on EmbedPress with 30,000 other websites. Checkout our Pro features.', $notice->text_domain ) . '</p>' );
 
         // Update Notice For PRO Version
-        if ( $this->is_pro_active() && \version_compare( EMBEDPRESS_PRO_VERSION, '2.0.0', '<' ) ) {
+        if ( $this->is_pro_active() && \version_compare( get_embedpress_pro_version(), '2.0.0', '<' ) ) {
             $notice->classes( 'update', 'notice is-dismissible ' );
             $notice->message( 'update', '<p>' . __( 'You are using an incompatible version of EmbedPress PRO. Please update to v3.4.0+. <a href="https://essential-addons.com/elementor/docs/manually-update-essential-addons-pro/" target="_blank">Follow manual update guide.</a>', $notice->text_domain ) . '</p>' );
             $notice->thumbnail( 'update', plugins_url( 'assets/images/icon-128x128.png', EMBEDPRESS_PLUGIN_BASENAME ) );
@@ -131,7 +131,7 @@ trait Shared {
                 'review' => $notice->makeTime( $notice->timestamp, '7 Day' ), // after 3 days
             ],
         );
-        if ( $this->is_pro_active() && \version_compare( EMBEDPRESS_PRO_VERSION, '2.0.0', '<' ) ) {
+        if ( $this->is_pro_active() && \version_compare( get_embedpress_pro_version(), '2.0.0', '<' ) ) {
             $notice->options_args['notice_will_show']['update'] = $notice->timestamp;
         }
 

@@ -8,7 +8,7 @@
     <ul class="embedpress-version-wrapper">
         <li>Core Version: V<?php echo EMBEDPRESS_VERSION; ?></li>
 	    <?php if ( $pro_active ) { ?>
-            <li>Pro Version: V<?php echo EMBEDPRESS_PRO_VERSION; ?></li>
+            <li>Pro Version: V<?php echo get_embedpress_pro_version(); ?></li>
 	    <?php }?>
     </ul>
 </header>
