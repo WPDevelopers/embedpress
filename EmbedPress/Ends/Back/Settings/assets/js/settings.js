@@ -246,7 +246,7 @@ jQuery(document).ready( function($){
     // track changes in settings page
 
     // Save EmbedPRess Settings data using Ajax
-    $(document).on('submit', 'form', function (e) {
+    $(document).on('submit', 'form.embedpress-settings-form', function (e) {
         e.preventDefault();
         let $form = $(this);
         let $submit_btn = $form.find('.embedpress-submit-btn');
