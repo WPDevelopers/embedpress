@@ -117,7 +117,7 @@ function embedpress_print_branding_controls($provider='', $prefix='') {
                         <div class="logo__adjust__controller__item">
                             <span class="controller__label"><?php esc_html_e( "Logo Opacity (%)", "embedpress" ); ?></span>
                             <div class="logo__adjust__controller__inputs">
-                                <input type="range" max="100" data-default="<?php echo esc_attr( $logo_opacity ); ?>" value="<?php echo esc_attr( $logo_opacity ); ?>" class="opacity__range" name="<?php esc_attr( $px_logo_opacity )?>">
+                                <input type="range" max="100" data-default="<?php echo esc_attr( $logo_opacity ); ?>" value="<?php echo esc_attr( $logo_opacity ); ?>" class="opacity__range" name="<?php echo esc_attr( $px_logo_opacity )?>">
                                 <input readonly type="number" class="form__control range__value" data-default="<?php echo esc_attr( $logo_opacity ); ?>" value="<?php echo esc_attr( $logo_opacity ); ?>">
                             </div>
                         </div>
