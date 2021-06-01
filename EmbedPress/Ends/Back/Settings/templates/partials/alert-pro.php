@@ -1,7 +1,3 @@
-<?php
-
-?>
-
 <div class="pro__alert__wrap">
 	<div class="pro__alert__card">
 		<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/alert.svg" alt="">
