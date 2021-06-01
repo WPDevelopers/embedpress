@@ -114,15 +114,24 @@ jQuery(document).ready( function($){
     })
 
     // Logo Remove
-    $('#yt_preview__remove').on('click', function(e) {
+    $('.preview__remove').on('click', function(e) {
         e.preventDefault();
-        $('.preview__logo__input').val('');
-        $('#yt_logo_url').val('');
-        $('#yt_logo_id').val('');
-        $("#yt_logo_preview").attr('src', '');
-        $('.preview__box img').attr('src', '');
-        $("#yt_logo__upload__preview").hide();
-        $("#yt_logo_upload_wrap").show();
+        // $('.preview__logo__input').val('');
+        // $('#yt_logo_url').val('');
+        // $('#yt_logo_id').val('');
+        // $("#yt_logo_preview").attr('src', '');
+        // $('.preview__box img').attr('src', '');
+        // $("#yt_logo__upload__preview").hide();
+        // $("#yt_logo_upload_wrap").show();
+
+        let $logo_remove_btn = $(this);
+        let $main_adjustment_wrap = $logo_remove_btn.parents('.logo__adjust__wrap');
+        $main_adjustment_wrap.find('.preview__logo').attr('src', '');
+        $main_adjustment_wrap.find(".logo__upload__preview").hide();
+        $main_adjustment_wrap.find(".logo__upload").show();
+        $main_adjustment_wrap.find(".instant__preview__img").attr('src', '');
+        $main_adjustment_wrap.find('.preview__logo__input').val('');
+        $main_adjustment_wrap.find('.preview__logo__input_id').val('');
         $settingsForm.find('.embedpress-submit-btn').addClass('ep-settings-form-changed');
         formDataChanged = true;
     })
