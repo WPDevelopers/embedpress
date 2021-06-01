@@ -108,7 +108,7 @@ function embedpress_print_branding_controls($provider='', $prefix='') {
                 <div class="logo__upload__preview" id="yt_logo__upload__preview" style="<?php if ( empty( $logo_url) ) { echo 'display:none'; } ?> ">
                     <div class="instant__preview">
                         <a href="#" id="yt_preview__remove" class="preview__remove"><i class="ep-icon ep-cross"></i></a>
-                        <img id="yt_logo_preview" src="<?php echo $logo_url; ?>" alt="">
+                        <img class="instant__preview__img" id="yt_logo_preview" src="<?php echo $logo_url; ?>" alt="">
                     </div>
                 </div>
 

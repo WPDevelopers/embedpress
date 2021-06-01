@@ -180,14 +180,16 @@ jQuery(document).ready( function($){
     proFeatureAlert();
 
     // custom logo upload for youtube
-    $(document).on('click', '#yt_logo_upload_wrap', function(e){
+    $(document).on('click', '.logo__upload', function(e){
         e.preventDefault();
-        let curElement = $('.preview__logo');
-        let $yt_logo_upload_wrap =  $("#yt_logo_upload_wrap");
-        let $yt_logo__upload__preview = $("#yt_logo__upload__preview");
-        let $yt_logo_preview = $("#yt_logo_preview");
-        let $yt_logo_url = $('#yt_logo_url');
-        let $yt_logo_id = $('#yt_logo_id');
+        let $logo_uploader_btn = $(this);
+        let $main_adjustment_wrap = $logo_uploader_btn.parent('.logo__adjust__wrap');
+        let curElement = $main_adjustment_wrap.find('.preview__logo');
+        //let $yt_logo_upload_wrap =   $main_adjustment_wrap.find("#yt_logo_upload_wrap");
+        let $yt_logo__upload__preview =  $main_adjustment_wrap.find(".logo__upload__preview");
+        let $yt_logo_preview =  $main_adjustment_wrap.find(".instant__preview__img");
+        let $yt_logo_url =  $main_adjustment_wrap.find('.preview__logo__input');
+        let $yt_logo_id =  $main_adjustment_wrap.find('.preview__logo__input_id');
         let button = $(this),
             yt_logo_uploader = wp.media({
                 title: 'Custom Logo',
@@ -202,7 +204,7 @@ jQuery(document).ready( function($){
             }).on('select', function() {
                 let attachment = yt_logo_uploader.state().get('selection').first().toJSON();
                 if (attachment && attachment.id && attachment.url){
-                    $yt_logo_upload_wrap.hide();
+                    $logo_uploader_btn.hide();
                     $yt_logo_url.val(attachment.url);
                     $yt_logo_id.val(attachment.id);
                     $yt_logo_preview.attr('src', attachment.url);
