@@ -405,11 +405,12 @@ class Core {
             include $additionalProvidersFilePath;
 
             if (isset($additionalServiceProviders)) {
-                return $additionalServiceProviders;
+	            return apply_filters( 'embedpress_additional_service_providers', $additionalServiceProviders);
             }
         }
 
-        return [];
+	    return apply_filters( 'embedpress_additional_service_providers', []);
+
     }
 
     /**

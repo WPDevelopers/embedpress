@@ -15,8 +15,10 @@
  */
 
 $additionalServiceProviders = [
-    'GoogleMaps' => ["google.com", "google.com.*", "maps.google.com", "goo.gl", "google.co.*"],
-    'GoogleDocs' => ["docs.google.com"],
-    'Twitch'     => ["twitch.tv", "clips.twitch.tv"],
-    'Giphy'      => ["giphy.com", "i.giphy.com"],
+	EMBEDPRESS_NAMESPACE . "\\Providers\\GoogleMaps" => ["google.com", "google.com.*", "maps.google.com", "goo.gl", "google.co.*"],
+	EMBEDPRESS_NAMESPACE . "\\Providers\\GoogleDocs" => ["docs.google.com"],
+    EMBEDPRESS_NAMESPACE . "\\Providers\\Twitch"     => ["twitch.tv", "clips.twitch.tv"],
+    EMBEDPRESS_NAMESPACE . "\\Providers\\Giphy"      => ["giphy.com", "i.giphy.com"],
+	EMBEDPRESS_NAMESPACE . "\\Providers\\Boomplay"   => ["boomplay.com"],
+
 ];

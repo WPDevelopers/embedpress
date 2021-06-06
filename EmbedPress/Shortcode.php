@@ -330,7 +330,7 @@ KAMAL;
             self::$collection = new DefaultProviderCollection();
         }
         if ( is_string( $reference ) ) {
-            self::$collection->addProvider( $reference, EMBEDPRESS_NAMESPACE . "\\Providers\\{$className}" );
+            self::$collection->addProvider( $reference, $className );
             return self::$collection;
         } elseif ( is_array( $reference ) ) {
             foreach ( $reference as $serviceProviderUrl ) {
@@ -608,7 +608,7 @@ KAMAL;
 		if ( !$html ) {
 			$html = str_replace( '{html}', self::get_embera_instance()->autoEmbed($url), $template );
 		}
-		return $html = str_replace( '{html}', $html, $template );
+		return str_replace( '{html}', $html, $template );
 	}
 
 	protected static function get_oembed_attributes() {

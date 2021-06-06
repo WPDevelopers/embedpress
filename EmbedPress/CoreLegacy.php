@@ -224,13 +224,12 @@ class CoreLegacy
         $additionalProvidersFilePath = EMBEDPRESS_PATH_BASE . 'providers.php';
         if (file_exists($additionalProvidersFilePath)) {
             include $additionalProvidersFilePath;
-
             if (isset($additionalServiceProviders)) {
-                return $additionalServiceProviders;
+                return apply_filters( 'embedpress_additional_service_providers', $additionalServiceProviders);
             }
         }
 
-        return [];
+        return apply_filters( 'embedpress_additional_service_providers', []);
     }
 
     /**
