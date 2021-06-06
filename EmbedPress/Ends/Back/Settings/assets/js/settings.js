@@ -170,8 +170,17 @@ jQuery(document).ready( function($){
 
     rangeSlider();
 
-    $('.template__wrapper .input__switch input').on('click', function() {
+    $('.template__wrapper .input__switch .logo__adjust__toggler').on('click', function(e) {
+        e.preventDefault();
+        $('.logo__adjust__wrap').not($(this).parents('.form__control__wrap').children('.logo__adjust__wrap')).slideUp();
+        $('.template__wrapper .input__switch .logo__adjust__toggler').not($(this)).removeClass('show');
+        $(this).toggleClass('show');
         $(this).parents('.form__control__wrap').children('.logo__adjust__wrap').slideToggle();
+    })
+
+    $('.form__control__wrap .input__switch input').on('click', function() {
+        $(this).siblings('.logo__adjust__toggler.show').trigger('click');
+        console.log('triggered');
     })
 
     let proFeatureAlert = function() {

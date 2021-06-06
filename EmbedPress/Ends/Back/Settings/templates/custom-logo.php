@@ -97,6 +97,7 @@ function embedpress_print_branding_controls($provider='', $prefix='') {
             <label class="input__switch switch__text <?php echo $pro_active ? '': 'isPro'; ?>">
                 <input type="checkbox" name="<?php echo esc_attr( $px_branding ); ?>"  data-default="<?php echo esc_attr(  $branding ); ?>" data-value="<?php echo esc_attr(  $branding ); ?>"  value="yes" <?php checked( 'yes', $branding);?> <?php echo $pro_active ? '': ' disabled'; ?>>
                 <span></span>
+                <a href="#" class="logo__adjust__toggler"><?php esc_html_e( "Settings", "embedpress" ); ?><i class="ep-icon ep-caret-down"></i></a>
             </label>
             <div class="logo__adjust__wrap <?php echo $pro_active ? '': 'proOverlay'; ?>" style="<?php if ( ('yes' !== $branding) || !$pro_active ) { echo 'display:none;'; } ?>">
                 <label class="logo__upload" id="yt_logo_upload_wrap" style="<?php if (!empty( $logo_url)) { echo 'display:none;'; } ?>">

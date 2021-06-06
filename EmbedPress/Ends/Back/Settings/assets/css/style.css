@@ -2333,6 +2333,29 @@ button.button__instagram.hover__highlight:hover .icon {
     /* display: none; */
 }
 
+.form__control__wrap .input__switch .logo__adjust__toggler {
+    position: absolute;
+    top: 2px;
+    left: calc(100% + 15px);
+    background: #5B4E96;
+    color: #fff;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s ease;
+}
+.form__control__wrap .input__switch .logo__adjust__toggler i {
+    font-size: 10px;
+    margin-left: 8px;
+}
+
+.form__control__wrap .input__switch input[type="checkbox"]:checked ~ .logo__adjust__toggler {
+    opacity: 1;
+    visibility: visible;
+}
+
 .logo__adjust__wrap .logo__upload__wrap {
     display: flex;
     align-items: center;
