@@ -4,15 +4,27 @@ namespace EmbedPress\Includes\Classes;
 class Feature_Enhancer {
 
 	public function __construct() {
-		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_youtube'] );
-		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_vimeo'] );
-		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_wistia'] );
-		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_twitch'] );
-		add_filter( 'embedpress_gutenberg_youtube_params',
-			[$this, 'embedpress_gutenberg_register_block_youtube'] );
-		add_action( 'init', array( $this, 'embedpress_gutenberg_register_block_vimeo' ) );
-		add_action('embedpress_gutenberg_wistia_block_after_embed', array($this,'embedpress_wistia_block_after_embed'));
 
+		if ( !is_embedpress_pro_active() ) {
+			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_youtube'] );
+			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_vimeo'] );
+			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_wistia'] );
+			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_twitch'] );
+			add_filter( 'embedpress_gutenberg_youtube_params',
+				[$this, 'embedpress_gutenberg_register_block_youtube'] );
+			add_action( 'init', array( $this, 'embedpress_gutenberg_register_block_vimeo' ) );
+			add_action('embedpress_gutenberg_wistia_block_after_embed', array($this,'embedpress_wistia_block_after_embed'));
+			add_action( 'elementor/widget/embedpres_elementor/skins_init', [ $this, 'elementor_setting_init' ] );
+        }
+
+
+	}
+
+	public function elementor_setting_init(  ) {
+		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_youtube'] );
+		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_vimeo'] );
+		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_wistia'] );
+		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_twitch'] );
 	}
 
 	public function getOptions($provider='', $schema=[])
