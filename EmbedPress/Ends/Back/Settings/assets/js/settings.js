@@ -116,13 +116,6 @@ jQuery(document).ready( function($){
     // Logo Remove
     $('.preview__remove').on('click', function(e) {
         e.preventDefault();
-        // $('.preview__logo__input').val('');
-        // $('#yt_logo_url').val('');
-        // $('#yt_logo_id').val('');
-        // $("#yt_logo_preview").attr('src', '');
-        // $('.preview__box img').attr('src', '');
-        // $("#yt_logo__upload__preview").hide();
-        // $("#yt_logo_upload_wrap").show();
 
         let $logo_remove_btn = $(this);
         let $main_adjustment_wrap = $logo_remove_btn.parents('.logo__adjust__wrap');
@@ -138,34 +131,34 @@ jQuery(document).ready( function($){
 
     // Logo Controller
     let rangeSlider = function(){
-        let slider = $('.logo__adjust__controller__inputs'),
-            previewImg = $('.preview__logo'),
-            opRange = $('.opacity__range'),
-            xRange = $('.x__range'),
-            yRange = $('.y__range'),
-            value = $('.range__value');
-
-        slider.each(function(){
-
-            value.each(function(){
-                var value = $(this).prev().attr('value');
-                $(this).html(value);
+        let $slider = $('.logo__adjust');
+        $slider.each(function(){
+            let $es = $(this),
+                previewImg = $es.find('.preview__logo'),
+                opRange = $es.find('.opacity__range'),
+                xRange = $es.find('.x__range'),
+                yRange = $es.find('.y__range'),
+                $range__value = $es.find('.range__value');
+            $range__value.each(function(){
+                $(this).html($(this).prev().attr('value'));
             });
 
             opRange.on('input', function(){
-                $(this).next(value).val(this.value);
-                console.log(this.value / 100);
+                $(this).next($range__value).val(this.value);
                 previewImg.css('opacity', this.value / 100);
             });
             xRange.on('input', function(){
-                $(this).next(value).val(this.value);
+                $(this).next($range__value).val(this.value);
                 previewImg.css('right', this.value + "%");
             });
             yRange.on('input', function(){
-                $(this).next(value).val(this.value);
+                $(this).next($range__value).val(this.value);
                 previewImg.css('bottom', this.value + "%");
             });
         });
+
+
+
     };
 
     rangeSlider();
@@ -180,7 +173,6 @@ jQuery(document).ready( function($){
 
     $('.form__control__wrap .input__switch input').on('click', function() {
         $(this).siblings('.logo__adjust__toggler.show').trigger('click');
-        console.log('triggered');
     })
 
     let proFeatureAlert = function() {
