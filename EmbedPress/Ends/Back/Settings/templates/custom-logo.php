@@ -106,9 +106,10 @@ KAMAL;
 
             break;
         case 'twitch':
+            $parent = wp_parse_url( site_url(), 1);
             $preview_video = <<<KAMAL
 <div class="embedpress_wrapper" data-url="https://www.twitch.tv/tsm_imperialhal" style="width:90%; height:360px;">
-                <iframe src="https://embed.twitch.tv?autoplay=true&#038;channel=tsm_imperialhal&#038;height=360&#038;layout=video&#038;migration=true&#038;muted=false&#038;theme=dark&#038;time=0h0m0s&#038;video=&#038;width=600&#038;allowfullscreen=true&#038;parent=wpdevsocial.com" allowfullscreen="" scrolling="no" frameborder="0" allow="autoplay; fullscreen" title="Twitch" sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" ></iframe>
+                <iframe src="https://embed.twitch.tv?autoplay=true&#038;channel=tsm_imperialhal&#038;height=360&#038;layout=video&#038;migration=true&#038;muted=false&#038;theme=dark&#038;time=0h0m0s&#038;video=&#038;width=600&#038;allowfullscreen=true&#038;parent={$parent}" allowfullscreen="" scrolling="no" frameborder="0" allow="autoplay; fullscreen" title="Twitch" sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" ></iframe>
             </div>
 KAMAL;
 
