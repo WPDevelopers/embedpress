@@ -92,23 +92,17 @@ function embedpress_print_branding_controls($provider='', $prefix='') {
             $preview_video = '<iframe src="https://player.vimeo.com/video/463346733" frameborder="0"></iframe>';
             break;
         case 'wistia':
-            $preview_video=<<<KAMAL
-<div class="embedpress-wrapper ose-wistia ose-uid-e792463aa8177370c576bf5d5e13d10d responsive">
-<script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>
-<script>window.pp_embed_wistia_labels = {"watch_from_beginning":"Watch from the beginning","skip_to_where_you_left_off":"Skip to where you left off","you_have_watched_it_before":"It looks like you've watched<br \/>part of this video before!"};</script>
 
-<script>
-window._wq = window._wq || []; _wq.push({"kjg": {"videoFoam":true,"fullscreenButton":false,"plugin":[]}});
-</script>
-<div id="wistia_kjgpmu64ul" class="wistia_embed wistia_async_kjgpmu64ul" style="width:90%; height:360px;"></div>
-</div>
+            $preview_video=<<<KAMAL
+<div class="ose-wistia--inc. ose-uid-0869333898f94a99ed20457fc4b79d88 ose-embedpress-responsive" style="width:500px; max-width:100%; height: 300px"><iframe title="Best Embedding Solution For Elementor, Gutenberg &amp; Classic Editor - EmbedPress Video" src="https://fast.wistia.net/embed/iframe/u7eq83w1cg?dnt=1" allow="autoplay; fullscreen" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen msallowfullscreen width="500" height="300"></iframe><script src="https://fast.wistia.net/assets/external/E-v1.js" async></script></div>
 KAMAL;
 
             break;
         case 'twitch':
+            $parent = wp_parse_url( site_url(), 1);
             $preview_video = <<<KAMAL
-<div class="embedpress_wrapper" data-url="https://www.twitch.tv/tsm_imperialhal" style="width:90%; height:360px;">
-                <iframe src="https://embed.twitch.tv?autoplay=true&#038;channel=tsm_imperialhal&#038;height=360&#038;layout=video&#038;migration=true&#038;muted=false&#038;theme=dark&#038;time=0h0m0s&#038;video=&#038;width=600&#038;allowfullscreen=true&#038;parent=wpdevsocial.com" allowfullscreen="" scrolling="no" frameborder="0" allow="autoplay; fullscreen" title="Twitch" sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" ></iframe>
+<div class="embedpress_wrapper" data-url="https://www.twitch.tv/wpdeveloperdotnet" style="width:90%; height:360px;">
+                <iframe src="https://embed.twitch.tv?autoplay=true&#038;channel=wpdeveloperdotnet&#038;height=360&#038;layout=video&#038;migration=true&#038;muted=false&#038;theme=dark&#038;time=0h0m0s&#038;video=&#038;width=600&#038;allowfullscreen=true&#038;parent={$parent}" allowfullscreen="" scrolling="no" frameborder="0" allow="autoplay; fullscreen" title="Twitch" sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" ></iframe>
             </div>
 KAMAL;
 
