@@ -162,7 +162,7 @@ class Shortcode {
 	        // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
 	        $parsedContent = str_replace( "'", '"', $parsedContent );
 	        $parsedContent = str_replace( "{provider_alias}", $provider_name , $parsedContent );
-			self::purify_html_content( $parsedContent);
+	        self::purify_html_content( $parsedContent);
 			self::modify_content_for_fb_and_canada( $provider_name, $parsedContent);
             unset( $embedTemplate, $serviceProvider );
 
@@ -245,7 +245,7 @@ KAMAL;
 
             
             $parsedContent = apply_filters( 'pp_embed_parsed_content', $parsedContent, $urlData,  self::get_oembed_attributes() );
-            
+
             if ( !empty( $parsedContent ) ) {
                 $embed = (object) array_merge( (array)$urlData, [
                     'attributes' => (object) self::get_oembed_attributes(),
@@ -253,7 +253,7 @@ KAMAL;
                     'url'        => $url,
                 ] );
                 $embed = apply_filters( 'embedpress:onAfterEmbed', $embed );
-                set_transient( $hash, $embed, HOUR_IN_SECONDS * 6);
+                //set_transient( $hash, $embed, HOUR_IN_SECONDS * 6);
                 return $embed;
             }
         }
@@ -605,6 +605,7 @@ KAMAL;
 
 	protected static function get_content_from_template( $url, $template ) {
 		$html = self::get_oembed()->get_html( $url, self::get_oembed_attributes() );
+
 		if ( !$html ) {
 			$html = str_replace( '{html}', self::get_embera_instance()->autoEmbed($url), $template );
 		}
