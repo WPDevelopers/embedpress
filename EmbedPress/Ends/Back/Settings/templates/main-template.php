@@ -11,11 +11,16 @@
 			<?php include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/sidebar.php'; ?>
             <div class="embedpress-content">
                 <?php
-                include_once EMBEDPRESS_SETTINGS_PATH . "templates/{$template}.php";
+                $template_file = apply_filters( 'emebedpress_settings_template_path', EMBEDPRESS_SETTINGS_PATH . "templates/{$template}.php", $template);
+                if ( file_exists( $template_file  ) ) {
+                    include_once $template_file;
+                }
 				if ( 'license' != $template) {
 					include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/toast-message.php';
 				}
-				?>
+                do_action( 'embedpress_settings_template', $template);
+
+                ?>
             </div>
         </div>
 		<?php include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/footer.php'; ?>

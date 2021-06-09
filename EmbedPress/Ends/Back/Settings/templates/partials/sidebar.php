@@ -14,31 +14,31 @@
 				<?php do_action( 'ep_before_general_menu_items'); ?>
                 <li class="dropdown__item">
 					<a href="<?php echo esc_url( $ep_page.'&page_type=general'); ?>" class="dropdown__link <?php echo 'general' === $template ? 'active' : ''; ?>">
-						<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/settings-sub.svg" alt="">
+						<img class="embedpress-settings-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/settings-sub.svg" alt="">
 						<?php esc_html_e( "Settings", "embedpress" ); ?>
 					</a>
 				</li>
 				<li class="dropdown__item">
 					<a href="<?php echo esc_url( $ep_page.'&page_type=youtube'); ?>" class="dropdown__link <?php echo 'youtube' === $template ? 'active' : ''; ?>">
-						<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/youtube.svg" alt="">
+						<img class="embedpress-settings-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/youtube.svg" alt="">
 						<?php esc_html_e( "YouTube", "embedpress" ); ?>
 					</a>
 				</li>
 				<li class="dropdown__item">
 					<a href="<?php echo esc_url( $ep_page.'&page_type=vimeo'); ?>" class="dropdown__link <?php echo 'vimeo' === $template ? 'active' : ''; ?>">
-						<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/vimeo.svg" alt="">
+						<img class="embedpress-settings-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/vimeo.svg" alt="">
 						<?php esc_html_e( "Vimeo", "embedpress" ); ?>
 					</a>
 				</li>
 				<li class="dropdown__item">
 					<a href="<?php echo esc_url( $ep_page.'&page_type=wistia'); ?>" class="dropdown__link <?php echo 'wistia' === $template ? 'active' : ''; ?>">
-						<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/wistia.svg" alt="">
+						<img class="embedpress-settings-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/wistia.svg" alt="">
 						<?php esc_html_e( "Wistia", "embedpress" ); ?>
 					</a>
 				</li>
 				<li class="dropdown__item">
 					<a href="<?php echo esc_url( $ep_page.'&page_type=twitch'); ?>" class="dropdown__link <?php echo 'twitch' === $template ? 'active' : ''; ?>">
-						<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/twitch.svg" alt="">
+						<img class="embedpress-settings-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/twitch.svg" alt="">
 						<?php esc_html_e( "Twitch", "embedpress" ); ?>
 					</a>
 				</li>
