@@ -56,7 +56,8 @@ class Boomplay extends ProviderAdapter implements ProviderInterface
 		if (preg_match("{$this->urlRegexPattern}i", $url, $matches)) {
 			$type = $matches[1]; // songs | playlists | album
 			$content_id = $matches[2];
-			$endpoint_type = in_array( $type, ['album', 'playlists']) ? 'COL': 'MUSIC';
+			$endpoint_type = apply_filters( 'embedpress_boomplay_content_type', 'MUSIC', $type);
+
 			$width = isset( $this->config['maxwidth']) ? $this->config['maxwidth']: '100%';
 			$height = isset( $this->config['maxheight']) ? $this->config['maxheight']: 450;
 
