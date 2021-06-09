@@ -57,7 +57,6 @@ class Boomplay extends ProviderAdapter implements ProviderInterface
 			$type = $matches[1]; // songs | playlists | album
 			$content_id = $matches[2];
 			$endpoint_type = in_array( $type, ['album', 'playlists']) ? 'COL': 'MUSIC';
-
 			$width = isset( $this->config['maxwidth']) ? $this->config['maxwidth']: '100%';
 			$height = isset( $this->config['maxheight']) ? $this->config['maxheight']: 450;
 

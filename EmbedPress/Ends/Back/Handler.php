@@ -419,6 +419,8 @@ class Handler extends EndHandlerAbstract {
             // Wistia
             '*.wistia.com/medias/*',
             'fast.wistia.com/embed/medias/*.jsonp',
+	        // Boomplay (http://boomplay.com/)
+	        'boomplay.com/*',
         ];
     }
 
