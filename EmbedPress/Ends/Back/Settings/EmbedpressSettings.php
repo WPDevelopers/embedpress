@@ -153,7 +153,7 @@ class EmbedpressSettings {
 		$template = !empty( $_GET['page_type'] ) ? sanitize_text_field( $_GET['page_type']) : 'general';
 		$nonce_field = wp_nonce_field('ep_settings_nonce', 'ep_settings_nonce', true, false);
 		$ep_page = admin_url('admin.php?page='.$this->page_slug);
-		$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['general', 'youtube', 'vimeo', 'wistia', 'twitch']);
+		$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['general', 'youtube', 'vimeo', 'wistia', 'twitch', 'spotify']);
 		$brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-logo', 'branding',]);
 		$pro_active = is_embedpress_pro_active();
 		$coming_soon = "<span class='ep-coming-soon'>". esc_html__( '(Coming soon)', 'embedpress'). "</span>";
@@ -250,6 +250,19 @@ class EmbedpressSettings {
 		$settings = apply_filters( 'ep_twitch_settings_before_save', $settings);
 		update_option( $option_name, $settings);
 		do_action( 'ep_twitch_settings_after_save', $settings);
+	}
+
+	public function save_spotify_settings() {
+		$option_name = EMBEDPRESS_PLG_NAME.':spotify';
+		$settings = get_option( $option_name);
+		$settings['theme'] = isset( $_POST['spotify_theme']) ? sanitize_text_field( $_POST['spotify_theme']) : '1';
+		$settings['license_key'] = 1; // backward compatibility
+
+		// Pro will handle g_loading_animation settings and other
+		$settings = apply_filters( 'ep_spotify_settings_before_save', $settings);
+		update_option( $option_name, $settings);
+		do_action( 'ep_spotify_settings_after_save', $settings);
+		return $settings;
 	}
 
 	public function save_custom_logo_settings() {
