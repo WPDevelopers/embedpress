@@ -98,6 +98,23 @@ class Embedpress_Elementor extends Widget_Base {
             ]
         );
 
+	    $this->add_control(
+		    'spotify_theme',
+		    [
+			    'label'       => __( 'Player Background', 'embedpress-pro' ),
+			    'description'       => __( 'Dynamic option will use the most vibrant color from the album art.', 'embedpress-pro' ),
+			    'type'        => Controls_Manager::SELECT,
+			    'label_block' => false,
+			    'default'     => '1',
+			    'options'     => [
+				    '1'   => __( 'Dynamic', 'embedpress-pro' ),
+				    '0' => __( 'Black & White', 'embedpress-pro' )
+			    ],
+			    'condition'   => [
+				    'embedpress_pro_embeded_source' => 'spotify'
+			    ]
+		    ]
+	    );
         do_action( 'embedpress/control/extend', $this );
 
         $this->end_controls_section();
@@ -215,6 +232,7 @@ class Embedpress_Elementor extends Widget_Base {
     }
 
     protected function render() {
+        add_filter( 'embedpress_should_modify_spotify', '__return_false');
         $settings      = $this->get_settings_for_display();
         $height = (!empty( $settings['height']) && !empty( $settings['height']['size'] ))
             ? $settings['height']['size'] : null;
@@ -222,6 +240,7 @@ class Embedpress_Elementor extends Widget_Base {
 		    ? $settings['width']['size'] : null;
 
         $embed_content = Shortcode::parseContent( $settings['embedpress_embeded_link'], true, [ 'height'=> $height, 'width'=>$width ] );
+        $embed_content = $this->onAfterEmbedSpotify($embed_content, $settings);
         $embed         = apply_filters( 'embedpress_elementor_embed', $embed_content, $settings );
         $content       = is_object( $embed ) ? $embed->embed : $embed;
 
@@ -231,6 +250,28 @@ class Embedpress_Elementor extends Widget_Base {
         </div>
         <?php
     }
+
+	public function onAfterEmbedSpotify( $embed, $setting ) {
+		if ( !isset( $embed->provider_name ) || strtolower( $embed->provider_name ) !== 'spotify' || !isset( $embed->embed ) ) {
+			return $embed;
+		}
+		preg_match( '/src=\"(.+?)\"/', $embed->embed, $match );
+		$url_full = $match[ 1 ];
+		$modified_url = str_replace( 'playlist-v2', 'playlist', $url_full);
+			// apply elementor related mod
+			if(isset( $setting['spotify_theme'])){
+				if ( strpos(  $modified_url, '?') !== false ) {
+					$modified_url .= '&theme='.sanitize_text_field( $setting['spotify_theme']);
+				}else{
+					$modified_url .= '?theme='.sanitize_text_field( $setting['spotify_theme']);
+				}
+			}
+
+
+		$embed->embed = str_replace( $url_full, $modified_url, $embed->embed );
+		return $embed;
+	}
+
 
 
 }

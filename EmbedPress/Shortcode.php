@@ -252,6 +252,7 @@ KAMAL;
                     'embed'      => $parsedContent,
                     'url'        => $url,
                 ] );
+                $embed = self::modify_spotify_content( $embed);
                 $embed = apply_filters( 'embedpress:onAfterEmbed', $embed );
                 //set_transient( $hash, $embed, HOUR_IN_SECONDS * 6);
                 return $embed;
@@ -696,5 +697,28 @@ KAMAL;
 				unset( $locale, $plgSettings );
 			}
 		}
+	}
+
+	public static function modify_spotify_content( $embed ) {
+    	$should_modify = apply_filters( 'embedpress_should_modify_spotify', true);
+		$isSpotify = ( isset($embed->provider_name) && strtoupper( $embed->provider_name ) === 'SPOTIFY' ) || (isset( $embed->url) && isset( $embed->{$embed->url}) && isset( $embed->{$embed->url}['provider_name']) && strtoupper($embed->{$embed->url}['provider_name'] ) === 'SPOTIFY');
+		if ($should_modify && $isSpotify && isset( $embed->embed )
+		     && preg_match( '/src=\"(.+?)\"/', $embed->embed, $match ) ) {
+			$options = (array)get_option(EMBEDPRESS_PLG_NAME . ':spotify');
+			// Parse the url to retrieve all its info like variables etc.
+			$url_full = $match[ 1 ];
+			$modified_url = str_replace( 'playlist-v2', 'playlist', $url_full);
+			if(isset( $options['theme'])){
+				if ( strpos(  $modified_url, '?') !== false ) {
+					$modified_url .= '&theme='.sanitize_text_field( $options['theme']);
+				}else{
+					$modified_url .= '?theme='.sanitize_text_field( $options['theme']);
+				}
+			}
+
+			// Replaces the old url with the new one.
+			$embed->embed = str_replace( $url_full, $modified_url, $embed->embed );
+		}
+		return $embed;
 	}
 }
