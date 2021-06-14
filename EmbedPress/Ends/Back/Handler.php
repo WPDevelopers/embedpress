@@ -192,6 +192,7 @@ class Handler extends EndHandlerAbstract {
 
             // YouTube (http://www.youtube.com/)
             'youtube.com/watch\\?*',
+	        'youtube.com/playlist\\?*',
 
             // Flickr (http://www.flickr.com/)
             'flickr.com/photos/*/*',
