@@ -53,7 +53,8 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
         } else {
             // Extract coordinates and zoom from the url
             if (preg_match('~@(-?[0-9\.]+,-?[0-9\.]+).+,([0-9\.]+[a-z])~i', $this->url, $matches)) {
-                $iframeSrc = 'https://maps.google.com/maps?hl=en&ie=UTF8&ll=' . $matches[1] . '&spn=' . $matches[1] . '&t=m&z=' . round($matches[2]) . '&output=embed';
+            	$z = floatval( $matches[2]);
+                $iframeSrc = 'https://maps.google.com/maps?hl=en&ie=UTF8&ll=' . $matches[1] . '&spn=' . $matches[1] . '&t=m&z=' . round($z) . '&output=embed';
             } else {
                 return [];
             }
