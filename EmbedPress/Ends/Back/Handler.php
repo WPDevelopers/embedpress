@@ -422,6 +422,7 @@ class Handler extends EndHandlerAbstract {
             'fast.wistia.com/embed/medias/*.jsonp',
 	        // Boomplay (http://boomplay.com/)
 	        'boomplay.com/*',
+	        'codepen.io/*'
         ];
     }
 
