@@ -116,7 +116,7 @@ class Shortcode {
             // Converts any special HTML entities back to characters.
             $url = htmlspecialchars_decode( $url );
 	        $content_uid = md5( $url );
-	        $hash = 'embedpress_'.$content_uid . md5( implode( ':', array_values( $customAttributes)));
+	        //$hash = 'embedpress_'.$content_uid . md5( implode( ':', array_values( $customAttributes)));
 
 	        // check if we have data cached
 	        //@TODO; add caching later and remove caching on settings save
