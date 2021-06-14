@@ -78,20 +78,16 @@ abstract class Plugin
         $pluginSignature = EMBEDPRESS_PLG_NAME . '-' . static::SLUG . '/' . EMBEDPRESS_PLG_NAME . '-' . static::SLUG . '.php';
         if (is_admin() && ! self::isEmbedPressActive() && is_plugin_active($pluginSignature)) {
             deactivate_plugins($pluginSignature);
-        } else {
-            static::registerSettings();
         }
     }
 
     /**
      * Callback triggered by WordPress' 'register_activation_hook' function.
-     *
-     * @since   1.4.0
+     * @return  bool
+     *@since   1.4.0
      * @static
-     *
-     * @return  void
      */
-    public static function onActivationCallback()
+	public static function onActivationCallback()
     {
         return true;
     }
@@ -160,70 +156,6 @@ abstract class Plugin
     public static function onAfterFormValidation(&$data)
     {
         // do nothing
-    }
-
-    /**
-     * Method that appends a tab in EmbedPress' Settings page to the plugin.
-     *
-     * @since   1.4.0
-     * @static
-     *
-     * @param $activeTab
-     *
-     * @return  void
-     */
-    public static function renderTab($activeTab)
-    {
-        ?>
-
-        <a href="?page=<?php echo EMBEDPRESS_PLG_NAME; ?>&tab=<?php echo static::SLUG; ?>"
-           class="nav-tab<?php echo $activeTab === static::SLUG ? ' nav-tab-active' : ''; ?> "><?php echo static::NAME; ?></a>
-
-        <?php
-    }
-
-    /**
-     * Method that return the absolute path to the plugin.
-     *
-     * @since   1.4.0
-     * @static
-     *
-     * @return  void
-     */
-    public static function registerSettings()
-    {
-        $identifier = EMBEDPRESS_PLG_NAME . ':' . static::SLUG;
-        register_setting($identifier, $identifier, [static::NAMESPACE_STRING, 'validateForm']);
-        add_settings_section($identifier, EMBEDPRESS . ' > ' . static::NAME . ' Settings',
-            [static::NAMESPACE_STRING, 'onAfterRegisterSettings'], $identifier);
-
-        self::registerSettingsFields();
-    }
-
-    /**
-     * Register all plugin fields to the settings page.
-     *
-     * @since   1.4.0
-     * @static
-     *
-     * @return  void
-     */
-    public static function registerSettingsFields()
-    {
-        $identifier = EMBEDPRESS_PLG_NAME . ':' . static::SLUG;
-
-        $schema = static::getOptionsSchema();
-        foreach ($schema as $fieldSlug => $field) {
-            $field['slug'] = $fieldSlug;
-            if('license_key'===$fieldSlug){
-                continue;
-            }
-            add_settings_field($fieldSlug, $field['label'], [__NAMESPACE__ . '\Html\Field', 'render'], $identifier,
-                $identifier, [
-                    'pluginSlug' => static::SLUG,
-                    'field'      => $field,
-                ]);
-        }
     }
 
     /**

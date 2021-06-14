@@ -128,11 +128,6 @@ class Core {
         	new EmbedpressSettings();
             $plgSettings = self::getSettings();
             $this->admin_notice();
-            //$settingsClassNamespace = '\\EmbedPress\\Ends\\Back\\Settings';
-            //add_action('admin_menu', [$settingsClassNamespace, 'registerMenuItem']);
-            //add_action('admin_init', [$settingsClassNamespace, 'registerActions']);
-            //unset($settingsClassNamespace);
-
             add_filter('plugin_action_links_embedpress/embedpress.php', ['\\EmbedPress\\Core', 'handleActionLinks'], 10,
                 2);
 
@@ -141,7 +136,7 @@ class Core {
 
             $plgHandlerAdminInstance = new EndHandlerAdmin($this->getPluginName(), $this->getPluginVersion());
 
-            if ((bool) $plgSettings->enablePluginInAdmin) {
+            if ( $plgSettings->enablePluginInAdmin ) {
                 $this->loaderInstance->add_action('admin_enqueue_scripts', $plgHandlerAdminInstance, 'enqueueScripts');
             }
         } else {
@@ -476,49 +471,6 @@ class Core {
         return (object) $settings;
     }
 
-    /**
-     * Method that register an EmbedPress plugin.
-     *
-     * @param  array  $pluginMeta  Associative array containing plugin's name, slug and namespace
-     *
-     * @return  void
-     * @since   1.4.0
-     * @static
-     *
-     */
-    public static function registerPlugin ($pluginMeta) {
-        $pluginMeta = json_decode(json_encode($pluginMeta));
-
-        if (empty($pluginMeta->name) || empty($pluginMeta->slug) || empty($pluginMeta->namespace)) {
-            return;
-        }
-
-        if (!isset(self::$plugins[$pluginMeta->slug])) {
-            AutoLoader::register($pluginMeta->namespace,
-                WP_PLUGIN_DIR.'/'.EMBEDPRESS_PLG_NAME.'-'.$pluginMeta->slug.'/'.$pluginMeta->name);
-
-            $plugin = "{$pluginMeta->namespace}\Plugin";
-            if (\defined("{$plugin}::SLUG") && $plugin::SLUG !== null) {
-                self::$plugins[$pluginMeta->slug] = $pluginMeta->namespace;
-
-                $bsFilePath = $plugin::PATH.EMBEDPRESS_PLG_NAME.'-'.$plugin::SLUG.'.php';
-
-                register_activation_hook($bsFilePath, [$plugin::NAMESPACE_STRING, 'onActivationCallback']);
-                register_deactivation_hook($bsFilePath, [$plugin::NAMESPACE_STRING, 'onDeactivationCallback']);
-
-                add_action('admin_init', [$plugin, 'onLoadAdminCallback']);
-
-                add_action(EMBEDPRESS_PLG_NAME.':'.$plugin::SLUG.':settings:register',
-                    [$plugin, 'registerSettings']);
-                add_action(EMBEDPRESS_PLG_NAME.':settings:render:tab', [$plugin, 'renderTab']);
-
-                add_filter('plugin_action_links_embedpress-'.$plugin::SLUG.'/embedpress-'.$plugin::SLUG.'.php',
-                    [$plugin, 'handleActionLinks'], 10, 2);
-
-                $plugin::registerEvents();
-            }
-        }
-    }
 
     /**
      * Retrieve all registered plugins.
