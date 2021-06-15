@@ -25,6 +25,7 @@ use EmbedPress\Core;
 use EmbedPress\CoreLegacy;
 use EmbedPress\Elementor\Embedpress_Elementor_Integration;
 use EmbedPress\Includes\Classes\Feature_Enhancer;
+use EmbedPress\Shortcode;
 
 defined('ABSPATH') or die("No direct script access allowed.");
 
@@ -112,11 +113,4 @@ if (  is_plugin_active('elementor/elementor.php')) {
     $embedPressElements->init();
 }
 
-$subject = 'https://www.boomplay.com/songs/62567505?srModel=COPYLINK&srList=WEB';
-// <iframe src="https://www.boomplay.com/embed/55514507/MUSIC?colType=2&colID=1312828" width="100%" height="420" frameborder="0"></iframe>
-
-//$found_or_not = preg_match( '/boomplay\.com\/(songs|playlists|albums)\/(\d+)/', $subject, $matches);
-//error_log( 'Matched');
-//error_log( print_r( $matches, 1));
-//error_log( 'found or not');
-//error_log( print_r( $found_or_not, 1));
+Shortcode::register();

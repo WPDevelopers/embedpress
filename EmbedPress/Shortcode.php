@@ -80,7 +80,7 @@ class Shortcode {
      */
     
     public static function do_shortcode( $attributes = [], $subject = null ) {
-        $plgSettings = Core::getSettings();
+    	$plgSettings = Core::getSettings();
         $default = [];
         if ( $plgSettings->enableGlobalEmbedResize ) {
             $default = [

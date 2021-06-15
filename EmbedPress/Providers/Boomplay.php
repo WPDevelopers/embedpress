@@ -63,6 +63,8 @@ class Boomplay extends ProviderAdapter implements ProviderInterface
 
 			$html = "<iframe src='https://www.boomplay.com/embed/$content_id/$endpoint_type' frameborder='0' height='$height' width='$width'></iframe>";
 
+
+
 			$response = [
 				'type'          => $type,
 				'content_id'    => $content_id,
@@ -71,6 +73,24 @@ class Boomplay extends ProviderAdapter implements ProviderInterface
 				'url'           => $url,
 				'html'          => $html,
 			];
+
+			if ( in_array( $type, ['albums', 'playlists'])) {
+				$alert_message = sprintf( '<p><strong>%s</strong>. <span style="font-size: 13px;">%s</span></p>', __( 'Embedding Boomplay playlists and albums are supported in EmbedPress Pro', 'embedpress'), __( 'This message is only visible to you.', 'embedpress'));
+				// for gutenberg
+
+				if ( !is_embedpress_pro_active() ) {
+					$response['alert'] = $alert_message;
+				}
+
+				if (  is_admin() && !is_embedpress_pro_active()  ) {
+					$response['html'] = $alert_message;
+				}
+
+				if ( !is_admin() && !is_embedpress_pro_active() ) {
+					$response['html'] = $url;
+				}
+
+			}
 		} else {
 			$response = [];
 		}
