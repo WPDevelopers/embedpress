@@ -48,8 +48,8 @@
 
                 if (!!Object.keys(attributes).length) {
                     var parsedAttributes = [];
-                    for (var attr in attributes) {
-                        parsedAttributes.push(attr + '="' + attributes[attr] + '"');
+                    for (var ats in attributes) {
+                        parsedAttributes.push(ats + '="' + attributes[ats] + '"');
                     }
 
                     subject = '[' + shortcode + ' ' + parsedAttributes.join(' ') + ']' + subject.stripShortcode(shortcode) + '[/' + shortcode + ']';
