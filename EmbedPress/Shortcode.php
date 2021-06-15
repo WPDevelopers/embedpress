@@ -128,8 +128,8 @@ class Shortcode {
 	        self::set_embera_settings(self::$ombed_attributes);
 
             // Identify what service provider the shortcode's link belongs to
-            $serviceProvider = self::get_oembed()->get_provider( $url );
 
+            $serviceProvider = self::get_oembed()->get_provider( $url );
             $urlData = self::get_url_data( $url, self::$ombed_attributes, $serviceProvider);
 
             // Sanitize the data
@@ -138,7 +138,7 @@ class Shortcode {
             if ( is_object( $urlData ) ) {
                 $urlData->originalContent = $url;
             }
-            
+
             $eventResults = apply_filters( 'embedpress:onBeforeEmbed', $urlData );
             if ( empty( $eventResults ) ) {
                 return $subject;
@@ -243,7 +243,7 @@ KAMAL;
                 $parsedContent = preg_replace( '/\n/', '', $parsedContent );
             }
 
-            
+
             $parsedContent = apply_filters( 'pp_embed_parsed_content', $parsedContent, $urlData,  self::get_oembed_attributes() );
 
             if ( !empty( $parsedContent ) ) {

@@ -28,6 +28,11 @@ class RestAPI
     public static function oembed($request)
     {
         $url = esc_url_raw($request->get_param('url'));
+		$playlist_id = $request->get_param( 'list');
+	    if ( !empty( $playlist_id) ) {
+		    $url .= "&list=$playlist_id";
+		}
+
 		$atts = [
 			'width' => intval( $request->get_param('width')),
 			'height' => intval( $request->get_param('height')),
