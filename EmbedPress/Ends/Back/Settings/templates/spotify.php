@@ -75,6 +75,11 @@ $follow_count = isset( $settings['follow_count']) ? $settings['follow_count'] : 
 	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
                 </div>
             </div>
+
+            <div class="form__group">
+                <p class="embedpress-note" style="font-size: 14px; color:#7C8DB5;"><strong><?php esc_html_e( "Note:", "embedpress" ); ?></strong><?php esc_html_e( "To add follow widget, please add ':follow_widget' to the end of an artist URL. For details, check out this documentation.", "embedpress" ); ?></p>
+            </div>
+
 	        <?php do_action( 'embedpress_after_spotify_settings_fields'); ?>
             <button class="button button__themeColor radius-10 embedpress-submit-btn" name="submit" value="spotify"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
         </form>
