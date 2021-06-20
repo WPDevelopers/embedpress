@@ -7,7 +7,7 @@
 <div class="embedpress__settings background__white radius-25 p40">
 	<h3><?php esc_html_e( "Shortcode", "embedpress" ); ?></h3>
 	<div class="embedpress__shortcode">
-		<p class="shortcode__text"><?php esc_html_e( "Insert any link in the following field and click on the 'Generate' button to get your shortcode. You can copy the code clicking on the 'Copy' button", "embedpress" ); ?></p>
+		<p class="shortcode__text"><?php esc_html_e( "EmbedPress has direct integration with Classic, Gutenberg and Elementor Editor. But for other page editor you can use EmbedPress shortcode feature. To generate shortcode simply insert your link, click 'Generate' button and then copy your shortcode.", "embedpress" ); ?></p>
 		<div class="shortcode__form form__inline mb30">
 			<div class="form__group">
 				<input type="url" id="ep-link" class="form__control" placeholder="<?php esc_attr_e( "Place your link here to generate shortcode", "embedpress" ); ?>">
