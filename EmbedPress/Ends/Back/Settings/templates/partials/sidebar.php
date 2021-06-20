@@ -33,7 +33,7 @@
 
 		<?php do_action( 'ep_before_platform_menu'); ?>
         <li class="sidebar__item sidebar__dropdown <?php echo in_array( $template, $platform_menu_template_names)? 'show' : ''; ?>">
-            <a href="<?php echo esc_url( $ep_page.'&page_type=youtube'); ?>" class="sidebar__link sidebar__link--toggler <?php echo in_array( $template, $platform_menu_template_names) ? 'active' : ''; ?>"><span><i class="ep-icon ep-gear"></i></span> Platforms</a>
+            <a href="<?php echo esc_url( $ep_page.'&page_type=youtube'); ?>" class="sidebar__link sidebar__link--toggler <?php echo in_array( $template, $platform_menu_template_names) ? 'active' : ''; ?>"><span><i class="ep-icon ep-platform"></i></span> Platforms</a>
             <ul class="dropdown__menu <?php echo in_array( $template, $platform_menu_template_names) ? 'show' : ''; ?>">
 				<?php do_action( 'ep_before_platform_menu_items'); ?>
                 <li class="dropdown__item">
