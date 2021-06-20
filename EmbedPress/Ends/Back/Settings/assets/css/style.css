@@ -3335,11 +3335,10 @@ button.button__instagram.hover__highlight:hover .icon {
   
   .embedpress__shortcode .shortcode__form .copy__button {
     padding: 16px;
+    width: 50px;
     text-align: center;
   }
-.embedpress__shortcode .shortcode__form .copy__button i {
-    margin-right: 10px
-}
+
   @media all and (max-width: 767px) {
     .embedpress__shortcode .shortcode__form {
       display: block;
