@@ -20,7 +20,7 @@
 				</li>
 				<li class="dropdown__item">
 					<a href="<?php echo esc_url( $ep_page.'&page_type=shortcode'); ?>" class="dropdown__link <?php echo 'shortcode' === $template ? 'active' : ''; ?>">
-						<img class="embedpress-settings-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/settings-sub.svg" alt="">
+						<img class="embedpress-settings-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/shortcode.svg" alt="">
 						<?php esc_html_e( "Shortcode", "embedpress" ); ?>
 					</a>
 				</li>

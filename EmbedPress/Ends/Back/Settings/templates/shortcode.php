@@ -10,15 +10,15 @@
 		<p class="shortcode__text">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
 		<form action="" class="shortcode__form form__inline mb30">
 			<div class="form__group">
-				<input type="text" class="form__control" placeholder="Place your link here">
+				<input type="text" id="ep-link" class="form__control" placeholder="Place your link here">
 			</div>
-			<button class="button button__themeColor radius-10">Generate Shortcode</button>
+			<button class="button button__themeColor radius-10" id="ep-shortcode-btn">Generate Shortcode</button>
 		</form>
 		<form action="" class="shortcode__form form__inline">
 			<div class="form__group">
-				<input type="text" class="form__control" readonly>
+				<input type="text" class="form__control" id="ep-shortcode" readonly>
 			</div>
-			<button class="button button__themeColor copy__button radius-10"><i class="ep-icon ep-copy"></i></button>
+			<button class="button button__themeColor copy__button radius-10" id="ep-shortcode-cp"><i class="ep-icon ep-copy"></i></button>
 		</form>
 	</div>
 </div>	
