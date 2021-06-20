@@ -8,7 +8,7 @@ if ( !isset( $error_message) ) {
 	$error_message = esc_html__( "Ops! Something went wrong.", "embedpress" );
 }
 if ( !isset( $warning_message) ) {
-	$warning_message = esc_html__( "Please give permissions to the user!", "embedpress" );
+	$warning_message = esc_html__( "Please provide valid data", "embedpress" );
 }
 ?>
 
@@ -53,5 +53,18 @@ if ( !isset( $warning_message) ) {
         })(jQuery);
     </script>
 	<?php
+} elseif (!empty( $_GET['attention'])){ ?>
+    <script>
+        (function ($) {
+            let $attention_message_node = $('.toast__message--attention');
+            $attention_message_node.addClass('show');
+            setTimeout(function (){
+                $attention_message_node.removeClass('show');
+                history.pushState('', '', embedPressRemoveURLParameter(location.href, 'attention'));
+            }, 3000);
+
+        })(jQuery);
+    </script>
+<?php
 }
 ?>

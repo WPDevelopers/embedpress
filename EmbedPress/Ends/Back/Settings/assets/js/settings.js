@@ -375,7 +375,7 @@ jQuery(document).ready( function($){
        let $linkNode = $('#ep-link');
        let link = $linkNode.val();
        if (!validateUrl(link)){
-         alert('Please enter a valid URL.');
+           show_attention_alert('Please enter a valid URL.');
            $linkNode.val('');
            $shortcodePreview.val('');
            return;
@@ -389,17 +389,53 @@ jQuery(document).ready( function($){
         e.preventDefault();
         let shortcode = $shortcodePreview.val();
         if (shortcode.length < 1){
-            alert('Please enter a valid URL and generate a shortcode first.');
+            show_error_alert('Please enter a valid URL and generate a shortcode first.');
             return;
         }
         copyToClipboard(shortcode);
         $shortcodePreview.removeClass('active');
-        alert('Copied to your clipboard successfully.');
+        show_success_alert('Copied to your clipboard successfully.');
     });
 
     $shortcodePreview.on('focus', function (e) {
         $(this).select();
-    })
+    });
+
+    function show_attention_alert(message='') {
+        let $attention_message_node = $('.toast__message--attention');
+        if (message.length>0){
+            $attention_message_node.find('p').html(message);
+        }
+        $attention_message_node.addClass('show');
+        setTimeout(function (){
+            $attention_message_node.removeClass('show');
+            history.pushState('', '', embedPressRemoveURLParameter(location.href, 'attention'));
+        }, 3000);
+    }
+
+    function show_error_alert(message='') {
+        let $error_message_node = $('.toast__message--error');
+        if (message.length>0){
+            $error_message_node.find('p').html(message);
+        }
+        $error_message_node.addClass('show');
+        setTimeout(function (){
+            $error_message_node.removeClass('show');
+            history.pushState('', '', embedPressRemoveURLParameter(location.href, 'error'));
+        }, 3000);
+    }
+
+    function show_success_alert(message='') {
+        let $success_message_node = $('.toast__message--success');
+        if (message.length>0){
+            $success_message_node.find('p').html(message);
+        }
+        $success_message_node.addClass('show');
+        setTimeout(function (){
+            $success_message_node.removeClass('show');
+            history.pushState('', '', embedPressRemoveURLParameter(location.href, 'success'));
+        }, 3000);
+    }
 
 });
 
