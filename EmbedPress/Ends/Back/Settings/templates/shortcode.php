@@ -6,29 +6,19 @@
 ?>
 <div class="embedpress__settings background__white radius-25 p40">
 	<h3>Shortcode</h3>
-	<div class="embedpress__settings__form">
-		<form action="" method="post" class="embedpress-settings-form">
-
+	<div class="embedpress__shortcode">
+		<p class="shortcode__text">Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.</p>
+		<form action="" class="shortcode__form form__inline mb30">
 			<div class="form__group">
-
-				<p class="form__label">
-					<?php esc_html_e( 'Sample Label', 'embedpress'); echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?>
-				</p>
-
-				<div class="form__control__wrap">
-
-					<label class="input__switch switch__text <?php echo $pro_active ? '': 'isPro'; ?>">
-						<input type="checkbox" name="shortcode" data-default="" data-value="" value="1">
-						<span></span>
-					</label>
-
-					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
-
-				</div>
+				<input type="text" class="form__control" placeholder="Place your link here">
 			</div>
-
-
-			<button class="button button__themeColor radius-10 embedpress-submit-btn" name="submit" value="shortcode"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
+			<button class="button button__themeColor radius-10">Generate Shortcode</button>
+		</form>
+		<form action="" class="shortcode__form form__inline">
+			<div class="form__group">
+				<input type="text" class="form__control" readonly>
+			</div>
+			<button class="button button__themeColor copy__button radius-10"><i class="ep-icon ep-copy"></i></button>
 		</form>
 	</div>
-</div>
+</div>	

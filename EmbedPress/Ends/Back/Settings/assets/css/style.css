@@ -3311,3 +3311,40 @@ button.button__instagram.hover__highlight:hover .icon {
     height: 100%;
     display: block;
 }
+
+.embedpress__shortcode .shortcode__text {
+    padding: 25px;
+    border: 2px solid rgba(91, 78, 150, 0.1);
+    border-radius: 10px;
+    margin-bottom: 30px;
+  }
+  
+  .embedpress__shortcode .shortcode__form .form__group {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 40%;
+            flex: 0 0 40%;
+  }
+  
+  .embedpress__shortcode .shortcode__form .form__group .form__control {
+    height: 50px;
+  }
+  
+  .embedpress__shortcode .shortcode__form .form__group .form__control[readonly] {
+    background: #F5F7FD;
+  }
+  
+  .embedpress__shortcode .shortcode__form .copy__button {
+    padding: 16px;
+    width: 50px;
+    text-align: center;
+  }
+  
+  @media all and (max-width: 767px) {
+    .embedpress__shortcode .shortcode__form {
+      display: block;
+    }
+    .embedpress__shortcode .shortcode__form .form__group {
+      margin-right: 0;
+      margin-bottom: 25px;
+    }
+  }
