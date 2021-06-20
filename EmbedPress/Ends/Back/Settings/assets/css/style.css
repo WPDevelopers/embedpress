@@ -3254,6 +3254,10 @@ button.button__instagram.hover__highlight:hover .icon {
     background: #FE504F;
 }
 
+.embedpress-toast__message.toast__message--attention {
+    background: #FFA53C
+}
+
 .embedpress-toast__message.toast__message--success {
     background: #00CC76;
 }

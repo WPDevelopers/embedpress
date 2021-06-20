@@ -7,6 +7,9 @@ if ( !isset( $success_message) ) {
 if ( !isset( $error_message) ) {
 	$error_message = esc_html__( "Ops! Something went wrong.", "embedpress" );
 }
+if ( !isset( $warning_message) ) {
+	$warning_message = esc_html__( "Please give permissions to the user!", "embedpress" );
+}
 ?>
 
 <div class="embedpress-toast__message toast__message--success">
@@ -17,6 +20,11 @@ if ( !isset( $error_message) ) {
 <div class="embedpress-toast__message toast__message--error">
 	<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/error.svg" alt="">
     <p><?php echo esc_html( $error_message); ?></p>
+</div>
+
+<div class="embedpress-toast__message toast__message--attention">
+	<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/attention.svg" alt="">
+    <p><?php echo esc_html( $warning_message); ?></p>
 </div>
 
 <?php  if (!empty( $_GET['success'])){ ?>
