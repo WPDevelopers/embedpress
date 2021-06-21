@@ -339,4 +339,103 @@ jQuery(document).ready( function($){
             $this.html('Activating.....');
         }
     });
+    // Helpers
+    function copyToClipboard(text) {
+        if (window.clipboardData && window.clipboardData.setData) {
+            // Internet Explorer-specific code path to prevent textarea being shown while dialog is visible.
+            return window.clipboardData.setData("Text", text);
+
+        }
+        else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+            var textarea = document.createElement("textarea");
+            textarea.textContent = text;
+            textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in Microsoft Edge.
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+            }
+            catch (ex) {
+                console.warn("Copy to clipboard failed.", ex);
+                return false;
+            }
+            finally {
+                document.body.removeChild(textarea);
+            }
+        }
+    }
+    function validateUrl(value) {
+        return /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(value);
+    }
+    // Generate Shortcode
+    let $shortcodePreview = $('#ep-shortcode');
+
+    $(document).on('click', '#ep-shortcode-btn', function (e){
+        e.preventDefault();
+       let $linkNode = $('#ep-link');
+       let link = $linkNode.val();
+       if (!validateUrl(link)){
+           show_attention_alert('Please enter a valid URL.');
+           $linkNode.val('');
+           $shortcodePreview.val('');
+           return;
+       }
+       $linkNode.val('');
+       $shortcodePreview.val('[embedpress]'+link+'[/embedpress]');
+        $shortcodePreview.focus();
+    });
+
+    $(document).on('click', '#ep-shortcode-cp', function (e){
+        e.preventDefault();
+        let shortcode = $shortcodePreview.val();
+        if (shortcode.length < 1){
+            show_error_alert('Please enter a valid URL and generate a shortcode first.');
+            return;
+        }
+        copyToClipboard(shortcode);
+        $shortcodePreview.removeClass('active');
+        show_success_alert('Copied to your clipboard successfully.');
+    });
+
+    $shortcodePreview.on('focus', function (e) {
+        $(this).select();
+    });
+
+    function show_attention_alert(message='') {
+        let $attention_message_node = $('.toast__message--attention');
+        if (message.length>0){
+            $attention_message_node.find('p').html(message);
+        }
+        $attention_message_node.addClass('show');
+        setTimeout(function (){
+            $attention_message_node.removeClass('show');
+            history.pushState('', '', embedPressRemoveURLParameter(location.href, 'attention'));
+        }, 3000);
+    }
+
+    function show_error_alert(message='') {
+        let $error_message_node = $('.toast__message--error');
+        if (message.length>0){
+            $error_message_node.find('p').html(message);
+        }
+        $error_message_node.addClass('show');
+        setTimeout(function (){
+            $error_message_node.removeClass('show');
+            history.pushState('', '', embedPressRemoveURLParameter(location.href, 'error'));
+        }, 3000);
+    }
+
+    function show_success_alert(message='') {
+        let $success_message_node = $('.toast__message--success');
+        if (message.length>0){
+            $success_message_node.find('p').html(message);
+        }
+        $success_message_node.addClass('show');
+        setTimeout(function (){
+            $success_message_node.removeClass('show');
+            history.pushState('', '', embedPressRemoveURLParameter(location.href, 'success'));
+        }, 3000);
+    }
+
 });
+

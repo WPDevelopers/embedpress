@@ -147,13 +147,14 @@ class EmbedpressSettings {
 	}
 
 	public function render_settings_page(  ) {
-		global $template, $page_slug, $nonce_field, $ep_page, $gen_menu_template_names, $brand_menu_template_names, $pro_active, $coming_soon, $success_message, $error_message;
+		global $template, $page_slug, $nonce_field, $ep_page, $gen_menu_template_names, $brand_menu_template_names, $pro_active, $coming_soon, $success_message, $error_message, $platform_menu_template_names;
 
 		$page_slug = $this->page_slug; // make this available for included template
 		$template = !empty( $_GET['page_type'] ) ? sanitize_text_field( $_GET['page_type']) : 'general';
 		$nonce_field = wp_nonce_field('ep_settings_nonce', 'ep_settings_nonce', true, false);
 		$ep_page = admin_url('admin.php?page='.$this->page_slug);
-		$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['general', 'youtube', 'vimeo', 'wistia', 'twitch', 'spotify']);
+		$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['general', 'shortcode',]);
+		$platform_menu_template_names = apply_filters('ep_general_menu_tmpl_names', [ 'youtube', 'vimeo', 'wistia', 'twitch', 'spotify']);
 		$brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-logo', 'branding',]);
 		$pro_active = is_embedpress_pro_active();
 		$coming_soon = "<span class='ep-coming-soon'>". esc_html__( '(Coming soon)', 'embedpress'). "</span>";
