@@ -93,7 +93,6 @@ register_activation_hook(__FILE__, 'onPluginActivationCallback');
 register_deactivation_hook(__FILE__, 'onPluginDeactivationCallback');
 
 
-if ( ! is_plugin_active('gutenberg/gutenberg.php')) {
     add_action( 'plugins_loaded', function() {
         do_action( 'embedpress_before_init' );
     } );
@@ -106,7 +105,7 @@ if ( ! is_plugin_active('gutenberg/gutenberg.php')) {
 
     $embedPressPlugin->initialize();
 	new Feature_Enhancer();
-}
+
 
 if (  is_plugin_active('elementor/elementor.php')) {
     $embedPressElements = new Embedpress_Elementor_Integration();
