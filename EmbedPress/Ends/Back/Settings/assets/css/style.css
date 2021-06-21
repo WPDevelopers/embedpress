@@ -3321,6 +3321,8 @@ button.button__instagram.hover__highlight:hover .icon {
     border: 2px solid rgba(91, 78, 150, 0.1);
     border-radius: 10px;
     margin-bottom: 30px;
+    font-size: 16px;
+    color:#25396F;
   }
   
   .embedpress__shortcode .shortcode__form .form__group {
