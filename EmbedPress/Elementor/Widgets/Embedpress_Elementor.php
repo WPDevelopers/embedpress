@@ -82,12 +82,29 @@ class Embedpress_Elementor extends Widget_Base {
         );
 
         do_action( 'embedpress/embeded/extend', $this );
-
+	    $this->add_control(
+		    'embedpress_pro_embeded_source',
+		    [
+			    'label'       => __( 'Source Name', 'embedpress-pro' ),
+			    'type'        => Controls_Manager::SELECT,
+			    'label_block' => false,
+			    'default'     => ['default'],
+			    'options'     => [
+				    'default'     => __( 'Default', 'embedpress-pro' ),
+				    'youtube'     => __( 'YouTube', 'embedpress-pro' ),
+				    'vimeo'       => __( 'Vimeo', 'embedpress-pro' ),
+				    'dailymotion' => __( 'Dailymotion', 'embedpress-pro' ),
+				    'wistia'      => __( 'Wistia', 'embedpress-pro' ),
+				    'twitch'  => __( 'Twitch', 'embedpress-pro' ),
+				    'soundcloud'  => __( 'SoundCloud', 'embedpress-pro' ),
+			    ]
+		    ]
+	    );
         $this->add_control(
             'embedpress_embeded_link',
             [
 
-                'label'       => __( 'Embeded Link', 'embedpress' ),
+                'label'       => __( 'Embedded Link', 'embedpress' ),
                 'type'        => Controls_Manager::TEXT,
                 'dynamic'     => [
                     'active' => true,
@@ -116,6 +133,19 @@ class Embedpress_Elementor extends Widget_Base {
 		    ]
 	    );
         do_action( 'embedpress/control/extend', $this );
+	    $this->add_control(
+		    'embedpress_pro_video_start_time',
+		    [
+			    'label'       => __( 'Start Time', 'embedpress-pro' ),
+			    'type'        => Controls_Manager::NUMBER,
+			    'classes'     => 'embedpress-is-pro',
+			    'description' => __( 'Specify a start time (in seconds)', 'embedpress-pro' ),
+			    'condition'   => [
+				    'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'wistia', 'dailymotion', 'twitch']
+			    ],
+		    ]
+	    );
+        $this->init_youtube_controls();
 
         $this->end_controls_section();
 
@@ -230,6 +260,149 @@ class Embedpress_Elementor extends Widget_Base {
 
 
     }
+
+	function init_youtube_controls() {
+		$yt_condition = [
+			'embedpress_pro_embeded_source' => 'youtube'
+		];
+		$this->add_control(
+			'embedpress_pro_youtube_end_time',
+			[
+				'label'       => __( 'End Time', 'embedpress-pro' ),
+				'type'        => Controls_Manager::NUMBER,
+				'description' => __( 'Specify an end time (in seconds)', 'embedpress-pro' ),
+				'condition'   => $yt_condition,
+			]
+		);
+
+
+		$this->add_control(
+			'embedpress_pro_youtube_auto_play',
+			[
+				'label'        => __( 'Auto Play', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => $yt_condition
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_youtube_progress_bar_color',
+			[
+				'label'       => __( 'Progress Bar Color', 'embedpress-pro' ),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => false,
+				'default'     => 'red',
+				'options'     => [
+					'red'   => __( 'Red', 'embedpress-pro' ),
+					'white' => __( 'White', 'embedpress-pro' )
+				],
+				'condition'   => $yt_condition
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_youtube_force_closed_captions',
+			[
+				'label'        => __( 'Closed Captions', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'separator'    => 'after',
+				'condition'    => $yt_condition
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_youtube_player_options',
+			[
+				'label'     => __( 'Player Options', 'embedpress-pro' ),
+				'type'      => Controls_Manager::HEADING,
+				'condition' => $yt_condition
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_youtube_display_controls',
+			[
+				'label'       => __( 'Controls', 'embedpress-pro' ),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => false,
+				'default'     => 1,
+				'options'     => [
+					'1' => __( 'Display immediately', 'embedpress-pro' ),
+					'2' => __( 'Display after user initiation', 'embedpress-pro' ),
+					'0' => __( 'Hide controls', 'embedpress-pro' )
+				],
+				'condition'   => $yt_condition
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_youtube_enable_fullscreen_button',
+			[
+				'label'        => __( 'Fullscreen button', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => [
+					'embedpress_pro_embeded_source'            => 'youtube',
+					'embedpress_pro_youtube_display_controls!' => '0'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_youtube_display_video_annotations',
+			[
+				'label'       => __( 'Video Annotations', 'embedpress-pro' ),
+				'type'        => Controls_Manager::SWITCHER,
+				'label_block' => false,
+				'default'     => 1,
+				'options'     => [
+					'1' => __( 'Display', 'embedpress-pro' ),
+					'3' => __( 'Do Not Display', 'embedpress-pro' )
+				],
+				'condition'   => $yt_condition
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_youtube_modest_branding',
+			[
+				'label'       => __( 'Modest Branding', 'embedpress-pro' ),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => false,
+				'default'     => 1,
+				'options'     => [
+					'0' => __( 'Display', 'embedpress-pro' ),
+					'1' => __( 'Do Not Display', 'embedpress-pro' )
+				],
+				'condition'   => [
+					'embedpress_pro_embeded_source'              => 'youtube',
+					'embedpress_pro_youtube_display_controls!'   => '0',
+					'embedpress_pro_youtube_progress_bar_color!' => 'white'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_youtube_display_related_videos',
+			[
+				'label'        => __( 'Related Videos', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => $yt_condition
+			]
+		);
+		//$this->init_branding_controls( 'youtube');
+	}
 
     protected function render() {
         add_filter( 'embedpress_should_modify_spotify', '__return_false');

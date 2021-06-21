@@ -18,6 +18,7 @@ class Embedpress_Elementor_Integration {
 	    $e_blocks = isset( $elements['elementor']) ? (array) $elements['elementor'] : [];
 	    if ( !empty($e_blocks['embedpress']) || !empty($e_blocks['embedpress-document']) ) {
 		    add_action( 'elementor/frontend/after_enqueue_styles', [ $this, 'embedpress_enqueue_style' ] );
+		    add_action('elementor/editor/before_enqueue_styles', array($this, 'editor_enqueue_style'));
 		    add_action('elementor/editor/before_enqueue_scripts', array($this, 'editor_enqueue_scripts'));
 		    add_action( 'elementor/elements/categories_registered', array( $this, 'register_widget_categories' ) );
 		    add_action( 'elementor/widgets/widgets_registered', array( $this, 'register_widget' ) );
@@ -70,14 +71,18 @@ class Embedpress_Elementor_Integration {
             EMBEDPRESS_VERSION
         );
     }
+
+	public function editor_enqueue_style(){
+		wp_enqueue_style(
+			'embedpress-el-icon',
+			EMBEDPRESS_URL_ASSETS . 'css/el-icon.css',
+			false,
+			EMBEDPRESS_VERSION
+		);
+	}
     
     public function editor_enqueue_scripts(){
-        wp_enqueue_style(
-            'embedpress-el-icon',
-            EMBEDPRESS_URL_ASSETS . 'css/el-icon.css',
-            false,
-            EMBEDPRESS_VERSION
-        );
+
     }
 
     public function addOEmbedProviders( $providers ) {
