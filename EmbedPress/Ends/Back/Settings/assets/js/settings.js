@@ -381,7 +381,7 @@ jQuery(document).ready( function($){
            return;
        }
        $linkNode.val('');
-       $shortcodePreview.val('[embedpress]'+link+'[\\embedpress]');
+       $shortcodePreview.val('[embedpress]'+link+'[/embedpress]');
         $shortcodePreview.focus();
     });
 
