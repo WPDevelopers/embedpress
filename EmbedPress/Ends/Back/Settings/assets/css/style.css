@@ -3298,7 +3298,8 @@ button.button__instagram.hover__highlight:hover .icon {
     font-size: 12px;
     font-weight: 900;
 }
-.embedpress-card a{
+
+.embedpress-card a, .template__wrapper .ep-link{
     color:#5b4e96;
 }
 .proOverlay {

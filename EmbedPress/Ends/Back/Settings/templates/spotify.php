@@ -77,7 +77,7 @@ $follow_count = isset( $settings['follow_count']) ? $settings['follow_count'] : 
             </div>
 
             <div class="form__group">
-                <p class="embedpress-note" style="font-size: 14px; color:#7C8DB5;"><strong><?php esc_html_e( "Note:", "embedpress" ); ?></strong><?php esc_html_e( "To add follow widget, please add ':follow_widget' to the end of an artist URL. For details, check out this documentation.", "embedpress" ); ?></p>
+                <p class="embedpress-note" style="font-size: 14px; color:#7C8DB5;"><strong><?php esc_html_e( "Note:", "embedpress" ); ?></strong><?php printf( esc_html__( "To add follow widget, please add ':follow_widget' to the end of an artist URL. For details, %scheck out this documentation%s.", "embedpress" ), '<a class="ep-link" href="https://embedpress.com/docs/how-to-embed-spotify-artist-follower-widget/" target="_blank">', '</a>'); ?></p>
             </div>
 
 	        <?php do_action( 'embedpress_after_spotify_settings_fields'); ?>
