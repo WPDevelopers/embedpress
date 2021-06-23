@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: 3.0.3
+Stable tag: 3.0.4
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -300,6 +300,15 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.0.4] - 2021-06-23 =
+* Added: Shortcode feature for all editor
+* Added: Boomplay Single track support
+* Fixed: Conflict with Gutenberg plugin.
+* Fixed: Youtube Playlist preview not working in Gutenberg and classic editor
+* Fixed: Google map error in php 8
+* Fixed: Spotify album and playlist not loading issue
+* Few minor bug fix and improvements.
 
 = [3.0.3] - 2021-06-08 =
 * Added: Compatibility with Wistia, Vimeo and Twitch Branding

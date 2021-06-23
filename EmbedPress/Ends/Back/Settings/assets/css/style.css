@@ -2826,8 +2826,8 @@ button.button__instagram.hover__highlight:hover .icon {
 
 .embedpress-license__details .license__content {
     background: #ffffff;
-    padding: 100px;
-    padding-left: 50px;
+    padding: 40px 100px 50px 50px;
+
 }
 
 @media (max-width: 1199px) {
@@ -3301,6 +3301,9 @@ button.button__instagram.hover__highlight:hover .icon {
 
 .embedpress-card a, .template__wrapper .ep-link{
     color:#5b4e96;
+}
+.template__wrapper .ep-link {
+    font-weight: 600;
 }
 .proOverlay {
     opacity: .3;
