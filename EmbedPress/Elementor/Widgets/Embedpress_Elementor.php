@@ -427,7 +427,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'default'      => 'no',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'wistia'
-				]
+				],
 			]
 		);
 
@@ -454,7 +454,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'default'      => 'no',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'wistia'
-				]
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -469,7 +470,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'    => [
 					'embedpress_pro_embeded_source'  => 'wistia',
 					'embedpress_pro_wistia_captions' => 'yes'
-				]
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -495,7 +497,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'default'      => 'no',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'wistia'
-				]
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -509,7 +512,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'default'      => 'no',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'wistia'
-				]
+				],
 			]
 		);
 
@@ -523,7 +526,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'default'      => 'no',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'wistia'
-				]
+				],
 			]
 		);
 
@@ -537,7 +540,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'default'      => 'yes',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'wistia'
-				]
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -559,7 +563,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition' => [
 					'embedpress_pro_embeded_source'        => 'wistia',
 					'embedpress_pro_wistia_volume_control' => 'yes'
-				]
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -574,7 +579,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'default'      => 'no',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'wistia'
-				]
+				],
 			]
 		);
 
@@ -589,7 +594,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'default'      => 'no',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'wistia'
-				]
+				],
 			]
 		);
 
@@ -603,7 +608,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'default'      => 'no',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'wistia'
-				]
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -624,7 +630,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition' => [
 					'embedpress_pro_wistia_rewind'  => 'yes',
 					'embedpress_pro_embeded_source' => 'wistia'
-				]
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 
