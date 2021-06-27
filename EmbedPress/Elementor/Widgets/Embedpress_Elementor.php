@@ -6,13 +6,14 @@ namespace EmbedPress\Elementor\Widgets;
 use \Elementor\Controls_Manager as Controls_Manager;
 use Elementor\Group_Control_Background;
 use \Elementor\Group_Control_Css_Filter;
+use Elementor\Group_Control_Image_Size;
 use \Elementor\Widget_Base as Widget_Base;
 use \EmbedPress\Shortcode;
 
 (defined( 'ABSPATH' )) or die( "No direct script access allowed." );
 
 class Embedpress_Elementor extends Widget_Base {
-
+    protected $pro_class = '';
     public function get_name() {
         return 'embedpres_elementor';
     }
@@ -70,7 +71,7 @@ class Embedpress_Elementor extends Widget_Base {
     }
 
     protected function _register_controls() {
-
+        $this->pro_class = is_embedpress_pro_active() ? '': 'embedpress-pro-control';
         /**
          * EmbedPress Content Settings
          */
@@ -138,7 +139,7 @@ class Embedpress_Elementor extends Widget_Base {
 		    [
 			    'label'       => __( 'Start Time', 'embedpress-pro' ),
 			    'type'        => Controls_Manager::NUMBER,
-			    'classes'     => 'embedpress-is-pro',
+			    'classes'     => $this->pro_class,
 			    'description' => __( 'Specify a start time (in seconds)', 'embedpress-pro' ),
 			    'condition'   => [
 				    'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'wistia', 'dailymotion', 'twitch']
@@ -146,122 +147,18 @@ class Embedpress_Elementor extends Widget_Base {
 		    ]
 	    );
         $this->init_youtube_controls();
+        $this->init_vimeo_controls();
+        $this->init_wistia_controls();
+        $this->init_soundcloud_controls();
+        $this->init_dailymotion_control();
+        $this->init_twitch_control();
 
         $this->end_controls_section();
 
-        $this->start_controls_section(
-            'embedpress_style_section',
-            [
-                'label' => __( 'Style', 'elementor' ),
-                'tab'   => Controls_Manager::TAB_STYLE,
-            ]
-        );
-
-
-        $this->add_control(
-            'embedpress_elementor_aspect_ratio',
-            [
-                'label'              => __( 'Aspect Ratio', 'embedpress' ),
-                'description'              => __( 'Good for any video. You may turn it off for other embed type.', 'embedpress' ),
-                'type'               => Controls_Manager::SELECT,
-                'options'            => [
-                    0 => __('None'),
-                    '169' => '16:9',
-                    '219' => '21:9',
-                    '43'  => '4:3',
-                    '32'  => '3:2',
-                    '11'  => '1:1',
-                    '916' => '9:16',
-                ],
-                'default'            => 0,
-                'prefix_class'       => 'embedpress-aspect-ratio-',
-                'frontend_available' => true,
-            ]
-        );
-
-	    $this->add_control(
-		    'width',
-		    [
-			    'label' => __( 'Width', 'embedpress' ),
-			    'type' => Controls_Manager::SLIDER,
-			    'size_units' => [ 'px' ],
-			    'range' => [
-				    'px' => [
-					    'min' => 0,
-					    'max' => 1500,
-					    'step' => 5,
-				    ],
-			    ],
-			    'default' => [
-				    'unit' => 'px',
-				    'size' => 600,
-			    ]
-		    ]
-	    );
-	    $this->add_control(
-		    'height',
-		    [
-			    'label' => __( 'Height', 'embedpress' ),
-			    'type' => Controls_Manager::SLIDER,
-			    'size_units' => [ 'px' ],
-			    'range' => [
-				    'px' => [
-					    'min' => 0,
-					    'max' => 1500,
-					    'step' => 5,
-				    ],
-			    ],
-			    'default' => [
-				    'unit' => 'px',
-				    'size' => 400,
-			    ]
-		    ]
-	    );
-
-	    $this->add_responsive_control(
-		    'margin',
-		    [
-			    'label' => __( 'Margin', 'embedpress' ),
-			    'type' => Controls_Manager::DIMENSIONS,
-			    'size_units' => [ 'px', '%', 'em' ],
-			    'selectors' => [
-				    '{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-			    ],
-		    ]
-	    );
-	    $this->add_responsive_control(
-		    'padding',
-		    [
-			    'label' => __( 'Padding', 'embedpress' ),
-			    'type' => Controls_Manager::DIMENSIONS,
-			    'size_units' => [ 'px', '%', 'em' ],
-			    'selectors' => [
-				    '{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
-			    ],
-		    ]
-	    );
-	    $this->add_group_control(
-		    Group_Control_Background::get_type(),
-		    [
-			    'name' => 'background',
-			    'label' => __( 'Background', 'embedpress' ),
-			    'types' => [ 'classic', 'gradient' ],
-			    'selector' => '{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper, {{WRAPPER}} .embedpress-fit-aspect-ratio .embedpress-wrapper iframe',
-		    ]
-	    );
-	    $this->add_group_control(
-		    Group_Control_Css_Filter::get_type(),
-		    [
-			    'name'     => 'embedpress_elementor_css_filters',
-			    'selector' => '{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper',
-		    ]
-	    );
-        $this->end_controls_section();
-
-
+        $this->init_style_controls();
     }
 
-	function init_youtube_controls() {
+	public function init_youtube_controls() {
 		$yt_condition = [
 			'embedpress_pro_embeded_source' => 'youtube'
 		];
@@ -284,7 +181,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'no',
-				'condition'    => $yt_condition
+				'condition'    => $yt_condition,
 			]
 		);
 
@@ -294,12 +191,13 @@ class Embedpress_Elementor extends Widget_Base {
 				'label'       => __( 'Progress Bar Color', 'embedpress-pro' ),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
+				'classes'     => $this->pro_class,
 				'default'     => 'red',
 				'options'     => [
 					'red'   => __( 'Red', 'embedpress-pro' ),
 					'white' => __( 'White', 'embedpress-pro' )
 				],
-				'condition'   => $yt_condition
+				'condition'   => $yt_condition,
 			]
 		);
 
@@ -312,7 +210,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'return_value' => 'yes',
 				'default'      => 'no',
 				'separator'    => 'after',
-				'condition'    => $yt_condition
+				'classes'     => $this->pro_class,
+				'condition'    => $yt_condition,
 			]
 		);
 
@@ -321,7 +220,7 @@ class Embedpress_Elementor extends Widget_Base {
 			[
 				'label'     => __( 'Player Options', 'embedpress-pro' ),
 				'type'      => Controls_Manager::HEADING,
-				'condition' => $yt_condition
+				'condition' => $yt_condition,
 			]
 		);
 
@@ -337,7 +236,7 @@ class Embedpress_Elementor extends Widget_Base {
 					'2' => __( 'Display after user initiation', 'embedpress-pro' ),
 					'0' => __( 'Hide controls', 'embedpress-pro' )
 				],
-				'condition'   => $yt_condition
+				'condition'   => $yt_condition,
 			]
 		);
 
@@ -367,7 +266,7 @@ class Embedpress_Elementor extends Widget_Base {
 					'1' => __( 'Display', 'embedpress-pro' ),
 					'3' => __( 'Do Not Display', 'embedpress-pro' )
 				],
-				'condition'   => $yt_condition
+				'condition'   => $yt_condition,
 			]
 		);
 
@@ -386,7 +285,8 @@ class Embedpress_Elementor extends Widget_Base {
 					'embedpress_pro_embeded_source'              => 'youtube',
 					'embedpress_pro_youtube_display_controls!'   => '0',
 					'embedpress_pro_youtube_progress_bar_color!' => 'white'
-				]
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -398,12 +298,975 @@ class Embedpress_Elementor extends Widget_Base {
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
-				'condition'    => $yt_condition
+				'condition'    => $yt_condition,
+				'classes'     => $this->pro_class,
 			]
 		);
-		//$this->init_branding_controls( 'youtube');
+		$this->init_branding_controls( 'youtube');
+	}
+	public function init_dailymotion_control ( ){
+
+		$this->add_control(
+			'embedpress_pro_dailymotion_autoplay',
+			[
+				'label'        => __( 'Auto Play', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'dailymotion'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_dailymotion_play_on_mobile',
+			[
+				'label'        => __( 'Play On Mobile', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => [
+					'embedpress_pro_dailymotion_autoplay' => 'yes'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_dailymotion_mute',
+			[
+				'label'        => __( 'Mute', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'dailymotion'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_dailymotion_player_control',
+			[
+				'label'        => __( 'Player Controls', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'dailymotion'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_dailymotion_video_info',
+			[
+				'label'        => __( 'Video Info', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'dailymotion'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_dailymotion_logo',
+			[
+				'label'        => __( 'Logo', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'dailymotion'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_dailymotion_control_color',
+			[
+				'label'       => __( 'Control Color', 'embedpress-pro' ),
+				'type'        => Controls_Manager::COLOR,
+				'label_block' => false,
+				'default'     => '#dd3333',
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'dailymotion'
+				]
+			]
+		);
 	}
 
+	public function init_wistia_controls( ) {
+		$this->add_control(
+			'embedpress_pro_wistia_auto_play',
+			[
+				'label'        => __( 'Auto Play', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'wistia'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_wistia_color',
+			[
+				'label'       => __( 'Scheme', 'embedpress-pro' ),
+				'type'        => Controls_Manager::COLOR,
+				'label_block' => false,
+				'default'     => '#dd3333',
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'wistia'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_wistia_captions',
+			[
+				'label'        => __( 'Captions', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'wistia'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_wistia_captions_enabled_by_default',
+			[
+				'label'        => __( 'Captions Enabled By Default', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => [
+					'embedpress_pro_embeded_source'  => 'wistia',
+					'embedpress_pro_wistia_captions' => 'yes'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_wistia_player_options',
+			[
+				'label'     => __( 'Player Options', 'embedpress-pro' ),
+				'type'      => Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'wistia'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_wistia_playbar',
+			[
+				'label'        => __( 'Playbar', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'wistia'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_wistia_fullscreen_button',
+			[
+				'label'        => __( 'Fullscreen Button', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'wistia'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_wistia_small_play_button',
+			[
+				'label'        => __( 'Small Play Button', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'wistia'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_wistia_volume_control',
+			[
+				'label'        => __( 'Volume Control', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'wistia'
+				]
+			]
+		);
+
+
+		$this->add_control(
+			'embedpress_pro_wistia_volume',
+			[
+				'label'     => __( 'Volume', 'embedpress-pro' ),
+				'type'      => Controls_Manager::SLIDER,
+				'default'   => [
+					'size' => 100,
+				],
+				'range'     => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+					]
+				],
+				'condition' => [
+					'embedpress_pro_embeded_source'        => 'wistia',
+					'embedpress_pro_wistia_volume_control' => 'yes'
+				]
+			]
+		);
+
+
+		$this->add_control(
+			'embedpress_pro_wistia_resumable',
+			[
+				'label'        => __( 'Resumable', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'wistia'
+				]
+			]
+		);
+
+
+		$this->add_control(
+			'embedpress_pro_wistia_focus',
+			[
+				'label'        => __( 'Focus', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'wistia'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_wistia_rewind',
+			[
+				'label'        => __( 'Rewind', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'wistia'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_wistia_rewind_time',
+			[
+				'label'     => __( 'Rewind time', 'embedpress-pro' ),
+				'type'      => Controls_Manager::SLIDER,
+				'default'   => [
+					'size' => 10,
+				],
+				'range'     => [
+					'px' => [
+						'min' => 1,
+						'max' => 100,
+					]
+				],
+				'condition' => [
+					'embedpress_pro_wistia_rewind'  => 'yes',
+					'embedpress_pro_embeded_source' => 'wistia'
+				]
+			]
+		);
+
+		$this->init_branding_controls( 'wistia');
+
+	}
+
+	public function init_twitch_control( ) {
+		$condition = [
+			'embedpress_pro_embeded_source' => 'twitch'
+		];
+		$this->add_control(
+			'embedpress_pro_twitch_autoplay',
+			[
+				'label'        => __( 'Autoplay', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_off'    => __( 'No', 'embedpress-pro' ),
+				'label_on'     => __( 'Yes', 'embedpress-pro' ),
+				'default'      => 'yes',
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'embedpress_pro_twitch_chat',
+			[
+				'label'        => __( 'Show Chat', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'embedpress_pro_twitch_mute',
+			[
+				'label'        => __( 'Mute on start', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'embedpress_pro_twitch_theme',
+			[
+				'label' => __( 'Theme', 'embedpress-pro' ),
+				'type' => Controls_Manager::SELECT,
+				'default' => 'dark',
+				'options' => [
+					'dark'  => __( 'Dark', 'embedpress-pro' ),
+					'light' => __( 'Light', 'embedpress-pro' ),
+				],
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'embedpress_pro_fs',
+			[
+				'label'        => __( 'Allow Full Screen Video', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_off'    => __( 'No', 'embedpress-pro' ),
+				'label_on'     => __( 'Yes', 'embedpress-pro' ),
+				'default'      => 'yes',
+				'condition'    => $condition,
+			]
+		);
+		$this->init_branding_controls( 'twitch');
+
+	}
+
+	public function init_soundcloud_controls( ) {
+		$this->add_control(
+			'embedpress_pro_soundcloud_visual',
+			[
+				'label'        => __( 'Visual Player', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'soundcloud'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_soundcloud_color',
+			[
+				'label'       => __( 'Scheme', 'embedpress-pro' ),
+				'type'        => Controls_Manager::COLOR,
+				'label_block' => false,
+				'default'     => '#f50',
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'soundcloud'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_soundcloud_autoplay',
+			[
+				'label'        => __( 'Auto Play', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'soundcloud'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_soundcloud_buy_button',
+			[
+				'label'        => __( 'Buy Button', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'soundcloud'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_soundcloud_share_button',
+			[
+				'label'        => __( 'Share Button', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'soundcloud'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_soundcloud_comments',
+			[
+				'label'        => __( 'Comments', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'soundcloud'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_soundcloud_download_button',
+			[
+				'label'        => __( 'Download Button', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'soundcloud'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_soundcloud_artwork',
+			[
+				'label'        => __( 'Artwork', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source'     => 'soundcloud',
+					'embedpress_pro_soundcloud_visual!' => 'yes'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_soundcloud_play_count',
+			[
+				'label'        => __( 'Play Count', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'soundcloud'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_soundcloud_user_name',
+			[
+				'label'        => __( 'User Name', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'label_off'    => __( 'Hide', 'embedpress-pro' ),
+				'label_on'     => __( 'Show', 'embedpress-pro' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'soundcloud'
+				]
+			]
+		);
+	}
+
+	public function init_vimeo_controls( ) {
+		$this->add_control(
+			'embedpress_pro_vimeo_auto_play',
+			[
+				'label'        => __( 'Auto Play', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'vimeo'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_vimeo_loop',
+			[
+				'label'        => __( 'Loop', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'vimeo'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_vimeo_autopause',
+			[
+				'label'        => __( 'Auto Pause', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'vimeo'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_vimeo_dnt',
+			[
+				'label'        => __( 'DNT', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'description'  => __( 'Set this parameter to "yes" will block the player from tracking any session data, including all cookies',
+					'embedpress-pro' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'vimeo'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_vimeo_color',
+			[
+				'label'       => __( 'Scheme', 'embedpress-pro' ),
+				'type'        => Controls_Manager::COLOR,
+				'label_block' => false,
+				'default'     => '#00adef',
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'vimeo'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_vimeo_author_options',
+			[
+				'label'     => __( 'Author Information', 'embedpress-pro' ),
+				'type'      => Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'vimeo'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_vimeo_display_title',
+			[
+				'label'        => __( 'Title', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'vimeo'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_vimeo_display_author',
+			[
+				'label'        => __( 'Author', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'vimeo'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_vimeo_avatar',
+			[
+				'label'        => __( 'Avatar', 'embedpress-pro' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'vimeo'
+				]
+			]
+		);
+
+		$this->init_branding_controls( 'vimeo');
+
+	}
+	public function init_branding_controls( $provider_name='' ) {
+		$condition = [
+			'embedpress_pro_embeded_source' => $provider_name,
+		];
+		$logo_condition = [
+			'embedpress_pro_embeded_source' => $provider_name,
+			"embedpress_pro_{$provider_name}_logo[url]!" =>''
+		];
+
+		$this->add_control(
+			"{$provider_name}_custom_logo_cta_heading",
+			[
+				'label' => __( 'Custom Logo & CTA', 'embedpress-pro' ),
+				'type' => Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			"embedpress_pro_{$provider_name}_logo",
+			[
+				'label' => __( 'Custom Logo', 'embedpress-pro' ),
+				'description' => __( 'Leave it empty to hide it', 'embedpress-pro' ),
+				'type' => Controls_Manager::MEDIA,
+				'dynamic' => [
+					'active' => true,
+				],
+				'condition'    => $condition,
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Image_Size::get_type(),
+			[
+				'name' => "embedpress_pro_{$provider_name}_logo",
+				'default' => 'full',
+				'condition'    => $logo_condition,
+			]
+		);
+
+		$this->add_responsive_control(
+			"embedpress_pro_{$provider_name}_logo_xpos",
+			[
+				'label' => __( 'Logo X Position', 'embedpress-pro' ),
+				'description' => __( 'Change this number to move your logo in horizontal direction.', 'embedpress-pro' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 1000,
+						'step' => 5,
+					],
+					'%' => [
+						'min' => 0,
+						'max' => 100,
+					],
+				],
+				'default' => [
+					'unit' => '%',
+					'size' => 10,
+				],
+				'selectors' => [
+					"{{WRAPPER}} .ose-{$provider_name} .watermark" => 'right: {{SIZE}}{{UNIT}};',
+				],
+				'condition'    => $logo_condition,
+			]
+		);
+		$this->add_responsive_control(
+			"embedpress_pro_{$provider_name}_logo_ypos",
+			[
+				'label' => __( 'Logo Y Position (%)', 'embedpress-pro' ),
+				'description' => __( 'Change this number to move your logo in vertical direction.', 'embedpress-pro' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px', '%' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 1000,
+						'step' => 5,
+					],
+					'%' => [
+						'min' => 0,
+						'max' => 100,
+					],
+				],
+				'default' => [
+					'unit' => '%',
+					'size' => 10,
+				],
+				'selectors' => [
+					"{{WRAPPER}} .ose-{$provider_name} .watermark" => 'bottom: {{SIZE}}{{UNIT}};',
+				],
+				'condition'    => $logo_condition,
+
+			]
+		);
+		$this->start_controls_tabs(
+			"ep_{$provider_name}_cta_style_tabs",
+			[
+				'condition'    => $logo_condition,
+			]
+		);
+
+		$this->start_controls_tab( "ep_{$provider_name}_cta_normal_tab",
+			[
+				'label' => __( 'Normal', 'embedpress-pro' ),
+			]
+		);
+		$this->add_control(
+			"embedpress_pro_{$provider_name}_logo_opacity",
+			[
+				'label' => __( 'Logo Opacity', 'embedpress-pro' ),
+				'type' => Controls_Manager::SLIDER,
+				'default' => [
+					'size' => .5,
+				],
+				'range' => [
+					'px' => [
+						'max' => 1,
+						'step' => 0.01,
+					],
+				],
+				'selectors' => [
+					"{{WRAPPER}} .ose-{$provider_name} .watermark" => 'opacity: {{SIZE}};',
+				],
+				'condition'    => $logo_condition,
+
+			]
+		);
+		$this->end_controls_tab();
+		$this->start_controls_tab( "ep_{$provider_name}_cta_hover__tab",
+			[
+				'label' => __( 'Hover', 'embedpress-pro' ),
+			]
+		);
+		$this->add_control(
+			"embedpress_pro_{$provider_name}_logo_opacity_hover",
+			[
+				'label' => __( 'Logo Opacity', 'embedpress-pro' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ '%'],
+				'default' => [
+					'size' => 1,
+				],
+				'range' => [
+					'px' => [
+						'max' => 1,
+						'step' => 0.01,
+					],
+				],
+				'selectors' => [
+					"{{WRAPPER}} .ose-{$provider_name} .watermark:hover" => 'opacity: {{SIZE}};',
+				],
+				'condition'    => $logo_condition,
+
+			]
+		);
+		$this->end_controls_tab();
+		$this->end_controls_tabs();
+
+		$this->add_control(
+			"embedpress_pro_{$provider_name}_cta",
+			[
+				'label' => __( 'CTA link for Logo', 'embedpress-pro' ),
+				'description' => __( 'You can show the logo inside a link. Leave it empty to hide it', 'embedpress-pro' ),
+				'type' => Controls_Manager::URL,
+				'dynamic' => [
+					'active' => true,
+				],
+				'placeholder' => __( 'https://your-link.com', 'embedpress-pro' ),
+				'condition'    => $logo_condition,
+				'separator' => 'before',
+			]
+		);
+	}
+
+	public function init_style_controls() {
+		$this->start_controls_section(
+			'embedpress_style_section',
+			[
+				'label' => __( 'Style', 'elementor' ),
+				'tab'   => Controls_Manager::TAB_STYLE,
+			]
+		);
+		$this->add_control(
+			'embedpress_elementor_aspect_ratio',
+			[
+				'label'              => __( 'Aspect Ratio', 'embedpress' ),
+				'description'              => __( 'Good for any video. You may turn it off for other embed type.', 'embedpress' ),
+				'type'               => Controls_Manager::SELECT,
+				'options'            => [
+					0 => __('None'),
+					'169' => '16:9',
+					'219' => '21:9',
+					'43'  => '4:3',
+					'32'  => '3:2',
+					'11'  => '1:1',
+					'916' => '9:16',
+				],
+				'default'            => 0,
+				'prefix_class'       => 'embedpress-aspect-ratio-',
+				'frontend_available' => true,
+			]
+		);
+		$this->add_control(
+			'width',
+			[
+				'label' => __( 'Width', 'embedpress' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 1500,
+						'step' => 5,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 600,
+				]
+			]
+		);
+		$this->add_control(
+			'height',
+			[
+				'label' => __( 'Height', 'embedpress' ),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => [ 'px' ],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 1500,
+						'step' => 5,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 400,
+				]
+			]
+		);
+		$this->add_responsive_control(
+			'margin',
+			[
+				'label' => __( 'Margin', 'embedpress' ),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
+				'selectors' => [
+					'{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+		$this->add_responsive_control(
+			'padding',
+			[
+				'label' => __( 'Padding', 'embedpress' ),
+				'type' => Controls_Manager::DIMENSIONS,
+				'size_units' => [ 'px', '%', 'em' ],
+				'selectors' => [
+					'{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
+				],
+			]
+		);
+		$this->add_group_control(
+			Group_Control_Background::get_type(),
+			[
+				'name' => 'background',
+				'label' => __( 'Background', 'embedpress' ),
+				'types' => [ 'classic', 'gradient' ],
+				'selector' => '{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper, {{WRAPPER}} .embedpress-fit-aspect-ratio .embedpress-wrapper iframe',
+			]
+		);
+		$this->add_group_control(
+			Group_Control_Css_Filter::get_type(),
+			[
+				'name'     => 'embedpress_elementor_css_filters',
+				'selector' => '{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper',
+			]
+		);
+		$this->end_controls_section();
+	}
     protected function render() {
         add_filter( 'embedpress_should_modify_spotify', '__return_false');
         $settings      = $this->get_settings_for_display();
