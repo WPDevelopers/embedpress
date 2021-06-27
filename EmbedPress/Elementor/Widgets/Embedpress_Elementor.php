@@ -880,7 +880,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'default'      => 'no',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'vimeo'
-				]
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -894,7 +895,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'default'      => 'no',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'vimeo'
-				]
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -910,7 +912,8 @@ class Embedpress_Elementor extends Widget_Base {
 					'embedpress-pro' ),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'vimeo'
-				]
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -963,7 +966,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'default'      => 'yes',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'vimeo'
-				]
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -977,7 +981,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'default'      => 'yes',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'vimeo'
-				]
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -1012,6 +1017,7 @@ class Embedpress_Elementor extends Widget_Base {
 					'active' => true,
 				],
 				'condition'    => $condition,
+				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -1021,6 +1027,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'name' => "embedpress_pro_{$provider_name}_logo",
 				'default' => 'full',
 				'condition'    => $logo_condition,
+				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -1050,6 +1057,7 @@ class Embedpress_Elementor extends Widget_Base {
 					"{{WRAPPER}} .ose-{$provider_name} .watermark" => 'right: {{SIZE}}{{UNIT}};',
 				],
 				'condition'    => $logo_condition,
+				'classes'     => $this->pro_class,
 			]
 		);
 		$this->add_responsive_control(
@@ -1078,6 +1086,7 @@ class Embedpress_Elementor extends Widget_Base {
 					"{{WRAPPER}} .ose-{$provider_name} .watermark" => 'bottom: {{SIZE}}{{UNIT}};',
 				],
 				'condition'    => $logo_condition,
+				'classes'     => $this->pro_class,
 
 			]
 		);
@@ -1111,6 +1120,7 @@ class Embedpress_Elementor extends Widget_Base {
 					"{{WRAPPER}} .ose-{$provider_name} .watermark" => 'opacity: {{SIZE}};',
 				],
 				'condition'    => $logo_condition,
+				'classes'     => $this->pro_class,
 
 			]
 		);
@@ -1139,6 +1149,7 @@ class Embedpress_Elementor extends Widget_Base {
 					"{{WRAPPER}} .ose-{$provider_name} .watermark:hover" => 'opacity: {{SIZE}};',
 				],
 				'condition'    => $logo_condition,
+				'classes'     => $this->pro_class,
 
 			]
 		);
@@ -1156,6 +1167,7 @@ class Embedpress_Elementor extends Widget_Base {
 				],
 				'placeholder' => __( 'https://your-link.com', 'embedpress-pro' ),
 				'condition'    => $logo_condition,
+				'classes'     => $this->pro_class,
 				'separator' => 'before',
 			]
 		);
