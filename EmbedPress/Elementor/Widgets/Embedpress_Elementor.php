@@ -719,7 +719,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'label_on'     => __( 'Show', 'embedpress-pro' ),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
-				]
+				],
 			]
 		);
 
@@ -748,7 +748,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'label_on'     => __( 'Show', 'embedpress-pro' ),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
-				]
+				],
 			]
 		);
 
@@ -764,7 +764,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'label_on'     => __( 'Show', 'embedpress-pro' ),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
-				]
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -780,7 +781,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'label_on'     => __( 'Show', 'embedpress-pro' ),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
-				]
+				],
 			]
 		);
 
@@ -796,7 +797,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'label_on'     => __( 'Show', 'embedpress-pro' ),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
-				]
+				],
 			]
 		);
 
@@ -812,7 +813,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'label_on'     => __( 'Show', 'embedpress-pro' ),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
-				]
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -845,7 +847,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'label_on'     => __( 'Show', 'embedpress-pro' ),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
-				]
+				],
 			]
 		);
 
@@ -861,7 +863,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'label_on'     => __( 'Show', 'embedpress-pro' ),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
-				]
+				],
 			]
 		);
 	}
