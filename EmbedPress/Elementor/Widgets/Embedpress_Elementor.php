@@ -398,7 +398,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'label_on'     => __( 'Show', 'embedpress-pro' ),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'dailymotion'
-				]
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 
