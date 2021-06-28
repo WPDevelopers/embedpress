@@ -662,6 +662,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'label_off'    => __( 'Hide', 'embedpress-pro' ),
 				'label_on'     => __( 'Show', 'embedpress-pro' ),
 				'condition'    => $condition,
+				'classes'     => $this->pro_class,
+
 			]
 		);
 		$this->add_control(
@@ -672,6 +674,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'label_off'    => __( 'Hide', 'embedpress-pro' ),
 				'label_on'     => __( 'Show', 'embedpress-pro' ),
 				'condition'    => $condition,
+				'classes'     => $this->pro_class,
 			]
 		);
 		$this->add_control(
@@ -685,6 +688,7 @@ class Embedpress_Elementor extends Widget_Base {
 					'light' => __( 'Light', 'embedpress-pro' ),
 				],
 				'condition'    => $condition,
+				'classes'     => $this->pro_class,
 			]
 		);
 		$this->add_control(
