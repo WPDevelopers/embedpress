@@ -69,7 +69,6 @@ class Embedpress_Elementor extends Widget_Base {
             'google drawings'
         ];
     }
-
     protected function _register_controls() {
         $this->pro_class = is_embedpress_pro_active() ? '': 'embedpress-pro-control';
         /**
@@ -157,7 +156,6 @@ class Embedpress_Elementor extends Widget_Base {
 
         $this->init_style_controls();
     }
-
 	public function init_youtube_controls() {
 		$yt_condition = [
 			'embedpress_pro_embeded_source' => 'youtube'
@@ -416,7 +414,6 @@ class Embedpress_Elementor extends Widget_Base {
 			]
 		);
 	}
-
 	public function init_wistia_controls( ) {
 		$this->add_control(
 			'embedpress_pro_wistia_auto_play',
@@ -639,7 +636,6 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->init_branding_controls( 'wistia');
 
 	}
-
 	public function init_twitch_control( ) {
 		$condition = [
 			'embedpress_pro_embeded_source' => 'twitch'
@@ -706,7 +702,6 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->init_branding_controls( 'twitch');
 
 	}
-
 	public function init_soundcloud_controls( ) {
 		$this->add_control(
 			'embedpress_pro_soundcloud_visual',
@@ -868,7 +863,6 @@ class Embedpress_Elementor extends Widget_Base {
 			]
 		);
 	}
-
 	public function init_vimeo_controls( ) {
 		$this->add_control(
 			'embedpress_pro_vimeo_auto_play',
@@ -1002,6 +996,43 @@ class Embedpress_Elementor extends Widget_Base {
 
 		$this->init_branding_controls( 'vimeo');
 
+	}
+	public function init_spotify_controls() {
+		$condition = [
+			'embedpress_pro_embeded_source' => 'spotify'
+		];
+
+
+		$this->add_control(
+			'spotify_theme',
+			[
+				'label'       => __( 'Player Background', 'embedpress-pro' ),
+				'description'       => __( 'Dynamic option will use the most vibrant color from the album art.', 'embedpress-pro' ),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => false,
+				'default'     => '1',
+				'options'     => [
+					'1'   => __( 'Dynamic', 'embedpress-pro' ),
+					'0' => __( 'Black & White', 'embedpress-pro' )
+				],
+				'condition'   => $condition
+			]
+		);
+
+		$this->add_control(
+			'spotify_follow_theme',
+			[
+				'label'       => __( 'Follow Widget Background', 'embedpress-pro' ),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => false,
+				'default'     => 'light',
+				'options'     => [
+					'light'   => __( 'Light', 'embedpress-pro' ),
+					'dark' => __( 'Dark', 'embedpress-pro' )
+				],
+				'condition'   => $condition
+			]
+		);
 	}
 	public function init_branding_controls( $provider_name='' ) {
 		$condition = [
@@ -1312,7 +1343,6 @@ class Embedpress_Elementor extends Widget_Base {
         </div>
         <?php
     }
-
 	public function onAfterEmbedSpotify( $embed, $setting ) {
 		if ( !isset( $embed->provider_name ) || strtolower( $embed->provider_name ) !== 'spotify' || !isset( $embed->embed ) ) {
 			return $embed;
@@ -1333,7 +1363,4 @@ class Embedpress_Elementor extends Widget_Base {
 		$embed->embed = str_replace( $url_full, $modified_url, $embed->embed );
 		return $embed;
 	}
-
-
-
 }
