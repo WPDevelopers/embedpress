@@ -61,6 +61,18 @@
                     </a>
                 </li>
                 <li class="dropdown__item">
+                    <a href="<?php echo esc_url( $ep_page.'&page_type=dailymotion'); ?>" class="dropdown__link <?php echo 'dailymotion' === $template ? 'active' : ''; ?>">
+                        <img class="embedpress-settings-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/dailymotion.svg" alt="">
+			            <?php esc_html_e( "Dailymotion", "embedpress" ); ?>
+                    </a>
+                </li>
+                <li class="dropdown__item">
+                    <a href="<?php echo esc_url( $ep_page.'&page_type=soundcloud'); ?>" class="dropdown__link <?php echo 'soundcloud' === $template ? 'active' : ''; ?>">
+                        <img class="embedpress-settings-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/soundcloud.svg" alt="">
+			            <?php esc_html_e( "SoundCloud", "embedpress" ); ?>
+                    </a>
+                </li>
+                <li class="dropdown__item">
                     <a href="<?php echo esc_url( $ep_page.'&page_type=spotify'); ?>" class="dropdown__link <?php echo 'spotify' === $template ? 'active' : ''; ?>">
                         <img class="embedpress-settings-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/spotify.svg" alt="">
 

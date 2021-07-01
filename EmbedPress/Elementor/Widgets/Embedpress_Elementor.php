@@ -725,7 +725,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'label'       => __( 'Scheme', 'embedpress-pro' ),
 				'type'        => Controls_Manager::COLOR,
 				'label_block' => false,
-				'default'     => '#f50',
+				'default'     => '#FF5500',
 				'condition'   => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
 				]

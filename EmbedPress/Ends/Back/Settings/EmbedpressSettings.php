@@ -154,7 +154,7 @@ class EmbedpressSettings {
 		$nonce_field = wp_nonce_field('ep_settings_nonce', 'ep_settings_nonce', true, false);
 		$ep_page = admin_url('admin.php?page='.$this->page_slug);
 		$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['general', 'shortcode',]);
-		$platform_menu_template_names = apply_filters('ep_general_menu_tmpl_names', [ 'youtube', 'vimeo', 'wistia', 'twitch', 'spotify']);
+		$platform_menu_template_names = apply_filters('ep_platform_menu_tmpl_names', [ 'youtube', 'vimeo', 'wistia', 'twitch','dailymotion', 'soundcloud' ,'spotify']);
 		$brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-logo', 'branding',]);
 		$pro_active = is_embedpress_pro_active();
 		$coming_soon = "<span class='ep-coming-soon'>". esc_html__( '(Coming soon)', 'embedpress'). "</span>";
@@ -185,7 +185,7 @@ class EmbedpressSettings {
 	}
 
 	public function save_general_settings() {
-		$settings = (array) get_option( EMBEDPRESS_PLG_NAME);
+		$settings = (array) get_option( EMBEDPRESS_PLG_NAME, []);
 		$settings ['enableEmbedResizeWidth'] = isset( $_POST['enableEmbedResizeWidth']) ? intval( $_POST['enableEmbedResizeWidth']) : 600;
 		$settings ['enableEmbedResizeHeight'] = isset( $_POST['enableEmbedResizeHeight']) ? intval( $_POST['enableEmbedResizeHeight']) : 550;
 
@@ -198,7 +198,7 @@ class EmbedpressSettings {
 
 	public function save_youtube_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':youtube';
-		$settings = get_option( $option_name);
+		$settings = get_option( $option_name, []);
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['controls'] = isset( $_POST['controls']) ? sanitize_text_field( $_POST['controls']) : '';
 		$settings['fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : '';
@@ -214,7 +214,7 @@ class EmbedpressSettings {
 
 	public function save_wistia_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':wistia';
-		$settings = get_option( $option_name);
+		$settings = get_option( $option_name, []);
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['display_fullscreen_button'] = isset( $_POST['display_fullscreen_button']) ? sanitize_text_field( $_POST['display_fullscreen_button']) : '';
 		$settings['small_play_button'] = isset( $_POST['small_play_button']) ? sanitize_text_field( $_POST['small_play_button']) : '';
@@ -230,7 +230,7 @@ class EmbedpressSettings {
 
 	public function save_vimeo_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':vimeo';
-		$settings = get_option( $option_name);
+		$settings = get_option( $option_name, []);
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : '#00adef';
 		$settings['display_title'] = isset( $_POST['display_title']) ? sanitize_text_field( $_POST['display_title']) : 1;
@@ -243,7 +243,7 @@ class EmbedpressSettings {
 
 	public function save_twitch_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':twitch';
-		$settings = get_option( $option_name);
+		$settings = get_option( $option_name, []);
 		$settings['embedpress_pro_twitch_autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : 'no';
 		$settings['embedpress_pro_fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : 'yes';
 		$settings['license_key'] = 1; // backward compatibility
@@ -255,7 +255,7 @@ class EmbedpressSettings {
 
 	public function save_spotify_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':spotify';
-		$settings = get_option( $option_name);
+		$settings = get_option( $option_name, []);
 		$settings['theme'] = isset( $_POST['spotify_theme']) ? sanitize_text_field( $_POST['spotify_theme']) : '1';
 		$settings['license_key'] = 1; // backward compatibility
 
@@ -273,5 +273,40 @@ class EmbedpressSettings {
 		update_option( EMBEDPRESS_PLG_NAME, $settings);
 		do_action( 'after_embedpress_branding_save');
 
+	}
+
+	public function save_dailymotion_settings() {
+		$option_name = EMBEDPRESS_PLG_NAME.':dailymotion';
+		$settings = get_option( $option_name, []);
+		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
+		$settings['play_on_mobile'] = isset( $_POST['play_on_mobile']) ? sanitize_text_field( $_POST['play_on_mobile']) : '';
+		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : '#dd3333';
+		$settings['controls'] = isset( $_POST['controls']) ? sanitize_text_field( $_POST['controls']) : '';
+		$settings['video_info'] = isset( $_POST['video_info']) ? sanitize_text_field( $_POST['video_info']) : '';
+		$settings['mute'] = isset( $_POST['mute']) ? sanitize_text_field( $_POST['mute']) : '';
+		// Pro will handle g_loading_animation settings and other
+		$settings = apply_filters( 'ep_dailymotion_settings_before_save', $settings);
+		update_option( $option_name, $settings);
+		do_action( 'ep_dailymotion_settings_after_save', $settings);
+	}
+
+	public function save_soundcloud_settings() {
+		$option_name = EMBEDPRESS_PLG_NAME.':soundcloud';
+		$settings = get_option( $option_name, []);
+		$settings['visual'] = isset( $_POST['visual']) ? sanitize_text_field( $_POST['visual']) : '';
+		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
+		$settings['play_on_mobile'] = isset( $_POST['play_on_mobile']) ? sanitize_text_field( $_POST['play_on_mobile']) : '';
+		$settings['share_button'] = isset( $_POST['share_button']) ? sanitize_text_field( $_POST['share_button']) : '';
+		$settings['comments'] = isset( $_POST['comments']) ? sanitize_text_field( $_POST['comments']) : '';
+		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : '';
+		$settings['artwork'] = isset( $_POST['artwork']) ? sanitize_text_field( $_POST['artwork']) : '';
+		$settings['play_count'] = isset( $_POST['play_count']) ? sanitize_text_field( $_POST['play_count']) : '';
+		$settings['username'] = isset( $_POST['username']) ? sanitize_text_field( $_POST['username']) : '';
+
+		$settings['license_key'] = 1; // backward compatibility
+		// Pro will handle g_loading_animation settings and other
+		$settings = apply_filters( 'ep_soundcloud_settings_before_save', $settings);
+		update_option( $option_name, $settings);
+		do_action( 'ep_soundcloud_settings_after_save', $settings);
 	}
 }
