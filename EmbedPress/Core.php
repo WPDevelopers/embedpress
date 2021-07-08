@@ -371,6 +371,10 @@ class Core {
      *
      */
     public static function onPluginActivationCallback () {
+	    $dirname = wp_get_upload_dir()['basedir'].'/embedpress';
+	    if (!file_exists($dirname)) {
+	    	mkdir($dirname, 0777);
+	    }
         flush_rewrite_rules();
     }
 

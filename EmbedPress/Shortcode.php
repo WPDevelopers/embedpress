@@ -129,8 +129,15 @@ class Shortcode {
 	        self::set_embera_settings(self::$ombed_attributes);
 
             // Identify what service provider the shortcode's link belongs to
-
-            $serviceProvider = self::get_oembed()->get_provider( $url );
+	        if ( strpos( $url, 'meetup.com') !== false ) {
+		        $serviceProvider = '';
+			}else{
+		        $serviceProvider = self::get_oembed()->get_provider( $url );
+	        }
+            // FIX FOR MEETUP as MEETUP API is OFF, use OUR custom embed
+	        if ( 'https://api.meetup.com/oembed' === $serviceProvider ) {
+		        $serviceProvider = '';
+	        }
             $urlData = self::get_url_data( $url, self::$ombed_attributes, $serviceProvider);
 
             // Sanitize the data
@@ -606,7 +613,11 @@ KAMAL;
     }
 
 	protected static function get_content_from_template( $url, $template ) {
-		$html = self::get_oembed()->get_html( $url, self::get_oembed_attributes() );
+		if ( strpos( $url, 'meetup.com') !== false ) {
+			$html = '';
+		}else{
+			$html = self::get_oembed()->get_html( $url, self::get_oembed_attributes() );
+		}
 
 		if ( !$html ) {
 			$html = str_replace( '{html}', self::get_embera_instance()->autoEmbed($url), $template );

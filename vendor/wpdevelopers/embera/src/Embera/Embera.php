@@ -157,6 +157,7 @@ class Embera
                     $response = $responsive->transform($response);
                 }
 
+
                 $return[$url] = $this->applyFilters($response);
 
             } catch (\Exception $e) {

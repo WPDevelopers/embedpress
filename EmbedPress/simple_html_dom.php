@@ -44,7 +44,27 @@ defined('DEFAULT_BR_TEXT') || define('DEFAULT_BR_TEXT', "\r\n");
 defined('DEFAULT_SPAN_TEXT') || define('DEFAULT_SPAN_TEXT', ' ');
 defined('MAX_FILE_SIZE') || define('MAX_FILE_SIZE', 600000);
 define('HDOM_SMARTY_AS_TEXT', 1);
-
+/**
+ * It checks for data in the node before returning.
+ *
+ * @param simple_html_dom_node $node
+ * @param string               $method
+ * @param string               $attr_name
+ *
+ * @return string it returns data from the node if found or empty strings otherwise.
+ */
+function embedpress_get_markup_from_node( $node, $method='innertext', $attr_name=''){
+	if ( !empty( $node) && is_object( $node) ) {
+		if ( !empty( $attr_name) ) {
+			return $node->getAttribute( $attr_name );
+		}
+		if ( !empty( $method) && method_exists( $node, $method) ) {
+			return $node->{$method}();
+		}
+		return '';
+	}
+	return '';
+}
 /**
  * @param        $url
  * @param false  $use_include_path
@@ -58,7 +78,7 @@ define('HDOM_SMARTY_AS_TEXT', 1);
  * @param string $defaultBRText
  * @param string $defaultSpanText
  *
- * @return $this|false
+ * @return simple_html_dom|false
  */
 function file_get_html(
 	$url,
@@ -74,7 +94,7 @@ function file_get_html(
 	$defaultSpanText = DEFAULT_SPAN_TEXT)
 {
 	if($maxLen <= 0) { $maxLen = MAX_FILE_SIZE; }
-
+	/**@var simple_html_dom $dom */
 	$dom = new simple_html_dom(
 		null,
 		$lowercase,

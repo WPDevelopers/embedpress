@@ -118,20 +118,6 @@ Shortcode::register();
 if ( !class_exists( '\simple_html_dom') ) {
 	include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
 }
-//@TODO; clean up
-add_action( 'init', function () {
-	return;
-	$url = 'https://www.meetup.com/Unityradiantlight-org/events/qsswgsyccjbkc/';
-	$dom = file_get_html($url);
-	$ifDom = $dom->find( '.pageHead', 0);
-	$content = $dom->find( '.eventContent', 0);
-	//if (!empty( $ifDom) && is_object( $ifDom)){
-	//	$ifDom->removeAttribute( 'sandbox');
-	//}
 
-	ob_start();
-	echo $ifDom;
-	echo $content;
-	$html = ob_get_clean();
-	error_log( print_r( $html, 1));
-});
+
+

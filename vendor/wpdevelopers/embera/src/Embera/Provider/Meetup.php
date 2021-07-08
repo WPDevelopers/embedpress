@@ -20,6 +20,8 @@ use Embera\Url;
  */
 class Meetup extends ProviderAdapter implements ProviderInterface
 {
+	/** inline {@inheritdoc} */
+	protected $shouldSendRequest = false;
     /** inline {@inheritdoc} */
     protected $endpoint = 'https://api.meetup.com/oembed?format=json';
 
@@ -51,4 +53,146 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 
         return $url;
     }
+
+	public function getStaticResponse() {
+		$response = [];
+		$response['provider'] = 'Meetup';
+		$response['url'] = $this->getUrl();
+		$meetup_website = 'https://meetup.com';
+		$search = ['href="/', 'src="/'];
+		$replace = ['href="'.$meetup_website, 'src="'.$meetup_website];
+		//$url = 'https://www.meetup.com/WordPressRI/events/278971877';
+		$hash = 'mu_'.md5( $this->getUrl());
+		$filename = wp_get_upload_dir()['basedir'] ."/embedpress/$hash.txt";
+		$params =$this->getParams();
+
+		if ( file_exists( $filename) ) {
+			$response['html'] = file_get_contents( $filename);
+			return $response;
+			//$dom = file_get_html($filename);
+		}else{
+			$dom = file_get_html($this->getUrl());
+		}
+
+		// Event info
+		$date = $dom->find('.eventTimeDisplay-startDate span', 0);
+
+		$date = $this->embedpress_get_markup_from_node( $date );
+		$title = $dom->find('.pageHead-headline', 0);
+		$title = $this->embedpress_get_markup_from_node( $title);
+		$content = $dom->find('.event-description--wrapper', 0);
+		$content = str_replace( $search, $replace, $this->embedpress_get_markup_from_node( $content )) ;
+
+		$host_info = $dom->find('.event-host-info', 0);
+		$host_info = str_replace( $search, $replace, $this->embedpress_get_markup_from_node( $host_info )) ;
+
+		$attendees = $dom->find('.attendees-sample', 0);
+		$attendees = str_replace( $search, $replace, $this->embedpress_get_markup_from_node( $attendees )) ;
+
+
+		// Group info
+		$group_name = $dom->find('.event-group-name span', 0);
+		$group_name = $this->embedpress_get_markup_from_node( $group_name );
+		$group_link = $dom->find('a.event-group', 0);
+		$group_link = $meetup_website.$this->embedpress_get_markup_from_node( $group_link, false, 'href');
+		$group_img = $dom->find('.event-group-photo', 0);
+		$group_img = $this->embedpress_get_markup_from_node( $group_img, false, 'src') ;
+
+		// Time
+		$datetime = $dom->find('.eventDateTime--hover time', 0);
+		$datetime = $this->embedpress_get_markup_from_node( $datetime, 'outertext');
+		$recurrence = $dom->find('.eventTimeDisplay-recurrence', 0);
+		$recurrence = $this->embedpress_get_markup_from_node( $recurrence);
+
+		// Location
+		$location = $dom->find('.event-info address', 0);
+		$location = $this->embedpress_get_markup_from_node( $location, 'outertext');
+
+		$data = [
+			'date' => $date,
+			'title' => $title,
+			'host_info' => $host_info,
+			'content' => $content,
+			'attendees' => $attendees,
+			'group_name' => $group_name,
+			'group_link' => $group_link,
+			'group_img' => $group_img,
+			'datetime' => $datetime,
+			'recurrence' => $recurrence,
+			'location' => $location,
+		];
+		ob_start();
+		?>
+		<article class="embedpress-event">
+			<header class="ep-event-header">
+				<!--Date-->
+				<span class="ep-event--date"><?php echo esc_html( $date); ?></span>
+				<!--Event Title -->
+				<a class="ep-event-link" href="<?php echo esc_url( $this->getUrl()); ?>" target="_blank">
+					<h1 class="ep-event--title"><?php echo esc_html( $title); ?></h1>
+				</a>
+				<!--	Event Host	-->
+				<div class="ep-event--host">
+					<?php echo wp_kses_post( $host_info );?>
+				</div>
+			</header>
+
+			<section class="ep-event-content">
+				<div class="ep-event--description">
+					<?php echo wp_kses_post( $content );?>
+				</div>
+				<div class="ep-event--attendees">
+					<?php echo wp_kses_post( $attendees );?>
+				</div>
+			</section>
+
+			<aside>
+				<a class="ep-event-group-link" href="<?php echo esc_url( $group_link); ?>">
+					<img class="ep-event-group--image" src="<?php echo esc_url( $group_img)?>" alt="<?php echo esc_attr( $title ); ?>"/ >
+					<h4 class="ep-event-group--name"><?php echo wp_kses_post( $group_name );?></h4>
+				</a>
+                <div class="ep-event-time-location">
+                    <div class="ep-event-datetime">
+                        <?php echo wp_kses_post( $datetime ); ?>
+                        <?php echo wp_kses_post( $recurrence ); ?>
+                    </div>
+                    <div class="ep-event-location">
+                        <?php echo wp_kses_post( $location ); ?>
+                    </div>
+                </div>
+			</aside>
+
+		</article>
+
+
+
+		<?php
+		$event_output = ob_get_clean();
+		file_put_contents( $filename, $event_output);
+		$response['html'] = $event_output;
+		return $response;
+	}
+
+	/**
+	 * It checks for data in the node before returning.
+	 *
+	 * @param \simple_html_dom_node $node
+	 * @param string               $method
+	 * @param string               $attr_name
+	 *
+	 * @return string it returns data from the node if found or empty strings otherwise.
+	 */
+	public function embedpress_get_markup_from_node( $node, $method='innertext', $attr_name=''){
+		if ( !empty( $node) && is_object( $node) ) {
+			if ( !empty( $attr_name) ) {
+				return $node->getAttribute( $attr_name );
+			}
+			if ( !empty( $method) && method_exists( $node, $method) ) {
+				return $node->{$method}();
+			}
+			return '';
+		}
+		return '';
+	}
+
 }

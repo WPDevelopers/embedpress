@@ -331,6 +331,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'label_off'    => __( 'Hide', 'embedpress-pro' ),
 				'label_on'     => __( 'Show', 'embedpress-pro' ),
 				'condition'    => [
+					'embedpress_pro_embeded_source' => 'dailymotion',
 					'embedpress_pro_dailymotion_autoplay' => 'yes'
 				]
 			]
