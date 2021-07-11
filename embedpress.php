@@ -79,6 +79,26 @@ function get_embedpress_pro_version() {
 
 }
 
+add_action( 'embedpress_cache_cleanup_action', 'embedpress_cache_cleanup' );
+
+function embedpress_cache_cleanup( ){
+	$dirname = wp_get_upload_dir()['basedir'].'/embedpress';
+	if ( file_exists( $dirname) ) {
+		$files = glob($dirname.'/*');
+		//@TODO; delete files only those start with 'mu_'
+		foreach($files as $file) {
+			if(is_file($file))
+				unlink($file);
+		}
+	}
+}
+
+function embedpress_schedule_cache_cleanup( ){
+	if ( ! wp_next_scheduled( 'embedpress_cache_cleanup_action' ) ) {
+		wp_schedule_event( time(), 'daily', 'embedpress_cache_cleanup_action' );
+	}
+}
+
 function onPluginActivationCallback()
 {
     Core::onPluginActivationCallback();
@@ -118,6 +138,4 @@ Shortcode::register();
 if ( !class_exists( '\simple_html_dom') ) {
 	include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
 }
-
-
 

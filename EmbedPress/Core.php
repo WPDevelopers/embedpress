@@ -376,6 +376,7 @@ class Core {
 	    	mkdir($dirname, 0777);
 	    }
         flush_rewrite_rules();
+	    embedpress_schedule_cache_cleanup();
     }
 
     /**
@@ -388,6 +389,11 @@ class Core {
      */
     public static function onPluginDeactivationCallback () {
         flush_rewrite_rules();
+	    embedpress_cache_cleanup();
+	    $timestamp = wp_next_scheduled( 'embedpress_backup_cleanup_action' );
+	    if ( $timestamp ) {
+		    wp_unschedule_event( $timestamp, 'embedpress_backup_cleanup_action' );
+	    }
     }
 
     /**

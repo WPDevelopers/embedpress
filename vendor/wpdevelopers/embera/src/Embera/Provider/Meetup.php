@@ -169,6 +169,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		<?php
 		$event_output = ob_get_clean();
 		file_put_contents( $filename, $event_output);
+		embedpress_schedule_cache_cleanup();
 		$response['html'] = $event_output;
 		return $response;
 	}
