@@ -74,6 +74,10 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 			$dom = file_get_html($this->getUrl());
 		}
 
+		if ( empty( $dom) || !is_object( $dom) ) {
+			$response['html'] = 'Failed to fetch event data from the meetup website';
+		}
+
 		// Event info
 		$date = $dom->find('.eventTimeDisplay-startDate span', 0);
 
