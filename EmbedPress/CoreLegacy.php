@@ -366,7 +366,7 @@ class CoreLegacy
             // We hook here because the onPaste is sometimes called after the content was already added to the editor.
             // If you copy text from the editor and paste there, it will give no way to use a normal onPaste event hook
             // to modify the input since it was already injected.
-            $mceInit['paste_preprocess'] = 'function (plugin, args) {EmbedPress.onPaste(plugin, args);}';
+            $mceInit['paste_preprocess'] = 'function (plugin, args) { if (typeof EmbedPress !== "undefined") {EmbedPress.onPaste(plugin, args); } }';
         }
 
 
