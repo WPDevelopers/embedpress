@@ -61,21 +61,25 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		$meetup_website = 'https://meetup.com';
 		$search = ['href="/', 'src="/'];
 		$replace = ['href="'.$meetup_website, 'src="'.$meetup_website];
-		//$url = 'https://www.meetup.com/WordPressRI/events/278971877';
 		$hash = 'mu_'.md5( $this->getUrl());
 		$filename = wp_get_upload_dir()['basedir'] ."/embedpress/$hash.txt";
-		$params =$this->getParams();
+		//$params =$this->getParams();
 
 		if ( file_exists( $filename) ) {
 			$response['html'] = file_get_contents( $filename);
 			return $response;
-			//$dom = file_get_html($filename);
 		}else{
-			$dom = file_get_html($this->getUrl());
+		    $t = wp_remote_get( $this->getUrl() , ['timeout'=>10]);
+			if ( !is_wp_error( $t) ) {
+				if ( $meetup_page_content = wp_remote_retrieve_body( $t) ) {
+					$dom = str_get_html($meetup_page_content);
+				}
+		    }
 		}
 
 		if ( empty( $dom) || !is_object( $dom) ) {
-			$response['html'] = 'Failed to fetch event data from the meetup website';
+			$response['html'] = $this->getUrl();
+			return $response;
 		}
 
 		// Event info
