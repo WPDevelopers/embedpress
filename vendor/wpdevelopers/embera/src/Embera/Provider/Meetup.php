@@ -60,7 +60,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		$response['url'] = $this->getUrl();
 		$meetup_website = 'https://meetup.com';
 		$search = ['href="/', 'src="/'];
-		$replace = ['href="'.$meetup_website, 'src="'.$meetup_website];
+		$replace = ['href="'.$meetup_website.'/', 'src="'.$meetup_website.'/'];
 		$hash = 'mu_'.md5( $this->getUrl());
 		$filename = wp_get_upload_dir()['basedir'] ."/embedpress/$hash.txt";
 		//$params =$this->getParams();
