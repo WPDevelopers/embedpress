@@ -55,10 +55,12 @@ class Meetup extends ProviderAdapter implements ProviderInterface
     }
 
 	public function getStaticResponse() {
-		$response = [];
-		$response['provider'] = 'Meetup';
-		$response['url'] = $this->getUrl();
 		$meetup_website = 'https://meetup.com';
+		$response = [];
+		$response['type'] = 'rich';
+		$response['provider_name'] = 'Meetup';
+		$response['provider_url'] = $meetup_website;
+		$response['url'] = $this->getUrl();
 		$search = ['href="/', 'src="/'];
 		$replace = ['href="'.$meetup_website.'/', 'src="'.$meetup_website.'/'];
 		$hash = 'mu_'.md5( $this->getUrl());

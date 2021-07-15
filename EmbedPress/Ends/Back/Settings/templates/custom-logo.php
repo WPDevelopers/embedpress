@@ -21,7 +21,6 @@ $embedpress_document_powered_by = isset( $gen_settings['embedpress_document_powe
 
 // Vimeo branding
 $vm_settings = get_option( EMBEDPRESS_PLG_NAME.':vimeo');
-//error_log( print_r( $vm_settings, 1));
 $vm_branding = isset( $vm_settings['branding']) ? sanitize_text_field( $vm_settings['branding']) : 'no';
 $vm_logo_xpos = isset( $vm_settings['logo_xpos']) ? intval( $vm_settings['logo_xpos']) : 10;
 $vm_logo_ypos = isset( $vm_settings['logo_ypos']) ? intval( $vm_settings['logo_ypos']) : 10;

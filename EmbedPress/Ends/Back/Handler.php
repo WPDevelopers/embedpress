@@ -86,8 +86,9 @@ class Handler extends EndHandlerAbstract {
      *
      */
     public static function enqueueStyles() {
-        wp_enqueue_style( 'embedpress-admin', plugins_url( 'embedpress/assets/css/admin.css' ) );
-        wp_enqueue_style( 'embedpress-addons', plugins_url( 'embedpress/assets/css/addons.css' ) );
+	    wp_register_style( 'embedpress-addons', plugins_url( 'embedpress/assets/css/admin.css' ) );
+	    wp_enqueue_style( 'embedpress-admin', plugins_url( 'embedpress/assets/css/admin.css' ) );
+	    wp_enqueue_style( 'embedpress-addons', plugins_url( 'embedpress/assets/css/addons.css' ) );
     }
 
     /**

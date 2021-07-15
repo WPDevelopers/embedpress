@@ -133,7 +133,6 @@ class CoreLegacy
 
             add_action('admin_enqueue_scripts', ['\\EmbedPress\\Ends\\Back\\Handler', 'enqueueStyles']);
             add_action('wp_ajax_embedpress_notice_dismiss', ['\\EmbedPress\\Ends\\Back\\Handler', 'embedpress_notice_dismiss']);
-
             add_action('init', ['\\EmbedPress\\DisablerLegacy', 'run'], 1);
             add_action('init', [$this, 'configureTinyMCE'], 1);
 

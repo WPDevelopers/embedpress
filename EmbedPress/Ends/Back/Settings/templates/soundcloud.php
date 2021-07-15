@@ -3,19 +3,19 @@
  * SoundCloud Settings page
  *  All undefined vars comes from 'render_settings_page' method
  *  */
-$dm_settings = get_option( EMBEDPRESS_PLG_NAME.':soundcloud');
-$visual = isset( $dm_settings['visual']) ? $dm_settings['visual'] : '';
-$autoplay = isset( $dm_settings['autoplay']) ? $dm_settings['autoplay'] : '';
-$play_on_mobile = isset( $dm_settings['play_on_mobile']) ? $dm_settings['play_on_mobile'] : '';
-$share_button = isset( $dm_settings['share_button']) ? $dm_settings['share_button'] : '';
-$comments = isset( $dm_settings['comments']) ? $dm_settings['comments'] : 1;
-$color = isset( $dm_settings['color']) ? $dm_settings['color'] : '#dd3333';
-$artwork = isset( $dm_settings['artwork']) ? $dm_settings['artwork'] : '';
-$play_count = isset( $dm_settings['play_count']) ? $dm_settings['play_count'] : 1;
-$username = isset( $dm_settings['username']) ? $dm_settings['username'] : 1;
+$sc_settings = get_option( EMBEDPRESS_PLG_NAME.':soundcloud');
+$visual = isset( $sc_settings['visual']) ? $sc_settings['visual'] : '';
+$autoplay = isset( $sc_settings['autoplay']) ? $sc_settings['autoplay'] : '';
+$play_on_mobile = isset( $sc_settings['play_on_mobile']) ? $sc_settings['play_on_mobile'] : '';
+$share_button = isset( $sc_settings['share_button']) ? $sc_settings['share_button'] : '';
+$comments = isset( $sc_settings['comments']) ? $sc_settings['comments'] : 1;
+$color = isset( $sc_settings['color']) ? $sc_settings['color'] : '#dd3333';
+$artwork = isset( $sc_settings['artwork']) ? $sc_settings['artwork'] : '';
+$play_count = isset( $sc_settings['play_count']) ? $sc_settings['play_count'] : 1;
+$username = isset( $sc_settings['username']) ? $sc_settings['username'] : 1;
 // pro
-$download_button = isset( $dm_settings['download_button']) ? $dm_settings['download_button'] : 1;
-$buy_button = isset( $dm_settings['buy_button']) ? $dm_settings['buy_button'] : 1;
+$download_button = isset( $sc_settings['download_button']) ? $sc_settings['download_button'] : 1;
+$buy_button = isset( $sc_settings['buy_button']) ? $sc_settings['buy_button'] : 1;
 
 ?>
 
