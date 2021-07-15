@@ -220,8 +220,9 @@ class Elementor_Enhancer {
 		}
 		// Replaces the old url with the new one.
 		$embed->embed = str_replace( $url_full, $url_modified, $embed->embed );
-
-		return self::apply_cta_markup( $embed, $setting, 'vimeo');
+		if ( is_embedpress_pro_active() ) {
+			return self::apply_cta_markup( $embed, $setting, 'vimeo');
+		}
 	}
 	public static function wistia( $embed, $setting )
 	{
@@ -404,15 +405,17 @@ class Elementor_Enhancer {
 			'autoplay'             => $setting[ 'embedpress_pro_dailymotion_autoplay' ] === 'yes' ? 1 : 0,
 			'controls'             => $setting[ 'embedpress_pro_dailymotion_player_control' ] === 'yes' ? 1 : 0,
 			'ui-start-screen-info' => $setting[ 'embedpress_pro_dailymotion_video_info' ] === 'yes' ? 1 : 0,
-			'ui-logo'              => $setting[ 'embedpress_pro_dailymotion_logo' ] === 'yes' ? 1 : 0,
-			'start'                => $setting[ 'embedpress_pro_video_start_time' ],
 			'endscreen-enable'     => 0,
 		];
 
 		if ( $setting[ 'embedpress_pro_dailymotion_play_on_mobile' ] === 'yes' ) {
 			$params[ 'playsinline' ] = 1;
 		}
+		if ( is_embedpress_pro_active() ) {
+			$params['start'] = (int) $setting[ 'embedpress_pro_video_start_time' ];
+			$params['ui-logo'] = $setting[ 'embedpress_pro_dailymotion_logo' ] === 'yes' ? 1 : 0;
 
+        }
 		$url_modified = $url_full;
 		foreach ( $params as $param => $value ) {
 			$url_modified = add_query_arg( $param, $value, $url_modified );
