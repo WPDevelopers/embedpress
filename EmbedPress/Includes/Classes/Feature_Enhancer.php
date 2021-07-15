@@ -6,10 +6,10 @@ class Feature_Enhancer {
 	public function __construct() {
 
 		if ( !is_embedpress_pro_active() ) {
-			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_youtube'] );
-			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_vimeo'] );
-			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_wistia'] );
-			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_twitch'] );
+			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_youtube'], 90 );
+			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_vimeo'], 90 );
+			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_wistia'], 90 );
+			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_twitch'], 90 );
 			add_filter( 'embedpress_gutenberg_youtube_params',
 				[$this, 'embedpress_gutenberg_register_block_youtube'] );
 			add_action( 'init', array( $this, 'embedpress_gutenberg_register_block_vimeo' ) );
@@ -21,10 +21,21 @@ class Feature_Enhancer {
 	}
 
 	public function elementor_setting_init(  ) {
-		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_youtube'] );
-		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_vimeo'] );
-		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_wistia'] );
-		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_twitch'] );
+		$this->remove_classic_filters();
+		add_filter( 'embedpress_elementor_embed', [Elementor_Enhancer::class, 'youtube'], 10, 2 );
+		add_filter( 'embedpress_elementor_embed', [Elementor_Enhancer::class, 'wistia'], 10, 2 );
+		add_filter( 'embedpress_elementor_embed', [Elementor_Enhancer::class, 'twitch'], 10, 2 );
+		add_filter( 'embedpress_elementor_embed', [Elementor_Enhancer::class, 'soundcloud'], 10, 2 );
+		add_filter( 'embedpress_elementor_embed', [Elementor_Enhancer::class, 'dailymotion'], 10, 2 );
+		add_filter( 'embedpress_elementor_embed', [Elementor_Enhancer::class, 'spotify'], 10, 2 );
+		add_filter( 'embedpress_elementor_embed', [Elementor_Enhancer::class, 'vimeo'], 10, 2 );
+	}
+
+	public function remove_classic_filters(  ) {
+		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_youtube'], 90 );
+		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_vimeo'], 90 );
+		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_wistia'], 90 );
+		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_twitch'], 90 );
 	}
 
 	public function getOptions($provider='', $schema=[])
@@ -117,9 +128,10 @@ class Feature_Enhancer {
 		return apply_filters( 'embedpress_vimeo_params', $params);
 		
 	}
-
+    //--- For CLASSIC AND BLOCK EDITOR
 	public function enhance_youtube( $embed )
 	{
+	    error_log( 'hit it');
 		$isYoutube = ( isset($embed->provider_name) && strtoupper( $embed->provider_name ) === 'YOUTUBE' ) || (isset( $embed->url) && isset( $embed->{$embed->url}) && isset( $embed->{$embed->url}['provider_name']) && strtoupper($embed->{$embed->url}['provider_name'] ) === 'YOUTUBE');
 
 		if ( $isYoutube && isset( $embed->embed )

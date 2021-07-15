@@ -69,9 +69,56 @@ if ( ! defined('EMBEDPRESS_LICENSES_API_URL')) {
 if ( ! defined('EMBEDPRESS_LICENSES_MORE_INFO_URL')) {
     define('EMBEDPRESS_LICENSES_MORE_INFO_URL', "https://embedpress.com/docs/activate-license");
 }
+function embedpress_cache_cleanup( ){
+	$dirname = wp_get_upload_dir()['basedir'].'/embedpress';
+	if ( file_exists( $dirname) ) {
+		$files = glob($dirname.'/*');
+		//@TODO; delete files only those start with 'mu_'
+		foreach($files as $file) {
+			if(is_file($file))
+				unlink($file);
+		}
+	}
+}
 
+function embedpress_schedule_cache_cleanup( ){
+	if ( ! wp_next_scheduled( 'embedpress_cache_cleanup_action' ) ) {
+		wp_schedule_event( time(), 'daily', 'embedpress_cache_cleanup_action' );
+	}
+}
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
+}
+function is_embedpress_pro_active() {
+	if ( ! function_exists( 'is_plugin_active') ) {
+		include_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+
+	return is_plugin_active('embedpress-pro/embedpress-pro.php');
+}
+
+/**
+ * Get the version of the currently activated embedpress pro plugin dynamically
+ * @return false|mixed
+ */
+function get_embedpress_pro_version() {
+	if ( is_embedpress_pro_active() ) {
+		$p = wp_get_active_and_valid_plugins();
+		$p = array_filter( $p, function ( $plugin){
+			return !empty( strpos( $plugin, 'embedpress-pro'));
+		});
+		$p = array_values( $p);
+		if ( !empty( $p[0]) ) {
+			$d = get_plugin_data($p[0]);
+			if ( isset( $d['Version']) ) {
+				return $d['Version'];
+			}
+			return false;
+		}
+		return false;
+	}
+	return false;
+
 }
 // Run the plugin autoload script
 if ( ! defined('EMBEDPRESS_IS_LOADED')) {
@@ -80,3 +127,4 @@ if ( ! defined('EMBEDPRESS_IS_LOADED')) {
 
 // Includes the Gutenberg blocks for EmbedPress
 require_once __DIR__ . '/Gutenberg/plugin.php';
+
