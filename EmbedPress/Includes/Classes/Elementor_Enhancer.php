@@ -383,14 +383,16 @@ class Elementor_Enhancer {
 			'color'          => str_replace( '#', '', $setting[ 'embedpress_pro_soundcloud_color' ] ),
 			'visual'         => $setting[ 'embedpress_pro_soundcloud_visual' ] === 'yes' ? 'true' : 'false',
 			'auto_play'      => $setting[ 'embedpress_pro_soundcloud_autoplay' ] === 'yes' ? 'true' : 'false',
-			'buying'         => $setting[ 'embedpress_pro_soundcloud_buy_button' ] === 'yes' ? 'true' : 'false',
 			'sharing'        => $setting[ 'embedpress_pro_soundcloud_share_button' ] === 'yes' ? 'true' : 'false',
 			'show_comments'  => $setting[ 'embedpress_pro_soundcloud_comments' ] === 'yes' ? 'true' : 'false',
-			'download'       => $setting[ 'embedpress_pro_soundcloud_download_button' ] === 'yes' ? 'true' : 'false',
 			'show_artwork'   => $setting[ 'embedpress_pro_soundcloud_artwork' ] === 'yes' ? 'true' : 'false',
 			'show_playcount' => $setting[ 'embedpress_pro_soundcloud_play_count' ] === 'yes' ? 'true' : 'false',
 			'show_user'      => $setting[ 'embedpress_pro_soundcloud_user_name' ] === 'yes' ? 'true' : 'false',
 		];
+		if ( is_embedpress_pro_active() ) {
+            $params['buying'] = $setting[ 'embedpress_pro_soundcloud_buy_button' ] === 'yes' ? 'true' : 'false';
+            $params['download'] = $setting[ 'embedpress_pro_soundcloud_download_button' ] === 'yes' ? 'true' : 'false';
+		}
 
 		$url_modified = $url_full;
 		foreach ( $params as $param => $value ) {
