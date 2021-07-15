@@ -223,6 +223,7 @@ class Elementor_Enhancer {
 		if ( is_embedpress_pro_active() ) {
 			return self::apply_cta_markup( $embed, $setting, 'vimeo');
 		}
+		return $embed;
 	}
 	public static function wistia( $embed, $setting )
 	{
@@ -247,18 +248,21 @@ class Elementor_Enhancer {
 		$embedOptions = new \stdClass;
 		$embedOptions->videoFoam = true;
 		$embedOptions->fullscreenButton = ( $setting[ 'embedpress_pro_wistia_fullscreen_button' ] === 'yes' );
-		$embedOptions->playbar = ( $setting[ 'embedpress_pro_wistia_playbar' ] === 'yes' );
 		$embedOptions->smallPlayButton = ( $setting[ 'embedpress_pro_wistia_small_play_button' ] === 'yes' );
-		$embedOptions->volumeControl = ( $setting[ 'embedpress_pro_wistia_volume_control' ] === 'yes' );
 		$embedOptions->autoPlay = ( $setting[ 'embedpress_pro_wistia_auto_play' ] === 'yes' );
 		$embedOptions->playerColor = $setting[ 'embedpress_pro_wistia_color' ];
-		$embedOptions->time = $setting[ 'embedpress_pro_video_start_time' ];
+		if ( is_embedpress_pro_active() ) {
+			$embedOptions->time = $setting[ 'embedpress_pro_video_start_time' ];
+			$embedOptions->playbar = ( $setting[ 'embedpress_pro_wistia_playbar' ] === 'yes' );
+			$embedOptions->volumeControl = ( $setting[ 'embedpress_pro_wistia_volume_control' ] === 'yes' );
 
-		$volume = (float)$setting[ 'embedpress_pro_wistia_volume' ];
-		if ( $volume > 1 ) {
-			$volume = $volume / 100;
-		}
-		$embedOptions->volume = $volume;
+			$volume = (float)$setting[ 'embedpress_pro_wistia_volume' ];
+			if ( $volume > 1 ) {
+				$volume = $volume / 100;
+			}
+			$embedOptions->volume = $volume;
+        }
+
 
 		// Plugins
 		$pluginsBaseURL = plugins_url( '../assets/js/wistia/min', dirname( __DIR__ ) . '/embedpress-Wistia.php' );
@@ -286,17 +290,30 @@ class Elementor_Enhancer {
 		}
 
 		// Closed Captions plugin
-		if ( $setting[ 'embedpress_pro_wistia_captions' ] === 'yes' ) {
-			$isCaptionsEnabled = ( $setting[ 'embedpress_pro_wistia_captions' ] === 'yes' );
-			$isCaptionsEnabledByDefault = ( $setting[ 'embedpress_pro_wistia_captions_enabled_by_default' ] === 'yes' );
-			if ( $isCaptionsEnabled ) {
-				$pluginList[ 'captions-v1' ] = [
-					'onByDefault' => $isCaptionsEnabledByDefault
-				];
+		if ( is_embedpress_pro_active() ) {
+			if ( $setting[ 'embedpress_pro_wistia_captions' ] === 'yes' ) {
+				$isCaptionsEnabled = ( $setting[ 'embedpress_pro_wistia_captions' ] === 'yes' );
+				$isCaptionsEnabledByDefault = ( $setting[ 'embedpress_pro_wistia_captions_enabled_by_default' ] === 'yes' );
+				if ( $isCaptionsEnabled ) {
+					$pluginList[ 'captions-v1' ] = [
+						'onByDefault' => $isCaptionsEnabledByDefault
+					];
+				}
+				$embedOptions->captions = $isCaptionsEnabled;
+				$embedOptions->captionsDefault = $isCaptionsEnabledByDefault;
 			}
-			$embedOptions->captions = $isCaptionsEnabled;
-			$embedOptions->captionsDefault = $isCaptionsEnabledByDefault;
-		}
+
+			// Rewind plugin
+			if ( $setting[ 'embedpress_pro_wistia_rewind' ] === 'yes' ) {
+
+				$embedOptions->rewindTime = (int)$setting[ 'embedpress_pro_wistia_rewind_time' ];
+				$pluginList[ 'rewind' ] = [
+					'src' => $pluginsBaseURL . '/rewind.min.js'
+				];
+
+			}
+        }
+
 
 		// Focus plugin
 		if ( $setting[ 'embedpress_pro_wistia_focus' ] === 'yes' ) {
@@ -309,21 +326,13 @@ class Elementor_Enhancer {
 			$embedOptions->focus = $isFocusEnabled;
 		}
 
-		// Rewind plugin
-		if ( $setting[ 'embedpress_pro_wistia_rewind' ] === 'yes' ) {
 
-			$embedOptions->rewindTime = (int)$setting[ 'embedpress_pro_wistia_rewind_time' ];
-			$pluginList[ 'rewind' ] = [
-				'src' => $pluginsBaseURL . '/rewind.min.js'
-			];
-
-		}
 
 		$embedOptions->plugin = $pluginList;
 		$embedOptions = json_encode( $embedOptions );
 
 		// Get the video ID
-		$videoId = \Embedpress\Pro\Providers\Wistia::getVideoIDFromURL( $embed->url );
+		$videoId = self::get_wistia_video_from_url( $embed->url );
 		$shortVideoId = substr( $videoId, 0, 3 );
 
 		// Responsive?
@@ -357,7 +366,10 @@ class Elementor_Enhancer {
 		$html .= '<div ' . join( ' ', $attribs ) . "></div>\n";
 		$html .= '</div>';
 		$embed->embed = $html;
-		return self::apply_cta_markup( $embed, $setting, 'wistia');
+		if ( is_embedpress_pro_active() ) {
+			return self::apply_cta_markup( $embed, $setting, 'wistia');
+		}
+		return $embed;
 	}
 	public static function soundcloud( $embed, $setting )
 	{
@@ -478,5 +490,25 @@ class Elementor_Enhancer {
 
 		$embed->embed = str_replace( $url_full, $modified_url, $embed->embed );
 		return $embed;
+	}
+
+	/**
+	 * Get the Video ID from the URL
+	 *
+	 * @param  string  $url
+	 *
+	 * @return string
+	 */
+	public static function get_wistia_video_from_url ($url) {
+		// https://fast.wistia.com/embed/medias/xf1edjzn92.jsonp
+		// https://ostraining-1.wistia.com/medias/xf1edjzn92
+		preg_match('#\/medias\\\?\/([a-z0-9]+)\.?#i', $url, $matches);
+
+		$id = false;
+		if (isset($matches[1])) {
+			$id = $matches[1];
+		}
+
+		return $id;
 	}
 }
