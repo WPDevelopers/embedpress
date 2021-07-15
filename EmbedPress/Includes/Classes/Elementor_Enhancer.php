@@ -436,20 +436,26 @@ class Elementor_Enhancer {
 		return $embed;
 	}
 	public static function twitch( $embed_content, $settings ) {
-		if ( isset( $settings['embedpress_pro_embeded_source']) && 'twitch' ===  $settings['embedpress_pro_embeded_source'] ) {
+	    error_log( print_r( $embed_content, 1));
+
+		if ( !isset( $embed_content->provider_name ) || strtoupper( $embed_content->provider_name ) !== 'TWITCH' || !isset( $embed_content->embed ) || $settings[ 'embedpress_pro_embeded_source' ] !== 'twitch' ) {
+			return $embed_content;
+		}
 			$e = current( $embed_content);
 			$time = '0h0m0s';
 			$type = isset( $e['type']) ? $e['type']: '';
-			$content_id = $e['content_id'];
+			$content_id = isset( $e['content_id']) ? $e['content_id'] : '';
 			$channel = 'channel' === $type ? $content_id : '';
 			$video = 'video' === $type ? $content_id : '';
-			$muted = ('yes' === $settings['embedpress_pro_twitch_mute']) ? 'true': 'false';
+			$muted = 'false';
 			$full_screen = ('yes' === $settings['embedpress_pro_fs']) ? 'true': 'false';
 			$autoplay = ('yes' === $settings['embedpress_pro_twitch_autoplay']) ? 'true': 'false';
-			$theme = !empty( $settings['embedpress_pro_twitch_theme']) ? $settings['embedpress_pro_twitch_theme'] : 'dark';
-			$layout = ('yes' === $settings['embedpress_pro_twitch_chat']) ? 'video-with-chat' : 'video';
+			$theme = 'dark';
+			$layout = 'video';
 			$width = (int) $settings['width']['size'];
 			$height = (int) $settings['height']['size'];
+
+		if ( is_embedpress_pro_active() ) {
 			if ( !empty( $settings['embedpress_pro_video_start_time']) ) {
 				$ta = explode( ':', gmdate( "G:i:s", $settings['embedpress_pro_video_start_time']));
 				$h = $ta[0].'h';
@@ -457,6 +463,12 @@ class Elementor_Enhancer {
 				$s = ($ta[2] * 1) .'s';
 				$time = $h.$m.$s;
 			}
+			$layout = ('yes' === $settings['embedpress_pro_twitch_chat']) ? 'video-with-chat' : 'video';
+			$muted = ('yes' === $settings['embedpress_pro_twitch_mute']) ? 'true': 'false';
+			$theme = !empty( $settings['embedpress_pro_twitch_theme']) ? $settings['embedpress_pro_twitch_theme'] : 'dark';
+		}
+
+
 			$url = "https://embed.twitch.tv?autoplay={$autoplay}&channel={$channel}&height={$height}&layout={$layout}&migration=true&muted={$muted}&theme={$theme}&time={$time}&video={$video}&width={$width}&allowfullscreen={$full_screen}";
 			$pars_url = wp_parse_url(get_site_url());
 			$url = !empty($pars_url['host'])?$url.'&parent='.$pars_url['host']:$url;
@@ -464,8 +476,8 @@ class Elementor_Enhancer {
 			preg_match( '/src=\"(.+?)\"/', $embed_content->embed, $match );
 			$url_full = $match[ 1 ];
 			$embed_content->embed = str_replace( $url_full, $url, $embed_content->embed );
-			$embed_content =  self::apply_cta_markup( $embed_content, $settings, 'twitch');
-
+		if ( is_embedpress_pro_active() ) {
+			return self::apply_cta_markup( $embed_content, $settings, 'twitch');
 		}
 
 		return $embed_content;
