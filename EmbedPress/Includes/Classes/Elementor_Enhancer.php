@@ -436,8 +436,6 @@ class Elementor_Enhancer {
 		return $embed;
 	}
 	public static function twitch( $embed_content, $settings ) {
-	    error_log( print_r( $embed_content, 1));
-
 		if ( !isset( $embed_content->provider_name ) || strtoupper( $embed_content->provider_name ) !== 'TWITCH' || !isset( $embed_content->embed ) || $settings[ 'embedpress_pro_embeded_source' ] !== 'twitch' ) {
 			return $embed_content;
 		}
