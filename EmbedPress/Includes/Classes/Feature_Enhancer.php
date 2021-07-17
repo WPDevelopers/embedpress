@@ -5,7 +5,7 @@ class Feature_Enhancer {
 
 	public function __construct() {
 
-		if ( !is_embedpress_pro_active() ) {
+		//if ( !is_embedpress_pro_active() ) {
 			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_youtube'], 90 );
 			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_vimeo'], 90 );
 			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_wistia'], 90 );
@@ -15,7 +15,7 @@ class Feature_Enhancer {
 			add_action( 'init', array( $this, 'embedpress_gutenberg_register_block_vimeo' ) );
 			add_action('embedpress_gutenberg_wistia_block_after_embed', array($this,'embedpress_wistia_block_after_embed'));
 			add_action( 'elementor/widget/embedpres_elementor/skins_init', [ $this, 'elementor_setting_init' ] );
-        }
+        //}
 
 
 	}

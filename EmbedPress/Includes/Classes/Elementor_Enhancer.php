@@ -388,6 +388,8 @@ class Elementor_Enhancer {
 			'show_artwork'   => $setting[ 'embedpress_pro_soundcloud_artwork' ] === 'yes' ? 'true' : 'false',
 			'show_playcount' => $setting[ 'embedpress_pro_soundcloud_play_count' ] === 'yes' ? 'true' : 'false',
 			'show_user'      => $setting[ 'embedpress_pro_soundcloud_user_name' ] === 'yes' ? 'true' : 'false',
+			'buying'        =>  'false',
+			'download'      => 'false',
 		];
 		if ( is_embedpress_pro_active() ) {
             $params['buying'] = $setting[ 'embedpress_pro_soundcloud_buy_button' ] === 'yes' ? 'true' : 'false';
