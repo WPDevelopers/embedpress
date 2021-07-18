@@ -135,7 +135,6 @@ class Feature_Enhancer {
     //--- For CLASSIC AND BLOCK EDITOR
 	public function enhance_youtube( $embed )
 	{
-	    error_log( 'hit it');
 		$isYoutube = ( isset($embed->provider_name) && strtoupper( $embed->provider_name ) === 'YOUTUBE' ) || (isset( $embed->url) && isset( $embed->{$embed->url}) && isset( $embed->{$embed->url}['provider_name']) && strtoupper($embed->{$embed->url}['provider_name'] ) === 'YOUTUBE');
 
 		if ( $isYoutube && isset( $embed->embed )
@@ -436,11 +435,13 @@ class Feature_Enhancer {
 	}
 
 	public function enhance_soundcloud( $embed ) {
-		$options = $this->getOptions('soundcloud', $this->get_soundcloud_settings_schema());
+
 		$isSoundcloud = ( isset($embed->provider_name) && strtoupper( $embed->provider_name ) === 'SOUNDCLOUD' ) || (isset( $embed->url) && isset( $embed->{$embed->url}) && isset( $embed->{$embed->url}['provider_name']) && strtoupper($embed->{$embed->url}['provider_name'] ) === 'SOUNDCLOUD');
 
 		if ( $isSoundcloud && isset( $embed->embed )
 		     && preg_match( '/src=\"(.+?)\"/', $embed->embed, $match ) ) {
+			$options = $this->getOptions('soundcloud', $this->get_soundcloud_settings_schema());
+			error_log( print_r( $options, 1));
 			// Parse the url to retrieve all its info like variables etc.
 			$url_full = $match[ 1 ];
 			$params = [

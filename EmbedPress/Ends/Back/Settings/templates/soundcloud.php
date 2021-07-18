@@ -37,13 +37,13 @@ $buy_button = isset( $sc_settings['buy_button']) ? $sc_settings['buy_button'] : 
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Auto Play", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
-					<div class="input__flex input__radio_wrap" data-default="<?php echo esc_attr(  $visual ); ?>" data-value="<?php echo esc_attr(  $visual ); ?>">
+					<div class="input__flex input__radio_wrap" data-default="<?php echo esc_attr(  $autoplay ); ?>" data-value="<?php echo esc_attr(  $autoplay ); ?>">
 						<label class="input__radio">
-							<input type="radio" name="visual" value="" <?php checked( '', $visual); ?>>
+							<input type="radio" name="autoplay" value="" <?php checked( '', $autoplay); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
 						</label>
 						<label class="input__radio">
-							<input type="radio" name="visual" value="1" <?php checked( '1', $visual); ?>>
+							<input type="radio" name="autoplay" value="1" <?php checked( '1', $autoplay); ?>>
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
@@ -64,7 +64,6 @@ $buy_button = isset( $sc_settings['buy_button']) ? $sc_settings['buy_button'] : 
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
-					<p><?php esc_html_e( "You can control visual on mobile. Only works if Autoplay option is enabled.", "embedpress" ); ?></p>
 				</div>
 			</div>
 
