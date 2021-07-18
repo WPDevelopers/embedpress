@@ -850,7 +850,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'label_off'    => __( 'Hide', 'embedpress' ),
 				'label_on'     => __( 'Show', 'embedpress' ),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'soundcloud'
+					'embedpress_pro_embeded_source' => 'soundcloud',
+					'embedpress_pro_soundcloud_visual!' => 'yes'
 				],
 			]
 		);

@@ -163,7 +163,9 @@ $buy_button = isset( $sc_settings['buy_button']) ? $sc_settings['buy_button'] : 
 							<span><?php esc_html_e( "Show", "embedpress" ); ?></span>
 						</label>
 					</div>
-				</div>
+                    <p><?php esc_html_e( 'Play count option works when Visual option is disabled', 'embedpress'); ?> </p>
+
+                </div>
 			</div>
 
 
