@@ -786,22 +786,7 @@ class Embedpress_Elementor extends Widget_Base {
 			]
 		);
 
-		$this->add_control(
-			'embedpress_pro_soundcloud_buy_button',
-			[
-				'label'        => __( 'Buy Button', 'embedpress' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'yes',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
-				'condition'    => [
-					'embedpress_pro_embeded_source' => 'soundcloud'
-				],
-				'classes'     => $this->pro_class,
-			]
-		);
+		
 
 		$this->add_control(
 			'embedpress_pro_soundcloud_share_button',
@@ -835,22 +820,7 @@ class Embedpress_Elementor extends Widget_Base {
 			]
 		);
 
-		$this->add_control(
-			'embedpress_pro_soundcloud_download_button',
-			[
-				'label'        => __( 'Download Button', 'embedpress' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'yes',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
-				'condition'    => [
-					'embedpress_pro_embeded_source' => 'soundcloud'
-				],
-				'classes'     => $this->pro_class,
-			]
-		);
+	
 
 		$this->add_control(
 			'embedpress_pro_soundcloud_artwork',
@@ -898,6 +868,39 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
 				],
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_soundcloud_buy_button',
+			[
+				'label'        => sprintf(__( 'Buy Button %s', 'embedpress' ), $this->pro_text ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'label_off'    => __( 'Hide', 'embedpress' ),
+				'label_on'     => __( 'Show', 'embedpress' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'soundcloud'
+				],
+				'classes'     => $this->pro_class,
+			]
+		);
+		$this->add_control(
+			'embedpress_pro_soundcloud_download_button',
+			[
+				'label'        => sprintf(__( 'Download Button %s', 'embedpress' ), $this->pro_text ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'label_off'    => __( 'Hide', 'embedpress' ),
+				'label_on'     => __( 'Show', 'embedpress' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'soundcloud'
+				],
+				'classes'     => $this->pro_class,
 			]
 		);
 	}
