@@ -52,7 +52,7 @@
     background: transparent;
 }
 .elementor-control.embedpress-pro-control:hover::after{
-    content: 'Pro!';
+    content: '';
     font-size: 18px;
     font-family: Arial, sans-serif;
     opacity: .5;
