@@ -10,6 +10,8 @@ class Feature_Enhancer {
 			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_vimeo'], 90 );
 			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_wistia'], 90 );
 			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_twitch'], 90 );
+			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_dailymotion'], 90 );
+			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_soundcloud'], 90 );
 			add_filter( 'embedpress_gutenberg_youtube_params',
 				[$this, 'embedpress_gutenberg_register_block_youtube'] );
 			add_action( 'init', array( $this, 'embedpress_gutenberg_register_block_vimeo' ) );
@@ -36,6 +38,8 @@ class Feature_Enhancer {
 		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_vimeo'], 90 );
 		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_wistia'], 90 );
 		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_twitch'], 90 );
+		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_dailymotion'], 90 );
+		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_soundcloud'], 90 );
 	}
 
 	public function getOptions($provider='', $schema=[])
@@ -395,6 +399,77 @@ class Feature_Enhancer {
 		return $embed_content;
 	}
 
+	public function enhance_dailymotion( $embed ) {
+		$options = $this->getOptions('dailymotion', $this->get_dailymotion_settings_schema());
+		$isDailymotion = ( isset($embed->provider_name) && strtoupper( $embed->provider_name ) === 'DAILYMOTION' ) || (isset( $embed->url) && isset( $embed->{$embed->url}) && isset( $embed->{$embed->url}['provider_name']) && strtoupper($embed->{$embed->url}['provider_name'] ) === 'DAILYMOTION');
+
+		if ( $isDailymotion && isset( $embed->embed )
+		     && preg_match( '/src=\"(.+?)\"/', $embed->embed, $match ) ) {
+			// Parse the url to retrieve all its info like variables etc.
+			$url_full = $match[ 1 ];
+			$params = [
+				'ui-highlight'         => str_replace( '#', '', $options[ 'color' ] ),
+				'mute'                 => (int) $options[ 'mute' ],
+				'autoplay'             => (int) $options[ 'autoplay' ],
+				'controls'             => (int) $options[ 'controls' ],
+				'ui-start-screen-info' => (int) $options[ 'video_info' ],
+				'ui-logo'              => (int) $options[ 'show_logo' ],
+				'start'                => (int) $options[ 'start_time' ],
+				'endscreen-enable'     => 0,
+			];
+
+			if ( $options[ 'play_on_mobile' ] == '1' ) {
+				$params[ 'playsinline' ] = 1;
+			}
+
+			$url_modified = $url_full;
+			foreach ( $params as $param => $value ) {
+				$url_modified = add_query_arg( $param, $value, $url_modified );
+			}
+			$embed->embed = str_replace( $url_full, $url_modified, $embed->embed );
+
+		}
+
+		return $embed;
+	}
+
+	public function enhance_soundcloud( $embed ) {
+		$options = $this->getOptions('soundcloud', $this->get_soundcloud_settings_schema());
+		$isSoundcloud = ( isset($embed->provider_name) && strtoupper( $embed->provider_name ) === 'SOUNDCLOUD' ) || (isset( $embed->url) && isset( $embed->{$embed->url}) && isset( $embed->{$embed->url}['provider_name']) && strtoupper($embed->{$embed->url}['provider_name'] ) === 'SOUNDCLOUD');
+
+		if ( $isSoundcloud && isset( $embed->embed )
+		     && preg_match( '/src=\"(.+?)\"/', $embed->embed, $match ) ) {
+			// Parse the url to retrieve all its info like variables etc.
+			$url_full = $match[ 1 ];
+			$params = [
+				'color'          => str_replace( '#', '', $options[ 'color' ] ),
+				'visual'         => isset($options[ 'visual' ] ) && $options['visual']== '1' ? 'true' : 'false',
+				'auto_play'      => isset($options[ 'autoplay' ] ) && $options['autoplay']== '1' ? 'true' : 'false',
+				'buying'         => isset($options[ 'buy_button' ] ) && $options['buy_button']== '1' ? 'true' : 'false',
+				'sharing'        => isset($options[ 'share_button' ] ) && $options['share_button']== '1' ? 'true' : 'false',
+				'show_comments'  => isset($options[ 'comments' ] ) && $options['comments']== '1' ? 'true' : 'false',
+				'download'       => isset($options[ 'download_button' ] ) && $options['download_button']== '1' ? 'true' : 'false',
+				'show_artwork'   => isset($options[ 'artwork' ] ) && $options['artwork']== '1' ? 'true' : 'false',
+				'show_playcount' => isset($options[ 'play_count' ] ) && $options['play_count']== '1' ? 'true' : 'false',
+				'show_user'      => isset($options[ 'username' ] ) && $options['username']== '1' ? 'true' : 'false',
+			];
+
+			$url_modified = $url_full;
+			foreach ( $params as $param => $value ) {
+				$url_modified = add_query_arg( $param, $value, $url_modified );
+			}
+
+			// Replaces the old url with the new one.
+			$embed->embed = str_replace( $url_full, $url_modified, $embed->embed );
+			if ( 'false' === $params[ 'visual' ] ) {
+				$embed->embed = str_replace( 'height="400"', 'height="200 !important"', $embed->embed );
+			}
+
+		}
+
+		return $embed;
+	}
+
 	public function embedpress_gutenberg_register_block_youtube( $youtube_params ) {
 		$youtube_options = $this->getOptions('youtube', $this->get_youtube_settings_schema());
 		return $this->get_youtube_params( $youtube_options );
@@ -684,7 +759,7 @@ class Feature_Enhancer {
 	}
 
 	public function embedpress_wistia_block_after_embed( $attributes ){
-		$embedOptions= $this->embedpress_wisita_pro_get_options();
+		$embedOptions= $this->embedpress_wistia_pro_get_options();
 		// Get the video ID
 		$videoId = $this->getVideoIDFromURL($attributes['url']);
 		$shortVideoId = $videoId;
@@ -702,7 +777,7 @@ class Feature_Enhancer {
 		$html .= "<script>wistiaEmbed = Wistia.embed( \"{$shortVideoId}\", {$embedOptions} );</script>\n";
 		echo $html;
 	}
-	public function embedpress_wisita_pro_get_options() {
+	public function embedpress_wistia_pro_get_options() {
 		$options = $this->getOptions('wistia', $this->get_wistia_settings_schema());
 		// Embed Options
 		$embedOptions = new \stdClass;
@@ -821,6 +896,93 @@ class Feature_Enhancer {
 				'default'     => 'yes',
 			],
 
+		];
+	}
+
+	public function get_dailymotion_settings_schema() {
+		return [
+			'autoplay'       => [
+				'type'        => 'string',
+				'default'     => ''
+			],
+			'play_on_mobile'       => [
+				'type'        => 'string',
+				'default'     => ''
+			],
+			'color'          => [
+				'type'        => 'string',
+				'default'     => '#dd3333'
+			],
+			'mute' => [
+				'type'        => 'string',
+				'default'     => ''
+			],
+			'controls'       => [
+				'type'        => 'string',
+				'default'     => '1'
+			],
+			'video_info' => [
+				'type'        => 'string',
+				'default'     => '1'
+			],
+			'show_logo'       => [
+				'type'        => 'string',
+				'default'     => '1'
+			],
+			'start_time'       => [
+				'type'        => 'string',
+				'default'     => '0'
+			],
+		];
+	}
+
+	public function get_soundcloud_settings_schema() {
+		return [
+			'visual' => [
+				'type'        => 'string',
+				'default'     => ''
+			],
+			'autoplay'       => [
+				'type'        => 'string',
+				'default'     => ''
+			],
+			'play_on_mobile'       => [
+				'type'        => 'string',
+				'default'     => ''
+			],
+			'color'          => [
+				'type'        => 'string',
+				'default'     => '#dd3333'
+			],
+
+			'share_button'       => [
+				'type'        => 'string',
+				'default'     => ''
+			],
+			'comments'       => [
+				'type'        => 'string',
+				'default'     => '1'
+			],
+			'artwork' => [
+				'type'        => 'string',
+				'default'     => ''
+			],
+			'play_count'       => [
+				'type'        => 'string',
+				'default'     => '1'
+			],
+			'username'       => [
+				'type'        => 'string',
+				'default'     => '1'
+			],
+			'download_button'       => [
+				'type'        => 'string',
+				'default'     => '1'
+			],
+			'buy_button'       => [
+				'type'        => 'string',
+				'default'     => '1'
+			],
 		];
 	}
 
