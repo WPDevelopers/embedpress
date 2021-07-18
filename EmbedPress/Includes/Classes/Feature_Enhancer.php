@@ -441,7 +441,6 @@ class Feature_Enhancer {
 		if ( $isSoundcloud && isset( $embed->embed )
 		     && preg_match( '/src=\"(.+?)\"/', $embed->embed, $match ) ) {
 			$options = $this->getOptions('soundcloud', $this->get_soundcloud_settings_schema());
-			error_log( print_r( $options, 1));
 			// Parse the url to retrieve all its info like variables etc.
 			$url_full = $match[ 1 ];
 			$params = [
