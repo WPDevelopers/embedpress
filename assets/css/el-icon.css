@@ -40,7 +40,6 @@
 
 .elementor-control.embedpress-pro-control::before{
     content: '';
-    color:red;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -50,11 +49,10 @@
     bottom: 0;
     right: 0;
     z-index: 99;
-    background: #282828;
-    opacity: .5;
+    background: transparent;
 }
 .elementor-control.embedpress-pro-control:hover::after{
-    content: 'Please upgrade to Pro!';
+    content: 'Pro!';
     font-size: 18px;
     font-family: Arial, sans-serif;
     opacity: .5;

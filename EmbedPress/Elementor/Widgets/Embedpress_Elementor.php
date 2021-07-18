@@ -286,7 +286,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_youtube_force_closed_captions',
 			[
-				'label'        => sprintf(__( 'Closed Captions', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__( 'Closed Captions %s', 'embedpress' ), $this->pro_text ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -319,7 +319,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_youtube_display_related_videos',
 			[
-				'label'        => sprintf(__( 'Related Videos', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__( 'Related Videos %s', 'embedpress' ), $this->pro_text ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
