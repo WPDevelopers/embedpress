@@ -73,7 +73,7 @@ class Embedpress_Elementor extends Widget_Base {
 
     protected function _register_controls() {
         $this->pro_class = is_embedpress_pro_active() ? '': 'embedpress-pro-control';
-        $this->pro_text = is_embedpress_pro_active() ? '': __('<span class="embedpress-pro-label" style="color:orangered">(pro)</span>', 'embedpress');
+        $this->pro_text = is_embedpress_pro_active() ? '': __('<sup class="embedpress-pro-label" style="color:#5B4E96">(pro)</sup>', 'embedpress');
         /**
          * EmbedPress Content Settings
          */

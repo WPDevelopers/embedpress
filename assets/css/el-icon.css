@@ -35,7 +35,7 @@
 /*EmbedPress Pro Controls Style Starts*/
 .elementor-control.embedpress-pro-control{
     position: relative;
-    opacity: .8;
+    opacity: .9;
 }
 
 .elementor-control.embedpress-pro-control::before{
@@ -51,24 +51,7 @@
     z-index: 99;
     background: transparent;
 }
-.elementor-control.embedpress-pro-control:hover::after{
-    content: '';
-    font-size: 18px;
-    font-family: Arial, sans-serif;
-    opacity: .5;
-    text-align: center;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: grid;
-    place-content: center;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: 99;
-    background: transparent;
-}
+
 .elementor-control.elementor-control-embedpress_pro_section.elementor-control-type-section.elementor-label-inline.elementor-control-separator-none .elementor-panel-heading-title {
     color: #ff5544;
 }
