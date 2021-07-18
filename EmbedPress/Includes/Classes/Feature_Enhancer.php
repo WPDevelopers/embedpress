@@ -413,13 +413,15 @@ class Feature_Enhancer {
 				'autoplay'             => (int) $options[ 'autoplay' ],
 				'controls'             => (int) $options[ 'controls' ],
 				'ui-start-screen-info' => (int) $options[ 'video_info' ],
-				'ui-logo'              => (int) $options[ 'show_logo' ],
-				'start'                => (int) $options[ 'start_time' ],
 				'endscreen-enable'     => 0,
 			];
 
 			if ( $options[ 'play_on_mobile' ] == '1' ) {
 				$params[ 'playsinline' ] = 1;
+			}
+			if ( is_embedpress_pro_active() ) {
+				$params['start'] = (int) $options[ 'start_time' ];
+				$params['ui-logo'] = (int) $options[ 'show_logo' ];
 			}
 
 			$url_modified = $url_full;
@@ -445,14 +447,19 @@ class Feature_Enhancer {
 				'color'          => str_replace( '#', '', $options[ 'color' ] ),
 				'visual'         => isset($options[ 'visual' ] ) && $options['visual']== '1' ? 'true' : 'false',
 				'auto_play'      => isset($options[ 'autoplay' ] ) && $options['autoplay']== '1' ? 'true' : 'false',
-				'buying'         => isset($options[ 'buy_button' ] ) && $options['buy_button']== '1' ? 'true' : 'false',
 				'sharing'        => isset($options[ 'share_button' ] ) && $options['share_button']== '1' ? 'true' : 'false',
 				'show_comments'  => isset($options[ 'comments' ] ) && $options['comments']== '1' ? 'true' : 'false',
-				'download'       => isset($options[ 'download_button' ] ) && $options['download_button']== '1' ? 'true' : 'false',
-				'show_artwork'   => isset($options[ 'artwork' ] ) && $options['artwork']== '1' ? 'true' : 'false',
+				'buying'        =>  'false',
+				'download'      => 'false',
+                'show_artwork'   => isset($options[ 'artwork' ] ) && $options['artwork']== '1' ? 'true' : 'false',
 				'show_playcount' => isset($options[ 'play_count' ] ) && $options['play_count']== '1' ? 'true' : 'false',
 				'show_user'      => isset($options[ 'username' ] ) && $options['username']== '1' ? 'true' : 'false',
 			];
+
+			if ( is_embedpress_pro_active() ) {
+				$params['buying'] = isset($options[ 'buy_button' ] ) && $options['buy_button']== '1' ? 'true' : 'false';
+				$params['download'] = isset($options[ 'download_button' ] ) && $options['download_button']== '1' ? 'true' : 'false';
+			}
 
 			$url_modified = $url_full;
 			foreach ( $params as $param => $value ) {
