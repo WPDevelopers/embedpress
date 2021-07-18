@@ -39,7 +39,8 @@
 }
 
 .elementor-control.embedpress-pro-control::before{
-    content: '';
+    content: 'pro';
+    color:red;
     position: absolute;
     width: 100%;
     height: 100%;
@@ -69,5 +70,8 @@
     right: 0;
     z-index: 99;
     background: transparent;
+}
+.elementor-control.elementor-control-embedpress_pro_section.elementor-control-type-section.elementor-label-inline.elementor-control-separator-none .elementor-panel-heading-title {
+    color: #ff5544;
 }
 /*EmbedPress Pro Controls Style Ends*/
