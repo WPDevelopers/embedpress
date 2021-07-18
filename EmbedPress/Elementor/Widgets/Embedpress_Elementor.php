@@ -332,7 +332,22 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->init_branding_controls( 'youtube');
 	}
 	public function init_dailymotion_control ( ){
-
+		$this->add_control(
+			'embedpress_pro_dailymotion_logo',
+			[
+				'label'        => sprintf(__( 'Logo %s', 'embedpress' ), $this->pro_text ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'label_off'    => __( 'Hide', 'embedpress' ),
+				'label_on'     => __( 'Show', 'embedpress' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'dailymotion'
+				],
+				'classes'     => $this->pro_class,
+			]
+		);
 		$this->add_control(
 			'embedpress_pro_dailymotion_autoplay',
 			[
@@ -414,22 +429,7 @@ class Embedpress_Elementor extends Widget_Base {
 			]
 		);
 
-		$this->add_control(
-			'embedpress_pro_dailymotion_logo',
-			[
-				'label'        => __( 'Logo', 'embedpress' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'yes',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
-				'condition'    => [
-					'embedpress_pro_embeded_source' => 'dailymotion'
-				],
-				'classes'     => $this->pro_class,
-			]
-		);
+
 
 		$this->add_control(
 			'embedpress_pro_dailymotion_control_color',
