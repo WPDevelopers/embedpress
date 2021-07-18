@@ -687,9 +687,22 @@ class Embedpress_Elementor extends Widget_Base {
 			]
 		);
 		$this->add_control(
+			'embedpress_pro_fs',
+			[
+				'label'        => __( 'Allow Full Screen Video', 'embedpress' ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_off'    => __( 'No', 'embedpress' ),
+				'label_on'     => __( 'Yes', 'embedpress' ),
+				'default'      => 'yes',
+				'condition'    => $condition,
+			]
+		);
+		
+		// -- Twitch PRO controls --
+		$this->add_control(
 			'embedpress_pro_twitch_chat',
 			[
-				'label'        => __( 'Show Chat', 'embedpress' ),
+				'label'        => sprintf(__( 'Show Chat %s', 'embedpress' ), $this->pro_text ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_off'    => __( 'Hide', 'embedpress' ),
 				'label_on'     => __( 'Show', 'embedpress' ),
@@ -701,7 +714,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_twitch_mute',
 			[
-				'label'        => __( 'Mute on start', 'embedpress' ),
+				'label'        => sprintf(__( 'Mute on start %s', 'embedpress' ), $this->pro_text ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_off'    => __( 'Hide', 'embedpress' ),
 				'label_on'     => __( 'Show', 'embedpress' ),
@@ -712,7 +725,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_twitch_theme',
 			[
-				'label' => __( 'Theme', 'embedpress' ),
+				'label' => sprintf(__( 'Theme %s', 'embedpress' ), $this->pro_text ),
 				'type' => Controls_Manager::SELECT,
 				'default' => 'dark',
 				'options' => [
@@ -723,17 +736,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'classes'     => $this->pro_class,
 			]
 		);
-		$this->add_control(
-			'embedpress_pro_fs',
-			[
-				'label'        => __( 'Allow Full Screen Video', 'embedpress' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_off'    => __( 'No', 'embedpress' ),
-				'label_on'     => __( 'Yes', 'embedpress' ),
-				'default'      => 'yes',
-				'condition'    => $condition,
-			]
-		);
+		
 		$this->init_branding_controls( 'twitch');
 
 	}
