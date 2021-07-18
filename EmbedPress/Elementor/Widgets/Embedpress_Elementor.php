@@ -286,7 +286,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_youtube_force_closed_captions',
 			[
-				'label'        => sprintf(__( 'Closed Captions %s', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__( 'Closed Captions', 'embedpress' ), $this->pro_text ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -319,7 +319,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_youtube_display_related_videos',
 			[
-				'label'        => sprintf(__( 'Related Videos %s', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__( 'Related Videos', 'embedpress' ), $this->pro_text ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -908,52 +908,6 @@ class Embedpress_Elementor extends Widget_Base {
 			]
 		);
 
-		$this->add_control(
-			'embedpress_pro_vimeo_loop',
-			[
-				'label'        => __( 'Loop', 'embedpress' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'no',
-				'condition'    => [
-					'embedpress_pro_embeded_source' => 'vimeo'
-				],
-				'classes'     => $this->pro_class,
-			]
-		);
-
-		$this->add_control(
-			'embedpress_pro_vimeo_autopause',
-			[
-				'label'        => __( 'Auto Pause', 'embedpress' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'no',
-				'condition'    => [
-					'embedpress_pro_embeded_source' => 'vimeo'
-				],
-				'classes'     => $this->pro_class,
-			]
-		);
-
-		$this->add_control(
-			'embedpress_pro_vimeo_dnt',
-			[
-				'label'        => __( 'DNT', 'embedpress' ),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'yes',
-				'description'  => __( 'Set this parameter to "yes" will block the player from tracking any session data, including all cookies',
-					'embedpress' ),
-				'condition'    => [
-					'embedpress_pro_embeded_source' => 'vimeo'
-				],
-				'classes'     => $this->pro_class,
-			]
-		);
 
 		$this->add_control(
 			'embedpress_pro_vimeo_color',
@@ -993,11 +947,13 @@ class Embedpress_Elementor extends Widget_Base {
 				]
 			]
 		);
-
+        
+		//----- Vimeo PRO controls
+		
 		$this->add_control(
 			'embedpress_pro_vimeo_display_author',
 			[
-				'label'        => __( 'Author', 'embedpress' ),
+				'label'        => sprintf(__( 'Author %s', 'embedpress' ), $this->pro_text ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -1012,7 +968,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_vimeo_avatar',
 			[
-				'label'        => __( 'Avatar', 'embedpress' ),
+				'label'        => sprintf(__( 'Avatar %s', 'embedpress' ), $this->pro_text ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -1023,6 +979,54 @@ class Embedpress_Elementor extends Widget_Base {
 				'classes'     => $this->pro_class,
 			]
 		);
+
+		$this->add_control(
+			'embedpress_pro_vimeo_loop',
+			[
+				'label'        => sprintf(__( 'Loop %s', 'embedpress' ), $this->pro_text ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'vimeo'
+				],
+				'classes'     => $this->pro_class,
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_vimeo_autopause',
+			[
+				'label'        => sprintf(__( 'Auto Pause %s', 'embedpress' ), $this->pro_text ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'vimeo'
+				],
+				'classes'     => $this->pro_class,
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_vimeo_dnt',
+			[
+				'label'        => sprintf(__( 'DNT %s', 'embedpress' ), $this->pro_text ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'description'  => __( 'Set this parameter to "yes" will block the player from tracking any session data, including all cookies',
+					'embedpress' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'vimeo'
+				],
+				'classes'     => $this->pro_class,
+			]
+		);
+
 
 		$this->init_branding_controls( 'vimeo');
 
