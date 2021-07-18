@@ -39,7 +39,7 @@
 }
 
 .elementor-control.embedpress-pro-control::before{
-    content: 'pro';
+    content: '';
     color:red;
     position: absolute;
     width: 100%;
