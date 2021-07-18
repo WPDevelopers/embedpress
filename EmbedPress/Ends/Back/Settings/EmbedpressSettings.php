@@ -278,6 +278,7 @@ class EmbedpressSettings {
 	public function save_dailymotion_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':dailymotion';
 		$settings = get_option( $option_name, []);
+		$settings['visual'] = isset( $_POST['visual']) ? sanitize_text_field( $_POST['visual']) : '';
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['play_on_mobile'] = isset( $_POST['play_on_mobile']) ? sanitize_text_field( $_POST['play_on_mobile']) : '';
 		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : '#dd3333';

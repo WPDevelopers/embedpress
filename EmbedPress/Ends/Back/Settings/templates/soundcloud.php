@@ -6,7 +6,6 @@
 $sc_settings = get_option( EMBEDPRESS_PLG_NAME.':soundcloud');
 $visual = isset( $sc_settings['visual']) ? $sc_settings['visual'] : '';
 $autoplay = isset( $sc_settings['autoplay']) ? $sc_settings['autoplay'] : '';
-$play_on_mobile = isset( $sc_settings['play_on_mobile']) ? $sc_settings['play_on_mobile'] : '';
 $share_button = isset( $sc_settings['share_button']) ? $sc_settings['share_button'] : '';
 $comments = isset( $sc_settings['comments']) ? $sc_settings['comments'] : 1;
 $color = isset( $sc_settings['color']) ? $sc_settings['color'] : '#dd3333';
@@ -26,7 +25,21 @@ $buy_button = isset( $sc_settings['buy_button']) ? $sc_settings['buy_button'] : 
 			<?php
 			do_action( 'embedpress_before_dailymotion_settings_fields');
 			echo  $nonce_field ; ?>
-
+            <div class="form__group">
+                <p class="form__label"><?php esc_html_e( "Visual Player", "embedpress" ); ?></p>
+                <div class="form__control__wrap">
+                    <div class="input__flex input__radio_wrap" data-default="<?php echo esc_attr(  $visual ); ?>" data-value="<?php echo esc_attr(  $visual ); ?>">
+                        <label class="input__radio">
+                            <input type="radio" name="visual" value="" <?php checked( '', $visual); ?>>
+                            <span><?php esc_html_e( "No", "embedpress" ); ?></span>
+                        </label>
+                        <label class="input__radio">
+                            <input type="radio" name="visual" value="1" <?php checked( '1', $visual); ?>>
+                            <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Scheme", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
@@ -48,22 +61,6 @@ $buy_button = isset( $sc_settings['buy_button']) ? $sc_settings['buy_button'] : 
 						</label>
 					</div>
 					<p><?php esc_html_e( "Automatically start to play the videos when the player loads.", "embedpress" ); ?></p>
-				</div>
-			</div>
-
-			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Autoplay On Mobile", "embedpress" ); ?></p>
-				<div class="form__control__wrap">
-					<div class="input__flex input__radio_wrap" data-default="<?php echo esc_attr(  $play_on_mobile ); ?>" data-value="<?php echo esc_attr(  $play_on_mobile ); ?>">
-						<label class="input__radio">
-							<input type="radio" name="play_on_mobile" value="" <?php checked( '', $play_on_mobile); ?>>
-							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
-						</label>
-						<label class="input__radio">
-							<input type="radio" name="play_on_mobile" value="1" <?php checked( '1', $play_on_mobile); ?>>
-							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
-						</label>
-					</div>
 				</div>
 			</div>
 
