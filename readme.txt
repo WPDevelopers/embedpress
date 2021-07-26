@@ -4,7 +4,7 @@ Author: WPDeveloper
 Author URI: https://wpdeveloper.net
 Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embed, video embed, Google Doc, map embed, youTube Embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, block editor, embed wordpress, elementor
 Requires at least: 4.6
-Tested up to: 5.7
+Tested up to: 5.8
 Requires PHP: 5.6
 Stable tag: 3.1.0
 License: GPLv3 or later
