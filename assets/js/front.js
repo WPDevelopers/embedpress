@@ -9,12 +9,15 @@
     'use strict';
     $( document ).ready(function() {
         var selector = $('.embedpress-embed-document-pdf');
+        let option = {
+            forceObject: true,
+        };
         if(selector.length){
             selector.each(function(index, value) {
                 var $this = $(this),
                     id = $this.data('emid'),
                     src = $this.data('emsrc');
-                    PDFObject.embed(src, "."+id);
+                    PDFObject.embed(src, "."+id, option);
             });
         }
     });

@@ -272,8 +272,11 @@ class Embedpress_Document extends Widget_Base
                 'use strict';
                 $(document).ready(function () {
                     var selector = $('.embedpress-embed-document-pdf');
+                    let option = {
+                        forceObject: false,
+                    };
                     if (selector.length) {
-                        PDFObject.embed("<?php echo $url; ?>", "<?php echo '.' . $id; ?>");
+                        PDFObject.embed("<?php echo $url; ?>", "<?php echo '.' . $id; ?>", option);
                     }
                 });
             })(jQuery);
