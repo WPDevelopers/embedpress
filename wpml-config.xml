@@ -1,0 +1,12 @@
+<wpml-config>
+    <elementor-widgets>
+        <widget name="embedpres_elementor">
+            <conditions>
+                <condition key="widgetType">embedpres_elementor</condition>
+            </conditions>
+            <fields>
+                <field type="YouTube Subscriber Button: Subscription Text" editor_type="LINE">yt_sub_text</field>
+            </fields>
+        </widget>
+    </elementor-widgets>
+</wpml-config>
