@@ -197,8 +197,6 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'   => $yt_condition,
 			]
 		);
-
-
 		$this->add_control(
 			'embedpress_pro_youtube_auto_play',
 			[
@@ -210,7 +208,6 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'    => $yt_condition,
 			]
 		);
-
 		$this->add_control(
 			'embedpress_pro_youtube_player_options',
 			[
@@ -219,7 +216,6 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition' => $yt_condition,
 			]
 		);
-
 		$this->add_control(
 			'embedpress_pro_youtube_display_controls',
 			[
@@ -235,7 +231,6 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'   => $yt_condition,
 			]
 		);
-
 		$this->add_control(
 			'embedpress_pro_youtube_enable_fullscreen_button',
 			[
@@ -250,7 +245,6 @@ class Embedpress_Elementor extends Widget_Base {
 				]
 			]
 		);
-
 		$this->add_control(
 			'embedpress_pro_youtube_display_video_annotations',
 			[
@@ -265,7 +259,6 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'   => $yt_condition,
 			]
 		);
-
         //--- Youtube Pro control starts ---
 		$this->add_control(
 			'embedpress_pro_youtube_progress_bar_color',
@@ -282,7 +275,6 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'   => $yt_condition,
 			]
 		);
-
 		$this->add_control(
 			'embedpress_pro_youtube_force_closed_captions',
 			[
@@ -315,7 +307,6 @@ class Embedpress_Elementor extends Widget_Base {
 				'classes'     => $this->pro_class,
 			]
 		);
-
 		$this->add_control(
 			'embedpress_pro_youtube_display_related_videos',
 			[
@@ -328,8 +319,105 @@ class Embedpress_Elementor extends Widget_Base {
 				'classes'     => $this->pro_class,
 			]
 		);
-
+		$this->init_youtube_subscription_controls();
 		$this->init_branding_controls( 'youtube');
+	}
+
+	public function init_youtube_subscription_controls() {
+		$yt_condition = [
+			'embedpress_pro_embeded_source' => 'youtube',
+		];
+		$this->add_control(
+			"yt_sub_heading",
+			[
+				'label' => __( 'Subscription', 'embedpress' ),
+				'type' => Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition'    => $yt_condition,
+			]
+		);
+
+		$this->add_control(
+			'yt_sub_channel',
+			[
+
+				'label'       => sprintf( __( 'Channel Link or ID %s', 'embedpress' ), $this->pro_text),
+				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => [
+					'active' => true,
+				],
+				'placeholder' => __( 'Enter Channel Link or ID', 'embedpress' ),
+				'label_block' => true,
+				'condition'    => $yt_condition,
+				'classes'     => $this->pro_class,
+			]
+		);
+		$this->add_control(
+			'yt_sub_text',
+			[
+
+				'label'       => sprintf( __( 'Subscription Text %s', 'embedpress' ), $this->pro_text),
+				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => [
+					'active' => true,
+				],
+				'placeholder' => __( 'Eg. Don\'t miss out! Subscribe', 'embedpress' ),
+				'label_block' => true,
+				'condition'    => $yt_condition,
+				'classes'     => $this->pro_class,
+			]
+		);
+
+
+		$this->add_control(
+			'yt_sub_layout',
+			[
+				'label'       => sprintf(__( 'Layout %s', 'embedpress' ), $this->pro_text ),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => false,
+				'default'     => 'default',
+				'options'     => [
+					'default' => __( 'Default', 'embedpress' ),
+					'full' => __( 'Full', 'embedpress' )
+				],
+				'condition'   => [
+					'embedpress_pro_embeded_source'              => 'youtube',
+				],
+				'classes'     => $this->pro_class,
+			]
+		);
+
+		$this->add_control(
+			'yt_sub_theme',
+			[
+				'label'        => sprintf(__( 'Theme %s', 'embedpress' ), $this->pro_text ),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => false,
+				'default'     => 'default',
+				'options'     => [
+					'default' => __( 'Default', 'embedpress' ),
+					'dark' => __( 'Dark', 'embedpress' )
+				],
+				'condition'   => [
+					'embedpress_pro_embeded_source'  => 'youtube',
+				],
+				'classes'     => $this->pro_class,
+			]
+		);
+
+		$this->add_control(
+			'yt_sub_count',
+			[
+				'label'        => sprintf(__( 'Subscriber Count %s', 'embedpress' ), $this->pro_text ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition'    => $yt_condition,
+				'classes'     => $this->pro_class,
+			]
+		);
+
 	}
 	public function init_dailymotion_control ( ){
 		$this->add_control(
@@ -1088,7 +1176,6 @@ class Embedpress_Elementor extends Widget_Base {
 			'embedpress_pro_embeded_source' => $provider_name,
 			"embedpress_pro_{$provider_name}_logo[url]!" =>''
 		];
-
 		$this->add_control(
 			"{$provider_name}_custom_logo_cta_heading",
 			[
@@ -1111,7 +1198,6 @@ class Embedpress_Elementor extends Widget_Base {
 				'classes'     => $this->pro_class,
 			]
 		);
-
 		$this->add_group_control(
 			Group_Control_Image_Size::get_type(),
 			[
@@ -1121,7 +1207,6 @@ class Embedpress_Elementor extends Widget_Base {
 				'classes'     => $this->pro_class,
 			]
 		);
-
 		$this->add_responsive_control(
 			"embedpress_pro_{$provider_name}_logo_xpos",
 			[
@@ -1187,7 +1272,6 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'    => $logo_condition,
 			]
 		);
-
 		$this->start_controls_tab( "ep_{$provider_name}_cta_normal_tab",
 			[
 				'label' => __( 'Normal', 'embedpress' ),
@@ -1246,7 +1330,6 @@ class Embedpress_Elementor extends Widget_Base {
 		);
 		$this->end_controls_tab();
 		$this->end_controls_tabs();
-
 		$this->add_control(
 			"embedpress_pro_{$provider_name}_cta",
 			[
