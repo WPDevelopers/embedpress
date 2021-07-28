@@ -37,8 +37,9 @@
     position: relative;
     opacity: .9;
 }
-
-.elementor-control.embedpress-pro-control::before{
+/*Second long class needed for yt channel link control, otherwise it wont get effected.*/
+.elementor-control.embedpress-pro-control::before,
+.elementor-control.elementor-control-yt_sub_channel.elementor-control-type-text.embedpress-pro-control.elementor-label-block.elementor-control-separator-default.elementor-control-dynamic::before{
     content: '';
     position: absolute;
     width: 100%;
@@ -51,6 +52,7 @@
     z-index: 99;
     background: transparent;
 }
+
 
 .elementor-control.elementor-control-embedpress_pro_section.elementor-control-type-section.elementor-label-inline.elementor-control-separator-none .elementor-panel-heading-title {
     color: #ff5544;

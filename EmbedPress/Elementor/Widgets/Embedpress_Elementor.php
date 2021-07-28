@@ -155,6 +155,9 @@ class Embedpress_Elementor extends Widget_Base {
         $this->init_twitch_control();
 
         $this->end_controls_section();
+
+        $this->init_youtube_subscription_section();
+
 	    if (! is_embedpress_pro_active()) {
 		    $this->start_controls_section(
 			    'embedpress_pro_section',
@@ -319,23 +322,22 @@ class Embedpress_Elementor extends Widget_Base {
 				'classes'     => $this->pro_class,
 			]
 		);
-		$this->init_youtube_subscription_controls();
 		$this->init_branding_controls( 'youtube');
 	}
 
-	public function init_youtube_subscription_controls() {
+	public function init_youtube_subscription_section() {
 		$yt_condition = [
 			'embedpress_pro_embeded_source' => 'youtube',
 		];
-		$this->add_control(
-			"yt_sub_heading",
+		$this->start_controls_section(
+			'embedpress_yt_subscription_section',
 			[
-				'label' => __( 'Subscription', 'embedpress' ),
-				'type' => Controls_Manager::HEADING,
-				'separator' => 'before',
+				'label'       => sprintf( __( 'YouTube Subscriber Option %s', 'embedpress' ), $this->pro_text),
 				'condition'    => $yt_condition,
+
 			]
 		);
+
 
 		$this->add_control(
 			'yt_sub_channel',
@@ -417,6 +419,8 @@ class Embedpress_Elementor extends Widget_Base {
 				'classes'     => $this->pro_class,
 			]
 		);
+
+		$this->end_controls_section();
 
 	}
 	public function init_dailymotion_control ( ){
