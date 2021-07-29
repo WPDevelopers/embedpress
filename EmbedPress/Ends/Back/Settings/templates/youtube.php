@@ -13,6 +13,12 @@ $color = isset( $yt_settings['color']) ? $yt_settings['color'] : 'red';
 $cc_load_policy = isset( $yt_settings['cc_load_policy']) ? $yt_settings['cc_load_policy'] : '';
 $rel = isset( $yt_settings['rel']) ? $yt_settings['rel'] : 1;
 $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestbranding'] : 0;
+// Subscription - Pro
+$yt_sub_channel = isset( $yt_settings['yt_sub_channel']) ? $yt_settings['yt_sub_channel'] : '';
+$yt_sub_text = isset( $yt_settings['yt_sub_text']) ? $yt_settings['yt_sub_text'] : '';
+$yt_sub_layout = isset( $yt_settings['yt_sub_layout']) ? $yt_settings['yt_sub_layout'] : '';
+$yt_sub_theme = isset( $yt_settings['yt_sub_theme']) ? $yt_settings['yt_sub_theme'] : '';
+$yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_count'] : '';
 
 ?>
 
@@ -146,6 +152,81 @@ $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestb
                     <p><?php esc_html_e( "Indicates whether the player should display a YouTube logo in the control bar.", "embedpress" ); ?></p>
                 </div>
             </div>
+            <!-- SUBSCRIPTION-->
+            <h3><?php esc_html_e( "Subscription Button", "embedpress" ); ?></h3>
+
+            <div class="form__group">
+                <p class="form__label"><?php esc_html_e( "Channel Link or ID", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
+                <div class="form__control__wrap <?php echo $pro_active ? '': 'isPro'; ?>">
+                    <input type="text"  class="form__control" data-default="<?php echo esc_attr( $yt_sub_channel ); ?>" value="<?php echo esc_attr( $yt_sub_channel ); ?>" name="yt_sub_channel" <?php echo $pro_active ? '' : 'disabled'; ?> placeholder="Enter Channel link or ID">
+
+                    <p><?php esc_html_e( "You can use either your channel link or channel ID to show the subscription button.", "embedpress" ); ?></p>
+                </div>
+		        <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+
+            </div>
+
+            <div class="form__group">
+                <p class="form__label"><?php esc_html_e( "Subscription Text", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
+                <div class="form__control__wrap <?php echo $pro_active ? '': 'isPro'; ?>">
+                    <input type="text"  class="form__control" data-default="<?php echo esc_attr( $yt_sub_text ); ?>" value="<?php echo esc_attr( $yt_sub_text ); ?>" name="yt_sub_text" <?php echo $pro_active ? '' : 'disabled'; ?> placeholder="<?php esc_attr_e( 'Eg. Don\'t miss out! Subscribe', 'embedpress' ) ?>">
+
+                    <p><?php esc_html_e( "Optionally you can output some CTA text before the subscriber button.", "embedpress" ); ?></p>
+                </div>
+		        <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+
+            </div>
+
+            <div class="form__group">
+                <p class="form__label"><?php esc_html_e( "Layout", "embedpress" );  echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></p>
+                <div class="form__control__wrap">
+                    <div class="embedpress__select <?php echo $pro_active ? '': 'isPro'; ?>">
+                        <span><i class="ep-icon ep-caret-down"></i></span>
+                        <select name="yt_sub_layout" data-default="<?php echo esc_attr( $yt_sub_layout); ?>" <?php echo !$pro_active ? 'disabled' : ''; ?>>
+                            <option value="" <?php selected( 'default', $yt_sub_layout); ?>><?php esc_html_e( "Default", "embedpress" ); ?></option>
+                            <option value="full"  <?php selected( 'full', $yt_sub_layout); ?>><?php esc_html_e( "Full", "embedpress" ); ?></option>
+                        </select>
+                    </div>
+			        <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+
+                    <p><?php esc_html_e( "Full layout shows channel image. Default layout shows only channel name and subscription button.", "embedpress" ); ?></p>
+                </div>
+            </div>
+
+            <div class="form__group">
+                <p class="form__label"><?php esc_html_e( "Theme", "embedpress" );  echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></p>
+                <div class="form__control__wrap">
+                    <div class="embedpress__select <?php echo $pro_active ? '': 'isPro'; ?>">
+                        <span><i class="ep-icon ep-caret-down"></i></span>
+                        <select name="yt_sub_theme" data-default="<?php echo esc_attr( $yt_sub_theme); ?>" <?php echo !$pro_active ? 'disabled' : ''; ?>>
+                            <option value="" <?php selected( 'default', $yt_sub_theme); ?>><?php esc_html_e( "Default", "embedpress" ); ?></option>
+                            <option value="dark"  <?php selected( 'dark', $yt_sub_theme); ?>><?php esc_html_e( "Dark", "embedpress" ); ?></option>
+                        </select>
+                    </div>
+			        <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+
+                    <p><?php esc_html_e( "Default theme is good for white background. Dark theme is good for black background.", "embedpress" ); ?></p>
+                </div>
+            </div>
+
+            <div class="form__group">
+                <p class="form__label"><?php esc_html_e( "Show Subscriber Count", "embedpress" ); echo !$pro_active ? ' <span class="isPro">PRO</span>': ''; ?></p>
+                <div class="form__control__wrap">
+                    <div class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>" data-default="<?php echo esc_attr(  $yt_sub_count ); ?>" data-value="<?php echo esc_attr(  $yt_sub_count ); ?>">
+                        <label class="input__radio">
+                            <input type="radio" name="yt_sub_count" value=""  <?php echo !$pro_active ? 'disabled ' : ''; checked( '', $yt_sub_count); ?>>
+                            <span><?php esc_html_e( "No", "embedpress" ); ?></span>
+                        </label>
+                        <label class="input__radio">
+                            <input type="radio" name="yt_sub_count" value="1"  <?php echo !$pro_active ? 'disabled ' : ''; checked( '1', $yt_sub_count);?>>
+                            <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
+                        </label>
+                    </div>
+			        <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+                </div>
+            </div>
+
+
 	        <?php do_action( 'embedpress_after_youtube_settings_fields'); ?>
             <button class="button button__themeColor radius-10 embedpress-submit-btn" name="submit" value="youtube"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
         </form>
