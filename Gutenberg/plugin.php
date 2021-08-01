@@ -100,8 +100,15 @@ function embedpress_block_category( $categories, $post ) {
 	);
 
 }
+$wp_version = get_bloginfo( 'version', 'display' );
+if ( version_compare( $wp_version, '5.8', '>=') ) {
+	add_filter( 'block_categories_all', 'embedpress_block_category', 10, 2 );
 
-add_filter( 'block_categories', 'embedpress_block_category', 10, 2 );
+}else{
+	add_filter( 'block_categories', 'embedpress_block_category', 10, 2 );
+}
+
+
 
 
 foreach ( glob( EMBEDPRESS_GUTENBERG_DIR_PATH . 'block-backend/*.php' ) as $block_logic ) {
