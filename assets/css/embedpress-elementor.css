@@ -298,7 +298,20 @@
     height: 100%;
     padding: 0 16px 16px 0;
 }
-
+/*Youtube subscribe button*/
+.embedpress-yt-subscribe {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 2fr 1fr;
+    align-content: center;
+    text-align: center;
+    gap: 1rem;
+    max-width: 600px;
+    width: 100%;
+}
+.embedpress-yt-sub-text {
+    text-align: right;
+}
 @media only screen and (min-width: 530px) {
     .ep-event--attendees .gridList--autoHeight--has4>.gridList-item {
         flex: 0 0 33.333333%;
