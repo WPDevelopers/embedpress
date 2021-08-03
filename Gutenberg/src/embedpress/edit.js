@@ -101,6 +101,7 @@ export default function EmbedPress({attributes, className, setAttributes}){
 					<EmbedWrap style={{display: fetching ? 'none' : ''}} dangerouslySetInnerHTML={{
 						__html: embedHTML
 					}}></EmbedWrap>
+					{embedHTML.includes('g-ytsubscribe')  && <p>{__('Note: Subscription button will show in the frontend.')}</p>}
 
 					<div
 						className="block-library-embed__interactive-overlay"
@@ -112,7 +113,6 @@ export default function EmbedPress({attributes, className, setAttributes}){
 						switchBackToURLInput={switchBackToURLInput}
 					/>
 				</figure>}
-
 			</Fragment>
 
 		);

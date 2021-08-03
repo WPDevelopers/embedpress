@@ -300,10 +300,9 @@
 }
 /*Youtube subscribe button*/
 .embedpress-yt-subscribe {
-    display: grid;
+    display: flex;
     align-items: center;
-    grid-template-columns: 2fr 1fr;
-    align-content: center;
+    align-content: start;
     text-align: center;
     gap: 1rem;
     max-width: 600px;

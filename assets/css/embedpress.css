@@ -381,17 +381,16 @@
 
 /*Youtube subscribe button*/
 .embedpress-yt-subscribe {
-    display: grid;
+    display: flex;
     align-items: center;
-    grid-template-columns: 2fr 1fr;
-    align-content: center;
+    align-content: start;
     text-align: center;
     gap: 1rem;
     max-width: 600px;
     width: 100%;
 }
 .embedpress-yt-sub-text {
-   display: inline-block;
+    display: inline-block;
 }
 /*Media query*/
 @media only screen and (min-width: 530px) {
