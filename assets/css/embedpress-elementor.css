@@ -308,6 +308,9 @@
     max-width: 600px;
     width: 100%;
 }
+.embedpress-yt-subscribe.dark {
+    color: #ffffff;
+}
 .embedpress-yt-sub-text {
     display: inline-block;
 }
