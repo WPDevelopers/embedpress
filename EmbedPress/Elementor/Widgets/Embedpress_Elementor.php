@@ -332,7 +332,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->start_controls_section(
 			'embedpress_yt_subscription_section',
 			[
-				'label'       => sprintf( __( 'YouTube Subscriber Option %s', 'embedpress' ), $this->pro_text),
+				'label'       => __( 'YouTube Subscriber Option', 'embedpress' ),
 				'condition'    => $yt_condition,
 
 			]
