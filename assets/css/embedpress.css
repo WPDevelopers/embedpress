@@ -391,7 +391,7 @@
     width: 100%;
 }
 .embedpress-yt-sub-text {
-   text-align: right;
+   display: inline-block;
 }
 /*Media query*/
 @media only screen and (min-width: 530px) {
