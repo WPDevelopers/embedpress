@@ -1,4 +1,9 @@
 <wpml-config>
+    <admin-texts>
+        <key name="embedpress:youtube">
+            <key name="yt_sub_text" />
+        </key>
+    </admin-texts>
     <elementor-widgets>
         <widget name="embedpres_elementor">
             <conditions>
