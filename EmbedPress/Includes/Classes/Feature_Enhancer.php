@@ -345,10 +345,10 @@ class Feature_Enhancer {
 			);
 
 			$labels = array(
-				'watch_from_beginning' => __('Watch from the beginning', 'embedpress-wistia'),
-				'skip_to_where_you_left_off' => __('Skip to where you left off', 'embedpress-wistia'),
+				'watch_from_beginning' => __('Watch from the beginning', 'embedpress'),
+				'skip_to_where_you_left_off' => __('Skip to where you left off', 'embedpress'),
 				'you_have_watched_it_before' => __('It looks like you\'ve watched<br />part of this video before!',
-					'embedpress-wistia'),
+					'embedpress'),
 			);
 			$labels = json_encode($labels);
 
@@ -614,51 +614,35 @@ class Feature_Enhancer {
 		return array(
 			'autoplay' => array(
 				'type' => 'bool',
-				'label' => 'Autoplay',
-				'description' => 'Automatically start to play the videos when the player loads.',
 				'default' => false
 			),
 			'loop' => array(
 				'type' => 'bool',
-				'label' => 'Loop',
-				'description' => 'Play the video again automatically when it reaches the end.',
 				'default' => false
 			),
 			'autopause' => array(
 				'type' => 'bool',
-				'label' => 'Autopause',
-				'description' => 'Pause this video automatically when another one plays.',
 				'default' => false
 			),
 			'vimeo_dnt' => array(
 				'type' => 'bool',
-				'label' => 'DNT',
-				'description' => 'Setting this parameter to "yes" will block the player from tracking any session data, including all cookies',
 				'default' => true,
 			),
 			'color' => array(
 				'type' => 'text',
-				'label' => 'Color',
-				'description' => 'Specify the color of the video controls.',
 				'default' => '#00adef',
 				'classes' => 'color-field'
 			),
 			'display_title' => array(
 				'type' => 'bool',
-				'label' => 'Display Title',
-				'description' => 'Indicates whether the title is displayed.',
 				'default' => true
 			),
 			'display_author' => array(
 				'type' => 'bool',
-				'label' => 'Display Author',
-				'description' => 'Indicates whether the author is displayed.',
 				'default' => true
 			),
 			'display_avatar' => array(
 				'type' => 'bool',
-				'label' => 'Display Avatar',
-				'description' => 'Indicates whether the avatar is displayed.',
 				'default' => true
 			)
 		);
@@ -667,85 +651,85 @@ class Feature_Enhancer {
 		$schema = array(
 			'display_fullscreen_button' => array(
 				'type' => 'bool',
-				'label' => __('Fullscreen Button', 'embedpress-wistia'),
-				'description' => __('Indicates whether the fullscreen button is visible.', 'embedpress-wistia'),
+				'label' => __('Fullscreen Button', 'embedpress'),
+				'description' => __('Indicates whether the fullscreen button is visible.', 'embedpress'),
 				'default' => true
 			),
 			'display_playbar' => array(
 				'type' => 'bool',
-				'label' => __('Playbar', 'embedpress-wistia'),
-				'description' => __('Indicates whether the playbar is visible.', 'embedpress-wistia'),
+				'label' => __('Playbar', 'embedpress'),
+				'description' => __('Indicates whether the playbar is visible.', 'embedpress'),
 				'default' => true
 			),
 			'small_play_button' => array(
 				'type' => 'bool',
-				'label' => __('Small Play Button', 'embedpress-wistia'),
+				'label' => __('Small Play Button', 'embedpress'),
 				'description' => __('Indicates whether the small play button is visible on the bottom left.',
-					'embedpress-wistia'),
+					'embedpress'),
 				'default' => true
 			),
 			'display_volume_control' => array(
 				'type' => 'bool',
-				'label' => __('Volume Control', 'embedpress-wistia'),
-				'description' => __('Indicates whether the volume control is visible.', 'embedpress-wistia'),
+				'label' => __('Volume Control', 'embedpress'),
+				'description' => __('Indicates whether the volume control is visible.', 'embedpress'),
 				'default' => true
 			),
 			'autoplay' => array(
 				'type' => 'bool',
-				'label' => __('Auto Play', 'embedpress-wistia'),
+				'label' => __('Auto Play', 'embedpress'),
 				'description' => __('Automatically start to play the videos when the player loads.',
-					'embedpress-wistia'),
+					'embedpress'),
 				'default' => false
 			),
 			'volume' => array(
 				'type' => 'text',
-				'label' => __('Volume', 'embedpress-wistia'),
+				'label' => __('Volume', 'embedpress'),
 				'description' => __('Start the video with a custom volume level. Set values between 0 and 100.',
-					'embedpress-wistia'),
+					'embedpress'),
 				'default' => '100'
 			),
 			'player_color' => array(
 				'type' => 'text',
-				'label' => __('Color', 'embedpress-wistia'),
-				'description' => __('Specify the color of the video controls.', 'embedpress-wistia'),
+				'label' => __('Color', 'embedpress'),
+				'description' => __('Specify the color of the video controls.', 'embedpress'),
 				'default' => '#00adef',
 				'classes' => 'color-field'
 			),
 			'plugin_resumable' => array(
 				'type' => 'bool',
-				'label' => __('Plugin: Resumable', 'embedpress-wistia'),
+				'label' => __('Plugin: Resumable', 'embedpress'),
 				'description' => __('Indicates whether the Resumable plugin is active. Allow to resume the video or start from the begining.',
-					'embedpress-wistia'),
+					'embedpress'),
 				'default' => false
 			),
 			'plugin_captions' => array(
 				'type' => 'bool',
-				'label' => __('Plugin: Captions', 'embedpress-wistia'),
-				'description' => __('Indicates whether the Captions plugin is active.', 'embedpress-wistia'),
+				'label' => __('Plugin: Captions', 'embedpress'),
+				'description' => __('Indicates whether the Captions plugin is active.', 'embedpress'),
 				'default' => false
 			),
 			'plugin_captions_default' => array(
 				'type' => 'bool',
-				'label' => __('Captions Enabled By Default', 'embedpress-wistia'),
-				'description' => __('Indicates whether the Captions are enabled by default.', 'embedpress-wistia'),
+				'label' => __('Captions Enabled By Default', 'embedpress'),
+				'description' => __('Indicates whether the Captions are enabled by default.', 'embedpress'),
 				'default' => false
 			),
 			'plugin_focus' => array(
 				'type' => 'bool',
-				'label' => __('Plugin: Focus', 'embedpress-wistia'),
-				'description' => __('Indicates whether the Focus plugin is active.', 'embedpress-wistia'),
+				'label' => __('Plugin: Focus', 'embedpress'),
+				'description' => __('Indicates whether the Focus plugin is active.', 'embedpress'),
 				'default' => false
 			),
 			'plugin_rewind' => array(
 				'type' => 'bool',
-				'label' => __('Plugin: Rewind', 'embedpress-wistia'),
-				'description' => __('Indicates whether the Rewind plugin is active.', 'embedpress-wistia'),
+				'label' => __('Plugin: Rewind', 'embedpress'),
+				'description' => __('Indicates whether the Rewind plugin is active.', 'embedpress'),
 				'default' => false
 			),
 			'plugin_rewind_time' => array(
 				'type' => 'text',
-				'label' => __('Rewind time (seconds)', 'embedpress-wistia'),
-				'description' => __('The amount of time to rewind, in seconds.', 'embedpress-wistia'),
+				'label' => __('Rewind time (seconds)', 'embedpress'),
+				'description' => __('The amount of time to rewind, in seconds.', 'embedpress'),
 				'default' => '10'
 			),
 		);
@@ -772,9 +756,9 @@ class Feature_Enhancer {
 		$shortVideoId = $videoId;
 
 		$labels = array(
-			'watch_from_beginning'       => __('Watch from the beginning', 'embedpress-wistia'),
-			'skip_to_where_you_left_off' => __('Skip to where you left off', 'embedpress-wistia'),
-			'you_have_watched_it_before' => __('It looks like you\'ve watched<br />part of this video before!', 'embedpress-wistia'),
+			'watch_from_beginning'       => __('Watch from the beginning', 'embedpress'),
+			'skip_to_where_you_left_off' => __('Skip to where you left off', 'embedpress'),
+			'you_have_watched_it_before' => __('It looks like you\'ve watched<br />part of this video before!', 'embedpress'),
 		);
 		$labels = json_encode($labels);
 
@@ -847,59 +831,27 @@ class Feature_Enhancer {
 		return [
 			'embedpress_pro_video_start_time' => [
 				'type'        => 'number',
-				'label'       => __( 'Start Time (in Seconds)', 'embedpress-pro' ),
-				'description' => __( 'You can put a custom time in seconds to start the video from. Example: 500', 'embedpress-pro' ),
 				'default'     => 0,
 			],
 			'embedpress_pro_twitch_autoplay'  => [
 				'type'        => 'string',
-				'label'       => __( 'Auto Play', 'embedpress-pro' ),
-				'description' => __( 'Automatically start to play the videos when the player loads.', 'embedpress-pro' ),
-				'options'     => [
-					'yes' => __( 'Yes', 'embedpress-pro' ),
-					'no'  => __( 'No', 'embedpress-pro' ),
-				],
 				'default'     => 'no',
 			],
 			'embedpress_pro_twitch_chat'      => [
 				'type'        => 'string',
-				'label'       => __( 'Show chat', 'embedpress-pro' ),
-				'description' => __( 'You can show or hide chat using this settings' ),
-				'options'     => [
-					'yes' => __( 'Yes', 'embedpress-pro' ),
-					'no'  => __( 'No', 'embedpress-pro' ),
-				],
 				'default'     => 'no',
 			],
 
 			'embedpress_pro_twitch_theme' => [
 				'type'        => 'string',
-				'label'       => __( 'Theme', 'embedpress-pro' ),
-				'description' => __( 'Set dark or light theme for the twitch comment', 'embedpress-pro' ),
-				'options'     => [
-					'dark'  => __( 'Dark', 'embedpress-pro' ),
-					'light' => __( 'Light', 'embedpress-pro' ),
-				],
 				'default'     => 'dark',
 			],
 			'embedpress_pro_fs'           => [
 				'type'        => 'string',
-				'label'       => 'Enable Fullscreen button',
-				'description' => __( 'Indicates whether the fullscreen button is enabled.', 'embedpress-pro' ),
-				'options'     => [
-					'yes' => __( 'Yes', 'embedpress-pro' ),
-					'no'  => __( 'No', 'embedpress-pro' ),
-				],
 				'default'     => 'yes',
 			],
 			'embedpress_pro_twitch_mute'  => [
 				'type'        => 'string',
-				'label'       => __( 'Mute on start', 'embedpress-pro' ),
-				'description' => __( 'Set it to Yes to mute the video on start.', 'embedpress-pro' ),
-				'options'     => [
-					'yes' => __( 'Yes', 'embedpress-pro' ),
-					'no'  => __( 'No', 'embedpress-pro' ),
-				],
 				'default'     => 'yes',
 			],
 

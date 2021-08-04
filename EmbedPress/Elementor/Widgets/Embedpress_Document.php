@@ -20,7 +20,7 @@ class Embedpress_Document extends Widget_Base
     
     public function get_title()
     {
-        return esc_html__( 'EmbedPress Document', 'embedoress' );
+        return esc_html__( 'EmbedPress Document', 'embedpress' );
     }
     
     public function get_categories()

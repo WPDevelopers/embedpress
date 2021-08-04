@@ -416,7 +416,7 @@ class EmbedPress_Notice {
     }
     /**
      * Get upsale arguments.
-     * @return void
+     * @return array
      */
     private function get_upsale_args(){
         return ( empty( $this->upsale_args ) ) ? array() : $this->upsale_args;
@@ -434,7 +434,7 @@ class EmbedPress_Notice {
         if( empty( $plugin_slug ) ) {
             return;
         }
-        echo '<button data-slug="'. $plugin_slug .'" id="plugin-install-core-'. $this->plugin_name .'" class="button button-primary">'. __( 'Install Now!', $this->text_domain, 'notificationx' ) .'</button>';
+        echo '<button data-slug="'. $plugin_slug .'" id="plugin-install-core-'. $this->plugin_name .'" class="button button-primary">'. __( 'Install Now!', 'embedpress' ) .'</button>';
     }
     /**
      * This methods is responsible for get notice image.

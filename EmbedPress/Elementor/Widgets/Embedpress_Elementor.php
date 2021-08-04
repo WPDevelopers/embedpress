@@ -20,7 +20,7 @@ class Embedpress_Elementor extends Widget_Base {
     }
 
     public function get_title() {
-        return esc_html__( 'EmbedPress', 'embedoress' );
+        return esc_html__( 'EmbedPress', 'embedpress' );
     }
 
     public function get_categories() {
@@ -1355,7 +1355,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->start_controls_section(
 			'embedpress_style_section',
 			[
-				'label' => __( 'Style', 'elementor' ),
+				'label' => __( 'Style', 'embedpress' ),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
