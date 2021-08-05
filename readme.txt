@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 3.1.0
+Stable tag: 3.1.1
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -300,6 +300,15 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+
+= [3.1.1] - 2021-08-05 =
+* Added: WPML compatibility. 
+* Fixed: Deprecated notice in WP 5.8.
+* Fixed: Event headings css selector issue.
+* Updated: PDF library to latest version.
+* Improved: Embed documents using object tag instead of embed tag.
+* Few minor bug fix and improvements.
 
 = [3.1.0] - 2021-07-19 =
 * Added: SoundCloud and DailyMotion in option menu.
