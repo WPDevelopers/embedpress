@@ -138,9 +138,8 @@ class Embedpress_Elementor extends Widget_Base {
 	    $this->add_control(
 		    'embedpress_pro_video_start_time',
 		    [
-			    'label'       => sprintf( __( 'Start Time %s', 'embedpress' ), $this->pro_text),
+			    'label'       => __( 'Start Time', 'embedpress' ),
 			    'type'        => Controls_Manager::NUMBER,
-			    'classes'     => $this->pro_class,
 			    'description' => __( 'Specify a start time (in seconds)', 'embedpress' ),
 			    'condition'   => [
 				    'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'wistia', 'dailymotion', 'twitch']
@@ -266,10 +265,9 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_youtube_progress_bar_color',
 			[
-				'label'       => sprintf( __( 'Progress Bar Color %s', 'embedpress' ), $this->pro_text),
+				'label'       => __( 'Progress Bar Color', 'embedpress' ),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
-				'classes'     => $this->pro_class,
 				'default'     => 'red',
 				'options'     => [
 					'red'   => __( 'Red', 'embedpress' ),
@@ -313,13 +311,12 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_youtube_display_related_videos',
 			[
-				'label'        => sprintf(__( 'Related Videos %s', 'embedpress' ), $this->pro_text ),
+				'label'        => __( 'Related Videos %s', 'embedpress' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
 				'condition'    => $yt_condition,
-				'classes'     => $this->pro_class,
 			]
 		);
 		$this->init_branding_controls( 'youtube');
@@ -674,7 +671,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_wistia_playbar',
 			[
-				'label'        => sprintf(__( 'Playbar %s', 'embedpress' ), $this->pro_text ),
+				'label'        => __( 'Playbar ', 'embedpress' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -682,7 +679,6 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'wistia'
 				],
-				'classes'     => $this->pro_class,
 			]
 		);
 
@@ -727,7 +723,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_wistia_rewind',
 			[
-				'label'        => sprintf(__( 'Rewind %s', 'embedpress' ), $this->pro_text ),
+				'label'        => __( 'Rewind', 'embedpress' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -735,14 +731,13 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'wistia'
 				],
-				'classes'     => $this->pro_class,
 			]
 		);
 
 		$this->add_control(
 			'embedpress_pro_wistia_rewind_time',
 			[
-				'label'     => sprintf(__( 'Rewind time', 'embedpress' ), $this->pro_text ),
+				'label'     => __( 'Rewind time', 'embedpress' ),
 				'type'      => Controls_Manager::SLIDER,
 				'default'   => [
 					'size' => 10,
@@ -757,7 +752,6 @@ class Embedpress_Elementor extends Widget_Base {
 					'embedpress_pro_wistia_rewind'  => 'yes',
 					'embedpress_pro_embeded_source' => 'wistia'
 				],
-				'classes'     => $this->pro_class,
 			]
 		);
 		$this->init_branding_controls( 'wistia');
@@ -806,18 +800,17 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_twitch_mute',
 			[
-				'label'        => sprintf(__( 'Mute on start %s', 'embedpress' ), $this->pro_text ),
+				'label'        => __( 'Mute on start', 'embedpress' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_off'    => __( 'Hide', 'embedpress' ),
 				'label_on'     => __( 'Show', 'embedpress' ),
 				'condition'    => $condition,
-				'classes'     => $this->pro_class,
 			]
 		);
 		$this->add_control(
 			'embedpress_pro_twitch_theme',
 			[
-				'label' => sprintf(__( 'Theme %s', 'embedpress' ), $this->pro_text ),
+				'label' => __( 'Theme', 'embedpress' ),
 				'type' => Controls_Manager::SELECT,
 				'default' => 'dark',
 				'options' => [
@@ -825,7 +818,6 @@ class Embedpress_Elementor extends Widget_Base {
 					'light' => __( 'Light', 'embedpress' ),
 				],
 				'condition'    => $condition,
-				'classes'     => $this->pro_class,
 			]
 		);
 		
@@ -1057,7 +1049,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_vimeo_display_author',
 			[
-				'label'        => sprintf(__( 'Author %s', 'embedpress' ), $this->pro_text ),
+				'label'        => __( 'Author', 'embedpress' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -1065,14 +1057,13 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'vimeo'
 				],
-				'classes'     => $this->pro_class,
 			]
 		);
 
 		$this->add_control(
 			'embedpress_pro_vimeo_avatar',
 			[
-				'label'        => sprintf(__( 'Avatar %s', 'embedpress' ), $this->pro_text ),
+				'label'        => __( 'Avatar', 'embedpress' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -1080,7 +1071,6 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'vimeo'
 				],
-				'classes'     => $this->pro_class,
 			]
 		);
 

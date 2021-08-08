@@ -134,22 +134,20 @@ class Elementor_Enhancer {
 			if ( $setting[ 'embedpress_pro_youtube_auto_play' ] === 'yes' ) {
 				$params[ 'autoplay' ] = 1;
 			}
+			$params[ 'start' ] = $setting[ 'embedpress_pro_video_start_time' ];
+			if ( $setting[ 'embedpress_pro_youtube_display_related_videos' ] === 'yes' ) {
+				$params[ 'rel' ] = 1;
+			}
+			$params[ 'color' ] = $setting[ 'embedpress_pro_youtube_progress_bar_color' ];
 
 			if ( is_embedpress_pro_active() ) {
-				$params[ 'color' ] = $setting[ 'embedpress_pro_youtube_progress_bar_color' ];
 				$params[ 'modestbranding' ] = $setting[ 'embedpress_pro_youtube_modest_branding' ];
-				$params[ 'start' ] = $setting[ 'embedpress_pro_video_start_time' ];
-
-
-
 
 				if ( $setting[ 'embedpress_pro_youtube_force_closed_captions' ] === 'yes' ) {
 					$params[ 'cc_load_policy' ] = 1;
 				}
 
-				if ( $setting[ 'embedpress_pro_youtube_display_related_videos' ] === 'yes' ) {
-					$params[ 'rel' ] = 1;
-				}
+
 			}
 
 
@@ -172,6 +170,7 @@ class Elementor_Enhancer {
 
 		return $embed;
 	}
+
 	public static function vimeo( $embed, $setting )
 	{
 
@@ -191,7 +190,8 @@ class Elementor_Enhancer {
 		if ( $setting[ 'embedpress_pro_vimeo_auto_play' ] === 'yes' ) {
 			$params[ 'autoplay' ] = 1;
 		}
-
+		$params ['byline']   = $setting[ 'embedpress_pro_vimeo_display_author' ] === 'yes' ? 1 : 0;
+		$params ['portrait'] = $setting[ 'embedpress_pro_vimeo_avatar' ] === 'yes' ? 1 : 0;
 		if ( is_embedpress_pro_active() ) {
 			if ( $setting[ 'embedpress_pro_vimeo_loop' ] === 'yes' ) {
 				$params[ 'loop' ] = 1;
@@ -199,8 +199,7 @@ class Elementor_Enhancer {
 			if ( $setting[ 'embedpress_pro_vimeo_autopause' ] === 'yes' ) {
 				$params[ 'autopause' ] = 1;
 			}
-			$params ['byline']   = $setting[ 'embedpress_pro_vimeo_display_author' ] === 'yes' ? 1 : 0;
-			$params ['portrait'] = $setting[ 'embedpress_pro_vimeo_avatar' ] === 'yes' ? 1 : 0;
+
 			$params [ 'dnt']     = $setting[ 'embedpress_pro_vimeo_dnt' ] === 'yes' ? 1 : 0;
 
         }
@@ -215,9 +214,8 @@ class Elementor_Enhancer {
 			$url_modified = add_query_arg( $param, $value, $url_modified );
 		}
 
-		if ( is_embedpress_pro_active() ) {
-			$url_modified .= '#t=' . $setting[ 'embedpress_pro_video_start_time' ];
-		}
+
+		$url_modified .= '#t=' . $setting[ 'embedpress_pro_video_start_time' ];
 		// Replaces the old url with the new one.
 		$embed->embed = str_replace( $url_full, $url_modified, $embed->embed );
 		if ( is_embedpress_pro_active() ) {
@@ -251,9 +249,9 @@ class Elementor_Enhancer {
 		$embedOptions->smallPlayButton = ( $setting[ 'embedpress_pro_wistia_small_play_button' ] === 'yes' );
 		$embedOptions->autoPlay = ( $setting[ 'embedpress_pro_wistia_auto_play' ] === 'yes' );
 		$embedOptions->playerColor = $setting[ 'embedpress_pro_wistia_color' ];
+		$embedOptions->playbar = ( $setting[ 'embedpress_pro_wistia_playbar' ] === 'yes' );
+		$embedOptions->time = $setting[ 'embedpress_pro_video_start_time' ];
 		if ( is_embedpress_pro_active() ) {
-			$embedOptions->time = $setting[ 'embedpress_pro_video_start_time' ];
-			$embedOptions->playbar = ( $setting[ 'embedpress_pro_wistia_playbar' ] === 'yes' );
 			$embedOptions->volumeControl = ( $setting[ 'embedpress_pro_wistia_volume_control' ] === 'yes' );
 
 			$volume = (float)$setting[ 'embedpress_pro_wistia_volume' ];
@@ -303,18 +301,18 @@ class Elementor_Enhancer {
 				$embedOptions->captionsDefault = $isCaptionsEnabledByDefault;
 			}
 
-			// Rewind plugin
-			if ( $setting[ 'embedpress_pro_wistia_rewind' ] === 'yes' ) {
 
-				$embedOptions->rewindTime = (int)$setting[ 'embedpress_pro_wistia_rewind_time' ];
-				$pluginList[ 'rewind' ] = [
-					'src' => $pluginsBaseURL . '/rewind.min.js'
-				];
-
-			}
         }
 
+        // Rewind plugin
+		if ( $setting[ 'embedpress_pro_wistia_rewind' ] === 'yes' ) {
 
+			$embedOptions->rewindTime = (int)$setting[ 'embedpress_pro_wistia_rewind_time' ];
+			$pluginList[ 'rewind' ] = [
+				'src' => $pluginsBaseURL . '/rewind.min.js'
+			];
+
+		}
 		// Focus plugin
 		if ( $setting[ 'embedpress_pro_wistia_focus' ] === 'yes' ) {
 			$isFocusEnabled = ( $setting[ 'embedpress_pro_wistia_focus' ] === 'yes' );
@@ -456,18 +454,19 @@ class Elementor_Enhancer {
 			$layout = 'video';
 			$width = (int) $settings['width']['size'];
 			$height = (int) $settings['height']['size'];
-
+		if ( !empty( $settings['embedpress_pro_video_start_time']) ) {
+			$ta = explode( ':', gmdate( "G:i:s", $settings['embedpress_pro_video_start_time']));
+			$h = $ta[0].'h';
+			$m = ($ta[1] * 1) .'m';
+			$s = ($ta[2] * 1) .'s';
+			$time = $h.$m.$s;
+		}
+		$muted = ('yes' === $settings['embedpress_pro_twitch_mute']) ? 'true': 'false';
+		$theme = !empty( $settings['embedpress_pro_twitch_theme']) ? $settings['embedpress_pro_twitch_theme'] : 'dark';
 		if ( is_embedpress_pro_active() ) {
-			if ( !empty( $settings['embedpress_pro_video_start_time']) ) {
-				$ta = explode( ':', gmdate( "G:i:s", $settings['embedpress_pro_video_start_time']));
-				$h = $ta[0].'h';
-				$m = ($ta[1] * 1) .'m';
-				$s = ($ta[2] * 1) .'s';
-				$time = $h.$m.$s;
-			}
+
 			$layout = ('yes' === $settings['embedpress_pro_twitch_chat']) ? 'video-with-chat' : 'video';
-			$muted = ('yes' === $settings['embedpress_pro_twitch_mute']) ? 'true': 'false';
-			$theme = !empty( $settings['embedpress_pro_twitch_theme']) ? $settings['embedpress_pro_twitch_theme'] : 'dark';
+
 		}
 
 
