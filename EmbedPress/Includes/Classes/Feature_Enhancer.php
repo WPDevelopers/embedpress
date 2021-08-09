@@ -409,17 +409,27 @@ class Feature_Enhancer {
 			$settings = $this->getOptions('twitch', $this->get_twitch_settings_schema());
 
 			$atts = isset( $embed_content->attributes) ? $embed_content->attributes : [];
+			$time       = '0h0m0s';
 			$type       = $e['type'];
 			$content_id = $e['content_id'];
 			$channel    = 'channel' === $type ? $content_id : '';
 			$video      = 'video' === $type ? $content_id : '';
+			$muted = ('yes' === $settings['embedpress_pro_twitch_mute']) ? 'true': 'false';
 			$full_screen = ('yes' === $settings['embedpress_pro_fs']) ? 'true': 'false';
 			$autoplay = ('yes' === $settings['embedpress_pro_twitch_autoplay']) ? 'true': 'false';
+			$theme      = ! empty( $settings['embedpress_pro_twitch_theme'] ) ? $settings['embedpress_pro_twitch_theme'] : 'dark';
+
 			$layout     = 'video';
 			$width      = !empty( $atts->{'data-width'}) ? (int) $atts->{'data-width'} : 800;
 			$height     = !empty( $atts->{'data-height'}) ? (int) $atts->{'data-height'} : 450;
-
-			$url = "https://embed.twitch.tv?autoplay={$autoplay}&channel={$channel}&height={$height}&layout={$layout}&migration=true&video={$video}&width={$width}&allowfullscreen={$full_screen}";
+			if ( ! empty( $settings['embedpress_pro_video_start_time'] ) ) {
+				$ta   = explode( ':', gmdate( "G:i:s", $settings['embedpress_pro_video_start_time'] ) );
+				$h    = $ta[0] . 'h';
+				$m    = ( $ta[1] * 1 ) . 'm';
+				$s    = ( $ta[2] * 1 ) . 's';
+				$time = $h . $m . $s;
+			}
+			$url = "https://embed.twitch.tv?autoplay={$autoplay}&channel={$channel}&height={$height}&layout={$layout}&migration=true&muted={$muted}&theme={$theme}&time={$time}&video={$video}&width={$width}&allowfullscreen={$full_screen}";
 			$pars_url = wp_parse_url(get_site_url());
 			$url = !empty($pars_url['host'])?$url.'&parent='.$pars_url['host']:$url;
 			ob_start();

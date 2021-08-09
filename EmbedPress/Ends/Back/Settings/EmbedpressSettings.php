@@ -253,6 +253,9 @@ class EmbedpressSettings {
 		$settings = get_option( $option_name, []);
 		$settings['embedpress_pro_twitch_autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : 'no';
 		$settings['embedpress_pro_fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : 'yes';
+		$settings['embedpress_pro_video_start_time'] = isset( $_POST['start_time']) ? sanitize_text_field( $_POST['start_time']) : 0;
+		$settings['embedpress_pro_twitch_theme'] = isset( $_POST['theme']) ? sanitize_text_field( $_POST['theme']) : 'dark';
+		$settings['embedpress_pro_twitch_mute'] = isset( $_POST['mute']) ? sanitize_text_field( $_POST['mute']) : 'yes';
 		$settings['license_key'] = 1; // backward compatibility
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_twitch_settings_before_save', $settings);
