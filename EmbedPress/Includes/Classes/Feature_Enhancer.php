@@ -301,6 +301,8 @@ class Feature_Enhancer {
 			$embedOptions = new \stdClass;
 			$embedOptions->videoFoam = true;
 			$embedOptions->fullscreenButton = (isset($options['display_fullscreen_button']) && (bool) $options['display_fullscreen_button'] === true);
+			$embedOptions->playbar = (isset($options['display_playbar']) && (bool) $options['display_playbar'] === true);
+
 			$embedOptions->smallPlayButton = (isset($options['small_play_button']) && (bool) $options['small_play_button'] === true);
 
 			$embedOptions->autoPlay = (isset($options['autoplay']) && (bool) $options['autoplay'] === true);
@@ -349,7 +351,16 @@ class Feature_Enhancer {
 				$embedOptions->focus = $isFocusEnabled;
 			}
 
+            // Rewind plugin
+			if (isset($options['plugin_rewind'])) {
+				if ($options['plugin_rewind']) {
+					$embedOptions->rewindTime = isset($options['plugin_rewind_time']) ? (int) $options['plugin_rewind_time'] : 10;
 
+					$pluginList['rewind'] = array(
+						'src' => $pluginsBaseURL.'/rewind.min.js'
+					);
+				}
+			}
 			$embedOptions->plugin = $pluginList;
 			$embedOptions = json_encode($embedOptions);
 

@@ -223,6 +223,9 @@ class EmbedpressSettings {
 		$settings['player_color'] = isset( $_POST['player_color']) ? sanitize_text_field( $_POST['player_color']) : '';
 		$settings['plugin_resumable'] = isset( $_POST['plugin_resumable']) ? sanitize_text_field( $_POST['plugin_resumable']) : '';
 		$settings['plugin_focus'] = isset( $_POST['plugin_focus']) ? sanitize_text_field( $_POST['plugin_focus']) : '';
+		$settings['plugin_rewind'] = isset( $_POST['plugin_rewind']) ? sanitize_text_field( $_POST['plugin_rewind']) : '';
+		$settings['display_playbar'] = isset( $_POST['display_playbar']) ? sanitize_text_field( $_POST['display_playbar']) : 1;
+		$settings['plugin_rewind_time'] = isset( $_POST['plugin_rewind_time']) ? sanitize_text_field( $_POST['plugin_rewind_time']) : 10;
 		$settings['license_key'] = 1; // backward compatibility
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_wistia_settings_before_save', $settings);
