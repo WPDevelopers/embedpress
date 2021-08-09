@@ -142,14 +142,6 @@ function embedpress_gutenberg_register_all_block() {
 			}
 		}
 
-		//register_block_type( 'embedpress/twitch-block' );
-		//register_block_type( 'embedpress/google-slides-block' );
-		//register_block_type( 'embedpress/google-sheets-block' );
-		//register_block_type( 'embedpress/google-maps-block' );
-		//register_block_type( 'embedpress/google-forms-block' );
-		//register_block_type( 'embedpress/google-drawings-block' );
-		//register_block_type( 'embedpress/google-docs-block' );
-
 	endif;
 }
 
