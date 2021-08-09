@@ -236,6 +236,8 @@ class EmbedpressSettings {
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : '#00adef';
 		$settings['display_title'] = isset( $_POST['display_title']) ? sanitize_text_field( $_POST['display_title']) : 1;
+		$settings['display_author'] = isset( $_POST['display_author']) ? sanitize_text_field( $_POST['display_author']) : 1;
+		$settings['display_avatar'] = isset( $_POST['display_avatar']) ? sanitize_text_field( $_POST['display_avatar']) : 1;
 		$settings['license_key'] = 1; // backward compatibility
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_vimeo_settings_before_save', $settings);

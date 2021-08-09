@@ -243,9 +243,23 @@ class Feature_Enhancer {
 			} else {
 				unset( $params['color'] );
 			}
+			// Handle `display_author` option.
+			if ( isset( $options['display_author'] ) && (bool)$options['display_author'] === true ) {
+				$params['byline'] = 1;
+			} else {
+				$params['byline'] = 0;
+			}
+
+			// Handle `display_avatar` option.
+			if ( isset( $options['display_avatar'] ) && (bool)$options['display_avatar'] === true ) {
+				$params['portrait'] = 1;
+			} else {
+				$params['portrait'] = 0;
+			}
+
 			// NOTE: 'vimeo_dnt' is actually only 'dnt' in the params, so unset 'dnt' only
 			//@todo; maybe extract unsetting pro vars to a function later
-			$pro_controls = ['loop', 'autopause', 'dnt', 'portrait', 'byline'];
+			$pro_controls = ['loop', 'autopause', 'dnt',];
 			foreach ( $pro_controls as $pro_control ) {
 				if ( isset( $params[ $pro_control ]) ) {
 					unset( $params[ $pro_control ]);
