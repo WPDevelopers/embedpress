@@ -145,6 +145,18 @@ class Feature_Enhancer {
 			$url_full = $match[ 1 ];
 			$query = parse_url( $url_full, PHP_URL_QUERY );
 			parse_str( $query, $params );
+            // Handle `color` option.
+			if ( !empty( $options[ 'color' ] ) ) {
+				$params[ 'color' ] = $options[ 'color' ];
+			} else {
+				unset( $params[ 'color' ] );
+			}
+			// Handle `rel` option.
+			if ( isset( $options[ 'rel' ] ) && in_array( (int)$options[ 'rel' ], [0, 1] ) ) {
+				$params[ 'rel' ] = (int)$options[ 'rel' ];
+			} else {
+				unset( $params[ 'rel' ] );
+			}
 
 			// Handle `autoplay` option.
 			if ( isset( $options[ 'autoplay' ] ) && (bool)$options[ 'autoplay' ] === true ) {
@@ -176,7 +188,7 @@ class Feature_Enhancer {
 
 
 			// pro controls will be handled by the pro so remove it from the free.
-			$pro_controls = ['color', 'cc_load_policy', 'rel', 'modestbranding'];
+			$pro_controls = [ 'cc_load_policy', 'modestbranding'];
 			foreach ( $pro_controls as $pro_control ) {
 				if ( isset( $params[ $pro_control ]) ) {
 					unset( $params[ $pro_control ]);
@@ -523,90 +535,49 @@ class Feature_Enhancer {
 		return [
 			'autoplay'       => [
 				'type'        => 'bool',
-				'label'       => 'Auto Play',
-				'description' => 'Automatically start to play the videos when the player loads.',
 				'default'     => false
 			],
 			'color'          => [
 				'type'        => 'string',
-				'label'       => 'Progress bar color',
-				'description' => 'Specifies the color that will be used in the player\'s video progress bar to highlight the amount of the video that the viewer has already seen.<br/>Note: Setting the color to <strong>white</strong> will disable the <strong>Modest Branding</strong> option (causing a YouTube logo to be displayed in the control bar).',
-				'options'     => [
-					'red'   => 'Red',
-					'white' => 'White'
-				],
 				'default'     => 'red'
 			],
 			'cc_load_policy' => [
 				'type'        => 'bool',
-				'label'       => 'Force Closed Captions',
-				'description' => 'Setting this option to <strong>Yes</strong> causes closed captions to be shown by default, even if the user has turned captions off. This will be based on user preference otherwise.',
 				'default'     => false
 			],
 			'controls'       => [
 				'type'        => 'string',
-				'label'       => 'Display Controls',
-				'description' => 'Indicates whether the video player controls are displayed.',
-				'options'     => [
-					'1' => 'Display immediately',
-					'2' => 'Display after user initiation',
-					'0' => 'Hide controls',
-				],
 				'default'     => '1'
 			],
 			'fs'             => [
 				'type'        => 'bool',
-				'label'       => 'Enable Fullscreen button',
-				'description' => 'Indicates whether the fullscreen button is enabled.',
 				'default'     => true
 			],
 			'iv_load_policy' => [
 				'type'        => 'radio',
-				'label'       => 'Display video annotations',
-				'description' => 'Indicates whether video annotations are displayed.',
-				'options'     => [
-					'1' => 'Display',
-					'3' => 'Do not display'
-				],
 				'default'     => '1'
 			],
 			'rel'            => [
 				'type'        => 'bool',
-				'label'       => 'Display related videos',
-				'description' => 'Indicates whether the player should show related videos when playback of the initial video ends.',
 				'default'     => true
 			],
 			'modestbranding' => [
 				'type'        => 'string',
-				'label'       => 'Modest Branding',
-				'description' => 'Indicates whether the player should display a YouTube logo in the control bar.',
-				'options'     => [
-					'0' => 'Display',
-					'1' => 'Do not display'
-				],
 				'default'     => '0'
 			],
 			'logo_url' => [
 				'type'        => 'url',
-				'label'       => __('Custom Logo URL', 'embedpress-pro'),
-				'description' => __('You can show custom logo watermark on your video', 'embedpress-pro'),
 			],
 			'logo_xpos' => [
 				'type'        => 'number',
-				'label'       => __( 'Logo X Position (%)', 'embedpress-pro' ),
-				'description' => __( 'Change this number to move your logo in horizontal direction.', 'embedpress-pro' ),
 				'default'     => 10
 			],
 			'logo_ypos' => [
 				'type'        => 'number',
-				'label'       => __( 'Logo Y Position (%)', 'embedpress-pro' ),
-				'description' => __( 'Change this number to move your logo in vertical direction.', 'embedpress-pro' ),
 				'default'     => 10
 			],
 			'cta_url' => [
 				'type'        => 'url',
-				'label'       => __( 'CTA link for Logo', 'embedpress-pro' ),
-				'description' => __( 'You can show the logo inside a link. Leave it empty to hide it', 'embedpress-pro' ),
 			],
 		];
 	}
@@ -651,85 +622,54 @@ class Feature_Enhancer {
 		$schema = array(
 			'display_fullscreen_button' => array(
 				'type' => 'bool',
-				'label' => __('Fullscreen Button', 'embedpress'),
-				'description' => __('Indicates whether the fullscreen button is visible.', 'embedpress'),
 				'default' => true
 			),
 			'display_playbar' => array(
 				'type' => 'bool',
-				'label' => __('Playbar', 'embedpress'),
-				'description' => __('Indicates whether the playbar is visible.', 'embedpress'),
 				'default' => true
 			),
 			'small_play_button' => array(
 				'type' => 'bool',
-				'label' => __('Small Play Button', 'embedpress'),
-				'description' => __('Indicates whether the small play button is visible on the bottom left.',
-					'embedpress'),
 				'default' => true
 			),
 			'display_volume_control' => array(
 				'type' => 'bool',
-				'label' => __('Volume Control', 'embedpress'),
-				'description' => __('Indicates whether the volume control is visible.', 'embedpress'),
 				'default' => true
 			),
 			'autoplay' => array(
 				'type' => 'bool',
-				'label' => __('Auto Play', 'embedpress'),
-				'description' => __('Automatically start to play the videos when the player loads.',
-					'embedpress'),
 				'default' => false
 			),
 			'volume' => array(
 				'type' => 'text',
-				'label' => __('Volume', 'embedpress'),
-				'description' => __('Start the video with a custom volume level. Set values between 0 and 100.',
-					'embedpress'),
 				'default' => '100'
 			),
 			'player_color' => array(
 				'type' => 'text',
-				'label' => __('Color', 'embedpress'),
-				'description' => __('Specify the color of the video controls.', 'embedpress'),
 				'default' => '#00adef',
-				'classes' => 'color-field'
 			),
 			'plugin_resumable' => array(
 				'type' => 'bool',
-				'label' => __('Plugin: Resumable', 'embedpress'),
-				'description' => __('Indicates whether the Resumable plugin is active. Allow to resume the video or start from the begining.',
-					'embedpress'),
 				'default' => false
 			),
 			'plugin_captions' => array(
 				'type' => 'bool',
-				'label' => __('Plugin: Captions', 'embedpress'),
-				'description' => __('Indicates whether the Captions plugin is active.', 'embedpress'),
 				'default' => false
 			),
 			'plugin_captions_default' => array(
 				'type' => 'bool',
-				'label' => __('Captions Enabled By Default', 'embedpress'),
-				'description' => __('Indicates whether the Captions are enabled by default.', 'embedpress'),
 				'default' => false
 			),
 			'plugin_focus' => array(
 				'type' => 'bool',
-				'label' => __('Plugin: Focus', 'embedpress'),
-				'description' => __('Indicates whether the Focus plugin is active.', 'embedpress'),
 				'default' => false
 			),
 			'plugin_rewind' => array(
 				'type' => 'bool',
-				'label' => __('Plugin: Rewind', 'embedpress'),
-				'description' => __('Indicates whether the Rewind plugin is active.', 'embedpress'),
 				'default' => false
 			),
 			'plugin_rewind_time' => array(
 				'type' => 'text',
-				'label' => __('Rewind time (seconds)', 'embedpress'),
-				'description' => __('The amount of time to rewind, in seconds.', 'embedpress'),
 				'default' => '10'
 			),
 		);

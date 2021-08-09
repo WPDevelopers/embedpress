@@ -8,10 +8,11 @@ $autoplay = isset( $yt_settings['autoplay']) ? $yt_settings['autoplay'] : '';
 $controls = isset( $yt_settings['controls']) ? $yt_settings['controls'] : 1;
 $fs = isset( $yt_settings['fs']) ? $yt_settings['fs'] : 1;
 $iv_load_policy = isset( $yt_settings['iv_load_policy']) ? $yt_settings['iv_load_policy'] : 1;
-// pro
 $color = isset( $yt_settings['color']) ? $yt_settings['color'] : 'red';
-$cc_load_policy = isset( $yt_settings['cc_load_policy']) ? $yt_settings['cc_load_policy'] : '';
 $rel = isset( $yt_settings['rel']) ? $yt_settings['rel'] : 1;
+// pro
+
+$cc_load_policy = isset( $yt_settings['cc_load_policy']) ? $yt_settings['cc_load_policy'] : '';
 $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestbranding'] : 0;
 // Subscription - Pro
 $yt_sub_channel = isset( $yt_settings['yt_sub_channel']) ? $yt_settings['yt_sub_channel'] : '';
@@ -46,17 +47,15 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
                 </div>
             </div>
             <div class="form__group">
-                <label class="form__label" for="color"><?php esc_html_e( "Progress Bar Color", "embedpress" ); echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></label>
+                <label class="form__label" for="color"><?php esc_html_e( "Progress Bar Color", "embedpress" ); ?></label>
                 <div class="form__control__wrap">
-                    <div class="embedpress__select <?php echo $pro_active ? '': 'isPro'; ?>">
+                    <div class="embedpress__select ">
                         <span><i class="ep-icon ep-caret-down"></i></span>
-                        <select name="color" id="color" <?php echo !$pro_active ? 'disabled' : ''; ?> data-default="<?php echo esc_attr( $color ); ?>">
+                        <select name="color" id="color" data-default="<?php echo esc_attr( $color ); ?>">
                             <option value="red" <?php selected( 'red', $color); ?> ><?php esc_html_e( "Red", "embedpress" ); ?></option>
                             <option value="white" <?php selected( 'white', $color); ?> ><?php esc_html_e( "White", "embedpress" ); ?></option>
                         </select>
                     </div>
-	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
-
                     <p><?php printf( esc_html__( "Specifies the color that will be used in the player's video progress bar to highlight the amount of the video that the viewer has already seen. %s Note: Setting the color to white will disable the Modest Branding option (causing a YouTube logo to be displayed in the control bar).", 'embedpress'), '<br>'); ?></p>
                 </div>
             </div>
@@ -122,18 +121,15 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Display Related Videos", "embedpress" );  echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></p>
+                <p class="form__label"><?php esc_html_e( "Display Related Videos", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
-                    <div class="embedpress__select  <?php echo $pro_active ? '': 'isPro'; ?>">
+                    <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>
-                        <select name="rel" data-default="<?php echo esc_attr( $rel); ?>" <?php echo $pro_active ? '' : 'disabled'; ?>>
+                        <select name="rel" data-default="<?php echo esc_attr( $rel); ?>">
                             <option value="" <?php selected( '', $rel); ?>><?php esc_html_e( "From the same channel of the video", "embedpress" ); ?></option>
                             <option value="1" <?php selected( '1', $rel); ?>><?php esc_html_e( "Based on User's watch history", "embedpress" ); ?></option>
                         </select>
                     </div>
-
-	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
-
                     <p><?php esc_html_e( "Indicates how the player should show related videos when playback of the video pauses or ends.", "embedpress" ); ?></p>
                 </div>
             </div>
