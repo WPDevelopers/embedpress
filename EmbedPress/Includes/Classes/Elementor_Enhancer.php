@@ -179,19 +179,16 @@ class Elementor_Enhancer {
 		}
 		preg_match( '/src=\"(.+?)\"/', $embed->embed, $match );
 		$url_full = $match[ 1 ];
-		//@todo; ask if we need to show author and avatar by default if pro is disabled
 		$params = [
 			'color'    => str_replace( '#', '', $setting[ 'embedpress_pro_vimeo_color' ] ),
 			'title'    => $setting[ 'embedpress_pro_vimeo_display_title' ] === 'yes' ? 1 : 0,
-			//'byline'   => $setting[ 'embedpress_pro_vimeo_display_author' ] === 'yes' ? 1 : 0,
-			//'portrait' => $setting[ 'embedpress_pro_vimeo_avatar' ] === 'yes' ? 1 : 0,
-			//'dnt'      => $setting[ 'embedpress_pro_vimeo_dnt' ] === 'yes' ? 1 : 0,
+			'byline'   => $setting[ 'embedpress_pro_vimeo_display_author' ] === 'yes' ? 1 : 0,
+			'portrait' => $setting[ 'embedpress_pro_vimeo_avatar' ] === 'yes' ? 1 : 0,
 		];
 		if ( $setting[ 'embedpress_pro_vimeo_auto_play' ] === 'yes' ) {
 			$params[ 'autoplay' ] = 1;
 		}
-		$params ['byline']   = $setting[ 'embedpress_pro_vimeo_display_author' ] === 'yes' ? 1 : 0;
-		$params ['portrait'] = $setting[ 'embedpress_pro_vimeo_avatar' ] === 'yes' ? 1 : 0;
+
 		if ( is_embedpress_pro_active() ) {
 			if ( $setting[ 'embedpress_pro_vimeo_loop' ] === 'yes' ) {
 				$params[ 'loop' ] = 1;
@@ -201,7 +198,6 @@ class Elementor_Enhancer {
 			}
 
 			$params [ 'dnt']     = $setting[ 'embedpress_pro_vimeo_dnt' ] === 'yes' ? 1 : 0;
-
         }
 
 
@@ -415,6 +411,7 @@ class Elementor_Enhancer {
 		$url_full = $match[ 1 ];
 		$params = [
 			'ui-highlight'         => str_replace( '#', '', $setting[ 'embedpress_pro_dailymotion_control_color' ] ),
+			'start'                 => isset( $setting[ 'embedpress_pro_video_start_time' ]) ? (int) $setting[ 'embedpress_pro_video_start_time' ] : 0,
 			'mute'                 => $setting[ 'embedpress_pro_dailymotion_mute' ] === 'yes' ? 1 : 0,
 			'autoplay'             => $setting[ 'embedpress_pro_dailymotion_autoplay' ] === 'yes' ? 1 : 0,
 			'controls'             => $setting[ 'embedpress_pro_dailymotion_player_control' ] === 'yes' ? 1 : 0,
@@ -426,9 +423,7 @@ class Elementor_Enhancer {
 			$params[ 'playsinline' ] = 1;
 		}
 		if ( is_embedpress_pro_active() ) {
-			$params['start'] = (int) $setting[ 'embedpress_pro_video_start_time' ];
 			$params['ui-logo'] = $setting[ 'embedpress_pro_dailymotion_logo' ] === 'yes' ? 1 : 0;
-
         }
 		$url_modified = $url_full;
 		foreach ( $params as $param => $value ) {
@@ -447,10 +442,8 @@ class Elementor_Enhancer {
 			$content_id = isset( $e['content_id']) ? $e['content_id'] : '';
 			$channel = 'channel' === $type ? $content_id : '';
 			$video = 'video' === $type ? $content_id : '';
-			$muted = 'false';
 			$full_screen = ('yes' === $settings['embedpress_pro_fs']) ? 'true': 'false';
 			$autoplay = ('yes' === $settings['embedpress_pro_twitch_autoplay']) ? 'true': 'false';
-			$theme = 'dark';
 			$layout = 'video';
 			$width = (int) $settings['width']['size'];
 			$height = (int) $settings['height']['size'];
