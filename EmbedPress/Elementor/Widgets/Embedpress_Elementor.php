@@ -156,6 +156,7 @@ class Embedpress_Elementor extends Widget_Base {
         $this->end_controls_section();
 
         $this->init_youtube_subscription_section();
+        $this->init_youtube_livechat_section();
 
 	    if (! is_embedpress_pro_active()) {
 		    $this->start_controls_section(
@@ -284,7 +285,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'no',
-				'separator'    => 'after',
+				'separator'    => 'before',
 				'classes'     => $this->pro_class,
 				'condition'    => $yt_condition,
 			]
@@ -416,6 +417,38 @@ class Embedpress_Elementor extends Widget_Base {
 				'classes'     => $this->pro_class,
 			]
 		);
+
+		$this->end_controls_section();
+
+	}
+	public function init_youtube_livechat_section() {
+		$yt_condition = [
+			'embedpress_pro_embeded_source' => 'youtube',
+		];
+		$this->start_controls_section(
+			'embedpress_yt_livechat_section',
+			[
+				'label'       => __( 'YouTube Live Chat Option', 'embedpress' ),
+				'condition'    => $yt_condition,
+
+			]
+		);
+
+		$this->add_control(
+			'yt_lc_show',
+			[
+				'label'        => sprintf(__( 'Show YouTube Live Chat', 'embedpress' ), $this->pro_text ),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'label_off'    => __( 'Hide', 'embedpress' ),
+				'label_on'     => __( 'Show', 'embedpress' ),
+				'condition'    => $yt_condition,
+				'classes'     => $this->pro_class,
+			]
+		);
+
 
 		$this->end_controls_section();
 
@@ -1349,26 +1382,26 @@ class Embedpress_Elementor extends Widget_Base {
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
-		$this->add_control(
-			'embedpress_elementor_aspect_ratio',
-			[
-				'label'              => __( 'Aspect Ratio', 'embedpress' ),
-				'description'              => __( 'Good for any video. You may turn it off for other embed type.', 'embedpress' ),
-				'type'               => Controls_Manager::SELECT,
-				'options'            => [
-					0 => __('None'),
-					'169' => '16:9',
-					'219' => '21:9',
-					'43'  => '4:3',
-					'32'  => '3:2',
-					'11'  => '1:1',
-					'916' => '9:16',
-				],
-				'default'            => 0,
-				'prefix_class'       => 'embedpress-aspect-ratio-',
-				'frontend_available' => true,
-			]
-		);
+		//$this->add_control(
+		//	'embedpress_elementor_aspect_ratio',
+		//	[
+		//		'label'              => __( 'Aspect Ratio', 'embedpress' ),
+		//		'description'              => __( 'Good for any video. You may turn it off for other embed type.', 'embedpress' ),
+		//		'type'               => Controls_Manager::SELECT,
+		//		'options'            => [
+		//			0 => __('None'),
+		//			'169' => '16:9',
+		//			'219' => '21:9',
+		//			'43'  => '4:3',
+		//			'32'  => '3:2',
+		//			'11'  => '1:1',
+		//			'916' => '9:16',
+		//		],
+		//		'default'            => 0,
+		//		'prefix_class'       => 'embedpress-aspect-ratio-',
+		//		'frontend_available' => true,
+		//	]
+		//);
 		$this->add_control(
 			'width',
 			[
