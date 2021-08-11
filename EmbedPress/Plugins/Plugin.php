@@ -155,7 +155,7 @@ abstract class Plugin
      */
     public static function handleActionLinks($links, $file)
     {
-        $settingsLink = '<a href="' . admin_url('admin.php?page=' . EMBEDPRESS_PLG_NAME . '&tab=' . static::SLUG) . '" aria-label="' . __('Open settings page',
+        $settingsLink = '<a href="' . admin_url('admin.php?page=' . EMBEDPRESS_PLG_NAME . '&page_type=' . static::SLUG) . '" aria-label="' . __('Open settings page',
                 'embedpress') . '">' . __('Settings', 'embedpress') . '</a>';
 
         array_unshift($links, $settingsLink);

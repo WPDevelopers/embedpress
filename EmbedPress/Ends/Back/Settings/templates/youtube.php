@@ -14,6 +14,7 @@ $rel = isset( $yt_settings['rel']) ? $yt_settings['rel'] : 1;
 
 $cc_load_policy = isset( $yt_settings['cc_load_policy']) ? $yt_settings['cc_load_policy'] : '';
 $modestbranding = isset( $yt_settings['modestbranding']) ? $yt_settings['modestbranding'] : 0;
+$yt_lc_show = isset( $yt_settings['yt_lc_show']) ? $yt_settings['yt_lc_show'] : '';
 // Subscription - Pro
 $yt_sub_channel = isset( $yt_settings['yt_sub_channel']) ? $yt_settings['yt_sub_channel'] : '';
 $yt_sub_text = isset( $yt_settings['yt_sub_text']) ? $yt_settings['yt_sub_text'] : '';
@@ -133,6 +134,8 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
                     <p><?php esc_html_e( "Indicates how the player should show related videos when playback of the video pauses or ends.", "embedpress" ); ?></p>
                 </div>
             </div>
+
+
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Modest Branding", "embedpress" );  echo !$pro_active ? ' <span class="isPro">PRO</span>' : ''; ?></p>
                 <div class="form__control__wrap">
@@ -148,6 +151,27 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
                     <p><?php esc_html_e( "Indicates whether the player should display a YouTube logo in the control bar.", "embedpress" ); ?></p>
                 </div>
             </div>
+
+            <!-- Live Chat-->
+            <div class="form__group">
+                <p class="form__label"><?php esc_html_e( "Show Live Chat on All Videos", "embedpress" ); echo !$pro_active ? ' <span class="isPro">PRO</span>': ''; ?></p>
+                <div class="form__control__wrap">
+                    <div class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>" data-default="<?php echo esc_attr(  $yt_lc_show ); ?>" data-value="<?php echo esc_attr(  $yt_lc_show ); ?>">
+                        <label class="input__radio">
+                            <input type="radio" name="yt_lc_show" value=""  <?php echo !$pro_active ? 'disabled ' : ''; checked( '', $yt_lc_show); ?>>
+                            <span><?php esc_html_e( "No", "embedpress" ); ?></span>
+                        </label>
+                        <label class="input__radio">
+                            <input type="radio" name="yt_lc_show" value="yes"  <?php echo !$pro_active ? 'disabled ' : ''; checked( 'yes', $yt_lc_show);?>>
+                            <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
+                        </label>
+                    </div>
+			        <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
+
+                    <p><?php printf( esc_html__( "Enabling this option will show chat on all YouTube videos. However, Youtube Live Chat feature only works with Live Streaming videos. For specific videos, you can append '&show_chat=1' at the end of youtube video url to show the chat for that video. For example. https://www.youtube.com/watch?v=VIDEOID&show_chat=1", "embedpress" ), '<strong>Yes</strong>'); ?></p>
+                </div>
+            </div>
+
             <!-- SUBSCRIPTION-->
             <h3><?php esc_html_e( "Subscription Button", "embedpress" ); ?></h3>
 
