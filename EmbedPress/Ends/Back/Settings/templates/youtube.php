@@ -168,7 +168,7 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
                     </div>
 			        <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 
-                    <p><?php printf( esc_html__( "Enabling this option will show chat on all YouTube videos. However, Youtube Live Chat feature only works with Live Streaming videos. For specific videos, you can append '&show_chat=1' at the end of youtube video url to show the chat for that video. For example. https://www.youtube.com/watch?v=VIDEOID&show_chat=1", "embedpress" ), '<strong>Yes</strong>'); ?></p>
+                    <p><?php printf( esc_html__( "Enabling this option will show chat on all YouTube videos. However, Youtube Live Chat feature only works with Live Streaming videos.", "embedpress" ), '<strong>Yes</strong>'); ?></p>
                 </div>
             </div>
 
