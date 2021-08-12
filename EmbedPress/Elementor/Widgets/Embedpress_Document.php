@@ -7,12 +7,13 @@ use \Elementor\Controls_Manager as Controls_Manager;
 use \Elementor\Modules\DynamicTags\Module as TagsModule;
 use \Elementor\Widget_Base as Widget_Base;
 use \Elementor\Plugin;
+use EmbedPress\Includes\Traits\Branding;
 
 ( defined( 'ABSPATH' ) ) or die( "No direct script access allowed." );
 
 class Embedpress_Document extends Widget_Base
 {
-    
+    use Branding;
     public function get_name()
     {
         return 'embedpres_document';
@@ -203,9 +204,10 @@ class Embedpress_Document extends Widget_Base
                 'default'      => apply_filters( 'embedpress_document_powered_by_control', 'yes' ),
             ]
         );
-        
-        
-        $this->end_controls_section();
+
+	    $this->init_branding_controls( 'document');
+
+	    $this->end_controls_section();
     }
     
     private function is_pdf( $url )
