@@ -18,7 +18,6 @@ Trait Branding {
 			$this->pro_text = '';
 		}
 		$logo_condition = [
-			'embedpress_pro_embeded_source' => $provider_name,
 			"embedpress_pro_{$provider_name}_logo[url]!" =>''
 		];
 		$this->add_control(
