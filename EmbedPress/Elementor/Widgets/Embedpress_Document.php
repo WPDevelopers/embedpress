@@ -248,9 +248,7 @@ class Embedpress_Document extends Widget_Base
                     ?>
                     <iframe allowfullscreen="true"
                             mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo $dimension; ?>" src="<?php echo $view_link; ?>"/>
-
                     <?php
-
                 }
 
 	            do_action( 'embedpress_document_after_embed',  $settings, $url, $id, $this);
@@ -259,9 +257,7 @@ class Embedpress_Document extends Widget_Base
                     printf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
                 }
             }
-
             ?>
-
         </div>
         
         <?php

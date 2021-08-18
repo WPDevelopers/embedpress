@@ -55,7 +55,13 @@ $vm_cta_url = isset( $vm_settings['cta_url']) ? esc_url( $vm_settings['cta_url']
             embedpress_print_branding_controls('wistia', 'wis');
             embedpress_print_branding_controls('twitch', 'tw');
             ?>
-	        <?php  do_action( 'embedpress_after_custom_branding_settings_fields'); ?>
+            <h3><?php esc_html_e( "For Document", "embedpress" ); ?></h3>
+
+            <?php
+            embedpress_print_branding_controls('document', 'doc');
+
+
+            do_action( 'embedpress_after_custom_branding_settings_fields'); ?>
             <button class="button button__themeColor radius-10 embedpress-submit-btn" name="submit" value="custom_logo"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
         </form>
     </div>
@@ -106,6 +112,9 @@ KAMAL;
 KAMAL;
 
             break;
+	    case 'document':
+		    $preview_video = '<iframe loading="lazy" style="width:500px; max-width:100%; height: 300px" src="https://docs.google.com/document/d/e/2PACX-1vTE9B6d2-ERmnIF03TczFa8hQllM48P8BovYlHFF9xEg6FMhBhJ5IVECC5lDiYq7oqXM7xId9CkOGHz/pub?embedded=true"></iframe>';
+		    break;
 	    default:
 		    $preview_video = '<iframe src="https://www.youtube.com/embed/2u0HRUdLHxo" frameborder="0"></iframe>';
 		    break;
