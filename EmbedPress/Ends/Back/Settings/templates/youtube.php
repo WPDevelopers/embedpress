@@ -154,7 +154,7 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
 
             <!-- Live Chat-->
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Show Live Chat on All Videos", "embedpress" ); echo !$pro_active ? ' <span class="isPro">PRO</span>': ''; ?></p>
+                <p class="form__label"><?php esc_html_e( " Live Chat", "embedpress" ); echo !$pro_active ? ' <span class="isPro">PRO</span>': ''; ?></p>
                 <div class="form__control__wrap">
                     <div class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>" data-default="<?php echo esc_attr(  $yt_lc_show ); ?>" data-value="<?php echo esc_attr(  $yt_lc_show ); ?>">
                         <label class="input__radio">
@@ -168,7 +168,7 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
                     </div>
 			        <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 
-                    <p><?php printf( esc_html__( "Enabling this option will show chat on all YouTube videos. However, Youtube Live Chat feature only works with Live Streaming videos.", "embedpress" ), '<strong>Yes</strong>'); ?></p>
+                    <p><?php printf( esc_html__( "Enabling this option will show chat on all YouTube videos. However, YouTube Live Chat feature only works with Live Streaming videos.", "embedpress" ), '<strong>Yes</strong>'); ?></p>
                 </div>
             </div>
 

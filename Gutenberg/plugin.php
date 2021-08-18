@@ -64,6 +64,7 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 		$wistia_options = embedpress_wisita_pro_get_options();
 	endif;
 	$pars_url = wp_parse_url(get_site_url());
+	$documents_cta_options = (array) get_option(EMBEDPRESS_PLG_NAME . ':document');
 	wp_localize_script( 'embedpress_blocks-cgb-block-js', 'embedpressObj', array(
 		'wistia_labels'  => $wistia_labels,
 		'wisita_options' => $wistia_options,
@@ -72,6 +73,7 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 		'twitch_host' => !empty($pars_url['host'])?$pars_url['host']:'',
 		'site_url' => site_url(),
 		'active_blocks' => $active_blocks,
+		'document_cta' => $documents_cta_options,
 	) );
 
 	// Styles.
