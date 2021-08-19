@@ -7,7 +7,6 @@
  */
 (function ($) {
     'use strict';
-    //alert(EMBEDPRESS_ADMIN_PARAMS.ajaxurl);
 
     $(document).on('click', '.embedpress-plugin-notice-dismissible.is-dismissible', function () {
         var data = {

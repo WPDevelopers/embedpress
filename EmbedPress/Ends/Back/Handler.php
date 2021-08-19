@@ -29,28 +29,29 @@ class Handler extends EndHandlerAbstract {
      *
      */
     public function enqueueScripts() {
-        $plgSettings = Core::getSettings();
+    	global $pagenow;
+	    if ( 'post.php' === $pagenow ) {
+		    $urlSchemes = apply_filters( 'embedpress:getAdditionalURLSchemes', $this->getUrlSchemes() );
 
-        $urlSchemes = apply_filters( 'embedpress:getAdditionalURLSchemes', $this->getUrlSchemes() );
-		
-		wp_enqueue_script( 'embedpress-pdfobject', EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js', [],
-            $this->pluginVersion, false );
-        wp_enqueue_script( "bootbox-bootstrap", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootstrap/bootstrap.min.js',
-            [ 'jquery' ], $this->pluginVersion, false );
-        wp_enqueue_script( "bootbox", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootbox.min.js',
-            [ 'jquery', 'bootbox-bootstrap' ], $this->pluginVersion, true );
-        wp_enqueue_script( $this->pluginName, EMBEDPRESS_URL_ASSETS . 'js/preview.js', [ 'jquery', 'bootbox' ],
-            $this->pluginVersion, true );
-        wp_localize_script( $this->pluginName, '$data', [
-            'previewSettings'       => [
-                'baseUrl'    => get_site_url() . '/',
-                'versionUID' => $this->pluginVersion,
-                'debug'      => true,
-            ],
-            'EMBEDPRESS_SHORTCODE'  => EMBEDPRESS_SHORTCODE,
-            'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
-            'urlSchemes'            => $urlSchemes,
-        ] );
+		    wp_enqueue_script( 'embedpress-pdfobject', EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js', [],
+			    $this->pluginVersion, false );
+
+		    wp_enqueue_script( "bootbox-bootstrap", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootstrap/bootstrap.min.js',[ 'jquery' ], $this->pluginVersion, false );
+		    wp_enqueue_script( "bootbox", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootbox.min.js', [ 'jquery', 'bootbox-bootstrap' ], $this->pluginVersion, true );
+		    wp_enqueue_script( $this->pluginName, EMBEDPRESS_URL_ASSETS . 'js/preview.js', [ 'jquery', 'bootbox' ],$this->pluginVersion, true );
+
+		    wp_localize_script( $this->pluginName, '$data', [
+			    'previewSettings'       => [
+				    'baseUrl'    => get_site_url() . '/',
+				    'versionUID' => $this->pluginVersion,
+				    'debug'      => true,
+			    ],
+			    'EMBEDPRESS_SHORTCODE'  => EMBEDPRESS_SHORTCODE,
+			    'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
+			    'urlSchemes'            => $urlSchemes,
+		    ] );
+    	}
+
 
         //load embedpress admin js
 
@@ -86,9 +87,11 @@ class Handler extends EndHandlerAbstract {
      *
      */
     public static function enqueueStyles() {
-	    wp_register_style( 'embedpress-addons', plugins_url( 'embedpress/assets/css/admin.css' ) );
-	    wp_enqueue_style( 'embedpress-admin', plugins_url( 'embedpress/assets/css/admin.css' ) );
-	    wp_enqueue_style( 'embedpress-addons', plugins_url( 'embedpress/assets/css/addons.css' ) );
+	    if ( isset( $_GET['page']) && 'embedpress' === $_GET['page'] ) {
+		    wp_enqueue_style( 'embedpress-admin', plugins_url( 'embedpress/assets/css/admin.css' ) );
+		    wp_enqueue_style( 'embedpress-addons', plugins_url( 'embedpress/assets/css/addons.css' ) );
+	    }
+
     }
 
     /**
