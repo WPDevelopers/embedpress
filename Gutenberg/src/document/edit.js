@@ -3,6 +3,7 @@
  */
 
 import Iframe from '../common/Iframe';
+import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
 /**
  * WordPress dependencies
@@ -130,56 +131,6 @@ class DocumentEdit extends Component {
 		noticeOperations.createErrorNotice(message);
 	}
 
-	get_cta_markup(){
-		let d = embedpressObj.document_cta;
-		if(embedpressObj.embedpress_pro && d) {
-			if (!d.logo_url) {
-				return null;
-			}
-			let cta = '';
-			let url = d.cta_url ? d.cta_url : null;
-			let x = d.logo_xpos ? d.logo_xpos + '%' : '10%';
-			let y = d.logo_ypos ? d.logo_ypos + '%' : '10%';
-			let opacity = d.logo_opacity ? d.logo_opacity / 100 : '10%';
-			let cssClass = '.ep-doc-' + Math.floor(100 + Math.random() * 900);
-			let style  = `
-		<style type="text/css">
-            ${cssClass}{
-                text-align: left;
-                position: relative;
-            }
-           ${cssClass} .watermark {
-                border: 0;
-                position: absolute;
-                bottom: ${y};
-                right:  ${x};
-                max-width: 150px;
-                max-height: 75px;
-                opacity: ${opacity};
-                z-index: 5;
-                -o-transition: opacity 0.5s ease-in-out;
-                -moz-transition: opacity 0.5s ease-in-out;
-                -webkit-transition: opacity 0.5s ease-in-out;
-                transition: opacity 0.5s ease-in-out;
-            }
-            ${cssClass} .watermark:hover {
-					   opacity: 1;
-				   }
-        </style>
-		`;
-			if (url && '' !== url){
-				cta += `<a href="${url}">`;
-			}
-			cta += `<img class="watermark" alt="" src="${d.logo_url}"/>`;
-
-			if (url && '' !== url){
-				cta += `</a>`;
-			}
-			return style + cta;
-		}
-		return null;
-	}
-
 
 	render() {
 		const {attributes, noticeUI,setAttributes} = this.props;
@@ -188,7 +139,6 @@ class DocumentEdit extends Component {
 		const min = 1;
 		const max = 1000;
 		const docLink = 'https://embedpress.com/docs/embed-docuemnt/';
-		const cta = this.get_cta_markup();
 		if (!href || hasError) {
 
 			return (
@@ -221,6 +171,7 @@ class DocumentEdit extends Component {
 			return (
 				<Fragment>
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading/> : null}
+					<div className={'embedpress-document-embed ep-doc-'+id} style={{height:height,width:width}}>
 					{ mime === 'application/pdf' && (
 						<div style={{height:height,width:width}} className={'embedpress-embed-document-pdf'+' '+id} data-emid={id} data-emsrc={href}></div>
 
@@ -238,9 +189,10 @@ class DocumentEdit extends Component {
 						<p className="embedpress-el-powered">Powered By EmbedPress</p>
 					)}
 
-					<div style={{display: fetching ? 'none' : ''}} dangerouslySetInnerHTML={{
-						__html: cta
-					}}></div>
+					{ !fetching && <Logo id={id}/>}
+
+						</div>
+
 					<InspectorControls key="inspector">
 						<PanelBody
 							title={ __( 'Embed Size', 'embedpress' ) }
