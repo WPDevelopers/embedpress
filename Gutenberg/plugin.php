@@ -46,7 +46,7 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 	// Scripts.
 	if (! wp_script_is( 'embedpress-pdfobject') ) {
 		wp_enqueue_script( 'embedpress-pdfobject', EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js', [],
-			$this->pluginVersion );
+			EMBEDPRESS_VERSION );
 	}
 
 	wp_enqueue_script(
