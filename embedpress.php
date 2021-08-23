@@ -92,20 +92,3 @@ Shortcode::register();
 if ( !class_exists( '\simple_html_dom') ) {
 	include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
 }
-
-//@todo; cleanup after testing
-//add_action( 'after_setup_theme', function (){
-//
-//	add_filter( 'editor_stylesheets', function ( $stylesheets ) {
-//		$stylesheets[] = plugins_url( 'embedpress/assets/css/addons.css' );
-//		error_log( print_r( $stylesheets, 1));
-//
-//		return $stylesheets;
-//	});
-//});
-//add_action( 'init', function () {
-//	add_theme_support( 'editor-style' );
-//
-//	$url = plugins_url( 'embedpress/assets/css/addons.css' );
-//	add_editor_style($url   );
-//});
