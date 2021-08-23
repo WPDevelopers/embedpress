@@ -26,12 +26,11 @@ $show_logo = isset( $dm_settings['show_logo']) ? $dm_settings['show_logo'] : 1;
 			do_action( 'embedpress_before_dailymotion_settings_fields');
 			echo  $nonce_field ; ?>
             <div class="form__group">
-                <p class="form__label" ><?php esc_html_e( "Start Time (In Seconds)", "embedpress" );   echo $pro_active ? '': ' <span class="isPro">PRO</span>';?> </p>
-                <div class="form__control__wrap <?php echo $pro_active ? '': 'isPro'; ?>">
-                    <input type="number"  name="start_time" id="start_time" class="form__control" data-default="<?php echo esc_attr( $start_time); ?>" value="<?php echo esc_attr( $start_time); ?>" <?php echo $pro_active ? '': ' disabled'; ?>>
-                    <p><?php esc_html_e( "You can put a custom time in seconds to start video. Example: 500", "embedpress" ); ?></p>
+                <p class="form__label" ><?php esc_html_e( "Start Time (In Seconds)", "embedpress" ); ?> </p>
+                <div class="form__control__wrap">
+                    <input type="number"  name="start_time" id="start_time" class="form__control" data-default="<?php echo esc_attr( $start_time); ?>" value="<?php echo esc_attr( $start_time); ?>" >
+                    <p><?php esc_html_e( "You can put a custom time in seconds to start the video. Example: 500", "embedpress" ); ?></p>
                 </div>
-				<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 
             </div>
 
