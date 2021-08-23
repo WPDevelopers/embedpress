@@ -316,6 +316,7 @@ class Feature_Enhancer {
 
 			$embedOptions->autoPlay = (isset($options['autoplay']) && (bool) $options['autoplay'] === true);
 
+			$embedOptions->time = isset( $options[ 'start_time' ]) ? $options[ 'start_time' ] : 0;
 
 			if (isset($options['player_color'])) {
 				$color = $options['player_color'];
@@ -675,10 +676,10 @@ class Feature_Enhancer {
 		);
 	}
 	public function get_wistia_settings_schema() {
-		$schema = array(
+		return array(
 			'start_time' => [
 				'type'        => 'number',
-				'default'     => 10
+				'default'     => 0
 			],
 			'display_fullscreen_button' => array(
 				'type' => 'bool',
@@ -733,8 +734,6 @@ class Feature_Enhancer {
 				'default' => '10'
 			),
 		);
-
-		return $schema;
 	}
 	public function getVideoIDFromURL ($url) {
 		// https://fast.wistia.com/embed/medias/xf1edjzn92.jsonp
