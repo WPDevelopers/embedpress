@@ -275,6 +275,10 @@ class Feature_Enhancer {
 			foreach ( $params as $param => $value ) {
 				$url_modified = add_query_arg( $param, $value, $url_modified );
 			}
+			if ( isset( $options[ 'start_time' ]) ) {
+				$url_modified .= '#t=' . $options[ 'start_time' ];
+			}
+
 			do_action( 'embedpress_after_modified_url', $url_modified, $url_full, $params);
 			// Replaces the old url with the new one.
 			$embed->embed = str_replace( $url_full, $url_modified, $embed->embed );
