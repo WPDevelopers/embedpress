@@ -14,6 +14,8 @@ use EmbedPress\Includes\Traits\Branding;
 class Embedpress_Document extends Widget_Base
 {
     use Branding;
+	protected $pro_class = '';
+	protected $pro_text = '';
     public function get_name()
     {
         return 'embedpres_document';
@@ -56,7 +58,8 @@ class Embedpress_Document extends Widget_Base
     
     protected function _register_controls()
     {
-        
+	    $this->pro_class = is_embedpress_pro_active() ? '': 'embedpress-pro-control';
+	    $this->pro_text = is_embedpress_pro_active() ? '': '<sup class="embedpress-pro-label" style="color:red">'.__('Pro', 'embedpress').'</sup>';
         /**
          * EmbedPress Content Settings
          */

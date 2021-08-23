@@ -52,7 +52,7 @@ Trait Branding {
 		$this->add_responsive_control(
 			"embedpress_pro_{$provider_name}_logo_xpos",
 			[
-				'label' => __( 'Logo X Position', 'embedpress' ),
+				'label' => sprintf( __( 'Logo X Position %s', 'embedpress' ), $this->pro_text),
 				'description' => __( 'Change this number to move your logo in horizontal direction.', 'embedpress' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ 'px', '%' ],
@@ -81,7 +81,7 @@ Trait Branding {
 		$this->add_responsive_control(
 			"embedpress_pro_{$provider_name}_logo_ypos",
 			[
-				'label' => __( 'Logo Y Position (%)', 'embedpress' ),
+				'label' => sprintf( __( 'Logo Y Position %s', 'embedpress' ), $this->pro_text),
 				'description' => __( 'Change this number to move your logo in vertical direction.', 'embedpress' ),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ 'px', '%' ],
@@ -122,7 +122,7 @@ Trait Branding {
 		$this->add_control(
 			"embedpress_pro_{$provider_name}_logo_opacity",
 			[
-				'label' => __( 'Logo Opacity', 'embedpress' ),
+				'label' => sprintf( __( 'Logo Opacity %s', 'embedpress' ), $this->pro_text),
 				'type' => Controls_Manager::SLIDER,
 				'default' => [
 					'size' => .5,
@@ -150,7 +150,7 @@ Trait Branding {
 		$this->add_control(
 			"embedpress_pro_{$provider_name}_logo_opacity_hover",
 			[
-				'label' => __( 'Logo Opacity', 'embedpress' ),
+				'label' => sprintf( __( 'Logo Opacity %s', 'embedpress' ), $this->pro_text),
 				'type' => Controls_Manager::SLIDER,
 				'size_units' => [ '%'],
 				'default' => [
@@ -175,7 +175,7 @@ Trait Branding {
 		$this->add_control(
 			"embedpress_pro_{$provider_name}_cta",
 			[
-				'label' => __( 'CTA link for Logo', 'embedpress' ),
+				'label' => sprintf( __( 'CTA link for Logo %s', 'embedpress' ), $this->pro_text),
 				'description' => __( 'You can show the logo inside a link. Leave it empty to hide it', 'embedpress' ),
 				'type' => Controls_Manager::URL,
 				'dynamic' => [
