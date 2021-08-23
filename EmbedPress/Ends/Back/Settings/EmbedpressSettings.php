@@ -115,7 +115,7 @@ class EmbedpressSettings {
 
 	public function register_menu() {
 		add_menu_page( __('EmbedPress Settings', 'embedpress'), 'EmbedPress', 'manage_options', $this->page_slug,
-			[ $this, 'render_settings_page' ], null, 64 );
+			[ $this, 'render_settings_page' ], EMBEDPRESS_URL_ASSETS.'images/menu-icon.svg', 64 );
 
 	}
 

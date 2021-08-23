@@ -14,18 +14,18 @@
     background-color: #655997 !important;
 }
 
-#toplevel_page_embedpress .dashicons-admin-generic::before,
-#toplevel_page_embedpress .current .dashicons-admin-generic::before {
-    background-image: url(../images/menu-icon.png);
-    background-repeat: no-repeat;
-    background-position: 0 8px;
-    background-size: 19px auto;
-    content: " ";
-    transition: none;
-    -moz-transition: none;
-    -webkit-transition: none;
-    -o-transition: none;
-}
+/*#toplevel_page_embedpress .dashicons-admin-generic::before,*/
+/*#toplevel_page_embedpress .current .dashicons-admin-generic::before {*/
+/*    background-image: url(../images/menu-icon.png);*/
+/*    background-repeat: no-repeat;*/
+/*    background-position: 0 8px;*/
+/*    background-size: 19px auto;*/
+/*    content: " ";*/
+/*    transition: none;*/
+/*    -moz-transition: none;*/
+/*    -webkit-transition: none;*/
+/*    -o-transition: none;*/
+/*}*/
 
 #toplevel_page_embedpress:active .wp-not-current-submenu .dashicons-admin-generic::before,
 #toplevel_page_embedpress:hover .wp-not-current-submenu .dashicons-admin-generic::before {

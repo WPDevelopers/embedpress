@@ -4,6 +4,8 @@
  *  All undefined vars comes from 'render_settings_page' method
  *  */
 $vm_settings = get_option( EMBEDPRESS_PLG_NAME.':vimeo' );
+$start_time = isset( $vm_settings['embedpress_pro_video_start_time']) ? $vm_settings['embedpress_pro_video_start_time'] : 0;
+
 $autoplay = isset( $vm_settings['autoplay']) ? $vm_settings['autoplay'] : '';
 $loop = isset( $vm_settings['loop']) ? $vm_settings['loop'] : '';
 $autopause = isset( $vm_settings['autopause']) ? $vm_settings['autopause'] : '';
@@ -20,6 +22,14 @@ $display_avatar = isset( $vm_settings['display_avatar']) ? $vm_settings['display
 	        <?php
 	        do_action( 'embedpress_before_vimeo_settings_fields');
             echo  $nonce_field ; ?>
+            <div class="form__group">
+                <p class="form__label" ><?php esc_html_e( "Start Time (In Seconds)", "embedpress" ); ?> </p>
+                <div class="form__control__wrap">
+                    <input type="number"  name="start_time" id="start_time" class="form__control" data-default="<?php echo esc_attr( $start_time); ?>" value="<?php echo esc_attr( $start_time); ?>" >
+                    <p><?php esc_html_e( "You can put a custom time in seconds to start video. Example: 500", "embedpress" ); ?></p>
+                </div>
+
+            </div>
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Auto Play", "embedpress" ); ?></p>
                 <div class="form__control__wrap">

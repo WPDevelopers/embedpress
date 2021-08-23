@@ -27,6 +27,14 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 			do_action( 'embedpress_before_wistia_settings_fields');
             echo  $nonce_field ;
             ?>
+            <div class="form__group">
+                <p class="form__label" ><?php esc_html_e( "Start Time (In Seconds)", "embedpress" ); ?> </p>
+                <div class="form__control__wrap">
+                    <input type="number"  name="start_time" id="start_time" class="form__control" data-default="<?php echo esc_attr( $start_time); ?>" value="<?php echo esc_attr( $start_time); ?>" >
+                    <p><?php esc_html_e( "You can put a custom time in seconds to start video. Example: 500", "embedpress" ); ?></p>
+                </div>
+
+            </div>
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Fullscreen Button", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
