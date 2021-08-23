@@ -4,8 +4,6 @@ namespace EmbedPress\Includes\Classes;
 class Feature_Enhancer {
 
 	public function __construct() {
-
-		//if ( !is_embedpress_pro_active() ) {
 			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_youtube'], 90 );
 			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_vimeo'], 90 );
 			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_wistia'], 90 );
@@ -17,9 +15,6 @@ class Feature_Enhancer {
 			add_action( 'init', array( $this, 'embedpress_gutenberg_register_block_vimeo' ) );
 			add_action('embedpress_gutenberg_wistia_block_after_embed', array($this,'embedpress_wistia_block_after_embed'));
 			add_action( 'elementor/widget/embedpres_elementor/skins_init', [ $this, 'elementor_setting_init' ] );
-        //}
-
-
 	}
 
 	public function elementor_setting_init(  ) {
@@ -170,6 +165,16 @@ class Feature_Enhancer {
 				$params[ 'controls' ] = (int)$options[ 'controls' ];
 			} else {
 				unset( $params[ 'controls' ] );
+			}
+			if ( isset($options[ 'start_time' ]) ) {
+				$params[ 'start' ] = $options[ 'start_time' ];
+			}else {
+			    unset($params[ 'start' ]);
+            }
+			if ( isset($options[ 'end_time' ]) ) {
+				$params[ 'end' ] = $options[ 'end_time' ];
+			}else {
+				unset($params[ 'end' ]);
 			}
 
 			// Handle `fs` option.
@@ -422,8 +427,8 @@ class Feature_Enhancer {
 			$layout     = 'video';
 			$width      = !empty( $atts->{'data-width'}) ? (int) $atts->{'data-width'} : 800;
 			$height     = !empty( $atts->{'data-height'}) ? (int) $atts->{'data-height'} : 450;
-			if ( ! empty( $settings['embedpress_pro_video_start_time'] ) ) {
-				$ta   = explode( ':', gmdate( "G:i:s", $settings['embedpress_pro_video_start_time'] ) );
+			if ( ! empty( $settings['start_time'] ) ) {
+				$ta   = explode( ':', gmdate( "G:i:s", $settings['start_time'] ) );
 				$h    = $ta[0] . 'h';
 				$m    = ( $ta[1] * 1 ) . 'm';
 				$s    = ( $ta[2] * 1 ) . 's';
@@ -614,10 +619,22 @@ class Feature_Enhancer {
 			'cta_url' => [
 				'type'        => 'url',
 			],
+			'start_time' => [
+				'type'        => 'number',
+				'default'     => 10
+			],
+			'end_time' => [
+				'type'        => 'number',
+				'default'     => 10
+			],
 		];
 	}
 	public function get_vimeo_settings_schema() {
 		return array(
+			'start_time' => [
+				'type'        => 'number',
+				'default'     => 10
+			],
 			'autoplay' => array(
 				'type' => 'bool',
 				'default' => false
@@ -655,6 +672,10 @@ class Feature_Enhancer {
 	}
 	public function get_wistia_settings_schema() {
 		$schema = array(
+			'start_time' => [
+				'type'        => 'number',
+				'default'     => 10
+			],
 			'display_fullscreen_button' => array(
 				'type' => 'bool',
 				'default' => true
@@ -804,7 +825,7 @@ class Feature_Enhancer {
 
 	public function get_twitch_settings_schema() {
 		return [
-			'embedpress_pro_video_start_time' => [
+			'start_time' => [
 				'type'        => 'number',
 				'default'     => 0,
 			],

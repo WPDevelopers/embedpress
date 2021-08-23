@@ -5,8 +5,7 @@
  *  */
 $yt_settings = get_option( EMBEDPRESS_PLG_NAME.':youtube');
 $start_time = isset( $yt_settings['start_time']) ? $yt_settings['start_time'] : 0;
-
-
+$end_time = isset( $yt_settings['end_time']) ? $yt_settings['end_time'] : 0;
 $autoplay = isset( $yt_settings['autoplay']) ? $yt_settings['autoplay'] : '';
 $controls = isset( $yt_settings['controls']) ? $yt_settings['controls'] : 1;
 $fs = isset( $yt_settings['fs']) ? $yt_settings['fs'] : 1;
@@ -38,7 +37,15 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
                 <p class="form__label" ><?php esc_html_e( "Start Time (In Seconds)", "embedpress" ); ?> </p>
                 <div class="form__control__wrap">
                     <input type="number"  name="start_time" id="start_time" class="form__control" data-default="<?php echo esc_attr( $start_time); ?>" value="<?php echo esc_attr( $start_time); ?>" >
-                    <p><?php esc_html_e( "You can put a custom time in seconds to start video. Example: 500", "embedpress" ); ?></p>
+                    <p><?php esc_html_e( "You can put a custom time in seconds to start the video. Example: 500", "embedpress" ); ?></p>
+                </div>
+
+            </div>
+            <div class="form__group">
+                <p class="form__label" ><?php esc_html_e( "End Time (In Seconds)", "embedpress" ); ?> </p>
+                <div class="form__control__wrap">
+                    <input type="number"  name="end_time" id="end_time" class="form__control" data-default="<?php echo esc_attr( $end_time); ?>" value="<?php echo esc_attr( $end_time); ?>" >
+                    <p><?php esc_html_e( "You can put a custom time in seconds to end the video.", "embedpress" ); ?></p>
                 </div>
 
             </div>
