@@ -4,6 +4,7 @@
  * all undefined vars comes from EmbedPressSettings.php or sometime from main-template.php
  * */
 $wis_settings = get_option( EMBEDPRESS_PLG_NAME.':wistia' );
+$start_time = isset( $wis_settings['start_time']) ? $wis_settings['start_time'] : 0;
 $autoplay = isset( $wis_settings['autoplay']) ? $wis_settings['autoplay'] : '';
 $display_fullscreen_button = isset( $wis_settings['display_fullscreen_button']) ? $wis_settings['display_fullscreen_button'] : 1;
 $display_playbar = isset( $wis_settings['display_playbar']) ? $wis_settings['display_playbar'] : 1;

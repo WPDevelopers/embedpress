@@ -199,6 +199,7 @@ class EmbedpressSettings {
 	public function save_youtube_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':youtube';
 		$settings = get_option( $option_name, []);
+		$settings['start_time'] = isset( $_POST['start_time']) ? sanitize_text_field( $_POST['start_time']) : 0;
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['controls'] = isset( $_POST['controls']) ? sanitize_text_field( $_POST['controls']) : '';
 		$settings['fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : '';
@@ -217,6 +218,7 @@ class EmbedpressSettings {
 	public function save_wistia_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':wistia';
 		$settings = get_option( $option_name, []);
+		$settings['start_time'] = isset( $_POST['start_time']) ? sanitize_text_field( $_POST['start_time']) : 0;
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['display_fullscreen_button'] = isset( $_POST['display_fullscreen_button']) ? sanitize_text_field( $_POST['display_fullscreen_button']) : '';
 		$settings['small_play_button'] = isset( $_POST['small_play_button']) ? sanitize_text_field( $_POST['small_play_button']) : '';
@@ -236,6 +238,7 @@ class EmbedpressSettings {
 	public function save_vimeo_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':vimeo';
 		$settings = get_option( $option_name, []);
+		$settings['start_time'] = isset( $_POST['start_time']) ? sanitize_text_field( $_POST['start_time']) : 0;
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : '#00adef';
 		$settings['display_title'] = isset( $_POST['display_title']) ? sanitize_text_field( $_POST['display_title']) : 1;
@@ -253,7 +256,7 @@ class EmbedpressSettings {
 		$settings = get_option( $option_name, []);
 		$settings['embedpress_pro_twitch_autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : 'no';
 		$settings['embedpress_pro_fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : 'yes';
-		$settings['embedpress_pro_video_start_time'] = isset( $_POST['start_time']) ? sanitize_text_field( $_POST['start_time']) : 0;
+		$settings['start_time'] = isset( $_POST['start_time']) ? sanitize_text_field( $_POST['start_time']) : 0;
 		$settings['embedpress_pro_twitch_theme'] = isset( $_POST['theme']) ? sanitize_text_field( $_POST['theme']) : 'dark';
 		$settings['embedpress_pro_twitch_mute'] = isset( $_POST['mute']) ? sanitize_text_field( $_POST['mute']) : 'yes';
 		$settings['license_key'] = 1; // backward compatibility
@@ -288,6 +291,7 @@ class EmbedpressSettings {
 	public function save_dailymotion_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':dailymotion';
 		$settings = get_option( $option_name, []);
+		$settings['start_time'] = isset( $_POST['start_time']) ? sanitize_text_field( $_POST['start_time']) : 0;
 		$settings['visual'] = isset( $_POST['visual']) ? sanitize_text_field( $_POST['visual']) : '';
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['play_on_mobile'] = isset( $_POST['play_on_mobile']) ? sanitize_text_field( $_POST['play_on_mobile']) : '';

@@ -4,7 +4,8 @@
  *  All undefined vars comes from 'render_settings_page' method
  *  */
 $vm_settings = get_option( EMBEDPRESS_PLG_NAME.':vimeo' );
-$start_time = isset( $vm_settings['embedpress_pro_video_start_time']) ? $vm_settings['embedpress_pro_video_start_time'] : 0;
+$start_time = isset( $vm_settings['start_time']) ? $vm_settings['start_time'] : 0;
+
 
 $autoplay = isset( $vm_settings['autoplay']) ? $vm_settings['autoplay'] : '';
 $loop = isset( $vm_settings['loop']) ? $vm_settings['loop'] : '';

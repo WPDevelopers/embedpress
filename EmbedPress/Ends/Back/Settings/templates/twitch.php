@@ -4,7 +4,8 @@
  * All undefined vars comes from 'render_settings_page' method
  *  */
 $twitch_settings = get_option( EMBEDPRESS_PLG_NAME.':twitch');
-$start_time = isset( $twitch_settings['embedpress_pro_video_start_time']) ? $twitch_settings['embedpress_pro_video_start_time'] : 0;
+$start_time = isset( $twitch_settings['start_time']) ? $twitch_settings['start_time'] : 0;
+
 $autoplay = isset( $twitch_settings['embedpress_pro_twitch_autoplay']) ? $twitch_settings['embedpress_pro_twitch_autoplay'] : 'no';
 $show_chat = isset( $twitch_settings['embedpress_pro_twitch_chat']) ? $twitch_settings['embedpress_pro_twitch_chat'] : 'no';
 $theme = isset( $twitch_settings['embedpress_pro_twitch_theme']) ? $twitch_settings['embedpress_pro_twitch_theme'] : 'dark';

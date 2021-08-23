@@ -4,7 +4,8 @@
  *  All undefined vars comes from 'render_settings_page' method
  *  */
 $yt_settings = get_option( EMBEDPRESS_PLG_NAME.':youtube');
-$start_time = isset( $yt_settings['embedpress_pro_video_start_time']) ? $yt_settings['embedpress_pro_video_start_time'] : 0;
+$start_time = isset( $yt_settings['start_time']) ? $yt_settings['start_time'] : 0;
+
 
 $autoplay = isset( $yt_settings['autoplay']) ? $yt_settings['autoplay'] : '';
 $controls = isset( $yt_settings['controls']) ? $yt_settings['controls'] : 1;

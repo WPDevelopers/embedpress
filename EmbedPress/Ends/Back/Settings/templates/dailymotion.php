@@ -4,6 +4,8 @@
  *  All undefined vars comes from 'render_settings_page' method
  *  */
 $dm_settings = get_option( EMBEDPRESS_PLG_NAME.':dailymotion');
+$start_time = isset( $dm_settings['start_time']) ? $dm_settings['start_time'] : 0;
+
 $autoplay = isset( $dm_settings['autoplay']) ? $dm_settings['autoplay'] : '';
 $play_on_mobile = isset( $dm_settings['play_on_mobile']) ? $dm_settings['play_on_mobile'] : '';
 $mute = isset( $dm_settings['mute']) ? $dm_settings['mute'] : '';
