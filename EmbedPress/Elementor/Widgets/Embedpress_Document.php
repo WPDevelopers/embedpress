@@ -233,7 +233,7 @@ class Embedpress_Document extends Widget_Base
             'class' => ['embedpress-document-embed', 'ep-doc-'.md5( $id), 'ose-document']
         ] );
         ?>
-        <div <?php echo $this->get_render_attribute_string( 'embedpress-document' ); ?> style="<?php echo esc_attr( $dimension); ?>">
+        <div <?php echo $this->get_render_attribute_string( 'embedpress-document' ); ?> style="<?php echo esc_attr( $dimension); ?>; max-width:100%;">
             <?php if ( $url != '' ) {
                 if ( $this->is_pdf( $url ) ) {
                     $this->add_render_attribute( 'embedpres-pdf-render', 'data-emsrc', $url );
