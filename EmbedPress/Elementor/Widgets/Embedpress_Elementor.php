@@ -313,6 +313,7 @@ class Embedpress_Elementor extends Widget_Base {
 			'embedpress_pro_youtube_display_related_videos',
 			[
 				'label'        => __( 'Related Videos', 'embedpress' ),
+				'description'        => __( 'Set it to "Yes" to display related videos from all channels. Otherwise, related videos will show from the same channel.', 'embedpress' ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
