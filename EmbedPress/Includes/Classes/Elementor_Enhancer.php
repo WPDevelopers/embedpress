@@ -460,10 +460,14 @@ class Elementor_Enhancer {
 	}
 
 	public static function twitch( $embed_content, $settings ) {
-		if ( ! isset( $embed_content->provider_name ) || strtoupper( $embed_content->provider_name ) !== 'TWITCH' || ! isset( $embed_content->embed ) || $settings['embedpress_pro_embeded_source'] !== 'twitch' ) {
+		if ( ! isset( $embed_content->embed ) || $settings['embedpress_pro_embeded_source'] !== 'twitch' ) {
 			return $embed_content;
 		}
 		$e           = current( $embed_content );
+
+		if ( ! isset( $e['provider_name'] ) || strtoupper( $e['provider_name'] ) !== 'TWITCH' ) {
+            return $embed_content;
+		}
 		$time        = '0h0m0s';
 		$type        = isset( $e['type'] ) ? $e['type'] : '';
 		$content_id  = isset( $e['content_id'] ) ? $e['content_id'] : '';
@@ -489,8 +493,8 @@ class Elementor_Enhancer {
 
 		}
 
-
 		$url      = "https://embed.twitch.tv?autoplay={$autoplay}&channel={$channel}&height={$height}&layout={$layout}&migration=true&muted={$muted}&theme={$theme}&time={$time}&video={$video}&width={$width}&allowfullscreen={$full_screen}";
+
 		$pars_url = wp_parse_url( get_site_url() );
 		$url      = ! empty( $pars_url['host'] ) ? $url . '&parent=' . $pars_url['host'] : $url;
 
