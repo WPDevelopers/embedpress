@@ -44,6 +44,11 @@ add_action( 'enqueue_block_assets', 'embedpress_blocks_cgb_block_assets' );
  */
 function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 	// Scripts.
+	if (! wp_script_is( 'embedpress-pdfobject') ) {
+		wp_enqueue_script( 'embedpress-pdfobject', EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js', [],
+			$this->pluginVersion );
+	}
+
 	wp_enqueue_script(
 		'embedpress_blocks-cgb-block-js', // Handle.
 		EMBEDPRESS_GUTENBERG_DIR_URL.'/dist/blocks.build.js', // Block.build.js: We register the block here. Built with Webpack.
