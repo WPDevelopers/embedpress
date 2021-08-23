@@ -73,7 +73,7 @@ class Embedpress_Elementor extends Widget_Base {
 
     protected function _register_controls() {
         $this->pro_class = is_embedpress_pro_active() ? '': 'embedpress-pro-control';
-        $this->pro_text = is_embedpress_pro_active() ? '': __('<sup class="embedpress-pro-label" style="color:red">Pro</sup>', 'embedpress');
+        $this->pro_text = is_embedpress_pro_active() ? '': '<sup class="embedpress-pro-label" style="color:red">'.__('Pro', 'embedpress').'</sup>';
         /**
          * EmbedPress Content Settings
          */
@@ -438,7 +438,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'yt_lc_show',
 			[
-				'label'        => sprintf(__( 'Show YouTube Live Chat', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__( 'Show YouTube Live Chat %s', 'embedpress' ), $this->pro_text ),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',

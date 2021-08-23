@@ -39,7 +39,8 @@
 }
 /*Second long class needed for yt channel link control, otherwise it wont get effected.*/
 .elementor-control.embedpress-pro-control::before,
-.elementor-control.elementor-control-yt_sub_channel.elementor-control-type-text.embedpress-pro-control.elementor-label-block.elementor-control-separator-default.elementor-control-dynamic::before{
+.elementor-control.elementor-control-yt_sub_channel.elementor-control-type-text.embedpress-pro-control.elementor-label-block.elementor-control-separator-default.elementor-control-dynamic::before,
+.elementor-control.elementor-control-yt_lc_show.elementor-control-type-switcher.embedpress-pro-control.elementor-label-inline::before{
     content: '';
     position: absolute;
     width: 100%;
