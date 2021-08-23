@@ -34,6 +34,9 @@ class Elementor_Enhancer {
 
 
 			preg_match( '/(.+)?\?/', $url_full, $url );
+			if ( empty( $url) ) {
+               return $embed;
+			}
 			$url = $url[1];
 
 			// Reassemble the url with the new variables.
