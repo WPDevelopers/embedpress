@@ -331,7 +331,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->start_controls_section(
 			'embedpress_yt_subscription_section',
 			[
-				'label'       => __( 'YouTube Subscriber Option', 'embedpress' ),
+				'label'       => __( 'YouTube Subscriber', 'embedpress' ),
 				'condition'    => $yt_condition,
 
 			]
@@ -429,7 +429,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->start_controls_section(
 			'embedpress_yt_livechat_section',
 			[
-				'label'       => __( 'YouTube Live Chat Option', 'embedpress' ),
+				'label'       => __( 'YouTube Live Chat', 'embedpress' ),
 				'condition'    => $yt_condition,
 
 			]
