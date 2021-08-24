@@ -107,10 +107,30 @@ KAMAL;
 
             break;
 	    case 'document':
-		    $preview_video = '<iframe loading="lazy" style="width:500px; max-width:100%; height: 300px" src="https://docs.google.com/document/d/e/2PACX-1vTE9B6d2-ERmnIF03TczFa8hQllM48P8BovYlHFF9xEg6FMhBhJ5IVECC5lDiYq7oqXM7xId9CkOGHz/pub?embedded=true"></iframe>';
+	        $pdf_url = EMBEDPRESS_SETTINGS_ASSETS_URL . 'embedpress.pdf';
+	        ob_start(); ?>
+
+		    <div class="embedpress-embed-document-pdf ep-pdf-sample" style="width:500px; max-width:100%; height: 300px" data-emsrc="<?php echo esc_url( $pdf_url );?> "></div>';
+            <script src="<?php echo EMBEDPRESS_URL_ASSETS.'js/pdfobject.min.js'?>"></script>
+            <script>
+                (function ($) {
+                    'use strict';
+                    $(document).ready(function () {
+                        var selector = $('.embedpress-embed-document-pdf');
+                        let option = {
+                            forceObject: false,
+                        };
+                        if (selector.length) {
+                            PDFObject.embed("<?php echo $pdf_url; ?>", ".ep-pdf-sample", option);
+                        }
+                    });
+                })(jQuery);
+            </script>
+        <?php
+		    $preview_video = ob_get_clean();
 		    break;
 	    default:
-		    $preview_video = '<iframe loading="lazy" height="300px" src="https://www.youtube.com/embed/2u0HRUdLHxo" frameborder="0"></iframe>';
+		    $preview_video = '<iframe height="300px" src="https://www.youtube.com/embed/2u0HRUdLHxo" frameborder="0"></iframe>';
 		    break;
     }
     ?>
