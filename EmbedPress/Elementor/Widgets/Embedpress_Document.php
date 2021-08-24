@@ -211,6 +211,33 @@ class Embedpress_Document extends Widget_Base
 	    $this->init_branding_controls( 'document');
 
 	    $this->end_controls_section();
+
+	    if (! is_embedpress_pro_active()) {
+		    $this->start_controls_section(
+			    'embedpress_pro_section',
+			    [
+				    'label' => __('Go Premium for More Features', 'embedpress'),
+			    ]
+		    );
+
+		    $this->add_control(
+			    'embedpress_pro_cta',
+			    [
+				    'label' => __('Unlock more possibilities', 'embedpress'),
+				    'type' => Controls_Manager::CHOOSE,
+				    'options' => [
+					    '1' => [
+						    'title' => '',
+						    'icon' => 'fa fa-unlock-alt',
+					    ],
+				    ],
+				    'default' => '1',
+				    'description' => '<span class="pro-feature"> Get the  <a href="https://wpdeveloper.net/in/upgrade-embedpress" target="_blank">Pro version</a> for more provider support and customization options.</span>',
+			    ]
+		    );
+
+		    $this->end_controls_section();
+	    }
     }
     
     private function is_pdf( $url )
