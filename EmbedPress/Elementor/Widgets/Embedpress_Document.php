@@ -261,6 +261,9 @@ class Embedpress_Document extends Widget_Base
         ] );
         ?>
         <div <?php echo $this->get_render_attribute_string( 'embedpress-document' ); ?> style="<?php echo esc_attr( $dimension); ?>; max-width:100%;">
+	        <?php
+            do_action( 'embedpress_document_after_embed',  $settings, $url, $id, $this);
+	        ?>
             <?php if ( $url != '' ) {
                 if ( $this->is_pdf( $url ) ) {
                     $this->add_render_attribute( 'embedpres-pdf-render', 'data-emsrc', $url );
@@ -276,13 +279,12 @@ class Embedpress_Document extends Widget_Base
                 } else {
                     $view_link = 'https://docs.google.com/viewer?url=' . $url . '&embedded=true';
                     ?>
-                    <iframe allowfullscreen="true"
-                            mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr( $dimension); ?>; max-width:100%;" src="<?php echo esc_url( $view_link); ?>"/>
+                        <div>
+                            <iframe allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr( $dimension); ?>; max-width:100%;" src="<?php echo esc_url( $view_link); ?>"/>
+                        </div>
+
                     <?php
                 }
-
-	            do_action( 'embedpress_document_after_embed',  $settings, $url, $id, $this);
-
 	            if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
                     printf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
                 }
