@@ -27,7 +27,6 @@ class Feature_Enhancer {
 		add_filter( 'embedpress_elementor_embed', [Elementor_Enhancer::class, 'spotify'], 10, 2 );
 		add_filter( 'embedpress_elementor_embed', [Elementor_Enhancer::class, 'vimeo'], 10, 2 );
 	}
-
 	public function remove_classic_filters(  ) {
 		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_youtube'], 90 );
 		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_vimeo'], 90 );
@@ -36,7 +35,6 @@ class Feature_Enhancer {
 		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_dailymotion'], 90 );
 		remove_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_soundcloud'], 90 );
 	}
-
 	public function getOptions($provider='', $schema=[])
 	{
 		$options = (array)get_option(EMBEDPRESS_PLG_NAME . ':' . $provider, []);
@@ -454,7 +452,6 @@ class Feature_Enhancer {
 
 		return $embed_content;
 	}
-
 	public function enhance_dailymotion( $embed ) {
 		$options = $this->getOptions('dailymotion', $this->get_dailymotion_settings_schema());
 		$isDailymotion = ( isset($embed->provider_name) && strtoupper( $embed->provider_name ) === 'DAILYMOTION' ) || (isset( $embed->url) && isset( $embed->{$embed->url}) && isset( $embed->{$embed->url}['provider_name']) && strtoupper($embed->{$embed->url}['provider_name'] ) === 'DAILYMOTION');
@@ -475,8 +472,8 @@ class Feature_Enhancer {
 			if ( $options[ 'play_on_mobile' ] == '1' ) {
 				$params[ 'playsinline' ] = 1;
 			}
+			$params['start'] = (int) $options[ 'start_time' ];
 			if ( is_embedpress_pro_active() ) {
-				$params['start'] = (int) $options[ 'start_time' ];
 				$params['ui-logo'] = (int) $options[ 'show_logo' ];
 			}
 
@@ -490,7 +487,6 @@ class Feature_Enhancer {
 
 		return $embed;
 	}
-
 	public function enhance_soundcloud( $embed ) {
 
 		$isSoundcloud = ( isset($embed->provider_name) && strtoupper( $embed->provider_name ) === 'SOUNDCLOUD' ) || (isset( $embed->url) && isset( $embed->{$embed->url}) && isset( $embed->{$embed->url}['provider_name']) && strtoupper($embed->{$embed->url}['provider_name'] ) === 'SOUNDCLOUD');
@@ -533,7 +529,6 @@ class Feature_Enhancer {
 
 		return $embed;
 	}
-
 	public function embedpress_gutenberg_register_block_youtube( $youtube_params ) {
 		$youtube_options = $this->getOptions('youtube', $this->get_youtube_settings_schema());
 		return $this->get_youtube_params( $youtube_options );
@@ -747,7 +742,6 @@ class Feature_Enhancer {
 
 		return $id;
 	}
-
 	public function embedpress_wistia_block_after_embed( $attributes ){
 		$embedOptions= $this->embedpress_wistia_pro_get_options();
 		// Get the video ID
@@ -825,7 +819,6 @@ class Feature_Enhancer {
 		$embedOptions         = json_encode($embedOptions);
 		 return apply_filters( 'embedpress_wistia_params_after_encode', $embedOptions);
 	}
-
 	public function get_twitch_settings_schema() {
 		return [
 			'start_time' => [
@@ -856,7 +849,6 @@ class Feature_Enhancer {
 
 		];
 	}
-
 	public function get_dailymotion_settings_schema() {
 		return [
 			'autoplay'       => [
@@ -893,7 +885,6 @@ class Feature_Enhancer {
 			],
 		];
 	}
-
 	public function get_soundcloud_settings_schema() {
 		return [
 			'visual' => [
