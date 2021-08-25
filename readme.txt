@@ -2,7 +2,7 @@
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed, kamalahmed
 Author: WPDeveloper
 Author URI: https://wpdeveloper.net
-Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embed, video embed, Google Doc, map embed, youTube Embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, block editor, embed wordpress, elementor
+Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embed, video embed, Google Doc, map embed, youTube Embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, block editor, embed wordpress, elementor, WPML, Meetup, Boomplay, PDF Logo
 Requires at least: 4.6
 Tested up to: 5.8
 Requires PHP: 5.6
@@ -302,11 +302,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 
-= [3.1.2] - 2021-08-24 =
-* Added: Some pro features into free feature
+= [3.1.2] - 2021-08-25 =
+* Added: Some pro features into free plugin
 * Fixed: Conflict with Web Hook plugin.
 * Fixed: Responsive issue for PDF embed.
-* Few minor bug fix and improvements.
+* Few minor bug fixes and improvements.
 
 = [3.1.1] - 2021-08-05 =
 * Added: WPML compatibility.
