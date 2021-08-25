@@ -23,7 +23,7 @@ Trait Branding {
 		$this->add_control(
 			"{$provider_name}_custom_logo_cta_heading",
 			[
-				'label' => __( 'Custom Logo & CTA', 'embedpress' ),
+				'label' => __( 'Custom Branding', 'embedpress' ),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
