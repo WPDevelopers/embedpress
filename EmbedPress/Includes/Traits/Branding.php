@@ -20,12 +20,18 @@ Trait Branding {
 		$logo_condition = [
 			"embedpress_pro_{$provider_name}_logo[url]!" =>''
 		];
+		$condition = [];
+		if ( $provider_name !== 'document' ) {
+			$logo_condition["embedpress_pro_embeded_source"] = $provider_name;
+			$condition["embedpress_pro_embeded_source"] = $provider_name;
+		}
 		$this->add_control(
 			"{$provider_name}_custom_logo_cta_heading",
 			[
 				'label' => __( 'Custom Branding', 'embedpress' ),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
+				'condition' => $condition,
 			]
 		);
 		$this->add_control(
@@ -38,6 +44,7 @@ Trait Branding {
 					'active' => true,
 				],
 				'classes'     => $this->pro_class,
+				'condition'     => $condition,
 			]
 		);
 		$this->add_group_control(
