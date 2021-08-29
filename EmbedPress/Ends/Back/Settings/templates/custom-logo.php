@@ -54,6 +54,7 @@ $vm_cta_url = isset( $vm_settings['cta_url']) ? esc_url( $vm_settings['cta_url']
             embedpress_print_branding_controls('vimeo', 'vm');
             embedpress_print_branding_controls('wistia', 'wis');
             embedpress_print_branding_controls('twitch', 'tw');
+            embedpress_print_branding_controls('dailymotion', 'dm');
             embedpress_print_branding_controls('document', 'doc');
             do_action( 'embedpress_after_custom_branding_settings_fields'); ?>
             <button class="button button__themeColor radius-10 embedpress-submit-btn" name="submit" value="custom_logo"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
@@ -106,6 +107,15 @@ KAMAL;
 KAMAL;
 
             break;
+	    case 'dailymotion':
+		    $parent = wp_parse_url( site_url(), 1);
+		    $preview_video = <<<KAMAL
+<div class="embedpress_wrapper" data-url="https://www.twitch.tv/wpdeveloperdotnet" style="width:90%; height:360px;">
+                <iframe title="Hawaii to Introduce Bill to Ban Shark Killing" frameborder="0" width="640" height="400" src="https://www.dailymotion.com/embed/video/x7anlku?ui-highlight=dd3333&amp;start=0&amp;mute=0&amp;autoplay=0&amp;controls=1&amp;ui-start-screen-info=1&amp;endscreen-enable=0&amp;ui-logo=1" allowfullscreen="" allow="autoplay" loading="lazy" style="max-width: 100%; max-height: 400px;"></iframe>
+            </div>
+KAMAL;
+
+		    break;
 	    case 'document':
 	        $pdf_url = EMBEDPRESS_SETTINGS_ASSETS_URL . 'embedpress.pdf';
 	        ob_start(); ?>

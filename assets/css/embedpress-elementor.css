@@ -36,7 +36,9 @@
     border: 0;
     background-color: #000;
 }
-
+.embedpress-elements-wrapper, .embedpress-elements-wrapper .embedpress-wrapper{
+    display: inline-block;
+}
 
 .embedpress-elements-wrapper .embedpress-wrapper iframe {
     height: 100%;

@@ -264,7 +264,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'   => $yt_condition,
 			]
 		);
-        //--- Youtube Pro control starts ---
+        //--- YouTube Pro control starts ---
 		$this->add_control(
 			'embedpress_pro_youtube_progress_bar_color',
 			[
@@ -325,7 +325,6 @@ class Embedpress_Elementor extends Widget_Base {
 		);
 		$this->init_branding_controls( 'youtube');
 	}
-
 	public function init_youtube_subscription_section() {
 		$yt_condition = [
 			'embedpress_pro_embeded_source' => 'youtube',
@@ -488,7 +487,6 @@ class Embedpress_Elementor extends Widget_Base {
 				]
 			]
 		);
-
 		$this->add_control(
 			'embedpress_pro_dailymotion_play_on_mobile',
 			[
@@ -505,7 +503,6 @@ class Embedpress_Elementor extends Widget_Base {
 				]
 			]
 		);
-
 		$this->add_control(
 			'embedpress_pro_dailymotion_mute',
 			[
@@ -521,7 +518,6 @@ class Embedpress_Elementor extends Widget_Base {
 				]
 			]
 		);
-
 		$this->add_control(
 			'embedpress_pro_dailymotion_player_control',
 			[
@@ -537,7 +533,6 @@ class Embedpress_Elementor extends Widget_Base {
 				]
 			]
 		);
-
 		$this->add_control(
 			'embedpress_pro_dailymotion_video_info',
 			[
@@ -553,9 +548,6 @@ class Embedpress_Elementor extends Widget_Base {
 				]
 			]
 		);
-
-
-
 		$this->add_control(
 			'embedpress_pro_dailymotion_control_color',
 			[
@@ -568,6 +560,8 @@ class Embedpress_Elementor extends Widget_Base {
 				]
 			]
 		);
+		$this->init_branding_controls( 'dailymotion');
+
 	}
 	public function init_wistia_controls( ) {
 		$this->add_control(
@@ -1285,6 +1279,29 @@ class Embedpress_Elementor extends Widget_Base {
 				'selectors' => [
 					'{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
+			]
+		);
+		$this->add_responsive_control(
+			'align',
+			[
+				'label' => esc_html__( 'Alignment', 'embedpress' ),
+				'type' => Controls_Manager::CHOOSE,
+				'options' => [
+					'left'    => [
+						'title' => esc_html__( 'Left', 'embedpress' ),
+						'icon' => 'eicon-text-align-left',
+					],
+					'center' => [
+						'title' => esc_html__( 'Center', 'embedpress' ),
+						'icon' => 'eicon-text-align-center',
+					],
+					'right' => [
+						'title' => esc_html__( 'Right', 'embedpress' ),
+						'icon' => 'eicon-text-align-right',
+					],
+				],
+				'prefix_class' => 'elementor%s-align-',
+				'default' => '',
 			]
 		);
 		$this->add_group_control(
