@@ -456,8 +456,9 @@ class Embedpress_Elementor extends Widget_Base {
 
 	}
 	public function init_dailymotion_control ( ){
+        //@TODO; Kamal - migrate from 'embedpress_pro_dailymotion_logo' to 'embedpress_pro_dailymotion_ui_logo'
 		$this->add_control(
-			'embedpress_pro_dailymotion_logo',
+			'embedpress_pro_dailymotion_ui_logo',
 			[
 				'label'        => sprintf(__( 'Logo %s', 'embedpress' ), $this->pro_text ),
 				'type'         => Controls_Manager::SWITCHER,

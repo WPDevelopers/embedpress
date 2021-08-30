@@ -451,7 +451,7 @@ class Elementor_Enhancer {
 			$params['playsinline'] = 1;
 		}
 		if ( is_embedpress_pro_active() ) {
-			$params['ui-logo'] = $setting['embedpress_pro_dailymotion_logo'] === 'yes' ? 1 : 0;
+			$params['ui-logo'] = isset( $setting['embedpress_pro_dailymotion_ui_logo']) && ($setting['embedpress_pro_dailymotion_ui_logo'] === 'yes') ? 1 : 0;
 		}
 		$url_modified = $url_full;
 		foreach ( $params as $param => $value ) {
