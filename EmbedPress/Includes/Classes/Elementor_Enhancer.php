@@ -458,7 +458,9 @@ class Elementor_Enhancer {
 			$url_modified = add_query_arg( $param, $value, $url_modified );
 		}
 		$embed->embed = str_replace( $url_full, $url_modified, $embed->embed );
-
+		if ( is_embedpress_pro_active() ) {
+			return self::apply_cta_markup( $embed, $setting, 'dailymotion' );
+		}
 		return $embed;
 	}
 
