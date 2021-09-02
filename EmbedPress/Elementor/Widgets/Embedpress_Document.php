@@ -173,7 +173,7 @@ class Embedpress_Document extends Widget_Base
             ]
         );
         
-        $this->add_control(
+        $this->add_responsive_control(
             'embedpress_elementor_document_align',
             [
                 'label'   => __( 'Alignment', 'embedpress' ),
@@ -192,7 +192,8 @@ class Embedpress_Document extends Widget_Base
                         'icon'  => 'eicon-text-align-right',
                     ]
                 ],
-                'default' => 'center',
+                'prefix_class' => 'elementor%s-align-',
+                'default' => '',
             ]
         );
         
@@ -260,7 +261,7 @@ class Embedpress_Document extends Widget_Base
             'class' => ['embedpress-document-embed', 'ep-doc-'.md5( $id), 'ose-document']
         ] );
         ?>
-        <div <?php echo $this->get_render_attribute_string( 'embedpress-document' ); ?> style="<?php echo esc_attr( $dimension); ?>; max-width:100%;">
+        <div <?php echo $this->get_render_attribute_string( 'embedpress-document' ); ?> style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block">
 	        <?php
             do_action( 'embedpress_document_after_embed',  $settings, $url, $id, $this);
 	        ?>

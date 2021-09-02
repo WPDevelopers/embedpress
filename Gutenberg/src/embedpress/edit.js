@@ -111,6 +111,7 @@ export default function EmbedPress({attributes, className, setAttributes}){
 						showEditButton={embedHTML && !cannotEmbed}
 						switchBackToURLInput={switchBackToURLInput}
 					/>
+
 				</figure>}
 			</Fragment>
 
