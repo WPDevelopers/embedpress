@@ -110,8 +110,8 @@ KAMAL;
 	    case 'dailymotion':
 		    $parent = wp_parse_url( site_url(), 1);
 		    $preview_video = <<<KAMAL
-<div class="embedpress_wrapper" data-url="https://www.twitch.tv/wpdeveloperdotnet" style="width:90%; height:360px;">
-                <iframe title="Hawaii to Introduce Bill to Ban Shark Killing" frameborder="0" width="640" height="400" src="https://www.dailymotion.com/embed/video/x7anlku?ui-highlight=dd3333&amp;start=0&amp;mute=0&amp;autoplay=0&amp;controls=1&amp;ui-start-screen-info=1&amp;endscreen-enable=0&amp;ui-logo=1" allowfullscreen="" allow="autoplay" loading="lazy" style="max-width: 100%; max-height: 400px;"></iframe>
+<div class="embedpress_wrapper" style="width:90%; height:360px;">
+                <iframe title="Sample video" frameborder="0" width="640" height="400" src="https://www.dailymotion.com/embed/video/x7qvzya?ui-highlight=dd3333&amp;start=0&amp;mute=0&amp;autoplay=0&amp;controls=1&amp;ui-start-screen-info=1&amp;endscreen-enable=0&amp;ui-logo=1" allowfullscreen="" allow="autoplay" loading="lazy" style="max-width: 100%; max-height: 400px;"></iframe>
             </div>
 KAMAL;
 
