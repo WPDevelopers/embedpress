@@ -258,7 +258,7 @@ class Elementor_Enhancer {
 		if ( is_embedpress_pro_active() ) {
 			$embedOptions->volumeControl = ( $setting['embedpress_pro_wistia_volume_control'] === 'yes' );
 
-			$volume = (float) $setting['embedpress_pro_wistia_volume'];
+			$volume = isset($setting['embedpress_pro_wistia_volume']['size']) ? (float) $setting['embedpress_pro_wistia_volume']['size'] : 0;
 			if ( $volume > 1 ) {
 				$volume = $volume / 100;
 			}
@@ -346,7 +346,7 @@ class Elementor_Enhancer {
 		$attribs = [
 			sprintf( 'id="wistia_%s"', $videoId ),
 			sprintf( 'class="%s"', join( ' ', $class ) ),
-			sprintf( 'style="width:%spx; height:%spx;"', $embed->width, $embed->height ),
+			sprintf( 'style="width:%spx; height:%spx;"', $embed->attributes->{'data-width'}, $embed->attributes->{'data-width'} ),
 		];
 
 		$labels = [
