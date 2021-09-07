@@ -38,6 +38,7 @@
 }
 .embedpress-elements-wrapper, .embedpress-elements-wrapper .embedpress-wrapper{
     display: inline-block;
+    max-width: 100%;
 }
 
 .embedpress-elements-wrapper .embedpress-wrapper iframe {
