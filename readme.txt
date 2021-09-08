@@ -301,7 +301,7 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [3.1.3] - 2021-09-08 =
+= [3.1.3] - 2021-09-09 =
 * Added: Alignment feature for Gutenberg and Elementor.
 * Few minor bug fixes and improvements.
 
