@@ -230,7 +230,7 @@ class Embedpress_Document extends Widget_Base
 				    'options' => [
 					    '1' => [
 						    'title' => '',
-						    'icon' => 'fa fa-unlock-alt',
+						    'icon' => 'eicon-lock',
 					    ],
 				    ],
 				    'default' => '1',
