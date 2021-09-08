@@ -306,12 +306,14 @@
 .editor-styles-wrapper .wp-block[data-align=center] > * {
 	display: inline-block;
 }
-.editor-styles-wrapper .wp-block::after {
+.editor-styles-wrapper .wp-block::after,
+.clear::after{
 	content: '';
 	display: block;
 	clear: both;
 	min-height: 1px;
 }
+
 .alignleft {
 	display: inline;
 	float: left;
