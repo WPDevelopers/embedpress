@@ -7,6 +7,7 @@ use \Elementor\Controls_Manager as Controls_Manager;
 use \Elementor\Modules\DynamicTags\Module as TagsModule;
 use \Elementor\Widget_Base as Widget_Base;
 use \Elementor\Plugin;
+use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Includes\Traits\Branding;
 
 ( defined( 'ABSPATH' ) ) or die( "No direct script access allowed." );
@@ -269,14 +270,14 @@ class Embedpress_Document extends Widget_Base
             <?php if ( $url != '' ) {
                 if ( $this->is_pdf( $url ) ) {
                     $this->add_render_attribute( 'embedpres-pdf-render', 'data-emsrc', $url );
-                    ?>
-                    <div <?php echo $this->get_render_attribute_string( 'embedpres-pdf-render' ); ?>>
-                    </div>
+                    $renderer = Helper::get_pdf_renderer();
+	                $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $url;
+	                ?>
+
+                    <iframe class="embedpress-embed-document-pdf"  src="<?php echo esc_attr(  $src); ?>" <?php $this->get_render_attribute_string( 'embedpres-pdf-render' ); ?>
+                            frameborder="0"></iframe>
+
                     <?php
-                    
-                    if ( Plugin::$instance->editor->is_edit_mode() ) {
-                        $this->render_editor_script( $id, $url );
-                    }
 
                 } else {
                     $view_link = 'https://docs.google.com/viewer?url=' . $url . '&embedded=true';
@@ -302,6 +303,8 @@ class Embedpress_Document extends Widget_Base
         $settings = $this->get_settings();
         return $settings[ 'embedpress_document_type' ] === 'url' ? $settings[ 'embedpress_document_file_link' ][ 'url' ] : $settings[ 'embedpress_document_Uploader' ][ 'url' ];
     }
+
+
     
     protected function render_editor_script( $id, $url )
     {
@@ -315,7 +318,42 @@ class Embedpress_Document extends Widget_Base
                         forceObject: false,
                     };
                     if (selector.length) {
-                        PDFObject.embed("<?php echo $url; ?>", "<?php echo '.' . $id; ?>", option);
+                        var pdfjsLib = window['pdfjs-dist/build/pdf'];
+                        let url = '<?php echo esc_js(  $url); ?>';
+                        pdfjsLib.GlobalWorkerOptions.workerSrc = "<?php echo EMBEDPRESS_URL_ASSETS . 'js/pdf.worker.js'; ?>";
+                        // Asynchronous download of PDF
+                        var loadingTask = pdfjsLib.getDocument(url);
+                        loadingTask.promise.then(function(pdf) {
+                            console.log('PDF loaded');
+
+                            // Fetch the first page
+                            var pageNumber = 1;
+                            pdf.getPage(pageNumber).then(function(page) {
+                                console.log('Page loaded');
+
+                                var scale = 1.5;
+                                var viewport = page.getViewport({scale: scale});
+
+                                // Prepare canvas using PDF page dimensions
+                                var canvas = document.getElementById('the-canvas');
+                                var context = canvas.getContext('2d');
+                                // canvas.height = viewport.height;
+                                // canvas.width = viewport.width;
+
+                                // Render PDF page into canvas context
+                                var renderContext = {
+                                    canvasContext: context,
+                                    viewport: viewport
+                                };
+                                var renderTask = page.render(renderContext);
+                                renderTask.promise.then(function () {
+                                    console.log('Page rendered');
+                                });
+                            });
+                        }, function (reason) {
+                            // PDF loading error
+                            console.error(reason);
+                        });
                     }
                 });
             })(jQuery);
