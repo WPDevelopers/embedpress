@@ -1562,7 +1562,7 @@ const PDFViewerApplication = {
     this.metadata = metadata;
     this._contentDispositionFilename ?? (this._contentDispositionFilename = contentDispositionFilename);
     this._contentLength ?? (this._contentLength = contentLength);
-    console.log(`PDF ${pdfDocument.fingerprint} [${info.PDFFormatVersion} ` + `${(info.Producer || "-").trim()} / ${(info.Creator || "-").trim()}] ` + `(PDF.js: ${_pdfjsLib.version || "-"})`);
+    // console.log(`PDF ${pdfDocument.fingerprint} [${info.PDFFormatVersion} ` + `${(info.Producer || "-").trim()} / ${(info.Creator || "-").trim()}] ` + `(PDF.js: ${_pdfjsLib.version || "-"})`);
     let pdfTitle = info?.Title;
     const metadataTitle = metadata?.get("dc:title");
 
@@ -13876,7 +13876,7 @@ document.webL10n = function (window, document, undefined) {
   var gL10nData = {};
   var gTextData = '';
   var gTextProp = 'textContent';
-  var gLanguage = '';
+  var gLanguage = 'en-US';
   var gMacros = {};
   var gReadyState = 'loading';
   var gAsyncResourceLoading = true;
@@ -14492,7 +14492,7 @@ document.webL10n = function (window, document, undefined) {
     var data = gL10nData[key];
 
     if (!data) {
-      console.warn('#' + key + ' is undefined.');
+      //console.warn('#' + key + ' is undefined.');
 
       if (!fallback) {
         return null;
@@ -14557,7 +14557,7 @@ document.webL10n = function (window, document, undefined) {
     var data = getL10nData(l10n.id, l10n.args);
 
     if (!data) {
-      console.warn('#' + l10n.id + ' is undefined.');
+      //console.warn('#' + l10n.id + ' is undefined.');
       return;
     }
 
