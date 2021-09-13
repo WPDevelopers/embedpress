@@ -9,7 +9,6 @@ function Logo(props) {
 		var style = '';
 		var cta = '';
 		if(embedpressObj.embedpress_pro && d && d.logo_url) {
-			console.dir(d);
 			var url = d.cta_url ? d.cta_url : null;
 			var x = d.logo_xpos ? d.logo_xpos + '%' : '10%';
 			var y = d.logo_ypos ? d.logo_ypos + '%' : '10%';

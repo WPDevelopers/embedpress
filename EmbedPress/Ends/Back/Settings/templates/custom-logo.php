@@ -5,16 +5,18 @@
  *
  *  */
 
-$option_name = EMBEDPRESS_PLG_NAME.':youtube';
-$yt_settings = get_option( $option_name);
-$gen_settings = get_option( EMBEDPRESS_PLG_NAME);
-$yt_logo_xpos = isset( $yt_settings['logo_xpos']) ? intval( $yt_settings['logo_xpos']) : 10;
-$yt_logo_ypos = isset( $yt_settings['logo_ypos']) ? intval( $yt_settings['logo_ypos']) : 10;
+use EmbedPress\Includes\Classes\Helper;
+
+$option_name     = EMBEDPRESS_PLG_NAME . ':youtube';
+$yt_settings     = get_option( $option_name);
+$gen_settings    = get_option( EMBEDPRESS_PLG_NAME);
+$yt_logo_xpos    = isset( $yt_settings['logo_xpos']) ? intval( $yt_settings['logo_xpos']) : 10;
+$yt_logo_ypos    = isset( $yt_settings['logo_ypos']) ? intval( $yt_settings['logo_ypos']) : 10;
 $yt_logo_opacity = isset( $yt_settings['logo_opacity']) ? intval( $yt_settings['logo_opacity']) : 50;
-$yt_logo_id = isset( $yt_settings['logo_id']) ? intval( $yt_settings['logo_id']) : 0;
-$yt_logo_url = isset( $yt_settings['logo_url']) ? esc_url( $yt_settings['logo_url']) : '';
-$yt_cta_url = isset( $yt_settings['cta_url']) ? esc_url( $yt_settings['cta_url']) : '';
-$yt_branding = isset( $yt_settings['branding']) ? sanitize_text_field( $yt_settings['branding']) : (!empty( $yt_logo_url) ? 'yes': 'no');
+$yt_logo_id      = isset( $yt_settings['logo_id']) ? intval( $yt_settings['logo_id']) : 0;
+$yt_logo_url     = isset( $yt_settings['logo_url']) ? esc_url( $yt_settings['logo_url']) : '';
+$yt_cta_url      = isset( $yt_settings['cta_url']) ? esc_url( $yt_settings['cta_url']) : '';
+$yt_branding     = isset( $yt_settings['branding']) ? sanitize_text_field( $yt_settings['branding']) : (!empty( $yt_logo_url) ? 'yes': 'no');
 
 
 $embedpress_document_powered_by = isset( $gen_settings['embedpress_document_powered_by']) ? sanitize_text_field( $gen_settings['embedpress_document_powered_by']) : 'yes';
@@ -118,24 +120,11 @@ KAMAL;
 		    break;
 	    case 'document':
 	        $pdf_url = EMBEDPRESS_SETTINGS_ASSETS_URL . 'embedpress.pdf';
+		    $renderer = Helper::get_pdf_renderer();
+		    $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $pdf_url;
 	        ob_start(); ?>
+            <iframe class="embedpress-embed-document-pdf ep-pdf-sample"  src="<?php echo esc_attr(  $src); ?>" style="width:500px; max-width:100%; height: 300px" ></iframe>
 
-		    <div class="embedpress-embed-document-pdf ep-pdf-sample" style="width:500px; max-width:100%; height: 300px" data-emsrc="<?php echo esc_url( $pdf_url );?> "></div>';
-            <script src="<?php echo EMBEDPRESS_URL_ASSETS.'js/pdfobject.min.js'?>"></script>
-            <script>
-                (function ($) {
-                    'use strict';
-                    $(document).ready(function () {
-                        var selector = $('.embedpress-embed-document-pdf');
-                        let option = {
-                            forceObject: false,
-                        };
-                        if (selector.length) {
-                            PDFObject.embed("<?php echo $pdf_url; ?>", ".ep-pdf-sample", option);
-                        }
-                    });
-                })(jQuery);
-            </script>
         <?php
 		    $preview_video = ob_get_clean();
 		    break;

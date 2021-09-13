@@ -70,7 +70,6 @@ class DocumentEdit extends Component {
 
 		if(this.props.attributes.href && this.props.attributes.mime === 'application/pdf' && this.state.loadPdf){
 			this.setState({loadPdf: false});
-			PDFObject.embed(this.props.attributes.href, "."+this.props.attributes.id);
 		}
 
 	}
@@ -119,7 +118,6 @@ class DocumentEdit extends Component {
 			}
 			if(media.mime === 'application/pdf'){
 				this.setState({loadPdf: false});
-				PDFObject.embed(media.url, "."+this.props.attributes.id);
 			}
 		}
 
@@ -168,14 +166,16 @@ class DocumentEdit extends Component {
 			);
 		} else {
 			const url = '//view.officeapps.live.com/op/embed.aspx?src='+href;
+			const pdf_viewer_src = embedpressObj.pdf_renderer + '?file=' + href
 			return (
 				<Fragment>
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading/> : null}
 					<div className={'embedpress-document-embed ep-doc-'+id} style={{height:height,width:width}}>
 					{ mime === 'application/pdf' && (
-						<div style={{height:height,width:width}} className={'embedpress-embed-document-pdf'+' '+id} data-emid={id} data-emsrc={href}></div>
+						<iframe style={{height:height,width:width}} className={'embedpress-embed-document-pdf'+' '+id} data-emid={id} data-emsrc={href}  src={pdf_viewer_src}></iframe>
 
 					) }
+
 					{ mime !== 'application/pdf' && (
 						<Iframe onMouseUponMouseUp={ this.hideOverlay } style={{height:height,width:width,display: fetching || !loadPdf ? 'none' : ''}} onLoad={this.onLoad} src={url}/>
 					) }

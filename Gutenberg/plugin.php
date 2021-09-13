@@ -9,6 +9,8 @@
  */
 
 // Exit if accessed directly.
+use EmbedPress\Includes\Classes\Helper;
+
 if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -44,15 +46,11 @@ add_action( 'enqueue_block_assets', 'embedpress_blocks_cgb_block_assets' );
  */
 function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 	// Scripts.
-	if (! wp_script_is( 'embedpress-pdfobject') ) {
-		wp_enqueue_script( 'embedpress-pdfobject', EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js', [],
-			EMBEDPRESS_VERSION );
-	}
 
 	wp_enqueue_script(
 		'embedpress_blocks-cgb-block-js', // Handle.
 		EMBEDPRESS_GUTENBERG_DIR_URL.'/dist/blocks.build.js', // Block.build.js: We register the block here. Built with Webpack.
-		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor','wp-components', 'embedpress-pdfobject' ), // Dependencies, defined above.
+		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor','wp-components', ), // Dependencies, defined above.
 		filemtime( EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.build.js' ), // Version: File modification time.
 		true // Enqueue the script in the footer.
 	);
@@ -79,6 +77,7 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 		'site_url' => site_url(),
 		'active_blocks' => $active_blocks,
 		'document_cta' => $documents_cta_options,
+		'pdf_renderer' => Helper::get_pdf_renderer(),
 	) );
 
 	// Styles.

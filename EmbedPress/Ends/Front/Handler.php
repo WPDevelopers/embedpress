@@ -37,15 +37,9 @@ class Handler extends EndHandlerAbstract
     
     
     public function enqueueScripts() {
-        
-        wp_enqueue_script( 'embedpress-pdfobject', EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js', [],
-            $this->pluginVersion, false );
-       
         //load embedpress admin js
-        
-        wp_enqueue_script( 'embedpress-front', EMBEDPRESS_URL_ASSETS . 'js/front.js', [ 'jquery','embedpress-pdfobject' ],
+        wp_enqueue_script( 'embedpress-front', EMBEDPRESS_URL_ASSETS . 'js/front.js', [ 'jquery', ],
             $this->pluginVersion, true );
-        
     }
 
     /**

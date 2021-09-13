@@ -70,17 +70,12 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			} = props.attributes
 
 			const iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src=' + href;
+			const pdf_viewer_src = embedpressObj.pdf_renderer + '?file=' + href
+
 			return (
 					<div className={'embedpress-document-embed ep-doc-'+id} style={{height:height,width:width}}>
 					{mime === 'application/pdf' && (
-						<div
-							style={{
-								height: height,
-								width: width
-							}}
-							className={'embedpress-embed-document-pdf' + ' ' + id}
-							data-emid={id}
-							data-emsrc={href}></div>
+						<iframe style={{height:height,width:width}} className={'embedpress-embed-document-pdf'+' '+id} src={pdf_viewer_src}></iframe>
 					)}
 					{mime !== 'application/pdf' && (
 						<iframe
