@@ -170,7 +170,7 @@ class DocumentEdit extends Component {
 			return (
 				<Fragment>
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading/> : null}
-					<div className={'embedpress-document-embed ep-doc-'+id} style={{height:height,width:width}}>
+					<div className={'embedpress-document-embed ep-doc-'+id} style={{height:height,width:width, maxWidth:'100%'}}>
 					{ mime === 'application/pdf' && (
 						<iframe style={{height:height,width:width}} className={'embedpress-embed-document-pdf'+' '+id} data-emid={id} data-emsrc={href}  src={pdf_viewer_src}></iframe>
 

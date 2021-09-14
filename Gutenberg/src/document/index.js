@@ -29,7 +29,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			__('ppt'),
 		],
 		supports: {
-			align: ["wide", "full", "right", "left"],
+			align: ["center", "right", "left"],
 			default: ''
 		},
 		attributes: {
@@ -73,7 +73,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			const pdf_viewer_src = embedpressObj.pdf_renderer + '?file=' + href
 
 			return (
-					<div className={'embedpress-document-embed ep-doc-'+id} style={{height:height,width:width}}>
+					<div className={'embedpress-document-embed ep-doc-'+id} style={{height:height,width:width, maxWidth:'100%'}}>
 					{mime === 'application/pdf' && (
 						<iframe style={{height:height,width:width}} className={'embedpress-embed-document-pdf'+' '+id} src={pdf_viewer_src}></iframe>
 					)}
