@@ -171,6 +171,7 @@ class Embedpress_Document extends Widget_Base
                     '{{WRAPPER}} .embedpress-document-embed iframe'               => 'height: {{SIZE}}{{UNIT}};',
                     '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'height: {{SIZE}}{{UNIT}};',
                 ],
+                'render_type' => 'template',
             ]
         );
         
