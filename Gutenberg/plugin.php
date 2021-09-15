@@ -68,6 +68,23 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 	endif;
 	$pars_url = wp_parse_url(get_site_url());
 	$documents_cta_options = (array) get_option(EMBEDPRESS_PLG_NAME . ':document');
+	$gen_settings    = get_option( EMBEDPRESS_PLG_NAME);
+
+	// branding arrays
+	$branding_providers = ['youtube', 'vimeo', 'wistia', 'twitch', 'dailymotion', 'document'];
+	$branding_options = [
+		'powered_by' => (isset( $gen_settings['embedpress_document_powered_by']) && ('yes' == $gen_settings['embedpress_document_powered_by'])),
+	];
+	foreach ( $branding_providers as $provider ) {
+		$settings = get_option( EMBEDPRESS_PLG_NAME.':'.$provider, []);
+	$branding_options [$provider]['branding'] = isset( $settings['branding']) ? $settings['branding'] : 'no';
+	$branding_options [$provider]['logo_xpos'] = isset( $settings['logo_xpos']) ? intval( $settings['logo_xpos']) : 10;
+	$branding_options [$provider]['logo_ypos'] = isset( $settings['logo_ypos']) ? intval( $settings['logo_ypos']) : 10;
+	$branding_options [$provider]['logo_opacity'] = isset( $settings['logo_opacity']) ? intval( $settings['logo_opacity']) : 50;
+	$branding_options [$provider]['logo_id'] = isset( $settings['logo_id']) ? intval( $settings['logo_id']) : 0;
+	$branding_options [$provider]['logo_url'] = isset( $settings['logo_url']) ? esc_url( $settings['logo_url']) : '';
+	$branding_options [$provider]['cta_url'] = isset( $settings['cta_url']) ? esc_url( $settings['cta_url']) : '';
+	}
 	wp_localize_script( 'embedpress_blocks-cgb-block-js', 'embedpressObj', array(
 		'wistia_labels'  => $wistia_labels,
 		'wisita_options' => $wistia_options,
@@ -77,6 +94,7 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 		'site_url' => site_url(),
 		'active_blocks' => $active_blocks,
 		'document_cta' => $documents_cta_options,
+		'branding' => $branding_options,
 		'pdf_renderer' => Helper::get_pdf_renderer(),
 	) );
 

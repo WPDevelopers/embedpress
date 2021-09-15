@@ -6,32 +6,8 @@
  *  */
 
 use EmbedPress\Includes\Classes\Helper;
-
-$option_name     = EMBEDPRESS_PLG_NAME . ':youtube';
-$yt_settings     = get_option( $option_name);
 $gen_settings    = get_option( EMBEDPRESS_PLG_NAME);
-$yt_logo_xpos    = isset( $yt_settings['logo_xpos']) ? intval( $yt_settings['logo_xpos']) : 10;
-$yt_logo_ypos    = isset( $yt_settings['logo_ypos']) ? intval( $yt_settings['logo_ypos']) : 10;
-$yt_logo_opacity = isset( $yt_settings['logo_opacity']) ? intval( $yt_settings['logo_opacity']) : 50;
-$yt_logo_id      = isset( $yt_settings['logo_id']) ? intval( $yt_settings['logo_id']) : 0;
-$yt_logo_url     = isset( $yt_settings['logo_url']) ? esc_url( $yt_settings['logo_url']) : '';
-$yt_cta_url      = isset( $yt_settings['cta_url']) ? esc_url( $yt_settings['cta_url']) : '';
-$yt_branding     = isset( $yt_settings['branding']) ? sanitize_text_field( $yt_settings['branding']) : (!empty( $yt_logo_url) ? 'yes': 'no');
-
-
 $embedpress_document_powered_by = isset( $gen_settings['embedpress_document_powered_by']) ? sanitize_text_field( $gen_settings['embedpress_document_powered_by']) : 'yes';
-
-// Vimeo branding
-$vm_settings = get_option( EMBEDPRESS_PLG_NAME.':vimeo');
-$vm_branding = isset( $vm_settings['branding']) ? sanitize_text_field( $vm_settings['branding']) : 'no';
-$vm_logo_xpos = isset( $vm_settings['logo_xpos']) ? intval( $vm_settings['logo_xpos']) : 10;
-$vm_logo_ypos = isset( $vm_settings['logo_ypos']) ? intval( $vm_settings['logo_ypos']) : 10;
-$vm_logo_opacity = isset( $vm_settings['logo_opacity']) ? intval( $vm_settings['logo_opacity']) : 50;
-$vm_logo_id = isset( $vm_settings['logo_id']) ? intval( $vm_settings['logo_id']) : 0;
-$vm_logo_url = isset( $vm_settings['logo_url']) ? esc_url( $vm_settings['logo_url']) : '';
-$vm_cta_url = isset( $vm_settings['cta_url']) ? esc_url( $vm_settings['cta_url']) : 'no';
-
-
 ?>
 
 <div class="embedpress__settings background__white radius-25 p40">

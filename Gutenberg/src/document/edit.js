@@ -45,6 +45,7 @@ class DocumentEdit extends Component {
 
 
 	componentDidMount() {
+
 		const {
 			attributes,
 			mediaUpload,
@@ -111,11 +112,12 @@ class DocumentEdit extends Component {
 				mime: media.mime,
 			});
 
-			if(embedpressObj.embedpress_pro){
+			if (embedpressObj.branding !== undefined && embedpressObj.branding.powered_by !== undefined){
 				this.props.setAttributes({
-					powered_by: false
+					powered_by: embedpressObj.branding.powered_by
 				});
 			}
+
 			if(media.mime === 'application/pdf'){
 				this.setState({loadPdf: false});
 			}
@@ -170,7 +172,7 @@ class DocumentEdit extends Component {
 			return (
 				<Fragment>
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading/> : null}
-					<div className={'embedpress-document-embed ep-doc-'+id} style={{height:height,width:width, maxWidth:'100%'}}>
+					<div className={'embedpress-document-embed ep-doc-'+id} style={{width:width, maxWidth:'100%'}}>
 					{ mime === 'application/pdf' && (
 						<iframe style={{height:height,width:width}} className={'embedpress-embed-document-pdf'+' '+id} data-emid={id} data-emsrc={href}  src={pdf_viewer_src}></iframe>
 
@@ -222,7 +224,7 @@ class DocumentEdit extends Component {
 								min={ min }
 							/>
 							<ToggleControl
-								label={ __( 'Powered By' ) }
+								label={ __( 'Powered By', 'embedpress' ) }
 								onChange={ ( powered_by ) =>
 									setAttributes( { powered_by } )
 								}

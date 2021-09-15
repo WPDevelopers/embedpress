@@ -168,7 +168,6 @@ class Embedpress_Document extends Widget_Base
                     ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}}'               => 'height: {{SIZE}}{{UNIT}};',
                     '{{WRAPPER}} .embedpress-document-embed iframe'               => 'height: {{SIZE}}{{UNIT}};',
                     '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'height: {{SIZE}}{{UNIT}};',
                 ],
@@ -263,7 +262,7 @@ class Embedpress_Document extends Widget_Base
             'class' => ['embedpress-document-embed', 'ep-doc-'.md5( $id), 'ose-document']
         ] );
         ?>
-        <div <?php echo $this->get_render_attribute_string( 'embedpress-document' ); ?> style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block">
+        <div <?php echo $this->get_render_attribute_string( 'embedpress-document' ); ?> style="<?php echo esc_attr( "width: {$settings['embedpress_elementor_document_width']['size']}px"); ?>; max-width:100%; display: inline-block">
 	        <?php
             do_action( 'embedpress_document_after_embed',  $settings, $url, $id, $this);
 	        ?>
@@ -274,7 +273,7 @@ class Embedpress_Document extends Widget_Base
 	                $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $url;
 	                ?>
 
-                    <iframe class="embedpress-embed-document-pdf"  src="<?php echo esc_attr(  $src); ?>" <?php $this->get_render_attribute_string( 'embedpres-pdf-render' ); ?>
+                    <iframe style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block"  src="<?php echo esc_attr(  $src); ?>" <?php $this->get_render_attribute_string( 'embedpres-pdf-render' ); ?>
                             frameborder="0"></iframe>
 
                     <?php

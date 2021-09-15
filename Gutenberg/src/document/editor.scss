@@ -9,3 +9,6 @@
   content:"\ASupported File Type: PDF, DOC, PPT, XLS etc ";
   white-space: pre;
 }
+.wp-block-embedpress-document + * {
+	clear: both;
+}
