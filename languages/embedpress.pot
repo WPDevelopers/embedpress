@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-09-08T12:10:14+00:00\n"
+"POT-Creation-Date: 2021-09-16T04:54:32+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: embedpress\n"
@@ -44,7 +44,7 @@ msgstr ""
 
 #: EmbedPress/Core.php:508
 #: EmbedPress/CoreLegacy.php:309
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:156
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:121
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:18
 #: EmbedPress/Plugins/Plugin.php:159
 msgid "Settings"
@@ -56,82 +56,83 @@ msgstr ""
 msgid "Go Pro"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:26
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:27
 msgid "EmbedPress Document"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:62
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:63
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:78
 msgid "Pro"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:69
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:70
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:85
 msgid "Content Settings"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:76
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:77
 msgid "Document Type"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:80
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:81
 msgid "File"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:81
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:118
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:82
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:119
 msgid "URL"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:90
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:91
 msgid "Upload File"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:107
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:108
 msgid "Upload a file or pick one from your media library for embed. Supported File Type: PDF, DOC/DOCX, PPT/PPTX, XLS/XLSX etc."
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:120
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:121
 msgid "https://your-link.com/file.pdf"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:134
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:135
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1228
-#: Gutenberg/src/document/edit.js:201
+#: Gutenberg/src/document/edit.js:203
 msgid "Width"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:157
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:158
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1247
-#: Gutenberg/src/document/edit.js:213
+#: Gutenberg/src/document/edit.js:215
 msgid "Height"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:180
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:181
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1288
 msgid "Alignment"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:184
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:185
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1292
 msgid "Left"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:188
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:189
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1296
 msgid "Center"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:192
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:193
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1300
 msgid "Right"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:204
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:205
+#: Gutenberg/src/document/edit.js:227
 msgid "Powered By"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:206
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:207
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:448
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:469
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:485
@@ -162,7 +163,7 @@ msgstr ""
 msgid "Show"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:207
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:208
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:447
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:468
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:484
@@ -193,17 +194,17 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:221
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:222
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:167
 msgid "Go Premium for More Features"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:228
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:229
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:174
 msgid "Unlock more possibilities"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:291
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:292
 msgid "Powered By EmbedPress"
 msgstr ""
 
@@ -727,15 +728,15 @@ msgstr ""
 msgid "Ops! Something went wrong."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:36
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:14
 msgid "Global Branding Settings"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:51
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:29
 msgid "Custom Logo"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:60
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:38
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:156
 #: EmbedPress/Ends/Back/Settings/templates/general.php:64
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:189
@@ -747,35 +748,35 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:149
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:114
 msgid "%s Custom Branding"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:163
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:128
 msgid "Click To Upload"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:175
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:140
 msgid "Logo Opacity (%)"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:182
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:147
 msgid "Logo X Position (%)"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:189
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:154
 msgid "Logo Y Position (%)"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:196
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:161
 msgid "Call to Action Link"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:200
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:165
 msgid "You may link the logo to any CTA link."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:205
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:170
 msgid "Live Preview"
 msgstr ""
 
@@ -1387,19 +1388,19 @@ msgstr ""
 
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:393
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:752
-#: Gutenberg/plugin.php:60
+#: Gutenberg/plugin.php:58
 msgid "Watch from the beginning"
 msgstr ""
 
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:394
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:753
-#: Gutenberg/plugin.php:61
+#: Gutenberg/plugin.php:59
 msgid "Skip to where you left off"
 msgstr ""
 
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:395
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:754
-#: Gutenberg/plugin.php:62
+#: Gutenberg/plugin.php:60
 msgid "It looks like you've watched<br />part of this video before!"
 msgstr ""
 
@@ -1512,6 +1513,6 @@ msgstr ""
 msgid "This message is only visible to you."
 msgstr ""
 
-#: Gutenberg/src/document/edit.js:198
+#: Gutenberg/src/document/edit.js:200
 msgid "Embed Size"
 msgstr ""
