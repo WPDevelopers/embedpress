@@ -373,12 +373,9 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 1. YouTube Embeding Example
 2. EmbedPress Screenshot - Dashboard
-3. EmbedPress Screenshot - Google Map
-4. EmbedPress Screenshot - Google Sheet
-5. EmbedPress Screenshot - Twitter
-6. EmbedPress Screenshot - Vimeo
-7. EmbedPress Screenshot - Wistia
-8. EmbedPress Screenshot - YouTube
+3. EmbedPress Screenshot - Shortcode
+4. EmbedPress Screenshot - Custom Branding
+5. EmbedPress Screenshot - Features (Spotify)
 
 == Changelog ==
 
