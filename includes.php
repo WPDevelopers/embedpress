@@ -22,7 +22,7 @@ if ( ! defined('EMBEDPRESS_PLG_NAME')) {
 }
 
 if ( ! defined('EMBEDPRESS_VERSION')) {
-    define('EMBEDPRESS_VERSION', "3.1.3");
+    define('EMBEDPRESS_VERSION', "3.2.0");
     /**
      * @deprecated 2.2.0
      */
