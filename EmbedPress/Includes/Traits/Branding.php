@@ -17,6 +17,17 @@ Trait Branding {
 		if ( !isset( $this->pro_text) ) {
 			$this->pro_text = '';
 		}
+
+		global $pro_active;
+		$settings = get_option( EMBEDPRESS_PLG_NAME.':'.$provider_name, []);
+		$branding = isset( $settings['branding']) ? $settings['branding'] : 'no';
+		$logo_xpos = isset( $settings['logo_xpos']) ? intval( $settings['logo_xpos']) : 10;
+		$logo_ypos = isset( $settings['logo_ypos']) ? intval( $settings['logo_ypos']) : 10;
+		$logo_opacity = isset( $settings['logo_opacity']) ? intval( $settings['logo_opacity']) : 50;
+		$logo_id = isset( $settings['logo_id']) ? intval( $settings['logo_id']) : 0;
+		$logo_url = isset( $settings['logo_url']) ? esc_url( $settings['logo_url']) : '';
+		$cta_url = isset( $settings['cta_url']) ? esc_url( $settings['cta_url']) : '';
+
 		$logo_condition = [
 			"embedpress_pro_{$provider_name}_logo[url]!" =>''
 		];
@@ -42,6 +53,10 @@ Trait Branding {
 				'type' => Controls_Manager::MEDIA,
 				'dynamic' => [
 					'active' => true,
+				],
+				'default' => [
+					'url' => $logo_url,
+					'id' => $logo_id,
 				],
 				'classes'     => $this->pro_class,
 				'condition'     => $condition,
@@ -76,7 +91,7 @@ Trait Branding {
 				],
 				'default' => [
 					'unit' => '%',
-					'size' => 10,
+					'size' => $logo_xpos,
 				],
 				'selectors' => [
 					"{{WRAPPER}} .ose-{$provider_name} .watermark" => 'right: {{SIZE}}{{UNIT}};',
@@ -105,7 +120,7 @@ Trait Branding {
 				],
 				'default' => [
 					'unit' => '%',
-					'size' => 10,
+					'size' => $logo_ypos,
 				],
 				'selectors' => [
 					"{{WRAPPER}} .ose-{$provider_name} .watermark" => 'bottom: {{SIZE}}{{UNIT}};',
@@ -132,7 +147,7 @@ Trait Branding {
 				'label' => sprintf( __( 'Logo Opacity %s', 'embedpress' ), $this->pro_text),
 				'type' => Controls_Manager::SLIDER,
 				'default' => [
-					'size' => .5,
+					'size' => $logo_opacity,
 				],
 				'range' => [
 					'px' => [
