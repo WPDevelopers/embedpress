@@ -37,6 +37,17 @@ $enablePluginInFront = isset( $settings['enablePluginInFront'] ) ? $settings['en
                 </label>
             </div>
             <div class="emement__item">
+                <h5>EmbedPres PDF</h5>
+                <a href="https://embedpress.com/docs/embed-document/" class="has__question" target="_blank">
+                    <i class="ep-icon ep-question"></i>
+                    <span class="element__tooltip"><?php esc_html_e( "Documentation","embedpress" ); ?></span>
+                </a>
+                <label class="input__switch element_switch">
+                    <input class="element-check" type="checkbox" value="yes" data-name="embedpress-pdf" data-type="gutenberg" <?php echo isset( $g_blocks['embedpress-pdf']) ? 'checked': '';  ?> >
+                    <span></span>
+                </label>
+            </div>
+            <div class="emement__item">
                 <h5>YouTube</h5>
                 <a href="https://embedpress.com/docs/embed-youtube-videos-in-gutenberg/" class="has__question" target="_blank">
                     <i class="ep-icon ep-question"></i>
