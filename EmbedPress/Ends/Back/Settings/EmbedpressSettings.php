@@ -40,6 +40,7 @@ class EmbedpressSettings {
 				'elementor' => [
 					'embedpress-document' => 'embedpress-document',
 					'embedpress' => 'embedpress',
+					'embedpress-pdf' => 'embedpress-pdf',
 				]
 			];
 

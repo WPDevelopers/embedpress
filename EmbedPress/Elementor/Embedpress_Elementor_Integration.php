@@ -7,6 +7,7 @@ namespace EmbedPress\Elementor;
 use EmbedPress\Compatibility;
 use EmbedPress\Elementor\Widgets\Embedpress_Document;
 use EmbedPress\Elementor\Widgets\Embedpress_Elementor;
+use EmbedPress\Elementor\Widgets\Embedpress_Pdf;
 
 class Embedpress_Elementor_Integration {
 
@@ -56,6 +57,10 @@ class Embedpress_Elementor_Integration {
 	    }
 	    if ( !empty($e_blocks['embedpress-document']) ) {
 		    $widgets_manager->register_widget_type( new Embedpress_Document );
+	    }
+
+	    if ( !empty($e_blocks['embedpress-pdf']) ) {
+		    $widgets_manager->register_widget_type( new Embedpress_Pdf );
 	    }
     }
 
