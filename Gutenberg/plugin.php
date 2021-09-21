@@ -9,6 +9,8 @@
  */
 
 // Exit if accessed directly.
+use EmbedPress\Includes\Classes\Helper;
+
 if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -79,6 +81,7 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 		'site_url' => site_url(),
 		'active_blocks' => $active_blocks,
 		'document_cta' => $documents_cta_options,
+		'pdf_renderer' => Helper::get_pdf_renderer(),
 	) );
 
 	// Styles.
@@ -131,7 +134,7 @@ function embedpress_gutenberg_register_all_block() {
 
 		$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
 		$g_blocks = isset( $elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
-		$blocks_to_registers = [ 'twitch-block', 'google-slides-block','google-sheets-block', 'google-maps-block', 'google-forms-block', 'google-drawings-block', 'google-docs-block', 'embedpress'];
+		$blocks_to_registers = [ 'twitch-block', 'google-slides-block','google-sheets-block', 'google-maps-block', 'google-forms-block', 'google-drawings-block', 'google-docs-block', 'embedpress', 'embedpress-pdf'];
 
 		foreach ( $blocks_to_registers as $blocks_to_register ) {
 			if ( !empty($g_blocks[$blocks_to_register]) ) {

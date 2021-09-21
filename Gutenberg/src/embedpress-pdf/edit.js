@@ -14,14 +14,14 @@ const {getBlobByURL, isBlobURL, revokeBlobURL} = wp.blob;
 const {BlockIcon, MediaPlaceholder ,InspectorControls} = wp.blockEditor;
 const {Component, Fragment} = wp.element;
 const { RangeControl,PanelBody, ExternalLink,ToggleControl } = wp.components;
-import {PDFIcon} from '../common/icons'
+import {DocumentIcon} from '../common/icons'
 
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
 ];
 
-class DocumentEdit extends Component {
+class EmbedPressPDFEdit extends Component {
 	constructor() {
 		super(...arguments);
 		this.onSelectFile = this.onSelectFile.bind(this);
@@ -138,11 +138,11 @@ class DocumentEdit extends Component {
 			return (
 				<div className={"embedpress-document-editmode"}>
 					<MediaPlaceholder
-						icon={<BlockIcon icon={PDFIcon}/>}
+						icon={<BlockIcon icon={DocumentIcon}/>}
 						labels={{
-							title: __('Document'),
+							title: __('EmbedPress PDF'),
 							instructions: __(
-								'Upload a file or pick one from your media library for embed.'
+								'Upload a PDF file or pick one from your media library for embed.'
 							),
 						}}
 						onSelect={this.onSelectFile}
@@ -234,4 +234,4 @@ class DocumentEdit extends Component {
 
 }
 
-export default DocumentEdit;
+export default EmbedPressPDFEdit;
