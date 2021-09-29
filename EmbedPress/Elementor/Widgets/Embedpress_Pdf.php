@@ -143,6 +143,7 @@ class Embedpress_Pdf extends Widget_Base
                     '{{WRAPPER}} .embedpress-document-embed iframe'               => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
                     '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
                 ],
+                'render_type' => 'template',
             ]
         );
         
