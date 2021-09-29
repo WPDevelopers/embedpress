@@ -121,7 +121,7 @@ KAMAL;
 	        $pdf_url = EMBEDPRESS_SETTINGS_ASSETS_URL . 'embedpress.pdf';
 	        ob_start(); ?>
 
-		    <div class="embedpress-embed-document-pdf ep-pdf-sample" style="width:500px; max-width:100%; height: 300px" data-emsrc="<?php echo esc_url( $pdf_url );?> "></div>';
+		    <div class="embedpress-embed-document-pdf ep-pdf-sample" style="width:500px; max-width:100%; height: 300px" data-emsrc="<?php echo esc_url( $pdf_url );?> "></div>
             <script src="<?php echo EMBEDPRESS_URL_ASSETS.'js/pdfobject.min.js'?>"></script>
             <script>
                 (function ($) {

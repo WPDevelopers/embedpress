@@ -262,7 +262,7 @@ class Embedpress_Pdf extends Widget_Base
             do_action( 'embedpress_pdf_after_embed',  $settings, $url, $id, $this);
 	        ?>
             <?php if ( $url != '' ) {
-                if ( $this->is_pdf( $url ) ) {
+                if ( $this->is_pdf( $url ) && ! $this->is_external_url( $url)  ) {
                     $this->add_render_attribute( 'embedpres-pdf-render', 'data-emsrc', $url );
 	                $renderer = Helper::get_pdf_renderer();
 	                $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $url;
@@ -294,5 +294,9 @@ class Embedpress_Pdf extends Widget_Base
     {
         $settings = $this->get_settings();
         return $settings[ 'embedpress_pdf_type' ] === 'url' ? $settings[ 'embedpress_pdf_file_link' ][ 'url' ] : $settings[ 'embedpress_pdf_Uploader' ][ 'url' ];
+    }
+
+	protected function is_external_url( $url ) {
+        return strpos( $url, get_site_url()) === false;
     }
 }
