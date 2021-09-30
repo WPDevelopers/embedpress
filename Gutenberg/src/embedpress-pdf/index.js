@@ -60,42 +60,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 		},
 		edit,
 		save: function (props) {
-			const {
-				href,
-				mime,
-				id,
-				width,
-				height,
-				powered_by
-			} = props.attributes
-
-			const iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src=' + href;
-			const pdf_viewer_src = embedpressObj.pdf_renderer + '?file=' + href
-
-			return (
-					<div className={'embedpress-document-embed ep-doc-'+id} style={{width:width, maxWidth:'100%'}}>
-					{mime === 'application/pdf' && (
-						<iframe style={{height:height,width:width}} className={'embedpress-embed-document-pdf'+' '+id} src={pdf_viewer_src}></iframe>
-					)}
-					{mime !== 'application/pdf' && (
-						<iframe
-							style={{
-								height: height,
-								width: width
-							}}
-							src={iframeSrc}
-							mozallowfullscreen="true"
-							webkitallowfullscreen="true"/>
-					)}
-					{powered_by && (
-						<p className="embedpress-el-powered">Powered
-							By
-							EmbedPress</p>
-					)}
-					{ embedpressObj.embedpress_pro &&  <Logo id={id}/>}
-
-					</div>
-			);
+			return null;
 		},
 
 

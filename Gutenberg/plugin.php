@@ -142,6 +142,10 @@ function embedpress_gutenberg_register_all_block() {
 					register_block_type( 'embedpress/embedpress', [
 						'render_callback' => 'embedpress_render_block',
 					]);
+				}elseif ( 'embedpress-pdf' === $blocks_to_register ) {
+					register_block_type( 'embedpress/embedpress-pdf', [
+						'render_callback' => 'embedpress_pdf_render_block',
+					]);
 				}else{
 					register_block_type( 'embedpress/'.$blocks_to_register );
 				}
@@ -156,3 +160,39 @@ function embedpress_gutenberg_register_all_block() {
 }
 
 add_action( 'init', 'embedpress_gutenberg_register_all_block' );
+
+function embedpress_pdf_render_block( $attributes ){
+
+	if ( !empty( $attributes['href']) ) {
+		$renderer = Helper::get_pdf_renderer();
+		$pdf_url = $attributes['href'];
+		$id = !empty( $attributes['id']) ? $attributes['id'] : 'embedpress-pdf-'.rand(100, 10000);
+		$width = !empty( $attributes['width']) ? $attributes['width'].'px' : '600px';
+		$height = !empty( $attributes['height']) ? $attributes['height'].'px' : '600px';
+		$powered_by = !empty( $attributes['powered_by']) ? $attributes['powered_by'] : apply_filters('embedpress_document_block_powered_by',true);
+		$src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $attributes['href'];
+
+		$aligns = [
+			'left' => 'alignleft',
+			'right' => 'alignright',
+			'wide' => 'alignwide',
+			'full' => 'alignfull'
+		];
+		$alignment = isset($attributes['align']) && isset($aligns[$attributes['align']])?$aligns[$attributes['align']]:'';
+		$dimension = "width:$width;height:$height";
+		ob_start();
+		?>
+		<div class="embedpress-document-embed ose-document ep-doc-'<?php echo esc_attr( md5( $id )) .' '. esc_attr($alignment) ?>">
+			<?php do_action( 'embedpress_pdf_after_embed',  $attributes, $pdf_url, $id); ?>
+			<iframe style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block"  src="<?php echo esc_attr(  $src); ?>"
+			        frameborder="0"></iframe>
+
+			<?php
+			if ($powered_by ) {
+				printf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
+			}?>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+}
