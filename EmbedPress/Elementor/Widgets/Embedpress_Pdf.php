@@ -6,7 +6,6 @@ namespace EmbedPress\Elementor\Widgets;
 use \Elementor\Controls_Manager as Controls_Manager;
 use \Elementor\Modules\DynamicTags\Module as TagsModule;
 use \Elementor\Widget_Base as Widget_Base;
-use \Elementor\Plugin;
 use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Includes\Traits\Branding;
 
