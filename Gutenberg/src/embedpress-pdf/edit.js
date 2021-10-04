@@ -14,7 +14,7 @@ const {getBlobByURL, isBlobURL, revokeBlobURL} = wp.blob;
 const {BlockIcon, MediaPlaceholder ,InspectorControls} = wp.blockEditor;
 const {Component, Fragment} = wp.element;
 const { RangeControl,PanelBody, ExternalLink,ToggleControl } = wp.components;
-import {DocumentIcon} from '../common/icons'
+import {PdfIcon} from '../common/icons'
 
 
 const ALLOWED_MEDIA_TYPES = [
@@ -138,7 +138,7 @@ class EmbedPressPDFEdit extends Component {
 			return (
 				<div className={"embedpress-document-editmode"}>
 					<MediaPlaceholder
-						icon={<BlockIcon icon={DocumentIcon}/>}
+						icon={<BlockIcon icon={PdfIcon}/>}
 						labels={{
 							title: __('EmbedPress PDF'),
 							instructions: __(

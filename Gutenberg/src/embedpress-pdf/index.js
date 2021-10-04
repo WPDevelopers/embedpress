@@ -9,9 +9,8 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import {DocumentIcon} from '../common/icons';
-import Logo
-	from "../common/Logo";
+import {PdfIcon} from '../common/icons';
+
 
 const {__} = wp.i18n; // Import __() from wp.i18n
 const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
@@ -20,7 +19,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 	registerBlockType('embedpress/embedpress-pdf', {
 		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 		title: __('EmbedPress PDF'), // Block title.
-		icon: DocumentIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
+		icon: PdfIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
 		category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout Widgets, embed.
 		keywords: [
 			__('embedpress'),
