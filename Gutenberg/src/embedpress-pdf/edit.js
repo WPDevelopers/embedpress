@@ -132,7 +132,7 @@ class EmbedPressPDFEdit extends Component {
 		const {hasError,interactive,fetching,loadPdf} = this.state;
 		const min = 1;
 		const max = 1000;
-		const docLink = 'https://embedpress.com/docs/embed-docuemnt/';
+		const docLink = 'https://embedpress.com/docs/embed-document/';
 		if (!href || hasError) {
 
 			return (
