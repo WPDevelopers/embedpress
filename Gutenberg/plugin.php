@@ -169,7 +169,12 @@ function embedpress_pdf_render_block( $attributes ){
 		$id = !empty( $attributes['id']) ? $attributes['id'] : 'embedpress-pdf-'.rand(100, 10000);
 		$width = !empty( $attributes['width']) ? $attributes['width'].'px' : '600px';
 		$height = !empty( $attributes['height']) ? $attributes['height'].'px' : '600px';
-		$powered_by = !empty( $attributes['powered_by']) ? $attributes['powered_by'] : apply_filters('embedpress_document_block_powered_by',true);
+		$gen_settings    = get_option( EMBEDPRESS_PLG_NAME);
+		$powered_by = isset( $gen_settings['embedpress_document_powered_by']) && 'yes' === $gen_settings['embedpress_document_powered_by'];
+		if ( isset( $attributes['powered_by']) ) {
+			$powered_by = $attributes['powered_by'];
+		}
+
 		$src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $attributes['href'];
 		$hash = md5( $id );
 		$aligns = [
