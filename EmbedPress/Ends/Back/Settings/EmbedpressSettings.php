@@ -27,6 +27,7 @@ class EmbedpressSettings {
 					'google-docs-block' => 'google-docs-block',
 					'document' => 'document',
 					'embedpress' => 'embedpress',
+					'embedpress-pdf' => 'embedpress-pdf',
 					'google-sheets-block' => 'google-sheets-block',
 					'google-slides-block' => 'google-slides-block',
 					'youtube-block' => 'youtube-block',
@@ -60,6 +61,15 @@ class EmbedpressSettings {
 			update_option( EMBEDPRESS_PLG_NAME, $settings);
 			update_option( $option, true);
 		}
+		$migration_v_320 = 'embedpress_v_320_migration';
+		if ( !get_option( $migration_v_320, false) ) {
+			$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
+			$elements['gutenberg']['embedpress-pdf'] = ['embedpress-pdf'];
+			$elements['elementor']['embedpress-pdf'] = ['embedpress-pdf'];
+			update_option( EMBEDPRESS_PLG_NAME.":elements", $elements);
+			update_option( $migration_v_320, true);
+		}
+
 		add_action( 'admin_init', [$this, 'embedpress_maybe_redirect_to_settings']  );
 
 

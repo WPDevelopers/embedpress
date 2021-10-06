@@ -17,7 +17,7 @@ class Embedpress_Elementor_Integration {
     public function init() {
 	    $elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
 	    $e_blocks = isset( $elements['elementor']) ? (array) $elements['elementor'] : [];
-	    if ( !empty($e_blocks['embedpress']) || !empty($e_blocks['embedpress-document']) ) {
+	    if ( !empty($e_blocks['embedpress']) || !empty($e_blocks['embedpress-document']) || !empty($e_blocks['embedpress-pdf']) ) {
 		    add_action( 'elementor/frontend/after_enqueue_styles', [ $this, 'embedpress_enqueue_style' ] );
 		    add_action('elementor/editor/before_enqueue_styles', array($this, 'editor_enqueue_style'));
 		    add_action('elementor/editor/before_enqueue_scripts', array($this, 'editor_enqueue_scripts'));
