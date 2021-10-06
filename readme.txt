@@ -133,7 +133,7 @@ Along with **YouTube video embeds**, EmbedPress also enables you to embed custom
 -   [Spotify](https://embedpress.com/docs/how-to-embed-spotify-artist-follower-widget/): Choose a Player Background Color and embed Artist Follower Buttons [PRO].
 
 
-### ☁️GOOGLE DRIVE: DOCS, SHEETS, DRAWINGS, FORMS, SLIDES, MAPS
+### ☁️ GOOGLE DRIVE: DOCS, SHEETS, DRAWINGS, FORMS, SLIDES, MAPS
 
 Google Drive is an enormously popular service that has replaced Microsoft Office for many companies. Using Google Drives can bring your information to life, whether it’s stored in documents, maps, drawings, spreadsheets, or presentations. EmbedPress supports all of these Google Drive options:
 
@@ -300,7 +300,7 @@ With EmbedPress, you have a wide variety of options for adding charts and diagra
 -   [Roomshare embeds](http://roomshare.jp/) (Room Share Listing)
 
 
-🙌After reading this feature list, you can probably imagine EmbedPress is the best plugin in the market. So, do you want to unlock the advanced features? [Upgrade to our Pro version.](https://embedpress.com/#pricing)
+🙌 After reading this feature list, you can probably imagine EmbedPress is the best plugin in the market. So, do you want to unlock the advanced features? [Upgrade to our Pro version.](https://embedpress.com/#pricing)
 
 ### 🚀 BACKED BY A TRUSTED TEAM
 
