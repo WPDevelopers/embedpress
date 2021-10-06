@@ -1,4 +1,4 @@
-=== EmbedPress – Embed Google Docs, YouTube, Maps, Vimeo, Wistia Videos & Upload PDF, PPT etc. ===
+=== EmbedPress – Embed Google Docs, YouTube, Maps, Vimeo, Wistia Videos & Upload PDF, PPT in Gutenberg ===
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed, kamalahmed
 Author: WPDeveloper
 Author URI: https://wpdeveloper.net
@@ -382,7 +382,7 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [3.2.0] - 2021-09-16 =
+= [3.2.0] - 2021-10-06 =
 * Added: New PDF widget for Elementor editor.
 * Added: New PDF block for Gutenberg editor.
 * Fixed: PDF responsive issues.
