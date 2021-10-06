@@ -192,7 +192,7 @@ $enablePluginInFront = isset( $settings['enablePluginInFront'] ) ? $settings['en
 
             <div class="element__item">
                 <h5>EmbedPress PDF</h5>
-                <a href="https://embedpress.com/docs/embed-pdf/" class="has__question" target="_blank">
+                <a href="https://embedpress.com/docs/embed-document/" class="has__question" target="_blank">
                     <i class="ep-icon ep-question"></i>
                     <span class="element__tooltip"><?php esc_html_e( "Documentation","embedpress" ); ?></span>
                 </a>
