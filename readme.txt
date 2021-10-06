@@ -23,7 +23,7 @@ Fuel up your storytelling by embedding content directly on to Classic Editor, Gu
 
 https://www.youtube.com/watch?v=fvYKLkEnJbI
 
-### 🔥RICH MEDIA EMBEDS FROM MORE THAN 100 SITES
+### 🔥 RICH MEDIA EMBEDS FROM MORE THAN 100 SITES
 
 With EmbedPress, all you need is an URL to embed attention-grabbing content from **over 100 websites**. Find the URL for your preferred video, image, audio files, post, or map and simply cut-and-paste the link into a WordPress post. EmbedPress automatically understands the URL and instantly embeds fully responsive content on your websites.
 
@@ -37,7 +37,7 @@ Or, you can also effortlessly use advanced [EmbedPress shortcodes](https://embed
 
 EmbedPress is now certified as a recommended plugin by and 100% compatible with the most popular WordPress Multilingual Plugin, WPML. [Translate your favorite embedding solution](https://embedpress.com/docs/translate-embedpress-wpml/) for WordPress into any and all of your preferred languages with a few, easy steps. 
 
-### 🌟Most Popular Sites People Are Embedding with EmbedPress:
+### 🌟 Most Popular Sites People Are Embedding with EmbedPress:
 
 -   [Google](https://embedpress.com/docs-category/google-embeds/): You can embed Google Maps, Docs, Forms, Sheets and more.
 
@@ -67,7 +67,7 @@ https://www.youtube.com/watch?v=1yVbt3XW-Wo&list=PLWHp1xKHCfxAVncPuQlAFHTaRl3kO3
 -   Allow autoplay, display video annotations and related videos, and much more. 
 
 
-### 🎬OTHER VIDEO OPTIONS
+### 🎬 OTHER VIDEO OPTIONS
 
 We’ve seen that EmbedPress supports YouTube, Wistia and Vimeo, but EmbedPress also supports around 20 more video sources:
 
@@ -153,14 +153,14 @@ Google Drive is an enormously popular service that has replaced Microsoft Office
 https://www.youtube.com/watch?v=3CWysKDRoG4
 
 
-### 👍FACEBOOK POSTS AND VIDEOS
+### 👍 FACEBOOK POSTS AND VIDEOS
 
 With EmbedPress, you can add Facebook Posts to WordPress, using just a URL. Facebook post embeds are possible, but they’re not easy to use via normal methods. EmbedPress is different:
 
 -   [How to use Facebook embeds in WordPress](https://embedpress.com/docs/embed-facebook-posts-wordpress/)
 
 
-### 🎧AUDIO: SPOTIFY, SOUNDCLOUD AND MIXCLOUD
+### 🎧 AUDIO: SPOTIFY, SOUNDCLOUD AND MIXCLOUD
 
 EmbedPress supports all of these major options for audio on your WordPress site:
 
@@ -184,7 +184,7 @@ Here are multiple other audio options supported by EmbedPress:
 -   [How to use ReverbNation in WordPress](https://embedpress.com/docs/embed-reverbnation-audio-wordpress/)
 
 
-### 🖼️PHOTOS: DEVIANTART, GIPHY, FLICK, IMGUR AND INSTAGRAM
+### 🖼️ PHOTOS: DEVIANTART, GIPHY, FLICK, IMGUR AND INSTAGRAM
 
 EmbedPress supports most popular image-hosting sites, including Deviantart, Giphy, Imgur, Flick and Instagram:
 
@@ -201,7 +201,7 @@ EmbedPress supports most popular image-hosting sites, including Deviantart, Giph
 https://www.youtube.com/watch?v=h8oPwlZ9P5A
 
 
-### 📊CHARTS AND DIAGRAMS
+### 📊 CHARTS AND DIAGRAMS
 
 With EmbedPress, you have a wide variety of options for adding charts and diagrams to your WordPress site. We already saw that EmbedPress supports Google Drawings, but here are 5 more options for charts:
 
@@ -217,7 +217,7 @@ With EmbedPress, you have a wide variety of options for adding charts and diagra
 
 
 
-### ✅MORE SITES SUPPORTED BY EMBEDPRESS
+### ✅ MORE SITES SUPPORTED BY EMBEDPRESS
 
 -   [23hq embeds](https://embedpress.com/docs/embed-23hq-photos-wordpress/) (Images)
 
@@ -302,7 +302,7 @@ With EmbedPress, you have a wide variety of options for adding charts and diagra
 
 🙌After reading this feature list, you can probably imagine EmbedPress is the best plugin in the market. So, do you want to unlock the advanced features? [Upgrade to our Pro version.](https://embedpress.com/#pricing)
 
-### 🚀BACKED BY A TRUSTED TEAM
+### 🚀 BACKED BY A TRUSTED TEAM
 
 This embed plugin is brought to you by the team behind [WPDeveloper](https://wpdeveloper.net/), a dedicated marketplace for WordPress, trusted by 3 millions+ happy WordPress users.
 
@@ -328,15 +328,15 @@ This embed plugin is brought to you by the team behind [WPDeveloper](https://wpd
 ### 🔥 WHAT’S NEXT
 If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
-🔝[Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 1,000,000+ active users in the WordPress repository.
+🔝 [Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 1,000,000+ active users in the WordPress repository.
 
-🔔[NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
+🔔 [NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
 
-⏰[WP Scheduled Posts](https://wordpress.org/plugins/wp-scheduled-posts/)  – Complete solution for WordPress Post Scheduling to manage schedules through an editorial calendar & Social Share.
+⏰ [WP Scheduled Posts](https://wordpress.org/plugins/wp-scheduled-posts/)  – Complete solution for WordPress Post Scheduling to manage schedules through an editorial calendar & Social Share.
 
-🗒️[BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, whcih also reduce your manual support request.
+🗒️ [BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, whcih also reduce your manual support request.
 
-☁ [Templately](https://wordpress.org/plugins/templately/): Ultimate Template clouds with 1000+ ready templates for Elementor & Gutenberg along with FREE cloud collaboration with your team
+☁  [Templately](https://wordpress.org/plugins/templately/): Ultimate Template clouds with 1000+ ready templates for Elementor & Gutenberg along with FREE cloud collaboration with your team
 
 ⭐ [ReviewX](https://wordpress.org/plugins/reviewx/): WooCommerce Product review plugin that allows users to submit product reviews with multiple criteria, photos, videos, and more.
 
@@ -383,7 +383,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 = [3.2.0] - 2021-09-16 =
-* Added: New PDF library.
+* Added: New PDF widget for Elementor editor.
+* Added: New PDF block for Gutenberg editor.
 * Fixed: PDF responsive issues.
 * Fixed: Alignment issues in block editor.
 * Few minor bug fixes and improvements.
