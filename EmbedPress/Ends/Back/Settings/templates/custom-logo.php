@@ -135,7 +135,8 @@ KAMAL;
     ?>
     <div class="form__group">
         <p class="form__label"><?php
-			printf( esc_html__( '%s Custom Branding', 'embedpress'), ucfirst( $provider));
+            $provider_name = $provider === 'youtube' ? 'YouTube' : ucfirst( $provider);
+			printf( esc_html__( '%s Custom Branding', 'embedpress'), $provider_name);
 			echo $pro_active ? '': ' <span class="isPro">Pro</span>'; ?>
         </p>
         <div class="form__control__wrap">
