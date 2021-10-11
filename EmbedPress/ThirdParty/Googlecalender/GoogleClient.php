@@ -8,7 +8,7 @@ class EmbedPress_GoogleClient_RequestException extends Exception {
 	private $description;
 
 	function __construct($message, $code = 0, $description = '') {
-		parent::__construct($message, $code, null);
+		parent::__construct($message, $code );
 		$this->description = $description;
 
 	}
@@ -19,7 +19,7 @@ class EmbedPress_GoogleClient_RequestException extends Exception {
 }
 
 /**
- * Class that can do a HTTP request.
+ * Class that can do an HTTP request.
  **/
 class EmbedPress_GoogleClient_Request {
 
@@ -53,18 +53,17 @@ class EmbedPress_GoogleClient_Request {
 
 		$args['timeout'] = 10; // default is 5 seconds.
 
-		$result = null;
 		switch ($method) {
 			case 'GET':
 				if (!empty($params)) {
 					$url .= '?' . http_build_query($params); // urlencoded is done for you
-					//$url = add_query_arg($params, $url); // wp variant, but I think you still have to urlencode it
+					//$url = add_query_arg($params, $url); // wp variant, but I think you still have to urlencoded it
 				}
 				$result = wp_remote_get($url, $args);
 				break;
 			case 'POST':
 				if (!empty($params)) {
-					$args['body'] = $params; // TODO: Do we have to urlencode these manually?
+					$args['body'] = $params; // TODO: Do we have to urlencoded these manually?
 				}
 				$result = wp_remote_post($url, $args);
 				break;
@@ -88,7 +87,6 @@ class EmbedPress_GoogleClient_Request {
 			$exCode = 0;
 			$exMessage = 'Something went wrong.';
 			$exDescription = '';
-			// Kunnen verschillende formaten zijn...
 			if (is_array($decodedResult['error'])) {
 				if (!empty($decodedResult['error']['message'])) {
 					$exMessage = $decodedResult['error']['message'];
@@ -119,7 +117,7 @@ class EmbedPress_GoogleClient_Request {
 class EmbedPress_GoogleClient {
 
 	/**
-	 * Array of client_secret that can be downloaded from the google api console at:
+	 * Array of client_secret that can be downloaded from the Google api console at:
 	 * https://console.developers.google.com
 	 **/
 	private $clientInfo;
@@ -130,7 +128,7 @@ class EmbedPress_GoogleClient {
 	private $accessTokenInfo;
 
 	/**
-	 * @var string The refreshtoken
+	 * @var string The refreshed
 	 **/
 	private $refreshToken;
 
@@ -143,8 +141,12 @@ class EmbedPress_GoogleClient {
 	const GOOGLE_REVOKE_URI = 'https://accounts.google.com/o/oauth2/revoke';
 
 	// Gets called whenever we receive a new access and optionally refresh token.
-	// So mostly after authorize phase (with reresh token) or after refresh token (only access token).
+	// So mostly after authorize phase (with refresh token) or after refresh token (only access token).
 	private $tokenCallback;
+	/**
+	 * @var null|mixed
+	 */
+	private $getAccessTokenInfo;
 
 	function __construct($clientInfo, $accessTokenInfo = null, $refreshToken = null, $tokenCallback = null) {
 		$this->clientInfo = $clientInfo;
@@ -184,6 +186,9 @@ class EmbedPress_GoogleClient {
 		$this->scope = $scope;
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public function setRedirectUri($redirectUri) {
 		if (!in_array($redirectUri, $this->clientInfo['web']['redirect_uris'])) {
 			throw new Exception('Redirect Uri does not exist in client info. Add it first to the project and download the JSON again.');
@@ -209,6 +214,10 @@ class EmbedPress_GoogleClient {
 		call_user_func($this->tokenCallback, $response, $refreshToken);
 	}
 
+	/**
+	 * @throws EmbedPress_GoogleClient_RequestException
+	 * @throws Exception
+	 */
 	public function handleCodeRedirect($state = '') {
 		if (!empty($_GET['error'])) {
 			throw new Exception($_GET['error']);
@@ -249,6 +258,9 @@ class EmbedPress_GoogleClient {
 		exit;
 	}
 
+	/**
+	 * @throws EmbedPress_GoogleClient_RequestException
+	 */
 	public function refreshAccessToken() {
 		$result = EmbedPress_GoogleClient_Request::doRequest(
 			self::GOOGLE_REFRESH_URI,
@@ -266,6 +278,10 @@ class EmbedPress_GoogleClient {
 		$this->updateTokens($result);
 	}
 
+	/**
+	 * @throws EmbedPress_GoogleClient_RequestException
+	 * @throws Exception
+	 */
 	public function revoke() {
 		// Can be done with access and refresh token,
 		// but as access tokens expire more frequent, first take refresh token.
@@ -277,7 +293,7 @@ class EmbedPress_GoogleClient {
 		if (empty($token)) {
 			throw new Exception('No access and refresh token.');
 		}
-		$result = EmbedPress_GoogleClient_Request::doRequest(
+		EmbedPress_GoogleClient_Request::doRequest(
 			self::GOOGLE_REVOKE_URI, ['token' => $token]);
 		// TODO: do we have 200 status code???
 
@@ -292,7 +308,6 @@ class EmbedPress_GoogleClient {
 class EmbedPress_GoogleCalendarClient {
 
 	const GOOGLE_CALENDAR_EVENTS_URI = 'https://www.googleapis.com/calendar/v3/calendars/$calendarId/events';
-	const GOOGLE_CALENDER_PRIMARY_ID = 'primary';
 	const GOOGLE_CALENDARLIST_URI = 'https://www.googleapis.com/calendar/v3/users/me/calendarList';
 	const GOOGLE_COLORLIST_URI = 'https://www.googleapis.com/calendar/v3/colors';
 
@@ -302,6 +317,9 @@ class EmbedPress_GoogleCalendarClient {
 		$this->googleClient = $client;
 	}
 
+	/**
+	 * @throws EmbedPress_GoogleClient_RequestException
+	 */
 	public function getEvents($calendarId, $params) {
 		$url = str_replace('$calendarId', urlencode($calendarId), self::GOOGLE_CALENDAR_EVENTS_URI);
 		// https://developers.google.com/google-apps/calendar/performance#partial-response
@@ -315,10 +333,12 @@ class EmbedPress_GoogleCalendarClient {
 			]
 		);
 
-		$parsed = !empty($result['items']) ? $result['items'] : [];
-		return $parsed;
+		return !empty($result['items']) ? $result['items'] : [];
 	}
 
+	/**
+	 * @throws EmbedPress_GoogleClient_RequestException
+	 */
 	public function getEventsPublic($calendarId, $params, $apiKey, $referer) {
 		$url = str_replace('$calendarId', urlencode($calendarId), self::GOOGLE_CALENDAR_EVENTS_URI);
 		// https://developers.google.com/google-apps/calendar/performance#partial-response
@@ -333,41 +353,47 @@ class EmbedPress_GoogleCalendarClient {
 			]
 		);
 
-		$parsed = !empty($result['items']) ? $result['items'] : [];
-		return $parsed;
+		return !empty($result['items']) ? $result['items'] : [];
 	}
 
+	/**
+	 * @throws EmbedPress_GoogleClient_RequestException
+	 */
 	public function getPrimaryEvents($params) {
 		return $this->getEvents('primary', $params);
 	}
 
 	/**
-	 * @return JSON with items as key each item is calendarListEntry
+	 * @return string JSON  with items as key each item is calendarListEntry
 	 * calendarListEntry:
 	 * 'id' => string 'ehqelgh6hq4juqhjd79g4b5qkk@group.calendar.google.com' ==> use this for event list
-	 * 'summary' => string 'Vakantierooster'
+	 * 'summary' => string 'Vacationers'
 	 * 'description' => string 'Agenda voor de vakantierooster'
 	 * 'backgroundColor' => string '#cd74e6'
 	 * 'foregroundColor' => string '#000000'
 	 * 'selected' => boolean true ==> alleen aanwezig als geselecteerd! Geeft aan of de gebruiker deze calendat in de Google ui aan heeft gezet
 	 * 'primary' => boolean true ==> alleen aanwezig bij primary calendar!
 	 * 'accessRole' => we can get events only for 'owner' items, so we only query these.
-	 **/
+	 * @throws EmbedPress_GoogleClient_RequestException
+	 */
 	public function getCalendarList() {
 		$result = EmbedPress_GoogleClient_Request::doRequest(
 			self::GOOGLE_CALENDARLIST_URI,
 			[
-				'minAccessRole' => 'reader' // if 'owner', than you don't see calendars like national holidays.
+				'minAccessRole' => 'reader' // if 'owner', then you don't see calendars like national holidays.
 			],
 			'GET',
 			[
 				'Authorization' => 'Bearer ' . $this->googleClient->getAccessToken()
 			]
 		);
-		$parsed = !empty($result['items']) ? $result['items'] : [];
-		return $parsed;
+
+		return !empty($result['items']) ? $result['items'] : [];
 	}
 
+	/**
+	 * @throws EmbedPress_GoogleClient_RequestException
+	 */
 	public function getColorList() {
 		$result = EmbedPress_GoogleClient_Request::doRequest(
 			self::GOOGLE_COLORLIST_URI,
