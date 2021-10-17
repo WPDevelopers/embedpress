@@ -1,4 +1,4 @@
-=== EmbedPress – Embed Google Docs, YouTube, Maps, Vimeo, Wistia Videos & Upload PDF, PPT in Gutenberg ===
+=== EmbedPress – Embed Google Docs, YouTube, Maps, Vimeo, Wistia Videos & Upload PDF, PPT in Gutenberg & Elementor ===
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed, kamalahmed
 Author: WPDeveloper
 Author URI: https://wpdeveloper.net
