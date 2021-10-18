@@ -4,13 +4,8 @@
  * All undefined vars comes from 'render_settings_page' method
  *  */
 $gcalendar_settings = get_option( EMBEDPRESS_PLG_NAME.':gcalendar');
-$auth_string = isset( $gcalendar_settings['auth_string']) ? $gcalendar_settings['auth_string'] : 0;
-
-$autoplay = isset( $gcalendar_settings['embedpress_pro_gcalendar_autoplay']) ? $gcalendar_settings['embedpress_pro_gcalendar_autoplay'] : 'no';
-$show_chat = isset( $gcalendar_settings['embedpress_pro_gcalendar_chat']) ? $gcalendar_settings['embedpress_pro_gcalendar_chat'] : 'no';
-$theme = isset( $gcalendar_settings['embedpress_pro_gcalendar_theme']) ? $gcalendar_settings['embedpress_pro_gcalendar_theme'] : 'dark';
-$fs = isset( $gcalendar_settings['embedpress_pro_fs']) ? $gcalendar_settings['embedpress_pro_fs'] : 'yes';
-$mute = isset( $gcalendar_settings['embedpress_pro_gcalendar_mute']) ? $gcalendar_settings['embedpress_pro_gcalendar_mute'] : 'yes';
+$auth_string = isset( $gcalendar_settings['auth_string']) ? $gcalendar_settings['auth_string'] : '';
+$caching_time = isset( $gcalendar_settings['caching_time']) ? $gcalendar_settings['caching_time'] : 0;
 
 ?>
 
@@ -29,6 +24,25 @@ $mute = isset( $gcalendar_settings['embedpress_pro_gcalendar_mute']) ? $gcalenda
 				</div>
 
 			</div>
+
+            <div class="form__group">
+                <p class="form__label" ><?php esc_html_e( "Caching time (in Minute)", "embedpress" ); ?> </p>
+                <div class="form__control__wrap">
+                    <input  name="caching_time" type="number" id="caching_time" class="form__control" data-default="<?php echo esc_attr( $caching_time); ?>" value="<?php echo esc_attr( $caching_time); ?>" >
+                    <p><?php esc_html_e( "How long do you want to cache the data? 0 or empty means caching is disabled.", "embedpress" ); ?></p>
+                </div>
+
+            </div>
+            <div class="form__group">
+                <p class="form__label" for="calender"><?php esc_html_e( "Select calenders ", "embedpress" ); ?> </p>
+                <div class="form__control__wrap">
+                    <label for="calender">                    <input  name="calender" type="checkbox" id="calender"  data-default="<?php echo esc_attr( $caching_time); ?>" value="<?php echo esc_attr( $caching_time); ?>" >
+	                    <?php esc_html_e( "Select calender to show", "embedpress" ); ?>
+                    </label>
+                </div>
+
+            </div>
+
 			<?php do_action( 'embedpress_after_gcalendar_settings_fields'); ?>
 			<button class="button button__themeColor radius-10 embedpress-submit-btn" name="submit" value="gcalendar"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
 		</form>
