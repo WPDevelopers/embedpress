@@ -16,7 +16,7 @@ $epgc_cache_time = get_option('epgc_cache_time', 0);
 			do_action( 'embedpress_before_gcalendar_settings_fields');
 			echo  $nonce_field ; ?>
 			<div class="form__group">
-				<label for="epgc_client_secret" class="form__label" ><?php esc_html_e( "Google Auth JSON", "embedpress" ); ?> </label>
+				<label for="epgc_client_secret" class="form__label" ><?php esc_html_e( "Google Auth JSON (Refresh after saving)", "embedpress" ); ?> </label>
 				<div class="form__control__wrap">
                    <textarea name="epgc_client_secret" id="epgc_client_secret" class="form__control" data-default="<?php echo esc_attr( $epgc_client_secret); ?>" value="<?php echo esc_attr( $epgc_client_secret); ?>" rows="5"  ><?php echo esc_html(  $epgc_client_secret) ?></textarea>
                     <p ><?php printf(__('Enter the JSON string downloaded from the Google Console. Note: Create a new project in Google developer console and make sure you set <code>%s</code> as the authorized redirect URI.', 'embedpress'), $ep_page . '&page_type=google-calender'); ?></p>
@@ -34,21 +34,23 @@ $epgc_cache_time = get_option('epgc_cache_time', 0);
                 </div>
 
             </div>
-            <div class="form__group">
-                <label for="authorize" class="form__label" ><?php esc_html_e( "Authorize ", "embedpress" ); ?> </label>
-                <div class="form__control__wrap">
-                        <input type="hidden" name="action" value="epgc_authorize">
-                    <button class="button button-primary" name="epgc_authorize"><?php _e('Authorize', 'embedpress') ?></button>
-
-                    <p><?php esc_html_e( 'Click Authorize ONLY AFTER saving the the JSON above to fetch calendar data', 'embedpress'); ?></p>
-                </div>
-            </div>
-
-
-
 
 			<?php do_action( 'embedpress_after_gcalendar_settings_fields'); ?>
 			<button class="button button__themeColor radius-10 embedpress-submit-btn" name="submit" value="gcalendar"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
 		</form>
+        <br><br>
+        <?php if ( !empty( $epgc_client_secret) ) { ?>
+        <h2>Authorization</h2>
+        <br>
+        <form style="display:inline" method="post" action="<?php echo admin_url('admin-post.php'); ?>">
+            <input type="hidden" name="action" value="epgc_authorize">
+			<?php submit_button(__('Authorize', 'embedpress'), 'primary', 'epgc_authorize', false); ?>
+        </form>
+
+        <form style="display:inline" method="post" action="<?php echo admin_url('admin-post.php'); ?>">
+            <input type="hidden" name="action" value="epgc_remove_private">
+			<?php submit_button(__('Stop', 'embedpress'), '', 'epgc_remove_private', false); ?>
+        </form>
+        <?php } ?>
 	</div>
 </div>

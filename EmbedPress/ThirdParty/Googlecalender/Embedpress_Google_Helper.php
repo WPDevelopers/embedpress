@@ -21,7 +21,7 @@ if ( !defined( 'EPGC_NOTICES_VERIFY_SUCCESS') ) {
 	define('EPGC_ERRORS_NO_CALENDARS', __('No calendars', 'embedpress'));
 	define('EPGC_ERRORS_NO_SELECTED_CALENDARS',  __('No selected calendars', 'embedpress'));
 	define('EPGC_ERRORS_TOKEN_AND_API_KEY_MISSING',  __('Access token and API key are missing.', 'embedpress'));
-	define('PGC_TRANSIENT_PREFIX', 'pgc_ev_');
+	define('EPGC_TRANSIENT_PREFIX', 'pgc_ev_');
 	define('EPGC_ENQUEUE_ACTION_PRIORITY', 11);
     define( 'EPGC_REDIRECT_URL', admin_url('admin.php?page=embedpress&page_type=google-calender'));
 }
@@ -803,6 +803,7 @@ class Embedpress_Google_Helper {
 	    }
     }
     public static function admin_post_authorize() {
+        error_log( 'did we hit');
 	    try {
 		    $client = self::getGoogleClient();
 		    $client->authorize();
@@ -812,7 +813,7 @@ class Embedpress_Google_Helper {
 	    }
     }
 
-	function fetch_calendar() {
+	public static function fetch_calendar() {
 
 		if (!empty($_GET['code'])) {
 			// Redirect from Google authorize with code that we can use to get access and refresh tokens.
@@ -824,6 +825,8 @@ class Embedpress_Google_Helper {
 				$service = new Embedpress_GoogleCalendarClient($client);
 				$items = $service->getCalendarList();
 				self::sort_calendars($items);
+                //error_log( 'calender found');
+                //error_log( print_r( $items, 1));
 				update_option('epgc_calendarlist', self::getPrettyJSONString($items), false);
 				wp_redirect(EPGC_REDIRECT_URL);
 				exit;
@@ -906,7 +909,7 @@ add_action('admin_post_epgc_remove', [Embedpress_Google_Helper::class, 'admin_po
 /**
  * Admin post action to authorize access.
  */
-add_action('admin_post_pgc_authorize', [Embedpress_Google_Helper::class, 'admin_post_authorize']);
+add_action('admin_post_epgc_authorize', [Embedpress_Google_Helper::class, 'admin_post_authorize']);
 
 add_action('admin_init', [Embedpress_Google_Helper::class, 'fetch_calendar']);
 
