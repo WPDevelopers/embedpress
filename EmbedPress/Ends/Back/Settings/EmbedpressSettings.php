@@ -336,4 +336,22 @@ class EmbedpressSettings {
 		update_option( $option_name, $settings);
 		do_action( 'ep_soundcloud_settings_after_save', $settings);
 	}
+
+	public function save_gcalendar_settings() {
+		$client_secret = !empty( $_POST['epgc_client_secret']) ? json_decode( wp_unslash( trim( $_POST['epgc_client_secret'])), true) : [];
+		$epgc_cache_time = !empty( $_POST['epgc_cache_time'] ) ? absint( $_POST['epgc_cache_time']) : 0;
+		$pretty_client_secret = '';
+		if ( !empty( $client_secret) ) {
+			$pretty_client_secret = $this->get_pretty_json_string( $client_secret);
+		}
+
+		update_option( 'epgc_client_secret', $pretty_client_secret);
+		update_option( 'epgc_cache_time', $epgc_cache_time);
+
+	}
+
+
+	function get_pretty_json_string($array) {
+		return str_replace("    ", "  ", json_encode($array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+	}
 }

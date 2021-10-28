@@ -848,7 +848,7 @@ class Embedpress_Google_Helper {
 		if (empty($clientSecret) || !empty($clientSecretError)) {
 			// save new data from user input, show them input
 
-		} elseif (self::getDecoded('pgc_calendarlist')) {
+		} elseif (self::getDecoded('epgc_calendarlist')) {
             // show calendar list
 		}
 
@@ -887,7 +887,7 @@ add_action('admin_post_epgc_deletecache', [Embedpress_Google_Helper::class, 'adm
 /**
  * Admin post action to verify if we have valid access and refresh token.
  */
-add_action('admin_post_pgc_verify', [Embedpress_Google_Helper::class, 'admin_post_verify']);
+add_action('admin_post_epgc_verify', [Embedpress_Google_Helper::class, 'admin_post_verify']);
 
 add_shortcode( 'embedpress_calendar', [Embedpress_Google_Helper::class, 'shortcode']);
 add_action('wp_enqueue_scripts', [Embedpress_Google_Helper::class, 'enqueue_scripts'], EPGC_ENQUEUE_ACTION_PRIORITY);
