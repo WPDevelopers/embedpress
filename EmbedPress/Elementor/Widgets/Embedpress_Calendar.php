@@ -8,6 +8,7 @@ use \Elementor\Modules\DynamicTags\Module as TagsModule;
 use \Elementor\Widget_Base as Widget_Base;
 use \Elementor\Plugin;
 use EmbedPress\Includes\Traits\Branding;
+use Embedpress_Google_Helper;
 
 ( defined( 'ABSPATH' ) ) or die( "No direct script access allowed." );
 
@@ -38,7 +39,7 @@ class Embedpress_Calendar extends Widget_Base
 
 	public function get_icon()
 	{
-		return 'icon-calendar';
+		return 'eicon-calendar';
 	}
 
 	/**
@@ -212,23 +213,22 @@ class Embedpress_Calendar extends Widget_Base
 			'data-emid' => $id
 		] );
 		$this->add_render_attribute( 'embedpress-calendar', [
-			'class' => ['embedpress-calendar-embed', 'ep-doc-'.md5( $id), 'ose-calendar']
+			'class' => ['embedpress-calendar-embed', 'ep-cal-'.md5( $id), 'ose-calendar']
 		] );
 
-		$calendars = ''
 		?>
 		<div <?php echo $this->get_render_attribute_string( 'embedpress-calendar' ); ?> style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block">
 			<?php
 			do_action( 'embedpress_calendar_after_embed',  $settings, $id, $this);
 			?>
-			<?php if ( $calendars != '' ) {?>
 					<div <?php echo $this->get_render_attribute_string( 'embedpress-calendar-render' ); ?>>
+                        <?php echo Embedpress_Google_Helper::shortcode(); ?>
 					</div>
 					<?php
 				if ( $settings[ 'embedpress_calendar_powered_by' ] === 'yes' ) {
 					printf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
 				}
-			}
+
 			?>
 		</div>
 

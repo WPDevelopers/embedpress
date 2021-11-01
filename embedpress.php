@@ -92,3 +92,4 @@ Shortcode::register();
 if ( !class_exists( '\simple_html_dom') ) {
 	include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
 }
+//error_log( print_r( get_option('epgc_calendarlist'), 1));

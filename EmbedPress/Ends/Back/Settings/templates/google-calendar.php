@@ -34,6 +34,17 @@ $epgc_cache_time = get_option('epgc_cache_time', 0);
                 </div>
 
             </div>
+                <h2>Calendars</h2>
+                <div class="form__group">
+                    <label for="epgc_cache_time" class="form__label" ><?php esc_html_e( "Select calendars", "embedpress" ); ?> </label>
+                    <div class="form__control__wrap">
+						<?php  Embedpress_Google_Helper::print_calendar_list(); ?>
+                        <p><?php esc_html_e( 'Select which calendars you want to show', 'embedpress'); ?></p>
+
+                    </div>
+
+                </div>
+
 
 			<?php do_action( 'embedpress_after_gcalendar_settings_fields'); ?>
 			<button class="button button__themeColor radius-10 embedpress-submit-btn" name="submit" value="gcalendar"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
@@ -52,5 +63,7 @@ $epgc_cache_time = get_option('epgc_cache_time', 0);
 			<?php submit_button(__('Stop', 'embedpress'), '', 'epgc_remove_private', false); ?>
         </form>
         <?php } ?>
+
+
 	</div>
 </div>

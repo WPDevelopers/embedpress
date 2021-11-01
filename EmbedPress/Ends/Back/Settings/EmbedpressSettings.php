@@ -340,6 +340,9 @@ class EmbedpressSettings {
 	public function save_gcalendar_settings() {
 		$client_secret = !empty( $_POST['epgc_client_secret']) ? json_decode( wp_unslash( trim( $_POST['epgc_client_secret'])), true) : [];
 		$epgc_cache_time = !empty( $_POST['epgc_cache_time'] ) ? absint( $_POST['epgc_cache_time']) : 0;
+		$epgc_selected_calendar_ids = !empty( $_POST['epgc_selected_calendar_ids'] ) ? array_map( 'sanitize_text_field', $_POST['epgc_selected_calendar_ids']) : [];
+
+
 		$pretty_client_secret = '';
 		if ( !empty( $client_secret) ) {
 			$pretty_client_secret = $this->get_pretty_json_string( $client_secret);
@@ -347,6 +350,7 @@ class EmbedpressSettings {
 
 		update_option( 'epgc_client_secret', $pretty_client_secret);
 		update_option( 'epgc_cache_time', $epgc_cache_time);
+		update_option( 'epgc_selected_calendar_ids', $epgc_selected_calendar_ids);
 
 	}
 

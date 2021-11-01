@@ -48,6 +48,17 @@ $enablePluginInFront = isset( $settings['enablePluginInFront'] ) ? $settings['en
                 </label>
             </div>
             <div class="element__item">
+                <h5>EmbedPress Calendar</h5>
+                <a href="https://embedpress.com/docs/embed-calendar/" class="has__question" target="_blank">
+                    <i class="ep-icon ep-question"></i>
+                    <span class="element__tooltip"><?php esc_html_e( "Documentation","embedpress" ); ?></span>
+                </a>
+                <label class="input__switch element_switch">
+                    <input class="element-check" type="checkbox" value="yes" data-name="embedpress-calendar" data-type="gutenberg" <?php echo isset( $g_blocks['embedpress-calendar']) ? 'checked': '';  ?> >
+                    <span></span>
+                </label>
+            </div>
+            <div class="element__item">
                 <h5>YouTube</h5>
                 <a href="https://embedpress.com/docs/embed-youtube-videos-in-gutenberg/" class="has__question" target="_blank">
                     <i class="ep-icon ep-question"></i>
@@ -198,6 +209,19 @@ $enablePluginInFront = isset( $settings['enablePluginInFront'] ) ? $settings['en
                 </a>
                 <label class="input__switch element_switch">
                     <input class="element-check" type="checkbox" value="yes" data-name="embedpress-pdf" data-type="elementor" <?php echo isset( $e_blocks['embedpress-pdf']) ? 'checked': '';  ?> >
+                    <span></span>
+                </label>
+
+            </div>
+
+            <div class="element__item">
+                <h5>EmbedPress Calendar</h5>
+                <a href="https://embedpress.com/docs/embed-calendar/" class="has__question" target="_blank">
+                    <i class="ep-icon ep-question"></i>
+                    <span class="element__tooltip"><?php esc_html_e( "Documentation","embedpress" ); ?></span>
+                </a>
+                <label class="input__switch element_switch">
+                    <input class="element-check" type="checkbox" value="yes" data-name="embedpress-calendar" data-type="elementor" <?php echo isset( $e_blocks['embedpress-calendar']) ? 'checked': '';  ?> >
                     <span></span>
                 </label>
 

@@ -35,8 +35,8 @@ if (!defined('EPGC_EVENTS_DEFAULT_TITLE')) {
 
 class Embedpress_Google_Helper {
 
-	public static function settings_selected_calendar_ids_json_cb() {
-		$calendarList = static::getDecoded( 'epgc_calendarlist' );
+	public static function print_calendar_list() {
+		$calendarList = static::getDecoded( 'epgc_calendarlist' ); //settings_selected_calendar_ids_json_cb
 		if ( ! empty( $calendarList ) ) {
 			$selectedCalendarIds = get_option( 'epgc_selected_calendar_ids' ); // array
 			if ( empty( $selectedCalendarIds ) ) {
@@ -466,9 +466,10 @@ class Embedpress_Google_Helper {
 	}
 
 	/**
-	 * Helper function die die with different kind of errors.
+	 * Helper function die with different kind of errors.
 	 */
-	public static function die($error = null) {
+	public static function embedpress_die($error = null) {
+        error_log( 'got hittt');
 		$backLink = '<br><br><a href="' . admin_url('admin.php?page=embedpress&page_type=google-calendar') . '">' . __('Back', 'embedpress') . '</a>';
 		if (empty($error)) {
 			wp_die(__('Unknown error', 'embedpress') . $backLink);
@@ -512,7 +513,7 @@ class Embedpress_Google_Helper {
 		    return strcoll($a['summary'], $b['summary']);
 	    });
     }
-	public static function shortcode($atts = [], $content = null, $tag) {
+	public static function shortcode($atts = [], $content = null) {
 
 		// When we have no attributes, $atts is an empty string
 		if (!is_array($atts)) {
@@ -677,7 +678,7 @@ class Embedpress_Google_Helper {
 			self::add_notice(PGC_NOTICES_CALENDARLIST_UPDATE_SUCCESS, 'success', true);
 			exit;
 		} catch (Exception $ex) {
-			self::die($ex);
+			self::embedpress_die($ex);
 		}
 	}
 	public static function admin_post_colorlist() {
@@ -695,22 +696,22 @@ class Embedpress_Google_Helper {
 			self::add_notice(EPGC_NOTICES_COLORLIST_UPDATE_SUCCESS, 'success', true);
 			exit;
 		} catch (Exception $ex) {
-			self::die($ex);
+			self::embedpress_die($ex);
 		}
 	}
 	public static function admin_post_deletecache() {
-		pgc_delete_calendar_cache();
-		pgc_add_notice(PGC_NOTICES_CACHE_DELETED, 'success', true);
+		self::delete_calendar_cache();
+		self::add_notice(PGC_NOTICES_CACHE_DELETED, 'success', true);
 		exit;
 	}
 	public static function admin_post_verify() {
 		try {
 			$client = static::getGoogleClient(true);
 			$client->refreshAccessToken();
-			pgc_add_notice(PGC_NOTICES_VERIFY_SUCCESS, 'success', true);
+			self::add_notice(PGC_NOTICES_VERIFY_SUCCESS, 'success', true);
 			exit;
 		} catch (Exception $ex) {
-			pgc_die($ex);
+			self::embedpress_die($ex);
 		}
 	}
     public static function enqueue_scripts() {
@@ -799,7 +800,7 @@ class Embedpress_Google_Helper {
 		    self::add_notice(EPGC_NOTICES_REVOKE_SUCCESS, 'success', true);
 		    exit;
 	    } catch (Exception $ex) {
-		    self::die($ex);
+		    self::embedpress_die($ex);
 	    }
     }
     public static function admin_post_authorize() {
@@ -809,12 +810,17 @@ class Embedpress_Google_Helper {
 		    $client->authorize();
 		    exit;
 	    } catch (Exception $ex) {
-		    self::die($ex);
+		    self::embedpress_die($ex);
 	    }
     }
 
 	public static function fetch_calendar() {
-
+		if ( empty( $_GET['page']) || 'embedpress' === $_GET['page'] ) {
+            return;
+        }
+		if ( !current_user_can( 'manage_options') ) {
+            return;
+        }
 		if (!empty($_GET['code'])) {
 			// Redirect from Google authorize with code that we can use to get access and refresh tokens.
 			try {
@@ -825,13 +831,13 @@ class Embedpress_Google_Helper {
 				$service = new Embedpress_GoogleCalendarClient($client);
 				$items = $service->getCalendarList();
 				self::sort_calendars($items);
-                //error_log( 'calender found');
-                //error_log( print_r( $items, 1));
+                error_log( 'calender found');
+                error_log( print_r( $items, 1));
 				update_option('epgc_calendarlist', self::getPrettyJSONString($items), false);
 				wp_redirect(EPGC_REDIRECT_URL);
 				exit;
 			} catch (Exception $ex) {
-				self::die($ex);
+				self::embedpress_die($ex);
 			}
 
 		}

@@ -89,8 +89,8 @@ function embedpress_schedule_cache_cleanup( ){
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
-if (file_exists(__DIR__ . '/EmbedPress/ThirdParty/Googlecalender/Embedpress_Google_Helper.php')) {
-	require_once __DIR__ . '/EmbedPress/ThirdParty/Googlecalender/Embedpress_Google_Helper.php';
+if (file_exists(__DIR__ . '/EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php')) {
+	require_once __DIR__ . '/EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php';
 }
 function is_embedpress_pro_active() {
 	if ( ! function_exists( 'is_plugin_active') ) {
