@@ -33,6 +33,11 @@ if (!defined('EPGC_EVENTS_DEFAULT_TITLE')) {
 	define('EPGC_EVENTS_DEFAULT_TITLE', '');
 }
 
+
+if (!defined('EPGC_ASSET_URL')) {
+	define('EPGC_ASSET_URL', plugin_dir_url(__FILE__) .'assets/');
+}
+
 class Embedpress_Google_Helper {
 
 	public static function print_calendar_list() {
@@ -520,6 +525,26 @@ class Embedpress_Google_Helper {
 			$atts = [];
 		}
 
+		wp_enqueue_style( 'fullcalendar');
+		wp_enqueue_style( 'fullcalendar_daygrid');
+		wp_enqueue_style( 'fullcalendar_timegrid');
+		wp_enqueue_style( 'fullcalendar_list');
+		wp_enqueue_style( 'epgc');
+		wp_enqueue_style( 'tippy_light');
+
+
+		wp_enqueue_script('popper');
+		wp_enqueue_script('tippy');
+		wp_enqueue_script('my_moment');
+		wp_enqueue_script('my_moment_timezone');
+		wp_enqueue_script('fullcalendar');
+		wp_enqueue_script('fullcalendar_moment');
+		wp_enqueue_script('fullcalendar_moment_timezone');
+		wp_enqueue_script('fullcalendar_daygrid');
+		wp_enqueue_script('fullcalendar_timegrid');
+		wp_enqueue_script('fullcalendar_list');
+		wp_enqueue_script('fullcalendar_locales');
+		wp_enqueue_script('epgc');
 		$defaultConfig = [
 			'header' => [
 				'left' => 'prev,next today',
@@ -530,11 +555,11 @@ class Embedpress_Google_Helper {
 		$userConfig = $defaultConfig; // copy
 		$userFilter = 'top';
 		$userEventPopup = 'true';
-		$userEventLink = 'false';
+		$userEventLink = 'true';
 		$userHidePassed = 'false';
 		$userHideFuture = 'false';
-		$userEventDescription = 'false';
-		$userEventLocation = 'false';
+		$userEventDescription = 'true';
+		$userEventLocation = 'true';
 		$userEventAttendees = 'false';
 		$userEventAttachments = 'false';
 		$userEventCreator = 'false';
@@ -648,16 +673,16 @@ class Embedpress_Google_Helper {
 			$dataUnchekedCalendarIds = 'data-uncheckedcalendarids=\'' . json_encode(array_map('trim', explode(',', $uncheckedCalendarIds))) . '\'';
 		}
 
-		$filterHTML = '<div class="pgc-calendar-filter" ' . $dataUnchekedCalendarIds . '></div>';
+		$filterHTML = '<div class="epgc-calendar-filter" ' . $dataUnchekedCalendarIds . '></div>';
 
-		return '<div class="pgc-calendar-wrapper pgc-calendar-page">' . ($userFilter === 'top' ? $filterHTML : '') . '<div '
+		return '<div class="epgc-calendar-wrapper epgc-calendar-page">' . ($userFilter === 'top' ? $filterHTML : '') . '<div '
 		       . $dataCalendarIds . ' data-filter=\'' . $userFilter . '\' data-eventpopup=\'' . $userEventPopup . '\' data-eventlink=\''
 		       . $userEventLink . '\' data-eventdescription=\'' . $userEventDescription . '\' data-eventlocation=\''
 		       . $userEventLocation . '\' data-eventattachments=\'' . $userEventAttachments . '\' data-eventattendees=\''
 		       . $userEventAttendees . '\' data-eventcreator=\'' . $userEventCreator . '\' data-eventcalendarname=\''
 		       . $userEventCalendarname . '\' data-hidefuture=\'' . $userHideFuture . '\' data-hidepassed=\''
 		       . $userHidePassed . '\' data-config=\'' . json_encode($userConfig) . '\' data-locale="'
-		       . get_locale() . '" class="pgc-calendar"></div>' . ($userFilter === 'bottom' ? $filterHTML : '') . '</div>';
+		       . get_locale() . '" class="epgc-calendar"></div>' . ($userFilter === 'bottom' ? $filterHTML : '') . '</div>';
 	}
 
 	public static function admin_post_calendarlist() {
@@ -716,43 +741,46 @@ class Embedpress_Google_Helper {
 	}
     public static function enqueue_scripts() {
 	    wp_enqueue_style('dashicons');
-	    wp_enqueue_style('fullcalendar',
-		    plugin_dir_url(__FILE__) . 'assets/lib/fullcalendar4/core/main.min.css', null, EMBEDPRESS_VERSION);
-	    wp_enqueue_style('fullcalendar_daygrid',
-		    plugin_dir_url(__FILE__) . 'assets/lib/fullcalendar4/daygrid/main.min.css', ['fullcalendar'], EMBEDPRESS_VERSION);
-	    wp_enqueue_style('fullcalendar_timegrid',
-		    plugin_dir_url(__FILE__) . 'assets/lib/fullcalendar4/timegrid/main.min.css', ['fullcalendar_daygrid'], EMBEDPRESS_VERSION);
-	    wp_enqueue_style('fullcalendar_list',
-		    plugin_dir_url(__FILE__) . 'assets/lib/fullcalendar4/list/main.min.css', ['fullcalendar'], EMBEDPRESS_VERSION);
-	    wp_enqueue_style('pgc',
-		    plugin_dir_url(__FILE__) . 'css/pgc.css', ['fullcalendar_timegrid'], EMBEDPRESS_VERSION);
-	    wp_enqueue_style('tippy_light',
-		    plugin_dir_url(__FILE__) . 'assets/lib/tippy/light-border.css', null, EMBEDPRESS_VERSION);
-	    wp_enqueue_script('popper',
-		    plugin_dir_url(__FILE__) . 'assets/lib/popper.min.js', null, EMBEDPRESS_VERSION, true);
-	    wp_enqueue_script('tippy',
-		    plugin_dir_url(__FILE__) . 'assets/lib/tippy/tippy-bundle.umd.min.js', ['popper'], EMBEDPRESS_VERSION, true);
-	    wp_enqueue_script('my_moment',
-		    plugin_dir_url(__FILE__) . 'assets/lib/moment/moment-with-locales.min.js', null, EMBEDPRESS_VERSION, true);
-	    wp_enqueue_script('my_moment_timezone',
-		    plugin_dir_url(__FILE__) . 'assets/lib/moment/moment-timezone-with-data.min.js', ['my_moment'], EMBEDPRESS_VERSION, true);
-	    wp_enqueue_script('fullcalendar',
-		    plugin_dir_url(__FILE__) . 'assets/lib/fullcalendar4/core/main.min.js', ['my_moment_timezone'], EMBEDPRESS_VERSION, true);
-	    wp_enqueue_script('fullcalendar_moment',
-		    plugin_dir_url(__FILE__) . 'assets/lib/fullcalendar4/moment/main.min.js', ['fullcalendar'], EMBEDPRESS_VERSION, true);
-	    wp_enqueue_script('fullcalendar_moment_timezone',
-		    plugin_dir_url(__FILE__) . 'assets/lib/fullcalendar4/moment-timezone/main.min.js', ['fullcalendar_moment'], EMBEDPRESS_VERSION, true);
-	    wp_enqueue_script('fullcalendar_daygrid',
-		    plugin_dir_url(__FILE__) . 'assets/lib/fullcalendar4/daygrid/main.min.js', ['fullcalendar'], EMBEDPRESS_VERSION, true);
-	    wp_enqueue_script('fullcalendar_timegrid',
-		    plugin_dir_url(__FILE__) . 'assets/lib/fullcalendar4/timegrid/main.min.js', ['fullcalendar_daygrid'], EMBEDPRESS_VERSION, true);
-	    wp_enqueue_script('fullcalendar_list',
-		    plugin_dir_url(__FILE__) . 'assets/lib/fullcalendar4/list/main.min.js', ['fullcalendar'], EMBEDPRESS_VERSION, true);
-	    wp_enqueue_script('fullcalendar_locales',
-		    plugin_dir_url(__FILE__) . 'assets/lib/fullcalendar4/core/locales-all.min.js',
-		    ['fullcalendar'], EMBEDPRESS_VERSION, true);
-	    wp_enqueue_script('epgc', plugin_dir_url(__FILE__) . 'js/main.js',
-		    ['fullcalendar'], EMBEDPRESS_VERSION, true);
+	    wp_register_style('fullcalendar', EPGC_ASSET_URL . 'lib/fullcalendar4/core/main.min.css', null, EMBEDPRESS_VERSION);
+	    wp_register_style('fullcalendar_daygrid', EPGC_ASSET_URL . 'lib/fullcalendar4/daygrid/main.min.css', ['fullcalendar'], EMBEDPRESS_VERSION);
+	    wp_register_style('fullcalendar_timegrid', EPGC_ASSET_URL . 'lib/fullcalendar4/timegrid/main.min.css', ['fullcalendar_daygrid'], EMBEDPRESS_VERSION);
+	    wp_register_style('fullcalendar_list', EPGC_ASSET_URL . 'lib/fullcalendar4/list/main.min.css', ['fullcalendar'], EMBEDPRESS_VERSION);
+	    wp_register_style('epgc', EPGC_ASSET_URL . 'css/epgc.css', ['fullcalendar_timegrid'], EMBEDPRESS_VERSION);
+	    wp_register_style('tippy_light', EPGC_ASSET_URL . 'lib/tippy/light-border.css', null, EMBEDPRESS_VERSION);
+
+        //wp_enqueue_style( 'fullcalendar');
+        //wp_enqueue_style( 'fullcalendar_daygrid');
+        //wp_enqueue_style( 'fullcalendar_timegrid');
+        //wp_enqueue_style( 'fullcalendar_list');
+        //wp_enqueue_style( 'epgc');
+        //wp_enqueue_style( 'tippy_light');
+
+
+	    wp_register_script('popper',EPGC_ASSET_URL . 'lib/popper.min.js', null, EMBEDPRESS_VERSION, true);
+	    wp_register_script('tippy',EPGC_ASSET_URL . 'lib/tippy/tippy-bundle.umd.min.js', ['popper'], EMBEDPRESS_VERSION, true);
+	    wp_register_script('my_moment',EPGC_ASSET_URL . 'lib/moment/moment-with-locales.min.js', null, EMBEDPRESS_VERSION, true);
+	    wp_register_script('my_moment_timezone',EPGC_ASSET_URL . 'lib/moment/moment-timezone-with-data.min.js', ['my_moment'], EMBEDPRESS_VERSION, true);
+	    wp_register_script('fullcalendar',EPGC_ASSET_URL . 'lib/fullcalendar4/core/main.min.js', ['my_moment_timezone'], EMBEDPRESS_VERSION, true);
+	    wp_register_script('fullcalendar_moment',EPGC_ASSET_URL . 'lib/fullcalendar4/moment/main.min.js', ['fullcalendar'], EMBEDPRESS_VERSION, true);
+	    wp_register_script('fullcalendar_moment_timezone',EPGC_ASSET_URL . 'lib/fullcalendar4/moment-timezone/main.min.js', ['fullcalendar_moment'], EMBEDPRESS_VERSION, true);
+	    wp_register_script('fullcalendar_daygrid',EPGC_ASSET_URL . 'lib/fullcalendar4/daygrid/main.min.js', ['fullcalendar'], EMBEDPRESS_VERSION, true);
+	    wp_register_script('fullcalendar_timegrid',EPGC_ASSET_URL . 'lib/fullcalendar4/timegrid/main.min.js', ['fullcalendar_daygrid'], EMBEDPRESS_VERSION, true);
+	    wp_register_script('fullcalendar_list',EPGC_ASSET_URL . 'lib/fullcalendar4/list/main.min.js', ['fullcalendar'], EMBEDPRESS_VERSION, true);
+	    wp_register_script('fullcalendar_locales',EPGC_ASSET_URL . 'lib/fullcalendar4/core/locales-all.min.js',['fullcalendar'], EMBEDPRESS_VERSION, true);
+	    wp_register_script('epgc', EPGC_ASSET_URL . 'js/main.js',['fullcalendar'], EMBEDPRESS_VERSION, true);
+
+        //wp_enqueue_script('popper');
+        //wp_enqueue_script('my_moment');
+        //wp_enqueue_script('my_moment_timezone');
+        //wp_enqueue_script('fullcalendar');
+        //wp_enqueue_script('fullcalendar_moment');
+        //wp_enqueue_script('fullcalendar_moment_timezone');
+        //wp_enqueue_script('fullcalendar_daygrid');
+        //wp_enqueue_script('fullcalendar_timegrid');
+        //wp_enqueue_script('fullcalendar_list');
+        //wp_enqueue_script('fullcalendar_locales');
+        //wp_enqueue_script('epgc');
+
 	    $nonce = wp_create_nonce('epgc_nonce');
 	    wp_localize_script('epgc', 'epgc_object', [
 		    'ajax_url' => admin_url('admin-ajax.php'),
@@ -831,8 +859,7 @@ class Embedpress_Google_Helper {
 				$service = new Embedpress_GoogleCalendarClient($client);
 				$items = $service->getCalendarList();
 				self::sort_calendars($items);
-                error_log( 'calender found');
-                error_log( print_r( $items, 1));
+
 				update_option('epgc_calendarlist', self::getPrettyJSONString($items), false);
 				wp_redirect(EPGC_REDIRECT_URL);
 				exit;

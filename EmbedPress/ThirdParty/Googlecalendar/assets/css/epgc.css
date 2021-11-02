@@ -1,0 +1,186 @@
+.epgc-calendar-wrapper *, .epgc-calendar-wrapper *::before, .epgc-calendar-wrapper *::after {
+    word-break: initial;
+}
+
+.fc-view table {
+    padding:0;
+    margin:0;
+}
+
+.fc-event {
+    cursor: pointer;
+    border:none;
+}
+
+tr[data-tippy-content] {
+  cursor: pointer;
+}
+
+.fc-button {
+  font-size:initial;
+}
+
+.fc-toolbar h2 {
+    font-weight:normal;
+    font-size:larger;
+}
+
+.fc-time-grid-container {
+  max-height:400px;
+}
+
+.fc-widget-header {
+  font-size: initial;
+}
+
+.fc-timeGridWeek-view .fc-widget-header {
+  font-size:small;
+}
+
+.fc-timeGridWeek-view .fc-day-grid, .fc-timeGridWeek-view .fc-row.fc-widget-header {
+    overflow-y:scroll;
+}
+
+.epgc-calendar-wrapper hr.fc-divider::after,
+.epgc-calendar-wrapper hr.fc-divider::before,
+.epgc-calendar-wrapper h2:before {
+    display:none;
+}
+
+.epgc-calendar-wrapper hr.fc-divider {
+    border:1px solid gray;
+    border-left:none;
+    border-right:none;
+    height:0;
+    padding:0;
+    margin:0;
+    max-width:initial;
+    overflow:initial;
+    position: initial;
+}
+
+.epgc-calendar-wrapper table {
+    overflow:initial;
+}
+
+.epgc-calendar-wrapper a.fc-event {
+    text-decoration: none;
+    box-shadow:none;
+    color:white;
+}
+
+.epgc-calendar-wrapper tr {
+    border:none;
+}
+
+.fc-header.fc-widget-header, .fc-day-number, .fc-axis.fc-widget-content, .fc-week-number {
+  font-size: initial;
+}
+
+.fc-content {
+  font-size: smaller;
+}
+
+@media(max-width:500px) {
+  .fc-toolbar {
+    display:block;
+    text-align:center;
+  }
+  .fc-toolbar > div {
+    margin-bottom:1rem;
+  }
+}
+
+
+/* Start calendar filter styled checkboxes */
+.epgc-calendar-filter input[type=checkbox]:focus + label span,
+.epgc-calendar-filter input[type=checkbox]:active + label span {
+  outline: 1px dashed black;
+}
+
+.epgc-calendar-filter input[type=checkbox] {
+  opacity:0;
+  position:fixed; /* absolute makes the page scroll to top when checked */
+}
+
+.epgc-calendar-color {
+  width:1rem;
+  height:1rem;
+  padding:0 .2rem;
+  opacity:.4;
+  border-radius:.4rem;
+}
+
+.epgc-calendar-filter input[type=checkbox]:checked + label span {
+  opacity:1;
+}
+
+.epgc-calendar-filter input[type=checkbox] + label span:before {
+  content: "✔";
+  line-height:1rem;
+  visibility:hidden;
+}
+
+.epgc-calendar-filter input[type=checkbox]:checked + label span:before {
+  visibility: visible;
+}
+
+.epgc-calendar-filter:first-child {
+  margin-bottom:1.5em;
+}
+
+.epgc-calendar-filter:last-child {
+  margin-top:1.5em;
+}
+
+.epgc-event-title {
+  font-size:large;
+  font-weight: 500;
+}
+
+.epgc-popup-row-icon {
+  width:30px;
+  float:left;
+}
+
+.epgc-event-title .epgc-popup-row-value {
+  margin-right:20px;
+}
+
+.epgc-popup-row-value {
+  margin-left:30px;
+}
+
+.epgc-popup-row {
+  clear: both;
+  margin-bottom:1rem;
+}
+
+.epgc-popup-row ul, .epgc-popup-row li {
+  list-style: none;
+  padding:0;
+  margin:0;
+}
+
+.epgc-popup-draghandle {
+  position: absolute;
+  right:5px;
+  top:5px;
+  cursor: move;
+  opacity: .4;
+}
+
+.epgc-loading-el, .epgc-error-el {
+  position:absolute;
+  background-color: #fcf8e3;
+  padding:1rem;
+  left:0;
+  top:0;
+  opacity:.6;
+  z-index:1;
+}
+
+.epgc-error-el {
+  background-color: red;
+  opacity: 1;
+}

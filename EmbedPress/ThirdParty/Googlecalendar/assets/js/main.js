@@ -1,5 +1,4 @@
 (function(win) {
-
     window.fullCalendars = [];
 
     var int_reg = /^\d+$/;
