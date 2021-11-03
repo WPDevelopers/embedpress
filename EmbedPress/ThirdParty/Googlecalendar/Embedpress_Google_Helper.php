@@ -524,7 +524,7 @@ class Embedpress_Google_Helper {
 		if (!is_array($atts)) {
 			$atts = [];
 		}
-
+		wp_enqueue_style('dashicons');
 		wp_enqueue_style( 'fullcalendar');
 		wp_enqueue_style( 'fullcalendar_daygrid');
 		wp_enqueue_style( 'fullcalendar_timegrid');
@@ -832,7 +832,6 @@ class Embedpress_Google_Helper {
 	    }
     }
     public static function admin_post_authorize() {
-        error_log( 'did we hit');
 	    try {
 		    $client = self::getGoogleClient();
 		    $client->authorize();

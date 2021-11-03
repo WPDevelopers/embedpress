@@ -134,7 +134,7 @@ function embedpress_gutenberg_register_all_block() {
 
 		$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
 		$g_blocks = isset( $elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
-		$blocks_to_registers = [ 'twitch-block', 'google-slides-block','google-sheets-block', 'google-maps-block', 'google-forms-block', 'google-drawings-block', 'google-docs-block', 'embedpress', 'embedpress-pdf'];
+		$blocks_to_registers = [ 'twitch-block', 'google-slides-block','google-sheets-block', 'google-maps-block', 'google-forms-block', 'google-drawings-block', 'google-docs-block', 'embedpress', 'embedpress-pdf', 'embedpress-calendar'];
 
 		foreach ( $blocks_to_registers as $blocks_to_register ) {
 			if ( !empty($g_blocks[$blocks_to_register]) ) {
@@ -145,6 +145,10 @@ function embedpress_gutenberg_register_all_block() {
 				}elseif ( 'embedpress-pdf' === $blocks_to_register ) {
 					register_block_type( 'embedpress/embedpress-pdf', [
 						'render_callback' => 'embedpress_pdf_render_block',
+					]);
+				}elseif ( 'embedpress-calendar' === $blocks_to_register ) {
+					register_block_type( 'embedpress/embedpress-calendar', [
+							'render_callback' => 'embedpress_calendar_render_block',
 					]);
 				}else{
 					register_block_type( 'embedpress/'.$blocks_to_register );
@@ -202,4 +206,40 @@ function embedpress_pdf_render_block( $attributes ){
 		<?php
 		return ob_get_clean();
 	}
+}
+
+function embedpress_calendar_render_block( $attributes ){
+		$id = !empty( $attributes['id']) ? $attributes['id'] : 'embedpress-calendar-'.rand(100, 10000);
+		$hash = md5($id);
+		$width = !empty( $attributes['width']) ? $attributes['width'].'px' : '600px';
+		$height = !empty( $attributes['height']) ? $attributes['height'].'px' : '600px';
+		$gen_settings    = get_option( EMBEDPRESS_PLG_NAME);
+		$powered_by = isset( $gen_settings['embedpress_document_powered_by']) && 'yes' === $gen_settings['embedpress_document_powered_by'];
+		if ( isset( $attributes['powered_by']) ) {
+			$powered_by = $attributes['powered_by'];
+		}
+
+		$aligns = [
+				'left' => 'alignleft',
+				'right' => 'alignright',
+				'wide' => 'alignwide',
+				'full' => 'alignfull'
+		];
+		$alignment = isset($attributes['align']) && isset($aligns[$attributes['align']])?$aligns[$attributes['align']]:'';
+		$dimension = "width:$width;height:$height";
+		ob_start();
+		?>
+		<div class="embedpress-document-embed embedpress-pdf ose-calendar <?php echo esc_attr($alignment) ?>" style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block">
+			<?php echo Embedpress_Google_Helper::shortcode(); ?>
+			<?php do_action( 'embedpress_calendar_gutenberg_after_embed',  $hash, 'calendar', $attributes); ?>
+
+			<?php
+			if ($powered_by ) {
+				printf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
+			}?>
+
+		</div>
+		<?php
+		return ob_get_clean();
+
 }

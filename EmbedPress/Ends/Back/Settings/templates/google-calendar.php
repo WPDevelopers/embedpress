@@ -36,7 +36,7 @@ $epgc_cache_time = get_option('epgc_cache_time', 0);
             </div>
                 <h2>Calendars</h2>
                 <div class="form__group">
-                    <label for="epgc_cache_time" class="form__label" ><?php esc_html_e( "Select calendars", "embedpress" ); ?> </label>
+                    <label for="epgc_cache_time" class="form__label" ><?php esc_html_e( "Select calendars to show", "embedpress" ); ?> </label>
                     <div class="form__control__wrap">
 						<?php  Embedpress_Google_Helper::print_calendar_list(); ?>
                         <p><?php esc_html_e( 'Select which calendars you want to show', 'embedpress'); ?></p>
@@ -52,7 +52,9 @@ $epgc_cache_time = get_option('epgc_cache_time', 0);
         <br><br>
         <?php if ( !empty( $epgc_client_secret) ) { ?>
         <h2>Authorization</h2>
-        <br>
+            <p><?php esc_html_e( 'You need to authorize before fetching calendars', 'embedpress'); ?></p>
+
+            <br>
         <form style="display:inline" method="post" action="<?php echo admin_url('admin-post.php'); ?>">
             <input type="hidden" name="action" value="epgc_authorize">
 			<?php submit_button(__('Authorize', 'embedpress'), 'primary', 'epgc_authorize', false); ?>

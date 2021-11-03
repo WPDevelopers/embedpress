@@ -283,7 +283,15 @@ class Embedpress_Calendar extends Widget_Base
 
 		?>
 		<div <?php echo $this->get_render_attribute_string( 'embedpress-calendar' ); ?> style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block">
+
+
 			<?php
+			if ( Plugin::$instance->editor->is_edit_mode() ) {
+				?>
+                <p><?php esc_html_e( 'Calendar Data will be displayed in the frontend', 'embedpress'); ?></p>
+                    <?php
+			}else{
+
 			do_action( 'embedpress_calendar_after_embed',  $settings, $id, $this);
 			?>
 					<div <?php echo $this->get_render_attribute_string( 'embedpress-calendar-render' ); ?>>
@@ -298,6 +306,7 @@ class Embedpress_Calendar extends Widget_Base
 		</div>
 
 		<?php
+			}
 	}
 
 }
