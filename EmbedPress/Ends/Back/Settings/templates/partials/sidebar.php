@@ -81,7 +81,7 @@
                 </li>
                 <li class="dropdown__item">
                     <a href="<?php echo esc_url( $ep_page.'&page_type=google-calendar'); ?>" class="dropdown__link <?php echo 'google-calender' === $template ? 'active' : ''; ?>">
-                        <img class="embedpress-settings-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/calendar.png" alt="">
+                        <img class="embedpress-settings-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/calendar.svg" alt="">
 
 			            <?php esc_html_e( "Google Calendar", "embedpress" ); ?>
                     </a>

@@ -9,7 +9,7 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import {PdfIcon} from '../common/icons';
+import {CalendarIcon} from '../common/icons';
 
 
 const {__} = wp.i18n; // Import __() from wp.i18n
@@ -19,7 +19,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 	registerBlockType('embedpress/embedpress-calendar', {
 		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 		title: __('EmbedPress Calendar'), // Block title.
-		icon: PdfIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
+		icon: CalendarIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
 		category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout Widgets, embed.
 		keywords: [
 			__('embedpress'),
