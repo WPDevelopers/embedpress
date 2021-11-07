@@ -136,19 +136,37 @@ class Embedpress_Calendar extends Widget_Base
 			]
 		);
 
-		//$this->add_control(
-		//	'embedpress_calendar_type',
-		//	[
-		//		'label'   => __( 'Calender Type', 'embedpress' ),
-		//		'type'    => Controls_Manager::SELECT,
-		//		'default' => 'private',
-		//		'options' => [
-		//			'private' => __( 'Private', 'embedpress' ),
-		//			'public'  => __( 'Public', 'embedpress' )
-		//		],
-		//	]
-		//);
+		$this->add_control(
+			'embedpress_calendar_type',
+			[
+				'label'   => __( 'Calender Type', 'embedpress' ),
+				'type'    => Controls_Manager::SELECT,
+				'default' => 'private',
+				'options' => [
+					'private' => __( 'Private', 'embedpress' ),
+					'public'  => __( 'Public', 'embedpress' )
+				],
+			]
+		);
 
+
+		$this->add_control(
+			'embedpress_public_cal_link',
+			[
+
+				'label'       => __( 'Public Calendar Link', 'embedpress' ),
+				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => [
+					'active' => true,
+				],
+				'placeholder' => __( 'Calender your Link', 'embedpress' ),
+				'label_block' => true,
+				'condition'   => [
+					'embedpress_calendar_type' => 'public'
+				],
+
+			]
+		);
 
 
 
@@ -165,13 +183,13 @@ class Embedpress_Calendar extends Widget_Base
 				'range'     => [
 					'px' => [
 						'min' => 6,
-						'max' => 1000,
+						'max' => 1200,
 					],
 				],
 				'selectors' => [
 					'{{WRAPPER}} .embedpress-calendar-embed iframe'               => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
-					'{{WRAPPER}} .embedpress-calendar-embed .pdfobject-container' => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
 				],
+                'render_type' => 'template',
 			]
 		);
 
@@ -193,8 +211,9 @@ class Embedpress_Calendar extends Widget_Base
 				'selectors' => [
 					'{{WRAPPER}}'               => 'height: {{SIZE}}{{UNIT}};',
 					'{{WRAPPER}} .embedpress-calendar-embed iframe'               => 'height: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .embedpress-calendar-embed .pdfobject-container' => 'height: {{SIZE}}{{UNIT}};',
 				],
+				'render_type' => 'template',
+
 			]
 		);
 
@@ -286,16 +305,24 @@ class Embedpress_Calendar extends Widget_Base
 
 
 			<?php
-			if ( Plugin::$instance->editor->is_edit_mode() ) {
-				?>
-                <p><?php esc_html_e( 'Calendar Data will be displayed in the frontend', 'embedpress'); ?></p>
-                    <?php
-			}else{
-
 			do_action( 'embedpress_calendar_after_embed',  $settings, $id, $this);
 			?>
 					<div <?php echo $this->get_render_attribute_string( 'embedpress-calendar-render' ); ?>>
-                        <?php echo Embedpress_Google_Helper::shortcode(); ?>
+                        <?php if ( !empty( $settings['embedpress_public_cal_link']) && !empty( $settings['embedpress_calendar_type']) && 'public' === $settings['embedpress_calendar_type'] ) {
+                            ?>
+                            <iframe style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block"  src="<?php echo esc_attr(  $settings['embedpress_public_cal_link']); ?>"
+                                    frameborder="0"></iframe>
+                        <?php
+                        } else {
+	                        if ( Plugin::$instance->editor->is_edit_mode() ) {
+		                        ?>
+                                <p><?php esc_html_e( 'Private Calendar Data will be displayed in the frontend', 'embedpress'); ?></p>
+		                        <?php
+	                        }else{
+		                        echo Embedpress_Google_Helper::shortcode();
+	                        }
+
+                        }?>
 					</div>
 					<?php
 				if ( $settings[ 'embedpress_calendar_powered_by' ] === 'yes' ) {
@@ -306,7 +333,7 @@ class Embedpress_Calendar extends Widget_Base
 		</div>
 
 		<?php
-			}
+
 	}
 
 }
