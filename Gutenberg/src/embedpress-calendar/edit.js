@@ -109,7 +109,23 @@ export default function EmbedPressCalendarEdit({attributes, className, setAttrib
 
 			{(embedHTML && !editingURL && !fetching) && <figure { ...blockProps } >
 				{is_public && <iframe style={{display: fetching ? 'none' : ''}} src={url} width={width} height={height}/> }
-				{!is_public && <p >Private Calendar will show in the frontend only. Private calendar needs EmbedPress Pro</p> }
+				{ powered_by && (
+					<p className="embedpress-el-powered">Powered By EmbedPress</p>
+				)}
+				<div
+					className="block-library-embed__interactive-overlay"
+					onMouseUp={ setAttributes({interactive: true}) }
+				/>
+
+				<EmbedControls
+					showEditButton={embedHTML && !cannotEmbed}
+					switchBackToURLInput={switchBackToURLInput}
+				/>
+
+			</figure>}
+
+			{( !is_public && !editingURL && !fetching) && <figure { ...blockProps } >
+				 <p >Private Calendar will show in the frontend only. Note: private calendar needs EmbedPress Pro</p>
 
 				{ powered_by && (
 					<p className="embedpress-el-powered">Powered By EmbedPress</p>
