@@ -23,7 +23,7 @@ if ( !defined( 'EPGC_NOTICES_VERIFY_SUCCESS') ) {
 	define('EPGC_ERRORS_TOKEN_AND_API_KEY_MISSING',  __('Access token and API key are missing.', 'embedpress'));
 	define('EPGC_TRANSIENT_PREFIX', 'pgc_ev_');
 	define('EPGC_ENQUEUE_ACTION_PRIORITY', 11);
-    define( 'EPGC_REDIRECT_URL', admin_url('admin.php?page=embedpress&page_type=google-calender'));
+    define( 'EPGC_REDIRECT_URL', admin_url('admin.php?page=embedpress&page_type=google-calendar'));
 }
 if (!defined('EPGC_EVENTS_MAX_RESULTS')) {
 	define('EPGC_EVENTS_MAX_RESULTS', 250);
@@ -428,19 +428,19 @@ class Embedpress_Google_Helper {
 		self::delete_options($which);
 	}
 	public static function removable_query_args($removable_query_args) {
-		$removable_query_args[] = 'pgcnotice';
+		$removable_query_args[] = 'epgcnotice';
 		return $removable_query_args;
 	}
 
 	public static function notices_init() {
-		if (!empty($_GET['pgcnotice'])) {
-			$pgcnotices = get_option('pgc_notices_' . get_current_user_id());
-			if (empty($pgcnotices)) {
+		if (!empty($_GET['epgcnotice'])) {
+			$epgcnotices = get_option('epgc_notices_' . get_current_user_id());
+			if (empty($epgcnotices)) {
 				return;
 			}
-			delete_option('pgc_notices_' . get_current_user_id());
-			add_action('admin_notices', function() use ($pgcnotices) {
-				foreach ($pgcnotices as $notice) {
+			delete_option('epgc_notices_' . get_current_user_id());
+			add_action('admin_notices', function() use ($epgcnotices) {
+				foreach ($epgcnotices as $notice) {
 					?>
                     <div class="notice notice-<?php echo esc_attr($notice['type']); ?> is-dismissible">
                         <p><?php echo $notice['content']; ?></p>
@@ -456,17 +456,17 @@ class Embedpress_Google_Helper {
 	 * @param bool $redirect Redirect if true.
 	 */
 	public static function add_notice($content, $type = 'success', $redirect = false) {
-		$pgcnotices = get_option('pgc_notices_' . get_current_user_id());
-		if (empty($pgcnotices)) {
-			$pgcnotices = [];
+		$epgcnotices = get_option('epgc_notices_' . get_current_user_id());
+		if (empty($epgcnotices)) {
+			$epgcnotices = [];
 		}
-		$pgcnotices[] = [
+		$epgcnotices[] = [
 			'content' => $content,
 			'type' => $type
 		];
-		update_option('pgc_notices_' . get_current_user_id(), $pgcnotices, false);
+		update_option('epgc_notices_' . get_current_user_id(), $epgcnotices, false);
 		if ($redirect) {
-			wp_redirect(admin_url("options-general.php?page=pgc&pgcnotice=true"));
+			wp_redirect(admin_url(EPGC_REDIRECT_URL ."&epgcnotice=true"));
 		}
 	}
 
@@ -474,7 +474,8 @@ class Embedpress_Google_Helper {
 	 * Helper function die with different kind of errors.
 	 */
 	public static function embedpress_die($error = null) {
-        error_log( 'got hittt');
+        error_log( 'got hittt in error');
+        error_log( print_r( $error, 1));
 		$backLink = '<br><br><a href="' . admin_url('admin.php?page=embedpress&page_type=google-calendar') . '">' . __('Back', 'embedpress') . '</a>';
 		if (empty($error)) {
 			wp_die(__('Unknown error', 'embedpress') . $backLink);
@@ -842,9 +843,10 @@ class Embedpress_Google_Helper {
     }
 
 	public static function fetch_calendar() {
-		if ( empty( $_GET['page']) || 'embedpress' === $_GET['page'] ) {
+		if ( empty( $_GET['page']) || 'embedpress' !== $_GET['page'] ) {
             return;
         }
+
 		if ( !current_user_can( 'manage_options') ) {
             return;
         }
@@ -896,7 +898,7 @@ class Embedpress_Google_Helper {
 
 
 /**
- * Add 'epgcnotice' to the removable_query_args filter, so we can set this and
+ * Add 'eepgcnotice' to the removable_query_args filter, so we can set this and
  * WP will remove it for us. We use this for our custom admin notices. This way
  * you can add parameters to the URL and check for them, but we won't see them
  * in the URL.
@@ -904,7 +906,7 @@ class Embedpress_Google_Helper {
 add_filter('removable_query_args', [Embedpress_Google_Helper::class, 'removable_query_args']);
 
 /**
- * Check for 'pgcnotice' parameter and show admin notice if we have a option.
+ * Check for 'epgcnotice' parameter and show admin notice if we have a option.
  */
 add_action('admin_init', [Embedpress_Google_Helper::class,'notices_init']);
 
@@ -933,10 +935,6 @@ add_action('admin_post_epgc_remove_private', [Embedpress_Google_Helper::class, '
  */
 add_action('admin_post_epgc_remove', [Embedpress_Google_Helper::class,'admin_post_remove']);
 
-/**
- * Admin post action to delete all plugin data.
- */
-add_action('admin_post_epgc_remove', [Embedpress_Google_Helper::class, 'admin_post_remove']);
 
 /**
  * Admin post action to authorize access.

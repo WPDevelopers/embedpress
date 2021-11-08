@@ -109,7 +109,7 @@ export default function EmbedPressCalendarEdit({attributes, className, setAttrib
 
 			{(embedHTML && !editingURL && !fetching) && <figure { ...blockProps } >
 				{is_public && <iframe style={{display: fetching ? 'none' : ''}} src={url} width={width} height={height}/> }
-				{is_public && <p >Private Calendar will show in the frontend only. Private calendar needs EmbedPress Pro</p> }
+				{!is_public && <p >Private Calendar will show in the frontend only. Private calendar needs EmbedPress Pro</p> }
 
 				{ powered_by && (
 					<p className="embedpress-el-powered">Powered By EmbedPress</p>

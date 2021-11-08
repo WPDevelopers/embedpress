@@ -119,7 +119,7 @@ class Embedpress_Calendar extends Widget_Base
 	 */
 	public function get_keywords()
 	{
-		return ['embedpress', 'calendar', 'google', 'google calender', 'google-calender', 'ics', 'event', 'embedpress calendar'];
+		return ['embedpress', 'calendar', 'google', 'google calendar', 'google-calendar', 'ics', 'event', 'embedpress calendar'];
 	}
 
 	protected function _register_controls()
