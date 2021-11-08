@@ -43,6 +43,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "boolean",
 				default: true,
 			},
+			is_public: {
+				type: "boolean",
+				default: true,
+			},
 			width: {
 				type: 'number',
 				default: 600,
@@ -50,6 +54,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			height: {
 				type: 'number',
 				default: 600,
+			},
+			url: {
+				type: 'string',
+				default: ''
+			},
+			embedHTML: {
+				type: 'string',
+				default: ''
 			},
 		},
 		edit,

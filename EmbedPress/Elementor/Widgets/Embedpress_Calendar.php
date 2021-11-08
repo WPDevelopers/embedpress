@@ -314,14 +314,16 @@ class Embedpress_Calendar extends Widget_Base
                                     frameborder="0"></iframe>
                         <?php
                         } else {
-	                        if ( Plugin::$instance->editor->is_edit_mode() ) {
-		                        ?>
-                                <p><?php esc_html_e( 'Private Calendar Data will be displayed in the frontend', 'embedpress'); ?></p>
-		                        <?php
-	                        }else{
-		                        echo Embedpress_Google_Helper::shortcode();
-	                        }
+	                        if ( is_embedpress_pro_active() ) {
+		                        if ( Plugin::$instance->editor->is_edit_mode() ) {
+			                        ?>
+                                    <p><?php esc_html_e( 'Private Calendar Data will be displayed in the frontend', 'embedpress'); ?></p>
+			                        <?php
+		                        }else{
 
+			                        echo Embedpress_Google_Helper::shortcode();
+		                        }
+	                        }
                         }?>
 					</div>
 					<?php
