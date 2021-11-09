@@ -107,7 +107,7 @@ export default function EmbedPressCalendarEdit({attributes, className, setAttrib
 
 			{ fetching ? <div className={className}><EmbedLoading/> </div> : null}
 
-			{(embedHTML && !editingURL && !fetching) && <figure { ...blockProps } >
+			{(embedHTML && is_public && !editingURL && !fetching) && <figure { ...blockProps } >
 				{is_public && <iframe style={{display: fetching ? 'none' : ''}} src={url} width={width} height={height}/> }
 				{ powered_by && (
 					<p className="embedpress-el-powered">Powered By EmbedPress</p>

@@ -211,7 +211,7 @@ function embedpress_pdf_render_block( $attributes ){
 function embedpress_calendar_render_block( $attributes ){
 		$id = !empty( $attributes['id']) ? $attributes['id'] : 'embedpress-calendar-'.rand(100, 10000);
 		$url = !empty( $attributes['url']) ? $attributes['url'] : '';
-		$is_public = !empty( $attributes['is_public']) ? $attributes['is_public'] : false;
+		$is_private = isset( $attributes['is_public']);
 		$hash = md5($id);
 		$width = !empty( $attributes['width']) ? $attributes['width'].'px' : '600px';
 		$height = !empty( $attributes['height']) ? $attributes['height'].'px' : '600px';
@@ -233,8 +233,9 @@ function embedpress_calendar_render_block( $attributes ){
 		ob_start();
 		?>
 		<div class="embedpress-document-embed embedpress-pdf ose-calendar <?php echo esc_attr($alignment) ?>" style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block">
+
 			<?php
-			if ( !empty( $url) && $is_public ) {
+			if ( !empty( $url) && !$is_private ) {
 			?>
 			<iframe style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block"  src="<?php echo esc_attr( $url); ?>"></iframe>
 			<?php } else {
