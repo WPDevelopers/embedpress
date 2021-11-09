@@ -16,32 +16,36 @@ $epgc_cache_time = get_option('epgc_cache_time', 0);
 			do_action( 'embedpress_before_gcalendar_settings_fields');
 			echo  $nonce_field ; ?>
 			<div class="form__group">
-				<label for="epgc_client_secret" class="form__label" ><?php esc_html_e( "Google Auth JSON (Refresh after saving)", "embedpress" ); ?> </label>
-				<div class="form__control__wrap">
+				<label for="epgc_client_secret" class="form__label" ><?php esc_html_e( "Google Auth JSON (Refresh after saving)", "embedpress" );  echo !$pro_active ? ' <span class="isPro">PRO</span>': ''; ?> </label>
+
+				<div class="form__control__wrap  <?php echo $pro_active ? '': 'isPro'; ?>">
                    <textarea name="epgc_client_secret" id="epgc_client_secret" class="form__control" data-default="<?php echo esc_attr( $epgc_client_secret); ?>" value="<?php echo esc_attr( $epgc_client_secret); ?>" rows="5"  ><?php echo esc_html(  $epgc_client_secret) ?></textarea>
                     <p ><?php printf(__('Enter the JSON string downloaded from the Google Console. Note: Create a new project in Google developer console and make sure you set <code>%s</code> as the authorized redirect URI.', 'embedpress'), $ep_page . '&page_type=google-calendar'); ?></p>
 
                 </div>
+				<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 
 			</div>
 
             <div class="form__group">
-                <label for="epgc_cache_time" class="form__label" ><?php esc_html_e( "Caching time (in Minutes)", "embedpress" ); ?> </label>
-                <div class="form__control__wrap">
+                <label for="epgc_cache_time" class="form__label" ><?php esc_html_e( "Caching time (in Minutes)", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </label>
+                <div class="form__control__wrap  <?php echo $pro_active ? '': 'isPro'; ?>">
                     <input name="epgc_cache_time" type="number" id="epgc_cache_time" class="form__control" data-default="<?php echo esc_attr( $epgc_cache_time); ?>" value="<?php echo esc_attr( $epgc_cache_time); ?>" >
                     <p><?php esc_html_e( 'How long do you want to cache the data? Set it 0 to disable caching', 'embedpress'); ?></p>
 
                 </div>
+	            <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 
             </div>
                 <h2>Calendars</h2>
                 <div class="form__group">
-                    <label for="epgc_cache_time" class="form__label" ><?php esc_html_e( "Select calendars to show", "embedpress" ); ?> </label>
-                    <div class="form__control__wrap">
+                    <label for="epgc_cache_time" class="form__label" ><?php esc_html_e( "Select calendars to show", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">PRO</span>';  ?> </label>
+                    <div class="form__control__wrap <?php echo $pro_active ? '': 'isPro'; ?>">
 						<?php  Embedpress_Google_Helper::print_calendar_list(); ?>
                         <p><?php esc_html_e( 'Select which calendars you want to show', 'embedpress'); ?></p>
 
                     </div>
+	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 
                 </div>
 
