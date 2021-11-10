@@ -81,7 +81,7 @@ class Embedpress_Calendar extends Widget_Base
 
 	public function get_title()
 	{
-		return esc_html__( 'EmbedPress Calender', 'embedpress' );
+		return esc_html__( 'EmbedPress Calendar', 'embedpress' );
 	}
 
 	public function get_categories()
@@ -139,7 +139,7 @@ class Embedpress_Calendar extends Widget_Base
 		$this->add_control(
 			'embedpress_calendar_type',
 			[
-				'label'   => __( 'Calender Type', 'embedpress' ),
+				'label'   => __( 'Calendar Type', 'embedpress' ),
 				'type'    => Controls_Manager::SELECT,
 				'default' => 'private',
 				'options' => [
@@ -159,7 +159,7 @@ class Embedpress_Calendar extends Widget_Base
 				'dynamic'     => [
 					'active' => true,
 				],
-				'placeholder' => __( 'Calender your Link', 'embedpress' ),
+				'placeholder' => __( 'Enter public calendar link', 'embedpress' ),
 				'label_block' => true,
 				'condition'   => [
 					'embedpress_calendar_type' => 'public'

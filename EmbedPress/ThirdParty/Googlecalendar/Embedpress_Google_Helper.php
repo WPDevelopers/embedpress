@@ -40,8 +40,10 @@ if (!defined('EPGC_ASSET_URL')) {
 
 class Embedpress_Google_Helper {
 
-	public static function print_calendar_list() {
-		$calendarList = static::getDecoded( 'epgc_calendarlist' ); //settings_selected_calendar_ids_json_cb
+	public static function print_calendar_list($calendarList = []) {
+		if ( empty( $calendarList) ) {
+			$calendarList = static::getDecoded( 'epgc_calendarlist' ); //settings_selected_calendar_ids_json_cb
+		}
 		if ( ! empty( $calendarList ) ) {
 			$selectedCalendarIds = get_option( 'epgc_selected_calendar_ids' ); // array
 			if ( empty( $selectedCalendarIds ) ) {
@@ -466,7 +468,7 @@ class Embedpress_Google_Helper {
 		];
 		update_option('epgc_notices_' . get_current_user_id(), $epgcnotices, false);
 		if ($redirect) {
-			wp_redirect(admin_url(EPGC_REDIRECT_URL ."&epgcnotice=true"));
+			wp_redirect(EPGC_REDIRECT_URL ."&epgcnotice=true");
 		}
 	}
 

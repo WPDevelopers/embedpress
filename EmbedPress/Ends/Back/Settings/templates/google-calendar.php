@@ -1,15 +1,16 @@
 <?php
 /*
- * Google Calender Settings page
+ * Google Calendear Settings page
  * All undefined vars comes from 'render_settings_page' method
  *  */
 $epgc_client_secret = get_option('epgc_client_secret', '');
 $epgc_cache_time = get_option('epgc_cache_time', 0);
+$calendarList = Embedpress_Google_Helper::getDecoded( 'epgc_calendarlist' ); //settings_selected_calendar_ids_json_cb
 
 ?>
 
 <div class="embedpress__settings background__white radius-25 p40">
-	<h3><?php esc_html_e( "Google Calender Settings", "embedpress" ); ?></h3>
+	<h3><?php esc_html_e( "Google Calendar Settings", "embedpress" ); ?></h3>
 	<div class="embedpress__settings__form">
 		<form action="" method="post" class="embedpress-settings-form">
 			<?php
@@ -20,7 +21,11 @@ $epgc_cache_time = get_option('epgc_cache_time', 0);
 
 				<div class="form__control__wrap  <?php echo $pro_active ? '': 'isPro'; ?>">
                    <textarea name="epgc_client_secret" id="epgc_client_secret" class="form__control" data-default="<?php echo esc_attr( $epgc_client_secret); ?>" value="<?php echo esc_attr( $epgc_client_secret); ?>" rows="5"  ><?php echo esc_html(  $epgc_client_secret) ?></textarea>
-                    <p ><?php printf(__('Enter the JSON string downloaded from the Google Console. Note: Create a new project in Google developer console and make sure you set <code>%s</code> as the authorized redirect URI.', 'embedpress'), $ep_page . '&page_type=google-calendar'); ?></p>
+                    <p>
+                        <?php esc_html_e( 'Enter the JSON string downloaded from the Google Console.', 'embedpress'); ?>
+                        <br>
+	                    <?php printf(__('Note: Create a new project in the Google developer console and make sure you set <code>%s</code> as the authorized redirect URI.', 'embedpress'), $ep_page . '&page_type=google-calendar'); ?>
+                    </p>
 
                 </div>
 				<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
@@ -41,9 +46,13 @@ $epgc_cache_time = get_option('epgc_cache_time', 0);
                 <div class="form__group">
                     <label for="epgc_cache_time" class="form__label" ><?php esc_html_e( "Select calendars to show", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">PRO</span>';  ?> </label>
                     <div class="form__control__wrap <?php echo $pro_active ? '': 'isPro'; ?>">
-						<?php  Embedpress_Google_Helper::print_calendar_list(); ?>
-                        <p><?php esc_html_e( 'Select which calendars you want to show', 'embedpress'); ?></p>
-
+						<?php  Embedpress_Google_Helper::print_calendar_list($calendarList); ?>
+                        <?php if ( !empty( $calendarList) ) {
+	                        Embedpress_Google_Helper::print_calendar_list($calendarList); ?>
+                            <p><?php esc_html_e( 'Select which calendars you want to show', 'embedpress'); ?></p>
+                        <?php } else { ?>
+                            <p><?php esc_html_e( 'No calendars were found.', 'embedpress' ); ?></p>
+                        <?php } ?>
                     </div>
 	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 
@@ -51,12 +60,13 @@ $epgc_cache_time = get_option('epgc_cache_time', 0);
 
 
 			<?php do_action( 'embedpress_after_gcalendar_settings_fields'); ?>
+
 			<button class="button button__themeColor radius-10 embedpress-submit-btn" name="submit" value="gcalendar"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
 		</form>
         <br><br>
         <?php if ( !empty( $epgc_client_secret) ) { ?>
         <h2>Authorization</h2>
-            <p><?php esc_html_e( 'You need to authorize before fetching calendars', 'embedpress'); ?></p>
+            <p><?php esc_html_e( 'You need to authorize before fetching new calendars', 'embedpress'); ?></p>
 
             <br>
         <form style="display:inline" method="post" action="<?php echo admin_url('admin-post.php'); ?>">
