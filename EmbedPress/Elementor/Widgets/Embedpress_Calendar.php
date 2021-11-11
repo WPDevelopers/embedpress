@@ -81,7 +81,7 @@ class Embedpress_Calendar extends Widget_Base
 
 	public function get_title()
 	{
-		return esc_html__( 'EmbedPress Calendar', 'embedpress' );
+		return esc_html__( 'EmbedPress Google Calendar', 'embedpress' );
 	}
 
 	public function get_categories()
@@ -141,7 +141,7 @@ class Embedpress_Calendar extends Widget_Base
 			[
 				'label'   => __( 'Calendar Type', 'embedpress' ),
 				'type'    => Controls_Manager::SELECT,
-				'default' => 'private',
+				'default' => 'public',
 				'options' => [
 					'private' => __( 'Private', 'embedpress' ),
 					'public'  => __( 'Public', 'embedpress' )
