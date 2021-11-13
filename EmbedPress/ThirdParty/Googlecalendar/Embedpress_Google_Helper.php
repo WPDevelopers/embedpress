@@ -79,7 +79,7 @@ class Embedpress_Google_Helper {
 			}
 		} else {
 			?>
-            <p><?php _e( 'No calendars found.', 'embedpress' ); ?></p>
+            <p><?php _e( 'No calendar was found.', 'embedpress' ); ?></p>
 			<?php
 		}
 	}

@@ -46,12 +46,9 @@ $calendarList = Embedpress_Google_Helper::getDecoded( 'epgc_calendarlist' ); //s
                 <div class="form__group">
                     <label for="epgc_cache_time" class="form__label" ><?php esc_html_e( "Select calendars to show", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">PRO</span>';  ?> </label>
                     <div class="form__control__wrap <?php echo $pro_active ? '': 'isPro'; ?>">
-						<?php  Embedpress_Google_Helper::print_calendar_list($calendarList); ?>
                         <?php if ( !empty( $calendarList) ) {
 	                        Embedpress_Google_Helper::print_calendar_list($calendarList); ?>
                             <p><?php esc_html_e( 'Select which calendars you want to show', 'embedpress'); ?></p>
-                        <?php } else { ?>
-                            <p><?php esc_html_e( 'No calendars were found.', 'embedpress' ); ?></p>
                         <?php } ?>
                     </div>
 	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
