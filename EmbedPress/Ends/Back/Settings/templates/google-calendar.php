@@ -62,7 +62,7 @@ $calendarList = Embedpress_Google_Helper::getDecoded( 'epgc_calendarlist' ); //s
 		</form>
         <br><br>
         <?php if ( !empty( $epgc_client_secret) ) { ?>
-        <h2>Authorization</h2>
+        <h2><?php esc_html_e( 'Authorization', 'embedpress'); ?></h2>
             <p><?php esc_html_e( 'You need to authorize before fetching new calendars', 'embedpress'); ?></p>
 
             <br>
