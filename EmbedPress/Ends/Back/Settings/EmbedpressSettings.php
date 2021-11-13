@@ -70,6 +70,15 @@ class EmbedpressSettings {
 			update_option( $migration_v_320, true);
 		}
 
+		$migration_v_330 = 'embedpress_v_330_migration';
+		if ( !get_option( $migration_v_330, false) ) {
+			$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
+			$elements['gutenberg']['embedpress-calendar'] = ['embedpress-calendar'];
+			$elements['elementor']['embedpress-calendar'] = ['embedpress-calendar'];
+			update_option( EMBEDPRESS_PLG_NAME.":elements", $elements);
+			update_option( $migration_v_330, true);
+		}
+
 		add_action( 'admin_init', [$this, 'embedpress_maybe_redirect_to_settings']  );
 
 

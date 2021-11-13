@@ -154,9 +154,11 @@ function embedpress_gutenberg_register_all_block() {
 					register_block_type( 'embedpress/'.$blocks_to_register );
 				}
 			}else{
+
 				if ( WP_Block_Type_Registry::get_instance()->is_registered( 'embedpress/'.$blocks_to_register) ) {
 					unregister_block_type( 'embedpress/'.$blocks_to_register );
 				}
+
 			}
 		}
 

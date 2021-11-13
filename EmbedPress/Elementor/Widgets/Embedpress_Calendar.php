@@ -170,7 +170,7 @@ class Embedpress_Calendar extends Widget_Base
 
 
 
-		$this->add_control(
+		$this->add_responsive_control(
 			'embedpress_elementor_calendar_width',
 			[
 				'label'     => __( 'Width', 'embedpress' ),
@@ -193,7 +193,7 @@ class Embedpress_Calendar extends Widget_Base
 			]
 		);
 
-		$this->add_control(
+		$this->add_responsive_control(
 			'embedpress_elementor_calendar_height',
 			[
 				'label'     => __( 'Height', 'embedpress' ),

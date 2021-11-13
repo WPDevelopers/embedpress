@@ -18,8 +18,10 @@ const {__} = wp.i18n;
 
 
 export default function EmbedPressCalendarEdit({attributes, className, setAttributes}){
-	const {url, editingURL, fetching, cannotEmbed, interactive, embedHTML, height, width, powered_by, is_public} = attributes;
+	const {url, editingURL, fetching, cannotEmbed, embedHTML, height, width, powered_by, is_public} = attributes;
 	const blockProps = useBlockProps ? useBlockProps() : [];
+	const heightpx = height+'px';
+	const widthpx = width+'px';
 	function switchBackToURLInput() {
 		setAttributes( {editingURL: true});
 	}
@@ -70,7 +72,6 @@ export default function EmbedPressCalendarEdit({attributes, className, setAttrib
 						value={ height }
 						onChange={ ( height ) => setAttributes( { height } ) }
 					/>
-					{(embedHTML && !editingURL) && <button onClick={embed}>{__('Apply')}</button>}
 
 				</PanelBody>
 				<PanelBody title={__("Calendar Type and other option", 'embedpress')}>
@@ -107,8 +108,9 @@ export default function EmbedPressCalendarEdit({attributes, className, setAttrib
 
 			{ fetching ? <div className={className}><EmbedLoading/> </div> : null}
 
-			{(embedHTML && is_public && !editingURL && !fetching) && <figure { ...blockProps } >
-				{is_public && <iframe style={{display: fetching ? 'none' : ''}} src={url} width={width} height={height}/> }
+			{(embedHTML && is_public && !editingURL && !fetching) && <figure { ...blockProps }  style={ { width: widthpx, height : heightpx } }>
+				{is_public && <iframe style={{display: fetching ? 'none' : ''}} src={url} width={width} height={height}/>
+				}
 				{ powered_by && (
 					<p className="embedpress-el-powered">Powered By EmbedPress</p>
 				)}
