@@ -5,6 +5,7 @@ namespace EmbedPress\Elementor;
 
 (defined( 'ABSPATH' )) or die( "No direct script access allowed." );
 use EmbedPress\Compatibility;
+use EmbedPress\Elementor\Widgets\Embedpress_Calendar;
 use EmbedPress\Elementor\Widgets\Embedpress_Document;
 use EmbedPress\Elementor\Widgets\Embedpress_Elementor;
 use EmbedPress\Elementor\Widgets\Embedpress_Pdf;
@@ -40,7 +41,7 @@ class Embedpress_Elementor_Integration {
                 'icon'  => 'font',
             ], 1 );
     }
-    
+
     /**
      * Load elementor widget
      *
@@ -61,6 +62,9 @@ class Embedpress_Elementor_Integration {
 
 	    if ( !empty($e_blocks['embedpress-pdf']) ) {
 		    $widgets_manager->register_widget_type( new Embedpress_Pdf );
+	    }
+	    if ( !empty($e_blocks['embedpress-calendar']) ) {
+		    $widgets_manager->register_widget_type( new Embedpress_Calendar );
 	    }
     }
 
@@ -85,7 +89,7 @@ class Embedpress_Elementor_Integration {
 			EMBEDPRESS_VERSION
 		);
 	}
-    
+
     public function editor_enqueue_scripts(){
 
     }

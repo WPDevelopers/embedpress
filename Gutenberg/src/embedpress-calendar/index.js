@@ -9,53 +9,62 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import {PdfIcon} from '../common/icons';
+import {CalendarIcon} from '../common/icons';
 
 
 const {__} = wp.i18n; // Import __() from wp.i18n
 const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
 
-if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks['embedpress-pdf']) {
-	registerBlockType('embedpress/embedpress-pdf', {
+if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks['embedpress-calendar']) {
+	registerBlockType('embedpress/embedpress-calendar', {
 		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-		title: __('EmbedPress PDF'), // Block title.
-		icon: PdfIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
+		title: __('Google Calendar'), // Block title.
+		icon: CalendarIcon, // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
 		category: 'embedpress', // Block category — Group blocks together based on common traits E.g. common, formatting, layout Widgets, embed.
 		keywords: [
-			__('embedpress'),
-			__('pdf'),
-			__('doc'),
-			__('document'),
+			'embedpress',
+			'embed',
+			'calendar',
+			'calender',
+			'google',
+			'cal',
+			'events',
+			'task',
+			'birthday',
 		],
 		supports: {
 			align: ["left", "center", "right"],
-			default: ''
+			default: 'center',
+			lightBlockWrapper: true
 		},
 		attributes: {
 			id: {
-				type: "string"
-			},
-			href: {
 				type: "string"
 			},
 			powered_by: {
 				type: "boolean",
 				default: true,
 			},
+			is_public: {
+				type: "boolean",
+				default: true,
+			},
 			width: {
-				type: 'number',
-				default: '600',
+				type: 'string',
+				default: 600,
 			},
 			height: {
-				type: 'number',
-				default: '600',
+				type: 'string',
+				default: 600,
 			},
-			fileName: {
-				type: "string",
+			url: {
+				type: 'string',
+				default: ''
 			},
-			mime: {
-				type: "string",
-			}
+			embedHTML: {
+				type: 'string',
+				default: ''
+			},
 		},
 		edit,
 		save: function (props) {

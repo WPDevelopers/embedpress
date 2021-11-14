@@ -70,6 +70,15 @@ class EmbedpressSettings {
 			update_option( $migration_v_320, true);
 		}
 
+		$migration_v_330 = 'embedpress_v_330_migration';
+		if ( !get_option( $migration_v_330, false) ) {
+			$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
+			$elements['gutenberg']['embedpress-calendar'] = ['embedpress-calendar'];
+			$elements['elementor']['embedpress-calendar'] = ['embedpress-calendar'];
+			update_option( EMBEDPRESS_PLG_NAME.":elements", $elements);
+			update_option( $migration_v_330, true);
+		}
+
 		add_action( 'admin_init', [$this, 'embedpress_maybe_redirect_to_settings']  );
 
 
@@ -335,5 +344,27 @@ class EmbedpressSettings {
 		$settings = apply_filters( 'ep_soundcloud_settings_before_save', $settings);
 		update_option( $option_name, $settings);
 		do_action( 'ep_soundcloud_settings_after_save', $settings);
+	}
+
+	public function save_gcalendar_settings() {
+		$client_secret = !empty( $_POST['epgc_client_secret']) ? json_decode( wp_unslash( trim( $_POST['epgc_client_secret'])), true) : [];
+		$epgc_cache_time = !empty( $_POST['epgc_cache_time'] ) ? absint( $_POST['epgc_cache_time']) : 0;
+		$epgc_selected_calendar_ids = !empty( $_POST['epgc_selected_calendar_ids'] ) ? array_map( 'sanitize_text_field', $_POST['epgc_selected_calendar_ids']) : [];
+
+
+		$pretty_client_secret = '';
+		if ( !empty( $client_secret) ) {
+			$pretty_client_secret = $this->get_pretty_json_string( $client_secret);
+		}
+
+		update_option( 'epgc_client_secret', $pretty_client_secret);
+		update_option( 'epgc_cache_time', $epgc_cache_time);
+		update_option( 'epgc_selected_calendar_ids', $epgc_selected_calendar_ids);
+
+	}
+
+
+	function get_pretty_json_string($array) {
+		return str_replace("    ", "  ", json_encode($array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 	}
 }

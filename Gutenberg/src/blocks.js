@@ -21,6 +21,7 @@ import './youtube/index.js';
 import './document/index.js';
 import './embedpress/index.js';
 import './embedpress-pdf/index.js';
+import './embedpress-calendar/index.js';
 
 ( function() {
 		let a = <svg width="33" height="20" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
