@@ -2,20 +2,20 @@
 # This file is distributed under the same license as the EmbedPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: EmbedPress 3.2.0\n"
+"Project-Id-Version: EmbedPress 3.2.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/embedpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-10-05T11:40:08+00:00\n"
+"POT-Creation-Date: 2021-11-14T04:50:31+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: embedpress\n"
 
 #. Plugin Name of the plugin
-#: EmbedPress/Elementor/Embedpress_Elementor_Integration.php:39
+#: EmbedPress/Elementor/Embedpress_Elementor_Integration.php:40
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:25
 msgid "EmbedPress"
 msgstr ""
@@ -44,7 +44,7 @@ msgstr ""
 
 #: EmbedPress/Core.php:508
 #: EmbedPress/CoreLegacy.php:309
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:145
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:146
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:18
 #: EmbedPress/Plugins/Plugin.php:159
 msgid "Settings"
@@ -56,99 +56,135 @@ msgstr ""
 msgid "Go Pro"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:26
-msgid "EmbedPress Document"
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:68
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:792
+msgid "All day"
 msgstr ""
 
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:69
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:793
+msgid "Created by"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:70
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:794
+msgid "Go to event"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:71
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:483
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:795
+msgid "Unknown error"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:72
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:796
+msgid "Request error"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:73
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:797
+msgid "Loading"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:84
+msgid "EmbedPress Google Calendar"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:128
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:62
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:78
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:62
 msgid "Pro"
 msgstr ""
 
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:135
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:69
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:85
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:69
 msgid "Content Settings"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:76
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:76
-msgid "Document Type"
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:142
+msgid "Calendar Type"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:80
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:80
-msgid "File"
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:146
+msgid "Private"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:81
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:118
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:81
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:112
-msgid "URL"
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:147
+msgid "Public"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:90
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:90
-msgid "Upload File"
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:157
+msgid "Public Calendar Link"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:107
-msgid "Upload a file or pick one from your media library for embed. Supported File Type: PDF, DOC/DOCX, PPT/PPTX, XLS/XLSX etc."
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:162
+msgid "Enter public calendar link"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:120
-#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:114
-msgid "https://your-link.com/file.pdf"
-msgstr ""
-
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:176
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:134
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1228
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:128
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:201
+#: Gutenberg/src/embedpress-calendar/edit.js:66
 #: Gutenberg/src/embedpress-pdf/edit.js:197
 msgid "Width"
 msgstr ""
 
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:199
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:157
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1247
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:152
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:213
+#: Gutenberg/src/embedpress-calendar/edit.js:71
 #: Gutenberg/src/embedpress-pdf/edit.js:209
 msgid "Height"
 msgstr ""
 
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:223
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:180
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1288
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:175
 msgid "Alignment"
 msgstr ""
 
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:227
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:184
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1292
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:179
 msgid "Left"
 msgstr ""
 
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:231
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:188
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1296
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:183
 msgid "Center"
 msgstr ""
 
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:235
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:192
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1300
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:187
 msgid "Right"
 msgstr ""
 
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:247
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:204
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:199
+#: Gutenberg/dist/blocks.build.js:1
+#: Gutenberg/src/embedpress-calendar/edit.js:80
 #: Gutenberg/src/embedpress-pdf/edit.js:221
 msgid "Powered By"
 msgstr ""
 
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:249
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:206
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:448
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:469
@@ -181,6 +217,7 @@ msgstr ""
 msgid "Show"
 msgstr ""
 
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:250
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:207
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:447
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:468
@@ -213,22 +250,69 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:264
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:221
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:167
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:216
 msgid "Go Premium for More Features"
 msgstr ""
 
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:271
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:228
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:174
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:223
 msgid "Unlock more possibilities"
 msgstr ""
 
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:319
+msgid "You need EmbedPress Pro to display Private Calendar Data."
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:325
+msgid "Private Calendar Data will be displayed in the frontend"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:335
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:291
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:285
-#: Gutenberg/plugin.php:198
+#: Gutenberg/plugin.php:204
+#: Gutenberg/plugin.php:253
 msgid "Powered By EmbedPress"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:26
+msgid "EmbedPress Document"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:76
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:76
+msgid "Document Type"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:80
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:80
+msgid "File"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:81
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:118
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:81
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:112
+msgid "URL"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:90
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:90
+msgid "Upload File"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:107
+msgid "Upload a file or pick one from your media library for embed. Supported File Type: PDF, DOC/DOCX, PPT/PPTX, XLS/XLSX etc."
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Document.php:120
+#: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:114
+msgid "https://your-link.com/file.pdf"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:93
@@ -741,20 +825,20 @@ msgstr ""
 msgid "Upload a file or pick one from your media library for embed. Supported File Type: PDF"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:118
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:137
 msgid "EmbedPress Settings"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:161
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:180
 msgid "(Coming soon)"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:162
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:181
 #: EmbedPress/Ends/Back/Settings/templates/partials/toast-message.php:4
 msgid "Settings Updated"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:163
+#: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:182
 #: EmbedPress/Ends/Back/Settings/templates/partials/toast-message.php:8
 msgid "Ops! Something went wrong."
 msgstr ""
@@ -770,6 +854,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:63
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:156
 #: EmbedPress/Ends/Back/Settings/templates/general.php:64
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:64
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:189
 #: EmbedPress/Ends/Back/Settings/templates/spotify.php:84
 #: EmbedPress/Ends/Back/Settings/templates/twitch.php:111
@@ -779,35 +864,35 @@ msgstr ""
 msgid "Save Changes"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:138
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:139
 msgid "%s Custom Branding"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:152
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:153
 msgid "Click To Upload"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:164
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:165
 msgid "Logo Opacity (%)"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:171
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:172
 msgid "Logo X Position (%)"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:178
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:179
 msgid "Logo Y Position (%)"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:185
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:186
 msgid "Call to Action Link"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:189
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:190
 msgid "You may link the logo to any CTA link."
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:194
+#: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:195
 msgid "Live Preview"
 msgstr ""
 
@@ -896,19 +981,21 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/elements.php:131
 #: EmbedPress/Ends/Back/Settings/templates/elements.php:142
 #: EmbedPress/Ends/Back/Settings/templates/elements.php:153
-#: EmbedPress/Ends/Back/Settings/templates/elements.php:172
-#: EmbedPress/Ends/Back/Settings/templates/elements.php:184
-#: EmbedPress/Ends/Back/Settings/templates/elements.php:197
+#: EmbedPress/Ends/Back/Settings/templates/elements.php:164
+#: EmbedPress/Ends/Back/Settings/templates/elements.php:183
+#: EmbedPress/Ends/Back/Settings/templates/elements.php:195
+#: EmbedPress/Ends/Back/Settings/templates/elements.php:208
+#: EmbedPress/Ends/Back/Settings/templates/elements.php:221
 #: EmbedPress/Ends/Back/Settings/templates/partials/footer.php:12
 #: EmbedPress/Ends/Back/Settings/templates/partials/footer.php:15
 msgid "Documentation"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/elements.php:214
+#: EmbedPress/Ends/Back/Settings/templates/elements.php:238
 msgid "Preview In Frontend"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/elements.php:222
+#: EmbedPress/Ends/Back/Settings/templates/elements.php:246
 msgid "Preview In Editor"
 msgstr ""
 
@@ -939,6 +1026,58 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:8
 msgid "Get Premium Version"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:14
+msgid "Google Calendar Settings"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:21
+msgid "Google Auth JSON (Refresh after saving)"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:26
+msgid "Enter the JSON string downloaded from the Google Console."
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:28
+msgid "Note: Create a new project in the Google developer console and make sure you set <code>%s</code> as the authorized redirect URI."
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:37
+msgid "Caching time (in Minutes)"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:40
+msgid "How long do you want to cache the data? Set it 0 to disable caching"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:48
+msgid "Select calendars to show"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:52
+msgid "Select which calendars you want to show"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:54
+msgid "No calendar was found"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:68
+msgid "Authorization"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:69
+msgid "You need to authorize before fetching new calendars"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:74
+msgid "Authorize"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:79
+msgid "Stop"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/partials/alert-coming-soon.php:7
@@ -1010,15 +1149,19 @@ msgstr ""
 msgid "Spotify"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:92
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:86
+msgid "Google Calendar"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:99
 msgid "Elements"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:106
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:113
 msgid "Go Premium"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:115
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:122
 msgid "License"
 msgstr ""
 
@@ -1546,7 +1689,109 @@ msgstr ""
 msgid "This message is only visible to you."
 msgstr ""
 
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:7
+msgid "Verify OK!"
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:8
+msgid "Access revoked. This plugin does not have access to your calendars anymore."
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:9
+msgid "Plugin data removed. Make sure to also manually revoke access to your calendars in the Google <a target=\"__blank\" href=\"%s\">Permissions</a> page!"
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:10
+msgid "Calendars updated."
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:11
+msgid "Colors updated."
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:12
+msgid "Cache deleted."
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:14
+msgid "No client secret."
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:15
+msgid "Invalid client secret."
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:16
+msgid "No access token."
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:17
+msgid "Your refresh token is missing!<br><br>This can only be solved by manually revoking this plugin&#39;s access in the Google <a target=\"__blank\" href=\"%s\">Permissions</a> page and remove all plugin data."
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:18
+msgid "No access and refresh tokens."
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:19
+msgid "URI <code>%s</code> missing in the client secret file. Adjust your Google project and upload the new client secret file."
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:20
+msgid "Invalid format"
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:21
+msgid "No calendars"
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:22
+msgid "No selected calendars"
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:23
+msgid "Access token and API key are missing."
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:82
+msgid "No calendar was found."
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:481
+msgid "Back"
+msgstr ""
+
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:502
+msgid "Unknown error format"
+msgstr ""
+
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:198
 #: Gutenberg/src/embedpress-pdf/edit.js:194
 msgid "Embed Size"
+msgstr ""
+
+#: Gutenberg/dist/blocks.build.js:1
+#: Gutenberg/src/embedpress-calendar/edit.js:63
+msgid "Customize Embedded Calendar"
+msgstr ""
+
+#: Gutenberg/dist/blocks.build.js:1
+#: Gutenberg/src/embedpress-calendar/edit.js:64
+msgid "You can adjust the width and height of embedded content."
+msgstr ""
+
+#: Gutenberg/dist/blocks.build.js:1
+#: Gutenberg/src/embedpress-calendar/edit.js:77
+msgid "Calendar Type and other option"
+msgstr ""
+
+#: Gutenberg/dist/blocks.build.js:1
+#: Gutenberg/src/embedpress-calendar/edit.js:78
+msgid "You can show public calendar without any API key"
+msgstr ""
+
+#: Gutenberg/dist/blocks.build.js:1
+#: Gutenberg/src/embedpress-calendar/edit.js:87
+msgid "Embedding Public Calendar"
 msgstr ""
