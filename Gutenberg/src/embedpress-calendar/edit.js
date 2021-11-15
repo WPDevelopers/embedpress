@@ -23,7 +23,7 @@ export default function EmbedPressCalendarEdit({attributes, className, setAttrib
 	const heightpx = height+'px';
 	const widthpx = width+'px';
 	function switchBackToURLInput() {
-		setAttributes( {editingURL: true});
+		setAttributes( {editingURL: true, is_public: true});
 	}
 	function onLoad() {
 		setAttributes( {fetching: false});
@@ -126,7 +126,7 @@ export default function EmbedPressCalendarEdit({attributes, className, setAttrib
 
 			</figure>}
 
-			{( !is_public && !editingURL && !fetching) && <figure { ...blockProps } >
+			{( !is_public ) && <figure { ...blockProps } >
 				 <p >Private Calendar will show in the frontend only. Note: private calendar needs EmbedPress Pro</p>
 
 				{ powered_by && (
