@@ -234,7 +234,7 @@ function embedpress_calendar_render_block( $attributes ){
 		$dimension = "width:$width;height:$height";
 		ob_start();
 		?>
-		<div class="embedpress-document-embed embedpress-pdf ose-calendar <?php echo esc_attr($alignment) ?>" style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block">
+		<div class="embedpress-calendar-gutenberg embedpress-calendar ose-calendar <?php echo esc_attr($alignment) ?>" style="<?php echo esc_attr( $dimension); ?>; max-width:100%;">
 
 			<?php
 			if ( !empty( $url) && !$is_private ) {
