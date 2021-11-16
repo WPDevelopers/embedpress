@@ -77,7 +77,7 @@ export default function EmbedPressCalendarEdit({attributes, className, setAttrib
 					/>
 
 				</PanelBody>
-				<PanelBody title={__("Calendar Type and other option", 'embedpress')}>
+				<PanelBody title={__("Calendar Type and other options", 'embedpress')}>
 					<p>{__("You can show public calendar without any API key", 'embedpress')}</p>
 					<ToggleControl
 						label={ __( 'Powered By', 'embedpress' ) }
@@ -130,7 +130,7 @@ export default function EmbedPressCalendarEdit({attributes, className, setAttrib
 			</figure>}
 
 			{( !is_public ) && <figure className={'testing'} { ...blockProps } >
-				 <p >Private Calendar will show in the frontend only. Note: private calendar needs EmbedPress Pro</p>
+				<p >Private Calendar will show in the frontend only.<br/><strong>Note: Private calendar needs EmbedPress Pro.</strong></p>
 
 				{ powered_by && (
 					<p className="embedpress-el-powered">Powered By EmbedPress</p>
