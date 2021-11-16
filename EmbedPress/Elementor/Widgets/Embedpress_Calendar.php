@@ -209,7 +209,6 @@ class Embedpress_Calendar extends Widget_Base
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}}'               => 'height: {{SIZE}}{{UNIT}};',
 					'{{WRAPPER}} .embedpress-calendar-embed iframe'               => 'height: {{SIZE}}{{UNIT}};',
 				],
 				'render_type' => 'template',
