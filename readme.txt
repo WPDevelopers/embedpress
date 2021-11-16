@@ -1,7 +1,7 @@
 === EmbedPress – Embed Google Docs, YouTube, Maps, Vimeo, Wistia Videos & Upload PDF, PPT in Gutenberg & Elementor ===
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed, kamalahmed
 Author: WPDeveloper
-Author URI: https://wpdeveloper.net
+Author URI: https://wpdeveloper.com
 Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embed, video embed, Google Doc, map embed, youTube Embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, block editor, embed wordpress, elementor, WPML, Meetup, Boomplay, PDF Logo
 Requires at least: 4.6
 Tested up to: 5.8
@@ -16,9 +16,9 @@ EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC
 
 = EMBEDPRESS – EMBED ANYTHING FROM 100+ SOURCES -  YOUTUBE, GOOGLE DOCS, DRIVE, MAPS, VIMEO, WISTIA, SPOTIFY, BOOMPLAY, PDF, PPT ETC & DISPLAY IT USING ELEMENTOR, BLOCK EDITOR, CLASSIC EDITOR & MORE =
 
-[EmbedPress](https://embedpress.com/) lets you embed any engaging and interactive multimedia content such as videos, images, posts, audio, maps, documents, PDF, and much more into your WordPress site with one click and showcase it beautifully for your website visitors. 
+[EmbedPress](https://embedpress.com/) lets you embed any engaging and interactive multimedia content such as videos, images, posts, audio, maps, documents, PDF, and much more into your WordPress site with one click and showcase it beautifully for your website visitors.
 
-Fuel up your storytelling by embedding content directly on to Classic Editor, Gutenberg (Block Editor), Elementor, or by using EmbedPress shortcodes on other WordPress Page Builders with complete ease. 
+Fuel up your storytelling by embedding content directly on to Classic Editor, Gutenberg (Block Editor), Elementor, or by using EmbedPress shortcodes on other WordPress Page Builders with complete ease.
 
 
 https://www.youtube.com/watch?v=fvYKLkEnJbI
@@ -29,13 +29,13 @@ With EmbedPress, all you need is an URL to embed attention-grabbing content from
 
 ### 🔗 EMBED CONTENT USING ANY WORDPRESS PAGE BUILDER
 
-EmbedPress makes embedding engaging content on Classic Editor, Gutenberg (Block Editor) & EmbedPress completely hassle-free for you with seamless compatibility. 
+EmbedPress makes embedding engaging content on Classic Editor, Gutenberg (Block Editor) & EmbedPress completely hassle-free for you with seamless compatibility.
 
-Or, you can also effortlessly use advanced [EmbedPress shortcodes](https://embedpress.com/docs/how-to-use-embedpress-shortcodes-page-builders/) to embed content into any of your preferred WordPress Page Builders, like Beaver Builder & Divi, in less than a minute. 
+Or, you can also effortlessly use advanced [EmbedPress shortcodes](https://embedpress.com/docs/how-to-use-embedpress-shortcodes-page-builders/) to embed content into any of your preferred WordPress Page Builders, like Beaver Builder & Divi, in less than a minute.
 
 ### 🤝 TRANSLATE YOUR EMBEDDED CONTENT WITH MULTILINGUAL PLUGIN WPML
 
-EmbedPress is now certified as a recommended plugin by and 100% compatible with the most popular WordPress Multilingual Plugin, WPML. [Translate your favorite embedding solution](https://embedpress.com/docs/translate-embedpress-wpml/) for WordPress into any and all of your preferred languages with a few, easy steps. 
+EmbedPress is now certified as a recommended plugin by and 100% compatible with the most popular WordPress Multilingual Plugin, WPML. [Translate your favorite embedding solution](https://embedpress.com/docs/translate-embedpress-wpml/) for WordPress into any and all of your preferred languages with a few, easy steps.
 
 ### 🌟 Most Popular Sites People Are Embedding with EmbedPress:
 
@@ -59,12 +59,12 @@ EmbedPress makes embedding PDFs and Documents on the Gutenberg Block Editor much
 
 https://www.youtube.com/watch?v=1yVbt3XW-Wo&list=PLWHp1xKHCfxAVncPuQlAFHTaRl3kO3qBi
 
-### 🎞️ CUSTOMIZE YOUTUBE VIDEO EMBEDS WITH ADVANCED FEATURES [PRO] 
+### 🎞️ CUSTOMIZE YOUTUBE VIDEO EMBEDS WITH ADVANCED FEATURES [PRO]
 
 -   Add Custom Branding by embedding your own customized logo and call-to-action buttons.
 -   Embed a ‘Subscription Button’ and boost conversion rates for your website & your YouTube channel.
 -   Show or hide closed captions & enable live chat with every video.
--   Allow autoplay, display video annotations and related videos, and much more. 
+-   Allow autoplay, display video annotations and related videos, and much more.
 
 
 ### 🎬 OTHER VIDEO OPTIONS
@@ -109,7 +109,7 @@ https://www.youtube.com/watch?v=1F2mPePF3F4&list=PLWHp1xKHCfxAVncPuQlAFHTaRl3kO3
 
 ### 🎯 ADD CUSTOM BRANDING WITH MULTIMEDIA EMBEDS [PRO]
 
-Along with **YouTube video embeds**, EmbedPress also enables you to embed custom logos and call-to-action buttons to other multimedia contents to brand them with your website: 
+Along with **YouTube video embeds**, EmbedPress also enables you to embed custom logos and call-to-action buttons to other multimedia contents to brand them with your website:
 
 -   Custom Branding for Vimeo video embeds [PRO]
 -   Custom Branding for Wistia video embeds [PRO]
@@ -118,13 +118,13 @@ Along with **YouTube video embeds**, EmbedPress also enables you to embed custom
 -   Custom Branding for Documents & PDFs [PRO]
 
 
-### 🏆 POWER UP OTHER MULTIMEDIA EMBEDS WITH EXCLUSIVE FEATURES - VIMEO, WISTIA, SPOTIFY & MORE 
+### 🏆 POWER UP OTHER MULTIMEDIA EMBEDS WITH EXCLUSIVE FEATURES - VIMEO, WISTIA, SPOTIFY & MORE
 
--   [Vimeo](https://embedpress.com/docs/embed-vimeo-videos-wordpress/): Play your videos on Loop [PRO], turn on Auto Pause [PRO], enable DNT [PRO], and much more. 
+-   [Vimeo](https://embedpress.com/docs/embed-vimeo-videos-wordpress/): Play your videos on Loop [PRO], turn on Auto Pause [PRO], enable DNT [PRO], and much more.
 
 -   [Wistia](https://embedpress.com/docs/embed-wistia-videos-wordpress/): Start your videos with a Custom Volume [PRO] with Controls [PRO], enable Captions [PRO], and Rewind videos when needed.
 
--   [Twitch](https://embedpress.com/docs/embed-twitch-streams-chat/): Show Chat [PRO], enable a Custom Theme & Full Screen Button, and more. 
+-   [Twitch](https://embedpress.com/docs/embed-twitch-streams-chat/): Show Chat [PRO], enable a Custom Theme & Full Screen Button, and more.
 
 -   [Dailymotion](https://embedpress.com/docs/how-to-configure-settings-for-dailymotion-video-embeds/): Show Logo [PRO], display Video Information or Play Controls, and more.
 
@@ -304,7 +304,7 @@ With EmbedPress, you have a wide variety of options for adding charts and diagra
 
 ### 🚀 BACKED BY A TRUSTED TEAM
 
-This embed plugin is brought to you by the team behind [WPDeveloper](https://wpdeveloper.net/), a dedicated marketplace for WordPress, trusted by 3 millions+ happy WordPress users.
+This embed plugin is brought to you by the team behind [WPDeveloper](https://wpdeveloper.com/), a dedicated marketplace for WordPress, trusted by 3 millions+ happy WordPress users.
 
 ### 👨‍💻 DOCUMENTATION AND SUPPORT
 
@@ -342,7 +342,7 @@ If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
 ⚡ [Flexia](http://wordpress.org/plugins/flexia): Most lightweight, customizable & multi purpose theme for WordPress.
 
-Visit [WPDeveloper](https://wpdeveloper.net/) to learn more about how to do better in WordPress with [Help Tutorial, Tips & Tricks](https://wpdeveloper.net/blog).
+Visit [WPDeveloper](https://wpdeveloper.com/) to learn more about how to do better in WordPress with [Help Tutorial, Tips & Tricks](https://wpdeveloper.com/blog).
 
 == Installation ==
 

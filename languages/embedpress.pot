@@ -33,7 +33,7 @@ msgid "WPDeveloper"
 msgstr ""
 
 #. Author URI of the plugin
-msgid "https://wpdeveloper.net"
+msgid "https://wpdeveloper.com"
 msgstr ""
 
 #: EmbedPress/Core.php:507
@@ -1674,7 +1674,7 @@ msgid "You are using an incompatible version of EmbedPress PRO. Please update to
 msgstr ""
 
 #: EmbedPress/Includes/Traits/Shared.php:116
-msgid "EmbedPress 3.0 is here with new features and options, read the details <a href=\"https://wpdeveloper.net/introducing-embedpress-3.0\" target=\"_blank\">here</a>, and check the new setting page. <a href=\""
+msgid "EmbedPress 3.0 is here with new features and options, read the details <a href=\"https://wpdeveloper.com/introducing-embedpress-3.0\" target=\"_blank\">here</a>, and check the new setting page. <a href=\""
 msgstr ""
 
 #: EmbedPress/Includes/Traits/Shared.php:122

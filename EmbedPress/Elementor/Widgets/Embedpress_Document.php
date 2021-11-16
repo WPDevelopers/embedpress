@@ -20,27 +20,27 @@ class Embedpress_Document extends Widget_Base
     {
         return 'embedpres_document';
     }
-    
+
     public function get_title()
     {
         return esc_html__( 'EmbedPress Document', 'embedpress' );
     }
-    
+
     public function get_categories()
     {
         return ['embedpress'];
     }
-    
+
     public function get_custom_help_url()
     {
         return 'https://embedpress.com/documentation';
     }
-    
+
     public function get_icon()
     {
         return 'icon-document';
     }
-    
+
     /**
      * Get widget keywords.
      *
@@ -55,7 +55,7 @@ class Embedpress_Document extends Widget_Base
     {
         return ['embedpress', 'pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'embedpress-document'];
     }
-    
+
     protected function _register_controls()
     {
 	    $this->pro_class = is_embedpress_pro_active() ? '': 'embedpress-pro-control';
@@ -69,7 +69,7 @@ class Embedpress_Document extends Widget_Base
                 'label' => esc_html__( 'Content Settings', 'embedpress' ),
             ]
         );
-        
+
         $this->add_control(
             'embedpress_document_type',
             [
@@ -82,11 +82,11 @@ class Embedpress_Document extends Widget_Base
                 ],
             ]
         );
-        
+
         $this->add_control(
             'embedpress_document_Uploader',
             [
-                
+
                 'label'       => __( 'Upload File', 'embedpress' ),
                 'type'        => Controls_Manager::MEDIA,
                 'dynamic'     => [
@@ -111,7 +111,7 @@ class Embedpress_Document extends Widget_Base
                 ],
             ]
         );
-        
+
         $this->add_control(
             'embedpress_document_file_link',
             [
@@ -127,7 +127,7 @@ class Embedpress_Document extends Widget_Base
                 ],
             ]
         );
-        
+
         $this->add_control(
             'embedpress_elementor_document_width',
             [
@@ -150,7 +150,7 @@ class Embedpress_Document extends Widget_Base
                 ],
             ]
         );
-        
+
         $this->add_control(
             'embedpress_elementor_document_height',
             [
@@ -173,7 +173,7 @@ class Embedpress_Document extends Widget_Base
                 ],
             ]
         );
-        
+
         $this->add_responsive_control(
             'embedpress_elementor_document_align',
             [
@@ -197,7 +197,7 @@ class Embedpress_Document extends Widget_Base
                 'default' => '',
             ]
         );
-        
+
         $this->add_control(
             'embedpress_document_powered_by',
             [
@@ -234,20 +234,20 @@ class Embedpress_Document extends Widget_Base
 					    ],
 				    ],
 				    'default' => '1',
-				    'description' => '<span class="pro-feature"> Get the  <a href="https://wpdeveloper.net/in/upgrade-embedpress" target="_blank">Pro version</a> for more provider support and customization options.</span>',
+				    'description' => '<span class="pro-feature"> Get the  <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Pro version</a> for more provider support and customization options.</span>',
 			    ]
 		    );
 
 		    $this->end_controls_section();
 	    }
     }
-    
+
     private function is_pdf( $url )
     {
         $arr = explode( '.', $url );
         return end( $arr ) === 'pdf';
     }
-    
+
     protected function render()
     {
         $settings = $this->get_settings();
@@ -273,7 +273,7 @@ class Embedpress_Document extends Widget_Base
                     <div <?php echo $this->get_render_attribute_string( 'embedpres-pdf-render' ); ?>>
                     </div>
                     <?php
-                    
+
                     if ( Plugin::$instance->editor->is_edit_mode() ) {
                         $this->render_editor_script( $id, $url );
                     }
@@ -293,16 +293,16 @@ class Embedpress_Document extends Widget_Base
             }
             ?>
         </div>
-        
+
         <?php
     }
-    
+
     private function get_file_url()
     {
         $settings = $this->get_settings();
         return $settings[ 'embedpress_document_type' ] === 'url' ? $settings[ 'embedpress_document_file_link' ][ 'url' ] : $settings[ 'embedpress_document_Uploader' ][ 'url' ];
     }
-    
+
     protected function render_editor_script( $id, $url )
     {
         ?>
