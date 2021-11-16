@@ -18,8 +18,11 @@ const {__} = wp.i18n;
 
 
 export default function EmbedPressCalendarEdit({attributes, className, setAttributes}){
-	const {url, editingURL, fetching, cannotEmbed, embedHTML, height, width, powered_by, is_public} = attributes;
-	const blockProps = useBlockProps ? useBlockProps() : [];
+	const {url, editingURL, fetching, cannotEmbed, embedHTML, height, width, powered_by, is_public, align} = attributes;
+	const blockProps = useBlockProps ? useBlockProps({
+		className: 'align'+align,
+		style: { width: width+'px', height: height+'px' },
+	}) : [];
 	const heightpx = height+'px';
 	const widthpx = width+'px';
 	function switchBackToURLInput() {
@@ -108,7 +111,7 @@ export default function EmbedPressCalendarEdit({attributes, className, setAttrib
 
 			{ fetching ? <div className={className}><EmbedLoading/> </div> : null}
 
-			{(embedHTML && is_public && !editingURL && !fetching) && <figure { ...blockProps }  style={ { width: widthpx, height : heightpx } }>
+			{(embedHTML && is_public && !editingURL && !fetching) && <figure { ...blockProps } >
 				{is_public && <iframe style={{display: fetching ? 'none' : ''}} src={url} width={width} height={height}/>
 				}
 				{ powered_by && (
@@ -126,7 +129,7 @@ export default function EmbedPressCalendarEdit({attributes, className, setAttrib
 
 			</figure>}
 
-			{( !is_public ) && <figure { ...blockProps } >
+			{( !is_public ) && <figure className={'testing'} { ...blockProps } >
 				 <p >Private Calendar will show in the frontend only. Note: private calendar needs EmbedPress Pro</p>
 
 				{ powered_by && (
