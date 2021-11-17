@@ -1,0 +1,18 @@
+.components-base-control.epgc-sidebar-row {
+    margin-bottom:6px !important;
+}
+
+.has-error textarea {
+    background-color: red;
+    color: white;
+}
+
+.epgc-fullcalendarconfigarea textarea {
+    font-family: monospace;
+}
+
+.epgc-copy-link {
+    font-size: initial;
+    margin-top: -16px;
+    text-align: right;
+}
