@@ -22,8 +22,8 @@
             <p><?php esc_html_e( "Stuck with something? Get help from the community on", "embedpress" ); ?>
                 <a target="_blank" href="https://wordpress.org/plugins/embedpress/"><?php esc_html_e( "WordPress.org Forum", "embedpress" ); ?></a> or
                 <a target="_blank" href="https://www.facebook.com/groups/432798227512253"><?php esc_html_e( "Facebook Community", "embedpress" ); ?></a>. In case of emergency, initiate a live chat at
-                <a target="_blank" href="https://wpdeveloper.net/"><?php esc_html_e( "WPDeveloper website.", "embedpress" ); ?></a></p>
-            <a target="_blank" href="https://wpdeveloper.net/support/" class="button radius-10"><?php esc_html_e( "Get Support", "embedpress" ); ?></a>
+                <a target="_blank" href="https://wpdeveloper.com/"><?php esc_html_e( "WPDeveloper website.", "embedpress" ); ?></a></p>
+            <a target="_blank" href="https://wpdeveloper.com/support/" class="button radius-10"><?php esc_html_e( "Get Support", "embedpress" ); ?></a>
         </div>
         <div class="embedpress-card">
             <div class="icon">

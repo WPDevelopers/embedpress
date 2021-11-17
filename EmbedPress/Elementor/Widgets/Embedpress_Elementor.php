@@ -180,7 +180,7 @@ class Embedpress_Elementor extends Widget_Base {
 					    ],
 				    ],
 				    'default' => '1',
-				    'description' => '<span class="pro-feature"> Get the  <a href="https://wpdeveloper.net/in/upgrade-embedpress" target="_blank">Pro version</a> for more provider support and customization options.</span>',
+				    'description' => '<span class="pro-feature"> Get the  <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Pro version</a> for more provider support and customization options.</span>',
 			    ]
 		    );
 
@@ -592,7 +592,7 @@ class Embedpress_Elementor extends Widget_Base {
 			]
 		);
 
-		
+
 
 		$this->add_control(
 			'embedpress_pro_wistia_captions_enabled_by_default',
@@ -622,7 +622,7 @@ class Embedpress_Elementor extends Widget_Base {
 			]
 		);
 
-		
+
 
 		$this->add_control(
 			'embedpress_pro_wistia_fullscreen_button',
@@ -652,7 +652,7 @@ class Embedpress_Elementor extends Widget_Base {
 			]
 		);
 
-		
+
 
 
 		$this->add_control(
@@ -684,7 +684,7 @@ class Embedpress_Elementor extends Widget_Base {
 			]
 		);
 
-		// --- Wistia PRO Controls -- 
+		// --- Wistia PRO Controls --
 		$this->add_control(
 			'embedpress_pro_wistia_captions',
 			[
@@ -814,7 +814,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'    => $condition,
 			]
 		);
-		
+
 		// -- Twitch PRO controls --
 		$this->add_control(
 			'embedpress_pro_twitch_chat',
@@ -851,7 +851,7 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'    => $condition,
 			]
 		);
-		
+
 		$this->init_branding_controls( 'twitch');
 
 	}
@@ -901,7 +901,7 @@ class Embedpress_Elementor extends Widget_Base {
 			]
 		);
 
-		
+
 
 		$this->add_control(
 			'embedpress_pro_soundcloud_share_button',
@@ -935,7 +935,7 @@ class Embedpress_Elementor extends Widget_Base {
 			]
 		);
 
-	
+
 
 		$this->add_control(
 			'embedpress_pro_soundcloud_artwork',
@@ -1074,9 +1074,9 @@ class Embedpress_Elementor extends Widget_Base {
 				]
 			]
 		);
-        
+
 		//----- Vimeo PRO controls
-		
+
 		$this->add_control(
 			'embedpress_pro_vimeo_display_author',
 			[
