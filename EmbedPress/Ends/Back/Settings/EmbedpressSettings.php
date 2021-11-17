@@ -27,7 +27,6 @@ class EmbedpressSettings {
 					'google-docs-block' => 'google-docs-block',
 					'document' => 'document',
 					'embedpress' => 'embedpress',
-					'embedpress-pdf' => 'embedpress-pdf',
 					'google-sheets-block' => 'google-sheets-block',
 					'google-slides-block' => 'google-slides-block',
 					'youtube-block' => 'youtube-block',
@@ -41,7 +40,6 @@ class EmbedpressSettings {
 				'elementor' => [
 					'embedpress-document' => 'embedpress-document',
 					'embedpress' => 'embedpress',
-					'embedpress-pdf' => 'embedpress-pdf',
 				]
 			];
 
@@ -61,24 +59,6 @@ class EmbedpressSettings {
 			update_option( EMBEDPRESS_PLG_NAME, $settings);
 			update_option( $option, true);
 		}
-		$migration_v_320 = 'embedpress_v_320_migration';
-		if ( !get_option( $migration_v_320, false) ) {
-			$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
-			$elements['gutenberg']['embedpress-pdf'] = ['embedpress-pdf'];
-			$elements['elementor']['embedpress-pdf'] = ['embedpress-pdf'];
-			update_option( EMBEDPRESS_PLG_NAME.":elements", $elements);
-			update_option( $migration_v_320, true);
-		}
-
-		$migration_v_330 = 'embedpress_v_330_migration';
-		if ( !get_option( $migration_v_330, false) ) {
-			$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
-			$elements['gutenberg']['embedpress-calendar'] = ['embedpress-calendar'];
-			$elements['elementor']['embedpress-calendar'] = ['embedpress-calendar'];
-			update_option( EMBEDPRESS_PLG_NAME.":elements", $elements);
-			update_option( $migration_v_330, true);
-		}
-
 		add_action( 'admin_init', [$this, 'embedpress_maybe_redirect_to_settings']  );
 
 
@@ -174,7 +154,7 @@ class EmbedpressSettings {
 		$nonce_field = wp_nonce_field('ep_settings_nonce', 'ep_settings_nonce', true, false);
 		$ep_page = admin_url('admin.php?page='.$this->page_slug);
 		$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['general', 'shortcode',]);
-		$platform_menu_template_names = apply_filters('ep_platform_menu_tmpl_names', [ 'youtube', 'vimeo', 'wistia', 'twitch','dailymotion', 'soundcloud' ,'spotify','google-calendar']);
+		$platform_menu_template_names = apply_filters('ep_platform_menu_tmpl_names', [ 'youtube', 'vimeo', 'wistia', 'twitch','dailymotion', 'soundcloud' ,'spotify']);
 		$brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-logo', 'branding',]);
 		$pro_active = is_embedpress_pro_active();
 		$coming_soon = "<span class='ep-coming-soon'>". esc_html__( '(Coming soon)', 'embedpress'). "</span>";
@@ -344,27 +324,5 @@ class EmbedpressSettings {
 		$settings = apply_filters( 'ep_soundcloud_settings_before_save', $settings);
 		update_option( $option_name, $settings);
 		do_action( 'ep_soundcloud_settings_after_save', $settings);
-	}
-
-	public function save_gcalendar_settings() {
-		$client_secret = !empty( $_POST['epgc_client_secret']) ? json_decode( wp_unslash( trim( $_POST['epgc_client_secret'])), true) : [];
-		$epgc_cache_time = !empty( $_POST['epgc_cache_time'] ) ? absint( $_POST['epgc_cache_time']) : 0;
-		$epgc_selected_calendar_ids = !empty( $_POST['epgc_selected_calendar_ids'] ) ? array_map( 'sanitize_text_field', $_POST['epgc_selected_calendar_ids']) : [];
-
-
-		$pretty_client_secret = '';
-		if ( !empty( $client_secret) ) {
-			$pretty_client_secret = $this->get_pretty_json_string( $client_secret);
-		}
-
-		update_option( 'epgc_client_secret', $pretty_client_secret);
-		update_option( 'epgc_cache_time', $epgc_cache_time);
-		update_option( 'epgc_selected_calendar_ids', $epgc_selected_calendar_ids);
-
-	}
-
-
-	function get_pretty_json_string($array) {
-		return str_replace("    ", "  ", json_encode($array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 	}
 }

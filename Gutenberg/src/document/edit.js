@@ -138,7 +138,7 @@ class DocumentEdit extends Component {
 		const {hasError,interactive,fetching,loadPdf} = this.state;
 		const min = 1;
 		const max = 1000;
-		const docLink = 'https://embedpress.com/docs/embed-document/';
+		const docLink = 'https://embedpress.com/docs/embed-docuemnt/';
 		if (!href || hasError) {
 
 			return (

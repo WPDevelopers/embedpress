@@ -10,44 +10,28 @@
     font-display: block;
 }
 
-[class^="icon-"]:before, [class*=" icon-"]:before {
-    font-family: "el-icon";
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'el-icon' !important;
+    speak: never;
     font-style: normal;
     font-weight: normal;
-    speak: never;
-
-    display: inline-block;
-    text-decoration: inherit;
-    width: 1em;
-    margin-right: .2em;
-    text-align: center;
-    /* opacity: .8; */
-
-    /* For safety - reset parent styles, that can break glyph codes*/
     font-variant: normal;
     text-transform: none;
+    line-height: 1;
 
-    /* fix buttons height, for twitter bootstrap */
-    line-height: 1em;
-
-    /* Animation center compensation - margins should be symmetric */
-    /* remove if not needed */
-    margin-left: .2em;
-
-    /* you can be more comfortable with increased icons size */
-    /* font-size: 120%; */
-
-    /* Font smoothing. That was taken from TWBS */
+    /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
-    /* Uncomment for 3D effect */
-    /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-.icon-document:before { content: '\e800'; } /* '' */
-.icon-embedpress:before { content: '\e801'; } /* '' */
-.icon-pdf:before { content: '\e802'; } /* '' */
+.icon-embedpress:before {
+    content: "\e900";
+}
+
+.icon-pdf:before {
+    content: "\e926";
+}
 /*EmbedPress Pro Controls Style Starts*/
 .elementor-control.embedpress-pro-control{
     position: relative;
