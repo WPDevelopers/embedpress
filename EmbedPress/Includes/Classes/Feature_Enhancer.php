@@ -935,5 +935,4 @@ class Feature_Enhancer {
 		];
 	}
 
-
 }
