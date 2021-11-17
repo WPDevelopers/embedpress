@@ -61,9 +61,11 @@
     font-size: 16px;
     font-weight: 700;
 }
+.embedpress-embed-calendar-calendar {
+    text-align: center;
+}
 
-
-/*Meetup Event styling starts */
+    /*Meetup Event styling starts */
 .embedpress-event .link {
     color: #0098ab ;
 }
