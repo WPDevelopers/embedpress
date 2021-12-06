@@ -190,7 +190,12 @@
     font-weight: 700;
 }
 
-.embedpress-event h1, h2, h3, h4, h5, h6{
+.embedpress-event h1,
+.embedpress-event h2,
+.embedpress-event h3,
+.embedpress-event h4,
+.embedpress-event h5,
+.embedpress-event h6{
     font-size: inherit;
 }
 
@@ -374,6 +379,25 @@
     padding: 0 16px 16px 0;
 }
 
+/*Youtube subscribe button*/
+.embedpress-yt-subscribe {
+    display: flex;
+    align-items: center;
+    align-content: start;
+    text-align: center;
+    gap: 1rem;
+    max-width: 600px;
+    width: 100%;
+}
+.embedpress-yt-subscribe .embedpress-yt-subscribe.dark {
+    color: #ffffff;
+}
+.embedpress-yt-subscribe .embedpress-yt-sub-text {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+}
+/*Media query*/
 @media only screen and (min-width: 530px) {
     .ep-event--attendees .gridList--autoHeight--has4>.gridList-item {
         flex: 0 0 33.333333%;

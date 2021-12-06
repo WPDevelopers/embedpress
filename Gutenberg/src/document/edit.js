@@ -3,6 +3,7 @@
  */
 
 import Iframe from '../common/Iframe';
+import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
 /**
  * WordPress dependencies
@@ -10,10 +11,11 @@ import EmbedLoading from '../common/embed-loading';
 
 const {__} = wp.i18n;
 const {getBlobByURL, isBlobURL, revokeBlobURL} = wp.blob;
-const {BlockIcon, MediaPlaceholder ,InspectorControls} = wp.editor;
+const {BlockIcon, MediaPlaceholder ,InspectorControls} = wp.blockEditor;
 const {Component, Fragment} = wp.element;
 const { RangeControl,PanelBody, ExternalLink,ToggleControl } = wp.components;
 import {DocumentIcon} from '../common/icons'
+
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
@@ -130,15 +132,13 @@ class DocumentEdit extends Component {
 	}
 
 
-
-
 	render() {
 		const {attributes, noticeUI,setAttributes} = this.props;
 		const {href,mime,id,width,height,powered_by} = attributes;
 		const {hasError,interactive,fetching,loadPdf} = this.state;
 		const min = 1;
 		const max = 1000;
-		const docLink = 'https://embedpress.com/docs/embed-docuemnt/'
+		const docLink = 'https://embedpress.com/docs/embed-document/';
 		if (!href || hasError) {
 
 			return (
@@ -171,6 +171,7 @@ class DocumentEdit extends Component {
 			return (
 				<Fragment>
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading/> : null}
+					<div className={'embedpress-document-embed ep-doc-'+id} style={{height:height,width:width}}>
 					{ mime === 'application/pdf' && (
 						<div style={{height:height,width:width}} className={'embedpress-embed-document-pdf'+' '+id} data-emid={id} data-emsrc={href}></div>
 
@@ -187,6 +188,10 @@ class DocumentEdit extends Component {
 					{ powered_by && (
 						<p className="embedpress-el-powered">Powered By EmbedPress</p>
 					)}
+
+					{ !fetching && <Logo id={id}/>}
+
+						</div>
 
 					<InspectorControls key="inspector">
 						<PanelBody

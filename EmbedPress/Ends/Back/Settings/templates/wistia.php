@@ -4,6 +4,7 @@
  * all undefined vars comes from EmbedPressSettings.php or sometime from main-template.php
  * */
 $wis_settings = get_option( EMBEDPRESS_PLG_NAME.':wistia' );
+$start_time = isset( $wis_settings['start_time']) ? $wis_settings['start_time'] : 0;
 $autoplay = isset( $wis_settings['autoplay']) ? $wis_settings['autoplay'] : '';
 $display_fullscreen_button = isset( $wis_settings['display_fullscreen_button']) ? $wis_settings['display_fullscreen_button'] : 1;
 $display_playbar = isset( $wis_settings['display_playbar']) ? $wis_settings['display_playbar'] : 1;
@@ -27,6 +28,14 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 			do_action( 'embedpress_before_wistia_settings_fields');
             echo  $nonce_field ;
             ?>
+            <div class="form__group">
+                <p class="form__label" ><?php esc_html_e( "Start Time (In Seconds)", "embedpress" ); ?> </p>
+                <div class="form__control__wrap">
+                    <input type="number"  name="start_time" id="start_time" class="form__control" data-default="<?php echo esc_attr( $start_time); ?>" value="<?php echo esc_attr( $start_time); ?>" >
+                    <p><?php esc_html_e( "You can put a custom time in seconds to start video. Example: 500", "embedpress" ); ?></p>
+                </div>
+
+            </div>
 			<div class="form__group">
 				<p class="form__label"><?php esc_html_e( "Fullscreen Button", "embedpress" ); ?></p>
 				<div class="form__control__wrap">
@@ -44,19 +53,18 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Playbar", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
+				<p class="form__label"><?php esc_html_e( "Playbar", "embedpress" );?> </p>
 				<div class="form__control__wrap">
-					<div data-default="<?php echo esc_attr(  $display_playbar ); ?>" data-value="<?php echo esc_attr(  $display_playbar ); ?>" class="input__flex input__radio_wrap  <?php echo $pro_active ? '': 'isPro'; ?>">
+					<div data-default="<?php echo esc_attr(  $display_playbar ); ?>" data-value="<?php echo esc_attr(  $display_playbar ); ?>" class="input__flex input__radio_wrap ">
 						<label class="input__radio">
-							<input type="radio" value="" name="display_playbar" <?php echo $pro_active ? '' : 'disabled'; checked( '', $display_playbar); ?>>
+							<input type="radio" value="" name="display_playbar" <?php  checked( '', $display_playbar); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
 						</label>
 						<label class="input__radio">
-							<input type="radio" value="1" name="display_playbar" <?php echo $pro_active ? '' : 'disabled'; checked( '1', $display_playbar); ?>>
+							<input type="radio" value="1" name="display_playbar" <?php  checked( '1', $display_playbar); ?>>
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
-					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
                     <p><?php esc_html_e( "Indicates whether the playbar is visible.", "embedpress" ); ?></p>
 				</div>
 			</div>
@@ -197,29 +205,27 @@ $plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Plugin: Rewind", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
+				<p class="form__label"><?php esc_html_e( "Plugin: Rewind", "embedpress" );?> </p>
 				<div class="form__control__wrap">
-					<div data-default="<?php echo esc_attr(  $plugin_rewind ); ?>" data-value="<?php echo esc_attr(  $plugin_rewind ); ?>" class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>">
+					<div data-default="<?php echo esc_attr(  $plugin_rewind ); ?>" data-value="<?php echo esc_attr(  $plugin_rewind ); ?>" class="input__flex input__radio_wrap">
 						<label class="input__radio">
-							<input type="radio" value="" name="plugin_rewind" <?php echo $pro_active ? '' : 'disabled'; checked( '', $plugin_rewind); ?>>
+							<input type="radio" value="" name="plugin_rewind" <?php  checked( '', $plugin_rewind); ?>>
 							<span><?php esc_html_e( "No", "embedpress" ); ?></span>
 						</label>
 						<label class="input__radio">
-							<input type="radio" value="1" name="plugin_rewind" <?php echo $pro_active ? '' : 'disabled'; checked( '1', $plugin_rewind); ?>>
+							<input type="radio" value="1" name="plugin_rewind" <?php  checked( '1', $plugin_rewind); ?>>
 							<span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
 						</label>
 					</div>
-					<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
 					<p><?php esc_html_e( "Indicates whether the Rewind plugin is active.", "embedpress" ); ?></p>
 				</div>
 			</div>
 			<div class="form__group">
-				<p class="form__label"><?php esc_html_e( "Rewind Time (In Seconds)", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
-				<div class="form__control__wrap <?php echo $pro_active ? '': 'isPro'; ?>">
-					<input type="number" class="form__control" data-default="<?php echo esc_attr( $plugin_rewind_time );?>" value="<?php echo esc_attr( $plugin_rewind_time );?>" name="plugin_rewind_time" <?php echo $pro_active ? '' : 'disabled'; ?>>
+				<p class="form__label"><?php esc_html_e( "Rewind Time (In Seconds)", "embedpress" ); ?> </p>
+				<div class="form__control__wrap">
+					<input type="number" class="form__control" data-default="<?php echo esc_attr( $plugin_rewind_time );?>" value="<?php echo esc_attr( $plugin_rewind_time );?>" name="plugin_rewind_time" >
 					<p><?php esc_html_e( "The amount of time to rewind, in seconds.", "embedpress" ); ?></p>
 				</div>
-				<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
             </div>
 			<?php do_action( 'embedpress_after_wistia_settings_fields'); ?>
             <button class="button button__themeColor radius-10 embedpress-submit-btn" name="submit" value="wistia"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>

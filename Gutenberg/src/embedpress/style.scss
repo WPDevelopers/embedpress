@@ -13,6 +13,9 @@
 		max-width: 100%;
 	}
 }
+.embedpress-gutenberg-wrapper.alignright{
+	max-width: 100%;
+}
 .ose-the-new-york-times iframe{
 	min-height: 500px;
 	max-height: 100%;
@@ -27,4 +30,18 @@ body.page .flexia-wrapper > .content-area{
 	}
 }
 
+@media only screen and (min-width: 482px) {
+	.entry-content > .embedpress-gutenberg-wrapper.alignright,
+	.entry-content > .embedpress-gutenberg-wrapper.alignleft,
+	.embedpress-gutenberg-wrapper.alignright,
+	.embedpress-gutenberg-wrapper.alignleft{
+		max-width: 100%
+	}
+}
 
+.clear::after{
+	content: '';
+	display: block;
+	clear: both;
+	min-height: 1px;
+}

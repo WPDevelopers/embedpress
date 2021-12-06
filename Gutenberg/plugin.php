@@ -9,6 +9,8 @@
  */
 
 // Exit if accessed directly.
+use EmbedPress\Includes\Classes\Helper;
+
 if ( !defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -44,6 +46,11 @@ add_action( 'enqueue_block_assets', 'embedpress_blocks_cgb_block_assets' );
  */
 function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 	// Scripts.
+	if (! wp_script_is( 'embedpress-pdfobject') ) {
+		wp_enqueue_script( 'embedpress-pdfobject', EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js', [],
+			EMBEDPRESS_VERSION );
+	}
+
 	wp_enqueue_script(
 		'embedpress_blocks-cgb-block-js', // Handle.
 		EMBEDPRESS_GUTENBERG_DIR_URL.'/dist/blocks.build.js', // Block.build.js: We register the block here. Built with Webpack.
@@ -64,6 +71,7 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 		$wistia_options = embedpress_wisita_pro_get_options();
 	endif;
 	$pars_url = wp_parse_url(get_site_url());
+	$documents_cta_options = (array) get_option(EMBEDPRESS_PLG_NAME . ':document');
 	wp_localize_script( 'embedpress_blocks-cgb-block-js', 'embedpressObj', array(
 		'wistia_labels'  => $wistia_labels,
 		'wisita_options' => $wistia_options,
@@ -72,6 +80,8 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 		'twitch_host' => !empty($pars_url['host'])?$pars_url['host']:'',
 		'site_url' => site_url(),
 		'active_blocks' => $active_blocks,
+		'document_cta' => $documents_cta_options,
+		'pdf_renderer' => Helper::get_pdf_renderer(),
 	) );
 
 	// Styles.
@@ -100,8 +110,15 @@ function embedpress_block_category( $categories, $post ) {
 	);
 
 }
+$wp_version = get_bloginfo( 'version', 'display' );
+if ( version_compare( $wp_version, '5.8', '>=') ) {
+	add_filter( 'block_categories_all', 'embedpress_block_category', 10, 2 );
 
-add_filter( 'block_categories', 'embedpress_block_category', 10, 2 );
+}else{
+	add_filter( 'block_categories', 'embedpress_block_category', 10, 2 );
+}
+
+
 
 
 foreach ( glob( EMBEDPRESS_GUTENBERG_DIR_PATH . 'block-backend/*.php' ) as $block_logic ) {
@@ -117,7 +134,7 @@ function embedpress_gutenberg_register_all_block() {
 
 		$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
 		$g_blocks = isset( $elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
-		$blocks_to_registers = [ 'twitch-block', 'google-slides-block','google-sheets-block', 'google-maps-block', 'google-forms-block', 'google-drawings-block', 'google-docs-block', 'embedpress'];
+		$blocks_to_registers = [ 'twitch-block', 'google-slides-block','google-sheets-block', 'google-maps-block', 'google-forms-block', 'google-drawings-block', 'google-docs-block', 'embedpress', 'embedpress-pdf', 'embedpress-calendar'];
 
 		foreach ( $blocks_to_registers as $blocks_to_register ) {
 			if ( !empty($g_blocks[$blocks_to_register]) ) {
@@ -125,25 +142,119 @@ function embedpress_gutenberg_register_all_block() {
 					register_block_type( 'embedpress/embedpress', [
 						'render_callback' => 'embedpress_render_block',
 					]);
+				}elseif ( 'embedpress-pdf' === $blocks_to_register ) {
+					register_block_type( 'embedpress/embedpress-pdf', [
+						'render_callback' => 'embedpress_pdf_render_block',
+					]);
+				}elseif ( 'embedpress-calendar' === $blocks_to_register ) {
+					register_block_type( 'embedpress/embedpress-calendar', [
+							'render_callback' => 'embedpress_calendar_render_block',
+					]);
 				}else{
 					register_block_type( 'embedpress/'.$blocks_to_register );
 				}
 			}else{
+
 				if ( WP_Block_Type_Registry::get_instance()->is_registered( 'embedpress/'.$blocks_to_register) ) {
 					unregister_block_type( 'embedpress/'.$blocks_to_register );
 				}
+
 			}
 		}
-
-		//register_block_type( 'embedpress/twitch-block' );
-		//register_block_type( 'embedpress/google-slides-block' );
-		//register_block_type( 'embedpress/google-sheets-block' );
-		//register_block_type( 'embedpress/google-maps-block' );
-		//register_block_type( 'embedpress/google-forms-block' );
-		//register_block_type( 'embedpress/google-drawings-block' );
-		//register_block_type( 'embedpress/google-docs-block' );
 
 	endif;
 }
 
 add_action( 'init', 'embedpress_gutenberg_register_all_block' );
+
+function embedpress_pdf_render_block( $attributes ){
+
+	if ( !empty( $attributes['href']) ) {
+		$renderer = Helper::get_pdf_renderer();
+		$pdf_url = $attributes['href'];
+		$id = !empty( $attributes['id']) ? $attributes['id'] : 'embedpress-pdf-'.rand(100, 10000);
+		$width = !empty( $attributes['width']) ? $attributes['width'].'px' : '600px';
+		$height = !empty( $attributes['height']) ? $attributes['height'].'px' : '600px';
+		$gen_settings    = get_option( EMBEDPRESS_PLG_NAME);
+		$powered_by = isset( $gen_settings['embedpress_document_powered_by']) && 'yes' === $gen_settings['embedpress_document_powered_by'];
+		if ( isset( $attributes['powered_by']) ) {
+			$powered_by = $attributes['powered_by'];
+		}
+
+		$src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $attributes['href'];
+		$hash = md5( $id );
+		$aligns = [
+			'left' => 'alignleft',
+			'right' => 'alignright',
+			'wide' => 'alignwide',
+			'full' => 'alignfull'
+		];
+		$alignment = isset($attributes['align']) && isset($aligns[$attributes['align']])?$aligns[$attributes['align']]:'';
+		$dimension = "width:$width;height:$height";
+		ob_start();
+		?>
+		<div class="embedpress-document-embed embedpress-pdf ose-document ep-doc-<?php echo esc_attr( $hash) .' '. esc_attr($alignment) ?>">
+			<iframe style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block"  src="<?php echo esc_attr(  $src); ?>"
+			        frameborder="0"></iframe>
+
+			<?php do_action( 'embedpress_pdf_gutenberg_after_embed',  $hash, 'pdf', $attributes, $pdf_url); ?>
+
+			<?php
+			if ($powered_by ) {
+				printf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
+			}?>
+
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+}
+
+function embedpress_calendar_render_block( $attributes ){
+		$id = !empty( $attributes['id']) ? $attributes['id'] : 'embedpress-calendar-'.rand(100, 10000);
+		$url = !empty( $attributes['url']) ? $attributes['url'] : '';
+		$is_private = isset( $attributes['is_public']);
+		$hash = md5($id);
+		$width = !empty( $attributes['width']) ? $attributes['width'].'px' : '600px';
+		$height = !empty( $attributes['height']) ? $attributes['height'].'px' : '600px';
+		$gen_settings    = get_option( EMBEDPRESS_PLG_NAME);
+		$powered_by = isset( $gen_settings['embedpress_document_powered_by']) && 'yes' === $gen_settings['embedpress_document_powered_by'];
+		if ( isset( $attributes['powered_by']) ) {
+			$powered_by = $attributes['powered_by'];
+		}
+
+
+		$aligns = [
+				'left' => 'alignleft',
+				'right' => 'alignright',
+				'wide' => 'alignwide',
+				'full' => 'alignfull'
+		];
+		$alignment = isset($attributes['align']) && isset($aligns[$attributes['align']])?$aligns[$attributes['align']]:'';
+		$dimension = "width:$width;height:$height";
+		ob_start();
+		?>
+		<div class="embedpress-calendar-gutenberg embedpress-calendar ose-calendar <?php echo esc_attr($alignment) ?>" style="<?php echo esc_attr( $dimension); ?>; max-width:100%;">
+
+			<?php
+			if ( !empty( $url) && !$is_private ) {
+			?>
+			<iframe style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block"  src="<?php echo esc_attr( $url); ?>"></iframe>
+			<?php } else {
+				if ( is_embedpress_pro_active() ) {
+					echo Embedpress_Google_Helper::shortcode();
+				}
+
+			} ?>
+			<?php do_action( 'embedpress_calendar_gutenberg_after_embed',  $hash, 'calendar', $attributes); ?>
+
+			<?php
+			if ($powered_by ) {
+				printf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
+			}?>
+
+		</div>
+		<?php
+		return ob_get_clean();
+
+}

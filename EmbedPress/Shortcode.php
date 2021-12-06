@@ -166,10 +166,12 @@ class Shortcode {
 	        self::check_for_google_url($url);
             $provider_name = self::get_provider_name($urlData, $url);
 	        $embedTemplate = '<div ' . implode( ' ', $attributesHtml ) . '>{html}</div>';
-            $parsedContent = self::get_content_from_template($url, $embedTemplate);
+
+	        $parsedContent = self::get_content_from_template($url, $embedTemplate);
 	        // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
 	        $parsedContent = str_replace( "'", '"', $parsedContent );
 	        $parsedContent = str_replace( "{provider_alias}", $provider_name , $parsedContent );
+
 	        self::purify_html_content( $parsedContent);
 			self::modify_content_for_fb_and_canada( $provider_name, $parsedContent);
             unset( $embedTemplate, $serviceProvider );
@@ -617,10 +619,11 @@ KAMAL;
 			$html = '';
 		}else{
 			$html = self::get_oembed()->get_html( $url, self::get_oembed_attributes() );
+
 		}
 
 		if ( !$html ) {
-			$html = str_replace( '{html}', self::get_embera_instance()->autoEmbed($url), $template );
+			$html =  self::get_embera_instance()->autoEmbed($url);
 		}
 		return str_replace( '{html}', $html, $template );
 	}
@@ -677,8 +680,12 @@ KAMAL;
 		$provider_name = '';
 		if (isset( $urlData->provider_name )) {
 			$provider_name = str_replace( [' ', ','], '-', strtolower( $urlData->provider_name));
-		}elseif ( is_array( $urlData ) && isset( $urlData[ $url ][ 'provider_name' ] ) ) {
-			$provider_name = str_replace( [' ', ','], '-', strtolower( $urlData[ $url ][ 'provider_name' ]));
+		}elseif ( is_array( $urlData ) && !empty( $urlData) ) {
+			$data = array_shift( $urlData);
+			if ( isset( $data[ 'provider_name' ]) ) {
+				$provider_name = str_replace( [' ', ','], '-', strtolower( $data[ 'provider_name' ]));
+
+			}
 		}
 		return $provider_name;
 	}

@@ -27,6 +27,7 @@ class EmbedpressSettings {
 					'google-docs-block' => 'google-docs-block',
 					'document' => 'document',
 					'embedpress' => 'embedpress',
+					'embedpress-pdf' => 'embedpress-pdf',
 					'google-sheets-block' => 'google-sheets-block',
 					'google-slides-block' => 'google-slides-block',
 					'youtube-block' => 'youtube-block',
@@ -40,6 +41,7 @@ class EmbedpressSettings {
 				'elementor' => [
 					'embedpress-document' => 'embedpress-document',
 					'embedpress' => 'embedpress',
+					'embedpress-pdf' => 'embedpress-pdf',
 				]
 			];
 
@@ -59,6 +61,24 @@ class EmbedpressSettings {
 			update_option( EMBEDPRESS_PLG_NAME, $settings);
 			update_option( $option, true);
 		}
+		$migration_v_320 = 'embedpress_v_320_migration';
+		if ( !get_option( $migration_v_320, false) ) {
+			$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
+			$elements['gutenberg']['embedpress-pdf'] = ['embedpress-pdf'];
+			$elements['elementor']['embedpress-pdf'] = ['embedpress-pdf'];
+			update_option( EMBEDPRESS_PLG_NAME.":elements", $elements);
+			update_option( $migration_v_320, true);
+		}
+
+		$migration_v_330 = 'embedpress_v_330_migration';
+		if ( !get_option( $migration_v_330, false) ) {
+			$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
+			$elements['gutenberg']['embedpress-calendar'] = ['embedpress-calendar'];
+			$elements['elementor']['embedpress-calendar'] = ['embedpress-calendar'];
+			update_option( EMBEDPRESS_PLG_NAME.":elements", $elements);
+			update_option( $migration_v_330, true);
+		}
+
 		add_action( 'admin_init', [$this, 'embedpress_maybe_redirect_to_settings']  );
 
 
@@ -115,7 +135,7 @@ class EmbedpressSettings {
 
 	public function register_menu() {
 		add_menu_page( __('EmbedPress Settings', 'embedpress'), 'EmbedPress', 'manage_options', $this->page_slug,
-			[ $this, 'render_settings_page' ], null, 64 );
+			[ $this, 'render_settings_page' ], EMBEDPRESS_URL_ASSETS.'images/menu-icon.svg', 64 );
 
 	}
 
@@ -154,7 +174,7 @@ class EmbedpressSettings {
 		$nonce_field = wp_nonce_field('ep_settings_nonce', 'ep_settings_nonce', true, false);
 		$ep_page = admin_url('admin.php?page='.$this->page_slug);
 		$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['general', 'shortcode',]);
-		$platform_menu_template_names = apply_filters('ep_platform_menu_tmpl_names', [ 'youtube', 'vimeo', 'wistia', 'twitch','dailymotion', 'soundcloud' ,'spotify']);
+		$platform_menu_template_names = apply_filters('ep_platform_menu_tmpl_names', [ 'youtube', 'vimeo', 'wistia', 'twitch','dailymotion', 'soundcloud' ,'spotify','google-calendar']);
 		$brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-logo', 'branding',]);
 		$pro_active = is_embedpress_pro_active();
 		$coming_soon = "<span class='ep-coming-soon'>". esc_html__( '(Coming soon)', 'embedpress'). "</span>";
@@ -199,10 +219,14 @@ class EmbedpressSettings {
 	public function save_youtube_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':youtube';
 		$settings = get_option( $option_name, []);
+		$settings['start_time'] = isset( $_POST['start_time']) ? sanitize_text_field( $_POST['start_time']) : 0;
+		$settings['end_time'] = isset( $_POST['end_time']) ? sanitize_text_field( $_POST['end_time']) : 0;
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['controls'] = isset( $_POST['controls']) ? sanitize_text_field( $_POST['controls']) : '';
 		$settings['fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : '';
 		$settings['iv_load_policy'] = isset( $_POST['iv_load_policy']) ? sanitize_text_field( $_POST['iv_load_policy']) : 1;
+		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : 'red';
+		$settings['rel'] = isset( $_POST['rel']) ? sanitize_text_field( $_POST['rel']) : 1;
 		$settings['license_key'] = 1; // backward compatibility
 
 		// Pro will handle g_loading_animation settings and other
@@ -215,12 +239,16 @@ class EmbedpressSettings {
 	public function save_wistia_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':wistia';
 		$settings = get_option( $option_name, []);
+		$settings['start_time'] = isset( $_POST['start_time']) ? sanitize_text_field( $_POST['start_time']) : 0;
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['display_fullscreen_button'] = isset( $_POST['display_fullscreen_button']) ? sanitize_text_field( $_POST['display_fullscreen_button']) : '';
 		$settings['small_play_button'] = isset( $_POST['small_play_button']) ? sanitize_text_field( $_POST['small_play_button']) : '';
 		$settings['player_color'] = isset( $_POST['player_color']) ? sanitize_text_field( $_POST['player_color']) : '';
 		$settings['plugin_resumable'] = isset( $_POST['plugin_resumable']) ? sanitize_text_field( $_POST['plugin_resumable']) : '';
 		$settings['plugin_focus'] = isset( $_POST['plugin_focus']) ? sanitize_text_field( $_POST['plugin_focus']) : '';
+		$settings['plugin_rewind'] = isset( $_POST['plugin_rewind']) ? sanitize_text_field( $_POST['plugin_rewind']) : '';
+		$settings['display_playbar'] = isset( $_POST['display_playbar']) ? sanitize_text_field( $_POST['display_playbar']) : 1;
+		$settings['plugin_rewind_time'] = isset( $_POST['plugin_rewind_time']) ? sanitize_text_field( $_POST['plugin_rewind_time']) : 10;
 		$settings['license_key'] = 1; // backward compatibility
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_wistia_settings_before_save', $settings);
@@ -231,9 +259,12 @@ class EmbedpressSettings {
 	public function save_vimeo_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':vimeo';
 		$settings = get_option( $option_name, []);
+		$settings['start_time'] = isset( $_POST['start_time']) ? sanitize_text_field( $_POST['start_time']) : 0;
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : '#00adef';
 		$settings['display_title'] = isset( $_POST['display_title']) ? sanitize_text_field( $_POST['display_title']) : 1;
+		$settings['display_author'] = isset( $_POST['display_author']) ? sanitize_text_field( $_POST['display_author']) : 1;
+		$settings['display_avatar'] = isset( $_POST['display_avatar']) ? sanitize_text_field( $_POST['display_avatar']) : 1;
 		$settings['license_key'] = 1; // backward compatibility
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_vimeo_settings_before_save', $settings);
@@ -246,6 +277,9 @@ class EmbedpressSettings {
 		$settings = get_option( $option_name, []);
 		$settings['embedpress_pro_twitch_autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : 'no';
 		$settings['embedpress_pro_fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : 'yes';
+		$settings['start_time'] = isset( $_POST['start_time']) ? sanitize_text_field( $_POST['start_time']) : 0;
+		$settings['embedpress_pro_twitch_theme'] = isset( $_POST['theme']) ? sanitize_text_field( $_POST['theme']) : 'dark';
+		$settings['embedpress_pro_twitch_mute'] = isset( $_POST['mute']) ? sanitize_text_field( $_POST['mute']) : 'yes';
 		$settings['license_key'] = 1; // backward compatibility
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_twitch_settings_before_save', $settings);
@@ -278,6 +312,7 @@ class EmbedpressSettings {
 	public function save_dailymotion_settings() {
 		$option_name = EMBEDPRESS_PLG_NAME.':dailymotion';
 		$settings = get_option( $option_name, []);
+		$settings['start_time'] = isset( $_POST['start_time']) ? sanitize_text_field( $_POST['start_time']) : 0;
 		$settings['visual'] = isset( $_POST['visual']) ? sanitize_text_field( $_POST['visual']) : '';
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
 		$settings['play_on_mobile'] = isset( $_POST['play_on_mobile']) ? sanitize_text_field( $_POST['play_on_mobile']) : '';
@@ -309,5 +344,27 @@ class EmbedpressSettings {
 		$settings = apply_filters( 'ep_soundcloud_settings_before_save', $settings);
 		update_option( $option_name, $settings);
 		do_action( 'ep_soundcloud_settings_after_save', $settings);
+	}
+
+	public function save_gcalendar_settings() {
+		$client_secret = !empty( $_POST['epgc_client_secret']) ? json_decode( wp_unslash( trim( $_POST['epgc_client_secret'])), true) : [];
+		$epgc_cache_time = !empty( $_POST['epgc_cache_time'] ) ? absint( $_POST['epgc_cache_time']) : 0;
+		$epgc_selected_calendar_ids = !empty( $_POST['epgc_selected_calendar_ids'] ) ? array_map( 'sanitize_text_field', $_POST['epgc_selected_calendar_ids']) : [];
+
+
+		$pretty_client_secret = '';
+		if ( !empty( $client_secret) ) {
+			$pretty_client_secret = $this->get_pretty_json_string( $client_secret);
+		}
+
+		update_option( 'epgc_client_secret', $pretty_client_secret);
+		update_option( 'epgc_cache_time', $epgc_cache_time);
+		update_option( 'epgc_selected_calendar_ids', $epgc_selected_calendar_ids);
+
+	}
+
+
+	function get_pretty_json_string($array) {
+		return str_replace("    ", "  ", json_encode($array, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 	}
 }

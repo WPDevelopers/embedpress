@@ -2,10 +2,10 @@
 /**
  * Plugin Name: EmbedPress
  * Plugin URI:  https://embedpress.com/
- * Description: EmbedPress lets you embed videos, images, posts, audio, maps and uplaoad PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 100+ sources supported.
+ * Description: EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 100+ sources supported.
  * Author: WPDeveloper
- * Author URI: https://wpdeveloper.net
- * Version: 3.1.0
+ * Author URI: https://wpdeveloper.com
+ * Version: 3.3.0
  * Text Domain: embedpress
  * Domain Path: /languages
  *
@@ -92,20 +92,4 @@ Shortcode::register();
 if ( !class_exists( '\simple_html_dom') ) {
 	include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
 }
-
-//@todo; cleanup after testing
-//add_action( 'after_setup_theme', function (){
-//
-//	add_filter( 'editor_stylesheets', function ( $stylesheets ) {
-//		$stylesheets[] = plugins_url( 'embedpress/assets/css/addons.css' );
-//		error_log( print_r( $stylesheets, 1));
-//
-//		return $stylesheets;
-//	});
-//});
-//add_action( 'init', function () {
-//	add_theme_support( 'editor-style' );
-//
-//	$url = plugins_url( 'embedpress/assets/css/addons.css' );
-//	add_editor_style($url   );
-//});
+//error_log( print_r( get_option('epgc_calendarlist'), 1));

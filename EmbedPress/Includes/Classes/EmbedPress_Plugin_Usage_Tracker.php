@@ -374,7 +374,7 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 			 */
 			$plugin = $this->plugin_data();
 			if( empty( $plugin ) ) {
-				$body['message'] .= __( 'We can\'t detect any plugin information. This is most probably because you have not included the code in the plugin main file.', 'disable-comments' );
+				$body['message'] .= __( 'We can\'t detect any plugin information. This is most probably because you have not included the code in the plugin main file.', 'embedpress' );
 				$body['status'] = 'NOT FOUND';
 			} else {
 				if( isset( $plugin['Name'] ) ) {
@@ -643,9 +643,9 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 		 */
 		public function set_notice_options( $options = [] ){
 			$default_options = [
-				'consent_button_text' => __( 'What we collect.', 'disable-comments' ),
-				'yes'                 => __( 'Sure, I\'d like to help', 'disable-comments' ),
-				'no'                  => __( 'No Thanks.', 'disable-comments' ),
+				'consent_button_text' => __( 'What we collect.', 'embedpress' ),
+				'yes'                 => __( 'Sure, I\'d like to help', 'embedpress' ),
+				'no'                  => __( 'No Thanks.', 'embedpress' ),
 			];
 			$options = wp_parse_args( $options, $default_options );
 			$this->notice_options = $options;
@@ -738,20 +738,20 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 		 */
 		public function deactivation_reasons() {
 			$form = array();
-			$form['heading'] = __( 'Sorry to see you go', 'disable-comments' );
-			$form['body'] = __( 'Before you deactivate the plugin, would you quickly give us your reason for doing so?', 'disable-comments' );
+			$form['heading'] = __( 'Sorry to see you go', 'embedpress' );
+			$form['body'] = __( 'Before you deactivate the plugin, would you quickly give us your reason for doing so?', 'embedpress' );
 
 			$form['options'] = array(
-				__( 'I no longer need the plugin', 'disable-comments' ),
+				__( 'I no longer need the plugin', 'embedpress' ),
 				[
-					'label' => __( 'I found a better plugin', 'disable-comments' ),
-					'extra_field' => __( 'Please share which plugin', 'disable-comments' )
+					'label' => __( 'I found a better plugin', 'embedpress' ),
+					'extra_field' => __( 'Please share which plugin', 'embedpress' )
 				],
-				__( "I couldn't get the plugin to work", 'disable-comments' ),
-				__( 'It\'s a temporary deactivation', 'disable-comments' ),
+				__( "I couldn't get the plugin to work", 'embedpress' ),
+				__( 'It\'s a temporary deactivation', 'embedpress' ),
 				[
-					'label' => __( 'Other', 'disable-comments' ),
-					'extra_field' => __( 'Please share the reason', 'disable-comments' ),
+					'label' => __( 'Other', 'embedpress' ),
+					'extra_field' => __( 'Please share the reason', 'embedpress' ),
 					'type' => 'textarea'
 				]
 			);
@@ -793,7 +793,7 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 				$html .= '</ul></div><!-- .wpinsights-'. $class_plugin_name .'-goodbye-options -->';
 			}
 			$html .= '</div><!-- .wpinsights-goodbye-form-body -->';
-			$html .= '<p class="deactivating-spinner"><span class="spinner"></span> ' . __( 'Submitting form', 'disable-comments' ) . '</p>';
+			$html .= '<p class="deactivating-spinner"><span class="spinner"></span> ' . __( 'Submitting form', 'embedpress' ) . '</p>';
 
 			$wrapper_class = '.wpinsights-goodbye-form-wrapper-'. $class_plugin_name;
 
@@ -851,7 +851,7 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 						var url = document.getElementById("wpinsights-goodbye-link-<?php echo $class_plugin_name; ?>");
 						$('body').toggleClass('wpinsights-form-active-<?php echo $class_plugin_name; ?>');
 						$(".wpinsights-goodbye-form-wrapper-<?php echo $class_plugin_name; ?> #wpinsights-goodbye-form").fadeIn();
-						$(".wpinsights-goodbye-form-wrapper-<?php echo $class_plugin_name; ?> #wpinsights-goodbye-form").html( '<?php echo $html; ?>' + '<div class="wpinsights-goodbye-form-footer"><div class="wpinsights-goodbye-form-buttons"><a id="wpinsights-submit-form-<?php echo $class_plugin_name; ?>" class="wpinsights-submit-btn" href="#"><?php _e( 'Submit and Deactivate', 'disable-comments' ); ?></a>&nbsp;<a class="wpsp-put-deactivate-btn" href="'+url+'"><?php _e( 'Just Deactivate', 'disable-comments' ); ?></a></div></div>');
+						$(".wpinsights-goodbye-form-wrapper-<?php echo $class_plugin_name; ?> #wpinsights-goodbye-form").html( '<?php echo $html; ?>' + '<div class="wpinsights-goodbye-form-footer"><div class="wpinsights-goodbye-form-buttons"><a id="wpinsights-submit-form-<?php echo $class_plugin_name; ?>" class="wpinsights-submit-btn" href="#"><?php _e( 'Submit and Deactivate', 'embedpress' ); ?></a>&nbsp;<a class="wpsp-put-deactivate-btn" href="'+url+'"><?php _e( 'Just Deactivate', 'embedpress' ); ?></a></div></div>');
 						$('#wpinsights-submit-form-<?php echo $class_plugin_name; ?>').on('click', function(e){
 							// As soon as we click, the body of the form should disappear
 							$("#wpinsights-goodbye-form-<?php echo $class_plugin_name; ?> .wpinsights-goodbye-form-body").fadeOut();

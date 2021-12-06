@@ -4,6 +4,9 @@
  *  All undefined vars comes from 'render_settings_page' method
  *  */
 $vm_settings = get_option( EMBEDPRESS_PLG_NAME.':vimeo' );
+$start_time = isset( $vm_settings['start_time']) ? $vm_settings['start_time'] : 0;
+
+
 $autoplay = isset( $vm_settings['autoplay']) ? $vm_settings['autoplay'] : '';
 $loop = isset( $vm_settings['loop']) ? $vm_settings['loop'] : '';
 $autopause = isset( $vm_settings['autopause']) ? $vm_settings['autopause'] : '';
@@ -20,6 +23,14 @@ $display_avatar = isset( $vm_settings['display_avatar']) ? $vm_settings['display
 	        <?php
 	        do_action( 'embedpress_before_vimeo_settings_fields');
             echo  $nonce_field ; ?>
+            <div class="form__group">
+                <p class="form__label" ><?php esc_html_e( "Start Time (In Seconds)", "embedpress" ); ?> </p>
+                <div class="form__control__wrap">
+                    <input type="number"  name="start_time" id="start_time" class="form__control" data-default="<?php echo esc_attr( $start_time); ?>" value="<?php echo esc_attr( $start_time); ?>" >
+                    <p><?php esc_html_e( "You can put a custom time in seconds to start video. Example: 500", "embedpress" ); ?></p>
+                </div>
+
+            </div>
             <div class="form__group">
                 <p class="form__label"><?php esc_html_e( "Auto Play", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
@@ -112,36 +123,34 @@ $display_avatar = isset( $vm_settings['display_avatar']) ? $vm_settings['display
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Display Author", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?></p>
+                <p class="form__label"><?php esc_html_e( "Display Author", "embedpress" ); ?></p>
                 <div class="form__control__wrap">
-                    <div data-default="<?php echo esc_attr(  $display_author ); ?>" data-value="<?php echo esc_attr(  $display_author ); ?>" class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>">
+                    <div data-default="<?php echo esc_attr(  $display_author ); ?>" data-value="<?php echo esc_attr(  $display_author ); ?>" class="input__flex input__radio_wrap">
                         <label class="input__radio">
-                            <input type="radio" name="display_author" value=""  <?php echo !$pro_active ? 'disabled ' : ''; checked( '', $display_author); ?>>
+                            <input type="radio" name="display_author" value=""  <?php checked( '', $display_author); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="display_author" value="1"  <?php echo !$pro_active ? 'disabled ' : ''; checked( '1', $display_author); ?>>
+                            <input type="radio" name="display_author" value="1"  <?php checked( '1', $display_author); ?>>
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
-	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
                     <p><?php esc_html_e( "Indicates whether the author is displayed.", "embedpress" ); ?></p>
                 </div>
             </div>
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Display Avatar", "embedpress" );  echo $pro_active ? '': ' <span class="isPro">PRO</span>';  ?></p>
+                <p class="form__label"><?php esc_html_e( "Display Avatar", "embedpress" );?></p>
                 <div class="form__control__wrap">
-                    <div data-default="<?php echo esc_attr(  $display_avatar ); ?>" data-value="<?php echo esc_attr(  $display_avatar ); ?>" class="input__flex input__radio_wrap <?php echo $pro_active ? '': 'isPro'; ?>">
+                    <div data-default="<?php echo esc_attr(  $display_avatar ); ?>" data-value="<?php echo esc_attr(  $display_avatar ); ?>" class="input__flex input__radio_wrap">
                         <label class="input__radio">
-                            <input type="radio" name="display_avatar" value=""  <?php echo !$pro_active ? 'disabled ' : ''; checked( '', $display_avatar); ?>>
+                            <input type="radio" name="display_avatar" value=""  <?php  checked( '', $display_avatar); ?>>
                             <span><?php esc_html_e( "No", "embedpress" ); ?></span>
                         </label>
                         <label class="input__radio">
-                            <input type="radio" name="display_avatar" value="1"  <?php echo !$pro_active ? 'disabled ' : ''; checked( '1', $display_avatar); ?>>
+                            <input type="radio" name="display_avatar" value="1"  <?php  checked( '1', $display_avatar); ?>>
                             <span><?php esc_html_e( "Yes", "embedpress" ); ?></span>
                         </label>
                     </div>
-	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
                     <p><?php esc_html_e( "Indicates whether the avatar is displayed.", "embedpress" ); ?></p>
                 </div>
             </div>

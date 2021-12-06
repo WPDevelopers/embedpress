@@ -14,7 +14,7 @@ use EmbedPress\Includes\Traits\Shared;
  *
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
- * @copyright   Copyright (C) 2020 WPDeveloper. All rights reserved.
+ * @copyright   Copyright (C) 2021 WPDeveloper. All rights reserved.
  * @license     GPLv3 or later
  * @since       1.0.0
  */
@@ -310,7 +310,7 @@ class CoreLegacy
 
         array_unshift($links, $settingsLink);
 	    if ( !is_embedpress_pro_active() ) {
-		    $links[] = '<a href="https://wpdeveloper.net/in/upgrade-embedpress" target="_blank" class="embedpress-go-pro-action">'.__('Go Pro', 'embedpress').'</a>';
+		    $links[] = '<a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="embedpress-go-pro-action" style="color: green">'.__('Go Pro', 'embedpress').'</a>';
 	    }
 	    return $links;
     }

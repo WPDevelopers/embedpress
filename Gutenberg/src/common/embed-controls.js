@@ -3,9 +3,8 @@
  */
 const { __ } = wp.i18n;
 const { Fragment } = wp.element;
-const { IconButton, Toolbar } = wp.components;
-const { BlockControls } = wp.editor;
-
+const { Button, Toolbar } = wp.components;
+const { BlockControls } = wp.blockEditor;
 const EmbedControls = ( props ) => {
 	const {
 		showEditButton,
@@ -16,7 +15,7 @@ const EmbedControls = ( props ) => {
 			<BlockControls>
 				<Toolbar>
 					{ showEditButton && (
-						<IconButton
+						<Button
 							className="components-toolbar__control"
 							label={ __( 'Edit URL' ) }
 							icon="edit"

@@ -355,7 +355,7 @@
     padding-right: 5px;
 }
 
-.embedpress-tab .nav__menu ul .nav__item, .template__wrapper label, .iframe__size__control__form .form__group .frame__unit, .iframe__size__control__wrap h3, .embedpress__settings__form .form__group .form__label, .embedpress__settings__form .form__group .form__control__wrap p, .upgrade__card .card__content h4, .upgrade__card .card__content p, .upgrage__card__tab__style h3, .upgrage__card__tab__style p, .embedpress-license__details .license__content .thumb__area h2, .embedpress-license__details .license__content p, .embedpress-license__details .license__content ol li, .embedpress-card h3, .embedpress-card p, .emement__item h5, .emement__item .pro__item, .embedpress--elements__wrap h3 {
+.embedpress-tab .nav__menu ul .nav__item, .template__wrapper label, .iframe__size__control__form .form__group .frame__unit, .iframe__size__control__wrap h3, .embedpress__settings__form .form__group .form__label, .embedpress__settings__form .form__group .form__control__wrap p, .upgrade__card .card__content h4, .upgrade__card .card__content p, .upgrage__card__tab__style h3, .upgrage__card__tab__style p, .embedpress-license__details .license__content .thumb__area h2, .embedpress-license__details .license__content p, .embedpress-license__details .license__content ol li, .embedpress-card h3, .embedpress-card p, .element__item h5, .element__item .pro__item, .embedpress--elements__wrap h3 {
     font-family: "DM Sans", sans-serif;
 }
 
@@ -1926,19 +1926,19 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 .template__wrapper .form__control::-webkit-input-placeholder {
-    color: #25396F;
+    color: #7C8DB5;
 }
 
 .template__wrapper .form__control:-moz-placeholder {
-    color: #25396F;
+    color: #7C8DB5;
 }
 
 .template__wrapper .form__control::-moz-placeholder {
-    color: #25396F;
+    color: #7C8DB5;
 }
 
 .template__wrapper .form__control:-ms-input-placeholder {
-    color: #25396F;
+    color: #7C8DB5;
 }
 
 .template__wrapper textarea.form__control {
@@ -2539,13 +2539,14 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 .logo__adjust__wrap .logo__adjust .logo__adjust__preview .preview__box {
-    height: 280px;
     position: relative;
+    min-height: 300px;
 }
 
 .logo__adjust__wrap .logo__adjust .logo__adjust__preview .preview__box iframe {
     width: 100%;
     height: 100%;
+    min-height:300px;
 }
 
 .logo__adjust__wrap .logo__adjust .logo__adjust__preview .preview__box img {
@@ -3090,7 +3091,7 @@ button.button__instagram.hover__highlight:hover .icon {
     margin-bottom: 20px;
 }
 
-.emement__item {
+.element__item {
     background: #F5F7FD;
     border-radius: 10px;
     padding: 25px 30px;
@@ -3106,17 +3107,17 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 @media (max-width: 767px) {
-    .emement__item {
+    .element__item {
         padding: 20px;
         padding-right: 15px;
     }
 }
 
-.emement__item.isPro .pro__item {
+.element__item.isPro .pro__item {
     /* display: block; */
 }
 
-.emement__item h5 {
+.element__item h5 {
     font-size: 20px;
     font-weight: 700;
     color: #25396F;
@@ -3124,19 +3125,19 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 @media (max-width: 767px) {
-    .emement__item h5 {
+    .element__item h5 {
         font-size: 16px;
     }
 }
 
-.emement__item .has__question {
+.element__item .has__question {
     color: rgba(124, 141, 181, 0.5);
     line-height: 1;
     margin-top: 2px;
     margin-right: 10px;
     position: relative;
 }
-.emement__item .has__question .element__tooltip {
+.element__item .has__question .element__tooltip {
     position: absolute;
     bottom: calc(100% + 12px);
     left: -20px;
@@ -3152,11 +3153,11 @@ button.button__instagram.hover__highlight:hover .icon {
     visibility: hidden;
     z-index: 9;
 }
-.emement__item .has__question:hover .element__tooltip {
+.element__item .has__question:hover .element__tooltip {
     visibility: visible;
     opacity: 1;
 }
-.emement__item .has__question .element__tooltip:before {
+.element__item .has__question .element__tooltip:before {
     position: absolute;
     top: 100%;
     left: 18px;
@@ -3166,12 +3167,12 @@ button.button__instagram.hover__highlight:hover .icon {
     border-top: 10px solid #5B4E96;
     content: '';
 }
-.emement__item .input__switch {
+.element__item .input__switch {
     margin-left: auto;
     margin-bottom: 0;
 }
 
-.emement__item .pro__item {
+.element__item .pro__item {
     position: absolute;
     top: 5px;
     left: -16px;
@@ -3187,7 +3188,7 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 @media (max-width: 767px) {
-    .emement__item .pro__item {
+    .element__item .pro__item {
         font-size: 9px;
     }
 }

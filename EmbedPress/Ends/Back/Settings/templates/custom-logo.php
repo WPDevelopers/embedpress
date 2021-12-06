@@ -5,16 +5,18 @@
  *
  *  */
 
-$option_name = EMBEDPRESS_PLG_NAME.':youtube';
-$yt_settings = get_option( $option_name);
-$gen_settings = get_option( EMBEDPRESS_PLG_NAME);
-$yt_logo_xpos = isset( $yt_settings['logo_xpos']) ? intval( $yt_settings['logo_xpos']) : 10;
-$yt_logo_ypos = isset( $yt_settings['logo_ypos']) ? intval( $yt_settings['logo_ypos']) : 10;
+use EmbedPress\Includes\Classes\Helper;
+
+$option_name     = EMBEDPRESS_PLG_NAME . ':youtube';
+$yt_settings     = get_option( $option_name);
+$gen_settings    = get_option( EMBEDPRESS_PLG_NAME);
+$yt_logo_xpos    = isset( $yt_settings['logo_xpos']) ? intval( $yt_settings['logo_xpos']) : 10;
+$yt_logo_ypos    = isset( $yt_settings['logo_ypos']) ? intval( $yt_settings['logo_ypos']) : 10;
 $yt_logo_opacity = isset( $yt_settings['logo_opacity']) ? intval( $yt_settings['logo_opacity']) : 50;
-$yt_logo_id = isset( $yt_settings['logo_id']) ? intval( $yt_settings['logo_id']) : 0;
-$yt_logo_url = isset( $yt_settings['logo_url']) ? esc_url( $yt_settings['logo_url']) : '';
-$yt_cta_url = isset( $yt_settings['cta_url']) ? esc_url( $yt_settings['cta_url']) : '';
-$yt_branding = isset( $yt_settings['branding']) ? sanitize_text_field( $yt_settings['branding']) : (!empty( $yt_logo_url) ? 'yes': 'no');
+$yt_logo_id      = isset( $yt_settings['logo_id']) ? intval( $yt_settings['logo_id']) : 0;
+$yt_logo_url     = isset( $yt_settings['logo_url']) ? esc_url( $yt_settings['logo_url']) : '';
+$yt_cta_url      = isset( $yt_settings['cta_url']) ? esc_url( $yt_settings['cta_url']) : '';
+$yt_branding     = isset( $yt_settings['branding']) ? sanitize_text_field( $yt_settings['branding']) : (!empty( $yt_logo_url) ? 'yes': 'no');
 
 
 $embedpress_document_powered_by = isset( $gen_settings['embedpress_document_powered_by']) ? sanitize_text_field( $gen_settings['embedpress_document_powered_by']) : 'yes';
@@ -54,8 +56,10 @@ $vm_cta_url = isset( $vm_settings['cta_url']) ? esc_url( $vm_settings['cta_url']
             embedpress_print_branding_controls('vimeo', 'vm');
             embedpress_print_branding_controls('wistia', 'wis');
             embedpress_print_branding_controls('twitch', 'tw');
+            embedpress_print_branding_controls('dailymotion', 'dm');
+            embedpress_print_branding_controls('document', 'doc');
+            do_action( 'embedpress_after_custom_branding_settings_fields');
             ?>
-	        <?php  do_action( 'embedpress_after_custom_branding_settings_fields'); ?>
             <button class="button button__themeColor radius-10 embedpress-submit-btn" name="submit" value="custom_logo"><?php esc_html_e( 'Save Changes', 'embedpress'); ?></button>
         </form>
     </div>
@@ -88,12 +92,12 @@ function embedpress_print_branding_controls($provider='', $prefix='') {
     $px_cta_url = "{$prefix}_cta_url";
     switch ($provider){
         case 'vimeo':
-            $preview_video = '<iframe src="https://player.vimeo.com/video/463346733" frameborder="0"></iframe>';
+            $preview_video = '<iframe loading="lazy" src="https://player.vimeo.com/video/463346733" frameborder="0"></iframe>';
             break;
         case 'wistia':
 
             $preview_video=<<<KAMAL
-<div class="ose-wistia--inc. ose-uid-0869333898f94a99ed20457fc4b79d88 ose-embedpress-responsive" style="width:500px; max-width:100%; height: 300px"><iframe title="Best Embedding Solution For Elementor, Gutenberg &amp; Classic Editor - EmbedPress Video" src="https://fast.wistia.net/embed/iframe/u7eq83w1cg?dnt=1" allow="autoplay; fullscreen" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen msallowfullscreen width="500" height="300"></iframe><script src="https://fast.wistia.net/assets/external/E-v1.js" async></script></div>
+<div class="ose-wistia--inc. ose-uid-0869333898f94a99ed20457fc4b79d88 ose-embedpress-responsive" style="width:500px; max-width:100%; height: 300px"><iframe loading="lazy"  title="Best Embedding Solution For Elementor, Gutenberg &amp; Classic Editor - EmbedPress Video" src="https://fast.wistia.net/embed/iframe/u7eq83w1cg?dnt=1" allow="autoplay; fullscreen" allowtransparency="true" frameborder="0" scrolling="no" class="wistia_embed" name="wistia_embed" allowfullscreen msallowfullscreen width="500" height="300"></iframe><script src="https://fast.wistia.net/assets/external/E-v1.js" async></script></div>
 KAMAL;
 
             break;
@@ -101,19 +105,38 @@ KAMAL;
             $parent = wp_parse_url( site_url(), 1);
             $preview_video = <<<KAMAL
 <div class="embedpress_wrapper" data-url="https://www.twitch.tv/wpdeveloperdotnet" style="width:90%; height:360px;">
-                <iframe src="https://embed.twitch.tv?autoplay=true&#038;channel=wpdeveloperdotnet&#038;height=360&#038;layout=video&#038;migration=true&#038;muted=false&#038;theme=dark&#038;time=0h0m0s&#038;video=&#038;width=600&#038;allowfullscreen=true&#038;parent={$parent}" allowfullscreen="" scrolling="no" frameborder="0" allow="autoplay; fullscreen" title="Twitch" sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" ></iframe>
+                <iframe loading="lazy"  src="https://embed.twitch.tv?autoplay=true&#038;channel=wpdeveloperdotnet&#038;height=360&#038;layout=video&#038;migration=true&#038;muted=false&#038;theme=dark&#038;time=0h0m0s&#038;video=&#038;width=600&#038;allowfullscreen=true&#038;parent={$parent}" allowfullscreen="" scrolling="no" frameborder="0" allow="autoplay; fullscreen" title="Twitch" sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" ></iframe>
             </div>
 KAMAL;
 
             break;
+	    case 'dailymotion':
+		    $parent = wp_parse_url( site_url(), 1);
+		    $preview_video = <<<KAMAL
+<div class="embedpress_wrapper" style="width:90%; height:360px;">
+                <iframe title="Sample video" frameborder="0" width="640" height="400" src="https://www.dailymotion.com/embed/video/x7qvzya?ui-highlight=dd3333&amp;start=0&amp;mute=0&amp;autoplay=0&amp;controls=1&amp;ui-start-screen-info=1&amp;endscreen-enable=0&amp;ui-logo=1" allowfullscreen="" allow="autoplay" loading="lazy" style="max-width: 100%; max-height: 400px;"></iframe>
+            </div>
+KAMAL;
+
+		    break;
+	    case 'document':
+	        $pdf_url = EMBEDPRESS_SETTINGS_ASSETS_URL . 'embedpress.pdf';
+		    $renderer = Helper::get_pdf_renderer();
+		    $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $pdf_url;
+	        ob_start(); ?>
+            <iframe class="embedpress-embed-document-pdf ep-pdf-sample" style="width:500px; max-width:100%; height: 300px; display: inline-block"  src="<?php echo esc_attr(  $src); ?>" ></iframe>
+        <?php
+		    $preview_video = ob_get_clean();
+		    break;
 	    default:
-		    $preview_video = '<iframe src="https://www.youtube.com/embed/2u0HRUdLHxo" frameborder="0"></iframe>';
+		    $preview_video = '<iframe height="300px" src="https://www.youtube.com/embed/2u0HRUdLHxo" frameborder="0"></iframe>';
 		    break;
     }
     ?>
     <div class="form__group">
         <p class="form__label"><?php
-			printf( esc_html__( '%s Custom Branding', 'embedpress'), ucfirst( $provider));
+            $provider_name = $provider === 'youtube' ? 'YouTube' : ucfirst( $provider);
+			printf( esc_html__( '%s Custom Branding', 'embedpress'), $provider_name);
 			echo $pro_active ? '': ' <span class="isPro">Pro</span>'; ?>
         </p>
         <div class="form__control__wrap">
