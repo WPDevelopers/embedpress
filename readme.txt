@@ -1,12 +1,12 @@
-=== EmbedPress – Embed Google Docs, YouTube, Maps, Vimeo, Wistia Videos & Upload PDF, PPT etc. ===
+=== EmbedPress – Embed Google Docs, YouTube, Maps, Vimeo, Wistia Videos & Upload PDF, PPT in Gutenberg & Elementor ===
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, manzurahammed, kamalahmed
 Author: WPDeveloper
-Author URI: https://wpdeveloper.net
+Author URI: https://wpdeveloper.com
 Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embed, video embed, Google Doc, map embed, youTube Embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, block editor, embed wordpress, elementor, WPML, Meetup, Boomplay, PDF Logo
 Requires at least: 4.6
 Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 3.2.0
+Stable tag: 3.3.1
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -16,28 +16,28 @@ EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC
 
 = EMBEDPRESS – EMBED ANYTHING FROM 100+ SOURCES -  YOUTUBE, GOOGLE DOCS, DRIVE, MAPS, VIMEO, WISTIA, SPOTIFY, BOOMPLAY, PDF, PPT ETC & DISPLAY IT USING ELEMENTOR, BLOCK EDITOR, CLASSIC EDITOR & MORE =
 
-[EmbedPress](https://embedpress.com/) lets you embed any engaging and interactive multimedia content such as videos, images, posts, audio, maps, documents, PDF, and much more into your WordPress site with one click and showcase it beautifully for your website visitors. 
+[EmbedPress](https://embedpress.com/) lets you embed any engaging and interactive multimedia content such as videos, images, posts, audio, maps, documents, PDF, and much more into your WordPress site with one click and showcase it beautifully for your website visitors.
 
-Fuel up your storytelling by embedding content directly on to Classic Editor, Gutenberg (Block Editor), Elementor, or by using EmbedPress shortcodes on other WordPress Page Builders with complete ease. 
+Fuel up your storytelling by embedding content directly on to Classic Editor, Gutenberg (Block Editor), Elementor, or by using EmbedPress shortcodes on other WordPress Page Builders with complete ease.
 
 
 https://www.youtube.com/watch?v=fvYKLkEnJbI
 
-### 🔥RICH MEDIA EMBEDS FROM MORE THAN 100 SITES
+### 🔥 RICH MEDIA EMBEDS FROM MORE THAN 100 SITES
 
 With EmbedPress, all you need is an URL to embed attention-grabbing content from **over 100 websites**. Find the URL for your preferred video, image, audio files, post, or map and simply cut-and-paste the link into a WordPress post. EmbedPress automatically understands the URL and instantly embeds fully responsive content on your websites.
 
 ### 🔗 EMBED CONTENT USING ANY WORDPRESS PAGE BUILDER
 
-EmbedPress makes embedding engaging content on Classic Editor, Gutenberg (Block Editor) & EmbedPress completely hassle-free for you with seamless compatibility. 
+EmbedPress makes embedding engaging content on Classic Editor, Gutenberg (Block Editor) & EmbedPress completely hassle-free for you with seamless compatibility.
 
-Or, you can also effortlessly use advanced [EmbedPress shortcodes](https://embedpress.com/docs/how-to-use-embedpress-shortcodes-page-builders/) to embed content into any of your preferred WordPress Page Builders, like Beaver Builder & Divi, in less than a minute. 
+Or, you can also effortlessly use advanced [EmbedPress shortcodes](https://embedpress.com/docs/how-to-use-embedpress-shortcodes-page-builders/) to embed content into any of your preferred WordPress Page Builders, like Beaver Builder & Divi, in less than a minute.
 
 ### 🤝 TRANSLATE YOUR EMBEDDED CONTENT WITH MULTILINGUAL PLUGIN WPML
 
-EmbedPress is now certified as a recommended plugin by and 100% compatible with the most popular WordPress Multilingual Plugin, WPML. [Translate your favorite embedding solution](https://embedpress.com/docs/translate-embedpress-wpml/) for WordPress into any and all of your preferred languages with a few, easy steps. 
+EmbedPress is now certified as a recommended plugin by and 100% compatible with the most popular WordPress Multilingual Plugin, WPML. [Translate your favorite embedding solution](https://embedpress.com/docs/translate-embedpress-wpml/) for WordPress into any and all of your preferred languages with a few, easy steps.
 
-### 🌟Most Popular Sites People Are Embedding with EmbedPress:
+### 🌟 Most Popular Sites People Are Embedding with EmbedPress:
 
 -   [Google](https://embedpress.com/docs-category/google-embeds/): You can embed Google Maps, Docs, Forms, Sheets and more.
 
@@ -59,15 +59,15 @@ EmbedPress makes embedding PDFs and Documents on the Gutenberg Block Editor much
 
 https://www.youtube.com/watch?v=1yVbt3XW-Wo&list=PLWHp1xKHCfxAVncPuQlAFHTaRl3kO3qBi
 
-### 🎞️ CUSTOMIZE YOUTUBE VIDEO EMBEDS WITH ADVANCED FEATURES [PRO] 
+### 🎞️ CUSTOMIZE YOUTUBE VIDEO EMBEDS WITH ADVANCED FEATURES [PRO]
 
 -   Add Custom Branding by embedding your own customized logo and call-to-action buttons.
 -   Embed a ‘Subscription Button’ and boost conversion rates for your website & your YouTube channel.
 -   Show or hide closed captions & enable live chat with every video.
--   Allow autoplay, display video annotations and related videos, and much more. 
+-   Allow autoplay, display video annotations and related videos, and much more.
 
 
-### 🎬OTHER VIDEO OPTIONS
+### 🎬 OTHER VIDEO OPTIONS
 
 We’ve seen that EmbedPress supports YouTube, Wistia and Vimeo, but EmbedPress also supports around 20 more video sources:
 
@@ -109,7 +109,7 @@ https://www.youtube.com/watch?v=1F2mPePF3F4&list=PLWHp1xKHCfxAVncPuQlAFHTaRl3kO3
 
 ### 🎯 ADD CUSTOM BRANDING WITH MULTIMEDIA EMBEDS [PRO]
 
-Along with **YouTube video embeds**, EmbedPress also enables you to embed custom logos and call-to-action buttons to other multimedia contents to brand them with your website: 
+Along with **YouTube video embeds**, EmbedPress also enables you to embed custom logos and call-to-action buttons to other multimedia contents to brand them with your website:
 
 -   Custom Branding for Vimeo video embeds [PRO]
 -   Custom Branding for Wistia video embeds [PRO]
@@ -118,13 +118,13 @@ Along with **YouTube video embeds**, EmbedPress also enables you to embed custom
 -   Custom Branding for Documents & PDFs [PRO]
 
 
-### 🏆 POWER UP OTHER MULTIMEDIA EMBEDS WITH EXCLUSIVE FEATURES - VIMEO, WISTIA, SPOTIFY & MORE 
+### 🏆 POWER UP OTHER MULTIMEDIA EMBEDS WITH EXCLUSIVE FEATURES - VIMEO, WISTIA, SPOTIFY & MORE
 
--   [Vimeo](https://embedpress.com/docs/embed-vimeo-videos-wordpress/): Play your videos on Loop [PRO], turn on Auto Pause [PRO], enable DNT [PRO], and much more. 
+-   [Vimeo](https://embedpress.com/docs/embed-vimeo-videos-wordpress/): Play your videos on Loop [PRO], turn on Auto Pause [PRO], enable DNT [PRO], and much more.
 
 -   [Wistia](https://embedpress.com/docs/embed-wistia-videos-wordpress/): Start your videos with a Custom Volume [PRO] with Controls [PRO], enable Captions [PRO], and Rewind videos when needed.
 
--   [Twitch](https://embedpress.com/docs/embed-twitch-streams-chat/): Show Chat [PRO], enable a Custom Theme & Full Screen Button, and more. 
+-   [Twitch](https://embedpress.com/docs/embed-twitch-streams-chat/): Show Chat [PRO], enable a Custom Theme & Full Screen Button, and more.
 
 -   [Dailymotion](https://embedpress.com/docs/how-to-configure-settings-for-dailymotion-video-embeds/): Show Logo [PRO], display Video Information or Play Controls, and more.
 
@@ -133,7 +133,7 @@ Along with **YouTube video embeds**, EmbedPress also enables you to embed custom
 -   [Spotify](https://embedpress.com/docs/how-to-embed-spotify-artist-follower-widget/): Choose a Player Background Color and embed Artist Follower Buttons [PRO].
 
 
-### ☁️GOOGLE DRIVE: DOCS, SHEETS, DRAWINGS, FORMS, SLIDES, MAPS
+### ☁️ GOOGLE DRIVE: DOCS, SHEETS, DRAWINGS, FORMS, SLIDES, MAPS
 
 Google Drive is an enormously popular service that has replaced Microsoft Office for many companies. Using Google Drives can bring your information to life, whether it’s stored in documents, maps, drawings, spreadsheets, or presentations. EmbedPress supports all of these Google Drive options:
 
@@ -153,14 +153,14 @@ Google Drive is an enormously popular service that has replaced Microsoft Office
 https://www.youtube.com/watch?v=3CWysKDRoG4
 
 
-### 👍FACEBOOK POSTS AND VIDEOS
+### 👍 FACEBOOK POSTS AND VIDEOS
 
 With EmbedPress, you can add Facebook Posts to WordPress, using just a URL. Facebook post embeds are possible, but they’re not easy to use via normal methods. EmbedPress is different:
 
 -   [How to use Facebook embeds in WordPress](https://embedpress.com/docs/embed-facebook-posts-wordpress/)
 
 
-### 🎧AUDIO: SPOTIFY, SOUNDCLOUD AND MIXCLOUD
+### 🎧 AUDIO: SPOTIFY, SOUNDCLOUD AND MIXCLOUD
 
 EmbedPress supports all of these major options for audio on your WordPress site:
 
@@ -184,7 +184,7 @@ Here are multiple other audio options supported by EmbedPress:
 -   [How to use ReverbNation in WordPress](https://embedpress.com/docs/embed-reverbnation-audio-wordpress/)
 
 
-### 🖼️PHOTOS: DEVIANTART, GIPHY, FLICK, IMGUR AND INSTAGRAM
+### 🖼️ PHOTOS: DEVIANTART, GIPHY, FLICK, IMGUR AND INSTAGRAM
 
 EmbedPress supports most popular image-hosting sites, including Deviantart, Giphy, Imgur, Flick and Instagram:
 
@@ -201,7 +201,7 @@ EmbedPress supports most popular image-hosting sites, including Deviantart, Giph
 https://www.youtube.com/watch?v=h8oPwlZ9P5A
 
 
-### 📊CHARTS AND DIAGRAMS
+### 📊 CHARTS AND DIAGRAMS
 
 With EmbedPress, you have a wide variety of options for adding charts and diagrams to your WordPress site. We already saw that EmbedPress supports Google Drawings, but here are 5 more options for charts:
 
@@ -217,7 +217,7 @@ With EmbedPress, you have a wide variety of options for adding charts and diagra
 
 
 
-### ✅MORE SITES SUPPORTED BY EMBEDPRESS
+### ✅ MORE SITES SUPPORTED BY EMBEDPRESS
 
 -   [23hq embeds](https://embedpress.com/docs/embed-23hq-photos-wordpress/) (Images)
 
@@ -300,11 +300,11 @@ With EmbedPress, you have a wide variety of options for adding charts and diagra
 -   [Roomshare embeds](http://roomshare.jp/) (Room Share Listing)
 
 
-🙌After reading this feature list, you can probably imagine EmbedPress is the best plugin in the market. So, do you want to unlock the advanced features? [Upgrade to our Pro version.](https://embedpress.com/#pricing)
+🙌 After reading this feature list, you can probably imagine EmbedPress is the best plugin in the market. So, do you want to unlock the advanced features? [Upgrade to our Pro version.](https://embedpress.com/#pricing)
 
-### 🚀BACKED BY A TRUSTED TEAM
+### 🚀 BACKED BY A TRUSTED TEAM
 
-This embed plugin is brought to you by the team behind [WPDeveloper](https://wpdeveloper.net/), a dedicated marketplace for WordPress, trusted by 3 millions+ happy WordPress users.
+This embed plugin is brought to you by the team behind [WPDeveloper](https://wpdeveloper.com/), a dedicated marketplace for WordPress, trusted by 3 millions+ happy WordPress users.
 
 ### 👨‍💻 DOCUMENTATION AND SUPPORT
 
@@ -328,21 +328,21 @@ This embed plugin is brought to you by the team behind [WPDeveloper](https://wpd
 ### 🔥 WHAT’S NEXT
 If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
-🔝[Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 1,000,000+ active users in the WordPress repository.
+🔝 [Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 1,000,000+ active users in the WordPress repository.
 
-🔔[NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
+🔔 [NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
 
-⏰[WP Scheduled Posts](https://wordpress.org/plugins/wp-scheduled-posts/)  – Complete solution for WordPress Post Scheduling to manage schedules through an editorial calendar & Social Share.
+⏰ [WP Scheduled Posts](https://wordpress.org/plugins/wp-scheduled-posts/)  – Complete solution for WordPress Post Scheduling to manage schedules through an editorial calendar & Social Share.
 
-🗒️[BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, whcih also reduce your manual support request.
+🗒️ [BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, whcih also reduce your manual support request.
 
-☁ [Templately](https://wordpress.org/plugins/templately/): Ultimate Template clouds with 1000+ ready templates for Elementor & Gutenberg along with FREE cloud collaboration with your team
+☁  [Templately](https://wordpress.org/plugins/templately/): Ultimate Template clouds with 1000+ ready templates for Elementor & Gutenberg along with FREE cloud collaboration with your team
 
 ⭐ [ReviewX](https://wordpress.org/plugins/reviewx/): WooCommerce Product review plugin that allows users to submit product reviews with multiple criteria, photos, videos, and more.
 
 ⚡ [Flexia](http://wordpress.org/plugins/flexia): Most lightweight, customizable & multi purpose theme for WordPress.
 
-Visit [WPDeveloper](https://wpdeveloper.net/) to learn more about how to do better in WordPress with [Help Tutorial, Tips & Tricks](https://wpdeveloper.net/blog).
+Visit [WPDeveloper](https://wpdeveloper.com/) to learn more about how to do better in WordPress with [Help Tutorial, Tips & Tricks](https://wpdeveloper.com/blog).
 
 == Installation ==
 
@@ -382,8 +382,21 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [3.2.0] - 2021-09-16 =
-* Added: New PDF library.
+= [3.3.1] - 2021-12-22 =
+* Fixed: Meetup Embed data fetching.
+* Few minor bug fix and improvements.
+
+= [3.3.0] - 2021-11-18 =
+* Added: Google Calendar support for public calendar.
+* Few minor bug fix and improvements.
+
+= [3.2.1] - 2021-10-17 =
+* Fixed: PDF embed issues for both Elementor and Gutenberg.
+* Few minor bug fixes and improvements.
+
+= [3.2.0] - 2021-10-06 =
+* Added: New PDF widget for Elementor editor.
+* Added: New PDF block for Gutenberg editor.
 * Fixed: PDF responsive issues.
 * Fixed: Alignment issues in block editor.
 * Few minor bug fixes and improvements.
