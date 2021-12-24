@@ -382,7 +382,7 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [3.3.1] - 2021-12-22 =
+= [3.3.1] - 2021-12-24 =
 * Fixed: Meetup Embed data fetching.
 * Few minor bug fix and improvements.
 
