@@ -5,8 +5,8 @@ name: Deploy to WordPress.org
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    tags:
-    - "*"
+    branches:
+    - act
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -18,15 +18,18 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
         # below lines for git submodule if any.
         # with:
         #     submodules: recursive
       - name: Running NPM Install & Build
         run: |
           cd Gutenberg && npm install && npm run build && cd ..
-      - name: WordPress Plugin Deploy
-        id: deploy
-        uses: 10up/action-wordpress-plugin-deploy@stable
-        env:
-          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+      # - name: WordPress Plugin Deploy
+      #   id: deploy
+      #   uses: 10up/action-wordpress-plugin-deploy@stable
+      #   env:
+      #     SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+      #     SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
