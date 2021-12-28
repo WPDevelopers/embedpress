@@ -5,7 +5,7 @@
  * Description: EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 100+ sources supported.
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
- * Version: 3.3.0
+ * Version: 3.3.1
  * Text Domain: embedpress
  * Domain Path: /languages
  *
@@ -45,7 +45,7 @@ require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'includes.php';
 include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 if ( ! defined('EMBEDPRESS_IS_LOADED')) {
-    return;
+	return;
 }
 
 
@@ -55,12 +55,12 @@ add_action( 'embedpress_cache_cleanup_action', 'embedpress_cache_cleanup' );
 
 function onPluginActivationCallback()
 {
-    Core::onPluginActivationCallback();
+	Core::onPluginActivationCallback();
 }
 
 function onPluginDeactivationCallback()
 {
-    Core::onPluginDeactivationCallback();
+	Core::onPluginDeactivationCallback();
 }
 
 register_activation_hook(__FILE__, 'onPluginActivationCallback');
@@ -68,13 +68,13 @@ register_deactivation_hook(__FILE__, 'onPluginDeactivationCallback');
 
 
 add_action( 'plugins_loaded', function() {
-    do_action( 'embedpress_before_init' );
+	do_action( 'embedpress_before_init' );
 } );
 $editor_check = get_option('classic-editor-replace');
 if ((Compatibility::isWordPress5() && ! Compatibility::isClassicalEditorActive()) || (Compatibility::isClassicalEditorActive() && 'block'=== $editor_check )) {
-    $embedPressPlugin = new Core();
+	$embedPressPlugin = new Core();
 } else {
-    $embedPressPlugin = new CoreLegacy();
+	$embedPressPlugin = new CoreLegacy();
 }
 
 $embedPressPlugin->initialize();
@@ -82,8 +82,8 @@ new Feature_Enhancer();
 
 
 if (  is_plugin_active('elementor/elementor.php')) {
-    $embedPressElements = new Embedpress_Elementor_Integration();
-    $embedPressElements->init();
+	$embedPressElements = new Embedpress_Elementor_Integration();
+	$embedPressElements->init();
 }
 
 Shortcode::register();

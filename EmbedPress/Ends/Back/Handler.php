@@ -393,6 +393,7 @@ class Handler extends EndHandlerAbstract {
 
             // Facebook
             'facebook.com/*',
+            'fb.watch/*',
 
             // Google Shortened Url
             'goo.gl/*',

@@ -397,6 +397,28 @@
     margin: 0;
     padding: 0;
 }
+
+/* Meetup styling for new markup*/
+.dewqijm {
+    height: 100%;
+    margin-right: 10px;
+}
+.dewqijm img[src^="image"]{
+    display: none;
+}
+.dewqijm img[src^="http"]{
+    height: 56px !important;
+    width: 56px !important;
+}
+.dewqijm > div > div {
+    display: none;
+}
+.embedpress-event .sticky button{
+    display: none;
+}
+.embedpress-event .items-center {
+    align-items: center;
+}
 /*Media query*/
 @media only screen and (min-width: 530px) {
     .ep-event--attendees .gridList--autoHeight--has4>.gridList-item {
