@@ -49,7 +49,7 @@ $enablePluginInFront = isset( $settings['enablePluginInFront'] ) ? $settings['en
             </div>
             <div class="element__item">
                 <h5>EmbedPress Calendar</h5>
-                <a href="https://embedpress.com/docs/embed-calendar/" class="has__question" target="_blank">
+                <a href="https://embedpress.com/docs/embed-google-calendar-in-wordpress" class="has__question" target="_blank">
                     <i class="ep-icon ep-question"></i>
                     <span class="element__tooltip"><?php esc_html_e( "Documentation","embedpress" ); ?></span>
                 </a>
@@ -216,7 +216,7 @@ $enablePluginInFront = isset( $settings['enablePluginInFront'] ) ? $settings['en
 
             <div class="element__item">
                 <h5>EmbedPress Calendar</h5>
-                <a href="https://embedpress.com/docs/embed-calendar/" class="has__question" target="_blank">
+                <a href="https://embedpress.com/docs/embed-google-calendar-in-wordpress" class="has__question" target="_blank">
                     <i class="ep-icon ep-question"></i>
                     <span class="element__tooltip"><?php esc_html_e( "Documentation","embedpress" ); ?></span>
                 </a>

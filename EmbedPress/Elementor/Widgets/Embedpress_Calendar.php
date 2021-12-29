@@ -91,7 +91,7 @@ class Embedpress_Calendar extends Widget_Base
 
 	public function get_custom_help_url()
 	{
-		return 'https://embedpress.com/documentation';
+		return 'https://embedpress.com/docs/embed-google-calendar-in-wordpress/';
 	}
 
 	public function get_icon()
