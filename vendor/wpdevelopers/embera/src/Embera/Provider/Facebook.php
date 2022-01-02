@@ -156,17 +156,16 @@ class Facebook extends ProviderAdapter implements ProviderInterface
 
 		$response = [];
 		$params =$this->getParams();
-		$regx = "/fb\.watch\/.+\/|facebook\.com\/[0-9]+\/videos\/|facebook\.com\/watch\//";
+		$regx = "/fb\.watch\/|facebook\.com\/[0-9]+\/videos\/|facebook\.com\/watch\//";
 		$is_video = preg_match($regx, $this->url);
 		$embedUrl = 'https://www.facebook.com/plugins/post.php?href={url}&width={width}&height={height}&show_text=true';
 
 		$height= 680;
 		$width = 500;
 		$attr = [];
-		//if ( $is_video ) {
-		//	$embedUrl = 'https://www.facebook.com/plugins/video.php?height={height}&href={url}&show_text=true&width={width}&t=0';
-		//	$attr[] = 'allow="autoplay; clipboard-write; encrypted-media; picture-in-picture;"';
-		//}
+		if ( $is_video ) {
+			$embedUrl = 'https://www.facebook.com/plugins/video.php?height={url_height}&href={url}&show_text=true&width={width}&t=0';
+		}
 		$attr[] = 'class="embera-facebook-iframe-{md5}"';
 		$attr[] = 'src="' . $embedUrl . '"';
 		$attr[] = 'width="{width}"';
@@ -174,15 +173,22 @@ class Facebook extends ProviderAdapter implements ProviderInterface
 		$attr[] = 'style="border:none;overflow:hidden"';
 		$attr[] = 'scrolling="no"';
 		$attr[] = 'frameborder="0"';
+
+		if ( $is_video ) {
+			$attr[] = 'allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"';
+		}
 		$attr[] = 'allowTransparency="true"';
-
-
+		$attr[] = 'allowFullScreen="true"';
 		$iframe = '<iframe ' . implode(' ', $attr) . '></iframe>';
 		if (!empty($params['maxheight'])) {
 			$height = $params['maxheight'];
 		} else {
 			if (!empty($params['maxwidth'])){
-				$height = min(680, (int) ($params['maxwidth'] + 100));
+				if ( $is_video ) {
+					$height = min(571, (int) ($params['maxwidth'] + 100));
+				}else{
+					$height = min(680, (int) ($params['maxwidth'] + 100));
+				}
 			}
 		}
 
@@ -190,19 +196,27 @@ class Facebook extends ProviderAdapter implements ProviderInterface
 			$width = $params['maxwidth'];
 		} else {
 			if (!empty($params['maxheight'])){
-				$width = min(500, (int) ($params['maxheight'] - 100));
+				if ( $is_video ) {
+					$width = min(476, (int) ($params['maxheight'] - 100));
+				}else{
+					$width = min(500, (int) ($params['maxheight'] - 100));
+				}
 			}
 		}
+		$url_height = $height-100;
 
 		$table = array(
-			'{url}' => rawurlencode(rtrim( $this->url, '/')),
+			'{url}' => rawurlencode( rtrim( $this->url, '/')),
 			'{md5}' => substr(md5($this->url), 0, 5),
 			'{width}' => $width,
 			'{height}' => $height,
+			'{url_height}' => $url_height,
 		);
 
 		// Replace the html response
 		$response['html'] = str_replace(array_keys($table), array_values($table), $iframe);
+		//error_log( 'printring in facebook.php');
+		//error_log( print_r( $response, 1));
 		return $response;
 	}
 

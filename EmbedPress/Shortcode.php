@@ -91,7 +91,6 @@ class Shortcode {
         }
         $attributes = wp_parse_args( $attributes, $default );
         $embed = self::parseContent( $subject, true, $attributes );
-        
         return is_object( $embed ) ? $embed->embed : $embed;
     }
 
@@ -265,6 +264,8 @@ KAMAL;
                 $embed = self::modify_spotify_content( $embed);
                 $embed = apply_filters( 'embedpress:onAfterEmbed', $embed );
                 //set_transient( $hash, $embed, HOUR_IN_SECONDS * 6);
+	            //error_log( '----embed-----');
+				//error_log( print_r( $embed, 1));
                 return $embed;
             }
         }
