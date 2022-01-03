@@ -1305,22 +1305,6 @@ class Embedpress_Elementor extends Widget_Base {
 				'default' => '',
 			]
 		);
-		$this->add_group_control(
-			Group_Control_Background::get_type(),
-			[
-				'name' => 'background',
-				'label' => __( 'Background', 'embedpress' ),
-				'types' => [ 'classic', 'gradient' ],
-				'selector' => '{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper, {{WRAPPER}} .embedpress-fit-aspect-ratio .embedpress-wrapper iframe',
-			]
-		);
-		$this->add_group_control(
-			Group_Control_Css_Filter::get_type(),
-			[
-				'name'     => 'embedpress_elementor_css_filters',
-				'selector' => '{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper',
-			]
-		);
 		$this->end_controls_section();
 	}
     protected function render() {
