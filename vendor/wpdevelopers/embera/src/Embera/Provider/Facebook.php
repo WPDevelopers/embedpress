@@ -163,10 +163,12 @@ class Facebook extends ProviderAdapter implements ProviderInterface
 		$height= 680;
 		$width = 500;
 		$attr = [];
+		$class = 'embedpress-facebook--iframe';
 		if ( $is_video ) {
 			$embedUrl = 'https://www.facebook.com/plugins/video.php?height={url_height}&href={url}&show_text=true&width={width}&t=0';
+			$class = 'embedpress-facebook-vid-iframe';
 		}
-		$attr[] = 'class="embera-facebook-iframe-{md5}"';
+		$attr[] = 'class="embera-facebook-iframe-{md5} '.$class.'"';
 		$attr[] = 'src="' . $embedUrl . '"';
 		$attr[] = 'width="{width}"';
 		$attr[] = 'height="{height}"';
@@ -215,8 +217,6 @@ class Facebook extends ProviderAdapter implements ProviderInterface
 
 		// Replace the html response
 		$response['html'] = str_replace(array_keys($table), array_values($table), $iframe);
-		//error_log( 'printring in facebook.php');
-		//error_log( print_r( $response, 1));
 		return $response;
 	}
 
