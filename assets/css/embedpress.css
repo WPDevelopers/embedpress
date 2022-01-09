@@ -133,13 +133,18 @@
     .elementor-widget-container iframe {
         max-height: 100% !important;
     }
-    .elementor-widget-container .embedpress-facebook-vid-iframe {
+    .elementor-widget-container .embedpress-facebook-vid-iframe,
+    .embedpress-gutenberg-wrapper .embedpress-facebook-vid-iframe,
+    .embedpress-facebook-vid-iframe{
         max-height: inherit !important;
     }
+
 }
 
 @media only screen and (max-width: 500px) {
-    .elementor-widget-container .embedpress-facebook-vid-iframe {
+    .elementor-widget-container .embedpress-facebook-vid-iframe,
+    .embedpress-gutenberg-wrapper .embedpress-facebook-vid-iframe,
+    .embedpress-facebook-vid-iframe{
         max-height: 390px !important;
     }
 }
