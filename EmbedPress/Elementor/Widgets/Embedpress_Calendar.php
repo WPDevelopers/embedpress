@@ -298,7 +298,8 @@ class Embedpress_Calendar extends Widget_Base
 		$this->add_render_attribute( 'embedpress-calendar', [
 			'class' => ['embedpress-calendar-embed', 'ep-cal-'.md5( $id), 'ose-calendar']
 		] );
-
+        $is_private_cal = (!empty( $settings['embedpress_calendar_type']) && 'private' === $settings['embedpress_calendar_type']);
+        $is_editor_view = Plugin::$instance->editor->is_edit_mode();
 		?>
 		<div <?php echo $this->get_render_attribute_string( 'embedpress-calendar' ); ?> style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block">
 
@@ -313,21 +314,32 @@ class Embedpress_Calendar extends Widget_Base
                                     frameborder="0"></iframe>
                         <?php
                         } else {
-	                        if ( Plugin::$instance->editor->is_edit_mode() ) {
+	                        if ( $is_editor_view && empty( $settings['embedpress_public_cal_link']) && !$is_private_cal ) {
 		                        ?>
-                                <p><?php esc_html_e( 'You need EmbedPress Pro to display Private Calendar Data.', 'embedpress'); ?></p>
+                                <p><?php esc_html_e( 'Please paste your public google calendar link.', 'embedpress'); ?></p>
 		                        <?php
-	                        }
-	                        if ( is_embedpress_pro_active() ) {
-		                        if ( Plugin::$instance->editor->is_edit_mode() ) {
+                            }
+                            // handle notice display
+	                        if ( $is_editor_view && $is_private_cal ) {
+		                        if ( !is_embedpress_pro_active()) {
 			                        ?>
-                                    <p><?php esc_html_e( 'Private Calendar Data will be displayed in the frontend', 'embedpress'); ?></p>
+                                    <p><?php esc_html_e( 'You need EmbedPress Pro to display Private Calendar Data.', 'embedpress'); ?></p>
 			                        <?php
 		                        }else{
-			                        echo Embedpress_Google_Helper::shortcode();
+		                        ?>
+                                <p><?php esc_html_e( 'Private Calendar Data will be displayed in the frontend', 'embedpress'); ?></p>
+		                        <?php
+		                        }
+	                        }else{
+		                        // handle printing private calendar data
+		                        if ( is_embedpress_pro_active() ) {
+                                    echo Embedpress_Google_Helper::shortcode();
 		                        }
 	                        }
-                        }?>
+
+
+                        }
+                        ?>
 					</div>
 					<?php
 				if ( $settings[ 'embedpress_calendar_powered_by' ] === 'yes' ) {
