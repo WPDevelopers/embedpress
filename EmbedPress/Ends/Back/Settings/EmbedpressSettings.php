@@ -64,8 +64,8 @@ class EmbedpressSettings {
 		$migration_v_320 = 'embedpress_v_320_migration';
 		if ( !get_option( $migration_v_320, false) ) {
 			$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
-			$elements['gutenberg']['embedpress-pdf'] = ['embedpress-pdf'];
-			$elements['elementor']['embedpress-pdf'] = ['embedpress-pdf'];
+			$elements['gutenberg']['embedpress-pdf'] = 'embedpress-pdf';
+			$elements['elementor']['embedpress-pdf'] = 'embedpress-pdf';
 			update_option( EMBEDPRESS_PLG_NAME.":elements", $elements);
 			update_option( $migration_v_320, true);
 		}
@@ -73,8 +73,8 @@ class EmbedpressSettings {
 		$migration_v_330 = 'embedpress_v_330_migration';
 		if ( !get_option( $migration_v_330, false) ) {
 			$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
-			$elements['gutenberg']['embedpress-calendar'] = ['embedpress-calendar'];
-			$elements['elementor']['embedpress-calendar'] = ['embedpress-calendar'];
+			$elements['gutenberg']['embedpress-calendar'] = 'embedpress-calendar';
+			$elements['elementor']['embedpress-calendar'] = 'embedpress-calendar';
 			update_option( EMBEDPRESS_PLG_NAME.":elements", $elements);
 			update_option( $migration_v_330, true);
 		}

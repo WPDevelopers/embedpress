@@ -65,6 +65,7 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 	);
 	$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
 	$active_blocks = isset( $elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
+
 	$wistia_labels  = json_encode( $wistia_labels );
 	$wistia_options = null;
 	if ( function_exists( 'embedpress_wisita_pro_get_options' ) ):
@@ -134,7 +135,7 @@ function embedpress_gutenberg_register_all_block() {
 
 		$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
 		$g_blocks = isset( $elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
-		$blocks_to_registers = [ 'twitch-block', 'google-slides-block','google-sheets-block', 'google-maps-block', 'google-forms-block', 'google-drawings-block', 'google-docs-block', 'embedpress', 'embedpress-pdf', 'embedpress-calendar'];
+		$blocks_to_registers = [ 'twitch-block', 'google-slides-block','google-sheets-block', 'google-maps-block', 'google-forms-block', 'google-drawings-block', 'google-docs-block', 'embedpress', 'embedpress-pdf', 'embedpress-calendar', 'document'];
 
 		foreach ( $blocks_to_registers as $blocks_to_register ) {
 			if ( !empty($g_blocks[$blocks_to_register]) ) {
