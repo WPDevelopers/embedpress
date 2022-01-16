@@ -1177,21 +1177,6 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'   => $condition
 			]
 		);
-
-		$this->add_control(
-			'spotify_follow_theme',
-			[
-				'label'       => __( 'Follow Widget Background', 'embedpress' ),
-				'type'        => Controls_Manager::SELECT,
-				'label_block' => false,
-				'default'     => 'light',
-				'options'     => [
-					'light'   => __( 'Light', 'embedpress' ),
-					'dark' => __( 'Dark', 'embedpress' )
-				],
-				'condition'   => $condition
-			]
-		);
 	}
 
 	public function init_style_controls() {

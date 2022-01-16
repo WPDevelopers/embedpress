@@ -293,7 +293,6 @@ class EmbedpressSettings {
 		$settings['theme'] = isset( $_POST['spotify_theme']) ? sanitize_text_field( $_POST['spotify_theme']) : '1';
 		$settings['license_key'] = 1; // backward compatibility
 
-		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_spotify_settings_before_save', $settings);
 		update_option( $option_name, $settings);
 		do_action( 'ep_spotify_settings_after_save', $settings);
