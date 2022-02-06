@@ -146,7 +146,7 @@ class Shortcode {
                 $urlData->originalContent = $url;
             }
 
-            $eventResults = apply_filters( 'embedpress:onBeforeEmbed', $urlData );
+            $eventResults = apply_filters( 'embedpress:onBeforeEmbed', $urlData, $subject );
             if ( empty( $eventResults ) ) {
                 return $subject;
             }
@@ -167,6 +167,7 @@ class Shortcode {
 	        $embedTemplate = '<div ' . implode( ' ', $attributesHtml ) . '>{html}</div>';
 
 	        $parsedContent = self::get_content_from_template($url, $embedTemplate);
+
 	        // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
 	        $parsedContent = str_replace( "'", '"', $parsedContent );
 	        $parsedContent = str_replace( "{provider_alias}", $provider_name , $parsedContent );
@@ -263,9 +264,6 @@ KAMAL;
                 ] );
                 $embed = self::modify_spotify_content( $embed);
                 $embed = apply_filters( 'embedpress:onAfterEmbed', $embed );
-                //set_transient( $hash, $embed, HOUR_IN_SECONDS * 6);
-	            //error_log( '----embed-----');
-				//error_log( print_r( $embed, 1));
                 return $embed;
             }
         }
@@ -616,6 +614,15 @@ KAMAL;
     }
 
 	protected static function get_content_from_template( $url, $template ) {
+		if ( is_embedpress_pro_active() ) {
+			if ( strpos( $url, 'podcasts.apple.com') ) {
+				$iframe_url = str_replace( 'podcasts.apple.com', 'embed.podcasts.apple.com', $url);
+				$html = '<iframe allow="autoplay *; encrypted-media *; fullscreen *" frameborder="0" height="175" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" src="'.esc_url( $iframe_url).'"></iframe>';
+				return str_replace( '{html}', $html, $template );
+
+			}
+		}
+
 		if ( strpos( $url, 'meetup.com') !== false ) {
 			$html = '';
 		}else{

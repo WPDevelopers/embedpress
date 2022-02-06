@@ -157,6 +157,8 @@ class Handler extends EndHandlerAbstract {
      */
     public function getUrlSchemes() {
         return [
+			// Apple podcasts
+	        'podcasts.apple.com/*',
             // PollDaddy
             '*.polldaddy.com/s/*',
             '*.polldaddy.com/poll/*',
