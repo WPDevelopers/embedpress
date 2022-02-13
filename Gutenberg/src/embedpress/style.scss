@@ -45,3 +45,24 @@ body.page .flexia-wrapper > .content-area{
 	clear: both;
 	min-height: 1px;
 }
+
+.embedpress-gutenberg-wrapper .alignleft,
+.embedpress-gutenberg-wrapper .alignright,
+.embedpress-gutenberg-wrapper .aligncenter{
+	float: none;
+	text-align: right;
+}
+.embedpress-gutenberg-wrapper .alignleft {
+	text-align: left;
+}
+.embedpress-gutenberg-wrapper .aligncenter {
+	clear: both;
+	display: block;
+	float: none;
+	margin-right: auto;
+	margin-left: auto;
+	text-align: center;
+}
+.embedpress-gutenberg-wrapper .ose-embedpress-responsive {
+	display: inline-block;
+}

@@ -476,8 +476,6 @@ class Embedpress_Google_Helper {
 	 * Helper function die with different kind of errors.
 	 */
 	public static function embedpress_die($error = null) {
-        error_log( 'got hittt in error');
-        error_log( print_r( $error, 1));
 		$backLink = '<br><br><a href="' . admin_url('admin.php?page=embedpress&page_type=google-calendar') . '">' . __('Back', 'embedpress') . '</a>';
 		if (empty($error)) {
 			wp_die(__('Unknown error', 'embedpress') . $backLink);
