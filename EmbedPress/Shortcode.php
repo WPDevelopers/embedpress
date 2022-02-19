@@ -128,7 +128,7 @@ class Shortcode {
 	        self::set_embera_settings(self::$ombed_attributes);
 
             // Identify what service provider the shortcode's link belongs to
-	        if ( strpos( $url, 'meetup.com') !== false ) {
+	        if ( (strpos( $url, 'meetup.com') !== false) || (strpos( $url, 'sway.office.com') !== false) ) {
 		        $serviceProvider = '';
 			}else{
 		        $serviceProvider = self::get_oembed()->get_provider( $url );
@@ -141,13 +141,15 @@ class Shortcode {
 
             // Sanitize the data
             $urlData = self::sanitizeUrlData( $urlData );
+
             // Stores the original content
             if ( is_object( $urlData ) ) {
                 $urlData->originalContent = $url;
             }
 
-            $eventResults = apply_filters( 'embedpress:onBeforeEmbed', $urlData, $subject );
-            if ( empty( $eventResults ) ) {
+            $embedResults = apply_filters( 'embedpress:onBeforeEmbed', $urlData, $subject );
+
+            if ( empty( $embedResults ) ) {
                 return $subject;
             }
             
@@ -167,7 +169,6 @@ class Shortcode {
 	        $embedTemplate = '<div ' . implode( ' ', $attributesHtml ) . '>{html}</div>';
 
 	        $parsedContent = self::get_content_from_template($url, $embedTemplate);
-
 	        // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
 	        $parsedContent = str_replace( "'", '"', $parsedContent );
 	        $parsedContent = str_replace( "{provider_alias}", $provider_name , $parsedContent );
@@ -623,11 +624,10 @@ KAMAL;
 			}
 		}
 
-		if ( strpos( $url, 'meetup.com') !== false ) {
+		if ( (strpos( $url, 'meetup.com') !== false) || (strpos( $url, 'sway.office.com') !== false)  ) {
 			$html = '';
 		}else{
 			$html = self::get_oembed()->get_html( $url, self::get_oembed_attributes() );
-
 		}
 
 		if ( !$html ) {
