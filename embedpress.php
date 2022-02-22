@@ -92,3 +92,76 @@ Shortcode::register();
 if ( !class_exists( '\simple_html_dom') ) {
 	include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
 }
+global $embedpress_bg_process;
+if( class_exists('\EmbedPress\Includes\Classes\EmbedPress_Background_Process') ) {
+	$embedpress_bg_process = \EmbedPress\Includes\Classes\EmbedPress_Background_Process::instance();
+}
+
+// use \Elementor\Plugin;
+// add_action('shutdown', function(){
+// 	global $embedpress_bg_process, $wp_roles;
+// 	if( $embedpress_bg_process->queue_empty() ) {
+// 		$embedpress_bg_process->queuing_start();
+// 	}
+// 	if( ! $embedpress_bg_process->queue_empty() ) {
+// 		$embedpress_bg_process->dispatch();
+// 	}
+
+// 	// $collections = $embedpress_bg_process->gutenberg_blocks_count( get_post( 13 ), 13 );
+
+// 	// dump( $collections );
+
+// 	return;
+// 	global $wpdb;
+// 	$post_types = array_filter(get_post_types( [ 'public' => true ] ), 'bdocs_filtered_types' );
+// 	dump( $post_types );
+// 	// $post_types = "'" . implode("', '", $post_types) . "'";
+// 	// $post_types = implode(", ", $post_types);
+// 	// $prepared_query = $wpdb->prepare("SELECT ID from $wpdb->posts WHERE post_type IN ( $post_types ) AND post_status = 'publish' LIMIT 0, 10" );
+// 	// $results = $wpdb->get_col( $prepared_query );
+
+
+// 	$completed_id = implode(',', [ 3867, 3866, 3865, 3864 ]);
+// 	// dump( $post_types, false );
+// 	// return;
+
+// 	$types = [];
+// 	foreach( $post_types as $type ) {
+// 		$types[] = "post_type = '%s'";
+// 	}
+// 	$types_query = implode( ' OR ', $types);
+// 	$query = "SELECT ID from $wpdb->posts WHERE ( $types_query ) AND post_status = '%s'";
+// 	if( ! empty( $completed_id ) ) {
+// 		$query .= " AND ID NOT IN ( $completed_id )";
+// 	}
+// 	$query .= " LIMIT 0, 20";
+// 	$prepared_query = $wpdb->prepare( $query, array_merge( array_keys($post_types), ['publish'] ) );
+// 	dump( $prepared_query );
+
+// 	$results = $wpdb->get_col( $prepared_query );
+
+// 	dump( $results );
+
+// 	// $post = get_post(182850);
+
+// 	// $post_types = array_filter(get_post_types( [ 'public' => true ] ), 'betterdocs_filtered_types');
+// 	// dump( $post_types );
+
+// 	// preg_match_all('/(wp:embedpress\/([a-z-]+).*)\S/', $post->post_content, $matches);
+
+// 	// $embedpress_gutenberg_block_usages = [
+// 	// 	'wp:embedpress/embedpress' => 5
+// 	// ];
+
+// 	// if( ! empty( $matches[2] ) ) {
+// 	// 	// foreach( $matches[2] )
+// 	// 	$array_carry = array_reduce($matches[2], function( $carry, $item ){
+// 	// 		$carry[ "wp:embedpress/$item" ] = isset( $carry[ "wp:embedpress/$item" ] ) ? $carry[ "wp:embedpress/$item" ] + 1 : 1;
+// 	// 		return $carry;
+// 	// 	}, $embedpress_gutenberg_block_usages);
+// 	// 	dump( $array_carry );
+// 	// }
+
+
+
+// });

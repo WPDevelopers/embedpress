@@ -75,6 +75,15 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 			$this->marketing            = isset( $args['email_marketing'] ) ? $args['email_marketing'] : true;
 			$this->options              = isset( $args['options'] ) ? $args['options'] : [];
 			$this->item_id              = isset( $args['item_id'] ) ? $args['item_id'] : false;
+
+			/**
+			 *
+			 */
+			global $embedpress_bg_process;
+			if( class_exists('EmbedPress_Background_Process') ) {
+				$embedpress_bg_process = EmbedPress_Background_Process::instance();
+			}
+			add_action('shutdown', [$this, 'shutdown']);
 			/**
 			 * Activation Hook
 			 */
@@ -83,6 +92,15 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 			 * Deactivation Hook
 			 */
 			register_deactivation_hook( $this->plugin_file, array( $this, 'deactivate_this_plugin' ) );
+		}
+		public function shutdown(){
+			global $embedpress_bg_process;
+			if( $embedpress_bg_process->queue_empty() ) {
+				$embedpress_bg_process->queuing_start();
+			}
+			if( ! $embedpress_bg_process->queue_empty() ) {
+				$embedpress_bg_process->dispatch();
+			}
 		}
 		/**
 		 * When user agreed to opt-in tracking schedule is enabled.
@@ -386,6 +404,19 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 				$body['status'] = 'Active';
 			}
 
+			// Get Data from Background Processing
+			global $embedpress_bg_process;
+			$elementor_usage = $embedpress_bg_process->get_collections( $embedpress_bg_process->elementor_db_key );
+			$gutenberg_usage = $embedpress_bg_process->get_collections( $embedpress_bg_process->gutenberg_db_key );
+
+			$body['optional_data'] = [];
+			if( ! empty( $elementor_usage ) ) {
+				$body['optional_data']['elementor_usage'] = $elementor_usage;
+			}
+			if( ! empty( $gutenberg_usage ) ) {
+				$body['optional_data']['gutenberg_usage'] = $gutenberg_usage;
+			}
+
 			/**
 			 * Get our plugin options
 			 * @since 1.0.0
@@ -417,6 +448,9 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 			if( $theme->Version ) {
 				$body['theme_version'] = sanitize_text_field( $theme->Version );
 			}
+
+			// dump( $body );
+			// die;
 			return $body;
 		}
 
@@ -444,7 +478,7 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 			$site_id_key       = "wpins_{$this->plugin_name}_site_id";
 			$site_id           = get_option( $site_id_key, false );
 			$failed_data       = [];
-			$site_url          = get_bloginfo( 'url' );
+			$site_url          = 'https://plugindev001.test'; // get_bloginfo( 'url' );
 			$original_site_url = get_option( "wpins_{$this->plugin_name}_original_url", false );
 
 			if( ( $original_site_url === false || $original_site_url != $site_url ) && version_compare( $body['wpins_version'], '3.0.1', '>=' ) ) {
