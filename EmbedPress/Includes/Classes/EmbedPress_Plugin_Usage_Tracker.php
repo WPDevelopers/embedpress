@@ -95,11 +95,13 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 		}
 		public function shutdown(){
 			global $embedpress_bg_process;
-			if( $embedpress_bg_process->queue_empty() ) {
-				$embedpress_bg_process->queuing_start();
-			}
-			if( ! $embedpress_bg_process->queue_empty() ) {
-				$embedpress_bg_process->dispatch();
+			if( $embedpress_bg_process instanceof EmbedPress_Background_Process ) {
+				if( $embedpress_bg_process->queue_empty() ) {
+					$embedpress_bg_process->queuing_start();
+				}
+				if( ! $embedpress_bg_process->queue_empty() ) {
+					$embedpress_bg_process->dispatch();
+				}
 			}
 		}
 		/**
@@ -406,15 +408,17 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 
 			// Get Data from Background Processing
 			global $embedpress_bg_process;
-			$elementor_usage = $embedpress_bg_process->get_collections( $embedpress_bg_process->elementor_db_key );
-			$gutenberg_usage = $embedpress_bg_process->get_collections( $embedpress_bg_process->gutenberg_db_key );
+			if( $embedpress_bg_process instanceof EmbedPress_Background_Process ) {
+				$elementor_usage = $embedpress_bg_process->get_collections( $embedpress_bg_process->elementor_db_key );
+				$gutenberg_usage = $embedpress_bg_process->get_collections( $embedpress_bg_process->gutenberg_db_key );
 
-			$body['optional_data'] = [];
-			if( ! empty( $elementor_usage ) ) {
-				$body['optional_data']['elementor_usage'] = $elementor_usage;
-			}
-			if( ! empty( $gutenberg_usage ) ) {
-				$body['optional_data']['gutenberg_usage'] = $gutenberg_usage;
+				$body['optional_data'] = [];
+				if( ! empty( $elementor_usage ) ) {
+					$body['optional_data']['elementor_usage'] = $elementor_usage;
+				}
+				if( ! empty( $gutenberg_usage ) ) {
+					$body['optional_data']['gutenberg_usage'] = $gutenberg_usage;
+				}
 			}
 
 			/**
@@ -449,8 +453,6 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 				$body['theme_version'] = sanitize_text_field( $theme->Version );
 			}
 
-			// dump( $body );
-			// die;
 			return $body;
 		}
 
