@@ -5,8 +5,6 @@ if (!defined('ABSPATH')) {
     exit;
 } // Exit if accessed directly.
 
-use EmbedPress\Includes\Classes\EmbedPress_Core_Installer;
-
 class EmbedPress_Notice {
     /**
      * Admin Notice Key
@@ -72,16 +70,7 @@ class EmbedPress_Notice {
      *
      * @var array
      */
-    public $options_args = array(
-        // 'first_install' => true,
-        // 'notice_will_show' => [
-        //     'opt_in' => true,
-        //     'first_install' => false,
-        //     'update' => true,
-        //     'review' => true,
-        //     'upsale' => true,
-        // ]
-    );
+    public $options_args = array();
     /**
      * Notice ID for users.
      * @var string
@@ -100,7 +89,7 @@ class EmbedPress_Notice {
      * @param  string  $version
      */
     public function __construct( $plugin_file = '', $version = '' ) {
-        $this->plugin_file = $plugin_file;
+	    $this->plugin_file = $plugin_file;
         $this->plugin_name = basename( $plugin_file, '.php' );
         $this->version = $version;
         $this->timestamp = intval( current_time( 'timestamp' ) );
@@ -368,6 +357,119 @@ class EmbedPress_Notice {
     public function content(){
         $options_data = $this->get_options_data();
         $notice = current( $this->next_notice() );
+?>
+<style>
+.wpdeveloper-review-notice {
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 3px;
+    margin: 15px;
+    border-left: 4px solid transparent;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+.wpdeveloper-review-notice:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+.wpdeveloper-update-notice{
+    margin-top: 20px;
+}
+.wpdeveloper-update-notice .notice-dismiss {
+    top: auto;
+}
+.wpdeveloper-notice-thumbnail {
+    width: 40px;
+    float: left;
+    padding: 5px 5px 5px 10px;
+    text-align: center;
+    border-right: 4px solid transparent;
+}
+.wpdeveloper-notice-thumbnail img {
+    width: 100%;
+    opacity: 0.85;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
+}
+.wpdeveloper-notice-thumbnail img:hover {
+    opacity: 1;
+}
+
+.wpdeveloper-notice-link {
+    margin: 8px 0 0 0;
+    padding: 0;
+}
+.wpdeveloper-notice-link li {
+    display: inline-block;
+    margin-right: 15px;
+}
+.wpdeveloper-notice-link li a {
+    display: inline-block;
+    color: #10738b;
+    text-decoration: none;
+    padding-left: 26px;
+    position: relative;
+}
+.wpdeveloper-notice-link li a span {
+    position: absolute;
+    left: 0;
+    top: -2px;
+}
+.wpdeveloper-notice-message {
+    padding: 10px;
+}
+.wpdeveloper-upsale-notice .wpdeveloper-notice-message {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 10px 0;
+}
+.wpdeveloper-upsale-notice .wpdeveloper-notice-message + .notice-dismiss {
+    top: 10px;
+}
+.wpdeveloper-upsale-notice #plugin-install-core {
+    margin-left: 10px;
+}
+.notice.notice-has-thumbnail {
+    padding-left: 0;
+    display: flex;
+    align-items: center;
+}
+.wpdeveloper-upsale-notice {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+.wpdeveloper-upsale-notice .wpdeveloper-notice-thumbnail {
+    padding: 10px;
+    width: 40px;
+}
+.wpdeveloper-upsale-notice .wpdeveloper-notice-thumbnail img {
+    width: 32px;
+}
+.toplevel_page_eael-settings .wp-menu-image img {
+    max-width: 20px;
+    padding-top: 8px !important;
+}
+.wpdeveloper-upsale-notice .wpdeveloper-notice-message .button {
+    margin-left: 15px;
+}
+
+#embedpress-settings-wrapper a.embedpress-settings-link {
+    color: #0073aa;
+}
+
+</style>
+<?php
         switch( $notice ) {
             case 'opt_in' :
                 do_action('wpdeveloper_optin_notice_for_' . $this->plugin_name );
@@ -632,7 +734,7 @@ class EmbedPress_Notice {
     }
     /**
      * Get all options from database!
-     * @return void
+     * @return bool|array
      */
     protected function get_options_data( $key = ''){
         $options_data = get_option( 'wpdeveloper_plugins_data' );
@@ -645,13 +747,15 @@ class EmbedPress_Notice {
         }
         return false;
     }
-    /**
-     * This will update the options table for plugins.
-     *
-     * @param mixed $new_data
-     * @param array $args
-     * @return void
-     */
+
+	/**
+	 * This will update the options table for plugins.
+	 *
+	 * @param array $args
+	 * @param bool  $update
+	 *
+	 * @return void
+	 */
     protected function update_options_data( $args = array(), $update = false ){
         if( $update ) {
             $options_data = $args;
@@ -918,3 +1022,4 @@ class EmbedPress_Notice {
         <?php
     }
 }
+
