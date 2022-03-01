@@ -4,9 +4,9 @@ Author: WPDeveloper
 Author URI: https://wpdeveloper.com
 Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embed, video embed, Google Doc, map embed, youTube Embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, block editor, embed wordpress, elementor, WPML, Meetup, Boomplay, PDF Logo
 Requires at least: 4.6
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 5.6
-Stable tag: 3.3.4
+Stable tag: 3.3.5
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -381,6 +381,12 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.3.5] - 2022-03-01 =
+* Fixed: Microsoft Sway embedding issues.
+* Fixed: Unnecessary jquery calling issues.
+* Improvement: Added notice for apple podcasts embed. 
+* Few minor bug fix and improvements.
 
 = [3.3.4] - 2022-02-14 =
 * Fixed: Alignment issues for Gutenberg.
