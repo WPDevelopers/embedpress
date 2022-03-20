@@ -67,7 +67,7 @@ class Shortcode {
         add_shortcode( 'embed_oembed_html', ['\\EmbedPress\\Shortcode', 'do_shortcode'] );
         add_shortcode( 'embedpress', ['\\EmbedPress\\Shortcode', 'do_shortcode'] );
     }
-    
+
     /**
      * Method that converts the plugin shortcoded-string into its complex content.
      *
@@ -79,7 +79,7 @@ class Shortcode {
      * @static
      *
      */
-    
+
     public static function do_shortcode( $attributes = [], $subject = null ) {
     	$plgSettings = Core::getSettings();
         $default = [];
@@ -112,7 +112,7 @@ class Shortcode {
             self::set_default_size( $customAttributes);
             $url = preg_replace( '/(\[' . EMBEDPRESS_SHORTCODE . '(?:\]|.+?\])|\[\/' . EMBEDPRESS_SHORTCODE . '\])/i',
                 "", $subject );
-            
+
             // Converts any special HTML entities back to characters.
             $url = htmlspecialchars_decode( $url );
 	        $content_uid = md5( $url );
@@ -152,7 +152,7 @@ class Shortcode {
             if ( empty( $embedResults ) ) {
                 return $subject;
             }
-            
+
             // Transform all shortcode attributes into html form. I.e.: {foo: "joe"} -> foo="joe"
             $attributesHtml = ['class="ose-{provider_alias} ose-uid-' . $content_uid.' ose-embedpress-responsive"'];
 	        //$attributesHtml = [];
@@ -186,14 +186,14 @@ class Shortcode {
                     if ( preg_match( '~width="(\d+)"|width\s+:\s+(\d+)~i', $parsedContent, $matches ) ) {
                         $iframeWidth = (int)$matches[ 1 ];
                     }
-                    
+
                     if ( preg_match( '~height="(\d+)"|height\s+:\s+(\d+)~i', $parsedContent, $matches ) ) {
                         $iframeHeight = (int)$matches[ 1 ];
                     }
-                    
+
                     if ( isset( $iframeWidth ) && isset( $iframeHeight ) && $iframeWidth > 0 && $iframeHeight > 0 ) {
                         $iframeRatio = ceil( $iframeWidth / $iframeHeight );
-                        
+
                         if ( isset( self::$emberaInstanceSettings[ 'maxwidth' ] ) ) {
                             $customWidth = (int)self::$emberaInstanceSettings[ 'maxwidth' ];
                             $customHeight = ceil( $customWidth / $iframeRatio );
@@ -213,7 +213,7 @@ class Shortcode {
 	                    $parsedContent = preg_replace( '~width="({.+})"~i', 'width="' . $customWidth . '"',
 		                    $parsedContent );
                     }
-                    
+
                     if ( preg_match( '~height="(\d+)"~i', $parsedContent ) ) {
                         $parsedContent = preg_replace( '~height="(\d+)"~i', 'height="' . $customHeight . '"',
                             $parsedContent );
@@ -221,15 +221,19 @@ class Shortcode {
 	                    $parsedContent = preg_replace( '~height="({.+})"~i', 'height="' . $customHeight . '"',
 		                    $parsedContent );
                     }
-                    
+
                     if ( preg_match( '~width\s+:\s+(\d+)~i', $parsedContent ) ) {
                         $parsedContent = preg_replace( '~width\s+:\s+(\d+)~i', 'width: ' . $customWidth,
                             $parsedContent );
                     }
-                    
+
                     if ( preg_match( '~height\s+:\s+(\d+)~i', $parsedContent ) ) {
                         $parsedContent = preg_replace( '~height\s+:\s+(\d+)~i', 'height: ' . $customHeight,
                             $parsedContent );
+                    }
+                    if  ( 'gfycat' === $provider_name && preg_match( '~height\s*:\s*auto\s*;~i', $parsedContent ) ){
+	                    $parsedContent = preg_replace( '~height\s*:\s*auto\s*~i', 'height: ' . $customHeight . 'px',
+		                    $parsedContent );
                     }
                 }
             }
@@ -249,7 +253,7 @@ KAMAL;
 		        $styles = str_replace( ['{height}', '{width}'], [$customAttributes['height'], $customAttributes['width']], $styles);
 		        $parsedContent = $styles.$parsedContent;
             }
-            
+
             if ( $stripNewLine ) {
                 $parsedContent = preg_replace( '/\n/', '', $parsedContent );
             }
@@ -268,7 +272,7 @@ KAMAL;
                 return $embed;
             }
         }
-        
+
         return $subject;
     }
 
@@ -352,7 +356,7 @@ KAMAL;
             return false;
         }
     }
-    
+
     /**
      * Method that retrieves all custom parameters from a shortcoded string.
      *
@@ -369,7 +373,7 @@ KAMAL;
             if ( preg_match_all( '/(\!?\w+-?\w*)(?:="(.+?)")?/i', stripslashes( $m[ 1 ] ), $matches ) ) {
                 $attributes = $matches[ 1 ];
                 $attrValues = $matches[ 2 ];
-                
+
                 foreach ( $attributes as $attrIndex => $attrName ) {
                     $customAttributes[ $attrName ] = $attrValues[ $attrIndex ];
                 }
@@ -377,7 +381,7 @@ KAMAL;
         }
         return $customAttributes;
     }
-    
+
     /**
      * Method that parses and adds the "data-" prefix to the given custom shortcode attributes.
      *
@@ -394,34 +398,34 @@ KAMAL;
         $attributes = [
             'class' => ["embedpress-wrapper ose-embedpress-responsive"],
         ];
-        
+
         $embedShouldBeResponsive = true;
         $embedShouldHaveCustomDimensions = false;
         if ( !empty( $customAttributes ) ) {
             if ( isset( $customAttributes[ 'class' ] ) ) {
                 if ( !empty( $customAttributes[ 'class' ] ) ) {
                     $customAttributes[ 'class' ] = explode( ' ', $customAttributes[ 'class' ] );
-                    
+
                     $attributes[ 'class' ] = array_merge( $attributes[ 'class' ], $customAttributes[ 'class' ] );
                 }
-                
+
                 unset( $customAttributes[ 'class' ] );
             }
-            
+
             if ( isset( $customAttributes[ 'width' ] ) ) {
                 if ( !empty( $customAttributes[ 'width' ] ) ) {
                     $attributes[ 'width' ] = (int)$customAttributes[ 'width' ];
                     $embedShouldHaveCustomDimensions = true;
                 }
             }
-            
+
             if ( isset( $customAttributes[ 'height' ] ) ) {
                 if ( !empty( $customAttributes[ 'height' ] ) ) {
                     $attributes[ 'height' ] = (int)$customAttributes[ 'height' ];
                     $embedShouldHaveCustomDimensions = true;
                 }
             }
-            
+
             if ( !empty( $customAttributes ) ) {
                 $attrNameDefaultPrefix = "data-";
                 foreach ( $customAttributes as $attrName => $attrValue ) {
@@ -429,9 +433,9 @@ KAMAL;
                         $attrName = $attrValue;
                         $attrValue = "";
                     }
-                    
+
                     $attrName = str_replace( $attrNameDefaultPrefix, "", $attrName );
-                    
+
                     if ( !strlen( $attrValue ) ) {
                         if ( $attrName[ 0 ] === "!" ) {
                             $attrValue = "false";
@@ -440,11 +444,11 @@ KAMAL;
                             $attrValue = "true";
                         }
                     }
-                    
+
                     $attributes[ $attrNameDefaultPrefix . $attrName ] = $attrValue;
                 }
             }
-            
+
             // Check if there's any "responsive" parameter
             $responsiveAttributes = ["responsive", "data-responsive"];
             foreach ( $responsiveAttributes as $responsiveAttr ) {
@@ -454,30 +458,30 @@ KAMAL;
                     } else {
                         $embedShouldBeResponsive = !self::valueIsFalse( $attributes[ $responsiveAttr ] );
                     }
-                    
+
                     break;
                 }
             }
             unset( $responsiveAttr, $responsiveAttributes );
         }
-        
+
         $attributes[ 'class' ][] = 'ose-{provider_alias}';
-        
+
         if ( !empty( $content_uid ) ) {
             $attributes[ 'class' ][] = 'ose-uid-' . $content_uid;
         }
-        
+
         if ( $embedShouldBeResponsive && !$embedShouldHaveCustomDimensions ) {
             $attributes[ 'class' ][] = 'responsive';
         } else {
             $attributes[ 'data-responsive' ] = "false";
         }
-        
+
         $attributes[ 'class' ] = implode( ' ', array_unique( array_filter( $attributes[ 'class' ] ) ) );
         if ( isset( $attributes[ 'width' ] ) ) {
             $attributes[ 'style' ] = "width:{$attributes['width'] }px;height:{$attributes['height'] }px;";
         }
-        
+
         return $attributes;
     }
 
@@ -501,7 +505,7 @@ KAMAL;
 	protected static function get_embera_settings() {
 		return self::$emberaInstanceSettings;
     }
-    
+
     /**
      * Method that checks if a given value is/can be identified as (bool)false.
      *
@@ -527,7 +531,7 @@ KAMAL;
                 return false;
         }
     }
-    
+
     /**
      * Return the value from a header which is in an array resulted from a get_headers() call.
      * If the header cannot be found, this method will return null instead.
@@ -543,17 +547,17 @@ KAMAL;
      */
     private static function extractContentFromHeaderAsArray( $headerPattern, $headersList ) {
         $headerValue = null;
-        
+
         foreach ( $headersList as $header ) {
             if ( preg_match( $headerPattern, $header, $matches ) ) {
                 $headerValue = $matches[ 1 ];
                 break;
             }
         }
-        
+
         return $headerValue;
     }
-    
+
     /**
      * Sanitize the object returned by the embed source. Sometimes we need to convert
      * attributes from "dash" separated to "underline" separated to be able to access
@@ -570,11 +574,11 @@ KAMAL;
     private static function sanitizeUrlData( $data ) {
         if ( is_object( $data ) ) {
             $attributes = get_object_vars( $data );
-            
+
             foreach ( $attributes as $key => $value ) {
                 if ( substr_count( $key, '-' ) ) {
                     unset( $data->$key );
-                    
+
                     $key = str_replace( '-', '_', $key );
                     $data->$key = $value;
                 }
@@ -583,13 +587,13 @@ KAMAL;
             foreach ( $data as $key => $value ) {
                 if ( substr_count( $key, '-' ) ) {
                     unset( $data[ $key ] );
-                    
+
                     $key = str_replace( '-', '_', $key );
                     $data[ $key ] = $value;
                 }
             }
         }
-        
+
         return $data;
     }
 
