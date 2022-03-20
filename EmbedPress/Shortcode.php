@@ -238,6 +238,10 @@ class Shortcode {
                 }
             }
 
+            if ( 'coub' === $provider_name ) {
+                $parsedContent = str_replace('sandbox="allow-scripts"', 'sandbox="allow-scripts allow-same-origin"', $parsedContent);
+            }
+
 	        if ( 'the-new-york-times' === $provider_name && isset( $customAttributes['height']) && isset( $customAttributes['width']) ) {
 		        $styles = <<<KAMAL
 <style>
