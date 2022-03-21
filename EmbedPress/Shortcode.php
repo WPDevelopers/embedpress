@@ -236,6 +236,12 @@ class Shortcode {
 		                    $parsedContent );
                         $parsedContent = preg_replace( '~style="position:relative;padding-bottom(.+?)"~i', '',
                                 $parsedContent );
+                        $styles = "<style>
+                        .elementor-widget-container .ose-gfycat.ose-embedpress-responsive{
+                            position: relative;
+                        }
+                        </style>";
+                        $parsedContent = $styles . $parsedContent;
                     }
                 }
             }
