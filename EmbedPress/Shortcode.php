@@ -234,6 +234,8 @@ class Shortcode {
                     if  ( 'gfycat' === $provider_name && preg_match( '~height\s*:\s*auto\s*;~i', $parsedContent ) ){
 	                    $parsedContent = preg_replace( '~height\s*:\s*auto\s*~i', 'height: ' . $customHeight . 'px',
 		                    $parsedContent );
+                        $parsedContent = preg_replace( '~style="position:relative;padding-bottom(.+?)"~i', '',
+                                $parsedContent );
                     }
                 }
             }
