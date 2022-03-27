@@ -56,7 +56,7 @@ class Embedpress_Document extends Widget_Base
         return ['embedpress', 'pdf', 'doc', 'docx', 'ppt', 'pptx', 'xls', 'xlsx', 'embedpress-document'];
     }
 
-    protected function _register_controls()
+    protected function register_controls()
     {
 	    $this->pro_class = is_embedpress_pro_active() ? '': 'embedpress-pro-control';
 	    $this->pro_text = is_embedpress_pro_active() ? '': '<sup class="embedpress-pro-label" style="color:red">'.__('Pro', 'embedpress').'</sup>';
