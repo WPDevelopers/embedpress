@@ -102,7 +102,7 @@ trait Shared {
          * Message message for showing.
          */
         $notice->classes( 'upsale', 'notice is-dismissible ' );
-        $notice->message( 'upsale', '<p>' . __( 'Thank you for relying on EmbedPress with 30,000 other websites. Checkout our Pro features.', $notice->text_domain ) . '</p>' );
+        $notice->message( 'upsale', '<p>' . __( 'Thank you for relying on EmbedPress with 50,000 other websites. Checkout our Pro features.', $notice->text_domain ) . '</p>' );
 
         // Update Notice For PRO Version
         if ( $this->is_pro_active() && \version_compare( get_embedpress_pro_version(), '2.0.0', '<' ) ) {

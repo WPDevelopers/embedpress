@@ -3,13 +3,12 @@
 namespace EmbedPress\Elementor\Widgets;
 
 
-use \Elementor\Controls_Manager as Controls_Manager;
-use Elementor\Group_Control_Background;
-use \Elementor\Group_Control_Css_Filter;
-use Elementor\Group_Control_Image_Size;
-use \Elementor\Widget_Base as Widget_Base;
+use Elementor\Controls_Manager as Controls_Manager;
+
+use Elementor\Plugin;
+use Elementor\Widget_Base as Widget_Base;
 use EmbedPress\Includes\Traits\Branding;
-use \EmbedPress\Shortcode;
+use EmbedPress\Shortcode;
 
 (defined( 'ABSPATH' )) or die( "No direct script access allowed." );
 
@@ -76,7 +75,7 @@ class Embedpress_Elementor extends Widget_Base {
         ];
     }
 
-    protected function _register_controls() {
+    protected function register_controls() {
         $this->pro_class = is_embedpress_pro_active() ? '': 'embedpress-pro-control';
         $this->pro_text = is_embedpress_pro_active() ? '': '<sup class="embedpress-pro-label" style="color:red">'.__('Pro', 'embedpress').'</sup>';
         /**
@@ -1298,6 +1297,9 @@ class Embedpress_Elementor extends Widget_Base {
     protected function render() {
         add_filter( 'embedpress_should_modify_spotify', '__return_false');
         $settings      = $this->get_settings_for_display();
+	    $is_editor_view = Plugin::$instance->editor->is_edit_mode();
+        $link = $settings['embedpress_embeded_link'];
+        $is_apple_podcast = (strpos( $link, 'podcasts.apple.com') !== false);
         $height = (!empty( $settings['height']) && !empty( $settings['height']['size'] ))
             ? $settings['height']['size'] : null;
 	    $width = (!empty( $settings['width']) && !empty( $settings['width']['size'] ))
@@ -1310,7 +1312,16 @@ class Embedpress_Elementor extends Widget_Base {
 
         ?>
         <div class="embedpress-elements-wrapper <?php echo !empty( $settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio': ''; ?>">
-            <?php echo $content; ?>
+            <?php
+            // handle notice display
+            if ( $is_editor_view && $is_apple_podcast && !is_embedpress_pro_active() ) {
+	          ?>
+            <p><?php esc_html_e( 'You need EmbedPress Pro to Embed Apple Podcast. Note. This message is only visible to you.', 'embedpress'); ?></p>
+            <?php
+            }else {
+	            echo $content;
+            }
+            ?>
         </div>
         <?php
     }

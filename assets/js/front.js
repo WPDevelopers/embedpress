@@ -1,24 +1,32 @@
 /**
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
- * @copyright   Copyright (C) 2018 EmbedPress. All rights reserved.
+ * @copyright   Copyright (C) 2022 EmbedPress. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.7.0
  */
-(function ($) {
+(function () {
     'use strict';
-    $( document ).ready(function() {
-        var selector = $('.embedpress-embed-document-pdf');
+    // function equivalent to jquery ready()
+    function ready(fn) {
+        if (document.readyState !== 'loading'){
+            fn();
+        } else {
+            document.addEventListener('DOMContentLoaded', fn);
+        }
+    }
+
+    ready(function() {
         let option = {
             forceObject: true,
         };
-        if(selector.length){
-            selector.each(function(index, value) {
-                var $this = $(this),
-                    id = $this.data('emid'),
-                    src = $this.data('emsrc');
-                    PDFObject.embed(src, "."+id, option);
-            });
+        let selector = document.querySelectorAll('.embedpress-embed-document-pdf');
+        if (selector.length) {
+            selector.forEach((function(value, index, thisArg) {
+               let id = value.dataset['emid'];
+               let src = value.dataset['emsrc'];
+                PDFObject.embed(src, "."+id, option);
+            }));
         }
     });
 
@@ -56,5 +64,4 @@
 
     // Run on resize.
     window.onresize = embedPressResponsiveEmbeds;
-
-})(jQuery);
+})();
