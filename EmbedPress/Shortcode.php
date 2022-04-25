@@ -172,7 +172,8 @@ class Shortcode {
 	        // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
 	        $parsedContent = str_replace( "'", '"', $parsedContent );
 	        $parsedContent = str_replace( "{provider_alias}", $provider_name , $parsedContent );
-	        $parsedContent = str_replace( 'sandbox="allow-scripts"', 'sandbox="allow-scripts allow-same-origin"', $parsedContent );
+	        $parsedContent = str_replace( 'sandbox="allow-scripts"', 'sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"', $parsedContent );
+	        $parsedContent = str_replace( '<iframe ', '<iframe allowFullScreen="true" ', $parsedContent );
 
 	        self::purify_html_content( $parsedContent);
 			self::modify_content_for_fb_and_canada( $provider_name, $parsedContent);
