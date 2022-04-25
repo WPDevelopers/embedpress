@@ -56,11 +56,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			height: {
 				type: 'string',
-				default: '450'
+				default: (embedpressObj.enableEmbedResizeHeight || '450')
 			},
 			width: {
 				type: 'string',
-				default: '600'
+				default: (embedpressObj.enableEmbedResizeWidth || '600')
 			},
 			editingURL: {
 				type: 'boolean',
