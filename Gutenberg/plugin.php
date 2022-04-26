@@ -72,7 +72,6 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 		$wistia_options = embedpress_wisita_pro_get_options();
 	endif;
 	$pars_url = wp_parse_url(get_site_url());
-	$settings = get_option(EMBEDPRESS_PLG_NAME);
 	$documents_cta_options = (array) get_option(EMBEDPRESS_PLG_NAME . ':document');
 	wp_localize_script( 'embedpress_blocks-cgb-block-js', 'embedpressObj', array(
 		'wistia_labels'  => $wistia_labels,
@@ -84,8 +83,6 @@ function embedpress_blocks_cgb_editor_assets() { // phpcs:ignore
 		'active_blocks' => $active_blocks,
 		'document_cta' => $documents_cta_options,
 		'pdf_renderer' => Helper::get_pdf_renderer(),
-		'enableEmbedResizeWidth' => $settings['enableEmbedResizeWidth'],
-		'enableEmbedResizeHeight' => $settings['enableEmbedResizeHeight'],
 	) );
 
 	// Styles.

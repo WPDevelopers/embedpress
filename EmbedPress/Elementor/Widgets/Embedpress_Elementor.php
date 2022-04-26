@@ -1182,7 +1182,6 @@ class Embedpress_Elementor extends Widget_Base {
 	}
 
 	public function init_style_controls() {
-		$settings = get_option(EMBEDPRESS_PLG_NAME);
 		$this->start_controls_section(
 			'embedpress_style_section',
 			[
@@ -1225,7 +1224,7 @@ class Embedpress_Elementor extends Widget_Base {
 				],
 				'default' => [
 					'unit' => 'px',
-					'size' => !empty($settings['enableEmbedResizeWidth']) ? $settings['enableEmbedResizeWidth'] : 600,
+					'size' => 600,
 				]
 			]
 		);
@@ -1244,7 +1243,7 @@ class Embedpress_Elementor extends Widget_Base {
 				],
 				'default' => [
 					'unit' => 'px',
-					'size' => !empty($settings['enableEmbedResizeHeight']) ? $settings['enableEmbedResizeHeight'] : 400,
+					'size' => 400,
 				]
 			]
 		);
