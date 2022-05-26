@@ -4,7 +4,7 @@ Author: WPDeveloper
 Author URI: https://wpdeveloper.com
 Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embed, video embed, Google Doc, map embed, youTube Embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, block editor, embed wordpress, elementor, WPML, Meetup, Boomplay, PDF Logo
 Requires at least: 4.6
-Tested up to: 5.9
+Tested up to: 6.0
 Requires PHP: 5.6
 Stable tag: 3.3.7
 License: GPLv3 or later
@@ -383,8 +383,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 = [3.3.7] - 2022-04-26 =
-* Fixed: Gfycat fullscreen and social share option. 
-* Fixed: Profile & open links for Coub videos. 
+* Fixed: Gfycat fullscreen and social share option.
+* Fixed: Profile & open links for Coub videos.
 * Few minor bug fix and improvements.
 
 = [3.3.6] - 2022-03-27 =
