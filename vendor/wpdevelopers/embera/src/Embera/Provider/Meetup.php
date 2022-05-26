@@ -63,6 +63,9 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		$response['url'] = $this->getUrl();
 		$hash = 'mu_'.md5( $this->getUrl());
 		$filename = wp_get_upload_dir()['basedir'] ."/embedpress/$hash.txt";
+		add_filter('safe_style_css', [$this, 'safe_style_css']);
+		$allowed_protocols = wp_allowed_protocols();
+		$allowed_protocols[] = 'data';
 
 		if (file_exists( $filename) ) {
 			$response['html'] = file_get_contents( $filename);
@@ -87,11 +90,26 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		$header_dom = $dom->find('div[data-event-label="top"]', 0);
 		$body_dom = $dom->find('div[data-event-label="body"]', 0);
 		$event_location_info = $dom->find( 'div[data-event-label="info"] .sticky', 0);
+		$dewqijm = $event_location_info->find('.dewqijm', 0)->find('span', 0);
+		$img = $dewqijm->find('noscript', 0)->innertext();
+		$dewqijm->removeChild($dewqijm->find('img', 1));
+		$dewqijm->find('noscript', 0)->remove();
+		$dewqijm->outertext = $dewqijm->makeup() . $dewqijm->innertext . $img . '</span>';
+
 
 		$date = $this->embedpress_get_markup_from_node( $header_dom->find( 'time', 0) );
 		$title = $this->embedpress_get_markup_from_node($header_dom->find('h1', 0));
+		$emrv9za = $body_dom->find('div.emrv9za', 0);
+		$picture = $emrv9za->find('picture[data-testid="event-description-image"]', 0);
+		$picture->find('img', 0)->remove();
+		$img = $picture->find('noscript', 0)->innertext();
+		$img = str_replace('/_next/image/', 'https://www.meetup.com/_next/image/', $img);
+		$picture->find('noscript', 0)->remove();
+		$span = $picture->find('div', 0)->find('span', 0);
+		$span->outertext = $span->makeup() . $span->innertext . $img . '</span>';
 
-		$content = $this->embedpress_get_markup_from_node( $body_dom->find('div.emrv9za', 0) ) ;
+		$content = $this->embedpress_get_markup_from_node( $emrv9za ) ;
+
 
 
 		$host_info = $header_dom->find('a[data-event-label="hosted-by"]', 0);
@@ -127,7 +145,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
             </section>
 
             <aside>
-				<?php echo wp_kses_post( $event_location_info); ?>
+				<?php echo wp_kses( $event_location_info, 'post', $allowed_protocols); ?>
             </aside>
 
         </article>
@@ -139,7 +157,20 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		file_put_contents( $filename, $event_output);
 		embedpress_schedule_cache_cleanup();
 		$response['html'] = $event_output;
+		remove_filter('safe_style_css', [$this, 'safe_style_css']);
 		return $response;
+	}
+
+	public function safe_style_css($styles){
+		$styles[] = 'position';
+		$styles[] = 'display';
+		$styles[] = 'opacity';
+		$styles[] = 'box-sizing';
+		$styles[] = 'left';
+		$styles[] = 'bottom';
+		$styles[] = 'right';
+		$styles[] = 'top';
+		return $styles;
 	}
 
 	/**
