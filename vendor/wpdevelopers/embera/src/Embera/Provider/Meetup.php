@@ -150,7 +150,69 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 
         </article>
 
+		<style>
+			.embedpress-event a,
+			.embedpress-event button {
+				text-decoration: none !important;
 
+			}
+			.ep-event-header {
+				text-align: left;
+			}
+			.ep-event-header .ep-event--host .flex {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+			}
+
+			.ep-event-header .ep-event--host .flex div {
+				line-height: 1.3 !important; 
+			}
+			.ep-event-header .ep-event--host img {
+				border-radius: 50%;
+			}
+			.ep-event-content {
+				text-align: left;
+			}
+
+			.ep-event-content h2 {
+				font-size: 22px;
+				margin: 10px 0;
+			}
+			.embedpress-event aside .sticky {
+				display: flex;
+				gap: 30px;
+				text-align: left;
+				line-height: 1.3 !important;
+			}
+			.embedpress-event aside .sticky .hidden {
+				display: block;
+			}
+			.embedpress-event aside .sticky .hidden, 
+			.embedpress-event aside .sticky .hidden + div {
+				flex: 0 0 calc(50% - 15px);
+			}
+			.embedpress-event aside .sticky .hidden .flex {
+				gap: 8px;
+			}
+			.embedpress-event aside .sticky .hidden .flex button {
+				background: transparent;
+				padding: 3px;
+				border: 0;
+				outline: none;
+				box-shadow: none;
+			}
+			/* .ep-event-header a {
+				font-size: 0;
+			} */
+			/* .ep-event-header a div {
+				font-size: 0;
+			}
+			.ep-event-header > a > div > div {
+				border-raidus: 50%;
+				overflow: hidden;
+			} */
+		</style>
 
 		<?php
 		$event_output = ob_get_clean();
