@@ -247,7 +247,13 @@ class Embedpress_Pdf extends Widget_Base
     {
         $settings = $this->get_settings();
         $url = $this->get_file_url();
-        $id = 'embedpress-pdf-' . $this->get_id();
+        $id = $this->get_id();
+        $this->_render($url, $settings, $id);
+    }
+
+    public function _render($url, $settings, $id)
+    {
+        $id = 'embedpress-pdf-' . $id;
         $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
         $this->add_render_attribute( 'embedpres-pdf-render', [
             'class'     => ['embedpress-embed-document-pdf', $id],
