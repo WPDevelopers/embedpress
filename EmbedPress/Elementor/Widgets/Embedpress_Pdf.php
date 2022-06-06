@@ -278,10 +278,9 @@ class Embedpress_Pdf extends Widget_Base
                     <?php
 
                 } else {
-                    $view_link = 'https://docs.google.com/viewer?url=' . $url . '&embedded=true';
                     ?>
                         <div>
-                            <iframe allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr( $dimension); ?>; max-width:100%;" src="<?php echo esc_url( $view_link); ?>" <?php $this->get_render_attribute_string( 'embedpres-pdf-render' ); ?>></iframe>
+                            <iframe allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr( $dimension); ?>; max-width:100%;" src="<?php echo esc_url( $url); ?>" <?php $this->get_render_attribute_string( 'embedpres-pdf-render' ); ?>></iframe>
                         </div>
 
                     <?php
