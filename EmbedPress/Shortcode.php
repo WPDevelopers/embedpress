@@ -4,6 +4,7 @@ namespace EmbedPress;
 
 use Embera\Embera;
 use Embera\ProviderCollection\DefaultProviderCollection;
+use EmbedPress\Includes\Classes\Helper;
 use WP_oEmbed;
 
 ( defined( 'ABSPATH' ) && defined( 'EMBEDPRESS_IS_LOADED' ) ) or die( "No direct script access allowed." );
@@ -773,18 +774,51 @@ KAMAL;
             'powered_by' => 'no',
         ];
         $attributes = wp_parse_args( $attributes, $default );
-        $pdf = new \EmbedPress\Elementor\Widgets\Embedpress_Pdf();
         $url = preg_replace( '/(\[' . EMBEDPRESS_SHORTCODE . '(?:\]|.+?\])|\[\/' . EMBEDPRESS_SHORTCODE . '\])/i',
             "", $subject );
-        $settings = [
-            'embedpress_elementor_document_width'  => ['size' => $attributes['width']],
-            'embedpress_elementor_document_height' => ['size' => $attributes['height']],
-            'embedpress_pdf_powered_by'            => $attributes['powered_by'],
-        ];
 
         ob_start();
-        $pdf->_render($url, $settings, 'sdfg');
 
+        $id = 'embedpress-pdf-shortcode';
+        $dimension = "width: {$attributes['width']}px;height: {$attributes['height']}px";
+        ?>
+        <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-'.md5( $id);?>" style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block">
+            <?php if ( $url != '' ) {
+                if ( self::is_pdf( $url ) && ! self::is_external_url( $url)  ) {
+	                $renderer = Helper::get_pdf_renderer();
+	                $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $url;
+                    ?>
+                    <iframe style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block"  data-emsrc="<?php echo esc_attr(  $url); ?>" data-emid="<?php echo esc_attr(  $id); ?>"  class="embedpress-embed-document-pdf <?php echo esc_attr(  $id); ?>" src="<?php echo esc_attr(  $src); ?>"
+                            frameborder="0"></iframe>
+                    <?php
+
+                } else {
+                    ?>
+                        <div>
+                            <iframe allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr( $dimension); ?>; max-width:100%;" src="<?php echo esc_url( $url); ?>" data-emsrc="<?php echo esc_attr(  $url); ?>" data-emid="<?php echo esc_attr(  $id); ?>"  class="embedpress-embed-document-pdf <?php echo esc_attr(  $id); ?>"></iframe>
+                        </div>
+
+                    <?php
+                }
+	            if ( $attributes['powered_by'] === 'yes' ) {
+
+                    printf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
+                }
+            }
+            ?>
+        </div>
+
+        <?php
         return ob_get_clean();
+    }
+
+	protected static function is_external_url( $url ) {
+        return strpos( $url, get_site_url()) === false;
+    }
+
+    protected static function is_pdf( $url )
+    {
+        $arr = explode( '.', $url );
+        return end( $arr ) === 'pdf';
     }
 }
