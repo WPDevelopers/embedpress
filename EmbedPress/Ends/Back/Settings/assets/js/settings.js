@@ -372,16 +372,22 @@ jQuery(document).ready( function($){
 
     $(document).on('click', '#ep-shortcode-btn', function (e){
         e.preventDefault();
-       let $linkNode = $('#ep-link');
-       let link = $linkNode.val();
-       if (!validateUrl(link)){
-           show_attention_alert('Please enter a valid URL.');
-           $linkNode.val('');
-           $shortcodePreview.val('');
-           return;
-       }
-       $linkNode.val('');
-       $shortcodePreview.val('[embedpress]'+link+'[/embedpress]');
+        let $linkNode = $('#ep-link');
+        let link = $linkNode.val();
+        if (!validateUrl(link)){
+            show_attention_alert('Please enter a valid URL.');
+            $linkNode.val('');
+            $shortcodePreview.val('');
+            return;
+        }
+        $linkNode.val('');
+        var arr = link.split('.');
+        if (arr[arr.length - 1] === 'pdf') {
+            $shortcodePreview.val('[embedpress_pdf]'+link+'[/embedpress_pdf]');
+        }
+        else{
+            $shortcodePreview.val('[embedpress]'+link+'[/embedpress]');
+        }
         $shortcodePreview.focus();
     });
 

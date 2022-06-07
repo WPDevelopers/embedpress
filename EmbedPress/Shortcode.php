@@ -66,6 +66,7 @@ class Shortcode {
         add_shortcode( EMBEDPRESS_SHORTCODE, ['\\EmbedPress\\Shortcode', 'do_shortcode'] );
         add_shortcode( 'embed_oembed_html', ['\\EmbedPress\\Shortcode', 'do_shortcode'] );
         add_shortcode( 'embedpress', ['\\EmbedPress\\Shortcode', 'do_shortcode'] );
+        add_shortcode( 'embedpress_pdf', ['\\EmbedPress\\Shortcode', 'do_shortcode_pdf'] );
     }
 
     /**
@@ -762,4 +763,28 @@ KAMAL;
 		}
 		return $embed;
 	}
+
+    public static function do_shortcode_pdf($attributes = [], $subject = null ){
+    	$plgSettings = Core::getSettings();
+
+        $default = [
+            'width'  => $plgSettings->enableEmbedResizeWidth,
+            'height' => $plgSettings->enableEmbedResizeHeight,
+            'powered_by' => 'no',
+        ];
+        $attributes = wp_parse_args( $attributes, $default );
+        $pdf = new \EmbedPress\Elementor\Widgets\Embedpress_Pdf();
+        $url = preg_replace( '/(\[' . EMBEDPRESS_SHORTCODE . '(?:\]|.+?\])|\[\/' . EMBEDPRESS_SHORTCODE . '\])/i',
+            "", $subject );
+        $settings = [
+            'embedpress_elementor_document_width'  => ['size' => $attributes['width']],
+            'embedpress_elementor_document_height' => ['size' => $attributes['height']],
+            'embedpress_pdf_powered_by'            => $attributes['powered_by'],
+        ];
+
+        ob_start();
+        $pdf->_render($url, $settings, 'sdfg');
+
+        return ob_get_clean();
+    }
 }

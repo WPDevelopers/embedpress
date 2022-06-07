@@ -247,7 +247,13 @@ class Embedpress_Pdf extends Widget_Base
     {
         $settings = $this->get_settings();
         $url = $this->get_file_url();
-        $id = 'embedpress-pdf-' . $this->get_id();
+        $id = $this->get_id();
+        $this->_render($url, $settings, $id);
+    }
+
+    public function _render($url, $settings, $id)
+    {
+        $id = 'embedpress-pdf-' . $id;
         $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
         $this->add_render_attribute( 'embedpres-pdf-render', [
             'class'     => ['embedpress-embed-document-pdf', $id],
@@ -272,10 +278,9 @@ class Embedpress_Pdf extends Widget_Base
                     <?php
 
                 } else {
-                    $view_link = 'https://docs.google.com/viewer?url=' . $url . '&embedded=true';
                     ?>
                         <div>
-                            <iframe allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr( $dimension); ?>; max-width:100%;" src="<?php echo esc_url( $view_link); ?>" <?php $this->get_render_attribute_string( 'embedpres-pdf-render' ); ?>></iframe>
+                            <iframe allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr( $dimension); ?>; max-width:100%;" src="<?php echo esc_url( $url); ?>" <?php $this->get_render_attribute_string( 'embedpres-pdf-render' ); ?>></iframe>
                         </div>
 
                     <?php
