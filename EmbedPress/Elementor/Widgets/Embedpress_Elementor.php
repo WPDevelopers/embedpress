@@ -345,12 +345,12 @@ class Embedpress_Elementor extends Widget_Base {
 			'yt_sub_channel',
 			[
 
-				'label'       => sprintf( __( 'Channel Link or ID %s', 'embedpress' ), $this->pro_text),
+				'label'       => sprintf( __( 'Channel ID %s', 'embedpress' ), $this->pro_text),
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => [
 					'active' => true,
 				],
-				'placeholder' => __( 'Enter Channel Link or ID', 'embedpress' ),
+				'placeholder' => __( 'Enter Channel ID', 'embedpress' ),
 				'label_block' => true,
 				'condition'    => $yt_condition,
 				'classes'     => $this->pro_class,

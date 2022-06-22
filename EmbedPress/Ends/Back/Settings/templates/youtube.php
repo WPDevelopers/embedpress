@@ -194,9 +194,9 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
             <h3><?php esc_html_e( "Subscription Button", "embedpress" ); ?></h3>
 
             <div class="form__group">
-                <p class="form__label"><?php esc_html_e( "Channel Link or ID", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
+                <p class="form__label"><?php esc_html_e( "Channel ID", "embedpress" ); echo $pro_active ? '': ' <span class="isPro">PRO</span>'; ?> </p>
                 <div class="form__control__wrap <?php echo $pro_active ? '': 'isPro'; ?>">
-                    <input type="text"  class="form__control" data-default="<?php echo esc_attr( $yt_sub_channel ); ?>" value="<?php echo esc_attr( $yt_sub_channel ); ?>" name="yt_sub_channel" <?php echo $pro_active ? '' : 'disabled'; ?> placeholder="Enter Channel link or ID">
+                    <input type="text"  class="form__control" data-default="<?php echo esc_attr( $yt_sub_channel ); ?>" value="<?php echo esc_attr( $yt_sub_channel ); ?>" name="yt_sub_channel" <?php echo $pro_active ? '' : 'disabled'; ?> placeholder="Enter Channel ID">
 
                     <p><?php esc_html_e( "You can use either your channel link or channel ID to show the subscription button.", "embedpress" ); ?></p>
                 </div>
