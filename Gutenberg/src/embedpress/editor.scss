@@ -27,6 +27,10 @@
 	min-width: 550px;
 }
 
+.editor-styles-wrapper .block-editor-block-list__layout.is-root-container > .wp-block-embedpress-embedpress {
+	max-width: 1200px !important;
+}
+
 .wp-block-embedpress-embedpress {
 	max-width: 100% !important;
 }
