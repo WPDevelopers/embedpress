@@ -12,6 +12,10 @@
         {
             "type": "git",
             "url": "https://github.com/WPDevelopers/Embera"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/priyomukul/wp-notice"
         }
     ],
     "config": {
@@ -19,7 +23,8 @@
     },
     "minimum-stability": "stable",
     "require": {
-        "wpdevelopers/embera": "*"
+        "wpdevelopers/embera": "*",
+        "priyomukul/wp-notice": "dev-main"
     }
 
 }
