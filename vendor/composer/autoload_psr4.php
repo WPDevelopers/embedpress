@@ -6,5 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'PriyoMukul\\WPNotice\\' => array($vendorDir . '/priyomukul/wp-notice/src'),
     'Embera\\' => array($vendorDir . '/wpdevelopers/embera/src/Embera'),
 );

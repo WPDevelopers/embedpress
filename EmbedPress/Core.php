@@ -124,6 +124,8 @@ class Core {
         add_filter('oembed_providers', [$this, 'addOEmbedProviders']);
         add_action('rest_api_init', [$this, 'registerOEmbedRestRoutes']);
 
+        $this->start_plugin_tracking();
+
         if (is_admin()) {
         	new EmbedpressSettings();
             $plgSettings = self::getSettings();
@@ -154,7 +156,6 @@ class Core {
         // Add support for our embeds on Beaver Builder. Without this it only run the native embeds.
         add_filter('fl_builder_before_render_shortcodes',
             ['\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes']);
-        $this->start_plugin_tracking();
         $this->loaderInstance->run();
 
     }

@@ -602,6 +602,11 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 			if( isset( $block_notice[$this->plugin_name] ) ) {
 				return;
 			}
+
+			if( ! \function_exists('wp_get_current_user') ) {
+				require_once ABSPATH . "wp-includes/pluggable.php";
+			}
+
 			if ( ! current_user_can( 'manage_options' ) ) {
 				return;
 			}
@@ -620,7 +625,7 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 			$extra_notice_text = $this->notice_options['extra_notice'];
 
 			$output = '';
-			$output .= '<div class="notice notice-info updated put-dismiss-notice">';
+			$output .= '<div class="embedpress-optin">';
 				$output .= '<p>'. $notice_text .'</p>';
 				$output .= '<div class="wpinsights-data" style="display: none;">';
 					$output .= '<p>'. $extra_notice_text .'</p>';

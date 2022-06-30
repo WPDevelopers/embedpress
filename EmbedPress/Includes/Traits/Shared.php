@@ -8,7 +8,11 @@ if ( !defined( 'ABSPATH' ) ) {
 use \EmbedPress\Includes\Classes\EmbedPress_Plugin_Usage_Tracker;
 use \EmbedPress\Includes\Classes\EmbedPress_Notice;
 
+use PriyoMukul\WPNotice\Notices;
+
 trait Shared {
+
+    private $insights = null;
 
 
     /**
@@ -17,7 +21,7 @@ trait Shared {
      * @since v1.0.0
      */
     public function start_plugin_tracking() {
-        $tracker = EmbedPress_Plugin_Usage_Tracker::get_instance( EMBEDPRESS_FILE, [
+        $this->insights = $tracker = EmbedPress_Plugin_Usage_Tracker::get_instance( EMBEDPRESS_FILE, [
             'opt_in'       => true,
             'goodbye_form' => true,
             'item_id'      => '98ba0ac16a4f7b3b940d'
@@ -33,108 +37,142 @@ trait Shared {
     }
 
     public function admin_notice() {
-        $notice = new EmbedPress_Notice( EMBEDPRESS_PLUGIN_BASENAME, EMBEDPRESS_VERSION );
+        $_assets_url = plugins_url( 'assets/', EMBEDPRESS_PLUGIN_BASENAME );
 
-        /**
-         * Current Notice End Time.
-         * Notice will dismiss in 3 days if user does nothing.
-         */
-        $notice->cne_time = '3 Day';
-
-        /**
-         * Current Notice Maybe Later Time.
-         * Notice will show again in 7 days
-         */
-        $notice->maybe_later_time = '21 Day';
-
-        $notice->text_domain = 'embedpress';
-
-        $scheme        = (parse_url( $_SERVER['REQUEST_URI'], PHP_URL_QUERY )) ? '&' : '?';
-        $url           = $_SERVER['REQUEST_URI'] . $scheme;
-        $notice->links = [
-            'review' => array(
-                'later'            => array(
-                    'link'       => 'https://wordpress.org/support/plugin/embedpress/reviews/',
-                    'target'     => '_blank',
-                    'label'      => __( 'Ok, you deserve it!', 'embedpress' ),
-                    'icon_class' => 'dashicons dashicons-external',
-                ),
-                'allready'         => array(
-                    'link'       => $url,
-                    'label'      => __( 'I already did', 'embedpress' ),
-                    'icon_class' => 'dashicons dashicons-smiley',
-                    'data_args'  => [
-                        'dismiss' => true,
-                    ],
-                ),
-                'maybe_later'      => array(
-                    'link'       => $url,
-                    'label'      => __( 'Maybe Later', 'embedpress' ),
-                    'icon_class' => 'dashicons dashicons-calendar-alt',
-                    'data_args'  => [
-                        'later' => true,
-                    ],
-                ),
-                'support'          => array(
-                    'link'       => 'https://wordpress.org/support/plugin/embedpress/',
-                    'label'      => __( 'I need help', 'embedpress' ),
-                    'icon_class' => 'dashicons dashicons-sos',
-                ),
-                'never_show_again' => array(
-                    'link'       => $url,
-                    'label'      => __( 'Never show again', 'embedpress' ),
-                    'icon_class' => 'dashicons dashicons-dismiss',
-                    'data_args'  => [
-                        'dismiss' => true,
-                    ],
-                ),
-            ),
-        ];
+        $notices = new Notices([
+            'id'          => 'embedpress',
+            'store'       => 'options',
+            'storage_key' => 'notices',
+            'version'     => '1.0.0',
+            'lifetime'    => 3,
+            'styles'      => $_assets_url . 'css/admin-notices.css',
+        ]);
 
         /**
          * This is review message and thumbnail.
          */
-        $notice->message( 'review', '<p>' . __( 'We hope you\'re enjoying EmbedPress! Could you please do us a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?', 'embedpress' ) . '</p>' );
-        $notice->thumbnail( 'review', plugins_url( 'assets/images/icon-128x128.png', EMBEDPRESS_PLUGIN_BASENAME ) );
+        $_review_notice = [
+            'thumbnail' => $_assets_url . 'images/icon-128x128.png',
+            'html' => '<p>' . __( 'We hope you\'re enjoying EmbedPress! Could you please do us a BIG favor and give it a 5-star rating on WordPress to help us spread the word and boost our motivation?', 'embedpress' ) . '</p>',
+            'links' => [
+                'later' => array(
+                    'link'       => 'https://wordpress.org/support/plugin/embedpress/reviews/',
+                    'target'     => '_blank',
+                    'label'      => __('Ok, you deserve it!', 'wp-scheduled-posts'),
+                    'icon_class' => 'dashicons dashicons-external',
+                ),
+                'allready' => array(
+                    'label' => __('I already did', 'wp-scheduled-posts'),
+                    'icon_class' => 'dashicons dashicons-smiley',
+                    'attributes' => [
+                        'data-dismiss' => true
+                    ],
+                ),
+                'maybe_later' => array(
+                    'label' => __('Maybe Later', 'wp-scheduled-posts'),
+                    'icon_class' => 'dashicons dashicons-calendar-alt',
+                    'attributes' => [
+                        'data-later' => true
+                    ],
+                ),
+                'support' => array(
+                    'link' => 'https://wpdeveloper.com/support',
+                    'label' => __('I need help', 'wp-scheduled-posts'),
+                    'icon_class' => 'dashicons dashicons-sos',
+                ),
+                'never_show_again' => array(
+                    'label' => __('Never show again', 'wp-scheduled-posts'),
+                    'icon_class' => 'dashicons dashicons-dismiss',
+                    'attributes' => [
+                        'data-dismiss' => true
+                    ],
+                ),
+            ],
+        ];
+
+        $notices->add(
+            'review',
+            $_review_notice,
+            [
+                'start'       => $notices->strtotime( '+15 day' ),
+                'recurrence'  => 30,
+                'dismissible' => true,
+            ]
+        );
+
+        $_freedom30_notice= [
+            'thumbnail' => $_assets_url . 'images/freedom30.png',
+            'html' => '<p>'. __( 'Celebrate independence & upgrade to <strong>EmbedPress PRO</strong> with up to <strong>50% OFF</strong> to use all the premium features from today', 'embedpress' ) .' <a class="button button-primary btn-embedpress" target="_blank" href="https://embedpress.com/#pricing">Claim My Offer</a></p>',
+        ];
+
+        $notices->add(
+            'freedom30',
+            $_freedom30_notice,
+            [
+                'start'       => $notices->time(),
+                'expire'      => strtotime( '5th July 2022 11:59:59 PM' ),
+                'recurrence'  => false,
+                'dismissible' => true,
+                'display_if'  => ! is_array( $notices->is_installed( 'embedpress-pro/embedpress-pro.php' ) )
+            ]
+        );
+
+        ob_start();
+        $this->insights->notice();
+        $opt_in_content = ob_get_clean();
+
+        $notices->add(
+            'optin',
+            $opt_in_content,
+            [
+                'start'       => $notices->strtotime( '+20 day' ),
+                'recurrence'  => 30,
+                'dismissible' => true,
+                'display_if'  => ! is_array( $notices->is_installed( 'embedpress-pro/embedpress-pro.php' ) )
+            ]
+        );
+        if( ! empty( $opt_in_content ) ) {
+        }
+
+
+        $notices->init();
+
+        return;
+
         /**
          * This is upsale notice settings
          * classes for wrapper,
          * Message message for showing.
          */
-        $notice->classes( 'upsale', 'notice is-dismissible ' );
-        $notice->message( 'upsale', '<p>' . __( 'Thank you for relying on EmbedPress with 60,000 other websites. Checkout our Pro features.', $notice->text_domain ) . '</p>' );
+        // $notice->classes( 'upsale', 'notice is-dismissible ' );
+        // $notice->message( 'upsale', '<p>' . __( 'Thank you for relying on EmbedPress with 60,000 other websites. Checkout our Pro features.', $notice->text_domain ) . '</p>' );
 
-        // Update Notice For PRO Version
-        if ( $this->is_pro_active() && \version_compare( get_embedpress_pro_version(), '2.0.0', '<' ) ) {
-            $notice->classes( 'update', 'notice is-dismissible ' );
-            $notice->message( 'update', '<p>' . __( 'You are using an incompatible version of EmbedPress PRO. Please update to v3.4.0+. <a href="https://essential-addons.com/elementor/docs/manually-update-essential-addons-pro/" target="_blank">Follow manual update guide.</a>', 'embedpress' ) . '</p>' );
-            $notice->thumbnail( 'update', plugins_url( 'assets/images/icon-128x128.png', EMBEDPRESS_PLUGIN_BASENAME ) );
-        }
+        // // Update Notice For PRO Version
+        // if ( $this->is_pro_active() && \version_compare( get_embedpress_pro_version(), '2.0.0', '<' ) ) {
+        //     $notice->classes( 'update', 'notice is-dismissible ' );
+        //     $notice->message( 'update', '<p>' . __( 'You are using an incompatible version of EmbedPress PRO. Please update to v3.4.0+. <a href="https://essential-addons.com/elementor/docs/manually-update-essential-addons-pro/" target="_blank">Follow manual update guide.</a>', 'embedpress' ) . '</p>' );
+        //     $notice->thumbnail( 'update', plugins_url( 'assets/images/icon-128x128.png', EMBEDPRESS_PLUGIN_BASENAME ) );
+        // }
 
-        if ( \version_compare( EMBEDPRESS_VERSION, '3.0.0', '=' ) ) {
-            $notice->classes( 'update', 'notice is-dismissible ' );
-            $notice->message( 'update', '<p>' . __( 'EmbedPress 3.0 is here with new features and options, read the details <a href="https://wpdeveloper.com/introducing-embedpress-3.0" target="_blank">here</a>, and check the new setting page. <a href="'. admin_url('admin.php?page=embedpress') .'">Click Here.</a>', 'embedpress' ) . '</p>' );
-            $notice->thumbnail( 'update', plugins_url( 'assets/images/icon-128x128.png', EMBEDPRESS_PLUGIN_BASENAME ) );
-        }
+        // if ( \version_compare( EMBEDPRESS_VERSION, '3.0.0', '=' ) ) {
+        //     $notice->classes( 'update', 'notice is-dismissible ' );
+        //     $notice->message( 'update', '<p>' . __( 'EmbedPress 3.0 is here with new features and options, read the details <a href="https://wpdeveloper.com/introducing-embedpress-3.0" target="_blank">here</a>, and check the new setting page. <a href="'. admin_url('admin.php?page=embedpress') .'">Click Here.</a>', 'embedpress' ) . '</p>' );
+        //     $notice->thumbnail( 'update', plugins_url( 'assets/images/icon-128x128.png', EMBEDPRESS_PLUGIN_BASENAME ) );
+        // }
 
-        $notice->upsale_args = array(
-            'href' => 'https://embedpress.com/?utm_source=plugin&utm_medium=free&utm_campaign=pro_upgrade#pricing',
-            'btn_text'  => __( 'Learn More', 'embedpress' ),
-        );
+        // $notice->upsale_args = array(
+        //     'href' => 'https://embedpress.com/?utm_source=plugin&utm_medium=free&utm_campaign=pro_upgrade#pricing',
+        //     'btn_text'  => __( 'Learn More', 'embedpress' ),
+        // );
 
-        $notice->options_args = array(
-            'notice_will_show' => [
-                'update' => $notice->timestamp,
-                'opt_in' => $notice->makeTime( $notice->timestamp, '3 Day' ),
-                'upsale' => $notice->makeTime( $notice->timestamp, '14 Day' ),
-                'review' => $notice->makeTime( $notice->timestamp, '7 Day' ), // after 3 days
-            ],
-        );
-        if ( $this->is_pro_active() && \version_compare( get_embedpress_pro_version(), '2.0.0', '<' ) ) {
-            $notice->options_args['notice_will_show']['update'] = $notice->timestamp;
-        }
-
-        $notice->init();
+        // $notice->options_args = array(
+        //     'notice_will_show' => [
+        //         'update' => $notice->timestamp,
+        //         'opt_in' => $notice->makeTime( $notice->timestamp, '3 Day' ),
+        //         'upsale' => $notice->makeTime( $notice->timestamp, '14 Day' ),
+        //         'review' => $notice->makeTime( $notice->timestamp, '7 Day' ), // after 3 days
+        //     ],
+        // );
     }
 
     public function is_pro_active() {

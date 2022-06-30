@@ -123,9 +123,11 @@ class CoreLegacy
     {
         global $wp_actions;
 
+        $this->start_plugin_tracking();
+
         if (is_admin()) {
-	        new EmbedpressSettings();
-	        $plgSettings = self::getSettings();
+            new EmbedpressSettings();
+            $plgSettings = self::getSettings();
             $this->admin_notice();
 
             add_filter('plugin_action_links_embedpress/embedpress.php',
@@ -175,7 +177,6 @@ class CoreLegacy
         add_filter('fl_builder_before_render_shortcodes',
             ['\\EmbedPress\\ThirdParty\\BeaverBuilder', 'before_render_shortcodes']);
 
-        $this->start_plugin_tracking();
         $this->loaderInstance->run();
     }
 

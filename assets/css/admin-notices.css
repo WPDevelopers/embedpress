@@ -1,0 +1,128 @@
+#wpnotice-embedpress-optin {
+	display: block !important;
+}
+
+.wpnotice-content-wrapper > p {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#wpnotice-embedpress-freedom30 .wpnotice-thumbnail-wrapper {
+	padding: 10px 0px 10px 0px !important;
+}
+
+.wpnotice-thumbnail-wrapper img {
+    display: block;
+}
+
+.button.button-primary.btn-embedpress {
+    background-color: #5B4E96;
+}
+
+.btn-embedpress:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+
+.notice-embedpress-review {
+padding: 10px;
+background-color: #fff;
+border-radius: 3px;
+margin: 15px;
+display: -webkit-box;
+display: -ms-flexbox;
+display: flex;
+-webkit-box-align: center;
+-ms-flex-align: center;
+align-items: center;
+}
+.notice-embedpress-review:after {
+content: "";
+display: table;
+clear: both;
+}
+.wpdeveloper-update-notice{
+margin-top: 20px;
+}
+.wpdeveloper-update-notice .notice-dismiss {
+top: auto;
+}
+.wpdeveloper-notice-thumbnail {
+width: 40px;
+float: left;
+padding: 5px 5px 5px 10px;
+text-align: center;
+border-right: 4px solid transparent;
+}
+.wpdeveloper-notice-thumbnail img {
+width: 100%;
+opacity: 0.85;
+-webkit-transition: all 0.3s;
+-o-transition: all 0.3s;
+transition: all 0.3s;
+}
+.wpdeveloper-notice-thumbnail img:hover {
+opacity: 1;
+}
+
+.notice-links {
+margin: 8px 0 0 0;
+padding: 0;
+}
+.notice-links li {
+display: inline-block;
+margin-right: 15px;
+}
+.notice-links li a {
+display: inline-block;
+text-decoration: none;
+position: relative;
+}
+
+.wpdeveloper-notice-message {
+padding: 10px;
+}
+.wpdeveloper-upsale-notice .wpdeveloper-notice-message {
+display: -webkit-box;
+display: -ms-flexbox;
+display: flex;
+-webkit-box-align: center;
+-ms-flex-align: center;
+align-items: center;
+padding: 10px 0;
+}
+.wpdeveloper-upsale-notice .wpdeveloper-notice-message + .notice-dismiss {
+top: 10px;
+}
+.wpdeveloper-upsale-notice #plugin-install-core {
+margin-left: 10px;
+}
+.notice.notice-has-thumbnail {
+padding-left: 0;
+display: flex;
+align-items: center;
+}
+.wpdeveloper-upsale-notice {
+display: -webkit-box;
+display: -ms-flexbox;
+display: flex;
+}
+.wpdeveloper-upsale-notice .wpdeveloper-notice-thumbnail {
+padding: 10px;
+width: 40px;
+}
+.wpdeveloper-upsale-notice .wpdeveloper-notice-thumbnail img {
+width: 32px;
+}
+.toplevel_page_eael-settings .wp-menu-image img {
+max-width: 20px;
+padding-top: 8px !important;
+}
+.wpdeveloper-upsale-notice .wpdeveloper-notice-message .button {
+margin-left: 15px;
+}
+
+#embedpress-settings-wrapper a.embedpress-settings-link {
+color: #0073aa;
+}
