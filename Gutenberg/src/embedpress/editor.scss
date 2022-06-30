@@ -12,19 +12,24 @@
 	max-height: 100%;
 }
 .block-editor-block-list__layout .wp-block figure,
-.block-editor-block-list__layout .wp-block iframe,
+.block-editor-block-list__layout .wp-block iframe
 {
 	margin:0;
 }
 @media screen and (max-width: 782px) {
 	.block-editor-block-list__layout .wp-block figure,
-	.block-editor-block-list__layout .wp-block iframe,
+	.block-editor-block-list__layout .wp-block iframe
 	{
 		height:250px;
 	}
 }
+.wp-block-embedpress-embedpress .components-placeholder.wp-block-embed {
+	min-width: 550px;
+}
 
-
+.editor-styles-wrapper .block-editor-block-list__layout.is-root-container > :where(:not(.alignleft):not(.alignright)) {
+	max-width: 100% !important;
+}
 
 /*Meetup Event styling starts */
 .embedpress-event .link {
