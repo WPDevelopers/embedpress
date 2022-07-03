@@ -71,7 +71,10 @@ class Notice extends Base {
 
 	private function get_content(){
 		if(is_callable($this->content)){
-			return call_user_func($this->content);
+			ob_start();
+			call_user_func($this->content);
+			$opt_in_content = ob_get_clean();
+			return $opt_in_content;
 		}
 		return $this->content;
 	}
