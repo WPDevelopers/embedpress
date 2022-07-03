@@ -382,7 +382,7 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [3.4.3] - 2022-06-30 =
+= [3.4.3] - 2022-07-03 =
 * Fixed: Stopped working in Multisite Environment.
 * Few minor bug fix and improvements.
 
