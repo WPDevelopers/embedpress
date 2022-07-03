@@ -117,10 +117,6 @@ trait Shared {
             ]
         );
 
-        // ob_start();
-        // $this->insights->notice();
-        // $opt_in_content = ob_get_clean();
-
         $notices->add(
             'optin',
             [$this->insights, 'notice'],
@@ -131,9 +127,6 @@ trait Shared {
                 'display_if'  => ! is_array( $notices->is_installed( 'embedpress-pro/embedpress-pro.php' ) )
             ]
         );
-        // if( ! empty( $opt_in_content ) ) {
-        // }
-
 
         $notices->init();
 

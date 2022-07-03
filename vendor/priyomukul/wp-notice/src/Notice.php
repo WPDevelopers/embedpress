@@ -44,7 +44,6 @@ class Notice extends Base {
 	public function __construct( ...$args ){
 		list( $id, $content, $options, $queue, $app ) = $args;
 
-
 		$this->app     = $app;
 		$this->id      = $id;
 		$this->content = $content;
@@ -67,6 +66,14 @@ class Notice extends Base {
 		} else {
 			$this->options = wp_parse_args( $queue[ $id ], $this->options );
 		}
+
+		if( isset( $this->options['do_action'] ) ) {
+			add_action( 'admin_init', [ $this, 'do_action' ] );
+		}
+	}
+
+	public function do_action(){
+		do_action( $this->options['do_action'], $this );
 	}
 
 	private function get_content(){
@@ -84,6 +91,7 @@ class Notice extends Base {
 			return;
 		}
 		$content = $this->get_content();
+		$links = $this->get_links();
 
 		// Print the notice.
 		printf(
@@ -92,8 +100,12 @@ class Notice extends Base {
 			esc_attr( $this->get_classes() ), // The classes.
 			! empty( $content['thumbnail'] ) ? $this->get_thumbnail( $content['thumbnail'] ) : '',
 			! empty( $content['html'] ) ? $content['html'] : $content,
-			! empty( $content['links'] ) ? $this->links( $content['links'] ) : ''
+			! empty( $links ) ? $this->links( $links ) : ''
 		);
+	}
+
+	public function get_links(){
+		return ! empty( $this->content['links'] ) ? $this->content['links'] : ( ! empty( $this->options['links'] ) ?  $this->options['links'] : []);
 	}
 
 	// 'later' => array(
@@ -131,8 +143,15 @@ class Notice extends Base {
 
 	public function attributes( $params = [] ){
 		$_attr = [];
+		$classname = 'dismiss-btn ';
 
-		$_attr[] = 'class="dismiss-btn"';
+		if( ! empty( $params['class'] ) ) {
+			$classname .= $params['class'];
+			unset( $params['class'] );
+		}
+
+		$_attr[] = 'class="' . esc_attr( $classname ) . '"';
+
 		$_attr[] = 'target="_blank"';
 		if( ! empty( $params ) ) {
 			foreach( $params as $key => $value ) {

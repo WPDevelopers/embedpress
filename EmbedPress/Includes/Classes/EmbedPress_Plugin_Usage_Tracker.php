@@ -659,7 +659,7 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 		 * Responsible for track the click from Notice.
 		 * @return void
 		 */
-		public function clicked(){
+		public function clicked( $notice = null ){
 			if( isset( $_GET['plugin'] ) && trim($_GET['plugin']) === $this->plugin_name && isset( $_GET['plugin_action'] ) ) {
 				if( isset( $_GET['tab'] ) && $_GET['tab'] === 'plugin-information' ) {
                     return;
@@ -671,6 +671,9 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 					$this->set_is_tracking_allowed( true, $plugin );
 					if( $this->do_tracking( true ) ) {
 						$this->update_block_notice( $plugin );
+						if( ! is_null ( $notice ) ) {
+							$notice->dismiss->dismiss_notice();
+						}
 					}
 					/**
 					 * Redirect User To the Current URL, but without set query arguments.
@@ -679,6 +682,9 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 				} else {
 					$this->set_is_tracking_allowed( false, $plugin );
 					$this->update_block_notice( $plugin );
+					if( ! is_null ( $notice ) ) {
+						$notice->dismiss->dismiss_notice();
+					}
 				}
 			}
 		}
