@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:priyomukul/wp-notice.git",
-                "reference": "d6300563a1b06f61639864b4e3a03c675a688ae6"
+                "reference": "4ad4f177d06cdde4e9f2908f60215cfc32b93cfa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/priyomukul/wp-notice/zipball/d6300563a1b06f61639864b4e3a03c675a688ae6",
-                "reference": "d6300563a1b06f61639864b4e3a03c675a688ae6",
+                "url": "https://api.github.com/repos/priyomukul/wp-notice/zipball/4ad4f177d06cdde4e9f2908f60215cfc32b93cfa",
+                "reference": "4ad4f177d06cdde4e9f2908f60215cfc32b93cfa",
                 "shasum": ""
             },
             "default-branch": true,
@@ -37,7 +37,7 @@
                 "source": "https://github.com/priyomukul/wp-notice/tree/main",
                 "issues": "https://github.com/priyomukul/wp-notice/issues"
             },
-            "time": "2022-06-30T13:30:48+00:00"
+            "time": "2022-07-03T06:35:15+00:00"
         },
         {
             "name": "wpdevelopers/embera",
@@ -112,5 +112,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.3.0"
 }

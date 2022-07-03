@@ -69,20 +69,27 @@ class Notice extends Base {
 		}
 	}
 
+	private function get_content(){
+		if(is_callable($this->content)){
+			return call_user_func($this->content);
+		}
+		return $this->content;
+	}
 
 	public function display( $force = false ){
 		if ( ! $force && ! $this->show() ) {
 			return;
 		}
+		$content = $this->get_content();
 
 		// Print the notice.
 		printf(
 			'<div style="display: grid; grid-template-columns: 50px 1fr; align-items: center;" id="%1$s" class="%2$s">%3$s<div class="wpnotice-content-wrapper">%4$s%5$s</div></div>',
 			'wpnotice-' . esc_attr( $this->app->app ) . '-' . esc_attr( $this->id ), // The ID.
 			esc_attr( $this->get_classes() ), // The classes.
-			! empty( $this->content['thumbnail'] ) ? $this->get_thumbnail( $this->content['thumbnail'] ) : '',
-			! empty( $this->content['html'] ) ? $this->content['html'] : $this->content,
-			! empty( $this->content['links'] ) ? $this->links( $this->content['links'] ) : ''
+			! empty( $content['thumbnail'] ) ? $this->get_thumbnail( $content['thumbnail'] ) : '',
+			! empty( $content['html'] ) ? $content['html'] : $content,
+			! empty( $content['links'] ) ? $this->links( $content['links'] ) : ''
 		);
 	}
 
