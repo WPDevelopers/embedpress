@@ -106,6 +106,9 @@ function is_embedpress_pro_active() {
  */
 function get_embedpress_pro_version() {
 	if ( is_embedpress_pro_active() ) {
+		if(defined('EMBEDPRESS_PRO_PLUGIN_VERSION')){
+			return EMBEDPRESS_PRO_PLUGIN_VERSION;
+		}
 		$p = wp_get_active_and_valid_plugins();
 		$p = array_filter( $p, function ( $plugin){
 			return !empty( strpos( $plugin, 'embedpress-pro'));
