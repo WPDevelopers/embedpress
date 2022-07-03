@@ -273,7 +273,7 @@ class Notice extends Base {
 
 	public function __call( $name, $args ){
 		if( property_exists( $this, $name ) ) {
-			return $this->$name[ $args[0] ];
+			return $this->{$name}[ $args[0] ];
 		}
 	}
 

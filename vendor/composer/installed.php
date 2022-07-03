@@ -5,7 +5,7 @@
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'd3a4646d9e39493277c7c3ec683a93013104cbe6',
+        'reference' => 'd2ffe0de0b676a68c3534f11ed7839d518068eab',
         'name' => 'embedpress/embedpress',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'd3a4646d9e39493277c7c3ec683a93013104cbe6',
+            'reference' => 'd2ffe0de0b676a68c3534f11ed7839d518068eab',
             'dev_requirement' => false,
         ),
         'priyomukul/wp-notice' => array(
@@ -27,7 +27,7 @@
             'aliases' => array(
                 0 => '9999999-dev',
             ),
-            'reference' => 'ba071117f68156dbcf73feee33ff47d594256d7b',
+            'reference' => '83de1a5ccd2e8492b36459d4a7e3211fe999ee9c',
             'dev_requirement' => false,
         ),
         'wpdevelopers/embera' => array(
