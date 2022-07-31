@@ -5,6 +5,8 @@
  * @version 3.0.0
  */
 namespace EmbedPress\Includes\Classes;
+
+use WP_Error;
 /**
  * Exit if accessed directly
  */
@@ -178,7 +180,10 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 			}
 
 			$current_url = http_build_query($current_url);
-			$redirect_url = $request_uri . '?' . $current_url;
+			$redirect_url = $request_uri;
+			if( $current_url ) {
+				$redirect_url .= '?' . $current_url;
+			}
 			return $redirect_url;
 		}
 		/**
@@ -675,10 +680,6 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 							$notice->dismiss->dismiss_notice();
 						}
 					}
-					/**
-					 * Redirect User To the Current URL, but without set query arguments.
-					 */
-					wp_safe_redirect( $this->redirect_to() );
 				} else {
 					$this->set_is_tracking_allowed( false, $plugin );
 					$this->update_block_notice( $plugin );
@@ -686,6 +687,10 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 						$notice->dismiss->dismiss_notice();
 					}
 				}
+				/**
+				 * Redirect User To the Current URL, but without set query arguments.
+				 */
+				wp_safe_redirect( $this->redirect_to() );
 			}
 		}
 		/**
