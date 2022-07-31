@@ -100,30 +100,14 @@ trait Shared {
             ]
         );
 
-        $_freedom30_notice= [
-            'thumbnail' => $_assets_url . 'images/freedom30.png',
-            'html' => '<p>'. __( 'Celebrate independence & upgrade to <strong>EmbedPress PRO</strong> with up to <strong>50% OFF</strong> to use all the premium features from today', 'embedpress' ) .' <a class="button button-primary btn-embedpress" target="_blank" href="https://embedpress.com/#pricing">Claim My Offer</a></p>',
-        ];
-
-        $notices->add(
-            'freedom30',
-            $_freedom30_notice,
-            [
-                'start'       => $notices->time(),
-                'expire'      => strtotime( '5th July 2022 11:59:59 PM' ),
-                'recurrence'  => false,
-                'dismissible' => true,
-                'display_if'  => ! is_array( $notices->is_installed( 'embedpress-pro/embedpress-pro.php' ) )
-            ]
-        );
-
         $notices->add(
             'optin',
             [$this->insights, 'notice'],
             [
-                'start'       => $notices->strtotime( '+20 day' ),
+                'start'       => $notices->time(),
                 'recurrence'  => 30,
                 'dismissible' => true,
+                'do_action'   => 'wpdeveloper_notice_clicked_for_embedpress',
                 'display_if'  => ! is_array( $notices->is_installed( 'embedpress-pro/embedpress-pro.php' ) )
             ]
         );
