@@ -105,6 +105,20 @@ class Youtube extends ProviderAdapter implements ProviderInterface
             $the_playlist_id = $response["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"];
             $rel = 'https://www.youtube.com/embed?listType=playlist&list=' . esc_attr($the_playlist_id);
             $gallery = $this->get_gallery_page(['playlistId' => $the_playlist_id]);
+            $main_iframe = "";
+            if(!self::gdpr_mode()){
+                $main_iframe = "<iframe width='640' height='360' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='WELCOME TO THE CLASSIC MR. BEAN CHANNEL'></iframe>";
+            }
+            else{
+                $main_iframe = "
+                    <div class='ep-gdrp-content'>
+                        <p><strong>Please accept YouTube cookies to play this video</strong>. By accepting you will be accessing content from YouTube, a service provided by an external third party.</p>
+                        <p><a href='#'>YouTube privacy policy</a></p>                        
+                        <p>If you accept this notice, your choice will be saved and the page will refresh.</p>
+                        <button>Accept YouTube Content</button>
+                    </div>
+                ";
+            }
             return [
                 "title"            => "WELCOME TO THE CLASSIC MR. BEAN CHANNEL",
                 "author_name"      => "Classic Mr Bean",
@@ -118,7 +132,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface
                 "thumbnail_height" => 360,
                 "thumbnail_width"  => 480,
                 "thumbnail_url"    => "https://i.ytimg.com/vi/b0P8-_uRtmM/hqdefault.jpg",
-                "html"             => "<iframe width='640' height='360' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='WELCOME TO THE CLASSIC MR. BEAN CHANNEL'></iframe>" . $gallery,
+                "html"             => "<div class='ep-player-wrap'>$main_iframe</div>" . $gallery,
             ];
         }
         return $response;
@@ -179,9 +193,151 @@ class Youtube extends ProviderAdapter implements ProviderInterface
                     'THIS IS DEBUG MODE OUTPUT. UNCHECK THE OPTION IN THE SETTINGS PAGE ONCE YOU ARE DONE DEBUGGING TO PUT THINGS BACK TO NORMAL.' . "\n\n" . $redactedEndpoint . "\n\n" . print_r($apiResult, true) . "\n\nActive Plugins\n\n" . print_r($active_plugins, true) . '</pre>';
             return $gallobj;
         }
+        ob_start();
 
         $jsonResult = json_decode($apiResult['body']);
+//        print_r($jsonResult);
+//        die;
 
+        ?>
+        <?php  ?>
+        <div class="ep-youtube__contnet__block">
+            <div class="youtube__content__body">
+                <div class="content__wrap">
+                    <?php foreach ($jsonResult->items as $item){?>
+
+                        <div class="item">
+                            <div class="thumb" style="background: <?php echo self::gdpr_mode() ? '#222' : "url({$item->snippet->thumbnails->medium->url}) no-repeat center";?>">
+                                <div class="play-icon">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/2560px-YouTube_full-color_icon_%282017%29.svg.png" alt="">
+                                </div>
+                            </div>
+                            <div class="body">
+                                <p><?php echo $item->snippet->title;?></p>
+                            </div>
+                        </div>
+
+                    <?php } ?>
+                </div>
+                <div class="ep-youtube__content__pagination">
+                    <div class="ep-prev">
+                        <span>Prev</span>
+                    </div>
+                    <div class="ep-page-numbers">
+                        <span class="current-page">3</span>
+                        <span class="page-separator">/</span>
+                        <span class="total-page">6</span>
+                    </div>
+                    <div class="ep-next">
+                        <span>Next</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <style>
+            .ep-gdrp-content {
+                background: #222;
+                padding: 50px 30px;
+                color: #fff;
+            }
+            .ep-gdrp-content a {
+                color: #fff;
+            }
+            .ep-youtube__content__pagination {
+                display: flex;
+                justify-content: center;
+                align-content: center;
+                margin-top: 30px;
+                gap: 15px;
+            }
+            .ep-youtube__content__pagination .ep-prev,
+            .ep-youtube__content__pagination .ep-next {
+                cursor: pointer;
+            }
+
+            .ep-youtube__contnet__block .youtube__content__body .content__wrap {
+                margin-top: 30px;
+                display: grid;
+                grid-template-columns: repeat(4, auto); /* column number */
+                gap: 30px;
+            }
+            .ep-youtube__contnet__block .item {
+                cursor: pointer;
+            }
+
+            .ep-youtube__contnet__block .item:hover .thumb .play-icon {
+                opacity: 1;
+                top: 50%;
+            }
+            .ep-youtube__contnet__block .item:hover .thumb:after {
+                opacity: .4;
+                z-index: 0;
+            }
+            .ep-youtube__contnet__block .thumb {
+                padding-top: 56.25%;
+                margin-bottom: 5px;
+                position: relative;
+                background: #222;
+                background-size: contain !important;
+            }
+
+            .ep-youtube__contnet__block .thumb:after {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                content: '';
+                background: #000;
+                opacity: 0;
+                transition: opacity .3s ease;
+            }
+            .ep-youtube__contnet__block .thumb:before {
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 100%;
+                width: 100%;
+                content: '';
+                background: #222;
+                z-index: -1;
+            }
+            .ep-youtube__contnet__block .thumb img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            .ep-youtube__contnet__block .thumb .play-icon {
+                width: 50px;
+                height: auto;
+                position: absolute;
+                top: 40%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                opacity: 0;
+                transition: all .3s ease;
+                z-index: 2;
+            }
+            .ep-youtube__contnet__block .thumb .play-icon img {
+                width: 100;
+            }
+            .ep-youtube__contnet__block .body p {
+                margin-bottom: 0;
+                font-size: 18px;
+                font-weight: 400;
+            }
+
+        </style>
+
+
+
+        <?php
+        return ob_get_clean();
+
+
+//
         if (isset($jsonResult->error))
         {
             if (isset($jsonResult->error->message))
@@ -328,7 +484,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface
 
     public static function gdpr_mode()
     {
-        return (bool) 1;
+        return (bool) 0;
     }
 
     public static function get_thumbnail_html($thumb, $options)
