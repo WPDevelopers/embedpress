@@ -123,6 +123,40 @@ class Embedpress_Pdf extends Widget_Base
         );
 
         $this->add_control(
+            'embedpress_pdf_zoom',
+            [
+                'label'   => __( 'Zoom', 'embedpress' ),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'auto',
+                'options' => [
+                    'auto'        => __( 'Automatic Zoom', 'embedpress' ),
+                    'page-actual' => __( 'Actual Size', 'embedpress' ),
+                    'page-fit'    => __( 'Page Fit', 'embedpress' ),
+                    'page-width'  => __( 'Page Width', 'embedpress' ),
+                    'custom'      => __( 'Custom', 'embedpress' ),
+                    '50'          => __( '50%', 'embedpress' ),
+                    '75'          => __( '75%', 'embedpress' ),
+                    '100'         => __( '100%', 'embedpress' ),
+                    '125'         => __( '125%', 'embedpress' ),
+                    '150'         => __( '150%', 'embedpress' ),
+                    '200'         => __( '200%', 'embedpress' ),
+                    '300'         => __( '300%', 'embedpress' ),
+                    '400'         => __( '400%', 'embedpress' ),
+                ],
+            ]
+        );
+        $this->add_control(
+            'embedpress_pdf_zoom_custom',
+            [
+                'label'         => __( 'Custom Zoom', 'embedpress' ),
+                'type'          => Controls_Manager::NUMBER,
+                'condition'     => [
+                    'embedpress_pdf_zoom' => 'custom'
+                ],
+            ]
+        );
+
+        $this->add_control(
             'embedpress_elementor_document_width',
             [
                 'label'     => __( 'Width', 'embedpress' ),
@@ -272,6 +306,20 @@ class Embedpress_Pdf extends Widget_Base
                     $this->add_render_attribute( 'embedpres-pdf-render', 'data-emsrc', $url );
 	                $renderer = Helper::get_pdf_renderer();
 	                $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $url;
+                    if(!empty($settings['embedpress_pdf_zoom'])){
+                        $zoom = $settings['embedpress_pdf_zoom'];
+                        if($zoom == 'custom'){
+                            if(!empty($settings['embedpress_pdf_zoom_custom'])){
+                                $zoom = $settings['embedpress_pdf_zoom_custom'];
+                            }
+                            else{
+                                $zoom = null;
+                            }
+                        }
+                        if($zoom){
+                            $src = $src . "#zoom=$zoom";
+                        }
+                    }
                     ?>
                     <iframe style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block"  src="<?php echo esc_attr(  $src); ?>" <?php $this->get_render_attribute_string( 'embedpres-pdf-render' ); ?>
                             frameborder="0"></iframe>
