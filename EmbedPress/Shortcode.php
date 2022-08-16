@@ -142,7 +142,7 @@ class Shortcode {
             $urlData = self::get_url_data( $url, self::$ombed_attributes, $serviceProvider);
 
             // Sanitize the data
-            $urlData = self::sanitizeUrlData( $urlData );
+            $urlData = self::sanitizeUrlData( $urlData, $url );
 
             // Stores the original content
             if ( is_object( $urlData ) ) {
@@ -279,6 +279,7 @@ KAMAL;
                     'embed'      => $parsedContent,
                     'url'        => $url,
                 ] );
+                // print_r($embed);die;
                 $embed = self::modify_spotify_content( $embed);
                 $embed = apply_filters( 'embedpress:onAfterEmbed', $embed );
                 return $embed;
@@ -583,12 +584,12 @@ KAMAL;
      * @static
      *
      */
-    private static function sanitizeUrlData( $data ) {
+    private static function sanitizeUrlData( $data, $url = '' ) {
         if ( is_object( $data ) ) {
             $attributes = get_object_vars( $data );
 
             foreach ( $attributes as $key => $value ) {
-                if ( substr_count( $key, '-' ) ) {
+                if ( substr_count( $key, '-' ) && $key !== $url ) {
                     unset( $data->$key );
 
                     $key = str_replace( '-', '_', $key );
@@ -597,7 +598,7 @@ KAMAL;
             }
         } elseif ( is_array( $data ) ) {
             foreach ( $data as $key => $value ) {
-                if ( substr_count( $key, '-' ) ) {
+                if ( substr_count( $key, '-' ) && $key !== $url ) {
                     unset( $data[ $key ] );
 
                     $key = str_replace( '-', '_', $key );

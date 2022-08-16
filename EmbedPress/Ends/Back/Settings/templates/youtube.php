@@ -4,6 +4,7 @@
  *  All undefined vars comes from 'render_settings_page' method
  *  */
 $yt_settings = get_option( EMBEDPRESS_PLG_NAME.':youtube');
+$api_key = isset( $yt_settings['api_key']) ? $yt_settings['api_key'] : '';
 $start_time = isset( $yt_settings['start_time']) ? $yt_settings['start_time'] : 0;
 $end_time = isset( $yt_settings['end_time']) ? $yt_settings['end_time'] : 0;
 $autoplay = isset( $yt_settings['autoplay']) ? $yt_settings['autoplay'] : '';
@@ -33,6 +34,14 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
 	        <?php
 	        do_action( 'embedpress_before_youtube_settings_fields');
             echo  $nonce_field ; ?>
+            <div class="form__group">
+                <p class="form__label" ><?php esc_html_e( "Youtube API key", "embedpress" ); ?> </p>
+                <div class="form__control__wrap">
+                    <input type="text"  name="api_key" id="api_key" class="form__control" data-default="<?php echo esc_attr( $api_key); ?>" value="<?php echo esc_attr( $api_key); ?>" >
+                    <p><?php esc_html_e( "Please insert your YouTube API key.", "embedpress" ); ?></p>
+                </div>
+
+            </div>
             <div class="form__group">
                 <p class="form__label" ><?php esc_html_e( "Start Time (In Seconds)", "embedpress" ); ?> </p>
                 <div class="form__control__wrap">
