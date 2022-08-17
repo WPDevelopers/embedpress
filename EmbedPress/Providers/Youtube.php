@@ -84,34 +84,36 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
     /** inline {@inheritdoc} */
     public function getParams() {
+        $params = parent::getParams();
         if ($this->isChannel() && self::get_api_key()) {
-            $channel = $this->getChannel();
-            $params = [
-                'part' => 'contentDetails,snippet',
-                'key'  => self::get_api_key(),
-            ];
+            $channel        = $this->getChannel();
+            $params['part'] = 'contentDetails,snippet';
+            $params['key']  = self::get_api_key();
             if ($channel['type'] == 'c') {
                 $params['forUsername'] = $channel['id'];
             } else {
                 $params['id'] = $channel['id'];
             }
-            return $params;
         }
-        return parent::getParams();
+        return $params;
     }
 
     /** inline {@inheritdoc} */
     public function modifyResponse(array $response = []) {
         if (!empty($response["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"])) {
-            $the_playlist_id = $response["items"][0]["contentDetails"]["relatedPlaylists"]["uploads"];
+            $params = $this->getParams();
+            // print_r($params);die;
+            $items = $response["items"][0];
+            $the_playlist_id = $items["contentDetails"]["relatedPlaylists"]["uploads"];
             $rel = 'https://www.youtube.com/embed?listType=playlist&list=' . esc_attr($the_playlist_id);
             $gallery = self::get_gallery_page(['playlistId' => $the_playlist_id]);
+            $title = !empty($items["snippet"]["title"]) ? $items["snippet"]["title"] : '';
             $main_iframe = "";
             if (!self::gdpr_mode()) {
                 if (!empty($gallery->first_vid)) {
                     $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
                 }
-                $main_iframe = "<iframe width='640' height='360' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$gallery->title}'></iframe>";
+                $main_iframe = "<iframe width='640' height='360' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe>";
             } else {
                 $main_iframe = "
                     <div class='ep-gdrp-content'>
@@ -155,7 +157,6 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $nextPageToken = '';
         $prevPageToken = '';
         $gallobj = new \stdClass();
-        $gallobj->title = '';
         $options = wp_parse_args($options, [
             'playlistId'        => '',
             'pageToken'         => '',
@@ -165,7 +166,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             'showPaging'        => '',
             'autonext'          => '',
             'thumbplay'         => '',
-            'thumbnail_quality' => 'default',
+            'thumbnail_quality' => 'high',
             'apiKey'            => self::get_api_key(),
             'opt_gallery_hideprivate'  => '',
         ]);
@@ -193,6 +194,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $jsonResult = json_decode($apiResult['body']);
             if (empty($jsonResult->error)) {
                 set_transient($transient_key, $jsonResult, HOUR_IN_SECONDS);
+            }
+            else{
+                set_transient($transient_key, $jsonResult, 120);
             }
         }
 
@@ -242,7 +246,6 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                             $vid = $vid ? $vid : (isset($item->id) ? $item->id : null);
                             if (empty($gallobj->first_vid)) {
                                 $gallobj->first_vid = $vid;
-                                $gallobj->title = isset($item->snippet->title) ? $item->snippet->title : '';
                             }
                             if ($privacyStatus == 'private' && $options['opt_gallery_hideprivate']) {
                                 continue;
@@ -251,7 +254,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                             <div class="item" data-vid="<?php echo $vid; ?>">
                                 <div class="thumb" style="background: <?php echo self::gdpr_mode() ? '#222' : "url({$thumbnail}) no-repeat center"; ?>">
                                     <div class="play-icon">
-                                        <img src="<?php echo EMBEDPRESS_URL_ASSETS . '/images/youtube/youtube-play.png'; ?>" alt="">
+                                        <img src="<?php echo EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'; ?>" alt="">
                                     </div>
                                 </div>
                                 <?php if ($options['showTitle']) : ?>
