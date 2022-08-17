@@ -90,6 +90,9 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		$header_dom = $dom->find('div[data-event-label="top"]', 0);
 		$body_dom = $dom->find('div[data-event-label="body"]', 0);
 		$event_location_info = $dom->find( 'div[data-event-label="info"] .sticky', 0);
+		if(empty($header_dom) || empty($body_dom) || empty($event_location_info)){
+			return [];
+		}
 		$dewqijm = $event_location_info->find('.dewqijm', 0)->find('span', 0);
 		$img = $dewqijm->find('noscript', 0)->innertext();
 		$dewqijm->removeChild($dewqijm->find('img', 1));
@@ -166,7 +169,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 			}
 
 			.ep-event-header .ep-event--host .flex div {
-				line-height: 1.3 !important; 
+				line-height: 1.3 !important;
 			}
 			.ep-event-header .ep-event--host img {
 				border-radius: 50%;
@@ -188,7 +191,7 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 			.embedpress-event aside .sticky .hidden {
 				display: block;
 			}
-			.embedpress-event aside .sticky .hidden, 
+			.embedpress-event aside .sticky .hidden,
 			.embedpress-event aside .sticky .hidden + div {
 				flex: 0 0 calc(50% - 15px);
 			}
