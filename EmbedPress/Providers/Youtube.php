@@ -113,7 +113,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                 if (!empty($gallery->first_vid)) {
                     $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
                 }
-                $main_iframe = "<iframe width='640' height='360' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe>";
+                $main_iframe = "<iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe>";
             } else {
                 $main_iframe = "
                     <div class='ep-gdrp-content'>
@@ -129,7 +129,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $styles = self::styles();
 
             return [
-                "title"         => $gallery->title,
+                "title"         => $title,
                 "type"          => "video",
                 "provider_name" => "YouTube",
                 "provider_url"  => "https://www.youtube.com/",
@@ -166,7 +166,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             'showPaging'        => '',
             'autonext'          => '',
             'thumbplay'         => '',
-            'thumbnail_quality' => 'high',
+            'thumbnail_quality' => 'medium',
             'apiKey'            => self::get_api_key(),
             'opt_gallery_hideprivate'  => '',
         ]);
@@ -235,7 +235,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         ?>
             <div class="ep-youtube__contnet__block">
                 <div class="youtube__content__body">
-                    <div class="content__wrap ep-col-<?php echo intval(!empty($options['columns']) ? $options['columns'] : 3); ?>">
+                    <div class="content__wrap">
                         <?php foreach ($jsonResult->items as $item) : ?>
                             <?php
                             $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
@@ -277,8 +277,11 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                         <div class="ep-next <?php echo empty($nextPageToken) ? ' hide ' : ''; ?>" data-playlistid="<?php echo esc_attr($options['playlistId']) ?>" data-pagetoken="<?php echo esc_attr($nextPageToken) ?>" data-pagesize="<?php echo intval($options['pageSize']) ?>" data-epcolumns="<?php echo intval($options['columns']) ?>" data-showtitle="<?php echo intval($options['showTitle']) ?>" data-showpaging="<?php echo intval($options['showPaging']) ?>" data-autonext="<?php echo intval($options['autonext']) ?>" data-thumbplay="<?php echo intval($options['thumbplay']) ?>">
                             <span><?php _e("Next", "embedpress"); ?></span>
                         </div>
-                        <div class="ep-loader hide"><img alt="loading" src="<?php echo EMBEDPRESS_URL_ASSETS . 'images/youtube/gallery-page-loader.gif'; ?>"></div>
                     </div>
+                    <div class="ep-loader-wrap">
+                        <div class="ep-loader"><img alt="loading" src="<?php echo EMBEDPRESS_URL_ASSETS . 'images/youtube/spin.gif'; ?>"></div>
+                    </div>
+                    
                 </div>
             </div>
         <?php
@@ -422,6 +425,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                             formBody.push(encodedKey + "=" + encodedValue);
                         }
                         formBody = formBody.join("&");
+                        
                         var loader = playerWrap.getElementsByClassName("ep-loader");
                         var galleryWrapper = playerWrap.getElementsByClassName(
                             "ep-youtube__contnet__block"
@@ -471,9 +475,14 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             .ep-youtube__content__pagination {
                 display: flex;
                 justify-content: center;
-                align-content: center;
+                align-items: center;
                 margin-top: 30px;
                 gap: 15px;
+            }
+            .ep-loader-wrap {
+                margin-top: 30px;
+                display: flex;
+                justify-content: center;
             }
 
             .ep-youtube__content__pagination .ep-prev,
@@ -484,44 +493,8 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             .ep-youtube__contnet__block .youtube__content__body .content__wrap {
                 margin-top: 30px;
                 display: grid;
-                grid-template-columns: repeat(3, auto);
+                grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
                 gap: 30px;
-            }
-
-            .ep-youtube__contnet__block .content__wrap.ep-col-1 {
-                grid-template-columns: repeat(1, auto);
-            }
-
-            .ep-youtube__contnet__block .content__wrap.ep-col-2 {
-                grid-template-columns: repeat(2, auto);
-            }
-
-            .ep-youtube__contnet__block .content__wrap.ep-col-3 {
-                grid-template-columns: repeat(3, auto);
-            }
-
-            .ep-youtube__contnet__block .content__wrap.ep-col-4 {
-                grid-template-columns: repeat(4, auto);
-            }
-
-            .ep-youtube__contnet__block .content__wrap.ep-col-5 {
-                grid-template-columns: repeat(5, auto);
-            }
-
-            .ep-youtube__contnet__block .content__wrap.ep-col-6 {
-                grid-template-columns: repeat(6, auto);
-            }
-
-            .ep-youtube__contnet__block .content__wrap.ep-col-7 {
-                grid-template-columns: repeat(7, auto);
-            }
-
-            .ep-youtube__contnet__block .content__wrap.ep-col-8 {
-                grid-template-columns: repeat(8, auto);
-            }
-
-            .ep-youtube__contnet__block .content__wrap.ep-col-9 {
-                grid-template-columns: repeat(9, auto);
             }
 
             .ep-youtube__contnet__block .item {
@@ -595,6 +568,20 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                 margin-bottom: 0;
                 font-size: 18px;
                 font-weight: 400;
+            }
+            .ep-youtube__contnet__block.loading .ep-youtube__content__pagination {
+                display: none;
+            }
+
+            .ep-youtube__contnet__block .ep-loader {
+                display: none;
+            }
+
+            .ep-youtube__contnet__block.loading .ep-loader {
+                display: block;
+            }
+            .ep-loader img {
+                width: 20px;
             }
         </style>
 <?php
