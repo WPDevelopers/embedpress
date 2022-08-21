@@ -4,18 +4,34 @@ namespace EmbedPress\Includes\Classes;
 class Feature_Enhancer {
 
 	public function __construct() {
-			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_youtube'], 90 );
-			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_vimeo'], 90 );
-			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_wistia'], 90 );
-			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_twitch'], 90 );
-			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_dailymotion'], 90 );
-			add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_soundcloud'], 90 );
-			add_filter( 'embedpress_gutenberg_youtube_params',
-				[$this, 'embedpress_gutenberg_register_block_youtube'] );
-			add_action( 'init', array( $this, 'embedpress_gutenberg_register_block_vimeo' ) );
-			add_action('embedpress_gutenberg_wistia_block_after_embed', array($this,'embedpress_wistia_block_after_embed'));
-			add_action( 'elementor/widget/embedpres_elementor/skins_init', [ $this, 'elementor_setting_init' ] );
+		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_youtube'], 90 );
+		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_vimeo'], 90 );
+		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_wistia'], 90 );
+		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_twitch'], 90 );
+		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_dailymotion'], 90 );
+		add_filter( 'embedpress:onAfterEmbed', [$this, 'enhance_soundcloud'], 90 );
+		add_filter( 'embedpress_gutenberg_youtube_params',
+			[$this, 'embedpress_gutenberg_register_block_youtube'] );
+		add_action( 'init', array( $this, 'embedpress_gutenberg_register_block_vimeo' ) );
+		add_action('embedpress_gutenberg_wistia_block_after_embed', array($this,'embedpress_wistia_block_after_embed'));
+		add_action( 'elementor/widget/embedpres_elementor/skins_init', [ $this, 'elementor_setting_init' ] );
+        add_action( 'wp_ajax_youtube_rest_api', [$this, 'youtube_rest_api'] );
 	}
+
+    public function youtube_rest_api(){
+        $result = \EmbedPress\Providers\Youtube::get_gallery_page([
+            'playlistId'        => isset($_POST['playlistid']) ? sanitize_text_field($_POST['playlistid']) : null,
+            'pageToken'         => isset($_POST['pagetoken']) ? sanitize_text_field($_POST['pagetoken']) : null,
+            'pageSize'          => isset($_POST['pagesize']) ? sanitize_text_field($_POST['pagesize']) : null,
+            'columns'           => isset($_POST['epcolumns']) ? sanitize_text_field($_POST['epcolumns']) : null,
+            'showTitle'         => isset($_POST['showtitle']) ? sanitize_text_field($_POST['showtitle']) : null,
+            'showPaging'        => isset($_POST['showpaging']) ? sanitize_text_field($_POST['showpaging']) : null,
+            'autonext'          => isset($_POST['autonext']) ? sanitize_text_field($_POST['autonext']) : null,
+            'thumbplay'         => isset($_POST['thumbplay']) ? sanitize_text_field($_POST['thumbplay']) : null,
+            'thumbnail_quality' => isset($_POST['thumbnail_quality']) ? sanitize_text_field($_POST['thumbnail_quality']) : null,
+        ]);
+        wp_send_json($result);
+    }
 
 	public function elementor_setting_init(  ) {
 		$this->remove_classic_filters();
@@ -123,7 +139,7 @@ class Feature_Enhancer {
 			unset($params['color']);
 		}
 		return apply_filters( 'embedpress_vimeo_params', $params);
-		
+
 	}
     //--- For CLASSIC AND BLOCK EDITOR
 	public function enhance_youtube( $embed )
@@ -568,7 +584,7 @@ class Feature_Enhancer {
 			</div>
 		<?php
 		endif;
-		
+
 		return apply_filters( 'embedpress_gutenberg_block_markup', ob_get_clean());
 	}
 	public function get_youtube_settings_schema() {
