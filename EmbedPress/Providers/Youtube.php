@@ -30,7 +30,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     protected $endpoint = 'https://www.youtube.com/oembed?format=json&scheme=https';
     protected static $channel_endpoint = 'https://www.googleapis.com/youtube/v3/';
     /** @var array Array with allowed params for the current Provider */
-    protected $allowedParams = [ 'maxwidth', 'maxheight', 'pageSize', 'thumbnail', 'hideprivate' ];
+    protected $allowedParams = [ 'maxwidth', 'maxheight', 'pageSize', 'thumbnail', 'gallery', 'hideprivate' ];
 
     /** inline {@inheritdoc} */
     protected static $hosts = [
@@ -39,6 +39,10 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
     /** inline {@inheritdoc} */
     protected $httpsSupport = true;
+
+    public function getAllowedParams(){
+        return $this->allowedParams;
+    }
 
     /** inline {@inheritdoc} */
     public function validateUrl(Url $url) {
@@ -216,16 +220,17 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                 'pageSize'   => isset($params['pageSize']) ? $params['pageSize'] : 6,
                 'playlistId' => $the_playlist_id,
             ]);
-            $title           = $channel['title'];
-            $main_iframe     = "";
+            $title       = $channel['title'];
+            $main_iframe = "";
+            $styles      = self::styles();
 
             if (!empty($gallery->first_vid)) {
                 $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
-                $main_iframe = "<iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe>";
             }
+            $main_iframe = "<iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe>";
             return [
                 "title"         => $title,
-                "html"          => "<div class='ep-player-wrap'>$main_iframe {$gallery->html}</div>",
+                "html"          => "<div class='ep-player-wrap'>$main_iframe {$gallery->html} $styles</div>",
             ];
         }
         elseif ($this->isChannel() && empty(self::get_api_key()) && current_user_can('manage_options')) {
@@ -252,6 +257,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             'pageSize'    => 6,
             'columns'     => 2,
             'thumbnail'   => 'medium',
+            'gallery'     => true,
             'autonext'    => true,
             'thumbplay'   => true,
             'apiKey'      => self::get_api_key(),
@@ -311,24 +317,36 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $prevPageToken = $jsonResult->prevPageToken;
         }
 
-        ob_start();
         if (!empty($jsonResult->items) && is_array($jsonResult->items)) :
+            if($options['gallery'] === "false"){
+                $gallobj->html = "";
+                if(count($jsonResult->items) === 1){
+                    $gallobj->first_vid = self::get_id($jsonResult->items[0]);
+                }
+                return $gallobj;
+            }
+
+            if(count($jsonResult->items) === 1){
+                $gallobj->first_vid = self::get_id($jsonResult->items[0]);
+                $gallobj->html = "";
+                return $gallobj;
+            }
+
             if (strpos($options['playlistId'], 'UU') === 0) {
                 // sort only channels
                 usort($jsonResult->items, array(get_class(), 'compare_vid_date')); // sorts in place
             }
-        ?>
-            <div class="ep-youtube__contnet__block">
+
+            ob_start();
+            ?>
+            <div class="ep-youtube__content__block">
                 <div class="youtube__content__body">
                     <div class="content__wrap">
                         <?php foreach ($jsonResult->items as $item) : ?>
                             <?php
                             $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
                             $thumbnail = self::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
-
-                            $vid = isset($item->snippet->resourceId->videoId) ? $item->snippet->resourceId->videoId : null;
-                            $vid = $vid ? $vid : (isset($item->id->videoId) ? $item->id->videoId : null);
-                            $vid = $vid ? $vid : (isset($item->id) ? $item->id : null);
+                            $vid = self::get_id($item);
                             if (empty($gallobj->first_vid)) {
                                 $gallobj->first_vid = $vid;
                             }
@@ -377,14 +395,21 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
                 </div>
             </div>
-        <?php
+            <?php
+            $gallobj->html = ob_get_clean();
         else:
-            echo __("There is nothing on the playlist.", 'embedpress');
+            $gallobj->html = __("There is nothing on the playlist.", 'embedpress');
         endif;
-        $gallobj->html = ob_get_clean();
+
         return $gallobj;
     }
 
+    public static function get_id($item){
+        $vid = isset($item->snippet->resourceId->videoId) ? $item->snippet->resourceId->videoId : null;
+        $vid = $vid ? $vid : (isset($item->id->videoId) ? $item->id->videoId : null);
+        $vid = $vid ? $vid : (isset($item->id) ? $item->id : null);
+        return $vid;
+    }
     public static function get_thumbnail_url($item, $quality, $privacyStatus) {
         $url = "";
         if ($privacyStatus == 'private') {
@@ -443,5 +468,139 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             'title' => 'Unknown title',
             'html' => '<iframe ' . implode(' ', $attr) . '></iframe>',
         ];
+    }
+
+    public static function styles(){
+        ob_start();
+        ?>
+        <style>
+        .ep-player-wrap .hide {
+            display: none;
+        }
+
+        .ep-gdrp-content {
+            background: #222;
+            padding: 50px 30px;
+            color: #fff;
+        }
+
+        .ep-gdrp-content a {
+            color: #fff;
+        }
+
+        .ep-youtube__content__pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            gap: 15px;
+        }
+        .ep-loader-wrap {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .ep-youtube__content__pagination .ep-prev,
+        .ep-youtube__content__pagination .ep-next {
+            cursor: pointer;
+        }
+
+        .ep-youtube__content__block .youtube__content__body .content__wrap {
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .ep-youtube__content__block .item {
+            cursor: pointer;
+        }
+
+        .ep-youtube__content__block .item:hover .thumb .play-icon {
+            opacity: 1;
+            top: 50%;
+        }
+
+        .ep-youtube__content__block .item:hover .thumb:after {
+            opacity: .4;
+            z-index: 0;
+        }
+
+        .ep-youtube__content__block .thumb {
+            padding-top: 56.25%;
+            margin-bottom: 5px;
+            position: relative;
+            background: #222;
+            background-size: contain !important;
+        }
+
+        .ep-youtube__content__block .thumb:after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            content: '';
+            background: #000;
+            opacity: 0;
+            transition: opacity .3s ease;
+        }
+
+        .ep-youtube__content__block .thumb:before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+            content: '';
+            background: #222;
+            z-index: -1;
+        }
+
+        .ep-youtube__content__block .thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .ep-youtube__content__block .thumb .play-icon {
+            width: 50px;
+            height: auto;
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: all .3s ease;
+            z-index: 2;
+        }
+
+        .ep-youtube__content__block .thumb .play-icon img {
+            width: 100;
+        }
+
+        .ep-youtube__content__block .body p {
+            margin-bottom: 0;
+            font-size: 18px;
+            font-weight: 400;
+        }
+        .ep-youtube__content__block.loading .ep-youtube__content__pagination {
+            display: none;
+        }
+
+        .ep-youtube__content__block .ep-loader {
+            display: none;
+        }
+
+        .ep-youtube__content__block.loading .ep-loader {
+            display: block;
+        }
+        .ep-loader img {
+            width: 20px;
+        }
+        </style>
+        <?php
+        return ob_get_clean();
     }
 }

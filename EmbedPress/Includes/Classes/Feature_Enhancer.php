@@ -1,6 +1,9 @@
 <?php
 namespace EmbedPress\Includes\Classes;
 
+use \EmbedPress\Providers\Youtube;
+use EmbedPress\Shortcode;
+
 class Feature_Enhancer {
 
 	public function __construct() {
@@ -16,10 +19,12 @@ class Feature_Enhancer {
 		add_action('embedpress_gutenberg_wistia_block_after_embed', array($this,'embedpress_wistia_block_after_embed'));
 		add_action( 'elementor/widget/embedpres_elementor/skins_init', [ $this, 'elementor_setting_init' ] );
         add_action( 'wp_ajax_youtube_rest_api', [$this, 'youtube_rest_api'] );
+        add_action( 'embedpress_shortcode_embra_attrs', [$this, 'embra_attrs'], 10, 2 );
+        add_action( 'embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2 );
 	}
 
     public function youtube_rest_api(){
-        $result = \EmbedPress\Providers\Youtube::get_gallery_page([
+        $result = Youtube::get_gallery_page([
             'playlistId'        => isset($_POST['playlistid']) ? sanitize_text_field($_POST['playlistid']) : null,
             'pageToken'         => isset($_POST['pagetoken']) ? sanitize_text_field($_POST['pagetoken']) : null,
             'pageSize'          => isset($_POST['pagesize']) ? sanitize_text_field($_POST['pagesize']) : null,
@@ -32,6 +37,45 @@ class Feature_Enhancer {
         ]);
         wp_send_json($result);
     }
+
+	public function gutenberg_embed($embedHTML, $attributes){
+		if(!empty($attributes['url'])){
+			$youtube = new Youtube($attributes['url']);
+			$is_youtube = $youtube->validateUrl($youtube->getUrl(false));
+			if($is_youtube){
+				$atts = [
+					'width'    => intval( $attributes['width']),
+					'height'   => intval( $attributes['height']),
+					'pagesize' => isset($attributes['pagesize']) ? intval($attributes['pagesize']) : 6,
+				];
+
+				$urlInfo = Shortcode::parseContent( $attributes['url'], true, $atts);
+				if(!empty($urlInfo->embed)){
+					$embedHTML = $urlInfo->embed;
+				}
+			}
+		}
+		return $embedHTML;
+	}
+	public function embra_attrs($emberaInstanceSettings, $attributes){
+        if ( isset( $attributes[ 'data-pagesize' ] ) ) {
+            $emberaInstanceSettings[ 'pageSize' ] = $attributes[ 'data-pagesize' ];
+            // unset( $attributes[ 'data-pagesize' ] );
+        }
+        if ( isset( $attributes[ 'data-thumbnail' ] ) ) {
+            $emberaInstanceSettings[ 'thumbnail' ] = $attributes[ 'data-thumbnail' ];
+            // unset( $attributes[ 'data-thumbnail' ] );
+        }
+        if ( isset( $attributes[ 'data-gallery' ] ) ) {
+            $emberaInstanceSettings[ 'gallery' ] = $attributes[ 'data-gallery' ];
+            // unset( $attributes[ 'data-gallery' ] );
+        }
+        if ( isset( $attributes[ 'data-hideprivate' ] ) ) {
+            $emberaInstanceSettings[ 'hideprivate' ] = $attributes[ 'data-hideprivate' ];
+            // unset( $attributes[ 'data-hideprivate' ] );
+        }
+		return $emberaInstanceSettings;
+	}
 
 	public function elementor_setting_init(  ) {
 		$this->remove_classic_filters();

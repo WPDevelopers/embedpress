@@ -82,6 +82,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: 'center'
 			},
+			pagesize: {
+				type: 'number',
+				default: 6
+			},
 		},
 		/**
 		 * The edit function describes the structure of your block in the context of the editor.

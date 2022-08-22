@@ -16,8 +16,9 @@ const { InspectorControls, useBlockProps } = wp.blockEditor;
 const { Fragment } = wp.element;
 
 export default function EmbedPress({attributes, className, setAttributes}){
-	const {url, editingURL, fetching, cannotEmbed, interactive, embedHTML, height, width} = attributes;
+	const {url, editingURL, fetching, cannotEmbed, interactive, embedHTML, height, width, pagesize} = attributes;
 	const blockProps = useBlockProps ? useBlockProps() : [];
+	const isYTChannel = url.match(/\/channel\/|\/c\/|\/user\/|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
 	function switchBackToURLInput() {
 		setAttributes( {editingURL: true});
 	}
@@ -34,7 +35,8 @@ export default function EmbedPress({attributes, className, setAttributes}){
 			});
 			// send api request to get iframe url
 			let fetchData = async (url) => {
-				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}`).then(response => response.json());
+				let _pagesize = isYTChannel ? `&pagesize=${pagesize}` : '';
+				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}${_pagesize}`).then(response => response.json());
 			}
 			fetchData(url).then(data => {
 				setAttributes({
@@ -78,6 +80,14 @@ export default function EmbedPress({attributes, className, setAttributes}){
 							value={ height }
 							onChange={ ( height ) => setAttributes( { height } ) }
 						/>
+						{
+							isYTChannel &&
+							<TextControl
+								label={__("Per Page")}
+								value={ pagesize }
+								onChange={ ( pagesize ) => setAttributes( { pagesize } ) }
+							/>
+						}
 						{(embedHTML && !editingURL) && <button onClick={embed}>{__('Apply')}</button>}
 					</PanelBody>
 				</InspectorControls>

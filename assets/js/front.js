@@ -170,7 +170,16 @@
                     var iframe = playerWrap.getElementsByTagName("iframe");
                     if(vid) {
                         if(iframe){
-                            iframe[0].src = iframe[0].src.replace(/(.*\/embed\/)([^\?&"'>]+)(.+)?/, `\$1${vid}\$3`);
+                            var vidSrc = iframe[0].src.replace(/(.*\/embed\/)([^\?&"'>]+)(.+)?/, `\$1${vid}\$3`);
+                            if (vidSrc.indexOf('autoplay') > 0)
+                            {
+                                vidSrc = vidSrc.replace('autoplay=0', 'autoplay=1');
+                            }
+                            else
+                            {
+                                vidSrc += '&autoplay=1';
+                            }
+                            iframe[0].src = vidSrc;
                             playerWrap.scrollIntoView();
                         }
                     }
@@ -200,7 +209,7 @@
 
                     var loader = playerWrap.getElementsByClassName("ep-loader");
                     var galleryWrapper = playerWrap.getElementsByClassName(
-                        "ep-youtube__contnet__block"
+                        "ep-youtube__content__block"
                     );
                     removeClass(loader[0], "hide");
                     addClass(galleryWrapper[0], "loading");

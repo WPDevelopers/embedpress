@@ -142,6 +142,16 @@ function embedpress_gutenberg_register_all_block() {
 				if ( 'embedpress' === $blocks_to_register ) {
 					register_block_type( 'embedpress/embedpress', [
 						'render_callback' => 'embedpress_render_block',
+						'attributes'      => array(
+							'height' => [
+								'type' => 'string',
+								'default' => '450'
+							],
+							'width' => [
+								'type' => 'string',
+								'default' => '600'
+							],
+						),
 					]);
 				}elseif ( 'embedpress-pdf' === $blocks_to_register ) {
 					register_block_type( 'embedpress/embedpress-pdf', [

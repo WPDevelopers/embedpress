@@ -102,7 +102,7 @@ class Shortcode {
      * @param string      The raw content that will be replaced.
      * @param bool $stripNewLine
      * @param array $customAttributes
-     * @return  string
+     * @return  string|object
      * @since   1.0.0
      * @static
      */
@@ -513,18 +513,8 @@ KAMAL;
 			}
 		}
 
-        if ( isset( $attributes[ 'data-pagesize' ] ) ) {
-            self::$emberaInstanceSettings[ 'pageSize' ] = $attributes[ 'data-pagesize' ];
-            unset( $attributes[ 'data-pagesize' ] );
-        }
-        if ( isset( $attributes[ 'data-thumbnail' ] ) ) {
-            self::$emberaInstanceSettings[ 'thumbnail' ] = $attributes[ 'data-thumbnail' ];
-            unset( $attributes[ 'data-thumbnail' ] );
-        }
-        if ( isset( $attributes[ 'data-hideprivate' ] ) ) {
-            self::$emberaInstanceSettings[ 'hideprivate' ] = $attributes[ 'data-hideprivate' ];
-            unset( $attributes[ 'data-hideprivate' ] );
-        }
+        self::$emberaInstanceSettings = apply_filters('embedpress_shortcode_embra_attrs', self::$emberaInstanceSettings, $attributes);
+
     }
 
 	protected static function get_embera_settings() {

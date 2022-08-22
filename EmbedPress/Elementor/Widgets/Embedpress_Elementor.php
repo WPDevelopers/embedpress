@@ -204,6 +204,25 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'   => $yt_condition,
 			]
 		);
+	    $this->add_control(
+		    'pagesize',
+		    [
+			    'label'       => __( 'Page Size', 'embedpress' ),
+			    'description' => __( 'Number of thumbnail per page.', 'embedpress' ),
+			    'type'        => Controls_Manager::NUMBER,
+			    'label_block' => false,
+			    'default'     => 6,
+			    'conditions'   => [
+					'terms' => [
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => '===',
+							'value' => 'youtube',
+						],
+					],
+			    ]
+		    ]
+	    );
 		$this->add_control(
 			'embedpress_pro_youtube_auto_play',
 			[
@@ -1304,8 +1323,10 @@ class Embedpress_Elementor extends Widget_Base {
             ? $settings['height']['size'] : null;
 	    $width = (!empty( $settings['width']) && !empty( $settings['width']['size'] ))
 		    ? $settings['width']['size'] : null;
+	    $pagesize = (!empty( $settings['pagesize']) && !empty( $settings['pagesize'] ))
+		    ? $settings['pagesize'] : null;
 
-        $embed_content = Shortcode::parseContent( $settings['embedpress_embeded_link'], true, [ 'height'=> $height, 'width'=>$width ] );
+        $embed_content = Shortcode::parseContent( $settings['embedpress_embeded_link'], true, [ 'height'=> $height, 'width'=>$width, 'pagesize'=>$pagesize ] );
         $embed_content = $this->onAfterEmbedSpotify($embed_content, $settings);
         $embed         = apply_filters( 'embedpress_elementor_embed', $embed_content, $settings );
         $content       = is_object( $embed ) ? $embed->embed : $embed;
