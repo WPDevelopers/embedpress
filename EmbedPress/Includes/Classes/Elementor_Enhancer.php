@@ -7,9 +7,8 @@ use Elementor\Utils;
 
 class Elementor_Enhancer {
 	public static function youtube( $embed, $setting ) {
-		if ( isset( $setting['embedpress_pro_embeded_source'] ) && 'youtube' === $setting['embedpress_pro_embeded_source'] && isset( $embed->embed ) ) {
+		if ( isset( $setting['embedpress_pro_embeded_source'] ) && 'youtube' === $setting['embedpress_pro_embeded_source'] && isset( $embed->embed ) && preg_match( '/src=\"(.+?)\"/', $embed->embed, $match ) ) {
 
-			preg_match( '/src=\"(.+?)\"/', $embed->embed, $match );
 			$url_full = $match[1];
 			$query    = parse_url( $url_full, PHP_URL_QUERY );
 			parse_str( $query, $params );

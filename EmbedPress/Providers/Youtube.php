@@ -96,6 +96,11 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         return !empty($settings['api_key']) ? $settings['api_key'] : '';
     }
 
+    protected static function get_pagesize() {
+        $settings = (array) get_option(EMBEDPRESS_PLG_NAME . ':youtube', []);
+        return !empty($settings['pagesize']) ? $settings['pagesize'] : '';
+    }
+
     /** inline {@inheritdoc} */
     public function getParams() {
         $params = parent::getParams();
@@ -163,8 +168,15 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $channel_url = $this->constructUrl('channels', $this->getParams());
         }
 
+        if (empty(self::get_api_key())) {
+            $result['error'] = true;
+            $result['html'] = self::clean_api_error_html(__('Please enter your YouTube API key to embed galleries.', 'embedpress'));
+            return $result;
+        }
+
         $apiResult = wp_remote_get($channel_url, array('timeout' => self::$curltimeout));
         if (is_wp_error($apiResult)) {
+            $result['error'] = true;
             $result['html'] = self::clean_api_error_html($apiResult->get_error_message(), true);
             set_transient($transient_key, $result, 10);
             return $result;
@@ -172,11 +184,12 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $jsonResult = json_decode($apiResult['body']);
 
         if (isset($jsonResult->error)) {
+            $result['error'] = true;
             if (isset($jsonResult->error->message)) {
                 $result['html'] = self::clean_api_error_html($jsonResult->error->message, true);
             }
             else{
-                $result['html'] = __('<div>Sorry, there may be an issue with your YouTube API key.</div>', 'embedpress');
+                $result['html'] = self::clean_api_error_html(__('Sorry, there may be an issue with your YouTube API key.', 'embedpress'));
             }
             set_transient($transient_key, $result, MINUTE_IN_SECONDS);
             return $result;
@@ -216,22 +229,24 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $params          = $this->getParams();
             $the_playlist_id = $channel["playlistID"];
             $rel             = 'https://www.youtube.com/embed?listType=playlist&list=' . esc_attr($the_playlist_id);
+            $title           = $channel['title'];
+            $main_iframe     = "";
             $gallery         = self::get_gallery_page([
                 'pageSize'   => isset($params['pageSize']) ? $params['pageSize'] : 6,
                 'playlistId' => $the_playlist_id,
             ]);
-            $title       = $channel['title'];
-            $main_iframe = "";
-            $styles      = self::styles();
 
             if (!empty($gallery->first_vid)) {
                 $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
+                $main_iframe = "<iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe>";
             }
-            $main_iframe = "<iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe>";
-            return [
-                "title"         => $title,
-                "html"          => "<div class='ep-player-wrap'>$main_iframe {$gallery->html} $styles</div>",
-            ];
+            if($gallery->html){
+                $styles      = self::styles();
+                return [
+                    "title"         => $title,
+                    "html"          => "<div class='ep-player-wrap'>$main_iframe {$gallery->html} $styles</div>",
+                ];
+            }
         }
         elseif ($this->isChannel() && empty(self::get_api_key()) && current_user_can('manage_options')) {
             return [
@@ -254,7 +269,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $options       = wp_parse_args($options, [
             'playlistId'  => '',
             'pageToken'   => '',
-            'pageSize'    => 6,
+            'pageSize'    => self::get_pagesize() ? self::get_pagesize() : 6,
             'columns'     => 2,
             'thumbnail'   => 'medium',
             'gallery'     => true,
@@ -263,6 +278,8 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             'apiKey'      => self::get_api_key(),
             'hideprivate' => '',
         ]);
+        $options['pageSize'] = $options['pageSize'] > 50 ? 50 : $options['pageSize'];
+        $options['pageSize'] = $options['pageSize'] < 1 ? 1 : $options['pageSize'];
 
         if (empty($options['apiKey'])) {
             $gallobj->html = self::clean_api_error_html(__('Please enter your YouTube API key to embed galleries.', 'embedpress'));
@@ -294,9 +311,12 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             }
         }
 
-        // print_r($jsonResult);die;
 
         if (isset($jsonResult->error)) {
+            if(!empty($jsonResult->error->errors[0]->reason) && $jsonResult->error->errors[0]->reason == 'playlistNotFound'){
+                $gallobj->html = self::clean_api_error_html(__('There is nothing on the playlist.', 'embedpress'));
+                return $gallobj;
+            }
             if (isset($jsonResult->error->message)) {
                 $gallobj->html = self::clean_api_error_html($jsonResult->error->message);
                 return $gallobj;
@@ -306,7 +326,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
 
 
-        $resultsPerPage = $options['pageSize']; // $jsonResult->pageInfo->resultsPerPage;
+        $resultsPerPage = $jsonResult->pageInfo->resultsPerPage;
         $totalResults = $jsonResult->pageInfo->totalResults;
         $totalPages = ceil($totalResults / $resultsPerPage);
         if (isset($jsonResult->nextPageToken)) {
@@ -326,7 +346,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                 return $gallobj;
             }
 
-            if(count($jsonResult->items) === 1){
+            if(count($jsonResult->items) === 1 && empty($nextPageToken) && empty($prevPageToken)){
                 $gallobj->first_vid = self::get_id($jsonResult->items[0]);
                 $gallobj->html = "";
                 return $gallobj;
@@ -442,7 +462,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     public static function clean_api_error_html($raw_message) {
         $clean_html = '';
         if (current_user_can('manage_options')) {
-            $clean_html = '<div>' . sprintf(__('Sorry, there was a YouTube API error: <em>%s</em>', 'embedpress'), self::clean_api_error($raw_message)) . '</div>';
+            $clean_html = '<div>EmbedPress: ' . self::clean_api_error($raw_message) . '</div>';
         }
         return $clean_html;
     }

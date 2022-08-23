@@ -5,6 +5,7 @@
  *  */
 $yt_settings = get_option( EMBEDPRESS_PLG_NAME.':youtube');
 $api_key = isset( $yt_settings['api_key']) ? $yt_settings['api_key'] : '';
+$pagesize = isset( $yt_settings['pagesize']) ? $yt_settings['pagesize'] : '';
 $start_time = isset( $yt_settings['start_time']) ? $yt_settings['start_time'] : 0;
 $end_time = isset( $yt_settings['end_time']) ? $yt_settings['end_time'] : 0;
 $autoplay = isset( $yt_settings['autoplay']) ? $yt_settings['autoplay'] : '';
@@ -39,6 +40,14 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
                 <div class="form__control__wrap">
                     <input type="text"  name="api_key" id="api_key" class="form__control" data-default="<?php echo esc_attr( $api_key); ?>" value="<?php echo esc_attr( $api_key); ?>" placeholder="Enter API key" >
                     <p><?php esc_html_e( "Insert your YouTube API key. To obtain your API key, refer to this documentation.", "embedpress" ); ?></p>
+                </div>
+
+            </div>
+            <div class="form__group">
+                <p class="form__label" ><?php esc_html_e( "Video Per Page", "embedpress" ); ?> </p>
+                <div class="form__control__wrap">
+                    <input type="number" min="1" max="50" name="pagesize" id="pagesize" class="form__control" data-default="<?php echo esc_attr( $pagesize); ?>" value="<?php echo esc_attr( $pagesize); ?>">
+                    <p><?php esc_html_e( "Specify the number of videos you wish to show on each page. Note: This option takes effect only when a YouTube channel is embedded.", "embedpress" ); ?></p>
                 </div>
 
             </div>

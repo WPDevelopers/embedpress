@@ -1,4 +1,266 @@
-.pdfobject-container{height:600px;width:600px;margin:0 auto}.embedpress-el-powered{text-align:center;margin-top:0 !important;font-size:16px !important;font-weight:700}.embedpress-embed-document iframe,[data-type="embedpress/document"] iframe{margin:0 auto;display:block}.embedpress-document-editmode .components-form-file-upload{display:none !important}
-.embedpress-gutenberg-wrapper{margin:30px auto}.embedpress-gutenberg-wrapper iframe{max-width:100%}.embedpress-gutenberg-wrapper.alignright{max-width:100%}.ose-the-new-york-times iframe{min-height:500px;max-height:100%}body.page .flexia-wrapper>.content-area{padding:0 !important}.flexia-wrapper.flexia-container>.content-area{margin:0 !important}.flexia-wrapper.flexia-container>.content-area .embedpress-gutenberg-wrapper{margin:0 auto}@media only screen and (min-width: 482px){.entry-content>.embedpress-gutenberg-wrapper.alignright,.entry-content>.embedpress-gutenberg-wrapper.alignleft,.embedpress-gutenberg-wrapper.alignright,.embedpress-gutenberg-wrapper.alignleft{max-width:100%}}.clear::after{content:'';display:block;clear:both;min-height:1px}.embedpress-gutenberg-wrapper .alignleft,.embedpress-gutenberg-wrapper .alignright,.embedpress-gutenberg-wrapper .aligncenter{float:none;display:block}.embedpress-gutenberg-wrapper .alignright{text-align:right}.embedpress-gutenberg-wrapper .alignleft{text-align:left}.embedpress-gutenberg-wrapper .aligncenter{clear:both;display:block;float:none;margin-right:auto;margin-left:auto;text-align:center}.embedpress-gutenberg-wrapper .ose-embedpress-responsive{display:inline-block}.embedpress-gutenberg-wrapper{max-width:100% !important}
-.pdfobject-container{height:600px;width:600px;margin:0 auto}.embedpress-el-powered{text-align:center;margin-top:10px !important;font-size:16px !important;font-weight:700}.embedpress-embed-document iframe,[data-type="embedpress/document"] iframe{margin:0 auto;display:block}.embedpress-embed-document{max-width:100%}.embedpress-document-editmode .components-form-file-upload{display:none !important}.wp-block-embedpress-embedpress-pdf+*{clear:both}
-.embedpress-calendar-gutenberg{margin:30px auto}.embedpress-calendar-gutenberg iframe{max-width:100%}.embedpress-calendar-gutenberg.alignright{max-width:100%}body.page .flexia-wrapper>.content-area{padding:0 !important}.flexia-wrapper.flexia-container>.content-area{margin:0 !important}.flexia-wrapper.flexia-container>.content-area .embedpress-calendar-gutenberg{margin:0 auto}@media only screen and (min-width: 482px){.entry-content>.embedpress-calendar-gutenberg.alignright,.entry-content>.embedpress-calendar-gutenberg.alignleft,.embedpress-calendar-gutenberg.alignright,.embedpress-calendar-gutenberg.alignleft{max-width:100%}}.clear::after{content:'';display:block;clear:both;min-height:1px}
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.pdfobject-container {
+  height: 600px;
+  width: 600px;
+  margin: 0 auto; }
+
+.embedpress-el-powered {
+  text-align: center;
+  margin-top: 0 !important;
+  font-size: 16px !important;
+  font-weight: 700; }
+
+.embedpress-embed-document iframe,
+[data-type="embedpress/document"] iframe {
+  margin: 0 auto;
+  display: block; }
+
+.embedpress-document-editmode .components-form-file-upload {
+  display: none !important; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.embedpress-gutenberg-wrapper {
+  margin: 30px auto; }
+  .embedpress-gutenberg-wrapper iframe {
+    max-width: 100%; }
+
+.embedpress-gutenberg-wrapper.alignright {
+  max-width: 100%; }
+
+.ose-the-new-york-times iframe {
+  min-height: 500px;
+  max-height: 100%; }
+
+body.page .flexia-wrapper > .content-area {
+  padding: 0 !important; }
+
+.flexia-wrapper.flexia-container > .content-area {
+  margin: 0 !important; }
+  .flexia-wrapper.flexia-container > .content-area .embedpress-gutenberg-wrapper {
+    margin: 0 auto; }
+
+@media only screen and (min-width: 482px) {
+  .entry-content > .embedpress-gutenberg-wrapper.alignright,
+  .entry-content > .embedpress-gutenberg-wrapper.alignleft,
+  .embedpress-gutenberg-wrapper.alignright,
+  .embedpress-gutenberg-wrapper.alignleft {
+    max-width: 100%; } }
+
+.clear::after {
+  content: '';
+  display: block;
+  clear: both;
+  min-height: 1px; }
+
+.embedpress-gutenberg-wrapper .alignleft,
+.embedpress-gutenberg-wrapper .alignright,
+.embedpress-gutenberg-wrapper .aligncenter {
+  float: none;
+  display: block; }
+
+.embedpress-gutenberg-wrapper .alignright {
+  text-align: right; }
+
+.embedpress-gutenberg-wrapper .alignleft {
+  text-align: left; }
+
+.embedpress-gutenberg-wrapper .aligncenter {
+  clear: both;
+  display: block;
+  float: none;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center; }
+
+.embedpress-gutenberg-wrapper .ose-embedpress-responsive {
+  display: inline-block; }
+
+.embedpress-gutenberg-wrapper {
+  max-width: 100% !important; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.pdfobject-container {
+  height: 600px;
+  width: 600px;
+  margin: 0 auto; }
+
+.embedpress-el-powered {
+  text-align: center;
+  margin-top: 10px !important;
+  font-size: 16px !important;
+  font-weight: 700; }
+
+.embedpress-embed-document iframe,
+[data-type="embedpress/document"] iframe {
+  margin: 0 auto;
+  display: block; }
+
+.embedpress-embed-document {
+  max-width: 100%; }
+
+.embedpress-document-editmode .components-form-file-upload {
+  display: none !important; }
+
+.wp-block-embedpress-embedpress-pdf + * {
+  clear: both; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.embedpress-calendar-gutenberg {
+  margin: 30px auto; }
+  .embedpress-calendar-gutenberg iframe {
+    max-width: 100%; }
+
+.embedpress-calendar-gutenberg.alignright {
+  max-width: 100%; }
+
+body.page .flexia-wrapper > .content-area {
+  padding: 0 !important; }
+
+.flexia-wrapper.flexia-container > .content-area {
+  margin: 0 !important; }
+  .flexia-wrapper.flexia-container > .content-area .embedpress-calendar-gutenberg {
+    margin: 0 auto; }
+
+@media only screen and (min-width: 482px) {
+  .entry-content > .embedpress-calendar-gutenberg.alignright,
+  .entry-content > .embedpress-calendar-gutenberg.alignleft,
+  .embedpress-calendar-gutenberg.alignright,
+  .embedpress-calendar-gutenberg.alignleft {
+    max-width: 100%; } }
+
+.clear::after {
+  content: '';
+  display: block;
+  clear: both;
+  min-height: 1px; }

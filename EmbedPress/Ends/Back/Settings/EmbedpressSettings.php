@@ -220,6 +220,7 @@ class EmbedpressSettings {
 		$option_name = EMBEDPRESS_PLG_NAME.':youtube';
 		$settings = get_option( $option_name, []);
 		$settings['api_key'] = isset( $_POST['api_key']) ? sanitize_text_field( $_POST['api_key']) : 0;
+		$settings['pagesize'] = isset( $_POST['pagesize']) ? sanitize_text_field( $_POST['pagesize']) : 0;
 		$settings['start_time'] = isset( $_POST['start_time']) ? sanitize_text_field( $_POST['start_time']) : 0;
 		$settings['end_time'] = isset( $_POST['end_time']) ? sanitize_text_field( $_POST['end_time']) : 0;
 		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';

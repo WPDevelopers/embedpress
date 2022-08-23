@@ -207,12 +207,14 @@ class Embedpress_Elementor extends Widget_Base {
 	    $this->add_control(
 		    'pagesize',
 		    [
-			    'label'       => __( 'Page Size', 'embedpress' ),
-			    'description' => __( 'Number of thumbnail per page.', 'embedpress' ),
+			    'label'       => __( 'Video Per Page', 'embedpress' ),
+			    'description' => __( 'Specify the number of videos you wish to show on each page. Note: This option takes effect only when a YouTube channel is embedded.', 'embedpress' ),
 			    'type'        => Controls_Manager::NUMBER,
 			    'label_block' => false,
 			    'default'     => 6,
-			    'conditions'   => [
+			    'min'         => 1,
+			    'max'         => 50,
+			    'conditions'  => [
 					'terms' => [
 						[
 							'name' => 'embedpress_pro_embeded_source',
@@ -1324,7 +1326,7 @@ class Embedpress_Elementor extends Widget_Base {
 	    $width = (!empty( $settings['width']) && !empty( $settings['width']['size'] ))
 		    ? $settings['width']['size'] : null;
 	    $pagesize = (!empty( $settings['pagesize']) && !empty( $settings['pagesize'] ))
-		    ? $settings['pagesize'] : null;
+		    ? $settings['pagesize'] : 6;
 
         $embed_content = Shortcode::parseContent( $settings['embedpress_embeded_link'], true, [ 'height'=> $height, 'width'=>$width, 'pagesize'=>$pagesize ] );
         $embed_content = $this->onAfterEmbedSpotify($embed_content, $settings);
