@@ -163,72 +163,74 @@
         var playerWraps = document.getElementsByClassName("ep-player-wrap");
         if (playerWraps && playerWraps.length) {
             for (var i=0, im=playerWraps.length; im>i; i++) {
-                var playerWrap = playerWraps[i];
-                delegate(playerWrap, "click", ".item", function(event) {
-                    var embed = "https://www.youtube.com/embed/";
-                    var vid = this.getAttribute("data-vid");
-                    var iframe = playerWrap.getElementsByTagName("iframe");
-                    if(vid) {
-                        if(iframe){
-                            var vidSrc = iframe[0].src.replace(/(.*\/embed\/)([^\?&"'>]+)(.+)?/, `\$1${vid}\$3`);
-                            if (vidSrc.indexOf('autoplay') > 0)
-                            {
-                                vidSrc = vidSrc.replace('autoplay=0', 'autoplay=1');
-                            }
-                            else
-                            {
-                                vidSrc += '&autoplay=1';
-                            }
-                            iframe[0].src = vidSrc;
-                            playerWrap.scrollIntoView();
-                        }
-                    }
-                });
-                var currentPage = 1;
-                delegate(playerWrap, "click", ".ep-next, .ep-prev", function(event) {
-                    var isNext = this.classList.contains("ep-next");
-                    if (isNext) {
-                        currentPage++;
-                    } else {
-                        currentPage--;
-                    }
-                    var data = {
-                        action: "youtube_rest_api",
-                        playlistid: this.getAttribute("data-playlistid"),
-                        pagetoken: this.getAttribute("data-pagetoken"),
-                        pagesize: this.getAttribute("data-pagesize"),
-                    };
-
-                    var formBody = [];
-                    for (var property in data) {
-                        var encodedKey = encodeURIComponent(property);
-                        var encodedValue = encodeURIComponent(data[property]);
-                        formBody.push(encodedKey + "=" + encodedValue);
-                    }
-                    formBody = formBody.join("&");
-
-                    var loader = playerWrap.getElementsByClassName("ep-loader");
-                    var galleryWrapper = playerWrap.getElementsByClassName(
-                        "ep-youtube__content__block"
-                    );
-                    removeClass(loader[0], "hide");
-                    addClass(galleryWrapper[0], "loading");
-                    sendRequest("/wp-admin/admin-ajax.php", formBody, function(request) {
-                        addClass(loader[0], "hide");
-                        removeClass(galleryWrapper[0], "loading");
-
-                        if (galleryWrapper && galleryWrapper[0] && request.responseText) {
-                            var response = JSON.parse(request.responseText);
-                            galleryWrapper[0].outerHTML = response.html;
-                            var currentPageNode =
-                                galleryWrapper[0].getElementsByClassName("current-page");
-                            if (currentPageNode && currentPageNode[0]) {
-                                currentPageNode[0].textContent = currentPage;
-                            }
-                        }
-                    });
-                });
+                youtubeChannelEvents(playerWraps[i])
             }
         }
+    }
+    function youtubeChannelEvents(playerWrap){
+        delegate(playerWrap, "click", ".item", function(event) {
+            var embed = "https://www.youtube.com/embed/";
+            var vid = this.getAttribute("data-vid");
+            var iframe = playerWrap.getElementsByTagName("iframe");
+            if(vid) {
+                if(iframe){
+                    var vidSrc = iframe[0].src.replace(/(.*\/embed\/)([^\?&"'>]+)(.+)?/, `\$1${vid}\$3`);
+                    if (vidSrc.indexOf('autoplay') > 0)
+                    {
+                        vidSrc = vidSrc.replace('autoplay=0', 'autoplay=1');
+                    }
+                    else
+                    {
+                        vidSrc += '&autoplay=1';
+                    }
+                    iframe[0].src = vidSrc;
+                    playerWrap.scrollIntoView();
+                }
+            }
+        });
+        var currentPage = 1;
+        delegate(playerWrap, "click", ".ep-next, .ep-prev", function(event) {
+            var isNext = this.classList.contains("ep-next");
+            if (isNext) {
+                currentPage++;
+            } else {
+                currentPage--;
+            }
+            var data = {
+                action: "youtube_rest_api",
+                playlistid: this.getAttribute("data-playlistid"),
+                pagetoken: this.getAttribute("data-pagetoken"),
+                pagesize: this.getAttribute("data-pagesize"),
+            };
+
+            var formBody = [];
+            for (var property in data) {
+                var encodedKey = encodeURIComponent(property);
+                var encodedValue = encodeURIComponent(data[property]);
+                formBody.push(encodedKey + "=" + encodedValue);
+            }
+            formBody = formBody.join("&");
+
+            var loader = playerWrap.getElementsByClassName("ep-loader");
+            var galleryWrapper = playerWrap.getElementsByClassName(
+                "ep-youtube__content__block"
+            );
+            removeClass(loader[0], "hide");
+            addClass(galleryWrapper[0], "loading");
+            sendRequest("/wp-admin/admin-ajax.php", formBody, function(request) {
+                addClass(loader[0], "hide");
+                removeClass(galleryWrapper[0], "loading");
+
+                if (galleryWrapper && galleryWrapper[0] && request.responseText) {
+                    var response = JSON.parse(request.responseText);
+                    galleryWrapper[0].outerHTML = response.html;
+                    var currentPageNode =
+                        galleryWrapper[0].getElementsByClassName("current-page");
+                    if (currentPageNode && currentPageNode[0]) {
+                        currentPageNode[0].textContent = currentPage;
+                    }
+                }
+            });
+        });
     }
 })();

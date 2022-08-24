@@ -1315,6 +1315,24 @@ class Embedpress_Elementor extends Widget_Base {
 		);
 		$this->end_controls_section();
 	}
+
+	public function render_plain_content() {
+		$args = "";
+        $settings      = $this->get_settings_for_display();
+
+		if(!empty( $settings['height']['size'] )){
+			$args .= "height='{$settings['height']['size']}' ";
+		}
+		if(!empty( $settings['width']['size'] )){
+			$args .= "width='{$settings['width']['size']}' ";
+		}
+		if(!empty( $settings['pagesize'] )){
+			$args .= "pagesize='{$settings['pagesize']}' ";
+		}
+		$args = trim($args);
+		echo "[embedpress $args]{$settings['embedpress_embeded_link']}\[/embedpress]";
+	}
+
     protected function render() {
         add_filter( 'embedpress_should_modify_spotify', '__return_false');
         $settings      = $this->get_settings_for_display();
