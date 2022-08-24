@@ -430,7 +430,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     }
 
     public static function get_api_key_error_message(){
-        return '<div>' . sprintf(__("EmbedPress: Please enter your YouTube API key at <a class='ep-link' href='%s' target='_blank' style='color: #5b4e96;'>EmbedPress > Platforms > YouTube</a> to embed galleries.", "embedpress"), admin_url('?page=embedpress&page_type=youtube#api_key'))  . '</div>';
+        return '<div>' . sprintf(__("EmbedPress: Please enter your YouTube API key at <a class='ep-link' href='%s' target='_blank' style='color: #5b4e96; text-decoration: none'>EmbedPress > Platforms > YouTube</a> to embed galleries.", "embedpress"), admin_url('?page=embedpress&page_type=youtube#api_key'))  . '</div>';
     }
 
     public static function get_id($item){
@@ -565,7 +565,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
         .ep-youtube__content__block .item {
             cursor: pointer;
-            /*max-width: 250px;*/
+            white-space: initial;
         }
 
         .ep-youtube__content__block .item:hover .thumb .play-icon {
