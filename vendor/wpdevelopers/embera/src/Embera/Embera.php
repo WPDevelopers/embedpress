@@ -65,6 +65,20 @@ class Embera
      */
     public function __construct(array $config = [], ProviderCollectionInterface $collection = null, HttpClientInterface $httpClient = null)
     {
+        $this->providerCollection = $collection;
+        if (!$collection) {
+            $this->providerCollection = new DefaultProviderCollection();
+        }
+
+        $this->httpClient = $httpClient;
+        if (!$httpClient) {
+            $this->httpClient = new HttpClient();
+        }
+        $this->setConfig($config);
+    }
+
+    public function setConfig(array $config = [])
+    {
         $this->config = array_merge([
             'https_only' => false,
             'fake_responses' => self::ALLOW_FAKE_RESPONSES,
@@ -80,15 +94,6 @@ class Embera
         $this->config['maxheight'] = max($this->config['height'], $this->config['maxheight']);
         unset($this->config['height'], $this->config['width']);
 
-        $this->providerCollection = $collection;
-        if (!$collection) {
-            $this->providerCollection = new DefaultProviderCollection($this->config);
-        }
-
-        $this->httpClient = $httpClient;
-        if (!$httpClient) {
-            $this->httpClient = new HttpClient($this->config);
-        }
 
         // Set the config just in case.
         $this->providerCollection->setConfig($this->config);

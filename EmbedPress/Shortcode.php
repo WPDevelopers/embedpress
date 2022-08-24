@@ -130,7 +130,8 @@ class Shortcode {
 	        self::set_embera_settings(self::$ombed_attributes);
 
             // Identify what service provider the shortcode's link belongs to
-	        if ( (strpos( $url, 'meetup.com') !== false) || (strpos( $url, 'sway.office.com') !== false) ) {
+            $is_embra_provider = apply_filters('embedpress:isEmbra', false, $url, self::get_embera_settings());
+	        if ( $is_embra_provider || (strpos( $url, 'meetup.com') !== false) || (strpos( $url, 'sway.office.com') !== false) ) {
 		        $serviceProvider = '';
 			}else{
 		        $serviceProvider = self::get_oembed()->get_provider( $url );
@@ -170,7 +171,7 @@ class Shortcode {
             $provider_name = self::get_provider_name($urlData, $url);
 	        $embedTemplate = '<div ' . implode( ' ', $attributesHtml ) . '>{html}</div>';
 
-	        $parsedContent = self::get_content_from_template($url, $embedTemplate);
+	        $parsedContent = self::get_content_from_template($url, $embedTemplate, $serviceProvider);
 	        // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
 	        $parsedContent = str_replace( "'", '"', $parsedContent );
 	        $parsedContent = str_replace( "{provider_alias}", $provider_name , $parsedContent );
@@ -335,7 +336,9 @@ KAMAL;
 			}
 			self::$embera_instance = new Embera( self::get_embera_settings(), self::get_collection() );
     	}
-
+        else{
+            self::$embera_instance->setConfig(self::get_embera_settings());
+        }
 		return self::$embera_instance;
     }
 
@@ -633,7 +636,7 @@ KAMAL;
 		return ob_get_clean();
     }
 
-	protected static function get_content_from_template( $url, $template ) {
+	protected static function get_content_from_template( $url, $template, $serviceProvider ) {
 		if ( is_embedpress_pro_active() ) {
 			if ( strpos( $url, 'podcasts.apple.com') ) {
 				$iframe_url = str_replace( 'podcasts.apple.com', 'embed.podcasts.apple.com', $url);
@@ -643,7 +646,7 @@ KAMAL;
 			}
 		}
 
-		if ( (strpos( $url, 'meetup.com') !== false) || (strpos( $url, 'sway.office.com') !== false)  ) {
+		if ( empty($serviceProvider) ) {
 			$html = '';
 		}else{
 			$html = self::get_oembed()->get_html( $url, self::get_oembed_attributes() );

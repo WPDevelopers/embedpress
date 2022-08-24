@@ -21,7 +21,18 @@ class Feature_Enhancer {
         add_action( 'wp_ajax_youtube_rest_api', [$this, 'youtube_rest_api'] );
         add_action( 'embedpress_shortcode_embra_attrs', [$this, 'embra_attrs'], 10, 2 );
         add_action( 'embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2 );
+        add_action( 'embedpress:isEmbra', [$this, 'isEmbra'], 10, 3 );
 	}
+
+    public function isEmbra($isEmbra, $url, $atts){
+		if(strpos( $url, 'youtube.com') !== false){
+			$youtube = new Youtube($url, $atts);
+			if($youtube->validateUrl($youtube->getUrl(false))){
+				return true;
+			}
+		}
+		return $isEmbra;
+    }
 
     public function youtube_rest_api(){
         $result = Youtube::get_gallery_page([
