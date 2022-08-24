@@ -387,7 +387,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                     <p><?php echo $item->snippet->title; ?></p>
                                 </div>
                             </div>
+
                         <?php endforeach; ?>
+                        <div class="item" style="height: 0"></div>
                     </div>
                     <div class="ep-youtube__content__pagination">
                         <div
@@ -400,7 +402,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                         </div>
                         <div class="ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
                             <span class="current-page">1</span>
-                            <span class="page-separator">/</span>
+                            <span class="page-separator">...</span>
                             <span class="total-page"><?php echo intval($totalPages); ?></span>
                         </div>
                         <div
@@ -497,6 +499,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         ob_start();
         ?>
         <style>
+            html {
+                scroll-behavior: smooth;
+            }
         .ep-player-wrap .hide {
             display: none;
         }
@@ -516,7 +521,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             justify-content: center;
             align-items: center;
             margin-top: 30px;
-            gap: 15px;
+            gap: 10px;
         }
         .ep-loader-wrap {
             margin-top: 30px;
@@ -527,6 +532,24 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         .ep-youtube__content__pagination .ep-prev,
         .ep-youtube__content__pagination .ep-next {
             cursor: pointer;
+            border: 1px solid rgba(0, 0, 0, .1);
+            border-radius: 30px;
+            padding: 0 10px;
+            min-width: 30px;
+            min-height: 30px;
+        }
+        .ep-youtube__content__pagination .ep-page-numbers {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .ep-youtube__content__pagination .ep-page-numbers > span {
+            border: 1px solid rgba(0, 0, 0, .1);
+            border-radius: 30px;
+            padding: 0 10px;
+            display: inline-block;
+            min-width: 30px;
+            min-height: 30px;
         }
 
         .ep-youtube__content__block .youtube__content__body .content__wrap {
@@ -538,6 +561,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
         .ep-youtube__content__block .item {
             cursor: pointer;
+            /*max-width: 250px;*/
         }
 
         .ep-youtube__content__block .item:hover .thumb .play-icon {
@@ -605,7 +629,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
         .ep-youtube__content__block .body p {
             margin-bottom: 0;
-            font-size: 18px;
+            font-size: 15px;
+            text-align: left;
+            line-height: 1.5;
             font-weight: 400;
         }
         .ep-youtube__content__block.loading .ep-youtube__content__pagination {
