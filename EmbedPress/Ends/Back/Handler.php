@@ -198,9 +198,9 @@ class Handler extends EndHandlerAbstract {
             // YouTube (http://www.youtube.com/)
             'youtube.com/watch\\?*',
 	        'youtube.com/playlist\\?*',
-	        'youtube.com/channel\/*',
-	        'youtube.com/c\/*',
-	        'youtube.com/user\/*',
+	        'youtube.com/channel/*',
+	        'youtube.com/c/*',
+	        'youtube.com/user/*',
 	        'youtube.com/(\w+)[^?\/]*$',
 
             // Flickr (http://www.flickr.com/)

@@ -11,7 +11,7 @@ import EmbedWrap from '../common/embed-wrap';
  */
 const {__} = wp.i18n;
 import {embedPressIcon} from '../common/icons';
-const {TextControl, PanelBody, __experimentalNumberControl: NumberControl} = wp.components;
+const {TextControl, PanelBody} = wp.components;
 const { InspectorControls, useBlockProps } = wp.blockEditor;
 const { Fragment } = wp.element;
 
@@ -83,11 +83,9 @@ export default function EmbedPress({attributes, className, setAttributes}){
 						{
 							isYTChannel &&
 							<div>
-								<NumberControl
+								<TextControl
 									label={__("Video Per Page")}
 									value={ pagesize }
-									min={1}
-									max={50}
 									onChange={ ( pagesize ) => setAttributes( { pagesize } ) }
 								/>
 								<p>Specify the number of videos you wish to show on each page.</p>

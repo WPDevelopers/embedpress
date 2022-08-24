@@ -231,10 +231,13 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $rel             = 'https://www.youtube.com/embed?listType=playlist&list=' . esc_attr($the_playlist_id);
             $title           = $channel['title'];
             $main_iframe     = "";
-            $gallery         = self::get_gallery_page([
-                'pageSize'   => isset($params['pageSize']) ? $params['pageSize'] : 6,
+            $gallery_args    = [
                 'playlistId' => $the_playlist_id,
-            ]);
+            ];
+            if(!empty($params['pageSize'])){
+                $gallery_args['pageSize'] = $params['pageSize'];
+            }
+            $gallery         = self::get_gallery_page($gallery_args);
 
             if (!empty($gallery->first_vid)) {
                 $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
