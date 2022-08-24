@@ -38,8 +38,8 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
             <div class="form__group">
                 <p class="form__label" ><?php esc_html_e( "YouTube API Key", "embedpress" ); ?> </p>
                 <div class="form__control__wrap">
-                    <input type="text"  name="api_key" id="api_key" class="form__control" data-default="<?php echo esc_attr( $api_key); ?>" value="<?php echo esc_attr( $api_key); ?>" placeholder="Enter API key" >
-                    <p><?php esc_html_e( "Insert your YouTube API key. To obtain your API key, refer to this documentation.", "embedpress" ); ?></p>
+                    <input type="text"  name="api_key" id="api_key" class="form__control" data-default="<?php echo esc_attr( $api_key); ?>" value="<?php echo esc_attr( $api_key); ?>" placeholder="<?php esc_html_e( "Enter API key", "embedpress" ); ?>" >
+                    <p><?php echo sprintf(__( "Insert your YouTube API key. To obtain your API key, refer to this <a  class='ep-link' href='%s' target='_blank'>documentation</a>.", "embedpress" ), 'https://embedpress.com/docs/youtube-api-key-to-embed-youtube-channel/'); ?></p>
                 </div>
 
             </div>
