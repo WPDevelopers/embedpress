@@ -461,7 +461,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
     public static function clean_api_error_html($raw_message) {
         $clean_html = '';
-        if (current_user_can('manage_options')) {
+        if ((defined('REST_REQUEST') && REST_REQUEST) || current_user_can('manage_options')) {
             $clean_html = '<div>EmbedPress: ' . self::clean_api_error($raw_message) . '</div>';
         }
         return $clean_html;
