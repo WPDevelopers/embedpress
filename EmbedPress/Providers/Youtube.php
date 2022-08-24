@@ -170,7 +170,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
         if (empty(self::get_api_key())) {
             $result['error'] = true;
-            $result['html'] = self::clean_api_error_html(__('Please enter your YouTube API key to embed galleries.', 'embedpress'));
+            $result['html'] = self::get_api_key_error_message();
             return $result;
         }
 
@@ -285,7 +285,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $options['pageSize'] = $options['pageSize'] < 1 ? 1 : $options['pageSize'];
 
         if (empty($options['apiKey'])) {
-            $gallobj->html = self::clean_api_error_html(__('Please enter your YouTube API key to embed galleries.', 'embedpress'));
+            $gallobj->html = self::get_api_key_error_message();
             return $gallobj;
         }
 
@@ -421,10 +421,14 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             <?php
             $gallobj->html = ob_get_clean();
         else:
-            $gallobj->html = __("There is nothing on the playlist.", 'embedpress');
+            $gallobj->html = self::clean_api_error_html(__("There is nothing on the playlist.", 'embedpress'));
         endif;
 
         return $gallobj;
+    }
+
+    public static function get_api_key_error_message(){
+        return '<div>' . sprintf(__("EmbedPress: Please enter your YouTube API key at <a class='ep-link' href='%s' target='_blank' style='color: #5b4e96;'>EmbedPress > Platforms > YouTube</a> to embed galleries.", "embedpress"), admin_url('?page=embedpress&page_type=youtube#api_key'))  . '</div>';
     }
 
     public static function get_id($item){
@@ -465,7 +469,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     public static function clean_api_error_html($raw_message) {
         $clean_html = '';
         if ((defined('REST_REQUEST') && REST_REQUEST) || current_user_can('manage_options')) {
-            $clean_html = '<div>EmbedPress: ' . self::clean_api_error($raw_message) . '</div>';
+            $clean_html = '<div>' . __('EmbedPress: ', 'embedpress') . self::clean_api_error($raw_message) . '</div>';
         }
         return $clean_html;
     }
