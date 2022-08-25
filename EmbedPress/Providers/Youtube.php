@@ -391,7 +391,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                         <?php endforeach; ?>
                         <div class="item" style="height: 0"></div>
                     </div>
-                    <div class="ep-youtube__content__pagination">
+                    <div class="ep-youtube__content__pagination <?php echo (empty($prevPageToken) && empty($nextPageToken)) ? ' hide ' : ''; ?>">
                         <div
                             class="ep-prev <?php echo empty($prevPageToken) ? ' hide ' : ''; ?>"
                             data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
