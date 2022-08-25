@@ -253,7 +253,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
         elseif ($this->isChannel() && empty(self::get_api_key()) && current_user_can('manage_options')) {
             return [
-                "html"          => "<div class='ep-player-wrap'>" . __('Please enter your YouTube API key to embed galleries.', 'embedpress') . "</div>",
+                "html"          => "<div class='ep-player-wrap'>" . __('Please enter your YouTube API key to embed YouTube Channel.', 'embedpress') . "</div>",
             ];
         }
         return $response;
@@ -430,7 +430,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     }
 
     public static function get_api_key_error_message(){
-        return '<div>' . sprintf(__("EmbedPress: Please enter your YouTube API key at <a class='ep-link' href='%s' target='_blank' style='color: #5b4e96; text-decoration: none'>EmbedPress > Platforms > YouTube</a> to embed galleries.", "embedpress"), admin_url('?page=embedpress&page_type=youtube#api_key'))  . '</div>';
+        return '<div>' . sprintf(__("EmbedPress: Please enter your YouTube API key at <a class='ep-link' href='%s' target='_blank' style='color: #5b4e96; text-decoration: none'>EmbedPress > Platforms > YouTube</a> to embed YouTube Channel.", "embedpress"), admin_url('?page=embedpress&page_type=youtube#api_key'))  . '</div>';
     }
 
     public static function get_id($item){
