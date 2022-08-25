@@ -532,20 +532,20 @@ class Feature_Enhancer {
 			// Parse the url to retrieve all its info like variables etc.
 			$url_full = $match[ 1 ];
 			$params = [
-				'ui-highlight'         => str_replace( '#', '', $options[ 'color' ] ),
-				'mute'                 => (int) $options[ 'mute' ],
-				'autoplay'             => (int) $options[ 'autoplay' ],
-				'controls'             => (int) $options[ 'controls' ],
-				'ui-start-screen-info' => (int) $options[ 'video_info' ],
+				'ui-highlight'         => str_replace( '#', '', isset($options[ 'color' ]) ? $options[ 'color' ] : null ),
+				'mute'                 => (int) isset($options[ 'mute' ]) ? $options[ 'mute' ] : null,
+				'autoplay'             => (int) isset($options[ 'autoplay' ]) ? $options[ 'autoplay' ] : null,
+				'controls'             => (int) isset($options[ 'controls' ]) ? $options[ 'controls' ] : null,
+				'ui-start-screen-info' => (int) isset($options[ 'video_info' ]) ? $options[ 'video_info' ] : null,
 				'endscreen-enable'     => 0,
 			];
 
-			if ( $options[ 'play_on_mobile' ] == '1' ) {
+			if ( isset($options[ 'play_on_mobile' ]) && $options[ 'play_on_mobile' ] == '1' ) {
 				$params[ 'playsinline' ] = 1;
 			}
-			$params['start'] = (int) $options[ 'start_time' ];
+			$params['start'] = (int) isset($options[ 'start_time' ]) ? $options[ 'start_time' ] : null;
 			if ( is_embedpress_pro_active() ) {
-				$params['ui-logo'] = (int) $options[ 'show_logo' ];
+				$params['ui-logo'] = (int) isset($options[ 'show_logo' ]) ? $options[ 'show_logo' ] : null;
 			}
 
 			$url_modified = $url_full;

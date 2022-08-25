@@ -987,7 +987,7 @@
                                 var p = new self.Node('p', 1);
 
                                 var text = new self.Node('#text', 3);
-                                text.value = self.decodeEmbedURLSpecialChars(node.attributes.map['data-url'].trim(), true, customAttributes);
+                                text.value = (node.attributes.map && typeof node.attributes.map['data-url'] != 'undefined') ? self.decodeEmbedURLSpecialChars(node.attributes.map['data-url'].trim(), true, customAttributes) : '';
 
                                 p.append(text.clone());
 
