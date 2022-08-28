@@ -23,7 +23,7 @@ class Embedpress_Elementor_Integration {
 		    add_action('elementor/editor/before_enqueue_styles', array($this, 'editor_enqueue_style'));
 		    add_action('elementor/editor/before_enqueue_scripts', array($this, 'editor_enqueue_scripts'));
 		    add_action( 'elementor/elements/categories_registered', array( $this, 'register_widget_categories' ) );
-		    add_action( 'elementor/widgets/widgets_registered', array( $this, 'register_widget' ) );
+		    add_action( 'elementor/widgets/register', array( $this, 'register_widget' ) );
 		    add_filter( 'oembed_providers', [ $this, 'addOEmbedProviders' ] );
 	    }
     }
@@ -54,17 +54,17 @@ class Embedpress_Elementor_Integration {
 	    $e_blocks = isset( $elements['elementor']) ? (array) $elements['elementor'] : [];
 
 	    if ( !empty($e_blocks['embedpress']) ) {
-		    $widgets_manager->register_widget_type( new Embedpress_Elementor );
+		    $widgets_manager->register( new Embedpress_Elementor );
 	    }
 	    if ( !empty($e_blocks['embedpress-document']) ) {
-		    $widgets_manager->register_widget_type( new Embedpress_Document );
+		    $widgets_manager->register( new Embedpress_Document );
 	    }
 
 	    if ( !empty($e_blocks['embedpress-pdf']) ) {
-		    $widgets_manager->register_widget_type( new Embedpress_Pdf );
+		    $widgets_manager->register( new Embedpress_Pdf );
 	    }
 	    if ( !empty($e_blocks['embedpress-calendar']) ) {
-		    $widgets_manager->register_widget_type( new Embedpress_Calendar );
+		    $widgets_manager->register( new Embedpress_Calendar );
 	    }
     }
 
