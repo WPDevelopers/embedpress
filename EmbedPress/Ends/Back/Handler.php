@@ -458,6 +458,7 @@ class Handler extends EndHandlerAbstract {
 	        'geo-en.hlipp.de/*',
 	        'geograph.org.uk/*',
 	        'fortest.getshow.io/*',
+	        'opensea.io/assets/*',
         ];
     }
 

@@ -21,5 +21,6 @@ $additionalServiceProviders = [
     EMBEDPRESS_NAMESPACE . "\\Providers\\Giphy"      => ["giphy.com", "i.giphy.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\Boomplay"   => ["boomplay.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\Youtube"    => ["youtube.com"],
+	EMBEDPRESS_NAMESPACE . "\\Providers\\OpenSea"    => ["opensea.io"],
 
 ];

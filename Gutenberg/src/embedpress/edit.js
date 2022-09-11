@@ -5,6 +5,7 @@ import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
+import md5 from 'md5';
 
 /**
  * WordPress dependencies
@@ -48,8 +49,19 @@ export default function EmbedPress({attributes, className, setAttributes}){
 						editingURL: true,
 					})
 				}else{
+					let __embed = data.embed.replaceAll(/<script.*?src=["'](.*?)["'].*?><\/script>/g,
+					(script, url, offset, string) => {
+						if (document.querySelector(`[src='${url}']`)) {
+							return '';
+						}
+						const s = document.createElement('script');
+						s.type = 'text/javascript';
+						s.setAttribute( 'src', url );
+						document.body.appendChild(s);
+						return '';
+					});
 					setAttributes({
-						embedHTML: data.embed,
+						embedHTML: __embed,
 						cannotEmbed: false,
 						editingURL: false,
 					});
