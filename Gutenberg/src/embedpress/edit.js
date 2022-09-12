@@ -14,7 +14,7 @@ const {__} = wp.i18n;
 import {embedPressIcon} from '../common/icons';
 const {TextControl, PanelBody} = wp.components;
 const { InspectorControls, useBlockProps } = wp.blockEditor;
-const { Fragment } = wp.element;
+const { Fragment, useEffect } = wp.element;
 
 export default function EmbedPress({attributes, className, setAttributes}){
 	const {url, editingURL, fetching, cannotEmbed, interactive, embedHTML, height, width, pagesize} = attributes;
@@ -26,6 +26,27 @@ export default function EmbedPress({attributes, className, setAttributes}){
 	function onLoad() {
 		setAttributes( {fetching: false});
 	}
+
+	useEffect( () => {
+		if(embedHTML && !editingURL && !fetching){
+			let scripts = embedHTML.matchAll(/<script.*?src=["'](.*?)["'].*?><\/script>/g);
+			scripts = [...scripts];
+			for (const script of scripts) {
+				if(script && typeof script[1] != 'undefined'){
+					const url = script[1];
+					const hash = md5(url);
+					if (document.getElementById(hash)) {
+						continue;
+					}
+					const s = document.createElement('script');
+					s.type = 'text/javascript';
+					s.setAttribute( 'id', hash );
+					s.setAttribute( 'src', url );
+					document.body.appendChild(s);
+				}
+			};
+		}
+	}, [embedHTML]);
 
 	function embed(event) {
 		if (event) event.preventDefault();
@@ -49,19 +70,8 @@ export default function EmbedPress({attributes, className, setAttributes}){
 						editingURL: true,
 					})
 				}else{
-					let __embed = data.embed.replaceAll(/<script.*?src=["'](.*?)["'].*?><\/script>/g,
-					(script, url, offset, string) => {
-						if (document.querySelector(`[src='${url}']`)) {
-							return '';
-						}
-						const s = document.createElement('script');
-						s.type = 'text/javascript';
-						s.setAttribute( 'src', url );
-						document.body.appendChild(s);
-						return '';
-					});
 					setAttributes({
-						embedHTML: __embed,
+						embedHTML: data.embed,
 						cannotEmbed: false,
 						editingURL: false,
 					});

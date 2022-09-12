@@ -84,8 +84,11 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         preg_match('~opensea\.io/assets/.*/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)~i', (string) $url, $matches);
 
         if(!empty($matches[1]) && !empty($matches[2])){
+            $params = $this->getParams();
             return "
+            <!-- vertical=\"true\" -->
             <nft-card
+            width=\"{$params['maxwidth']}\"
             contractAddress=\"{$matches[1]}\"
             tokenId=\"{$matches[2]}\">
             </nft-card>
