@@ -9,10 +9,10 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import {embedPressIcon} from '../common/icons';
+import { embedPressIcon } from '../common/icons';
 
-const {__} = wp.i18n; // Import __() from wp.i18n
-const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
+const { __ } = wp.i18n; // Import __() from wp.i18n
+const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.embedpress) {
 
 	/**
@@ -85,6 +85,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			pagesize: {
 				type: 'number',
 				default: 6
+			},
+			columns: {
+				type: 'string',
+				default: '2'
+			},
+			gapBetweenVideos: {
+				type: 'number',
+				default: 30
 			},
 		},
 		/**

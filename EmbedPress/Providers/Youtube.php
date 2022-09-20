@@ -241,7 +241,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
             if (!empty($gallery->first_vid)) {
                 $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
-                $main_iframe = "<iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe>";
+                $main_iframe = "<div class='ep-first-video'><iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe></div>";
             }
             if($gallery->html){
                 $styles      = self::styles();
