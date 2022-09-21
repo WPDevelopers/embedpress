@@ -15,6 +15,7 @@ const {
 	TextControl,
 	SelectControl,
 	RangeControl,
+	ToggleControl,
 	PanelBody
 } = wp.components;
 
@@ -29,7 +30,7 @@ export default function EmbedPress(props) {
 	const { clientId, attributes, className, setAttributes } = props;
 
 	console.log(props);
-	const { url, editingURL, fetching, cannotEmbed, interactive, embedHTML, height, width, pagesize, columns, gapBetweenVideos } = attributes;
+	const { url, editingURL, fetching, cannotEmbed, interactive, embedHTML, height, width, ispagination, pagesize, columns, gapbetweenvideos } = attributes;
 	const blockProps = useBlockProps ? useBlockProps() : [];
 	const isYTChannel = url.match(/\/channel\/|\/c\/|\/user\/|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
 	function switchBackToURLInput() {
@@ -50,7 +51,7 @@ export default function EmbedPress(props) {
 			// send api request to get iframe url
 			let fetchData = async (url) => {
 				let _pagesize = isYTChannel ? `&pagesize=${pagesize}` : '';
-				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}${_pagesize}`).then(response => response.json());
+				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}&columns=${columns}&ispagination=${ispagination}${_pagesize}&gapbetweenvideos=${gapbetweenvideos}`).then(response => response.json());
 			}
 			fetchData(url).then(data => {
 				setAttributes({
@@ -102,15 +103,24 @@ export default function EmbedPress(props) {
 						value={height}
 						onChange={(height) => setAttributes({ height })}
 					/>
+					
 					{
 						isYTChannel && (
 							<div>
+
+								<ToggleControl
+									label={__("Pagination")}
+									checked={ispagination}
+									onChange={(ispagination) => setAttributes({ ispagination })}
+								/>
+
 								<TextControl
 									label={__("Video Per Page")}
 									value={pagesize}
 									onChange={(pagesize) => setAttributes({ pagesize })}
 								/>
 								<p>Specify the number of videos you wish to show on each page.</p>
+
 
 								<SelectControl
 									label={__("Colums")}
@@ -122,14 +132,14 @@ export default function EmbedPress(props) {
 										{ label: '4', value: '4' },
 										{ label: '6', value: '6' },
 									]}
-									onChange={(columns) => setAttributes({columns})}
+									onChange={(columns) => setAttributes({ columns })}
 									__nextHasNoMarginBottom
 								/>
 
 								<RangeControl
 									label={__('Gap Between Videos')}
-									value={gapBetweenVideos}
-									onChange={(gap) => setAttributes({ gapBetweenVideos: gap })}
+									value={gapbetweenvideos}
+									onChange={(gap) => setAttributes({ gapbetweenvideos: gap })}
 									min={1}
 									max={50}
 								/>
@@ -176,9 +186,16 @@ export default function EmbedPress(props) {
 
 			<style style={{ display: "none" }}>
 				{
-					` #block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap{
-						gap: ${gapBetweenVideos}px!important;
-					} `
+					`
+					#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap{
+						gap: ${gapbetweenvideos}px!important;
+					} 
+					${!ispagination && (
+						`#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
+							display: none;
+						}`
+					)}
+					`
 				}
 			</style>
 

@@ -273,7 +273,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             'playlistId'  => '',
             'pageToken'   => '',
             'pageSize'    => self::get_pagesize() ? self::get_pagesize() : 6,
-            'columns'     => 2,
+            'columns'     => 3,
             'thumbnail'   => 'medium',
             'gallery'     => true,
             'autonext'    => true,

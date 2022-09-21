@@ -37,7 +37,11 @@ class RestAPI
 			'width' => intval( $request->get_param('width')),
 			'height' => intval( $request->get_param('height')),
 			'pagesize' => intval( $request->get_param('pagesize')),
+            'columns' =>  intval( $request->get_param('columns')),
+            'ispagination'=> $request->get_param('ispagination'),
+            'gapbetweenvideos' =>  intval( $request->get_param('gapbetweenvideos')),
 		];
+        
 
         if (empty($url)) {
             return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
@@ -47,7 +51,6 @@ class RestAPI
         if (empty($urlInfo)) {
             return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
         }
-
         return new WP_REST_Response($urlInfo, 200);
     }
 }

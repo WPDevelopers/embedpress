@@ -82,6 +82,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: 'center'
 			},
+			ispagination: {
+				type: 'boolean',
+				default: true
+			},
 			pagesize: {
 				type: 'number',
 				default: 6
@@ -90,7 +94,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: '2'
 			},
-			gapBetweenVideos: {
+			gapbetweenvideos: {
 				type: 'number',
 				default: 30
 			},

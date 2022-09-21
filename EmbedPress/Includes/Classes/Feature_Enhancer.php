@@ -16,6 +16,7 @@ class Feature_Enhancer
 		add_filter('embedpress:onAfterEmbed', [$this, 'enhance_twitch'], 90);
 		add_filter('embedpress:onAfterEmbed', [$this, 'enhance_dailymotion'], 90);
 		add_filter('embedpress:onAfterEmbed', [$this, 'enhance_soundcloud'], 90);
+
 		add_filter(
 			'embedpress_gutenberg_youtube_params',
 			[$this, 'embedpress_gutenberg_register_block_youtube']
@@ -58,6 +59,7 @@ class Feature_Enhancer
 
 	public function gutenberg_embed($embedHTML, $attributes)
 	{
+
 		if (!empty($attributes['url'])) {
 			$youtube = new Youtube($attributes['url']);
 			$is_youtube = $youtube->validateUrl($youtube->getUrl(false));
@@ -66,46 +68,76 @@ class Feature_Enhancer
 					'width'    => intval($attributes['width']),
 					'height'   => intval($attributes['height']),
 					'pagesize' => isset($attributes['pagesize']) ? intval($attributes['pagesize']) : 6,
-					'columns' => isset($attributes['columns']),
+					'columns' => isset($attributes['columns']) ? intval($attributes['columns']) : 5,
+					'ispagination' => isset($attributes['ispagination']) ? $attributes['ispagination'] : 1,
+					'gapbetweenvideos' => isset($attributes['gapbetweenvideos']) ? isset($attributes['gapbetweenvideos']) : 30,
 
 				];
+				
+				
 
 				$urlInfo = Shortcode::parseContent($attributes['url'], true, $atts);
 				if (!empty($urlInfo->embed)) {
 					$embedHTML = $urlInfo->embed;
 				}
+
+				// if (!is_admin()) {
+				// 	echo '<pre> Feature_Enharencer.php 78';
+				// 	print_r($atts);
+				// 	echo '</pre>';
+				// 	// die;
+				// }
+				
+				// if (!is_admin()) {
+				// 	echo '<pre> Feature_Enharencer.php 85 ';
+				// 	print_r($attributes);
+				// 	echo '</pre>';
+				// 	die;
+				// }
+
+
 			}
 		}
+
 		return $embedHTML;
 	}
+
+
 	public function embra_attrs($emberaInstanceSettings, $attributes)
 	{
 		if (isset($attributes['data-pagesize'])) {
 			$emberaInstanceSettings['pageSize'] = $attributes['data-pagesize'];
 			// unset( $attributes[ 'data-pagesize' ] );
 		}
+
 		if (isset($attributes['data-thumbnail'])) {
 			$emberaInstanceSettings['thumbnail'] = $attributes['data-thumbnail'];
 			// unset( $attributes[ 'data-thumbnail' ] );
 		}
+
 		if (isset($attributes['data-gallery'])) {
 			$emberaInstanceSettings['gallery'] = $attributes['data-gallery'];
 			// unset( $attributes[ 'data-gallery' ] );
 		}
+
 		if (isset($attributes['data-hideprivate'])) {
 			$emberaInstanceSettings['hideprivate'] = $attributes['data-hideprivate'];
 			// unset( $attributes[ 'data-hideprivate' ] );
 		}
+
 		if (isset($attributes['data-columns'])) {
 			$emberaInstanceSettings['columns'] = $attributes['data-columns'];
 			// unset( $attributes[ 'data-hideprivate' ] );
 		}
 
-		echo '<pre> Feature_Enharencer.php';
-		print_r($emberaInstanceSettings);
-		echo '</pre>';
-
-		die;
+		if (isset($attributes['data-ispagination'])) {
+			$emberaInstanceSettings['ispagination'] = $attributes['data-ispagination'];
+			// unset( $attributes[ 'data-hideprivate' ] );
+		}
+		if (isset($attributes['data-gapbetweenvideos'])) {
+			$emberaInstanceSettings['gapbetweenvideos'] = $attributes['data-gapbetweenvideos'];
+			// unset( $attributes[ 'data-hideprivate' ] );
+		}
 
 		return $emberaInstanceSettings;
 	}

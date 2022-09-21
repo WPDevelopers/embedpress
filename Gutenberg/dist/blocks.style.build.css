@@ -208,6 +208,23 @@ body.page .flexia-wrapper > .content-area {
 
 .components-input-control__label {
   font-weight: 600; }
+
+.components-base-control__field,
+.components-input-control__label {
+  font-weight: 600; }
+
+label.components-truncate.components-text.components-input-control__label.em5sgkm4.ecfd-bd--d-eecc-1iznhho.em57xhy0 {
+  font-weight: 600 !important; }
+
+.text-center {
+  text-align: center !important; }
+
+.wp-block-embed.is-loading {
+  -ms-flex-align: center;
+      align-items: center; }
+
+.css-vwt1e3 {
+  margin: 0px 11px 0px !important; }
 /**
  * #.# Common SCSS
  *

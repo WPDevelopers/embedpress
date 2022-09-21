@@ -85,9 +85,14 @@ class Shortcode
      *
      */
 
+     
+
+
     public static function do_shortcode($attributes = [], $subject = null)
     {
         $plgSettings = Core::getSettings();
+
+
         $default = [];
         if ($plgSettings->enableGlobalEmbedResize) {
             $default = [
@@ -97,6 +102,7 @@ class Shortcode
         }
         $attributes = wp_parse_args($attributes, $default);
         $embed = self::parseContent($subject, true, $attributes);
+
         return is_object($embed) ? $embed->embed : $embed;
     }
 
@@ -112,6 +118,7 @@ class Shortcode
      */
     public static function parseContent($subject, $stripNewLine = false, $customAttributes = [])
     {
+
         if (!empty($subject)) {
             if (empty($customAttributes)) {
                 $customAttributes = self::parseContentAttributesFromString($subject);
@@ -135,6 +142,8 @@ class Shortcode
             //	return $embed;
             //}
             self::$ombed_attributes = self::parseContentAttributes($customAttributes, $content_uid);
+
+
             self::set_embera_settings(self::$ombed_attributes);
 
             // Identify what service provider the shortcode's link belongs to
@@ -285,6 +294,9 @@ class Shortcode
                 }
             }
 
+
+
+
             if ('the-new-york-times' === $provider_name && isset($customAttributes['height']) && isset($customAttributes['width'])) {
                 $styles = <<<KAMAL
 <style>
@@ -321,6 +333,8 @@ KAMAL;
             }
         }
 
+
+
         return $subject;
     }
 
@@ -340,7 +354,10 @@ KAMAL;
 
     protected static function set_default_size(&$customAttributes)
     {
+
         $plgSettings = Core::getSettings();
+
+
         if (empty($customAttributes['width'])) {
             $customAttributes['width'] = !empty($plgSettings->enableEmbedResizeWidth) ? $plgSettings->enableEmbedResizeWidth : 600;
         }
@@ -452,6 +469,7 @@ KAMAL;
      */
     private static function parseContentAttributes(array $customAttributes, $content_uid = null)
     {
+
         $attributes = [
             'class' => ["embedpress-wrapper ose-embedpress-responsive"],
         ];
@@ -544,9 +562,6 @@ KAMAL;
 
     protected static function set_embera_settings(&$attributes)
     {
-        echo '<pre> Shortcode.php';
-        print_r($attributes);
-        echo '</pre>';
 
         if (isset($attributes['width']) || isset($attributes['height'])) {
             if (isset($attributes['width'])) {
@@ -845,11 +860,16 @@ KAMAL;
             'powered_by' => 'no',
         ];
         $attributes = wp_parse_args($attributes, $default);
+
         $url = preg_replace(
             '/(\[' . EMBEDPRESS_SHORTCODE . '(?:\]|.+?\])|\[\/' . EMBEDPRESS_SHORTCODE . '\])/i',
             "",
             $subject
         );
+
+        // echo '<pre> Feature_Enharencer.php';
+        // echo($url.'akash');
+        // echo '</pre>';
 
         ob_start();
 
