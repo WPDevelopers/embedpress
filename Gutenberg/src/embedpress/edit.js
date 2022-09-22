@@ -81,6 +81,14 @@ export default function EmbedPress(props) {
 		}
 	}
 
+	const publishBtn = document.querySelector('.editor-post-publish-button');
+
+	if (publishBtn) {
+		publishBtn.addEventListener('click', function (event) {
+			embed(event);
+		});
+	}
+
 	const styleCss = `
 	`;
 
@@ -103,7 +111,7 @@ export default function EmbedPress(props) {
 						value={height}
 						onChange={(height) => setAttributes({ height })}
 					/>
-					
+
 					{
 						isYTChannel && (
 							<div>
@@ -140,8 +148,8 @@ export default function EmbedPress(props) {
 									label={__('Gap Between Videos')}
 									value={gapbetweenvideos}
 									onChange={(gap) => setAttributes({ gapbetweenvideos: gap })}
-									min={1}
-									max={50}
+									min={0}
+									max={100}
 								/>
 								<p>Specify the gap between youtube videos.</p>
 							</div>
@@ -189,6 +197,7 @@ export default function EmbedPress(props) {
 					`
 					#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap{
 						gap: ${gapbetweenvideos}px!important;
+						margin-top: ${gapbetweenvideos}px!important;
 					} 
 					${!ispagination && (
 						`#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{

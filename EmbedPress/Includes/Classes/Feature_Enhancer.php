@@ -7,6 +7,7 @@ use EmbedPress\Shortcode;
 
 class Feature_Enhancer
 {
+	public static $attributes_data;
 
 	public function __construct()
 	{
@@ -27,6 +28,8 @@ class Feature_Enhancer
 		add_action('wp_ajax_youtube_rest_api', [$this, 'youtube_rest_api']);
 		add_action('embedpress_shortcode_embra_attrs', [$this, 'embra_attrs'], 10, 2);
 		add_action('embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2);
+		//add_action('wp_header', [$this, 'dynamic_css_data'], 10, 2);
+
 		add_action('embedpress:isEmbra', [$this, 'isEmbra'], 10, 3);
 	}
 
@@ -69,39 +72,33 @@ class Feature_Enhancer
 					'height'   => intval($attributes['height']),
 					'pagesize' => isset($attributes['pagesize']) ? intval($attributes['pagesize']) : 6,
 					'columns' => isset($attributes['columns']) ? intval($attributes['columns']) : 5,
-					'ispagination' => isset($attributes['ispagination']) ? $attributes['ispagination'] : 1,
-					'gapbetweenvideos' => isset($attributes['gapbetweenvideos']) ? isset($attributes['gapbetweenvideos']) : 30,
-
+					'ispagination' => isset($attributes['ispagination']) ? $attributes['ispagination'] : true,
+					'gapbetweenvideos' => isset($attributes['gapbetweenvideos']) ? $attributes['gapbetweenvideos'] : 30,
 				];
-				
-				
 
 				$urlInfo = Shortcode::parseContent($attributes['url'], true, $atts);
 				if (!empty($urlInfo->embed)) {
 					$embedHTML = $urlInfo->embed;
 				}
-
-				// if (!is_admin()) {
-				// 	echo '<pre> Feature_Enharencer.php 78';
-				// 	print_r($atts);
-				// 	echo '</pre>';
-				// 	// die;
-				// }
-				
-				// if (!is_admin()) {
-				// 	echo '<pre> Feature_Enharencer.php 85 ';
-				// 	print_r($attributes);
-				// 	echo '</pre>';
-				// 	die;
-				// }
-
-
 			}
 		}
+		
 
 		return $embedHTML;
 	}
 
+
+	public static function dynamic_css_data($attributes){
+		
+		?>
+		<style>
+			.ep-youtube__content__block .youtube__content__body .content__wrap {
+				gap: <?php echo $attributes['gapbetweenvideos']; ?>px!important;
+				margin-top: <?php echo $attributes['gapbetweenvideos']?>px!important;
+			}
+		</style>
+		<?php
+	}
 
 	public function embra_attrs($emberaInstanceSettings, $attributes)
 	{
@@ -139,8 +136,27 @@ class Feature_Enhancer
 			// unset( $attributes[ 'data-hideprivate' ] );
 		}
 
+		// if (!is_admin()) {
+		// 	echo '<pre> Feature_Enharencer.php 138 ';
+		// 	print_r($emberaInstanceSettings);
+		// 	echo '</pre>';
+		// }
+
+		// $css = '<style>
+		// 	.ep-youtube__content__block .youtube__content__body .content__wrap {
+		// 		gap: '.$emberaInstanceSettings['gapbetweenvideos'].'px!important;
+		// 		margin-top: '.$emberaInstanceSettings['gapbetweenvideos'].'px!important;
+		// 	}
+		// </style>';
+
+		// echo $css;
+
+		
+
 		return $emberaInstanceSettings;
 	}
+
+
 
 	public function elementor_setting_init()
 	{
@@ -1088,4 +1104,6 @@ class Feature_Enhancer
 			],
 		];
 	}
+
+
 }
