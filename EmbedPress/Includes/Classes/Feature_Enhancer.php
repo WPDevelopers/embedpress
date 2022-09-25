@@ -71,8 +71,8 @@ class Feature_Enhancer
 					'width'    => intval($attributes['width']),
 					'height'   => intval($attributes['height']),
 					'pagesize' => isset($attributes['pagesize']) ? intval($attributes['pagesize']) : 6,
-					'columns' => isset($attributes['columns']) ? intval($attributes['columns']) : 5,
-					'ispagination' => isset($attributes['ispagination']) ? $attributes['ispagination'] : true,
+					'columns' => isset($attributes['columns']) ? intval($attributes['columns']) : 2,
+					'ispagination' => isset($attributes['ispagination']) ? $attributes['ispagination'] : 0,
 					'gapbetweenvideos' => isset($attributes['gapbetweenvideos']) ? $attributes['gapbetweenvideos'] : 30,
 				];
 
@@ -135,22 +135,6 @@ class Feature_Enhancer
 			$emberaInstanceSettings['gapbetweenvideos'] = $attributes['data-gapbetweenvideos'];
 			// unset( $attributes[ 'data-hideprivate' ] );
 		}
-
-		// if (!is_admin()) {
-		// 	echo '<pre> Feature_Enharencer.php 138 ';
-		// 	print_r($emberaInstanceSettings);
-		// 	echo '</pre>';
-		// }
-
-		// $css = '<style>
-		// 	.ep-youtube__content__block .youtube__content__body .content__wrap {
-		// 		gap: '.$emberaInstanceSettings['gapbetweenvideos'].'px!important;
-		// 		margin-top: '.$emberaInstanceSettings['gapbetweenvideos'].'px!important;
-		// 	}
-		// </style>';
-
-		// echo $css;
-
 		
 
 		return $emberaInstanceSettings;

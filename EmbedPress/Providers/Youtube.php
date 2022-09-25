@@ -340,6 +340,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $prevPageToken = $jsonResult->prevPageToken;
         }
 
+
         if (!empty($jsonResult->items) && is_array($jsonResult->items)) :
             if($options['gallery'] === "false"){
                 $gallobj->html = "";
@@ -401,9 +402,16 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                             <span><?php _e("Prev", "embedpress"); ?></span>
                         </div>
                         <div class="ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
-                            <span class="current-page">1</span>
-                            <span class="page-separator">...</span>
-                            <span class="total-page"><?php echo intval($totalPages); ?></span>
+                            <?php 
+                                    for ($i=1; $i < ($totalPages); $i++) { 
+                                        echo wp_kses_post('<span class="page-number page-'.$i.'">'.$i.'</span>'); 
+                                    }
+                                
+                            ?>
+                            
+                            <span class="current-page">1</span> 
+                            <!-- <span class="page-separator">...</span> -->  
+
                         </div>
                         <div
                             class="ep-next <?php echo empty($nextPageToken) ? ' hide ' : ''; ?>"

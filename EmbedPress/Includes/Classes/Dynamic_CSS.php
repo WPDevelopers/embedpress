@@ -6,9 +6,8 @@ if (!defined('ABSPATH')) {
     exit;
 } // Exit if accessed directly
 
-use EmbedPress\Includes\Classes\Feature_Enhancer;
 
-class Dynamic_CSS
+class Dynamic_CSS extends Shortcode
 {
     function __construct()
     {
@@ -20,29 +19,34 @@ class Dynamic_CSS
         // print_r(Feature_Enhancer::$attributes_data);
     }
 
-    public static function attributes_data($attributes)
+    public static function attributes_data ()
     {
+
+        print_r(Shortcode::getAttributesData());
+
+        // die;
+
         $is_pagination = 'block';
 
-        if (!$attributes['ispagination']) {
+        if (!$attributes['data-ispagination']) {
             $is_pagination = 'none';
         }
 
-        if (!is_admin()) :
+//         if (!is_admin()) :
 
-            ?>
+//             ?>
 
-            <style>
-                .ep-youtube__content__block .youtube__content__body .content__wrap {
-                    gap: <?php echo esc_html($attributes['gapbetweenvideos']); ?>px !important;
-                    margin-top: <?php echo esc_html($attributes['gapbetweenvideos']); ?>px !important;
-                }
+<!-- //             <style>
+//                 .ep-youtube__content__block .youtube__content__body .content__wrap {
+//                     gap: <?php echo esc_html($attributes['data-gapbetweenvideos']); ?>px !important;
+//                     margin-top: <?php echo esc_html($attributes['data-gapbetweenvideos']); ?>px !important;
+//                 }
 
-                .ep-youtube__content__block .ep-youtube__content__pagination {
-                    display: <?php echo esc_html($is_pagination); ?>;
-                }
-            </style>
-<?php
-        endif;
+//                 .ep-youtube__content__block .ep-youtube__content__pagination {
+//                     display: <?php echo esc_html($is_pagination); ?>;
+//                 }
+//             </style> -->
+ <?php
+//         endif;
     }
 }

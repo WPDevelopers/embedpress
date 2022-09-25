@@ -90,11 +90,8 @@ if (  is_plugin_active('elementor/elementor.php')) {
 
 Shortcode::register();
 
-
-
 if ( !class_exists( '\simple_html_dom') ) {
 	include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
 }
 
-
-Dynamic_CSS::ep_dynamic_css();
+// Dynamic_CSS::attributes_data();

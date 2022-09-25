@@ -55,6 +55,8 @@ class Shortcode
 
     private static $emberaInstanceSettings = [];
     private static $ombed_attributes;
+    public static $attributes_data;
+ 
 
     /**
      * Register the plugin's shortcode into WordPress.
@@ -71,6 +73,7 @@ class Shortcode
         add_shortcode('embed_oembed_html', ['\\EmbedPress\\Shortcode', 'do_shortcode']);
         add_shortcode('embedpress', ['\\EmbedPress\\Shortcode', 'do_shortcode']);
         add_shortcode('embedpress_pdf', ['\\EmbedPress\\Shortcode', 'do_shortcode_pdf']);
+        add_action('wp_footer', ['\\EmbedPress\\Shortcode', 'dynamic_css']);
     }
 
     /**
@@ -85,7 +88,7 @@ class Shortcode
      *
      */
 
-     
+
 
 
     public static function do_shortcode($attributes = [], $subject = null)
@@ -102,6 +105,7 @@ class Shortcode
         }
         $attributes = wp_parse_args($attributes, $default);
         $embed = self::parseContent($subject, true, $attributes);
+
 
         return is_object($embed) ? $embed->embed : $embed;
     }
@@ -142,6 +146,7 @@ class Shortcode
             //	return $embed;
             //}
             self::$ombed_attributes = self::parseContentAttributes($customAttributes, $content_uid);
+            
 
 
             self::set_embera_settings(self::$ombed_attributes);
@@ -153,11 +158,16 @@ class Shortcode
             } else {
                 $serviceProvider = self::get_oembed()->get_provider($url);
             }
+
             // FIX FOR MEETUP as MEETUP API is OFF, use OUR custom embed
             if ('https://api.meetup.com/oembed' === $serviceProvider) {
                 $serviceProvider = '';
             }
+
+
             $urlData = self::get_url_data($url, self::$ombed_attributes, $serviceProvider);
+
+
 
             // Sanitize the data
             $urlData = self::sanitizeUrlData($urlData, $url);
@@ -333,6 +343,7 @@ KAMAL;
             }
         }
 
+        
 
 
         return $subject;
@@ -373,7 +384,42 @@ KAMAL;
         } else {
             $urlData = self::get_embera_instance()->getUrlData($url);
         }
+        
         return $urlData;
+    }
+
+    // self::$attributes_data = self::$ombed_attributes;
+    
+    protected static function getAttributesData(){
+        self::$attributes_data = self::get_oembed_attributes();
+        echo 'akash';
+        // return self::get_oembed_attributes();
+
+        return self::$attributes_data;
+    }
+
+    public function dynamic_css() {
+        $attributes_data = self::get_embera_settings();
+        
+        $is_pagination = 'flex';
+        if ($attributes_data['ispagination']) {
+            $is_pagination = 'none';
+        }
+
+        ?>
+     <style>
+        .ep-youtube__content__block .youtube__content__body .content__wrap {
+            gap: <?php echo esc_html($attributes_data['gapbetweenvideos']); ?>px !important;
+            margin-top: <?php echo esc_html($attributes_data['gapbetweenvideos']); ?>px !important;
+        }
+        .ep-youtube__content__block .ep-youtube__content__pagination {
+            display: <?php echo esc_html($is_pagination); ?>;
+        }
+        .ep-youtube__content__block .youtube__content__body .content__wrap {
+            grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html('calc('.(100 / $attributes_data['columns']).'% - '.$attributes_data['gapbetweenvideos'].'px)'); ?>, 1fr));
+        }
+
+</style> <?php
     }
 
 
@@ -467,6 +513,7 @@ KAMAL;
      * @static
      *
      */
+
     private static function parseContentAttributes(array $customAttributes, $content_uid = null)
     {
 
@@ -726,6 +773,7 @@ KAMAL;
 
     protected static function get_oembed_attributes()
     {
+        
         return self::$ombed_attributes;
     }
     protected static function set_oembed_attributes($atts)
@@ -867,9 +915,6 @@ KAMAL;
             $subject
         );
 
-        // echo '<pre> Feature_Enharencer.php';
-        // echo($url.'akash');
-        // echo '</pre>';
 
         ob_start();
 

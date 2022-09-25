@@ -29,7 +29,6 @@ const { Fragment } = wp.element;
 export default function EmbedPress(props) {
 	const { clientId, attributes, className, setAttributes } = props;
 
-	console.log(props);
 	const { url, editingURL, fetching, cannotEmbed, interactive, embedHTML, height, width, ispagination, pagesize, columns, gapbetweenvideos } = attributes;
 	const blockProps = useBlockProps ? useBlockProps() : [];
 	const isYTChannel = url.match(/\/channel\/|\/c\/|\/user\/|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
@@ -81,14 +80,15 @@ export default function EmbedPress(props) {
 		}
 	}
 
-	const publishBtn = document.querySelector('.editor-post-publish-button');
+	// const publishBtn = document.querySelector('.editor-post-publish-button');
 
-	if (publishBtn) {
-		publishBtn.addEventListener('click', function (event) {
-			embed(event);
-		});
-	}
+	// if (publishBtn) {
+	// 	publishBtn.addEventListener('click', function (event) {
+	// 		embed(event);
+	// 	});
+	// }
 
+	console.log(ispagination);
 	const styleCss = `
 	`;
 
@@ -131,7 +131,7 @@ export default function EmbedPress(props) {
 
 
 								<SelectControl
-									label={__("Colums")}
+									label={__("Columns")}
 									value={columns}
 									options={[
 										{ label: 'Auto', value: 'auto' },
@@ -157,7 +157,9 @@ export default function EmbedPress(props) {
 
 					}
 
-					{(embedHTML && !editingURL) && <button className='button' onClick={embed}>{__('Apply Change')}</button>}
+					{/* {(embedHTML && !editingURL) && <button className='button' onClick={embed}>{__('Apply Change')}</button>} */}
+
+
 				</PanelBody>
 			</InspectorControls>
 			{((!embedHTML || editingURL) && !fetching) && <div {...blockProps}>
@@ -199,11 +201,21 @@ export default function EmbedPress(props) {
 						gap: ${gapbetweenvideos}px!important;
 						margin-top: ${gapbetweenvideos}px!important;
 					} 
+					
+					#block-${clientId} .ose-youtube{
+						width: ${width}px!important;
+					} 
+					
+					#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap {
+						grid-template-columns: repeat(auto-fit, minmax(calc(${100/columns}% - ${gapbetweenvideos}px), 1fr));
+					}
+
 					${!ispagination && (
 						`#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
 							display: none;
 						}`
 					)}
+
 					`
 				}
 			</style>
