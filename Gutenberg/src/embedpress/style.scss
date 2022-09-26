@@ -85,13 +85,21 @@ body.page .flexia-wrapper>.content-area {
 	max-width: 100% !important;
 }
 
-.ep-first-video {
+.ep-first-video, .ose-youtube {
 	position: relative;
 	height: 0;
 	padding-bottom: 56.25%;
 }
 
 .ep-first-video iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.ose-youtube > iframe{
 	position: absolute;
 	top: 0;
 	left: 0;

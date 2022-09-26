@@ -190,32 +190,50 @@
 
         var currentPage = 1;
 
+        const designPagination = () => {
 
-        
-        const designPagination = (currentPage) => {
+            document.querySelectorAll('.ose-youtube').forEach(item => {
+                const lastPage = item.querySelector('.page-number:last-child');
+                const totalPages = lastPage.getAttribute('data-page');
 
-            
-            
-            document.body.classList.add(`current-page-${currentPage}`);
-
-
+                item.setAttribute('data-current-page', 1);
+                item.setAttribute('data-total-pages', totalPages);
+            });
 
         }
-        
-        // console.log({ currentPage,body });
+
+        designPagination();
+
+        if (document.querySelector(`[data-page="1"]`)) {
+                document.querySelector(`[data-page="1"]`).classList.add('page-active');
+        }
 
         delegate(playerWrap, "click", ".ep-next, .ep-prev", function (event) {
-            var isNext = this.classList.contains("ep-next");
-            if (isNext) {
-                currentPage++;
-            } else {
-                currentPage--;
+            const totalPages = event.target.closest('.ose-youtube').getAttribute('data-total-pages');
+            const closestClass = event.target.closest('.ose-youtube').classList;
+
+            const activePage = document.querySelector(`.${closestClass[1]} .page-active`);
+            if (activePage) {
+                document.querySelector(`.${closestClass[1]} .page-active`).classList.remove('page-active');
             }
 
 
 
-            console.log({ currentPage, event });
-            console.log( event.target );
+            event.target.closest('.ose-youtube')
+
+            var isNext = this.classList.contains("ep-next");
+
+            if (isNext) {
+                // if (currentPage >= totalPages) {
+                //     return false;
+                // }
+                currentPage++;
+            } else {
+                // if (currentPage < 1) {
+                //     return false;
+                // }
+                currentPage--;
+            }
 
             var data = {
                 action: "youtube_rest_api",
@@ -232,15 +250,16 @@
             }
             formBody = formBody.join("&");
 
-            var loader = playerWrap.getElementsByClassName("ep-loader");
+            // var loader = playerWrap.getElementsByClassName("ep-loader");
             var galleryWrapper = playerWrap.getElementsByClassName(
                 "ep-youtube__content__block"
             );
-            removeClass(loader[0], "hide");
-            addClass(galleryWrapper[0], "loading");
+            // removeClass(loader[0], "hide");
+            // addClass(galleryWrapper[0], "loading");
             sendRequest("/wp-admin/admin-ajax.php", formBody, function (request) {
-                addClass(loader[0], "hide");
-                removeClass(galleryWrapper[0], "loading");
+                // addClass(loader[0], "hide");
+
+                // removeClass(galleryWrapper[0], "loading");
 
                 if (galleryWrapper && galleryWrapper[0] && request.responseText) {
                     var response = JSON.parse(request.responseText);
@@ -254,6 +273,14 @@
                     }
                 }
             });
+            
+            event.target.closest('.ose-youtube').setAttribute('data-current-page', currentPage);
+            
+            if (document.querySelector(`[data-page="${currentPage}"]`)) {
+                window.setTimeout(function(){
+                    document.querySelector(`[data-page="${currentPage}"]`).classList.add('page-active');
+                }, 1000);
+            }
         });
     }
 })();

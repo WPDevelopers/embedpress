@@ -402,16 +402,13 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                             <span><?php _e("Prev", "embedpress"); ?></span>
                         </div>
                         <div class="ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
-                            <?php 
-                                    for ($i=1; $i < ($totalPages); $i++) { 
-                                        echo wp_kses_post('<span class="page-number page-'.$i.'">'.$i.'</span>'); 
+                            <?php   
+                                    for ($i=1; $i <= ($totalPages); $i++) { 
+                                        echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
                                     }
                                 
                             ?>
                             
-                            <span class="current-page">1</span> 
-                            <!-- <span class="page-separator">...</span> -->  
-
                         </div>
                         <div
                             class="ep-next <?php echo empty($nextPageToken) ? ' hide ' : ''; ?>"
@@ -554,14 +551,21 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
         .ep-youtube__content__pagination .ep-page-numbers > span {
             border: 1px solid rgba(0, 0, 0, .1);
             border-radius: 30px;
-            padding: 0 10px;
             display: inline-block;
-            min-width: 30px;
-            min-height: 30px;
+            min-width: 35px;
+            min-height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .page-active {
+            background: #5200bf;
+            color: #fff;
         }
 
         .ep-youtube__content__block .youtube__content__body .content__wrap {
