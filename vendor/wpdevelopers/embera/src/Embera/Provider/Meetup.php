@@ -104,12 +104,14 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 		$title = $this->embedpress_get_markup_from_node($header_dom->find('h1', 0));
 		$emrv9za = $body_dom->find('div.emrv9za', 0);
 		$picture = $emrv9za->find('picture[data-testid="event-description-image"]', 0);
-		$picture->find('img', 0)->remove();
-		$img = $picture->find('noscript', 0)->innertext();
-		$img = str_replace('/_next/image/', 'https://www.meetup.com/_next/image/', $img);
-		$picture->find('noscript', 0)->remove();
-		$span = $picture->find('div', 0)->find('span', 0);
-		$span->outertext = $span->makeup() . $span->innertext . $img . '</span>';
+		if(!empty($picture)){
+			$picture->find('img', 0)->remove();
+			$img = $picture->find('noscript', 0)->innertext();
+			$img = str_replace('/_next/image/', 'https://www.meetup.com/_next/image/', $img);
+			$picture->find('noscript', 0)->remove();
+			$span = $picture->find('div', 0)->find('span', 0);
+			$span->outertext = $span->makeup() . $span->innertext . $img . '</span>';
+		}
 
 		$content = $this->embedpress_get_markup_from_node( $emrv9za ) ;
 
