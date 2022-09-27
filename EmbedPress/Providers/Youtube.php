@@ -363,7 +363,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
             ob_start();
             ?>
-            <div class="ep-youtube__content__block">
+            <div class="ep-youtube__content__block"  data-unique-id="<?php echo wp_rand(); ?>">
                 <div class="youtube__content__body">
                     <div class="content__wrap">
                         <?php foreach ($jsonResult->items as $item) : ?>
@@ -563,7 +563,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             align-items: center;
             justify-content: center;
         }
-        .page-active {
+        .embedpress-page-active {
             background: #5200bf;
             color: #fff;
         }

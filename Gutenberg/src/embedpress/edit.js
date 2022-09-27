@@ -50,6 +50,8 @@ export default function EmbedPress(props) {
 			// send api request to get iframe url
 			let fetchData = async (url) => {
 				let _pagesize = isYTChannel ? `&pagesize=${pagesize}` : '';
+				
+				console.log(pagesize);
 				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}&columns=${columns}&ispagination=${ispagination}${_pagesize}&gapbetweenvideos=${gapbetweenvideos}`).then(response => response.json());
 			}
 			fetchData(url).then(data => {
@@ -92,7 +94,10 @@ export default function EmbedPress(props) {
 	const styleCss = `
 	`;
 
-
+	const onVideoPerpage = (pagesize) => {
+		setAttributes({pagesize});
+		embed();
+	}
 
 	return (
 		<Fragment>
@@ -125,7 +130,8 @@ export default function EmbedPress(props) {
 								<TextControl
 									label={__("Video Per Page")}
 									value={pagesize}
-									onChange={(pagesize) => setAttributes({ pagesize })}
+									onChange={(pagesize) => onVideoPerpage(pagesize)}
+									type={'number'}
 								/>
 								<p>Specify the number of videos you wish to show on each page.</p>
 

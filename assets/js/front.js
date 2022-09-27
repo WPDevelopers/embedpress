@@ -168,6 +168,9 @@
         }
     }
     function youtubeChannelEvents(playerWrap) {
+
+
+
         delegate(playerWrap, "click", ".item", function (event) {
             var embed = "https://www.youtube.com/embed/";
             var vid = this.getAttribute("data-vid");
@@ -205,21 +208,30 @@
         designPagination();
 
         if (document.querySelector(`[data-page="1"]`)) {
-                document.querySelector(`[data-page="1"]`).classList.add('page-active');
+            document.querySelector(`[data-page="1"]`).classList.add('embedpress-page-active');
         }
+
+
+
+
+        let nearestEpContentId = playerWrap.querySelector('.ep-youtube__content__block').getAttribute('data-unique-id');
+        console.log('----- playerWrap', {playerWrap, nearestEpContentId});
+
 
         delegate(playerWrap, "click", ".ep-next, .ep-prev", function (event) {
             const totalPages = event.target.closest('.ose-youtube').getAttribute('data-total-pages');
             const closestClass = event.target.closest('.ose-youtube').classList;
 
-            const activePage = document.querySelector(`.${closestClass[1]} .page-active`);
+            const activePage = document.querySelector(`.${closestClass[1]} .embedpress-page-active`);
             if (activePage) {
-                document.querySelector(`.${closestClass[1]} .page-active`).classList.remove('page-active');
+                document.querySelector(`.${closestClass[1]} .embedpress-page-active`).classList.remove('embedpress-page-active');
             }
 
+            
+            // const nearestWraper = event.target.closest('.ose-youtube');
+            // let nearestEpContentId = nearestWraper.querySelector('.ep-youtube__content__block').getAttribute('data-unique-id');
 
-
-            event.target.closest('.ose-youtube')
+            console.log(nearestEpContentId);
 
             var isNext = this.classList.contains("ep-next");
 
@@ -234,6 +246,9 @@
                 // }
                 currentPage--;
             }
+
+            
+
 
             var data = {
                 action: "youtube_rest_api",
@@ -256,6 +271,28 @@
             );
             // removeClass(loader[0], "hide");
             // addClass(galleryWrapper[0], "loading");
+
+
+
+
+            playerWrap.setAttribute('data-current-page', currentPage);
+
+            // if (document.querySelector(`[data-page="${currentPage}"]`)) {
+            //     window.setTimeout(function(){
+            //         document.querySelector(`[data-page="${currentPage}"]`).classList.add('embedpress-page-active');
+            //     }, 1000);
+            // }
+
+
+            let x = 1;
+
+
+
+
+
+            // 
+            // 
+            // 
             sendRequest("/wp-admin/admin-ajax.php", formBody, function (request) {
                 // addClass(loader[0], "hide");
 
@@ -273,14 +310,35 @@
                     }
                 }
             });
-            
-            event.target.closest('.ose-youtube').setAttribute('data-current-page', currentPage);
-            
-            if (document.querySelector(`[data-page="${currentPage}"]`)) {
-                window.setTimeout(function(){
-                    document.querySelector(`[data-page="${currentPage}"]`).classList.add('page-active');
-                }, 1000);
-            }
+
+
+            const intervalID = setInterval(() => {
+                x++
+
+
+                if (playerWrap.querySelector('.ep-youtube__content__block')) {
+                    const newNearestEpContentId = playerWrap
+                        .querySelector('.ep-youtube__content__block')
+                        .getAttribute('data-unique-id');
+
+                        console.log('1 no if a entered');
+                    if (newNearestEpContentId !== nearestEpContentId && playerWrap.querySelector(`[data-page="${currentPage}"]`)) {
+                        playerWrap.querySelector(`[data-page="${currentPage}"]`).classList.add('embedpress-page-active');
+                        nearestEpContentId = newNearestEpContentId;
+                        console.log('------2 no if a entered class add hoyeche');
+                        
+                        clearInterval(intervalID);
+                    }
+                }
+
+                if (x > 100) {
+                    clearInterval(intervalID);
+                    console.log('X er maan 100 er beshi.....', { x })
+                }
+
+                console.log('------Interval run hocche')
+            }, 100);
+
         });
     }
 })();
