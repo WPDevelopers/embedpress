@@ -304,7 +304,7 @@ With EmbedPress, you have a wide variety of options for adding charts and diagra
 
 ### 🚀 BACKED BY A TRUSTED TEAM
 
-This embed plugin is brought to you by the team behind [WPDeveloper](https://wpdeveloper.com/), a dedicated marketplace for WordPress, trusted by 3 millions+ happy WordPress users.
+This embed plugin is brought to you by the team behind [WPDeveloper](https://wpdeveloper.com/), a dedicated marketplace for WordPress, trusted by 5 millions+ happy WordPress users.
 
 ### 👨‍💻 DOCUMENTATION AND SUPPORT
 
