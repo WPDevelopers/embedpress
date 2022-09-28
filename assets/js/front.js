@@ -227,11 +227,7 @@
                 document.querySelector(`.${closestClass[1]} .embedpress-page-active`).classList.remove('embedpress-page-active');
             }
 
-            
-            // const nearestWraper = event.target.closest('.ose-youtube');
-            // let nearestEpContentId = nearestWraper.querySelector('.ep-youtube__content__block').getAttribute('data-unique-id');
-
-            console.log(nearestEpContentId);
+        
 
             var isNext = this.classList.contains("ep-next");
 
@@ -248,8 +244,6 @@
             }
 
             
-
-
             var data = {
                 action: "youtube_rest_api",
                 playlistid: this.getAttribute("data-playlistid"),
@@ -272,9 +266,6 @@
             // removeClass(loader[0], "hide");
             // addClass(galleryWrapper[0], "loading");
 
-
-
-
             playerWrap.setAttribute('data-current-page', currentPage);
 
             // if (document.querySelector(`[data-page="${currentPage}"]`)) {
@@ -286,13 +277,6 @@
 
             let x = 1;
 
-
-
-
-
-            // 
-            // 
-            // 
             sendRequest("/wp-admin/admin-ajax.php", formBody, function (request) {
                 // addClass(loader[0], "hide");
 
@@ -311,32 +295,24 @@
                 }
             });
 
-
             const intervalID = setInterval(() => {
                 x++
-
 
                 if (playerWrap.querySelector('.ep-youtube__content__block')) {
                     const newNearestEpContentId = playerWrap
                         .querySelector('.ep-youtube__content__block')
                         .getAttribute('data-unique-id');
 
-                        console.log('1 no if a entered');
                     if (newNearestEpContentId !== nearestEpContentId && playerWrap.querySelector(`[data-page="${currentPage}"]`)) {
                         playerWrap.querySelector(`[data-page="${currentPage}"]`).classList.add('embedpress-page-active');
                         nearestEpContentId = newNearestEpContentId;
-                        console.log('------2 no if a entered class add hoyeche');
-                        
                         clearInterval(intervalID);
                     }
                 }
 
                 if (x > 100) {
                     clearInterval(intervalID);
-                    console.log('X er maan 100 er beshi.....', { x })
                 }
-
-                console.log('------Interval run hocche')
             }, 100);
 
         });

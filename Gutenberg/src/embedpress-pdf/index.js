@@ -42,7 +42,32 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "boolean",
 				default: true,
 			},
-			width: {
+			print: {
+				type: "boolean",
+				default: true,
+			},
+			
+			download: {
+				type: "boolean",
+				default: true,
+			},
+			open: {
+				type: "boolean",
+				default: true,
+			},
+			copy_text: {
+				type: "boolean",
+				default: true,
+			},
+			toolbar: {
+				type: "boolean",
+				default: true,
+			},
+			doc_details: {
+				type: "boolean",
+				default: true,
+			},
+			doc_rotation: {
 				type: 'number',
 				default: '600',
 			},

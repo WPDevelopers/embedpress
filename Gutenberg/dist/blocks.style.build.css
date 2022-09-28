@@ -119,6 +119,9 @@
   margin: 0 auto;
   display: block; }
 
+.embedpress-embed-document-pdf {
+  width: 100%; }
+
 .embedpress-document-editmode .components-form-file-upload {
   display: none !important; }
 /**
@@ -232,6 +235,9 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
 
 .css-vwt1e3 {
   margin: 0px 11px 0px !important; }
+
+.toolbar {
+  display: none; }
 /**
  * #.# Common SCSS
  *
