@@ -915,7 +915,6 @@ KAMAL;
             $subject
         );
 
-
         ob_start();
 
         $id = 'embedpress-pdf-shortcode';

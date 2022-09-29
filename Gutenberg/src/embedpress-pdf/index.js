@@ -42,6 +42,16 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "boolean",
 				default: true,
 			},
+
+			presentation: {
+				type: "boolean",
+				default: true,
+			},
+			position: {
+				type: "string",
+				default: 'top',
+			},
+			
 			print: {
 				type: "boolean",
 				default: true,
@@ -68,6 +78,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				default: true,
 			},
 			doc_rotation: {
+				type: 'number',
+				default: '600',
+			},
+			width: {
 				type: 'number',
 				default: '600',
 			},

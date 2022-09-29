@@ -35,6 +35,7 @@ class EmbedPressPDFEdit extends Component {
 		this.onLoad = this.onLoad.bind(this);
 		this.hideOverlay = this.hideOverlay.bind(this);
 		this.iframeManupulate = this.iframeManupulate.bind(this);
+		this.isPro = this.isPro.bind(this);
 
 		this.state = {
 			hasError: false,
@@ -132,28 +133,133 @@ class EmbedPressPDFEdit extends Component {
 		noticeOperations.createErrorNotice(message);
 	}
 
-	iframeManupulate(iframid) {
-		console.log(iframid);
-		var frm = document.querySelector(iframid).contentWindow.document;
+	isDisplay(selectorName) {
+		if (!selectorName) {
+			selectorName = 'none';
+		}
+		else {
+			selectorName = 'block';
+		}
 
-		var otherhead = frm.getElementsByTagName("head")[0];
-		console.log(frm);
-		var link = frm.createElement("link");
-		link.setAttribute("rel", "stylesheet");
-		link.setAttribute("type", "text/css");
-		link.setAttribute("href", "http://development.local/wp-content/plugins/embedpress/Gutenberg/src/embedpress-pdf/style.css");
-		otherhead.appendChild(link);
+		return selectorName;
+	}
+
+	iframeManupulate(iframid, presentation, position, print, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation) {
+		const frm = document.querySelector(iframid).contentWindow.document;
+		const otherhead = frm.getElementsByTagName("head")[0];
+		const style = frm.createElement("style");
+
+		if (toolbar === false) {
+			presentation = false; print = false; download = false; open = false; copy_text = false; toolbar_position = false; doc_details = false; doc_rotation = false;
+		}
+
+		toolbar = this.isDisplay(toolbar);
+		presentation = this.isDisplay(presentation);
+		print = this.isDisplay(print);
+		download = this.isDisplay(download);
+		open = this.isDisplay(open);
+		copy_text = this.isDisplay(copy_text);
+
+		if (copy_text === 'block') {
+			copy_text = 'all';
+		}
+
+		doc_details = this.isDisplay(doc_details);
+		doc_rotation = this.isDisplay(doc_rotation);
+
+		if (position === 'top') {
+			position = 'top:0;bottom:auto'
+		}
+		else {
+			position = 'bottom:0;top:auto;'
+		}
+
+		style.textContent = `
+			.toolbar{
+				display: ${toolbar}!important;
+				position: absolute;
+				${position}
+
+			}
+			#secondaryToolbar{
+				display: ${toolbar};
+			}
+			#secondaryPresentationMode{
+				display: ${presentation}!important;
+			}
+			#secondaryOpenFile{
+				display: ${open}!important;
+			}
+			#secondaryPrint{
+				display: ${print}!important;
+			}
+			#secondaryDownload{
+				display: ${download}!important;
+			}
+			#pageRotateCw{
+				display: ${doc_rotation}!important;
+			}
+			#pageRotateCcw{
+				display: ${doc_rotation}!important;
+			}
+			.textLayer{
+				user-select: ${copy_text}!important;
+			}
+		`;
+
+		otherhead.appendChild(style);
 	}
 
 
+
+	isPro(display, isProStyle) {
+		const parser = new DOMParser();
+		const alertPro = `
+		<div class="pro__alert__wrap" style="display: ${display}; ${isProStyle}">
+			<div class="pro__alert__wrap">
+				<div class="pro__alert__card">
+					<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/alert.svg" alt=""/>
+						<h2>Opps...</h2>
+						<p>You need to upgrade to the <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Premium</a> Version to use this feature</p>
+						<a href="#" class="button radius-10">Close</a>
+				</div>
+			</div>
+		</div>
+		`;
+
+		const dom = document.createElement('div');
+		dom.innerHTML = alertPro;
+
+		return dom;
+
+	}
+
+	// isPro();
+
 	render() {
 		const { attributes, noticeUI, setAttributes, clientId } = this.props;
-		const { href, mime, id, width, height, powered_by, print, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
+
+		const { href, mime, id, width, height, powered_by, presentation, position, print, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
+
 		const { hasError, interactive, fetching, loadPdf } = this.state;
 		const min = 1;
 		const max = 1000;
 		const docLink = 'https://embedpress.com/docs/embed-document/';
 
+		const isProStyle = `
+			position: absolute;
+			z-index: 99999999;
+			top: 0;
+			background: red;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0 auto;
+		`;
+
+		// document.querySelector('body').append(this.isPro('block', isProStyle));
 
 		if (!href || hasError) {
 
@@ -187,6 +293,12 @@ class EmbedPressPDFEdit extends Component {
 			const pdf_viewer_src = embedpressObj.pdf_renderer + '?file=' + href
 			return (
 				<Fragment>
+					{/* 
+					{
+					console.log(this.isPro('block'))
+					} */
+					
+					}
 
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
 					<div className={'embedpress-document-embed ep-doc-' + id} style={{ width: width, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`}>
@@ -245,6 +357,7 @@ class EmbedPressPDFEdit extends Component {
 						<PanelBody
 							title={__('PDF Control Setting', 'embedpress')}
 							initialOpen={false}
+
 						>
 
 							<ToggleControl
@@ -254,32 +367,19 @@ class EmbedPressPDFEdit extends Component {
 									setAttributes({ toolbar })
 								}
 								checked={toolbar}
+								style={{ marginTop: '30px' }}
 							/>
 
 
 							{
 								toolbar && (
 									<Fragment>
-										<ToggleGroupControl label="Toolbar Position" value="top" >
+										<ToggleGroupControl label="Toolbar Position" value={position} onChange={(position) => setAttributes({ position })}>
 											<ToggleGroupControlOption value="top" label="Top" />
 											<ToggleGroupControlOption value="bottom" label="Bottom" />
 										</ToggleGroupControl>
 
-										<ToggleControl
-											label={__('Print Access', 'embedpress')}
-											onChange={(print) =>
-												setAttributes({ print })
-											}
-											checked={print}
-										/>
 
-										<ToggleControl
-											label={__('Print Access', 'embedpress')}
-											onChange={(print) =>
-												setAttributes({ print })
-											}
-											checked={print}
-										/>
 										<ToggleControl
 											label={__('Open Access', 'embedpress')}
 											onChange={(open) =>
@@ -287,13 +387,33 @@ class EmbedPressPDFEdit extends Component {
 											}
 											checked={open}
 										/>
+
 										<ToggleControl
-											label={__('Download Access', 'embedpress')}
-											onChange={(download) =>
-												setAttributes({ download })
+											label={__('Presentation Mode', 'embedpress')}
+											onChange={(presentation) =>
+												setAttributes({ presentation })
 											}
-											checked={download}
+											checked={presentation}
 										/>
+
+										<ToggleControl
+											label={__('Print Access', 'embedpress')}
+											onChange={(print) =>
+												setAttributes({ print })
+											}
+											checked={print}
+										/>
+										<div className='ispro' onClick={this.isPro('block')}>
+											<ToggleControl
+												label={__('Download Access', 'embedpress')}
+												onChange={(download) =>
+													setAttributes({ download })
+												}
+												checked={download}
+											/>
+											<span className='isPro'>{__('pro', 'embedpress')}</span>
+										</div>
+
 										<ToggleControl
 											label={__('Text Copy Access', 'embedpress')}
 											onChange={(copy_text) =>
@@ -317,21 +437,9 @@ class EmbedPressPDFEdit extends Component {
 
 					{
 						setTimeout(() => {
-							this.iframeManupulate(`.${id}`)
+							this.iframeManupulate(`.${id}`, presentation, position, print, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation);
 						}, 1000)
 					}
-
-					<style style={{ display: "none" }}>
-						{
-							// (!toolbar) &&
-							`
-									#ep-doc-${this.props.clientId} .toolbar{
-										display: none;
-									}
-									
-								`
-						}
-					</style>
 				</Fragment>
 
 			);

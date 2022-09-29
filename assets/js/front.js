@@ -212,10 +212,7 @@
         }
 
 
-
-
         let nearestEpContentId = playerWrap.querySelector('.ep-youtube__content__block').getAttribute('data-unique-id');
-        console.log('----- playerWrap', {playerWrap, nearestEpContentId});
 
 
         delegate(playerWrap, "click", ".ep-next, .ep-prev", function (event) {
@@ -232,14 +229,8 @@
             var isNext = this.classList.contains("ep-next");
 
             if (isNext) {
-                // if (currentPage >= totalPages) {
-                //     return false;
-                // }
                 currentPage++;
             } else {
-                // if (currentPage < 1) {
-                //     return false;
-                // }
                 currentPage--;
             }
 
@@ -259,29 +250,16 @@
             }
             formBody = formBody.join("&");
 
-            // var loader = playerWrap.getElementsByClassName("ep-loader");
             var galleryWrapper = playerWrap.getElementsByClassName(
                 "ep-youtube__content__block"
             );
-            // removeClass(loader[0], "hide");
-            // addClass(galleryWrapper[0], "loading");
 
             playerWrap.setAttribute('data-current-page', currentPage);
-
-            // if (document.querySelector(`[data-page="${currentPage}"]`)) {
-            //     window.setTimeout(function(){
-            //         document.querySelector(`[data-page="${currentPage}"]`).classList.add('embedpress-page-active');
-            //     }, 1000);
-            // }
 
 
             let x = 1;
 
             sendRequest("/wp-admin/admin-ajax.php", formBody, function (request) {
-                // addClass(loader[0], "hide");
-
-                // removeClass(galleryWrapper[0], "loading");
-
                 if (galleryWrapper && galleryWrapper[0] && request.responseText) {
                     var response = JSON.parse(request.responseText);
                     galleryWrapper[0].outerHTML = response.html;

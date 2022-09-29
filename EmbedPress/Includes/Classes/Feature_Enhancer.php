@@ -135,6 +135,8 @@ class Feature_Enhancer
 			$emberaInstanceSettings['gapbetweenvideos'] = $attributes['data-gapbetweenvideos'];
 			// unset( $attributes[ 'data-hideprivate' ] );
 		}
+
+		
 		
 
 		return $emberaInstanceSettings;
