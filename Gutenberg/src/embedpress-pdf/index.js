@@ -59,7 +59,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			
 			download: {
 				type: "boolean",
-				default: true,
+				default: false,
 			},
 			open: {
 				type: "boolean",
@@ -67,7 +67,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			copy_text: {
 				type: "boolean",
-				default: true,
+				default: false,
 			},
 			toolbar: {
 				type: "boolean",
@@ -78,8 +78,8 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				default: true,
 			},
 			doc_rotation: {
-				type: 'number',
-				default: '600',
+				type: 'boolean',
+				default: true,
 			},
 			width: {
 				type: 'number',

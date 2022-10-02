@@ -5,6 +5,7 @@
 import Iframe from '../common/Iframe';
 import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
+
 /**
  * WordPress dependencies
  */
@@ -14,6 +15,7 @@ const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
 const { BlockIcon, MediaPlaceholder, InspectorControls } = wp.blockEditor;
 const { Component, Fragment } = wp.element;
 const { RangeControl, PanelBody, ExternalLink, ToggleControl } = wp.components;
+
 import {
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
@@ -36,6 +38,7 @@ class EmbedPressPDFEdit extends Component {
 		this.hideOverlay = this.hideOverlay.bind(this);
 		this.iframeManupulate = this.iframeManupulate.bind(this);
 		this.isPro = this.isPro.bind(this);
+		this.addProAlert = this.addProAlert.bind(this);
 
 		this.state = {
 			hasError: false,
@@ -190,10 +193,7 @@ class EmbedPressPDFEdit extends Component {
 			#secondaryOpenFile{
 				display: ${open}!important;
 			}
-			#secondaryPrint{
-				display: ${print}!important;
-			}
-			#secondaryDownload{
+			#secondaryDownload, #secondaryPrint{
 				display: ${download}!important;
 			}
 			#pageRotateCw{
@@ -201,6 +201,9 @@ class EmbedPressPDFEdit extends Component {
 			}
 			#pageRotateCcw{
 				display: ${doc_rotation}!important;
+			}
+			#documentProperties{
+				display: ${doc_details}!important;
 			}
 			.textLayer{
 				user-select: ${copy_text}!important;
@@ -212,17 +215,27 @@ class EmbedPressPDFEdit extends Component {
 
 
 
-	isPro(display, isProStyle) {
-		const parser = new DOMParser();
+	addProAlert(e) {
+		document.querySelector('.pro__alert__wrap').style.display = 'block';
+	}
+
+	removeAlert() {
+		if (document.querySelector('.pro__alert__wrap')) {
+			document.querySelector('.pro__alert__wrap .pro__alert__card .button').addEventListener('click', (e) => {
+				document.querySelector('.pro__alert__wrap').style.display = 'none';
+			});
+		}
+	}
+
+
+	isPro(display) {
 		const alertPro = `
-		<div class="pro__alert__wrap" style="display: ${display}; ${isProStyle}">
-			<div class="pro__alert__wrap">
-				<div class="pro__alert__card">
-					<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/alert.svg" alt=""/>
-						<h2>Opps...</h2>
-						<p>You need to upgrade to the <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Premium</a> Version to use this feature</p>
-						<a href="#" class="button radius-10">Close</a>
-				</div>
+		<div class="pro__alert__wrap" style="display: none;">
+			<div class="pro__alert__card">
+				<img src="../wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/alert.svg" alt=""/>
+					<h2>Opps...</h2>
+					<p>You need to upgrade to the <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Premium</a> Version to use this feature</p>
+					<a href="#" class="button radius-10">Close</a>
 			</div>
 		</div>
 		`;
@@ -234,8 +247,6 @@ class EmbedPressPDFEdit extends Component {
 
 	}
 
-	// isPro();
-
 	render() {
 		const { attributes, noticeUI, setAttributes, clientId } = this.props;
 
@@ -246,20 +257,11 @@ class EmbedPressPDFEdit extends Component {
 		const max = 1000;
 		const docLink = 'https://embedpress.com/docs/embed-document/';
 
-		const isProStyle = `
-			position: absolute;
-			z-index: 99999999;
-			top: 0;
-			background: red;
-			width: 100%;
-			height: 100%;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			margin: 0 auto;
-		`;
+		if (!document.querySelector('.pro__alert__wrap')) {
+			document.querySelector('body').append(this.isPro('none'));
+			this.removeAlert();
+		}
 
-		// document.querySelector('body').append(this.isPro('block', isProStyle));
 
 		if (!href || hasError) {
 
@@ -293,17 +295,11 @@ class EmbedPressPDFEdit extends Component {
 			const pdf_viewer_src = embedpressObj.pdf_renderer + '?file=' + href
 			return (
 				<Fragment>
-					{/* 
-					{
-					console.log(this.isPro('block'))
-					} */
-					
-					}
 
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
 					<div className={'embedpress-document-embed ep-doc-' + id} style={{ width: width, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`}>
 						{mime === 'application/pdf' && (
-							<iframe style={{ height: height, width: width }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} data-emsrc={href} src={pdf_viewer_src}></iframe>
+							<iframe powered_by={powered_by} style={{ height: height, width: width }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} data-emsrc={href} src={pdf_viewer_src}></iframe>
 
 						)}
 
@@ -395,17 +391,22 @@ class EmbedPressPDFEdit extends Component {
 											}
 											checked={presentation}
 										/>
-
-										<ToggleControl
-											label={__('Print Access', 'embedpress')}
-											onChange={(print) =>
-												setAttributes({ print })
-											}
-											checked={print}
-										/>
-										<div className='ispro' onClick={this.isPro('block')}>
+										{/* 
+										<div className='pro-control' onClick={this.addProAlert}>
 											<ToggleControl
-												label={__('Download Access', 'embedpress')}
+												label={__('Print Access', 'embedpress')}
+												onChange={(print) =>
+													setAttributes({ print })
+												}
+												checked={print}
+											/>
+
+											<span className='isPro'>{__('pro', 'embedpress')}</span>
+										</div> */}
+
+										<div className='pro-control' onClick={this.addProAlert}>
+											<ToggleControl
+												label={__('Print/Download Access', 'embedpress')}
 												onChange={(download) =>
 													setAttributes({ download })
 												}
@@ -414,12 +415,30 @@ class EmbedPressPDFEdit extends Component {
 											<span className='isPro'>{__('pro', 'embedpress')}</span>
 										</div>
 
+										<div className='pro-control' onClick={this.addProAlert}>
+											<ToggleControl
+												label={__('Text Copy Access', 'embedpress')}
+												onChange={(copy_text) =>
+													setAttributes({ copy_text })
+												}
+												checked={copy_text}
+												className={'disabled'}
+											/>
+											<span className='isPro'>{__('pro', 'embedpress')}</span>
+										</div>
 										<ToggleControl
-											label={__('Text Copy Access', 'embedpress')}
-											onChange={(copy_text) =>
-												setAttributes({ copy_text })
+											label={__('Doc Rotate Access', 'embedpress')}
+											onChange={(doc_rotation) =>
+												setAttributes({ doc_rotation })
 											}
-											checked={copy_text}
+											checked={doc_rotation}
+										/>
+										<ToggleControl
+											label={__('Doc Detailts', 'embedpress')}
+											onChange={(doc_details) =>
+												setAttributes({ doc_details })
+											}
+											checked={doc_details}
 										/>
 										<ToggleControl
 											label={__('Powered By', 'embedpress')}
@@ -428,12 +447,13 @@ class EmbedPressPDFEdit extends Component {
 											}
 											checked={powered_by}
 										/>
+										{console.log("powered_by", powered_by)}
+
 									</Fragment>
 								)
 							}
 						</PanelBody>
 					</InspectorControls>
-
 
 					{
 						setTimeout(() => {

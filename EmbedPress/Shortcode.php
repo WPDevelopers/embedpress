@@ -392,7 +392,6 @@ KAMAL;
     
     protected static function getAttributesData(){
         self::$attributes_data = self::get_oembed_attributes();
-        echo 'akash';
         // return self::get_oembed_attributes();
 
         return self::$attributes_data;
@@ -937,7 +936,7 @@ KAMAL;
 
                 <?php
                             }
-                            if ($attributes['powered_by'] === 'yes') {
+                            if ($attributes['powered_by'] === 'no') {
 
                                 printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
                             }
@@ -946,6 +945,8 @@ KAMAL;
             </div>
 
     <?php
+    
+
             return ob_get_clean();
         }
 
@@ -959,4 +960,6 @@ KAMAL;
             $arr = explode('.', $url);
             return end($arr) === 'pdf';
         }
+
+
     }
