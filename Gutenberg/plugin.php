@@ -232,10 +232,6 @@ function embedpress_pdf_render_block($attributes)
 {
 
 
-	// echo '<pre>';
-	//  var_dump($attributes);
-	// echo '</pre>';
-
 	if (!empty($attributes['href'])) {
 		$renderer = Helper::get_pdf_renderer();
 		$pdf_url = $attributes['href'];
@@ -262,7 +258,7 @@ function embedpress_pdf_render_block($attributes)
 		ob_start();
 		?>
 		<div class="embedpress-document-embed embedpress-pdf ose-document ep-doc-<?php echo esc_attr($hash) . ' ' . esc_attr($alignment) ?>">
-			<iframe style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_attr($src); ?>" frameborder="0"></iframe>
+			<iframe class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_attr($src); ?>" frameborder="0"></iframe>
 
 			<?php do_action('embedpress_pdf_gutenberg_after_embed',  $hash, 'pdf', $attributes, $pdf_url); ?>
 
@@ -272,8 +268,7 @@ function embedpress_pdf_render_block($attributes)
 					} ?>
 
 		</div>
-	<?php
-
+	<?php embedpress_block_frontend_style($attributes, 'pdf');
 
 			return ob_get_clean();
 		}
@@ -281,6 +276,7 @@ function embedpress_pdf_render_block($attributes)
 
 	function embedpress_calendar_render_block($attributes)
 	{
+
 		$id = !empty($attributes['id']) ? $attributes['id'] : 'embedpress-calendar-' . rand(100, 10000);
 		$url = !empty($attributes['url']) ? $attributes['url'] : '';
 		$is_private = isset($attributes['is_public']);
@@ -323,6 +319,104 @@ function embedpress_pdf_render_block($attributes)
 			} ?>
 
 	</div>
+	<?php
+		return ob_get_clean();
+	}
+
+
+	function embedpress_block_frontend_style($attributes, $embed)
+	{
+		if ($embed === 'pdf') : ?>
+		<script>
+			{
+				let x = 0;
+				const setEmbedInterval = setInterval(() => {
+					x++;
+					if (document.querySelector('<?php echo esc_html('.' . $attributes['id']); ?>')) {
+						const isDisplay = (selectorName) => {
+							if (!selectorName) {
+								selectorName = 'none';
+							} else {
+								selectorName = 'block';
+							}
+
+							return selectorName;
+						}
+
+						const frm = document.querySelector('<?php echo esc_html('.' . $attributes['id']); ?>').contentWindow.document;
+						const otherhead = frm.getElementsByTagName("head")[0];
+						const style = frm.createElement("style");
+
+						let toolbar = <?php echo esc_html($attributes['toolbar'] ? $attributes['toolbar'] : 0); ?>;
+						let presentation = <?php echo esc_html($attributes['presentation'] ? $attributes['presentation'] : 0); ?>;
+						let download = <?php echo esc_html($attributes['download'] ? $attributes['download'] : 0); ?>;
+						let open = <?php echo esc_html($attributes['open'] ? $attributes['open'] : 0); ?>;
+						let copy_text = <?php echo esc_html($attributes['copy_text'] ? $attributes['copy_text'] : 0); ?>;
+						let doc_details = <?php echo esc_html($attributes['doc_details'] ? $attributes['doc_details'] : 0); ?>;
+						let doc_rotation = <?php echo esc_html($attributes['doc_rotation'] ? $attributes['doc_rotation'] : 0); ?>;
+						let toolbar_position = '<?php echo esc_html($attributes['position'] ? $attributes['position'] : 0); ?>';
+
+						toolbar = isDisplay(toolbar);
+						presentation = isDisplay(presentation);
+						download = isDisplay(download);
+						open = isDisplay(open);
+						copy_text = isDisplay(copy_text);
+
+						if (copy_text === 'block') {
+							copy_text = 'all';
+						}
+
+						doc_details = isDisplay(doc_details);
+						doc_rotation = isDisplay(doc_rotation);
+
+						if (toolbar_position == 'top') {
+							toolbar_position = 'top:0;bottom:auto;'
+						} else {
+							toolbar_position = 'bottom:0;top:auto;'
+						}
+						style.textContent = `
+						.toolbar{
+							display: ${toolbar}!important;
+							position: absolute;
+							${toolbar_position}
+
+						}
+						#secondaryToolbar{
+							display: ${toolbar};
+						}
+						#secondaryPresentationMode{
+							display: ${presentation}!important;
+						}
+						#secondaryOpenFile{
+							display: ${open}!important;
+						}
+						#secondaryDownload, #secondaryPrint{
+							display: ${download}!important;
+						}
+						#pageRotateCw{
+							display: ${doc_rotation}!important;
+						}
+						#pageRotateCcw{
+							display: ${doc_rotation}!important;
+						}
+						#documentProperties{
+							display: ${doc_details}!important;
+						}
+						.textLayer{
+							user-select: ${copy_text}!important;
+						}
+					`;
+						if (otherhead) {
+							otherhead.appendChild(style);
+							clearInterval(setEmbedInterval);
+						}
+					}
+					if (x > 50) {
+						clearInterval(setEmbedInterval);
+					}
+				}, 100);
+			}
+		</script>
 <?php
-	return ob_get_clean();
+	endif;
 }

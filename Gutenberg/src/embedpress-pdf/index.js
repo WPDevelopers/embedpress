@@ -52,11 +52,6 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				default: 'top',
 			},
 			
-			print: {
-				type: "boolean",
-				default: true,
-			},
-			
 			download: {
 				type: "boolean",
 				default: false,

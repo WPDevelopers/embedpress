@@ -147,18 +147,17 @@ class EmbedPressPDFEdit extends Component {
 		return selectorName;
 	}
 
-	iframeManupulate(iframid, presentation, position, print, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation) {
+	iframeManupulate(iframid, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation) {
 		const frm = document.querySelector(iframid).contentWindow.document;
 		const otherhead = frm.getElementsByTagName("head")[0];
 		const style = frm.createElement("style");
 
 		if (toolbar === false) {
-			presentation = false; print = false; download = false; open = false; copy_text = false; toolbar_position = false; doc_details = false; doc_rotation = false;
+			presentation = false; download = false; open = false; copy_text = false; toolbar_position = false; doc_details = false; doc_rotation = false;
 		}
 
 		toolbar = this.isDisplay(toolbar);
 		presentation = this.isDisplay(presentation);
-		print = this.isDisplay(print);
 		download = this.isDisplay(download);
 		open = this.isDisplay(open);
 		copy_text = this.isDisplay(copy_text);
@@ -250,7 +249,7 @@ class EmbedPressPDFEdit extends Component {
 	render() {
 		const { attributes, noticeUI, setAttributes, clientId } = this.props;
 
-		const { href, mime, id, width, height, powered_by, presentation, position, print, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
+		const { href, mime, id, width, height, powered_by, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
 
 		const { hasError, interactive, fetching, loadPdf } = this.state;
 		const min = 1;
@@ -351,7 +350,7 @@ class EmbedPressPDFEdit extends Component {
 						</PanelBody>
 
 						<PanelBody
-							title={__('PDF Control Setting', 'embedpress')}
+							title={__('PDF Control Settings', 'embedpress')}
 							initialOpen={false}
 
 						>
@@ -391,18 +390,6 @@ class EmbedPressPDFEdit extends Component {
 											}
 											checked={presentation}
 										/>
-										{/* 
-										<div className='pro-control' onClick={this.addProAlert}>
-											<ToggleControl
-												label={__('Print Access', 'embedpress')}
-												onChange={(print) =>
-													setAttributes({ print })
-												}
-												checked={print}
-											/>
-
-											<span className='isPro'>{__('pro', 'embedpress')}</span>
-										</div> */}
 
 										<div className='pro-control' onClick={this.addProAlert}>
 											<ToggleControl
@@ -457,7 +444,7 @@ class EmbedPressPDFEdit extends Component {
 
 					{
 						setTimeout(() => {
-							this.iframeManupulate(`.${id}`, presentation, position, print, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation);
+							this.iframeManupulate(`.${id}`, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation);
 						}, 1000)
 					}
 				</Fragment>
