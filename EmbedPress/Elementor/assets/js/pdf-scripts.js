@@ -8,8 +8,7 @@
             $copy = $(element).data('copy');
             $rotate = $(element).data('rotate');
             $details = $(element).data('details');
-
-            console.log($toolbar, $rotate);
+            
         });
     }
 }(jQuery));
