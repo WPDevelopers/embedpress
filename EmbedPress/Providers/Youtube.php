@@ -30,7 +30,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     protected $endpoint = 'https://www.youtube.com/oembed?format=json&scheme=https';
     protected static $channel_endpoint = 'https://www.googleapis.com/youtube/v3/';
     /** @var array Array with allowed params for the current Provider */
-    protected $allowedParams = [ 'maxwidth', 'maxheight', 'pageSize', 'thumbnail', 'gallery', 'hideprivate' ];
+    protected $allowedParams = [ 'maxwidth', 'maxheight', 'pagesize', 'thumbnail', 'gallery', 'hideprivate', 'columns', 'ispagination', 'gapbetweenvideos' ];
 
     /** inline {@inheritdoc} */
     protected static $hosts = [
@@ -234,8 +234,8 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $gallery_args    = [
                 'playlistId' => $the_playlist_id,
             ];
-            if(!empty($params['pageSize'])){
-                $gallery_args['pageSize'] = $params['pageSize'];
+            if(!empty($params['pagesize'])){
+                $gallery_args['pagesize'] = $params['pagesize'];
             }
             $gallery         = self::get_gallery_page($gallery_args);
 
@@ -272,7 +272,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $options       = wp_parse_args($options, [
             'playlistId'  => '',
             'pageToken'   => '',
-            'pageSize'    => self::get_pagesize() ? self::get_pagesize() : 6,
+            'pagesize'    => self::get_pagesize() ? self::get_pagesize() : 6,
             'columns'     => 3,
             'thumbnail'   => 'medium',
             'gallery'     => true,
@@ -281,8 +281,8 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             'apiKey'      => self::get_api_key(),
             'hideprivate' => '',
         ]);
-        $options['pageSize'] = $options['pageSize'] > 50 ? 50 : $options['pageSize'];
-        $options['pageSize'] = $options['pageSize'] < 1 ? 1 : $options['pageSize'];
+        $options['pagesize'] = $options['pagesize'] > 50 ? 50 : $options['pagesize'];
+        $options['pagesize'] = $options['pagesize'] < 1 ? 1 : $options['pagesize'];
 
         if (empty($options['apiKey'])) {
             $gallobj->html = self::get_api_key_error_message();
@@ -290,7 +290,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
 
         $apiEndpoint = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,status&playlistId=' . $options['playlistId']
-            . '&maxResults=' . $options['pageSize']
+            . '&maxResults=' . $options['pagesize']
             . '&key=' . $options['apiKey'];
         if ($options['pageToken'] != null) {
             $apiEndpoint .= '&pageToken=' . $options['pageToken'];
@@ -397,24 +397,24 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                             class="ep-prev <?php echo empty($prevPageToken) ? ' hide ' : ''; ?>"
                             data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
                             data-pagetoken="<?php echo esc_attr($prevPageToken) ?>"
-                            data-pagesize="<?php echo intval($options['pageSize']) ?>"
+                            data-pagesize="<?php echo intval($options['pagesize']) ?>"
                         >
                             <span><?php _e("Prev", "embedpress"); ?></span>
                         </div>
                         <div class="ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
-                            <?php   
-                                    for ($i=1; $i <= ($totalPages); $i++) { 
-                                        echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
+                            <?php
+                                    for ($i=1; $i <= ($totalPages); $i++) {
+                                        echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>');
                                     }
-                                
+
                             ?>
-                            
+
                         </div>
                         <div
                             class="ep-next <?php echo empty($nextPageToken) ? ' hide ' : ''; ?>"
                             data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
                             data-pagetoken="<?php echo esc_attr($nextPageToken) ?>"
-                            data-pagesize="<?php echo intval($options['pageSize']) ?>"
+                            data-pagesize="<?php echo intval($options['pagesize']) ?>"
                         >
                             <span><?php _e("Next", "embedpress"); ?></span>
                         </div>

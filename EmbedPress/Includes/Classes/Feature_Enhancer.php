@@ -26,7 +26,6 @@ class Feature_Enhancer
 		add_action('embedpress_gutenberg_wistia_block_after_embed', array($this, 'embedpress_wistia_block_after_embed'));
 		add_action('elementor/widget/embedpres_elementor/skins_init', [$this, 'elementor_setting_init']);
 		add_action('wp_ajax_youtube_rest_api', [$this, 'youtube_rest_api']);
-		add_action('embedpress_shortcode_embra_attrs', [$this, 'embra_attrs'], 10, 2);
 		add_action('embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2);
 		//add_action('wp_header', [$this, 'dynamic_css_data'], 10, 2);
 
@@ -49,7 +48,7 @@ class Feature_Enhancer
 		$result = Youtube::get_gallery_page([
 			'playlistId'        => isset($_POST['playlistid']) ? sanitize_text_field($_POST['playlistid']) : null,
 			'pageToken'         => isset($_POST['pagetoken']) ? sanitize_text_field($_POST['pagetoken']) : null,
-			'pageSize'          => isset($_POST['pagesize']) ? sanitize_text_field($_POST['pagesize']) : null,
+			'pagesize'          => isset($_POST['pagesize']) ? sanitize_text_field($_POST['pagesize']) : null,
 			'columns'           => isset($_POST['epcolumns']) ? sanitize_text_field($_POST['epcolumns']) : null,
 			'showTitle'         => isset($_POST['showtitle']) ? sanitize_text_field($_POST['showtitle']) : null,
 			'showPaging'        => isset($_POST['showpaging']) ? sanitize_text_field($_POST['showpaging']) : null,
@@ -82,14 +81,14 @@ class Feature_Enhancer
 				}
 			}
 		}
-		
+
 
 		return $embedHTML;
 	}
 
 
 	public static function dynamic_css_data($attributes){
-		
+
 		?>
 		<style>
 			.ep-youtube__content__block .youtube__content__body .content__wrap {
@@ -99,49 +98,6 @@ class Feature_Enhancer
 		</style>
 		<?php
 	}
-
-	public function embra_attrs($emberaInstanceSettings, $attributes)
-	{
-		if (isset($attributes['data-pagesize'])) {
-			$emberaInstanceSettings['pageSize'] = $attributes['data-pagesize'];
-			// unset( $attributes[ 'data-pagesize' ] );
-		}
-
-		if (isset($attributes['data-thumbnail'])) {
-			$emberaInstanceSettings['thumbnail'] = $attributes['data-thumbnail'];
-			// unset( $attributes[ 'data-thumbnail' ] );
-		}
-
-		if (isset($attributes['data-gallery'])) {
-			$emberaInstanceSettings['gallery'] = $attributes['data-gallery'];
-			// unset( $attributes[ 'data-gallery' ] );
-		}
-
-		if (isset($attributes['data-hideprivate'])) {
-			$emberaInstanceSettings['hideprivate'] = $attributes['data-hideprivate'];
-			// unset( $attributes[ 'data-hideprivate' ] );
-		}
-
-		if (isset($attributes['data-columns'])) {
-			$emberaInstanceSettings['columns'] = $attributes['data-columns'];
-			// unset( $attributes[ 'data-hideprivate' ] );
-		}
-
-		if (isset($attributes['data-ispagination'])) {
-			$emberaInstanceSettings['ispagination'] = $attributes['data-ispagination'];
-			// unset( $attributes[ 'data-hideprivate' ] );
-		}
-		if (isset($attributes['data-gapbetweenvideos'])) {
-			$emberaInstanceSettings['gapbetweenvideos'] = $attributes['data-gapbetweenvideos'];
-			// unset( $attributes[ 'data-hideprivate' ] );
-		}
-
-		
-		
-
-		return $emberaInstanceSettings;
-	}
-
 
 
 	public function elementor_setting_init()

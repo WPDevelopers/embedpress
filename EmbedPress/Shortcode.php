@@ -56,7 +56,7 @@ class Shortcode
     private static $emberaInstanceSettings = [];
     private static $ombed_attributes;
     public static $attributes_data;
- 
+
 
     /**
      * Register the plugin's shortcode into WordPress.
@@ -146,7 +146,7 @@ class Shortcode
             //	return $embed;
             //}
             self::$ombed_attributes = self::parseContentAttributes($customAttributes, $content_uid);
-            
+
 
 
             self::set_embera_settings(self::$ombed_attributes);
@@ -343,7 +343,7 @@ KAMAL;
             }
         }
 
-        
+
 
 
         return $subject;
@@ -384,12 +384,12 @@ KAMAL;
         } else {
             $urlData = self::get_embera_instance()->getUrlData($url);
         }
-        
+
         return $urlData;
     }
 
     // self::$attributes_data = self::$ombed_attributes;
-    
+
     protected static function getAttributesData(){
         self::$attributes_data = self::get_oembed_attributes();
         // return self::get_oembed_attributes();
@@ -399,7 +399,7 @@ KAMAL;
 
     public function dynamic_css() {
         $attributes_data = self::get_embera_settings();
-        
+
         $is_pagination = 'flex';
         if ($attributes_data['ispagination']) {
             $is_pagination = 'none';
@@ -623,7 +623,12 @@ KAMAL;
             }
         }
 
-        self::$emberaInstanceSettings = apply_filters('embedpress_shortcode_embra_attrs', self::$emberaInstanceSettings, $attributes);
+        foreach ($attributes as $key => $value) {
+            if(strpos($key, 'data-') === 0){
+                $key = str_replace('data-', '', $key);
+                self::$emberaInstanceSettings[$key] = $value;
+            }
+        }
     }
 
     protected static function get_embera_settings()
@@ -772,7 +777,7 @@ KAMAL;
 
     protected static function get_oembed_attributes()
     {
-        
+
         return self::$ombed_attributes;
     }
     protected static function set_oembed_attributes($atts)
@@ -945,7 +950,7 @@ KAMAL;
             </div>
 
     <?php
-    
+
 
             return ob_get_clean();
         }
