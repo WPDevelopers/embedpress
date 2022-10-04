@@ -241,7 +241,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
             if (!empty($gallery->first_vid)) {
                 $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
-                $main_iframe = "<iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe>";
+                $main_iframe = "<div class='ep-first-video'><iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe></div>";
             }
             if($gallery->html){
                 $styles      = self::styles();
@@ -273,7 +273,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             'playlistId'  => '',
             'pageToken'   => '',
             'pageSize'    => self::get_pagesize() ? self::get_pagesize() : 6,
-            'columns'     => 2,
+            'columns'     => 3,
             'thumbnail'   => 'medium',
             'gallery'     => true,
             'autonext'    => true,
@@ -340,6 +340,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $prevPageToken = $jsonResult->prevPageToken;
         }
 
+
         if (!empty($jsonResult->items) && is_array($jsonResult->items)) :
             if($options['gallery'] === "false"){
                 $gallobj->html = "";
@@ -362,7 +363,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
             ob_start();
             ?>
-            <div class="ep-youtube__content__block">
+            <div class="ep-youtube__content__block"  data-unique-id="<?php echo wp_rand(); ?>">
                 <div class="youtube__content__body">
                     <div class="content__wrap">
                         <?php foreach ($jsonResult->items as $item) : ?>
@@ -401,9 +402,13 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                             <span><?php _e("Prev", "embedpress"); ?></span>
                         </div>
                         <div class="ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
-                            <span class="current-page">1</span>
-                            <span class="page-separator">...</span>
-                            <span class="total-page"><?php echo intval($totalPages); ?></span>
+                            <?php   
+                                    for ($i=1; $i <= ($totalPages); $i++) { 
+                                        echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
+                                    }
+                                
+                            ?>
+                            
                         </div>
                         <div
                             class="ep-next <?php echo empty($nextPageToken) ? ' hide ' : ''; ?>"
@@ -546,14 +551,21 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
         .ep-youtube__content__pagination .ep-page-numbers > span {
             border: 1px solid rgba(0, 0, 0, .1);
             border-radius: 30px;
-            padding: 0 10px;
             display: inline-block;
-            min-width: 30px;
-            min-height: 30px;
+            min-width: 35px;
+            min-height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .embedpress-page-active {
+            background: #5200bf;
+            color: #fff;
         }
 
         .ep-youtube__content__block .youtube__content__body .content__wrap {

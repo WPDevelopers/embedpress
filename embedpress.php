@@ -25,7 +25,9 @@ use EmbedPress\Core;
 use EmbedPress\CoreLegacy;
 use EmbedPress\Elementor\Embedpress_Elementor_Integration;
 use EmbedPress\Includes\Classes\Feature_Enhancer;
+use EmbedPress\Includes\Classes\Dynamic_CSS;
 use EmbedPress\Shortcode;
+
 
 defined('ABSPATH') or die("No direct script access allowed.");
 
@@ -88,7 +90,8 @@ if (  is_plugin_active('elementor/elementor.php')) {
 
 Shortcode::register();
 
-
 if ( !class_exists( '\simple_html_dom') ) {
 	include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
 }
+
+// Dynamic_CSS::attributes_data();
