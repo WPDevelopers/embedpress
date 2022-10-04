@@ -397,25 +397,35 @@ KAMAL;
         return self::$attributes_data;
     }
 
-    public function dynamic_css() {
+    public static function dynamic_css() {
         $attributes_data = self::get_embera_settings();
         
         $is_pagination = 'flex';
-        if ($attributes_data['ispagination']) {
+        
+        $gap = '30';
+        $columns = 3;
+
+        if (isset($attributes_data['ispagination']) && $attributes_data['ispagination']) {
             $is_pagination = 'none';
+        }
+        if(isset($attributes_data['gapbetweenvideos'])){
+            $gap = $attributes_data['gapbetweenvideos'];
+        }
+        if(isset($attributes_data['columns'])){
+            $columns = $attributes_data['columns'];
         }
 
         ?>
      <style>
         .ep-youtube__content__block .youtube__content__body .content__wrap {
-            gap: <?php echo esc_html($attributes_data['gapbetweenvideos']); ?>px !important;
-            margin-top: <?php echo esc_html($attributes_data['gapbetweenvideos']); ?>px !important;
+            gap: <?php echo esc_html($gap); ?>px !important;
+            margin-top: <?php echo esc_html($gap); ?>px !important;
         }
         .ep-youtube__content__block .ep-youtube__content__pagination {
-            display: <?php echo esc_html($is_pagination); ?>;
+            display: <?php echo esc_html($is_pagination); ?>!important;
         }
         .ep-youtube__content__block .youtube__content__body .content__wrap {
-            grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html('calc('.(100 / $attributes_data['columns']).'% - '.$attributes_data['gapbetweenvideos'].'px)'); ?>, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html('calc('.(100 / $columns).'% - '.$gap.'px)'); ?>, 1fr));
         }
 
 </style> <?php

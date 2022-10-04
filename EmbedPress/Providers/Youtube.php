@@ -403,10 +403,45 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                         </div>
                         <div class="ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
                             <?php   
-                                    for ($i=1; $i <= ($totalPages); $i++) { 
+                                // for ($i=1; $i <= ($totalPages); $i++) { 
+                                //     echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
+                                // }
+
+                                $numOfPages = $totalPages;
+                                $renderedEllipses = false;
+
+                                for($i = 1; $i<=$numOfPages; $i++)
+                                {
+                                    //If you always want to render pages 1 - 3
+                                    if($i < 4) {
+                                        //render link
                                         echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
                                     }
-                                
+
+
+                                    //If you always want to render current page number
+                                    
+                                    // else if($i == $pageNum) {
+                                    //     //render link
+                                    //     echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
+                                    //     //reset ellipses
+                                    //     $renderedEllipses = false;
+                                    // }
+
+                                    //if you always want the last page number
+                                    else if ($i == $numOfPages - 1) {
+                                        //render link
+                                        echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
+                                    }
+
+                                    //make sure you only do this once per ellipses group
+                                    else {
+                                    if (!$renderedEllipses){
+                                        print("...");
+                                        $renderedEllipses = true;
+                                    }
+                                    }
+                                }
                             ?>
                             
                         </div>
