@@ -148,35 +148,37 @@ class EmbedPressPDFEdit extends Component {
 	}
 
 	iframeManupulate(iframid, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation) {
-		const frm = document.querySelector(iframid).contentWindow.document;
-		const otherhead = frm.getElementsByTagName("head")[0];
-		const style = frm.createElement("style");
 
-		if (toolbar === false) {
-			presentation = false; download = false; open = false; copy_text = false; toolbar_position = false; doc_details = false; doc_rotation = false;
-		}
+		const setEPInterval = setInterval(() => {
+			const frm = document.querySelector(iframid).contentWindow.document;
+			const otherhead = frm.getElementsByTagName("head")[0];
+			const style = frm.createElement("style");
 
-		toolbar = this.isDisplay(toolbar);
-		presentation = this.isDisplay(presentation);
-		download = this.isDisplay(download);
-		open = this.isDisplay(open);
-		copy_text = this.isDisplay(copy_text);
+			if (toolbar === false) {
+				presentation = false; download = false; open = false; copy_text = false; toolbar_position = false; doc_details = false; doc_rotation = false;
+			}
 
-		if (copy_text === 'block') {
-			copy_text = 'all';
-		}
+			toolbar = this.isDisplay(toolbar);
+			presentation = this.isDisplay(presentation);
+			download = this.isDisplay(download);
+			open = this.isDisplay(open);
+			copy_text = this.isDisplay(copy_text);
 
-		doc_details = this.isDisplay(doc_details);
-		doc_rotation = this.isDisplay(doc_rotation);
+			if (copy_text === 'block') {
+				copy_text = 'all';
+			}
 
-		if (position === 'top') {
-			position = 'top:0;bottom:auto'
-		}
-		else {
-			position = 'bottom:0;top:auto;'
-		}
+			doc_details = this.isDisplay(doc_details);
+			doc_rotation = this.isDisplay(doc_rotation);
 
-		style.textContent = `
+			if (position === 'top') {
+				position = 'top:0;bottom:auto'
+			}
+			else {
+				position = 'bottom:0;top:auto;'
+			}
+
+			style.textContent = `
 			.toolbar{
 				display: ${toolbar}!important;
 				position: absolute;
@@ -209,7 +211,12 @@ class EmbedPressPDFEdit extends Component {
 			}
 		`;
 
-		otherhead.appendChild(style);
+			if (otherhead) {
+				otherhead.appendChild(style);
+				clearInterval(setEPInterval);
+			}
+		}, 100);
+
 	}
 
 
@@ -291,7 +298,11 @@ class EmbedPressPDFEdit extends Component {
 			);
 		} else {
 			const url = '//view.officeapps.live.com/op/embed.aspx?src=' + href;
-			const pdf_viewer_src = embedpressObj.pdf_renderer + '?file=' + href
+			const pdf_viewer_src = embedpressObj.pdf_renderer + '?file=' + href;
+
+
+			this.iframeManupulate(`.${id}`, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation);
+
 			return (
 				<Fragment>
 
@@ -434,19 +445,13 @@ class EmbedPressPDFEdit extends Component {
 											}
 											checked={powered_by}
 										/>
-										{console.log("powered_by", powered_by)}
+
 
 									</Fragment>
 								)
 							}
 						</PanelBody>
 					</InspectorControls>
-
-					{
-						setTimeout(() => {
-							this.iframeManupulate(`.${id}`, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation);
-						}, 1000)
-					}
 				</Fragment>
 
 			);

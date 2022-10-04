@@ -81,16 +81,7 @@ export default function EmbedPress(props) {
 			})
 		}
 	}
-
-	// const publishBtn = document.querySelector('.editor-post-publish-button');
-
-	// if (publishBtn) {
-	// 	publishBtn.addEventListener('click', function (event) {
-	// 		embed(event);
-	// 	});
-	// }
-
-	console.log(ispagination);
+	
 	const styleCss = `
 	`;
 

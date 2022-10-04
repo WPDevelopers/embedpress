@@ -13,12 +13,6 @@ use EmbedPress\Includes\Traits\Branding;
 
 class Embedpress_Pdf extends Widget_Base
 {
-    public function __construct($data = [], $args = null)
-    {
-        parent::__construct($data, $args);
-
-        wp_register_script('embedpress-pdf-script', '/wp-content/plugins/embedpress/EmbedPress/Elementor/assets/js/pdf-scripts.js', ['elementor-frontend'], '1.0.0', true);
-    }
 
     use Branding;
     protected $pro_class = '';
@@ -280,14 +274,21 @@ class Embedpress_Pdf extends Widget_Base
             'pdf_toolbar_position',
             [
                 'label' => esc_html__('Toolbar Position', 'embedpress'),
-                'type' => \Elementor\Controls_Manager::SELECT,
-                'default' => 'top',
+                'type' => \Elementor\Controls_Manager::CHOOSE,
                 'options' => [
-                    'top'  => esc_html__('Top', 'embedpress'),
-                    'bottom' => esc_html__('Bottom', 'embedpress'),
+                    'top' => [
+                        'title' => esc_html__('Top', 'embedpress'),
+                        'icon' => 'eicon-arrow-up',
+                    ],
+                    'bottom' => [
+                        'title' => esc_html__('Bottom', 'embedpress'),
+                        'icon' => 'eicon-arrow-down',
+                    ],
                 ],
-                'selectors' => [
-                    '{{WRAPPER}} .your-class' => 'border-style: {{VALUE}};',
+                'default' => 'top',
+                'toggle' => true,
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
                 ],
             ]
         );
@@ -301,6 +302,9 @@ class Embedpress_Pdf extends Widget_Base
                 'label_off'    => __('Hide', 'embedpress'),
                 'return_value' => 'yes',
                 'default'      => 'yes',
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
             ]
         );
         $this->add_control(
@@ -312,6 +316,9 @@ class Embedpress_Pdf extends Widget_Base
                 'label_off'    => __('Hide', 'embedpress'),
                 'return_value' => 'yes',
                 'default'      => 'yes',
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
             ]
         );
         $this->add_control(
@@ -324,6 +331,9 @@ class Embedpress_Pdf extends Widget_Base
                 'return_value' => 'yes',
                 'default'      => 'no',
                 'classes'     => $this->pro_class,
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
             ]
         );
         $this->add_control(
@@ -336,6 +346,9 @@ class Embedpress_Pdf extends Widget_Base
                 'return_value' => 'yes',
                 'default'      => 'no',
                 'classes'     => $this->pro_class,
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
             ]
         );
 
@@ -348,6 +361,9 @@ class Embedpress_Pdf extends Widget_Base
                 'label_off'    => __('Hide', 'embedpress'),
                 'return_value' => 'yes',
                 'default'      => 'yes',
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
             ]
         );
 
@@ -360,6 +376,9 @@ class Embedpress_Pdf extends Widget_Base
                 'label_off'    => __('Hide', 'embedpress'),
                 'return_value' => 'yes',
                 'default'      => 'yes',
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
             ]
         );
 
@@ -406,29 +425,147 @@ class Embedpress_Pdf extends Widget_Base
         $url = $this->get_file_url();
         $id = $this->get_id();
         $this->_render($url, $settings, $id);
-
+        $this->_scripts();
     }
 
-    public function _render($url, $settings, $id)
+    /**
+     * Generate scripts for PDF widgets
+     */
+    public function _scripts()
     {
-        $id = 'embedpress-pdf-' . $id;
-        $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
-        $this->add_render_attribute('embedpres-pdf-render', [
-            'class'     => ['embedpress-embed-document-pdf', $id],
-            'data-emid' => $id
-        ]);
-        $this->add_render_attribute('embedpress-document', [
-            'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document'],
-            'data-toolbar' => $settings['pdf_toolbar'],
-            'data-toolbar-position' =>  $settings['pdf_toolbar_position'],
-            'data-open' => $settings['pdf_open'],
-            'data-presentation-mode' => $settings['pdf_presentation_mode'],
-            'data-download' => $settings['pdf_print_download'],
-            'data-copy' => $settings['pdf_text_copy'],
-            'data-rotate' => $settings['pdf_rotate_access'],
-            'data-details' => $settings['pdf_details'],
-        ]);
         ?>
+        <script>
+            (function($) {
+                let x = 0;
+                const setEmbedInterval = setInterval(() => {
+                    if ($('.embedpress-document-embed').length > 0) {
+                        x++;
+                        const isDisplay = ($selectorName) => {
+                            if ($selectorName == 'no' || $selectorName == '') {
+                                $selectorName = 'none';
+                            } else {
+
+                                $selectorName = 'block';
+                            }
+                            return $selectorName;
+                        }
+
+                        $('.embedpress-document-embed').each((index, element) => {
+
+                            const frm = document.querySelector(`.${$(element).data('id')}`).contentWindow.document;
+                            const otherhead = frm.getElementsByTagName("head")[0];
+                            const style = frm.createElement("style");
+
+                            $toolbar = $(element).data('toolbar');
+                            $toolbarPosition = $(element).data('toolbar-position');
+                            $presentationMode = $(element).data('presentation-mode');
+                            $open = $(element).data('open');
+                            $download = $(element).data('download');
+                            $copy_text = $(element).data('copy');
+                            $doc_rotation = $(element).data('rotate');
+                            $doc_details = $(element).data('details');
+
+
+                            if ($toolbar == 'no' || $toolbar == '') {
+                                $toolbar = 'no';
+                                $toolbarPosition = 'top';
+                                $open = 'no';
+                                $presentationMode = 'no';
+                                $download = 'no';
+                                $copy_text = 'no';
+                                $doc_rotation = 'no';
+                                $details = 'no';
+                            }
+
+
+                            $toolbar = isDisplay($toolbar);
+                            $presentation = isDisplay($presentationMode);
+                            $download = isDisplay($download);
+                            $open = isDisplay($open);
+                            $copy_text = isDisplay($copy_text);
+
+                            if ($copy_text === 'block') {
+                                $copy_text = 'all';
+                            }
+
+                            $doc_details = isDisplay($doc_details);
+                            $doc_rotation = isDisplay($doc_rotation);
+
+                            if ($toolbarPosition == 'top') {
+                                $toolbarPosition = 'top:0;bottom:auto;'
+                            } else {
+                                $toolbarPosition = 'bottom:0;top:auto;'
+                            }
+
+                            style.textContent = `
+                                .toolbar{
+                                    display: ${$toolbar}!important;
+                                    position: absolute;
+                                    ${$toolbarPosition}
+                                }
+                                #secondaryToolbar{
+                                    display: ${$toolbar};
+                                }
+                                #secondaryPresentationMode{
+                                    display: ${$presentation}!important;
+                                }
+                                #secondaryOpenFile{
+                                    display: ${$open}!important;
+                                }
+                                #secondaryDownload, #secondaryPrint{
+                                    display: ${$download}!important;
+                                }
+                                #pageRotateCw{
+                                    display: ${$doc_rotation}!important;
+                                }
+                                #pageRotateCcw{
+                                    display: ${$doc_rotation}!important;
+                                }
+                                #documentProperties{
+                                    display: ${$doc_details}!important;
+                                }
+                                .textLayer{
+                                    user-select: ${$copy_text}!important;
+                                }
+                            `;
+                            if (otherhead) {
+                                otherhead.appendChild(style);
+                                clearInterval(setEmbedInterval);
+                            }
+                            if (x > 50) {
+                                clearInterval(setEmbedInterval);
+                            }
+
+                        });
+                    }
+
+                }, 100);
+            }(jQuery));
+        </script>
+    <?php
+        }
+
+        public function _render($url, $settings, $id)
+        {
+            $id = 'embedpress-pdf-' . $id;
+            $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
+            $this->add_render_attribute('embedpres-pdf-render', [
+                'class'     => ['embedpress-embed-document-pdf', $id],
+                'data-emid' => $id
+            ]);
+            $this->add_render_attribute('embedpress-document', [
+                'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document'],
+                'data-toolbar' => $settings['pdf_toolbar'],
+                'data-toolbar-position' =>  $settings['pdf_toolbar_position'],
+                'data-open' => $settings['pdf_open'],
+                'data-presentation-mode' => $settings['pdf_presentation_mode'],
+                'data-download' => $settings['pdf_print_download'],
+                'data-copy' => $settings['pdf_text_copy'],
+                'data-rotate' => $settings['pdf_rotate_access'],
+                'data-details' => $settings['pdf_details'],
+                'data-id' => $id
+            ]);
+            ?>
         <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
             <?php
                     do_action('embedpress_pdf_after_embed',  $settings, $url, $id, $this);
@@ -484,9 +621,4 @@ class Embedpress_Pdf extends Widget_Base
     {
         return strpos($url, get_site_url()) === false;
     }
-
-    public function get_script_depends() {
-        return [ 'embedpress-pdf-script' ];
-    }
- 
 }

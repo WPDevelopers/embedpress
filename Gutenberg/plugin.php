@@ -231,7 +231,6 @@ add_action('init', 'embedpress_gutenberg_register_all_block');
 function embedpress_pdf_render_block($attributes)
 {
 
-
 	if (!empty($attributes['href'])) {
 		$renderer = Helper::get_pdf_renderer();
 		$pdf_url = $attributes['href'];
@@ -289,7 +288,6 @@ function embedpress_pdf_render_block($attributes)
 			$powered_by = $attributes['powered_by'];
 		}
 
-
 		$aligns = [
 			'left' => 'alignleft',
 			'right' => 'alignright',
@@ -324,6 +322,9 @@ function embedpress_pdf_render_block($attributes)
 	}
 
 
+	/**
+	 * FrontEnd Style for PDF Block
+	 */
 	function embedpress_block_frontend_style($attributes, $embed)
 	{
 		if ($embed === 'pdf') : ?>
