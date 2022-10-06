@@ -61,6 +61,12 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         return (bool) (preg_match('~opensea\.io/collection/(.*)~i', (string) $url));
     }
 
+    protected static function get_api_key() {
+        $settings = (array) get_option(EMBEDPRESS_PLG_NAME . ':opensea', []);
+        return !empty($settings['api_key']) ? $settings['api_key'] : '';
+    }
+
+
 	public function getStaticResponse() {
         $results = [
             "title"         => "",
@@ -73,6 +79,9 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         if($this->isAssets($url)){
             $results['html'] = $this->getAssets($url);
+        }
+        else if($this->isCollection($url)){
+            $results['html'] = $this->getCollection($url);
         }
 
 
@@ -93,6 +102,36 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             tokenId=\"{$matches[2]}\">
             </nft-card>
             <script src=\"https://unpkg.com/embeddable-nfts/dist/nft-card.min.js\"></script>";
+        }
+        return "";
+    }
+
+    public function getCollection($url) {
+        preg_match('~opensea\.io/collection/(.*)~i', (string) $url, $matches);
+
+        if(!empty($matches[1])){
+            $html = "";
+            $params = $this->getParams();
+            $param = array(
+                'limit' => 6,
+                'order_direction' => 'desc',
+                'collection_slug' => $matches[1],
+            );
+            $url = "https://api.opensea.io/api/v1/assets?" . http_build_query($param);
+
+            $results = wp_remote_get($url, [
+                'headers' => array(
+                    'Content-Type' => 'application/json',
+                    'X-API-KEY' => "b61c8a54123d4dcb9acc1b9c26a01cd1",
+                )
+            ]);
+            if (!is_wp_error($results) ) {
+                $jsonResult = json_decode($results['body']);
+                // wp_send_json($jsonResult);
+
+                $html = print_r($jsonResult, true);
+            }
+            return $html;
         }
         return "";
     }
