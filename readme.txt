@@ -14,7 +14,7 @@ EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC
 
 == Description ==
 
-= EMBEDPRESS – EMBED ANYTHING FROM 100+ SOURCES -  YOUTUBE, GOOGLE DOCS, DRIVE, MAPS, VIMEO, WISTIA, SPOTIFY, BOOMPLAY, PDF, PPT ETC & DISPLAY IT USING ELEMENTOR, BLOCK EDITOR, CLASSIC EDITOR & MORE =
+= EMBEDPRESS – EMBED ANYTHING FROM 150+ SOURCES -  YOUTUBE, GOOGLE DOCS, DRIVE, MAPS, VIMEO, WISTIA, SPOTIFY, BOOMPLAY, PDF, PPT ETC & DISPLAY IT USING ELEMENTOR, BLOCK EDITOR, CLASSIC EDITOR & MORE =
 
 [EmbedPress](https://embedpress.com/) lets you embed any engaging and interactive multimedia content such as videos, images, posts, audio, maps, documents, PDF, and much more into your WordPress site with one click and showcase it beautifully for your website visitors.
 
@@ -23,9 +23,9 @@ Fuel up your storytelling by embedding content directly on to Classic Editor, Gu
 
 https://www.youtube.com/watch?v=fvYKLkEnJbI
 
-### 🔥 RICH MEDIA EMBEDS FROM MORE THAN 100 SITES
+### 🔥 RICH MEDIA EMBEDS FROM MORE THAN 150 SITES
 
-With EmbedPress, all you need is an URL to embed attention-grabbing content from **over 100 websites**. Find the URL for your preferred video, image, audio files, post, or map and simply cut-and-paste the link into a WordPress post. EmbedPress automatically understands the URL and instantly embeds fully responsive content on your websites.
+With EmbedPress, all you need is an URL to embed attention-grabbing content from **over 150 websites**. Find the URL for your preferred video, image, audio files, post, or map and simply cut-and-paste the link into a WordPress post. EmbedPress automatically understands the URL and instantly embeds fully responsive content on your websites.
 
 ### 🔗 EMBED CONTENT USING ANY WORDPRESS PAGE BUILDER
 
@@ -336,7 +336,7 @@ If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
 🗒️ [BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, whcih also reduce your manual support request.
 
-☁  [Templately](https://wordpress.org/plugins/templately/): Ultimate Template clouds with 1000+ ready templates for Elementor & Gutenberg along with FREE cloud collaboration with your team
+☁  [Templately](https://wordpress.org/plugins/templately/): Ultimate Template clouds with 2500+ ready templates for Elementor & Gutenberg along with FREE cloud collaboration with your team
 
 ⭐ [ReviewX](https://wordpress.org/plugins/reviewx/): WooCommerce Product review plugin that allows users to submit product reviews with multiple criteria, photos, videos, and more.
 
