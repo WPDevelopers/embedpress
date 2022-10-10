@@ -1478,7 +1478,7 @@ class Embedpress_Elementor extends Widget_Base
 			}
 
 			#ep-elements-id-<?php echo esc_html($this->get_id()); ?> .ep-youtube__content__pagination {
-				display: <?php echo esc_html($ispagination); ?>
+				display: <?php echo esc_html($ispagination); ?>!important;
 			}
 		</style>
 <?php
