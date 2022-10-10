@@ -24,7 +24,7 @@ const {
 	useBlockProps
 } = wp.blockEditor;
 
-const { Fragment } = wp.element;
+const { Fragment, useEffect } = wp.element;
 
 export default function EmbedPress(props) {
 	const { clientId, attributes, className, setAttributes } = props;
@@ -40,9 +40,9 @@ export default function EmbedPress(props) {
 	}
 
 
-	function embed(pagesize) {
+	function embed(event) {
 
-		// if (event) event.preventDefault();
+		if (event) event.preventDefault();
 
 		if (url) {
 			setAttributes({
@@ -55,9 +55,6 @@ export default function EmbedPress(props) {
 				let _gapbetweenvideos = isYTChannel ? `&gapbetweenvideos=${gapbetweenvideos}` : '';
 				let _ispagination = isYTChannel ? `&ispagination=${ispagination}` : false;
 				let _columns = isYTChannel ? `&columns=${columns}` : '';
-
-				
-				console.log(_pagesize);
 
 
 				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}${_columns}${_ispagination}${_pagesize}${_gapbetweenvideos}`).then(response => response.json());
@@ -89,14 +86,19 @@ export default function EmbedPress(props) {
 			})
 		}
 	}
-	
+
 	const styleCss = `
 	`;
 
-	const onVideoPerpage = (pagesize) => {
-		setAttributes({pagesize});
-		embed(pagesize);
-	}
+	useEffect(() => {
+		const delayDebounceFn = setTimeout(() => {
+			if (pagesize) {
+				embed();
+			}
+		}, 300)
+
+		return () => clearTimeout(delayDebounceFn)
+	}, [pagesize]);
 
 	return (
 		<Fragment>
@@ -129,8 +131,9 @@ export default function EmbedPress(props) {
 								<TextControl
 									label={__("Video Per Page")}
 									value={pagesize}
-									onChange={(pagesize) => onVideoPerpage(pagesize)}
+									onChange={(pagesize) => setAttributes({ pagesize })}
 									type={'number'}
+									max={50}
 								/>
 								<p>Specify the number of videos you wish to show on each page.</p>
 
@@ -212,8 +215,10 @@ export default function EmbedPress(props) {
 					} 
 					
 					#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap {
-						grid-template-columns: repeat(auto-fit, minmax(calc(${100/columns}% - ${gapbetweenvideos}px), 1fr));
+						grid-template-columns: repeat(auto-fit, minmax(calc(${100 / columns}% - ${gapbetweenvideos}px), 1fr));
 					}
+
+					
 
 					${!ispagination && (
 						`#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
@@ -221,8 +226,11 @@ export default function EmbedPress(props) {
 						}`
 					)}
 
+						
+
 					`
 				}
+
 			</style>
 
 		</Fragment>
