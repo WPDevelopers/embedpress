@@ -280,7 +280,7 @@ class Embedpress_Document extends Widget_Base
                     }
 
                 } else {
-                    $view_link = 'https://docs.google.com/viewer?url=' . $url . '&embedded=true';
+                    $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . $url . '&embedded=true';
                     ?>
                         <div>
                             <iframe allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr( $dimension); ?>; max-width:100%;" src="<?php echo esc_url( $view_link); ?>"></iframe>

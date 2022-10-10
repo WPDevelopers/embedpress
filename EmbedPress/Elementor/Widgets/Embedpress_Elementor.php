@@ -1414,17 +1414,30 @@ class Embedpress_Elementor extends Widget_Base
 		$args = "";
 		$settings      = $this->get_settings_for_display();
 
-		if (!empty($settings['height']['size'])) {
-			$args .= "height='{$settings['height']['size']}' ";
+		$_settings = $this->convert_settings($settings);
+		foreach ($_settings as $key => $value) {
+			$args .= "$key='$value' ";
 		}
-		if (!empty($settings['width']['size'])) {
-			$args .= "width='{$settings['width']['size']}' ";
-		}
-		if (!empty($settings['pagesize'])) {
-			$args .= "pagesize='{$settings['pagesize']}' ";
-		}
+
 		$args = trim($args);
 		echo "[embedpress $args]{$settings['embedpress_embeded_link']}\[/embedpress]";
+	}
+
+	protected function convert_settings($settings){
+		$_settings = [];
+		foreach ($settings as $key => $value) {
+			if(!empty($value['size'])){
+				$_settings[$key] = $value['size'];
+			}
+			else if(!empty($value['url'])){
+				$_settings[$key] = $value['url'];
+			}
+			else if(\is_scalar($value)){
+				$_settings[$key] = $value;
+			}
+		}
+
+		return $_settings;
 	}
 
 	protected function render()
@@ -1434,18 +1447,13 @@ class Embedpress_Elementor extends Widget_Base
 		$is_editor_view = Plugin::$instance->editor->is_edit_mode();
 		$link = $settings['embedpress_embeded_link'];
 		$is_apple_podcast = (strpos($link, 'podcasts.apple.com') !== false);
-		$height = (!empty($settings['height']) && !empty($settings['height']['size']))
-			? $settings['height']['size'] : null;
-		$width = (!empty($settings['width']) && !empty($settings['width']['size']))
-			? $settings['width']['size'] : null;
-		$pagesize = (!empty($settings['pagesize']) && !empty($settings['pagesize']))
-			? $settings['pagesize'] : 6;
+		$_settings = $this->convert_settings($settings);
 
-		$embed_content = Shortcode::parseContent($settings['embedpress_embeded_link'], true, ['height' => $height, 'width' => $width, 'pagesize' => $pagesize]);
+		$embed_content = Shortcode::parseContent($settings['embedpress_embeded_link'], true, $_settings);
 		$embed_content = $this->onAfterEmbedSpotify($embed_content, $settings);
 		$embed         = apply_filters('embedpress_elementor_embed', $embed_content, $settings);
 		$content       = is_object($embed) ? $embed->embed : $embed;
-		
+
 		$ispagination = 'flex';
 		if($settings['pagination'] != 'show'){
 			$ispagination = 'none';
