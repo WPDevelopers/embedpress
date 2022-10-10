@@ -274,7 +274,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $options       = wp_parse_args($options, [
             'playlistId'  => '',
             'pageToken'   => '',
-            'pageSize'    => self::get_pagesize() ? self::get_pagesize() : 6,
+            ''pagesize'    => self::get_pagesize() ? self::get_pagesize() : 6,
             'currentpage' => '',
             'columns'     => 3,
             'thumbnail'   => 'medium',
