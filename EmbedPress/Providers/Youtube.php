@@ -131,6 +131,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     protected function constructUrl($endpoint, array $params = array())
     {
         $endpoint = self::$channel_endpoint . $endpoint;
+        
         return $endpoint . ((strpos($endpoint, '?') === false) ? '?' : '&') . http_build_query(array_filter($params));
     }
 
@@ -182,6 +183,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             return $result;
         }
         $jsonResult = json_decode($apiResult['body']);
+        
 
         if (isset($jsonResult->error)) {
             $result['error'] = true;
@@ -200,7 +202,6 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             set_transient($transient_key, $result, DAY_IN_SECONDS);
         }
 
-        //
         return $result;
     }
 
@@ -256,6 +257,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                 "html"          => "<div class='ep-player-wrap'>" . __('Please enter your YouTube API key to embed YouTube Channel.', 'embedpress') . "</div>",
             ];
         }
+
         return $response;
     }
 
@@ -273,6 +275,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             'playlistId'  => '',
             'pageToken'   => '',
             'pageSize'    => self::get_pagesize() ? self::get_pagesize() : 6,
+            'currentpage' => '',
             'columns'     => 3,
             'thumbnail'   => 'medium',
             'gallery'     => true,
@@ -327,6 +330,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $gallobj->html = self::clean_api_error_html(__('Sorry, there may be an issue with your YouTube API key.', 'embedpress'));
             return $gallobj;
         }
+
 
 
         $resultsPerPage = $jsonResult->pageInfo->resultsPerPage;
@@ -403,35 +407,35 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                         </div>
                         <div class="ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
                             <?php   
-                                // for ($i=1; $i <= ($totalPages); $i++) { 
-                                //     echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
-                                // }
 
                                 $numOfPages = $totalPages;
                                 $renderedEllipses = false;
+                                $currentPage = $options['currentpage'];
 
                                 for($i = 1; $i<=$numOfPages; $i++)
                                 {
-                                    //If you always want to render pages 1 - 3
+                                    //render pages 1 - 3
                                     if($i < 4) {
                                         //render link
                                         echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
                                     }
 
-
-                                    //If you always want to render current page number
-                                    
-                                    // else if($i == $pageNum) {
-                                    //     //render link
-                                    //     echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
-                                    //     //reset ellipses
-                                    //     $renderedEllipses = false;
-                                    // }
-
-                                    //if you always want the last page number
-                                    else if ($i == $numOfPages - 1) {
+                                    //render current page number
+                                    else if($i == (int)$currentPage) {
                                         //render link
                                         echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
+                                        //reset ellipses
+                                        $renderedEllipses = false;
+                                    }
+
+                                    else if((int)$currentPage - 1 == $i && $i == (int)$currentPage + 1){
+                                        echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
+                                    }
+
+                                    //last page number
+                                    else if ($i >= $numOfPages - 2) {
+                                        //render link
+                                        echo wp_kses_post('<span class="page-number s" data-page="'.$i.'">'.$i.'</span>'); 
                                     }
 
                                     //make sure you only do this once per ellipses group
@@ -450,8 +454,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                             data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
                             data-pagetoken="<?php echo esc_attr($nextPageToken) ?>"
                             data-pagesize="<?php echo intval($options['pageSize']) ?>"
+
                         >
-                            <span><?php _e("Next", "embedpress"); ?></span>
+                            <span><?php _e("Next ", "embedpress"); ?> </span>
                         </div>
                     </div>
                     <div class="ep-loader-wrap">

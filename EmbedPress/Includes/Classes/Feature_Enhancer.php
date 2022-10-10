@@ -28,9 +28,9 @@ class Feature_Enhancer
 		add_action('wp_ajax_youtube_rest_api', [$this, 'youtube_rest_api']);
 		add_action('embedpress_shortcode_embra_attrs', [$this, 'embra_attrs'], 10, 2);
 		add_action('embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2);
-		//add_action('wp_header', [$this, 'dynamic_css_data'], 10, 2);
 
 		add_action('embedpress:isEmbra', [$this, 'isEmbra'], 10, 3);
+
 	}
 
 	public function isEmbra($isEmbra, $url, $atts)
@@ -50,6 +50,7 @@ class Feature_Enhancer
 			'playlistId'        => isset($_POST['playlistid']) ? sanitize_text_field($_POST['playlistid']) : null,
 			'pageToken'         => isset($_POST['pagetoken']) ? sanitize_text_field($_POST['pagetoken']) : null,
 			'pageSize'          => isset($_POST['pagesize']) ? sanitize_text_field($_POST['pagesize']) : null,
+			'currentpage'       => isset($_POST['currentpage']) ? sanitize_text_field($_POST['currentpage']) : null,
 			'columns'           => isset($_POST['epcolumns']) ? sanitize_text_field($_POST['epcolumns']) : null,
 			'showTitle'         => isset($_POST['showtitle']) ? sanitize_text_field($_POST['showtitle']) : null,
 			'showPaging'        => isset($_POST['showpaging']) ? sanitize_text_field($_POST['showpaging']) : null,
@@ -57,6 +58,9 @@ class Feature_Enhancer
 			'thumbplay'         => isset($_POST['thumbplay']) ? sanitize_text_field($_POST['thumbplay']) : null,
 			'thumbnail_quality' => isset($_POST['thumbnail_quality']) ? sanitize_text_field($_POST['thumbnail_quality']) : null,
 		]);
+
+		
+
 		wp_send_json($result);
 	}
 
@@ -87,18 +91,6 @@ class Feature_Enhancer
 		return $embedHTML;
 	}
 
-
-	public static function dynamic_css_data($attributes){
-		
-		?>
-		<style>
-			.ep-youtube__content__block .youtube__content__body .content__wrap {
-				gap: <?php echo $attributes['gapbetweenvideos']; ?>px!important;
-				margin-top: <?php echo $attributes['gapbetweenvideos']?>px!important;
-			}
-		</style>
-		<?php
-	}
 
 	public function embra_attrs($emberaInstanceSettings, $attributes)
 	{

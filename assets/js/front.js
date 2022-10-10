@@ -233,13 +233,13 @@
             } else {
                 currentPage--;
             }
-
             
             var data = {
                 action: "youtube_rest_api",
                 playlistid: this.getAttribute("data-playlistid"),
                 pagetoken: this.getAttribute("data-pagetoken"),
                 pagesize: this.getAttribute("data-pagesize"),
+                currentpage: currentPage
             };
 
             var formBody = [];

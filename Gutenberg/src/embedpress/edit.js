@@ -40,19 +40,27 @@ export default function EmbedPress(props) {
 	}
 
 
-	function embed(event) {
-		if (event) event.preventDefault();
+	function embed(pagesize) {
+
+		// if (event) event.preventDefault();
 
 		if (url) {
 			setAttributes({
 				fetching: true
 			});
+
 			// send api request to get iframe url
 			let fetchData = async (url) => {
 				let _pagesize = isYTChannel ? `&pagesize=${pagesize}` : '';
+				let _gapbetweenvideos = isYTChannel ? `&gapbetweenvideos=${gapbetweenvideos}` : '';
+				let _ispagination = isYTChannel ? `&ispagination=${ispagination}` : false;
+				let _columns = isYTChannel ? `&columns=${columns}` : '';
+
 				
-				console.log(pagesize);
-				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}&columns=${columns}&ispagination=${ispagination}${_pagesize}&gapbetweenvideos=${gapbetweenvideos}`).then(response => response.json());
+				console.log(_pagesize);
+
+
+				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}${_columns}${_ispagination}${_pagesize}${_gapbetweenvideos}`).then(response => response.json());
 			}
 			fetchData(url).then(data => {
 				setAttributes({
@@ -87,7 +95,7 @@ export default function EmbedPress(props) {
 
 	const onVideoPerpage = (pagesize) => {
 		setAttributes({pagesize});
-		embed();
+		embed(pagesize);
 	}
 
 	return (
