@@ -90,6 +90,7 @@ function embedpress_blocks_cgb_editor_assets()
 		'active_blocks' => $active_blocks,
 		'document_cta' => $documents_cta_options,
 		'pdf_renderer' => Helper::get_pdf_renderer(),
+		'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
 	));
 
 	// Styles.
@@ -347,6 +348,7 @@ function embedpress_pdf_render_block($attributes)
 						const frm = document.querySelector('<?php echo esc_html('.' . $attributes['id']); ?>').contentWindow.document;
 						const otherhead = frm.getElementsByTagName("head")[0];
 						const style = frm.createElement("style");
+						style.setAttribute('id', 'EBiframeStyleID');
 
 						let toolbar = <?php echo esc_html($attributes['toolbar'] ? $attributes['toolbar'] : 0); ?>;
 						let presentation = <?php echo esc_html($attributes['presentation'] ? $attributes['presentation'] : 0); ?>;
@@ -363,6 +365,12 @@ function embedpress_pdf_render_block($attributes)
 						open = isDisplay(open);
 						copy_text = isDisplay(copy_text);
 
+						
+						<?php if(!class_exists('EmbedPress_Plugin_Usage_Tracker')): ?>
+							download = 'none';
+							copy_text = 'none';
+						<?php endif; ?>
+
 						if (copy_text === 'block') {
 							copy_text = 'all';
 						}
@@ -371,9 +379,23 @@ function embedpress_pdf_render_block($attributes)
 						doc_rotation = isDisplay(doc_rotation);
 
 						if (toolbar_position == 'top') {
-							toolbar_position = 'top:0;bottom:auto;'
+							toolbar_position = 'top:0;bottom:auto;';
+							settingsPos = '';
 						} else {
 							toolbar_position = 'bottom:0;top:auto;'
+							settingsPos = `
+								.findbar, .secondaryToolbar {
+									top: auto;bottom: 32px;
+								}
+								.doorHangerRight:after{
+									transform: rotate(180deg);
+									bottom: -16px;
+								}
+								.doorHangerRight:before {
+									transform: rotate(180deg);
+									bottom: -18px;
+								}
+							`;
 						}
 						style.textContent = `
 						.toolbar{
@@ -385,14 +407,14 @@ function embedpress_pdf_render_block($attributes)
 						#secondaryToolbar{
 							display: ${toolbar};
 						}
-						#secondaryPresentationMode{
+						#secondaryPresentationMode, #toolbarViewerRight #presentationMode{
 							display: ${presentation}!important;
 						}
-						#secondaryOpenFile{
-							display: ${open}!important;
+						#secondaryOpenFile, #toolbarViewerRight #openFile{
+							display: none!important;
 						}
-						#secondaryDownload, #secondaryPrint{
-							display: ${download}!important;
+						#secondaryDownload, #secondaryPrint, #toolbarViewerRight #print, #toolbarViewerRight #download{
+							display: ${download};
 						}
 						#pageRotateCw{
 							display: ${doc_rotation}!important;
@@ -406,8 +428,12 @@ function embedpress_pdf_render_block($attributes)
 						.textLayer{
 							user-select: ${copy_text}!important;
 						}
+						${settingsPos}
 					`;
 						if (otherhead) {
+							if(frm.getElementById("EBiframeStyleID")){	
+								frm.getElementById("EBiframeStyleID").remove();
+							}
 							otherhead.appendChild(style);
 							clearInterval(setEmbedInterval);
 						}

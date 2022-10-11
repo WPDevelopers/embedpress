@@ -254,6 +254,9 @@ class Embedpress_Pdf extends Widget_Base
             'embedpress_pdf_content_settings',
             [
                 'label' => esc_html__('PDF Control Settings', 'embedpress'),
+                'condition'   => [
+                    'embedpress_pdf_type' => 'file'
+                ],
             ]
         );
 
@@ -293,20 +296,7 @@ class Embedpress_Pdf extends Widget_Base
             ]
         );
 
-        $this->add_control(
-            'pdf_open',
-            [
-                'label'        => __('PDF Open Access', 'embedpress'),
-                'type'         => Controls_Manager::SWITCHER,
-                'label_on'     => __('Show', 'embedpress'),
-                'label_off'    => __('Hide', 'embedpress'),
-                'return_value' => 'yes',
-                'default'      => 'yes',
-                'condition' => [
-                    'pdf_toolbar' => 'yes',
-                ],
-            ]
-        );
+
         $this->add_control(
             'pdf_presentation_mode',
             [
@@ -321,6 +311,7 @@ class Embedpress_Pdf extends Widget_Base
                 ],
             ]
         );
+        
         $this->add_control(
             'pdf_print_download',
             [
@@ -455,6 +446,7 @@ class Embedpress_Pdf extends Widget_Base
                             const frm = document.querySelector(`.${$(element).data('id')}`).contentWindow.document;
                             const otherhead = frm.getElementsByTagName("head")[0];
                             const style = frm.createElement("style");
+                            style.setAttribute('id', 'EBiframeStyleID');
 
                             $toolbar = $(element).data('toolbar');
                             $toolbarPosition = $(element).data('toolbar-position');
@@ -493,8 +485,22 @@ class Embedpress_Pdf extends Widget_Base
 
                             if ($toolbarPosition == 'top') {
                                 $toolbarPosition = 'top:0;bottom:auto;'
+                                $settingsPos = '';
                             } else {
                                 $toolbarPosition = 'bottom:0;top:auto;'
+                                $settingsPos = `
+                                    .findbar, .secondaryToolbar {
+                                        top: auto;bottom: 32px;
+                                    }
+                                    .doorHangerRight:after{
+                                        transform: rotate(180deg);
+                                        bottom: -16px;
+                                    }
+                                    .doorHangerRight:before {
+                                        transform: rotate(180deg);
+                                        bottom: -18px;
+                                }`;
+                                
                             }
 
                             style.textContent = `
@@ -506,13 +512,13 @@ class Embedpress_Pdf extends Widget_Base
                                 #secondaryToolbar{
                                     display: ${$toolbar};
                                 }
-                                #secondaryPresentationMode{
+                                #secondaryPresentationMode, #toolbarViewerRight #presentationMode{
                                     display: ${$presentation}!important;
                                 }
-                                #secondaryOpenFile{
-                                    display: ${$open}!important;
+                                #secondaryOpenFile, #toolbarViewerRight #openFile{
+                                    display: none!important;
                                 }
-                                #secondaryDownload, #secondaryPrint{
+                                #secondaryDownload, #secondaryPrint, #toolbarViewerRight #print, #toolbarViewerRight #download{
                                     display: ${$download}!important;
                                 }
                                 #pageRotateCw{
@@ -527,8 +533,12 @@ class Embedpress_Pdf extends Widget_Base
                                 .textLayer{
                                     user-select: ${$copy_text}!important;
                                 }
+                                ${$settingsPos}
                             `;
                             if (otherhead) {
+                                if(frm.getElementById("EBiframeStyleID")){	
+                                    frm.getElementById("EBiframeStyleID").remove();
+                                }
                                 otherhead.appendChild(style);
                                 clearInterval(setEmbedInterval);
                             }
@@ -557,7 +567,7 @@ class Embedpress_Pdf extends Widget_Base
                 'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document'],
                 'data-toolbar' => $settings['pdf_toolbar'],
                 'data-toolbar-position' =>  $settings['pdf_toolbar_position'],
-                'data-open' => $settings['pdf_open'],
+                'data-open' => 'no',
                 'data-presentation-mode' => $settings['pdf_presentation_mode'],
                 'data-download' => $settings['pdf_print_download'],
                 'data-copy' => $settings['pdf_text_copy'],

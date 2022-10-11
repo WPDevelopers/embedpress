@@ -58,7 +58,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			open: {
 				type: "boolean",
-				default: true,
+				default: false,
 			},
 			copy_text: {
 				type: "boolean",
@@ -78,11 +78,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			width: {
 				type: 'number',
-				default: '600',
+				default: 600,
 			},
 			height: {
 				type: 'number',
-				default: '600',
+				default: 450,
 			},
 			fileName: {
 				type: "string",

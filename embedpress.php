@@ -93,3 +93,12 @@ if ( !class_exists( '\simple_html_dom') ) {
 	include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
 }
 
+
+/**
+ * Check is embedpress-pro active
+ */
+$is_pro_active = false;
+if(class_exists('EmbedPress_Licensing')){
+	$is_pro_active = true;
+}
+

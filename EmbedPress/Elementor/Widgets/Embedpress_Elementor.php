@@ -218,7 +218,7 @@ class Embedpress_Elementor extends Widget_Base
 			'pagesize',
 			[
 				'label'       => __('Video Per Page', 'embedpress'),
-				'description' => __('Specify the number of videos you wish to show on each page. Note: This option takes effect only when a YouTube channel is embedded.', 'embedpress'),
+				'description' => __('Specify the number of videos you wish to show on each page.<br>Note: This option takes effect only when a YouTube channel is embedded.', 'embedpress'),
 				'type'        => Controls_Manager::NUMBER,
 				'label_block' => false,
 				'default'     => 6,
@@ -240,6 +240,7 @@ class Embedpress_Elementor extends Widget_Base
 			'pagination',
 			[
 				'label'        => __('Pagination', 'embedpress'),
+				'description'        => __('Note: This option takes effect only when a YouTube channel is embedded.', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'label_on' => esc_html__( 'Show', 'embedpress' ),
@@ -1302,7 +1303,7 @@ class Embedpress_Elementor extends Widget_Base
 			'columns',
 			[
 				'label'       => __('Columns', 'embedpress'),
-				'description' => __('Select the number of columns for videos you wish to show. Note: This option takes effect only when a YouTube channel is embedded.', 'embedpress'),
+				'description' => __('Select the number of columns for videos you wish to show.<br> Note: This option takes effect only when a YouTube channel is embedded.', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'label_block' => false,
 				'default' => '3',
@@ -1328,7 +1329,7 @@ class Embedpress_Elementor extends Widget_Base
 			'gapbetweenvideos',
 			[
 				'label'       => __('Gap Between Videos', 'embedpress'),
-				'description' => __('Specify the gap between youtube videos', 'embedpress'),
+				'description'        => __('Specify the gap between youtube videos.<br>Note: This option takes effect only when a YouTube channel is embedded.', 'embedpress'),
 				'label_block' => true,
 				'type' => \Elementor\Controls_Manager::SLIDER,
 				'size_units' => ['px', '%'],
@@ -1357,7 +1358,7 @@ class Embedpress_Elementor extends Widget_Base
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} .ep-youtube__content__block .youtube__content__body .content__wrap' => 'gap: {{SIZE}}{{UNIT}};',
+					'{{WRAPPER}} .ep-youtube__content__block .youtube__content__body .content__wrap' => 'gap: {{SIZE}}{{UNIT}}!important;margin-top: {{SIZE}}{{UNIT}}!important;',
 				],
 			]
 		);
@@ -1458,7 +1459,14 @@ class Embedpress_Elementor extends Widget_Base
 		if($settings['pagination'] != 'show'){
 			$ispagination = 'none';
 		}
-		?>
+
+		if($settings['columns'] > 0){
+            $calVal = 'calc('.(100 / $settings['columns']).'% - '.$settings['gapbetweenvideos']['size'].'px)';
+        }
+        else{
+            $calVal = 'auto';
+        }
+	?>
 
 		<div class="embedpress-elements-wrapper  <?php   echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; ?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
 			<?php
@@ -1470,11 +1478,14 @@ class Embedpress_Elementor extends Widget_Base
 					} else {
 						echo $content;
 					}
+
+
 					?>
 		</div>
+
 		<style>
 			#ep-elements-id-<?php echo esc_html($this->get_id()); ?> .ep-youtube__content__block .youtube__content__body .content__wrap {
-				grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html('calc('.(100 / $settings['columns']).'% - '.$settings['gapbetweenvideos']['size'].'px)'); ?>, 1fr))!important;
+				grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($calVal); ?>, 1fr))!important;
 			}
 
 			#ep-elements-id-<?php echo esc_html($this->get_id()); ?> .ep-youtube__content__pagination {

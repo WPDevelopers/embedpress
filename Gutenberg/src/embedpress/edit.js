@@ -5,22 +5,15 @@ import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
+import Inspector from './inspector';
 
 /**
  * WordPress dependencies
  */
 const { __ } = wp.i18n;
 import { embedPressIcon } from '../common/icons';
-const {
-	TextControl,
-	SelectControl,
-	RangeControl,
-	ToggleControl,
-	PanelBody
-} = wp.components;
 
 const {
-	InspectorControls,
 	useBlockProps
 } = wp.blockEditor;
 
@@ -31,6 +24,7 @@ export default function EmbedPress(props) {
 
 	const { url, editingURL, fetching, cannotEmbed, interactive, embedHTML, height, width, ispagination, pagesize, columns, gapbetweenvideos } = attributes;
 	const blockProps = useBlockProps ? useBlockProps() : [];
+
 	const isYTChannel = url.match(/\/channel\/|\/c\/|\/user\/|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
@@ -86,10 +80,7 @@ export default function EmbedPress(props) {
 			})
 		}
 	}
-
-	const styleCss = `
-	`;
-
+	
 	useEffect(() => {
 		const delayDebounceFn = setTimeout(() => {
 			if (pagesize) {
@@ -103,73 +94,8 @@ export default function EmbedPress(props) {
 	return (
 		<Fragment>
 
-			<InspectorControls>
-				<PanelBody title={__("Customize Embedded Link")}>
-					<p>{__("You can adjust the width and height of embedded content....")}</p>
-					<TextControl
-						label={__("Width")}
-						value={width}
-						onChange={(width) => setAttributes({ width })}
-					/>
+			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} />
 
-					<TextControl
-						label={__("Height")}
-						value={height}
-						onChange={(height) => setAttributes({ height })}
-					/>
-
-					{
-						isYTChannel && (
-							<div>
-
-								<ToggleControl
-									label={__("Pagination")}
-									checked={ispagination}
-									onChange={(ispagination) => setAttributes({ ispagination })}
-								/>
-
-								<TextControl
-									label={__("Video Per Page")}
-									value={pagesize}
-									onChange={(pagesize) => setAttributes({ pagesize })}
-									type={'number'}
-									max={50}
-								/>
-								<p>Specify the number of videos you wish to show on each page.</p>
-
-
-								<SelectControl
-									label={__("Columns")}
-									value={columns}
-									options={[
-										{ label: 'Auto', value: 'auto' },
-										{ label: '2', value: '2' },
-										{ label: '3', value: '3' },
-										{ label: '4', value: '4' },
-										{ label: '6', value: '6' },
-									]}
-									onChange={(columns) => setAttributes({ columns })}
-									__nextHasNoMarginBottom
-								/>
-
-								<RangeControl
-									label={__('Gap Between Videos')}
-									value={gapbetweenvideos}
-									onChange={(gap) => setAttributes({ gapbetweenvideos: gap })}
-									min={0}
-									max={100}
-								/>
-								<p>Specify the gap between youtube videos.</p>
-							</div>
-						)
-
-					}
-
-					{/* {(embedHTML && !editingURL) && <button className='button' onClick={embed}>{__('Apply Change')}</button>} */}
-
-
-				</PanelBody>
-			</InspectorControls>
 			{((!embedHTML || editingURL) && !fetching) && <div {...blockProps}>
 				<EmbedPlaceholder
 					label={__('EmbedPress - Embed anything from 100+ sites')}
@@ -225,8 +151,6 @@ export default function EmbedPress(props) {
 							display: none;
 						}`
 					)}
-
-						
 
 					`
 				}

@@ -414,6 +414,13 @@ KAMAL;
         if(isset($attributes_data['columns'])){
             $columns = $attributes_data['columns'];
         }
+        if($columns > 0){
+            $calVal = 'calc('.(100 / $columns).'% - '.$gap.'px)';
+        }
+        else{
+            $calVal = 'auto';
+        }
+
 
         ?>
      <style>
@@ -425,7 +432,7 @@ KAMAL;
             display: <?php echo esc_html($is_pagination); ?>!important;
         }
         .ep-youtube__content__block .youtube__content__body .content__wrap {
-            grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html('calc('.(100 / $columns).'% - '.$gap.'px)'); ?>, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($calVal); ?>, 1fr));
         }
 
 </style> <?php

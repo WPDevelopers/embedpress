@@ -5,6 +5,8 @@
 import Iframe from '../common/Iframe';
 import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
+import apiFetch from '@wordpress/api-fetch';
+
 
 /**
  * WordPress dependencies
@@ -150,9 +152,13 @@ class EmbedPressPDFEdit extends Component {
 	iframeManupulate(iframid, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation) {
 
 		const setEPInterval = setInterval(() => {
+			let settingsPos = '';
 			const frm = document.querySelector(iframid).contentWindow.document;
+
 			const otherhead = frm.getElementsByTagName("head")[0];
 			const style = frm.createElement("style");
+			style.setAttribute('id', 'EBiframeStyleID');
+
 
 			if (toolbar === false) {
 				presentation = false; download = false; open = false; copy_text = false; toolbar_position = false; doc_details = false; doc_rotation = false;
@@ -164,6 +170,7 @@ class EmbedPressPDFEdit extends Component {
 			open = this.isDisplay(open);
 			copy_text = this.isDisplay(copy_text);
 
+
 			if (copy_text === 'block') {
 				copy_text = 'all';
 			}
@@ -172,12 +179,25 @@ class EmbedPressPDFEdit extends Component {
 			doc_rotation = this.isDisplay(doc_rotation);
 
 			if (position === 'top') {
-				position = 'top:0;bottom:auto'
+				position = 'top:0;bottom:auto;'
+				settingsPos = '';
 			}
 			else {
 				position = 'bottom:0;top:auto;'
+				settingsPos = `
+				.findbar, .secondaryToolbar {
+					top: auto;bottom: 32px;
+				}
+				.doorHangerRight:after{
+					transform: rotate(180deg);
+					bottom: -16px;
+				}
+				 .doorHangerRight:before {
+					transform: rotate(180deg);
+					bottom: -18px;
+				}
+			`;
 			}
-
 			style.textContent = `
 			.toolbar{
 				display: ${toolbar}!important;
@@ -185,16 +205,17 @@ class EmbedPressPDFEdit extends Component {
 				${position}
 
 			}
+
 			#secondaryToolbar{
 				display: ${toolbar};
 			}
-			#secondaryPresentationMode{
+			#secondaryPresentationMode, #toolbarViewerRight #presentationMode{
 				display: ${presentation}!important;
 			}
-			#secondaryOpenFile{
+			#secondaryOpenFile, #toolbarViewerRight #openFile{
 				display: ${open}!important;
 			}
-			#secondaryDownload, #secondaryPrint{
+			#secondaryDownload, #secondaryPrint, #toolbarViewerRight #print, #toolbarViewerRight #download{
 				display: ${download}!important;
 			}
 			#pageRotateCw{
@@ -209,20 +230,27 @@ class EmbedPressPDFEdit extends Component {
 			.textLayer{
 				user-select: ${copy_text}!important;
 			}
+			
+			${settingsPos}
+			
 		`;
 
 			if (otherhead) {
+				if (frm.getElementById("EBiframeStyleID")) {
+					frm.getElementById("EBiframeStyleID").remove();
+				}
 				otherhead.appendChild(style);
 				clearInterval(setEPInterval);
 			}
+
 		}, 100);
 
 	}
 
-
-
-	addProAlert(e) {
-		document.querySelector('.pro__alert__wrap').style.display = 'block';
+	addProAlert(e, isProPluginActive) {
+		if (!isProPluginActive) {
+			document.querySelector('.pro__alert__wrap').style.display = 'block';
+		}
 	}
 
 	removeAlert() {
@@ -253,6 +281,7 @@ class EmbedPressPDFEdit extends Component {
 
 	}
 
+
 	render() {
 		const { attributes, noticeUI, setAttributes, clientId } = this.props;
 
@@ -262,6 +291,12 @@ class EmbedPressPDFEdit extends Component {
 		const min = 1;
 		const max = 1000;
 		const docLink = 'https://embedpress.com/docs/embed-document/';
+		const isProPluginActive = embedpressObj.is_pro_plugin_active;
+
+		if (!isProPluginActive) {
+			setAttributes({download: false});
+			setAttributes({copy_text: false});
+		}
 
 		if (!document.querySelector('.pro__alert__wrap')) {
 			document.querySelector('body').append(this.isPro('none'));
@@ -387,14 +422,6 @@ class EmbedPressPDFEdit extends Component {
 
 
 										<ToggleControl
-											label={__('Open Access', 'embedpress')}
-											onChange={(open) =>
-												setAttributes({ open })
-											}
-											checked={open}
-										/>
-
-										<ToggleControl
 											label={__('Presentation Mode', 'embedpress')}
 											onChange={(presentation) =>
 												setAttributes({ presentation })
@@ -402,7 +429,7 @@ class EmbedPressPDFEdit extends Component {
 											checked={presentation}
 										/>
 
-										<div className='pro-control' onClick={this.addProAlert}>
+										<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
 											<ToggleControl
 												label={__('Print/Download Access', 'embedpress')}
 												onChange={(download) =>
@@ -410,10 +437,14 @@ class EmbedPressPDFEdit extends Component {
 												}
 												checked={download}
 											/>
-											<span className='isPro'>{__('pro', 'embedpress')}</span>
+											{
+												(!isProPluginActive) && (
+													<span className='isPro'>{__('pro', 'embedpress')}</span>
+												)
+											}
 										</div>
 
-										<div className='pro-control' onClick={this.addProAlert}>
+										<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
 											<ToggleControl
 												label={__('Text Copy Access', 'embedpress')}
 												onChange={(copy_text) =>
@@ -422,7 +453,11 @@ class EmbedPressPDFEdit extends Component {
 												checked={copy_text}
 												className={'disabled'}
 											/>
-											<span className='isPro'>{__('pro', 'embedpress')}</span>
+											{
+												(!isProPluginActive) && (
+													<span className='isPro'>{__('pro', 'embedpress')}</span>
+												)
+											}
 										</div>
 										<ToggleControl
 											label={__('Doc Rotate Access', 'embedpress')}
@@ -432,7 +467,7 @@ class EmbedPressPDFEdit extends Component {
 											checked={doc_rotation}
 										/>
 										<ToggleControl
-											label={__('Doc Detailts', 'embedpress')}
+											label={__('Doc Details', 'embedpress')}
 											onChange={(doc_details) =>
 												setAttributes({ doc_details })
 											}

@@ -603,7 +603,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             justify-content: center;
         }
         .embedpress-page-active {
-            background: #5200bf;
+            background: #5B4E96;
             color: #fff;
         }
 
