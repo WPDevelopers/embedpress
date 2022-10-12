@@ -245,7 +245,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                 $main_iframe = "<div class='ep-first-video'><iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe></div>";
             }
             if($gallery->html){
-                $styles      = self::styles();
+                $styles      = self::styles($params, $this->getUrl());
                 return [
                     "title"         => $title,
                     "html"          => "<div class='ep-player-wrap'>$main_iframe {$gallery->html} $styles</div>",
@@ -410,27 +410,31 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
                                 $numOfPages = $totalPages;
                                 $renderedEllipses = false;
-                                $currentPage = $options['currentpage'];
+
+                                $currentPage = !empty($options['currentpage'])?$options['currentpage'] : 1;
 
                                 for($i = 1; $i<=$numOfPages; $i++)
                                 {
                                     //render pages 1 - 3
                                     if($i < 4) {
                                         //render link
-                                        echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
+                                        $is_current = $i == (int)$currentPage? "active__current_page" : "";
+
+                                        echo wp_kses_post("<span class='page-number  $is_current' data-page='$i'>$i</span>");
+                                         
                                     }
 
                                     //render current page number
                                     else if($i == (int)$currentPage) {
                                         //render link
-                                        echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
+                                        echo wp_kses_post('<span class="page-number active__current_page" data-page="'.$i.'">'.$i.'</span>'); 
                                         //reset ellipses
                                         $renderedEllipses = false;
                                     }
 
-                                    else if((int)$currentPage - 1 == $i && $i == (int)$currentPage + 1){
-                                        echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
-                                    }
+                                    // else if((int)$currentPage - 1 == $i && $i == (int)$currentPage + 1){
+                                    //     echo wp_kses_post('<span class="page-number active__current_page" data-page="'.$i.'">'.$i.'</span>'); 
+                                    // }
 
                                     //last page number
                                     else if ($i >= $numOfPages - 2) {
@@ -543,7 +547,16 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         ];
     }
 
-    public static function styles(){
+    // public static $num = 0;
+
+
+    
+    public static $x = 0;
+
+    public static function styles($params, $url){
+        
+        $uniqid = '.ose-uid-'.md5($url);
+        
         ob_start();
         ?>
         <style>
@@ -602,7 +615,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             align-items: center;
             justify-content: center;
         }
-        .embedpress-page-active {
+        .active__current_page{
             background: #5B4E96;
             color: #fff;
         }
@@ -702,6 +715,41 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
         .ep-loader img {
             width: 20px;
+        }
+        <?php
+        $attributes_data = $params;
+
+        $is_pagination = 'flex';
+        
+        $gap = '30';
+        $columns = 3;
+
+        if (isset($attributes_data['ispagination']) && $attributes_data['ispagination']) {
+            $is_pagination = 'none';
+        }
+        if(isset($attributes_data['gapbetweenvideos'])){
+            $gap = $attributes_data['gapbetweenvideos'];
+        }
+        if(isset($attributes_data['columns'])){
+            $columns = $attributes_data['columns'];
+        }
+        if($columns > 0){
+            $calVal = 'calc('.(100 / $columns).'% - '.$gap.'px)';
+        }
+        else{
+            $calVal = 'auto';
+        }
+
+        ?>
+        <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .youtube__content__body .content__wrap {
+            gap: <?php echo esc_html($gap); ?>px !important;
+            margin-top: <?php echo esc_html($gap); ?>px !important;
+        }
+        <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .ep-youtube__content__pagination {
+            display: <?php echo esc_html($is_pagination); ?>!important;
+        }
+        <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .youtube__content__body .content__wrap {
+            grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($calVal); ?>, 1fr));
         }
         </style>
         <?php

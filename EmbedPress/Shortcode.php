@@ -30,6 +30,10 @@ class Shortcode
      *
      * @var     WP_oEmbed $oEmbedInstance
      */
+    
+
+    public static $y = 0;
+
     private static $oEmbedInstance = null;
 
     /**
@@ -73,7 +77,7 @@ class Shortcode
         add_shortcode('embed_oembed_html', ['\\EmbedPress\\Shortcode', 'do_shortcode']);
         add_shortcode('embedpress', ['\\EmbedPress\\Shortcode', 'do_shortcode']);
         add_shortcode('embedpress_pdf', ['\\EmbedPress\\Shortcode', 'do_shortcode_pdf']);
-        add_action('wp_footer', ['\\EmbedPress\\Shortcode', 'dynamic_css']);
+        
     }
 
     /**
@@ -136,7 +140,11 @@ class Shortcode
 
             // Converts any special HTML entities back to characters.
             $url = htmlspecialchars_decode($url);
+
+            $uniqid = 'ose-uid-'.md5($url);
+
             $content_uid = md5($url);
+
             //$hash = 'embedpress_'.$content_uid . md5( implode( ':', array_values( $customAttributes)));
 
             // check if we have data cached
@@ -146,7 +154,6 @@ class Shortcode
             //	return $embed;
             //}
             self::$ombed_attributes = self::parseContentAttributes($customAttributes, $content_uid);
-
 
 
             self::set_embera_settings(self::$ombed_attributes);
@@ -168,7 +175,6 @@ class Shortcode
             $urlData = self::get_url_data($url, self::$ombed_attributes, $serviceProvider);
 
 
-
             // Sanitize the data
             $urlData = self::sanitizeUrlData($urlData, $url);
 
@@ -186,13 +192,13 @@ class Shortcode
             }
 
             // Transform all shortcode attributes into html form. I.e.: {foo: "joe"} -> foo="joe"
-            $attributesHtml = ['class="ose-{provider_alias} ose-uid-' . $content_uid . ' ose-embedpress-responsive"'];
+            $attributesHtml = ['class="ose-{provider_alias} ' . $uniqid .' ose-embedpress-responsive"'];
             //$attributesHtml = [];
             //foreach ( self::$ombed_attributes as $attrName => $attrValue ) {
             //    $attributesHtml[] = $attrName . '="' . $attrValue . '"';
             //}
             if (isset($customAttributes['width'])) {
-                $attributesHtml[] = "style=\"width:{$customAttributes['width']}px; max-width:100%; height: auto; display:inline-block;\"";
+                $attributesHtml[] = "style=\"width:{$customAttributes['width']}px; max-width:100%; height: 100%; display:inline-block;\"";
             }
 
             // Check if $url is a google shortened url and tries to extract from it which Google service it refers to.
@@ -390,52 +396,10 @@ KAMAL;
 
     // self::$attributes_data = self::$ombed_attributes;
 
-    protected static function getAttributesData(){
+    public static function getAttributesData(){
         self::$attributes_data = self::get_oembed_attributes();
         // return self::get_oembed_attributes();
-
         return self::$attributes_data;
-    }
-
-    public static function dynamic_css() {
-        $attributes_data = self::get_embera_settings();
-
-        $is_pagination = 'flex';
-        
-        $gap = '30';
-        $columns = 3;
-
-        if (isset($attributes_data['ispagination']) && $attributes_data['ispagination']) {
-            $is_pagination = 'none';
-        }
-        if(isset($attributes_data['gapbetweenvideos'])){
-            $gap = $attributes_data['gapbetweenvideos'];
-        }
-        if(isset($attributes_data['columns'])){
-            $columns = $attributes_data['columns'];
-        }
-        if($columns > 0){
-            $calVal = 'calc('.(100 / $columns).'% - '.$gap.'px)';
-        }
-        else{
-            $calVal = 'auto';
-        }
-
-
-        ?>
-     <style>
-        .ep-youtube__content__block .youtube__content__body .content__wrap {
-            gap: <?php echo esc_html($gap); ?>px !important;
-            margin-top: <?php echo esc_html($gap); ?>px !important;
-        }
-        .ep-youtube__content__block .ep-youtube__content__pagination {
-            display: <?php echo esc_html($is_pagination); ?>!important;
-        }
-        .ep-youtube__content__block .youtube__content__body .content__wrap {
-            grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($calVal); ?>, 1fr));
-        }
-
-</style> <?php
     }
 
 
@@ -646,11 +610,16 @@ KAMAL;
                 self::$emberaInstanceSettings[$key] = $value;
             }
         }
+
     }
 
     protected static function get_embera_settings()
     {
         return self::$emberaInstanceSettings;
+    }
+
+    public static function get_block_controls_data(){
+        var_dump(self::$emberaInstanceSettings);
     }
 
     /**

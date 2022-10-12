@@ -139,16 +139,23 @@ export default function EmbedPress(props) {
 					#block-${clientId} .ose-youtube{
 						width: ${width}px!important;
 					} 
+
+					#block-${clientId} .ose-youtube > iframe{
+						height: ${height}px!important;
+					} 
 					
 					#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap {
 						grid-template-columns: repeat(auto-fit, minmax(calc(${100 / columns}% - ${gapbetweenvideos}px), 1fr));
 					}
 
 					
+					#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
+						display: flex!important;
+					}
 
 					${!ispagination && (
 						`#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
-							display: none;
+							display: none!important;
 						}`
 					)}
 

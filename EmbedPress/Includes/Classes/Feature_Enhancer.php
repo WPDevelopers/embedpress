@@ -91,19 +91,6 @@ class Feature_Enhancer
 	}
 
 
-	public static function dynamic_css_data($attributes){
-
-		?>
-		<style>
-			.ep-youtube__content__block .youtube__content__body .content__wrap {
-				gap: <?php echo $attributes['gapbetweenvideos']; ?>px!important;
-				margin-top: <?php echo $attributes['gapbetweenvideos']?>px!important;
-			}
-		</style>
-		<?php
-	}
-
-
 	public function elementor_setting_init()
 	{
 		$this->remove_classic_filters();
