@@ -439,7 +439,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                     //last page number
                                     else if ($i >= $numOfPages - 2) {
                                         //render link
-                                        echo wp_kses_post('<span class="page-number s" data-page="'.$i.'">'.$i.'</span>'); 
+                                        echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
                                     }
 
                                     //make sure you only do this once per ellipses group
@@ -595,9 +595,14 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             cursor: pointer;
             border: 1px solid rgba(0, 0, 0, .1);
             border-radius: 30px;
-            padding: 0 10px;
-            min-width: 30px;
-            min-height: 30px;
+            padding: 0 20px;
+            height: 40px;
+            transition: .3s;
+        }
+        .ep-youtube__content__pagination .ep-prev:hover,
+        .ep-youtube__content__pagination .ep-next:hover{
+            background-color: #5B4E96;
+            color: #fff;
         }
         .ep-youtube__content__pagination .ep-page-numbers {
             display: flex;
@@ -609,8 +614,8 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             border: 1px solid rgba(0, 0, 0, .1);
             border-radius: 30px;
             display: inline-block;
-            min-width: 35px;
-            min-height: 35px;
+            width: 45px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;

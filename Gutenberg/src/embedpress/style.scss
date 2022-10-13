@@ -132,3 +132,10 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
 .toolbar {
 	display: none;
 }
+
+.ep-youtube__content__pagination .ep-prev, .ep-youtube__content__pagination .ep-next {
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+  }

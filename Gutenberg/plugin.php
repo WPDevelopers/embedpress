@@ -268,7 +268,7 @@ function embedpress_pdf_render_block($attributes)
 					} ?>
 
 		</div>
-	<?php embedpress_block_frontend_style($attributes, 'pdf');
+	<?php ep_pdf_block_frontend_style($attributes, 'pdf');
 
 			return ob_get_clean();
 		}
@@ -326,7 +326,7 @@ function embedpress_pdf_render_block($attributes)
 	/**
 	 * FrontEnd Style for PDF Block
 	 */
-	function embedpress_block_frontend_style($attributes, $embed)
+	function ep_pdf_block_frontend_style($attributes, $embed)
 	{
 		if ($embed === 'pdf') : ?>
 		<script>
@@ -366,10 +366,11 @@ function embedpress_pdf_render_block($attributes)
 						copy_text = isDisplay(copy_text);
 
 						
-						<?php if(!class_exists('EmbedPress_Plugin_Usage_Tracker')): ?>
+						<?php if(!defined('EMBEDPRESS_PRO_PLUGIN_FILE')): ?>
 							download = 'none';
 							copy_text = 'none';
-						<?php endif; ?>
+							console.log('EmbedPress_Plugin_Usage_Tracker not exits');
+						<?php endif;  ?>
 
 						if (copy_text === 'block') {
 							copy_text = 'all';
@@ -416,6 +417,7 @@ function embedpress_pdf_render_block($attributes)
 						#secondaryDownload, #secondaryPrint, #toolbarViewerRight #print, #toolbarViewerRight #download{
 							display: ${download};
 						}
+
 						#pageRotateCw{
 							display: ${doc_rotation}!important;
 						}

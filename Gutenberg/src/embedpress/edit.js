@@ -139,9 +139,13 @@ export default function EmbedPress(props) {
 					#block-${clientId} .ose-youtube{
 						width: ${width}px!important;
 					} 
+					#block-${clientId} .ose-youtube .ep-first-video iframe{
+						max-height: ${height}px!important;
+					} 
 
 					#block-${clientId} .ose-youtube > iframe{
 						height: ${height}px!important;
+						width: 100%;
 					} 
 					
 					#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap {

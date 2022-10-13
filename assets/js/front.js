@@ -193,27 +193,7 @@
 
         var currentPage = 1;
 
-        const designPagination = () => {
-
-            document.querySelectorAll('.ose-youtube').forEach(item => {
-                const lastPage = item.querySelector('.page-number:last-child');
-                const totalPages = lastPage.getAttribute('data-page');
-
-                item.setAttribute('data-current-page', 1);
-                item.setAttribute('data-total-pages', totalPages);
-            });
-
-        }
-
-        designPagination();
-
-        if (document.querySelector(`[data-page="1"]`)) {
-            document.querySelector(`[data-page="1"]`).classList.add('embedpress-page-active');
-        }
-
-
         let nearestEpContentId = playerWrap.querySelector('.ep-youtube__content__block').getAttribute('data-unique-id');
-
 
         delegate(playerWrap, "click", ".ep-next, .ep-prev", function (event) {
             const totalPages = event.target.closest('.ose-youtube').getAttribute('data-total-pages');
@@ -224,7 +204,7 @@
                 document.querySelector(`.${closestClass[1]} .embedpress-page-active`).classList.remove('embedpress-page-active');
             }
 
-        
+
 
             var isNext = this.classList.contains("ep-next");
 
@@ -233,7 +213,7 @@
             } else {
                 currentPage--;
             }
-            
+
             var data = {
                 action: "youtube_rest_api",
                 playlistid: this.getAttribute("data-playlistid"),

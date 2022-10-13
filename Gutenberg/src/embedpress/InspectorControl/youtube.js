@@ -49,7 +49,7 @@ export default function Youtube({attributes, setAttributes}) {
                 label={__('Gap Between Videos')}
                 value={gapbetweenvideos}
                 onChange={(gap) => setAttributes({ gapbetweenvideos: gap })}
-                min={0}
+                min={1}
                 max={100}
             />
             <p>Specify the gap between youtube videos.</p>
