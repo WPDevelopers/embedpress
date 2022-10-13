@@ -80,16 +80,16 @@ export default function EmbedPress(props) {
 			})
 		}
 	}
-	
+
 	useEffect(() => {
 		const delayDebounceFn = setTimeout(() => {
-			if (pagesize) {
+			if (pagesize && !((!embedHTML || editingURL) && !fetching)) {
 				embed();
 			}
 		}, 300)
 
 		return () => clearTimeout(delayDebounceFn)
-	}, [pagesize]);
+	}, [pagesize, editingURL]);
 
 	return (
 		<Fragment>
