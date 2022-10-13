@@ -1,4 +1,417 @@
-.pdfobject-container{height:600px;width:600px;margin:0 auto}.embedpress-el-powered{text-align:center;margin-top:0 !important;font-size:16px !important;font-weight:700}.embedpress-embed-document iframe,[data-type="embedpress/document"] iframe{margin:0 auto;display:block}.embedpress-document-editmode .components-form-file-upload{display:none !important}
-.embedpress-gutenberg-wrapper{margin:30px auto}.embedpress-gutenberg-wrapper iframe{max-width:100%}.embedpress-gutenberg-wrapper.alignright{max-width:100%}.ose-the-new-york-times iframe{min-height:500px;max-height:100%}body.page .flexia-wrapper>.content-area{padding:0 !important}.flexia-wrapper.flexia-container>.content-area{margin:0 !important}.flexia-wrapper.flexia-container>.content-area .embedpress-gutenberg-wrapper{margin:0 auto}@media only screen and (min-width: 482px){.entry-content>.embedpress-gutenberg-wrapper.alignright,.entry-content>.embedpress-gutenberg-wrapper.alignleft,.embedpress-gutenberg-wrapper.alignright,.embedpress-gutenberg-wrapper.alignleft{max-width:100%}}.clear::after{content:'';display:block;clear:both;min-height:1px}.embedpress-gutenberg-wrapper .alignleft,.embedpress-gutenberg-wrapper .alignright,.embedpress-gutenberg-wrapper .aligncenter{float:none;display:block}.embedpress-gutenberg-wrapper .alignright{text-align:right}.embedpress-gutenberg-wrapper .alignleft{text-align:left}.embedpress-gutenberg-wrapper .aligncenter{clear:both;display:block;float:none;margin-right:auto;margin-left:auto;text-align:center}.embedpress-gutenberg-wrapper .ose-embedpress-responsive{display:inline-block}.embedpress-gutenberg-wrapper{max-width:100% !important}
-.pdfobject-container{height:600px;width:600px;margin:0 auto}.embedpress-el-powered{text-align:center;margin-top:10px !important;font-size:16px !important;font-weight:700}.embedpress-embed-document iframe,[data-type="embedpress/document"] iframe{margin:0 auto;display:block}.embedpress-embed-document{max-width:100%}.embedpress-document-editmode .components-form-file-upload{display:none !important}.wp-block-embedpress-embedpress-pdf+*{clear:both}
-.embedpress-calendar-gutenberg{margin:30px auto}.embedpress-calendar-gutenberg iframe{max-width:100%}.embedpress-calendar-gutenberg.alignright{max-width:100%}body.page .flexia-wrapper>.content-area{padding:0 !important}.flexia-wrapper.flexia-container>.content-area{margin:0 !important}.flexia-wrapper.flexia-container>.content-area .embedpress-calendar-gutenberg{margin:0 auto}@media only screen and (min-width: 482px){.entry-content>.embedpress-calendar-gutenberg.alignright,.entry-content>.embedpress-calendar-gutenberg.alignleft,.embedpress-calendar-gutenberg.alignright,.embedpress-calendar-gutenberg.alignleft{max-width:100%}}.clear::after{content:'';display:block;clear:both;min-height:1px}
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.pdfobject-container {
+  height: 600px;
+  width: 600px;
+  margin: 0 auto; }
+
+.embedpress-el-powered {
+  text-align: center;
+  margin-top: 0 !important;
+  font-size: 16px !important;
+  font-weight: 700; }
+
+.embedpress-embed-document iframe,
+[data-type="embedpress/document"] iframe {
+  margin: 0 auto;
+  display: block; }
+
+.embedpress-embed-document-pdf {
+  width: 100%; }
+
+.embedpress-document-editmode .components-form-file-upload {
+  display: none !important; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.embedpress-gutenberg-wrapper {
+  margin: 30px auto; }
+  .embedpress-gutenberg-wrapper iframe {
+    max-width: 100%; }
+
+.embedpress-gutenberg-wrapper.alignright {
+  max-width: 100%; }
+
+.ose-the-new-york-times iframe {
+  min-height: 500px;
+  max-height: 100%; }
+
+body.page .flexia-wrapper > .content-area {
+  padding: 0 !important; }
+
+.flexia-wrapper.flexia-container > .content-area {
+  margin: 0 !important; }
+  .flexia-wrapper.flexia-container > .content-area .embedpress-gutenberg-wrapper {
+    margin: 0 auto; }
+
+@media only screen and (min-width: 482px) {
+  .entry-content > .embedpress-gutenberg-wrapper.alignright,
+  .entry-content > .embedpress-gutenberg-wrapper.alignleft,
+  .embedpress-gutenberg-wrapper.alignright,
+  .embedpress-gutenberg-wrapper.alignleft {
+    max-width: 100%; } }
+
+.clear::after {
+  content: '';
+  display: block;
+  clear: both;
+  min-height: 1px; }
+
+.embedpress-gutenberg-wrapper .alignleft,
+.embedpress-gutenberg-wrapper .alignright,
+.embedpress-gutenberg-wrapper .aligncenter {
+  float: none;
+  display: block; }
+
+.embedpress-gutenberg-wrapper .alignright {
+  text-align: right; }
+
+.embedpress-gutenberg-wrapper .alignleft {
+  text-align: left; }
+
+.embedpress-gutenberg-wrapper .aligncenter {
+  clear: both;
+  display: block;
+  float: none;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center; }
+
+.embedpress-gutenberg-wrapper .ose-embedpress-responsive {
+  display: inline-block; }
+
+.embedpress-gutenberg-wrapper {
+  max-width: 100% !important; }
+
+.ep-first-video {
+  position: relative;
+  height: 0;
+  padding-bottom: 56.25%; }
+
+.ep-first-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+
+.components-base-control__label {
+  font-weight: 600; }
+
+.components-input-control__label {
+  font-weight: 600; }
+
+.components-base-control__field,
+.components-input-control__label {
+  font-weight: 600; }
+
+label.components-truncate.components-text.components-input-control__label.em5sgkm4.ecfd-bd--d-eecc-1iznhho.em57xhy0 {
+  font-weight: 600 !important; }
+
+.text-center {
+  text-align: center !important; }
+
+.wp-block-embed.is-loading {
+  -ms-flex-align: center;
+      align-items: center; }
+
+.css-vwt1e3 {
+  margin: 0px 11px 0px !important; }
+
+.toolbar {
+  display: none; }
+
+.ep-youtube__content__pagination .ep-prev, .ep-youtube__content__pagination .ep-next {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.pdfobject-container {
+  height: 600px;
+  width: 600px;
+  margin: 0 auto; }
+
+.embedpress-el-powered {
+  text-align: center;
+  margin-top: 10px !important;
+  font-size: 16px !important;
+  font-weight: 700; }
+
+.embedpress-embed-document iframe,
+[data-type="embedpress/document"] iframe {
+  margin: 0 auto;
+  display: block; }
+
+.embedpress-embed-document {
+  max-width: 100%; }
+
+.embedpress-document-editmode .components-form-file-upload {
+  display: none !important; }
+
+.wp-block-embedpress-embedpress-pdf + * {
+  clear: both; }
+
+.pro-control {
+  position: relative; }
+
+span.isPro {
+  position: absolute;
+  z-index: 1;
+  background: #5B4E96;
+  border-radius: 20px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 40px;
+  height: 18px;
+  font-size: 10px;
+  right: 0;
+  color: #fff;
+  font-weight: 400;
+  text-transform: uppercase;
+  top: 0; }
+
+.pro-control:after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  position: absolute;
+  z-index: 12;
+  top: 0;
+  bottom: 0; }
+
+.pro-control:hover::after {
+  cursor: pointer; }
+
+.pro__alert__wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  display: none; }
+
+.pro__alert__wrap .pro__alert__card {
+  width: calc(100% - 30px);
+  max-width: 500px;
+  margin: 7% auto 0;
+  background: #fff;
+  border-radius: 20px;
+  padding: 30px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-align: center;
+      align-items: center;
+  text-align: center; }
+
+.pro__alert__wrap .pro__alert__card h2 {
+  font-size: 32px;
+  font-weight: 450;
+  color: #131F4D;
+  margin-bottom: 15px; }
+
+.pro__alert__wrap .pro__alert__card p {
+  font-size: 14px;
+  font-weight: 400;
+  color: #7C8DB5;
+  margin-top: 10px; }
+
+.pro__alert__wrap .pro__alert__card .button {
+  -ms-flex-item-align: end;
+  align-self: flex-end;
+  margin-top: 20px;
+  padding: 6px 30px;
+  border-radius: 10px; }
+
+.pro__alert__wrap .pro__alert__card p a {
+  text-decoration: underline;
+  font-weight: 700;
+  color: #131F4D; }
+
+.template__wrapper .button:hover {
+  background: #5B4E96 !important;
+  color: #ffffff !important;
+  border-color: #5B4E96 !important; }
+
+.pro__alert__wrap .pro__alert__card img {
+  height: 100px;
+  margin-bottom: 20px; }
+
+.pro-control .components-toggle-control__label {
+  color: #bbacac; }
+
+.pro-control .components-form-toggle .components-form-toggle__track {
+  border: 1px solid #b89d9d; }
+
+.pro-control .components-form-toggle .components-form-toggle__thumb {
+  background-color: #b89d9d;
+  border: 5px solid #b89d9d; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.embedpress-calendar-gutenberg {
+  margin: 30px auto; }
+  .embedpress-calendar-gutenberg iframe {
+    max-width: 100%; }
+
+.embedpress-calendar-gutenberg.alignright {
+  max-width: 100%; }
+
+body.page .flexia-wrapper > .content-area {
+  padding: 0 !important; }
+
+.flexia-wrapper.flexia-container > .content-area {
+  margin: 0 !important; }
+  .flexia-wrapper.flexia-container > .content-area .embedpress-calendar-gutenberg {
+    margin: 0 auto; }
+
+@media only screen and (min-width: 482px) {
+  .entry-content > .embedpress-calendar-gutenberg.alignright,
+  .entry-content > .embedpress-calendar-gutenberg.alignleft,
+  .embedpress-calendar-gutenberg.alignright,
+  .embedpress-calendar-gutenberg.alignleft {
+    max-width: 100%; } }
+
+.clear::after {
+  content: '';
+  display: block;
+  clear: both;
+  min-height: 1px; }

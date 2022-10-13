@@ -30,7 +30,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     protected $endpoint = 'https://www.youtube.com/oembed?format=json&scheme=https';
     protected static $channel_endpoint = 'https://www.googleapis.com/youtube/v3/';
     /** @var array Array with allowed params for the current Provider */
-    protected $allowedParams = [ 'maxwidth', 'maxheight', 'pageSize', 'thumbnail', 'gallery', 'hideprivate' ];
+    protected $allowedParams = [ 'maxwidth', 'maxheight', 'pagesize', 'thumbnail', 'gallery', 'hideprivate', 'columns', 'ispagination', 'gapbetweenvideos' ];
 
     /** inline {@inheritdoc} */
     protected static $hosts = [
@@ -131,6 +131,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     protected function constructUrl($endpoint, array $params = array())
     {
         $endpoint = self::$channel_endpoint . $endpoint;
+        
         return $endpoint . ((strpos($endpoint, '?') === false) ? '?' : '&') . http_build_query(array_filter($params));
     }
 
@@ -182,6 +183,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             return $result;
         }
         $jsonResult = json_decode($apiResult['body']);
+        
 
         if (isset($jsonResult->error)) {
             $result['error'] = true;
@@ -200,7 +202,6 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             set_transient($transient_key, $result, DAY_IN_SECONDS);
         }
 
-        //
         return $result;
     }
 
@@ -234,17 +235,17 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $gallery_args    = [
                 'playlistId' => $the_playlist_id,
             ];
-            if(!empty($params['pageSize'])){
-                $gallery_args['pageSize'] = $params['pageSize'];
+            if(!empty($params['pagesize'])){
+                $gallery_args['pagesize'] = $params['pagesize'];
             }
             $gallery         = self::get_gallery_page($gallery_args);
 
             if (!empty($gallery->first_vid)) {
                 $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
-                $main_iframe = "<iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe>";
+                $main_iframe = "<div class='ep-first-video'><iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe></div>";
             }
             if($gallery->html){
-                $styles      = self::styles();
+                $styles      = self::styles($params, $this->getUrl());
                 return [
                     "title"         => $title,
                     "html"          => "<div class='ep-player-wrap'>$main_iframe {$gallery->html} $styles</div>",
@@ -256,6 +257,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                 "html"          => "<div class='ep-player-wrap'>" . __('Please enter your YouTube API key to embed YouTube Channel.', 'embedpress') . "</div>",
             ];
         }
+
         return $response;
     }
 
@@ -272,8 +274,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $options       = wp_parse_args($options, [
             'playlistId'  => '',
             'pageToken'   => '',
-            'pageSize'    => self::get_pagesize() ? self::get_pagesize() : 6,
-            'columns'     => 2,
+            'pagesize'    => self::get_pagesize() ? self::get_pagesize() : 6,
+            'currentpage' => '',
+            'columns'     => 3,
             'thumbnail'   => 'medium',
             'gallery'     => true,
             'autonext'    => true,
@@ -281,8 +284,8 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             'apiKey'      => self::get_api_key(),
             'hideprivate' => '',
         ]);
-        $options['pageSize'] = $options['pageSize'] > 50 ? 50 : $options['pageSize'];
-        $options['pageSize'] = $options['pageSize'] < 1 ? 1 : $options['pageSize'];
+        $options['pagesize'] = $options['pagesize'] > 50 ? 50 : $options['pagesize'];
+        $options['pagesize'] = $options['pagesize'] < 1 ? 1 : $options['pagesize'];
 
         if (empty($options['apiKey'])) {
             $gallobj->html = self::get_api_key_error_message();
@@ -290,7 +293,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
 
         $apiEndpoint = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,status&playlistId=' . $options['playlistId']
-            . '&maxResults=' . $options['pageSize']
+            . '&maxResults=' . $options['pagesize']
             . '&key=' . $options['apiKey'];
         if ($options['pageToken'] != null) {
             $apiEndpoint .= '&pageToken=' . $options['pageToken'];
@@ -329,6 +332,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
 
 
+
         $resultsPerPage = $jsonResult->pageInfo->resultsPerPage;
         $totalResults = $jsonResult->pageInfo->totalResults;
         $totalPages = ceil($totalResults / $resultsPerPage);
@@ -339,6 +343,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         if (isset($jsonResult->prevPageToken)) {
             $prevPageToken = $jsonResult->prevPageToken;
         }
+
 
         if (!empty($jsonResult->items) && is_array($jsonResult->items)) :
             if($options['gallery'] === "false"){
@@ -362,7 +367,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
             ob_start();
             ?>
-            <div class="ep-youtube__content__block">
+            <div class="ep-youtube__content__block"  data-unique-id="<?php echo wp_rand(); ?>">
                 <div class="youtube__content__body">
                     <div class="content__wrap">
                         <?php foreach ($jsonResult->items as $item) : ?>
@@ -396,22 +401,65 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                             class="ep-prev <?php echo empty($prevPageToken) ? ' hide ' : ''; ?>"
                             data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
                             data-pagetoken="<?php echo esc_attr($prevPageToken) ?>"
-                            data-pagesize="<?php echo intval($options['pageSize']) ?>"
+                            data-pagesize="<?php echo intval($options['pagesize']) ?>"
                         >
                             <span><?php _e("Prev", "embedpress"); ?></span>
                         </div>
                         <div class="ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
-                            <span class="current-page">1</span>
-                            <span class="page-separator">...</span>
-                            <span class="total-page"><?php echo intval($totalPages); ?></span>
+                            <?php   
+
+                                $numOfPages = $totalPages;
+                                $renderedEllipses = false;
+
+                                $currentPage = !empty($options['currentpage'])?$options['currentpage'] : 1;
+
+                                for($i = 1; $i<=$numOfPages; $i++)
+                                {
+                                    //render pages 1 - 3
+                                    if($i < 4) {
+                                        //render link
+                                        $is_current = $i == (int)$currentPage? "active__current_page" : "";
+
+                                        echo wp_kses_post("<span class='page-number  $is_current' data-page='$i'>$i</span>");
+                                         
+                                    }
+
+                                    //render current page number
+                                    else if($i == (int)$currentPage) {
+                                        //render link
+                                        echo wp_kses_post('<span class="page-number active__current_page" data-page="'.$i.'">'.$i.'</span>'); 
+                                        //reset ellipses
+                                        $renderedEllipses = false;
+                                    }
+
+                                    // else if((int)$currentPage - 1 == $i && $i == (int)$currentPage + 1){
+                                    //     echo wp_kses_post('<span class="page-number active__current_page" data-page="'.$i.'">'.$i.'</span>'); 
+                                    // }
+
+                                    //last page number
+                                    else if ($i >= $numOfPages - 2) {
+                                        //render link
+                                        echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
+                                    }
+
+                                    //make sure you only do this once per ellipses group
+                                    else {
+                                    if (!$renderedEllipses){
+                                        print("...");
+                                        $renderedEllipses = true;
+                                    }
+                                    }
+                                }
+                            ?>
+
                         </div>
                         <div
                             class="ep-next <?php echo empty($nextPageToken) ? ' hide ' : ''; ?>"
                             data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
                             data-pagetoken="<?php echo esc_attr($nextPageToken) ?>"
-                            data-pagesize="<?php echo intval($options['pageSize']) ?>"
+                            data-pagesize="<?php echo intval($options['pagesize']) ?>"
                         >
-                            <span><?php _e("Next", "embedpress"); ?></span>
+                            <span><?php _e("Next ", "embedpress"); ?> </span>
                         </div>
                     </div>
                     <div class="ep-loader-wrap">
@@ -499,7 +547,16 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         ];
     }
 
-    public static function styles(){
+    // public static $num = 0;
+
+
+    
+    public static $x = 0;
+
+    public static function styles($params, $url){
+        
+        $uniqid = '.ose-uid-'.md5($url);
+        
         ob_start();
         ?>
         <style>
@@ -538,22 +595,34 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             cursor: pointer;
             border: 1px solid rgba(0, 0, 0, .1);
             border-radius: 30px;
-            padding: 0 10px;
-            min-width: 30px;
-            min-height: 30px;
+            padding: 0 20px;
+            height: 40px;
+            transition: .3s;
+        }
+        .ep-youtube__content__pagination .ep-prev:hover,
+        .ep-youtube__content__pagination .ep-next:hover{
+            background-color: #5B4E96;
+            color: #fff;
         }
         .ep-youtube__content__pagination .ep-page-numbers {
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-wrap: wrap;
         }
         .ep-youtube__content__pagination .ep-page-numbers > span {
             border: 1px solid rgba(0, 0, 0, .1);
             border-radius: 30px;
-            padding: 0 10px;
             display: inline-block;
-            min-width: 30px;
-            min-height: 30px;
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .active__current_page{
+            background: #5B4E96;
+            color: #fff;
         }
 
         .ep-youtube__content__block .youtube__content__body .content__wrap {
@@ -651,6 +720,41 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
         .ep-loader img {
             width: 20px;
+        }
+        <?php
+        $attributes_data = $params;
+
+        $is_pagination = 'flex';
+        
+        $gap = '30';
+        $columns = 3;
+
+        if (isset($attributes_data['ispagination']) && $attributes_data['ispagination']) {
+            $is_pagination = 'none';
+        }
+        if(isset($attributes_data['gapbetweenvideos'])){
+            $gap = $attributes_data['gapbetweenvideos'];
+        }
+        if(isset($attributes_data['columns'])){
+            $columns = $attributes_data['columns'];
+        }
+        if($columns > 0){
+            $calVal = 'calc('.(100 / $columns).'% - '.$gap.'px)';
+        }
+        else{
+            $calVal = 'auto';
+        }
+
+        ?>
+        <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .youtube__content__body .content__wrap {
+            gap: <?php echo esc_html($gap); ?>px !important;
+            margin-top: <?php echo esc_html($gap); ?>px !important;
+        }
+        <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .ep-youtube__content__pagination {
+            display: <?php echo esc_html($is_pagination); ?>!important;
+        }
+        <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .youtube__content__body .content__wrap {
+            grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($calVal); ?>, 1fr));
         }
         </style>
         <?php

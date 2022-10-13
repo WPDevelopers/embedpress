@@ -27,6 +27,7 @@ use EmbedPress\Elementor\Embedpress_Elementor_Integration;
 use EmbedPress\Includes\Classes\Feature_Enhancer;
 use EmbedPress\Shortcode;
 
+
 defined('ABSPATH') or die("No direct script access allowed.");
 
 define('EMBEDPRESS_PLUGIN_BASENAME', plugin_basename(__FILE__));
@@ -88,7 +89,16 @@ if (  is_plugin_active('elementor/elementor.php')) {
 
 Shortcode::register();
 
-
 if ( !class_exists( '\simple_html_dom') ) {
 	include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
 }
+
+
+/**
+ * Check is embedpress-pro active
+ */
+$is_pro_active = false;
+if(class_exists('EmbedPress_Licensing')){
+	$is_pro_active = true;
+}
+

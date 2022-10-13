@@ -6,25 +6,32 @@ import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
 import md5 from 'md5';
+import Inspector from './inspector';
 
 /**
  * WordPress dependencies
  */
-const {__} = wp.i18n;
-import {embedPressIcon} from '../common/icons';
-const {TextControl, PanelBody} = wp.components;
-const { InspectorControls, useBlockProps } = wp.blockEditor;
+const { __ } = wp.i18n;
+import { embedPressIcon } from '../common/icons';
+
+const {
+	useBlockProps
+} = wp.blockEditor;
+
 const { Fragment, useEffect } = wp.element;
 
-export default function EmbedPress({attributes, className, setAttributes}){
-	const {url, editingURL, fetching, cannotEmbed, interactive, embedHTML, height, width, pagesize} = attributes;
+export default function EmbedPress(props) {
+	const { clientId, attributes, className, setAttributes } = props;
+
+	const { url, editingURL, fetching, cannotEmbed, interactive, embedHTML, height, width, ispagination, pagesize, columns, gapbetweenvideos } = attributes;
 	const blockProps = useBlockProps ? useBlockProps() : [];
+
 	const isYTChannel = url.match(/\/channel\/|\/c\/|\/user\/|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
 	function switchBackToURLInput() {
-		setAttributes( {editingURL: true});
+		setAttributes({ editingURL: true });
 	}
 	function onLoad() {
-		setAttributes( {fetching: false});
+		setAttributes({ fetching: false });
 	}
 
 	useEffect( () => {
@@ -49,27 +56,34 @@ export default function EmbedPress({attributes, className, setAttributes}){
 	}, [embedHTML]);
 
 	function embed(event) {
+
 		if (event) event.preventDefault();
 
 		if (url) {
 			setAttributes({
 				fetching: true
 			});
+
 			// send api request to get iframe url
 			let fetchData = async (url) => {
 				let _pagesize = isYTChannel ? `&pagesize=${pagesize}` : '';
-				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}${_pagesize}`).then(response => response.json());
+				let _gapbetweenvideos = isYTChannel ? `&gapbetweenvideos=${gapbetweenvideos}` : '';
+				let _ispagination = isYTChannel ? `&ispagination=${ispagination}` : false;
+				let _columns = isYTChannel ? `&columns=${columns}` : '';
+
+
+				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}${_columns}${_ispagination}${_pagesize}${_gapbetweenvideos}`).then(response => response.json());
 			}
 			fetchData(url).then(data => {
 				setAttributes({
 					fetching: false
 				});
-				if ((data.data && data.data.status === 404) || !data.embed){
+				if ((data.data && data.data.status === 404) || !data.embed) {
 					setAttributes({
 						cannotEmbed: true,
 						editingURL: true,
 					})
-				}else{
+				} else {
 					setAttributes({
 						embedHTML: data.embed,
 						cannotEmbed: false,
@@ -87,69 +101,97 @@ export default function EmbedPress({attributes, className, setAttributes}){
 			})
 		}
 	}
-		return (
-			<Fragment>
-				<InspectorControls>
-					<PanelBody title={__("Customize Embedded Link")}>
-						<p>{__("You can adjust the width and height of embedded content.")}</p>
-						<TextControl
-							label={__("Width")}
-							value={ width }
-							onChange={ ( width ) => setAttributes( { width } ) }
-						/>
-						<TextControl
-							label={__("Height")}
-							value={ height }
-							onChange={ ( height ) => setAttributes( { height } ) }
-						/>
-						{
-							isYTChannel &&
-							<div>
-								<TextControl
-									label={__("Video Per Page")}
-									value={ pagesize }
-									onChange={ ( pagesize ) => setAttributes( { pagesize } ) }
-								/>
-								<p>Specify the number of videos you wish to show on each page.</p>
-							</div>
-						}
-						{(embedHTML && !editingURL) && <button onClick={embed}>{__('Apply')}</button>}
-					</PanelBody>
-				</InspectorControls>
-				{ ((!embedHTML || editingURL) && !fetching) && <div { ...blockProps }>
-						<EmbedPlaceholder
-						label={__('EmbedPress - Embed anything from 100+ sites')}
-						onSubmit={embed}
-						value={url}
-						cannotEmbed={cannotEmbed}
-						onChange={(event) => setAttributes({url: event.target.value})}
-						icon={embedPressIcon}
-						DocTitle={__('Learn more about EmbedPress')}
-						docLink={'https://embedpress.com/docs/'}
 
-						/>
-					</div>}
+	useEffect(() => {
+		const delayDebounceFn = setTimeout(() => {
+			if (pagesize) {
+				embed();
+			}
+		}, 300)
 
-				{ fetching ? <div className={className}><EmbedLoading/> </div> : null}
+		return () => clearTimeout(delayDebounceFn)
+	}, [pagesize]);
 
-				{(embedHTML && !editingURL && !fetching) && <figure { ...blockProps } >
-					<EmbedWrap style={{display: fetching ? 'none' : ''}} dangerouslySetInnerHTML={{
-						__html: embedHTML
-					}}></EmbedWrap>
-					<div
-						className="block-library-embed__interactive-overlay"
-						onMouseUp={ setAttributes({interactive: true}) }
-					/>
+	return (
+		<Fragment>
 
-					<EmbedControls
-						showEditButton={embedHTML && !cannotEmbed}
-						switchBackToURLInput={switchBackToURLInput}
-					/>
+			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} />
 
-				</figure>}
-			</Fragment>
+			{((!embedHTML || editingURL) && !fetching) && <div {...blockProps}>
+				<EmbedPlaceholder
+					label={__('EmbedPress - Embed anything from 100+ sites')}
+					onSubmit={embed}
+					value={url}
+					cannotEmbed={cannotEmbed}
+					onChange={(event) => setAttributes({ url: event.target.value })}
+					icon={embedPressIcon}
+					DocTitle={__('Learn more about EmbedPress')}
+					docLink={'https://embedpress.com/docs/'}
 
-		);
+				/>
+			</div>}
+
+			{fetching ? <div className={className}><EmbedLoading /> </div> : null}
+
+			{(embedHTML && !editingURL && !fetching) && <figure {...blockProps} >
+				<EmbedWrap style={{ display: fetching ? 'none' : '' }} dangerouslySetInnerHTML={{
+					__html: embedHTML
+				}}></EmbedWrap>
+				<div
+					className="block-library-embed__interactive-overlay"
+					onMouseUp={setAttributes({ interactive: true })}
+				/>
+
+				<EmbedControls
+					showEditButton={embedHTML && !cannotEmbed}
+					switchBackToURLInput={switchBackToURLInput}
+				/>
+
+			</figure>}
+
+			<style style={{ display: "none" }}>
+				{
+					`
+					#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap{
+						gap: ${gapbetweenvideos}px!important;
+						margin-top: ${gapbetweenvideos}px!important;
+					}
+
+					#block-${clientId} .ose-youtube{
+						width: ${width}px!important;
+					}
+					#block-${clientId} .ose-youtube .ep-first-video iframe{
+						max-height: ${height}px!important;
+					}
+
+					#block-${clientId} .ose-youtube > iframe{
+						height: ${height}px!important;
+						width: 100%;
+					}
+
+					#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap {
+						grid-template-columns: repeat(auto-fit, minmax(calc(${100 / columns}% - ${gapbetweenvideos}px), 1fr));
+					}
+
+
+					#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
+						display: flex!important;
+					}
+
+					${!ispagination && (
+						`#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
+							display: none!important;
+						}`
+					)}
+
+					`
+				}
+
+			</style>
+
+		</Fragment>
+
+	);
 
 }
 

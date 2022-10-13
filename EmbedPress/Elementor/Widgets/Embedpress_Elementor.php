@@ -10,211 +10,221 @@ use Elementor\Widget_Base as Widget_Base;
 use EmbedPress\Includes\Traits\Branding;
 use EmbedPress\Shortcode;
 
-(defined( 'ABSPATH' )) or die( "No direct script access allowed." );
+(defined('ABSPATH')) or die("No direct script access allowed.");
 
-class Embedpress_Elementor extends Widget_Base {
-    use Branding;
-    protected $pro_class = '';
-    protected $pro_text = '';
-    public function get_name() {
-        return 'embedpres_elementor';
-    }
+class Embedpress_Elementor extends Widget_Base
+{
+	use Branding;
+	protected $pro_class = '';
+	protected $pro_text = '';
+	public function get_name()
+	{
+		return 'embedpres_elementor';
+	}
 
-    public function get_title() {
-        return esc_html__( 'EmbedPress', 'embedpress' );
-    }
+	public function get_title()
+	{
+		return esc_html__('EmbedPress', 'embedpress');
+	}
 
-    public function get_categories() {
-        return [ 'embedpress' ];
-    }
+	public function get_categories()
+	{
+		return ['embedpress'];
+	}
 
-    public function get_custom_help_url() {
-        return 'https://embedpress.com/documentation';
-    }
+	public function get_custom_help_url()
+	{
+		return 'https://embedpress.com/documentation';
+	}
 
-    public function get_icon() {
-        return 'icon-embedpress';
-    }
+	public function get_icon()
+	{
+		return 'icon-embedpress';
+	}
 
-    /**
-     * Get widget keywords.
-     *
-     * Retrieve the list of keywords the widget belongs to.
-     *
-     * @return array Widget keywords.
-     * @since 2.4.1
-     * @access public
-     *
-     */
-    public function get_keywords() {
-        return [
-            'embedpress',
-            'audio',
-            'video',
-            'map',
-            'youtube',
-            'vimeo',
-            'wistia',
-            'twitch',
-            'soundcloud',
-            'giphy gifs',
-            'spotify',
-            'smugmug',
-            'meetup',
-            'apple',
-            'apple podcast',
-            'podcast',
-            'dailymotion',
-            'instagram',
-            'slideshare',
-            'flickr',
-            'ted',
-            'google docs',
-            'google slides',
-            'google drawings'
-        ];
-    }
+	/**
+	 * Get widget keywords.
+	 *
+	 * Retrieve the list of keywords the widget belongs to.
+	 *
+	 * @return array Widget keywords.
+	 * @since 2.4.1
+	 * @access public
+	 *
+	 */
+	public function get_keywords()
+	{
+		return [
+			'embedpress',
+			'audio',
+			'video',
+			'map',
+			'youtube',
+			'vimeo',
+			'wistia',
+			'twitch',
+			'soundcloud',
+			'giphy gifs',
+			'spotify',
+			'smugmug',
+			'meetup',
+			'apple',
+			'apple podcast',
+			'podcast',
+			'dailymotion',
+			'instagram',
+			'slideshare',
+			'flickr',
+			'ted',
+			'google docs',
+			'google slides',
+			'google drawings'
+		];
+	}
 
-    protected function register_controls() {
-        $this->pro_class = is_embedpress_pro_active() ? '': 'embedpress-pro-control';
-        $this->pro_text = is_embedpress_pro_active() ? '': '<sup class="embedpress-pro-label" style="color:red">'.__('Pro', 'embedpress').'</sup>';
-        /**
-         * EmbedPress Content Settings
-         */
-        $this->start_controls_section(
-            'embedpress_elementor_content_settings',
-            [
-                'label' => esc_html__( 'Content Settings', 'embedpress' ),
-            ]
-        );
+	protected function register_controls()
+	{
+		$this->pro_class = is_embedpress_pro_active() ? '' : 'embedpress-pro-control';
+		$this->pro_text = is_embedpress_pro_active() ? '' : '<sup class="embedpress-pro-label" style="color:red">' . __('Pro', 'embedpress') . '</sup>';
+		/**
+		 * EmbedPress Content Settings
+		 */
+		$this->start_controls_section(
+			'embedpress_elementor_content_settings',
+			[
+				'label' => esc_html__('Content Settings', 'embedpress'),
+			]
+		);
 
-        do_action( 'embedpress/embeded/extend', $this );
-	    $this->add_control(
-		    'embedpress_pro_embeded_source',
-		    [
-			    'label'       => __( 'Source Name', 'embedpress' ),
-			    'type'        => Controls_Manager::SELECT,
-			    'label_block' => false,
-			    'default'     => ['default'],
-			    'options'     => [
-				    'default'     => __( 'Default', 'embedpress' ),
-				    'youtube'     => __( 'YouTube', 'embedpress' ),
-				    'vimeo'       => __( 'Vimeo', 'embedpress' ),
-				    'dailymotion' => __( 'Dailymotion', 'embedpress' ),
-				    'wistia'      => __( 'Wistia', 'embedpress' ),
-				    'twitch'  => __( 'Twitch', 'embedpress' ),
-				    'soundcloud'  => __( 'SoundCloud', 'embedpress' ),
-			    ]
-		    ]
-	    );
-        $this->add_control(
-            'embedpress_embeded_link',
-            [
+		do_action('embedpress/embeded/extend', $this);
+		$this->add_control(
+			'embedpress_pro_embeded_source',
+			[
+				'label'       => __('Source Name', 'embedpress'),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => false,
+				'default'     => ['default'],
+				'options'     => [
+					'default'     => __('Default', 'embedpress'),
+					'youtube'     => __('YouTube', 'embedpress'),
+					'vimeo'       => __('Vimeo', 'embedpress'),
+					'dailymotion' => __('Dailymotion', 'embedpress'),
+					'wistia'      => __('Wistia', 'embedpress'),
+					'twitch'  => __('Twitch', 'embedpress'),
+					'soundcloud'  => __('SoundCloud', 'embedpress'),
+				]
+			]
+		);
+		$this->add_control(
+			'embedpress_embeded_link',
+			[
 
-                'label'       => __( 'Embedded Link', 'embedpress' ),
-                'type'        => Controls_Manager::TEXT,
-                'dynamic'     => [
-                    'active' => true,
-                ],
-                'placeholder' => __( 'Enter your Link', 'embedpress' ),
-                'label_block' => true
+				'label'       => __('Embedded Link', 'embedpress'),
+				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => [
+					'active' => true,
+				],
+				'placeholder' => __('Enter your Link', 'embedpress'),
+				'label_block' => true
 
-            ]
-        );
-	    $this->add_control(
-		    'spotify_theme',
-		    [
-			    'label'       => __( 'Player Background', 'embedpress' ),
-			    'description'       => __( 'Dynamic option will use the most vibrant color from the album art.', 'embedpress' ),
-			    'type'        => Controls_Manager::SELECT,
-			    'label_block' => false,
-			    'default'     => '1',
-			    'options'     => [
-				    '1'   => __( 'Dynamic', 'embedpress' ),
-				    '0' => __( 'Black & White', 'embedpress' )
-			    ],
-			    'condition'   => [
-				    'embedpress_pro_embeded_source' => 'spotify'
-			    ]
-		    ]
-	    );
-        do_action( 'embedpress/control/extend', $this );
-	    $this->add_control(
-		    'embedpress_pro_video_start_time',
-		    [
-			    'label'       => __( 'Start Time', 'embedpress' ),
-			    'type'        => Controls_Manager::NUMBER,
-			    'description' => __( 'Specify a start time (in seconds)', 'embedpress' ),
-			    'condition'   => [
-				    'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'wistia', 'dailymotion', 'twitch']
-			    ],
-		    ]
-	    );
-        $this->init_youtube_controls();
-        $this->init_vimeo_controls();
-        $this->init_wistia_controls();
-        $this->init_soundcloud_controls();
-        $this->init_dailymotion_control();
-        $this->init_twitch_control();
+			]
+		);
+		$this->add_control(
+			'spotify_theme',
+			[
+				'label'       => __('Player Background', 'embedpress'),
+				'description'       => __('Dynamic option will use the most vibrant color from the album art.', 'embedpress'),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => false,
+				'default'     => '1',
+				'options'     => [
+					'1'   => __('Dynamic', 'embedpress'),
+					'0' => __('Black & White', 'embedpress')
+				],
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'spotify'
+				]
+			]
+		);
+		do_action('embedpress/control/extend', $this);
+		$this->add_control(
+			'embedpress_pro_video_start_time',
+			[
+				'label'       => __('Start Time', 'embedpress'),
+				'type'        => Controls_Manager::NUMBER,
+				'description' => __('Specify a start time (in seconds)', 'embedpress'),
+				'condition'   => [
+					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'wistia', 'dailymotion', 'twitch']
+				],
+			]
+		);
 
-        $this->end_controls_section();
+		$this->init_youtube_controls();
+		$this->init_vimeo_controls();
+		$this->init_wistia_controls();
+		$this->init_soundcloud_controls();
+		$this->init_dailymotion_control();
+		$this->init_twitch_control();
 
-        $this->init_youtube_subscription_section();
-        $this->init_youtube_livechat_section();
+		$this->end_controls_section();
 
-	    if (! is_embedpress_pro_active()) {
-		    $this->start_controls_section(
-			    'embedpress_pro_section',
-			    [
-				    'label' => __('Go Premium for More Features', 'embedpress'),
-			    ]
-		    );
+		$this->init_youtube_subscription_section();
+		$this->init_youtube_livechat_section();
 
-		    $this->add_control(
-			    'embedpress_pro_cta',
-			    [
-				    'label' => __('Unlock more possibilities', 'embedpress'),
-				    'type' => Controls_Manager::CHOOSE,
-				    'options' => [
-					    '1' => [
-						    'title' => '',
-						    'icon' => 'eicon-lock',
-					    ],
-				    ],
-				    'default' => '1',
-				    'description' => '<span class="pro-feature"> Get the  <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Pro version</a> for more provider support and customization options.</span>',
-			    ]
-		    );
+		if (!is_embedpress_pro_active()) {
+			$this->start_controls_section(
+				'embedpress_pro_section',
+				[
+					'label' => __('Go Premium for More Features', 'embedpress'),
+				]
+			);
 
-		    $this->end_controls_section();
-	    }
+			$this->add_control(
+				'embedpress_pro_cta',
+				[
+					'label' => __('Unlock more possibilities', 'embedpress'),
+					'type' => Controls_Manager::CHOOSE,
+					'options' => [
+						'1' => [
+							'title' => '',
+							'icon' => 'eicon-lock',
+						],
+					],
+					'default' => '1',
+					'description' => '<span class="pro-feature"> Get the  <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Pro version</a> for more provider support and customization options.</span>',
+				]
+			);
 
-        $this->init_style_controls();
-    }
-	public function init_youtube_controls() {
+			$this->end_controls_section();
+		}
+
+		$this->init_style_controls();
+	}
+	public function init_youtube_controls()
+	{
 		$yt_condition = [
 			'embedpress_pro_embeded_source' => 'youtube'
 		];
 		$this->add_control(
 			'embedpress_pro_youtube_end_time',
 			[
-				'label'       => __( 'End Time', 'embedpress' ),
+				'label'       => __('End Time', 'embedpress'),
 				'type'        => Controls_Manager::NUMBER,
-				'description' => __( 'Specify an end time (in seconds)', 'embedpress' ),
+				'description' => __('Specify an end time (in seconds)', 'embedpress'),
 				'condition'   => $yt_condition,
 			]
 		);
-	    $this->add_control(
-		    'pagesize',
-		    [
-			    'label'       => __( 'Video Per Page', 'embedpress' ),
-			    'description' => __( 'Specify the number of videos you wish to show on each page. Note: This option takes effect only when a YouTube channel is embedded.', 'embedpress' ),
-			    'type'        => Controls_Manager::NUMBER,
-			    'label_block' => false,
-			    'default'     => 6,
-			    'min'         => 1,
-			    'max'         => 50,
-			    'conditions'  => [
+		$this->add_control(
+			'pagesize',
+			[
+				'label'       => __('Video Per Page', 'embedpress'),
+				'description' => __('Specify the number of videos you wish to show on each page.<br>Note: This option takes effect only when a YouTube channel is embedded.', 'embedpress'),
+				'type'        => Controls_Manager::NUMBER,
+				'label_block' => false,
+				'default'     => 6,
+				'min'         => 1,
+				'max'         => 50,
+				'conditions'  => [
 					'terms' => [
 						[
 							'name' => 'embedpress_pro_embeded_source',
@@ -222,13 +232,30 @@ class Embedpress_Elementor extends Widget_Base {
 							'value' => 'youtube',
 						],
 					],
-			    ]
-		    ]
-	    );
+				]
+			]
+		);
+
+		$this->add_control(
+			'pagination',
+			[
+				'label'        => __('Pagination', 'embedpress'),
+				'description'        => __('Note: This option takes effect only when a YouTube channel is embedded.', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'label_on' => esc_html__( 'Show', 'embedpress' ),
+				'label_off' => esc_html__( 'Hide', 'embedpress' ),
+				'return_value' => 'show',
+				'default'      => 'show',
+				'condition'    => $yt_condition,
+			]
+		);
+
+
 		$this->add_control(
 			'embedpress_pro_youtube_auto_play',
 			[
-				'label'        => __( 'Auto Play', 'embedpress' ),
+				'label'        => __('Auto Play', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -239,7 +266,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_youtube_player_options',
 			[
-				'label'     => __( 'Player Options', 'embedpress' ),
+				'label'     => __('Player Options', 'embedpress'),
 				'type'      => Controls_Manager::HEADING,
 				'condition' => $yt_condition,
 			]
@@ -247,14 +274,14 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_youtube_display_controls',
 			[
-				'label'       => __( 'Controls', 'embedpress' ),
+				'label'       => __('Controls', 'embedpress'),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
 				'default'     => 1,
 				'options'     => [
-					'1' => __( 'Display immediately', 'embedpress' ),
-					'2' => __( 'Display after user initiation', 'embedpress' ),
-					'0' => __( 'Hide controls', 'embedpress' )
+					'1' => __('Display immediately', 'embedpress'),
+					'2' => __('Display after user initiation', 'embedpress'),
+					'0' => __('Hide controls', 'embedpress')
 				],
 				'condition'   => $yt_condition,
 			]
@@ -262,7 +289,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_youtube_enable_fullscreen_button',
 			[
-				'label'        => __( 'Fullscreen button', 'embedpress' ),
+				'label'        => __('Fullscreen button', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -276,28 +303,28 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_youtube_display_video_annotations',
 			[
-				'label'       => __( 'Video Annotations', 'embedpress' ),
+				'label'       => __('Video Annotations', 'embedpress'),
 				'type'        => Controls_Manager::SWITCHER,
 				'label_block' => false,
 				'default'     => 1,
 				'options'     => [
-					'1' => __( 'Display', 'embedpress' ),
-					'3' => __( 'Do Not Display', 'embedpress' )
+					'1' => __('Display', 'embedpress'),
+					'3' => __('Do Not Display', 'embedpress')
 				],
 				'condition'   => $yt_condition,
 			]
 		);
-        //--- YouTube Pro control starts ---
+		//--- YouTube Pro control starts ---
 		$this->add_control(
 			'embedpress_pro_youtube_progress_bar_color',
 			[
-				'label'       => __( 'Progress Bar Color', 'embedpress' ),
+				'label'       => __('Progress Bar Color', 'embedpress'),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
 				'default'     => 'red',
 				'options'     => [
-					'red'   => __( 'Red', 'embedpress' ),
-					'white' => __( 'White', 'embedpress' )
+					'red'   => __('Red', 'embedpress'),
+					'white' => __('White', 'embedpress')
 				],
 				'condition'   => $yt_condition,
 			]
@@ -305,7 +332,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_youtube_force_closed_captions',
 			[
-				'label'        => sprintf(__( 'Closed Captions %s', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__('Closed Captions %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -318,13 +345,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_youtube_modest_branding',
 			[
-				'label'       => sprintf(__( 'Modest Branding %s', 'embedpress' ), $this->pro_text ),
+				'label'       => sprintf(__('Modest Branding %s', 'embedpress'), $this->pro_text),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
 				'default'     => 1,
 				'options'     => [
-					'0' => __( 'Display', 'embedpress' ),
-					'1' => __( 'Do Not Display', 'embedpress' )
+					'0' => __('Display', 'embedpress'),
+					'1' => __('Do Not Display', 'embedpress')
 				],
 				'condition'   => [
 					'embedpress_pro_embeded_source'              => 'youtube',
@@ -337,8 +364,8 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_youtube_display_related_videos',
 			[
-				'label'        => __( 'Related Videos', 'embedpress' ),
-				'description'        => __( 'Set it to "Yes" to display related videos from all channels. Otherwise, related videos will show from the same channel.', 'embedpress' ),
+				'label'        => __('Related Videos', 'embedpress'),
+				'description'        => __('Set it to "Yes" to display related videos from all channels. Otherwise, related videos will show from the same channel.', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -346,16 +373,17 @@ class Embedpress_Elementor extends Widget_Base {
 				'condition'    => $yt_condition,
 			]
 		);
-		$this->init_branding_controls( 'youtube');
+		$this->init_branding_controls('youtube');
 	}
-	public function init_youtube_subscription_section() {
+	public function init_youtube_subscription_section()
+	{
 		$yt_condition = [
 			'embedpress_pro_embeded_source' => 'youtube',
 		];
 		$this->start_controls_section(
 			'embedpress_yt_subscription_section',
 			[
-				'label'       => __( 'YouTube Subscriber', 'embedpress' ),
+				'label'       => __('YouTube Subscriber', 'embedpress'),
 				'condition'    => $yt_condition,
 
 			]
@@ -366,12 +394,12 @@ class Embedpress_Elementor extends Widget_Base {
 			'yt_sub_channel',
 			[
 
-				'label'       => sprintf( __( 'Channel ID %s', 'embedpress' ), $this->pro_text),
+				'label'       => sprintf(__('Channel ID %s', 'embedpress'), $this->pro_text),
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => [
 					'active' => true,
 				],
-				'placeholder' => __( 'Enter Channel ID', 'embedpress' ),
+				'placeholder' => __('Enter Channel ID', 'embedpress'),
 				'label_block' => true,
 				'condition'    => $yt_condition,
 				'classes'     => $this->pro_class,
@@ -381,12 +409,12 @@ class Embedpress_Elementor extends Widget_Base {
 			'yt_sub_text',
 			[
 
-				'label'       => sprintf( __( 'Subscription Text %s', 'embedpress' ), $this->pro_text),
+				'label'       => sprintf(__('Subscription Text %s', 'embedpress'), $this->pro_text),
 				'type'        => Controls_Manager::TEXT,
 				'dynamic'     => [
 					'active' => true,
 				],
-				'placeholder' => __( 'Eg. Don\'t miss out! Subscribe', 'embedpress' ),
+				'placeholder' => __('Eg. Don\'t miss out! Subscribe', 'embedpress'),
 				'label_block' => true,
 				'condition'    => $yt_condition,
 				'classes'     => $this->pro_class,
@@ -397,13 +425,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'yt_sub_layout',
 			[
-				'label'       => sprintf(__( 'Layout %s', 'embedpress' ), $this->pro_text ),
+				'label'       => sprintf(__('Layout %s', 'embedpress'), $this->pro_text),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
 				'default'     => 'default',
 				'options'     => [
-					'default' => __( 'Default', 'embedpress' ),
-					'full' => __( 'Full', 'embedpress' )
+					'default' => __('Default', 'embedpress'),
+					'full' => __('Full', 'embedpress')
 				],
 				'condition'   => [
 					'embedpress_pro_embeded_source'              => 'youtube',
@@ -415,13 +443,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'yt_sub_theme',
 			[
-				'label'        => sprintf(__( 'Theme %s', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__('Theme %s', 'embedpress'), $this->pro_text),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
 				'default'     => 'default',
 				'options'     => [
-					'default' => __( 'Default', 'embedpress' ),
-					'dark' => __( 'Dark', 'embedpress' )
+					'default' => __('Default', 'embedpress'),
+					'dark' => __('Dark', 'embedpress')
 				],
 				'condition'   => [
 					'embedpress_pro_embeded_source'  => 'youtube',
@@ -433,7 +461,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'yt_sub_count',
 			[
-				'label'        => sprintf(__( 'Subscriber Count %s', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__('Subscriber Count %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -444,16 +472,16 @@ class Embedpress_Elementor extends Widget_Base {
 		);
 
 		$this->end_controls_section();
-
 	}
-	public function init_youtube_livechat_section() {
+	public function init_youtube_livechat_section()
+	{
 		$yt_condition = [
 			'embedpress_pro_embeded_source' => 'youtube',
 		];
 		$this->start_controls_section(
 			'embedpress_yt_livechat_section',
 			[
-				'label'       => __( 'YouTube Live Chat', 'embedpress' ),
+				'label'       => __('YouTube Live Chat', 'embedpress'),
 				'condition'    => $yt_condition,
 
 			]
@@ -462,13 +490,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'yt_lc_show',
 			[
-				'label'        => sprintf(__( 'Show YouTube Live Chat %s', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__('Show YouTube Live Chat %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => '',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => $yt_condition,
 				'classes'     => $this->pro_class,
 			]
@@ -476,20 +504,20 @@ class Embedpress_Elementor extends Widget_Base {
 
 
 		$this->end_controls_section();
-
 	}
-	public function init_dailymotion_control ( ){
-        //@TODO; Kamal - migrate from 'embedpress_pro_dailymotion_logo' to 'embedpress_pro_dailymotion_ui_logo'
+	public function init_dailymotion_control()
+	{
+		//@TODO; Kamal - migrate from 'embedpress_pro_dailymotion_logo' to 'embedpress_pro_dailymotion_ui_logo'
 		$this->add_control(
 			'embedpress_pro_dailymotion_ui_logo',
 			[
-				'label'        => sprintf(__( 'Logo %s', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__('Logo %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'dailymotion'
 				],
@@ -499,13 +527,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_dailymotion_autoplay',
 			[
-				'label'        => __( 'Auto Play', 'embedpress' ),
+				'label'        => __('Auto Play', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'no',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'dailymotion'
 				]
@@ -514,13 +542,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_dailymotion_play_on_mobile',
 			[
-				'label'        => __( 'Play On Mobile', 'embedpress' ),
+				'label'        => __('Play On Mobile', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'no',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'dailymotion',
 					'embedpress_pro_dailymotion_autoplay' => 'yes'
@@ -530,13 +558,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_dailymotion_mute',
 			[
-				'label'        => __( 'Mute', 'embedpress' ),
+				'label'        => __('Mute', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'no',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'dailymotion'
 				]
@@ -545,13 +573,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_dailymotion_player_control',
 			[
-				'label'        => __( 'Player Controls', 'embedpress' ),
+				'label'        => __('Player Controls', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'dailymotion'
 				]
@@ -560,13 +588,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_dailymotion_video_info',
 			[
-				'label'        => __( 'Video Info', 'embedpress' ),
+				'label'        => __('Video Info', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'dailymotion'
 				]
@@ -575,7 +603,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_dailymotion_control_color',
 			[
-				'label'       => __( 'Control Color', 'embedpress' ),
+				'label'       => __('Control Color', 'embedpress'),
 				'type'        => Controls_Manager::COLOR,
 				'label_block' => false,
 				'default'     => '#dd3333',
@@ -584,14 +612,14 @@ class Embedpress_Elementor extends Widget_Base {
 				]
 			]
 		);
-		$this->init_branding_controls( 'dailymotion');
-
+		$this->init_branding_controls('dailymotion');
 	}
-	public function init_wistia_controls( ) {
+	public function init_wistia_controls()
+	{
 		$this->add_control(
 			'embedpress_pro_wistia_auto_play',
 			[
-				'label'        => __( 'Auto Play', 'embedpress' ),
+				'label'        => __('Auto Play', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -605,7 +633,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_wistia_color',
 			[
-				'label'       => __( 'Scheme', 'embedpress' ),
+				'label'       => __('Scheme', 'embedpress'),
 				'type'        => Controls_Manager::COLOR,
 				'label_block' => false,
 				'default'     => '#dd3333',
@@ -620,7 +648,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_wistia_captions_enabled_by_default',
 			[
-				'label'        => __( 'Captions Enabled By Default', 'embedpress' ),
+				'label'        => __('Captions Enabled By Default', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -636,7 +664,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_wistia_player_options',
 			[
-				'label'     => __( 'Player Options', 'embedpress' ),
+				'label'     => __('Player Options', 'embedpress'),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'condition' => [
@@ -650,7 +678,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_wistia_fullscreen_button',
 			[
-				'label'        => __( 'Fullscreen Button', 'embedpress' ),
+				'label'        => __('Fullscreen Button', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -664,7 +692,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_wistia_small_play_button',
 			[
-				'label'        => __( 'Small Play Button', 'embedpress' ),
+				'label'        => __('Small Play Button', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -681,7 +709,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_wistia_resumable',
 			[
-				'label'        => __( 'Resumable', 'embedpress' ),
+				'label'        => __('Resumable', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -696,7 +724,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_wistia_focus',
 			[
-				'label'        => __( 'Focus', 'embedpress' ),
+				'label'        => __('Focus', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -711,7 +739,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_wistia_captions',
 			[
-				'label'        => sprintf(__( 'Captions %s', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__('Captions %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -725,7 +753,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_wistia_playbar',
 			[
-				'label'        => __( 'Playbar ', 'embedpress' ),
+				'label'        => __('Playbar ', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -739,7 +767,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_wistia_volume_control',
 			[
-				'label'        => sprintf(__( 'Volume Control %s', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__('Volume Control %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -755,7 +783,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_wistia_volume',
 			[
-				'label'     => sprintf(__( 'Volume %s', 'embedpress' ), $this->pro_text ),
+				'label'     => sprintf(__('Volume %s', 'embedpress'), $this->pro_text),
 				'type'      => Controls_Manager::SLIDER,
 				'default'   => [
 					'size' => 100,
@@ -777,7 +805,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_wistia_rewind',
 			[
-				'label'        => __( 'Rewind', 'embedpress' ),
+				'label'        => __('Rewind', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -791,7 +819,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_wistia_rewind_time',
 			[
-				'label'     => __( 'Rewind time', 'embedpress' ),
+				'label'     => __('Rewind time', 'embedpress'),
 				'type'      => Controls_Manager::SLIDER,
 				'default'   => [
 					'size' => 10,
@@ -808,20 +836,20 @@ class Embedpress_Elementor extends Widget_Base {
 				],
 			]
 		);
-		$this->init_branding_controls( 'wistia');
-
+		$this->init_branding_controls('wistia');
 	}
-	public function init_twitch_control( ) {
+	public function init_twitch_control()
+	{
 		$condition = [
 			'embedpress_pro_embeded_source' => 'twitch'
 		];
 		$this->add_control(
 			'embedpress_pro_twitch_autoplay',
 			[
-				'label'        => __( 'Autoplay', 'embedpress' ),
+				'label'        => __('Autoplay', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_off'    => __( 'No', 'embedpress' ),
-				'label_on'     => __( 'Yes', 'embedpress' ),
+				'label_off'    => __('No', 'embedpress'),
+				'label_on'     => __('Yes', 'embedpress'),
 				'default'      => 'yes',
 				'condition'    => $condition,
 			]
@@ -829,10 +857,10 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_fs',
 			[
-				'label'        => __( 'Allow Full Screen Video', 'embedpress' ),
+				'label'        => __('Allow Full Screen Video', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_off'    => __( 'No', 'embedpress' ),
-				'label_on'     => __( 'Yes', 'embedpress' ),
+				'label_off'    => __('No', 'embedpress'),
+				'label_on'     => __('Yes', 'embedpress'),
 				'default'      => 'yes',
 				'condition'    => $condition,
 			]
@@ -842,10 +870,10 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_twitch_chat',
 			[
-				'label'        => sprintf(__( 'Show Chat %s', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__('Show Chat %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => $condition,
 				'classes'     => $this->pro_class,
 
@@ -854,41 +882,41 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_twitch_mute',
 			[
-				'label'        => __( 'Mute on start', 'embedpress' ),
+				'label'        => __('Mute on start', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => $condition,
 			]
 		);
 		$this->add_control(
 			'embedpress_pro_twitch_theme',
 			[
-				'label' => __( 'Theme', 'embedpress' ),
+				'label' => __('Theme', 'embedpress'),
 				'type' => Controls_Manager::SELECT,
 				'default' => 'dark',
 				'options' => [
-					'dark'  => __( 'Dark', 'embedpress' ),
-					'light' => __( 'Light', 'embedpress' ),
+					'dark'  => __('Dark', 'embedpress'),
+					'light' => __('Light', 'embedpress'),
 				],
 				'condition'    => $condition,
 			]
 		);
 
-		$this->init_branding_controls( 'twitch');
-
+		$this->init_branding_controls('twitch');
 	}
-	public function init_soundcloud_controls( ) {
+	public function init_soundcloud_controls()
+	{
 		$this->add_control(
 			'embedpress_pro_soundcloud_visual',
 			[
-				'label'        => __( 'Visual Player', 'embedpress' ),
+				'label'        => __('Visual Player', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'no',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
 				],
@@ -898,7 +926,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_soundcloud_color',
 			[
-				'label'       => __( 'Scheme', 'embedpress' ),
+				'label'       => __('Scheme', 'embedpress'),
 				'type'        => Controls_Manager::COLOR,
 				'label_block' => false,
 				'default'     => '#FF5500',
@@ -911,13 +939,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_soundcloud_autoplay',
 			[
-				'label'        => __( 'Auto Play', 'embedpress' ),
+				'label'        => __('Auto Play', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'no',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
 				],
@@ -929,13 +957,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_soundcloud_share_button',
 			[
-				'label'        => __( 'Share Button', 'embedpress' ),
+				'label'        => __('Share Button', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
 				],
@@ -945,13 +973,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_soundcloud_comments',
 			[
-				'label'        => __( 'Comments', 'embedpress' ),
+				'label'        => __('Comments', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
 				],
@@ -963,13 +991,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_soundcloud_artwork',
 			[
-				'label'        => __( 'Artwork', 'embedpress' ),
+				'label'        => __('Artwork', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
 					'embedpress_pro_embeded_source'     => 'soundcloud',
 					'embedpress_pro_soundcloud_visual!' => 'yes'
@@ -980,13 +1008,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_soundcloud_play_count',
 			[
-				'label'        => __( 'Play Count', 'embedpress' ),
+				'label'        => __('Play Count', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud',
 					'embedpress_pro_soundcloud_visual!' => 'yes'
@@ -997,13 +1025,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_soundcloud_user_name',
 			[
-				'label'        => __( 'User Name', 'embedpress' ),
+				'label'        => __('User Name', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
 				],
@@ -1013,13 +1041,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_soundcloud_buy_button',
 			[
-				'label'        => sprintf(__( 'Buy Button %s', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__('Buy Button %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
 				],
@@ -1029,13 +1057,13 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_soundcloud_download_button',
 			[
-				'label'        => sprintf(__( 'Download Button %s', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__('Download Button %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
-				'label_off'    => __( 'Hide', 'embedpress' ),
-				'label_on'     => __( 'Show', 'embedpress' ),
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'soundcloud'
 				],
@@ -1043,11 +1071,12 @@ class Embedpress_Elementor extends Widget_Base {
 			]
 		);
 	}
-	public function init_vimeo_controls( ) {
+	public function init_vimeo_controls()
+	{
 		$this->add_control(
 			'embedpress_pro_vimeo_auto_play',
 			[
-				'label'        => __( 'Auto Play', 'embedpress' ),
+				'label'        => __('Auto Play', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -1062,7 +1091,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_vimeo_color',
 			[
-				'label'       => __( 'Scheme', 'embedpress' ),
+				'label'       => __('Scheme', 'embedpress'),
 				'type'        => Controls_Manager::COLOR,
 				'label_block' => false,
 				'default'     => '#00adef',
@@ -1075,7 +1104,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_vimeo_author_options',
 			[
-				'label'     => __( 'Author Information', 'embedpress' ),
+				'label'     => __('Author Information', 'embedpress'),
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'condition' => [
@@ -1087,7 +1116,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_vimeo_display_title',
 			[
-				'label'        => __( 'Title', 'embedpress' ),
+				'label'        => __('Title', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -1103,7 +1132,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_vimeo_display_author',
 			[
-				'label'        => __( 'Author', 'embedpress' ),
+				'label'        => __('Author', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -1117,7 +1146,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_vimeo_avatar',
 			[
-				'label'        => __( 'Avatar', 'embedpress' ),
+				'label'        => __('Avatar', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -1131,7 +1160,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_vimeo_loop',
 			[
-				'label'        => sprintf(__( 'Loop %s', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__('Loop %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -1146,7 +1175,7 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_vimeo_autopause',
 			[
-				'label'        => sprintf(__( 'Auto Pause %s', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__('Auto Pause %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -1161,13 +1190,15 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'embedpress_pro_vimeo_dnt',
 			[
-				'label'        => sprintf(__( 'DNT %s', 'embedpress' ), $this->pro_text ),
+				'label'        => sprintf(__('DNT %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
-				'description'  => __( 'Set this parameter to "yes" will block the player from tracking any session data, including all cookies',
-					'embedpress' ),
+				'description'  => __(
+					'Set this parameter to "yes" will block the player from tracking any session data, including all cookies',
+					'embedpress'
+				),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'vimeo'
 				],
@@ -1176,37 +1207,37 @@ class Embedpress_Elementor extends Widget_Base {
 		);
 
 
-		$this->init_branding_controls( 'vimeo');
-
+		$this->init_branding_controls('vimeo');
 	}
-	public function init_spotify_controls() {
+	public function init_spotify_controls()
+	{
 		$condition = [
 			'embedpress_pro_embeded_source' => 'spotify'
 		];
 
-
 		$this->add_control(
 			'spotify_theme',
 			[
-				'label'       => __( 'Player Background', 'embedpress' ),
-				'description'       => __( 'Dynamic option will use the most vibrant color from the album art.', 'embedpress' ),
+				'label'       => __('Player Background', 'embedpress'),
+				'description'       => __('Dynamic option will use the most vibrant color from the album art.', 'embedpress'),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
 				'default'     => '1',
 				'options'     => [
-					'1'   => __( 'Dynamic', 'embedpress' ),
-					'0' => __( 'Black & White', 'embedpress' )
+					'1'   => __('Dynamic', 'embedpress'),
+					'0' => __('Black & White', 'embedpress')
 				],
 				'condition'   => $condition
 			]
 		);
 	}
 
-	public function init_style_controls() {
+	public function init_style_controls()
+	{
 		$this->start_controls_section(
 			'embedpress_style_section',
 			[
-				'label' => __( 'Style', 'embedpress' ),
+				'label' => __('Style', 'embedpress'),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
@@ -1233,9 +1264,9 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'width',
 			[
-				'label' => __( 'Width', 'embedpress' ),
+				'label' => __('Width', 'embedpress'),
 				'type' => Controls_Manager::SLIDER,
-				'size_units' => [ 'px' ],
+				'size_units' => ['px'],
 				'range' => [
 					'px' => [
 						'min' => 0,
@@ -1252,9 +1283,9 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_control(
 			'height',
 			[
-				'label' => __( 'Height', 'embedpress' ),
+				'label' => __('Height', 'embedpress'),
 				'type' => Controls_Manager::SLIDER,
-				'size_units' => [ 'px' ],
+				'size_units' => ['px'],
 				'range' => [
 					'px' => [
 						'min' => 0,
@@ -1268,12 +1299,75 @@ class Embedpress_Elementor extends Widget_Base {
 				]
 			]
 		);
+		$this->add_control(
+			'columns',
+			[
+				'label'       => __('Columns', 'embedpress'),
+				'description' => __('Select the number of columns for videos you wish to show.<br> Note: This option takes effect only when a YouTube channel is embedded.', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label_block' => false,
+				'default' => '3',
+				'options' => [
+					'2'  => esc_html__('2', 'embedpress'),
+					'3' => esc_html__('3', 'embedpress'),
+					'4' => esc_html__('4', 'embedpress'),
+					'6' => esc_html__('6', 'embedpress'),
+					'auto' => esc_html__('Auto', 'embedpress'),
+				],
+				'conditions'  => [
+					'terms' => [
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => '===',
+							'value' => 'youtube',
+						],
+					],
+				]
+			]
+		);
+		$this->add_control(
+			'gapbetweenvideos',
+			[
+				'label'       => __('Gap Between Videos', 'embedpress'),
+				'description'        => __('Specify the gap between youtube videos.<br>Note: This option takes effect only when a YouTube channel is embedded.', 'embedpress'),
+				'label_block' => true,
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => ['px', '%'],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+					'%' => [
+						'min' => 0,
+						'max' => 100,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 30,
+				],
+				'conditions'  => [
+					'terms' => [
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => '===',
+							'value' => 'youtube',
+						],
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .ep-youtube__content__block .youtube__content__body .content__wrap' => 'gap: {{SIZE}}{{UNIT}}!important;margin-top: {{SIZE}}{{UNIT}}!important;',
+				],
+			]
+		);
 		$this->add_responsive_control(
 			'margin',
 			[
-				'label' => __( 'Margin', 'embedpress' ),
+				'label' => __('Margin', 'embedpress'),
 				'type' => Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', '%', 'em' ],
+				'size_units' => ['px', '%', 'em'],
 				'selectors' => [
 					'{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper' => 'margin: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
@@ -1282,9 +1376,9 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_responsive_control(
 			'padding',
 			[
-				'label' => __( 'Padding', 'embedpress' ),
+				'label' => __('Padding', 'embedpress'),
 				'type' => Controls_Manager::DIMENSIONS,
-				'size_units' => [ 'px', '%', 'em' ],
+				'size_units' => ['px', '%', 'em'],
 				'selectors' => [
 					'{{WRAPPER}} .embedpress-elements-wrapper .embedpress-wrapper' => 'padding: {{TOP}}{{UNIT}} {{RIGHT}}{{UNIT}} {{BOTTOM}}{{UNIT}} {{LEFT}}{{UNIT}};',
 				],
@@ -1293,19 +1387,19 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->add_responsive_control(
 			'align',
 			[
-				'label' => esc_html__( 'Alignment', 'embedpress' ),
+				'label' => esc_html__('Alignment', 'embedpress'),
 				'type' => Controls_Manager::CHOOSE,
 				'options' => [
 					'left'    => [
-						'title' => esc_html__( 'Left', 'embedpress' ),
+						'title' => esc_html__('Left', 'embedpress'),
 						'icon' => 'eicon-text-align-left',
 					],
 					'center' => [
-						'title' => esc_html__( 'Center', 'embedpress' ),
+						'title' => esc_html__('Center', 'embedpress'),
 						'icon' => 'eicon-text-align-center',
 					],
 					'right' => [
-						'title' => esc_html__( 'Right', 'embedpress' ),
+						'title' => esc_html__('Right', 'embedpress'),
 						'icon' => 'eicon-text-align-right',
 					],
 				],
@@ -1316,74 +1410,108 @@ class Embedpress_Elementor extends Widget_Base {
 		$this->end_controls_section();
 	}
 
-	public function render_plain_content() {
+	public function render_plain_content()
+	{
 		$args = "";
-        $settings      = $this->get_settings_for_display();
+		$settings      = $this->get_settings_for_display();
 
-		if(!empty( $settings['height']['size'] )){
-			$args .= "height='{$settings['height']['size']}' ";
+		$_settings = $this->convert_settings($settings);
+		foreach ($_settings as $key => $value) {
+			$args .= "$key='$value' ";
 		}
-		if(!empty( $settings['width']['size'] )){
-			$args .= "width='{$settings['width']['size']}' ";
-		}
-		if(!empty( $settings['pagesize'] )){
-			$args .= "pagesize='{$settings['pagesize']}' ";
-		}
+
 		$args = trim($args);
 		echo "[embedpress $args]{$settings['embedpress_embeded_link']}\[/embedpress]";
 	}
 
-    protected function render() {
-        add_filter( 'embedpress_should_modify_spotify', '__return_false');
-        $settings      = $this->get_settings_for_display();
-	    $is_editor_view = Plugin::$instance->editor->is_edit_mode();
-        $link = $settings['embedpress_embeded_link'];
-        $is_apple_podcast = (strpos( $link, 'podcasts.apple.com') !== false);
-        $height = (!empty( $settings['height']) && !empty( $settings['height']['size'] ))
-            ? $settings['height']['size'] : null;
-	    $width = (!empty( $settings['width']) && !empty( $settings['width']['size'] ))
-		    ? $settings['width']['size'] : null;
-	    $pagesize = (!empty( $settings['pagesize']) && !empty( $settings['pagesize'] ))
-		    ? $settings['pagesize'] : 6;
-
-        $embed_content = Shortcode::parseContent( $settings['embedpress_embeded_link'], true, [ 'height'=> $height, 'width'=>$width, 'pagesize'=>$pagesize ] );
-        $embed_content = $this->onAfterEmbedSpotify($embed_content, $settings);
-        $embed         = apply_filters( 'embedpress_elementor_embed', $embed_content, $settings );
-        $content       = is_object( $embed ) ? $embed->embed : $embed;
-
-        ?>
-        <div class="embedpress-elements-wrapper <?php echo !empty( $settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio': ''; ?>">
-            <?php
-            // handle notice display
-            if ( $is_editor_view && $is_apple_podcast && !is_embedpress_pro_active() ) {
-	          ?>
-            <p><?php esc_html_e( 'You need EmbedPress Pro to Embed Apple Podcast. Note. This message is only visible to you.', 'embedpress'); ?></p>
-            <?php
-            }else {
-	            echo $content;
-            }
-            ?>
-        </div>
-        <?php
-    }
-	public function onAfterEmbedSpotify( $embed, $setting ) {
-		if ( !isset( $embed->provider_name ) || strtolower( $embed->provider_name ) !== 'spotify' || !isset( $embed->embed ) ) {
-			return $embed;
+	protected function convert_settings($settings){
+		$_settings = [];
+		foreach ($settings as $key => $value) {
+			if(!empty($value['size'])){
+				$_settings[$key] = $value['size'];
+			}
+			else if(!empty($value['url'])){
+				$_settings[$key] = $value['url'];
+			}
+			else if(\is_scalar($value)){
+				$_settings[$key] = $value;
+			}
 		}
-		preg_match( '/src=\"(.+?)\"/', $embed->embed, $match );
-		$url_full = $match[ 1 ];
-		$modified_url = str_replace( 'playlist-v2', 'playlist', $url_full);
-			// apply elementor related mod
-			if(isset( $setting['spotify_theme'])){
-				if ( strpos(  $modified_url, '?') !== false ) {
-					$modified_url .= '&theme='.sanitize_text_field( $setting['spotify_theme']);
-				}else{
-					$modified_url .= '?theme='.sanitize_text_field( $setting['spotify_theme']);
-				}
+
+		return $_settings;
+	}
+
+	protected function render()
+	{
+		add_filter('embedpress_should_modify_spotify', '__return_false');
+		$settings      = $this->get_settings_for_display();
+		$is_editor_view = Plugin::$instance->editor->is_edit_mode();
+		$link = $settings['embedpress_embeded_link'];
+		$is_apple_podcast = (strpos($link, 'podcasts.apple.com') !== false);
+		$_settings = $this->convert_settings($settings);
+
+		$embed_content = Shortcode::parseContent($settings['embedpress_embeded_link'], true, $_settings);
+		$embed_content = $this->onAfterEmbedSpotify($embed_content, $settings);
+		$embed         = apply_filters('embedpress_elementor_embed', $embed_content, $settings);
+		$content       = is_object($embed) ? $embed->embed : $embed;
+
+		$ispagination = 'flex';
+		if($settings['pagination'] != 'show'){
+			$ispagination = 'none';
+		}
+
+		if($settings['columns'] > 0){
+            $calVal = 'calc('.(100 / $settings['columns']).'% - '.$settings['gapbetweenvideos']['size'].'px)';
+        }
+        else{
+            $calVal = 'auto';
+        }
+	?>
+
+		<div class="embedpress-elements-wrapper  <?php   echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; ?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
+			<?php
+					// handle notice display
+					if ($is_editor_view && $is_apple_podcast && !is_embedpress_pro_active()) {
+						?>
+				<p><?php esc_html_e('You need EmbedPress Pro to Embed Apple Podcast. Note. This message is only visible to you.', 'embedpress'); ?></p>
+			<?php
+					} else {
+						echo $content;
+					}
+
+
+					?>
+		</div>
+
+		<style>
+			#ep-elements-id-<?php echo esc_html($this->get_id()); ?> .ep-youtube__content__block .youtube__content__body .content__wrap {
+				grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($calVal); ?>, 1fr))!important;
 			}
 
+			#ep-elements-id-<?php echo esc_html($this->get_id()); ?> .ep-youtube__content__pagination {
+				display: <?php echo esc_html($ispagination); ?>!important;
+			}
+		</style>
+<?php
+	}
+	public function onAfterEmbedSpotify($embed, $setting)
+	{
+		if (!isset($embed->provider_name) || strtolower($embed->provider_name) !== 'spotify' || !isset($embed->embed)) {
+			return $embed;
+		}
+		preg_match('/src=\"(.+?)\"/', $embed->embed, $match);
+		$url_full = $match[1];
+		$modified_url = str_replace('playlist-v2', 'playlist', $url_full);
+		// apply elementor related mod
+		if (isset($setting['spotify_theme'])) {
+			if (strpos($modified_url, '?') !== false) {
+				$modified_url .= '&theme=' . sanitize_text_field($setting['spotify_theme']);
+			} else {
+				$modified_url .= '?theme=' . sanitize_text_field($setting['spotify_theme']);
+			}
+		}
 
-		$embed->embed = str_replace( $url_full, $modified_url, $embed->embed );
+		$embed->embed = str_replace($url_full, $modified_url, $embed->embed);
 		return $embed;
 	}
 }
