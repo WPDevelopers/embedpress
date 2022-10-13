@@ -598,6 +598,8 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             padding: 0 20px;
             height: 40px;
             transition: .3s;
+            display: flex;
+            align-items: center;
         }
         .ep-youtube__content__pagination .ep-prev:hover,
         .ep-youtube__content__pagination .ep-next:hover{
