@@ -499,7 +499,16 @@ class Embedpress_Pdf extends Widget_Base
                                     .doorHangerRight:before {
                                         transform: rotate(180deg);
                                         bottom: -18px;
-                                }`;
+                                    }
+                                    #findbar:before {
+                                        bottom: -20px!important;
+                                        transform: rotate(180deg);
+                                    }
+                                    #findbar:after { 
+                                        bottom: -19px!important;
+                                        transform: rotate(180deg);
+                                    }
+                                `;
                                 
                             }
 
