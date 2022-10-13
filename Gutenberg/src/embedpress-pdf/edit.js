@@ -196,6 +196,15 @@ class EmbedPressPDFEdit extends Component {
 					transform: rotate(180deg);
 					bottom: -18px;
 				}
+				
+				.findbar.doorHanger:before {
+					bottom: -18px;
+					transform: rotate(180deg);
+				}
+				.findbar.doorHanger:after {
+					bottom: -16px;
+					transform: rotate(180deg);
+				}
 			`;
 			}
 			style.textContent = `
@@ -294,8 +303,8 @@ class EmbedPressPDFEdit extends Component {
 		const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
 		if (!isProPluginActive) {
-			setAttributes({download: false});
-			setAttributes({copy_text: false});
+			setAttributes({ download: false });
+			setAttributes({ copy_text: false });
 		}
 
 		if (!document.querySelector('.pro__alert__wrap')) {

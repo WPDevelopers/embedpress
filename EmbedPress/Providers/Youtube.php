@@ -22,6 +22,8 @@ use Embera\Url;
  * @link https://youtube.com
  * @link https://youtube-eng.googleblog.com/2009/10/oembed-support_9.html
  */
+
+
 class Youtube extends ProviderAdapter implements ProviderInterface {
 	/** inline {@inheritdoc} */
 	protected $shouldSendRequest = false;
@@ -128,6 +130,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
      * @param array  $params Parameters for the query string
      * @return string
      */
+    
     protected function constructUrl($endpoint, array $params = array())
     {
         $endpoint = self::$channel_endpoint . $endpoint;
@@ -160,7 +163,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $transient_key = 'ep_embed_youtube_channel_playlist_id_' . md5($channel_url);
         $jsonResult    = get_transient($transient_key);
 
-        if(!empty($jsonResult)){
+        if(!empty($jsonResult)){ 
             return $jsonResult;
         }
 

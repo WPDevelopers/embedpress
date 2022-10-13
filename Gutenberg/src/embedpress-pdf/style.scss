@@ -67,6 +67,11 @@ span.isPro {
     top: 0;
     bottom: 0;
 }
+
+.theme-astra span.isPro {
+    right: 10px;
+    top: 5px;
+}
 .pro-control:hover::after {
     cursor: pointer;
 }
