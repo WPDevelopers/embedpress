@@ -91,6 +91,12 @@ export default function EmbedPress(props) {
 		return () => clearTimeout(delayDebounceFn)
 	}, [pagesize, editingURL]);
 
+	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
+
+	if(columns > 0){
+		repeatCol = `repeat(auto-fit, minmax(calc(${100 / columns}% - ${gapbetweenvideos}px), 1fr))`;
+	}
+
 	return (
 		<Fragment>
 
@@ -149,10 +155,9 @@ export default function EmbedPress(props) {
 					} 
 					
 					#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap {
-						grid-template-columns: repeat(auto-fit, minmax(calc(${100 / columns}% - ${gapbetweenvideos}px), 1fr));
+						grid-template-columns: ${repeatCol};
 					}
 
-					
 					#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
 						display: flex!important;
 					}

@@ -732,7 +732,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $is_pagination = 'flex';
         
         $gap = '30';
-        $columns = 3;
+        $columns = '';
 
         if (isset($attributes_data['ispagination']) && $attributes_data['ispagination']) {
             $is_pagination = 'none';
@@ -743,11 +743,13 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         if(isset($attributes_data['columns'])){
             $columns = $attributes_data['columns'];
         }
-        if($columns > 0){
-            $calVal = 'calc('.(100 / $columns).'% - '.$gap.'px)';
+        echo $columns.'this is akash';
+
+        if($columns > 0 && !empty($columns)){
+            $repeatCol = 'repeat(auto-fit, minmax('.esc_html('calc('.(100 / $columns).'% - '.$gap.'px)').', 1fr))';
         }
         else{
-            $calVal = 'auto';
+            $repeatCol = 'repeat(auto-fit, minmax(250px, 1fr))';
         }
 
         ?>
@@ -759,8 +761,18 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             display: <?php echo esc_html($is_pagination); ?>!important;
         }
         <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .youtube__content__body .content__wrap {
-            grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($calVal); ?>, 1fr));
+            grid-template-columns: <?php echo $repeatCol; ?>;
+            gap: <?php echo $gap.'px'; ?>;
         }
+
+        <?php 
+            if($is_pagination){
+                echo esc_attr($uniqid) ?> {
+                    height: 100%!important;
+                }
+                <?php
+            }
+        ?>
         </style>
         <?php
         return ob_get_clean();
