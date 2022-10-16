@@ -59,7 +59,7 @@ class Embedpress_Pdf extends Widget_Base
 
     protected function register_controls()
     {
-        $this->pro_class = is_embedpress_pro_active() ? '' : 'embedpress-pro-control';
+        $this->pro_class = is_embedpress_pro_active() ? '' : 'embedpress-pro-control not-active';
         $this->pro_text = is_embedpress_pro_active() ? '' : '<sup class="embedpress-pro-label" style="color:red">' . __('Pro', 'embedpress') . '</sup>';
         /**
          * EmbedPress Content Settings
@@ -515,6 +515,7 @@ class Embedpress_Pdf extends Widget_Base
                             }
 
                             style.textContent = `
+                               
                                 .toolbar{
                                     display: ${$toolbar}!important;
                                     position: absolute;
@@ -580,8 +581,8 @@ class Embedpress_Pdf extends Widget_Base
                 'data-toolbar-position' =>  $settings['pdf_toolbar_position'],
                 'data-open' => 'no',
                 'data-presentation-mode' => $settings['pdf_presentation_mode'],
-                'data-download' => $settings['pdf_print_download'],
-                'data-copy' => $settings['pdf_text_copy'],
+                'data-download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print_download'] : 'no',
+                'data-copy' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'no',
                 'data-rotate' => $settings['pdf_rotate_access'],
                 'data-details' => $settings['pdf_details'],
                 'data-id' => $id

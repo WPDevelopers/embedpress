@@ -408,7 +408,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                         >
                             <span><?php _e("Prev", "embedpress"); ?></span>
                         </div>
-                        <div class="ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
+                        <div class="is_desktop_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
                             <?php   
 
                                 $numOfPages = $totalPages;
@@ -435,12 +435,8 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                         $renderedEllipses = false;
                                     }
 
-                                    // else if((int)$currentPage - 1 == $i && $i == (int)$currentPage + 1){
-                                    //     echo wp_kses_post('<span class="page-number active__current_page" data-page="'.$i.'">'.$i.'</span>'); 
-                                    // }
-
                                     //last page number
-                                    else if ($i >= $numOfPages - 2) {
+                                    else if ($i >= $numOfPages - 1) {
                                         //render link
                                         echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
                                     }
@@ -456,6 +452,35 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                             ?>
 
                         </div>
+                        <div class="is_mobile_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
+                            <?php   
+
+                                $numOfPages = $totalPages;
+                                $renderedEllipses = false;
+
+                                $currentPage = !empty($options['currentpage'])?$options['currentpage'] : 1;
+
+                                for($i = 1; $i<=$numOfPages; $i++)
+                                {
+
+                                    //render current page number
+                                   if($i == (int)$currentPage) {
+                                        //render link
+                                        echo wp_kses_post('<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>'); 
+                                        //reset ellipses
+                                        $renderedEllipses = false;
+                                    }
+
+                                    //last page number
+                                    else if ($i >= $numOfPages ) {
+                                        //render link
+                                        echo wp_kses_post('/<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>'); 
+                                    }
+                                }
+                            ?>
+
+                        </div>
+
                         <div
                             class="ep-next <?php echo empty($nextPageToken) ? ' hide ' : ''; ?>"
                             data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
@@ -725,6 +750,40 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
         .ep-loader img {
             width: 20px;
+        }
+        .is_mobile_device{
+            display: none!important;
+        }
+
+        .ep-youtube__content__pagination .ep-page-numbers > span {
+                width: 30px;
+                height: 30px;
+            }
+
+        .is_mobile_devic.ep-page-numbers {
+            gap: 5px;
+        }
+
+            span.page-number-mobile {
+                border: none!important;
+            }
+        @media only screen and (max-width: 480px) {
+            .is_desktop_device{
+                display: none!important;
+            }
+            .ep-youtube__content__pagination .ep-page-numbers > span {
+                width: 30px;
+                height: 30px;
+            }
+            .ep-youtube__content__pagination .ep-prev, .ep-youtube__content__pagination .ep-next{
+                height: 30px;
+            }
+            .is_mobile_device{
+                display: flex!important;;
+            }
+            .ep-youtube__content__pagination .ep-page-numbers {
+                gap: 5px;
+            }
         }
         <?php
         $attributes_data = $params;

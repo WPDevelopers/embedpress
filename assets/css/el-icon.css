@@ -76,8 +76,9 @@
 }
 
 .elementor-control-pagesize .elementor-label-inline>.elementor-control-content>.elementor-control-field>.elementor-control-input-wrapper, .elementor-control-gapbetweenvideos .elementor-slider-input,  .elementor-control-columns .elementor-control-input-wrapper.elementor-control-unit-5 {
-    width: 54px;
-}{
     width: 54px!important;
+}
+.embedpress-pro-control .elementor-control-input-wrapper {
+    filter: grayscale(1);
 }
 /*EmbedPress Pro Controls Style Ends*/
