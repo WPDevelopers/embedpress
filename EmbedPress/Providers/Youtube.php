@@ -743,7 +743,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         if(isset($attributes_data['columns'])){
             $columns = $attributes_data['columns'];
         }
-        echo $columns.'this is akash';
+        
 
         if($columns > 0 && !empty($columns)){
             $repeatCol = 'repeat(auto-fit, minmax('.esc_html('calc('.(100 / $columns).'% - '.$gap.'px)').', 1fr))';

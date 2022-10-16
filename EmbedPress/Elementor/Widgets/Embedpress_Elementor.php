@@ -1482,9 +1482,11 @@ class Embedpress_Elementor extends Widget_Base
 		$content       = is_object($embed) ? $embed->embed : $embed;
 
 		$ispagination = 'flex';
+
 		if ($settings['pagination'] != 'show') {
 			$ispagination = 'none';
 		}
+
 
 		if ($settings['columns'] > 0) {
 			$calVal = 'calc(' . (100 / $settings['columns']) . '% - ' . $settings['gapbetweenvideos']['size'] . 'px)';
@@ -1509,11 +1511,11 @@ class Embedpress_Elementor extends Widget_Base
 		</div>
 
 		<style>
-			#ep-elements-id-<?php echo esc_html($this->get_id()); ?>.ep-youtube__content__block .youtube__content__body .content__wrap {
+			#ep-elements-id-<?php echo esc_html($this->get_id()); ?> .ep-youtube__content__block .youtube__content__body .content__wrap {
 				grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($calVal); ?>, 1fr)) !important;
 			}
 
-			#ep-elements-id-<?php echo esc_html($this->get_id()); ?>.ep-youtube__content__pagination {
+			#ep-elements-id-<?php echo esc_html($this->get_id()); ?> .ep-youtube__content__pagination {
 				display: <?php echo esc_html($ispagination); ?> !important;
 			}
 		</style>
