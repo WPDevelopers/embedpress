@@ -474,7 +474,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                     //last page number
                                     else if ($i >= $numOfPages ) {
                                         //render link
-                                        echo wp_kses_post('/<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>'); 
+                                        echo wp_kses_post('...<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>'); 
                                     }
                                 }
                             ?>
@@ -754,29 +754,22 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         .is_mobile_device{
             display: none!important;
         }
-
-        .ep-youtube__content__pagination .ep-page-numbers > span {
-                width: 30px;
-                height: 30px;
-            }
+        
 
         .is_mobile_devic.ep-page-numbers {
             gap: 5px;
         }
 
-            span.page-number-mobile {
-                border: none!important;
-            }
         @media only screen and (max-width: 480px) {
             .is_desktop_device{
                 display: none!important;
             }
             .ep-youtube__content__pagination .ep-page-numbers > span {
-                width: 30px;
-                height: 30px;
+                width: 35px;
+                height: 35px;
             }
             .ep-youtube__content__pagination .ep-prev, .ep-youtube__content__pagination .ep-next{
-                height: 30px;
+                height: 35px;
             }
             .is_mobile_device{
                 display: flex!important;;
