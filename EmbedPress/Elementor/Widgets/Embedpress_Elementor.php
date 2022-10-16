@@ -168,6 +168,7 @@ class Embedpress_Elementor extends Widget_Base
 
 		$this->end_controls_section();
 
+		$this->init_youtube_channel_section();
 		$this->init_youtube_subscription_section();
 		$this->init_youtube_livechat_section();
 
@@ -212,42 +213,6 @@ class Embedpress_Elementor extends Widget_Base
 				'type'        => Controls_Manager::NUMBER,
 				'description' => __('Specify an end time (in seconds)', 'embedpress'),
 				'condition'   => $yt_condition,
-			]
-		);
-		$this->add_control(
-			'pagesize',
-			[
-				'label'       => __('Video Per Page', 'embedpress'),
-				'description' => __('Specify the number of videos you wish to show on each page.<br>Note: This option takes effect only when a YouTube channel is embedded.', 'embedpress'),
-				'type'        => Controls_Manager::NUMBER,
-				'label_block' => false,
-				'default'     => 6,
-				'min'         => 1,
-				'max'         => 50,
-				'conditions'  => [
-					'terms' => [
-						[
-							'name' => 'embedpress_pro_embeded_source',
-							'operator' => '===',
-							'value' => 'youtube',
-						],
-					],
-				]
-			]
-		);
-
-		$this->add_control(
-			'pagination',
-			[
-				'label'        => __('Pagination', 'embedpress'),
-				'description'        => __('Note: This option takes effect only when a YouTube channel is embedded.', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'label_on' => esc_html__( 'Show', 'embedpress' ),
-				'label_off' => esc_html__( 'Hide', 'embedpress' ),
-				'return_value' => 'show',
-				'default'      => 'show',
-				'condition'    => $yt_condition,
 			]
 		);
 
@@ -374,6 +339,130 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 		$this->init_branding_controls('youtube');
+	}
+
+	public function init_youtube_channel_section()
+	{
+		$yt_condition = [
+			'embedpress_pro_embeded_source' => 'youtube',
+		];
+		$this->start_controls_section(
+			'embedpress_yt_channel_section',
+			[
+				'label'       => __('YouTube Channel', 'embedpress'),
+				'condition'    => $yt_condition,
+
+			]
+		);
+
+		$this->add_control(
+			'important_note',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => esc_html__( 'These options take effect only when a YouTube channel is embedded.', 'embedpress' ),
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+			]
+		);
+
+		$this->add_control(
+			'pagesize',
+			[
+				'label'       => __('Video Per Page', 'embedpress'),
+				'type'        => Controls_Manager::NUMBER,
+				'label_block' => false,
+				'default'     => 6,
+				'min'         => 1,
+				'max'         => 50,
+				'conditions'  => [
+					'terms' => [
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => '===',
+							'value' => 'youtube',
+						],
+					],
+				]
+			]
+		);
+
+		$this->add_control(
+			'columns',
+			[
+				'label'       => __('Column', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label_block' => false,
+				'default' => '3',
+				'options' => [
+					'2'  => esc_html__('2', 'embedpress'),
+					'3' => esc_html__('3', 'embedpress'),
+					'4' => esc_html__('4', 'embedpress'),
+					'6' => esc_html__('6', 'embedpress'),
+					'auto' => esc_html__('Auto', 'embedpress'),
+				],
+				'conditions'  => [
+					'terms' => [
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => '===',
+							'value' => 'youtube',
+						],
+					],
+				]
+			]
+		);
+		$this->add_control(
+			'gapbetweenvideos',
+			[
+				'label'       => __('Gap Between Videos', 'embedpress'),
+				'label_block' => true,
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => ['px', '%'],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+					'%' => [
+						'min' => 0,
+						'max' => 100,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 30,
+				],
+				'conditions'  => [
+					'terms' => [
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => '===',
+							'value' => 'youtube',
+						],
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .ep-youtube__content__block .youtube__content__body .content__wrap' => 'gap: {{SIZE}}{{UNIT}}!important;margin-top: {{SIZE}}{{UNIT}}!important;',
+				],
+			]
+		);
+
+		$this->add_control(
+			'pagination',
+			[
+				'label'        => __('Pagination', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'label_on' => esc_html__('Show', 'embedpress'),
+				'label_off' => esc_html__('Hide', 'embedpress'),
+				'return_value' => 'show',
+				'default'      => 'show',
+				'condition'    => $yt_condition,
+			]
+		);
+
+
+		$this->end_controls_section();
 	}
 	public function init_youtube_subscription_section()
 	{
@@ -1299,69 +1388,7 @@ class Embedpress_Elementor extends Widget_Base
 				]
 			]
 		);
-		$this->add_control(
-			'columns',
-			[
-				'label'       => __('Columns', 'embedpress'),
-				'description' => __('Select the number of columns for videos you wish to show.<br> Note: This option takes effect only when a YouTube channel is embedded.', 'embedpress'),
-				'type' => \Elementor\Controls_Manager::SELECT,
-				'label_block' => false,
-				'default' => '3',
-				'options' => [
-					'2'  => esc_html__('2', 'embedpress'),
-					'3' => esc_html__('3', 'embedpress'),
-					'4' => esc_html__('4', 'embedpress'),
-					'6' => esc_html__('6', 'embedpress'),
-					'auto' => esc_html__('Auto', 'embedpress'),
-				],
-				'conditions'  => [
-					'terms' => [
-						[
-							'name' => 'embedpress_pro_embeded_source',
-							'operator' => '===',
-							'value' => 'youtube',
-						],
-					],
-				]
-			]
-		);
-		$this->add_control(
-			'gapbetweenvideos',
-			[
-				'label'       => __('Gap Between Videos', 'embedpress'),
-				'description'        => __('Specify the gap between youtube videos.<br>Note: This option takes effect only when a YouTube channel is embedded.', 'embedpress'),
-				'label_block' => true,
-				'type' => \Elementor\Controls_Manager::SLIDER,
-				'size_units' => ['px', '%'],
-				'range' => [
-					'px' => [
-						'min' => 0,
-						'max' => 100,
-						'step' => 1,
-					],
-					'%' => [
-						'min' => 0,
-						'max' => 100,
-					],
-				],
-				'default' => [
-					'unit' => 'px',
-					'size' => 30,
-				],
-				'conditions'  => [
-					'terms' => [
-						[
-							'name' => 'embedpress_pro_embeded_source',
-							'operator' => '===',
-							'value' => 'youtube',
-						],
-					],
-				],
-				'selectors' => [
-					'{{WRAPPER}} .ep-youtube__content__block .youtube__content__body .content__wrap' => 'gap: {{SIZE}}{{UNIT}}!important;margin-top: {{SIZE}}{{UNIT}}!important;',
-				],
-			]
-		);
+
 		$this->add_responsive_control(
 			'margin',
 			[
@@ -1424,16 +1451,15 @@ class Embedpress_Elementor extends Widget_Base
 		echo "[embedpress $args]{$settings['embedpress_embeded_link']}\[/embedpress]";
 	}
 
-	protected function convert_settings($settings){
+	protected function convert_settings($settings)
+	{
 		$_settings = [];
 		foreach ($settings as $key => $value) {
-			if(!empty($value['size'])){
+			if (!empty($value['size'])) {
 				$_settings[$key] = $value['size'];
-			}
-			else if(!empty($value['url'])){
+			} else if (!empty($value['url'])) {
 				$_settings[$key] = $value['url'];
-			}
-			else if(\is_scalar($value)){
+			} else if (\is_scalar($value)) {
 				$_settings[$key] = $value;
 			}
 		}
@@ -1456,19 +1482,18 @@ class Embedpress_Elementor extends Widget_Base
 		$content       = is_object($embed) ? $embed->embed : $embed;
 
 		$ispagination = 'flex';
-		if($settings['pagination'] != 'show'){
+		if ($settings['pagination'] != 'show') {
 			$ispagination = 'none';
 		}
 
-		if($settings['columns'] > 0){
-            $calVal = 'calc('.(100 / $settings['columns']).'% - '.$settings['gapbetweenvideos']['size'].'px)';
-        }
-        else{
-            $calVal = 'auto';
-        }
-	?>
+		if ($settings['columns'] > 0) {
+			$calVal = 'calc(' . (100 / $settings['columns']) . '% - ' . $settings['gapbetweenvideos']['size'] . 'px)';
+		} else {
+			$calVal = 'auto';
+		}
+		?>
 
-		<div class="embedpress-elements-wrapper  <?php   echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; ?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
+		<div class="embedpress-elements-wrapper  <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; ?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
 			<?php
 					// handle notice display
 					if ($is_editor_view && $is_apple_podcast && !is_embedpress_pro_active()) {
@@ -1484,12 +1509,12 @@ class Embedpress_Elementor extends Widget_Base
 		</div>
 
 		<style>
-			#ep-elements-id-<?php echo esc_html($this->get_id()); ?> .ep-youtube__content__block .youtube__content__body .content__wrap {
-				grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($calVal); ?>, 1fr))!important;
+			#ep-elements-id-<?php echo esc_html($this->get_id()); ?>.ep-youtube__content__block .youtube__content__body .content__wrap {
+				grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($calVal); ?>, 1fr)) !important;
 			}
 
-			#ep-elements-id-<?php echo esc_html($this->get_id()); ?> .ep-youtube__content__pagination {
-				display: <?php echo esc_html($ispagination); ?>!important;
+			#ep-elements-id-<?php echo esc_html($this->get_id()); ?>.ep-youtube__content__pagination {
+				display: <?php echo esc_html($ispagination); ?> !important;
 			}
 		</style>
 <?php
