@@ -380,6 +380,15 @@ span.isPro {
 .pro-control .components-form-toggle .components-form-toggle__thumb {
   background-color: #b89d9d;
   border: 5px solid #b89d9d; }
+
+.embedpress-document-embed, .block-editor-block-list__block {
+  display: inline-block; }
+
+.block-editor-block-inspector .components-base-control {
+  margin-top: 15px; }
+
+.pro-control-active {
+  margin-bottom: 24px; }
 /**
  * #.# Common SCSS
  *

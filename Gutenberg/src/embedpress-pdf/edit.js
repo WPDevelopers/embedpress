@@ -440,7 +440,7 @@ class EmbedPressPDFEdit extends Component {
 
 										<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
 											<ToggleControl
-												label={__('Print/Download Access', 'embedpress')}
+												label={__('Print/Download', 'embedpress')}
 												onChange={(download) =>
 													setAttributes({ download })
 												}
@@ -455,7 +455,7 @@ class EmbedPressPDFEdit extends Component {
 
 										<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
 											<ToggleControl
-												label={__('Text Copy Access', 'embedpress')}
+												label={__('Copy Text', 'embedpress')}
 												onChange={(copy_text) =>
 													setAttributes({ copy_text })
 												}
@@ -469,14 +469,14 @@ class EmbedPressPDFEdit extends Component {
 											}
 										</div>
 										<ToggleControl
-											label={__('Doc Rotate Access', 'embedpress')}
+											label={__('Rotation', 'embedpress')}
 											onChange={(doc_rotation) =>
 												setAttributes({ doc_rotation })
 											}
 											checked={doc_rotation}
 										/>
 										<ToggleControl
-											label={__('Doc Details', 'embedpress')}
+											label={__('Properties', 'embedpress')}
 											onChange={(doc_details) =>
 												setAttributes({ doc_details })
 											}

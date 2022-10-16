@@ -2598,7 +2598,7 @@ html[dir="rtl"] #documentPropertiesOverlay .row > * {
     display: none;
   }
   #outerContainer .visibleMediumView {
-    display: inherit;
+    display: none;
   }
 }
 
@@ -2608,7 +2608,7 @@ html[dir="rtl"] #documentPropertiesOverlay .row > * {
     display: none;
   }
   .visibleSmallView {
-    display: inherit;
+    display: none;
   }
   .toolbarButtonSpacer {
     width: 0;

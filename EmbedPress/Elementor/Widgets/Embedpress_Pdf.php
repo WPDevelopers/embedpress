@@ -315,7 +315,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'pdf_print_download',
             [
-                'label'        => sprintf(__('Print/Download Access %s', 'embedpress'), $this->pro_text),
+                'label'        => sprintf(__('Print/Download %s', 'embedpress'), $this->pro_text),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => __('Show', 'embedpress'),
                 'label_off'    => __('Hide', 'embedpress'),
@@ -330,7 +330,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'pdf_text_copy',
             [
-                'label'        => sprintf(__('Text Copy Access %s', 'embedpress'), $this->pro_text),
+                'label'        => sprintf(__('Copy Text %s', 'embedpress'), $this->pro_text),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => __('Show', 'embedpress'),
                 'label_off'    => __('Hide', 'embedpress'),
@@ -346,7 +346,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'pdf_rotate_access',
             [
-                'label'        => __('PDF Rotate Access', 'embedpress'),
+                'label'        => __('Rotation', 'embedpress'),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => __('Show', 'embedpress'),
                 'label_off'    => __('Hide', 'embedpress'),
@@ -361,7 +361,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'pdf_details',
             [
-                'label'        => __('PDF Details', 'embedpress'),
+                'label'        => __('Properties', 'embedpress'),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => __('Show', 'embedpress'),
                 'label_off'    => __('Hide', 'embedpress'),
@@ -435,7 +435,6 @@ class Embedpress_Pdf extends Widget_Base
                             if ($selectorName == 'no' || $selectorName == '') {
                                 $selectorName = 'none';
                             } else {
-
                                 $selectorName = 'block';
                             }
                             return $selectorName;
@@ -475,6 +474,9 @@ class Embedpress_Pdf extends Widget_Base
                             $download = isDisplay($download);
                             $open = isDisplay($open);
                             $copy_text = isDisplay($copy_text);
+
+
+                            console.log($download);
 
                             if ($copy_text === 'block') {
                                 $copy_text = 'all';
