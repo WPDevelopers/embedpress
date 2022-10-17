@@ -104,7 +104,7 @@
     padding-bottom: 31.25%;
 }
 
-.ose-issuu > div > div > div:last-child {
+.ose-issuu>div>div>div:last-child {
     width: 100% !important;
     z-index: 0;
     position: absolute;
@@ -125,6 +125,7 @@
     padding-bottom: 0;
     width: 100%;
 }
+
 .elementor-widget-container iframe {
     max-height: 100% !important;
 }
@@ -133,26 +134,29 @@
     .elementor-widget-container iframe {
         max-height: 100% !important;
     }
+
     .elementor-widget-container .embedpress-facebook-vid-iframe,
     .embedpress-gutenberg-wrapper .embedpress-facebook-vid-iframe,
-    .embedpress-facebook-vid-iframe{
+    .embedpress-facebook-vid-iframe {
         max-height: inherit !important;
     }
 
 }
 
 @media only screen and (max-width: 500px) {
+
     .elementor-widget-container .embedpress-facebook-vid-iframe,
     .embedpress-gutenberg-wrapper .embedpress-facebook-vid-iframe,
-    .embedpress-facebook-vid-iframe{
+    .embedpress-facebook-vid-iframe {
         max-height: 390px !important;
     }
 }
 
 /*Meetup Event styling starts */
 .embedpress-event .link {
-    color: #0098ab ;
+    color: #0098ab;
 }
+
 .embedpress-event .visibility--a11yHide {
     border: 0;
     clip: rect(0 0 0 0);
@@ -163,17 +167,21 @@
     width: 1px;
     height: 1px;
 }
+
 .embedpress-event .text--small {
     font-size: 14px;
     margin: 0;
 }
+
 .embedpress-event .flex {
     display: flex;
     box-sizing: border-box;
 }
+
 .embedpress-event .flex--wrap {
     flex-wrap: wrap;
 }
+
 .embedpress-event .flex--row {
     align-items: center;
     box-sizing: border-box;
@@ -182,6 +190,7 @@
     flex-direction: row;
     flex-wrap: nowrap;
 }
+
 .embedpress-event .flex-item {
     flex-basis: 0;
     flex-grow: 1;
@@ -190,6 +199,7 @@
     /*padding-left: 16px;*/
     box-sizing: border-box;
 }
+
 .embedpress-event .flex-item--shrink {
     flex-basis: auto;
     -webkit-box-flex: 0;
@@ -197,9 +207,11 @@
     flex-shrink: 0;
     width: auto;
 }
-.embedpress-event .flex--row > .flex-item:first-child {
+
+.embedpress-event .flex--row>.flex-item:first-child {
     padding-left: 0;
 }
+
 .embedpress-event .text--bold {
     font-weight: 700;
 }
@@ -209,7 +221,7 @@
 .embedpress-event h3,
 .embedpress-event h4,
 .embedpress-event h5,
-.embedpress-event h6{
+.embedpress-event h6 {
     font-size: inherit;
 }
 
@@ -219,14 +231,14 @@
 }
 
 .embedpress-event .ep-event--date {
-    color: #757575 ;
+    color: #757575;
     font-weight: 400;
     font-size: 16px;
 }
 
 /*Host*/
 .embedpress-event .ep-event--host {
-    margin-top: 20px ;
+    margin-top: 20px;
     display: flex;
     align-items: center;
     margin-bottom: 20px;
@@ -253,9 +265,11 @@
     font-size: 16px;
     font-weight: 400;
 }
+
 .embedpress-event .event-description {
     margin-top: 20px;
 }
+
 .text--sectionTitle {
     font-size: 20px;
     line-height: 28px;
@@ -264,52 +278,63 @@
 .ep-event--attendees {
     margin-top: 50px;
 }
-.ep-event--attendees > .flex {
+
+.ep-event--attendees>.flex {
     margin-bottom: 20px;
 }
+
 .ep-event--attendees .gridList {
     list-style: none;
     margin: 0 -16px 0 0;
     padding: 0;
 }
+
 .ep-event--attendees .gridList-item {
     width: auto;
 }
+
 .ep-event--attendees .gridList--autoHeight--has4>.gridList-item {
     flex: 0 0 50%;
     max-width: 50%;
 }
+
 .ep-event--attendees .groupMember-name {
     line-height: 1.2 !important;
 }
+
 .ep-event--attendees .avatar--person {
     margin-bottom: 15px;
     display: inline-block;
     border-radius: 50%;
 }
+
 .ep-event--attendees img.avatar-print {
     border-radius: 50%;
 }
+
 .ep-event--attendees .groupMember-role {
     font-size: 12px;
     color: #757575;
     padding-top: 2px;
     margin: 0;
 }
+
 .ep-event--attendees .groupMember {
     min-height: 100%;
     min-width: 128px;
     padding-left: 8px;
     padding-right: 8px;
 }
-.embedpress-event .align--center{
+
+.embedpress-event .align--center {
     text-align: center;
 }
+
 .embedpress-event .card {
     background: #fff;
     background-clip: padding-box;
     background-size: cover;
-    border: 1px solid rgba(46,62,72,.12);
+    border: 1px solid rgba(46, 62, 72, .12);
     border-radius: 8px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -319,9 +344,11 @@
     position: relative;
     white-space: normal;
 }
+
 .embedpress-event .card--hasHoverShadow {
-    transition: box-shadow .25s cubic-bezier(.4,0,.2,1),transform .25s cubic-bezier(.4,0,.2,1);
+    transition: box-shadow .25s cubic-bezier(.4, 0, .2, 1), transform .25s cubic-bezier(.4, 0, .2, 1);
 }
+
 .embedpress-event .ep-event-group-link {
     display: flex;
     flex-wrap: wrap;
@@ -330,8 +357,9 @@
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 20px;
-    border: 1px solid rgba(46,62,72,.12);
+    border: 1px solid rgba(46, 62, 72, .12);
 }
+
 .embedpress-event .ep-event-group--name {
     padding-left: 20px;
     font-size: 14px;
@@ -340,6 +368,7 @@
     width: 70%;
     word-break: break-word;
 }
+
 .embedpress-event .ep-event-group--image {
     -o-object-fit: cover;
     object-fit: cover;
@@ -347,16 +376,19 @@
     height: 56px;
     border-radius: 4px;
 }
+
 .embedpress-event .ep-event-time-location {
     background: #ffffff;
     border-radius: 8px;
     padding: 16px 20px 0 20px;
-    border: 1px solid rgba(46,62,72,.12);
+    border: 1px solid rgba(46, 62, 72, .12);
 }
+
 .embedpress-event .ep-event-time-location .ep-event-datetime,
 .embedpress-event .ep-event-time-location .ep-event-location {
     padding-bottom: 20px;
 }
+
 .embedpress-event .ep-event-location .wrap--singleLine--truncate,
 .embedpress-event .ep-event-time-location .ep-event-datetime {
     font-size: 15px;
@@ -365,18 +397,22 @@
     font-style: normal;
     margin: 0;
 }
+
 .embedpress-event .ep-event-location address {
     font-style: normal;
     margin: 0;
 }
+
 .embedpress-event .ep-event-location .venueDisplay-venue-address {
     font-style: normal;
     color: #757575;
     margin: 0;
 }
+
 .embedpress-event .ep-event-location p {
     line-height: 20px;
 }
+
 .ep-event--attendees .gridList-item {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -386,6 +422,7 @@
     vertical-align: top;
     width: 50%;
 }
+
 .gridList-itemInner {
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -403,9 +440,11 @@
     max-width: 600px;
     width: 100%;
 }
+
 .embedpress-yt-subscribe .embedpress-yt-subscribe.dark {
     color: #ffffff;
 }
+
 .embedpress-yt-subscribe .embedpress-yt-sub-text {
     display: inline-block;
     margin: 0;
@@ -417,22 +456,28 @@
     height: 100%;
     margin-right: 10px;
 }
-.dewqijm img[src^="image"]{
+
+.dewqijm img[src^="image"] {
     display: none;
 }
-.dewqijm img[src^="http"]{
+
+.dewqijm img[src^="http"] {
     height: 56px !important;
     width: 56px !important;
 }
-.dewqijm > div > div {
+
+.dewqijm>div>div {
     display: none;
 }
-.embedpress-event .sticky button{
+
+.embedpress-event .sticky button {
     display: none;
 }
+
 .embedpress-event .items-center {
     align-items: center;
 }
+
 /*Media query*/
 @media only screen and (min-width: 530px) {
     .ep-event--attendees .gridList--autoHeight--has4>.gridList-item {
@@ -440,13 +485,57 @@
         max-width: 33.333333%;
     }
 }
-@media only screen and (min-width: 640px){
+
+@media only screen and (min-width: 640px) {
     .embedpress-event .card {
         padding: 18px 18px 20px;
     }
+
     .ep-event--attendees .gridList--autoHeight--has4>.gridList-item {
         flex: 0 0 25%;
         max-width: 25%;
     }
 }
 
+
+
+
+/**
+* NFT card frontend style
+*/
+ .eb_nft_content_wrap.eb_nft_grid,  .eb_nft_content_wrap.eb_nft_list {
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 15px;
+    grid-row-gap: 15px;
+}
+
+ .eb_nft_content_wrap .eb_nft_item {
+    padding-top: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-bottom: 15px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    transition: background 0.5s, border 0.5s, border-radius 0.5s, box-shadow 0.5s;
+}
+
+ .eb_nft_content .eb_nft_price {
+    color: #333333;
+    font-size: 14px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+}
+
+.eb-nft-gallery-wrapper .eb_nft_content_wrap .eb_nft_item .eb_nft_price .ebnft_currency {
+    line-height: 1;
+}
+ .eb_nft_content .eb_nft_price {
+    color: #333333;
+    font-size: 14px;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+}

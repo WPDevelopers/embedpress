@@ -55,7 +55,7 @@ function embedpress_render_block($attributes)
 function embedpress_render_block_style($attributes, $providers)
 {
 	if ($providers === 'youtube') {
-		$uniqid = '.ose-uid-' . md5($attributes['url']);
+		$uniqid = '.ose-youtube.ose-uid-' . md5($attributes['url']);
 		$youtubeStyles = '<style>
 			' . esc_attr($uniqid) . ' {
 				width: ' . esc_attr($attributes['width']) . 'px !important;

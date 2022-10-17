@@ -137,10 +137,12 @@ export default function EmbedPress(props) {
 				<EmbedWrap style={{ display: fetching ? 'none' : '' }} dangerouslySetInnerHTML={{
 					__html: embedHTML
 				}}></EmbedWrap>
-				<div
+
+				{/* <div
 					className="block-library-embed__interactive-overlay"
 					onMouseUp={setAttributes({ interactive: true })}
-				/>
+				/> */}
+				
 
 				<EmbedControls
 					showEditButton={embedHTML && !cannotEmbed}
