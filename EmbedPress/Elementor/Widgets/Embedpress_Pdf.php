@@ -416,7 +416,10 @@ class Embedpress_Pdf extends Widget_Base
         $url = $this->get_file_url();
         $id = $this->get_id();
         $this->_render($url, $settings, $id);
-        $this->_scripts();
+
+        if($settings['embedpress_pdf_type'] == 'file'){
+            $this->_scripts();
+        }
     }
 
     /**
