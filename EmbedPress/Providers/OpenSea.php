@@ -127,13 +127,18 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             ]);
             if (!is_wp_error($results) ) {
                 $jsonResult = json_decode($results['body']);
-                // wp_send_json($jsonResult);
+                wp_send_json($jsonResult);
 
                 $html = print_r($jsonResult, true);
             }
+
             return $html;
         }
         return "";
+    }
+
+    public function normalizeJson($json){
+        return $json;
     }
 
 

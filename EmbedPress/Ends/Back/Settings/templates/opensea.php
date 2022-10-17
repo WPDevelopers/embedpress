@@ -1,8 +1,9 @@
 <?php
 /*
- * YouTube Settings page
+ * It will be customze for OpenSea
  *  All undefined vars comes from 'render_settings_page' method
  *  */
+
 $yt_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
 $api_key = isset( $yt_settings['api_key']) ? $yt_settings['api_key'] : '';
 $pagesize = isset( $yt_settings['pagesize']) ? $yt_settings['pagesize'] : '';
