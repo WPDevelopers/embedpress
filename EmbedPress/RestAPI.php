@@ -33,11 +33,8 @@ class RestAPI
 		    $url .= "&list=$playlist_id";
 		}
 
-		$atts = [
-			'width' => intval( $request->get_param('width')),
-			'height' => intval( $request->get_param('height')),
-			'pagesize' => intval( $request->get_param('pagesize')),
-		];
+		$atts = $request->get_params();
+
 
         if (empty($url)) {
             return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
@@ -47,7 +44,6 @@ class RestAPI
         if (empty($urlInfo)) {
             return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
         }
-
         return new WP_REST_Response($urlInfo, 200);
     }
 }

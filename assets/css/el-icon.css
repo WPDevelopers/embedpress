@@ -60,18 +60,25 @@
     content: '';
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: 100%!important;
     display: block;
     top: 0;
     left: 0;
     bottom: 0;
     right: 0;
     z-index: 99;
-    background: transparent;
+    background: transparent!important;
 }
 
 
 .elementor-control.elementor-control-embedpress_pro_section.elementor-control-type-section.elementor-label-inline.elementor-control-separator-none .elementor-panel-heading-title {
     color: #ff5544;
+}
+
+.elementor-control-pagesize .elementor-label-inline>.elementor-control-content>.elementor-control-field>.elementor-control-input-wrapper, .elementor-control-gapbetweenvideos .elementor-slider-input,  .elementor-control-columns .elementor-control-input-wrapper.elementor-control-unit-5 {
+    width: 54px!important;
+}
+.embedpress-pro-control .elementor-control-input-wrapper {
+    filter: grayscale(1);
 }
 /*EmbedPress Pro Controls Style Ends*/

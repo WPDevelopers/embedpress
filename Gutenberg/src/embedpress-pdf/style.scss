@@ -32,3 +32,127 @@
 {
 	clear: both;
 }
+
+.pro-control{
+	position: relative;
+}
+span.isPro {
+    position: absolute;
+    z-index: 1;
+    background: #5B4E96;
+    border-radius: 20px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 40px;
+    height: 18px;
+    font-size: 10px;
+    right: 0;
+    color: #fff;
+    font-weight: 400;
+    text-transform: uppercase;
+    top: 0;
+}
+
+.pro-control:after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    position: absolute;
+    z-index: 12;
+    top: 0;
+    bottom: 0;
+}
+
+.theme-astra span.isPro {
+    right: 10px;
+    top: 5px;
+}
+.pro-control:hover::after {
+    cursor: pointer;
+}
+
+.pro__alert__wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, .3);
+    z-index: 1;
+    display: none;
+}
+
+.pro__alert__wrap .pro__alert__card {
+    width: calc(100% - 30px);
+    max-width: 500px;
+    margin: 7% auto 0;
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.pro__alert__wrap .pro__alert__card h2 {
+    font-size: 32px;
+    font-weight: 450;
+    color: #131F4D;
+    margin-bottom: 15px;
+}
+.pro__alert__wrap .pro__alert__card p {
+    font-size: 14px;
+    font-weight: 400;
+    color: #7C8DB5;
+    margin-top: 10px;
+}
+
+.pro__alert__wrap .pro__alert__card .button {
+    -ms-flex-item-align: end;
+    align-self: flex-end;
+    margin-top: 20px;
+    padding: 6px 30px;
+    border-radius: 10px;
+}
+.pro__alert__wrap .pro__alert__card p a {
+    text-decoration: underline;
+    font-weight: 700;
+    color: #131F4D;
+}
+.template__wrapper .button:hover {
+    background: #5B4E96!important;
+    color: #ffffff!important;
+    border-color: #5B4E96!important;
+}
+.pro__alert__wrap .pro__alert__card img {
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+.pro-control .components-toggle-control__label {
+    color: #bbacac;
+}
+.pro-control .components-form-toggle .components-form-toggle__track {
+    border: 1px solid #b89d9d;
+}
+.pro-control .components-form-toggle .components-form-toggle__thumb {
+    background-color: #b89d9d;
+    border: 5px solid #b89d9d;
+}
+
+.embedpress-document-embed {
+    display: inline-block;
+}
+.block-editor-block-inspector .components-base-control {
+    margin-top: 15px;
+}
+.pro-control-active {
+    margin-bottom: 24px;
+}
+

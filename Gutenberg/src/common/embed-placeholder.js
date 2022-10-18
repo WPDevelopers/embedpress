@@ -8,6 +8,7 @@ const {BlockIcon} = wp.blockEditor;
 
 const EmbedPlaceholder = (props) => {
 	const {icon, label, value, onSubmit, onChange, cannotEmbed, docLink, DocTitle} = props;
+
 	const classes = classnames( 'wp-block-embed', {} );
 	return (
 		<div>

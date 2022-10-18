@@ -202,7 +202,7 @@ class DocumentEdit extends Component {
 									'Width',
 									'embedpress'
 								) }
-								value={ width }
+								value={ width || 720 }
 								onChange={ ( width ) =>
 									setAttributes( { width } )
 								}

@@ -17,9 +17,10 @@ function embedpress_gutenberg_render_block_youtube( $attributes )
 	foreach ( $youtube_params as $param => $value ) {
 		$iframeUrl = add_query_arg( $param, $value, $iframeUrl );
 	}
+	
 
 	?>
-	<div class="ose-youtube wp-block-embed-youtube <?php echo $align; ?>">
+	<div class="ose-youtube wp-block-embed-youtube ose-youtube-single-video <?php echo $align; ?>">
 		<iframe src="<?php echo $iframeUrl; ?>"
 		        allowtransparency="true"
 		        allowfullscreen="true"

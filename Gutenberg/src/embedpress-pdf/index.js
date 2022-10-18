@@ -42,13 +42,47 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "boolean",
 				default: true,
 			},
+
+			presentation: {
+				type: "boolean",
+				default: true,
+			},
+			position: {
+				type: "string",
+				default: 'top',
+			},
+			
+			download: {
+				type: "boolean",
+				default: false,
+			},
+			open: {
+				type: "boolean",
+				default: false,
+			},
+			copy_text: {
+				type: "boolean",
+				default: false,
+			},
+			toolbar: {
+				type: "boolean",
+				default: true,
+			},
+			doc_details: {
+				type: "boolean",
+				default: true,
+			},
+			doc_rotation: {
+				type: 'boolean',
+				default: true,
+			},
 			width: {
 				type: 'number',
-				default: '600',
+				default: 600,
 			},
 			height: {
 				type: 'number',
-				default: '600',
+				default: 450,
 			},
 			fileName: {
 				type: "string",
