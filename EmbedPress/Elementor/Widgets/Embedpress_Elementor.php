@@ -1505,8 +1505,6 @@ class Embedpress_Elementor extends Widget_Base
 					} else {
 						echo $content;
 					}
-
-
 					?>
 		</div>
 

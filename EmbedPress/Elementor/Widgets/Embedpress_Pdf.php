@@ -478,9 +478,6 @@ class Embedpress_Pdf extends Widget_Base
                             $open = isDisplay($open);
                             $copy_text = isDisplay($copy_text);
 
-
-                            console.log($download);
-
                             if ($copy_text === 'block') {
                                 $copy_text = 'all';
                             }
