@@ -113,9 +113,10 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             $html = "";
             $params = $this->getParams();
             $param = array(
-                'limit' => 6,
+                'limit' => 20,
                 'order_direction' => 'desc',
                 'collection_slug' => $matches[1],
+                'include_orders' => true,
             );
             $url = "https://api.opensea.io/api/v1/assets?" . http_build_query($param);
 
@@ -163,67 +164,116 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
      * Normalize json data 
      */
     public function normalizeJSONData($asset){
-        $result = [];
-        $result['id'] = $asset->id;
-        $result['name'] = $asset->name;
-        $result['permalink'] = $asset->permalink;
-        $result['description'] = $asset->description;
-        $result['image_url'] = $asset->image_url;
-        $result['image_thumbnail_url'] = $asset->image_thumbnail_url;
-        $result['image_preview_url'] = $asset->image_preview_url;
+        $nftItem = [];
+        $nftItem['id'] = $asset->id;
+        $nftItem['name'] = $asset->name;
+        $nftItem['permalink'] = $asset->permalink;
+        $nftItem['description'] = $asset->description;
+        $nftItem['image_url'] = $asset->image_url;
+        $nftItem['image_thumbnail_url'] = $asset->image_thumbnail_url;
+        $nftItem['image_preview_url'] = $asset->image_preview_url;
+        $nftItem['image_original_url'] = $asset->image_original_url;
+        $nftItem['created_by'] = $asset->creator->user->username;
+        $nftItem['creator_img_url'] = $asset->asset_contract->image_url;
+        $nftItem['current_price'] = $asset->seaport_sell_orders?$asset->seaport_sell_orders:'';
+        $nftItem['last_sale'] = $asset->last_sale->total_price?$asset->last_sale->total_price:'';
+        $nftItem['creator_url'] = 'https://opensea.io/'.$nftItem['created_by'];
 
-        return $this->nftItemTemplate($result);
+        return $this->nftItemTemplate($nftItem);
     }
 
     /**
      * NFT Collection Item template
      */
 
-     public function nftItemTemplate($data){
-        $name = $data['name']; 
-        if(empty($data['name'])){
-            $name = '#'.$data['id'];
+     public function nftItemTemplate($item){
+
+        $name = $item['name'] ? $item['name'] : '#'.$item['id'];
+        $image_url = $item['image_url'] ? $item['image_url'] : ($item['image_thumbnail_url']?$item['image_thumbnail_url'] : ($item['image_preview_url']?$item['image_preview_url'] : $item['image_original_url']));
+        $created_by = $item['created_by'];
+        $creator_img_url = $item['creator_img_url'];
+        $current_price = $item['current_price']?($item['current_price'][0]->current_price / 1000000000000000000) : '';
+        $last_sale = '';
+        if(empty($current_price) && !empty($item['last_sale']) ){
+            $last_sale = $item['last_sale'] / 1000000000000000000;
         }
+        
+        $eth_icon = '
+            <svg width="1535" height="2500" viewBox="0 0 256 417"
+            xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
+                <path fill="#343434"
+                    d="m127.961 0-2.795 9.5v275.668l2.795 2.79 127.962-75.638z"></path>
+                <path fill="#8C8C8C" d="M127.962 0 0 212.32l127.962 75.639V154.158z"></path>
+                <path fill="#3C3C3B"
+                    d="m127.961 312.187-1.575 1.92v98.199l1.575 4.6L256 236.587z"></path>
+                <path fill="#8C8C8C" d="M127.962 416.905v-104.72L0 236.585z"></path>
+                <path fill="#141414" d="m127.961 287.958 127.96-75.637-127.96-58.162z"></path>
+                <path fill="#393939" d="m0 212.32 127.96 75.638v-133.8z"></path>
+            </svg>
+            ';
+
+        $current_price_template = '';
+        if(!empty($current_price)){
+            $current_price_template = '
+            <div class="ep_nft_price">
+                <span class="ebnft_label">Price:</span>
+                <span  class="ebnft_currency">'.$eth_icon.'</span>
+                <span class="ebnft_price">'. esc_html(round($current_price, 4)).'</span>
+            </div>
+            ';
+        }
+
+        $last_sale_price_template = '';
+
+        if(!empty($last_sale)){
+            $last_sale_price_template = '
+            <div class="ep_nft_price">
+                <span class="ebnft_label">Last Sale:</span>
+                <span  class="ebnft_currency">'.$eth_icon.'</span>
+                <span class="ebnft_price">'. esc_html(round($last_sale, 2)).'</span>
+            </div>
+            ';
+        }
+        
+
         $template = '
                 <div class="ep_nft_item">
                     <div class="ep_nft_thumbnail"><img
-                            src="'.$data['image_url'].'"
+                            src="'.esc_url($image_url).'"
                             alt="Dopamine"></div>
                     <div class="ep_nft_content">
                         <h3 class="ep_nft_title">'.esc_html($name).'</h3>
                         <div class="ep_nft_content_body">
                             <div class="ep_nft_owner_wrapper">
                                 <div class="ep_nft_creator"><img
-                                        src="https://storage.googleapis.com/opensea-static/opensea-profile/21.png"
-                                        alt="tiffatronn"><span>Created by <a target="_blank"
-                                            href="https://opensea.io/0x4de5ae339b406a8cd5037e9138a62e86aa5352ef">tiffatronn</a></span>
+                                        src="'.esc_url($creator_img_url).'"
+                                        alt="'.esc_attr($created_by).'"><span>Created by <a target="_blank"
+                                            href="'.esc_url($item['creator_url']).'">'.esc_html($created_by).'</a></span>
                                 </div>
                             </div>
                             
                             <div class="ep_nft_price_wrapper">
-                                <div class="ep_nft_price"><span class="ebnft_label">Price:</span><span
-                                        class="ebnft_currency"><svg width="1535" height="2500" viewBox="0 0 256 417"
-                                            xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
-                                            <path fill="#343434"
-                                                d="m127.961 0-2.795 9.5v275.668l2.795 2.79 127.962-75.638z"></path>
-                                            <path fill="#8C8C8C" d="M127.962 0 0 212.32l127.962 75.639V154.158z"></path>
-                                            <path fill="#3C3C3B"
-                                                d="m127.961 312.187-1.575 1.92v98.199l1.575 4.6L256 236.587z"></path>
-                                            <path fill="#8C8C8C" d="M127.962 416.905v-104.72L0 236.585z"></path>
-                                            <path fill="#141414" d="m127.961 287.958 127.96-75.637-127.96-58.162z"></path>
-                                            <path fill="#393939" d="m0 212.32 127.96 75.638v-133.8z"></path>
-                                        </svg></span><span class="ebnft_price">0.72</span></div>
+                                '.$current_price_template.'
+                                '.$last_sale_price_template.'
                             </div>
                         </div>
                         <div class="ep_nft_button"><a target="_blank"
-                                    href="'.esc_url($data['permalink']).'">See
+                                    href="'.esc_url($item['permalink']).'">See
                                     Details</a></div>
                     </div>
-
                 </div>   
             ';
         return $template;
      }
+
+
+    /**
+     * Get NFT collection item price
+    */
+
+    public function getCollectionPrice(){
+
+    }
 
 
      /**
@@ -281,9 +331,11 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             border-radius: 5px;
         }
 
-         .ep_nft_content_wrap .ep_nft_thumbnail img {
-            height: 300px;
+        .ep_nft_content_wrap .ep_nft_thumbnail img {
+            height: 340px;
             border-radius: 5px;
+            width: 100%;
+            object-fit: cover;
         }
 
          .ep_nft_content .ep_nft_title {
