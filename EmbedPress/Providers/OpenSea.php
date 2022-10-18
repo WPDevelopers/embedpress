@@ -194,7 +194,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         $creator_img_url = $item['creator_img_url'];
         $current_price = $item['current_price']?($item['current_price'][0]->current_price / 1000000000000000000) : '';
         $last_sale = '';
-        if(empty($current_price) && !empty($item['last_sale']) ){
+        
+        if(!empty($item['last_sale']) ){
             $last_sale = $item['last_sale'] / 1000000000000000000;
         }
         
@@ -265,15 +266,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             ';
         return $template;
      }
-
-
-    /**
-     * Get NFT collection item price
-    */
-
-    public function getCollectionPrice(){
-
-    }
 
 
      /**
@@ -361,8 +353,11 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             display: flex;
             font-weight: 600;
         }
+        .ep_nft_content .ep_nft_price:first-child{
+            margin-bottom: 10px;
+        }
         span.ebnft_currency {
-            max-width: 20px;
+            max-width: 28px;
             display: flex;
             align-items: center;
             justify-content: center;

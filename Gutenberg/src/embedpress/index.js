@@ -82,6 +82,8 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: 'center'
 			},
+
+			//YouTube Attributes
 			ispagination: {
 				type: 'boolean',
 				default: true
@@ -97,6 +99,40 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			gapbetweenvideos: {
 				type: 'number',
 				default: 30
+			},
+
+			//NFT Attributes
+			limit: {
+				type: 'number',
+				default: 20
+			},
+			orderby: {
+				type: 'string',
+				default: 'desc'
+			},
+			nftimage: {
+				type: 'boolean',
+				default: true
+			},
+			nfttitle: {
+				type: 'boolean',
+				default: true
+			},
+			nftcreator: {
+				type: 'boolean',
+				default: true
+			},
+			nftprice: {
+				type: 'boolean',
+				default: true
+			},
+			nftlastsale: {
+				type: 'boolean',
+				default: true
+			},
+			nftbutton: {
+				type: 'boolean',
+				default: true
 			},
 		},
 		/**

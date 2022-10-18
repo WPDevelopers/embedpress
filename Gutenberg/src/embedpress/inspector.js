@@ -1,4 +1,5 @@
 import Youtube from './InspectorControl/youtube';
+import NFT from './InspectorControl/nft';
 
 /**
  * WordPress dependencies
@@ -15,7 +16,7 @@ import Youtube from './InspectorControl/youtube';
  } = wp.blockEditor;
  
 
-export default function Inspector({attributes, setAttributes, isYTChannel}) {
+export default function Inspector({attributes, setAttributes, isYTChannel, isNFT}) {
 
     const {
         width,
@@ -41,6 +42,12 @@ export default function Inspector({attributes, setAttributes, isYTChannel}) {
                 {
                     isYTChannel && (
                         <Youtube attributes={attributes} setAttributes={setAttributes}  />
+                    )
+                }
+
+                {  
+                    isNFT && (
+                        <NFT attributes={attributes} setAttributes={setAttributes}  />
                     )
                 }
             </PanelBody>

@@ -27,6 +27,10 @@ export default function EmbedPress(props) {
 	const blockProps = useBlockProps ? useBlockProps() : [];
 
 	const isYTChannel = url.match(/\/channel\/|\/c\/|\/user\/|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
+
+	const isNFT = url.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i);
+
+
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
 	}
@@ -110,12 +114,12 @@ export default function EmbedPress(props) {
 		}, 300)
 
 		return () => clearTimeout(delayDebounceFn)
-	}, [pagesize, editingURL]);
+	}, [pagesize]);
 
 	return (
 		<Fragment>
 
-			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} />
+			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isNFT={isNFT} />
 
 			{((!embedHTML || editingURL) && !fetching) && <div {...blockProps}>
 				<EmbedPlaceholder
