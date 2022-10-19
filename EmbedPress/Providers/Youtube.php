@@ -401,7 +401,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                     </div>
                     <div class="ep-youtube__content__pagination <?php echo (empty($prevPageToken) && empty($nextPageToken)) ? ' hide ' : ''; ?>">
                         <div
-                            class="ep-prev <?php echo empty($prevPageToken) ? ' hide ' : ''; ?>"
+                            class="ep-prev" <?php echo empty($prevPageToken) ? ' style="display:none" ' : ''; ?>
                             data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
                             data-pagetoken="<?php echo esc_attr($prevPageToken) ?>"
                             data-pagesize="<?php echo intval($options['pagesize']) ?>"
@@ -482,7 +482,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                         </div>
 
                         <div
-                            class="ep-next <?php echo empty($nextPageToken) ? ' hide ' : ''; ?>"
+                            class="ep-next " <?php echo empty($nextPageToken) ? ' style="display:none" ' : ''; ?>
                             data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
                             data-pagetoken="<?php echo esc_attr($nextPageToken) ?>"
                             data-pagesize="<?php echo intval($options['pagesize']) ?>"
