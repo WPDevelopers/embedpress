@@ -1487,9 +1487,8 @@ class Embedpress_Elementor extends Widget_Base
 			$ispagination = 'none';
 		}
 
-
-		if ($settings['columns'] > 0) {
-			$calVal = 'calc(' . (100 / $settings['columns']) . '% - ' . $settings['gapbetweenvideos']['size'] . 'px)';
+		if (!empty($settings['columns']) && (int) $settings['columns'] > 0) {
+			$calVal = 'calc(' . (100 / (int) $settings['columns']) . '% - ' . $settings['gapbetweenvideos']['size'] . 'px)';
 		} else {
 			$calVal = 'auto';
 		}
