@@ -211,7 +211,7 @@
 .ep_nft_content .ep_nft_price:first-child {
   margin-bottom: 10px; }
 
-span.ebnft_currency {
+span.eb_nft_currency {
   max-width: 28px;
   display: -ms-flexbox;
   display: flex;
@@ -220,7 +220,7 @@ span.ebnft_currency {
   -ms-flex-pack: center;
       justify-content: center; }
 
-span.ebnft_currency svg {
+span.eb_nft_currency svg {
   width: 100%;
   height: auto; }
 

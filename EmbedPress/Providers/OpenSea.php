@@ -148,8 +148,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
             ob_start();  
             
-            
-            // print_r($this->getParams());
 
             ?>
                 
@@ -238,9 +236,9 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         if(!empty($current_price)){
             $current_price_template = '
             <div class="ep_nft_price ep_current_price">
-                <span class="ebnft_label">Price:</span>
-                <span  class="ebnft_currency">'.$eth_icon.'</span>
-                <span class="ebnft_price">'. esc_html(round($current_price, 4)).'</span>
+                <span class="eb_nft_label">Price:</span>
+                <span  class="eb_nft_currency">'.$eth_icon.'</span>
+                <span class="eb_nft_price">'. esc_html(round($current_price, 4)).'</span>
             </div>
             ';
         }
@@ -250,9 +248,9 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         if(!empty($last_sale)){
             $last_sale_price_template = '
             <div class="ep_nft_price ep_nft_last_sale">
-                <span class="ebnft_label">Last Sale:</span>
-                <span  class="ebnft_currency">'.$eth_icon.'</span>
-                <span class="ebnft_price">'. esc_html(round($last_sale, 2)).'</span>
+                <span class="eb_nft_label">Last Sale:</span>
+                <span  class="eb_nft_currency">'.$eth_icon.'</span>
+                <span class="eb_nft_price">'. esc_html(round($last_sale, 2)).'</span>
             </div>
             ';
         }
@@ -307,27 +305,29 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 $nftperrow = 'auto';
             }
 
+            $uniqid = '.ose-uid-'.md5($this->getUrl());
+            
         ?>
         <style>
-            .ep_nft_thumbnail{
-                display: <?php echo ($params['nftimage'] == 'yes')? 'inherit' : 'none!important'; ?>;
+            <?php echo esc_html($uniqid); ?> .ep_nft_thumbnail{
+                display: <?php echo (($params['nftimage'] == 'yes') || ($params['nftimage'] == 'true'))? 'inherit' : 'none'; ?>;
             }
-            .ep_nft_title{
-                display: <?php echo ($params['nfttitle'] == 'yes')? 'inherit' : 'none!important'; ?>;
+            <?php echo esc_html($uniqid); ?> .ep_nft_title{
+                display: <?php echo (($params['nfttitle'] == 'yes') || ($params['nfttitle'] == 'true'))? 'inherit' : 'none!important'; ?>;
             }
-            .ep_nft_creator{
-                display: <?php echo ($params['nftcreator'] == 'yes')? 'flex' : 'none!important'; ?>;
+            <?php echo esc_html($uniqid); ?> .ep_nft_creator{
+                display: <?php echo (($params['nftcreator'] == 'yes') || ($params['nftcreator'] == 'true'))? 'flex' : 'none!important'; ?>;
             }
-            .ep_current_price{
-                display: <?php echo ($params['nftprice'] == 'yes')? 'flex' : 'none!important'; ?>;
+            <?php echo esc_html($uniqid); ?> .ep_current_price{
+                display: <?php echo (($params['nftprice'] == 'yes') || ($params['nftprice'] == 'true'))? 'flex' : 'none!important'; ?>;
             }
-            .ep_nft_last_sale{
-                display: <?php echo ($params['nftlastsale'] == 'yes')? 'flex' : 'none!important'; ?>;
+            <?php echo esc_html($uniqid); ?> .ep_nft_last_sale{
+                display: <?php echo (($params['nftlastsale'] == 'yes') || ($params['nftlastsale'] == 'true'))? 'flex' : 'none!important'; ?>;
             }
-            .ep_nft_button{
-                display: <?php echo ($params['nftbutton'] == 'yes')? 'inherit' : 'none!important'; ?>;
+            <?php echo esc_html($uniqid); ?> .ep_nft_button{
+                display: <?php echo (($params['nftbutton'] == 'yes') || ($params['nftbutton'] == 'true'))? 'inherit' : 'none!important'; ?>;
             }
-            .ep_nft_content_wrap {
+            <?php echo esc_html($uniqid); ?> .ep_nft_content_wrap {
                 grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($nftperrow); ?>, 1fr))!important;
             }
             

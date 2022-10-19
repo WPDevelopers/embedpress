@@ -29,7 +29,8 @@ export default function EmbedPress(props) {
 		cannotEmbed,
 		interactive,
 		embedHTML,
-		height, width,
+		height,
+		width,
 		ispagination,
 		pagesize,
 		columns,
@@ -37,6 +38,7 @@ export default function EmbedPress(props) {
 		limit,
 		orderby,
 		nftperrow,
+		gapbetweenitem,
 		nftimage,
 		nftcreator,
 		nfttitle,
@@ -90,23 +92,40 @@ export default function EmbedPress(props) {
 
 			// send api request to get iframe url
 			let fetchData = async (url) => {
-				let _pagesize = isYTChannel ? `&pagesize=${pagesize}` : '';
-				let _gapbetweenvideos = isYTChannel ? `&gapbetweenvideos=${gapbetweenvideos}` : '';
-				let _ispagination = isYTChannel ? `&ispagination=${ispagination}` : false;
-				let _columns = isYTChannel ? `&columns=${columns}` : '';
 
-				let _isYTChannel = {};
+				let youtubeParams = '';
+				let openseaParams = '';
 
-				if(isYTChannel){
-					_isYTChannel = {
-						page: 2,
-						limit: 10,
-						filter: 'js',
+				//Generate YouTube params
+				if (isYTChannel) {
+					let _isYTChannel = {
+						pagesize: pagesize ? pagesize : 6,
+						gapbetweenvideos: 10,
+						ispagination: ispagination ? ispagination : false,
+						columns: columns ? columns : '3',
 					};
+					youtubeParams = '&' + new URLSearchParams(_isYTChannel).toString();
 				}
 
+				//Generate Opensea params
+				if (isOpensea) {
+					let _isOpensea = {
+						limit: limit ? limit : 20,
+						orderby: orderby ? orderby : 'desc',
+						nftperrow: nftperrow ? nftperrow : '3',
+						gapbetweenitem: gapbetweenitem ? gapbetweenitem : 30,
+						nftimage: nftimage ? nftbutton : false,
+						nftcreator: nftcreator ? nftcreator : false,
+						nfttitle: nfttitle ? nfttitle : false,
+						nftprice: nftprice ? nftprice : false,
+						nftlastsale: nftlastsale ? nftlastsale : false,
+						nftbutton: nftbutton ? nftbutton : false
+					};
 
-				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}${_columns}${_ispagination}${_pagesize}${_gapbetweenvideos}`).then(response => response.json());
+					openseaParams = '&' + new URLSearchParams(_isOpensea).toString();
+				}
+
+				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}${youtubeParams}${openseaParams}`).then(response => response.json());
 			}
 			fetchData(url).then(data => {
 				setAttributes({
@@ -138,17 +157,16 @@ export default function EmbedPress(props) {
 
 	useEffect(() => {
 		const delayDebounceFn = setTimeout(() => {
-			if (pagesize && !((!embedHTML || editingURL) && !fetching)) {
+			if (pagesize && !((!embedHTML || editingURL) && !fetching) && limit && orderby ) {
 				embed();
 			}
 		}, 300)
-
 		return () => clearTimeout(delayDebounceFn)
-	}, [pagesize]);
+	}, [pagesize, limit, orderby]);
 
 	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
 
-	if(columns > 0){
+	if (columns > 0) {
 		repeatCol = `repeat(auto-fit, minmax(calc(${100 / columns}% - ${gapbetweenvideos}px), 1fr))`;
 	}
 
@@ -193,9 +211,11 @@ export default function EmbedPress(props) {
 			</figure>}
 
 
-			<style style={{ display: "none" }}>
-				{
-					`
+			{
+				isYTChannel && (
+					<style style={{ display: "none" }}>
+						{
+							`
 					#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap{
 						gap: ${gapbetweenvideos}px!important;
 						margin-top: ${gapbetweenvideos}px!important;
@@ -222,16 +242,18 @@ export default function EmbedPress(props) {
 					}
 
 					${!ispagination && (
-						`#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
+								`#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
 							display: none!important;
 						}`
-					)}
+							)}
 
 					`
-				}
+						}
 
-			</style>
+					</style>
 
+				)
+			}
 
 			{
 				isOpensea && (
@@ -239,22 +261,22 @@ export default function EmbedPress(props) {
 						{
 							`
 							#block-${clientId} .ep_nft_thumbnail{
-								display: ${(nftimage) ? 'inherit' : 'none'};
+								display: ${(nftimage) ? 'block!important' : 'none'};
 							}
 							#block-${clientId} .ep_nft_title{
-								display: ${(nfttitle) ? 'inherit' : 'none'};
+								display: ${(nfttitle) ? 'block!important' : 'none'};
 							}
 							#block-${clientId} .ep_nft_creator{
-								display: ${(nftcreator) ? 'flex' : 'none'};
+								display: ${(nftcreator) ? 'flex!important' : 'none'};
 							}
-							#block-${clientId} .ep_nft_price{
-								display: ${(nftprice) ? 'flex' : 'none'};
+							#block-${clientId} .ep_current_price{
+								display: ${(nftprice) ? 'flex!important' : 'none'};
 							}
 							#block-${clientId} .ep_nft_last_sale{
-								display: ${(nftlastsale) ? 'flex' : 'none'};
+								display: ${(nftlastsale) ? 'flex!important' : 'none'};
 							}
 							#block-${clientId} .ep_nft_button{
-								display: ${(nftbutton) ? 'inherit' : 'none'};
+								display: ${(nftbutton) ? 'block!important' : 'none'};
 							}
 							`
 						}

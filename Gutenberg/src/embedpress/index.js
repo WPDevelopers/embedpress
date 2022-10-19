@@ -110,6 +110,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: 'desc'
 			},
+			gapbetweenitem: {
+				type: 'number',
+				default: 30
+			},
+			nftperrow: {
+				type: 'string',
+				default: '3'
+			},
 			nftimage: {
 				type: 'boolean',
 				default: true
