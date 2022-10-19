@@ -184,7 +184,7 @@ function embedpress_gutenberg_register_all_block()
 
 							'download' => [
 								'type' => "boolean",
-								'default' => false,
+								'default' => true,
 							],
 							'open' => [
 								'type' => "boolean",
@@ -192,7 +192,7 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'copy_text' => [
 								'type' => "boolean",
-								'default' => false,
+								'default' => true,
 							],
 							'toolbar' => [
 								'type' => "boolean",
@@ -367,9 +367,8 @@ function embedpress_pdf_render_block($attributes)
 
 						
 						<?php if(!defined('EMBEDPRESS_PRO_PLUGIN_FILE')): ?>
-							download = 'none';
-							copy_text = 'none';
-							console.log('EmbedPress_Plugin_Usage_Tracker not exits');
+							download = 'block';
+							copy_text = 'block';
 						<?php endif;  ?>
 
 						if (copy_text === 'block') {
@@ -424,7 +423,7 @@ function embedpress_pdf_render_block($attributes)
 							display: none!important;
 						}
 						#secondaryDownload, #secondaryPrint, #toolbarViewerRight #print, #toolbarViewerRight #download{
-							display: ${download};
+							display: ${download}!important;
 						}
 
 						#pageRotateCw{
