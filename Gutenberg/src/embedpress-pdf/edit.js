@@ -196,6 +196,15 @@ class EmbedPressPDFEdit extends Component {
 					transform: rotate(180deg);
 					bottom: -18px;
 				}
+				
+				.findbar.doorHanger:before {
+					bottom: -18px;
+					transform: rotate(180deg);
+				}
+				.findbar.doorHanger:after {
+					bottom: -16px;
+					transform: rotate(180deg);
+				}
 			`;
 			}
 			style.textContent = `
@@ -294,8 +303,8 @@ class EmbedPressPDFEdit extends Component {
 		const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
 		if (!isProPluginActive) {
-			setAttributes({download: false});
-			setAttributes({copy_text: false});
+			setAttributes({ download: false });
+			setAttributes({ copy_text: false });
 		}
 
 		if (!document.querySelector('.pro__alert__wrap')) {
@@ -431,7 +440,7 @@ class EmbedPressPDFEdit extends Component {
 
 										<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
 											<ToggleControl
-												label={__('Print/Download Access', 'embedpress')}
+												label={__('Print/Download', 'embedpress')}
 												onChange={(download) =>
 													setAttributes({ download })
 												}
@@ -446,7 +455,7 @@ class EmbedPressPDFEdit extends Component {
 
 										<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
 											<ToggleControl
-												label={__('Text Copy Access', 'embedpress')}
+												label={__('Copy Text', 'embedpress')}
 												onChange={(copy_text) =>
 													setAttributes({ copy_text })
 												}
@@ -460,14 +469,14 @@ class EmbedPressPDFEdit extends Component {
 											}
 										</div>
 										<ToggleControl
-											label={__('Doc Rotate Access', 'embedpress')}
+											label={__('Rotation', 'embedpress')}
 											onChange={(doc_rotation) =>
 												setAttributes({ doc_rotation })
 											}
 											checked={doc_rotation}
 										/>
 										<ToggleControl
-											label={__('Doc Details', 'embedpress')}
+											label={__('Properties', 'embedpress')}
 											onChange={(doc_details) =>
 												setAttributes({ doc_details })
 											}

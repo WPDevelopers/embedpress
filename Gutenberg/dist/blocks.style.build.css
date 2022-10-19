@@ -306,6 +306,10 @@ span.isPro {
   top: 0;
   bottom: 0; }
 
+.theme-astra span.isPro {
+  right: 10px;
+  top: 5px; }
+
 .pro-control:hover::after {
   cursor: pointer; }
 
@@ -376,6 +380,15 @@ span.isPro {
 .pro-control .components-form-toggle .components-form-toggle__thumb {
   background-color: #b89d9d;
   border: 5px solid #b89d9d; }
+
+.embedpress-document-embed {
+  display: inline-block; }
+
+.block-editor-block-inspector .components-base-control {
+  margin-top: 15px; }
+
+.pro-control-active {
+  margin-bottom: 24px; }
 /**
  * #.# Common SCSS
  *

@@ -396,6 +396,15 @@ function embedpress_pdf_render_block($attributes)
 									transform: rotate(180deg);
 									bottom: -18px;
 								}
+								
+								.findbar.doorHanger:before {
+									bottom: -18px;
+									transform: rotate(180deg);
+								}
+								.findbar.doorHanger:after {
+									bottom: -16px;
+									transform: rotate(180deg);
+								}
 							`;
 						}
 						style.textContent = `

@@ -59,12 +59,13 @@ function embedpress_render_block_style($attributes, $providers)
 		$youtubeStyles = '<style>
 			' . esc_attr($uniqid) . ' {
 				width: ' . esc_attr($attributes['width']) . 'px !important;
-				height: ' . esc_attr($attributes['height']) . 'px !important;
+				height: ' . esc_attr($attributes['height']) . 'px;
 			}
 
 			' . esc_attr($uniqid) . '>iframe {
 				height: ' . esc_attr($attributes['height']) . 'px !important;
 				max-height: ' . esc_attr($attributes['height']) . 'px !important;
+				width: 100%;
 			}
 		</style>';
 

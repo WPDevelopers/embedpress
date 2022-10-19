@@ -927,8 +927,7 @@ KAMAL;
 
                 <?php
                             }
-                            if ($attributes['powered_by'] === 'no') {
-
+                            if ($attributes['powered_by'] === 'yes') {
                                 printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
                             }
                         }

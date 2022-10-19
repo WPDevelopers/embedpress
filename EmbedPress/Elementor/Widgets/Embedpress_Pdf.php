@@ -59,7 +59,7 @@ class Embedpress_Pdf extends Widget_Base
 
     protected function register_controls()
     {
-        $this->pro_class = is_embedpress_pro_active() ? '' : 'embedpress-pro-control';
+        $this->pro_class = is_embedpress_pro_active() ? '' : 'embedpress-pro-control not-active';
         $this->pro_text = is_embedpress_pro_active() ? '' : '<sup class="embedpress-pro-label" style="color:red">' . __('Pro', 'embedpress') . '</sup>';
         /**
          * EmbedPress Content Settings
@@ -315,7 +315,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'pdf_print_download',
             [
-                'label'        => sprintf(__('Print/Download Access %s', 'embedpress'), $this->pro_text),
+                'label'        => sprintf(__('Print/Download %s', 'embedpress'), $this->pro_text),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => __('Show', 'embedpress'),
                 'label_off'    => __('Hide', 'embedpress'),
@@ -330,7 +330,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'pdf_text_copy',
             [
-                'label'        => sprintf(__('Text Copy Access %s', 'embedpress'), $this->pro_text),
+                'label'        => sprintf(__('Copy Text %s', 'embedpress'), $this->pro_text),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => __('Show', 'embedpress'),
                 'label_off'    => __('Hide', 'embedpress'),
@@ -346,7 +346,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'pdf_rotate_access',
             [
-                'label'        => __('PDF Rotate Access', 'embedpress'),
+                'label'        => __('Rotation', 'embedpress'),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => __('Show', 'embedpress'),
                 'label_off'    => __('Hide', 'embedpress'),
@@ -361,7 +361,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'pdf_details',
             [
-                'label'        => __('PDF Details', 'embedpress'),
+                'label'        => __('Properties', 'embedpress'),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => __('Show', 'embedpress'),
                 'label_off'    => __('Hide', 'embedpress'),
@@ -416,7 +416,10 @@ class Embedpress_Pdf extends Widget_Base
         $url = $this->get_file_url();
         $id = $this->get_id();
         $this->_render($url, $settings, $id);
-        $this->_scripts();
+
+        if($settings['embedpress_pdf_type'] == 'file'){
+            $this->_scripts();
+        }
     }
 
     /**
@@ -435,7 +438,6 @@ class Embedpress_Pdf extends Widget_Base
                             if ($selectorName == 'no' || $selectorName == '') {
                                 $selectorName = 'none';
                             } else {
-
                                 $selectorName = 'block';
                             }
                             return $selectorName;
@@ -513,6 +515,7 @@ class Embedpress_Pdf extends Widget_Base
                             }
 
                             style.textContent = `
+                               
                                 .toolbar{
                                     display: ${$toolbar}!important;
                                     position: absolute;
@@ -578,8 +581,8 @@ class Embedpress_Pdf extends Widget_Base
                 'data-toolbar-position' =>  $settings['pdf_toolbar_position'],
                 'data-open' => 'no',
                 'data-presentation-mode' => $settings['pdf_presentation_mode'],
-                'data-download' => $settings['pdf_print_download'],
-                'data-copy' => $settings['pdf_text_copy'],
+                'data-download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print_download'] : 'no',
+                'data-copy' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'no',
                 'data-rotate' => $settings['pdf_rotate_access'],
                 'data-details' => $settings['pdf_details'],
                 'data-id' => $id

@@ -22,6 +22,8 @@ use Embera\Url;
  * @link https://youtube.com
  * @link https://youtube-eng.googleblog.com/2009/10/oembed-support_9.html
  */
+
+
 class Youtube extends ProviderAdapter implements ProviderInterface {
 	/** inline {@inheritdoc} */
 	protected $shouldSendRequest = false;
@@ -128,6 +130,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
      * @param array  $params Parameters for the query string
      * @return string
      */
+    
     protected function constructUrl($endpoint, array $params = array())
     {
         $endpoint = self::$channel_endpoint . $endpoint;
@@ -160,7 +163,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $transient_key = 'ep_embed_youtube_channel_playlist_id_' . md5($channel_url);
         $jsonResult    = get_transient($transient_key);
 
-        if(!empty($jsonResult)){
+        if(!empty($jsonResult)){ 
             return $jsonResult;
         }
 
@@ -405,7 +408,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                         >
                             <span><?php _e("Prev", "embedpress"); ?></span>
                         </div>
-                        <div class="ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
+                        <div class="is_desktop_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
                             <?php   
 
                                 $numOfPages = $totalPages;
@@ -432,12 +435,8 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                         $renderedEllipses = false;
                                     }
 
-                                    // else if((int)$currentPage - 1 == $i && $i == (int)$currentPage + 1){
-                                    //     echo wp_kses_post('<span class="page-number active__current_page" data-page="'.$i.'">'.$i.'</span>'); 
-                                    // }
-
                                     //last page number
-                                    else if ($i >= $numOfPages - 2) {
+                                    else if ($i >= $numOfPages - 1) {
                                         //render link
                                         echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
                                     }
@@ -453,6 +452,35 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                             ?>
 
                         </div>
+                        <div class="is_mobile_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
+                            <?php   
+
+                                $numOfPages = $totalPages;
+                                $renderedEllipses = false;
+
+                                $currentPage = !empty($options['currentpage'])?$options['currentpage'] : 1;
+
+                                for($i = 1; $i<=$numOfPages; $i++)
+                                {
+
+                                    //render current page number
+                                   if($i == (int)$currentPage) {
+                                        //render link
+                                        echo wp_kses_post('<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>'); 
+                                        //reset ellipses
+                                        $renderedEllipses = false;
+                                    }
+
+                                    //last page number
+                                    else if ($i >= $numOfPages ) {
+                                        //render link
+                                        echo wp_kses_post('...<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>'); 
+                                    }
+                                }
+                            ?>
+
+                        </div>
+
                         <div
                             class="ep-next <?php echo empty($nextPageToken) ? ' hide ' : ''; ?>"
                             data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
@@ -723,13 +751,40 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         .ep-loader img {
             width: 20px;
         }
+        .is_mobile_device{
+            display: none!important;
+        }
+        
+
+        .is_mobile_devic.ep-page-numbers {
+            gap: 5px;
+        }
+
+        @media only screen and (max-width: 480px) {
+            .is_desktop_device{
+                display: none!important;
+            }
+            .ep-youtube__content__pagination .ep-page-numbers > span {
+                width: 35px;
+                height: 35px;
+            }
+            .ep-youtube__content__pagination .ep-prev, .ep-youtube__content__pagination .ep-next{
+                height: 35px;
+            }
+            .is_mobile_device{
+                display: flex!important;;
+            }
+            .ep-youtube__content__pagination .ep-page-numbers {
+                gap: 5px;
+            }
+        }
         <?php
         $attributes_data = $params;
 
         $is_pagination = 'flex';
         
         $gap = '30';
-        $columns = 3;
+        $columns = '';
 
         if (isset($attributes_data['ispagination']) && $attributes_data['ispagination']) {
             $is_pagination = 'none';
@@ -740,11 +795,13 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         if(isset($attributes_data['columns'])){
             $columns = $attributes_data['columns'];
         }
-        if($columns > 0){
-            $calVal = 'calc('.(100 / $columns).'% - '.$gap.'px)';
+        
+
+        if($columns > 0 && !empty($columns)){
+            $repeatCol = 'repeat(auto-fit, minmax('.esc_html('calc('.(100 / $columns).'% - '.$gap.'px)').', 1fr))';
         }
         else{
-            $calVal = 'auto';
+            $repeatCol = 'repeat(auto-fit, minmax(250px, 1fr))';
         }
 
         ?>
@@ -756,8 +813,18 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             display: <?php echo esc_html($is_pagination); ?>!important;
         }
         <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .youtube__content__body .content__wrap {
-            grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($calVal); ?>, 1fr));
+            grid-template-columns: <?php echo $repeatCol; ?>;
+            gap: <?php echo $gap.'px'; ?>;
         }
+
+        <?php 
+            if($is_pagination){
+                echo esc_attr($uniqid) ?> {
+                    height: 100%!important;
+                }
+                <?php
+            }
+        ?>
         </style>
         <?php
         return ob_get_clean();
