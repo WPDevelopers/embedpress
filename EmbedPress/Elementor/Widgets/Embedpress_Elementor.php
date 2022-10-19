@@ -112,6 +112,7 @@ class Embedpress_Elementor extends Widget_Base
 					'wistia'      => __('Wistia', 'embedpress'),
 					'twitch'  => __('Twitch', 'embedpress'),
 					'soundcloud'  => __('SoundCloud', 'embedpress'),
+					'opensea'  => __('OpenSea', 'embedpress'),
 				]
 			]
 		);
@@ -159,18 +160,29 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
+
+		/**
+		 * Initialized controls
+		 */
 		$this->init_youtube_controls();
 		$this->init_vimeo_controls();
 		$this->init_wistia_controls();
 		$this->init_soundcloud_controls();
 		$this->init_dailymotion_control();
 		$this->init_twitch_control();
+		$this->init_opensea_control();
 
 		$this->end_controls_section();
 
 		$this->init_youtube_channel_section();
 		$this->init_youtube_subscription_section();
 		$this->init_youtube_livechat_section();
+
+		/**
+		 * Opensea Control section
+		 */
+		$this->init_opensea_control_section();
+
 
 		if (!is_embedpress_pro_active()) {
 			$this->start_controls_section(
@@ -201,6 +213,11 @@ class Embedpress_Elementor extends Widget_Base
 
 		$this->init_style_controls();
 	}
+
+	/**
+	 * Youtube  Controls
+	 */
+
 	public function init_youtube_controls()
 	{
 		$yt_condition = [
@@ -562,6 +579,7 @@ class Embedpress_Elementor extends Widget_Base
 
 		$this->end_controls_section();
 	}
+
 	public function init_youtube_livechat_section()
 	{
 		$yt_condition = [
@@ -594,6 +612,12 @@ class Embedpress_Elementor extends Widget_Base
 
 		$this->end_controls_section();
 	}
+
+	//End Youtube  Controls
+
+	/**
+	 * Dailymotion  Controls
+	 */
 	public function init_dailymotion_control()
 	{
 		//@TODO; Kamal - migrate from 'embedpress_pro_dailymotion_logo' to 'embedpress_pro_dailymotion_ui_logo'
@@ -703,6 +727,11 @@ class Embedpress_Elementor extends Widget_Base
 		);
 		$this->init_branding_controls('dailymotion');
 	}
+	//End Dailymotion  Controls
+
+	/**
+	 * Wistia  Controls
+	 */
 	public function init_wistia_controls()
 	{
 		$this->add_control(
@@ -927,6 +956,13 @@ class Embedpress_Elementor extends Widget_Base
 		);
 		$this->init_branding_controls('wistia');
 	}
+	//End Wistia controls
+
+	
+
+	/**
+	 * Twitch  Controls
+	 */
 	public function init_twitch_control()
 	{
 		$condition = [
@@ -994,6 +1030,12 @@ class Embedpress_Elementor extends Widget_Base
 
 		$this->init_branding_controls('twitch');
 	}
+	//End Twitch controls
+
+
+	/**
+	 * SoundCloud  Controls
+	 */
 	public function init_soundcloud_controls()
 	{
 		$this->add_control(
@@ -1160,6 +1202,11 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 	}
+	//End SoundCloud controls
+
+	/**
+	 * Vimeo  Controls
+	 */
 	public function init_vimeo_controls()
 	{
 		$this->add_control(
@@ -1298,6 +1345,12 @@ class Embedpress_Elementor extends Widget_Base
 
 		$this->init_branding_controls('vimeo');
 	}
+	//End Vimeo controls
+
+	
+	/**
+	 * Spotify  Controls
+	 */
 	public function init_spotify_controls()
 	{
 		$condition = [
@@ -1320,6 +1373,201 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 	}
+	//End Spotify controls
+
+	/**
+	 * OpenSea Controls
+	 */
+	public function init_opensea_control(){
+		$condition = [
+			'embedpress_pro_embeded_source' => 'opensea'
+		];
+
+		$this->add_control(
+			'limit',
+			[
+				'type' => \Elementor\Controls_Manager::NUMBER,
+				'label' => esc_html__( 'Limit', 'embedpress' ),
+				'placeholder' => '20',
+				'min' => 1,
+				'max' => 100,
+				'step' => 1,
+				'default' => 2,
+				'condition'   => $condition
+			]
+		);
+		$this->add_control(
+			'orderby',
+			[
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label' => esc_html__( 'Order By', 'embedpress' ),
+				'options' => [
+					'asc' => esc_html__( 'ASC', 'embedpress' ),
+					'desc' => esc_html__( 'DESC', 'embedpress' ),
+				],
+				'default' => 'desc',
+				'condition'   => $condition
+			]
+		);
+	}
+
+	public function init_opensea_control_section(){
+		$condition = [
+			'embedpress_pro_embeded_source' => 'opensea',
+		];
+		
+		$this->start_controls_section(
+			'embedpress_opensea_control_section',
+			[
+				'label'       => __('OpenSea Control Settings', 'embedpress'),
+				'condition'    => $condition,
+	
+			]
+		);
+	
+		$this->add_control(
+			'nftperrow',
+			[
+				'label'       => __('Column', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label_block' => false,
+				'default' => '3',
+				'options' => [
+					'1'  => esc_html__('1', 'embedpress'),
+					'2'  => esc_html__('2', 'embedpress'),
+					'3' => esc_html__('3', 'embedpress'),
+					'4' => esc_html__('4', 'embedpress'),
+					'5' => esc_html__('5', 'embedpress'),
+					'6' => esc_html__('6', 'embedpress'),
+					'auto' => esc_html__('Auto', 'embedpress'),
+				],
+				'conditions'  => [
+					'terms' => [
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => '===',
+							'value' => 'opensea',
+						],
+					],
+				]
+				
+			]
+		);
+
+		$this->add_control(
+			'gapbetweenitem',
+			[
+				'label' => esc_html__( 'Gap Between Item', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'size_units' => [ 'px'],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 100,
+						'step' => 1,
+					],
+				],
+				'default' => [
+					'unit' => 'px',
+					'size' => 15,
+				],
+				'selectors' => [
+					'{{WRAPPER}} .ep_nft_content_wrap' => 'gap: {{SIZE}}{{UNIT}};',
+				],
+			]
+		);
+	
+		$this->add_control(
+			'nftimage',
+			[
+				'label'       => __('Thumbnail', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
+				'default'      => 'yes',
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'nfttitle',
+			[
+				'label'       => __('Title', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
+				'default'      => 'yes',
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'nftcreator',
+			[
+				'label'       => __('Creator', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
+				'default'      => 'yes',
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'nftprice',
+			[
+				'label'       => __('Price', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
+				'default'      => 'yes',
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'nftlastsale',
+			[
+				'label'       => __('Last Sale', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
+				'default'      => 'yes',
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'nftbutton',
+			[
+				'label'       => __('Button', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
+				'default'      => 'yes',
+				'condition'    => $condition,
+			]
+		);
+	
+	
+		$this->end_controls_section();
+	}
+	//End OpenSea controls
+
+
 
 	public function init_style_controls()
 	{
@@ -1487,13 +1735,15 @@ class Embedpress_Elementor extends Widget_Base
 			$ispagination = 'none';
 		}
 
+		if($settings['columns'] > 0){
+            $calVal = 'calc('.(100 / $settings['columns']).'% - '.$settings['gapbetweenvideos']['size'].'px)';
+        }
+        else{
+            $calVal = 'auto';
+        }
 
-		if ($settings['columns'] > 0) {
-			$calVal = 'calc(' . (100 / $settings['columns']) . '% - ' . $settings['gapbetweenvideos']['size'] . 'px)';
-		} else {
-			$calVal = 'auto';
-		}
-		?>
+	?>
+
 
 		<div class="embedpress-elements-wrapper  <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; ?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
 			<?php
@@ -1508,15 +1758,19 @@ class Embedpress_Elementor extends Widget_Base
 					?>
 		</div>
 
-		<style>
-			#ep-elements-id-<?php echo esc_html($this->get_id()); ?> .ep-youtube__content__block .youtube__content__body .content__wrap {
-				grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($calVal); ?>, 1fr)) !important;
-			}
 
-			#ep-elements-id-<?php echo esc_html($this->get_id()); ?> .ep-youtube__content__pagination {
-				display: <?php echo esc_html($ispagination); ?> !important;
-			}
-		</style>
+		<?php if($settings['embedpress_pro_embeded_source'] === 'youtube'): ?>
+			<style>
+				#ep-elements-id-<?php echo esc_html($this->get_id()); ?> .ep-youtube__content__block .youtube__content__body .content__wrap {
+					grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($calVal); ?>, 1fr))!important;
+				}
+
+				#ep-elements-id-<?php echo esc_html($this->get_id()); ?> .ep-youtube__content__pagination {
+					display: <?php echo esc_html($ispagination); ?>!important;
+				}
+			</style>
+		<?php endif; ?>
+
 <?php
 	}
 	public function onAfterEmbedSpotify($embed, $setting)

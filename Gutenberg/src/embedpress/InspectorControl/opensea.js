@@ -11,7 +11,7 @@ const {
 
 
 
-export default function NFT({ attributes, setAttributes }) {
+export default function OpenSea({ attributes, setAttributes }) {
     const {
         limit,
         orderby,
@@ -88,7 +88,5 @@ export default function NFT({ attributes, setAttributes }) {
             />
 
         </div>
-
-
     )
 }

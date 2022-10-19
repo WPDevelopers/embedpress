@@ -23,12 +23,32 @@ const { Fragment, useEffect } = wp.element;
 export default function EmbedPress(props) {
 	const { clientId, attributes, className, setAttributes } = props;
 
-	const { url, editingURL, fetching, cannotEmbed, interactive, embedHTML, height, width, ispagination, pagesize, columns, gapbetweenvideos } = attributes;
+	const { url,
+		editingURL,
+		fetching,
+		cannotEmbed,
+		interactive,
+		embedHTML,
+		height, width,
+		ispagination,
+		pagesize,
+		columns,
+		gapbetweenvideos,
+		limit,
+		orderby,
+		nftperrow,
+		nftimage,
+		nftcreator,
+		nfttitle,
+		nftprice,
+		nftlastsale,
+		nftbutton, } = attributes;
+
 	const blockProps = useBlockProps ? useBlockProps() : [];
 
 	const isYTChannel = url.match(/\/channel\/|\/c\/|\/user\/|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
 
-	const isNFT = url.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i);
+	const isOpensea = url.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i);
 
 
 	function switchBackToURLInput() {
@@ -38,12 +58,12 @@ export default function EmbedPress(props) {
 		setAttributes({ fetching: false });
 	}
 
-	useEffect( () => {
-		if(embedHTML && !editingURL && !fetching){
+	useEffect(() => {
+		if (embedHTML && !editingURL && !fetching) {
 			let scripts = embedHTML.matchAll(/<script.*?src=["'](.*?)["'].*?><\/script>/g);
 			scripts = [...scripts];
 			for (const script of scripts) {
-				if(script && typeof script[1] != 'undefined'){
+				if (script && typeof script[1] != 'undefined') {
 					const url = script[1];
 					const hash = md5(url);
 					if (document.getElementById(hash)) {
@@ -51,8 +71,8 @@ export default function EmbedPress(props) {
 					}
 					const s = document.createElement('script');
 					s.type = 'text/javascript';
-					s.setAttribute( 'id', hash );
-					s.setAttribute( 'src', url );
+					s.setAttribute('id', hash);
+					s.setAttribute('src', url);
 					document.body.appendChild(s);
 				}
 			};
@@ -74,6 +94,16 @@ export default function EmbedPress(props) {
 				let _gapbetweenvideos = isYTChannel ? `&gapbetweenvideos=${gapbetweenvideos}` : '';
 				let _ispagination = isYTChannel ? `&ispagination=${ispagination}` : false;
 				let _columns = isYTChannel ? `&columns=${columns}` : '';
+
+				let _isYTChannel = {};
+
+				if(isYTChannel){
+					_isYTChannel = {
+						page: 2,
+						limit: 10,
+						filter: 'js',
+					};
+				}
 
 
 				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}${_columns}${_ispagination}${_pagesize}${_gapbetweenvideos}`).then(response => response.json());
@@ -125,7 +155,7 @@ export default function EmbedPress(props) {
 	return (
 		<Fragment>
 
-			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isNFT={isNFT} />
+			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isOpensea={isOpensea} />
 
 			{((!embedHTML || editingURL) && !fetching) && <div {...blockProps}>
 				<EmbedPlaceholder
@@ -148,11 +178,12 @@ export default function EmbedPress(props) {
 					__html: embedHTML
 				}}></EmbedWrap>
 
+
 				{/* <div
 					className="block-library-embed__interactive-overlay"
 					onMouseUp={setAttributes({ interactive: true })}
 				/> */}
-				
+
 
 				<EmbedControls
 					showEditButton={embedHTML && !cannotEmbed}
@@ -160,6 +191,7 @@ export default function EmbedPress(props) {
 				/>
 
 			</figure>}
+
 
 			<style style={{ display: "none" }}>
 				{
@@ -199,6 +231,38 @@ export default function EmbedPress(props) {
 				}
 
 			</style>
+
+
+			{
+				isOpensea && (
+					<style style={{ display: "none" }}>
+						{
+							`
+							#block-${clientId} .ep_nft_thumbnail{
+								display: ${(nftimage) ? 'inherit' : 'none'};
+							}
+							#block-${clientId} .ep_nft_title{
+								display: ${(nfttitle) ? 'inherit' : 'none'};
+							}
+							#block-${clientId} .ep_nft_creator{
+								display: ${(nftcreator) ? 'flex' : 'none'};
+							}
+							#block-${clientId} .ep_nft_price{
+								display: ${(nftprice) ? 'flex' : 'none'};
+							}
+							#block-${clientId} .ep_nft_last_sale{
+								display: ${(nftlastsale) ? 'flex' : 'none'};
+							}
+							#block-${clientId} .ep_nft_button{
+								display: ${(nftbutton) ? 'inherit' : 'none'};
+							}
+							`
+						}
+
+					</style>
+				)
+			}
+
 
 		</Fragment>
 

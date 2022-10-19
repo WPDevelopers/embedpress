@@ -27,7 +27,21 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
     public static $curltimeout = 30;
     /** inline {@inheritdoc} */
     /** @var array Array with allowed params for the current Provider */
-    protected $allowedParams = [ 'maxwidth', 'maxheight' ];
+    protected $allowedParams = [ 
+        'maxwidth', 
+        'maxheight', 
+        'limit', 
+        'orderby', 
+        'limit',
+        'orderby',
+        'nftperrow',
+        'gapbetweenitem',
+        'nftimage',
+        'nftcreator',
+        'nfttitle',
+        'nftprice',
+        'nftlastsale',
+        'nftbutton' ];
 
     /** inline {@inheritdoc} */
     protected static $hosts = [
@@ -84,7 +98,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             $results['html'] = $this->getCollection($url);
         }
 
-
         return $results;
     }
 
@@ -113,8 +126,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             $html = "";
             $params = $this->getParams();
             $param = array(
-                'limit' => 20,
-                'order_direction' => 'desc',
+                'limit' => $params['limit'],
+                'order_direction' => $params['orderby'],
                 'collection_slug' => $matches[1],
                 'include_orders' => true,
             );
@@ -133,7 +146,12 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 $html = print_r($jsonResult, true);
             }
 
-            ob_start();  ?>
+            ob_start();  
+            
+            
+            // print_r($this->getParams());
+
+            ?>
                 
                 <div class="ep-parent-wrapper ep-parent-ep-nft-gallery-r1a5mbx ">
                     <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx">
@@ -147,8 +165,11 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                         </div>
                     </div>
                 </div>
+
+                <?php $this->openSeaStyle($this->getParams()); ?>
+
+
                 
-                <?php $this->nftCardStyle(); ?>
     
             <?php $html = ob_get_clean();
 
@@ -216,7 +237,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         $current_price_template = '';
         if(!empty($current_price)){
             $current_price_template = '
-            <div class="ep_nft_price">
+            <div class="ep_nft_price ep_current_price">
                 <span class="ebnft_label">Price:</span>
                 <span  class="ebnft_currency">'.$eth_icon.'</span>
                 <span class="ebnft_price">'. esc_html(round($current_price, 4)).'</span>
@@ -228,7 +249,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         if(!empty($last_sale)){
             $last_sale_price_template = '
-            <div class="ep_nft_price">
+            <div class="ep_nft_price ep_nft_last_sale">
                 <span class="ebnft_label">Last Sale:</span>
                 <span  class="ebnft_currency">'.$eth_icon.'</span>
                 <span class="ebnft_price">'. esc_html(round($last_sale, 2)).'</span>
@@ -267,237 +288,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         return $template;
      }
 
-
-     /**
-     * NFT card frontend style
-     */
-
-    public function nftCardStyle(){?>
-    <style>
-
-        .ose-opensea {
-            height: 100%!important;
-        }
-        .ep_nft_content_wrap.ep_nft_grid{
-            display: grid;      
-        }
-
-        .ep_nft_content_wrap.ep_nft_grid,
-        .ep_nft_content_wrap.ep_nft_list {
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            grid-column-gap: 15px;
-            grid-row-gap: 15px;
-        }
-
-        .ep_nft_content_wrap .ep_nft_item {
-            padding-top: 15px;
-            padding-right: 15px;
-            padding-left: 15px;
-            padding-bottom: 15px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            transition: background 0.5s, border 0.5s, border-radius 0.5s, box-shadow 0.5s;
-            
-            border-radius: 5px;
-            box-shadow: 0 4px 15px rgba(0,0,0,.09);
-            overflow: hidden;
-            padding: 15px;
-            position: relative;
-            transition: .3s ease-in-out;
-        }
-
-         .ep_nft_content_wrap.ep_nft_list .ep_nft_item {
-            justify-content: flex-start;
-            align-items: flex-start;
-        }
-
-         .ep_nft_content_wrap.ep_nft_grid.preset-3 .ep_nft_item .ep_nft_content {
-            background-color: #edecf6e6;
-        }
-
-         .ep_nft_content_wrap .ep_nft_thumbnail {
-            margin-top: 0px;
-            margin-right: 0px;
-            margin-left: 0px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-        }
-
-        .ep_nft_content_wrap .ep_nft_thumbnail img {
-            height: 340px;
-            border-radius: 5px;
-            width: 100%;
-            object-fit: cover;
-        }
-
-         .ep_nft_content .ep_nft_title {
-            color: #333333;
-            font-size: 16px;
-            margin-top: 0px;
-            margin-right: 0px;
-            margin-left: 0px;
-            margin-bottom: 15px;
-            font-weight: 600 
-        }
-        .ep_nft_content {
-            text-align: left;
-        }
-
-         .ep_nft_content .ep_nft_price {
-            color: #333333;
-            font-size: 14px;
-            margin-top: 0px;
-            margin-right: 0px;
-            margin-left: 0px;
-            margin-bottom: 0px;
-            display: flex;
-            font-weight: 600;
-        }
-        .ep_nft_content .ep_nft_price:first-child{
-            margin-bottom: 10px;
-        }
-        span.ebnft_currency {
-            max-width: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        span.ebnft_currency svg {
-            width: 100%;
-            height: auto;
-        }
-
-         .ep_nft_content .ep_nft_price_wrapper {
-            min-height: 20px;
-        }
-        
-
-         .ep_nft_content .ep_nft_creator {
-            color: #333333;
-            font-size: 14px;
-            margin-top: 0px;
-            margin-right: 0px;
-            margin-left: 0px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-         .ep_nft_content .ep_nft_creator a {
-            color: #7967ff;
-            font-size: 14px;
-            text-decoration: none;
-        }
-
-         .ep_nft_content .ep_nft_creator img {
-            height: 30px;
-            width: 30px;
-            border-radius: 50%;
-        }
-
-         .ep_nft_content .ep_nft_button button {
-            margin-top: 0px;
-            margin-right: 0px;
-            margin-left: 0px;
-            margin-bottom: 0px;
-        }
-
-         .ep_nft_content .ep_nft_button button a {
-            background-color: #7967ff;
-            color: #ffffff;
-            font-size: 14px;
-            padding-top: 15px;
-            padding-right: 20px;
-            padding-left: 20px;
-            padding-bottom: 15px;
-            transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s;
-        }
-
-         .ep_nft_content .ep_nft_button button:hover a {
-            background-color: #5c4bd9;
-            color: #ffffff;
-        }
-
-        .ep-nft-gallery-wrapper .ep_nft_content_wrap.ep_nft_grid.preset-1 .ep_nft_item:hover .ep_nft_button {
-            opacity: 1;
-            transform: translate(0);
-            visibility: visible;
-        }
-        
-
-        .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_content .ep_nft_button:hover a {
-            background-color: #5c4bd9;
-            color: #ffffff;
-        }
-
-        .ep-nft-gallery-wrapper .ep_nft_content_wrap.ep_nft_grid.preset-1 .ep_nft_item:hover .ep_nft_button {
-            opacity: 1;
-            transform: translate(0);
-            visibility: visible;
-        }
-
-        .ep-nft-gallery-wrapper .ep_nft_content_wrap.ep_nft_grid.preset-1 .ep_nft_item .ep_nft_button {
-            bottom: 0;
-            left: 0;
-            opacity: 0;
-            position: absolute;
-            transform: translateY(30px);
-            visibility: hidden;
-            width: 100%;
-            transition:0.3s;
-        }
-
-        .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_content .ep_nft_button a {
-            background-color: #7967ff;
-            color: #ffffff;
-            font-size: 14px;
-            padding: 10px 20px;
-            transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s;
-            display: block;
-            text-align: center;
-            font-weight: 500;
-            text-decoration: none;
-        }
-
-        /* mimmikcssStart */
-
-
-
-
-        /* mimmikcssEnd */
-
-        @media all and (max-width: 1024px) {
-
-            /* tabcssStart */
-             .ep_nft_content_wrap.ep_nft_grid,
-             .ep_nft_content_wrap.ep_nft_list {
-                grid-template-columns: repeat(, 1fr);
-            }
-
-            /* tabcssEnd */
-
-        }
-
-        @media all and (max-width: 767px) {
-
-            /* mobcssStart */
-             .ep_nft_content_wrap.ep_nft_grid,
-             .ep_nft_content_wrap.ep_nft_list {
-                grid-template-columns: repeat(, 1fr);
-            }
-
-            /* mobcssEnd */
-
-        }
-    </style>
-   <?php
-    }
-
-
-
-
     /** inline {@inheritdoc} */
     public function getFakeResponse() {
         return [
@@ -507,6 +297,42 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             'title' => 'Unknown title',
             'html' => '',
         ];
+    }
+
+    public function openSeaStyle($params){
+            if($params['nftperrow'] > 0){
+                $nftperrow = 'calc('.(100 / $params['nftperrow']).'% - '.$params['gapbetweenitem'].'px)';
+            }
+            else{
+                $nftperrow = 'auto';
+            }
+
+        ?>
+        <style>
+            .ep_nft_thumbnail{
+                display: <?php echo ($params['nftimage'] == 'yes')? 'inherit' : 'none!important'; ?>;
+            }
+            .ep_nft_title{
+                display: <?php echo ($params['nfttitle'] == 'yes')? 'inherit' : 'none!important'; ?>;
+            }
+            .ep_nft_creator{
+                display: <?php echo ($params['nftcreator'] == 'yes')? 'flex' : 'none!important'; ?>;
+            }
+            .ep_current_price{
+                display: <?php echo ($params['nftprice'] == 'yes')? 'flex' : 'none!important'; ?>;
+            }
+            .ep_nft_last_sale{
+                display: <?php echo ($params['nftlastsale'] == 'yes')? 'flex' : 'none!important'; ?>;
+            }
+            .ep_nft_button{
+                display: <?php echo ($params['nftbutton'] == 'yes')? 'inherit' : 'none!important'; ?>;
+            }
+            .ep_nft_content_wrap {
+                grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($nftperrow); ?>, 1fr))!important;
+            }
+            
+        </style>
+    <?php
     }
 
 }

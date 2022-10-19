@@ -270,9 +270,9 @@ function embedpress_pdf_render_block($attributes)
 		</div>
 	<?php ep_pdf_block_frontend_style($attributes, 'pdf');
 
-			return ob_get_clean();
-		}
+		return ob_get_clean();
 	}
+}
 
 	function embedpress_calendar_render_block($attributes)
 	{
