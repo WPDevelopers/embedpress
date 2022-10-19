@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 6.0
 Requires PHP: 5.6
-Stable tag: 3.5.1
+Stable tag: 3.5.2
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -382,10 +382,15 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [3.5.2] - 2022-10-19 =
+* Improved: Added new options to PDF embed.
+* Improved: YouTube channel embedding with new controls.
+* Few minor bug fixes and improvements.
+
 = [3.5.1] - 2022-09-27 =
 * Fixed: Meetup fatal error while event image was missing.
 * Fixed: Conflict with Elementor old version.
-* Improved: Changed library for documents viewing for Elementor.
+* Improved: Changed library for document viewing for Elementor.
 * Few minor bug fix and improvements.
 
 = [3.5.0] - 2022-08-25 =
