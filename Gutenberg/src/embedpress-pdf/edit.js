@@ -161,7 +161,7 @@ class EmbedPressPDFEdit extends Component {
 
 
 			if (toolbar === false) {
-				presentation = false; download = false; open = false; copy_text = false; toolbar_position = false; doc_details = false; doc_rotation = false;
+				presentation = false; download = true; open = false; copy_text = true; toolbar_position = false; doc_details = false; doc_rotation = false;
 			}
 
 			toolbar = this.isDisplay(toolbar);
@@ -303,8 +303,8 @@ class EmbedPressPDFEdit extends Component {
 		const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
 		if (!isProPluginActive) {
-			setAttributes({ download: false });
-			setAttributes({ copy_text: false });
+			setAttributes({ download: true });
+			setAttributes({ copy_text: true });
 		}
 
 		if (!document.querySelector('.pro__alert__wrap')) {
