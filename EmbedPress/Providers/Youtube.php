@@ -797,8 +797,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
         
 
-        if($columns > 0 && !empty($columns)){
-            $repeatCol = 'repeat(auto-fit, minmax('.esc_html('calc('.(100 / $columns).'% - '.$gap.'px)').', 1fr))';
+
+        if(!empty($columns) && (int) $columns > 0){
+            $repeatCol = 'repeat(auto-fit, minmax('.esc_html('calc('.(100 / (int) $columns).'% - '.$gap.'px)').', 1fr))';
         }
         else{
             $repeatCol = 'repeat(auto-fit, minmax(250px, 1fr))';
