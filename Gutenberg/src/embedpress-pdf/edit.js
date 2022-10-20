@@ -503,6 +503,27 @@ class EmbedPressPDFEdit extends Component {
 							}
 						</PanelBody>
 					</InspectorControls>
+
+					<style style={{ display: "none" }}>
+						{
+							`
+							#block-${clientId} {
+								width:-webkit-fill-available;
+							} 
+							.embedpress-el-powered{
+								max-width: ${width}
+							}
+
+							.alignright .embedpress-document-embed{
+								float: right!important;
+							}
+							.alignleft .embedpress-document-embed{
+								float: left;
+							}
+
+							`
+						}
+					</style>
 				</Fragment >
 
 			);
