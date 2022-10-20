@@ -120,17 +120,22 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
     }
     
 
-    public function getCollection($url) {
-        preg_match('~opensea\.io/collection/(.*)~i', (string) $url, $matches);
-        
+    public function getOsSettingsData($key){
+       
         $opensea_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
-
-        // print_r($opensea_settings);
-        // $api_key = "b61c8a54123d4dcb9acc1b9c26a01cd1";
-
+        
         if(isset($opensea_settings['api_key'])){
             $api_key = isset($opensea_settings['api_key'])?$opensea_settings['api_key']:'b61c8a54123d4dcb9acc1b9c26a01cd1';
         }
+    }
+
+
+    /**
+     * Get Opensea Collection Data 
+     */
+    public function getCollection($url) {
+        preg_match('~opensea\.io/collection/(.*)~i', (string) $url, $matches);
+        
 
         if(!empty($matches[1])){
             $html = "";
