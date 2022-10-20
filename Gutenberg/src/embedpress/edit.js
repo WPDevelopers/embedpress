@@ -114,7 +114,7 @@ export default function EmbedPress(props) {
 						orderby: orderby ? orderby : 'desc',
 						nftperrow: nftperrow ? nftperrow : '3',
 						gapbetweenitem: gapbetweenitem ? gapbetweenitem : 30,
-						nftimage: nftimage ? nftbutton : false,
+						nftimage: nftimage ? nftimage : false,
 						nftcreator: nftcreator ? nftcreator : false,
 						nfttitle: nfttitle ? nfttitle : false,
 						nftprice: nftprice ? nftprice : false,
@@ -127,6 +127,7 @@ export default function EmbedPress(props) {
 
 				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}${youtubeParams}${openseaParams}`).then(response => response.json());
 			}
+
 			fetchData(url).then(data => {
 				setAttributes({
 					fetching: false
@@ -157,12 +158,12 @@ export default function EmbedPress(props) {
 
 	useEffect(() => {
 		const delayDebounceFn = setTimeout(() => {
-			if (pagesize && !((!embedHTML || editingURL) && !fetching) && limit && orderby ) {
+			if (!((!embedHTML || editingURL) && !fetching)) {
 				embed();
 			}
 		}, 300)
 		return () => clearTimeout(delayDebounceFn)
-	}, [pagesize, limit, orderby]);
+	}, [pagesize, limit, orderby, nftimage, nfttitle, nftprice, nftlastsale, nftperrow, nftbutton, nftcreator]);
 
 	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
 
@@ -185,7 +186,6 @@ export default function EmbedPress(props) {
 					icon={embedPressIcon}
 					DocTitle={__('Learn more about EmbedPress')}
 					docLink={'https://embedpress.com/docs/'}
-
 				/>
 			</div>}
 
@@ -196,12 +196,10 @@ export default function EmbedPress(props) {
 					__html: embedHTML
 				}}></EmbedWrap>
 
-
 				{/* <div
 					className="block-library-embed__interactive-overlay"
 					onMouseUp={setAttributes({ interactive: true })}
 				/> */}
-
 
 				<EmbedControls
 					showEditButton={embedHTML && !cannotEmbed}
@@ -209,7 +207,7 @@ export default function EmbedPress(props) {
 				/>
 
 			</figure>}
-
+ 
 
 			{
 				isYTChannel && (
@@ -260,24 +258,24 @@ export default function EmbedPress(props) {
 					<style style={{ display: "none" }}>
 						{
 							`
-							#block-${clientId} .ep_nft_thumbnail{
-								display: ${(nftimage) ? 'block!important' : 'none'};
-							}
-							#block-${clientId} .ep_nft_title{
-								display: ${(nfttitle) ? 'block!important' : 'none'};
-							}
-							#block-${clientId} .ep_nft_creator{
-								display: ${(nftcreator) ? 'flex!important' : 'none'};
-							}
-							#block-${clientId} .ep_current_price{
-								display: ${(nftprice) ? 'flex!important' : 'none'};
-							}
-							#block-${clientId} .ep_nft_last_sale{
-								display: ${(nftlastsale) ? 'flex!important' : 'none'};
-							}
-							#block-${clientId} .ep_nft_button{
-								display: ${(nftbutton) ? 'block!important' : 'none'};
-							}
+							// #block-${clientId} .ep_nft_thumbnail{
+							// 	display: ${(nftimage) ? 'block!important' : 'none'};
+							// }
+							// #block-${clientId} .ep_nft_title{
+							// 	display: ${(nfttitle) ? 'block!important' : 'none'};
+							// }
+							// #block-${clientId} .ep_nft_creator{
+							// 	display: ${(nftcreator) ? 'flex!important' : 'none'};
+							// }
+							// #block-${clientId} .ep_current_price{
+							// 	display: ${(nftprice) ? 'flex!important' : 'none'};
+							// }
+							// #block-${clientId} .ep_nft_last_sale{
+							// 	display: ${(nftlastsale) ? 'flex!important' : 'none'};
+							// }
+							// #block-${clientId} .ep_nft_button{
+							// 	display: ${(nftbutton) ? 'block!important' : 'none'};
+							// }
 							`
 						}
 

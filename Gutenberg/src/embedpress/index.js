@@ -115,8 +115,8 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: 30
 			},
 			nftperrow: {
-				type: 'string',
-				default: '3'
+				type: 'number',
+				default: 3
 			},
 			nftimage: {
 				type: 'boolean',

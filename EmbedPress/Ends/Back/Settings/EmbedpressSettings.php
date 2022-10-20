@@ -368,22 +368,15 @@ class EmbedpressSettings {
 		$option_name = EMBEDPRESS_PLG_NAME.':opensea';
 		$settings = get_option( $option_name, []);
 		$settings['api_key'] = isset( $_POST['api_key']) ? sanitize_text_field( $_POST['api_key']) : 0;
-		$settings['pagesize'] = isset( $_POST['pagesize']) ? sanitize_text_field( $_POST['pagesize']) : 0;
-		$settings['start_time'] = isset( $_POST['start_time']) ? sanitize_text_field( $_POST['start_time']) : 0;
-		$settings['end_time'] = isset( $_POST['end_time']) ? sanitize_text_field( $_POST['end_time']) : 0;
-		$settings['autoplay'] = isset( $_POST['autoplay']) ? sanitize_text_field( $_POST['autoplay']) : '';
-		$settings['controls'] = isset( $_POST['controls']) ? sanitize_text_field( $_POST['controls']) : '';
-		$settings['fs'] = isset( $_POST['fs']) ? sanitize_text_field( $_POST['fs']) : '';
-		$settings['iv_load_policy'] = isset( $_POST['iv_load_policy']) ? sanitize_text_field( $_POST['iv_load_policy']) : 1;
-		$settings['color'] = isset( $_POST['color']) ? sanitize_text_field( $_POST['color']) : 'red';
-		$settings['rel'] = isset( $_POST['rel']) ? sanitize_text_field( $_POST['rel']) : 1;
+		$settings['limit'] = isset( $_POST['limit']) ? sanitize_text_field( $_POST['limit']) : 0;
+		$settings['orderby'] = isset( $_POST['orderby']) ? sanitize_text_field( $_POST['orderby']) : 0;
+		
 		$settings['license_key'] = 1; // backward compatibility
 
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_opensea_settings_before_save', $settings);
 		update_option( $option_name, $settings);
 		do_action( 'ep_opensea_settings_after_save', $settings);
-
 	}
 
 

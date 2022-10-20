@@ -118,9 +118,19 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         }
         return "";
     }
+    
 
     public function getCollection($url) {
         preg_match('~opensea\.io/collection/(.*)~i', (string) $url, $matches);
+        
+        $opensea_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
+
+        // print_r($opensea_settings);
+        // $api_key = "b61c8a54123d4dcb9acc1b9c26a01cd1";
+
+        if(isset($opensea_settings['api_key'])){
+            $api_key = isset($opensea_settings['api_key'])?$opensea_settings['api_key']:'b61c8a54123d4dcb9acc1b9c26a01cd1';
+        }
 
         if(!empty($matches[1])){
             $html = "";
@@ -136,7 +146,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             $results = wp_remote_get($url, [
                 'headers' => array(
                     'Content-Type' => 'application/json',
-                    'X-API-KEY' => "b61c8a54123d4dcb9acc1b9c26a01cd1",
+                    'X-API-KEY' => $api_key,
                 )
             ]);
             if (!is_wp_error($results) ) {
@@ -148,16 +158,17 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
             ob_start();  
             
-
             ?>
                 
                 <div class="ep-parent-wrapper ep-parent-ep-nft-gallery-r1a5mbx ">
                     <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx">
                         <div class="ep_nft_content_wrap ep_nft_grid nft_items preset-1">
                             <?php
-                                foreach ($jsonResult->assets as $key => $asset) {
-                                    $asset = $this->normalizeJSONData($asset);
-                                    print_r($asset);
+                                if(is_array($jsonResult->assets)){
+                                    foreach ($jsonResult->assets as $key => $asset) {
+                                        $asset = $this->normalizeJSONData($asset);
+                                        print_r($asset);
+                                    }
                                 }
                             ?>
                         </div>
@@ -166,9 +177,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
                 <?php $this->openSeaStyle($this->getParams()); ?>
 
-
-                
-    
             <?php $html = ob_get_clean();
 
             // wp_send_json($html);
