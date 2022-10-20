@@ -6,7 +6,6 @@
 
 $opensea_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
 
-
 $os_api_key = isset( $opensea_settings['api_key']) ? $opensea_settings['api_key'] : '';
 $limit = isset( $opensea_settings['limit']) ? $opensea_settings['limit'] : '';
 $orderby = isset( $opensea_settings['orderby']) ? $opensea_settings['orderby'] : '';

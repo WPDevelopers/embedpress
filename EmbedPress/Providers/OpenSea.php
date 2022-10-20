@@ -120,29 +120,35 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
     }
     
 
-    public function getOsSettingsData($key){
-       
-        $opensea_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
-        
-        if(isset($opensea_settings['api_key'])){
-            $api_key = isset($opensea_settings['api_key'])?$opensea_settings['api_key']:'b61c8a54123d4dcb9acc1b9c26a01cd1';
-        }
-    }
-
 
     /**
-     * Get Opensea Collection Data 
+     * Get Opensea Collection assets data 
      */
     public function getCollection($url) {
         preg_match('~opensea\.io/collection/(.*)~i', (string) $url, $matches);
         
+        $opensea_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
+
+        // print_r($opensea_settings);
+        // $api_key = "b61c8a54123d4dcb9acc1b9c26a01cd1";
+
+        
+        if(isset($opensea_settings['api_key'])){
+            $api_key = isset($opensea_settings['api_key'])?$opensea_settings['api_key']:'b61c8a54123d4dcb9acc1b9c26a01cd1';
+        }
+        if(isset($opensea_settings['orderby'])){
+            $orderby = isset($opensea_settings['orderby'])?$opensea_settings['orderby']:'desc';
+        }
+        if(isset($opensea_settings['limit'])){
+            $limit = isset($opensea_settings['limit'])?$opensea_settings['limit']:20;
+        }
 
         if(!empty($matches[1])){
             $html = "";
             $params = $this->getParams();
             $param = array(
-                'limit' => $params['limit'],
-                'order_direction' => $params['orderby'],
+                'limit' => $params['limit']?$param['limit']:$limit,
+                'order_direction' => $params['orderby']?$params['orderby']:$orderby,
                 'collection_slug' => $matches[1],
                 'include_orders' => true,
             );
