@@ -263,12 +263,13 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'pdf_toolbar',
             [
-                'label'        => __('Toolbar', 'embedpress'),
+                'label'        => sprintf(__('Toolbar %s', 'embedpress'), $this->pro_text),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => __('Show', 'embedpress'),
                 'label_off'    => __('Hide', 'embedpress'),
                 'return_value' => 'yes',
                 'default'      => 'yes',
+                'classes'     => $this->pro_class,
             ]
         );
 

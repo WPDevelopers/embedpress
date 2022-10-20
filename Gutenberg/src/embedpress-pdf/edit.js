@@ -410,15 +410,22 @@ class EmbedPressPDFEdit extends Component {
 
 						>
 
-							<ToggleControl
-								label={__('Toolbar', 'embedpress')}
-								description={__('Show or Hide toolbar. Note: If you disable toolbar access then every toolbar options will be disabled', 'embedpress')}
-								onChange={(toolbar) =>
-									setAttributes({ toolbar })
+							<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
+								<ToggleControl
+									label={__('Toolbar', 'embedpress')}
+									description={__('Show or Hide toolbar. Note: If you disable toolbar access then every toolbar options will be disabled', 'embedpress')}
+									onChange={(toolbar) =>
+										setAttributes({ toolbar })
+									}
+									checked={toolbar}
+									style={{ marginTop: '30px' }}
+								/>
+								{
+									(!isProPluginActive) && (
+										<span className='isPro'>{__('pro', 'embedpress')}</span>
+									)
 								}
-								checked={toolbar}
-								style={{ marginTop: '30px' }}
-							/>
+							</div>
 
 
 							{
@@ -496,7 +503,7 @@ class EmbedPressPDFEdit extends Component {
 							}
 						</PanelBody>
 					</InspectorControls>
-				</Fragment>
+				</Fragment >
 
 			);
 		}
