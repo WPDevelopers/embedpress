@@ -958,7 +958,7 @@ class Embedpress_Elementor extends Widget_Base
 	}
 	//End Wistia controls
 
-	
+
 
 	/**
 	 * Twitch  Controls
@@ -1347,7 +1347,7 @@ class Embedpress_Elementor extends Widget_Base
 	}
 	//End Vimeo controls
 
-	
+
 	/**
 	 * Spotify  Controls
 	 */
@@ -1415,16 +1415,16 @@ class Embedpress_Elementor extends Widget_Base
 		$condition = [
 			'embedpress_pro_embeded_source' => 'opensea',
 		];
-		
+
 		$this->start_controls_section(
 			'embedpress_opensea_control_section',
 			[
 				'label'       => __('OpenSea Control Settings', 'embedpress'),
 				'condition'    => $condition,
-	
+
 			]
 		);
-	
+
 		$this->add_control(
 			'nftperrow',
 			[
@@ -1450,7 +1450,7 @@ class Embedpress_Elementor extends Widget_Base
 						],
 					],
 				]
-				
+
 			]
 		);
 
@@ -1476,7 +1476,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 			]
 		);
-	
+
 		$this->add_control(
 			'nftimage',
 			[
@@ -1560,8 +1560,8 @@ class Embedpress_Elementor extends Widget_Base
 				'condition'    => $condition,
 			]
 		);
-	
-	
+
+
 		$this->end_controls_section();
 	}
 	//End OpenSea controls
@@ -1702,7 +1702,9 @@ class Embedpress_Elementor extends Widget_Base
 	{
 		$_settings = [];
 		foreach ($settings as $key => $value) {
-			if (!empty($value['size'])) {
+			if(empty($value)){
+				$_settings[$key] = 'false';
+			}else if (!empty($value['size'])) {
 				$_settings[$key] = $value['size'];
 			} else if (!empty($value['url'])) {
 				$_settings[$key] = $value['url'];

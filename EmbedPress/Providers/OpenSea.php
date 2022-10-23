@@ -27,11 +27,11 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
     public static $curltimeout = 30;
     /** inline {@inheritdoc} */
     /** @var array Array with allowed params for the current Provider */
-    protected $allowedParams = [ 
-        'maxwidth', 
-        'maxheight', 
-        'limit', 
-        'orderby', 
+    protected $allowedParams = [
+        'maxwidth',
+        'maxheight',
+        'limit',
+        'orderby',
         'limit',
         'orderby',
         'nftperrow',
@@ -118,15 +118,15 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         }
         return "";
     }
-    
+
 
 
     /**
-     * Get Opensea Collection assets data 
+     * Get Opensea Collection assets data
      */
     public function getCollection($url) {
         preg_match('~opensea\.io/collection/(.*)~i', (string) $url, $matches);
-        
+
         $opensea_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
 
         $api_key = 'b61c8a54123d4dcb9acc1b9c26a01cd1';
@@ -168,9 +168,9 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 $html = print_r($jsonResult, true);
             }
 
-            ob_start();  
+            ob_start();
             ?>
-                
+
                 <div class="ep-parent-wrapper ep-parent-ep-nft-gallery-r1a5mbx ">
                     <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx">
                         <div class="ep_nft_content_wrap ep_nft_grid nft_items preset-1">
@@ -178,7 +178,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                                 if(is_array($jsonResult->assets)){
                                     foreach ($jsonResult->assets as $key => $asset) {
                                         $asset = $this->normalizeJSONData($asset);
-                                        print_r($asset);
+                                        $template = $this->nftItemTemplate($asset);
+                                        print_r($template);
                                     }
                                 }
                             ?>
@@ -191,7 +192,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             <?php $html = ob_get_clean();
 
             // wp_send_json($html);
-            
+
             return $html;
         }
         return "";
@@ -199,7 +200,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
 
     /**
-     * Normalize json data 
+     * Normalize json data
      */
     public function normalizeJSONData($asset){
         $nftItem = [];
@@ -217,7 +218,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         $nftItem['last_sale'] = $asset->last_sale->total_price?$asset->last_sale->total_price:'';
         $nftItem['creator_url'] = 'https://opensea.io/'.$nftItem['created_by'];
 
-        return $this->nftItemTemplate($nftItem);
+        return $nftItem;
     }
 
     /**
@@ -228,16 +229,16 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         $params = $this->getParams();
 
-        // $params = wp_parse_args( $params, [
-        //     'nftimage' => true, 
-        //     'nfttitle' => true,
-        //     'nftcreator' => true,
-        //     'nftbutton' => true,
-        //     'nftprice' => true,
-        //     'nftlastsale' => true
-        // ] );
+        $params = wp_parse_args( $params, [
+            'nftimage' => true,
+            'nfttitle' => true,
+            'nftcreator' => true,
+            'nftbutton' => true,
+            'nftprice' => true,
+            'nftlastsale' => true
+        ] );
 
-        print_r($params);
+        // print_r($params);
 
 
         $name = $item['name'] ? $item['name'] : '#'.$item['id'];
@@ -246,11 +247,11 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         $creator_img_url = $item['creator_img_url'];
         $current_price = $item['current_price']?($item['current_price'][0]->current_price / 1000000000000000000) : '';
         $last_sale = '';
-        
+
         if(!empty($item['last_sale']) ){
             $last_sale = $item['last_sale'] / 1000000000000000000;
         }
-        
+
         $eth_icon = '
             <svg width="1535" height="2500" viewBox="0 0 256 417"
             xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
@@ -272,7 +273,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             <div class="ep_nft_price ep_current_price">
                 <span class="eb_nft_label">Price:</span>
                 <span  class="eb_nft_currency">'.$eth_icon.'</span>
-                <span class="eb_nft_price">'. esc_html(round($current_price, 4)).'</span>
+                <span class="eb_nft_price">'. esc_html(round((float) $current_price, 4)).'</span>
             </div>
             ';
         }
@@ -284,7 +285,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             <div class="ep_nft_price ep_nft_last_sale">
                 <span class="eb_nft_label">Last Sale:</span>
                 <span  class="eb_nft_currency">'.$eth_icon.'</span>
-                <span class="eb_nft_price">'. esc_html(round($last_sale, 4)).'</span>
+                <span class="eb_nft_price">'. esc_html(round((float) $last_sale, 4)).'</span>
             </div>
             ';
         }
@@ -321,7 +322,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         endif;
 
         $template = '
-                <div class="ep_nft_item">     
+                <div class="ep_nft_item">
                     '.$thumbnail.'
                     <div class="ep_nft_content">
                        '.$title.'
@@ -334,9 +335,9 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                         </div>
                         '.$nftbutton.'
                     </div>
-                </div>   
+                </div>
             ';
-        
+
         return $template;
      }
 
@@ -363,7 +364,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
             $uniqid = '.ose-uid-'.md5($this->getUrl());
         ?>
-        
+
         <style>
             <?php echo esc_html($uniqid); ?> .ep_nft_content_wrap {
                 grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($nftperrow); ?>, 1fr))!important;
