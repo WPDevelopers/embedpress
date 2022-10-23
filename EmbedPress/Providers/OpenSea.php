@@ -129,25 +129,26 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         
         $opensea_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
 
-        // print_r($opensea_settings);
-        // $api_key = "b61c8a54123d4dcb9acc1b9c26a01cd1";
+        $api_key = 'b61c8a54123d4dcb9acc1b9c26a01cd1';
+        $orderby = 'desc';
+        $limit = 20;
 
-        
-        if(isset($opensea_settings['api_key'])){
-            $api_key = isset($opensea_settings['api_key'])?$opensea_settings['api_key']:'b61c8a54123d4dcb9acc1b9c26a01cd1';
+        if(!empty($opensea_settings['api_key'])){
+            $api_key = $opensea_settings['api_key'];
         }
-        if(isset($opensea_settings['orderby'])){
-            $orderby = isset($opensea_settings['orderby'])?$opensea_settings['orderby']:'desc';
+        if(!empty($opensea_settings['orderby'])){
+            $orderby = $opensea_settings['orderby'];
         }
-        if(isset($opensea_settings['limit'])){
-            $limit = isset($opensea_settings['limit'])?$opensea_settings['limit']:20;
+        if(!empty($opensea_settings['limit'])){
+            $limit = $opensea_settings['limit'];
         }
+
 
         if(!empty($matches[1])){
             $html = "";
             $params = $this->getParams();
             $param = array(
-                'limit' => $params['limit']?$param['limit']:$limit,
+                'limit' => $params['limit']?$params['limit']:$limit,
                 'order_direction' => $params['orderby']?$params['orderby']:$orderby,
                 'collection_slug' => $matches[1],
                 'include_orders' => true,
@@ -168,7 +169,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             }
 
             ob_start();  
-            
             ?>
                 
                 <div class="ep-parent-wrapper ep-parent-ep-nft-gallery-r1a5mbx ">
@@ -226,6 +226,20 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
      public function nftItemTemplate($item){
 
+        $params = $this->getParams();
+
+        // $params = wp_parse_args( $params, [
+        //     'nftimage' => true, 
+        //     'nfttitle' => true,
+        //     'nftcreator' => true,
+        //     'nftbutton' => true,
+        //     'nftprice' => true,
+        //     'nftlastsale' => true
+        // ] );
+
+        print_r($params);
+
+
         $name = $item['name'] ? $item['name'] : '#'.$item['id'];
         $image_url = $item['image_url'] ? $item['image_url'] : ($item['image_thumbnail_url']?$item['image_thumbnail_url'] : ($item['image_preview_url']?$item['image_preview_url'] : $item['image_original_url']));
         $created_by = $item['created_by'];
@@ -252,7 +266,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             ';
 
         $current_price_template = '';
-        if(!empty($current_price)){
+
+        if(!empty($current_price) && ($params['nftprice'] == 'yes') || ($params['nftprice'] == true)){
             $current_price_template = '
             <div class="ep_nft_price ep_current_price">
                 <span class="eb_nft_label">Price:</span>
@@ -264,44 +279,64 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         $last_sale_price_template = '';
 
-        if(!empty($last_sale)){
+        if(!empty($last_sale) && ($params['nftlastsale'] == 'yes') || ($params['nftlastsale'] == true)){
             $last_sale_price_template = '
             <div class="ep_nft_price ep_nft_last_sale">
                 <span class="eb_nft_label">Last Sale:</span>
                 <span  class="eb_nft_currency">'.$eth_icon.'</span>
-                <span class="eb_nft_price">'. esc_html(round($last_sale, 2)).'</span>
+                <span class="eb_nft_price">'. esc_html(round($last_sale, 4)).'</span>
             </div>
             ';
         }
-        
+
+        $thumbnail = '';
+        $title = '';
+        $creator = '';
+        $nftbutton = '';
+
+        if(($params['nftimage'] == 'yes') || ($params['nftimage'] == 'true')):
+            $thumbnail = '<div class="ep_nft_thumbnail"><img
+            src="'.esc_url($image_url).'"
+            alt="Dopamine"></div>';
+        endif;
+
+        if(($params['nftcreator'] == 'yes') || ($params['nftcreator'] == 'true')):
+            $creator = '<div class="ep_nft_owner_wrapper">
+                <div class="ep_nft_creator"><img
+                        src="'.esc_url($creator_img_url).'"
+                        alt="'.esc_attr($created_by).'"><span>Created by <a target="_blank"
+                            href="'.esc_url($item['creator_url']).'">'.esc_html($created_by).'</a></span>
+                </div>
+            </div>';
+        endif;
+
+        if(($params['nfttitle'] == 'yes') || ($params['nfttitle'] == 'true')):
+            $title = ' <h3 class="ep_nft_title">'.esc_html($name).'</h3>';
+        endif;
+
+        if(($params['nftbutton'] == 'yes') || ($params['nftbutton'] == 'true')):
+            $nftbutton = '<div class="ep_nft_button">
+                <a target="_blank" href="'.esc_url($item['permalink']).'">See Details</a>
+                </div>';
+        endif;
 
         $template = '
-                <div class="ep_nft_item">
-                    <div class="ep_nft_thumbnail"><img
-                            src="'.esc_url($image_url).'"
-                            alt="Dopamine"></div>
+                <div class="ep_nft_item">     
+                    '.$thumbnail.'
                     <div class="ep_nft_content">
-                        <h3 class="ep_nft_title">'.esc_html($name).'</h3>
+                       '.$title.'
                         <div class="ep_nft_content_body">
-                            <div class="ep_nft_owner_wrapper">
-                                <div class="ep_nft_creator"><img
-                                        src="'.esc_url($creator_img_url).'"
-                                        alt="'.esc_attr($created_by).'"><span>Created by <a target="_blank"
-                                            href="'.esc_url($item['creator_url']).'">'.esc_html($created_by).'</a></span>
-                                </div>
-                            </div>
-                            
+                           '.$creator.'
                             <div class="ep_nft_price_wrapper">
                                 '.$current_price_template.'
                                 '.$last_sale_price_template.'
                             </div>
                         </div>
-                        <div class="ep_nft_button"><a target="_blank"
-                                    href="'.esc_url($item['permalink']).'">See
-                                    Details</a></div>
+                        '.$nftbutton.'
                     </div>
                 </div>   
             ';
+        
         return $template;
      }
 
@@ -317,6 +352,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
     }
 
     public function openSeaStyle($params){
+
+        print_r($this->getParams());
             if($params['nftperrow'] > 0){
                 $nftperrow = 'calc('.(100 / $params['nftperrow']).'% - '.$params['gapbetweenitem'].'px)';
             }
@@ -325,31 +362,12 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             }
 
             $uniqid = '.ose-uid-'.md5($this->getUrl());
-            
         ?>
+        
         <style>
-            <?php echo esc_html($uniqid); ?> .ep_nft_thumbnail{
-                display: <?php echo (($params['nftimage'] == 'yes') || ($params['nftimage'] == 'true'))? 'inherit' : 'none'; ?>;
-            }
-            <?php echo esc_html($uniqid); ?> .ep_nft_title{
-                display: <?php echo (($params['nfttitle'] == 'yes') || ($params['nfttitle'] == 'true'))? 'inherit' : 'none!important'; ?>;
-            }
-            <?php echo esc_html($uniqid); ?> .ep_nft_creator{
-                display: <?php echo (($params['nftcreator'] == 'yes') || ($params['nftcreator'] == 'true'))? 'flex' : 'none!important'; ?>;
-            }
-            <?php echo esc_html($uniqid); ?> .ep_current_price{
-                display: <?php echo (($params['nftprice'] == 'yes') || ($params['nftprice'] == 'true'))? 'flex' : 'none!important'; ?>;
-            }
-            <?php echo esc_html($uniqid); ?> .ep_nft_last_sale{
-                display: <?php echo (($params['nftlastsale'] == 'yes') || ($params['nftlastsale'] == 'true'))? 'flex' : 'none!important'; ?>;
-            }
-            <?php echo esc_html($uniqid); ?> .ep_nft_button{
-                display: <?php echo (($params['nftbutton'] == 'yes') || ($params['nftbutton'] == 'true'))? 'inherit' : 'none!important'; ?>;
-            }
             <?php echo esc_html($uniqid); ?> .ep_nft_content_wrap {
                 grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($nftperrow); ?>, 1fr))!important;
             }
-            
         </style>
     <?php
     }

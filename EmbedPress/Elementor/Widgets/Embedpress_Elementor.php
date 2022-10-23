@@ -1484,7 +1484,6 @@ class Embedpress_Elementor extends Widget_Base
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => '',
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'default'      => 'yes',
@@ -1717,8 +1716,10 @@ class Embedpress_Elementor extends Widget_Base
 
 	protected function render()
 	{
+
 		add_filter('embedpress_should_modify_spotify', '__return_false');
 		$settings      = $this->get_settings_for_display();
+
 		$is_editor_view = Plugin::$instance->editor->is_edit_mode();
 		$link = $settings['embedpress_embeded_link'];
 		$is_apple_podcast = (strpos($link, 'podcasts.apple.com') !== false);

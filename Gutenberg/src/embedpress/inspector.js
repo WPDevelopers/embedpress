@@ -4,19 +4,19 @@ import OpenSea from './InspectorControl/OpenSea';
 /**
  * WordPress dependencies
  */
- const { __ } = wp.i18n;
- 
- const {
-     TextControl,
-     PanelBody
- } = wp.components;
- 
- const {
-     InspectorControls
- } = wp.blockEditor;
- 
+const { __ } = wp.i18n;
 
-export default function Inspector({attributes, setAttributes, isYTChannel, isOpensea}) {
+const {
+    TextControl,
+    PanelBody
+} = wp.components;
+
+const {
+    InspectorControls
+} = wp.blockEditor;
+
+
+export default function Inspector({ attributes, setAttributes, isYTChannel, isOpensea }) {
 
     const {
         width,
@@ -33,25 +33,30 @@ export default function Inspector({attributes, setAttributes, isYTChannel, isOpe
                     onChange={(width) => setAttributes({ width })}
                 />
 
-                <TextControl
-                    label={__("Height")}
-                    value={height}
-                    onChange={(height) => setAttributes({ height })}
-                />
+                {
+                    !isOpensea && (
+                        <TextControl
+                            label={__("Height")}
+                            value={height}
+                            onChange={(height) => setAttributes({ height })}
+                        />
+                    )
+
+                }
 
                 {
                     isYTChannel && (
-                        <Youtube attributes={attributes} setAttributes={setAttributes}  />
+                        <Youtube attributes={attributes} setAttributes={setAttributes} />
                     )
                 }
 
-                {  
+                {
                     isOpensea && (
-                        <OpenSea attributes={attributes} setAttributes={setAttributes}  />
+                        <OpenSea attributes={attributes} setAttributes={setAttributes} />
                     )
                 }
 
-                
+
             </PanelBody>
         </InspectorControls>
     )
