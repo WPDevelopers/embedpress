@@ -130,18 +130,35 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: true
 			},
+			prefix_nftcreator: {
+				type: 'string',
+				default: 'Created By'
+			},
 			nftprice: {
 				type: 'boolean',
 				default: true
+			},
+			prefix_nftprice: {
+				type: 'string',
+				default: 'Price'
 			},
 			nftlastsale: {
 				type: 'boolean',
 				default: true
 			},
+			prefix_nftlastsale: {
+				type: 'string',
+				default: 'Last Sale'
+			},
 			nftbutton: {
 				type: 'boolean',
 				default: true
 			},
+			label_nftbutton: {
+				type: 'string',
+				default: 'Sea Datails'
+			},
+			
 		},
 		/**
 		 * The edit function describes the structure of your block in the context of the editor.

@@ -38,10 +38,15 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         'gapbetweenitem',
         'nftimage',
         'nftcreator',
+        'prefix_nftcreator',
         'nfttitle',
         'nftprice',
+        'prefix_nftprice',
         'nftlastsale',
-        'nftbutton' ];
+        'prefix_nftlastsale',
+        'nftbutton',
+        'label_nftbutton',
+    ];
 
     /** inline {@inheritdoc} */
     protected static $hosts = [
@@ -228,6 +233,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
      public function nftItemTemplate($item){
 
         $params = $this->getParams();
+        
 
         $params = wp_parse_args( $params, [
             'nftimage' => true,
@@ -238,19 +244,46 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             'nftlastsale' => true
         ] );
 
-        // print_r($params);
+        //Intialize default value
+        $thumbnail = '';
+        $title = '';
+        $creator = '';
+        $prefix_creator = 'Created By';
+        $current_price = '';
+        $prefix_current_price = 'Price';
+        $last_sale = '';
+        $prefix_last_sale = 'Last Sale';
+        $nftbutton = '';
+        $label_nftbutton = 'Sea Details';
 
+        $current_price_template = '';
+        $last_sale_price_template = '';
 
+        // Assgined current value
         $name = $item['name'] ? $item['name'] : '#'.$item['id'];
         $image_url = $item['image_url'] ? $item['image_url'] : ($item['image_thumbnail_url']?$item['image_thumbnail_url'] : ($item['image_preview_url']?$item['image_preview_url'] : $item['image_original_url']));
         $created_by = $item['created_by'];
         $creator_img_url = $item['creator_img_url'];
-        $current_price = $item['current_price']?($item['current_price'][0]->current_price / 1000000000000000000) : '';
-        $last_sale = '';
+        $current_price = $item['current_price']?(float)($item['current_price'][0]->current_price / 1000000000000000000) : '';
 
         if(!empty($item['last_sale']) ){
-            $last_sale = $item['last_sale'] / 1000000000000000000;
+            $last_sale = (float) $item['last_sale'] / 1000000000000000000;
         }
+
+        // Checked and assigned prefix text value 
+        if(!empty($params['prefix_nftcreator'])){
+            $prefix_creator = $params['prefix_nftcreator'];
+        }
+        if(!empty($params['prefix_nftprice'])){
+            $prefix_current_price = $params['prefix_nftprice'];
+        }
+        if(!empty($params['prefix_nftlastsale'])){
+            $prefix_last_sale = $params['prefix_nftlastsale'];
+        }
+        if(!empty($params['label_nftbutton'])){
+            $label_nftbutton = $params['label_nftbutton'];
+        }
+
 
         $eth_icon = '
             <svg width="1535" height="2500" viewBox="0 0 256 417"
@@ -266,46 +299,39 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             </svg>
             ';
 
-        $current_price_template = '';
 
-        if(!empty($current_price) && ($params['nftprice'] == 'yes') || ($params['nftprice'] == true)){
+        if(!empty($current_price) && ($params['nftprice'] == 'yes') || ($params['nftprice'] == 'true')){
             $current_price_template = '
             <div class="ep_nft_price ep_current_price">
-                <span class="eb_nft_label">Price:</span>
+                <span class="eb_nft_label">'.esc_html($prefix_current_price).'</span>
                 <span  class="eb_nft_currency">'.$eth_icon.'</span>
-                <span class="eb_nft_price">'. esc_html(round((float) $current_price, 4)).'</span>
+                <span class="eb_nft_price">'. esc_html(round($current_price, 4)).'</span>
             </div>
             ';
         }
 
-        $last_sale_price_template = '';
-
-        if(!empty($last_sale) && ($params['nftlastsale'] == 'yes') || ($params['nftlastsale'] == true)){
+        if(!empty($last_sale) && ($params['nftlastsale'] == 'yes') || ($params['nftlastsale'] == 'true')){
             $last_sale_price_template = '
             <div class="ep_nft_price ep_nft_last_sale">
-                <span class="eb_nft_label">Last Sale:</span>
+                <span class="eb_nft_label">'.esc_html($prefix_last_sale).'</span>
                 <span  class="eb_nft_currency">'.$eth_icon.'</span>
-                <span class="eb_nft_price">'. esc_html(round((float) $last_sale, 4)).'</span>
+                <span class="eb_nft_price">'. esc_html(round($last_sale, 4)).'</span>
             </div>
             ';
         }
 
-        $thumbnail = '';
-        $title = '';
-        $creator = '';
-        $nftbutton = '';
 
         if(($params['nftimage'] == 'yes') || ($params['nftimage'] == 'true')):
             $thumbnail = '<div class="ep_nft_thumbnail"><img
             src="'.esc_url($image_url).'"
-            alt="Dopamine"></div>';
+            alt="'.esc_attr($name).'"></div>';
         endif;
 
         if(($params['nftcreator'] == 'yes') || ($params['nftcreator'] == 'true')):
             $creator = '<div class="ep_nft_owner_wrapper">
                 <div class="ep_nft_creator"><img
                         src="'.esc_url($creator_img_url).'"
-                        alt="'.esc_attr($created_by).'"><span>Created by <a target="_blank"
+                        alt="'.esc_attr($created_by).'"><span>'.esc_html($prefix_creator).'<a target="_blank"
                             href="'.esc_url($item['creator_url']).'">'.esc_html($created_by).'</a></span>
                 </div>
             </div>';
@@ -317,7 +343,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         if(($params['nftbutton'] == 'yes') || ($params['nftbutton'] == 'true')):
             $nftbutton = '<div class="ep_nft_button">
-                <a target="_blank" href="'.esc_url($item['permalink']).'">See Details</a>
+                <a target="_blank" href="'.esc_url($item['permalink']).'">'.esc_html($label_nftbutton).'</a>
                 </div>';
         endif;
 
@@ -354,7 +380,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
     public function openSeaStyle($params){
 
-        print_r($this->getParams());
             if($params['nftperrow'] > 0){
                 $nftperrow = 'calc('.(100 / $params['nftperrow']).'% - '.$params['gapbetweenitem'].'px)';
             }

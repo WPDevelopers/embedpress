@@ -13,6 +13,7 @@ import Inspector from './inspector';
  */
 const { __ } = wp.i18n;
 import { embedPressIcon } from '../common/icons';
+import SkeletonLoaading from '../common/skeletone-loading';
 
 const {
 	useBlockProps
@@ -41,10 +42,15 @@ export default function EmbedPress(props) {
 		gapbetweenitem,
 		nftimage,
 		nftcreator,
+		prefix_nftcreator,
 		nfttitle,
 		nftprice,
+		prefix_nftprice,
 		nftlastsale,
-		nftbutton, } = attributes;
+		prefix_nftlastsale,
+		nftbutton,
+		label_nftbutton,
+	} = attributes;
 
 	const blockProps = useBlockProps ? useBlockProps() : [];
 
@@ -116,9 +122,12 @@ export default function EmbedPress(props) {
 						gapbetweenitem: gapbetweenitem ? gapbetweenitem : 30,
 						nftimage: nftimage ? nftimage : false,
 						nftcreator: nftcreator ? nftcreator : false,
+						prefix_nftcreator: prefix_nftcreator ? prefix_nftcreator : 'Created By',
 						nfttitle: nfttitle ? nfttitle : false,
 						nftprice: nftprice ? nftprice : false,
+						prefix_nftprice: prefix_nftprice ? prefix_nftprice : 'Price',
 						nftlastsale: nftlastsale ? nftlastsale : false,
+						prefix_nftlastsale: prefix_nftlastsale ? prefix_nftlastsale : 'Last Sale',
 						nftbutton: nftbutton ? nftbutton : false
 					};
 
@@ -163,7 +172,7 @@ export default function EmbedPress(props) {
 			}
 		}, 300)
 		return () => clearTimeout(delayDebounceFn)
-	}, [pagesize, limit, orderby, nftimage, nfttitle, nftprice, nftlastsale, nftperrow, nftbutton, nftcreator]);
+	}, [pagesize, limit, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator]);
 
 	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
 
@@ -189,17 +198,33 @@ export default function EmbedPress(props) {
 				/>
 			</div>}
 
-			{fetching ? <div className={className}><EmbedLoading /> </div> : null}
 
-			{(embedHTML && !editingURL && !fetching) && <figure {...blockProps} >
-				<EmbedWrap style={{ display: fetching ? 'none' : '' }} dangerouslySetInnerHTML={{
+			{
+				!isOpensea && (
+					fetching ? <div className={className}><EmbedLoading /> </div> : null
+				)
+			}
+
+			{/* {
+				isOpensea && fetching && (
+					 <div className={className}><SkeletonLoaading clientId={clientId} columns={columns} limit={limit} gapbetweenitem={gapbetweenitem}/> </div>
+				)
+			} */}
+
+
+			{(embedHTML && !editingURL && (!fetching || isOpensea)) && <figure {...blockProps} >
+				<EmbedWrap style={{ display: (fetching && !isOpensea) ? 'none' : '' }} dangerouslySetInnerHTML={{
 					__html: embedHTML
 				}}></EmbedWrap>
 
-				{/* <div
-					className="block-library-embed__interactive-overlay"
-					onMouseUp={setAttributes({ interactive: true })}
-				/> */}
+				{
+					fetching && (
+						<div style={{filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '0.3'}}
+							className="block-library-embed__interactive-overlay"
+							onMouseUp={setAttributes({ interactive: true })}
+						/>
+					)
+				}
 
 				<EmbedControls
 					showEditButton={embedHTML && !cannotEmbed}
@@ -207,7 +232,7 @@ export default function EmbedPress(props) {
 				/>
 
 			</figure>}
- 
+
 
 			{
 				isYTChannel && (

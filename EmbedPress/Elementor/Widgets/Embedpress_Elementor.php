@@ -171,7 +171,6 @@ class Embedpress_Elementor extends Widget_Base
 		$this->init_dailymotion_control();
 		$this->init_twitch_control();
 		$this->init_opensea_control();
-
 		$this->end_controls_section();
 
 		$this->init_youtube_channel_section();
@@ -212,6 +211,7 @@ class Embedpress_Elementor extends Widget_Base
 		}
 
 		$this->init_style_controls();
+		$this->init_opensea_color_and_typography();
 	}
 
 	/**
@@ -1392,7 +1392,7 @@ class Embedpress_Elementor extends Widget_Base
 				'min' => 1,
 				'max' => 100,
 				'step' => 1,
-				'default' => 2,
+				'default' => 20,
 				'condition'   => $condition
 			]
 		);
@@ -1518,6 +1518,20 @@ class Embedpress_Elementor extends Widget_Base
 				'condition'    => $condition,
 			]
 		);
+
+		$this->add_control(
+			'prefix_nftcreator',
+			[
+				'label' => esc_html__( 'Prefix', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'Created By', 'embedpress' ),
+				'placeholder' => esc_html__( 'Type your created by text here', 'embedpress' ),
+				'condition' => [
+					'nftcreator' => 'yes',
+				]
+			]
+		);
+
 		$this->add_control(
 			'nftprice',
 			[
@@ -1532,6 +1546,20 @@ class Embedpress_Elementor extends Widget_Base
 				'condition'    => $condition,
 			]
 		);
+
+		$this->add_control(
+			'prefix_nftprice',
+			[
+				'label' => esc_html__( 'Prefix', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'Price', 'embedpress' ),
+				'placeholder' => esc_html__( 'Type your price text here', 'embedpress' ),
+				'condition' => [
+					'nftprice' => 'yes',
+				]
+			]
+		);
+
 		$this->add_control(
 			'nftlastsale',
 			[
@@ -1547,6 +1575,19 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 		$this->add_control(
+			'prefix_nftlastsale',
+			[
+				'label' => esc_html__( 'Prefix', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'Last Sale', 'embedpress' ),
+				'placeholder' => esc_html__( 'Type your last sale text here', 'embedpress' ),
+				'condition' => [
+					'nftlastsale' => 'yes',
+				]
+			]
+		);
+
+		$this->add_control(
 			'nftbutton',
 			[
 				'label'       => __('Button', 'embedpress'),
@@ -1560,6 +1601,230 @@ class Embedpress_Elementor extends Widget_Base
 				'condition'    => $condition,
 			]
 		);
+		$this->add_control(
+			'label_nftbutton',
+			[
+				'label' => esc_html__( 'Button Label', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'See Datails', 'embedpress' ),
+				'placeholder' => esc_html__( 'Type your button text here', 'embedpress' ),
+				'condition' => [
+					'nftbutton' => 'yes',
+				]
+			]
+		);
+
+
+		$this->end_controls_section();
+	}
+
+	public function init_opensea_color_and_typography(){
+		$condition = [
+			'embedpress_pro_embeded_source' => 'opensea',
+		];
+
+		$this->start_controls_section(
+			'embedpress_color_typography_control_section',
+			[
+				'label'       => __('Color and Typography', 'embedpress'),
+				'tab'   => Controls_Manager::TAB_STYLE,
+				'condition'    => $condition,
+			]
+		);
+
+		
+		$this->add_control(
+			'title_heading',
+			[
+				'label' => esc_html__( 'Title', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+		
+		$this->add_control(
+			'nft_title_color',
+			[
+				'label' => esc_html__( 'Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .ep_nft_title' => 'color: {{VALUE}}',
+				],
+			]
+		);
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name' => 'nft_title_typography',
+				'selector' => '{{WRAPPER}} .ep_nft_title',
+			]
+		);
+		
+
+		$this->add_control(
+			'creator_heading',
+			[
+				'label' => esc_html__( 'Creator', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+		
+		$this->add_control(
+			'nft_creator_color',
+			[
+				'label' => esc_html__( 'Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .ep_nft_creator span' => 'color: {{VALUE}}',
+				],
+			]
+		);
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name' => 'nft_creator_typography',
+				'selector' => '{{WRAPPER}} .ep_nft_creator span',
+			]
+		);
+
+		$this->add_control(
+			'nft_created_by_color',
+			[
+				'label' => esc_html__( 'Link Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .ep_nft_creator span a' => 'color: {{VALUE}}',
+				],
+			]
+		);
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'label' => esc_html__( 'Link Typography', 'embedpress' ),
+				'name' => 'nft_created_by_typography',
+				'selector' => '{{WRAPPER}} .ep_nft_creator span a',
+			]
+		);
+
+		$this->add_control(
+			'price_heading',
+			[
+				'label' => esc_html__( 'Current Price', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+		
+		$this->add_control(
+			'nft_price_color',
+			[
+				'label' => esc_html__( 'Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .ep_nft_price span' => 'color: {{VALUE}}',
+				],
+			]
+		);
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name' => 'nft_price_typography',
+				'selector' => '{{WRAPPER}} .ep_nft_price span',
+			]
+		);
+
+		$this->add_control(
+			'price_heading',
+			[
+				'label' => esc_html__( 'Current Price', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+		
+		$this->add_control(
+			'nft_price_color',
+			[
+				'label' => esc_html__( 'Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .ep_current_price span' => 'color: {{VALUE}}',
+				],
+			]
+		);
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name' => 'nft_price_typography',
+				'selector' => '{{WRAPPER}} .ep_current_price span',
+			]
+		);
+
+		$this->add_control(
+			'last_sale_heading',
+			[
+				'label' => esc_html__( 'Last Sale Price', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+		
+		$this->add_control(
+			'nft_last_sale_color',
+			[
+				'label' => esc_html__( 'Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .ep_nft_last_sale span' => 'color: {{VALUE}}',
+				],
+			]
+		);
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name' => 'nft_last_sale_typography',
+				'selector' => '{{WRAPPER}} .ep_nft_last_sale span',
+			]
+		);
+		$this->add_control(
+			'nftbutton_heading',
+			[
+				'label' => esc_html__( 'Button', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+		
+		
+		$this->add_control(
+			'nftbutton_color',
+			[
+				'label' => esc_html__( 'Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_content .ep_nft_button a' => 'color: {{VALUE}}',
+				],
+			]
+		);
+		$this->add_control(
+			'nftbutton_bg_color',
+			[
+				'label' => esc_html__( 'Background Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_content .ep_nft_button a' => 'background-color: {{VALUE}}',
+				],
+			]
+		);
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name' => 'nftbutton_typography',
+				'selector' => '{{WRAPPER}} .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_content .ep_nft_button a',
+			]
+		);
+
 
 
 		$this->end_controls_section();
@@ -1573,30 +1838,10 @@ class Embedpress_Elementor extends Widget_Base
 		$this->start_controls_section(
 			'embedpress_style_section',
 			[
-				'label' => __('Style', 'embedpress'),
+				'label' => __('General', 'embedpress'),
 				'tab'   => Controls_Manager::TAB_STYLE,
 			]
 		);
-		//$this->add_control(
-		//	'embedpress_elementor_aspect_ratio',
-		//	[
-		//		'label'              => __( 'Aspect Ratio', 'embedpress' ),
-		//		'description'              => __( 'Good for any video. You may turn it off for other embed type.', 'embedpress' ),
-		//		'type'               => Controls_Manager::SELECT,
-		//		'options'            => [
-		//			0 => __('None'),
-		//			'169' => '16:9',
-		//			'219' => '21:9',
-		//			'43'  => '4:3',
-		//			'32'  => '3:2',
-		//			'11'  => '1:1',
-		//			'916' => '9:16',
-		//		],
-		//		'default'            => 0,
-		//		'prefix_class'       => 'embedpress-aspect-ratio-',
-		//		'frontend_available' => true,
-		//	]
-		//);
 		$this->add_control(
 			'width',
 			[
