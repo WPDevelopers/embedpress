@@ -156,9 +156,60 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			label_nftbutton: {
 				type: 'string',
-				default: 'Sea Datails'
+				default: 'See Details'
 			},
-			
+
+			// color and typograpyh
+			titleColor: {
+				type: 'string',
+			},
+
+			titleFontsize: {
+				type: 'string',
+			},
+			creatorColor: {
+				type: 'string',
+			},
+
+			creatorFontsize: {
+				type: 'string',
+			},
+
+			creatorLinkColor: {
+				type: 'string',
+			},
+
+			creatorLinkFontsize: {
+				type: 'string',
+			},
+
+			priceColor: {
+				type: 'string',
+			},
+
+			priceFontsize: {
+				type: 'string',
+			},
+
+			lastSaleColor: {
+				type: 'string',
+			},
+
+			lastSaleFontsize: {
+				type: 'string',
+			},
+			buttonTextColor: {
+				type: 'string',
+			},
+
+			buttonBackgroundColor: {
+				type: 'string',
+			},
+
+			buttonTextFontsize: {
+				type: 'string',
+			}, 
+
 		},
 		/**
 		 * The edit function describes the structure of your block in the context of the editor.

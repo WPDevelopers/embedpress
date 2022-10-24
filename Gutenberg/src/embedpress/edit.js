@@ -205,12 +205,6 @@ export default function EmbedPress(props) {
 				)
 			}
 
-			{/* {
-				isOpensea && fetching && (
-					 <div className={className}><SkeletonLoaading clientId={clientId} columns={columns} limit={limit} gapbetweenitem={gapbetweenitem}/> </div>
-				)
-			} */}
-
 
 			{(embedHTML && !editingURL && (!fetching || isOpensea)) && <figure {...blockProps} >
 				<EmbedWrap style={{ display: (fetching && !isOpensea) ? 'none' : '' }} dangerouslySetInnerHTML={{

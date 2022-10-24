@@ -1726,6 +1726,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 			]
 		);
+		
 		$this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			[
@@ -1753,6 +1754,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 			]
 		);
+
 		$this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			[
@@ -1824,8 +1826,6 @@ class Embedpress_Elementor extends Widget_Base
 				'selector' => '{{WRAPPER}} .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_content .ep_nft_button a',
 			]
 		);
-
-
 
 		$this->end_controls_section();
 	}
