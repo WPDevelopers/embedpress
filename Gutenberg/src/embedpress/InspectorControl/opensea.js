@@ -32,6 +32,46 @@ export default function OpenSea({ attributes, setAttributes }) {
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
+    const addProAlert = (e, isProPluginActive) => {
+		if (!isProPluginActive) {
+			document.querySelector('.pro__alert__wrap').style.display = 'block';
+		}
+	}
+
+	const removeAlert = () => {
+		if (document.querySelector('.pro__alert__wrap')) {
+			document.querySelector('.pro__alert__wrap .pro__alert__card .button').addEventListener('click', (e) => {
+				document.querySelector('.pro__alert__wrap').style.display = 'none';
+			});
+		}
+	}
+
+
+	const isPro = (display) => {
+		const alertPro = `
+		<div class="pro__alert__wrap" style="display: none;">
+			<div class="pro__alert__card">
+				<img src="../wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/alert.svg" alt=""/>
+					<h2>Opps...</h2>
+					<p>You need to upgrade to the <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Premium</a> Version to use this feature</p>
+					<a href="#" class="button radius-10">Close</a>
+			</div>
+		</div>
+		`;
+
+		const dom = document.createElement('div');
+		dom.innerHTML = alertPro;
+
+		return dom;
+
+	}
+
+    if (!document.querySelector('.pro__alert__wrap')) {
+        document.querySelector('body').append(isPro('none'));
+        removeAlert();
+    }
+
+
     return (
         <div>
             <RangeControl
@@ -79,11 +119,18 @@ export default function OpenSea({ attributes, setAttributes }) {
             />
             {
                 nftcreator && (
-                    <TextControl
-                        label={__("Creator Prefix", "embedpress")}
-                        value={prefix_nftcreator}
-                        onChange={(prefix_nftcreator) => setAttributes({ prefix_nftcreator })}
-                    />
+                    <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                        <TextControl
+                            label={__("Creator Prefix", "embedpress")}
+                            value={prefix_nftcreator}
+                            onChange={(prefix_nftcreator) => setAttributes({ prefix_nftcreator })}
+                        />
+                        {
+                            (!isProPluginActive) && (
+                                <span className='isPro'>{__('pro', 'embedpress')}</span>
+                            )
+                        }
+                    </div>
                 )
             }
 
@@ -94,11 +141,18 @@ export default function OpenSea({ attributes, setAttributes }) {
             />
             {
                 nftprice && (
-                    <TextControl
-                        label={__("Price Prefix", "embedpress")}
-                        value={prefix_nftprice}
-                        onChange={(prefix_nftprice) => setAttributes({ prefix_nftprice })}
-                    />
+                    <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                        <TextControl
+                            label={__("Price Prefix", "embedpress")}
+                            value={prefix_nftprice}
+                            onChange={(prefix_nftprice) => setAttributes({ prefix_nftprice })}
+                        />
+                        {
+                            (!isProPluginActive) && (
+                                <span className='isPro'>{__('pro', 'embedpress')}</span>
+                            )
+                        }
+                    </div>
                 )
             }
 
@@ -109,7 +163,7 @@ export default function OpenSea({ attributes, setAttributes }) {
             />
             {
                 nftlastsale && (
-                    <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
+                    <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                         <TextControl
                             label={__("Last Sale Prefix", "embedpress")}
                             value={prefix_nftlastsale}
@@ -132,11 +186,18 @@ export default function OpenSea({ attributes, setAttributes }) {
             />
             {
                 nftbutton && (
-                    <TextControl
-                        label={__("Button Label", "embedpress")}
-                        value={label_nftbutton}
-                        onChange={(label_nftbutton) => setAttributes({ label_nftbutton })}
-                    />
+                    <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                        <TextControl
+                            label={__("Button Label", "embedpress")}
+                            value={label_nftbutton}
+                            onChange={(label_nftbutton) => setAttributes({ label_nftbutton })}
+                        />
+                        {
+                            (!isProPluginActive) && (
+                                <span className='isPro'>{__('pro', 'embedpress')}</span>
+                            )
+                        }
+                    </div>
                 )
             }
 

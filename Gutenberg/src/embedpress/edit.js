@@ -229,12 +229,9 @@ export default function EmbedPress(props) {
 
 
 			{
-				// !isOpensea && (
-				// 	fetching ? <div className={className}><EmbedLoading /> </div> : null
-				// )
-				fetching ? <div className={className}><EmbedLoading /> </div> : null
-				
+				(!isOpensea || (isOpensea && editingURL)) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
+
 
 
 			{(embedHTML && !editingURL && (!fetching || isOpensea)) && <figure {...blockProps} >
