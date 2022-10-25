@@ -59,9 +59,11 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isOp
     ];
 
     const colors = [
-        { name: 'red', color: '#f00' },
-        { name: 'green', color: 'green' },
-        { name: 'blue', color: '#00f' },
+        { name: '', color: 'red' },
+        { name: '', color: 'green' },
+        { name: '', color: 'blue' },
+        { name: '', color: 'yellow' },
+        { name: '', color: 'orange' },
     ];
 
     const fallbackFontSize = 16;

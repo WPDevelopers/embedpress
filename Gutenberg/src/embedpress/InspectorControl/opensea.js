@@ -33,22 +33,22 @@ export default function OpenSea({ attributes, setAttributes }) {
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     const addProAlert = (e, isProPluginActive) => {
-		if (!isProPluginActive) {
-			document.querySelector('.pro__alert__wrap').style.display = 'block';
-		}
-	}
+        if (!isProPluginActive) {
+            document.querySelector('.pro__alert__wrap').style.display = 'block';
+        }
+    }
 
-	const removeAlert = () => {
-		if (document.querySelector('.pro__alert__wrap')) {
-			document.querySelector('.pro__alert__wrap .pro__alert__card .button').addEventListener('click', (e) => {
-				document.querySelector('.pro__alert__wrap').style.display = 'none';
-			});
-		}
-	}
+    const removeAlert = () => {
+        if (document.querySelector('.pro__alert__wrap')) {
+            document.querySelector('.pro__alert__wrap .pro__alert__card .button').addEventListener('click', (e) => {
+                document.querySelector('.pro__alert__wrap').style.display = 'none';
+            });
+        }
+    }
 
 
-	const isPro = (display) => {
-		const alertPro = `
+    const isPro = (display) => {
+        const alertPro = `
 		<div class="pro__alert__wrap" style="display: none;">
 			<div class="pro__alert__card">
 				<img src="../wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/alert.svg" alt=""/>
@@ -59,12 +59,12 @@ export default function OpenSea({ attributes, setAttributes }) {
 		</div>
 		`;
 
-		const dom = document.createElement('div');
-		dom.innerHTML = alertPro;
+        const dom = document.createElement('div');
+        dom.innerHTML = alertPro;
 
-		return dom;
+        return dom;
 
-	}
+    }
 
     if (!document.querySelector('.pro__alert__wrap')) {
         document.querySelector('body').append(isPro('none'));
@@ -161,6 +161,7 @@ export default function OpenSea({ attributes, setAttributes }) {
                 checked={nftlastsale}
                 onChange={(nftlastsale) => setAttributes({ nftlastsale })}
             />
+            
             {
                 nftlastsale && (
                     <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>

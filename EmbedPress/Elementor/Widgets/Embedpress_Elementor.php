@@ -1402,8 +1402,8 @@ class Embedpress_Elementor extends Widget_Base
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'label' => esc_html__( 'Order By', 'embedpress' ),
 				'options' => [
-					'asc' => esc_html__( 'ASC', 'embedpress' ),
-					'desc' => esc_html__( 'DESC', 'embedpress' ),
+					'asc' => esc_html__( 'Oldest', 'embedpress' ),
+					'desc' => esc_html__( 'Newest', 'embedpress' ),
 				],
 				'default' => 'desc',
 				'condition'   => $condition
@@ -1421,7 +1421,6 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'label'       => __('OpenSea Control Settings', 'embedpress'),
 				'condition'    => $condition,
-
 			]
 		);
 
@@ -1462,7 +1461,7 @@ class Embedpress_Elementor extends Widget_Base
 				'size_units' => [ 'px'],
 				'range' => [
 					'px' => [
-						'min' => 0,
+						'min' => 1,
 						'max' => 100,
 						'step' => 1,
 					],
@@ -1470,9 +1469,6 @@ class Embedpress_Elementor extends Widget_Base
 				'default' => [
 					'unit' => 'px',
 					'size' => 15,
-				],
-				'selectors' => [
-					'{{WRAPPER}} .ep_nft_content_wrap' => 'gap: {{SIZE}}{{UNIT}};',
 				],
 			]
 		);
@@ -1522,10 +1518,11 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'prefix_nftcreator',
 			[
-				'label' => esc_html__( 'Prefix', 'embedpress' ),
+				'label'       => sprintf(__('Prefix %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'default' => esc_html__( 'Created By', 'embedpress' ),
 				'placeholder' => esc_html__( 'Type your created by text here', 'embedpress' ),
+				'classes'     => $this->pro_class,
 				'condition' => [
 					'nftcreator' => 'yes',
 				]
@@ -1550,10 +1547,11 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'prefix_nftprice',
 			[
-				'label' => esc_html__( 'Prefix', 'embedpress' ),
+				'label'        => sprintf(__('Prefix %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'default' => esc_html__( 'Price', 'embedpress' ),
 				'placeholder' => esc_html__( 'Type your price text here', 'embedpress' ),
+				'classes'     => $this->pro_class,
 				'condition' => [
 					'nftprice' => 'yes',
 				]
@@ -1574,13 +1572,15 @@ class Embedpress_Elementor extends Widget_Base
 				'condition'    => $condition,
 			]
 		);
+
 		$this->add_control(
 			'prefix_nftlastsale',
 			[
-				'label' => esc_html__( 'Prefix', 'embedpress' ),
+				'label'        => sprintf(__('Prefix %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'default' => esc_html__( 'Last Sale', 'embedpress' ),
 				'placeholder' => esc_html__( 'Type your last sale text here', 'embedpress' ),
+				'classes'     => $this->pro_class,
 				'condition' => [
 					'nftlastsale' => 'yes',
 				]
@@ -1604,10 +1604,11 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'label_nftbutton',
 			[
-				'label' => esc_html__( 'Button Label', 'embedpress' ),
+				'label'        => sprintf(__('Button Label %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'default' => esc_html__( 'See Datails', 'embedpress' ),
 				'placeholder' => esc_html__( 'Type your button text here', 'embedpress' ),
+				'classes'     => $this->pro_class,
 				'condition' => [
 					'nftbutton' => 'yes',
 				]
@@ -1983,24 +1984,12 @@ class Embedpress_Elementor extends Widget_Base
 			$ispagination = 'none';
 		}
 
-<<<<<<< HEAD
-		if($settings['columns'] > 0){
-            $calVal = 'calc('.(100 / $settings['columns']).'% - '.$settings['gapbetweenvideos']['size'].'px)';
-        }
-        else{
-            $calVal = 'auto';
-        }
-
-	?>
-
-=======
 		if (!empty($settings['columns']) && (int) $settings['columns'] > 0) {
 			$calVal = 'calc(' . (100 / (int) $settings['columns']) . '% - ' . $settings['gapbetweenvideos']['size'] . 'px)';
 		} else {
 			$calVal = 'auto';
 		}
 		?>
->>>>>>> origin/latest
 
 		<div class="embedpress-elements-wrapper  <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; ?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
 			<?php

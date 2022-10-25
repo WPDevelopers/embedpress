@@ -42,6 +42,17 @@
     color: #cfc2c2;
 }
 
+button.components-flex.components-color-palette__custom-color {
+    height: 20px;
+}
+.components-color-palette__custom-color-value {
+    display: none!important;
+}
+
+.components-circular-option-picker .components-circular-option-picker__swatches {
+    justify-content: space-around;
+}
+
 /**
 * NFT card frontend style
 */

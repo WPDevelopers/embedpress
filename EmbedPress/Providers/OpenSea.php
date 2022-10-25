@@ -229,8 +229,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         $nftItem['image_original_url'] = $asset->image_original_url;
         $nftItem['created_by'] = $asset->creator->user->username;
         $nftItem['creator_img_url'] = $asset->asset_contract->image_url;
-        $nftItem['current_price'] = $asset->seaport_sell_orders?$asset->seaport_sell_orders:'';
-        $nftItem['last_sale'] = $asset->last_sale->total_price?$asset->last_sale->total_price:'';
+        $nftItem['current_price'] = $asset->seaport_sell_orders?$asset->seaport_sell_orders:0;
+        $nftItem['last_sale'] = $asset->last_sale->total_price?$asset->last_sale->total_price:0;
         $nftItem['creator_url'] = 'https://opensea.io/'.$nftItem['created_by'];
 
         return $nftItem;
@@ -257,18 +257,22 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
     }
 
     // create style for Gutenberg
-    public function createStye($colorKey, $fontsizeKey){
+    public function createStye($colorKey, $fontsizeKey){ 
         $color = $this->getColor($colorKey);
         $fontsize = $this->getFontsize($fontsizeKey);
         $itemStyle = '';
+        $buttonBg = '';
+        // if(!empty($this->getColor('buttonBackgroundColor'))){
+        //     $buttonBg = 'background-color: '.$this->getColor('buttonBackgroundColor');
+        // }
         if(!empty($color) && !empty($fontsize) && ($fontsize != 'true' && $color != 'ture')){
-            $itemStyle = $itemStyle . "style='color:{$color}; font-size:{$fontsize}px'";
+            $itemStyle = $itemStyle . "style='color:{$color}; font-size:{$fontsize}px; {$buttonBg}'";
         }
         else if(!empty($color) && ($color != 'true')){
-            $itemStyle = $itemStyle ."style=color:{$color};";
+            $itemStyle = $itemStyle ."style=color:{$color};{$buttonBg}";
         }
         else if(!empty($fontsize) && ($fontsize != 'true')){
-            $itemStyle = $itemStyle ."style=font-size:{$fontsize}px";
+            $itemStyle = $itemStyle ."style=font-size:{$fontsize}px;{$buttonBg}";
         }
 
         return $itemStyle; 
@@ -295,9 +299,9 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         $title = '';
         $creator = '';
         $prefix_creator = 'Created By';
-        $current_price = '';
+        $current_price = 0;
         $prefix_current_price = 'Price';
-        $last_sale = '';
+        $last_sale = 0;
         $prefix_last_sale = 'Last Sale';
         $nftbutton = '';
         $label_nftbutton = 'Sea Details';
@@ -310,9 +314,10 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         $image_url = $item['image_url'] ? $item['image_url'] : ($item['image_thumbnail_url']?$item['image_thumbnail_url'] : ($item['image_preview_url']?$item['image_preview_url'] : $item['image_original_url']));
         $created_by = $item['created_by'];
         $creator_img_url = $item['creator_img_url'];
-        $current_price = $item['current_price']?(float)($item['current_price'][0]->current_price / 1000000000000000000) : '';
+        
+        $current_price = $item['current_price']?(float)($item['current_price'][0]->current_price / 1000000000000000000) : 0;
 
-        if(!empty($item['last_sale']) ){
+        if(!empty($item['last_sale'] && $item['last_sale'] > 0) ){
             $last_sale = (float) $item['last_sale'] / 1000000000000000000;
         }
 
@@ -330,7 +335,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             $label_nftbutton = $params['label_nftbutton'];
         }
 
-
         $eth_icon = '
             <svg width="1535" height="2500" viewBox="0 0 256 417"
             xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid">
@@ -346,7 +350,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             ';
 
 
-        if(!empty($current_price) && ($params['nftprice'] == 'yes') || ($params['nftprice'] == 'true')){
+        if(!empty($current_price) &&  (($current_price > 0) && (($params['nftprice'] == 'yes') || ($params['nftprice'] == 'true')))){
             $current_price_template = '
             <div class="ep_nft_price ep_current_price" '.$this->createStye('priceColor', 'priceFontsize').'>
                 <span class="eb_nft_label">'.esc_html($prefix_current_price).'</span>
@@ -356,7 +360,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             ';
         }
 
-        if(!empty($last_sale) && ($params['nftlastsale'] == 'yes') || ($params['nftlastsale'] == 'true')){
+        if(!empty($last_sale) && (($last_sale > 0) && (($params['nftlastsale'] == 'yes') || ($params['nftlastsale'] == 'true')))){
             $last_sale_price_template = '
             <div class="ep_nft_price ep_nft_last_sale" '.$this->createStye('lastSaleColor', 'lastSaleFontsize').'>
                 <span class="eb_nft_label">'.esc_html($prefix_last_sale).'</span>
@@ -439,6 +443,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         <style>
             <?php echo esc_html($uniqid); ?> .ep_nft_content_wrap {
                 grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($nftperrow); ?>, 1fr))!important;
+                gap: <?php echo esc_html($params['gapbetweenitem']); ?>px!important;
             }
         </style>
     <?php
