@@ -159,20 +159,20 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: 'See Details'
 			},
 
-			// color and typograpyh
+			// Color and Typograpyh
 			titleColor: {
 				type: 'string',
 			},
 
 			titleFontsize: {
-				type: 'string',
+				type: 'number',
 			},
 			creatorColor: {
 				type: 'string',
 			},
 
 			creatorFontsize: {
-				type: 'string',
+				type: 'number',
 			},
 
 			creatorLinkColor: {
@@ -180,7 +180,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 
 			creatorLinkFontsize: {
-				type: 'string',
+				type: 'number',
 			},
 
 			priceColor: {
@@ -188,7 +188,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 
 			priceFontsize: {
-				type: 'string',
+				type: 'number',
 			},
 
 			lastSaleColor: {
@@ -196,7 +196,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 
 			lastSaleFontsize: {
-				type: 'string',
+				type: 'number',
 			},
 			buttonTextColor: {
 				type: 'string',
@@ -207,7 +207,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 
 			buttonTextFontsize: {
-				type: 'string',
+				type: 'number',
 			}, 
 
 		},

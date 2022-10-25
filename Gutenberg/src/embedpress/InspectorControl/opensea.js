@@ -29,6 +29,9 @@ export default function OpenSea({ attributes, setAttributes }) {
         label_nftbutton,
     } = attributes;
 
+
+    const isProPluginActive = embedpressObj.is_pro_plugin_active;
+
     return (
         <div>
             <RangeControl
@@ -77,9 +80,9 @@ export default function OpenSea({ attributes, setAttributes }) {
             {
                 nftcreator && (
                     <TextControl
-                    label={__("Creator Prefix", "embedpress")}
+                        label={__("Creator Prefix", "embedpress")}
                         value={prefix_nftcreator}
-                        onChange={(prefix_nftcreator) => setAttributes({ prefix_nftcreator})}
+                        onChange={(prefix_nftcreator) => setAttributes({ prefix_nftcreator })}
                     />
                 )
             }
@@ -92,7 +95,7 @@ export default function OpenSea({ attributes, setAttributes }) {
             {
                 nftprice && (
                     <TextControl
-                    label={__("Price Prefix", "embedpress")}
+                        label={__("Price Prefix", "embedpress")}
                         value={prefix_nftprice}
                         onChange={(prefix_nftprice) => setAttributes({ prefix_nftprice })}
                     />
@@ -106,11 +109,19 @@ export default function OpenSea({ attributes, setAttributes }) {
             />
             {
                 nftlastsale && (
-                    <TextControl
-                    label={__("Last Sale Prefix", "embedpress")}
-                        value={prefix_nftlastsale}
-                        onChange={(prefix_nftlastsale) => setAttributes({ prefix_nftlastsale})}
-                    />
+                    <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
+                        <TextControl
+                            label={__("Last Sale Prefix", "embedpress")}
+                            value={prefix_nftlastsale}
+                            onChange={(prefix_nftlastsale) => setAttributes({ prefix_nftlastsale })}
+                        />
+
+                        {
+                            (!isProPluginActive) && (
+                                <span className='isPro'>{__('pro', 'embedpress')}</span>
+                            )
+                        }
+                    </div>
                 )
             }
 
@@ -122,13 +133,13 @@ export default function OpenSea({ attributes, setAttributes }) {
             {
                 nftbutton && (
                     <TextControl
-                    label={__("Button Label", "embedpress")}
+                        label={__("Button Label", "embedpress")}
                         value={label_nftbutton}
-                        onChange={(label_nftbutton) => setAttributes({ label_nftbutton})}
+                        onChange={(label_nftbutton) => setAttributes({ label_nftbutton })}
                     />
                 )
             }
-            
+
 
         </div>
     )

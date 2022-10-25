@@ -46,6 +46,19 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         'prefix_nftlastsale',
         'nftbutton',
         'label_nftbutton',
+        'titleColor',
+		'titleFontsize',
+		'creatorColor',
+		'creatorFontsize',
+		'creatorLinkColor',
+		'creatorLinkFontsize',
+		'priceColor',
+		'priceFontsize',
+		'lastSaleColor',
+		'lastSaleFontsize',
+		'buttonTextColor',
+		'buttonBackgroundColor',
+        'buttonFontSize'
     ];
 
     /** inline {@inheritdoc} */
@@ -124,8 +137,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         return "";
     }
 
-
-
     /**
      * Get Opensea Collection assets data
      */
@@ -203,7 +214,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         return "";
     }
 
-
     /**
      * Normalize json data
      */
@@ -226,15 +236,51 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         return $nftItem;
     }
 
+    //Get colors from Gutenberg
+    public function getColor($datakey){
+        $params = $this->getParams();
+        $color = '';
+        if(!empty($params[$datakey])){
+            $color = $params[$datakey];
+        }
+        return $color;
+    }
+
+    //Get fontsize from Gutenberg
+    public function getFontsize($datakey){
+        $params = $this->getParams();
+        $fontsize = '';
+        if(!empty($params[$datakey])){
+            $fontsize = $params[$datakey];
+        }
+        return $fontsize;
+    }
+
+    // create style for Gutenberg
+    public function createStye($colorKey, $fontsizeKey){
+        $color = $this->getColor($colorKey);
+        $fontsize = $this->getFontsize($fontsizeKey);
+        $itemStyle = '';
+        if(!empty($color) && !empty($fontsize) && ($fontsize != 'true' && $color != 'ture')){
+            $itemStyle = $itemStyle . "style='color:{$color}; font-size:{$fontsize}px'";
+        }
+        else if(!empty($color) && ($color != 'true')){
+            $itemStyle = $itemStyle ."style=color:{$color};";
+        }
+        else if(!empty($fontsize) && ($fontsize != 'true')){
+            $itemStyle = $itemStyle ."style=font-size:{$fontsize}px";
+        }
+
+        return $itemStyle; 
+    }
+
     /**
      * NFT Collection Item template
      */
-
      public function nftItemTemplate($item){
 
         $params = $this->getParams();
         
-
         $params = wp_parse_args( $params, [
             'nftimage' => true,
             'nfttitle' => true,
@@ -257,7 +303,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         $label_nftbutton = 'Sea Details';
 
         $current_price_template = '';
-        $last_sale_price_template = '';
+        $last_sale_price_template = ''; 
 
         // Assgined current value
         $name = $item['name'] ? $item['name'] : '#'.$item['id'];
@@ -302,7 +348,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         if(!empty($current_price) && ($params['nftprice'] == 'yes') || ($params['nftprice'] == 'true')){
             $current_price_template = '
-            <div class="ep_nft_price ep_current_price">
+            <div class="ep_nft_price ep_current_price" '.$this->createStye('priceColor', 'priceFontsize').'>
                 <span class="eb_nft_label">'.esc_html($prefix_current_price).'</span>
                 <span  class="eb_nft_currency">'.$eth_icon.'</span>
                 <span class="eb_nft_price">'. esc_html(round($current_price, 4)).'</span>
@@ -312,7 +358,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         if(!empty($last_sale) && ($params['nftlastsale'] == 'yes') || ($params['nftlastsale'] == 'true')){
             $last_sale_price_template = '
-            <div class="ep_nft_price ep_nft_last_sale">
+            <div class="ep_nft_price ep_nft_last_sale" '.$this->createStye('lastSaleColor', 'lastSaleFontsize').'>
                 <span class="eb_nft_label">'.esc_html($prefix_last_sale).'</span>
                 <span  class="eb_nft_currency">'.$eth_icon.'</span>
                 <span class="eb_nft_price">'. esc_html(round($last_sale, 4)).'</span>
@@ -331,19 +377,19 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             $creator = '<div class="ep_nft_owner_wrapper">
                 <div class="ep_nft_creator"><img
                         src="'.esc_url($creator_img_url).'"
-                        alt="'.esc_attr($created_by).'"><span>'.esc_html($prefix_creator).'<a target="_blank"
-                            href="'.esc_url($item['creator_url']).'">'.esc_html($created_by).'</a></span>
+                        alt="'.esc_attr($created_by).'"><span  '.$this->createStye('creatorColor', 'creatorFontsize').'>'.esc_html($prefix_creator).' <a target="_blank"
+                            href="'.esc_url($item['creator_url']).'" '.$this->createStye('creatorLinkColor', 'creatorLinkFontsize').'>'.esc_html($created_by).'</a></span>
                 </div>
             </div>';
         endif;
 
         if(($params['nfttitle'] == 'yes') || ($params['nfttitle'] == 'true')):
-            $title = ' <h3 class="ep_nft_title">'.esc_html($name).'</h3>';
+            $title = ' <h3 class="ep_nft_title" '.$this->createStye('titleColor', 'titleFontsize').'>'.esc_html($name).'</h3>';
         endif;
 
         if(($params['nftbutton'] == 'yes') || ($params['nftbutton'] == 'true')):
             $nftbutton = '<div class="ep_nft_button">
-                <a target="_blank" href="'.esc_url($item['permalink']).'">'.esc_html($label_nftbutton).'</a>
+                <a target="_blank" href="'.esc_url($item['permalink']).'" '.$this->createStye('buttonTextColor', 'buttonFontSize').'>'.esc_html($label_nftbutton).'</a>
                 </div>';
         endif;
 

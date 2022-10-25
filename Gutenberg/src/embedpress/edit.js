@@ -50,6 +50,19 @@ export default function EmbedPress(props) {
 		prefix_nftlastsale,
 		nftbutton,
 		label_nftbutton,
+		titleColor,
+		titleFontsize,
+		creatorColor,
+		creatorFontsize,
+		creatorLinkColor,
+		creatorLinkFontsize,
+		priceColor,
+		priceFontsize,
+		lastSaleColor,
+		lastSaleFontsize,
+		buttonTextColor,
+		buttonBackgroundColor,
+		buttonFontSize,
 	} = attributes;
 
 	const blockProps = useBlockProps ? useBlockProps() : [];
@@ -128,7 +141,23 @@ export default function EmbedPress(props) {
 						prefix_nftprice: prefix_nftprice ? prefix_nftprice : 'Price',
 						nftlastsale: nftlastsale ? nftlastsale : false,
 						prefix_nftlastsale: prefix_nftlastsale ? prefix_nftlastsale : 'Last Sale',
-						nftbutton: nftbutton ? nftbutton : false
+						nftbutton: nftbutton ? nftbutton : false,
+						label_nftbutton: label_nftbutton ? label_nftbutton : 'See Details',
+
+						//Pass Color and Typography 
+						titleColor: titleColor ? titleColor : '',
+						titleFontsize: titleFontsize ? titleFontsize : '',
+						creatorColor: creatorColor ? creatorColor : '',
+						creatorFontsize: creatorFontsize ? creatorFontsize : '',
+						creatorLinkColor: creatorLinkColor ? creatorLinkColor : '',
+						creatorLinkFontsize: creatorLinkFontsize ? creatorLinkFontsize : '',
+						priceColor: priceColor ? priceColor : '',
+						priceFontsize: priceFontsize ? priceFontsize : '',
+						lastSaleColor: lastSaleColor ? lastSaleColor : '',
+						lastSaleFontsize: lastSaleFontsize ? lastSaleFontsize : '',
+						buttonTextColor: buttonTextColor ? buttonTextColor : '',
+						buttonBackgroundColor: buttonBackgroundColor ? buttonBackgroundColor : '',
+						buttonFontSize: buttonFontSize ? buttonFontSize : '',
 					};
 
 					openseaParams = '&' + new URLSearchParams(_isOpensea).toString();
@@ -172,7 +201,7 @@ export default function EmbedPress(props) {
 			}
 		}, 300)
 		return () => clearTimeout(delayDebounceFn)
-	}, [pagesize, limit, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator]);
+	}, [pagesize, limit, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor,buttonFontSize]);
 
 	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
 
@@ -200,9 +229,11 @@ export default function EmbedPress(props) {
 
 
 			{
-				!isOpensea && (
-					fetching ? <div className={className}><EmbedLoading /> </div> : null
-				)
+				// !isOpensea && (
+				// 	fetching ? <div className={className}><EmbedLoading /> </div> : null
+				// )
+				fetching ? <div className={className}><EmbedLoading /> </div> : null
+				
 			}
 
 
@@ -213,7 +244,7 @@ export default function EmbedPress(props) {
 
 				{
 					fetching && (
-						<div style={{filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '0.3'}}
+						<div style={{ filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '0.3' }}
 							className="block-library-embed__interactive-overlay"
 							onMouseUp={setAttributes({ interactive: true })}
 						/>
