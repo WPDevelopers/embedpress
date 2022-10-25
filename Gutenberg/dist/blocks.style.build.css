@@ -596,14 +596,45 @@ span.isPro {
   background-color: #b89d9d;
   border: 5px solid #b89d9d; }
 
-.embedpress-document-embed {
-  display: inline-block; }
-
 .block-editor-block-inspector .components-base-control {
   margin-top: 15px; }
 
 .pro-control-active {
   margin-bottom: 24px; }
+
+.ep-alignleft {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-align: start;
+      align-items: flex-start;
+  text-align: center; }
+
+.ep-alignright {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-align: end;
+      align-items: flex-end;
+  text-align: center; }
+
+.ep-aligncenter {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-align: center;
+      align-items: center;
+  text-align: center; }
+
+.embedpress-document-embed.embedpress-pdf {
+  width: 100%; }
+
+.embedpress-inner-iframe {
+  display: inline-block;
+  text-align: center; }
 /**
  * #.# Common SCSS
  *

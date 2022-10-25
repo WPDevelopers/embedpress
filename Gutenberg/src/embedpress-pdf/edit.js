@@ -161,7 +161,7 @@ class EmbedPressPDFEdit extends Component {
 
 
 			if (toolbar === false) {
-				presentation = false; download = false; open = false; copy_text = false; toolbar_position = false; doc_details = false; doc_rotation = false;
+				presentation = false; download = true; open = false; copy_text = true; toolbar_position = false; doc_details = false; doc_rotation = false;
 			}
 
 			toolbar = this.isDisplay(toolbar);
@@ -303,8 +303,8 @@ class EmbedPressPDFEdit extends Component {
 		const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
 		if (!isProPluginActive) {
-			setAttributes({ download: false });
-			setAttributes({ copy_text: false });
+			setAttributes({ download: true });
+			setAttributes({ copy_text: true });
 		}
 
 		if (!document.querySelector('.pro__alert__wrap')) {
@@ -410,15 +410,22 @@ class EmbedPressPDFEdit extends Component {
 
 						>
 
-							<ToggleControl
-								label={__('Toolbar', 'embedpress')}
-								description={__('Show or Hide toolbar. Note: If you disable toolbar access then every toolbar options will be disabled', 'embedpress')}
-								onChange={(toolbar) =>
-									setAttributes({ toolbar })
+							<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
+								<ToggleControl
+									label={__('Toolbar', 'embedpress')}
+									description={__('Show or Hide toolbar. Note: If you disable toolbar access then every toolbar options will be disabled', 'embedpress')}
+									onChange={(toolbar) =>
+										setAttributes({ toolbar })
+									}
+									checked={toolbar}
+									style={{ marginTop: '30px' }}
+								/>
+								{
+									(!isProPluginActive) && (
+										<span className='isPro'>{__('pro', 'embedpress')}</span>
+									)
 								}
-								checked={toolbar}
-								style={{ marginTop: '30px' }}
-							/>
+							</div>
 
 
 							{
@@ -496,7 +503,28 @@ class EmbedPressPDFEdit extends Component {
 							}
 						</PanelBody>
 					</InspectorControls>
-				</Fragment>
+
+					<style style={{ display: "none" }}>
+						{
+							`
+							#block-${clientId} {
+								width:-webkit-fill-available;
+							} 
+							.embedpress-el-powered{
+								max-width: ${width}
+							}
+
+							.alignright .embedpress-document-embed{
+								float: right!important;
+							}
+							.alignleft .embedpress-document-embed{
+								float: left;
+							}
+
+							`
+						}
+					</style>
+				</Fragment >
 
 			);
 		}

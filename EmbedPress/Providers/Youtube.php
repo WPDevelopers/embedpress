@@ -399,97 +399,104 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                         <?php endforeach; ?>
                         <div class="item" style="height: 0"></div>
                     </div>
-                    <div class="ep-youtube__content__pagination <?php echo (empty($prevPageToken) && empty($nextPageToken)) ? ' hide ' : ''; ?>">
-                        <div
-                            class="ep-prev <?php echo empty($prevPageToken) ? ' hide ' : ''; ?>"
-                            data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
-                            data-pagetoken="<?php echo esc_attr($prevPageToken) ?>"
-                            data-pagesize="<?php echo intval($options['pagesize']) ?>"
-                        >
-                            <span><?php _e("Prev", "embedpress"); ?></span>
+
+                    
+                    <?php if ($totalPages > 1) : ?>
+                        <div class="ep-youtube__content__pagination <?php echo (empty($prevPageToken) && empty($nextPageToken)) ? ' hide ' : ''; ?>">
+                            <div
+                                class="ep-prev" <?php echo empty($prevPageToken) ? ' style="display:none" ' : ''; ?>
+                                data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
+                                data-pagetoken="<?php echo esc_attr($prevPageToken) ?>"
+                                data-pagesize="<?php echo intval($options['pagesize']) ?>"
+                            >
+                                <span><?php _e("Prev", "embedpress"); ?></span>
+                            </div>
+                            <div class="is_desktop_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
+                                <?php   
+
+                                    $numOfPages = $totalPages;
+                                    $renderedEllipses = false;
+
+                                    $currentPage = !empty($options['currentpage'])?$options['currentpage'] : 1;
+
+                                    for($i = 1; $i<=$numOfPages; $i++)
+                                    {
+                                        //render pages 1 - 3
+                                        if($i < 4) {
+                                            //render link
+                                            $is_current = $i == (int)$currentPage? "active__current_page" : "";
+
+                                            echo wp_kses_post("<span class='page-number  $is_current' data-page='$i'>$i</span>");
+                                            
+                                        }
+
+                                        //render current page number
+                                        else if($i == (int)$currentPage) {
+                                            //render link
+                                            echo wp_kses_post('<span class="page-number active__current_page" data-page="'.$i.'">'.$i.'</span>'); 
+                                            //reset ellipses
+                                            $renderedEllipses = false;
+                                        }
+
+                                        //last page number
+                                        else if ($i >= $numOfPages - 1) {
+                                            //render link
+                                            echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
+                                        }
+
+                                        //make sure you only do this once per ellipses group
+                                        else {
+                                        if (!$renderedEllipses){
+                                            print("...");
+                                            $renderedEllipses = true;
+                                        }
+                                        }
+                                    }
+                                ?>
+
+                            </div>
+
+                            <div class="is_mobile_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
+                                <?php   
+
+                                    $numOfPages = $totalPages;
+                                    $renderedEllipses = false;
+
+                                    $currentPage = !empty($options['currentpage'])?$options['currentpage'] : 1;
+
+                                    for($i = 1; $i<=$numOfPages; $i++)
+                                    {
+
+                                        //render current page number
+                                    if($i == (int)$currentPage) {
+                                            //render link
+                                            echo wp_kses_post('<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>'); 
+                                            //reset ellipses
+                                            $renderedEllipses = false;
+                                        }
+
+                                        //last page number
+                                        else if ($i >= $numOfPages ) {
+                                            //render link
+                                            echo wp_kses_post('...<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>'); 
+                                        }
+                                    }
+                                ?>
+
+                            </div>
+                            
+
+                            <div
+                                class="ep-next " <?php echo empty($nextPageToken) ? ' style="display:none" ' : ''; ?>
+                                data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
+                                data-pagetoken="<?php echo esc_attr($nextPageToken) ?>"
+                                data-pagesize="<?php echo intval($options['pagesize']) ?>"
+                            >
+                                <span><?php _e("Next ", "embedpress"); ?> </span>
+                            </div>
                         </div>
-                        <div class="is_desktop_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
-                            <?php   
+                    <?php endif; ?>
 
-                                $numOfPages = $totalPages;
-                                $renderedEllipses = false;
-
-                                $currentPage = !empty($options['currentpage'])?$options['currentpage'] : 1;
-
-                                for($i = 1; $i<=$numOfPages; $i++)
-                                {
-                                    //render pages 1 - 3
-                                    if($i < 4) {
-                                        //render link
-                                        $is_current = $i == (int)$currentPage? "active__current_page" : "";
-
-                                        echo wp_kses_post("<span class='page-number  $is_current' data-page='$i'>$i</span>");
-                                         
-                                    }
-
-                                    //render current page number
-                                    else if($i == (int)$currentPage) {
-                                        //render link
-                                        echo wp_kses_post('<span class="page-number active__current_page" data-page="'.$i.'">'.$i.'</span>'); 
-                                        //reset ellipses
-                                        $renderedEllipses = false;
-                                    }
-
-                                    //last page number
-                                    else if ($i >= $numOfPages - 1) {
-                                        //render link
-                                        echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
-                                    }
-
-                                    //make sure you only do this once per ellipses group
-                                    else {
-                                    if (!$renderedEllipses){
-                                        print("...");
-                                        $renderedEllipses = true;
-                                    }
-                                    }
-                                }
-                            ?>
-
-                        </div>
-                        <div class="is_mobile_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
-                            <?php   
-
-                                $numOfPages = $totalPages;
-                                $renderedEllipses = false;
-
-                                $currentPage = !empty($options['currentpage'])?$options['currentpage'] : 1;
-
-                                for($i = 1; $i<=$numOfPages; $i++)
-                                {
-
-                                    //render current page number
-                                   if($i == (int)$currentPage) {
-                                        //render link
-                                        echo wp_kses_post('<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>'); 
-                                        //reset ellipses
-                                        $renderedEllipses = false;
-                                    }
-
-                                    //last page number
-                                    else if ($i >= $numOfPages ) {
-                                        //render link
-                                        echo wp_kses_post('...<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>'); 
-                                    }
-                                }
-                            ?>
-
-                        </div>
-
-                        <div
-                            class="ep-next <?php echo empty($nextPageToken) ? ' hide ' : ''; ?>"
-                            data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
-                            data-pagetoken="<?php echo esc_attr($nextPageToken) ?>"
-                            data-pagesize="<?php echo intval($options['pagesize']) ?>"
-                        >
-                            <span><?php _e("Next ", "embedpress"); ?> </span>
-                        </div>
-                    </div>
                     <div class="ep-loader-wrap">
                         <div class="ep-loader"><img alt="loading" src="<?php echo EMBEDPRESS_URL_ASSETS . 'images/youtube/spin.gif'; ?>"></div>
                     </div>
@@ -797,8 +804,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
         
 
-        if($columns > 0 && !empty($columns)){
-            $repeatCol = 'repeat(auto-fit, minmax('.esc_html('calc('.(100 / $columns).'% - '.$gap.'px)').', 1fr))';
+
+        if(!empty($columns) && (int) $columns > 0){
+            $repeatCol = 'repeat(auto-fit, minmax('.esc_html('calc('.(100 / (int) $columns).'% - '.$gap.'px)').', 1fr))';
         }
         else{
             $repeatCol = 'repeat(auto-fit, minmax(250px, 1fr))';

@@ -910,7 +910,7 @@ KAMAL;
         $id = 'embedpress-pdf-shortcode';
         $dimension = "width: {$attributes['width']}px;height: {$attributes['height']}px";
         ?>
-            <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . md5($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
+            <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . md5($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block">
                 <?php if ($url != '') {
                             if (self::is_pdf($url) && !self::is_external_url($url)) {
                                 $renderer = Helper::get_pdf_renderer();

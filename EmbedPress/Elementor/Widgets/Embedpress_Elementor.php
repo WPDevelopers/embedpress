@@ -1983,6 +1983,7 @@ class Embedpress_Elementor extends Widget_Base
 			$ispagination = 'none';
 		}
 
+<<<<<<< HEAD
 		if($settings['columns'] > 0){
             $calVal = 'calc('.(100 / $settings['columns']).'% - '.$settings['gapbetweenvideos']['size'].'px)';
         }
@@ -1992,6 +1993,14 @@ class Embedpress_Elementor extends Widget_Base
 
 	?>
 
+=======
+		if (!empty($settings['columns']) && (int) $settings['columns'] > 0) {
+			$calVal = 'calc(' . (100 / (int) $settings['columns']) . '% - ' . $settings['gapbetweenvideos']['size'] . 'px)';
+		} else {
+			$calVal = 'auto';
+		}
+		?>
+>>>>>>> origin/latest
 
 		<div class="embedpress-elements-wrapper  <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; ?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
 			<?php

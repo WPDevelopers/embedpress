@@ -146,13 +146,39 @@ span.isPro {
     border: 5px solid #b89d9d;
 }
 
-.embedpress-document-embed {
-    display: inline-block;
-}
 .block-editor-block-inspector .components-base-control {
     margin-top: 15px;
 }
 .pro-control-active {
     margin-bottom: 24px;
+}
+
+.ep-alignleft {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	text-align: center;
+}
+
+.ep-alignright {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	text-align: center;
+}
+
+.ep-aligncenter {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+.embedpress-document-embed.embedpress-pdf{
+    width: 100%;
+}
+.embedpress-inner-iframe{
+    display: inline-block;
+     text-align:center;
 }
 

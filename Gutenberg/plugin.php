@@ -184,7 +184,7 @@ function embedpress_gutenberg_register_all_block()
 
 							'download' => [
 								'type' => "boolean",
-								'default' => false,
+								'default' => true,
 							],
 							'open' => [
 								'type' => "boolean",
@@ -192,7 +192,7 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'copy_text' => [
 								'type' => "boolean",
-								'default' => false,
+								'default' => true,
 							],
 							'toolbar' => [
 								'type' => "boolean",
@@ -248,24 +248,27 @@ function embedpress_pdf_render_block($attributes)
 		$src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $attributes['href'];
 		$hash = md5($id);
 		$aligns = [
-			'left' => 'alignleft',
-			'right' => 'alignright',
-			'wide' => 'alignwide',
-			'full' => 'alignfull'
+			'left' => 'ep-alignleft',
+			'right' => 'ep-alignright',
+			'center' => 'ep-aligncenter',
+			'wide' => 'ep-alignwide',
+			'full' => 'ep-alignfull'
 		];
 		$alignment = isset($attributes['align']) && isset($aligns[$attributes['align']]) ? $aligns[$attributes['align']] : '';
 		$dimension = "width:$width;height:$height";
 		ob_start();
 		?>
 		<div class="embedpress-document-embed embedpress-pdf ose-document ep-doc-<?php echo esc_attr($hash) . ' ' . esc_attr($alignment) ?>">
-			<iframe class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_attr($src); ?>" frameborder="0"></iframe>
+			<div class="embedpress-inner-iframe">
+				<iframe class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_attr($src); ?>" frameborder="0"></iframe>
 
-			<?php do_action('embedpress_pdf_gutenberg_after_embed',  $hash, 'pdf', $attributes, $pdf_url); ?>
+				<?php do_action('embedpress_pdf_gutenberg_after_embed',  $hash, 'pdf', $attributes, $pdf_url); ?>
 
-			<?php
+				<?php
 					if ($powered_by) {
 						printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
 					} ?>
+			</div>
 
 		</div>
 	<?php ep_pdf_block_frontend_style($attributes, 'pdf');
@@ -314,7 +317,7 @@ function embedpress_pdf_render_block($attributes)
 
 		<?php
 			if ($powered_by) {
-				printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+				printf('<p class="embedpress-el-powered" style="'.esc_attr( $width ).'" >%s</p>', __('Powered By EmbedPress', 'embedpress'));
 			} ?>
 
 	</div>
@@ -367,9 +370,8 @@ function embedpress_pdf_render_block($attributes)
 
 						
 						<?php if(!defined('EMBEDPRESS_PRO_PLUGIN_FILE')): ?>
-							download = 'none';
-							copy_text = 'none';
-							console.log('EmbedPress_Plugin_Usage_Tracker not exits');
+							download = 'block';
+							copy_text = 'block';
 						<?php endif;  ?>
 
 						if (copy_text === 'block') {
@@ -424,7 +426,7 @@ function embedpress_pdf_render_block($attributes)
 							display: none!important;
 						}
 						#secondaryDownload, #secondaryPrint, #toolbarViewerRight #print, #toolbarViewerRight #download{
-							display: ${download};
+							display: ${download}!important;
 						}
 
 						#pageRotateCw{

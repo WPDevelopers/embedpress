@@ -54,7 +54,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			
 			download: {
 				type: "boolean",
-				default: false,
+				default: true,
 			},
 			open: {
 				type: "boolean",
@@ -62,7 +62,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			copy_text: {
 				type: "boolean",
-				default: false,
+				default: true,
 			},
 			toolbar: {
 				type: "boolean",

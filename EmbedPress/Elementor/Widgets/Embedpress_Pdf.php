@@ -263,12 +263,13 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'pdf_toolbar',
             [
-                'label'        => __('Toolbar', 'embedpress'),
+                'label'        => sprintf(__('Toolbar %s', 'embedpress'), $this->pro_text),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => __('Show', 'embedpress'),
                 'label_off'    => __('Hide', 'embedpress'),
                 'return_value' => 'yes',
                 'default'      => 'yes',
+                'classes'     => $this->pro_class,
             ]
         );
 
@@ -320,7 +321,7 @@ class Embedpress_Pdf extends Widget_Base
                 'label_on'     => __('Show', 'embedpress'),
                 'label_off'    => __('Hide', 'embedpress'),
                 'return_value' => 'yes',
-                'default'      => 'no',
+                'default'      => 'yes',
                 'classes'     => $this->pro_class,
                 'condition' => [
                     'pdf_toolbar' => 'yes',
@@ -335,7 +336,7 @@ class Embedpress_Pdf extends Widget_Base
                 'label_on'     => __('Show', 'embedpress'),
                 'label_off'    => __('Hide', 'embedpress'),
                 'return_value' => 'yes',
-                'default'      => 'no',
+                'default'      => 'yes',
                 'classes'     => $this->pro_class,
                 'condition' => [
                     'pdf_toolbar' => 'yes',
@@ -581,8 +582,8 @@ class Embedpress_Pdf extends Widget_Base
                 'data-toolbar-position' =>  $settings['pdf_toolbar_position'],
                 'data-open' => 'no',
                 'data-presentation-mode' => $settings['pdf_presentation_mode'],
-                'data-download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print_download'] : 'no',
-                'data-copy' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'no',
+                'data-download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print_download'] : 'yes',
+                'data-copy' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'yes',
                 'data-rotate' => $settings['pdf_rotate_access'],
                 'data-details' => $settings['pdf_details'],
                 'data-id' => $id
