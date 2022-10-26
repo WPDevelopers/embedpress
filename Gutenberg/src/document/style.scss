@@ -35,13 +35,18 @@
 
 .opensea-control.pro-control span.isPro {
     right: 6px;
-    top: 38px;
+    top: 33px;
+    transform: scale(0.9);
 }
+
 .pro-control.opensea-control input {
     border-color: #cfc2c2;
     color: #cfc2c2;
+    border-radius: 5px;
 }
-
+.pro-control .components-base-control {
+    pointer-events: none;
+}
 button.components-flex.components-color-palette__custom-color {
     height: 20px;
 }

@@ -86,8 +86,8 @@ export default function OpenSea({ attributes, setAttributes }) {
                 label={__("Order By", "embedpress")}
                 value={orderby}
                 options={[
-                    { label: 'ASC', value: 'asc' },
-                    { label: 'DESC', value: 'desc' },
+                    { label: 'Oldest', value: 'asc' },
+                    { label: 'Newest', value: 'desc' },
                 ]}
                 onChange={(orderby) => setAttributes({ orderby })}
                 __nextHasNoMarginBottom
