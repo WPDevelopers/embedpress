@@ -23,10 +23,11 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isOp
         height,
         
         editingURL,
+        embedHTML,
     } = attributes;
 
     return (
-        !editingURL && (
+        !editingURL && embedHTML &&(
             <InspectorControls>
                 {
                     !isOpensea && (

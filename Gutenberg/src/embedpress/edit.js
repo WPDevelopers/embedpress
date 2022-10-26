@@ -201,7 +201,7 @@ export default function EmbedPress(props) {
 			}
 		}, 300)
 		return () => clearTimeout(delayDebounceFn)
-	}, [pagesize, limit, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor,buttonFontSize]);
+	}, [pagesize, limit, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize]);
 
 	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
 
@@ -246,9 +246,9 @@ export default function EmbedPress(props) {
 							onMouseUp={setAttributes({ interactive: true })}
 						/>
 					)
-					
+
 				}
-				
+
 
 				<EmbedControls
 					showEditButton={embedHTML && !cannotEmbed}
@@ -307,24 +307,9 @@ export default function EmbedPress(props) {
 					<style style={{ display: "none" }}>
 						{
 							`
-							// #block-${clientId} .ep_nft_thumbnail{
-							// 	display: ${(nftimage) ? 'block!important' : 'none'};
-							// }
-							// #block-${clientId} .ep_nft_title{
-							// 	display: ${(nfttitle) ? 'block!important' : 'none'};
-							// }
-							// #block-${clientId} .ep_nft_creator{
-							// 	display: ${(nftcreator) ? 'flex!important' : 'none'};
-							// }
-							// #block-${clientId} .ep_current_price{
-							// 	display: ${(nftprice) ? 'flex!important' : 'none'};
-							// }
-							// #block-${clientId} .ep_nft_last_sale{
-							// 	display: ${(nftlastsale) ? 'flex!important' : 'none'};
-							// }
-							// #block-${clientId} .ep_nft_button{
-							// 	display: ${(nftbutton) ? 'block!important' : 'none'};
-							// }
+							#block-${clientId}{
+								min-width: 900px;
+							}
 							`
 						}
 
