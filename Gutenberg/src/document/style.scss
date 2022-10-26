@@ -64,7 +64,23 @@ button.components-flex.components-color-palette__custom-color {
 .ose-opensea {
     height: 100%!important;
     width: 100%!important;
+    min-width: 900px;
 }
+.alignleft .ose-opensea,  .alignright .ose-opensea, .aligncenter .ose-opensea{
+    min-width: 900px;
+    max-width: 900px!important;
+}
+.aligncenter .ose-opensea{
+    margin: 0 auto;
+    display: block!important;
+}
+.wp-block[data-align=right] {
+    float: right;
+}
+.wp-block[data-align=left] {
+    float: left;
+}
+
 .ep_nft_content_wrap.ep_nft_grid{
     display: grid;      
 }

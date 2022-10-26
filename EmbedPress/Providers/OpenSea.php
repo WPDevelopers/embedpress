@@ -219,18 +219,18 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
      */
     public function normalizeJSONData($asset){
         $nftItem = [];
-        $nftItem['id'] = $asset->id;
-        $nftItem['name'] = $asset->name;
-        $nftItem['permalink'] = $asset->permalink;
-        $nftItem['description'] = $asset->description;
-        $nftItem['image_url'] = $asset->image_url;
-        $nftItem['image_thumbnail_url'] = $asset->image_thumbnail_url;
-        $nftItem['image_preview_url'] = $asset->image_preview_url;
-        $nftItem['image_original_url'] = $asset->image_original_url;
-        $nftItem['created_by'] = $asset->creator->user->username;
-        $nftItem['creator_img_url'] = $asset->asset_contract->image_url;
-        $nftItem['current_price'] = $asset->seaport_sell_orders?$asset->seaport_sell_orders:0;
-        $nftItem['last_sale'] = $asset->last_sale->total_price?$asset->last_sale->total_price:0;
+        $nftItem['id'] = isset($asset->id)?$asset->id:'';
+        $nftItem['name'] = isset($asset->name)?$asset->name:'';
+        $nftItem['permalink'] = isset($asset->permalink)?$asset->permalink:'';
+        $nftItem['description'] = isset($asset->description)?$asset->description:'';
+        $nftItem['image_url'] = isset($asset->image_url)?$asset->image_url:'';
+        $nftItem['image_thumbnail_url'] = isset($asset->image_thumbnail_url)?$asset->image_thumbnail_url:'';
+        $nftItem['image_preview_url'] = isset($asset->image_preview_url)?$asset->image_preview_url:'';
+        $nftItem['image_original_url'] = isset($asset->image_original_url)?$asset->image_original_url:'';
+        $nftItem['created_by'] = isset($asset->creator->user->username)?$asset->creator->user->username:'';
+        $nftItem['creator_img_url'] = isset($asset->asset_contract->image_url)?$asset->asset_contract->image_url:'';
+        $nftItem['current_price'] = isset($asset->seaport_sell_orders)?$asset->seaport_sell_orders:0;
+        $nftItem['last_sale'] = isset($asset->last_sale->total_price)?$asset->last_sale->total_price:0;
         $nftItem['creator_url'] = 'https://opensea.io/'.$nftItem['created_by'];
 
         return $nftItem;
@@ -327,8 +327,16 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         // Assgined current value
         $name = $item['name'] ? $item['name'] : '#'.$item['id'];
+
         $image_url = $item['image_url'] ? $item['image_url'] : ($item['image_thumbnail_url']?$item['image_thumbnail_url'] : ($item['image_preview_url']?$item['image_preview_url'] : $item['image_original_url']));
+
+        if(empty($image_url)){
+            $image_url = 'https://via.placeholder.com/300x380.png/fafafa?text=No+Image';
+        }
+
         $created_by = $item['created_by'];
+
+
         $creator_img_url = $item['creator_img_url'];
         
         $current_price = $item['current_price']?(float)($item['current_price'][0]->current_price / 1000000000000000000) : 0;
@@ -393,7 +401,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             alt="'.esc_attr($name).'"></div>';
         endif;
 
-        if(($params['nftcreator'] == 'yes') || ($params['nftcreator'] == 'true')):
+        if((($params['nftcreator'] == 'yes') || ($params['nftcreator'] == 'true')) && !empty($created_by)):
             $creator = '<div class="ep_nft_owner_wrapper">
                 <div class="ep_nft_creator"><img
                         src="'.esc_url($creator_img_url).'"
@@ -429,6 +437,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                     </div>
                 </div>
             ';
+
 
         return $template;
      }

@@ -241,12 +241,14 @@ export default function EmbedPress(props) {
 
 				{
 					fetching && (
-						<div style={{ filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '0.3' }}
+						<div style={{ filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '0.7' }}
 							className="block-library-embed__interactive-overlay"
 							onMouseUp={setAttributes({ interactive: true })}
 						/>
 					)
+					
 				}
+				
 
 				<EmbedControls
 					showEditButton={embedHTML && !cannotEmbed}
