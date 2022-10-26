@@ -54,7 +54,7 @@ span.isPro {
     color: #fff;
     font-weight: 400;
     text-transform: uppercase;
-    top: 5px;
+    bottom: 5px;
 }
 
 .pro-control:after {
@@ -70,7 +70,7 @@ span.isPro {
 
 .theme-astra span.isPro {
     right: 10px;
-    top: 5px;
+    bottom: 5px;
 }
 .pro-control:hover::after {
     cursor: pointer;
