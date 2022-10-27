@@ -47,11 +47,12 @@ export default function EmbedPress(props) {
 			let fetchData = async (url) => {
 				let _pagesize = isYTChannel ? `&pagesize=${pagesize}` : '';
 				let _gapbetweenvideos = isYTChannel ? `&gapbetweenvideos=${gapbetweenvideos}` : '';
-				let _ispagination = isYTChannel ? `&ispagination=${ispagination}` : false;
+				let _ispagination = isYTChannel ? `&ispagination=${ispagination}` : '';
 				let _columns = isYTChannel ? `&columns=${columns}` : '';
 
+				let __url = url.split('#');
 
-				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}${_columns}${_ispagination}${_pagesize}${_gapbetweenvideos}`).then(response => response.json());
+				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${__url[0]}&width=${width}&height=${height}${_columns}${_ispagination}${_pagesize}${_gapbetweenvideos}`).then(response => response.json());
 			}
 			fetchData(url).then(data => {
 				setAttributes({
@@ -134,9 +135,19 @@ export default function EmbedPress(props) {
 
 			</figure>}
 
+
 			<style style={{ display: "none" }}>
 				{
 					`
+					#block-${clientId} .ose-embedpress-responsive{
+						width: ${width}px!important;
+						height: ${height}px!important
+					} 
+					#block-${clientId} iframe{
+						width: ${width}px!important;
+						height: ${height}px!important
+					} 
+
 					#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap{
 						gap: ${gapbetweenvideos}px!important;
 						margin-top: ${gapbetweenvideos}px!important;

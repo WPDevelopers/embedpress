@@ -530,7 +530,7 @@ class Feature_Enhancer
 			ob_start();
 			?>
 			<div class="embedpress_wrapper" data-url="<?php echo esc_attr(esc_url($embed_content->url)); ?>">
-				<iframe src="<?php echo esc_url($url); ?>" allowfullscreen="" scrolling="no" frameborder="0" allow="autoplay; fullscreen" title="Twitch" sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" width="<?php echo esc_attr($width); ?>" height="<?php echo esc_attr($height); ?>" style="max-width: 100%; max-height:<?php echo esc_attr($width); ?>px;"></iframe>
+				<iframe src="<?php echo esc_url($url); ?>" allowfullscreen="" scrolling="no" frameborder="0" allow="autoplay; fullscreen" title="Twitch" sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox" width="<?php echo esc_attr($width); ?>" height="<?php echo esc_attr($height); ?>" style="max-width: <?php echo esc_attr($width); ?>px; max-height:<?php echo esc_attr($height); ?>px;"></iframe>
 			</div>
 		<?php
 					$c                    = ob_get_clean();
