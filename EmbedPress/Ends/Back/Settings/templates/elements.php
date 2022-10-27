@@ -18,7 +18,7 @@ $enablePluginInFront = isset( $settings['enablePluginInFront'] ) ? $settings['en
                 <h5>EmbedPress</h5>
                 <a href="https://embedpress.com/documentation/" class="has__question" target="_blank">
                     <i class="ep-icon ep-question"></i>
-                    <span class="element__tooltip"><?php esc_html_e( "It supports 100+ providers. Click to read the docs", "embedpress" ); ?></span>
+                    <span class="element__tooltip"><?php esc_html_e( "It supports 150+ providers. Click to read the docs", "embedpress" ); ?></span>
                 </a>
                 <label class="input__switch element_switch">
                     <input class="element-check" type="checkbox" value="yes" data-name="embedpress" data-type="gutenberg" <?php echo isset( $g_blocks['embedpress']) ? 'checked': '';  ?> >

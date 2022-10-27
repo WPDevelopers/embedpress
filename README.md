@@ -1,5 +1,5 @@
 # EmbedPress
-EmbedPress is a WordPress plugin that are capable of embedding media from over 100+ providers into a WordPress site.
+EmbedPress is a WordPress plugin that are capable of embedding media from over 150+ providers into a WordPress site.
 
 # Table of Contents
 - [New Releases](https://github.com/WPDevelopers/embedpress/releases)

@@ -105,7 +105,7 @@ export default function EmbedPress(props) {
 
 			{((!embedHTML || editingURL) && !fetching) && <div {...blockProps}>
 				<EmbedPlaceholder
-					label={__('EmbedPress - Embed anything from 100+ sites')}
+					label={__('EmbedPress - Embed anything from 150+ sites')}
 					onSubmit={embed}
 					value={url}
 					cannotEmbed={cannotEmbed}
@@ -142,29 +142,29 @@ export default function EmbedPress(props) {
 					#block-${clientId} .ose-embedpress-responsive{
 						width: ${width}px!important;
 						height: ${height}px!important
-					} 
+					}
 					#block-${clientId} iframe{
 						width: ${width}px!important;
 						height: ${height}px!important
-					} 
+					}
 
 					#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap{
 						gap: ${gapbetweenvideos}px!important;
 						margin-top: ${gapbetweenvideos}px!important;
-					} 
-					
+					}
+
 					#block-${clientId} .ose-youtube{
 						width: ${width}px!important;
-					} 
+					}
 					#block-${clientId} .ose-youtube .ep-first-video iframe{
 						max-height: ${height}px!important;
-					} 
+					}
 
 					#block-${clientId} .ose-youtube > iframe{
 						height: ${height}px!important;
 						width: 100%;
-					} 
-					
+					}
+
 					#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap {
 						grid-template-columns: ${repeatCol};
 					}
