@@ -31,7 +31,8 @@ $orderby = isset( $opensea_settings['orderby']) ? $opensea_settings['orderby'] :
                 <p class="form__label" ><?php esc_html_e( "NFT Item Limit", "embedpress" ); ?> </p>
                 <div class="form__control__wrap">
                     <input type="number" min="1" max="100" name="limit" id="limit" class="form__control" data-default="<?php echo esc_attr( $limit); ?>" value="<?php echo esc_attr( $limit); ?>">
-                    <p><?php esc_html_e( "Specify the number of item you wish to show on page. Note: This option takes effect only when a OpenSea collection is embedded.", "embedpress" ); ?></p>
+                    <p><?php esc_html_e( "Specify the number of item you wish to show on page.", "embedpress" ); ?></p>
+                    <p class="ep-note"><?php esc_html_e( "Note: This option takes effect only when a OpenSea collection is embedded.", "embedpress" ); ?></p>
                 </div>
 
             </div>
@@ -42,8 +43,8 @@ $orderby = isset( $opensea_settings['orderby']) ? $opensea_settings['orderby'] :
                     <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>
                         <select name="orderby" data-default="<?php echo esc_attr($orderby); ?>">
-                            <option value="asc" <?php selected( 'asc',$orderby); ?>><?php esc_html_e( 'ASC', 'embedpress'); ?></option>
-                            <option value="desc" <?php selected( 'desc',$orderby); ?>><?php esc_html_e( 'DESC', 'embedpress'); ?></option>
+                            <option value="asc" <?php selected( 'asc',$orderby); ?>><?php esc_html_e( 'Oldest', 'embedpress'); ?></option>
+                            <option value="desc" <?php selected( 'desc',$orderby); ?>><?php esc_html_e( 'Newest', 'embedpress'); ?></option>
                         </select>
                     </div>
                     <p><?php esc_html_e( 'Indicates whether the video player controls are displayed.', 'embedpress'); ?> </p>

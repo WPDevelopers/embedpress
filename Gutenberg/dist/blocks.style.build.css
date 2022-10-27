@@ -494,8 +494,8 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
   -webkit-user-select: none;
   -ms-user-select: none; }
 
-.block-library-embed__interactive-overlay {
-  background-color: red; }
+.ep__components-placeholder, .wp-block-embedpress-embedpress, .block-editor-block-list__block {
+  clear: both !important; }
 /**
  * #.# Common SCSS
  *
@@ -679,6 +679,9 @@ span.isPro {
 .embedpress-inner-iframe {
   display: inline-block;
   text-align: center; }
+
+.ep__components-placeholder, .wp-block-embedpress-embedpress, .block-editor-block-list__block {
+  clear: both !important; }
 /**
  * #.# Common SCSS
  *

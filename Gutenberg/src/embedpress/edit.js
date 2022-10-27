@@ -216,7 +216,7 @@ export default function EmbedPress(props) {
 
 			{((!embedHTML || editingURL) && !fetching) && <div {...blockProps}>
 				<EmbedPlaceholder
-					label={__('EmbedPress - Embed anything from 100+ sites')}
+					label={__('EmbedPress - Embed anything from 150+ sites')}
 					onSubmit={embed}
 					value={url}
 					cannotEmbed={cannotEmbed}

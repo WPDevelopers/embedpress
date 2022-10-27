@@ -11,7 +11,7 @@ const EmbedPlaceholder = (props) => {
 
 	const classes = classnames( 'wp-block-embed', {} );
 	return (
-		<div>
+		<div className='ep__components-placeholder'>
 			<Placeholder icon={<BlockIcon icon={icon} showColors/>} label={label} className={classes}>
 
 				<form onSubmit={onSubmit}>

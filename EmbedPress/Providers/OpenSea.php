@@ -164,8 +164,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             $html = "";
             $params = $this->getParams();
             $param = array(
-                'limit' => $params['limit']?$params['limit']:$limit,
-                'order_direction' => $params['orderby']?$params['orderby']:$orderby,
+                'limit' => isset($params['limit'])?$params['limit']:$limit,
+                'order_direction' => isset($params['orderby'])?$params['orderby']:$orderby,
                 'collection_slug' => $matches[1],
                 'include_orders' => true,
             );
@@ -454,9 +454,22 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
     }
 
     public function openSeaStyle($params){
+           
+            if(isset($params['gapbetweenitem'])){
+                $gap = $params['gapbetweenitem'];
+            }
+            else{
+                $gap = 3;
+            }
 
-            if($params['nftperrow'] > 0){
-                $nftperrow = 'calc('.(100 / $params['nftperrow']).'% - '.$params['gapbetweenitem'].'px)';
+            if(isset($params['nftperrow'])){
+                $itemperrow  = $params['nftperrow'];
+            }
+            else{
+                $itemperrow = 20;
+            }
+            if($itemperrow > 0){
+                $nftperrow = 'calc('.(100 / $itemperrow).'% - '.$gap.'px)';
             }
             else{
                 $nftperrow = 'auto';
@@ -468,7 +481,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         <style>
             <?php echo esc_html($uniqid); ?> .ep_nft_content_wrap {
                 grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($nftperrow); ?>, 1fr))!important;
-                gap: <?php echo esc_html($params['gapbetweenitem']); ?>px!important;
+                gap: <?php echo esc_html($gap); ?>px!important;
             }
         </style>
     <?php

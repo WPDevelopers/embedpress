@@ -2298,6 +2298,9 @@ button.button__instagram.hover__highlight:hover .icon {
     color: #7C8DB5;
     margin-top: 10px;
 }
+.embedpress__settings__form .form__group .form__control__wrap p.ep-note {
+    font-size: 12px;
+}
 .embedpress__settings__form .form__group .form__control__wrap .isPro:not(.embedpress__select) {
     opacity: 0.3;
 }
