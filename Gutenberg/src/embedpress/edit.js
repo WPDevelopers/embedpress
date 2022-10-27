@@ -51,8 +51,9 @@ export default function EmbedPress(props) {
 				let _columns = isYTChannel ? `&columns=${columns}` : '';
 
 				let __url = url.split('#');
+				__url = encodeURIComponent(__url[0]);
 
-				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${__url[0]}&width=${width}&height=${height}${_columns}${_ispagination}${_pagesize}${_gapbetweenvideos}`).then(response => response.json());
+				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${__url}&width=${width}&height=${height}${_columns}${_ispagination}${_pagesize}${_gapbetweenvideos}`).then(response => response.json());
 			}
 			fetchData(url).then(data => {
 				setAttributes({
