@@ -317,7 +317,7 @@ function embedpress_pdf_render_block($attributes)
 
 		<?php
 			if ($powered_by) {
-				printf('<p class="embedpress-el-powered" style="'.esc_attr( $width ).'" >%s</p>', __('Powered By EmbedPress', 'embedpress'));
+				printf('<p class="embedpress-el-powered" style="width:'.esc_attr( $width ).'" >%s</p>', __('Powered By EmbedPress', 'embedpress'));
 			} ?>
 
 	</div>
