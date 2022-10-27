@@ -143,3 +143,7 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
 .ep__components-placeholder, .wp-block-embedpress-embedpress, .block-editor-block-list__block{
     clear: both!important;
 }
+
+.wp-block-embed.is-loading p {
+    margin: 0!important;
+}

@@ -201,7 +201,7 @@ export default function EmbedPress(props) {
 			}
 		}, 300)
 		return () => clearTimeout(delayDebounceFn)
-	}, [pagesize, limit, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize]);
+	}, [height, width, pagesize, limit, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize]);
 
 	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
 
@@ -227,12 +227,10 @@ export default function EmbedPress(props) {
 				/>
 			</div>}
 
-
 			{
-				(!isOpensea || (isOpensea && editingURL)) && fetching && (<div className={className}><EmbedLoading /> </div>)
+				(!isOpensea || editingURL) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
-
-
+			
 
 			{(embedHTML && !editingURL && (!fetching || isOpensea)) && <figure {...blockProps} >
 				<EmbedWrap style={{ display: (fetching && !isOpensea) ? 'none' : '' }} dangerouslySetInnerHTML={{
@@ -309,6 +307,7 @@ export default function EmbedPress(props) {
 							`
 							#block-${clientId}{
 								min-width: 900px;
+								max-width: 100%!important;
 							}
 							`
 						}
