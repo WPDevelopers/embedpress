@@ -1723,39 +1723,11 @@ class Embedpress_Elementor extends Widget_Base
 				'label' => esc_html__( 'Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .ep_nft_price span' => 'color: {{VALUE}}',
-				],
-			]
-		);
-		
-		$this->add_group_control(
-			\Elementor\Group_Control_Typography::get_type(),
-			[
-				'name' => 'nft_price_typography',
-				'selector' => '{{WRAPPER}} .ep_nft_price span',
-			]
-		);
-
-		$this->add_control(
-			'price_heading',
-			[
-				'label' => esc_html__( 'Current Price', 'embedpress' ),
-				'type' => \Elementor\Controls_Manager::HEADING,
-				'separator' => 'before',
-			]
-		);
-		
-		$this->add_control(
-			'nft_price_color',
-			[
-				'label' => esc_html__( 'Color', 'embedpress' ),
-				'type' => \Elementor\Controls_Manager::COLOR,
-				'selectors' => [
 					'{{WRAPPER}} .ep_current_price span' => 'color: {{VALUE}}',
 				],
 			]
 		);
-
+		
 		$this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			[
@@ -1763,7 +1735,6 @@ class Embedpress_Elementor extends Widget_Base
 				'selector' => '{{WRAPPER}} .ep_current_price span',
 			]
 		);
-
 		$this->add_control(
 			'last_sale_heading',
 			[
