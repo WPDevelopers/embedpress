@@ -2,10 +2,10 @@
 /**
  * Plugin Name: EmbedPress
  * Plugin URI:  https://embedpress.com/
- * Description: EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 100+ sources supported.
+ * Description: EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 150+ sources supported.
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
- * Version: 3.5.2
+ * Version: 3.5.3
  * Text Domain: embedpress
  * Domain Path: /languages
  *

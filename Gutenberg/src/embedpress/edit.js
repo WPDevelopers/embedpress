@@ -144,7 +144,7 @@ export default function EmbedPress(props) {
 						nftbutton: nftbutton ? nftbutton : false,
 						label_nftbutton: label_nftbutton ? label_nftbutton : 'See Details',
 
-						//Pass Color and Typography 
+						//Pass Color and Typography
 						titleColor: titleColor ? titleColor : '',
 						titleFontsize: titleFontsize ? titleFontsize : '',
 						creatorColor: creatorColor ? creatorColor : '',
@@ -163,7 +163,9 @@ export default function EmbedPress(props) {
 					openseaParams = '&' + new URLSearchParams(_isOpensea).toString();
 				}
 
-				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${url}&width=${width}&height=${height}${youtubeParams}${openseaParams}`).then(response => response.json());
+				let __url = url.split('#');
+				__url = encodeURIComponent(__url[0]);
+				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${__url}&width=${width}&height=${height}${youtubeParams}${openseaParams}`).then(response => response.json());
 			}
 
 			fetchData(url).then(data => {
