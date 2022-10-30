@@ -203,6 +203,9 @@ class Handler extends EndHandlerAbstract {
 	        'youtube.com/user/*',
 	        'youtube.com/(\w+)[^?\/]*$',
 
+            // opensea
+            'opensea.io/collection/*',
+
             // Flickr (http://www.flickr.com/)
             'flickr.com/photos/*/*',
             'flic.kr/p/*',
