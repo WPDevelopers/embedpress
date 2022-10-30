@@ -1,4 +1,23 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"); */
+
+@font-face {
+    font-family: 'DMSans-Regular';
+    src: url('./fonts/DMSans-Regular.svg#DMSans-Regular') format('svg'),
+         url('./fonts/DMSans-Regular.ttf') format('truetype'),
+         url('./fonts/DMSans-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'DMSans';
+    src: url('./fonts/DMSans.eot');
+    src: url('./fonts/DMSans.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/DMSans.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 :root {
     --base-gutter: 30px;
     --md-gutter: 50px;
@@ -58,7 +77,8 @@
 }
 
 .template__wrapper {
-    font-family: "DM Sans", sans-serif;
+    /* font-family: "DM Sans", sans-serif; */
+    font-family: 'DMSans';
     line-height: 1.7;
     font-weight: 400;
     min-height: 100vh;
@@ -138,7 +158,8 @@
 .template__wrapper h4,
 .template__wrapper h5,
 .template__wrapper h6 {
-    font-family: "DM Sans", sans-serif;
+    /* font-family: "DM Sans", sans-serif; */
+    font-family: 'DMSans';
     font-weight: 700;
     line-height: 1.3;
 }
@@ -356,7 +377,8 @@
 }
 
 .embedpress-tab .nav__menu ul .nav__item, .template__wrapper label, .iframe__size__control__form .form__group .frame__unit, .iframe__size__control__wrap h3, .embedpress__settings__form .form__group .form__label, .embedpress__settings__form .form__group .form__control__wrap p, .upgrade__card .card__content h4, .upgrade__card .card__content p, .upgrage__card__tab__style h3, .upgrage__card__tab__style p, .embedpress-license__details .license__content .thumb__area h2, .embedpress-license__details .license__content p, .embedpress-license__details .license__content ol li, .embedpress-card h3, .embedpress-card p, .element__item h5, .element__item .pro__item, .embedpress--elements__wrap h3 {
-    font-family: "DM Sans", sans-serif;
+    /* font-family: "DM Sans", sans-serif; */
+    font-family: 'DMSans';
 }
 
 .color__themeColor {
@@ -1374,7 +1396,8 @@ button.button__instagram.hover__highlight:hover .icon {
     border: 1px solid rgba(91, 78, 150, 0.1);
     font-size: 16px;
     font-weight: 500;
-    font-family: "DM Sans", sans-serif;
+    /* font-family: "DM Sans", sans-serif; */
+    font-family: 'DMSans';
     cursor: pointer;
     -webkit-transition: all 0.3s ease-in-out 0s;
     transition: all 0.3s ease-in-out 0s;
