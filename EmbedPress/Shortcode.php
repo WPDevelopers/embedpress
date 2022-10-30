@@ -349,9 +349,6 @@ KAMAL;
             }
         }
 
-
-
-
         return $subject;
     }
 

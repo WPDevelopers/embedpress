@@ -459,15 +459,16 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 $gap = $params['gapbetweenitem'];
             }
             else{
-                $gap = 3;
+                $gap = 30;
             }
 
             if(isset($params['nftperrow'])){
                 $itemperrow  = $params['nftperrow'];
             }
             else{
-                $itemperrow = 20;
+                $itemperrow = 3;
             }
+
             if($itemperrow > 0){
                 $nftperrow = 'calc('.(100 / $itemperrow).'% - '.$gap.'px)';
             }
@@ -480,8 +481,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         <style>
             <?php echo esc_html($uniqid); ?> .ep_nft_content_wrap {
-                grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($nftperrow); ?>, 1fr))!important;
-                gap: <?php echo esc_html($gap); ?>px!important;
+                grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($nftperrow); ?>, 1fr));
+                gap: <?php echo esc_html($gap); ?>px;
             }
         </style>
     <?php
