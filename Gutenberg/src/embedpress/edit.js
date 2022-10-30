@@ -37,6 +37,8 @@ export default function EmbedPress(props) {
 		columns,
 		gapbetweenvideos,
 		limit,
+		layout,
+		preset,
 		orderby,
 		nftperrow,
 		gapbetweenitem,
@@ -50,6 +52,7 @@ export default function EmbedPress(props) {
 		prefix_nftlastsale,
 		nftbutton,
 		label_nftbutton,
+		alignment,
 		titleColor,
 		titleFontsize,
 		creatorColor,
@@ -131,6 +134,8 @@ export default function EmbedPress(props) {
 					let _isOpensea = {
 						limit: limit ? limit : 20,
 						orderby: orderby ? orderby : 'desc',
+						layout: layout ? layout : 'ep-grid',
+						preset: preset ? preset : 'ep-preset-1',
 						nftperrow: nftperrow ? nftperrow : '3',
 						gapbetweenitem: gapbetweenitem ? gapbetweenitem : 30,
 						nftimage: nftimage ? nftimage : false,
@@ -203,7 +208,7 @@ export default function EmbedPress(props) {
 			}
 		}, 300)
 		return () => clearTimeout(delayDebounceFn)
-	}, [pagesize, limit, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize]);
+	}, [pagesize, limit, layout, preset, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize]);
 
 	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
 
@@ -337,7 +342,7 @@ export default function EmbedPress(props) {
 						{
 							`
 							#block-${clientId}{
-								min-width: 900px;
+								width: 900px;
 								max-width: 100%!important;
 							}
 							`

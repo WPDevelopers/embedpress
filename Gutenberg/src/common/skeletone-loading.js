@@ -21,7 +21,7 @@ export default function SkeletonLoaading({columns, limit, gapbetweenitem }) {
     }
     return (
         <div className="wp-block-embed is-loading text-center" style={{ gridTemplateColumns: `${repeatCol}`, display: 'grid' }}>
-            <div class="ep_nft_content_wrap ep_nft_grid nft_items preset-1">
+            <div class="ep_nft_content_wrap ep_nft__wrapper nft_items preset-1">
                 { items }
             </div>
         </div>

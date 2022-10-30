@@ -14,7 +14,10 @@ const {
     PanelBody,
     ColorPalette,
     FontSizePicker,
+    // AlignmentMatrixControl
 } = wp.components;
+
+// import { __experimentalAlignmentMatrixControl as AlignmentMatrixControl } from '@wordpress/components';
 
 const {
     InspectorControls
@@ -25,6 +28,8 @@ export default function OpenSea({ attributes, setAttributes }) {
     const {
         limit,
         orderby,
+        layout,
+        preset,
         nftperrow,
         nftimage,
         nftcreator,
@@ -36,6 +41,7 @@ export default function OpenSea({ attributes, setAttributes }) {
         prefix_nftlastsale,
         nftbutton,
         label_nftbutton,
+        alignment,
 
         titleColor,
         titleFontsize,
@@ -122,6 +128,7 @@ export default function OpenSea({ attributes, setAttributes }) {
 
     const fallbackFontSize = 16;
 
+    console.log(layout);
 
     return (
         <div>
@@ -147,6 +154,30 @@ export default function OpenSea({ attributes, setAttributes }) {
                         onChange={(orderby) => setAttributes({ orderby })}
                         __nextHasNoMarginBottom
                     />
+
+                    <SelectControl
+                        label={__("Layout", "embedpress")}
+                        value={layout}
+                        options={[
+                            { label: 'Grid', value: 'ep-grid' },
+                            { label: 'List', value: 'ep-list' },
+                        ]}
+                        onChange={(layout) => setAttributes({ layout })}
+                    />
+                    {
+                        (layout == 'ep-grid') && (
+                            <SelectControl
+                                label={__("Preset", "embedpress")}
+                                value={preset}
+                                options={[
+                                    { label: 'Preset 1', value: 'ep-preset-1' },
+                                    { label: 'Preset 2', value: 'ep-preset-2' },
+                                ]}
+                                onChange={(preset) => setAttributes({ preset })}
+                            />
+                        )
+                    }
+
 
                     <RangeControl
                         label={__("Item Per Row", "embedpress")}
@@ -256,6 +287,8 @@ export default function OpenSea({ attributes, setAttributes }) {
                             </div>
                         )
                     }
+
+                    
 
 
                 </div>

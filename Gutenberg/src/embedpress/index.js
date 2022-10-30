@@ -114,6 +114,17 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'number',
 				default: 30
 			},
+
+			layout: {
+				type: 'string',
+				default: 'ep-grid'
+			},
+
+			preset: {
+				type: 'string',
+				default: 'ep-preset-1'
+			},
+
 			nftperrow: {
 				type: 'number',
 				default: 3
@@ -157,6 +168,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			label_nftbutton: {
 				type: 'string',
 				default: 'See Details'
+			},
+			alignment: {
+				type: 'string',
+				default: 'ep-item-center'
 			},
 
 			// Color and Typograpyh
