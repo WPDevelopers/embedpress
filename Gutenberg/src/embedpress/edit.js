@@ -201,7 +201,7 @@ export default function EmbedPress(props) {
 			}
 		}, 300)
 		return () => clearTimeout(delayDebounceFn)
-	}, [height, width, pagesize, limit, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize]);
+	}, [pagesize, limit, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize]);
 
 	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
 
@@ -230,7 +230,7 @@ export default function EmbedPress(props) {
 			{
 				(!isOpensea || editingURL) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
-			
+
 
 			{(embedHTML && !editingURL && (!fetching || isOpensea)) && <figure {...blockProps} >
 				<EmbedWrap style={{ display: (fetching && !isOpensea) ? 'none' : '' }} dangerouslySetInnerHTML={{
@@ -247,6 +247,15 @@ export default function EmbedPress(props) {
 
 				}
 
+				{
+					!isOpensea && (
+						<div
+							className="block-library-embed__interactive-overlay"
+							onMouseUp={setAttributes({ interactive: true })}
+						/>
+					)
+				}
+
 
 				<EmbedControls
 					showEditButton={embedHTML && !cannotEmbed}
@@ -261,42 +270,62 @@ export default function EmbedPress(props) {
 					<style style={{ display: "none" }}>
 						{
 							`
-					#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap{
-						gap: ${gapbetweenvideos}px!important;
-						margin-top: ${gapbetweenvideos}px!important;
-					}
+							#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap{
+								gap: ${gapbetweenvideos}px!important;
+								margin-top: ${gapbetweenvideos}px!important;
+							}
 
-					#block-${clientId} .ose-youtube{
-						width: ${width}px!important;
-					}
-					#block-${clientId} .ose-youtube .ep-first-video iframe{
-						max-height: ${height}px!important;
-					}
+							#block-${clientId} .ose-youtube{
+								width: ${width}px!important;
+							}
+							#block-${clientId} .ose-youtube .ep-first-video iframe{
+								max-height: ${height}px!important;
+							}
 
-					#block-${clientId} .ose-youtube > iframe{
-						height: ${height}px!important;
-						width: 100%;
-					}
+							#block-${clientId} .ose-youtube > iframe{
+								height: ${height}px!important;
+								width: ${width}px!important;
+							}
 
-					#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap {
-						grid-template-columns: ${repeatCol};
-					}
+							#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap {
+								grid-template-columns: ${repeatCol};
+							}
 
-					#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
-						display: flex!important;
-					}
+							#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
+								display: flex!important;
+							}
 
-					${!ispagination && (
+							${!ispagination && (
 								`#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
-							display: none!important;
-						}`
+									display: none!important;
+								}`
 							)}
 
-					`
+							`
 						}
 
 					</style>
+				)
 
+			}
+
+			{
+				!isYTChannel && (
+					<style style={{ display: "none" }}>
+						{
+							`
+							#block-${clientId} .ose-youtube > iframe{
+								height: ${height}px!important;
+								width: ${width}px!important;
+							}
+							#block-${clientId} .ose-youtube{
+								height: ${height}px!important;
+								width: ${width}px!important;
+							}
+						`
+						}
+
+					</style>
 				)
 			}
 
