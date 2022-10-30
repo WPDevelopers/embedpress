@@ -1521,7 +1521,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label'       => sprintf(__('Prefix %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'default' => esc_html__( 'Created By', 'embedpress' ),
-				'placeholder' => esc_html__( 'Type your created by text here', 'embedpress' ),
+				'placeholder' => esc_html__( 'Created By', 'embedpress' ),
 				'classes'     => $this->pro_class,
 				'condition' => [
 					'nftcreator' => 'yes',
@@ -1550,7 +1550,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label'        => sprintf(__('Prefix %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'default' => esc_html__( 'Price', 'embedpress' ),
-				'placeholder' => esc_html__( 'Type your price text here', 'embedpress' ),
+				'placeholder' => esc_html__( 'Price', 'embedpress' ),
 				'classes'     => $this->pro_class,
 				'condition' => [
 					'nftprice' => 'yes',
@@ -1579,7 +1579,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label'        => sprintf(__('Prefix %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'default' => esc_html__( 'Last Sale', 'embedpress' ),
-				'placeholder' => esc_html__( 'Type your last sale text here', 'embedpress' ),
+				'placeholder' => esc_html__( 'Last Sale', 'embedpress' ),
 				'classes'     => $this->pro_class,
 				'condition' => [
 					'nftlastsale' => 'yes',
@@ -1607,7 +1607,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label'        => sprintf(__('Button Label %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'default' => esc_html__( 'See Datails', 'embedpress' ),
-				'placeholder' => esc_html__( 'Type your button text here', 'embedpress' ),
+				'placeholder' => esc_html__( 'See Details', 'embedpress' ),
 				'classes'     => $this->pro_class,
 				'condition' => [
 					'nftbutton' => 'yes',
