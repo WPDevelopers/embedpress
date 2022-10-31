@@ -129,6 +129,7 @@ export default function EmbedPress(props) {
 					youtubeParams = '&' + new URLSearchParams(_isYTChannel).toString();
 				}
 
+
 				//Generate Opensea params
 				if (isOpensea) {
 					let _isOpensea = {
@@ -140,14 +141,14 @@ export default function EmbedPress(props) {
 						gapbetweenitem: gapbetweenitem ? gapbetweenitem : 30,
 						nftimage: nftimage ? nftimage : false,
 						nftcreator: nftcreator ? nftcreator : false,
-						prefix_nftcreator: prefix_nftcreator ? prefix_nftcreator : 'Created By',
+						prefix_nftcreator: prefix_nftcreator ? prefix_nftcreator : '',
 						nfttitle: nfttitle ? nfttitle : false,
 						nftprice: nftprice ? nftprice : false,
-						prefix_nftprice: prefix_nftprice ? prefix_nftprice : 'Price',
+						prefix_nftprice: prefix_nftprice ? prefix_nftprice : '',
 						nftlastsale: nftlastsale ? nftlastsale : false,
-						prefix_nftlastsale: prefix_nftlastsale ? prefix_nftlastsale : 'Last Sale',
+						prefix_nftlastsale: prefix_nftlastsale ? prefix_nftlastsale : '',
 						nftbutton: nftbutton ? nftbutton : false,
-						label_nftbutton: label_nftbutton ? label_nftbutton : 'See Details',
+						label_nftbutton: label_nftbutton ? label_nftbutton : '',
 
 						//Pass Color and Typography
 						titleColor: titleColor ? titleColor : '',
@@ -167,6 +168,8 @@ export default function EmbedPress(props) {
 
 					openseaParams = '&' + new URLSearchParams(_isOpensea).toString();
 				}
+
+				
 
 				let __url = url.split('#');
 				__url = encodeURIComponent(__url[0]);

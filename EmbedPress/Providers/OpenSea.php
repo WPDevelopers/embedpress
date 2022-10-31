@@ -342,13 +342,13 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         $thumbnail = '';
         $title = '';
         $creator = '';
-        $prefix_creator = 'Created By';
+        $prefix_creator = '';
         $current_price = 0;
-        $prefix_current_price = 'Price';
+        $prefix_current_price = '';
         $last_sale = 0;
-        $prefix_last_sale = 'Last Sale';
+        $prefix_last_sale = '';
         $nftbutton = '';
-        $label_nftbutton = 'Sea Details';
+        $label_nftbutton = '';
 
         $current_price_template = '';
         $last_sale_price_template = ''; 
@@ -384,17 +384,17 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         }
 
         // Checked and assigned prefix text value 
-        if(!empty($params['prefix_nftcreator']) && $params['prefix_nftcreator'] != 'false'){
+        if(!empty($params['prefix_nftcreator']) && $params['prefix_nftcreator'] != 'false' && $params['prefix_nftcreator'] != 'true'){
             $prefix_creator = $params['prefix_nftcreator'];
         }
 
-        if(!empty($params['prefix_nftprice']) && $params['prefix_nftprice'] != 'false'){
+        if(!empty($params['prefix_nftprice']) && $params['prefix_nftprice'] != 'false' && $params['prefix_nftprice'] != 'true'){
             $prefix_current_price = $params['prefix_nftprice'];
         } 
-        if(!empty($params['prefix_nftlastsale'])  && $params['prefix_nftlastsale'] != 'false'){
+        if(!empty($params['prefix_nftlastsale'])  && $params['prefix_nftlastsale'] != 'false' && $params['prefix_nftlastsale'] != 'true'){
             $prefix_last_sale = $params['prefix_nftlastsale'];
         }
-        if(!empty($params['label_nftbutton']) && $params['label_nftbutton'] != 'false'){
+        if(!empty($params['label_nftbutton']) && $params['label_nftbutton'] != 'false' && $params['label_nftbutton'] != 'true'){
             $label_nftbutton = $params['label_nftbutton'];
         }
 
