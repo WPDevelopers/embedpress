@@ -1425,6 +1425,53 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->add_control(
+			'layout',
+			[
+				'label'       => __('Layout', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label_block' => false,
+				'default' => 'ep-grid',
+				'options' => [
+					'ep-grid'  => esc_html__('Grid', 'embedpress'),
+					'ep-list'  => esc_html__('List', 'embedpress'),
+				],
+				'conditions'  => [
+					'terms' => [
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => '===',
+							'value' => 'opensea',
+						],
+					],
+				]
+
+			]
+		);
+		$this->add_control(
+			'preset',
+			[
+				'label'       => __('Preset', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label_block' => false,
+				'default' => 'ep-preset-1',
+				'options' => [
+					'ep-preset-1'  => esc_html__('Preset 1', 'embedpress'),
+					'ep-preset-2'  => esc_html__('Preset 2', 'embedpress'),
+				],
+				'conditions'  => [
+					'terms' => [
+						[
+							'name' => 'layout',
+							'operator' => '===',
+							'value' => 'ep-grid',
+						],
+					],
+				]
+
+			]
+		);
+
+		$this->add_control(
 			'nftperrow',
 			[
 				'label'       => __('Column', 'embedpress'),
@@ -1812,6 +1859,16 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'label' => __('General', 'embedpress'),
 				'tab'   => Controls_Manager::TAB_STYLE,
+				'conditions'  => [
+					'terms' => [
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => '!==',
+							'value' => 'opensea',
+						],
+					],
+				]
+				
 			]
 		);
 		$this->add_control(
@@ -1852,7 +1909,6 @@ class Embedpress_Elementor extends Widget_Base
 				]
 			]
 		);
-
 		$this->add_responsive_control(
 			'margin',
 			[
