@@ -184,7 +184,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 $ep_layout =  $params['layout'];
             }
 
-            if($params['layout'] == 'ep-grid'){
+            if( ! empty( $params['layout'] ) && $params['layout'] == 'ep-grid'){
                 if(! empty( $params['preset'] )){
                     $ep_preset =  $params['preset'];
                 }
