@@ -46,6 +46,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         'prefix_nftlastsale',
         'nftbutton',
         'label_nftbutton',
+        'itemBGColor',
         'titleColor',
 		'titleFontsize',
 		'creatorColor',
@@ -335,7 +336,13 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             'nftcreator' => true,
             'nftbutton' => true,
             'nftprice' => true,
-            'nftlastsale' => true
+            'nftlastsale' => true,
+            'layout' => 'ep-grid',
+            'preset' => 'ep-preset-1',
+            'prefix_nftcreator' => 'Created By',
+            'prefix_nftprice' => 'Price',
+            'prefix_nftlastsale' => 'Last Sale',
+            'label_nftbutton' => 'See Details'
         ] );
 
         //Intialize default value
@@ -463,12 +470,17 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         if(isset($params['layout']) && $params['layout'] == 'ep-grid'){
             $outterNFTbutton = $nftbutton;
         }
-        if(isset($params['layout']) && $params['layout'] == 'ep-list'){
+        else if(isset($params['layout']) && $params['layout'] == 'ep-list'){
             $innerNFTbutton = $nftbutton;
         }
+        else{
+            $outterNFTbutton = $nftbutton;
+        }
+
+        $itemBGColor = $this->createStye('', '', 'itemBGColor');
 
         $template = '
-                <div class="ep_nft_item ">
+                <div class="ep_nft_item" '.$itemBGColor.'>
                     '.$thumbnail.'
                     <div class="ep_nft_content">
                        '.$title.'

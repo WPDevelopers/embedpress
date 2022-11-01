@@ -42,7 +42,7 @@ export default function OpenSea({ attributes, setAttributes }) {
         nftbutton,
         label_nftbutton,
         alignment,
-
+        itemBGColor,
         titleColor,
         titleFontsize,
         creatorColor,
@@ -288,14 +288,20 @@ export default function OpenSea({ attributes, setAttributes }) {
                         )
                     }
 
-                    
-
-
                 </div>
             </PanelBody>
             <PanelBody title={__("Color and Typography")} initialOpen={false}>
                 <p>{__("You can adjust the color and typography of embedded content.")}</p>
                 <InspectorControls>
+                    <PanelBody title={__("NFT Item")} initialOpen={false}>
+                        <ControlHeader headerText={'Background Color'} />
+                        <ColorPalette
+                            label={__("Background Color")}
+                            colors={colors}
+                            value={itemBGColor}
+                            onChange={(itemBGColor) => setAttributes({ itemBGColor })}
+                        />
+                    </PanelBody>
                     <PanelBody title={__("Title")} initialOpen={false}>
                         <ControlHeader headerText={'Color'} />
                         <ColorPalette

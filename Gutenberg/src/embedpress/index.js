@@ -175,6 +175,9 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 
 			// Color and Typograpyh
+			itemBGColor: {
+				type: 'string',
+			},
 			titleColor: {
 				type: 'string',
 			},

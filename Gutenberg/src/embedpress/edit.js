@@ -53,6 +53,7 @@ export default function EmbedPress(props) {
 		nftbutton,
 		label_nftbutton,
 		alignment,
+		itemBGColor,
 		titleColor,
 		titleFontsize,
 		creatorColor,
@@ -151,6 +152,7 @@ export default function EmbedPress(props) {
 						label_nftbutton: label_nftbutton ? label_nftbutton : '',
 
 						//Pass Color and Typography
+						itemBGColor: itemBGColor ? itemBGColor : '',
 						titleColor: titleColor ? titleColor : '',
 						titleFontsize: titleFontsize ? titleFontsize : '',
 						creatorColor: creatorColor ? creatorColor : '',
@@ -211,7 +213,7 @@ export default function EmbedPress(props) {
 			}
 		}, 300)
 		return () => clearTimeout(delayDebounceFn)
-	}, [pagesize, limit, layout, preset, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize]);
+	}, [pagesize, limit, layout, preset, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator,itemBGColor, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize]);
 
 	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
 
