@@ -25,8 +25,8 @@ $calendarList = Embedpress_Google_Helper::getDecoded( 'epgc_calendarlist' ); //s
                     <p>
                         <?php esc_html_e( 'Enter the JSON string downloaded from the Google Console.', 'embedpress'); ?>
                         <br>
-	                    <?php printf(__('Note: Create a new project in the Google developer console and make sure you set <code>%s</code> as the authorized redirect URI.', 'embedpress'), $ep_page . '&page_type=google-calendar'); ?>
                     </p>
+                    <p class="ep-note"> <?php printf(__('Note: Create a new project in the Google developer console and make sure you set <code>%s</code> as the authorized redirect URI.', 'embedpress'), $ep_page . '&page_type=google-calendar'); ?></p>
 
                 </div>
 				<?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>

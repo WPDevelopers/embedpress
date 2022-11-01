@@ -47,7 +47,8 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
                 <p class="form__label" ><?php esc_html_e( "Video Per Page", "embedpress" ); ?> </p>
                 <div class="form__control__wrap">
                     <input type="number" min="1" max="50" name="pagesize" id="pagesize" class="form__control" data-default="<?php echo esc_attr( $pagesize); ?>" value="<?php echo esc_attr( $pagesize); ?>">
-                    <p><?php esc_html_e( "Specify the number of videos you wish to show on each page. Note: This option takes effect only when a YouTube channel is embedded.", "embedpress" ); ?></p>
+                    <p><?php esc_html_e( "Specify the number of videos you wish to show on each page.", "embedpress" ); ?></p>
+                    <p class="ep-note"><?php esc_html_e( "Note: This option takes effect only when a YouTube channel is embedded.", "embedpress" ); ?></p>
                 </div>
 
             </div>
@@ -93,7 +94,8 @@ $yt_sub_count = isset( $yt_settings['yt_sub_count']) ? $yt_settings['yt_sub_coun
                             <option value="white" <?php selected( 'white', $color); ?> ><?php esc_html_e( "White", "embedpress" ); ?></option>
                         </select>
                     </div>
-                    <p><?php printf( esc_html__( "Specifies the color that will be used in the player's video progress bar to highlight the amount of the video that the viewer has already seen. %s Note: Setting the color to white will disable the Modest Branding option (causing a YouTube logo to be displayed in the control bar).", 'embedpress'), '<br>'); ?></p>
+                    <p><?php printf( esc_html__( "Specifies the color that will be used in the player's video progress bar to highlight the amount of the video that the viewer has already seen. %s", 'embedpress'), '<br>'); ?></p>
+                    <p class="ep-note"><?php esc_html_e( "Note: Setting the color to white will disable the Modest Branding option (causing a YouTube logo to be displayed in the control bar)." ); ?></p>
                 </div>
             </div>
             <div class="form__group">
