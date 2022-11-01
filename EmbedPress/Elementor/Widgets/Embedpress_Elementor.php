@@ -1682,6 +1682,26 @@ class Embedpress_Elementor extends Widget_Base
 
 		
 		$this->add_control(
+			'item_heading',
+			[
+				'label' => esc_html__( 'NFT Item', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+		
+		$this->add_control(
+			'nft_item_background_color',
+			[
+				'label' => esc_html__( 'Background Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .ep_nft_content_wrap .ep_nft_item' => 'background-color: {{VALUE}}',
+				],
+			]
+		);
+		
+		$this->add_control(
 			'title_heading',
 			[
 				'label' => esc_html__( 'Title', 'embedpress' ),
@@ -1824,7 +1844,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label' => esc_html__( 'Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_content .ep_nft_button a' => 'color: {{VALUE}}',
+					'{{WRAPPER}} .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button a' => 'color: {{VALUE}}',
 				],
 			]
 		);
@@ -1834,7 +1854,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label' => esc_html__( 'Background Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_content .ep_nft_button a' => 'background-color: {{VALUE}}',
+					'{{WRAPPER}} .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button a' => 'background-color: {{VALUE}}',
 				],
 			]
 		);
@@ -1842,7 +1862,7 @@ class Embedpress_Elementor extends Widget_Base
 			\Elementor\Group_Control_Typography::get_type(),
 			[
 				'name' => 'nftbutton_typography',
-				'selector' => '{{WRAPPER}} .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_content .ep_nft_button a',
+				'selector' => '{{WRAPPER}} .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button a',
 			]
 		);
 
