@@ -196,6 +196,8 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
     padding: 15px;
     position: relative;
     transition: .3s ease-in-out;
+    display: flex;
+    flex-direction: column;
 }
 
  .ep_nft_content_wrap.ep_nft_list .ep_nft_item {
@@ -319,7 +321,7 @@ span.eb_nft_currency svg {
 }
 
 
-.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_content .ep_nft_button:hover a {
+.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button:hover a {
     background-color: #5c4bd9;
     color: #ffffff;
 }
@@ -340,8 +342,10 @@ span.eb_nft_currency svg {
     width: 100%;
     transition:0.3s;
 }
-
-.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_content .ep_nft_button a {
+.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button{
+    margin-top: auto;
+}
+.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button a {
     background-color: #3080E2;
     color: #ffffff;
     font-size: 14px;
