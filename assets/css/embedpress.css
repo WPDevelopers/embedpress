@@ -535,6 +535,8 @@
     padding: 15px;
     position: relative;
     transition: .3s ease-in-out;
+}
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-grid.ep-preset-2 .ep_nft_item {
     display: flex;
     flex-direction: column;
 }
@@ -685,7 +687,9 @@ span.eb_nft_currency svg {
     width: 100%;
     transition: 0.3s;
 }
-
+.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button{
+    margin-top: auto;
+}
 .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button a {
     background-color: #3080E2;
     color: #ffffff;

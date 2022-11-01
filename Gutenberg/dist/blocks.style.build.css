@@ -322,7 +322,9 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
   position: relative;
   -webkit-transition: .3s ease-in-out;
   -o-transition: .3s ease-in-out;
-  transition: .3s ease-in-out;
+  transition: .3s ease-in-out; }
+
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-grid.ep-preset-2 .ep_nft_item {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;

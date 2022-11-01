@@ -458,6 +458,15 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 </div>';
         endif;
 
+        $innerNFTbutton = '';
+        $outterNFTbutton = '';
+        if(isset($params['layout']) && $params['layout'] == 'ep-grid'){
+            $outterNFTbutton = $nftbutton;
+        }
+        if(isset($params['layout']) && $params['layout'] == 'ep-list'){
+            $innerNFTbutton = $nftbutton;
+        }
+
         $template = '
                 <div class="ep_nft_item ">
                     '.$thumbnail.'
@@ -470,8 +479,9 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                                 '.$last_sale_price_template.'
                             </div>
                         </div>
+                        '.$innerNFTbutton.'
                     </div>
-                    '.$nftbutton.'
+                    '.$outterNFTbutton.'
                 </div>
             ';
 
