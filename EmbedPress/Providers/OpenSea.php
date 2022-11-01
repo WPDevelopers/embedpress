@@ -219,7 +219,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                     <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx">
                         <div class="ep_nft_content_wrap ep_nft__wrapper nft_items <?php echo esc_attr( $ep_layout.' '.$ep_preset ); ?>">
                             <?php
-                                if(is_array($jsonResult->assets)){
+                                if(isset($jsonResult->assets) && is_array($jsonResult->assets)){
                                     foreach ($jsonResult->assets as $key => $asset) {
                                         $asset = $this->normalizeJSONData($asset);
                                         $template = $this->nftItemTemplate($asset);
@@ -470,8 +470,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                                 '.$last_sale_price_template.'
                             </div>
                         </div>
-                        '.$nftbutton.'
                     </div>
+                    '.$nftbutton.'
                 </div>
             ';
 
