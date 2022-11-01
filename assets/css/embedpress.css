@@ -528,15 +528,13 @@
     background-color: #ffffff;
     border-radius: 10px;
     transition: background 0.5s, border 0.5s, border-radius 0.5s, box-shadow 0.5s;
-
-    border-radius: 5px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, .09);
     overflow: hidden;
     padding: 15px;
     position: relative;
     transition: .3s ease-in-out;
 }
-.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-grid.ep-preset-2 .ep_nft_item {
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-grid .ep_nft_item {
     display: flex;
     flex-direction: column;
 }

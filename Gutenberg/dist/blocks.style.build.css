@@ -324,7 +324,7 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
   -o-transition: .3s ease-in-out;
   transition: .3s ease-in-out; }
 
-.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-grid.ep-preset-2 .ep_nft_item {
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-grid .ep_nft_item {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
@@ -520,8 +520,11 @@ span.eb_nft_currency svg {
 .ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_button a {
   border-radius: 10px; }
 
-.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-preset-2 .ep_nft_item .ep_nft_button a {
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items .ep_nft_item .ep_nft_button a {
   border-radius: 10px; }
+
+.ep-nft-gallery-wrapper .ep_nft_content_wrap.ep_nft__wrapper.ep-preset-1 .ep_nft_item .ep_nft_button a {
+  border-radius: 0; }
 
 .ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-grid.ep-preset-2 .ep_nft_content .ep_nft_price:last-child {
   margin-bottom: 15px; }
