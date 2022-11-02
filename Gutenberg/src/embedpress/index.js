@@ -104,7 +104,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			//NFT Attributes
 			limit: {
 				type: 'number',
-				default: 20
+				default: 9
 			},
 			orderby: {
 				type: 'string',

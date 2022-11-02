@@ -159,7 +159,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         }
 
          //This limit comes from Global Opensea Settings
-         $limit = 20;
+         $limit = 9;
         if(!empty($opensea_settings['limit'])){
             $limit = $opensea_settings['limit'];
         }
@@ -173,10 +173,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             if(! empty( $params['limit'] ) &&  $params['limit']  != 'false'){
                 $limit =  $params['limit'];
             }
-            else{
-                $limit = 20;
-            }
-
+            
             // Embepress NFT item layout
             $ep_layout = 'ep-grid';
             $ep_preset= '';

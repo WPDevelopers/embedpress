@@ -1388,11 +1388,11 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'type' => \Elementor\Controls_Manager::NUMBER,
 				'label' => esc_html__( 'Limit', 'embedpress' ),
-				'placeholder' => '20',
+				'placeholder' => '9',
 				'min' => 1,
 				'max' => 100,
 				'step' => 1,
-				'default' => 20,
+				'default' => 9,
 				'condition'   => $condition
 			]
 		);
