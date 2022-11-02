@@ -128,8 +128,6 @@ export default function OpenSea({ attributes, setAttributes }) {
 
     const fallbackFontSize = 16;
 
-    console.log(layout);
-
     return (
         <div>
             <PanelBody title={__("Opensea Options")} initialOpen={true}>
