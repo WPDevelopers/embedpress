@@ -312,7 +312,7 @@ class Embedpress_Pdf extends Widget_Base
                 ],
             ]
         );
-        
+
         $this->add_control(
             'pdf_print_download',
             [
@@ -507,16 +507,16 @@ class Embedpress_Pdf extends Widget_Base
                                         bottom: -20px!important;
                                         transform: rotate(180deg);
                                     }
-                                    #findbar:after { 
+                                    #findbar:after {
                                         bottom: -19px!important;
                                         transform: rotate(180deg);
                                     }
                                 `;
-                                
+
                             }
 
                             style.textContent = `
-                               
+
                                 .toolbar{
                                     display: ${$toolbar}!important;
                                     position: absolute;
@@ -549,17 +549,17 @@ class Embedpress_Pdf extends Widget_Base
                                 ${$settingsPos}
                             `;
                             if (otherhead) {
-                                if(frm.getElementById("EBiframeStyleID")){	
+                                if(frm.getElementById("EBiframeStyleID")){
                                     frm.getElementById("EBiframeStyleID").remove();
                                 }
                                 otherhead.appendChild(style);
                                 clearInterval(setEmbedInterval);
                             }
-                            if (x > 50) {
-                                clearInterval(setEmbedInterval);
-                            }
 
                         });
+                        if (x > 50) {
+                            clearInterval(setEmbedInterval);
+                        }
                     }
 
                 }, 100);
