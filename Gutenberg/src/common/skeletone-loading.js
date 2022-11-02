@@ -8,8 +8,6 @@ const { __ } = wp.i18n;
 
 export default function SkeletonLoaading({columns, limit, gapbetweenitem }) {
 
-    console.log(columns);
-
     let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
 
     if (columns > 0) {

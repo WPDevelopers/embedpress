@@ -528,8 +528,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 $itemperrow = 3;
             }
 
-            if($itemperrow > 0){
-                $nftperrow = 'calc('.(100 / $itemperrow).'% - '.$gap.'px)';
+            if(!empty($itemperrow) && (int)$itemperrow > 0 && $itemperrow != 'auto'){
+                $nftperrow = 'calc('.(100 / (int) $itemperrow).'% - '.$gap.'px)';
             }
             else{
                 $nftperrow = 'auto';
