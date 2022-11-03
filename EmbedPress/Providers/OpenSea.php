@@ -173,7 +173,10 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             if(! empty( $params['limit'] ) &&  $params['limit']  != 'false'){
                 $limit =  $params['limit'];
             }
-            
+            if(! empty( $params['orderby'] ) &&  $params['orderby']  != 'false'){
+                $orderby =  $params['orderby'];
+            }
+
             // Embepress NFT item layout
             $ep_layout = 'ep-grid';
             $ep_preset= '';
@@ -190,7 +193,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
             $param = array(
                 'limit' => $limit,
-                'order_direction' => ! empty( $params['orderby'] ) ? $params['orderby'] : $orderby,
+                'order_direction' => $orderby,
                 'collection_slug' => $matches[1],
                 'include_orders' => true,
             );
@@ -207,7 +210,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 $jsonResult = json_decode($results['body']);
                 // wp_send_json($jsonResult);
 
-                $html = print_r($jsonResult, true);
+                // $html = print_r($jsonResult, true);
             }
 
             ob_start();
