@@ -232,11 +232,8 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			starttime: {
 				type: 'number',
 			},
-			starttime: {
+			endtime: {
 				type: 'number',
-			},
-			autoplay: {
-				type: 'boolean',
 			},
 			autoplay: {
 				type: 'boolean',
@@ -251,7 +248,8 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 			},
 			progressbarcolor: {
-				type: 'boolean',
+				type: 'string',
+				default: 'red'
 			},
 			closedcaptions: {
 				type: 'boolean',

@@ -450,3 +450,18 @@ span.eb_nft_currency svg {
     /* mobcssEnd */
 
 }
+
+
+// YouTube single videos controlers CSS
+.ep-yt-video-controlers .ep-control-field.components-base-control__field {
+    display: -ms-flexbox;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.ep-yt-video-controlers .ep-control-field .components-base-control__field input {
+    width: 120px;
+}
+.ep-yt-video-controlers .ep-control-field .components-base-control__field .components-base-control__label {
+    margin-bottom: 0px;
+}

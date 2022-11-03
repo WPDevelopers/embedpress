@@ -21,7 +21,6 @@ export default function Youtube({attributes, setAttributes}) {
 
     return (
         <div>
-
             <TextControl
                 label={__("Video Per Page")}
                 value={pagesize}
@@ -60,6 +59,7 @@ export default function Youtube({attributes, setAttributes}) {
                 checked={ispagination}
                 onChange={(ispagination) => setAttributes({ ispagination })}
             />
+
         </div>
     )
 }

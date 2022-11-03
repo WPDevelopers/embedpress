@@ -36,6 +36,17 @@ export default function EmbedPress(props) {
 		pagesize,
 		columns,
 		gapbetweenvideos,
+		starttime,
+		endtime,
+		autoplay,
+		controls,
+		fullscreen,
+		videoannotations,
+		progressbarcolor,
+		closedcaptions,
+		modestbranding,
+		relatedvideos,
+		customlogo,
 		limit,
 		layout,
 		preset,
@@ -74,6 +85,8 @@ export default function EmbedPress(props) {
 	const isYTChannel = url.match(/\/channel\/|\/c\/|\/user\/|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
 
 	const isOpensea = url.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i);
+
+	const isYTVideo = true;
 
 
 	function switchBackToURLInput() {
@@ -118,6 +131,7 @@ export default function EmbedPress(props) {
 
 				let youtubeParams = '';
 				let openseaParams = '';
+				let ytvParams = '';
 
 				//Generate YouTube params
 				if (isYTChannel) {
@@ -130,6 +144,24 @@ export default function EmbedPress(props) {
 					youtubeParams = '&' + new URLSearchParams(_isYTChannel).toString();
 				}
 
+				//Generate YouTube video params
+				if(isYTVideo){
+					let _isYTVideo = {
+						starttime: starttime ? starttime: 0,
+						endtime: endtime ? endtime: 0,
+						autoplay: autoplay ? autoplay: false,
+						controls: controls ? controls: '',
+						fullscreen: fullscreen ? fullscreen: false,
+						videoannotations: videoannotations ? videoannotations: false,
+						progressbarcolor: progressbarcolor ? progressbarcolor: 'red',
+						closedcaptions: closedcaptions ? closedcaptions: false,
+						modestbranding: modestbranding ? modestbranding: 'display',
+						relatedvideos: relatedvideos ? relatedvideos: false,
+						customlogo: customlogo ? customlogo: '',
+					};
+						
+					ytvParams = '&' + new URLSearchParams(_isYTVideo).toString();
+				}
 
 				//Generate Opensea params
 				if (isOpensea) {
@@ -175,7 +207,7 @@ export default function EmbedPress(props) {
 
 				let __url = url.split('#');
 				__url = encodeURIComponent(__url[0]);
-				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${__url}&width=${width}&height=${height}${youtubeParams}${openseaParams}`).then(response => response.json());
+				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${__url}&width=${width}&height=${height}${youtubeParams}${openseaParams}${ytvParams }`).then(response => response.json());
 			}
 
 			fetchData(url).then(data => {
