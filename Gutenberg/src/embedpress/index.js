@@ -228,6 +228,44 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'number',
 			}, 
 
+			//YouTube single video controls attribute
+			starttime: {
+				type: 'number',
+			},
+			starttime: {
+				type: 'number',
+			},
+			autoplay: {
+				type: 'boolean',
+			},
+			autoplay: {
+				type: 'boolean',
+			},
+			controls: {
+				type: 'string',
+			},
+			fullscreen: {
+				type: 'boolean',
+			},
+			videoannotations: {
+				type: 'boolean',
+			},
+			progressbarcolor: {
+				type: 'boolean',
+			},
+			closedcaptions: {
+				type: 'boolean',
+			},
+			modestbranding: {
+				type: 'string',
+			},
+			relatedvideos: {
+				type: 'boolean',
+			},
+			customlogo: {
+				type: 'string',
+			},
+
 		},
 		/**
 		 * The edit function describes the structure of your block in the context of the editor.
