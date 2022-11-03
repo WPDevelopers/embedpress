@@ -2018,7 +2018,10 @@ class Embedpress_Elementor extends Widget_Base
 		$is_editor_view = Plugin::$instance->editor->is_edit_mode();
 		$link = $settings['embedpress_embeded_link'];
 		$is_apple_podcast = (strpos($link, 'podcasts.apple.com') !== false);
-		$_settings = $this->convert_settings($settings);
+		$_settings = [];
+		if($settings['embedpress_pro_embeded_source'] != 'default'){
+			$_settings = $this->convert_settings($settings);
+		}
 
 		$embed_content = Shortcode::parseContent($settings['embedpress_embeded_link'], true, $_settings);
 		$embed_content = $this->onAfterEmbedSpotify($embed_content, $settings);
