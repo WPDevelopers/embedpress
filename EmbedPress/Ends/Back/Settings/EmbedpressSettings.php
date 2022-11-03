@@ -174,7 +174,7 @@ class EmbedpressSettings {
 		$nonce_field = wp_nonce_field('ep_settings_nonce', 'ep_settings_nonce', true, false);
 		$ep_page = admin_url('admin.php?page='.$this->page_slug);
 		$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['general', 'shortcode',]);
-		$platform_menu_template_names = apply_filters('ep_platform_menu_tmpl_names', [ 'youtube', 'vimeo', 'wistia', 'twitch','dailymotion', 'soundcloud' ,'spotify','google-calendar']);
+		$platform_menu_template_names = apply_filters('ep_platform_menu_tmpl_names', [ 'youtube', 'vimeo', 'wistia', 'twitch','dailymotion', 'soundcloud' ,'spotify','google-calendar','opensea']);
 		$brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-logo', 'branding',]);
 		$pro_active = is_embedpress_pro_active();
 		$coming_soon = "<span class='ep-coming-soon'>". esc_html__( '(Coming soon)', 'embedpress'). "</span>";
@@ -362,6 +362,21 @@ class EmbedpressSettings {
 		update_option( 'epgc_cache_time', $epgc_cache_time);
 		update_option( 'epgc_selected_calendar_ids', $epgc_selected_calendar_ids);
 
+	}
+
+	public function save_opensea_settings() {
+		$option_name = EMBEDPRESS_PLG_NAME.':opensea';
+		$settings = get_option( $option_name, []);
+		$settings['api_key'] = isset( $_POST['api_key']) ? sanitize_text_field( $_POST['api_key']) : 0;
+		$settings['limit'] = isset( $_POST['limit']) ? sanitize_text_field( $_POST['limit']) : 0;
+		$settings['orderby'] = isset( $_POST['orderby']) ? sanitize_text_field( $_POST['orderby']) : 0;
+		
+		$settings['license_key'] = 1; // backward compatibility
+
+		// Pro will handle g_loading_animation settings and other
+		$settings = apply_filters( 'ep_opensea_settings_before_save', $settings);
+		update_option( $option_name, $settings);
+		do_action( 'ep_opensea_settings_after_save', $settings);
 	}
 
 

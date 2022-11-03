@@ -590,7 +590,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
     public static function styles($params, $url){
         
-        $uniqid = '.ose-uid-'.md5($url);
+        $uniqid = '.ose-youtube.ose-uid-'.md5($url);
         
         ob_start();
         ?>

@@ -86,6 +86,13 @@
 			            <?php esc_html_e( "Google Calendar", "embedpress" ); ?>
                     </a>
                 </li>
+                <li class="dropdown__item">
+                    <a href="<?php echo esc_url( $ep_page.'&page_type=opensea'); ?>" class="dropdown__link <?php echo 'opensea' === $template ? 'active' : ''; ?>">
+                        <img class="embedpress-settings-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/opensea.svg" alt="">
+
+			            <?php esc_html_e( "OpenSea", "embedpress" ); ?>
+                    </a>
+                </li>
 				<?php do_action( 'ep_after_platform_menu_items'); ?>
             </ul>
         </li>

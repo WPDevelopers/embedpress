@@ -64,7 +64,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			editingURL: {
 				type: 'boolean',
-				default: false
+				default: true
 			},
 			fetching: {
 				type: 'boolean',
@@ -82,6 +82,8 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: 'center'
 			},
+
+			//YouTube Attributes
 			ispagination: {
 				type: 'boolean',
 				default: true
@@ -98,6 +100,134 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'number',
 				default: 30
 			},
+
+			//NFT Attributes
+			limit: {
+				type: 'number',
+				default: 9
+			},
+			orderby: {
+				type: 'string',
+				default: 'desc'
+			},
+			gapbetweenitem: {
+				type: 'number',
+				default: 30
+			},
+
+			layout: {
+				type: 'string',
+				default: 'ep-grid'
+			},
+
+			preset: {
+				type: 'string',
+				default: 'ep-preset-1'
+			},
+
+			nftperrow: {
+				type: 'number',
+				default: 3
+			},
+			nftimage: {
+				type: 'boolean',
+				default: true
+			},
+			nfttitle: {
+				type: 'boolean',
+				default: true
+			},
+			nftcreator: {
+				type: 'boolean',
+				default: true
+			},
+			prefix_nftcreator: {
+				type: 'string',
+				default: 'Created By'
+			},
+			nftprice: {
+				type: 'boolean',
+				default: true
+			},
+			prefix_nftprice: {
+				type: 'string',
+				default: 'Price'
+			},
+			nftlastsale: {
+				type: 'boolean',
+				default: true
+			},
+			prefix_nftlastsale: {
+				type: 'string',
+				default: 'Last Sale'
+			},
+			nftbutton: {
+				type: 'boolean',
+				default: true
+			},
+			label_nftbutton: {
+				type: 'string',
+				default: 'See Details'
+			},
+			alignment: {
+				type: 'string',
+				default: 'ep-item-center'
+			},
+
+			// Color and Typograpyh
+			itemBGColor: {
+				type: 'string',
+			},
+			titleColor: {
+				type: 'string',
+			},
+
+			titleFontsize: {
+				type: 'number',
+			},
+			creatorColor: {
+				type: 'string',
+			},
+
+			creatorFontsize: {
+				type: 'number',
+			},
+
+			creatorLinkColor: {
+				type: 'string',
+			},
+
+			creatorLinkFontsize: {
+				type: 'number',
+			},
+
+			priceColor: {
+				type: 'string',
+			},
+
+			priceFontsize: {
+				type: 'number',
+			},
+
+			lastSaleColor: {
+				type: 'string',
+			},
+
+			lastSaleFontsize: {
+				type: 'number',
+			},
+			buttonTextColor: {
+				type: 'string',
+			},
+
+			buttonBackgroundColor: {
+				type: 'string',
+			},
+
+			buttonTextFontsize: {
+				type: 'number',
+			}, 
+
 		},
 		/**
 		 * The edit function describes the structure of your block in the context of the editor.

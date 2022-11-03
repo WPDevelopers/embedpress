@@ -273,9 +273,9 @@ function embedpress_pdf_render_block($attributes)
 		</div>
 	<?php ep_pdf_block_frontend_style($attributes, 'pdf');
 
-			return ob_get_clean();
-		}
+		return ob_get_clean();
 	}
+}
 
 	function embedpress_calendar_render_block($attributes)
 	{
@@ -317,7 +317,7 @@ function embedpress_pdf_render_block($attributes)
 
 		<?php
 			if ($powered_by) {
-				printf('<p class="embedpress-el-powered" style="'.esc_attr( $width ).'" >%s</p>', __('Powered By EmbedPress', 'embedpress'));
+				printf('<p class="embedpress-el-powered" style="width:'.esc_attr( $width ).'" >%s</p>', __('Powered By EmbedPress', 'embedpress'));
 			} ?>
 
 	</div>

@@ -37,7 +37,7 @@
     background-color: #000;
 }
 .embedpress-elements-wrapper, .embedpress-elements-wrapper .embedpress-wrapper{
-    display: inline-block;
+    /* display: inline-block; */
     max-width: 100%;
 }
 

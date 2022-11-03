@@ -39,6 +39,7 @@ class Handler extends EndHandlerAbstract {
 		    wp_enqueue_script( "bootbox-bootstrap", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootstrap/bootstrap.min.js',[ 'jquery' ], $this->pluginVersion, false );
 		    wp_enqueue_script( "bootbox", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootbox.min.js', [ 'jquery', 'bootbox-bootstrap' ], $this->pluginVersion, true );
 		    wp_enqueue_script( $this->pluginName, EMBEDPRESS_URL_ASSETS . 'js/preview.js', [ 'jquery', 'bootbox' ],$this->pluginVersion, true );
+		    wp_enqueue_style( $this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true );
 
 		    wp_localize_script( $this->pluginName, '$data', [
 			    'previewSettings'       => [
@@ -202,6 +203,9 @@ class Handler extends EndHandlerAbstract {
 	        'youtube.com/c/*',
 	        'youtube.com/user/*',
 	        'youtube.com/(\w+)[^?\/]*$',
+
+            // opensea
+            'opensea.io/collection/*',
 
             // Flickr (http://www.flickr.com/)
             'flickr.com/photos/*/*',
@@ -458,6 +462,7 @@ class Handler extends EndHandlerAbstract {
 	        'geo-en.hlipp.de/*',
 	        'geograph.org.uk/*',
 	        'fortest.getshow.io/*',
+	        'opensea.io/assets/*',
         ];
     }
 
