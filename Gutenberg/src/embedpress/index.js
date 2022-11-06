@@ -262,6 +262,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			customlogo: {
 				type: 'string',
+				default: ''
 			},
 
 		},

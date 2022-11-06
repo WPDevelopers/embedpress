@@ -557,7 +557,7 @@ span.eb_nft_currency svg {
     grid-template-columns: repeat(1, 1fr) !important; }
   /* mobcssEnd */ }
 
-.ep-yt-video-controlers .ep-control-field.components-base-control__field {
+.ep-yt-video-controlers .ep-control-field .components-base-control__field {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: justify;

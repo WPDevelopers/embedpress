@@ -7,6 +7,10 @@ import OpenSea from './InspectorControl/OpenSea';
 const { __ } = wp.i18n;
 
 const {
+    MediaUpload,
+} = wp.block-editor;
+
+const {
     TextControl,
     SelectControl,
     RangeControl,
@@ -27,17 +31,21 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         editingURL,
         embedHTML,
         starttime,
-		endtime,
-		autoplay,
-		controls,
-		fullscreen,
-		videoannotations,
-		progressbarcolor,
-		closedcaptions,
-		modestbranding,
-		relatedvideos,
-		customlogo,
+        endtime,
+        autoplay,
+        controls,
+        fullscreen,
+        videoannotations,
+        progressbarcolor,
+        closedcaptions,
+        modestbranding,
+        relatedvideos,
+        customlogo,
     } = attributes;
+
+    const onSelectImage = (logo) => {
+        setAttributes({ customlogo:  logo.sizes.full.url });
+    }
 
     return (
         !editingURL && embedHTML && (
@@ -68,73 +76,104 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                             {
                                 // isYTVideo && (
-                                    <div className={'ep-yt-video-controlers'}>
-                                        <TextControl
-                                            label={__("Start Time")}
-                                            value={starttime}
-                                            onChange={(starttime) => setAttributes({ starttime })}
-                                            type={'number'}
-                                            className={'ep-control-field'}
-                                            
-                                        />
-                                        <p>Specify a start time (in seconds)</p>
+                                <div className={'ep-yt-video-controlers'}>
+                                    <TextControl
+                                        label={__("Start Time")}
+                                        value={starttime}
+                                        onChange={(starttime) => setAttributes({ starttime })}
+                                        type={'number'}
+                                        className={'ep-control-field'}
 
-                                        <TextControl
-                                            label={__("End Time")}
-                                            value={endtime}
-                                            onChange={(endtime) => setAttributes({ endtime })}
-                                            type={'number'}
-                                            className={'ep-control-field'}
-                                        />
-                                        <p>Specify a end time (in seconds)</p>
+                                    />
+                                    <p>Specify a start time (in seconds)</p>
 
-                                        <ToggleControl
-                                            label={__("Auto Play")}
-                                            checked={autoplay}
-                                            onChange={(autoplay) => setAttributes({ autoplay })}
-                                        />
+                                    <TextControl
+                                        label={__("End Time")}
+                                        value={endtime}
+                                        onChange={(endtime) => setAttributes({ endtime })}
+                                        type={'number'}
+                                        className={'ep-control-field'}
+                                    />
+                                    <p>Specify a end time (in seconds)</p>
 
-                                        <SelectControl
-                                            label={__("Progress Bar Color", "embedpress")}
-                                            value={progressbarcolor}
-                                            options={[
-                                                { label: 'Red', value: 'red' },
-                                                { label: 'White', value: 'white' },
-                                            ]}
-                                            onChange={(progressbarcolor) => setAttributes({ progressbarcolor})}
-                                            __nextHasNoMarginBottom
-                                        />
+                                    <ToggleControl
+                                        label={__("Auto Play")}
+                                        checked={autoplay}
+                                        onChange={(autoplay) => setAttributes({ autoplay })}
+                                    />
 
-                                        <SelectControl
-                                            label={__("Controls", "embedpress")}
-                                            value={controls}
-                                            options={[
-                                                { label: 'Hide controls', value: '0' },
-                                                { label: 'Display immediately', value: '1' },
-                                                { label: 'Display after user initiation immediately', value: '2' },
-                                            ]}
-                                            onChange={(controls) => setAttributes({ controls})}
-                                            __nextHasNoMarginBottom
-                                        />
+                                    <SelectControl
+                                        label={__("Controls", "embedpress")}
+                                        value={controls}
+                                        options={[
+                                            { label: 'Hide controls', value: '0' },
+                                            { label: 'Display immediately', value: '1' },
+                                            { label: 'Display after user initiation immediately', value: '2' },
+                                        ]}
+                                        onChange={(controls) => setAttributes({ controls })}
+                                        __nextHasNoMarginBottom
+                                    />
 
-                                        <SelectControl
-                                            label={__("Modest Branding", "embedpress")}
-                                            value={modestbranding}
-                                            options={[
-                                                { label: 'Display', value: '0' },
-                                                { label: 'Do Not Display', value: '1' },
-                                            ]}
-                                            onChange={(modestbranding) => setAttributes({ modestbranding})}
-                                            __nextHasNoMarginBottom
-                                        />
+                                    <ToggleControl
+                                        label={__("Fullscreen Button")}
+                                        checked={fullscreen}
+                                        onChange={(fullscreen) => setAttributes({ fullscreen })}
+                                    />
 
-                                        <ToggleControl
-                                            label={__("Related Videos")}
-                                            checked={relatedvideos}
-                                            onChange={(relatedvideos) => setAttributes({ relatedvideos })}
-                                        />
+                                    <ToggleControl
+                                        label={__("Video Annotations")}
+                                        checked={videoannotations}
+                                        onChange={(videoannotations) => setAttributes({ videoannotations })}
+                                    />
 
-                                    </div>
+                                    <SelectControl
+                                        label={__("Progress Bar Color", "embedpress")}
+                                        value={progressbarcolor}
+                                        options={[
+                                            { label: 'Red', value: 'red' },
+                                            { label: 'White', value: 'white' },
+                                        ]}
+                                        onChange={(progressbarcolor) => setAttributes({ progressbarcolor })}
+                                        __nextHasNoMarginBottom
+                                    />
+
+                                    <ToggleControl
+                                        label={__("Closed Captions")}
+                                        checked={closedcaptions}
+                                        onChange={(closedcaptions) => setAttributes({ closedcaptions })}
+                                    />
+
+
+                                    <SelectControl
+                                        label={__("Modest Branding", "embedpress")}
+                                        value={modestbranding}
+                                        options={[
+                                            { label: 'Display', value: '0' },
+                                            { label: 'Do Not Display', value: '1' },
+                                        ]}
+                                        onChange={(modestbranding) => setAttributes({ modestbranding })}
+                                        __nextHasNoMarginBottom
+                                    />
+
+                                    <ToggleControl
+                                        label={__("Related Videos")}
+                                        checked={relatedvideos}
+                                        onChange={(relatedvideos) => setAttributes({ relatedvideos })}
+                                    />
+                                    {
+                                        console.log(customlogo)
+                                    }
+
+                                    <MediaUpload
+                                        onSelect={onSelectImage}
+                                        allowedTypes={['image']}
+                                        value={customlogo}
+                                        render={({ open }) => (
+                                            <Button icon="update-alt" onClick={open}> </Button>
+                                        )}
+                                    />
+
+                                </div>
                                 // )
                             }
                         </PanelBody>
