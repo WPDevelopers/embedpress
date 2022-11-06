@@ -226,7 +226,7 @@ export default function EmbedPress(props) {
 
 			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isOpensea={isOpensea} />
 
-			{((!embedHTML || editingURL) && !fetching) && <div {...blockProps}>
+			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
 				<EmbedPlaceholder
 					label={__('EmbedPress - Embed anything from 150+ sites')}
 					onSubmit={embed}
@@ -240,7 +240,7 @@ export default function EmbedPress(props) {
 			</div>}
 
 			{
-				(!isOpensea || editingURL) && fetching && (<div className={className}><EmbedLoading /> </div>)
+				((!isOpensea || (!!editingURL || editingURL === 0)) && fetching) && (<div className={className}><EmbedLoading /> </div>)
 			}
 
 
