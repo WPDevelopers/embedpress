@@ -2019,7 +2019,8 @@ class Embedpress_Elementor extends Widget_Base
 		$link = $settings['embedpress_embeded_link'];
 		$is_apple_podcast = (strpos($link, 'podcasts.apple.com') !== false);
 		$_settings = [];
-		if($settings['embedpress_pro_embeded_source'] != 'default'){
+		$source = $settings['embedpress_pro_embeded_source'];
+		if($source != 'default' && (!is_array($source) || !in_array('default', $source))){
 			$_settings = $this->convert_settings($settings);
 		}
 
