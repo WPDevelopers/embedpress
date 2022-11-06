@@ -163,7 +163,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     {
                                         console.log(customlogo)
                                     }
-
+{/* 
                                     <MediaUpload
                                         onSelect={onSelectImage}
                                         allowedTypes={['image']}
@@ -171,7 +171,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                         render={({ open }) => (
                                             <Button icon="update-alt" onClick={open}> </Button>
                                         )}
-                                    />
+                                    /> */}
 
                                 </div>
                                 // )
