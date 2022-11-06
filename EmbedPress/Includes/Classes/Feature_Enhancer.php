@@ -63,12 +63,20 @@ class Feature_Enhancer
 		wp_send_json($result);
 	}
 
+	//Check is YouTube single video
+	public function ytValidateUrl(String $url)
+    {
+        return (bool) (preg_match('~v=(?:[a-z0-9_\-]+)~i', (string) $url));
+    }
+
 	public function gutenberg_embed($embedHTML, $attributes)
 	{
 
 		if (!empty($attributes['url'])) {
 			$youtube = new Youtube($attributes['url']);
+			// print_r( $attributes);
 			$is_youtube = $youtube->validateUrl($youtube->getUrl(false));
+			// var_dump($is_youtube); die;
 			if ($is_youtube) {
 				$atts = [
 					'width'    => intval($attributes['width']),
@@ -80,12 +88,29 @@ class Feature_Enhancer
 				];
 
 				$urlInfo = Shortcode::parseContent($attributes['url'], true, $atts);
+				print_r($urlInfo);
+
 				if (!empty($urlInfo->embed)) {
 					$embedHTML = $urlInfo->embed;
 				}
 			}
-		}
 
+			// echo $this->ytValidateUrl($attributes['url']);
+			
+			if($this->ytValidateUrl($attributes['url'])){
+
+				$atts = [
+					'starttime'    => isset($attributes['starttime']) ? intval($attributes['starttime']) : 0,
+					'endtime'   => isset($attributes['endtime']) ? intval($attributes['endtime']) : 0,
+				];
+
+				$urlInfo = Shortcode::parseContent($attributes['url'], true, $atts);
+
+				// print_r($urlInfo); die;
+			}
+
+
+		}
 
 		return $embedHTML;
 	}
