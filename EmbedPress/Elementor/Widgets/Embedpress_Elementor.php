@@ -1425,6 +1425,15 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->add_control(
+			'opense_important_note',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => esc_html__( 'These options take effect only when a Opensea Collection is embedded.', 'embedpress' ),
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+			]
+		);
+
+		$this->add_control(
 			'layout',
 			[
 				'label'       => __('Layout', 'embedpress'),
