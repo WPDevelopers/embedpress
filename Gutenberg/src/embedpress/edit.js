@@ -274,7 +274,6 @@ export default function EmbedPress(props) {
 				(!isOpensea || editingURL) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-
 			{(embedHTML && !editingURL && (!fetching || isOpensea)) && <figure {...blockProps} >
 				<EmbedWrap style={{ display: (fetching && !isOpensea) ? 'none' : '' }} dangerouslySetInnerHTML={{
 					__html: embedHTML

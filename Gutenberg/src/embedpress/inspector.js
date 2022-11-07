@@ -1,5 +1,6 @@
 import Youtube from './InspectorControl/youtube';
 import OpenSea from './InspectorControl/OpenSea';
+import  {addProAlert, isPro, removeAlert} from '../common/helper'
 
 /**
  * WordPress dependencies
@@ -43,9 +44,17 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         customlogo,
     } = attributes;
 
+    const isProPluginActive = embedpressObj.is_pro_plugin_active;
+
     const onSelectImage = (logo) => {
         setAttributes({ customlogo: logo.sizes.full.url });
     }
+
+    if (!document.querySelector('.pro__alert__wrap')) {
+        document.querySelector('body').append(isPro('none'));
+        removeAlert();
+    }
+
 
     return (
         !editingURL && embedHTML && (
@@ -72,10 +81,6 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                 isYTChannel && (
                                     <Youtube attributes={attributes} setAttributes={setAttributes} />
                                 )
-                            }
-                            {
-
-                                console.log(isYTVideo)
                             }
                             {
 
@@ -115,6 +120,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                                 { label: 'Display after user initiation immediately', value: '2' },
                                             ]}
                                             onChange={(controls) => setAttributes({ controls })}
+                                            className={'ep-select-control-field'}
                                             __nextHasNoMarginBottom
                                         />
 
@@ -138,35 +144,49 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                                 { label: 'White', value: 'white' },
                                             ]}
                                             onChange={(progressbarcolor) => setAttributes({ progressbarcolor })}
+                                            className={'ep-select-control-field'}
                                             __nextHasNoMarginBottom
                                         />
 
-                                        <ToggleControl
-                                            label={__("Closed Captions")}
-                                            checked={closedcaptions}
-                                            onChange={(closedcaptions) => setAttributes({ closedcaptions })}
-                                        />
+                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => {addProAlert(e, isProPluginActive) }}>
+                                            <ToggleControl
+                                                label={__("Closed Captions")}
+                                                checked={closedcaptions}
+                                                onChange={(closedcaptions) => setAttributes({ closedcaptions })}
+                                            />
 
+                                            {
+                                                (!isProPluginActive) && (
+                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                                )
+                                            }
+                                        </div>
 
-                                        <SelectControl
-                                            label={__("Modest Branding", "embedpress")}
-                                            value={modestbranding}
-                                            options={[
-                                                { label: 'Display', value: '0' },
-                                                { label: 'Do Not Display', value: '1' },
-                                            ]}
-                                            onChange={(modestbranding) => setAttributes({ modestbranding })}
-                                            __nextHasNoMarginBottom
-                                        />
+                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => {addProAlert(e, isProPluginActive) }}>
+                                            <SelectControl
+                                                label={__("Modest Branding", "embedpress")}
+                                                value={modestbranding}
+                                                options={[
+                                                    { label: 'Display', value: '0' },
+                                                    { label: 'Do Not Display', value: '1' },
+                                                ]}
+                                                onChange={(modestbranding) => setAttributes({ modestbranding })}
+                                                className={'ep-select-control-field'}
+                                                __nextHasNoMarginBottom
+                                            />
+                                            {
+                                                (!isProPluginActive) && (
+                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                                )
+                                            }
+                                        </div>
 
                                         <ToggleControl
                                             label={__("Related Videos")}
                                             checked={relatedvideos}
                                             onChange={(relatedvideos) => setAttributes({ relatedvideos })}
                                         />
-                                        {
-                                            console.log(customlogo)
-                                        }
+
                                         {/* 
                                     <MediaUpload
                                         onSelect={onSelectImage}
