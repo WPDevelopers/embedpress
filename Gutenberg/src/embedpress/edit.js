@@ -86,8 +86,7 @@ export default function EmbedPress(props) {
 
 	const isOpensea = url.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i);
 
-	const isYTVideo = true;
-
+    const isYTVideo = url.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/i);
 
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
@@ -147,16 +146,16 @@ export default function EmbedPress(props) {
 				//Generate YouTube video params
 				if(isYTVideo){
 					let _isYTVideo = {
-						starttime: starttime ? starttime: 0,
-						endtime: endtime ? endtime: 0,
-						autoplay: autoplay ? autoplay: false,
-						controls: controls ? controls: '',
-						fullscreen: fullscreen ? fullscreen: false,
-						videoannotations: videoannotations ? videoannotations: false,
-						progressbarcolor: progressbarcolor ? progressbarcolor: 'red',
-						closedcaptions: closedcaptions ? closedcaptions: false,
-						modestbranding: modestbranding ? modestbranding: 'display',
-						relatedvideos: relatedvideos ? relatedvideos: false,
+						starttime: starttime,
+						endtime: endtime,
+						autoplay: autoplay ? 1 : 0,
+						controls: controls ? 1 : 0,
+						fullscreen: fullscreen ? 1 : 0,
+						videoannotations: videoannotations ? 1 : 0,
+						progressbarcolor: progressbarcolor,
+						closedcaptions: closedcaptions ? 1 : 0,
+						modestbranding: modestbranding ,
+						relatedvideos: relatedvideos ? 1 : 0,
 						customlogo: customlogo ? customlogo: '',
 					};
 						
@@ -256,7 +255,7 @@ export default function EmbedPress(props) {
 	return (
 		<Fragment>
 
-			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isOpensea={isOpensea} />
+			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isYTVideo={isYTVideo} isOpensea={isOpensea} />
 
 			{((!embedHTML || editingURL) && !fetching) && <div {...blockProps}>
 				<EmbedPlaceholder

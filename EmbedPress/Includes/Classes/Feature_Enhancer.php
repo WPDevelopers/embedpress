@@ -88,7 +88,6 @@ class Feature_Enhancer
 				];
 
 				$urlInfo = Shortcode::parseContent($attributes['url'], true, $atts);
-				print_r($urlInfo);
 
 				if (!empty($urlInfo->embed)) {
 					$embedHTML = $urlInfo->embed;
@@ -100,15 +99,62 @@ class Feature_Enhancer
 			if($this->ytValidateUrl($attributes['url'])){
 
 				$atts = [
-					'starttime'    => isset($attributes['starttime']) ? intval($attributes['starttime']) : 0,
-					'endtime'   => isset($attributes['endtime']) ? intval($attributes['endtime']) : 0,
+					'starttime'    => !empty($attributes['starttime']) ? $attributes['starttime'] : '',
+					'endtime'   => !empty($attributes['endtime']) ? $attributes['endtime'] : '',
+					'autoplay'   => !empty($attributes['autoplay']) ? 1 : 0,
+					'controls'   => $attributes['controls'],
+					'fullscreen'   => !empty($attributes['fullscreen']) ? 1 : 0,
+					'videoannotations'   => !empty($attributes['videoannotations']) ? 1 : 0,
+					'progressbarcolor'   => !empty($attributes['progressbarcolor']) ? $attributes['progressbarcolor'] : 'red',
+					'closedcaptions'   =>!empty($attributes['closedcaptions']) ? 1 : 0,
+					'modestbranding'   => $attributes['modestbranding'],
+					'relatedvideos'   => !empty($attributes['relatedvideos']) ? 1 : 0,
+					'customlogo'   => isset($attributes['customlogo']) ? $attributes['customlogo'] : '',
 				];
 
 				$urlInfo = Shortcode::parseContent($attributes['url'], true, $atts);
 
-				// print_r($urlInfo); die;
-			}
+				if (!empty($urlInfo->embed)) {
+					$embedHTML = $urlInfo->embed;
+				}
 
+				if(isset( $urlInfo->embed ) && preg_match( '/src=\"(.+?)\"/', $urlInfo->embed, $match )){
+					$url_full = $match[1];
+					$query = parse_url( $url_full, PHP_URL_QUERY );
+					parse_str( $query, $params );
+
+					$params['controls']       = $attributes['controls'];
+					$params['iv_load_policy'] = !empty($attributes['videoannotations']) ? 1 : 0;
+					$params['fs']             = !empty($attributes['fullscreen']) ? 1 : 0;
+					$params['rel']             = !empty($attributes['relatedvideos']) ? 1 : 0;
+					$params['end']            = !empty($attributes['endtime']) ? $attributes['endtime'] : '';
+					$params['autoplay'] 		= !empty($attributes['autoplay']) ? 1 : 0;
+					$params['start'] 			= !empty($attributes['starttime']) ? $attributes['starttime'] : '';
+					$params['color'] = !empty($attributes['progressbarcolor']) ? $attributes['progressbarcolor'] : 'red';
+					$params['modestbranding'] = empty($attributes['modestbranding']) ? 0 : 1; // Reverse the condition value for modestbranding. 0 = display, 1 = do not display
+					$params['cc_load_policy'] = 1;
+
+					preg_match( '/(.+)?\?/', $url_full, $url );
+
+					if ( empty( $url) ) {
+						return $embedHTML;
+					}
+					
+					$url = $url[1];
+
+					// Reassemble the url with the new variables.
+					$url_modified = $url . '?';
+					foreach ( $params as $paramName => $paramValue ) {
+						$url_modified .= $paramName . '=' . $paramValue . '&';
+					}
+
+
+					// Replaces the old url with the new one.
+					$embedHTML = str_replace( $url_full, rtrim( $url_modified, '&' ), $urlInfo->embed );
+					
+				}
+
+			}
 
 		}
 
