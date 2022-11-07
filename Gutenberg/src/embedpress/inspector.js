@@ -7,9 +7,9 @@ import  {addProAlert, isPro, removeAlert} from '../common/helper'
  */
 const { __ } = wp.i18n;
 
-const {
+import {
     MediaUpload,
-} = wp.block - editor;
+} from "@wordpress/block-editor";
 
 const {
     TextControl,
@@ -17,6 +17,7 @@ const {
     RangeControl,
     ToggleControl,
     PanelBody,
+    Button,
 } = wp.components;
 
 const {
@@ -187,15 +188,15 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                             onChange={(relatedvideos) => setAttributes({ relatedvideos })}
                                         />
 
-                                        {/* 
-                                    <MediaUpload
-                                        onSelect={onSelectImage}
-                                        allowedTypes={['image']}
-                                        value={customlogo}
-                                        render={({ open }) => (
-                                            <Button icon="update-alt" onClick={open}> </Button>
-                                        )}
-                                    /> */}
+                                    
+                                        <MediaUpload
+                                            onSelect={onSelectImage}
+                                            allowedTypes={['image']}
+                                            value={customlogo}
+                                            render={({ open }) => (
+                                                <Button icon="update-alt" onClick={open}> </Button>
+                                            )}
+                                        /> 
 
                                     </div>
                                 )
