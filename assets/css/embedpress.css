@@ -627,6 +627,7 @@ span.eb_nft_currency svg {
     font-size: 14px;
     text-decoration: none;
     word-break: break-all;
+    text-decoration: none!important;
 }
 
 .ep_nft_content .ep_nft_creator img {
@@ -698,7 +699,7 @@ span.eb_nft_currency svg {
     display: block;
     text-align: center;
     font-weight: 500;
-    text-decoration: none;
+    text-decoration: none!important;
 }
 
 /* mimmikcssStart */
