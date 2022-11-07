@@ -171,7 +171,7 @@ export default function EmbedPress(props) {
 					openseaParams = '&' + new URLSearchParams(_isOpensea).toString();
 				}
 
-				
+
 
 				let __url = url.split('#');
 				__url = encodeURIComponent(__url[0]);
@@ -213,7 +213,7 @@ export default function EmbedPress(props) {
 			}
 		}, 300)
 		return () => clearTimeout(delayDebounceFn)
-	}, [pagesize, limit, layout, preset, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator,itemBGColor, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize]);
+	}, [pagesize, limit, layout, preset, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, itemBGColor, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize]);
 
 	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
 
@@ -326,6 +326,14 @@ export default function EmbedPress(props) {
 					<style style={{ display: "none" }}>
 						{
 							`
+							#block-${clientId} .ose-embedpress-responsive{
+								width: ${width}px!important;
+								height: ${height}px!important
+							}
+							#block-${clientId} iframe{
+								width: ${width}px!important;
+								height: ${height}px!important
+							}
 							#block-${clientId} .ose-youtube > iframe{
 								height: ${height}px!important;
 								width: ${width}px!important;
