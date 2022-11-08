@@ -1,6 +1,6 @@
 import Youtube from './InspectorControl/youtube';
 import OpenSea from './InspectorControl/OpenSea';
-import  {addProAlert, isPro, removeAlert} from '../common/helper'
+import { addProAlert, isPro, removeAlert } from '../common/helper'
 
 /**
  * WordPress dependencies
@@ -48,7 +48,11 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     const onSelectImage = (logo) => {
+        console.log(logo.sizes.full.url);
         setAttributes({ customlogo: logo.sizes.full.url });
+    }
+    const removeImage = (e) => {
+        setAttributes({ customlogo: '' });
     }
 
     if (!document.querySelector('.pro__alert__wrap')) {
@@ -149,7 +153,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                             __nextHasNoMarginBottom
                                         />
 
-                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => {addProAlert(e, isProPluginActive) }}>
+                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                                             <ToggleControl
                                                 label={__("Closed Captions")}
                                                 checked={closedcaptions}
@@ -163,7 +167,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                             }
                                         </div>
 
-                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => {addProAlert(e, isProPluginActive) }}>
+                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                                             <SelectControl
                                                 label={__("Modest Branding", "embedpress")}
                                                 value={modestbranding}
@@ -188,15 +192,29 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                             onChange={(relatedvideos) => setAttributes({ relatedvideos })}
                                         />
 
-                                    
+                                        <br/>
+                                        <h2></h2>
+                                        {
+                                            customlogo && (
+                                                <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
+                                                    <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
+                                                        <span class="dashicon dashicons dashicons-trash"></span></button> 
+                                                    <img 
+                                                        src={customlogo}
+                                                        alt="John"
+                                                    />
+                                                </div>
+                                            )
+                                        }
+
                                         <MediaUpload
                                             onSelect={onSelectImage}
                                             allowedTypes={['image']}
                                             value={customlogo}
                                             render={({ open }) => (
-                                                <Button icon="update-alt" onClick={open}> </Button>
+                                                <Button icon="update-alt" onClick={open}> Upload Image </Button>
                                             )}
-                                        /> 
+                                        />
 
                                     </div>
                                 )

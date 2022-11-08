@@ -570,6 +570,30 @@ span.eb_nft_currency svg {
 
 .ep-yt-video-controlers .ep-control-field .components-base-control__field .components-base-control__label {
   margin-bottom: 0px; }
+
+button.ep-remove__image {
+  position: absolute;
+  z-index: 1;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 0px;
+  top: 5px;
+  margin: 22px;
+  left: 5px;
+  background: blue;
+  width: 32px;
+  height: 32px;
+  text-align: center;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: center;
+      justify-content: center;
+  border-radius: 50px;
+  padding: 0;
+  margin: 0; }
 /**
  * #.# Common SCSS
  *
