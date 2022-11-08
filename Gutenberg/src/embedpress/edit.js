@@ -322,7 +322,7 @@ export default function EmbedPress(props) {
 			}
 
 			{
-				!isYTChannel && (
+				!isYTChannel && !isOpensea &&(
 					<style style={{ display: "none" }}>
 						{
 							`
