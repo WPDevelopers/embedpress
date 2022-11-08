@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 3.5.3
+Stable tag: 3.6.0
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -381,6 +381,10 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.6.0] - 2022-11-08 =
+* Added: OpenSea embed with advanced controls.
+* Few minor bug fixes and improvements.
 
 = [3.5.3] - 2022-10-27 =
 * Fixed: PDF layout breaking issues in Gutenberg.
