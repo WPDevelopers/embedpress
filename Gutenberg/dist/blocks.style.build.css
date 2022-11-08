@@ -578,9 +578,9 @@ button.ep-remove__image {
   font-weight: bold;
   border: none;
   padding: 0px;
-  top: 5px;
+  top: 10px;
   margin: 22px;
-  left: 5px;
+  left: 10px;
   background: blue;
   width: 32px;
   height: 32px;
@@ -593,7 +593,24 @@ button.ep-remove__image {
       justify-content: center;
   border-radius: 50px;
   padding: 0;
-  margin: 0; }
+  margin: 0;
+  cursor: pointer; }
+
+.ep__custom-logo {
+  text-align: center;
+  margin-bottom: 15px; }
+
+.ep__custom-logo img {
+  width: 100%;
+  height: 200px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 5px; }
+
+.ep-logo-upload-button {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px 15px; }
 /**
  * #.# Common SCSS
  *
