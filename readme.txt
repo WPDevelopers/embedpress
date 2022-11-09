@@ -382,7 +382,7 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [3.6.0] - 2022-11-08 =
+= [3.6.0] - 2022-11-09 =
 * Added: OpenSea embed with advanced controls.
 * Few minor bug fixes and improvements.
 
