@@ -74,7 +74,7 @@ class Feature_Enhancer
 
 		if (!empty($attributes['url'])) {
 			$youtube = new Youtube($attributes['url']);
-			// print_r( $attributes);
+			
 			$is_youtube = $youtube->validateUrl($youtube->getUrl(false));
 			// var_dump($is_youtube); die;
 			if ($is_youtube) {
@@ -106,10 +106,12 @@ class Feature_Enhancer
 					'fullscreen'   => !empty($attributes['fullscreen']) ? 1 : 0,
 					'videoannotations'   => !empty($attributes['videoannotations']) ? 1 : 0,
 					'progressbarcolor'   => !empty($attributes['progressbarcolor']) ? $attributes['progressbarcolor'] : 'red',
-					'closedcaptions'   =>!empty($attributes['closedcaptions']) ? 1 : 0,
+					'closedcaptions'   => !empty($attributes['closedcaptions']) ? 1 : 0,
 					'modestbranding'   => $attributes['modestbranding'],
 					'relatedvideos'   => !empty($attributes['relatedvideos']) ? 1 : 0,
 					'customlogo'   => isset($attributes['customlogo']) ? $attributes['customlogo'] : '',
+					'logoX' => !empty($attributes['logoX']) ? $attributes['logoX'] : 0,
+					'logoY' => !empty($attributes['logoY']) ? $attributes['logoY'] : 0
 				];
 
 				$urlInfo = Shortcode::parseContent($attributes['url'], true, $atts);
@@ -151,6 +153,84 @@ class Feature_Enhancer
 
 					// Replaces the old url with the new one.
 					$embedHTML = str_replace( $url_full, rtrim( $url_modified, '&' ), $urlInfo->embed );
+
+					$x = $atts['logoX'];
+					$y = $atts['logoY'];
+					
+					$cssClass = !empty( $attributes['url'] ) ? '.ose-uid-' . md5( $attributes['url'] ) : '.ose-youtube';
+
+					ob_start(); ?>
+					<style type="text/css">
+						<?php echo esc_html($cssClass); ?>
+						{
+							position: relative;
+						}
+
+						
+						<?php echo esc_html($cssClass); ?> .watermark {
+							border: 0;
+							position: absolute;
+							bottom: <?php echo esc_html($y); ?>%;
+							right: <?php echo esc_html($x); ?>%;
+							max-width: 150px;
+							max-height: 75px;
+							opacity: 0.25;
+							z-index: 5;
+							-o-transition: opacity 0.5s ease-in-out;
+							-moz-transition: opacity 0.5s ease-in-out;
+							-webkit-transition: opacity 0.5s ease-in-out;
+							transition: opacity 0.5s ease-in-out;
+						}
+
+						<?php echo esc_html($cssClass); ?>
+						.watermark:hover {
+							opacity: 1;
+						}
+					</style>
+					<?php
+					$style = ob_get_clean();
+
+					if ( ! class_exists( '\simple_html_dom' ) ) {
+						include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
+					}
+
+
+					if(!empty($atts['customlogo'])){
+						$img = '<img src="'.esc_url($atts['customlogo']).'"/>';
+					}
+
+					$imgDom = str_get_html( $img );
+
+
+
+					$imgDom = $imgDom->find( 'img', 0 );
+					$imgDom->setAttribute( 'class', 'watermark' );
+					$imgDom->removeAttribute( 'style' );
+					$imgDom->setAttribute( 'width', 'auto' );
+					$imgDom->setAttribute( 'height', 'auto' );
+					ob_start();
+					echo $imgDom;
+					$cta .= ob_get_clean();
+					$imgDom->clear();
+					unset( $img, $imgDom );
+
+					if ( $url ) {
+						$cta .= '</a>';
+					}
+					$dom     = str_get_html( $embedHTML );
+					$wrapDiv = $dom->find( "div.ose-youtube", 0 );
+					if ( ! empty( $wrapDiv ) && is_object( $wrapDiv ) ) {
+						$wrapDiv->innertext .= $cta;
+					}
+
+					ob_start();
+					echo $wrapDiv;
+					$markup = ob_get_clean();
+					$dom->clear();
+					unset( $dom, $wrapDiv );
+
+					$embedHTML = $style . $markup;
+
 					
 				}
 
@@ -158,7 +238,7 @@ class Feature_Enhancer
 
 		}
 
-		return $embedHTML;
+		return $embedHTML ;
 	}
 
 

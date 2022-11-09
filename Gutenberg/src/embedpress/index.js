@@ -264,6 +264,13 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: ''
 			},
+			logoX: {
+				type: 'number',
+			},
+			logoY: {
+				type: 'number',
+			},
+
 
 		},
 		/**

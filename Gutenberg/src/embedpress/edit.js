@@ -47,6 +47,8 @@ export default function EmbedPress(props) {
 		modestbranding,
 		relatedvideos,
 		customlogo,
+		logoX, 
+		logoY,
 		limit,
 		layout,
 		preset,
@@ -157,6 +159,8 @@ export default function EmbedPress(props) {
 						modestbranding: modestbranding ,
 						relatedvideos: relatedvideos ? 1 : 0,
 						customlogo: customlogo ? customlogo: '',
+						logoX: logoX ? logoX: 0,
+						logoY: logoY ? logoY: 0,
 					};
 						
 					ytvParams = '&' + new URLSearchParams(_isYTVideo).toString();
@@ -244,7 +248,7 @@ export default function EmbedPress(props) {
 			}
 		}, 300)
 		return () => clearTimeout(delayDebounceFn)
-	}, [pagesize, limit, layout, preset, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator,itemBGColor, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize,  starttime, endtime, autoplay, controls, fullscreen, videoannotations, progressbarcolor, closedcaptions, modestbranding, relatedvideos, customlogo]);
+	}, [pagesize, limit, layout, preset, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator,itemBGColor, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize,  starttime, endtime, autoplay, controls, fullscreen, videoannotations, progressbarcolor, closedcaptions, modestbranding, relatedvideos, logoX, logoY]);
 
 	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
 

@@ -1,5 +1,5 @@
 import Youtube from './InspectorControl/youtube';
-import OpenSea from './InspectorControl/OpenSea';
+import OpenSea from './InspectorControl/opensea';
 import { addProAlert, isPro, removeAlert } from '../common/helper'
 
 /**
@@ -43,6 +43,8 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         modestbranding,
         relatedvideos,
         customlogo,
+        logoX,
+        logoY,
     } = attributes;
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
@@ -227,6 +229,32 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                         </Button>
                                     )}
                                 />
+
+                                {
+                                    customlogo && (
+                                        <div className={'ep-custom-logo-position'}>
+                                            <RangeControl
+                                                label={__('Logo X position', 'embedpress')}
+                                                value={logoX}
+                                                onChange={(logoX) =>
+                                                    setAttributes({ logoX })
+                                                }
+                                                max={100}
+                                                min={0}
+                                            />
+                                            <RangeControl
+                                                label={__('Logo Y position', 'embedpress')}
+                                                value={logoY}
+                                                onChange={(logoY) =>
+                                                    setAttributes({ logoY })
+                                                }
+                                                max={100}
+                                                min={0}
+                                            />
+                                        </div>
+                                    )
+
+                                }
                             </PanelBody>
                         </div>
                     )
