@@ -1,5 +1,5 @@
 import Youtube from './InspectorControl/youtube';
-import OpenSea from './InspectorControl/OpenSea';
+import OpenSea from './InspectorControl/opensea';
 
 /**
  * WordPress dependencies
@@ -21,7 +21,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isOp
     const {
         width,
         height,
-        
+
         editingURL,
         embedHTML,
     } = attributes;
