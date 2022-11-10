@@ -280,8 +280,8 @@ export default function EmbedPress(props) {
 				((!isOpensea || editingURL) && (!isYTVideo || editingURL)) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea)) && <figure {...blockProps} >
-				<EmbedWrap style={{ display: (fetching && !isOpensea) ? 'none' : '' }} dangerouslySetInnerHTML={{
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isYTVideo)) && <figure {...blockProps} >
+				<EmbedWrap style={{ display: (fetching && !isOpensea && !isYTVideo) ? 'none' : '' }} dangerouslySetInnerHTML={{
 					__html: embedHTML
 				}}></EmbedWrap>
 
