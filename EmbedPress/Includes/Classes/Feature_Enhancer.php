@@ -102,16 +102,18 @@ class Feature_Enhancer
 					'starttime'    => !empty($attributes['starttime']) ? $attributes['starttime'] : '',
 					'endtime'   => !empty($attributes['endtime']) ? $attributes['endtime'] : '',
 					'autoplay'   => !empty($attributes['autoplay']) ? 1 : 0,
-					'controls'   => $attributes['controls'],
+					'controls'   => !empty($attributes['controls']) ? $attributes['controls'] : '',
 					'fullscreen'   => !empty($attributes['fullscreen']) ? 1 : 0,
 					'videoannotations'   => !empty($attributes['videoannotations']) ? 1 : 0,
 					'progressbarcolor'   => !empty($attributes['progressbarcolor']) ? $attributes['progressbarcolor'] : 'red',
 					'closedcaptions'   => !empty($attributes['closedcaptions']) ? 1 : 0,
-					'modestbranding'   => $attributes['modestbranding'],
+					'modestbranding'   => !empty($attributes['modestbranding']) ? $attributes['modestbranding'] : '',
 					'relatedvideos'   => !empty($attributes['relatedvideos']) ? 1 : 0,
-					'customlogo'   => isset($attributes['customlogo']) ? $attributes['customlogo'] : '',
+					'customlogo'   => !empty($attributes['customlogo']) ? $attributes['customlogo'] : '',
 					'logoX' => !empty($attributes['logoX']) ? $attributes['logoX'] : 0,
-					'logoY' => !empty($attributes['logoY']) ? $attributes['logoY'] : 0
+					'logoY' => !empty($attributes['logoY']) ? $attributes['logoY'] : 0,
+					'customlogoUrl' => !empty($attributes['customlogoUrl']) ? $attributes['customlogoUrl'] : '',
+					'logoOpacity' => !empty($attributes['logoOpacity']) ? $attributes['logoOpacity'] : 0,
 				];
 
 				$urlInfo = Shortcode::parseContent($attributes['url'], true, $atts);
@@ -125,7 +127,7 @@ class Feature_Enhancer
 					$query = parse_url( $url_full, PHP_URL_QUERY );
 					parse_str( $query, $params );
 
-					$params['controls']       = $attributes['controls'];
+					$params['controls']       = !empty($attributes['controls']) ? $attributes['controls'] : '';
 					$params['iv_load_policy'] = !empty($attributes['videoannotations']) ? 1 : 0;
 					$params['fs']             = !empty($attributes['fullscreen']) ? 1 : 0;
 					$params['rel']             = !empty($attributes['relatedvideos']) ? 1 : 0;
@@ -156,6 +158,8 @@ class Feature_Enhancer
 
 					$x = $atts['logoX'];
 					$y = $atts['logoY'];
+					$brandUrl = $atts['customlogoUrl'];
+					$opacity = $atts['logoOpacity'];
 					
 					$cssClass = !empty( $attributes['url'] ) ? '.ose-uid-' . md5( $attributes['url'] ) : '.ose-youtube';
 
@@ -180,6 +184,7 @@ class Feature_Enhancer
 							-moz-transition: opacity 0.5s ease-in-out;
 							-webkit-transition: opacity 0.5s ease-in-out;
 							transition: opacity 0.5s ease-in-out;
+							opacity: <?php echo esc_html($opacity); ?>;
 						}
 
 						<?php echo esc_html($cssClass); ?>
@@ -194,43 +199,45 @@ class Feature_Enhancer
 						include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
 					}
 
+					$cta    = '';
+					$img = '';
 
 					if(!empty($atts['customlogo'])){
 						$img = '<img src="'.esc_url($atts['customlogo']).'"/>';
+
+						$imgDom = str_get_html( $img );
+						$imgDom = $imgDom->find( 'img', 0 );
+						$imgDom->setAttribute( 'class', 'watermark' );
+						$imgDom->removeAttribute( 'style' );
+						$imgDom->setAttribute( 'width', 'auto' );
+						$imgDom->setAttribute( 'height', 'auto' );
+						ob_start();
+						echo $imgDom;
+
+						$cta .= ob_get_clean();
+
+						$imgDom->clear();
+						unset( $img, $imgDom );
+
+						if ( !empty($brandUrl) ) {
+							$cta = '<a href="'.esc_url($brandUrl).'">'.$cta.'</a>';
+						}
+						$dom     = str_get_html( $embedHTML );
+						$wrapDiv = $dom->find( "div.ose-youtube", 0 );
+						if ( ! empty( $wrapDiv ) && is_object( $wrapDiv ) ) {
+							$wrapDiv->innertext .= $cta;
+						}
+
+						ob_start();
+						echo $wrapDiv;
+						$markup = ob_get_clean();
+						$dom->clear();
+						unset( $dom, $wrapDiv );
+
+						$embedHTML = $style . $markup;
+
+						
 					}
-
-					$imgDom = str_get_html( $img );
-
-
-
-					$imgDom = $imgDom->find( 'img', 0 );
-					$imgDom->setAttribute( 'class', 'watermark' );
-					$imgDom->removeAttribute( 'style' );
-					$imgDom->setAttribute( 'width', 'auto' );
-					$imgDom->setAttribute( 'height', 'auto' );
-					ob_start();
-					echo $imgDom;
-					$cta .= ob_get_clean();
-					$imgDom->clear();
-					unset( $img, $imgDom );
-
-					if ( $url ) {
-						$cta .= '</a>';
-					}
-					$dom     = str_get_html( $embedHTML );
-					$wrapDiv = $dom->find( "div.ose-youtube", 0 );
-					if ( ! empty( $wrapDiv ) && is_object( $wrapDiv ) ) {
-						$wrapDiv->innertext .= $cta;
-					}
-
-					ob_start();
-					echo $wrapDiv;
-					$markup = ob_get_clean();
-					$dom->clear();
-					unset( $dom, $wrapDiv );
-
-					$embedHTML = $style . $markup;
-
 					
 				}
 

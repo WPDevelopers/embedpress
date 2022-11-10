@@ -270,7 +270,12 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			logoY: {
 				type: 'number',
 			},
-
+			customlogoUrl: {
+				type: 'string',
+			},
+			logoOpacity: {
+				type: 'number',
+			},
 
 		},
 		/**

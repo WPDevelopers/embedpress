@@ -45,6 +45,8 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         customlogo,
         logoX,
         logoY,
+        customlogoUrl,
+        logoOpacity
     } = attributes;
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
@@ -216,19 +218,26 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     )
                                 }
 
-
-                                <MediaUpload
-                                    onSelect={onSelectImage}
-                                    allowedTypes={['image']}
-                                    value={customlogo}
-                                    render={({ open }) => (
-                                        <Button className={'ep-logo-upload-button'} icon={!customlogo ? 'upload' : 'update'} onClick={open}>
-                                            {
-                                                !customlogo ? 'Upload Image' : 'Change Image'
-                                            }
-                                        </Button>
-                                    )}
-                                />
+                                <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                    <MediaUpload
+                                        onSelect={onSelectImage}
+                                        allowedTypes={['image']}
+                                        value={customlogo}
+                                        render={({ open }) => (
+                                            <Button className={'ep-logo-upload-button'} icon={!customlogo ? 'upload' : 'update'} onClick={open}>
+                                                {
+                                                    !customlogo ? 'Upload Image' : 'Change Image'
+                                                }
+                                            </Button>
+                                        )}
+                                        
+                                    />
+                                    {
+                                        (!isProPluginActive) && (
+                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                        )
+                                    }
+                                </div>
 
                                 {
                                     customlogo && (
@@ -251,6 +260,26 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                                 max={100}
                                                 min={0}
                                             />
+                                            <RangeControl
+                                                label={__('Logo Opacity', 'embedpress')}
+                                                value={logoOpacity}
+                                                onChange={(logoOpacity) =>
+                                                    setAttributes({ logoOpacity })
+                                                }
+                                                max={1}
+                                                min={0}
+                                                step={.05}
+                                            />
+
+                                            <TextControl
+                                                label="Custom Logo Url"
+                                                value={customlogoUrl}
+                                                onChange={(customlogoUrl) =>
+                                                    setAttributes({ customlogoUrl })
+                                                }
+                                                placeholder={'https://exmple.com'}
+                                            />
+
                                         </div>
                                     )
 

@@ -47,8 +47,10 @@ export default function EmbedPress(props) {
 		modestbranding,
 		relatedvideos,
 		customlogo,
-		logoX, 
+		logoX,
 		logoY,
+		customlogoUrl,
+		logoOpacity,
 		limit,
 		layout,
 		preset,
@@ -88,7 +90,7 @@ export default function EmbedPress(props) {
 
 	const isOpensea = url.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i);
 
-    const isYTVideo = url.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/i);
+	const isYTVideo = url.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/i);
 
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
@@ -146,7 +148,7 @@ export default function EmbedPress(props) {
 				}
 
 				//Generate YouTube video params
-				if(isYTVideo){
+				if (isYTVideo) {
 					let _isYTVideo = {
 						starttime: starttime,
 						endtime: endtime,
@@ -156,13 +158,15 @@ export default function EmbedPress(props) {
 						videoannotations: videoannotations ? 1 : 0,
 						progressbarcolor: progressbarcolor,
 						closedcaptions: closedcaptions ? 1 : 0,
-						modestbranding: modestbranding ,
+						modestbranding: modestbranding,
 						relatedvideos: relatedvideos ? 1 : 0,
-						customlogo: customlogo ? customlogo: '',
-						logoX: logoX ? logoX: 0,
-						logoY: logoY ? logoY: 0,
+						customlogo: customlogo ? customlogo : '',
+						logoX: logoX ? logoX : 0,
+						logoY: logoY ? logoY : 0,
+						customlogoUrl: customlogoUrl ? customlogoUrl : '',
+						logoOpacity: logoOpacity ? logoOpacity : '',
 					};
-						
+
 					ytvParams = '&' + new URLSearchParams(_isYTVideo).toString();
 				}
 
@@ -206,11 +210,9 @@ export default function EmbedPress(props) {
 					openseaParams = '&' + new URLSearchParams(_isOpensea).toString();
 				}
 
-				
-
 				let __url = url.split('#');
 				__url = encodeURIComponent(__url[0]);
-				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${__url}&width=${width}&height=${height}${youtubeParams}${openseaParams}${ytvParams }`).then(response => response.json());
+				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${__url}&width=${width}&height=${height}${youtubeParams}${openseaParams}${ytvParams}`).then(response => response.json());
 			}
 
 			fetchData(url).then(data => {
@@ -248,7 +250,7 @@ export default function EmbedPress(props) {
 			}
 		}, 300)
 		return () => clearTimeout(delayDebounceFn)
-	}, [pagesize, limit, layout, preset, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator,itemBGColor, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize,  starttime, endtime, autoplay, controls, fullscreen, videoannotations, progressbarcolor, closedcaptions, modestbranding, relatedvideos, logoX, logoY]);
+	}, [pagesize, limit, layout, preset, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, itemBGColor, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize, starttime, endtime, autoplay, controls, fullscreen, videoannotations, progressbarcolor, closedcaptions, modestbranding, relatedvideos, logoX, logoY, customlogoUrl, logoOpacity]);
 
 	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
 
@@ -275,7 +277,7 @@ export default function EmbedPress(props) {
 			</div>}
 
 			{
-				(!isOpensea || editingURL) && fetching && (<div className={className}><EmbedLoading /> </div>)
+				((!isOpensea || editingURL) && (!isYTVideo || editingURL)) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
 			{(embedHTML && !editingURL && (!fetching || isOpensea)) && <figure {...blockProps} >

@@ -152,6 +152,11 @@ button.components-flex.components-color-palette__custom-color {
 .components-circular-option-picker .components-circular-option-picker__swatches {
   -ms-flex-pack: distribute;
       justify-content: space-around; }
+
+.pro-control .ep-logo-upload-button {
+  pointer-events: none;
+  cursor: pointer;
+  opacity: .8; }
 /**
  * #.# Common SCSS
  *
@@ -648,7 +653,8 @@ button.ep-remove__image {
   clear: both; }
 
 .pro-control {
-  position: relative; }
+  position: relative;
+  cursor: pointer; }
 
 span.isPro {
   position: absolute;
