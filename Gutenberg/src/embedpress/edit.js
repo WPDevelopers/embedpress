@@ -84,6 +84,34 @@ export default function EmbedPress(props) {
 		buttonFontSize,
 	} = attributes;
 
+	let customLogoTemp = '';
+	let customLogoStyle = '';
+
+	if(customlogo){
+		customLogoStyle = `
+				border: 0;
+				position: absolute;
+				bottom: ${logoX}%;
+				right: ${logoY}%;
+				max-width: 150px;
+				max-height: 75px;
+				opacity: 0.25;
+				z-index: 5;
+				-o-transition: opacity 0.5s ease-in-out;
+				-moz-transition: opacity 0.5s ease-in-out;
+				-webkit-transition: opacity 0.5s ease-in-out;
+				transition: opacity 0.5s ease-in-out;
+				opacity: 1; 
+				`
+		customLogoTemp = `<img decoding="async" style='${customLogoStyle}' src="${customlogo}" class="watermark" width="auto" height="auto">`;
+
+		if(customlogoUrl){
+			customLogoTemp = `<a href="${customlogoUrl}"><img style='${customLogoStyle}' decoding="async" src="${customlogo}" class="watermark" width="auto" height="auto"></a>`;
+		}
+	}
+
+	
+
 	const blockProps = useBlockProps ? useBlockProps() : [];
 
 	const isYTChannel = url.match(/\/channel\/|\/c\/|\/user\/|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
@@ -258,6 +286,9 @@ export default function EmbedPress(props) {
 		repeatCol = `repeat(auto-fit, minmax(calc(${100 / columns}% - ${gapbetweenvideos}px), 1fr))`;
 	}
 
+
+
+
 	return (
 		<Fragment>
 
@@ -280,14 +311,16 @@ export default function EmbedPress(props) {
 				((!isOpensea || editingURL) && (!isYTVideo || editingURL)) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
+
+
 			{(embedHTML && !editingURL && (!fetching || isOpensea || isYTVideo)) && <figure {...blockProps} >
-				<EmbedWrap style={{ display: (fetching && !isOpensea && !isYTVideo) ? 'none' : '' }} dangerouslySetInnerHTML={{
-					__html: embedHTML
+				<EmbedWrap style={{ display: (fetching && !isOpensea && !isYTVideo) ? 'none' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
+					__html: embedHTML + customLogoTemp
 				}}></EmbedWrap>
 
 				{
 					fetching && (
-						<div style={{ filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '0.7' }}
+						<div style={{ filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '1' }}
 							className="block-library-embed__interactive-overlay"
 							onMouseUp={setAttributes({ interactive: true })}
 						/>
@@ -302,7 +335,6 @@ export default function EmbedPress(props) {
 						/>
 					)
 				}
-
 
 				<EmbedControls
 					showEditButton={embedHTML && !cannotEmbed}

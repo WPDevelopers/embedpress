@@ -43,6 +43,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         logoOpacity
     } = attributes;
 
+
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     const onSelectImage = (logo) => {
@@ -114,7 +115,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                     label={__("Start Time")}
                                     value={starttime}
                                     onChange={(starttime) => setAttributes({ starttime })}
-                                    type={'number'}
+                                    type={'text'}
                                     className={'ep-control-field'}
 
                                 />
@@ -124,7 +125,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                     label={__("End Time")}
                                     value={endtime}
                                     onChange={(endtime) => setAttributes({ endtime })}
-                                    type={'number'}
+                                    type={'text'}
                                     className={'ep-control-field'}
                                 />
                                 <p>Specify a end time (in seconds)</p>

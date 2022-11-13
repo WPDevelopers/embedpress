@@ -230,10 +230,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 
 			//YouTube single video controls attribute
 			starttime: {
-				type: 'number',
+				type: 'string',
 			},
 			endtime: {
-				type: 'number',
+				type: 'string',
 			},
 			autoplay: {
 				type: 'boolean',
@@ -266,15 +266,18 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			logoX: {
 				type: 'number',
+				default: 5
 			},
 			logoY: {
 				type: 'number',
+				default: 10
 			},
 			customlogoUrl: {
 				type: 'string',
 			},
 			logoOpacity: {
 				type: 'number',
+				default: 0.6
 			},
 
 		},
