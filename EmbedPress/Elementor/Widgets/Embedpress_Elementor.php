@@ -2036,9 +2036,16 @@ class Embedpress_Elementor extends Widget_Base
 		$is_editor_view = Plugin::$instance->editor->is_edit_mode();
 		$link = $settings['embedpress_embeded_link'];
 		$is_apple_podcast = (strpos($link, 'podcasts.apple.com') !== false);
+
+		// conditionaly convert settings data
 		$_settings = [];
 		$source = $settings['embedpress_pro_embeded_source'];
+		$embed_link = $settings['embedpress_embeded_link'];
+
 		if($source != 'default' && (!is_array($source) || !in_array('default', $source))){
+			$_settings = $this->convert_settings($settings);
+		}
+		else if(($source === 'default' || $source[0] === 'default') && empty(strpos($embed_link, 'opensea.io'))){
 			$_settings = $this->convert_settings($settings);
 		}
 
