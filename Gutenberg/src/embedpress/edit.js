@@ -95,13 +95,12 @@ export default function EmbedPress(props) {
 				right: ${logoY}%;
 				max-width: 150px;
 				max-height: 75px;
-				opacity: 0.25;
-				z-index: 5;
+				opacity: ${logoOpacity};
+				// z-index: 5;
 				-o-transition: opacity 0.5s ease-in-out;
 				-moz-transition: opacity 0.5s ease-in-out;
 				-webkit-transition: opacity 0.5s ease-in-out;
 				transition: opacity 0.5s ease-in-out;
-				opacity: 1; 
 				`
 		customLogoTemp = `<img decoding="async" style='${customLogoStyle}' src="${customlogo}" class="watermark" width="auto" height="auto">`;
 
@@ -320,7 +319,7 @@ export default function EmbedPress(props) {
 
 				{
 					fetching && (
-						<div style={{ filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '1' }}
+						<div style={{ filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '.75' }}
 							className="block-library-embed__interactive-overlay"
 							onMouseUp={setAttributes({ interactive: true })}
 						/>

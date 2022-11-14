@@ -149,7 +149,9 @@ class Feature_Enhancer
 					// Reassemble the url with the new variables.
 					$url_modified = $url . '?';
 					foreach ( $params as $paramName => $paramValue ) {
-						$url_modified .= $paramName . '=' . $paramValue . '&';
+						if(!empty($paramValue)){
+							$url_modified .= $paramName . '=' . $paramValue . '&';
+						}
 					}
 
 
