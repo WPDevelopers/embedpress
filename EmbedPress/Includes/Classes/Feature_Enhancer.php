@@ -71,6 +71,8 @@ class Feature_Enhancer
 
 	public function gutenberg_embed($embedHTML, $attributes)
 	{
+		
+		print_r($attributes);
 
 		if (!empty($attributes['url'])) {
 			$youtube = new Youtube($attributes['url']);
@@ -97,7 +99,7 @@ class Feature_Enhancer
 			// echo $this->ytValidateUrl($attributes['url']);
 			
 			if($this->ytValidateUrl($attributes['url'])){
-
+				
 				$atts = [
 					'starttime'    => !empty($attributes['starttime']) ? $attributes['starttime'] : '',
 					'endtime'   => !empty($attributes['endtime']) ? $attributes['endtime'] : '',
@@ -110,10 +112,10 @@ class Feature_Enhancer
 					'modestbranding'   => !empty($attributes['modestbranding']) ? $attributes['modestbranding'] : '',
 					'relatedvideos'   => !empty($attributes['relatedvideos']) ? 1 : 0,
 					'customlogo'   => !empty($attributes['customlogo']) ? $attributes['customlogo'] : '',
-					'logoX' => !empty($attributes['logoX']) ? $attributes['logoX'] : 0,
-					'logoY' => !empty($attributes['logoY']) ? $attributes['logoY'] : 0,
+					'logoX' => !empty($attributes['logoX']) ? $attributes['logoX'] : 5,
+					'logoY' => !empty($attributes['logoY']) ? $attributes['logoY'] : 10,
 					'customlogoUrl' => !empty($attributes['customlogoUrl']) ? $attributes['customlogoUrl'] : '',
-					'logoOpacity' => !empty($attributes['logoOpacity']) ? $attributes['logoOpacity'] : 0,
+					'logoOpacity' => !empty($attributes['logoOpacity']) ? $attributes['logoOpacity'] : 0.6,
 				];
 
 				$urlInfo = Shortcode::parseContent($attributes['url'], true, $atts);

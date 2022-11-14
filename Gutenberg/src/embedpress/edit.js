@@ -91,8 +91,8 @@ export default function EmbedPress(props) {
 		customLogoStyle = `
 				border: 0;
 				position: absolute;
-				bottom: ${logoX}%;
-				right: ${logoY}%;
+				bottom: ${logoY}%;
+				right: ${logoX}%;
 				max-width: 150px;
 				max-height: 75px;
 				opacity: ${logoOpacity};
@@ -102,10 +102,10 @@ export default function EmbedPress(props) {
 				-webkit-transition: opacity 0.5s ease-in-out;
 				transition: opacity 0.5s ease-in-out;
 				`
-		customLogoTemp = `<img decoding="async" style='${customLogoStyle}' src="${customlogo}" class="watermark" width="auto" height="auto">`;
+		customLogoTemp = `<img decoding="async"  src="${customlogo}" class="watermark" width="auto" height="auto">`;
 
 		if(customlogoUrl){
-			customLogoTemp = `<a href="${customlogoUrl}"><img style='${customLogoStyle}' decoding="async" src="${customlogo}" class="watermark" width="auto" height="auto"></a>`;
+			customLogoTemp = `<a href="${customlogoUrl}"><img decoding="async" src="${customlogo}" class="watermark" width="auto" height="auto"></a>`;
 		}
 	}
 
@@ -423,6 +423,19 @@ export default function EmbedPress(props) {
 				)
 			}
 
+			{
+				isYTVideo && (
+					<style style={{ display: "none" }}>
+						{
+							`
+							#block-${clientId} img.watermark{
+								${customLogoStyle}
+							}
+							`
+						}
+					</style>
+				)
+			}
 
 		</Fragment>
 
