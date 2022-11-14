@@ -2042,10 +2042,7 @@ class Embedpress_Elementor extends Widget_Base
 		$source = $settings['embedpress_pro_embeded_source'];
 		$embed_link = $settings['embedpress_embeded_link'];
 
-		if($source != 'default' && (!is_array($source) || !in_array('default', $source))){
-			$_settings = $this->convert_settings($settings);
-		}
-		else if(($source === 'default' || $source[0] === 'default') && empty(strpos($embed_link, 'opensea.io'))){
+		if(!(($source === 'default' || !empty($source[0]) && $source[0] === 'default') && strpos($embed_link, 'opensea.io') !== false)){
 			$_settings = $this->convert_settings($settings);
 		}
 
