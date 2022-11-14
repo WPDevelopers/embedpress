@@ -7,8 +7,8 @@
 $opensea_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
 
 $os_api_key = isset( $opensea_settings['api_key']) ? $opensea_settings['api_key'] : '';
-$limit = isset( $opensea_settings['limit']) ? $opensea_settings['limit'] : '';
-$orderby = isset( $opensea_settings['orderby']) ? $opensea_settings['orderby'] : '';
+$limit = isset( $opensea_settings['limit']) ? $opensea_settings['limit'] : 9;
+$orderby = isset( $opensea_settings['orderby']) ? $opensea_settings['orderby'] : 'desc';
 
 ?>
 
@@ -43,8 +43,8 @@ $orderby = isset( $opensea_settings['orderby']) ? $opensea_settings['orderby'] :
                     <div class="embedpress__select">
                         <span><i class="ep-icon ep-caret-down"></i></span>
                         <select name="orderby" data-default="<?php echo esc_attr($orderby); ?>">
-                            <option value="asc" <?php selected( 'asc',$orderby); ?>><?php esc_html_e( 'Oldest', 'embedpress'); ?></option>
                             <option value="desc" <?php selected( 'desc',$orderby); ?>><?php esc_html_e( 'Newest', 'embedpress'); ?></option>
+                            <option value="asc" <?php selected( 'asc',$orderby); ?>><?php esc_html_e( 'Oldest', 'embedpress'); ?></option>
                         </select>
                     </div>
                     <p><?php esc_html_e( 'Indicates whether the video player controls are displayed.', 'embedpress'); ?> </p>

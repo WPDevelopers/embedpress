@@ -1425,6 +1425,15 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->add_control(
+			'opense_important_note',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => esc_html__( 'These options take effect only when a Opensea Collection is embedded.', 'embedpress' ),
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+			]
+		);
+
+		$this->add_control(
 			'layout',
 			[
 				'label'       => __('Layout', 'embedpress'),
@@ -1677,6 +1686,15 @@ class Embedpress_Elementor extends Widget_Base
 				'label'       => __('Color and Typography', 'embedpress'),
 				'tab'   => Controls_Manager::TAB_STYLE,
 				'condition'    => $condition,
+			]
+		);
+
+		$this->add_control(
+			'opense_color_important_note',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => esc_html__( 'These options take effect only when a Opensea Collection is embedded.', 'embedpress' ),
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
 			]
 		);
 
@@ -2018,7 +2036,18 @@ class Embedpress_Elementor extends Widget_Base
 		$is_editor_view = Plugin::$instance->editor->is_edit_mode();
 		$link = $settings['embedpress_embeded_link'];
 		$is_apple_podcast = (strpos($link, 'podcasts.apple.com') !== false);
-		$_settings = $this->convert_settings($settings);
+
+		// conditionaly convert settings data
+		$_settings = [];
+		$source = $settings['embedpress_pro_embeded_source'];
+		$embed_link = $settings['embedpress_embeded_link'];
+
+		if($source != 'default' && (!is_array($source) || !in_array('default', $source))){
+			$_settings = $this->convert_settings($settings);
+		}
+		else if(($source === 'default' || $source[0] === 'default') && empty(strpos($embed_link, 'opensea.io'))){
+			$_settings = $this->convert_settings($settings);
+		}
 
 		$embed_content = Shortcode::parseContent($settings['embedpress_embeded_link'], true, $_settings);
 		$embed_content = $this->onAfterEmbedSpotify($embed_content, $settings);

@@ -109,7 +109,7 @@ export default function EmbedPress(props) {
 		}
 	}
 
-	
+
 
 	const blockProps = useBlockProps ? useBlockProps() : [];
 
@@ -237,6 +237,8 @@ export default function EmbedPress(props) {
 					openseaParams = '&' + new URLSearchParams(_isOpensea).toString();
 				}
 
+
+
 				let __url = url.split('#');
 				__url = encodeURIComponent(__url[0]);
 				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${__url}&width=${width}&height=${height}${youtubeParams}${openseaParams}${ytvParams}`).then(response => response.json());
@@ -293,7 +295,7 @@ export default function EmbedPress(props) {
 
 			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isYTVideo={isYTVideo} isOpensea={isOpensea} />
 
-			{((!embedHTML || editingURL) && !fetching) && <div {...blockProps}>
+			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
 				<EmbedPlaceholder
 					label={__('EmbedPress - Embed anything from 150+ sites')}
 					onSubmit={embed}
@@ -388,10 +390,18 @@ export default function EmbedPress(props) {
 			}
 
 			{
-				!isYTChannel && (
+				!isYTChannel && !isOpensea &&(
 					<style style={{ display: "none" }}>
 						{
 							`
+							#block-${clientId} .ose-embedpress-responsive{
+								width: ${width}px!important;
+								height: ${height}px!important
+							}
+							#block-${clientId} iframe{
+								width: ${width}px!important;
+								height: ${height}px!important
+							}
 							#block-${clientId} .ose-youtube > iframe{
 								height: ${height}px!important;
 								width: ${width}px!important;

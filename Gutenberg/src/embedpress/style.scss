@@ -404,6 +404,11 @@ span.eb_nft_currency svg {
 	margin-bottom: 15px;
 }
 
+.ose-opensea {
+    min-width: 100% !important;
+    max-width: 100%!important;
+}
+
 /* mimmikcssEnd */
 
 @media all and (max-width: 1024px) {
@@ -412,10 +417,6 @@ span.eb_nft_currency svg {
     .ep_nft_content_wrap.ep_nft__wrapper,
     .ep_nft_content_wrap.ep_nft_list {
         grid-template-columns: repeat(3, 1fr) !important;
-    }
-
-	.alignleft .ose-opensea, .alignright .ose-opensea, .aligncenter .ose-opensea {
-        max-width: 100%!important;
     }
 
     /* tabcssEnd */
