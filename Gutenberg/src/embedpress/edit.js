@@ -108,9 +108,7 @@ export default function EmbedPress(props) {
 			customLogoTemp = `<a href="${customlogoUrl}"><img decoding="async" src="${customlogo}" class="watermark" width="auto" height="auto"></a>`;
 		}
 	}
-
-
-
+	
 	const blockProps = useBlockProps ? useBlockProps() : [];
 
 	const isYTChannel = url.match(/\/channel\/|\/c\/|\/user\/|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
@@ -315,7 +313,7 @@ export default function EmbedPress(props) {
 
 
 			{(embedHTML && !editingURL && (!fetching || isOpensea || isYTVideo)) && <figure {...blockProps} >
-				<EmbedWrap style={{ display: (fetching && !isOpensea && !isYTVideo) ? 'none' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
+				<EmbedWrap style={{ display: (fetching && !isOpensea && !isYTVideo) ? 'none' : isOpensea ? 'block': 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
 					__html: embedHTML + customLogoTemp
 				}}></EmbedWrap>
 

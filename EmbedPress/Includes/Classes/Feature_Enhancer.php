@@ -71,8 +71,6 @@ class Feature_Enhancer
 
 	public function gutenberg_embed($embedHTML, $attributes)
 	{
-		
-		print_r($attributes);
 
 		if (!empty($attributes['url'])) {
 			$youtube = new Youtube($attributes['url']);

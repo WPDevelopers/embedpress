@@ -2045,7 +2045,7 @@ class Embedpress_Elementor extends Widget_Base
 		if($source != 'default' && (!is_array($source) || !in_array('default', $source))){
 			$_settings = $this->convert_settings($settings);
 		}
-		else if(($source === 'default' || $source[0] === 'default') && empty(strpos($embed_link, 'opensea.io'))){
+		else if(($source === 'default' || (!empty($source[0]) && $source[0] === 'default')) && empty(strpos($embed_link, 'opensea.io'))){
 			$_settings = $this->convert_settings($settings);
 		}
 

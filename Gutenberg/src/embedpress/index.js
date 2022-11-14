@@ -64,7 +64,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			editingURL: {
 				type: 'boolean',
-				default: 0
+				default: true
 			},
 			fetching: {
 				type: 'boolean',
