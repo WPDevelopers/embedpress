@@ -1997,16 +1997,8 @@ class Embedpress_Elementor extends Widget_Base
 
 	public function render_plain_content()
 	{
-		$args = "";
-		$settings      = $this->get_settings_for_display();
-
-		$_settings = $this->convert_settings($settings);
-		foreach ($_settings as $key => $value) {
-			$args .= "$key='$value' ";
-		}
-
-		$args = trim($args);
-		echo "[embedpress $args]{$settings['embedpress_embeded_link']}\[/embedpress]";
+		$settings = $this->get_settings_for_display();
+		echo "[embedpress]{$settings['embedpress_embeded_link']}\[/embedpress]";
 	}
 
 	protected function convert_settings($settings)
