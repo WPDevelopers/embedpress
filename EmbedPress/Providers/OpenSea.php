@@ -124,8 +124,38 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
     public function getAssets($url) {
         preg_match('~opensea\.io/assets/.*/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)~i', (string) $url, $matches);
 
+        $opensea_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
+
+        $api_key = 'b61c8a54123d4dcb9acc1b9c26a01cd1';
+        
+        if(!empty($opensea_settings['api_key'])){
+            $api_key = $opensea_settings['api_key'];
+        }
+        
         if(!empty($matches[1]) && !empty($matches[2])){
+
+            $param = array(
+                'include_orders' => true,
+            );
+            
+            $url = "https://api.opensea.io/api/v1/asset/$matches[1]/$matches[2]/?" . http_build_query($param);
+
+            $results = wp_remote_get($url, [
+                'headers' => array(
+                    'Content-Type' => 'application/json',
+                    'X-API-KEY' => $api_key,
+                )
+            ]);
+
+            if (!is_wp_error($results) ) {
+                $jsonResult = json_decode($results['body']);
+                // wp_send_json($jsonResult);
+
+                // $html = print_r($jsonResult, true);
+            }
+
             $params = $this->getParams();
+
             return "
             <!-- vertical=\"true\" -->
             <nft-card
@@ -135,6 +165,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             </nft-card>
             <script src=\"https://unpkg.com/embeddable-nfts/dist/nft-card.min.js\"></script>";
         }
+
         return "";
     }
 
