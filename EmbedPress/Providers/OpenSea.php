@@ -126,6 +126,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         $opensea_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
 
+        $params = $this->getParams();
+
         $api_key = 'b61c8a54123d4dcb9acc1b9c26a01cd1';
         
         if(!empty($opensea_settings['api_key'])){
@@ -154,7 +156,42 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 // $html = print_r($jsonResult, true);
             }
 
-            $params = $this->getParams();
+            // Embepress NFT item layout
+            $ep_layout = 'ep-grid';
+            $ep_preset= '';
+            
+            if(! empty( $params['layout'] )){
+                $ep_layout =  $params['layout'];
+            }
+
+            if( ! empty( $params['layout'] ) && $params['layout'] == 'ep-grid'){
+                if(! empty( $params['preset'] )){
+                    $ep_preset =  $params['preset'];
+                }
+            }
+
+            $asset = $this->normalizeJSONData($jsonResult);
+            
+            $template = $this->nftItemTemplate($asset);
+
+            ob_start();
+            ?>
+
+                <div class="ep-parent-wrapper ep-parent-ep-nft-gallery-r1a5mbx ">
+                    <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx">
+                        <div class="ep_nft_content_wrap ep_nft__wrapper nft_items <?php echo esc_attr( $ep_layout.' '.$ep_preset ); ?>">
+                            <?php  print_r($template); ?>
+                        </div>
+                    </div>
+                </div>
+
+                <?php $this->openSeaStyle($this->getParams()); ?>
+
+            <?php $html = ob_get_clean();
+
+            // wp_send_json($html);
+
+            return $html;
 
             return "
             <!-- vertical=\"true\" -->

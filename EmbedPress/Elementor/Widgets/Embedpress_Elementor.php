@@ -116,6 +116,24 @@ class Embedpress_Elementor extends Widget_Base
 				]
 			]
 		);
+		
+		$this->add_control(
+			'embedpress_pro_embeded_nft_type',
+			[
+				'label'       => __('Type', 'embedpress'),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => false,
+				'default'     => 'collection',
+				'options'     => [
+					'single'  => __('Single Asset', 'embedpress'),
+					'collection'  => __('Assets Collection', 'embedpress'),
+				],
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'opensea'
+				]
+			]
+		);
+
 		$this->add_control(
 			'embedpress_embeded_link',
 			[
@@ -1393,7 +1411,9 @@ class Embedpress_Elementor extends Widget_Base
 				'max' => 100,
 				'step' => 1,
 				'default' => 9,
-				'condition'   => $condition
+				'condition'   => [
+					'embedpress_pro_embeded_nft_type' => ['collection']
+				],
 			]
 		);
 		$this->add_control(
@@ -1406,7 +1426,9 @@ class Embedpress_Elementor extends Widget_Base
 					'desc' => esc_html__( 'Newest', 'embedpress' ),
 				],
 				'default' => 'desc',
-				'condition'   => $condition
+				'condition'   => [
+					'embedpress_pro_embeded_nft_type' => ['collection']
+				],
 			]
 		);
 	}
@@ -1425,11 +1447,26 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->add_control(
-			'opense_important_note',
+			'opense_important_note_single',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => esc_html__( 'These options take effect only when a Opensea Single Asset is embedded.', 'embedpress' ),
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+				'condition'    => [
+					'embedpress_pro_embeded_nft_type' => 'single'
+				],
+
+			]
+		);
+		$this->add_control(
+			'opense_important_note_collection',
 			[
 				'type' => \Elementor\Controls_Manager::RAW_HTML,
 				'raw' => esc_html__( 'These options take effect only when a Opensea Collection is embedded.', 'embedpress' ),
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+				'condition'    => [
+					'embedpress_pro_embeded_nft_type' => 'collection'
+				],
 			]
 		);
 
@@ -1447,15 +1484,40 @@ class Embedpress_Elementor extends Widget_Base
 				'conditions'  => [
 					'terms' => [
 						[
-							'name' => 'embedpress_pro_embeded_source',
+							'name' => 'embedpress_pro_embeded_nft_type',
 							'operator' => '===',
-							'value' => 'opensea',
+							'value' => 'collection',
 						],
 					],
 				]
 
 			]
 		);
+
+		// $this->add_control(
+		// 	'layout',
+		// 	[
+		// 		'label'       => __('Layout', 'embedpress'),
+		// 		'type' => \Elementor\Controls_Manager::SELECT,
+		// 		'label_block' => false,
+		// 		'default' => 'ep-grid',
+		// 		'options' => [
+		// 			'ep-grid'  => esc_html__('defualt', 'embedpress'),
+		// 			'ep-list'  => esc_html__('Layout 1', 'embedpress'),
+		// 			'ep-grid preset-1'  => esc_html__('Layout 2', 'embedpress'),
+		// 		],
+		// 		'conditions'  => [
+		// 			'terms' => [
+		// 				[
+		// 					'name' => 'embedpress_pro_embeded_nft_type',
+		// 					'operator' => '===',
+		// 					'value' => 'single',
+		// 				],
+		// 			],
+		// 		]
+
+		// 	]
+		// );
 		$this->add_control(
 			'preset',
 			[
@@ -1470,9 +1532,16 @@ class Embedpress_Elementor extends Widget_Base
 				'conditions'  => [
 					'terms' => [
 						[
+							'name' => 'embedpress_pro_embeded_nft_type',
+							'operator' => '===',
+							'value' => 'collection',
+							'relation' => 'and'
+						],
+						[
 							'name' => 'layout',
 							'operator' => '===',
 							'value' => 'ep-grid',
+							'relation' => 'and'
 						],
 					],
 				]
@@ -1496,15 +1565,9 @@ class Embedpress_Elementor extends Widget_Base
 					'6' => esc_html__('6', 'embedpress'),
 					'auto' => esc_html__('Auto', 'embedpress'),
 				],
-				'conditions'  => [
-					'terms' => [
-						[
-							'name' => 'embedpress_pro_embeded_source',
-							'operator' => '===',
-							'value' => 'opensea',
-						],
-					],
-				]
+				'condition'  => [
+					'embedpress_pro_embeded_nft_type' => ['collection']
+				],
 
 			]
 		);
@@ -1525,6 +1588,9 @@ class Embedpress_Elementor extends Widget_Base
 				'default' => [
 					'unit' => 'px',
 					'size' => 15,
+				],
+				'condition'  => [
+					'embedpress_pro_embeded_nft_type' => ['collection']
 				],
 			]
 		);
@@ -1690,11 +1756,26 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->add_control(
-			'opense_color_important_note',
+			'opense_color_important_note_single',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => esc_html__( 'These options take effect only when a Opensea Single Asset is embedded.', 'embedpress' ),
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+				'condition'    => [
+					'embedpress_pro_embeded_nft_type' => 'single'
+				],
+
+			]
+		);
+		$this->add_control(
+			'opense_color_important_note_collection',
 			[
 				'type' => \Elementor\Controls_Manager::RAW_HTML,
 				'raw' => esc_html__( 'These options take effect only when a Opensea Collection is embedded.', 'embedpress' ),
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+				'condition'    => [
+					'embedpress_pro_embeded_nft_type' => 'collection'
+				],
 			]
 		);
 
