@@ -33,6 +33,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         'limit',
         'orderby',
         'layout',
+        'layout-single',
         'preset',
         'nftperrow',
         'gapbetweenitem',
@@ -120,6 +121,22 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         return $results;
     }
 
+    //Create transient for opensea api request
+    public function createTransient($url, $api_key){
+        $results = wp_remote_get($url, [
+            'headers' => array(
+                'Content-Type' => 'application/json',
+                'X-API-KEY' => $api_key,
+            )
+        ]);
+
+        if (!is_wp_error($results) ) {
+            $jsonResult = json_decode($results['body']);
+        }
+
+        return $jsonResult;
+    }
+
 
     public function getAssets($url) {
         preg_match('~opensea\.io/assets/.*/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)~i', (string) $url, $matches);
@@ -151,35 +168,28 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
             if (!is_wp_error($results) ) {
                 $jsonResult = json_decode($results['body']);
-                // wp_send_json($jsonResult);
-
-                // $html = print_r($jsonResult, true);
             }
 
             // Embepress NFT item layout
             $ep_layout = 'ep-grid';
-            $ep_preset= '';
             
-            if(! empty( $params['layout'] )){
+            if(! empty( $params['layout-single'] )){
+                $ep_layout =  $params['layout-single'];
+            }
+            else{
                 $ep_layout =  $params['layout'];
             }
-
-            if( ! empty( $params['layout'] ) && $params['layout'] == 'ep-grid'){
-                if(! empty( $params['preset'] )){
-                    $ep_preset =  $params['preset'];
-                }
-            }
-
+            
             $asset = $this->normalizeJSONData($jsonResult);
             
             $template = $this->nftItemTemplate($asset);
-
             ob_start();
+
             ?>
 
                 <div class="ep-parent-wrapper ep-parent-ep-nft-gallery-r1a5mbx ">
                     <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx">
-                        <div class="ep_nft_content_wrap ep_nft__wrapper nft_items <?php echo esc_attr( $ep_layout.' '.$ep_preset ); ?>">
+                        <div class="ep_nft_content_wrap ep_nft__wrapper nft_items <?php echo esc_attr( $ep_layout); ?>">
                             <?php  print_r($template); ?>
                         </div>
                     </div>
@@ -535,10 +545,10 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         $innerNFTbutton = '';
         $outterNFTbutton = '';
-        if(isset($params['layout']) && $params['layout'] == 'ep-grid'){
+        if(isset($params['layout']) && $params['layout'] == 'ep-grid' || isset($params['layout-single']) && $params['layout-single'] == 'ep-grid'){
             $outterNFTbutton = $nftbutton;
         }
-        else if(isset($params['layout']) && $params['layout'] == 'ep-list'){
+        else if(isset($params['layout']) && $params['layout'] == 'ep-list' || isset($params['layout-single']) && $params['layout-single'] == 'ep-list'){
             $innerNFTbutton = $nftbutton;
         }
         else{

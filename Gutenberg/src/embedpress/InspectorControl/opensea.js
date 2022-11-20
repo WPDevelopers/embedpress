@@ -24,7 +24,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function OpenSea({ attributes, setAttributes }) {
+export default function OpenSea({ attributes, setAttributes, isOpensea, isOpenseaSingle }) {
     const {
         limit,
         orderby,
@@ -134,56 +134,77 @@ export default function OpenSea({ attributes, setAttributes }) {
 
                 <div>
 
-                    <RangeControl
-                        label={__("Limit", "embedpress")}
-                        value={limit}
-                        onChange={(limit) => setAttributes({ limit })}
-                        min={1}
-                        max={100}
-                    />
-
-                    <SelectControl
-                        label={__("Order By", "embedpress")}
-                        value={orderby}
-                        options={[
-                            { label: 'Oldest', value: 'asc' },
-                            { label: 'Newest', value: 'desc' },
-                        ]}
-                        onChange={(orderby) => setAttributes({ orderby })}
-                        __nextHasNoMarginBottom
-                    />
-
-                    <SelectControl
-                        label={__("Layout", "embedpress")}
-                        value={layout}
-                        options={[
-                            { label: 'Grid', value: 'ep-grid' },
-                            { label: 'List', value: 'ep-list' },
-                        ]}
-                        onChange={(layout) => setAttributes({ layout })}
-                    />
                     {
-                        (layout == 'ep-grid') && (
-                            <SelectControl
-                                label={__("Preset", "embedpress")}
-                                value={preset}
-                                options={[
-                                    { label: 'Preset 1', value: 'ep-preset-1' },
-                                    { label: 'Preset 2', value: 'ep-preset-2' },
-                                ]}
-                                onChange={(preset) => setAttributes({ preset })}
-                            />
+                        isOpensea && (
+                            <div>
+                                <RangeControl
+                                    label={__("Limit", "embedpress")}
+                                    value={limit}
+                                    onChange={(limit) => setAttributes({ limit })}
+                                    min={1}
+                                    max={100}
+                                />
+
+                                <SelectControl
+                                    label={__("Order By", "embedpress")}
+                                    value={orderby}
+                                    options={[
+                                        { label: 'Oldest', value: 'asc' },
+                                        { label: 'Newest', value: 'desc' },
+                                    ]}
+                                    onChange={(orderby) => setAttributes({ orderby })}
+                                    __nextHasNoMarginBottom
+                                />
+
+                                <SelectControl
+                                    label={__("Layout", "embedpress")}
+                                    value={layout}
+                                    options={[
+                                        { label: 'Grid', value: 'ep-grid' },
+                                        { label: 'List', value: 'ep-list' },
+                                    ]}
+                                    onChange={(layout) => setAttributes({ layout })}
+                                />
+                                {
+                                    (layout == 'ep-grid') && (
+                                        <SelectControl
+                                            label={__("Preset", "embedpress")}
+                                            value={preset}
+                                            options={[
+                                                { label: 'Preset 1', value: 'ep-preset-1' },
+                                                { label: 'Preset 2', value: 'ep-preset-2' },
+                                            ]}
+                                            onChange={(preset) => setAttributes({ preset })}
+                                        />
+                                    )
+                                }
+
+
+                                <RangeControl
+                                    label={__("Item Per Row", "embedpress")}
+                                    value={nftperrow || 3}
+                                    onChange={(nftperrow) => setAttributes({ nftperrow })}
+                                    min={1}
+                                    max={6}
+                                />
+                            </div>
                         )
                     }
 
-
-                    <RangeControl
-                        label={__("Item Per Row", "embedpress")}
-                        value={nftperrow || 3}
-                        onChange={(nftperrow) => setAttributes({ nftperrow })}
-                        min={1}
-                        max={6}
-                    />
+                    {
+                        isOpenseaSingle && (
+                            <SelectControl
+                                label={__("Layout", "embedpress")}
+                                value={layout}
+                                options={[
+                                    { label: 'Default', value: 'ep-grid ep-preset-1' },
+                                    { label: 'Layout 1', value: 'ep-list' },
+                                    { label: 'Layout 2', value: 'ep-grid' },
+                                ]}
+                                onChange={(layout) => setAttributes({ layout })}
+                            />
+                        )
+                    }
 
                     <ToggleControl
                         label={__("Thumbnail", "embedpress")}

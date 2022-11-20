@@ -1494,30 +1494,31 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-		// $this->add_control(
-		// 	'layout',
-		// 	[
-		// 		'label'       => __('Layout', 'embedpress'),
-		// 		'type' => \Elementor\Controls_Manager::SELECT,
-		// 		'label_block' => false,
-		// 		'default' => 'ep-grid',
-		// 		'options' => [
-		// 			'ep-grid'  => esc_html__('defualt', 'embedpress'),
-		// 			'ep-list'  => esc_html__('Layout 1', 'embedpress'),
-		// 			'ep-grid preset-1'  => esc_html__('Layout 2', 'embedpress'),
-		// 		],
-		// 		'conditions'  => [
-		// 			'terms' => [
-		// 				[
-		// 					'name' => 'embedpress_pro_embeded_nft_type',
-		// 					'operator' => '===',
-		// 					'value' => 'single',
-		// 				],
-		// 			],
-		// 		]
+		$this->add_control(
+			'layout-single',
+			[
+				'label'       => __('Layout', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label_block' => false,
+				'default' => 'ep-grid',
+				'options' => [
+					'ep-grid ep-preset-1'  => esc_html__('defualt', 'embedpress'),
+					'ep-list'  => esc_html__('Layout 1', 'embedpress'),
+					'ep-grid'  => esc_html__('Layout 2', 'embedpress'),
+				],
+				'conditions'  => [
+					'terms' => [
+						[
+							'name' => 'embedpress_pro_embeded_nft_type',
+							'operator' => '===',
+							'value' => 'single',
+						],
+					],
+				]
 
-		// 	]
-		// );
+			]
+		);
+
 		$this->add_control(
 			'preset',
 			[

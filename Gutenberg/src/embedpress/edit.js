@@ -75,6 +75,7 @@ export default function EmbedPress(props) {
 
 	const isOpensea = url.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i);
 
+	const isOpenseaSingle = url.match(/\/assets\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.io\/)(\w+)[^?\/]*$/i);
 
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
@@ -130,16 +131,26 @@ export default function EmbedPress(props) {
 					youtubeParams = '&' + new URLSearchParams(_isYTChannel).toString();
 				}
 
-
 				//Generate Opensea params
+				let openSeaColData = {}
 				if (isOpensea) {
-					let _isOpensea = {
+					openSeaColData = {
 						limit: limit ? limit : 20,
 						orderby: orderby ? orderby : 'desc',
 						layout: layout ? layout : 'ep-grid',
 						preset: preset ? preset : 'ep-preset-1',
 						nftperrow: nftperrow ? nftperrow : '3',
 						gapbetweenitem: gapbetweenitem ? gapbetweenitem : 30,
+					}
+				}
+				if (isOpenseaSingle) {
+					openSeaColData = {
+						layout: layout ? layout : 'ep-grid',
+					}
+				}
+				if (isOpensea || isOpenseaSingle) {
+					let _isOpensea = {
+						...openSeaColData,
 						nftimage: nftimage ? nftimage : false,
 						nftcreator: nftcreator ? nftcreator : false,
 						prefix_nftcreator: prefix_nftcreator ? prefix_nftcreator : '',
@@ -224,7 +235,7 @@ export default function EmbedPress(props) {
 	return (
 		<Fragment>
 
-			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isOpensea={isOpensea} />
+			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isOpensea={isOpensea} isOpenseaSingle={isOpenseaSingle} />
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
 				<EmbedPlaceholder
@@ -239,13 +250,13 @@ export default function EmbedPress(props) {
 				/>
 			</div>}
 
+
 			{
-				((!isOpensea || (!!editingURL || editingURL === 0)) && fetching) && (<div className={className}><EmbedLoading /> </div>)
+				((!isOpensea || (!!editingURL || editingURL === 0)) && (!isOpenseaSingle || (!!editingURL || editingURL === 0))) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-
-			{(embedHTML && !editingURL && (!fetching || isOpensea)) && <figure {...blockProps} >
-				<EmbedWrap style={{ display: (fetching && !isOpensea) ? 'none' : '' }} dangerouslySetInnerHTML={{
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle)) && <figure {...blockProps} >
+				<EmbedWrap style={{ display: (fetching && !isOpensea && !isOpenseaSingle) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
 					__html: embedHTML
 				}}></EmbedWrap>
 
@@ -260,7 +271,7 @@ export default function EmbedPress(props) {
 				}
 
 				{
-					!isOpensea && (
+					!isOpensea && !isOpenseaSingle && (
 						<div
 							className="block-library-embed__interactive-overlay"
 							onMouseUp={setAttributes({ interactive: true })}
@@ -322,7 +333,7 @@ export default function EmbedPress(props) {
 			}
 
 			{
-				!isYTChannel && !isOpensea &&(
+				!isYTChannel && !isOpensea && !isOpenseaSingle && (
 					<style style={{ display: "none" }}>
 						{
 							`
@@ -350,7 +361,7 @@ export default function EmbedPress(props) {
 			}
 
 			{
-				isOpensea && (
+				(isOpensea || isOpenseaSingle) && (
 					<style style={{ display: "none" }}>
 						{
 							`
@@ -360,7 +371,6 @@ export default function EmbedPress(props) {
 							}
 							`
 						}
-
 					</style>
 				)
 			}
