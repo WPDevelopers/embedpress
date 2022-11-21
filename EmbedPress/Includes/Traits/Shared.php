@@ -104,11 +104,29 @@ trait Shared {
             'optin',
             [$this->insights, 'notice'],
             [
-                'start'       => $notices->time(),
+                'start'       => $notices->strtotime( '+30 days' ),
                 'recurrence'  => 30,
                 'dismissible' => true,
                 'do_action'   => 'wpdeveloper_notice_clicked_for_embedpress',
                 'display_if'  => ! is_array( $notices->is_installed( 'embedpress-pro/embedpress-pro.php' ) )
+            ]
+        );
+
+        $notice_text = sprintf('%s <a href="%s">%s</a>', __( 'Black Friday Exclusive: SAVE up to 40% & access to <strong>EmbedPress Pro</strong> features.', 'embedpress' ), esc_url( 'http://embedpress.com/#pricing' ), __('Grab The Offer', 'embedpress') );
+
+        $_black_friday = [
+            'thumbnail' => $_assets_url . 'images/icon-128x128.png',
+            'html' => $notice_text,
+        ];
+
+        $notices->add(
+            'black_friday',
+            $_black_friday,
+            [
+                'start'       => $notices->time(),
+                'recurrence'  => false,
+                'dismissible' => true,
+                'expire'      => $notices->strtotime( '+30 days' )
             ]
         );
 
