@@ -126,7 +126,7 @@ trait Shared {
                 'start'       => $notices->time(),
                 'recurrence'  => false,
                 'dismissible' => true,
-                'expire'      => $notices->strtotime( '+30 days' )
+                'expire'      => strtotime( 'Wed, 30 Nov 2022 23:59:59 GMT' ),
             ]
         );
 
