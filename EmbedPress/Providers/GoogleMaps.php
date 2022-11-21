@@ -47,20 +47,24 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
      */
     public function fakeResponse()
     {
+        $src_url = urldecode($this->url);
+
         // Check if the url is already converted to the embed format
-        if (preg_match('~(maps/embed|output=embed)~i', $this->url)) {
-            $iframeSrc = $this->url;
+        if (preg_match('~(maps/embed|output=embed)~i', $src_url)) {
+            $iframeSrc = $src_url;
         } else {
             // Extract coordinates and zoom from the url
-            if (preg_match('~@(-?[0-9\.]+,-?[0-9\.]+).+,([0-9\.]+[a-z])~i', $this->url, $matches)) {
-            	$z = floatval( $matches[2]);
-                $iframeSrc = 'https://maps.google.com/maps?hl=en&ie=UTF8&ll=' . $matches[1] . '&spn=' . $matches[1] . '&t=m&z=' . round($z) . '&output=embed';
+            if (preg_match('~(?:maps\/(?:place|(?:dir\/.+?))\/(.+)\/)?@(-?[0-9\.]+,-?[0-9\.]+).+,([0-9\.]+[a-z])~i', $src_url, $matches)) {
+                $place_name = str_replace("+"," ",$matches[1]);
+            	$z = floatval( $matches[3]);
+                $iframeSrc = 'https://maps.google.com/maps?hl=en&ie=UTF8&ll=' . $matches[2] . '&spn=' . $matches[2] . '&q='.$place_name.'&t=m&z=' . round($z) . '&output=embed&iwloc';
             } else {
                 return [];
             }
         }
 	    $width = isset( $this->config['maxwidth']) ? $this->config['maxwidth']: 600;
 	    $height = isset( $this->config['maxheight']) ? $this->config['maxheight']: 450;
+
         return [
             'type'          => 'rich',
             'provider_name' => 'Google Maps',
