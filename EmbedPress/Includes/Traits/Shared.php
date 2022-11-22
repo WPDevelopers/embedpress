@@ -97,6 +97,7 @@ trait Shared {
                 'start'       => $notices->strtotime( '+15 day' ),
                 'recurrence'  => 30,
                 'dismissible' => true,
+                'refresh'     => EMBEDPRESS_VERSION,
             ]
         );
 
@@ -107,6 +108,7 @@ trait Shared {
                 'start'       => $notices->strtotime( '+30 days' ),
                 'recurrence'  => 30,
                 'dismissible' => true,
+                'refresh'     => EMBEDPRESS_VERSION,
                 'do_action'   => 'wpdeveloper_notice_clicked_for_embedpress',
                 'display_if'  => ! is_array( $notices->is_installed( 'embedpress-pro/embedpress-pro.php' ) )
             ]
@@ -126,6 +128,7 @@ trait Shared {
                 'start'       => $notices->time(),
                 'recurrence'  => false,
                 'dismissible' => true,
+                'refresh'     => EMBEDPRESS_VERSION,
                 'expire'      => strtotime( 'Wed, 30 Nov 2022 23:59:59 GMT' ),
             ]
         );
