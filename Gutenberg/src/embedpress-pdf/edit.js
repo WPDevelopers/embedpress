@@ -150,7 +150,7 @@ class EmbedPressPDFEdit extends Component {
 		return selectorName;
 	}
 
-	
+
 
 	iframeManupulate(iframid, themeMode, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation) {
 
@@ -200,7 +200,7 @@ class EmbedPressPDFEdit extends Component {
 					transform: rotate(180deg);
 					bottom: -18px;
 				}
-				
+
 				.findbar.doorHanger:before {
 					bottom: -18px;
 					transform: rotate(180deg);
@@ -243,9 +243,9 @@ class EmbedPressPDFEdit extends Component {
 			.textLayer{
 				user-select: ${copy_text}!important;
 			}
-			
+
 			${settingsPos}
-			
+
 		`;
 
 			this.setThemeMode(iframid, themeMode);
@@ -256,7 +256,7 @@ class EmbedPressPDFEdit extends Component {
 				}
 				otherhead.appendChild(style);
 				clearInterval(setEPInterval);
-			} 
+			}
 
 		}, 100);
 	}
@@ -306,9 +306,8 @@ class EmbedPressPDFEdit extends Component {
 
 
 	render() {
-		
-		console.log(themeMode);
-		
+
+
 		const { attributes, noticeUI, setAttributes, clientId } = this.props;
 
 		const { href, mime, id, width, height, powered_by, themeMode, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
@@ -427,7 +426,7 @@ class EmbedPressPDFEdit extends Component {
 						>
 
 							<SelectControl
-								label="Theme Mode"
+								label="Theme"
 								value={themeMode}
 								options={[
 									{ label: 'System Default', value: 'dafult' },
@@ -539,7 +538,7 @@ class EmbedPressPDFEdit extends Component {
 							`
 							#block-${clientId} {
 								width:-webkit-fill-available;
-							} 
+							}
 							.embedpress-el-powered{
 								max-width: ${width}
 							}
