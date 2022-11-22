@@ -16,7 +16,7 @@ const { __ } = wp.i18n;
 const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
 const { BlockIcon, MediaPlaceholder, InspectorControls } = wp.blockEditor;
 const { Component, Fragment } = wp.element;
-const { RangeControl, PanelBody, ExternalLink, ToggleControl } = wp.components;
+const { RangeControl, PanelBody, ExternalLink, ToggleControl, SelectControl } = wp.components;
 
 import {
 	__experimentalToggleGroupControl as ToggleGroupControl,
@@ -39,6 +39,7 @@ class EmbedPressPDFEdit extends Component {
 		this.onLoad = this.onLoad.bind(this);
 		this.hideOverlay = this.hideOverlay.bind(this);
 		this.iframeManupulate = this.iframeManupulate.bind(this);
+		this.setThemeMode = this.setThemeMode.bind(this);
 		this.isPro = this.isPro.bind(this);
 		this.addProAlert = this.addProAlert.bind(this);
 
@@ -149,7 +150,10 @@ class EmbedPressPDFEdit extends Component {
 		return selectorName;
 	}
 
-	iframeManupulate(iframid, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation) {
+	
+
+	iframeManupulate(iframid, themeMode, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation) {
+
 
 		const setEPInterval = setInterval(() => {
 			let settingsPos = '';
@@ -244,16 +248,26 @@ class EmbedPressPDFEdit extends Component {
 			
 		`;
 
+			this.setThemeMode(iframid, themeMode);
+
 			if (otherhead) {
 				if (frm.getElementById("EBiframeStyleID")) {
 					frm.getElementById("EBiframeStyleID").remove();
 				}
 				otherhead.appendChild(style);
 				clearInterval(setEPInterval);
-			}
+			} 
 
 		}, 100);
+	}
 
+	//Create theme mode function
+	setThemeMode(iframid, themeMode){
+		const frm = document.querySelector(iframid).contentWindow.document;
+		const htmlEL = frm.getElementsByTagName("html")[0];
+		if(htmlEL){
+			htmlEL.setAttribute('ep-data-theme', themeMode);
+		}
 	}
 
 	addProAlert(e, isProPluginActive) {
@@ -292,9 +306,13 @@ class EmbedPressPDFEdit extends Component {
 
 
 	render() {
+		
+		console.log(themeMode);
+		
 		const { attributes, noticeUI, setAttributes, clientId } = this.props;
 
-		const { href, mime, id, width, height, powered_by, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
+		const { href, mime, id, width, height, powered_by, themeMode, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
+
 
 		const { hasError, interactive, fetching, loadPdf } = this.state;
 		const min = 1;
@@ -344,8 +362,7 @@ class EmbedPressPDFEdit extends Component {
 			const url = '//view.officeapps.live.com/op/embed.aspx?src=' + href;
 			const pdf_viewer_src = embedpressObj.pdf_renderer + '?file=' + href;
 
-
-			this.iframeManupulate(`.${id}`, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation);
+			this.iframeManupulate(`.${id}`, themeMode, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation);
 
 			return (
 				<Fragment>
@@ -407,8 +424,21 @@ class EmbedPressPDFEdit extends Component {
 						<PanelBody
 							title={__('PDF Control Settings', 'embedpress')}
 							initialOpen={false}
-
 						>
+
+							<SelectControl
+								label="Theme Mode"
+								value={themeMode}
+								options={[
+									{ label: 'System Default', value: 'dafult' },
+									{ label: 'Dark', value: 'dark' },
+									{ label: 'Light', value: 'light' },
+								]}
+								onChange={(themeMode) =>
+									setAttributes({ themeMode })
+								}
+								__nextHasNoMarginBottom
+							/>
 
 							<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
 								<ToggleControl

@@ -261,6 +261,20 @@ class Embedpress_Pdf extends Widget_Base
         );
 
         $this->add_control(
+            'embedpress_theme_mode',
+            [
+                'label'   => __('Theme Mode', 'embedpress'),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'default',
+                'options' => [
+                    'default' => __('System Default', 'embedpress'),
+                    'dark' => __('Dark', 'embedpress'),
+                    'light'  => __('Light', 'embedpress')
+                ],
+            ]
+        );
+
+        $this->add_control(
             'pdf_toolbar',
             [
                 'label'        => sprintf(__('Toolbar %s', 'embedpress'), $this->pro_text),
@@ -432,6 +446,12 @@ class Embedpress_Pdf extends Widget_Base
         <script>
             (function($) {
                 let x = 0;
+                const setThemeMode = (frm, themeMode) => {
+					const htmlEL = frm.getElementsByTagName("html")[0];
+					if(htmlEL){
+						htmlEL.setAttribute('ep-data-theme', themeMode);
+					}
+				}
                 const setEmbedInterval = setInterval(() => {
                     if ($('.embedpress-document-embed').length > 0) {
                         x++;
@@ -451,6 +471,7 @@ class Embedpress_Pdf extends Widget_Base
                             const style = frm.createElement("style");
                             style.setAttribute('id', 'EBiframeStyleID');
 
+                            $themeMode = $(element).data('thememode');
                             $toolbar = $(element).data('toolbar');
                             $toolbarPosition = $(element).data('toolbar-position');
                             $presentationMode = $(element).data('presentation-mode');
@@ -459,7 +480,6 @@ class Embedpress_Pdf extends Widget_Base
                             $copy_text = $(element).data('copy');
                             $doc_rotation = $(element).data('rotate');
                             $doc_details = $(element).data('details');
-
 
                             if ($toolbar == 'no' || $toolbar == '') {
                                 $toolbar = 'no';
@@ -548,6 +568,9 @@ class Embedpress_Pdf extends Widget_Base
                                 }
                                 ${$settingsPos}
                             `;
+                            if(frm){
+                                setThemeMode(frm, $themeMode);
+                            } 
                             if (otherhead) {
                                 if(frm.getElementById("EBiframeStyleID")){
                                     frm.getElementById("EBiframeStyleID").remove();
@@ -578,6 +601,7 @@ class Embedpress_Pdf extends Widget_Base
             ]);
             $this->add_render_attribute('embedpress-document', [
                 'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document'],
+                'data-thememode' => $settings['embedpress_theme_mode'],
                 'data-toolbar' => $settings['pdf_toolbar'],
                 'data-toolbar-position' =>  $settings['pdf_toolbar_position'],
                 'data-open' => 'no',

@@ -47,6 +47,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "boolean",
 				default: true,
 			},
+			themeMode: {
+				type: "string",
+				default: 'dafult',
+			},
 			position: {
 				type: "string",
 				default: 'top',
