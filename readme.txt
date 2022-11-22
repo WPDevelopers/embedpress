@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 3.6.0
+Stable tag: 3.6.2
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -334,7 +334,7 @@ If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
 ⏰ [WP Scheduled Posts](https://wordpress.org/plugins/wp-scheduled-posts/)  – Complete solution for WordPress Post Scheduling to manage schedules through an editorial calendar & Social Share.
 
-🗒️ [BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, whcih also reduce your manual support request.
+🗒️ [BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, which also reduces your manual support request.
 
 ☁  [Templately](https://wordpress.org/plugins/templately/): Ultimate Template clouds with 2500+ ready templates for Elementor & Gutenberg along with FREE cloud collaboration with your team
 
@@ -371,7 +371,7 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 == Screenshots ==
 
-1. YouTube Embeding Example
+1. YouTube Embedding Example
 2. EmbedPress Screenshot - Dashboard
 3. EmbedPress Screenshot - Shortcode
 4. EmbedPress Screenshot - Custom Branding
@@ -381,6 +381,12 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.6.2] - 2022-11-22 =
+* Fixed: Height-width controller issues in Elementor.
+* Fixed: Google map marker isn’t showing in the correct place.
+* Added: PDF background color controller.
+* Few minor bug fixes and improvements.
 
 = [3.6.1] - 2022-11-09 =
 * Fixed: Build error.
