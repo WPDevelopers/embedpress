@@ -263,7 +263,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
             'embedpress_theme_mode',
             [
-                'label'   => __('Theme Mode', 'embedpress'),
+                'label'   => __('Theme', 'embedpress'),
                 'type'    => Controls_Manager::SELECT,
                 'default' => 'default',
                 'options' => [
@@ -570,7 +570,7 @@ class Embedpress_Pdf extends Widget_Base
                             `;
                             if(frm){
                                 setThemeMode(frm, $themeMode);
-                            } 
+                            }
                             if (otherhead) {
                                 if(frm.getElementById("EBiframeStyleID")){
                                     frm.getElementById("EBiframeStyleID").remove();

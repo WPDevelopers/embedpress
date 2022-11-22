@@ -114,7 +114,7 @@ trait Shared {
             ]
         );
 
-        $notice_text = sprintf('%s <a href="%s">%s</a>', __( 'Black Friday Exclusive: SAVE up to 40% & access to <strong>EmbedPress Pro</strong> features.', 'embedpress' ), esc_url( 'http://embedpress.com/#pricing' ), __('Grab The Offer', 'embedpress') );
+        $notice_text = sprintf('<div style="display: flex; align-items: center;">%s <a class="button button-primary" style="margin-left: 10px; background: #5b4d96; border-color: #5b4d96;" target="_blank" href="%s">%s</a></div>', __( '<p><strong>Black Friday Exclusive:</strong> SAVE up to 40% & access to <strong>EmbedPress Pro</strong> features.</p>', 'embedpress' ), esc_url( 'http://embedpress.com/#pricing' ), __('Grab The Offer', 'embedpress') );
 
         $_black_friday = [
             'thumbnail' => $_assets_url . 'images/icon-128x128.png',
@@ -129,6 +129,7 @@ trait Shared {
                 'recurrence'  => false,
                 'dismissible' => true,
                 'expire'      => strtotime( 'Wed, 30 Nov 2022 23:59:59 GMT' ),
+                'display_if'  => ! is_array( $notices->is_installed( 'embedpress-pro/embedpress-pro.php' ) )
             ]
         );
 
