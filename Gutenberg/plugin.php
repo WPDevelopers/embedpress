@@ -335,6 +335,14 @@ function embedpress_pdf_render_block($attributes)
 		<script>
 			{
 				let x = 0;
+				
+				const setThemeMode = (frm, themeMode) => {
+					const htmlEL = frm.getElementsByTagName("html")[0];
+					if(htmlEL){
+						htmlEL.setAttribute('ep-data-theme', themeMode);
+					}
+				}
+				
 				const setEmbedInterval = setInterval(() => {
 					x++;
 					if (document.querySelector('<?php echo esc_html('.' . $attributes['id']); ?>')) {
@@ -353,6 +361,7 @@ function embedpress_pdf_render_block($attributes)
 						const style = frm.createElement("style");
 						style.setAttribute('id', 'EBiframeStyleID');
 
+						let themeMode = '<?php echo esc_html(!empty($attributes['themeMode']) ? $attributes['themeMode'] : 'default'); ?>';
 						let toolbar = <?php echo esc_html($attributes['toolbar'] ? $attributes['toolbar'] : 0); ?>;
 						let presentation = <?php echo esc_html($attributes['presentation'] ? $attributes['presentation'] : 0); ?>;
 						let download = <?php echo esc_html($attributes['download'] ? $attributes['download'] : 0); ?>;
@@ -443,6 +452,9 @@ function embedpress_pdf_render_block($attributes)
 						}
 						${settingsPos}
 					`;
+						if(frm){
+							setThemeMode(frm, themeMode);
+						} 
 						if (otherhead) {
 							if(frm.getElementById("EBiframeStyleID")){	
 								frm.getElementById("EBiframeStyleID").remove();
@@ -456,6 +468,8 @@ function embedpress_pdf_render_block($attributes)
 					}
 				}, 100);
 			}
+
+			
 		</script>
 <?php
 	endif;
