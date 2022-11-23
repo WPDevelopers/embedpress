@@ -889,11 +889,22 @@ KAMAL;
     {
         $plgSettings = Core::getSettings();
 
+        
         $default = [
             'width'  => $plgSettings->enableEmbedResizeWidth,
             'height' => $plgSettings->enableEmbedResizeHeight,
             'powered_by' => 'no',
+            'themeMode' => 'default',
+            'toolbar' => 'yes',
+            'presentation' => 'yes',
+            'toolbarPosition' => 'top',
+            'download' => 'yes',
+            'open' => 'yes',
+            'copy_text' => 'yes',
+            'doc_details' => 'yes',
+            'doc_rotation' => 'yes',
         ];
+
         $attributes = wp_parse_args($attributes, $default);
 
         $url = preg_replace(
@@ -930,6 +941,154 @@ KAMAL;
                         }
                         ?>
             </div>
+
+        <script>
+			
+				let x = 0;
+				
+				const setThemeMode = (frm, themeMode) => {
+					const htmlEL = frm.getElementsByTagName("html")[0];
+					if(htmlEL){
+						htmlEL.setAttribute('ep-data-theme', themeMode);
+					}
+				}
+				
+				const setEmbedInterval = setInterval(() => {
+					x++;
+					if (document.querySelector('<?php echo esc_html('.ep-doc-' . md5($id)); ?>')) {
+						const isDisplay = (selectorName) => {
+							if (selectorName == 'no') {
+								selectorName = 'none';
+							} else {
+								selectorName = 'block';
+							}
+							return selectorName;
+						}
+                        
+						const frm = document.querySelector('<?php echo esc_html('.ep-doc-' . md5($id)); ?> > iframe').contentWindow.document;
+						const otherhead = frm.getElementsByTagName("head")[0];
+						const style = frm.createElement("style");
+						style.setAttribute('id', 'EBiframeStyleID');
+
+                        let themeMode = '<?php echo esc_html($attributes['themeMode']); ?>';
+                        let toolbar = '<?php echo esc_html($attributes['toolbar']); ?>';
+                        let toolbarPosition = '<?php echo esc_html($attributes['toolbarPosition']); ?>';
+                        let presentationMode = '<?php echo esc_html($attributes['presentation']); ?>';
+                        let open = '<?php echo esc_html($attributes['open']); ?>';
+                        let download = '<?php echo esc_html($attributes['download']); ?>';
+                        let copy_text = '<?php echo esc_html($attributes['copy_text']); ?>';
+                        let doc_rotation = '<?php echo esc_html($attributes['doc_rotation']); ?>';
+                        let doc_details = '<?php echo esc_html($attributes['doc_details']); ?>';
+
+                        console.log(download);
+
+                        if (toolbar == 'no' || toolbar == '') {
+                            toolbar = 'no';
+                            toolbarPosition = 'top';
+                            open = 'no';
+                            presentationMode = 'no';
+                            download = 'no';
+                            copy_text = 'no';
+                            doc_rotation = 'no';
+                            details = 'no';
+                        }
+
+						toolbar = isDisplay(toolbar);
+						presentationMode = isDisplay(presentationMode);
+						download = isDisplay(download);
+						open = isDisplay(open);
+						copy_text = isDisplay(copy_text);
+
+						
+						<?php if(!defined('EMBEDPRESS_PRO_PLUGIN_FILE')): ?>
+							download = 'block';
+							copy_text = 'block';
+						<?php endif;  ?>
+
+						if (copy_text === 'block') {
+							copy_text = 'all';
+						}
+
+						doc_details = isDisplay(doc_details);
+						doc_rotation = isDisplay(doc_rotation);
+
+						if (toolbarPosition == 'top') {
+							toolbarPosition = 'top:0;bottom:auto;';
+							settingsPos = '';
+						} else {
+							toolbarPosition = 'bottom:0;top:auto;'
+							settingsPos = `
+								.findbar, .secondaryToolbar {
+									top: auto;bottom: 32px;
+								}
+								.doorHangerRight:after{
+									transform: rotate(180deg);
+									bottom: -16px;
+								}
+								.doorHangerRight:before {
+									transform: rotate(180deg);
+									bottom: -18px;
+								}
+								
+								.findbar.doorHanger:before {
+									bottom: -18px;
+									transform: rotate(180deg);
+								}
+								.findbar.doorHanger:after {
+									bottom: -16px;
+									transform: rotate(180deg);
+								}
+							`;
+						}
+						style.textContent = `
+						.toolbar{
+							display: ${toolbar}!important;
+							position: absolute;
+							${toolbarPosition}
+
+						}
+						#secondaryToolbar{
+							display: ${toolbar};
+						}
+						#secondaryPresentationMode, #toolbarViewerRight #presentationMode{
+							display: ${presentationMode}!important;
+						}
+						#secondaryOpenFile, #toolbarViewerRight #openFile{
+							display: none!important;
+						}
+						#secondaryDownload, #secondaryPrint, #toolbarViewerRight #print, #toolbarViewerRight #download{
+							display: ${download}!important;
+						}
+
+						#pageRotateCw{
+							display: ${doc_rotation}!important;
+						}
+						#pageRotateCcw{
+							display: ${doc_rotation}!important;
+						}
+						#documentProperties{
+							display: ${doc_details}!important;
+						}
+						.textLayer{
+							user-select: ${copy_text}!important;
+						}
+						${settingsPos}
+					`;
+
+						if (otherhead) {
+							if(frm.getElementById("EBiframeStyleID")){	
+								frm.getElementById("EBiframeStyleID").remove();
+							}
+							otherhead.appendChild(style);
+							clearInterval(setEmbedInterval);
+						}
+					}
+					// if (x > 100) {
+					// 	clearInterval(setEmbedInterval);
+					// }
+				}, 100);
+		
+		</script>
 
     <?php
 
