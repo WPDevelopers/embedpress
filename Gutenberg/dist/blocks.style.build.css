@@ -1,4 +1,785 @@
-.pdfobject-container{height:600px;width:600px;margin:0 auto}.embedpress-el-powered{text-align:center;margin-top:0 !important;font-size:16px !important;font-weight:700}.embedpress-embed-document iframe,[data-type="embedpress/document"] iframe{margin:0 auto;display:block}.embedpress-embed-document-pdf{width:100%}.embedpress-document-editmode .components-form-file-upload{display:none !important}.components-toggle-control .components-base-control__field .components-form-toggle{margin-right:6px}.opensea-control.pro-control span.isPro{right:6px;bottom:5px;-webkit-transform:scale(0.9);-ms-transform:scale(0.9);transform:scale(0.9)}.pro-control.opensea-control input{border-color:#cfc2c2;color:#cfc2c2;border-radius:5px}.pro-control .components-base-control{pointer-events:none}button.components-flex.components-color-palette__custom-color{height:20px}.components-color-palette__custom-color-value{display:none !important}.components-circular-option-picker .components-circular-option-picker__swatches{-ms-flex-pack:distribute;justify-content:space-around}
-.embedpress-gutenberg-wrapper{margin:30px auto}.embedpress-gutenberg-wrapper iframe{max-width:100%}.embedpress-gutenberg-wrapper.alignright{max-width:100%}.ose-the-new-york-times iframe{min-height:500px;max-height:100%}body.page .flexia-wrapper>.content-area{padding:0 !important}.flexia-wrapper.flexia-container>.content-area{margin:0 !important}.flexia-wrapper.flexia-container>.content-area .embedpress-gutenberg-wrapper{margin:0 auto}@media only screen and (min-width: 482px){.entry-content>.embedpress-gutenberg-wrapper.alignright,.entry-content>.embedpress-gutenberg-wrapper.alignleft,.embedpress-gutenberg-wrapper.alignright,.embedpress-gutenberg-wrapper.alignleft{max-width:100%}}.clear::after{content:'';display:block;clear:both;min-height:1px}.embedpress-gutenberg-wrapper .alignleft,.embedpress-gutenberg-wrapper .alignright,.embedpress-gutenberg-wrapper .aligncenter{float:none;display:block}.embedpress-gutenberg-wrapper .alignright{text-align:right}.embedpress-gutenberg-wrapper .alignleft{text-align:left}.embedpress-gutenberg-wrapper .aligncenter{clear:both;display:block;float:none;margin-right:auto;margin-left:auto;text-align:center}.embedpress-gutenberg-wrapper .ose-embedpress-responsive{display:inline-block}.embedpress-gutenberg-wrapper{max-width:100% !important}.ep-first-video{position:relative;height:0;padding-bottom:56.25%}.ep-first-video iframe{position:absolute;top:0;left:0;width:100%;height:100%}.components-base-control__label{font-weight:600}.components-input-control__label{font-weight:600}.components-base-control__field,.components-input-control__label{font-weight:600}label.components-truncate.components-text.components-input-control__label.em5sgkm4.ecfd-bd--d-eecc-1iznhho.em57xhy0{font-weight:600 !important}.text-center{text-align:center !important}.wp-block-embed.is-loading{-ms-flex-align:center;align-items:center}.css-vwt1e3{margin:0px 11px 0px !important}.toolbar{display:none}.ep-youtube__content__pagination .ep-prev,.ep-youtube__content__pagination .ep-next{user-select:none;-moz-user-select:none;-webkit-user-select:none;-ms-user-select:none}.ep__components-placeholder,.wp-block-embedpress-embedpress,.block-editor-block-list__block{clear:both !important}.wp-block-embed.is-loading p{margin:0 !important}.ose-opensea{height:100% !important;width:100% !important;min-width:900px}.alignleft .ose-opensea,.alignright .ose-opensea,.aligncenter .ose-opensea{min-width:900px;max-width:900px !important}.aligncenter .ose-opensea{margin:0 auto;display:block !important}.wp-block[data-align=right]{float:right}.wp-block[data-align=left]{float:left}.ep_nft_content_wrap.ep_nft__wrapper{display:grid}.ep_nft_content_wrap.ep_nft__wrapper,.ep_nft_content_wrap.ep_nft_list{grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));grid-column-gap:15px;grid-row-gap:15px}.ep_nft_content_wrap .ep_nft_item{padding-top:15px;padding-right:15px;padding-left:15px;padding-bottom:15px;background-color:#ffffff;border-radius:10px;-webkit-transition:background 0.5s, border 0.5s, border-radius 0.5s, -webkit-box-shadow 0.5s;transition:background 0.5s, border 0.5s, border-radius 0.5s, -webkit-box-shadow 0.5s;-o-transition:background 0.5s, border 0.5s, border-radius 0.5s, box-shadow 0.5s;transition:background 0.5s, border 0.5s, border-radius 0.5s, box-shadow 0.5s;transition:background 0.5s, border 0.5s, border-radius 0.5s, box-shadow 0.5s, -webkit-box-shadow 0.5s;-webkit-box-shadow:0 4px 15px rgba(0,0,0,0.09);box-shadow:0 4px 15px rgba(0,0,0,0.09);overflow:hidden;padding:15px;position:relative;-webkit-transition:.3s ease-in-out;-o-transition:.3s ease-in-out;transition:.3s ease-in-out}.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-grid .ep_nft_item{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column}.ep_nft_content_wrap.ep_nft_list .ep_nft_item{-ms-flex-pack:start;justify-content:flex-start;-ms-flex-align:start;align-items:flex-start}.ep_nft_content_wrap.ep_nft__wrapper.preset-3 .ep_nft_item .ep_nft_content{background-color:#edecf6e6}.ep_nft_content_wrap .ep_nft_thumbnail{margin-top:0px;margin-right:0px;margin-left:0px;margin-bottom:15px;border-radius:5px}.ep_nft_content_wrap .ep_nft_thumbnail img{height:340px;border-radius:10px;width:100%;-o-object-fit:cover;object-fit:cover}.ep_nft_content .ep_nft_title{color:#333333;font-size:16px;margin-top:0px;margin-right:0px;margin-left:0px;margin-bottom:15px;font-weight:600}.ep_nft_content{text-align:left}.ep_nft_content .ep_nft_price{color:#333333;font-size:14px;margin-top:0px;margin-right:0px;margin-left:0px;margin-bottom:0px;display:-ms-flexbox;display:flex;font-weight:600}.ep_nft_content .ep_nft_price:first-child{margin-bottom:10px}span.eb_nft_currency{max-width:28px;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;-ms-flex-pack:center;justify-content:center}span.eb_nft_currency svg{width:100%;height:auto}.ep_nft_content .ep_nft_price_wrapper{min-height:20px}.ep_nft_content .ep_nft_creator{color:#333333;font-size:14px;margin-top:0px;margin-right:0px;margin-left:0px;margin-bottom:20px;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;gap:5px}.ep_nft_content .ep_nft_creator a{color:#3080E2;font-size:14px;text-decoration:none;word-break:break-all}.ep_nft_content .ep_nft_creator img{height:30px;width:30px;border-radius:50%}.ep_nft_content .ep_nft_button button{margin-top:0px;margin-right:0px;margin-left:0px;margin-bottom:0px}.ep_nft_content .ep_nft_button button a{background-color:#3080E2;color:#ffffff;font-size:14px;padding-top:15px;padding-right:20px;padding-left:20px;padding-bottom:15px;-webkit-transition:border 0.5s, border-radius 0.5s, -webkit-box-shadow 0.5s;transition:border 0.5s, border-radius 0.5s, -webkit-box-shadow 0.5s;-o-transition:border 0.5s, border-radius 0.5s, box-shadow 0.5s;transition:border 0.5s, border-radius 0.5s, box-shadow 0.5s;transition:border 0.5s, border-radius 0.5s, box-shadow 0.5s, -webkit-box-shadow 0.5s}.ep_nft_content .ep_nft_button button:hover a{background-color:#2e8eee;color:#ffffff}.ep-nft-gallery-wrapper .ep_nft_content_wrap.ep_nft__wrapper.ep-preset-1 .ep_nft_item:hover .ep_nft_button{opacity:1;-webkit-transform:translate(0);-ms-transform:translate(0);transform:translate(0);visibility:visible}.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button:hover a{background-color:#2e8eee;color:#ffffff}.ep-nft-gallery-wrapper .ep_nft_content_wrap.ep_nft__wrapper.ep-preset-1 .ep_nft_item:hover .ep_nft_button{opacity:1;-webkit-transform:translate(0);-ms-transform:translate(0);transform:translate(0);visibility:visible}.ep-nft-gallery-wrapper .ep_nft_content_wrap.ep_nft__wrapper.ep-preset-1 .ep_nft_item .ep_nft_button{bottom:0;left:0;opacity:0;position:absolute;-webkit-transform:translateY(30px);-ms-transform:translateY(30px);transform:translateY(30px);visibility:hidden;width:100%;-webkit-transition:0.3s;-o-transition:0.3s;transition:0.3s}.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button{margin-top:auto}.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button a{background-color:#3080E2;color:#ffffff;font-size:14px;padding:10px 20px;-webkit-transition:border 0.5s, border-radius 0.5s, -webkit-box-shadow 0.5s;transition:border 0.5s, border-radius 0.5s, -webkit-box-shadow 0.5s;-o-transition:border 0.5s, border-radius 0.5s, box-shadow 0.5s;transition:border 0.5s, border-radius 0.5s, box-shadow 0.5s;transition:border 0.5s, border-radius 0.5s, box-shadow 0.5s, -webkit-box-shadow 0.5s;display:block;text-align:center;font-weight:500;text-decoration:none}.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item{display:-ms-flexbox;display:flex;gap:15px;-ms-flex-align:center;align-items:center;border-radius:10px}.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_thumbnail{width:55%}.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_content{width:calc( 45% - 15px)}.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_content .ep_nft_price.ep_nft_last_sale{margin-bottom:15px}.ep_nft_content_wrap.ep_nft__wrapper.nft_items .ep_nft_item .ep_nft_thumbnail svg{border-radius:10px}.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_thumbnail img{height:260px}.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_button a{border-radius:10px}.ep_nft_content_wrap.ep_nft__wrapper.nft_items .ep_nft_item .ep_nft_button a{border-radius:10px}.ep-nft-gallery-wrapper .ep_nft_content_wrap.ep_nft__wrapper.ep-preset-1 .ep_nft_item .ep_nft_button a{border-radius:0}.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-grid.ep-preset-2 .ep_nft_content .ep_nft_price:last-child{margin-bottom:15px}.ose-opensea{min-width:100% !important;max-width:100% !important}@media all and (max-width: 1024px){.ep_nft_content_wrap.ep_nft__wrapper,.ep_nft_content_wrap.ep_nft_list{grid-template-columns:repeat(3, 1fr) !important}}@media all and (max-width: 991px){.ose-opensea{min-width:auto !important;max-width:100% !important}.ep_nft_content_wrap.ep_nft__wrapper,.ep_nft_content_wrap.ep_nft_list{grid-template-columns:repeat(2, 1fr) !important}}@media all and (max-width: 767px){.ep_nft_content_wrap.ep_nft__wrapper,.ep_nft_content_wrap.ep_nft_list{grid-template-columns:repeat(1, 1fr) !important}}
-.pdfobject-container{height:600px;width:600px;margin:0 auto}.embedpress-el-powered{text-align:center;margin-top:10px !important;font-size:16px !important;font-weight:700}.embedpress-embed-document iframe,[data-type="embedpress/document"] iframe{margin:0 auto;display:block}.embedpress-embed-document{max-width:100%}.embedpress-document-editmode .components-form-file-upload{display:none !important}.wp-block-embedpress-embedpress-pdf+*{clear:both}.pro-control{position:relative}span.isPro{position:absolute;z-index:1;background:#5B4E96;border-radius:20px;display:-ms-flexbox;display:flex;-ms-flex-align:center;align-items:center;-ms-flex-pack:center;justify-content:center;width:40px;height:18px;font-size:10px;right:5px;color:#fff;font-weight:400;text-transform:uppercase;bottom:5px}.pro-control:after{content:'';width:100%;height:100%;background:transparent;position:absolute;z-index:12;top:0;bottom:0}.theme-astra span.isPro{right:10px;bottom:5px}.pro-control:hover::after{cursor:pointer}.pro__alert__wrap{position:fixed;top:0;left:0;height:100%;width:100%;background:rgba(0,0,0,0.3);z-index:1;display:none}.pro__alert__wrap .pro__alert__card{width:calc(100% - 30px);max-width:500px;margin:7% auto 0;background:#fff;border-radius:20px;padding:30px;display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;-ms-flex-align:center;align-items:center;text-align:center}.pro__alert__wrap .pro__alert__card h2{font-size:32px;font-weight:450;color:#131F4D;margin-bottom:15px}.pro__alert__wrap .pro__alert__card p{font-size:14px;font-weight:400;color:#7C8DB5;margin-top:10px}.pro__alert__wrap .pro__alert__card .button{-ms-flex-item-align:end;align-self:flex-end;margin-top:20px;padding:6px 30px;border-radius:10px}.pro__alert__wrap .pro__alert__card p a{text-decoration:underline;font-weight:700;color:#131F4D}.template__wrapper .button:hover{background:#5B4E96 !important;color:#fff !important;border-color:#5B4E96 !important}.pro__alert__wrap .pro__alert__card img{height:100px;margin-bottom:20px}.pro-control .components-toggle-control__label{color:#bbacac}.pro-control .components-form-toggle .components-form-toggle__track{border:1px solid #b89d9d}.pro-control .components-form-toggle .components-form-toggle__thumb{background-color:#b89d9d;border:5px solid #b89d9d}.block-editor-block-inspector .components-base-control{margin-top:15px}.pro-control-active{margin-bottom:24px}.ep-alignleft{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;-ms-flex-align:start;align-items:flex-start;text-align:center}.ep-alignright{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;-ms-flex-align:end;align-items:flex-end;text-align:center}.ep-aligncenter{display:-ms-flexbox;display:flex;-ms-flex-direction:column;flex-direction:column;-ms-flex-align:center;align-items:center;text-align:center}.embedpress-document-embed.embedpress-pdf{width:100%}.embedpress-inner-iframe{display:inline-block;text-align:center}.ep__components-placeholder,.wp-block-embedpress-embedpress,.block-editor-block-list__block{clear:both !important}
-.embedpress-calendar-gutenberg{margin:30px auto}.embedpress-calendar-gutenberg iframe{max-width:100%}.embedpress-calendar-gutenberg.alignright{max-width:100%}body.page .flexia-wrapper>.content-area{padding:0 !important}.flexia-wrapper.flexia-container>.content-area{margin:0 !important}.flexia-wrapper.flexia-container>.content-area .embedpress-calendar-gutenberg{margin:0 auto}@media only screen and (min-width: 482px){.entry-content>.embedpress-calendar-gutenberg.alignright,.entry-content>.embedpress-calendar-gutenberg.alignleft,.embedpress-calendar-gutenberg.alignright,.embedpress-calendar-gutenberg.alignleft{max-width:100%}}.clear::after{content:'';display:block;clear:both;min-height:1px}
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.pdfobject-container {
+  height: 600px;
+  width: 600px;
+  margin: 0 auto; }
+
+.embedpress-el-powered {
+  text-align: center;
+  margin-top: 0 !important;
+  font-size: 16px !important;
+  font-weight: 700; }
+
+.embedpress-embed-document iframe,
+[data-type="embedpress/document"] iframe {
+  margin: 0 auto;
+  display: block; }
+
+.embedpress-embed-document-pdf {
+  width: 100%; }
+
+.embedpress-document-editmode .components-form-file-upload {
+  display: none !important; }
+
+.components-toggle-control .components-base-control__field .components-form-toggle {
+  margin-right: 6px; }
+
+.opensea-control.pro-control span.isPro {
+  right: 6px;
+  bottom: 5px;
+  -webkit-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+          transform: scale(0.9); }
+
+.pro-control.opensea-control input {
+  border-color: #cfc2c2;
+  color: #cfc2c2;
+  border-radius: 5px; }
+
+.pro-control .components-base-control {
+  pointer-events: none; }
+
+button.components-flex.components-color-palette__custom-color {
+  height: 20px; }
+
+.components-color-palette__custom-color-value {
+  display: none !important; }
+
+.components-circular-option-picker .components-circular-option-picker__swatches {
+  -ms-flex-pack: distribute;
+      justify-content: space-around; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.embedpress-gutenberg-wrapper {
+  margin: 30px auto; }
+  .embedpress-gutenberg-wrapper iframe {
+    max-width: 100%; }
+
+.embedpress-gutenberg-wrapper.alignright {
+  max-width: 100%; }
+
+.ose-the-new-york-times iframe {
+  min-height: 500px;
+  max-height: 100%; }
+
+body.page .flexia-wrapper > .content-area {
+  padding: 0 !important; }
+
+.flexia-wrapper.flexia-container > .content-area {
+  margin: 0 !important; }
+  .flexia-wrapper.flexia-container > .content-area .embedpress-gutenberg-wrapper {
+    margin: 0 auto; }
+
+@media only screen and (min-width: 482px) {
+  .entry-content > .embedpress-gutenberg-wrapper.alignright,
+  .entry-content > .embedpress-gutenberg-wrapper.alignleft,
+  .embedpress-gutenberg-wrapper.alignright,
+  .embedpress-gutenberg-wrapper.alignleft {
+    max-width: 100%; } }
+
+.clear::after {
+  content: '';
+  display: block;
+  clear: both;
+  min-height: 1px; }
+
+.embedpress-gutenberg-wrapper .alignleft,
+.embedpress-gutenberg-wrapper .alignright,
+.embedpress-gutenberg-wrapper .aligncenter {
+  float: none;
+  display: block; }
+
+.embedpress-gutenberg-wrapper .alignright {
+  text-align: right; }
+
+.embedpress-gutenberg-wrapper .alignleft {
+  text-align: left; }
+
+.embedpress-gutenberg-wrapper .aligncenter {
+  clear: both;
+  display: block;
+  float: none;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center; }
+
+.embedpress-gutenberg-wrapper .ose-embedpress-responsive {
+  display: inline-block; }
+
+.embedpress-gutenberg-wrapper {
+  max-width: 100% !important; }
+
+.ep-first-video {
+  position: relative;
+  height: 0;
+  padding-bottom: 56.25%; }
+
+.ep-first-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; }
+
+.components-base-control__label {
+  font-weight: 600; }
+
+.components-input-control__label {
+  font-weight: 600; }
+
+.components-base-control__field,
+.components-input-control__label {
+  font-weight: 600; }
+
+label.components-truncate.components-text.components-input-control__label.em5sgkm4.ecfd-bd--d-eecc-1iznhho.em57xhy0 {
+  font-weight: 600 !important; }
+
+.text-center {
+  text-align: center !important; }
+
+.wp-block-embed.is-loading {
+  -ms-flex-align: center;
+      align-items: center; }
+
+.css-vwt1e3 {
+  margin: 0px 11px 0px !important; }
+
+.toolbar {
+  display: none; }
+
+.ep-youtube__content__pagination .ep-prev, .ep-youtube__content__pagination .ep-next {
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none; }
+
+.ep__components-placeholder, .wp-block-embedpress-embedpress, .block-editor-block-list__block {
+  clear: both !important; }
+
+.wp-block-embed.is-loading p {
+  margin: 0 !important; }
+
+/**
+* NFT card frontend style
+*/
+.ose-opensea {
+  height: 100% !important;
+  width: 100% !important;
+  min-width: 900px; }
+
+.alignleft .ose-opensea, .alignright .ose-opensea, .aligncenter .ose-opensea {
+  min-width: 900px;
+  max-width: 900px !important; }
+
+.aligncenter .ose-opensea {
+  margin: 0 auto;
+  display: block !important; }
+
+.wp-block[data-align=right] {
+  float: right; }
+
+.wp-block[data-align=left] {
+  float: left; }
+
+.ep_nft_content_wrap.ep_nft__wrapper {
+  display: grid; }
+
+.ep_nft_content_wrap.ep_nft__wrapper,
+.ep_nft_content_wrap.ep_nft_list {
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-column-gap: 15px;
+  grid-row-gap: 15px; }
+
+.ep_nft_content_wrap .ep_nft_item {
+  padding-top: 15px;
+  padding-right: 15px;
+  padding-left: 15px;
+  padding-bottom: 15px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  -webkit-transition: background 0.5s, border 0.5s, border-radius 0.5s, -webkit-box-shadow 0.5s;
+  transition: background 0.5s, border 0.5s, border-radius 0.5s, -webkit-box-shadow 0.5s;
+  -o-transition: background 0.5s, border 0.5s, border-radius 0.5s, box-shadow 0.5s;
+  transition: background 0.5s, border 0.5s, border-radius 0.5s, box-shadow 0.5s;
+  transition: background 0.5s, border 0.5s, border-radius 0.5s, box-shadow 0.5s, -webkit-box-shadow 0.5s;
+  -webkit-box-shadow: 0 4px 15px rgba(0, 0, 0, 0.09);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.09);
+  overflow: hidden;
+  padding: 15px;
+  position: relative;
+  -webkit-transition: .3s ease-in-out;
+  -o-transition: .3s ease-in-out;
+  transition: .3s ease-in-out; }
+
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-grid .ep_nft_item {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column; }
+
+.ep_nft_content_wrap.ep_nft_list .ep_nft_item {
+  -ms-flex-pack: start;
+      justify-content: flex-start;
+  -ms-flex-align: start;
+      align-items: flex-start; }
+
+.ep_nft_content_wrap.ep_nft__wrapper.preset-3 .ep_nft_item .ep_nft_content {
+  background-color: #edecf6e6; }
+
+.ep_nft_content_wrap .ep_nft_thumbnail {
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-bottom: 15px;
+  border-radius: 5px; }
+
+.ep_nft_content_wrap .ep_nft_thumbnail img {
+  height: 340px;
+  border-radius: 10px;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover; }
+
+.ep_nft_content .ep_nft_title {
+  color: #333333;
+  font-size: 16px;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-bottom: 15px;
+  font-weight: 600; }
+
+.ep_nft_content {
+  text-align: left; }
+
+.ep_nft_content .ep_nft_price {
+  color: #333333;
+  font-size: 14px;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  display: -ms-flexbox;
+  display: flex;
+  font-weight: 600; }
+
+.ep_nft_content .ep_nft_price:first-child {
+  margin-bottom: 10px; }
+
+span.eb_nft_currency {
+  max-width: 28px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+span.eb_nft_currency svg {
+  width: 100%;
+  height: auto; }
+
+.ep_nft_content .ep_nft_price_wrapper {
+  min-height: 20px; }
+
+.ep_nft_content .ep_nft_creator {
+  color: #333333;
+  font-size: 14px;
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-bottom: 20px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  gap: 5px; }
+
+.ep_nft_content .ep_nft_creator a {
+  color: #3080E2;
+  font-size: 14px;
+  text-decoration: none;
+  word-break: break-all; }
+
+.ep_nft_content .ep_nft_creator img {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%; }
+
+.ep_nft_content .ep_nft_button button {
+  margin-top: 0px;
+  margin-right: 0px;
+  margin-left: 0px;
+  margin-bottom: 0px; }
+
+.ep_nft_content .ep_nft_button button a {
+  background-color: #3080E2;
+  color: #ffffff;
+  font-size: 14px;
+  padding-top: 15px;
+  padding-right: 20px;
+  padding-left: 20px;
+  padding-bottom: 15px;
+  -webkit-transition: border 0.5s, border-radius 0.5s, -webkit-box-shadow 0.5s;
+  transition: border 0.5s, border-radius 0.5s, -webkit-box-shadow 0.5s;
+  -o-transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s;
+  transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s;
+  transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s, -webkit-box-shadow 0.5s; }
+
+.ep_nft_content .ep_nft_button button:hover a {
+  background-color: #2e8eee;
+  color: #ffffff; }
+
+.ep-nft-gallery-wrapper .ep_nft_content_wrap.ep_nft__wrapper.ep-preset-1 .ep_nft_item:hover .ep_nft_button {
+  opacity: 1;
+  -webkit-transform: translate(0);
+      -ms-transform: translate(0);
+          transform: translate(0);
+  visibility: visible; }
+
+.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button:hover a {
+  background-color: #2e8eee;
+  color: #ffffff; }
+
+.ep-nft-gallery-wrapper .ep_nft_content_wrap.ep_nft__wrapper.ep-preset-1 .ep_nft_item:hover .ep_nft_button {
+  opacity: 1;
+  -webkit-transform: translate(0);
+      -ms-transform: translate(0);
+          transform: translate(0);
+  visibility: visible; }
+
+.ep-nft-gallery-wrapper .ep_nft_content_wrap.ep_nft__wrapper.ep-preset-1 .ep_nft_item .ep_nft_button {
+  bottom: 0;
+  left: 0;
+  opacity: 0;
+  position: absolute;
+  -webkit-transform: translateY(30px);
+      -ms-transform: translateY(30px);
+          transform: translateY(30px);
+  visibility: hidden;
+  width: 100%;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s; }
+
+.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button {
+  margin-top: auto; }
+
+.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button a {
+  background-color: #3080E2;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 10px 20px;
+  -webkit-transition: border 0.5s, border-radius 0.5s, -webkit-box-shadow 0.5s;
+  transition: border 0.5s, border-radius 0.5s, -webkit-box-shadow 0.5s;
+  -o-transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s;
+  transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s;
+  transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s, -webkit-box-shadow 0.5s;
+  display: block;
+  text-align: center;
+  font-weight: 500;
+  text-decoration: none; }
+
+/* mimmikcssStart */
+/* NFT List item CSS */
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item {
+  display: -ms-flexbox;
+  display: flex;
+  gap: 15px;
+  -ms-flex-align: center;
+      align-items: center;
+  border-radius: 10px; }
+
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_thumbnail {
+  width: 55%; }
+
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_content {
+  width: calc( 45% - 15px); }
+
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_content .ep_nft_price.ep_nft_last_sale {
+  margin-bottom: 15px; }
+
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items .ep_nft_item .ep_nft_thumbnail svg {
+  border-radius: 10px; }
+
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_thumbnail img {
+  height: 260px; }
+
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_button a {
+  border-radius: 10px; }
+
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items .ep_nft_item .ep_nft_button a {
+  border-radius: 10px; }
+
+.ep-nft-gallery-wrapper .ep_nft_content_wrap.ep_nft__wrapper.ep-preset-1 .ep_nft_item .ep_nft_button a {
+  border-radius: 0; }
+
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-grid.ep-preset-2 .ep_nft_content .ep_nft_price:last-child {
+  margin-bottom: 15px; }
+
+.ose-opensea {
+  min-width: 100% !important;
+  max-width: 100% !important; }
+
+/* mimmikcssEnd */
+@media all and (max-width: 1024px) {
+  /* tabcssStart */
+  .ep_nft_content_wrap.ep_nft__wrapper,
+  .ep_nft_content_wrap.ep_nft_list {
+    grid-template-columns: repeat(3, 1fr) !important; }
+  /* tabcssEnd */ }
+
+@media all and (max-width: 991px) {
+  /* tabcssStart */
+  .ose-opensea {
+    min-width: auto !important;
+    max-width: 100% !important; }
+  .ep_nft_content_wrap.ep_nft__wrapper,
+  .ep_nft_content_wrap.ep_nft_list {
+    grid-template-columns: repeat(2, 1fr) !important; }
+  /* tabcssEnd */ }
+
+@media all and (max-width: 767px) {
+  /* mobcssStart */
+  .ep_nft_content_wrap.ep_nft__wrapper,
+  .ep_nft_content_wrap.ep_nft_list {
+    grid-template-columns: repeat(1, 1fr) !important; }
+  /* mobcssEnd */ }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.pdfobject-container {
+  height: 600px;
+  width: 600px;
+  margin: 0 auto; }
+
+.embedpress-el-powered {
+  text-align: center;
+  margin-top: 10px !important;
+  font-size: 16px !important;
+  font-weight: 700; }
+
+.embedpress-embed-document iframe,
+[data-type="embedpress/document"] iframe {
+  margin: 0 auto;
+  display: block; }
+
+.embedpress-embed-document {
+  max-width: 100%; }
+
+.embedpress-document-editmode .components-form-file-upload {
+  display: none !important; }
+
+.wp-block-embedpress-embedpress-pdf + * {
+  clear: both; }
+
+.pro-control {
+  position: relative; }
+
+span.isPro {
+  position: absolute;
+  z-index: 1;
+  background: #5B4E96;
+  border-radius: 20px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  width: 40px;
+  height: 18px;
+  font-size: 10px;
+  right: 5px;
+  color: #fff;
+  font-weight: 400;
+  text-transform: uppercase;
+  bottom: 5px; }
+
+.pro-control:after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  position: absolute;
+  z-index: 12;
+  top: 0;
+  bottom: 0; }
+
+.theme-astra span.isPro {
+  right: 10px;
+  bottom: 5px; }
+
+.pro-control:hover::after {
+  cursor: pointer; }
+
+.pro__alert__wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  display: none; }
+
+.pro__alert__wrap .pro__alert__card {
+  width: calc(100% - 30px);
+  max-width: 500px;
+  margin: 7% auto 0;
+  background: #fff;
+  border-radius: 20px;
+  padding: 30px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-align: center;
+      align-items: center;
+  text-align: center; }
+
+.pro__alert__wrap .pro__alert__card h2 {
+  font-size: 32px;
+  font-weight: 450;
+  color: #131F4D;
+  margin-bottom: 15px; }
+
+.pro__alert__wrap .pro__alert__card p {
+  font-size: 14px;
+  font-weight: 400;
+  color: #7C8DB5;
+  margin-top: 10px; }
+
+.pro__alert__wrap .pro__alert__card .button {
+  -ms-flex-item-align: end;
+  align-self: flex-end;
+  margin-top: 20px;
+  padding: 6px 30px;
+  border-radius: 10px; }
+
+.pro__alert__wrap .pro__alert__card p a {
+  text-decoration: underline;
+  font-weight: 700;
+  color: #131F4D; }
+
+.template__wrapper .button:hover {
+  background: #5B4E96 !important;
+  color: #ffffff !important;
+  border-color: #5B4E96 !important; }
+
+.pro__alert__wrap .pro__alert__card img {
+  height: 100px;
+  margin-bottom: 20px; }
+
+.pro-control .components-toggle-control__label {
+  color: #bbacac; }
+
+.pro-control .components-form-toggle .components-form-toggle__track {
+  border: 1px solid #b89d9d; }
+
+.pro-control .components-form-toggle .components-form-toggle__thumb {
+  background-color: #b89d9d;
+  border: 5px solid #b89d9d; }
+
+.block-editor-block-inspector .components-base-control {
+  margin-top: 15px; }
+
+.pro-control-active {
+  margin-bottom: 24px; }
+
+.ep-alignleft {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-align: start;
+      align-items: flex-start;
+  text-align: center; }
+
+.ep-alignright {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-align: end;
+      align-items: flex-end;
+  text-align: center; }
+
+.ep-aligncenter {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  -ms-flex-align: center;
+      align-items: center;
+  text-align: center; }
+
+.embedpress-document-embed.embedpress-pdf {
+  width: 100%; }
+
+.embedpress-inner-iframe {
+  display: inline-block;
+  text-align: center; }
+
+.ep__components-placeholder, .wp-block-embedpress-embedpress, .block-editor-block-list__block {
+  clear: both !important; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.embedpress-calendar-gutenberg {
+  margin: 30px auto; }
+  .embedpress-calendar-gutenberg iframe {
+    max-width: 100%; }
+
+.embedpress-calendar-gutenberg.alignright {
+  max-width: 100%; }
+
+body.page .flexia-wrapper > .content-area {
+  padding: 0 !important; }
+
+.flexia-wrapper.flexia-container > .content-area {
+  margin: 0 !important; }
+  .flexia-wrapper.flexia-container > .content-area .embedpress-calendar-gutenberg {
+    margin: 0 auto; }
+
+@media only screen and (min-width: 482px) {
+  .entry-content > .embedpress-calendar-gutenberg.alignright,
+  .entry-content > .embedpress-calendar-gutenberg.alignleft,
+  .embedpress-calendar-gutenberg.alignright,
+  .embedpress-calendar-gutenberg.alignleft {
+    max-width: 100%; } }
+
+.clear::after {
+  content: '';
+  display: block;
+  clear: both;
+  min-height: 1px; }

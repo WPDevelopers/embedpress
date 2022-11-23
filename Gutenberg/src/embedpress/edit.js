@@ -75,6 +75,7 @@ export default function EmbedPress(props) {
 
 	const isOpensea = url.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i);
 
+	const isWistiaVideo = url.match(/\/medias\/|(?:https?:\/\/)?(?:www\.)?(?:wistia.com\/)(\w+)[^?\/]*$/i);
 
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
@@ -172,6 +173,29 @@ export default function EmbedPress(props) {
 				}
 
 
+				//Generate Wistia video params
+				if (isWistiaVideo) {
+					let _isWistiaVideo = {
+						starttime: starttime,
+						autoplay: autoplay ? 1 : 0,
+						controls: controls ? 1 : 0,
+						fullscreen: fullscreen ? 1 : 0,
+						videoannotations: videoannotations ? 1 : 0,
+						progressbarcolor: progressbarcolor,
+						closedcaptions: closedcaptions ? 1 : 0,
+						modestbranding: modestbranding,
+						relatedvideos: relatedvideos ? 1 : 0,
+						customlogo: customlogo ? customlogo : '',
+						logoX: logoX ? logoX : 0,
+						logoY: logoY ? logoY : 0,
+						customlogoUrl: customlogoUrl ? customlogoUrl : '',
+						logoOpacity: logoOpacity ? logoOpacity : '',
+					};
+
+					ytvParams = '&' + new URLSearchParams(_isWistiaVideo).toString();
+				}
+
+
 
 				let __url = url.split('#');
 				__url = encodeURIComponent(__url[0]);
@@ -224,7 +248,7 @@ export default function EmbedPress(props) {
 	return (
 		<Fragment>
 
-			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isOpensea={isOpensea} />
+			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isOpensea={isOpensea} isWistiaVideo={isWistiaVideo} />
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
 				<EmbedPlaceholder
