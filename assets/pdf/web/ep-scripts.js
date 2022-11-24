@@ -1,11 +1,10 @@
 "use strict";
 
-// if (isYTChannel) {
-//     let _isYTChannel = {
-//         pagesize: pagesize ? pagesize : 6,
-//         gapbetweenvideos: 10,
-//         ispagination: ispagination ? ispagination : false,
-//         columns: columns ? columns : '3',
-//     };
-//     youtubeParams = '&' + new URLSearchParams(_isYTChannel).toString();
-// }
+window.addEventListener('hashchange', (e) => {
+    console.log('The hash has changed!', e.newURL)
+    let x = new URL(e.newURL);
+    console.log(x);
+    let y = new URLSearchParams(x.hash.substring(1))
+    console.log(y.get('themeMode'))
+
+  }, false);

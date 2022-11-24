@@ -331,8 +331,7 @@ class EmbedPressPDFEdit extends Component {
 			this.removeAlert();
 		}
 
-		async function embed(event) {
-			if (event) event.preventDefault();
+		function embed(href) {
 			let pdf_params = '';
 
 			//Generate PDF params
@@ -348,19 +347,20 @@ class EmbedPressPDFEdit extends Component {
 				doc_rotation: doc_rotation ? doc_rotation : false,
 			};
 
-			pdf_params = '&' + new URLSearchParams(_pdf_params).toString();
+			pdf_params = new URLSearchParams(_pdf_params).toString();
 
 			let __url = href.split('#');
 			__url = encodeURIComponent(__url[0]);
 
-			return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${__url}${pdf_params}`).then(response => response.json());
+			return `${__url}#${pdf_params}`;
 		}
-		
-		// embed();
 
-		embed().then(data => {
-			console.log(data);
-		});
+		// embed();
+			console.log(embed(href));
+
+		// embed().then(data => {
+		// 	console.log(data);
+		// });
 
 		if (!href || hasError) {
 			return (
@@ -389,8 +389,8 @@ class EmbedPressPDFEdit extends Component {
 
 			);
 		} else {
-			const url = '//view.officeapps.live.com/op/embed.aspx?src=' + href;
-			const pdf_viewer_src = embedpressObj.pdf_renderer + '?file=' + href;
+			const url = '//view.officeapps.live.com/op/embed.aspx?src=' + embed(href);
+			const pdf_viewer_src = embedpressObj.pdf_renderer + '?file=' + embed(href);
 
 			this.iframeManupulate(`.${id}`, themeMode, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation);
 
