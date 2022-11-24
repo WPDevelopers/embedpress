@@ -25,6 +25,8 @@ import {
 
 import { PdfIcon } from '../common/icons'
 
+const { useEffect } = wp.element;
+
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
@@ -262,10 +264,10 @@ class EmbedPressPDFEdit extends Component {
 	}
 
 	//Create theme mode function
-	setThemeMode(iframid, themeMode){
+	setThemeMode(iframid, themeMode) {
 		const frm = document.querySelector(iframid).contentWindow.document;
 		const htmlEL = frm.getElementsByTagName("html")[0];
-		if(htmlEL){
+		if (htmlEL) {
 			htmlEL.setAttribute('ep-data-theme', themeMode);
 		}
 	}
@@ -329,9 +331,38 @@ class EmbedPressPDFEdit extends Component {
 			this.removeAlert();
 		}
 
+		async function embed(event) {
+			if (event) event.preventDefault();
+			let pdf_params = '';
+
+			//Generate PDF params
+			let _pdf_params = {
+				themeMode: themeMode ? themeMode : 'default',
+				presentation: presentation ? presentation : false,
+				position: position ? position : 'top',
+				download: download ? download : false,
+				toolbar: toolbar ? toolbar : false,
+				copy_text: copy_text ? copy_text : false,
+				toolbar_position: toolbar_position ? toolbar_position : 'top',
+				doc_details: doc_details ? doc_details : false,
+				doc_rotation: doc_rotation ? doc_rotation : false,
+			};
+
+			pdf_params = '&' + new URLSearchParams(_pdf_params).toString();
+
+			let __url = href.split('#');
+			__url = encodeURIComponent(__url[0]);
+
+			return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${__url}${pdf_params}`).then(response => response.json());
+		}
+		
+		// embed();
+
+		embed().then(data => {
+			console.log(data);
+		});
 
 		if (!href || hasError) {
-
 			return (
 				<div className={"embedpress-document-editmode"} >
 					<MediaPlaceholder
