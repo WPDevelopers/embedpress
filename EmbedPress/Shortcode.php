@@ -885,6 +885,22 @@ KAMAL;
         return $embed;
     }
 
+    public static function getParamData($attributes){
+
+        $urlParamData = array(
+            'themeMode' => isset($attributes['theme_mode']) ? $attributes['theme_mode'] : 'default',
+            'toolbar' => isset($attributes['toolbar']) ? $attributes['toolbar'] : 'true',
+            'position' => isset($attributes['toolbar_position']) ? $attributes['toolbar_position'] : 'top',
+            'presentation' => isset($attributes['presentation']) ? $attributes['presentation'] : 'true',
+            'download' => isset($attributes['download']) ? $attributes['download'] : 'true',
+            'copy_text' => isset($attributes['copy_text']) ? $attributes['copy_text'] : 'true',
+            'doc_rotation' => isset($attributes['doc_rotation']) ? $attributes['doc_rotation'] : 'true',
+            'doc_details' => isset($attributes['doc_details']) ? $attributes['doc_details'] : 'true',
+        );
+    
+        return "#". http_build_query($urlParamData);
+    }
+
     public static function do_shortcode_pdf($attributes = [], $subject = null)
     {
         $plgSettings = Core::getSettings();
@@ -894,15 +910,15 @@ KAMAL;
             'width'  => $plgSettings->enableEmbedResizeWidth,
             'height' => $plgSettings->enableEmbedResizeHeight,
             'powered_by' => 'no',
-            'themeMode' => 'default',
-            'toolbar' => 'yes',
-            'presentation' => 'yes',
-            'toolbarPosition' => 'top',
-            'download' => 'yes',
-            'open' => 'yes',
-            'copy_text' => 'yes',
-            'doc_details' => 'yes',
-            'doc_rotation' => 'yes',
+            // 'themeMode' => 'default',
+            // 'toolbar' => true,
+            // 'presentation' => true,
+            // 'toolbar_position' => 'top',
+            // 'download' => true,
+            // 'open' => true,
+            // 'copy_text' => true,
+            // 'doc_details' => true,
+            // 'doc_rotation' => true,
         ];
 
         $attributes = wp_parse_args($attributes, $default);
@@ -922,7 +938,7 @@ KAMAL;
                 <?php if ($url != '') {
                             if (self::is_pdf($url) && !self::is_external_url($url)) {
                                 $renderer = Helper::get_pdf_renderer();
-                                $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $url;
+                                $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $url.self::getParamData($attributes);
                                 ?>
                         <iframe style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" data-emsrc="<?php echo esc_attr($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" src="<?php echo esc_attr($src); ?>" frameborder="0"></iframe>
                     <?php
@@ -941,154 +957,6 @@ KAMAL;
                         }
                         ?>
             </div>
-
-        <script>
-			
-				let x = 0;
-				
-				const setThemeMode = (frm, themeMode) => {
-					const htmlEL = frm.getElementsByTagName("html")[0];
-					if(htmlEL){
-						htmlEL.setAttribute('ep-data-theme', themeMode);
-					}
-				}
-				
-				const setEmbedInterval = setInterval(() => {
-					x++;
-					if (document.querySelector('<?php echo esc_html('.ep-doc-' . md5($id)); ?>')) {
-						const isDisplay = (selectorName) => {
-							if (selectorName == 'no') {
-								selectorName = 'none';
-							} else {
-								selectorName = 'block';
-							}
-							return selectorName;
-						}
-                        
-						const frm = document.querySelector('<?php echo esc_html('.ep-doc-' . md5($id)); ?> > iframe').contentWindow.document;
-						const otherhead = frm.getElementsByTagName("head")[0];
-						const style = frm.createElement("style");
-						style.setAttribute('id', 'EBiframeStyleID');
-
-                        let themeMode = '<?php echo esc_html($attributes['themeMode']); ?>';
-                        let toolbar = '<?php echo esc_html($attributes['toolbar']); ?>';
-                        let toolbarPosition = '<?php echo esc_html($attributes['toolbarPosition']); ?>';
-                        let presentationMode = '<?php echo esc_html($attributes['presentation']); ?>';
-                        let open = '<?php echo esc_html($attributes['open']); ?>';
-                        let download = '<?php echo esc_html($attributes['download']); ?>';
-                        let copy_text = '<?php echo esc_html($attributes['copy_text']); ?>';
-                        let doc_rotation = '<?php echo esc_html($attributes['doc_rotation']); ?>';
-                        let doc_details = '<?php echo esc_html($attributes['doc_details']); ?>';
-
-                        console.log(download);
-
-                        if (toolbar == 'no' || toolbar == '') {
-                            toolbar = 'no';
-                            toolbarPosition = 'top';
-                            open = 'no';
-                            presentationMode = 'no';
-                            download = 'no';
-                            copy_text = 'no';
-                            doc_rotation = 'no';
-                            details = 'no';
-                        }
-
-						toolbar = isDisplay(toolbar);
-						presentationMode = isDisplay(presentationMode);
-						download = isDisplay(download);
-						open = isDisplay(open);
-						copy_text = isDisplay(copy_text);
-
-						
-						<?php if(!defined('EMBEDPRESS_PRO_PLUGIN_FILE')): ?>
-							download = 'block';
-							copy_text = 'block';
-						<?php endif;  ?>
-
-						if (copy_text === 'block') {
-							copy_text = 'all';
-						}
-
-						doc_details = isDisplay(doc_details);
-						doc_rotation = isDisplay(doc_rotation);
-
-						if (toolbarPosition == 'top') {
-							toolbarPosition = 'top:0;bottom:auto;';
-							settingsPos = '';
-						} else {
-							toolbarPosition = 'bottom:0;top:auto;'
-							settingsPos = `
-								.findbar, .secondaryToolbar {
-									top: auto;bottom: 32px;
-								}
-								.doorHangerRight:after{
-									transform: rotate(180deg);
-									bottom: -16px;
-								}
-								.doorHangerRight:before {
-									transform: rotate(180deg);
-									bottom: -18px;
-								}
-								
-								.findbar.doorHanger:before {
-									bottom: -18px;
-									transform: rotate(180deg);
-								}
-								.findbar.doorHanger:after {
-									bottom: -16px;
-									transform: rotate(180deg);
-								}
-							`;
-						}
-						style.textContent = `
-						.toolbar{
-							display: ${toolbar}!important;
-							position: absolute;
-							${toolbarPosition}
-
-						}
-						#secondaryToolbar{
-							display: ${toolbar};
-						}
-						#secondaryPresentationMode, #toolbarViewerRight #presentationMode{
-							display: ${presentationMode}!important;
-						}
-						#secondaryOpenFile, #toolbarViewerRight #openFile{
-							display: none!important;
-						}
-						#secondaryDownload, #secondaryPrint, #toolbarViewerRight #print, #toolbarViewerRight #download{
-							display: ${download}!important;
-						}
-
-						#pageRotateCw{
-							display: ${doc_rotation}!important;
-						}
-						#pageRotateCcw{
-							display: ${doc_rotation}!important;
-						}
-						#documentProperties{
-							display: ${doc_details}!important;
-						}
-						.textLayer{
-							user-select: ${copy_text}!important;
-						}
-						${settingsPos}
-					`;
-
-						if (otherhead) {
-							if(frm.getElementById("EBiframeStyleID")){	
-								frm.getElementById("EBiframeStyleID").remove();
-							}
-							otherhead.appendChild(style);
-							clearInterval(setEmbedInterval);
-						}
-					}
-					// if (x > 100) {
-					// 	clearInterval(setEmbedInterval);
-					// }
-				}, 100);
-		
-		</script>
 
     <?php
 
