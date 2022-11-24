@@ -568,9 +568,7 @@ class Embedpress_Pdf extends Widget_Base
                                 }
                                 ${$settingsPos}
                             `;
-                            if(frm){
-                                setThemeMode(frm, $themeMode);
-                            }
+                           
                             if (otherhead) {
                                 if(frm.getElementById("EBiframeStyleID")){
                                     frm.getElementById("EBiframeStyleID").remove();
@@ -578,7 +576,9 @@ class Embedpress_Pdf extends Widget_Base
                                 otherhead.appendChild(style);
                                 clearInterval(setEmbedInterval);
                             }
-
+                            if(frm){
+                                setThemeMode(frm, $themeMode);
+                            }
                         });
                         if (x > 50) {
                             clearInterval(setEmbedInterval);
