@@ -67,6 +67,23 @@ export default function EmbedPress(props) {
 		buttonTextColor,
 		buttonBackgroundColor,
 		buttonFontSize,
+		wstarttime,
+        wautoplay,
+        scheme,
+        captions,
+        playbar,
+        wfullscreen,
+        playbutton,
+        resumable,
+        wistiafocus,
+        volumecontrol,
+        volume,
+        rewind,
+        customlogo,
+        logoX,
+        logoY,
+        customlogoUrl,
+        logoOpacity
 	} = attributes;
 
 	const blockProps = useBlockProps ? useBlockProps() : [];
@@ -119,6 +136,7 @@ export default function EmbedPress(props) {
 
 				let youtubeParams = '';
 				let openseaParams = '';
+				let wistiaParams = '';
 
 				//Generate YouTube params
 				if (isYTChannel) {
@@ -176,15 +194,20 @@ export default function EmbedPress(props) {
 				//Generate Wistia video params
 				if (isWistiaVideo) {
 					let _isWistiaVideo = {
-						starttime: starttime,
-						autoplay: autoplay ? 1 : 0,
-						controls: controls ? 1 : 0,
-						fullscreen: fullscreen ? 1 : 0,
-						videoannotations: videoannotations ? 1 : 0,
-						progressbarcolor: progressbarcolor,
-						closedcaptions: closedcaptions ? 1 : 0,
-						modestbranding: modestbranding,
-						relatedvideos: relatedvideos ? 1 : 0,
+						wstarttime: wstarttime,
+						wautoplay: wautoplay ? 1 : 0,
+						wfullscreen: wfullscreen ? 1 : 0,
+						captions: captions ? 1 : 0,
+						scheme: scheme ? scheme : 'red',
+						captions: captions ? scheme : 0,
+						playbar: playbar ? playbar : 0,
+						wfullscreen: wfullscreen ? wfullscreen : 0,
+						playbutton: playbutton ? playbutton : 0,
+						resumable: resumable ? resumable : 0,
+						wistiafocus: wistiafocus ? wistiafocus : 0,
+						volumecontrol: volumecontrol ? volumecontrol : 0,
+						volume: volume ? volume : 0,
+						rewind: rewind ? rewind : 0,
 						customlogo: customlogo ? customlogo : '',
 						logoX: logoX ? logoX : 0,
 						logoY: logoY ? logoY : 0,
@@ -192,10 +215,8 @@ export default function EmbedPress(props) {
 						logoOpacity: logoOpacity ? logoOpacity : '',
 					};
 
-					ytvParams = '&' + new URLSearchParams(_isWistiaVideo).toString();
+					wistiaParams = '&' + new URLSearchParams(_isWistiaVideo).toString();
 				}
-
-
 
 				let __url = url.split('#');
 				__url = encodeURIComponent(__url[0]);
@@ -346,7 +367,7 @@ export default function EmbedPress(props) {
 			}
 
 			{
-				!isYTChannel && !isOpensea &&(
+				!isYTChannel && !isOpensea && (
 					<style style={{ display: "none" }}>
 						{
 							`
@@ -382,6 +403,26 @@ export default function EmbedPress(props) {
 								width: 900px;
 								max-width: 100%!important;
 							}
+							`
+						}
+
+					</style>
+				)
+			}
+
+			{
+				isWistiaVideo && (
+					<style style={{ display: "none" }}>
+						{
+							`
+								#block-${clientId} .ose-wistia{
+									width: ${width}px!important;
+									height: ${height}px!important;
+								}
+								.wistia_embed{
+									width: 100%!important;
+									height: 100%!important;
+								}
 							`
 						}
 

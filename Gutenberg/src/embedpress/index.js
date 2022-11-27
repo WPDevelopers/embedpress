@@ -228,6 +228,58 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'number',
 			}, 
 
+			//Wistia video controls attribute
+			wstarttime: {
+				type: 'string',
+			},
+			wautoplay: {
+				type: 'boolean',
+			},
+			scheme: {
+				type: 'string',
+			},
+			captions: {
+				type: 'boolean',
+			},
+			playbutton: {
+				type: 'boolean',
+			},
+			resumable: {
+				type: 'boolean',
+			},
+			wistiafocus: {
+				type: 'boolean',
+			},
+			volumecontrol: {
+				type: 'number',
+			},
+			rewind: {
+				type: 'boolean',
+			},
+			wfullscreen: {
+				type: 'boolean',
+			},
+			
+			customlogo: {
+				type: 'string',
+				default: ''
+			},
+			logoX: {
+				type: 'number',
+				default: 5
+			},
+			logoY: {
+				type: 'number',
+				default: 10
+			},
+			customlogoUrl: {
+				type: 'string',
+			},
+			logoOpacity: {
+				type: 'number',
+				default: 0.6
+			},
+
 		},
 		/**
 		 * The edit function describes the structure of your block in the context of the editor.

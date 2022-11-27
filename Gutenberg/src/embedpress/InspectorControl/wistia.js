@@ -12,6 +12,7 @@ const {
     ToggleControl,
     PanelBody,
     Button,
+    ColorPalette,
 } = wp.components;
 
 import {
@@ -21,16 +22,18 @@ import {
 export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
 
     const {
-        starttime,
-        endtime,
-        autoplay,
-        controls,
-        fullscreen,
-        videoannotations,
-        progressbarcolor,
-        closedcaptions,
-        modestbranding,
-        relatedvideos,
+        wstarttime,
+        wautoplay,
+        scheme,
+        captions,
+        playbar,
+        wfullscreen,
+        playbutton,
+        resumable,
+        wistiafocus,
+        volumecontrol,
+        volume,
+        rewind,
         customlogo,
         logoX,
         logoY,
@@ -54,6 +57,14 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
         removeAlert();
     }
 
+    const colors = [
+        { name: '', color: 'red' },
+        { name: '', color: 'green' },
+        { name: '', color: 'blue' },
+        { name: '', color: 'yellow' },
+        { name: '', color: 'orange' },
+    ];
+
     return (
         <div>
             {
@@ -63,8 +74,8 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                             <div className={'ep-yt-video-controlers'}>
                                 <TextControl
                                     label={__("Start Time")}
-                                    value={starttime}
-                                    onChange={(starttime) => setAttributes({ starttime })}
+                                    value={wstarttime}
+                                    onChange={(wstarttime) => setAttributes({ wstarttime })}
                                     type={'text'}
                                     className={'ep-control-field'}
 
@@ -73,52 +84,64 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
 
                                 <ToggleControl
                                     label={__("Auto Play")}
-                                    checked={autoplay}
-                                    onChange={(autoplay) => setAttributes({ autoplay })}
+                                    checked={wautoplay}
+                                    onChange={(wautoplay) => setAttributes({ wautoplay })}
                                 />
 
-                                <SelectControl
-                                    label={__("Controls", "embedpress")}
-                                    value={controls}
-                                    options={[
-                                        { label: 'Hide controls', value: '0' },
-                                        { label: 'Display immediately', value: '1' },
-                                        { label: 'Display after user initiation immediately', value: '2' },
-                                    ]}
-                                    onChange={(controls) => setAttributes({ controls })}
-                                    className={'ep-select-control-field'}
-                                    __nextHasNoMarginBottom
+                                <ColorPalette
+                                    label={__("Scheme")}
+                                    colors={colors}
+                                    value={scheme}
+                                    onChange={(scheme) => setAttributes({ scheme })}
                                 />
 
                                 <ToggleControl
                                     label={__("Fullscreen Button")}
-                                    checked={fullscreen}
-                                    onChange={(fullscreen) => setAttributes({ fullscreen })}
+                                    checked={wfullscreen}
+                                    onChange={(wfullscreen) => setAttributes({ wfullscreen })}
+                                />
+                                <ToggleControl
+                                    label={__("Small Play Button")}
+                                    checked={playbutton}
+                                    onChange={(playbutton) => setAttributes({ playbutton })}
+                                />
+                                <ToggleControl
+                                    label={__("Resumeable ")}
+                                    checked={resumable}
+                                    onChange={(resumable) => setAttributes({ resumable })}
                                 />
 
                                 <ToggleControl
-                                    label={__("Video Annotations")}
-                                    checked={videoannotations}
-                                    onChange={(videoannotations) => setAttributes({ videoannotations })}
-                                />
-
-                                <SelectControl
-                                    label={__("Progress Bar Color", "embedpress")}
-                                    value={progressbarcolor}
-                                    options={[
-                                        { label: 'Red', value: 'red' },
-                                        { label: 'White', value: 'white' },
-                                    ]}
-                                    onChange={(progressbarcolor) => setAttributes({ progressbarcolor })}
-                                    className={'ep-select-control-field'}
-                                    __nextHasNoMarginBottom
+                                    label={__("Focus")}
+                                    checked={wistiafocus}
+                                    onChange={(wistiafocus) => setAttributes({ wistiafocus })}
                                 />
 
                                 <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                                     <ToggleControl
-                                        label={__("Closed Captions")}
-                                        checked={closedcaptions}
-                                        onChange={(closedcaptions) => setAttributes({ closedcaptions })}
+                                        label={__("Captions")}
+                                        checked={captions}
+                                        onChange={(captions) => setAttributes({ captions })}
+                                    />
+
+                                    {
+                                        (!isProPluginActive) && (
+                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                        )
+                                    }
+                                </div>
+
+                                <ToggleControl
+                                    label={__("Playbar")}
+                                    checked={playbar}
+                                    onChange={(playbar) => setAttributes({ playbar })}
+                                />
+
+                                <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                    <ToggleControl
+                                        label={__("Volume Control")}
+                                        checked={volumecontrol}
+                                        onChange={(volumecontrol) => setAttributes({ volumecontrol })}
                                     />
 
                                     {
@@ -129,16 +152,12 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                 </div>
 
                                 <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                    <SelectControl
-                                        label={__("Modest Branding", "embedpress")}
-                                        value={modestbranding}
-                                        options={[
-                                            { label: 'Display', value: '0' },
-                                            { label: 'Do Not Display', value: '1' },
-                                        ]}
-                                        onChange={(modestbranding) => setAttributes({ modestbranding })}
-                                        className={'ep-select-control-field'}
-                                        __nextHasNoMarginBottom
+                                    <RangeControl
+                                        label={__("Volume", "embedpress")}
+                                        value={volume}
+                                        onChange={(volume) => setAttributes({ volume })}
+                                        min={1}
+                                        max={100}
                                     />
                                     {
                                         (!isProPluginActive) && (
@@ -148,9 +167,9 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                 </div>
 
                                 <ToggleControl
-                                    label={__("Related Videos")}
-                                    checked={relatedvideos}
-                                    onChange={(relatedvideos) => setAttributes({ relatedvideos })}
+                                    label={__("Rewind")}
+                                    checked={rewind}
+                                    onChange={(rewind) => setAttributes({ rewind })}
                                 />
 
                             </div>
