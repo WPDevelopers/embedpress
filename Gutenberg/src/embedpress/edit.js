@@ -36,6 +36,21 @@ export default function EmbedPress(props) {
 		pagesize,
 		columns,
 		gapbetweenvideos,
+		starttime,
+		endtime,
+		autoplay,
+		controls,
+		fullscreen,
+		videoannotations,
+		progressbarcolor,
+		closedcaptions,
+		modestbranding,
+		relatedvideos,
+		customlogo,
+		logoX,
+		logoY,
+		customlogoUrl,
+		logoOpacity,
 		limit,
 		layout,
 		preset,
@@ -86,6 +101,31 @@ export default function EmbedPress(props) {
         logoOpacity
 	} = attributes;
 
+	let customLogoTemp = '';
+	let customLogoStyle = '';
+
+	if(customlogo){
+		customLogoStyle = `
+				border: 0;
+				position: absolute;
+				bottom: ${logoY}%;
+				right: ${logoX}%;
+				max-width: 150px;
+				max-height: 75px;
+				opacity: ${logoOpacity};
+				// z-index: 5;
+				-o-transition: opacity 0.5s ease-in-out;
+				-moz-transition: opacity 0.5s ease-in-out;
+				-webkit-transition: opacity 0.5s ease-in-out;
+				transition: opacity 0.5s ease-in-out;
+				`
+		customLogoTemp = `<img decoding="async"  src="${customlogo}" class="watermark" width="auto" height="auto">`;
+
+		if(customlogoUrl){
+			customLogoTemp = `<a href="${customlogoUrl}"><img decoding="async" src="${customlogo}" class="watermark" width="auto" height="auto"></a>`;
+		}
+	}
+	
 	const blockProps = useBlockProps ? useBlockProps() : [];
 
 	const isYTChannel = url.match(/\/channel\/|\/c\/|\/user\/|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
@@ -93,6 +133,7 @@ export default function EmbedPress(props) {
 	const isOpensea = url.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i);
 
 	const isWistiaVideo = url.match(/\/medias\/|(?:https?:\/\/)?(?:www\.)?(?:wistia.com\/)(\w+)[^?\/]*$/i);
+	const isYTVideo = url.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/i);
 
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
@@ -137,6 +178,7 @@ export default function EmbedPress(props) {
 				let youtubeParams = '';
 				let openseaParams = '';
 				let wistiaParams = '';
+				let ytvParams = '';
 
 				//Generate YouTube params
 				if (isYTChannel) {
@@ -149,6 +191,28 @@ export default function EmbedPress(props) {
 					youtubeParams = '&' + new URLSearchParams(_isYTChannel).toString();
 				}
 
+				//Generate YouTube video params
+				if (isYTVideo) {
+					let _isYTVideo = {
+						starttime: starttime,
+						endtime: endtime,
+						autoplay: autoplay ? 1 : 0,
+						controls: controls ? 1 : 0,
+						fullscreen: fullscreen ? 1 : 0,
+						videoannotations: videoannotations ? 1 : 0,
+						progressbarcolor: progressbarcolor,
+						closedcaptions: closedcaptions ? 1 : 0,
+						modestbranding: modestbranding,
+						relatedvideos: relatedvideos ? 1 : 0,
+						customlogo: customlogo ? customlogo : '',
+						logoX: logoX ? logoX : 0,
+						logoY: logoY ? logoY : 0,
+						customlogoUrl: customlogoUrl ? customlogoUrl : '',
+						logoOpacity: logoOpacity ? logoOpacity : '',
+					};
+
+					ytvParams = '&' + new URLSearchParams(_isYTVideo).toString();
+				}
 
 				//Generate Opensea params
 				if (isOpensea) {
@@ -220,7 +284,7 @@ export default function EmbedPress(props) {
 
 				let __url = url.split('#');
 				__url = encodeURIComponent(__url[0]);
-				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${__url}&width=${width}&height=${height}${youtubeParams}${openseaParams}`).then(response => response.json());
+				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${__url}&width=${width}&height=${height}${youtubeParams}${openseaParams}${ytvParams}`).then(response => response.json());
 			}
 
 			fetchData(url).then(data => {
@@ -258,7 +322,7 @@ export default function EmbedPress(props) {
 			}
 		}, 300)
 		return () => clearTimeout(delayDebounceFn)
-	}, [pagesize, limit, layout, preset, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, itemBGColor, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize]);
+	}, [pagesize, limit, layout, preset, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, itemBGColor, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize, starttime, endtime, autoplay, controls, fullscreen, videoannotations, progressbarcolor, closedcaptions, modestbranding, relatedvideos, logoX, logoY, customlogoUrl, logoOpacity]);
 
 	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
 
@@ -266,10 +330,13 @@ export default function EmbedPress(props) {
 		repeatCol = `repeat(auto-fit, minmax(calc(${100 / columns}% - ${gapbetweenvideos}px), 1fr))`;
 	}
 
+
+
+
 	return (
 		<Fragment>
-
-			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isOpensea={isOpensea} isWistiaVideo={isWistiaVideo} />
+			
+			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isOpensea={isOpensea} isYTVideo={isYTVideo} isWistiaVideo={isWistiaVideo} />
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
 				<EmbedPlaceholder
@@ -285,23 +352,23 @@ export default function EmbedPress(props) {
 			</div>}
 
 			{
-				((!isOpensea || (!!editingURL || editingURL === 0)) && fetching) && (<div className={className}><EmbedLoading /> </div>)
+				((!isOpensea || editingURL) && (!isYTVideo || editingURL)) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea)) && <figure {...blockProps} >
-				<EmbedWrap style={{ display: (fetching && !isOpensea) ? 'none' : '' }} dangerouslySetInnerHTML={{
-					__html: embedHTML
+
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isYTVideo)) && <figure {...blockProps} >
+				<EmbedWrap style={{ display: (fetching && !isOpensea && !isYTVideo) ? 'none' : isOpensea ? 'block': 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
+					__html: embedHTML + customLogoTemp
 				}}></EmbedWrap>
 
 				{
 					fetching && (
-						<div style={{ filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '0.7' }}
+						<div style={{ filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '.75' }}
 							className="block-library-embed__interactive-overlay"
 							onMouseUp={setAttributes({ interactive: true })}
 						/>
 					)
-
 				}
 
 				{
@@ -312,7 +379,6 @@ export default function EmbedPress(props) {
 						/>
 					)
 				}
-
 
 				<EmbedControls
 					showEditButton={embedHTML && !cannotEmbed}
@@ -429,7 +495,21 @@ export default function EmbedPress(props) {
 					</style>
 				)
 			}
+			
+			{
 
+				isYTVideo && (
+					<style style={{ display: "none" }}>
+						{
+							`
+							#block-${clientId} img.watermark{
+								${customLogoStyle}
+							}
+							`
+						}
+					</style>
+				)
+			}
 
 		</Fragment>
 

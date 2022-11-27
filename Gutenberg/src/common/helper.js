@@ -12,7 +12,6 @@ export const removeAlert = () => {
         });
     }
 }
-
 export const isPro = (display) => {
     const alertPro = `
 		<div class="pro__alert__wrap" style="display: none;">
@@ -30,3 +29,4 @@ export const isPro = (display) => {
 
     return dom;
 }
+

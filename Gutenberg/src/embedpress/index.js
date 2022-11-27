@@ -64,7 +64,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			editingURL: {
 				type: 'boolean',
-				default: 0
+				default: true
 			},
 			fetching: {
 				type: 'boolean',
@@ -260,6 +260,38 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 			},
 			
+			//YouTube single video controls attribute
+			starttime: {
+				type: 'string',
+			},
+			endtime: {
+				type: 'string',
+			},
+			autoplay: {
+				type: 'boolean',
+			},
+			controls: {
+				type: 'string',
+			},
+			fullscreen: {
+				type: 'boolean',
+			},
+			videoannotations: {
+				type: 'boolean',
+			},
+			progressbarcolor: {
+				type: 'string',
+				default: 'red'
+			},
+			closedcaptions: {
+				type: 'boolean',
+			},
+			modestbranding: {
+				type: 'string',
+			},
+			relatedvideos: {
+				type: 'boolean',
+			},
 			customlogo: {
 				type: 'string',
 				default: ''

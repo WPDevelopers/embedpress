@@ -7,6 +7,7 @@ import Wistia from './InspectorControl/wistia';
  */
 const { __ } = wp.i18n;
 
+
 const {
     TextControl,
     PanelBody,
@@ -17,22 +18,21 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isOpensea, isWistiaVideo }) {
-
+export default function Inspector({ attributes, setAttributes, isYTChannel, isOpensea, isYTVideo, isWistiaVideo }) {
     const {
         width,
         height,
-
         editingURL,
         embedHTML,
     } = attributes;
+
 
     return (
         !editingURL && embedHTML && (
             <InspectorControls>
                 {
                     !isOpensea && (
-                        <PanelBody title={__("Embeded Options")}>
+                        <PanelBody title={__("General Options")} >
 
                             <div>
                                 <p>{__("You can adjust the width and height of embedded content.")}</p>
@@ -49,13 +49,14 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isOp
                             </div>
 
                             {
-                                isYTChannel && (
-                                    <Youtube attributes={attributes} setAttributes={setAttributes} />
-                                )
+                                <Youtube attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} />
                             }
                         </PanelBody>
-
                     )
+                }
+
+                {
+                    <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} />
                 }
 
                 {

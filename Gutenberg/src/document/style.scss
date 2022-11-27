@@ -57,3 +57,8 @@ button.components-flex.components-color-palette__custom-color {
 .components-circular-option-picker .components-circular-option-picker__swatches {
     justify-content: space-around;
 }
+.pro-control .ep-logo-upload-button {
+    pointer-events: none;
+    cursor: pointer;
+    opacity: .8;
+}
