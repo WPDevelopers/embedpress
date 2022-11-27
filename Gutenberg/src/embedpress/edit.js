@@ -46,11 +46,6 @@ export default function EmbedPress(props) {
 		closedcaptions,
 		modestbranding,
 		relatedvideos,
-		customlogo,
-		logoX,
-		logoY,
-		customlogoUrl,
-		logoOpacity,
 		limit,
 		layout,
 		preset,
@@ -133,6 +128,7 @@ export default function EmbedPress(props) {
 	const isOpensea = url.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i);
 
 	const isWistiaVideo = url.match(/\/medias\/|(?:https?:\/\/)?(?:www\.)?(?:wistia.com\/)(\w+)[^?\/]*$/i);
+	
 	const isYTVideo = url.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/i);
 
 	function switchBackToURLInput() {
@@ -495,7 +491,7 @@ export default function EmbedPress(props) {
 					</style>
 				)
 			}
-			
+
 			{
 
 				isYTVideo && (

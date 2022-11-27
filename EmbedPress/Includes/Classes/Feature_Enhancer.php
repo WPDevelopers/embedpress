@@ -528,6 +528,7 @@ class Feature_Enhancer
 	}
 	public function enhance_wistia($embed)
 	{
+		
 		if (
 			isset($embed->provider_name)
 			&& strtoupper($embed->provider_name) === 'WISTIA, INC.'
@@ -1018,10 +1019,14 @@ class Feature_Enhancer
 		$html = '<script src="https://fast.wistia.com/assets/external/E-v1.js"></script>';
 		$html .= "<script>window.pp_embed_wistia_labels = {$labels};</script>\n";
 		$html .= "<script>wistiaEmbed = Wistia.embed( \"{$shortVideoId}\", {$embedOptions} );</script>\n";
-		echo $html;
+
+
+		// echo $html;
 	}
+	
 	public function embedpress_wistia_pro_get_options()
 	{
+
 		$options = $this->getOptions('wistia', $this->get_wistia_settings_schema());
 		// Embed Options
 		$embedOptions = new \stdClass;
@@ -1063,7 +1068,6 @@ class Feature_Enhancer
 			}
 		}
 
-
 		// Focus plugin
 		if (isset($options['plugin_focus'])) {
 			$isFocusEnabled = $options['plugin_focus'];
@@ -1077,8 +1081,10 @@ class Feature_Enhancer
 		$embedOptions->plugin = $pluginList;
 		$embedOptions = apply_filters('embedpress_wistia_params', $embedOptions);
 		$embedOptions         = json_encode($embedOptions);
-		return apply_filters('embedpress_wistia_params_after_encode', $embedOptions);
+
+		// return apply_filters('embedpress_wistia_params_after_encode', $embedOptions);
 	}
+
 	public function get_twitch_settings_schema()
 	{
 		return [
