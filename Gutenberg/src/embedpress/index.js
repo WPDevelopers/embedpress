@@ -244,6 +244,9 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			playbutton: {
 				type: 'boolean',
 			},
+			playbar: {
+				type: 'boolean',
+			},
 			resumable: {
 				type: 'boolean',
 			},
@@ -251,7 +254,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 			},
 			volumecontrol: {
+				type: 'boolean',
+			},
+			volume: {
 				type: 'number',
+				default: 100
 			},
 			rewind: {
 				type: 'boolean',
@@ -292,6 +299,8 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			relatedvideos: {
 				type: 'boolean',
 			},
+
+			//Custom logo atributes
 			customlogo: {
 				type: 'string',
 				default: ''

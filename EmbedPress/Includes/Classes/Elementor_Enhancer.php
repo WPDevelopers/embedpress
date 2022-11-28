@@ -303,8 +303,6 @@ class Elementor_Enhancer {
 				$embedOptions->captions        = $isCaptionsEnabled;
 				$embedOptions->captionsDefault = $isCaptionsEnabledByDefault;
 			}
-
-
 		}
 
 		// Rewind plugin

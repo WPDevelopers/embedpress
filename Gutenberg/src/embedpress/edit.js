@@ -250,7 +250,6 @@ export default function EmbedPress(props) {
 					openseaParams = '&' + new URLSearchParams(_isOpensea).toString();
 				}
 
-
 				//Generate Wistia video params
 				if (isWistiaVideo) {
 					let _isWistiaVideo = {
@@ -266,7 +265,7 @@ export default function EmbedPress(props) {
 						resumable: resumable ? resumable : 0,
 						wistiafocus: wistiafocus ? wistiafocus : 0,
 						volumecontrol: volumecontrol ? volumecontrol : 0,
-						volume: volume ? volume : 0,
+						volume: volume ? volume : 100,
 						rewind: rewind ? rewind : 0,
 						customlogo: customlogo ? customlogo : '',
 						logoX: logoX ? logoX : 0,
@@ -318,16 +317,13 @@ export default function EmbedPress(props) {
 			}
 		}, 300)
 		return () => clearTimeout(delayDebounceFn)
-	}, [pagesize, limit, layout, preset, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, itemBGColor, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize, starttime, endtime, autoplay, controls, fullscreen, videoannotations, progressbarcolor, closedcaptions, modestbranding, relatedvideos, logoX, logoY, customlogoUrl, logoOpacity]);
+	}, [pagesize, limit, layout, preset, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, itemBGColor, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize, starttime, endtime, autoplay, controls, fullscreen, videoannotations, progressbarcolor, closedcaptions, modestbranding, relatedvideos, wstarttime, wautoplay, scheme, captions, playbar, wfullscreen, playbutton, resumable, wistiafocus, volumecontrol, volume, rewind, logoX, logoY, customlogoUrl, logoOpacity]);
 
 	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
 
 	if (columns > 0) {
 		repeatCol = `repeat(auto-fit, minmax(calc(${100 / columns}% - ${gapbetweenvideos}px), 1fr))`;
 	}
-
-
-
 
 	return (
 		<Fragment>

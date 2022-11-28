@@ -20,7 +20,6 @@ import {
 } from "@wordpress/block-editor";
 
 export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
-
     const {
         wstarttime,
         wautoplay,

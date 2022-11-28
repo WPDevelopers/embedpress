@@ -69,6 +69,12 @@ class Feature_Enhancer
         return (bool) (preg_match('~v=(?:[a-z0-9_\-]+)~i', (string) $url));
     }
 
+	//Check is Wistia ytValidateUrl
+	public function isWistiaVideoUrl(String $url)
+	{
+		return (bool) (preg_match('#\/medias\\\?\/([a-z0-9]+)\.?#i', (string) $url));
+	}
+
 	public function gutenberg_embed($embedHTML, $attributes)
 	{
 
@@ -245,6 +251,30 @@ class Feature_Enhancer
 
 			}
 
+		}
+
+		if (!empty($attributes['url'])) {
+			if($this->isWistiaVideoUrl($attributes['url'])){
+				$atts = [
+					'wstarttime' => !empty($attributes['wstarttime']) ? $attributes['wstarttime'] : '',
+					'wautoplay' => !empty($attributes['wautoplay']) ? $attributes['wautoplay'] : 0,
+					'wfullscreen' => !empty($attributes['wfullscreen']) ? $attributes['wfullscreen'] : 0,
+					'captions' => !empty($attributes['captions']) ? $attributes['captions'] : 0,
+					'scheme' => !empty($attributes['scheme']) ? $attributes['scheme'] : 0,
+					'playbar' => !empty($attributes['playbar']) ? $attributes['playbar'] : 0,
+					'playbutton' => !empty($attributes['playbutton']) ? $attributes['playbutton'] : 0,
+					'resumable' => !empty($attributes['resumable']) ? $attributes['resumable'] : 0,
+					'wistiafocus' => !empty($attributes['wistiafocus']) ? $attributes['wistiafocus'] : 0,
+					'volumecontrol' => !empty($attributes['volumecontrol']) ? $attributes['volumecontrol']: 0,
+					'volume' => !empty($attributes['volume']) ? $attributes['volume'] : 100,
+					'rewind' => !empty($attributes['rewind']) ?$attributes['rewind'] : 0,
+					'customlogo'   => !empty($attributes['customlogo']) ? $attributes['customlogo'] : '',
+					'logoX' => !empty($attributes['logoX']) ? $attributes['logoX'] : 5,
+					'logoY' => !empty($attributes['logoY']) ? $attributes['logoY'] : 10,
+					'customlogoUrl' => !empty($attributes['customlogoUrl']) ? $attributes['customlogoUrl'] : '',
+					'logoOpacity' => !empty($attributes['logoOpacity']) ? $attributes['logoOpacity'] : 0.6,
+				];
+			}
 		}
 
 		return $embedHTML ;
@@ -1001,6 +1031,7 @@ class Feature_Enhancer
 
 		return $id;
 	}
+
 	public function embedpress_wistia_block_after_embed($attributes)
 	{
 		$embedOptions = $this->embedpress_wistia_pro_get_options();
@@ -1021,7 +1052,7 @@ class Feature_Enhancer
 		$html .= "<script>wistiaEmbed = Wistia.embed( \"{$shortVideoId}\", {$embedOptions} );</script>\n";
 
 
-		// echo $html;
+		echo $html;
 	}
 	
 	public function embedpress_wistia_pro_get_options()
@@ -1082,7 +1113,7 @@ class Feature_Enhancer
 		$embedOptions = apply_filters('embedpress_wistia_params', $embedOptions);
 		$embedOptions         = json_encode($embedOptions);
 
-		// return apply_filters('embedpress_wistia_params_after_encode', $embedOptions);
+		return apply_filters('embedpress_wistia_params_after_encode', $embedOptions);
 	}
 
 	public function get_twitch_settings_schema()

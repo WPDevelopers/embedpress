@@ -761,8 +761,6 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-
-
 		$this->add_control(
 			'embedpress_pro_wistia_captions_enabled_by_default',
 			[
@@ -790,8 +788,6 @@ class Embedpress_Elementor extends Widget_Base
 				]
 			]
 		);
-
-
 
 		$this->add_control(
 			'embedpress_pro_wistia_fullscreen_button',
