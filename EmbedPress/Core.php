@@ -362,6 +362,14 @@ class Core {
                 'permission_callback' => '__return_true',
             ]
         );
+        register_rest_route(
+            'embedpress/v1', '/oembed/(?P<provider>[a-zA-Z0-9\-]+)',
+            [
+                'methods' => \WP_REST_Server::CREATABLE,
+                'callback' => ['\\EmbedPress\\RestAPI', 'oembed'],
+                'permission_callback' => '__return_true',
+            ]
+        );
     }
 
     /**

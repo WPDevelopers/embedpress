@@ -7,6 +7,9 @@ import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
 import md5 from 'md5';
 import Inspector from './inspector';
+import DynamicStyles from './dynamic-styles';
+const { applyFilters } = wp.hooks;
+const apiFetch = wp.apiFetch;
 
 /**
  * WordPress dependencies
@@ -14,6 +17,7 @@ import Inspector from './inspector';
 const { __ } = wp.i18n;
 import { embedPressIcon } from '../common/icons';
 import SkeletonLoaading from '../common/skeletone-loading';
+import { isOpensea as _isOpensea, useOpensea } from './InspectorControl/opensea';
 
 const {
 	useBlockProps
@@ -24,7 +28,9 @@ const { Fragment, useEffect } = wp.element;
 export default function EmbedPress(props) {
 	const { clientId, attributes, className, setAttributes } = props;
 
-	const { url,
+	// @todo remove unused atts from here.
+	const {
+		url,
 		editingURL,
 		fetching,
 		cannotEmbed,
@@ -73,8 +79,8 @@ export default function EmbedPress(props) {
 
 	const isYTChannel = url.match(/\/channel\/|\/c\/|\/user\/|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
 
-	const isOpensea = url.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i);
-
+	const isOpensea = _isOpensea(url);
+	const openseaParams = useOpensea(attributes);
 
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
@@ -117,7 +123,6 @@ export default function EmbedPress(props) {
 			let fetchData = async (url) => {
 
 				let youtubeParams = '';
-				let openseaParams = '';
 
 				//Generate YouTube params
 				if (isYTChannel) {
@@ -130,52 +135,21 @@ export default function EmbedPress(props) {
 					youtubeParams = '&' + new URLSearchParams(_isYTChannel).toString();
 				}
 
+				let params = {
+					url,
+					width,
+					height,
+				};
 
-				//Generate Opensea params
-				if (isOpensea) {
-					let _isOpensea = {
-						limit: limit ? limit : 20,
-						orderby: orderby ? orderby : 'desc',
-						layout: layout ? layout : 'ep-grid',
-						preset: preset ? preset : 'ep-preset-1',
-						nftperrow: nftperrow ? nftperrow : '3',
-						gapbetweenitem: gapbetweenitem ? gapbetweenitem : 30,
-						nftimage: nftimage ? nftimage : false,
-						nftcreator: nftcreator ? nftcreator : false,
-						prefix_nftcreator: prefix_nftcreator ? prefix_nftcreator : '',
-						nfttitle: nfttitle ? nfttitle : false,
-						nftprice: nftprice ? nftprice : false,
-						prefix_nftprice: prefix_nftprice ? prefix_nftprice : '',
-						nftlastsale: nftlastsale ? nftlastsale : false,
-						prefix_nftlastsale: prefix_nftlastsale ? prefix_nftlastsale : '',
-						nftbutton: nftbutton ? nftbutton : false,
-						label_nftbutton: label_nftbutton ? label_nftbutton : '',
+				params = applyFilters('embedpress_block_rest_param', params, attributes);
+				const __url = `${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress` ;
 
-						//Pass Color and Typography
-						itemBGColor: itemBGColor ? itemBGColor : '',
-						titleColor: titleColor ? titleColor : '',
-						titleFontsize: titleFontsize ? titleFontsize : '',
-						creatorColor: creatorColor ? creatorColor : '',
-						creatorFontsize: creatorFontsize ? creatorFontsize : '',
-						creatorLinkColor: creatorLinkColor ? creatorLinkColor : '',
-						creatorLinkFontsize: creatorLinkFontsize ? creatorLinkFontsize : '',
-						priceColor: priceColor ? priceColor : '',
-						priceFontsize: priceFontsize ? priceFontsize : '',
-						lastSaleColor: lastSaleColor ? lastSaleColor : '',
-						lastSaleFontsize: lastSaleFontsize ? lastSaleFontsize : '',
-						buttonTextColor: buttonTextColor ? buttonTextColor : '',
-						buttonBackgroundColor: buttonBackgroundColor ? buttonBackgroundColor : '',
-						buttonFontSize: buttonFontSize ? buttonFontSize : '',
-					};
+				const args = { url: __url, method: "POST", data: params };
+				return await apiFetch(args)
+					.then((res) => res)
+					.catch((err) => console.error(err));
 
-					openseaParams = '&' + new URLSearchParams(_isOpensea).toString();
-				}
-
-
-
-				let __url = url.split('#');
-				__url = encodeURIComponent(__url[0]);
-				return await fetch(`${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress?url=${__url}&width=${width}&height=${height}${youtubeParams}${openseaParams}`).then(response => response.json());
+				return await fetch(__url).then(response => response.json());
 			}
 
 			fetchData(url).then(data => {
@@ -205,16 +179,22 @@ export default function EmbedPress(props) {
 			})
 		}
 	}
+	console.log('XopenseaParams', {...openseaParams});
 
 	useEffect(() => {
+		console.log('openseaParams', {...openseaParams});
 		const delayDebounceFn = setTimeout(() => {
 			if (!((!embedHTML || editingURL) && !fetching)) {
 				embed();
 			}
-		}, 300)
-		return () => clearTimeout(delayDebounceFn)
-	}, [pagesize, limit, layout, preset, orderby, nftimage, nfttitle, nftprice, prefix_nftprice, nftlastsale, prefix_nftlastsale, nftperrow, nftbutton, label_nftbutton, nftcreator, prefix_nftcreator, itemBGColor, titleColor, titleFontsize, creatorColor, creatorFontsize, creatorLinkColor, creatorLinkFontsize, priceColor, priceFontsize, lastSaleColor, lastSaleFontsize, buttonTextColor, buttonBackgroundColor, buttonFontSize]);
+		}, 3000)
+		return () => {
+			clearTimeout(delayDebounceFn)
+			console.log(`clearTimeout(${delayDebounceFn})`);
+		}
+	}, [openseaParams]);
 
+	// @todo move them to youtube.js
 	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
 
 	if (columns > 0) {
@@ -276,95 +256,7 @@ export default function EmbedPress(props) {
 
 			</figure>}
 
-
-			{
-				isYTChannel && (
-					<style style={{ display: "none" }}>
-						{
-							`
-							#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap{
-								gap: ${gapbetweenvideos}px!important;
-								margin-top: ${gapbetweenvideos}px!important;
-							}
-
-							#block-${clientId} .ose-youtube{
-								width: ${width}px!important;
-							}
-							#block-${clientId} .ose-youtube .ep-first-video iframe{
-								max-height: ${height}px!important;
-							}
-
-							#block-${clientId} .ose-youtube > iframe{
-								height: ${height}px!important;
-								width: ${width}px!important;
-							}
-
-							#block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap {
-								grid-template-columns: ${repeatCol};
-							}
-
-							#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
-								display: flex!important;
-							}
-
-							${!ispagination && (
-								`#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
-									display: none!important;
-								}`
-							)}
-
-							`
-						}
-
-					</style>
-				)
-
-			}
-
-			{
-				!isYTChannel && !isOpensea &&(
-					<style style={{ display: "none" }}>
-						{
-							`
-							#block-${clientId} .ose-embedpress-responsive{
-								width: ${width}px!important;
-								height: ${height}px!important
-							}
-							#block-${clientId} iframe{
-								width: ${width}px!important;
-								height: ${height}px!important
-							}
-							#block-${clientId} .ose-youtube > iframe{
-								height: ${height}px!important;
-								width: ${width}px!important;
-							}
-							#block-${clientId} .ose-youtube{
-								height: ${height}px!important;
-								width: ${width}px!important;
-							}
-						`
-						}
-
-					</style>
-				)
-			}
-
-			{
-				isOpensea && (
-					<style style={{ display: "none" }}>
-						{
-							`
-							#block-${clientId}{
-								width: 900px;
-								max-width: 100%!important;
-							}
-							`
-						}
-
-					</style>
-				)
-			}
-
+			<DynamicStyles url={url} {...attributes} />
 
 		</Fragment>
 

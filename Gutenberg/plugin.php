@@ -60,8 +60,8 @@ function embedpress_blocks_cgb_editor_assets()
 
 	wp_enqueue_script(
 		'embedpress_blocks-cgb-block-js', // Handle.
-		EMBEDPRESS_GUTENBERG_DIR_URL . '/dist/blocks.build.js', // Block.build.js: We register the block here. Built with Webpack.
-		array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'embedpress-pdfobject'), // Dependencies, defined above.
+		EMBEDPRESS_GUTENBERG_DIR_URL . 'dist/blocks.build.js', // Block.build.js: We register the block here. Built with Webpack.
+		array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-api-fetch', 'wp-is-shallow-equal', 'wp-editor', 'wp-components', 'embedpress-pdfobject'), // Dependencies, defined above.
 		filemtime(EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.build.js'), // Version: File modification time.
 		true // Enqueue the script in the footer.
 	);
@@ -288,7 +288,7 @@ function embedpress_pdf_render_block($attributes)
 			</div>
 
 		</div>
-	<?php 
+	<?php
 
 		return ob_get_clean();
 	}

@@ -48,7 +48,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
     /** inline {@inheritdoc} */
     public function validateUrl(Url $url) {
-        return (bool) (preg_match('~\/channel\/|\/c\/|\/user\/|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$~i', (string) $url));
+        return (bool) (preg_match('~\/channel\/|\/c\/|\/user\/|\/@\w+|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$~i', (string) $url));
     }
 
     /** inline {@inheritdoc} */
@@ -75,6 +75,15 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                 return [
                     "type" => 'user',
                     "id"   => $matches[1],
+                ];
+            }
+        }
+        if(empty($matches[1])){
+            preg_match('~\/(@)(\w+)~i', (string) $url, $matches);
+            if(!empty($matches[1])){
+                return [
+                    "type" => 'user',
+                    "id"   => $matches[2],
                 ];
             }
         }
@@ -130,11 +139,11 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
      * @param array  $params Parameters for the query string
      * @return string
      */
-    
+
     protected function constructUrl($endpoint, array $params = array())
     {
         $endpoint = self::$channel_endpoint . $endpoint;
-        
+
         return $endpoint . ((strpos($endpoint, '?') === false) ? '?' : '&') . http_build_query(array_filter($params));
     }
 
@@ -163,7 +172,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $transient_key = 'ep_embed_youtube_channel_playlist_id_' . md5($channel_url);
         $jsonResult    = get_transient($transient_key);
 
-        if(!empty($jsonResult)){ 
+        if(!empty($jsonResult)){
             return $jsonResult;
         }
 
@@ -186,7 +195,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             return $result;
         }
         $jsonResult = json_decode($apiResult['body']);
-        
+
 
         if (isset($jsonResult->error)) {
             $result['error'] = true;
@@ -400,7 +409,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                         <div class="item" style="height: 0"></div>
                     </div>
 
-                    
+
                     <?php if ($totalPages > 1) : ?>
                         <div class="ep-youtube__content__pagination <?php echo (empty($prevPageToken) && empty($nextPageToken)) ? ' hide ' : ''; ?>">
                             <div
@@ -412,7 +421,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                 <span><?php _e("Prev", "embedpress"); ?></span>
                             </div>
                             <div class="is_desktop_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
-                                <?php   
+                                <?php
 
                                     $numOfPages = $totalPages;
                                     $renderedEllipses = false;
@@ -427,13 +436,13 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                             $is_current = $i == (int)$currentPage? "active__current_page" : "";
 
                                             echo wp_kses_post("<span class='page-number  $is_current' data-page='$i'>$i</span>");
-                                            
+
                                         }
 
                                         //render current page number
                                         else if($i == (int)$currentPage) {
                                             //render link
-                                            echo wp_kses_post('<span class="page-number active__current_page" data-page="'.$i.'">'.$i.'</span>'); 
+                                            echo wp_kses_post('<span class="page-number active__current_page" data-page="'.$i.'">'.$i.'</span>');
                                             //reset ellipses
                                             $renderedEllipses = false;
                                         }
@@ -441,7 +450,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                         //last page number
                                         else if ($i >= $numOfPages - 1) {
                                             //render link
-                                            echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>'); 
+                                            echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>');
                                         }
 
                                         //make sure you only do this once per ellipses group
@@ -457,7 +466,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                             </div>
 
                             <div class="is_mobile_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
-                                <?php   
+                                <?php
 
                                     $numOfPages = $totalPages;
                                     $renderedEllipses = false;
@@ -470,7 +479,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                         //render current page number
                                     if($i == (int)$currentPage) {
                                             //render link
-                                            echo wp_kses_post('<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>'); 
+                                            echo wp_kses_post('<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>');
                                             //reset ellipses
                                             $renderedEllipses = false;
                                         }
@@ -478,13 +487,13 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                         //last page number
                                         else if ($i >= $numOfPages ) {
                                             //render link
-                                            echo wp_kses_post('...<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>'); 
+                                            echo wp_kses_post('...<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>');
                                         }
                                     }
                                 ?>
 
                             </div>
-                            
+
 
                             <div
                                 class="ep-next " <?php echo empty($nextPageToken) ? ' style="display:none" ' : ''; ?>
@@ -585,13 +594,13 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     // public static $num = 0;
 
 
-    
+
     public static $x = 0;
 
     public static function styles($params, $url){
-        
+
         $uniqid = '.ose-youtube.ose-uid-'.md5($url);
-        
+
         ob_start();
         ?>
         <style>
@@ -761,7 +770,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         .is_mobile_device{
             display: none!important;
         }
-        
+
 
         .is_mobile_devic.ep-page-numbers {
             gap: 5px;
@@ -789,7 +798,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $attributes_data = $params;
 
         $is_pagination = 'flex';
-        
+
         $gap = '30';
         $columns = '';
 
@@ -802,7 +811,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         if(isset($attributes_data['columns'])){
             $columns = $attributes_data['columns'];
         }
-        
+
 
 
         if(!empty($columns) && (int) $columns > 0){
@@ -825,7 +834,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             gap: <?php echo $gap.'px'; ?>;
         }
 
-        <?php 
+        <?php
             if($is_pagination){
                 echo esc_attr($uniqid) ?> {
                     height: 100%!important;
