@@ -1,18 +1,29 @@
 import react from 'react';
 import { isOpensea, DynamicStyleOpensea } from "./InspectorControl/opensea";
+import { isYTChannel, DynamicStyleYTChannel } from "./InspectorControl/youtube";
 
 export const dynamicStyles = ({
     url,
-	clientId,
-	width,
-	height,
-	...attributes
+    clientId,
+    width,
+    height,
+    ispagination,
+    gapbetweenvideos,
+    columns,
+    ...attributes
 }) => {
-	return (
-		<React.Fragment>
-			{/* {isYTChannel && (
-				<style style={{ display: "none" }}>
-					{`
+
+    let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
+
+    if (columns > 0) {
+        repeatCol = `repeat(auto-fit, minmax(calc(${100 / columns}% - ${gapbetweenvideos}px), 1fr))`;
+    }
+
+    return (
+        <React.Fragment>
+            {isYTChannel(url) && (
+                <style style={{ display: "none" }}>
+                    {`
                     #block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap{
                         gap: ${gapbetweenvideos}px!important;
                         margin-top: ${gapbetweenvideos}px!important;
@@ -38,21 +49,20 @@ export const dynamicStyles = ({
                         display: flex!important;
                     }
 
-                    ${
-											!ispagination &&
-											`#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
+                    ${!ispagination &&
+                        `#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
                             display: none!important;
                         }`
-										}
+                        }
 
                     `}
-				</style>
-			)} */}
+                </style>
+            )}
 
-            {/* !isYTChannel && */}
-			{!isOpensea(url) && (
-				<style style={{ display: "none" }}>
-					{`
+            {
+                !isYTChannel(url) && !isOpensea(url) && (
+                    <style style={{ display: "none" }}>
+                        {`
                     #block-${clientId} .ose-embedpress-responsive{
                         width: ${width}px!important;
                         height: ${height}px!important
@@ -70,12 +80,23 @@ export const dynamicStyles = ({
                         width: ${width}px!important;
                     }
                 `}
-				</style>
-			)}
+                    </style>
+                )}
+
             {/* we can also use filters instead. */}
-			<DynamicStyleOpensea {...attributes} />
-		</React.Fragment>
-	);
+
+            {
+                isOpensea(url) &&
+                <DynamicStyleOpensea {...attributes} />
+            }
+
+            {
+                isYTChannel(url) &&
+                <DynamicStyleYTChannel {...attributes} />
+            }
+
+        </React.Fragment>
+    );
 };
 
 export default dynamicStyles;

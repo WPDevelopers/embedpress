@@ -16,8 +16,8 @@ const apiFetch = wp.apiFetch;
  */
 const { __ } = wp.i18n;
 import { embedPressIcon } from '../common/icons';
-import SkeletonLoaading from '../common/skeletone-loading';
 import { isOpensea as _isOpensea, useOpensea } from './InspectorControl/opensea';
+import {isYTChannel as _isYTChannel, useYTChannel } from './InspectorControl/youtube';
 
 const {
 	useBlockProps
@@ -38,49 +38,17 @@ export default function EmbedPress(props) {
 		embedHTML,
 		height,
 		width,
-		ispagination,
-		pagesize,
-		columns,
-		gapbetweenvideos,
-		limit,
-		layout,
-		preset,
-		orderby,
-		nftperrow,
-		gapbetweenitem,
-		nftimage,
-		nftcreator,
-		prefix_nftcreator,
-		nfttitle,
-		nftprice,
-		prefix_nftprice,
-		nftlastsale,
-		prefix_nftlastsale,
-		nftbutton,
-		label_nftbutton,
-		alignment,
-		itemBGColor,
-		titleColor,
-		titleFontsize,
-		creatorColor,
-		creatorFontsize,
-		creatorLinkColor,
-		creatorLinkFontsize,
-		priceColor,
-		priceFontsize,
-		lastSaleColor,
-		lastSaleFontsize,
-		buttonTextColor,
-		buttonBackgroundColor,
-		buttonFontSize,
 	} = attributes;
 
 	const blockProps = useBlockProps ? useBlockProps() : [];
 
-	const isYTChannel = url.match(/\/channel\/|\/c\/|\/user\/|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
-
+	const isYTChannel = _isYTChannel(url);
 	const isOpensea = _isOpensea(url);
+
 	const openseaParams = useOpensea(attributes);
+	const youtubeParams = useYTChannel(attributes);
+
+	console.log(youtubeParams);
 
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
@@ -121,20 +89,7 @@ export default function EmbedPress(props) {
 
 			// send api request to get iframe url
 			let fetchData = async (url) => {
-
-				let youtubeParams = '';
-
-				//Generate YouTube params
-				if (isYTChannel) {
-					let _isYTChannel = {
-						pagesize: pagesize ? pagesize : 6,
-						gapbetweenvideos: 10,
-						ispagination: ispagination ? ispagination : false,
-						columns: columns ? columns : '3',
-					};
-					youtubeParams = '&' + new URLSearchParams(_isYTChannel).toString();
-				}
-
+				
 				let params = {
 					url,
 					width,
@@ -145,11 +100,10 @@ export default function EmbedPress(props) {
 				const __url = `${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress` ;
 
 				const args = { url: __url, method: "POST", data: params };
+
 				return await apiFetch(args)
 					.then((res) => res)
 					.catch((err) => console.error(err));
-
-				return await fetch(__url).then(response => response.json());
 			}
 
 			fetchData(url).then(data => {
@@ -179,28 +133,21 @@ export default function EmbedPress(props) {
 			})
 		}
 	}
-	console.log('XopenseaParams', {...openseaParams});
+	// console.log('XopenseaParams', {...openseaParams});
 
 	useEffect(() => {
-		console.log('openseaParams', {...openseaParams});
+		// console.log('openseaParams', {...openseaParams});
 		const delayDebounceFn = setTimeout(() => {
 			if (!((!embedHTML || editingURL) && !fetching)) {
 				embed();
 			}
-		}, 3000)
+		}, 1500)
 		return () => {
 			clearTimeout(delayDebounceFn)
 			console.log(`clearTimeout(${delayDebounceFn})`);
 		}
-	}, [openseaParams]);
-
-	// @todo move them to youtube.js
-	let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
-
-	if (columns > 0) {
-		repeatCol = `repeat(auto-fit, minmax(calc(${100 / columns}% - ${gapbetweenvideos}px), 1fr))`;
-	}
-
+	}, [openseaParams, youtubeParams]);
+	
 	return (
 		<Fragment>
 
@@ -256,7 +203,7 @@ export default function EmbedPress(props) {
 
 			</figure>}
 
-			<DynamicStyles url={url} {...attributes} />
+			<DynamicStyles url={url} clientId={clientId} {...attributes} />
 
 		</Fragment>
 

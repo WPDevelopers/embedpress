@@ -14,6 +14,7 @@ export const mergeAtts = (defaults, attributes) => {
 }
 export const getParams = (params, attributes, defaults) => {
     const atts = mergeAtts(defaults, attributes);
+
     return {...params, ...atts};
 }
 

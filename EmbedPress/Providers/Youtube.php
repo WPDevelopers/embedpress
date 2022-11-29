@@ -813,25 +813,21 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
 
 
-
         if(!empty($columns) && (int) $columns > 0){
             $repeatCol = 'repeat(auto-fit, minmax('.esc_html('calc('.(100 / (int) $columns).'% - '.$gap.'px)').', 1fr))';
         }
         else{
-            $repeatCol = 'repeat(auto-fit, minmax(250px, 1fr))';
+            $repeatCol = 'repeat(auto-fit, minmax(calc(250px - '.$gap.'px), 1fr))';
         }
 
         ?>
         <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .youtube__content__body .content__wrap {
             gap: <?php echo esc_html($gap); ?>px !important;
             margin-top: <?php echo esc_html($gap); ?>px !important;
+            grid-template-columns: <?php echo $repeatCol; ?>;
         }
         <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .ep-youtube__content__pagination {
             display: <?php echo esc_html($is_pagination); ?>!important;
-        }
-        <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .youtube__content__body .content__wrap {
-            grid-template-columns: <?php echo $repeatCol; ?>;
-            gap: <?php echo $gap.'px'; ?>;
         }
 
         <?php

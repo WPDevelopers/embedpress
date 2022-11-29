@@ -1,7 +1,14 @@
 /**
  * WordPress dependencies
  */
-const { __ } = wp.i18n;
+ import { getParams } from '../functions';
+ 
+ const { isShallowEqualObjects } = wp.isShallowEqual;
+ const { useState, useEffect } = wp.element;
+ const { __ } = wp.i18n;
+ const { addFilter } = wp.hooks;
+
+
 
 const {
     TextControl,
@@ -10,7 +17,62 @@ const {
     ToggleControl,
 } = wp.components;
 
-export default function Youtube({attributes, setAttributes}) {
+
+export const init = () => {
+    addFilter('embedpress_block_rest_param', 'embedpress', getYoutubeParams, 10);
+}
+
+export const getYoutubeParams = (params, attributes) => {
+    // which attributes should be passed with rest api.
+    const defaults = {
+        ispagination: true,
+        pagesize: 6,
+        columns: '3',
+        gapbetweenvideos: 30
+    };
+
+    return getParams(params, attributes, defaults);
+}
+
+export const isYTChannel = (url) => {
+    return url.match(/\/channel\/|\/c\/|\/user\/|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
+}
+
+/**
+ *
+ * @param {object} attributes
+ * @returns
+ */
+
+export const useYTChannel = (attributes) => {
+    // which attribute should call embed();
+    const defaults = {
+        ispagination: null,
+        pagesize: null,
+        columns: null,
+        gapbetweenvideos: null
+    };
+
+    const param = getParams({}, attributes, defaults);
+    const [atts, setAtts] = useState(param);
+
+    useEffect(() => {
+        const param = getParams(atts, attributes, defaults);
+        if (!isShallowEqualObjects(atts || {}, param)) {
+            setAtts(param);
+        }
+    }, [attributes]);
+
+    return atts;
+}
+
+export const DynamicStyleYTChannel = ({ clientId, attributes }) => {
+    if (!isYTChannel(attributes ? attributes.url : '')) {
+        return <React.Fragment></React.Fragment>;
+    }
+}
+
+export default function Youtube({ attributes, setAttributes }) {
 
     const {
         ispagination,
@@ -54,7 +116,7 @@ export default function Youtube({attributes, setAttributes}) {
             />
             <p>Specify the gap between youtube videos.</p>
 
-            
+
             <ToggleControl
                 label={__("Pagination")}
                 checked={ispagination}

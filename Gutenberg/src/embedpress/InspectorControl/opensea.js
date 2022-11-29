@@ -84,7 +84,6 @@ export const isOpensea = (url) => {
 export const useOpensea = (attributes) => {
     // which attribute should call embed();
     const defaults = {
-        pagesize             : null,
         limit                : null,
         layout               : null,
         preset               : null,

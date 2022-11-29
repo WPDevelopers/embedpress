@@ -27,7 +27,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isOp
     } = attributes;
 
     return (
-        !editingURL && embedHTML &&(
+        !editingURL && embedHTML && (
             <InspectorControls>
                 {
                     !isOpensea && (
