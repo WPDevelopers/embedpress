@@ -1662,7 +1662,7 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'label'        => sprintf(__('Button Label %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
-				'default' => esc_html__( 'See Datails', 'embedpress' ),
+				'default' => esc_html__( 'See Details', 'embedpress' ),
 				'placeholder' => esc_html__( 'See Details', 'embedpress' ),
 				'classes'     => $this->pro_class,
 				'condition' => [

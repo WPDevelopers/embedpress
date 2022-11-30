@@ -23,12 +23,12 @@ export const init = () => {
 }
 
 export const getYoutubeParams = (params, attributes) => {
+    if(!attributes.url || !isYTChannel(attributes.url)){
+        return params;
+    }
     // which attributes should be passed with rest api.
     const defaults = {
-        ispagination: true,
         pagesize: 6,
-        columns: '3',
-        gapbetweenvideos: 30
     };
 
     return getParams(params, attributes, defaults);
@@ -47,10 +47,7 @@ export const isYTChannel = (url) => {
 export const useYTChannel = (attributes) => {
     // which attribute should call embed();
     const defaults = {
-        ispagination: null,
         pagesize: null,
-        columns: null,
-        gapbetweenvideos: null
     };
 
     const param = getParams({}, attributes, defaults);
