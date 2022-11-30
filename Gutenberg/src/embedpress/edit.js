@@ -144,7 +144,6 @@ export default function EmbedPress(props) {
 		}, 1500)
 		return () => {
 			clearTimeout(delayDebounceFn)
-			console.log(`clearTimeout(${delayDebounceFn})`);
 		}
 	}, [openseaParams, youtubeParams]);
 	

@@ -84,11 +84,11 @@ export default function Youtube({ attributes, setAttributes }) {
     return (
         <div>
 
-            <TextControl
-                label={__("Video Per Page")}
+            <RangeControl
+                label={__('Video Per Page')}
                 value={pagesize}
                 onChange={(pagesize) => setAttributes({ pagesize })}
-                type={'number'}
+                min={1}
                 max={50}
             />
             <p>Specify the number of videos you wish to show on each page.</p>

@@ -92,7 +92,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			pagesize: {
 				type: 'number',
-				default: 3
+				default: 6
 			},
 			columns: {
 				type: 'string',

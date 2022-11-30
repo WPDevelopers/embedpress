@@ -95,6 +95,7 @@ export const useOpensea = (attributes) => {
         nftlastsale          : null,
         prefix_nftlastsale   : null,
         nftperrow            : null,
+        gapbetweenitem       : null,
         nftbutton            : null,
         label_nftbutton      : null,
         nftcreator           : null,
@@ -154,6 +155,7 @@ export default function OpenSea({ attributes, setAttributes }) {
         layout,
         preset,
         nftperrow,
+        gapbetweenitem,
         nftimage,
         nftcreator,
         prefix_nftcreator,
@@ -306,6 +308,14 @@ export default function OpenSea({ attributes, setAttributes }) {
                         onChange={(nftperrow) => setAttributes({ nftperrow })}
                         min={1}
                         max={6}
+                    />
+
+                    <RangeControl
+                        label={__("Gap Between Item", "embedpress")}
+                        value={gapbetweenitem}
+                        onChange={(gapbetweenitem) => setAttributes({ gapbetweenitem })}
+                        min={1}
+                        max={100}
                     />
 
                     <ToggleControl
