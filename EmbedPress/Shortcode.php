@@ -30,7 +30,7 @@ class Shortcode
      *
      * @var     WP_oEmbed $oEmbedInstance
      */
-    
+
 
     public static $y = 0;
 
@@ -77,7 +77,7 @@ class Shortcode
         add_shortcode('embed_oembed_html', ['\\EmbedPress\\Shortcode', 'do_shortcode']);
         add_shortcode('embedpress', ['\\EmbedPress\\Shortcode', 'do_shortcode']);
         add_shortcode('embedpress_pdf', ['\\EmbedPress\\Shortcode', 'do_shortcode_pdf']);
-        
+
     }
 
     /**
@@ -535,7 +535,13 @@ KAMAL;
 
                     $attrName = str_replace($attrNameDefaultPrefix, "", $attrName);
 
-                    if (!strlen($attrValue)) {
+                    if(is_bool($attrValue)){
+                        if($attrValue)
+                            $attrValue = "true";
+                        else
+                            $attrValue = "false";
+                    }
+                    else if (!strlen($attrValue)) {
                         if ($attrName[0] === "!") {
                             $attrValue = "false";
                             $attrName = substr($attrName, 1);
@@ -897,7 +903,7 @@ KAMAL;
             'doc_rotation' => isset($attributes['doc_rotation']) ? $attributes['doc_rotation'] : 'true',
             'doc_details' => isset($attributes['doc_details']) ? $attributes['doc_details'] : 'true',
         );
-    
+
         return "#". http_build_query($urlParamData);
     }
 
@@ -905,7 +911,7 @@ KAMAL;
     {
         $plgSettings = Core::getSettings();
 
-        
+
         $default = [
             'width'  => $plgSettings->enableEmbedResizeWidth,
             'height' => $plgSettings->enableEmbedResizeHeight,

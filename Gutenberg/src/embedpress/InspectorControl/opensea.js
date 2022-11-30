@@ -33,6 +33,9 @@ export const init = () => {
 }
 
 export const getOpenseaParams = (params, attributes) => {
+    if(!attributes.url || !isOpensea(attributes.url)){
+        return params;
+    }
     // which attributes should be passed with rest api.
     const defaults = {
         limit: 20,
