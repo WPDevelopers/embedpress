@@ -55,27 +55,29 @@ export default function EmbedPress(props) {
 		setAttributes({ fetching: false });
 	}
 
+	function execScripts(){
+		let scripts = embedHTML.matchAll(/<script.*?src=["'](.*?)["'].*?><\/script>/g);
+		scripts = [...scripts];
+		for (const script of scripts) {
+			if (script && typeof script[1] != 'undefined') {
+				const url = script[1];
+				const hash = md5(url);
+				const exist = document.getElementById(hash);
+				if (exist) {
+					exist.remove();
+				}
+				const s = document.createElement('script');
+				s.type = 'text/javascript';
+				s.setAttribute('id', hash);
+				s.setAttribute('src', url);
+				document.body.appendChild(s);
+			}
+		};
+	}
+
 	useEffect(() => {
 		if (embedHTML && !editingURL && !fetching) {
-			let scripts = embedHTML.matchAll(/<script.*?src=["'](.*?)["'].*?><\/script>/g);
-			scripts = [...scripts];
-			for (const script of scripts) {
-				if (script && typeof script[1] != 'undefined') {
-					const url = script[1];
-					const hash = md5(url);
-					const exist = document.getElementById(hash);
-					console.log(exist);
-					if (exist) {
-						exist.remove();
-					}
-					const s = document.createElement('script');
-					s.type = 'text/javascript';
-					s.setAttribute('id', hash);
-					s.setAttribute('src', url);
-					document.body.appendChild(s);
-					console.log(s);
-				}
-			};
+			execScripts();
 		}
 	}, [embedHTML]);
 
@@ -90,7 +92,7 @@ export default function EmbedPress(props) {
 
 			// send api request to get iframe url
 			let fetchData = async (url) => {
-				
+
 				let params = {
 					url,
 					width,
@@ -122,6 +124,7 @@ export default function EmbedPress(props) {
 						cannotEmbed: false,
 						editingURL: false,
 					});
+					execScripts();
 				}
 			});
 
@@ -147,7 +150,7 @@ export default function EmbedPress(props) {
 			clearTimeout(delayDebounceFn)
 		}
 	}, [openseaParams, youtubeParams]);
-	
+
 	return (
 		<Fragment>
 
