@@ -63,14 +63,17 @@ export default function EmbedPress(props) {
 				if (script && typeof script[1] != 'undefined') {
 					const url = script[1];
 					const hash = md5(url);
-					if (document.getElementById(hash)) {
-						continue;
+					const exist = document.getElementById(hash);
+					console.log(exist);
+					if (exist) {
+						exist.remove();
 					}
 					const s = document.createElement('script');
 					s.type = 'text/javascript';
 					s.setAttribute('id', hash);
 					s.setAttribute('src', url);
 					document.body.appendChild(s);
+					console.log(s);
 				}
 			};
 		}
