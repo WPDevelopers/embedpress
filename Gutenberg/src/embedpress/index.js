@@ -234,27 +234,34 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			wautoplay: {
 				type: 'boolean',
+				default: false
 			},
 			scheme: {
 				type: 'string',
 			},
 			captions: {
 				type: 'boolean',
+				default: true
 			},
 			playbutton: {
 				type: 'boolean',
+				default: true
 			},
 			playbar: {
 				type: 'boolean',
+				default: true
 			},
 			resumable: {
 				type: 'boolean',
+				default: true
 			},
 			wistiafocus: {
 				type: 'boolean',
+				default: true
 			},
 			volumecontrol: {
 				type: 'boolean',
+				default: true
 			},
 			volume: {
 				type: 'number',
@@ -262,9 +269,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			rewind: {
 				type: 'boolean',
+				default: true
 			},
 			wfullscreen: {
 				type: 'boolean',
+				default: true
 			},
 			
 			//YouTube single video controls attribute

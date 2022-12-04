@@ -68,32 +68,33 @@ class HttpClient implements HttpClientInterface
     protected function fetchWithCurl($url, array $params = [])
     {
         // Not using array_merge here because that function reindexes numeric keys
-        $options = $params + array(
-            CURLOPT_USERAGENT => $this->config['user_agent'],
-            CURLOPT_ENCODING => '',
-            CURLOPT_FOLLOWLOCATION => true,
-        );
+        // $options = $params + array(
+        //     CURLOPT_USERAGENT => $this->config['user_agent'],
+        //     CURLOPT_ENCODING => '',
+        //     CURLOPT_FOLLOWLOCATION => true,
+        // );
 
-        $options[CURLOPT_URL] = $url;
-        $options[CURLOPT_HEADER] = true;
-        $options[CURLOPT_RETURNTRANSFER] = 1;
+        // $options[CURLOPT_URL] = $url;
+        // $options[CURLOPT_HEADER] = true;
+        // $options[CURLOPT_RETURNTRANSFER] = 1;
 
-        $handler = curl_init();
-        curl_setopt_array($handler, $options);
-        $response = curl_exec($handler);
+        // $handler = curl_init();
+        // curl_setopt_array($handler, $options);
+        // $response = curl_exec($handler);
 
-        $status = curl_getinfo($handler, CURLINFO_HTTP_CODE);
-        $headerSize = curl_getinfo($handler, CURLINFO_HEADER_SIZE);
+        // $status = curl_getinfo($handler, CURLINFO_HTTP_CODE);
+        // $headerSize = curl_getinfo($handler, CURLINFO_HEADER_SIZE);
 
-        $body = substr($response, $headerSize);
-        curl_close($handler);
+        // $body = substr($response, $headerSize);
+        // curl_close($handler);
 
+        $response = wp_remote_get( $url );
 
-        if (empty($body) || $status != '200') {
-            throw new Exception($status . ': Invalid response for ' . $url);
+        if (!is_array( $response ) || is_wp_error( $response ) || (200 !== wp_remote_retrieve_response_code( $response ) )) {
+            throw new Exception(wp_remote_retrieve_response_code( $response ) . ': Invalid response for ' . $url);
         }
 
-        return $body;
+        return $response['body'];
     }
 
     /**
