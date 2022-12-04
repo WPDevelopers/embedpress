@@ -12,9 +12,10 @@ export const dynamicStyles = ({
     columns,
     ...attributes
 }) => {
+    
+	const isWistiaVideo = url.match(/\/medias\/|(?:https?:\/\/)?(?:www\.)?(?:wistia.com\/)(\w+)[^?\/]*$/i);
 
     let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
-
     if (columns > 0) {
         repeatCol = `repeat(auto-fit, minmax(calc(${100 / columns}% - ${gapbetweenvideos}px), 1fr))`;
     }
@@ -94,6 +95,26 @@ export const dynamicStyles = ({
                 isYTChannel(url) &&
                 <DynamicStyleYTChannel {...attributes} />
             }
+
+            {
+				isWistiaVideo && (
+					<style style={{ display: "none" }}>
+						{
+							`
+								#block-${clientId} .ose-wistia{
+									width: ${width}px!important;
+									height: ${height}px!important;
+								}
+								.wistia_embed{
+									width: 100%!important;
+									height: 100%!important;
+								}
+							`
+						}
+
+					</style>
+				)
+			}
 
         </React.Fragment>
     );

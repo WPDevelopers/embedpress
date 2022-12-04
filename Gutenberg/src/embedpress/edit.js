@@ -48,8 +48,6 @@ export default function EmbedPress(props) {
 	const openseaParams = useOpensea(attributes);
 	const youtubeParams = useYTChannel(attributes);
 
-	console.log(youtubeParams);
-
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
 	}
