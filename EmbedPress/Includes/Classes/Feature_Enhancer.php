@@ -74,7 +74,7 @@ class Feature_Enhancer
 					'width'    => intval($attributes['width']),
 					'height'   => intval($attributes['height']),
 					'pagesize' => isset($attributes['pagesize']) ? intval($attributes['pagesize']) : 6,
-					'columns' => isset($attributes['columns']) ? intval($attributes['columns']) : 2,
+					'columns' => isset($attributes['columns']) ? intval($attributes['columns']) : 3,
 					'ispagination' => isset($attributes['ispagination']) ? $attributes['ispagination'] : 0,
 					'gapbetweenvideos' => isset($attributes['gapbetweenvideos']) ? $attributes['gapbetweenvideos'] : 30,
 				];
