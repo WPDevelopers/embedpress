@@ -97,6 +97,7 @@ trait Shared {
                 'start'       => $notices->strtotime( '+15 day' ),
                 'recurrence'  => 30,
                 'dismissible' => true,
+                'refresh'     => EMBEDPRESS_VERSION,
             ]
         );
 
@@ -104,10 +105,30 @@ trait Shared {
             'optin',
             [$this->insights, 'notice'],
             [
-                'start'       => $notices->time(),
+                'start'       => $notices->strtotime( '+30 days' ),
                 'recurrence'  => 30,
                 'dismissible' => true,
+                'refresh'     => EMBEDPRESS_VERSION,
                 'do_action'   => 'wpdeveloper_notice_clicked_for_embedpress',
+                'display_if'  => ! is_array( $notices->is_installed( 'embedpress-pro/embedpress-pro.php' ) )
+            ]
+        );
+
+        $notice_text = sprintf('<div style="display: flex; align-items: center;">%s <a class="button button-primary" style="margin-left: 10px; background: #5b4d96; border-color: #5b4d96;" target="_blank" href="%s">%s</a></div>', __( '<p><strong>Black Friday Exclusive:</strong> SAVE up to 40% & access to <strong>EmbedPress Pro</strong> features.</p>', 'embedpress' ), esc_url( 'http://embedpress.com/#pricing' ), __('Grab The Offer', 'embedpress') );
+
+        $_black_friday = [
+            'thumbnail' => $_assets_url . 'images/icon-128x128.png',
+            'html' => $notice_text,
+        ];
+
+        $notices->add(
+            'black_friday',
+            $_black_friday,
+            [
+                'start'       => $notices->time(),
+                'recurrence'  => false,
+                'dismissible' => true,
+                'expire'      => strtotime( 'Wed, 30 Nov 2022 23:59:59 GMT' ),
                 'display_if'  => ! is_array( $notices->is_installed( 'embedpress-pro/embedpress-pro.php' ) )
             ]
         );

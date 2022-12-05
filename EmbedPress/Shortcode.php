@@ -30,7 +30,7 @@ class Shortcode
      *
      * @var     WP_oEmbed $oEmbedInstance
      */
-    
+
 
     public static $y = 0;
 
@@ -77,7 +77,7 @@ class Shortcode
         add_shortcode('embed_oembed_html', ['\\EmbedPress\\Shortcode', 'do_shortcode']);
         add_shortcode('embedpress', ['\\EmbedPress\\Shortcode', 'do_shortcode']);
         add_shortcode('embedpress_pdf', ['\\EmbedPress\\Shortcode', 'do_shortcode_pdf']);
-        
+
     }
 
     /**
@@ -535,7 +535,13 @@ KAMAL;
 
                     $attrName = str_replace($attrNameDefaultPrefix, "", $attrName);
 
-                    if (!strlen($attrValue)) {
+                    if(is_bool($attrValue)){
+                        if($attrValue)
+                            $attrValue = "true";
+                        else
+                            $attrValue = "false";
+                    }
+                    else if (!strlen($attrValue)) {
                         if ($attrName[0] === "!") {
                             $attrValue = "false";
                             $attrName = substr($attrName, 1);
@@ -885,15 +891,42 @@ KAMAL;
         return $embed;
     }
 
+    public static function getParamData($attributes){
+
+        $urlParamData = array(
+            'themeMode' => isset($attributes['theme_mode']) ? $attributes['theme_mode'] : 'default',
+            'toolbar' => isset($attributes['toolbar']) ? $attributes['toolbar'] : 'true',
+            'position' => isset($attributes['toolbar_position']) ? $attributes['toolbar_position'] : 'top',
+            'presentation' => isset($attributes['presentation']) ? $attributes['presentation'] : 'true',
+            'download' => isset($attributes['download']) ? $attributes['download'] : 'true',
+            'copy_text' => isset($attributes['copy_text']) ? $attributes['copy_text'] : 'true',
+            'doc_rotation' => isset($attributes['doc_rotation']) ? $attributes['doc_rotation'] : 'true',
+            'doc_details' => isset($attributes['doc_details']) ? $attributes['doc_details'] : 'true',
+        );
+
+        return "#". http_build_query($urlParamData);
+    }
+
     public static function do_shortcode_pdf($attributes = [], $subject = null)
     {
         $plgSettings = Core::getSettings();
+
 
         $default = [
             'width'  => $plgSettings->enableEmbedResizeWidth,
             'height' => $plgSettings->enableEmbedResizeHeight,
             'powered_by' => 'no',
+            // 'themeMode' => 'default',
+            // 'toolbar' => true,
+            // 'presentation' => true,
+            // 'toolbar_position' => 'top',
+            // 'download' => true,
+            // 'open' => true,
+            // 'copy_text' => true,
+            // 'doc_details' => true,
+            // 'doc_rotation' => true,
         ];
+
         $attributes = wp_parse_args($attributes, $default);
 
         $url = preg_replace(
@@ -911,7 +944,7 @@ KAMAL;
                 <?php if ($url != '') {
                             if (self::is_pdf($url) && !self::is_external_url($url)) {
                                 $renderer = Helper::get_pdf_renderer();
-                                $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $url;
+                                $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $url.self::getParamData($attributes);
                                 ?>
                         <iframe style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" data-emsrc="<?php echo esc_attr($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" src="<?php echo esc_attr($src); ?>" frameborder="0"></iframe>
                     <?php

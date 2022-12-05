@@ -2,9 +2,14 @@
  * WordPress dependencies
  */
 
+import react from 'react';
 import ControlHeader from '../../common/control-heading';
+import { getParams } from '../functions';
 
+const { isShallowEqualObjects } = wp.isShallowEqual;
+const { useState, useEffect } = wp.element;
 const { __ } = wp.i18n;
+const { addFilter } = wp.hooks;
 
 const {
     SelectControl,
@@ -23,6 +28,132 @@ const {
     InspectorControls
 } = wp.blockEditor;
 
+export const init = () => {
+    addFilter('embedpress_block_rest_param', 'embedpress', getOpenseaParams, 10);
+}
+
+export const getOpenseaParams = (params, attributes) => {
+    if(!attributes.url || !(isOpensea(attributes.url) || isOpenseaSingle(attributes.url))){
+        return params;
+    }
+    // which attributes should be passed with rest api.
+    const defaults = {
+        limit: 20,
+        orderby: 'desc',
+        layout: 'ep-grid',
+        preset: 'ep-preset-1',
+        nftperrow: '3',
+        gapbetweenitem: 30,
+        nftimage: false,
+        nftcreator: false,
+        prefix_nftcreator: '',
+        nfttitle: false,
+        nftprice: false,
+        prefix_nftprice: '',
+        nftlastsale: false,
+        prefix_nftlastsale: '',
+        nftbutton: false,
+        label_nftbutton: '',
+
+        //Pass Color and Typography
+        itemBGColor: '',
+        titleColor: '',
+        titleFontsize: '',
+        creatorColor: '',
+        creatorFontsize: '',
+        creatorLinkColor: '',
+        creatorLinkFontsize: '',
+        priceColor: '',
+        priceFontsize: '',
+        lastSaleColor: '',
+        lastSaleFontsize: '',
+        buttonTextColor: '',
+        buttonBackgroundColor: '',
+        buttonFontSize: '',
+    };
+
+    return getParams(params, attributes, defaults);
+}
+
+export const isOpensea = (url) => {
+	return url.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i);
+}
+
+export const isOpenseaSingle = (url) => {
+	return url.match(/\/assets\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.io\/)(\w+)[^?\/]*$/i);
+}
+
+/**
+ *
+ * @param {object} attributes
+ * @returns
+ */
+export const useOpensea = (attributes) => {
+    // which attribute should call embed();
+    const defaults = {
+        limit                : null,
+        layout               : null,
+        preset               : null,
+        orderby              : null,
+        nftimage             : null,
+        nfttitle             : null,
+        nftprice             : null,
+        prefix_nftprice      : null,
+        nftlastsale          : null,
+        prefix_nftlastsale   : null,
+        nftperrow            : null,
+        gapbetweenitem       : null,
+        nftbutton            : null,
+        label_nftbutton      : null,
+        nftcreator           : null,
+        prefix_nftcreator    : null,
+        itemBGColor          : null,
+        titleColor           : null,
+        titleFontsize        : null,
+        creatorColor         : null,
+        creatorFontsize      : null,
+        creatorLinkColor     : null,
+        creatorLinkFontsize  : null,
+        priceColor           : null,
+        priceFontsize        : null,
+        lastSaleColor        : null,
+        lastSaleFontsize     : null,
+        buttonTextColor      : null,
+        buttonBackgroundColor: null,
+        buttonFontSize       : null,
+    };
+    const param = getParams({}, attributes, defaults);
+    const [atts, setAtts] = useState(param);
+
+    useEffect(() => {
+        const param = getParams(atts, attributes, defaults);
+        if(!isShallowEqualObjects(atts || {}, param)){
+            setAtts(param);
+        }
+    }, [attributes]);
+
+    return atts;
+}
+
+export const DynamicStyleOpensea = ({clientId, attributes}) => {
+    if(!isOpensea(attributes ? attributes.url : '') && !isOpenseaSingle(attributes ? attributes.url : '')){
+        return <React.Fragment></React.Fragment>;
+    }
+
+    return (
+        <style style={{ display: "none" }}>
+            {
+                `
+                #block-${clientId}{
+                    width: 900px;
+                    max-width: 100%!important;
+                }
+                `
+            }
+
+        </style>
+    );
+}
 
 export default function OpenSea({ attributes, setAttributes, isOpensea, isOpenseaSingle }) {
     const {
@@ -31,6 +162,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
         layout,
         preset,
         nftperrow,
+        gapbetweenitem,
         nftimage,
         nftcreator,
         prefix_nftcreator,
@@ -205,6 +337,14 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             />
                         )
                     }
+
+                    <RangeControl
+                        label={__("Gap Between Item", "embedpress")}
+                        value={gapbetweenitem}
+                        onChange={(gapbetweenitem) => setAttributes({ gapbetweenitem })}
+                        min={1}
+                        max={100}
+                    />
 
                     <ToggleControl
                         label={__("Thumbnail", "embedpress")}

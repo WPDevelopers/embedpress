@@ -1729,7 +1729,7 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'label'        => sprintf(__('Button Label %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
-				'default' => esc_html__( 'See Datails', 'embedpress' ),
+				'default' => esc_html__( 'See Details', 'embedpress' ),
 				'placeholder' => esc_html__( 'See Details', 'embedpress' ),
 				'classes'     => $this->pro_class,
 				'condition' => [
@@ -2118,9 +2118,13 @@ class Embedpress_Elementor extends Widget_Base
 		$is_editor_view = Plugin::$instance->editor->is_edit_mode();
 		$link = $settings['embedpress_embeded_link'];
 		$is_apple_podcast = (strpos($link, 'podcasts.apple.com') !== false);
+
+		// conditionaly convert settings data
 		$_settings = [];
 		$source = $settings['embedpress_pro_embeded_source'];
-		if($source != 'default' && (!is_array($source) || !in_array('default', $source))){
+		$embed_link = $settings['embedpress_embeded_link'];
+
+		if(!(($source === 'default' || !empty($source[0]) && $source[0] === 'default') && strpos($embed_link, 'opensea.io') !== false)){
 			$_settings = $this->convert_settings($settings);
 		}
 

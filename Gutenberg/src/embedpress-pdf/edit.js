@@ -16,7 +16,7 @@ const { __ } = wp.i18n;
 const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
 const { BlockIcon, MediaPlaceholder, InspectorControls } = wp.blockEditor;
 const { Component, Fragment } = wp.element;
-const { RangeControl, PanelBody, ExternalLink, ToggleControl } = wp.components;
+const { RangeControl, PanelBody, ExternalLink, ToggleControl, SelectControl } = wp.components;
 
 import {
 	__experimentalToggleGroupControl as ToggleGroupControl,
@@ -24,6 +24,8 @@ import {
 } from '@wordpress/components';
 
 import { PdfIcon } from '../common/icons'
+
+const { useEffect } = wp.element;
 
 
 const ALLOWED_MEDIA_TYPES = [
@@ -38,7 +40,6 @@ class EmbedPressPDFEdit extends Component {
 		this.onUploadError = this.onUploadError.bind(this);
 		this.onLoad = this.onLoad.bind(this);
 		this.hideOverlay = this.hideOverlay.bind(this);
-		this.iframeManupulate = this.iframeManupulate.bind(this);
 		this.isPro = this.isPro.bind(this);
 		this.addProAlert = this.addProAlert.bind(this);
 
@@ -138,124 +139,6 @@ class EmbedPressPDFEdit extends Component {
 		noticeOperations.createErrorNotice(message);
 	}
 
-	isDisplay(selectorName) {
-		if (!selectorName) {
-			selectorName = 'none';
-		}
-		else {
-			selectorName = 'block';
-		}
-
-		return selectorName;
-	}
-
-	iframeManupulate(iframid, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation) {
-
-		const setEPInterval = setInterval(() => {
-			let settingsPos = '';
-			const frm = document.querySelector(iframid).contentWindow.document;
-
-			const otherhead = frm.getElementsByTagName("head")[0];
-			const style = frm.createElement("style");
-			style.setAttribute('id', 'EBiframeStyleID');
-
-
-			if (toolbar === false) {
-				presentation = false; download = true; open = false; copy_text = true; toolbar_position = false; doc_details = false; doc_rotation = false;
-			}
-
-			toolbar = this.isDisplay(toolbar);
-			presentation = this.isDisplay(presentation);
-			download = this.isDisplay(download);
-			open = this.isDisplay(open);
-			copy_text = this.isDisplay(copy_text);
-
-
-			if (copy_text === 'block') {
-				copy_text = 'all';
-			}
-
-			doc_details = this.isDisplay(doc_details);
-			doc_rotation = this.isDisplay(doc_rotation);
-
-			if (position === 'top') {
-				position = 'top:0;bottom:auto;'
-				settingsPos = '';
-			}
-			else {
-				position = 'bottom:0;top:auto;'
-				settingsPos = `
-				.findbar, .secondaryToolbar {
-					top: auto;bottom: 32px;
-				}
-				.doorHangerRight:after{
-					transform: rotate(180deg);
-					bottom: -16px;
-				}
-				 .doorHangerRight:before {
-					transform: rotate(180deg);
-					bottom: -18px;
-				}
-				
-				.findbar.doorHanger:before {
-					bottom: -18px;
-					transform: rotate(180deg);
-				}
-				.findbar.doorHanger:after {
-					bottom: -16px;
-					transform: rotate(180deg);
-				}
-			`;
-			}
-			style.textContent = `
-			.toolbar{
-				display: ${toolbar}!important;
-				position: absolute;
-				${position}
-
-			}
-
-			#secondaryToolbar{
-				display: ${toolbar};
-			}
-			#secondaryPresentationMode, #toolbarViewerRight #presentationMode{
-				display: ${presentation}!important;
-			}
-			#secondaryOpenFile, #toolbarViewerRight #openFile{
-				display: ${open}!important;
-			}
-			#secondaryDownload, #secondaryPrint, #toolbarViewerRight #print, #toolbarViewerRight #download{
-				display: ${download}!important;
-			}
-			#pageRotateCw{
-				display: ${doc_rotation}!important;
-			}
-			#pageRotateCcw{
-				display: ${doc_rotation}!important;
-			}
-			#documentProperties{
-				display: ${doc_details}!important;
-			}
-			.textLayer{
-				user-select: ${copy_text}!important;
-			}
-			
-			${settingsPos}
-			
-		`;
-
-			if (otherhead) {
-				if (frm.getElementById("EBiframeStyleID")) {
-					frm.getElementById("EBiframeStyleID").remove();
-				}
-				otherhead.appendChild(style);
-				clearInterval(setEPInterval);
-			}
-
-		}, 100);
-
-	}
-
 	addProAlert(e, isProPluginActive) {
 		if (!isProPluginActive) {
 			document.querySelector('.pro__alert__wrap').style.display = 'block';
@@ -292,9 +175,11 @@ class EmbedPressPDFEdit extends Component {
 
 
 	render() {
+
 		const { attributes, noticeUI, setAttributes, clientId } = this.props;
 
-		const { href, mime, id, width, height, powered_by, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
+		const { href, mime, id, width, height, powered_by, themeMode, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
+
 
 		const { hasError, interactive, fetching, loadPdf } = this.state;
 		const min = 1;
@@ -312,9 +197,31 @@ class EmbedPressPDFEdit extends Component {
 			this.removeAlert();
 		}
 
+		function getParamData(href) {
+			let pdf_params = '';
+
+			//Generate PDF params
+			let _pdf_params = {
+				themeMode: themeMode ? themeMode : 'default',
+				presentation: presentation ? presentation : false,
+				position: position ? position : 'top',
+				download: download ? download : false,
+				toolbar: toolbar ? toolbar : false,
+				copy_text: copy_text ? copy_text : false,
+				toolbar_position: toolbar_position ? toolbar_position : 'top',
+				doc_details: doc_details ? doc_details : false,
+				doc_rotation: doc_rotation ? doc_rotation : false,
+			};
+
+			pdf_params = new URLSearchParams(_pdf_params).toString();
+
+			let __url = href.split('#');
+			__url = encodeURIComponent(__url[0]);
+
+			return `${__url}#${pdf_params}`;
+		}
 
 		if (!href || hasError) {
-
 			return (
 				<div className={"embedpress-document-editmode"} >
 					<MediaPlaceholder
@@ -341,11 +248,10 @@ class EmbedPressPDFEdit extends Component {
 
 			);
 		} else {
-			const url = '//view.officeapps.live.com/op/embed.aspx?src=' + href;
-			const pdf_viewer_src = embedpressObj.pdf_renderer + '?file=' + href;
+			const url = '//view.officeapps.live.com/op/embed.aspx?src=' + getParamData(href);
+			const pdf_viewer_src = embedpressObj.pdf_renderer + '?file=' + getParamData(href);
 
-
-			this.iframeManupulate(`.${id}`, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation);
+			// this.iframeManupulate(`.${id}`, themeMode, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation);
 
 			return (
 				<Fragment>
@@ -407,8 +313,21 @@ class EmbedPressPDFEdit extends Component {
 						<PanelBody
 							title={__('PDF Control Settings', 'embedpress')}
 							initialOpen={false}
-
 						>
+
+							<SelectControl
+								label="Theme"
+								value={themeMode}
+								options={[
+									{ label: 'System Default', value: 'dafult' },
+									{ label: 'Dark', value: 'dark' },
+									{ label: 'Light', value: 'light' },
+								]}
+								onChange={(themeMode) =>
+									setAttributes({ themeMode })
+								}
+								__nextHasNoMarginBottom
+							/>
 
 							<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
 								<ToggleControl
@@ -509,7 +428,7 @@ class EmbedPressPDFEdit extends Component {
 							`
 							#block-${clientId} {
 								width:-webkit-fill-available;
-							} 
+							}
 							.embedpress-el-powered{
 								max-width: ${width}
 							}

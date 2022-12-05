@@ -1,7 +1,14 @@
 /**
  * WordPress dependencies
  */
-const { __ } = wp.i18n;
+ import { getParams } from '../functions';
+ 
+ const { isShallowEqualObjects } = wp.isShallowEqual;
+ const { useState, useEffect } = wp.element;
+ const { __ } = wp.i18n;
+ const { addFilter } = wp.hooks;
+
+
 
 const {
     TextControl,
@@ -10,7 +17,59 @@ const {
     ToggleControl,
 } = wp.components;
 
-export default function Youtube({attributes, setAttributes}) {
+
+export const init = () => {
+    addFilter('embedpress_block_rest_param', 'embedpress', getYoutubeParams, 10);
+}
+
+export const getYoutubeParams = (params, attributes) => {
+    if(!attributes.url || !isYTChannel(attributes.url)){
+        return params;
+    }
+    // which attributes should be passed with rest api.
+    const defaults = {
+        pagesize: 6,
+    };
+
+    return getParams(params, attributes, defaults);
+}
+
+export const isYTChannel = (url) => {
+    return url.match(/\/channel\/|\/c\/|\/user\/|\/@|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
+}
+
+/**
+ *
+ * @param {object} attributes
+ * @returns
+ */
+
+export const useYTChannel = (attributes) => {
+    // which attribute should call embed();
+    const defaults = {
+        pagesize: null,
+    };
+
+    const param = getParams({}, attributes, defaults);
+    const [atts, setAtts] = useState(param);
+
+    useEffect(() => {
+        const param = getParams(atts, attributes, defaults);
+        if (!isShallowEqualObjects(atts || {}, param)) {
+            setAtts(param);
+        }
+    }, [attributes]);
+
+    return atts;
+}
+
+export const DynamicStyleYTChannel = ({ clientId, attributes }) => {
+    if (!isYTChannel(attributes ? attributes.url : '')) {
+        return <React.Fragment></React.Fragment>;
+    }
+}
+
+export default function Youtube({ attributes, setAttributes }) {
 
     const {
         ispagination,
@@ -22,11 +81,11 @@ export default function Youtube({attributes, setAttributes}) {
     return (
         <div>
 
-            <TextControl
-                label={__("Video Per Page")}
+            <RangeControl
+                label={__('Video Per Page')}
                 value={pagesize}
                 onChange={(pagesize) => setAttributes({ pagesize })}
-                type={'number'}
+                min={1}
                 max={50}
             />
             <p>Specify the number of videos you wish to show on each page.</p>
@@ -54,7 +113,7 @@ export default function Youtube({attributes, setAttributes}) {
             />
             <p>Specify the gap between youtube videos.</p>
 
-            
+
             <ToggleControl
                 label={__("Pagination")}
                 checked={ispagination}

@@ -261,6 +261,20 @@ class Embedpress_Pdf extends Widget_Base
         );
 
         $this->add_control(
+            'embedpress_theme_mode',
+            [
+                'label'   => __('Theme', 'embedpress'),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'default',
+                'options' => [
+                    'default' => __('System Default', 'embedpress'),
+                    'dark' => __('Dark', 'embedpress'),
+                    'light'  => __('Light', 'embedpress')
+                ],
+            ]
+        );
+
+        $this->add_control(
             'pdf_toolbar',
             [
                 'label'        => sprintf(__('Toolbar %s', 'embedpress'), $this->pro_text),
@@ -418,218 +432,90 @@ class Embedpress_Pdf extends Widget_Base
         $id = $this->get_id();
         $this->_render($url, $settings, $id);
 
-        if($settings['embedpress_pdf_type'] == 'file'){
-            $this->_scripts();
-        }
     }
 
-    /**
-     * Generate scripts for PDF widgets
-     */
-    public function _scripts()
-    {
-        ?>
-        <script>
-            (function($) {
-                let x = 0;
-                const setEmbedInterval = setInterval(() => {
-                    if ($('.embedpress-document-embed').length > 0) {
-                        x++;
-                        const isDisplay = ($selectorName) => {
-                            if ($selectorName == 'no' || $selectorName == '') {
-                                $selectorName = 'none';
-                            } else {
-                                $selectorName = 'block';
-                            }
-                            return $selectorName;
-                        }
+    public function getParamData($settings){
+        $urlParamData = array(
+            'themeMode' => $settings['embedpress_theme_mode'],
+            'toolbar' => !empty($settings['pdf_toolbar']) ? 'true' : 'false',
+            'position' =>  $settings['pdf_toolbar_position'],
+            'presentation' => !empty($settings['pdf_presentation_mode']) ? 'true' : 'false',
+            'download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print_download'] : 'true',
+            'copy_text' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'true',
+            'doc_rotation' => !empty($settings['pdf_rotate_access'])  ? 'true' : 'false',
+            'doc_details' => !empty($settings['pdf_details'])  ? 'true' : 'false',
+        );
 
-                        $('.embedpress-document-embed').each((index, element) => {
-
-                            const frm = document.querySelector(`.${$(element).data('id')}`).contentWindow.document;
-                            const otherhead = frm.getElementsByTagName("head")[0];
-                            const style = frm.createElement("style");
-                            style.setAttribute('id', 'EBiframeStyleID');
-
-                            $toolbar = $(element).data('toolbar');
-                            $toolbarPosition = $(element).data('toolbar-position');
-                            $presentationMode = $(element).data('presentation-mode');
-                            $open = $(element).data('open');
-                            $download = $(element).data('download');
-                            $copy_text = $(element).data('copy');
-                            $doc_rotation = $(element).data('rotate');
-                            $doc_details = $(element).data('details');
-
-
-                            if ($toolbar == 'no' || $toolbar == '') {
-                                $toolbar = 'no';
-                                $toolbarPosition = 'top';
-                                $open = 'no';
-                                $presentationMode = 'no';
-                                $download = 'no';
-                                $copy_text = 'no';
-                                $doc_rotation = 'no';
-                                $details = 'no';
-                            }
-
-
-                            $toolbar = isDisplay($toolbar);
-                            $presentation = isDisplay($presentationMode);
-                            $download = isDisplay($download);
-                            $open = isDisplay($open);
-                            $copy_text = isDisplay($copy_text);
-
-                            if ($copy_text === 'block') {
-                                $copy_text = 'all';
-                            }
-
-                            $doc_details = isDisplay($doc_details);
-                            $doc_rotation = isDisplay($doc_rotation);
-
-                            if ($toolbarPosition == 'top') {
-                                $toolbarPosition = 'top:0;bottom:auto;'
-                                $settingsPos = '';
-                            } else {
-                                $toolbarPosition = 'bottom:0;top:auto;'
-                                $settingsPos = `
-                                    .findbar, .secondaryToolbar {
-                                        top: auto;bottom: 32px;
-                                    }
-                                    .doorHangerRight:after{
-                                        transform: rotate(180deg);
-                                        bottom: -16px;
-                                    }
-                                    .doorHangerRight:before {
-                                        transform: rotate(180deg);
-                                        bottom: -18px;
-                                    }
-                                    #findbar:before {
-                                        bottom: -20px!important;
-                                        transform: rotate(180deg);
-                                    }
-                                    #findbar:after {
-                                        bottom: -19px!important;
-                                        transform: rotate(180deg);
-                                    }
-                                `;
-
-                            }
-
-                            style.textContent = `
-
-                                .toolbar{
-                                    display: ${$toolbar}!important;
-                                    position: absolute;
-                                    ${$toolbarPosition}
-                                }
-                                #secondaryToolbar{
-                                    display: ${$toolbar};
-                                }
-                                #secondaryPresentationMode, #toolbarViewerRight #presentationMode{
-                                    display: ${$presentation}!important;
-                                }
-                                #secondaryOpenFile, #toolbarViewerRight #openFile{
-                                    display: none!important;
-                                }
-                                #secondaryDownload, #secondaryPrint, #toolbarViewerRight #print, #toolbarViewerRight #download{
-                                    display: ${$download}!important;
-                                }
-                                #pageRotateCw{
-                                    display: ${$doc_rotation}!important;
-                                }
-                                #pageRotateCcw{
-                                    display: ${$doc_rotation}!important;
-                                }
-                                #documentProperties{
-                                    display: ${$doc_details}!important;
-                                }
-                                .textLayer{
-                                    user-select: ${$copy_text}!important;
-                                }
-                                ${$settingsPos}
-                            `;
-                            if (otherhead) {
-                                if(frm.getElementById("EBiframeStyleID")){
-                                    frm.getElementById("EBiframeStyleID").remove();
-                                }
-                                otherhead.appendChild(style);
-                                clearInterval(setEmbedInterval);
-                            }
-
-                        });
-                        if (x > 50) {
-                            clearInterval(setEmbedInterval);
-                        }
-                    }
-
-                }, 100);
-            }(jQuery));
-        </script>
-    <?php
+        if($settings['embedpress_pdf_type'] == 'file'){   
+            return "#" .http_build_query($urlParamData) ;
         }
+        return '';
+    
+    }
 
-        public function _render($url, $settings, $id)
-        {
-            $id = 'embedpress-pdf-' . $id;
-            $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
-            $this->add_render_attribute('embedpres-pdf-render', [
-                'class'     => ['embedpress-embed-document-pdf', $id],
-                'data-emid' => $id
-            ]);
-            $this->add_render_attribute('embedpress-document', [
-                'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document'],
-                'data-toolbar' => $settings['pdf_toolbar'],
-                'data-toolbar-position' =>  $settings['pdf_toolbar_position'],
-                'data-open' => 'no',
-                'data-presentation-mode' => $settings['pdf_presentation_mode'],
-                'data-download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print_download'] : 'yes',
-                'data-copy' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'yes',
-                'data-rotate' => $settings['pdf_rotate_access'],
-                'data-details' => $settings['pdf_details'],
-                'data-id' => $id
-            ]);
-            ?>
-        <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
-            <?php
-                    do_action('embedpress_pdf_after_embed',  $settings, $url, $id, $this);
-                    ?>
-            <?php if ($url != '') {
-                        if ($this->is_pdf($url) && !$this->is_external_url($url)) {
-                            $this->add_render_attribute('embedpres-pdf-render', 'data-emsrc', $url);
-                            $renderer = Helper::get_pdf_renderer();
-                            $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $url;
-                            if (!empty($settings['embedpress_pdf_zoom'])) {
-                                $zoom = $settings['embedpress_pdf_zoom'];
-                                if ($zoom == 'custom') {
-                                    if (!empty($settings['embedpress_pdf_zoom_custom'])) {
-                                        $zoom = $settings['embedpress_pdf_zoom_custom'];
-                                    } else {
-                                        $zoom = null;
-                                    }
-                                }
-                                if ($zoom) {
-                                    $src = $src . "#zoom=$zoom";
+    public function _render($url, $settings, $id)
+    {
+        $id = 'embedpress-pdf-' . $id;
+        $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
+        $this->add_render_attribute('embedpres-pdf-render', [
+            'class'     => ['embedpress-embed-document-pdf', $id],
+            'data-emid' => $id
+        ]);
+        $this->add_render_attribute('embedpress-document', [
+            'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document'],
+            'data-thememode' => $settings['embedpress_theme_mode'],
+            'data-toolbar' => $settings['pdf_toolbar'],
+            'data-toolbar-position' =>  $settings['pdf_toolbar_position'],
+            'data-open' => 'no',
+            'data-presentation-mode' => $settings['pdf_presentation_mode'],
+            'data-download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print_download'] : 'yes',
+            'data-copy' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'yes',
+            'data-rotate' => $settings['pdf_rotate_access'],
+            'data-details' => $settings['pdf_details'],
+            'data-id' => $id
+        ]);
+        ?>
+    <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
+        <?php
+                do_action('embedpress_pdf_after_embed',  $settings, $url, $id, $this);
+                ?>
+        <?php if ($url != '') {
+                    if ($this->is_pdf($url) && !$this->is_external_url($url)) {
+                        $this->add_render_attribute('embedpres-pdf-render', 'data-emsrc', $url);
+                        $renderer = Helper::get_pdf_renderer();
+                        $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $url.$this->getParamData($settings);
+                        if (!empty($settings['embedpress_pdf_zoom'])) {
+                            $zoom = $settings['embedpress_pdf_zoom'];
+                            if ($zoom == 'custom') {
+                                if (!empty($settings['embedpress_pdf_zoom_custom'])) {
+                                    $zoom = $settings['embedpress_pdf_zoom_custom'];
+                                } else {
+                                    $zoom = null;
                                 }
                             }
-                            ?>
-                    <iframe class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_attr($src); ?>" <?php $this->get_render_attribute_string('embedpres-pdf-render'); ?> frameborder="0"></iframe>
-                <?php
-
-                            } else {
-                                ?>
-                    <div>
-                        <iframe class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%;" src="<?php echo esc_url($url); ?>" <?php $this->get_render_attribute_string('embedpres-pdf-render'); ?>></iframe>
-                    </div>
-
+                            if ($zoom) {
+                                $src = $src . "#zoom=$zoom";
+                            }
+                        }
+                        ?>
+                <iframe class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_attr($src); ?>" <?php $this->get_render_attribute_string('embedpres-pdf-render'); ?> frameborder="0"></iframe>
             <?php
-                        }
-                        if ($settings['embedpress_pdf_powered_by'] === 'yes') {
 
-                            printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
-                        }
+                        } else {
+                            ?>
+                <div>
+                    <iframe class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%;" src="<?php echo esc_url($url); ?>" <?php $this->get_render_attribute_string('embedpres-pdf-render'); ?>></iframe>
+                </div>
+
+        <?php
                     }
-                    ?>
-        </div>
+                    if ($settings['embedpress_pdf_powered_by'] === 'yes') {
+
+                        printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+                    }
+                }
+                ?>
+    </div>
 
 <?php
     }

@@ -60,8 +60,8 @@ function embedpress_blocks_cgb_editor_assets()
 
 	wp_enqueue_script(
 		'embedpress_blocks-cgb-block-js', // Handle.
-		EMBEDPRESS_GUTENBERG_DIR_URL . '/dist/blocks.build.js', // Block.build.js: We register the block here. Built with Webpack.
-		array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-components', 'embedpress-pdfobject'), // Dependencies, defined above.
+		EMBEDPRESS_GUTENBERG_DIR_URL . 'dist/blocks.build.js', // Block.build.js: We register the block here. Built with Webpack.
+		array('wp-blocks', 'wp-i18n', 'wp-element', 'wp-api-fetch', 'wp-is-shallow-equal', 'wp-editor', 'wp-components', 'embedpress-pdfobject'), // Dependencies, defined above.
 		filemtime(EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.build.js'), // Version: File modification time.
 		true // Enqueue the script in the footer.
 	);
@@ -229,6 +229,22 @@ function embedpress_gutenberg_register_all_block()
 
 add_action('init', 'embedpress_gutenberg_register_all_block');
 
+function getParamData($attributes){
+
+    $urlParamData = array(
+        'themeMode' =>  !empty($attributes['themeMode']) ? $attributes['themeMode'] : 'default',
+        'toolbar' =>  !empty($attributes['toolbar']) ? 'true' : 'false',
+        'position' =>  $attributes['position'],
+        'presentation' =>  !empty($attributes['presentation']) ? 'true' : 'false',
+        'download' =>  !empty($attributes['download']) ? 'true' : 'false',
+        'copy_text' =>  !empty($attributes['copy_text']) ? 'true' : 'false',
+        'doc_rotation' => !empty($attributes['doc_rotation']) ? 'true' : 'false',
+        'doc_details' =>  !empty($attributes['doc_details']) ? 'true' : 'false',
+    );
+
+    return "#". http_build_query($urlParamData);
+}
+
 function embedpress_pdf_render_block($attributes)
 {
 
@@ -245,7 +261,8 @@ function embedpress_pdf_render_block($attributes)
 			$powered_by = $attributes['powered_by'];
 		}
 
-		$src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $attributes['href'];
+		$src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $attributes['href'].getParamData($attributes);
+
 		$hash = md5($id);
 		$aligns = [
 			'left' => 'ep-alignleft',
@@ -271,7 +288,7 @@ function embedpress_pdf_render_block($attributes)
 			</div>
 
 		</div>
-	<?php ep_pdf_block_frontend_style($attributes, 'pdf');
+	<?php
 
 		return ob_get_clean();
 	}
@@ -324,139 +341,3 @@ function embedpress_pdf_render_block($attributes)
 	<?php
 		return ob_get_clean();
 	}
-
-
-	/**
-	 * FrontEnd Style for PDF Block
-	 */
-	function ep_pdf_block_frontend_style($attributes, $embed)
-	{
-		if ($embed === 'pdf') : ?>
-		<script>
-			{
-				let x = 0;
-				const setEmbedInterval = setInterval(() => {
-					x++;
-					if (document.querySelector('<?php echo esc_html('.' . $attributes['id']); ?>')) {
-						const isDisplay = (selectorName) => {
-							if (!selectorName) {
-								selectorName = 'none';
-							} else {
-								selectorName = 'block';
-							}
-
-							return selectorName;
-						}
-
-						const frm = document.querySelector('<?php echo esc_html('.' . $attributes['id']); ?>').contentWindow.document;
-						const otherhead = frm.getElementsByTagName("head")[0];
-						const style = frm.createElement("style");
-						style.setAttribute('id', 'EBiframeStyleID');
-
-						let toolbar = <?php echo esc_html($attributes['toolbar'] ? $attributes['toolbar'] : 0); ?>;
-						let presentation = <?php echo esc_html($attributes['presentation'] ? $attributes['presentation'] : 0); ?>;
-						let download = <?php echo esc_html($attributes['download'] ? $attributes['download'] : 0); ?>;
-						let open = <?php echo esc_html($attributes['open'] ? $attributes['open'] : 0); ?>;
-						let copy_text = <?php echo esc_html($attributes['copy_text'] ? $attributes['copy_text'] : 0); ?>;
-						let doc_details = <?php echo esc_html($attributes['doc_details'] ? $attributes['doc_details'] : 0); ?>;
-						let doc_rotation = <?php echo esc_html($attributes['doc_rotation'] ? $attributes['doc_rotation'] : 0); ?>;
-						let toolbar_position = '<?php echo esc_html($attributes['position'] ? $attributes['position'] : 0); ?>';
-
-						toolbar = isDisplay(toolbar);
-						presentation = isDisplay(presentation);
-						download = isDisplay(download);
-						open = isDisplay(open);
-						copy_text = isDisplay(copy_text);
-
-						
-						<?php if(!defined('EMBEDPRESS_PRO_PLUGIN_FILE')): ?>
-							download = 'block';
-							copy_text = 'block';
-						<?php endif;  ?>
-
-						if (copy_text === 'block') {
-							copy_text = 'all';
-						}
-
-						doc_details = isDisplay(doc_details);
-						doc_rotation = isDisplay(doc_rotation);
-
-						if (toolbar_position == 'top') {
-							toolbar_position = 'top:0;bottom:auto;';
-							settingsPos = '';
-						} else {
-							toolbar_position = 'bottom:0;top:auto;'
-							settingsPos = `
-								.findbar, .secondaryToolbar {
-									top: auto;bottom: 32px;
-								}
-								.doorHangerRight:after{
-									transform: rotate(180deg);
-									bottom: -16px;
-								}
-								.doorHangerRight:before {
-									transform: rotate(180deg);
-									bottom: -18px;
-								}
-								
-								.findbar.doorHanger:before {
-									bottom: -18px;
-									transform: rotate(180deg);
-								}
-								.findbar.doorHanger:after {
-									bottom: -16px;
-									transform: rotate(180deg);
-								}
-							`;
-						}
-						style.textContent = `
-						.toolbar{
-							display: ${toolbar}!important;
-							position: absolute;
-							${toolbar_position}
-
-						}
-						#secondaryToolbar{
-							display: ${toolbar};
-						}
-						#secondaryPresentationMode, #toolbarViewerRight #presentationMode{
-							display: ${presentation}!important;
-						}
-						#secondaryOpenFile, #toolbarViewerRight #openFile{
-							display: none!important;
-						}
-						#secondaryDownload, #secondaryPrint, #toolbarViewerRight #print, #toolbarViewerRight #download{
-							display: ${download}!important;
-						}
-
-						#pageRotateCw{
-							display: ${doc_rotation}!important;
-						}
-						#pageRotateCcw{
-							display: ${doc_rotation}!important;
-						}
-						#documentProperties{
-							display: ${doc_details}!important;
-						}
-						.textLayer{
-							user-select: ${copy_text}!important;
-						}
-						${settingsPos}
-					`;
-						if (otherhead) {
-							if(frm.getElementById("EBiframeStyleID")){	
-								frm.getElementById("EBiframeStyleID").remove();
-							}
-							otherhead.appendChild(style);
-							clearInterval(setEmbedInterval);
-						}
-					}
-					if (x > 50) {
-						clearInterval(setEmbedInterval);
-					}
-				}, 100);
-			}
-		</script>
-<?php
-	endif;
-}

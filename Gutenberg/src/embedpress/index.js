@@ -10,6 +10,8 @@ import './style.scss';
 import './editor.scss';
 import edit from './edit';
 import { embedPressIcon } from '../common/icons';
+import { init as openseaInit } from './InspectorControl/opensea';
+import { init as youtubeInit } from './InspectorControl/youtube';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
@@ -94,7 +96,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			columns: {
 				type: 'string',
-				default: '2'
+				default: '3'
 			},
 			gapbetweenvideos: {
 				type: 'number',
@@ -226,7 +228,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 
 			buttonTextFontsize: {
 				type: 'number',
-			}, 
+			},
 
 		},
 		/**
@@ -250,4 +252,6 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 		save: () => null,
 	});
 
+	openseaInit();
+	youtubeInit();
 }

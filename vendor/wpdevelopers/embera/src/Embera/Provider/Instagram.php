@@ -84,7 +84,7 @@ class Instagram extends ProviderAdapter implements ProviderInterface
 		$attr[] = "data-instgrm-permalink=\"{$this->url}\"";
 		$attr[] = 'data-instgrm-captioned';
 		$attr[] = 'data-instgrm-version="13"';
-		$attr[] = 'style="margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"';
+		$attr[] = 'style="margin: 1px; max-width:100%; min-width:326px; max-height:100%; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);"';
 		$attr[] = 'scrolling="no"';
 		$attr[] = 'frameborder="0"';
 		$attr[] = 'allowTransparency="true"';
