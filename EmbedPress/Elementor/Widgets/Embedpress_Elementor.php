@@ -123,7 +123,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label'       => __('Type', 'embedpress'),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
-				'default'     => 'collection',
+				'default'     => 'single',
 				'options'     => [
 					'single'  => __('Single Asset', 'embedpress'),
 					'collection'  => __('Assets Collection', 'embedpress'),
