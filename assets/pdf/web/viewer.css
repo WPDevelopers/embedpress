@@ -956,6 +956,9 @@
   }
 }
 
+#viewBookmark{
+  display: none!important;
+}
 * {
   padding: 0;
   margin: 0;
