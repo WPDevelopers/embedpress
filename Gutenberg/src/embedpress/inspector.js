@@ -16,7 +16,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isOpensea, isOpenseaSingle }) {
+export default function Inspector({ attributes, setAttributes, isYTChannel, isOpensea }) {
 
     const {
         width,
@@ -26,12 +26,11 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isOp
         embedHTML,
     } = attributes;
 
-
     return (
         !editingURL && embedHTML && (
             <InspectorControls>
                 {
-                    !isOpensea && !isOpenseaSingle && (
+                    !isOpensea && (
                         <PanelBody title={__("Embeded Options")}>
 
                             <div>
@@ -54,12 +53,13 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isOp
                                 )
                             }
                         </PanelBody>
+
                     )
                 }
 
                 {
-                    (isOpensea || isOpenseaSingle) && (
-                        <OpenSea attributes={attributes} setAttributes={setAttributes} isOpensea={isOpensea} isOpenseaSingle={isOpenseaSingle} />
+                    isOpensea && (
+                        <OpenSea attributes={attributes} setAttributes={setAttributes} />
                     )
                 }
 

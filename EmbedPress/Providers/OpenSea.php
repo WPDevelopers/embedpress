@@ -33,7 +33,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         'limit',
         'orderby',
         'layout',
-        'layout-single',
         'preset',
         'nftperrow',
         'gapbetweenitem',
@@ -121,88 +120,12 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         return $results;
     }
 
-    //Create transient for opensea api request
-    public function createTransient($url, $api_key){
-        $results = wp_remote_get($url, [
-            'headers' => array(
-                'Content-Type' => 'application/json',
-                'X-API-KEY' => $api_key,
-            )
-        ]);
-
-        if (!is_wp_error($results) ) {
-            $jsonResult = json_decode($results['body']);
-        }
-
-        return $jsonResult;
-    }
-
 
     public function getAssets($url) {
         preg_match('~opensea\.io/assets/.*/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)~i', (string) $url, $matches);
 
-        $opensea_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
-
-        $params = $this->getParams();
-
-        $api_key = 'b61c8a54123d4dcb9acc1b9c26a01cd1';
-        
-        if(!empty($opensea_settings['api_key'])){
-            $api_key = $opensea_settings['api_key'];
-        }
-        
         if(!empty($matches[1]) && !empty($matches[2])){
-
-            $param = array(
-                'include_orders' => true,
-            );
-            
-            $url = "https://api.opensea.io/api/v1/asset/$matches[1]/$matches[2]/?" . http_build_query($param);
-
-            $results = wp_remote_get($url, [
-                'headers' => array(
-                    'Content-Type' => 'application/json',
-                    'X-API-KEY' => $api_key,
-                )
-            ]);
-
-            if (!is_wp_error($results) ) {
-                $jsonResult = json_decode($results['body']);
-            }
-
-            // Embepress NFT item layout
-            $ep_layout = 'ep-grid';
-            
-            if(! empty( $params['layout-single'] )){
-                $ep_layout =  $params['layout-single'];
-            }
-            else{
-                $ep_layout =  $params['layout'];
-            }
-            
-            $asset = $this->normalizeJSONData($jsonResult);
-            
-            $template = $this->nftItemTemplate($asset);
-            ob_start();
-
-            ?>
-
-                <div class="ep-parent-wrapper ep-parent-ep-nft-gallery-r1a5mbx ">
-                    <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx">
-                        <div class="ep_nft_content_wrap ep_nft__wrapper nft_items <?php echo esc_attr( $ep_layout); ?>">
-                            <?php  print_r($template); ?>
-                        </div>
-                    </div>
-                </div>
-
-                <?php $this->openSeaStyle($this->getParams()); ?>
-
-            <?php $html = ob_get_clean();
-
-            // wp_send_json($html);
-
-            return $html;
-
+            $params = $this->getParams();
             return "
             <!-- vertical=\"true\" -->
             <nft-card
@@ -212,7 +135,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             </nft-card>
             <script src=\"https://unpkg.com/embeddable-nfts/dist/nft-card.min.js\"></script>";
         }
-
         return "";
     }
 
@@ -545,10 +467,10 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         $innerNFTbutton = '';
         $outterNFTbutton = '';
-        if(isset($params['layout']) && $params['layout'] == 'ep-grid' || isset($params['layout-single']) && $params['layout-single'] == 'ep-grid'){
+        if(isset($params['layout']) && $params['layout'] == 'ep-grid'){
             $outterNFTbutton = $nftbutton;
         }
-        else if(isset($params['layout']) && $params['layout'] == 'ep-list' || isset($params['layout-single']) && $params['layout-single'] == 'ep-list'){
+        else if(isset($params['layout']) && $params['layout'] == 'ep-list'){
             $innerNFTbutton = $nftbutton;
         }
         else{

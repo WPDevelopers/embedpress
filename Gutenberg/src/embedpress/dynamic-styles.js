@@ -1,6 +1,6 @@
 import react from 'react';
-import { isOpensea, isOpenseaSingle } from "./InspectorControl/opensea";
-import { isYTChannel } from "./InspectorControl/youtube";
+import { isOpensea, DynamicStyleOpensea } from "./InspectorControl/opensea";
+import { isYTChannel, DynamicStyleYTChannel } from "./InspectorControl/youtube";
 
 export const dynamicStyles = ({
     url,
@@ -12,20 +12,13 @@ export const dynamicStyles = ({
     columns,
     ...attributes
 }) => {
-
-    const isWistiaVideo = url.match(/\/medias\/|(?:https?:\/\/)?(?:www\.)?(?:wistia.com\/)(\w+)[^?\/]*$/i);
+    
+	const isWistiaVideo = url.match(/\/medias\/|(?:https?:\/\/)?(?:www\.)?(?:wistia.com\/)(\w+)[^?\/]*$/i);
 
     let repeatCol = `repeat(auto-fit, minmax(250px, 1fr))`;
     if (columns > 0) {
         repeatCol = `repeat(auto-fit, minmax(calc(${100 / columns}% - ${gapbetweenvideos}px), 1fr))`;
     }
-
-    let _ispagination = '';
-    !ispagination && (
-        _ispagination = `#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
-            display: none!important;
-        }`
-    )
 
     return (
         <React.Fragment>
@@ -57,13 +50,18 @@ export const dynamicStyles = ({
                         display: flex!important;
                     }
 
-                    ${_ispagination}
+                    ${!ispagination &&
+                        `#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
+                            display: none!important;
+                        }`
+                        }
+
                     `}
                 </style>
             )}
 
             {
-                !isYTChannel(url) && !isOpensea(url) && !isOpenseaSingle(url) && (
+                !isYTChannel(url) && !isOpensea(url) && (
                     <style style={{ display: "none" }}>
                         {`
                     #block-${clientId} .ose-embedpress-responsive{
@@ -84,35 +82,25 @@ export const dynamicStyles = ({
                     }
                 `}
                     </style>
-                )
+                )}
+
+            {/* we can also use filters instead. */}
+
+            {
+                isOpensea(url) &&
+                <DynamicStyleOpensea {...attributes} />
             }
 
             {
-                isOpensea(url) && (
-                    <style style={{ display: "none" }}>
-                        {
-                            `
-                    #block-${clientId}{
-                        width: 900px;
-                        max-width: 100%!important;
-                    }
-    
-                    #block-${clientId} ose-opensea {
-                        width: 100%!important;
-                        height: 100%!important;
-                    }
-                    `
-                        }
-
-                    </style>
-                )
+                isYTChannel(url) &&
+                <DynamicStyleYTChannel {...attributes} />
             }
 
             {
-                isWistiaVideo && (
-                    <style style={{ display: "none" }}>
-                        {
-                            `
+				isWistiaVideo && (
+					<style style={{ display: "none" }}>
+						{
+							`
 								#block-${clientId} .ose-wistia{
 									width: ${width}px!important;
 									height: ${height}px!important;
@@ -122,11 +110,11 @@ export const dynamicStyles = ({
 									height: 100%!important;
 								}
 							`
-                        }
+						}
 
-                    </style>
-                )
-            }
+					</style>
+				)
+			}
 
         </React.Fragment>
     );
