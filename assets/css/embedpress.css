@@ -739,6 +739,9 @@ span.eb_nft_currency svg {
 	margin-bottom: 15px;
 }
 
+.alignleft .ose-opensea, .alignright .ose-opensea, .aligncenter .ose-opensea {
+    max-width: 100%!important;
+}
 
 /* mimmikcssEnd */
 

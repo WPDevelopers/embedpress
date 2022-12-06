@@ -152,6 +152,9 @@
 .wp-block-embedpress-embedpress {
   max-width: 100% !important; }
 
+.wp-block-embedpress-embedpress .components-placeholder.wp-block-embed {
+  max-width: 100% !important; }
+
 /*Meetup Event styling starts */
 .embedpress-event .link {
   color: #0098ab; }

@@ -1,12 +1,12 @@
 /**
  * WordPress dependencies
  */
- import { getParams } from '../functions';
- 
- const { isShallowEqualObjects } = wp.isShallowEqual;
- const { useState, useEffect } = wp.element;
- const { __ } = wp.i18n;
- const { addFilter } = wp.hooks;
+import { getParams } from '../functions';
+
+const { isShallowEqualObjects } = wp.isShallowEqual;
+const { useState, useEffect } = wp.element;
+const { __ } = wp.i18n;
+const { addFilter } = wp.hooks;
 
 
 
@@ -23,7 +23,7 @@ export const init = () => {
 }
 
 export const getYoutubeParams = (params, attributes) => {
-    if(!attributes.url || !isYTChannel(attributes.url)){
+    if (!attributes.url || !isYTChannel(attributes.url)) {
         return params;
     }
     // which attributes should be passed with rest api.
@@ -63,11 +63,7 @@ export const useYTChannel = (attributes) => {
     return atts;
 }
 
-export const DynamicStyleYTChannel = ({ clientId, attributes }) => {
-    if (!isYTChannel(attributes ? attributes.url : '')) {
-        return <React.Fragment></React.Fragment>;
-    }
-}
+
 
 export default function Youtube({ attributes, setAttributes }) {
 

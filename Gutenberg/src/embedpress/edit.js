@@ -16,7 +16,7 @@ const apiFetch = wp.apiFetch;
  */
 const { __ } = wp.i18n;
 import { embedPressIcon } from '../common/icons';
-import { isOpensea as _isOpensea, useOpensea } from './InspectorControl/opensea';
+import { isOpensea as _isOpensea, isOpenseaSingle as _isOpenseaSingle, useOpensea } from './InspectorControl/opensea';
 import {isYTChannel as _isYTChannel, useYTChannel } from './InspectorControl/youtube';
 
 const {
@@ -44,6 +44,7 @@ export default function EmbedPress(props) {
 
 	const isYTChannel = _isYTChannel(url);
 	const isOpensea = _isOpensea(url);
+	const isOpenseaSingle = _isOpenseaSingle(url);
 
 	const openseaParams = useOpensea(attributes);
 	const youtubeParams = useYTChannel(attributes);
@@ -154,7 +155,7 @@ export default function EmbedPress(props) {
 	return (
 		<Fragment>
 
-			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isOpensea={isOpensea} />
+			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isOpensea={isOpensea} isOpenseaSingle={isOpenseaSingle} />
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
 				<EmbedPlaceholder
@@ -169,13 +170,13 @@ export default function EmbedPress(props) {
 				/>
 			</div>}
 
+
 			{
-				((!isOpensea || (!!editingURL || editingURL === 0)) && fetching) && (<div className={className}><EmbedLoading /> </div>)
+				((!isOpensea || (!!editingURL || editingURL === 0)) && (!isOpenseaSingle || (!!editingURL || editingURL === 0))) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-
-			{(embedHTML && !editingURL && (!fetching || isOpensea)) && <figure {...blockProps} >
-				<EmbedWrap style={{ display: (fetching && !isOpensea) ? 'none' : '' }} dangerouslySetInnerHTML={{
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle)) && <figure {...blockProps} >
+				<EmbedWrap style={{ display: (fetching && !isOpensea && !isOpenseaSingle) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
 					__html: embedHTML
 				}}></EmbedWrap>
 
@@ -190,7 +191,7 @@ export default function EmbedPress(props) {
 				}
 
 				{
-					!isOpensea && (
+					!isOpensea && !isOpenseaSingle && (
 						<div
 							className="block-library-embed__interactive-overlay"
 							onMouseUp={setAttributes({ interactive: true })}
