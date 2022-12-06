@@ -135,26 +135,6 @@ export const useOpensea = (attributes) => {
     return atts;
 }
 
-export const DynamicStyleOpensea = ({clientId, attributes}) => {
-    if(!isOpensea(attributes ? attributes.url : '') && !isOpenseaSingle(attributes ? attributes.url : '')){
-        return <React.Fragment></React.Fragment>;
-    }
-
-    return (
-        <style style={{ display: "none" }}>
-            {
-                `
-                #block-${clientId}{
-                    width: 900px;
-                    max-width: 100%!important;
-                }
-                `
-            }
-
-        </style>
-    );
-}
-
 export default function OpenSea({ attributes, setAttributes, isOpensea, isOpenseaSingle }) {
     const {
         limit,
