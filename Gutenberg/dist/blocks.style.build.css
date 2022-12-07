@@ -558,6 +558,10 @@ span.eb_nft_currency svg {
   .ep_nft_content_wrap.ep_nft_list {
     grid-template-columns: repeat(1, 1fr) !important; }
   /* mobcssEnd */ }
+
+/* NFT Single item CSS */
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_thumbnail img {
+  height: 100%; }
 /**
  * #.# Common SCSS
  *
