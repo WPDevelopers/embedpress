@@ -808,11 +808,11 @@ span.eb_nft_currency svg {
 
 
 /* NFT Single item CSS */
-.ep_nft_content_wrap .ep_nft_item {
+.ep-nft-single-item-wraper.ep_nft_content_wrap .ep_nft_item {
     box-shadow: none;
 }
 
-.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item {
+.ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item {
     align-items: unset;
 }
 
@@ -828,7 +828,7 @@ span.eb_nft_currency svg {
     height: 100%;
 }
 
-span.eb_nft_label {
+.ep-nft-single-item-wraper span.eb_nft_label {
     color: #a88484;
     margin-bottom: -10px;
 }
@@ -836,39 +836,40 @@ span.eb_nft_label {
 .ep-nft-single-item-wraper .ep_nft_content .ep_nft_price {
     display: flex;
     flex-direction: column;
+    margin-right: 45px;
 }
 
 .ep-nft-single-item-wraper span.eb_nft_price {
     font-size: 30px;
 }
 
-.ep_nft_content .ep_nft_creator img {
+.ep-nft-single-item-wraper .ep_nft_content .ep_nft_creator img {
     height: 15px;
     width: 15px;
     border-radius: 50%;
 }
 
-.ep-usd-price {
+.ep-nft-single-item-wraper .ep-usd-price {
     bottom: 0;
     font-size: 12px;
 }
 
-span.eb_nft_label {
+.ep-nft-single-item-wraper span.eb_nft_label {
     margin-bottom: -14px;
     font-size: 15px;
 }
 
-.ep_nft_content .ep_nft_title {
+.ep-nft-single-item-wraper .ep_nft_content .ep_nft_title {
     margin-bottom: 5px;
     font-size: 24px;
 }
 
-.CollectionLink--name svg {
+.ep-nft-single-item-wraper .CollectionLink--name svg {
     width: 20px;
     height: 20px;
 }
 
-a.CollectionLink--link {
+.ep-nft-single-item-wraper a.CollectionLink--link {
     font-size: 15px;
     font-weight: 500;
     text-decoration: none !important;
@@ -876,40 +877,40 @@ a.CollectionLink--link {
     display: block;
 }
 
-sub.verified-icon {
+.ep-nft-single-item-wraper sub.verified-icon {
     bottom: -5px;
     left: 4px;
 }
 
 /* toggle */
-.ep-accordion {
+.ep-nft-single-item-wraper .ep-accordion {
     border: 1px solid #ddd;
     border-radius: 10px;
     margin-top: 15px;
     display: block;
 }
 
-.ep-toggle {
+.ep-nft-single-item-wraper .ep-toggle {
     display: none;
 }
 
-.ep-option {
+.ep-nft-single-item-wraper .ep-option {
     position: relative;
 }
 
-.ep-content {
+.ep-nft-single-item-wraper .ep-content {
     padding: 1em;
     border-top: 1px solid #ddd;
 }
 
-.ep-content {
+.ep-nft-single-item-wraper .ep-content {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     transform: translateZ(0);
     transition: all 0.2s;
 }
 
-.ep-title {
+.ep-nft-single-item-wraper .ep-title {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     transform: translateZ(0);
@@ -923,58 +924,102 @@ sub.verified-icon {
     align-items: center;
 }
 
-label.ep-title svg {
+.ep-nft-single-item-wraper label.ep-title svg {
     width: 20px;
     height: 20px;
     margin-right: 6px;
 }
 
-.ep-asset-detail-item {
+.ep-nft-single-item-wraper .ep-asset-detail-item {
     display: flex;
     justify-content: space-between;
     font-weight: 500;
 }
 
 
-.ep-title:after,
-.ep-title:before {
-    content: "";
-    position: absolute;
-    right: 1.25em;
-    top: 1.25em;
-    width: 2px;
-    height: 0.75em;
-    background-color: #7a7572;
-    transition: all 0.2s;
-}
-
-.ep-title:after {
-    transform: rotate(90deg);
-}
-
-.ep-content {
+.ep-nft-single-item-wraper .ep-content {
     display: block;
 }
 
-.ep-content p {
+.ep-nft-single-item-wraper .ep-content p {
     margin: 0;
     padding: 0.5em 1em 1em;
     font-size: 0.9em;
     line-height: 1.5;
 }
 
-.ep-toggle:checked+.ep-title+.ep-content {
+.ep-nft-single-item-wraper .ep-toggle:checked+.ep-title+.ep-content {
     display: none;
     background: transparent;
 }
 
-.ep-toggle:checked+.ep-title:before {
-    transform: rotate(90deg) !important;
+
+
+.ep-nft-single-item-wraper .ep_nft_content .ep_nft_price_wrapper {
+    display: flex;
 }
 
+.ep-nft-single-item-wraper .ep-toggle+.ep-title:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: transparent;
+    text-indent: -9999px;
+    border-top: 2px solid #bfbfbf;
+    border-left: 2px solid #bfbfbf;
+    transition: all 250ms ease-in-out;
+    text-decoration: none;
+    color: transparent;
+    right: 15px;
+    top: 28px;
+    transform: rotate(45deg);
+}
+
+.ep-nft-single-item-wraper .ep-toggle:checked+.ep-title:before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: transparent;
+    text-indent: -9999px;
+    border-top: 2px solid #bfbfbf;
+    border-left: 2px solid #bfbfbf;
+    transition: all 250ms ease-in-out;
+    text-decoration: none;
+    color: transparent;
+    right: 15px;
+    top: 20px; 
+    transform: rotate(225deg);
+}
+.ep-nft-single-item-wraper .ep-toggle:checked+.ep-title:after {
+    display: none;
+}
+
+.ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items .ep_nft_item .ep_nft_button a.ep-nft-rank{
+    pointer-events: none;
+}
+
+.ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-nft-single-item-wraper.ep-grid .ep_nft_content {
+    margin-bottom: 20px;
+}
+
+@media screen and (max-width: 1024px) {
+
+    .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper, .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft_list {
+        grid-template-columns: repeat(1, 1fr) !important;
+    }
+
+}
 @media screen and (max-width: 991px) {
 
-    .ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item {
+    .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper, .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft_list {
+        grid-template-columns: repeat(1, 1fr) !important;
+    }
+
+    .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item {
         align-items: unset;
         flex-direction: column;
     }
@@ -985,5 +1030,11 @@ label.ep-title svg {
 
     .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_content {
         width: 100%;
+    }
+}
+@media screen and (max-width: 537px) {
+    .ep-nft-single-item-wraper sub.ep-usd-price {
+        margin-bottom: 15px;
+        display: block;
     }
 }
