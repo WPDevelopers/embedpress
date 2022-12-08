@@ -131,6 +131,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'number',
 				default: 3
 			},
+			collectionname: {
+				type: 'boolean',
+				default: true
+			},
 			nftimage: {
 				type: 'boolean',
 				default: true
@@ -164,6 +168,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: 'Last Sale'
 			},
 			nftbutton: {
+				type: 'boolean',
+				default: true
+			},
+			nftrank: {
 				type: 'boolean',
 				default: true
 			},
