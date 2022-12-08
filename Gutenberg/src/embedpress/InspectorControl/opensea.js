@@ -33,7 +33,7 @@ export const init = () => {
 }
 
 export const getOpenseaParams = (params, attributes) => {
-    if(!attributes.url || !(isOpensea(attributes.url) || isOpenseaSingle(attributes.url))){
+    if (!attributes.url || !(isOpensea(attributes.url) || isOpenseaSingle(attributes.url))) {
         return params;
     }
     // which attributes should be passed with rest api.
@@ -76,11 +76,11 @@ export const getOpenseaParams = (params, attributes) => {
 }
 
 export const isOpensea = (url) => {
-	return url.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i);
+    return url.match(/\/collection\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.com\/)(\w+)[^?\/]*$/i);
 }
 
 export const isOpenseaSingle = (url) => {
-	return url.match(/\/assets\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.io\/)(\w+)[^?\/]*$/i);
+    return url.match(/\/assets\/|(?:https?:\/\/)?(?:www\.)?(?:opensea.io\/)(\w+)[^?\/]*$/i);
 }
 
 /**
@@ -91,43 +91,45 @@ export const isOpenseaSingle = (url) => {
 export const useOpensea = (attributes) => {
     // which attribute should call embed();
     const defaults = {
-        limit                : null,
-        layout               : null,
-        preset               : null,
-        orderby              : null,
-        nftimage             : null,
-        nfttitle             : null,
-        nftprice             : null,
-        prefix_nftprice      : null,
-        nftlastsale          : null,
-        prefix_nftlastsale   : null,
-        nftperrow            : null,
-        gapbetweenitem       : null,
-        nftbutton            : null,
-        label_nftbutton      : null,
-        nftcreator           : null,
-        prefix_nftcreator    : null,
-        itemBGColor          : null,
-        titleColor           : null,
-        titleFontsize        : null,
-        creatorColor         : null,
-        creatorFontsize      : null,
-        creatorLinkColor     : null,
-        creatorLinkFontsize  : null,
-        priceColor           : null,
-        priceFontsize        : null,
-        lastSaleColor        : null,
-        lastSaleFontsize     : null,
-        buttonTextColor      : null,
+        limit: null,
+        layout: null,
+        preset: null,
+        orderby: null,
+        collectionname: null,
+        nftimage: null,
+        nfttitle: null,
+        nftprice: null,
+        prefix_nftprice: null,
+        nftlastsale: null,
+        prefix_nftlastsale: null,
+        nftperrow: null,
+        gapbetweenitem: null,
+        nftbutton: null,
+        nftrank: null,
+        label_nftbutton: null,
+        nftcreator: null,
+        prefix_nftcreator: null,
+        itemBGColor: null,
+        titleColor: null,
+        titleFontsize: null,
+        creatorColor: null,
+        creatorFontsize: null,
+        creatorLinkColor: null,
+        creatorLinkFontsize: null,
+        priceColor: null,
+        priceFontsize: null,
+        lastSaleColor: null,
+        lastSaleFontsize: null,
+        buttonTextColor: null,
         buttonBackgroundColor: null,
-        buttonFontSize       : null,
+        buttonFontSize: null,
     };
     const param = getParams({}, attributes, defaults);
     const [atts, setAtts] = useState(param);
 
     useEffect(() => {
         const param = getParams(atts, attributes, defaults);
-        if(!isShallowEqualObjects(atts || {}, param)){
+        if (!isShallowEqualObjects(atts || {}, param)) {
             setAtts(param);
         }
     }, [attributes]);
@@ -143,6 +145,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
         preset,
         nftperrow,
         gapbetweenitem,
+        collectionname,
         nftimage,
         nftcreator,
         prefix_nftcreator,
@@ -152,6 +155,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
         nftlastsale,
         prefix_nftlastsale,
         nftbutton,
+        nftrank,
         label_nftbutton,
         alignment,
         itemBGColor,
@@ -327,6 +331,11 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                     />
 
                     <ToggleControl
+                        label={__("Collection Name", "embedpress")}
+                        checked={collectionname}
+                        onChange={(collectionname) => setAttributes({ collectionname })}
+                    />
+                    <ToggleControl
                         label={__("Thumbnail", "embedpress")}
                         checked={nftimage}
                         onChange={(nftimage) => setAttributes({ nftimage })}
@@ -426,6 +435,12 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             </div>
                         )
                     }
+
+                    <ToggleControl
+                        label={__("NFT Rank", "embedpress")}
+                        checked={nftrank}
+                        onChange={(nftrank) => setAttributes({ nftrank })}
+                    />
 
                 </div>
             </PanelBody>
