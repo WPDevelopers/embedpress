@@ -40,10 +40,13 @@ export const getOpenseaParams = (params, attributes) => {
     const defaults = {
         limit: 20,
         orderby: 'desc',
-        layout: 'ep-grid',
+        layout: isOpenseaSingle ? 'ep-list' : 'ep-grid',
         preset: 'ep-preset-1',
         nftperrow: '3',
         gapbetweenitem: 30,
+        collectionname: false,
+        nftrank: false,
+        nftdetails: false,
         nftimage: false,
         nftcreator: false,
         prefix_nftcreator: '',
@@ -57,19 +60,37 @@ export const getOpenseaParams = (params, attributes) => {
 
         //Pass Color and Typography
         itemBGColor: '',
+        collectionNameColor: '',
+        collectionNameFZ: '',
         titleColor: '',
         titleFontsize: '',
         creatorColor: '',
         creatorFontsize: '',
         creatorLinkColor: '',
         creatorLinkFontsize: '',
+        priceLabelColor: '',
+        priceLabelFontsize: '',
         priceColor: '',
         priceFontsize: '',
+        priceUSDColor: '',
+        priceUSDFontsize: '',
+        lastSaleLabelColor: '',
+        lastSaleLabelFontsize: '',
         lastSaleColor: '',
         lastSaleFontsize: '',
+        lastSaleUSDColor: '',
+        lastSaleUSDFontsize: '',
         buttonTextColor: '',
         buttonBackgroundColor: '',
         buttonFontSize: '',
+        rankBtnColor: '',
+        rankBtnFZ: '',
+        rankBtnBorderColor: '',
+        detialTitleColor: '',
+        detialTitleFZ: '',
+        detailTextColor: '',
+        detailTextLinkColor: '',
+        detailTextFZ: '',
     };
 
     return getParams(params, attributes, defaults);
@@ -106,23 +127,42 @@ export const useOpensea = (attributes) => {
         gapbetweenitem: null,
         nftbutton: null,
         nftrank: null,
+        nftdetails: null,
         label_nftbutton: null,
         nftcreator: null,
         prefix_nftcreator: null,
         itemBGColor: null,
+        collectionNameColor: null,
+        collectionNameFZ: null,
         titleColor: null,
         titleFontsize: null,
         creatorColor: null,
         creatorFontsize: null,
         creatorLinkColor: null,
         creatorLinkFontsize: null,
+        priceLabelColor: null,
+        priceLabelFontsize: null,
         priceColor: null,
         priceFontsize: null,
+        priceUSDColor: null,
+        priceUSDFontsize: null,
+        lastSaleLabelColor: null,
+        lastSaleLabelFontsize: null,
         lastSaleColor: null,
         lastSaleFontsize: null,
+        lastSaleUSDColor: null,
+        lastSaleUSDFontsize: null,
         buttonTextColor: null,
         buttonBackgroundColor: null,
         buttonFontSize: null,
+        rankBtnColor: null,
+        rankBtnFZ: null,
+        rankBtnBorderColor: null,
+        detialTitleColor: null,
+        detialTitleFZ: null,
+        detailTextColor: null,
+        detailTextLinkColor: null,
+        detailTextFZ: null,
     };
     const param = getParams({}, attributes, defaults);
     const [atts, setAtts] = useState(param);
@@ -156,22 +196,41 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
         prefix_nftlastsale,
         nftbutton,
         nftrank,
+        nftdetails,
         label_nftbutton,
         alignment,
         itemBGColor,
+        collectionNameColor,
+        collectionNameFZ,
         titleColor,
         titleFontsize,
         creatorColor,
         creatorFontsize,
         creatorLinkColor,
         creatorLinkFontsize,
+        priceLabelColor,
+        priceLabelFontsize,
         priceColor,
         priceFontsize,
+        priceUSDColor,
+        priceUSDFontsize,
+        lastSaleLabelColor,
+        lastSaleLabelFontsize,
         lastSaleColor,
         lastSaleFontsize,
+        lastSaleUSDColor,
+        lastSaleUSDFontsize,
         buttonTextColor,
         buttonBackgroundColor,
         buttonFontSize,
+        rankBtnColor,
+        rankBtnFZ,
+        rankBtnBorderColor,
+        detialTitleColor,
+        detialTitleFZ,
+        detailTextColor,
+        detailTextLinkColor,
+        detailTextFZ,
     } = attributes;
 
 
@@ -276,8 +335,8 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                     label={__("Layout", "embedpress")}
                                     value={layout}
                                     options={[
-                                        { label: 'Grid', value: 'ep-grid' },
                                         { label: 'List', value: 'ep-list' },
+                                        { label: 'Grid', value: 'ep-grid' },
                                     ]}
                                     onChange={(layout) => setAttributes({ layout })}
                                 />
@@ -308,33 +367,28 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                     }
 
                     {
-                        isOpenseaSingle && (
-                            <SelectControl
-                                label={__("Layout", "embedpress")}
-                                value={layout}
-                                options={[
-                                    { label: 'Default', value: 'ep-grid ep-preset-1' },
-                                    { label: 'Layout 1', value: 'ep-list' },
-                                    { label: 'Layout 2', value: 'ep-grid' },
-                                ]}
-                                onChange={(layout) => setAttributes({ layout })}
+                        isOpensea && (
+
+                            <RangeControl
+                                label={__("Gap Between Item", "embedpress")}
+                                value={gapbetweenitem}
+                                onChange={(gapbetweenitem) => setAttributes({ gapbetweenitem })}
+                                min={1}
+                                max={100}
                             />
+
                         )
                     }
 
-                    <RangeControl
-                        label={__("Gap Between Item", "embedpress")}
-                        value={gapbetweenitem}
-                        onChange={(gapbetweenitem) => setAttributes({ gapbetweenitem })}
-                        min={1}
-                        max={100}
-                    />
-
-                    <ToggleControl
-                        label={__("Collection Name", "embedpress")}
-                        checked={collectionname}
-                        onChange={(collectionname) => setAttributes({ collectionname })}
-                    />
+                    {
+                        isOpenseaSingle && (
+                            <ToggleControl
+                                label={__("Collection Name", "embedpress")}
+                                checked={collectionname}
+                                onChange={(collectionname) => setAttributes({ collectionname })}
+                            />
+                        )
+                    }
                     <ToggleControl
                         label={__("Thumbnail", "embedpress")}
                         checked={nftimage}
@@ -436,11 +490,24 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                         )
                     }
 
-                    <ToggleControl
-                        label={__("NFT Rank", "embedpress")}
-                        checked={nftrank}
-                        onChange={(nftrank) => setAttributes({ nftrank })}
-                    />
+                    {
+                        isOpenseaSingle && (
+                            <frameElement>
+                                <ToggleControl
+                                    label={__("NFT Rank", "embedpress")}
+                                    checked={nftrank}
+                                    onChange={(nftrank) => setAttributes({ nftrank })}
+                                />
+
+                                <ToggleControl
+                                    label={__("NFT Details", "embedpress")}
+                                    checked={nftdetails}
+                                    onChange={(nftdetails) => setAttributes({ nftdetails })}
+                                />
+                            </frameElement>
+                        )
+                    }
+
 
                 </div>
             </PanelBody>
@@ -454,6 +521,24 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             colors={colors}
                             value={itemBGColor}
                             onChange={(itemBGColor) => setAttributes({ itemBGColor })}
+                        />
+                    </PanelBody>
+                    <PanelBody title={__("Collection Name")} initialOpen={false}>
+                        <ControlHeader headerText={'Color'} />
+                        <ColorPalette
+                            label={__("Color")}
+                            colors={colors}
+                            value={collectionNameColor}
+                            onChange={(collectionNameColor) => setAttributes({ collectionNameColor })}
+                        />
+
+                        <ControlHeader headerText={'FontSize'} />
+                        <FontSizePicker
+                            __nextHasNoMarginBottom
+                            fontSizes={fontSizes}
+                            value={collectionNameFZ}
+                            fallbackFontSize={fallbackFontSize}
+                            onChange={(collectionNameFZ) => setAttributes({ collectionNameFZ })}
                         />
                     </PanelBody>
                     <PanelBody title={__("Title")} initialOpen={false}>
@@ -509,8 +594,32 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             onChange={(creatorLinkFontsize) => setAttributes({ creatorLinkFontsize })}
                         />
                     </PanelBody>
+
                     <PanelBody title={__("Current Price")} initialOpen={false}>
-                        <ControlHeader headerText={'Color'} />
+                        {
+                            isOpenseaSingle && (
+                                <frameElement>
+                                    <ControlHeader headerText={'Label Color'} />
+                                    <ColorPalette
+                                        label={__("Color")}
+                                        colors={colors}
+                                        value={priceLabelColor}
+                                        onChange={(priceLabelColor) => setAttributes({ priceLabelColor })}
+                                    />
+
+                                    <ControlHeader headerText={'Label FontSize'} />
+                                    <FontSizePicker
+                                        __nextHasNoMarginBottom
+                                        fontSizes={fontSizes}
+                                        value={priceLabelFontsize}
+                                        fallbackFontSize={fallbackFontSize}
+                                        onChange={(priceLabelFontsize) => setAttributes({ priceLabelFontsize })}
+                                    />
+                                </frameElement>
+                            )
+                        }
+
+                        <ControlHeader headerText={'ETH Price Color'} />
                         <ColorPalette
                             label={__("Color")}
                             colors={colors}
@@ -518,7 +627,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             onChange={(priceColor) => setAttributes({ priceColor })}
                         />
 
-                        <ControlHeader headerText={'FontSize'} />
+                        <ControlHeader headerText={'ETH FontSize'} />
                         <FontSizePicker
                             __nextHasNoMarginBottom
                             fontSizes={fontSizes}
@@ -526,9 +635,55 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             fallbackFontSize={fallbackFontSize}
                             onChange={(priceFontsize) => setAttributes({ priceFontsize })}
                         />
+                        {
+                            isOpenseaSingle && (
+                                <frameElement>
+                                    <ControlHeader headerText={'USD Price Color'} />
+                                    <ColorPalette
+                                        label={__("Color")}
+                                        colors={colors}
+                                        value={priceUSDColor}
+                                        onChange={(priceUSDColor) => setAttributes({ priceUSDColor })}
+                                    />
+
+                                    <ControlHeader headerText={'USD FontSize'} />
+                                    <FontSizePicker
+                                        __nextHasNoMarginBottom
+                                        fontSizes={fontSizes}
+                                        value={priceUSDFontsize}
+                                        fallbackFontSize={fallbackFontSize}
+                                        onChange={(priceUSDFontsize) => setAttributes({ priceUSDFontsize })}
+                                    />
+
+                                </frameElement>
+                            )
+                        }
                     </PanelBody>
+
                     <PanelBody title={__("Last Sale Price")} initialOpen={false}>
-                        <ControlHeader headerText={'Color'} />
+                        {
+                            isOpenseaSingle && (
+                                <frameElement>
+                                    <ControlHeader headerText={'Label Color'} />
+                                    <ColorPalette
+                                        label={__("Color")}
+                                        colors={colors}
+                                        value={lastSaleLabelColor}
+                                        onChange={(lastSaleLabelColor) => setAttributes({ lastSaleLabelColor })}
+                                    />
+
+                                    <ControlHeader headerText={'Label FontSize'} />
+                                    <FontSizePicker
+                                        __nextHasNoMarginBottom
+                                        fontSizes={fontSizes}
+                                        value={lastSaleLabelFontsize}
+                                        fallbackFontSize={fallbackFontSize}
+                                        onChange={(lastSaleLabelFontsize) => setAttributes({ lastSaleLabelFontsize })}
+                                    />
+                                </frameElement>
+                            )
+                        }
+                        <ControlHeader headerText={'ETH Color'} />
                         <ColorPalette
                             label={__("Color")}
                             colors={colors}
@@ -536,7 +691,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             onChange={(lastSaleColor) => setAttributes({ lastSaleColor })}
                         />
 
-                        <ControlHeader headerText={'FontSize'} />
+                        <ControlHeader headerText={'ETH FontSize'} />
                         <FontSizePicker
                             __nextHasNoMarginBottom
                             fontSizes={fontSizes}
@@ -544,6 +699,28 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             fallbackFontSize={fallbackFontSize}
                             onChange={(lastSaleFontsize) => setAttributes({ lastSaleFontsize })}
                         />
+                        {
+                            isOpenseaSingle && (
+                                <frameElement>
+                                    <ControlHeader headerText={'USD Price Color'} />
+                                    <ColorPalette
+                                        label={__("Color")}
+                                        colors={colors}
+                                        value={lastSaleUSDColor}
+                                        onChange={(lastSaleUSDColor) => setAttributes({ lastSaleUSDColor })}
+                                    />
+
+                                    <ControlHeader headerText={'USD FontSize'} />
+                                    <FontSizePicker
+                                        __nextHasNoMarginBottom
+                                        fontSizes={fontSizes}
+                                        value={lastSaleUSDFontsize}
+                                        fallbackFontSize={fallbackFontSize}
+                                        onChange={(lastSaleUSDFontsize) => setAttributes({ lastSaleUSDFontsize })}
+                                    />
+                                </frameElement>
+                            )
+                        }
                     </PanelBody>
                     <PanelBody title={__("Button")} initialOpen={false}>
 
@@ -572,6 +749,88 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             onChange={(buttonFontSize) => setAttributes({ buttonFontSize })}
                         />
                     </PanelBody>
+
+                    {
+
+                        isOpenseaSingle && (
+                            <PanelBody title={__("NFT Rank")} initialOpen={false}>
+
+                                <ControlHeader headerText={'Color'} />
+                                <ColorPalette
+                                    label={__("Title Color")}
+                                    colors={colors}
+                                    value={rankBtnColor}
+                                    onChange={(rankBtnColor) => setAttributes({ rankBtnColor })}
+                                />
+
+                                <ControlHeader headerText={'FontSize'} />
+                                <FontSizePicker
+                                    __nextHasNoMarginBottom
+                                    fontSizes={fontSizes}
+                                    value={rankBtnFZ}
+                                    fallbackFontSize={fallbackFontSize}
+                                    onChange={(rankBtnFZ) => setAttributes({ rankBtnFZ })}
+                                />
+
+                                <ControlHeader headerText={'Border Color'} />
+                                <ColorPalette
+                                    label={__("Color")}
+                                    colors={colors}
+                                    value={rankBtnBorderColor}
+                                    onChange={(rankBtnBorderColor) => setAttributes({ rankBtnBorderColor })}
+                                />
+                            </PanelBody>
+                        )
+                    }
+
+                    {
+                        isOpenseaSingle && (
+                            <PanelBody title={__("Details")} initialOpen={false}>
+
+                                <ControlHeader headerText={'Title Color'} />
+                                <ColorPalette
+                                    label={__("Title Color")}
+                                    colors={colors}
+                                    value={detialTitleColor}
+                                    onChange={(detialTitleColor) => setAttributes({ detialTitleColor })}
+                                />
+
+                                <ControlHeader headerText={'Title FontSize'} />
+                                <FontSizePicker
+                                    __nextHasNoMarginBottom
+                                    fontSizes={fontSizes}
+                                    value={detialTitleFZ}
+                                    fallbackFontSize={fallbackFontSize}
+                                    onChange={(detialTitleFZ) => setAttributes({ detialTitleFZ })}
+                                />
+
+                                <ControlHeader headerText={'Text Color'} />
+                                <ColorPalette
+                                    label={__("Color")}
+                                    colors={colors}
+                                    value={detailTextColor}
+                                    onChange={(detailTextColor) => setAttributes({ detailTextColor })}
+                                />
+
+                                <ControlHeader headerText={'Link Color'} />
+                                <ColorPalette
+                                    label={__("Color")}
+                                    colors={colors}
+                                    value={detailTextLinkColor}
+                                    onChange={(detailTextLinkColor) => setAttributes({ detailTextLinkColor })}
+                                />
+
+                                <ControlHeader headerText={'Text FontSize'} />
+                                <FontSizePicker
+                                    __nextHasNoMarginBottom
+                                    fontSizes={fontSizes}
+                                    value={detailTextFZ}
+                                    fallbackFontSize={fallbackFontSize}
+                                    onChange={(detailTextFZ) => setAttributes({ detailTextFZ })}
+                                />
+                            </PanelBody>
+                        )
+                    }
                 </InspectorControls>
 
             </PanelBody>

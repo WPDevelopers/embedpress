@@ -40,6 +40,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         'nftimage',
         'collectionname',
         'nftrank',
+        'nftdetails',
         'nftcreator',
         'prefix_nftcreator',
         'nfttitle',
@@ -50,19 +51,37 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         'nftbutton',
         'label_nftbutton',
         'itemBGColor',
+        'collectionNameColor',
+        'collectionNameFZ',
         'titleColor',
 		'titleFontsize',
 		'creatorColor',
 		'creatorFontsize',
 		'creatorLinkColor',
 		'creatorLinkFontsize',
+		'priceLabelColor',
+		'priceLabelFontsize',
 		'priceColor',
 		'priceFontsize',
+		'priceUSDColor',
+		'priceUSDFontsize',
+		'lastSaleLabelColor',
+		'lastSaleLabelFontsize',
 		'lastSaleColor',
 		'lastSaleFontsize',
+		'lastSaleUSDColor',
+		'lastSaleUSDFontsize',
 		'buttonTextColor',
 		'buttonBackgroundColor',
-        'buttonFontSize'
+        'buttonFontSize',
+        'rankBtnColor',
+        'rankBtnFZ',
+        'rankBtnBorderColor',
+        'detialTitleColor',
+        'detialTitleFZ',
+        'detailTextColor',
+        'detailTextLinkColor',
+        'detailTextFZ',
     ];
 
     /** inline {@inheritdoc} */
@@ -192,7 +211,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
                 <div class="ep-parent-wrapper ep-parent-ep-nft-gallery-r1a5mbx ">
                     <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx">
-                        <div class="ep_nft_content_wrap ep_nft__wrapper nft_items ep-nft-single-item-wraper <?php echo esc_attr( $ep_layout); ?>">
+                        <div class="ep_nft_content_wrap ep_nft__wrapper nft_items ep-nft-single-item-wraper ep-list">
                             <?php  print_r($template); ?>
                         </div>
                     </div>
@@ -342,8 +361,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         $nftItem['created_by'] = isset($asset->creator->user->username)?$asset->creator->user->username:'';
         $nftItem['creator_img_url'] = isset($asset->asset_contract->image_url)?$asset->asset_contract->image_url:'';
 
-        $nftItem['current_price'] = isset($current_price)?(float)($current_price[0]->current_price / 1000000000000000000) : 0;
-        $nftItem['last_sale'] = isset($last_sale)?(float)($asset->last_sale->total_price / 1000000000000000000) : 0;
+        $nftItem['current_price'] = isset($current_price[0]->current_price)?(float)($current_price[0]->current_price / 1000000000000000000) : 0;
+        $nftItem['last_sale'] = isset($asset->last_sale->total_price)?(float)($asset->last_sale->total_price / 1000000000000000000) : 0;
         $nftItem['creator_url'] = 'https://opensea.io/'.$nftItem['created_by'];
 
         //single asstet data
@@ -399,6 +418,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         $BgColor = '';
         $FontSize = '';
         $TextColor = '';
+        $borderColor = '';
 
         if(!empty($color)){
             $TextColor = "color:{$color};";
@@ -409,11 +429,16 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         
         if(!empty($bgKey) && !empty($this->getColor($bgKey)) && !empty($buttonBg)){
             $BgColor = 'background-color: '. $buttonBg;
+
+            if($bgKey == 'rankBtnBorderColor'){
+                $BgColor = 'border-color: '. $buttonBg;;
+            }
         }
 
         if((!empty($TextColor)) || (!empty($FontSize)) || (!empty($BgColor))){
             $itemStyle = $itemStyle . "style='{$TextColor}{$FontSize}{$BgColor}'";
         }
+        
         return $itemStyle; 
     }
 
@@ -613,6 +638,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             'nftlastsale' => true,
             'collectionname'=> true,
             'nftrank'=> true,
+            'nftdetails'=> true,
             'layout' => 'ep-grid',
             'preset' => 'ep-preset-2',
             'prefix_nftcreator' => 'Created By',
@@ -646,47 +672,53 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         <rect x="0" y="0" width="36" height="36" fill-opacity="0"/>
     </svg>';
 
-        $toggle_item = '<div class="ep-container">
-        <div class="ep-accordion">
     
-            <div class="ep-option">
-                <input type="checkbox" id="toggle1" class="ep-toggle" />
-                <label class="ep-title" for="toggle1">'.$detail_icon.'Details</label>
-                <div class="ep-content">
-                    <div class="ep-asset-details">
-                        <div class="ep-asset-detail-item">Contract Address
-                            <span>
-                                <a class="sc-1f719d57-0 fKAlPV"
-                                    href="'.esc_url('https://etherscan.io/address/'.$item['address']).'" rel="nofollow noopener"
-                                    target="_blank">'.substr($item['address'], 0, 6).'...'.substr($item['address'], -4).'</a>
-                            </span>
-                        </div>
-                        <div class="ep-asset-detail-item">Token ID
-                            <span>'.esc_html($item['token_id']).'</span>
-                        </div>
-                        <div class="ep-asset-detail-item">Token Standard
-                            <span>'.esc_html($item['schema_name']).'</span>
+        $toggleID = 'toggle-'.rand(655, 54654656546);
+
+        $toggle_item = '';
+        if(($params['nftdetails'] == 'yes' || $params['nftdetails'] == 'true') && !empty($params['nftdetails'])){
+            $toggle_item = '<div class="ep-container">
+            <div class="ep-accordion">
+        
+                <div class="ep-option">
+                    <input type="checkbox" id="'.esc_attr( $toggleID ).'" class="ep-toggle" />
+                    <label class="ep-title" for="'.esc_attr( $toggleID ).'" '.$this->createStye('detialTitleColor', 'detialTitleFZ', '').'>'.$detail_icon.'Details</label>
+                    <div class="ep-content">
+                        <div class="ep-asset-details" '.$this->createStye('detailTextColor', 'detailTextFZ', '').'>
+                            <div class="ep-asset-detail-item">Contract Address
+                                <span>
+                                    <a class="sc-1f719d57-0 fKAlPV"
+                                        href="'.esc_url('https://etherscan.io/address/'.$item['address']).'" rel="nofollow noopener"
+                                        target="_blank" '.$this->createStye('detailTextLinkColor', '', '').'>'.substr($item['address'], 0, 6).'...'.substr($item['address'], -4).'</a>
+                                </span>
+                            </div>
+                            <div class="ep-asset-detail-item">Token ID
+                                <span>'.esc_html($item['token_id']).'</span>
+                            </div>
+                            <div class="ep-asset-detail-item">Token Standard
+                                <span>'.esc_html($item['schema_name']).'</span>
+                            </div>
                         </div>
                     </div>
                 </div>
+        
             </div>
-    
-        </div>
-        </div>';
-
+            </div>';
+        }
         if($item['verified'] == 'verified'){
             $is_verified = '<sub class="verified-icon"><svg aria-label="verified-icon" class="sc-9c65691d-0 ghqJwW"         fill="#2081e2" viewBox="0 0 30 30"><path d="M13.474 2.80108C14.2729 1.85822 15.7271 1.85822 16.526 2.80108L17.4886 3.9373C17.9785 4.51548 18.753 4.76715 19.4892 4.58733L20.9358 4.23394C22.1363 3.94069 23.3128 4.79547 23.4049 6.0278L23.5158 7.51286C23.5723 8.26854 24.051 8.92742 24.7522 9.21463L26.1303 9.77906C27.2739 10.2474 27.7233 11.6305 27.0734 12.6816L26.2903 13.9482C25.8918 14.5928 25.8918 15.4072 26.2903 16.0518L27.0734 17.3184C27.7233 18.3695 27.2739 19.7526 26.1303 20.2209L24.7522 20.7854C24.051 21.0726 23.5723 21.7315 23.5158 22.4871L23.4049 23.9722C23.3128 25.2045 22.1363 26.0593 20.9358 25.7661L19.4892 25.4127C18.753 25.2328 17.9785 25.4845 17.4886 26.0627L16.526 27.1989C15.7271 28.1418 14.2729 28.1418 13.474 27.1989L12.5114 26.0627C12.0215 25.4845 11.247 25.2328 10.5108 25.4127L9.06418 25.7661C7.86371 26.0593 6.6872 25.2045 6.59513 23.9722L6.48419 22.4871C6.42773 21.7315 5.94903 21.0726 5.24777 20.7854L3.86969 20.2209C2.72612 19.7526 2.27673 18.3695 2.9266 17.3184L3.70973 16.0518C4.10824 15.4072 4.10824 14.5928 3.70973 13.9482L2.9266 12.6816C2.27673 11.6305 2.72612 10.2474 3.86969 9.77906L5.24777 9.21463C5.94903 8.92742 6.42773 8.26854 6.48419 7.51286L6.59513 6.0278C6.6872 4.79547 7.86371 3.94069 9.06418 4.23394L10.5108 4.58733C11.247 4.76715 12.0215 4.51548 12.5114 3.9373L13.474 2.80108Z" class="sc-9c65691d-1 jiZrqV"></path><path d="M13.5 17.625L10.875 15L10 15.875L13.5 19.375L21 11.875L20.125 11L13.5 17.625Z" fill="white" stroke="white"></path></svg></sub>';
         }
 
         $rank = '';
 
-        if(!empty($item['rank']) && ($params['nftrank'] == 'yes' || $params['nftrank'] == 'true') && !empty($params['nftrank'])){
-            $rank = '<a class="ep-nft-rank" target="_blank" href="'.esc_url($item['permalink']).'" '.$this->createStye('buttonTextColor', 'buttonFontSize', 'buttonBackgroundColor').'>Rank #'.esc_html($item['rank']).'</a>';
+        if((!empty($item['rank']) && ($params['nftrank'] == 'yes') || (!empty($item['rank']) && $params['nftrank'] == 'true')) && !empty($params['nftrank'])){
+            $rank = '<a class="ep-nft-rank" target="_blank" href="'.esc_url($item['permalink']).'" '.$this->createStye('rankBtnColor', 'rankBtnFZ', 'rankBtnBorderColor').'>Rank #'.esc_html($item['rank']).'</a>';
         }
+
 
         $collectionname = '';
         if(($params['collectionname'] == 'yes' || $params['collectionname'] == 'true') && !empty($params['collectionname'])){
-            $collectionname = '<a class="CollectionLink--link" href="'.esc_url('/collection/'.$item['collection_slug']).'"><span
+            $collectionname = '<a class="CollectionLink--link" href="'.esc_url('/collection/'.$item['collection_slug']).'" '.$this->createStye('collectionNameColor', 'collectionNameFZ', '').'><span
             class="CollectionLink--name">'.esc_html($item['collectionname']).$is_verified.'</span></a>';
         }
 
@@ -754,18 +786,18 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         if(!empty($current_price) &&  (($current_price > 0) && (($params['nftprice'] == 'yes') || ($params['nftprice'] == 'true')))){
             $current_price_template = '
-            <div class="ep_nft_price ep_current_price" '.$this->createStye('priceColor', 'priceFontsize', '').'>
-                <span class="eb_nft_label">'.esc_html($prefix_current_price).'</span>
-                <span class="eb_nft_price">'. esc_html(round($current_price, 4)).' ETH <sub class="ep-usd-price">$'.round($usd_price, 2).'</sub></span>
+            <div class="ep_nft_price ep_current_price">
+                <span class="eb_nft_label" '.$this->createStye('priceLabelColor', 'priceLabelFontsize', '').'>'.esc_html($prefix_current_price).'</span>
+                <span class="eb_nft_price" '.$this->createStye('priceColor', 'priceFontsize', '').'>'. esc_html(round($current_price, 4)).' ETH <sub class="ep-usd-price" '.$this->createStye('priceUSDColor', 'priceUSDFontsize', '').'>$'.round($usd_price, 2).'</sub></span>
             </div>
             ';
         }
 
         if(!empty($last_sale) && (($last_sale > 0) && (($params['nftlastsale'] == 'yes') || ($params['nftlastsale'] == 'true')))){
             $last_sale_price_template = '
-            <div class="ep_nft_price ep_nft_last_sale" '.$this->createStye('lastSaleColor', 'lastSaleFontsize', '').'>
-                <span class="eb_nft_label">'.esc_html($prefix_last_sale).'</span>
-                <span class="eb_nft_price">'. esc_html(round($last_sale, 4)).' ETH <sub class="ep-usd-price">$'.round($last_usd_price, 2).'</sub></span>
+            <div class="ep_nft_price ep_nft_last_sale" >
+                <span class="eb_nft_label" '.$this->createStye('lastSaleLabelColor', 'lastSaleLabelFontsize', '').'>'.esc_html($prefix_last_sale).'</span>
+                <span class="eb_nft_price" '.$this->createStye('lastSaleColor', 'lastSaleFontsize', '').'>'. esc_html(round($last_sale, 4)).' ETH <sub class="ep-usd-price" '.$this->createStye('lastSaleUSDColor', 'lastSaleUSDFontsize', '').'>$'.round($last_usd_price, 2).'</sub></span>
             </div>
             ';
         }
@@ -798,18 +830,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             $nftbutton = '<div class="ep_nft_button"> '.$detailsbtn.' '.$rank.' </div>';
         endif;
 
-        $innerNFTbutton = '';
-        $outterNFTbutton = '';
-        if(isset($params['layout']) && $params['layout'] == 'ep-grid' || isset($params['layout-single']) && $params['layout-single'] == 'ep-grid'){
-            $outterNFTbutton = $nftbutton;
-        }
-        else if(isset($params['layout']) && $params['layout'] == 'ep-list' || isset($params['layout-single']) && $params['layout-single'] == 'ep-list'){
-            $innerNFTbutton = $nftbutton;
-        }
-        else{
-            $outterNFTbutton = $nftbutton;
-        }
-
         $itemBGColor = $this->createStye('', '', 'itemBGColor');
 
         $template = '
@@ -825,10 +845,9 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                                 '.$last_sale_price_template.'
                             </div>
                         </div>
-                        '.$innerNFTbutton.' 
+                        '.$nftbutton.' 
                         '.$toggle_item.'
                     </div>
-                    '.$outterNFTbutton.'
                 </div>
             ';
 

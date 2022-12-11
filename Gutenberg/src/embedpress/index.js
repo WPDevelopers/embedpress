@@ -175,6 +175,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: true
 			},
+			nftdetails: {
+				type: 'boolean',
+				default: true
+			},
 			label_nftbutton: {
 				type: 'string',
 				default: 'See Details'
@@ -188,6 +192,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			itemBGColor: {
 				type: 'string',
 			},
+			collectionNameColor: {
+				type: 'string',
+			},
+
+			collectionNameFZ: {
+				type: 'number',
+			},
+
 			titleColor: {
 				type: 'string',
 			},
@@ -211,6 +223,13 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'number',
 			},
 
+			priceLabelColor: {
+				type: 'string',
+			},
+
+			priceLabelFontsize: {
+				type: 'number',
+			},
 			priceColor: {
 				type: 'string',
 			},
@@ -218,12 +237,33 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			priceFontsize: {
 				type: 'number',
 			},
+			priceUSDColor: {
+				type: 'string',
+			},
 
+			priceUSDFontsize: {
+				type: 'number',
+			},
+
+			lastSaleLabelColor: {
+				type: 'string',
+			},
+
+			lastSaleLabelFontsize: {
+				type: 'number',
+			},
 			lastSaleColor: {
 				type: 'string',
 			},
 
 			lastSaleFontsize: {
+				type: 'number',
+			},
+			lastSaleUSDColor: {
+				type: 'string',
+			},
+
+			lastSaleUSDFontsize: {
 				type: 'number',
 			},
 			buttonTextColor: {
@@ -235,6 +275,31 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 
 			buttonTextFontsize: {
+				type: 'number',
+			},
+			rankBtnColor: {
+				type: 'string',
+			},
+
+			rankBtnBorderColor: {
+				type: 'string',
+			},
+			rankBtnFZ: {
+				type: 'number',
+			},
+			detialTitleColor: {
+				type: 'string',
+			},
+			detialTitleFZ: {
+				type: 'number',
+			},
+			detailTextColor: {
+				type: 'string',
+			},
+			detailTextLinkColor: {
+				type: 'string',
+			},
+			detailTextFZ: {
 				type: 'number',
 			},
 
