@@ -1494,30 +1494,6 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-		$this->add_control(
-			'layout-single',
-			[
-				'label'       => __('Layout', 'embedpress'),
-				'type' => \Elementor\Controls_Manager::SELECT,
-				'label_block' => false,
-				'default' => 'ep-list',
-				'options' => [
-					'ep-list'  => esc_html__('Default', 'embedpress'),
-					'ep-grid ep-preset-1'  => esc_html__('Layout 1', 'embedpress'),
-					'ep-grid'  => esc_html__('Layout 2', 'embedpress'),
-				],
-				'conditions'  => [
-					'terms' => [
-						[
-							'name' => 'embedpress_pro_embeded_nft_type',
-							'operator' => '===',
-							'value' => 'single',
-						],
-					],
-				]
-
-			]
-		);
 
 		$this->add_control(
 			'preset',
@@ -1757,6 +1733,21 @@ class Embedpress_Elementor extends Widget_Base
 			'nftrank',
 			[
 				'label'       => __('Rank', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
+				'default'      => 'yes',
+				'condition'    => [
+					'embedpress_pro_embeded_nft_type' => 'single'
+				],
+			]
+		);
+		$this->add_control(
+			'nftdetails',
+			[
+				'label'       => __('NFT Details', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -2031,6 +2022,43 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'name' => 'nftbutton_typography',
 				'selector' => '{{WRAPPER}} .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button a',
+			]
+		);
+		$this->add_control(
+			'nftrank_heading',
+			[
+				'label' => esc_html__( 'NFT Rank', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+		
+		
+		$this->add_control(
+			'nftrank_color',
+			[
+				'label' => esc_html__( 'Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .ep-nft-single-item-wraper .ep_nft_button a.ep-nft-rank' => 'color: {{VALUE}}!important;',
+				],
+			]
+		);
+		$this->add_control(
+			'nftrank_border_color',
+			[
+				'label' => esc_html__( 'Border Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .ep-nft-single-item-wraper .ep_nft_button a.ep-nft-rank' => 'border-color: {{VALUE}}!important',
+				],
+			]
+		);
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name' => 'nftrank_typography',
+				'selector' => '{{WRAPPER}} .ep-nft-single-item-wraper .ep_nft_button a.ep-nft-rank',
 			]
 		);
 
