@@ -1747,7 +1747,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'nftdetails',
 			[
-				'label'       => __('NFT Details', 'embedpress'),
+				'label'       => __('Details', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -1806,7 +1806,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'item_heading',
 			[
-				'label' => esc_html__( 'NFT Item', 'embedpress' ),
+				'label' => esc_html__( 'Item', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -2027,7 +2027,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'nftrank_heading',
 			[
-				'label' => esc_html__( 'NFT Rank', 'embedpress' ),
+				'label' => esc_html__( 'Rank', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -2065,7 +2065,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'nftdetails_heading',
 			[
-				'label' => esc_html__( 'NFT Details', 'embedpress' ),
+				'label' => esc_html__( 'Details', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
 			]

@@ -287,7 +287,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
             size: 18,
         },
         {
-            name: __('Big'),
+            name: __('Large'),
             slug: 'big',
             size: 26,
         },
@@ -305,7 +305,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
     return (
         <div>
-            <PanelBody title={__("Opensea Options")} initialOpen={true}>
+            <PanelBody title={__("Opensea Options")} initialOpen={true} className={'ep-opensea-options'}>
 
                 <div>
 
@@ -494,13 +494,13 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                         isOpenseaSingle && (
                             <frameElement>
                                 <ToggleControl
-                                    label={__("NFT Rank", "embedpress")}
+                                    label={__("Rank", "embedpress")}
                                     checked={nftrank}
                                     onChange={(nftrank) => setAttributes({ nftrank })}
                                 />
 
                                 <ToggleControl
-                                    label={__("NFT Details", "embedpress")}
+                                    label={__("Details", "embedpress")}
                                     checked={nftdetails}
                                     onChange={(nftdetails) => setAttributes({ nftdetails })}
                                 />
@@ -511,10 +511,10 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                 </div>
             </PanelBody>
-            <PanelBody title={__("Color and Typography")} initialOpen={false}>
+            <PanelBody title={__("Color and Typography")} initialOpen={false} className={'ep-colors-typography'}>
                 <p>{__("You can adjust the color and typography of embedded content.")}</p>
                 <InspectorControls>
-                    <PanelBody title={__("NFT Item")} initialOpen={false}>
+                    <PanelBody title={__("Item")} initialOpen={false}>
                         <ControlHeader headerText={'Background Color'} />
                         <ColorPalette
                             label={__("Background Color")}
@@ -532,7 +532,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             onChange={(collectionNameColor) => setAttributes({ collectionNameColor })}
                         />
 
-                        <ControlHeader headerText={'FontSize'} />
+                        <ControlHeader headerText={'Font Size'} />
                         <FontSizePicker
                             __nextHasNoMarginBottom
                             fontSizes={fontSizes}
@@ -550,7 +550,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             onChange={(titleColor) => setAttributes({ titleColor })}
                         />
 
-                        <ControlHeader headerText={'FontSize'} />
+                        <ControlHeader headerText={'Font Size'} />
                         <FontSizePicker
                             __nextHasNoMarginBottom
                             fontSizes={fontSizes}
@@ -568,7 +568,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             onChange={(creatorColor) => setAttributes({ creatorColor })}
                         />
 
-                        <ControlHeader headerText={'FontSize'} />
+                        <ControlHeader headerText={'Font Size'} />
                         <FontSizePicker
                             __nextHasNoMarginBottom
                             fontSizes={fontSizes}
@@ -585,7 +585,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             onChange={(creatorLinkColor) => setAttributes({ creatorLinkColor })}
                         />
 
-                        <ControlHeader headerText={'Link FontSize'} />
+                        <ControlHeader headerText={'Link Font Size'} />
                         <FontSizePicker
                             __nextHasNoMarginBottom
                             fontSizes={fontSizes}
@@ -607,7 +607,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                         onChange={(priceLabelColor) => setAttributes({ priceLabelColor })}
                                     />
 
-                                    <ControlHeader headerText={'Label FontSize'} />
+                                    <ControlHeader headerText={'Label Font Size'} />
                                     <FontSizePicker
                                         __nextHasNoMarginBottom
                                         fontSizes={fontSizes}
@@ -627,7 +627,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             onChange={(priceColor) => setAttributes({ priceColor })}
                         />
 
-                        <ControlHeader headerText={'ETH FontSize'} />
+                        <ControlHeader headerText={'ETH Font Size'} />
                         <FontSizePicker
                             __nextHasNoMarginBottom
                             fontSizes={fontSizes}
@@ -646,7 +646,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                         onChange={(priceUSDColor) => setAttributes({ priceUSDColor })}
                                     />
 
-                                    <ControlHeader headerText={'USD FontSize'} />
+                                    <ControlHeader headerText={'USD Font Size'} />
                                     <FontSizePicker
                                         __nextHasNoMarginBottom
                                         fontSizes={fontSizes}
@@ -672,7 +672,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                         onChange={(lastSaleLabelColor) => setAttributes({ lastSaleLabelColor })}
                                     />
 
-                                    <ControlHeader headerText={'Label FontSize'} />
+                                    <ControlHeader headerText={'Label Font Size'} />
                                     <FontSizePicker
                                         __nextHasNoMarginBottom
                                         fontSizes={fontSizes}
@@ -691,7 +691,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             onChange={(lastSaleColor) => setAttributes({ lastSaleColor })}
                         />
 
-                        <ControlHeader headerText={'ETH FontSize'} />
+                        <ControlHeader headerText={'ETH Font Size'} />
                         <FontSizePicker
                             __nextHasNoMarginBottom
                             fontSizes={fontSizes}
@@ -710,7 +710,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                         onChange={(lastSaleUSDColor) => setAttributes({ lastSaleUSDColor })}
                                     />
 
-                                    <ControlHeader headerText={'USD FontSize'} />
+                                    <ControlHeader headerText={'USD Font Size'} />
                                     <FontSizePicker
                                         __nextHasNoMarginBottom
                                         fontSizes={fontSizes}
@@ -740,7 +740,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             onChange={(buttonBackgroundColor) => setAttributes({ buttonBackgroundColor })}
                         />
 
-                        <ControlHeader headerText={'FontSize'} />
+                        <ControlHeader headerText={'Font Size'} />
                         <FontSizePicker
                             __nextHasNoMarginBottom
                             fontSizes={fontSizes}
@@ -753,7 +753,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                     {
 
                         isOpenseaSingle && (
-                            <PanelBody title={__("NFT Rank")} initialOpen={false}>
+                            <PanelBody title={__("Rank")} initialOpen={false}>
 
                                 <ControlHeader headerText={'Color'} />
                                 <ColorPalette
@@ -763,7 +763,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                     onChange={(rankBtnColor) => setAttributes({ rankBtnColor })}
                                 />
 
-                                <ControlHeader headerText={'FontSize'} />
+                                <ControlHeader headerText={'Font Size'} />
                                 <FontSizePicker
                                     __nextHasNoMarginBottom
                                     fontSizes={fontSizes}
@@ -795,7 +795,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                     onChange={(detialTitleColor) => setAttributes({ detialTitleColor })}
                                 />
 
-                                <ControlHeader headerText={'Title FontSize'} />
+                                <ControlHeader headerText={'Title Font Size'} />
                                 <FontSizePicker
                                     __nextHasNoMarginBottom
                                     fontSizes={fontSizes}
@@ -820,7 +820,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                     onChange={(detailTextLinkColor) => setAttributes({ detailTextLinkColor })}
                                 />
 
-                                <ControlHeader headerText={'Text FontSize'} />
+                                <ControlHeader headerText={'Text Font Size'} />
                                 <FontSizePicker
                                     __nextHasNoMarginBottom
                                     fontSizes={fontSizes}

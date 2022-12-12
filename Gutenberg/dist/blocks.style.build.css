@@ -767,6 +767,19 @@ span.eb_nft_currency svg {
   .ep-nft-single-item-wraper sub.ep-usd-price {
     margin-bottom: 15px;
     display: block; } }
+
+.components-panel__body .ep-control-header {
+  border-top: 1px solid #fbf0f0;
+  padding-top: 16px;
+  width: calc(100% + 32px);
+  margin-left: -16px;
+  padding-left: 16px; }
+
+.components-panel__body.is-opened > .components-panel__body-title {
+  margin: -16px -16px -16px; }
+
+.ep-opensea-options h2.components-panel__body-title, .ep-colors-typography h2.components-panel__body-title {
+  margin: -16px -16px 25px !important; }
 /**
  * #.# Common SCSS
  *

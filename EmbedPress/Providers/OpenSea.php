@@ -718,7 +718,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         $collectionname = '';
         if(($params['collectionname'] == 'yes' || $params['collectionname'] == 'true') && !empty($params['collectionname'])){
-            $collectionname = '<a class="CollectionLink--link" href="'.esc_url('/collection/'.$item['collection_slug']).'" '.$this->createStye('collectionNameColor', 'collectionNameFZ', '').'><span
+            $collectionname = '<a class="CollectionLink--link" target="_blank" href="'.esc_url('https://opensea.io/collection/'.$item['collection_slug']).'" '.$this->createStye('collectionNameColor', 'collectionNameFZ', '').'><span
             class="CollectionLink--name">'.esc_html($item['collectionname']).$is_verified.'</span></a>';
         }
 
