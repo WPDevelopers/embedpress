@@ -177,27 +177,7 @@ export const useOpensea = (attributes) => {
     return atts;
 }
 
-export const DynamicStyleOpensea = ({clientId, attributes}) => {
-    if(!isOpensea(attributes ? attributes.url : '')){
-        return <React.Fragment></React.Fragment>;
-    }
-
-    return (
-        <style style={{ display: "none" }}>
-            {
-                `
-                #block-${clientId}{
-                    width: 900px;
-                    max-width: 100%!important;
-                }
-                `
-            }
-
-        </style>
-    );
-}
-
-export default function OpenSea({ attributes, setAttributes }) {
+export default function OpenSea({ attributes, setAttributes, isOpensea, isOpenseaSingle }) {
     const {
         limit,
         orderby,
@@ -329,34 +309,6 @@ export default function OpenSea({ attributes, setAttributes }) {
 
                 <div>
 
-                    <RangeControl
-                        label={__("Limit", "embedpress")}
-                        value={limit}
-                        onChange={(limit) => setAttributes({ limit })}
-                        min={1}
-                        max={100}
-                    />
-
-                    <SelectControl
-                        label={__("Order By", "embedpress")}
-                        value={orderby}
-                        options={[
-                            { label: 'Oldest', value: 'asc' },
-                            { label: 'Newest', value: 'desc' },
-                        ]}
-                        onChange={(orderby) => setAttributes({ orderby })}
-                        __nextHasNoMarginBottom
-                    />
-
-                    <SelectControl
-                        label={__("Layout", "embedpress")}
-                        value={layout}
-                        options={[
-                            { label: 'Grid', value: 'ep-grid' },
-                            { label: 'List', value: 'ep-list' },
-                        ]}
-                        onChange={(layout) => setAttributes({ layout })}
-                    />
                     {
                         isOpensea && (
                             <div>
