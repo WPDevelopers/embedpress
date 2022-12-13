@@ -769,7 +769,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
 
         if((!empty($item['rank']) && ($params['nftrank'] == 'yes') || (!empty($item['rank']) && $params['nftrank'] == 'true')) && !empty($params['nftrank'])){
-            $rank = '<div class="ep-nft-rank-wraper">'.esc_html($label_nftrank).' <span class="ep-nft-rank" target="_blank" '.$this->createStye('rankBtnColor', 'rankBtnFZ', 'rankBtnBorderColor').'>#'.esc_html($item['rank']).'</span></div>';
+            $emp_class = empty($label_nftrank)? ' ep-empty-label':'';
+            $rank = '<div class="ep-nft-rank-wraper'.esc_attr( $emp_class ).'">'.esc_html($label_nftrank).' <span class="ep-nft-rank" target="_blank" '.$this->createStye('rankBtnColor', 'rankBtnFZ', 'rankBtnBorderColor').'>#'.esc_html($item['rank']).'</span></div>';
         }
 
 
