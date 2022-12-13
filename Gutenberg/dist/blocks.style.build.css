@@ -450,7 +450,7 @@ span.eb_nft_currency svg {
           transform: translate(0);
   visibility: visible; }
 
-.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button:hover a {
+.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button a.ep-details-btn:hover {
   background-color: #2e8eee;
   color: #ffffff; }
 
@@ -564,15 +564,11 @@ span.eb_nft_currency svg {
   -webkit-box-shadow: none;
           box-shadow: none; }
 
-.ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item {
-  -ms-flex-align: unset;
-      align-items: unset; }
-
 .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_content {
-  width: calc(60% - 15px); }
+  width: calc(55% - 15px); }
 
 .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_thumbnail {
-  width: 42%; }
+  width: 45%; }
 
 .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_thumbnail img {
   height: 100%; }
@@ -603,17 +599,18 @@ span.eb_nft_currency svg {
   font-size: 15px; }
 
 .ep-nft-single-item-wraper .ep_nft_content .ep_nft_title {
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-size: 24px; }
 
 .ep-nft-single-item-wraper .CollectionLink--name svg {
   width: 20px;
-  height: 20px; }
+  height: 20px;
+  margin-left: 5px; }
 
 .ep-nft-single-item-wraper a.CollectionLink--link {
   font-size: 15px;
   font-weight: 500;
-  text-decoration: none !important;
+  text-decoration: none;
   margin-bottom: 15px;
   display: block; }
 
@@ -740,7 +737,7 @@ span.eb_nft_currency svg {
 .ep-nft-single-item-wraper .ep-toggle:checked + .ep-title:after {
   display: none; }
 
-.ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items .ep_nft_item .ep_nft_button a.ep-nft-rank {
+.ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items .ep_nft_item .ep_nft_button span.ep-nft-rank {
   pointer-events: none; }
 
 .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-nft-single-item-wraper.ep-grid .ep_nft_content {
@@ -774,12 +771,6 @@ span.eb_nft_currency svg {
   width: calc(100% + 32px);
   margin-left: -16px;
   padding-left: 16px; }
-
-.components-panel__body.is-opened > .components-panel__body-title {
-  margin: -16px -16px -16px; }
-
-.ep-opensea-options h2.components-panel__body-title, .ep-colors-typography h2.components-panel__body-title {
-  margin: -16px -16px 25px !important; }
 /**
  * #.# Common SCSS
  *

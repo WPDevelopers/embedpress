@@ -175,9 +175,17 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: true
 			},
+			label_nftrank: {
+				type: 'string',
+				default: 'Rank'
+			},
 			nftdetails: {
 				type: 'boolean',
 				default: true
+			},
+			label_nftdetails: {
+				type: 'string',
+				default: 'Details'
 			},
 			label_nftbutton: {
 				type: 'string',
