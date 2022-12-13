@@ -295,6 +295,12 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			rankBtnFZ: {
 				type: 'number',
 			},
+			rankLabelColor: {
+				type: 'string',
+			},
+			rankLabelFZ: {
+				type: 'number',
+			},
 			detialTitleColor: {
 				type: 'string',
 			},

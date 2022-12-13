@@ -821,7 +821,7 @@ span.eb_nft_currency svg {
 .ep-nft-rank-wraper {
     margin-bottom: 16px;
     font-weight: 600;
-    color: #a88484;
+    color: #333;
     font-size: 16px;
 }
 
@@ -854,7 +854,7 @@ span.ep-nft-rank {
 }
 
 .ep-nft-single-item-wraper span.eb_nft_label {
-    color: #a88484;
+    color: #333;
     /* margin-bottom: -10px; */
 }
 
@@ -902,6 +902,7 @@ span.ep-nft-rank {
     text-decoration: none;
     margin-bottom: 15px;
     display: block;
+    color: #3080E2;
 }
 
 .ep-nft-single-item-wraper sub.verified-icon {
@@ -1001,9 +1002,8 @@ span.ep-nft-rank {
     color: transparent;
     right: 15px;
     top: 50%;
-    transform: rotate(45deg);
+    transform: rotate(45deg) translate(-20%, -5%);
 }
-
 .ep-nft-single-item-wraper .ep-toggle:checked+.ep-title:before {
     content: "";
     display: inline-block;
@@ -1018,8 +1018,8 @@ span.ep-nft-rank {
     text-decoration: none;
     color: transparent;
     right: 15px;
-    top: 20px; 
-    transform: rotate(225deg);
+    top: 50%;
+    transform: rotate(225deg) translate(80%, 20%);
 }
 .ep-nft-single-item-wraper .ep-toggle:checked+.ep-title:after {
     display: none;

@@ -79,6 +79,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         'rankBtnColor',
         'rankBtnFZ',
         'rankBtnBorderColor',
+        'rankLabelColor',
+        'rankLabelFZ',
         'detialTitleColor',
         'detialTitleFZ',
         'detailTextColor',
@@ -610,7 +612,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 </div>
             ';
 
-
         return $template;
      }
 
@@ -770,7 +771,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         if((!empty($item['rank']) && ($params['nftrank'] == 'yes') || (!empty($item['rank']) && $params['nftrank'] == 'true')) && !empty($params['nftrank'])){
             $emp_class = empty($label_nftrank)? ' ep-empty-label':'';
-            $rank = '<div class="ep-nft-rank-wraper'.esc_attr( $emp_class ).'">'.esc_html($label_nftrank).' <span class="ep-nft-rank" target="_blank" '.$this->createStye('rankBtnColor', 'rankBtnFZ', 'rankBtnBorderColor').'>#'.esc_html($item['rank']).'</span></div>';
+            $rank = '<div class="ep-nft-rank-wraper'.esc_attr( $emp_class ).'" '.$this->createStye('rankLabelColor', 'rankLabelFZ', '').'>'.esc_html($label_nftrank).' <span class="ep-nft-rank"  target="_blank" '.$this->createStye('rankBtnColor', 'rankBtnFZ', 'rankBtnBorderColor').'>#'.esc_html($item['rank']).'</span></div>';
         }
 
 
@@ -847,8 +848,11 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 </div>
             ';
 
+        if(strpos($item['permalink'], '/ethereum/') > 0){
+            return $template;
+        }
 
-        return $template;
+        return '<h4 style="text-align: center">Currently, this blockchain is not supported.</h4>';
      }
 
     /** inline {@inheritdoc} */

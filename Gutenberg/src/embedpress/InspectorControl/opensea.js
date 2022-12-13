@@ -88,6 +88,8 @@ export const getOpenseaParams = (params, attributes) => {
         rankBtnColor: '',
         rankBtnFZ: '',
         rankBtnBorderColor: '',
+        rankLabelColor: '',
+        rankLabelFZ: '',
         detialTitleColor: '',
         detialTitleFZ: '',
         detailTextColor: '',
@@ -162,6 +164,8 @@ export const useOpensea = (attributes) => {
         rankBtnColor: null,
         rankBtnFZ: null,
         rankBtnBorderColor: null,
+        rankLabelColor: null,
+        rankLabelFZ: null,
         detialTitleColor: null,
         detialTitleFZ: null,
         detailTextColor: null,
@@ -232,6 +236,8 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
         rankBtnColor,
         rankBtnFZ,
         rankBtnBorderColor,
+        rankLabelColor,
+        rankLabelFZ,
         detialTitleColor,
         detialTitleFZ,
         detailTextColor,
@@ -511,7 +517,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                             <TextControl
                                                 label={__("Rank Label", "embedpress")}
                                                 value={label_nftrank}
-                                                onChange={(label_nftrank) => setAttributes({ label_nftrank})}
+                                                onChange={(label_nftrank) => setAttributes({ label_nftrank })}
                                             />
                                             {
                                                 (!isProPluginActive) && (
@@ -534,7 +540,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                             <TextControl
                                                 label={__("Details Label", "embedpress")}
                                                 value={label_nftdetails}
-                                                onChange={(label_nftdetails) => setAttributes({ label_nftdetails})}
+                                                onChange={(label_nftdetails) => setAttributes({ label_nftdetails })}
                                             />
                                             {
                                                 (!isProPluginActive) && (
@@ -794,6 +800,22 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                         isOpenseaSingle && (
                             <PanelBody title={__("Rank")} initialOpen={false}>
+                                <ControlHeader headerText={'Label Color'} />
+                                <ColorPalette
+                                    label={__("Label Color")}
+                                    colors={colors}
+                                    value={rankLabelColor}
+                                    onChange={(rankLabelColor) => setAttributes({ rankLabelColor })}
+                                />
+
+                                <ControlHeader headerText={'Label Font Size'} />
+                                <FontSizePicker
+                                    __nextHasNoMarginBottom
+                                    fontSizes={fontSizes}
+                                    value={rankLabelFZ}
+                                    fallbackFontSize={fallbackFontSize}
+                                    onChange={(rankLabelFZ) => setAttributes({ rankLabelFZ })}
+                                />
 
                                 <ControlHeader headerText={'Color'} />
                                 <ColorPalette

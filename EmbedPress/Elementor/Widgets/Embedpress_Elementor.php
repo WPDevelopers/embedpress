@@ -2060,14 +2060,30 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 		
-		
+		$this->add_control(
+			'nftrank_label_color',
+			[
+				'label' => esc_html__( 'Label Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper' => 'color: {{VALUE}}!important;',
+				],
+			]
+		);
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name' => 'nftrank_label_typography',
+				'selector' => '{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper ',
+			]
+		);
 		$this->add_control(
 			'nftrank_color',
 			[
-				'label' => esc_html__( 'Color', 'embedpress' ),
+				'label' => esc_html__( 'Rank Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .ep-nft-single-item-wraper .ep_nft_button span.ep-nft-rank' => 'color: {{VALUE}}!important;',
+					'{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper span.ep-nft-rank' => 'color: {{VALUE}}!important;',
 				],
 			]
 		);
@@ -2077,7 +2093,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label' => esc_html__( 'Border Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .ep-nft-single-item-wraper .ep_nft_button span.ep-nft-rank' => 'border-color: {{VALUE}}!important',
+					'{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper span.ep-nft-rank' => 'border-color: {{VALUE}}!important',
 				],
 			]
 		);
@@ -2085,9 +2101,11 @@ class Embedpress_Elementor extends Widget_Base
 			\Elementor\Group_Control_Typography::get_type(),
 			[
 				'name' => 'nftrank_typography',
-				'selector' => '{{WRAPPER}} .ep-nft-single-item-wraper .ep_nft_button span.ep-nft-rank',
+				'selector' => '{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper span.ep-nft-rank',
 			]
 		);
+
+		
 
 		$this->add_control(
 			'nftdetails_heading',
