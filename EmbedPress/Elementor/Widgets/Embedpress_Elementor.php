@@ -123,7 +123,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label'       => __('Type', 'embedpress'),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
-				'default'     => 'single',
+				'default'     => 'collection',
 				'options'     => [
 					'single'  => __('Single Asset', 'embedpress'),
 					'collection'  => __('Assets Collection', 'embedpress'),
@@ -1412,7 +1412,8 @@ class Embedpress_Elementor extends Widget_Base
 				'step' => 1,
 				'default' => 9,
 				'condition'   => [
-					'embedpress_pro_embeded_nft_type' => ['collection']
+					'embedpress_pro_embeded_nft_type' => ['collection'],
+					'embedpress_pro_embeded_source!' => 'default',
 				],
 			]
 		);
@@ -1427,7 +1428,8 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'default' => 'desc',
 				'condition'   => [
-					'embedpress_pro_embeded_nft_type' => ['collection']
+					'embedpress_pro_embeded_nft_type' => ['collection'],
+					'embedpress_pro_embeded_source!' => 'default',
 				],
 			]
 		);
