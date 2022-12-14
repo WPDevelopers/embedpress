@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 3.6.2
+Stable tag: 3.6.3
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -381,6 +381,13 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.6.3] - 2022-12-14 =
+* Added: OpenSea single asset with advanced controls. 
+* Fixed: Print & Download button wasnt showing with Shortcode. 
+* Fixed: PDF control wasnt working while embeding PDF from multiple sources.  
+* Fixed: Instagram embidding in Classic Editor.
+* Few minor bug fixes and improvements.
 
 = [3.6.2] - 2022-11-22 =
 * Fixed: Height-width controller issues in Elementor.
