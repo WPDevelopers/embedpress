@@ -157,7 +157,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			prefix_nftprice: {
 				type: 'string',
-				default: 'Price'
+				default: 'Current Price'
 			},
 			nftlastsale: {
 				type: 'boolean',

@@ -866,7 +866,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                     onChange={(detialTitleFZ) => setAttributes({ detialTitleFZ })}
                                 />
 
-                                <ControlHeader headerText={'Text Color'} />
+                                <ControlHeader headerText={'Content Color'} />
                                 <ColorPalette
                                     label={__("Color")}
                                     colors={colors}
@@ -882,7 +882,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                     onChange={(detailTextLinkColor) => setAttributes({ detailTextLinkColor })}
                                 />
 
-                                <ControlHeader headerText={'Text Font Size'} />
+                                <ControlHeader headerText={'Content Font Size'} />
                                 <FontSizePicker
                                     __nextHasNoMarginBottom
                                     fontSizes={fontSizes}

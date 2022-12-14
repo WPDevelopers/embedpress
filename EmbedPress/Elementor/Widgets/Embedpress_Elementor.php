@@ -1663,8 +1663,8 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'label'        => sprintf(__('Prefix %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
-				'default' => esc_html__( 'Price', 'embedpress' ),
-				'placeholder' => esc_html__( 'Price', 'embedpress' ),
+				'default' => esc_html__( 'Current Price', 'embedpress' ),
+				'placeholder' => esc_html__( 'Current Price', 'embedpress' ),
 				'classes'     => $this->pro_class,
 				'condition' => [
 					'nftprice' => 'yes',
@@ -2119,7 +2119,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'nftdetail_title_color',
 			[
-				'label' => esc_html__( 'Details Text Color', 'embedpress' ),
+				'label' => esc_html__( 'Title Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .ep-title' => 'color: {{VALUE}}',
@@ -2129,7 +2129,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			[
-				'label' => esc_html__( 'Details Text Typography', 'embedpress' ),
+				'label' => esc_html__( 'Title Typography', 'embedpress' ),
 				'name' => 'nftdetail_title_typography',
 				'selector' => '{{WRAPPER}} .ep-title',
 			]
@@ -2138,7 +2138,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'nftdetail_color',
 			[
-				'label' => esc_html__( 'Color', 'embedpress' ),
+				'label' => esc_html__( 'Content Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .ep-asset-detail-item' => 'color: {{VALUE}}',
@@ -2148,6 +2148,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			[
+				'label' => esc_html__( 'Content Typography', 'embedpress' ),
 				'name' => 'nftdetail_typography',
 				'selector' => '{{WRAPPER}} .ep-asset-detail-item',
 			]
