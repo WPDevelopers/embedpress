@@ -1756,6 +1756,7 @@ class Embedpress_Elementor extends Widget_Base
 				'classes'     => $this->pro_class,
 				'condition' => [
 					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
 				]
 			]
 		);
@@ -1786,6 +1787,7 @@ class Embedpress_Elementor extends Widget_Base
 				'classes'     => $this->pro_class,
 				'condition' => [
 					'nftdetails' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
 				]
 			]
 		);
