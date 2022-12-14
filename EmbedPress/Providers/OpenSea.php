@@ -636,7 +636,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             'layout' => 'ep-grid',
             'preset' => 'ep-preset-2',
             'prefix_nftcreator' => 'Created By',
-            'prefix_nftprice' => 'Cuurent Price',
+            'prefix_nftprice' => 'current Price',
             'prefix_nftlastsale' => 'Last Sale',
             'label_nftbutton' => 'See Details',
             'label_nftrank' => 'Rank',
