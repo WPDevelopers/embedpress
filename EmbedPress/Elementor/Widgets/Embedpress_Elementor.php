@@ -2119,7 +2119,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'nftdetail_title_color',
 			[
-				'label' => esc_html__( 'Detail Text Color', 'embedpress' ),
+				'label' => esc_html__( 'Details Text Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .ep-title' => 'color: {{VALUE}}',
@@ -2129,7 +2129,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			[
-				'label' => esc_html__( 'Detail Text Typography', 'embedpress' ),
+				'label' => esc_html__( 'Details Text Typography', 'embedpress' ),
 				'name' => 'nftdetail_title_typography',
 				'selector' => '{{WRAPPER}} .ep-title',
 			]
