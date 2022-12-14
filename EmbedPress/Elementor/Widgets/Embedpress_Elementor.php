@@ -2061,6 +2061,10 @@ class Embedpress_Elementor extends Widget_Base
 				'label' => esc_html__( 'Rank', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 		
@@ -2072,6 +2076,10 @@ class Embedpress_Elementor extends Widget_Base
 				'selectors' => [
 					'{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper' => 'color: {{VALUE}}!important;',
 				],
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 		$this->add_group_control(
@@ -2079,6 +2087,10 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'name' => 'nftrank_label_typography',
 				'selector' => '{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper ',
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 		$this->add_control(
@@ -2089,6 +2101,10 @@ class Embedpress_Elementor extends Widget_Base
 				'selectors' => [
 					'{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper span.ep-nft-rank' => 'color: {{VALUE}}!important;',
 				],
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 		$this->add_control(
@@ -2099,6 +2115,10 @@ class Embedpress_Elementor extends Widget_Base
 				'selectors' => [
 					'{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper span.ep-nft-rank' => 'border-color: {{VALUE}}!important',
 				],
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 		$this->add_group_control(
@@ -2106,6 +2126,10 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'name' => 'nftrank_typography',
 				'selector' => '{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper span.ep-nft-rank',
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 
@@ -2117,6 +2141,10 @@ class Embedpress_Elementor extends Widget_Base
 				'label' => esc_html__( 'Details', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 
@@ -2128,6 +2156,10 @@ class Embedpress_Elementor extends Widget_Base
 				'selectors' => [
 					'{{WRAPPER}} .ep-title' => 'color: {{VALUE}}',
 				],
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 		$this->add_group_control(
@@ -2136,6 +2168,10 @@ class Embedpress_Elementor extends Widget_Base
 				'label' => esc_html__( 'Title Typography', 'embedpress' ),
 				'name' => 'nftdetail_title_typography',
 				'selector' => '{{WRAPPER}} .ep-title',
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 
@@ -2147,6 +2183,10 @@ class Embedpress_Elementor extends Widget_Base
 				'selectors' => [
 					'{{WRAPPER}} .ep-asset-detail-item' => 'color: {{VALUE}}',
 				],
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 		$this->add_group_control(
@@ -2155,6 +2195,10 @@ class Embedpress_Elementor extends Widget_Base
 				'label' => esc_html__( 'Content Typography', 'embedpress' ),
 				'name' => 'nftdetail_typography',
 				'selector' => '{{WRAPPER}} .ep-asset-detail-item',
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 
@@ -2166,6 +2210,10 @@ class Embedpress_Elementor extends Widget_Base
 				'selectors' => [
 					'{{WRAPPER}} .ep-asset-detail-item a' => 'color: {{VALUE}}',
 				],
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 		$this->add_group_control(
@@ -2173,6 +2221,10 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'name' => 'nftdetail_link_typography',
 				'selector' => '{{WRAPPER}} .ep-asset-detail-item a, .ep-asset-detail-item',
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 		
