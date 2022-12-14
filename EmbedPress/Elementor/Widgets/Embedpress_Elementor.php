@@ -125,8 +125,8 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block' => false,
 				'default'     => 'collection',
 				'options'     => [
-					'single'  => __('Single Asset', 'embedpress'),
 					'collection'  => __('Assets Collection', 'embedpress'),
+					'single'  => __('Single Asset', 'embedpress'),
 				],
 				'condition'   => [
 					'embedpress_pro_embeded_source' => 'opensea'
