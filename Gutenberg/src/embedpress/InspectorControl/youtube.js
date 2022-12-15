@@ -38,6 +38,15 @@ export const isYTChannel = (url) => {
     return url.match(/\/channel\/|\/c\/|\/user\/|\/@|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
 }
 
+export const isYTVideo  = (url) => {
+    return url.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/i);
+}
+
+export const isWistiaVideo  = (url) => {
+    return url.match(/\/medias\/|(?:https?:\/\/)?(?:www\.)?(?:wistia.com\/)(\w+)[^?\/]*$/i);
+}
+
+
 /**
  *
  * @param {object} attributes
@@ -64,7 +73,7 @@ export const useYTChannel = (attributes) => {
 }
 
 
-
+ 
 export default function Youtube({ attributes, setAttributes }) {
 
     const {

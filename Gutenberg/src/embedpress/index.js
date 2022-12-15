@@ -302,6 +302,107 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			detailTextFZ: {
 				type: 'number',
 			},
+			//YouTube single video controls attribute
+			starttime: {
+				type: 'string',
+			},
+			endtime: {
+				type: 'string',
+			},
+			autoplay: {
+				type: 'boolean',
+			},
+			controls: {
+				type: 'string',
+			},
+			fullscreen: {
+				type: 'boolean',
+			},
+			videoannotations: {
+				type: 'boolean',
+			},
+			progressbarcolor: {
+				type: 'string',
+				default: 'red'
+			},
+			closedcaptions: {
+				type: 'boolean',
+			},
+			modestbranding: {
+				type: 'string',
+			},
+			relatedvideos: {
+				type: 'boolean',
+			},
+
+			//Wistia video controls attribute
+			wstarttime: {
+				type: 'string',
+			},
+			wautoplay: {
+				type: 'boolean',
+				default: false
+			},
+			scheme: {
+				type: 'string',
+			},
+			captions: {
+				type: 'boolean',
+				default: true
+			},
+			playbutton: {
+				type: 'boolean',
+				default: true
+			},
+			playbar: {
+				type: 'boolean',
+				default: true
+			},
+			resumable: {
+				type: 'boolean',
+				default: true
+			},
+			wistiafocus: {
+				type: 'boolean',
+				default: true
+			},
+			volumecontrol: {
+				type: 'boolean',
+				default: true
+			},
+			volume: {
+				type: 'number',
+				default: 100
+			},
+			rewind: {
+				type: 'boolean',
+				default: true
+			},
+			wfullscreen: {
+				type: 'boolean',
+				default: true
+			},
+	
+			//Custom logo atributes
+			customlogo: {
+				type: 'string',
+				default: ''
+			},
+			logoX: {
+				type: 'number',
+				default: 5
+			},
+			logoY: {
+				type: 'number',
+				default: 10
+			},
+			customlogoUrl: {
+				type: 'string',
+			},
+			logoOpacity: {
+				type: 'number',
+				default: 0.6
+			},
 
 		},
 		/**
