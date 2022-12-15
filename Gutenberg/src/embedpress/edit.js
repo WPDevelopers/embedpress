@@ -17,7 +17,7 @@ const apiFetch = wp.apiFetch;
 const { __ } = wp.i18n;
 import { embedPressIcon } from '../common/icons';
 import { isOpensea as _isOpensea, isOpenseaSingle as _isOpenseaSingle, useOpensea } from './InspectorControl/opensea';
-import {isYTChannel as _isYTChannel, useYTChannel } from './InspectorControl/youtube';
+import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, useYTVideo } from './InspectorControl/youtube';
 
 const {
 	useBlockProps
@@ -43,11 +43,14 @@ export default function EmbedPress(props) {
 	const blockProps = useBlockProps ? useBlockProps() : [];
 
 	const isYTChannel = _isYTChannel(url);
+	const isYTVideo = _isYTVideo(url);
+
 	const isOpensea = _isOpensea(url);
 	const isOpenseaSingle = _isOpenseaSingle(url);
 
 	const openseaParams = useOpensea(attributes);
 	const youtubeParams = useYTChannel(attributes);
+	const youtubeVideoParams = useYTVideo(attributes);
 
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
@@ -56,7 +59,7 @@ export default function EmbedPress(props) {
 		setAttributes({ fetching: false });
 	}
 
-	function execScripts(){
+	function execScripts() {
 		let scripts = embedHTML.matchAll(/<script.*?src=["'](.*?)["'].*?><\/script>/g);
 		scripts = [...scripts];
 		for (const script of scripts) {
@@ -101,13 +104,14 @@ export default function EmbedPress(props) {
 				};
 
 				params = applyFilters('embedpress_block_rest_param', params, attributes);
-				const __url = `${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress` ;
+
+				const __url = `${embedpressObj.site_url}/wp-json/embedpress/v1/oembed/embedpress`;
 
 				const args = { url: __url, method: "POST", data: params };
 
 				return await apiFetch(args)
 					.then((res) => res)
-					.catch((err) => console.error(err));
+					.catch((err) => console.error(argserr));
 			}
 
 			fetchData(url).then(data => {
@@ -128,8 +132,6 @@ export default function EmbedPress(props) {
 					execScripts();
 				}
 			});
-
-
 		} else {
 			setAttributes({
 				cannotEmbed: true,
@@ -150,12 +152,12 @@ export default function EmbedPress(props) {
 		return () => {
 			clearTimeout(delayDebounceFn)
 		}
-	}, [openseaParams, youtubeParams]);
+	}, [openseaParams, youtubeParams, youtubeVideoParams]);
 
 	return (
 		<Fragment>
 
-			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isOpensea={isOpensea} isOpenseaSingle={isOpenseaSingle} />
+			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isYTVideo={isYTVideo} isOpensea={isOpensea} isOpenseaSingle={isOpenseaSingle} />
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
 				<EmbedPlaceholder
@@ -170,13 +172,12 @@ export default function EmbedPress(props) {
 				/>
 			</div>}
 
-
 			{
-				((!isOpensea || (!!editingURL || editingURL === 0)) && (!isOpenseaSingle || (!!editingURL || editingURL === 0))) && fetching && (<div className={className}><EmbedLoading /> </div>)
+				((!isOpensea || (!!editingURL || editingURL === 0)) && (!isOpenseaSingle || (!!editingURL || editingURL === 0)) && (!isYTVideo || (!!editingURL || editingURL === 0)) && (!isYTChannel || (!!editingURL || editingURL === 0))) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle)) && <figure {...blockProps} >
-				<EmbedWrap style={{ display: (fetching && !isOpensea && !isOpenseaSingle) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo)) && <figure {...blockProps} >
+				<EmbedWrap style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo) ? 'none' : (isOpensea || isOpenseaSingle || isYTChannel || isYTVideo) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
 					__html: embedHTML
 				}}></EmbedWrap>
 
@@ -187,18 +188,16 @@ export default function EmbedPress(props) {
 							onMouseUp={setAttributes({ interactive: true })}
 						/>
 					)
-
 				}
 
 				{
-					!isOpensea && !isOpenseaSingle && (
+					(!isOpensea && !isOpenseaSingle) && (
 						<div
 							className="block-library-embed__interactive-overlay"
 							onMouseUp={setAttributes({ interactive: true })}
 						/>
 					)
 				}
-
 
 				<EmbedControls
 					showEditButton={embedHTML && !cannotEmbed}

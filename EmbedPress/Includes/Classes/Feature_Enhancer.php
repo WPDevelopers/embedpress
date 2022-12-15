@@ -63,12 +63,20 @@ class Feature_Enhancer
 		wp_send_json($result);
 	}
 
+	//Check is YouTube single video
+	public function ytValidateUrl(String $url)
+    {
+        return (bool) (preg_match('~v=(?:[a-z0-9_\-]+)~i', (string) $url));
+    }
+
 	public function gutenberg_embed($embedHTML, $attributes)
 	{
 
 		if (!empty($attributes['url'])) {
 			$youtube = new Youtube($attributes['url']);
+			
 			$is_youtube = $youtube->validateUrl($youtube->getUrl(false));
+			// var_dump($is_youtube); die;
 			if ($is_youtube) {
 				$atts = [
 					'width'    => intval($attributes['width']),
@@ -80,14 +88,178 @@ class Feature_Enhancer
 				];
 
 				$urlInfo = Shortcode::parseContent($attributes['url'], true, $atts);
+
 				if (!empty($urlInfo->embed)) {
 					$embedHTML = $urlInfo->embed;
 				}
 			}
+
+			// echo $this->ytValidateUrl($attributes['url']);
+			
+			if($this->ytValidateUrl($attributes['url'])){
+				
+				$atts = [
+					'starttime'    => !empty($attributes['starttime']) ? $attributes['starttime'] : '',
+					'endtime'   => !empty($attributes['endtime']) ? $attributes['endtime'] : '',
+					'autoplay'   => !empty($attributes['autoplay']) ? 1 : 0,
+					'controls'   => !empty($attributes['controls']) ? $attributes['controls'] : '',
+					'fullscreen'   => !empty($attributes['fullscreen']) ? 1 : 0,
+					'videoannotations'   => !empty($attributes['videoannotations']) ? 1 : 0,
+					'progressbarcolor'   => !empty($attributes['progressbarcolor']) ? $attributes['progressbarcolor'] : 'red',
+					'closedcaptions'   => !empty($attributes['closedcaptions']) ? 1 : 0,
+					'modestbranding'   => !empty($attributes['modestbranding']) ? $attributes['modestbranding'] : '',
+					'relatedvideos'   => !empty($attributes['relatedvideos']) ? 1 : 0,
+					'customlogo'   => !empty($attributes['customlogo']) ? $attributes['customlogo'] : '',
+					'logoX' => !empty($attributes['logoX']) ? $attributes['logoX'] : 5,
+					'logoY' => !empty($attributes['logoY']) ? $attributes['logoY'] : 10,
+					'customlogoUrl' => !empty($attributes['customlogoUrl']) ? $attributes['customlogoUrl'] : '',
+					'logoOpacity' => !empty($attributes['logoOpacity']) ? $attributes['logoOpacity'] : 0.6,
+				];
+
+				$urlInfo = Shortcode::parseContent($attributes['url'], true, $atts);
+
+				if (!empty($urlInfo->embed)) {
+					$embedHTML = $urlInfo->embed;
+				}
+
+				if(isset( $urlInfo->embed ) && preg_match( '/src=\"(.+?)\"/', $urlInfo->embed, $match )){
+					$url_full = $match[1];
+					$query = parse_url( $url_full, PHP_URL_QUERY );
+					parse_str( $query, $params );
+
+					$params['controls']       = !empty($attributes['controls']) ? $attributes['controls'] : '';
+					$params['iv_load_policy'] = !empty($attributes['videoannotations']) ? 1 : 0;
+					$params['fs']             = !empty($attributes['fullscreen']) ? 1 : 0;
+					$params['rel']             = !empty($attributes['relatedvideos']) ? 1 : 0;
+					$params['end']            = !empty($attributes['endtime']) ? $attributes['endtime'] : '';
+					$params['autoplay'] 		= !empty($attributes['autoplay']) ? 1 : 0;
+					$params['start'] 			= !empty($attributes['starttime']) ? $attributes['starttime'] : '';
+					$params['color'] = !empty($attributes['progressbarcolor']) ? $attributes['progressbarcolor'] : 'red';
+					$params['modestbranding'] = empty($attributes['modestbranding']) ? 0 : 1; // Reverse the condition value for modestbranding. 0 = display, 1 = do not display
+					$params['cc_load_policy'] = !empty($attributes['closedcaptions']) ? 1 : 0;
+
+					// print_r($params); die;
+
+					preg_match( '/(.+)?\?/', $url_full, $url );
+
+					if ( empty( $url) ) {
+						return $embedHTML;
+					}
+					
+					$url = $url[1];
+
+					// Reassemble the url with the new variables.
+					$url_modified = $url . '?';
+
+					// print_r($params); die;
+					foreach ( $params as $paramName => $paramValue ) {
+						
+						$and = '&';
+						if(array_key_last($params) === $paramName){
+							$and = '';
+						}
+						
+						if(isset($paramValue) && $paramValue !== ''){
+							$url_modified .= $paramName . '=' . $paramValue . $and;
+						}
+					}
+
+					// Replaces the old url with the new one.
+					$embedHTML = str_replace( $url_full, rtrim( $url_modified, '&' ), $urlInfo->embed );
+
+					// print_r($url_full);  echo '<br>';
+					// print_r($url_modified); die;
+
+					$x = $atts['logoX'];
+					$y = $atts['logoY'];
+					$brandUrl = $atts['customlogoUrl'];
+					$opacity = $atts['logoOpacity'];
+					
+					$cssClass = !empty( $attributes['url'] ) ? '.ose-uid-' . md5( $attributes['url'] ) : '.ose-youtube';
+
+					ob_start(); ?>
+					<style type="text/css">
+						<?php echo esc_html($cssClass); ?>
+						{
+							position: relative;
+						}
+
+						
+						<?php echo esc_html($cssClass); ?> .watermark {
+							border: 0;
+							position: absolute;
+							bottom: <?php echo esc_html($y); ?>%;
+							right: <?php echo esc_html($x); ?>%;
+							max-width: 150px;
+							max-height: 75px;
+							opacity: 0.25;
+							z-index: 5;
+							-o-transition: opacity 0.5s ease-in-out;
+							-moz-transition: opacity 0.5s ease-in-out;
+							-webkit-transition: opacity 0.5s ease-in-out;
+							transition: opacity 0.5s ease-in-out;
+							opacity: <?php echo esc_html($opacity); ?>;
+						}
+
+						<?php echo esc_html($cssClass); ?>
+						.watermark:hover {
+							opacity: 1;
+						}
+					</style>
+					<?php
+					$style = ob_get_clean();
+
+					if ( ! class_exists( '\simple_html_dom' ) ) {
+						include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
+					}
+
+					$cta    = '';
+					$img = '';
+
+					if(!empty($atts['customlogo'])){
+						$img = '<img src="'.esc_url($atts['customlogo']).'"/>';
+
+						$imgDom = str_get_html( $img );
+						$imgDom = $imgDom->find( 'img', 0 );
+						$imgDom->setAttribute( 'class', 'watermark' );
+						$imgDom->removeAttribute( 'style' );
+						$imgDom->setAttribute( 'width', 'auto' );
+						$imgDom->setAttribute( 'height', 'auto' );
+						ob_start();
+						echo $imgDom;
+
+						$cta .= ob_get_clean();
+
+						$imgDom->clear();
+						unset( $img, $imgDom );
+
+						if ( !empty($brandUrl) ) {
+							$cta = '<a href="'.esc_url($brandUrl).'">'.$cta.'</a>';
+						}
+						$dom     = str_get_html( $embedHTML );
+						$wrapDiv = $dom->find( "div.ose-youtube", 0 );
+						if ( ! empty( $wrapDiv ) && is_object( $wrapDiv ) ) {
+							$wrapDiv->innertext .= $cta;
+						}
+
+						ob_start();
+						echo $wrapDiv;
+						$markup = ob_get_clean();
+						$dom->clear();
+						unset( $dom, $wrapDiv );
+
+						$embedHTML = $style . $markup;
+
+						
+					}
+					
+				}
+
+			}
+
 		}
 
-
-		return $embedHTML;
+		return $embedHTML ;
 	}
 
 

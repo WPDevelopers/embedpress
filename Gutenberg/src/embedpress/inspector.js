@@ -16,7 +16,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isOpensea, isOpenseaSingle }) {
+export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isOpensea, isOpenseaSingle }) {
 
     const {
         width,
@@ -26,42 +26,37 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isOp
         embedHTML,
     } = attributes;
 
-
     return (
         !editingURL && embedHTML && (
             <InspectorControls>
                 {
                     !isOpensea && !isOpenseaSingle && (
-                        <PanelBody title={__("Embeded Options")}>
+                        <frameElement>
+                            <PanelBody title={__("Embeded Options")}>
 
-                            <div>
-                                <p>{__("You can adjust the width and height of embedded content.")}</p>
-                                <TextControl
-                                    label={__("Width")}
-                                    value={width}
-                                    onChange={(width) => setAttributes({ width })}
-                                />
-                                <TextControl
-                                    label={__("Height")}
-                                    value={height}
-                                    onChange={(height) => setAttributes({ height })}
-                                />
-                            </div>
+                                <div>
+                                    <p>{__("You can adjust the width and height of embedded content.")}</p>
+                                    <TextControl
+                                        label={__("Width")}
+                                        value={width}
+                                        onChange={(width) => setAttributes({ width })}
+                                    />
+                                    <TextControl
+                                        label={__("Height")}
+                                        value={height}
+                                        onChange={(height) => setAttributes({ height })}
+                                    />
+                                </div>
+                                <Youtube attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} />
+                            </PanelBody>
 
-                            {
-                                isYTChannel && (
-                                    <Youtube attributes={attributes} setAttributes={setAttributes} />
-                                )
-                            }
-                        </PanelBody>
+                            <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} />
+
+                        </frameElement>
                     )
                 }
 
-                {
-                    (isOpensea || isOpenseaSingle) && (
-                        <OpenSea attributes={attributes} setAttributes={setAttributes} isOpensea={isOpensea} isOpenseaSingle={isOpenseaSingle} />
-                    )
-                }
+                <OpenSea attributes={attributes} setAttributes={setAttributes} isOpensea={isOpensea} isOpenseaSingle={isOpenseaSingle} />
 
             </InspectorControls>
         )

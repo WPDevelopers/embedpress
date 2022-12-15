@@ -316,586 +316,588 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
     const fallbackFontSize = 16;
 
     return (
-        <div>
-            <PanelBody title={__("Opensea Options")} initialOpen={true} className={'ep-opensea-options'}>
+        (isOpensea || isOpenseaSingle) && (
+            <div>
+                <PanelBody title={__("Opensea Options")} initialOpen={true} className={'ep-opensea-options'}>
 
-                <div>
+                    <div>
 
-                    {
-                        isOpensea && (
-                            <div>
+                        {
+                            isOpensea && (
+                                <div>
+                                    <RangeControl
+                                        label={__("Limit", "embedpress")}
+                                        value={limit}
+                                        onChange={(limit) => setAttributes({ limit })}
+                                        min={1}
+                                        max={100}
+                                    />
+
+                                    <SelectControl
+                                        label={__("Order By", "embedpress")}
+                                        value={orderby}
+                                        options={[
+                                            { label: 'Oldest', value: 'asc' },
+                                            { label: 'Newest', value: 'desc' },
+                                        ]}
+                                        onChange={(orderby) => setAttributes({ orderby })}
+                                        __nextHasNoMarginBottom
+                                    />
+
+                                    <SelectControl
+                                        label={__("Layout", "embedpress")}
+                                        value={layout}
+                                        options={[
+                                            { label: 'List', value: 'ep-list' },
+                                            { label: 'Grid', value: 'ep-grid' },
+                                        ]}
+                                        onChange={(layout) => setAttributes({ layout })}
+                                    />
+                                    {
+                                        (layout == 'ep-grid') && (
+                                            <SelectControl
+                                                label={__("Preset", "embedpress")}
+                                                value={preset}
+                                                options={[
+                                                    { label: 'Preset 1', value: 'ep-preset-1' },
+                                                    { label: 'Preset 2', value: 'ep-preset-2' },
+                                                ]}
+                                                onChange={(preset) => setAttributes({ preset })}
+                                            />
+                                        )
+                                    }
+
+
+                                    <RangeControl
+                                        label={__("Item Per Row", "embedpress")}
+                                        value={nftperrow || 3}
+                                        onChange={(nftperrow) => setAttributes({ nftperrow })}
+                                        min={1}
+                                        max={6}
+                                    />
+                                </div>
+                            )
+                        }
+
+                        {
+                            isOpensea && (
+
                                 <RangeControl
-                                    label={__("Limit", "embedpress")}
-                                    value={limit}
-                                    onChange={(limit) => setAttributes({ limit })}
+                                    label={__("Gap Between Item", "embedpress")}
+                                    value={gapbetweenitem}
+                                    onChange={(gapbetweenitem) => setAttributes({ gapbetweenitem })}
                                     min={1}
                                     max={100}
                                 />
 
-                                <SelectControl
-                                    label={__("Order By", "embedpress")}
-                                    value={orderby}
-                                    options={[
-                                        { label: 'Oldest', value: 'asc' },
-                                        { label: 'Newest', value: 'desc' },
-                                    ]}
-                                    onChange={(orderby) => setAttributes({ orderby })}
-                                    __nextHasNoMarginBottom
-                                />
+                            )
+                        }
 
-                                <SelectControl
-                                    label={__("Layout", "embedpress")}
-                                    value={layout}
-                                    options={[
-                                        { label: 'List', value: 'ep-list' },
-                                        { label: 'Grid', value: 'ep-grid' },
-                                    ]}
-                                    onChange={(layout) => setAttributes({ layout })}
+                        {
+                            isOpenseaSingle && (
+                                <ToggleControl
+                                    label={__("Collection Name", "embedpress")}
+                                    checked={collectionname}
+                                    onChange={(collectionname) => setAttributes({ collectionname })}
                                 />
-                                {
-                                    (layout == 'ep-grid') && (
-                                        <SelectControl
-                                            label={__("Preset", "embedpress")}
-                                            value={preset}
-                                            options={[
-                                                { label: 'Preset 1', value: 'ep-preset-1' },
-                                                { label: 'Preset 2', value: 'ep-preset-2' },
-                                            ]}
-                                            onChange={(preset) => setAttributes({ preset })}
+                            )
+                        }
+                        <ToggleControl
+                            label={__("Thumbnail", "embedpress")}
+                            checked={nftimage}
+                            onChange={(nftimage) => setAttributes({ nftimage })}
+                        />
+                        <ToggleControl
+                            label={__("Title", "embedpress")}
+                            checked={nfttitle}
+                            onChange={(nfttitle) => setAttributes({ nfttitle })}
+                        />
+
+                        <ToggleControl
+                            label={__("Creator", "embedpress")}
+                            checked={nftcreator}
+                            onChange={(nftcreator) => setAttributes({ nftcreator })}
+                        />
+                        {
+                            nftcreator && (
+                                <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                    <TextControl
+                                        label={__("Creator Prefix", "embedpress")}
+                                        value={prefix_nftcreator}
+                                        onChange={(prefix_nftcreator) => setAttributes({ prefix_nftcreator })}
+                                    />
+                                    {
+                                        (!isProPluginActive) && (
+                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                        )
+                                    }
+                                </div>
+                            )
+                        }
+
+                        <ToggleControl
+                            label={__("Show Price", "embedpress")}
+                            checked={nftprice}
+                            onChange={(nftprice) => setAttributes({ nftprice })}
+                        />
+                        {
+                            nftprice && (
+                                <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                    <TextControl
+                                        label={__("Price Prefix", "embedpress")}
+                                        value={prefix_nftprice}
+                                        onChange={(prefix_nftprice) => setAttributes({ prefix_nftprice })}
+                                    />
+                                    {
+                                        (!isProPluginActive) && (
+                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                        )
+                                    }
+                                </div>
+                            )
+                        }
+
+                        <ToggleControl
+                            label={__("Last Sale", "embedpress")}
+                            checked={nftlastsale}
+                            onChange={(nftlastsale) => setAttributes({ nftlastsale })}
+                        />
+
+                        {
+                            nftlastsale && (
+                                <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                    <TextControl
+                                        label={__("Last Sale Prefix", "embedpress")}
+                                        value={prefix_nftlastsale}
+                                        onChange={(prefix_nftlastsale) => setAttributes({ prefix_nftlastsale })}
+                                    />
+
+                                    {
+                                        (!isProPluginActive) && (
+                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                        )
+                                    }
+                                </div>
+                            )
+                        }
+
+                        <ToggleControl
+                            label={__("Show Button", "embedpress")}
+                            checked={nftbutton}
+                            onChange={(nftbutton) => setAttributes({ nftbutton })}
+                        />
+                        {
+                            nftbutton && (
+                                <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                    <TextControl
+                                        label={__("Button Label", "embedpress")}
+                                        value={label_nftbutton}
+                                        onChange={(label_nftbutton) => setAttributes({ label_nftbutton })}
+                                    />
+                                    {
+                                        (!isProPluginActive) && (
+                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                        )
+                                    }
+                                </div>
+                            )
+                        }
+
+                        {
+                            isOpenseaSingle && (
+                                <frameElement>
+                                    <ToggleControl
+                                        label={__("Rank", "embedpress")}
+                                        checked={nftrank}
+                                        onChange={(nftrank) => setAttributes({ nftrank })}
+                                    />
+
+                                    {
+                                        nftrank && (
+                                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                                <TextControl
+                                                    label={__("Rank Label", "embedpress")}
+                                                    value={label_nftrank}
+                                                    onChange={(label_nftrank) => setAttributes({ label_nftrank })}
+                                                />
+                                                {
+                                                    (!isProPluginActive) && (
+                                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                                    )
+                                                }
+                                            </div>
+                                        )
+                                    }
+
+                                    <ToggleControl
+                                        label={__("Details", "embedpress")}
+                                        checked={nftdetails}
+                                        onChange={(nftdetails) => setAttributes({ nftdetails })}
+                                    />
+
+                                    {
+                                        nftdetails && (
+                                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                                <TextControl
+                                                    label={__("Details Label", "embedpress")}
+                                                    value={label_nftdetails}
+                                                    onChange={(label_nftdetails) => setAttributes({ label_nftdetails })}
+                                                />
+                                                {
+                                                    (!isProPluginActive) && (
+                                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                                    )
+                                                }
+                                            </div>
+                                        )
+                                    }
+                                </frameElement>
+                            )
+                        }
+
+
+                    </div>
+                </PanelBody>
+                <PanelBody title={__("Color and Typography")} initialOpen={false} className={'ep-colors-typography'}>
+                    <p>{__("You can adjust the color and typography of embedded content.")}</p>
+                    <InspectorControls>
+                        <PanelBody title={__("Item")} initialOpen={false}>
+                            <ControlHeader headerText={'Background Color'} />
+                            <ColorPalette
+                                label={__("Background Color")}
+                                colors={colors}
+                                value={itemBGColor}
+                                onChange={(itemBGColor) => setAttributes({ itemBGColor })}
+                            />
+                        </PanelBody>
+                        <PanelBody title={__("Collection Name")} initialOpen={false}>
+                            <ControlHeader headerText={'Color'} />
+                            <ColorPalette
+                                label={__("Color")}
+                                colors={colors}
+                                value={collectionNameColor}
+                                onChange={(collectionNameColor) => setAttributes({ collectionNameColor })}
+                            />
+
+                            <ControlHeader headerText={'Font Size'} />
+                            <FontSizePicker
+                                __nextHasNoMarginBottom
+                                fontSizes={fontSizes}
+                                value={collectionNameFZ}
+                                fallbackFontSize={fallbackFontSize}
+                                onChange={(collectionNameFZ) => setAttributes({ collectionNameFZ })}
+                            />
+                        </PanelBody>
+                        <PanelBody title={__("Title")} initialOpen={false}>
+                            <ControlHeader headerText={'Color'} />
+                            <ColorPalette
+                                label={__("Color")}
+                                colors={colors}
+                                value={titleColor}
+                                onChange={(titleColor) => setAttributes({ titleColor })}
+                            />
+
+                            <ControlHeader headerText={'Font Size'} />
+                            <FontSizePicker
+                                __nextHasNoMarginBottom
+                                fontSizes={fontSizes}
+                                value={titleFontsize}
+                                fallbackFontSize={fallbackFontSize}
+                                onChange={(titleFontsize) => setAttributes({ titleFontsize })}
+                            />
+                        </PanelBody>
+                        <PanelBody title={__("Creator")} initialOpen={false}>
+                            <ControlHeader headerText={'Color'} />
+                            <ColorPalette
+                                label={__("Color")}
+                                colors={colors}
+                                value={creatorColor}
+                                onChange={(creatorColor) => setAttributes({ creatorColor })}
+                            />
+
+                            <ControlHeader headerText={'Font Size'} />
+                            <FontSizePicker
+                                __nextHasNoMarginBottom
+                                fontSizes={fontSizes}
+                                value={creatorFontsize}
+                                fallbackFontSize={fallbackFontSize}
+                                onChange={(creatorFontsize) => setAttributes({ creatorFontsize })}
+                            />
+
+                            <ControlHeader headerText={'Link Color'} />
+                            <ColorPalette
+                                label={__("Color")}
+                                colors={colors}
+                                value={creatorLinkColor}
+                                onChange={(creatorLinkColor) => setAttributes({ creatorLinkColor })}
+                            />
+
+                            <ControlHeader headerText={'Link Font Size'} />
+                            <FontSizePicker
+                                __nextHasNoMarginBottom
+                                fontSizes={fontSizes}
+                                value={creatorLinkFontsize}
+                                fallbackFontSize={fallbackFontSize}
+                                onChange={(creatorLinkFontsize) => setAttributes({ creatorLinkFontsize })}
+                            />
+                        </PanelBody>
+
+                        <PanelBody title={__("Current Price")} initialOpen={false}>
+                            {
+                                isOpenseaSingle && (
+                                    <frameElement>
+                                        <ControlHeader headerText={'Label Color'} />
+                                        <ColorPalette
+                                            label={__("Color")}
+                                            colors={colors}
+                                            value={priceLabelColor}
+                                            onChange={(priceLabelColor) => setAttributes({ priceLabelColor })}
                                         />
-                                    )
-                                }
 
+                                        <ControlHeader headerText={'Label Font Size'} />
+                                        <FontSizePicker
+                                            __nextHasNoMarginBottom
+                                            fontSizes={fontSizes}
+                                            value={priceLabelFontsize}
+                                            fallbackFontSize={fallbackFontSize}
+                                            onChange={(priceLabelFontsize) => setAttributes({ priceLabelFontsize })}
+                                        />
+                                    </frameElement>
+                                )
+                            }
 
-                                <RangeControl
-                                    label={__("Item Per Row", "embedpress")}
-                                    value={nftperrow || 3}
-                                    onChange={(nftperrow) => setAttributes({ nftperrow })}
-                                    min={1}
-                                    max={6}
-                                />
-                            </div>
-                        )
-                    }
-
-                    {
-                        isOpensea && (
-
-                            <RangeControl
-                                label={__("Gap Between Item", "embedpress")}
-                                value={gapbetweenitem}
-                                onChange={(gapbetweenitem) => setAttributes({ gapbetweenitem })}
-                                min={1}
-                                max={100}
+                            <ControlHeader headerText={'ETH Price Color'} />
+                            <ColorPalette
+                                label={__("Color")}
+                                colors={colors}
+                                value={priceColor}
+                                onChange={(priceColor) => setAttributes({ priceColor })}
                             />
 
-                        )
-                    }
-
-                    {
-                        isOpenseaSingle && (
-                            <ToggleControl
-                                label={__("Collection Name", "embedpress")}
-                                checked={collectionname}
-                                onChange={(collectionname) => setAttributes({ collectionname })}
+                            <ControlHeader headerText={'ETH Font Size'} />
+                            <FontSizePicker
+                                __nextHasNoMarginBottom
+                                fontSizes={fontSizes}
+                                value={priceFontsize}
+                                fallbackFontSize={fallbackFontSize}
+                                onChange={(priceFontsize) => setAttributes({ priceFontsize })}
                             />
-                        )
-                    }
-                    <ToggleControl
-                        label={__("Thumbnail", "embedpress")}
-                        checked={nftimage}
-                        onChange={(nftimage) => setAttributes({ nftimage })}
-                    />
-                    <ToggleControl
-                        label={__("Title", "embedpress")}
-                        checked={nfttitle}
-                        onChange={(nfttitle) => setAttributes({ nfttitle })}
-                    />
+                            {
+                                isOpenseaSingle && (
+                                    <frameElement>
+                                        <ControlHeader headerText={'USD Price Color'} />
+                                        <ColorPalette
+                                            label={__("Color")}
+                                            colors={colors}
+                                            value={priceUSDColor}
+                                            onChange={(priceUSDColor) => setAttributes({ priceUSDColor })}
+                                        />
 
-                    <ToggleControl
-                        label={__("Creator", "embedpress")}
-                        checked={nftcreator}
-                        onChange={(nftcreator) => setAttributes({ nftcreator })}
-                    />
-                    {
-                        nftcreator && (
-                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                <TextControl
-                                    label={__("Creator Prefix", "embedpress")}
-                                    value={prefix_nftcreator}
-                                    onChange={(prefix_nftcreator) => setAttributes({ prefix_nftcreator })}
-                                />
-                                {
-                                    (!isProPluginActive) && (
-                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                    )
-                                }
-                            </div>
-                        )
-                    }
+                                        <ControlHeader headerText={'USD Font Size'} />
+                                        <FontSizePicker
+                                            __nextHasNoMarginBottom
+                                            fontSizes={fontSizes}
+                                            value={priceUSDFontsize}
+                                            fallbackFontSize={fallbackFontSize}
+                                            onChange={(priceUSDFontsize) => setAttributes({ priceUSDFontsize })}
+                                        />
 
-                    <ToggleControl
-                        label={__("Show Price", "embedpress")}
-                        checked={nftprice}
-                        onChange={(nftprice) => setAttributes({ nftprice })}
-                    />
-                    {
-                        nftprice && (
-                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                <TextControl
-                                    label={__("Price Prefix", "embedpress")}
-                                    value={prefix_nftprice}
-                                    onChange={(prefix_nftprice) => setAttributes({ prefix_nftprice })}
-                                />
-                                {
-                                    (!isProPluginActive) && (
-                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                    )
-                                }
-                            </div>
-                        )
-                    }
+                                    </frameElement>
+                                )
+                            }
+                        </PanelBody>
 
-                    <ToggleControl
-                        label={__("Last Sale", "embedpress")}
-                        checked={nftlastsale}
-                        onChange={(nftlastsale) => setAttributes({ nftlastsale })}
-                    />
+                        <PanelBody title={__("Last Sale Price")} initialOpen={false}>
+                            {
+                                isOpenseaSingle && (
+                                    <frameElement>
+                                        <ControlHeader headerText={'Label Color'} />
+                                        <ColorPalette
+                                            label={__("Color")}
+                                            colors={colors}
+                                            value={lastSaleLabelColor}
+                                            onChange={(lastSaleLabelColor) => setAttributes({ lastSaleLabelColor })}
+                                        />
 
-                    {
-                        nftlastsale && (
-                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                <TextControl
-                                    label={__("Last Sale Prefix", "embedpress")}
-                                    value={prefix_nftlastsale}
-                                    onChange={(prefix_nftlastsale) => setAttributes({ prefix_nftlastsale })}
-                                />
+                                        <ControlHeader headerText={'Label Font Size'} />
+                                        <FontSizePicker
+                                            __nextHasNoMarginBottom
+                                            fontSizes={fontSizes}
+                                            value={lastSaleLabelFontsize}
+                                            fallbackFontSize={fallbackFontSize}
+                                            onChange={(lastSaleLabelFontsize) => setAttributes({ lastSaleLabelFontsize })}
+                                        />
+                                    </frameElement>
+                                )
+                            }
+                            <ControlHeader headerText={'ETH Color'} />
+                            <ColorPalette
+                                label={__("Color")}
+                                colors={colors}
+                                value={lastSaleColor}
+                                onChange={(lastSaleColor) => setAttributes({ lastSaleColor })}
+                            />
 
-                                {
-                                    (!isProPluginActive) && (
-                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                    )
-                                }
-                            </div>
-                        )
-                    }
+                            <ControlHeader headerText={'ETH Font Size'} />
+                            <FontSizePicker
+                                __nextHasNoMarginBottom
+                                fontSizes={fontSizes}
+                                value={lastSaleFontsize}
+                                fallbackFontSize={fallbackFontSize}
+                                onChange={(lastSaleFontsize) => setAttributes({ lastSaleFontsize })}
+                            />
+                            {
+                                isOpenseaSingle && (
+                                    <frameElement>
+                                        <ControlHeader headerText={'USD Price Color'} />
+                                        <ColorPalette
+                                            label={__("Color")}
+                                            colors={colors}
+                                            value={lastSaleUSDColor}
+                                            onChange={(lastSaleUSDColor) => setAttributes({ lastSaleUSDColor })}
+                                        />
 
-                    <ToggleControl
-                        label={__("Show Button", "embedpress")}
-                        checked={nftbutton}
-                        onChange={(nftbutton) => setAttributes({ nftbutton })}
-                    />
-                    {
-                        nftbutton && (
-                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                <TextControl
-                                    label={__("Button Label", "embedpress")}
-                                    value={label_nftbutton}
-                                    onChange={(label_nftbutton) => setAttributes({ label_nftbutton })}
-                                />
-                                {
-                                    (!isProPluginActive) && (
-                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                    )
-                                }
-                            </div>
-                        )
-                    }
+                                        <ControlHeader headerText={'USD Font Size'} />
+                                        <FontSizePicker
+                                            __nextHasNoMarginBottom
+                                            fontSizes={fontSizes}
+                                            value={lastSaleUSDFontsize}
+                                            fallbackFontSize={fallbackFontSize}
+                                            onChange={(lastSaleUSDFontsize) => setAttributes({ lastSaleUSDFontsize })}
+                                        />
+                                    </frameElement>
+                                )
+                            }
+                        </PanelBody>
+                        <PanelBody title={__("Button")} initialOpen={false}>
 
-                    {
-                        isOpenseaSingle && (
-                            <frameElement>
-                                <ToggleControl
-                                    label={__("Rank", "embedpress")}
-                                    checked={nftrank}
-                                    onChange={(nftrank) => setAttributes({ nftrank })}
-                                />
+                            <ControlHeader headerText={'Color'} />
+                            <ColorPalette
+                                label={__("Color")}
+                                colors={colors}
+                                value={buttonTextColor}
+                                onChange={(buttonTextColor) => setAttributes({ buttonTextColor })}
+                            />
 
-                                {
-                                    nftrank && (
-                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                            <TextControl
-                                                label={__("Rank Label", "embedpress")}
-                                                value={label_nftrank}
-                                                onChange={(label_nftrank) => setAttributes({ label_nftrank })}
-                                            />
-                                            {
-                                                (!isProPluginActive) && (
-                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                )
-                                            }
-                                        </div>
-                                    )
-                                }
+                            <ControlHeader headerText={'Background Color'} />
+                            <ColorPalette
+                                label={__("Color")}
+                                colors={colors}
+                                value={buttonBackgroundColor}
+                                onChange={(buttonBackgroundColor) => setAttributes({ buttonBackgroundColor })}
+                            />
 
-                                <ToggleControl
-                                    label={__("Details", "embedpress")}
-                                    checked={nftdetails}
-                                    onChange={(nftdetails) => setAttributes({ nftdetails })}
-                                />
+                            <ControlHeader headerText={'Font Size'} />
+                            <FontSizePicker
+                                __nextHasNoMarginBottom
+                                fontSizes={fontSizes}
+                                value={buttonFontSize}
+                                fallbackFontSize={fallbackFontSize}
+                                onChange={(buttonFontSize) => setAttributes({ buttonFontSize })}
+                            />
+                        </PanelBody>
 
-                                {
-                                    nftdetails && (
-                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                            <TextControl
-                                                label={__("Details Label", "embedpress")}
-                                                value={label_nftdetails}
-                                                onChange={(label_nftdetails) => setAttributes({ label_nftdetails })}
-                                            />
-                                            {
-                                                (!isProPluginActive) && (
-                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                )
-                                            }
-                                        </div>
-                                    )
-                                }
-                            </frameElement>
-                        )
-                    }
-
-
-                </div>
-            </PanelBody>
-            <PanelBody title={__("Color and Typography")} initialOpen={false} className={'ep-colors-typography'}>
-                <p>{__("You can adjust the color and typography of embedded content.")}</p>
-                <InspectorControls>
-                    <PanelBody title={__("Item")} initialOpen={false}>
-                        <ControlHeader headerText={'Background Color'} />
-                        <ColorPalette
-                            label={__("Background Color")}
-                            colors={colors}
-                            value={itemBGColor}
-                            onChange={(itemBGColor) => setAttributes({ itemBGColor })}
-                        />
-                    </PanelBody>
-                    <PanelBody title={__("Collection Name")} initialOpen={false}>
-                        <ControlHeader headerText={'Color'} />
-                        <ColorPalette
-                            label={__("Color")}
-                            colors={colors}
-                            value={collectionNameColor}
-                            onChange={(collectionNameColor) => setAttributes({ collectionNameColor })}
-                        />
-
-                        <ControlHeader headerText={'Font Size'} />
-                        <FontSizePicker
-                            __nextHasNoMarginBottom
-                            fontSizes={fontSizes}
-                            value={collectionNameFZ}
-                            fallbackFontSize={fallbackFontSize}
-                            onChange={(collectionNameFZ) => setAttributes({ collectionNameFZ })}
-                        />
-                    </PanelBody>
-                    <PanelBody title={__("Title")} initialOpen={false}>
-                        <ControlHeader headerText={'Color'} />
-                        <ColorPalette
-                            label={__("Color")}
-                            colors={colors}
-                            value={titleColor}
-                            onChange={(titleColor) => setAttributes({ titleColor })}
-                        />
-
-                        <ControlHeader headerText={'Font Size'} />
-                        <FontSizePicker
-                            __nextHasNoMarginBottom
-                            fontSizes={fontSizes}
-                            value={titleFontsize}
-                            fallbackFontSize={fallbackFontSize}
-                            onChange={(titleFontsize) => setAttributes({ titleFontsize })}
-                        />
-                    </PanelBody>
-                    <PanelBody title={__("Creator")} initialOpen={false}>
-                        <ControlHeader headerText={'Color'} />
-                        <ColorPalette
-                            label={__("Color")}
-                            colors={colors}
-                            value={creatorColor}
-                            onChange={(creatorColor) => setAttributes({ creatorColor })}
-                        />
-
-                        <ControlHeader headerText={'Font Size'} />
-                        <FontSizePicker
-                            __nextHasNoMarginBottom
-                            fontSizes={fontSizes}
-                            value={creatorFontsize}
-                            fallbackFontSize={fallbackFontSize}
-                            onChange={(creatorFontsize) => setAttributes({ creatorFontsize })}
-                        />
-
-                        <ControlHeader headerText={'Link Color'} />
-                        <ColorPalette
-                            label={__("Color")}
-                            colors={colors}
-                            value={creatorLinkColor}
-                            onChange={(creatorLinkColor) => setAttributes({ creatorLinkColor })}
-                        />
-
-                        <ControlHeader headerText={'Link Font Size'} />
-                        <FontSizePicker
-                            __nextHasNoMarginBottom
-                            fontSizes={fontSizes}
-                            value={creatorLinkFontsize}
-                            fallbackFontSize={fallbackFontSize}
-                            onChange={(creatorLinkFontsize) => setAttributes({ creatorLinkFontsize })}
-                        />
-                    </PanelBody>
-
-                    <PanelBody title={__("Current Price")} initialOpen={false}>
                         {
+
                             isOpenseaSingle && (
-                                <frameElement>
+                                <PanelBody title={__("Rank")} initialOpen={false}>
                                     <ControlHeader headerText={'Label Color'} />
                                     <ColorPalette
-                                        label={__("Color")}
+                                        label={__("Label Color")}
                                         colors={colors}
-                                        value={priceLabelColor}
-                                        onChange={(priceLabelColor) => setAttributes({ priceLabelColor })}
+                                        value={rankLabelColor}
+                                        onChange={(rankLabelColor) => setAttributes({ rankLabelColor })}
                                     />
 
                                     <ControlHeader headerText={'Label Font Size'} />
                                     <FontSizePicker
                                         __nextHasNoMarginBottom
                                         fontSizes={fontSizes}
-                                        value={priceLabelFontsize}
+                                        value={rankLabelFZ}
                                         fallbackFontSize={fallbackFontSize}
-                                        onChange={(priceLabelFontsize) => setAttributes({ priceLabelFontsize })}
+                                        onChange={(rankLabelFZ) => setAttributes({ rankLabelFZ })}
                                     />
-                                </frameElement>
-                            )
-                        }
 
-                        <ControlHeader headerText={'ETH Price Color'} />
-                        <ColorPalette
-                            label={__("Color")}
-                            colors={colors}
-                            value={priceColor}
-                            onChange={(priceColor) => setAttributes({ priceColor })}
-                        />
-
-                        <ControlHeader headerText={'ETH Font Size'} />
-                        <FontSizePicker
-                            __nextHasNoMarginBottom
-                            fontSizes={fontSizes}
-                            value={priceFontsize}
-                            fallbackFontSize={fallbackFontSize}
-                            onChange={(priceFontsize) => setAttributes({ priceFontsize })}
-                        />
-                        {
-                            isOpenseaSingle && (
-                                <frameElement>
-                                    <ControlHeader headerText={'USD Price Color'} />
+                                    <ControlHeader headerText={'Color'} />
                                     <ColorPalette
-                                        label={__("Color")}
+                                        label={__("Title Color")}
                                         colors={colors}
-                                        value={priceUSDColor}
-                                        onChange={(priceUSDColor) => setAttributes({ priceUSDColor })}
+                                        value={rankBtnColor}
+                                        onChange={(rankBtnColor) => setAttributes({ rankBtnColor })}
                                     />
 
-                                    <ControlHeader headerText={'USD Font Size'} />
+                                    <ControlHeader headerText={'Font Size'} />
                                     <FontSizePicker
                                         __nextHasNoMarginBottom
                                         fontSizes={fontSizes}
-                                        value={priceUSDFontsize}
+                                        value={rankBtnFZ}
                                         fallbackFontSize={fallbackFontSize}
-                                        onChange={(priceUSDFontsize) => setAttributes({ priceUSDFontsize })}
+                                        onChange={(rankBtnFZ) => setAttributes({ rankBtnFZ })}
                                     />
 
-                                </frameElement>
-                            )
-                        }
-                    </PanelBody>
-
-                    <PanelBody title={__("Last Sale Price")} initialOpen={false}>
-                        {
-                            isOpenseaSingle && (
-                                <frameElement>
-                                    <ControlHeader headerText={'Label Color'} />
+                                    <ControlHeader headerText={'Border Color'} />
                                     <ColorPalette
                                         label={__("Color")}
                                         colors={colors}
-                                        value={lastSaleLabelColor}
-                                        onChange={(lastSaleLabelColor) => setAttributes({ lastSaleLabelColor })}
+                                        value={rankBtnBorderColor}
+                                        onChange={(rankBtnBorderColor) => setAttributes({ rankBtnBorderColor })}
+                                    />
+                                </PanelBody>
+                            )
+                        }
+
+                        {
+                            isOpenseaSingle && (
+                                <PanelBody title={__("Details")} initialOpen={false}>
+
+                                    <ControlHeader headerText={'Title Color'} />
+                                    <ColorPalette
+                                        label={__("Title Color")}
+                                        colors={colors}
+                                        value={detialTitleColor}
+                                        onChange={(detialTitleColor) => setAttributes({ detialTitleColor })}
                                     />
 
-                                    <ControlHeader headerText={'Label Font Size'} />
+                                    <ControlHeader headerText={'Title Font Size'} />
                                     <FontSizePicker
                                         __nextHasNoMarginBottom
                                         fontSizes={fontSizes}
-                                        value={lastSaleLabelFontsize}
+                                        value={detialTitleFZ}
                                         fallbackFontSize={fallbackFontSize}
-                                        onChange={(lastSaleLabelFontsize) => setAttributes({ lastSaleLabelFontsize })}
+                                        onChange={(detialTitleFZ) => setAttributes({ detialTitleFZ })}
                                     />
-                                </frameElement>
-                            )
-                        }
-                        <ControlHeader headerText={'ETH Color'} />
-                        <ColorPalette
-                            label={__("Color")}
-                            colors={colors}
-                            value={lastSaleColor}
-                            onChange={(lastSaleColor) => setAttributes({ lastSaleColor })}
-                        />
 
-                        <ControlHeader headerText={'ETH Font Size'} />
-                        <FontSizePicker
-                            __nextHasNoMarginBottom
-                            fontSizes={fontSizes}
-                            value={lastSaleFontsize}
-                            fallbackFontSize={fallbackFontSize}
-                            onChange={(lastSaleFontsize) => setAttributes({ lastSaleFontsize })}
-                        />
-                        {
-                            isOpenseaSingle && (
-                                <frameElement>
-                                    <ControlHeader headerText={'USD Price Color'} />
+                                    <ControlHeader headerText={'Content Color'} />
                                     <ColorPalette
                                         label={__("Color")}
                                         colors={colors}
-                                        value={lastSaleUSDColor}
-                                        onChange={(lastSaleUSDColor) => setAttributes({ lastSaleUSDColor })}
+                                        value={detailTextColor}
+                                        onChange={(detailTextColor) => setAttributes({ detailTextColor })}
                                     />
 
-                                    <ControlHeader headerText={'USD Font Size'} />
+                                    <ControlHeader headerText={'Link Color'} />
+                                    <ColorPalette
+                                        label={__("Color")}
+                                        colors={colors}
+                                        value={detailTextLinkColor}
+                                        onChange={(detailTextLinkColor) => setAttributes({ detailTextLinkColor })}
+                                    />
+
+                                    <ControlHeader headerText={'Content Font Size'} />
                                     <FontSizePicker
                                         __nextHasNoMarginBottom
                                         fontSizes={fontSizes}
-                                        value={lastSaleUSDFontsize}
+                                        value={detailTextFZ}
                                         fallbackFontSize={fallbackFontSize}
-                                        onChange={(lastSaleUSDFontsize) => setAttributes({ lastSaleUSDFontsize })}
+                                        onChange={(detailTextFZ) => setAttributes({ detailTextFZ })}
                                     />
-                                </frameElement>
+                                </PanelBody>
                             )
                         }
-                    </PanelBody>
-                    <PanelBody title={__("Button")} initialOpen={false}>
+                    </InspectorControls>
 
-                        <ControlHeader headerText={'Color'} />
-                        <ColorPalette
-                            label={__("Color")}
-                            colors={colors}
-                            value={buttonTextColor}
-                            onChange={(buttonTextColor) => setAttributes({ buttonTextColor })}
-                        />
-
-                        <ControlHeader headerText={'Background Color'} />
-                        <ColorPalette
-                            label={__("Color")}
-                            colors={colors}
-                            value={buttonBackgroundColor}
-                            onChange={(buttonBackgroundColor) => setAttributes({ buttonBackgroundColor })}
-                        />
-
-                        <ControlHeader headerText={'Font Size'} />
-                        <FontSizePicker
-                            __nextHasNoMarginBottom
-                            fontSizes={fontSizes}
-                            value={buttonFontSize}
-                            fallbackFontSize={fallbackFontSize}
-                            onChange={(buttonFontSize) => setAttributes({ buttonFontSize })}
-                        />
-                    </PanelBody>
-
-                    {
-
-                        isOpenseaSingle && (
-                            <PanelBody title={__("Rank")} initialOpen={false}>
-                                <ControlHeader headerText={'Label Color'} />
-                                <ColorPalette
-                                    label={__("Label Color")}
-                                    colors={colors}
-                                    value={rankLabelColor}
-                                    onChange={(rankLabelColor) => setAttributes({ rankLabelColor })}
-                                />
-
-                                <ControlHeader headerText={'Label Font Size'} />
-                                <FontSizePicker
-                                    __nextHasNoMarginBottom
-                                    fontSizes={fontSizes}
-                                    value={rankLabelFZ}
-                                    fallbackFontSize={fallbackFontSize}
-                                    onChange={(rankLabelFZ) => setAttributes({ rankLabelFZ })}
-                                />
-
-                                <ControlHeader headerText={'Color'} />
-                                <ColorPalette
-                                    label={__("Title Color")}
-                                    colors={colors}
-                                    value={rankBtnColor}
-                                    onChange={(rankBtnColor) => setAttributes({ rankBtnColor })}
-                                />
-
-                                <ControlHeader headerText={'Font Size'} />
-                                <FontSizePicker
-                                    __nextHasNoMarginBottom
-                                    fontSizes={fontSizes}
-                                    value={rankBtnFZ}
-                                    fallbackFontSize={fallbackFontSize}
-                                    onChange={(rankBtnFZ) => setAttributes({ rankBtnFZ })}
-                                />
-
-                                <ControlHeader headerText={'Border Color'} />
-                                <ColorPalette
-                                    label={__("Color")}
-                                    colors={colors}
-                                    value={rankBtnBorderColor}
-                                    onChange={(rankBtnBorderColor) => setAttributes({ rankBtnBorderColor })}
-                                />
-                            </PanelBody>
-                        )
-                    }
-
-                    {
-                        isOpenseaSingle && (
-                            <PanelBody title={__("Details")} initialOpen={false}>
-
-                                <ControlHeader headerText={'Title Color'} />
-                                <ColorPalette
-                                    label={__("Title Color")}
-                                    colors={colors}
-                                    value={detialTitleColor}
-                                    onChange={(detialTitleColor) => setAttributes({ detialTitleColor })}
-                                />
-
-                                <ControlHeader headerText={'Title Font Size'} />
-                                <FontSizePicker
-                                    __nextHasNoMarginBottom
-                                    fontSizes={fontSizes}
-                                    value={detialTitleFZ}
-                                    fallbackFontSize={fallbackFontSize}
-                                    onChange={(detialTitleFZ) => setAttributes({ detialTitleFZ })}
-                                />
-
-                                <ControlHeader headerText={'Content Color'} />
-                                <ColorPalette
-                                    label={__("Color")}
-                                    colors={colors}
-                                    value={detailTextColor}
-                                    onChange={(detailTextColor) => setAttributes({ detailTextColor })}
-                                />
-
-                                <ControlHeader headerText={'Link Color'} />
-                                <ColorPalette
-                                    label={__("Color")}
-                                    colors={colors}
-                                    value={detailTextLinkColor}
-                                    onChange={(detailTextLinkColor) => setAttributes({ detailTextLinkColor })}
-                                />
-
-                                <ControlHeader headerText={'Content Font Size'} />
-                                <FontSizePicker
-                                    __nextHasNoMarginBottom
-                                    fontSizes={fontSizes}
-                                    value={detailTextFZ}
-                                    fallbackFontSize={fallbackFontSize}
-                                    onChange={(detailTextFZ) => setAttributes({ detailTextFZ })}
-                                />
-                            </PanelBody>
-                        )
-                    }
-                </InspectorControls>
-
-            </PanelBody>
-        </div>
+                </PanelBody>
+            </div>
+        )
     )
 }
