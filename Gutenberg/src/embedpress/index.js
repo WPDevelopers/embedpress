@@ -157,7 +157,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			prefix_nftprice: {
 				type: 'string',
-				default: 'Price'
+				default: 'Current Price'
 			},
 			nftlastsale: {
 				type: 'boolean',
@@ -175,9 +175,17 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: true
 			},
+			label_nftrank: {
+				type: 'string',
+				default: 'Rank'
+			},
 			nftdetails: {
 				type: 'boolean',
 				default: true
+			},
+			label_nftdetails: {
+				type: 'string',
+				default: 'Details'
 			},
 			label_nftbutton: {
 				type: 'string',
@@ -285,6 +293,12 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 			},
 			rankBtnFZ: {
+				type: 'number',
+			},
+			rankLabelColor: {
+				type: 'string',
+			},
+			rankLabelFZ: {
 				type: 'number',
 			},
 			detialTitleColor: {

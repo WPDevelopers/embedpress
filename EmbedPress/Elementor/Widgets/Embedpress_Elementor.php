@@ -123,10 +123,10 @@ class Embedpress_Elementor extends Widget_Base
 				'label'       => __('Type', 'embedpress'),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
-				'default'     => 'single',
+				'default'     => 'collection',
 				'options'     => [
-					'single'  => __('Single Asset', 'embedpress'),
 					'collection'  => __('Assets Collection', 'embedpress'),
+					'single'  => __('Single Asset', 'embedpress'),
 				],
 				'condition'   => [
 					'embedpress_pro_embeded_source' => 'opensea'
@@ -1412,7 +1412,8 @@ class Embedpress_Elementor extends Widget_Base
 				'step' => 1,
 				'default' => 9,
 				'condition'   => [
-					'embedpress_pro_embeded_nft_type' => ['collection']
+					'embedpress_pro_embeded_nft_type' => ['collection'],
+					'embedpress_pro_embeded_source!' => 'default',
 				],
 			]
 		);
@@ -1427,7 +1428,8 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'default' => 'desc',
 				'condition'   => [
-					'embedpress_pro_embeded_nft_type' => ['collection']
+					'embedpress_pro_embeded_nft_type' => ['collection'],
+					'embedpress_pro_embeded_source!' => 'default',
 				],
 			]
 		);
@@ -1646,7 +1648,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'nftprice',
 			[
-				'label'       => __('Price', 'embedpress'),
+				'label'       => __('Current Price', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -1663,8 +1665,8 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'label'        => sprintf(__('Prefix %s', 'embedpress'), $this->pro_text),
 				'type' => \Elementor\Controls_Manager::TEXT,
-				'default' => esc_html__( 'Price', 'embedpress' ),
-				'placeholder' => esc_html__( 'Price', 'embedpress' ),
+				'default' => esc_html__( 'Current Price', 'embedpress' ),
+				'placeholder' => esc_html__( 'Current Price', 'embedpress' ),
 				'classes'     => $this->pro_class,
 				'condition' => [
 					'nftprice' => 'yes',
@@ -1745,9 +1747,24 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 		$this->add_control(
+			'label_nftrank',
+			[
+				'label'       => sprintf(__('Rank Label %s', 'embedpress'), $this->pro_text),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'Rank', 'embedpress' ),
+				'placeholder' => esc_html__( 'Rank', 'embedpress' ),
+				'classes'     => $this->pro_class,
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
+			]
+		);
+		
+		$this->add_control(
 			'nftdetails',
 			[
-				'label'       => __('NFT Details', 'embedpress'),
+				'label'       => __('Details', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -1760,6 +1777,20 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
+		$this->add_control(
+			'label_nftdetails',
+			[
+				'label'       => sprintf(__('Details Label %s', 'embedpress'), $this->pro_text),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => esc_html__( 'Details', 'embedpress' ),
+				'placeholder' => esc_html__( 'Details', 'embedpress' ),
+				'classes'     => $this->pro_class,
+				'condition' => [
+					'nftdetails' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
+			]
+		);
 
 		$this->end_controls_section();
 	}
@@ -1806,7 +1837,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'item_heading',
 			[
-				'label' => esc_html__( 'NFT Item', 'embedpress' ),
+				'label' => esc_html__( 'Item', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -2027,21 +2058,53 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'nftrank_heading',
 			[
-				'label' => esc_html__( 'NFT Rank', 'embedpress' ),
+				'label' => esc_html__( 'Rank', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 		
-		
+		$this->add_control(
+			'nftrank_label_color',
+			[
+				'label' => esc_html__( 'Label Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper' => 'color: {{VALUE}}!important;',
+				],
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
+			]
+		);
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name' => 'nftrank_label_typography',
+				'selector' => '{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper ',
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
+			]
+		);
 		$this->add_control(
 			'nftrank_color',
 			[
-				'label' => esc_html__( 'Color', 'embedpress' ),
+				'label' => esc_html__( 'Rank Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .ep-nft-single-item-wraper .ep_nft_button a.ep-nft-rank' => 'color: {{VALUE}}!important;',
+					'{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper span.ep-nft-rank' => 'color: {{VALUE}}!important;',
 				],
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 		$this->add_control(
@@ -2050,61 +2113,92 @@ class Embedpress_Elementor extends Widget_Base
 				'label' => esc_html__( 'Border Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .ep-nft-single-item-wraper .ep_nft_button a.ep-nft-rank' => 'border-color: {{VALUE}}!important',
+					'{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper span.ep-nft-rank' => 'border-color: {{VALUE}}!important',
 				],
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 		$this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			[
 				'name' => 'nftrank_typography',
-				'selector' => '{{WRAPPER}} .ep-nft-single-item-wraper .ep_nft_button a.ep-nft-rank',
+				'selector' => '{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper span.ep-nft-rank',
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
+
+		
 
 		$this->add_control(
 			'nftdetails_heading',
 			[
-				'label' => esc_html__( 'NFT Details', 'embedpress' ),
+				'label' => esc_html__( 'Details', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 
 		$this->add_control(
 			'nftdetail_title_color',
 			[
-				'label' => esc_html__( 'Detail Text Color', 'embedpress' ),
+				'label' => esc_html__( 'Title Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .ep-title' => 'color: {{VALUE}}',
 				],
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 		$this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			[
-				'label' => esc_html__( 'Detail Text Typography', 'embedpress' ),
+				'label' => esc_html__( 'Title Typography', 'embedpress' ),
 				'name' => 'nftdetail_title_typography',
 				'selector' => '{{WRAPPER}} .ep-title',
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 
 		$this->add_control(
 			'nftdetail_color',
 			[
-				'label' => esc_html__( 'Color', 'embedpress' ),
+				'label' => esc_html__( 'Content Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .ep-asset-detail-item' => 'color: {{VALUE}}',
 				],
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 		$this->add_group_control(
 			\Elementor\Group_Control_Typography::get_type(),
 			[
+				'label' => esc_html__( 'Content Typography', 'embedpress' ),
 				'name' => 'nftdetail_typography',
 				'selector' => '{{WRAPPER}} .ep-asset-detail-item',
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 
@@ -2116,6 +2210,10 @@ class Embedpress_Elementor extends Widget_Base
 				'selectors' => [
 					'{{WRAPPER}} .ep-asset-detail-item a' => 'color: {{VALUE}}',
 				],
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 		$this->add_group_control(
@@ -2123,6 +2221,10 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'name' => 'nftdetail_link_typography',
 				'selector' => '{{WRAPPER}} .ep-asset-detail-item a, .ep-asset-detail-item',
+				'condition' => [
+					'nftrank' => 'yes',
+					'embedpress_pro_embeded_nft_type!' => 'collection'
+				]
 			]
 		);
 		
