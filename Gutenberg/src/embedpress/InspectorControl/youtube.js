@@ -77,9 +77,6 @@ export const isYTVideo = (url) => {
     return url.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/i);
 }
 
-export const isWistiaVideo = (url) => {
-    return url.match(/\/medias\/|(?:https?:\/\/)?(?:www\.)?(?:wistia.com\/)(\w+)[^?\/]*$/i);
-}
 
 
 /**

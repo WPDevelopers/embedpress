@@ -58,8 +58,6 @@ class Feature_Enhancer
 			'thumbnail_quality' => isset($_POST['thumbnail_quality']) ? sanitize_text_field($_POST['thumbnail_quality']) : null,
 		]);
 
-		
-
 		wp_send_json($result);
 	}
 
@@ -250,7 +248,6 @@ class Feature_Enhancer
 
 						$embedHTML = $style . $markup;
 
-						
 					}
 					
 				}
@@ -538,8 +535,26 @@ class Feature_Enhancer
 
 		return $embed;
 	}
+
+	
+	//Check is Wistia validate url
+	public function wistiaValidateUrl(String $url)
+    {
+        return (bool) (preg_match('#\/medias\\\?\/([a-z0-9]+)\.?#i', (string) $url ));
+    }
+
+	// // Get wistia block attributes 
+	// public function get_wistia_block_attributes() {
+
+
+
+	// 	return [];
+	// }
+
+
 	public function enhance_wistia($embed)
 	{
+		
 		if (
 			isset($embed->provider_name)
 			&& strtoupper($embed->provider_name) === 'WISTIA, INC.'
@@ -669,6 +684,7 @@ class Feature_Enhancer
 
 		return $embed;
 	}
+
 	public function enhance_twitch($embed_content)
 	{
 		$e          = isset($embed_content->url) && isset($embed_content->{$embed_content->url}) ? $embed_content->{$embed_content->url} : [];
@@ -999,6 +1015,8 @@ class Feature_Enhancer
 			),
 		);
 	}
+	
+
 	public function getVideoIDFromURL($url)
 	{
 		// https://fast.wistia.com/embed/medias/xf1edjzn92.jsonp
@@ -1030,6 +1048,9 @@ class Feature_Enhancer
 		$html = '<script src="https://fast.wistia.com/assets/external/E-v1.js"></script>';
 		$html .= "<script>window.pp_embed_wistia_labels = {$labels};</script>\n";
 		$html .= "<script>wistiaEmbed = Wistia.embed( \"{$shortVideoId}\", {$embedOptions} );</script>\n";
+
+
+
 		echo $html;
 	}
 	public function embedpress_wistia_pro_get_options()

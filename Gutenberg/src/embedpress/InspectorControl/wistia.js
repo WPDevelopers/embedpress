@@ -4,6 +4,9 @@
  */
 const { __ } = wp.i18n;
 import { addProAlert, isPro, removeAlert } from '../../common/helper';
+import { getParams } from '../functions';
+const { isShallowEqualObjects } = wp.isShallowEqual;
+const { useState, useEffect } = wp.element;
 
 const {
     TextControl,
@@ -18,6 +21,97 @@ const {
 import {
     MediaUpload,
 } from "@wordpress/block-editor";
+
+
+
+export const init = () => {
+    addFilter('embedpress_block_rest_param', 'embedpress', getWistiaParams, 10);
+}
+
+export const getWistiaParams = (params, attributes) => {
+
+    if (!attributes.url) {
+        return params;
+    }
+
+    let wistiaAtts = {};
+
+    if (isWistiaVideo(attributes.url)) {
+        wistiaAtts = {
+            wstarttime: '',
+            wautoplay: false,
+            scheme: '',
+            captions: true,
+            playbar: true,
+            wfullscreen: true,
+            playbutton: true,
+            resumable: true,
+            wistiafocus: true,
+            volumecontrol: true,
+            volume: 100,
+            rewind: true,
+            customlogo: '',
+            logoX: 5,
+            logoY: 10,
+            customlogoUrl: '',
+            logoOpacity: .6,
+        }
+    }
+
+    // which attributes should be passed with rest api.
+    const defaults = {
+        ...wistiaAtts,
+    };
+
+    return getParams(params, attributes, defaults);
+}
+
+
+export const isWistiaVideo = (url) => {
+    return url.match(/\/medias\/|(?:https?:\/\/)?(?:www\.)?(?:wistia.com\/)(\w+)[^?\/]*$/i);
+}
+
+/**
+ *
+ * @param {object} attributes
+ * @returns
+ */
+export const useWistiaVideo = (attributes) => {
+    // which attribute should call embed();
+    const defaults = {
+        wstarttime: null,
+        wautoplay: null,
+        scheme: null,
+        captions: null,
+        playbar: null,
+        wfullscreen: null,
+        playbutton: null,
+        resumable: null,
+        wistiafocus: null,
+        volumecontrol: null,
+        volume: null,
+        rewind: null,
+        customlogo: null,
+        logoX: null,
+        logoY: null,
+        customlogoUrl: null,
+        logoOpacity: null,
+    };
+
+    const param = getParams({}, attributes, defaults);
+    const [atts, setAtts] = useState(param);
+
+    useEffect(() => {
+        const param = getParams(atts, attributes, defaults);
+        if (!isShallowEqualObjects(atts || {}, param)) {
+            setAtts(param);
+        }
+    }, [attributes]);
+
+    return atts;
+}
+
+
 
 export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
     const {
