@@ -38,7 +38,38 @@ export default function EmbedPress(props) {
 		embedHTML,
 		height,
 		width,
+		customlogo,
+		logoX,
+		logoY,
+		customlogoUrl,
+		logoOpacity,
 	} = attributes;
+
+	let customLogoTemp = '';
+	let customLogoStyle = '';
+
+	if (customlogo) {
+		customLogoStyle = `
+				border: 0;
+				position: absolute;
+				bottom: ${logoY}%;
+				right: ${logoX}%;
+				max-width: 150px;
+				max-height: 75px;
+				opacity: ${logoOpacity};
+				// z-index: 5;
+				-o-transition: opacity 0.5s ease-in-out;
+				-moz-transition: opacity 0.5s ease-in-out;
+				-webkit-transition: opacity 0.5s ease-in-out;
+				transition: opacity 0.5s ease-in-out;
+				`
+		customLogoTemp = `<img decoding="async"  src="${customlogo}" class="watermark" width="auto" height="auto">`;
+
+		if (customlogoUrl) {
+			customLogoTemp = `<a href="${customlogoUrl}"><img decoding="async" src="${customlogo}" class="watermark" width="auto" height="auto"></a>`;
+		}
+	}
+
 
 	const blockProps = useBlockProps ? useBlockProps() : [];
 
@@ -177,8 +208,8 @@ export default function EmbedPress(props) {
 			}
 
 			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo)) && <figure {...blockProps} >
-				<EmbedWrap style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo) ? 'none' : (isOpensea || isOpenseaSingle || isYTChannel || isYTVideo) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
-					__html: embedHTML
+				<EmbedWrap style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo) ? 'none' : (isOpensea || isOpenseaSingle || isYTChannel) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
+					__html: embedHTML + customLogoTemp,
 				}}></EmbedWrap>
 
 				{
@@ -207,6 +238,21 @@ export default function EmbedPress(props) {
 			</figure>}
 
 			<DynamicStyles url={url} clientId={clientId} {...attributes} />
+
+			{
+				customlogo && (
+					<style style={{ display: "none" }}>
+						{
+							`
+							#block-${clientId} img.watermark{
+								${customLogoStyle}
+							}
+							`
+						}
+					</style>
+				)
+			}
+
 
 		</Fragment>
 
