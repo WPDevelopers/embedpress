@@ -11,11 +11,100 @@ if (!defined('ABSPATH')) {
  * @param array $attributes
  */
 
+//Custom Logo 
+function customLogo($embedHTML, $atts){
+
+	$x = $atts['logoX'];
+	$y = $atts['logoY'];
+	$brandUrl = !empty($atts['customlogoUrl']) ? $atts['customlogoUrl'] : '';
+	$opacity = !empty($atts['logoOpacity']) ? $atts['logoOpacity'] : '';
+	
+	$cssClass = !empty( $atts['url'] ) ? '.ose-uid-' . md5( $atts['url'] ) : '.ose-youtube';
+
+	ob_start(); ?>
+	<style type="text/css">
+		<?php echo esc_html($cssClass); ?>
+		{
+			position: relative;
+		}
+		
+		<?php echo esc_html($cssClass); ?> .watermark {
+			border: 0;
+			position: absolute;
+			bottom: <?php echo esc_html($y); ?>%;
+			right: <?php echo esc_html($x); ?>%;
+			max-width: 150px;
+			max-height: 75px;
+			opacity: 0.25;
+			z-index: 5;
+			-o-transition: opacity 0.5s ease-in-out;
+			-moz-transition: opacity 0.5s ease-in-out;
+			-webkit-transition: opacity 0.5s ease-in-out;
+			transition: opacity 0.5s ease-in-out;
+			opacity: <?php echo esc_html($opacity); ?>;
+		}
+
+		<?php echo esc_html($cssClass); ?>
+		.watermark:hover {
+			opacity: 1;
+		}
+	</style>
+	<?php
+	$style = ob_get_clean();
+
+
+	if ( ! class_exists( '\simple_html_dom' ) ) {
+		include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
+	}
+
+	$cta    = '';
+	$img = '';
+
+	if(!empty($atts['customlogo'])){
+		$img = '<img src="'.esc_url($atts['customlogo']).'"/>';
+
+		$imgDom = str_get_html( $img );
+		$imgDom = $imgDom->find( 'img', 0 );
+		$imgDom->setAttribute( 'class', 'watermark' );
+		$imgDom->removeAttribute( 'style' );
+		$imgDom->setAttribute( 'width', 'auto' );
+		$imgDom->setAttribute( 'height', 'auto' );
+		ob_start();
+		echo $imgDom;
+
+		$cta .= ob_get_clean();
+
+		$imgDom->clear();
+		unset( $img, $imgDom );	
+
+		if ( !empty($brandUrl) ) {
+			$cta = '<a href="'.esc_url($brandUrl).'">'.$cta.'</a>';
+		}
+		$dom     = str_get_html( $embedHTML );		
+
+		$wrapDiv = $dom->find( ".ose-wistia", 0 );		
+
+		if ( ! empty( $wrapDiv ) && is_object( $wrapDiv ) ) {
+			$wrapDiv->innertext .= $cta;
+		}
+
+		ob_start();
+		echo $wrapDiv;
+		$markup = ob_get_clean();
+		
+		$dom->clear();
+		unset( $dom, $wrapDiv );
+
+		$embedHTML = $style . $markup;
+
+		return $embedHTML;
+
+	}
+
+}
 
 function embedpress_render_block($attributes)
 {
-
-
 
 	if (!empty($attributes['embedHTML'])) {
 		$embed         = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
@@ -31,6 +120,9 @@ function embedpress_render_block($attributes)
 		} else {
 			$alignment = 'aligncenter'; // default alignment is center in js, so keeping same here
 		}
+
+		$embed = customLogo($embed, $attributes);
+
 
 		ob_start();
 		?>

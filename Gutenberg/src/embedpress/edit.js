@@ -135,6 +135,7 @@ export default function EmbedPress(props) {
 					url,
 					width,
 					height,
+					isGutenBerg: true,
 				};
 
 				params = applyFilters('embedpress_block_rest_param', params, attributes);
@@ -145,7 +146,7 @@ export default function EmbedPress(props) {
 
 				return await apiFetch(args)
 					.then((res) => res)
-					.catch((err) => console.error(argserr));
+					.catch((argserr) => console.error(argserr));
 			}
 
 			fetchData(url).then(data => {
@@ -186,7 +187,7 @@ export default function EmbedPress(props) {
 		return () => {
 			clearTimeout(delayDebounceFn)
 		}
-	}, [openseaParams, youtubeParams, youtubeVideoParams]);
+	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams]);
 
 	return (
 		<Fragment>
@@ -207,11 +208,11 @@ export default function EmbedPress(props) {
 			</div>}
 
 			{
-				((!isOpensea || (!!editingURL || editingURL === 0)) && (!isOpenseaSingle || (!!editingURL || editingURL === 0)) && (!isYTVideo || (!!editingURL || editingURL === 0)) && (!isYTChannel || (!!editingURL || editingURL === 0))) && fetching && (<div className={className}><EmbedLoading /> </div>)
+				((!isOpensea || (!!editingURL || editingURL === 0)) && (!isOpenseaSingle || (!!editingURL || editingURL === 0)) && (!isYTVideo || (!!editingURL || editingURL === 0)) && (!isYTChannel || (!!editingURL || editingURL === 0)) && (!isWistiaVideo || (!!editingURL || editingURL === 0))) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo)) && <figure {...blockProps} >
-				<EmbedWrap style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo) ? 'none' : (isOpensea || isOpenseaSingle || isYTChannel) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo)) && <figure {...blockProps} >
+				<EmbedWrap style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle || isYTChannel) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
 					__html: embedHTML + customLogoTemp,
 				}}></EmbedWrap>
 

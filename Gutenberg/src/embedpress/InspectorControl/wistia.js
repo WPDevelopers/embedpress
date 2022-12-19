@@ -4,9 +4,11 @@
  */
 const { __ } = wp.i18n;
 import { addProAlert, isPro, removeAlert } from '../../common/helper';
+import ControlHeader from '../../common/control-heading';
 import { getParams } from '../functions';
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
+const { addFilter } = wp.hooks;
 
 const {
     TextControl,
@@ -37,6 +39,7 @@ export const getWistiaParams = (params, attributes) => {
     let wistiaAtts = {};
 
     if (isWistiaVideo(attributes.url)) {
+
         wistiaAtts = {
             wstarttime: '',
             wautoplay: false,
@@ -181,12 +184,14 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                     onChange={(wautoplay) => setAttributes({ wautoplay })}
                                 />
 
+                                <ControlHeader headerText={'Scheme'}/>
                                 <ColorPalette
                                     label={__("Scheme")}
                                     colors={colors}
                                     value={scheme}
                                     onChange={(scheme) => setAttributes({ scheme })}
                                 />
+                                <hr/>
 
                                 <ToggleControl
                                     label={__("Fullscreen Button")}

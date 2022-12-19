@@ -61,6 +61,100 @@ class Feature_Enhancer
 		wp_send_json($result);
 	}
 
+	//Custom Logo 
+	public function customLogo($embedHTML, $atts){
+		
+		$x = $atts['logoX'];
+		$y = $atts['logoY'];
+		$brandUrl = !empty($atts['customlogoUrl']) ? $atts['customlogoUrl'] : '';
+		$opacity = !empty($atts['logoOpacity']) ? $atts['logoOpacity'] : '';
+		
+		$cssClass = !empty( $atts['url'] ) ? '.ose-uid-' . md5( $atts['url'] ) : '.ose-youtube';
+
+
+		ob_start(); ?>
+		<style type="text/css">
+			<?php echo esc_html($cssClass); ?>
+			{
+				position: relative;
+			}
+
+			
+			<?php echo esc_html($cssClass); ?> .watermark {
+				border: 0;
+				position: absolute;
+				bottom: <?php echo esc_html($y); ?>%;
+				right: <?php echo esc_html($x); ?>%;
+				max-width: 150px;
+				max-height: 75px;
+				opacity: 0.25;
+				z-index: 5;
+				-o-transition: opacity 0.5s ease-in-out;
+				-moz-transition: opacity 0.5s ease-in-out;
+				-webkit-transition: opacity 0.5s ease-in-out;
+				transition: opacity 0.5s ease-in-out;
+				opacity: <?php echo esc_html($opacity); ?>;
+			}
+
+			<?php echo esc_html($cssClass); ?>
+			.watermark:hover {
+				opacity: 1;
+			}
+		</style>
+		<?php
+		$style = ob_get_clean();
+
+		if ( ! class_exists( '\simple_html_dom' ) ) {
+			include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
+		}
+
+		$cta    = '';
+		$img = '';
+
+		if(!empty($atts['customlogo'])){
+			$img = '<img src="'.esc_url($atts['customlogo']).'"/>';
+
+			$imgDom = str_get_html( $img );
+			$imgDom = $imgDom->find( 'img', 0 );
+			$imgDom->setAttribute( 'class', 'watermark' );
+			$imgDom->removeAttribute( 'style' );
+			$imgDom->setAttribute( 'width', 'auto' );
+			$imgDom->setAttribute( 'height', 'auto' );
+			ob_start();
+			echo $imgDom;
+
+			$cta .= ob_get_clean();
+
+			$imgDom->clear();
+			unset( $img, $imgDom );
+
+			if ( !empty($brandUrl) ) {
+				$cta = '<a href="'.esc_url($brandUrl).'">'.$cta.'</a>';
+			}
+			$dom     = str_get_html( $embedHTML );
+			$wrapDiv = $dom->find( "div.ose-youtube", 0 );
+			if ( ! empty( $wrapDiv ) && is_object( $wrapDiv ) ) {
+				$wrapDiv->innertext .= $cta;
+			}
+
+			ob_start();
+			echo $wrapDiv;
+			$markup = ob_get_clean();
+			$dom->clear();
+			unset( $dom, $wrapDiv );
+
+			
+
+			$embedHTML = $style . $markup;
+
+			return $embedHTML;
+
+		}
+
+		
+		// print_r($embedHTML); die;
+	}
+
 	//Check is YouTube single video
 	public function ytValidateUrl(String $url)
     {
@@ -97,6 +191,7 @@ class Feature_Enhancer
 			if($this->ytValidateUrl($attributes['url'])){
 				
 				$atts = [
+					'url'	=> $attributes['url'],
 					'starttime'    => !empty($attributes['starttime']) ? $attributes['starttime'] : '',
 					'endtime'   => !empty($attributes['endtime']) ? $attributes['endtime'] : '',
 					'autoplay'   => !empty($attributes['autoplay']) ? 1 : 0,
@@ -168,87 +263,7 @@ class Feature_Enhancer
 					// print_r($url_full);  echo '<br>';
 					// print_r($url_modified); die;
 
-					$x = $atts['logoX'];
-					$y = $atts['logoY'];
-					$brandUrl = $atts['customlogoUrl'];
-					$opacity = $atts['logoOpacity'];
-					
-					$cssClass = !empty( $attributes['url'] ) ? '.ose-uid-' . md5( $attributes['url'] ) : '.ose-youtube';
-
-					ob_start(); ?>
-					<style type="text/css">
-						<?php echo esc_html($cssClass); ?>
-						{
-							position: relative;
-						}
-
-						
-						<?php echo esc_html($cssClass); ?> .watermark {
-							border: 0;
-							position: absolute;
-							bottom: <?php echo esc_html($y); ?>%;
-							right: <?php echo esc_html($x); ?>%;
-							max-width: 150px;
-							max-height: 75px;
-							opacity: 0.25;
-							z-index: 5;
-							-o-transition: opacity 0.5s ease-in-out;
-							-moz-transition: opacity 0.5s ease-in-out;
-							-webkit-transition: opacity 0.5s ease-in-out;
-							transition: opacity 0.5s ease-in-out;
-							opacity: <?php echo esc_html($opacity); ?>;
-						}
-
-						<?php echo esc_html($cssClass); ?>
-						.watermark:hover {
-							opacity: 1;
-						}
-					</style>
-					<?php
-					$style = ob_get_clean();
-
-					if ( ! class_exists( '\simple_html_dom' ) ) {
-						include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
-					}
-
-					$cta    = '';
-					$img = '';
-
-					if(!empty($atts['customlogo'])){
-						$img = '<img src="'.esc_url($atts['customlogo']).'"/>';
-
-						$imgDom = str_get_html( $img );
-						$imgDom = $imgDom->find( 'img', 0 );
-						$imgDom->setAttribute( 'class', 'watermark' );
-						$imgDom->removeAttribute( 'style' );
-						$imgDom->setAttribute( 'width', 'auto' );
-						$imgDom->setAttribute( 'height', 'auto' );
-						ob_start();
-						echo $imgDom;
-
-						$cta .= ob_get_clean();
-
-						$imgDom->clear();
-						unset( $img, $imgDom );
-
-						if ( !empty($brandUrl) ) {
-							$cta = '<a href="'.esc_url($brandUrl).'">'.$cta.'</a>';
-						}
-						$dom     = str_get_html( $embedHTML );
-						$wrapDiv = $dom->find( "div.ose-youtube", 0 );
-						if ( ! empty( $wrapDiv ) && is_object( $wrapDiv ) ) {
-							$wrapDiv->innertext .= $cta;
-						}
-
-						ob_start();
-						echo $wrapDiv;
-						$markup = ob_get_clean();
-						$dom->clear();
-						unset( $dom, $wrapDiv );
-
-						$embedHTML = $style . $markup;
-
-					}
+					$embedHTML = $this->customLogo($embedHTML, $atts);
 					
 				}
 
@@ -543,17 +558,83 @@ class Feature_Enhancer
         return (bool) (preg_match('#\/medias\\\?\/([a-z0-9]+)\.?#i', (string) $url ));
     }
 
-	// // Get wistia block attributes 
-	// public function get_wistia_block_attributes() {
+	// Get wistia block attributes 
+	public function get_wistia_block_attributes($attributes) {
+		// Embed Options
+		$embedOptions = new \stdClass;
+		$embedOptions->videoFoam = true;
+		$embedOptions->fullscreenButton = (isset($attributes['data-wfullscreen']) && (bool) $attributes['data-wfullscreen'] === true);
+		$embedOptions->playbar = (isset($attributes['data-playbar']) && (bool) $attributes['data-playbar'] === true);
 
+		$embedOptions->smallPlayButton = (isset($attributes['data-playbutton']) && (bool) $attributes['data-playbutton'] === true);
 
+		$embedOptions->autoPlay = (isset($attributes['data-wautoplay']) && (bool) $attributes['data-wautoplay'] === true);
 
-	// 	return [];
-	// }
+		$embedOptions->time = isset($attributes['data-wstarttime']) ? $attributes['data-wstarttime'] : '';
+
+		if (isset($attributes['player_color'])) {
+			$color = $attributes['player_color'];
+			if (null !== $color) {
+				$embedOptions->playerColor = $color;
+			}
+		}
+
+		// Plugins
+		$pluginsBaseURL = plugins_url('assets/js/wistia/min', dirname(__DIR__) . '/embedpress-Wistia.php');
+
+		$pluginList = array();
+
+		// Resumable
+		if (isset($attributes['data-resumable'])) {
+			$isResumableEnabled = $attributes['data-resumable'];
+			if ($isResumableEnabled) {
+				// Add the resumable plugin
+				$pluginList['resumable'] = array(
+					'src' => $pluginsBaseURL . '/resumable.min.js',
+					'async' => false
+				);
+			}
+		}
+
+		// Add a fix for the autoplay and resumable work better together
+		if (isset($attributes->autoPlay)) {
+			if ($isResumableEnabled) {
+				$pluginList['fixautoplayresumable'] = array(
+					'src' => $pluginsBaseURL . '/fixautoplayresumable.min.js'
+				);
+			}
+		}
+
+		// Focus plugin
+		if (isset($attributes['data-wistiafocus'])) {
+			$isFocusEnabled = $attributes['data-wistiafocus'];
+			$pluginList['dimthelights'] = array(
+				'src' => $pluginsBaseURL . '/dimthelights.min.js',
+				'autoDim' => $isFocusEnabled
+			);
+			$embedOptions->focus = $isFocusEnabled;
+		}
+
+		// Rewind plugin
+		if (isset($attributes['data-rewind'])) {
+			if ($attributes['data-rewind']) {
+				$embedOptions->rewindTime = isset($attributes['data-rewind']) ? (int) $attributes['data-rewind'] : 10;
+
+				$pluginList['rewind'] = array(
+					'src' => $pluginsBaseURL . '/rewind.min.js'
+				);
+			}
+		}
+		$embedOptions->plugin = $pluginList;
+		$embedOptions = json_encode($embedOptions);	
+
+		return $embedOptions;
+	}
 
 
 	public function enhance_wistia($embed)
 	{
+
 		
 		if (
 			isset($embed->provider_name)
@@ -574,6 +655,8 @@ class Feature_Enhancer
 			// Set the class in the attributes
 			$embed->attributes->class = str_replace('{provider_alias}', 'wistia', $embed->attributes->class);
 			$embed->embed = str_replace('ose-wistia, inc.', 'ose-wistia', $embed->embed);
+
+
 
 			// Embed Options
 			$embedOptions = new \stdClass;
@@ -643,6 +726,15 @@ class Feature_Enhancer
 			$embedOptions->plugin = $pluginList;
 			$embedOptions = json_encode($embedOptions);
 
+			if($embed->attributes->{'data-isGutenBerg'}){
+				$embedAttributes = (array) $embed->attributes;
+				$embedOption = $this->get_wistia_block_attributes($embedAttributes);
+	
+				$embedOptions = json_encode($embedOption);
+
+				// print_r($embedOptions);
+			}
+
 			// Get the video ID
 			$videoId = $this->getVideoIDFromURL($embed->url);
 			$shortVideoId = substr($videoId, 0, 3);
@@ -681,6 +773,8 @@ class Feature_Enhancer
 			$html .= '</div>';
 			$embed->embed = $html;
 		}
+
+		$embed = $this->customLogo($embed, (array) $embed->attributes);
 
 		return $embed;
 	}
