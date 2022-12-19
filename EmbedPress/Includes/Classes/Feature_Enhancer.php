@@ -626,7 +626,7 @@ class Feature_Enhancer
 			}
 		}
 		$embedOptions->plugin = $pluginList;
-		$embedOptions = json_encode($embedOptions);	
+		
 
 		return $embedOptions;
 	}
@@ -724,6 +724,8 @@ class Feature_Enhancer
 				}
 			}
 			$embedOptions->plugin = $pluginList;
+
+			
 			$embedOptions = json_encode($embedOptions);
 
 			if($embed->attributes->{'data-isGutenBerg'}){
@@ -773,8 +775,6 @@ class Feature_Enhancer
 			$html .= '</div>';
 			$embed->embed = $html;
 		}
-
-		$embed = $this->customLogo($embed, (array) $embed->attributes);
 
 		return $embed;
 	}
