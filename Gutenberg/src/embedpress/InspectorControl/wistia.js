@@ -154,11 +154,11 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
     }
 
     const colors = [
-        { name: '', color: 'red' },
-        { name: '', color: 'green' },
-        { name: '', color: 'blue' },
-        { name: '', color: 'yellow' },
-        { name: '', color: 'orange' },
+        { name: '', color: '#FF0000' },
+        { name: '', color: '#00FF00' },
+        { name: '', color: '#0000FF' },
+        { name: '', color: '#FFFF00' },
+        { name: '', color: '#FFA500' },
     ];
 
     return (
