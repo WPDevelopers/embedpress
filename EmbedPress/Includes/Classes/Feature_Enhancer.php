@@ -83,7 +83,8 @@ class Feature_Enhancer
 		$embedOptions->fullscreenButton = (isset($attributes['wfullscreen']) && (bool) $attributes['wfullscreen'] === true);
 		$embedOptions->playbar = (isset($attributes['playbar']) && (bool) $attributes['playbar'] === true);
 
-		$embedOptions->smallPlayButton = (isset($attributes['playbutton']) && (bool) $attributes['playbutton'] === true);
+		$embedOptions->playButton = (isset($attributes['playbutton']) && (bool) $attributes['playbutton'] === true);
+		$embedOptions->smallPlayButton = (isset($attributes['smallplaybutton']) && (bool) $attributes['smallplaybutton'] === true);
 
 		$embedOptions->autoPlay = (isset($attributes['wautoplay']) && (bool) $attributes['wautoplay'] === true);
 
@@ -151,6 +152,7 @@ class Feature_Enhancer
 
 	public function gutenberg_embed($embedHTML, $attributes)
 	{
+
 
 		if (!empty($attributes['url'])) {
 			$youtube = new Youtube($attributes['url']);
@@ -261,6 +263,9 @@ class Feature_Enhancer
 
 
 			$embedOptions = $this->get_wistia_block_attributes($attributes);
+
+			
+		// print_r($embedOptions); die;
 
 
 			// Get the video ID
@@ -510,6 +515,7 @@ class Feature_Enhancer
 
 		return $embed;
 	}
+	
 	public function enhance_vimeo($embed)
 	{
 		if (

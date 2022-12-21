@@ -373,6 +373,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: false
 			},
+			smallplaybutton: {
+				type: 'boolean',
+				default: false
+			},
 			playbar: {
 				type: 'boolean',
 				default: false

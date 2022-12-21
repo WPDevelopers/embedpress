@@ -48,6 +48,7 @@ export const getWistiaParams = (params, attributes) => {
             playbar: true,
             wfullscreen: true,
             playbutton: true,
+            smallplaybutton: true,
             resumable: true,
             wistiafocus: true,
             volumecontrol: true,
@@ -89,6 +90,7 @@ export const useWistiaVideo = (attributes) => {
         playbar: null,
         wfullscreen: null,
         playbutton: null,
+        smallplaybutton: null,
         resumable: null,
         wistiafocus: null,
         volumecontrol: null,
@@ -125,6 +127,7 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
         playbar,
         wfullscreen,
         playbutton,
+        smallplaybutton,
         resumable,
         wistiafocus,
         volumecontrol,
@@ -199,9 +202,14 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                     onChange={(wfullscreen) => setAttributes({ wfullscreen })}
                                 />
                                 <ToggleControl
-                                    label={__("Small Play Button")}
+                                    label={__("Play Button")}
                                     checked={playbutton}
                                     onChange={(playbutton) => setAttributes({ playbutton })}
+                                />
+                                <ToggleControl
+                                    label={__("Small Play Button")}
+                                    checked={smallplaybutton}
+                                    onChange={(smallplaybutton) => setAttributes({ smallplaybutton })}
                                 />
                                 <ToggleControl
                                     label={__("Resumeable ")}
