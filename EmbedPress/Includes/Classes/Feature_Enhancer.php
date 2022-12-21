@@ -580,7 +580,7 @@ class Feature_Enhancer
 		}
 
 		// Plugins
-		$pluginsBaseURL = plugins_url('assets/js/wistia/min', dirname(__DIR__) . '/embedpress-Wistia.php');
+		$pluginsBaseURL = plugins_url('assets/js/wistia/min', EMBEDPRESS_FILE);
 
 		$pluginList = array();
 
@@ -678,7 +678,7 @@ class Feature_Enhancer
 			}
 
 			// Plugins
-			$pluginsBaseURL = plugins_url('assets/js/wistia/min', dirname(__DIR__) . '/embedpress-Wistia.php');
+			$pluginsBaseURL = plugins_url('assets/js/wistia/min', EMBEDPRESS_FILE);
 
 			$pluginList = array();
 
@@ -1165,7 +1165,7 @@ class Feature_Enhancer
 		}
 
 		// Plugins
-		$pluginsBaseURL = plugins_url('assets/js/wistia/min', dirname(__DIR__) . '/embedpress-Wistia.php');
+		$pluginsBaseURL = plugins_url('assets/js/wistia/min', EMBEDPRESS_FILE);
 
 		$pluginList = array();
 
