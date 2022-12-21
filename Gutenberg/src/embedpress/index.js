@@ -332,9 +332,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			fullscreen: {
 				type: 'boolean',
+				default: true,
 			},
 			videoannotations: {
 				type: 'boolean',
+				default: true,
 			},
 			progressbarcolor: {
 				type: 'string',
@@ -342,12 +344,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			closedcaptions: {
 				type: 'boolean',
+				default: true,
 			},
 			modestbranding: {
 				type: 'string',
 			},
 			relatedvideos: {
 				type: 'boolean',
+				default: true,
 			},
 
 			//Wistia video controls attribute
@@ -363,27 +367,27 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			captions: {
 				type: 'boolean',
-				default: true
+				default: false
 			},
 			playbutton: {
 				type: 'boolean',
-				default: true
+				default: false
 			},
 			playbar: {
 				type: 'boolean',
-				default: true
+				default: false
 			},
 			resumable: {
 				type: 'boolean',
-				default: true
+				default: false
 			},
 			wistiafocus: {
 				type: 'boolean',
-				default: true
+				default: false
 			},
 			volumecontrol: {
 				type: 'boolean',
-				default: true
+				default: false
 			},
 			volume: {
 				type: 'number',
@@ -391,11 +395,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			rewind: {
 				type: 'boolean',
-				default: true
+				default: false
 			},
 			wfullscreen: {
 				type: 'boolean',
-				default: true
+				default: false
 			},
 	
 			//Custom logo atributes
