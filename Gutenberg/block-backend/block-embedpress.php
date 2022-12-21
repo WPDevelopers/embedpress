@@ -14,13 +14,16 @@ if (!defined('ABSPATH')) {
 //Custom Logo 
 function customLogo($embedHTML, $atts){
 
-	$x = $atts['logoX'];
-	$y = $atts['logoY'];
+	$x = !empty($atts['logoX']) ? $atts['logoX'] : 0;
+	$y = !empty($atts['logoY']) ? $atts['logoY'] : 0;
+	$uniqid = '.ose-uid-' . md5($atts['url']);
+	
 	$brandUrl = !empty($atts['customlogoUrl']) ? $atts['customlogoUrl'] : '';
 	$opacity = !empty($atts['logoOpacity']) ? $atts['logoOpacity'] : '';
 	
 	$cssClass = !empty( $atts['url'] ) ? '.ose-uid-' . md5( $atts['url'] ) : '.ose-youtube';
 
+	
 	ob_start(); ?>
 	<style type="text/css">
 		<?php echo esc_html($cssClass); ?>
@@ -49,9 +52,10 @@ function customLogo($embedHTML, $atts){
 			opacity: 1;
 		}
 	</style>
-	<?php
-	$style = ob_get_clean();
+	<?php 
 
+
+	$style = ob_get_clean();
 
 	if ( ! class_exists( '\simple_html_dom' ) ) {
 		include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
@@ -82,7 +86,7 @@ function customLogo($embedHTML, $atts){
 		}
 		$dom     = str_get_html( $embedHTML );		
 
-		$wrapDiv = $dom->find( ".ose-wistia", 0 );		
+		$wrapDiv = $dom->find( $uniqid, 0 );		
 
 		if ( ! empty( $wrapDiv ) && is_object( $wrapDiv ) ) {
 			$wrapDiv->innertext .= $cta;
@@ -90,6 +94,7 @@ function customLogo($embedHTML, $atts){
 
 		ob_start();
 		echo $wrapDiv;
+		
 		$markup = ob_get_clean();
 		
 		$dom->clear();
@@ -97,9 +102,9 @@ function customLogo($embedHTML, $atts){
 
 		$embedHTML = $style . $markup;
 
-		return $embedHTML;
-
 	}
+
+	return $embedHTML;
 
 }
 
@@ -108,6 +113,7 @@ function embedpress_render_block($attributes)
 
 	if (!empty($attributes['embedHTML'])) {
 		$embed         = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
+		
 		$aligns = [
 			'left' => 'alignleft',
 			'right' => 'alignright',
