@@ -182,17 +182,29 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 'include_orders' => true,
             );
             
-            $url = "https://api.opensea.io/api/v1/asset/$matches[1]/$matches[2]/?" . http_build_query($param);
+            if(false === ($get_transient_data = get_transient( 'get_assets' ))){
 
-            $results = wp_remote_get($url, [
-                'headers' => array(
-                    'Content-Type' => 'application/json',
-                    'X-API-KEY' => $api_key,
-                )
-            ]);
+                $get_transient_data = [];
+
+                $url = "https://api.opensea.io/api/v1/asset/$matches[1]/$matches[2]/?" . http_build_query($param);
+
+                $results = wp_remote_get($url, [
+                    'headers' => array(
+                        'Content-Type' => 'application/json',
+                        'X-API-KEY' => $api_key,
+                    )
+                ]);
+
+                $get_transient_data = $results['body'];
+
+                set_transient( 'get_assets', $get_transient_data, MONTH_IN_SECONDS );
+
+            }
+
+            // print_r($get_transient_data); die;
 
             if (!is_wp_error($results) ) {
-                $jsonResult = json_decode($results['body']);
+                $jsonResult = json_decode($get_transient_data);
             }
             
             $asset = $this->normalizeJSONData($jsonResult);
@@ -848,7 +860,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 </div>
             ';
 
-        if(!(strpos($item['permalink'], '/ethereum/') > 0)){    
+        if(empty($item['permalink']) && !(strpos($item['permalink'], '/ethereum/') > 0)){    
             return '<h4 style="text-align: center">Currently, this blockchain is not supported.</h4>';
         }
         
