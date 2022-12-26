@@ -6,7 +6,6 @@ import Iframe from '../common/Iframe';
 import ControlHeader from '../common/control-heading';
 import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
-import apiFetch from '@wordpress/api-fetch';
 
 
 /**
@@ -16,7 +15,7 @@ import apiFetch from '@wordpress/api-fetch';
 const { __ } = wp.i18n;
 const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
 const { BlockIcon, MediaPlaceholder, InspectorControls } = wp.blockEditor;
-const { Component, Fragment } = wp.element;
+const { Component, Fragment, useEffect } = wp.element;
 const { RangeControl, PanelBody, ExternalLink, ToggleControl, SelectControl, RadioControl } = wp.components;
 
 import {
@@ -25,8 +24,6 @@ import {
 } from '@wordpress/components';
 
 import { PdfIcon } from '../common/icons'
-
-const { useEffect } = wp.element;
 
 
 const ALLOWED_MEDIA_TYPES = [
@@ -186,12 +183,13 @@ class EmbedPressPDFEdit extends Component {
 		const min = 1;
 		const max = 1000;
 
+
 		let widthMin = 0;
 		let widthMax = 100;
+
 		if(unitoption == 'px'){
 			widthMax = 1500;
 		}
-
 
 		const docLink = 'https://embedpress.com/docs/embed-document/';
 		const isProPluginActive = embedpressObj.is_pro_plugin_active;
@@ -266,9 +264,9 @@ class EmbedPressPDFEdit extends Component {
 				<Fragment>
 
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
-					<div className={'embedpress-document-embed ep-doc-' + id} style={{ width: width, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`}>
+					<div className={'embedpress-document-embed ep-doc-' + id} style={{ width: width+unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`}>
 						{mime === 'application/pdf' && (
-							<iframe powered_by={powered_by} style={{ height: height, width: width }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} data-emsrc={href} src={pdf_viewer_src}></iframe>
+							<iframe powered_by={powered_by} style={{ height: height, width: width+unitoption }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} data-emsrc={href} src={pdf_viewer_src}></iframe>
 
 						)}
 
@@ -294,7 +292,7 @@ class EmbedPressPDFEdit extends Component {
 							title={__('Embed Size(px)', 'embedpress')}
 						>
 							<div className={'ep-pdf-width-contol'}>
-								<ControlHeader headerText={'WIDTH'} />
+								<ControlHeader classname={'ep-control-header'} headerText={'WIDTH'} />
 								<RadioControl
 									selected={unitoption}
 									options={[
@@ -306,6 +304,7 @@ class EmbedPressPDFEdit extends Component {
 									}
 									className={'ep-unit-choice-option'}
 								/>
+
 								<RangeControl
 									value={width}
 									onChange={(width) =>
@@ -314,6 +313,7 @@ class EmbedPressPDFEdit extends Component {
 									max={widthMax}
 									min={widthMin}
 								/>
+
 							</div>
 
 							<RangeControl

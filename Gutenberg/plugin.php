@@ -206,6 +206,10 @@ function embedpress_gutenberg_register_all_block()
 								'type' => "boolean",
 								'default' => true,
 							],
+							'unitoption' => [
+								'type' => "string",
+								'default' => '%',
+							],
 						),
 						'render_callback' => 'embedpress_pdf_render_block',
 					]);
@@ -247,15 +251,16 @@ function getParamData($attributes){
 
 function embedpress_pdf_render_block($attributes)
 {
+	// print_r($attributes); die;
 
 	if (!empty($attributes['href'])) {
 		$renderer = Helper::get_pdf_renderer();
 		$pdf_url = $attributes['href'];
 		$id = !empty($attributes['id']) ? $attributes['id'] : 'embedpress-pdf-' . rand(100, 10000);
 
-		$unitoption = !empty($attributes['unitoption']) ? $attributes['unitoption'] : 'px';
+		$unitoption = !empty($attributes['unitoption']) ? $attributes['unitoption'] : '%';
+		$width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : '100%';
 
-		$width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : '600px';
 		$height = !empty($attributes['height']) ? $attributes['height'] . 'px' : '600px';
 		$gen_settings    = get_option(EMBEDPRESS_PLG_NAME);
 
