@@ -80,9 +80,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: 'boolean',
 				default: true,
 			},
+			unitoption: {
+				type: 'string',
+				default: '%',
+			},
+			
 			width: {
 				type: 'number',
-				default: 600,
+				default: 100,
 			},
 			height: {
 				type: 'number',
@@ -96,9 +101,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			}
 		},
 		edit,
-		save: function (props) {
-			return null;
-		},
+		save: () => null,
 
 
 	});
