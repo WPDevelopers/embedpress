@@ -80,6 +80,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: 'boolean',
 				default: true,
 			},
+			unitoption: {
+				type: 'string',
+				default: '%',
+			},
+			
 			width: {
 				type: 'number',
 				default: 600,

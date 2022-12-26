@@ -657,7 +657,7 @@ span.eb_nft_currency svg {
   padding: 1em;
   display: -ms-flexbox;
   display: flex;
-  color: #4d4845;
+  color: #333;
   font-weight: bold;
   cursor: pointer;
   border-radius: 10px 10px 0 0;
@@ -959,6 +959,47 @@ span.isPro {
 
 .ep__components-placeholder, .wp-block-embedpress-embedpress, .block-editor-block-list__block {
   clear: both !important; }
+
+.ep-pdf-width-contol {
+  position: relative; }
+
+.ep-unit-choice-option {
+  margin: 0 !important;
+  position: absolute;
+  top: 15px;
+  right: 0; }
+
+.ep-unit-choice-option .components-base-control__field .components-flex {
+  -ms-flex-direction: row !important;
+      flex-direction: row !important;
+  -ms-flex-pack: end;
+      justify-content: end;
+  gap: 5px; }
+
+.ep-unit-choice-option .components-radio-control__option {
+  position: relative; }
+
+.ep-unit-choice-option .components-radio-control__option label {
+  position: absolute;
+  top: 50%;
+  /* position the top  edge of the element at the middle of the parent */
+  left: 50%;
+  /* position the left edge of the element at the middle of the parent */
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  font-size: 12px; }
+
+.ep-unit-choice-option .components-radio-control__input {
+  margin: 0;
+  border: none; }
+
+.ep-unit-choice-option .components-radio-control__input[type=radio]:checked:before {
+  background-color: var(--wp-admin-theme-color);
+  border: 4px solid var(--wp-admin-theme-color); }
+
+.components-radio-control__input[type=radio]:checked + label {
+  color: white; }
 /**
  * #.# Common SCSS
  *

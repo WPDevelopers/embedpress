@@ -252,7 +252,10 @@ function embedpress_pdf_render_block($attributes)
 		$renderer = Helper::get_pdf_renderer();
 		$pdf_url = $attributes['href'];
 		$id = !empty($attributes['id']) ? $attributes['id'] : 'embedpress-pdf-' . rand(100, 10000);
-		$width = !empty($attributes['width']) ? $attributes['width'] . 'px' : '600px';
+
+		$unitoption = !empty($attributes['unitoption']) ? $attributes['unitoption'] : 'px';
+
+		$width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : '600px';
 		$height = !empty($attributes['height']) ? $attributes['height'] . 'px' : '600px';
 		$gen_settings    = get_option(EMBEDPRESS_PLG_NAME);
 

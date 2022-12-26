@@ -164,11 +164,16 @@ class Embedpress_Pdf extends Widget_Base
                 'label'     => __('Width', 'embedpress'),
                 'type'      => Controls_Manager::SLIDER,
                 'separator' => 'before',
+                'size_units' => [ 'px', '%' ],
                 'default'   => [
-                    'unit' => 'px',
-                    'size' => 600,
+                    'unit' => '%',
+                    'size' => 100,
                 ],
                 'range'     => [
+                    '%' => [
+                        'min' => 0,
+                        'max' => 100,
+                    ],
                     'px' => [
                         'min' => 6,
                         'max' => 1000,
@@ -176,6 +181,7 @@ class Embedpress_Pdf extends Widget_Base
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .embedpress-document-embed iframe'               => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
+                    '{{WRAPPER}} .embedpress-document-embed' => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
                     '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
                 ],
                 'render_type' => 'template',

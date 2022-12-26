@@ -3,6 +3,7 @@
  */
 
 import Iframe from '../common/Iframe';
+import ControlHeader from '../common/control-heading';
 import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
 import apiFetch from '@wordpress/api-fetch';
@@ -16,7 +17,7 @@ const { __ } = wp.i18n;
 const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
 const { BlockIcon, MediaPlaceholder, InspectorControls } = wp.blockEditor;
 const { Component, Fragment } = wp.element;
-const { RangeControl, PanelBody, ExternalLink, ToggleControl, SelectControl } = wp.components;
+const { RangeControl, PanelBody, ExternalLink, ToggleControl, SelectControl, RadioControl } = wp.components;
 
 import {
 	__experimentalToggleGroupControl as ToggleGroupControl,
@@ -178,12 +179,20 @@ class EmbedPressPDFEdit extends Component {
 
 		const { attributes, noticeUI, setAttributes, clientId } = this.props;
 
-		const { href, mime, id, width, height, powered_by, themeMode, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
 
 
 		const { hasError, interactive, fetching, loadPdf } = this.state;
 		const min = 1;
 		const max = 1000;
+
+		let widthMin = 0;
+		let widthMax = 100;
+		if(unitoption == 'px'){
+			widthMax = 1500;
+		}
+
+
 		const docLink = 'https://embedpress.com/docs/embed-document/';
 		const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
@@ -284,18 +293,29 @@ class EmbedPressPDFEdit extends Component {
 						<PanelBody
 							title={__('Embed Size(px)', 'embedpress')}
 						>
-							<RangeControl
-								label={__(
-									'Width',
-									'embedpress'
-								)}
-								value={width}
-								onChange={(width) =>
-									setAttributes({ width })
-								}
-								max={max}
-								min={min}
-							/>
+							<div className={'ep-pdf-width-contol'}>
+								<ControlHeader headerText={'WIDTH'} />
+								<RadioControl
+									selected={unitoption}
+									options={[
+										{ label: '%', value: '%' },
+										{ label: 'PX', value: 'px' },
+									]}
+									onChange={(unitoption) =>
+										setAttributes({ unitoption })
+									}
+									className={'ep-unit-choice-option'}
+								/>
+								<RangeControl
+									value={width}
+									onChange={(width) =>
+										setAttributes({ width })
+									}
+									max={widthMax}
+									min={widthMin}
+								/>
+							</div>
+
 							<RangeControl
 								label={__(
 									'Height',
