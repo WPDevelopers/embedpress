@@ -147,16 +147,33 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
     }
 
     //Create transient for opensea api request
-    public function createTransient($url, $api_key){
-        $results = wp_remote_get($url, [
-            'headers' => array(
-                'Content-Type' => 'application/json',
-                'X-API-KEY' => $api_key,
-            )
-        ]);
+    public function createTransient($api_key, $url, $api_url, $param){
+
+        $all_params = $param['limit'].$param['order_direction'].$param['collection_slug'];
+
+        // print_r($param['order_direction']);
+
+        $md5 = md5($api_key.$url.$all_params);
+
+        $cache_key = $md5. '_nft_cache';
+
+        if(false === ($transient_data = get_transient( $cache_key ))){
+
+            $transient_data = [];
+
+            $results = wp_remote_get($api_url, [
+                'headers' => array(
+                    'Content-Type' => 'application/json',
+                    'X-API-KEY' => $api_key,
+                )
+            ]);
+            
+            $transient_data = $results['body'];
+            set_transient( $cache_key, $transient_data, DAY_IN_SECONDS );
+        }
 
         if (!is_wp_error($results) ) {
-            $jsonResult = json_decode($results['body']);
+            $jsonResult = json_decode($transient_data);
         }
 
         return $jsonResult;
@@ -168,7 +185,10 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         $opensea_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
 
-        $params = $this->getParams();
+        $param = array(
+            'include_orders' => true,
+        );
+        $api_url = "https://api.opensea.io/api/v1/asset/$matches[1]/$matches[2]/?" . http_build_query($param);
 
         $api_key = 'b61c8a54123d4dcb9acc1b9c26a01cd1';
         
@@ -178,43 +198,15 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         
         if(!empty($matches[1]) && !empty($matches[2])){
 
-            $param = array(
-                'include_orders' => true,
-            );
-            
-            if(false === ($get_transient_data = get_transient( 'get_assets' ))){
-
-                $get_transient_data = [];
-
-                $url = "https://api.opensea.io/api/v1/asset/$matches[1]/$matches[2]/?" . http_build_query($param);
-
-                $results = wp_remote_get($url, [
-                    'headers' => array(
-                        'Content-Type' => 'application/json',
-                        'X-API-KEY' => $api_key,
-                    )
-                ]);
-
-                $get_transient_data = $results['body'];
-
-                set_transient( 'get_assets', $get_transient_data, MONTH_IN_SECONDS );
-
-            }
-
-            // print_r($get_transient_data); die;
-
-            if (!is_wp_error($results) ) {
-                $jsonResult = json_decode($get_transient_data);
-            }
+            $jsonResult = $this->createTransient($api_key, $url, $api_url, $param);
             
             $asset = $this->normalizeJSONData($jsonResult);
             
             $template = $this->nftSingleItemTemplate($asset);
+
             ob_start();
 
             ?>
-            
-
                 <div class="ep-parent-wrapper ep-parent-ep-nft-gallery-r1a5mbx ">
                     <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx">
                         <div class="ep_nft_content_wrap ep_nft__wrapper nft_items ep-nft-single-item-wraper ep-list">
@@ -229,14 +221,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
             return $html;
 
-            return "
-            <!-- vertical=\"true\" -->
-            <nft-card
-            width=\"{$params['maxwidth']}\"
-            contractAddress=\"{$matches[1]}\"
-            tokenId=\"{$matches[2]}\">
-            </nft-card>
-            <script src=\"https://unpkg.com/embeddable-nfts/dist/nft-card.min.js\"></script>";
         }
 
         return "";
@@ -252,8 +236,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         $api_key = 'b61c8a54123d4dcb9acc1b9c26a01cd1';
         $orderby = 'desc';
-
-        
+    
 
         if(!empty($opensea_settings['api_key'])){
             $api_key = $opensea_settings['api_key'];
@@ -273,12 +256,16 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             $html = "";
             $params = $this->getParams();
 
+            $param = [];
+
             //This limit comes from Elementor and Gutenberg
             if(! empty( $params['limit'] ) &&  $params['limit']  != 'false'){
                 $limit =  $params['limit'];
+                $param['limit'] = $limit;
             }
             if(! empty( $params['orderby'] ) &&  $params['orderby']  != 'false'){
                 $orderby =  $params['orderby'];
+                $param['order_direction'] = $orderby;
             }
 
             // Embepress NFT item layout
@@ -295,27 +282,12 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 }
             }
 
-            $param = array(
-                'limit' => $limit,
-                'order_direction' => $orderby,
-                'collection_slug' => $matches[1],
-                'include_orders' => true,
-            );
+            $param['collection_slug'] = $matches[1];
+            $param['include_orders'] = true;
 
-            $url = "https://api.opensea.io/api/v1/assets?" . http_build_query($param);
+            $api_url = "https://api.opensea.io/api/v1/assets?" . http_build_query($param);
 
-            $results = wp_remote_get($url, [
-                'headers' => array(
-                    'Content-Type' => 'application/json',
-                    'X-API-KEY' => $api_key,
-                )
-            ]);
-            if (!is_wp_error($results) ) {
-                $jsonResult = json_decode($results['body']);
-                // wp_send_json($jsonResult);
-
-                // $html = print_r($jsonResult, true);
-            }
+            $jsonResult = $this->createTransient($api_key, $url, $api_url, $param);
 
             ob_start();
             ?>
