@@ -360,38 +360,38 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			wautoplay: {
 				type: 'boolean',
-				default: false
+				default: true
 			},
 			scheme: {
 				type: 'string',
 			},
 			captions: {
 				type: 'boolean',
-				default: false
+				default: true
 			},
 			playbutton: {
 				type: 'boolean',
-				default: false
+				default: true
 			},
 			smallplaybutton: {
 				type: 'boolean',
-				default: false
+				default: true
 			},
 			playbar: {
 				type: 'boolean',
-				default: false
+				default: true
 			},
 			resumable: {
 				type: 'boolean',
-				default: false
+				default: true
 			},
 			wistiafocus: {
 				type: 'boolean',
-				default: false
+				default: true
 			},
 			volumecontrol: {
 				type: 'boolean',
-				default: false
+				default: true
 			},
 			volume: {
 				type: 'number',
