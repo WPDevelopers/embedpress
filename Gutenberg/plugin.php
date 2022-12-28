@@ -159,6 +159,57 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'string',
 								'default' => '600'
 							],
+							'wstarttime' => [
+								'type' => 'string',
+							],
+							'wautoplay' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'scheme' => [
+								'type' => 'string',
+							],
+							'captions' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'playbutton' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'smallplaybutton' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'playbar' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'resumable' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'wistiafocus' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'volumecontrol' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'volume' => [
+								'type' => 'number',
+								'default' => 100
+							],
+							'rewind' => [
+								'type' => 'boolean',
+								'default' => false
+							],
+							'wfullscreen' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+
 						),
 					]);
 				} elseif ('embedpress-pdf' === $blocks_to_register) {
@@ -168,10 +219,12 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'boolean',
 								'default' => true
 							],
+
 							'presentation' => [
 								'type' => "boolean",
 								'default' => true,
 							],
+
 							'position' => [
 								'type' => "string",
 								'default' => 'top',
@@ -233,20 +286,21 @@ function embedpress_gutenberg_register_all_block()
 
 add_action('init', 'embedpress_gutenberg_register_all_block');
 
-function getParamData($attributes){
+function getParamData($attributes)
+{
 
-    $urlParamData = array(
-        'themeMode' =>  !empty($attributes['themeMode']) ? $attributes['themeMode'] : 'default',
-        'toolbar' =>  !empty($attributes['toolbar']) ? 'true' : 'false',
-        'position' =>  $attributes['position'],
-        'presentation' =>  !empty($attributes['presentation']) ? 'true' : 'false',
-        'download' =>  !empty($attributes['download']) ? 'true' : 'false',
-        'copy_text' =>  !empty($attributes['copy_text']) ? 'true' : 'false',
-        'doc_rotation' => !empty($attributes['doc_rotation']) ? 'true' : 'false',
-        'doc_details' =>  !empty($attributes['doc_details']) ? 'true' : 'false',
-    );
+	$urlParamData = array(
+		'themeMode' =>  !empty($attributes['themeMode']) ? $attributes['themeMode'] : 'default',
+		'toolbar' =>  !empty($attributes['toolbar']) ? 'true' : 'false',
+		'position' =>  $attributes['position'],
+		'presentation' =>  !empty($attributes['presentation']) ? 'true' : 'false',
+		'download' =>  !empty($attributes['download']) ? 'true' : 'false',
+		'copy_text' =>  !empty($attributes['copy_text']) ? 'true' : 'false',
+		'doc_rotation' => !empty($attributes['doc_rotation']) ? 'true' : 'false',
+		'doc_details' =>  !empty($attributes['doc_details']) ? 'true' : 'false',
+	);
 
-    return "#". http_build_query($urlParamData);
+	return "#" . http_build_query($urlParamData);
 }
 
 function embedpress_pdf_render_block($attributes)
@@ -269,7 +323,7 @@ function embedpress_pdf_render_block($attributes)
 			$powered_by = $attributes['powered_by'];
 		}
 
-		$src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $attributes['href'].getParamData($attributes);
+		$src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $attributes['href'] . getParamData($attributes);
 
 		$hash = md5($id);
 		$aligns = [
@@ -290,17 +344,17 @@ function embedpress_pdf_render_block($attributes)
 				<?php do_action('embedpress_pdf_gutenberg_after_embed',  $hash, 'pdf', $attributes, $pdf_url); ?>
 
 				<?php
-					if ($powered_by) {
-						printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
-					} ?>
+						if ($powered_by) {
+							printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+						} ?>
 			</div>
 
 		</div>
 	<?php
 
-		return ob_get_clean();
+			return ob_get_clean();
+		}
 	}
-}
 
 	function embedpress_calendar_render_block($attributes)
 	{
@@ -342,10 +396,10 @@ function embedpress_pdf_render_block($attributes)
 
 		<?php
 			if ($powered_by) {
-				printf('<p class="embedpress-el-powered" style="width:'.esc_attr( $width ).'" >%s</p>', __('Powered By EmbedPress', 'embedpress'));
+				printf('<p class="embedpress-el-powered" style="width:' . esc_attr($width) . '" >%s</p>', __('Powered By EmbedPress', 'embedpress'));
 			} ?>
 
 	</div>
-	<?php
-		return ob_get_clean();
-	}
+<?php
+	return ob_get_clean();
+}
