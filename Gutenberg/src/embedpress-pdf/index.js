@@ -82,12 +82,12 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			unitoption: {
 				type: 'string',
-				default: '%',
+				default: 'px',
 			},
 			
 			width: {
 				type: 'number',
-				default: 100,
+				default: 600,
 			},
 			height: {
 				type: 'number',

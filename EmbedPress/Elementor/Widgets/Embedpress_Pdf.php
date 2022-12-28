@@ -166,8 +166,8 @@ class Embedpress_Pdf extends Widget_Base
                 'separator' => 'before',
                 'size_units' => [ 'px', '%' ],
                 'default'   => [
-                    'unit' => '%',
-                    'size' => 100,
+                    'unit' => 'px',
+                    'size' => 600,
                 ],
                 'range'     => [
                     '%' => [
