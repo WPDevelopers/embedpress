@@ -187,14 +187,14 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                     onChange={(wautoplay) => setAttributes({ wautoplay })}
                                 />
 
-                                <ControlHeader headerText={'Scheme'}/>
+                                <ControlHeader headerText={'Scheme'} />
                                 <ColorPalette
                                     label={__("Scheme")}
                                     colors={colors}
                                     value={scheme}
                                     onChange={(scheme) => setAttributes({ scheme })}
                                 />
-                                <hr/>
+                                <hr />
 
                                 <ToggleControl
                                     label={__("Fullscreen Button")}
@@ -243,6 +243,10 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                     onChange={(playbar) => setAttributes({ playbar })}
                                 />
 
+                                {
+                                    console.log(playbar)
+                                }
+
                                 <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                                     <ToggleControl
                                         label={__("Volume Control")}
@@ -257,20 +261,25 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                     }
                                 </div>
 
-                                <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                    <RangeControl
-                                        label={__("Volume", "embedpress")}
-                                        value={volume}
-                                        onChange={(volume) => setAttributes({ volume })}
-                                        min={1}
-                                        max={100}
-                                    />
-                                    {
-                                        (!isProPluginActive) && (
-                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                        )
-                                    }
-                                </div>
+                                {
+                                    volumecontrol && (
+
+                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                            <RangeControl
+                                                label={__("Volume", "embedpress")}
+                                                value={volume}
+                                                onChange={(volume) => setAttributes({ volume })}
+                                                min={1}
+                                                max={100}
+                                            />
+                                            {
+                                                (!isProPluginActive) && (
+                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                                )
+                                            }
+                                        </div>
+                                    )
+                                }
 
                                 <ToggleControl
                                     label={__("Rewind")}
