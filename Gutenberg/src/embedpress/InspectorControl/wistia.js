@@ -217,11 +217,11 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                     onChange={(resumable) => setAttributes({ resumable })}
                                 />
 
-                                <ToggleControl
+                                {/* <ToggleControl
                                     label={__("Focus")}
                                     checked={wistiafocus}
                                     onChange={(wistiafocus) => setAttributes({ wistiafocus })}
-                                />
+                                /> */}
 
                                 <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                                     <ToggleControl
@@ -242,10 +242,6 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                     checked={playbar}
                                     onChange={(playbar) => setAttributes({ playbar })}
                                 />
-
-                                {
-                                    console.log(playbar)
-                                }
 
                                 <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                                     <ToggleControl
@@ -281,11 +277,11 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                     )
                                 }
 
-                                <ToggleControl
+                                {/* <ToggleControl
                                     label={__("Rewind")}
                                     checked={rewind}
                                     onChange={(rewind) => setAttributes({ rewind })}
-                                />
+                                /> */}
 
                             </div>
                         </PanelBody>

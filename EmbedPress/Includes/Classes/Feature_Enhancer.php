@@ -153,6 +153,7 @@ class Feature_Enhancer
 	public function gutenberg_embed($embedHTML, $attributes)
 	{
 
+			// print_r($attributes); die;
 
 		if (!empty($attributes['url'])) {
 			$youtube = new Youtube($attributes['url']);
@@ -264,10 +265,6 @@ class Feature_Enhancer
 
 			$embedOptions = $this->get_wistia_block_attributes($attributes);
 
-			
-		// print_r($embedOptions); die;
-
-
 			// Get the video ID
 			$videoId = $this->getVideoIDFromURL($attributes['url']);
 			$shortVideoId = substr($videoId, 0, 3);
@@ -304,9 +301,10 @@ class Feature_Enhancer
 			$html .= "<script>window._wq = window._wq || []; _wq.push({\"{$shortVideoId}\": {$embedOptions}});</script>\n";
 			$html .= '<div ' . join(' ', $attribs) . "></div>\n";
 			$html .= '</div>';
-			$attributes['embedHTML'] = $html;
 			$embedHTML = $html;
 		}
+
+		// print_r($embedHTML); die;
 
 		return $embedHTML ;
 	}
@@ -577,6 +575,7 @@ class Feature_Enhancer
 			foreach ($params as $param => $value) {
 				$url_modified = add_query_arg($param, $value, $url_modified);
 			}
+
 			if (isset($options['start_time'])) {
 				$url_modified .= '#t=' . $options['start_time'];
 			}
@@ -591,7 +590,7 @@ class Feature_Enhancer
 
 	public function enhance_wistia($embed)
 	{
-
+		
 		
 		if (
 			isset($embed->provider_name)
@@ -635,7 +634,7 @@ class Feature_Enhancer
 			}
 
 			// Plugins
-			$pluginsBaseURL = plugins_url('assets/js/wistia/min', EMBEDPRESS_FILE);
+			$pluginsBaseURL = plugins_url('assets/js/wistia/min', dirname(__DIR__) . '/embedpress-Wistia.php');
 
 			$pluginList = array();
 
@@ -721,8 +720,9 @@ class Feature_Enhancer
 			$html .= '<div ' . join(' ', $attribs) . "></div>\n";
 			$html .= '</div>';
 			$embed->embed = $html;
-			$embed->html = $html;
 		}
+
+		// print_r($embed); die;
 
 		return $embed;
 	}
@@ -1113,7 +1113,7 @@ class Feature_Enhancer
 		}
 
 		// Plugins
-		$pluginsBaseURL = plugins_url('assets/js/wistia/min', EMBEDPRESS_FILE);
+		$pluginsBaseURL = plugins_url('assets/js/wistia/min', dirname(__DIR__) . '/embedpress-Wistia.php');
 
 		$pluginList = array();
 

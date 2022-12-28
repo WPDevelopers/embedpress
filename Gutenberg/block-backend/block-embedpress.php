@@ -111,8 +111,6 @@ function customLogo($embedHTML, $atts){
 function embedpress_render_block($attributes)
 {
 
-	// print_r($attributes); die;
-
 	if (!empty($attributes['embedHTML'])) {
 		$embed         = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
 		

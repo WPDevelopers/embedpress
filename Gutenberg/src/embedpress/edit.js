@@ -86,6 +86,7 @@ export default function EmbedPress(props) {
 	const youtubeVideoParams = useYTVideo(attributes);
 	const wistiaVideoParams = useWistiaVideo(attributes);
 
+
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
 	}
@@ -100,12 +101,11 @@ export default function EmbedPress(props) {
 	}
 
 	function execScripts() {
-		let scripts = embedHTML.matchAll(/<script(.*?)>([.\s\S]*?)<\/script>/g);
+		let scripts = embedHTML.matchAll(/<script.*?src=["'](.*?)["'].*?><\/script>/g);
 		scripts = [...scripts];
 		for (const script of scripts) {
-			if (script && script[1] && !(script[2] || script[2].trim())) {
-				const atts = getAttributes(script[0])
-				const url = atts.src.value;
+			if (script && typeof script[1] != 'undefined') {
+				const url = script[1];
 				const hash = md5(url);
 				const exist = document.getElementById(hash);
 				if (exist) {
@@ -116,11 +116,6 @@ export default function EmbedPress(props) {
 				s.setAttribute('id', hash);
 				s.setAttribute('src', url);
 				document.body.appendChild(s);
-			}
-			else if(script[2] && script[2].trim()){
-				const inlineScript = new Function(script[2]);
-				inlineScript();
-				console.log(script[2]);
 			}
 		};
 	}

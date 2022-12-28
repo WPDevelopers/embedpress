@@ -403,7 +403,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			wfullscreen: {
 				type: 'boolean',
-				default: false
+				default: true
 			},
 	
 			//Custom logo atributes
