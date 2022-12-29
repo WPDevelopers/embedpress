@@ -4,6 +4,7 @@ namespace EmbedPress\Includes\Classes;
 
 use Elementor\Group_Control_Image_Size;
 use Elementor\Utils;
+use SplMinHeap;
 
 class Elementor_Enhancer {
 	public static function youtube( $embed, $setting ) {
@@ -247,7 +248,7 @@ class Elementor_Enhancer {
 
 		// Embed Options
 		$embedOptions                   = new \stdClass;
-		$embedOptions->videoFoam        = true;
+		$embedOptions->videoFoam        = false;
 		$embedOptions->fullscreenButton = ( $setting['embedpress_pro_wistia_fullscreen_button'] === 'yes' );
 		$embedOptions->smallPlayButton  = ( $setting['embedpress_pro_wistia_small_play_button'] === 'yes' );
 		$embedOptions->autoPlay         = ( $setting['embedpress_pro_wistia_auto_play'] === 'yes' );
@@ -276,7 +277,7 @@ class Elementor_Enhancer {
 			// Add the resumable plugin
 			$pluginList['resumable'] = [
 				'src'   => $pluginsBaseURL . '/resumable.min.js',
-				'async' => false,
+				'async' => true,
 			];
 		}
 
@@ -326,8 +327,6 @@ class Elementor_Enhancer {
 
 			$embedOptions->focus = $isFocusEnabled;
 		}
-
-
 		$embedOptions->plugin = $pluginList;
 		$embedOptions         = json_encode( $embedOptions );
 

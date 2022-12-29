@@ -201,27 +201,21 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                     checked={wfullscreen}
                                     onChange={(wfullscreen) => setAttributes({ wfullscreen })}
                                 />
-                                <ToggleControl
-                                    label={__("Play Button")}
-                                    checked={playbutton}
-                                    onChange={(playbutton) => setAttributes({ playbutton })}
-                                />
-                                <ToggleControl
-                                    label={__("Small Play Button")}
-                                    checked={smallplaybutton}
-                                    onChange={(smallplaybutton) => setAttributes({ smallplaybutton })}
-                                />
+
+                                {
+                                    wautoplay && (
+                                        <ToggleControl
+                                            label={__("Small Play Button")}
+                                            checked={smallplaybutton}
+                                            onChange={(smallplaybutton) => setAttributes({ smallplaybutton })}
+                                        />
+                                    )
+                                }
                                 <ToggleControl
                                     label={__("Resumeable ")}
                                     checked={resumable}
                                     onChange={(resumable) => setAttributes({ resumable })}
                                 />
-
-                                {/* <ToggleControl
-                                    label={__("Focus")}
-                                    checked={wistiafocus}
-                                    onChange={(wistiafocus) => setAttributes({ wistiafocus })}
-                                /> */}
 
                                 <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                                     <ToggleControl
@@ -276,12 +270,6 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                         </div>
                                     )
                                 }
-
-                                {/* <ToggleControl
-                                    label={__("Rewind")}
-                                    checked={rewind}
-                                    onChange={(rewind) => setAttributes({ rewind })}
-                                /> */}
 
                             </div>
                         </PanelBody>

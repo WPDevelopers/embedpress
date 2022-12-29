@@ -266,7 +266,7 @@ class EmbedPressPDFEdit extends Component {
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
 					<div className={'embedpress-document-embed ep-doc-' + id} style={{ width: width+unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`}>
 						{mime === 'application/pdf' && (
-							<iframe powered_by={powered_by} style={{ height: height, width: width+unitoption }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} data-emsrc={href} src={pdf_viewer_src}></iframe>
+							<iframe powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} data-emsrc={href} src={pdf_viewer_src}></iframe>
 
 						)}
 

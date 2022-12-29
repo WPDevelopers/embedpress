@@ -1413,7 +1413,15 @@ class Embedpress_Elementor extends Widget_Base
 				'default' => 9,
 				'condition'   => [
 					'embedpress_pro_embeded_nft_type' => ['collection'],
-					'embedpress_pro_embeded_source!' => 'default',
+					'embedpress_pro_embeded_source!' => [
+						'default',    
+						'youtube',    
+						'vimeo',     
+						'dailymotion',
+						'wistia',    
+						'twitch',
+						'soundcloud', 
+					],
 				],
 			]
 		);
@@ -1429,7 +1437,15 @@ class Embedpress_Elementor extends Widget_Base
 				'default' => 'desc',
 				'condition'   => [
 					'embedpress_pro_embeded_nft_type' => ['collection'],
-					'embedpress_pro_embeded_source!' => 'default',
+					'embedpress_pro_embeded_source!' => [
+						'default',    
+						'youtube',    
+						'vimeo',     
+						'dailymotion',
+						'wistia',    
+						'twitch',
+						'soundcloud', 
+					],
 				],
 			]
 		);

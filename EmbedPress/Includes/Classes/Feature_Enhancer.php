@@ -77,9 +77,11 @@ class Feature_Enhancer
 
 	// Get wistia block attributes 
 	public function get_wistia_block_attributes($attributes) {
+
+		// print_r($attributes); die;
 		// Embed Options
 		$embedOptions = new \stdClass;
-		$embedOptions->videoFoam = true;
+		$embedOptions->videoFoam = false;
 		$embedOptions->fullscreenButton = (isset($attributes['wfullscreen']) && (bool) $attributes['wfullscreen'] === true);
 		$embedOptions->playbar = (isset($attributes['playbar']) && (bool) $attributes['playbar'] === true);
 
@@ -87,65 +89,46 @@ class Feature_Enhancer
 		$embedOptions->smallPlayButton = (isset($attributes['smallplaybutton']) && (bool) $attributes['smallplaybutton'] === true);
 
 		$embedOptions->autoPlay = (isset($attributes['wautoplay']) && (bool) $attributes['wautoplay'] === true);
+		$embedOptions->resumable = (isset($attributes['resumable']) && (bool) $attributes['resumable'] === true);
 
 		$embedOptions->time = isset($attributes['wstarttime']) ? $attributes['wstarttime'] : '';
-		$embedOptions->volumeControl = (isset($attributes['volumecontrol']) && (bool) $attributes['volumecontrol'] === true);
+
+		if ( is_embedpress_pro_active() ) {
+			$embedOptions->volumeControl = (isset($attributes['volumecontrol']) && (bool) $attributes['volumecontrol'] === true);
+
+			$volume = isset($attributes['volume']) ? (float) $attributes['volumecontrol'] : 0;
+
+			if ( $volume > 1 ) {
+				$volume = $volume / 100;
+			}
+			$embedOptions->volume = $volume;
+		}
+
+		$pluginList = [];
 
 		if (isset($attributes['scheme'])) {
 			$color = $attributes['scheme'];
 			if (null !== $color) {
 				$embedOptions->playerColor = $color;
 			}
-		}
+		}	
 
-		// Plugins
-		$pluginsBaseURL = plugins_url('assets/js/wistia/min', dirname(__DIR__) . '/embedpress-Wistia.php');
-
-		$pluginList = array();
-
-		// Resumable
-		if (isset($attributes['resumable'])) {
-			$isResumableEnabled = $attributes['resumable'];
-			if ($isResumableEnabled) {
-				// Add the resumable plugin
-				$pluginList['resumable'] = array(
-					'src' => $pluginsBaseURL . '/resumable.min.js',
-					'async' => false
-				);
+		// Closed Captions plugin
+		if ( $attributes['captions'] === true ) {
+			$isCaptionsEnabled          = ( $attributes['captions'] === true );
+			$isCaptionsEnabledByDefault = ( $attributes['captions'] === true );
+			if ( $isCaptionsEnabled ) {
+				$pluginList['captions-v1'] = [
+					'onByDefault' => $isCaptionsEnabledByDefault,
+				];
 			}
+			$embedOptions->captions        = $isCaptionsEnabled;
+			$embedOptions->captionsDefault = $isCaptionsEnabledByDefault;
 		}
 
-		// Add a fix for the autoplay and resumable work better together
-		if (isset($attributes->autoPlay)) {
-			if ($isResumableEnabled) {
-				$pluginList['fixautoplayresumable'] = array(
-					'src' => $pluginsBaseURL . '/fixautoplayresumable.min.js'
-				);
-			}
-		}
-
-		// Focus plugin
-		if (isset($attributes['wistiafocus'])) {
-			$isFocusEnabled = $attributes['wistiafocus'];
-			$pluginList['dimthelights'] = array(
-				'src' => $pluginsBaseURL . '/dimthelights.min.js',
-				'autoDim' => $isFocusEnabled
-			);
-			$embedOptions->focus = $isFocusEnabled;
-		}
-
-		// Rewind plugin
-		if (isset($attributes['rewind'])) {
-			if ($attributes['rewind']) {
-				$embedOptions->rewindTime = isset($attributes['rewind']) ? (int) $attributes['rewind'] : 10;
-
-				$pluginList['rewind'] = array(
-					'src' => $pluginsBaseURL . '/rewind.min.js'
-				);
-			}
-		}
 		$embedOptions->plugin = $pluginList;
 		
+
 
 		return json_encode($embedOptions);
 	}
@@ -616,7 +599,7 @@ class Feature_Enhancer
 
 			// Embed Options
 			$embedOptions = new \stdClass;
-			$embedOptions->videoFoam = true;
+			// $embedOptions->videoFoam = true;
 			$embedOptions->fullscreenButton = (isset($options['display_fullscreen_button']) && (bool) $options['display_fullscreen_button'] === true);
 			$embedOptions->playbar = (isset($options['display_playbar']) && (bool) $options['display_playbar'] === true);
 
@@ -1100,7 +1083,7 @@ class Feature_Enhancer
 		$options = $this->getOptions('wistia', $this->get_wistia_settings_schema());
 		// Embed Options
 		$embedOptions = new \stdClass;
-		$embedOptions->videoFoam        = true;
+		// $embedOptions->videoFoam        = true;
 		$embedOptions->fullscreenButton = (isset($options['display_fullscreen_button']) && (bool) $options['display_fullscreen_button'] === true);
 		$embedOptions->smallPlayButton  = (isset($options['small_play_button']) && (bool) $options['small_play_button'] === true);
 		$embedOptions->autoPlay         = (isset($options['autoplay']) && (bool) $options['autoplay'] === true);
