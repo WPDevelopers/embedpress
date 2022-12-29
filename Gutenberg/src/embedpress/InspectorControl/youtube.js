@@ -70,7 +70,7 @@ export const getYoutubeParams = (params, attributes) => {
 }
 
 export const isYTChannel = (url) => {
-    return url.match(/\/channel\/|\/c\/|\/user\/|\/@|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
+    return url.match(/\/channel\/|\/c\/|\/user\/|\/@[a-z]|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
 }
 
 export const isYTVideo = (url) => {
@@ -175,6 +175,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
 
     return (
         <div>
+            
             {
                 isYTChannel && (
                     <div className={'ep__channel-yt-video-options'}>
@@ -220,7 +221,6 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                     </div>
                 )
             }
-
 
             {
                 isYTVideo && (
