@@ -202,15 +202,12 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                     onChange={(wfullscreen) => setAttributes({ wfullscreen })}
                                 />
 
-                                {
-                                    wautoplay && (
-                                        <ToggleControl
-                                            label={__("Small Play Button")}
-                                            checked={smallplaybutton}
-                                            onChange={(smallplaybutton) => setAttributes({ smallplaybutton })}
-                                        />
-                                    )
-                                }
+                                <ToggleControl
+                                    label={__("Small Play Button")}
+                                    checked={smallplaybutton}
+                                    onChange={(smallplaybutton) => setAttributes({ smallplaybutton })}
+                                />
+                                
                                 <ToggleControl
                                     label={__("Resumeable ")}
                                     checked={resumable}
