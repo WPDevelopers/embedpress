@@ -207,12 +207,7 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                     checked={smallplaybutton}
                                     onChange={(smallplaybutton) => setAttributes({ smallplaybutton })}
                                 />
-                                
-                                <ToggleControl
-                                    label={__("Resumeable ")}
-                                    checked={resumable}
-                                    onChange={(resumable) => setAttributes({ resumable })}
-                                />
+                            
 
                                 <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                                     <ToggleControl
