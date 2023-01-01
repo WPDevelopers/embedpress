@@ -111,6 +111,8 @@ function customLogo($embedHTML, $atts){
 function embedpress_render_block($attributes)
 {
 
+	// print_r($attributes); die;
+
 	if (!empty($attributes['embedHTML'])) {
 		$embed         = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
 		
@@ -133,7 +135,7 @@ function embedpress_render_block($attributes)
 		ob_start();
 		?>
 		<div class="embedpress-gutenberg-wrapper">
-			<div class="wp-block-embed__wrapper <?php echo esc_attr($alignment) ?>">
+			<div class="wp-block-embed__wrapper <?php echo esc_attr($alignment) ?> <?php if($attributes['videosize'] == 'responsive') echo 'ep-video-responsive'; ?>">
 				<?php echo $embed; ?>
 			</div>
 		</div>
@@ -152,7 +154,11 @@ function embedpress_render_block($attributes)
 
 function embedpress_render_block_style($attributes)
 {
+
+	// print_r($attributes); die; 
+
 	$uniqid = '.ose-uid-' . md5($attributes['url']);
+
 	$youtubeStyles = '<style>
 		' . esc_attr($uniqid) . ' {
 			width: ' . esc_attr($attributes['width']) . 'px !important;
@@ -165,6 +171,29 @@ function embedpress_render_block_style($attributes)
 			width: 100%;
 		}
 	</style>';
+
+	if($attributes['videosize'] == 'responsive') {
+		$youtubeStyles = '<style>
+		' . esc_attr($uniqid) . ' {
+			position: relative;
+			width: ' . esc_attr($attributes['width']) . 'px !important;
+			height: 0;
+			padding-top: 56.25%;
+		  }
+		
+		  ' . esc_attr($uniqid) . ' > iframe {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		  }
+
+		  .ep-video-responsive{
+			display: inline-block!important;
+		  }
+	</style>';
+	}
 
 	return $youtubeStyles;
 }

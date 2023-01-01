@@ -318,6 +318,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'number',
 			},
 			//YouTube single video controls attribute
+			videosize: {
+				type: 'string',
+				default: 'fixed',
+			},
 			starttime: {
 				type: 'string',
 			},

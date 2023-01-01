@@ -41,6 +41,7 @@ export const getYoutubeParams = (params, attributes) => {
 
     if (isYTVideo(attributes.url)) {
         ytvAtts = {
+            videosize: 'fixed',
             starttime: '',
             endtime: '',
             autoplay: false,
@@ -107,6 +108,7 @@ export const useYTChannel = (attributes) => {
 export const useYTVideo = (attributes) => {
     // which attribute should call embed();
     const defaults = {
+        videosize: null,
         starttime: null,
         endtime: null,
         autoplay: null,
@@ -141,6 +143,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         pagesize,
         columns,
         gapbetweenvideos,
+        videosize,
         starttime,
         endtime,
         autoplay,

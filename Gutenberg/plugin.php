@@ -159,6 +159,10 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'string',
 								'default' => '600'
 							],
+							'videosize' => [
+								'type' => 'string',
+								'default' => 'fixed'
+							],
 							'wstarttime' => [
 								'type' => 'string',
 							],
