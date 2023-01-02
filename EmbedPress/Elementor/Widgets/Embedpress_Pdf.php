@@ -180,8 +180,8 @@ class Embedpress_Pdf extends Widget_Base
                     ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .embedpress-document-embed iframe'               => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
-                    '{{WRAPPER}} .embedpress-document-embed' => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
+                    '{{WRAPPER}} .embedpress-document-embed iframe'               => 'width: {{SIZE}}{{UNIT}}; max-width: 100%',
+                    '{{WRAPPER}} .embedpress-document-embed' => 'width: {{SIZE}}{{UNIT}}!important; max-width: 100%',
                     '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
                 ],
                 'render_type' => 'template',
@@ -461,6 +461,10 @@ class Embedpress_Pdf extends Widget_Base
 
     public function _render($url, $settings, $id)
     {
+        $unitoption = 'emebedpress-unit-px';
+        if($settings['embedpress_elementor_document_width']['unit'] === '%'){
+            $unitoption = 'emebedpress-unit-percent';
+        }
         $id = 'embedpress-pdf-' . $id;
         $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
         $this->add_render_attribute('embedpres-pdf-render', [
@@ -468,7 +472,7 @@ class Embedpress_Pdf extends Widget_Base
             'data-emid' => $id
         ]);
         $this->add_render_attribute('embedpress-document', [
-            'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document'],
+            'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document', $unitoption ],
             'data-thememode' => $settings['embedpress_theme_mode'],
             'data-toolbar' => $settings['pdf_toolbar'],
             'data-toolbar-position' =>  $settings['pdf_toolbar_position'],

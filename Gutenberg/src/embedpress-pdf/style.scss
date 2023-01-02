@@ -183,6 +183,21 @@ span.isPro {
 }
 
 
+// .embedpress-pdf.ep-alignright .embedpress-inner-iframe{
+//     text-align:right;
+// }
+
+// .embedpress-pdf.ep-alignleft .embedpress-inner-iframe{
+//     text-align:left;
+// }
+// .embedpress-pdf.ep-alignright .embedpress-el-powered{
+//     text-align:right;
+// }
+
+// .embedpress-pdf.ep-alignleft .embedpress-el-powered{
+//     text-align:left;
+// }
+
 .ep__components-placeholder, .wp-block-embedpress-embedpress, .block-editor-block-list__block{
     clear: both!important;
 }
@@ -235,6 +250,10 @@ span.isPro {
     font-size: 11px;
 }
 
-.embedpress-inner-iframe {
-    width: 100%;
+// .embedpress-inner-iframe {
+//     width: 100%;
+// }
+
+.emebedpress-unit-percent iframe{
+    width: 100%!important;
 }
