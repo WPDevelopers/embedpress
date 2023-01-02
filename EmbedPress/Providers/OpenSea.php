@@ -149,7 +149,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
     //Create transient for opensea api request
     public function createTransient($api_key, $url, $api_url, $param){
 
-        $all_params = $param['limit'].$param['order_direction'].$param['collection_slug'];
+        $results = '';
+        $all_params = ( isset($param['limit'] ) ? $param['limit'] : '' ) . ( isset($param['order_direction'] ) ? $param['order_direction'] : '' ) . ( isset($param['collection_slug'] ) ? $param['collection_slug'] : '' );
 
         // print_r($param['order_direction']);
 
