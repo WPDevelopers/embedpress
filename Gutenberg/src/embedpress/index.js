@@ -326,6 +326,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			autoplay: {
 				type: 'boolean',
+				default: false,
 			},
 			controls: {
 				type: 'string',

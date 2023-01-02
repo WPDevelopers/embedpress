@@ -103,7 +103,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label'       => __('Source Name', 'embedpress'),
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
-				'default'     => ['default'],
+				'default'     => 'default',
 				'options'     => [
 					'default'     => __('Default', 'embedpress'),
 					'youtube'     => __('YouTube', 'embedpress'),

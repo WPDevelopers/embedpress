@@ -1059,8 +1059,8 @@ span.isPro {
 .ep-pdf-width-contol .ep-control-header {
   font-size: 11px; }
 
-.embedpress-inner-iframe {
-  width: 100%; }
+.emebedpress-unit-percent iframe {
+  width: 100% !important; }
 /**
  * #.# Common SCSS
  *
