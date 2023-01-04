@@ -78,7 +78,6 @@ class Feature_Enhancer
 	// Get wistia block attributes 
 	public function get_wistia_block_attributes($attributes) {
 
-		// print_r($attributes); die;
 		// Embed Options
 		$embedOptions = new \stdClass;
 		$embedOptions->videoFoam = false;
@@ -136,13 +135,10 @@ class Feature_Enhancer
 	public function gutenberg_embed($embedHTML, $attributes)
 	{
 
-			// print_r($attributes); die;
-
 		if (!empty($attributes['url'])) {
 			$youtube = new Youtube($attributes['url']);
 			
 			$is_youtube = $youtube->validateUrl($youtube->getUrl(false));
-			// var_dump($is_youtube); die;
 			if ($is_youtube) {
 				$atts = [
 					'width'    => intval($attributes['width']),
@@ -203,9 +199,7 @@ class Feature_Enhancer
 					$params['start'] 			= !empty($attributes['starttime']) ? $attributes['starttime'] : '';
 					$params['color'] = !empty($attributes['progressbarcolor']) ? $attributes['progressbarcolor'] : 'red';
 					$params['modestbranding'] = empty($attributes['modestbranding']) ? 0 : 1; // Reverse the condition value for modestbranding. 0 = display, 1 = do not display
-					$params['cc_load_policy'] = !empty($attributes['closedcaptions']) ? 1 : 0;
-
-					// print_r($params); die;
+					$params['cc_load_policy'] = !empty($attributes['closedcaptions']) ? 0 : 1;
 
 					preg_match( '/(.+)?\?/', $url_full, $url );
 
@@ -218,7 +212,6 @@ class Feature_Enhancer
 					// Reassemble the url with the new variables.
 					$url_modified = $url . '?';
 
-					// print_r($params); die;
 					foreach ( $params as $paramName => $paramValue ) {
 						
 						$and = '&';
@@ -233,13 +226,12 @@ class Feature_Enhancer
 
 					// Replaces the old url with the new one.
 					$embedHTML = str_replace( $url_full, rtrim( $url_modified, '&' ), $urlInfo->embed );
-
-					// print_r($url_full);  echo '<br>';
-					// print_r($url_modified); die;
 					
 				}
 
 			}
+
+			return $embedHTML;
 
 		}
 
@@ -344,6 +336,7 @@ class Feature_Enhancer
 		];
 		return apply_filters('emebedpress_get_options', $options);
 	}
+
 	public function get_youtube_params($options)
 	{
 		$params = [];
@@ -404,9 +397,12 @@ class Feature_Enhancer
 		}
 		return apply_filters('embedpress_vimeo_params', $params);
 	}
+
 	//--- For CLASSIC AND BLOCK EDITOR
 	public function enhance_youtube($embed)
 	{
+		
+
 		$isYoutube = (isset($embed->provider_name) && strtoupper($embed->provider_name) === 'YOUTUBE') || (isset($embed->url) && isset($embed->{$embed->url}) && isset($embed->{$embed->url}['provider_name']) && strtoupper($embed->{$embed->url}['provider_name']) === 'YOUTUBE');
 
 		if (
@@ -416,6 +412,7 @@ class Feature_Enhancer
 
 			// for compatibility only, @TODO; remove later after deep testing.
 			$options = $this->getOptions('youtube', $this->get_youtube_settings_schema());
+			
 			// Parse the url to retrieve all its info like variables etc.
 			$url_full = $match[1];
 			$query = parse_url($url_full, PHP_URL_QUERY);
@@ -471,7 +468,6 @@ class Feature_Enhancer
 				unset($params['iv_load_policy']);
 			}
 
-
 			// pro controls will be handled by the pro so remove it from the free.
 			$pro_controls = ['cc_load_policy', 'modestbranding'];
 			foreach ($pro_controls as $pro_control) {
@@ -480,9 +476,23 @@ class Feature_Enhancer
 				}
 			}
 
-
 			preg_match('/(.+)?\?/', $url_full, $url);
 			$url = $url[1];
+
+			if(is_object($embed->attributes) && !empty($embed->attributes)){
+				$attributes = (array) $embed->attributes;
+
+				$params['controls']       = !empty($attributes['data-controls']) ? $attributes['data-controls'] : '';
+				$params['iv_load_policy'] = !empty($attributes['data-videoannotations'] == 'true') ? 1 : 0;
+				$params['fs']             = !empty($attributes['data-fullscreen'] == 'true') ? 1 : 0;
+				$params['rel']             = !empty($attributes['data-relatedvideos'] == 'true') ? 1 : 0;
+				$params['end']            = !empty($attributes['data-endtime']) ? $attributes['data-endtime'] : '';
+				$params['autoplay'] 		= !empty($attributes['data-autoplay'] == 'true') ? 1 : 0;
+				$params['start'] 			= !empty($attributes['data-starttime']) ? $attributes['data-starttime'] : '';
+				$params['color'] = !empty($attributes['data-progressbarcolor']) ? $attributes['data-progressbarcolor'] : 'red';
+				$params['modestbranding'] = empty($attributes['data-modestbranding']) ? 0 : 1; // Reverse the condition value for modestbranding. 0 = display, 1 = do not display
+				$params['cc_load_policy'] = !empty($attributes['data-closedcaptions'] == 'true') ? 0 : 1;
+			}
 
 			// Reassemble the url with the new variables.
 			$url_modified = $url . '?';
@@ -574,7 +584,6 @@ class Feature_Enhancer
 	public function enhance_wistia($embed)
 	{
 		
-		
 		if (
 			isset($embed->provider_name)
 			&& strtoupper($embed->provider_name) === 'WISTIA, INC.'
@@ -594,7 +603,6 @@ class Feature_Enhancer
 			// Set the class in the attributes
 			$embed->attributes->class = str_replace('{provider_alias}', 'wistia', $embed->attributes->class);
 			$embed->embed = str_replace('ose-wistia, inc.', 'ose-wistia', $embed->embed);
-
 
 
 			// Embed Options
@@ -704,8 +712,6 @@ class Feature_Enhancer
 			$html .= '</div>';
 			$embed->embed = $html;
 		}
-
-		// print_r($embed); die;
 
 		return $embed;
 	}

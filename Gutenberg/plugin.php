@@ -159,6 +159,48 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'string',
 								'default' => '600'
 							],
+							
+							'isGutenberg' => [
+								'type' => 'boolean',
+								'default' => false
+							],
+							//Youtube Attributes
+							'starttime' => [
+								'type' => 'string',
+							],
+							'endtime' => [
+								'type' => 'string',
+							],
+							'autoplay' => [
+								'type' => 'boolean',
+								'default' => false
+							],
+							'controls' => [
+								'type' => 'string',
+							],
+							'progressbarcolor' => [
+								'type' => 'string',
+							],
+							'videoannotations' => [
+								'type' => 'string',
+							],
+							'closedcaptions' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'relatedvideos' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'fullscreen' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							
+							'modestbranding' => [
+								'type' => 'string',
+							],
+							//Wistia Attributes
 							'wstarttime' => [
 								'type' => 'string',
 							],

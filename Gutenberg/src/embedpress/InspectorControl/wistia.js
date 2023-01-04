@@ -334,7 +334,7 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                         />
 
                                         <TextControl
-                                            label="Custom Logo Url"
+                                            label="CTA Link"
                                             value={customlogoUrl}
                                             onChange={(customlogoUrl) =>
                                                 setAttributes({ customlogoUrl })

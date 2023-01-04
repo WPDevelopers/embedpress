@@ -828,6 +828,9 @@ button.ep-remove__image {
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 20px 15px; }
+
+.ep__single-yt-video-options .pro-control-active {
+  margin-bottom: 0; }
 /**
  * #.# Common SCSS
  *
@@ -895,7 +898,8 @@ span.isPro {
   position: absolute;
   z-index: 12;
   top: 0;
-  bottom: 0; }
+  bottom: 0;
+  left: 0; }
 
 .theme-astra span.isPro {
   right: 10px;

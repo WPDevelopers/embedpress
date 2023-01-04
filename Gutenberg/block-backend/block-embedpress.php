@@ -14,6 +14,8 @@ if (!defined('ABSPATH')) {
 //Custom Logo 
 function customLogo($embedHTML, $atts){
 
+	// print_r($atts); die;
+
 	$x = !empty($atts['logoX']) ? $atts['logoX'] : 0;
 	$y = !empty($atts['logoY']) ? $atts['logoY'] : 0;
 	$uniqid = '.ose-uid-' . md5($atts['url']);
@@ -69,7 +71,7 @@ function customLogo($embedHTML, $atts){
 
 		$imgDom = str_get_html( $img );
 		$imgDom = $imgDom->find( 'img', 0 );
-		$imgDom->setAttribute( 'class', 'watermark' );
+		$imgDom->setAttribute( 'class', 'watermark ep-custom-logo' );
 		$imgDom->removeAttribute( 'style' );
 		$imgDom->setAttribute( 'width', 'auto' );
 		$imgDom->setAttribute( 'height', 'auto' );
@@ -110,6 +112,7 @@ function customLogo($embedHTML, $atts){
 
 function embedpress_render_block($attributes)
 {
+
 
 	if (!empty($attributes['embedHTML'])) {
 		$embed         = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
@@ -152,7 +155,19 @@ function embedpress_render_block($attributes)
 
 function embedpress_render_block_style($attributes)
 {
+	
 	$uniqid = '.ose-uid-' . md5($attributes['url']);
+
+	$_iscustomlogo = '';
+
+	if(!empty($attributes['customlogo'])){
+		$_iscustomlogo = $uniqid.' img.watermark{
+			display: none;
+		}
+		'.$uniqid.' img.watermark.ep-custom-logo {
+			display: block !important;
+		}';
+	}
 	$youtubeStyles = '<style>
 		' . esc_attr($uniqid) . ' {
 			width: ' . esc_attr($attributes['width']) . 'px !important;
@@ -164,6 +179,8 @@ function embedpress_render_block_style($attributes)
 			max-height: ' . esc_attr($attributes['height']) . 'px !important;
 			width: 100%;
 		}
+		'.$_iscustomlogo.'
+
 	</style>';
 
 	return $youtubeStyles;

@@ -41,6 +41,7 @@ export const getYoutubeParams = (params, attributes) => {
 
     if (isYTVideo(attributes.url)) {
         ytvAtts = {
+            isGutenberg: true,
             starttime: '',
             endtime: '',
             autoplay: false,
@@ -107,6 +108,7 @@ export const useYTChannel = (attributes) => {
 export const useYTVideo = (attributes) => {
     // which attribute should call embed();
     const defaults = {
+        isGutenberg: null,
         starttime: null,
         endtime: null,
         autoplay: null,
@@ -137,6 +139,7 @@ export const useYTVideo = (attributes) => {
 export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVideo }) {
 
     const {
+        isGutenberg,
         ispagination,
         pagesize,
         columns,
@@ -332,7 +335,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                         </PanelBody>
                         <PanelBody title={__("Custom Branding", 'embedpress')} initialOpen={false}>
                             {
-                                customlogo && (
+                                isProPluginActive && customlogo  && (
                                     <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
                                         <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
                                             <span class="dashicon dashicons dashicons-trash"></span>
@@ -353,7 +356,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                     render={({ open }) => (
                                         <Button className={'ep-logo-upload-button'} icon={!customlogo ? 'upload' : 'update'} onClick={open}>
                                             {
-                                                !customlogo ? 'Upload Image' : 'Change Image'
+                                                (!isProPluginActive || !customlogo) ? 'Upload Image' : 'Change Image'
                                             }
                                         </Button>
                                     )}
@@ -367,7 +370,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                             </div>
 
                             {
-                                customlogo && (
+                                 isProPluginActive && customlogo && (
                                     <div className={'ep-custom-logo-position'}>
                                         <RangeControl
                                             label={__('Logo X position (%)', 'embedpress')}
@@ -399,7 +402,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                         />
 
                                         <TextControl
-                                            label="Custom Logo Url"
+                                            label="CTA Link"
                                             value={customlogoUrl}
                                             onChange={(customlogoUrl) =>
                                                 setAttributes({ customlogoUrl })

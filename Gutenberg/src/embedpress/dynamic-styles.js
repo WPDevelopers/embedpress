@@ -1,6 +1,6 @@
 import react from 'react';
 import { isOpensea, isOpenseaSingle } from "./InspectorControl/opensea";
-import { isYTChannel } from "./InspectorControl/youtube";
+import { isYTChannel, isYTVideo } from "./InspectorControl/youtube";
 
 export const dynamicStyles = ({
     url,
@@ -10,6 +10,7 @@ export const dynamicStyles = ({
     ispagination,
     gapbetweenvideos,
     columns,
+    customlogo,
     ...attributes
 }) => {
 
@@ -26,6 +27,19 @@ export const dynamicStyles = ({
             display: none!important;
         }`
     )
+
+    let _iscustomlogo = '';
+
+    if (customlogo) {
+        _iscustomlogo = `
+            #block-${clientId} img.watermark{
+                display: none;
+            }
+            #block-${clientId} img.watermark.ep-custom-logo {
+                display: block !important;
+            }
+        `;
+    }
 
     return (
         <React.Fragment>
@@ -56,6 +70,7 @@ export const dynamicStyles = ({
                     #block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
                         display: flex!important;
                     }
+                    ${_iscustomlogo}
 
                     ${_ispagination}
                     `}
@@ -82,9 +97,11 @@ export const dynamicStyles = ({
                         height: ${height}px!important;
                         width: ${width}px!important;
                     }
+                    
                 `}
                     </style>
                 )
+
             }
 
             {
@@ -92,16 +109,16 @@ export const dynamicStyles = ({
                     <style style={{ display: "none" }}>
                         {
                             `
-                    #block-${clientId}{
-                        width: 900px;
-                        max-width: 100%!important;
-                    }
-    
-                    #block-${clientId} ose-opensea {
-                        width: 100%!important;
-                        height: 100%!important;
-                    }
-                    `
+                                #block-${clientId}{
+                                    width: 900px;
+                                    max-width: 100%!important;
+                                }
+                
+                                #block-${clientId} ose-opensea {
+                                    width: 100%!important;
+                                    height: 100%!important;
+                                }
+                            `
                         }
 
                     </style>
@@ -121,6 +138,19 @@ export const dynamicStyles = ({
 									width: 100%!important;
 									height: 100%!important;
 								}
+                                ${_iscustomlogo}
+							`
+                        }
+
+                    </style>
+                )
+            }
+            {
+                isYTVideo(url) && (
+                    <style style={{ display: "none" }}>
+                        {
+                            `
+                                ${_iscustomlogo}
 							`
                         }
 
