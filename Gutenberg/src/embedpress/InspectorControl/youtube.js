@@ -231,23 +231,20 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                         <PanelBody title={__("YouTube Video Controls", 'embedpress')} initialOpen={false}>
                             <div className={'ep-yt-video-controlers'}>
                                 <TextControl
-                                    label={__("Start Time")}
+                                    label={__("Start Time (in seconds)")}
                                     value={starttime}
                                     onChange={(starttime) => setAttributes({ starttime })}
                                     type={'text'}
                                     className={'ep-control-field'}
-
                                 />
-                                <p>Specify a start time (in seconds)</p>
 
                                 <TextControl
-                                    label={__("End Time")}
+                                    label={__("End Time (in seconds)")}
                                     value={endtime}
                                     onChange={(endtime) => setAttributes({ endtime })}
                                     type={'text'}
                                     className={'ep-control-field'}
                                 />
-                                <p>Specify a end time (in seconds)</p>
 
                                 <ToggleControl
                                     label={__("Auto Play")}
