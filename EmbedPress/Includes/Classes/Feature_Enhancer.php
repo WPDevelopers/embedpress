@@ -95,7 +95,7 @@ class Feature_Enhancer
 		if ( is_embedpress_pro_active() ) {
 			$embedOptions->volumeControl = (isset($attributes['volumecontrol']) && (bool) $attributes['volumecontrol'] === true);
 
-			$volume = isset($attributes['volume']) ? (float) $attributes['volumecontrol'] : 0;
+			$volume = isset($attributes['volume']) ? (float) $attributes['volume'] : 0;
 
 			if ( $volume > 1 ) {
 				$volume = $volume / 100;
@@ -231,8 +231,6 @@ class Feature_Enhancer
 
 			}
 
-			return $embedHTML;
-
 		}
 
 		if (!empty($attributes['url']) && $this->wistiaValidateUrl($attributes['url'])) {
@@ -279,7 +277,6 @@ class Feature_Enhancer
 			$embedHTML = $html;
 		}
 
-		// print_r($embedHTML); die;
 
 		return $embedHTML ;
 	}
@@ -607,7 +604,7 @@ class Feature_Enhancer
 
 			// Embed Options
 			$embedOptions = new \stdClass;
-			// $embedOptions->videoFoam = true;
+			$embedOptions->videoFoam = false;
 			$embedOptions->fullscreenButton = (isset($options['display_fullscreen_button']) && (bool) $options['display_fullscreen_button'] === true);
 			$embedOptions->playbar = (isset($options['display_playbar']) && (bool) $options['display_playbar'] === true);
 

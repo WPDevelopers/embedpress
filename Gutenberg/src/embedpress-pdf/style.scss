@@ -54,7 +54,8 @@ span.isPro {
     color: #fff;
     font-weight: 400;
     text-transform: uppercase;
-    bottom: 5px;
+    bottom: 0;
+    top: 0;
 }
 
 .pro-control:after {
@@ -257,4 +258,8 @@ span.isPro {
 
 .emebedpress-unit-percent iframe{
     width: 100%!important;
+}
+
+.components-panel__body .components-base-control__field {
+    padding: 0;
 }

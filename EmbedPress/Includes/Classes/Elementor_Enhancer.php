@@ -248,7 +248,7 @@ class Elementor_Enhancer {
 
 		// Embed Options
 		$embedOptions                   = new \stdClass;
-		$embedOptions->videoFoam        = false;
+		$embedOptions->videoFoam        = true;
 		$embedOptions->fullscreenButton = ( $setting['embedpress_pro_wistia_fullscreen_button'] === 'yes' );
 		$embedOptions->smallPlayButton  = ( $setting['embedpress_pro_wistia_small_play_button'] === 'yes' );
 		$embedOptions->autoPlay         = ( $setting['embedpress_pro_wistia_auto_play'] === 'yes' );
