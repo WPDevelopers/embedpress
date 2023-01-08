@@ -203,6 +203,7 @@ function embedpress_render_block_style($attributes)
 		  .ep-video-responsive{
 			display: inline-block!important;
 		  }
+		  '.$_iscustomlogo.'
 	</style>';
 	}
 
