@@ -267,7 +267,7 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                         </PanelBody>
                         <PanelBody title={__("Custom Branding", 'embedpress')} initialOpen={false}>
                             {
-                                customlogo && (
+                                isProPluginActive && customlogo  && (
                                     <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
                                         <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
                                             <span class="dashicon dashicons dashicons-trash"></span>
@@ -288,7 +288,7 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                     render={({ open }) => (
                                         <Button className={'ep-logo-upload-button'} icon={!customlogo ? 'upload' : 'update'} onClick={open}>
                                             {
-                                                !customlogo ? 'Upload Image' : 'Change Image'
+                                                (!isProPluginActive || !customlogo) ? 'Upload Image' : 'Change Image'
                                             }
                                         </Button>
                                     )}
@@ -302,7 +302,7 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                             </div>
 
                             {
-                                customlogo && (
+                                 isProPluginActive && customlogo && (
                                     <div className={'ep-custom-logo-position'}>
                                         <RangeControl
                                             label={__('Logo X position (%)', 'embedpress')}
@@ -334,7 +334,7 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                         />
 
                                         <TextControl
-                                            label="Custom Logo Url"
+                                            label="CTA Link"
                                             value={customlogoUrl}
                                             onChange={(customlogoUrl) =>
                                                 setAttributes({ customlogoUrl })

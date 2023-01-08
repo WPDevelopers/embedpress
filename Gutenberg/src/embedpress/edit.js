@@ -64,11 +64,13 @@ export default function EmbedPress(props) {
 				-webkit-transition: opacity 0.5s ease-in-out;
 				transition: opacity 0.5s ease-in-out;
 				`
-		customLogoTemp = `<img decoding="async"  src="${customlogo}" class="watermark" width="auto" height="auto">`;
+		customLogoTemp = `<img decoding="async"  src="${customlogo}" class="watermark ep-custom-logo" width="auto" height="auto">`;
 
 		if (customlogoUrl) {
-			customLogoTemp = `<a href="${customlogoUrl}"><img decoding="async" src="${customlogo}" class="watermark" width="auto" height="auto"></a>`;
+			customLogoTemp = `<a href="${customlogoUrl}"><img decoding="async" src="${customlogo}" class="watermark  ep-custom-logo" width="auto" height="auto"></a>`;
 		}
+		
+
 	}
 
 

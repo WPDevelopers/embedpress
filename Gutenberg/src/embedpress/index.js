@@ -85,6 +85,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: 'center'
 			},
+			isGutenberg: {
+				type: 'boolean',
+				default: true
+			},
 
 			//YouTube Attributes
 			ispagination: {
@@ -330,6 +334,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			autoplay: {
 				type: 'boolean',
+				default: false,
 			},
 			controls: {
 				type: 'string',

@@ -783,7 +783,7 @@ span.eb_nft_currency svg {
       align-items: center; }
 
 .ep-yt-video-controlers .ep-control-field .components-base-control__field input {
-  width: 120px; }
+  width: 70px; }
 
 .ep-yt-video-controlers .ep-control-field .components-base-control__field .components-base-control__label {
   margin-bottom: 0px; }
@@ -828,6 +828,9 @@ button.ep-remove__image {
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 20px 15px; }
+
+.ep-yt-related-videos .components-base-control {
+  margin-bottom: 10px !important; }
 /**
  * #.# Common SCSS
  *
@@ -885,7 +888,8 @@ span.isPro {
   color: #fff;
   font-weight: 400;
   text-transform: uppercase;
-  bottom: 5px; }
+  bottom: 0;
+  top: 0; }
 
 .pro-control:after {
   content: '';
@@ -895,7 +899,8 @@ span.isPro {
   position: absolute;
   z-index: 12;
   top: 0;
-  bottom: 0; }
+  bottom: 0;
+  left: 0; }
 
 .theme-astra span.isPro {
   right: 10px;
@@ -973,10 +978,11 @@ span.isPro {
   border: 5px solid #b89d9d; }
 
 .block-editor-block-inspector .components-base-control {
-  margin-top: 15px; }
+  margin-top: 15px;
+  margin-bottom: 30px; }
 
 .pro-control-active {
-  margin-bottom: 24px; }
+  margin-bottom: 30px; }
 
 .ep-alignleft {
   display: -ms-flexbox;
@@ -1059,8 +1065,11 @@ span.isPro {
 .ep-pdf-width-contol .ep-control-header {
   font-size: 11px; }
 
-.embedpress-inner-iframe {
-  width: 100%; }
+.emebedpress-unit-percent iframe {
+  width: 100% !important; }
+
+.components-panel__body .components-base-control__field {
+  padding: 0; }
 /**
  * #.# Common SCSS
  *

@@ -916,15 +916,6 @@ KAMAL;
             'width'  => $plgSettings->enableEmbedResizeWidth,
             'height' => $plgSettings->enableEmbedResizeHeight,
             'powered_by' => 'no',
-            // 'themeMode' => 'default',
-            // 'toolbar' => true,
-            // 'presentation' => true,
-            // 'toolbar_position' => 'top',
-            // 'download' => true,
-            // 'open' => true,
-            // 'copy_text' => true,
-            // 'doc_details' => true,
-            // 'doc_rotation' => true,
         ];
 
         $attributes = wp_parse_args($attributes, $default);

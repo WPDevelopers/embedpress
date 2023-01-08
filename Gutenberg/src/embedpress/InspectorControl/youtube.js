@@ -30,17 +30,18 @@ export const init = () => {
 }
 
 export const getYoutubeParams = (params, attributes) => {
-   
+
     if (!attributes.url) {
         return params;
     }
-    
+
 
     let ytvAtts = {};
     let ytcAtts = {};
 
     if (isYTVideo(attributes.url)) {
         ytvAtts = {
+            isGutenberg: true,
             videosize: 'fixed',
             starttime: '',
             endtime: '',
@@ -108,6 +109,7 @@ export const useYTChannel = (attributes) => {
 export const useYTVideo = (attributes) => {
     // which attribute should call embed();
     const defaults = {
+        isGutenberg: null,
         videosize: null,
         starttime: null,
         endtime: null,
@@ -139,6 +141,7 @@ export const useYTVideo = (attributes) => {
 export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVideo }) {
 
     const {
+        isGutenberg,
         ispagination,
         pagesize,
         columns,
@@ -178,7 +181,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
 
     return (
         <div>
-            
+
             {
                 isYTChannel && (
                     <div className={'ep__channel-yt-video-options'}>
@@ -231,23 +234,20 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                         <PanelBody title={__("YouTube Video Controls", 'embedpress')} initialOpen={false}>
                             <div className={'ep-yt-video-controlers'}>
                                 <TextControl
-                                    label={__("Start Time")}
+                                    label={__("Start Time (in seconds)")}
                                     value={starttime}
                                     onChange={(starttime) => setAttributes({ starttime })}
                                     type={'text'}
                                     className={'ep-control-field'}
-
                                 />
-                                <p>Specify a start time (in seconds)</p>
 
                                 <TextControl
-                                    label={__("End Time")}
+                                    label={__("End Time (in seconds)")}
                                     value={endtime}
                                     onChange={(endtime) => setAttributes({ endtime })}
                                     type={'text'}
                                     className={'ep-control-field'}
                                 />
-                                <p>Specify a end time (in seconds)</p>
 
                                 <ToggleControl
                                     label={__("Auto Play")}
@@ -325,17 +325,20 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                     }
                                 </div>
 
-                                <ToggleControl
-                                    label={__("Related Videos")}
-                                    checked={relatedvideos}
-                                    onChange={(relatedvideos) => setAttributes({ relatedvideos })}
-                                />
+                                <div className='ep-yt-related-videos'>
+                                    <ToggleControl
+                                        label={__("Related Videos")}
+                                        checked={relatedvideos}
+                                        onChange={(relatedvideos) => setAttributes({ relatedvideos })}
+                                    />
+                                    <p>Enable to display related videos from all channels. Otherwise, related videos will show from the same channel.</p>
+                                </div>
 
                             </div>
                         </PanelBody>
                         <PanelBody title={__("Custom Branding", 'embedpress')} initialOpen={false}>
                             {
-                                customlogo && (
+                                isProPluginActive && customlogo && (
                                     <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
                                         <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
                                             <span class="dashicon dashicons dashicons-trash"></span>
@@ -356,7 +359,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                     render={({ open }) => (
                                         <Button className={'ep-logo-upload-button'} icon={!customlogo ? 'upload' : 'update'} onClick={open}>
                                             {
-                                                !customlogo ? 'Upload Image' : 'Change Image'
+                                                (!isProPluginActive || !customlogo) ? 'Upload Image' : 'Change Image'
                                             }
                                         </Button>
                                     )}
@@ -370,7 +373,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                             </div>
 
                             {
-                                customlogo && (
+                                isProPluginActive && customlogo && (
                                     <div className={'ep-custom-logo-position'}>
                                         <RangeControl
                                             label={__('Logo X position (%)', 'embedpress')}
@@ -402,7 +405,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                         />
 
                                         <TextControl
-                                            label="Custom Logo Url"
+                                            label="CTA Link"
                                             value={customlogoUrl}
                                             onChange={(customlogoUrl) =>
                                                 setAttributes({ customlogoUrl })
