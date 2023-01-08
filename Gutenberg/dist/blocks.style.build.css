@@ -829,8 +829,8 @@ button.ep-remove__image {
   border-radius: 5px;
   padding: 20px 15px; }
 
-.ep__single-yt-video-options .pro-control-active {
-  margin-bottom: 0; }
+.ep-yt-related-videos .components-base-control {
+  margin-bottom: 10px !important; }
 /**
  * #.# Common SCSS
  *
@@ -978,10 +978,11 @@ span.isPro {
   border: 5px solid #b89d9d; }
 
 .block-editor-block-inspector .components-base-control {
-  margin-top: 15px; }
+  margin-top: 15px;
+  margin-bottom: 30px; }
 
 .pro-control-active {
-  margin-bottom: 24px; }
+  margin-bottom: 30px; }
 
 .ep-alignleft {
   display: -ms-flexbox;

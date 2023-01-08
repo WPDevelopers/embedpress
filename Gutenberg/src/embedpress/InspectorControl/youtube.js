@@ -30,11 +30,11 @@ export const init = () => {
 }
 
 export const getYoutubeParams = (params, attributes) => {
-   
+
     if (!attributes.url) {
         return params;
     }
-    
+
 
     let ytvAtts = {};
     let ytcAtts = {};
@@ -178,7 +178,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
 
     return (
         <div>
-            
+
             {
                 isYTChannel && (
                     <div className={'ep__channel-yt-video-options'}>
@@ -322,17 +322,20 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                     }
                                 </div>
 
-                                <ToggleControl
-                                    label={__("Related Videos")}
-                                    checked={relatedvideos}
-                                    onChange={(relatedvideos) => setAttributes({ relatedvideos })}
-                                />
+                                <div className='ep-yt-related-videos'>
+                                    <ToggleControl
+                                        label={__("Related Videos")}
+                                        checked={relatedvideos}
+                                        onChange={(relatedvideos) => setAttributes({ relatedvideos })}
+                                    />
+                                    <p>Enable to display related videos from all channels. Otherwise, related videos will show from the same channel.</p>
+                                </div>
 
                             </div>
                         </PanelBody>
                         <PanelBody title={__("Custom Branding", 'embedpress')} initialOpen={false}>
                             {
-                                isProPluginActive && customlogo  && (
+                                isProPluginActive && customlogo && (
                                     <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
                                         <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
                                             <span class="dashicon dashicons dashicons-trash"></span>
@@ -367,7 +370,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                             </div>
 
                             {
-                                 isProPluginActive && customlogo && (
+                                isProPluginActive && customlogo && (
                                     <div className={'ep-custom-logo-position'}>
                                         <RangeControl
                                             label={__('Logo X position (%)', 'embedpress')}
