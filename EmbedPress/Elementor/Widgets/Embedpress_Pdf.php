@@ -181,7 +181,7 @@ class Embedpress_Pdf extends Widget_Base
                 ],
                 'selectors' => [
                     '{{WRAPPER}} .embedpress-document-embed iframe'               => 'width: {{SIZE}}{{UNIT}}; max-width: 100%',
-                    '{{WRAPPER}} .embedpress-document-embed' => 'width: {{SIZE}}{{UNIT}}!important; max-width: 100%',
+                    '{{WRAPPER}} .embedpress-document-embed' => 'width: {{SIZE}}{{UNIT}}; max-width: 100%',
                     '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
                 ],
                 'render_type' => 'template',
@@ -466,7 +466,7 @@ class Embedpress_Pdf extends Widget_Base
             $unitoption = 'emebedpress-unit-percent';
         }
         $id = 'embedpress-pdf-' . $id;
-        $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
+        $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}{$settings['embedpress_elementor_document_width']['unit']};height: {$settings['embedpress_elementor_document_height']['size']}px";
         $this->add_render_attribute('embedpres-pdf-render', [
             'class'     => ['embedpress-embed-document-pdf', $id],
             'data-emid' => $id

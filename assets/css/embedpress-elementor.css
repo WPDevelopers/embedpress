@@ -346,3 +346,9 @@
     }
 }
 /*End meetup*/
+
+@media only screen and (max-width: 850px){  
+    .emebedpress-unit-percent.embedpress-document-embed {
+        width: 100%!important;
+    }
+}

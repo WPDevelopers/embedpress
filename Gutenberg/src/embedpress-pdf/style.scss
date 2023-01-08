@@ -264,3 +264,9 @@ span.isPro {
 .components-panel__body .components-base-control__field {
     padding: 0;
 }
+
+@media only screen and (max-width: 850px){  
+    .embedpress-inner-iframe.emebedpress-unit-percent {
+        width: 100%!important;
+    }
+}
