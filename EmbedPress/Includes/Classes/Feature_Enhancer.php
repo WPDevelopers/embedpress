@@ -479,7 +479,7 @@ class Feature_Enhancer
 			if(is_object($embed->attributes) && !empty($embed->attributes)){
 				$attributes = (array) $embed->attributes;
 
-				$params['controls']       = !empty($attributes['data-controls']) ? $attributes['data-controls'] : '';
+				$params['controls']       = !empty($attributes['data-controls']) ? $attributes['data-controls'] : '0';
 				$params['iv_load_policy'] = !empty($attributes['data-videoannotations'] == 'true') ? 1 : 0;
 				$params['fs']             = !empty($attributes['data-fullscreen'] == 'true') ? 1 : 0;
 				$params['rel']             = !empty($attributes['data-relatedvideos'] == 'true') ? 1 : 0;
