@@ -48,6 +48,7 @@ export default function EmbedPress(props) {
 
 	let customLogoTemp = '';
 	let customLogoStyle = '';
+	let epMessage = '';
 
 	if (customlogo) {
 		customLogoStyle = `
@@ -69,8 +70,10 @@ export default function EmbedPress(props) {
 		if (customlogoUrl) {
 			customLogoTemp = `<a href="${customlogoUrl}" target="_blank"><img decoding="async" src="${customlogo}" class="watermark  ep-custom-logo" width="auto" height="auto"></a>`;
 		}
-		
+	}
 
+	if (_isWistiaVideo(url)) {
+		epMessage = `<span class='ep-wistia-message'> Settings will be affected in the frontend. </span>`;
 	}
 
 
@@ -96,7 +99,7 @@ export default function EmbedPress(props) {
 		setAttributes({ fetching: false });
 	}
 
-	function getAttributes(html){
+	function getAttributes(html) {
 		const div = document.createElement('div');
 		div.innerHTML = html;
 		return div.firstChild.attributes;
@@ -222,8 +225,10 @@ export default function EmbedPress(props) {
 
 			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo)) && <figure {...blockProps} >
 				<EmbedWrap style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle || isYTChannel) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
-					__html: embedHTML + customLogoTemp,
-				}}></EmbedWrap>
+					__html: embedHTML + customLogoTemp + epMessage,
+				}}>
+
+				</EmbedWrap>
 
 				{
 					fetching && (
