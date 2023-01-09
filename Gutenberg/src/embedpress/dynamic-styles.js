@@ -32,9 +32,6 @@ export const dynamicStyles = ({
 
     if (customlogo) {
         _iscustomlogo = `
-            #block-${clientId} img.watermark{
-                display: none;
-            }
             #block-${clientId} img.watermark.ep-custom-logo {
                 display: block !important;
             }
@@ -70,9 +67,10 @@ export const dynamicStyles = ({
                     #block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
                         display: flex!important;
                     }
+                    #block-${clientId} img.watermark{
+                        display: none;
+                    }
                     ${_iscustomlogo}
-
-                    ${_ispagination}
                     `}
                 </style>
             )}
@@ -138,6 +136,9 @@ export const dynamicStyles = ({
 									width: 100%!important;
 									height: 100%!important;
 								}
+                                #block-${clientId} img.watermark{
+                                    display: none;
+                                }
                                 ${_iscustomlogo}
 							`
                         }
@@ -150,6 +151,9 @@ export const dynamicStyles = ({
                     <style style={{ display: "none" }}>
                         {
                             `
+                            #block-${clientId} img.watermark{
+                                display: none;
+                            }
                                 ${_iscustomlogo}
 							`
                         }

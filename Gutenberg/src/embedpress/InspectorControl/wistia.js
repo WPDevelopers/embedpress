@@ -279,7 +279,7 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                 )
                             }
 
-                            <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                            <div className={isProPluginActive ? "pro-control-active ep-custom-logo-button" : "pro-control ep-custom-logo-button"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                                 <MediaUpload
                                     onSelect={onSelectImage}
                                     allowedTypes={['image']}
