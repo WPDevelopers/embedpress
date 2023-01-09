@@ -73,7 +73,7 @@ export default function EmbedPress(props) {
 	}
 
 	if (_isWistiaVideo(url)) {
-		epMessage = `<span class='ep-wistia-message'> Settings will be affected in the frontend. </span>`;
+		epMessage = `<span class='ep-wistia-message'> Changes will be affected in frontend. </span>`;
 	}
 
 
