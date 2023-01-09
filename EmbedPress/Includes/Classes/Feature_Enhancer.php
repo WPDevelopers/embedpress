@@ -165,7 +165,7 @@ class Feature_Enhancer
 					'starttime'    => !empty($attributes['starttime']) ? $attributes['starttime'] : '',
 					'endtime'   => !empty($attributes['endtime']) ? $attributes['endtime'] : '',
 					'autoplay'   => !empty($attributes['autoplay']) ? 1 : 0,
-					'controls'   => !empty($attributes['controls']) ? $attributes['controls'] : '',
+					'controls'   => !empty($attributes['controls']) ? $attributes['controls'] : '0',
 					'fullscreen'   => !empty($attributes['fullscreen']) ? 1 : 0,
 					'videoannotations'   => !empty($attributes['videoannotations']) ? 1 : 0,
 					'progressbarcolor'   => !empty($attributes['progressbarcolor']) ? $attributes['progressbarcolor'] : 'red',
@@ -190,7 +190,7 @@ class Feature_Enhancer
 					$query = parse_url( $url_full, PHP_URL_QUERY );
 					parse_str( $query, $params );
 
-					$params['controls']       = !empty($attributes['controls']) ? $attributes['controls'] : '';
+					$params['controls']       = !empty($attributes['controls']) ? $attributes['controls'] : '0';
 					$params['iv_load_policy'] = !empty($attributes['videoannotations']) ? 1 : 0;
 					$params['fs']             = !empty($attributes['fullscreen']) ? 1 : 0;
 					$params['rel']             = !empty($attributes['relatedvideos']) ? 1 : 0;
