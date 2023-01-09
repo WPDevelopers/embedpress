@@ -786,5 +786,16 @@ span.ep-wistia-message {
     border-radius: 15px;
     padding: 8px 15px;
     top: 32%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+    width: calc(100% - 200px);
+    text-align: center;
+    max-width: 320px;
+}
+
+@media only screen and (max-width: 520px) {
+   .wistia_embed {
+        max-height: 280px;
+    }
 }
