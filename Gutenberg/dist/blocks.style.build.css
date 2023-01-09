@@ -863,7 +863,7 @@ span.ep-wistia-message {
   max-width: 320px; }
 
 @media only screen and (max-width: 520px) {
-  .wistia_embed {
+  .wistia_embed, .ose-wistia {
     max-height: 280px; } }
 /**
  * #.# Common SCSS
