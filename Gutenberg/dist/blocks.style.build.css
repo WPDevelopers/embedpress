@@ -831,6 +831,33 @@ button.ep-remove__image {
 
 .ep-yt-related-videos .components-base-control {
   margin-bottom: 10px !important; }
+
+.ep-custom-logo-button {
+  margin-bottom: 0px !important; }
+
+.ep-custom-logo-button .isPro {
+  top: 50%;
+  -webkit-transform: translate(0%, -50%);
+      -ms-transform: translate(0%, -50%);
+          transform: translate(0%, -50%); }
+
+.ep-yt-related-videos p {
+  margin-top: calc(8px);
+  font-size: 12px;
+  font-style: normal;
+  color: #757575;
+  margin-bottom: revert; }
+
+span.ep-wistia-message {
+  position: absolute;
+  left: 50%;
+  background: white;
+  border-radius: 15px;
+  padding: 8px 15px;
+  top: 32%;
+  -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%); }
 /**
  * #.# Common SCSS
  *

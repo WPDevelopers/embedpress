@@ -179,7 +179,19 @@ function embedpress_render_block_style($attributes)
 			max-height: ' . esc_attr($attributes['height']) . 'px !important;
 			width: 100%;
 		}
+
+		.alignright .ose-wistia' . esc_attr($uniqid) .'{
+			margin-left: auto;
+		}
+		.alignleft .ose-wistia' . esc_attr($uniqid) .'{
+			margin-right: auto;
+		}
+		.aligncenter .ose-wistia' . esc_attr($uniqid) .'{
+			margin: auto;
+		}
+
 		'.$_iscustomlogo.'
+
 
 	</style>';
 
