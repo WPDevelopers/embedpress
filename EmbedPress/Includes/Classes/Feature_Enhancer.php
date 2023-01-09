@@ -478,17 +478,17 @@ class Feature_Enhancer
 
 			if(is_object($embed->attributes) && !empty($embed->attributes)){
 				$attributes = (array) $embed->attributes;
-
+				
 				$params['controls']       = !empty($attributes['data-controls']) ? $attributes['data-controls'] : '0';
-				$params['iv_load_policy'] = !empty($attributes['data-videoannotations'] == 'true') ? 1 : 0;
-				$params['fs']             = !empty($attributes['data-fullscreen'] == 'true') ? 1 : 0;
-				$params['rel']             = !empty($attributes['data-relatedvideos'] == 'true') ? 1 : 0;
+				$params['iv_load_policy'] = !empty($attributes['data-videoannotations']) && ($attributes['data-videoannotations'] == 'true') ? 1 : 0;
+				$params['fs']             = !empty($attributes['data-fullscreen']) && ($attributes['data-fullscreen'] == 'true') ? 1 : 0;
+				$params['rel']             = !empty($attributes['data-relatedvideos']) && ($attributes['data-relatedvideos'] == 'true') ? 1 : 0;
 				$params['end']            = !empty($attributes['data-endtime']) ? $attributes['data-endtime'] : '';
-				$params['autoplay'] 		= !empty($attributes['data-autoplay'] == 'true') ? 1 : 0;
+				$params['autoplay'] 		= !empty($attributes['data-autoplay']) && ($attributes['data-autoplay'] == 'true') ? 1 : 0;
 				$params['start'] 			= !empty($attributes['data-starttime']) ? $attributes['data-starttime'] : '';
 				$params['color'] = !empty($attributes['data-progressbarcolor']) ? $attributes['data-progressbarcolor'] : 'red';
 				$params['modestbranding'] = empty($attributes['data-modestbranding']) ? 0 : 1; // Reverse the condition value for modestbranding. 0 = display, 1 = do not display
-				$params['cc_load_policy'] = !empty($attributes['data-closedcaptions'] == 'true') ? 0 : 1;
+				$params['cc_load_policy'] = !empty($attributes['data-closedcaptions']) && ($attributes['data-closedcaptions'] == 'true') ? 0 : 1;
 			}
 
 			// Reassemble the url with the new variables.
