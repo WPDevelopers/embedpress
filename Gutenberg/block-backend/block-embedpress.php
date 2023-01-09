@@ -84,7 +84,7 @@ function customLogo($embedHTML, $atts){
 		unset( $img, $imgDom );	
 
 		if ( !empty($brandUrl) ) {
-			$cta = '<a href="'.esc_url($brandUrl).'">'.$cta.'</a>';
+			$cta = '<a href="'.esc_url($brandUrl).'" target="_blank">'.$cta.'</a>';
 		}
 		$dom     = str_get_html( $embedHTML );		
 

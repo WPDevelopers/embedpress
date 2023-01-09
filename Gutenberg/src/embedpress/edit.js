@@ -67,7 +67,7 @@ export default function EmbedPress(props) {
 		customLogoTemp = `<img decoding="async"  src="${customlogo}" class="watermark ep-custom-logo" width="auto" height="auto">`;
 
 		if (customlogoUrl) {
-			customLogoTemp = `<a href="${customlogoUrl}"><img decoding="async" src="${customlogo}" class="watermark  ep-custom-logo" width="auto" height="auto"></a>`;
+			customLogoTemp = `<a href="${customlogoUrl}" target="_blank"><img decoding="async" src="${customlogo}" class="watermark  ep-custom-logo" width="auto" height="auto"></a>`;
 		}
 		
 

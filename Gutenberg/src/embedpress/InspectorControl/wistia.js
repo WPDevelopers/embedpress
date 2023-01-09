@@ -172,14 +172,13 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                         <PanelBody title={__("Wistia Video Controls", 'embedpress')} initialOpen={false}>
                             <div className={'ep-yt-video-controlers'}>
                                 <TextControl
-                                    label={__("Start Time")}
+                                    label={__("Start Time (In Seconds)")}
                                     value={wstarttime}
                                     onChange={(wstarttime) => setAttributes({ wstarttime })}
                                     type={'text'}
                                     className={'ep-control-field'}
 
                                 />
-                                <p>Specify a start time (in seconds)</p>
 
                                 <ToggleControl
                                     label={__("Auto Play")}
