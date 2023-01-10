@@ -379,7 +379,7 @@ function embedpress_pdf_render_block($attributes)
 		ob_start();
 		?>
 		<div class="embedpress-document-embed embedpress-pdf ose-document ep-doc-<?php echo esc_attr($hash) . ' ' . esc_attr($alignment) ?>">
-			<div class="embedpress-inner-iframe <?php if($unitoption === '%') echo esc_attr('emebedpress-unit-percent'); ?>"  <?php if($unitoption === '%') echo 'style="'.esc_attr('width:'.$attributes['width'].'%').'"'; ?>>
+			<div class="embedpress-inner-iframe <?php if($unitoption === '%') echo esc_attr('emebedpress-unit-percent'); ?>"  <?php if($unitoption === '%' && !empty($attributes['width'])) {echo 'style="'.esc_attr('width:'.$attributes['width'].'%').'"';}else{echo 'style="'.esc_attr('width:100%').'"';} ?>>
 				<iframe class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_attr($src); ?>" frameborder="0"></iframe>
 
 				<?php do_action('embedpress_pdf_gutenberg_after_embed',  $hash, 'pdf', $attributes, $pdf_url); ?>
