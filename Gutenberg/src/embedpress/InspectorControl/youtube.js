@@ -256,8 +256,8 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                     label={__("Controls", "embedpress")}
                                     value={controls}
                                     options={[
-                                        { label: 'Hide controls', value: '0' },
                                         { label: 'Display immediately', value: '1' },
+                                        { label: 'Hide controls', value: '0' },
                                         { label: 'Display after user initiation immediately', value: '2' },
                                     ]}
                                     onChange={(controls) => setAttributes({ controls })}
