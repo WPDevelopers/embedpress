@@ -347,8 +347,13 @@
 }
 /*End meetup*/
 
+.wistia_embed {
+    max-width: 100%;
+}
+
 @media only screen and (max-width: 850px){  
     .emebedpress-unit-percent.embedpress-document-embed {
         width: 100%!important;
     }
+    
 }
