@@ -87,6 +87,9 @@ export const dynamicStyles = ({
                         width: ${width}px!important;
                         height: ${height}px!important
                     }
+                    #block-${clientId} .embedpress-yt-subscribe iframe{
+                        height: 100%!important
+                    }
                     #block-${clientId} .ose-youtube > iframe{
                         height: ${height}px!important;
                         width: ${width}px!important;
