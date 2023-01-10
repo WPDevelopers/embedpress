@@ -161,10 +161,7 @@ function embedpress_render_block_style($attributes)
 	$_iscustomlogo = '';
 
 	if(!empty($attributes['customlogo'])){
-		$_iscustomlogo = $uniqid.' img.watermark{
-			display: none;
-		}
-		'.$uniqid.' img.watermark.ep-custom-logo {
+		$_iscustomlogo = $uniqid.' img.watermark.ep-custom-logo {
 			display: block !important;
 		}';
 	}
@@ -194,7 +191,9 @@ function embedpress_render_block_style($attributes)
 		.aligncenter .ose-wistia' . esc_attr($uniqid) .'{
 			margin: auto;
 		}
-
+		'.$uniqid.' img.watermark{
+			display: none;
+		}
 		'.$_iscustomlogo.'
 
 
