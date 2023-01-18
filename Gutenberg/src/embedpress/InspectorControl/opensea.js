@@ -39,6 +39,8 @@ export const getOpenseaParams = (params, attributes) => {
     // which attributes should be passed with rest api.
     const defaults = {
         limit: 20,
+        itemperpage: 9,
+        loadmore: true,
         orderby: 'desc',
         layout: isOpenseaSingle ? 'ep-list' : 'ep-grid',
         preset: 'ep-preset-1',
@@ -85,6 +87,9 @@ export const getOpenseaParams = (params, attributes) => {
         buttonTextColor: '',
         buttonBackgroundColor: '',
         buttonFontSize: '',
+        loadmoreTextColor: '',
+        loadmoreBackgroundColor: '',
+        loadmoreFontSize: '',
         rankBtnColor: '',
         rankBtnFZ: '',
         rankBtnBorderColor: '',
@@ -117,6 +122,8 @@ export const useOpensea = (attributes) => {
     // which attribute should call embed();
     const defaults = {
         limit: null,
+        itemperpage: null,
+        loadmore: null,
         layout: null,
         preset: null,
         orderby: null,
@@ -161,6 +168,9 @@ export const useOpensea = (attributes) => {
         buttonTextColor: null,
         buttonBackgroundColor: null,
         buttonFontSize: null,
+        laodmoreTextColor: null,
+        laodmoreBackgroundColor: null,
+        laodmoreFontSize: null,
         rankBtnColor: null,
         rankBtnFZ: null,
         rankBtnBorderColor: null,
@@ -188,6 +198,8 @@ export const useOpensea = (attributes) => {
 export default function OpenSea({ attributes, setAttributes, isOpensea, isOpenseaSingle }) {
     const {
         limit,
+        itemperpage,
+        loadmore,
         orderby,
         layout,
         preset,
@@ -233,6 +245,9 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
         buttonTextColor,
         buttonBackgroundColor,
         buttonFontSize,
+        loadmoreTextColor,
+        loadmoreBackgroundColor,
+        loadmoreFontSize,
         rankBtnColor,
         rankBtnFZ,
         rankBtnBorderColor,
@@ -332,6 +347,19 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                         min={1}
                                         max={100}
                                     />
+
+
+                                    {
+                                        (isProPluginActive && loadmore) && (
+                                            <RangeControl
+                                                label={__("Item Per Page", "embedpress")}
+                                                value={itemperpage}
+                                                onChange={(itemperpage) => setAttributes({ itemperpage })}
+                                                min={1}
+                                                max={100}
+                                            />
+                                        )
+                                    }
 
                                     <SelectControl
                                         label={__("Order By", "embedpress")}
@@ -552,6 +580,25 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                         )
                                     }
                                 </frameElement>
+                            )
+                        }
+
+                        {
+                            isOpensea && (
+
+                                <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                    <ToggleControl
+                                        label={__("Load More", "embedpress")}
+                                        checked={loadmore}
+                                        onChange={(loadmore) => setAttributes({ loadmore })}
+                                    />
+
+                                    {
+                                        (!isProPluginActive) && (
+                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                        )
+                                    }
+                                </div>
                             )
                         }
 
@@ -796,6 +843,38 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                 onChange={(buttonFontSize) => setAttributes({ buttonFontSize })}
                             />
                         </PanelBody>
+
+                        {
+                            (isProPluginActive && loadmore) && (
+                                <PanelBody title={__("Load More")} initialOpen={false}>
+
+                                    <ControlHeader headerText={'Color'} />
+                                    <ColorPalette
+                                        label={__("Text Color")}
+                                        colors={colors}
+                                        value={loadmoreTextColor}
+                                        onChange={(loadmoreTextColor) => setAttributes({ loadmoreTextColor })}
+                                    />
+
+                                    <ControlHeader headerText={'Background Color'} />
+                                    <ColorPalette
+                                        label={__("Color")}
+                                        colors={colors}
+                                        value={loadmoreBackgroundColor}
+                                        onChange={(loadmoreBackgroundColor) => setAttributes({ loadmoreBackgroundColor })}
+                                    />
+
+                                    <ControlHeader headerText={'Font Size'} />
+                                    <FontSizePicker
+                                        __nextHasNoMarginBottom
+                                        fontSizes={fontSizes}
+                                        value={loadmoreFontSize}
+                                        fallbackFontSize={fallbackFontSize}
+                                        onChange={(loadmoreFontSize) => setAttributes({ loadmoreFontSize })}
+                                    />
+                                </PanelBody>
+                            )
+                        }
 
                         {
 

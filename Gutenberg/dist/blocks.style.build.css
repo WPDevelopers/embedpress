@@ -534,6 +534,28 @@ span.eb_nft_currency svg {
   min-width: 100% !important;
   max-width: 100% !important; }
 
+.ep-loadmore-wrapper {
+  margin-top: 30px;
+  text-align: center; }
+
+.ep-loadmore-wrapper button {
+  border-style: solid;
+  border-top-width: 0;
+  border-right-width: 0;
+  border-left-width: 0;
+  border-bottom-width: 0;
+  color: #ffffff;
+  border-color: var(--ast-global-color-0);
+  background-color: var(--ast-global-color-0);
+  border-radius: 2px;
+  padding-top: 15px;
+  padding-right: 30px;
+  padding-bottom: 15px;
+  padding-left: 30px;
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: 1; }
+
 /* mimmikcssEnd */
 @media all and (max-width: 1024px) {
   /* tabcssStart */

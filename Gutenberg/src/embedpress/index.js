@@ -49,6 +49,9 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			lightBlockWrapper: true
 		},
 		attributes: {
+			clientId: {
+				type: 'string',
+			},
 			url: {
 				type: 'string',
 				default: ''
@@ -111,7 +114,15 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			//NFT Attributes
 			limit: {
 				type: 'number',
+				default: 20
+			},
+			itemperpage: {
+				type: 'number',
 				default: 9
+			},
+			loadmore: {
+				type: 'boolean',
+				default: true
 			},
 			orderby: {
 				type: 'string',
@@ -288,6 +299,17 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 
 			buttonTextFontsize: {
+				type: 'number',
+			},
+			loadmoreTextColor: {
+				type: 'string',
+			},
+
+			loadmoreBackgroundColor: {
+				type: 'string',
+			},
+
+			loadmoreTextFontsize: {
 				type: 'number',
 			},
 			rankBtnColor: {

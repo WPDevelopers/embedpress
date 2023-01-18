@@ -23,8 +23,13 @@ class Embedpress_Elementor_Integration {
             add_action('elementor/editor/before_enqueue_styles', array($this, 'editor_enqueue_style'));
             add_action('elementor/editor/before_enqueue_scripts', array($this, 'editor_enqueue_scripts'));
             add_action( 'elementor/elements/categories_registered', array( $this, 'register_widget_categories' ) );
-            add_action( 'elementor/widgets/widgets_registered', array( $this, 'register_widget' ) );
-            add_action( 'elementor/widgets/register', array( $this, 'register_widget' ) );
+            if ( defined( 'ELEMENTOR_VERSION' ) ) {
+                if ( version_compare( ELEMENTOR_VERSION, '3.5.0', '>=' ) ) {
+                    add_action( 'elementor/widgets/register', array( $this, 'register_widget' ) );
+                } else {
+                    add_action( 'elementor/widgets/widgets_registered', array( $this, 'register_widget' ) );
+                }
+            }
             add_filter( 'oembed_providers', [ $this, 'addOEmbedProviders' ] );
         }
     }
@@ -115,9 +120,9 @@ class Embedpress_Elementor_Integration {
         );
     }
 
-    public function editor_enqueue_scripts(){
-
-    }
+    public function editor_enqueue_scripts() {
+        
+    }  
 
     public function addOEmbedProviders( $providers ) {
         if (Compatibility::isWordPress5() && ! Compatibility::isClassicalEditorActive()) {
