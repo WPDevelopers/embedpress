@@ -170,7 +170,7 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                 isWistiaVideo && (
                     <div className={'ep__single-yt-video-options'}>
                         <PanelBody title={__("Wistia Video Controls", 'embedpress')} initialOpen={false}>
-                            <div className={'ep-yt-video-controlers'}>
+                            <div className={'ep-video-controlers'}>
                                 <TextControl
                                     label={__("Start Time (In Seconds)")}
                                     value={wstarttime}

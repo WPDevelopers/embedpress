@@ -229,7 +229,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                 isYTVideo && (
                     <div className={'ep__single-yt-video-options'}>
                         <PanelBody title={__("YouTube Video Controls", 'embedpress')} initialOpen={false}>
-                            <div className={'ep-yt-video-controlers'}>
+                            <div className={'ep-video-controlers'}>
                                 <TextControl
                                     label={__("Start Time (in seconds)")}
                                     value={starttime}

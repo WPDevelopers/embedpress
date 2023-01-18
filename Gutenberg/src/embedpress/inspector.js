@@ -1,6 +1,7 @@
 import Youtube from './InspectorControl/youtube';
 import OpenSea from './InspectorControl/opensea';
 import Wistia from './InspectorControl/wistia';
+import Vimeo from './InspectorControl/vimeo';
 
 /**
  * WordPress dependencies
@@ -17,7 +18,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isOpensea, isOpenseaSingle, isWistiaVideo }) {
+export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo }) {
 
     const {
         width,
@@ -53,6 +54,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                             <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} />
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />
+                            <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />
 
 
                         </frameElement>
