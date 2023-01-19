@@ -3,6 +3,7 @@
  */
 import { getParams } from '../functions';
 import { addProAlert, isPro, removeAlert } from '../../common/helper';
+import CustomBranding from './custombranding';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
@@ -333,88 +334,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
 
                             </div>
                         </PanelBody>
-                        <PanelBody title={__("Custom Branding", 'embedpress')} initialOpen={false}>
-                            {
-                                isProPluginActive && customlogo && (
-                                    <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
-                                        <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
-                                            <span class="dashicon dashicons dashicons-trash"></span>
-                                        </button>
-                                        <img
-                                            src={customlogo}
-                                            alt="John"
-                                        />
-                                    </div>
-                                )
-                            }
-
-                            <div className={isProPluginActive ? "pro-control-active ep-custom-logo-button" : "pro-control ep-custom-logo-button"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                <MediaUpload
-                                    onSelect={onSelectImage}
-                                    allowedTypes={['image']}
-                                    value={customlogo}
-                                    render={({ open }) => (
-                                        <Button className={'ep-logo-upload-button'} icon={!customlogo ? 'upload' : 'update'} onClick={open}>
-                                            {
-                                                (!isProPluginActive || !customlogo) ? 'Upload Image' : 'Change Image'
-                                            }
-                                        </Button>
-                                    )}
-
-                                />
-                                {
-                                    (!isProPluginActive) && (
-                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                    )
-                                }
-                            </div>
-
-                            {
-                                isProPluginActive && customlogo && (
-                                    <div className={'ep-custom-logo-position'}>
-                                        <RangeControl
-                                            label={__('Logo X position (%)', 'embedpress')}
-                                            value={logoX}
-                                            onChange={(logoX) =>
-                                                setAttributes({ logoX })
-                                            }
-                                            max={100}
-                                            min={0}
-                                        />
-                                        <RangeControl
-                                            label={__('Logo Y position (%)', 'embedpress')}
-                                            value={logoY}
-                                            onChange={(logoY) =>
-                                                setAttributes({ logoY })
-                                            }
-                                            max={100}
-                                            min={0}
-                                        />
-                                        <RangeControl
-                                            label={__('Logo Opacity', 'embedpress')}
-                                            value={logoOpacity}
-                                            onChange={(logoOpacity) =>
-                                                setAttributes({ logoOpacity })
-                                            }
-                                            max={1}
-                                            min={0}
-                                            step={.05}
-                                        />
-
-                                        <TextControl
-                                            label="CTA Link"
-                                            value={customlogoUrl}
-                                            onChange={(customlogoUrl) =>
-                                                setAttributes({ customlogoUrl })
-                                            }
-                                            placeholder={'https://exmple.com'}
-                                        />
-
-                                    </div>
-                                )
-
-                            }
-                        </PanelBody>
+                        <CustomBranding attributes={attributes} setAttributes={setAttributes} />
                     </div>
                 )
             }
