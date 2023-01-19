@@ -319,7 +319,7 @@ class Feature_Enhancer
 				$params['loop'] 		= !empty($attributes['vloop']) ? 1 : 0;
 				$params['autopause'] 		= !empty($attributes['vautopause']) ? 1 : 0;
 				$params['dnt'] 		= !empty($attributes['vdnt']) ? 1 : 0;
-				$params['color'] = !empty($attributes['vscheme']) ? $attributes['vscheme'] : '#00ADEF';
+				$params['color'] = !empty($attributes['vscheme']) ? str_replace("#", "", $attributes['vscheme']) : '00ADEF';
 				$params['t'] 			= !empty($attributes['vstarttime']) ? $attributes['vstarttime'] : '';
 
 				preg_match( '/(.+)?\?/', $url_full, $url );
@@ -333,28 +333,15 @@ class Feature_Enhancer
 				// Reassemble the url with the new variables.
 				$url_modified = $url . '?';
 
-				foreach ( $params as $paramName => $paramValue ) {
-					$and = '&';
-					if(array_key_last($params) === $paramName && $paramName !== 't'){
-						$and = '';
-					}
-					
-					if(isset($paramValue) && $paramValue !== ''){
-						if($paramName === 't') {
-							$url_modified .= '#'.$paramName . '=' . $paramValue;
-						} else {
-                            if ($paramName === 'color') {
-                                $url_modified .= $paramName . '=' . substr($paramValue, 1) . $and;
-                            } else {
-                                $url_modified .= $paramName . '=' . $paramValue . $and;
-                            }
-						}
-					}
+				foreach ($params as $param => $value) {
+					$url_modified = add_query_arg($param, $value, $url_modified);
 				}
-
+				$url_modified = str_replace("&t=", "#t=", $url_modified);
 
 				// Replaces the old url with the new one.
 				$embedHTML = str_replace( $url_full, rtrim( $url_modified, '&' ), $urlInfo->embed );
+
+				// print_r($url_modified); die;
 				
 			}
 		}
@@ -644,17 +631,37 @@ class Feature_Enhancer
 			}
 			// Reassemble the url with the new variables.
 			$url_modified = $url_full;
+			if(is_object($embed->attributes) && !empty($embed->attributes)){
+				$attributes = (array) $embed->attributes;
+
+				$params['title'] = !empty($attributes['data-vtitle']) ? 1 : 0;
+				$params['byline']             = !empty($attributes['data-vauthor']) ? 1 : 0;
+				$params['portrait']             = !empty($attributes['data-vavatar']) ? 1 : 0;
+				$params['autoplay'] 		= !empty($attributes['data-vautoplay']) ? 1 : 0;
+				$params['loop'] 		= !empty($attributes['data-vloop']) ? 1 : 0;
+				$params['autopause'] 		= !empty($attributes['data-vautopause']) ? 1 : 0;
+				// $params['dnt'] 		= !empty($attributes['data-vdnt']) ? 1 : 0;
+				$params['color'] = !empty($attributes['data-vscheme']) ? str_replace("#", "", $attributes['data-vscheme']) : '00ADEF';
+				$params['t'] 			= !empty($attributes['data-vstarttime']) ? $attributes['data-vstarttime'] : '';
+
+			}
 			foreach ($params as $param => $value) {
 				$url_modified = add_query_arg($param, $value, $url_modified);
 			}
+			
+			$url_modified = str_replace("&t=", "#t=", $url_modified);
 
-			if (isset($options['start_time'])) {
+			if (empty($attributes['data-vstarttime']) && isset($options['start_time'])) {
 				$url_modified .= '#t=' . $options['start_time'];
 			}
 
 			do_action('embedpress_after_modified_url', $url_modified, $url_full, $params);
+			
 			// Replaces the old url with the new one.
 			$embed->embed = str_replace($url_full, $url_modified, $embed->embed);
+
+			// echo ($url_full).'<br><br>'; 
+			// print_r($url_modified);  die;
 		}
 
 		return $embed;

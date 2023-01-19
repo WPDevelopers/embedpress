@@ -114,12 +114,12 @@ function customLogo($embedHTML, $atts){
 
 function embedpress_render_block($attributes)
 {
-
-
+	
 
 	if (!empty($attributes['embedHTML'])) {
 		$embed         = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
 		
+
 	
 		$aligns = [
 			'left' => 'alignleft',
@@ -136,12 +136,15 @@ function embedpress_render_block($attributes)
 
 		$embed = customLogo($embed, $attributes);
 
+		
+		// print_r($embed); die;
+
 
 		ob_start();
 		?>
 		<div class="embedpress-gutenberg-wrapper">
 			<div class="wp-block-embed__wrapper <?php echo esc_attr($alignment) ?>">
-				<?php echo $embed; ?>
+				<!-- <?php //echo $embed; ?> -->
 			</div>
 		</div>
 <?php
