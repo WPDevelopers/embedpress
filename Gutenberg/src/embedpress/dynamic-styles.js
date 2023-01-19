@@ -1,6 +1,7 @@
 import react from 'react';
 import { isOpensea, isOpenseaSingle } from "./InspectorControl/opensea";
 import { isYTChannel, isYTVideo } from "./InspectorControl/youtube";
+import { isVimeoVideo } from "./InspectorControl/vimeo";
 
 export const dynamicStyles = ({
     url,
@@ -150,7 +151,7 @@ export const dynamicStyles = ({
                 )
             }
             {
-                isYTVideo(url) && (
+                (isYTVideo(url) || isVimeoVideo(url)) && (
                     <style style={{ display: "none" }}>
                         {
                             `
@@ -160,7 +161,6 @@ export const dynamicStyles = ({
                                 ${_iscustomlogo}
 							`
                         }
-
                     </style>
                 )
             }

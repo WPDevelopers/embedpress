@@ -340,8 +340,6 @@ class Feature_Enhancer
 
 				// Replaces the old url with the new one.
 				$embedHTML = str_replace( $url_full, rtrim( $url_modified, '&' ), $urlInfo->embed );
-
-				// print_r($url_modified); die;
 				
 			}
 		}
@@ -575,6 +573,8 @@ class Feature_Enhancer
 	
 	public function enhance_vimeo($embed)
 	{ 
+		
+
 		if (
 			isset($embed->provider_name)
 			&& strtoupper($embed->provider_name) === 'VIMEO'
@@ -633,35 +633,42 @@ class Feature_Enhancer
 			$url_modified = $url_full;
 			if(is_object($embed->attributes) && !empty($embed->attributes)){
 				$attributes = (array) $embed->attributes;
+				$attributes = stringToBoolean($attributes);
 
 				$params['title'] = !empty($attributes['data-vtitle']) ? 1 : 0;
-				$params['byline']             = !empty($attributes['data-vauthor']) ? 1 : 0;
+				$params['byline']             = !empty($attributes['data-vauthor'])  ? 1 : 0;
 				$params['portrait']             = !empty($attributes['data-vavatar']) ? 1 : 0;
 				$params['autoplay'] 		= !empty($attributes['data-vautoplay']) ? 1 : 0;
 				$params['loop'] 		= !empty($attributes['data-vloop']) ? 1 : 0;
+				$params['dnt'] 		= !empty($attributes['data-vdnt']) ? 1 : 0;
 				$params['autopause'] 		= !empty($attributes['data-vautopause']) ? 1 : 0;
-				// $params['dnt'] 		= !empty($attributes['data-vdnt']) ? 1 : 0;
 				$params['color'] = !empty($attributes['data-vscheme']) ? str_replace("#", "", $attributes['data-vscheme']) : '00ADEF';
 				$params['t'] 			= !empty($attributes['data-vstarttime']) ? $attributes['data-vstarttime'] : '';
-
-			}
-			foreach ($params as $param => $value) {
-				$url_modified = add_query_arg($param, $value, $url_modified);
-			}
 			
-			$url_modified = str_replace("&t=", "#t=", $url_modified);
+				foreach ($params as $param => $value) {
+					$url_modified = add_query_arg($param, $value, $url_modified);
+				}
+				
+				$url_modified = str_replace("&t=", "#t=", $url_modified);
 
-			if (empty($attributes['data-vstarttime']) && isset($options['start_time'])) {
-				$url_modified .= '#t=' . $options['start_time'];
 			}
+			else{
+				foreach ($params as $param => $value) {
+					$url_modified = add_query_arg($param, $value, $url_modified);
+				}
+	
+				if (empty($attributes['data-vstarttime']) && isset($options['start_time'])) {
+					$url_modified .= '#t=' . $options['start_time'];
+				}
+			}
+
+			
 
 			do_action('embedpress_after_modified_url', $url_modified, $url_full, $params);
 			
 			// Replaces the old url with the new one.
 			$embed->embed = str_replace($url_full, $url_modified, $embed->embed);
 
-			// echo ($url_full).'<br><br>'; 
-			// print_r($url_modified);  die;
 		}
 
 		return $embed;
