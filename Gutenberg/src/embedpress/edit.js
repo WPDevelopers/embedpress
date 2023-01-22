@@ -19,6 +19,7 @@ import { embedPressIcon } from '../common/icons';
 import { isOpensea as _isOpensea, isOpenseaSingle as _isOpenseaSingle, useOpensea } from './InspectorControl/opensea';
 import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, useYTVideo } from './InspectorControl/youtube';
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
+import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 
 const {
 	useBlockProps
@@ -82,6 +83,7 @@ export default function EmbedPress(props) {
 	const isYTChannel = _isYTChannel(url);
 	const isYTVideo = _isYTVideo(url);
 	const isWistiaVideo = _isWistiaVideo(url);
+	const isVimeoVideo = _isVimeoVideo(url);
 
 	const isOpensea = _isOpensea(url);
 	const isOpenseaSingle = _isOpenseaSingle(url);
@@ -90,6 +92,7 @@ export default function EmbedPress(props) {
 	const youtubeParams = useYTChannel(attributes);
 	const youtubeVideoParams = useYTVideo(attributes);
 	const wistiaVideoParams = useWistiaVideo(attributes);
+	const vimeoVideoParams = useVimeoVideo(attributes);
 
 
 	function switchBackToURLInput() {
@@ -199,12 +202,21 @@ export default function EmbedPress(props) {
 		return () => {
 			clearTimeout(delayDebounceFn)
 		}
-	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams]);
+	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams]);
 
 	return (
 		<Fragment>
 
-			<Inspector attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} isYTVideo={isYTVideo} isOpensea={isOpensea} isOpenseaSingle={isOpenseaSingle} isWistiaVideo={isWistiaVideo} />
+			<Inspector
+				attributes={attributes}
+				setAttributes={setAttributes}
+				isYTChannel={isYTChannel}
+				isYTVideo={isYTVideo}
+				isOpensea={isOpensea}
+				isOpenseaSingle={isOpenseaSingle}
+				isWistiaVideo={isWistiaVideo}
+				isVimeoVideo={isVimeoVideo}
+			/>
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
 				<EmbedPlaceholder

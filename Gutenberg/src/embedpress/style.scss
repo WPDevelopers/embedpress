@@ -727,17 +727,21 @@ span.eb_nft_currency svg {
 
 
 // YouTube single videos controlers CSS
-.ep-yt-video-controlers .ep-control-field .components-base-control__field {
+.ep-video-controlers .ep-control-field .components-base-control__field {
     display: -ms-flexbox;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.ep-yt-video-controlers .ep-control-field .components-base-control__field input {
+.ep-video-controlers .ep-control-field .components-base-control__field input {
     width: 70px;
 }
-.ep-yt-video-controlers .ep-control-field .components-base-control__field .components-base-control__label {
+.ep-video-controlers .ep-control-field .components-base-control__field .components-base-control__label {
     margin-bottom: 0px;
+}
+
+.ep-video-controlers .components-base-control .components-base-control__label {
+    margin-right: 0px;
 }
 
 button.ep-remove__image {

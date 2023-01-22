@@ -14,7 +14,8 @@ if (!defined('ABSPATH')) {
 //Custom Logo 
 function customLogo($embedHTML, $atts){
 
-	// print_r($atts); die;
+	
+
 
 	$x = !empty($atts['logoX']) ? $atts['logoX'] : 0;
 	$y = !empty($atts['logoY']) ? $atts['logoY'] : 0;
@@ -25,7 +26,8 @@ function customLogo($embedHTML, $atts){
 	
 	$cssClass = !empty( $atts['url'] ) ? '.ose-uid-' . md5( $atts['url'] ) : '.ose-youtube';
 
-	
+
+
 	ob_start(); ?>
 	<style type="text/css">
 		<?php echo esc_html($cssClass); ?>
@@ -112,11 +114,11 @@ function customLogo($embedHTML, $atts){
 
 function embedpress_render_block($attributes)
 {
-
+	
 
 	if (!empty($attributes['embedHTML'])) {
 		$embed         = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
-		
+	
 		$aligns = [
 			'left' => 'alignleft',
 			'right' => 'alignright',
@@ -129,9 +131,7 @@ function embedpress_render_block($attributes)
 		} else {
 			$alignment = 'aligncenter'; // default alignment is center in js, so keeping same here
 		}
-
 		$embed = customLogo($embed, $attributes);
-
 
 		ob_start();
 		?>
@@ -141,6 +141,7 @@ function embedpress_render_block($attributes)
 			</div>
 		</div>
 <?php
+
 
 
 		echo embedpress_render_block_style($attributes);

@@ -13,6 +13,7 @@ import { embedPressIcon } from '../common/icons';
 import { init as openseaInit } from './InspectorControl/opensea';
 import { init as youtubeInit } from './InspectorControl/youtube';
 import { init as wistiaInit } from './InspectorControl/wistia';
+import { init as vimeoInit } from './InspectorControl/vimeo';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
@@ -436,7 +437,43 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: true
 			},
-	
+
+			//Vimeo video controls attribute
+			vstarttime: {
+				type: 'string',
+			},
+			vautoplay: {
+				type: 'boolean',
+				default: false
+			},
+			vscheme: {
+				type: 'string',
+			},
+			vtitle: {
+				type: 'boolean',
+				default: true
+			},
+			vauthor: {
+				type: 'boolean',
+				default: true
+			},
+			vavatar: {
+				type: 'boolean',
+				default: true
+			},
+			vloop: {
+				type: 'boolean',
+				default: false
+			},
+			vautopause: {
+				type: 'boolean',
+				default: false
+			},
+			vdnt: {
+				type: 'boolean',
+				default: false
+			},
+
 			//Custom logo atributes
 			customlogo: {
 				type: 'string',
@@ -483,4 +520,5 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 	openseaInit();
 	youtubeInit();
 	wistiaInit();
+	vimeoInit();
 }
