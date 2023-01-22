@@ -316,9 +316,11 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                             ?>
                         </div>
                         <?php if(!empty($loadmore)):  ?>
-                            <div class="ep-loadmore-wrapper">
-                                <button class="btn btn-primary nft-loadmore" <?php echo $this->createStye('loadmoreTextColor', 'loadmoreBackgroundColor', 'loadmoreTextFontsize')?>> <?php echo esc_html__( 'Load More', 'embedpress' ); ?></button>
-                            </div>
+                            <?php if((isset($params['limit']) && isset($params['itemperpage'])) && $params['limit'] > $params['itemperpage']) : ?>
+                                <div class="ep-loadmore-wrapper">
+                                    <button class="btn btn-primary nft-loadmore" <?php echo $this->createStye('loadmoreTextColor', 'loadmoreBackgroundColor', 'loadmoreTextFontsize')?>> <?php echo esc_html__( 'Load More', 'embedpress' ); ?></button>
+                                </div>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </div>
                 </div>
