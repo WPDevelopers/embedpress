@@ -10,6 +10,7 @@ const { __ } = wp.i18n;
 const {
     TextControl,
     PanelBody,
+    SelectControl,
 } = wp.components;
 
 const {
@@ -22,6 +23,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
     const {
         width,
         height,
+        videosize,
 
         editingURL,
         embedHTML,
@@ -36,17 +38,49 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <PanelBody title={__("Embeded Options")}>
 
                                 <div>
-                                    <p>{__("You can adjust the width and height of embedded content.")}</p>
+                                    {
+                                        isYTVideo && (
+                                            <SelectControl
+                                                label={__("Video Size")}
+                                                labelPosition='side'
+                                                value={videosize}
+                                                options={[
+                                                    { label: 'Fixed', value: 'fixed' },
+                                                    { label: 'Responsive', value: 'responsive' },
+                                                ]}
+                                                onChange={(videosize) => setAttributes({ videosize })}
+                                                __nextHasNoMarginBottom
+                                            />
+                                        )
+                                    }
+
+                                    {
+                                        !isYTVideo || (videosize == 'fixed') && (
+                                            <p>{__("You can adjust the width and height of embedded content.")}</p>
+                                        )
+                                    }
+
+                                    {
+                                        (videosize == 'responsive') && (
+                                            <p>{__("You can adjust the width of embedded content.")}</p>
+                                        )
+                                    }
+
                                     <TextControl
                                         label={__("Width")}
                                         value={width}
                                         onChange={(width) => setAttributes({ width })}
                                     />
-                                    <TextControl
-                                        label={__("Height")}
-                                        value={height}
-                                        onChange={(height) => setAttributes({ height })}
-                                    />
+
+                                    {
+                                        !isYTVideo || (videosize == 'fixed') && (
+                                            <TextControl
+                                                label={__("Height")}
+                                                value={height}
+                                                onChange={(height) => setAttributes({ height })}
+                                            />
+                                        )
+                                    }
                                 </div>
                                 <Youtube attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} />
                             </PanelBody>

@@ -136,7 +136,7 @@ function embedpress_render_block($attributes)
 		ob_start();
 		?>
 		<div class="embedpress-gutenberg-wrapper">
-			<div class="wp-block-embed__wrapper <?php echo esc_attr($alignment) ?>">
+			<div class="wp-block-embed__wrapper <?php echo esc_attr($alignment) ?> <?php if($attributes['videosize'] == 'responsive') echo 'ep-video-responsive'; ?>">
 				<?php echo $embed; ?>
 			</div>
 		</div>
@@ -198,6 +198,30 @@ function embedpress_render_block_style($attributes)
 
 
 	</style>';
+
+	if($attributes['videosize'] == 'responsive') {
+		$youtubeStyles = '<style>
+		' . esc_attr($uniqid) . ' {
+			position: relative;
+			width: ' . esc_attr($attributes['width']) . 'px !important;
+			height: 0;
+			padding-top: 56.25%;
+		  }
+		
+		  ' . esc_attr($uniqid) . ' > iframe {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		  }
+
+		  .ep-video-responsive{
+			display: inline-block!important;
+		  }
+		  '.$_iscustomlogo.'
+	</style>';
+	}
 
 	return $youtubeStyles;
 }

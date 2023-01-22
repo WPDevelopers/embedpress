@@ -7,6 +7,7 @@ export const dynamicStyles = ({
     clientId,
     width,
     height,
+    videosize,
     ispagination,
     gapbetweenvideos,
     columns,
@@ -38,8 +39,11 @@ export const dynamicStyles = ({
         `;
     }
 
+    let wehnResponsive = '';
+
     return (
         <React.Fragment>
+
             {isYTChannel(url) && (
                 <style style={{ display: "none" }}>
                     {`
@@ -74,6 +78,8 @@ export const dynamicStyles = ({
                     `}
                 </style>
             )}
+
+
 
             {
                 !isYTChannel(url) && !isOpensea(url) && !isOpenseaSingle(url) && (
@@ -158,6 +164,33 @@ export const dynamicStyles = ({
                                 display: none;
                             }
                                 ${_iscustomlogo}
+							`
+                        }
+
+                    </style>
+                )
+            }
+
+            {
+                (videosize === 'responsive') && (
+                    <style style={{ display: "none" }}>
+                        {
+                            `
+                                #block-${clientId} .ose-youtube {
+                                    width: ${width}px!important;
+                                    position: relative;
+                                    padding: 0;
+                                    padding-top: 56.5%;
+                                    height: 100%!important;
+                                }
+                                
+                                #block-${clientId} .ose-youtube iframe {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%!important;
+                                }
 							`
                         }
 
