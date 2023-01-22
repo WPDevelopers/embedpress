@@ -30,7 +30,6 @@ class Embedpress_Elementor_Integration {
                     add_action( 'elementor/widgets/widgets_registered', array( $this, 'register_widget' ) );
                 }
             }
-            add_action( 'elementor/widgets/register', array( $this, 'register_widget' ) );
             add_filter( 'oembed_providers', [ $this, 'addOEmbedProviders' ] );
         }
     }
@@ -121,9 +120,9 @@ class Embedpress_Elementor_Integration {
         );
     }
 
-    public function editor_enqueue_scripts(){
-
-    }
+    public function editor_enqueue_scripts() {
+        
+    }  
 
     public function addOEmbedProviders( $providers ) {
         if (Compatibility::isWordPress5() && ! Compatibility::isClassicalEditorActive()) {

@@ -1410,6 +1410,30 @@ class Embedpress_Elementor extends Widget_Base
 				'min' => 1,
 				'max' => 100,
 				'step' => 1,
+				'default' => 20,
+				'condition'   => [
+					'embedpress_pro_embeded_nft_type' => ['collection'],
+					'embedpress_pro_embeded_source!' => [
+						'default',    
+						'youtube',    
+						'vimeo',     
+						'dailymotion',
+						'wistia',    
+						'twitch',
+						'soundcloud', 
+					],
+				],
+			]
+		);
+		$this->add_control(
+			'itemperpage',
+			[
+				'type' => \Elementor\Controls_Manager::NUMBER,
+				'label' => esc_html__( 'Item Per Page', 'embedpress' ),
+				'placeholder' => '9',
+				'min' => 1,
+				'max' => 100,
+				'step' => 1,
 				'default' => 9,
 				'condition'   => [
 					'embedpress_pro_embeded_nft_type' => ['collection'],
@@ -1744,6 +1768,23 @@ class Embedpress_Elementor extends Widget_Base
 				'condition' => [
 					'nftbutton' => 'yes',
 				]
+			]
+		);
+
+		$this->add_control(
+			'loadmore',
+			[
+				'label'       => __('Load More', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'label_off'    => __('Hide', 'embedpress'),
+				'label_on'     => __('Show', 'embedpress'),
+				'default'      => 'yes',
+				'condition'  => [
+					'embedpress_pro_embeded_nft_type' => ['collection']
+				],
 			]
 		);
 

@@ -1,11 +1,11 @@
 /**
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
- * @copyright   Copyright (C) 2022 EmbedPress. All rights reserved.
+ * @copyright   Copyright (C) 2023 EmbedPress. All rights reserved.
  * @license     GPLv2 or later
  * @since       1.7.0
  */
-(function () {
+(function ($) {
     'use strict';
     // function equivalent to jquery ready()
     function ready(fn) {
@@ -275,4 +275,64 @@
 
         });
     }
-})();
+
+    //Load more for OpenaSea collection
+    const epLoadMore = () => {
+        $('.ep-nft-gallery-wrapper').each(function () {
+            let selctorEl = `[data-nftid='${$(this).data('nftid')}']`;
+            $(selctorEl + ` .ep_nft_item`).slice(0, $(selctorEl).data('itemparpage')).show();
+
+            $(selctorEl + " .nft-loadmore").click(function (e) {
+                //change the text of the button
+                $(this).text('Loading...');
+                //disable the button
+                $(this).prop("disabled", true);
+                //wait for 1 seconds
+                setTimeout(function () {
+                    //change the text back
+                    $(selctorEl + " .nft-loadmore").text('Load More');
+                    //enable the button
+                    $(selctorEl + " .nft-loadmore").prop("disabled", false);
+                    $(selctorEl + " .ep_nft_item:hidden").slice(0, $(selctorEl).data('itemparpage')).fadeIn("slow");
+                    if ($(selctorEl + " .ep_nft_item:hidden").length == 0) {
+                        $(selctorEl + " .nft-loadmore").fadeOut("slow");
+                    }
+                }, 1000);
+            });
+        });
+    };
+    epLoadMore();
+
+})(jQuery);
+
+
+jQuery(window).on("elementor/frontend/init", function () {
+    var filterableGalleryHandler = function ($scope, $) {
+        const epElLoadMore = () => {
+            $('.elementor-widget-container .ep-nft-gallery-wrapper').each(function () {
+                let selctorEl = `.elementor-widget-container [data-nftid='${$(this).data('nftid')}']`;
+                $(selctorEl + ` .ep_nft_item`).slice(0, $(selctorEl).data('itemparpage')).show();
+
+                $(selctorEl + " .nft-loadmore").click(function (e) {
+                    //change the text of the button
+                    $(this).text('Loading...');
+                    //disable the button
+                    $(this).prop("disabled", true);
+                    //wait for 1 seconds
+                    setTimeout(function () {
+                        //change the text back
+                        $(selctorEl + " .nft-loadmore").text('Load More');
+                        //enable the button
+                        $(selctorEl + " .nft-loadmore").prop("disabled", false);
+                        $(selctorEl + " .ep_nft_item:hidden").slice(0, $(selctorEl).data('itemparpage')).fadeIn("slow");
+                        if ($(selctorEl + " .ep_nft_item:hidden").length == 0) {
+                            $(selctorEl + " .nft-loadmore").fadeOut("slow");
+                        }
+                    }, 1000);
+                });
+            });
+        };
+        epElLoadMore();
+    };
+    elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);
+});

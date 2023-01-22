@@ -31,6 +31,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         'maxwidth',
         'maxheight',
         'limit',
+        'itemperpage',
+        'loadmore',
         'orderby',
         'layout',
         'layout-single',
@@ -152,13 +154,13 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         $results = '';
         $all_params = ( isset($param['limit'] ) ? $param['limit'] : '' ) . ( isset($param['order_direction'] ) ? $param['order_direction'] : '' ) . ( isset($param['collection_slug'] ) ? $param['collection_slug'] : '' );
 
-        // print_r($param['order_direction']);
 
         $md5 = md5($api_key.$url.$all_params);
 
         $cache_key = $md5. '_nft_cache';
+        $transient_data = get_transient( $cache_key );
 
-        if(false === ($transient_data = get_transient( $cache_key ))){
+        if(false == $transient_data || 0 === $transient_data){
 
             $transient_data = [];
 
@@ -168,17 +170,18 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                     'X-API-KEY' => $api_key,
                 )
             ]);
-            
             $transient_data = $results['body'];
             set_transient( $cache_key, $transient_data, DAY_IN_SECONDS );
         }
 
         if (!is_wp_error($results) ) {
-            $jsonResult = json_decode($transient_data);
+            $transient_data = json_decode($transient_data);
         }
 
-        return $jsonResult;
+        return $transient_data;
     }
+
+    
 
 
     public function getAssets($url) {
@@ -247,7 +250,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         }
 
          //This limit comes from Global Opensea Settings
-         $limit = 9;
+         $limit = 20;
         if(!empty($opensea_settings['limit'])){
             $limit = $opensea_settings['limit'];
         }
@@ -263,6 +266,12 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             if(! empty( $params['limit'] ) &&  $params['limit']  != 'false'){
                 $limit =  $params['limit'];
                 $param['limit'] = $limit;
+            }
+            if(! empty( $params['itemperpage'] ) &&  $params['itemperpage']  != 'false'){
+                $itemperpage =  $params['itemperpage'];
+            }
+            if(! empty( $params['loadmore'] ) &&  $params['loadmore']  != 'false'){
+                $loadmore =  $params['loadmore'];
             }
             if(! empty( $params['orderby'] ) &&  $params['orderby']  != 'false'){
                 $orderby =  $params['orderby'];
@@ -294,8 +303,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             ?>
 
                 <div class="ep-parent-wrapper ep-parent-ep-nft-gallery-r1a5mbx ">
-                    <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx">
-                        <div class="ep_nft_content_wrap ep_nft__wrapper nft_items <?php echo esc_attr( $ep_layout.' '.$ep_preset ); ?>">
+                    <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx" data-itemparpage="<?php echo esc_attr($itemperpage); ?>" data-nftid="<?php echo esc_attr( 'ep-'.md5($api_url) ); ?>">
+                        <div class="ep_nft_content_wrap ep_nft__wrapper nft_items <?php echo esc_attr( $ep_layout.' '.$ep_preset ); ?>"  >
                             <?php
                                 if(isset($jsonResult->assets) && is_array($jsonResult->assets)){
                                     foreach ($jsonResult->assets as $key => $asset) {
@@ -306,14 +315,17 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                                 }
                             ?>
                         </div>
+                        <?php if(!empty($loadmore)):  ?>
+                            <div class="ep-loadmore-wrapper">
+                                <button class="btn btn-primary nft-loadmore" <?php echo $this->createStye('loadmoreTextColor', 'loadmoreBackgroundColor', 'loadmoreTextFontsize')?>> <?php echo esc_html__( 'Load More', 'embedpress' ); ?></button>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
 
                 <?php $this->openSeaStyle($this->getParams()); ?>
 
             <?php $html = ob_get_clean();
-
-            // wp_send_json($html);
 
             return $html;
         }
@@ -580,7 +592,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         $itemBGColor = $this->createStye('', '', 'itemBGColor');
 
         $template = '
-                <div class="ep_nft_item" '.$itemBGColor.'>
+                <div class="ep_nft_item" '.$itemBGColor.' style="display:none">
                     '.$thumbnail.'
                     <div class="ep_nft_content">
                        '.$title.'
@@ -884,6 +896,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 gap: <?php echo esc_html($gap); ?>px;
             }
         </style>
+
     <?php
     }
 
