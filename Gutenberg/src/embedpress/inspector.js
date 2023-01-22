@@ -74,7 +74,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     />
 
                                     {
-                                        !isYTVideo || (videosize == 'fixed') && (
+                                        (!isYTVideo || (videosize == 'fixed')) && (
                                             <TextControl
                                                 label={__("Height")}
                                                 value={height}
