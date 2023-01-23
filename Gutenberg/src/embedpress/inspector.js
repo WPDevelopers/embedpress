@@ -31,6 +31,10 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         embedHTML,
     } = attributes;
 
+    const roundToNearestFive = (value) => {
+        return Math.round(value / 5) * 5;
+    }
+
     return (
         !editingURL && embedHTML && (
             <InspectorControls>
@@ -71,18 +75,16 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     <TextControl
                                         label={__("Width")}
                                         value={width}
-                                        onChange={(width) =>
-                                           {
-                                                (isVimeoVideo || isYTVideo) ? (
-                                                    setAttributes({
-                                                        width: `${Math.round(width)}`,
-                                                        height: `${Math.round((width * 9) / 16)}`
-                                                    })
-                                                ) : (
-                                                    setAttributes({width})
-                                                )  
-                                           }
-                                        }
+                                        onChange={(width) => {
+                                            (isVimeoVideo || isYTVideo) ? (
+                                                setAttributes({
+                                                    width: `${Math.round(width)}`,
+                                                    height: `${roundToNearestFive(Math.round((width * 9) / 16))}`
+                                                })
+                                            ) : (
+                                                setAttributes({ width })
+                                            )
+                                        }}
                                     />
 
                                     {
@@ -91,20 +93,17 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                                 label={__("Height")}
                                                 value={height}
                                                 onChange={(height) => {
-                                                    
                                                     {
                                                         (isVimeoVideo || isYTVideo) ? (
                                                             setAttributes({
                                                                 height: `${Math.round(height)}`,
-                                                                width: `${Math.round((height * 16) / 9)}`
+                                                                width: `${roundToNearestFive(Math.round((height * 16) / 9))}`
                                                             })
                                                         ) : (
-                                                            setAttributes({height})
-                                                        )  
-                                                   }
-                                                }
-                                                    
-                                                }
+                                                            setAttributes({ height })
+                                                        )
+                                                    }
+                                                }}
                                             />
                                         )
                                     }
