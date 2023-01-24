@@ -26,6 +26,7 @@ class Feature_Enhancer
 		add_action('embedpress_gutenberg_wistia_block_after_embed', array($this, 'embedpress_wistia_block_after_embed'));
 		add_action('elementor/widget/embedpres_elementor/skins_init', [$this, 'elementor_setting_init']);
 		add_action('wp_ajax_youtube_rest_api', [$this, 'youtube_rest_api']);
+		add_action('wp_ajax_nopriv_youtube_rest_api', [$this, 'youtube_rest_api']);
 		add_action('embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2);
 
 		add_action('embedpress:isEmbra', [$this, 'isEmbra'], 10, 3);
