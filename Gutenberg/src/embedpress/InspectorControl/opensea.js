@@ -40,7 +40,7 @@ export const getOpenseaParams = (params, attributes) => {
     const defaults = {
         limit: 20,
         itemperpage: 9,
-        loadmore: true,
+        loadmore: false,
         orderby: 'desc',
         layout: isOpenseaSingle ? 'ep-list' : 'ep-grid',
         preset: 'ep-preset-1',
@@ -260,7 +260,6 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
         detailTextFZ,
     } = attributes;
 
-
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     const addProAlert = (e, isProPluginActive) => {
@@ -349,17 +348,15 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                     />
 
 
-                                    {
-                                        (isProPluginActive && loadmore) && (
-                                            <RangeControl
-                                                label={__("Item Per Page", "embedpress")}
-                                                value={itemperpage}
-                                                onChange={(itemperpage) => setAttributes({ itemperpage })}
-                                                min={1}
-                                                max={100}
-                                            />
-                                        )
-                                    }
+                                    <RangeControl
+                                        label={__("Item Per Page", "embedpress")}
+                                        value={itemperpage}
+                                        onChange={(itemperpage) => setAttributes({ itemperpage })}
+                                        min={1}
+                                        max={100}
+                                    />
+
+
 
                                     <SelectControl
                                         label={__("Order By", "embedpress")}
@@ -590,7 +587,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                     <ToggleControl
                                         label={__("Load More", "embedpress")}
                                         checked={loadmore}
-                                        onChange={(loadmore) => setAttributes({ loadmore })}
+                                        onChange={(loadmore) =>  setAttributes({ loadmore })}
                                     />
 
                                     {

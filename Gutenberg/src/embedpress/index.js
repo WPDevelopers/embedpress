@@ -123,7 +123,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			loadmore: {
 				type: 'boolean',
-				default: true
+				default: false
 			},
 			orderby: {
 				type: 'string',

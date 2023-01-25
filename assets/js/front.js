@@ -301,7 +301,10 @@
             });
         });
     };
-    epLoadMore();
+
+    if ($('.ep-nft-gallery-wrapper').length > 0) {
+        epLoadMore();
+    }
 
 })(jQuery);
 

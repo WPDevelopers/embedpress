@@ -168,6 +168,10 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'boolean',
 								'default' => false
 							],
+							'loadmore' => [
+								'type' => 'boolean',
+								'default' => false
+							],
 							//Youtube Attributes
 							'starttime' => [
 								'type' => 'string',

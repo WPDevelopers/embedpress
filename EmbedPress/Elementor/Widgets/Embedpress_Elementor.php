@@ -1774,7 +1774,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'loadmore',
 			[
-				'label'       => __('Load More', 'embedpress'),
+				'label'        => sprintf(__('Load More %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -1782,6 +1782,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'default'      => 'yes',
+				'classes'     => $this->pro_class,
 				'condition'  => [
 					'embedpress_pro_embeded_nft_type' => ['collection']
 				],

@@ -148,51 +148,15 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         return $results;
     }
 
-    //Create transient for opensea api request
-    public function createTransient($api_key, $url, $api_url, $param){
-
-        $results = '';
-        $all_params = ( isset($param['limit'] ) ? $param['limit'] : '' ) . ( isset($param['order_direction'] ) ? $param['order_direction'] : '' ) . ( isset($param['collection_slug'] ) ? $param['collection_slug'] : '' );
-
-
-        $md5 = md5($api_key.$url.$all_params);
-
-        $cache_key = $md5. '_nft_cache';
-        $transient_data = get_transient( $cache_key );
-
-        if(false == $transient_data || 0 === $transient_data){
-
-            $transient_data = [];
-
-            $results = wp_remote_get($api_url, [
-                'headers' => array(
-                    'Content-Type' => 'application/json',
-                    'X-API-KEY' => $api_key,
-                )
-            ]);
-            $transient_data = $results['body'];
-            set_transient( $cache_key, $transient_data, DAY_IN_SECONDS );
-        }
-
-        if (!is_wp_error($results) ) {
-            $transient_data = json_decode($transient_data);
-        }
-
-        return $transient_data;
-    }
-
-    
-
-
+    /**
+     * Get Opensea single assets data
+     */
     public function getAssets($url) {
         preg_match('~opensea\.io/assets/.*/([a-zA-Z0-9]+)/([a-zA-Z0-9]+)~i', (string) $url, $matches);
 
         $opensea_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
 
-        $param = array(
-            'include_orders' => true,
-        );
-        $api_url = "https://api.opensea.io/api/v1/asset/$matches[1]/$matches[2]/?" . http_build_query($param);
+        $params = $this->getParams();
 
         $api_key = 'b61c8a54123d4dcb9acc1b9c26a01cd1';
         
@@ -202,15 +166,43 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         
         if(!empty($matches[1]) && !empty($matches[2])){
 
-            $jsonResult = $this->createTransient($api_key, $url, $api_url, $param);
+            $param = array(
+                'include_orders' => true,
+            );
             
-            $asset = $this->normalizeJSONData($jsonResult);
+            $url = "https://api.opensea.io/api/v1/asset/$matches[1]/$matches[2]/?" . http_build_query($param);
+            
+            $asset_cache_key = md5($url . $api_key) . '_asset_cache';
+            $asset = get_transient($asset_cache_key);
+            
+            if (empty($asset)) {
+                $results = wp_remote_get($url, [
+                    'headers' => array(
+                        'Content-Type' => 'application/json',
+                        'X-API-KEY' => $api_key,
+                    )
+                ]);
+            
+                if (!is_wp_error($results)) {
+                    $jsonResult = json_decode($results['body']);
+                    $asset = $this->normalizeJSONData($jsonResult);
+                    set_transient($asset_cache_key, $asset, DAY_IN_SECONDS);
+                }
+            }
+            else{
+                if(empty($asset['id'])){
+                    delete_transient( $asset_cache_key );
+                }
+            }
             
             $template = $this->nftSingleItemTemplate($asset);
+            
 
             ob_start();
 
             ?>
+            
+
                 <div class="ep-parent-wrapper ep-parent-ep-nft-gallery-r1a5mbx ">
                     <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx">
                         <div class="ep_nft_content_wrap ep_nft__wrapper nft_items ep-nft-single-item-wraper ep-list">
@@ -225,14 +217,25 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
             return $html;
 
+            return "
+            <!-- vertical=\"true\" -->
+            <nft-card
+            width=\"{$params['maxwidth']}\"
+            contractAddress=\"{$matches[1]}\"
+            tokenId=\"{$matches[2]}\">
+            </nft-card>
+            <script src=\"https://unpkg.com/embeddable-nfts/dist/nft-card.min.js\"></script>";
         }
 
         return "";
     }
 
+
     /**
      * Get Opensea Collection assets data
      */
+   
+
     public function getCollection($url) {
         preg_match('~opensea\.io/collection/(.*)~i', (string) $url, $matches);
 
@@ -240,7 +243,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         $api_key = 'b61c8a54123d4dcb9acc1b9c26a01cd1';
         $orderby = 'desc';
-    
 
         if(!empty($opensea_settings['api_key'])){
             $api_key = $opensea_settings['api_key'];
@@ -260,12 +262,9 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             $html = "";
             $params = $this->getParams();
 
-            $param = [];
-
             //This limit comes from Elementor and Gutenberg
             if(! empty( $params['limit'] ) &&  $params['limit']  != 'false'){
                 $limit =  $params['limit'];
-                $param['limit'] = $limit;
             }
             if(! empty( $params['itemperpage'] ) &&  $params['itemperpage']  != 'false'){
                 $itemperpage =  $params['itemperpage'];
@@ -275,7 +274,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             }
             if(! empty( $params['orderby'] ) &&  $params['orderby']  != 'false'){
                 $orderby =  $params['orderby'];
-                $param['order_direction'] = $orderby;
             }
 
             // Embepress NFT item layout
@@ -292,26 +290,54 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 }
             }
 
-            $param['collection_slug'] = $matches[1];
-            $param['include_orders'] = true;
+            $param = array(
+                'limit' => $limit,
+                'order_direction' => $orderby,
+                'collection_slug' => $matches[1],
+                'include_orders' => true,
+            );
 
-            $api_url = "https://api.opensea.io/api/v1/assets?" . http_build_query($param);
+            $url = "https://api.opensea.io/api/v1/assets?" . http_build_query($param);
 
-            $jsonResult = $this->createTransient($api_key, $url, $api_url, $param);
+            $singleAsset_cache_key = md5($url . $api_key) . '_singleAsset_cache';
+            $singleAsset = get_transient($singleAsset_cache_key);
+
+            if (false === $singleAsset) {
+                $results = wp_remote_get($url, [
+                    'headers' => array(
+                        'Content-Type' => 'application/json',
+                        'X-API-KEY' => $api_key,
+                    )
+                ]);
+                if (!is_wp_error($results) ) {
+                    $jsonResult = json_decode($results['body']);
+                    if(isset($jsonResult->assets) && is_array($jsonResult->assets)){
+                        $singleAsset = array();
+                        foreach ($jsonResult->assets as $key => $asset) {
+                            $singleAsset[] = $this->normalizeJSONData($asset);
+                        }
+                        set_transient($singleAsset_cache_key, $singleAsset, DAY_IN_SECONDS);
+                    }
+                }
+            }
+            else{
+                if(is_array($singleAsset)) : $id = $singleAsset[0]; endif;
+                if( empty($id['id'])){
+                    set_transient($singleAsset_cache_key);
+                }
+            }
+
 
             ob_start();
             ?>
 
                 <div class="ep-parent-wrapper ep-parent-ep-nft-gallery-r1a5mbx ">
-                    <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx" data-itemparpage="<?php echo esc_attr($itemperpage); ?>" data-nftid="<?php echo esc_attr( 'ep-'.md5($api_url) ); ?>">
+                    <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx" data-itemparpage="<?php echo esc_attr($itemperpage); ?>" data-nftid="<?php echo esc_attr( 'ep-'.md5($url) ); ?>">
                         <div class="ep_nft_content_wrap ep_nft__wrapper nft_items <?php echo esc_attr( $ep_layout.' '.$ep_preset ); ?>"  >
                             <?php
-                                if(isset($jsonResult->assets) && is_array($jsonResult->assets)){
-                                    foreach ($jsonResult->assets as $key => $asset) {
-                                        $asset = $this->normalizeJSONData($asset);
-                                        $template = $this->nftItemTemplate($asset);
-                                        print_r($template);
-                                    }
+                                foreach ($singleAsset as $key => $asset) {
+                                    $template = $this->nftItemTemplate($asset);
+                                    print_r($template);
                                 }
                             ?>
                         </div>
@@ -328,12 +354,12 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 <?php $this->openSeaStyle($this->getParams()); ?>
 
             <?php $html = ob_get_clean();
+            
 
             return $html;
         }
         return "";
     }
-
     /**
      * Normalize json data
      */
