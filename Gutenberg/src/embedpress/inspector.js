@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Youtube from './InspectorControl/youtube';
 import OpenSea from './InspectorControl/opensea';
 import Wistia from './InspectorControl/wistia';
@@ -30,6 +31,10 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         embedHTML,
     } = attributes;
 
+    const roundToNearestFive = (value) => {
+        return Math.round(value / 5) * 5;
+    }
+
     return (
         !editingURL && embedHTML && (
             <InspectorControls>
@@ -40,7 +45,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                                 <div>
                                     {
-                                        isYTVideo && (
+                                        (isYTVideo || isVimeoVideo) && (
                                             <SelectControl
                                                 label={__("Video Size")}
                                                 labelPosition='side'
@@ -56,7 +61,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     }
 
                                     {
-                                        !isYTVideo || (videosize == 'fixed') && (
+                                        ((!isYTVideo && !isVimeoVideo) || (videosize == 'fixed')) && (
                                             <p>{__("You can adjust the width and height of embedded content.")}</p>
                                         )
                                     }
@@ -70,18 +75,39 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     <TextControl
                                         label={__("Width")}
                                         value={width}
-                                        onChange={(width) => setAttributes({ width })}
+                                        onChange={(width) => {
+                                            (isVimeoVideo || isYTVideo) ? (
+                                                setAttributes({
+                                                    width: `${Math.round(width)}`,
+                                                    height: `${roundToNearestFive(Math.round((width * 9) / 16))}`
+                                                })
+                                            ) : (
+                                                setAttributes({ width })
+                                            )
+                                        }}
                                     />
 
                                     {
-                                        (!isYTVideo || (videosize == 'fixed')) && (
+                                        ((!isYTVideo || !isVimeoVideo) && (videosize == 'fixed')) && (
                                             <TextControl
                                                 label={__("Height")}
                                                 value={height}
-                                                onChange={(height) => setAttributes({ height })}
+                                                onChange={(height) => {
+                                                    {
+                                                        (isVimeoVideo || isYTVideo) ? (
+                                                            setAttributes({
+                                                                height: `${Math.round(height)}`,
+                                                                width: `${roundToNearestFive(Math.round((height * 16) / 9))}`
+                                                            })
+                                                        ) : (
+                                                            setAttributes({ height })
+                                                        )
+                                                    }
+                                                }}
                                             />
                                         )
                                     }
+
                                 </div>
                                 <Youtube attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} />
                             </PanelBody>
@@ -89,8 +115,6 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} />
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />
                             <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />
-
-
                         </frameElement>
                     )
                 }
