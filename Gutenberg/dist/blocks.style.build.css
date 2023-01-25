@@ -203,10 +203,12 @@ body.page .flexia-wrapper > .content-area {
   display: block; }
 
 .embedpress-gutenberg-wrapper .alignright {
-  text-align: right; }
+  text-align: right;
+  max-width: 100% !important; }
 
 .embedpress-gutenberg-wrapper .alignleft {
-  text-align: left; }
+  text-align: left;
+  max-width: 100% !important; }
 
 .embedpress-gutenberg-wrapper .aligncenter {
   clear: both;

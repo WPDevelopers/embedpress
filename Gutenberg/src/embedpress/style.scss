@@ -62,10 +62,12 @@ body.page .flexia-wrapper>.content-area {
 
 .embedpress-gutenberg-wrapper .alignright {
 	text-align: right;
+    max-width: 100% !important;
 }
 
 .embedpress-gutenberg-wrapper .alignleft {
 	text-align: left;
+    max-width: 100% !important;
 }
 
 .embedpress-gutenberg-wrapper .aligncenter {

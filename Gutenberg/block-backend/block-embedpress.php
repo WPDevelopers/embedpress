@@ -207,6 +207,7 @@ function embedpress_render_block_style($attributes)
 			width: ' . esc_attr($attributes['width']) . 'px !important;
 			height: 0;
 			padding-top: 56.25%;
+			max-width: 100%;
 		  }
 		
 		  ' . esc_attr($uniqid) . ' > iframe {
@@ -219,7 +220,11 @@ function embedpress_render_block_style($attributes)
 
 		  .ep-video-responsive{
 			display: inline-block!important;
+			max-width: 100%;
 		  }
+		  '.$uniqid.' img.watermark{
+				display: none;
+			}
 		  '.$_iscustomlogo.'
 	</style>';
 	}
