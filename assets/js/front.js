@@ -297,7 +297,7 @@
                     if ($(selctorEl + " .ep_nft_item:hidden").length == 0) {
                         $(selctorEl + " .nft-loadmore").fadeOut("slow");
                     }
-                }, 1000);
+                }, 500);
             });
         });
     };
@@ -331,7 +331,7 @@ jQuery(window).on("elementor/frontend/init", function () {
                         if ($(selctorEl + " .ep_nft_item:hidden").length == 0) {
                             $(selctorEl + " .nft-loadmore").fadeOut("slow");
                         }
-                    }, 1000);
+                    }, 500);
                 });
             });
         };
