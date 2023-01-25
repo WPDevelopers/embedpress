@@ -2114,6 +2114,59 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 		$this->add_control(
+			'nft_loadmore_style',
+			[
+				'label' => esc_html__( 'Load More', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition' => [
+					'loadmore' => 'yes',
+					'embedpress_pro_embeded_nft_type' => 'collection'
+				]
+			]
+		);
+		
+		$this->add_control(
+			'nft_loadmore_color',
+			[
+				'label' => esc_html__( 'Text Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .nft-loadmore' => 'color: {{VALUE}}!important;',
+				],
+				'condition' => [
+					'loadmore' => 'yes',
+					'embedpress_pro_embeded_nft_type' => 'collection'
+				]
+			]
+		);
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'name' => 'nft_loadmore_typography',
+				'selector' => '{{WRAPPER}} .nft-loadmore',
+				'condition' => [
+					'loadmore' => 'yes',
+					'embedpress_pro_embeded_nft_type' => 'collection'
+				]
+			]
+		);
+		$this->add_control(
+			'nft_loadmore_bgcolor',
+			[
+				'label' => esc_html__( 'Background Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'selectors' => [
+					'{{WRAPPER}} .nft-loadmore' => 'background-color: {{VALUE}}!important;',
+				],
+				'condition' => [
+					'loadmore' => 'yes',
+					'embedpress_pro_embeded_nft_type' => 'collection'
+				]
+			]
+		);
+
+		$this->add_control(
 			'nftrank_heading',
 			[
 				'label' => esc_html__( 'Rank', 'embedpress' ),

@@ -89,7 +89,7 @@ export const getOpenseaParams = (params, attributes) => {
         buttonFontSize: '',
         loadmoreTextColor: '',
         loadmoreBackgroundColor: '',
-        loadmoreFontSize: '',
+        loadmoreTextFontsize: '',
         rankBtnColor: '',
         rankBtnFZ: '',
         rankBtnBorderColor: '',
@@ -168,9 +168,9 @@ export const useOpensea = (attributes) => {
         buttonTextColor: null,
         buttonBackgroundColor: null,
         buttonFontSize: null,
-        laodmoreTextColor: null,
-        laodmoreBackgroundColor: null,
-        laodmoreFontSize: null,
+        loadmoreTextColor: null,
+        loadmoreBackgroundColor: null,
+        loadmoreTextFontsize: null,
         rankBtnColor: null,
         rankBtnFZ: null,
         rankBtnBorderColor: null,
@@ -247,7 +247,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
         buttonFontSize,
         loadmoreTextColor,
         loadmoreBackgroundColor,
-        loadmoreFontSize,
+        loadmoreTextFontsize,
         rankBtnColor,
         rankBtnFZ,
         rankBtnBorderColor,
@@ -865,9 +865,9 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                     <FontSizePicker
                                         __nextHasNoMarginBottom
                                         fontSizes={fontSizes}
-                                        value={loadmoreFontSize}
+                                        value={loadmoreTextFontsize}
                                         fallbackFontSize={fallbackFontSize}
-                                        onChange={(loadmoreFontSize) => setAttributes({ loadmoreFontSize })}
+                                        onChange={(loadmoreTextFontsize) => setAttributes({ loadmoreTextFontsize })}
                                     />
                                 </PanelBody>
                             )
