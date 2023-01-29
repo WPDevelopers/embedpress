@@ -868,7 +868,7 @@ button.ep-remove__image {
       -ms-transform: translate(0%, -50%);
           transform: translate(0%, -50%); }
 
-.ep-yt-related-videos p {
+.ep-yt-related-videos p, .ep-video-controlers p {
   margin-top: calc(8px);
   font-size: 12px;
   font-style: normal;

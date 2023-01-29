@@ -313,15 +313,23 @@ class Feature_Enhancer
 				$query = parse_url( $url_full, PHP_URL_QUERY );
 				parse_str( $query, $params );
 
+				
+				unset($params['amp;dnt']);
+
 				$params['title'] = !empty($attributes['vtitle']) ? 1 : 0;
 				$params['byline']             = !empty($attributes['vauthor']) ? 1 : 0;
 				$params['portrait']             = !empty($attributes['vavatar']) ? 1 : 0;
 				$params['autoplay'] 		= !empty($attributes['vautoplay']) ? 1 : 0;
 				$params['loop'] 		= !empty($attributes['vloop']) ? 1 : 0;
 				$params['autopause'] 		= !empty($attributes['vautopause']) ? 1 : 0;
-				$params['dnt'] 		= !empty($attributes['vdnt']) ? 1 : 0;
+				if(empty($attributes['vautopause'])) :
+					$params['dnt'] 		= !empty($attributes['vdnt']) ? 1 : 0;
+				endif;
 				$params['color'] = !empty($attributes['vscheme']) ? str_replace("#", "", $attributes['vscheme']) : '00ADEF';
-				$params['t'] 			= !empty($attributes['vstarttime']) ? $attributes['vstarttime'] : '';
+
+				if(!empty($attributes['vstarttime'])) : 
+					$params['t'] 			= !empty($attributes['vstarttime']) ? $attributes['vstarttime'] : '';
+				endif;
 
 				preg_match( '/(.+)?\?/', $url_full, $url );
 
@@ -334,9 +342,14 @@ class Feature_Enhancer
 				// Reassemble the url with the new variables.
 				$url_modified = $url . '?';
 
+				// print_r($url_modified);
+
+				
+
 				foreach ($params as $param => $value) {
 					$url_modified = add_query_arg($param, $value, $url_modified);
 				}
+
 				$url_modified = str_replace("&t=", "#t=", $url_modified);
 
 				// Replaces the old url with the new one.
@@ -630,8 +643,15 @@ class Feature_Enhancer
 					unset($params[$pro_control]);
 				}
 			}
+
+			if(!empty($params['autopause'])){
+				unset($params['dnt']);
+				unset($params['amp;dnt']);
+			}
+
 			// Reassemble the url with the new variables.
-			$url_modified = $url_full;
+			$url_modified = str_replace("&amp;dnt=1", "", $url_full);
+
 			if(is_object($embed->attributes) && !empty($embed->attributes)){
 				$attributes = (array) $embed->attributes;
 				$attributes = stringToBoolean($attributes);
@@ -641,10 +661,15 @@ class Feature_Enhancer
 				$params['portrait']             = !empty($attributes['data-vavatar']) ? 1 : 0;
 				$params['autoplay'] 		= !empty($attributes['data-vautoplay']) ? 1 : 0;
 				$params['loop'] 		= !empty($attributes['data-vloop']) ? 1 : 0;
-				$params['dnt'] 		= !empty($attributes['data-vdnt']) ? 1 : 0;
 				$params['autopause'] 		= !empty($attributes['data-vautopause']) ? 1 : 0;
+				if(empty($attributes['data-vautopause'])) :
+					$params['dnt'] 		= !empty($attributes['data-vdnt']) ? 1 : 0;
+				endif;
 				$params['color'] = !empty($attributes['data-vscheme']) ? str_replace("#", "", $attributes['data-vscheme']) : '00ADEF';
-				$params['t'] 			= !empty($attributes['data-vstarttime']) ? $attributes['data-vstarttime'] : '';
+
+				if(!empty($attributes['data-vstarttime'])) :
+					$params['t'] 			= !empty($attributes['data-vstarttime']) ? $attributes['data-vstarttime'] : '';
+				endif;
 			
 				foreach ($params as $param => $value) {
 					$url_modified = add_query_arg($param, $value, $url_modified);
@@ -662,8 +687,6 @@ class Feature_Enhancer
 					$url_modified .= '#t=' . $options['start_time'];
 				}
 			}
-
-			
 
 			do_action('embedpress_after_modified_url', $url_modified, $url_full, $params);
 			

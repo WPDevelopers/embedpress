@@ -195,6 +195,7 @@ class Elementor_Enhancer {
 			'title'    => $setting['embedpress_pro_vimeo_display_title'] === 'yes' ? 1 : 0,
 			'byline'   => $setting['embedpress_pro_vimeo_display_author'] === 'yes' ? 1 : 0,
 			'portrait' => $setting['embedpress_pro_vimeo_avatar'] === 'yes' ? 1 : 0,
+			'autopause' => 0,
 		];
 		if ( $setting['embedpress_pro_vimeo_auto_play'] === 'yes' ) {
 			$params['autoplay'] = 1;
@@ -207,12 +208,15 @@ class Elementor_Enhancer {
 			if ( $setting['embedpress_pro_vimeo_autopause'] === 'yes' ) {
 				$params['autopause'] = 1;
 			}
-
-			$params ['dnt'] = $setting['embedpress_pro_vimeo_dnt'] === 'yes' ? 1 : 0;
+			
+			if ( $setting['embedpress_pro_vimeo_autopause'] !== 'yes' ) {
+				$params ['dnt'] = $setting['embedpress_pro_vimeo_dnt'] === 'yes' ? 1 : 0;
+			}
 		}
+		
 
+		$url_modified = str_replace("dnt=1&", "", $url_full);
 
-		$url_modified = $url_full;
 		foreach ( $params as $param => $value ) {
 			$url_modified = add_query_arg( $param, $value, $url_modified );
 		}

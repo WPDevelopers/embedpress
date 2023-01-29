@@ -1235,6 +1235,10 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'no',
+				'description'  => __(
+					'Automatically stop the current video from playing when another one starts.` this note under the Auto Play control. ',
+					'embedpress'
+				),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'vimeo'
 				]

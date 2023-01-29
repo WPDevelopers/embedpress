@@ -167,6 +167,7 @@ export default function Vimeo({ attributes, setAttributes, isVimeoVideo }) {
                                     checked={vautoplay}
                                     onChange={(vautoplay) => setAttributes({ vautoplay })}
                                 />
+                                <p>{__("Automatically stop the current video from playing when another one starts.")}</p>
 
 
                                 <ControlHeader headerText={'Scheme'} />
@@ -230,6 +231,7 @@ export default function Vimeo({ attributes, setAttributes, isVimeoVideo }) {
                                         checked={vdnt}
                                         onChange={(vdnt) => setAttributes({ vdnt })}
                                     />
+                                    <p>{__('Enable this parameter will block the player from tracking any session data, including all cookies.` this note under the DNT control.', 'embedpress')}</p>
 
                                     {
                                         (!isProPluginActive) && (
