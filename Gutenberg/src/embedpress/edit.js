@@ -30,6 +30,7 @@ const { Fragment, useEffect } = wp.element;
 export default function EmbedPress(props) {
 	const { clientId, attributes, className, setAttributes } = props;
 
+	
 	// @todo remove unused atts from here.
 	const {
 		url,
@@ -94,7 +95,22 @@ export default function EmbedPress(props) {
 	const wistiaVideoParams = useWistiaVideo(attributes);
 	const vimeoVideoParams = useVimeoVideo(attributes);
 
-
+	const getSourceName = (url) => {
+		let sourceName = "";
+		let protocolIndex = url.indexOf("://");
+		if (protocolIndex !== -1) {
+			let domainStartIndex = protocolIndex + 3;
+			let domainEndIndex = url.indexOf(".", domainStartIndex);
+			let secondDotIndex = url.indexOf(".", domainEndIndex + 1);
+			if (secondDotIndex === -1) {
+				sourceName = url.substring(domainStartIndex, domainEndIndex);
+			} else {
+				sourceName = url.substring(domainEndIndex + 1, secondDotIndex);
+			}
+		}
+		return sourceName;
+	}
+	
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
 	}
@@ -174,6 +190,7 @@ export default function EmbedPress(props) {
 						editingURL: true,
 					})
 				} else {
+
 					setAttributes({
 						embedHTML: data.embed,
 						cannotEmbed: false,
@@ -189,6 +206,23 @@ export default function EmbedPress(props) {
 				editingURL: true
 			})
 		}
+
+
+		jQuery.ajax({
+			type: 'POST',
+			url: ajaxurl,
+			data: {
+				action: 'save_source_name',
+				source_name: getSourceName(url),
+				block_id: clientId,
+				source_url: url
+			},
+			success: function(response) {
+				console.log(response);
+			}
+		});
+		
+		 
 	}
 	// console.log('XopenseaParams', {...openseaParams});
 

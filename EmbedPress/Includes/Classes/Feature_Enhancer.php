@@ -28,11 +28,38 @@ class Feature_Enhancer
 		add_action('wp_ajax_youtube_rest_api', [$this, 'youtube_rest_api']);
 		add_action('wp_ajax_nopriv_youtube_rest_api', [$this, 'youtube_rest_api']);
 		add_action('embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2);
-
+		add_action( 'wp_ajax_save_source_name', [$this, 'save_source_name'] );
+		add_action( 'wp_ajax_nopriv_save_source_name', [$this, 'save_source_name'] );
 		add_action('embedpress:isEmbra', [$this, 'isEmbra'], 10, 3);
 
 	}
 
+	public function save_source_name() {
+		$source_name = $_POST['source_name'];
+		$source_url = $_POST['source_url'];
+		$blockid = $_POST['block_id'];
+		$sources = json_decode(get_option('source_data'), true);
+		if(!$sources) {
+			$sources = array();
+		}
+		$exists = false;
+		foreach($sources as $i => $source) {
+			if(array_key_exists('source', $source) && array_key_exists('name', $source['source']) && $source['source']['name'] === $source_name) {
+				$sources[$i]['source']['count']++;
+				$exists = true;
+				break;
+			}
+		}
+		if(!$exists) {
+			$sources[] = array('id' => $blockid, 'source' => array('name' => $source_name, 'url' => $source_url, 'count' => 1));
+		}
+		update_option('source_data', json_encode($sources));
+		echo 'Source data saved: '; print_r($sources);
+		wp_die();
+	}
+	
+	 
+		 
 	public function isEmbra($isEmbra, $url, $atts)
 	{
 		if (strpos($url, 'youtube.com') !== false) {
