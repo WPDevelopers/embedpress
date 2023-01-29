@@ -326,7 +326,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             else{
                 if(is_array($singleAsset)) : $id = $singleAsset[0]; endif;
                 if( empty($id['id'])){
-                    set_transient($singleAsset_cache_key);
+                    delete_transient($singleAsset_cache_key);
                 }
             }
 
@@ -334,6 +334,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             ob_start();
             ?>
 
+                <?php if(!empty($singleAsset) && is_array($singleAsset) ): ?>
                 <div class="ep-parent-wrapper ep-parent-ep-nft-gallery-r1a5mbx ">
                     <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx" data-itemparpage="<?php echo esc_attr($itemperpage); ?>" data-nftid="<?php echo esc_attr( 'ep-'.md5($url) ); ?>">
                         <div class="ep_nft_content_wrap ep_nft__wrapper nft_items <?php echo esc_attr( $ep_layout.' '.$ep_preset ); ?>"  >
@@ -353,8 +354,16 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                         <?php endif; ?>
                     </div>
                 </div>
-
+                
                 <?php $this->openSeaStyle($this->getParams()); ?>
+                <?php else: ?>
+                    <?php if(is_wp_error( $results ) && defined('WP_DEBUG') && WP_DEBUG): ?>
+                        <h4 style="text-align: center"><?php echo esc_html($results->get_error_message()); ?></h4>
+                    <?php else: ?>
+                        <h4 style="text-align: center"><?php echo esc_html__('Something went wrong.', 'embedpress'); ?></h4>
+                    <?php endif; ?>
+                <?php endif; ?>
+
 
             <?php $html = ob_get_clean();
             
