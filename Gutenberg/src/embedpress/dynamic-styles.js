@@ -15,6 +15,7 @@ export const dynamicStyles = ({
     customlogo,
     loadmore,
     itemperpage,
+    loadmorelabel,
     limit,
     ...attributes
 }) => {

@@ -1433,30 +1433,8 @@ class Embedpress_Elementor extends Widget_Base
 				],
 			]
 		);
-		$this->add_control(
-			'itemperpage',
-			[
-				'type' => \Elementor\Controls_Manager::NUMBER,
-				'label' => esc_html__( 'Item Per Page', 'embedpress' ),
-				'placeholder' => '9',
-				'min' => 1,
-				'max' => 100,
-				'step' => 1,
-				'default' => 9,
-				'condition'   => [
-					'embedpress_pro_embeded_nft_type' => ['collection'],
-					'embedpress_pro_embeded_source!' => [
-						'default',    
-						'youtube',    
-						'vimeo',     
-						'dailymotion',
-						'wistia',    
-						'twitch',
-						'soundcloud', 
-					],
-				],
-			]
-		);
+		
+		
 		$this->add_control(
 			'orderby',
 			[
@@ -1793,6 +1771,33 @@ class Embedpress_Elementor extends Widget_Base
 				'classes'     => $this->pro_class,
 				'condition'  => [
 					'embedpress_pro_embeded_nft_type' => ['collection']
+				],
+			]
+		);
+		$this->add_control(
+			'itemperpage',
+			[
+				'type' => \Elementor\Controls_Manager::NUMBER,
+				'label' => esc_html__( 'Item Per Page', 'embedpress' ),
+				'placeholder' => '9',
+				'min' => 1,
+				'max' => 100,
+				'step' => 1,
+				'default' => 9,
+				'condition'    => [
+					'loadmore' => 'yes'
+				],
+			]
+		);
+		$this->add_control(
+			'loadmorelabel',
+			[
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'label' => esc_html__( 'Load More Label', 'embedpress' ),
+				'placeholder' => 'Load More',
+				'default' => 'Load More',
+				'condition'    => [
+					'loadmore' => 'yes'
 				],
 			]
 		);

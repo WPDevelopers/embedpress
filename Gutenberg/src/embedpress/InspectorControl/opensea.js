@@ -41,6 +41,7 @@ export const getOpenseaParams = (params, attributes) => {
         limit: 20,
         itemperpage: 9,
         loadmore: false,
+        loadmorelabel: 'Load More',
         orderby: 'desc',
         layout: isOpenseaSingle ? 'ep-list' : 'ep-grid',
         preset: 'ep-preset-1',
@@ -124,6 +125,7 @@ export const useOpensea = (attributes) => {
         limit: null,
         itemperpage: null,
         loadmore: null,
+        loadmorelabel: null,
         layout: null,
         preset: null,
         orderby: null,
@@ -200,6 +202,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
         limit,
         itemperpage,
         loadmore,
+        loadmorelabel,
         orderby,
         layout,
         preset,
@@ -335,7 +338,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                 {
                     isOpensea && (
-                        <PanelBody title={__("Query Options")} initialOpen={true} className={'ep-opensea-options'}>
+                        <PanelBody title={__("Query")} initialOpen={true} className={'ep-opensea-options'}>
                             <div>
                                 <RangeControl
                                     label={__("Limit", "embedpress")}
@@ -359,10 +362,10 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                         </PanelBody>
                     )
                 }
-                
+
                 {
                     isOpensea && (
-                        <PanelBody title={__("Layout Options")} initialOpen={true} className={'ep-opensea-options'}>
+                        <PanelBody title={__("Layout")} initialOpen={true} className={'ep-opensea-options'}>
                             <div>
                                 <SelectControl
                                     label={__("Layout", "embedpress")}
@@ -411,7 +414,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                     )
                 }
 
-                <PanelBody title={__("Content Options")} initialOpen={true} className={'ep-opensea-options'}>
+                <PanelBody title={__("Content")} initialOpen={true} className={'ep-opensea-options'}>
 
                     {
                         isOpenseaSingle && (
@@ -595,13 +598,22 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                 }
                                 {
                                     loadmore && (
-                                        <RangeControl
-                                            label={__("Item Per Page", "embedpress")}
-                                            value={itemperpage}
-                                            onChange={(itemperpage) => setAttributes({ itemperpage })}
-                                            min={1}
-                                            max={100}
-                                        />
+                                        <frameElement>
+                                            <RangeControl
+                                                label={__("Item Per Page", "embedpress")}
+                                                value={itemperpage}
+                                                onChange={(itemperpage) => setAttributes({ itemperpage })}
+                                                min={1}
+                                                max={100}
+                                            />
+
+                                            <TextControl
+                                                label={__("Load More Label", "embedpress")}
+                                                value={loadmorelabel}
+                                                onChange={(loadmorelabel) => setAttributes({ loadmorelabel })}
+                                            />
+                                        </frameElement>
+
                                     )
                                 }
                             </div>
