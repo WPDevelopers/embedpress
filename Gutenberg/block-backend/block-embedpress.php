@@ -19,7 +19,7 @@ function customLogo($embedHTML, $atts){
 
 	$x = !empty($atts['logoX']) ? $atts['logoX'] : 0;
 	$y = !empty($atts['logoY']) ? $atts['logoY'] : 0;
-	$uniqid = '.ose-uid-' . md5($atts['url']);
+	$uniqid = !empty($atts['url'])? '.ose-uid-' . md5($atts['url']): '';
 	
 	$brandUrl = !empty($atts['customlogoUrl']) ? $atts['customlogoUrl'] : '';
 	$opacity = !empty($atts['logoOpacity']) ? $atts['logoOpacity'] : '';
@@ -157,7 +157,7 @@ function embedpress_render_block($attributes)
 function embedpress_render_block_style($attributes)
 {
 	
-	$uniqid = '.ose-uid-' . md5($attributes['url']);
+	$uniqid = !empty($attributes['url']) ? '.ose-uid-' . md5($attributes['url']) : '';
 
 	$_iscustomlogo = '';
 
