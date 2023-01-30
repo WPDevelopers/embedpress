@@ -180,7 +180,7 @@ export const dynamicStyles = ({
             }
 
             {
-                (videosize === 'responsive') && (
+                ((videosize === 'responsive') && (isYTVideo(url))) && (
                     <style style={{ display: "none" }}>
                         {
                             `
