@@ -807,6 +807,11 @@ button.ep-remove__image {
     margin-bottom: revert;
 }
 
+p.is-ep-description {
+    margin-top: -20px!important;
+    color: rgb(117, 117, 117);
+}
+
 span.ep-wistia-message {
     position: absolute;
     left: 50%;

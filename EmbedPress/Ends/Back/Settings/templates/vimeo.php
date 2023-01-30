@@ -78,7 +78,7 @@ $display_avatar = isset( $vm_settings['display_avatar']) ? $vm_settings['display
                         </label>
                     </div>
 	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
-                    <p><?php esc_html_e( "Pause this video automatically when another one plays.", "embedpress" ); ?></p>
+                    <p><?php esc_html_e( "Automatically stop the current video from playing when another one starts.", "embedpress" ); ?></p>
                 </div>
             </div>
             <div class="form__group">
@@ -95,7 +95,7 @@ $display_avatar = isset( $vm_settings['display_avatar']) ? $vm_settings['display
                         </label>
                     </div>
 	                <?php if ( !$pro_active ) {  include EMBEDPRESS_SETTINGS_PATH . 'templates/partials/alert-pro.php'; } ?>
-                    <p><?php esc_html_e( 'Setting this parameter to "yes" will block the player from tracking any session data, including all cookies.', "embedpress" ); ?></p>
+                    <p><?php esc_html_e( 'Set this parameter to "yes" will block tracking any session data, including cookies. If Auto Pause is enabled this will not work.', "embedpress" ); ?></p>
                 </div>
             </div>
             <div class="form__group">

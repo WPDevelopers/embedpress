@@ -1236,7 +1236,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'no',
 				'description'  => __(
-					'Automatically stop the current video from playing when another one starts.` this note under the Auto Play control. ',
+					'Automatically stop the current video from playing when another one starts.',
 					'embedpress'
 				),
 				'condition'    => [
@@ -1338,6 +1338,10 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'no',
+				'description'  => __(
+					'Automatically stop the current video from playing when another one starts.',
+					'embedpress'
+				),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'vimeo'
 				],
@@ -1354,7 +1358,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'yes',
 				'description'  => __(
-					'Set this parameter to "yes" will block the player from tracking any session data, including all cookies',
+					'Set this parameter to "yes" will block tracking any session data, including cookies. If Auto Pause is enabled this will not work.',
 					'embedpress'
 				),
 				'condition'    => [
