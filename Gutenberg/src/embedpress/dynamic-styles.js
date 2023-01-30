@@ -13,7 +13,9 @@ export const dynamicStyles = ({
     gapbetweenvideos,
     columns,
     customlogo,
+    loadmore,
     itemperpage,
+    limit,
     ...attributes
 }) => {
 
@@ -129,7 +131,7 @@ export const dynamicStyles = ({
                                 #block-${clientId} .ose-opensea .ep_nft_item{
                                     display: none!important;
                                 }
-                                #block-${clientId} .ose-opensea .ep_nft_item:nth-of-type(-n+${itemperpage}) {
+                                #block-${clientId} .ose-opensea .ep_nft_item:nth-of-type(-n+${loadmore?itemperpage:limit}) {
                                     display: block !important;
                                 }
 

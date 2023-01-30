@@ -269,12 +269,17 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             if(! empty( $params['limit'] ) &&  $params['limit']  != 'false'){
                 $limit =  $params['limit'];
             }
-            if(! empty( $params['itemperpage'] ) &&  $params['itemperpage']  != 'false'){
-                $itemperpage =  $params['itemperpage'];
-            }
             if(! empty( $params['loadmore'] ) &&  $params['loadmore']  != 'false'){
                 $loadmore =  $params['loadmore'];
+
+                if(! empty( $params['itemperpage'] ) &&  $params['itemperpage']  != 'false'){
+                    $itemperpage =  $params['itemperpage'];
+                }
             }
+            else{
+                $itemperpage =  $limit;
+            }
+            
             if(! empty( $params['orderby'] ) &&  $params['orderby']  != 'false'){
                 $orderby =  $params['orderby'];
             }
