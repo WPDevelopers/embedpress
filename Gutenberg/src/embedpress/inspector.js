@@ -67,7 +67,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     }
 
                                     {
-                                        (videosize == 'responsive') && (
+                                        ((isYTVideo || isVimeoVideo) && (videosize == 'responsive'))  && (
                                             <p>{__("You can adjust the width of embedded content.")}</p>
                                         )
                                     }
@@ -88,7 +88,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     />
 
                                     {
-                                        ((!isYTVideo || !isVimeoVideo) && (videosize == 'fixed')) && (
+                                        ((!isYTVideo && !isVimeoVideo) || (videosize == 'fixed'))  && (
                                             <TextControl
                                                 label={__("Height")}
                                                 value={height}
