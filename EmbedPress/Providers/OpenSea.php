@@ -270,6 +270,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             if(! empty( $params['limit'] ) &&  $params['limit']  != 'false'){
                 $limit =  $params['limit'];
             }
+
             if(! empty( $params['loadmore'] ) &&  $params['loadmore']  != 'false'){
                 $loadmore =  $params['loadmore'];
 
@@ -344,7 +345,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             ob_start();
             ?>
 
-                <?php if(!empty($singleAsset) && is_array($singleAsset) ): ?>
+                <?php if(!empty($singleAsset) && is_array($singleAsset) ): ?> 
                 <div class="ep-parent-wrapper ep-parent-ep-nft-gallery-r1a5mbx ">
                     <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx" data-loadmorelabel="<?php echo esc_attr($loadmorelabel); ?>" data-itemparpage="<?php echo esc_attr($itemperpage); ?>" data-nftid="<?php echo esc_attr( 'ep-'.md5($url) ); ?>">
                         <div class="ep_nft_content_wrap ep_nft__wrapper nft_items <?php echo esc_attr( $ep_layout.' '.$ep_preset ); ?>"  >

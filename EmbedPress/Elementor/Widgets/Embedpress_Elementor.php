@@ -1767,7 +1767,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default'      => '',
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
-				'default'      => 'yes',
+				'default'      => '',
 				'classes'     => $this->pro_class,
 				'condition'  => [
 					'embedpress_pro_embeded_nft_type' => ['collection']
