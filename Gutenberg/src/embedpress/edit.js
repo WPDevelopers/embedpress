@@ -30,7 +30,7 @@ const { Fragment, useEffect } = wp.element;
 export default function EmbedPress(props) {
 	const { clientId, attributes, className, setAttributes } = props;
 
-	
+
 	// @todo remove unused atts from here.
 	const {
 		url,
@@ -110,7 +110,7 @@ export default function EmbedPress(props) {
 		}
 		return sourceName;
 	}
-	
+
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
 	}
@@ -149,6 +149,39 @@ export default function EmbedPress(props) {
 			execScripts();
 		}
 	}, [embedHTML]);
+
+	const saveSourceData = () => {
+		const xhr = new XMLHttpRequest();
+
+		xhr.open('POST', ajaxurl);
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		xhr.onload = function () {
+			if (xhr.status === 200) {
+				console.log('Request successful:', xhr.responseText);
+			} else {
+				console.error('Request failed:', xhr.statusText);
+			}
+		};
+
+		xhr.onerror = function () {
+			console.error('Request failed:', xhr.statusText);
+		};
+
+		const data = {
+			action: 'save_source_name',
+			source_name: getSourceName(url),
+			block_id: clientId,
+			source_url: url
+		};
+
+		const encodedData = Object.keys(data)
+			.map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+			.join('&');
+
+		xhr.send(encodedData);
+
+	};
 
 	function embed(event) {
 
@@ -207,22 +240,9 @@ export default function EmbedPress(props) {
 			})
 		}
 
+		saveSourceData();
 
-		jQuery.ajax({
-			type: 'POST',
-			url: ajaxurl,
-			data: {
-				action: 'save_source_name',
-				source_name: getSourceName(url),
-				block_id: clientId,
-				source_url: url
-			},
-			success: function(response) {
-				console.log(response);
-			}
-		});
-		
-		 
+
 	}
 	// console.log('XopenseaParams', {...openseaParams});
 
