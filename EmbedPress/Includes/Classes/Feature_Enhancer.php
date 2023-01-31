@@ -45,9 +45,13 @@ class Feature_Enhancer
 		$exists = false;
 		foreach($sources as $i => $source) {
 			if(array_key_exists('source', $source) && array_key_exists('name', $source['source']) && $source['source']['name'] === $source_name) {
-				$sources[$i]['source']['count']++;
-				$exists = true;
-				break;
+				if ($source['id'] === $blockid) {
+					if ($source['source']['url'] !== $source_url) {
+						$sources[$i]['source']['url'] = $source_url;
+					}
+					$exists = true;
+					break;
+				}
 			}
 		}
 		if(!$exists) {
@@ -57,6 +61,7 @@ class Feature_Enhancer
 		echo 'Source data saved: '; print_r($sources);
 		wp_die();
 	}
+
 	
 	 
 		 
