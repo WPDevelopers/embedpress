@@ -5,6 +5,8 @@ import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
+import {saveSourceData} from '../common/helper';
+
 import md5 from 'md5';
 import Inspector from './inspector';
 import DynamicStyles from './dynamic-styles';
@@ -95,21 +97,6 @@ export default function EmbedPress(props) {
 	const wistiaVideoParams = useWistiaVideo(attributes);
 	const vimeoVideoParams = useVimeoVideo(attributes);
 
-	const getSourceName = (url) => {
-		let sourceName = "";
-		let protocolIndex = url.indexOf("://");
-		if (protocolIndex !== -1) {
-			let domainStartIndex = protocolIndex + 3;
-			let domainEndIndex = url.indexOf(".", domainStartIndex);
-			let secondDotIndex = url.indexOf(".", domainEndIndex + 1);
-			if (secondDotIndex === -1) {
-				sourceName = url.substring(domainStartIndex, domainEndIndex);
-			} else {
-				sourceName = url.substring(domainEndIndex + 1, secondDotIndex);
-			}
-		}
-		return sourceName;
-	}
 
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
@@ -150,38 +137,6 @@ export default function EmbedPress(props) {
 		}
 	}, [embedHTML]);
 
-	const saveSourceData = () => {
-		const xhr = new XMLHttpRequest();
-
-		xhr.open('POST', ajaxurl);
-		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-		xhr.onload = function () {
-			if (xhr.status === 200) {
-				console.log('Request successful:', xhr.responseText);
-			} else {
-				console.error('Request failed:', xhr.statusText);
-			}
-		};
-
-		xhr.onerror = function () {
-			console.error('Request failed:', xhr.statusText);
-		};
-
-		const data = {
-			action: 'save_source_name',
-			source_name: getSourceName(url),
-			block_id: clientId,
-			source_url: url
-		};
-
-		const encodedData = Object.keys(data)
-			.map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
-			.join('&');
-
-		xhr.send(encodedData);
-
-	};
 
 	function embed(event) {
 
@@ -240,7 +195,7 @@ export default function EmbedPress(props) {
 			})
 		}
 
-		saveSourceData();
+		saveSourceData(clientId, url);
 
 
 	}

@@ -5,6 +5,7 @@
 import Iframe from '../common/Iframe';
 import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
+import { saveSourceData } from '../common/helper';
 /**
  * WordPress dependencies
  */
@@ -121,6 +122,11 @@ class DocumentEdit extends Component {
 				this.setState({loadPdf: false});
 				PDFObject.embed(media.url, "."+this.props.attributes.id);
 			}
+		}
+
+
+		if (this.props.clientId && this.props.attributes.href) {
+			saveSourceData(this.props.clientId, this.props.attributes.href);
 		}
 
 	}

@@ -35,8 +35,14 @@ class Feature_Enhancer
 	}
 
 	public function save_source_name() {
-		$source_name = $_POST['source_name'];
+		// $source_name = $_POST['source_name'];
 		$source_url = $_POST['source_url'];
+		Shortcode::get_embera_instance();
+		$collectios = Shortcode::get_collection();
+		$provider = $collectios->findProviders($source_url);
+		
+		$source_name = $provider[$source_url]->getProviderName();
+
 		$blockid = $_POST['block_id'];
 		$sources = json_decode(get_option('source_data'), true);
 		if(!$sources) {
@@ -44,14 +50,11 @@ class Feature_Enhancer
 		}
 		$exists = false;
 		foreach($sources as $i => $source) {
-			if(array_key_exists('source', $source) && array_key_exists('name', $source['source']) && $source['source']['name'] === $source_name) {
-				if ($source['id'] === $blockid) {
-					if ($source['source']['url'] !== $source_url) {
-						$sources[$i]['source']['url'] = $source_url;
-					}
-					$exists = true;
-					break;
-				}
+			if ($source['id'] === $blockid) {
+				$sources[$i]['source']['name'] = $source_name;
+				$sources[$i]['source']['url'] = $source_url;
+				$exists = true;
+				break;
 			}
 		}
 		if(!$exists) {
@@ -61,9 +64,6 @@ class Feature_Enhancer
 		echo 'Source data saved: '; print_r($sources);
 		wp_die();
 	}
-
-	
-	 
 		 
 	public function isEmbra($isEmbra, $url, $atts)
 	{

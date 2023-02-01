@@ -6,6 +6,7 @@ import Iframe from '../common/Iframe';
 import ControlHeader from '../common/control-heading';
 import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
+import { saveSourceData } from '../common/helper';
 
 
 /**
@@ -55,14 +56,13 @@ class EmbedPressPDFEdit extends Component {
 		const {
 			attributes,
 			mediaUpload,
-			noticeOperations
+			noticeOperations,
 		} = this.props;
 		const { href } = attributes;
 
 		// Upload a file drag-and-dropped into the editor
 		if (isBlobURL(href)) {
 			const file = getBlobByURL(href);
-
 			mediaUpload({
 				filesList: [file],
 				onFileChange: ([media]) => this.onSelectFile(media),
@@ -129,7 +129,12 @@ class EmbedPressPDFEdit extends Component {
 			}
 		}
 
+		if (this.props.clientId && this.props.attributes.href) {
+			saveSourceData(this.props.clientId, this.props.attributes.href);
+		}
+
 	}
+
 
 	onUploadError(message) {
 		const { noticeOperations } = this.props;
@@ -187,7 +192,7 @@ class EmbedPressPDFEdit extends Component {
 		let widthMin = 0;
 		let widthMax = 100;
 
-		if(unitoption == 'px'){
+		if (unitoption == 'px') {
 			widthMax = 1500;
 		}
 
@@ -203,6 +208,8 @@ class EmbedPressPDFEdit extends Component {
 			document.querySelector('body').append(this.isPro('none'));
 			this.removeAlert();
 		}
+
+
 
 		function getParamData(href) {
 			let pdf_params = '';
@@ -264,7 +271,7 @@ class EmbedPressPDFEdit extends Component {
 				<Fragment>
 
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
-					<div className={'embedpress-document-embed ep-doc-' + id} style={{ width: width+unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`}>
+					<div className={'embedpress-document-embed ep-doc-' + id} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`}>
 						{mime === 'application/pdf' && (
 							<iframe powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} data-emsrc={href} src={pdf_viewer_src}></iframe>
 
