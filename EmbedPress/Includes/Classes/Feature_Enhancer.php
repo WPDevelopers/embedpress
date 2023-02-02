@@ -28,20 +28,36 @@ class Feature_Enhancer
 		add_action('wp_ajax_youtube_rest_api', [$this, 'youtube_rest_api']);
 		add_action('wp_ajax_nopriv_youtube_rest_api', [$this, 'youtube_rest_api']);
 		add_action('embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2);
-		add_action( 'wp_ajax_save_source_name', [$this, 'save_source_name'] );
-		add_action( 'wp_ajax_nopriv_save_source_name', [$this, 'save_source_name'] );
+		add_action( 'wp_ajax_save_source_data', [$this, 'save_source_data'] );
+		add_action( 'wp_ajax_nopriv_save_source_data', [$this, 'save_source_data'] );
 		add_action('embedpress:isEmbra', [$this, 'isEmbra'], 10, 3);
 
 	}
 
-	public function save_source_name() {
-		// $source_name = $_POST['source_name'];
+	public function get_extension_from_file_url($url) {
+		$urlSplit = explode(".", $url);
+		$ext = end($urlSplit);
+		return $ext;
+	}
+	
+	public function is_file_url($url) {
+		$pattern = '/\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i';
+		return preg_match($pattern, $url) === 1;
+	}
+	
+
+	public function save_source_data() {
 		$source_url = $_POST['source_url'];
-		Shortcode::get_embera_instance();
-		$collectios = Shortcode::get_collection();
-		$provider = $collectios->findProviders($source_url);
-		
-		$source_name = $provider[$source_url]->getProviderName();
+
+		if (!empty($this->is_file_url($source_url))) {
+			$source_name = 'document_' . $this->get_extension_from_file_url($source_url);
+		}
+		else{
+			Shortcode::get_embera_instance();
+			$collectios = Shortcode::get_collection();
+			$provider = $collectios->findProviders($source_url);
+			$source_name = $provider[$source_url]->getProviderName();
+		}
 
 		$blockid = $_POST['block_id'];
 		$sources = json_decode(get_option('source_data'), true);

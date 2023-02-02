@@ -1,38 +1,3 @@
-
-const isFileURL = (url) => {
-    const pattern = /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i;
-    return pattern.test(url);
-}
-
-const getExtensionFromFileURL = (url) => {
-    const urlSplit = url.split(".");
-    const ext = urlSplit[urlSplit.length - 1];
-    return ext;
-}
-
-const getSourceName = (url) => {
-    let sourceName = "";
-    let protocolIndex = url.indexOf("://");
-    if (protocolIndex !== -1) {
-        let domainStartIndex = protocolIndex + 3;
-        let domainEndIndex = url.indexOf(".", domainStartIndex);
-        let secondDotIndex = url.indexOf(".", domainEndIndex + 1);
-        if (secondDotIndex === -1) {
-            sourceName = url.substring(domainStartIndex, domainEndIndex);
-        } else {
-            sourceName = url.substring(domainEndIndex + 1, secondDotIndex);
-        }
-    }
-
-    console.log(isFileURL(url)); 
-
-    if (isFileURL(url)) {
-        sourceName = 'document_' + getExtensionFromFileURL(url);
-    }
-
-    return sourceName;
-}
-
 export const addProAlert = (e, isProPluginActive) => {
     if (!isProPluginActive) {
         document.querySelector('.pro__alert__wrap').style.display = 'block';
@@ -46,7 +11,6 @@ export const removeAlert = () => {
         });
     }
 }
-
 
 export const isPro = (display) => {
     const alertPro = `
@@ -65,7 +29,6 @@ export const isPro = (display) => {
 
     return dom;
 }
-
 
 export const saveSourceData = (clientId, url) => {
     const xhr = new XMLHttpRequest();
@@ -86,8 +49,7 @@ export const saveSourceData = (clientId, url) => {
     };
 
     const data = {
-        action: 'save_source_name',
-        source_name: getSourceName(url),
+        action: 'save_source_data',
         block_id: clientId,
         source_url: url
     };
