@@ -125,6 +125,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: false
 			},
+			loadmorelabel: {
+				type: 'text',
+				default: 'Load More'
+			},
 			orderby: {
 				type: 'string',
 				default: 'desc'

@@ -33,6 +33,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         'limit',
         'itemperpage',
         'loadmore',
+        'loadmorelabel',
         'loadmoreTextColor',
         'loadmoreBackgroundColor',
         'loadmoreTextFontsize',
@@ -269,14 +270,24 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             if(! empty( $params['limit'] ) &&  $params['limit']  != 'false'){
                 $limit =  $params['limit'];
             }
-            if(! empty( $params['itemperpage'] ) &&  $params['itemperpage']  != 'false'){
-                $itemperpage =  $params['itemperpage'];
-            }
+
             if(! empty( $params['loadmore'] ) &&  $params['loadmore']  != 'false'){
                 $loadmore =  $params['loadmore'];
+
+                if(! empty( $params['itemperpage'] ) &&  $params['itemperpage']  != 'false'){
+                    $itemperpage =  $params['itemperpage'];
+                }
             }
+            else{
+                $itemperpage =  $limit;
+            }
+            
             if(! empty( $params['orderby'] ) &&  $params['orderby']  != 'false'){
                 $orderby =  $params['orderby'];
+            }
+            $loadmorelabel = '';
+            if(! empty( $params['loadmorelabel'] ) &&  $params['loadmorelabel']  != 'false' &&  $params['loadmorelabel']  != 'true'){
+                $loadmorelabel =  $params['loadmorelabel'];
             }
 
             // Embepress NFT item layout
@@ -334,9 +345,9 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             ob_start();
             ?>
 
-                <?php if(!empty($singleAsset) && is_array($singleAsset) ): ?>
+                <?php if(!empty($singleAsset) && is_array($singleAsset) ): ?> 
                 <div class="ep-parent-wrapper ep-parent-ep-nft-gallery-r1a5mbx ">
-                    <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx" data-itemparpage="<?php echo esc_attr($itemperpage); ?>" data-nftid="<?php echo esc_attr( 'ep-'.md5($url) ); ?>">
+                    <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx" data-loadmorelabel="<?php echo esc_attr($loadmorelabel); ?>" data-itemparpage="<?php echo esc_attr($itemperpage); ?>" data-nftid="<?php echo esc_attr( 'ep-'.md5($url) ); ?>">
                         <div class="ep_nft_content_wrap ep_nft__wrapper nft_items <?php echo esc_attr( $ep_layout.' '.$ep_preset ); ?>"  >
                             <?php
                                 foreach ($singleAsset as $key => $asset) {
@@ -348,7 +359,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                         <?php if(!empty($loadmore)):  ?>
                             <?php if((isset($params['limit']) && isset($params['itemperpage'])) && $params['limit'] > $params['itemperpage']) : ?>
                                 <div class="ep-loadmore-wrapper">
-                                    <button class="btn btn-primary nft-loadmore" <?php echo $this->createStye('loadmoreTextColor', 'loadmoreTextFontsize', 'loadmoreBackgroundColor')?>> <?php echo esc_html__( 'Load More', 'embedpress' ); ?></button>
+                                    <button class="btn btn-primary nft-loadmore" <?php echo $this->createStye('loadmoreTextColor', 'loadmoreTextFontsize', 'loadmoreBackgroundColor')?>> <?php echo esc_html($loadmorelabel); ?></button>
                                 </div>
                             <?php endif; ?>
                         <?php endif; ?>

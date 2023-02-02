@@ -1236,7 +1236,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'no',
 				'description'  => __(
-					'Automatically stop the current video from playing when another one starts.` this note under the Auto Play control. ',
+					'Automatically stop the current video from playing when another one starts.',
 					'embedpress'
 				),
 				'condition'    => [
@@ -1338,6 +1338,10 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'no',
+				'description'  => __(
+					'Automatically stop the current video from playing when another one starts.',
+					'embedpress'
+				),
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'vimeo'
 				],
@@ -1354,7 +1358,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'yes',
 				'description'  => __(
-					'Set this parameter to "yes" will block the player from tracking any session data, including all cookies',
+					'Set this parameter to "yes" will block tracking any session data, including cookies. If Auto Pause is enabled this will not work.',
 					'embedpress'
 				),
 				'condition'    => [
@@ -1429,30 +1433,8 @@ class Embedpress_Elementor extends Widget_Base
 				],
 			]
 		);
-		$this->add_control(
-			'itemperpage',
-			[
-				'type' => \Elementor\Controls_Manager::NUMBER,
-				'label' => esc_html__( 'Item Per Page', 'embedpress' ),
-				'placeholder' => '9',
-				'min' => 1,
-				'max' => 100,
-				'step' => 1,
-				'default' => 9,
-				'condition'   => [
-					'embedpress_pro_embeded_nft_type' => ['collection'],
-					'embedpress_pro_embeded_source!' => [
-						'default',    
-						'youtube',    
-						'vimeo',     
-						'dailymotion',
-						'wistia',    
-						'twitch',
-						'soundcloud', 
-					],
-				],
-			]
-		);
+		
+		
 		$this->add_control(
 			'orderby',
 			[
@@ -1785,10 +1767,37 @@ class Embedpress_Elementor extends Widget_Base
 				'default'      => '',
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
-				'default'      => 'yes',
+				'default'      => '',
 				'classes'     => $this->pro_class,
 				'condition'  => [
 					'embedpress_pro_embeded_nft_type' => ['collection']
+				],
+			]
+		);
+		$this->add_control(
+			'itemperpage',
+			[
+				'type' => \Elementor\Controls_Manager::NUMBER,
+				'label' => esc_html__( 'Item Per Page', 'embedpress' ),
+				'placeholder' => '9',
+				'min' => 1,
+				'max' => 100,
+				'step' => 1,
+				'default' => 9,
+				'condition'    => [
+					'loadmore' => 'yes'
+				],
+			]
+		);
+		$this->add_control(
+			'loadmorelabel',
+			[
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'label' => esc_html__( 'Load More Label', 'embedpress' ),
+				'placeholder' => 'Load More',
+				'default' => 'Load More',
+				'condition'    => [
+					'loadmore' => 'yes'
 				],
 			]
 		);

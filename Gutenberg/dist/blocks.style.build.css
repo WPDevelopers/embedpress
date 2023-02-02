@@ -259,9 +259,6 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
 .css-vwt1e3 {
   margin: 0px 11px 0px !important; }
 
-.toolbar {
-  display: none; }
-
 .ep-youtube__content__pagination .ep-prev, .ep-youtube__content__pagination .ep-next {
   user-select: none;
   -moz-user-select: none;
@@ -874,6 +871,10 @@ button.ep-remove__image {
   font-style: normal;
   color: #757575;
   margin-bottom: revert; }
+
+p.is-ep-description {
+  margin-top: -20px !important;
+  color: #757575; }
 
 span.ep-wistia-message {
   position: absolute;

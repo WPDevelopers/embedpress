@@ -41,6 +41,7 @@ export const getOpenseaParams = (params, attributes) => {
         limit: 20,
         itemperpage: 9,
         loadmore: false,
+        loadmorelabel: 'Load More',
         orderby: 'desc',
         layout: isOpenseaSingle ? 'ep-list' : 'ep-grid',
         preset: 'ep-preset-1',
@@ -124,6 +125,7 @@ export const useOpensea = (attributes) => {
         limit: null,
         itemperpage: null,
         loadmore: null,
+        loadmorelabel: null,
         layout: null,
         preset: null,
         orderby: null,
@@ -200,6 +202,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
         limit,
         itemperpage,
         loadmore,
+        loadmorelabel,
         orderby,
         layout,
         preset,
@@ -332,80 +335,71 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
     return (
         (isOpensea || isOpenseaSingle) && (
             <div>
-                <PanelBody title={__("Opensea Options")} initialOpen={true} className={'ep-opensea-options'}>
 
-                    <div>
+                {
+                    isOpensea && (
+                        <PanelBody title={__("Query")} initialOpen={true} className={'ep-opensea-options'}>
+                            <div>
+                                <RangeControl
+                                    label={__("Limit", "embedpress")}
+                                    value={limit}
+                                    onChange={(limit) => setAttributes({ limit })}
+                                    min={1}
+                                    max={100}
+                                />
 
-                        {
-                            isOpensea && (
-                                <div>
-                                    <RangeControl
-                                        label={__("Limit", "embedpress")}
-                                        value={limit}
-                                        onChange={(limit) => setAttributes({ limit })}
-                                        min={1}
-                                        max={100}
-                                    />
+                                <SelectControl
+                                    label={__("Order By", "embedpress")}
+                                    value={orderby}
+                                    options={[
+                                        { label: 'Oldest', value: 'asc' },
+                                        { label: 'Newest', value: 'desc' },
+                                    ]}
+                                    onChange={(orderby) => setAttributes({ orderby })}
+                                    __nextHasNoMarginBottom
+                                />
+                            </div>
+                        </PanelBody>
+                    )
+                }
 
-
-                                    <RangeControl
-                                        label={__("Item Per Page", "embedpress")}
-                                        value={itemperpage}
-                                        onChange={(itemperpage) => setAttributes({ itemperpage })}
-                                        min={1}
-                                        max={100}
-                                    />
-
-
-
-                                    <SelectControl
-                                        label={__("Order By", "embedpress")}
-                                        value={orderby}
-                                        options={[
-                                            { label: 'Oldest', value: 'asc' },
-                                            { label: 'Newest', value: 'desc' },
-                                        ]}
-                                        onChange={(orderby) => setAttributes({ orderby })}
-                                        __nextHasNoMarginBottom
-                                    />
-
-                                    <SelectControl
-                                        label={__("Layout", "embedpress")}
-                                        value={layout}
-                                        options={[
-                                            { label: 'List', value: 'ep-list' },
-                                            { label: 'Grid', value: 'ep-grid' },
-                                        ]}
-                                        onChange={(layout) => setAttributes({ layout })}
-                                    />
-                                    {
-                                        (layout == 'ep-grid') && (
-                                            <SelectControl
-                                                label={__("Preset", "embedpress")}
-                                                value={preset}
-                                                options={[
-                                                    { label: 'Preset 1', value: 'ep-preset-1' },
-                                                    { label: 'Preset 2', value: 'ep-preset-2' },
-                                                ]}
-                                                onChange={(preset) => setAttributes({ preset })}
-                                            />
-                                        )
-                                    }
+                {
+                    isOpensea && (
+                        <PanelBody title={__("Layout")} initialOpen={true} className={'ep-opensea-options'}>
+                            <div>
+                                <SelectControl
+                                    label={__("Layout", "embedpress")}
+                                    value={layout}
+                                    options={[
+                                        { label: 'List', value: 'ep-list' },
+                                        { label: 'Grid', value: 'ep-grid' },
+                                    ]}
+                                    onChange={(layout) => setAttributes({ layout })}
+                                />
+                                {
+                                    (layout == 'ep-grid') && (
+                                        <SelectControl
+                                            label={__("Preset", "embedpress")}
+                                            value={preset}
+                                            options={[
+                                                { label: 'Preset 1', value: 'ep-preset-1' },
+                                                { label: 'Preset 2', value: 'ep-preset-2' },
+                                            ]}
+                                            onChange={(preset) => setAttributes({ preset })}
+                                        />
+                                    )
+                                }
 
 
-                                    <RangeControl
-                                        label={__("Item Per Row", "embedpress")}
-                                        value={nftperrow || 3}
-                                        onChange={(nftperrow) => setAttributes({ nftperrow })}
-                                        min={1}
-                                        max={6}
-                                    />
-                                </div>
-                            )
-                        }
+                                <RangeControl
+                                    label={__("Item Per Row", "embedpress")}
+                                    value={nftperrow || 3}
+                                    onChange={(nftperrow) => setAttributes({ nftperrow })}
+                                    min={1}
+                                    max={6}
+                                />
 
-                        {
-                            isOpensea && (
+
 
                                 <RangeControl
                                     label={__("Gap Between Item", "embedpress")}
@@ -414,194 +408,220 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                     min={1}
                                     max={100}
                                 />
+                            </div>
 
-                            )
-                        }
+                        </PanelBody>
+                    )
+                }
 
-                        {
-                            isOpenseaSingle && (
-                                <ToggleControl
-                                    label={__("Collection Name", "embedpress")}
-                                    checked={collectionname}
-                                    onChange={(collectionname) => setAttributes({ collectionname })}
+                <PanelBody title={__("Content")} initialOpen={true} className={'ep-opensea-options'}>
+
+                    {
+                        isOpenseaSingle && (
+                            <ToggleControl
+                                label={__("Collection Name", "embedpress")}
+                                checked={collectionname}
+                                onChange={(collectionname) => setAttributes({ collectionname })}
+                            />
+                        )
+                    }
+                    <ToggleControl
+                        label={__("Thumbnail", "embedpress")}
+                        checked={nftimage}
+                        onChange={(nftimage) => setAttributes({ nftimage })}
+                    />
+                    <ToggleControl
+                        label={__("Title", "embedpress")}
+                        checked={nfttitle}
+                        onChange={(nfttitle) => setAttributes({ nfttitle })}
+                    />
+
+                    <ToggleControl
+                        label={__("Creator", "embedpress")}
+                        checked={nftcreator}
+                        onChange={(nftcreator) => setAttributes({ nftcreator })}
+                    />
+                    {
+                        nftcreator && (
+                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                <TextControl
+                                    label={__("Creator Prefix", "embedpress")}
+                                    value={prefix_nftcreator}
+                                    onChange={(prefix_nftcreator) => setAttributes({ prefix_nftcreator })}
                                 />
-                            )
-                        }
-                        <ToggleControl
-                            label={__("Thumbnail", "embedpress")}
-                            checked={nftimage}
-                            onChange={(nftimage) => setAttributes({ nftimage })}
-                        />
-                        <ToggleControl
-                            label={__("Title", "embedpress")}
-                            checked={nfttitle}
-                            onChange={(nfttitle) => setAttributes({ nfttitle })}
-                        />
+                                {
+                                    (!isProPluginActive) && (
+                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                    )
+                                }
+                            </div>
+                        )
+                    }
 
-                        <ToggleControl
-                            label={__("Creator", "embedpress")}
-                            checked={nftcreator}
-                            onChange={(nftcreator) => setAttributes({ nftcreator })}
-                        />
-                        {
-                            nftcreator && (
-                                <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                    <TextControl
-                                        label={__("Creator Prefix", "embedpress")}
-                                        value={prefix_nftcreator}
-                                        onChange={(prefix_nftcreator) => setAttributes({ prefix_nftcreator })}
-                                    />
-                                    {
-                                        (!isProPluginActive) && (
-                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                        )
-                                    }
-                                </div>
-                            )
-                        }
+                    <ToggleControl
+                        label={__("Show Price", "embedpress")}
+                        checked={nftprice}
+                        onChange={(nftprice) => setAttributes({ nftprice })}
+                    />
+                    {
+                        nftprice && (
+                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                <TextControl
+                                    label={__("Price Prefix", "embedpress")}
+                                    value={prefix_nftprice}
+                                    onChange={(prefix_nftprice) => setAttributes({ prefix_nftprice })}
+                                />
+                                {
+                                    (!isProPluginActive) && (
+                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                    )
+                                }
+                            </div>
+                        )
+                    }
 
-                        <ToggleControl
-                            label={__("Show Price", "embedpress")}
-                            checked={nftprice}
-                            onChange={(nftprice) => setAttributes({ nftprice })}
-                        />
-                        {
-                            nftprice && (
-                                <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                    <TextControl
-                                        label={__("Price Prefix", "embedpress")}
-                                        value={prefix_nftprice}
-                                        onChange={(prefix_nftprice) => setAttributes({ prefix_nftprice })}
-                                    />
-                                    {
-                                        (!isProPluginActive) && (
-                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                        )
-                                    }
-                                </div>
-                            )
-                        }
+                    <ToggleControl
+                        label={__("Last Sale", "embedpress")}
+                        checked={nftlastsale}
+                        onChange={(nftlastsale) => setAttributes({ nftlastsale })}
+                    />
 
-                        <ToggleControl
-                            label={__("Last Sale", "embedpress")}
-                            checked={nftlastsale}
-                            onChange={(nftlastsale) => setAttributes({ nftlastsale })}
-                        />
+                    {
+                        nftlastsale && (
+                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                <TextControl
+                                    label={__("Last Sale Prefix", "embedpress")}
+                                    value={prefix_nftlastsale}
+                                    onChange={(prefix_nftlastsale) => setAttributes({ prefix_nftlastsale })}
+                                />
 
-                        {
-                            nftlastsale && (
-                                <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                    <TextControl
-                                        label={__("Last Sale Prefix", "embedpress")}
-                                        value={prefix_nftlastsale}
-                                        onChange={(prefix_nftlastsale) => setAttributes({ prefix_nftlastsale })}
-                                    />
+                                {
+                                    (!isProPluginActive) && (
+                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                    )
+                                }
+                            </div>
+                        )
+                    }
 
-                                    {
-                                        (!isProPluginActive) && (
-                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                        )
-                                    }
-                                </div>
-                            )
-                        }
+                    <ToggleControl
+                        label={__("Show Button", "embedpress")}
+                        checked={nftbutton}
+                        onChange={(nftbutton) => setAttributes({ nftbutton })}
+                    />
+                    {
+                        nftbutton && (
+                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                <TextControl
+                                    label={__("Button Label", "embedpress")}
+                                    value={label_nftbutton}
+                                    onChange={(label_nftbutton) => setAttributes({ label_nftbutton })}
+                                />
+                                {
+                                    (!isProPluginActive) && (
+                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                    )
+                                }
+                            </div>
+                        )
+                    }
 
-                        <ToggleControl
-                            label={__("Show Button", "embedpress")}
-                            checked={nftbutton}
-                            onChange={(nftbutton) => setAttributes({ nftbutton })}
-                        />
-                        {
-                            nftbutton && (
-                                <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                    <TextControl
-                                        label={__("Button Label", "embedpress")}
-                                        value={label_nftbutton}
-                                        onChange={(label_nftbutton) => setAttributes({ label_nftbutton })}
-                                    />
-                                    {
-                                        (!isProPluginActive) && (
-                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                        )
-                                    }
-                                </div>
-                            )
-                        }
+                    {
+                        isOpenseaSingle && (
+                            <frameElement>
+                                <ToggleControl
+                                    label={__("Rank", "embedpress")}
+                                    checked={nftrank}
+                                    onChange={(nftrank) => setAttributes({ nftrank })}
+                                />
 
-                        {
-                            isOpenseaSingle && (
-                                <frameElement>
-                                    <ToggleControl
-                                        label={__("Rank", "embedpress")}
-                                        checked={nftrank}
-                                        onChange={(nftrank) => setAttributes({ nftrank })}
-                                    />
+                                {
+                                    nftrank && (
+                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                            <TextControl
+                                                label={__("Rank Label", "embedpress")}
+                                                value={label_nftrank}
+                                                onChange={(label_nftrank) => setAttributes({ label_nftrank })}
+                                            />
+                                            {
+                                                (!isProPluginActive) && (
+                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                                )
+                                            }
+                                        </div>
+                                    )
+                                }
 
-                                    {
-                                        nftrank && (
-                                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                                <TextControl
-                                                    label={__("Rank Label", "embedpress")}
-                                                    value={label_nftrank}
-                                                    onChange={(label_nftrank) => setAttributes({ label_nftrank })}
-                                                />
-                                                {
-                                                    (!isProPluginActive) && (
-                                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                    )
-                                                }
-                                            </div>
-                                        )
-                                    }
+                                <ToggleControl
+                                    label={__("Details", "embedpress")}
+                                    checked={nftdetails}
+                                    onChange={(nftdetails) => setAttributes({ nftdetails })}
+                                />
 
-                                    <ToggleControl
-                                        label={__("Details", "embedpress")}
-                                        checked={nftdetails}
-                                        onChange={(nftdetails) => setAttributes({ nftdetails })}
-                                    />
-
-                                    {
-                                        nftdetails && (
-                                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                                <TextControl
-                                                    label={__("Details Label", "embedpress")}
-                                                    value={label_nftdetails}
-                                                    onChange={(label_nftdetails) => setAttributes({ label_nftdetails })}
-                                                />
-                                                {
-                                                    (!isProPluginActive) && (
-                                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                    )
-                                                }
-                                            </div>
-                                        )
-                                    }
-                                </frameElement>
-                            )
-                        }
-
-                        {
-                            isOpensea && (
-
-                                <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                    <ToggleControl
-                                        label={__("Load More", "embedpress")}
-                                        checked={loadmore}
-                                        onChange={(loadmore) =>  setAttributes({ loadmore })}
-                                    />
-
-                                    {
-                                        (!isProPluginActive) && (
-                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                        )
-                                    }
-                                </div>
-                            )
-                        }
-
-
-                    </div>
+                                {
+                                    nftdetails && (
+                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                            <TextControl
+                                                label={__("Details Label", "embedpress")}
+                                                value={label_nftdetails}
+                                                onChange={(label_nftdetails) => setAttributes({ label_nftdetails })}
+                                            />
+                                            {
+                                                (!isProPluginActive) && (
+                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                                )
+                                            }
+                                        </div>
+                                    )
+                                }
+                            </frameElement>
+                        )
+                    }
                 </PanelBody>
+
+                {
+                    isOpensea && (
+                        <PanelBody title={__("Load More")} initialOpen={true} className={'ep-opensea-options'}>
+
+
+                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                <ToggleControl
+                                    label={__("Load More", "embedpress")}
+                                    checked={loadmore}
+                                    onChange={(loadmore) => setAttributes({ loadmore })}
+                                />
+
+                                {
+                                    (!isProPluginActive) && (
+                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                    )
+                                }
+                                {
+                                    loadmore && (
+                                        <frameElement>
+                                            <RangeControl
+                                                label={__("Item Per Page", "embedpress")}
+                                                value={itemperpage}
+                                                onChange={(itemperpage) => setAttributes({ itemperpage })}
+                                                min={1}
+                                                max={100}
+                                            />
+
+                                            <TextControl
+                                                label={__("Load More Label", "embedpress")}
+                                                value={loadmorelabel}
+                                                onChange={(loadmorelabel) => setAttributes({ loadmorelabel })}
+                                            />
+                                        </frameElement>
+
+                                    )
+                                }
+                            </div>
+
+                        </PanelBody>
+                    )
+                }
+
                 <PanelBody title={__("Color and Typography")} initialOpen={false} className={'ep-colors-typography'}>
                     <p>{__("You can adjust the color and typography of embedded content.")}</p>
                     <InspectorControls>

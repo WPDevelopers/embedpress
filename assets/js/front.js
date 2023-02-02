@@ -280,6 +280,8 @@
     const epLoadMore = () => {
         $('.ep-nft-gallery-wrapper').each(function () {
             let selctorEl = `[data-nftid='${$(this).data('nftid')}']`;
+            let loadmorelabel = $(selctorEl).data('loadmorelabel');
+            console.log(loadmorelabel);
             $(selctorEl + ` .ep_nft_item`).slice(0, $(selctorEl).data('itemparpage')).show();
 
             $(selctorEl + " .nft-loadmore").click(function (e) {
@@ -290,7 +292,7 @@
                 //wait for 1 seconds
                 setTimeout(function () {
                     //change the text back
-                    $(selctorEl + " .nft-loadmore").text('Load More');
+                    $(selctorEl + " .nft-loadmore").text(loadmorelabel);
                     //enable the button
                     $(selctorEl + " .nft-loadmore").prop("disabled", false);
                     $(selctorEl + " .ep_nft_item:hidden").slice(0, $(selctorEl).data('itemparpage')).fadeIn("slow");
@@ -314,6 +316,7 @@ jQuery(window).on("elementor/frontend/init", function () {
         const epElLoadMore = () => {
             $('.elementor-widget-container .ep-nft-gallery-wrapper').each(function () {
                 let selctorEl = `.elementor-widget-container [data-nftid='${$(this).data('nftid')}']`;
+                let loadmorelabel = $(selctorEl).data('loadmorelabel');
                 $(selctorEl + ` .ep_nft_item`).slice(0, $(selctorEl).data('itemparpage')).show();
 
                 $(selctorEl + " .nft-loadmore").click(function (e) {
@@ -324,7 +327,7 @@ jQuery(window).on("elementor/frontend/init", function () {
                     //wait for 1 seconds
                     setTimeout(function () {
                         //change the text back
-                        $(selctorEl + " .nft-loadmore").text('Load More');
+                        $(selctorEl + " .nft-loadmore").text(loadmorelabel);
                         //enable the button
                         $(selctorEl + " .nft-loadmore").prop("disabled", false);
                         $(selctorEl + " .ep_nft_item:hidden").slice(0, $(selctorEl).data('itemparpage')).fadeIn("slow");

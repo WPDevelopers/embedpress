@@ -13,7 +13,10 @@ export const dynamicStyles = ({
     gapbetweenvideos,
     columns,
     customlogo,
+    loadmore,
     itemperpage,
+    loadmorelabel,
+    limit,
     ...attributes
 }) => {
 
@@ -24,11 +27,10 @@ export const dynamicStyles = ({
         repeatCol = `repeat(auto-fit, minmax(calc(${100 / columns}% - ${gapbetweenvideos}px), 1fr))`;
     }
 
-    let _ispagination = '';
+    let _ispagination = 'flex';
+
     !ispagination && (
-        _ispagination = `#block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
-            display: none!important;
-        }`
+        _ispagination = 'none'
     )
 
     let _iscustomlogo = '';
@@ -71,7 +73,7 @@ export const dynamicStyles = ({
                     }
 
                     #block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
-                        display: flex!important;
+                        display: ${_ispagination}!important;
                     }
                     #block-${clientId} img.watermark{
                         display: none;
@@ -130,7 +132,7 @@ export const dynamicStyles = ({
                                 #block-${clientId} .ose-opensea .ep_nft_item{
                                     display: none!important;
                                 }
-                                #block-${clientId} .ose-opensea .ep_nft_item:nth-of-type(-n+${itemperpage}) {
+                                #block-${clientId} .ose-opensea .ep_nft_item:nth-of-type(-n+${loadmore?itemperpage:limit}) {
                                     display: block !important;
                                 }
 
@@ -180,7 +182,7 @@ export const dynamicStyles = ({
             }
 
             {
-                (videosize === 'responsive') && (
+                ((videosize === 'responsive') && (isYTVideo(url))) && (
                     <style style={{ display: "none" }}>
                         {
                             `
