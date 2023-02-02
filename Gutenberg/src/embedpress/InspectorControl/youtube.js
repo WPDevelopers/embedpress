@@ -77,8 +77,14 @@ export const isYTChannel = (url) => {
 }
 
 export const isYTVideo = (url) => {
-    return url.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/i);
-}
+    const youtubeRegex = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/i;
+    const youtubeMatch = url.match(youtubeRegex);
+    if (!youtubeMatch) return false;
+
+    const videoId = youtubeMatch[7];
+    return videoId.length === 11;
+};
+
 
 
 
