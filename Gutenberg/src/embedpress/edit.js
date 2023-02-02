@@ -5,13 +5,16 @@ import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
-import {saveSourceData} from '../common/helper';
+import { saveSourceData } from '../common/helper';
 
 import md5 from 'md5';
 import Inspector from './inspector';
 import DynamicStyles from './dynamic-styles';
 const { applyFilters } = wp.hooks;
 const apiFetch = wp.apiFetch;
+
+const { select, subscribe } = wp.data;
+
 
 /**
  * WordPress dependencies
@@ -29,8 +32,26 @@ const {
 
 const { Fragment, useEffect } = wp.element;
 
+
+const getBlockList = () => wp.data.select('core/block-editor').getBlocks();
+let previousBlockList = getBlockList();
+
+wp.data.subscribe(() => {
+	const currentBlockList = getBlockList();
+	const removedBlocks = previousBlockList.filter(block => !currentBlockList.includes(block));
+
+	if (removedBlocks.length && (currentBlockList.length < previousBlockList.length)) {
+		const removedBlockClientIDs = removedBlocks.map(block => block.attributes.clientId);
+		console.log(`Blocks with IDs ${removedBlockClientIDs} were removed`);
+
+	}
+
+	previousBlockList = currentBlockList;
+});
+
+
 export default function EmbedPress(props) {
-	const { clientId, attributes, className, setAttributes } = props;
+	const { attributes, className, setAttributes } = props;
 
 
 	// @todo remove unused atts from here.
@@ -48,7 +69,10 @@ export default function EmbedPress(props) {
 		logoY,
 		customlogoUrl,
 		logoOpacity,
+		clientId
 	} = attributes;
+
+
 
 	let customLogoTemp = '';
 	let customLogoStyle = '';
@@ -195,8 +219,12 @@ export default function EmbedPress(props) {
 			})
 		}
 
-		saveSourceData(clientId, url);
+		if (!clientId) {
+			setAttributes({ clientId: props.clientId })
 
+		}
+
+		saveSourceData(clientId, url);
 
 	}
 	// console.log('XopenseaParams', {...openseaParams});
@@ -244,7 +272,7 @@ export default function EmbedPress(props) {
 				((!isOpensea || (!!editingURL || editingURL === 0)) && (!isOpenseaSingle || (!!editingURL || editingURL === 0)) && (!isYTVideo || (!!editingURL || editingURL === 0)) && (!isYTChannel || (!!editingURL || editingURL === 0)) && (!isWistiaVideo || (!!editingURL || editingURL === 0))) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo)) && <figure {...blockProps} >
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
 				<EmbedWrap style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle || isYTChannel) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
 					__html: embedHTML + customLogoTemp + epMessage,
 				}}>
@@ -277,13 +305,13 @@ export default function EmbedPress(props) {
 			</figure>}
 
 			<DynamicStyles url={url} clientId={clientId} {...attributes} />
-
+			
 			{
 				customlogo && (
 					<style style={{ display: "none" }}>
 						{
 							`
-							#block-${clientId} img.watermark{
+							[data-source-id="source-${clientId}"] img.watermark{
 								${customLogoStyle}
 							}
 							`

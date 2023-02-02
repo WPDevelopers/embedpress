@@ -44,6 +44,10 @@ class Feature_Enhancer
 		$pattern = '/\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i';
 		return preg_match($pattern, $url) === 1;
 	}
+
+	public function is_opensea($url) {
+		return strpos($url, "opensea.io") !== false;
+	}
 	
 
 	public function save_source_data() {
@@ -59,25 +63,32 @@ class Feature_Enhancer
 			$source_name = $provider[$source_url]->getProviderName();
 		}
 
+		if($this->is_opensea($source_url)){
+			$source_name  = 'OpenSea';
+		}
+
 		$blockid = $_POST['block_id'];
-		$sources = json_decode(get_option('source_data'), true);
-		if(!$sources) {
-			$sources = array();
-		}
-		$exists = false;
-		foreach($sources as $i => $source) {
-			if ($source['id'] === $blockid) {
-				$sources[$i]['source']['name'] = $source_name;
-				$sources[$i]['source']['url'] = $source_url;
-				$exists = true;
-				break;
+
+		if(!empty($blockid) && $blockid != 'undefined'){
+			$sources = json_decode(get_option('source_data'), true);
+			if(!$sources) {
+				$sources = array();
 			}
+			$exists = false;
+			foreach($sources as $i => $source) {
+				if ($source['id'] === $blockid) {
+					$sources[$i]['source']['name'] = $source_name;
+					$sources[$i]['source']['url'] = $source_url;
+					$exists = true;
+					break;
+				}
+			}
+			if(!$exists) {
+				$sources[] = array('id' => $blockid, 'source' => array('name' => $source_name, 'url' => $source_url, 'count' => 1));
+			}
+			update_option('source_data', json_encode($sources));
+			echo 'Source data saved: '; print_r($sources);
 		}
-		if(!$exists) {
-			$sources[] = array('id' => $blockid, 'source' => array('name' => $source_name, 'url' => $source_url, 'count' => 1));
-		}
-		update_option('source_data', json_encode($sources));
-		echo 'Source data saved: '; print_r($sources);
 		wp_die();
 	}
 		 

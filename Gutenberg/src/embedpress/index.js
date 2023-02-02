@@ -520,6 +520,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 		 */
 		save: () => null,
 	});
+	
 
 	openseaInit();
 	youtubeInit();

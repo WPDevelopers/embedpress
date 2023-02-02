@@ -322,7 +322,7 @@ jQuery(window).on("elementor/frontend/init", function () {
                 $(selctorEl + " .nft-loadmore").click(function (e) {
                     //change the text of the button
                     $(this).text('Loading...');
-                    //disable the button
+                    //disable the button 
                     $(this).prop("disabled", true);
                     //wait for 1 seconds
                     setTimeout(function () {
