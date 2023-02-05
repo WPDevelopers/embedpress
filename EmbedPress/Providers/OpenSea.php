@@ -261,7 +261,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             $limit = $opensea_settings['limit'];
         }
 
-        
+
         if(!empty($matches[1])){
             $html = "";
             $params = $this->getParams();
@@ -424,7 +424,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
     public function getColor($datakey){
         $params = $this->getParams();
         $color = '';
-        if(!empty($params[$datakey])){
+        if(!empty($params[$datakey]) && $params[$datakey] != 'true'){
             $color = $params[$datakey];
         }
         return $color;
@@ -490,6 +490,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
      public function nftItemTemplate($item){
 
         $params = $this->getParams();
+       
         
         $params = wp_parse_args( $params, [
             'nftimage' => true,
@@ -506,6 +507,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             'label_nftbutton' => 'See Details',
             
         ] );
+
+      
 
         //Intialize default value
         $thumbnail = '';
@@ -642,8 +645,18 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         $itemBGColor = $this->createStye('', '', 'itemBGColor');
 
+        $loadmoreStyle = '';
+        if(! empty( $params['loadmore'] ) &&  $params['loadmore']  != 'false'){  
+            $loadmoreStyle = 'style="display:none"';
+
+            if(!empty($this->getColor('itemBGColor')) && $this->getColor('itemBGColor') != 'true'){
+                $loadmoreStyle = 'style="display:none; background-color: ' . $this->getColor('itemBGColor') . ';"';
+                $itemBGColor = '';
+            }
+        }
+
         $template = '
-                <div class="ep_nft_item" '.$itemBGColor.' style="display:none">
+                <div class="ep_nft_item" '.$itemBGColor.' '.$loadmoreStyle. '>
                     '.$thumbnail.'
                     <div class="ep_nft_content">
                        '.$title.'
