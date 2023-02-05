@@ -1032,7 +1032,7 @@ span.ep-nft-rank {
 .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-nft-single-item-wraper.ep-grid .ep_nft_content {
     margin-bottom: 20px;
 }
-.elementor-widget-container .ep-nft-gallery-wrapper .ep-loadmore-wrapper button{
+.elementor-widget-container .ep-nft-gallery-wrapper .ep-loadmore-wrapper button, .embedpress-gutenberg-wrapper .ep-nft-gallery-wrapper .ep-loadmore-wrapper button{
     display: none;
 }
 @media screen and (max-width: 1024px) {

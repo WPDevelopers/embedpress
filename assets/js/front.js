@@ -278,12 +278,14 @@
        
         $('.embedpress-gutenberg-wrapper .ep-nft-gallery-wrapper').each(function () {
             let selctorEl = `[data-nftid='${$(this).data('nftid')}']`;
+            
             let loadmorelabel = $(selctorEl).data('loadmorelabel');
             let iconcolor = $(selctorEl + " .nft-loadmore").data('iconcolor');
 
             let spinicon = `<svg width="18" height="18" fill="${iconcolor || '#fff'}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_GuJz{transform-origin:center;animation:spinner_STY6 1.5s linear infinite}@keyframes spinner_STY6{100%{transform:rotate(360deg)}}</style><g class="spinner_GuJz"><circle cx="3" cy="12" r="2"/><circle cx="21" cy="12" r="2"/><circle cx="12" cy="21" r="2"/><circle cx="12" cy="3" r="2"/><circle cx="5.64" cy="5.64" r="2"/><circle cx="18.36" cy="18.36" r="2"/><circle cx="5.64" cy="18.36" r="2"/><circle cx="18.36" cy="5.64" r="2"/></g></svg>`;
 
             $(selctorEl + ` .ep_nft_item`).slice(0, $(selctorEl).data('itemparpage')).show();
+            $('.embedpress-gutenberg-wrapper .ep-nft-gallery-wrapper .ep-loadmore-wrapper button').css('display', 'flex');
 
             $(selctorEl + " .nft-loadmore").click(function (e) {
                 //change the text of the button
@@ -322,7 +324,7 @@ jQuery(window).on("elementor/frontend/init", function () {
                 let selctorEl = `.elementor-widget-container [data-nftid='${$(this).data('nftid')}']`;
                 let loadmorelabel = $(selctorEl).data('loadmorelabel');
                 $(selctorEl + ` .ep_nft_item`).slice(0, $(selctorEl).data('itemparpage')).show();
-                $('.ep-loadmore-wrapper button').css('display', 'flex');
+                $('.elementor-widget-container .ep-nft-gallery-wrapper .ep-loadmore-wrapper button').css('display', 'flex');
 
                 $(selctorEl + " .nft-loadmore").click(function (e) {
                     //change the text of the button
