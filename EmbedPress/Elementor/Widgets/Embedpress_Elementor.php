@@ -2146,6 +2146,7 @@ class Embedpress_Elementor extends Widget_Base
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'selectors' => [
 					'{{WRAPPER}} .nft-loadmore' => 'color: {{VALUE}}!important;',
+					'{{WRAPPER}} .nft-loadmore svg' => 'fill: {{VALUE}}!important;',
 				],
 				'condition' => [
 					'loadmore' => 'yes',
@@ -2157,7 +2158,7 @@ class Embedpress_Elementor extends Widget_Base
 			\Elementor\Group_Control_Typography::get_type(),
 			[
 				'name' => 'nft_loadmore_typography',
-				'selector' => '{{WRAPPER}} .nft-loadmore',
+				'selector' => '{{WRAPPER}} .nft-loadmore, {{WRAPPER}} .nft-loadmore svg',
 				'condition' => [
 					'loadmore' => 'yes',
 					'embedpress_pro_embeded_nft_type' => 'collection'

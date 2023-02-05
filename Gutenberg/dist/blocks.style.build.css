@@ -553,7 +553,17 @@ span.eb_nft_currency svg {
   padding-left: 30px;
   font-family: inherit;
   font-weight: inherit;
-  line-height: 1; }
+  line-height: 1;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: center;
+      justify-content: center;
+  margin: auto; }
+
+.ep-loadmore-wrapper button svg {
+  margin-left: 5px; }
 
 /* mimmikcssEnd */
 @media all and (max-width: 1024px) {

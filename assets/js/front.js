@@ -278,15 +278,20 @@
 
     //Load more for OpenaSea collection
     const epLoadMore = () => {
-        $('.ep-nft-gallery-wrapper').each(function () {
+       
+
+        $('.embedpress-gutenberg-wrapper .ep-nft-gallery-wrapper').each(function () {
             let selctorEl = `[data-nftid='${$(this).data('nftid')}']`;
             let loadmorelabel = $(selctorEl).data('loadmorelabel');
-            console.log(loadmorelabel);
+            let iconcolor = $(selctorEl + " .nft-loadmore").data('iconcolor');
+
+            let spinicon = `<svg width="18" height="18" fill="${iconcolor?iconcolor:'#fff'}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_GuJz{transform-origin:center;animation:spinner_STY6 1.5s linear infinite}@keyframes spinner_STY6{100%{transform:rotate(360deg)}}</style><g class="spinner_GuJz"><circle cx="3" cy="12" r="2"/><circle cx="21" cy="12" r="2"/><circle cx="12" cy="21" r="2"/><circle cx="12" cy="3" r="2"/><circle cx="5.64" cy="5.64" r="2"/><circle cx="18.36" cy="18.36" r="2"/><circle cx="5.64" cy="18.36" r="2"/><circle cx="18.36" cy="5.64" r="2"/></g></svg>`;
+
             $(selctorEl + ` .ep_nft_item`).slice(0, $(selctorEl).data('itemparpage')).show();
 
             $(selctorEl + " .nft-loadmore").click(function (e) {
                 //change the text of the button
-                $(this).text('Loading...');
+                $(this).html(loadmorelabel + spinicon);
                 //disable the button
                 $(this).prop("disabled", true);
                 //wait for 1 seconds
@@ -304,7 +309,7 @@
         });
     };
 
-    if ($('.ep-nft-gallery-wrapper').length > 0) {
+    if ($('.embedpress-gutenberg-wrapper .ep-nft-gallery-wrapper').length > 0) {
         epLoadMore();
     }
 
@@ -314,6 +319,8 @@
 jQuery(window).on("elementor/frontend/init", function () {
     var filterableGalleryHandler = function ($scope, $) {
         const epElLoadMore = () => {
+            const spinicon = '<svg width="18" height="18" fill="#fff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_GuJz{transform-origin:center;animation:spinner_STY6 1.5s linear infinite}@keyframes spinner_STY6{100%{transform:rotate(360deg)}}</style><g class="spinner_GuJz"><circle cx="3" cy="12" r="2"/><circle cx="21" cy="12" r="2"/><circle cx="12" cy="21" r="2"/><circle cx="12" cy="3" r="2"/><circle cx="5.64" cy="5.64" r="2"/><circle cx="18.36" cy="18.36" r="2"/><circle cx="5.64" cy="18.36" r="2"/><circle cx="18.36" cy="5.64" r="2"/></g></svg>';
+
             $('.elementor-widget-container .ep-nft-gallery-wrapper').each(function () {
                 let selctorEl = `.elementor-widget-container [data-nftid='${$(this).data('nftid')}']`;
                 let loadmorelabel = $(selctorEl).data('loadmorelabel');
@@ -321,7 +328,8 @@ jQuery(window).on("elementor/frontend/init", function () {
 
                 $(selctorEl + " .nft-loadmore").click(function (e) {
                     //change the text of the button
-                    $(this).text('Loading...');
+                    $(this).html(loadmorelabel + spinicon);
+
                     //disable the button
                     $(this).prop("disabled", true);
                     //wait for 1 seconds
@@ -338,7 +346,11 @@ jQuery(window).on("elementor/frontend/init", function () {
                 });
             });
         };
-        epElLoadMore();
+
+        if ($('.elementor-widget-container .ep-nft-gallery-wrapper').length > 0) {
+            epElLoadMore();
+        }
+
     };
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);
 });
