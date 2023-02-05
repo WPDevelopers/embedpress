@@ -560,7 +560,8 @@ span.eb_nft_currency svg {
       align-items: center;
   -ms-flex-pack: center;
       justify-content: center;
-  margin: auto; }
+  margin: auto;
+  cursor: pointer; }
 
 .ep-loadmore-wrapper button svg {
   margin-left: 5px; }
