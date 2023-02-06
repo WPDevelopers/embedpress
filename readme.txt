@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 3.6.4
+Stable tag: 3.6.5
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -381,6 +381,14 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.6.5] - 2023-02-06 =
+* Added: Vimeo Video controls for Gutenberg.
+* Added: YouTube Video size options for Gutenberg
+* Fixed: YouTube channel pagination isn’t working properly.
+* Fixed: Deprecated error with the latest Elementor.
+* Fixed: Conflict with Elementor code widget.
+* Few minor bug fixes and improvements.
 
 = [3.6.4] - 2023-01-11 =
 * Added: Youtube video controls in Gutenberg editor.
