@@ -5,7 +5,7 @@ import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
-import { saveSourceData } from '../common/helper';
+import { removedBlockID, saveSourceData } from '../common/helper';
 
 import md5 from 'md5';
 import Inspector from './inspector';
@@ -32,23 +32,7 @@ const {
 
 const { Fragment, useEffect } = wp.element;
 
-
-const getBlockList = () => wp.data.select('core/block-editor').getBlocks();
-let previousBlockList = getBlockList();
-
-wp.data.subscribe(() => {
-	const currentBlockList = getBlockList();
-	const removedBlocks = previousBlockList.filter(block => !currentBlockList.includes(block));
-
-	if (removedBlocks.length && (currentBlockList.length < previousBlockList.length)) {
-		const removedBlockClientIDs = removedBlocks.map(block => block.attributes.clientId);
-		console.log(`Blocks with IDs ${removedBlockClientIDs} were removed`);
-
-	}
-
-	previousBlockList = currentBlockList;
-});
-
+removedBlockID();
 
 export default function EmbedPress(props) {
 	const { attributes, className, setAttributes } = props;
@@ -71,7 +55,6 @@ export default function EmbedPress(props) {
 		logoOpacity,
 		clientId
 	} = attributes;
-
 
 
 	let customLogoTemp = '';
@@ -162,6 +145,9 @@ export default function EmbedPress(props) {
 	}, [embedHTML]);
 
 
+	if (!clientId) {
+		setAttributes({ clientId: props.clientId })
+	}
 	function embed(event) {
 
 		if (event) event.preventDefault();
@@ -219,12 +205,9 @@ export default function EmbedPress(props) {
 			})
 		}
 
-		if (!clientId) {
-			setAttributes({ clientId: props.clientId })
-
+		if (clientId && url) {
+			saveSourceData(clientId, url);
 		}
-
-		saveSourceData(clientId, url);
 
 	}
 	// console.log('XopenseaParams', {...openseaParams});
@@ -305,7 +288,7 @@ export default function EmbedPress(props) {
 			</figure>}
 
 			<DynamicStyles url={url} clientId={clientId} {...attributes} />
-			
+
 			{
 				customlogo && (
 					<style style={{ display: "none" }}>
@@ -319,6 +302,22 @@ export default function EmbedPress(props) {
 					</style>
 				)
 			}
+
+			{
+				!customlogo && (
+					<style style={{ display: "none" }}>
+						{
+							`
+							[data-source-id="source-${clientId}"] img.watermark{
+								display: none;
+							}
+							`
+						}
+					</style>
+				)
+			}
+
+
 
 
 		</Fragment>

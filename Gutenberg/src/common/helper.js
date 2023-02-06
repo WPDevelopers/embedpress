@@ -30,8 +30,6 @@ export const isPro = (display) => {
     return dom;
 }
 
-
-
 export const saveSourceData = (clientId, url) => {
     const xhr = new XMLHttpRequest();
 
@@ -63,3 +61,53 @@ export const saveSourceData = (clientId, url) => {
     xhr.send(encodedData);
 
 };
+
+export const deleteSourceData = (clientId) => {
+    const xhr = new XMLHttpRequest();
+
+    xhr.open('POST', ajaxurl);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            console.log('Request successful:', xhr.responseText);
+        } else {
+            console.error('Request failed:', xhr.statusText);
+        }
+    };
+
+    xhr.onerror = function () {
+        console.error('Request failed:', xhr.statusText);
+    };
+
+    const data = {
+        action: 'delete_source_data',
+        block_id: clientId,
+    };
+
+    const encodedData = Object.keys(data)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+        .join('&');
+
+    xhr.send(encodedData);
+
+};
+
+
+export const removedBlockID = () => {
+    const getBlockList = () => wp.data.select('core/block-editor').getBlocks();
+    let previousBlockList = getBlockList();
+    wp.data.subscribe(() => {
+        const currentBlockList = getBlockList();
+        const removedBlocks = previousBlockList.filter(block => !currentBlockList.includes(block));
+
+        if (removedBlocks.length && (currentBlockList.length < previousBlockList.length)) {
+            const removedBlockClientIDs = removedBlocks.map(block => block.attributes.clientId);
+            console.log(`Blocks with IDs ${removedBlockClientIDs} were removed`);
+            deleteSourceData(removedBlockClientIDs);
+
+        }
+
+        previousBlockList = currentBlockList;
+    });
+}

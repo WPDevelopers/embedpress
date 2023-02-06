@@ -30,6 +30,8 @@ class Feature_Enhancer
 		add_action('embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2);
 		add_action( 'wp_ajax_save_source_data', [$this, 'save_source_data'] );
 		add_action( 'wp_ajax_nopriv_save_source_data', [$this, 'save_source_data'] );
+		add_action( 'wp_ajax_delete_source_data', [$this, 'delete_source_data'] );
+		add_action( 'wp_ajax_nopriv_delete_source_data', [$this, 'delete_source_data'] );
 		add_action('embedpress:isEmbra', [$this, 'isEmbra'], 10, 3);
 
 	}
@@ -48,13 +50,30 @@ class Feature_Enhancer
 	public function is_opensea($url) {
 		return strpos($url, "opensea.io") !== false;
 	}
-	
+	public function is_youtube_channel($url) {
+		return (bool) (preg_match('~(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(?:channel\/|c\/|user\/|@)(\w+)~i', (string) $url));
+	}
 
+	public function is_youtube($url) {
+		return (bool) (preg_match('~(?:https?://)?(?:www\.)?(?:youtube\.com|youtu\.be)/watch\?v=([^&]+)~i', (string) $url));
+	}
+	
 	public function save_source_data() {
 		$source_url = $_POST['source_url'];
+		$blockid = $_POST['block_id'];
+		// print_r($blockid );
 
 		if (!empty($this->is_file_url($source_url))) {
 			$source_name = 'document_' . $this->get_extension_from_file_url($source_url);
+		}
+		else if($this->is_youtube($source_url)){
+			$source_name = 'Youtube'; 
+		}
+		else if($this->is_youtube_channel($source_url)){
+			$source_name = 'YoutubeChannel'; 
+		}
+		else if($this->is_opensea($source_url)){
+			$source_name  = 'OpenSea';
 		}
 		else{
 			Shortcode::get_embera_instance();
@@ -62,13 +81,7 @@ class Feature_Enhancer
 			$provider = $collectios->findProviders($source_url);
 			$source_name = $provider[$source_url]->getProviderName();
 		}
-
-		if($this->is_opensea($source_url)){
-			$source_name  = 'OpenSea';
-		}
-
-		$blockid = $_POST['block_id'];
-
+		
 		if(!empty($blockid) && $blockid != 'undefined'){
 			$sources = json_decode(get_option('source_data'), true);
 			if(!$sources) {
@@ -91,6 +104,25 @@ class Feature_Enhancer
 		}
 		wp_die();
 	}
+
+	public function delete_source_data() {
+		$blockid = $_POST['block_id'];
+		if (!empty($blockid) && $blockid != 'undefined') {
+			$sources = json_decode(get_option('source_data'), true);
+			if ($sources) {
+				foreach ($sources as $i => $source) {
+					if ($source['id'] === $blockid) {
+						unset($sources[$i]);
+						break;
+					}
+				}
+				update_option('source_data', json_encode(array_values($sources)));
+				echo 'Source data deleted: '; print_r($sources);
+			}
+		}
+		wp_die();
+	}
+	
 		 
 	public function isEmbra($isEmbra, $url, $atts)
 	{
