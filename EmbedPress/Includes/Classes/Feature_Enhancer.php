@@ -30,8 +30,10 @@ class Feature_Enhancer
 		add_action('embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2);
 		add_action( 'wp_ajax_save_source_data', [$this, 'save_source_data'] );
 		add_action( 'wp_ajax_nopriv_save_source_data', [$this, 'save_source_data'] );
+		add_action( 'save_post', [$this, 'save_source_data_on_post_update'] );
 		add_action( 'wp_ajax_delete_source_data', [$this, 'delete_source_data'] );
 		add_action( 'wp_ajax_nopriv_delete_source_data', [$this, 'delete_source_data'] );
+		add_action( 'load-post.php', [$this, 'delete_source_temp_data_on_reload'] );
 		add_action('embedpress:isEmbra', [$this, 'isEmbra'], 10, 3);
 
 	}
@@ -99,16 +101,49 @@ class Feature_Enhancer
 			if(!$exists) {
 				$sources[] = array('id' => $blockid, 'source' => array('name' => $source_name, 'url' => $source_url, 'count' => 1));
 			}
-			update_option('source_data', json_encode($sources));
+			
+			update_option('source_temp_data', json_encode($sources));
+
+			// $this->save_source_data_on_post_update($sources);
+
 			echo 'Source data saved: '; print_r($sources);
 		}
 		wp_die();
 	}
 
+	function save_source_data_on_post_update(  ) {
+
+		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+			return;
+		} 
+
+		$temp_data = json_decode(get_option('source_temp_data'), true);
+		$source_data = json_decode(get_option('source_data'), true);
+		if(!$temp_data) {
+			$temp_data = array();
+		}
+		if(!$source_data) {
+			$source_data = array();
+		}
+
+		$sources = array_merge($temp_data, $source_data);
+
+		$unique_sources = array();
+		foreach ($sources as $source) {
+			$unique_sources[$source['id']] = $source;
+		}
+		
+		$unique_sources = array_values($unique_sources);
+
+		delete_option('source_temp_data');
+
+		update_option('source_data', json_encode($unique_sources));
+	}
+	
 	public function delete_source_data() {
 		$blockid = $_POST['block_id'];
 		if (!empty($blockid) && $blockid != 'undefined') {
-			$sources = json_decode(get_option('source_data'), true);
+			$sources = json_decode(get_option('source_data'), true);			
 			if ($sources) {
 				foreach ($sources as $i => $source) {
 					if ($source['id'] === $blockid) {
@@ -121,6 +156,14 @@ class Feature_Enhancer
 			}
 		}
 		wp_die();
+	}
+
+	
+	public function delete_source_temp_data_on_reload() {
+		$source_temp_data = json_decode(get_option('source_temp_data'), true);
+		if ($source_temp_data ) {
+			delete_option( 'source_temp_data' );
+		}
 	}
 	
 		 

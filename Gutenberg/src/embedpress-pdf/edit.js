@@ -186,7 +186,7 @@ class EmbedPressPDFEdit extends Component {
 
 
 		if (!clientId) {
-			setAttributes({ blockId: this.props.clientId });
+			setAttributes({ clientId: this.props.clientId });
 		}
 
 		const { hasError, interactive, fetching, loadPdf } = this.state;
@@ -276,7 +276,7 @@ class EmbedPressPDFEdit extends Component {
 				<Fragment>
 
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
-					<div className={'embedpress-document-embed ep-doc-' + id} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`} data-source-id={'source-' + blockId} >
+					<div className={'embedpress-document-embed ep-doc-' + id} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`} data-source-id={'source-' + clientId} >
 						{mime === 'application/pdf' && (
 							<iframe powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} data-emsrc={href} src={pdf_viewer_src}></iframe>
 
