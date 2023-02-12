@@ -88,7 +88,7 @@ class Helper {
 	}
 
 	// Saved sources data temporary in wp_options table
-	public static function get_source_data($blockid, $source_url) {
+	public static function get_source_data($blockid, $source_url, $source_option_name, $source_temp_option_name) {
 		
 		if (!empty(self::is_file_url($source_url))) {
 			$source_name = 'document_' . self::get_extension_from_file_url($source_url);
@@ -110,7 +110,7 @@ class Helper {
 		}
 		
 		if(!empty($blockid) && $blockid != 'undefined'){
-			$sources = json_decode(get_option('source_data'), true);
+			$sources = json_decode(get_option($source_option_name), true);
 			if(!$sources) {
 				$sources = array();
 			}
@@ -127,7 +127,7 @@ class Helper {
 				$sources[] = array('id' => $blockid, 'source' => array('name' => $source_name, 'url' => $source_url, 'count' => 1));
 			}
 			
-			update_option('source_temp_data', json_encode($sources));
+			update_option($source_temp_option_name, json_encode($sources));
 
 			// self::save_source_data_on_post_update($sources);
 			// echo '<pre>';
@@ -137,14 +137,14 @@ class Helper {
 	}
 
 	// Saved source data when post updated
-	public static function get_save_source_data_on_post_update(  ) {
+	public static function get_save_source_data_on_post_update( $source_option_name, $source_temp_option_name ) {
 
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		} 
 
-		$temp_data = json_decode(get_option('source_temp_data'), true);
-		$source_data = json_decode(get_option('source_data'), true);
+		$temp_data = json_decode(get_option($source_temp_option_name), true);
+		$source_data = json_decode(get_option($source_option_name), true);
 		if(!$temp_data) {
 			$temp_data = array();
 		}
@@ -161,15 +161,15 @@ class Helper {
 		
 		$unique_sources = array_values($unique_sources);
 
-		delete_option('source_temp_data');
+		delete_option($source_temp_option_name);
 
-		update_option('source_data', json_encode($unique_sources));
+		update_option($source_option_name, json_encode($unique_sources));
 	}
 	
 	//Delete source data from option table when widget is removed
-	public static function get_delete_source_data($blockid) {
+	public static function get_delete_source_data($blockid, $source_option_name, $source_temp_option_name) {
 		if (!empty($blockid) && $blockid != 'undefined') {
-			$sources = json_decode(get_option('source_data'), true);			
+			$sources = json_decode(get_option($source_option_name), true);			
 			if ($sources) {
 				foreach ($sources as $i => $source) {
 					if ($source['id'] === $blockid) {
@@ -177,17 +177,17 @@ class Helper {
 						break;
 					}
 				}
-				update_option('source_data', json_encode(array_values($sources)));
+				update_option($source_option_name, json_encode(array_values($sources)));
 			}
 		}
 		wp_die();
 	}
 	
 	//Delete source temporary data when reload without update or publish
-	public static function get_delete_source_temp_data_on_reload() {
-		$source_temp_data = json_decode(get_option('source_temp_data'), true);
+	public static function get_delete_source_temp_data_on_reload($source_temp_option_name) {
+		$source_temp_data = json_decode(get_option($source_temp_option_name), true);
 		if ($source_temp_data ) {
-			delete_option( 'source_temp_data' );
+			delete_option( $source_temp_option_name );
 		}
 	}
 }

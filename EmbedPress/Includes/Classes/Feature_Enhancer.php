@@ -30,33 +30,44 @@ class Feature_Enhancer
 		add_action('wp_ajax_youtube_rest_api', [$this, 'youtube_rest_api']);
 		add_action('wp_ajax_nopriv_youtube_rest_api', [$this, 'youtube_rest_api']);
 		add_action('embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2);
-		add_action( 'wp_ajax_save_gutenberg_source_data', [$this, 'save_gutenberg_source_data'] );
-		add_action( 'wp_ajax_nopriv_save_gutenberg_source_data', [$this, 'save_gutenberg_source_data'] );
+		add_action( 'wp_ajax_save_source_data', [$this, 'save_source_data'] );
+		add_action( 'wp_ajax_nopriv_save_source_data', [$this, 'save_source_data'] );
 		add_action( 'save_post', [$this, 'save_source_data_on_post_update'] );
 		add_action( 'wp_ajax_delete_source_data', [$this, 'delete_source_data'] );
 		add_action( 'wp_ajax_nopriv_delete_source_data', [$this, 'delete_source_data'] );
 		add_action( 'load-post.php', [$this, 'delete_source_temp_data_on_reload'] );
 		add_action('embedpress:isEmbra', [$this, 'isEmbra'], 10, 3);
+		add_action( 'elementor/editor/after_save', [$this, 'save_el_source_data_on_post_update'] );
 	}
 
-	
-	public function save_gutenberg_source_data(){
+	public function save_source_data(){
 		$source_url = $_POST['source_url'];
 		$blockid = $_POST['block_id'];
-		Helper::get_source_data($blockid, $source_url);
+
+		if (!empty($blockid) && strpos( $blockid, '_elementor' ) === false ) {
+			Helper::get_source_data($blockid, $source_url, 'gutenberg_source_data', 'gutenberg_temp_source_data');
+		} else {			
+			Helper::get_source_data($blockid, $source_url, 'elementor_source_data', 'elementor_temp_source_data');	
+		}
 	}
 
 	function save_source_data_on_post_update(  ) {
-		Helper::get_save_source_data_on_post_update();	
+		$blockid = $_POST['block_id'];
+		
+		if ( !empty($blockid) && strpos( $blockid, '_elementor' ) === false ) {
+			Helper::get_save_source_data_on_post_update('gutenberg_source_data', 'gutenberg_temp_source_data');	
+		} else {
+			Helper::get_save_source_data_on_post_update('elementor_source_data', 'elementor_temp_source_data');	
+		} 
 	}
 	
 	public function delete_source_data() {
 		$blockid = $_POST['block_id'];
-		Helper::get_delete_source_data($blockid);
+		Helper::get_delete_source_data($blockid, 'gutenberg_source_data', 'gutenberg_temp_source_data');
 	}
 
 	public function delete_source_temp_data_on_reload() {
-		Helper::get_delete_source_temp_data_on_reload();
+		Helper::get_delete_source_temp_data_on_reload('gutenberg_temp_source_data');
 	}
 		 
 	public function isEmbra($isEmbra, $url, $atts)

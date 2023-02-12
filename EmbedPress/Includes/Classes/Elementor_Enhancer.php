@@ -5,20 +5,10 @@ namespace EmbedPress\Includes\Classes;
 use Elementor\Group_Control_Image_Size;
 use Elementor\Utils;
 use SplMinHeap;
+use EmbedPress\Includes\Classes\Helper;
 
 class Elementor_Enhancer {
-
 	
-
-	public function __construct()
-	{
-		add_action( 'elementor/editor/after_save', [$this, 'save_source_data_on_post_update'] );
-	}
-
-	function save_source_data_on_post_update( $post_id ) {
-		Helper::get_save_source_data_on_post_update();
-	}
-
 	public static function youtube( $embed, $setting ) {
 		if ( isset( $setting['embedpress_pro_embeded_source'] ) && 'youtube' === $setting['embedpress_pro_embeded_source'] && isset( $embed->embed ) && preg_match( '/src=\"(.+?)\"/', $embed->embed, $match ) ) {
 
