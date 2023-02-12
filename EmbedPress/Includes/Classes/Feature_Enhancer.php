@@ -4,6 +4,7 @@ namespace EmbedPress\Includes\Classes;
 
 use \EmbedPress\Providers\Youtube;
 use EmbedPress\Shortcode;
+use EmbedPress\Includes\Classes\Helper;
 
 class Feature_Enhancer
 {
@@ -22,150 +23,41 @@ class Feature_Enhancer
 			'embedpress_gutenberg_youtube_params',
 			[$this, 'embedpress_gutenberg_register_block_youtube']
 		);
+
 		add_action('init', array($this, 'embedpress_gutenberg_register_block_vimeo'));
 		add_action('embedpress_gutenberg_wistia_block_after_embed', array($this, 'embedpress_wistia_block_after_embed'));
 		add_action('elementor/widget/embedpres_elementor/skins_init', [$this, 'elementor_setting_init']);
 		add_action('wp_ajax_youtube_rest_api', [$this, 'youtube_rest_api']);
 		add_action('wp_ajax_nopriv_youtube_rest_api', [$this, 'youtube_rest_api']);
 		add_action('embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2);
-		add_action( 'wp_ajax_save_source_data', [$this, 'save_source_data'] );
-		add_action( 'wp_ajax_nopriv_save_source_data', [$this, 'save_source_data'] );
+		add_action( 'wp_ajax_save_gutenberg_source_data', [$this, 'save_gutenberg_source_data'] );
+		add_action( 'wp_ajax_nopriv_save_gutenberg_source_data', [$this, 'save_gutenberg_source_data'] );
 		add_action( 'save_post', [$this, 'save_source_data_on_post_update'] );
 		add_action( 'wp_ajax_delete_source_data', [$this, 'delete_source_data'] );
 		add_action( 'wp_ajax_nopriv_delete_source_data', [$this, 'delete_source_data'] );
 		add_action( 'load-post.php', [$this, 'delete_source_temp_data_on_reload'] );
 		add_action('embedpress:isEmbra', [$this, 'isEmbra'], 10, 3);
-
 	}
 
-	public function get_extension_from_file_url($url) {
-		$urlSplit = explode(".", $url);
-		$ext = end($urlSplit);
-		return $ext;
-	}
 	
-	public function is_file_url($url) {
-		$pattern = '/\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i';
-		return preg_match($pattern, $url) === 1;
-	}
-
-	public function is_opensea($url) {
-		return strpos($url, "opensea.io") !== false;
-	}
-	public function is_youtube_channel($url) {
-		return (bool) (preg_match('~(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(?:channel\/|c\/|user\/|@)(\w+)~i', (string) $url));
-	}
-
-	public function is_youtube($url) {
-		return (bool) (preg_match('~(?:https?://)?(?:www\.)?(?:youtube\.com|youtu\.be)/watch\?v=([^&]+)~i', (string) $url));
-	}
-	
-	public function save_source_data() {
+	public function save_gutenberg_source_data(){
 		$source_url = $_POST['source_url'];
 		$blockid = $_POST['block_id'];
-		// print_r($blockid );
-
-		if (!empty($this->is_file_url($source_url))) {
-			$source_name = 'document_' . $this->get_extension_from_file_url($source_url);
-		}
-		else if($this->is_youtube($source_url)){
-			$source_name = 'Youtube'; 
-		}
-		else if($this->is_youtube_channel($source_url)){
-			$source_name = 'YoutubeChannel'; 
-		}
-		else if($this->is_opensea($source_url)){
-			$source_name  = 'OpenSea';
-		}
-		else{
-			Shortcode::get_embera_instance();
-			$collectios = Shortcode::get_collection();
-			$provider = $collectios->findProviders($source_url);
-			$source_name = $provider[$source_url]->getProviderName();
-		}
-		
-		if(!empty($blockid) && $blockid != 'undefined'){
-			$sources = json_decode(get_option('source_data'), true);
-			if(!$sources) {
-				$sources = array();
-			}
-			$exists = false;
-			foreach($sources as $i => $source) {
-				if ($source['id'] === $blockid) {
-					$sources[$i]['source']['name'] = $source_name;
-					$sources[$i]['source']['url'] = $source_url;
-					$exists = true;
-					break;
-				}
-			}
-			if(!$exists) {
-				$sources[] = array('id' => $blockid, 'source' => array('name' => $source_name, 'url' => $source_url, 'count' => 1));
-			}
-			
-			update_option('source_temp_data', json_encode($sources));
-
-			// $this->save_source_data_on_post_update($sources);
-
-			echo 'Source data saved: '; print_r($sources);
-		}
-		wp_die();
+		Helper::get_source_data($blockid, $source_url);
 	}
 
 	function save_source_data_on_post_update(  ) {
-
-		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
-			return;
-		} 
-
-		$temp_data = json_decode(get_option('source_temp_data'), true);
-		$source_data = json_decode(get_option('source_data'), true);
-		if(!$temp_data) {
-			$temp_data = array();
-		}
-		if(!$source_data) {
-			$source_data = array();
-		}
-
-		$sources = array_merge($temp_data, $source_data);
-
-		$unique_sources = array();
-		foreach ($sources as $source) {
-			$unique_sources[$source['id']] = $source;
-		}
-		
-		$unique_sources = array_values($unique_sources);
-
-		delete_option('source_temp_data');
-
-		update_option('source_data', json_encode($unique_sources));
+		Helper::get_save_source_data_on_post_update();	
 	}
 	
 	public function delete_source_data() {
 		$blockid = $_POST['block_id'];
-		if (!empty($blockid) && $blockid != 'undefined') {
-			$sources = json_decode(get_option('source_data'), true);			
-			if ($sources) {
-				foreach ($sources as $i => $source) {
-					if ($source['id'] === $blockid) {
-						unset($sources[$i]);
-						break;
-					}
-				}
-				update_option('source_data', json_encode(array_values($sources)));
-				echo 'Source data deleted: '; print_r($sources);
-			}
-		}
-		wp_die();
+		Helper::get_delete_source_data($blockid);
 	}
 
-	
 	public function delete_source_temp_data_on_reload() {
-		$source_temp_data = json_decode(get_option('source_temp_data'), true);
-		if ($source_temp_data ) {
-			delete_option( 'source_temp_data' );
-		}
+		Helper::get_delete_source_temp_data_on_reload();
 	}
-	
 		 
 	public function isEmbra($isEmbra, $url, $atts)
 	{

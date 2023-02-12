@@ -8,49 +8,15 @@ use SplMinHeap;
 
 class Elementor_Enhancer {
 
-	public function get_extension_from_file_url($url) {
-		$urlSplit = explode(".", $url);
-		$ext = end($urlSplit);
-		return $ext;
-	}
 	
-	public function is_file_url($url) {
-		$pattern = '/\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i';
-		return preg_match($pattern, $url) === 1;
+
+	public function __construct()
+	{
+		add_action( 'elementor/editor/after_save', [$this, 'save_source_data_on_post_update'] );
 	}
 
-	// Save elementor source data to option table
-	public static function save_elementor_source_data($source_url, $widget_id){
-		if (!empty($this->is_file_url($source_url))) {
-			$source_name = 'document_' . $this->get_extension_from_file_url($source_url);
-		}
-		else{
-			Shortcode::get_embera_instance();
-			$collectios = Shortcode::get_collection();
-			$provider = $collectios->findProviders($source_url);
-			$source_name = $provider[$source_url]->getProviderName();
-		}
-
-		$sources = json_decode(get_option('source_data'), true);
-		
-		if(!$sources) {
-			$sources = array();
-		}
-		$exists = false;
-		foreach($sources as $i => $source) {
-			if ($source['id'] === $widget_id) {
-				$sources[$i]['source']['name'] = $source_name;
-				$sources[$i]['source']['url'] = $source_url;
-				$exists = true;
-				break;
-			}
-		}
-		if(!$exists) {
-			$sources[] = array('id' => $widget_id, 'source' => array('name' => $source_name, 'url' => $source_url, 'count' => 1));
-		}
-		update_option('source_data', json_encode($sources));
-		echo 'Source data saved: '; print_r($sources);
-		wp_die();
+	function save_source_data_on_post_update( $post_id ) {
+		Helper::get_save_source_data_on_post_update();
 	}
 
 	public static function youtube( $embed, $setting ) {

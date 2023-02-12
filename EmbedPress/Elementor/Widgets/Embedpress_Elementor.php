@@ -9,6 +9,7 @@ use Elementor\Plugin;
 use Elementor\Widget_Base as Widget_Base;
 use EmbedPress\Includes\Traits\Branding;
 use EmbedPress\Shortcode;
+use EmbedPress\Includes\Classes\Helper;
 
 (defined('ABSPATH')) or die("No direct script access allowed.");
 
@@ -2496,12 +2497,14 @@ class Embedpress_Elementor extends Widget_Base
 		return $_settings;
 	}
 
+	
+
 	protected function render()
 	{
 
 		add_filter('embedpress_should_modify_spotify', '__return_false');
 		$settings      = $this->get_settings_for_display();
-
+		
 		$is_editor_view = Plugin::$instance->editor->is_edit_mode();
 		$link = $settings['embedpress_embeded_link'];
 		$is_apple_podcast = (strpos($link, 'podcasts.apple.com') !== false);
@@ -2510,6 +2513,8 @@ class Embedpress_Elementor extends Widget_Base
 		$_settings = [];
 		$source = $settings['embedpress_pro_embeded_source'];
 		$embed_link = $settings['embedpress_embeded_link'];
+
+		Helper::get_source_data(md5($this->get_id()).'_elementor', $embed_link);
 
 		if(!(($source === 'default' || !empty($source[0]) && $source[0] === 'default') && strpos($embed_link, 'opensea.io') !== false)){
 			$_settings = $this->convert_settings($settings);

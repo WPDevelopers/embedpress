@@ -49,7 +49,7 @@ export const saveSourceData = (clientId, url) => {
     };
 
     const data = {
-        action: 'save_source_data',
+        action: 'save_gutenberg_source_data',
         block_id: clientId,
         source_url: url
     };
