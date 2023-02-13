@@ -99,7 +99,9 @@ class Feature_Enhancer
 		$embedOptions->autoPlay = (isset($attributes['wautoplay']) && (bool) $attributes['wautoplay'] === true);
 		$embedOptions->resumable = (isset($attributes['resumable']) && (bool) $attributes['resumable'] === true);
 
-		$embedOptions->time = isset($attributes['wstarttime']) ? $attributes['wstarttime'] : '';
+		if(!empty($attributes['wstarttime'])){
+			$embedOptions->time = isset($attributes['wstarttime']) ? $attributes['wstarttime'] : '';
+		}
 
 		if ( is_embedpress_pro_active() ) {
 			$embedOptions->volumeControl = (isset($attributes['volumecontrol']) && (bool) $attributes['volumecontrol'] === true);
@@ -165,7 +167,7 @@ class Feature_Enhancer
 				}
 			}
 			
-			if($this->ytValidateUrl($attributes['url'])){
+			if(!empty($attributes['url']) && $this->ytValidateUrl($attributes['url'])){
 				
 				$atts = [
 					'url'	=> $attributes['url'],
@@ -732,7 +734,9 @@ class Feature_Enhancer
 
 			$embedOptions->autoPlay = (isset($options['autoplay']) && (bool) $options['autoplay'] === true);
 
-			$embedOptions->time = isset($options['start_time']) ? $options['start_time'] : 0;
+			if(!empty($options['start_time'])){
+				$embedOptions->time = isset($options['start_time']) ? $options['start_time'] : 0;
+			}
 
 			if (isset($options['player_color'])) {
 				$color = $options['player_color'];

@@ -875,7 +875,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embedpress_pro_wistia_captions',
 			[
-				'label'        => sprintf(__('Captions %s', 'embedpress'), $this->pro_text),
+				'label'        => sprintf(__('Closed Captions %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',

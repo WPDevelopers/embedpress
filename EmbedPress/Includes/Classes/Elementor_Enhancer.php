@@ -258,7 +258,9 @@ class Elementor_Enhancer {
 		$embedOptions->autoPlay         = ( $setting['embedpress_pro_wistia_auto_play'] === 'yes' );
 		$embedOptions->playerColor      = $setting['embedpress_pro_wistia_color'];
 		$embedOptions->playbar          = ( $setting['embedpress_pro_wistia_playbar'] === 'yes' );
-		$embedOptions->time             = $setting['embedpress_pro_video_start_time'];
+		if($setting['embedpress_pro_video_start_time']){
+			$embedOptions->time             = $setting['embedpress_pro_video_start_time'];
+		}
 		if ( is_embedpress_pro_active() ) {
 			$embedOptions->volumeControl = ( $setting['embedpress_pro_wistia_volume_control'] === 'yes' );
 
@@ -348,7 +350,7 @@ class Elementor_Enhancer {
 		$attribs = [
 			sprintf( 'id="wistia_%s"', $videoId ),
 			sprintf( 'class="%s"', join( ' ', $class ) ),
-			sprintf( 'style="width:%spx; height:%spx;"', $embed->attributes->{'data-width'}, $embed->attributes->{'data-width'} ),
+			sprintf( 'style="width:%spx; height:%spx;"', $embed->attributes->{'data-width'}, $embed->attributes->{'data-height'} ),
 		];
 
 		$labels = [
