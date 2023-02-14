@@ -438,6 +438,7 @@ class Embedpress_Pdf extends Widget_Base
         $id = $this->get_id();
         $this->_render($url, $settings, $id);
 
+        Helper::get_source_data(md5($this->get_id()).'_eb_elementor', $url, 'elementor_source_data', 'elementor_temp_source_data');
     }
 
     public function getParamData($settings){

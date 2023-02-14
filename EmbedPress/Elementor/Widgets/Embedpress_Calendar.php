@@ -9,6 +9,7 @@ use \Elementor\Widget_Base as Widget_Base;
 use \Elementor\Plugin;
 use EmbedPress\Includes\Traits\Branding;
 use Embedpress_Google_Helper;
+use EmbedPress\Includes\Classes\Helper;
 
 ( defined( 'ABSPATH' ) ) or die( "No direct script access allowed." );
 

@@ -8,6 +8,7 @@ use \Elementor\Modules\DynamicTags\Module as TagsModule;
 use \Elementor\Widget_Base as Widget_Base;
 use \Elementor\Plugin;
 use EmbedPress\Includes\Traits\Branding;
+use EmbedPress\Includes\Classes\Helper;
 
 ( defined( 'ABSPATH' ) ) or die( "No direct script access allowed." );
 
@@ -259,6 +260,9 @@ class Embedpress_Document extends Widget_Base
             'class'     => ['embedpress-embed-document-pdf', $id],
             'data-emid' => $id
         ] );
+
+        Helper::get_source_data(md5($this->get_id()).'_eb_elementor', $url, 'elementor_source_data', 'elementor_temp_source_data');
+
         $this->add_render_attribute( 'embedpress-document', [
             'class' => ['embedpress-document-embed', 'ep-doc-'.md5( $id), 'ose-document']
         ] );

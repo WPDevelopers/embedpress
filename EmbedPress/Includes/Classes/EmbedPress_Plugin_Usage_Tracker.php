@@ -411,6 +411,11 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 			// $body['plugin_options'] = $this->options; // Returns array
 			// $body['plugin_options_fields'] = $plugin_options; // Returns object
 
+			$body['optional_data'] = [
+				'gutenberg' => get_option( 'gutenberg_source_data', true ),
+				'elementor' => get_option( 'elementor_source_data', true )
+			];
+
 			/**
 			 * Get active theme name and version
 			 * @since 3.0.0

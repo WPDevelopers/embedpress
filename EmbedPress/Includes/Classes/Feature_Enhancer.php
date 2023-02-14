@@ -32,7 +32,7 @@ class Feature_Enhancer
 		add_action('embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2);
 		add_action( 'wp_ajax_save_source_data', [$this, 'save_source_data'] );
 		add_action( 'wp_ajax_nopriv_save_source_data', [$this, 'save_source_data'] );
-		add_action( 'save_post', [$this, 'save_source_data_on_post_update'] );
+		add_action( 'save_post', [$this, 'save_source_data_on_post_update'], 10, 3 );
 		add_action( 'wp_ajax_delete_source_data', [$this, 'delete_source_data'] );
 		add_action( 'wp_ajax_nopriv_delete_source_data', [$this, 'delete_source_data'] );
 		add_action( 'load-post.php', [$this, 'delete_source_temp_data_on_reload'] );
@@ -41,24 +41,21 @@ class Feature_Enhancer
 	}
 
 	public function save_source_data(){
+
 		$source_url = $_POST['source_url'];
 		$blockid = $_POST['block_id'];
 
-		if (!empty($blockid) && strpos( $blockid, '_elementor' ) === false ) {
-			Helper::get_source_data($blockid, $source_url, 'gutenberg_source_data', 'gutenberg_temp_source_data');
-		} else {			
-			Helper::get_source_data($blockid, $source_url, 'elementor_source_data', 'elementor_temp_source_data');	
-		}
+		Helper::get_source_data($blockid, $source_url, 'gutenberg_source_data', 'gutenberg_temp_source_data');
 	}
 
-	function save_source_data_on_post_update(  ) {
-		$blockid = $_POST['block_id'];
-		
-		if ( !empty($blockid) && strpos( $blockid, '_elementor' ) === false ) {
+	function save_el_source_data_on_post_update( $post_id ) {
+		Helper::get_save_source_data_on_post_update('elementor_source_data', 'elementor_temp_source_data');	
+	}
+
+	function save_source_data_on_post_update( $post_id, $post, $update ) {
+		if (!empty(strpos($post->post_content, 'wp:paragraph'))) {
 			Helper::get_save_source_data_on_post_update('gutenberg_source_data', 'gutenberg_temp_source_data');	
-		} else {
-			Helper::get_save_source_data_on_post_update('elementor_source_data', 'elementor_temp_source_data');	
-		} 
+		}
 	}
 	
 	public function delete_source_data() {
@@ -381,8 +378,7 @@ class Feature_Enhancer
 
 				// print_r($url_modified);
 
-				
-
+			
 				foreach ($params as $param => $value) {
 					$url_modified = add_query_arg($param, $value, $url_modified);
 				}
