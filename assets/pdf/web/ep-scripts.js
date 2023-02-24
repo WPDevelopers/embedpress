@@ -158,3 +158,13 @@ window.addEventListener('hashchange', (e) => {
 let data = getParamObj(location.hash);
 pdfIframeStyle(data);
 setThemeMode(data.themeMode);
+
+
+// document.addEventListener('keydown', function (event) {
+//     if (event.ctrlKey && event.key === 's') {
+//         alert('The download option is disabled by site owner.');
+//         return false;
+//     }
+// });
+
+
