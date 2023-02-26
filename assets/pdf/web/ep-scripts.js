@@ -18,6 +18,7 @@ const getParamObj = (hash) => {
             themeMode: hashParams.get('themeMode'),
             presentation: hashParams.get('presentation'),
             copy_text: hashParams.get('copy_text'),
+            draw: hashParams.get('draw'),
             position: hashParams.get('position'),
             download: hashParams.get('download'),
             toolbar: hashParams.get('toolbar'),
@@ -44,7 +45,7 @@ const pdfIframeStyle = (data) => {
     let settingsPos = '';
 
     if (data.toolbar === false || data.toolbar == 'false') {
-        data.presentation = false; data.download = true; data.copy_text = true; data.doc_details = false; data.doc_rotation = false;
+        data.presentation = false; data.download = true; data.copy_text = true; data.draw = true, data.doc_details = false; data.doc_rotation = false;
     }
 
     let position = 'top';
@@ -52,6 +53,7 @@ const pdfIframeStyle = (data) => {
     let presentation = isDisplay(data.presentation);
     let download = isDisplay(data.download);
     let copy_text = isDisplay(data.copy_text);
+    let draw = isDisplay(data.draw);
 
     if (copy_text === 'block' || copy_text == 'true' || copy_text == true) {
         copy_text = 'text';
@@ -96,6 +98,11 @@ const pdfIframeStyle = (data) => {
             bottom: -16px;
             transform: rotate(180deg);
         }
+
+        div#editorInkParamsToolbar, #editorFreeTextParamsToolbar {
+            bottom: 32px;
+            top: auto; 
+        }
     `;
     }
 
@@ -132,6 +139,11 @@ const pdfIframeStyle = (data) => {
         button#cursorSelectTool{
             display: ${copy_text}!important;
         }
+
+        div#editorModeButtons{
+            display: ${draw}!important;
+        }
+
         ${settingsPos}
     `;
 
@@ -166,5 +178,4 @@ setThemeMode(data.themeMode);
 //         return false;
 //     }
 // });
-
 

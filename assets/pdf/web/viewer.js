@@ -1978,6 +1978,14 @@ const PDFViewerApplication = {
     throw new Error("PDF document not downloaded.");
   },
   async download() {
+    if (location.hash) {
+      let hash = location.hash;
+      let hashParams = new URLSearchParams(hash.substring(1));
+      if(hashParams.get('download') === 'false'){
+        return false;
+      }
+    } // added by EP developer 
+
     const url = this._downloadUrl,
       filename = this._docFilename;
     try {
@@ -1992,6 +2000,14 @@ const PDFViewerApplication = {
     }
   },
   async save() {
+    if (location.hash) {
+      let hash = location.hash;
+      let hashParams = new URLSearchParams(hash.substring(1));
+      if(hashParams.get('download') === 'false'){
+        return false;
+      }
+    }// added by EP developer 
+    
     if (this._saveInProgress) {
       return;
     }

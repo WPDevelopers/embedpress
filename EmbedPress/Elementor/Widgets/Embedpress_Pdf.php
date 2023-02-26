@@ -448,6 +448,7 @@ class Embedpress_Pdf extends Widget_Base
             'presentation' => !empty($settings['pdf_presentation_mode']) ? 'true' : 'false',
             'download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print_download'] : 'true',
             'copy_text' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'true',
+            'draw' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['draw'] : 'true',
             'doc_rotation' => !empty($settings['pdf_rotate_access'])  ? 'true' : 'false',
             'doc_details' => !empty($settings['pdf_details'])  ? 'true' : 'false',
         );

@@ -96,6 +96,7 @@ const pdfIframeStyle = (data) => {
             bottom: -16px;
             transform: rotate(180deg);
         }
+       
     `;
     }
 

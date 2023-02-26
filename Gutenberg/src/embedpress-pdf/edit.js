@@ -176,7 +176,7 @@ class EmbedPressPDFEdit extends Component {
 
 		const { attributes, noticeUI, setAttributes, clientId } = this.props;
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, presentation, position, download, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
 
 
 		const { hasError, interactive, fetching, loadPdf } = this.state;
@@ -197,6 +197,7 @@ class EmbedPressPDFEdit extends Component {
 		if (!isProPluginActive) {
 			setAttributes({ download: true });
 			setAttributes({ copy_text: true });
+			setAttributes({ draw: true });
 		}
 
 		if (!document.querySelector('.pro__alert__wrap')) {
@@ -215,6 +216,7 @@ class EmbedPressPDFEdit extends Component {
 				download: download ? download : false,
 				toolbar: toolbar ? toolbar : false,
 				copy_text: copy_text ? copy_text : false,
+				draw: draw ? draw : false,
 				toolbar_position: toolbar_position ? toolbar_position : 'top',
 				doc_details: doc_details ? doc_details : false,
 				doc_rotation: doc_rotation ? doc_rotation : false,
@@ -391,6 +393,21 @@ class EmbedPressPDFEdit extends Component {
 													setAttributes({ download })
 												}
 												checked={download}
+											/>
+											{
+												(!isProPluginActive) && (
+													<span className='isPro'>{__('pro', 'embedpress')}</span>
+												)
+											}
+										</div>
+
+										<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
+											<ToggleControl
+												label={__('Draw', 'embedpress')}
+												onChange={(draw) =>
+													setAttributes({ draw })
+												}
+												checked={draw}
 											/>
 											{
 												(!isProPluginActive) && (

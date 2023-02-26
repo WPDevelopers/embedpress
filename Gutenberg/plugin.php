@@ -333,6 +333,10 @@ function embedpress_gutenberg_register_all_block()
 								'type' => "boolean",
 								'default' => true,
 							],
+							'draw' => [
+								'type' => "boolean",
+								'default' => true,
+							],
 							'toolbar' => [
 								'type' => "boolean",
 								'default' => true,
@@ -382,6 +386,7 @@ function getParamData($attributes)
 		'presentation' =>  !empty($attributes['presentation']) ? 'true' : 'false',
 		'download' =>  !empty($attributes['download']) ? 'true' : 'false',
 		'copy_text' =>  !empty($attributes['copy_text']) ? 'true' : 'false',
+		'draw' =>  !empty($attributes['draw']) ? 'true' : 'false',
 		'doc_rotation' => !empty($attributes['doc_rotation']) ? 'true' : 'false',
 		'doc_details' =>  !empty($attributes['doc_details']) ? 'true' : 'false',
 	);

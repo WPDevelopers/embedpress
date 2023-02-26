@@ -900,6 +900,7 @@ KAMAL;
             'presentation' => isset($attributes['presentation']) ? $attributes['presentation'] : 'true',
             'download' => isset($attributes['download']) ? $attributes['download'] : 'true',
             'copy_text' => isset($attributes['copy_text']) ? $attributes['copy_text'] : 'true',
+            'draw' => isset($attributes['draw']) ? $attributes['draw'] : 'true',
             'doc_rotation' => isset($attributes['doc_rotation']) ? $attributes['doc_rotation'] : 'true',
             'doc_details' => isset($attributes['doc_details']) ? $attributes['doc_details'] : 'true',
         );
