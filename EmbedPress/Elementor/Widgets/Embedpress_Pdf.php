@@ -365,6 +365,22 @@ class Embedpress_Pdf extends Widget_Base
         );
 
         $this->add_control(
+            'draw',
+            [
+                'label'        => sprintf(__('Draw %s', 'embedpress'), $this->pro_text),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Show', 'embedpress'),
+                'label_off'    => __('Hide', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+                'classes'     => $this->pro_class,
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control(
             'pdf_rotate_access',
             [
                 'label'        => __('Rotation', 'embedpress'),
