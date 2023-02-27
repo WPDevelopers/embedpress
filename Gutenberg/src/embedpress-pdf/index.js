@@ -51,6 +51,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "string",
 				default: 'dafult',
 			},
+			customColor: {
+				type: "string",
+				default: 'dafult',
+			},
 			position: {
 				type: "string",
 				default: 'top',

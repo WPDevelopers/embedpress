@@ -469,6 +469,10 @@ class Embedpress_Pdf extends Widget_Base
             'doc_details' => !empty($settings['pdf_details'])  ? 'true' : 'false',
         );
 
+        if($settings['embedpress_theme_mode'] == 'custom') {
+            $urlParamData['customColor'] = $settings['pdf_custom_color'];
+        }
+
         if($settings['embedpress_pdf_type'] == 'file'){   
             return "#" .http_build_query($urlParamData) ;
         }
@@ -491,6 +495,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_render_attribute('embedpress-document', [
             'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document', $unitoption ],
             'data-thememode' => $settings['embedpress_theme_mode'],
+            'data-customcolor' => $settings['pdf_custom_color'],
             'data-toolbar' => $settings['pdf_toolbar'],
             'data-toolbar-position' =>  $settings['pdf_toolbar_position'],
             'data-open' => 'no',
@@ -525,13 +530,13 @@ class Embedpress_Pdf extends Widget_Base
                             }
                         }
                         ?>
-                <iframe class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_attr($src); ?>" <?php $this->get_render_attribute_string('embedpres-pdf-render'); ?> frameborder="0"></iframe>
+                <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_attr($src); ?>" <?php $this->get_render_attribute_string('embedpres-pdf-render'); ?> frameborder="0"></iframe>
             <?php
 
                         } else {
                             ?>
                 <div>
-                    <iframe class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%;" src="<?php echo esc_url($url); ?>" <?php $this->get_render_attribute_string('embedpres-pdf-render'); ?>></iframe>
+                    <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%;" src="<?php echo esc_url($url); ?>" <?php $this->get_render_attribute_string('embedpres-pdf-render'); ?>></iframe>
                 </div>
 
         <?php

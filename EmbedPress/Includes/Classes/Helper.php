@@ -62,4 +62,8 @@ class Helper {
 		// @TODO; apply settings query args here
 		return $renderer;
 	}
+
+	public static function get_file_title($url){
+		return get_the_title(attachment_url_to_postid( $url ));
+	}
 }

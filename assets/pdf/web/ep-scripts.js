@@ -8,14 +8,22 @@ const setThemeMode = (themeMode) => {
     }
 }
 
+
 const getParamObj = (hash) => {
     let paramsObj = {};
+    let colorsObj = {};
 
     if (location.hash) {
         let hashParams = new URLSearchParams(hash.substring(1));
 
+        if (hashParams.get('themeMode') == 'custom') {
+            colorsObj = {
+                customColor: hashParams.get('customColor'),
+            };
+        }
         paramsObj = {
             themeMode: hashParams.get('themeMode'),
+            ...colorsObj,
             presentation: hashParams.get('presentation'),
             copy_text: hashParams.get('copy_text'),
             draw: hashParams.get('draw'),
@@ -23,8 +31,8 @@ const getParamObj = (hash) => {
             download: hashParams.get('download'),
             toolbar: hashParams.get('toolbar'),
             doc_details: hashParams.get('doc_details'),
-            doc_rotation: hashParams.get('doc_rotation')
-        }
+            doc_rotation: hashParams.get('doc_rotation'),
+        };
     }
 
     return paramsObj;
@@ -39,6 +47,26 @@ const isDisplay = (selectorName) => {
     }
     return selectorName;
 }
+
+
+const adjustHexColor = (hexColor, percentage) => {
+    // Convert hex color to RGB values
+    const r = parseInt(hexColor.slice(1, 3), 16);
+    const g = parseInt(hexColor.slice(3, 5), 16);
+    const b = parseInt(hexColor.slice(5, 7), 16);
+  
+    // Calculate adjusted RGB values
+    const adjustment = Math.round((percentage / 100) * 255);
+    const newR = Math.max(Math.min(r + adjustment, 255), 0);
+    const newG = Math.max(Math.min(g + adjustment, 255), 0);
+    const newB = Math.max(Math.min(b + adjustment, 255), 0);
+  
+    // Convert adjusted RGB values back to hex color
+    const newHexColor = '#' + ((1 << 24) + (newR << 16) + (newG << 8) + newB).toString(16).slice(1);
+  
+    return newHexColor;
+  }
+  
 
 
 const pdfIframeStyle = (data) => {
@@ -70,6 +98,30 @@ const pdfIframeStyle = (data) => {
 
     const style = document.createElement("style");
     style.setAttribute('id', 'EBiframeStyleID');
+
+    let pdfCustomColor = '';
+
+    if (data.themeMode == 'custom') {
+        if(!data.customColor) {
+            data.customColor = '#38383d';
+        }
+        pdfCustomColor = `    
+        [ep-data-theme="custom"] {
+            --body-bg-color: ${data.customColor};
+            --toolbar-bg-color: ${adjustHexColor(data.customColor, 15)};
+            --doorhanger-bg-color: ${data.customColor};
+            --field-bg-color: ${data.customColor};
+            --dropdown-btn-bg-color: ${data.customColor};
+            --button-hover-color: ${adjustHexColor(data.customColor, 25)};
+            --toggled-btn-bg-color: ${adjustHexColor(data.customColor, 25)};
+            --doorhanger-hover-bg-color: ${adjustHexColor(data.customColor, 20)};
+            --toolbar-border-color: ${adjustHexColor(data.customColor, 10)};
+            --doorhanger-border-color: ${adjustHexColor(data.customColor, 10)};
+            --doorhanger-border-color-whcm: ${adjustHexColor(data.customColor, 10)};
+            --separator-color: ${adjustHexColor(data.customColor, 10)};
+            --doorhanger-separator-color: ${adjustHexColor(data.customColor, 15)};
+        }`;
+    }
 
     if (data.position === 'top') {
         position = 'top:0;bottom:auto;'
@@ -144,6 +196,8 @@ const pdfIframeStyle = (data) => {
             display: ${draw}!important;
         }
 
+        ${pdfCustomColor}
+
         ${settingsPos}
     `;
 
@@ -170,12 +224,3 @@ window.addEventListener('hashchange', (e) => {
 let data = getParamObj(location.hash);
 pdfIframeStyle(data);
 setThemeMode(data.themeMode);
-
-
-// document.addEventListener('keydown', function (event) {
-//     if (event.ctrlKey && event.key === 's') {
-//         alert('The download option is disabled by site owner.');
-//         return false;
-//     }
-// });
-
