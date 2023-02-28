@@ -333,6 +333,10 @@ function embedpress_gutenberg_register_all_block()
 								'type' => "boolean",
 								'default' => true,
 							],
+							'add_text' => [
+								'type' => "boolean",
+								'default' => true,
+							],
 							'draw' => [
 								'type' => "boolean",
 								'default' => true,

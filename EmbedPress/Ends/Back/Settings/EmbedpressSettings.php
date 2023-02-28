@@ -208,6 +208,9 @@ class EmbedpressSettings {
 		$settings = (array) get_option( EMBEDPRESS_PLG_NAME, []);
 		$settings ['enableEmbedResizeWidth'] = isset( $_POST['enableEmbedResizeWidth']) ? intval( $_POST['enableEmbedResizeWidth']) : 600;
 		$settings ['enableEmbedResizeHeight'] = isset( $_POST['enableEmbedResizeHeight']) ? intval( $_POST['enableEmbedResizeHeight']) : 550;
+		$settings ['pdf_custom_color_settings'] = isset( $_POST['pdf_custom_color_settings']) ? intval( $_POST['pdf_custom_color_settings']) : 0;
+
+		$settings ['custom_color'] = isset( $_POST['custom_color']) ? $_POST['custom_color'] : '#333333';
 
 		// Pro will handle g_loading_animation settings and other
 		$settings = apply_filters( 'ep_general_settings_before_save', $settings, $_POST);

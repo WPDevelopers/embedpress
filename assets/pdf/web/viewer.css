@@ -2247,7 +2247,7 @@ body {
   padding-inline-start: 6px;
   border: none;
   background-color: var(--dropdown-btn-bg-color);
-  border-radius: 5px;
+  border-radius: 2px;
 }
 
 .dropdownToolbarButton>select:hover,
@@ -2634,6 +2634,7 @@ a.secondaryToolbarButton[href="#"] {
   width: 40px;
   background-size: 0 0;
   transition-property: none;
+  border: none; /* added by ep developer */
   font-size: 12px; /* added by ep developer */
 }
 

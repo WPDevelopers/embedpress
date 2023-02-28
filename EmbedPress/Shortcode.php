@@ -110,7 +110,6 @@ class Shortcode
         $attributes = wp_parse_args($attributes, $default);
         $embed = self::parseContent($subject, true, $attributes);
 
-
         return is_object($embed) ? $embed->embed : $embed;
     }
 
@@ -900,13 +899,14 @@ KAMAL;
             'presentation' => isset($attributes['presentation']) ? $attributes['presentation'] : 'true',
             'download' => isset($attributes['download']) ? $attributes['download'] : 'true',
             'copy_text' => isset($attributes['copy_text']) ? $attributes['copy_text'] : 'true',
+            'add_text' => isset($attributes['add_text']) ? $attributes['add_text'] : 'true',
             'draw' => isset($attributes['draw']) ? $attributes['draw'] : 'true',
             'doc_rotation' => isset($attributes['doc_rotation']) ? $attributes['doc_rotation'] : 'true',
             'doc_details' => isset($attributes['doc_details']) ? $attributes['doc_details'] : 'true',
         );
 
         if($urlParamData['themeMode'] == 'custom') {
-            $urlParamData['customColor'] = isset($attributes['custom_color']) ? $attributes['custom_color'] : '';
+            $urlParamData['customColor'] = isset($attributes['custom_color']) ? $attributes['custom_color'] : '#333333';
         }
 
         return "#". http_build_query($urlParamData);
@@ -916,12 +916,18 @@ KAMAL;
     {
         $plgSettings = Core::getSettings();
 
-
         $default = [
             'width'  => $plgSettings->enableEmbedResizeWidth,
-            'height' => $plgSettings->enableEmbedResizeHeight,
-            'powered_by' => 'no',
+            'height' => $plgSettings->enableEmbedResizeHeight, 
+            'powered_by' => 'yes',
         ];
+
+        if(!empty($plgSettings->pdf_custom_color_settings)){
+             $default['theme_mode'] = 'custom';
+        }
+        if(isset($default['theme_mode']) && $default['theme_mode'] == 'custom' ){
+            $default['custom_color'] = $plgSettings->custom_color;
+        }
 
         $attributes = wp_parse_args($attributes, $default);
 

@@ -275,10 +275,19 @@ class Embedpress_Pdf extends Widget_Base
                 'options' => [
                     'default' => __('System Default', 'embedpress'),
                     'dark' => __('Dark', 'embedpress'),
-                    'light'  => __('Light', 'embedpress')
+                    'light'  => __('Light', 'embedpress'),
+                    'custom'  => __('Custom', 'embedpress')
                 ],
             ]
         );
+
+        $this->add_control(
+			'embedpress_pdf_custom_color',
+			[
+				'label' => esc_html__( 'Custom Color', 'textdomain' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+			]
+		);
 
         $this->add_control(
             'pdf_toolbar',
@@ -364,6 +373,20 @@ class Embedpress_Pdf extends Widget_Base
             ]
         );
 
+        $this->add_control(
+            'add_text',
+            [
+                'label'        => sprintf(__('Add Text', 'embedpress')),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Show', 'embedpress'),
+                'label_off'    => __('Hide', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
+            ]
+        );
         $this->add_control(
             'draw',
             [
@@ -464,13 +487,14 @@ class Embedpress_Pdf extends Widget_Base
             'presentation' => !empty($settings['pdf_presentation_mode']) ? 'true' : 'false',
             'download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print_download'] : 'true',
             'copy_text' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'true',
+            'add_text' => !empty($settings['add_text']) ? 'true' : 'false',
             'draw' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['draw'] : 'true',
             'doc_rotation' => !empty($settings['pdf_rotate_access'])  ? 'true' : 'false',
             'doc_details' => !empty($settings['pdf_details'])  ? 'true' : 'false',
         );
 
         if($settings['embedpress_theme_mode'] == 'custom') {
-            $urlParamData['customColor'] = $settings['pdf_custom_color'];
+            $urlParamData['customColor'] = $settings['embedpress_pdf_custom_color'];
         }
 
         if($settings['embedpress_pdf_type'] == 'file'){   
@@ -495,7 +519,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_render_attribute('embedpress-document', [
             'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document', $unitoption ],
             'data-thememode' => $settings['embedpress_theme_mode'],
-            'data-customcolor' => $settings['pdf_custom_color'],
+            'data-customcolor' => $settings['embedpress_pdf_custom_color'],
             'data-toolbar' => $settings['pdf_toolbar'],
             'data-toolbar-position' =>  $settings['pdf_toolbar_position'],
             'data-open' => 'no',
@@ -505,7 +529,7 @@ class Embedpress_Pdf extends Widget_Base
             'data-rotate' => $settings['pdf_rotate_access'],
             'data-details' => $settings['pdf_details'],
             'data-id' => $id
-        ]);
+        ]); 
         ?>
     <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
         <?php
@@ -526,7 +550,7 @@ class Embedpress_Pdf extends Widget_Base
                                 }
                             }
                             if ($zoom) {
-                                $src = $src . "#zoom=$zoom";
+                                $src = $src . "&zoom=$zoom";
                             }
                         }
                         ?>

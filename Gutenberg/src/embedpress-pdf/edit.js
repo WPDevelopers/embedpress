@@ -177,7 +177,7 @@ class EmbedPressPDFEdit extends Component {
 
 		const { attributes, noticeUI, setAttributes, clientId } = this.props;
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
 
 
 		const { hasError, interactive, fetching, loadPdf } = this.state;
@@ -190,7 +190,7 @@ class EmbedPressPDFEdit extends Component {
 			{ name: '', color: '#403A81' },
 			{ name: '', color: '#333333' },
 			{ name: '', color: '#000264' },
-		];
+		]; 
 
 		let widthMin = 0;
 		let widthMax = 100;
@@ -205,7 +205,7 @@ class EmbedPressPDFEdit extends Component {
 		if (!isProPluginActive) {
 			setAttributes({ download: true });
 			setAttributes({ copy_text: true });
-			setAttributes({ draw: true });
+			setAttributes({ draw: false });
 		}
 
 		if (!document.querySelector('.pro__alert__wrap')) {
@@ -231,6 +231,7 @@ class EmbedPressPDFEdit extends Component {
 				download: download ? download : false,
 				toolbar: toolbar ? toolbar : false,
 				copy_text: copy_text ? copy_text : false,
+				add_text: add_text ? add_text : false,
 				draw: draw ? draw : false,
 				toolbar_position: toolbar_position ? toolbar_position : 'top',
 				doc_details: doc_details ? doc_details : false,
@@ -433,6 +434,18 @@ class EmbedPressPDFEdit extends Component {
 												)
 											}
 										</div>
+
+										<ToggleControl
+											label={__('Add Text', 'embedpress')}
+											onChange={(add_text) =>
+												setAttributes({ add_text })
+											}
+											checked={add_text}
+										/>
+
+										{
+											console.log(add_text)
+										}
 
 										<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
 											<ToggleControl
