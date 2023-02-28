@@ -49,11 +49,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			themeMode: {
 				type: "string",
-				default: 'dafult',
+				default: 'default',
 			},
 			customColor: {
 				type: "string",
-				default: 'dafult',
+				default: '#403A81',
 			},
 			position: {
 				type: "string",

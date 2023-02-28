@@ -220,7 +220,7 @@ class EmbedPressPDFEdit extends Component {
 			//Generate PDF params
 			if(themeMode === 'custom') {
 				colorsObj = {
-					customColor: customColor ? customColor : '',
+					customColor: (customColor && (customColor !== 'default')) ? customColor : '#403A81',
 				}
 			}
 			let _pdf_params = {
@@ -357,7 +357,7 @@ class EmbedPressPDFEdit extends Component {
 								label="Theme"
 								value={themeMode}
 								options={[
-									{ label: 'System Default', value: 'dafult' },
+									{ label: 'System Default', value: 'default' },
 									{ label: 'Dark', value: 'dark' },
 									{ label: 'Light', value: 'light' },
 									{ label: 'Custom', value: 'custom' },
@@ -378,9 +378,6 @@ class EmbedPressPDFEdit extends Component {
 											value={customColor}
 											onChange={(customColor) => setAttributes({ customColor })}
 										/>
-										{
-											console.log(customColor)
-										}
 									</div>
 								)
 							}
@@ -442,10 +439,6 @@ class EmbedPressPDFEdit extends Component {
 											}
 											checked={add_text}
 										/>
-
-										{
-											console.log(add_text)
-										}
 
 										<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
 											<ToggleControl
