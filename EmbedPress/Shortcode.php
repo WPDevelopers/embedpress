@@ -110,7 +110,6 @@ class Shortcode
         $attributes = wp_parse_args($attributes, $default);
         $embed = self::parseContent($subject, true, $attributes);
 
-
         return is_object($embed) ? $embed->embed : $embed;
     }
 
@@ -900,9 +899,15 @@ KAMAL;
             'presentation' => isset($attributes['presentation']) ? $attributes['presentation'] : 'true',
             'download' => isset($attributes['download']) ? $attributes['download'] : 'true',
             'copy_text' => isset($attributes['copy_text']) ? $attributes['copy_text'] : 'true',
+            'add_text' => isset($attributes['add_text']) ? $attributes['add_text'] : 'true',
+            'draw' => isset($attributes['draw']) ? $attributes['draw'] : 'true',
             'doc_rotation' => isset($attributes['doc_rotation']) ? $attributes['doc_rotation'] : 'true',
             'doc_details' => isset($attributes['doc_details']) ? $attributes['doc_details'] : 'true',
         );
+
+        if($urlParamData['themeMode'] == 'custom') {
+            $urlParamData['customColor'] = isset($attributes['custom_color']) ? $attributes['custom_color'] : '#333333';
+        }
 
         return "#". http_build_query($urlParamData);
     }
@@ -911,12 +916,18 @@ KAMAL;
     {
         $plgSettings = Core::getSettings();
 
-
         $default = [
             'width'  => $plgSettings->enableEmbedResizeWidth,
-            'height' => $plgSettings->enableEmbedResizeHeight,
-            'powered_by' => 'no',
+            'height' => $plgSettings->enableEmbedResizeHeight, 
+            'powered_by' => 'yes',
         ];
+
+        if(!empty($plgSettings->pdf_custom_color_settings)){
+             $default['theme_mode'] = 'custom';
+        }
+        if(isset($default['theme_mode']) && $default['theme_mode'] == 'custom' ){
+            $default['custom_color'] = $plgSettings->custom_color;
+        }
 
         $attributes = wp_parse_args($attributes, $default);
 
@@ -937,13 +948,13 @@ KAMAL;
                                 $renderer = Helper::get_pdf_renderer();
                                 $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $url.self::getParamData($attributes);
                                 ?>
-                        <iframe style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" data-emsrc="<?php echo esc_attr($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" src="<?php echo esc_attr($src); ?>" frameborder="0"></iframe>
+                        <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" title="" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" data-emsrc="<?php echo esc_attr($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" src="<?php echo esc_attr($src); ?>" frameborder="0"></iframe>
                     <?php
 
                                 } else {
                                     ?>
                         <div>
-                            <iframe allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%;" src="<?php echo esc_url($url); ?>" data-emsrc="<?php echo esc_attr($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>"></iframe>
+                            <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%;" src="<?php echo esc_url($url); ?>" data-emsrc="<?php echo esc_attr($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>"></iframe>
                         </div>
 
                 <?php

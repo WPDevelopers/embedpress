@@ -8,6 +8,7 @@ use \Elementor\Modules\DynamicTags\Module as TagsModule;
 use \Elementor\Widget_Base as Widget_Base;
 use \Elementor\Plugin;
 use EmbedPress\Includes\Traits\Branding;
+use EmbedPress\Includes\Classes\Helper;
 
 ( defined( 'ABSPATH' ) ) or die( "No direct script access allowed." );
 
@@ -283,7 +284,7 @@ class Embedpress_Document extends Widget_Base
                     $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . $url . '&embedded=true';
                     ?>
                         <div>
-                            <iframe allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr( $dimension); ?>; max-width:100%;" src="<?php echo esc_url( $view_link); ?>"></iframe>
+                            <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr( $dimension); ?>; max-width:100%;" src="<?php echo esc_url( $view_link); ?>"></iframe>
                         </div>
 
                     <?php

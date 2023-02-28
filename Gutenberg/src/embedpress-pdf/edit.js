@@ -8,6 +8,7 @@ import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
 
 
+
 /**
  * WordPress dependencies
  */
@@ -16,7 +17,7 @@ const { __ } = wp.i18n;
 const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
 const { BlockIcon, MediaPlaceholder, InspectorControls } = wp.blockEditor;
 const { Component, Fragment, useEffect } = wp.element;
-const { RangeControl, PanelBody, ExternalLink, ToggleControl, SelectControl, RadioControl } = wp.components;
+const { RangeControl, PanelBody, ExternalLink, ToggleControl, SelectControl, RadioControl, ColorPalette } = wp.components;
 
 import {
 	__experimentalToggleGroupControl as ToggleGroupControl,
@@ -176,18 +177,25 @@ class EmbedPressPDFEdit extends Component {
 
 		const { attributes, noticeUI, setAttributes, clientId } = this.props;
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
 
 
 		const { hasError, interactive, fetching, loadPdf } = this.state;
 		const min = 1;
 		const max = 1000;
 
+		const colors = [
+			{ name: '', color: '#823535' },
+			{ name: '', color: '#008000' },
+			{ name: '', color: '#403A81' },
+			{ name: '', color: '#333333' },
+			{ name: '', color: '#000264' },
+		]; 
 
 		let widthMin = 0;
 		let widthMax = 100;
 
-		if(unitoption == 'px'){
+		if (unitoption == 'px') {
 			widthMax = 1500;
 		}
 
@@ -197,6 +205,7 @@ class EmbedPressPDFEdit extends Component {
 		if (!isProPluginActive) {
 			setAttributes({ download: true });
 			setAttributes({ copy_text: true });
+			setAttributes({ draw: false });
 		}
 
 		if (!document.querySelector('.pro__alert__wrap')) {
@@ -206,15 +215,24 @@ class EmbedPressPDFEdit extends Component {
 
 		function getParamData(href) {
 			let pdf_params = '';
+			let colorsObj = {};
 
 			//Generate PDF params
+			if(themeMode === 'custom') {
+				colorsObj = {
+					customColor: customColor ? customColor : '',
+				}
+			}
 			let _pdf_params = {
 				themeMode: themeMode ? themeMode : 'default',
+				...colorsObj,
 				presentation: presentation ? presentation : false,
 				position: position ? position : 'top',
 				download: download ? download : false,
 				toolbar: toolbar ? toolbar : false,
 				copy_text: copy_text ? copy_text : false,
+				add_text: add_text ? add_text : false,
+				draw: draw ? draw : false,
 				toolbar_position: toolbar_position ? toolbar_position : 'top',
 				doc_details: doc_details ? doc_details : false,
 				doc_rotation: doc_rotation ? doc_rotation : false,
@@ -264,14 +282,14 @@ class EmbedPressPDFEdit extends Component {
 				<Fragment>
 
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
-					<div className={'embedpress-document-embed ep-doc-' + id} style={{ width: width+unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`}>
+					<div className={'embedpress-document-embed ep-doc-' + id} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`}>
 						{mime === 'application/pdf' && (
-							<iframe powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} data-emsrc={href} src={pdf_viewer_src}></iframe>
+							<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} data-emsrc={href} src={pdf_viewer_src}></iframe>
 
 						)}
 
 						{mime !== 'application/pdf' && (
-							<Iframe onMouseUponMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={url} />
+							<Iframe title="" onMouseUponMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={url} />
 						)}
 						{!interactive && (
 							<div
@@ -342,12 +360,30 @@ class EmbedPressPDFEdit extends Component {
 									{ label: 'System Default', value: 'dafult' },
 									{ label: 'Dark', value: 'dark' },
 									{ label: 'Light', value: 'light' },
+									{ label: 'Custom', value: 'custom' },
 								]}
 								onChange={(themeMode) =>
 									setAttributes({ themeMode })
 								}
 								__nextHasNoMarginBottom
 							/>
+
+							{
+								(themeMode === 'custom') && (
+									<div>
+										<ControlHeader headerText={'Custom Color'} />
+										<ColorPalette
+											label={__("Color")}
+											colors={colors}
+											value={customColor}
+											onChange={(customColor) => setAttributes({ customColor })}
+										/>
+										{
+											console.log(customColor)
+										}
+									</div>
+								)
+							}
 
 							<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
 								<ToggleControl
@@ -391,6 +427,33 @@ class EmbedPressPDFEdit extends Component {
 													setAttributes({ download })
 												}
 												checked={download}
+											/>
+											{
+												(!isProPluginActive) && (
+													<span className='isPro'>{__('pro', 'embedpress')}</span>
+												)
+											}
+										</div>
+
+										<ToggleControl
+											label={__('Add Text', 'embedpress')}
+											onChange={(add_text) =>
+												setAttributes({ add_text })
+											}
+											checked={add_text}
+										/>
+
+										{
+											console.log(add_text)
+										}
+
+										<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
+											<ToggleControl
+												label={__('Draw', 'embedpress')}
+												onChange={(draw) =>
+													setAttributes({ draw })
+												}
+												checked={draw}
 											/>
 											{
 												(!isProPluginActive) && (

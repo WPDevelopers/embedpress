@@ -51,6 +51,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "string",
 				default: 'dafult',
 			},
+			customColor: {
+				type: "string",
+				default: 'dafult',
+			},
 			position: {
 				type: "string",
 				default: 'top',
@@ -65,6 +69,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				default: false,
 			},
 			copy_text: {
+				type: "boolean",
+				default: true,
+			},
+			add_text: {
+				type: "boolean",
+				default: true,
+			},
+			draw: {
 				type: "boolean",
 				default: true,
 			},

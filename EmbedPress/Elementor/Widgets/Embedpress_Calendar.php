@@ -310,7 +310,7 @@ class Embedpress_Calendar extends Widget_Base
 					<div <?php echo $this->get_render_attribute_string( 'embedpress-calendar-render' ); ?>>
                         <?php if ( !empty( $settings['embedpress_public_cal_link']) && !empty( $settings['embedpress_calendar_type']) && 'public' === $settings['embedpress_calendar_type'] ) {
                             ?>
-                            <iframe style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block"  src="<?php echo esc_attr(  $settings['embedpress_public_cal_link']); ?>"
+                            <iframe title="" style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block"  src="<?php echo esc_attr(  $settings['embedpress_public_cal_link']); ?>"
                                     frameborder="0"></iframe>
                         <?php
                         } else {

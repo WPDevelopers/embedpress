@@ -333,6 +333,14 @@ function embedpress_gutenberg_register_all_block()
 								'type' => "boolean",
 								'default' => true,
 							],
+							'add_text' => [
+								'type' => "boolean",
+								'default' => true,
+							],
+							'draw' => [
+								'type' => "boolean",
+								'default' => true,
+							],
 							'toolbar' => [
 								'type' => "boolean",
 								'default' => true,
@@ -382,9 +390,14 @@ function getParamData($attributes)
 		'presentation' =>  !empty($attributes['presentation']) ? 'true' : 'false',
 		'download' =>  !empty($attributes['download']) ? 'true' : 'false',
 		'copy_text' =>  !empty($attributes['copy_text']) ? 'true' : 'false',
+		'draw' =>  !empty($attributes['draw']) ? 'true' : 'false',
 		'doc_rotation' => !empty($attributes['doc_rotation']) ? 'true' : 'false',
 		'doc_details' =>  !empty($attributes['doc_details']) ? 'true' : 'false',
 	);
+
+	if($urlParamData['themeMode'] == 'custom') {
+		$urlParamData['customColor'] = !empty($attributes['customColor']) ? $attributes['customColor'] : '';
+	}
 
 	return "#" . http_build_query($urlParamData);
 }
@@ -424,7 +437,7 @@ function embedpress_pdf_render_block($attributes)
 		?>
 		<div class="embedpress-document-embed embedpress-pdf ose-document ep-doc-<?php echo esc_attr($hash) . ' ' . esc_attr($alignment) ?>">
 			<div class="embedpress-inner-iframe <?php if($unitoption === '%') echo esc_attr('emebedpress-unit-percent'); ?>"  <?php if($unitoption === '%' && !empty($attributes['width'])) {echo 'style="'.esc_attr('width:'.$attributes['width'].'%').'"';}else{echo 'style="'.esc_attr('width:100%').'"';} ?>>
-				<iframe class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_attr($src); ?>" frameborder="0"></iframe>
+				<iframe title="<?php echo esc_attr(Helper::get_file_title($attributes['href'])); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_attr($src); ?>" frameborder="0" oncontextmenu="return false;"></iframe>
 
 				<?php do_action('embedpress_pdf_gutenberg_after_embed',  $hash, 'pdf', $attributes, $pdf_url); ?>
 
@@ -471,7 +484,7 @@ function embedpress_pdf_render_block($attributes)
 		<?php
 			if (!empty($url) && !$is_private) {
 				?>
-			<iframe style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_attr($url); ?>"></iframe>
+			<iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_attr($url); ?>"></iframe>
 		<?php } else {
 				if (is_embedpress_pro_active()) {
 					echo Embedpress_Google_Helper::shortcode();

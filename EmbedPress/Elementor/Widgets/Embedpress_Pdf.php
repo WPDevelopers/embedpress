@@ -275,10 +275,19 @@ class Embedpress_Pdf extends Widget_Base
                 'options' => [
                     'default' => __('System Default', 'embedpress'),
                     'dark' => __('Dark', 'embedpress'),
-                    'light'  => __('Light', 'embedpress')
+                    'light'  => __('Light', 'embedpress'),
+                    'custom'  => __('Custom', 'embedpress')
                 ],
             ]
         );
+
+        $this->add_control(
+			'embedpress_pdf_custom_color',
+			[
+				'label' => esc_html__( 'Custom Color', 'textdomain' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+			]
+		);
 
         $this->add_control(
             'pdf_toolbar',
@@ -352,6 +361,36 @@ class Embedpress_Pdf extends Widget_Base
             'pdf_text_copy',
             [
                 'label'        => sprintf(__('Copy Text %s', 'embedpress'), $this->pro_text),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Show', 'embedpress'),
+                'label_off'    => __('Hide', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+                'classes'     => $this->pro_class,
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'add_text',
+            [
+                'label'        => sprintf(__('Add Text', 'embedpress')),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Show', 'embedpress'),
+                'label_off'    => __('Hide', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
+            ]
+        );
+        $this->add_control(
+            'draw',
+            [
+                'label'        => sprintf(__('Draw %s', 'embedpress'), $this->pro_text),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => __('Show', 'embedpress'),
                 'label_off'    => __('Hide', 'embedpress'),
@@ -448,9 +487,15 @@ class Embedpress_Pdf extends Widget_Base
             'presentation' => !empty($settings['pdf_presentation_mode']) ? 'true' : 'false',
             'download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print_download'] : 'true',
             'copy_text' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'true',
+            'add_text' => !empty($settings['add_text']) ? 'true' : 'false',
+            'draw' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['draw'] : 'true',
             'doc_rotation' => !empty($settings['pdf_rotate_access'])  ? 'true' : 'false',
             'doc_details' => !empty($settings['pdf_details'])  ? 'true' : 'false',
         );
+
+        if($settings['embedpress_theme_mode'] == 'custom') {
+            $urlParamData['customColor'] = $settings['embedpress_pdf_custom_color'];
+        }
 
         if($settings['embedpress_pdf_type'] == 'file'){   
             return "#" .http_build_query($urlParamData) ;
@@ -474,6 +519,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_render_attribute('embedpress-document', [
             'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document', $unitoption ],
             'data-thememode' => $settings['embedpress_theme_mode'],
+            'data-customcolor' => $settings['embedpress_pdf_custom_color'],
             'data-toolbar' => $settings['pdf_toolbar'],
             'data-toolbar-position' =>  $settings['pdf_toolbar_position'],
             'data-open' => 'no',
@@ -483,7 +529,7 @@ class Embedpress_Pdf extends Widget_Base
             'data-rotate' => $settings['pdf_rotate_access'],
             'data-details' => $settings['pdf_details'],
             'data-id' => $id
-        ]);
+        ]); 
         ?>
     <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
         <?php
@@ -504,17 +550,17 @@ class Embedpress_Pdf extends Widget_Base
                                 }
                             }
                             if ($zoom) {
-                                $src = $src . "#zoom=$zoom";
+                                $src = $src . "&zoom=$zoom";
                             }
                         }
                         ?>
-                <iframe class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_attr($src); ?>" <?php $this->get_render_attribute_string('embedpres-pdf-render'); ?> frameborder="0"></iframe>
+                <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_attr($src); ?>" <?php $this->get_render_attribute_string('embedpres-pdf-render'); ?> frameborder="0"></iframe>
             <?php
 
                         } else {
                             ?>
                 <div>
-                    <iframe class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%;" src="<?php echo esc_url($url); ?>" <?php $this->get_render_attribute_string('embedpres-pdf-render'); ?>></iframe>
+                    <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%;" src="<?php echo esc_url($url); ?>" <?php $this->get_render_attribute_string('embedpres-pdf-render'); ?>></iframe>
                 </div>
 
         <?php
