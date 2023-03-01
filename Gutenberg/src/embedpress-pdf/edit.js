@@ -371,7 +371,7 @@ class EmbedPressPDFEdit extends Component {
 							{
 								(themeMode === 'custom') && (
 									<div>
-										<ControlHeader headerText={'Custom Color'} />
+										<ControlHeader headerText={'Color'} />
 										<ColorPalette
 											label={__("Color")}
 											colors={colors}

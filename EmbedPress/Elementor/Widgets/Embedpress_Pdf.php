@@ -284,8 +284,11 @@ class Embedpress_Pdf extends Widget_Base
         $this->add_control(
 			'embedpress_pdf_custom_color',
 			[
-				'label' => esc_html__( 'Custom Color', 'textdomain' ),
+				'label' => esc_html__( 'Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
+                'condition' => [
+                    'embedpress_theme_mode' => 'custom',
+                ],
 			]
 		);
 

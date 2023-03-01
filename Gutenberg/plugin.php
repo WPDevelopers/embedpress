@@ -396,7 +396,7 @@ function getParamData($attributes)
 	);
 
 	if($urlParamData['themeMode'] == 'custom') {
-		$urlParamData['customColor'] = !empty($attributes['customColor']) ? $attributes['customColor'] : '';
+		$urlParamData['customColor'] = !empty($attributes['customColor']) ? $attributes['customColor'] : '#403A81';
 	}
 
 	return "#" . http_build_query($urlParamData);
