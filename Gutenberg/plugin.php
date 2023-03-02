@@ -390,6 +390,7 @@ function getParamData($attributes)
 		'presentation' =>  !empty($attributes['presentation']) ? 'true' : 'false',
 		'download' =>  !empty($attributes['download']) ? 'true' : 'false',
 		'copy_text' =>  !empty($attributes['copy_text']) ? 'true' : 'false',
+		'add_text' =>  !empty($attributes['add_text']) ? 'true' : 'false',
 		'draw' =>  !empty($attributes['draw']) ? 'true' : 'false',
 		'doc_rotation' => !empty($attributes['doc_rotation']) ? 'true' : 'false',
 		'doc_details' =>  !empty($attributes['doc_details']) ? 'true' : 'false',

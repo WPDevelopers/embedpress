@@ -34,6 +34,13 @@ const getParamObj = (hash) => {
             doc_details: hashParams.get('doc_details'),
             doc_rotation: hashParams.get('doc_rotation'),
         };
+
+    
+        if(hashParams.get('download') !== 'true' && hashParams.get('download') !== 'yes'){
+            window.addEventListener('beforeunload', function (event) {
+                event.stopImmediatePropagation();
+            });
+        }
     }
 
     return paramsObj;
