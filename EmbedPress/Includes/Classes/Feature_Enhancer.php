@@ -17,6 +17,7 @@ class Feature_Enhancer
 		add_filter('embedpress:onAfterEmbed', [$this, 'enhance_twitch'], 90);
 		add_filter('embedpress:onAfterEmbed', [$this, 'enhance_dailymotion'], 90);
 		add_filter('embedpress:onAfterEmbed', [$this, 'enhance_soundcloud'], 90);
+		add_filter('embedpress:onAfterEmbed', [$this, 'enhance_missing_title'], 90);
 
 		add_filter(
 			'embedpress_gutenberg_youtube_params',
@@ -68,8 +69,8 @@ class Feature_Enhancer
     {
         return (bool) (preg_match('~v=(?:[a-z0-9_\-]+)~i', (string) $url));
     }
-	
-	
+
+
 	//Check is Wistia validate url
 	public function wistiaValidateUrl($url)
     {
@@ -84,7 +85,7 @@ class Feature_Enhancer
 
 
 
-	// Get wistia block attributes 
+	// Get wistia block attributes
 	public function get_wistia_block_attributes($attributes) {
 
 		// Embed Options
@@ -119,7 +120,7 @@ class Feature_Enhancer
 			if (null !== $color) {
 				$embedOptions->playerColor = $color;
 			}
-		}	
+		}
 
 		// Closed Captions plugin
 		if ( $attributes['captions'] === true ) {
@@ -135,7 +136,7 @@ class Feature_Enhancer
 		}
 
 		$embedOptions->plugin = $pluginList;
-		
+
 
 
 		return json_encode($embedOptions);
@@ -143,10 +144,10 @@ class Feature_Enhancer
 
 	public function gutenberg_embed($embedHTML, $attributes)
 	{
-	
+
 		if (!empty($attributes['url'])) {
 			$youtube = new Youtube($attributes['url']);
-			
+
 			$is_youtube = $youtube->validateUrl($youtube->getUrl(false));
 			if ($is_youtube) {
 				$atts = [
@@ -164,9 +165,9 @@ class Feature_Enhancer
 					$embedHTML = $urlInfo->embed;
 				}
 			}
-			
+
 			if(!empty($attributes['url']) && $this->ytValidateUrl($attributes['url'])){
-				
+
 				$atts = [
 					'url'	=> $attributes['url'],
 					'starttime'    => !empty($attributes['starttime']) ? $attributes['starttime'] : '',
@@ -213,19 +214,19 @@ class Feature_Enhancer
 					if ( empty( $url) ) {
 						return $embedHTML;
 					}
-					
+
 					$url = $url[1];
 
 					// Reassemble the url with the new variables.
 					$url_modified = $url . '?';
 
 					foreach ( $params as $paramName => $paramValue ) {
-						
+
 						$and = '&';
 						if(array_key_last($params) === $paramName){
 							$and = '';
 						}
-						
+
 						if(isset($paramValue) && $paramValue !== ''){
 							$url_modified .= $paramName . '=' . $paramValue . $and;
 						}
@@ -233,7 +234,7 @@ class Feature_Enhancer
 
 					// Replaces the old url with the new one.
 					$embedHTML = str_replace( $url_full, rtrim( $url_modified, '&' ), $urlInfo->embed );
-					
+
 				}
 
 			}
@@ -313,7 +314,7 @@ class Feature_Enhancer
 				$query = parse_url( $url_full, PHP_URL_QUERY );
 				parse_str( $query, $params );
 
-				
+
 				unset($params['amp;dnt']);
 
 				$params['title'] = !empty($attributes['vtitle']) ? 1 : 0;
@@ -327,7 +328,7 @@ class Feature_Enhancer
 				endif;
 				$params['color'] = !empty($attributes['vscheme']) ? str_replace("#", "", $attributes['vscheme']) : '00ADEF';
 
-				if(!empty($attributes['vstarttime'])) : 
+				if(!empty($attributes['vstarttime'])) :
 					$params['t'] 			= !empty($attributes['vstarttime']) ? $attributes['vstarttime'] : '';
 				endif;
 
@@ -336,7 +337,7 @@ class Feature_Enhancer
 				if ( empty( $url) ) {
 					return $embedHTML;
 				}
-				
+
 				$url = $url[1];
 
 				// Reassemble the url with the new variables.
@@ -344,7 +345,7 @@ class Feature_Enhancer
 
 				// print_r($url_modified);
 
-				
+
 
 				foreach ($params as $param => $value) {
 					$url_modified = add_query_arg($param, $value, $url_modified);
@@ -354,7 +355,7 @@ class Feature_Enhancer
 
 				// Replaces the old url with the new one.
 				$embedHTML = str_replace( $url_full, rtrim( $url_modified, '&' ), $urlInfo->embed );
-				
+
 			}
 		}
 
@@ -448,7 +449,7 @@ class Feature_Enhancer
 
 		return apply_filters('embedpress_youtube_params', $params);
 	}
-	
+
 	public function get_vimeo_params($options)
 	{
 		$params   = [];
@@ -479,7 +480,7 @@ class Feature_Enhancer
 	//--- For CLASSIC AND BLOCK EDITOR
 	public function enhance_youtube($embed)
 	{
-		
+
 
 		$isYoutube = (isset($embed->provider_name) && strtoupper($embed->provider_name) === 'YOUTUBE') || (isset($embed->url) && isset($embed->{$embed->url}) && isset($embed->{$embed->url}['provider_name']) && strtoupper($embed->{$embed->url}['provider_name']) === 'YOUTUBE');
 
@@ -490,7 +491,7 @@ class Feature_Enhancer
 
 			// for compatibility only, @TODO; remove later after deep testing.
 			$options = $this->getOptions('youtube', $this->get_youtube_settings_schema());
-			
+
 			// Parse the url to retrieve all its info like variables etc.
 			$url_full = $match[1];
 			$query = parse_url($url_full, PHP_URL_QUERY);
@@ -559,7 +560,7 @@ class Feature_Enhancer
 
 			if(is_object($embed->attributes) && !empty($embed->attributes)){
 				$attributes = (array) $embed->attributes;
-				
+
 				$params['controls']       = isset($attributes['data-controls']) ? $attributes['data-controls'] : '1';
 				$params['iv_load_policy'] = !empty($attributes['data-videoannotations']) && ($attributes['data-videoannotations'] == 'true') ? 1 : 0;
 				$params['fs']             = !empty($attributes['data-fullscreen']) && ($attributes['data-fullscreen'] == 'true') ? 1 : 0;
@@ -584,10 +585,10 @@ class Feature_Enhancer
 
 		return $embed;
 	}
-	
+
 	public function enhance_vimeo($embed)
-	{ 
-		
+	{
+
 
 		if (
 			isset($embed->provider_name)
@@ -670,11 +671,11 @@ class Feature_Enhancer
 				if(!empty($attributes['data-vstarttime'])) :
 					$params['t'] 			= !empty($attributes['data-vstarttime']) ? $attributes['data-vstarttime'] : '';
 				endif;
-			
+
 				foreach ($params as $param => $value) {
 					$url_modified = add_query_arg($param, $value, $url_modified);
 				}
-				
+
 				$url_modified = str_replace("&t=", "#t=", $url_modified);
 
 			}
@@ -682,14 +683,14 @@ class Feature_Enhancer
 				foreach ($params as $param => $value) {
 					$url_modified = add_query_arg($param, $value, $url_modified);
 				}
-	
+
 				if (empty($attributes['data-vstarttime']) && isset($options['start_time'])) {
 					$url_modified .= '#t=' . $options['start_time'];
 				}
 			}
 
 			do_action('embedpress_after_modified_url', $url_modified, $url_full, $params);
-			
+
 			// Replaces the old url with the new one.
 			$embed->embed = str_replace($url_full, $url_modified, $embed->embed);
 
@@ -700,7 +701,7 @@ class Feature_Enhancer
 
 	public function enhance_wistia($embed)
 	{
-		
+
 		if (
 			isset($embed->provider_name)
 			&& strtoupper($embed->provider_name) === 'WISTIA, INC.'
@@ -788,7 +789,7 @@ class Feature_Enhancer
 				}
 			}
 			$embedOptions->plugin = $pluginList;
-			
+
 			$embedOptions = json_encode($embedOptions);
 
 			// Get the video ID
@@ -1163,7 +1164,7 @@ class Feature_Enhancer
 			),
 		);
 	}
-	
+
 
 	public function getVideoIDFromURL($url)
 	{
@@ -1261,7 +1262,7 @@ class Feature_Enhancer
 		return apply_filters('embedpress_wistia_params_after_encode', $embedOptions);
 	}
 
-	
+
 	public function get_twitch_settings_schema()
 	{
 		return [
@@ -1379,6 +1380,23 @@ class Feature_Enhancer
 				'default'     => '1'
 			],
 		];
+	}
+
+	public function enhance_missing_title($embed){
+		$url = $embed->url;
+		$title = esc_html($embed->$url['title']);
+
+		$embed->embed = $embed->embed . "
+			<script>
+			gie(function(){
+				var iframe = document.querySelector('.ose-embedpress-responsive iframe');
+				if(iframe && !iframe.getAttribute('title')){
+					iframe.setAttribute('title', '$title')
+				}
+			});
+			</script>
+		";
+		return $embed;
 	}
 
 
