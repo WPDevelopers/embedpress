@@ -62,7 +62,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                                     {
                                         ((!isYTVideo && !isVimeoVideo) || (videosize == 'fixed')) && (
-                                            <p className='is-ep-description'>{__("You can adjust the width and height of embedded content.")}</p>
+                                            <p>{__("You can adjust the width and height of embedded content.")}</p>
                                         )
                                     }
 

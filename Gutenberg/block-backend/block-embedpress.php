@@ -196,8 +196,6 @@ function embedpress_render_block_style($attributes)
 			display: none;
 		}
 		'.$_iscustomlogo.'
-
-
 	</style>';
 
 	if($attributes['videosize'] == 'responsive') {
@@ -208,6 +206,11 @@ function embedpress_render_block_style($attributes)
 			height: 0;
 			padding-top: 56.25%;
 			max-width: 100%;
+		  }
+
+		  .ose-wistia{
+			height: auto !important;
+			padding-top: 0;
 		  }
 		
 		  ' . esc_attr($uniqid) . ' > iframe {

@@ -64,20 +64,20 @@ class Feature_Enhancer
 
 
 	//Check is YouTube single video
-	public function ytValidateUrl(String $url)
+	public function ytValidateUrl($url)
     {
         return (bool) (preg_match('~v=(?:[a-z0-9_\-]+)~i', (string) $url));
     }
 	
 	
 	//Check is Wistia validate url
-	public function wistiaValidateUrl(String $url)
+	public function wistiaValidateUrl($url)
     {
         return (bool) (preg_match('#\/medias\\\?\/([a-z0-9]+)\.?#i', (string) $url ));
     }
 
 	//Check is Wistia validate url
-	public function vimeoValidateUrl(String $url)
+	public function vimeoValidateUrl($url)
     {
 		return (bool)preg_match('/https?:\/\/(www\.)?vimeo\.com\/\d+/', (string) $url);
     }
