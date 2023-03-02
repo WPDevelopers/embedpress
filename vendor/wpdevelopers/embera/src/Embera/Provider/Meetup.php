@@ -94,10 +94,12 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 			return [];
 		}
 		$dewqijm = $event_location_info->find('.dewqijm', 0)->find('span', 0);
-		$img = $dewqijm->find('noscript', 0)->innertext();
-		$dewqijm->removeChild($dewqijm->find('img', 1));
-		$dewqijm->find('noscript', 0)->remove();
-		$dewqijm->outertext = $dewqijm->makeup() . $dewqijm->innertext . $img . '</span>';
+		if(!empty($dewqijm)){
+			$img = $dewqijm->find('noscript', 0)->innertext();
+			$dewqijm->removeChild($dewqijm->find('img', 1));
+			$dewqijm->find('noscript', 0)->remove();
+			$dewqijm->outertext = $dewqijm->makeup() . $dewqijm->innertext . $img . '</span>';
+		}
 
 
 		$date = $this->embedpress_get_markup_from_node( $header_dom->find( 'time', 0) );
@@ -119,8 +121,11 @@ class Meetup extends ProviderAdapter implements ProviderInterface
 				if($src && strpos($src, '/_next/image/') === 0){
 					$img->src = 'https://www.meetup.com' . $img->src;
 				}
-				else if($srcset = $img->srcset){
-					$img->src = 'https://www.meetup.com' . $this->getLargestImage($srcset);
+				else if(strpos($src, '//') === false && $srcset = $img->srcset){
+					$img->src = $this->getLargestImage($srcset);
+					if(strpos($img->src, '//') === false){
+						$img->src = 'https://www.meetup.com' . $img->src;
+					}
 				}
 			}
 		}
