@@ -850,9 +850,9 @@ class Feature_Enhancer
 			$content_id = $e['content_id'];
 			$channel    = 'channel' === $type ? $content_id : '';
 			$video      = 'video' === $type ? $content_id : '';
-			$muted = ('yes' === $settings['embedpress_pro_twitch_mute']) ? 'true' : 'false';
-			$full_screen = ('yes' === $settings['embedpress_pro_fs']) ? 'true' : 'false';
-			$autoplay = ('yes' === $settings['embedpress_pro_twitch_autoplay']) ? 'true' : 'false';
+			$muted = isset($settings['embedpress_pro_twitch_mute']) && ('yes' === $settings['embedpress_pro_twitch_mute']) ? 'true' : 'false';
+			$full_screen = isset($settings['embedpress_pro_fs']) && ('yes' === $settings['embedpress_pro_fs']) ? 'true' : 'false';
+			$autoplay = isset($settings['embedpress_pro_twitch_autoplay']) && ('yes' === $settings['embedpress_pro_twitch_autoplay']) ? 'true' : 'false';
 			$theme      = !empty($settings['embedpress_pro_twitch_theme']) ? $settings['embedpress_pro_twitch_theme'] : 'dark';
 
 			$layout     = 'video';
@@ -1387,17 +1387,29 @@ class Feature_Enhancer
 	}
 
 	public function enhance_missing_title($embed){
+
+
+		$embed_arr = get_object_vars($embed);
+
 		$url = $embed->url;
-		$title = !empty($embed->$url['title']) ? esc_html($embed->$url['title']) : '';
+
+		if (strpos($url, 'gettyimages') !== false) {
+			$title = $embed_arr[$url]['title'];
+		} else {
+			$title = '';
+		}
+
 
 		$embed->embed = $embed->embed . "
 			<script>
-				gie && gie(function(){
-					var iframe = document.querySelector('.ose-embedpress-responsive iframe');
-					if(iframe && !iframe.getAttribute('title')){
-						iframe.setAttribute('title', '$title')
-					}
-				});
+				if (typeof gie === 'function') {
+					gie(function(){
+						var iframe = document.querySelector('.ose-embedpress-responsive iframe');
+						if(iframe && !iframe.getAttribute('title')){
+							iframe.setAttribute('title', '$title')
+						}
+					});
+				}
 			</script>
 		";
 		return $embed;
