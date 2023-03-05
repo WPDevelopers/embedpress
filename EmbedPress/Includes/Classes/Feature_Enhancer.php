@@ -17,6 +17,7 @@ class Feature_Enhancer
 		add_filter('embedpress:onAfterEmbed', [$this, 'enhance_twitch'], 90);
 		add_filter('embedpress:onAfterEmbed', [$this, 'enhance_dailymotion'], 90);
 		add_filter('embedpress:onAfterEmbed', [$this, 'enhance_soundcloud'], 90);
+		add_filter('embedpress:onAfterEmbed', [$this, 'enhance_missing_title'], 90);
 
 		add_filter(
 			'embedpress_gutenberg_youtube_params',
@@ -1385,5 +1386,21 @@ class Feature_Enhancer
 		];
 	}
 
+	public function enhance_missing_title($embed){
+		$url = $embed->url;
+		$title = !empty($embed->$url['title']) ? esc_html($embed->$url['title']) : '';
+
+		$embed->embed = $embed->embed . "
+			<script>
+				gie && gie(function(){
+					var iframe = document.querySelector('.ose-embedpress-responsive iframe');
+					if(iframe && !iframe.getAttribute('title')){
+						iframe.setAttribute('title', '$title')
+					}
+				});
+			</script>
+		";
+		return $embed;
+	}
 
 }
