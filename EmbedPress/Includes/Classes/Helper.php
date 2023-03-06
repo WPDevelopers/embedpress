@@ -110,11 +110,13 @@ class Helper {
 		}
 		
 		if(!empty($blockid) && $blockid != 'undefined'){
-			$sources = json_decode(get_option($source_option_name), true);
+			$sources = json_decode(get_option($source_temp_option_name), true);
+
 			if(!$sources) {
 				$sources = array();
 			}
 			$exists = false;
+			
 			foreach($sources as $i => $source) {
 				if ($source['id'] === $blockid) {
 					$sources[$i]['source']['name'] = $source_name;
@@ -123,16 +125,12 @@ class Helper {
 					break;
 				}
 			}
+
 			if(!$exists) {
 				$sources[] = array('id' => $blockid, 'source' => array('name' => $source_name, 'url' => $source_url, 'count' => 1));
 			}
 			
 			update_option($source_temp_option_name, json_encode($sources));
-
-			// self::save_source_data_on_post_update($sources);
-			// echo '<pre>';
-			// echo 'Source data saved: '; print_r($sources);
-			// echo '</pre>';
 		}
 	}
 
@@ -142,7 +140,6 @@ class Helper {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		} 
-
 		$temp_data = json_decode(get_option($source_temp_option_name), true);
 		$source_data = json_decode(get_option($source_option_name), true);
 		if(!$temp_data) {
@@ -170,6 +167,7 @@ class Helper {
 	public static function get_delete_source_data($blockid, $source_option_name, $source_temp_option_name) {
 		if (!empty($blockid) && $blockid != 'undefined') {
 			$sources = json_decode(get_option($source_option_name), true);			
+			$temp_sources = json_decode(get_option($source_temp_option_name), true);	
 			if ($sources) {
 				foreach ($sources as $i => $source) {
 					if ($source['id'] === $blockid) {
@@ -178,6 +176,15 @@ class Helper {
 					}
 				}
 				update_option($source_option_name, json_encode(array_values($sources)));
+			}
+			if ($temp_sources) {
+				foreach ($temp_sources as $i => $source) {
+					if ($source['id'] === $blockid) {
+						unset($temp_sources[$i]);
+						break;
+					}
+				}
+				update_option($source_temp_option_name, json_encode(array_values($temp_sources)));
 			}
 		}
 		wp_die();

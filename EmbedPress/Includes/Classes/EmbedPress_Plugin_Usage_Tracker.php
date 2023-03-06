@@ -411,10 +411,7 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 			// $body['plugin_options'] = $this->options; // Returns array
 			// $body['plugin_options_fields'] = $plugin_options; // Returns object
 
-			$body['optional_data'] = [
-				'gutenberg' => get_option( 'gutenberg_source_data', true ),
-				'elementor' => get_option( 'elementor_source_data', true )
-			];
+			$body['optional_data'] = $this->get_count_source_data('elementor_source_data', 'gutenberg_source_data');
 
 			/**
 			 * Get active theme name and version
@@ -428,6 +425,43 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 				$body['theme_version'] = sanitize_text_field( $theme->Version );
 			}
 			return $body;
+		}
+
+		/**
+		 * This method is responsible for couting source data.
+		 *
+		 * @since 3.6.6
+		 */
+		
+		public function get_count_source_data($elementor_source_option_name, $gutenbert_source_option_name) {
+
+			$elementor_sources = json_decode(get_option($elementor_source_option_name), true);
+			$gutenberg_sources = json_decode(get_option($gutenbert_source_option_name), true);
+	
+			$e_counts = [];
+			$g_counts = [];
+			$counts = [];
+	
+			$elementor_option_name = str_replace("_source_data", "", $elementor_source_option_name);
+			$gutenberg_option_name = str_replace("_source_data", "", $gutenbert_source_option_name);
+	
+			foreach ($elementor_sources as $item) {
+				if (isset($item['source']['name'])) {
+					$name = strtolower(str_replace(' ', '-', $item['source']['name'])); // normalize source name
+					$e_counts["$elementor_option_name-$name"] = isset($e_counts["$elementor_option_name-$name"]) ? $e_counts["$elementor_option_name-$name"] + 1 : 1;
+				}
+			}
+	
+			foreach ($gutenberg_sources as $item) {
+				if (isset($item['source']['name'])) {
+					$name = strtolower(str_replace(' ', '-', $item['source']['name'])); // normalize source name
+					$g_counts["$gutenberg_option_name-$name"] = isset($g_counts["$gutenberg_option_name-$name"]) ? $g_counts["$gutenberg_option_name-$name"] + 1 : 1;
+				}
+			}
+	
+			$counts = array_merge($e_counts, $g_counts);
+	
+			return $counts;
 		}
 
 		/**
