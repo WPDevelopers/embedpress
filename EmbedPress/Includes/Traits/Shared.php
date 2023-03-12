@@ -105,7 +105,7 @@ trait Shared {
             'optin',
             [$this->insights, 'notice'],
             [
-                'start'       => $notices->strtotime( '+30 days' ),
+                'start'       => $notices->time(),
                 'recurrence'  => 30,
                 'dismissible' => true,
                 'refresh'     => EMBEDPRESS_VERSION,
@@ -114,63 +114,7 @@ trait Shared {
             ]
         );
 
-        $notice_text = sprintf('<div style="display: flex; align-items: center;">%s <a class="button button-primary" style="margin-left: 10px; background: #5b4d96; border-color: #5b4d96;" target="_blank" href="%s">%s</a></div>', __( '<p><strong>Black Friday Exclusive:</strong> SAVE up to 40% & access to <strong>EmbedPress Pro</strong> features.</p>', 'embedpress' ), esc_url( 'http://embedpress.com/#pricing' ), __('Grab The Offer', 'embedpress') );
-
-        $_black_friday = [
-            'thumbnail' => $_assets_url . 'images/icon-128x128.png',
-            'html' => $notice_text,
-        ];
-
-        $notices->add(
-            'black_friday',
-            $_black_friday,
-            [
-                'start'       => $notices->time(),
-                'recurrence'  => false,
-                'dismissible' => true,
-                'expire'      => strtotime( 'Wed, 30 Nov 2022 23:59:59 GMT' ),
-                'display_if'  => ! is_array( $notices->is_installed( 'embedpress-pro/embedpress-pro.php' ) )
-            ]
-        );
-
         $notices->init();
-
-        return;
-
-        /**
-         * This is upsale notice settings
-         * classes for wrapper,
-         * Message message for showing.
-         */
-        // $notice->classes( 'upsale', 'notice is-dismissible ' );
-        // $notice->message( 'upsale', '<p>' . __( 'Thank you for relying on EmbedPress with 60,000 other websites. Checkout our Pro features.', $notice->text_domain ) . '</p>' );
-
-        // // Update Notice For PRO Version
-        // if ( $this->is_pro_active() && \version_compare( get_embedpress_pro_version(), '2.0.0', '<' ) ) {
-        //     $notice->classes( 'update', 'notice is-dismissible ' );
-        //     $notice->message( 'update', '<p>' . __( 'You are using an incompatible version of EmbedPress PRO. Please update to v3.4.0+. <a href="https://essential-addons.com/elementor/docs/manually-update-essential-addons-pro/" target="_blank">Follow manual update guide.</a>', 'embedpress' ) . '</p>' );
-        //     $notice->thumbnail( 'update', plugins_url( 'assets/images/icon-128x128.png', EMBEDPRESS_PLUGIN_BASENAME ) );
-        // }
-
-        // if ( \version_compare( EMBEDPRESS_VERSION, '3.0.0', '=' ) ) {
-        //     $notice->classes( 'update', 'notice is-dismissible ' );
-        //     $notice->message( 'update', '<p>' . __( 'EmbedPress 3.0 is here with new features and options, read the details <a href="https://wpdeveloper.com/introducing-embedpress-3.0" target="_blank">here</a>, and check the new setting page. <a href="'. admin_url('admin.php?page=embedpress') .'">Click Here.</a>', 'embedpress' ) . '</p>' );
-        //     $notice->thumbnail( 'update', plugins_url( 'assets/images/icon-128x128.png', EMBEDPRESS_PLUGIN_BASENAME ) );
-        // }
-
-        // $notice->upsale_args = array(
-        //     'href' => 'https://embedpress.com/?utm_source=plugin&utm_medium=free&utm_campaign=pro_upgrade#pricing',
-        //     'btn_text'  => __( 'Learn More', 'embedpress' ),
-        // );
-
-        // $notice->options_args = array(
-        //     'notice_will_show' => [
-        //         'update' => $notice->timestamp,
-        //         'opt_in' => $notice->makeTime( $notice->timestamp, '3 Day' ),
-        //         'upsale' => $notice->makeTime( $notice->timestamp, '14 Day' ),
-        //         'review' => $notice->makeTime( $notice->timestamp, '7 Day' ), // after 3 days
-        //     ],
-        // );
     }
 
     public function is_pro_active() {
