@@ -836,3 +836,30 @@ span.ep-wistia-message {
         max-height: 280px;
     }
 }
+
+.lock-content-pass-input {
+    position: relative;
+}
+
+.lock-content-pass-input span {
+    position: absolute;
+    right: 8px;
+    z-index: 1;
+    cursor: pointer;
+    bottom: 3.5px;
+    display: none;
+}
+
+.lock-content-pass-input span.active {
+    display: block
+}
+
+span.copy-password.active {
+    top: 0;
+    width: 20px;
+    background: #5b4e96;
+    height: 20px;
+    border-radius: 15px;
+    padding: 3px;
+    right: 0;
+}

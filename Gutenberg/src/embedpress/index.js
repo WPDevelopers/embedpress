@@ -69,6 +69,13 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: '600'
 			},
+			lockContent: {
+				type: 'boolean',
+				default: false
+			},
+			lockPassword: {
+				type: 'string',
+			},
 			editingURL: {
 				type: 'boolean',
 				default: 0

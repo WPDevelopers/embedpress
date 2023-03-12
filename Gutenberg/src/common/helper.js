@@ -30,3 +30,41 @@ export const isPro = (display) => {
 
     return dom;
 }
+
+export const passwordShowHide = () => {
+    if (document.querySelector('.lock-content-pass-input span')) {
+        const showEye = document.querySelector('.lock-content-pass-input .pass-show');
+        const hideEye = document.querySelector('.lock-content-pass-input .pass-hide');
+        showEye.addEventListener('click', () => {
+            showEye.classList.remove('active');
+            hideEye.classList.add('active');
+            document.querySelector('.lock-content-pass-input input').setAttribute('type', 'text');
+        });
+
+        hideEye.addEventListener('click', () => {
+            hideEye.classList.remove('active');
+            showEye.classList.add('active');
+            document.querySelector('.lock-content-pass-input input').setAttribute('type', 'password');
+        });
+    }
+
+}
+
+export const copyPassword = () => {
+    const copyButton = document.querySelector(".copy-password");
+    const passwordInput =  document.querySelector(".lock-content-pass-input input");
+    copyButton.addEventListener("click", function () {
+        const tempInput = document.createElement("input");
+        tempInput.type = "text";
+        tempInput.value = passwordInput.value;
+        document.body.appendChild(tempInput);
+        tempInput.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempInput);
+    });
+}
+
+export const copiedMessage = () => {
+    
+}
+
