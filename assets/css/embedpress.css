@@ -964,6 +964,10 @@ span.ep-nft-rank {
     font-weight: 500;
 }
 
+.ep-nft-single-item-wraper .ep-asset-detail-item span {
+    word-break: break-word;
+    max-width: 75%;
+}
 
 .ep-nft-single-item-wraper .ep-content {
     display: block;
