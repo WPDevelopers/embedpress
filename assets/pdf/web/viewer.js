@@ -1981,7 +1981,7 @@ const PDFViewerApplication = {
     if (location.hash) {
       let hash = location.hash;
       let hashParams = new URLSearchParams(hash.substring(1));
-      if(hashParams.get('download') === 'false'){
+      if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
         return false;
       }
     } // added by EP developer 
@@ -2003,7 +2003,7 @@ const PDFViewerApplication = {
     if (location.hash) {
       let hash = location.hash;
       let hashParams = new URLSearchParams(hash.substring(1));
-      if(hashParams.get('download') === 'false'){
+      if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
         return false;
       }
     }// added by EP developer 
@@ -2489,7 +2489,7 @@ const PDFViewerApplication = {
     if (location.hash) {
       let hash = location.hash;
       let hashParams = new URLSearchParams(hash.substring(1));
-      if(hashParams.get('download') === 'false'){
+      if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
         return false;
       }
     } // added by EP developer
@@ -2535,7 +2535,7 @@ const PDFViewerApplication = {
     if (location.hash) {
       let hash = location.hash;
       let hashParams = new URLSearchParams(hash.substring(1));
-      if(hashParams.get('download') === 'false'){
+      if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
         return false;
       }
     } // added by EP developer
@@ -13558,7 +13558,7 @@ PDFPrintService.prototype = {
     if (location.hash) {
       let hash = location.hash;
       let hashParams = new URLSearchParams(hash.substring(1));
-      if(hashParams.get('download') === 'false'){
+      if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
         return false;
       }
     } // added by EP developer
