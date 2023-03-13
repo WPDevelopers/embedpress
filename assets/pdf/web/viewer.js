@@ -1981,7 +1981,7 @@ const PDFViewerApplication = {
     if (location.hash) {
       let hash = location.hash;
       let hashParams = new URLSearchParams(hash.substring(1));
-      if(hashParams.get('download') === 'false'){
+      if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
         return false;
       }
     } // added by EP developer 
@@ -2003,7 +2003,7 @@ const PDFViewerApplication = {
     if (location.hash) {
       let hash = location.hash;
       let hashParams = new URLSearchParams(hash.substring(1));
-      if(hashParams.get('download') === 'false'){
+      if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
         return false;
       }
     }// added by EP developer 
@@ -2485,6 +2485,15 @@ const PDFViewerApplication = {
     this.pdfRenderingQueue.renderHighestPriority();
   },
   beforePrint() {
+
+    if (location.hash) {
+      let hash = location.hash;
+      let hashParams = new URLSearchParams(hash.substring(1));
+      if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
+        return false;
+      }
+    } // added by EP developer
+    
     this._printAnnotationStoragePromise = this.pdfScriptingManager.dispatchWillPrint().catch(() => {}).then(() => {
       return this.pdfDocument?.annotationStorage.print;
     });
@@ -2522,6 +2531,15 @@ const PDFViewerApplication = {
     }
   },
   afterPrint() {
+
+    if (location.hash) {
+      let hash = location.hash;
+      let hashParams = new URLSearchParams(hash.substring(1));
+      if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
+        return false;
+      }
+    } // added by EP developer
+
     if (this._printAnnotationStoragePromise) {
       this._printAnnotationStoragePromise.then(() => {
         this.pdfScriptingManager.dispatchDidPrint();
@@ -13536,6 +13554,15 @@ PDFPrintService.prototype = {
     });
   },
   performPrint() {
+
+    if (location.hash) {
+      let hash = location.hash;
+      let hashParams = new URLSearchParams(hash.substring(1));
+      if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
+        return false;
+      }
+    } // added by EP developer
+    
     this.throwIfInactive();
     return new Promise(resolve => {
       setTimeout(() => {
