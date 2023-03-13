@@ -31,40 +31,55 @@ export const isPro = (display) => {
     return dom;
 }
 
-export const passwordShowHide = () => {
+export const passwordShowHide = (value) => {
     if (document.querySelector('.lock-content-pass-input span')) {
         const showEye = document.querySelector('.lock-content-pass-input .pass-show');
         const hideEye = document.querySelector('.lock-content-pass-input .pass-hide');
-        showEye.addEventListener('click', () => {
+
+        if(value === 'show'){
             showEye.classList.remove('active');
             hideEye.classList.add('active');
             document.querySelector('.lock-content-pass-input input').setAttribute('type', 'text');
-        });
-
-        hideEye.addEventListener('click', () => {
+        }
+        if(value === 'hide'){
             hideEye.classList.remove('active');
             showEye.classList.add('active');
             document.querySelector('.lock-content-pass-input input').setAttribute('type', 'password');
-        });
+        }
     }
-
-}
-
-export const copyPassword = () => {
-    const copyButton = document.querySelector(".copy-password");
-    const passwordInput =  document.querySelector(".lock-content-pass-input input");
-    copyButton.addEventListener("click", function () {
-        const tempInput = document.createElement("input");
-        tempInput.type = "text";
-        tempInput.value = passwordInput.value;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand("copy");
-        document.body.removeChild(tempInput);
-    });
 }
 
 export const copiedMessage = () => {
+    const passwordInput = document.querySelector(".lock-content-pass-input input");
+    const tooltip = document.querySelector('.copy-tooltip');
+    setTimeout(() => {
+      tooltip.classList.add('show');
+    }, 10);
     
+    setTimeout(() => {
+      tooltip.classList.remove('show');  
+      passwordInput.selectionStart = passwordInput.selectionEnd;
+    }, 1000);
 }
+
+export const copyPassword = (inputRef) => {
+
+   const passwordInput = inputRef.current;
+   const tempInput = document.createElement('input');
+   tempInput.type = 'text';
+   tempInput.value = passwordInput.value;
+   document.body.appendChild(tempInput);
+   tempInput.select();
+   document.execCommand('copy');
+   
+   passwordInput.select();
+   document.body.removeChild(tempInput);
+
+    setTimeout(() => {
+        passwordInput.selectionStart = passwordInput.selectionEnd;
+    }, 1000);
+
+    copiedMessage();
+}
+
 

@@ -927,6 +927,33 @@ span.copy-password.active {
   border-radius: 15px;
   padding: 3px;
   right: 0; }
+
+span.copy-tooltip {
+  top: 0;
+  display: block;
+  right: 10px;
+  font-weight: 600;
+  background: #5b4e96;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  color: #fff;
+  border-radius: 15px;
+  font-size: 12px;
+  visibility: none;
+  opacity: 0;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  position: absolute;
+  padding: 1px 8px;
+  font-size: 12px;
+  opacity: 0; }
+
+.copy-tooltip.show {
+  opacity: 1;
+  visibility: visible;
+  right: 25px; }
 /**
  * #.# Common SCSS
  *

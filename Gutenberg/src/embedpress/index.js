@@ -73,7 +73,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: false
 			},
-			lockPassword: {
+			contentPassword: {
 				type: 'string',
 			},
 			editingURL: {
