@@ -142,6 +142,8 @@ export default function EmbedPress(props) {
 			setAttributes({
 				fetching: true
 			});
+			
+			setAttributes({clientId});
 
 			// send api request to get iframe url
 			let fetchData = async (url) => {
@@ -150,7 +152,6 @@ export default function EmbedPress(props) {
 					url,
 					width,
 					height,
-					isGutenBerg: true,
 				};
 
 				params = applyFilters('embedpress_block_rest_param', params, attributes);
@@ -179,6 +180,7 @@ export default function EmbedPress(props) {
 						cannotEmbed: false,
 						editingURL: false,
 					});
+					
 					execScripts();
 				}
 			});

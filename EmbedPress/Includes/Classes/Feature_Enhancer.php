@@ -32,7 +32,10 @@ class Feature_Enhancer
 
 		add_action('embedpress:isEmbra', [$this, 'isEmbra'], 10, 3);
 
+
 	}
+
+	
 
 	public function isEmbra($isEmbra, $url, $atts)
 	{
@@ -146,7 +149,6 @@ class Feature_Enhancer
 
 	public function gutenberg_embed($embedHTML, $attributes)
 	{
-	
 		if (!empty($attributes['url'])) {
 			$youtube = new Youtube($attributes['url']);
 			

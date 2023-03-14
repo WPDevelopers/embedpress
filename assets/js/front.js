@@ -354,3 +354,28 @@ jQuery(window).on("elementor/frontend/init", function () {
     };
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);
 });
+
+  
+
+  jQuery(document).ready(function() {
+    jQuery('.password-form').submit(function(e) {
+        e.preventDefault(); // Prevent the default form submission
+        var password_id = jQuery('input[name="password_id"]').val();
+        var password = jQuery(`input[name="${password_id}"]`).val();
+        
+        var data = {
+            'action': 'lock_content_form_handler',
+            'password': password
+
+        };
+        jQuery.post(eplocalize.ajaxurl, data, function(response) {
+            if (response.success) {
+                console.log(response.password);
+                jQuery('#lock-content').html(response.embedHtml);
+            } else {
+                jQuery('#password-error').html(response.form);
+                jQuery('#password-error').show();
+            }
+        }, 'json');
+    });
+});

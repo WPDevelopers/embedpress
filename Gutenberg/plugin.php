@@ -91,6 +91,7 @@ function embedpress_blocks_cgb_editor_assets()
 		'document_cta' => $documents_cta_options,
 		'pdf_renderer' => Helper::get_pdf_renderer(),
 		'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
+		'ajaxurl' => admin_url('admin-ajax.php')
 	));
 
 	// Styles.
@@ -151,6 +152,9 @@ function embedpress_gutenberg_register_all_block()
 					register_block_type('embedpress/embedpress', [
 						'render_callback' => 'embedpress_render_block',
 						'attributes'      => array(
+							'clientId' => [
+								'type' => 'string',
+							],
 							'height' => [
 								'type' => 'string',
 								'default' => '450'
@@ -159,15 +163,18 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'string',
 								'default' => '600'
 							],
+							'lockContent' => [
+								'type' => 'boolean',
+								'default' => false
+							],
+							'contentPassword' => [
+								'type' => 'string',
+							],
 							'videosize' => [
 								'type' => 'string',
 								'default' => 'fixed'
 							],
 							
-							'isGutenberg' => [
-								'type' => 'boolean',
-								'default' => false
-							],
 							'loadmore' => [
 								'type' => 'boolean',
 								'default' => false
