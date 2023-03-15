@@ -360,21 +360,44 @@ jQuery(window).on("elementor/frontend/init", function () {
   jQuery(document).ready(function() {
     jQuery('.password-form').submit(function(e) {
         e.preventDefault(); // Prevent the default form submission
-        var password_id = jQuery('input[name="password_id"]').val();
-        var password = jQuery(`input[name="${password_id}"]`).val();
+        var ep_client_id = jQuery(this).closest('form').find('input[name="ep_client_id"]').val();
+        var password = jQuery(`input[name="pass_${ep_client_id}"]`).val();
+        var epbase = jQuery(`input[name="ep_base_${ep_client_id}"]`).val();
+        var hash_key = jQuery(`input[name="hash_key_${ep_client_id}"]`).val();
+
+        console.log(ep_client_id);
         
+        var now = new Date();
+        var time = now.getTime();
+        var expireTime = time + 1000 * 60 * 60 * 24 * 30;
+        now.setTime(expireTime);
+
+        if(password == hash_key)
+        document.cookie = "username=johndoe; expires=" + now.toUTCString() + "; path=/";
+
+
         var data = {
             'action': 'lock_content_form_handler',
-            'password': password
+            'client_id': ep_client_id,
+            'password': password,
+            'hash_key': hash_key,
+            'epbase': epbase
 
         };
         jQuery.post(eplocalize.ajaxurl, data, function(response) {
             if (response.success) {
-                console.log(response.password);
-                jQuery('#lock-content').html(response.embedHtml);
+                if(!response.embedHtml){
+                    jQuery('.wrong-pass-message').remove();
+                    setTimeout(() => {
+                        jQuery('#lock-content_'+ep_client_id).append('<p class="wrong-pass-message">Wrong Password</p>');
+                    }, 1000); 
+                }
+                else{
+                    jQuery('#lock-content_'+ep_client_id).html(response.embedHtml);
+                }
             } else {
-                jQuery('#password-error').html(response.form);
-                jQuery('#password-error').show();
+                jQuery('#password-error_'+ep_client_id).html(response.form);
+                jQuery('#password-error_'+ep_client_id).show();
             }
         }, 'json');
     });

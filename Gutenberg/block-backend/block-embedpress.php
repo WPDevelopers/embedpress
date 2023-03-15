@@ -8,22 +8,51 @@ if (!defined('ABSPATH')) {
  * @param array $attributes
  */
 
- use EmbedPress\Providers\Youtube;
- 
- 
 add_action('wp_ajax_lock_content_form_handler', 'lock_content_form_handler');
 add_action('wp_ajax_nopriv_lock_content_form_handler', 'lock_content_form_handler');
+
+
 
 function lock_content_form_handler() {
 	// print_r($embedHTML);
 
+	$client_id = $_POST['client_id'];
 	$password = $_POST['password'];
-	
+	$epbase64 = $_POST['epbase'];
+	$hash_key = $_POST['hash_key'];
+
+	// echo $client_id;
+
+
+	// Set the decryption key and initialization vector (IV)
+	$key = "g72@QKgEcANy8%D7xq8%@n%#";
+	$iv = "^ZCC$93vsbyYjz01";
+
+	// Decode the base64 encoded cipher
+	$cipher = base64_decode($epbase64);
+	// Decrypt the cipher using AES-128-CBC encryption
+
+	if(md5($password) === $hash_key){
+		setcookie("password_correct_", $password, time()+3600); 
+
+		$embed = openssl_decrypt($cipher, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv) . '<script>
+		var now = new Date();
+		var time = now.getTime();
+		var expireTime = time + 1000 * 60 * 60 * 24 * 30;
+		now.setTime(expireTime);
+		document.cookie = "password_correct_'.$client_id.'='.$password.'; expires=" + now.toUTCString() + "; path=/";
+	</script>';
+
+	}
+	else{
+		$embed = 0;
+	}
+
 	// Process the form data and return a response
 	$response = array(
 	  'success' => true,
 	  'password' => $password,
-	  'embedHtml' => '<h1>This is emebed htmls</h1>'
+	  'embedHtml' => $embed
 	);
 	
 	echo json_encode($response);
@@ -133,43 +162,46 @@ function customLogo($embedHTML, $atts){
 
 
 // Add the password form to the password-form div
-function display_password_form($pass_id, $submit_id) {
-	echo '<form class="password-form" method="post" class="password-form">';
-	echo '<label for="password">Enter the password to view this content:</label>';
-	echo '<input type="password" id="password" name="password_'.esc_attr( $pass_id ).'" required>';
-	echo '<input type="hidden" name="password_id" value="password_'.esc_attr( $pass_id ).'">';
-	echo '<input type="submit" name="password_submit" value="Submit">';
-	echo '<div id="password-error" style="display:none;"></div>';
-	echo '</form>';
+function display_password_form($client_id, $embedHtml, $pass_hash_key) {
+
+	// Set the encryption key and initialization vector (IV)
+	$key = "g72@QKgEcANy8%D7xq8%@n%#";
+	$iv = "^ZCC$93vsbyYjz01";
+
+	// Encrypt the plaintext using AES-128-CBC encryption
+	$cipher = openssl_encrypt($embedHtml, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv);
+
+	// Base64 encode the encrypted cipher
+	$encrypted_data = base64_encode($cipher);
+
+	echo '<form class="password-form" method="post" class="password-form">
+			<label for="password">Enter the password to view this content:</label>
+			<input type="password" name="pass_' . esc_attr( $client_id ) . '" required>
+			<input type="hidden" name="ep_client_id" value="' . esc_attr( $client_id ) . '">
+			<input type="hidden" name="ep_base_' . esc_attr( $client_id ) . '" value="' . esc_attr( $encrypted_data ) . '">
+			<input type="hidden" name="hash_key_' . esc_attr( $client_id ) . '" value="' . esc_attr( $pass_hash_key ) . '">
+			<input type="submit" name="password_submit" value="Submit">
+			<div id="password-error" style="display:none;"></div>
+		</form>';
+
 }     
   
 // Check if the user has already entered the correct password
-function is_password_correct($pass_id) {
-	if (isset($_COOKIE['password_correct_'.$pass_id])) {
-	  return $_COOKIE['password_correct_'.$pass_id];
+function is_password_correct($client_id) {
+	if (isset($_COOKIE['password_correct_'.$client_id])) {
+	  return $_COOKIE['password_correct_'.$client_id];
 	} else {
 	  return false;
 	}
   }
 
-  function set_password_cookie($pass_id){
- // Check if the password form has been submitted
-	setcookie("password_correct_".$pass_id, $_POST['password_'.$pass_id], time()+3600); 
-  }
-
-if (isset($_POST['password_submit'])) {
-	if (isset($_POST['password']) && !empty($_POST['password'])) {
-		setcookie("password_correct_".$_POST['password'], $_POST['password_'.$_POST['password']], time()+3600);
-	}
- }
-
 function embedpress_render_block($attributes)
 {	
-	$pass_id = md5($attributes['clientId']);
-	$submit_id = md5($attributes['clientId']);
+	$client_id = md5($attributes['clientId']);
+	$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']): ''; 
 
 	if (!empty($attributes['embedHTML'])) {
-		$embed         = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
+		$embed  = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
 	
 		$aligns = [
 			'left' => 'alignleft',
@@ -189,45 +221,19 @@ function embedpress_render_block($attributes)
 		?>
 		<div class="embedpress-gutenberg-wrapper">
 			<div class="wp-block-embed__wrapper <?php echo esc_attr($alignment) ?> <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
-			<div id="lock-content">
-
-				<?php 
-					// if(empty($attributes['lockContent'])){
-					// 	echo $embed;
-					// }
-					// else{
-
-					// 	if (isset($_POST['password_submit']) && isset($_POST['password_'.$pass_id]) && !empty($_POST['password_'.$pass_id])) {
-					// 		$password = $_POST['password_'.$pass_id];
-					// 		if ($password == $attributes['contentPassword']) {
-					// 			echo $embed;
-					// 		} else {
-					// 		echo '<p class="password-error">Incorrect password. Please try again.</p>';
-					// 		display_password_form($pass_id, $submit_id);
-					// 		}
-					// 	} elseif (is_password_correct($pass_id) && $attributes['contentPassword'] === $_COOKIE['password_correct_'.$pass_id]) {
-					// 		echo $embed;
-					// 	} else {
-					// 		display_password_form($pass_id, $submit_id);
-					// 	}
-					// }
-
-					if(empty($attributes['lockContent'])){
-						echo $embed;
-						
-					} else {
-						display_password_form($pass_id, $submit_id);
-					}
-					
-					// echo json_encode($response);
-					
-  
-				?>
+				<div id="lock-content_<?php echo esc_attr( $client_id )?>">
+					<?php 
+						if(empty($attributes['lockContent']) || (!empty(is_password_correct($client_id)) && ($attributes['contentPassword'] === $_COOKIE['password_correct_'.$client_id])) ){
+							echo $embed;
+						} else {
+							display_password_form($client_id, $embed, $pass_hash_key);
+						}
+					?>
 
 				</div>
 			</div>
 		</div>
-<?php
+		<?php
 
 		echo embedpress_render_block_style($attributes);
 		
