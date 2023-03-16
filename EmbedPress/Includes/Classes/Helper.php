@@ -21,8 +21,7 @@ class Helper {
 	 *
 	 * @return array
 	 */
-
-
+	
 	 public function __construct () {
 		add_action('wp_ajax_lock_content_form_handler', [$this, 'lock_content_form_handler']);
 		add_action('wp_ajax_nopriv_lock_content_form_handler', [$this, 'lock_content_form_handler']);
@@ -77,9 +76,7 @@ class Helper {
 	}
 
 
-	
-
-public function lock_content_form_handler()
+	public function lock_content_form_handler()
 	{
 		// print_r($embedHTML);
 
@@ -125,7 +122,7 @@ public function lock_content_form_handler()
 		wp_die();
 	}
 
-	public static function display_password_form($client_id, $embedHtml, $pass_hash_key)
+	public static function display_password_form($client_id='', $embedHtml='', $pass_hash_key='')
 	{
 		// Set the encryption key and initialization vector (IV)
 		$key = "g72@QKgEcANy8%D7xq8%@n%#";
@@ -266,3 +263,5 @@ public function lock_content_form_handler()
 
 	}
 }
+
+?>

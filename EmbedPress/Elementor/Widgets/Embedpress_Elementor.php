@@ -7,6 +7,7 @@ use Elementor\Controls_Manager as Controls_Manager;
 
 use Elementor\Plugin;
 use Elementor\Widget_Base as Widget_Base;
+use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Includes\Traits\Branding;
 use EmbedPress\Shortcode;
 
@@ -14,6 +15,7 @@ use EmbedPress\Shortcode;
 
 class Embedpress_Elementor extends Widget_Base
 {
+	
 	use Branding;
 	protected $pro_class = '';
 	protected $pro_text = '';
@@ -148,6 +150,33 @@ class Embedpress_Elementor extends Widget_Base
 
 			]
 		);
+
+		$this->add_control(
+			'embedpress_lock_content',
+			[
+				'label'        => sprintf(__('Lock Content %s', 'embedpress'), $this->pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'classes'     => $this->pro_class,
+			]
+		);
+
+		$this->add_control(
+			'embedpress_lock_content_password',
+			[
+				'label'       => __('Set Password', 'embedpress'),
+				'type'        => Controls_Manager::TEXT,
+				'input_type' => 'password',
+				'default'	=> '12345',
+				'label_block' => false,
+				'condition'   => [
+					'embedpress_lock_content' => 'yes'
+				]
+			]
+		);
+		
 		$this->add_control(
 			'spotify_theme',
 			[
@@ -2497,7 +2526,7 @@ class Embedpress_Elementor extends Widget_Base
 		return $_settings;
 	}
 
-	protected function render()
+	public function render()
 	{
 
 		add_filter('embedpress_should_modify_spotify', '__return_false');
@@ -2511,6 +2540,7 @@ class Embedpress_Elementor extends Widget_Base
 		$_settings = [];
 		$source = $settings['embedpress_pro_embeded_source'];
 		$embed_link = $settings['embedpress_embeded_link'];
+		$pass_hash_key = $settings['embedpress_lock_content_password'];
 
 		if(!(($source === 'default' || !empty($source[0]) && $source[0] === 'default') && strpos($embed_link, 'opensea.io') !== false)){
 			$_settings = $this->convert_settings($settings);
@@ -2520,6 +2550,8 @@ class Embedpress_Elementor extends Widget_Base
 		$embed_content = $this->onAfterEmbedSpotify($embed_content, $settings);
 		$embed         = apply_filters('embedpress_elementor_embed', $embed_content, $settings);
 		$content       = is_object($embed) ? $embed->embed : $embed;
+
+		$client_id = $this->get_id();
 
 		$ispagination = 'flex';
 
@@ -2542,7 +2574,11 @@ class Embedpress_Elementor extends Widget_Base
 				<p><?php esc_html_e('You need EmbedPress Pro to Embed Apple Podcast. Note. This message is only visible to you.', 'embedpress'); ?></p>
 			<?php
 					} else {
-						echo $content;
+						if(empty($settings['embedpress_lock_content']) || (!empty(Helper::is_password_correct($client_id)) && ($settings['embedpress_lock_content_password'] === $_COOKIE['password_correct_'.$client_id])) ){
+							echo $content;
+						} else {
+							Helper::display_password_form($client_id, $content, $pass_hash_key);
+						}
 					}
 					?>
 		</div>
