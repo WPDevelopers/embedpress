@@ -365,15 +365,15 @@ jQuery(window).on("elementor/frontend/init", function () {
         var epbase = jQuery(`input[name="ep_base_${ep_client_id}"]`).val();
         var hash_key = jQuery(`input[name="hash_key_${ep_client_id}"]`).val();
 
-        console.log(ep_client_id);
+        // console.log(ep_client_id);
         
-        var now = new Date();
-        var time = now.getTime();
-        var expireTime = time + 1000 * 60 * 60 * 24 * 30;
-        now.setTime(expireTime);
+        // var now = new Date();
+        // var time = now.getTime();
+        // var expireTime = time + 1000 * 60 * 60 * 24 * 30;
+        // now.setTime(expireTime);
 
-        if(password == hash_key)
-        document.cookie = "username=johndoe; expires=" + now.toUTCString() + "; path=/";
+        // if(password == hash_key)
+        // document.cookie = "username=johndoe; expires=" + now.toUTCString() + "; path=/";
 
 
         var data = {
@@ -382,15 +382,18 @@ jQuery(window).on("elementor/frontend/init", function () {
             'password': password,
             'hash_key': hash_key,
             'epbase': epbase
-
         };
+
+        jQuery('#lock-content_'+ep_client_id + ' .password-form input[type="submit"]').val('Unlocking');
+
         jQuery.post(eplocalize.ajaxurl, data, function(response) {
             if (response.success) {
                 if(!response.embedHtml){
-                    jQuery('.wrong-pass-message').remove();
-                    setTimeout(() => {
-                        jQuery('#lock-content_'+ep_client_id).append('<p class="wrong-pass-message">Wrong Password</p>');
-                    }, 1000); 
+
+                    jQuery('#lock-content_'+ep_client_id + ' .password-form input[type="submit"]').val('Unlock');
+                    jQuery('#lock-content_'+ep_client_id + ' .password-form input[type="password"]').val('');
+                    jQuery('.error-message').remove();
+                    jQuery('#lock-content_'+ep_client_id + ' .password-form').append('<div class="error-message">Invalid password. Please try again.</div>');
                 }
                 else{
                     jQuery('#lock-content_'+ep_client_id).html(response.embedHtml);

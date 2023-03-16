@@ -6,8 +6,15 @@ import Iframe from '../common/Iframe';
 import ControlHeader from '../common/control-heading';
 import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
+import LockControl from '../common/lock-control';
 
 
+import {
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+} from '@wordpress/components';
+
+import { PdfIcon } from '../common/icons'
 
 /**
  * WordPress dependencies
@@ -18,14 +25,6 @@ const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
 const { BlockIcon, MediaPlaceholder, InspectorControls } = wp.blockEditor;
 const { Component, Fragment, useEffect } = wp.element;
 const { RangeControl, PanelBody, ExternalLink, ToggleControl, SelectControl, RadioControl, ColorPalette } = wp.components;
-
-import {
-	__experimentalToggleGroupControl as ToggleGroupControl,
-	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
-} from '@wordpress/components';
-
-import { PdfIcon } from '../common/icons'
-
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
@@ -49,7 +48,6 @@ class EmbedPressPDFEdit extends Component {
 			loadPdf: true,
 		};
 	}
-
 
 	componentDidMount() {
 
@@ -177,7 +175,7 @@ class EmbedPressPDFEdit extends Component {
 
 		const { attributes, noticeUI, setAttributes, clientId } = this.props;
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, lockContent } = attributes;
 
 
 		const { hasError, interactive, fetching, loadPdf } = this.state;
@@ -190,7 +188,7 @@ class EmbedPressPDFEdit extends Component {
 			{ name: '', color: '#403A81' },
 			{ name: '', color: '#333333' },
 			{ name: '', color: '#000264' },
-		]; 
+		];
 
 		let widthMin = 0;
 		let widthMax = 100;
@@ -218,7 +216,7 @@ class EmbedPressPDFEdit extends Component {
 			let colorsObj = {};
 
 			//Generate PDF params
-			if(themeMode === 'custom') {
+			if (themeMode === 'custom') {
 				colorsObj = {
 					customColor: (customColor && (customColor !== 'default')) ? customColor : '#403A81',
 				}
@@ -352,6 +350,7 @@ class EmbedPressPDFEdit extends Component {
 							title={__('PDF Control Settings', 'embedpress')}
 							initialOpen={false}
 						>
+							<LockControl attributes={attributes} setAttributes={setAttributes} />
 
 							<SelectControl
 								label="Theme"
