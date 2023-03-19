@@ -475,7 +475,7 @@ function embedpress_pdf_render_block($attributes)
 			$embed_code .= '</div>';
 		?>
 
-		<div id="lock-content_<?php echo esc_attr( $client_id )?>">
+		<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content">
 			<?php 
 				if(empty($attributes['lockContent']) || (!empty(Helper::is_password_correct($client_id)) && ($attributes['contentPassword'] === $_COOKIE['password_correct_'.$client_id])) ){
 					echo $embed_code;

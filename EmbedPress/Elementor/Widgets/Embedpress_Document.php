@@ -130,6 +130,31 @@ class Embedpress_Document extends Widget_Base
         );
 
         $this->add_control(
+            'embedpress_doc_lock_content',
+            [
+                'label'        => sprintf(__('Lock Content %s', 'embedpress'), $this->pro_text),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_block'  => false,
+                'return_value' => 'yes',
+                'default'      => 'no',
+                'classes'     => $this->pro_class,
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_doc_lock_content_password',
+            [
+                'label'       => __('Set Password', 'embedpress'),
+                'type'        => Controls_Manager::TEXT,
+                'default'    => '12345',
+                'label_block' => false,
+                'condition'   => [
+                    'embedpress_doc_lock_content' => 'yes'
+                ]
+            ]
+        );
+
+        $this->add_control(
             'embedpress_elementor_document_width',
             [
                 'label'     => __( 'Width', 'embedpress' ),
@@ -196,7 +221,7 @@ class Embedpress_Document extends Widget_Base
                     ]
                 ],
                 'prefix_class' => 'elementor%s-align-',
-                'default' => 'center',
+                'default' => '',
             ]
         );
 
@@ -253,6 +278,8 @@ class Embedpress_Document extends Widget_Base
     protected function render()
     {
         $settings = $this->get_settings();
+        $client_id = $this->get_id();
+        $pass_hash_key = md5($settings['embedpress_doc_lock_content_password']);
         $url = $this->get_file_url();
         $id = 'embedpress-pdf-' . $this->get_id();
         $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
@@ -264,37 +291,40 @@ class Embedpress_Document extends Widget_Base
             'class' => ['embedpress-document-embed', 'ep-doc-'.md5( $id), 'ose-document']
         ] );
         ?>
-        <div <?php echo $this->get_render_attribute_string( 'embedpress-document' ); ?> style="<?php echo esc_attr( $dimension); ?>; max-width:100%; display: inline-block">
-	        <?php
-            do_action( 'embedpress_document_after_embed',  $settings, $url, $id, $this);
-	        ?>
-            <?php if ( $url != '' ) {
+        
+
+        <?php
+            $embed_content = '<div ' . $this->get_render_attribute_string( 'embedpress-document' ) . ' style="' . esc_attr( $dimension) . '; max-width:100%; display: inline-block">';
+            $embed_content .= '<?php do_action( \'embedpress_document_after_embed\',  $settings, $url, $id, $this); ?>';
+            if ( $url != '' ) {
                 if ( $this->is_pdf( $url ) ) {
                     $this->add_render_attribute( 'embedpres-pdf-render', 'data-emsrc', $url );
-                    ?>
-                    <div <?php echo $this->get_render_attribute_string( 'embedpres-pdf-render' ); ?>>
-                    </div>
-                    <?php
+                    $embed_content .= '<div ' . $this->get_render_attribute_string( 'embedpres-pdf-render' ) . '></div>';
 
                     if ( Plugin::$instance->editor->is_edit_mode() ) {
-                        $this->render_editor_script( $id, $url );
+                        $embed_content .= $this->render_editor_script( $id, $url );
                     }
 
                 } else {
                     $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . $url . '&embedded=true';
-                    ?>
-                        <div>
-                            <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr( $dimension); ?>; max-width:100%;" src="<?php echo esc_url( $view_link); ?>"></iframe>
-                        </div>
-
-                    <?php
+                    $embed_content .= '<div><iframe title="' . esc_attr( Helper::get_file_title($url) ) . '" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr( $dimension ) . '; max-width:100%;" src="' . esc_url( $view_link ) . '"></iframe></div>';
                 }
-	            if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
-                    printf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
+                if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
+                    $embed_content .= sprintf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
                 }
             }
+            $embed_content .= '</div>';
+
             ?>
-        </div>
+            <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content">
+                <?php
+                    if ((empty($settings['embedpress_doc_lock_content']) || $settings['embedpress_doc_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($settings['embedpress_doc_lock_content_password'] === $_COOKIE['password_correct_' . $client_id]))) {
+                        echo $embed_content;
+                    } else {
+                        Helper::display_password_form($client_id, $embed_content, $pass_hash_key);
+                    }
+                ?>
+            </div>
 
         <?php
     }

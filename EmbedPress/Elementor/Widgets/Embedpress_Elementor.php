@@ -168,7 +168,6 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'label'       => __('Set Password', 'embedpress'),
 				'type'        => Controls_Manager::TEXT,
-				'input_type' => 'password',
 				'default'	=> '12345',
 				'label_block' => false,
 				'condition'   => [
@@ -2540,7 +2539,7 @@ class Embedpress_Elementor extends Widget_Base
 		$_settings = [];
 		$source = $settings['embedpress_pro_embeded_source'];
 		$embed_link = $settings['embedpress_embeded_link'];
-		$pass_hash_key = $settings['embedpress_lock_content_password'];
+		$pass_hash_key = md5($settings['embedpress_lock_content_password']);
 
 		if(!(($source === 'default' || !empty($source[0]) && $source[0] === 'default') && strpos($embed_link, 'opensea.io') !== false)){
 			$_settings = $this->convert_settings($settings);
@@ -2573,14 +2572,19 @@ class Embedpress_Elementor extends Widget_Base
 						?>
 				<p><?php esc_html_e('You need EmbedPress Pro to Embed Apple Podcast. Note. This message is only visible to you.', 'embedpress'); ?></p>
 			<?php
-					} else {
-						if(empty($settings['embedpress_lock_content']) || (!empty(Helper::is_password_correct($client_id)) && ($settings['embedpress_lock_content_password'] === $_COOKIE['password_correct_'.$client_id])) ){
-							echo $content;
-						} else {
-							Helper::display_password_form($client_id, $content, $pass_hash_key);
-						}
+					} else {?>
+							<div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content">
+								<?php 
+									if((empty($settings['embedpress_lock_content']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($settings['embedpress_lock_content_password'] === $_COOKIE['password_correct_'.$client_id])) ){
+										echo $content;
+									} else {
+										Helper::display_password_form($client_id, $content, $pass_hash_key);
+									}
+								?>
+							</div>
+						<?php
 					}
-					?>
+				?>
 		</div>
 
 
