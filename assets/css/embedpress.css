@@ -141,6 +141,9 @@
         max-height: inherit !important;
     }
 
+    .ep-first-video  iframe {
+        max-height: 100%!important;
+    }
 }
 
 @media only screen and (max-width: 500px) {
@@ -1060,6 +1063,8 @@ span.ep-nft-rank {
     .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_content {
         width: 100%;
     }
+
+    
 }
 
 @media screen and (max-width: 537px) {
