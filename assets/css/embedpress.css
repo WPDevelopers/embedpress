@@ -144,6 +144,9 @@
     .ep-first-video  iframe {
         max-height: 100%!important;
     }
+    .ep-youtube__content__block .youtube__content__body .content__wrap {
+        grid-template-columns: repeat(auto-fit, minmax(calc(50% - 30px), 1fr))!important;
+    }
 }
 
 @media only screen and (max-width: 500px) {
@@ -152,6 +155,9 @@
     .embedpress-gutenberg-wrapper .embedpress-facebook-vid-iframe,
     .embedpress-facebook-vid-iframe {
         max-height: 390px !important;
+    }
+    .ep-youtube__content__block .youtube__content__body .content__wrap {
+        grid-template-columns: repeat(auto-fit, minmax(calc(100% - 30px), 1fr))!important;
     }
 }
 
