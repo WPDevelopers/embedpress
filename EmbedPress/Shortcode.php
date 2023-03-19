@@ -919,7 +919,7 @@ KAMAL;
         $default = [
             'width'  => $plgSettings->enableEmbedResizeWidth,
             'height' => $plgSettings->enableEmbedResizeHeight, 
-            'powered_by' => 'yes',
+            'powered_by' => !empty($plgSettings->embedpress_document_powered_by) ? $plgSettings->embedpress_document_powered_by : 'no',
         ];
 
         if(!empty($plgSettings->pdf_custom_color_settings)){
@@ -958,7 +958,9 @@ KAMAL;
                         </div>
 
                 <?php
+               
                             }
+                            
                             if (!empty($attributes['powered_by']) && $attributes['powered_by'] === 'yes') {
                                 printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
                             }
