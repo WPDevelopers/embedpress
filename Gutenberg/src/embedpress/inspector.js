@@ -1,6 +1,7 @@
 import { useRef } from 'react';
 import { addProAlert, isPro, removeAlert, passwordShowHide, copyPassword } from '../common/helper';
 import LockControl from '../common/lock-control';
+import ContentShare from '../common/social-share-control';
 import Youtube from './InspectorControl/youtube';
 import OpenSea from './InspectorControl/opensea';
 import Wistia from './InspectorControl/wistia';
@@ -122,6 +123,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     }
 
                                     <LockControl attributes={attributes} setAttributes={setAttributes} />
+                                    <ContentShare attributes={attributes} setAttributes={setAttributes} />
                                     
                                 </div>
                                 <Youtube attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} />

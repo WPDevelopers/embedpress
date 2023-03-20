@@ -890,3 +890,60 @@ span.copy-tooltip {
     visibility:visible;
     right: 25px;
 }
+
+
+
+/* social share css */
+.social-share {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .social-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+  }
+  
+  .social-icon:hover {
+    opacity: 0.8;
+  }
+
+  .social-share svg {
+        width: 20px;
+    }
+  
+  .facebook {
+    background-color: #3b5998;
+  }
+  .facebook svg{
+    width: 40px;
+  }
+  
+  .twitter {
+    background-color: #55acee;
+  }
+  
+  .pinterest {
+    background-color: #bd081c;
+  }
+  
+  .linkedin {
+    background-color: #0077b5;
+  }
+  
+  .reddit {
+    background-color: #ff4500;
+  }
+  
+  .social-icon i {
+    margin-right: 0;
+  }
+  

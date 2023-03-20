@@ -482,9 +482,10 @@ function embedpress_pdf_render_block($attributes)
 				} else {
 					Helper::display_password_form($client_id, $embed_code, $pass_hash_key);
 				}
-				
 			?>
 		</div>
+
+		<?php Helper::embed_content_share(Helper::get_file_title($attributes['href']), $client_id); ?>
 	<?php
 
 			return ob_get_clean();

@@ -76,6 +76,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			contentPassword: {
 				type: 'string',
 			},
+			contentShare: {
+				type: 'boolean',
+				default: false
+			},
+			sharePosition: {
+				type: 'string',
+				default: 'right'
+			},
 			editingURL: {
 				type: 'boolean',
 				default: 0

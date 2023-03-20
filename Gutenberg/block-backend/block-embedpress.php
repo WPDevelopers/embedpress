@@ -85,6 +85,7 @@ function embedpress_render_block($attributes)
 			$alignment = 'aligncenter'; // default alignment is center in js, so keeping same here
 		}
 		$embed = Helper::customLogo($embed, $attributes);
+		$url = !empty($attributes['href']) ? $attributes['href'] : '';
 
 		ob_start();
 		?>
@@ -98,8 +99,8 @@ function embedpress_render_block($attributes)
 							Helper::display_password_form($client_id, $embed, $pass_hash_key);
 						}
 					?>
-
 				</div>
+				<?php Helper::embed_content_share(Helper::get_file_title($url), $client_id); ?>
 			</div>
 		</div>
 		<?php
