@@ -36,7 +36,7 @@ export default function ContentShare({ attributes, setAttributes }) {
                             { label: 'Bottom', value: 'bottom' },
                             { label: 'Left', value: 'left' },
                         ]}
-                        onChange={(sharePosition) => setSize(sharePosition)}
+                        onChange={(sharePosition) => setAttributes({sharePosition})}
                         __nextHasNoMarginBottom
                     />
                 )

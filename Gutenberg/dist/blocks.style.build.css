@@ -956,13 +956,43 @@ span.copy-tooltip {
   right: 25px; }
 
 /* social share css */
+.wp-block-embedpress-embedpress > div {
+  position: relative; }
+
 .social-share {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: center;
       justify-content: center;
   -ms-flex-align: center;
-      align-items: center; }
+      align-items: center;
+  position: absolute; }
+
+.social-share.share-position-right {
+  right: -40px;
+  top: 0;
+  -ms-flex-direction: column;
+      flex-direction: column; }
+
+.social-share.share-position-left {
+  left: 40px;
+  top: 0;
+  -ms-flex-direction: column;
+      flex-direction: column; }
+
+.social-share.share-position-top {
+  top: -40px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%); }
+
+.social-share.share-position-bottom {
+  bottom: 40px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+          transform: translateX(-50%); }
 
 .social-icon {
   display: -ms-flexbox;
