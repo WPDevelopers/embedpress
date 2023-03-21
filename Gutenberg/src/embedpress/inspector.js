@@ -40,7 +40,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
             <InspectorControls>
                 {
                     !isOpensea && !isOpenseaSingle && (
-                        <frameElement>
+                        <div className="gutenberg-controls">
                             <PanelBody title={__("Embeded Options")}>
 
                                 <div>
@@ -115,7 +115,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} />
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />
                             <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />
-                        </frameElement>
+                        </div>
                     )
                 }
 
