@@ -1171,13 +1171,45 @@ form.password-form {
     font-size: 14px;
 }
 
+.wp-block-embed__wrapper {
+    display: inline-block;
+}
 
 /* social share css */
+.wp-block-embedpress-embedpress > div {
+    position: relative;
+}
+.position-left-wraper {
+    margin-left: 40px;
+}
 .social-share {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: absolute;
   }
+
+  .social-share.share-position-right {
+    right: -40px;
+    top: 0;
+    flex-direction: column;
+}
+  .social-share.share-position-left {
+        left: -40px;
+        top: 0;
+        flex-direction: column;
+    }
+  .social-share.share-position-top {
+        top: -40px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    
+  .social-share.share-position-bottom {
+        bottom: -36px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
   
   .social-icon {
     display: flex;

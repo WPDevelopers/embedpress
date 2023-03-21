@@ -171,6 +171,15 @@ function embedpress_gutenberg_register_all_block()
 							'contentPassword' => [
 								'type' => 'string',
 							],
+							'contentShare' => [
+								'type' => 'boolean',
+								'default' => false
+							],
+							'sharePosition' => [
+								'type' => 'string',
+								'default' => 'right'
+							],
+							
 							'videosize' => [
 								'type' => 'string',
 								'default' => 'fixed'
@@ -319,6 +328,14 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'contentPassword' => [
 								'type' => 'string',
+							],
+							'contentShare' => [
+								'type' => 'boolean',
+								'default' => false
+							],
+							'sharePosition' => [
+								'type' => 'string',
+								'default' => 'right'
 							],
 							'presentation' => [
 								'type' => "boolean",
@@ -473,9 +490,11 @@ function embedpress_pdf_render_block($attributes)
 				$embed_code .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
 			}
 			$embed_code .= '</div>';
+
+			$url = !empty($attributes['href']) ? $attributes['href'] : '';
 		?>
 
-		<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content">
+		<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content ">
 			<?php 
 				if(empty($attributes['lockContent']) || (!empty(Helper::is_password_correct($client_id)) && ($attributes['contentPassword'] === $_COOKIE['password_correct_'.$client_id])) ){
 					echo $embed_code;
@@ -485,9 +504,12 @@ function embedpress_pdf_render_block($attributes)
 			?>
 		</div>
 
-		<?php Helper::embed_content_share(Helper::get_file_title($attributes['href']), $client_id); ?>
+		<?php 
+			if(!empty($attributes['contentShare'])) {
+				Helper::embed_content_share(Helper::get_file_title($url), $client_id, $attributes);
+			}
+		?>
 	<?php
-
 			return ob_get_clean();
 		}
 	}

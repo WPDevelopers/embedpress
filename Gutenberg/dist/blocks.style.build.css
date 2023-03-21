@@ -955,9 +955,15 @@ span.copy-tooltip {
   visibility: visible;
   right: 25px; }
 
+.gutenberg-wraper {
+  position: relative; }
+
 /* social share css */
 .wp-block-embedpress-embedpress > div {
   position: relative; }
+
+.position-left-wraper {
+  margin-left: 40px; }
 
 .social-share {
   display: -ms-flexbox;
@@ -975,7 +981,7 @@ span.copy-tooltip {
       flex-direction: column; }
 
 .social-share.share-position-left {
-  left: 40px;
+  left: -40px;
   top: 0;
   -ms-flex-direction: column;
       flex-direction: column; }
@@ -988,7 +994,7 @@ span.copy-tooltip {
           transform: translateX(-50%); }
 
 .social-share.share-position-bottom {
-  bottom: 40px;
+  bottom: -36px;
   left: 50%;
   -webkit-transform: translateX(-50%);
       -ms-transform: translateX(-50%);

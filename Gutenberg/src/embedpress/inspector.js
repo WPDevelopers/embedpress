@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { addProAlert, isPro, removeAlert, passwordShowHide, copyPassword } from '../common/helper';
+import { isPro, removeAlert} from '../common/helper';
 import LockControl from '../common/lock-control';
 import ContentShare from '../common/social-share-control';
 import Youtube from './InspectorControl/youtube';

@@ -90,7 +90,7 @@ function embedpress_render_block($attributes)
 		ob_start();
 		?>
 		<div class="embedpress-gutenberg-wrapper">
-			<div class="wp-block-embed__wrapper <?php echo esc_attr($alignment) ?> <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
+			<div class="wp-block-embed__wrapper position-<?php echo esc_attr( $attributes['sharePosition'] )?>-wraper <?php echo esc_attr($alignment) ?> <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
 				<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content">
 					<?php 
 						if(empty($attributes['lockContent']) || (!empty(Helper::is_password_correct($client_id)) && ($attributes['contentPassword'] === $_COOKIE['password_correct_'.$client_id])) ){
@@ -100,7 +100,11 @@ function embedpress_render_block($attributes)
 						}
 					?>
 				</div>
-				<?php Helper::embed_content_share(Helper::get_file_title($url), $client_id); ?>
+				<?php 
+					if(!empty($attributes['contentShare'])) {
+						Helper::embed_content_share(Helper::get_file_title($url), $client_id, $attributes);
+					}
+				?>
 			</div>
 		</div>
 		<?php
