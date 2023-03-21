@@ -38,6 +38,12 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
 
     }
 
+    public function isGoogleMapsCustomMapUrl($url) {
+        $pattern = '/^https?:\/\/(www\.)?google\.com\/maps\/(d\/u\/.*\?mid=|viewer\?mid=).*$/i';
+        return preg_match($pattern, $url) === 1;
+    }
+    
+    
     /**
      * This method fakes an Oembed response.
      *
@@ -49,10 +55,21 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
     {
         $src_url = urldecode($this->url);
 
+        preg_match('/(?<=mid=).*$/', $src_url, $matches);
+        
+        if (!empty($matches)) {
+            $mid = $matches[0].'&ehbc=2E312F';
+        }
+
         // Check if the url is already converted to the embed format
-        if (preg_match('~(maps/embed|output=embed)~i', $src_url)) {
+         if ($this->isGoogleMapsCustomMapUrl($this->url)){
+            $iframeSrc = 'https://www.google.com/maps/d/embed?mid='.$mid;
+        }
+        else if (preg_match('~(maps/embed|output=embed)~i', $src_url)) {
             $iframeSrc = $src_url;
-        } else {
+        } 
+        
+        else {
             // Extract coordinates and zoom from the url
             if (preg_match('~(?:maps\/(?:place|(?:dir\/.+?))\/(.+)\/)?@(-?[0-9\.]+,-?[0-9\.]+).+,([0-9\.]+[a-z])~i', $src_url, $matches)) {
                 $place_name = str_replace("+"," ",$matches[1]);
@@ -70,7 +87,7 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
             'provider_name' => 'Google Maps',
             'provider_url'  => 'https://maps.google.com',
             'title'         => 'Unknown title',
-            'html'          => '<iframe  width="'.$width.'" height="'.$height.'" src="' . $iframeSrc . '" frameborder="0"></iframe>',
+            'html'          => '<iframe title=""  width="'.$width.'" height="'.$height.'" src="'.$iframeSrc.'" frameborder="0"></iframe>',     
         ];
     }
     /** inline @inheritDoc */
