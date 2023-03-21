@@ -528,7 +528,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                     {
                         isOpenseaSingle && (
-                            <div className="gutenberg-controls">
+                            <frameElement>
                                 <ToggleControl
                                     label={__("Rank", "embedpress")}
                                     checked={nftrank}
@@ -574,7 +574,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                         </div>
                                     )
                                 }
-                            </div>
+                            </frameElement>
                         )
                     }
                 </PanelBody>
@@ -598,7 +598,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                 }
                                 {
                                     loadmore && (
-                                        <div className="gutenberg-controls">
+                                        <frameElement>
                                             <RangeControl
                                                 label={__("Item Per Page", "embedpress")}
                                                 value={itemperpage}
@@ -612,7 +612,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                                 value={loadmorelabel}
                                                 onChange={(loadmorelabel) => setAttributes({ loadmorelabel })}
                                             />
-                                        </div>
+                                        </frameElement>
 
                                     )
                                 }
@@ -709,7 +709,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                         <PanelBody title={__("Current Price")} initialOpen={false}>
                             {
                                 isOpenseaSingle && (
-                                    <div className="gutenberg-controls">
+                                    <frameElement>
                                         <ControlHeader headerText={'Label Color'} />
                                         <ColorPalette
                                             label={__("Color")}
@@ -726,7 +726,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                             fallbackFontSize={fallbackFontSize}
                                             onChange={(priceLabelFontsize) => setAttributes({ priceLabelFontsize })}
                                         />
-                                    </div>
+                                    </frameElement>
                                 )
                             }
 
@@ -748,7 +748,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             />
                             {
                                 isOpenseaSingle && (
-                                    <div className="gutenberg-controls">
+                                    <frameElement>
                                         <ControlHeader headerText={'USD Price Color'} />
                                         <ColorPalette
                                             label={__("Color")}
@@ -766,7 +766,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                             onChange={(priceUSDFontsize) => setAttributes({ priceUSDFontsize })}
                                         />
 
-                                    </div>
+                                    </frameElement>
                                 )
                             }
                         </PanelBody>
@@ -774,7 +774,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                         <PanelBody title={__("Last Sale Price")} initialOpen={false}>
                             {
                                 isOpenseaSingle && (
-                                    <div className="gutenberg-controls">
+                                    <frameElement>
                                         <ControlHeader headerText={'Label Color'} />
                                         <ColorPalette
                                             label={__("Color")}
@@ -791,7 +791,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                             fallbackFontSize={fallbackFontSize}
                                             onChange={(lastSaleLabelFontsize) => setAttributes({ lastSaleLabelFontsize })}
                                         />
-                                    </div>
+                                    </frameElement>
                                 )
                             }
                             <ControlHeader headerText={'ETH Color'} />
@@ -812,7 +812,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             />
                             {
                                 isOpenseaSingle && (
-                                    <div className="gutenberg-controls">
+                                    <frameElement>
                                         <ControlHeader headerText={'USD Price Color'} />
                                         <ColorPalette
                                             label={__("Color")}
@@ -829,7 +829,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                             fallbackFontSize={fallbackFontSize}
                                             onChange={(lastSaleUSDFontsize) => setAttributes({ lastSaleUSDFontsize })}
                                         />
-                                    </div>
+                                    </frameElement>
                                 )
                             }
                         </PanelBody>
