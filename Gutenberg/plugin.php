@@ -477,13 +477,13 @@ function embedpress_pdf_render_block($attributes)
 			}
 			$embed_code .= '"';
 			if ($unitoption === '%' && !empty($attributes['width'])) {
-				$embed_code .= 'style="' . esc_attr('width:' . $attributes['width'] . '%') . '"';
+				$embed_code .= 'style="' . esc_attr('max-width:' . $attributes['width'] . '%') . '"';
 			} else {
-				$embed_code .= 'style="' . esc_attr('width:100%') . '"';
+				$embed_code .= 'style="' . esc_attr('max-width:100%') . '"';
 			}
 			$embed_code .= '>
-						<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_attr($src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
-
+				<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_attr($src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
+				
 			do_action('embedpress_pdf_gutenberg_after_embed',  $client_id, 'pdf', $attributes, $pdf_url);
 
 			if ($powered_by) {
@@ -494,21 +494,21 @@ function embedpress_pdf_render_block($attributes)
 			$url = !empty($attributes['href']) ? $attributes['href'] : '';
 		?>
 
-		<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content ">
+		<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content <?php echo  esc_attr( $alignment ); ?>">
 			<?php 
 				if(empty($attributes['lockContent']) || (!empty(Helper::is_password_correct($client_id)) && ($attributes['contentPassword'] === $_COOKIE['password_correct_'.$client_id])) ){
+					echo '<div class="position-'.$attributes['sharePosition'].'-wraper gutenberg-pdf-wraper">';
 					echo $embed_code;
+					if(!empty($attributes['contentShare'])) {
+						$content_id = '#ep-gutenberg-content-'.$client_id;
+						$embed_code .= Helper::embed_content_share(Helper::get_file_title($pdf_url), $content_id, $attributes['sharePosition']);
+					}
+					echo '</div>';
 				} else {
 					Helper::display_password_form($client_id, $embed_code, $pass_hash_key);
 				}
 			?>
 		</div>
-
-		<?php 
-			if(!empty($attributes['contentShare'])) {
-				Helper::embed_content_share(Helper::get_file_title($url), $client_id, $attributes);
-			}
-		?>
 	<?php
 			return ob_get_clean();
 		}
