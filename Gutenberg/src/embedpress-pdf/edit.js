@@ -175,7 +175,7 @@ class EmbedPressPDFEdit extends Component {
 
 		const { attributes, noticeUI, setAttributes, clientId } = this.props;
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, sharePostion, contentShare } = attributes;
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, sharePosition, contentShare } = attributes;
 
 		const { hasError, interactive, fetching, loadPdf } = this.state;
 		const min = 1;
@@ -281,7 +281,7 @@ class EmbedPressPDFEdit extends Component {
 					<div className={'embedpress-document-embed ep-doc-' + id} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`}>
 
 						<div className="gutenberg-wraper">
-							<div className={`position-${sharePostion}-wraper`}>
+							<div className={`position-${sharePosition}-wraper`}>
 								{mime === 'application/pdf' && (
 									<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} data-emsrc={href} src={pdf_viewer_src}></iframe>
 
