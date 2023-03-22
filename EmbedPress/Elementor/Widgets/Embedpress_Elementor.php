@@ -175,6 +175,34 @@ class Embedpress_Elementor extends Widget_Base
 				]
 			]
 		);
+
+		$this->add_control(
+			'embedpress_content_share',
+			[
+				'label'        => __('Enable Content Share', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+			]
+		);
+        $this->add_control(
+            'embedpress_content_share_position',
+            [
+                'label'   => __('Share Position', 'embedpress'),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'right',
+                'options' => [
+                    'top'        => __('Top', 'embedpress'),
+                    'right' => __('Right', 'embedpress'),
+                    'bottom'    => __('Bottom', 'embedpress'),
+                    'left'  => __('Left', 'embedpress'),
+                ],
+                'condition'   => [
+					'embedpress_content_share' => 'yes'
+				]
+            ]
+        );
 		
 		$this->add_control(
 			'spotify_theme',
@@ -2573,10 +2601,15 @@ class Embedpress_Elementor extends Widget_Base
 				<p><?php esc_html_e('You need EmbedPress Pro to Embed Apple Podcast. Note. This message is only visible to you.', 'embedpress'); ?></p>
 			<?php
 					} else {?>
-							<div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content">
+							<div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_content_share_position'].'-wraper' ); endif; ?>">
 								<?php 
 									if((empty($settings['embedpress_lock_content']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($settings['embedpress_lock_content_password'] === $_COOKIE['password_correct_'.$client_id])) ){
 										echo $content;
+
+										if(!empty($settings['embedpress_content_share'])){
+											$content_id = '#ep-elementor-content-'.$client_id;
+											Helper::embed_content_share(Helper::get_file_title($embed_link), $content_id, $settings['embedpress_content_share_position']);
+										}
 									} else {
 										Helper::display_password_form($client_id, $content, $pass_hash_key);
 									}

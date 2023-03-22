@@ -150,6 +150,34 @@ class Embedpress_Pdf extends Widget_Base
 		);
 
         $this->add_control(
+			'embedpress_pdf_content_share',
+			[
+				'label'        => __('Enable Content Share', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+			]
+		);
+        $this->add_control(
+            'embedpress_pdf_content_share_position',
+            [
+                'label'   => __('Share Position', 'embedpress'),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'right',
+                'options' => [
+                    'top'        => __('Top', 'embedpress'),
+                    'right' => __('Right', 'embedpress'),
+                    'bottom'    => __('Bottom', 'embedpress'),
+                    'left'  => __('Left', 'embedpress'),
+                ],
+                'condition'   => [
+					'embedpress_pdf_content_share' => 'yes'
+				]
+            ]
+        );
+
+        $this->add_control(
             'embedpress_pdf_zoom',
             [
                 'label'   => __('Zoom', 'embedpress'),
