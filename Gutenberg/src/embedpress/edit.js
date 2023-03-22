@@ -82,7 +82,7 @@ export default function EmbedPress(props) {
 	}
 
 	let shareHtml = '';
-	if(contentShare) {
+	if (contentShare) {
 		shareHtml = shareIconsHtml(sharePosition);
 	}
 
@@ -150,8 +150,8 @@ export default function EmbedPress(props) {
 			setAttributes({
 				fetching: true
 			});
-			
-			setAttributes({clientId});
+
+			setAttributes({ clientId });
 
 			// send api request to get iframe url
 			let fetchData = async (url) => {
@@ -188,7 +188,7 @@ export default function EmbedPress(props) {
 						cannotEmbed: false,
 						editingURL: false,
 					});
-					
+
 					execScripts();
 				}
 			});
@@ -246,12 +246,12 @@ export default function EmbedPress(props) {
 			}
 
 			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo)) && <figure {...blockProps} >
-
-				<EmbedWrap className={`gutenberg-wraper position-${sharePosition}-wraper`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
-					__html: embedHTML + customLogoTemp + epMessage + shareHtml,
-				}}>
-					
-				</EmbedWrap>
+				<div className={'gutenberg-block-wraper'}>
+					<EmbedWrap className={`position-${sharePosition}-wraper`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
+						__html: embedHTML + customLogoTemp + epMessage + shareHtml,
+					}}>
+					</EmbedWrap>
+				</div>
 
 				{
 					fetching && (
