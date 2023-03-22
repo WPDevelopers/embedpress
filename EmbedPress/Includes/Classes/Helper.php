@@ -263,11 +263,11 @@ class Helper {
 
 	}
 
-	public static function embed_content_share($content_title, $content_id, $attributes ){
+	public static function embed_content_share($content_title, $content_id, $share_position ){
 		
-		$page_url = urlencode(get_permalink().'#ep-gutenberg-content-'.$content_id);
+		$page_url = urlencode(get_permalink().$content_id);
 		
-		$social_icons = '<div class="social-share share-position-'.esc_attr( $attributes['sharePosition'] ).'">';
+		$social_icons = '<div class="social-share share-position-'.esc_attr( $share_position ).'">';
 		$social_icons .= '<a href="https://www.facebook.com/sharer/sharer.php?u=' . $page_url . '" class="social-icon facebook" target="_blank">
 		<svg width="64px" height="64px" viewBox="0 -6 512 512" xmlns="http://www.w3.org/2000/svg" fill="#000000">
 			<g id="SVGRepo_bgCarrier" stroke-width="0"/>
