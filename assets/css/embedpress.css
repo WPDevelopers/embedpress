@@ -1171,47 +1171,66 @@ form.password-form {
     font-size: 14px;
 }
 
+
 .wp-block-embed__wrapper {
+    display: inline-block;
+}
+.ep-elementor-content {
+    position: relative;
+    display: inline-block;
+}
+/* social share css */
+.wp-block-embedpress-embedpress > div, .ep-gutenberg-content {
+    position: relative;
+} 
+.gutenberg-pdf-wraper {
+    position: relative;
     display: inline-block;
 }
 
 /* social share css */
-.wp-block-embedpress-embedpress > div {
-    position: relative;
-}
 .position-left-wraper {
     margin-left: 40px;
+}
+.position-top-wraper {
+    margin-top: 40px;
 }
 .social-share {
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
-  }
+}
 
-  .social-share.share-position-right {
+.social-share.share-position-right {
     right: -40px;
     top: 0;
     flex-direction: column;
 }
-  .social-share.share-position-left {
-        left: -40px;
-        top: 0;
-        flex-direction: column;
-    }
-  .social-share.share-position-top {
-        top: -40px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    
-  .social-share.share-position-bottom {
-        bottom: -36px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-  
-  .social-icon {
+.social-share.share-position-left {
+    left: 0px;
+    top: 0;
+    flex-direction: column;
+}
+
+.embedpress-gutenberg-wrapper .social-share.share-position-left, .ep-elementor-content .social-share.share-position-left{
+    left: -40px;
+}
+
+.social-share.share-position-top {
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.social-share.share-position-bottom {
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    position: relative;
+}
+
+.social-icon {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -1221,40 +1240,39 @@ form.password-form {
     color: #fff;
     text-decoration: none;
     font-size: 20px;
-  }
-  
-  .social-icon:hover {
-    opacity: 0.8;
-  }
+}
 
-  .social-share svg {
-        width: 20px;
-    }
-  
-  .facebook {
+.social-icon:hover {
+    opacity: 0.8;
+}
+
+.social-share svg {
+    width: 20px;
+}
+
+.facebook {
     background-color: #3b5998;
-  }
-  .facebook svg{
+}
+.facebook svg {
     width: 40px;
-  }
-  
-  .twitter {
+}
+
+.twitter {
     background-color: #55acee;
-  }
-  
-  .pinterest {
+}
+
+.pinterest {
     background-color: #bd081c;
-  }
-  
-  .linkedin {
+}
+
+.linkedin {
     background-color: #0077b5;
-  }
-  
-  .reddit {
+}
+
+.reddit {
     background-color: #ff4500;
-  }
-  
-  .social-icon i {
+}
+
+.social-icon i {
     margin-right: 0;
-  }
-  
+}

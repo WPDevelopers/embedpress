@@ -191,7 +191,7 @@ body.page .flexia-wrapper > .content-area {
     max-width: 100%; } }
 
 .clear::after {
-  content: '';
+  content: "";
   display: block;
   clear: both;
   min-height: 1px; }
@@ -216,6 +216,9 @@ body.page .flexia-wrapper > .content-area {
   float: none;
   margin-right: auto;
   margin-left: auto;
+  text-align: center; }
+
+.wp-block-embedpress-embedpress.aligncenter {
   text-align: center; }
 
 .embedpress-gutenberg-wrapper .ose-embedpress-responsive {
@@ -259,13 +262,16 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
 .css-vwt1e3 {
   margin: 0px 11px 0px !important; }
 
-.ep-youtube__content__pagination .ep-prev, .ep-youtube__content__pagination .ep-next {
+.ep-youtube__content__pagination .ep-prev,
+.ep-youtube__content__pagination .ep-next {
   user-select: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none; }
 
-.ep__components-placeholder, .wp-block-embedpress-embedpress, .block-editor-block-list__block {
+.ep__components-placeholder,
+.wp-block-embedpress-embedpress,
+.block-editor-block-list__block {
   clear: both !important; }
 
 .wp-block-embed.is-loading p {
@@ -279,7 +285,9 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
   width: 100% !important;
   min-width: 900px; }
 
-.alignleft .ose-opensea, .alignright .ose-opensea, .aligncenter .ose-opensea {
+.alignleft .ose-opensea,
+.alignright .ose-opensea,
+.aligncenter .ose-opensea {
   min-width: 900px;
   max-width: 900px !important; }
 
@@ -287,10 +295,10 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
   margin: 0 auto;
   display: block !important; }
 
-.wp-block[data-align=right] {
+.wp-block[data-align="right"] {
   float: right; }
 
-.wp-block[data-align=left] {
+.wp-block[data-align="left"] {
   float: left; }
 
 .ep_nft_content_wrap.ep_nft__wrapper {
@@ -319,9 +327,9 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
   overflow: hidden;
   padding: 15px;
   position: relative;
-  -webkit-transition: .3s ease-in-out;
-  -o-transition: .3s ease-in-out;
-  transition: .3s ease-in-out; }
+  -webkit-transition: 0.3s ease-in-out;
+  -o-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out; }
 
 .ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-grid .ep_nft_item {
   display: -ms-flexbox;
@@ -408,7 +416,7 @@ span.eb_nft_currency svg {
   gap: 5px; }
 
 .ep_nft_content .ep_nft_creator a {
-  color: #3080E2;
+  color: #3080e2;
   font-size: 14px;
   text-decoration: none;
   word-break: break-all; }
@@ -425,7 +433,7 @@ span.eb_nft_currency svg {
   margin-bottom: 0px; }
 
 .ep_nft_content .ep_nft_button button a {
-  background-color: #3080E2;
+  background-color: #3080e2;
   color: #ffffff;
   font-size: 14px;
   padding-top: 15px;
@@ -478,7 +486,7 @@ span.eb_nft_currency svg {
   margin-top: auto; }
 
 .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button a {
-  background-color: #3080E2;
+  background-color: #3080e2;
   color: #ffffff;
   font-size: 14px;
   padding: 10px 20px;
@@ -506,7 +514,7 @@ span.eb_nft_currency svg {
   width: 55%; }
 
 .ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_content {
-  width: calc( 45% - 15px); }
+  width: calc(45% - 15px); }
 
 .ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_content .ep_nft_price.ep_nft_last_sale {
   margin-bottom: 15px; }
@@ -646,7 +654,7 @@ span.eb_nft_currency svg {
   text-decoration: none;
   margin-bottom: 15px;
   display: block;
-  color: #3080E2; }
+  color: #3080e2; }
 
 .ep-nft-single-item-wraper sub.verified-icon {
   bottom: -5px;
@@ -774,15 +782,18 @@ span.eb_nft_currency svg {
 .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items .ep_nft_item .ep_nft_button span.ep-nft-rank {
   pointer-events: none; }
 
-.ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-nft-single-item-wraper.ep-grid .ep_nft_content {
+.ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-nft-single-item-wraper.ep-grid
+.ep_nft_content {
   margin-bottom: 20px; }
 
 @media screen and (max-width: 1024px) {
-  .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper, .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft_list {
+  .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper,
+  .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft_list {
     grid-template-columns: repeat(1, 1fr) !important; } }
 
 @media screen and (max-width: 991px) {
-  .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper, .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft_list {
+  .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper,
+  .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft_list {
     grid-template-columns: repeat(1, 1fr) !important; }
   .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item {
     -ms-flex-align: unset;
@@ -876,7 +887,8 @@ button.ep-remove__image {
       -ms-transform: translate(0%, -50%);
           transform: translate(0%, -50%); }
 
-.ep-yt-related-videos p, .ep-video-controlers p {
+.ep-yt-related-videos p,
+.ep-video-controlers p {
   margin-top: calc(8px);
   font-size: 12px;
   font-style: normal;
@@ -902,7 +914,8 @@ span.ep-wistia-message {
   max-width: 320px; }
 
 @media only screen and (max-width: 520px) {
-  .wistia_embed, .ose-wistia {
+  .wistia_embed,
+  .ose-wistia {
     max-height: 280px; } }
 
 .lock-content-pass-input {
@@ -955,91 +968,35 @@ span.copy-tooltip {
   visibility: visible;
   right: 25px; }
 
-.gutenberg-wraper {
+.gutenberg-block-wraper, .gutenberg-wraper {
   position: relative; }
 
-/* social share css */
 .wp-block-embedpress-embedpress > div {
   position: relative; }
 
-.position-left-wraper {
-  margin-left: 40px; }
-
-.social-share {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: center;
-      justify-content: center;
-  -ms-flex-align: center;
-      align-items: center;
-  position: absolute; }
-
-.social-share.share-position-right {
-  right: -40px;
-  top: 0;
-  -ms-flex-direction: column;
-      flex-direction: column; }
-
-.social-share.share-position-left {
+.gutenberg-block-wraper .social-share.share-position-left {
   left: -40px;
   top: 0;
   -ms-flex-direction: column;
       flex-direction: column; }
 
-.social-share.share-position-top {
-  top: -40px;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-      -ms-transform: translateX(-50%);
-          transform: translateX(-50%); }
-
-.social-share.share-position-bottom {
-  bottom: -36px;
-  left: 50%;
-  -webkit-transform: translateX(-50%);
-      -ms-transform: translateX(-50%);
-          transform: translateX(-50%); }
-
-.social-icon {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: center;
-      justify-content: center;
-  -ms-flex-align: center;
-      align-items: center;
-  width: 40px;
-  height: 40px;
-  margin: 0;
-  color: #fff;
-  text-decoration: none;
-  font-size: 20px; }
-
-.social-icon:hover {
-  opacity: 0.8; }
-
-.social-share svg {
-  width: 20px; }
-
-.facebook {
-  background-color: #3b5998; }
-
-.facebook svg {
-  width: 40px; }
-
-.twitter {
-  background-color: #55acee; }
-
-.pinterest {
-  background-color: #bd081c; }
-
-.linkedin {
-  background-color: #0077b5; }
-
-.reddit {
-  background-color: #ff4500; }
-
-.social-icon i {
-  margin-right: 0; }
+.custom-share-thumbnail-label {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-transform: uppercase;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  display: block;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  max-width: 100%;
+  z-index: 1;
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 8px; }
 /**
  * #.# Common SCSS
  *
@@ -1226,6 +1183,15 @@ span.isPro {
 .embedpress-inner-iframe {
   display: inline-block;
   text-align: center; }
+
+.embedpress-inner-iframe.ep-alignright {
+  text-align: right; }
+
+.embedpress-inner-iframe.ep-aligncenter {
+  text-align: center; }
+
+.embedpress-inner-iframe.ep-alignleft {
+  text-align: left; }
 
 .ep__components-placeholder, .wp-block-embedpress-embedpress, .block-editor-block-list__block {
   clear: both !important; }

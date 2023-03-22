@@ -8,119 +8,119 @@
 //	height: 100%;
 //}
 .embedpress-gutenberg-wrapper {
-	margin: 30px auto;
+    margin: 30px auto;
 
-	iframe {
-		max-width: 100%;
-	}
+    iframe {
+        max-width: 100%;
+    }
 }
 
 .embedpress-gutenberg-wrapper.alignright {
-	max-width: 100%;
+    max-width: 100%;
 }
 
 .ose-the-new-york-times iframe {
-	min-height: 500px;
-	max-height: 100%;
+    min-height: 500px;
+    max-height: 100%;
 }
 
-body.page .flexia-wrapper>.content-area {
-	padding: 0 !important;
+body.page .flexia-wrapper > .content-area {
+    padding: 0 !important;
 }
 
-.flexia-wrapper.flexia-container>.content-area {
-	margin: 0 !important;
+.flexia-wrapper.flexia-container > .content-area {
+    margin: 0 !important;
 
-	.embedpress-gutenberg-wrapper {
-		margin: 0 auto;
-	}
+    .embedpress-gutenberg-wrapper {
+        margin: 0 auto;
+    }
 }
 
 @media only screen and (min-width: 482px) {
-
-	.entry-content>.embedpress-gutenberg-wrapper.alignright,
-	.entry-content>.embedpress-gutenberg-wrapper.alignleft,
-	.embedpress-gutenberg-wrapper.alignright,
-	.embedpress-gutenberg-wrapper.alignleft {
-		max-width: 100%
-	}
+    .entry-content > .embedpress-gutenberg-wrapper.alignright,
+    .entry-content > .embedpress-gutenberg-wrapper.alignleft,
+    .embedpress-gutenberg-wrapper.alignright,
+    .embedpress-gutenberg-wrapper.alignleft {
+        max-width: 100%;
+    }
 }
 
 .clear::after {
-	content: '';
-	display: block;
-	clear: both;
-	min-height: 1px;
+    content: "";
+    display: block;
+    clear: both;
+    min-height: 1px;
 }
 
 .embedpress-gutenberg-wrapper .alignleft,
 .embedpress-gutenberg-wrapper .alignright,
 .embedpress-gutenberg-wrapper .aligncenter {
-	float: none;
-	display: block;
+    float: none;
+    display: block;
 }
 
 .embedpress-gutenberg-wrapper .alignright {
-	text-align: right;
+    text-align: right;
     max-width: 100% !important;
 }
 
 .embedpress-gutenberg-wrapper .alignleft {
-	text-align: left;
+    text-align: left;
     max-width: 100% !important;
 }
 
 .embedpress-gutenberg-wrapper .aligncenter {
-	clear: both;
-	display: block;
-	float: none;
-	margin-right: auto;
-	margin-left: auto;
-	text-align: center;
+    clear: both;
+    display: block;
+    float: none;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
 }
-
+.wp-block-embedpress-embedpress.aligncenter {
+    text-align: center;
+}
 .embedpress-gutenberg-wrapper .ose-embedpress-responsive {
-	display: inline-block;
+    display: inline-block;
 }
 
 .embedpress-gutenberg-wrapper {
-	max-width: 100% !important;
+    max-width: 100% !important;
 }
 
-.ep-first-video{
-	position: relative;
-	height: 0;
-	padding-bottom: 56.25%;
+.ep-first-video {
+    position: relative;
+    height: 0;
+    padding-bottom: 56.25%;
 }
 
 .ep-first-video iframe {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
-
 .components-base-control__label {
-	font-weight: 600;
+    font-weight: 600;
 }
 
 .components-input-control__label {
-	font-weight: 600;
+    font-weight: 600;
 }
 
 .components-base-control__field,
 .components-input-control__label {
-	font-weight: 600;
+    font-weight: 600;
 }
 
 label.components-truncate.components-text.components-input-control__label.em5sgkm4.ecfd-bd--d-eecc-1iznhho.em57xhy0 {
-	font-weight: 600 !important;
+    font-weight: 600 !important;
 }
 
 .text-center {
-	text-align: center !important;
+    text-align: center !important;
 }
 
 .wp-block-embed.is-loading {
@@ -128,50 +128,54 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
 }
 
 .css-vwt1e3 {
-    margin: 0px 11px 0px!important;
+    margin: 0px 11px 0px !important;
 }
 
-.ep-youtube__content__pagination .ep-prev, .ep-youtube__content__pagination .ep-next {
-	user-select: none;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-  }
+.ep-youtube__content__pagination .ep-prev,
+.ep-youtube__content__pagination .ep-next {
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
 
-.ep__components-placeholder, .wp-block-embedpress-embedpress, .block-editor-block-list__block{
-    clear: both!important;
+.ep__components-placeholder,
+.wp-block-embedpress-embedpress,
+.block-editor-block-list__block {
+    clear: both !important;
 }
 
 .wp-block-embed.is-loading p {
-    margin: 0!important;
+    margin: 0 !important;
 }
-
 
 /**
 * NFT card frontend style
 */
 .ose-opensea {
-    height: 100%!important;
-    width: 100%!important;
+    height: 100% !important;
+    width: 100% !important;
     min-width: 900px;
 }
-.alignleft .ose-opensea,  .alignright .ose-opensea, .aligncenter .ose-opensea{
+.alignleft .ose-opensea,
+.alignright .ose-opensea,
+.aligncenter .ose-opensea {
     min-width: 900px;
-    max-width: 900px!important;
+    max-width: 900px !important;
 }
-.aligncenter .ose-opensea{
+.aligncenter .ose-opensea {
     margin: 0 auto;
-    display: block!important;
+    display: block !important;
 }
-.wp-block[data-align=right] {
+.wp-block[data-align="right"] {
     float: right;
 }
-.wp-block[data-align=left] {
+.wp-block[data-align="left"] {
     float: left;
 }
 
-.ep_nft_content_wrap.ep_nft__wrapper{
-    display: grid;      
+.ep_nft_content_wrap.ep_nft__wrapper {
+    display: grid;
 }
 
 .ep_nft_content_wrap.ep_nft__wrapper,
@@ -189,27 +193,27 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
     background-color: #ffffff;
     border-radius: 10px;
     transition: background 0.5s, border 0.5s, border-radius 0.5s, box-shadow 0.5s;
-    box-shadow: 0 4px 15px rgba(0,0,0,.09);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.09);
     overflow: hidden;
     padding: 15px;
     position: relative;
-    transition: .3s ease-in-out;
+    transition: 0.3s ease-in-out;
 }
 .ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-grid .ep_nft_item {
     display: flex;
     flex-direction: column;
 }
 
- .ep_nft_content_wrap.ep_nft_list .ep_nft_item {
+.ep_nft_content_wrap.ep_nft_list .ep_nft_item {
     justify-content: flex-start;
     align-items: flex-start;
 }
 
- .ep_nft_content_wrap.ep_nft__wrapper.preset-3 .ep_nft_item .ep_nft_content {
+.ep_nft_content_wrap.ep_nft__wrapper.preset-3 .ep_nft_item .ep_nft_content {
     background-color: #edecf6e6;
 }
 
- .ep_nft_content_wrap .ep_nft_thumbnail {
+.ep_nft_content_wrap .ep_nft_thumbnail {
     margin-top: 0px;
     margin-right: 0px;
     margin-left: 0px;
@@ -224,20 +228,20 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
     object-fit: cover;
 }
 
- .ep_nft_content .ep_nft_title {
+.ep_nft_content .ep_nft_title {
     color: #333333;
     font-size: 16px;
     margin-top: 0px;
     margin-right: 0px;
     margin-left: 0px;
     margin-bottom: 15px;
-    font-weight: 600 
+    font-weight: 600;
 }
 .ep_nft_content {
     text-align: left;
 }
 
- .ep_nft_content .ep_nft_price {
+.ep_nft_content .ep_nft_price {
     color: #333333;
     font-size: 14px;
     margin-top: 0px;
@@ -247,7 +251,7 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
     display: flex;
     font-weight: 600;
 }
-.ep_nft_content .ep_nft_price:first-child{
+.ep_nft_content .ep_nft_price:first-child {
     margin-bottom: 10px;
 }
 span.eb_nft_currency {
@@ -262,12 +266,11 @@ span.eb_nft_currency svg {
     height: auto;
 }
 
- .ep_nft_content .ep_nft_price_wrapper {
+.ep_nft_content .ep_nft_price_wrapper {
     min-height: 20px;
 }
 
-
- .ep_nft_content .ep_nft_creator {
+.ep_nft_content .ep_nft_creator {
     color: #333333;
     font-size: 14px;
     margin-top: 0px;
@@ -279,28 +282,28 @@ span.eb_nft_currency svg {
     gap: 5px;
 }
 
- .ep_nft_content .ep_nft_creator a {
-    color: #3080E2;
+.ep_nft_content .ep_nft_creator a {
+    color: #3080e2;
     font-size: 14px;
     text-decoration: none;
     word-break: break-all;
 }
 
- .ep_nft_content .ep_nft_creator img {
+.ep_nft_content .ep_nft_creator img {
     height: 30px;
     width: 30px;
     border-radius: 50%;
 }
 
- .ep_nft_content .ep_nft_button button {
+.ep_nft_content .ep_nft_button button {
     margin-top: 0px;
     margin-right: 0px;
     margin-left: 0px;
     margin-bottom: 0px;
 }
 
- .ep_nft_content .ep_nft_button button a {
-    background-color: #3080E2;
+.ep_nft_content .ep_nft_button button a {
+    background-color: #3080e2;
     color: #ffffff;
     font-size: 14px;
     padding-top: 15px;
@@ -310,7 +313,7 @@ span.eb_nft_currency svg {
     transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s;
 }
 
- .ep_nft_content .ep_nft_button button:hover a {
+.ep_nft_content .ep_nft_button button:hover a {
     background-color: rgb(46, 142, 238);
     color: #ffffff;
 }
@@ -320,7 +323,6 @@ span.eb_nft_currency svg {
     transform: translate(0);
     visibility: visible;
 }
-
 
 .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button a.ep-details-btn:hover {
     background-color: rgb(46, 142, 238);
@@ -341,13 +343,13 @@ span.eb_nft_currency svg {
     transform: translateY(30px);
     visibility: hidden;
     width: 100%;
-    transition:0.3s;
+    transition: 0.3s;
 }
-.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button{
+.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button {
     margin-top: auto;
 }
 .ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button a {
-    background-color: #3080E2;
+    background-color: #3080e2;
     color: #ffffff;
     font-size: 14px;
     padding: 10px 20px;
@@ -359,8 +361,6 @@ span.eb_nft_currency svg {
 }
 
 /* mimmikcssStart */
-
-
 
 /* NFT List item CSS */
 
@@ -374,7 +374,7 @@ span.eb_nft_currency svg {
     width: 55%;
 }
 .ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_content {
-    width: calc( 45% - 15px );
+    width: calc(45% - 15px);
 }
 
 .ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_content .ep_nft_price.ep_nft_last_sale {
@@ -388,23 +388,23 @@ span.eb_nft_currency svg {
 .ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_thumbnail img {
     height: 260px;
 }
-.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_button a{
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_button a {
     border-radius: 10px;
 }
-.ep_nft_content_wrap.ep_nft__wrapper.nft_items .ep_nft_item .ep_nft_button a{
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items .ep_nft_item .ep_nft_button a {
     border-radius: 10px;
 }
-.ep-nft-gallery-wrapper .ep_nft_content_wrap.ep_nft__wrapper.ep-preset-1 .ep_nft_item .ep_nft_button a{
+.ep-nft-gallery-wrapper .ep_nft_content_wrap.ep_nft__wrapper.ep-preset-1 .ep_nft_item .ep_nft_button a {
     border-radius: 0;
 }
 
-.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-grid.ep-preset-2 .ep_nft_content .ep_nft_price:last-child{
-	margin-bottom: 15px;
+.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-grid.ep-preset-2 .ep_nft_content .ep_nft_price:last-child {
+    margin-bottom: 15px;
 }
 
 .ose-opensea {
     min-width: 100% !important;
-    max-width: 100%!important;
+    max-width: 100% !important;
 }
 
 .ep-loadmore-wrapper {
@@ -434,13 +434,12 @@ span.eb_nft_currency svg {
     margin: auto;
     cursor: pointer;
 }
-.ep-loadmore-wrapper button svg{
+.ep-loadmore-wrapper button svg {
     margin-left: 5px;
 }
 /* mimmikcssEnd */
 
 @media all and (max-width: 1024px) {
-
     /* tabcssStart */
     .ep_nft_content_wrap.ep_nft__wrapper,
     .ep_nft_content_wrap.ep_nft_list {
@@ -448,15 +447,13 @@ span.eb_nft_currency svg {
     }
 
     /* tabcssEnd */
-
 }
 
 @media all and (max-width: 991px) {
-
     /* tabcssStart */
     .ose-opensea {
         min-width: auto !important;
-		max-width: 100%!important;
+        max-width: 100% !important;
     }
 
     .ep_nft_content_wrap.ep_nft__wrapper,
@@ -465,11 +462,9 @@ span.eb_nft_currency svg {
     }
 
     /* tabcssEnd */
-
 }
 
 @media all and (max-width: 767px) {
-
     /* mobcssStart */
     .ep_nft_content_wrap.ep_nft__wrapper,
     .ep_nft_content_wrap.ep_nft_list {
@@ -477,10 +472,7 @@ span.eb_nft_currency svg {
     }
 
     /* mobcssEnd */
-
 }
-
-
 
 /* NFT Single item CSS */
 .ep-nft-single-item-wraper.ep_nft_content_wrap .ep_nft_item {
@@ -548,7 +540,7 @@ span.eb_nft_currency svg {
     text-decoration: none;
     margin-bottom: 15px;
     display: block;
-    color: #3080E2;
+    color: #3080e2;
 }
 
 .ep-nft-single-item-wraper sub.verified-icon {
@@ -611,7 +603,6 @@ span.eb_nft_currency svg {
     line-height: 1.8em;
 }
 
-
 .ep-nft-single-item-wraper .ep-content {
     display: block;
 }
@@ -623,18 +614,16 @@ span.eb_nft_currency svg {
     line-height: 1.5;
 }
 
-.ep-nft-single-item-wraper .ep-toggle:checked+.ep-title+.ep-content {
+.ep-nft-single-item-wraper .ep-toggle:checked + .ep-title + .ep-content {
     display: none;
     background: transparent;
 }
-
-
 
 .ep-nft-single-item-wraper .ep_nft_content .ep_nft_price_wrapper {
     display: flex;
 }
 
-.ep-nft-single-item-wraper .ep-toggle+.ep-title:after {
+.ep-nft-single-item-wraper .ep-toggle + .ep-title:after {
     content: "";
     display: inline-block;
     position: absolute;
@@ -651,7 +640,7 @@ span.eb_nft_currency svg {
     top: 50%;
     transform: rotate(45deg) translate(-20%, -5%);
 }
-.ep-nft-single-item-wraper .ep-toggle:checked+.ep-title:before {
+.ep-nft-single-item-wraper .ep-toggle:checked + .ep-title:before {
     content: "";
     display: inline-block;
     position: absolute;
@@ -668,28 +657,28 @@ span.eb_nft_currency svg {
     top: 50%;
     transform: rotate(225deg) translate(80%, 20%);
 }
-.ep-nft-single-item-wraper .ep-toggle:checked+.ep-title:after {
+.ep-nft-single-item-wraper .ep-toggle:checked + .ep-title:after {
     display: none;
 }
 
-.ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items .ep_nft_item .ep_nft_button span.ep-nft-rank{
+.ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items .ep_nft_item .ep_nft_button span.ep-nft-rank {
     pointer-events: none;
 }
 
-.ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-nft-single-item-wraper.ep-grid .ep_nft_content {
+.ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-nft-single-item-wraper.ep-grid
+    .ep_nft_content {
     margin-bottom: 20px;
 }
 
 @media screen and (max-width: 1024px) {
-
-    .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper, .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft_list {
+    .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper,
+    .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft_list {
         grid-template-columns: repeat(1, 1fr) !important;
     }
-
 }
 @media screen and (max-width: 991px) {
-
-    .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper, .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft_list {
+    .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper,
+    .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft_list {
         grid-template-columns: repeat(1, 1fr) !important;
     }
 
@@ -725,12 +714,9 @@ span.eb_nft_currency svg {
 //     margin: -16px -16px -16px;
 // }
 
-
 // .ep-opensea-options h2.components-panel__body-title, .ep-colors-typography h2.components-panel__body-title {
 //     margin: -16px -16px 25px!important;
 // }
-
-
 
 // YouTube single videos controlers CSS
 .ep-video-controlers .ep-control-field .components-base-control__field {
@@ -772,7 +758,7 @@ button.ep-remove__image {
     margin: 0;
     cursor: pointer;
 }
-.ep__custom-logo{
+.ep__custom-logo {
     text-align: center;
     margin-bottom: 15px;
 }
@@ -782,28 +768,27 @@ button.ep-remove__image {
     object-fit: cover;
     border-radius: 5px;
 }
-.ep-logo-upload-button{
+.ep-logo-upload-button {
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 20px 15px;
 }
 
-
 .ep-yt-related-videos .components-base-control {
-    margin-bottom: 10px!important;
+    margin-bottom: 10px !important;
 }
 
-.ep-custom-logo-button{
-    margin-bottom: 0px!important;
+.ep-custom-logo-button {
+    margin-bottom: 0px !important;
 }
-
 
 .ep-custom-logo-button .isPro {
     top: 50%;
     transform: translate(0%, -50%);
 }
 
-.ep-yt-related-videos p, .ep-video-controlers p{
+.ep-yt-related-videos p,
+.ep-video-controlers p {
     margin-top: calc(8px);
     font-size: 12px;
     font-style: normal;
@@ -812,7 +797,7 @@ button.ep-remove__image {
 }
 
 p.is-ep-description {
-    margin-top: -20px!important;
+    margin-top: -20px !important;
     color: rgb(117, 117, 117);
 }
 
@@ -832,7 +817,8 @@ span.ep-wistia-message {
 }
 
 @media only screen and (max-width: 520px) {
-   .wistia_embed, .ose-wistia {
+    .wistia_embed,
+    .ose-wistia {
         max-height: 280px;
     }
 }
@@ -851,7 +837,7 @@ span.ep-wistia-message {
 }
 
 .lock-content-pass-input span.active {
-    display: block
+    display: block;
 }
 
 span.copy-password.active {
@@ -881,100 +867,40 @@ span.copy-tooltip {
     padding: 1px 8px;
     font-size: 12px;
     opacity: 0;
-
 }
 
-  
 .copy-tooltip.show {
     opacity: 1;
-    visibility:visible;
+    visibility: visible;
     right: 25px;
 }
 
-.gutenberg-wraper{
+.gutenberg-block-wraper,.gutenberg-wraper  {
     position: relative;
 }
-
-/* social share css */
 .wp-block-embedpress-embedpress > div {
     position: relative;
 }
-.position-left-wraper {
-    margin-left: 40px;
-}
-.social-share {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-  }
-
-  .social-share.share-position-right {
-    right: -40px;
+.gutenberg-block-wraper .social-share.share-position-left {
+    left: -40px;
     top: 0;
     flex-direction: column;
 }
-  .social-share.share-position-left {
-        left: -40px;
-        top: 0;
-        flex-direction: column;
-    }
-  .social-share.share-position-top {
-        top: -40px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-    
-  .social-share.share-position-bottom {
-        bottom: -36px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-  
-  .social-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    margin: 0;
-    color: #fff;
-    text-decoration: none;
-    font-size: 20px;
-  }
-  
-  .social-icon:hover {
-    opacity: 0.8;
-  }
 
-  .social-share svg {
-        width: 20px;
-    }
-  
-  .facebook {
-    background-color: #3b5998;
-  }
-  .facebook svg{
-    width: 40px;
-  }
-  
-  .twitter {
-    background-color: #55acee;
-  }
-  
-  .pinterest {
-    background-color: #bd081c;
-  }
-  
-  .linkedin {
-    background-color: #0077b5;
-  }
-  
-  .reddit {
-    background-color: #ff4500;
-  }
-  
-  .social-icon i {
-    margin-right: 0;
-  }
-  
+
+.custom-share-thumbnail-label {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.4;
+    text-transform: uppercase;
+    box-sizing: border-box;
+    display: block;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    max-width: 100%;
+    z-index: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-bottom: 8px;
+}
