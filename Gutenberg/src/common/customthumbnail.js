@@ -2,8 +2,8 @@
  * WordPress dependencies
  */
 
-import { addProAlert, isPro, removeAlert } from '../../common/helper';
-import ControlHeader from '../../common/control-heading';
+import { addProAlert, isPro, removeAlert } from './helper';
+import ControlHeader from './control-heading';
 
 const { __ } = wp.i18n;
 
@@ -29,39 +29,29 @@ import {
 export default function CustomThumbnail({ attributes, setAttributes }) {
 
     const {
-        customlogo,
-        logoX,
-        logoY,
-        customlogoUrl,
-        logoOpacity
+        customThumbnail,
     } = attributes;
-
-    const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     const onSelectImage = (logo) => {
         console.log(logo.sizes.full.url);
-        setAttributes({ customlogo: logo.sizes.full.url });
+        setAttributes({ customThumbnail: logo.sizes.full.url });
     }
     const removeImage = (e) => {
-        setAttributes({ customlogo: '' });
+        setAttributes({ customThumbnail: '' });
     }
 
-    if (!document.querySelector('.pro__alert__wrap')) {
-        document.querySelector('body').append(isPro('none'));
-        removeAlert();
-    }
 
     return (
         <div>
-            <label class="custom-share-thumbnail-label">Custom Thumbnail</label>
+            <label class="custom-share-thumbnail-label">Thumbnail</label>
             {
-                customlogo && (
+                customThumbnail && (
                     <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
                         <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
                             <span class="dashicon dashicons dashicons-trash"></span>
                         </button>
                         <img
-                            src={customlogo}
+                            src={customThumbnail}
                             alt="John"
                         />
                     </div>
@@ -72,11 +62,11 @@ export default function CustomThumbnail({ attributes, setAttributes }) {
                 <MediaUpload
                     onSelect={onSelectImage}
                     allowedTypes={['image']}
-                    value={customlogo}
+                    value={customThumbnail}
                     render={({ open }) => (
-                        <Button className={'ep-logo-upload-button'} icon={!customlogo ? 'upload' : 'update'} onClick={open}>
+                        <Button className={'ep-logo-upload-button'} icon={!customThumbnail ? 'upload' : 'update'} onClick={open}>
                             {
-                                (!customlogo) ? 'Upload Image' : 'Change Image'
+                                (!customThumbnail) ? 'Upload Image' : 'Change Image'
                             }
                         </Button>
                     )}

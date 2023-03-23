@@ -179,6 +179,10 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'string',
 								'default' => 'right'
 							],
+							'customThumbnail' => [
+								'type' => 'string',
+								'default' => ''
+							],
 							
 							'videosize' => [
 								'type' => 'string',
@@ -500,8 +504,8 @@ function embedpress_pdf_render_block($attributes)
 					echo '<div class="position-'.$attributes['sharePosition'].'-wraper gutenberg-pdf-wraper">';
 					echo $embed_code;
 					if(!empty($attributes['contentShare'])) {
-						$content_id = '#ep-gutenberg-content-'.$client_id;
-						$embed_code .= Helper::embed_content_share(Helper::get_file_title($pdf_url), $content_id, $attributes['sharePosition']);
+						$content_id = $attributes['id'];
+						$embed_code .= Helper::embed_content_share(Helper::get_file_title($pdf_url), $content_id, $attributes['sharePosition'], $attributes['customThumbnail']);
 					}
 					echo '</div>';
 				} else {

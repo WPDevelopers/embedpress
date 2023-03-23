@@ -189,7 +189,7 @@ class Embedpress_Elementor extends Widget_Base
         $this->add_control(
             'embedpress_content_share_position',
             [
-                'label'   => __('Share Position', 'embedpress'),
+                'label'   => __('Position', 'embedpress'),
                 'type'    => Controls_Manager::SELECT,
                 'default' => 'right',
                 'options' => [
@@ -203,6 +203,17 @@ class Embedpress_Elementor extends Widget_Base
 				]
             ]
         );
+
+		$this->add_control(
+			'embedpress_content_share_custom_thumbnail',
+			[
+				'label' => esc_html__( 'Thumbnail', 'textdomain' ),
+				'type' => \Elementor\Controls_Manager::MEDIA,
+				'default' => [
+					'url' => \Elementor\Utils::get_placeholder_image_src(),
+				],
+			]
+		);
 		
 		$this->add_control(
 			'spotify_theme',
@@ -2607,8 +2618,8 @@ class Embedpress_Elementor extends Widget_Base
 										echo $content;
 
 										if(!empty($settings['embedpress_content_share'])){
-											$content_id = '#ep-elementor-content-'.$client_id;
-											Helper::embed_content_share(Helper::get_file_title($embed_link), $content_id, $settings['embedpress_content_share_position']);
+											$content_id = $client_id;
+											Helper::embed_content_share(Helper::get_file_title($embed_link), $content_id, $settings['embedpress_content_share_position'], $settings['embedpress_content_share_custom_thumbnail']['url']);
 										}
 									} else {
 										Helper::display_password_form($client_id, $content, $pass_hash_key);

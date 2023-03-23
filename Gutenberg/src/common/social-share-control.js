@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 
-import CustomThumbnail from "../embedpress/InspectorControl/customthumbnail";
+import CustomThumbnail from "./customthumbnail";
 
 const { __ } = wp.i18n;
 
@@ -33,7 +33,7 @@ export default function ContentShare({ attributes, setAttributes }) {
                     <div>
 
                         <SelectControl
-                            label={__("Share Postion")}
+                            label={__("Position")}
                             value={sharePosition}
                             options={[
                                 { label: 'Top', value: 'top' },

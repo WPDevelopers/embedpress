@@ -102,8 +102,8 @@ function embedpress_render_block($attributes)
 				</div>
 				<?php 
 					if(!empty($attributes['contentShare'])) {
-						$content_id = '#ep-gutenberg-content-'.$client_id;
-						Helper::embed_content_share(Helper::get_file_title($url), $content_id, $attributes['sharePosition']);
+						$content_id = $attributes['clientId'];
+						Helper::embed_content_share(Helper::get_file_title($url), $content_id, $attributes['sharePosition'], $attributes['customThumbnail']);
 					}
 				?>
 			</div>

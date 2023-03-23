@@ -52,7 +52,66 @@ if ( ! defined('EMBEDPRESS_IS_LOADED')) {
 
 add_action( 'embedpress_cache_cleanup_action', 'embedpress_cache_cleanup' );
 
+add_action( 'wp_head', 'generate_social_share_meta');
 
+
+function ep_add_meta_tags() {
+	if(!empty( $_GET['hash'])){
+		
+		// $tags = "<meta property='og:title' content='$title'/>";
+		// $tags .= "<meta property='og:description' content='$description'/>";
+		// $tags .= "<meta property='og:image' content='$image_url'/>";
+		// $tags .= "<meta property='og:url' content='$url'/>";
+		// $tags .= "<meta name='twitter:card' content='summary_large_image'/>";
+		// $tags .= "<meta name='twitter:title' content='$title'/>";
+		// $tags .= "<meta name='twitter:description' content='$description'/>";
+		// $tags .= "<meta name='twitter:image' content='$image_url'/>";
+		
+		echo $_GET['hash'];
+	}
+}
+
+function generate_social_share_meta(){
+
+	// Example string that contains an embedpress PDF block
+	// $block_content = '<!-- wp:embedpress/embedpress-pdf {"id":"embedpress-pdf-1679464318234","contentShare":true,"customThumbnail":"http://development.local/wp-content/uploads/2022/09/IMG_20220906_103416-scaled.jpg","href":"http://development.local/wp-content/uploads/2022/09/computer_programming.pdf","draw":false,"fileName":"computer_programming","mime":"application/pdf","align":"center"} /-->
+
+	// <!-- wp:embedpress/embedpress-pdf {"id":"embedpress-pdf-1679568771118","contentShare":true,"customThumbnail":"http://development.local/wp-content/uploads/2022/09/pexels-pixabay-50686-1.jpg","href":"http://development.local/wp-content/uploads/2022/11/sample.pdf","draw":false,"fileName":"sample","mime":"application/pdf","align":"center"} /-->';
+
+	
+
+	$post_id = get_the_ID(  ); // replace with the ID of the post you want to retrieve
+	$post = get_post( $post_id );
+	$block_content = $post->post_content;
+
+	// ID to search for
+	$id_value = 'embedpress-pdf-1679464318234';
+
+	// Regular expression to match the id and href keys and their values
+	$regex = '/"id":"'.$id_value.'",".*?"customThumbnail":"(.*?)"/';
+
+	// Search for the regex pattern in the string and extract the href value
+	if (preg_match($regex, $block_content, $matches)) {
+		// print_r($matches);
+		$image_url = $matches[1];
+
+		if(!empty( $_GET['hash'])){
+	
+			// $tags = "<meta property='og:title' content='$title'/>";
+			// $tags .= "<meta property='og:description' content='$description'/>";
+			$tags = "<meta property='og:image' content='$image_url'/>";
+			// $tags .= "<meta property='og:url' content='$url'/>";
+			$tags .= "<meta name='twitter:card' content='summary_large_image'/>";
+			// $tags .= "<meta name='twitter:title' content='$title'/>";
+			// $tags .= "<meta name='twitter:description' content='$description'/>";
+			$tags .= "<meta name='twitter:image' content='$image_url'/>";
+			
+			echo $tags;
+		}
+	} else {
+		echo "No matching ID found in the string.";
+	}
+}
 
 function onPluginActivationCallback()
 {

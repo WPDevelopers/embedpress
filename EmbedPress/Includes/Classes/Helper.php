@@ -22,12 +22,15 @@ class Helper {
 	 * @return array
 	 */
 	
-	 public function __construct () {
+	public function __construct () {
 		add_action('wp_ajax_lock_content_form_handler', [$this, 'lock_content_form_handler']);
 		add_action('wp_ajax_nopriv_lock_content_form_handler', [$this, 'lock_content_form_handler']);
+		add_action( 'wp_head', [$this, 'ep_add_meta_tags'] );
 	}
 
-
+	public function ep_add_meta_tags() {
+		echo 'abstract';
+	}
 
 	public static function parse_query($str, $urlEncoding = true)
 	{
@@ -263,10 +266,62 @@ class Helper {
 
 	}
 
-	public static function embed_content_share($content_title, $content_id, $share_position ){
+	public static function generate_tpen_graph_meta_tags($title, $description, $image_url, $url) {
+		$tags = "<meta property='og:title' content='$title'/>";
+		$tags .= "<meta property='og:description' content='$description'/>";
+		$tags .= "<meta property='og:image' content='$image_url'/>";
+		$tags .= "<meta property='og:url' content='$url'/>";
+		$tags .= "<meta name='twitter:card' content='summary_large_image'/>";
+		$tags .= "<meta name='twitter:title' content='$title'/>";
+		$tags .= "<meta name='twitter:description' content='$description'/>";
+		$tags .= "<meta name='twitter:image' content='$image_url'/>";
 		
-		$page_url = urlencode(get_permalink().$content_id);
+		return $tags;
+	}
+	
+	public static function add_share_meta_tags($meta_tags){
+
+		echo $meta_tags;
+	}
+
+	public static function generate_social_share_meta($client_id){
+
+		// Example string that contains an embedpress PDF block
+		// $pdf_block = '<!-- wp:embedpress/embedpress-pdf {"id":"embedpress-pdf-1679464318234","contentShare":true,"customThumbnail":"http://development.local/wp-content/uploads/2022/09/IMG_20220906_103416-scaled.jpg","href":"http://development.local/wp-content/uploads/2022/09/computer_programming.pdf","draw":false,"fileName":"computer_programming","mime":"application/pdf","align":"center"} /-->
+
+		// <!-- wp:embedpress/embedpress-pdf {"id":"embedpress-pdf-1679568771118","contentShare":true,"customThumbnail":"http://development.local/wp-content/uploads/2022/09/pexels-pixabay-50686-1.jpg","href":"http://development.local/wp-content/uploads/2022/11/sample.pdf","draw":false,"fileName":"sample","mime":"application/pdf","align":"center"} /-->';
+
+		$post_id = get_the_ID(  ); // replace with the ID of the post you want to retrieve
+		$post = get_post( $post_id );
+		$pdf_block = $post->post_content;
+
+		// ID to search for
+		$id_value = $client_id;
+
+		// Regular expression to match the id and href keys and their values
+		$regex = '/"id":"'.$id_value.'",".*?"customThumbnail":"(.*?)"/';
+
+		// Search for the regex pattern in the string and extract the href value
+		if (preg_match($regex, $pdf_block, $matches)) {
+			// print_r($matches);
+			$href_value = $matches[1];
+			echo $href_value;
+		} else {
+			echo "No matching ID found in the string.";
+		}
+	}
+
+
+	public static function embed_content_share($content_title='', $content_id='', $share_position='right', $custom_thumnail = '' ){
+
+		$page_url = get_permalink().'?hash='.$content_id;
+
+		$meta_tags = self::generate_tpen_graph_meta_tags($content_title, 'this test description', $custom_thumnail, $page_url);
 		
+		// self::generate_social_share_meta('embedpress-pdf-1679464318234');
+
+		// echo $page_url;
+
 		$social_icons = '<div class="social-share share-position-'.esc_attr( $share_position ).'">';
 		$social_icons .= '<a href="https://www.facebook.com/sharer/sharer.php?u=' . $page_url . '" class="social-icon facebook" target="_blank">
 		<svg width="64px" height="64px" viewBox="0 -6 512 512" xmlns="http://www.w3.org/2000/svg" fill="#000000">
@@ -279,9 +334,7 @@ class Helper {
 			<path fill="#475a96" d="M0 0h512v500H0z"/>
 
 			<path d="M375.717 112.553H138.283c-8.137 0-14.73 6.594-14.73 14.73v237.434c0 8.135 6.594 14.73 14.73 14.73h127.826V276.092h-34.781v-40.28h34.781v-29.705c0-34.473 21.055-53.244 51.807-53.244 14.73 0 27.391 1.097 31.08 1.587v36.026l-21.328.01c-16.725 0-19.963 7.947-19.963 19.609v25.717h39.887l-5.193 40.28h-34.693v103.355h68.012c8.135 0 14.73-6.596 14.73-14.73V127.283c-.001-8.137-6.596-14.73-14.731-14.73z" fill="#ffffff"/>
-
 			</g>
-
 			</svg>
 					</a>';
 					$social_icons .= '<a href="https://twitter.com/intent/tweet?url=' . $page_url . '&text=' . $content_title . '" class="social-icon twitter" target="_blank">
@@ -290,7 +343,8 @@ class Helper {
 					d="M221.95 51.29c.15 2.17.15 4.34.15 6.53 0 66.73-50.8 143.69-143.69 143.69v-.04c-27.44.04-54.31-7.82-77.41-22.64 3.99.48 8 .72 12.02.73 22.74.02 44.83-7.61 62.72-21.66-21.61-.41-40.56-14.5-47.18-35.07 7.57 1.46 15.37 1.16 22.8-.87-23.56-4.76-40.51-25.46-40.51-49.5v-.64c7.02 3.91 14.88 6.08 22.92 6.32C11.58 63.31 4.74 33.79 18.14 10.71c25.64 31.55 63.47 50.73 104.08 52.76-4.07-17.54 1.49-35.92 14.61-48.25 20.34-19.12 52.33-18.14 71.45 2.19 11.31-2.23 22.15-6.38 32.07-12.26-3.77 11.69-11.66 21.62-22.2 27.93 10.01-1.18 19.79-3.86 29-7.95-6.78 10.16-15.32 19.01-25.2 26.16z" />
 			</svg>
 					</a>';
-					$social_icons .= '<a href="http://pinterest.com/pin/create/button/?url=' . $page_url . '&media=' . wp_get_attachment_url(get_post_thumbnail_id()) . '&description=' . $content_title . '" class="social-icon pinterest" target="_blank">
+					$social_icons .= '<a href="http://pinterest.com/pin/create/button/?url=' . $page_url . '&media=' .$custom_thumnail . '&description=' . $content_title . '" class="social-icon pinterest" target="_blank">
+					
 						
 						
 			<svg xmlns="http://www.w3.org/2000/svg" height="800" width="1200" viewBox="-36.42015 -60.8 315.6413 364.8"><path d="M121.5 0C54.4 0 0 54.4 0 121.5 0 173 32 217 77.2 234.7c-1.1-9.6-2-24.4.4-34.9 2.2-9.5 14.2-60.4 14.2-60.4s-3.6-7.3-3.6-18c0-16.9 9.8-29.5 22-29.5 10.4 0 15.4 7.8 15.4 17.1 0 10.4-6.6 26-10.1 40.5-2.9 12.1 6.1 22 18 22 21.6 0 38.2-22.8 38.2-55.6 0-29.1-20.9-49.4-50.8-49.4-34.6 0-54.9 25.9-54.9 52.7 0 10.4 4 21.6 9 27.7 1 1.2 1.1 2.3.8 3.5-.9 3.8-3 12.1-3.4 13.8-.5 2.2-1.8 2.7-4.1 1.6-15.2-7.1-24.7-29.2-24.7-47.1 0-38.3 27.8-73.5 80.3-73.5 42.1 0 74.9 30 74.9 70.2 0 41.9-26.4 75.6-63 75.6-12.3 0-23.9-6.4-27.8-14 0 0-6.1 23.2-7.6 28.9-2.7 10.6-10.1 23.8-15.1 31.9 11.4 3.5 23.4 5.4 36 5.4 67.1 0 121.5-54.4 121.5-121.5C243 54.4 188.6 0 121.5 0z" fill="#fff"/></svg>
@@ -315,6 +369,8 @@ class Helper {
 		
 		echo  $social_icons ;
 	}
+
+
 }
 
 ?>

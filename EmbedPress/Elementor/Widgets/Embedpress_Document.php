@@ -155,6 +155,48 @@ class Embedpress_Document extends Widget_Base
         );
 
         $this->add_control(
+			'embedpress_doc_content_share',
+			[
+				'label'        => __('Enable Content Share', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+			]
+		);
+        $this->add_control(
+            'embedpress_doc_content_share_position',
+            [
+                'label'   => __('Position', 'embedpress'),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'right',
+                'options' => [
+                    'top'        => __('Top', 'embedpress'),
+                    'right' => __('Right', 'embedpress'),
+                    'bottom'    => __('Bottom', 'embedpress'),
+                    'left'  => __('Left', 'embedpress'),
+                ],
+                'condition'   => [
+					'embedpress_doc_content_share' => 'yes'
+				]
+            ]
+        );
+
+		$this->add_control(
+			'embedpress_doc_content_share_custom_thumbnail',
+			[
+				'label' => esc_html__( 'Thumbnail', 'textdomain' ),
+				'type' => \Elementor\Controls_Manager::MEDIA,
+				'default' => [
+					'url' => \Elementor\Utils::get_placeholder_image_src(),
+				],
+                'condition'   => [
+					'embedpress_doc_content_share' => 'yes'
+				]
+			]
+		);
+
+        $this->add_control(
             'embedpress_elementor_document_width',
             [
                 'label'     => __( 'Width', 'embedpress' ),
@@ -316,10 +358,14 @@ class Embedpress_Document extends Widget_Base
             $embed_content .= '</div>';
 
             ?>
-            <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content">
+            <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_doc_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_doc_content_share_position'].'-wraper' ); endif; ?>">
                 <?php
                     if ((empty($settings['embedpress_doc_lock_content']) || $settings['embedpress_doc_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($settings['embedpress_doc_lock_content_password'] === $_COOKIE['password_correct_' . $client_id]))) {
                         echo $embed_content;
+                        if(!empty($settings['embedpress_doc_content_share'])){
+                            $content_id = $client_id;
+                            Helper::embed_content_share(Helper::get_file_title($url), $content_id, $settings['embedpress_doc_content_share_position'], $settings['embedpress_doc_content_share_custom_thumbnail']['url']);
+                        }
                     } else {
                         Helper::display_password_form($client_id, $embed_content, $pass_hash_key);
                     }

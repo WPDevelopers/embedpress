@@ -53,6 +53,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: 'string',
 				default: 'right'
 			},
+			customThumbnail: {
+				type: 'string',
+				default: ''
+			},
 			href: {
 				type: "string"
 			},
