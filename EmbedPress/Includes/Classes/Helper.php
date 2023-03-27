@@ -90,14 +90,15 @@ class Helper {
 	// Saved sources data temporary in wp_options table
 	public static function get_source_data($blockid, $source_url, $source_option_name, $source_temp_option_name) {
 		
-		if (!empty(self::is_file_url($source_url))) {
-			$source_name = 'document_' . self::get_extension_from_file_url($source_url);
+		
+		if(self::is_youtube_channel($source_url)){
+			$source_name = 'YoutubeChannel'; 
 		}
 		else if(self::is_youtube($source_url)){
 			$source_name = 'Youtube'; 
 		}
-		else if(self::is_youtube_channel($source_url)){
-			$source_name = 'YoutubeChannel'; 
+		else if (!empty(self::is_file_url($source_url))) {
+			$source_name = 'document_' . self::get_extension_from_file_url($source_url);
 		}
 		else if(self::is_opensea($source_url)){
 			$source_name  = 'OpenSea';
@@ -106,7 +107,12 @@ class Helper {
 			Shortcode::get_embera_instance();
 			$collectios = Shortcode::get_collection();
 			$provider = $collectios->findProviders($source_url);
-			$source_name = $provider[$source_url]->getProviderName();
+			if(!empty($provider[$source_url])){
+				$source_name = $provider[$source_url]->getProviderName();
+			}
+			else{
+				$source_name = 'Unknown Source';
+			}
 		}
 		
 		if(!empty($blockid) && $blockid != 'undefined'){
