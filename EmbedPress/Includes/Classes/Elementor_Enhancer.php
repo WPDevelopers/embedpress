@@ -5,8 +5,10 @@ namespace EmbedPress\Includes\Classes;
 use Elementor\Group_Control_Image_Size;
 use Elementor\Utils;
 use SplMinHeap;
+use EmbedPress\Includes\Classes\Helper;
 
 class Elementor_Enhancer {
+	
 	public static function youtube( $embed, $setting ) {
 		if ( isset( $setting['embedpress_pro_embeded_source'] ) && 'youtube' === $setting['embedpress_pro_embeded_source'] && isset( $embed->embed ) && preg_match( '/src=\"(.+?)\"/', $embed->embed, $match ) ) {
 

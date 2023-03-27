@@ -6,7 +6,7 @@ import Iframe from '../common/Iframe';
 import ControlHeader from '../common/control-heading';
 import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
-
+import {saveSourceData } from '../common/helper';
 
 
 /**
@@ -30,6 +30,7 @@ import { PdfIcon } from '../common/icons'
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
 ];
+
 
 class EmbedPressPDFEdit extends Component {
 	constructor() {
@@ -56,14 +57,13 @@ class EmbedPressPDFEdit extends Component {
 		const {
 			attributes,
 			mediaUpload,
-			noticeOperations
+			noticeOperations,
 		} = this.props;
 		const { href } = attributes;
 
 		// Upload a file drag-and-dropped into the editor
 		if (isBlobURL(href)) {
 			const file = getBlobByURL(href);
-
 			mediaUpload({
 				filesList: [file],
 				onFileChange: ([media]) => this.onSelectFile(media),
@@ -130,7 +130,12 @@ class EmbedPressPDFEdit extends Component {
 			}
 		}
 
+		if (this.props.clientId && this.props.attributes.href) {
+			saveSourceData(this.props.clientId, this.props.attributes.href);
+		}
+
 	}
+
 
 	onUploadError(message) {
 		const { noticeOperations } = this.props;
@@ -175,10 +180,14 @@ class EmbedPressPDFEdit extends Component {
 
 	render() {
 
-		const { attributes, noticeUI, setAttributes, clientId } = this.props;
+		const { attributes, noticeUI, setAttributes } = this.props;
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation } = attributes;
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, clientId } = attributes;
 
+
+		if (!clientId) {
+			setAttributes({ clientId: this.props.clientId });
+		}
 
 		const { hasError, interactive, fetching, loadPdf } = this.state;
 		const min = 1;
@@ -212,6 +221,8 @@ class EmbedPressPDFEdit extends Component {
 			document.querySelector('body').append(this.isPro('none'));
 			this.removeAlert();
 		}
+
+
 
 		function getParamData(href) {
 			let pdf_params = '';
@@ -282,7 +293,7 @@ class EmbedPressPDFEdit extends Component {
 				<Fragment>
 
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
-					<div className={'embedpress-document-embed ep-doc-' + id} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`}>
+					<div className={'embedpress-document-embed ep-doc-' + id} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`} data-source-id={'source-' + clientId} >
 						{mime === 'application/pdf' && (
 							<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} data-emsrc={href} src={pdf_viewer_src}></iframe>
 
@@ -502,7 +513,7 @@ class EmbedPressPDFEdit extends Component {
 					<style style={{ display: "none" }}>
 						{
 							`
-							#block-${clientId} {
+							#block-${this.props.clientId} {
 								width:-webkit-fill-available;
 							}
 							.embedpress-el-powered{

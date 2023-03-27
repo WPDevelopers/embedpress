@@ -35,6 +35,9 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			id: {
 				type: "string"
 			},
+			clientId: {
+				type: "string"
+			},
 			href: {
 				type: "string"
 			},

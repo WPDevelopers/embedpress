@@ -4,6 +4,7 @@ namespace EmbedPress\Includes\Classes;
 
 use \EmbedPress\Providers\Youtube;
 use EmbedPress\Shortcode;
+use EmbedPress\Includes\Classes\Helper;
 
 class Feature_Enhancer
 {
@@ -23,17 +24,50 @@ class Feature_Enhancer
 			'embedpress_gutenberg_youtube_params',
 			[$this, 'embedpress_gutenberg_register_block_youtube']
 		);
+
 		add_action('init', array($this, 'embedpress_gutenberg_register_block_vimeo'));
 		add_action('embedpress_gutenberg_wistia_block_after_embed', array($this, 'embedpress_wistia_block_after_embed'));
 		add_action('elementor/widget/embedpres_elementor/skins_init', [$this, 'elementor_setting_init']);
 		add_action('wp_ajax_youtube_rest_api', [$this, 'youtube_rest_api']);
 		add_action('wp_ajax_nopriv_youtube_rest_api', [$this, 'youtube_rest_api']);
 		add_action('embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2);
-
+		add_action( 'wp_ajax_save_source_data', [$this, 'save_source_data'] );
+		add_action( 'wp_ajax_nopriv_save_source_data', [$this, 'save_source_data'] );
+		add_action( 'save_post', [$this, 'save_source_data_on_post_update'], 10, 3 );
+		add_action( 'wp_ajax_delete_source_data', [$this, 'delete_source_data'] );
+		add_action( 'wp_ajax_nopriv_delete_source_data', [$this, 'delete_source_data'] );
+		add_action( 'load-post.php', [$this, 'delete_source_temp_data_on_reload'] );
 		add_action('embedpress:isEmbra', [$this, 'isEmbra'], 10, 3);
-
+		add_action( 'elementor/editor/after_save', [$this, 'save_el_source_data_on_post_update'] );
 	}
 
+	public function save_source_data(){
+
+		$source_url = $_POST['source_url'];
+		$blockid = $_POST['block_id'];
+
+		Helper::get_source_data($blockid, $source_url, 'gutenberg_source_data', 'gutenberg_temp_source_data');
+	}
+
+	function save_el_source_data_on_post_update( $post_id ) {
+		Helper::get_save_source_data_on_post_update('elementor_source_data', 'elementor_temp_source_data');	
+	}
+
+	function save_source_data_on_post_update( $post_id, $post, $update ) {
+		if (!empty(strpos($post->post_content, 'wp:embedpress'))) {
+			Helper::get_save_source_data_on_post_update('gutenberg_source_data', 'gutenberg_temp_source_data');	
+		}
+	}
+	
+	public function delete_source_data() {
+		$blockid = $_POST['block_id'];
+		Helper::get_delete_source_data($blockid, 'gutenberg_source_data', 'gutenberg_temp_source_data');
+	}
+
+	public function delete_source_temp_data_on_reload() {
+		Helper::get_delete_source_temp_data_on_reload('gutenberg_temp_source_data');
+	}
+		 
 	public function isEmbra($isEmbra, $url, $atts)
 	{
 		if (strpos($url, 'youtube.com') !== false) {
@@ -347,8 +381,7 @@ class Feature_Enhancer
 
 				// print_r($url_modified);
 
-				
-
+			
 				foreach ($params as $param => $value) {
 					$url_modified = add_query_arg($param, $value, $url_modified);
 				}
