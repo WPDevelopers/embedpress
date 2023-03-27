@@ -422,7 +422,7 @@ function embedpress_pdf_render_block($attributes)
 			$powered_by = $attributes['powered_by'];
 		}
 
-		$src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $attributes['href'] . getParamData($attributes);
+		$src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($attributes['href']) . getParamData($attributes);
 
 		$hash = md5($id);
 		$aligns = [

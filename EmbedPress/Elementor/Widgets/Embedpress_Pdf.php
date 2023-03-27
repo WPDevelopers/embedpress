@@ -543,7 +543,7 @@ class Embedpress_Pdf extends Widget_Base
                     if ($this->is_pdf($url) && !$this->is_external_url($url)) {
                         $this->add_render_attribute('embedpres-pdf-render', 'data-emsrc', $url);
                         $renderer = Helper::get_pdf_renderer();
-                        $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . $url.$this->getParamData($settings);
+                        $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($url).$this->getParamData($settings);
                         if (!empty($settings['embedpress_pdf_zoom'])) {
                             $zoom = $settings['embedpress_pdf_zoom'];
                             if ($zoom == 'custom') {
