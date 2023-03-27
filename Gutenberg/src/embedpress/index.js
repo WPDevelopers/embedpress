@@ -84,6 +84,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: 'right'
 			},
+			customTitle: {
+				type: 'string',
+				default: ''
+			},
+			customDescription: {
+				type: 'string',
+				default: ''
+			},
 			customThumbnail: {
 				type: 'string',
 				default: ''

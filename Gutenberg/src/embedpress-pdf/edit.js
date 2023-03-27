@@ -360,7 +360,6 @@ class EmbedPressPDFEdit extends Component {
 							initialOpen={false}
 						>
 							<LockControl attributes={attributes} setAttributes={setAttributes} />
-							<ContentShare attributes={attributes} setAttributes={setAttributes} />
 
 							<SelectControl
 								label="Theme"
@@ -506,6 +505,8 @@ class EmbedPressPDFEdit extends Component {
 								)
 							}
 						</PanelBody>
+						
+						<ContentShare attributes={attributes} setAttributes={setAttributes} />
 					</InspectorControls>
 
 					<style style={{ display: "none" }}>

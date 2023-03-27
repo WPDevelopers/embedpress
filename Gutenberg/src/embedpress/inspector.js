@@ -123,8 +123,6 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     }
 
                                     <LockControl attributes={attributes} setAttributes={setAttributes} />
-                                    <ContentShare attributes={attributes} setAttributes={setAttributes} />
-                                    
                                 </div>
                                 <Youtube attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} />
                             </PanelBody>
@@ -132,6 +130,8 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} />
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />
                             <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />
+
+                            <ContentShare attributes={attributes} setAttributes={setAttributes} />
                         </frameElement>
                     )
                 }

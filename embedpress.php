@@ -64,35 +64,52 @@ if (!empty($_GET['hash'])) {
 
 add_action('wp_head', 'generate_social_share_meta');
 
+
 function generate_social_share_meta()
 {
+
 	$post_id = get_the_ID(); // replace with the ID of the post you want to retrieve
 	$post = get_post($post_id);
 	$block_content = $post->post_content;
+
+	// $title = 'This is a nre post title';
+	// $description = 'This is a content title';
+
+	$url = get_the_permalink( $post_id );
 
 	if (!empty($_GET['hash'])) {
 		// ID to search for
 		$id_value = $_GET['hash'];
 
 		// Regular expression to match the id and href keys and their values
-		$regex = '/"id":"' . $id_value . '",".*?"customThumbnail":"(.*?)"/';
+		$thumb = '/"id":"' . $id_value . '",".*?"customThumbnail":"(.*?)"/';
+		$title = '/"id":"' . $id_value . '",".*?"customTitle":"(.*?)"/';
+		$description = '/"id":"' . $id_value . '",".*?"customDescription":"(.*?)"/';
 
 		// Search for the regex pattern in the string and extract the href value
-		if (preg_match($regex, $block_content, $matches)) {
-			// print_r($matches);
-			$image_url = $matches[1];
-
-			// $tags = "<meta property='og:title' content='$title'/>";
-			// $tags .= "<meta property='og:description' content='$description'/>";
-			$tags = "<meta property='og:image' content='$image_url'/>";
-			// $tags .= "<meta property='og:url' content='$url'/>";
-			$tags .= "<meta name='twitter:card' content='summary_large_image'/>";
-			// $tags .= "<meta name='twitter:title' content='$title'/>";
-			// $tags .= "<meta name='twitter:description' content='$description'/>";
-			$tags .= "<meta name='twitter:image' content='$image_url'/>";
-
-			echo $tags;
+		if (preg_match($thumb, $block_content, $matches1)) {
+			$image_url = $matches1[1];
+			$tags = "<meta name='twitter:image' content='$image_url'/>\n";
+			$tags .= "<meta property='og:image' content='$image_url'/>\n";
+			$tags .= "<meta property='og:url' content='$url'/>\n";
 		}
+
+		if (preg_match($title, $block_content, $matches2)) {
+			$title = $matches2[1];
+			$tags .= "<meta property='og:title' content='$title'/>\n";
+			$tags .= "<meta name='twitter:title' content='$title'/>\n";
+		}
+		
+		if (preg_match($description, $block_content, $matches3)) {	
+			$description = $matches3[1];
+			$tags = "<meta property='og:description' content='$description'/>\n";
+			$tags .= "<meta name='twitter:description' content='$description'/>\n";
+		}
+
+		$tags .= "<meta name='twitter:card' content='summary_large_image'/>\n";
+
+		echo $tags;
+
 	}
 }
 
