@@ -30,9 +30,8 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
      * @since   1.0.0
      *
      */
-    public function validateUrl(Url $url)
+    public function validateUrl($url)
     {
-
        return  (bool) preg_match('~http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?(?:place\/)?(?:[a-z0-9\/%+\-_]*)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)~i',
             (string) $url);
 
@@ -49,19 +48,31 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
     {
         $src_url = urldecode($this->url);
 
-        // Check if the url is already converted to the embed format
+        preg_match('/(?<=mid=).*$/', $src_url, $matches);
+        
+        if (!empty($matches)) {
+            $mid = $matches[0].'&ehbc=2E312F';
+        }
+
+        // Check if the url is already converted to the embed format  
         if (preg_match('~(maps/embed|output=embed)~i', $src_url)) {
             $iframeSrc = $src_url;
-        } else {
+        } 
+        else {
             // Extract coordinates and zoom from the url
             if (preg_match('~(?:maps\/(?:place|(?:dir\/.+?))\/(.+)\/)?@(-?[0-9\.]+,-?[0-9\.]+).+,([0-9\.]+[a-z])~i', $src_url, $matches)) {
                 $place_name = str_replace("+"," ",$matches[1]);
             	$z = floatval( $matches[3]);
                 $iframeSrc = 'https://maps.google.com/maps?hl=en&ie=UTF8&ll=' . $matches[2] . '&spn=' . $matches[2] . '&q='.$place_name.'&t=m&z=' . round($z) . '&output=embed&iwloc';
-            } else {
+            } 
+            else if ($this->validateUrl($src_url)){
+                $iframeSrc = 'https://www.google.com/maps/d/embed?mid='.$mid;
+            }
+            else {
                 return [];
             }
         }
+
 	    $width = isset( $this->config['maxwidth']) ? $this->config['maxwidth']: 600;
 	    $height = isset( $this->config['maxheight']) ? $this->config['maxheight']: 450;
 
@@ -70,7 +81,7 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
             'provider_name' => 'Google Maps',
             'provider_url'  => 'https://maps.google.com',
             'title'         => 'Unknown title',
-            'html'          => '<iframe  width="'.$width.'" height="'.$height.'" src="' . $iframeSrc . '" frameborder="0"></iframe>',
+            'html'          => '<iframe title=""  width="'.$width.'" height="'.$height.'" src="'.$iframeSrc.'" frameborder="0"></iframe>',     
         ];
     }
     /** inline @inheritDoc */
