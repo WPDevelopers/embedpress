@@ -205,6 +205,29 @@ class Embedpress_Elementor extends Widget_Base
         );
 
 		$this->add_control(
+            'embedpress_content_title',
+            [
+                'label'   => __('Title', 'embedpress'),
+                'type'    => Controls_Manager::TEXT,
+                'placeholder' => 'Enter share title',
+                'condition'   => [
+					'embedpress_content_share' => 'yes'
+				]
+            ]
+        );
+        $this->add_control(
+            'embedpress_content_descripiton',
+            [
+                'label'   => __('Description', 'embedpress'),
+                'type'    => Controls_Manager::TEXTAREA,
+                'placeholder' => 'Enter share description',
+                'condition'   => [
+					'embedpress_content_share' => 'yes'
+				]
+            ]
+        );
+
+		$this->add_control(
 			'embedpress_content_share_custom_thumbnail',
 			[
 				'label' => esc_html__( 'Thumbnail', 'textdomain' ),
@@ -212,6 +235,9 @@ class Embedpress_Elementor extends Widget_Base
 				'default' => [
 					'url' => \Elementor\Utils::get_placeholder_image_src(),
 				],
+				'condition'   => [
+					'embedpress_content_share' => 'yes'
+				]
 			]
 		);
 		
@@ -2589,6 +2615,13 @@ class Embedpress_Elementor extends Widget_Base
 		$embed         = apply_filters('embedpress_elementor_embed', $embed_content, $settings);
 		$content       = is_object($embed) ? $embed->embed : $embed;
 
+		$embed_settings =  [];
+		$embed_settings['customThumbnail'] = !empty($settings['embedpress_content_share_custom_thumbnail']['url']) ? $settings['embedpress_content_share_custom_thumbnail']['url'] : '';
+        
+		$embed_settings['customTtitle'] = !empty($settings['embedpress_content_title']) ? $settings['embedpress_content_title'] : Helper::get_file_title($embed_link);
+
+		$embed_settings['sharePosition'] = !empty($settings['embedpress_content_share_position']) ? $settings['embedpress_content_share_position'] : 'right';
+
 		$client_id = $this->get_id();
 
 		$ispagination = 'flex';
@@ -2619,7 +2652,7 @@ class Embedpress_Elementor extends Widget_Base
 
 										if(!empty($settings['embedpress_content_share'])){
 											$content_id = $client_id;
-											Helper::embed_content_share(Helper::get_file_title($embed_link), $content_id, $settings['embedpress_content_share_position'], $settings['embedpress_content_share_custom_thumbnail']['url']);
+											Helper::embed_content_share( $content_id, $embed_settings);
 										}
 									} else {
 										Helper::display_password_form($client_id, $content, $pass_hash_key);

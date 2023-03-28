@@ -1248,6 +1248,10 @@ form.password-form {
 
 .social-share svg {
     width: 20px;
+    height: auto;
+}
+a.social-icon.pinterest svg {
+    height: 25px;
 }
 
 .facebook {

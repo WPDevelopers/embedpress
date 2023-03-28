@@ -78,6 +78,7 @@ function generate_social_share_meta()
 	$url = get_the_permalink( $post_id );
 
 	if (!empty($_GET['hash'])) {
+		
 		// ID to search for
 		$id_value = $_GET['hash'];
 
@@ -91,7 +92,7 @@ function generate_social_share_meta()
 			$image_url = $matches1[1];
 			$tags = "<meta name='twitter:image' content='$image_url'/>\n";
 			$tags .= "<meta property='og:image' content='$image_url'/>\n";
-			$tags .= "<meta property='og:url' content='$url'/>\n";
+			$tags .= "<meta property='og:url' content='$url?hash=$id_value'/>\n";
 		}
 
 		if (preg_match($title, $block_content, $matches2)) {
@@ -102,11 +103,13 @@ function generate_social_share_meta()
 		
 		if (preg_match($description, $block_content, $matches3)) {	
 			$description = $matches3[1];
-			$tags = "<meta property='og:description' content='$description'/>\n";
+			$tags .= "<meta property='og:description' content='$description'/>\n";
 			$tags .= "<meta name='twitter:description' content='$description'/>\n";
 		}
 
 		$tags .= "<meta name='twitter:card' content='summary_large_image'/>\n";
+
+		remove_action('wp_head', 'rel_canonical');
 
 		echo $tags;
 

@@ -182,6 +182,43 @@ class Embedpress_Document extends Widget_Base
             ]
         );
 
+        $this->add_control(
+            'embedpress_doc_content_title',
+            [
+                'label'   => __('Title', 'embedpress'),
+                'type'    => Controls_Manager::TEXT,
+                'placeholder' => 'Enter share title',
+                'condition'   => [
+					'embedpress_doc_content_share' => 'yes'
+				]
+            ]
+        );
+        $this->add_control(
+            'embedpress_doc_content_descripiton',
+            [
+                'label'   => __('Description', 'embedpress'),
+                'type'    => Controls_Manager::TEXTAREA,
+                'placeholder' => 'Enter share description',
+                'condition'   => [
+					'embedpress_doc_content_share' => 'yes'
+				]
+            ]
+        );
+
+        $this->add_control(
+			'embedpress_doc_content_share_custom_thumbnail',
+			[
+				'label' => esc_html__( 'Thumbnail', 'textdomain' ),
+				'type' => \Elementor\Controls_Manager::MEDIA,
+				'default' => [
+					'url' => \Elementor\Utils::get_placeholder_image_src(),
+				],
+                'condition'   => [
+					'embedpress_doc_content_share' => 'yes'
+				]
+			]
+		);
+
 		$this->add_control(
 			'embedpress_doc_content_share_custom_thumbnail',
 			[
@@ -332,6 +369,14 @@ class Embedpress_Document extends Widget_Base
         $this->add_render_attribute( 'embedpress-document', [
             'class' => ['embedpress-document-embed', 'ep-doc-'.md5( $id), 'ose-document']
         ] );
+
+        $embed_settings =  [];
+		$embed_settings['customThumbnail'] = !empty($settings['embedpress_doc_content_share_custom_thumbnail']['url']) ? $settings['embedpress_doc_content_share_custom_thumbnail']['url'] : '';
+
+		$embed_settings['customTtitle'] = !empty($settings['embedpress_doc_content_title']) ? $settings['embedpress_doc_content_title'] : Helper::get_file_title($url);
+
+		$embed_settings['sharePosition'] = !empty($settings['embedpress_doc_content_share_position']) ? $settings['embedpress_doc_content_share_position'] : 'right';
+
         ?>
         
 
@@ -364,7 +409,7 @@ class Embedpress_Document extends Widget_Base
                         echo $embed_content;
                         if(!empty($settings['embedpress_doc_content_share'])){
                             $content_id = $client_id;
-                            Helper::embed_content_share(Helper::get_file_title($url), $content_id, $settings['embedpress_doc_content_share_position'], $settings['embedpress_doc_content_share_custom_thumbnail']['url']);
+                            Helper::embed_content_share($content_id, $embed_settings);
                         }
                     } else {
                         Helper::display_password_form($client_id, $embed_content, $pass_hash_key);

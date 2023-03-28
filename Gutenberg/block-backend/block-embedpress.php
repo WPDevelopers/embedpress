@@ -90,7 +90,11 @@ function embedpress_render_block($attributes)
 		ob_start();
 		?>
 		<div class="embedpress-gutenberg-wrapper <?php echo esc_attr($alignment) ?>">
-			<div class="wp-block-embed__wrapper position-<?php echo esc_attr( $attributes['sharePosition'] )?>-wraper  <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
+			<?php 
+				$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
+				$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
+			?>
+			<div class="wp-block-embed__wrapper position-<?php echo esc_attr( $share_position )?>-wraper  <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
 				<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content">
 					<?php 
 						if(empty($attributes['lockContent']) || (!empty(Helper::is_password_correct($client_id)) && ($attributes['contentPassword'] === $_COOKIE['password_correct_'.$client_id])) ){
@@ -103,7 +107,7 @@ function embedpress_render_block($attributes)
 				<?php 
 					if(!empty($attributes['contentShare'])) {
 						$content_id = $attributes['clientId'];
-						Helper::embed_content_share(Helper::get_file_title($url), $content_id, $attributes['sharePosition'], $attributes['customThumbnail']);
+						Helper::embed_content_share($content_id, $attributes);
 					}
 				?>
 			</div>

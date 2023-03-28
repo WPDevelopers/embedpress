@@ -509,11 +509,14 @@ function embedpress_pdf_render_block($attributes)
 		<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content <?php echo  esc_attr( $alignment ); ?>">
 			<?php 
 				if(empty($attributes['lockContent']) || (!empty(Helper::is_password_correct($client_id)) && ($attributes['contentPassword'] === $_COOKIE['password_correct_'.$client_id])) ){
-					echo '<div class="position-'.$attributes['sharePosition'].'-wraper gutenberg-pdf-wraper">';
+					$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
+					$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
+
+					echo '<div class="position-'.esc_attr( $share_position ).'-wraper gutenberg-pdf-wraper">';
 					echo $embed_code;
 					if(!empty($attributes['contentShare'])) {
 						$content_id = $attributes['id'];
-						$embed_code .= Helper::embed_content_share(Helper::get_file_title($pdf_url), $content_id, $attributes['sharePosition'], $attributes['customThumbnail']);
+						$embed_code .= Helper::embed_content_share($content_id, $attributes);
 					}
 					echo '</div>';
 				} else {

@@ -176,6 +176,28 @@ class Embedpress_Pdf extends Widget_Base
 				]
             ]
         );
+        $this->add_control(
+            'embedpress_pdf_content_title',
+            [
+                'label'   => __('Title', 'embedpress'),
+                'type'    => Controls_Manager::TEXT,
+                'placeholder' => 'Enter share title',
+                'condition'   => [
+					'embedpress_pdf_content_share' => 'yes'
+				]
+            ]
+        );
+        $this->add_control(
+            'embedpress_pdf_content_descripiton',
+            [
+                'label'   => __('Description', 'embedpress'),
+                'type'    => Controls_Manager::TEXTAREA,
+                'placeholder' => 'Enter share description',
+                'condition'   => [
+					'embedpress_pdf_content_share' => 'yes'
+				]
+            ]
+        );
 
         $this->add_control(
 			'embedpress_pdf_content_share_custom_thumbnail',
@@ -558,8 +580,8 @@ class Embedpress_Pdf extends Widget_Base
             'copy_text' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'true',
             'add_text' => !empty($settings['add_text']) ? 'true' : 'false',
             'draw' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['draw'] : 'true',
-            'doc_rotation' => !empty($settings['pdf_rotate_access'])  ? 'true' : 'false',
-            'doc_details' => !empty($settings['pdf_details'])  ? 'true' : 'false',
+            'pdf_rotation' => !empty($settings['pdf_rotate_access'])  ? 'true' : 'false',
+            'pdf_details' => !empty($settings['pdf_details'])  ? 'true' : 'false',
         );
 
         if($settings['embedpress_theme_mode'] == 'custom') {
@@ -601,6 +623,15 @@ class Embedpress_Pdf extends Widget_Base
             'data-details' => $settings['pdf_details'],
             'data-id' => $id
         ]); 
+
+        $embed_settings =  [];
+		$embed_settings['customThumbnail'] = !empty($settings['embedpress_pdf_content_share_custom_thumbnail']['url']) ? $settings['embedpress_pdf_content_share_custom_thumbnail']['url'] : '';
+        
+		$embed_settings['customTtitle'] = !empty($settings['embedpress_pdf_content_title']) ? $settings['embedpress_pdf_content_title'] : Helper::get_file_title($url);
+
+		$embed_settings['sharePosition'] = !empty($settings['embedpress_pdf_content_share_position']) ? $settings['embedpress_pdf_content_share_position'] : 'right';
+
+
         ?>
     <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
         <?php
