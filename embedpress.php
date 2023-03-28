@@ -72,12 +72,47 @@ function generate_social_share_meta()
 	$post = get_post($post_id);
 	$block_content = $post->post_content;
 
-	// $title = 'This is a nre post title';
-	// $description = 'This is a content title';
+	$elementor_content = get_post_field('post_content', get_the_ID());
+
+	$page_settings = get_post_meta( $post_id, '_elementor_data', true );
+
+	
+		// Check if the current page was built with Elementor
+		if (class_exists('Elementor\Plugin') && \Elementor\Plugin::$instance->db->is_built_with_elementor(get_the_ID())) {
+			// This is an Elementor page
+			echo "This is an Elementor page.";
+		} else {
+			// This is not an Elementor page
+			echo "This is not an Elementor page.";
+		}
+		
+		
+
+	// Extract the JSON string inside the embedpress PDF block using regex
+
+	if (preg_match('/{"id":"cc9052d","elType":"widget","settings":{".+?}}/', $page_settings, $match)) {
+		$pdf_json = $match[0];
+		// Decode the JSON string into a PHP array
+		$pdf_array = json_decode($pdf_json.'}', true);
+
+		// Extract the value of the embedpress_pdf_content_title key
+		$title = $pdf_array['settings']['embedpress_pdf_content_title'];
+
+		// Extract the value of the embedpress_pdf_content_title key
+		$title = $pdf_array['settings']['embedpress_pdf_content_title'];
+		$description = $pdf_array['settings']['embedpress_pdf_content_descripiton'];
+		$thumb = $pdf_array['settings']['embedpress_pdf_content_share_custom_thumbnail']['url'];
+
+	}
+
+
 
 	$url = get_the_permalink( $post_id );
 
 	if (!empty($_GET['hash'])) {
+
+		
+
 		
 		// ID to search for
 		$id_value = $_GET['hash'];
