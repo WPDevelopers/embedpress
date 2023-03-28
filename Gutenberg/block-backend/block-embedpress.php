@@ -66,7 +66,7 @@ if(!function_exists('lock_content_form_handler')){
 
 function embedpress_render_block($attributes)
 {	
-	$client_id = md5($attributes['clientId']);
+	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 	$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']): ''; 
 
 	if (!empty($attributes['embedHTML'])) {

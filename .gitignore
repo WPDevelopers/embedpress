@@ -16,3 +16,4 @@ package-lock.json
 #Suggested by Manzur Bhai
 composer.lock
 .vscode/launch.json
+*.zip

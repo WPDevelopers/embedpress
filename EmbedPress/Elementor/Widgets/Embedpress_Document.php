@@ -377,6 +377,7 @@ class Embedpress_Document extends Widget_Base
 
 		$embed_settings['sharePosition'] = !empty($settings['embedpress_doc_content_share_position']) ? $settings['embedpress_doc_content_share_position'] : 'right';
 
+        
         ?>
         
 

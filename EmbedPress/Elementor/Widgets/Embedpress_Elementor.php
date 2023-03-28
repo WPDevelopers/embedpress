@@ -2622,6 +2622,7 @@ class Embedpress_Elementor extends Widget_Base
 
 		$embed_settings['sharePosition'] = !empty($settings['embedpress_content_share_position']) ? $settings['embedpress_content_share_position'] : 'right';
 
+
 		$client_id = $this->get_id();
 
 		$ispagination = 'flex';
@@ -2652,6 +2653,7 @@ class Embedpress_Elementor extends Widget_Base
 
 										if(!empty($settings['embedpress_content_share'])){
 											$content_id = $client_id;
+											
 											Helper::embed_content_share( $content_id, $embed_settings);
 										}
 									} else {
