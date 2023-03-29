@@ -30,11 +30,16 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
      * @since   1.0.0
      *
      */
-    public function validateUrl($url)
+    public function validateUrl(Url $url)
     {
        return  (bool) preg_match('~http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?(?:place\/)?(?:[a-z0-9\/%+\-_]*)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)~i',
             (string) $url);
+    }
 
+    public function validateGoogleMapUrl($url)
+    {
+       return  (bool) preg_match('~http[s]?:\/\/(?:(?:(?:www\.|maps\.)?(?:google\.com?))|(?:goo\.gl))(?:\.[a-z]{2})?\/(?:maps\/)?(?:place\/)?(?:[a-z0-9\/%+\-_]*)?([a-z0-9\/%,+\-_=!:@\.&*\$#?\']*)~i',
+            (string) $url);
     }
 
     /**
@@ -65,7 +70,7 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
             	$z = floatval( $matches[3]);
                 $iframeSrc = 'https://maps.google.com/maps?hl=en&ie=UTF8&ll=' . $matches[2] . '&spn=' . $matches[2] . '&q='.$place_name.'&t=m&z=' . round($z) . '&output=embed&iwloc';
             } 
-            else if ($this->validateUrl($src_url)){
+            else if ($this->validateGoogleMapUrl($src_url)){
                 $iframeSrc = 'https://www.google.com/maps/d/embed?mid='.$mid;
             }
             else {
