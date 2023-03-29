@@ -311,23 +311,15 @@ class Helper {
 		}
 	}
 
-
-	
 	public static function embed_content_share($content_id='', $attributes = []){
 
 		$share_position = !empty($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
-		$custom_thumnail = !empty($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
-		$custom_title = !empty($attributes['customTitle']) ? $attributes['customTitle'] : '';
-		$custom_description = !empty($attributes['customDescription']) ? $attributes['customDescription'] : '';
-
-		$page_url = get_permalink().'?hash='.$content_id;
-
-		$meta_tags = self::generate_tpen_graph_meta_tags($custom_title, 'this test description', $custom_thumnail, $page_url);
+		$custom_thumnail = !empty($attributes['customThumbnail']) ? urlencode($attributes['customThumbnail']) : '';
+		$custom_title = !empty($attributes['customTitle']) ? urlencode($attributes['customTitle']) : '';
+		$custom_description = !empty($attributes['customDescription']) ? urlencode($attributes['customDescription']) : '';
+	
+		$page_url = urlencode(get_permalink().'?hash='.$content_id);
 		
-		// self::generate_social_share_meta('embedpress-pdf-1679464318234');
-
-		// echo $page_url;
-
 		$social_icons = '<div class="social-share share-position-'.esc_attr( $share_position ).'">';
 		$social_icons .= '<a href="https://www.facebook.com/sharer/sharer.php?u=' . $page_url . '" class="social-icon facebook" target="_blank">
 			<svg width="64px" height="64px" fill="#000000" viewBox="0 -6 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -344,10 +336,11 @@ class Helper {
 			$social_icons .= '<a href="http://pinterest.com/pin/create/button/?url=' . $page_url . '&media=' .$custom_thumnail . '&description=' . $custom_description . '" class="social-icon pinterest" target="_blank">
 			
 				<svg xmlns="http://www.w3.org/2000/svg" height="800" width="1200" viewBox="-36.42015 -60.8 315.6413 364.8"><path d="M121.5 0C54.4 0 0 54.4 0 121.5 0 173 32 217 77.2 234.7c-1.1-9.6-2-24.4.4-34.9 2.2-9.5 14.2-60.4 14.2-60.4s-3.6-7.3-3.6-18c0-16.9 9.8-29.5 22-29.5 10.4 0 15.4 7.8 15.4 17.1 0 10.4-6.6 26-10.1 40.5-2.9 12.1 6.1 22 18 22 21.6 0 38.2-22.8 38.2-55.6 0-29.1-20.9-49.4-50.8-49.4-34.6 0-54.9 25.9-54.9 52.7 0 10.4 4 21.6 9 27.7 1 1.2 1.1 2.3.8 3.5-.9 3.8-3 12.1-3.4 13.8-.5 2.2-1.8 2.7-4.1 1.6-15.2-7.1-24.7-29.2-24.7-47.1 0-38.3 27.8-73.5 80.3-73.5 42.1 0 74.9 30 74.9 70.2 0 41.9-26.4 75.6-63 75.6-12.3 0-23.9-6.4-27.8-14 0 0-6.1 23.2-7.6 28.9-2.7 10.6-10.1 23.8-15.1 31.9 11.4 3.5 23.4 5.4 36 5.4 67.1 0 121.5-54.4 121.5-121.5C243 54.4 188.6 0 121.5 0z" fill="#fff"/></svg>
-
+	
 			</a>';
-			$social_icons .= '<a href="http://www.linkedin.com/shareArticle?mini=true&url=' . $page_url . '&title=' . $custom_title . '&source=' . get_bloginfo('name') . '" class="social-icon linkedin" target="_blank">
-
+	
+			$social_icons .= '<a href="https://www.linkedin.com/sharing/share-offsite/?url='.$page_url.'&title='.$custom_title.'&summary='.$custom_description.'&source=LinkedIn" class="social-icon linkedin" target="_blank">
+	
 			<svg fill="#ffffff" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
 				viewBox="0 0 310 310" xml:space="preserve">
 			<g id="XMLID_801_">

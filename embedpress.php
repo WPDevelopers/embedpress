@@ -63,85 +63,80 @@ if (!empty($_GET['hash'])) {
 }
 
 add_action('wp_head', 'generate_social_share_meta');
-
-
 function generate_social_share_meta()
 {
 
-	$post_id = get_the_ID(); // replace with the ID of the post you want to retrieve
+	$post_id = get_the_ID(); 
 	$post = get_post($post_id);
-	$block_content = $post->post_content;
-
-	$elementor_content = get_post_field('post_content', get_the_ID());
-
-	$page_settings = get_post_meta( $post_id, '_elementor_data', true );
-
-	
-		// Check if the current page was built with Elementor
-		if (class_exists('Elementor\Plugin') && \Elementor\Plugin::$instance->db->is_built_with_elementor(get_the_ID())) {
-			// This is an Elementor page
-			echo "This is an Elementor page.";
-		} else {
-			// This is not an Elementor page
-			echo "This is not an Elementor page.";
-		}
-		
-		
-
-	// Extract the JSON string inside the embedpress PDF block using regex
-
-	if (preg_match('/{"id":"cc9052d","elType":"widget","settings":{".+?}}/', $page_settings, $match)) {
-		$pdf_json = $match[0];
-		// Decode the JSON string into a PHP array
-		$pdf_array = json_decode($pdf_json.'}', true);
-
-		// Extract the value of the embedpress_pdf_content_title key
-		$title = $pdf_array['settings']['embedpress_pdf_content_title'];
-
-		// Extract the value of the embedpress_pdf_content_title key
-		$title = $pdf_array['settings']['embedpress_pdf_content_title'];
-		$description = $pdf_array['settings']['embedpress_pdf_content_descripiton'];
-		$thumb = $pdf_array['settings']['embedpress_pdf_content_share_custom_thumbnail']['url'];
-
-	}
-
-
-
-	$url = get_the_permalink( $post_id );
+	$tags = '';
 
 	if (!empty($_GET['hash'])) {
 
-		
-
-		
-		// ID to search for
 		$id_value = $_GET['hash'];
+		$url = get_the_permalink( $post_id );
 
-		// Regular expression to match the id and href keys and their values
-		$thumb = '/"id":"' . $id_value . '",".*?"customThumbnail":"(.*?)"/';
-		$title = '/"id":"' . $id_value . '",".*?"customTitle":"(.*?)"/';
-		$description = '/"id":"' . $id_value . '",".*?"customDescription":"(.*?)"/';
+		if (class_exists('Elementor\Plugin') && \Elementor\Plugin::$instance->db->is_built_with_elementor(get_the_ID())) {
+			
+			$page_settings = get_post_meta( $post_id, '_elementor_data', true );
+		
+			if (preg_match('/{"id":"'.$id_value.'","elType":"widget","settings":{".+?}}/', $page_settings, $match)) {
+				$pdf_json = $match[0];
+				$pdf_array = json_decode($pdf_json.'}', true);
+				
+				$title = !empty($pdf_array['settings']['embedpress_pdf_content_title']) ? $pdf_array['settings']['embedpress_pdf_content_title'] : '';
 
-		// Search for the regex pattern in the string and extract the href value
-		if (preg_match($thumb, $block_content, $matches1)) {
-			$image_url = $matches1[1];
-			$tags = "<meta name='twitter:image' content='$image_url'/>\n";
-			$tags .= "<meta property='og:image' content='$image_url'/>\n";
-			$tags .= "<meta property='og:url' content='$url?hash=$id_value'/>\n";
-		}
+				$description = !empty($pdf_array['settings']['embedpress_pdf_content_descripiton']) ? $pdf_array['settings']['embedpress_pdf_content_descripiton'] : '';
 
-		if (preg_match($title, $block_content, $matches2)) {
-			$title = $matches2[1];
-			$tags .= "<meta property='og:title' content='$title'/>\n";
-			$tags .= "<meta name='twitter:title' content='$title'/>\n";
+				$image_url = !empty($pdf_array['settings']['embedpress_pdf_content_share_custom_thumbnail']['url']) ? $pdf_array['settings']['embedpress_pdf_content_share_custom_thumbnail']['url'] : '';
+
+				// Search for the regex pattern in the string and extract the href value
+				if (!empty($image_url)) {
+					$tags .= "<meta name='twitter:image' content='$image_url'/>\n";
+					$tags .= "<meta property='og:image' content='$image_url'/>\n";
+					$tags .= "<meta property='og:url' content='$url?hash=$id_value'/>\n";
+				}
+				if (!empty($title)) {
+					$tags .= "<meta property='og:title' content='$title'/>\n";
+					$tags .= "<meta name='twitter:title' content='$title'/>\n";
+				}
+				if (!empty($description)) {
+					$tags .= "<meta property='og:description' content='$description'/>\n";
+					$tags .= "<meta name='twitter:description' content='$description'/>\n";
+				}
+
+			}
+			
+		} else {
+
+			$block_content = $post->post_content;
+			print_r($block_content);
+			
+			// Regular expression to match the id and href keys and their values
+			$thumb = '/"id":"' . $id_value . '",".*?"customThumbnail":"(.*?)"/';
+			$title = '/"id":"' . $id_value . '",".*?"customTitle":"(.*?)"/';
+			$description = '/"id":"' . $id_value . '",".*?"customDescription":"(.*?)"/';
+
+			// Search for the regex pattern in the string and extract the href value
+			if (preg_match($thumb, $block_content, $matches1)) {
+				$image_url = $matches1[1];
+				$tags .= "\n<meta name='twitter:image' content='$image_url'/>\n";
+				$tags .= "<meta property='og:image' content='$image_url'/>\n";
+				$tags .= "<meta property='og:url' content='$url?hash=$id_value'/>\n";
+			}
+
+			if (preg_match($title, $block_content, $matches2)) {
+				$title = $matches2[1];
+				$tags .= "<meta property='og:title' content='$title'/>\n";
+				$tags .= "<meta name='twitter:title' content='$title'/>\n";
+			}
+			
+			if (preg_match($description, $block_content, $matches3)) {	
+				$description = $matches3[1];
+				$tags .= "<meta property='og:description' content='$description'/>\n";
+				$tags .= "<meta name='twitter:description' content='$description'/>\n";
+			}
 		}
 		
-		if (preg_match($description, $block_content, $matches3)) {	
-			$description = $matches3[1];
-			$tags .= "<meta property='og:description' content='$description'/>\n";
-			$tags .= "<meta name='twitter:description' content='$description'/>\n";
-		}
-
 		$tags .= "<meta name='twitter:card' content='summary_large_image'/>\n";
 
 		remove_action('wp_head', 'rel_canonical');

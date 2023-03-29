@@ -131,7 +131,7 @@ class Embedpress_Pdf extends Widget_Base
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => 'no',
+				'default'      => '',
 				'classes'     => $this->pro_class,
 			]
 		);
@@ -156,7 +156,7 @@ class Embedpress_Pdf extends Widget_Base
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => 'no',
+				'default'      => '',
 			]
 		);
         $this->add_control(
@@ -627,7 +627,9 @@ class Embedpress_Pdf extends Widget_Base
         $embed_settings =  [];
 		$embed_settings['customThumbnail'] = !empty($settings['embedpress_pdf_content_share_custom_thumbnail']['url']) ? $settings['embedpress_pdf_content_share_custom_thumbnail']['url'] : '';
         
-		$embed_settings['customTtitle'] = !empty($settings['embedpress_pdf_content_title']) ? $settings['embedpress_pdf_content_title'] : Helper::get_file_title($url);
+		$embed_settings['customTitle'] = !empty($settings['embedpress_pdf_content_title']) ? $settings['embedpress_pdf_content_title'] : Helper::get_file_title($url);
+
+		$embed_settings['customDescription'] = !empty($settings['embedpress_pdf_content_descripiton']) ? $settings['embedpress_pdf_content_descripiton'] : Helper::get_file_title($url);
 
 		$embed_settings['sharePosition'] = !empty($settings['embedpress_pdf_content_share_position']) ? $settings['embedpress_pdf_content_share_position'] : 'right';
 
@@ -675,9 +677,8 @@ class Embedpress_Pdf extends Widget_Base
                             echo $embed_content;
 
                             if(!empty($settings['embedpress_pdf_content_share'])){
-                                $content_id = $id;
-
-                                Helper::embed_content_share(Helper::get_file_title($url), $content_id, $settings['embedpress_pdf_content_share_position'], $settings['embedpress_pdf_content_share_custom_thumbnail']['url']);
+                                $content_id = $client_id;
+                                Helper::embed_content_share($content_id, $embed_settings);
                             }
                         } else {
                             Helper::display_password_form($client_id, $embed_content, $pass_hash_key);

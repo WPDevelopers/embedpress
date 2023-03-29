@@ -1177,7 +1177,7 @@ form.password-form {
 }
 .ep-elementor-content {
     position: relative;
-    display: inline-block;
+    /* display: inline-block; */
 }
 /* social share css */
 .wp-block-embedpress-embedpress > div, .ep-gutenberg-content {

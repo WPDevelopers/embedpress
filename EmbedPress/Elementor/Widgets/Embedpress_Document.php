@@ -373,7 +373,9 @@ class Embedpress_Document extends Widget_Base
         $embed_settings =  [];
 		$embed_settings['customThumbnail'] = !empty($settings['embedpress_doc_content_share_custom_thumbnail']['url']) ? $settings['embedpress_doc_content_share_custom_thumbnail']['url'] : '';
 
-		$embed_settings['customTtitle'] = !empty($settings['embedpress_doc_content_title']) ? $settings['embedpress_doc_content_title'] : Helper::get_file_title($url);
+		$embed_settings['customTitle'] = !empty($settings['embedpress_doc_content_title']) ? $settings['embedpress_doc_content_title'] : Helper::get_file_title($url);
+
+        $embed_settings['customDescription'] = !empty($settings['embedpress_doc_content_descripiton']) ? $settings['embedpress_doc_content_descripiton'] : Helper::get_file_title($url);
 
 		$embed_settings['sharePosition'] = !empty($settings['embedpress_doc_content_share_position']) ? $settings['embedpress_doc_content_share_position'] : 'right';
 
