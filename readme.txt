@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 3.6.7
+Stable tag: 3.6.8
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -382,15 +382,23 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [3.6.8] - 2023-03-29 =
+* Added: Custom Google map embedding support.
+* Fixed: OpenSea long token design broken issue.
+* Fixed: Responsive issues for Youtube Channel embedding.
+* Fixed: Branding text control wasn’t working for Classic Editor.
+* Improved: Disabled PDF print/download using keyboard shortcut.
+* Few minor bug fix and improvements.
+
 = [3.6.7] - 2023-03-09 =
 * Added: Draw, Text & Toolbar color changing control in PDF embedding.
-* Fixed: Wistia height-wight issues. 
-* Fixed: MeetUp embedding issues. 
-* Improvement: iFrame Titles & Accessibility.  
+* Fixed: Wistia height-wight issues.
+* Fixed: MeetUp embedding issues.
+* Improvement: iFrame Titles & Accessibility.
 * Few minor bug fixes and improvements.
 
 = [3.6.6] - 2023-02-07 =
-* Fixed: Conflict with few Elementor based plugins. 
+* Fixed: Conflict with few Elementor based plugins.
 * Few minor bug fixes and improvements.
 
 = [3.6.5] - 2023-02-06 =
@@ -410,9 +418,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Few minor bug fixes and improvements.
 
 = [3.6.3] - 2022-12-14 =
-* Added: OpenSea single asset with advanced controls. 
-* Fixed: Print & Download button wasnt showing with Shortcode. 
-* Fixed: PDF control wasnt working while embeding PDF from multiple sources.  
+* Added: OpenSea single asset with advanced controls.
+* Fixed: Print & Download button wasnt showing with Shortcode.
+* Fixed: PDF control wasnt working while embeding PDF from multiple sources.
 * Fixed: Instagram embidding in Classic Editor.
 * Few minor bug fixes and improvements.
 

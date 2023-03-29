@@ -22,7 +22,7 @@ if ( ! defined('EMBEDPRESS_PLG_NAME')) {
 }
 
 if ( ! defined('EMBEDPRESS_VERSION')) {
-	define('EMBEDPRESS_VERSION', "3.6.7");
+	define('EMBEDPRESS_VERSION', "3.6.8");
 	/**
 	 * @deprecated 2.2.0
 	 */
@@ -148,8 +148,8 @@ if (!function_exists('stringToBoolean')){
     }
 }
 
-  
- 
+
+
 // Includes the Gutenberg blocks for EmbedPress
 require_once __DIR__ . '/Gutenberg/plugin.php';
 
