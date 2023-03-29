@@ -613,14 +613,16 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         if((($params['nftcreator'] == 'yes') || ($params['nftcreator'] == 'true')) && !empty($created_by)):
             $creator = '<div class="ep_nft_owner_wrapper">
-                <div class="ep_nft_creator"><img
-                        src="'.esc_url($creator_img_url).'"
-                        alt="'.esc_attr($created_by).'"><span  '.$this->createStye('creatorColor', 'creatorFontsize', '').'>'.esc_html($prefix_creator).' <a target="_blank"
-                            href="'.esc_url($item['creator_url']).'" '.$this->createStye('creatorLinkColor', 'creatorLinkFontsize', '').'>'.esc_html($created_by).'</a></span>
+                <div class="ep_nft_creator">';
+            if(!empty($creator_img_url)) {
+                $creator .= '<img src="'.esc_url($creator_img_url).'" alt="'.esc_attr($created_by).'">';
+            }
+            $creator .= '<span '.$this->createStye('creatorColor', 'creatorFontsize', '').'>'.esc_html($prefix_creator).' <a target="_blank"
+                        href="'.esc_url($item['creator_url']).'" '.$this->createStye('creatorLinkColor', 'creatorLinkFontsize', '').'>'.esc_html($created_by).'</a></span>
                 </div>
             </div>';
         endif;
-
+        
         if(($params['nfttitle'] == 'yes') || ($params['nfttitle'] == 'true')):
             $title = ' <h3 class="ep_nft_title" '.$this->createStye('titleColor', 'titleFontsize', '').'>'.esc_html($name).'</h3>';
         endif;
@@ -865,10 +867,12 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         if((($params['nftcreator'] == 'yes') || ($params['nftcreator'] == 'true')) && !empty($created_by)):
             $creator = '<div class="ep_nft_owner_wrapper">
-                <div class="ep_nft_creator"><img
-                        src="'.esc_url($creator_img_url).'"
-                        alt="'.esc_attr($created_by).'"><span  '.$this->createStye('creatorColor', 'creatorFontsize', '').'>'.esc_html($prefix_creator).' <a target="_blank"
-                            href="'.esc_url($item['creator_url']).'" '.$this->createStye('creatorLinkColor', 'creatorLinkFontsize', '').'>'.esc_html($created_by).'</a></span>
+                <div class="ep_nft_creator">';
+            if(!empty($creator_img_url)) {
+                $creator .= '<img src="'.esc_url($creator_img_url).'" alt="'.esc_attr($created_by).'">';
+            }
+            $creator .= '<span '.$this->createStye('creatorColor', 'creatorFontsize', '').'>'.esc_html($prefix_creator).' <a target="_blank"
+                        href="'.esc_url($item['creator_url']).'" '.$this->createStye('creatorLinkColor', 'creatorLinkFontsize', '').'>'.esc_html($created_by).'</a></span>
                 </div>
             </div>';
         endif;
