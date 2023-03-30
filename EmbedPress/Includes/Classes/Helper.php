@@ -284,33 +284,6 @@ class Helper {
 		echo $meta_tags;
 	}
 
-	public static function generate_social_share_meta($client_id){
-
-		// Example string that contains an embedpress PDF block
-		// $pdf_block = '<!-- wp:embedpress/embedpress-pdf {"id":"embedpress-pdf-1679464318234","contentShare":true,"customThumbnail":"http://development.local/wp-content/uploads/2022/09/IMG_20220906_103416-scaled.jpg","href":"http://development.local/wp-content/uploads/2022/09/computer_programming.pdf","draw":false,"fileName":"computer_programming","mime":"application/pdf","align":"center"} /-->
-
-		// <!-- wp:embedpress/embedpress-pdf {"id":"embedpress-pdf-1679568771118","contentShare":true,"customThumbnail":"http://development.local/wp-content/uploads/2022/09/pexels-pixabay-50686-1.jpg","href":"http://development.local/wp-content/uploads/2022/11/sample.pdf","draw":false,"fileName":"sample","mime":"application/pdf","align":"center"} /-->';
-
-		$post_id = get_the_ID(  ); // replace with the ID of the post you want to retrieve
-		$post = get_post( $post_id );
-		$pdf_block = $post->post_content;
-
-		// ID to search for
-		$id_value = $client_id;
-
-		// Regular expression to match the id and href keys and their values
-		$regex = '/"id":"'.$id_value.'",".*?"customThumbnail":"(.*?)"/';
-
-		// Search for the regex pattern in the string and extract the href value
-		if (preg_match($regex, $pdf_block, $matches)) {
-			// print_r($matches);
-			$href_value = $matches[1];
-			echo $href_value;
-		} else {
-			echo "No matching ID found in the string.";
-		}
-	}
-
 	public static function embed_content_share($content_id='', $attributes = []){
 
 		$share_position = !empty($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
@@ -358,6 +331,31 @@ class Helper {
 		$social_icons .= '</div>';
 		
 		echo  $social_icons ;
+	}
+
+
+	
+	public static function ep_get_elementor_widget_settings($page_settings = '', $id = '', $widgetType = ''){
+
+		$data = json_decode($page_settings, true);
+
+		// Search for the element with the given ID
+		$element = null;
+		foreach ($data as $section) {
+			foreach ($section['elements'] as $column) {
+				foreach ($column['elements'] as $el) {
+					if ($el['id'] == $id && $el['elType'] == 'widget' && $el['widgetType'] == $widgetType) {
+						$element = $el;
+						break 3;
+					}
+				}
+			}
+		}
+
+		// Output the element code
+		if ($element) {
+			return $element;;
+		} 
 	}
 
 

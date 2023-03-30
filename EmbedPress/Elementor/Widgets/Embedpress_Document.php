@@ -19,7 +19,7 @@ class Embedpress_Document extends Widget_Base
 	protected $pro_text = '';
     public function get_name()
     {
-        return 'embedpres_document';
+        return 'embedpress_document';
     }
 
     public function get_title()
@@ -208,21 +208,7 @@ class Embedpress_Document extends Widget_Base
         $this->add_control(
 			'embedpress_doc_content_share_custom_thumbnail',
 			[
-				'label' => esc_html__( 'Thumbnail', 'textdomain' ),
-				'type' => \Elementor\Controls_Manager::MEDIA,
-				'default' => [
-					'url' => \Elementor\Utils::get_placeholder_image_src(),
-				],
-                'condition'   => [
-					'embedpress_doc_content_share' => 'yes'
-				]
-			]
-		);
-
-		$this->add_control(
-			'embedpress_doc_content_share_custom_thumbnail',
-			[
-				'label' => esc_html__( 'Thumbnail', 'textdomain' ),
+				'label' => esc_html__( 'Thumbnail', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::MEDIA,
 				'default' => [
 					'url' => \Elementor\Utils::get_placeholder_image_src(),
