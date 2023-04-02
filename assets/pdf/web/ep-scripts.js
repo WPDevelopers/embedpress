@@ -35,8 +35,8 @@ const getParamObj = (hash) => {
             doc_rotation: hashParams.get('doc_rotation'),
         };
 
-    
-        if(hashParams.get('download') !== 'true' && hashParams.get('download') !== 'yes'){
+
+        if (hashParams.get('download') !== 'true' && hashParams.get('download') !== 'yes') {
             window.addEventListener('beforeunload', function (event) {
                 event.stopImmediatePropagation();
             });
@@ -158,7 +158,8 @@ const pdfIframeStyle = (data) => {
         }`;
     }
 
-    if (data.position === 'top') {
+
+    if (data.position === 'top' || data.position == undefined) {
         position = 'top:0;bottom:auto;'
         settingsPos = '';
     }
@@ -262,3 +263,27 @@ window.addEventListener('hashchange', (e) => {
 let data = getParamObj(location.hash);
 pdfIframeStyle(data);
 setThemeMode(data.themeMode);
+
+
+var fullscreen = document.querySelector('.toolbar');
+var pdfContainer = document.getElementById('viewerContainer');
+
+console.log(pdfContainer);
+var pdfViewer = document.getElementById('viewer');
+
+fullscreen.addEventListener('click', function () {
+
+    if (pdfContainer.webkitEnterFullscreen) {
+        pdfContainer.webkitEnterFullscreen();
+    }
+
+    if (pdfContainer.requestFullscreen) {
+        pdfContainer.requestFullscreen();
+    } else if (pdfContainer.webkitRequestFullscreen) {
+        pdfContainer.webkitRequestFullscreen();
+    } else if (pdfViewer.requestFullscreen) {
+        pdfViewer.requestFullscreen();
+    } else if (pdfViewer.webkitRequestFullscreen) {
+        pdfViewer.webkitRequestFullscreen();
+    }
+});
