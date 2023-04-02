@@ -353,17 +353,25 @@
         unlockSubmitHander('ep-gutenberg-content', this);
     });
 
-   
+
+    
+    window.addEventListener('load', function(e) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const hash = urlParams.get('hash');
+      
+        // find the element with the matching id
+        const element = document.getElementById(hash);
+      
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+          
+    });
+      
+
 
 
 })(jQuery);
-
-window.addEventListener('DOMContentLoaded', function() {
-    const element = document.querySelector('#ep-gutenberg-content-e80979fc0d29cfd20bf6988c949d601e');
-    if (element) {
-        element.scrollIntoView({ block: 'start' });
-    }
-});
 
 
 jQuery(window).on("elementor/frontend/init", function () {

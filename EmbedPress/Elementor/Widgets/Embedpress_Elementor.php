@@ -2648,20 +2648,23 @@ class Embedpress_Elementor extends Widget_Base
 				<p><?php esc_html_e('You need EmbedPress Pro to Embed Apple Podcast. Note. This message is only visible to you.', 'embedpress'); ?></p>
 			<?php
 					} else {?>
+							
 							<div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_content_share_position'].'-wraper' ); endif; ?>">
-								<?php 
-									if((empty($settings['embedpress_lock_content']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($settings['embedpress_lock_content_password'] === $_COOKIE['password_correct_'.$client_id])) ){
-										echo $content;
+								<div id="<?php echo esc_attr( $this->get_id() ); ?>">
+									<?php 
+										if((empty($settings['embedpress_lock_content']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($settings['embedpress_lock_content_password'] === $_COOKIE['password_correct_'.$client_id])) ){
+											echo $content;
 
-										if(!empty($settings['embedpress_content_share'])){
-											$content_id = $client_id;
-											
-											Helper::embed_content_share( $content_id, $embed_settings);
+											if(!empty($settings['embedpress_content_share'])){
+												$content_id = $client_id;
+												
+												Helper::embed_content_share( $content_id, $embed_settings);
+											}
+										} else {
+											Helper::display_password_form($client_id, $content, $pass_hash_key);
 										}
-									} else {
-										Helper::display_password_form($client_id, $content, $pass_hash_key);
-									}
-								?>
+									?>
+								</div>
 							</div>
 						<?php
 					}

@@ -89,7 +89,7 @@ function embedpress_render_block($attributes)
 
 		ob_start();
 		?>
-		<div class="embedpress-gutenberg-wrapper <?php echo esc_attr($alignment) ?>">
+		<div class="embedpress-gutenberg-wrapper <?php echo esc_attr($alignment) ?>" id="<?php echo esc_attr($client_id); ?>">
 			<?php 
 				$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
 				$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';

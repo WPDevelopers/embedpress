@@ -393,6 +393,7 @@ class Embedpress_Document extends Widget_Base
 
             ?>
             <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_doc_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_doc_content_share_position'].'-wraper' ); endif; ?>">
+                <div id="<?php echo esc_attr( $this->get_id() ); ?>">
                 <?php
                     if ((empty($settings['embedpress_doc_lock_content']) || $settings['embedpress_doc_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($settings['embedpress_doc_lock_content_password'] === $_COOKIE['password_correct_' . $client_id]))) {
                         echo $embed_content;
@@ -404,6 +405,7 @@ class Embedpress_Document extends Widget_Base
                         Helper::display_password_form($client_id, $embed_content, $pass_hash_key);
                     }
                 ?>
+                </div>
             </div>
 
         <?php

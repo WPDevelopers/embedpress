@@ -493,7 +493,7 @@ function embedpress_pdf_render_block($attributes)
 			} else {
 				$embed_code .= 'style="' . esc_attr('max-width:100%') . '"';
 			}
-			$embed_code .= '>
+			$embed_code .= ' id="'.esc_attr( $id ).'">
 				<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_attr($src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
 				
 			do_action('embedpress_pdf_gutenberg_after_embed',  $client_id, 'pdf', $attributes, $pdf_url);
