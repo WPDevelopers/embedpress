@@ -350,7 +350,7 @@ class EmbedPressPDFEdit extends Component {
 							title={__('PDF Control Settings', 'embedpress')}
 							initialOpen={false}
 						>
-							<LockControl attributes={attributes} setAttributes={setAttributes} />
+							
 
 							<SelectControl
 								label="Theme"
@@ -496,6 +496,8 @@ class EmbedPressPDFEdit extends Component {
 								)
 							}
 						</PanelBody>
+
+						<LockControl attributes={attributes} setAttributes={setAttributes} />
 					</InspectorControls>
 
 					<style style={{ display: "none" }}>
