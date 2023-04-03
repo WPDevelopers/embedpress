@@ -100,7 +100,7 @@ function embedpress_render_block($attributes)
 						if(empty($attributes['lockContent']) || (!empty(Helper::is_password_correct($client_id)) && ($attributes['contentPassword'] === $_COOKIE['password_correct_'.$client_id])) ){
 							echo $embed;
 						} else {
-							Helper::display_password_form($client_id, $embed, $pass_hash_key);
+							Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
 						}
 					?>
 				</div>

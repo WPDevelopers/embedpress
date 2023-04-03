@@ -5,6 +5,7 @@ namespace EmbedPress\Includes\Classes;
 use \EmbedPress\Providers\Youtube;
 use EmbedPress\Shortcode;
 use EmbedPress\Includes\Classes\Helper;
+use \Elementor\Controls_Manager;
 
 class Feature_Enhancer
 {
@@ -1545,5 +1546,7 @@ class Feature_Enhancer
 
 		}
 	}
+
+	
 
 }

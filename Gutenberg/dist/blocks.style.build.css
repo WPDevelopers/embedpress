@@ -717,6 +717,10 @@ span.eb_nft_currency svg {
   font-weight: 500;
   line-height: 1.8em; }
 
+.ep-nft-single-item-wraper .ep-asset-detail-item span {
+  word-break: break-word;
+  max-width: 75%; }
+
 .ep-nft-single-item-wraper .ep-content {
   display: block; }
 

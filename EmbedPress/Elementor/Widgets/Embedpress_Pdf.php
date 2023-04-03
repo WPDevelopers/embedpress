@@ -9,14 +9,16 @@ use \Elementor\Widget_Base as Widget_Base;
 use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Includes\Traits\Branding;
 
+
+
 (defined('ABSPATH')) or die("No direct script access allowed.");
 
 class Embedpress_Pdf extends Widget_Base
 {
 
     use Branding;
-    protected $pro_class = '';
-    protected $pro_text = '';
+    public $pro_class = '';
+    public $pro_text = '';
     public function get_name()
     {
         return 'embedpress_pdf';
@@ -124,94 +126,8 @@ class Embedpress_Pdf extends Widget_Base
             ]
         );
 
-        $this->add_control(
-			'embedpress_pdf_lock_content',
-			[
-				'label'        => sprintf(__('Lock Content %s', 'embedpress'), $this->pro_text),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => '',
-				'classes'     => $this->pro_class,
-			]
-		);
+        
 
-		$this->add_control(
-			'embedpress_pdf_lock_content_password',
-			[
-				'label'       => __('Set Password', 'embedpress'),
-				'type'        => Controls_Manager::TEXT,
-				'default'	=> '12345',
-				'label_block' => false,
-				'condition'   => [
-					'embedpress_pdf_lock_content' => 'yes'
-				]
-			]
-		);
-
-        $this->add_control(
-			'embedpress_pdf_content_share',
-			[
-				'label'        => __('Enable Content Share', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => '',
-			]
-		);
-        $this->add_control(
-            'embedpress_pdf_content_share_position',
-            [
-                'label'   => __('Position', 'embedpress'),
-                'type'    => Controls_Manager::SELECT,
-                'default' => 'right',
-                'options' => [
-                    'top'        => __('Top', 'embedpress'),
-                    'right' => __('Right', 'embedpress'),
-                    'bottom'    => __('Bottom', 'embedpress'),
-                    'left'  => __('Left', 'embedpress'),
-                ],
-                'condition'   => [
-					'embedpress_pdf_content_share' => 'yes'
-				]
-            ]
-        );
-        $this->add_control(
-            'embedpress_pdf_content_title',
-            [
-                'label'   => __('Title', 'embedpress'),
-                'type'    => Controls_Manager::TEXT,
-                'placeholder' => 'Enter share title',
-                'condition'   => [
-					'embedpress_pdf_content_share' => 'yes'
-				]
-            ]
-        );
-        $this->add_control(
-            'embedpress_pdf_content_descripiton',
-            [
-                'label'   => __('Description', 'embedpress'),
-                'type'    => Controls_Manager::TEXTAREA,
-                'placeholder' => 'Enter share description',
-                'condition'   => [
-					'embedpress_pdf_content_share' => 'yes'
-				]
-            ]
-        );
-
-        $this->add_control(
-			'embedpress_pdf_content_share_custom_thumbnail',
-			[
-				'label' => esc_html__( 'Thumbnail', 'textdomain' ),
-				'type' => \Elementor\Controls_Manager::MEDIA,
-				'default' => [
-					'url' => \Elementor\Utils::get_placeholder_image_src(),
-				],
-                'condition'   => [
-					'embedpress_pdf_content_share' => 'yes'
-				]
-			]
-		);
 
         $this->add_control(
             'embedpress_pdf_zoom',
@@ -527,6 +443,7 @@ class Embedpress_Pdf extends Widget_Base
 
         $this->end_controls_section();
 
+        do_action( 'extend_elementor_controls', $this, '_pdf_' );
 
         if (!is_embedpress_pro_active()) {
             $this->start_controls_section(
@@ -634,6 +551,13 @@ class Embedpress_Pdf extends Widget_Base
 
 		$embed_settings['sharePosition'] = !empty($settings['embedpress_pdf_content_share_position']) ? $settings['embedpress_pdf_content_share_position'] : 'right';
 
+		$embed_settings['lockHeading'] = !empty($settings['embedpress_pdf_lock_content_heading']) ? $settings['embedpress_pdf_lock_content_heading'] : '';
+
+		$embed_settings['lockSubHeading'] = !empty($settings['embedpress_pdf_lock_content_sub_heading']) ? $settings['embedpress_pdf_lock_content_sub_heading'] : '';
+        
+		$embed_settings['lockErrorMessage'] = !empty($settings['embedpress_pdf_lock_content_error_message']) ? $settings['embedpress_pdf_lock_content_error_message'] : '';
+        
+		$embed_settings['footerMessage'] = !empty($settings['embedpress_pdf_lock_content_footer_message']) ? $settings['embedpress_pdf_lock_content_footer_message'] : '';
 
         ?>
     <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
@@ -684,7 +608,7 @@ class Embedpress_Pdf extends Widget_Base
                                     Helper::embed_content_share($content_id, $embed_settings);
                                 }
                             } else {
-                                Helper::display_password_form($client_id, $embed_content, $pass_hash_key);
+                                Helper::display_password_form($client_id, $embed_content, $pass_hash_key, $embed_settings);
                             }
                         ?>
                     </div>

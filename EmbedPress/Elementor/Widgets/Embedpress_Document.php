@@ -130,96 +130,6 @@ class Embedpress_Document extends Widget_Base
         );
 
         $this->add_control(
-            'embedpress_doc_lock_content',
-            [
-                'label'        => sprintf(__('Lock Content %s', 'embedpress'), $this->pro_text),
-                'type'         => Controls_Manager::SWITCHER,
-                'label_block'  => false,
-                'return_value' => 'yes',
-                'default'      => 'no',
-                'classes'     => $this->pro_class,
-            ]
-        );
-
-        $this->add_control(
-            'embedpress_doc_lock_content_password',
-            [
-                'label'       => __('Set Password', 'embedpress'),
-                'type'        => Controls_Manager::TEXT,
-                'default'    => '12345',
-                'label_block' => false,
-                'condition'   => [
-                    'embedpress_doc_lock_content' => 'yes'
-                ]
-            ]
-        );
-
-        $this->add_control(
-			'embedpress_doc_content_share',
-			[
-				'label'        => __('Enable Content Share', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => '',
-			]
-		);
-        $this->add_control(
-            'embedpress_doc_content_share_position',
-            [
-                'label'   => __('Position', 'embedpress'),
-                'type'    => Controls_Manager::SELECT,
-                'default' => 'right',
-                'options' => [
-                    'top'        => __('Top', 'embedpress'),
-                    'right' => __('Right', 'embedpress'),
-                    'bottom'    => __('Bottom', 'embedpress'),
-                    'left'  => __('Left', 'embedpress'),
-                ],
-                'condition'   => [
-					'embedpress_doc_content_share' => 'yes'
-				]
-            ]
-        );
-
-        $this->add_control(
-            'embedpress_doc_content_title',
-            [
-                'label'   => __('Title', 'embedpress'),
-                'type'    => Controls_Manager::TEXT,
-                'placeholder' => 'Enter share title',
-                'condition'   => [
-					'embedpress_doc_content_share' => 'yes'
-				]
-            ]
-        );
-        $this->add_control(
-            'embedpress_doc_content_descripiton',
-            [
-                'label'   => __('Description', 'embedpress'),
-                'type'    => Controls_Manager::TEXTAREA,
-                'placeholder' => 'Enter share description',
-                'condition'   => [
-					'embedpress_doc_content_share' => 'yes'
-				]
-            ]
-        );
-
-        $this->add_control(
-			'embedpress_doc_content_share_custom_thumbnail',
-			[
-				'label' => esc_html__( 'Thumbnail', 'embedpress' ),
-				'type' => \Elementor\Controls_Manager::MEDIA,
-				'default' => [
-					'url' => \Elementor\Utils::get_placeholder_image_src(),
-				],
-                'condition'   => [
-					'embedpress_doc_content_share' => 'yes'
-				]
-			]
-		);
-
-        $this->add_control(
             'embedpress_elementor_document_width',
             [
                 'label'     => __( 'Width', 'embedpress' ),
@@ -306,6 +216,8 @@ class Embedpress_Document extends Widget_Base
 
 	    $this->end_controls_section();
 
+        do_action( 'extend_elementor_controls', $this, '_doc_' );
+
 	    if (! is_embedpress_pro_active()) {
 		    $this->start_controls_section(
 			    'embedpress_pro_section',
@@ -367,6 +279,14 @@ class Embedpress_Document extends Widget_Base
         $embed_settings['customDescription'] = !empty($settings['embedpress_doc_content_descripiton']) ? $settings['embedpress_doc_content_descripiton'] : Helper::get_file_title($url);
 
 		$embed_settings['sharePosition'] = !empty($settings['embedpress_doc_content_share_position']) ? $settings['embedpress_doc_content_share_position'] : 'right';
+        
+		$embed_settings['lockHeading'] = !empty($settings['embedpress_doc_lock_content_heading']) ? $settings['embedpress_doc_lock_content_heading'] : '';
+
+		$embed_settings['lockSubHeading'] = !empty($settings['embedpress_doc_lock_content_sub_heading']) ? $settings['embedpress_doc_lock_content_sub_heading'] : '';
+        
+		$embed_settings['lockErrorMessage'] = !empty($settings['embedpress_doc_lock_content_error_message']) ? $settings['embedpress_doc_lock_content_error_message'] : '';
+        
+		$embed_settings['footerMessage'] = !empty($settings['embedpress_doc_lock_content_footer_message']) ? $settings['embedpress_doc_lock_content_footer_message'] : '';
 
         
         ?>
@@ -405,7 +325,7 @@ class Embedpress_Document extends Widget_Base
                             Helper::embed_content_share($content_id, $embed_settings);
                         }
                     } else {
-                        Helper::display_password_form($client_id, $embed_content, $pass_hash_key);
+                        Helper::display_password_form($client_id, $embed_content, $pass_hash_key, $embed_settings);
                     }
                 ?>
                 </div>

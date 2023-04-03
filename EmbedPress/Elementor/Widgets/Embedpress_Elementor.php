@@ -10,7 +10,6 @@ use Elementor\Widget_Base as Widget_Base;
 use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Includes\Traits\Branding;
 use EmbedPress\Shortcode;
-use EmbedPress\Includes\Classes\Helper;
 
 (defined('ABSPATH')) or die("No direct script access allowed.");
 
@@ -18,8 +17,8 @@ class Embedpress_Elementor extends Widget_Base
 {
 	
 	use Branding;
-	protected $pro_class = '';
-	protected $pro_text = '';
+	public $pro_class = '';
+	public $pro_text = '';
 	public function get_name()
 	{
 		return 'embedpres_elementor';
@@ -151,96 +150,6 @@ class Embedpress_Elementor extends Widget_Base
 
 			]
 		);
-
-		$this->add_control(
-			'embedpress_lock_content',
-			[
-				'label'        => sprintf(__('Lock Content %s', 'embedpress'), $this->pro_text),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'no',
-				'classes'     => $this->pro_class,
-			]
-		);
-
-		$this->add_control(
-			'embedpress_lock_content_password',
-			[
-				'label'       => __('Set Password', 'embedpress'),
-				'type'        => Controls_Manager::TEXT,
-				'default'	=> '12345',
-				'label_block' => false,
-				'condition'   => [
-					'embedpress_lock_content' => 'yes'
-				]
-			]
-		);
-
-		$this->add_control(
-			'embedpress_content_share',
-			[
-				'label'        => __('Enable Content Share', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => '',
-			]
-		);
-        $this->add_control(
-            'embedpress_content_share_position',
-            [
-                'label'   => __('Position', 'embedpress'),
-                'type'    => Controls_Manager::SELECT,
-                'default' => 'right',
-                'options' => [
-                    'top'        => __('Top', 'embedpress'),
-                    'right' => __('Right', 'embedpress'),
-                    'bottom'    => __('Bottom', 'embedpress'),
-                    'left'  => __('Left', 'embedpress'),
-                ],
-                'condition'   => [
-					'embedpress_content_share' => 'yes'
-				]
-            ]
-        );
-
-		$this->add_control(
-            'embedpress_content_title',
-            [
-                'label'   => __('Title', 'embedpress'),
-                'type'    => Controls_Manager::TEXT,
-                'placeholder' => 'Enter share title',
-                'condition'   => [
-					'embedpress_content_share' => 'yes'
-				]
-            ]
-        );
-        $this->add_control(
-            'embedpress_content_descripiton',
-            [
-                'label'   => __('Description', 'embedpress'),
-                'type'    => Controls_Manager::TEXTAREA,
-                'placeholder' => 'Enter share description',
-                'condition'   => [
-					'embedpress_content_share' => 'yes'
-				]
-            ]
-        );
-
-		$this->add_control(
-			'embedpress_content_share_custom_thumbnail',
-			[
-				'label' => esc_html__( 'Thumbnail', 'textdomain' ),
-				'type' => \Elementor\Controls_Manager::MEDIA,
-				'default' => [
-					'url' => \Elementor\Utils::get_placeholder_image_src(),
-				],
-				'condition'   => [
-					'embedpress_content_share' => 'yes'
-				]
-			]
-		);
 		
 		$this->add_control(
 			'spotify_theme',
@@ -289,6 +198,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->init_youtube_subscription_section();
 		$this->init_youtube_livechat_section();
 
+
 		/**
 		 * Opensea Control section
 		 */
@@ -324,6 +234,8 @@ class Embedpress_Elementor extends Widget_Base
 
 		$this->init_style_controls();
 		$this->init_opensea_color_and_typography();
+
+		do_action( 'extend_elementor_controls', $this, '');
 	}
 
 	/**
@@ -2628,6 +2540,14 @@ class Embedpress_Elementor extends Widget_Base
 		$embed_settings['customDescription'] = !empty($settings['embedpress_content_descripiton']) ? $settings['embedpress_content_descripiton'] : Helper::get_file_title($embed_link);
 
 		$embed_settings['sharePosition'] = !empty($settings['embedpress_content_share_position']) ? $settings['embedpress_content_share_position'] : 'right';
+		
+		$embed_settings['lockHeading'] = !empty($settings['embedpress_lock_content_heading']) ? $settings['embedpress_lock_content_heading'] : '';
+
+		$embed_settings['lockSubHeading'] = !empty($settings['embedpress_lock_content_sub_heading']) ? $settings['embedpress_lock_content_sub_heading'] : '';
+        
+		$embed_settings['lockErrorMessage'] = !empty($settings['embedpress_lock_content_error_message']) ? $settings['embedpress_lock_content_error_message'] : '';
+        
+		$embed_settings['footerMessage'] = !empty($settings['embedpress_lock_content_footer_message']) ? $settings['embedpress_lock_content_footer_message'] : '';
 
 
 		$client_id = $this->get_id();
@@ -2666,7 +2586,7 @@ class Embedpress_Elementor extends Widget_Base
 												Helper::embed_content_share( $content_id, $embed_settings);
 											}
 										} else {
-											Helper::display_password_form($client_id, $content, $pass_hash_key);
+											Helper::display_password_form($client_id, $content, $pass_hash_key, $embed_settings);
 										}
 									?>
 								</div>

@@ -45,6 +45,22 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			contentPassword: {
 				type: 'string',
 			},
+			lockHeading: {
+				type: 'string',
+				default: 'Content Locked'
+			},
+			lockSubHeading: {
+				type: 'string',
+				default: 'This content is currently locked and requires a password to access.'
+			},
+			lockErrorMessage: {
+				type: 'string',
+				default: 'Invalid password. Please try again.'
+			},
+			footerMessage: {
+				type: 'string',
+				default: 'If you don’t have the password, please contact the content owner or administrator to request access.'
+			},
 			contentShare: {
 				type: 'boolean',
 				default: false

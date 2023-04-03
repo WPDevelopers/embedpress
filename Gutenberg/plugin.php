@@ -168,6 +168,22 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'boolean',
 								'default' => false
 							],
+							'lockHeading' => [
+								'type' => 'string',
+								'default' => 'Content Locked'
+							],
+							'lockSubHeading' => [
+								'type' => 'string',
+								'default' => 'This content is currently locked and requires a password to access.'
+							],
+							'lockErrorMessage' => [
+								'type' => 'string',
+								'default' => 'Invalid password. Please try again.'
+							],
+							'footerMessage' => [
+								'type' => 'string',
+								'default' => 'If you don\'t have the password, please contact the content owner or administrator to request access.'
+							],
 							'contentPassword' => [
 								'type' => 'string',
 							],
@@ -337,6 +353,22 @@ function embedpress_gutenberg_register_all_block()
 							'lockContent' => [
 								'type' => 'boolean',
 								'default' => false
+							],
+							'lockHeading' => [
+								'type' => 'string',
+								'default' => 'Content Locked'
+							],
+							'lockSubHeading' => [
+								'type' => 'string',
+								'default' => 'This content is currently locked and requires a password to access.'
+							],
+							'lockErrorMessage' => [
+								'type' => 'string',
+								'default' => 'Invalid password. Please try again.'
+							],
+							'footerMessage' => [
+								'type' => 'string',
+								'default' => 'If you don\'t have the password, please contact the content owner or administrator to request access.'
 							],
 							'contentPassword' => [
 								'type' => 'string',
@@ -520,7 +552,7 @@ function embedpress_pdf_render_block($attributes)
 					}
 					echo '</div>';
 				} else {
-					Helper::display_password_form($client_id, $embed_code, $pass_hash_key);
+					Helper::display_password_form($client_id, $embed_code, $pass_hash_key, $attributes);
 				}
 			?>
 		</div>

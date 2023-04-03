@@ -266,8 +266,15 @@ class Helper {
 		wp_die();
 	}
 
-	public static function display_password_form($client_id='', $embedHtml='', $pass_hash_key='')
+	public static function display_password_form($client_id='', $embedHtml='', $pass_hash_key='', $attributes = [])
 	{
+
+
+		$lock_heading = !empty($attributes['lockHeading']) ? $attributes['lockHeading'] : '';
+		$lock_subheading = !empty($attributes['lockSubHeading']) ? $attributes['lockSubHeading'] : '';
+		$lock_error_message = !empty($attributes['lockErrorMessage']) ? $attributes['lockErrorMessage'] : '';
+		$footer_message = !empty($attributes['footerMessage']) ? $attributes['footerMessage'] : '';
+
 		// Set the encryption key and initialization vector (IV)
 		$key = "g72@QKgEcANy8%D7xq8%@n%#";
 		$iv = "^ZCC$93vsbyYjz01";
@@ -282,9 +289,8 @@ class Helper {
 
 		echo '
 		<div class="password-form-container">
-			<h2>Content Locked</h2>
-			<p>This content is currently locked and requires a password to access.
-
+			<h2>'.esc_html( $lock_heading ).'</h2>
+			<p>'.esc_html( $lock_subheading ).' </p>
 				<form class="password-form" method="post" class="password-form">
 					
 					<div class="password-field">
@@ -296,7 +302,7 @@ class Helper {
 					<input type="hidden" name="hash_key_' . esc_attr($client_id) . '" value="' . esc_attr($pass_hash_key) . '">
 					<input type="submit" name="password_submit" value="Unlock">
 				</form>
-				<p class="need-access-message">If you don\'t have the password, please contact the content owner or administrator to request access.</p>
+				<p class="need-access-message">'.esc_html( $footer_message ).'</p>
 			</div>
 		';
 	}
