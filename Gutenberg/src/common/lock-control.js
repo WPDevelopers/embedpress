@@ -8,7 +8,8 @@ const { __ } = wp.i18n;
 
 const {
     TextControl,
-    ToggleControl
+    ToggleControl,
+    PanelBody
 } = wp.components;
 
 export default function LockControl({ attributes, setAttributes}) {
@@ -23,7 +24,7 @@ export default function LockControl({ attributes, setAttributes}) {
     const inputRef = useRef(null);
 
     return (
-        <frameElement>
+        <PanelBody title={__('Content Protection', 'embedpress')} initialOpen={false} >
             <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                 <ToggleControl
                     label={__("Lock Content")}
@@ -64,6 +65,6 @@ export default function LockControl({ attributes, setAttributes}) {
                     </div>
                 )
             }
-        </frameElement>
+        </PanelBody>
     )
 }
