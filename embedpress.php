@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name: EmbedPress
  * Plugin URI:  https://embedpress.com/
@@ -25,6 +26,7 @@ use EmbedPress\Core;
 use EmbedPress\CoreLegacy;
 use EmbedPress\Elementor\Embedpress_Elementor_Integration;
 use EmbedPress\Includes\Classes\Feature_Enhancer;
+use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Shortcode;
 
 
@@ -35,21 +37,26 @@ define('EMBEDPRESS_FILE', __FILE__);
 
 define('EMBEDPRESS_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 define('EMBEDPRESS_PLUGIN_DIR_URL', plugin_dir_url(__FILE__));
-define('EMBEDPRESS_GUTENBERG_DIR_URL', EMBEDPRESS_PLUGIN_DIR_URL.'Gutenberg/');
-define('EMBEDPRESS_GUTENBERG_DIR_PATH', EMBEDPRESS_PLUGIN_DIR_PATH.'Gutenberg/');
-define('EMBEDPRESS_SETTINGS_ASSETS_URL', EMBEDPRESS_PLUGIN_DIR_URL.'EmbedPress/Ends/Back/Settings/assets/');
-define('EMBEDPRESS_SETTINGS_PATH', EMBEDPRESS_PLUGIN_DIR_PATH.'EmbedPress/Ends/Back/Settings/');
+define('EMBEDPRESS_GUTENBERG_DIR_URL', EMBEDPRESS_PLUGIN_DIR_URL . 'Gutenberg/');
+define('EMBEDPRESS_GUTENBERG_DIR_PATH', EMBEDPRESS_PLUGIN_DIR_PATH . 'Gutenberg/');
+define('EMBEDPRESS_SETTINGS_ASSETS_URL', EMBEDPRESS_PLUGIN_DIR_URL . 'EmbedPress/Ends/Back/Settings/assets/');
+define('EMBEDPRESS_SETTINGS_PATH', EMBEDPRESS_PLUGIN_DIR_PATH . 'EmbedPress/Ends/Back/Settings/');
 define('EMBEDPRESS_PLUGIN_URL', plugins_url('/', __FILE__));
 
 require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'includes.php';
 
 include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
-if ( ! defined('EMBEDPRESS_IS_LOADED')) {
+if (!defined('EMBEDPRESS_IS_LOADED')) {
 	return;
 }
 
-add_action( 'embedpress_cache_cleanup_action', 'embedpress_cache_cleanup' );
+add_action('embedpress_cache_cleanup_action', 'embedpress_cache_cleanup');
+ 
+
+if (!empty($_GET['hash'])) {
+	remove_action('wp_head', 'rel_canonical'); 
+}
 
 function onPluginActivationCallback()
 {
@@ -65,11 +72,11 @@ register_activation_hook(__FILE__, 'onPluginActivationCallback');
 register_deactivation_hook(__FILE__, 'onPluginDeactivationCallback');
 
 
-add_action( 'plugins_loaded', function() {
-	do_action( 'embedpress_before_init' );
-} );
+add_action('plugins_loaded', function () {
+	do_action('embedpress_before_init');
+});
 $editor_check = get_option('classic-editor-replace');
-if ((Compatibility::isWordPress5() && ! Compatibility::isClassicalEditorActive()) || (Compatibility::isClassicalEditorActive() && 'block'=== $editor_check )) {
+if ((Compatibility::isWordPress5() && !Compatibility::isClassicalEditorActive()) || (Compatibility::isClassicalEditorActive() && 'block' === $editor_check)) {
 	$embedPressPlugin = new Core();
 } else {
 	$embedPressPlugin = new CoreLegacy();
@@ -79,14 +86,14 @@ $embedPressPlugin->initialize();
 new Feature_Enhancer();
 
 
-if (  is_plugin_active('elementor/elementor.php')) {
+if (is_plugin_active('elementor/elementor.php')) {
 	$embedPressElements = new Embedpress_Elementor_Integration();
 	$embedPressElements->init();
 }
 
 Shortcode::register();
 
-if ( !class_exists( '\simple_html_dom') ) {
+if (!class_exists('\simple_html_dom')) {
 	include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
 }
 
@@ -95,10 +102,9 @@ if ( !class_exists( '\simple_html_dom') ) {
  * Check is embedpress-pro active
  */
 $is_pro_active = false;
-if(class_exists('EmbedPress_Licensing')){
+if (class_exists('EmbedPress_Licensing')) {
 	$is_pro_active = true;
 }
-
 
 function get_embed_type() {
     // Get the post content

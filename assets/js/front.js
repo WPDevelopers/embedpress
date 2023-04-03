@@ -275,10 +275,10 @@
 
     //Load more for OpenaSea collection
     const epLoadMore = () => {
-       
+
         $('.embedpress-gutenberg-wrapper .ep-nft-gallery-wrapper').each(function () {
             let selctorEl = `[data-nftid='${$(this).data('nftid')}']`;
-            
+
             let loadmorelabel = $(selctorEl).data('loadmorelabel');
             let iconcolor = $(selctorEl + " .nft-loadmore").data('iconcolor');
 
@@ -310,6 +310,66 @@
     if ($('.embedpress-gutenberg-wrapper .ep-nft-gallery-wrapper').length > 0) {
         epLoadMore();
     }
+
+    // Content protection system function 
+    const unlockSubmitHander = (perentSel, that) => {
+        var ep_client_id = jQuery(that).closest('form').find('input[name="ep_client_id"]').val();
+        var password = jQuery(`input[name="pass_${ep_client_id}"]`).val();
+        var epbase = jQuery(`input[name="ep_base_${ep_client_id}"]`).val();
+        var hash_key = jQuery(`input[name="hash_key_${ep_client_id}"]`).val();
+
+        var data = {
+            'action': 'lock_content_form_handler',
+            'client_id': ep_client_id,
+            'password': password,
+            'hash_key': hash_key,
+            'epbase': epbase
+        };
+
+        jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val('Unlocking');
+
+        jQuery.post(eplocalize.ajaxurl, data, function (response) {
+            if (response.success) {
+                if (!response.embedHtml) {
+
+                    jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val('Unlock');
+                    jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="password"]').val('');
+                    jQuery('.error-message').remove();
+                    jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form').append('<div class="error-message">Invalid password. Please try again.</div>');
+                }
+                else {
+                    jQuery('#' + perentSel + '-' + ep_client_id).html(response.embedHtml);
+                }
+            } else {
+                jQuery('#password-error_' + ep_client_id).html(response.form);
+                jQuery('#password-error_' + ep_client_id).show();
+            }
+        }, 'json');
+    }
+
+    // unlockSubmitHander called for gutentberg
+    jQuery('.ep-gutenberg-content .password-form').submit(function (e) {
+        e.preventDefault(); // Prevent the default form submission
+        unlockSubmitHander('ep-gutenberg-content', this);
+    });
+
+
+    
+    window.addEventListener('load', function(e) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const hash = urlParams.get('hash');
+      
+        // find the element with the matching id
+        const element = document.getElementById(hash);
+      
+        if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+          
+    });
+      
+
+
 
 })(jQuery);
 
@@ -350,6 +410,48 @@ jQuery(window).on("elementor/frontend/init", function () {
         if ($('.elementor-widget-container .ep-nft-gallery-wrapper').length > 0) {
             epElLoadMore();
         }
+
+        // Content protection system function 
+        const unlockElSubmitHander = (perentSel, that) => {
+            var ep_client_id = jQuery(that).closest('form').find('input[name="ep_client_id"]').val();
+            var password = jQuery(`input[name="pass_${ep_client_id}"]`).val();
+            var epbase = jQuery(`input[name="ep_base_${ep_client_id}"]`).val();
+            var hash_key = jQuery(`input[name="hash_key_${ep_client_id}"]`).val();
+
+            var data = {
+                'action': 'lock_content_form_handler',
+                'client_id': ep_client_id,
+                'password': password,
+                'hash_key': hash_key,
+                'epbase': epbase
+            };
+
+            jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val('Unlocking');
+
+            jQuery.post(eplocalize.ajaxurl, data, function (response) {
+                if (response.success) {
+                    if (!response.embedHtml) {
+
+                        jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val('Unlock');
+                        jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="password"]').val('');
+                        jQuery('.error-message').remove();
+                        jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form').append('<div class="error-message">Invalid password. Please try again.</div>');
+                    }
+                    else {
+                        jQuery('#' + perentSel + '-' + ep_client_id).html(response.embedHtml);
+                    }
+                } else {
+                    jQuery('#password-error_' + ep_client_id).html(response.form);
+                    jQuery('#password-error_' + ep_client_id).show();
+                }
+            }, 'json');
+        }
+
+        // unlockElSubmitHander called for Elementor
+        jQuery('.ep-elementor-content .password-form').submit(function (e) {
+            e.preventDefault(); // Prevent the default form submission
+            unlockElSubmitHander('ep-elementor-content', this);
+        });
 
     };
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);

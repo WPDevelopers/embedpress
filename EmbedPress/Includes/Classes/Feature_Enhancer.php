@@ -66,8 +66,12 @@ class Feature_Enhancer
 
 	public function delete_source_temp_data_on_reload() {
 		Helper::get_delete_source_temp_data_on_reload('gutenberg_temp_source_data');
+		add_action('wp_head', [$this, 'embedpress_generate_social_share_meta']);
+
 	}
 		 
+	
+
 	public function isEmbra($isEmbra, $url, $atts)
 	{
 		if (strpos($url, 'youtube.com') !== false) {
@@ -180,7 +184,6 @@ class Feature_Enhancer
 
 	public function gutenberg_embed($embedHTML, $attributes)
 	{
-	
 		if (!empty($attributes['url'])) {
 			$youtube = new Youtube($attributes['url']);
 			
@@ -1446,6 +1449,101 @@ class Feature_Enhancer
 			</script>
 		";
 		return $embed;
+	}
+
+	
+	public function embedpress_generate_social_share_meta()
+	{
+		$post_id = get_the_ID(); 
+		$post = get_post($post_id);
+		$tags = '';
+
+		if (!empty($_GET['hash'])) {
+
+			$id_value = $_GET['hash'];
+			$url = get_the_permalink( $post_id );
+
+			if (class_exists('Elementor\Plugin') && \Elementor\Plugin::$instance->db->is_built_with_elementor(get_the_ID())) {
+				$page_settings = get_post_meta( $post_id, '_elementor_data', true );
+				
+				$ep_settings = Helper::ep_get_elementor_widget_settings($page_settings, $id_value, 'embedpres_elementor');
+				$pdf_settings = Helper::ep_get_elementor_widget_settings($page_settings, $id_value, 'embedpress_pdf');
+				$doc_settings = Helper::ep_get_elementor_widget_settings($page_settings, $id_value, 'embedpress_document');
+			
+				if (is_array($ep_settings) && !empty($ep_settings)) {
+					$title = !empty($ep_settings['settings']['embedpress_content_title']) ? $ep_settings['settings']['embedpress_content_title'] : '';
+
+					$description = !empty($ep_settings['settings']['embedpress_content_descripiton']) ? $ep_settings['settings']['embedpress_content_descripiton'] : '';
+
+					$image_url = !empty($ep_settings['settings']['embedpress_content_share_custom_thumbnail']['url']) ? $ep_settings['settings']['embedpress_content_share_custom_thumbnail']['url'] : '';
+				}
+				else if (is_array($pdf_settings) && !empty($pdf_settings)) {
+					$title = !empty($pdf_settings['settings']['embedpress_pdf_content_title']) ? $pdf_settings['settings']['embedpress_pdf_content_title'] : '';
+
+					$description = !empty($pdf_settings['settings']['embedpress_pdf_content_descripiton']) ? $pdf_settings['settings']['embedpress_pdf_content_descripiton'] : '';
+
+					$image_url = !empty($pdf_settings['settings']['embedpress_pdf_content_share_custom_thumbnail']['url']) ? $pdf_settings['settings']['embedpress_pdf_content_share_custom_thumbnail']['url'] : '';
+				}
+				else if (is_array($doc_settings) && !empty($doc_settings)) {
+					$title = !empty($doc_settings['settings']['embedpress_doc_content_title']) ? $doc_settings['settings']['embedpress_doc_content_title'] : '';
+
+					$description = !empty($doc_settings['settings']['embedpress_doc_content_descripiton']) ? $doc_settings['settings']['embedpress_doc_content_descripiton'] : '';
+
+					$image_url = !empty($doc_settings['settings']['embedpress_doc_content_share_custom_thumbnail']['url']) ? $doc_settings['settings']['embedpress_doc_content_share_custom_thumbnail']['url'] : '';
+				}
+
+				// Search for the regex pattern in the string and extract the href value
+				if (!empty($image_url)) {
+					$tags .= "<meta name='twitter:image' content='$image_url'/>\n";
+					$tags .= "<meta property='og:image' content='$image_url'/>\n";
+					$tags .= "<meta property='og:url' content='$url?hash=$id_value'/>\n";
+				}
+				if (!empty($title)) {
+					$tags .= "<meta property='og:title' content='$title'/>\n";
+					$tags .= "<meta name='twitter:title' content='$title'/>\n";
+				}
+				if (!empty($description)) {
+					$tags .= "<meta property='og:description' content='$description'/>\n";
+					$tags .= "<meta name='twitter:description' content='$description'/>\n";
+				}
+				
+			} else {
+
+				$block_content = $post->post_content;
+				
+				// Regular expression to match the id and href keys and their values
+				$thumb = '/(?:"id":"' . $id_value . '"|"clientId":"' . $id_value . '").*?"customThumbnail":"(.*?)"/';
+				$title = '/(?:"id":"' . $id_value . '"|"clientId":"' . $id_value . '").*?"customTitle":"(.*?)"/';
+				$description = '/(?:"id":"' . $id_value . '"|"clientId":"' . $id_value . '").*?"customDescription":"(.*?)"/';
+
+				// Search for the regex pattern in the string and extract the href value
+				if (preg_match($thumb, $block_content, $matches1)) {
+					$image_url = $matches1[1];
+					$tags .= "\n<meta name='twitter:image' content='$image_url'/>\n";
+					$tags .= "<meta property='og:image' content='$image_url'/>\n";
+					$tags .= "<meta property='og:url' content='$url?hash=$id_value'/>\n";
+				}
+
+				if (preg_match($title, $block_content, $matches2)) {
+					$title = $matches2[1];
+					$tags .= "<meta property='og:title' content='$title'/>\n";
+					$tags .= "<meta name='twitter:title' content='$title'/>\n";
+				}
+				
+				if (preg_match($description, $block_content, $matches3)) {	
+					$description = $matches3[1];
+					$tags .= "<meta property='og:description' content='$description'/>\n";
+					$tags .= "<meta name='twitter:description' content='$description'/>\n";
+				}
+			}
+			
+			$tags .= "<meta name='twitter:card' content='summary_large_image'/>\n";
+
+			remove_action('wp_head', 'rel_canonical');
+
+			echo $tags;
+
+		}
 	}
 
 }

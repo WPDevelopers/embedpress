@@ -18,7 +18,7 @@ export default class EmbedWrap extends Component {
 	render () {
 
 		return (
-			<div
+			<div className={this.props.className}
 				ref={this.myRef}
 				{...this.props}
 			></div>

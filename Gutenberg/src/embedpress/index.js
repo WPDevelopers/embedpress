@@ -69,6 +69,33 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: '600'
 			},
+			lockContent: {
+				type: 'boolean',
+				default: false
+			},
+			contentPassword: {
+				type: 'string',
+			},
+			contentShare: {
+				type: 'boolean',
+				default: false
+			},
+			sharePosition: {
+				type: 'string',
+				default: 'right'
+			},
+			customTitle: {
+				type: 'string',
+				default: ''
+			},
+			customDescription: {
+				type: 'string',
+				default: ''
+			},
+			customThumbnail: {
+				type: 'string',
+				default: ''
+			},
 			editingURL: {
 				type: 'boolean',
 				default: 0
@@ -88,10 +115,6 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			align: {
 				type: 'string',
 				default: 'center'
-			},
-			isGutenberg: {
-				type: 'boolean',
-				default: true
 			},
 
 			//YouTube Attributes

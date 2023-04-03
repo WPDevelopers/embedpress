@@ -6,8 +6,16 @@ import Iframe from '../common/Iframe';
 import ControlHeader from '../common/control-heading';
 import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
-import {saveSourceData } from '../common/helper';
+import {saveSourceData } from '../common/helper';import LockControl from '../common/lock-control';
+import ContentShare from '../common/social-share-control';
+import SocialShareHtml from '../common/social-share-html';
 
+import {
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+} from '@wordpress/components';
+
+import { PdfIcon } from '../common/icons'
 
 /**
  * WordPress dependencies
@@ -18,14 +26,6 @@ const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
 const { BlockIcon, MediaPlaceholder, InspectorControls } = wp.blockEditor;
 const { Component, Fragment, useEffect } = wp.element;
 const { RangeControl, PanelBody, ExternalLink, ToggleControl, SelectControl, RadioControl, ColorPalette } = wp.components;
-
-import {
-	__experimentalToggleGroupControl as ToggleGroupControl,
-	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
-} from '@wordpress/components';
-
-import { PdfIcon } from '../common/icons'
-
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
@@ -50,7 +50,6 @@ class EmbedPressPDFEdit extends Component {
 			loadPdf: true,
 		};
 	}
-
 
 	componentDidMount() {
 
@@ -177,13 +176,11 @@ class EmbedPressPDFEdit extends Component {
 
 	}
 
-
 	render() {
 
 		const { attributes, noticeUI, setAttributes } = this.props;
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, clientId } = attributes;
-
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, clientId, sharePosition, contentShare } = attributes;
 
 		if (!clientId) {
 			setAttributes({ clientId: this.props.clientId });
@@ -199,7 +196,7 @@ class EmbedPressPDFEdit extends Component {
 			{ name: '', color: '#403A81' },
 			{ name: '', color: '#333333' },
 			{ name: '', color: '#000264' },
-		]; 
+		];
 
 		let widthMin = 0;
 		let widthMax = 100;
@@ -229,7 +226,7 @@ class EmbedPressPDFEdit extends Component {
 			let colorsObj = {};
 
 			//Generate PDF params
-			if(themeMode === 'custom') {
+			if (themeMode === 'custom') {
 				colorsObj = {
 					customColor: (customColor && (customColor !== 'default')) ? customColor : '#403A81',
 				}
@@ -279,9 +276,7 @@ class EmbedPressPDFEdit extends Component {
 							<ExternalLink href={docLink}>Learn more about Embedded document </ExternalLink>
 						</div>
 					</MediaPlaceholder>
-
 				</div>
-
 			);
 		} else {
 			const url = '//view.officeapps.live.com/op/embed.aspx?src=' + getParamData(href);
@@ -293,26 +288,38 @@ class EmbedPressPDFEdit extends Component {
 				<Fragment>
 
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
+
 					<div className={'embedpress-document-embed ep-doc-' + id} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`} data-source-id={'source-' + clientId} >
-						{mime === 'application/pdf' && (
-							<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} data-emsrc={href} src={pdf_viewer_src}></iframe>
 
-						)}
+						<div className="gutenberg-wraper">
+							<div className={`position-${sharePosition}-wraper`}>
+								{mime === 'application/pdf' && (
+									<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} data-emsrc={href} src={pdf_viewer_src}></iframe>
 
-						{mime !== 'application/pdf' && (
-							<Iframe title="" onMouseUponMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={url} />
-						)}
-						{!interactive && (
-							<div
-								className="block-library-embed__interactive-overlay"
-								onMouseUp={this.hideOverlay}
-							/>
-						)}
-						{powered_by && (
-							<p className="embedpress-el-powered">Powered By EmbedPress</p>
-						)}
+								)}
 
-						{!fetching && <Logo id={id} />}
+								{mime !== 'application/pdf' && (
+									<Iframe title="" onMouseUponMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={url} />
+								)}
+								{!interactive && (
+									<div
+										className="block-library-embed__interactive-overlay"
+										onMouseUp={this.hideOverlay}
+									/>
+								)}
+								{powered_by && (
+									<p className="embedpress-el-powered">Powered By EmbedPress</p>
+								)}
+
+								{!fetching && <Logo id={id} />}
+							</div>
+
+							{
+								contentShare &&
+								<SocialShareHtml attributes={attributes} />
+							}
+
+						</div>
 
 					</div>
 
@@ -363,6 +370,7 @@ class EmbedPressPDFEdit extends Component {
 							title={__('PDF Control Settings', 'embedpress')}
 							initialOpen={false}
 						>
+							<LockControl attributes={attributes} setAttributes={setAttributes} />
 
 							<SelectControl
 								label="Theme"
@@ -508,6 +516,8 @@ class EmbedPressPDFEdit extends Component {
 								)
 							}
 						</PanelBody>
+						
+						<ContentShare attributes={attributes} setAttributes={setAttributes} />
 					</InspectorControls>
 
 					<style style={{ display: "none" }}>

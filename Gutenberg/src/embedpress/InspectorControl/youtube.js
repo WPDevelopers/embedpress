@@ -42,7 +42,6 @@ export const getYoutubeParams = (params, attributes) => {
 
     if (isYTVideo(attributes.url)) {
         ytvAtts = {
-            isGutenberg: true,
             videosize: 'fixed',
             starttime: '',
             endtime: '',
@@ -116,7 +115,6 @@ export const useYTChannel = (attributes) => {
 export const useYTVideo = (attributes) => {
     // which attribute should call embed();
     const defaults = {
-        isGutenberg: null,
         videosize: null,
         starttime: null,
         endtime: null,
@@ -148,7 +146,6 @@ export const useYTVideo = (attributes) => {
 export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVideo }) {
 
     const {
-        isGutenberg,
         ispagination,
         pagesize,
         columns,

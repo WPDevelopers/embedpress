@@ -7,6 +7,7 @@ import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
 import { removedBlockID, saveSourceData } from '../common/helper';
 
+import { shareIconsHtml } from '../common/helper';
 import md5 from 'md5';
 import Inspector from './inspector';
 import DynamicStyles from './dynamic-styles';
@@ -25,6 +26,7 @@ import { isOpensea as _isOpensea, isOpenseaSingle as _isOpenseaSingle, useOpense
 import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, useYTVideo } from './InspectorControl/youtube';
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
+import ContentShare from '../common/social-share-control';
 
 const {
 	useBlockProps
@@ -48,6 +50,8 @@ export default function EmbedPress(props) {
 		embedHTML,
 		height,
 		width,
+		contentShare,
+		sharePosition,
 		customlogo,
 		logoX,
 		logoY,
@@ -87,6 +91,10 @@ export default function EmbedPress(props) {
 		epMessage = `<span class='ep-wistia-message'> Changes will be affected in frontend. </span>`;
 	}
 
+	let shareHtml = '';
+	if (contentShare) {
+		shareHtml = shareIconsHtml(sharePosition);
+	}
 
 	const blockProps = useBlockProps ? useBlockProps() : [];
 
@@ -157,6 +165,8 @@ export default function EmbedPress(props) {
 				fetching: true
 			});
 
+			setAttributes({ clientId });
+
 			// send api request to get iframe url
 			let fetchData = async (url) => {
 
@@ -164,7 +174,6 @@ export default function EmbedPress(props) {
 					url,
 					width,
 					height,
-					isGutenBerg: true,
 				};
 
 				params = applyFilters('embedpress_block_rest_param', params, attributes);
@@ -194,6 +203,7 @@ export default function EmbedPress(props) {
 						cannotEmbed: false,
 						editingURL: false,
 					});
+
 					execScripts();
 				}
 			});
@@ -255,12 +265,13 @@ export default function EmbedPress(props) {
 				((!isOpensea || (!!editingURL || editingURL === 0)) && (!isOpenseaSingle || (!!editingURL || editingURL === 0)) && (!isYTVideo || (!!editingURL || editingURL === 0)) && (!isYTChannel || (!!editingURL || editingURL === 0)) && (!isWistiaVideo || (!!editingURL || editingURL === 0))) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
-				<EmbedWrap style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle || isYTChannel) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
-					__html: embedHTML + customLogoTemp + epMessage,
-				}}>
-
-				</EmbedWrap>
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo)) && <figure {...blockProps} >
+				<div className={'gutenberg-block-wraper'}>
+					<EmbedWrap className={`position-${sharePosition}-wraper`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
+						__html: embedHTML + customLogoTemp + epMessage + shareHtml,
+					}}>
+					</EmbedWrap>
+				</div>
 
 				{
 					fetching && (

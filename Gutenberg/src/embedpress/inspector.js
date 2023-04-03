@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useRef } from 'react';
+import { isPro, removeAlert} from '../common/helper';
+import LockControl from '../common/lock-control';
+import ContentShare from '../common/social-share-control';
 import Youtube from './InspectorControl/youtube';
 import OpenSea from './InspectorControl/opensea';
 import Wistia from './InspectorControl/wistia';
@@ -13,6 +16,7 @@ const {
     TextControl,
     PanelBody,
     SelectControl,
+    ToggleControl
 } = wp.components;
 
 const {
@@ -26,13 +30,23 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         width,
         height,
         videosize,
-
+        lockContent,
+        contentPassword,
         editingURL,
         embedHTML,
     } = attributes;
 
+    const isProPluginActive = embedpressObj.is_pro_plugin_active;
+
+    const inputRef = useRef(null);
+
     const roundToNearestFive = (value) => {
         return Math.round(value / 5) * 5;
+    }
+
+    if (!document.querySelector('.pro__alert__wrap')) {
+        document.querySelector('body').append(isPro('none'));
+        removeAlert();
     }
 
     return (
@@ -67,7 +81,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     }
 
                                     {
-                                        ((isYTVideo || isVimeoVideo) && (videosize == 'responsive'))  && (
+                                        ((isYTVideo || isVimeoVideo) && (videosize == 'responsive')) && (
                                             <p>{__("You can adjust the width of embedded content.")}</p>
                                         )
                                     }
@@ -88,7 +102,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     />
 
                                     {
-                                        ((!isYTVideo && !isVimeoVideo) || (videosize == 'fixed'))  && (
+                                        ((!isYTVideo && !isVimeoVideo) || (videosize == 'fixed')) && (
                                             <TextControl
                                                 label={__("Height")}
                                                 value={height}
@@ -108,6 +122,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                         )
                                     }
 
+                                    <LockControl attributes={attributes} setAttributes={setAttributes} />
                                 </div>
                                 <Youtube attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} />
                             </PanelBody>
@@ -115,13 +130,15 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} />
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />
                             <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />
+
+                            <ContentShare attributes={attributes} setAttributes={setAttributes} />
                         </frameElement>
                     )
                 }
 
                 <OpenSea attributes={attributes} setAttributes={setAttributes} isOpensea={isOpensea} isOpenseaSingle={isOpenseaSingle} />
 
-            </InspectorControls>
+            </InspectorControls >
         )
     )
 }

@@ -7,6 +7,7 @@ use Elementor\Controls_Manager as Controls_Manager;
 
 use Elementor\Plugin;
 use Elementor\Widget_Base as Widget_Base;
+use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Includes\Traits\Branding;
 use EmbedPress\Shortcode;
 use EmbedPress\Includes\Classes\Helper;
@@ -15,6 +16,7 @@ use EmbedPress\Includes\Classes\Helper;
 
 class Embedpress_Elementor extends Widget_Base
 {
+	
 	use Branding;
 	protected $pro_class = '';
 	protected $pro_text = '';
@@ -149,6 +151,97 @@ class Embedpress_Elementor extends Widget_Base
 
 			]
 		);
+
+		$this->add_control(
+			'embedpress_lock_content',
+			[
+				'label'        => sprintf(__('Lock Content %s', 'embedpress'), $this->pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'classes'     => $this->pro_class,
+			]
+		);
+
+		$this->add_control(
+			'embedpress_lock_content_password',
+			[
+				'label'       => __('Set Password', 'embedpress'),
+				'type'        => Controls_Manager::TEXT,
+				'default'	=> '12345',
+				'label_block' => false,
+				'condition'   => [
+					'embedpress_lock_content' => 'yes'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_content_share',
+			[
+				'label'        => __('Enable Content Share', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+			]
+		);
+        $this->add_control(
+            'embedpress_content_share_position',
+            [
+                'label'   => __('Position', 'embedpress'),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'right',
+                'options' => [
+                    'top'        => __('Top', 'embedpress'),
+                    'right' => __('Right', 'embedpress'),
+                    'bottom'    => __('Bottom', 'embedpress'),
+                    'left'  => __('Left', 'embedpress'),
+                ],
+                'condition'   => [
+					'embedpress_content_share' => 'yes'
+				]
+            ]
+        );
+
+		$this->add_control(
+            'embedpress_content_title',
+            [
+                'label'   => __('Title', 'embedpress'),
+                'type'    => Controls_Manager::TEXT,
+                'placeholder' => 'Enter share title',
+                'condition'   => [
+					'embedpress_content_share' => 'yes'
+				]
+            ]
+        );
+        $this->add_control(
+            'embedpress_content_descripiton',
+            [
+                'label'   => __('Description', 'embedpress'),
+                'type'    => Controls_Manager::TEXTAREA,
+                'placeholder' => 'Enter share description',
+                'condition'   => [
+					'embedpress_content_share' => 'yes'
+				]
+            ]
+        );
+
+		$this->add_control(
+			'embedpress_content_share_custom_thumbnail',
+			[
+				'label' => esc_html__( 'Thumbnail', 'textdomain' ),
+				'type' => \Elementor\Controls_Manager::MEDIA,
+				'default' => [
+					'url' => \Elementor\Utils::get_placeholder_image_src(),
+				],
+				'condition'   => [
+					'embedpress_content_share' => 'yes'
+				]
+			]
+		);
+		
 		$this->add_control(
 			'spotify_theme',
 			[
@@ -2514,6 +2607,7 @@ class Embedpress_Elementor extends Widget_Base
 		$_settings = [];
 		$source = $settings['embedpress_pro_embeded_source'];
 		$embed_link = $settings['embedpress_embeded_link'];
+		$pass_hash_key = md5($settings['embedpress_lock_content_password']);
 
 		Helper::get_source_data(md5($this->get_id()).'_eb_elementor', $embed_link, 'elementor_source_data', 'elementor_temp_source_data');
 
@@ -2525,6 +2619,18 @@ class Embedpress_Elementor extends Widget_Base
 		$embed_content = $this->onAfterEmbedSpotify($embed_content, $settings);
 		$embed         = apply_filters('embedpress_elementor_embed', $embed_content, $settings);
 		$content       = is_object($embed) ? $embed->embed : $embed;
+
+		$embed_settings =  [];
+		$embed_settings['customThumbnail'] = !empty($settings['embedpress_content_share_custom_thumbnail']['url']) ? $settings['embedpress_content_share_custom_thumbnail']['url'] : '';
+        
+		$embed_settings['customTitle'] = !empty($settings['embedpress_content_title']) ? $settings['embedpress_content_title'] : Helper::get_file_title($embed_link);
+
+		$embed_settings['customDescription'] = !empty($settings['embedpress_content_descripiton']) ? $settings['embedpress_content_descripiton'] : Helper::get_file_title($embed_link);
+
+		$embed_settings['sharePosition'] = !empty($settings['embedpress_content_share_position']) ? $settings['embedpress_content_share_position'] : 'right';
+
+
+		$client_id = $this->get_id();
 
 		$ispagination = 'flex';
 
@@ -2546,10 +2652,28 @@ class Embedpress_Elementor extends Widget_Base
 						?>
 				<p><?php esc_html_e('You need EmbedPress Pro to Embed Apple Podcast. Note. This message is only visible to you.', 'embedpress'); ?></p>
 			<?php
-					} else {
-						echo $content;
+					} else {?>
+							
+							<div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_content_share_position'].'-wraper' ); endif; ?>">
+								<div id="<?php echo esc_attr( $this->get_id() ); ?>">
+									<?php 
+										if((empty($settings['embedpress_lock_content']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($settings['embedpress_lock_content_password'] === $_COOKIE['password_correct_'.$client_id])) ){
+											echo $content;
+
+											if(!empty($settings['embedpress_content_share'])){
+												$content_id = $client_id;
+												
+												Helper::embed_content_share( $content_id, $embed_settings);
+											}
+										} else {
+											Helper::display_password_form($client_id, $content, $pass_hash_key);
+										}
+									?>
+								</div>
+							</div>
+						<?php
 					}
-					?>
+				?>
 		</div>
 
 

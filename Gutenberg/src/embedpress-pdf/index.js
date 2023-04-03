@@ -36,7 +36,34 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "string"
 			},
 			clientId: {
-				type: "string"
+				type: 'string',
+			},
+			lockContent: {
+				type: 'boolean',
+				default: false
+			},
+			contentPassword: {
+				type: 'string',
+			},
+			contentShare: {
+				type: 'boolean',
+				default: false
+			},
+			sharePosition: {
+				type: 'string',
+				default: 'right'
+			},
+			customTitle: {
+				type: 'string',
+				default: ''
+			},
+			customDescription: {
+				type: 'string',
+				default: ''
+			},
+			customThumbnail: {
+				type: 'string',
+				default: ''
 			},
 			href: {
 				type: "string"

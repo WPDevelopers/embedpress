@@ -42,6 +42,10 @@ class Handler extends EndHandlerAbstract
             $this->pluginVersion, false );
         wp_enqueue_script( 'embedpress-front', EMBEDPRESS_URL_ASSETS . 'js/front.js', ['jquery', 'embedpress-pdfobject' ],
             $this->pluginVersion, true );
+
+        wp_localize_script('embedpress-front', 'eplocalize', array(
+            'ajaxurl' => admin_url('admin-ajax.php')
+        ));
         
     }
 
