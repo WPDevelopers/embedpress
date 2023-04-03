@@ -40,6 +40,8 @@ class Feature_Enhancer
 		add_action( 'load-post.php', [$this, 'delete_source_temp_data_on_reload'] );
 		add_action('embedpress:isEmbra', [$this, 'isEmbra'], 10, 3);
 		add_action( 'elementor/editor/after_save', [$this, 'save_el_source_data_on_post_update'] );
+		
+		add_action('wp_head', [$this, 'embedpress_generate_social_share_meta']);
 	}
 
 	public function save_source_data(){
@@ -67,7 +69,6 @@ class Feature_Enhancer
 
 	public function delete_source_temp_data_on_reload() {
 		Helper::get_delete_source_temp_data_on_reload('gutenberg_temp_source_data');
-		add_action('wp_head', [$this, 'embedpress_generate_social_share_meta']);
 
 	}
 		 
