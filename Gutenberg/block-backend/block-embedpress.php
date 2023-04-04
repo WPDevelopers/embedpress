@@ -99,17 +99,15 @@ function embedpress_render_block($attributes)
 					<?php 
 						if(empty($attributes['lockContent']) || (!empty(Helper::is_password_correct($client_id)) && ($attributes['contentPassword'] === $_COOKIE['password_correct_'.$client_id])) ){
 							echo $embed;
+							if(!empty($attributes['contentShare'])) {
+								$content_id = $attributes['clientId'];
+								$embed .= Helper::embed_content_share($content_id, $attributes);
+							}
 						} else {
 							Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
 						}
 					?>
 				</div>
-				<?php 
-					if(!empty($attributes['contentShare'])) {
-						$content_id = $attributes['clientId'];
-						Helper::embed_content_share($content_id, $attributes);
-					}
-				?>
 			</div>
 		</div>
 		<?php
