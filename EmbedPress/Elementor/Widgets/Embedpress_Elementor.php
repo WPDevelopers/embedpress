@@ -2532,10 +2532,6 @@ class Embedpress_Elementor extends Widget_Base
 		$embed         = apply_filters('embedpress_elementor_embed', $embed_content, $settings);
 		$content       = is_object($embed) ? $embed->embed : $embed;
 
-		echo '<pre>';
-		print_r($settings);
-		echo '</pre>';
-
 		$embed_settings =  [];
 		$embed_settings['customThumbnail'] = !empty($settings['embedpress_content_share_custom_thumbnail']['url']) ? $settings['embedpress_content_share_custom_thumbnail']['url'] : '';
         
