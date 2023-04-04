@@ -216,7 +216,7 @@ class Embedpress_Document extends Widget_Base
 
 	    $this->end_controls_section();
 
-        do_action( 'extend_elementor_controls', $this, '_doc_' );
+        do_action( 'extend_elementor_controls', $this, '_doc_', $this->pro_text, $this->pro_class);
 
 	    if (! is_embedpress_pro_active()) {
 		    $this->start_controls_section(

@@ -16,6 +16,7 @@
 
 $additionalServiceProviders = [
 	EMBEDPRESS_NAMESPACE . "\\Providers\\GoogleMaps" => ["google.com", "google.com.*", "maps.google.com", "goo.gl", "google.co.*"],
+	EMBEDPRESS_NAMESPACE . "\\Providers\\GoogleDrive" => ["google.com", "google.com.*", "drive.google.com", "goo.gl", "google.co.*"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\GoogleDocs" => ["docs.google.com"],
     EMBEDPRESS_NAMESPACE . "\\Providers\\Twitch"     => ["twitch.tv", "clips.twitch.tv"],
     EMBEDPRESS_NAMESPACE . "\\Providers\\Giphy"      => ["giphy.com", "i.giphy.com"],

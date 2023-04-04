@@ -17,8 +17,8 @@ class Embedpress_Pdf extends Widget_Base
 {
 
     use Branding;
-    public $pro_class = '';
-    public $pro_text = '';
+    protected $pro_class = '';
+    protected $pro_text = '';
     public function get_name()
     {
         return 'embedpress_pdf';
@@ -443,7 +443,7 @@ class Embedpress_Pdf extends Widget_Base
 
         $this->end_controls_section();
 
-        do_action( 'extend_elementor_controls', $this, '_pdf_' );
+        do_action( 'extend_elementor_controls', $this, '_pdf_', $this->pro_text, $this->pro_class);
 
         if (!is_embedpress_pro_active()) {
             $this->start_controls_section(

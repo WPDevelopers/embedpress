@@ -17,8 +17,8 @@ class Embedpress_Elementor extends Widget_Base
 {
 	
 	use Branding;
-	public $pro_class = '';
-	public $pro_text = '';
+	protected $pro_class = '';
+    protected $pro_text = '';
 	public function get_name()
 	{
 		return 'embedpres_elementor';
@@ -235,7 +235,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->init_style_controls();
 		$this->init_opensea_color_and_typography();
 
-		do_action( 'extend_elementor_controls', $this, '');
+		do_action( 'extend_elementor_controls', $this, '_', $this->pro_text, $this->pro_class);
 	}
 
 	/**
@@ -2531,6 +2531,10 @@ class Embedpress_Elementor extends Widget_Base
 		$embed_content = $this->onAfterEmbedSpotify($embed_content, $settings);
 		$embed         = apply_filters('embedpress_elementor_embed', $embed_content, $settings);
 		$content       = is_object($embed) ? $embed->embed : $embed;
+
+		echo '<pre>';
+		print_r($settings);
+		echo '</pre>';
 
 		$embed_settings =  [];
 		$embed_settings['customThumbnail'] = !empty($settings['embedpress_content_share_custom_thumbnail']['url']) ? $settings['embedpress_content_share_custom_thumbnail']['url'] : '';
