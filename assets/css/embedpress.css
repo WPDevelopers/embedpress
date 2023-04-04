@@ -1174,8 +1174,9 @@ form.password-form {
     margin-top: 20px;
     font-size: 14px;
 }
-
-
+.password-form-container .error-message.hidden {
+    display: none;
+}
 .wp-block-embed__wrapper {
     display: inline-block;
 }

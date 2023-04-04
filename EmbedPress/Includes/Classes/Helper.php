@@ -268,8 +268,6 @@ class Helper {
 
 	public static function display_password_form($client_id='', $embedHtml='', $pass_hash_key='', $attributes = [])
 	{
-
-
 		$lock_heading = !empty($attributes['lockHeading']) ? $attributes['lockHeading'] : '';
 		$lock_subheading = !empty($attributes['lockSubHeading']) ? $attributes['lockSubHeading'] : '';
 		$lock_error_message = !empty($attributes['lockErrorMessage']) ? $attributes['lockErrorMessage'] : '';
@@ -301,6 +299,7 @@ class Helper {
 					<input type="hidden" name="ep_base_' . esc_attr($client_id) . '" value="' . esc_attr($encrypted_data) . '">
 					<input type="hidden" name="hash_key_' . esc_attr($client_id) . '" value="' . esc_attr($pass_hash_key) . '">
 					<input type="submit" name="password_submit" value="Unlock">
+					<div class="error-message hidden">'.esc_html( $lock_error_message ).'</div>
 				</form>
 				<p class="need-access-message">'.esc_html( $footer_message ).'</p>
 			</div>

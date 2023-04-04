@@ -334,8 +334,7 @@
 
                     jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val('Unlock');
                     jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="password"]').val('');
-                    jQuery('.error-message').remove();
-                    jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form').append('<div class="error-message">Invalid password. Please try again.</div>');
+                    jQuery('.error-message').removeClass('hidden');
                 }
                 else {
                     jQuery('#' + perentSel + '-' + ep_client_id).html(response.embedHtml);
@@ -434,8 +433,7 @@ jQuery(window).on("elementor/frontend/init", function () {
 
                         jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val('Unlock');
                         jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="password"]').val('');
-                        jQuery('.error-message').remove();
-                        jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form').append('<div class="error-message">Invalid password. Please try again.</div>');
+                        jQuery('.error-message').removeClass('hidden');
                     }
                     else {
                         jQuery('#' + perentSel + '-' + ep_client_id).html(response.embedHtml);
