@@ -5,6 +5,8 @@
 import react from 'react';
 import ControlHeader from '../../common/control-heading';
 import { getParams } from '../functions';
+import LockControl from '../../common/lock-control';
+import ContentShare from '../../common/social-share-control';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
@@ -365,7 +367,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                 {
                     isOpensea && (
-                        <PanelBody title={__("Layout")} initialOpen={true} className={'ep-opensea-options'}>
+                        <PanelBody title={__("Layout")} initialOpen={false} className={'ep-opensea-options'}>
                             <div>
                                 <SelectControl
                                     label={__("Layout", "embedpress")}
@@ -414,7 +416,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                     )
                 }
 
-                <PanelBody title={__("Content")} initialOpen={true} className={'ep-opensea-options'}>
+                <PanelBody title={__("Content")} initialOpen={false} className={'ep-opensea-options'}>
 
                     {
                         isOpenseaSingle && (
@@ -581,7 +583,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                 {
                     isOpensea && (
-                        <PanelBody title={__("Load More")} initialOpen={true} className={'ep-opensea-options'}>
+                        <PanelBody title={__("Load More")} initialOpen={false} className={'ep-opensea-options'}>
 
 
                             <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
@@ -993,6 +995,9 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                     </InspectorControls>
 
                 </PanelBody>
+
+                <LockControl attributes={attributes} setAttributes={setAttributes} />
+                <ContentShare attributes={attributes} setAttributes={setAttributes} />
             </div>
         )
     )

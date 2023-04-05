@@ -161,7 +161,7 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
 .alignright .ose-opensea,
 .aligncenter .ose-opensea {
     min-width: 900px;
-    max-width: 900px !important;
+    max-width: calc(900px - 40px) !important;
 }
 .aligncenter .ose-opensea {
     margin: 0 auto;
@@ -404,7 +404,7 @@ span.eb_nft_currency svg {
 
 .ose-opensea {
     min-width: 100% !important;
-    max-width: 100% !important;
+    max-width: calc(100% - 40px)!important;
 }
 
 .ep-loadmore-wrapper {
@@ -453,7 +453,7 @@ span.eb_nft_currency svg {
     /* tabcssStart */
     .ose-opensea {
         min-width: auto !important;
-        max-width: 100% !important;
+        max-width: calc(100% - 40px) !important;
     }
 
     .ep_nft_content_wrap.ep_nft__wrapper,
@@ -984,6 +984,10 @@ a.social-icon.pinterest svg {
     left: -40px;
     top: 0;
     flex-direction: column;
+}
+
+.block-editor-block-list__block .social-share{
+    pointer-events: none;
 }
 
 

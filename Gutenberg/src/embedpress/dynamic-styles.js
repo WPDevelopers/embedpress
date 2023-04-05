@@ -126,7 +126,7 @@ export const dynamicStyles = ({
                                 }
                 
                                 #block-${clientId} .ose-opensea {
-                                    width: 100%!important;
+                                    width: calc(100% - 40px)!important;
                                     height: 100%!important;
                                 }
                                 #block-${clientId} .ose-opensea .ep_nft_item{
