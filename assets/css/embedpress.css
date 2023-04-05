@@ -1179,7 +1179,12 @@ form.password-form {
 }
 .wp-block-embed__wrapper {
     display: inline-block;
+    max-width: 100%!important;
 }
+.wp-block-embed__wrapper.position-right-wraper, .wp-block-embed__wrapper.position-right-wraper {
+    max-width: calc(100% - 40px)!important;
+}
+
 .ep-elementor-content {
     position: relative;
     display: inline-block;

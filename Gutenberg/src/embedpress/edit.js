@@ -265,7 +265,7 @@ export default function EmbedPress(props) {
 				((!isOpensea || (!!editingURL || editingURL === 0)) && (!isOpenseaSingle || (!!editingURL || editingURL === 0)) && (!isYTVideo || (!!editingURL || editingURL === 0)) && (!isYTChannel || (!!editingURL || editingURL === 0)) && (!isWistiaVideo || (!!editingURL || editingURL === 0))) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo)) && <figure {...blockProps} >
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
 				<div className={'gutenberg-block-wraper'}>
 					<EmbedWrap className={`position-${sharePosition}-wraper`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
 						__html: embedHTML + customLogoTemp + epMessage + shareHtml,

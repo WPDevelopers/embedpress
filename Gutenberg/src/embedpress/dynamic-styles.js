@@ -37,7 +37,7 @@ export const dynamicStyles = ({
 
     if (customlogo) {
         _iscustomlogo = `
-            #block-${clientId} img.watermark.ep-custom-logo {
+            [data-source-id="source-${clientId}"] img.watermark.ep-custom-logo {
                 display: block !important;
             }
         `;
@@ -45,37 +45,40 @@ export const dynamicStyles = ({
 
     let wehnResponsive = '';
 
+
     return (
         <React.Fragment>
-
+            {
+                console.log(width, height, clientId)
+            }
             {isYTChannel(url) && (
                 <style style={{ display: "none" }}>
                     {`
-                    #block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap{
+                    [data-source-id="source-${clientId}"] .ep-youtube__content__block .youtube__content__body .content__wrap{
                         gap: ${gapbetweenvideos}px!important;
                         margin-top: ${gapbetweenvideos}px!important;
                     }
 
-                    #block-${clientId} .ose-youtube{
+                    [data-source-id="source-${clientId}"] .ose-youtube{
                         width: ${width}px!important;
                     }
-                    #block-${clientId} .ose-youtube .ep-first-video iframe{
+                    [data-source-id="source-${clientId}"] .ose-youtube .ep-first-video iframe{
                         max-height: ${height}px!important;
                     }
 
-                    #block-${clientId} .ose-youtube > iframe{
+                    [data-source-id="source-${clientId}"] .ose-youtube > iframe{
                         height: ${height}px!important;
                         width: ${width}px!important;
                     }
 
-                    #block-${clientId} .ep-youtube__content__block .youtube__content__body .content__wrap {
+                    [data-source-id="source-${clientId}"] .ep-youtube__content__block .youtube__content__body .content__wrap {
                         grid-template-columns: ${repeatCol};
                     }
 
-                    #block-${clientId} .ep-youtube__content__block .ep-youtube__content__pagination{
+                    [data-source-id="source-${clientId}"] .ep-youtube__content__block .ep-youtube__content__pagination{
                         display: ${_ispagination}!important;
                     }
-                    #block-${clientId} img.watermark{
+                    [data-source-id="source-${clientId}"] img.watermark{
                         display: none;
                     }
                     ${_iscustomlogo}
@@ -89,22 +92,22 @@ export const dynamicStyles = ({
                 !isYTChannel(url) && !isOpensea(url) && !isOpenseaSingle(url) && (
                     <style style={{ display: "none" }}>
                         {`
-                    #block-${clientId} .ose-embedpress-responsive{
+                    [data-source-id="source-${clientId}"] .ose-embedpress-responsive{
                         width: ${width}px!important;
                         height: ${height}px!important
                     }
-                    #block-${clientId} iframe{
+                    [data-source-id="source-${clientId}"] iframe{
                         width: ${width}px!important;
                         height: ${height}px!important
                     }
-                    #block-${clientId} .embedpress-yt-subscribe iframe{
+                    [data-source-id="source-${clientId}"] .embedpress-yt-subscribe iframe{
                         height: 100%!important
                     }
-                    #block-${clientId} .ose-youtube > iframe{
+                    [data-source-id="source-${clientId}"] .ose-youtube > iframe{
                         height: ${height}px!important;
                         width: ${width}px!important;
                     }
-                    #block-${clientId} .ose-youtube{
+                    [data-source-id="source-${clientId}"] .ose-youtube{
                         height: ${height}px!important;
                         width: ${width}px!important;
                     }
@@ -120,19 +123,19 @@ export const dynamicStyles = ({
                     <style style={{ display: "none" }}>
                         {
                             `
-                                #block-${clientId}{
+                                [data-source-id="source-${clientId}"]{
                                     width: 900px;
                                     max-width: 100%!important;
                                 }
                 
-                                #block-${clientId} .ose-opensea {
+                                [data-source-id="source-${clientId}"] .ose-opensea {
                                     width: calc(100% - 40px)!important;
                                     height: 100%!important;
                                 }
-                                #block-${clientId} .ose-opensea .ep_nft_item{
+                                [data-source-id="source-${clientId}"] .ose-opensea .ep_nft_item{
                                     display: none!important;
                                 }
-                                #block-${clientId} .ose-opensea .ep_nft_item:nth-of-type(-n+${loadmore?itemperpage:limit}) {
+                                [data-source-id="source-${clientId}"] .ose-opensea .ep_nft_item:nth-of-type(-n+${loadmore?itemperpage:limit}) {
                                     display: block !important;
                                 }
 
@@ -148,7 +151,7 @@ export const dynamicStyles = ({
                     <style style={{ display: "none" }}>
                         {
                             `
-								#block-${clientId} .ose-wistia{
+								[data-source-id="source-${clientId}"] .ose-wistia{
 									width: ${width}px!important;
 									height: ${height}px!important;
 								}
@@ -156,7 +159,7 @@ export const dynamicStyles = ({
 									width: 100%!important;
 									height: 100%!important;
 								}
-                                #block-${clientId} img.watermark{
+                                [data-source-id="source-${clientId}"] img.watermark{
                                     display: none;
                                 }
                                 ${_iscustomlogo}
@@ -171,7 +174,7 @@ export const dynamicStyles = ({
                     <style style={{ display: "none" }}>
                         {
                             `
-                            #block-${clientId} img.watermark{
+                            [data-source-id="source-${clientId}"] img.watermark{
                                 display: none;
                             }
                                 ${_iscustomlogo}
@@ -186,7 +189,7 @@ export const dynamicStyles = ({
                     <style style={{ display: "none" }}>
                         {
                             `
-                                #block-${clientId} .ose-youtube {
+                                [data-source-id="source-${clientId}"] .ose-youtube {
                                     width: ${width}px!important;
                                     position: relative;
                                     padding: 0;
@@ -194,7 +197,7 @@ export const dynamicStyles = ({
                                     height: 100%!important;
                                 }
                                 
-                                #block-${clientId} .ose-youtube iframe {
+                                [data-source-id="source-${clientId}"] .ose-youtube iframe {
                                     position: absolute;
                                     top: 0;
                                     left: 0;
