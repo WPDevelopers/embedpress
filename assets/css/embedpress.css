@@ -1229,7 +1229,7 @@ form.password-form {
 }
 
 .social-share.share-position-bottom {
-    bottom: 0px;
+    bottom: 4px;
     left: 50%;
     transform: translateX(-50%);
     position: relative;

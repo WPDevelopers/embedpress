@@ -1017,7 +1017,7 @@ span.copy-tooltip {
           transform: translateX(-50%); }
 
 .social-share.share-position-bottom {
-  bottom: 0px;
+  bottom: 4px;
   left: 50%;
   -webkit-transform: translateX(-50%);
       -ms-transform: translateX(-50%);
