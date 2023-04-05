@@ -1460,6 +1460,8 @@ class Feature_Enhancer
 		$post = get_post($post_id);
 		$tags = '';
 
+		$thumbnail_url = get_the_post_thumbnail_url($post_id);
+
 		if (!empty($_GET['hash'])) {
 
 			$id_value = $_GET['hash'];
@@ -1500,11 +1502,18 @@ class Feature_Enhancer
 					$tags .= "<meta property='og:image' content='$image_url'/>\n";
 					$tags .= "<meta property='og:url' content='$url?hash=$id_value'/>\n";
 				}
+				else if(!empty($thumbnail_ur)){
+					$tags .= "<meta name='twitter:image' content='$image_url'/>\n";
+					$tags .= "<meta property='og:image' content='$image_url'/>\n";
+				}
+
 				if (!empty($title)) {
+					$title = json_decode('"' . $title . '"', JSON_UNESCAPED_UNICODE);
 					$tags .= "<meta property='og:title' content='$title'/>\n";
 					$tags .= "<meta name='twitter:title' content='$title'/>\n";
 				}
 				if (!empty($description)) {
+					$description = json_decode('"' . $description . '"', JSON_UNESCAPED_UNICODE);
 					$tags .= "<meta property='og:description' content='$description'/>\n";
 					$tags .= "<meta name='twitter:description' content='$description'/>\n";
 				}
@@ -1525,15 +1534,19 @@ class Feature_Enhancer
 					$tags .= "<meta property='og:image' content='$image_url'/>\n";
 					$tags .= "<meta property='og:url' content='$url?hash=$id_value'/>\n";
 				}
+				else if(!empty($thumbnail_url)){
+					$tags .= "\n<meta name='twitter:image' content='$thumbnail_url'/>\n";
+					$tags .= "<meta property='og:image' content='$thumbnail_url'/>\n";
+				}
 
 				if (preg_match($title, $block_content, $matches2)) {
-					$title = $matches2[1];
+					$title = json_decode('"' . $matches2[1] . '"', JSON_UNESCAPED_UNICODE);
 					$tags .= "<meta property='og:title' content='$title'/>\n";
 					$tags .= "<meta name='twitter:title' content='$title'/>\n";
 				}
 				
 				if (preg_match($description, $block_content, $matches3)) {	
-					$description = $matches3[1];
+					$description = json_decode('"' . $matches3[1] . '"', JSON_UNESCAPED_UNICODE);
 					$tags .= "<meta property='og:description' content='$description'/>\n";
 					$tags .= "<meta name='twitter:description' content='$description'/>\n";
 				}
