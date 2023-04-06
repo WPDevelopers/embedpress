@@ -1174,6 +1174,7 @@ form.password-form {
     color: #ff0000;
     margin-top: 20px;
     font-size: 12px;
+    line-height: 1.4em;
 }
 .password-form-container .error-message.hidden {
     display: none;

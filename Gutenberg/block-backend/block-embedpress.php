@@ -18,10 +18,10 @@ if(!function_exists('lock_content_form_handler')){
 	function lock_content_form_handler() {
 		// print_r($embedHTML);
 
-		$client_id = $_POST['client_id'];
-		$password = $_POST['password'];
-		$epbase64 = $_POST['epbase'];
-		$hash_key = $_POST['hash_key'];
+		$client_id = isset($_POST['client_id']) ? $_POST['client_id'] : '';
+		$password = isset($_POST['password']) ? $_POST['password'] : ''; 
+		$epbase64 = isset($_POST['epbase']) ? $_POST['epbase'] : '';
+		$hash_key = isset($_POST['hash_key']) ? $_POST['hash_key'] : '';
 
 		// echo $client_id;
 
