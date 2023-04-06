@@ -73,7 +73,7 @@ class Extend_Elementor_Controls {
 			[
 				'label' => __('Error Message', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
-				'default' => 'Invalid password. Please try again.',
+				'default' => 'Oops, that wasn\'t the right password. Try again.',
 				'label_block' => false,
 				'condition' => [
 					'embedpress'.$infix.'lock_content' => 'yes'

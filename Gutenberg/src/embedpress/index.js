@@ -86,7 +86,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			lockErrorMessage: {
 				type: 'string',
-				default: 'Invalid password. Please try again.'
+				default: 'Oops, that wasn\'t the right password. Try again.'
 			},
 			enableFooterMessage: {
 				type: 'boolean',
