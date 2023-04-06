@@ -1111,9 +1111,10 @@ span.ep-nft-rank {
     font-size: 12px;
     font-family: sans-serif;
     line-height: 1.4em;
+    margin-bottom: 15px;
 }
 form.password-form {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 .password-form-container input[type="password"] {
     padding: 10px;
@@ -1141,13 +1142,13 @@ form.password-form {
 .password-field span {
     position: absolute;
     top: 1px;
-    left: 21px;
+    left: 22px;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 41px;
     width: 38px;
-    background: #00ffe7;
+    background: #DED7FC;
     border-radius: 4px;
 }
 .password-field svg {
