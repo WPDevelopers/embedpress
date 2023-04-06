@@ -34,7 +34,8 @@ if(!function_exists('lock_content_form_handler')){
 		$cipher = base64_decode($epbase64);
 		// Decrypt the cipher using AES-128-CBC encryption
 
-		if(md5($password) === $hash_key){
+		$wp_pass_key = hash('sha256', wp_salt(32) . md5($password));
+		if ($wp_pass_key === $hash_key) {
 			setcookie("password_correct_", $password, time()+3600); 
 
 			$embed = openssl_decrypt($cipher, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv) . '<script>
@@ -42,7 +43,7 @@ if(!function_exists('lock_content_form_handler')){
 			var time = now.getTime();
 			var expireTime = time + 1000 * 60 * 60 * 24 * 30;
 			now.setTime(expireTime);
-			document.cookie = "password_correct_'.$client_id.'='.$password.'; expires=" + now.toUTCString() + "; path=/";
+			document.cookie = "password_correct_'.$client_id.'='.$hash_key.'; expires=" + now.toUTCString() + "; path=/";
 		</script>';
 
 		}
@@ -97,7 +98,8 @@ function embedpress_render_block($attributes)
 			<div class="wp-block-embed__wrapper <?php if(!empty($attributes['contentShare'])) echo esc_attr( 'position-'.$share_position.'-wraper'); ?>  <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
 				<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content">
 					<?php 
-						if(empty($attributes['lockContent']) || (!empty(Helper::is_password_correct($client_id)) && ($attributes['contentPassword'] === $_COOKIE['password_correct_'.$client_id])) ){
+						$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
+						if(empty($attributes['lockContent']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
 							echo $embed;
 							if(!empty($attributes['contentShare'])) {
 								$content_id = $attributes['clientId'];

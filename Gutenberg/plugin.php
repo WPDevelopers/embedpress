@@ -178,7 +178,7 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'lockErrorMessage' => [
 								'type' => 'string',
-								'default' => 'Invalid password. Please try again.'
+								'default' => 'Oops, that wasn\'t the right password. Try again.'
 							],
 							'enableFooterMessage' => [
 								'type' => 'boolean',
@@ -368,7 +368,7 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'lockErrorMessage' => [
 								'type' => 'string',
-								'default' => 'Invalid password. Please try again.'
+								'default' => 'Oops, that wasn\'t the right password. Try again.'
 							],
 							'enableFooterMessage' => [
 								'type' => 'boolean',
@@ -548,7 +548,9 @@ function embedpress_pdf_render_block($attributes)
 
 		<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content <?php echo  esc_attr( $alignment ); ?>">
 			<?php 
-				if(empty($attributes['lockContent']) || (!empty(Helper::is_password_correct($client_id)) && ($attributes['contentPassword'] === $_COOKIE['password_correct_'.$client_id])) ){
+				$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
+
+				if(empty($attributes['lockContent']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
 					$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
 					$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
 

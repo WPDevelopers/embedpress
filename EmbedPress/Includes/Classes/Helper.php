@@ -229,9 +229,6 @@ class Helper {
 		$epbase64 = $_POST['epbase'];
 		$hash_key = $_POST['hash_key'];
 
-		// echo $client_id;
-
-
 		// Set the decryption key and initialization vector (IV)
 		$key = "g72@QKgEcANy8%D7xq8%@n%#";
 		$iv = "^ZCC$93vsbyYjz01";
@@ -240,7 +237,9 @@ class Helper {
 		$cipher = base64_decode($epbase64);
 		// Decrypt the cipher using AES-128-CBC encryption
 
-		if (md5($password) === $hash_key) {
+		$wp_pass_key = hash('sha256', wp_salt(32) . md5($password));
+
+		if ($wp_pass_key === $hash_key) {
 			setcookie("password_correct_", $password, time() + 3600);
 
 			$embed = openssl_decrypt($cipher, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv) . '<script>
@@ -248,7 +247,7 @@ class Helper {
 		var time = now.getTime();
 		var expireTime = time + 1000 * 60 * 60 * 24 * 30;
 		now.setTime(expireTime);
-		document.cookie = "password_correct_' . $client_id . '=' . $password . '; expires=" + now.toUTCString() + "; path=/";
+		document.cookie = "password_correct_' . $client_id . '=' . $hash_key . '; expires=" + now.toUTCString() + "; path=/";
 	</script>';
 		} else {
 			$embed = 0;
@@ -272,11 +271,14 @@ class Helper {
 		$lock_subheading = !empty($attributes['lockSubHeading']) ? $attributes['lockSubHeading'] : '';
 		$lock_error_message = !empty($attributes['lockErrorMessage']) ? $attributes['lockErrorMessage'] : '';
 		$footer_message = !empty($attributes['footerMessage']) ? $attributes['footerMessage'] : '';
-		$enable_footer_message = !empty($attributes['enableFooterMessage']) ? $attributes['enableFooterMessage'] : '';
 
 		// Set the encryption key and initialization vector (IV)
 		$key = "g72@QKgEcANy8%D7xq8%@n%#";
 		$iv = "^ZCC$93vsbyYjz01";
+
+		$salt = wp_salt(32);
+		$wp_hash_key = hash('sha256', $salt . $pass_hash_key);
+
 
 		// Encrypt the plaintext using AES-128-CBC encryption
 		$cipher = openssl_encrypt($embedHtml, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv);
@@ -298,11 +300,11 @@ class Helper {
 					</div>
 					<input type="hidden" name="ep_client_id" value="' . esc_attr($client_id) . '">
 					<input type="hidden" name="ep_base_' . esc_attr($client_id) . '" value="' . esc_attr($encrypted_data) . '">
-					<input type="hidden" name="hash_key_' . esc_attr($client_id) . '" value="' . esc_attr($pass_hash_key) . '">
+					<input type="hidden" name="hash_key_' . esc_attr($client_id) . '" value="' . esc_attr($wp_hash_key ) . '">
 					<input type="submit" name="password_submit" value="Unlock">
 					<div class="error-message hidden">'.esc_html( $lock_error_message ).'</div>
 				</form>
-				' . ( ! empty( $enable_footer_message ) ? '<p class="need-access-message">' . esc_html( $footer_message ) . '</p>' : '' ) . '
+				<p class="need-access-message">'.esc_html( $footer_message ).'</p>
 			</div>
 		';
 	}

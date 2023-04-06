@@ -1173,7 +1173,7 @@ form.password-form {
 .password-form-container .error-message {
     color: #ff0000;
     margin-top: 20px;
-    font-size: 14px;
+    font-size: 12px;
 }
 .password-form-container .error-message.hidden {
     display: none;
