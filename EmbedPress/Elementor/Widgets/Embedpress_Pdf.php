@@ -557,6 +557,8 @@ class Embedpress_Pdf extends Widget_Base
         
 		$embed_settings['lockErrorMessage'] = !empty($settings['embedpress_pdf_lock_content_error_message']) ? $settings['embedpress_pdf_lock_content_error_message'] : '';
         
+		$embed_settings['enableFooterMessage'] = !empty($settings['embedpress_pdf_enable_footer_message']) ? $settings['embedpress_pdf_enable_footer_message'] : '';
+        
 		$embed_settings['footerMessage'] = !empty($settings['embedpress_pdf_lock_content_footer_message']) ? $settings['embedpress_pdf_lock_content_footer_message'] : '';
 
         ?>

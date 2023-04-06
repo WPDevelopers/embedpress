@@ -20,6 +20,7 @@ export default function LockControl({ attributes, setAttributes }) {
         lockHeading,
         lockSubHeading,
         lockErrorMessage,
+        enableFooterMessage,
         footerMessage,
         contentPassword
     } = attributes;
@@ -71,25 +72,36 @@ export default function LockControl({ attributes, setAttributes }) {
                         </div>
 
                         <TextControl
-                            label={__("Lock Heading")}
+                            label={__("Header")}
                             value={lockHeading}
                             onChange={(lockHeading) => setAttributes({ lockHeading })}
                         />
                         <TextareaControl
-                            label={__("Sub Heading")}
+                            label={__("Description")}
                             value={lockSubHeading}
                             onChange={(lockSubHeading) => setAttributes({ lockSubHeading })}
                         />
                         <TextControl
-                            label={__("Submit Error Message")}
+                            label={__("Error Message")}
                             value={lockErrorMessage}
                             onChange={(lockErrorMessage) => setAttributes({ lockErrorMessage })}
                         />
-                        <TextareaControl
-                            label={__("Footer Message")}
-                            value={footerMessage}
-                            onChange={(footerMessage) => setAttributes({ footerMessage })}
+                        <ToggleControl
+                            label={__("Footer Text")}
+                            checked={enableFooterMessage}
+                            onChange={(enableFooterMessage) => setAttributes({ enableFooterMessage })}
                         />
+
+                        {
+
+                            enableFooterMessage && (
+                                <TextareaControl
+                                    label={__("Footer")}
+                                    value={footerMessage}
+                                    onChange={(footerMessage) => setAttributes({ footerMessage })}
+                                />
+                            )
+                        }
                     </div>
                 )
             }

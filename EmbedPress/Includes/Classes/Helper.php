@@ -272,6 +272,7 @@ class Helper {
 		$lock_subheading = !empty($attributes['lockSubHeading']) ? $attributes['lockSubHeading'] : '';
 		$lock_error_message = !empty($attributes['lockErrorMessage']) ? $attributes['lockErrorMessage'] : '';
 		$footer_message = !empty($attributes['footerMessage']) ? $attributes['footerMessage'] : '';
+		$enable_footer_message = !empty($attributes['enableFooterMessage']) ? $attributes['enableFooterMessage'] : '';
 
 		// Set the encryption key and initialization vector (IV)
 		$key = "g72@QKgEcANy8%D7xq8%@n%#";
@@ -301,7 +302,7 @@ class Helper {
 					<input type="submit" name="password_submit" value="Unlock">
 					<div class="error-message hidden">'.esc_html( $lock_error_message ).'</div>
 				</form>
-				<p class="need-access-message">'.esc_html( $footer_message ).'</p>
+				' . ( ! empty( $enable_footer_message ) ? '<p class="need-access-message">' . esc_html( $footer_message ) . '</p>' : '' ) . '
 			</div>
 		';
 	}

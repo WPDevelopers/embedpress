@@ -174,15 +174,19 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'lockSubHeading' => [
 								'type' => 'string',
-								'default' => 'This content is currently locked and requires a password to access.'
+								'default' => 'Content is locked and requires password to access it.'
 							],
 							'lockErrorMessage' => [
 								'type' => 'string',
 								'default' => 'Invalid password. Please try again.'
 							],
+							'enableFooterMessage' => [
+								'type' => 'boolean',
+								'default' => false
+							],
 							'footerMessage' => [
 								'type' => 'string',
-								'default' => 'If you don\'t have the password, please contact the content owner or administrator to request access.'
+								'default' => 'In case you don\'t possess the password, kindly get in touch with the content owner or administrator to request access.'
 							],
 							'contentPassword' => [
 								'type' => 'string',
@@ -360,15 +364,19 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'lockSubHeading' => [
 								'type' => 'string',
-								'default' => 'This content is currently locked and requires a password to access.'
+								'default' => 'Content is locked and requires password to access it.'
 							],
 							'lockErrorMessage' => [
 								'type' => 'string',
 								'default' => 'Invalid password. Please try again.'
 							],
+							'enableFooterMessage' => [
+								'type' => 'boolean',
+								'default' => false
+							],
 							'footerMessage' => [
 								'type' => 'string',
-								'default' => 'If you don\'t have the password, please contact the content owner or administrator to request access.'
+								'default' => 'In case you don\'t possess the password, kindly get in touch with the content owner or administrator to request access.'
 							],
 							'contentPassword' => [
 								'type' => 'string',

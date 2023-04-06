@@ -45,7 +45,7 @@ class Extend_Elementor_Controls {
         $that->add_control(
 			'embedpress'.$infix.'lock_content_heading',
 			[
-				'label' => __('Lock Heading', 'embedpress'),
+				'label' => __('Header', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
 				'default' => 'Content Locked',
 				'label_block' => false,
@@ -58,9 +58,9 @@ class Extend_Elementor_Controls {
 		$that->add_control(
 			'embedpress'.$infix.'lock_content_sub_heading',
 			[
-				'label' => __('Lock Subheading', 'embedpress'),
+				'label' => __('Description', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
-				'default' => 'This content is currently locked and requires a password to access.',
+				'default' => 'This content is locked and requires a password to access it.',
 				'label_block' => false,
 				'condition' => [
 					'embedpress'.$infix.'lock_content' => 'yes'
@@ -71,7 +71,7 @@ class Extend_Elementor_Controls {
 		$that->add_control(
 			'embedpress'.$infix.'lock_content_error_message',
 			[
-				'label' => __('Submit Error Message', 'embedpress'),
+				'label' => __('Error Message', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
 				'default' => 'Invalid password. Please try again.',
 				'label_block' => false,
@@ -80,16 +80,27 @@ class Extend_Elementor_Controls {
 				]
 			]
 		);
+
+		$that->add_control(
+			'embedpress'.$infix.'enable_footer_message',
+			[
+				'label'        => __('Footer Text', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+			]
+		);
 		  
 		$that->add_control(
 			'embedpress'.$infix.'lock_content_footer_message',
 			[
-				'label' => __('Footer Message', 'embedpress'),
+				'label' => __('Footer', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
-				'default' => 'If you don’t have the password, please contact the content owner or administrator to request access.',
+				'default' => 'In case you don\'t possess the password, kindly get in touch with the content owner or administrator to request access.',
 				'label_block' => false,
 				'condition' => [
-					'embedpress'.$infix.'lock_content' => 'yes'
+					'embedpress'.$infix.'enable_footer_message' => 'yes'
 				]
 			]
 		);
