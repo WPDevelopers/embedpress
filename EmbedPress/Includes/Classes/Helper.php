@@ -294,7 +294,7 @@ class Helper {
 					
 					<div class="password-field">
 						<span class="lock-icon">' . $lock_icon . '</span>
-						<input type="password" name="pass_' . esc_attr($client_id) . '" placeholder="' . esc_attr__('Enter password', 'embedpress') . '" required>
+						<input type="password" name="pass_' . esc_attr($client_id) . '" placeholder="' . esc_attr__('password', 'embedpress') . '" required>
 					</div>
 					<input type="hidden" name="ep_client_id" value="' . esc_attr($client_id) . '">
 					<input type="hidden" name="ep_base_' . esc_attr($client_id) . '" value="' . esc_attr($encrypted_data) . '">

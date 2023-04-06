@@ -94,7 +94,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			footerMessage: {
 				type: 'string',
-				default: 'In case you don\'t possess the password, kindly get in touch with the content owner or administrator to request access.'
+				default: 'In case you don\'t have the password, kindly reach out to content owner or administrator to request access.'
 			},
 			contentShare: {
 				type: 'boolean',

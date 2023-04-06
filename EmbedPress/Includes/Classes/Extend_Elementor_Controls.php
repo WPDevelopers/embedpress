@@ -97,7 +97,7 @@ class Extend_Elementor_Controls {
 			[
 				'label' => __('Footer', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
-				'default' => 'In case you don\'t possess the password, kindly get in touch with the content owner or administrator to request access.',
+				'default' => 'In case you don\'t have the password, kindly reach out to content owner or administrator to request access.',
 				'label_block' => false,
 				'condition' => [
 					'embedpress'.$infix.'enable_footer_message' => 'yes'
