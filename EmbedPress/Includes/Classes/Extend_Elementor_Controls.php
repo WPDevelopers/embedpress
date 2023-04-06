@@ -20,7 +20,7 @@ class Extend_Elementor_Controls {
         $that->add_control(
 			'embedpress'.$infix.'lock_content',
 			[
-				'label'        => sprintf(__('Lock Content %s', 'embedpress'), $pro_text),
+				'label'        => sprintf(__('Enable Content Protection %s', 'embedpress'), $pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
