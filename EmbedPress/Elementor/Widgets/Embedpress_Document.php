@@ -286,6 +286,12 @@ class Embedpress_Document extends Widget_Base
         
 		$embed_settings['lockErrorMessage'] = !empty($settings['embedpress_doc_lock_content_error_message']) ? $settings['embedpress_doc_lock_content_error_message'] : '';
 
+          
+		$embed_settings['passwordPlaceholder'] = !empty($settings['embedpress_doc_password_placeholder']) ? $settings['embedpress_doc_password_placeholder'] : '';
+        
+		$embed_settings['submitButtonText'] = !empty($settings['embedpress_doc_submit_button_text']) ? $settings['embedpress_doc_submit_button_text'] : '';
+
+
         $embed_settings['enableFooterMessage'] = !empty($settings['embedpress_doc_enable_footer_message']) ? $settings['embedpress_doc_enable_footer_message'] : '';
         
 		$embed_settings['footerMessage'] = !empty($settings['embedpress_doc_lock_content_footer_message']) ? $settings['embedpress_doc_lock_content_footer_message'] : '';

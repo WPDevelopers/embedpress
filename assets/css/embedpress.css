@@ -1119,7 +1119,7 @@ form.password-form {
 .password-form-container input[type="password"] {
     padding: 10px;
     border-radius: 5px;
-    width: 250px;
+    width: 100%;
     margin-bottom: 12px;
     font-size: 20px;
     color: #6354a5;
@@ -1142,7 +1142,7 @@ form.password-form {
 .password-field span {
     position: absolute;
     top: 1px;
-    left: 22px;
+    left: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1165,6 +1165,8 @@ form.password-form {
     font-family: sans-serif;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     font-weight: initial;
+    white-space: normal;
+    word-break: break-all;
 }
 .password-form-container button:hover {
     background-color: #0062cc;

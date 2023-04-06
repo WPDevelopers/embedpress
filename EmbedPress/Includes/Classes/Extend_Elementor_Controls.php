@@ -42,6 +42,44 @@ class Extend_Elementor_Controls {
 			]
 		);
 
+		
+		$that->add_control(
+			'embedpress'.$infix.'lock_content_error_message',
+			[
+				'label' => __('Error Message', 'embedpress'),
+				'type' => Controls_Manager::TEXT,
+				'default' => 'Oops, that wasn\'t the right password. Try again.',
+				'label_block' => false,
+				'condition' => [
+					'embedpress'.$infix.'lock_content' => 'yes'
+				]
+			]
+		);
+		$that->add_control(
+			'embedpress'.$infix.'password_placeholder',
+			[
+				'label' => __('Placeholder', 'embedpress'),
+				'type' => Controls_Manager::TEXT,
+				'default' => 'Oops, that wasn\'t the right password. Try again.',
+				'label_block' => false,
+				'condition' => [
+					'embedpress'.$infix.'lock_content' => 'yes'
+				]
+			]
+		);
+		$that->add_control(
+			'embedpress'.$infix.'submit_button_text',
+			[
+				'label' => __('Button Text', 'embedpress'),
+				'type' => Controls_Manager::TEXT,
+				'default' => 'Oops, that wasn\'t the right password. Try again.',
+				'label_block' => false,
+				'condition' => [
+					'embedpress'.$infix.'lock_content' => 'yes'
+				]
+			]
+		);
+
         $that->add_control(
 			'embedpress'.$infix.'lock_content_heading',
 			[
@@ -68,18 +106,6 @@ class Extend_Elementor_Controls {
 			]
 		);
 		
-		$that->add_control(
-			'embedpress'.$infix.'lock_content_error_message',
-			[
-				'label' => __('Error Message', 'embedpress'),
-				'type' => Controls_Manager::TEXT,
-				'default' => 'Oops, that wasn\'t the right password. Try again.',
-				'label_block' => false,
-				'condition' => [
-					'embedpress'.$infix.'lock_content' => 'yes'
-				]
-			]
-		);
 
 		$that->add_control(
 			'embedpress'.$infix.'enable_footer_message',

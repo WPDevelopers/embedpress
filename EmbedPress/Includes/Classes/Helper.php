@@ -270,6 +270,9 @@ class Helper {
 		$lock_subheading = !empty($attributes['lockSubHeading']) ? $attributes['lockSubHeading'] : '';
 		$lock_error_message = !empty($attributes['lockErrorMessage']) ? $attributes['lockErrorMessage'] : '';
 		$footer_message = !empty($attributes['footerMessage']) ? $attributes['footerMessage'] : '';
+		$password_placeholder = !empty($attributes['passwordPlaceholder']) ? $attributes['passwordPlaceholder'] : '';
+		$button_text = !empty($attributes['submitButtonText']) ? $attributes['submitButtonText'] : '';
+		$enable_footer_message = !empty($attributes['enableFooterMessage']) ? $attributes['enableFooterMessage'] : '';
 
 		// Set the encryption key and initialization vector (IV)
 		$key = "g72@QKgEcANy8%D7xq8%@n%#";
@@ -295,15 +298,15 @@ class Helper {
 					
 					<div class="password-field">
 						<span class="lock-icon">' . $lock_icon . '</span>
-						<input type="password" name="pass_' . esc_attr($client_id) . '" placeholder="' . esc_attr__('password', 'embedpress') . '" required>
+						<input type="password" name="pass_' . esc_attr($client_id) . '" placeholder="' . esc_attr($password_placeholder) . '" required>
 					</div>
 					<input type="hidden" name="ep_client_id" value="' . esc_attr($client_id) . '">
 					<input type="hidden" name="ep_base_' . esc_attr($client_id) . '" value="' . esc_attr($encrypted_data) . '">
 					<input type="hidden" name="hash_key_' . esc_attr($client_id) . '" value="' . esc_attr($wp_hash_key ) . '">
-					<input type="submit" name="password_submit" value="Unlock">
+					<input type="submit" name="password_submit" value="'.esc_attr( $button_text ).'">
 					<div class="error-message hidden">'.esc_html( $lock_error_message ).'</div>
 				</form>
-				<p class="need-access-message">'.esc_html( $footer_message ).'</p>
+				' . ( ! empty( $enable_footer_message ) ? '<p class="need-access-message">' . esc_html( $footer_message ) . '</p>' : '' ) . '
 			</div>
 		';
 	}

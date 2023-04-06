@@ -84,9 +84,13 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: 'Content is locked and requires password to access it.'
 			},
-			lockErrorMessage: {
+			passwordPlaceholder: {
 				type: 'string',
-				default: 'Oops, that wasn\'t the right password. Try again.'
+				default: 'Password'
+			},
+			submitButtonText: {
+				type: 'string',
+				default: 'Unlock'
 			},
 			enableFooterMessage: {
 				type: 'boolean',

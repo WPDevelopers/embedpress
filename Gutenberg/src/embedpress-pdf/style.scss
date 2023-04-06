@@ -155,6 +155,9 @@ span.isPro {
 .pro-control-active {
     margin-bottom: 30px;
 }
+.disabled-content-protection .pro-control-active {
+    margin-bottom: 0;
+}
 
 .ep-alignleft {
 	display: flex;

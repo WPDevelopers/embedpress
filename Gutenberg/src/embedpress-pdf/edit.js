@@ -6,7 +6,8 @@ import Iframe from '../common/Iframe';
 import ControlHeader from '../common/control-heading';
 import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
-import {saveSourceData } from '../common/helper';import LockControl from '../common/lock-control';
+import {saveSourceData } from '../common/helper';
+import LockControl from '../common/lock-control';
 import ContentShare from '../common/social-share-control';
 import SocialShareHtml from '../common/social-share-html';
 

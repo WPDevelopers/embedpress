@@ -180,6 +180,14 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'string',
 								'default' => 'Oops, that wasn\'t the right password. Try again.'
 							],
+							'passwordPlaceholder' => [
+								'type' => 'string',
+								'default' => 'Password'
+							],
+							'submitButtonText' => [
+								'type' => 'string',
+								'default' => 'Unlock'
+							],
 							'enableFooterMessage' => [
 								'type' => 'boolean',
 								'default' => false

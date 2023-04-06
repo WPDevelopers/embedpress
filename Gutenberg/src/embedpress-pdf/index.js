@@ -57,6 +57,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: 'string',
 				default: 'Oops, that wasn\'t the right password. Try again.'
 			},
+			passwordPlaceholder: {
+				type: 'string',
+				default: 'Password'
+			},
+			submitButtonText: {
+				type: 'string',
+				default: 'Unlock'
+			},
 			enableFooterMessage: {
 				type: 'boolean',
 				default: false

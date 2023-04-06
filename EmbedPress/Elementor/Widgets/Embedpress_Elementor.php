@@ -2545,6 +2545,10 @@ class Embedpress_Elementor extends Widget_Base
 
 		$embed_settings['lockSubHeading'] = !empty($settings['embedpress_lock_content_sub_heading']) ? $settings['embedpress_lock_content_sub_heading'] : '';
         
+		$embed_settings['passwordPlaceholder'] = !empty($settings['embedpress_password_placeholder']) ? $settings['embedpress_password_placeholder'] : '';
+        
+		$embed_settings['submitButtonText'] = !empty($settings['embedpress_submit_button_text']) ? $settings['embedpress_submit_button_text'] : '';
+
 		$embed_settings['lockErrorMessage'] = !empty($settings['embedpress_lock_content_error_message']) ? $settings['embedpress_lock_content_error_message'] : '';
 		
 		$embed_settings['enableFooterMessage'] = !empty($settings['embedpress_enable_footer_message']) ? $settings['embedpress_enable_footer_message'] : '';
