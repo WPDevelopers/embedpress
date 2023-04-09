@@ -35,7 +35,7 @@ class Extend_Elementor_Controls {
 				'label'       => __('Set Password', 'embedpress'),
 				'type'        => Controls_Manager::TEXT,
 				'default'	=> '',
-				'placeholder'	=> '●●●●●',
+				'placeholder'	=> '••••••',
 				'label_block' => false,
 				'condition'   => [
 					'embedpress'.$infix.'lock_content' => 'yes'

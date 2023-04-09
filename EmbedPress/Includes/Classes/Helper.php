@@ -445,7 +445,7 @@ class Helper {
 	
 		$page_url = urlencode(get_permalink().'?hash='.$content_id);
 		
-		$social_icons = '<div class="social-share share-position-'.esc_attr( $share_position ).'">';
+		$social_icons = '<div class="ep-social-share-wraper"><div class="social-share share-position-'.esc_attr( $share_position ).'">';
 		$social_icons .= '<a href="https://www.facebook.com/sharer/sharer.php?u=' . $page_url . '" class="social-icon facebook" target="_blank">
 			<svg width="64px" height="64px" fill="#000000" viewBox="0 -6 512 512" xmlns="http://www.w3.org/2000/svg">
 			<path d="M0 0h512v500H0z" fill="#475a96"/>
@@ -480,7 +480,7 @@ class Helper {
 			</g>
 			</svg>
 		</a>';
-		$social_icons .= '</div>';
+		$social_icons .= '</div></div>';
 		
 		echo  $social_icons ;
 	}

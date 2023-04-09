@@ -48,9 +48,6 @@ export const dynamicStyles = ({
 
     return (
         <React.Fragment>
-            {
-                console.log(width, height, clientId)
-            }
             {isYTChannel(url) && (
                  
                 

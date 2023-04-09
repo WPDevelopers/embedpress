@@ -57,7 +57,7 @@ export default function LockControl({ attributes, setAttributes }) {
                                 value={contentPassword}
                                 onChange={(contentPassword) => setAttributes({ contentPassword })}
                                 type={'password'}
-                                placeholder={'●●●●●●'}
+                                placeholder={'••••••'}
                                 ref={inputRef}
                             />
 
