@@ -75,7 +75,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			contentPassword: {
 				type: 'string',
-				default: 'igNeARnE'
+				default: ''
 			},
 			lockHeading: {
 				type: 'string',

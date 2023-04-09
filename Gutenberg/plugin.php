@@ -202,7 +202,7 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'contentPassword' => [
 								'type' => 'string',
-								'default' => 'igNeARnE',
+								'default' => '',
 							],
 							'contentShare' => [
 								'type' => 'boolean',
@@ -405,7 +405,7 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'contentPassword' => [
 								'type' => 'string',
-								'default' => 'igNeARnE'
+								'default' => ''
 							],
 							'contentShare' => [
 								'type' => 'boolean',
@@ -514,6 +514,7 @@ function getParamData($attributes)
 
 function embedpress_pdf_render_block($attributes)
 {
+
 
 	if (!empty($attributes['href'])) {
 		$renderer = Helper::get_pdf_renderer();
