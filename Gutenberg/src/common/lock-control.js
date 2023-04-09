@@ -57,6 +57,7 @@ export default function LockControl({ attributes, setAttributes }) {
                                 value={contentPassword}
                                 onChange={(contentPassword) => setAttributes({ contentPassword })}
                                 type={'password'}
+                                placeholder={'●●●●●●'}
                                 ref={inputRef}
                             />
 
@@ -79,37 +80,44 @@ export default function LockControl({ attributes, setAttributes }) {
                             label={__("Error Message")}
                             value={lockErrorMessage}
                             onChange={(lockErrorMessage) => setAttributes({ lockErrorMessage })}
+                            placeholder={'Oops, that wasn\'t the right password'}
                         />
                         <TextControl
                             label={__("Placeholder")}
                             value={passwordPlaceholder}
                             onChange={(passwordPlaceholder) => setAttributes({ passwordPlaceholder })}
+                            placeholder={'Password'}
                         />
                         <TextControl
                             label={__("Button Text")}
                             value={submitButtonText}
                             onChange={(submitButtonText) => setAttributes({ submitButtonText })}
+                            placeholder={'Unlock'}
                         />
                         <TextControl
-                            label={__("Unlocking Text")}
+                            label={__("Loader Text")}
                             value={submitUnlockingText}
                             onChange={(submitUnlockingText) => setAttributes({ submitUnlockingText })}
+                            placeholder={'Unlocking...'}
                         />
 
                         <TextControl
                             label={__("Header")}
                             value={lockHeading}
                             onChange={(lockHeading) => setAttributes({ lockHeading })}
+                            placeholder={'Content Locked'}
                         />
                         <TextareaControl
                             label={__("Description")}
                             value={lockSubHeading}
                             onChange={(lockSubHeading) => setAttributes({ lockSubHeading })}
+                            placeholder={'Content is locked and requires password to access it.'}
                         />
                         <ToggleControl
                             label={__("Footer Text")}
                             checked={enableFooterMessage}
                             onChange={(enableFooterMessage) => setAttributes({ enableFooterMessage })}
+                           
                         />
 
                         {
@@ -119,6 +127,7 @@ export default function LockControl({ attributes, setAttributes }) {
                                     label={__("Footer")}
                                     value={footerMessage}
                                     onChange={(footerMessage) => setAttributes({ footerMessage })}
+                                    placeholder={'In case you don\'t have the password, kindly reach out to content owner or administrator to request access.'}
                                 />
                             )
                         }

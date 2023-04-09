@@ -34,7 +34,8 @@ class Extend_Elementor_Controls {
 			[
 				'label'       => __('Set Password', 'embedpress'),
 				'type'        => Controls_Manager::TEXT,
-				'default'	=> '12345',
+				'default'	=> '',
+				'placeholder'	=> '●●●●●',
 				'label_block' => false,
 				'condition'   => [
 					'embedpress'.$infix.'lock_content' => 'yes'
@@ -49,6 +50,7 @@ class Extend_Elementor_Controls {
 				'label' => __('Error Message', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
 				'default' => 'Oops, that wasn\'t the right password. Try again.',
+				'placeholder' => __('Oops, that wasn\'t the right password. Try again.', 'embedpress'),
 				'label_block' => false,
 				'condition' => [
 					'embedpress'.$infix.'lock_content' => 'yes'
@@ -60,7 +62,8 @@ class Extend_Elementor_Controls {
 			[
 				'label' => __('Placeholder', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
-				'default' => 'Oops, that wasn\'t the right password. Try again.',
+				'default' => 'Password',
+				'placeholder' => __('Password', 'embedpress'),
 				'label_block' => false,
 				'condition' => [
 					'embedpress'.$infix.'lock_content' => 'yes'
@@ -72,7 +75,21 @@ class Extend_Elementor_Controls {
 			[
 				'label' => __('Button Text', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
-				'default' => 'Oops, that wasn\'t the right password. Try again.',
+				'default' => 'Unlock',
+				'placeholder' => __('Unlock', 'embedpress'),
+				'label_block' => false,
+				'condition' => [
+					'embedpress'.$infix.'lock_content' => 'yes'
+				]
+			]
+		);
+		$that->add_control(
+			'embedpress'.$infix.'submit_Unlocking_text',
+			[
+				'label' => __('Loader Text', 'embedpress'),
+				'type' => Controls_Manager::TEXT,
+				'default' => 'Unlocking...',
+				'placeholder' => __('Unlocking...', 'embedpress'),
 				'label_block' => false,
 				'condition' => [
 					'embedpress'.$infix.'lock_content' => 'yes'
@@ -86,6 +103,7 @@ class Extend_Elementor_Controls {
 				'label' => __('Header', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
 				'default' => 'Content Locked',
+				'placeholder' => __('Content Locked', 'embedpress'),
 				'label_block' => false,
 				'condition' => [
 					'embedpress'.$infix.'lock_content' => 'yes'
@@ -97,8 +115,9 @@ class Extend_Elementor_Controls {
 			'embedpress'.$infix.'lock_content_sub_heading',
 			[
 				'label' => __('Description', 'embedpress'),
-				'type' => Controls_Manager::TEXT,
-				'default' => 'This content is locked and requires a password to access it.',
+				'type' => Controls_Manager::TEXTAREA,
+				'default' => 'Content is locked and requires password to access it.',
+				'placeholder' => __('Content is locked and requires password to access it.', 'embedpress'),
 				'label_block' => false,
 				'condition' => [
 					'embedpress'.$infix.'lock_content' => 'yes'
@@ -115,6 +134,9 @@ class Extend_Elementor_Controls {
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => '',
+				'condition' => [
+					'embedpress'.$infix.'lock_content' => 'yes'
+				]
 			]
 		);
 		  
@@ -122,8 +144,9 @@ class Extend_Elementor_Controls {
 			'embedpress'.$infix.'lock_content_footer_message',
 			[
 				'label' => __('Footer', 'embedpress'),
-				'type' => Controls_Manager::TEXT,
+				'type' => Controls_Manager::TEXTAREA,
 				'default' => 'In case you don\'t have the password, kindly reach out to content owner or administrator to request access.',
+				'placeholder' => __('In case you don\'t have the password, kindly reach out to content owner or administrator to request access.', 'embedpress'),
 				'label_block' => false,
 				'condition' => [
 					'embedpress'.$infix.'enable_footer_message' => 'yes'
@@ -172,7 +195,7 @@ class Extend_Elementor_Controls {
             [
                 'label'   => __('Title', 'embedpress'),
                 'type'    => Controls_Manager::TEXT,
-                'placeholder' => 'Enter share title',
+                'placeholder' => __('Enter share title', 'embedpress'),
                 'condition'   => [
 					'embedpress'.$infix.'content_share' => 'yes'
 				]
@@ -183,7 +206,7 @@ class Extend_Elementor_Controls {
             [
                 'label'   => __('Description', 'embedpress'),
                 'type'    => Controls_Manager::TEXTAREA,
-                'placeholder' => 'Enter share description',
+                'placeholder' => __('Enter share description', 'embedpress'),
                 'condition'   => [
 					'embedpress'.$infix.'content_share' => 'yes'
 				]

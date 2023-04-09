@@ -59,6 +59,8 @@ export const dynamicStyles = ({
                     [data-source-id="source-${clientId}"] .ep-youtube__content__block .youtube__content__body .content__wrap{
                         gap: ${gapbetweenvideos}px!important;
                         margin-top: ${gapbetweenvideos}px!important;
+                        display: grid!important;
+                        grid-template-columns: ${repeatCol}!important;
                     }
 
                     [data-source-id="source-${clientId}"] .ose-youtube{
@@ -71,10 +73,6 @@ export const dynamicStyles = ({
                     [data-source-id="source-${clientId}"] .ose-youtube > iframe{
                         height: ${height}px!important;
                         width: ${width}px!important;
-                    }
-
-                    [data-source-id="source-${clientId}"] .ep-youtube__content__block .youtube__content__body .content__wrap {
-                        grid-template-columns: ${repeatCol};
                     }
 
                     [data-source-id="source-${clientId}"] .ep-youtube__content__block .ep-youtube__content__pagination{

@@ -404,7 +404,7 @@ span.eb_nft_currency svg {
 
 .ose-opensea {
     min-width: 100% !important;
-    max-width: calc(100% - 40px)!important;
+    max-width: calc(100% - 40px) !important;
 }
 
 .ep-loadmore-wrapper {
@@ -751,7 +751,7 @@ button.ep-remove__image {
     top: 10px;
     margin: 22px;
     left: 10px;
-    background: #F11C1D;
+    background: #f11c1d;
     width: 32px;
     height: 32px;
     text-align: center;
@@ -883,7 +883,8 @@ span.copy-tooltip {
     right: 25px;
 }
 
-.gutenberg-block-wraper,.gutenberg-wraper  {
+.gutenberg-block-wraper,
+.gutenberg-wraper {
     position: relative;
 }
 .wp-block-embedpress-embedpress > div {
@@ -915,7 +916,8 @@ span.copy-tooltip {
     flex-direction: column;
 }
 
-.embedpress-gutenberg-wrapper .social-share.share-position-left, .ep-elementor-content .social-share.share-position-left{
+.embedpress-gutenberg-wrapper .social-share.share-position-left,
+.ep-elementor-content .social-share.share-position-left {
     left: -40px;
 }
 
@@ -989,10 +991,9 @@ a.social-icon.pinterest svg {
     flex-direction: column;
 }
 
-.block-editor-block-list__block .social-share{
+.block-editor-block-list__block .social-share {
     pointer-events: none;
 }
-
 
 .custom-share-thumbnail-label {
     font-size: 11px;
@@ -1011,7 +1012,8 @@ a.social-icon.pinterest svg {
     margin-bottom: 8px;
 }
 
-.lock-content-controllers .components-form-toggle.is-checked .components-form-toggle__track, .content-share-toggle .components-form-toggle.is-checked .components-form-toggle__track {
+.lock-content-controllers .components-form-toggle.is-checked .components-form-toggle__track,
+.content-share-toggle .components-form-toggle.is-checked .components-form-toggle__track {
     background-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #6354a5));
 }
 
@@ -1027,5 +1029,11 @@ a.social-icon.pinterest svg {
 }
 .ep-documentation a {
     font-weight: 500;
-    font-size: 14px;
+    font-size: 13px;
+    color: #5b4e96;
+}
+
+.components-text-control__input::placeholder,
+.components-textarea-control__input::placeholder {
+    color: rgb(117, 117, 117);
 }

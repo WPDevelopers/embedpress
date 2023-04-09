@@ -42,6 +42,7 @@ export default function ContentShare({ attributes, setAttributes }) {
                             label={__("Title")}
                             value={customTitle}
                             onChange={(customTitle) => setAttributes({ customTitle })}
+                            placeholder={__("Enter Title")}
                         />
                         <TextareaControl
                             label={__("Description")}
