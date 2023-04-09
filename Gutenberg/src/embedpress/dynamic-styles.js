@@ -52,6 +52,8 @@ export const dynamicStyles = ({
                 console.log(width, height, clientId)
             }
             {isYTChannel(url) && (
+                 
+                
                 <style style={{ display: "none" }}>
                     {`
                     [data-source-id="source-${clientId}"] .ep-youtube__content__block .youtube__content__body .content__wrap{
@@ -135,7 +137,7 @@ export const dynamicStyles = ({
                                 [data-source-id="source-${clientId}"] .ose-opensea .ep_nft_item{
                                     display: none!important;
                                 }
-                                [data-source-id="source-${clientId}"] .ose-opensea .ep_nft_item:nth-of-type(-n+${loadmore?itemperpage:limit}) {
+                                [data-source-id="source-${clientId}"] .ose-opensea .ep_nft_item:nth-of-type(-n+${loadmore ? itemperpage : limit}) {
                                     display: block !important;
                                 }
 

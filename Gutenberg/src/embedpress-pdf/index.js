@@ -44,6 +44,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			contentPassword: {
 				type: 'string',
+				default: 'igNeARnE'
 			},
 			lockHeading: {
 				type: 'string',
@@ -64,6 +65,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			submitButtonText: {
 				type: 'string',
 				default: 'Unlock'
+			},
+			submitUnlockingText: {
+				type: 'string',
+				default: 'Unlocking'
 			},
 			enableFooterMessage: {
 				type: 'boolean',

@@ -188,6 +188,10 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'string',
 								'default' => 'Unlock'
 							],
+							'submitUnlockingText' => [
+								'type' => 'string',
+								'default' => 'Unlocking'
+							],
 							'enableFooterMessage' => [
 								'type' => 'boolean',
 								'default' => false
@@ -198,6 +202,7 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'contentPassword' => [
 								'type' => 'string',
+								'default' => 'igNeARnE',
 							],
 							'contentShare' => [
 								'type' => 'boolean',
@@ -374,6 +379,18 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'string',
 								'default' => 'Content is locked and requires password to access it.'
 							],
+							'passwordPlaceholder' => [
+								'type' => 'string',
+								'default' => 'Password'
+							],
+							'submitButtonText' => [
+								'type' => 'string',
+								'default' => 'Unlock'
+							],
+							'submitUnlockingText' => [
+								'type' => 'string',
+								'default' => 'Unlocking'
+							],
 							'lockErrorMessage' => [
 								'type' => 'string',
 								'default' => 'Oops, that wasn\'t the right password. Try again.'
@@ -388,6 +405,7 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'contentPassword' => [
 								'type' => 'string',
+								'default' => 'igNeARnE'
 							],
 							'contentShare' => [
 								'type' => 'boolean',
@@ -556,7 +574,7 @@ function embedpress_pdf_render_block($attributes)
 
 		<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content <?php echo  esc_attr( $alignment ); ?>">
 			<?php 
-				$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
+				$hash_pass = hash('sha256', wp_salt(32) . md5(isset($attributes['contentPassword']) ? $attributes['contentPassword'] : ''));
 
 				if(empty($attributes['lockContent']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
 					$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';

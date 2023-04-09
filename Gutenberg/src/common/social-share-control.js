@@ -3,6 +3,7 @@
  */
 
 import CustomThumbnail from "./customthumbnail";
+import { EPIcon } from '../common/icons';
 
 const { __ } = wp.i18n;
 
@@ -35,7 +36,7 @@ export default function ContentShare({ attributes, setAttributes }) {
             </div>
             {
                 contentShare && (
-                    <div>
+                    <div className={'content-share-controls'}>
 
                         <TextControl
                             label={__("Title")}
@@ -60,9 +61,12 @@ export default function ContentShare({ attributes, setAttributes }) {
                             onChange={(sharePosition) => setAttributes({ sharePosition })}
                             __nextHasNoMarginBottom
                         />
-
-
                         <CustomThumbnail attributes={attributes} setAttributes={setAttributes} />
+
+                        <div className={'ep-documentation '}>
+                            {EPIcon} 
+                            <a href="https://github.com/" target={'_blank'}> Need Help? </a>
+                        </div>
                     </div>
                 )
             }

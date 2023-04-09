@@ -317,6 +317,9 @@
         var password = jQuery(`input[name="pass_${ep_client_id}"]`).val();
         var epbase = jQuery(`input[name="ep_base_${ep_client_id}"]`).val();
         var hash_key = jQuery(`input[name="hash_key_${ep_client_id}"]`).val();
+        const buttonText = jQuery(that).closest('.password-form-container').find('input[type="submit"]').val();
+        const unlokingText = jQuery(that).data('unloking-text');
+
 
         var data = {
             'action': 'lock_content_form_handler',
@@ -326,15 +329,15 @@
             'epbase': epbase
         };
 
-        jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val('Unlocking');
+        jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val(unlokingText);
 
         jQuery.post(eplocalize.ajaxurl, data, function (response) {
             if (response.success) {
                 if (!response.embedHtml) {
 
-                    jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val('Unlock');
+                    jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val(buttonText);
                     jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="password"]').val('');
-                    jQuery('.error-message').removeClass('hidden');
+                    jQuery(that).closest('.password-form-container').find('.error-message').removeClass('hidden');
                 }
                 else {
                     jQuery('#' + perentSel + '-' + ep_client_id).html(response.embedHtml);
@@ -416,6 +419,7 @@ jQuery(window).on("elementor/frontend/init", function () {
             var password = jQuery(`input[name="pass_${ep_client_id}"]`).val();
             var epbase = jQuery(`input[name="ep_base_${ep_client_id}"]`).val();
             var hash_key = jQuery(`input[name="hash_key_${ep_client_id}"]`).val();
+            const buttonText = jQuery(that).closest('.password-form-container').find('input[type="submit"]').val();
 
             var data = {
                 'action': 'lock_content_form_handler',
@@ -425,15 +429,15 @@ jQuery(window).on("elementor/frontend/init", function () {
                 'epbase': epbase
             };
 
-            jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val('Unlocking');
+            jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val(unlokingText);
 
             jQuery.post(eplocalize.ajaxurl, data, function (response) {
                 if (response.success) {
                     if (!response.embedHtml) {
 
-                        jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val('Unlock');
+                        jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val(buttonText);
                         jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="password"]').val('');
-                        jQuery('.error-message').removeClass('hidden');
+                        jQuery(that).closest('.password-form-container').find('.error-message').removeClass('hidden');
                     }
                     else {
                         jQuery('#' + perentSel + '-' + ep_client_id).html(response.embedHtml);

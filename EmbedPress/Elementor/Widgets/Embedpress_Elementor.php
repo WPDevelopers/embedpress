@@ -2549,6 +2549,8 @@ class Embedpress_Elementor extends Widget_Base
         
 		$embed_settings['submitButtonText'] = !empty($settings['embedpress_submit_button_text']) ? $settings['embedpress_submit_button_text'] : '';
 
+		$embed_settings['submitUnlockingText'] = !empty($settings['embedpress_submit_unlocking_text']) ? $settings['embedpress_submit_unlocking_text'] : '';
+
 		$embed_settings['lockErrorMessage'] = !empty($settings['embedpress_lock_content_error_message']) ? $settings['embedpress_lock_content_error_message'] : '';
 		
 		$embed_settings['enableFooterMessage'] = !empty($settings['embedpress_enable_footer_message']) ? $settings['embedpress_enable_footer_message'] : '';

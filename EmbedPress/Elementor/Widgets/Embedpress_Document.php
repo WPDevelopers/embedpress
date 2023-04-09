@@ -291,6 +291,8 @@ class Embedpress_Document extends Widget_Base
         
 		$embed_settings['submitButtonText'] = !empty($settings['embedpress_doc_submit_button_text']) ? $settings['embedpress_doc_submit_button_text'] : '';
 
+		$embed_settings['submitUnlockingText'] = !empty($settings['embedpress_doc_submit_unlocking_text']) ? $settings['embedpress_doc_submit_unlocking_text'] : '';
+
 
         $embed_settings['enableFooterMessage'] = !empty($settings['embedpress_doc_enable_footer_message']) ? $settings['embedpress_doc_enable_footer_message'] : '';
         
