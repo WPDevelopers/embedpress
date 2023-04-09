@@ -155,8 +155,12 @@ span.isPro {
 .pro-control-active {
     margin-bottom: 30px;
 }
-.disabled-content-protection .pro-control-active {
+
+.disabled-content-protection .pro-control-active , .disabled-content-protection .pro-control{
     margin-bottom: 0;
+}
+.disabled-content-protection .pro-control-active .components-toggle-control, .disabled-content-protection .pro-control .components-toggle-control{
+    margin-bottom: 10px;
 }
 
 .ep-alignleft {
