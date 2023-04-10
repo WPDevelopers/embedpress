@@ -2549,7 +2549,7 @@ class Embedpress_Elementor extends Widget_Base
         
 		$embed_settings['submitButtonText'] = !empty($settings['embedpress_submit_button_text']) ? $settings['embedpress_submit_button_text'] : '';
 
-		$embed_settings['submitUnlockingText'] = !empty($settings['embedpress_submit_unlocking_text']) ? $settings['embedpress_submit_unlocking_text'] : '';
+		$embed_settings['submitUnlockingText'] = !empty($settings['embedpress_submit_Unlocking_text']) ? $settings['embedpress_submit_Unlocking_text'] : '';
 
 		$embed_settings['lockErrorMessage'] = !empty($settings['embedpress_lock_content_error_message']) ? $settings['embedpress_lock_content_error_message'] : '';
 		
@@ -2586,7 +2586,7 @@ class Embedpress_Elementor extends Widget_Base
 								<div id="<?php echo esc_attr( $this->get_id() ); ?>">
 									<?php 
 										$hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_lock_content_password']));
-										if((empty($settings['embedpress_lock_content']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
+										if((empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
 											echo $content;
 
 											if(!empty($settings['embedpress_content_share'])){

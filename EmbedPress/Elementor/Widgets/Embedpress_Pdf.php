@@ -561,12 +561,13 @@ class Embedpress_Pdf extends Widget_Base
         
 		$embed_settings['submitButtonText'] = !empty($settings['embedpress_pdf_submit_button_text']) ? $settings['embedpress_pdf_submit_button_text'] : '';
 
-        $embed_settings['submitUnlockingText'] = !empty($settings['embedpress_pdf_submit_unlocking_text']) ? $settings['embedpress_pdf_submit_unlocking_text'] : '';
+        $embed_settings['submitUnlockingText'] = !empty($settings['embedpress_pdf_submit_Unlocking_text']) ? $settings['embedpress_pdf_submit_Unlocking_text'] : '';
         
 		$embed_settings['enableFooterMessage'] = !empty($settings['embedpress_pdf_enable_footer_message']) ? $settings['embedpress_pdf_enable_footer_message'] : '';
         
 		$embed_settings['footerMessage'] = !empty($settings['embedpress_pdf_lock_content_footer_message']) ? $settings['embedpress_pdf_lock_content_footer_message'] : '';
 
+        
         ?>
     <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
         <?php
@@ -610,7 +611,7 @@ class Embedpress_Pdf extends Widget_Base
                         <?php 
                             $hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_pdf_lock_content_password']));
 
-                            if((empty($settings['embedpress_pdf_lock_content']) || $settings['embedpress_pdf_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
+                            if((empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password']) || $settings['embedpress_pdf_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
                                 echo $embed_content;
 
                                 if(!empty($settings['embedpress_pdf_content_share'])){

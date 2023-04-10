@@ -318,7 +318,7 @@
         var epbase = jQuery(`input[name="ep_base_${ep_client_id}"]`).val();
         var hash_key = jQuery(`input[name="hash_key_${ep_client_id}"]`).val();
         const buttonText = jQuery(that).closest('.password-form-container').find('input[type="submit"]').val();
-        const unlokingText = jQuery(that).data('unloking-text');
+        const unlokingText = jQuery(that).data('unlocking-text');
 
 
         var data = {
@@ -420,6 +420,7 @@ jQuery(window).on("elementor/frontend/init", function () {
             var epbase = jQuery(`input[name="ep_base_${ep_client_id}"]`).val();
             var hash_key = jQuery(`input[name="hash_key_${ep_client_id}"]`).val();
             const buttonText = jQuery(that).closest('.password-form-container').find('input[type="submit"]').val();
+            const unlokingText = jQuery(that).data('unlocking-text');
 
             var data = {
                 'action': 'lock_content_form_handler',

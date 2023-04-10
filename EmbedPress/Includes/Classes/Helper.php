@@ -295,7 +295,7 @@ class Helper {
 		<div class="password-form-container">
 			<h2>'.esc_html( $lock_heading ).'</h2>
 			<p>'.esc_html( $lock_subheading ).' </p>
-				<form class="password-form" method="post" class="password-form" data-unloking-text="'.esc_attr( $unlocking_text ).'">
+				<form class="password-form" method="post" class="password-form" data-unlocking-text="'.esc_attr( $unlocking_text ).'">
 					
 					<div class="password-field">
 						<span class="lock-icon">' . $lock_icon . '</span>

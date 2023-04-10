@@ -19,7 +19,7 @@ class Embedpress_Document extends Widget_Base
 	protected $pro_text = '';
     public function get_name()
     {
-        return 'embedpress_document';
+        return 'embedpres_document';
     }
 
     public function get_title()
@@ -290,14 +290,13 @@ class Embedpress_Document extends Widget_Base
 		$embed_settings['passwordPlaceholder'] = !empty($settings['embedpress_doc_password_placeholder']) ? $settings['embedpress_doc_password_placeholder'] : '';
         
 		$embed_settings['submitButtonText'] = !empty($settings['embedpress_doc_submit_button_text']) ? $settings['embedpress_doc_submit_button_text'] : '';
-
-		$embed_settings['submitUnlockingText'] = !empty($settings['embedpress_doc_submit_unlocking_text']) ? $settings['embedpress_doc_submit_unlocking_text'] : '';
+ 
+		$embed_settings['submitUnlockingText'] = !empty($settings['embedpress_doc_submit_Unlocking_text']) ? $settings['embedpress_doc_submit_Unlocking_text'] : '';
 
 
         $embed_settings['enableFooterMessage'] = !empty($settings['embedpress_doc_enable_footer_message']) ? $settings['embedpress_doc_enable_footer_message'] : '';
         
 		$embed_settings['footerMessage'] = !empty($settings['embedpress_doc_lock_content_footer_message']) ? $settings['embedpress_doc_lock_content_footer_message'] : '';
-
         
         ?>
         
@@ -331,7 +330,7 @@ class Embedpress_Document extends Widget_Base
 
                     $hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_doc_lock_content_password']));
                     
-                    if ((empty($settings['embedpress_doc_lock_content']) || $settings['embedpress_doc_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_' . $client_id]))) {
+                    if ((empty($settings['embedpress_doc_lock_content']) || $settings['embedpress_doc_lock_content'] == 'no' || empty($settings['embedpress_doc_lock_content_password'])) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_' . $client_id]))) {
                         echo $embed_content;
                         if(!empty($settings['embedpress_doc_content_share'])){
                             $content_id = $client_id;

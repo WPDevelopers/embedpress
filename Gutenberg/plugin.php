@@ -577,7 +577,7 @@ function embedpress_pdf_render_block($attributes)
 			<?php 
 				$hash_pass = hash('sha256', wp_salt(32) . md5(isset($attributes['contentPassword']) ? $attributes['contentPassword'] : ''));
 
-				if(empty($attributes['lockContent']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
+				if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
 					$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
 					$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
 
