@@ -98,5 +98,9 @@
     pointer-events: none;
 }
 
+.embedpress-pro-control.not-active {
+    pointer-events: none;
+}
+
 
 /*EmbedPress Pro Controls Style Ends*/

@@ -1082,6 +1082,9 @@ span.ep-nft-rank {
         margin-bottom: 15px;
         display: block;
     }
+    .ose-embedpress-responsive>iframe {
+        height: auto!important;
+    }
 }
 
 .emebedpress-unit-percent iframe{

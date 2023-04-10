@@ -1510,6 +1510,7 @@ class Feature_Enhancer
 				if (!empty($title)) {
 					$title = json_decode('"' . $title . '"', JSON_UNESCAPED_UNICODE);
 					$tags .= "<meta property='og:title' content='$title'/>\n";
+					$tags .= "<meta name='title' property='og:title' content='$title'>\n";
 					$tags .= "<meta name='twitter:title' content='$title'/>\n";
 				}
 				if (!empty($description)) {
@@ -1542,6 +1543,7 @@ class Feature_Enhancer
 				if (preg_match($title, $block_content, $matches2)) {
 					$title = json_decode('"' . $matches2[1] . '"', JSON_UNESCAPED_UNICODE);
 					$tags .= "<meta property='og:title' content='$title'/>\n";
+					$tags .= "<meta name='title' property='og:title' content='$title'>\n";
 					$tags .= "<meta name='twitter:title' content='$title'/>\n";
 				}
 				
