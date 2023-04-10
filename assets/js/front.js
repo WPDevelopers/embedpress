@@ -458,4 +458,12 @@ jQuery(window).on("elementor/frontend/init", function () {
 
     };
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);
+    elementorFrontend.hooks.addAction("frontend/element_ready/embedpress_pdf.default", filterableGalleryHandler);
 });
+
+// unlockElSubmitHander called for Elementor
+// jQuery('.ep-elementor-content .password-form').submit(function (e) {
+//     e.preventDefault(); // Prevent the default form submission
+//     console.log('ok');
+//     // unlockElSubmitHander('ep-elementor-content', this);
+// });
