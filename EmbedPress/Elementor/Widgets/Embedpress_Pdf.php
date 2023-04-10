@@ -521,7 +521,12 @@ class Embedpress_Pdf extends Widget_Base
         }
         $client_id = $id;
         $id = 'embedpress-pdf-' . $id;
-        $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}{$settings['embedpress_elementor_document_width']['unit']};height: {$settings['embedpress_elementor_document_height']['size']}px";
+
+        $dimension = '';
+        if(empty($settings['embedpress_pdf_lock_content']) && empty($settings['embedpress_pdf_lock_content_password'])){  
+            $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
+        }
+
         $pass_hash_key = md5($settings['embedpress_pdf_lock_content_password']);
         $this->add_render_attribute('embedpres-pdf-render', [
             'class'     => ['embedpress-embed-document-pdf', $id],

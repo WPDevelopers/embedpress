@@ -169,7 +169,6 @@ class Embedpress_Document extends Widget_Base
                     ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}}'               => 'height: {{SIZE}}{{UNIT}};',
                     '{{WRAPPER}} .embedpress-document-embed iframe'               => 'height: {{SIZE}}{{UNIT}};',
                     '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'height: {{SIZE}}{{UNIT}};',
                 ],
@@ -259,7 +258,13 @@ class Embedpress_Document extends Widget_Base
         $pass_hash_key = md5($settings['embedpress_doc_lock_content_password']);
         $url = $this->get_file_url();
         $id = 'embedpress-pdf-' . $this->get_id();
-        $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
+
+        $dimension = '';
+        if(empty($settings['embedpress_doc_lock_content']) && empty($settings['embedpress_doc_lock_content_password'])){  
+            $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
+        }
+
+
         $this->add_render_attribute( 'embedpres-pdf-render', [
             'class'     => ['embedpress-embed-document-pdf', $id],
             'data-emid' => $id
