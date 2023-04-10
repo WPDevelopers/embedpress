@@ -264,6 +264,11 @@ class Embedpress_Document extends Widget_Base
             $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
         }
 
+        $content_locked_class = '';
+        if(!empty($settings['embedpress_doc_lock_content']) && !empty($settings['embedpress_doc_lock_content_password'])){
+            $content_locked_class = 'ep-content-locked';
+        }
+
 
         $this->add_render_attribute( 'embedpres-pdf-render', [
             'class'     => ['embedpress-embed-document-pdf', $id],
@@ -273,7 +278,7 @@ class Embedpress_Document extends Widget_Base
         Helper::get_source_data(md5($this->get_id()).'_eb_elementor', $url, 'elementor_source_data', 'elementor_temp_source_data');
 
         $this->add_render_attribute( 'embedpress-document', [
-            'class' => ['embedpress-document-embed', 'ep-doc-'.md5( $id), 'ose-document']
+            'class' => ['embedpress-document-embed', 'ep-doc-'.md5( $id), 'ose-document', $content_locked_class]
         ] );
 
         $embed_settings =  [];
@@ -306,18 +311,21 @@ class Embedpress_Document extends Widget_Base
         ?>
         
 
+        <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
+        
         <?php
-            $embed_content = '<div ' . $this->get_render_attribute_string( 'embedpress-document' ) . ' style="' . esc_attr( $dimension) . '; max-width:100%; display: inline-block">';
-            $embed_content .= '<?php do_action( \'embedpress_document_after_embed\',  $settings, $url, $id, $this); ?>';
+            
+            do_action( 'embedpress_document_after_embed',  $settings, $url, $id, $this);
+
             if ( $url != '' ) {
                 if ( $this->is_pdf( $url ) ) {
                     $this->add_render_attribute( 'embedpres-pdf-render', 'data-emsrc', $url );
-                    $embed_content .= '<div ' . $this->get_render_attribute_string( 'embedpres-pdf-render' ) . '></div>';
+                    $embed_content = '<div ' . $this->get_render_attribute_string( 'embedpres-pdf-render' ) . '>dsfsdfsd</div>';
 
                     if ( Plugin::$instance->editor->is_edit_mode() ) {
                         $embed_content .= $this->render_editor_script( $id, $url );
                     }
-
+        
                 } else {
                     $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . $url . '&embedded=true';
                     $embed_content .= '<div><iframe title="' . esc_attr( Helper::get_file_title($url) ) . '" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr( $dimension ) . '; max-width:100%;" src="' . esc_url( $view_link ) . '"></iframe></div>';
@@ -326,7 +334,7 @@ class Embedpress_Document extends Widget_Base
                     $embed_content .= sprintf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
                 }
             }
-            $embed_content .= '</div>';
+
 
             ?>
             <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_doc_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_doc_content_share_position'].'-wraper' ); endif; ?>">
@@ -347,6 +355,7 @@ class Embedpress_Document extends Widget_Base
                 ?>
                 </div>
             </div>
+        </div>
 
         <?php
     }

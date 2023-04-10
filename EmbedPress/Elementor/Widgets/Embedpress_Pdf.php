@@ -527,13 +527,18 @@ class Embedpress_Pdf extends Widget_Base
             $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
         }
 
+        $content_locked_class = '';
+        if(!empty($settings['embedpress_pdf_lock_content']) && !empty($settings['embedpress_pdf_lock_content_password'])){
+            $content_locked_class = 'ep-content-locked';
+        }
+
         $pass_hash_key = md5($settings['embedpress_pdf_lock_content_password']);
         $this->add_render_attribute('embedpres-pdf-render', [
             'class'     => ['embedpress-embed-document-pdf', $id],
             'data-emid' => $id
         ]);
         $this->add_render_attribute('embedpress-document', [
-            'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document', $unitoption ],
+            'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document', $unitoption, $content_locked_class ],
             'data-thememode' => $settings['embedpress_theme_mode'],
             'data-customcolor' => $settings['embedpress_pdf_custom_color'],
             'data-toolbar' => $settings['pdf_toolbar'],
@@ -575,8 +580,10 @@ class Embedpress_Pdf extends Widget_Base
         
         ?>
     <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
+        
         <?php
             do_action('embedpress_pdf_after_embed',  $settings, $url, $id, $this);
+
             if ($url != '') {
                 if ($this->is_pdf($url) && !$this->is_external_url($url)) {
                     $this->add_render_attribute('embedpres-pdf-render', 'data-emsrc', $url);

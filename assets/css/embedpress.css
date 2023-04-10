@@ -1297,3 +1297,7 @@ a.social-icon.pinterest svg {
 .social-icon i {
     margin-right: 0;
 }
+
+.ep-content-locked .watermark{
+    display: none!important;
+}

@@ -549,21 +549,11 @@ function embedpress_pdf_render_block($attributes)
 		ob_start();
 		?>
 
+
 		<?php
-			$embed_code = '<div class="embedpress-inner-iframe ';
-			if ($unitoption === '%') {
-				$embed_code .= esc_attr('emebedpress-unit-percent');
-			}
-			$embed_code .= '"';
-			if ($unitoption === '%' && !empty($attributes['width'])) {
-				$embed_code .= 'style="' . esc_attr('max-width:' . $attributes['width'] . '%') . '"';
-			} else {
-				$embed_code .= 'style="' . esc_attr('max-width:100%') . '"';
-			}
-			$embed_code .= ' id="'.esc_attr( $id ).'">
-				<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_attr($src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
+
+			$embed_code = '<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_attr($src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
 				
-			do_action('embedpress_pdf_gutenberg_after_embed',  $client_id, 'pdf', $attributes, $pdf_url);
 
 			if ($powered_by) {
 				$embed_code .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
@@ -573,25 +563,29 @@ function embedpress_pdf_render_block($attributes)
 			$url = !empty($attributes['href']) ? $attributes['href'] : '';
 		?>
 
-		<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content <?php echo  esc_attr( $alignment ); ?>">
-			<?php 
-				$hash_pass = hash('sha256', wp_salt(32) . md5(isset($attributes['contentPassword']) ? $attributes['contentPassword'] : ''));
+		<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content <?php echo  esc_attr( $alignment ); ?> ">
+			<div class="embedpress-inner-iframe <?php if ($unitoption === '%') { echo esc_attr('emebedpress-unit-percent'); }  ?> ep-doc-<?php echo esc_attr($client_id); ?>"<?php if ($unitoption === '%' && !empty($attributes['width'])) { $style_attr = 'max-width:' . $attributes['width'] . '%'; } else { $style_attr = 'max-width:100%'; } ?> style="<?php echo esc_attr($style_attr); ?>" id="<?php echo esc_attr($id); ?>">
+				<?php 
+					do_action('embedpress_pdf_gutenberg_after_embed',  $client_id, 'pdf', $attributes, $pdf_url);
+					$hash_pass = hash('sha256', wp_salt(32) . md5(isset($attributes['contentPassword']) ? $attributes['contentPassword'] : ''));
 
-				if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
-					$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
-					$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
+					if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
+						$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
+						$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
 
-					echo '<div class="position-'.esc_attr( $share_position ).'-wraper gutenberg-pdf-wraper">';
-					echo $embed_code;
-					if(!empty($attributes['contentShare'])) {
-						$content_id = $attributes['id'];
-						$embed_code .= Helper::embed_content_share($content_id, $attributes);
+						echo '<div class="position-'.esc_attr( $share_position ).'-wraper gutenberg-pdf-wraper">';
+						echo $embed_code;
+						if(!empty($attributes['contentShare'])) {
+							$content_id = $attributes['id'];
+							$embed_code .= Helper::embed_content_share($content_id, $attributes);
+						}
+						echo '</div>';
+					} else {
+						Helper::display_password_form($client_id, $embed_code, $pass_hash_key, $attributes);
 					}
-					echo '</div>';
-				} else {
-					Helper::display_password_form($client_id, $embed_code, $pass_hash_key, $attributes);
-				}
-			?>
+				?>
+				
+			</div>
 		</div>
 	<?php
 			return ob_get_clean();
