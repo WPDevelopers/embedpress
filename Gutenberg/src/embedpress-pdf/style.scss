@@ -164,17 +164,11 @@ span.isPro {
 }
 
 .ep-alignleft {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-start;
-	text-align: center;
+	text-align: left;
 }
 
 .ep-alignright {
-	display: flex;
-	flex-direction: column;
-	align-items: flex-end;
-	text-align: center;
+	text-align: right;
 }
 
 .ep-aligncenter {

@@ -61,6 +61,14 @@ export default function EmbedPress(props) {
 	} = attributes;
 
 
+	let content_share_class = '';
+	let share_position_class = '';
+	let share_position = sharePosition ? sharePosition : 'right';
+	if (contentShare) {
+		content_share_class = 'ep-content-share-enabled';
+		share_position_class = 'ep-share-position-' + share_position;
+	}
+
 	let customLogoTemp = '';
 	let customLogoStyle = '';
 	let epMessage = '';
@@ -266,8 +274,8 @@ export default function EmbedPress(props) {
 			}
 
 			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
-				<div className={'gutenberg-block-wraper'}>
-					<EmbedWrap className={`position-${sharePosition}-wraper`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
+				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class}>
+					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
 						__html: embedHTML + customLogoTemp + epMessage + shareHtml,
 					}}>
 					</EmbedWrap>

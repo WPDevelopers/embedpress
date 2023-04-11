@@ -72,6 +72,19 @@ function embedpress_render_block($attributes)
 
 	if (!empty($attributes['embedHTML'])) {
 		$embed  = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
+
+		$content_share_class = '';
+		$share_position_class = '';
+		$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
+
+		if(!empty($attributes['contentShare'])) {
+			$content_share_class = 'ep-content-share-enabled';
+			$share_position_class = 'ep-share-position-'.$share_position;
+		}
+		$content_protection_class = '';
+		if(!empty($attributes['lockContent']) && !empty($attributes['contentPassword'])) {
+			$content_protection_class = 'ep-content-protection-enabled';
+		}
 	
 		$aligns = [
 			'left' => 'alignleft',
@@ -90,25 +103,27 @@ function embedpress_render_block($attributes)
 
 		ob_start();
 		?>
-		<div class="embedpress-gutenberg-wrapper <?php echo esc_attr($alignment) ?>" id="<?php echo esc_attr($attributes['clientId']); ?>">
+		<div class="embedpress-gutenberg-wrapper <?php echo  esc_attr( $alignment.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>" id="<?php echo esc_attr($attributes['clientId']); ?>">
 			<?php 
 				$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
 				$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
 			?>
 			<div class="wp-block-embed__wrapper <?php if(!empty($attributes['contentShare'])) echo esc_attr( 'position-'.$share_position.'-wraper'); ?>  <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
 				<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content">
-					<?php 
-						$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
-						if(empty($attributes['lockContent']) || empty($attributes['contentPassword'])  || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
-							echo $embed;
-							if(!empty($attributes['contentShare'])) {
-								$content_id = $attributes['clientId'];
-								$embed .= Helper::embed_content_share($content_id, $attributes);
+					<div class="ep-embed-content-wraper">
+						<?php 
+							$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
+							if(empty($attributes['lockContent']) || empty($attributes['contentPassword'])  || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
+								echo $embed;
+								if(!empty($attributes['contentShare'])) {
+									$content_id = $attributes['clientId'];
+									$embed .= Helper::embed_content_share($content_id, $attributes);
+								}
+							} else {
+								Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
 							}
-						} else {
-							Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
-						}
-					?>
+						?>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -149,8 +164,6 @@ function embedpress_render_block_style($attributes)
 		' . esc_attr($uniqid) . '>iframe {
 			height: ' . esc_attr($attributes['height']) . 'px !important;
 			max-height: ' . esc_attr($attributes['height']) . 'px !important;
-			width: calc(100% - 40px);
-    		margin-left: -40px;
 		}
 
 		' . esc_attr($uniqid) . ' .wistia_embed {

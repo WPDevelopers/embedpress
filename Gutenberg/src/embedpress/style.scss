@@ -887,22 +887,54 @@ span.copy-tooltip {
 .gutenberg-wraper {
     position: relative;
 }
+.gutenberg-block-wraper {
+    display: inline-block;
+}
+.gutenberg-block-wraper.ep-content-share-enabled .ep-embed-content-wraper {
+    display: -ms-inline-flexbox !important;
+    display: inline-flex !important;
+    justify-content: center;
+    align-items: center;
+}
+.gutenberg-block-wraper.ep-content-share-enabled .ep-embed-content-wraper {
+    align-items: center;
+}
+.gutenberg-block-wraper.ep-content-share-enabled .position-left-wraper.ep-embed-content-wraper{
+    align-items: self-start;
+}
+.gutenberg-block-wraper.ep-content-share-enabled .position-right-wraper.ep-embed-content-wraper{
+    align-items: self-start;
+}
+
 .wp-block-embedpress-embedpress > div {
     position: relative;
 }
 
 /* social share css */
-.position-left-wraper {
-    margin-left: 40px;
+.gutenberg-wraper {
+    display: flex;
 }
-.position-top-wraper {
-    margin-top: 40px;
+.ep-share-position-right .gutenberg-wraper{
+    flex-direction: row;
 }
+.ep-share-position-left .gutenberg-wraper{
+    flex-direction: row-reverse;
+}
+
+.ep-share-position-bottom .gutenberg-wraper{
+    flex-direction: column;
+}
+
+.ep-share-position-top .gutenberg-wraper {
+    flex-direction: column-reverse;
+}
+
+
 .social-share {
     display: flex;
-    justify-content: center;
+    // justify-content: center;
     align-items: center;
-    position: absolute;
+    // position: absolute;
 }
 
 .social-share.share-position-right {
@@ -922,16 +954,11 @@ span.copy-tooltip {
 }
 
 .social-share.share-position-top {
-    top: -40px;
-    left: 50%;
-    transform: translateX(-50%);
+    justify-content: center;
 }
 
 .social-share.share-position-bottom {
-    bottom: 4px;
-    left: 50%;
-    transform: translateX(-50%);
-    position: relative;
+    justify-content: center;
 }
 
 .social-icon {

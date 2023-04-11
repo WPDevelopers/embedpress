@@ -191,6 +191,22 @@ class EmbedPressPDFEdit extends Component {
 		const min = 1;
 		const max = 1000;
 
+		let width_class = '';
+		if(unitoption == '%'){
+			width_class = 'ep-percentage-width';
+		}
+		else{
+			width_class  = 'ep-fixed-width';
+		}
+
+		let content_share_class = '';
+		let share_position_class = '';
+		let share_position = sharePosition ? sharePosition : 'right';
+		if(contentShare) {
+			content_share_class = 'ep-content-share-enabled';
+			share_position_class = 'ep-share-position-'+share_position;
+		}
+
 		const colors = [
 			{ name: '', color: '#823535' },
 			{ name: '', color: '#008000' },
@@ -290,10 +306,10 @@ class EmbedPressPDFEdit extends Component {
 
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
 
-					<div className={'embedpress-document-embed ep-doc-' + id} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`} data-source-id={'source-' + clientId} >
+					<div className={'embedpress-document-embed ep-doc-' + id + ' '+ content_share_class+ ' '+share_position_class+' '+width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`} data-source-id={'source-' + clientId} >
 
 						<div className="gutenberg-wraper">
-							<div className={`position-${sharePosition}-wraper`}>
+							<div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
 								{mime === 'application/pdf' && (
 									<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} data-emsrc={href} src={pdf_viewer_src}></iframe>
 

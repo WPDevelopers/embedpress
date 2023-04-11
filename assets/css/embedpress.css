@@ -1210,24 +1210,42 @@ p.need-access-message {
 } 
 .gutenberg-pdf-wraper {
     position: relative;
+    width: 100%;
+}
+.ep-embed-content-wraper {
+    width: 100%;
+}
+.ep-content-share-enabled .ep-embed-content-wraper {
+    display: flex!important;
+}
+.ep-share-position-right .ep-embed-content-wraper{
+    flex-direction: row;
+}
+.ep-share-position-left .ep-embed-content-wraper{
+    flex-direction: row-reverse;
+}
+
+.ep-share-position-bottom .ep-embed-content-wraper{
+    flex-direction: column;
+}
+
+.ep-share-position-top .ep-embed-content-wraper {
+    flex-direction: column-reverse;
 }
 
 .ep-fixed-width .gutenberg-pdf-wraper{
     display: inline-block;
 }
 
+.ep-percentage-width .embedpress-inner-iframe{
+    width: 100%;
+}
+
 /* social share css */
-.position-left-wraper {
-    margin-left: 40px;
-}
-.position-top-wraper {
-    margin-top: 40px;
-}
+
 .social-share {
     display: flex;
-    justify-content: center;
     align-items: center;
-    position: absolute;
 }
 
 .social-share.share-position-right {
@@ -1243,19 +1261,6 @@ p.need-access-message {
 
 .embedpress-gutenberg-wrapper .social-share.share-position-left, .ep-elementor-content .social-share.share-position-left{
     left: -40px;
-}
-
-.social-share.share-position-top {
-    top: -40px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-.social-share.share-position-bottom {
-    bottom: 4px;
-    left: 50%;
-    transform: translateX(-50%);
-    position: relative;
 }
 
 .social-icon {
@@ -1310,6 +1315,9 @@ a.social-icon.pinterest svg {
 }
 
 .ep-content-locked .watermark{
+    display: none!important;
+}
+.ep-content-protection-enabled .watermark {
     display: none!important;
 }
 
