@@ -125,7 +125,7 @@ class Embedpress_Calendar extends Widget_Base
 
 	protected function register_controls()
 	{
-		$this->pro_class = is_embedpress_pro_active() ? '': 'embedpress-pro-control';
+		$this->pro_class = is_embedpress_pro_active() ? '': 'embedpress-pro-control not-active';
 		$this->pro_text = is_embedpress_pro_active() ? '': '<sup class="embedpress-pro-label" style="color:red">'.__('Pro', 'embedpress').'</sup>';
 		/**
 		 * EmbedPress Content Settings

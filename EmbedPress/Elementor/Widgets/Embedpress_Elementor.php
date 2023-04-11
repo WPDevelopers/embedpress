@@ -86,7 +86,7 @@ class Embedpress_Elementor extends Widget_Base
 
 	protected function register_controls()
 	{
-		$this->pro_class = is_embedpress_pro_active() ? '' : 'embedpress-pro-control';
+		$this->pro_class = is_embedpress_pro_active() ? '' : 'embedpress-pro-control  not-active';
 		$this->pro_text = is_embedpress_pro_active() ? '' : '<sup class="embedpress-pro-label" style="color:red">' . __('Pro', 'embedpress') . '</sup>';
 		/**
 		 * EmbedPress Content Settings
@@ -205,6 +205,9 @@ class Embedpress_Elementor extends Widget_Base
 		$this->init_opensea_control_section();
 
 
+		
+		do_action( 'extend_elementor_controls', $this, '_', $this->pro_text, $this->pro_class);
+		
 		if (!is_embedpress_pro_active()) {
 			$this->start_controls_section(
 				'embedpress_pro_section',
@@ -235,7 +238,6 @@ class Embedpress_Elementor extends Widget_Base
 		$this->init_style_controls();
 		$this->init_opensea_color_and_typography();
 
-		do_action( 'extend_elementor_controls', $this, '_', $this->pro_text, $this->pro_class);
 	}
 
 	/**
