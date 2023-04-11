@@ -13,7 +13,7 @@ class Extend_Elementor_Controls {
 		$that->start_controls_section(
             'embedpress_content_protection_settings',
             [
-                'label' => esc_html__('Content Protection', 'embedpress'),
+                'label' => esc_html__('EP Content Protection', 'embedpress'),
             ]
         );
 
@@ -159,14 +159,14 @@ class Extend_Elementor_Controls {
         $that->start_controls_section(
             'embedpress_content_share_settings',
             [
-                'label' => esc_html__('Content Share', 'embedpress'),
+                'label' => esc_html__('EP Social Share', 'embedpress'),
             ]
         );
 
         $that->add_control(
 			'embedpress'.$infix.'content_share',
 			[
-				'label'        => __('Enable Content Share', 'embedpress'),
+				'label'        => __('Enable Social Share', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',

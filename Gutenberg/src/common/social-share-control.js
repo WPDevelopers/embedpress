@@ -26,10 +26,10 @@ export default function ContentShare({ attributes, setAttributes }) {
 
 
     return (
-        <PanelBody title={__("Content Share")} initialOpen={false}>
+        <PanelBody title={__("EP Social Share")} initialOpen={false}>
             <div className={'content-share-toggle'}>
                 <ToggleControl
-                    label={__("Enable Content Share")}
+                    label={__("Enable Social Share")}
                     checked={contentShare}
                     onChange={(contentShare) => setAttributes({ contentShare })}
                 />
