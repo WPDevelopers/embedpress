@@ -1085,6 +1085,10 @@ span.ep-nft-rank {
     .ose-embedpress-responsive>iframe {
         height: auto!important;
     }
+    .ose-google-drive iframe{
+        height: 250px !important;
+        
+    }
 }
 
 .emebedpress-unit-percent iframe{
@@ -1198,6 +1202,7 @@ p.need-access-message {
 .ep-elementor-content {
     position: relative;
     display: inline-block;
+    max-width: 100%;
 }
 /* social share css */
 .wp-block-embedpress-embedpress > div, .ep-gutenberg-content {
@@ -1303,4 +1308,8 @@ a.social-icon.pinterest svg {
 
 .ep-content-locked .watermark{
     display: none!important;
+}
+
+.embedpress-pro-control.not-active {
+    pointer-events: none;
 }
