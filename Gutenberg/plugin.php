@@ -523,6 +523,13 @@ function embedpress_pdf_render_block($attributes)
 
 		$unitoption = !empty($attributes['unitoption']) ? $attributes['unitoption'] : 'px';
 		$width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : '600px';
+		
+		if($unitoption == '%'){
+			$width_class = 'ep-percentage-width';
+		}
+		else{
+			$width_class = 'ep-fixed-width';
+		}
 
 		$height = !empty($attributes['height']) ? $attributes['height'] . 'px' : '600px';
 		$gen_settings    = get_option(EMBEDPRESS_PLG_NAME);
@@ -563,7 +570,7 @@ function embedpress_pdf_render_block($attributes)
 			$url = !empty($attributes['href']) ? $attributes['href'] : '';
 		?>
 
-		<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content <?php echo  esc_attr( $alignment ); ?> ">
+		<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content <?php echo  esc_attr( $alignment ); echo esc_attr( $width_class )?> ">
 			<div class="embedpress-inner-iframe <?php if ($unitoption === '%') { echo esc_attr('emebedpress-unit-percent'); }  ?> ep-doc-<?php echo esc_attr($client_id); ?>"<?php if ($unitoption === '%' && !empty($attributes['width'])) { $style_attr = 'max-width:' . $attributes['width'] . '%'; } else { $style_attr = 'max-width:100%'; } ?> style="<?php echo esc_attr($style_attr); ?>" id="<?php echo esc_attr($id); ?>">
 				<?php 
 					do_action('embedpress_pdf_gutenberg_after_embed',  $client_id, 'pdf', $attributes, $pdf_url);

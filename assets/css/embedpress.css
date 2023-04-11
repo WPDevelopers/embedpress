@@ -1210,6 +1210,9 @@ p.need-access-message {
 } 
 .gutenberg-pdf-wraper {
     position: relative;
+}
+
+.ep-fixed-width .gutenberg-pdf-wraper{
     display: inline-block;
 }
 

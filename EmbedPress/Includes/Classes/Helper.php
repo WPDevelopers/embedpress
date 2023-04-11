@@ -418,23 +418,6 @@ class Helper {
 
 	}
 
-	public static function generate_tpen_graph_meta_tags($title, $description, $image_url, $url) {
-		$tags = "<meta property='og:title' content='$title'/>";
-		$tags .= "<meta property='og:description' content='$description'/>";
-		$tags .= "<meta property='og:image' content='$image_url'/>";
-		$tags .= "<meta property='og:url' content='$url'/>";
-		$tags .= "<meta name='twitter:card' content='summary_large_image'/>";
-		$tags .= "<meta name='twitter:title' content='$title'/>";
-		$tags .= "<meta name='twitter:description' content='$description'/>";
-		$tags .= "<meta name='twitter:image' content='$image_url'/>";
-		
-		return $tags;
-	}
-	
-	public static function add_share_meta_tags($meta_tags){
-
-		echo $meta_tags;
-	}
 
 	public static function embed_content_share($content_id='', $attributes = []){
 

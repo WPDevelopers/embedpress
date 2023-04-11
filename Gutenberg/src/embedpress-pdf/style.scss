@@ -188,9 +188,12 @@ span.isPro {
     width: 100%;
 }
 .embedpress-inner-iframe{
-    display: inline-block;
      text-align:center;
      position: relative;
+}
+
+.ep-fixed-width .embedpress-inner-iframe{
+    display: inline-block;
 }
 
 .embedpress-inner-iframe.ep-alignright {
