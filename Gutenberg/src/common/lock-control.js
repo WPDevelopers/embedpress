@@ -34,7 +34,7 @@ export default function LockControl({ attributes, setAttributes }) {
     const inputRef = useRef(null);
 
     return (
-        <PanelBody title={__('Content Protection', 'embedpress')} initialOpen={false} className={lockContent ? "" : "disabled-content-protection"} >
+        <PanelBody title={__('EP Content Protection', 'embedpress')} initialOpen={false} className={lockContent ? "" : "disabled-content-protection"} >
             <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                 <ToggleControl
                     label={__("Enable Content Protection")}
