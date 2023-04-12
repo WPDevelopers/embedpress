@@ -334,7 +334,7 @@ class Embedpress_Document extends Widget_Base
             if ( $url != '' ) {
                 if ( $this->is_pdf( $url ) ) {
                     $this->add_render_attribute( 'embedpres-pdf-render', 'data-emsrc', $url );
-                    $embed_content = '<div ' . $this->get_render_attribute_string( 'embedpres-pdf-render' ) . '>dsfsdfsd</div>';
+                    $embed_content = '<div ' . $this->get_render_attribute_string( 'embedpres-pdf-render' ) . '></div>';
 
                     if ( Plugin::$instance->editor->is_edit_mode() ) {
                         $embed_content .= $this->render_editor_script( $id, $url );
