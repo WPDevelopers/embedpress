@@ -48,10 +48,10 @@ class Extend_Elementor_Controls {
 			'embedpress'.$infix.'lock_content_error_message',
 			[
 				'label' => __('Error Message', 'embedpress'),
-				'type' => Controls_Manager::TEXT,
+				'type' => Controls_Manager::TEXTAREA,
 				'default' => 'Oops, that wasn\'t the right password. Try again.',
 				'placeholder' => __('Oops, that wasn\'t the right password. Try again.', 'embedpress'),
-				'label_block' => false,
+				'label_block' => true,
 				'condition' => [
 					'embedpress'.$infix.'lock_content' => 'yes'
 				]
@@ -118,7 +118,7 @@ class Extend_Elementor_Controls {
 				'type' => Controls_Manager::TEXTAREA,
 				'default' => 'Content is locked and requires password to access it.',
 				'placeholder' => __('Content is locked and requires password to access it.', 'embedpress'),
-				'label_block' => false,
+				'label_block' => true,
 				'condition' => [
 					'embedpress'.$infix.'lock_content' => 'yes'
 				]
@@ -136,7 +136,8 @@ class Extend_Elementor_Controls {
 				'default'      => '',
 				'condition' => [
 					'embedpress'.$infix.'lock_content' => 'yes'
-				]
+				],
+				
 			]
 		);
 		  
@@ -147,9 +148,10 @@ class Extend_Elementor_Controls {
 				'type' => Controls_Manager::TEXTAREA,
 				'default' => 'In case you don\'t have the password, kindly reach out to content owner or administrator to request access.',
 				'placeholder' => __('In case you don\'t have the password, kindly reach out to content owner or administrator to request access.', 'embedpress'),
-				'label_block' => false,
+				'label_block' => true,
 				'condition' => [
-					'embedpress'.$infix.'enable_footer_message' => 'yes'
+					'embedpress'.$infix.'enable_footer_message' => 'yes',
+					'embedpress'.$infix.'lock_content' => 'yes'
 				]
 			]
 		);
