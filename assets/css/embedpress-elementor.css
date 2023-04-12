@@ -357,3 +357,7 @@
 .embedpress-elements-wrapper .ep-elementor-content .ep-social-share-wraper {
     margin-top: -7px;
 }
+
+.position-right-wraper .ep-social-share-wraper, .position-left-wraper .ep-social-share-wraper, .position-top-wraper .ep-social-share-wraper {
+    margin-top: 0!important;
+}

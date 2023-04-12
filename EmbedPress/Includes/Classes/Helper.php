@@ -241,7 +241,7 @@ class Helper {
 		if ($wp_pass_key === $hash_key) {
 			setcookie("password_correct_", $password, time() + 3600);
 
-			$embed = openssl_decrypt($cipher, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv) . '<script>
+		$embed = openssl_decrypt($cipher, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv) . '<script>
 		var now = new Date();
 		var time = now.getTime();
 		var expireTime = time + 1000 * 60 * 60 * 24 * 30;
@@ -465,7 +465,7 @@ class Helper {
 		</a>';
 		$social_icons .= '</div></div>';
 		
-		echo  $social_icons ;
+		return  $social_icons ;
 	}
 
 

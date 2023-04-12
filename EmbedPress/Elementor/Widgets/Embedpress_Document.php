@@ -334,7 +334,11 @@ class Embedpress_Document extends Widget_Base
             if ( $url != '' ) {
                 if ( $this->is_pdf( $url ) ) {
                     $this->add_render_attribute( 'embedpres-pdf-render', 'data-emsrc', $url );
-                    $embed_content = '<div ' . $this->get_render_attribute_string( 'embedpres-pdf-render' ) . '></div>';
+                    $embed_content = '<div ' . $this->get_render_attribute_string( 'embedpres-pdf-render' ) . '>';
+                    if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
+                        $embed_content .= sprintf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
+                    }
+                    $embed_content .= '</div>';
 
                     if ( Plugin::$instance->editor->is_edit_mode() ) {
                         $embed_content .= $this->render_editor_script( $id, $url );
@@ -342,10 +346,12 @@ class Embedpress_Document extends Widget_Base
         
                 } else {
                     $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . $url . '&embedded=true';
-                    $embed_content .= '<div><iframe title="' . esc_attr( Helper::get_file_title($url) ) . '" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr( $dimension ) . '; max-width:100%;" src="' . esc_url( $view_link ) . '"></iframe></div>';
-                }
-                if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
-                    $embed_content .= sprintf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
+                    $embed_content = '<div ' . $this->get_render_attribute_string( 'embedpres-pdf-render' ) . '><iframe title="' . esc_attr( Helper::get_file_title($url) ) . '" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr( $dimension ) . '; max-width:100%;" src="' . esc_url( $view_link ) . '"></iframe>';
+
+                    if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
+                        $embed_content .= sprintf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
+                    }
+                    $embed_content .='</div>';
                 }
             }
 
@@ -356,14 +362,17 @@ class Embedpress_Document extends Widget_Base
                 <?php
 
                     $hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_doc_lock_content_password']));
-                    
+                    $content_id = $client_id;
                     if ((empty($settings['embedpress_doc_lock_content']) || $settings['embedpress_doc_lock_content'] == 'no' || empty($settings['embedpress_doc_lock_content_password'])) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_' . $client_id]))) {
-                        echo $embed_content;
+                        
                         if(!empty($settings['embedpress_doc_content_share'])){
-                            $content_id = $client_id;
-                            Helper::embed_content_share($content_id, $embed_settings);
+                            $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
                         }
+                        echo $embed_content;
                     } else {
+                        if(!empty($settings['embedpress_doc_content_share'])){
+                            $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
+                        }
                         Helper::display_password_form($client_id, $embed_content, $pass_hash_key, $embed_settings);
                     }
                 ?>

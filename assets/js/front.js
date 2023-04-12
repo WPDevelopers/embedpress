@@ -340,7 +340,7 @@
                     jQuery(that).closest('.password-form-container').find('.error-message').removeClass('hidden');
                 }
                 else {
-                    jQuery('#' + perentSel + '-' + ep_client_id).html(response.embedHtml);
+                    jQuery('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper').html(response.embedHtml);
                 }
             } else {
                 jQuery('#password-error_' + ep_client_id).html(response.form);
@@ -356,20 +356,20 @@
     });
 
 
-    
-    window.addEventListener('load', function(e) {
+
+    window.addEventListener('load', function (e) {
         const urlParams = new URLSearchParams(window.location.search);
         const hash = urlParams.get('hash');
-      
+
         // find the element with the matching id
         const element = document.getElementById(hash);
-      
+
         if (element) {
             element.scrollIntoView({ behavior: 'smooth' });
-          }
-          
+        }
+
     });
-      
+
 
 
 
@@ -441,7 +441,10 @@ jQuery(window).on("elementor/frontend/init", function () {
                         jQuery(that).closest('.password-form-container').find('.error-message').removeClass('hidden');
                     }
                     else {
-                        jQuery('#' + perentSel + '-' + ep_client_id).html(response.embedHtml);
+
+                        console.log(jQuery('#' + perentSel + '-' + ep_client_id + ' .ep-embeded-content'));
+                        console.log(response.embedHtml);
+                        jQuery('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper').html(response.embedHtml);
                     }
                 } else {
                     jQuery('#password-error_' + ep_client_id).html(response.form);

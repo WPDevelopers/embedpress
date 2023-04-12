@@ -2601,16 +2601,18 @@ class Embedpress_Elementor extends Widget_Base
 							<div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>">
 								<div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
 									<?php 
+										$content_id = $client_id;
 										$hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_lock_content_password']));
 										if((empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
-											echo $content;
 
 											if(!empty($settings['embedpress_content_share'])){
-												$content_id = $client_id;
-												
-												Helper::embed_content_share( $content_id, $embed_settings);
+												$content .=Helper::embed_content_share( $content_id, $embed_settings);
 											}
+											echo $content;
 										} else {
+											if(!empty($settings['embedpress_content_share'])){
+												$content .= Helper::embed_content_share( $content_id, $embed_settings);
+											}
 											Helper::display_password_form($client_id, $content, $pass_hash_key, $embed_settings);
 										}
 									?>

@@ -184,6 +184,11 @@ class Embedpress_Pdf extends Widget_Base
                         'max' => 1000,
                     ],
                 ],
+                'selectors' => [
+                    '{{WRAPPER}} .embedpress-document-embed iframe'               => 'width: {{SIZE}}{{UNIT}}; max-width: 100%',
+                    // '{{WRAPPER}} .embedpress-document-embed' => 'width: {{SIZE}}{{UNIT}}; max-width: 100%',
+                    // '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
+                ],
                 'render_type' => 'template',
             ]
         );
@@ -516,10 +521,12 @@ class Embedpress_Pdf extends Widget_Base
         }
         $client_id = $id;
         $id = 'embedpress-pdf-' . $id;
+        $hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_pdf_lock_content_password']));
 
         $dimension = '';
-        if(empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password'])){  
-            $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}{$settings['embedpress_elementor_document_width']['unit']}!important;height: {$settings['embedpress_elementor_document_height']['size']}px";
+
+        if(empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id]))){  
+            $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}{$settings['embedpress_elementor_document_width']['unit']}!important;height: {$settings['embedpress_elementor_document_height']['size']}px;";
         }
 
         $content_locked_class = '';
@@ -593,7 +600,7 @@ class Embedpress_Pdf extends Widget_Base
 		}
 
         ?>
-    <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
+    <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style=" max-width:100%; display: inline-block">
         
         <?php
             do_action('embedpress_pdf_after_embed',  $settings, $url, $id, $this);
@@ -635,16 +642,19 @@ class Embedpress_Pdf extends Widget_Base
                 <div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_pdf_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_pdf_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($width_class.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>">
                     <div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
                         <?php 
-                            $hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_pdf_lock_content_password']));
-
+                        
+                            $content_id = $client_id;
                             if((empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password']) || $settings['embedpress_pdf_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
-                                echo $embed_content;
-
+                                
                                 if(!empty($settings['embedpress_pdf_content_share'])){
-                                    $content_id = $client_id;
-                                    Helper::embed_content_share($content_id, $embed_settings);
+                                   $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
                                 }
+                                echo $embed_content;
+                                
                             } else {
+                                if(!empty($settings['embedpress_pdf_content_share'])){
+                                    $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
+                                }
                                 Helper::display_password_form($client_id, $embed_content, $pass_hash_key, $embed_settings);
                             }
                         ?>

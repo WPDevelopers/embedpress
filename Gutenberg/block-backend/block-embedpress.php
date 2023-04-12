@@ -114,12 +114,17 @@ function embedpress_render_block($attributes)
 						<?php 
 							$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
 							if(empty($attributes['lockContent']) || empty($attributes['contentPassword'])  || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
-								echo $embed;
+								
 								if(!empty($attributes['contentShare'])) {
 									$content_id = $attributes['clientId'];
 									$embed .= Helper::embed_content_share($content_id, $attributes);
 								}
+								echo $embed;
 							} else {
+								if(!empty($attributes['contentShare'])) {
+									$content_id = $attributes['clientId'];
+									$embed .= Helper::embed_content_share($content_id, $attributes);
+								}
 								Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
 							}
 						?>

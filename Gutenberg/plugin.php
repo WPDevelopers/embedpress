@@ -596,15 +596,25 @@ function embedpress_pdf_render_block($attributes)
 						
 						echo '<div class="ep-embed-content-wraper">';
 							echo '<div class="position-'.esc_attr( $share_position ).'-wraper gutenberg-pdf-wraper">';
-							echo $embed_code;
+							
 							if(!empty($attributes['contentShare'])) {
 								$content_id = $attributes['id'];
 								$embed_code .= Helper::embed_content_share($content_id, $attributes);
 							}
+							echo $embed_code;
 							echo '</div>';
 						echo '</div>';
 					} else {
-						Helper::display_password_form($client_id, $embed_code, $pass_hash_key, $attributes);
+						if(!empty($attributes['contentShare'])) {
+							$content_id = $attributes['clientId'];
+							$embed = '<div class="position-'.esc_attr( $share_position ).'-wraper gutenberg-pdf-wraper">';
+							$embed .= $embed_code;
+							$embed.= '</div>';	
+							$embed .= Helper::embed_content_share($content_id, $attributes);
+						}
+						echo '<div class="ep-embed-content-wraper">';
+								Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
+						echo '</div>';
 					}
 				?>
 				
