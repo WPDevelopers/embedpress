@@ -440,6 +440,7 @@ jQuery(window).on("elementor/frontend/init", function () {
                         jQuery(that).closest('.password-form-container').find('.error-message').removeClass('hidden');
                     }
                     else {
+                        $('#' + perentSel + '-' + ep_client_id).removeClass('ep-content-share-enabled');
                         jQuery('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper').html(response.embedHtml);
                     }
                 } else {

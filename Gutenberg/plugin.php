@@ -520,6 +520,9 @@ function embedpress_pdf_render_block($attributes)
 		$renderer = Helper::get_pdf_renderer();
 		$pdf_url = $attributes['href'];
 		$id = !empty($attributes['id']) ? $attributes['id'] : 'embedpress-pdf-' . rand(100, 10000);
+		$client_id = md5($id);
+		
+		$hash_pass = hash('sha256', wp_salt(32) . md5(isset($attributes['contentPassword']) ? $attributes['contentPassword'] : ''));
 
 		$unitoption = !empty($attributes['unitoption']) ? $attributes['unitoption'] : 'px';
 		$width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : '600px';
@@ -538,12 +541,11 @@ function embedpress_pdf_render_block($attributes)
 			$content_share_class = 'ep-content-share-enabled';
 			$share_position_class = 'ep-share-position-'.$share_position;
 		}
-		$content_protection_class = '';
-		if(!empty($attributes['lockContent']) && !empty($attributes['contentPassword'])) {
+		$content_protection_class = 'ep-content-protection-disabled';
+		if(!empty($attributes['lockContent']) && !empty($attributes['contentPassword']) && (!empty(Helper::is_password_correct($client_id)) && ($hash_pass !== $_COOKIE['password_correct_'.$client_id]))) {
 			$content_protection_class = 'ep-content-protection-enabled';
 		}
 		
-
 		$height = !empty($attributes['height']) ? $attributes['height'] . 'px' : '600px';
 		$gen_settings    = get_option(EMBEDPRESS_PLG_NAME);
 
@@ -554,7 +556,6 @@ function embedpress_pdf_render_block($attributes)
 
 		$src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($attributes['href']) . getParamData($attributes);
 
-		$client_id = md5($id);
 		$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']): ''; 
 
 		$aligns = [
@@ -588,7 +589,6 @@ function embedpress_pdf_render_block($attributes)
 			
 				<?php 
 					do_action('embedpress_pdf_gutenberg_after_embed',  $client_id, 'pdf', $attributes, $pdf_url);
-					$hash_pass = hash('sha256', wp_salt(32) . md5(isset($attributes['contentPassword']) ? $attributes['contentPassword'] : ''));
 
 					if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
 						

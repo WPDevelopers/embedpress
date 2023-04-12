@@ -594,8 +594,8 @@ class Embedpress_Pdf extends Widget_Base
 			$content_share_class = 'ep-content-share-enabled';
 			$share_position_class = 'ep-share-position-'.$share_position;
 		}
-		$content_protection_class = '';
-		if(!empty($settings['embedpress_pdf_lock_content']) && !empty($settings['embedpress_pdf_lock_content_password'])) {
+		$content_protection_class = 'ep-content-protection-disabled';
+		if(!empty($settings['embedpress_pdf_lock_content']) && !empty($settings['embedpress_pdf_lock_content_password']) && (!empty(Helper::is_password_correct($client_id)) && ($hash_pass !== $_COOKIE['password_correct_'.$client_id]))) {
 			$content_protection_class = 'ep-content-protection-enabled';
 		}
 

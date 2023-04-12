@@ -258,6 +258,8 @@ class Embedpress_Document extends Widget_Base
         $pass_hash_key = md5($settings['embedpress_doc_lock_content_password']);
         $url = $this->get_file_url();
         $id = 'embedpress-pdf-' . $this->get_id();
+        
+        $hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_doc_lock_content_password']));
 
         $dimension = '';
         if(empty($settings['embedpress_doc_lock_content']) && empty($settings['embedpress_doc_lock_content_password'])){  
@@ -317,8 +319,9 @@ class Embedpress_Document extends Widget_Base
 			$content_share_class = 'ep-content-share-enabled';
 			$share_position_class = 'ep-share-position-'.$share_position;
 		}
-		$content_protection_class = '';
-		if(!empty($settings['embedpress_doc_lock_content']) && !empty($settings['embedpress_doc_lock_content_password'])) {
+		$content_protection_class = 'ep-content-protection-disabled';
+
+		if(!empty($settings['embedpress_doc_lock_content']) && !empty($settings['embedpress_doc_lock_content_password']) && (empty(Helper::is_password_correct($client_id)) && ($hash_pass !== $_COOKIE['password_correct_'.$client_id]))) {
 			$content_protection_class = 'ep-content-protection-enabled';
 		}
 
@@ -372,7 +375,6 @@ class Embedpress_Document extends Widget_Base
                 <div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
                 <?php
 
-                    $hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_doc_lock_content_password']));
                     $content_id = $client_id;
                     if ((empty($settings['embedpress_doc_lock_content']) || $settings['embedpress_doc_lock_content'] == 'no' || empty($settings['embedpress_doc_lock_content_password'])) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_' . $client_id]))) {
                         
