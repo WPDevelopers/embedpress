@@ -335,6 +335,9 @@ class Embedpress_Document extends Widget_Base
                 if ( $this->is_pdf( $url ) ) {
                     $this->add_render_attribute( 'embedpres-pdf-render', 'data-emsrc', $url );
                     $embed_content = '<div ' . $this->get_render_attribute_string( 'embedpres-pdf-render' ) . '>';
+
+                    $embed_content .= '<iframe title="' . esc_attr( Helper::get_file_title($url) ) . '" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr( $dimension ) . '; max-width:100%;" src="' . esc_url( $url ) . '"></iframe>';
+
                     if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
                         $embed_content .= sprintf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
                     }
@@ -346,6 +349,14 @@ class Embedpress_Document extends Widget_Base
         
                 } else {
                     $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . $url . '&embedded=true';
+
+                    $hostname = parse_url($url, PHP_URL_HOST);
+                    $domain = implode(".", array_slice(explode(".", $hostname), -2));
+
+                    if ($domain == "google.com") {
+                        $view_link = $url.'?embedded=true';
+                    }
+
                     $embed_content = '<div ' . $this->get_render_attribute_string( 'embedpres-pdf-render' ) . '><iframe title="' . esc_attr( Helper::get_file_title($url) ) . '" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr( $dimension ) . '; max-width:100%;" src="' . esc_url( $view_link ) . '"></iframe>';
 
                     if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
