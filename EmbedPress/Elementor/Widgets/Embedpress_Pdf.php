@@ -530,8 +530,10 @@ class Embedpress_Pdf extends Widget_Base
         }
 
         $content_locked_class = '';
-        if(!empty($settings['embedpress_pdf_lock_content']) && !empty($settings['embedpress_pdf_lock_content_password'])){
+		$content_protection_class = 'ep-content-protection-disabled';
+        if(!empty($settings['embedpress_pdf_lock_content']) && !empty($settings['embedpress_pdf_lock_content_password']) && (!empty(Helper::is_password_correct($client_id)) && ($hash_pass !== $_COOKIE['password_correct_'.$client_id]))) {
             $content_locked_class = 'ep-content-locked';
+			$content_protection_class = 'ep-content-protection-enabled';
         }
 
         $pass_hash_key = md5($settings['embedpress_pdf_lock_content_password']);
@@ -594,10 +596,6 @@ class Embedpress_Pdf extends Widget_Base
 			$content_share_class = 'ep-content-share-enabled';
 			$share_position_class = 'ep-share-position-'.$share_position;
 		}
-		$content_protection_class = 'ep-content-protection-disabled';
-		if(!empty($settings['embedpress_pdf_lock_content']) && !empty($settings['embedpress_pdf_lock_content_password']) && (!empty(Helper::is_password_correct($client_id)) && ($hash_pass !== $_COOKIE['password_correct_'.$client_id]))) {
-			$content_protection_class = 'ep-content-protection-enabled';
-		}
 
         ?>
     <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style=" max-width:100%; display: inline-block">
@@ -626,14 +624,17 @@ class Embedpress_Pdf extends Widget_Base
                     
                     $embed_content = '<iframe title="'.esc_attr(Helper::get_file_title($url)).'" class="embedpress-embed-document-pdf '.esc_attr($id).'" style="'.esc_attr($dimension).'; max-width:100%; display: inline-block" src="'.esc_attr($src).'"';
                     $embed_content .= ' '.$this->get_render_attribute_string('embedpres-pdf-render').' frameborder="0"></iframe>';
-
+                    if ($settings['embedpress_pdf_powered_by'] === 'yes') {
+                        $embed_content .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+                    }
+                    
                 } else {
-                    $embed_content = '<div><iframe title="'.esc_attr(Helper::get_file_title($url)).'" class="embedpress-embed-document-pdf '.esc_attr($id).'" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="'.esc_attr($dimension).'; max-width:100%;" src="'.esc_url($url).'"';
-                    $embed_content .= ' '.$this->get_render_attribute_string('embedpres-pdf-render').'></iframe></div>';
-                }
-
-                if ($settings['embedpress_pdf_powered_by'] === 'yes') {
-                    $embed_content .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+                    $embed_content = '<iframe title="'.esc_attr(Helper::get_file_title($url)).'" class="embedpress-embed-document-pdf '.esc_attr($id).'" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="'.esc_attr($dimension).'; max-width:100%;" src="'.esc_url($url).'"';
+                    $embed_content .= ' '.$this->get_render_attribute_string('embedpres-pdf-render').'></iframe>';
+                    
+                    if ($settings['embedpress_pdf_powered_by'] === 'yes') {
+                        $embed_content .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+                    }
                 }
 
                 ?>
@@ -642,20 +643,20 @@ class Embedpress_Pdf extends Widget_Base
                 <div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_pdf_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_pdf_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($width_class.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>">
                     <div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
                         <?php 
-                        
+                            $embed = '<div>'.$embed_content.'</div>';
+
                             $content_id = $client_id;
                             if((empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password']) || $settings['embedpress_pdf_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
-                                
                                 if(!empty($settings['embedpress_pdf_content_share'])){
-                                   $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
+                                    $embed  .= Helper::embed_content_share($content_id, $embed_settings);
                                 }
-                                echo $embed_content;
+                                echo $embed ;
                                 
                             } else {
                                 if(!empty($settings['embedpress_pdf_content_share'])){
-                                    $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
+                                    $embed .= Helper::embed_content_share($content_id, $embed_settings);
                                 }
-                                Helper::display_password_form($client_id, $embed_content, $pass_hash_key, $embed_settings);
+                                Helper::display_password_form($client_id, $embed, $pass_hash_key, $embed_settings);
                             }
                         ?>
                     </div>

@@ -440,7 +440,10 @@ jQuery(window).on("elementor/frontend/init", function () {
                         jQuery(that).closest('.password-form-container').find('.error-message').removeClass('hidden');
                     }
                     else {
-                        $('#' + perentSel + '-' + ep_client_id).removeClass('ep-content-share-enabled');
+                        if ($('.ep-content-locked').has('#' + perentSel + '-' + ep_client_id).length) {
+                            $('.ep-content-locked').removeClass('ep-content-locked');
+                          }
+                          
                         jQuery('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper').html(response.embedHtml);
                     }
                 } else {
