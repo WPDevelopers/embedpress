@@ -184,11 +184,6 @@ class Embedpress_Pdf extends Widget_Base
                         'max' => 1000,
                     ],
                 ],
-                'selectors' => [
-                    '{{WRAPPER}} .embedpress-document-embed iframe'               => 'width: {{SIZE}}{{UNIT}}; max-width: 100%',
-                    '{{WRAPPER}} .embedpress-document-embed' => 'width: {{SIZE}}{{UNIT}}; max-width: 100%',
-                    '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
-                ],
                 'render_type' => 'template',
             ]
         );
@@ -523,8 +518,8 @@ class Embedpress_Pdf extends Widget_Base
         $id = 'embedpress-pdf-' . $id;
 
         $dimension = '';
-        if(empty($settings['embedpress_pdf_lock_content']) && empty($settings['embedpress_pdf_lock_content_password'])){  
-            $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
+        if(empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password'])){  
+            $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}{$settings['embedpress_elementor_document_width']['unit']}!important;height: {$settings['embedpress_elementor_document_height']['size']}px";
         }
 
         $content_locked_class = '';
@@ -578,6 +573,25 @@ class Embedpress_Pdf extends Widget_Base
 		$embed_settings['footerMessage'] = !empty($settings['embedpress_pdf_lock_content_footer_message']) ? $settings['embedpress_pdf_lock_content_footer_message'] : '';
 
         
+        if($settings['embedpress_elementor_document_width']['unit'] === '%'){
+			$width_class = ' ep-percentage-width';
+		}
+		else{
+			$width_class = 'ep-fixed-width';
+		}
+		$content_share_class = '';
+		$share_position_class = '';
+		$share_position = isset($settings['embedpress_pdf_content_share_position']) ? $settings['embedpress_pdf_content_share_position'] : 'right';
+
+		if(!empty($settings['embedpress_pdf_content_share'])) {
+			$content_share_class = 'ep-content-share-enabled';
+			$share_position_class = 'ep-share-position-'.$share_position;
+		}
+		$content_protection_class = '';
+		if(!empty($settings['embedpress_pdf_lock_content']) && !empty($settings['embedpress_pdf_lock_content_password'])) {
+			$content_protection_class = 'ep-content-protection-enabled';
+		}
+
         ?>
     <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
         
@@ -618,8 +632,8 @@ class Embedpress_Pdf extends Widget_Base
                 ?>
 
                 
-                <div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_pdf_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_pdf_content_share_position'].'-wraper' ); endif; ?>">
-                    <div id="<?php echo esc_attr( $this->get_id() ); ?>">
+                <div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_pdf_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_pdf_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($width_class.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>">
+                    <div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
                         <?php 
                             $hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_pdf_lock_content_password']));
 

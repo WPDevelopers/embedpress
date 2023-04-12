@@ -50,10 +50,6 @@
     width: 100%;
 }
 
-.elementor-widget-container .pdfobject-container ,
-.elementor-widget-container .embedpress-document-embed iframe{
-    margin: 0 auto;
-}
 
 .emebedpress-unit-percent iframe{
     width: 100%;
