@@ -435,15 +435,11 @@ jQuery(window).on("elementor/frontend/init", function () {
             jQuery.post(eplocalize.ajaxurl, data, function (response) {
                 if (response.success) {
                     if (!response.embedHtml) {
-
                         jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val(buttonText);
                         jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="password"]').val('');
                         jQuery(that).closest('.password-form-container').find('.error-message').removeClass('hidden');
                     }
                     else {
-
-                        console.log(jQuery('#' + perentSel + '-' + ep_client_id + ' .ep-embeded-content'));
-                        console.log(response.embedHtml);
                         jQuery('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper').html(response.embedHtml);
                     }
                 } else {
