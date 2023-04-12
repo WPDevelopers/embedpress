@@ -353,3 +353,7 @@
     }
     
 }
+
+.embedpress-elements-wrapper .ep-elementor-content .ep-social-share-wraper {
+    margin-top: -7px;
+}

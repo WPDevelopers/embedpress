@@ -308,6 +308,20 @@ class Embedpress_Document extends Widget_Base
         
 		$embed_settings['footerMessage'] = !empty($settings['embedpress_doc_lock_content_footer_message']) ? $settings['embedpress_doc_lock_content_footer_message'] : '';
         
+
+        $content_share_class = '';
+		$share_position_class = '';
+		$share_position = isset($settings['embedpress_doc_content_share_position']) ? $settings['embedpress_doc_content_share_position'] : 'right';
+
+		if(!empty($settings['embedpress_doc_content_share'])) {
+			$content_share_class = 'ep-content-share-enabled';
+			$share_position_class = 'ep-share-position-'.$share_position;
+		}
+		$content_protection_class = '';
+		if(!empty($settings['embedpress_doc_lock_content']) && !empty($settings['embedpress_doc_lock_content_password'])) {
+			$content_protection_class = 'ep-content-protection-enabled';
+		}
+
         ?>
         
 
@@ -337,8 +351,8 @@ class Embedpress_Document extends Widget_Base
 
 
             ?>
-            <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_doc_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_doc_content_share_position'].'-wraper' ); endif; ?>">
-                <div id="<?php echo esc_attr( $this->get_id() ); ?>">
+            <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_doc_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_doc_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>">
+                <div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
                 <?php
 
                     $hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_doc_lock_content_password']));

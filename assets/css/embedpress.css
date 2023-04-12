@@ -1325,6 +1325,6 @@ a.social-icon.pinterest svg {
     pointer-events: none;
 }
 
-.emebedpress-unit-percent , .ep-elementor-content.ep-percentage-width {
+.emebedpress-unit-percent, .ep-elementor-content.ep-percentage-width {
     width: 100%;
 } 

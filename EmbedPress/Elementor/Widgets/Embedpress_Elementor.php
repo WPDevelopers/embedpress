@@ -2573,6 +2573,20 @@ class Embedpress_Elementor extends Widget_Base
 		} else {
 			$calVal = 'auto';
 		}
+
+		$content_share_class = '';
+		$share_position_class = '';
+		$share_position = isset($settings['embedpress_content_share_position']) ? $settings['embedpress_content_share_position'] : 'right';
+
+		if(!empty($settings['embedpress_content_share'])) {
+			$content_share_class = 'ep-content-share-enabled';
+			$share_position_class = 'ep-share-position-'.$share_position;
+		}
+		$content_protection_class = '';
+		if(!empty($settings['embedpress_lock_content']) && !empty($settings['embedpress_lock_content_password'])) {
+			$content_protection_class = 'ep-content-protection-enabled';
+		}
+
 		?>
 
 		<div class="embedpress-elements-wrapper  <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; ?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
@@ -2584,8 +2598,8 @@ class Embedpress_Elementor extends Widget_Base
 			<?php
 					} else {?>
 							
-							<div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_content_share_position'].'-wraper' ); endif; ?>">
-								<div id="<?php echo esc_attr( $this->get_id() ); ?>">
+							<div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>">
+								<div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
 									<?php 
 										$hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_lock_content_password']));
 										if((empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
