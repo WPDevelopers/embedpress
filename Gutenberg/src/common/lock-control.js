@@ -134,7 +134,7 @@ export default function LockControl({ attributes, setAttributes }) {
 
                         <div className={'ep-documentation'}>
                             {EPIcon} 
-                            <a href="https://github.com/" target={'_blank'}> Need Help? </a>
+                            <a href="https://embedpress.com/docs/add-ep-content-protection-in-embedded-content/" target={'_blank'}> Need Help? </a>
                         </div>
                     </div>
                 )

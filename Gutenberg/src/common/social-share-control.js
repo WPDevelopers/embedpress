@@ -66,7 +66,7 @@ export default function ContentShare({ attributes, setAttributes }) {
 
                         <div className={'ep-documentation '}>
                             {EPIcon} 
-                            <a href="https://github.com/" target={'_blank'}> Need Help? </a>
+                            <a href="https://embedpress.com/docs/ep-social-share-option-with-embedded-content/" target={'_blank'}> Need Help? </a>
                         </div>
                     </div>
                 )
