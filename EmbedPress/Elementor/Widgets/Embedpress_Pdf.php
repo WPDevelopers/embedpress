@@ -524,14 +524,15 @@ class Embedpress_Pdf extends Widget_Base
         $hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_pdf_lock_content_password']));
 
         $dimension = '';
+        
+        $password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
 
-        if(empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id]))){  
+        if(empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct))){  
             $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}{$settings['embedpress_elementor_document_width']['unit']}!important;height: {$settings['embedpress_elementor_document_height']['size']}px;";
         }
 
         $content_locked_class = '';
 		$content_protection_class = 'ep-content-protection-disabled';
-        $password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
 
         if(!empty($settings['embedpress_pdf_lock_content']) && !empty($settings['embedpress_pdf_lock_content_password']) && (!empty(Helper::is_password_correct($client_id)) && ($hash_pass !== $password_correct))) {
             $content_locked_class = 'ep-content-locked';
@@ -648,7 +649,7 @@ class Embedpress_Pdf extends Widget_Base
                             $embed = '<div>'.$embed_content.'</div>';
 
                             $content_id = $client_id;
-                            if((empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password']) || $settings['embedpress_pdf_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
+                            if((empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password']) || $settings['embedpress_pdf_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
                                 if(!empty($settings['embedpress_pdf_content_share'])){
                                     $embed  .= Helper::embed_content_share($content_id, $embed_settings);
                                 }

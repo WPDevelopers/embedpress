@@ -914,6 +914,9 @@ span.copy-tooltip {
 .gutenberg-wraper {
     display: flex;
 }
+.position-right-wraper.gutenberg-pdf-wraper{
+    width: 100%;
+}
 .ep-share-position-right .gutenberg-wraper{
     flex-direction: row;
 }

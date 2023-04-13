@@ -541,10 +541,15 @@ function embedpress_pdf_render_block($attributes)
 			$content_share_class = 'ep-content-share-enabled';
 			$share_position_class = 'ep-share-position-'.$share_position;
 		}
-		$content_protection_class = 'ep-content-protection-disabled';
-		if(!empty($attributes['lockContent']) && !empty($attributes['contentPassword']) && (!empty(Helper::is_password_correct($client_id)) && ($hash_pass !== $_COOKIE['password_correct_'.$client_id]))) {
-			$content_protection_class = 'ep-content-protection-enabled';
+		
+		$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
+
+		$content_protection_class = 'ep-content-protection-enabled';
+		if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || $hash_pass === $password_correct) {
+			$content_protection_class = 'ep-content-protection-disabled';
 		}
+
+		
 		
 		$height = !empty($attributes['height']) ? $attributes['height'] . 'px' : '600px';
 		$gen_settings    = get_option(EMBEDPRESS_PLG_NAME);
@@ -590,7 +595,7 @@ function embedpress_pdf_render_block($attributes)
 				<?php 
 					do_action('embedpress_pdf_gutenberg_after_embed',  $client_id, 'pdf', $attributes, $pdf_url);
 					$embed = $embed_code;
-					if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
+					if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
 						
 						$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
 						

@@ -1192,6 +1192,7 @@ p.need-access-message {
 }
 .wp-block-embed__wrapper {
     display: inline-block;
+    width: 100%;
     max-width: 100%!important;
 }
 .wp-block-embed__wrapper.position-right-wraper, .wp-block-embed__wrapper.position-right-wraper {

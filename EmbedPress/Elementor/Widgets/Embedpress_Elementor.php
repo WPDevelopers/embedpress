@@ -2582,9 +2582,10 @@ class Embedpress_Elementor extends Widget_Base
 			$content_share_class = 'ep-content-share-enabled';
 			$share_position_class = 'ep-share-position-'.$share_position;
 		}
-		$content_protection_class = '';
-		if(!empty($settings['embedpress_lock_content']) && !empty($settings['embedpress_lock_content_password'])) {
-			$content_protection_class = 'ep-content-protection-enabled';
+		
+        $content_protection_class = 'ep-content-protection-enabled';
+		if(empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password'])) {
+			$content_protection_class = 'ep-content-protection-disabled';
 		}
 
 		?>
@@ -2603,7 +2604,8 @@ class Embedpress_Elementor extends Widget_Base
 									<?php 
 										$content_id = $client_id;
 										$hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_lock_content_password']));
-										if((empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
+										$password_correct =  isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
+										if((empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct )) ){
 
 											if(!empty($settings['embedpress_content_share'])){
 												$content .=Helper::embed_content_share( $content_id, $embed_settings);
@@ -2643,10 +2645,13 @@ class Embedpress_Elementor extends Widget_Base
 		if (!isset($embed->provider_name) || strtolower($embed->provider_name) !== 'spotify' || !isset($embed->embed)) {
 			return $embed;
 		}
+		$match = array();
 		preg_match('/src=\"(.+?)\"/', $embed->embed, $match);
+		if (empty($match)) {
+			return $embed;
+		}
 		$url_full = $match[1];
 		$modified_url = str_replace('playlist-v2', 'playlist', $url_full);
-		// apply elementor related mod
 		if (isset($setting['spotify_theme'])) {
 			if (strpos($modified_url, '?') !== false) {
 				$modified_url .= '&theme=' . sanitize_text_field($setting['spotify_theme']);
@@ -2654,7 +2659,6 @@ class Embedpress_Elementor extends Widget_Base
 				$modified_url .= '?theme=' . sanitize_text_field($setting['spotify_theme']);
 			}
 		}
-
 		$embed->embed = str_replace($url_full, $modified_url, $embed->embed);
 		return $embed;
 	}

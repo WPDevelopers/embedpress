@@ -113,7 +113,8 @@ function embedpress_render_block($attributes)
 					<div class="ep-embed-content-wraper">
 						<?php 
 							$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
-							if(empty($attributes['lockContent']) || empty($attributes['contentPassword'])  || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
+							$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
+							if(empty($attributes['lockContent']) || empty($attributes['contentPassword'])  || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
 								
 								if(!empty($attributes['contentShare'])) {
 									$content_id = $attributes['clientId'];

@@ -1010,6 +1010,9 @@ span.copy-tooltip {
   display: -ms-flexbox;
   display: flex; }
 
+.position-right-wraper.gutenberg-pdf-wraper {
+  width: 100%; }
+
 .ep-share-position-right .gutenberg-wraper {
   -ms-flex-direction: row;
       flex-direction: row; }
