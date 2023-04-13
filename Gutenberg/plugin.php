@@ -579,7 +579,7 @@ function embedpress_pdf_render_block($attributes)
 			if ($powered_by) {
 				$embed_code .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
 			}
-			$embed_code .= '</div>'; 
+			
 
 			$url = !empty($attributes['href']) ? $attributes['href'] : '';
 		?>
@@ -595,14 +595,15 @@ function embedpress_pdf_render_block($attributes)
 						$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
 						
 						echo '<div class="ep-embed-content-wraper">';
-							echo '<div class="position-'.esc_attr( $share_position ).'-wraper gutenberg-pdf-wraper">';
+							$embed = '<div class="position-'.esc_attr( $share_position ).'-wraper gutenberg-pdf-wraper">';
+							$embed .= $embed_code;
+							$embed.= '</div>';
 							
 							if(!empty($attributes['contentShare'])) {
 								$content_id = $attributes['id'];
-								$embed_code .= Helper::embed_content_share($content_id, $attributes);
+								$embed .= Helper::embed_content_share($content_id, $attributes);
 							}
-							echo $embed_code;
-							echo '</div>';
+							echo $embed;
 						echo '</div>';
 					} else {
 						if(!empty($attributes['contentShare'])) {
