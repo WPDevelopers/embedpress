@@ -2523,6 +2523,8 @@ class Embedpress_Elementor extends Widget_Base
 		$embed_link = $settings['embedpress_embeded_link'];
 		$pass_hash_key = md5($settings['embedpress_lock_content_password']);
 
+		
+
 		Helper::get_source_data(md5($this->get_id()).'_eb_elementor', $embed_link, 'elementor_source_data', 'elementor_temp_source_data');
 
 		if(!(($source === 'default' || !empty($source[0]) && $source[0] === 'default') && strpos($embed_link, 'opensea.io') !== false)){
@@ -2561,6 +2563,8 @@ class Embedpress_Elementor extends Widget_Base
 
 
 		$client_id = $this->get_id();
+		$hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_lock_content_password']));
+		$password_correct =  isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
 
 		$ispagination = 'flex';
 
@@ -2584,7 +2588,7 @@ class Embedpress_Elementor extends Widget_Base
 		}
 		
         $content_protection_class = 'ep-content-protection-enabled';
-		if(empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password'])) {
+		if(empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password']) || $hash_pass === $password_correct) {
 			$content_protection_class = 'ep-content-protection-disabled';
 		}
 
@@ -2603,8 +2607,7 @@ class Embedpress_Elementor extends Widget_Base
 								<div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
 									<?php 
 										$content_id = $client_id;
-										$hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_lock_content_password']));
-										$password_correct =  isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
+										
 										if((empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct )) ){
 
 											if(!empty($settings['embedpress_content_share'])){

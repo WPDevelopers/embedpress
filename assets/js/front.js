@@ -442,9 +442,11 @@ jQuery(window).on("elementor/frontend/init", function () {
                     else {
                         if ($('.ep-content-locked').has('#' + perentSel + '-' + ep_client_id).length) {
                             $('.ep-content-locked').removeClass('ep-content-locked');
-                          }
+                        }
                           
                         jQuery('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper').html(response.embedHtml);
+
+                        $('#' + perentSel + '-' + ep_client_id).removeClass('ep-content-protection-enabled');
                     }
                 } else {
                     jQuery('#password-error_' + ep_client_id).html(response.form);

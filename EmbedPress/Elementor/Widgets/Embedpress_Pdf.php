@@ -531,13 +531,12 @@ class Embedpress_Pdf extends Widget_Base
             $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}{$settings['embedpress_elementor_document_width']['unit']}!important;height: {$settings['embedpress_elementor_document_height']['size']}px;";
         }
 
-        $content_locked_class = '';
-		$content_protection_class = 'ep-content-protection-disabled';
-
-        if(!empty($settings['embedpress_pdf_lock_content']) && !empty($settings['embedpress_pdf_lock_content_password']) && (!empty(Helper::is_password_correct($client_id)) && ($hash_pass !== $password_correct))) {
-            $content_locked_class = 'ep-content-locked';
-			$content_protection_class = 'ep-content-protection-enabled';
-        }
+        $content_protection_class = 'ep-content-protection-enabled';
+        $content_locked_class = 'ep-content-locked';
+		if(empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password']) || $hash_pass === $password_correct) {
+            $content_locked_class = '';
+			$content_protection_class = 'ep-content-protection-disabled';
+		}
 
         $pass_hash_key = md5($settings['embedpress_pdf_lock_content_password']);
         $this->add_render_attribute('embedpres-pdf-render', [

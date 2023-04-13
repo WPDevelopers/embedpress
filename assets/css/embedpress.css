@@ -1133,7 +1133,7 @@ form.password-form {
     outline: 0;
     padding-left: 50px;
     font-family: sans-serif;
-    height: 44px;
+    height: 42px;
 }
 
 .password-form-container input[type="password"]::placeholder{
@@ -1151,7 +1151,7 @@ form.password-form {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 44px;
+    height: 42px;
     width: 40px;
     background: #DED7FC;
     border-radius: 4px;
@@ -1172,6 +1172,7 @@ form.password-form {
     font-weight: initial;
     white-space: normal;
     word-break: break-all;
+    min-height: 42px;
 }
 .password-form-container button:hover {
     background-color: #0062cc;
@@ -1201,7 +1202,7 @@ p.need-access-message {
 
 .ep-elementor-content {
     position: relative;
-    display: inline-block;
+    /* display: inline-block; */
     max-width: 100%;
 }
 /* social share css */
