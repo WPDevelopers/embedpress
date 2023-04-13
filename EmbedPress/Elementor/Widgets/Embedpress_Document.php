@@ -320,8 +320,10 @@ class Embedpress_Document extends Widget_Base
 			$share_position_class = 'ep-share-position-'.$share_position;
 		}
 		$content_protection_class = 'ep-content-protection-disabled';
+        
+        $password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
 
-		if(!empty($settings['embedpress_doc_lock_content']) && !empty($settings['embedpress_doc_lock_content_password']) && (empty(Helper::is_password_correct($client_id)) && ($hash_pass !== $_COOKIE['password_correct_'.$client_id]))) {
+		if(!empty($settings['embedpress_doc_lock_content']) && !empty($settings['embedpress_doc_lock_content_password']) && (empty(Helper::is_password_correct($client_id)) && ($hash_pass !==  $password_correct))) {
 			$content_protection_class = 'ep-content-protection-enabled';
 		}
 

@@ -531,7 +531,9 @@ class Embedpress_Pdf extends Widget_Base
 
         $content_locked_class = '';
 		$content_protection_class = 'ep-content-protection-disabled';
-        if(!empty($settings['embedpress_pdf_lock_content']) && !empty($settings['embedpress_pdf_lock_content_password']) && (!empty(Helper::is_password_correct($client_id)) && ($hash_pass !== $_COOKIE['password_correct_'.$client_id]))) {
+        $password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
+
+        if(!empty($settings['embedpress_pdf_lock_content']) && !empty($settings['embedpress_pdf_lock_content_password']) && (!empty(Helper::is_password_correct($client_id)) && ($hash_pass !== $password_correct))) {
             $content_locked_class = 'ep-content-locked';
 			$content_protection_class = 'ep-content-protection-enabled';
         }
