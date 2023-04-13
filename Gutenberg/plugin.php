@@ -589,7 +589,7 @@ function embedpress_pdf_render_block($attributes)
 			
 				<?php 
 					do_action('embedpress_pdf_gutenberg_after_embed',  $client_id, 'pdf', $attributes, $pdf_url);
-
+					$embed = $embed_code;
 					if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_'.$client_id])) ){
 						
 						$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
