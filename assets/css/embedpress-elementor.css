@@ -37,10 +37,11 @@
     background-color: #000;
 }
 .embedpress-elements-wrapper, .embedpress-elements-wrapper .embedpress-wrapper{
-    /* display: inline-block; */
     max-width: 100%;
 }
-
+.embedpress-wrapper.ose-wistia {
+    display: inline-block;
+}
 .embedpress-elements-wrapper .embedpress-wrapper iframe {
     height: 100%;
     width: 100%;
