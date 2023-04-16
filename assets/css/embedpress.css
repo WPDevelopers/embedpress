@@ -1202,8 +1202,11 @@ p.need-access-message {
 
 .ep-elementor-content {
     position: relative;
-    /* display: inline-block; */
+    display: inline-block;
     max-width: 100%;
+}
+.ep-elementor-content.source-opensea {
+    display: block;
 }
 /* social share css */
 .wp-block-embedpress-embedpress > div, .ep-gutenberg-content {

@@ -2519,9 +2519,9 @@ class Embedpress_Elementor extends Widget_Base
 
 		// conditionaly convert settings data
 		$_settings = [];
-		$source = $settings['embedpress_pro_embeded_source'];
-		$embed_link = $settings['embedpress_embeded_link'];
-		$pass_hash_key = md5($settings['embedpress_lock_content_password']);
+		$source = isset($settings['embedpress_pro_embeded_source']) ? $settings['embedpress_pro_embeded_source'] : 'default';
+		$embed_link = isset($settings['embedpress_embeded_link']) ? $settings['embedpress_embeded_link'] : '';
+		$pass_hash_key = isset($settings['embedpress_lock_content_password']) ? md5($settings['embedpress_lock_content_password']) : '';
 
 		
 
@@ -2603,7 +2603,7 @@ class Embedpress_Elementor extends Widget_Base
 			<?php
 					} else {?>
 							
-							<div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>">
+							<div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($content_share_class.' '.$share_position_class.' '.$content_protection_class); echo esc_attr( ' source-'.$source ); ?>">
 								<div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
 									<?php 
 										$content_id = $client_id;
