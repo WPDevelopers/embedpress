@@ -1002,6 +1002,9 @@ span.copy-tooltip {
   -ms-flex-align: self-start;
       align-items: self-start; }
 
+.gutenberg-block-wraper.source-opensea {
+  display: block; }
+
 .wp-block-embedpress-embedpress > div {
   position: relative; }
 

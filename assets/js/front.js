@@ -341,6 +341,15 @@
                 }
                 else {
                     jQuery('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper').html(response.embedHtml);
+
+                    if(jQuery('#' + perentSel + '-' + ep_client_id + ' .ose-youtube').length > 0){   
+                        youtubeChannelGallery();
+                    }
+
+                    if ($('.embedpress-gutenberg-wrapper .ep-nft-gallery-wrapper').length > 0) {
+                        epLoadMore();
+                    }
+
                 }
             } else {
                 jQuery('#password-error_' + ep_client_id).html(response.form);
@@ -447,6 +456,13 @@ jQuery(window).on("elementor/frontend/init", function () {
                         jQuery('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper').html(response.embedHtml);
 
                         $('#' + perentSel + '-' + ep_client_id).removeClass('ep-content-protection-enabled');
+
+                        if(jQuery('#' + perentSel + '-' + ep_client_id + ' .ose-youtube').length > 0){   
+                            youtubeChannelGallery();
+                        }
+                        if ($('.elementor-widget-container .ep-nft-gallery-wrapper').length > 0) {
+                            epElLoadMore();
+                        }
                     }
                 } else {
                     jQuery('#password-error_' + ep_client_id).html(response.form);

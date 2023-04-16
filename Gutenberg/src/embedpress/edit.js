@@ -120,6 +120,12 @@ export default function EmbedPress(props) {
 	const wistiaVideoParams = useWistiaVideo(attributes);
 	const vimeoVideoParams = useVimeoVideo(attributes);
 
+	let source = '';
+
+	if(isOpensea || isOpenseaSingle) {
+		source = ' source-opensea';
+	}
+
 
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
@@ -274,7 +280,7 @@ export default function EmbedPress(props) {
 			}
 
 			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
-				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class}>
+				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
 					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
 						__html: embedHTML + customLogoTemp + epMessage + shareHtml,
 					}}>
