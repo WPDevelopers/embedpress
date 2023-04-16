@@ -170,6 +170,7 @@ function embedpress_render_block_style($attributes)
 		' . esc_attr($uniqid) . '>iframe {
 			height: ' . esc_attr($attributes['height']) . 'px !important;
 			max-height: ' . esc_attr($attributes['height']) . 'px !important;
+			width: 100%;
 		}
 
 		' . esc_attr($uniqid) . ' .wistia_embed {
