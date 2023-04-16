@@ -770,6 +770,13 @@ span.eb_nft_currency svg {
     max-width: calc(100% - 40px) !important;
 }
 
+.embedpress-gutenberg-wrapper.alignright, .embedpress-gutenberg-wrapper.alignleft {
+    width: 100%;
+}
+.embedpress-gutenberg-wrapper.alignright .ep-embed-content-wraper>div {
+    float: right;
+}
+
 /* mimmikcssEnd */
 
 @media all and (max-width: 1024px) {
@@ -1073,8 +1080,6 @@ span.ep-nft-rank {
     .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-list .ep_nft_item .ep_nft_content {
         width: 100%;
     }
-
-    
 }
 
 @media screen and (max-width: 537px) {
