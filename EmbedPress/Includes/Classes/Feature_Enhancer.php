@@ -1472,7 +1472,9 @@ class Feature_Enhancer
 				
 				$ep_settings = Helper::ep_get_elementor_widget_settings($page_settings, $id_value, 'embedpres_elementor');
 				$pdf_settings = Helper::ep_get_elementor_widget_settings($page_settings, $id_value, 'embedpress_pdf');
-				$doc_settings = Helper::ep_get_elementor_widget_settings($page_settings, $id_value, 'embedpress_document');
+				$doc_settings = Helper::ep_get_elementor_widget_settings($page_settings, $id_value, 'embedpres_document');
+
+
 			
 				if (is_array($ep_settings) && !empty($ep_settings)) {
 					$title = !empty($ep_settings['settings']['embedpress_content_title']) ? $ep_settings['settings']['embedpress_content_title'] : '';
