@@ -1,4 +1,4 @@
-=== EmbedPress – Embed Google Docs, YouTube, Maps, Vimeo, Wistia Videos & Upload PDF, PPT in Gutenberg & Elementor ===
+=== EmbedPress - Embed PDF, YouTube, Google Docs, Vimeo, Wistia Videos, Audios, Maps & Any Documents in Gutenberg & Elementor ===
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, seakashdiu, alimuzzamanalim
 Author: WPDeveloper
 Author URI: https://wpdeveloper.com
@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 6.2
 Requires PHP: 5.6
-Stable tag: 3.6.8
+Stable tag: 3.7.0
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -14,7 +14,7 @@ EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC
 
 == Description ==
 
-= EMBEDPRESS – EMBED ANYTHING FROM 150+ SOURCES -  YOUTUBE, GOOGLE DOCS, DRIVE, MAPS, VIMEO, WISTIA, SPOTIFY, BOOMPLAY, PDF, PPT ETC & DISPLAY IT USING ELEMENTOR, BLOCK EDITOR, CLASSIC EDITOR & MORE =
+= EMBEDPRESS – EMBED ANYTHING FROM 150+ SOURCES -  EMBED YOUTUBE, GOOGLE DOCS, DRIVE, MAPS, VIMEO, WISTIA, SPOTIFY, BOOMPLAY, PDF, PPT ETC & DISPLAY IT USING ELEMENTOR, BLOCK EDITOR, CLASSIC EDITOR & MORE =
 
 [EmbedPress](https://embedpress.com/) lets you embed any engaging and interactive multimedia content such as videos, images, posts, audio, maps, documents, PDF, and much more into your WordPress site with one click and showcase it beautifully for your website visitors.
 
@@ -381,6 +381,12 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.7.0] - 2023-04-17 =
+* Added: Social Share for all Embedded contents.
+* Added: Images/Videos embedding from google drive. 
+* Fixed: Google spreadsheet embedding wasn't working in Elementor.
+* Few minor bug fix and improvements.
 
 = [3.6.8] - 2023-03-29 =
 * Added: Custom Google map embedding support.
