@@ -148,6 +148,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     }
 
 	public function getStaticResponse() {
+    
         $results = [
             "title"         => "",
             "type"          => "video",
@@ -155,7 +156,22 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             "provider_url"  => "https://www.youtube.com/",
             'html'          => '',
         ];
-        if($this->isChannel()){
+
+        if (preg_match("/^https?:\/\/(?:www\.)?youtube\.com\/channel\/([\w-]+)\/live$/", $this->url, $matches)) {
+            $channelId = $matches[1];
+            $embedUrl = 'https://www.youtube.com/embed/live_stream?channel='.$channelId.'&autoplay=1&feature=oembed';
+
+            $attr = [];
+            $attr[] = 'width="{width}"';
+            $attr[] = 'height="{height}"';
+            $attr[] = 'src="' . $embedUrl . '"';
+            $attr[] = 'frameborder="0"';
+            $attr[] = 'allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"';
+            $attr[] = 'allowfullscreen';
+
+            $results['html'] = '<iframe ' . implode(' ', $attr) . '></iframe>';
+        }
+        else if($this->isChannel()){
             $channel = $this->getChannelGallery();
             $results = array_merge($results, $channel);
         }
