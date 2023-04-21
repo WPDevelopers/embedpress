@@ -168,11 +168,10 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $attr[] = 'height="'.$params['maxheight'].'";';
             $attr[] = 'src="' . $embedUrl . '"';
             $attr[] = 'frameborder="0"';
+            $attr[] = 'allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"';
             $attr[] = 'allowfullscreen';
 
-            // print_r(implode(' ', $attr));
-
-            $results['html'] = '<iframe allowfullscreen="true" width="600" height="400" ;="" src="https://www.youtube.com/embed/live_stream?channel=UC7Giu4AoXpj4Glpcp83eU5w&autoplay=1&feature=oembe" frameborder="0" style="max-width: 100%; max-height: 400px;"></iframe>';
+            $results['html'] = '<iframe ' . implode(' ', $attr) . '></iframe>';
         }
         else if($this->isChannel()){
             $channel = $this->getChannelGallery();
