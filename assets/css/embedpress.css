@@ -1338,3 +1338,24 @@ a.social-icon.pinterest svg {
 .emebedpress-unit-percent, .ep-elementor-content.ep-percentage-width {
     width: 100%;
 } 
+
+.ep-file-download-option-disabled {
+    position: relative;
+}
+.embed-download-disabled {
+    width: 200px;
+    height: 22px;
+    background: #444444;
+    position: absolute;
+    right: 2px;
+    bottom: 8px;
+    opacity: 0;
+}
+
+.cui-toolbar-button-right {
+    display: none!important;
+}
+
+.ndfHFb-c4YZDc-Wrql6b {
+    display: none;
+}

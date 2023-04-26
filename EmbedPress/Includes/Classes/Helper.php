@@ -491,9 +491,9 @@ class Helper {
 		if ($element) {
 			return $element;;
 		} 
-	}
+	}	
 
-
+	
 }
 
 ?>

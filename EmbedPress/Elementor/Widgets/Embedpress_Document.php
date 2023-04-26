@@ -211,6 +211,18 @@ class Embedpress_Document extends Widget_Base
             ]
         );
 
+        $this->add_control(
+            'embedpress_document_download_disabled',
+            [
+                'label'        => __( 'Download Disabled', 'embedpress' ),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __( 'Show', 'embedpress' ),
+                'label_off'    => __( 'Hide', 'embedpress' ),
+                'return_value' => 'yes',
+                'default'      => '',
+            ]
+        );
+
 	    $this->init_branding_controls( 'document');
 
 	    $this->end_controls_section();
@@ -353,7 +365,15 @@ class Embedpress_Document extends Widget_Base
                     }
         
                 } else {
-                    $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . $url . '&embedded=true';
+
+                    
+
+                    if(Helper::get_extension_from_file_url($url) === 'pptx'){ 
+                        $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';
+                    }
+                    else{
+                        $view_link = 'https://drive.google.com/viewerng/viewer?url=' . urlencode($url) . '&embedded=true&chrome=false';
+                    }
 
                     $hostname = parse_url($url, PHP_URL_HOST);
                     $domain = implode(".", array_slice(explode(".", $hostname), -2));
@@ -362,7 +382,28 @@ class Embedpress_Document extends Widget_Base
                         $view_link = $url.'?embedded=true';
                     }
 
-                    $embed_content = '<div ' . $this->get_render_attribute_string( 'embedpres-pdf-render' ) . '><iframe title="' . esc_attr( Helper::get_file_title($url) ) . '" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr( $dimension ) . '; max-width:100%;" src="' . esc_url( $view_link ) . '"></iframe>';
+
+                    $embed_content = '<div ' . $this->get_render_attribute_string( 'embedpres-pdf-render' ) . '>';
+                    
+                    if ( $settings[ 'embedpress_document_download_disabled' ] === 'yes' && Helper::get_extension_from_file_url($url) === 'pptx') {
+                        $embed_content.='<div class="ep-file-download-option-disabled">';
+                    }
+
+                    $sandbox = '';
+                    if ( $settings[ 'embedpress_document_download_disabled' ] === 'yes') {
+                        $sandbox = 'sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-presentation allow-same-origin allow-scripts allow-top-navigation allow-top-navigation-by-user-activation"';
+                    }
+                    $embed_content.='<iframe title="' . esc_attr( Helper::get_file_title($url) ) . '" allowfullscreen="true"  mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr( $dimension ) . '; max-width:100%;" src="' . esc_url( $view_link ) . '" '.$sandbox.'>
+                    </iframe>';
+
+                    if ( $settings[ 'embedpress_document_download_disabled' ] === 'yes' && Helper::get_extension_from_file_url($url) === 'pptx') {
+                        $embed_content.='<div class="embed-download-disabled"></div></div>';
+                    }
+                    
+                    if ( $settings[ 'embedpress_document_download_disabled' ] === 'yes' && Helper::get_extension_from_file_url($url) !== 'pptx') {
+                        $embed_content.='<div style="width: 40px; height: 40px; position: absolute; opacity: 0; right: 12px; top: 12px;">&nbsp;</div>';
+                    }
+
 
                     if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
                         $embed_content .= sprintf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
