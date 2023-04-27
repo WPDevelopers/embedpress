@@ -159,7 +159,10 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
         $params          = $this->getParams();
 
+        // print_r($params );
+
         if (preg_match("/^https?:\/\/(?:www\.)?youtube\.com\/channel\/([\w-]+)\/live$/", $this->url, $matches)) {
+
             $channelId = $matches[1];
             $embedUrl = 'https://www.youtube.com/embed/live_stream?channel='.$channelId.'&feature=oembed';
 

@@ -23,7 +23,7 @@ const { select, subscribe } = wp.data;
 const { __ } = wp.i18n;
 import { embedPressIcon } from '../common/icons';
 import { isOpensea as _isOpensea, isOpenseaSingle as _isOpenseaSingle, useOpensea } from './InspectorControl/opensea';
-import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, useYTVideo } from './InspectorControl/youtube';
+import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, isYTLive as _isYTLive, useYTVideo } from './InspectorControl/youtube';
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import ContentShare from '../common/social-share-control';
@@ -108,6 +108,7 @@ export default function EmbedPress(props) {
 
 	const isYTChannel = _isYTChannel(url);
 	const isYTVideo = _isYTVideo(url);
+	const isYTLive = _isYTLive(url);
 	const isWistiaVideo = _isWistiaVideo(url);
 	const isVimeoVideo = _isVimeoVideo(url);
 
@@ -256,6 +257,7 @@ export default function EmbedPress(props) {
 				setAttributes={setAttributes}
 				isYTChannel={isYTChannel}
 				isYTVideo={isYTVideo}
+				isYTLive={isYTLive}
 				isOpensea={isOpensea}
 				isOpenseaSingle={isOpenseaSingle}
 				isWistiaVideo={isWistiaVideo}
@@ -276,12 +278,12 @@ export default function EmbedPress(props) {
 			</div>}
 
 			{
-				((!isOpensea || (!!editingURL || editingURL === 0)) && (!isOpenseaSingle || (!!editingURL || editingURL === 0)) && (!isYTVideo || (!!editingURL || editingURL === 0)) && (!isYTChannel || (!!editingURL || editingURL === 0)) && (!isWistiaVideo || (!!editingURL || editingURL === 0))) && fetching && (<div className={className}><EmbedLoading /> </div>)
+				((!isOpensea || (!!editingURL || editingURL === 0)) && (!isOpenseaSingle || (!!editingURL || editingURL === 0)) && (!isYTVideo || !isYTLive || (!!editingURL || editingURL === 0)) && (!isYTChannel || (!!editingURL || editingURL === 0)) && (!isWistiaVideo || (!!editingURL || editingURL === 0))) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTLive || isWistiaVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
 				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
-					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
+					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
 						__html: embedHTML + customLogoTemp + epMessage + shareHtml,
 					}}>
 					</EmbedWrap>

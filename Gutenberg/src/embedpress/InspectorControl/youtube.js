@@ -40,7 +40,7 @@ export const getYoutubeParams = (params, attributes) => {
     let ytvAtts = {};
     let ytcAtts = {};
 
-    if (isYTVideo(attributes.url)) {
+    if (isYTVideo(attributes.url) || isYTLive(attributes.url)) {
         ytvAtts = {
             videosize: 'fixed',
             starttime: '',
@@ -56,7 +56,7 @@ export const getYoutubeParams = (params, attributes) => {
         }
     }
 
-    if (isYTChannel(attributes.url)) {
+    if (isYTChannel(attributes.url) && !isYTLive(attributes.url)) {
         ytcAtts = {
             pagesize: 6,
         }
@@ -72,7 +72,17 @@ export const getYoutubeParams = (params, attributes) => {
 }
 
 export const isYTChannel = (url) => {
-    return url.match(/\/channel\/|\/c\/|\/user\/|\/@[a-z]|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
+    const channelMatch = url.match(/\/channel\/|\/c\/|\/user\/|\/@[a-z]|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
+    if (!channelMatch) 
+        return false;
+    return true;
+}
+
+export const isYTLive = (url) => {
+    const liveMatch = url.match(/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|@[\w-]+)\/live$/);
+    if (!liveMatch) 
+        return false;
+    return true;
 }
 
 export const isYTVideo = (url) => {
@@ -83,8 +93,6 @@ export const isYTVideo = (url) => {
     const videoId = youtubeMatch[7];
     return videoId.length === 11;
 };
-
-
 
 
 /**
@@ -143,9 +151,10 @@ export const useYTVideo = (attributes) => {
 
 
 
-export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVideo }) {
+export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive }) {
 
     const {
+        url,
         ispagination,
         pagesize,
         columns,
@@ -187,7 +196,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         <div>
 
             {
-                isYTChannel && (
+                (isYTChannel && !isYTLive ) && (
                     <div className={'ep__channel-yt-video-options'}>
                         <TextControl
                             label={__("Video Per Page")}
@@ -232,8 +241,10 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                 )
             }
 
+
             {
-                isYTVideo && (
+
+                (isYTVideo || isYTLive) && (
                     <div className={'ep__single-yt-video-options'}>
                         <PanelBody title={__("YouTube Video Controls", 'embedpress')} initialOpen={false}>
                             <div className={'ep-video-controlers'}>

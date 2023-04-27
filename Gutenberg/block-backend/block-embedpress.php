@@ -67,6 +67,7 @@ if(!function_exists('lock_content_form_handler')){
 
 function embedpress_render_block($attributes)
 {	
+
 	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 	$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']): ''; 
 
@@ -213,7 +214,7 @@ function embedpress_render_block_style($attributes)
 			left: 0;
 			width: 100%;
 			height: 100%;
-			max-height:100%!important;
+			max-height:100%;
 		  }
 
 		  .ep-video-responsive{
