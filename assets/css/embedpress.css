@@ -1338,3 +1338,17 @@ a.social-icon.pinterest svg {
 .emebedpress-unit-percent, .ep-elementor-content.ep-percentage-width {
     width: 100%;
 } 
+
+.embedpress-yt-live-chat-wrap{
+    margin-right: 0!important;
+    margin-left: 0!important;;
+}
+.embedpress-gutenberg-wrapper.aligncenter .embedpress-yt-live-chat-wrap {
+    margin: 0 auto!important;;
+}
+.embedpress-gutenberg-wrapper.alignright .embedpress-yt-live-chat-wrap {
+    margin-left: auto!important;;
+}
+.embedpress-gutenberg-wrapper.alignleft .embedpress-yt-live-chat-wrap {
+    margin-right: auto!important;;
+}

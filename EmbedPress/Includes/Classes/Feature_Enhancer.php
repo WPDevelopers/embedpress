@@ -109,6 +109,12 @@ class Feature_Enhancer
     {
         return (bool) (preg_match('~v=(?:[a-z0-9_\-]+)~i', (string) $url));
     }
+
+	//Check is YouTube live video
+	public function ytValidateLiveUrl($url)
+    {
+        return (bool) (preg_match('/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|@[\w-]+)\/live$/', (string) $url));
+    }
 	
 	
 	//Check is Wistia validate url
@@ -190,7 +196,7 @@ class Feature_Enhancer
 			$youtube = new Youtube($attributes['url']);
 			
 			$is_youtube = $youtube->validateUrl($youtube->getUrl(false));
-			if ($is_youtube) {
+			if ($is_youtube && empty($this->ytValidateLiveUrl($attributes['url']))) {
 				$atts = [
 					'width'    => intval($attributes['width']),
 					'height'   => intval($attributes['height']),
@@ -207,7 +213,7 @@ class Feature_Enhancer
 				}
 			}
 			
-			if(!empty($attributes['url']) && $this->ytValidateUrl($attributes['url'])){
+			if(!empty($attributes['url']) && ($this->ytValidateUrl($attributes['url']) || $this->ytValidateLiveUrl($attributes['url']))){
 				
 				$atts = [
 					'url'	=> $attributes['url'],
