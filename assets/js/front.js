@@ -31,7 +31,9 @@ let epGlobals = {};
                 PDFObject.embed(src, "." + id, option);
             }));
         }
-        epGlobals.youtubeChannelGallery();
+        if (typeof epGlobals.youtubeChannelGallery === 'function') {
+            epGlobals.youtubeChannelGallery();
+        }
     });
 
     /**
@@ -346,7 +348,7 @@ let epGlobals = {};
                 else {
                     jQuery('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper').html(response.embedHtml);
 
-                    if(jQuery('#' + perentSel + '-' + ep_client_id + ' .ose-youtube').length > 0){   
+                    if (jQuery('#' + perentSel + '-' + ep_client_id + ' .ose-youtube').length > 0) {
                         epGlobals.youtubeChannelGallery();
                     }
 
@@ -455,12 +457,12 @@ jQuery(window).on("elementor/frontend/init", function () {
                         if ($('.ep-content-locked').has('#' + perentSel + '-' + ep_client_id).length) {
                             $('.ep-content-locked').removeClass('ep-content-locked');
                         }
-                          
+
                         jQuery('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper').html(response.embedHtml);
 
                         $('#' + perentSel + '-' + ep_client_id).removeClass('ep-content-protection-enabled');
 
-                        if(jQuery('#' + perentSel + '-' + ep_client_id + ' .ose-youtube').length > 0){   
+                        if (jQuery('#' + perentSel + '-' + ep_client_id + ' .ose-youtube').length > 0) {
                             epGlobals.youtubeChannelGallery();
                         }
 
