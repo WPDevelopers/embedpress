@@ -10,8 +10,8 @@ export default function ContentShare({ attributes }) {
 
 
     return (
-        <div className={`social-share share-position-${sharePosition}`}>
-            <a href="#" className="social-icon facebook" target="_blank">
+        <div className={`ep-social-share share-position-${sharePosition}`}>
+            <a href="#" className="ep-social-icon facebook" target="_blank">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="64"
@@ -27,7 +27,7 @@ export default function ContentShare({ attributes }) {
                     </g>
                 </svg>
             </a>
-            <a href="#" className="social-icon twitter" target="_blank">
+            <a href="#" className="ep-social-icon twitter" target="_blank">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 248 204">
                     <path
                         fill="#fff"
@@ -35,7 +35,7 @@ export default function ContentShare({ attributes }) {
                     ></path>
                 </svg>
             </a>
-            <a href="#" className="social-icon pinterest" target="_blank">
+            <a href="#" className="ep-social-icon pinterest" target="_blank">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="1200"
@@ -48,7 +48,7 @@ export default function ContentShare({ attributes }) {
                     ></path>
                 </svg>
             </a>
-            <a href="#" className="social-icon linkedin" target="_blank">
+            <a href="#" className="ep-social-icon linkedin" target="_blank">
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="800"
