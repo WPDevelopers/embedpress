@@ -67,6 +67,7 @@ if(!function_exists('lock_content_form_handler')){
 
 function embedpress_render_block($attributes)
 {	
+
 	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 	$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']): ''; 
 
@@ -193,12 +194,16 @@ function embedpress_render_block_style($attributes)
 	</style>';
 
 	if($attributes['videosize'] == 'responsive') {
+
+		$width = isset($attributes['width']) ? $attributes['width'] : 600;
+		$height = $width * (9/16);
+
+
 		$youtubeStyles = '<style>
 		' . esc_attr($uniqid) . ' {
 			position: relative;
 			width: ' . esc_attr($attributes['width']) . 'px !important;
-			height: 0;
-			padding-top: 56.25%;
+			height: ' . esc_attr($height) . 'px !important;
 			max-width: 100%;
 		  }
 
@@ -208,12 +213,9 @@ function embedpress_render_block_style($attributes)
 		  }
 		
 		  ' . esc_attr($uniqid) . ' > iframe {
-			position: absolute;
-			top: 0;
-			left: 0;
 			width: 100%;
 			height: 100%;
-			max-height:100%!important;
+			max-height:100%;
 		  }
 
 		  .ep-video-responsive{

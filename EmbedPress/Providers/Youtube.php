@@ -155,7 +155,24 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             "provider_url"  => "https://www.youtube.com/",
             'html'          => '',
         ];
-        if($this->isChannel()){
+
+        $params          = $this->getParams();
+
+        if (preg_match("/^https?:\/\/(?:www\.)?youtube\.com\/channel\/([\w-]+)\/live$/", $this->url, $matches)) {
+            $channelId = $matches[1];
+            $embedUrl = 'https://www.youtube.com/embed/live_stream?channel='.$channelId.'&feature=oembed';
+
+            $attr = [];
+            $attr[] = 'width="'.$params['maxheight'].'"';
+            $attr[] = 'height="'.$params['maxheight'].'";';
+            $attr[] = 'src="' . $embedUrl . '"';
+            $attr[] = 'frameborder="0"';
+            $attr[] = 'allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"';
+            $attr[] = 'allowfullscreen';
+
+            $results['html'] = '<iframe ' . implode(' ', $attr) . '></iframe>';
+        }
+        else if($this->isChannel()){
             $channel = $this->getChannelGallery();
             $results = array_merge($results, $channel);
         }
@@ -228,6 +245,26 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                 $url = "https://www.youtube.com/channel/{$matches[1]}";
                 $this->url = $this->normalizeUrl(new Url($url));
             }
+        }
+    }
+
+    public static function get_channel_id_from_youtube_url($url) {
+        $matches = array();
+        $pattern = '/(channel\/|user\/|@)([\w-]+)/i';
+        preg_match($pattern, $url, $matches);
+    
+        if (count($matches) > 0) {
+            $handle = $matches[2];
+            $api_key = self::get_api_key();
+            $url = "https://www.googleapis.com/youtube/v3/channels?part=id&forUsername=$handle&key=$api_key";
+            $data = file_get_contents($url);
+            $json = json_decode($data);
+    
+            if(!empty($json->items[0]->id)){
+                return $json->items[0]->id;
+            }
+        } else {
+            return null;
         }
     }
 
