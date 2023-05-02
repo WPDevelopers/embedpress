@@ -777,6 +777,16 @@ span.eb_nft_currency svg {
     float: right;
 }
 
+.embedpress-gutenberg-wrapper.aligncenter.ep-content-share-enabled .ep-embed-content-wraper{
+    justify-content: center;
+}
+.embedpress-gutenberg-wrapper.alignright.ep-content-share-enabled .ep-embed-content-wraper{
+    justify-content: right;
+}
+.embedpress-gutenberg-wrapper.alignleft.ep-content-share-enabled .ep-embed-content-wraper{
+    justify-content: left;
+}
+
 /* mimmikcssEnd */
 
 @media all and (max-width: 1024px) {
@@ -1217,6 +1227,7 @@ p.need-access-message {
 /* social share css */
 .wp-block-embedpress-embedpress > div, .ep-gutenberg-content {
     position: relative;
+    clear: both;
 } 
 .gutenberg-pdf-wraper {
     position: relative;

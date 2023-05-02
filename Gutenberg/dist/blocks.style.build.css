@@ -1338,12 +1338,6 @@ span.isPro {
   text-align: right; }
 
 .ep-aligncenter {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: column;
-      flex-direction: column;
-  -ms-flex-align: center;
-      align-items: center;
   text-align: center; }
 
 .embedpress-document-embed.embedpress-pdf {
