@@ -51,6 +51,10 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         return (bool) (preg_match('~\/channel\/|\/c\/|\/user\/|\/@\w+|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$~i', (string) $url));
     }
 
+    public function validateTYLiveUrl($url) {
+        return (bool) (preg_match('~(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/(?:channel|c|user)\/\w+\/live|@\w+\/live)~i', (string) $url));
+    }
+
     /** inline {@inheritdoc} */
     public function normalizeUrl(Url $url) {
         return $url;
@@ -292,6 +296,13 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             if (!empty($gallery->first_vid)) {
                 $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
                 $main_iframe = "<div class='ep-first-video'><iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe></div>";
+            }
+            if($gallery->html && $this->validateTYLiveUrl($this->getUrl())){
+                $styles      = self::styles($params, $this->getUrl());
+                return [
+                    "title"         => $title,
+                    "html"          => "<div class='ep-player-wrap'>$main_iframe $styles</div>",
+                ];
             }
             if($gallery->html){
                 $styles      = self::styles($params, $this->getUrl());
