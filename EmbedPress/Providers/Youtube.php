@@ -277,32 +277,18 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
         $url = "https://www.googleapis.com/youtube/v3/search?part=id&type=channel&q={$username}&key={$api_key}";
 
-        $response = file_get_contents($url);
+        $response = wp_remote_get($url);
+        if ( is_wp_error( $response ) ) {
+            return false;
+        }
 
-        $json_response = json_decode($response, true);
+        $json_response = json_decode(wp_remote_retrieve_body($response), true);
 
-        $channel_id = $json_response['items'][0]['id']['channelId'];
-
-        return $channel_id;
-    }
-
-    public static function get_channel_id_from_youtube_url($url) {
-        $matches = array();
-        $pattern = '/(channel\/|user\/|@)([\w-]+)/i';
-        preg_match($pattern, $url, $matches);
-    
-        if (count($matches) > 0) {
-            $handle = $matches[2];
-            $api_key = self::get_api_key();
-            $url = "https://www.googleapis.com/youtube/v3/channels?part=id&forUsername=$handle&key=$api_key";
-            $data = file_get_contents($url);
-            $json = json_decode($data);
-    
-            if(!empty($json->items[0]->id)){
-                return $json->items[0]->id;
-            }
+        if(isset($json_response['error'])) {
+            return false;
         } else {
-            return null;
+            $channel_id = $json_response['items'][0]['id']['channelId'];
+            return $channel_id;
         }
     }
 
