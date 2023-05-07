@@ -274,20 +274,32 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     public function get_channel_id_by_handler($handler){
         $api_key = self::get_api_key();
         $username = $handler;
-
+    
+        // Check if the transient exists
+        $transient_name = 'channel_id_' . $handler;
+        $channel_id = get_transient( $transient_name );
+        if ( $channel_id ) {
+            // If the transient exists, return the channel ID
+            return $channel_id;
+        }
+    
         $url = "https://www.googleapis.com/youtube/v3/search?part=id&type=channel&q={$username}&key={$api_key}";
-
+    
         $response = wp_remote_get($url);
         if ( is_wp_error( $response ) ) {
             return false;
         }
-
+    
         $json_response = json_decode(wp_remote_retrieve_body($response), true);
-
+    
         if(isset($json_response['error'])) {
             return false;
         } else {
             $channel_id = $json_response['items'][0]['id']['channelId'];
+    
+            // Set the transient for 1 day (86400 seconds)
+            set_transient( $transient_name, $channel_id, 86400 );
+    
             return $channel_id;
         }
     }

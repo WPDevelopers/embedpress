@@ -29,6 +29,36 @@ export const isPro = (display) => {
 
     return dom;
 }
+export const removeTipsAlert = () => {
+    if (document.querySelector('.tips__alert__wrap')) {
+        document.querySelector('.tips__alert__wrap .tips__alert__card .button').addEventListener('click', (e) => {
+            document.querySelector('.tips__alert__wrap').style.display = 'none';
+        });
+    }
+}
+
+export const addTipsTrick = (e) => {
+    document.querySelector('.tips__alert__wrap').style.display = 'block';
+}
+
+
+export const tipsTricksAlert = () => {
+    const alertTipsTricks = `
+		<div class="tips__alert__wrap" style="display: none;">
+			<div class="tips__alert__card">
+				<img src="../wp-content/plugins/embedpress/EmbedPress/Ends/Back/Settings/assets/img/idea.svg" alt=""/>
+					<h2>Simply add "/live" to the channel's URL to embed a live video.</h2>
+					<p>Note: If there are multiple live videos on the channel, just the most recent ones will be seen. </p>
+					<a href="#" class="button radius-10">Close</a>
+			</div>
+		</div>
+		`;
+
+    const dom = document.createElement('div');
+    dom.innerHTML = alertTipsTricks;
+
+    return dom;
+}
 
 export const saveSourceData = (clientId, url) => {
     const xhr = new XMLHttpRequest();

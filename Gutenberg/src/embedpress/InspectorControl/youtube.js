@@ -2,7 +2,8 @@
  * WordPress dependencies
  */
 import { getParams } from '../functions';
-import { addProAlert, isPro, removeAlert } from '../../common/helper';
+import { addProAlert, isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert } from '../../common/helper';
+import { EPIcon } from '../../common/icons';
 import CustomBranding from './custombranding';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
@@ -73,14 +74,14 @@ export const getYoutubeParams = (params, attributes) => {
 
 export const isYTChannel = (url) => {
     const channelMatch = url.match(/\/channel\/|\/c\/|\/user\/|\/@[a-z]|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
-    if (!channelMatch) 
+    if (!channelMatch)
         return false;
     return true;
 }
 
 export const isYTLive = (url) => {
     const liveMatch = url.match(/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|@[\w-]+)\/live$/);
-    if (!liveMatch) 
+    if (!liveMatch)
         return false;
     return true;
 }
@@ -191,12 +192,16 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         document.querySelector('body').append(isPro('none'));
         removeAlert();
     }
+    if (!document.querySelector('.tips__alert__wrap')) {
+        document.querySelector('body').append(tipsTricksAlert('none'));
+        removeTipsAlert();
+    }
 
     return (
         <div>
 
             {
-                (isYTChannel && !isYTLive ) && (
+                (isYTChannel && !isYTLive) && (
                     <div className={'ep__channel-yt-video-options'}>
                         <TextControl
                             label={__("Video Per Page")}
@@ -236,6 +241,11 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                             checked={ispagination}
                             onChange={(ispagination) => setAttributes({ ispagination })}
                         />
+
+                        <div className={'ep-tips-and-tricks'}>
+                            {EPIcon}
+                            <a href="#" target={'_blank'} onClick={(e) => { e.preventDefault(); addTipsTrick(e) }}> {__("Tips & Tricks", "embedpress")} </a>
+                        </div>
 
                     </div>
                 )

@@ -1071,6 +1071,68 @@ a.ep-social-icon.pinterest svg {
     color: #5b4e96;
 }
 
+
+.tips__alert__wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: #0000009c;
+    z-index: 99999;
+    display: none;
+}
+.tips__alert__wrap .tips__alert__card {
+    width: calc(100% - 30px);
+    max-width: 500px;
+    margin: 7% auto 0;
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.tips__alert__wrap .tips__alert__card img {
+    height: 150px;
+}
+.tips__alert__wrap .tips__alert__card h2 {
+    font-size: 17.5px;
+    font-weight: 500;
+    color: #131F4D;
+    margin-bottom: 15px;
+}
+.tips__alert__wrap .tips__alert__card p {
+    font-size: 14px;
+    font-weight: 400;
+    color: #7C8DB5;
+    margin-bottom: 15px;
+}
+.tips__alert__wrap .tips__alert__card a {
+    text-decoration: underline;
+    font-weight: 700;
+    color: #131F4D;
+}
+.tips__alert__wrap .tips__alert__card .button {
+    align-self: flex-end;
+    margin-top: 20px;
+    padding: 6px 30px;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+p.ep-live-video-info {
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    background: #f5effb;
+    padding: 8px 8px;
+}
+p.ep-live-video-info svg {
+    width: 20px;
+}
 .components-text-control__input::placeholder,
 .components-textarea-control__input::placeholder {
     color: rgb(117, 117, 117);
