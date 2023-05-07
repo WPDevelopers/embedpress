@@ -6,6 +6,7 @@ import Youtube from './InspectorControl/youtube';
 import OpenSea from './InspectorControl/opensea';
 import Wistia from './InspectorControl/wistia';
 import Vimeo from './InspectorControl/vimeo';
+import { EPIcon } from '../common/icons';
 
 /**
  * WordPress dependencies
@@ -80,9 +81,11 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                         )
                                     }
 
+
+
                                     {
                                         ((isYTVideo || isVimeoVideo || isYTLive) && (videosize == 'responsive')) && (
-                                            <p>{__("You can adjust the width of embedded content.")}</p>
+                                            <p>{__("You can adjust the width of embedded content.", "embedpress")}</p>
                                         )
                                     }
 
@@ -121,16 +124,27 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                             />
                                         )
                                     }
+
+                                    {
+                                        (isYTVideo || isYTLive) && (
+                                            <div className={'ep-tips-and-tricks'}>
+                                                {EPIcon}
+                                                <a href="https://embedpress.com/docs/ep-social-share-option-with-embedded-content/" target={'_blank'}> {__("Tips & Tricks", "embedpress")} </a>
+                                            </div>
+                                        )
+                                    }
                                 </div>
 
                                 {
-                                    !isYTLive &&
+                                    !isYTLive && (
                                         <Youtube attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} />
+                                    )
+
                                 }
 
                             </PanelBody>
 
-                            <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive}/>
+                            <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} />
 
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />
                             <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />

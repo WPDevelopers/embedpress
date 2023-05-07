@@ -1140,7 +1140,7 @@ a.ep-social-icon.pinterest svg {
 .content-share-toggle .components-form-toggle.is-checked .components-form-toggle__track {
   background-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #6354a5)); }
 
-.ep-documentation {
+.ep-documentation, .ep-tips-and-tricks {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
@@ -1148,11 +1148,11 @@ a.ep-social-icon.pinterest svg {
   gap: 10px;
   margin-bottom: 5px; }
 
-.ep-documentation svg {
+.ep-documentation svg, .ep-tips-and-tricks svg {
   width: 25px;
   height: auto; }
 
-.ep-documentation a {
+.ep-documentation a, .ep-tips-and-tricks a {
   font-weight: 500;
   font-size: 13px;
   color: #5b4e96; }

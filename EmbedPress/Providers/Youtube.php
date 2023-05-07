@@ -162,8 +162,16 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
         $params          = $this->getParams();
 
-        if (preg_match("/^https?:\/\/(?:www\.)?youtube\.com\/channel\/([\w-]+)\/live$/", $this->url, $matches)) {
+        if (preg_match("/^https?:\/\/(?:www\.)?youtube\.com\/channel\/([\w-]+)\/live$/", $this->url, $matches) || $this->validateTYLiveUrl($this->url)) {
+
             $channelId = $matches[1];
+
+            if(!empty($this->get_youtube_handler($this->url))){
+                if(!empty($this->get_channel_id_by_handler($this->get_youtube_handler($this->url)))){
+                    $channelId = $this->get_channel_id_by_handler($this->get_youtube_handler($this->url));
+                }
+            }
+
             $embedUrl = 'https://www.youtube.com/embed/live_stream?channel='.$channelId.'&feature=oembed';
 
             $attr = [];
@@ -238,6 +246,17 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         return $result;
     }
 
+    public function get_youtube_handler($url){
+        preg_match('/^https:\/\/www.youtube.com\/@(.+)\/live$/i', $url, $matches);
+
+        $handle_name = '';
+        if(!empty($matches[1])){
+            $handle_name = $matches[1];
+        }
+
+        return $handle_name;
+    }
+
     public function getChannelIDbyUsername(){
         $url       = $this->getUrl();
         $apiResult = wp_remote_get($url, array('timeout' => self::$curltimeout));
@@ -250,6 +269,21 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                 $this->url = $this->normalizeUrl(new Url($url));
             }
         }
+    }
+
+    public function get_channel_id_by_handler($handler){
+        $api_key = self::get_api_key();
+        $username = $handler;
+
+        $url = "https://www.googleapis.com/youtube/v3/search?part=id&type=channel&q={$username}&key={$api_key}";
+
+        $response = file_get_contents($url);
+
+        $json_response = json_decode($response, true);
+
+        $channel_id = $json_response['items'][0]['id']['channelId'];
+
+        return $channel_id;
     }
 
     public static function get_channel_id_from_youtube_url($url) {
