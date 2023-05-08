@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 6.2
 Requires PHP: 5.6
-Stable tag: 3.7.0
+Stable tag: 3.7.1
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -381,6 +381,13 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.7.1] - 2023-05-08 =
+* Added: Youtube live stream embedding with channel handler. 
+* Fixed: Social Share redirection.
+* Fixed: Height width wasn’t working in Elementor documents widget.
+* Fixed: Conflict with Ninja table pro plugin. 
+* Few minor bug fix and improvements.
 
 = [3.7.0] - 2023-04-17 =
 * Added: Social Share for all Embedded contents.
