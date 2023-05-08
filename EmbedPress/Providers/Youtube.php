@@ -164,7 +164,10 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
         if (preg_match("/^https?:\/\/(?:www\.)?youtube\.com\/channel\/([\w-]+)\/live$/", $this->url, $matches) || $this->validateTYLiveUrl($this->url)) {
 
-            $channelId = $matches[1];
+            if(!empty($matches[1])){
+                $channelId = $matches[1];
+            }
+            
 
             if(!empty($this->get_youtube_handler($this->url))){
                 if(!empty($this->get_channel_id_by_handler($this->get_youtube_handler($this->url)))){
