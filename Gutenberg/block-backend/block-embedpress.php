@@ -69,6 +69,8 @@ function embedpress_render_block($attributes)
 {	
 
 	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
+	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
+
 	$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']): ''; 
 
 	if (!empty($attributes['embedHTML'])) {
@@ -104,7 +106,7 @@ function embedpress_render_block($attributes)
 
 		ob_start();
 		?>
-		<div class="embedpress-gutenberg-wrapper <?php echo  esc_attr( $alignment.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>" id="<?php echo esc_attr($attributes['clientId']); ?>">
+		<div class="embedpress-gutenberg-wrapper <?php echo  esc_attr( $alignment.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>" id="<?php echo esc_attr($block_id); ?>">
 			<?php 
 				$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
 				$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
