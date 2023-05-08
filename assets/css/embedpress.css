@@ -1339,7 +1339,7 @@ a.social-icon.pinterest svg {
     width: 100%;
 } 
 
-.ep-file-download-option-disabled {
+.ep-file-download-option-masked {
     position: relative;
 }
 .embed-download-disabled {
@@ -1358,4 +1358,24 @@ a.social-icon.pinterest svg {
 
 .ndfHFb-c4YZDc-Wrql6b {
     display: none;
+}
+
+.ep-external-doc-icons {
+    position: absolute;
+    right: 12px;
+    top: 12px;
+    display: flex;
+    flex-direction: column;
+}
+.ep-external-doc-icons svg{
+    width: 20px;
+    height: 20px;
+}
+.ep-doc-download-icon, .ep-doc-print-icon, .ep-doc-fullscreen-icon, .ep-doc-popup-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #343434;
 }

@@ -171,6 +171,23 @@ let epGlobals = {};
             }
         }
     }
+    epGlobals.fullscreenDocumentIframe = function () {
+        const fullscreenBtn = document.getElementsByClassName("ep-doc-fullscreen-icon");
+        const iframe = document.querySelector(".ep-file-download-option-masked iframe");
+        fullscreenBtn.addEventListener("click", () => {
+            if (iframe.requestFullscreen) {
+              iframe.requestFullscreen();
+            } else if (iframe.webkitRequestFullscreen) {
+              /* Safari */
+              iframe.webkitRequestFullscreen();
+            } else if (iframe.msRequestFullscreen) {
+              /* IE11 */
+              iframe.msRequestFullscreen();
+            }
+          });
+    }
+
+
     function youtubeChannelEvents(playerWrap) {
 
         delegate(playerWrap, "click", ".item", function (event) {

@@ -385,9 +385,8 @@ class Embedpress_Document extends Widget_Base
 
                     $embed_content = '<div ' . $this->get_render_attribute_string( 'embedpres-pdf-render' ) . '>';
                     
-                    if ( $settings[ 'embedpress_document_download_disabled' ] === 'yes' && Helper::get_extension_from_file_url($url) === 'pptx') {
-                        $embed_content.='<div class="ep-file-download-option-disabled">';
-                    }
+                    $embed_content.='<div class="ep-file-download-option-masked">';
+                    
 
                     $sandbox = '';
                     if ( $settings[ 'embedpress_document_download_disabled' ] === 'yes') {
@@ -401,9 +400,15 @@ class Embedpress_Document extends Widget_Base
                     }
                     
                     if ( $settings[ 'embedpress_document_download_disabled' ] === 'yes' && Helper::get_extension_from_file_url($url) !== 'pptx') {
-                        $embed_content.='<div style="width: 40px; height: 40px; position: absolute; opacity: 0; right: 12px; top: 12px;">&nbsp;</div>';
+                        $embed_content.='<div style="width: 40px; height: 40px; position: absolute; opacity: 0; right: 12px; top: 12px;"></div>';
                     }
 
+                    $embed_content.= '<div class="ep-external-doc-icons">';
+                    $embed_content.= Helper::ep_get_popup_icon(); 
+                    $embed_content.= Helper::ep_get_download_icon(); 
+                    $embed_content.= Helper::ep_get_print_icon(); 
+                    $embed_content.= Helper::ep_get_fullscreen_icon().'</div>'; 
+                    $embed_content.= '<div>';
 
                     if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
                         $embed_content .= sprintf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
