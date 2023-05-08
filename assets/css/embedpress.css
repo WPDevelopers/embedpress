@@ -1370,6 +1370,7 @@ a.social-icon.pinterest svg {
 .ep-external-doc-icons svg{
     width: 20px;
     height: 20px;
+    cursor: pointer;
 }
 .ep-doc-download-icon, .ep-doc-print-icon, .ep-doc-fullscreen-icon, .ep-doc-popup-icon {
     display: flex;
@@ -1379,3 +1380,16 @@ a.social-icon.pinterest svg {
     height: 40px;
     background: #343434;
 }
+
+.ep-doc-mask {
+    /* width: 40px; 
+    height: 40px;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background-color: rgba(0, 0, 0, 0.5); */
+    /* z-index: 9999;
+    pointer-events: none; */
+    position: absolute;
+  }
+  

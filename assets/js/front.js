@@ -172,21 +172,60 @@ let epGlobals = {};
         }
     }
     epGlobals.fullscreenDocumentIframe = function () {
-        const fullscreenBtn = document.getElementsByClassName("ep-doc-fullscreen-icon");
+        const fullscreenBtn = document.querySelector(".ep-doc-fullscreen-icon svg");
+        console.log(fullscreenBtn);
         const iframe = document.querySelector(".ep-file-download-option-masked iframe");
         fullscreenBtn.addEventListener("click", () => {
             if (iframe.requestFullscreen) {
-              iframe.requestFullscreen();
+                iframe.requestFullscreen();
             } else if (iframe.webkitRequestFullscreen) {
-              /* Safari */
-              iframe.webkitRequestFullscreen();
+                /* Safari */
+                iframe.webkitRequestFullscreen();
             } else if (iframe.msRequestFullscreen) {
-              /* IE11 */
-              iframe.msRequestFullscreen();
+                /* IE11 */
+                iframe.msRequestFullscreen();
             }
-          });
+        });
     }
 
+
+    if (typeof epGlobals.fullscreenDocumentIframe === 'function') {
+        epGlobals.fullscreenDocumentIframe();
+    }
+
+    epGlobals.fullscreenDocumentIframe = function () {
+        const fullscreenBtn = document.querySelector(".ep-doc-fullscreen-icon svg");
+        console.log(fullscreenBtn);
+        const iframe = document.querySelector(".ep-file-download-option-masked iframe");
+        const container = document.querySelector(".ep-file-download-option-masked");
+        const mask = document.createElement("div");
+        mask.classList.add("ep-doc-mask");
+      
+        fullscreenBtn.addEventListener("click", () => {
+          if (iframe.requestFullscreen) {
+            iframe.requestFullscreen();
+          } else if (iframe.webkitRequestFullscreen) {
+            /* Safari */
+            iframe.webkitRequestFullscreen();
+          } else if (iframe.msRequestFullscreen) {
+            /* IE11 */
+            iframe.msRequestFullscreen();
+          }
+        });
+      
+        document.addEventListener("fullscreenchange", () => {
+          if (document.fullscreenElement === iframe) {
+            container.appendChild(mask);
+          } else {
+            container.removeChild(mask);
+          }
+        });
+      };
+      
+      if (typeof epGlobals.fullscreenDocumentIframe === "function") {
+        epGlobals.fullscreenDocumentIframe();
+      }
+      
 
     function youtubeChannelEvents(playerWrap) {
 
