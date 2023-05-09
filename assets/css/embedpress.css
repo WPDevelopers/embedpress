@@ -1366,6 +1366,8 @@ a.social-icon.pinterest svg {
     top: 12px;
     display: flex;
     flex-direction: column;
+    background: #343434;
+    border-radius: 6px;
 }
 .ep-external-doc-icons svg{
     width: 20px;
@@ -1378,18 +1380,10 @@ a.social-icon.pinterest svg {
     justify-content: center;
     width: 40px;
     height: 40px;
-    background: #343434;
+    /* background: #343434; */
 }
 
-.ep-doc-mask {
-    /* width: 40px; 
-    height: 40px;
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background-color: rgba(0, 0, 0, 0.5); */
-    /* z-index: 9999;
-    pointer-events: none; */
-    position: absolute;
-  }
-  
+.elementor .elementor-element.elementor-element .embedpress-document-embed iframe.fullscreen-enabled {
+    width: 100%!important;
+    height: 100%!important;
+}

@@ -405,15 +405,15 @@ class Embedpress_Document extends Widget_Base
 
                     $embed_content.= '<div class="ep-external-doc-icons">';
                     $embed_content.= Helper::ep_get_popup_icon(); 
-                    $embed_content.= Helper::ep_get_download_icon(); 
                     $embed_content.= Helper::ep_get_print_icon(); 
+                    $embed_content.= Helper::ep_get_download_icon(); 
                     $embed_content.= Helper::ep_get_fullscreen_icon().'</div>'; 
-                    $embed_content.= '<div>';
-
+                    
                     if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
+                        $embed_content.= '<div>';
                         $embed_content .= sprintf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
+                        $embed_content .='</div>';
                     }
-                    $embed_content .='</div>';
                 }
             }
 

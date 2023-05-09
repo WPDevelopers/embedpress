@@ -171,61 +171,78 @@ let epGlobals = {};
             }
         }
     }
+
     epGlobals.fullscreenDocumentIframe = function () {
         const fullscreenBtn = document.querySelector(".ep-doc-fullscreen-icon svg");
-        console.log(fullscreenBtn);
-        const iframe = document.querySelector(".ep-file-download-option-masked iframe");
+        const documentContainer = document.querySelector(".ep-file-download-option-masked");
+        const documentIframe = document.querySelector(".ep-file-download-option-masked iframe");
+
         fullscreenBtn.addEventListener("click", () => {
-            if (iframe.requestFullscreen) {
-                iframe.requestFullscreen();
-            } else if (iframe.webkitRequestFullscreen) {
+            if (documentContainer.requestFullscreen) {
+                documentContainer.requestFullscreen();
+            } else if (documentContainer.webkitRequestFullscreen) {
                 /* Safari */
-                iframe.webkitRequestFullscreen();
-            } else if (iframe.msRequestFullscreen) {
+                documentContainer.webkitRequestFullscreen();
+            } else if (documentContainer.msRequestFullscreen) {
                 /* IE11 */
-                iframe.msRequestFullscreen();
+                documentContainer.msRequestFullscreen();
             }
         });
-    }
 
-
-    if (typeof epGlobals.fullscreenDocumentIframe === 'function') {
-        epGlobals.fullscreenDocumentIframe();
-    }
-
-    epGlobals.fullscreenDocumentIframe = function () {
-        const fullscreenBtn = document.querySelector(".ep-doc-fullscreen-icon svg");
-        console.log(fullscreenBtn);
-        const iframe = document.querySelector(".ep-file-download-option-masked iframe");
-        const container = document.querySelector(".ep-file-download-option-masked");
-        const mask = document.createElement("div");
-        mask.classList.add("ep-doc-mask");
-      
-        fullscreenBtn.addEventListener("click", () => {
-          if (iframe.requestFullscreen) {
-            iframe.requestFullscreen();
-          } else if (iframe.webkitRequestFullscreen) {
-            /* Safari */
-            iframe.webkitRequestFullscreen();
-          } else if (iframe.msRequestFullscreen) {
-            /* IE11 */
-            iframe.msRequestFullscreen();
-          }
-        });
-      
         document.addEventListener("fullscreenchange", () => {
-          if (document.fullscreenElement === iframe) {
-            container.appendChild(mask);
-          } else {
-            container.removeChild(mask);
-          }
+            if (document.fullscreenElement) {
+                documentIframe.classList.add("fullscreen-enabled");
+            }
+            else {
+                documentIframe.classList.remove("fullscreen-enabled");
+            }
         });
-      };
-      
-      if (typeof epGlobals.fullscreenDocumentIframe === "function") {
-        epGlobals.fullscreenDocumentIframe();
-      }
-      
+
+    };
+
+    epGlobals.downloadDocumentFile = function () {
+        const downloadBtn = document.querySelector('.ep-doc-download-icon');
+        const pdfIframe = document.querySelector('.ep-file-download-option-masked iframe');
+
+        // if (downloadBtn.length > 0) {
+        downloadBtn.addEventListener('click', function () {
+            const fileUrl = decodeURIComponent(pdfIframe.getAttribute('src')).match(/url=([^&]*)/)[1];
+            const filename = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+
+            fetch(fileUrl, { mode: 'no-cors' })
+                .then(response => {
+                    if (response.ok) {
+
+
+                        response.blob()
+                            .then(blob => {
+                                const url = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = filename;
+                                document.body.appendChild(a);
+                                a.click();
+                                a.remove();
+                            });
+                    } else {
+                        window.location.href = fileUrl;
+                    }
+                })
+                .catch(error => {
+                    window.location.href = fileUrl;
+                });
+        });
+        // }
+    };
+
+    epGlobals.printDocumentFile = function () {
+        const printBtn = document.querySelector('.ep-doc-print-icon');
+        const pdfIframe = document.querySelector('.ep-file-download-option-masked iframe');
+        const fileUrl = decodeURIComponent(pdfIframe.getAttribute('src')).match(/url=([^&]*)/)[1];
+        printBtn.addEventListener('click', function () {
+            window.location.href = fileUrl;
+        });
+    }
 
     function youtubeChannelEvents(playerWrap) {
 
@@ -568,7 +585,20 @@ jQuery(window).on("elementor/frontend/init", function () {
             unlockElSubmitHander('ep-elementor-content', this);
         });
 
-        epGlobals.downloadDisabled();
+        if (typeof epGlobals.downloadDisabled === "function") {
+            epGlobals.downloadDisabled();
+        }
+
+        if (typeof epGlobals.fullscreenDocumentIframe === "function") {
+            epGlobals.fullscreenDocumentIframe();
+        }
+
+        if (typeof epGlobals.downloadDocumentFile === "function") {
+            epGlobals.downloadDocumentFile();
+        }
+        if (typeof epGlobals.printDocumentFile === "function") {
+            epGlobals.printDocumentFile();
+        }
 
     };
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);
