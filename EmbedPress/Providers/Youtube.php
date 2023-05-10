@@ -51,6 +51,10 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         return (bool) (preg_match('~\/channel\/|\/c\/|\/user\/|\/@\w+|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$~i', (string) $url));
     }
 
+    public function validateTYLiveUrl($url) {
+        return (bool) (preg_match('~(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/(?:channel|c|user)\/\w+\/live|@\w+\/live)~i', (string) $url));
+    }
+
     /** inline {@inheritdoc} */
     public function normalizeUrl(Url $url) {
         return $url;
@@ -155,7 +159,35 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             "provider_url"  => "https://www.youtube.com/",
             'html'          => '',
         ];
-        if($this->isChannel()){
+
+        $params          = $this->getParams();
+
+        if (preg_match("/^https?:\/\/(?:www\.)?youtube\.com\/channel\/([\w-]+)\/live$/", $this->url, $matches) || $this->validateTYLiveUrl($this->url)) {
+
+            if(!empty($matches[1])){
+                $channelId = $matches[1];
+            }
+            
+
+            if(!empty($this->get_youtube_handler($this->url))){
+                if(!empty($this->get_channel_id_by_handler($this->get_youtube_handler($this->url)))){
+                    $channelId = $this->get_channel_id_by_handler($this->get_youtube_handler($this->url));
+                }
+            }
+
+            $embedUrl = 'https://www.youtube.com/embed/live_stream?channel='.$channelId.'&feature=oembed';
+
+            $attr = [];
+            $attr[] = 'width="'.$params['maxheight'].'"';
+            $attr[] = 'height="'.$params['maxheight'].'";';
+            $attr[] = 'src="' . $embedUrl . '"';
+            $attr[] = 'frameborder="0"';
+            $attr[] = 'allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"';
+            $attr[] = 'allowfullscreen';
+
+            $results['html'] = '<iframe ' . implode(' ', $attr) . '></iframe>';
+        }
+        else if($this->isChannel()){
             $channel = $this->getChannelGallery();
             $results = array_merge($results, $channel);
         }
@@ -217,6 +249,17 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         return $result;
     }
 
+    public function get_youtube_handler($url){
+        preg_match('/^https:\/\/www.youtube.com\/@(.+)\/live$/i', $url, $matches);
+
+        $handle_name = '';
+        if(!empty($matches[1])){
+            $handle_name = $matches[1];
+        }
+
+        return $handle_name;
+    }
+
     public function getChannelIDbyUsername(){
         $url       = $this->getUrl();
         $apiResult = wp_remote_get($url, array('timeout' => self::$curltimeout));
@@ -228,6 +271,39 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                 $url = "https://www.youtube.com/channel/{$matches[1]}";
                 $this->url = $this->normalizeUrl(new Url($url));
             }
+        }
+    }
+
+    public function get_channel_id_by_handler($handler){
+        $api_key = self::get_api_key();
+        $username = $handler;
+    
+        // Check if the transient exists
+        $transient_name = 'channel_id_' . $handler;
+        $channel_id = get_transient( $transient_name );
+        if ( $channel_id ) {
+            // If the transient exists, return the channel ID
+            return $channel_id;
+        }
+    
+        $url = "https://www.googleapis.com/youtube/v3/search?part=id&type=channel&q={$username}&key={$api_key}";
+    
+        $response = wp_remote_get($url);
+        if ( is_wp_error( $response ) ) {
+            return false;
+        }
+    
+        $json_response = json_decode(wp_remote_retrieve_body($response), true);
+    
+        if(isset($json_response['error'])) {
+            return false;
+        } else {
+            $channel_id = $json_response['items'][0]['id']['channelId'];
+    
+            // Set the transient for 1 day (86400 seconds)
+            set_transient( $transient_name, $channel_id, 86400 );
+    
+            return $channel_id;
         }
     }
 
@@ -255,6 +331,13 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             if (!empty($gallery->first_vid)) {
                 $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
                 $main_iframe = "<div class='ep-first-video'><iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe></div>";
+            }
+            if($gallery->html && $this->validateTYLiveUrl($this->getUrl())){
+                $styles      = self::styles($params, $this->getUrl());
+                return [
+                    "title"         => $title,
+                    "html"          => "<div class='ep-player-wrap'>$main_iframe $styles</div>",
+                ];
             }
             if($gallery->html){
                 $styles      = self::styles($params, $this->getUrl());

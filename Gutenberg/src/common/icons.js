@@ -506,3 +506,6 @@ export const EPIcon =
 			className="st0"
 		/>
 	</svg>
+
+export const InfoIcon =
+	<svg width="25" height="25" viewBox="0 0 48 48" version="1" xmlns="http://www.w3.org/2000/svg"><circle fill="#2196F3" cx="24" cy="24" r="21"/><path fill="#fff" d="M22 22h4v11h-4z"/><circle fill="#fff" cx="24" cy="16.5" r="2.5"/></svg>

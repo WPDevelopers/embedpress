@@ -31,7 +31,9 @@ let epGlobals = {};
                 PDFObject.embed(src, "." + id, option);
             }));
         }
-        epGlobals.youtubeChannelGallery();
+        if (typeof epGlobals.youtubeChannelGallery === 'function') {
+            epGlobals.youtubeChannelGallery();
+        }
     });
 
     /**

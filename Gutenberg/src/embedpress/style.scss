@@ -941,38 +941,38 @@ span.copy-tooltip {
 }
 
 
-.social-share {
+.ep-social-share {
     display: flex;
     // justify-content: center;
     align-items: center;
     // position: absolute;
 }
 
-.social-share.share-position-right {
+.ep-social-share.share-position-right {
     right: -40px;
     top: 0;
     flex-direction: column;
 }
-.social-share.share-position-left {
+.ep-social-share.share-position-left {
     left: 0px;
     top: 0;
     flex-direction: column;
 }
 
-.embedpress-gutenberg-wrapper .social-share.share-position-left,
-.ep-elementor-content .social-share.share-position-left {
+.embedpress-gutenberg-wrapper .ep-social-share.share-position-left,
+.ep-elementor-content .ep-social-share.share-position-left {
     left: -40px;
 }
 
-.social-share.share-position-top {
+.ep-social-share.share-position-top {
     justify-content: center;
 }
 
-.social-share.share-position-bottom {
+.ep-social-share.share-position-bottom {
     justify-content: center;
 }
 
-.social-icon {
+.ep-social-icon {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -984,15 +984,15 @@ span.copy-tooltip {
     font-size: 20px;
 }
 
-.social-icon:hover {
+.ep-social-icon:hover {
     opacity: 0.8;
 }
 
-.social-share svg {
+.ep-social-share svg {
     width: 20px;
     height: auto;
 }
-a.social-icon.pinterest svg {
+a.ep-social-icon.pinterest svg {
     height: 25px;
 }
 
@@ -1019,17 +1019,17 @@ a.social-icon.pinterest svg {
     background-color: #ff4500;
 }
 
-.social-icon i {
+.ep-social-icon i {
     margin-right: 0;
 }
 
-.gutenberg-block-wraper .social-share.share-position-left {
+.gutenberg-block-wraper .ep-social-share.share-position-left {
     left: -40px;
     top: 0;
     flex-direction: column;
 }
 
-.block-editor-block-list__block .social-share {
+.block-editor-block-list__block .ep-social-share {
     pointer-events: none;
 }
 
@@ -1055,22 +1055,85 @@ a.social-icon.pinterest svg {
     background-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #6354a5));
 }
 
-.ep-documentation {
+.ep-documentation, .ep-tips-and-tricks {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 5px;
 }
-.ep-documentation svg {
+.ep-documentation svg, .ep-tips-and-tricks svg {
     width: 25px;
     height: auto;
 }
-.ep-documentation a {
+.ep-documentation a, .ep-tips-and-tricks a {
     font-weight: 500;
     font-size: 13px;
     color: #5b4e96;
 }
 
+
+.tips__alert__wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: #0000009c;
+    z-index: 99999;
+    display: none;
+}
+.tips__alert__wrap .tips__alert__card {
+    width: calc(100% - 30px);
+    max-width: 500px;
+    margin: 7% auto 0;
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.tips__alert__wrap .tips__alert__card img {
+    height: 150px;
+}
+.tips__alert__wrap .tips__alert__card h2 {
+    font-size: 17.5px;
+    font-weight: 500;
+    color: #131F4D;
+    margin-bottom: 15px;
+}
+.tips__alert__wrap .tips__alert__card p {
+    font-size: 14px;
+    font-weight: 400;
+    color: #7C8DB5;
+    margin-bottom: 15px;
+}
+.tips__alert__wrap .tips__alert__card a {
+    text-decoration: underline;
+    font-weight: 700;
+    color: #131F4D;
+}
+.tips__alert__wrap .tips__alert__card .button {
+    align-self: flex-end;
+    margin-top: 20px;
+    padding: 6px 30px;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+p.ep-live-video-info {
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    background: #F6D88C;
+    padding: 8px 8px;
+    border-radius: 10px;
+}
+p.ep-live-video-info svg {
+    width: 20px;
+}
 .components-text-control__input::placeholder,
 .components-textarea-control__input::placeholder {
     color: rgb(117, 117, 117);

@@ -1,6 +1,6 @@
 import react from 'react';
 import { isOpensea, isOpenseaSingle } from "./InspectorControl/opensea";
-import { isYTChannel, isYTVideo } from "./InspectorControl/youtube";
+import { isYTChannel, isYTVideo, isYTLive } from "./InspectorControl/youtube";
 import { isVimeoVideo } from "./InspectorControl/vimeo";
 
 export const dynamicStyles = ({
@@ -167,7 +167,7 @@ export const dynamicStyles = ({
                 )
             }
             {
-                (isYTVideo(url) || isVimeoVideo(url)) && (
+                (isYTVideo(url) || isVimeoVideo(url) || isYTLive(url)) && (
                     <style style={{ display: "none" }}>
                         {
                             `
@@ -182,7 +182,7 @@ export const dynamicStyles = ({
             }
 
             {
-                ((videosize === 'responsive') && (isYTVideo(url))) && (
+                ((videosize === 'responsive') && (isYTVideo(url) || isYTLive(url))) && (
                     <style style={{ display: "none" }}>
                         {
                             `

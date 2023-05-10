@@ -530,7 +530,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                     {
                         isOpenseaSingle && (
-                            <frameElement>
+                            <div>
                                 <ToggleControl
                                     label={__("Rank", "embedpress")}
                                     checked={nftrank}
@@ -576,7 +576,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                         </div>
                                     )
                                 }
-                            </frameElement>
+                            </div>
                         )
                     }
                 </PanelBody>
@@ -600,7 +600,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                 }
                                 {
                                     loadmore && (
-                                        <frameElement>
+                                        <div>
                                             <RangeControl
                                                 label={__("Item Per Page", "embedpress")}
                                                 value={itemperpage}
@@ -614,7 +614,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                                 value={loadmorelabel}
                                                 onChange={(loadmorelabel) => setAttributes({ loadmorelabel })}
                                             />
-                                        </frameElement>
+                                        </div>
 
                                     )
                                 }
@@ -711,7 +711,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                         <PanelBody title={__("Current Price")} initialOpen={false}>
                             {
                                 isOpenseaSingle && (
-                                    <frameElement>
+                                    <div>
                                         <ControlHeader headerText={'Label Color'} />
                                         <ColorPalette
                                             label={__("Color")}
@@ -728,7 +728,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                             fallbackFontSize={fallbackFontSize}
                                             onChange={(priceLabelFontsize) => setAttributes({ priceLabelFontsize })}
                                         />
-                                    </frameElement>
+                                    </div>
                                 )
                             }
 
@@ -750,7 +750,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             />
                             {
                                 isOpenseaSingle && (
-                                    <frameElement>
+                                    <div>
                                         <ControlHeader headerText={'USD Price Color'} />
                                         <ColorPalette
                                             label={__("Color")}
@@ -768,7 +768,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                             onChange={(priceUSDFontsize) => setAttributes({ priceUSDFontsize })}
                                         />
 
-                                    </frameElement>
+                                    </div>
                                 )
                             }
                         </PanelBody>
@@ -776,7 +776,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                         <PanelBody title={__("Last Sale Price")} initialOpen={false}>
                             {
                                 isOpenseaSingle && (
-                                    <frameElement>
+                                    <div>
                                         <ControlHeader headerText={'Label Color'} />
                                         <ColorPalette
                                             label={__("Color")}
@@ -793,7 +793,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                             fallbackFontSize={fallbackFontSize}
                                             onChange={(lastSaleLabelFontsize) => setAttributes({ lastSaleLabelFontsize })}
                                         />
-                                    </frameElement>
+                                    </div>
                                 )
                             }
                             <ControlHeader headerText={'ETH Color'} />
@@ -814,7 +814,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                             />
                             {
                                 isOpenseaSingle && (
-                                    <frameElement>
+                                    <div>
                                         <ControlHeader headerText={'USD Price Color'} />
                                         <ColorPalette
                                             label={__("Color")}
@@ -831,7 +831,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                             fallbackFontSize={fallbackFontSize}
                                             onChange={(lastSaleUSDFontsize) => setAttributes({ lastSaleUSDFontsize })}
                                         />
-                                    </frameElement>
+                                    </div>
                                 )
                             }
                         </PanelBody>

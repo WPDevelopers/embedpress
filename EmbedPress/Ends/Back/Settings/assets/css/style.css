@@ -2582,7 +2582,7 @@ button.button__instagram.hover__highlight:hover .icon {
     max-height: 40px;
 }
 
-.pro__alert__wrap {
+.pro__alert__wrap, .tips__alert__wrap {
     position: fixed;
     top: 0;
     left: 0;
@@ -2592,7 +2592,7 @@ button.button__instagram.hover__highlight:hover .icon {
     z-index: 99999;
     display: none;
 }
-.pro__alert__wrap .pro__alert__card {
+.pro__alert__wrap .pro__alert__card, .tips__alert__wrap .tips__alert__card {
     width: calc(100% - 30px);
     max-width: 500px;
     margin: 7% auto 0;
@@ -2604,28 +2604,28 @@ button.button__instagram.hover__highlight:hover .icon {
     align-items: center;
     text-align: center;
 }
-.pro__alert__wrap .pro__alert__card img {
+.pro__alert__wrap .pro__alert__card img, .tips__alert__wrap .tips__alert__card img {
     height: 100px;
     margin-bottom: 20px;
 }
-.pro__alert__wrap .pro__alert__card h2 {
+.pro__alert__wrap .pro__alert__card h2, .tips__alert__wrap .tips__alert__card h2 {
     font-size: 32px;
     font-weight: 500;
     color: #131F4D;
     margin-bottom: 15px;
 }
-.pro__alert__wrap .pro__alert__card p {
+.pro__alert__wrap .pro__alert__card p, .tips__alert__wrap .tips__alert__card p {
     font-size: 14px;
     font-weight: 400;
     color: #7C8DB5;
     margin-bottom: 15px;
 }
-.pro__alert__wrap .pro__alert__card p a {
+.pro__alert__wrap .pro__alert__card p a, .tips__alert__wrap .tips__alert__card a {
     text-decoration: underline;
     font-weight: 700;
     color: #131F4D;
 }
-.pro__alert__wrap .pro__alert__card .button {
+.pro__alert__wrap .pro__alert__card .button, .tips__alert__wrap .tips__alert__card button {
     align-self: flex-end;
     margin-top: 20px;
     padding: 11px 30px;

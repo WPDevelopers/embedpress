@@ -2,7 +2,8 @@
  * WordPress dependencies
  */
 import { getParams } from '../functions';
-import { addProAlert, isPro, removeAlert } from '../../common/helper';
+import { addProAlert, isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert } from '../../common/helper';
+import { EPIcon } from '../../common/icons';
 import CustomBranding from './custombranding';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
@@ -40,7 +41,7 @@ export const getYoutubeParams = (params, attributes) => {
     let ytvAtts = {};
     let ytcAtts = {};
 
-    if (isYTVideo(attributes.url)) {
+    if (isYTVideo(attributes.url) || isYTLive(attributes.url)) {
         ytvAtts = {
             videosize: 'fixed',
             starttime: '',
@@ -56,7 +57,7 @@ export const getYoutubeParams = (params, attributes) => {
         }
     }
 
-    if (isYTChannel(attributes.url)) {
+    if (isYTChannel(attributes.url) && !isYTLive(attributes.url)) {
         ytcAtts = {
             pagesize: 6,
         }
@@ -72,7 +73,17 @@ export const getYoutubeParams = (params, attributes) => {
 }
 
 export const isYTChannel = (url) => {
-    return url.match(/\/channel\/|\/c\/|\/user\/|\/@[a-z]|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
+    const channelMatch = url.match(/\/channel\/|\/c\/|\/user\/|\/@[a-z]|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
+    if (!channelMatch)
+        return false;
+    return true;
+}
+
+export const isYTLive = (url) => {
+    const liveMatch = url.match(/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|@[\w-]+)\/live$/);
+    if (!liveMatch)
+        return false;
+    return true;
 }
 
 export const isYTVideo = (url) => {
@@ -83,8 +94,6 @@ export const isYTVideo = (url) => {
     const videoId = youtubeMatch[7];
     return videoId.length === 11;
 };
-
-
 
 
 /**
@@ -143,9 +152,10 @@ export const useYTVideo = (attributes) => {
 
 
 
-export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVideo }) {
+export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive }) {
 
     const {
+        url,
         ispagination,
         pagesize,
         columns,
@@ -182,12 +192,16 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         document.querySelector('body').append(isPro('none'));
         removeAlert();
     }
+    if (!document.querySelector('.tips__alert__wrap')) {
+        document.querySelector('body').append(tipsTricksAlert('none'));
+        removeTipsAlert();
+    }
 
     return (
         <div>
 
             {
-                isYTChannel && (
+                (isYTChannel && !isYTLive) && (
                     <div className={'ep__channel-yt-video-options'}>
                         <TextControl
                             label={__("Video Per Page")}
@@ -228,12 +242,19 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                             onChange={(ispagination) => setAttributes({ ispagination })}
                         />
 
+                        <div className={'ep-tips-and-tricks'}>
+                            {EPIcon}
+                            <a href="#" target={'_blank'} onClick={(e) => { e.preventDefault(); addTipsTrick(e) }}> {__("Tips & Tricks", "embedpress")} </a>
+                        </div>
+
                     </div>
                 )
             }
 
+
             {
-                isYTVideo && (
+
+                (isYTVideo || isYTLive) && (
                     <div className={'ep__single-yt-video-options'}>
                         <PanelBody title={__("YouTube Video Controls", 'embedpress')} initialOpen={false}>
                             <div className={'ep-video-controlers'}>

@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the EmbedPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: EmbedPress 3.7.0\n"
+"Project-Id-Version: EmbedPress 3.7.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/embedpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-04-17T06:39:39+00:00\n"
+"POT-Creation-Date: 2023-05-08T09:15:06+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.0\n"
 "X-Domain: embedpress\n"
@@ -487,7 +487,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:285
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:263
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:284
 msgid "Controls"
 msgstr ""
 
@@ -527,7 +527,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:329
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:88
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:288
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:309
 msgid "Progress Bar Color"
 msgstr ""
 
@@ -1985,7 +1985,7 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:178
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:315
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:336
 msgid "Modest Branding"
 msgstr ""
 
@@ -2196,23 +2196,23 @@ msgstr ""
 msgid "Enter share description"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:308
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:855
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1232
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:314
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:861
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1238
 #: Gutenberg/plugin.php:70
 msgid "Watch from the beginning"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:309
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:856
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1233
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:315
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:862
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1239
 #: Gutenberg/plugin.php:71
 msgid "Skip to where you left off"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:310
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:857
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1234
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:316
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:863
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1240
 #: Gutenberg/plugin.php:72
 msgid "It looks like you've watched<br />part of this video before!"
 msgstr ""
@@ -2300,33 +2300,33 @@ msgstr ""
 msgid "Something went wrong."
 msgstr ""
 
-#: EmbedPress/Providers/Youtube.php:206
-#: EmbedPress/Providers/Youtube.php:342
+#: EmbedPress/Providers/Youtube.php:238
+#: EmbedPress/Providers/Youtube.php:425
 msgid "Sorry, there may be an issue with your YouTube API key."
 msgstr ""
 
-#: EmbedPress/Providers/Youtube.php:269
+#: EmbedPress/Providers/Youtube.php:352
 msgid "Please enter your YouTube API key to embed YouTube Channel."
 msgstr ""
 
-#: EmbedPress/Providers/Youtube.php:335
-#: EmbedPress/Providers/Youtube.php:518
+#: EmbedPress/Providers/Youtube.php:418
+#: EmbedPress/Providers/Youtube.php:601
 msgid "There is nothing on the playlist."
 msgstr ""
 
-#: EmbedPress/Providers/Youtube.php:421
+#: EmbedPress/Providers/Youtube.php:504
 msgid "Prev"
 msgstr ""
 
-#: EmbedPress/Providers/Youtube.php:504
+#: EmbedPress/Providers/Youtube.php:587
 msgid "Next "
 msgstr ""
 
-#: EmbedPress/Providers/Youtube.php:525
+#: EmbedPress/Providers/Youtube.php:608
 msgid "EmbedPress: Please enter your YouTube API key at <a class='ep-link' href='%s' target='_blank' style='color: #5b4e96; text-decoration: none'>EmbedPress > Platforms > YouTube</a> to embed YouTube Channel."
 msgstr ""
 
-#: EmbedPress/Providers/Youtube.php:566
+#: EmbedPress/Providers/Youtube.php:649
 msgid "EmbedPress: "
 msgstr ""
 
@@ -2407,7 +2407,13 @@ msgid "Unknown error format"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:238
+#: Gutenberg/src/embedpress/inspector.js:143
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:247
+msgid "Tips & Tricks"
+msgstr ""
+
+#: Gutenberg/dist/blocks.build.js:1
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:259
 msgid "YouTube Video Controls"
 msgstr ""
 
@@ -2431,8 +2437,8 @@ msgstr ""
 #: Gutenberg/src/embedpress/InspectorControl/wistia.js:221
 #: Gutenberg/src/embedpress/InspectorControl/wistia.js:241
 #: Gutenberg/src/embedpress/InspectorControl/wistia.js:259
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:308
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:327
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:329
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:348
 msgid "pro"
 msgstr ""
 
@@ -2514,6 +2520,11 @@ msgstr ""
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:204
 msgid "Embed Size"
+msgstr ""
+
+#: Gutenberg/dist/blocks.build.js:1
+#: Gutenberg/src/embedpress/inspector.js:99
+msgid "You can adjust the width of embedded content."
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1

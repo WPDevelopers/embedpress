@@ -169,7 +169,7 @@ class Embedpress_Document extends Widget_Base
                     ],
                 ],
                 'selectors' => [
-                    '{{WRAPPER}} .embedpress-document-embed iframe'               => 'height: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .embedpress-document-embed iframe'               => 'height: {{SIZE}}{{UNIT}}!important;',
                     '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'height: {{SIZE}}{{UNIT}};',
                 ],
             ]
