@@ -174,10 +174,10 @@ let epGlobals = {};
         }
     }
 
-    epGlobals.fullscreenDocumentIframe = function () {
-        const fullscreenBtn = document.querySelector(".ep-doc-fullscreen-icon svg");
-        const documentContainer = document.querySelector(".ep-file-download-option-masked");
-        const documentIframe = document.querySelector(".ep-file-download-option-masked iframe");
+    epGlobals.fullscreenDocumentIframe = function (selectorEl) {
+        const fullscreenBtn = document.querySelector(selectorEl + " .ep-doc-fullscreen-icon svg");
+        const documentContainer = document.querySelector(selectorEl + " .ep-file-download-option-masked");
+        const documentIframe = document.querySelector(selectorEl + " .ep-file-download-option-masked iframe");
 
         fullscreenBtn.addEventListener("click", () => {
             if (documentContainer.requestFullscreen) {
@@ -193,54 +193,62 @@ let epGlobals = {};
 
         document.addEventListener("fullscreenchange", () => {
             if (document.fullscreenElement) {
-                documentIframe.classList.add("fullscreen-enabled");
+                documentContainer.classList.add("fullscreen-enabled");
             }
             else {
-                documentIframe.classList.remove("fullscreen-enabled");
+                documentContainer.classList.remove("fullscreen-enabled");
             }
         });
 
     };
 
-    epGlobals.downloadDocumentFile = function () {
-        const downloadBtn = document.querySelector('.ep-doc-download-icon');
-        const pdfIframe = document.querySelector('.ep-file-download-option-masked iframe');
+    epGlobals.downloadDocumentFile = function (selectorEl) {
+        const downloadBtn = document.querySelector(selectorEl + ' .ep-doc-download-icon');
+        const docIframe = document.querySelector(selectorEl + ' .ep-file-download-option-masked iframe');
 
-        // if (downloadBtn.length > 0) {
-        downloadBtn.addEventListener('click', function () {
-            const fileUrl = decodeURIComponent(pdfIframe.getAttribute('src')).match(/url=([^&]*)/)[1];
-            const filename = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+        const iframeSrc = decodeURIComponent(docIframe.getAttribute('src'));//.match(/url=([^&]*)/)[1]; 
+        
+        if (iframeSrc.length > 0) {
+            downloadBtn.addEventListener('click', function () {
+                const regex = /(url|src)=([^&]+)/;
+                const match = iframeSrc.match(regex);
+                const fileUrl = match && match[2];
 
-            fetch(fileUrl, { mode: 'no-cors' })
-                .then(response => {
-                    if (response.ok) {
+                const filename = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
 
-
-                        response.blob()
-                            .then(blob => {
-                                const url = window.URL.createObjectURL(blob);
-                                const a = document.createElement('a');
-                                a.href = url;
-                                a.download = filename;
-                                document.body.appendChild(a);
-                                a.click();
-                                a.remove();
-                            });
-                    } else {
+                fetch(fileUrl, { mode: 'no-cors' })
+                    .then(response => {
+                        if (response.ok) {
+                            response.blob()
+                                .then(blob => {
+                                    const url = window.URL.createObjectURL(blob);
+                                    const a = document.createElement('a');
+                                    a.href = url;
+                                    a.download = filename;
+                                    document.body.appendChild(a);
+                                    a.click();
+                                    a.remove();
+                                });
+                        } else {
+                            window.location.href = fileUrl;
+                        }
+                    })
+                    .catch(error => {
                         window.location.href = fileUrl;
-                    }
-                })
-                .catch(error => {
-                    window.location.href = fileUrl;
-                });
-        });
-        // }
+                    });
+            });
+        }
     };
 
-    epGlobals.printDocumentFile = function () {
-        const printBtn = document.querySelector('.ep-doc-print-icon');
-        const pdfIframe = document.querySelector('.ep-file-download-option-masked iframe');
-        const fileUrl = decodeURIComponent(pdfIframe.getAttribute('src')).match(/url=([^&]*)/)[1];
+    epGlobals.printDocumentFile = function (selectorEl) {
+        const printBtn = document.querySelector(selectorEl + ' .ep-doc-print-icon');
+        const docIframe = document.querySelector(selectorEl + ' .ep-file-download-option-masked iframe');
+
+        const iframeSrc = decodeURIComponent(docIframe.getAttribute('src'));//.match(/url=([^&]*)/)[1]; 
+        const regex = /(url|src)=([^&]+)/;
+        const match = iframeSrc.match(regex);
+        const fileUrl = match && match[2];
+
         printBtn.addEventListener('click', function () {
             window.location.href = fileUrl;
         });
@@ -496,6 +504,11 @@ let epGlobals = {};
 jQuery(window).on("elementor/frontend/init", function () {
 
     var filterableGalleryHandler = function ($scope, $) {
+
+        // Get the Elementor unique selector for this widget
+        let classes = $scope[0].className;
+        let selectorEl = '.' + classes.split(' ').join('.');
+
         const epElLoadMore = () => {
 
             const spinicon = '<svg width="18" height="18" fill="#fff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_GuJz{transform-origin:center;animation:spinner_STY6 1.5s linear infinite}@keyframes spinner_STY6{100%{transform:rotate(360deg)}}</style><g class="spinner_GuJz"><circle cx="3" cy="12" r="2"/><circle cx="21" cy="12" r="2"/><circle cx="12" cy="21" r="2"/><circle cx="12" cy="3" r="2"/><circle cx="5.64" cy="5.64" r="2"/><circle cx="18.36" cy="18.36" r="2"/><circle cx="5.64" cy="18.36" r="2"/><circle cx="18.36" cy="5.64" r="2"/></g></svg>';
@@ -592,14 +605,14 @@ jQuery(window).on("elementor/frontend/init", function () {
         }
 
         if (typeof epGlobals.fullscreenDocumentIframe === "function") {
-            epGlobals.fullscreenDocumentIframe();
+            epGlobals.fullscreenDocumentIframe(selectorEl);
         }
 
         if (typeof epGlobals.downloadDocumentFile === "function") {
-            epGlobals.downloadDocumentFile();
+            epGlobals.downloadDocumentFile(selectorEl);
         }
         if (typeof epGlobals.printDocumentFile === "function") {
-            epGlobals.printDocumentFile();
+            epGlobals.printDocumentFile(selectorEl);
         }
 
     };

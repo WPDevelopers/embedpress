@@ -365,10 +365,9 @@ class Embedpress_Document extends Widget_Base
                     }
         
                 } else {
-
+                    // Helper::get_extension_from_file_url($url) === 'pptx' || Helper::get_extension_from_file_url($url) === 'ppt' || Helper::get_extension_from_file_url($url) === 'xls' || Helper::get_extension_from_file_url($url) === 'xlsx' 
                     
-
-                    if(Helper::get_extension_from_file_url($url) === 'pptx'){ 
+                    if(true){ 
                         $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';
                     }
                     else{
@@ -384,8 +383,12 @@ class Embedpress_Document extends Widget_Base
 
 
                     $embed_content = '<div ' . $this->get_render_attribute_string( 'embedpres-pdf-render' ) . '>';
-                    
-                    $embed_content.='<div class="ep-file-download-option-masked">';
+
+                    $is_powered_by = '';
+                    if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
+                        $is_powered_by = 'ep-powered-by-enabled';
+                    }
+                    $embed_content.='<div class="ep-file-download-option-masked ep-file-'.Helper::get_extension_from_file_url($url).' '.$is_powered_by.'">';
                     
 
                     $sandbox = '';
@@ -395,8 +398,8 @@ class Embedpress_Document extends Widget_Base
                     $embed_content.='<iframe title="' . esc_attr( Helper::get_file_title($url) ) . '" allowfullscreen="true"  mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr( $dimension ) . '; max-width:100%;" src="' . esc_url( $view_link ) . '" '.$sandbox.'>
                     </iframe>';
 
-                    if ( $settings[ 'embedpress_document_download_disabled' ] === 'yes' && Helper::get_extension_from_file_url($url) === 'pptx') {
-                        $embed_content.='<div class="embed-download-disabled"></div></div>';
+                    if ( $settings[ 'embedpress_document_download_disabled' ] === 'yes' && (Helper::get_extension_from_file_url($url) === 'pptx' || Helper::get_extension_from_file_url($url) === 'ppt' || Helper::get_extension_from_file_url($url) === 'xls' || Helper::get_extension_from_file_url($url) === 'xlsx')) {
+                        $embed_content.='<div class="embed-download-disabled"></div>';
                     }
                     
                     if ( $settings[ 'embedpress_document_download_disabled' ] === 'yes' && Helper::get_extension_from_file_url($url) !== 'pptx') {
@@ -407,13 +410,18 @@ class Embedpress_Document extends Widget_Base
                     $embed_content.= Helper::ep_get_popup_icon(); 
                     $embed_content.= Helper::ep_get_print_icon(); 
                     $embed_content.= Helper::ep_get_download_icon(); 
-                    $embed_content.= Helper::ep_get_fullscreen_icon().'</div>'; 
-                    
+                    $embed_content.= Helper::ep_get_draw_icon(); 
+                    $embed_content.= Helper::ep_get_fullscreen_icon(); 
+                    $embed_content.= '</div>';
+
                     if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
                         $embed_content.= '<div>';
                         $embed_content .= sprintf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
                         $embed_content .='</div>';
                     }
+                    
+                    $embed_content .='</div>';
+                    $embed_content .='</div>';
                 }
             }
 

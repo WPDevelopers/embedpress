@@ -1371,7 +1371,7 @@ a.ep-social-icon.pinterest svg {
     display: none;
 }
 
-.ep-external-doc-icons {
+/* .ep-external-doc-icons {
     position: absolute;
     right: 12px;
     top: 12px;
@@ -1379,13 +1379,27 @@ a.ep-social-icon.pinterest svg {
     flex-direction: column;
     background: #343434;
     border-radius: 6px;
+} */
+.ep-external-doc-icons {
+    position: absolute;
+    /* right: 12px; */
+    /* bottom: 12px; */
+    display: flex;
+    flex-direction: revert;
+    background: #343434;
+    border-radius: 6px;
+    z-index: 2;
+    bottom: -20px;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
+
 .ep-external-doc-icons svg{
     width: 20px;
     height: 20px;
     cursor: pointer;
 }
-.ep-doc-download-icon, .ep-doc-print-icon, .ep-doc-fullscreen-icon, .ep-doc-popup-icon {
+.ep-doc-download-icon, .ep-doc-print-icon, .ep-doc-fullscreen-icon, .ep-doc-popup-icon, .ep-doc-draw-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1394,7 +1408,42 @@ a.ep-social-icon.pinterest svg {
     /* background: #343434; */
 }
 
-.elementor .elementor-element.elementor-element .embedpress-document-embed iframe.fullscreen-enabled {
+.elementor .elementor-element.elementor-element .embedpress-document-embed .fullscreen-enabled iframe {
     width: 100%!important;
     height: 100%!important;
+}
+
+.ep-file-download-option-masked::after {
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    background: #343434;
+    z-index: 1;
+    bottom: 0;
+    content: '';
+    left: 0;
+}
+.ep-file-download-option-masked.ep-file-docx::after {
+    bottom: 0;
+    background: white;
+}
+
+.ep-file-download-option-masked.ep-file-docx.ep-powered-by-enabled::after {
+    bottom: 40px;
+    background: white;
+    height: 22px;
+}
+.ep-file-download-option-masked.ep-file-docx.ep-powered-by-enabled.fullscreen-enabled::after {
+    bottom: 0;
+}
+.ep-file-download-option-masked.ep-file-docx .ep-external-doc-icons{
+    right: 12px;
+    top: 12px;
+    display: flex;
+    flex-direction: column;
+    background: #343434;
+    border-radius: 6px;
+    bottom: auto;
+    left: auto;
+    transform: translate(0%, 0%);
 }
