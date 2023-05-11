@@ -31,9 +31,7 @@ let epGlobals = {};
                 PDFObject.embed(src, "." + id, option);
             }));
         }
-        if (typeof epGlobals.youtubeChannelGallery === 'function') {
-            epGlobals.youtubeChannelGallery();
-        }
+        
     });
 
     /**
@@ -172,6 +170,9 @@ let epGlobals = {};
                 youtubeChannelEvents(playerWraps[i])
             }
         }
+    }
+    if (typeof epGlobals.youtubeChannelGallery === 'function') {
+        epGlobals.youtubeChannelGallery();
     }
     function youtubeChannelEvents(playerWrap) {
 
