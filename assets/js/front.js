@@ -176,20 +176,40 @@ let epGlobals = {};
 
     epGlobals.fullscreenDocumentIframe = function (selectorEl) {
         const fullscreenBtn = document.querySelector(selectorEl + " .ep-doc-fullscreen-icon svg");
+        const minimizeBtn = document.querySelector(selectorEl + " .ep-doc-minimize-icon svg");
         const documentContainer = document.querySelector(selectorEl + " .ep-file-download-option-masked");
         const documentIframe = document.querySelector(selectorEl + " .ep-file-download-option-masked iframe");
+        if (fullscreenBtn == null || minimizeBtn == null) {
+            return false;
+        }
 
         fullscreenBtn.addEventListener("click", () => {
+
             if (documentContainer.requestFullscreen) {
                 documentContainer.requestFullscreen();
             } else if (documentContainer.webkitRequestFullscreen) {
-                /* Safari */
                 documentContainer.webkitRequestFullscreen();
             } else if (documentContainer.msRequestFullscreen) {
-                /* IE11 */
                 documentContainer.msRequestFullscreen();
             }
+
+            document.querySelector(selectorEl + " .ep-doc-minimize-icon").style.display = 'flex';
+            document.querySelector(selectorEl + " .ep-doc-fullscreen-icon").style.display = 'none';
+
+
         });
+
+        minimizeBtn.addEventListener("click", () => {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+
+        });
+
 
         document.addEventListener("fullscreenchange", () => {
             if (document.fullscreenElement) {
@@ -197,6 +217,8 @@ let epGlobals = {};
             }
             else {
                 documentContainer.classList.remove("fullscreen-enabled");
+                document.querySelector(selectorEl + " .ep-doc-minimize-icon").style.display = 'none';
+                document.querySelector(selectorEl + " .ep-doc-fullscreen-icon").style.display = 'flex';
             }
         });
 
@@ -206,52 +228,99 @@ let epGlobals = {};
         const downloadBtn = document.querySelector(selectorEl + ' .ep-doc-download-icon');
         const docIframe = document.querySelector(selectorEl + ' .ep-file-download-option-masked iframe');
 
-        const iframeSrc = decodeURIComponent(docIframe.getAttribute('src'));//.match(/url=([^&]*)/)[1]; 
-        
-        if (iframeSrc.length > 0) {
-            downloadBtn.addEventListener('click', function () {
-                const regex = /(url|src)=([^&]+)/;
-                const match = iframeSrc.match(regex);
-                const fileUrl = match && match[2];
-
-                const filename = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
-
-                fetch(fileUrl, { mode: 'no-cors' })
-                    .then(response => {
-                        if (response.ok) {
-                            response.blob()
-                                .then(blob => {
-                                    const url = window.URL.createObjectURL(blob);
-                                    const a = document.createElement('a');
-                                    a.href = url;
-                                    a.download = filename;
-                                    document.body.appendChild(a);
-                                    a.click();
-                                    a.remove();
-                                });
-                        } else {
-                            window.location.href = fileUrl;
-                        }
-                    })
-                    .catch(error => {
-                        window.location.href = fileUrl;
-                    });
-            });
+        if (downloadBtn == null || docIframe == null) {
+            return false;
         }
+        const iframeSrc = decodeURIComponent(docIframe.getAttribute('src'));//.match(/url=([^&]*)/)[1]; 
+        downloadBtn.addEventListener('click', function () {
+            const regex = /(url|src)=([^&]+)/;
+            const match = iframeSrc.match(regex);
+            const fileUrl = match && match[2];
+
+            const filename = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+
+            fetch(fileUrl, { mode: 'no-cors' })
+                .then(response => {
+                    if (response.ok) {
+                        response.blob()
+                            .then(blob => {
+                                const url = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = filename;
+                                document.body.appendChild(a);
+                                a.click();
+                                a.remove();
+                            });
+                    } else {
+                        window.location.href = fileUrl;
+                    }
+                })
+                .catch(error => {
+                    window.location.href = fileUrl;
+                });
+        });
+
     };
 
     epGlobals.printDocumentFile = function (selectorEl) {
         const printBtn = document.querySelector(selectorEl + ' .ep-doc-print-icon');
         const docIframe = document.querySelector(selectorEl + ' .ep-file-download-option-masked iframe');
-
+        if (printBtn == null || docIframe == null) {
+            return false;
+        }
         const iframeSrc = decodeURIComponent(docIframe.getAttribute('src'));//.match(/url=([^&]*)/)[1]; 
         const regex = /(url|src)=([^&]+)/;
         const match = iframeSrc.match(regex);
         const fileUrl = match && match[2];
 
         printBtn.addEventListener('click', function () {
-            window.location.href = fileUrl;
+            window.location.href = `https://view.officeapps.live.com/op/view.aspx?src=${fileUrl}&wdOrigin=BROWSELINK`;
         });
+
+    }
+
+    epGlobals.drawInDocument = function (selectorEl) {
+
+        var canvas = document.querySelector(selectorEl + " .ep-doc-canvas");
+        var drawTooggle = document.querySelector(selectorEl + " .ep-doc-draw-icon svg");
+
+        if (canvas == null || drawTooggle == null) {
+            return false;
+        }
+
+        var ctx = canvas.getContext("2d");
+        var isDrawing = false;
+        var canDraw = false;
+
+        canvas.addEventListener("mousedown", function (e) {
+            if (canDraw) {
+                isDrawing = true;
+                ctx.beginPath();
+                ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+            }
+        });
+        canvas.addEventListener("mousemove", function (e) {
+            if (isDrawing && canDraw) {
+                ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+                ctx.stroke();
+
+                console.log(ctx);
+            }
+        });
+        canvas.addEventListener("mouseup", function (e) {
+            isDrawing = false;
+        });
+
+
+        drawTooggle.addEventListener("click", function (e) {
+            drawTooggle.parentNode.classList.toggle("active");
+            canDraw = drawTooggle.parentNode.classList.contains("active");
+            if (canDraw) {
+                canvas.style.display = "block";
+            }
+        });
+
     }
 
     function youtubeChannelEvents(playerWrap) {
@@ -600,9 +669,9 @@ jQuery(window).on("elementor/frontend/init", function () {
             unlockElSubmitHander('ep-elementor-content', this);
         });
 
-        if (typeof epGlobals.downloadDisabled === "function") {
-            epGlobals.downloadDisabled();
-        }
+        // if (typeof epGlobals.downloadDisabled === "function") {
+        //     epGlobals.downloadDisabled();
+        // }
 
         if (typeof epGlobals.fullscreenDocumentIframe === "function") {
             epGlobals.fullscreenDocumentIframe(selectorEl);
@@ -613,6 +682,9 @@ jQuery(window).on("elementor/frontend/init", function () {
         }
         if (typeof epGlobals.printDocumentFile === "function") {
             epGlobals.printDocumentFile(selectorEl);
+        }
+        if (typeof epGlobals.drawInDocument === "function") {
+            epGlobals.drawInDocument(selectorEl);
         }
 
     };

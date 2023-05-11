@@ -1371,19 +1371,8 @@ a.ep-social-icon.pinterest svg {
     display: none;
 }
 
-/* .ep-external-doc-icons {
-    position: absolute;
-    right: 12px;
-    top: 12px;
-    display: flex;
-    flex-direction: column;
-    background: #343434;
-    border-radius: 6px;
-} */
 .ep-external-doc-icons {
     position: absolute;
-    /* right: 12px; */
-    /* bottom: 12px; */
     display: flex;
     flex-direction: revert;
     background: #343434;
@@ -1392,14 +1381,30 @@ a.ep-social-icon.pinterest svg {
     bottom: -20px;
     left: 50%;
     transform: translate(-50%, -50%);
+    padding: 0 10px;
 }
 
 .ep-external-doc-icons svg{
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     cursor: pointer;
+    transition: 0.3s;
+    padding: 5px;
+    border-radius: 4px;
 }
-.ep-doc-download-icon, .ep-doc-print-icon, .ep-doc-fullscreen-icon, .ep-doc-popup-icon, .ep-doc-draw-icon {
+.ep-doc-minimize-icon svg, .ep-doc-fullscreen-icon svg {
+    padding: 6px;
+}
+.ep-external-doc-icons svg:hover {
+    background: #453838;
+    border-radius: 4px;
+}
+
+.ep-doc-draw-icon.active svg{
+    background: #453838;
+}
+
+.ep-doc-download-icon, .ep-doc-print-icon, .ep-doc-fullscreen-icon, .ep-doc-popup-icon, .ep-doc-draw-icon, .ep-doc-minimize-icon {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1429,7 +1434,7 @@ a.ep-social-icon.pinterest svg {
 }
 
 .ep-file-download-option-masked.ep-file-docx.ep-powered-by-enabled::after {
-    bottom: 40px;
+    bottom: 0px;
     background: white;
     height: 22px;
 }
@@ -1446,4 +1451,18 @@ a.ep-social-icon.pinterest svg {
     bottom: auto;
     left: auto;
     transform: translate(0%, 0%);
+}
+
+canvas.ep-doc-canvas {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    max-width: calc(100% - 30px);
+    clear: both;
+    max-height: calc(100% - 30px);
+    margin: auto;
+    display: none;
 }
