@@ -142,7 +142,7 @@ export const removedBlockID = () => {
     });
 }
 export const shareIconsHtml = (sharePosition) => {
-   const shareHtml = `<div class="ep-social-share share-position-${sharePosition}">
+    const shareHtml = `<div class="ep-social-share share-position-${sharePosition}">
 		<a href="#" class="ep-social-icon facebook" target="_blank">
 			<svg width="64px" height="64px" viewBox="0 -6 512 512" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0" /><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" /><g id="SVGRepo_iconCarrier"><path fill="#475a96" d="M0 0h512v500H0z" /><path d="M375.717 112.553H138.283c-8.137 0-14.73 6.594-14.73 14.73v237.434c0 8.135 6.594 14.73 14.73 14.73h127.826V276.092h-34.781v-40.28h34.781v-29.705c0-34.473 21.055-53.244 51.807-53.244 14.73 0 27.391 1.097 31.08 1.587v36.026l-21.328.01c-16.725 0-19.963 7.947-19.963 19.609v25.717h39.887l-5.193 40.28h-34.693v103.355h68.012c8.135 0 14.73-6.596 14.73-14.73V127.283c-.001-8.137-6.596-14.73-14.731-14.73z" fill="#ffffff" /></g></svg>
 		</a>
@@ -177,12 +177,12 @@ export const passwordShowHide = (value) => {
         const showEye = document.querySelector('.lock-content-pass-input .pass-show');
         const hideEye = document.querySelector('.lock-content-pass-input .pass-hide');
 
-        if(value === 'show'){
+        if (value === 'show') {
             showEye.classList.remove('active');
             hideEye.classList.add('active');
             document.querySelector('.lock-content-pass-input input').setAttribute('type', 'text');
         }
-        if(value === 'hide'){
+        if (value === 'hide') {
             hideEye.classList.remove('active');
             showEye.classList.add('active');
             document.querySelector('.lock-content-pass-input input').setAttribute('type', 'password');
@@ -194,27 +194,27 @@ export const copiedMessage = () => {
     const passwordInput = document.querySelector(".lock-content-pass-input input");
     const tooltip = document.querySelector('.copy-tooltip');
     setTimeout(() => {
-      tooltip.classList.add('show');
+        tooltip.classList.add('show');
     }, 10);
-    
+
     setTimeout(() => {
-      tooltip.classList.remove('show');  
-      passwordInput.selectionStart = passwordInput.selectionEnd;
+        tooltip.classList.remove('show');
+        passwordInput.selectionStart = passwordInput.selectionEnd;
     }, 1000);
 }
 
 export const copyPassword = (inputRef) => {
 
-   const passwordInput = inputRef.current;
-   const tempInput = document.createElement('input');
-   tempInput.type = 'text';
-   tempInput.value = passwordInput.value;
-   document.body.appendChild(tempInput);
-   tempInput.select();
-   document.execCommand('copy');
-   
-   passwordInput.select();
-   document.body.removeChild(tempInput);
+    const passwordInput = inputRef.current;
+    const tempInput = document.createElement('input');
+    tempInput.type = 'text';
+    tempInput.value = passwordInput.value;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+
+    passwordInput.select();
+    document.body.removeChild(tempInput);
 
     setTimeout(() => {
         passwordInput.selectionStart = passwordInput.selectionEnd;
@@ -222,5 +222,4 @@ export const copyPassword = (inputRef) => {
 
     copiedMessage();
 }
-
 

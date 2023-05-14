@@ -9,12 +9,12 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import {DocumentIcon} from '../common/icons';
+import { DocumentIcon, epGetPopupIcon, epGetDownloadIcon, epGetPrintIcon, epGetFullscreenIcon, epGetMinimizeIcon, epGetDrawIcon } from '../common/icons';
 import Logo
 	from "../common/Logo";
 
-const {__} = wp.i18n; // Import __() from wp.i18n
-const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
+const { __ } = wp.i18n; // Import __() from wp.i18n
+const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
 if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.document) {
 	registerBlockType('embedpress/document', {
@@ -39,10 +39,6 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			href: {
 				type: "string"
 			},
-			powered_by: {
-				type: "boolean",
-				default: true,
-			},
 			width: {
 				type: 'number',
 				default: 600,
@@ -56,7 +52,54 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			mime: {
 				type: "string",
-			}
+			},
+			powered_by: {
+				type: "boolean",
+				default: true,
+			},
+
+			presentation: {
+				type: "boolean",
+				default: true,
+			},
+			themeMode: {
+				type: "string",
+				default: 'default',
+			},
+			customColor: {
+				type: "string",
+				default: '#403A81',
+			},
+			position: {
+				type: "string",
+				default: 'top',
+			},
+
+			download: {
+				type: "boolean",
+				default: true,
+			},
+			open: {
+				type: "boolean",
+				default: false,
+			},
+			copy_text: {
+				type: "boolean",
+				default: true,
+			},
+			draw: {
+				type: "boolean",
+				default: true,
+			},
+			toolbar: {
+				type: "boolean",
+				default: true,
+			},
+			doc_rotation: {
+				type: 'boolean',
+				default: true,
+			},
+
 		},
 		edit,
 		save: function (props) {
@@ -66,12 +109,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				id,
 				width,
 				height,
-				powered_by
+				powered_by,
+				themeMode, customColor, presentation, position, download, draw, toolbar, doc_rotation
 			} = props.attributes
 
-			const iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src=' + href;
+			// const iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src=' + href;
+			const iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src=https%3A%2F%2Ffile-examples.com%2Fstorage%2Ffe59cbbb63645c19f9c3014%2F2017%2F02%2Ffile-sample_100kB.doc';
 			return (
-					<div className={'embedpress-document-embed ep-doc-'+id} style={{height:height,width:width}}>
+				<div className={'embedpress-document-embed ep-doc-' + id} style={{ height: height, width: width }}>
 					{mime === 'application/pdf' && (
 						<div
 							style={{
@@ -83,23 +128,43 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 							data-emsrc={href}></div>
 					)}
 					{mime !== 'application/pdf' && (
-						<iframe
-							style={{
-								height: height,
-								width: width
-							}}
-							src={iframeSrc}
-							mozallowfullscreen="true"
-							webkitallowfullscreen="true"/>
+						<div className='ep-file-download-option-masked ep-gutenberg-file-doc ep-powered-by-enabled'>
+							<iframe
+								style={{
+									height: height,
+									width: width
+								}}
+								src={iframeSrc}
+								mozallowfullscreen="true"
+								webkitallowfullscreen="true" />
+							{
+								draw && (
+									<canvas class="ep-doc-canvas" width="" height="" ></canvas>
+								)
+							}
+
+							{
+								toolbar && (
+									<div class="ep-external-doc-icons ">
+										{epGetPopupIcon()}
+										{download && (epGetPrintIcon())}
+										{download && (epGetDownloadIcon())}
+										{draw && (epGetDrawIcon())}
+										{presentation && (epGetFullscreenIcon())}
+										{presentation && (epGetMinimizeIcon())}
+									</div>
+								)
+							}
+						</div>
 					)}
 					{powered_by && (
 						<p className="embedpress-el-powered">Powered
 							By
 							EmbedPress</p>
 					)}
-					{ embedpressObj.embedpress_pro &&  <Logo id={id}/>}
+					{embedpressObj.embedpress_pro && <Logo id={id} />}
 
-					</div>
+				</div>
 			);
 		},
 

@@ -275,6 +275,8 @@ let epGlobals = {};
         const fileUrl = match && match[2];
 
         printBtn.addEventListener('click', function () {
+            
+        console.log(iframeSrc);
             window.location.href = `https://view.officeapps.live.com/op/view.aspx?src=${fileUrl}&wdOrigin=BROWSELINK`;
         });
 
@@ -564,6 +566,19 @@ let epGlobals = {};
 
     }
 
+    if (typeof epGlobals.fullscreenDocumentIframe === "function") {
+        epGlobals.fullscreenDocumentIframe('.wp-block-embedpress-document');
+    }
+
+    if (typeof epGlobals.downloadDocumentFile === "function") {
+        epGlobals.downloadDocumentFile('.wp-block-embedpress-document');
+    }
+    if (typeof epGlobals.printDocumentFile === "function") {
+        epGlobals.printDocumentFile('.wp-block-embedpress-document');
+    }
+    if (typeof epGlobals.drawInDocument === "function") {
+        epGlobals.drawInDocument('.wp-block-embedpress-document');
+    }
 
 
 

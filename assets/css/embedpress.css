@@ -1392,6 +1392,14 @@ a.ep-social-icon.pinterest svg {
     padding: 5px;
     border-radius: 4px;
 }
+.block-editor-block-list__block .ep-gutenberg-file-doc .ep-external-doc-icons svg {
+    width: 22px;
+    height: 22px;
+}
+.block-editor-block-list__block .ep-gutenberg-file-doc .ep-doc-download-icon svg, .block-editor-block-list__block .ep-gutenberg-file-doc .ep-doc-fullscreen-icon svg {
+    width: 20px!important;
+}
+
 .ep-doc-minimize-icon svg, .ep-doc-fullscreen-icon svg {
     padding: 6px;
 }
