@@ -174,157 +174,6 @@ let epGlobals = {};
         }
     }
 
-    epGlobals.fullscreenDocumentIframe = function (selectorEl) {
-        const fullscreenBtn = document.querySelector(selectorEl + " .ep-doc-fullscreen-icon svg");
-        const minimizeBtn = document.querySelector(selectorEl + " .ep-doc-minimize-icon svg");
-        const documentContainer = document.querySelector(selectorEl + " .ep-file-download-option-masked");
-        const documentIframe = document.querySelector(selectorEl + " .ep-file-download-option-masked iframe");
-        if (fullscreenBtn == null || minimizeBtn == null) {
-            return false;
-        }
-
-        fullscreenBtn.addEventListener("click", () => {
-
-            if (documentContainer.requestFullscreen) {
-                documentContainer.requestFullscreen();
-            } else if (documentContainer.webkitRequestFullscreen) {
-                documentContainer.webkitRequestFullscreen();
-            } else if (documentContainer.msRequestFullscreen) {
-                documentContainer.msRequestFullscreen();
-            }
-
-            document.querySelector(selectorEl + " .ep-doc-minimize-icon").style.display = 'flex';
-            document.querySelector(selectorEl + " .ep-doc-fullscreen-icon").style.display = 'none';
-
-
-        });
-
-        minimizeBtn.addEventListener("click", () => {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-            }
-
-        });
-
-
-        document.addEventListener("fullscreenchange", () => {
-            if (document.fullscreenElement) {
-                documentContainer.classList.add("fullscreen-enabled");
-            }
-            else {
-                documentContainer.classList.remove("fullscreen-enabled");
-                document.querySelector(selectorEl + " .ep-doc-minimize-icon").style.display = 'none';
-                document.querySelector(selectorEl + " .ep-doc-fullscreen-icon").style.display = 'flex';
-            }
-        });
-
-    };
-
-    epGlobals.downloadDocumentFile = function (selectorEl) {
-        const downloadBtn = document.querySelector(selectorEl + ' .ep-doc-download-icon');
-        const docIframe = document.querySelector(selectorEl + ' .ep-file-download-option-masked iframe');
-
-        if (downloadBtn == null || docIframe == null) {
-            return false;
-        }
-        const iframeSrc = decodeURIComponent(docIframe.getAttribute('src'));//.match(/url=([^&]*)/)[1]; 
-        downloadBtn.addEventListener('click', function () {
-            const regex = /(url|src)=([^&]+)/;
-            const match = iframeSrc.match(regex);
-            const fileUrl = match && match[2];
-
-            const filename = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
-
-            fetch(fileUrl, { mode: 'no-cors' })
-                .then(response => {
-                    if (response.ok) {
-                        response.blob()
-                            .then(blob => {
-                                const url = window.URL.createObjectURL(blob);
-                                const a = document.createElement('a');
-                                a.href = url;
-                                a.download = filename;
-                                document.body.appendChild(a);
-                                a.click();
-                                a.remove();
-                            });
-                    } else {
-                        window.location.href = fileUrl;
-                    }
-                })
-                .catch(error => {
-                    window.location.href = fileUrl;
-                });
-        });
-
-    };
-
-    epGlobals.printDocumentFile = function (selectorEl) {
-        const printBtn = document.querySelector(selectorEl + ' .ep-doc-print-icon');
-        const docIframe = document.querySelector(selectorEl + ' .ep-file-download-option-masked iframe');
-        if (printBtn == null || docIframe == null) {
-            return false;
-        }
-        const iframeSrc = decodeURIComponent(docIframe.getAttribute('src'));//.match(/url=([^&]*)/)[1]; 
-        const regex = /(url|src)=([^&]+)/;
-        const match = iframeSrc.match(regex);
-        const fileUrl = match && match[2];
-
-        printBtn.addEventListener('click', function () {
-            
-        console.log(iframeSrc);
-            window.location.href = `https://view.officeapps.live.com/op/view.aspx?src=${fileUrl}&wdOrigin=BROWSELINK`;
-        });
-
-    }
-
-    epGlobals.drawInDocument = function (selectorEl) {
-
-        var canvas = document.querySelector(selectorEl + " .ep-doc-canvas");
-        var drawTooggle = document.querySelector(selectorEl + " .ep-doc-draw-icon svg");
-
-        if (canvas == null || drawTooggle == null) {
-            return false;
-        }
-
-        var ctx = canvas.getContext("2d");
-        var isDrawing = false;
-        var canDraw = false;
-
-        canvas.addEventListener("mousedown", function (e) {
-            if (canDraw) {
-                isDrawing = true;
-                ctx.beginPath();
-                ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
-            }
-        });
-        canvas.addEventListener("mousemove", function (e) {
-            if (isDrawing && canDraw) {
-                ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
-                ctx.stroke();
-
-                console.log(ctx);
-            }
-        });
-        canvas.addEventListener("mouseup", function (e) {
-            isDrawing = false;
-        });
-
-
-        drawTooggle.addEventListener("click", function (e) {
-            drawTooggle.parentNode.classList.toggle("active");
-            canDraw = drawTooggle.parentNode.classList.contains("active");
-            if (canDraw) {
-                canvas.style.display = "block";
-            }
-        });
-
-    }
-
     function youtubeChannelEvents(playerWrap) {
 
         delegate(playerWrap, "click", ".item", function (event) {
@@ -537,6 +386,33 @@ let epGlobals = {};
 
     });
 
+    document.addEventListener("fullscreenchange", () => {
+        if (!document.fullscreenElement) {
+            const viwerParentEl = document.querySelector('.ep-file-download-option-masked.fullscreen-enabled');
+            if (viwerParentEl) {
+                viwerParentEl.classList.remove("fullscreen-enabled");
+                viwerParentEl.querySelector(".ep-doc-minimize-icon").style.display = 'none';
+                viwerParentEl.querySelector(".ep-doc-fullscreen-icon").style.display = 'flex';
+            }
+        }
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            const viwerParentEl = document.querySelector('.ep-file-download-option-masked.fullscreen-enabled');
+            if (viwerParentEl) {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+            }
+        }
+    });
+
+
     // disabled download for documeation
 
     epGlobals.downloadDisabled = function () {
@@ -566,20 +442,136 @@ let epGlobals = {};
 
     }
 
-    if (typeof epGlobals.fullscreenDocumentIframe === "function") {
-        epGlobals.fullscreenDocumentIframe('.wp-block-embedpress-document');
-    }
+    epGlobals.epDocumentsViewerController = () => {
 
-    if (typeof epGlobals.downloadDocumentFile === "function") {
-        epGlobals.downloadDocumentFile('.wp-block-embedpress-document');
-    }
-    if (typeof epGlobals.printDocumentFile === "function") {
-        epGlobals.printDocumentFile('.wp-block-embedpress-document');
-    }
-    if (typeof epGlobals.drawInDocument === "function") {
-        epGlobals.drawInDocument('.wp-block-embedpress-document');
-    }
+        const viwerParentEls = document.querySelectorAll('.ep-file-download-option-masked');
 
+        function handleFullscreenChange() {
+            if (!document.fullscreenElement) {
+                viwerParentEls.forEach((el) => {
+                    el.classList.remove('fullscreen-enabled');
+                    el.querySelector('.ep-doc-minimize-icon').style.display = 'none';
+                    el.querySelector('.ep-doc-fullscreen-icon').style.display = 'flex';
+                });
+            }
+        }
+
+        document.addEventListener('click', function (event) {
+
+            const viwerParentEl = event.target.closest('.ep-file-download-option-masked');
+
+
+            if (!viwerParentEl) return;
+
+            const viewerIframeEl = viwerParentEl.querySelector('iframe');
+            if (!viewerIframeEl) return;
+
+            // console.log(viwerParentEl);
+
+            const iframeSrc = decodeURIComponent(viewerIframeEl.getAttribute('src'));
+            if (!iframeSrc) return;
+
+            const regex = /(url|src)=([^&]+)/;
+            const match = iframeSrc.match(regex);
+            let fileUrl = match && match[2];
+            
+            if (!fileUrl) {
+                fileUrl = iframeSrc;
+            }
+
+            const printIcon = event.target.closest('.ep-doc-print-icon svg');
+            const downloadcIcon = event.target.closest('.ep-doc-download-icon svg');
+            const minimizeIcon = event.target.closest('.ep-doc-minimize-icon svg');
+            const fullscreenIcon = event.target.closest('.ep-doc-fullscreen-icon svg');
+            const drawIcon = event.target.closest('.ep-doc-draw-icon svg');
+
+            if (printIcon instanceof SVGElement) {
+                const newTab = window.open(`https://view.officeapps.live.com/op/view.aspx?src=${fileUrl}&wdOrigin=BROWSELINK`);
+                newTab.focus();
+            } else if (downloadcIcon instanceof SVGElement) {
+                fetch(fileUrl, { mode: 'no-cors' })
+                    .then(response => {
+                        if (response.ok) {
+                            response.blob().then(blob => {
+                                const url = window.URL.createObjectURL(blob);
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
+                                document.body.appendChild(a);
+                                a.click();
+                                a.remove();
+                            });
+                        } else {
+                            window.location.href = fileUrl;
+                        }
+                    })
+                    .catch(error => {
+                        window.location.href = fileUrl;
+                    });
+            } else if (minimizeIcon instanceof SVGElement) {
+                const viwerParentEl = event.target.closest('.ep-file-download-option-masked');
+
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
+
+            } else if (fullscreenIcon instanceof SVGElement) {
+                const viwerParentEl = event.target.closest('.ep-file-download-option-masked');
+
+                if (viwerParentEl.requestFullscreen) {
+                    viwerParentEl.requestFullscreen();
+                } else if (viwerParentEl.webkitRequestFullscreen) {
+                    viwerParentEl.webkitRequestFullscreen();
+                } else if (viwerParentEl.msRequestFullscreen) {
+                    viwerParentEl.msRequestFullscreen();
+                }
+
+                viwerParentEl.querySelector(".ep-doc-minimize-icon").style.display = 'flex';
+                viwerParentEl.querySelector(".ep-doc-fullscreen-icon").style.display = 'none';
+                viwerParentEl.classList.add("fullscreen-enabled");
+
+            } else if (drawIcon instanceof SVGElement) {
+                const canvas = viwerParentEl.querySelector(".ep-doc-canvas");
+                const drawTooggle = viwerParentEl.querySelector(".ep-doc-draw-icon svg");
+                if (!canvas || !drawTooggle) return;
+
+                const ctx = canvas.getContext("2d");
+                let isDrawing = false;
+                let canDraw = false;
+
+                canvas.addEventListener("mousedown", function (e) {
+                    if (canDraw) {
+                        isDrawing = true;
+                        ctx.beginPath();
+                        ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+                    }
+                });
+                canvas.addEventListener("mousemove", function (e) {
+                    if (isDrawing && canDraw) {
+                        ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+                        ctx.stroke();
+                    }
+                });
+                canvas.addEventListener("mouseup", function (e) {
+                    isDrawing = false;
+                });
+
+                drawTooggle.parentNode.classList.toggle("active");
+                canDraw = drawTooggle.parentNode.classList.contains("active");
+                canvas.style.display = canDraw ? "block" : "none";
+            }
+        });
+
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+    };
+
+    // if (typeof epGlobals.epDocumentsViewerController === "function") {
+    //     epGlobals.epDocumentsViewerController();
+    // }
 
 
 })(jQuery);
@@ -684,23 +676,9 @@ jQuery(window).on("elementor/frontend/init", function () {
             unlockElSubmitHander('ep-elementor-content', this);
         });
 
-        // if (typeof epGlobals.downloadDisabled === "function") {
-        //     epGlobals.downloadDisabled();
+        // if (typeof epGlobals.epDocumentsViewerController === "function") {
+        //     epGlobals.epDocumentsViewerController();
         // }
-
-        if (typeof epGlobals.fullscreenDocumentIframe === "function") {
-            epGlobals.fullscreenDocumentIframe(selectorEl);
-        }
-
-        if (typeof epGlobals.downloadDocumentFile === "function") {
-            epGlobals.downloadDocumentFile(selectorEl);
-        }
-        if (typeof epGlobals.printDocumentFile === "function") {
-            epGlobals.printDocumentFile(selectorEl);
-        }
-        if (typeof epGlobals.drawInDocument === "function") {
-            epGlobals.drawInDocument(selectorEl);
-        }
 
     };
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);

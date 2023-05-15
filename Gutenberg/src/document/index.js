@@ -10,8 +10,10 @@ import './style.scss';
 import './editor.scss';
 import edit from './edit';
 import { DocumentIcon, epGetPopupIcon, epGetDownloadIcon, epGetPrintIcon, epGetFullscreenIcon, epGetMinimizeIcon, epGetDrawIcon } from '../common/icons';
-import Logo
-	from "../common/Logo";
+import { isFileUrl } from '../common/helper';
+import DocStyle from './doc-style';
+
+import Logo from "../common/Logo";
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
@@ -113,8 +115,20 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				themeMode, customColor, presentation, position, download, draw, toolbar, doc_rotation
 			} = props.attributes
 
-			// const iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src=' + href;
-			const iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src=https%3A%2F%2Ffile-examples.com%2Fstorage%2Ffe59cbbb63645c19f9c3014%2F2017%2F02%2Ffile-sample_100kB.doc';
+			const { attributes } = props;
+
+			const urlParamsObject = {
+				theme_mode: themeMode,
+				...(themeMode === 'custom' && { custom_color: customColor ? customColor : '#343434' }),
+				presentation: presentation ? presentation : true,
+				position: position ? position : 'bottom',
+				download: download ? download : true,
+				draw: draw ? draw : true,
+			}
+			const urlParams = new URLSearchParams(urlParamsObject);
+			const queryString = urlParams.toString();
+
+			const iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src=' + href // + '?' + queryString;
 			return (
 				<div className={'embedpress-document-embed ep-doc-' + id} style={{ height: height, width: width }}>
 					{mime === 'application/pdf' && (
@@ -139,16 +153,20 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 								webkitallowfullscreen="true" />
 							{
 								draw && (
-									<canvas class="ep-doc-canvas" width="" height="" ></canvas>
+									<canvas class="ep-doc-canvas" width={width} height={height} ></canvas>
 								)
 							}
 
 							{
 								toolbar && (
 									<div class="ep-external-doc-icons ">
-										{epGetPopupIcon()}
-										{download && (epGetPrintIcon())}
-										{download && (epGetDownloadIcon())}
+										{
+											!isFileUrl(href) && (
+												epGetPopupIcon()
+											)
+										}
+										{(download && isFileUrl(href)) && (epGetPrintIcon())}
+										{(download && isFileUrl(href)) && (epGetDownloadIcon())}
 										{draw && (epGetDrawIcon())}
 										{presentation && (epGetFullscreenIcon())}
 										{presentation && (epGetMinimizeIcon())}
@@ -164,6 +182,8 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 					)}
 					{embedpressObj.embedpress_pro && <Logo id={id} />}
 
+					<DocStyle attributes={attributes} />
+					
 				</div>
 			);
 		},

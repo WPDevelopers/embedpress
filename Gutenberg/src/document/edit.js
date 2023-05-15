@@ -6,6 +6,9 @@ import Iframe from '../common/Iframe';
 import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
 import { saveSourceData } from '../common/helper';
+import { DocumentIcon } from '../common/icons';
+import DocStyle  from './doc-style';
+
 /**
  * WordPress dependencies
  */
@@ -16,6 +19,7 @@ const { BlockIcon, MediaPlaceholder, InspectorControls } = wp.blockEditor;
 const { Component, Fragment } = wp.element;
 const { RangeControl, PanelBody, ExternalLink, ToggleControl } = wp.components;
 import { epGetPopupIcon, epGetDownloadIcon, epGetPrintIcon, epGetFullscreenIcon, epGetMinimizeIcon, epGetDrawIcon } from '../common/icons';
+import { isFileUrl } from '../common/helper';
 import DocControls from './doc-controls';
 
 
@@ -147,6 +151,17 @@ class DocumentEdit extends Component {
 		const min = 1;
 		const max = 1000;
 
+		const urlParamsObject = {
+			theme_mode: themeMode,
+			...(themeMode === 'custom' && { custom_color: customColor ? customColor : '#343434' }),
+			presentation: presentation ? presentation : true,
+			position: position ? position : 'bottom',
+			download: download ? download : true,
+			draw: draw ? draw : true,
+		}
+		const urlParams = new URLSearchParams(urlParamsObject);
+		const queryString = urlParams.toString();
+
 		const docLink = 'https://embedpress.com/docs/embed-document/';
 
 
@@ -178,7 +193,7 @@ class DocumentEdit extends Component {
 
 			);
 		} else {
-			const url = '//view.officeapps.live.com/op/embed.aspx?src=https%3A%2F%2Ffile-examples.com%2Fstorage%2Ffe59cbbb63645c19f9c3014%2F2017%2F02%2Ffile-sample_100kB.doc';
+			const url = '//view.officeapps.live.com/op/embed.aspx?src=' + href // + '?' + queryString;
 			return (
 				<Fragment>
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
@@ -192,21 +207,26 @@ class DocumentEdit extends Component {
 								<Iframe title="" onMouseUponMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={url} />
 								{
 									draw && (
-										<canvas class="ep-doc-canvas" width="" height="" ></canvas>
+										<canvas class="ep-doc-canvas" width={width} height={height} ></canvas>
 									)
 								}
 								{
 									toolbar && (
 										<div class="ep-external-doc-icons">
-											{epGetPopupIcon()}
-											{download && (epGetPrintIcon())}
-											{download && (epGetDownloadIcon())}
+											{
+												!isFileUrl(href) && (
+													epGetPopupIcon()
+												)
+											}
+											{(download && isFileUrl(href)) && (epGetPrintIcon())}
+											{(download && isFileUrl(href)) && (epGetDownloadIcon())}
 											{draw && (epGetDrawIcon())}
 											{presentation && (epGetFullscreenIcon())}
 											{presentation && (epGetMinimizeIcon())}
 										</div>
 									)
 								}
+
 							</div>
 						)}
 
@@ -221,6 +241,8 @@ class DocumentEdit extends Component {
 						)}
 
 						{!fetching && <Logo id={id} />}
+
+						<DocStyle attributes={attributes} />
 
 					</div>
 

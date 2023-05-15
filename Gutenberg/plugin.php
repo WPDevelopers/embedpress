@@ -66,6 +66,10 @@ function embedpress_blocks_cgb_editor_assets()
 		filemtime(EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.build.js'), // Version: File modification time.
 		true // Enqueue the script in the footer.
 	);
+	wp_enqueue_script(
+		'embedpress_documents_viewer_script', EMBEDPRESS_PLUGIN_DIR_URL . 'assets/js/documents-viewer-script.js', array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' ), filemtime( EMBEDPRESS_PLUGIN_DIR_URL . 'assets/js/documents-viewer-script.js' ), true 
+	);
+
 	$wistia_labels  = array(
 		'watch_from_beginning'       => __('Watch from the beginning', 'embedpress'),
 		'skip_to_where_you_left_off' => __('Skip to where you left off', 'embedpress'),

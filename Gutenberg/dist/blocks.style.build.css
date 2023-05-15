@@ -146,6 +146,9 @@
 button.components-flex.components-color-palette__custom-color {
   height: 20px; }
 
+.ep-docs-viewer-colors button.components-flex.components-color-palette__custom-color {
+  display: none; }
+
 .components-color-palette__custom-color-value {
   display: none !important; }
 

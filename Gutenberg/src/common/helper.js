@@ -223,3 +223,7 @@ export const copyPassword = (inputRef) => {
     copiedMessage();
 }
 
+export const isFileUrl = (url) => {
+    const pattern = /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i;
+    return pattern.test(url);
+}

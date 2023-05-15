@@ -1421,9 +1421,12 @@ a.ep-social-icon.pinterest svg {
     /* background: #343434; */
 }
 
-.elementor .elementor-element.elementor-element .embedpress-document-embed .fullscreen-enabled iframe {
+.elementor .elementor-element.elementor-element .embedpress-document-embed .fullscreen-enabled iframe, .embedpress-document-embed .fullscreen-enabled iframe  {
     width: 100%!important;
     height: 100%!important;
+}
+.ep-file-download-option-masked.ep-file-link.fullscreen-enabled iframe {
+    margin-left: 22%;
 }
 
 .ep-file-download-option-masked::after {

@@ -26,6 +26,14 @@ const DocControls = ({ attributes, setAttributes }) => {
         removeAlert();
     }
 
+    const colors = [
+        { name: '', color: '#823535' },
+        { name: '', color: '#008000' },
+        { name: '', color: '#403A81' },
+        { name: '', color: '#333333' },
+        { name: '', color: '#000264' },
+    ];
+
     return (
         <PanelBody
             title={__('Doc Control Settings', 'embedpress')}
@@ -48,7 +56,7 @@ const DocControls = ({ attributes, setAttributes }) => {
 
             {
                 (themeMode === 'custom') && (
-                    <div>
+                    <div className={'ep-docs-viewer-colors'}>
                         <ControlHeader headerText={'Color'} />
                         <ColorPalette
                             label={__("Color")}
@@ -81,14 +89,9 @@ const DocControls = ({ attributes, setAttributes }) => {
             {
                 toolbar && (
                     <Fragment>
-                        <ToggleGroupControl label="Toolbar Position" value={position} onChange={(position) => setAttributes({ position })}>
-                            <ToggleGroupControlOption value="top" label="Top" />
-                            <ToggleGroupControlOption value="bottom" label="Bottom" />
-                        </ToggleGroupControl>
-
 
                         <ToggleControl
-                            label={__('Presentation Mode', 'embedpress')}
+                            label={__('Fullscreen', 'embedpress')}
                             onChange={(presentation) =>
                                 setAttributes({ presentation })
                             }
@@ -133,13 +136,7 @@ const DocControls = ({ attributes, setAttributes }) => {
                                 )
                             }
                         </div>
-                        <ToggleControl
-                            label={__('Rotation', 'embedpress')}
-                            onChange={(doc_rotation) =>
-                                setAttributes({ doc_rotation })
-                            }
-                            checked={doc_rotation}
-                        />
+                        
                         <ToggleControl
                             label={__('Powered By')}
                             onChange={(powered_by) =>

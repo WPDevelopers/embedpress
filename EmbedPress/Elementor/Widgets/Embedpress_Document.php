@@ -223,9 +223,6 @@ class Embedpress_Document extends Widget_Base
             'embedpress_doc_content_settings',
             [
                 'label' => esc_html__('Doc Control Settings', 'embedpress'),
-                // 'condition'   => [
-                //     'embedpress_doc_type' => 'file'
-                // ],
             ]
         );
 
@@ -270,33 +267,9 @@ class Embedpress_Document extends Widget_Base
 
 
         $this->add_control(
-            'doc_toolbar_position',
-            [
-                'label' => esc_html__('Toolbar Position', 'embedpress'),
-                'type' => \Elementor\Controls_Manager::CHOOSE,
-                'options' => [
-                    'top' => [
-                        'title' => esc_html__('Top', 'embedpress'),
-                        'icon' => 'eicon-arrow-up',
-                    ],
-                    'bottom' => [
-                        'title' => esc_html__('Bottom', 'embedpress'),
-                        'icon' => 'eicon-arrow-down',
-                    ],
-                ],
-                'default' => 'top',
-                'toggle' => true,
-                'condition' => [
-                    'doc_toolbar' => 'yes',
-                ],
-            ]
-        );
-
-
-        $this->add_control(
             'doc_fullscreen_mode',
             [
-                'label'        => __('Fullscreen Mode', 'embedpress'),
+                'label'        => __('Fullscreen', 'embedpress'),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => __('Show', 'embedpress'),
                 'label_off'    => __('Hide', 'embedpress'),
@@ -354,20 +327,6 @@ class Embedpress_Document extends Widget_Base
             ]
         );
 
-        $this->add_control(
-            'doc_rotate_access',
-            [
-                'label'        => __('Rotation', 'embedpress'),
-                'type'         => Controls_Manager::SWITCHER,
-                'label_on'     => __('Show', 'embedpress'),
-                'label_off'    => __('Hide', 'embedpress'),
-                'return_value' => 'yes',
-                'default'      => 'yes',
-                'condition' => [
-                    'doc_toolbar' => 'yes',
-                ],
-            ]
-        );
 
         $this->end_controls_section();
 
@@ -534,7 +493,12 @@ class Embedpress_Document extends Widget_Base
                     if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
                         $is_powered_by = 'ep-powered-by-enabled';
                     }
-                    $embed_content.='<div class="ep-file-download-option-masked ep-file-'.Helper::get_extension_from_file_url($url).' '.$is_powered_by.'">';
+
+                    $file_extenstion = 'link';
+                    if(!empty(Helper::is_file_url($url))){
+                        $file_extenstion = Helper::get_extension_from_file_url($url);
+                    }
+                    $embed_content.='<div class="ep-file-download-option-masked ep-file-'.esc_attr($file_extenstion).' '.$is_powered_by.'">';
                     
 
                     $sandbox = '';
@@ -561,9 +525,11 @@ class Embedpress_Document extends Widget_Base
                         $embed_content.= '<div class="ep-external-doc-icons">';
                         $embed_content.= Helper::ep_get_popup_icon(); 
 
-                        if(!empty($settings['doc_print_download'])){
-                            $embed_content.= Helper::ep_get_print_icon(); 
-                            $embed_content.= Helper::ep_get_download_icon(); 
+                        if(!empty(Helper::is_file_url($url))){
+                            if(!empty($settings['doc_print_download'])){
+                                $embed_content.= Helper::ep_get_print_icon(); 
+                                $embed_content.= Helper::ep_get_download_icon(); 
+                            }
                         }
                         if(!empty($settings['doc_draw'])){
                             $embed_content.= Helper::ep_get_draw_icon(); 
@@ -599,7 +565,9 @@ class Embedpress_Document extends Widget_Base
                         if(!empty($settings['embedpress_doc_content_share'])){
                             $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
                         }
-                        echo $embed_content;
+                        if(!empty($embed_content)){
+                            echo $embed_content;
+                        }
                     } else {
                         if(!empty($settings['embedpress_doc_content_share'])){
                             $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
