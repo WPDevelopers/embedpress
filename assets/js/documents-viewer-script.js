@@ -121,9 +121,12 @@ embedpressDocViewer.epDocumentsViewerController = () => {
             viwerParentEl.classList.add("fullscreen-enabled");
 
         } else if (drawIcon instanceof SVGElement) {
+
             const canvas = viwerParentEl.querySelector(".ep-doc-canvas");
             const drawTooggle = viwerParentEl.querySelector(".ep-doc-draw-icon svg");
             if (!canvas || !drawTooggle) return;
+
+            console.log(drawTooggle.parentNode);
 
             const ctx = canvas.getContext("2d");
             let isDrawing = false;
@@ -156,7 +159,9 @@ embedpressDocViewer.epDocumentsViewerController = () => {
 };
 
 if (typeof embedpressDocViewer.epDocumentsViewerController === "function") {
-    embedpressDocViewer.epDocumentsViewerController();
+    if (jQuery('.wp-block-embedpress-document.embedpress-document-embed').length > 0) {
+        embedpressDocViewer.epDocumentsViewerController();
+    }
 }
 
 
