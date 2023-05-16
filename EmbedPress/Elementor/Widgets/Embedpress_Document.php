@@ -129,51 +129,75 @@ class Embedpress_Document extends Widget_Base
             ]
         );
 
-        $this->add_control(
-            'embedpress_elementor_document_width',
-            [
-                'label'     => __( 'Width', 'embedpress' ),
-                'type'      => Controls_Manager::SLIDER,
-                'separator' => 'before',
-                'default'   => [
-                    'unit' => 'px',
+        $this->add_responsive_control(
+			'embedpress_elementor_document_width',
+			[
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'label' => esc_html__( 'Width', 'embedpress' ),
+				'range' => [
+					'px' => [
+						'min' => 1,
+						'max' => 1000,
+					],
+				],
+				'devices' => [ 'desktop', 'tablet', 'mobile' ],
+                'default' => [
+					'unit' => 'px',
                     'size' => 600,
-                ],
-                'range'     => [
-                    'px' => [
-                        'min' => 6,
-                        'max' => 1000,
-                    ],
-                ],
-                'selectors' => [
+				],
+				'desktop_default' => [
+					'unit' => 'px',
+                    'size' => 600,
+				],
+				'tablet_default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
+				'mobile_default' => [
+					'size' => 300,
+					'unit' => 'px',
+				],
+				'selectors' => [
                     '{{WRAPPER}} .embedpress-document-embed iframe'               => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
                     '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
                     '{{WRAPPER}} .embedpress-document-embed'                      => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
                 ],
-            ]
-        );
-
-        $this->add_control(
-            'embedpress_elementor_document_height',
-            [
-                'label'     => __( 'Height', 'embedpress' ),
-                'type'      => Controls_Manager::SLIDER,
-                'default'   => [
-                    'unit' => 'px',
+			]
+		);
+        $this->add_responsive_control(
+			'embedpress_elementor_document_height',
+			[
+				'type' => \Elementor\Controls_Manager::SLIDER,
+				'label' => esc_html__( 'Height', 'embedpress' ),
+				'range' => [
+					'px' => [
+						'min' => 1,
+						'max' => 1000,
+					],
+				],
+				'devices' => [ 'desktop', 'tablet', 'mobile' ],
+                'default' => [
+					'unit' => 'px',
                     'size' => 600,
-                ],
-                'range'     => [
-                    'px' => [
-                        'min' => 6,
-                        'max' => 1000,
-                    ],
-                ],
-                'selectors' => [
-                    '{{WRAPPER}} .embedpress-document-embed iframe'               => 'height: {{SIZE}}{{UNIT}}!important;',
+				],
+				'desktop_default' => [
+					'unit' => 'px',
+                    'size' => 600,
+				],
+				'tablet_default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
+				'mobile_default' => [
+					'size' => 300,
+					'unit' => 'px',
+				],
+				'selectors' => [
+                    '{{WRAPPER}} .embedpress-document-embed iframe' => 'height: {{SIZE}}{{UNIT}}!important;',
                     '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'height: {{SIZE}}{{UNIT}};',
                 ],
-            ]
-        );
+			]
+		);
 
         $this->add_responsive_control(
             'embedpress_elementor_document_align',
