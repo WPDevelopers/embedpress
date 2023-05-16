@@ -11,7 +11,6 @@ import './editor.scss';
 import edit from './edit';
 import { DocumentIcon, epGetPopupIcon, epGetDownloadIcon, epGetPrintIcon, epGetFullscreenIcon, epGetMinimizeIcon, epGetDrawIcon } from '../common/icons';
 import { isFileUrl } from '../common/helper';
-import DocStyle from './doc-style';
 
 import Logo from "../common/Logo";
 
@@ -142,7 +141,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 							data-emsrc={href}></div>
 					)}
 					{mime !== 'application/pdf' && (
-						<div className='ep-file-download-option-masked ep-gutenberg-file-doc ep-powered-by-enabled'>
+						<div className='ep-file-download-option-masked ep-gutenberg-file-doc ep-powered-by-enabled' data-theme-mode={themeMode} data-custom-color={customColor} data-id={id}>
 							<iframe
 								style={{
 									height: height,
@@ -182,7 +181,6 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 					)}
 					{embedpressObj.embedpress_pro && <Logo id={id} />}
 
-					<DocStyle attributes={attributes} />
 					
 				</div>
 			);

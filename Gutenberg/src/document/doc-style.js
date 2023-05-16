@@ -1,48 +1,33 @@
+import { epAdjustHexColor, epGetColorBrightness } from "../common/helper";
 const DocStyle = ({attributes}) => {
     const {
         id,
         themeMode, customColor
     } = attributes
+
+	
+	let iconsColor = '#f2f2f6';
+	if(customColor) {
+		let colorBrightness = epGetColorBrightness(customColor)
+		if (colorBrightness > 60) {
+			iconsColor = '#343434';
+		}
+	}
+
     return (
         <style>
             {
                 (themeMode === 'custom') &&
-                `.ep-doc-${id} .ep-file-download-option-masked::after, .ep-doc-${id} .ep-external-doc-icons{
-									background: ${customColor}
-								}
-								.ep-external-doc-icons svg:hover svg path{
-									fill: ${customColor};
-									stroke: ${customColor};
-								}
-								.ep-external-doc-icons svg:hover{
-									background-color: ${customColor};
-								}
-								.ep-doc-draw-icon.active svg{
-									background-color: ${customColor};
-								}
-								`
+                	`
+					[data-id='${id}'][data-theme-mode='custom'] {
+						--viewer-primary-color: ${customColor};
+						--viewer-icons-color: ${iconsColor};
+						--viewer-icons-hover-bgcolor: ${epAdjustHexColor(customColor, -10)};
+					
+					}
+					`
             }
-            {
-                (themeMode === 'light') &&
-                `.ep-doc-${id} .ep-file-download-option-masked::after, .ep-doc-${id} .ep-external-doc-icons{
-								background: #f2f2f6;
-							}
-							.ep-doc-${id} .ep-external-doc-icons svg path{
-								fill: #343434;
-							}
-							.ep-doc-${id} .ep-doc-draw-icon svg path{
-								fill: #f2f2f6;
-								stroke: #343434;
-							}
-							.ep-external-doc-icons svg:hover svg path{
-								fill: #343434;
-								stroke: #343434;
-							}
-							.ep-external-doc-icons svg:hover{
-								background-color: #e5e1e9;
-							}
-							`
-            }
+            
         </style>
     )
 }

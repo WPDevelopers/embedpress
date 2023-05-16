@@ -150,6 +150,7 @@ class DocumentEdit extends Component {
 		const { hasError, interactive, fetching, loadPdf } = this.state;
 		const min = 1;
 		const max = 1000;
+		const blockId = id;
 
 		const urlParamsObject = {
 			theme_mode: themeMode,
@@ -203,7 +204,7 @@ class DocumentEdit extends Component {
 
 						)}
 						{mime !== 'application/pdf' && (
-							<div className='ep-file-download-option-masked ep-gutenberg-file-doc ep-powered-by-enabled'>
+							<div className='ep-file-download-option-masked ep-gutenberg-file-doc ep-powered-by-enabled' data-theme-mode={themeMode} data-custom-color={customColor} data-id={blockId}>
 								<Iframe title="" onMouseUponMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={url} />
 								{
 									draw && (

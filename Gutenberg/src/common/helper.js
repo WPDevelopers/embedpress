@@ -227,3 +227,36 @@ export const isFileUrl = (url) => {
     const pattern = /\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i;
     return pattern.test(url);
 }
+
+export const epGetColorBrightness = (hexColor) => {
+    const r = parseInt(hexColor.slice(1, 3), 16);
+    const g = parseInt(hexColor.slice(3, 5), 16);
+    const b = parseInt(hexColor.slice(5, 7), 16);
+
+    // Convert the RGB color to HSL
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const l = (max + min) / 2;
+
+    // Calculate the brightness position in percentage
+    const brightnessPercentage = Math.round(l / 255 * 100);
+
+    return brightnessPercentage;
+}
+export const epAdjustHexColor = (hexColor, percentage) => {
+    // Convert hex color to RGB values
+    const r = parseInt(hexColor.slice(1, 3), 16);
+    const g = parseInt(hexColor.slice(3, 5), 16);
+    const b = parseInt(hexColor.slice(5, 7), 16);
+
+    // Calculate adjusted RGB values
+    const adjustment = Math.round((percentage / 100) * 255);
+    const newR = Math.max(Math.min(r + adjustment, 255), 0);
+    const newG = Math.max(Math.min(g + adjustment, 255), 0);
+    const newB = Math.max(Math.min(b + adjustment, 255), 0);
+
+    // Convert adjusted RGB values back to hex color
+    const newHexColor = '#' + ((1 << 24) + (newR << 16) + (newG << 8) + newB).toString(16).slice(1);
+
+    return newHexColor;
+}

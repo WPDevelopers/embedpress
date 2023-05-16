@@ -28,6 +28,79 @@ document.addEventListener("keydown", (event) => {
 });
 
 
+embedpressDocViewer.getColorBrightness = (hexColor) => {
+    const r = parseInt(hexColor.slice(1, 3), 16);
+    const g = parseInt(hexColor.slice(3, 5), 16);
+    const b = parseInt(hexColor.slice(5, 7), 16);
+
+    // Convert the RGB color to HSL
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const l = (max + min) / 2;
+
+    // Calculate the brightness position in percentage
+    const brightnessPercentage = Math.round(l / 255 * 100);
+
+    return brightnessPercentage;
+}
+
+embedpressDocViewer.adjustHexColor = (hexColor, percentage) => {
+    // Convert hex color to RGB values
+    const r = parseInt(hexColor.slice(1, 3), 16);
+    const g = parseInt(hexColor.slice(3, 5), 16);
+    const b = parseInt(hexColor.slice(5, 7), 16);
+
+    // Calculate adjusted RGB values
+    const adjustment = Math.round((percentage / 100) * 255);
+    const newR = Math.max(Math.min(r + adjustment, 255), 0);
+    const newG = Math.max(Math.min(g + adjustment, 255), 0);
+    const newB = Math.max(Math.min(b + adjustment, 255), 0);
+
+    // Convert adjusted RGB values back to hex color
+    const newHexColor = '#' + ((1 << 24) + (newR << 16) + (newG << 8) + newB).toString(16).slice(1);
+
+    return newHexColor;
+}
+
+embedpressDocViewer.viewerStyle = () => {
+    const viwerParentEls = document.querySelectorAll('.ep-file-download-option-masked');
+
+    let customStyle = document.getElementById('custom-styles') || document.createElement('style');
+    customStyle.id = 'custom-styles';
+    customStyle.type = 'text/css';
+    customStyle.innerHTML = ''
+
+    if (viwerParentEls !== null) {
+        viwerParentEls.forEach((el) => {
+            let customColor = el.getAttribute('data-custom-color');
+            if (customColor == null) {
+                return false;
+            }
+            let colorBrightness = embedpressDocViewer.getColorBrightness(customColor);
+            let docId = el.getAttribute('data-id');
+
+            let iconsColor = '#f2f2f6';
+            if (colorBrightness > 60) {
+                iconsColor = '#343434';
+            }
+
+            if (el.getAttribute('data-theme-mode') == 'custom') {
+
+                viewerCustomColor = `    
+                [data-id='${docId}'][data-theme-mode='custom'] {
+                    --viewer-primary-color: ${customColor};
+                    --viewer-icons-color: ${iconsColor};
+                    --viewer-icons-hover-bgcolor: ${embedpressDocViewer.adjustHexColor(customColor, -10)};
+                
+                }`;
+                customStyle.innerHTML += viewerCustomColor;
+            }
+        });
+
+        document.head.appendChild(customStyle);
+    }
+}
+
 embedpressDocViewer.epDocumentsViewerController = () => {
 
     const viwerParentEls = document.querySelectorAll('.ep-file-download-option-masked');
@@ -43,16 +116,12 @@ embedpressDocViewer.epDocumentsViewerController = () => {
     }
 
     document.addEventListener('click', function (event) {
-
         const viwerParentEl = event.target.closest('.ep-file-download-option-masked');
-
 
         if (!viwerParentEl) return;
 
         const viewerIframeEl = viwerParentEl.querySelector('iframe');
         if (!viewerIframeEl) return;
-
-        // console.log(viwerParentEl);
 
         const iframeSrc = decodeURIComponent(viewerIframeEl.getAttribute('src'));
         if (!iframeSrc) return;
@@ -65,15 +134,18 @@ embedpressDocViewer.epDocumentsViewerController = () => {
             fileUrl = iframeSrc;
         }
 
+        const popupIcon = event.target.closest('.ep-doc-popup-icon svg');
         const printIcon = event.target.closest('.ep-doc-print-icon svg');
         const downloadcIcon = event.target.closest('.ep-doc-download-icon svg');
         const minimizeIcon = event.target.closest('.ep-doc-minimize-icon svg');
         const fullscreenIcon = event.target.closest('.ep-doc-fullscreen-icon svg');
         const drawIcon = event.target.closest('.ep-doc-draw-icon svg');
 
-        if (printIcon instanceof SVGElement) {
-            const newTab = window.open(`https://view.officeapps.live.com/op/view.aspx?src=${fileUrl}&wdOrigin=BROWSELINK`);
-            newTab.focus();
+        if (popupIcon instanceof SVGElement) {
+            window.open(fileUrl, '_blank');
+        }
+        else if (printIcon instanceof SVGElement) {
+            const newTab = window.open(`https://view.officeapps.live.com/op/view.aspx?src=${fileUrl}&wdOrigin=BROWSELINK`, '_blank');
         } else if (downloadcIcon instanceof SVGElement) {
             fetch(fileUrl, { mode: 'no-cors' })
                 .then(response => {
@@ -126,7 +198,6 @@ embedpressDocViewer.epDocumentsViewerController = () => {
             const drawTooggle = viwerParentEl.querySelector(".ep-doc-draw-icon svg");
             if (!canvas || !drawTooggle) return;
 
-            console.log(drawTooggle.parentNode);
 
             const ctx = canvas.getContext("2d");
             let isDrawing = false;
@@ -163,13 +234,20 @@ if (typeof embedpressDocViewer.epDocumentsViewerController === "function") {
         embedpressDocViewer.epDocumentsViewerController();
     }
 }
-
-
+if (typeof embedpressDocViewer.viewerStyle === "function") {
+    if (jQuery('.wp-block-embedpress-document.embedpress-document-embed').length > 0) {
+        embedpressDocViewer.viewerStyle();
+    }
+}
 jQuery(window).on("elementor/frontend/init", function () {
     var filterableGalleryHandler = function ($scope, $) {
         if (typeof embedpressDocViewer.epDocumentsViewerController === "function") {
             embedpressDocViewer.epDocumentsViewerController();
         }
+        if (typeof embedpressDocViewer.epDocumentsViewerController === "function") {
+            embedpressDocViewer.viewerStyle();
+        }
+
     };
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_document.default", filterableGalleryHandler);
 });

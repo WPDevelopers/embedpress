@@ -1350,6 +1350,54 @@ a.ep-social-icon.pinterest svg {
     width: 100%;
 } 
 
+/* Documents viewer style */
+[data-theme-mode='dark'] {
+    --viewer-primary-color: #343434;
+    --viewer-icons-hover-bgcolor: #453838;
+
+}
+[data-theme-mode='light'] {
+    --viewer-primary-color: #f2f2f6;
+    --viewer-icons-color: #343434;
+    --viewer-icons-hover-bgcolor: #e5e1e9;
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --viewer-primary-color: #343434;
+        --viewer-icons-color: #f2f2f6;
+        --viewer-icons-hover-bgcolor: #453838;
+
+    }
+  }
+  
+@media (prefers-color-scheme: light) {
+    :root {
+        --viewer-primary-color: #f2f2f6;
+        --viewer-icons-color: #343434;
+        --viewer-icons-hover-bgcolor: #e5e1e9;
+
+    }
+}
+
+.ep-file-download-option-masked::after, .ep-external-doc-icons{
+    background: var(--viewer-primary-color);
+}
+.ep-external-doc-icons svg path{
+    fill: var(--viewer-icons-color);
+}
+.ep-doc-draw-icon svg path{
+    fill: var(--viewer-primary-color);
+    stroke: var(--viewer-icons-color);
+}
+
+.ep-external-doc-icons svg:hover svg path{
+    fill: var(--viewer-icons-color);
+    stroke: var(--viewer-icons-color);
+}
+.ep-external-doc-icons svg:hover{
+    background-color: var(--viewer-icons-hover-bgcolor);
+}
+  
 .ep-file-download-option-masked {
     position: relative;
 }
@@ -1375,7 +1423,7 @@ a.ep-social-icon.pinterest svg {
     position: absolute;
     display: flex;
     flex-direction: revert;
-    background: #343434;
+    background: var(--viewer-primary-color);
     border-radius: 6px;
     z-index: 2;
     bottom: -20px;
@@ -1404,12 +1452,11 @@ a.ep-social-icon.pinterest svg {
     padding: 6px;
 }
 .ep-external-doc-icons svg:hover {
-    background: #453838;
     border-radius: 4px;
 }
 
 .ep-doc-draw-icon.active svg{
-    background: #453838;
+    background: var(--viewer-icons-hover-bgcolor);
 }
 
 .ep-doc-download-icon, .ep-doc-print-icon, .ep-doc-fullscreen-icon, .ep-doc-popup-icon, .ep-doc-draw-icon, .ep-doc-minimize-icon {
@@ -1418,7 +1465,7 @@ a.ep-social-icon.pinterest svg {
     justify-content: center;
     width: 40px;
     height: 40px;
-    /* background: #343434; */
+    /* background: var(--viewer-primary-color); */
 }
 
 .elementor .elementor-element.elementor-element .embedpress-document-embed .fullscreen-enabled iframe, .embedpress-document-embed .fullscreen-enabled iframe  {
@@ -1433,7 +1480,7 @@ a.ep-social-icon.pinterest svg {
     position: absolute;
     width: 100%;
     height: 30px;
-    background: #343434;
+    background: var(--viewer-primary-color);
     z-index: 1;
     bottom: 0;
     content: '';
@@ -1457,7 +1504,7 @@ a.ep-social-icon.pinterest svg {
     top: 12px;
     display: flex;
     flex-direction: column;
-    background: #343434;
+    background: var(--viewer-primary-color);
     border-radius: 6px;
     bottom: auto;
     left: auto;

@@ -498,7 +498,12 @@ class Embedpress_Document extends Widget_Base
                     if(!empty(Helper::is_file_url($url))){
                         $file_extenstion = Helper::get_extension_from_file_url($url);
                     }
-                    $embed_content.='<div class="ep-file-download-option-masked ep-file-'.esc_attr($file_extenstion).' '.$is_powered_by.'">';
+
+                    $is_custom_theme = '';
+                    if($settings['embedpress_theme_mode'] == 'custom'){
+                        $is_custom_theme = 'data-custom-color='.esc_attr($settings['embedpress_doc_custom_color']).'';
+                    }
+                    $embed_content.='<div class="ep-file-download-option-masked ep-file-'.esc_attr($file_extenstion).' '.$is_powered_by.'" data-theme-mode="'.esc_attr($settings['embedpress_theme_mode']).'"'.esc_attr( $is_custom_theme ).' data-id="'.esc_attr( $this->get_id() ).'">';
                     
 
                     $sandbox = '';
@@ -523,7 +528,10 @@ class Embedpress_Document extends Widget_Base
 
                     if(!empty($settings['doc_toolbar'])){
                         $embed_content.= '<div class="ep-external-doc-icons">';
-                        $embed_content.= Helper::ep_get_popup_icon(); 
+
+                        if(empty(Helper::is_file_url($url))){
+                            $embed_content.= Helper::ep_get_popup_icon(); 
+                        }
 
                         if(!empty(Helper::is_file_url($url))){
                             if(!empty($settings['doc_print_download'])){
