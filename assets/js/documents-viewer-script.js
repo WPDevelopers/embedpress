@@ -234,6 +234,14 @@ if (typeof embedpressDocViewer.epDocumentsViewerController === "function") {
         embedpressDocViewer.epDocumentsViewerController();
     }
 }
+
+if (typeof wp !== 'undefined' && typeof wp.editor !== 'undefined') {
+    if (typeof embedpressDocViewer.viewerStyle === "function") {
+        embedpressDocViewer.epDocumentsViewerController();
+    }
+}
+
+
 if (typeof embedpressDocViewer.viewerStyle === "function") {
     if (jQuery('.wp-block-embedpress-document.embedpress-document-embed').length > 0) {
         embedpressDocViewer.viewerStyle();
