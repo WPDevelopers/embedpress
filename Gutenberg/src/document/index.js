@@ -9,12 +9,13 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import {DocumentIcon} from '../common/icons';
-import Logo
-	from "../common/Logo";
+import { DocumentIcon, epGetPopupIcon, epGetDownloadIcon, epGetPrintIcon, epGetFullscreenIcon, epGetMinimizeIcon, epGetDrawIcon } from '../common/icons';
+import { isFileUrl } from '../common/helper';
 
-const {__} = wp.i18n; // Import __() from wp.i18n
-const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
+import Logo from "../common/Logo";
+
+const { __ } = wp.i18n; // Import __() from wp.i18n
+const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
 if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.document) {
 	registerBlockType('embedpress/document', {
@@ -39,10 +40,6 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			href: {
 				type: "string"
 			},
-			powered_by: {
-				type: "boolean",
-				default: true,
-			},
 			width: {
 				type: 'number',
 				default: 600,
@@ -56,7 +53,54 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			mime: {
 				type: "string",
-			}
+			},
+			powered_by: {
+				type: "boolean",
+				default: true,
+			},
+
+			presentation: {
+				type: "boolean",
+				default: true,
+			},
+			themeMode: {
+				type: "string",
+				default: 'default',
+			},
+			customColor: {
+				type: "string",
+				default: '#403A81',
+			},
+			position: {
+				type: "string",
+				default: 'top',
+			},
+
+			download: {
+				type: "boolean",
+				default: true,
+			},
+			open: {
+				type: "boolean",
+				default: false,
+			},
+			copy_text: {
+				type: "boolean",
+				default: true,
+			},
+			draw: {
+				type: "boolean",
+				default: true,
+			},
+			toolbar: {
+				type: "boolean",
+				default: true,
+			},
+			doc_rotation: {
+				type: 'boolean',
+				default: true,
+			},
+
 		},
 		edit,
 		save: function (props) {
@@ -66,12 +110,26 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				id,
 				width,
 				height,
-				powered_by
+				powered_by,
+				themeMode, customColor, presentation, position, download, draw, toolbar, doc_rotation
 			} = props.attributes
 
-			const iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src=' + href;
+			const { attributes } = props;
+
+			const urlParamsObject = {
+				theme_mode: themeMode,
+				...(themeMode === 'custom' && { custom_color: customColor ? customColor : '#343434' }),
+				presentation: presentation ? presentation : true,
+				position: position ? position : 'bottom',
+				download: download ? download : true,
+				draw: draw ? draw : true,
+			}
+			const urlParams = new URLSearchParams(urlParamsObject);
+			const queryString = urlParams.toString();
+
+			const iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src=' + href // + '?' + queryString;
 			return (
-					<div className={'embedpress-document-embed ep-doc-'+id} style={{height:height,width:width}}>
+				<div className={'embedpress-document-embed ep-doc-' + id} style={{ height: height, width: width }}>
 					{mime === 'application/pdf' && (
 						<div
 							style={{
@@ -83,23 +141,48 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 							data-emsrc={href}></div>
 					)}
 					{mime !== 'application/pdf' && (
-						<iframe
-							style={{
-								height: height,
-								width: width
-							}}
-							src={iframeSrc}
-							mozallowfullscreen="true"
-							webkitallowfullscreen="true"/>
+						<div className='ep-file-download-option-masked ep-gutenberg-file-doc ep-powered-by-enabled' data-theme-mode={themeMode} data-custom-color={customColor} data-id={id}>
+							<iframe
+								style={{
+									height: height,
+									width: width
+								}}
+								src={iframeSrc}
+								mozallowfullscreen="true"
+								webkitallowfullscreen="true" />
+							{
+								draw && (
+									<canvas class="ep-doc-canvas" width={width} height={height} ></canvas>
+								)
+							}
+
+							{
+								toolbar && (
+									<div class="ep-external-doc-icons ">
+										{
+											!isFileUrl(href) && (
+												epGetPopupIcon()
+											)
+										}
+										{(download && isFileUrl(href)) && (epGetPrintIcon())}
+										{(download && isFileUrl(href)) && (epGetDownloadIcon())}
+										{draw && (epGetDrawIcon())}
+										{presentation && (epGetFullscreenIcon())}
+										{presentation && (epGetMinimizeIcon())}
+									</div>
+								)
+							}
+						</div>
 					)}
 					{powered_by && (
 						<p className="embedpress-el-powered">Powered
 							By
 							EmbedPress</p>
 					)}
-					{ embedpressObj.embedpress_pro &&  <Logo id={id}/>}
+					{embedpressObj.embedpress_pro && <Logo id={id} />}
 
-					</div>
+					
+				</div>
 			);
 		},
 
