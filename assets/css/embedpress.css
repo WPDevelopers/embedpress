@@ -1518,9 +1518,7 @@ canvas.ep-doc-canvas {
     bottom: 0;
     right: 0;
     top: 0;
-    max-width: calc(100% - 30px);
     clear: both;
-    max-height: calc(100% - 30px);
     margin: auto;
     display: none;
 }

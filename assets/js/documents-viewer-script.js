@@ -195,9 +195,8 @@ embedpressDocViewer.epDocumentsViewerController = () => {
         } else if (drawIcon instanceof SVGElement) {
 
             const canvas = viwerParentEl.querySelector(".ep-doc-canvas");
-            const drawTooggle = viwerParentEl.querySelector(".ep-doc-draw-icon svg");
-            if (!canvas || !drawTooggle) return;
-
+            const drawToggle = viwerParentEl.querySelector(".ep-doc-draw-icon svg");
+            if (!canvas || !drawToggle) return;
 
             const ctx = canvas.getContext("2d");
             let isDrawing = false;
@@ -206,22 +205,33 @@ embedpressDocViewer.epDocumentsViewerController = () => {
             canvas.addEventListener("mousedown", function (e) {
                 if (canDraw) {
                     isDrawing = true;
+                    const rect = canvas.getBoundingClientRect();
+                    const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+                    const x = e.pageX - rect.left - scrollX;
+                    const y = e.pageY - rect.top;
                     ctx.beginPath();
-                    ctx.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+                    ctx.moveTo(x, y);
                 }
             });
+
             canvas.addEventListener("mousemove", function (e) {
                 if (isDrawing && canDraw) {
-                    ctx.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+                    const rect = canvas.getBoundingClientRect();
+                    const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+                    const x = e.pageX - rect.left - scrollX;
+                    const y = e.pageY - rect.top;
+                    ctx.lineTo(x, y);
                     ctx.stroke();
                 }
             });
+
             canvas.addEventListener("mouseup", function (e) {
                 isDrawing = false;
             });
 
-            drawTooggle.parentNode.classList.toggle("active");
-            canDraw = drawTooggle.parentNode.classList.contains("active");
+
+            drawToggle.parentNode.classList.toggle("active");
+            canDraw = drawToggle.parentNode.classList.contains("active");
             canvas.style.display = canDraw ? "block" : "none";
         }
     });
