@@ -162,6 +162,9 @@
 }
 
 /*Meetup Event styling starts */
+.ose-meetup {
+    height: auto!important;
+}
 .embedpress-event .link {
     color: #0098ab;
 }
