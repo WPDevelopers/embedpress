@@ -250,6 +250,7 @@ class DocumentEdit extends Component {
 					<InspectorControls key="inspector">
 						<PanelBody
 							title={__('Embed Size', 'embedpress')}
+							className={'embedpress-documents-control'}
 						>
 							<RangeControl
 								label={__(
