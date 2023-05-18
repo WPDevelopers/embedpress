@@ -789,7 +789,13 @@ span.eb_nft_currency svg {
 .embedpress-gutenberg-wrapper.alignleft.ep-content-share-enabled .ep-embed-content-wraper{
     justify-content: left;
 }
-
+.embedpress-gutenberg-wrapper.aligncenter {
+    text-align: center;
+    clear: both;
+}
+.theme-twentytwentythree footer.wp-block-template-part {
+    clear: both;
+}
 /* mimmikcssEnd */
 
 @media all and (max-width: 1024px) {
