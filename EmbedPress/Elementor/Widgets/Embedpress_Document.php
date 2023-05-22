@@ -120,6 +120,9 @@ class Embedpress_Document extends Widget_Base
                 'type'          => Controls_Manager::URL,
                 'placeholder'   => __( 'https://your-link.com/file.pdf', 'embedpress' ),
                 'show_external' => false,
+                'dynamic'     => [
+					'active' => true,
+				]
                 'default'       => [
                     'url' => ''
                 ],
