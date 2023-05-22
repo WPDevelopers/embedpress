@@ -33,7 +33,7 @@ class NRKRadio extends ProviderAdapter implements ProviderInterface
     public function validateUrl(Url $url)
     {
         return  (bool) preg_match(
-            "/^http:\/\/radio\.nrk\.no/i",
+            "/^https?:\/\/radio\.nrk\.no/i",
             (string) $url
         );
     }
@@ -41,7 +41,7 @@ class NRKRadio extends ProviderAdapter implements ProviderInterface
     public function validateNRKRadio($url)
     {
         return  (bool) preg_match(
-            "/^http:\/\/radio\.nrk\.no/i",
+            "/^https?:\/\/radio\.nrk\.no/i",
             (string) $url
         );
     }
@@ -57,14 +57,12 @@ class NRKRadio extends ProviderAdapter implements ProviderInterface
     {
         $src_url = urldecode($this->url);
         
-        $iframeSrc = $this->url;
-
         // Check if the url is already converted to the embed format  
-        // if ($this->validateNRKRadio($src_url)) {
-        //     $iframeSrc = $this->url;
-        // } else {
-        //     return []
-        // }
+        if ($this->validateNRKRadio($src_url)) {
+            $iframeSrc = $this->url;
+        } else {
+            return [];
+        }
 
         $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
         $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 350;

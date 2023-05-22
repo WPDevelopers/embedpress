@@ -15,7 +15,6 @@
  */
 
 $additionalServiceProviders = [
-	EMBEDPRESS_NAMESPACE . "\\Providers\\NRKRadio"    => ["radio.nrk.no, nrk.no"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\GoogleMaps" => ["google.com", "google.com.*", "maps.google.com", "goo.gl", "google.co.*"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\GoogleDrive" => ["drive.google.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\GoogleDocs" => ["docs.google.com"],
@@ -24,4 +23,6 @@ $additionalServiceProviders = [
 	EMBEDPRESS_NAMESPACE . "\\Providers\\Boomplay"   => ["boomplay.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\Youtube"    => ["youtube.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\OpenSea"    => ["opensea.io"],
+	EMBEDPRESS_NAMESPACE . "\\Providers\\NRKRadio"    => ["radio.nrk.no", "nrk.no"],
+
 ];
