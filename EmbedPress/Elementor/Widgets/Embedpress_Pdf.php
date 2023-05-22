@@ -119,7 +119,7 @@ class Embedpress_Pdf extends Widget_Base
                 'show_external' => false,
                 'dynamic'     => [
 					'active' => true,
-				]
+				],
                 'default'       => [
                     'url' => ''
                 ],

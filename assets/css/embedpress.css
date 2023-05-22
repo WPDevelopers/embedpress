@@ -1497,7 +1497,6 @@ a.ep-social-icon.pinterest svg {
 }
 .ep-file-download-option-masked.ep-file-docx::after {
     bottom: 0;
-    background: white;
 }
 
 .ep-file-download-option-masked.ep-file-docx.ep-powered-by-enabled::after {
@@ -1508,17 +1507,7 @@ a.ep-social-icon.pinterest svg {
 .ep-file-download-option-masked.ep-file-docx.ep-powered-by-enabled.fullscreen-enabled::after {
     bottom: 0;
 }
-.ep-file-download-option-masked.ep-file-docx .ep-external-doc-icons{
-    right: 12px;
-    top: 12px;
-    display: flex;
-    flex-direction: column;
-    background: var(--viewer-primary-color);
-    border-radius: 6px;
-    bottom: auto;
-    left: auto;
-    transform: translate(0%, 0%);
-}
+
 
 canvas.ep-doc-canvas {
     position: absolute;

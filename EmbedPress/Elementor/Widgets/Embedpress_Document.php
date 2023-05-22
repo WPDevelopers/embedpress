@@ -67,7 +67,7 @@ class Embedpress_Document extends Widget_Base
         $this->start_controls_section(
             'embedpress_document_content_settings',
             [
-                'label' => esc_html__( 'Content Settings', 'embedpress' ),
+                'label' => esc_html__( 'General', 'embedpress' ),
             ]
         );
 
@@ -122,7 +122,7 @@ class Embedpress_Document extends Widget_Base
                 'show_external' => false,
                 'dynamic'     => [
 					'active' => true,
-				]
+				],
                 'default'       => [
                     'url' => ''
                 ],
@@ -249,7 +249,7 @@ class Embedpress_Document extends Widget_Base
          $this->start_controls_section(
             'embedpress_doc_content_settings',
             [
-                'label' => esc_html__('Doc Control Settings', 'embedpress'),
+                'label' => esc_html__('Controls', 'embedpress'),
             ]
         );
 

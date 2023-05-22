@@ -36,7 +36,7 @@ const DocControls = ({ attributes, setAttributes }) => {
 
     return (
         <PanelBody
-            title={__('Doc Control Settings', 'embedpress')}
+            title={__('Document Controls', 'embedpress')}
             initialOpen={false}
         >
             <SelectControl
