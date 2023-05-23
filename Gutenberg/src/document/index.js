@@ -127,6 +127,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			const urlParams = new URLSearchParams(urlParamsObject);
 			const queryString = urlParams.toString();
 
+			let isDownloadEnabled = ' enabled-file-download';
+			if (!download) {
+				isDownloadEnabled = '';
+			}
+
 			const iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src=' + href // + '?' + queryString;
 			return (
 				<div className={'embedpress-document-embed ep-doc-' + id} style={{ height: height, width: width }}>
@@ -140,8 +145,9 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 							data-emid={id}
 							data-emsrc={href}></div>
 					)}
+
 					{mime !== 'application/pdf' && (
-						<div className='ep-file-download-option-masked ep-gutenberg-file-doc ep-powered-by-enabled' data-theme-mode={themeMode} data-custom-color={customColor} data-id={id}>
+						<div className={`ep-file-download-option-masked ep-gutenberg-file-doc ep-powered-by-enabled ${isDownloadEnabled}`} data-theme-mode={themeMode} data-custom-color={customColor} data-id={id}>
 							<iframe
 								style={{
 									height: height,
@@ -181,7 +187,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 					)}
 					{embedpressObj.embedpress_pro && <Logo id={id} />}
 
-					
+
 				</div>
 			);
 		},

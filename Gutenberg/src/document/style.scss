@@ -4,32 +4,31 @@
  * CSS for both Frontend+Backend.
  */
 
-
 .pdfobject-container {
-	height: 600px;
-    width:600px;
-	margin: 0 auto;
+    height: 600px;
+    width: 600px;
+    margin: 0 auto;
 }
 
 .embedpress-el-powered {
-	text-align: center;
-	margin-top: 0 !important;
-	font-size: 16px !important;
-	font-weight: 700;
+    text-align: center;
+    margin-top: 0 !important;
+    font-size: 16px !important;
+    font-weight: 700;
 }
-.embedpress-embed-document iframe ,
-[data-type="embedpress/document"] iframe{
-	margin: 0 auto;
+.embedpress-embed-document iframe,
+[data-type="embedpress/document"] iframe {
+    margin: 0 auto;
     display: block;
 }
-.embedpress-embed-document-pdf{
-	max-width: 100%;
+.embedpress-embed-document-pdf {
+    max-width: 100%;
 }
 .embedpress-document-editmode .components-form-file-upload {
-  display: none !important;
+    display: none !important;
 }
 
-.components-toggle-control .components-base-control__field .components-form-toggle{
+.components-toggle-control .components-base-control__field .components-form-toggle {
     margin-right: 6px;
 }
 
@@ -52,9 +51,22 @@ button.components-flex.components-color-palette__custom-color {
 }
 
 .components-color-palette__custom-color-value {
-    display: none!important;
+    display: none !important;
 }
 
 .components-circular-option-picker .components-circular-option-picker__swatches {
     justify-content: space-around;
+}
+
+.wp-block-embedpress-document.embedpress-document-embed {
+    max-width: 100% !important;
+}
+
+@media only screen and (max-width: 767px) {
+    .wp-block-embedpress-document.embedpress-document-embed {
+        max-height: 400px !important;
+    }
+    .ep-file-download-option-masked {
+        height: 100%;
+    }
 }

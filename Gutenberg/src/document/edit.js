@@ -165,6 +165,11 @@ class DocumentEdit extends Component {
 
 		const docLink = 'https://embedpress.com/docs/embed-document/';
 
+		let isDownloadEnabled = ' enabled-file-download';
+		if ( !download ) {
+			isDownloadEnabled = '';
+		}
+		console.log(isDownloadEnabled);
 
 		if (!href || hasError) {
 
@@ -204,7 +209,7 @@ class DocumentEdit extends Component {
 
 						)}
 						{mime !== 'application/pdf' && (
-							<div className='ep-file-download-option-masked ep-gutenberg-file-doc ep-powered-by-enabled' data-theme-mode={themeMode} data-custom-color={customColor} data-id={blockId}>
+							<div className={`ep-file-download-option-masked ep-gutenberg-file-doc ep-powered-by-enabled ${isDownloadEnabled}`} data-theme-mode={themeMode} data-custom-color={customColor} data-id={blockId}>
 								<Iframe title="" onMouseUponMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={url} />
 								{
 									draw && (

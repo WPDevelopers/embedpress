@@ -1410,6 +1410,39 @@ a.ep-social-icon.pinterest svg {
 .ep-file-download-option-masked {
     position: relative;
 }
+.ep-file-download-option-masked {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .ep-file-download-option-masked .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% - 15px);
+    height: calc(100% - 45px);
+    background-color: rgb(66 23 23 / 0%);
+    pointer-events: unset;
+    z-index: 1;
+    user-select: none;
+}
+
+.ep-file-download-option-masked.ep-file-xls .overlay {
+    height: calc(100% - 78px);
+}
+  
+  .ep-file-download-option-masked iframe {
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+  }
+  
+  
+.ep-file-download-option-masked.enabled-text-copy {
+    pointer-events: all;
+}
 .embed-download-disabled {
     width: 200px;
     height: 22px;

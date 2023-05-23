@@ -198,6 +198,7 @@ class Embedpress_Document extends Widget_Base
 				'selectors' => [
                     '{{WRAPPER}} .embedpress-document-embed iframe' => 'height: {{SIZE}}{{UNIT}}!important;',
                     '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'height: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .embedpress-document-embed ' => 'max-height: {{SIZE}}{{UNIT}};',
                 ],
 			]
 		);
@@ -252,6 +253,18 @@ class Embedpress_Document extends Widget_Base
                 'label' => esc_html__('Controls', 'embedpress'),
             ]
         );
+
+        $this->add_control(
+			'important_note',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => esc_html__( 'Download feature is available when link has the document extension at the end.', 'embedpress' ),
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+                'condition' => [
+                    'embedpress_document_type' => 'url',
+                ],
+			]
+		);
 
         $this->add_control(
             'embedpress_theme_mode',
@@ -328,8 +341,8 @@ class Embedpress_Document extends Widget_Base
             [
                 'label'        => sprintf(__('Copy Text %s', 'embedpress'), $this->pro_text),
                 'type'         => Controls_Manager::SWITCHER,
-                'label_on'     => __('Show', 'embedpress'),
-                'label_off'    => __('Hide', 'embedpress'),
+                'label_on'     => __('Yes', 'embedpress'),
+                'label_off'    => __('No', 'embedpress'),
                 'return_value' => 'yes',
                 'default'      => 'yes',
                 'classes'     => $this->pro_class,
@@ -469,12 +482,19 @@ class Embedpress_Document extends Widget_Base
 			$content_protection_class = 'ep-content-protection-disabled';
 		}
 
+        $enable_copy_text = '';
+
+        if($settings['doc_text_copy'] == 'yes') {
+            $enable_copy_text = 'enabled-text-copy';
+        }
+
         ?>
         
 
         <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
         
         <?php
+           
             
             do_action( 'embedpress_document_after_embed',  $settings, $url, $id, $this);
 
@@ -495,8 +515,6 @@ class Embedpress_Document extends Widget_Base
                     }
         
                 } else {
-                    // Helper::get_extension_from_file_url($url) === 'pptx' || Helper::get_extension_from_file_url($url) === 'ppt' || Helper::get_extension_from_file_url($url) === 'xls' || Helper::get_extension_from_file_url($url) === 'xlsx' 
-                    // print_r(Helper::is_file_url($url)); 
                     if(Helper::is_file_url($url)){ 
                         $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';
                     }
@@ -521,6 +539,11 @@ class Embedpress_Document extends Widget_Base
                         $is_powered_by = 'ep-powered-by-enabled';
                     }
 
+                    $is_download_enabled = ' enabled-file-download';
+                    if ( $settings[ 'doc_print_download' ] !== 'yes' ) {
+                        $is_download_enabled = '';
+                    }
+
                     $file_extenstion = 'link';
                     if(!empty(Helper::is_file_url($url))){
                         $file_extenstion = Helper::get_extension_from_file_url($url);
@@ -530,12 +553,16 @@ class Embedpress_Document extends Widget_Base
                     if($settings['embedpress_theme_mode'] == 'custom'){
                         $is_custom_theme = 'data-custom-color='.esc_attr($settings['embedpress_doc_custom_color']).'';
                     }
-                    $embed_content.='<div class="ep-file-download-option-masked ep-file-'.esc_attr($file_extenstion).' '.$is_powered_by.'" data-theme-mode="'.esc_attr($settings['embedpress_theme_mode']).'"'.esc_attr( $is_custom_theme ).' data-id="'.esc_attr( $this->get_id() ).'">';
+
+                    $embed_content.='<div class="ep-file-download-option-masked ep-file-'.esc_attr($file_extenstion).' '.$is_powered_by.' '.$enable_copy_text.''.$is_download_enabled.'" data-theme-mode="'.esc_attr($settings['embedpress_theme_mode']).'"'.esc_attr( $is_custom_theme ).' data-id="'.esc_attr( $this->get_id() ).'">';
                     
 
                     $sandbox = '';
                     if ( $settings[ 'doc_print_download' ] === 'yes') {
                         $sandbox = 'sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-presentation allow-same-origin allow-scripts allow-top-navigation allow-top-navigation-by-user-activation"';
+                    }
+                    if($settings['doc_text_copy'] !== 'yes'){
+                        $embed_content .='<div class="overlay"></div>';
                     }
                     $embed_content.='<iframe title="' . esc_attr( Helper::get_file_title($url) ) . '" allowfullscreen="true"  mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr( $dimension ) . '; max-width:100%;" src="' . esc_url( $view_link ) . '" '.$sandbox.'>
                     </iframe>';
