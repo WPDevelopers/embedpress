@@ -69,7 +69,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->start_controls_section(
             'embedpress_content_settings',
             [
-                'label' => esc_html__('Content Settings', 'embedpress'),
+                'label' => esc_html__('General', 'embedpress'),
             ]
         );
 
@@ -286,7 +286,7 @@ class Embedpress_Pdf extends Widget_Base
         $this->start_controls_section(
             'embedpress_pdf_content_settings',
             [
-                'label' => esc_html__('PDF Control Settings', 'embedpress'),
+                'label' => esc_html__('Controls', 'embedpress'),
                 'condition'   => [
                     'embedpress_pdf_type' => 'file'
                 ],

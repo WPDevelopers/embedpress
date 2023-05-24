@@ -169,7 +169,6 @@ class DocumentEdit extends Component {
 		if ( !download ) {
 			isDownloadEnabled = '';
 		}
-		console.log(isDownloadEnabled);
 
 		if (!href || hasError) {
 

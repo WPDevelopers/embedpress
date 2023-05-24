@@ -120,22 +120,6 @@ const DocControls = ({ attributes, setAttributes }) => {
                             }
                             checked={draw}
                         />
-
-                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                            <ToggleControl
-                                label={__('Copy Text', 'embedpress')}
-                                onChange={(copy_text) =>
-                                    setAttributes({ copy_text })
-                                }
-                                checked={copy_text}
-                                className={'disabled'}
-                            />
-                            {
-                                (!isProPluginActive) && (
-                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                )
-                            }
-                        </div>
                         
                         <ToggleControl
                             label={__('Powered By')}

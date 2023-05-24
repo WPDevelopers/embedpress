@@ -244,7 +244,7 @@ class Embedpress_Document extends Widget_Base
 	    $this->end_controls_section();
 
          /**
-         * EmbedPress PDF Control Settings
+         * EmbedPress Document control settings
          */
 
          $this->start_controls_section(
@@ -336,21 +336,7 @@ class Embedpress_Document extends Widget_Base
                 ],
             ]
         );
-        $this->add_control(
-            'doc_text_copy',
-            [
-                'label'        => sprintf(__('Copy Text %s', 'embedpress'), $this->pro_text),
-                'type'         => Controls_Manager::SWITCHER,
-                'label_on'     => __('Yes', 'embedpress'),
-                'label_off'    => __('No', 'embedpress'),
-                'return_value' => 'yes',
-                'default'      => 'yes',
-                'classes'     => $this->pro_class,
-                'condition' => [
-                    'doc_toolbar' => 'yes',
-                ],
-            ]
-        );
+    
  
         $this->add_control(
             'doc_draw',
@@ -482,12 +468,6 @@ class Embedpress_Document extends Widget_Base
 			$content_protection_class = 'ep-content-protection-disabled';
 		}
 
-        $enable_copy_text = '';
-
-        if($settings['doc_text_copy'] == 'yes') {
-            $enable_copy_text = 'enabled-text-copy';
-        }
-
         ?>
         
 
@@ -554,16 +534,14 @@ class Embedpress_Document extends Widget_Base
                         $is_custom_theme = 'data-custom-color='.esc_attr($settings['embedpress_doc_custom_color']).'';
                     }
 
-                    $embed_content.='<div class="ep-file-download-option-masked ep-file-'.esc_attr($file_extenstion).' '.$is_powered_by.' '.$enable_copy_text.''.$is_download_enabled.'" data-theme-mode="'.esc_attr($settings['embedpress_theme_mode']).'"'.esc_attr( $is_custom_theme ).' data-id="'.esc_attr( $this->get_id() ).'">';
+                    $embed_content.='<div class="ep-file-download-option-masked ep-file-'.esc_attr($file_extenstion).' '.$is_powered_by.''.$is_download_enabled.'" data-theme-mode="'.esc_attr($settings['embedpress_theme_mode']).'"'.esc_attr( $is_custom_theme ).' data-id="'.esc_attr( $this->get_id() ).'">';
                     
 
                     $sandbox = '';
                     if ( $settings[ 'doc_print_download' ] === 'yes') {
                         $sandbox = 'sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-presentation allow-same-origin allow-scripts allow-top-navigation allow-top-navigation-by-user-activation"';
                     }
-                    if($settings['doc_text_copy'] !== 'yes'){
-                        $embed_content .='<div class="overlay"></div>';
-                    }
+                    
                     $embed_content.='<iframe title="' . esc_attr( Helper::get_file_title($url) ) . '" allowfullscreen="true"  mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr( $dimension ) . '; max-width:100%;" src="' . esc_url( $view_link ) . '" '.$sandbox.'>
                     </iframe>';
                     
