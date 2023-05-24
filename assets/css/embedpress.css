@@ -1420,14 +1420,18 @@ a.ep-social-icon.pinterest svg {
   .ep-file-download-option-masked .overlay {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: calc(100% - 15px);
     height: calc(100% - 45px);
     background-color: rgb(66 23 23 / 0%);
     pointer-events: unset;
     z-index: 1;
     user-select: none;
+    max-width: 800px;
+    margin: 0 auto;
 }
+
 
 .ep-file-download-option-masked.ep-file-xls .overlay {
     height: calc(100% - 78px);
