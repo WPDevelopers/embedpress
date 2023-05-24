@@ -489,3 +489,10 @@ jQuery(window).on("elementor/frontend/init", function () {
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_document.default", filterableGalleryHandler);
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    const player = new Plyr('#player', {});
+
+    // Additional customization or event listeners can be added here
+
+
+});

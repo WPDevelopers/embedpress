@@ -33,20 +33,41 @@ class Handler extends EndHandlerAbstract
     public static function enqueueStyles()
     {
         wp_enqueue_style(EMBEDPRESS_PLG_NAME, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css');
+
+        add_action('wp_enqueue_scripts', function () {
+            wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css');
+        }, 111); // Priority of 11 ensures it is enqueued just before the closing </head> tag
     }
-    
-    
-    public function enqueueScripts() {
-        
-        wp_enqueue_script( 'embedpress-pdfobject', EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js', ['jquery'],
-            $this->pluginVersion, true );
-        wp_enqueue_script( 'embedpress-front', EMBEDPRESS_URL_ASSETS . 'js/front.js', ['jquery', 'embedpress-pdfobject' ],
-            $this->pluginVersion, true );
+
+
+
+    public function enqueueScripts()
+    {
+
+        wp_enqueue_script(
+            'embedpress-pdfobject',
+            EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js',
+            ['jquery'],
+            $this->pluginVersion,
+            true
+        );
+        wp_enqueue_script(
+            'plyr.polyfilled',
+            EMBEDPRESS_URL_ASSETS . 'js/plyr.polyfilled.js',
+            $this->pluginVersion,
+            true
+        );
+        wp_enqueue_script(
+            'embedpress-front',
+            EMBEDPRESS_URL_ASSETS . 'js/front.js',
+            ['jquery', 'embedpress-pdfobject'],
+            $this->pluginVersion,
+            true
+        );
 
         wp_localize_script('embedpress-front', 'eplocalize', array(
             'ajaxurl' => admin_url('admin-ajax.php')
         ));
-        
     }
 
     /**
@@ -61,11 +82,11 @@ class Handler extends EndHandlerAbstract
      */
     public static function autoEmbedUrls($content)
     {
-	    $plgSettings = Core::getSettings();
+        $plgSettings = Core::getSettings();
 
-	    if (!is_admin() &&(bool)$plgSettings->enablePluginInFront === false ) {
-			return $content;
-	    }
+        if (!is_admin() && (bool) $plgSettings->enablePluginInFront === false) {
+            return $content;
+        }
         // Replace line breaks from all HTML elements with placeholders.
         $content = wp_replace_in_html_tags($content, ["\n" => '<!-- embedpress-line-break -->']);
 
@@ -76,8 +97,11 @@ class Handler extends EndHandlerAbstract
             // Find URLs on their own line.
             $content = preg_replace_callback('|^(\s*)(https?://[^\s<>"]+)(\s*)$|im', $callbackFingerprint, $content);
             // Find URLs in their own paragraph.
-            $content = preg_replace_callback('|(<p(?: [^>]*)?>\s*)(https?://[^\s<>"]+)(\s*<\/p>)|i',
-                $callbackFingerprint, $content);
+            $content = preg_replace_callback(
+                '|(<p(?: [^>]*)?>\s*)(https?://[^\s<>"]+)(\s*<\/p>)|i',
+                $callbackFingerprint,
+                $content
+            );
         }
 
         // Put the line breaks back.
@@ -114,7 +138,7 @@ class Handler extends EndHandlerAbstract
     public static function renderPreviewBoxInEditors($editorHTML)
     {
         $plgSettings = Core::getSettings();
-        if ( ! is_admin() && (bool)$plgSettings->enablePluginInFront) {
+        if (!is_admin() && (bool) $plgSettings->enablePluginInFront) {
             $backEndHandler = new BackEndHandler(EMBEDPRESS_PLG_NAME, EMBEDPRESS_VERSION);
 
             $backEndHandler->enqueueScripts();
