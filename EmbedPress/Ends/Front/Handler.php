@@ -36,7 +36,7 @@ class Handler extends EndHandlerAbstract
 
         add_action('wp_enqueue_scripts', function () {
             wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css');
-        }, 111); // Priority of 11 ensures it is enqueued just before the closing </head> tag
+        }, 11); // Priority of 11 ensures it is enqueued just before the closing </head> tag
     }
 
 

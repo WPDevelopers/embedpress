@@ -490,9 +490,13 @@ jQuery(window).on("elementor/frontend/init", function () {
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-    const player = new Plyr('#player', {});
-
-    // Additional customization or event listeners can be added here
-
+    const epEmbedWrapper = document.querySelectorAll('.ep-embed-content-wraper');
+    epEmbedWrapper.forEach(wrapper => {
+        const playerId = wrapper.getAttribute('data-playerid');
+        if (playerId) {
+            const selector = `[data-playerid="${playerId}"] > .ose-embedpress-responsive`; 
+            new Plyr(selector, {});
+        }
+    });
 
 });
