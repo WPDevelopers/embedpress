@@ -73,6 +73,9 @@ class Handler extends EndHandlerAbstract
             true
         );
 
+        wp_enqueue_script( 'embedpress_documents_viewer_script', EMBEDPRESS_URL_ASSETS . 'js/documents-viewer-script.js', ['jquery'],
+            $this->pluginVersion, true );
+
         wp_localize_script('embedpress-front', 'eplocalize', array(
             'ajaxurl' => admin_url('admin-ajax.php')
         ));

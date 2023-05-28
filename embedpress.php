@@ -6,7 +6,7 @@
  * Description: EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 150+ sources supported.
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
- * Version: 3.7.1
+ * Version: 3.7.2
  * Text Domain: embedpress
  * Domain Path: /languages
  *
@@ -36,6 +36,10 @@ defined('ABSPATH') or die("No direct script access allowed.");
 define('EMBEDPRESS_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('EMBEDPRESS_FILE', __FILE__);
 
+if (!defined('EMBEDPRESS_PLUGIN_VERSION')) {
+    define('EMBEDPRESS_PLUGIN_VERSION', '3.7.2');
+}
+
 define('EMBEDPRESS_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
 define('EMBEDPRESS_PLUGIN_DIR_URL', plugin_dir_url(__FILE__));
 define('EMBEDPRESS_GUTENBERG_DIR_URL', EMBEDPRESS_PLUGIN_DIR_URL . 'Gutenberg/');
@@ -49,24 +53,24 @@ require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'includes.php';
 include_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 if (!defined('EMBEDPRESS_IS_LOADED')) {
-	return;
+    return;
 }
 
 add_action('embedpress_cache_cleanup_action', 'embedpress_cache_cleanup');
- 
+
 
 if (!empty($_GET['hash'])) {
-	remove_action('wp_head', 'rel_canonical'); 
+    remove_action('wp_head', 'rel_canonical');
 }
 
 function onPluginActivationCallback()
 {
-	Core::onPluginActivationCallback();
+    Core::onPluginActivationCallback();
 }
 
 function onPluginDeactivationCallback()
 {
-	Core::onPluginDeactivationCallback();
+    Core::onPluginDeactivationCallback();
 }
 
 register_activation_hook(__FILE__, 'onPluginActivationCallback');
@@ -74,13 +78,13 @@ register_deactivation_hook(__FILE__, 'onPluginDeactivationCallback');
 
 
 add_action('plugins_loaded', function () {
-	do_action('embedpress_before_init');
+    do_action('embedpress_before_init');
 });
 $editor_check = get_option('classic-editor-replace');
 if ((Compatibility::isWordPress5() && !Compatibility::isClassicalEditorActive()) || (Compatibility::isClassicalEditorActive() && 'block' === $editor_check)) {
-	$embedPressPlugin = new Core();
+    $embedPressPlugin = new Core();
 } else {
-	$embedPressPlugin = new CoreLegacy();
+    $embedPressPlugin = new CoreLegacy();
 }
 
 $embedPressPlugin->initialize();
@@ -89,14 +93,14 @@ new Extend_Elementor_Controls();
 
 
 if (is_plugin_active('elementor/elementor.php')) {
-	$embedPressElements = new Embedpress_Elementor_Integration();
-	$embedPressElements->init();
+    $embedPressElements = new Embedpress_Elementor_Integration();
+    $embedPressElements->init();
 }
 
 Shortcode::register();
 
 if (!class_exists('\simple_html_dom')) {
-	include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
+    include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
 }
 
 
@@ -105,16 +109,17 @@ if (!class_exists('\simple_html_dom')) {
  */
 $is_pro_active = false;
 if (class_exists('EmbedPress_Licensing')) {
-	$is_pro_active = true;
+    $is_pro_active = true;
 }
 
-function get_embed_type() {
+function get_embed_type()
+{
     // Get the post content
     $content = get_the_content();
     // Use regular expressions to find the embed type used in the post
-    preg_match( '/\[embedpress.*?type="(.*?)"/', $content, $matches );
+    preg_match('/\[embedpress.*?type="(.*?)"/', $content, $matches);
     // Return the embed type
-    if ( ! empty( $matches[1] ) ) {
+    if (!empty($matches[1])) {
         return $matches[1];
     } else {
         return false;
@@ -122,19 +127,20 @@ function get_embed_type() {
 }
 
 
-function ep_track_embed_usage() {
+function ep_track_embed_usage()
+{
     // Get the type of embed used (e.g. "youtube", "vimeo", "google_doc", etc.)
     $embed_type = 'youtube';
 
     // Log the embed type and user ID in a database
     global $wpdb;
-    $wpdb->insert( 'embed_usage_log', array( 'embed_type' => $embed_type, 'user_id' => get_current_user_id() ) );
+    $wpdb->insert('embed_usage_log', array('embed_type' => $embed_type, 'user_id' => get_current_user_id()));
 }
-add_action( 'embed_content', 'ep_track_embed_usage' );
+add_action('embed_content', 'ep_track_embed_usage');
 
 
-function ep_enqueue_jquery_in_header() {
-    wp_enqueue_script( 'jquery', false, array(), false, true );
+function ep_enqueue_jquery_in_header()
+{
+    wp_enqueue_script('jquery', false, array(), false, true);
 }
-add_action( 'wp_enqueue_scripts', 'ep_enqueue_jquery_in_header', 1 );
-
+add_action('wp_enqueue_scripts', 'ep_enqueue_jquery_in_header', 1);

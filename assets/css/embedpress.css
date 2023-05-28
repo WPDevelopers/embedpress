@@ -162,6 +162,9 @@
 }
 
 /*Meetup Event styling starts */
+.ose-meetup {
+    height: auto!important;
+}
 .embedpress-event .link {
     color: #0098ab;
 }
@@ -786,7 +789,13 @@ span.eb_nft_currency svg {
 .embedpress-gutenberg-wrapper.alignleft.ep-content-share-enabled .ep-embed-content-wraper{
     justify-content: left;
 }
-
+.embedpress-gutenberg-wrapper.aligncenter {
+    text-align: center;
+    clear: both;
+}
+.theme-twentytwentythree footer.wp-block-template-part {
+    clear: both;
+}
 /* mimmikcssEnd */
 
 @media all and (max-width: 1024px) {
@@ -1350,16 +1359,208 @@ a.ep-social-icon.pinterest svg {
     width: 100%;
 } 
 
-.embedpress-yt-live-chat-wrap{
-    margin-right: 0!important;
-    margin-left: 0!important;;
+/* Documents viewer style */
+[data-theme-mode='dark'] {
+    --viewer-primary-color: #343434;
+    --viewer-icons-hover-bgcolor: #453838;
+
 }
-.embedpress-gutenberg-wrapper.aligncenter .embedpress-yt-live-chat-wrap {
-    margin: 0 auto!important;;
+[data-theme-mode='light'] {
+    --viewer-primary-color: #f2f2f6;
+    --viewer-icons-color: #343434;
+    --viewer-icons-hover-bgcolor: #e5e1e9;
 }
-.embedpress-gutenberg-wrapper.alignright .embedpress-yt-live-chat-wrap {
-    margin-left: auto!important;;
+@media (prefers-color-scheme: dark) {
+    :root {
+        --viewer-primary-color: #343434;
+        --viewer-icons-color: #f2f2f6;
+        --viewer-icons-hover-bgcolor: #453838;
+
+    }
+  }
+  
+@media (prefers-color-scheme: light) {
+    :root {
+        --viewer-primary-color: #f2f2f6;
+        --viewer-icons-color: #343434;
+        --viewer-icons-hover-bgcolor: #e5e1e9;
+
+    }
 }
-.embedpress-gutenberg-wrapper.alignleft .embedpress-yt-live-chat-wrap {
-    margin-right: auto!important;;
+
+.ep-file-download-option-masked::after, .ep-external-doc-icons{
+    background: var(--viewer-primary-color);
 }
+.ep-external-doc-icons svg path{
+    fill: var(--viewer-icons-color);
+}
+.ep-doc-draw-icon svg path{
+    fill: var(--viewer-primary-color);
+    stroke: var(--viewer-icons-color);
+}
+
+.ep-external-doc-icons svg:hover svg path{
+    fill: var(--viewer-icons-color);
+    stroke: var(--viewer-icons-color);
+}
+.ep-external-doc-icons svg:hover{
+    background-color: var(--viewer-icons-hover-bgcolor);
+}
+  
+.ep-file-download-option-masked {
+    position: relative;
+}
+.ep-file-download-option-masked {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .ep-file-download-option-masked .overlay {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 15px);
+    height: calc(100% - 45px);
+    background-color: rgb(66 23 23 / 0%);
+    pointer-events: unset;
+    z-index: 1;
+    user-select: none;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
+.ep-file-download-option-masked.ep-file-xls .overlay {
+    height: calc(100% - 78px);
+}
+  
+  .ep-file-download-option-masked iframe {
+    width: 100%;
+    height: 100%;
+    pointer-events: auto;
+  }
+  
+  
+.ep-file-download-option-masked.enabled-text-copy {
+    pointer-events: all;
+}
+.embed-download-disabled {
+    width: 200px;
+    height: 22px;
+    background: #444444;
+    position: absolute;
+    right: 2px;
+    bottom: 8px;
+    opacity: 0;
+}
+
+.cui-toolbar-button-right {
+    display: none!important;
+}
+
+.ndfHFb-c4YZDc-Wrql6b {
+    display: none;
+}
+
+.ep-external-doc-icons {
+    position: absolute;
+    display: flex;
+    flex-direction: revert;
+    background: var(--viewer-primary-color);
+    border-radius: 6px;
+    z-index: 2;
+    bottom: -18px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0 10px;
+}
+
+.ep-external-doc-icons svg{
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: 0.3s;
+    padding: 5px;
+    border-radius: 4px;
+}
+.block-editor-block-list__block .ep-gutenberg-file-doc .ep-external-doc-icons svg {
+    width: 22px;
+    height: 22px;
+}
+.block-editor-block-list__block .ep-gutenberg-file-doc .ep-doc-download-icon svg, .block-editor-block-list__block .ep-gutenberg-file-doc .ep-doc-fullscreen-icon svg {
+    width: 20px!important;
+}
+
+.ep-doc-minimize-icon svg, .ep-doc-fullscreen-icon svg {
+    padding: 6px;
+}
+.ep-external-doc-icons svg:hover {
+    border-radius: 4px;
+}
+
+.ep-doc-draw-icon.active svg{
+    background: var(--viewer-icons-hover-bgcolor);
+}
+
+.ep-doc-download-icon, .ep-doc-print-icon, .ep-doc-fullscreen-icon, .ep-doc-popup-icon, .ep-doc-draw-icon, .ep-doc-minimize-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    /* background: var(--viewer-primary-color); */
+}
+
+.elementor .elementor-element.elementor-element .embedpress-document-embed .fullscreen-enabled iframe, .embedpress-document-embed .fullscreen-enabled iframe  {
+    width: 100%!important;
+    height: 100%!important;
+}
+.ep-file-download-option-masked.ep-file-link.fullscreen-enabled iframe {
+    margin-left: 22%;
+}
+
+.ep-file-download-option-masked::after {
+    position: absolute;
+    width: 100%;
+    height: 30px;
+    background: var(--viewer-primary-color);
+    z-index: 1;
+    bottom: 0;
+    content: '';
+    left: 0;
+}
+.ep-file-download-option-masked.ep-file-docx::after {
+    bottom: 0;
+}
+
+.ep-file-download-option-masked.ep-file-docx.ep-powered-by-enabled::after {
+    bottom: 0px;
+    background: white;
+    height: 22px;
+}
+.ep-file-download-option-masked.ep-file-docx.ep-powered-by-enabled.fullscreen-enabled::after {
+    bottom: 0;
+}
+
+
+canvas.ep-doc-canvas {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    top: 0;
+    clear: both;
+    margin: auto;
+    display: none;
+}
+
+/* .ep-file-download-option-masked::after, .ep-file-download-option-masked iframe {
+    pointer-events: none;
+    user-select: none;
+    opacity: 0;
+  } */
+   
