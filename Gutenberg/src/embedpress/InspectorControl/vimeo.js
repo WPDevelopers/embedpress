@@ -151,7 +151,7 @@ export default function Vimeo({ attributes, setAttributes, isVimeoVideo }) {
             {
                 isVimeoVideo && (
                     <div className={'ep__vimeo-video-options'}>
-                        <PanelBody title={__("Vimeo Video Controls", 'embedpress')} initialOpen={false}>
+                        <PanelBody title={__("Video Controls", 'embedpress')} initialOpen={false}>
                             <div className={'ep-video-controlers'}>
                                 <TextControl
                                     label={__("Start Time (In Seconds)")}

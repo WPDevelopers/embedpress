@@ -256,7 +256,12 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
 
                 (isYTVideo || isYTLive) && (
                     <div className={'ep__single-yt-video-options'}>
-                        <PanelBody title={__("YouTube Video Controls", 'embedpress')} initialOpen={false}>
+                        <PanelBody title={__("Video Controls", 'embedpress')} initialOpen={false}>
+                            <ToggleControl
+                                label={__("Enable Custom Player", "embedpress")}
+                                checked={customplayer}
+                                onChange={(customplayer) => setAttributes({ customplayer })}
+                            />
                             <div className={'ep-video-controlers'}>
                                 <TextControl
                                     label={__("Start Time (in seconds)")}

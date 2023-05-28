@@ -489,14 +489,3 @@ jQuery(window).on("elementor/frontend/init", function () {
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_document.default", filterableGalleryHandler);
 });
 
-document.addEventListener('DOMContentLoaded', function () {
-    const epEmbedWrapper = document.querySelectorAll('.ep-embed-content-wraper');
-    epEmbedWrapper.forEach(wrapper => {
-        const playerId = wrapper.getAttribute('data-playerid');
-        if (playerId) {
-            const selector = `[data-playerid="${playerId}"] > .ose-embedpress-responsive`; 
-            new Plyr(selector, {});
-        }
-    });
-
-});

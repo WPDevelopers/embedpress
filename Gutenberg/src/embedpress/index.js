@@ -534,6 +534,77 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: false
 			},
 
+			// custom player attributes
+			customplayer: {
+				type: 'boolean',
+				default: false
+			},
+			pAutoplay: {
+				type: 'boolean',
+				default: false,
+			},
+			pVolume: {
+				type: 'number',
+				default: 1,
+			},
+			playbackSpeed: {
+				type: 'number',
+				default: 1,
+			},
+			showProgress: {
+				type: 'boolean',
+				default: true,
+			},
+			showCurrentTime: {
+				type: 'boolean',
+				default: true,
+			},
+			showDuration: {
+				type: 'boolean',
+				default: true,
+			},
+			showMute: {
+				type: 'boolean',
+				default: true,
+			},
+			showVolume: {
+				type: 'boolean',
+				default: true,
+			},
+			showCaptions: {
+				type: 'boolean',
+				default: true,
+			},
+			showFullscreen: {
+				type: 'boolean',
+				default: true,
+			},
+			showPictureInPicture: {
+				type: 'boolean',
+				default: true,
+			},
+			showSettings: {
+				type: 'boolean',
+				default: true,
+			},
+			showPlaybackSpeed: {
+				type: 'boolean',
+				default: true,
+			},
+			showRestart: {
+				type: 'boolean',
+				default: true,
+			},
+			showSeek: {
+				type: 'boolean',
+				default: true,
+			},
+			showLoop: {
+				type: 'boolean',
+				default: true,
+			},
+
+
 			//Custom logo atributes
 			customlogo: {
 				type: 'string',
@@ -576,7 +647,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 		 */
 		save: () => null,
 	});
-	
+
 
 	openseaInit();
 	youtubeInit();

@@ -3,6 +3,7 @@ import { isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert } fr
 import LockControl from '../common/lock-control';
 import ContentShare from '../common/social-share-control';
 import Youtube from './InspectorControl/youtube';
+import CustomPlayer from './InspectorControl/customplayer';
 import OpenSea from './InspectorControl/opensea';
 import Wistia from './InspectorControl/wistia';
 import Vimeo from './InspectorControl/vimeo';
@@ -156,6 +157,8 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             </PanelBody>
 
                             <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} />
+
+                            <CustomPlayer attributes={attributes} setAttributes={setAttributes}  />
 
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />
                             <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />

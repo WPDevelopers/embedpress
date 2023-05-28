@@ -65,6 +65,14 @@ class Handler extends EndHandlerAbstract
             true
         );
 
+        wp_enqueue_script(
+            'initplyr',
+            EMBEDPRESS_URL_ASSETS . 'js/initplyr.js',
+            ['plyr.polyfilled'],
+            $this->pluginVersion,
+            true
+        );
+
         wp_localize_script('embedpress-front', 'eplocalize', array(
             'ajaxurl' => admin_url('admin-ajax.php')
         ));
