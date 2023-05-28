@@ -384,7 +384,7 @@ class EmbedPressPDFEdit extends Component {
 						</PanelBody>
 
 						<PanelBody
-							title={__('PDF Control Settings', 'embedpress')}
+							title={__('Document Controls', 'embedpress')}
 							initialOpen={false}
 						>
 							

@@ -85,9 +85,14 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         if(empty($matches[1])){
             preg_match('~\/(@)(\w+)~i', (string) $url, $matches);
             if(!empty($matches[1])){
+                if(!empty($this->get_youtube_handler($this->url))){
+                    if(!empty($this->get_channel_id_by_handler($this->get_youtube_handler($this->url)))){
+                        $channelId = $this->get_channel_id_by_handler($this->get_youtube_handler($this->url));
+                    }
+                }
                 return [
                     "type" => 'user',
-                    "id"   => $matches[2],
+                    "id"   => $channelId,
                 ];
             }
         }
@@ -167,8 +172,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             if(!empty($matches[1])){
                 $channelId = $matches[1];
             }
-            
-
+        
             if(!empty($this->get_youtube_handler($this->url))){
                 if(!empty($this->get_channel_id_by_handler($this->get_youtube_handler($this->url)))){
                     $channelId = $this->get_channel_id_by_handler($this->get_youtube_handler($this->url));
@@ -250,7 +254,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     }
 
     public function get_youtube_handler($url){
-        preg_match('/^https:\/\/www.youtube.com\/@(.+)\/live$/i', $url, $matches);
+        // preg_match('/^https:\/\/www.youtube.com\/@(.+)\/live$/i', $url, $matches);
+        preg_match('/^https:\/\/www.youtube.com\/@([^\/?]+)/i', $url, $matches);
+
 
         $handle_name = '';
         if(!empty($matches[1])){
@@ -301,7 +307,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $channel_id = $json_response['items'][0]['id']['channelId'];
     
             // Set the transient for 1 day (86400 seconds)
-            set_transient( $transient_name, $channel_id, 86400 );
+            set_transient( $transient_name, $channel_id, MONTH_IN_SECONDS );
     
             return $channel_id;
         }
