@@ -505,7 +505,22 @@ class Embedpress_Pdf extends Widget_Base
     {
         $settings = $this->get_settings();
         $url = $this->get_file_url();
+
+        if(class_exists( 'ACF' ) && function_exists('get_field')){
+            if(!empty($settings['__dynamic__']) && !empty($settings['__dynamic__']['embedpress_pdf_file_link'])){
+                $decode_url = urldecode(($settings['__dynamic__']['embedpress_pdf_file_link']));
+                preg_match('/"key":"field_646c9e019e6be:([^"]+)"/', $decode_url, $matches);
+                if (isset($matches[0])) {
+                    if (isset($matches[1])) {
+                        $get_acf_key = $matches[1];
+                        $url = get_field($get_acf_key);
+                    }
+                }
+            }
+        }
+
         $client_id = $this->get_id();
+
         $this->_render($url, $settings, $client_id);
         Helper::get_source_data(md5($this->get_id()).'_eb_elementor', $url, 'elementor_source_data', 'elementor_temp_source_data');
     }
