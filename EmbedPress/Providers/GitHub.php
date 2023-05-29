@@ -56,10 +56,25 @@ class GitHub extends ProviderAdapter implements ProviderInterface
     public function fakeResponse()
     {
         $src_url = urldecode($this->url);
-        
+
         // Check if the url is already converted to the embed format  
         if ($this->validateGitHubUrl($src_url)) {
-            $gist_url = $src_url.'.js';
+            $gist_url = $src_url . '.js';
+            $response = wp_remote_get($gist_url);
+
+            
+            if (is_array($response) && !is_wp_error($response)) {
+                $code = wp_remote_retrieve_body($response);
+                $gist_html = str_replace('\n', '', $code);
+
+                $code = wp_unslash( $gist_html );
+                $code  = explode("document.write('", $code);
+                $code[1] = substr($code[1], 0, -3);
+                $code[2] = substr($code[2], 0, -3);
+                
+                $code = implode("", $code);
+
+            }
         } else {
             return [];
         }
@@ -72,7 +87,7 @@ class GitHub extends ProviderAdapter implements ProviderInterface
             'provider_name' => 'GitHub',
             'provider_url'  => 'https://gist.github.com',
             'title'         => 'Unknown title',
-            'html'          => '<script src="'.$gist_url.'"></script>',
+            'html'          => $code,
         ];
     }
     /** inline @inheritDoc */
