@@ -401,19 +401,20 @@ class Embedpress_Document extends Widget_Base
         $url = $this->get_file_url();
         $id = 'embedpress-pdf-' . $this->get_id();
 
-        if(class_exists( 'ACF' ) && function_exists('get_field')){
-            if(!empty($settings['__dynamic__']) && !empty($settings['__dynamic__']['embedpress_document_file_link'])){
-                $decode_url = urldecode(($settings['__dynamic__']['embedpress_document_file_link']));
-                preg_match('/"key":"field_646c9e019e6be:([^"]+)"/', $decode_url, $matches);
-                if (isset($matches[0])) {
-                    if (isset($matches[1])) {
-                        $get_acf_key = $matches[1];
-                        $url = get_field($get_acf_key);
+        if($settings['embedpress_document_type'] === 'url') {
+            if(class_exists( 'ACF' ) && function_exists('get_field')){
+                if(!empty($settings['__dynamic__']) && !empty($settings['__dynamic__']['embedpress_document_file_link'])){
+                    $decode_url = urldecode(($settings['__dynamic__']['embedpress_document_file_link']));
+                    preg_match('/"key":"field_646c9e019e6be:([^"]+)"/', $decode_url, $matches);
+                    if (isset($matches[0])) {
+                        if (isset($matches[1])) {
+                            $get_acf_key = $matches[1];
+                            $url = get_field($get_acf_key);
+                        }
                     }
                 }
             }
         }
-        
         $hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_doc_lock_content_password']));
 
         $dimension = '';
