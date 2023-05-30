@@ -27,6 +27,7 @@ import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, isY
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import ContentShare from '../common/social-share-control';
+import {initPlayers } from './functions';
 
 const {
 	useBlockProps
@@ -60,6 +61,7 @@ export default function EmbedPress(props) {
 		clientId
 	} = attributes;
 
+	let playerInit = 0;
 
 	let content_share_class = '';
 	let share_position_class = '';
@@ -242,6 +244,9 @@ export default function EmbedPress(props) {
 		const delayDebounceFn = setTimeout(() => {
 			if (!((!embedHTML || editingURL) && !fetching)) {
 				embed();
+				playerInit = 0;
+				initPlayers();
+				playerInit = 1;
 			}
 		}, 1500)
 		return () => {

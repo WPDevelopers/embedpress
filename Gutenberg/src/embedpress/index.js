@@ -535,9 +535,13 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 
 			// custom player attributes
-			customplayer: {
+			customplayer: {  
 				type: 'boolean',
 				default: false
+			},
+			previewThumbnail: {
+				type: 'string',
+				default: ''
 			},
 			pAutoplay: {
 				type: 'boolean',
