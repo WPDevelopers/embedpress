@@ -543,7 +543,29 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: ''
 			},
-			pAutoplay: {
+			playerPreset: {
+				type: 'string',
+				default: ''
+			},
+			
+			playerColor: {
+				type: 'string',
+				default: '',
+			},
+			
+			playerPip: {
+				type: 'boolean',
+				default: false,
+			},
+			playerRestart: {
+				type: 'boolean',
+				default: false,
+			},
+			playerRewind: {
+				type: 'boolean',
+				default: false,
+			},
+			playerFastForward: {
 				type: 'boolean',
 				default: false,
 			},

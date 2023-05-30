@@ -5,7 +5,7 @@ import { getParams } from '../functions';
 import { addProAlert, isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert } from '../../common/helper';
 import { EPIcon } from '../../common/icons';
 import CustomBranding from './custombranding';
-import ControlHeader from '../../common/control-heading';
+import CustomPlayerControls from '../../common/custom-player-controls';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
@@ -20,12 +20,8 @@ const {
     RangeControl,
     ToggleControl,
     PanelBody,
-    Button,
 } = wp.components;
 
-import {
-    MediaUpload,
-} from "@wordpress/block-editor";
 
 
 export const init = () => {
@@ -172,12 +168,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         closedcaptions,
         modestbranding,
         relatedvideos,
-        customplayer,
-        previewThumbnail,
-        logoX,
-        logoY,
-        previewThumbnailUrl,
-        logoOpacity
+        customplayer
     } = attributes;
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
@@ -410,43 +401,9 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                             <p>Enable to display related videos from all channels. Otherwise, related videos will show from the same channel.</p>
                                         </div>
 
-                                        <div className="ep-custom-player-controls">
-                                            <ControlHeader headerText={'Video Thumbnail'} />
-                                            {
-                                                isProPluginActive && previewThumbnail && (
-                                                    <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
-                                                        <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
-                                                            <span class="dashicon dashicons dashicons-trash"></span>
-                                                        </button>
-                                                        <img
-                                                            src={previewThumbnail}
-                                                            alt="John"
-                                                        />
-                                                    </div>
-                                                )
-                                            }
+                                        <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} />
 
-                                            <div className={isProPluginActive ? "pro-control-active ep-custom-logo-button" : "pro-control ep-custom-logo-button"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                                <MediaUpload
-                                                    onSelect={onSelectImage}
-                                                    allowedTypes={['image']}
-                                                    value={previewThumbnail}
-                                                    render={({ open }) => (
-                                                        <Button className={'ep-logo-upload-button'} icon={!previewThumbnail ? 'upload' : 'update'} onClick={open}>
-                                                            {
-                                                                (!isProPluginActive || !previewThumbnail) ? 'Upload Image' : 'Change Image'
-                                                            }
-                                                        </Button>
-                                                    )}
 
-                                                />
-                                                {
-                                                    (!isProPluginActive) && (
-                                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                    )
-                                                }
-                                            </div>
-                                        </div>
                                     </div>
                                 )
                             }

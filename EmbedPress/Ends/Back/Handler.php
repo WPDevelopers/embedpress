@@ -51,13 +51,13 @@ class Handler extends EndHandlerAbstract
                 false
             );
 
-            wp_enqueue_script(
-                'initplyr',
-                EMBEDPRESS_URL_ASSETS . 'js/initplyr.js',
-                ['plyr.polyfilled'],
-                $this->pluginVersion,
-                true
-            );
+            // wp_enqueue_script(
+            //     'initplyr',
+            //     EMBEDPRESS_URL_ASSETS . 'js/initplyr.js',
+            //     ['plyr.polyfilled'],
+            //     $this->pluginVersion,
+            //     true
+            // );
 
             wp_enqueue_script("bootbox-bootstrap", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootstrap/bootstrap.min.js', ['jquery'], $this->pluginVersion, false);
             wp_enqueue_script("bootbox", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootbox.min.js', ['jquery', 'bootbox-bootstrap'], $this->pluginVersion, true);
