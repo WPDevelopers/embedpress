@@ -279,7 +279,7 @@ class Core {
             //'#https?://(.+\.)?clyp\.it/.+#i' => 'clyp',
 
             // https://gist.github.com
-            '#https?://(.+\.)?gist\.github\.com/.+#i' => 'github',
+            // '#https?://(.+\.)?gist\.github\.com/.+#i' => 'github',
 
             // https://portfolium.com
             //'#https?://(.+\.)?portfolium\.com/.+#i' => 'portfolium',

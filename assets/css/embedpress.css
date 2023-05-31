@@ -521,6 +521,10 @@
     width: calc(100% - 40px) !important;
 }
 
+.ose-github{
+    overflow: auto;
+}
+
 .ep_nft_content_wrap.ep_nft__wrapper {
     display: grid;
 }
