@@ -1564,3 +1564,43 @@ canvas.ep-doc-canvas {
     opacity: 0;
   } */
    
+
+  /* custom player css */
+  :root {
+    /* --plyr-color-main: #3700ff85; */
+    --plyr-control-icon-size: 15px;
+    --plyr-range-track-height: 3px;
+    --plyr-range-thumb-height: 10px;
+
+  }
+.plyr__controls {
+    background: var(--plyr-color-main)!important;
+    padding: 0!important;
+}
+button.plyr__control {
+    border-radius: 0;
+}
+a.plyr__controls__item.plyr__control {
+    border-radius: inherit;
+}
+button.plyr__control.plyr__control--overlaid[data-plyr="play"] {
+    width: 100px!important;
+    text-align: center;
+    display: flex;
+    align-items: center!important;
+    justify-content: center;
+    height: 60px;
+}
+button.plyr__control.plyr__control--overlaid[data-plyr="play"] svg {
+    width: 22px;
+    height: 22px;
+}
+a.plyr__controls__item.plyr__control {
+    border-radius: inherit;
+    color: inherit!important;
+}
+
+.plyr__control:focus {
+    border: none;
+}
+/* var(--plyr-video-control-background-hover,var(--plyr-color-main,var(--plyr-color-main,#00b2ff))) */

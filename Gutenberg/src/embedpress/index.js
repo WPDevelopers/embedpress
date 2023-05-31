@@ -535,7 +535,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 
 			// custom player attributes
-			customplayer: {  
+			customPlayer: {  
 				type: 'boolean',
 				default: false
 			},
@@ -550,7 +550,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			
 			playerColor: {
 				type: 'string',
-				default: '',
+				default: '#2e2e99',
 			},
 			
 			playerPip: {

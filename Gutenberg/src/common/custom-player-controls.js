@@ -26,7 +26,7 @@ import ControlHeader from './control-heading';
 const CustomPlayerControls = ({ attributes, setAttributes }) => {
     const {
         url,
-        customplayer,
+        customPlayer,
         previewThumbnail,
         playerPip,
         playerRestart,
@@ -103,7 +103,7 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
                         { label: 'Preset 3', value: 'custom-video-preset-3' },
                         { label: 'Preset 4', value: 'custom-video-preset-4' },
                     ]}
-                    o4Change={(playerP4reset) => setAttributes({ playerPreset })}
+                    onChange={(playerPreset) => setAttributes({ playerPreset })}
                     __nextHasNoMarginBottom
                 />
                 {

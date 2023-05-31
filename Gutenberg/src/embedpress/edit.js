@@ -27,7 +27,7 @@ import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, isY
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import ContentShare from '../common/social-share-control';
-import { initCustomPlayers } from './functions';
+import { initCustomPlayer } from './functions';
 
 const {
 	useBlockProps
@@ -39,6 +39,7 @@ removedBlockID();
 
 export default function EmbedPress(props) {
 	const { attributes, className, setAttributes } = props;
+
 
 
 	// @todo remove unused atts from here.
@@ -58,9 +59,12 @@ export default function EmbedPress(props) {
 		logoY,
 		customlogoUrl,
 		logoOpacity,
-		clientId
+		clientId,
+		customPlayer
 	} = attributes;
 
+
+	const _md5ClientId = md5(clientId);
 
 	let content_share_class = '';
 	let share_position_class = '';
@@ -124,7 +128,7 @@ export default function EmbedPress(props) {
 
 	let source = '';
 
-	if(isOpensea || isOpenseaSingle) {
+	if (isOpensea || isOpenseaSingle) {
 		source = ' source-opensea';
 	}
 
@@ -235,8 +239,9 @@ export default function EmbedPress(props) {
 			saveSourceData(clientId, url);
 		}
 
-		
-		initCustomPlayers();
+		customPlayer && (
+			initCustomPlayer(_md5ClientId)
+		)
 
 	}
 	// console.log('XopenseaParams', {...openseaParams});
@@ -287,7 +292,7 @@ export default function EmbedPress(props) {
 
 			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTLive || isWistiaVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
 				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
-					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} data-playerid={md5(clientId)} dangerouslySetInnerHTML={{
+					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} {...(customPlayer ? { 'data-playerid': md5(clientId) } : {})} dangerouslySetInnerHTML={{
 						__html: embedHTML + customLogoTemp + epMessage + shareHtml,
 					}}>
 					</EmbedWrap>
@@ -318,7 +323,7 @@ export default function EmbedPress(props) {
 
 			</figure>}
 
-			<DynamicStyles url={url} clientId={clientId} {...attributes} />
+			<DynamicStyles attributes={attributes} />
 
 			{
 				customlogo && (

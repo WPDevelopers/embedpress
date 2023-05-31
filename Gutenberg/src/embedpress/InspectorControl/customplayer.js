@@ -28,7 +28,7 @@ import {
 export default function CustomPlayer({ attributes, setAttributes }) {
 
     const {
-        customplayer,
+        customPlayer,
         autoplay,
         volume,
         playbackSpeed,
@@ -51,8 +51,8 @@ export default function CustomPlayer({ attributes, setAttributes }) {
         <PanelBody title={__("Custom Player", 'embedpress')} initialOpen={false}>
             <ToggleControl
                 label={__("Enable Player", "embedpress")}
-                checked={customplayer}
-                onChange={(customplayer) => setAttributes({ customplayer })}
+                checked={customPlayer}
+                onChange={(customPlayer) => setAttributes({ customPlayer })}
             />
 
             <ToggleControl

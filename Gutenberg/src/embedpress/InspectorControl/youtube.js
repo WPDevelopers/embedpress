@@ -51,6 +51,7 @@ export const getYoutubeParams = (params, attributes) => {
             closedcaptions: false,
             modestbranding: '0',
             relatedvideos: true,
+            customPlayer: false,
         }
     }
 
@@ -132,6 +133,7 @@ export const useYTVideo = (attributes) => {
         closedcaptions: null,
         modestbranding: null,
         relatedvideos: null,
+        customPlayer: null,
     };
 
     const param = getParams({}, attributes, defaults);
@@ -168,7 +170,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         closedcaptions,
         modestbranding,
         relatedvideos,
-        customplayer
+        customPlayer
     } = attributes;
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
@@ -252,12 +254,12 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                         <PanelBody title={__("Video Controls", 'embedpress')} initialOpen={false}>
                             <ToggleControl
                                 label={__("Enable Custom Player", "embedpress")}
-                                checked={customplayer}
-                                onChange={(customplayer) => setAttributes({ customplayer })}
+                                checked={customPlayer}
+                                onChange={(customPlayer) => setAttributes({ customPlayer })}
                             />
 
                             {
-                                !customplayer ? (
+                                !customPlayer ? (
                                     <div className={'ep-video-controlers'}>
                                         <TextControl
                                             label={__("Start Time (in seconds)")}
@@ -407,6 +409,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                     </div>
                                 )
                             }
+                            
                         </PanelBody>
                         <CustomBranding attributes={attributes} setAttributes={setAttributes} />
                     </div>

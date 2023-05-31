@@ -70,6 +70,13 @@ function embedpress_render_block($attributes)
 
 	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
+	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
+
+	$_custom_player = '';
+	if(!empty($custom_player)){
+		$_custom_player = 'data-playerid="'.esc_attr( $client_id ).'"';
+
+	}
 
 	$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']): ''; 
 
@@ -113,7 +120,7 @@ function embedpress_render_block($attributes)
 			?>
 			<div class="wp-block-embed__wrapper <?php if(!empty($attributes['contentShare'])) echo esc_attr( 'position-'.$share_position.'-wraper'); ?>  <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
 				<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content">
-					<div class="ep-embed-content-wraper" data-playerid="<?php echo esc_attr( $client_id )?>">
+					<div class="ep-embed-content-wraper" <?php echo $_custom_player; ?>>
 						<?php 
 							$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
 							$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
