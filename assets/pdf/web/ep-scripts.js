@@ -10,11 +10,17 @@ const setThemeMode = (themeMode) => {
 
 
 const getParamObj = (hash) => {
+    
     let paramsObj = {};
     let colorsObj = {};
 
     if (location.hash) {
         let hashParams = new URLSearchParams(hash.substring(1));
+
+        if(hashParams.get('key') !== null) {
+            hashParams = '#' + atob(hashParams.get('key'));
+            hashParams = new URLSearchParams(hashParams.substring(1));
+        }
 
         if (hashParams.get('themeMode') == 'custom') {
             colorsObj = {
@@ -35,8 +41,8 @@ const getParamObj = (hash) => {
             doc_rotation: hashParams.get('doc_rotation'),
         };
 
-    
-        if(hashParams.get('download') !== 'true' && hashParams.get('download') !== 'yes'){
+
+        if (hashParams.get('download') !== 'true' && hashParams.get('download') !== 'yes') {
             window.addEventListener('beforeunload', function (event) {
                 event.stopImmediatePropagation();
             });
@@ -92,6 +98,13 @@ const getColorBrightness = (hexColor) => {
     return brightnessPercentage;
 }
 const pdfIframeStyle = (data) => {
+
+    const isAllNull  = Object.values(data).every(value => value === null);;
+
+    if(isAllNull){
+        return false;
+    };
+
     let settingsPos = '';
 
     if (data.toolbar === false || data.toolbar == 'false') {
@@ -109,6 +122,8 @@ const pdfIframeStyle = (data) => {
     if (copy_text === 'block' || copy_text == 'true' || copy_text == true) {
         copy_text = 'text';
     }
+
+    // console.log({data});
 
     let doc_details = isDisplay(data.doc_details);
     let doc_rotation = isDisplay(data.doc_rotation);
@@ -258,7 +273,24 @@ window.addEventListener('hashchange', (e) => {
     manupulatePDFIframe(e);
 }, false);
 
-
 let data = getParamObj(location.hash);
+
+console.log(data);
+
 pdfIframeStyle(data);
 setThemeMode(data.themeMode);
+
+
+// const str = 'themeMode=default&presentation=true&position=top&download=false&toolbar=true&copy_text=true&add_text=true&draw=true&toolbar_position=top&doc_details=true&doc_rotation=true';
+
+// // Encode the string to base64
+// const base64Key = btoa(str);
+
+// console.log(base64Key);
+
+// const ebase64Key = 'dGhlbWVNb2RlPWRlZmF1bHQmcHJlc2VudGF0aW9uPXRydWUmcG9zaXRpb249dG9wJmRvd25sb2FkPWZhbHNlJnRhcmdldD10cnVlJmNvcHlfdGV4dD10cnVlJmFkZF90ZXh0PXRydWUmcG9zaXRpb249dG9wJmRyb3c9dHJ1ZSZ0b29sYmFyX3Bvc2l0aW9uPXRvcA==';
+
+// // Decode the base64-encoded key to the original string
+// const decodedKey = atob(ebase64Key);
+
+// console.log(decodedKey);

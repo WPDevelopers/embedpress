@@ -529,7 +529,7 @@ class Embedpress_Pdf extends Widget_Base
         }
 
         if($settings['embedpress_pdf_type'] == 'file'){   
-            return "#" .http_build_query($urlParamData) ;
+            return "#key=" . base64_encode(utf8_encode(http_build_query($urlParamData)));
         }
         return '';
     
