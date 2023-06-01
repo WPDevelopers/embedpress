@@ -240,7 +240,7 @@ export default function EmbedPress(props) {
 		}
 
 		customPlayer && (
-			initCustomPlayer(_md5ClientId)
+			initCustomPlayer(_md5ClientId, attributes)
 		)
 
 	}

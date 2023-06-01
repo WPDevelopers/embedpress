@@ -76,19 +76,24 @@ export const initCustomPlayers = () => {
 }
 
 export const initCustomPlayer = (_md5ClientId) => {
-    setTimeout(() => {
-        console.log({ _md5ClientId });
-        console.log(document.querySelector(`[data-playerid="${_md5ClientId}"] > .ose-embedpress-responsive`));
 
-        new Plyr(`[data-playerid="${_md5ClientId}"] > .ose-embedpress-responsive`, {
-            controls: [
-                'play-large', 'restart', 'rewind', 'play', 'fast-forward', 'progress', 'current-time',
-                'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'download', 'fullscreen'
-            ],
-            seekTime: 10,
-            ads: { enabled: false, publisherId: '', tagUrl: 'https://googleads.github.io/googleads-ima-html5/vsi/' },
-            tooltips: { controls: true, seek: true },
+    const intervalId = setInterval(() => {
+        const playerElement = document.querySelector(`[data-playerid="${_md5ClientId}"] > .ose-embedpress-responsive`);
 
-        });
-    }, 1000)
+        if (playerElement) {
+            clearInterval(intervalId);
+
+            const player = new Plyr(playerElement, {
+                controls: [
+                    'play-large', 'restart', 'rewind', 'play', 'fast-forward', 'progress', 'current-time',
+                    'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'download', 'fullscreen'
+                ],
+                seekTime: 10,
+                ads: { enabled: false, publisherId: '', tagUrl: 'https://googleads.github.io/googleads-ima-html5/vsi/' },
+                tooltips: { controls: true, seek: true },
+            });
+
+            player.poster = previewThumbnail;
+        }
+    }, 200);
 }

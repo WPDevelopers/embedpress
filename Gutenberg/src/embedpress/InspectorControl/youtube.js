@@ -52,6 +52,12 @@ export const getYoutubeParams = (params, attributes) => {
             modestbranding: '0',
             relatedvideos: true,
             customPlayer: false,
+            posterThumbnail: '',
+            playerPreset: '',
+            playerColor: '',
+            playerRestart: false,
+            playerRewind: false,
+            playerFastForward: false,
         }
     }
 
@@ -134,6 +140,12 @@ export const useYTVideo = (attributes) => {
         modestbranding: null,
         relatedvideos: null,
         customPlayer: null,
+        posterThumbnail: null,
+        playerPreset: null,
+        playerColor: null,
+        playerRestart: null,
+        playerRewind: null,
+        playerFastForward: null,
     };
 
     const param = getParams({}, attributes, defaults);

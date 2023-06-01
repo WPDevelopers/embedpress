@@ -275,6 +275,46 @@ function embedpress_gutenberg_register_all_block()
 							'modestbranding' => [
 								'type' => 'string',
 							],
+							// custom player attributes
+							'customPlayer' => [
+								'type' => 'boolean',
+								'default' => false
+							],
+							
+							'posterThumbnail' => [
+								'type' => 'string',
+								'default' => ''
+							],
+							
+							'playerPreset' => [
+								'type' => 'string',
+								'default' => ''
+							],
+							
+							'playerColor' => [
+								'type' => 'string',
+								'default' => '#2e2e99'
+							],
+							
+							'playerPip' => [
+								'type' => 'boolean',
+								'default' => false
+							],
+							
+							'playerRestart' => [
+								'type' => 'boolean',
+								'default' => false
+							],
+							
+							'playerRewind' => [
+								'type' => 'boolean',
+								'default' => false
+							],
+							
+							'playerFastForward' => [
+								'type' => 'boolean',
+								'default' => false
+							],
 							//Wistia Attributes
 							'wstarttime' => [
 								'type' => 'string',
