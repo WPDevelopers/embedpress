@@ -275,22 +275,6 @@ window.addEventListener('hashchange', (e) => {
 
 let data = getParamObj(location.hash);
 
-console.log(data);
-
 pdfIframeStyle(data);
 setThemeMode(data.themeMode);
 
-
-// const str = 'themeMode=default&presentation=true&position=top&download=false&toolbar=true&copy_text=true&add_text=true&draw=true&toolbar_position=top&doc_details=true&doc_rotation=true';
-
-// // Encode the string to base64
-// const base64Key = btoa(str);
-
-// console.log(base64Key);
-
-// const ebase64Key = 'dGhlbWVNb2RlPWRlZmF1bHQmcHJlc2VudGF0aW9uPXRydWUmcG9zaXRpb249dG9wJmRvd25sb2FkPWZhbHNlJnRhcmdldD10cnVlJmNvcHlfdGV4dD10cnVlJmFkZF90ZXh0PXRydWUmcG9zaXRpb249dG9wJmRyb3c9dHJ1ZSZ0b29sYmFyX3Bvc2l0aW9uPXRvcA==';
-
-// // Decode the base64-encoded key to the original string
-// const decodedKey = atob(ebase64Key);
-
-// console.log(decodedKey);
