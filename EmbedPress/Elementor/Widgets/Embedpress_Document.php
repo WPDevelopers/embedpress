@@ -395,11 +395,26 @@ class Embedpress_Document extends Widget_Base
     protected function render()
     {
         $settings = $this->get_settings();
+
         $client_id = $this->get_id();
         $pass_hash_key = md5($settings['embedpress_doc_lock_content_password']);
         $url = $this->get_file_url();
         $id = 'embedpress-pdf-' . $this->get_id();
-        
+
+        if($settings['embedpress_document_type'] === 'url') {
+            if(class_exists( 'ACF' ) && function_exists('get_field')){
+                if(!empty($settings['__dynamic__']) && !empty($settings['__dynamic__']['embedpress_document_file_link'])){
+                    $decode_url = urldecode(($settings['__dynamic__']['embedpress_document_file_link']));
+                    preg_match('/"key":"([^"]+):([^"]+)"/', $decode_url, $matches);
+                    if (isset($matches[0])) {
+                        if (isset($matches[1])) {
+                            $get_acf_key = $matches[1];
+                            $url = get_field($get_acf_key);
+                        }
+                    }
+                }
+            }
+        }
         $hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_doc_lock_content_password']));
 
         $dimension = '';
