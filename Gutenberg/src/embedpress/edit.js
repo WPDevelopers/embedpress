@@ -259,7 +259,6 @@ export default function EmbedPress(props) {
 		}
 	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams]);
 
-	console.log(embedHTML);
 	return (
 		<Fragment>
 
@@ -289,7 +288,7 @@ export default function EmbedPress(props) {
 			</div>}
 
 			{
-				((!isOpensea || (!!editingURL || editingURL === 0)) && (!isOpenseaSingle || (!!editingURL || editingURL === 0)) && (!isYTVideo || !isYTLive || (!!editingURL || editingURL === 0)) && (!isYTChannel || (!!editingURL || editingURL === 0)) && (!isWistiaVideo || (!!editingURL || editingURL === 0))) && fetching && (<div className={className}><EmbedLoading /> </div>)
+				((!isOpensea || (!!editingURL || editingURL === 0)) && (!isOpenseaSingle || (!!editingURL || editingURL === 0)) && ((!isYTVideo && !isYTLive) || (!!editingURL || editingURL === 0)) && (!isYTChannel || (!!editingURL || editingURL === 0)) && (!isWistiaVideo || (!!editingURL || editingURL === 0))) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
 			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTLive || isWistiaVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
