@@ -1981,6 +1981,11 @@ const PDFViewerApplication = {
     if (location.hash) {
       let hash = location.hash;
       let hashParams = new URLSearchParams(hash.substring(1));
+
+      if(hashParams.get('key') !== null) {
+          hashParams = '#' + atob(hashParams.get('key'));
+          hashParams = new URLSearchParams(hashParams.substring(1));
+      }
       if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
         return false;
       }
@@ -2003,6 +2008,12 @@ const PDFViewerApplication = {
     if (location.hash) {
       let hash = location.hash;
       let hashParams = new URLSearchParams(hash.substring(1));
+
+      if(hashParams.get('key') !== null) {
+          hashParams = '#' + atob(hashParams.get('key'));
+          hashParams = new URLSearchParams(hashParams.substring(1));
+      }
+
       if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
         return false;
       }
@@ -2489,6 +2500,12 @@ const PDFViewerApplication = {
     if (location.hash) {
       let hash = location.hash;
       let hashParams = new URLSearchParams(hash.substring(1));
+      if(hashParams.get('key') !== null) {
+          hashParams = '#' + atob(hashParams.get('key'));
+          hashParams = new URLSearchParams(hashParams.substring(1));
+      }
+      console.log(hashParams);
+      
       if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
         return false;
       }
@@ -2535,6 +2552,13 @@ const PDFViewerApplication = {
     if (location.hash) {
       let hash = location.hash;
       let hashParams = new URLSearchParams(hash.substring(1));
+
+      if(hashParams.get('key') !== null) {
+          hashParams = '#' + atob(hashParams.get('key'));
+          hashParams = new URLSearchParams(hashParams.substring(1));
+      }
+
+
       if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
         return false;
       }
@@ -13558,6 +13582,12 @@ PDFPrintService.prototype = {
     if (location.hash) {
       let hash = location.hash;
       let hashParams = new URLSearchParams(hash.substring(1));
+
+      if(hashParams.get('key') !== null) {
+          hashParams = '#' + atob(hashParams.get('key'));
+          hashParams = new URLSearchParams(hashParams.substring(1));
+      }
+
       if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
         return false;
       }

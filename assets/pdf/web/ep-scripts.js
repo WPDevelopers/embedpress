@@ -10,17 +10,18 @@ const setThemeMode = (themeMode) => {
 
 
 const getParamObj = (hash) => {
-    
+
     let paramsObj = {};
     let colorsObj = {};
 
     if (location.hash) {
         let hashParams = new URLSearchParams(hash.substring(1));
 
-        if(hashParams.get('key') !== null) {
+        if (hashParams.get('key') !== null) {
             hashParams = '#' + atob(hashParams.get('key'));
             hashParams = new URLSearchParams(hashParams.substring(1));
         }
+
 
         if (hashParams.get('themeMode') == 'custom') {
             colorsObj = {
@@ -99,9 +100,14 @@ const getColorBrightness = (hexColor) => {
 }
 const pdfIframeStyle = (data) => {
 
-    const isAllNull  = Object.values(data).every(value => value === null);;
+    const isAllNull = Object.values(data).every(value => value === null);;
+    console.log(data);
 
-    if(isAllNull){
+    const hashKey = window.location.hash;
+
+    console.log(window.location.hash);
+
+    if (isAllNull) {
         return false;
     };
 
@@ -269,9 +275,24 @@ const manupulatePDFIframe = (e) => {
     setThemeMode(data.themeMode);
 }
 
+let counter = 0;
+
 window.addEventListener('hashchange', (e) => {
-    manupulatePDFIframe(e);
+    const oldURL = new URL(e.oldURL);
+    const newURL = new URL(e.newURL);
+
+    const keyHash = oldURL.hash;
+
+    const modifiedURL = newURL + keyHash.replace('#', '&');
+    
+    if (counter === 0) {
+        window.location = modifiedURL;
+        manupulatePDFIframe(e);
+        counter++;
+    }
+
 }, false);
+
 
 let data = getParamObj(location.hash);
 
