@@ -529,7 +529,7 @@ class Embedpress_Pdf extends Widget_Base
         }
 
         if($settings['embedpress_pdf_type'] == 'file'){   
-            return "#" .http_build_query($urlParamData) ;
+            return "#key=" . base64_encode(utf8_encode(http_build_query($urlParamData)));
         }
         return '';
     
@@ -629,7 +629,7 @@ class Embedpress_Pdf extends Widget_Base
 
             if ($url != '') {
                 if ($this->is_pdf($url) && !$this->is_external_url($url)) {
-                    $this->add_render_attribute('embedpres-pdf-render', 'data-emsrc', $url);
+                    $this->add_render_attribute('embedpres-pdf-render',  $url);
                     $renderer = Helper::get_pdf_renderer();
                     $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($url).$this->getParamData($settings);
                     if (!empty($settings['embedpress_pdf_zoom'])) {
