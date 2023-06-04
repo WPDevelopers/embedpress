@@ -4,10 +4,11 @@ import { isYTChannel, isYTVideo, isYTLive } from "./InspectorControl/youtube";
 import { isVimeoVideo } from "./InspectorControl/vimeo";
 import md5 from 'md5';
 
-export const dynamicStyles = ({ clientId, attributes }) => {
+export const dynamicStyles = ({ attributes }) => {
 
     const {
         url,
+        clientId,
         width,
         height,
         videosize,
@@ -30,10 +31,9 @@ export const dynamicStyles = ({ clientId, attributes }) => {
         playerRewind,
         playerFastForward,
     } = attributes;
+    
 
-
-    let  _md5ClientId = md5(clientId);
-
+    const _md5ClientId = md5(clientId);
 
     // const _posterThumbnail = posterThumbnail ? 'block' : 'none';
     // const _playerPreset = playerPreset ? 'block' : 'none';

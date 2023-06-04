@@ -75,7 +75,7 @@ export const initCustomPlayers = () => {
     }
 }
 
-export const initCustomPlayer = (_md5ClientId, attributes) => {
+export const initCustomPlayer = (clientId, attributes) => {
 
     const {
         posterThumbnail,
@@ -89,7 +89,7 @@ export const initCustomPlayer = (_md5ClientId, attributes) => {
     } = attributes;
 
     const intervalId = setInterval(() => {
-        const playerElement = document.querySelector(`[data-playerid="${_md5ClientId}"] > .ose-embedpress-responsive`);
+        const playerElement = document.querySelector(`[data-playerid="${clientId}"] > .ose-embedpress-responsive`);
 
         if (playerElement) {
             clearInterval(intervalId);

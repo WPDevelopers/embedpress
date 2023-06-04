@@ -70,7 +70,6 @@ function embedpress_render_block($attributes)
 
 	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
-
 	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
 
 	
@@ -204,6 +203,24 @@ function embedpress_render_block_style($attributes)
 {
 	
 	$uniqid = !empty($attributes['url']) ? '.ose-uid-' . md5($attributes['url']) : '';
+	$client_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
+
+	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
+	$player_color = !empty($attributes['playerColor']) ? $attributes['playerColor'] : '';
+
+	$playerStyle = '';
+
+	if (!empty($custom_player)) {
+		$playerStyle = '
+		[data-playerid="' . md5($client_id). '"] {
+			--plyr-color-main: ' . ($player_color && strlen($player_color) === 7
+				? 'rgba(' . hexdec(substr($player_color, 1, 2)) . ', ' . hexdec(substr($player_color, 3, 2)) . ', ' . hexdec(substr($player_color, 5, 2)) . ', .8)'
+				: 'rgba(0, 0, 0, .8)'
+			) . '; 
+		}
+		';
+	}
+
 
 	$_iscustomlogo = '';
 
@@ -242,6 +259,8 @@ function embedpress_render_block_style($attributes)
 			display: none;
 		}
 		'.$_iscustomlogo.'
+		'.$playerStyle.'
+
 	</style>';
 
 	if($attributes['videosize'] == 'responsive') {
@@ -277,6 +296,8 @@ function embedpress_render_block_style($attributes)
 				display: none;
 			}
 		  '.$_iscustomlogo.'
+		'.$playerStyle.'
+
 	</style>';
 	}
 

@@ -64,6 +64,9 @@ export default function EmbedPress(props) {
 	} = attributes;
 
 
+	if (clientId == null || clientId == undefined) {
+		setAttributes({ clientId : props.clientId });
+	}
 	const _md5ClientId = md5(clientId);
 
 	let content_share_class = '';
@@ -325,7 +328,7 @@ export default function EmbedPress(props) {
 
 			</figure>}
 
-			<DynamicStyles clientId={clientId} attributes={attributes} />
+			<DynamicStyles attributes={attributes} />
 
 			{
 				customlogo && (
