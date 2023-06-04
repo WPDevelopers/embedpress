@@ -27,7 +27,7 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
     const {
         url,
         customPlayer,
-        previewThumbnail,
+        posterThumbnail,
         playerPip,
         playerRestart,
         playerRewind,
@@ -40,10 +40,10 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
 
     const onSelectImage = (logo) => {
         console.log(logo.sizes.full.url);
-        setAttributes({ previewThumbnail: logo.sizes.full.url });
+        setAttributes({ posterThumbnail: logo.sizes.full.url });
     }
     const removeImage = (e) => {
-        setAttributes({ previewThumbnail: '' });
+        setAttributes({ posterThumbnail: '' });
     }
 
     if (!document.querySelector('.pro__alert__wrap')) {
@@ -59,13 +59,13 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
         <div className="ep-custom-player-controls">
             <ControlHeader headerText={'Thumbnail'} />
             {
-                isProPluginActive && previewThumbnail && (
+                isProPluginActive && posterThumbnail && (
                     <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
                         <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
                             <span class="dashicon dashicons dashicons-trash"></span>
                         </button>
                         <img
-                            src={previewThumbnail}
+                            src={posterThumbnail}
                             alt="John"
                         />
                     </div>
@@ -76,11 +76,11 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
                 <MediaUpload
                     onSelect={onSelectImage}
                     allowedTypes={['image']}
-                    value={previewThumbnail}
+                    value={posterThumbnail}
                     render={({ open }) => (
-                        <Button className={'ep-logo-upload-button'} icon={!previewThumbnail ? 'upload' : 'update'} onClick={open}>
+                        <Button className={'ep-logo-upload-button'} icon={!posterThumbnail ? 'upload' : 'update'} onClick={open}>
                             {
-                                (!isProPluginActive || !previewThumbnail) ? 'Upload Image' : 'Change Image'
+                                (!isProPluginActive || !posterThumbnail) ? 'Upload Image' : 'Change Image'
                             }
                         </Button>
                     )}

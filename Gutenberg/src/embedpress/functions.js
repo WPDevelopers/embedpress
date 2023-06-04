@@ -75,7 +75,18 @@ export const initCustomPlayers = () => {
     }
 }
 
-export const initCustomPlayer = (_md5ClientId) => {
+export const initCustomPlayer = (_md5ClientId, attributes) => {
+
+    const {
+        posterThumbnail,
+        playerPreset,
+        playerColor,
+        playerPip,
+        playerRestart,
+        playerRewind,
+        playerFastForward,
+        fullscreen,
+    } = attributes;
 
     const intervalId = setInterval(() => {
         const playerElement = document.querySelector(`[data-playerid="${_md5ClientId}"] > .ose-embedpress-responsive`);
@@ -88,12 +99,10 @@ export const initCustomPlayer = (_md5ClientId) => {
                     'play-large', 'restart', 'rewind', 'play', 'fast-forward', 'progress', 'current-time',
                     'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'download', 'fullscreen'
                 ],
-                seekTime: 10,
-                ads: { enabled: false, publisherId: '', tagUrl: 'https://googleads.github.io/googleads-ima-html5/vsi/' },
                 tooltips: { controls: true, seek: true },
             });
 
-            player.poster = previewThumbnail;
+            player.poster = posterThumbnail;
         }
     }, 200);
 }

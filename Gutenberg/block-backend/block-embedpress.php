@@ -70,13 +70,55 @@ function embedpress_render_block($attributes)
 
 	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
+
 	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
 
-	$_custom_player = '';
-	if(!empty($custom_player)){
-		$_custom_player = 'data-playerid="'.esc_attr( $client_id ).'"';
+	
+	// $player_preset = !empty($attributes['playerPreset']) ? $attributes['playerPreset'] : '1';
 
+	// $player_color = !empty($attributes['playerColor']) ? $attributes['playerColor'] : '';
+
+	// $poster_thumbnail = !empty($attributes['posterThumbnail']) ? $attributes['posterThumbnail'] : '';
+	
+	// $player_pip = !empty($attributes['playerPip']) ? $attributes['playerPip'] : 0;
+
+	// $player_restart = !empty($attributes['playerRestart']) ? $attributes['playerRestart'] : 0;
+
+	// $player_rewind = !empty($attributes['playerRewind']) ? $attributes['playerRewind'] : 0;
+
+	// $player_fastForward = !empty($attributes['playerFastForward']) ? $attributes['playerFastForward'] : 0;
+
+	
+
+
+	if (!empty($custom_player)) {
+		$_custom_player = 'data-playerid="' . esc_attr($client_id) . '"';
+	
+		$player_preset = !empty($attributes['playerPreset']) ? true : false;
+		$player_color = !empty($attributes['playerColor']) ? $attributes['playerColor'] : '';
+		$poster_thumbnail = !empty($attributes['posterThumbnail']) ? $attributes['posterThumbnail'] : '';
+		$player_pip = !empty($attributes['playerPip']) ? true : false;
+		$player_restart = !empty($attributes['playerRestart']) ? true : false;
+		$player_rewind = !empty($attributes['playerRewind']) ? true : false;
+		$player_fastForward = !empty($attributes['playerFastForward']) ? true : false;
+	
+		$playerOptions = [
+			'rewind' => $player_rewind,
+			'restart' => $player_restart,
+			'pip' => $player_pip,
+			'poster_thumbnail' => $poster_thumbnail,
+			'player_color' => $player_color,
+			'player_preset' => $player_preset,
+			'fast_forward' => $player_fastForward,
+		];
+	
+		$playerOptionsString = json_encode($playerOptions);
+		$_player_options = 'data-options=\'' . htmlentities($playerOptionsString, ENT_QUOTES) . '\'';
 	}
+	
+
+	
+
 
 	$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']): ''; 
 
@@ -120,7 +162,7 @@ function embedpress_render_block($attributes)
 			?>
 			<div class="wp-block-embed__wrapper <?php if(!empty($attributes['contentShare'])) echo esc_attr( 'position-'.$share_position.'-wraper'); ?>  <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
 				<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content">
-					<div class="ep-embed-content-wraper" <?php echo $_custom_player; ?>>
+					<div class="ep-embed-content-wraper" <?php echo $_custom_player; ?> <?php echo $_player_options; ?>>
 						<?php 
 							$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
 							$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';

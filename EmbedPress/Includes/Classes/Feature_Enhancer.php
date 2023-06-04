@@ -234,22 +234,6 @@ class Feature_Enhancer
 					'logoOpacity' => !empty($attributes['logoOpacity']) ? $attributes['logoOpacity'] : 0.6,
 				];
 
-				if(!empty($attributes['customPlayer'])){
-					$atts['customPlayer'] = !empty($attributes['customPlayer']) ? 1 : 0;
-					
-					$atts['posterThumbnail'] = !empty($attributes['posterThumbnail']) ? $attributes['posterThumbnail'] : '';
-
-					$atts['playerColor'] = !empty($attributes['playerColor']) ? $attributes['playerColor'] : '';
-
-					$atts['playerPip'] = !empty($attributes['playerPip']) ? 1 : 0;
-
-					$atts['playerRestart'] = !empty($attributes['playerRestart']) ? 1 : 0;
-
-					$atts['playerRewind'] = !empty($attributes['playerRewind']) ? 1 : 0;
-
-					$atts['playerFastForward'] = !empty($attributes['playerFastForward']) ? 1 : 0;
-				}
-
 				$urlInfo = Shortcode::parseContent($attributes['url'], true, $atts);
 
 				if (!empty($urlInfo->embed)) {
@@ -271,11 +255,6 @@ class Feature_Enhancer
 					$params['color'] = !empty($attributes['progressbarcolor']) ? $attributes['progressbarcolor'] : 'red';
 					$params['modestbranding'] = empty($attributes['modestbranding']) ? 0 : 1; // Reverse the condition value for modestbranding. 0 = display, 1 = do not display
 					$params['cc_load_policy'] = !empty($attributes['closedcaptions']) ? 0 : 1;
-
-					if(!empty($attributes['customPlayer'])){
-						$params['customPlayer'] = !empty($attributes['customPlayer']) ? 1 : 0;
-						$params['posterThumbnail'] = !empty($attributes['posterThumbnail']) ? $attributes['posterThumbnail'] : '';
-					}
 
 					preg_match( '/(.+)?\?/', $url_full, $url );
 

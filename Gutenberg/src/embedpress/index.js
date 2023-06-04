@@ -539,7 +539,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: false
 			},
-			previewThumbnail: {
+			posterThumbnail: {
 				type: 'string',
 				default: ''
 			},

@@ -32,14 +32,43 @@ document.addEventListener('DOMContentLoaded', function () {
     const playerId = wrapper.getAttribute('data-playerid');
     if (playerId && !wrapper.classList.contains('plyr-initialized')) {
       const selector = `[data-playerid="${playerId}"] > .ose-embedpress-responsive`;
-      new Plyr(selector, {
-        controls: [
-          'play-large', 'restart', 'rewind', 'play', 'fast-forward', 'progress', 'current-time',
-          'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'download', 'fullscreen'
-        ],
+      let options = document.querySelector(`[data-playerid="${playerId}"]`).getAttribute('data-options');
+      options = JSON.parse(options);
+
+      document.querySelector(`[data-playerid="${playerId}"] iframe`).setAttribute('data-poster', options.poster_thumbnail);
+      
+
+      const controls = [
+        'play-large',
+        options.restart ? 'restart' : '',
+        options.rewind ? 'rewind' : '',
+        'play',
+        options.fast_forward ? 'fast-forward' : '',
+        'progress',
+        'current-time',
+        'duration',
+        'mute',
+        'volume',
+        'captions',
+        'settings',
+        options.pip ? 'pip' : '',
+        'airplay',
+        'download',
+        'fullscreen'
+      ].filter(control => control !== '');
+
+      const player  = new Plyr(selector, {
+        controls: controls,
         seekTime: 10,
-        ads: { enabled: false, publisherId: '', tagUrl: 'https://googleads.github.io/googleads-ima-html5/vsi/' }
+        ads: { enabled: false, publisherId: '', tagUrl: 'https://googleads.github.io/googleads-ima-html5/vsi/' },
+        poster: options.poster_thumbnail,
+        storage: {
+          enabled: true,
+          key: 'plyr_volume'
+        },
+        displayDuration: true
       });
+
       wrapper.classList.add('plyr-initialized');
     }
   }

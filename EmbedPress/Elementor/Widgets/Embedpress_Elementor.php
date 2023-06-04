@@ -2609,7 +2609,7 @@ class Embedpress_Elementor extends Widget_Base
 					} else {?>
 							
 							<div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($content_share_class.' '.$share_position_class.' '.$content_protection_class); echo esc_attr( ' source-'.$source ); ?>">
-								<div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper" data-playerid="<?php echo esc_attr( $this->get_id() ); ?>">
+								<div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper" data-playerid="<?php echo esc_attr( $this->get_id() ); ?>" >
 									<?php 
 										$content_id = $client_id;
 										

@@ -189,10 +189,10 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
 
     const onSelectImage = (logo) => {
         console.log(logo.sizes.full.url);
-        setAttributes({ previewThumbnail: logo.sizes.full.url });
+        setAttributes({ posterThumbnail: logo.sizes.full.url });
     }
     const removeImage = (e) => {
-        setAttributes({ previewThumbnail: '' });
+        setAttributes({ posterThumbnail: '' });
     }
 
     if (!document.querySelector('.pro__alert__wrap')) {
