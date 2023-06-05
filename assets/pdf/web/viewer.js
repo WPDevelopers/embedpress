@@ -1986,7 +1986,9 @@ const PDFViewerApplication = {
           hashParams = '#' + atob(hashParams.get('key'));
           hashParams = new URLSearchParams(hashParams.substring(1));
       }
-      if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
+      
+      const element = document.querySelector('#download');
+      if((hashParams.get('download') === 'false' || hashParams.get('download') === '')  || element.offsetParent === null){
         return false;
       }
     } // added by EP developer 
@@ -2013,8 +2015,13 @@ const PDFViewerApplication = {
           hashParams = '#' + atob(hashParams.get('key'));
           hashParams = new URLSearchParams(hashParams.substring(1));
       }
+      else{
+        return false;
+      }
 
-      if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
+      const element = document.querySelector('#download');
+
+      if((hashParams.get('download') === 'false' || hashParams.get('download') === '')  || element.offsetParent === null){
         return false;
       }
     }// added by EP developer 
@@ -2504,7 +2511,9 @@ const PDFViewerApplication = {
           hashParams = '#' + atob(hashParams.get('key'));
           hashParams = new URLSearchParams(hashParams.substring(1));
       }
-      if((hashParams.get('download') === 'false' || hashParams.get('download') === '') && hashParams.size < 10){
+      const element = document.querySelector('#download');
+    
+      if((hashParams.get('download') === 'false' || hashParams.get('download') === '')  || element.offsetParent === null){
         return false;
       }
     } // added by EP developer
@@ -13584,8 +13593,8 @@ PDFPrintService.prototype = {
           hashParams = '#' + atob(hashParams.get('key'));
           hashParams = new URLSearchParams(hashParams.substring(1));
       }
-
-      if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
+      const element = document.querySelector('#download');
+      if((hashParams.get('download') === 'false' || hashParams.get('download') === '')  || element.offsetParent === null){
         return false;
       }
     } // added by EP developer
