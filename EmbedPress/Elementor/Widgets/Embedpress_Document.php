@@ -410,6 +410,16 @@ class Embedpress_Document extends Widget_Base
                         if (isset($matches[1])) {
                             $get_acf_key = $matches[1];
                             $url = get_field($get_acf_key);
+
+                            if(empty($url)){
+                                $fallbackUrl = urldecode($settings['__dynamic__']['embedpress_pdf_file_link']);
+                                $pattern = '/"fallback":"([^"]+)"/';
+                                preg_match($pattern, $fallbackUrl, $matches);
+
+                                if (isset($matches[1])) {
+                                    $url = $matches[1];
+                                } 
+                            }
                         }
                     }
                 }
