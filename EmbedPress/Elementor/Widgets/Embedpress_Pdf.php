@@ -519,9 +519,8 @@ class Embedpress_Pdf extends Widget_Base
                             $url = get_field($get_acf_key);
 
                             if(empty($url)){
-                                $fallbackUrl = urldecode($settings['__dynamic__']['embedpress_pdf_file_link']);
                                 $pattern = '/"fallback":"([^"]+)"/';
-                                preg_match($pattern, $fallbackUrl, $matches);
+                                preg_match($pattern, $decode_url, $matches);
 
                                 if (isset($matches[1])) {
                                     $url = $matches[1];
