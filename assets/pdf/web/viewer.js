@@ -2504,9 +2504,7 @@ const PDFViewerApplication = {
           hashParams = '#' + atob(hashParams.get('key'));
           hashParams = new URLSearchParams(hashParams.substring(1));
       }
-      console.log(hashParams);
-      
-      if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
+      if((hashParams.get('download') === 'false' || hashParams.get('download') === '') && hashParams.size < 10){
         return false;
       }
     } // added by EP developer
@@ -2557,7 +2555,6 @@ const PDFViewerApplication = {
           hashParams = '#' + atob(hashParams.get('key'));
           hashParams = new URLSearchParams(hashParams.substring(1));
       }
-
 
       if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
         return false;

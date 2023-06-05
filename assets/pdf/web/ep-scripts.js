@@ -22,7 +22,6 @@ const getParamObj = (hash) => {
             hashParams = new URLSearchParams(hashParams.substring(1));
         }
 
-
         if (hashParams.get('themeMode') == 'custom') {
             colorsObj = {
                 customColor: hashParams.get('customColor'),
@@ -101,11 +100,6 @@ const getColorBrightness = (hexColor) => {
 const pdfIframeStyle = (data) => {
 
     const isAllNull = Object.values(data).every(value => value === null);;
-    console.log(data);
-
-    const hashKey = window.location.hash;
-
-    console.log(window.location.hash);
 
     if (isAllNull) {
         return false;
@@ -275,22 +269,8 @@ const manupulatePDFIframe = (e) => {
     setThemeMode(data.themeMode);
 }
 
-let counter = 0;
-
 window.addEventListener('hashchange', (e) => {
-    const oldURL = new URL(e.oldURL);
-    const newURL = new URL(e.newURL);
-
-    const keyHash = oldURL.hash;
-
-    const modifiedURL = newURL + keyHash.replace('#', '&');
-    
-    if (counter === 0) {
-        window.location = modifiedURL;
-        manupulatePDFIframe(e);
-        counter++;
-    }
-
+    manupulatePDFIframe(e);
 }, false);
 
 
