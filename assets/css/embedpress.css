@@ -1117,6 +1117,10 @@ span.ep-nft-rank {
         height: 250px !important;
         
     }
+    .ose-nrk-radio iframe{
+        height: 400px !important;
+    }
+
 }
 
 .emebedpress-unit-percent iframe{
