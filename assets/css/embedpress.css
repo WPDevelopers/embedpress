@@ -519,6 +519,7 @@
 .ose-opensea {
     height: 100% !important;
     width: calc(100% - 40px) !important;
+    max-height: 100%!important;
 }
 
 .ose-github{
