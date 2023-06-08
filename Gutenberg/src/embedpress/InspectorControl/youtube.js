@@ -58,6 +58,8 @@ export const getYoutubeParams = (params, attributes) => {
             playerRestart: false,
             playerRewind: false,
             playerFastForward: false,
+            playerTooltip: false,
+            playerHideControls: false,
         }
     }
 
@@ -146,6 +148,8 @@ export const useYTVideo = (attributes) => {
         playerRestart: null,
         playerRewind: null,
         playerFastForward: null,
+        playerTooltip: null,
+        playerHideControls: null,
     };
 
     const param = getParams({}, attributes, defaults);

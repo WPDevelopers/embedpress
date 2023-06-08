@@ -38,6 +38,7 @@ export const dynamicStyles = ({ attributes }) => {
     // const _posterThumbnail = posterThumbnail ? 'block' : 'none';
     // const _playerPreset = playerPreset ? 'block' : 'none';
     // const _playerColor = playerColor ? 'block' : 'none';
+    
     const _playerPip = playerPip ? 'block' : 'none';
     const _playerRestart = playerRestart ? 'block' : 'none';
     const _playerRewind = playerRewind ? 'block' : 'none';
@@ -239,6 +240,12 @@ export const dynamicStyles = ({ attributes }) => {
                             [data-source-id="source-${clientId}"] {
                             --plyr-color-main: ${playerColor && playerColor.length === 7
                                         ? `rgba(${parseInt(playerColor.slice(1, 3), 16)}, ${parseInt(playerColor.slice(3, 5), 16)}, ${parseInt(playerColor.slice(5, 7), 16)}, .8)`
+                                        : 'rgba(0, 0, 0, .8)'
+                                    }; /* Transparent with dynamic color */
+                            }
+                            [data-source-id="source-${clientId}"] .custom-player-preset-3, [data-source-id="source-${clientId}"] .custom-player-preset-4{
+                            --plyr-color-main: ${playerColor && playerColor.length === 7
+                                        ? `rgb(${parseInt(playerColor.slice(1, 3), 16)}, ${parseInt(playerColor.slice(3, 5), 16)}, ${parseInt(playerColor.slice(5, 7), 16)})`
                                         : 'rgba(0, 0, 0, .8)'
                                     }; /* Transparent with dynamic color */
                             }

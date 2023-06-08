@@ -1573,17 +1573,30 @@ canvas.ep-doc-canvas {
     --plyr-range-thumb-height: 10px;
 
   }
-.plyr__controls {
+
+  .ep-embed-content-wraper input[type=range]::-webkit-slider-runnable-track{
+    box-shadow: none;
+  }
+
+a.plyr__controls__item.plyr__control {
+    border-radius: inherit;
+    color: inherit!important;
+}
+.plyr-initialized button:focus {
+    background-color: transparent;
+}
+.custom-player-preset-1 .plyr__controls {
     background: var(--plyr-color-main)!important;
     padding: 0!important;
 }
-button.plyr__control {
+
+.custom-player-preset-1  button.plyr__control {
     border-radius: 0;
 }
-a.plyr__controls__item.plyr__control {
+.custom-player-preset-1  a.plyr__controls__item.plyr__control {
     border-radius: inherit;
 }
-button.plyr__control.plyr__control--overlaid[data-plyr="play"] {
+.custom-player-preset-1  button.plyr__control.plyr__control--overlaid[data-plyr="play"], .custom-player-preset-2  button.plyr__control.plyr__control--overlaid[data-plyr="play"] {
     width: 100px!important;
     text-align: center;
     display: flex;
@@ -1591,16 +1604,40 @@ button.plyr__control.plyr__control--overlaid[data-plyr="play"] {
     justify-content: center;
     height: 60px;
 }
-button.plyr__control.plyr__control--overlaid[data-plyr="play"] svg {
+.custom-player-preset-1  button.plyr__control.plyr__control--overlaid[data-plyr="play"] svg {
     width: 22px;
     height: 22px;
 }
-a.plyr__controls__item.plyr__control {
-    border-radius: inherit;
-    color: inherit!important;
-}
 
-.plyr__control:focus {
+.custom-player-preset-1 .plyr__control:focus {
     border: none;
 }
-/* var(--plyr-video-control-background-hover,var(--plyr-color-main,var(--plyr-color-main,#00b2ff))) */
+.custom-player-preset-2 a.plyr__controls__item.plyr__control, .custom-player-preset-2 button.plyr__control.plyr__control--overlaid[data-plyr="play"], .preset-default a.plyr__controls__item.plyr__control {
+    border-radius: 4px;
+}
+
+.custom-player-preset-3 .plyr__controls,  .custom-player-preset-4 .plyr__controls{
+    background: var(--plyr-color-main)!important;
+    padding: 0!important;
+}
+
+
+.custom-player-preset-4 button.plyr__control.plyr__control--overlaid {
+    display: none!important;
+}
+
+/* Overite plyr css  */
+figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container{
+    padding-bottom: inherit!important;
+}
+
+.pip-mode {
+    position: fixed !important;
+    width: 320px !important;
+    height: 180px !important;
+    top: calc(100% - 200px) !important;
+    left: calc(100% - 340px) !important;
+    z-index: 9999;
+    pointer-events: none;
+    border-radius: 10px;
+}

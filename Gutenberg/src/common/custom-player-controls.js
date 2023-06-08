@@ -34,6 +34,8 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
         playerFastForward,
         playerPreset,
         playerColor,
+        playerTooltip,
+        playerHideControls
     } = attributes;
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
@@ -98,10 +100,11 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
                     label={__("Preset")}
                     value={playerPreset}
                     options={[
-                        { label: 'Preset 1', value: 'custom-video-preset-1' },
-                        { label: 'Preset 2', value: 'custom-video-preset-2' },
-                        { label: 'Preset 3', value: 'custom-video-preset-3' },
-                        { label: 'Preset 4', value: 'custom-video-preset-4' },
+                        { label: 'Default', value: 'preset-default' },
+                        { label: 'Preset 1', value: 'custom-player-preset-1' },
+                        { label: 'Preset 2', value: 'custom-player-preset-2' },
+                        { label: 'Preset 3', value: 'custom-player-preset-3' },
+                        { label: 'Preset 4', value: 'custom-player-preset-4' },
                     ]}
                     onChange={(playerPreset) => setAttributes({ playerPreset })}
                     __nextHasNoMarginBottom
@@ -133,7 +136,7 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
 
             <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                 <ToggleControl
-                    label={__("Picture in Picture")}
+                    label={__("Always on Top")}
                     checked={playerPip}
                     onChange={(playerPip) => setAttributes({ playerPip })}
                 />
@@ -143,13 +146,26 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
                     )
                 }
             </div>
-
+            <ToggleControl
+                label={__("Restart")}
+                checked={playerRestart}
+                onChange={(playerRestart) => setAttributes({ playerRestart })}
+            />
+            <ToggleControl
+                label={__("Rewind")}
+                checked={playerRewind}
+                onChange={(playerRewind) => setAttributes({ playerRewind })}
+            />
+            <ToggleControl
+                label={__("Fast Forward")}
+                checked={playerFastForward}
+                onChange={(playerFastForward) => setAttributes({ playerFastForward })}
+            />
             <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-
                 <ToggleControl
-                    label={__("Restart")}
-                    checked={playerRestart}
-                    onChange={(playerRestart) => setAttributes({ playerRestart })}
+                    label={__("Tooltip")}
+                    checked={playerTooltip}
+                    onChange={(playerTooltip) => setAttributes({ playerTooltip })}
                 />
                 {
                     (!isProPluginActive) && (
@@ -157,12 +173,11 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
                     )
                 }
             </div>
-
             <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                 <ToggleControl
-                    label={__("Rewind")}
-                    checked={playerRewind}
-                    onChange={(playerRewind) => setAttributes({ playerRewind })}
+                    label={__("Hide Controls")}
+                    checked={playerHideControls}
+                    onChange={(playerHideControls) => setAttributes({ playerHideControls })}
                 />
                 {
                     (!isProPluginActive) && (
@@ -170,21 +185,6 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
                     )
                 }
             </div>
-
-            <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                <ToggleControl
-                    label={__("Fast Forward")}
-                    checked={playerFastForward}
-                    onChange={(playerFastForward) => setAttributes({ playerFastForward })}
-                />
-                {
-                    (!isProPluginActive) && (
-                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                    )
-                }
-            </div>
-
-
 
         </div>
     )

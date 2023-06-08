@@ -54,20 +54,27 @@ export default function EmbedPress(props) {
 		width,
 		contentShare,
 		sharePosition,
+		lockContent,
 		customlogo,
 		logoX,
 		logoY,
 		customlogoUrl,
 		logoOpacity,
 		clientId,
-		customPlayer
+		customPlayer,
+		playerPreset,
 	} = attributes;
 
 
 	if (clientId == null || clientId == undefined) {
-		setAttributes({ clientId : props.clientId });
+		setAttributes({ clientId: props.clientId });
 	}
 	const _md5ClientId = md5(clientId);
+
+	let playerPresetClass = '';
+	if (customPlayer) {
+		playerPresetClass = playerPreset;
+	}
 
 	let content_share_class = '';
 	let share_position_class = '';
@@ -261,7 +268,7 @@ export default function EmbedPress(props) {
 		return () => {
 			clearTimeout(delayDebounceFn)
 		}
-	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams]);
+	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, contentShare, lockContent]);
 
 	return (
 		<Fragment>
@@ -292,12 +299,19 @@ export default function EmbedPress(props) {
 			</div>}
 
 			{
-				((!isOpensea || (!!editingURL || editingURL === 0)) && (!isOpenseaSingle || (!!editingURL || editingURL === 0)) && ((!isYTVideo && !isYTLive) || (!!editingURL || editingURL === 0)) && (!isYTChannel || (!!editingURL || editingURL === 0)) && (!isWistiaVideo || (!!editingURL || editingURL === 0))) && fetching && (<div className={className}><EmbedLoading /> </div>)
+				(
+					(!isOpensea || (!!editingURL || editingURL === 0)) &&
+					(!isOpenseaSingle || (!!editingURL || editingURL === 0)) &&
+					((!isYTVideo && !isYTLive) || (!!editingURL || editingURL === 0)) &&
+					(!isYTChannel || (!!editingURL || editingURL === 0)) &&
+					(!isWistiaVideo || (!!editingURL || editingURL === 0)) &&
+					(!isVimeoVideo || (!!editingURL || editingURL === 0))
+				) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTLive || isWistiaVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isWistiaVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
 				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
-					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} {...(customPlayer ? { 'data-playerid': md5(clientId) } : {})} dangerouslySetInnerHTML={{
+					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass}`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} {...(customPlayer ? { 'data-playerid': md5(clientId) } : {})} dangerouslySetInnerHTML={{
 						__html: embedHTML + customLogoTemp + epMessage + shareHtml,
 					}}>
 					</EmbedWrap>

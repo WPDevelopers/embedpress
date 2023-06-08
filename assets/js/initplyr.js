@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   let embedWrappers = document.querySelectorAll('.ep-embed-content-wraper');
-  console.log(embedWrappers);
+
   embedWrappers.forEach(wrapper => {
     initPlayer(wrapper);
   });
@@ -36,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function () {
       options = JSON.parse(options);
 
       document.querySelector(`[data-playerid="${playerId}"] iframe`).setAttribute('data-poster', options.poster_thumbnail);
-      
 
       const controls = [
         'play-large',
@@ -57,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'fullscreen'
       ].filter(control => control !== '');
 
-      const player  = new Plyr(selector, {
+      const player = new Plyr(selector, {
         controls: controls,
         seekTime: 10,
         ads: { enabled: false, publisherId: '', tagUrl: 'https://googleads.github.io/googleads-ima-html5/vsi/' },
@@ -66,11 +65,35 @@ document.addEventListener('DOMContentLoaded', function () {
           enabled: true,
           key: 'plyr_volume'
         },
-        displayDuration: true
+        displayDuration: true,
+        tooltips: { controls: options.player_tooltip, seek: options.player_tooltip },
+        hideControls: options.hide_controls
+
       });
 
       wrapper.classList.add('plyr-initialized');
     }
+
+
+
+    const pipInterval = setInterval(() => {
+      let playerPip = document.querySelector(`[data-playerid="${playerId}"] [data-plyr="pip"]`);
+      if (playerPip) {
+        clearInterval(pipInterval);
+        // const playerPip = document.querySelector(`[data-playerid="${playerId}"] [data-plyr="pip"]`);
+        const iframeSelector = document.querySelector(`[data-playerid="${playerId}"] iframe`);
+
+        playerPip.addEventListener('click', () => {
+          playerCustomPip(iframeSelector, playerPip);
+          console.log('clicked');
+        });
+      }
+    }, 200);
+
+  }
+
+  const playerCustomPip = (iframeSelector, pipButton) => {
+    iframeSelector.classList.toggle('pip-mode');
   }
 
   // Rest of the code...

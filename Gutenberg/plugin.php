@@ -303,17 +303,25 @@ function embedpress_gutenberg_register_all_block()
 							
 							'playerRestart' => [
 								'type' => 'boolean',
-								'default' => false
+								'default' => true
 							],
 							
 							'playerRewind' => [
 								'type' => 'boolean',
-								'default' => false
+								'default' => true
 							],
 							
 							'playerFastForward' => [
 								'type' => 'boolean',
-								'default' => false
+								'default' => true
+							],
+							'playerTooltip' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'playerHideControls' => [
+								'type' => 'boolean',
+								'default' => true
 							],
 							//Wistia Attributes
 							'wstarttime' => [

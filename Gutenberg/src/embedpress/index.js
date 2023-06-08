@@ -201,7 +201,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 
 			preset: {
 				type: 'string',
-				default: 'ep-preset-1'
+				default: 'preset-default'
 			},
 
 			nftperrow: {
@@ -545,7 +545,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			playerPreset: {
 				type: 'string',
-				default: ''
+				default: 'preset-default'
 			},
 			
 			playerColor: {
@@ -559,16 +559,29 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			playerRestart: {
 				type: 'boolean',
-				default: false,
+				default: true,
 			},
 			playerRewind: {
 				type: 'boolean',
-				default: false,
+				default: true,
 			},
 			playerFastForward: {
 				type: 'boolean',
-				default: false,
+				default: true,
 			},
+			playerFastForward: {
+				type: 'boolean',
+				default: true,
+			},
+			playerTooltip: {
+				type: 'boolean',
+				default: true,
+			},
+			playerHideControls: {
+				type: 'boolean',
+				default: true,
+			},
+
 			pVolume: {
 				type: 'number',
 				default: 1,
