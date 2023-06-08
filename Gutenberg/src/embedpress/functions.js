@@ -42,7 +42,16 @@ export const initCustomPlayer = (clientId, attributes) => {
         playerRewind,
         playerFastForward,
         fullscreen,
+        vautopause,
+        vdnt,
+        vstarttime
     } = attributes;
+
+    const autoPause = vautopause ? true : false;
+    const vDnt = vdnt ? true : false;
+
+
+    // console.log({vautopause, vdnt})
 
     const intervalId = setInterval(() => {
         const playerElement = document.querySelector(`[data-playerid="${clientId}"] > .ose-embedpress-responsive`);
@@ -65,11 +74,25 @@ export const initCustomPlayer = (clientId, attributes) => {
                     speed: true,
                     transparent: false,
                     controls: false,
-                  }
+                    autopause: autoPause,
+                    dnt: vDnt,
+                }
 
             });
 
             player.poster = posterThumbnail;
         }
     }, 200);
+
+    // const pipInterval = setInterval(() => {
+    //     let playerPip = document.querySelector(`[data-playerid="${clientId}"] [data-plyr="pip"]`);
+    //     if (playerPip) {
+    //         clearInterval(pipInterval);
+    //         const iframeSelector = document.querySelector(`[data-playerid="${clientId}"] iframe`);
+    //         console.log(iframeSelector); 
+    //         playerPip.addEventListener('click', () => {
+    //             iframeSelector.classList.toggle('pip-mode');
+    //         });
+    //     }
+    // }, 200);
 }

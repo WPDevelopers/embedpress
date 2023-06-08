@@ -84,17 +84,13 @@ document.addEventListener('DOMContentLoaded', function () {
         const iframeSelector = document.querySelector(`[data-playerid="${playerId}"] iframe`);
 
         playerPip.addEventListener('click', () => {
-          playerCustomPip(iframeSelector, playerPip);
-          console.log('clicked');
+          iframeSelector.classList.toggle('pip-mode');
         });
       }
     }, 200);
 
   }
 
-  const playerCustomPip = (iframeSelector, pipButton) => {
-    iframeSelector.classList.toggle('pip-mode');
-  }
 
   // Rest of the code...
 });

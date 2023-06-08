@@ -5,6 +5,7 @@ import { getParams } from '../functions';
 import { addProAlert, isPro, removeAlert } from '../../common/helper';
 import ControlHeader from '../../common/control-heading';
 import CustomBranding from './custombranding';
+import CustomPlayerControls from '../../common/custom-player-controls';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
@@ -122,6 +123,7 @@ export default function Vimeo({ attributes, setAttributes, isVimeoVideo }) {
         vloop,
         vautopause,
         vdnt,
+        customPlayer,
         customlogo,
         logoX,
         logoY,
@@ -152,95 +154,147 @@ export default function Vimeo({ attributes, setAttributes, isVimeoVideo }) {
                 isVimeoVideo && (
                     <div className={'ep__vimeo-video-options'}>
                         <PanelBody title={__("Video Controls", 'embedpress')} initialOpen={false}>
-                            <div className={'ep-video-controlers'}>
-                                <TextControl
-                                    label={__("Start Time (In Seconds)")}
-                                    value={vstarttime}
-                                    onChange={(vstarttime) => setAttributes({ vstarttime })}
-                                    type={'text'}
-                                    className={'ep-control-field'}
+                            <ToggleControl
+                                label={__("Enable Custom Player", "embedpress")}
+                                checked={customPlayer}
+                                onChange={(customPlayer) => setAttributes({ customPlayer })}
+                            />
+                            {
+                                !customPlayer ? (
+                                    <div className={'ep-video-controlers'}>
+                                        <TextControl
+                                            label={__("Start Time (In Seconds)")}
+                                            value={vstarttime}
+                                            onChange={(vstarttime) => setAttributes({ vstarttime })}
+                                            type={'text'}
+                                            className={'ep-control-field'}
 
-                                />
+                                        />
 
-                                <ToggleControl
-                                    label={__("Auto Play")}
-                                    checked={vautoplay}
-                                    onChange={(vautoplay) => setAttributes({ vautoplay })}
-                                />
-                               <p className={'is-ep-description'}>{__("Automatically stop the current video from playing when another one starts.")}</p>
-
-
-                                <ControlHeader headerText={'Scheme'} />
-                                <ColorPalette
-                                    label={__("Scheme")}
-                                    colors={colors}
-                                    value={vscheme}
-                                    onChange={(vscheme) => setAttributes({ vscheme })}
-                                />
-
-                                <ToggleControl
-                                    label={__("Title")}
-                                    checked={vtitle}
-                                    onChange={(vtitle) => setAttributes({ vtitle })}
-                                />
-
-                                <ToggleControl
-                                    label={__("Author")}
-                                    checked={vauthor}
-                                    onChange={(vauthor) => setAttributes({ vauthor })}
-                                />
-
-                                <ToggleControl
-                                    label={__("Avatar")}
-                                    checked={vavatar}
-                                    onChange={(vavatar) => setAttributes({ vavatar })}
-                                />
+                                        <ToggleControl
+                                            label={__("Auto Play")}
+                                            checked={vautoplay}
+                                            onChange={(vautoplay) => setAttributes({ vautoplay })}
+                                        />
+                                        <p className={'is-ep-description'}>{__("Automatically stop the current video from playing when another one starts.")}</p>
 
 
-                                <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                    <ToggleControl
-                                        label={__("Loop")}
-                                        checked={vloop}
-                                        onChange={(vloop) => setAttributes({ vloop })}
-                                    />
+                                        <ControlHeader headerText={'Scheme'} />
+                                        <ColorPalette
+                                            label={__("Scheme")}
+                                            colors={colors}
+                                            value={vscheme}
+                                            onChange={(vscheme) => setAttributes({ vscheme })}
+                                        />
 
-                                    {
-                                        (!isProPluginActive) && (
-                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                        )
-                                    }
-                                </div>
+                                        <ToggleControl
+                                            label={__("Title")}
+                                            checked={vtitle}
+                                            onChange={(vtitle) => setAttributes({ vtitle })}
+                                        />
 
-                                <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                    <ToggleControl
-                                        label={__("Auto Pause")}
-                                        checked={vautopause}
-                                        onChange={(vautopause) => setAttributes({ vautopause })}
-                                    />
-                                   <p className={'is-ep-description'}>{__('Automatically stop the current video from playing when another one starts.', 'embedpress')}</p>
-                                    {
-                                        (!isProPluginActive) && (
-                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                        )
-                                    }
-                                </div>
+                                        <ToggleControl
+                                            label={__("Author")}
+                                            checked={vauthor}
+                                            onChange={(vauthor) => setAttributes({ vauthor })}
+                                        />
 
-                                <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                    <ToggleControl
-                                        label={__("DNT")}
-                                        checked={vdnt}
-                                        onChange={(vdnt) => setAttributes({ vdnt })}
-                                    />
-                                   <p className={'is-ep-description'}>{__('Enabling this will block session data tracking, including cookies. If Auto Pause is enabled this will not work.', 'embedpress')}</p>
+                                        <ToggleControl
+                                            label={__("Avatar")}
+                                            checked={vavatar}
+                                            onChange={(vavatar) => setAttributes({ vavatar })}
+                                        />
 
-                                    {
-                                        (!isProPluginActive) && (
-                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                        )
-                                    }
-                                </div>
 
-                            </div>
+                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                            <ToggleControl
+                                                label={__("Loop")}
+                                                checked={vloop}
+                                                onChange={(vloop) => setAttributes({ vloop })}
+                                            />
+
+                                            {
+                                                (!isProPluginActive) && (
+                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                                )
+                                            }
+                                        </div>
+
+                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                            <ToggleControl
+                                                label={__("Auto Pause")}
+                                                checked={vautopause}
+                                                onChange={(vautopause) => setAttributes({ vautopause })}
+                                            />
+                                            <p className={'is-ep-description'}>{__('Automatically stop the current video from playing when another one starts.', 'embedpress')}</p>
+                                            {
+                                                (!isProPluginActive) && (
+                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                                )
+                                            }
+                                        </div>
+
+                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                            <ToggleControl
+                                                label={__("DNT")}
+                                                checked={vdnt}
+                                                onChange={(vdnt) => setAttributes({ vdnt })}
+                                            />
+                                            <p className={'is-ep-description'}>{__('Enabling this will block session data tracking, including cookies. If Auto Pause is enabled this will not work.', 'embedpress')}</p>
+
+                                            {
+                                                (!isProPluginActive) && (
+                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                                )
+                                            }
+                                        </div>
+
+                                    </div>
+                                ) : (
+                                    <div className={'ep-video-controlers'}>
+                                        <ToggleControl
+                                            label={__("Auto Play")}
+                                            checked={vautoplay}
+                                            onChange={(vautoplay) => setAttributes({ vautoplay })}
+                                        />
+                                        <p className={'is-ep-description'}>{__("Automatically stop the current video from playing when another one starts.")}</p>
+
+                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                            <ToggleControl
+                                                label={__("Auto Pause")}
+                                                checked={vautopause}
+                                                onChange={(vautopause) => setAttributes({ vautopause })}
+                                            />
+                                            <p className={'is-ep-description'}>{__('Automatically stop the current video from playing when another one starts.', 'embedpress')}</p>
+                                            {
+                                                (!isProPluginActive) && (
+                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                                )
+                                            }
+                                        </div>
+
+                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                            <ToggleControl
+                                                label={__("DNT")}
+                                                checked={vdnt}
+                                                onChange={(vdnt) => setAttributes({ vdnt })}
+                                            />
+                                            <p className={'is-ep-description'}>{__('Enabling this will block session data tracking, including cookies. If Auto Pause is enabled this will not work.', 'embedpress')}</p>
+
+                                            {
+                                                (!isProPluginActive) && (
+                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                                )
+                                            }
+                                        </div>
+
+                                        <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} />
+
+
+                                    </div>
+                                )
+                            }
+
                         </PanelBody>
 
                         <CustomBranding attributes={attributes} setAttributes={setAttributes} />

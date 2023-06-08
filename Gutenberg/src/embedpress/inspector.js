@@ -158,7 +158,6 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                             <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} />
 
-                            <CustomPlayer attributes={attributes} setAttributes={setAttributes}  />
 
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />
                             <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />
