@@ -169,6 +169,21 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 		do_action('embedpress/control/extend', $this);
+
+		$this->add_control(
+			'emberpress_custom_player',
+			[
+				'label'        => __('Enable Custom Player', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'   => [
+					'embedpress_pro_embeded_source' => ['youtube', 'vimeo']
+				],
+			]
+		);
+
 		$this->add_control(
 			'embedpress_pro_video_start_time',
 			[
@@ -193,6 +208,8 @@ class Embedpress_Elementor extends Widget_Base
 		$this->init_twitch_control();
 		$this->init_opensea_control();
 		$this->end_controls_section();
+
+		do_action( 'extend_customplayer_controls', $this, '_', $this->pro_text, $this->pro_class);
 
 		$this->init_youtube_channel_section();
 		$this->init_youtube_subscription_section();

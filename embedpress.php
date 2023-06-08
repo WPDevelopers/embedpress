@@ -27,6 +27,7 @@ use EmbedPress\CoreLegacy;
 use EmbedPress\Elementor\Embedpress_Elementor_Integration;
 use EmbedPress\Includes\Classes\Feature_Enhancer;
 use EmbedPress\Includes\Classes\Extend_Elementor_Controls;
+use EmbedPress\Includes\Classes\Extend_CustomPlayer_Controls;
 use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Shortcode;
 
@@ -90,6 +91,7 @@ if ((Compatibility::isWordPress5() && !Compatibility::isClassicalEditorActive())
 $embedPressPlugin->initialize();
 new Feature_Enhancer();
 new Extend_Elementor_Controls();
+new Extend_CustomPlayer_Controls();
 
 
 if (is_plugin_active('elementor/elementor.php')) {
