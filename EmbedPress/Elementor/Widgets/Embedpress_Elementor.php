@@ -216,6 +216,62 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
+		$this->add_control(
+			'embedpress_pro_vimeo_auto_play',
+			[
+				'label'        => __('Auto Play', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'description'  => __(
+					'Automatically stop the current video from playing when another one starts.',
+					'embedpress'
+				),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'vimeo'
+				]
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_vimeo_autopause',
+			[
+				'label'        => sprintf(__('Auto Pause %s', 'embedpress'), $this->pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'description'  => __(
+					'Automatically stop the current video from playing when another one starts.',
+					'embedpress'
+				),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'vimeo'
+				],
+				'classes'     => $this->pro_class,
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_vimeo_dnt',
+			[
+				'label'        => sprintf(__('DNT %s', 'embedpress'), $this->pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'description'  => __(
+					'Set this parameter to "yes" will block tracking any session data, including cookies. If Auto Pause is enabled this will not work.',
+					'embedpress'
+				),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'vimeo'
+				],
+				'classes'     => $this->pro_class,
+			]
+		);
+
 
 		/**
 		 * Initialized controls
@@ -1340,23 +1396,7 @@ class Embedpress_Elementor extends Widget_Base
 	 */
 	public function init_vimeo_controls()
 	{
-		$this->add_control(
-			'embedpress_pro_vimeo_auto_play',
-			[
-				'label'        => __('Auto Play', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'no',
-				'description'  => __(
-					'Automatically stop the current video from playing when another one starts.',
-					'embedpress'
-				),
-				'condition'    => [
-					'embedpress_pro_embeded_source' => 'vimeo'
-				]
-			]
-		);
+		
 
 
 		$this->add_control(
@@ -1367,6 +1407,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block' => false,
 				'default'     => '#00adef',
 				'condition'   => [
+					'emberpress_custom_player!' => 'yes',
 					'embedpress_pro_embeded_source' => 'vimeo'
 				]
 			]
@@ -1379,7 +1420,8 @@ class Embedpress_Elementor extends Widget_Base
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'condition' => [
-					'embedpress_pro_embeded_source' => 'vimeo'
+					'embedpress_pro_embeded_source' => 'vimeo',
+					'emberpress_custom_player!' => 'yes',
 				]
 			]
 		);
@@ -1393,6 +1435,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'yes',
 				'condition'    => [
+					'emberpress_custom_player!' => 'yes',
 					'embedpress_pro_embeded_source' => 'vimeo'
 				]
 			]
@@ -1409,6 +1452,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'yes',
 				'condition'    => [
+					'emberpress_custom_player!' => 'yes',
 					'embedpress_pro_embeded_source' => 'vimeo'
 				],
 			]
@@ -1423,6 +1467,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'yes',
 				'condition'    => [
+					'emberpress_custom_player!' => 'yes',
 					'embedpress_pro_embeded_source' => 'vimeo'
 				],
 			]
@@ -1437,50 +1482,12 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'no',
 				'condition'    => [
+					'emberpress_custom_player!' => 'yes',
 					'embedpress_pro_embeded_source' => 'vimeo'
 				],
 				'classes'     => $this->pro_class,
 			]
 		);
-
-		$this->add_control(
-			'embedpress_pro_vimeo_autopause',
-			[
-				'label'        => sprintf(__('Auto Pause %s', 'embedpress'), $this->pro_text),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'no',
-				'description'  => __(
-					'Automatically stop the current video from playing when another one starts.',
-					'embedpress'
-				),
-				'condition'    => [
-					'embedpress_pro_embeded_source' => 'vimeo'
-				],
-				'classes'     => $this->pro_class,
-			]
-		);
-
-		$this->add_control(
-			'embedpress_pro_vimeo_dnt',
-			[
-				'label'        => sprintf(__('DNT %s', 'embedpress'), $this->pro_text),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'yes',
-				'description'  => __(
-					'Set this parameter to "yes" will block tracking any session data, including cookies. If Auto Pause is enabled this will not work.',
-					'embedpress'
-				),
-				'condition'    => [
-					'embedpress_pro_embeded_source' => 'vimeo'
-				],
-				'classes'     => $this->pro_class,
-			]
-		);
-
 
 		$this->init_branding_controls('vimeo');
 	}

@@ -14,24 +14,11 @@ class Extend_CustomPlayer_Controls
 
 	public function extend_elementor_customplayer_controls($that, $infix = '', $pro_text = '', $pro_class = '')
 	{
-		// $that->start_controls_section(
-		//     'emberpress_customplayer_controls',
-		//     [
-		//         'label' => esc_html__('Custom Player Controls', 'embedpress'),
-		// 		'condition'   => [
-		// 			'emberpress_custom_player' => 'yes'
-		// 		]
-		//     ]
-		// );
+		
 		$condition = [
 			'emberpress_custom_player' => 'yes'
 		];
 
-		
-
-
-
-		
 		$that->add_control(
 			'embepress_player_restart',
 			[
@@ -87,10 +74,6 @@ class Extend_CustomPlayer_Controls
 				'condition' => $condition,
 			]
 		);
-
-
-
-		// $that->end_controls_section();
 
 	}
 }
