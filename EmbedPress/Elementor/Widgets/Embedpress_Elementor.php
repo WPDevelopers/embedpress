@@ -187,7 +187,8 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'custom_payer_preset',
 			[
-				'label'       => __('Preset', 'embedpress'),
+				'label' => sprintf(__('Preset %s', 'embedpress'), $this->pro_text),
+
 				'type'        => Controls_Manager::SELECT,
 				'label_block' => false,
 				'default'     => 'default',
@@ -198,8 +199,10 @@ class Embedpress_Elementor extends Widget_Base
 					'custom-player-preset-3' => __('Preset 3', 'embedpress'),
 					'custom-player-preset-4'      => __('Preset 4', 'embedpress'),
 				],
+				'classes'     => $this->pro_class,
 				'condition' => [
-					'emberpress_custom_player' => 'yes'
+					'emberpress_custom_player' => 'yes',
+					'embedpress_pro_embeded_source' => ['youtube', 'vimeo']
 				],
 			]
 		);
@@ -482,12 +485,14 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embedpress_player_color',
 			[
-				'label'       => __('Player Color', 'embedpress'),
+				'label' => sprintf(__('Player Color %s', 'embedpress'), $this->pro_text),
 				'type'        => Controls_Manager::COLOR,
 				'label_block' => false,
+				'classes'     => $this->pro_class,
 				'default'     => '#5b4e96',
 				'condition' => [
-					'emberpress_custom_player' => 'yes'
+					'emberpress_custom_player' => 'yes',
+					'embedpress_pro_embeded_source' => ['youtube', 'vimeo']
 				],
 			]
 		);
@@ -504,7 +509,8 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'classes'     => $this->pro_class,
 				'condition' => [
-					'emberpress_custom_player' => 'yes'
+					'emberpress_custom_player' => 'yes',
+					'embedpress_pro_embeded_source' => ['youtube', 'vimeo']
 				],
 			]
 		);
@@ -528,13 +534,15 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embepress_player_always_on_top',
 			[
-				'label'        => __('Sticky Video', 'embedpress'),
+				'label' => sprintf(__('Sticky Video %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
+				'classes'     => $this->pro_class,
 				'default'      => '',
 				'condition' => [
-					'emberpress_custom_player' => 'yes'
+					'emberpress_custom_player' => 'yes',
+					'embedpress_pro_embeded_source' => ['youtube', 'vimeo']
 				],
 			]
 		);

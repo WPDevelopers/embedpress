@@ -16,7 +16,8 @@ class Extend_CustomPlayer_Controls
 	{
 		
 		$condition = [
-			'emberpress_custom_player' => 'yes'
+			'emberpress_custom_player' => 'yes',
+			'embedpress_pro_embeded_source' => ['youtube', 'vimeo']
 		];
 
 		$that->add_control(
@@ -55,22 +56,25 @@ class Extend_CustomPlayer_Controls
 		$that->add_control(
 			'embepress_player_tooltip',
 			[
-				'label'        => __('Tooltip', 'embedpress'),
+				'label' => sprintf(__('Tooltip %s', 'embedpress'), $pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
 				'condition' => $condition,
+				'classes'     => $pro_class,
+
 			]
 		);
 		$that->add_control(
 			'embepress_player_hide_controls',
 			[
-				'label'        => __('Hide Controls', 'embedpress'),
+				'label' => sprintf(__('Hide Controls %s', 'embedpress'), $pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => '',
+				'classes'     => $pro_class,
 				'condition' => $condition,
 			]
 		);
