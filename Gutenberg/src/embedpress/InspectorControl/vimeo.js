@@ -252,43 +252,7 @@ export default function Vimeo({ attributes, setAttributes, isVimeoVideo }) {
                                     </div>
                                 ) : (
                                     <div className={'ep-video-controlers'}>
-                                        <ToggleControl
-                                            label={__("Auto Play")}
-                                            checked={vautoplay}
-                                            onChange={(vautoplay) => setAttributes({ vautoplay })}
-                                        />
-                                        <p className={'is-ep-description'}>{__("Automatically stop the current video from playing when another one starts.")}</p>
-
-                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                            <ToggleControl
-                                                label={__("Auto Pause")}
-                                                checked={vautopause}
-                                                onChange={(vautopause) => setAttributes({ vautopause })}
-                                            />
-                                            <p className={'is-ep-description'}>{__('Automatically stop the current video from playing when another one starts.', 'embedpress')}</p>
-                                            {
-                                                (!isProPluginActive) && (
-                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                )
-                                            }
-                                        </div>
-
-                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                            <ToggleControl
-                                                label={__("DNT")}
-                                                checked={vdnt}
-                                                onChange={(vdnt) => setAttributes({ vdnt })}
-                                            />
-                                            <p className={'is-ep-description'}>{__('Enabling this will block session data tracking, including cookies. If Auto Pause is enabled this will not work.', 'embedpress')}</p>
-
-                                            {
-                                                (!isProPluginActive) && (
-                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                )
-                                            }
-                                        </div>
-
-                                        <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} />
+                                        <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo}/>
 
 
                                     </div>

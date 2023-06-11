@@ -6,13 +6,14 @@ const {
     ToggleControl,
     ColorPalette,
     Button,
+    TextControl
 } = wp.components;
 
 const colors = [
     { name: '', color: '#FF0000' },
     { name: '', color: '#00FF00' },
+    { name: '', color: '#5b4e96' },
     { name: '', color: '#0000FF' },
-    { name: '', color: '#FFFF00' },
     { name: '', color: '#FFA500' },
 ];
 
@@ -23,10 +24,18 @@ import {
 import ControlHeader from './control-heading';
 
 
-const CustomPlayerControls = ({ attributes, setAttributes }) => {
+const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, isVimeoVideo }) => {
     const {
         url,
         customPlayer,
+        starttime,
+        endtime,
+        autoplay,
+        fullscreen,
+        relatedvideos,
+        vautoplay,
+        vautopause,
+        vdnt,
         posterThumbnail,
         playerPip,
         playerRestart,
@@ -59,41 +68,6 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
 
     return (
         <div className="ep-custom-player-controls">
-            <ControlHeader headerText={'Thumbnail'} />
-            {
-                isProPluginActive && posterThumbnail && (
-                    <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
-                        <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
-                            <span class="dashicon dashicons dashicons-trash"></span>
-                        </button>
-                        <img
-                            src={posterThumbnail}
-                            alt="John"
-                        />
-                    </div>
-                )
-            }
-
-            <div className={isProPluginActive ? "pro-control-active ep-custom-logo-button" : "pro-control ep-custom-logo-button"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                <MediaUpload
-                    onSelect={onSelectImage}
-                    allowedTypes={['image']}
-                    value={posterThumbnail}
-                    render={({ open }) => (
-                        <Button className={'ep-logo-upload-button'} icon={!posterThumbnail ? 'upload' : 'update'} onClick={open}>
-                            {
-                                (!isProPluginActive || !posterThumbnail) ? 'Upload Image' : 'Change Image'
-                            }
-                        </Button>
-                    )}
-
-                />
-                {
-                    (!isProPluginActive) && (
-                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                    )
-                }
-            </div>
 
             <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                 <SelectControl
@@ -117,6 +91,82 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
             </div>
 
 
+            {
+                (isYTLive || isYTVideo) && (
+
+                    <div className='youtube-player-controls'>
+                        <TextControl
+                            label={__("Start Time (in seconds)")}
+                            value={starttime}
+                            onChange={(starttime) => setAttributes({ starttime })}
+                            type={'text'}
+                            className={'ep-control-field'}
+                        />
+
+                        <TextControl
+                            label={__("End Time (in seconds)")}
+                            value={endtime}
+                            onChange={(endtime) => setAttributes({ endtime })}
+                            type={'text'}
+                            className={'ep-control-field'}
+                        />
+
+                        <ToggleControl
+                            label={__("Auto Play")}
+                            checked={autoplay}
+                            onChange={(autoplay) => setAttributes({ autoplay })}
+                        />
+
+                        <ToggleControl
+                            label={__("Fullscreen Button")}
+                            checked={fullscreen}
+                            onChange={(fullscreen) => setAttributes({ fullscreen })}
+                        />
+                    </div>
+                )
+            }
+
+            {
+                isVimeoVideo && (
+                    <div className='vimeo-player-controls'>
+                        <ToggleControl
+                            label={__("Auto Play")}
+                            checked={vautoplay}
+                            onChange={(vautoplay) => setAttributes({ vautoplay })}
+                        />
+                        <p className={'is-ep-description'}>{__("Automatically stop the current video from playing when another one starts.")}</p>
+
+                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                            <ToggleControl
+                                label={__("Auto Pause")}
+                                checked={vautopause}
+                                onChange={(vautopause) => setAttributes({ vautopause })}
+                            />
+                            <p className={'is-ep-description'}>{__('Automatically stop the current video from playing when another one starts.', 'embedpress')}</p>
+                            {
+                                (!isProPluginActive) && (
+                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                )
+                            }
+                        </div>
+
+                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                            <ToggleControl
+                                label={__("DNT")}
+                                checked={vdnt}
+                                onChange={(vdnt) => setAttributes({ vdnt })}
+                            />
+                            <p className={'is-ep-description'}>{__('Enabling this will block session data tracking, including cookies. If Auto Pause is enabled this will not work.', 'embedpress')}</p>
+
+                            {
+                                (!isProPluginActive) && (
+                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                )
+                            }
+                        </div>
+                    </div>
+                )
+            }
 
             <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                 <ControlHeader headerText={'Player Color'} />
@@ -126,7 +176,6 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
                     value={playerColor}
                     onChange={(playerColor) => setAttributes({ playerColor })}
                 />
-                <hr />
                 {
                     (!isProPluginActive) && (
                         <span className='isPro'>{__('pro', 'embedpress')}</span>
@@ -134,11 +183,36 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
                 }
             </div>
 
-            <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                <ToggleControl
-                    label={__("Always on Top")}
-                    checked={playerPip}
-                    onChange={(playerPip) => setAttributes({ playerPip })}
+
+            <ControlHeader headerText={'Thumbnail'} />
+            {
+                isProPluginActive && posterThumbnail && (
+                    <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
+                        <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
+                            <span class="dashicon dashicons dashicons-trash"></span>
+                        </button>
+                        <img
+                            src={posterThumbnail}
+                            alt="John"
+                        />
+                    </div>
+                )
+            }
+
+
+            <div className={isProPluginActive ? "pro-control-active ep-custom-logo-button" : "pro-control ep-custom-logo-button"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                <MediaUpload
+                    onSelect={onSelectImage}
+                    allowedTypes={['image']}
+                    value={posterThumbnail}
+                    render={({ open }) => (
+                        <Button className={'ep-logo-upload-button'} icon={!posterThumbnail ? 'upload' : 'update'} onClick={open}>
+                            {
+                                (!isProPluginActive || !posterThumbnail) ? 'Upload Image' : 'Change Image'
+                            }
+                        </Button>
+                    )}
+
                 />
                 {
                     (!isProPluginActive) && (
@@ -146,6 +220,9 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
                     )
                 }
             </div>
+
+            <hr />
+
             <ToggleControl
                 label={__("Restart")}
                 checked={playerRestart}
@@ -173,11 +250,37 @@ const CustomPlayerControls = ({ attributes, setAttributes }) => {
                     )
                 }
             </div>
+
             <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                 <ToggleControl
                     label={__("Hide Controls")}
                     checked={playerHideControls}
                     onChange={(playerHideControls) => setAttributes({ playerHideControls })}
+                />
+                {
+                    (!isProPluginActive) && (
+                        <span className='isPro'>{__('pro', 'embedpress')}</span>
+                    )
+                }
+            </div>
+
+            {
+                (isYTLive || isYTVideo) && (
+                    <div className='ep-yt-related-videos'>
+                        <ToggleControl
+                            label={__("Related Videos")}
+                            checked={relatedvideos}
+                            onChange={(relatedvideos) => setAttributes({ relatedvideos })}
+                        />
+                        <p>Enable to display related videos from all channels. Otherwise, related videos will show from the same channel.</p>
+                    </div>
+                )
+            }
+            <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                <ToggleControl
+                    label={__("Sticky Video")}
+                    checked={playerPip}
+                    onChange={(playerPip) => setAttributes({ playerPip })}
                 />
                 {
                     (!isProPluginActive) && (

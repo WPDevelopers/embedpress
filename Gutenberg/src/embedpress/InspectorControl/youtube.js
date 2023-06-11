@@ -381,51 +381,11 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                     </div>
                                 ) : (
                                     <div className={'ep-video-controlers'}>
-                                        <TextControl
-                                            label={__("Start Time (in seconds)")}
-                                            value={starttime}
-                                            onChange={(starttime) => setAttributes({ starttime })}
-                                            type={'text'}
-                                            className={'ep-control-field'}
-                                        />
-
-                                        <TextControl
-                                            label={__("End Time (in seconds)")}
-                                            value={endtime}
-                                            onChange={(endtime) => setAttributes({ endtime })}
-                                            type={'text'}
-                                            className={'ep-control-field'}
-                                        />
-
-                                        <ToggleControl
-                                            label={__("Auto Play")}
-                                            checked={autoplay}
-                                            onChange={(autoplay) => setAttributes({ autoplay })}
-                                        />
-
-
-                                        <ToggleControl
-                                            label={__("Fullscreen Button")}
-                                            checked={fullscreen}
-                                            onChange={(fullscreen) => setAttributes({ fullscreen })}
-                                        />
-
-                                        <div className='ep-yt-related-videos'>
-                                            <ToggleControl
-                                                label={__("Related Videos")}
-                                                checked={relatedvideos}
-                                                onChange={(relatedvideos) => setAttributes({ relatedvideos })}
-                                            />
-                                            <p>Enable to display related videos from all channels. Otherwise, related videos will show from the same channel.</p>
-                                        </div>
-
-                                        <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} />
-
-
+                                        <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive}/>
                                     </div>
                                 )
                             }
-                            
+
                         </PanelBody>
                         <CustomBranding attributes={attributes} setAttributes={setAttributes} />
                     </div>

@@ -177,9 +177,29 @@ class Embedpress_Elementor extends Widget_Base
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => 'no',
+				'default'      => '',
 				'condition'   => [
 					'embedpress_pro_embeded_source' => ['youtube', 'vimeo']
+				],
+			]
+		);
+
+		$this->add_control(
+			'custom_payer_preset',
+			[
+				'label'       => __('Preset', 'embedpress'),
+				'type'        => Controls_Manager::SELECT,
+				'label_block' => false,
+				'default'     => 'default',
+				'options'     => [
+					'default'     => __('Default', 'embedpress'),
+					'custom-player-preset-1'     => __('Preset 1', 'embedpress'),
+					'custom-player-preset-2'       => __('Preset 2', 'embedpress'),
+					'custom-player-preset-3' => __('Preset 3', 'embedpress'),
+					'custom-player-preset-4'      => __('Preset 4', 'embedpress'),
+				],
+				'condition' => [
+					'emberpress_custom_player' => 'yes'
 				],
 			]
 		);
@@ -202,6 +222,7 @@ class Embedpress_Elementor extends Widget_Base
 		 */
 		$this->init_youtube_controls();
 		$this->init_vimeo_controls();
+	
 		$this->init_wistia_controls();
 		$this->init_soundcloud_controls();
 		$this->init_dailymotion_control();
@@ -209,7 +230,6 @@ class Embedpress_Elementor extends Widget_Base
 		$this->init_opensea_control();
 		$this->end_controls_section();
 
-		do_action( 'extend_customplayer_controls', $this, '_', $this->pro_text, $this->pro_class);
 
 		$this->init_youtube_channel_section();
 		$this->init_youtube_subscription_section();
@@ -293,7 +313,10 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'label'     => __('Player Options', 'embedpress'),
 				'type'      => Controls_Manager::HEADING,
-				'condition' => $yt_condition,
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'youtube',
+					'emberpress_custom_player!' => 'yes'
+				],
 			]
 		);
 		$this->add_control(
@@ -308,7 +331,10 @@ class Embedpress_Elementor extends Widget_Base
 					'2' => __('Display after user initiation', 'embedpress'),
 					'0' => __('Hide controls', 'embedpress')
 				],
-				'condition'   => $yt_condition,
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'youtube',
+					'emberpress_custom_player!' => 'yes'
+				],
 			]
 		);
 		$this->add_control(
@@ -336,7 +362,10 @@ class Embedpress_Elementor extends Widget_Base
 					'1' => __('Display', 'embedpress'),
 					'3' => __('Do Not Display', 'embedpress')
 				],
-				'condition'   => $yt_condition,
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'youtube',
+					'emberpress_custom_player!' => 'yes'
+				],
 			]
 		);
 		//--- YouTube Pro control starts ---
@@ -351,7 +380,10 @@ class Embedpress_Elementor extends Widget_Base
 					'red'   => __('Red', 'embedpress'),
 					'white' => __('White', 'embedpress')
 				],
-				'condition'   => $yt_condition,
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'youtube',
+					'emberpress_custom_player!' => 'yes'
+				],
 			]
 		);
 		$this->add_control(
@@ -364,7 +396,10 @@ class Embedpress_Elementor extends Widget_Base
 				'default'      => 'no',
 				'separator'    => 'before',
 				'classes'     => $this->pro_class,
-				'condition'    => $yt_condition,
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'youtube',
+					'emberpress_custom_player!' => 'yes'
+				],
 			]
 		);
 		$this->add_control(
@@ -381,11 +416,45 @@ class Embedpress_Elementor extends Widget_Base
 				'condition'   => [
 					'embedpress_pro_embeded_source'              => 'youtube',
 					'embedpress_pro_youtube_display_controls!'   => '0',
-					'embedpress_pro_youtube_progress_bar_color!' => 'white'
+					'embedpress_pro_youtube_progress_bar_color!' => 'white',
+					'embedpress_custom_player!' => 'yes',
 				],
 				'classes'     => $this->pro_class,
 			]
 		);
+
+		$this->add_control(
+			'embedpress_player_color',
+			[
+				'label'       => __('Player Color', 'embedpress'),
+				'type'        => Controls_Manager::COLOR,
+				'label_block' => false,
+				'default'     => '#5b4e96',
+				'condition' => [
+					'emberpress_custom_player' => 'yes'
+				],
+			]
+		);
+
+		
+		$this->add_control(
+			"embedpress_player_poster_thumbnail",
+			[
+				'label' => sprintf(__('Thumbnail %s', 'embedpress'), $this->pro_text),
+				'description' => __('Leave it empty to hide it', 'embedpress'),
+				'type' => Controls_Manager::MEDIA,
+				'dynamic' => [
+					'active' => true,
+				],
+				'classes'     => $this->pro_class,
+				'condition' => [
+					'emberpress_custom_player' => 'yes'
+				],
+			]
+		);
+
+		do_action( 'extend_customplayer_controls', $this, '_', $this->pro_text, $this->pro_class);
+
 		$this->add_control(
 			'embedpress_pro_youtube_display_related_videos',
 			[
@@ -398,6 +467,22 @@ class Embedpress_Elementor extends Widget_Base
 				'condition'    => $yt_condition,
 			]
 		);
+		
+
+		$this->add_control(
+			'embepress_player_always_on_top',
+			[
+				'label'        => __('Sticky Video', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition' => [
+					'emberpress_custom_player' => 'yes'
+				],
+			]
+		);
+
 		$this->init_branding_controls('youtube');
 	}
 
@@ -410,7 +495,10 @@ class Embedpress_Elementor extends Widget_Base
 			'embedpress_yt_channel_section',
 			[
 				'label'       => __('YouTube Channel', 'embedpress'),
-				'condition'    => $yt_condition,
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'youtube',
+					'emberpress_custom_player!' => 'yes'
+				],
 
 			]
 		);
@@ -2504,6 +2592,45 @@ class Embedpress_Elementor extends Widget_Base
 		echo "[embedpress $args]{$settings['embedpress_embeded_link']}\[/embedpress]";
 	}
 
+	public function get_custom_player_options($settings) {
+
+		$_player_options = '';
+
+		if (!empty($settings['emberpress_custom_player'])) {
+		
+			$player_preset = !empty($settings['custom_payer_preset']) ? $settings['custom_payer_preset'] : 'preset-default';
+
+			$player_color = !empty($settings['embedpress_player_color']) ? $settings['embedpress_player_color'] : '';
+
+			$poster_thumbnail = !empty($settings['embedpress_player_poster_thumbnail']['url']) ? $settings['embedpress_player_poster_thumbnail']['url'] : '';
+
+			$player_pip = !empty($settings['embepress_player_always_on_top']) ? true : false;
+			$player_restart = !empty($settings['embepress_player_restart']) ? true : false;
+			$player_rewind = !empty($settings['embepress_player_rewind']) ? true : false;
+			$player_fastForward = !empty($settings['embepress_player_fast_forward']) ? true : false;
+			$player_tooltip = !empty($settings['embepress_player_tooltip']) ? true : false;
+			$player_hide_controls = !empty($settings['embepress_player_hide_controls']) ? true : false;
+		
+			$playerOptions = [
+				'rewind' => $player_rewind,
+				'restart' => $player_restart,
+				'pip' => $player_pip,
+				'poster_thumbnail' => $poster_thumbnail,
+				'player_color' => $player_color,
+				'player_preset' => $player_preset,
+				'fast_forward' => $player_fastForward,
+				'player_tooltip' => $player_tooltip,
+				'hide_controls' => $player_hide_controls,
+			];
+		
+			$playerOptionsString = json_encode($playerOptions);
+			$_player_options = 'data-options=\'' . htmlentities($playerOptionsString, ENT_QUOTES) . '\'';
+
+		}
+
+		return $_player_options; 
+	}
+
 	protected function convert_settings($settings)
 	{
 		$_settings = [];
@@ -2626,7 +2753,7 @@ class Embedpress_Elementor extends Widget_Base
 					} else {?>
 							
 							<div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($content_share_class.' '.$share_position_class.' '.$content_protection_class); echo esc_attr( ' source-'.$source ); ?>">
-								<div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper" data-playerid="<?php echo esc_attr( $this->get_id() ); ?>" >
+								<div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper <?php echo esc_attr( $settings['custom_payer_preset'] ); ?>" data-playerid="<?php echo esc_attr( $this->get_id() ); ?>"  <?php echo $this->get_custom_player_options($settings); ?>>
 									<?php 
 										$content_id = $client_id;
 										

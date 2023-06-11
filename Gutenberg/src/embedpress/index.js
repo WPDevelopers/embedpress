@@ -550,7 +550,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			
 			playerColor: {
 				type: 'string',
-				default: '#2e2e99',
+				default: '#5b4e96',
 			},
 			
 			playerPip: {

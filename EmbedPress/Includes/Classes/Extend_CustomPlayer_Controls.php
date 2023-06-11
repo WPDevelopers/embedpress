@@ -1,63 +1,37 @@
 <?php
 
 namespace EmbedPress\Includes\Classes;
+
 use \Elementor\Controls_Manager;
 
-class Extend_CustomPlayer_Controls {
+class Extend_CustomPlayer_Controls
+{
 
-	public function __construct () {
-		add_action( 'extend_customplayer_controls', [$this, 'extend_elementor_customplayer_controls'], 10, 4 );
+	public function __construct()
+	{
+		add_action('extend_customplayer_controls', [$this, 'extend_elementor_customplayer_controls'], 10, 4);
 	}
-	
-	public function extend_elementor_customplayer_controls($that, $infix = '', $pro_text = '', $pro_class = ''){
-		$that->start_controls_section(
-            'emberpress_customplayer_controls',
-            [
-                'label' => esc_html__('Custom Player Controls', 'embedpress'),
-				'condition'   => [
-					'emberpress_custom_player' => 'yes'
-				]
-            ]
-        );
 
-        $that->add_control(
-			'custom_payer_preset',
-			[
-				'label'       => __('Preset', 'embedpress'),
-				'type'        => Controls_Manager::SELECT,
-				'label_block' => false,
-				'default'     => 'default',
-				'options'     => [
-					'default'     => __('Default', 'embedpress'),
-					'custom-player-preset-1'     => __('Preset 1', 'embedpress'),
-					'custom-player-preset-1'       => __('Preset 2', 'embedpress'),
-					'custom-player-preset-1' => __('Preset 3', 'embedpress'),
-					'custom-player-preset-1'      => __('Preset 4', 'embedpress'),
-					'custom-player-preset-1'  => __('Preset 5', 'embedpress'),
-				]
-			]
-		);
+	public function extend_elementor_customplayer_controls($that, $infix = '', $pro_text = '', $pro_class = '')
+	{
+		// $that->start_controls_section(
+		//     'emberpress_customplayer_controls',
+		//     [
+		//         'label' => esc_html__('Custom Player Controls', 'embedpress'),
+		// 		'condition'   => [
+		// 			'emberpress_custom_player' => 'yes'
+		// 		]
+		//     ]
+		// );
+		$condition = [
+			'emberpress_custom_player' => 'yes'
+		];
 
-		$that->add_control(
-			'embedpress_player_color',
-			[
-				'label'       => __('Player Color', 'embedpress'),
-				'type'        => Controls_Manager::COLOR,
-				'label_block' => false,
-				'default'     => '#dd3333',
-			]
-		);
+		
 
-		$that->add_control(
-			'embepress_player_always_on_top',
-			[
-				'label'        => __('Always on Top', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'no',
-			]
-		);
+
+
+		
 		$that->add_control(
 			'embepress_player_restart',
 			[
@@ -66,6 +40,7 @@ class Extend_CustomPlayer_Controls {
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
+				'condition' => $condition,
 			]
 		);
 		$that->add_control(
@@ -76,6 +51,7 @@ class Extend_CustomPlayer_Controls {
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
+				'condition' => $condition,
 			]
 		);
 		$that->add_control(
@@ -86,6 +62,7 @@ class Extend_CustomPlayer_Controls {
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
+				'condition' => $condition,
 			]
 		);
 		$that->add_control(
@@ -96,6 +73,7 @@ class Extend_CustomPlayer_Controls {
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
+				'condition' => $condition,
 			]
 		);
 		$that->add_control(
@@ -105,15 +83,14 @@ class Extend_CustomPlayer_Controls {
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => 'no',
+				'default'      => '',
+				'condition' => $condition,
 			]
 		);
 
-		
-        
-        $that->end_controls_section();
+
+
+		// $that->end_controls_section();
 
 	}
-
-
 }
