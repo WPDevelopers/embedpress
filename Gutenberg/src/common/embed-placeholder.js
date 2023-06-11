@@ -1,18 +1,18 @@
 /**
  * WordPress dependencies
  */
-const {__, _x} = wp.i18n;
+const { __, _x } = wp.i18n;
 import classnames from 'classnames';
-const {Button, Placeholder, ExternalLink} = wp.components;
-const {BlockIcon} = wp.blockEditor;
+const { Button, Placeholder, ExternalLink } = wp.components;
+const { BlockIcon } = wp.blockEditor;
 
 const EmbedPlaceholder = (props) => {
-	const {icon, label, value, onSubmit, onChange, cannotEmbed, docLink, DocTitle} = props;
+	const { icon, label, value, onSubmit, onChange, cannotEmbed, docLink, DocTitle } = props;
 
-	const classes = classnames( 'wp-block-embed', {} );
+	const classes = classnames('wp-block-embed', {});
 	return (
 		<div className='ep__components-placeholder'>
-			<Placeholder icon={<BlockIcon icon={icon} showColors/>} label={label} className={classes}>
+			<Placeholder icon={<BlockIcon icon={icon} showColors />} label={label} className={classes}>
 
 				<form onSubmit={onSubmit}>
 					<input
@@ -21,7 +21,7 @@ const EmbedPlaceholder = (props) => {
 						className="components-placeholder__input"
 						aria-label={label}
 						placeholder={__('Enter URL to embed here…')}
-						onChange={onChange}/>
+						onChange={onChange} />
 					<Button
 						isSmall
 						type="submit">
@@ -29,16 +29,16 @@ const EmbedPlaceholder = (props) => {
 					</Button>
 
 					{cannotEmbed &&
-					<p className="components-placeholder__error">
-						{__('Sorry, we could not embed that content.')}<br/>
-					</p>
+						<p className="components-placeholder__error">
+							{__('Sorry, we could not embed that content.')}<br />
+						</p>
 					}
 
 				</form>
 				{docLink &&
-				<div className="components-placeholder__learn-more">
-					<ExternalLink href={docLink}>{DocTitle}</ExternalLink>
-				</div>
+					<div className="components-placeholder__learn-more">
+						<ExternalLink href={docLink}>{DocTitle}</ExternalLink>
+					</div>
 				}
 
 			</Placeholder>

@@ -7,6 +7,7 @@ import CustomPlayer from './InspectorControl/customPlayer';
 import OpenSea from './InspectorControl/opensea';
 import Wistia from './InspectorControl/wistia';
 import Vimeo from './InspectorControl/vimeo';
+import SlefHosted from './InspectorControl/selfhosted';
 import { EPIcon, InfoIcon } from '../common/icons';
 
 /**
@@ -157,6 +158,9 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             </PanelBody>
 
                             <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} />
+                            <Youtube attributes={attributes} setAttributes={setAttributes} />
+
+                            <SlefHosted attributes={attributes} setAttributes={setAttributes} /> 
 
 
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />

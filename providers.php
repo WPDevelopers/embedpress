@@ -23,5 +23,6 @@ $additionalServiceProviders = [
 	EMBEDPRESS_NAMESPACE . "\\Providers\\Boomplay"   => ["boomplay.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\Youtube"    => ["youtube.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\OpenSea"    => ["opensea.io"],
+	EMBEDPRESS_NAMESPACE . "\\Providers\\SelfHosted"    => ["development.local"],
 
 ];
