@@ -73,6 +73,8 @@ function embedpress_render_block($attributes)
 	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
 
 	
+
+	
 	// $player_preset = !empty($attributes['playerPreset']) ? $attributes['playerPreset'] : '1';
 
 	// $player_color = !empty($attributes['playerColor']) ? $attributes['playerColor'] : '';
@@ -94,8 +96,28 @@ function embedpress_render_block($attributes)
 	$_player_options = '';
 
 	if (!empty($custom_player)) {
+		$pattern1 = '/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i';
+		$pattern2 = '/\.(mp3|wav|ogg|aac)$/i';
+
+		$isVideo = preg_match($pattern1, $attributes['url']);
+		$isAudio = preg_match($pattern2, $attributes['url']);
+
+		$is_self_hosted = false;
+		$format = '';
+
+		if(!empty($isVideo) || !empty($isAudio)){
+			$is_self_hosted = true;
+			if(!empty($isVideo)){
+				$format = 'video';
+			}
+			else if(!empty($isAudio)){
+				$format = 'audio';
+			}
+		}
+		
+
 		$_custom_player = 'data-playerid="' . esc_attr($client_id) . '"';
-	
+		$is_self_hosted = !empty($isVideo) ? true : false;
 		$player_preset = !empty($attributes['playerPreset']) ? $attributes['playerPreset'] : 'preset-default';
 		$player_color = !empty($attributes['playerColor']) ? $attributes['playerColor'] : '';
 		$poster_thumbnail = !empty($attributes['posterThumbnail']) ? $attributes['posterThumbnail'] : '';
@@ -117,6 +139,11 @@ function embedpress_render_block($attributes)
 			'player_tooltip' => $player_tooltip,
 			'hide_controls' => $player_hide_controls,
 		];
+
+		if(!empty($is_self_hosted)){
+			$playerOptions['self_hosted'] = $is_self_hosted;
+			$playerOptions['hosted_format'] = $format;
+		}
 	
 		$playerOptionsString = json_encode($playerOptions);
 		$_player_options = 'data-options=\'' . htmlentities($playerOptionsString, ENT_QUOTES) . '\'';

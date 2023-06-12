@@ -47,8 +47,11 @@ document.addEventListener('DOMContentLoaded', function () {
     if (playerId && !wrapper.classList.contains('plyr-initialized')) {
       const selector = `[data-playerid="${playerId}"] .ose-embedpress-responsive`;
 
+
       // Get the options for the player from the wrapper's data attribute
       let options = document.querySelector(`[data-playerid="${playerId}"]`).getAttribute('data-options');
+
+      console.log(options )
 
       // Parse the options string into a JSON object
       options = JSON.parse(options);
@@ -57,7 +60,9 @@ document.addEventListener('DOMContentLoaded', function () {
       document.querySelector(`[data-playerid="${playerId}"]`).style.setProperty('--plyr-color-main', options.player_color);
 
       // Set the poster thumbnail for the player
-      document.querySelector(`[data-playerid="${playerId}"] iframe`).setAttribute('data-poster', options.poster_thumbnail);
+      if (document.querySelector(`[data-playerid="${playerId}"] iframe`)) {
+        document.querySelector(`[data-playerid="${playerId}"] iframe`).setAttribute('data-poster', options.poster_thumbnail);
+      }
 
       // Define the controls to be displayed
       const controls = [
@@ -113,5 +118,5 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 200);
 
   }
-  
+
 });

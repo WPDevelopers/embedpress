@@ -3,6 +3,7 @@
  */
 import { getParams } from '../functions';
 import { addProAlert, isPro, removeAlert } from '../../common/helper';
+import { isSelfHostedVideo } from '../functions';
 import ControlHeader from '../../common/control-heading';
 import CustomBranding from './custombranding';
 import CustomPlayerControls from '../../common/custom-player-controls';
@@ -45,13 +46,7 @@ export default function SelfHosted({ attributes, setAttributes }) {
     } = attributes;
 
 
-
-    const isSelfHosted = (url) => {
-        return url.match(/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i);
-    }
-
-    const _isSelfHosted = isSelfHosted(url);
-
+    const _isSelfHostedVideo = isSelfHostedVideo(url);
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
@@ -73,7 +68,7 @@ export default function SelfHosted({ attributes, setAttributes }) {
         <div>
 
             {
-                isSelfHosted(url) && (
+                isSelfHostedVideo(url) && (
                     <div className={'ep__vimeo-video-options'}>
                         <PanelBody title={__("Video Controls", 'embedpress')} initialOpen={false}>
                             <ToggleControl
@@ -83,7 +78,7 @@ export default function SelfHosted({ attributes, setAttributes }) {
                             />
                             {
                                 customPlayer && (
-                                    <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} isSelfHosted={_isSelfHosted} />
+                                    <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} isSelfHostedVideo={_isSelfHostedVideo} />
                                 )
                             }
 

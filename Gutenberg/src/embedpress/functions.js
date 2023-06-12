@@ -27,10 +27,17 @@ export const arrToObject = (defaults) => {
     return defaultsObj;
 }
 
+export const isSelfHostedVideo = (url) => {
+    return url.match(/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i);
+}
+export const isSelfHostedAudio = (url) => {
+    return url.match('/\.(mp3|wav|ogg|aac)$/i');
+}
 
 export const initCustomPlayer = (clientId, attributes) => {
 
     const {
+        url,
         posterThumbnail,
         customPlayer,
         playerTooltip,
@@ -50,11 +57,21 @@ export const initCustomPlayer = (clientId, attributes) => {
     const autoPause = vautopause ? true : false;
     const vDnt = vdnt ? true : false;
 
+    
+
 
     // console.log({vautopause, vdnt})
 
     const intervalId = setInterval(() => {
-        const playerElement = document.querySelector(`[data-playerid="${clientId}"] > .ose-embedpress-responsive`);
+
+        let playerElement = document.querySelector(`[data-playerid="${clientId}"] .ose-embedpress-responsive`);
+
+        if(isSelfHostedVideo(url)) {
+            playerElement = document.querySelector(`[data-playerid="${clientId}"] .ose-embedpress-responsive video`);
+        }
+        else if(isSelfHostedAudio(url)){
+            playerElement = document.querySelector(`[data-playerid="${clientId}"] .ose-embedpress-responsive audio`);
+        }
 
         if (playerElement) {
             clearInterval(intervalId);

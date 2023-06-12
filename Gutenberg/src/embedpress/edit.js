@@ -27,7 +27,7 @@ import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, isY
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import ContentShare from '../common/social-share-control';
-import { initCustomPlayer } from './functions';
+import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo } from './functions';
 
 const {
 	useBlockProps
@@ -64,6 +64,9 @@ export default function EmbedPress(props) {
 		customPlayer,
 		playerPreset,
 	} = attributes;
+
+	const _isSelfHostedVideo = isSelfHostedVideo(url);
+	const _isSelfHostedAudio = isSelfHostedAudio(url);
 
 
 	if (clientId == null || clientId == undefined) {
@@ -283,6 +286,8 @@ export default function EmbedPress(props) {
 				isOpenseaSingle={isOpenseaSingle}
 				isWistiaVideo={isWistiaVideo}
 				isVimeoVideo={isVimeoVideo}
+				isSelfHostedVideo={_isSelfHostedVideo}
+				isSelfHostedAudio={_isSelfHostedAudio}
 			/>
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>

@@ -27,7 +27,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo }) {
+export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio}) {
 
     const {
         width,
@@ -73,7 +73,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                         )
                                     }
                                     {
-                                        (isYTVideo || isVimeoVideo || isYTLive) && (
+                                        (isYTVideo || isVimeoVideo || isYTLive || isSelfHostedVideo) && (
                                             <SelectControl
                                                 label={__("Video Size")}
                                                 labelPosition='side'
@@ -89,7 +89,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     }
 
                                     {
-                                        ((!isYTVideo && !isYTLive && !isVimeoVideo) || (videosize == 'fixed')) && (
+                                        ((!isYTVideo && !isYTLive && !isVimeoVideo && !isSelfHostedVideo) || (videosize == 'fixed')) && (
                                             <p>{__("You can adjust the width and height of embedded content.")}</p>
                                         )
                                     }
@@ -97,7 +97,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
 
                                     {
-                                        ((isYTVideo || isVimeoVideo || isYTLive) && (videosize == 'responsive')) && (
+                                        ((isYTVideo || isVimeoVideo || isYTLive || isSelfHostedVideo) && (videosize == 'responsive')) && (
                                             <p>{__("You can adjust the width of embedded content.", "embedpress")}</p>
                                         )
                                     }
@@ -106,7 +106,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                         label={__("Width")}
                                         value={width}
                                         onChange={(width) => {
-                                            (isVimeoVideo || isYTVideo || isYTLive) ? (
+                                            (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo) ? (
                                                 setAttributes({
                                                     width: `${Math.round(width)}`,
                                                     height: `${roundToNearestFive(Math.round((width * 9) / 16))}`
@@ -118,13 +118,13 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     />
 
                                     {
-                                        ((!isYTVideo && !isVimeoVideo && !isYTLive) || (videosize == 'fixed')) && (
+                                        ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo) || (videosize == 'fixed')) && (
                                             <TextControl
                                                 label={__("Height")}
                                                 value={height}
                                                 onChange={(height) => {
                                                     {
-                                                        (isVimeoVideo || isYTVideo || isYTLive) ? (
+                                                        (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo) ? (
                                                             setAttributes({
                                                                 height: `${Math.round(height)}`,
                                                                 width: `${roundToNearestFive(Math.round((height * 16) / 9))}`
