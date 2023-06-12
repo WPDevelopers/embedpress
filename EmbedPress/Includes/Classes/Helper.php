@@ -538,6 +538,40 @@ class Helper {
 		return $base_url;
 
 	}
+
+	public static function check_media_format($url) {
+		$pattern1 = '/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i';
+		$pattern2 = '/\.(mp3|wav|ogg|aac)$/i';
+	
+		$isVideo = preg_match($pattern1, $url);
+		$isAudio = preg_match($pattern2, $url);
+	
+		$is_self_hosted = false;
+		$format = '';
+	
+		if (!empty($isVideo) || !empty($isAudio)) {
+			$is_self_hosted = true;
+			if (!empty($isVideo)) {
+				$format = 'video';
+			} else if (!empty($isAudio)) {
+				$format = 'audio';
+			}
+		}
+	
+		if (!$is_self_hosted) {
+			return [
+				'selhosted' => false,
+			];
+		}
+	
+		return [
+			'selhosted' => true,
+			'format' => $format,
+		];
+	}
+	
+	
+		
 	
 }
 

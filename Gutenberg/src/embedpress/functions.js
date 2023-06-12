@@ -31,7 +31,7 @@ export const isSelfHostedVideo = (url) => {
     return url.match(/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i);
 }
 export const isSelfHostedAudio = (url) => {
-    return url.match('/\.(mp3|wav|ogg|aac)$/i');
+    return url.match(/\.(mp3|wav|ogg|aac)$/i);
 }
 
 export const initCustomPlayer = (clientId, attributes) => {

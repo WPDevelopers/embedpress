@@ -1,9 +1,8 @@
 /**
  * WordPress dependencies
  */
-import { getParams } from '../functions';
+import { getParams, isSelfHostedAudio, isSelfHostedVideo } from '../functions';
 import { addProAlert, isPro, removeAlert } from '../../common/helper';
-import { isSelfHostedVideo } from '../functions';
 import ControlHeader from '../../common/control-heading';
 import CustomBranding from './custombranding';
 import CustomPlayerControls from '../../common/custom-player-controls';
@@ -68,7 +67,7 @@ export default function SelfHosted({ attributes, setAttributes }) {
         <div>
 
             {
-                isSelfHostedVideo(url) && (
+                (isSelfHostedVideo(url) || isSelfHostedAudio(url)) && (
                     <div className={'ep__vimeo-video-options'}>
                         <PanelBody title={__("Video Controls", 'embedpress')} initialOpen={false}>
                             <ToggleControl

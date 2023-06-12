@@ -21,17 +21,15 @@ use Embera\Url;
 class SelfHosted extends ProviderAdapter implements ProviderInterface
 {
 
+    public function __construct($url, $config = []){
+        parent::__construct($url, $config);
+        $hosts_url = parse_url($url);
+        $this->addHost($hosts_url['host']);
+    }
+
     /** inline {@inheritdoc} */
-    // protected static $hosts_name;
 
-    // protected static function my_function() {
-    //     self::hosts_name = "development.local";
-    //     return self::hosts_name;
-    // }
-    // $hosts_name = "development.local";
 
-    protected static $hosts = ["development.local"];
-    
     /**
      * Method that verifies if the embed URL belongs to SelfHosted.
      *
@@ -43,7 +41,7 @@ class SelfHosted extends ProviderAdapter implements ProviderInterface
     public function validateUrl(Url $url)
     {
         return  (bool) preg_match(
-            '/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i',
+            '/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg|mp3|wav|ogg|aac)$/i',
             (string) $url
         );
     }
@@ -55,7 +53,6 @@ class SelfHosted extends ProviderAdapter implements ProviderInterface
             (string) $url
         );
     }
-    
     public function validateSelfHostedAudio($url)
     {
         return  (bool) preg_match(
@@ -74,6 +71,7 @@ class SelfHosted extends ProviderAdapter implements ProviderInterface
     public function fakeResponse()
     {
         $src_url = urldecode($this->url);
+        
 
         $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
         $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 450;
@@ -89,7 +87,7 @@ class SelfHosted extends ProviderAdapter implements ProviderInterface
         else {
             return [];
         }
-
+        
         return [
             'type'          => 'rich',
             'provider_name' => 'Self Hosted',
@@ -98,7 +96,6 @@ class SelfHosted extends ProviderAdapter implements ProviderInterface
             'html'          => $html,
         ];
     }
-
     /** inline @inheritDoc */
     public function modifyResponse(array $response = [])
     {

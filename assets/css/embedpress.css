@@ -1630,7 +1630,9 @@ a.plyr__controls__item.plyr__control {
 figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container{
     padding-bottom: inherit!important;
 }
-
+.plyr {
+    background-color: black;
+}
 .pip-mode {
     position: fixed !important;
     width: 320px !important;
@@ -1639,5 +1641,9 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container{
     left: calc(100% - 340px) !important;
     z-index: 9999;
     pointer-events: none;
-    border-radius: 10px;
+    border-radius: 15px!important;
+}
+
+.plyr [data-plyr="pip"]{
+    display: block!important;
 }

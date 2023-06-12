@@ -14,6 +14,7 @@
  * @since       1.0.0
  */
 
+$host_url = parse_url(site_url());
 $additionalServiceProviders = [
 	EMBEDPRESS_NAMESPACE . "\\Providers\\GoogleMaps" => ["google.com", "google.com.*", "maps.google.com", "goo.gl", "google.co.*"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\GoogleDrive" => ["drive.google.com"],
@@ -23,6 +24,6 @@ $additionalServiceProviders = [
 	EMBEDPRESS_NAMESPACE . "\\Providers\\Boomplay"   => ["boomplay.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\Youtube"    => ["youtube.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\OpenSea"    => ["opensea.io"],
-	EMBEDPRESS_NAMESPACE . "\\Providers\\SelfHosted"    => ["development.local"],
+	EMBEDPRESS_NAMESPACE . "\\Providers\\SelfHosted"    => [$host_url['host']],
 
 ];

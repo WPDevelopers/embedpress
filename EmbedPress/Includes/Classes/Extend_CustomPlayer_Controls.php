@@ -17,7 +17,7 @@ class Extend_CustomPlayer_Controls
 		
 		$condition = [
 			'emberpress_custom_player' => 'yes',
-			'embedpress_pro_embeded_source' => ['youtube', 'vimeo']
+			'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted']
 		];
 
 		$that->add_control(

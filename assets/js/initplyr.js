@@ -45,16 +45,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Check if the player has not been initialized for this wrapper
     if (playerId && !wrapper.classList.contains('plyr-initialized')) {
-      const selector = `[data-playerid="${playerId}"] .ose-embedpress-responsive`;
-
 
       // Get the options for the player from the wrapper's data attribute
       let options = document.querySelector(`[data-playerid="${playerId}"]`).getAttribute('data-options');
 
-      console.log(options )
-
       // Parse the options string into a JSON object
       options = JSON.parse(options);
+
+      let selector = `[data-playerid="${playerId}"] .ose-embedpress-responsive`;
+
+      if (options.self_hosted && options.hosted_format === 'video') {
+        selector = `[data-playerid="${playerId}"] .ose-embedpress-responsive video`;
+      }
+      else if (options.self_hosted && options.hosted_format === 'audio') {
+        selector = `[data-playerid="${playerId}"] .ose-embedpress-responsive audio`;
+      }
+
 
       // Set the main color of the player
       document.querySelector(`[data-playerid="${playerId}"]`).style.setProperty('--plyr-color-main', options.player_color);
@@ -63,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (document.querySelector(`[data-playerid="${playerId}"] iframe`)) {
         document.querySelector(`[data-playerid="${playerId}"] iframe`).setAttribute('data-poster', options.poster_thumbnail);
       }
+
 
       // Define the controls to be displayed
       const controls = [
@@ -105,16 +112,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Check for the existence of the player's pip button at regular intervals
     const pipInterval = setInterval(() => {
+
       let playerPip = document.querySelector(`[data-playerid="${playerId}"] [data-plyr="pip"]`);
       if (playerPip) {
         clearInterval(pipInterval);
-        const iframeSelector = document.querySelector(`[data-playerid="${playerId}"] iframe`);
+        
+        let options = document.querySelector(`[data-playerid="${playerId}"]`).getAttribute('data-options');
+        options = JSON.parse(options);
+        if (!options.self_hosted) {
 
-        // Add click event listener to toggle the pip mode
-        playerPip.addEventListener('click', () => {
-          iframeSelector.classList.toggle('pip-mode');
-        });
+          // if (options.pip) {
+          //   document.querySelector(`[data-playerid="${playerId}"] [data-plyr="pip"]`).style.display = 'block';
+          // }
+          const iframeSelector = document.querySelector(`[data-playerid="${playerId}"] .plyr__video-wrapper`);
+
+          // Add click event listener to toggle the pip mode
+          playerPip.addEventListener('click', () => {
+            iframeSelector.classList.toggle('pip-mode');
+            let parentElement = iframeSelector.parentElement;
+            while (parentElement) {
+              parentElement.style.zIndex = '9999';
+              parentElement = parentElement.parentElement;
+            }
+
+          });
+        }
       }
+
     }, 200);
 
   }
