@@ -9,11 +9,12 @@
  *
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
- * @copyright   Copyright (C) 2020 WPDeveloper. All rights reserved.
+ * @copyright   Copyright (C) 2023 WPDeveloper. All rights reserved.
  * @license     GPLv3 or later
  * @since       1.0.0
  */
 
+ $host_url = parse_url(site_url());
 $additionalServiceProviders = [
 	EMBEDPRESS_NAMESPACE . "\\Providers\\GoogleMaps" => ["google.com", "google.com.*", "maps.google.com", "goo.gl", "google.co.*"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\GoogleDrive" => ["drive.google.com"],
@@ -25,4 +26,6 @@ $additionalServiceProviders = [
 	EMBEDPRESS_NAMESPACE . "\\Providers\\OpenSea"    => ["opensea.io"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\NRKRadio"    => ["radio.nrk.no", "nrk.no"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\GitHub"    => ["gist.github.com", "github.com"],
+	EMBEDPRESS_NAMESPACE . "\\Providers\\GitHub"    => ["gist.github.com", "github.com"],
+	EMBEDPRESS_NAMESPACE . "\\Providers\\Wrapper"    => [$host_url['host']],
 ];
