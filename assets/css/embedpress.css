@@ -519,6 +519,11 @@
 .ose-opensea {
     height: 100% !important;
     width: calc(100% - 40px) !important;
+    max-height: 100%!important;
+}
+
+.ose-github{
+    overflow: auto;
 }
 
 .ep_nft_content_wrap.ep_nft__wrapper {
@@ -1113,6 +1118,10 @@ span.ep-nft-rank {
         height: 250px !important;
         
     }
+    .ose-nrk-radio iframe{
+        height: 400px !important;
+    }
+
 }
 
 .emebedpress-unit-percent iframe{

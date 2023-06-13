@@ -25,5 +25,6 @@ $additionalServiceProviders = [
 	EMBEDPRESS_NAMESPACE . "\\Providers\\Youtube"    => ["youtube.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\OpenSea"    => ["opensea.io"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\SelfHosted"    => [$host_url['host']],
-
+	EMBEDPRESS_NAMESPACE . "\\Providers\\NRKRadio"    => ["radio.nrk.no", "nrk.no"],
+	EMBEDPRESS_NAMESPACE . "\\Providers\\GitHub"    => ["gist.github.com", "github.com"],
 ];

@@ -507,8 +507,36 @@ class Embedpress_Pdf extends Widget_Base
     public function render()
     {
         $settings = $this->get_settings();
+    
         $url = $this->get_file_url();
+
+        if($settings['embedpress_pdf_type'] === 'url') {
+            if(class_exists( 'ACF' ) && function_exists('get_field')){
+                if(!empty($settings['__dynamic__']) && !empty($settings['__dynamic__']['embedpress_pdf_file_link'])){
+                    $decode_url = urldecode(($settings['__dynamic__']['embedpress_pdf_file_link']));
+
+                    preg_match('/"key":"([^"]+):([^"]+)"/', $decode_url, $matches);
+                    if (isset($matches[0])) {
+                        if (isset($matches[1])) {
+                            $get_acf_key = $matches[1];
+                            $url = get_field($get_acf_key);
+
+                            if(empty($url)){
+                                $pattern = '/"fallback":"([^"]+)"/';
+                                preg_match($pattern, $decode_url, $matches);
+
+                                if (isset($matches[1])) {
+                                    $url = $matches[1];
+                                } 
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         $client_id = $this->get_id();
+
         $this->_render($url, $settings, $client_id);
         Helper::get_source_data(md5($this->get_id()).'_eb_elementor', $url, 'elementor_source_data', 'elementor_temp_source_data');
     }
@@ -532,7 +560,7 @@ class Embedpress_Pdf extends Widget_Base
         }
 
         if($settings['embedpress_pdf_type'] == 'file'){   
-            return "#" .http_build_query($urlParamData) ;
+            return "#key=" . base64_encode(utf8_encode(http_build_query($urlParamData)));
         }
         return '';
     
@@ -632,7 +660,7 @@ class Embedpress_Pdf extends Widget_Base
 
             if ($url != '') {
                 if ($this->is_pdf($url) && !$this->is_external_url($url)) {
-                    $this->add_render_attribute('embedpres-pdf-render', 'data-emsrc', $url);
+                    $this->add_render_attribute('embedpres-pdf-render',  $url);
                     $renderer = Helper::get_pdf_renderer();
                     $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($url).$this->getParamData($settings);
                     if (!empty($settings['embedpress_pdf_zoom'])) {

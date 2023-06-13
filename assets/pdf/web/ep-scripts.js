@@ -10,11 +10,17 @@ const setThemeMode = (themeMode) => {
 
 
 const getParamObj = (hash) => {
+
     let paramsObj = {};
     let colorsObj = {};
 
     if (location.hash) {
         let hashParams = new URLSearchParams(hash.substring(1));
+
+        if (hashParams.get('key') !== null) {
+            hashParams = '#' + atob(hashParams.get('key'));
+            hashParams = new URLSearchParams(hashParams.substring(1));
+        }
 
         if (hashParams.get('themeMode') == 'custom') {
             colorsObj = {
@@ -35,8 +41,8 @@ const getParamObj = (hash) => {
             doc_rotation: hashParams.get('doc_rotation'),
         };
 
-    
-        if(hashParams.get('download') !== 'true' && hashParams.get('download') !== 'yes'){
+
+        if (hashParams.get('download') !== 'true' && hashParams.get('download') !== 'yes') {
             window.addEventListener('beforeunload', function (event) {
                 event.stopImmediatePropagation();
             });
@@ -92,6 +98,13 @@ const getColorBrightness = (hexColor) => {
     return brightnessPercentage;
 }
 const pdfIframeStyle = (data) => {
+
+    const isAllNull = Object.values(data).every(value => value === null);;
+
+    if (isAllNull) {
+        return false;
+    };
+
     let settingsPos = '';
 
     if (data.toolbar === false || data.toolbar == 'false') {
@@ -109,6 +122,8 @@ const pdfIframeStyle = (data) => {
     if (copy_text === 'block' || copy_text == 'true' || copy_text == true) {
         copy_text = 'text';
     }
+
+    // console.log({data});
 
     let doc_details = isDisplay(data.doc_details);
     let doc_rotation = isDisplay(data.doc_rotation);
@@ -260,5 +275,7 @@ window.addEventListener('hashchange', (e) => {
 
 
 let data = getParamObj(location.hash);
+
 pdfIframeStyle(data);
 setThemeMode(data.themeMode);
+

@@ -38,7 +38,7 @@ define('EMBEDPRESS_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('EMBEDPRESS_FILE', __FILE__);
 
 if (!defined('EMBEDPRESS_PLUGIN_VERSION')) {
-    define('EMBEDPRESS_PLUGIN_VERSION', '3.7.2');
+    define('EMBEDPRESS_PLUGIN_VERSION', '3.7.3');
 }
 
 define('EMBEDPRESS_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
