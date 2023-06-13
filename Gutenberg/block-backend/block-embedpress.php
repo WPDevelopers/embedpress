@@ -130,6 +130,7 @@ function embedpress_render_block($attributes)
 		$player_fastForward = !empty($attributes['playerFastForward']) ? true : false;
 		$player_tooltip = !empty($attributes['playerTooltip']) ? true : false;
 		$player_hide_controls = !empty($attributes['playerHideControls']) ? true : false;
+		$player_download = !empty($attributes['playerDownload']) ? true : false;
 	
 		$playerOptions = [
 			'rewind' => $player_rewind,
@@ -141,6 +142,7 @@ function embedpress_render_block($attributes)
 			'fast_forward' => $player_fastForward,
 			'player_tooltip' => $player_tooltip,
 			'hide_controls' => $player_hide_controls,
+			'download' => $player_download,
 		];
 
 		if(!empty($is_self_hosted['selhosted'])){
