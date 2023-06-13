@@ -46,6 +46,7 @@ export default function SelfHosted({ attributes, setAttributes }) {
 
 
     const _isSelfHostedVideo = isSelfHostedVideo(url);
+    const _isSelfHostedAudio = isSelfHostedAudio(url);
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
@@ -62,6 +63,10 @@ export default function SelfHosted({ attributes, setAttributes }) {
         removeAlert();
     }
 
+    let panelTitle = 'Video Controls';
+    if(_isSelfHostedAudio){
+        panelTitle = 'Audio Controls';
+    }
 
     return (
         <div>
@@ -69,7 +74,7 @@ export default function SelfHosted({ attributes, setAttributes }) {
             {
                 (isSelfHostedVideo(url) || isSelfHostedAudio(url)) && (
                     <div className={'ep__vimeo-video-options'}>
-                        <PanelBody title={__("Video Controls", 'embedpress')} initialOpen={false}>
+                        <PanelBody title={__(panelTitle, 'embedpress')} initialOpen={false}>
                             <ToggleControl
                                 label={__("Enable Custom Player", "embedpress")}
                                 checked={customPlayer}
@@ -77,7 +82,7 @@ export default function SelfHosted({ attributes, setAttributes }) {
                             />
                             {
                                 customPlayer && (
-                                    <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} isSelfHostedVideo={_isSelfHostedVideo} />
+                                    <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} isSelfHostedVideo={_isSelfHostedVideo} isSelfHostedAudio={_isSelfHostedAudio}/>
                                 )
                             }
 

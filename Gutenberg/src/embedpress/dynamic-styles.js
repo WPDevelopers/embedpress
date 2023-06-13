@@ -30,6 +30,7 @@ export const dynamicStyles = ({ attributes }) => {
         playerRestart,
         playerRewind,
         playerFastForward,
+        playerDownload
     } = attributes;
     
 
@@ -44,6 +45,7 @@ export const dynamicStyles = ({ attributes }) => {
     const _playerRewind = playerRewind ? 'block' : 'none';
     const _playerFastForward = playerFastForward ? 'block' : 'none';
     const _fullscreen = fullscreen ? 'block' : 'none';
+    const _download = playerDownload ? 'block' : 'none';
 
     const isWistiaVideo = url.match(/\/medias\/|(?:https?:\/\/)?(?:www\.)?(?:wistia.com\/)(\w+)[^?\/]*$/i);
 
@@ -264,6 +266,9 @@ export const dynamicStyles = ({ attributes }) => {
                             }
                             [data-source-id="source-${clientId}"] [data-plyr="fullscreen"] {
                             display: ${_fullscreen};
+                            }
+                            [data-source-id="source-${clientId}"] [data-plyr="download"] {
+                            display: ${_download};
                             }
                         
                             [data-playerid="${_md5ClientId}"] > .plyr {

@@ -323,6 +323,10 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'boolean',
 								'default' => true
 							],
+							'playerDownload' => [
+								'type' => 'boolean',
+								'default' => true
+							],
 							//Wistia Attributes
 							'wstarttime' => [
 								'type' => 'string',

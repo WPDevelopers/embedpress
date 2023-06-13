@@ -24,7 +24,7 @@ import {
 import ControlHeader from './control-heading';
 
 
-const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, isVimeoVideo }) => {
+const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, isVimeoVideo, isSelfHostedAudio }) => {
     const {
         url,
         customPlayer,
@@ -44,7 +44,8 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
         playerPreset,
         playerColor,
         playerTooltip,
-        playerHideControls
+        playerHideControls,
+        playerDownload
     } = attributes;
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
@@ -69,26 +70,31 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
     return (
         <div className="ep-custom-player-controls">
 
-            <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                <SelectControl
-                    label={__("Preset")}
-                    value={playerPreset}
-                    options={[
-                        { label: 'Default', value: 'preset-default' },
-                        { label: 'Preset 1', value: 'custom-player-preset-1' },
-                        { label: 'Preset 2', value: 'custom-player-preset-2' },
-                        { label: 'Preset 3', value: 'custom-player-preset-3' },
-                        { label: 'Preset 4', value: 'custom-player-preset-4' },
-                    ]}
-                    onChange={(playerPreset) => setAttributes({ playerPreset })}
-                    __nextHasNoMarginBottom
-                />
-                {
-                    (!isProPluginActive) && (
-                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                    )
-                }
-            </div>
+            {
+                !isSelfHostedAudio && (
+
+                    <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                        <SelectControl
+                            label={__("Preset")}
+                            value={playerPreset}
+                            options={[
+                                { label: 'Default', value: 'preset-default' },
+                                { label: 'Preset 1', value: 'custom-player-preset-1' },
+                                { label: 'Preset 2', value: 'custom-player-preset-2' },
+                                { label: 'Preset 3', value: 'custom-player-preset-3' },
+                                { label: 'Preset 4', value: 'custom-player-preset-4' },
+                            ]}
+                            onChange={(playerPreset) => setAttributes({ playerPreset })}
+                            __nextHasNoMarginBottom
+                        />
+                        {
+                            (!isProPluginActive) && (
+                                <span className='isPro'>{__('pro', 'embedpress')}</span>
+                            )
+                        }
+                    </div>
+                )
+            }
 
 
             {
@@ -183,45 +189,52 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
                 }
             </div>
 
-
-            <ControlHeader headerText={'Thumbnail'} />
             {
-                isProPluginActive && posterThumbnail && (
-                    <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
-                        <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
-                            <span class="dashicon dashicons dashicons-trash"></span>
-                        </button>
-                        <img
-                            src={posterThumbnail}
-                            alt="John"
-                        />
+                !isSelfHostedAudio && (
+                    <div>
+
+                        <ControlHeader headerText={'Thumbnail'} />
+                        {
+                            isProPluginActive && posterThumbnail && (
+                                <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
+                                    <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
+                                        <span class="dashicon dashicons dashicons-trash"></span>
+                                    </button>
+                                    <img
+                                        src={posterThumbnail}
+                                        alt="John"
+                                    />
+                                </div>
+                            )
+                        }
+
+
+                        <div className={isProPluginActive ? "pro-control-active ep-custom-logo-button" : "pro-control ep-custom-logo-button"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                            <MediaUpload
+                                onSelect={onSelectImage}
+                                allowedTypes={['image']}
+                                value={posterThumbnail}
+                                render={({ open }) => (
+                                    <Button className={'ep-logo-upload-button'} icon={!posterThumbnail ? 'upload' : 'update'} onClick={open}>
+                                        {
+                                            (!isProPluginActive || !posterThumbnail) ? 'Upload Image' : 'Change Image'
+                                        }
+                                    </Button>
+                                )}
+
+                            />
+                            {
+                                (!isProPluginActive) && (
+                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                )
+                            }
+                        </div>
+
+                        <hr />
                     </div>
                 )
             }
 
-
-            <div className={isProPluginActive ? "pro-control-active ep-custom-logo-button" : "pro-control ep-custom-logo-button"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                <MediaUpload
-                    onSelect={onSelectImage}
-                    allowedTypes={['image']}
-                    value={posterThumbnail}
-                    render={({ open }) => (
-                        <Button className={'ep-logo-upload-button'} icon={!posterThumbnail ? 'upload' : 'update'} onClick={open}>
-                            {
-                                (!isProPluginActive || !posterThumbnail) ? 'Upload Image' : 'Change Image'
-                            }
-                        </Button>
-                    )}
-
-                />
-                {
-                    (!isProPluginActive) && (
-                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                    )
-                }
-            </div>
-
-            <hr />
 
             <ToggleControl
                 label={__("Restart")}
@@ -251,11 +264,28 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
                 }
             </div>
 
+            {
+                !isSelfHostedAudio && (
+                    <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                        <ToggleControl
+                            label={__("Hide Controls")}
+                            checked={playerHideControls}
+                            onChange={(playerHideControls) => setAttributes({ playerHideControls })}
+                        />
+                        {
+                            (!isProPluginActive) && (
+                                <span className='isPro'>{__('pro', 'embedpress')}</span>
+                            )
+                        }
+                    </div>
+                )
+            }
+
             <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                 <ToggleControl
-                    label={__("Hide Controls")}
-                    checked={playerHideControls}
-                    onChange={(playerHideControls) => setAttributes({ playerHideControls })}
+                    label={__("Download")}
+                    checked={playerDownload}
+                    onChange={(playerDownload) => setAttributes({ playerDownload })}
                 />
                 {
                     (!isProPluginActive) && (
@@ -276,19 +306,22 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
                     </div>
                 )
             }
-            <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                <ToggleControl
-                    label={__("Sticky Video")}
-                    checked={playerPip}
-                    onChange={(playerPip) => setAttributes({ playerPip })}
-                />
-                {
-                    (!isProPluginActive) && (
-                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                    )
-                }
-            </div>
-
+            {
+                !isSelfHostedAudio && (
+                    <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                        <ToggleControl
+                            label={__("Sticky Video")}
+                            checked={playerPip}
+                            onChange={(playerPip) => setAttributes({ playerPip })}
+                        />
+                        {
+                            (!isProPluginActive) && (
+                                <span className='isPro'>{__('pro', 'embedpress')}</span>
+                            )
+                        }
+                    </div>
+                )
+            }
         </div>
     )
 }

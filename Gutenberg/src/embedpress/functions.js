@@ -57,7 +57,10 @@ export const initCustomPlayer = (clientId, attributes) => {
     const autoPause = vautopause ? true : false;
     const vDnt = vdnt ? true : false;
 
-    
+    const _isSelfHostedAudio = (isSelfHostedAudio(url)); 
+    const _isSelfHostedVideo = (isSelfHostedVideo(url)); 
+
+
 
 
     // console.log({vautopause, vdnt})
@@ -66,10 +69,10 @@ export const initCustomPlayer = (clientId, attributes) => {
 
         let playerElement = document.querySelector(`[data-playerid="${clientId}"] .ose-embedpress-responsive`);
 
-        if(isSelfHostedVideo(url)) {
+        if (isSelfHostedVideo(url)) {
             playerElement = document.querySelector(`[data-playerid="${clientId}"] .ose-embedpress-responsive video`);
         }
-        else if(isSelfHostedAudio(url)){
+        else if (isSelfHostedAudio(url)) {
             playerElement = document.querySelector(`[data-playerid="${clientId}"] .ose-embedpress-responsive audio`);
         }
 
@@ -78,8 +81,22 @@ export const initCustomPlayer = (clientId, attributes) => {
 
             const player = new Plyr(playerElement, {
                 controls: [
-                    'play-large', 'restart', 'rewind', 'play', 'fast-forward', 'progress', 'current-time',
-                    'duration', 'mute', 'volume', 'captions', 'settings', 'pip', 'airplay', 'download', 'fullscreen'
+                    'play-large',
+                    'restart',
+                    'rewind',
+                    'play',
+                    'fast-forward',
+                    'progress',
+                    'current-time',
+                    'duration',
+                    'mute',
+                    'volume',
+                    'captions',
+                    'settings',
+                    _isSelfHostedAudio ? '' : 'pip',
+                    'airplay',
+                    'download',
+                    _isSelfHostedAudio ? '' : 'fullscreen',
                 ],
                 hideControls: playerHideControls,
                 tooltips: { controls: playerTooltip, seek: playerTooltip },

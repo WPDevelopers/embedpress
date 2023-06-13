@@ -115,7 +115,8 @@ class Embedpress_Elementor extends Widget_Base
 					'twitch'  => __('Twitch', 'embedpress'),
 					'soundcloud'  => __('SoundCloud', 'embedpress'),
 					'opensea'  => __('OpenSea', 'embedpress'),
-					'selfhosted'  => __('SelfHosted Video', 'embedpress'),
+					'selfhosted_video' => __('SelfHosted Video', 'embedpress'),
+					'selfhosted_audio'  => __('SelfHosted Audio', 'embedpress'),
 				]
 			]
 		);
@@ -180,7 +181,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => '',
 				'condition'   => [
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted']
+					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video', 'selfhosted_audio']
 				],
 			]
 		);
@@ -203,7 +204,7 @@ class Embedpress_Elementor extends Widget_Base
 				'classes'     => $this->pro_class,
 				'condition' => [
 					'emberpress_custom_player' => 'yes',
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted']
+					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video']
 				],
 			]
 		);
@@ -493,7 +494,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default'     => '#5b4e96',
 				'condition' => [
 					'emberpress_custom_player' => 'yes',
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted']
+					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video', 'selfhosted_audio']
 				],
 			]
 		);
@@ -511,7 +512,7 @@ class Embedpress_Elementor extends Widget_Base
 				'classes'     => $this->pro_class,
 				'condition' => [
 					'emberpress_custom_player' => 'yes',
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted']
+					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video']
 				],
 			]
 		);
@@ -543,7 +544,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default'      => '',
 				'condition' => [
 					'emberpress_custom_player' => 'yes',
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted']
+					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video']
 				],
 			]
 		);
@@ -1558,7 +1559,8 @@ class Embedpress_Elementor extends Widget_Base
 						'wistia',    
 						'twitch',
 						'soundcloud', 
-						'selfhosted',
+						'selfhosted_video', 
+						'selfhosted_audio',
 					],
 				],
 			]
@@ -1585,7 +1587,8 @@ class Embedpress_Elementor extends Widget_Base
 						'wistia',    
 						'twitch',
 						'soundcloud', 
-						'selfhosted',
+						'selfhosted_video', 
+						'selfhosted_audio',
 					],
 				],
 			]
@@ -2631,6 +2634,7 @@ class Embedpress_Elementor extends Widget_Base
 			$player_fastForward = !empty($settings['embepress_player_fast_forward']) ? true : false;
 			$player_tooltip = !empty($settings['embepress_player_tooltip']) ? true : false;
 			$player_hide_controls = !empty($settings['embepress_player_hide_controls']) ? true : false;
+			$player_download = !empty($settings['embepress_player_download']) ? true : false;
 		
 			$playerOptions = [
 				'rewind' => $player_rewind,
@@ -2642,6 +2646,7 @@ class Embedpress_Elementor extends Widget_Base
 				'fast_forward' => $player_fastForward,
 				'player_tooltip' => $player_tooltip,
 				'hide_controls' => $player_hide_controls,
+				'download' => $player_download,
 			];
 
 			if(!empty($is_self_hosted['selhosted'])){

@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'settings',
         options.pip ? 'pip' : '',
         'airplay',
-        'download',
+        options.download ? 'download' : '',
         'fullscreen'
       ].filter(control => control !== '');
 
