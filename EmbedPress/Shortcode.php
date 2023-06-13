@@ -341,6 +341,16 @@ KAMAL;
 
                 $embed = self::modify_spotify_content($embed);
                 $embed = apply_filters('embedpress:onAfterEmbed', $embed);
+
+                // Attributes to remove
+                $attributesToRemove = 'autoplay;';
+            
+                // New attribute to add
+                $newAttribute = 'encrypted-media;'.'accelerometer;'.'autoplay;'.'clipboard-write;'.'gyroscope;'.'picture-in-picture';
+                
+                // Remove existing attributes
+                $embed->embed = str_replace($attributesToRemove, $newAttribute, $embed->embed);
+                
                 return $embed;
             }
         }
