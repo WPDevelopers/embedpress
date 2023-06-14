@@ -49,16 +49,6 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 		 * @var EmbedPress_Plugin_Usage_Tracker
 		 */
 		private static $_instance = null;
-
-		private $disabled_wp_cron;
-		private $enable_self_cron;
-		private $require_optin;
-		private $include_goodbye_form;
-		private $marketing;
-		private $options;
-		private $item_id;
-		private $notice_options;
-		
 		/**
 		 * Get Instance of EmbedPress_Plugin_Usage_Tracker
 		 * @return EmbedPress_Plugin_Usage_Tracker
