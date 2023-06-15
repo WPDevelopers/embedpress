@@ -88,14 +88,14 @@ document.addEventListener('DOMContentLoaded', function () {
         options.pip ? 'pip' : '',
         'airplay',
         options.download ? 'download' : '',
-        'fullscreen'
+        options.fullscreen ? 'fullscreen' : '',
+
       ].filter(control => control !== '');
 
       // Create a new Plyr player instance with the specified options and controls
       const player = new Plyr(selector, {
         controls: controls,
         seekTime: 10,
-        ads: { enabled: false, publisherId: '', tagUrl: 'https://googleads.github.io/googleads-ima-html5/vsi/' },
         poster: options.poster_thumbnail,
         storage: {
           enabled: true,
@@ -103,7 +103,24 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         displayDuration: true,
         tooltips: { controls: options.player_tooltip, seek: options.player_tooltip },
-        hideControls: options.hide_controls
+        hideControls: options.hide_controls,
+        youtube: {
+          ...(options.autoplay && { autoplay: options.autoplay }),
+          ...(options.start && { start: options.start }),
+          ...(options.end && { end: options.end }),
+          ...(options.rel && { rel: options.rel }),
+          ...(options.fullscreen && { fs: options.fullscreen })
+        },
+        vimeo: {
+          byline: false,
+          portrait: false,
+          title: false,
+          speed: true,
+          transparent: false,
+          controls: false,
+          ...(options.autoPause && { autopause: options.autoPause }),
+          ...(options.vDnt && { dnt: options.vDnt }),
+      }
       });
 
       // Mark the wrapper as initialized
@@ -116,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
       let playerPip = document.querySelector(`[data-playerid="${playerId}"] [data-plyr="pip"]`);
       if (playerPip) {
         clearInterval(pipInterval);
-        
+
         let options = document.querySelector(`[data-playerid="${playerId}"]`).getAttribute('data-options');
         options = JSON.parse(options);
         if (!options.self_hosted) {

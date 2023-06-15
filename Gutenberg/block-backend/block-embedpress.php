@@ -145,10 +145,27 @@ function embedpress_render_block($attributes)
 			'download' => $player_download,
 		];
 
+		if(!empty($attributes['fullscreen'])){
+			$playerOptions['fullscreen'] = $attributes['fullscreen'];
+		}
+
 		if(!empty($is_self_hosted['selhosted'])){
 			$playerOptions['self_hosted'] = $is_self_hosted['selhosted'];
 			$playerOptions['hosted_format'] = $is_self_hosted['format'];
 		}
+
+		//Youtube options
+		if(!empty($attributes['starttime'])){
+			$playerOptions['start'] = $attributes['starttime'];
+		}
+		if(!empty($attributes['endtime'])){
+			$playerOptions['end'] = $attributes['endtime'];
+		}
+		if(!empty($attributes['relatedvideos'])){
+			$playerOptions['rel'] = $attributes['relatedvideos'];
+		}
+		
+
 	
 		$playerOptionsString = json_encode($playerOptions);
 		$_player_options = 'data-options=\'' . htmlentities($playerOptionsString, ENT_QUOTES) . '\'';
