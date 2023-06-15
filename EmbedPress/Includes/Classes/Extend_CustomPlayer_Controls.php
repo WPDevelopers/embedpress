@@ -69,7 +69,7 @@ class Extend_CustomPlayer_Controls
 		$that->add_control(
 			'embepress_player_hide_controls',
 			[
-				'label' => sprintf(__('Hide Controls %s', 'embedpress'), $pro_text),
+				'label' => sprintf(__('Auto Hide Controls %s', 'embedpress'), $pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',

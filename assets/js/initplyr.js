@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // Set the main color of the player
       document.querySelector(`[data-playerid="${playerId}"]`).style.setProperty('--plyr-color-main', options.player_color);
+      document.querySelector(`[data-playerid="${playerId}"].custom-player-preset-3, [data-playerid="${playerId}"].custom-player-preset-4`).style.setProperty('--plyr-range-fill-background', '#ffffff');
 
       // Set the poster thumbnail for the player
       if (document.querySelector(`[data-playerid="${playerId}"] iframe`)) {
@@ -118,8 +119,10 @@ document.addEventListener('DOMContentLoaded', function () {
           speed: true,
           transparent: false,
           controls: false,
-          ...(options.autoPause && { autopause: options.autoPause }),
-          ...(options.vDnt && { dnt: options.vDnt }),
+          ...(options.t && { t: options.t }),
+          ...(options.vautoplay && { autoplay: options.vautoplay }),
+          ...(options.autopause && { autopause: options.autopause }),
+          ...(options.dnt && { dnt: options.dnt }),
       }
       });
 

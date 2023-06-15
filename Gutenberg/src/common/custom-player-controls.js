@@ -23,7 +23,6 @@ import {
 } from "@wordpress/block-editor";
 import ControlHeader from './control-heading';
 
-
 const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, isVimeoVideo, isSelfHostedAudio }) => {
     const {
         url,
@@ -268,7 +267,7 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
                 !isSelfHostedAudio && (
                     <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                         <ToggleControl
-                            label={__("Hide Controls")}
+                            label={__("Auto Hide Controls")}
                             checked={playerHideControls}
                             onChange={(playerHideControls) => setAttributes({ playerHideControls })}
                         />

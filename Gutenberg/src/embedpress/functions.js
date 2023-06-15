@@ -57,8 +57,8 @@ export const initCustomPlayer = (clientId, attributes) => {
     const autoPause = vautopause ? true : false;
     const vDnt = vdnt ? true : false;
 
-    const _isSelfHostedAudio = (isSelfHostedAudio(url)); 
-    const _isSelfHostedVideo = (isSelfHostedVideo(url)); 
+    const _isSelfHostedAudio = (isSelfHostedAudio(url));
+    const _isSelfHostedVideo = (isSelfHostedVideo(url));
 
 
 
@@ -79,6 +79,9 @@ export const initCustomPlayer = (clientId, attributes) => {
         if (playerElement) {
             clearInterval(intervalId);
 
+            let options = document.querySelector(`[data-playerid="${clientId}"]`).getAttribute('data-options');
+            options = JSON.parse(options);
+
             const player = new Plyr(playerElement, {
                 controls: [
                     'play-large',
@@ -95,21 +98,29 @@ export const initCustomPlayer = (clientId, attributes) => {
                     'settings',
                     _isSelfHostedAudio ? '' : 'pip',
                     'airplay',
-                    'download',
+                    options.download ? 'download' : '',
                     _isSelfHostedAudio ? '' : 'fullscreen',
                 ],
                 hideControls: playerHideControls,
                 tooltips: { controls: playerTooltip, seek: playerTooltip },
+                youtube: {
+                    ...(options.autoplay && { autoplay: options.autoplay }),
+                    ...(options.start && { start: options.start }),
+                    ...(options.end && { end: options.end }),
+                    ...(options.rel && { rel: options.rel }),
+                    ...(options.fullscreen && { fs: options.fullscreen })
+                },
                 vimeo: {
-                    // Vimeo-specific options go here
                     byline: false,
                     portrait: false,
                     title: false,
                     speed: true,
                     transparent: false,
                     controls: false,
-                    autopause: autoPause,
-                    dnt: vDnt,
+                    ...(options.t && { t: options.t }),
+                    ...(options.vautoplay && { autoplay: options.vautoplay }),
+                    ...(options.autopause && { autopause: options.autopause }),
+                    ...(options.dnt && { dnt: options.dnt }),
                 }
 
             });

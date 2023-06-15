@@ -5,7 +5,7 @@ import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
-import { removedBlockID, saveSourceData } from '../common/helper';
+import { removedBlockID, saveSourceData, getPlayerOptions } from '../common/helper';
 
 import { shareIconsHtml } from '../common/helper';
 import md5 from 'md5';
@@ -39,8 +39,6 @@ removedBlockID();
 
 export default function EmbedPress(props) {
 	const { attributes, className, setAttributes } = props;
-
-
 
 	// @todo remove unused atts from here.
 	const {
@@ -326,7 +324,7 @@ export default function EmbedPress(props) {
 
 			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isWistiaVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
 				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
-					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass}`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} {...(customPlayer ? { 'data-playerid': md5(clientId) } : {})} dangerouslySetInnerHTML={{
+					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass}`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} {...(customPlayer ? { 'data-playerid': md5(clientId) } : {})} {...(customPlayer ? { 'data-options': getPlayerOptions({attributes}) } : {})} dangerouslySetInnerHTML={{
 						__html: embedHTML + customLogoTemp + epMessage + shareHtml,
 					}}>
 					</EmbedWrap>

@@ -164,9 +164,32 @@ function embedpress_render_block($attributes)
 		if(!empty($attributes['relatedvideos'])){
 			$playerOptions['rel'] = $attributes['relatedvideos'];
 		}
-		
 
-	
+		//Youtube options
+		if(!empty($attributes['starttime'])){
+			$playerOptions['start'] = $attributes['starttime'];
+		}
+		if(!empty($attributes['endtime'])){
+			$playerOptions['end'] = $attributes['endtime'];
+		}
+		if(!empty($attributes['relatedvideos'])){
+			$playerOptions['rel'] = $attributes['relatedvideos'];
+		}
+
+		//vimeo options
+		if(!empty($attributes['vstarttime'])){
+			$playerOptions['t'] = $attributes['vstarttime'];
+		}
+		if(!empty($attributes['vautoplay'])){
+			$playerOptions['vautoplay'] = $attributes['vautoplay'];
+		}
+		if(!empty($attributes['vautopause'])){
+			$playerOptions['autopause'] = $attributes['vautopause'];
+		}
+		if(!empty($attributes['vdnt'])){
+			$playerOptions['dnt'] = $attributes['vdnt'];
+		}
+			
 		$playerOptionsString = json_encode($playerOptions);
 		$_player_options = 'data-options=\'' . htmlentities($playerOptionsString, ENT_QUOTES) . '\'';
 	}
@@ -260,6 +283,9 @@ function embedpress_render_block_style($attributes)
 	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
 	$player_color = !empty($attributes['playerColor']) ? $attributes['playerColor'] : '';
 	$player_pip = !empty($attributes['playerPip']) ? 'block' : 'none';
+	$logoX = !empty($attributes['logoX']) ? $attributes['logoX'] : 5;
+	$logoY = !empty($attributes['logoY']) ? $attributes['logoX'] : 10;
+	$player_pip = !empty($attributes['playerPip']) ? 'block' : 'none';
 
 	$playerStyle = '';
 
@@ -283,7 +309,22 @@ function embedpress_render_block_style($attributes)
 
 		[data-playerid="' . md5($client_id). '"] .plyr{
 			width: ' . esc_attr($attributes['width']) . 'px !important;
-			height: ' . esc_attr($attributes['height']) . 'px;
+			height: ' . esc_attr($attributes['height']) . 'px!important;
+			max-height: ' . esc_attr($attributes['height']) . 'px!important;
+		}
+
+		[data-playerid="' . md5($client_id). '"] img.watermark {
+			border: 0;
+			position: absolute;
+			bottom: '.$logoY.'%;
+			right: '.$logoX.'%;
+			max-width: 150px;
+			max-height: 75px;
+			opacity: 1;
+			-o-transition: opacity 0.5s ease-in-out;
+			-moz-transition: opacity 0.5s ease-in-out;
+			-webkit-transition: opacity 0.5s ease-in-out;
+			transition: opacity 0.5s ease-in-out;
 		}
 
 		';
