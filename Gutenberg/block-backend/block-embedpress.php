@@ -325,6 +325,7 @@ function embedpress_render_block_style($attributes)
 			-moz-transition: opacity 0.5s ease-in-out;
 			-webkit-transition: opacity 0.5s ease-in-out;
 			transition: opacity 0.5s ease-in-out;
+			z-index:1;
 		}
 
 		';

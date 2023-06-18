@@ -1649,10 +1649,62 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container{
     top: calc(100% - 200px) !important;
     left: calc(100% - 340px) !important;
     z-index: 9999;
-    pointer-events: none;
     border-radius: 15px!important;
+
 }
 
 .plyr [data-plyr="pip"]{
     display: block!important;
+}
+.pip-mode .plyr__video-wrapper{
+    pointer-events: none;
+
+}
+.pip-mode .pip-play, .pip-mode .pip-pause {
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #0000004a;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.pip-mode .pip-close {
+    opacity: 0;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: #0000004a;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.pip-mode:hover .pip-play, .pip-mode:hover .pip-close{
+    opacity: 1;
+}
+
+.pip-mode .overlay-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.pip-mode iframe {
+    pointer-events: none!important;
 }
