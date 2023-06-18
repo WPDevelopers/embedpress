@@ -43,28 +43,10 @@ class Handler extends EndHandlerAbstract
                 false
             );
 
-            wp_enqueue_script(
-                'plyr.polyfilled',
-                EMBEDPRESS_URL_ASSETS . 'js/plyr.polyfilled.js',
-                [],
-                $this->pluginVersion,
-                false
-            );
-
-            // wp_enqueue_script(
-            //     'initplyr',
-            //     EMBEDPRESS_URL_ASSETS . 'js/initplyr.js',
-            //     ['plyr.polyfilled'],
-            //     $this->pluginVersion,
-            //     true
-            // );
-
             wp_enqueue_script("bootbox-bootstrap", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootstrap/bootstrap.min.js', ['jquery'], $this->pluginVersion, false);
             wp_enqueue_script("bootbox", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootbox.min.js', ['jquery', 'bootbox-bootstrap'], $this->pluginVersion, true);
             wp_enqueue_script($this->pluginName, EMBEDPRESS_URL_ASSETS . 'js/preview.js', ['jquery', 'bootbox'], $this->pluginVersion, true);
-            wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true);
 
-            wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css', $this->pluginVersion, true);
 
             wp_localize_script($this->pluginName, '$data', [
                 'previewSettings'       => [
@@ -76,6 +58,20 @@ class Handler extends EndHandlerAbstract
                 'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
                 'urlSchemes'            => $urlSchemes,
             ]);
+        }
+
+        if ('post.php' === $pagenow || 'post-new.php' === $pagenow) {
+            wp_enqueue_script(
+                'plyr.polyfilled',
+                EMBEDPRESS_URL_ASSETS . 'js/plyr.polyfilled.js',
+                [],
+                $this->pluginVersion,
+                false
+            );
+
+            wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css', $this->pluginVersion, true);
+            
+            wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true);
         }
 
 

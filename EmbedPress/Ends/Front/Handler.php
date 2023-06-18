@@ -58,6 +58,14 @@ class Handler extends EndHandlerAbstract
             true
         );
         wp_enqueue_script(
+            'initplyr',
+            EMBEDPRESS_URL_ASSETS . 'js/initplyr.js',
+            ['plyr.polyfilled'],
+            $this->pluginVersion,
+            true
+        );
+        
+        wp_enqueue_script(
             'embedpress-front',
             EMBEDPRESS_URL_ASSETS . 'js/front.js',
             ['jquery', 'embedpress-pdfobject'],
@@ -65,13 +73,7 @@ class Handler extends EndHandlerAbstract
             true
         );
 
-        wp_enqueue_script(
-            'initplyr',
-            EMBEDPRESS_URL_ASSETS . 'js/initplyr.js',
-            ['plyr.polyfilled'],
-            $this->pluginVersion,
-            true
-        );
+       
 
         wp_enqueue_script( 'embedpress_documents_viewer_script', EMBEDPRESS_URL_ASSETS . 'js/documents-viewer-script.js', ['jquery'],
             $this->pluginVersion, true );

@@ -56,161 +56,165 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // Function to initialize the player for a given wrapper
-  function initPlayer(wrapper) {
-    const playerId = wrapper.getAttribute('data-playerid');
-
-    // Check if the player has not been initialized for this wrapper
-    if (playerId && !wrapper.classList.contains('plyr-initialized')) {
-
-      // Get the options for the player from the wrapper's data attribute
-      let options = document.querySelector(`[data-playerid="${playerId}"]`).getAttribute('data-options');
-
-      // Parse the options string into a JSON object
-      options = JSON.parse(options);
-
-      let selector = `[data-playerid="${playerId}"] .ose-embedpress-responsive`;
-
-      if (options.self_hosted && options.hosted_format === 'video') {
-        selector = `[data-playerid="${playerId}"] .ose-embedpress-responsive video`;
-      }
-      else if (options.self_hosted && options.hosted_format === 'audio') {
-        selector = `[data-playerid="${playerId}"] .ose-embedpress-responsive audio`;
-      }
 
 
-      // Set the main color of the player
-      document.querySelector(`[data-playerid="${playerId}"]`).style.setProperty('--plyr-color-main', options.player_color);
-      document.querySelector(`[data-playerid="${playerId}"].custom-player-preset-3, [data-playerid="${playerId}"].custom-player-preset-4`).style.setProperty('--plyr-range-fill-background', '#ffffff');
 
-      // Set the poster thumbnail for the player
-      if (document.querySelector(`[data-playerid="${playerId}"] iframe`)) {
-        document.querySelector(`[data-playerid="${playerId}"] iframe`).setAttribute('data-poster', options.poster_thumbnail);
-      }
+});
 
 
-      // Define the controls to be displayed
-      const controls = [
-        'play-large',
-        options.restart ? 'restart' : '',
-        options.rewind ? 'rewind' : '',
-        'play',
-        options.fast_forward ? 'fast-forward' : '',
-        'progress',
-        'current-time',
-        'duration',
-        'mute',
-        'volume',
-        'captions',
-        'settings',
-        options.pip ? 'pip' : '',
-        'airplay',
-        options.download ? 'download' : '',
-        options.fullscreen ? 'fullscreen' : '',
+// Function to initialize the player for a given wrapper
+function initPlayer(wrapper) {
+  const playerId = wrapper.getAttribute('data-playerid');
 
-      ].filter(control => control !== '');
+  // Check if the player has not been initialized for this wrapper
+  if (playerId && !wrapper.classList.contains('plyr-initialized')) {
 
-      // Create a new Plyr player instance with the specified options and controls
-      const player = new Plyr(selector, {
-        controls: controls,
-        seekTime: 10,
-        poster: options.poster_thumbnail,
-        storage: {
-          enabled: true,
-          key: 'plyr_volume'
-        },
-        displayDuration: true,
-        tooltips: { controls: options.player_tooltip, seek: options.player_tooltip },
-        hideControls: options.hide_controls,
-        youtube: {
-          ...(options.autoplay && { autoplay: options.autoplay }),
-          ...(options.start && { start: options.start }),
-          ...(options.end && { end: options.end }),
-          ...(options.rel && { rel: options.rel }),
-          ...(options.fullscreen && { fs: options.fullscreen })
-        },
-        vimeo: {
-          byline: false,
-          portrait: false,
-          title: false,
-          speed: true,
-          transparent: false,
-          controls: false,
-          ...(options.t && { t: options.t }),
-          ...(options.vautoplay && { autoplay: options.vautoplay }),
-          ...(options.autopause && { autopause: options.autopause }),
-          ...(options.dnt && { dnt: options.dnt }),
-        }
-      });
+    // Get the options for the player from the wrapper's data attribute
+    let options = document.querySelector(`[data-playerid="${playerId}"]`).getAttribute('data-options');
 
-      // Mark the wrapper as initialized
-      wrapper.classList.add('plyr-initialized');
+    // Parse the options string into a JSON object
+    options = JSON.parse(options);
+
+    let selector = `[data-playerid="${playerId}"] .ose-embedpress-responsive`;
+
+    if (options.self_hosted && options.hosted_format === 'video') {
+      selector = `[data-playerid="${playerId}"] .ose-embedpress-responsive video`;
+    }
+    else if (options.self_hosted && options.hosted_format === 'audio') {
+      selector = `[data-playerid="${playerId}"] .ose-embedpress-responsive audio`;
     }
 
-    // Check for the existence of the player's pip button at regular intervals
-    const pipInterval = setInterval(() => {
 
-      let playerPip = document.querySelector(`[data-playerid="${playerId}"] [data-plyr="pip"]`);
-      if (playerPip) {
-        clearInterval(pipInterval);
+    // Set the main color of the player
+    document.querySelector(`[data-playerid="${playerId}"]`).style.setProperty('--plyr-color-main', options.player_color);
+    document.querySelector(`[data-playerid="${playerId}"].custom-player-preset-3, [data-playerid="${playerId}"].custom-player-preset-4`)?.style.setProperty('--plyr-range-fill-background', '#ffffff');
 
-        let options = document.querySelector(`[data-playerid="${playerId}"]`).getAttribute('data-options');
+    // Set the poster thumbnail for the player
+    if (document.querySelector(`[data-playerid="${playerId}"] iframe`)) {
+      document.querySelector(`[data-playerid="${playerId}"] iframe`).setAttribute('data-poster', options.poster_thumbnail);
+    }
 
-        options = JSON.parse(options);
-        if (!options.self_hosted) {
 
-          const iframeSelector = document.querySelector(`[data-playerid="${playerId}"] .plyr__video-wrapper`);
+    // Define the controls to be displayed
+    const controls = [
+      'play-large',
+      options.restart ? 'restart' : '',
+      options.rewind ? 'rewind' : '',
+      'play',
+      options.fast_forward ? 'fast-forward' : '',
+      'progress',
+      'current-time',
+      'duration',
+      'mute',
+      'volume',
+      'captions',
+      'settings',
+      options.pip ? 'pip' : '',
+      'airplay',
+      options.download ? 'download' : '',
+      options.fullscreen ? 'fullscreen' : '',
 
-          // Add click event listener to toggle the pip mode
-          playerPip.addEventListener('click', () => {
-            iframeSelector.classList.toggle('pip-mode');
+    ].filter(control => control !== '');
 
-            let parentElement = iframeSelector.parentElement;
-            while (parentElement) {
-              parentElement.style.zIndex = '9999';
-              parentElement = parentElement.parentElement;
-            }
+    // Create a new Plyr player instance with the specified options and controls
+    const player = new Plyr(selector, {
+      controls: controls,
+      seekTime: 10,
+      poster: options.poster_thumbnail,
+      storage: {
+        enabled: true,
+        key: 'plyr_volume'
+      },
+      displayDuration: true,
+      tooltips: { controls: options.player_tooltip, seek: options.player_tooltip },
+      hideControls: options.hide_controls,
+      youtube: {
+        ...(options.autoplay && { autoplay: options.autoplay }),
+        ...(options.start && { start: options.start }),
+        ...(options.end && { end: options.end }),
+        ...(options.rel && { rel: options.rel }),
+        ...(options.fullscreen && { fs: options.fullscreen })
+      },
+      vimeo: {
+        byline: false,
+        portrait: false,
+        title: false,
+        speed: true,
+        transparent: false,
+        controls: false,
+        ...(options.t && { t: options.t }),
+        ...(options.vautoplay && { autoplay: options.vautoplay }),
+        ...(options.autopause && { autopause: options.autopause }),
+        ...(options.dnt && { dnt: options.dnt }),
+      }
+    });
 
+    // Mark the wrapper as initialized
+    wrapper.classList.add('plyr-initialized');
+  }
+
+  // Check for the existence of the player's pip button at regular intervals
+  const pipInterval = setInterval(() => {
+
+    let playerPip = document.querySelector(`[data-playerid="${playerId}"] [data-plyr="pip"]`);
+    if (playerPip) {
+      clearInterval(pipInterval);
+
+      let options = document.querySelector(`[data-playerid="${playerId}"]`).getAttribute('data-options');
+
+      options = JSON.parse(options);
+      if (!options.self_hosted) {
+
+        const iframeSelector = document.querySelector(`[data-playerid="${playerId}"] .plyr__video-wrapper`);
+
+        // Add click event listener to toggle the pip mode
+        playerPip.addEventListener('click', () => {
+          iframeSelector.classList.toggle('pip-mode');
+
+          let parentElement = iframeSelector.parentElement;
+          while (parentElement) {
+            parentElement.style.zIndex = '9999';
+            parentElement = parentElement.parentElement;
+          }
+
+        });
+
+
+        if (options.pip) {
+          iframeSelector.appendChild(pipPlayIconElement);
+          iframeSelector.appendChild(pipPauseIconElement);
+          iframeSelector.appendChild(pipCloseElement);
+          const pipPlay = document.querySelector(`[data-playerid="${playerId}"] .plyr__video-wrapper .pip-play`);
+          const pipPause = document.querySelector(`[data-playerid="${playerId}"] .plyr__video-wrapper .pip-pause`);
+          const pipClose = document.querySelector(`[data-playerid="${playerId}"] .plyr__video-wrapper .pip-close`);
+
+          console.log(pipClose);
+
+          pipClose.addEventListener('click', () => {
+            iframeSelector.classList.remove('pip-mode');
+            console.log(iframeSelector.classList);
           });
 
 
-          if (options.pip) {
-            iframeSelector.appendChild(pipPlayIconElement);
-            iframeSelector.appendChild(pipPauseIconElement);
-            iframeSelector.appendChild(pipCloseElement);
-            const pipPlay = document.querySelector(`[data-playerid="${playerId}"] .plyr__video-wrapper .pip-play`);
-            const pipPause = document.querySelector(`[data-playerid="${playerId}"] .plyr__video-wrapper .pip-pause`);
-            const pipClose = document.querySelector(`[data-playerid="${playerId}"] .plyr__video-wrapper .pip-close`);
+          iframeSelector.addEventListener('click', () => {
+            const ariaPressedValue = document.querySelector(`[data-playerid="${playerId}"] .plyr__controls [data-plyr="play"]`).getAttribute('aria-pressed');
 
-            console.log(pipClose);
-
-            pipClose.addEventListener('click', () => {
-              iframeSelector.classList.remove('pip-mode');
-              console.log(iframeSelector.classList);
-            });
-
-
-            iframeSelector.addEventListener('click', () => {
-              const ariaPressedValue = document.querySelector(`[data-playerid="${playerId}"] .plyr__controls [data-plyr="play"]`).getAttribute('aria-pressed');
-
-              console.log(ariaPressedValue);
-              if (ariaPressedValue === 'true') {
-                pipPause.style.opacity = 0;
-                pipPlay.style.opacity = 1;
-              } else {
-                pipPlay.style.opacity = 0;
-                pipPause.style.opacity = 1;
-              }
-            });
-
-          }
-
+            console.log(ariaPressedValue);
+            if (ariaPressedValue === 'true') {
+              pipPause.style.opacity = 0;
+              pipPlay.style.opacity = 1;
+            } else {
+              pipPlay.style.opacity = 0;
+              pipPause.style.opacity = 1;
+            }
+          });
 
         }
+
+
       }
+    }
 
-    }, 200);
+  }, 200);
 
-  }
-
-});
+}

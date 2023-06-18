@@ -122,22 +122,12 @@ export const initCustomPlayer = (clientId, attributes) => {
                     ...(options.autopause && { autopause: options.autopause }),
                     ...(options.dnt && { dnt: options.dnt }),
                 }
-
+                
             });
 
             player.poster = posterThumbnail;
         }
     }, 200);
 
-    // const pipInterval = setInterval(() => {
-    //     let playerPip = document.querySelector(`[data-playerid="${clientId}"] [data-plyr="pip"]`);
-    //     if (playerPip) {
-    //         clearInterval(pipInterval);
-    //         const iframeSelector = document.querySelector(`[data-playerid="${clientId}"] iframe`);
-    //         console.log(iframeSelector); 
-    //         playerPip.addEventListener('click', () => {
-    //             iframeSelector.classList.toggle('pip-mode');
-    //         });
-    //     }
-    // }, 200);
+
 }

@@ -1613,7 +1613,7 @@ a.plyr__controls__item.plyr__control {
     justify-content: center;
     height: 60px;
 }
-.custom-player-preset-1  button.plyr__control.plyr__control--overlaid[data-plyr="play"] svg {
+.custom-player-preset-1  button.plyr__control.plyr__control--overlaid[data-plyr="play"] svg, .custom-player-preset-2  button.plyr__control.plyr__control--overlaid[data-plyr="play"] svg{
     width: 22px;
     height: 22px;
 }

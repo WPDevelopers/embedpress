@@ -6,6 +6,8 @@
  * @since       1.7.0
  */
 
+
+
 let epGlobals = {};
 
 (function ($) {
@@ -356,6 +358,11 @@ let epGlobals = {};
                     if ($('.embedpress-gutenberg-wrapper .ep-nft-gallery-wrapper').length > 0) {
                         epLoadMore();
                     }
+                    
+                    // Custom player initialization when content protection enabled
+                    document.querySelector('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper').classList.remove('plyr-initialized');
+
+                    initPlayer(document.querySelector('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper'));
 
                 }
             } else {
@@ -492,3 +499,9 @@ jQuery(window).on("elementor/frontend/init", function () {
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_document.default", filterableGalleryHandler);
 });
 
+
+// document.addEventListener('DOMContentLoaded', function () {
+//     testHellowWorld();
+// });
+
+// testHellowWorld();
