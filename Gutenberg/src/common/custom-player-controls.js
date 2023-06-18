@@ -22,6 +22,7 @@ import {
     MediaUpload,
 } from "@wordpress/block-editor";
 import ControlHeader from './control-heading';
+import { isSelfHostedVideo } from '../embedpress/functions';
 
 const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, isVimeoVideo, isSelfHostedAudio }) => {
     const {
@@ -46,6 +47,11 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
         playerHideControls,
         playerDownload
     } = attributes;
+
+    let plySourceText = 'Download';
+    if(!isSelfHostedVideo(url)){
+        plySourceText = 'Source Link';
+    }
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
@@ -282,7 +288,7 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
 
             <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                 <ToggleControl
-                    label={__("Download")}
+                    label={__(plySourceText)}
                     checked={playerDownload}
                     onChange={(playerDownload) => setAttributes({ playerDownload })}
                 />

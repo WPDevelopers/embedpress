@@ -84,7 +84,7 @@ class Extend_CustomPlayer_Controls
 		$that->add_control(
 			'embepress_player_download',
 			[
-				'label' => sprintf(__('download %s', 'embedpress'), $pro_text),
+				'label' => sprintf(__('Source Link %s', 'embedpress'), $pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',

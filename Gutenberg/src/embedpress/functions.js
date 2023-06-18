@@ -61,8 +61,6 @@ export const initCustomPlayer = (clientId, attributes) => {
     const _isSelfHostedVideo = (isSelfHostedVideo(url));
 
 
-
-
     // console.log({vautopause, vdnt})
 
     const intervalId = setInterval(() => {
