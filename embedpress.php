@@ -162,19 +162,19 @@ function check_instafeed()
         $userInfo = json_decode($userInfoBody, true);
     
         // Access the relevant user data
-        $userId = $userInfo['id'];
-        $username = $userInfo['username'];
-        $accountType = $userInfo['account_type'];
-        $mediaCount = $userInfo['media_count'];
+        // $userId = $userInfo['id'];
+        // $username = $userInfo['username'];
+        // $accountType = $userInfo['account_type'];
+        // $mediaCount = $userInfo['media_count'];
         // $followersCount = $userInfo['followers_count'];
         // $biography = $userInfo['biography'];
         // $website = $userInfo['website'];
     
         // Do something with the user data
-        echo "User ID: $userId\n";
-        echo "Username: $username\n";
-        echo "Account Type: $accountType\n";
-        echo "Media Count: $mediaCount\n";
+        // echo "User ID: $userId\n";
+        // echo "Username: $username\n";
+        // echo "Account Type: $accountType\n";
+        // echo "Media Count: $mediaCount\n";
         // echo "Followers Count: $followersCount\n";
         // echo "Biography: $biography\n";
         // echo "Website: $website\n\n";
@@ -213,7 +213,7 @@ function check_instafeed()
 
         echo '<h1>User Information</h1>';
         echo '<pre>';
-        // print_r($userInfo);
+        print_r($userInfo);
         echo '</pre>';
 
         echo '<h1>Posts Information</h1>';

@@ -141,11 +141,12 @@
         max-height: inherit !important;
     }
 
-    .ep-first-video  iframe {
-        max-height: 100%!important;
+    .ep-first-video iframe {
+        max-height: 100% !important;
     }
+
     .ep-youtube__content__block .youtube__content__body .content__wrap {
-        grid-template-columns: repeat(auto-fit, minmax(calc(50% - 30px), 1fr))!important;
+        grid-template-columns: repeat(auto-fit, minmax(calc(50% - 30px), 1fr)) !important;
     }
 }
 
@@ -156,15 +157,17 @@
     .embedpress-facebook-vid-iframe {
         max-height: 390px !important;
     }
+
     .ep-youtube__content__block .youtube__content__body .content__wrap {
-        grid-template-columns: repeat(auto-fit, minmax(calc(100% - 30px), 1fr))!important;
+        grid-template-columns: repeat(auto-fit, minmax(calc(100% - 30px), 1fr)) !important;
     }
 }
 
 /*Meetup Event styling starts */
 .ose-meetup {
-    height: auto!important;
+    height: auto !important;
 }
+
 .embedpress-event .link {
     color: #0098ab;
 }
@@ -519,10 +522,10 @@
 .ose-opensea {
     height: 100% !important;
     width: calc(100% - 40px) !important;
-    max-height: 100%!important;
+    max-height: 100% !important;
 }
 
-.ose-github{
+.ose-github {
     overflow: auto;
 }
 
@@ -724,7 +727,8 @@ span.eb_nft_currency svg {
     font-weight: 500;
     text-decoration: none;
 }
-.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button span.ep-nft-rank{
+
+.ep-nft-gallery-wrapper.ep-nft-gallery-r1a5mbx .ep_nft_button span.ep-nft-rank {
     color: #a88484;
     border-color: #a88484;
 }
@@ -768,6 +772,7 @@ span.eb_nft_currency svg {
     align-items: center;
     justify-content: center;
 }
+
 .ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-grid.ep-preset-2 .ep_nft_content .ep_nft_price:last-child {
     margin-bottom: 15px;
 }
@@ -781,26 +786,32 @@ span.eb_nft_currency svg {
 .embedpress-gutenberg-wrapper.alignright, .embedpress-gutenberg-wrapper.alignleft {
     width: 100%;
 }
+
 .embedpress-gutenberg-wrapper.alignright .ep-embed-content-wraper>div {
     float: right;
 }
 
-.embedpress-gutenberg-wrapper.aligncenter.ep-content-share-enabled .ep-embed-content-wraper{
+.embedpress-gutenberg-wrapper.aligncenter.ep-content-share-enabled .ep-embed-content-wraper {
     justify-content: center;
 }
-.embedpress-gutenberg-wrapper.alignright.ep-content-share-enabled .ep-embed-content-wraper{
+
+.embedpress-gutenberg-wrapper.alignright.ep-content-share-enabled .ep-embed-content-wraper {
     justify-content: right;
 }
-.embedpress-gutenberg-wrapper.alignleft.ep-content-share-enabled .ep-embed-content-wraper{
+
+.embedpress-gutenberg-wrapper.alignleft.ep-content-share-enabled .ep-embed-content-wraper {
     justify-content: left;
 }
+
 .embedpress-gutenberg-wrapper.aligncenter {
     text-align: center;
     clear: both;
 }
+
 .theme-twentytwentythree footer.wp-block-template-part {
     clear: both;
 }
+
 /* mimmikcssEnd */
 
 @media all and (max-width: 1024px) {
@@ -865,9 +876,10 @@ span.eb_nft_currency svg {
     font-size: 16px;
 }
 
-.ep-nft-rank-wraper.ep-empty-label span{
+.ep-nft-rank-wraper.ep-empty-label span {
     margin-left: 0px;
 }
+
 span.ep-nft-rank {
     padding: 2px 8px;
     border-radius: 7px;
@@ -875,7 +887,7 @@ span.ep-nft-rank {
     display: inline-block;
     font-size: 14px;
     font-weight: 600;
-    background: transparent!important;
+    background: transparent !important;
     border: 1px solid #ddd;
     color: #333;
 }
@@ -1048,6 +1060,7 @@ span.ep-nft-rank {
     top: 50%;
     transform: rotate(45deg) translate(-20%, -5%);
 }
+
 .ep-nft-single-item-wraper .ep-toggle:checked+.ep-title:before {
     content: "";
     display: inline-block;
@@ -1065,20 +1078,23 @@ span.ep-nft-rank {
     top: 50%;
     transform: rotate(225deg) translate(80%, 20%);
 }
+
 .ep-nft-single-item-wraper .ep-toggle:checked+.ep-title:after {
     display: none;
 }
 
-.ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items .ep_nft_item .ep_nft_button span.ep-nft-rank{
+.ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items .ep_nft_item .ep_nft_button span.ep-nft-rank {
     pointer-events: none;
 }
 
 .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper.nft_items.ep-nft-single-item-wraper.ep-grid .ep_nft_content {
     margin-bottom: 20px;
 }
-.elementor-widget-container .ep-nft-gallery-wrapper .ep-loadmore-wrapper button, .embedpress-gutenberg-wrapper .ep-nft-gallery-wrapper .ep-loadmore-wrapper button{
+
+.elementor-widget-container .ep-nft-gallery-wrapper .ep-loadmore-wrapper button, .embedpress-gutenberg-wrapper .ep-nft-gallery-wrapper .ep-loadmore-wrapper button {
     display: none;
 }
+
 @media screen and (max-width: 1024px) {
 
     .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper, .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft_list {
@@ -1086,6 +1102,7 @@ span.ep-nft-rank {
     }
 
 }
+
 @media screen and (max-width: 991px) {
 
     .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft__wrapper, .ep-nft-single-item-wraper.ep_nft_content_wrap.ep_nft_list {
@@ -1111,21 +1128,24 @@ span.ep-nft-rank {
         margin-bottom: 15px;
         display: block;
     }
+
     .ose-embedpress-responsive>iframe {
-        height: auto!important;
+        height: auto !important;
     }
-    .ose-google-drive iframe{
+
+    .ose-google-drive iframe {
         height: 250px !important;
-        
+
     }
-    .ose-nrk-radio iframe{
+
+    .ose-nrk-radio iframe {
         height: 400px !important;
     }
 
 }
 
-.emebedpress-unit-percent iframe{
-    width: 100%!important;
+.emebedpress-unit-percent iframe {
+    width: 100% !important;
 }
 
 
@@ -1141,20 +1161,24 @@ span.ep-nft-rank {
     max-width: 100%;
     margin: auto;
 }
+
 .password-form-container h2 {
     font-size: 22px;
     margin-bottom: 15px;
     font-family: system-ui;
 }
+
 .password-form-container p {
     font-size: 12px;
     font-family: sans-serif;
     line-height: 1.4em;
     margin-bottom: 15px;
 }
+
 form.password-form {
     margin-bottom: 2px;
 }
+
 .password-form-container input[type="password"] {
     padding: 10px;
     border-radius: 5px;
@@ -1170,14 +1194,15 @@ form.password-form {
     height: 42px;
 }
 
-.password-form-container input[type="password"]::placeholder{
+.password-form-container input[type="password"]::placeholder {
     color: #e0d1d1;
     font-size: 14px;
 }
 
-.password-field{
+.password-field {
     position: relative;
 }
+
 .password-field span {
     position: absolute;
     top: 0px;
@@ -1190,9 +1215,11 @@ form.password-form {
     background: #DED7FC;
     border-radius: 4px;
 }
+
 .password-field svg {
     width: 22px;
 }
+
 .password-form-container input[type="submit"] {
     padding: 12px 20px;
     background-color: #6354a5;
@@ -1208,28 +1235,34 @@ form.password-form {
     word-break: break-all;
     min-height: 42px;
 }
+
 .password-form-container button:hover {
     background-color: #0062cc;
     box-shadow: 0px 0px 10px #007bff;
 }
+
 .password-form-container .error-message {
     color: #ff0000;
     margin-top: 20px;
     font-size: 12px;
     line-height: 1.4em;
 }
+
 .password-form-container .error-message.hidden {
     display: none;
 }
+
 p.need-access-message {
     margin-bottom: 2px;
     margin-top: 13px;
 }
+
 .wp-block-embed__wrapper {
     display: inline-block;
     width: 100%;
-    max-width: 100%!important;
+    max-width: 100% !important;
 }
+
 .wp-block-embed__wrapper.position-right-wraper, .wp-block-embed__wrapper.position-right-wraper {
     max-width: calc(100% - 40px) !important;
 }
@@ -1239,32 +1272,39 @@ p.need-access-message {
     display: inline-block;
     max-width: 100%;
 }
+
 .ep-elementor-content.source-opensea {
     display: block;
 }
+
 /* social share css */
-.wp-block-embedpress-embedpress > div, .ep-gutenberg-content {
+.wp-block-embedpress-embedpress>div, .ep-gutenberg-content {
     position: relative;
     clear: both;
-} 
+}
+
 .gutenberg-pdf-wraper {
     position: relative;
     width: 100%;
 }
+
 .ep-embed-content-wraper {
     width: 100%;
 }
+
 .ep-content-share-enabled .ep-embed-content-wraper {
-    display: flex!important;
+    display: flex !important;
 }
-.ep-share-position-right .ep-embed-content-wraper{
+
+.ep-share-position-right .ep-embed-content-wraper {
     flex-direction: row;
 }
-.ep-share-position-left .ep-embed-content-wraper{
+
+.ep-share-position-left .ep-embed-content-wraper {
     flex-direction: row-reverse;
 }
 
-.ep-share-position-bottom .ep-embed-content-wraper{
+.ep-share-position-bottom .ep-embed-content-wraper {
     flex-direction: column;
 }
 
@@ -1272,11 +1312,11 @@ p.need-access-message {
     flex-direction: column-reverse;
 }
 
-.ep-fixed-width .gutenberg-pdf-wraper{
+.ep-fixed-width .gutenberg-pdf-wraper {
     display: inline-block;
 }
 
-.ep-percentage-width .embedpress-inner-iframe{
+.ep-percentage-width .embedpress-inner-iframe {
     width: 100%;
 }
 
@@ -1292,13 +1332,14 @@ p.need-access-message {
     top: 0;
     flex-direction: column;
 }
+
 .ep-social-share.share-position-left {
     left: 0px;
     top: 0;
     flex-direction: column;
 }
 
-.embedpress-gutenberg-wrapper .ep-social-share.share-position-left, .ep-elementor-content .ep-social-share.share-position-left{
+.embedpress-gutenberg-wrapper .ep-social-share.share-position-left, .ep-elementor-content .ep-social-share.share-position-left {
     left: -40px;
 }
 
@@ -1322,6 +1363,7 @@ p.need-access-message {
     width: 20px;
     height: auto;
 }
+
 a.ep-social-icon.pinterest svg {
     height: 25px;
 }
@@ -1329,6 +1371,7 @@ a.ep-social-icon.pinterest svg {
 .facebook {
     background-color: #3b5998;
 }
+
 .facebook svg {
     width: 40px;
 }
@@ -1353,11 +1396,12 @@ a.ep-social-icon.pinterest svg {
     margin-right: 0;
 }
 
-.ep-content-locked .watermark{
-    display: none!important;
+.ep-content-locked .watermark {
+    display: none !important;
 }
+
 .ep-content-protection-enabled .watermark {
-    display: none!important;
+    display: none !important;
 }
 
 .embedpress-pro-control.not-active {
@@ -1366,7 +1410,7 @@ a.ep-social-icon.pinterest svg {
 
 .emebedpress-unit-percent, .ep-elementor-content.ep-percentage-width {
     width: 100%;
-} 
+}
 
 /* Documents viewer style */
 [data-theme-mode='dark'] {
@@ -1374,11 +1418,13 @@ a.ep-social-icon.pinterest svg {
     --viewer-icons-hover-bgcolor: #453838;
 
 }
+
 [data-theme-mode='light'] {
     --viewer-primary-color: #f2f2f6;
     --viewer-icons-color: #343434;
     --viewer-icons-hover-bgcolor: #e5e1e9;
 }
+
 @media (prefers-color-scheme: dark) {
     :root {
         --viewer-primary-color: #343434;
@@ -1386,8 +1432,8 @@ a.ep-social-icon.pinterest svg {
         --viewer-icons-hover-bgcolor: #453838;
 
     }
-  }
-  
+}
+
 @media (prefers-color-scheme: light) {
     :root {
         --viewer-primary-color: #f2f2f6;
@@ -1397,36 +1443,40 @@ a.ep-social-icon.pinterest svg {
     }
 }
 
-.ep-file-download-option-masked::after, .ep-external-doc-icons{
+.ep-file-download-option-masked::after, .ep-external-doc-icons {
     background: var(--viewer-primary-color);
 }
-.ep-external-doc-icons svg path{
+
+.ep-external-doc-icons svg path {
     fill: var(--viewer-icons-color);
 }
-.ep-doc-draw-icon svg path{
+
+.ep-doc-draw-icon svg path {
     fill: var(--viewer-primary-color);
     stroke: var(--viewer-icons-color);
 }
 
-.ep-external-doc-icons svg:hover svg path{
+.ep-external-doc-icons svg:hover svg path {
     fill: var(--viewer-icons-color);
     stroke: var(--viewer-icons-color);
 }
-.ep-external-doc-icons svg:hover{
+
+.ep-external-doc-icons svg:hover {
     background-color: var(--viewer-icons-hover-bgcolor);
 }
-  
+
 .ep-file-download-option-masked {
     position: relative;
 }
+
 .ep-file-download-option-masked {
     position: relative;
     width: 100%;
     height: 100%;
     overflow: hidden;
-  }
-  
-  .ep-file-download-option-masked .overlay {
+}
+
+.ep-file-download-option-masked .overlay {
     position: absolute;
     top: 0;
     left: 50%;
@@ -1445,17 +1495,18 @@ a.ep-social-icon.pinterest svg {
 .ep-file-download-option-masked.ep-file-xls .overlay {
     height: calc(100% - 78px);
 }
-  
-  .ep-file-download-option-masked iframe {
+
+.ep-file-download-option-masked iframe {
     width: 100%;
     height: 100%;
     pointer-events: auto;
-  }
-  
-  
+}
+
+
 .ep-file-download-option-masked.enabled-text-copy {
     pointer-events: all;
 }
+
 .embed-download-disabled {
     width: 200px;
     height: 22px;
@@ -1467,7 +1518,7 @@ a.ep-social-icon.pinterest svg {
 }
 
 .cui-toolbar-button-right {
-    display: none!important;
+    display: none !important;
 }
 
 .ndfHFb-c4YZDc-Wrql6b {
@@ -1487,7 +1538,7 @@ a.ep-social-icon.pinterest svg {
     padding: 0 10px;
 }
 
-.ep-external-doc-icons svg{
+.ep-external-doc-icons svg {
     width: 30px;
     height: 30px;
     cursor: pointer;
@@ -1495,22 +1546,25 @@ a.ep-social-icon.pinterest svg {
     padding: 5px;
     border-radius: 4px;
 }
+
 .block-editor-block-list__block .ep-gutenberg-file-doc .ep-external-doc-icons svg {
     width: 22px;
     height: 22px;
 }
+
 .block-editor-block-list__block .ep-gutenberg-file-doc .ep-doc-download-icon svg, .block-editor-block-list__block .ep-gutenberg-file-doc .ep-doc-fullscreen-icon svg {
-    width: 20px!important;
+    width: 20px !important;
 }
 
 .ep-doc-minimize-icon svg, .ep-doc-fullscreen-icon svg {
     padding: 6px;
 }
+
 .ep-external-doc-icons svg:hover {
     border-radius: 4px;
 }
 
-.ep-doc-draw-icon.active svg{
+.ep-doc-draw-icon.active svg {
     background: var(--viewer-icons-hover-bgcolor);
 }
 
@@ -1523,10 +1577,11 @@ a.ep-social-icon.pinterest svg {
     /* background: var(--viewer-primary-color); */
 }
 
-.elementor .elementor-element.elementor-element .embedpress-document-embed .fullscreen-enabled iframe, .embedpress-document-embed .fullscreen-enabled iframe  {
-    width: 100%!important;
-    height: 100%!important;
+.elementor .elementor-element.elementor-element .embedpress-document-embed .fullscreen-enabled iframe, .embedpress-document-embed .fullscreen-enabled iframe {
+    width: 100% !important;
+    height: 100% !important;
 }
+
 .ep-file-download-option-masked.ep-file-link.fullscreen-enabled iframe {
     margin-left: 22%;
 }
@@ -1541,6 +1596,7 @@ a.ep-social-icon.pinterest svg {
     content: '';
     left: 0;
 }
+
 .ep-file-download-option-masked.ep-file-docx::after {
     bottom: 0;
 }
@@ -1550,6 +1606,7 @@ a.ep-social-icon.pinterest svg {
     background: white;
     height: 22px;
 }
+
 .ep-file-download-option-masked.ep-file-docx.ep-powered-by-enabled.fullscreen-enabled::after {
     bottom: 0;
 }
@@ -1572,4 +1629,79 @@ canvas.ep-doc-canvas {
     user-select: none;
     opacity: 0;
   } */
-   
+
+
+/* Instagram feed layout design */
+.embedpress-insta-container {
+    font-family: "open sans", Arial, sans-serif;
+}
+
+.embedpress-insta-container .insta-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    margin: -1rem -1rem;
+    padding-bottom: 3rem;
+}
+
+.embedpress-insta-container .insta-gallery-item {
+    position: relative;
+    flex: 1 0 22rem;
+    margin: 1rem;
+    color: #fff;
+    cursor: pointer;
+    height: 340px;
+    transition: 0.3s;
+}
+
+.embedpress-insta-container .insta-gallery-item .insta-gallery-item-info,
+.embedpress-insta-container .insta-gallery-item .insta-gallery-item-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    transition: 0.3s;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.embedpress-insta-container .insta-gallery-item:hover .insta-gallery-item-info,
+.embedpress-insta-container .insta-gallery-item:hover .insta-gallery-item-info {
+    opacity: 1;
+    visibility: visible;
+}
+
+.embedpress-insta-container .insta-gallery-item-info ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.embedpress-insta-container .insta-gallery-item-info li {
+    display: flex;
+    align-items: center;
+    font-size: 1.7rem;
+    font-weight: 600;
+    gap: 5px;
+}
+
+.embedpress-insta-container .insta-gallery-item-likes {
+    margin-right: 2.2rem;
+}
+
+.embedpress-insta-container .insta-gallery-item-type {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 2.5rem;
+    text-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, .1);
+}
+
+.embedpress-insta-container .insta-gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
