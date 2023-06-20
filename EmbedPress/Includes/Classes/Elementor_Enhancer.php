@@ -58,6 +58,7 @@ class Elementor_Enhancer {
 	}
 
 	public static function apply_cta_markup( $embed, $settings, $provider_name = '' ) {
+		
 		if ( empty( $settings["embedpress_pro_{$provider_name}_logo"] ) || empty( $settings["embedpress_pro_{$provider_name}_logo"]['url'] ) ) {
 			return $embed;
 		}
@@ -69,29 +70,25 @@ class Elementor_Enhancer {
 		$cta    = '';
 		$url    = '';
 		$target = '';
-		$x      = ! empty( $settings["embedpress_pro_{$provider_name}_logo_xpos"] ) && ! empty( $settings["embedpress_pro_{$provider_name}_logo_xpos"]['unit'] ) ? $settings["embedpress_pro_{$provider_name}_logo_xpos"]['unit'] . $settings["embedpress_pro_{$provider_name}_logo_xpos"]['size'] : '10%';
+		$x      = ! empty( $settings["embedpress_pro_{$provider_name}_logo_xpos"] ) && ! empty( $settings["embedpress_pro_{$provider_name}_logo_xpos"]['unit'] ) ? $settings["embedpress_pro_{$provider_name}_logo_xpos"]['size'] . $settings["embedpress_pro_{$provider_name}_logo_xpos"]['unit'] : '10%';
 
-		$y        = ! empty( $settings["embedpress_pro_{$provider_name}_logo_ypos"] ) && ! empty( $settings["embedpress_pro_{$provider_name}_logo_ypos"]['unit'] ) ? $settings["embedpress_pro_{$provider_name}_logo_ypos"]['unit'] . $settings["embedpress_pro_{$provider_name}_logo_ypos"]['size'] : '10%';
+		$y        = ! empty( $settings["embedpress_pro_{$provider_name}_logo_ypos"] ) && ! empty( $settings["embedpress_pro_{$provider_name}_logo_ypos"]['unit'] ) ?  $settings["embedpress_pro_{$provider_name}_logo_ypos"]['size'] . $settings["embedpress_pro_{$provider_name}_logo_ypos"]['unit'] : '10%';
 		$cssClass = isset( $embed->url ) ? '.ose-uid-' . md5( $embed->url ) : ".ose-{$provider_name}";
 		ob_start();
 		?>
         <style type="text/css">
-            <?php echo esc_html($cssClass); ?>
-            {
-                text-align: left
-            ;
-                position: relative
-            ;
+            .ep-embed-content-wraper .watermark {
+                text-align: left;
+                position: relative;
             }
-            <?php echo esc_html($cssClass); ?>
-            .watermark {
+            .ep-embed-content-wraper .watermark {
                 border: 0;
                 position: absolute;
-                bottom: <?php echo esc_html($y); ?>;
-                right: <?php echo esc_html($x); ?>;
+                bottom: 10%;
+                right: 5%;
                 max-width: 150px;
                 max-height: 75px;
-                opacity: 0.25;
+                opacity: 0.35!important;
                 z-index: 5;
                 -o-transition: opacity 0.5s ease-in-out;
                 -moz-transition: opacity 0.5s ease-in-out;
@@ -99,9 +96,13 @@ class Elementor_Enhancer {
                 transition: opacity 0.5s ease-in-out;
             }
 
-            <?php echo esc_html($cssClass); ?>
-            .watermark:hover {
-                opacity: 1;
+			<?php echo esc_html($cssClass); ?> .watermark {
+				bottom: <?php echo esc_html($y); ?>;
+                right: <?php echo esc_html($x); ?>;
+			}	
+
+			.ep-embed-content-wraper .watermark:hover {
+                opacity: 1!important;
             }
         </style>
 		<?php

@@ -2664,7 +2664,6 @@ class Embedpress_Elementor extends Widget_Base
 			}
 			else{
 				$playerOptions['rel'] = false;
-
 			}
 	
 			//vimeo options
