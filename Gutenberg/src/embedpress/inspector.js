@@ -3,7 +3,6 @@ import { isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert } fr
 import LockControl from '../common/lock-control';
 import ContentShare from '../common/social-share-control';
 import Youtube from './InspectorControl/youtube';
-import CustomPlayer from './InspectorControl/customPlayer';
 import OpenSea from './InspectorControl/opensea';
 import Wistia from './InspectorControl/wistia';
 import Vimeo from './InspectorControl/vimeo';
