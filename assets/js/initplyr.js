@@ -54,6 +54,15 @@ document.addEventListener('DOMContentLoaded', function () {
 function initPlayer(wrapper) {
   const playerId = wrapper.getAttribute('data-playerid');
 
+  // Get the options for the player from the wrapper's data attribute
+  let options = document.querySelector(`[data-playerid="${playerId}"]`).getAttribute('data-options');
+
+  // Parse the options string into a JSON object
+  options = JSON.parse(options);
+
+  if(!options) {
+    return false;
+  }
 
   // Create DOM elements from the icon strings
   const pipPlayIconElement = document.createElement('div');
@@ -73,11 +82,6 @@ function initPlayer(wrapper) {
   // Check if the player has not been initialized for this wrapper
   if (playerId && !wrapper.classList.contains('plyr-initialized')) {
 
-    // Get the options for the player from the wrapper's data attribute
-    let options = document.querySelector(`[data-playerid="${playerId}"]`).getAttribute('data-options');
-
-    // Parse the options string into a JSON object
-    options = JSON.parse(options);
 
     let selector = `[data-playerid="${playerId}"] .ose-embedpress-responsive`;
 

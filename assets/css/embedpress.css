@@ -1580,6 +1580,7 @@ canvas.ep-doc-canvas {
     --plyr-control-icon-size: 15px;
     --plyr-range-track-height: 3px;
     --plyr-range-thumb-height: 10px;
+    --plyr-range-fill-background: #fff;
 
   }
 
