@@ -72,50 +72,11 @@ function embedpress_render_block($attributes)
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
 	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
 
-	
-
-	
-	// $player_preset = !empty($attributes['playerPreset']) ? $attributes['playerPreset'] : '1';
-
-	// $player_color = !empty($attributes['playerColor']) ? $attributes['playerColor'] : '';
-
-	// $poster_thumbnail = !empty($attributes['posterThumbnail']) ? $attributes['posterThumbnail'] : '';
-	
-	// $player_pip = !empty($attributes['playerPip']) ? $attributes['playerPip'] : 0;
-
-	// $player_restart = !empty($attributes['playerRestart']) ? $attributes['playerRestart'] : 0;
-
-	// $player_rewind = !empty($attributes['playerRewind']) ? $attributes['playerRewind'] : 0;
-
-	// $player_fastForward = !empty($attributes['playerFastForward']) ? $attributes['playerFastForward'] : 0;
-
-	
-
 
 	$_custom_player = '';
 	$_player_options = '';
 
 	if (!empty($custom_player)) {
-
-		
-		// $pattern1 = '/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i';
-		// $pattern2 = '/\.(mp3|wav|ogg|aac)$/i';
-
-		// $isVideo = preg_match($pattern1, $attributes['url']);
-		// $isAudio = preg_match($pattern2, $attributes['url']);
-
-		// $is_self_hosted = false;
-		// $format = '';
-
-		// if(!empty($isVideo) || !empty($isAudio)){
-		// 	$is_self_hosted = true;
-		// 	if(!empty($isVideo)){
-		// 		$format = 'video';
-		// 	}
-		// 	else if(!empty($isAudio)){
-		// 		$format = 'audio';
-		// 	}
-		// }
 
 		$is_self_hosted = Helper::check_media_format($attributes['url']);
 		
@@ -152,17 +113,6 @@ function embedpress_render_block($attributes)
 		if(!empty($is_self_hosted['selhosted'])){
 			$playerOptions['self_hosted'] = $is_self_hosted['selhosted'];
 			$playerOptions['hosted_format'] = $is_self_hosted['format'];
-		}
-
-		//Youtube options
-		if(!empty($attributes['starttime'])){
-			$playerOptions['start'] = $attributes['starttime'];
-		}
-		if(!empty($attributes['endtime'])){
-			$playerOptions['end'] = $attributes['endtime'];
-		}
-		if(!empty($attributes['relatedvideos'])){
-			$playerOptions['rel'] = $attributes['relatedvideos'];
 		}
 
 		//Youtube options

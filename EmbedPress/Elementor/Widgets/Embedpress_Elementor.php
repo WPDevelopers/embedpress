@@ -2635,6 +2635,7 @@ class Embedpress_Elementor extends Widget_Base
 			$player_tooltip = !empty($settings['embepress_player_tooltip']) ? true : false;
 			$player_hide_controls = !empty($settings['embepress_player_hide_controls']) ? true : false;
 			$player_download = !empty($settings['embepress_player_download']) ? true : false;
+			$player_fullscreen = !empty($settings['embedpress_pro_youtube_enable_fullscreen_button']) ? true : false;
 		
 			$playerOptions = [
 				'rewind' => $player_rewind,
@@ -2647,7 +2648,49 @@ class Embedpress_Elementor extends Widget_Base
 				'player_tooltip' => $player_tooltip,
 				'hide_controls' => $player_hide_controls,
 				'download' => $player_download,
+				'fullscreen' => $player_fullscreen,
 			];
+			
+	
+			//Youtube options
+			if(!empty($settings['embedpress_pro_video_start_time'])){
+				$playerOptions['start'] = $settings['embedpress_pro_video_start_time'];
+			}
+			if(!empty($settings['embedpress_pro_youtube_end_time'])){
+				$playerOptions['end'] = $settings['embedpress_pro_youtube_end_time'];
+			}
+			if(!empty($settings['embedpress_pro_youtube_display_related_videos'])){
+				$playerOptions['rel'] = true;
+			}
+			else{
+				$playerOptions['rel'] = false;
+
+			}
+	
+			//vimeo options
+			if(!empty($settings['embedpress_pro_video_start_time'])){
+				$playerOptions['t'] = $settings['embedpress_pro_video_start_time'];
+			}
+			if(!empty($settings['embedpress_pro_vimeo_auto_play'])){
+				$playerOptions['vautoplay'] = true;
+			}
+			else{
+				$playerOptions['vautoplay'] = false;
+			}
+			if(!empty($settings['embedpress_pro_vimeo_autopause'])){
+				$playerOptions['autopause'] = true;
+			}
+			else{
+				$playerOptions['autopause'] = false;
+			}
+
+			if(!empty($settings['embedpress_pro_vimeo_dnt'])){
+				$playerOptions['dnt'] = true;
+			}
+			else{
+				$playerOptions['dnt'] = false;
+
+			}
 
 			if(!empty($is_self_hosted['selhosted'])){
 				$playerOptions['self_hosted'] = $is_self_hosted['selhosted'];

@@ -60,6 +60,8 @@ function initPlayer(wrapper) {
   // Parse the options string into a JSON object
   options = JSON.parse(options);
 
+  console.log(options);
+  
   if(!options) {
     return false;
   }
