@@ -293,14 +293,14 @@ function embedpress_render_block_style($attributes)
 		$playerStyle = '
 		[data-playerid="' . md5($client_id). '"] {
 			--plyr-color-main: ' . ($player_color && strlen($player_color) === 7
-				? 'rgba(' . hexdec(substr($player_color, 1, 2)) . ', ' . hexdec(substr($player_color, 3, 2)) . ', ' . hexdec(substr($player_color, 5, 2)) . ', .8)'
-				: 'rgba(0, 0, 0, .8)'
+				? 'rgba(' . hexdec(substr($player_color, 1, 2)) . ', ' . hexdec(substr($player_color, 3, 2)) . ', ' . hexdec(substr($player_color, 5, 2)) . ', .8)!important;'
+				: 'rgba(0, 0, 0, .8)!important;'
 			) . '; 
 		}
 		[data-playerid="' . md5($client_id). '"].custom-player-preset-3, [data-playerid="' . md5($client_id). '"].custom-player-preset-4 {
 			--plyr-color-main: ' . ($player_color && strlen($player_color) === 7
-				? 'rgb(' . hexdec(substr($player_color, 1, 2)) . ', ' . hexdec(substr($player_color, 3, 2)) . ', ' . hexdec(substr($player_color, 5, 2)) . ')'
-				: 'rgba(0, 0, 0, .8)'
+				? 'rgb(' . hexdec(substr($player_color, 1, 2)) . ', ' . hexdec(substr($player_color, 3, 2)) . ', ' . hexdec(substr($player_color, 5, 2)) . ')!important;'
+				: 'rgba(0, 0, 0, .8)!important;'
 			) . '; 
 		}
 		[data-playerid="' . md5($client_id). '"] [data-plyr="pip"] {

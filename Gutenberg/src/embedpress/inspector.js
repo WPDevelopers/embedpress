@@ -27,7 +27,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio}) {
+export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio }) {
 
     const {
         width,
@@ -55,6 +55,10 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
     if (!document.querySelector('.tips__alert__wrap')) {
         document.querySelector('body').append(tipsTricksAlert('none'));
         removeTipsAlert();
+    }
+
+    if ((isYTVideo || isYTLive || isVimeoVideo) && width === '600' && height === '450') {
+        setAttributes({ height: '340' });
     }
 
     return (
@@ -160,7 +164,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} />
                             <Youtube attributes={attributes} setAttributes={setAttributes} />
 
-                            <SlefHosted attributes={attributes} setAttributes={setAttributes} /> 
+                            <SlefHosted attributes={attributes} setAttributes={setAttributes} />
 
 
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />

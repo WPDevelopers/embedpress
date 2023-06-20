@@ -59,6 +59,8 @@ function initPlayer(wrapper) {
   const pipPlayIconElement = document.createElement('div');
   pipPlayIconElement.className = 'pip-play';
   pipPlayIconElement.innerHTML = '<svg width="20" height="20" viewBox="-0.15 -0.112 0.9 0.9" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin" class="jam jam-play"><path fill="#fff" d="M.518.357A.037.037 0 0 0 .506.306L.134.08a.039.039 0 0 0-.02-.006.038.038 0 0 0-.038.037v.453c0 .007.002.014.006.02a.039.039 0 0 0 .052.012L.506.37A.034.034 0 0 0 .518.358zm.028.075L.174.658A.115.115 0 0 1 .017.622.109.109 0 0 1 0 .564V.111C0 .05.051 0 .114 0c.021 0 .042.006.06.017l.372.226a.11.11 0 0 1 0 .189z"/></svg>';
+  pipPlayIconElement.style.display = 'none';
+
 
   const pipPauseIconElement = document.createElement('div');
   pipPauseIconElement.className = 'pip-pause';
@@ -203,11 +205,11 @@ function initPlayer(wrapper) {
 
             console.log(ariaPressedValue);
             if (ariaPressedValue === 'true') {
-              pipPause.style.opacity = 0;
-              pipPlay.style.opacity = 1;
+              pipPause.style.display = 'none';
+              pipPlay.style.display = 'flex';
             } else {
-              pipPlay.style.opacity = 0;
-              pipPause.style.opacity = 1;
+              pipPlay.style.display = 'none';
+              pipPause.style.display = 'flex';
             }
           });
 

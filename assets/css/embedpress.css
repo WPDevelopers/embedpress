@@ -1587,6 +1587,10 @@ canvas.ep-doc-canvas {
     box-shadow: none;
   }
 
+  .ep-embed-content-wraper input[type=range]::-moz-range-track{
+    box-shadow: none;
+  }
+
 a.plyr__controls__item.plyr__control {
     border-radius: inherit;
     color: inherit!important;
@@ -1660,8 +1664,11 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container{
     pointer-events: none;
 
 }
+.pip-mode .pip-play{
+    display: none;
+}
 .pip-mode .pip-play, .pip-mode .pip-pause {
-    opacity: 0;
+    opacity: 0!important;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -1693,8 +1700,8 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container{
     cursor: pointer;
 }
 
-.pip-mode:hover .pip-play, .pip-mode:hover .pip-close{
-    opacity: 1;
+.pip-mode:hover .pip-play, .pip-mode:hover .pip-close, .pip-mode:hover .pip-pause{
+    opacity: 1!important;
 }
 
 .pip-mode .overlay-mask {
