@@ -55,16 +55,14 @@ function initPlayer(wrapper) {
   const playerId = wrapper.getAttribute('data-playerid');
 
   // Get the options for the player from the wrapper's data attribute
-  let options = document.querySelector(`[data-playerid="${playerId}"]`).getAttribute('data-options');
-
-  // Parse the options string into a JSON object
-  options = JSON.parse(options);
-
-  console.log(options);
+  let options = document.querySelector(`[data-playerid="${playerId}"]`)?.getAttribute('data-options');
   
   if(!options) {
     return false;
   }
+
+  // Parse the options string into a JSON object
+  options = JSON.parse(options);  
 
   // Create DOM elements from the icon strings
   const pipPlayIconElement = document.createElement('div');
