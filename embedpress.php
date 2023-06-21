@@ -148,7 +148,7 @@ add_action('wp_enqueue_scripts', 'ep_enqueue_jquery_in_header', 1);
 
 function check_instafeed()
 {
-    $accessToken = 'IGQVJVZAnhZAdzJleDIyTml2b1JZAc21kRzhodktnZA1dUMF9iM1V3empiNVJwSHBjd1pwYk45ektPVUpqVnlONlBuYkZAjUGhzMjU3LTdmYm15OG5qM3cwUG0ySUJJdS1OaS12ekRBQy12azNCWlJ4Q2FUUAZDZD'; // Replace with your actual access token
+    $accessToken = 'ACCESS_TOKEN'; // Replace with your actual access token
     
     
     // Make a GET request to Instagram's API to retrieve user information
@@ -183,7 +183,7 @@ function check_instafeed()
     echo '<br/><br/><br/><br/><br/><br/>';
     
     // Make a GET request to Instagram's API to retrieve posts
-    $postsResponse = wp_remote_get("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},thumbnail_url&access_token=$accessToken");
+    $postsResponse = wp_remote_get("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,thumbnail_url&access_token=$accessToken");
     
     // Check if the posts request was successful
     if (is_wp_error($postsResponse)) {
