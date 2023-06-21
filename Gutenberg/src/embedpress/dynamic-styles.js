@@ -245,7 +245,7 @@ export const dynamicStyles = ({ attributes }) => {
                                 : 'rgba(0, 0, 0, .8)'
                             }; /* Transparent with dynamic color */
                             }
-                            [data-source-id="source-${clientId}"] .custom-player-preset-3, [data-source-id="source-${clientId}"] .custom-player-preset-4{
+                            [data-source-id="source-${clientId}"] .custom-player-preset-1, [data-source-id="source-${clientId}"] .custom-player-preset-3, [data-source-id="source-${clientId}"] .custom-player-preset-4{
                             --plyr-color-main: ${playerColor && playerColor.length === 7
                                 ? `rgb(${parseInt(playerColor.slice(1, 3), 16)}, ${parseInt(playerColor.slice(3, 5), 16)}, ${parseInt(playerColor.slice(5, 7), 16)})`
                             

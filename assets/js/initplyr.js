@@ -97,7 +97,7 @@ function initPlayer(wrapper) {
 
     // Set the main color of the player
     document.querySelector(`[data-playerid="${playerId}"]`).style.setProperty('--plyr-color-main', options.player_color);
-    document.querySelector(`[data-playerid="${playerId}"].custom-player-preset-3, [data-playerid="${playerId}"].custom-player-preset-4`)?.style.setProperty('--plyr-range-fill-background', '#ffffff');
+    document.querySelector(`[data-playerid="${playerId}"].custom-player-preset-1, [data-playerid="${playerId}"].custom-player-preset-3, [data-playerid="${playerId}"].custom-player-preset-4`)?.style.setProperty('--plyr-range-fill-background', '#ffffff');
 
     // Set the poster thumbnail for the player
     if (document.querySelector(`[data-playerid="${playerId}"] iframe`)) {
