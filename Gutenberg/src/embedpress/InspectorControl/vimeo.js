@@ -176,8 +176,6 @@ export default function Vimeo({ attributes, setAttributes, isVimeoVideo }) {
                                             checked={vautoplay}
                                             onChange={(vautoplay) => setAttributes({ vautoplay })}
                                         />
-                                        <p className={'is-ep-description'}>{__("Automatically stop the current video from playing when another one starts.")}</p>
-
 
                                         <ControlHeader headerText={'Scheme'} />
                                         <ColorPalette

@@ -49,7 +49,7 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
     } = attributes;
 
     let plySourceText = 'Download';
-    if(!isSelfHostedVideo(url)){
+    if (!isSelfHostedVideo(url)) {
         plySourceText = 'Source Link';
     }
 
@@ -85,9 +85,9 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
                             options={[
                                 { label: 'Default', value: 'preset-default' },
                                 { label: 'Preset 1', value: 'custom-player-preset-1' },
-                                { label: 'Preset 2', value: 'custom-player-preset-2' },
-                                { label: 'Preset 3', value: 'custom-player-preset-3' },
-                                { label: 'Preset 4', value: 'custom-player-preset-4' },
+                                // { label: 'Preset 2', value: 'custom-player-preset-2' },
+                                { label: 'Preset 2', value: 'custom-player-preset-3' },
+                                // { label: 'Preset 4', value: 'custom-player-preset-4' },
                             ]}
                             onChange={(playerPreset) => setAttributes({ playerPreset })}
                             __nextHasNoMarginBottom
@@ -122,6 +122,48 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
                             className={'ep-control-field'}
                         />
 
+                        {
+                            !customPlayer && (
+                                <div>
+                                    <ToggleControl
+                                        label={__("Auto Play")}
+                                        checked={autoplay}
+                                        onChange={(autoplay) => setAttributes({ autoplay })}
+                                    />
+
+                                    <ToggleControl
+                                        label={__("Fullscreen Button")}
+                                        checked={fullscreen}
+                                        onChange={(fullscreen) => setAttributes({ fullscreen })}
+                                    />
+                                </div>
+
+                            )
+                        }
+
+                    </div>
+                )
+            }
+
+            <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                <ControlHeader headerText={'Player Color'} />
+                <ColorPalette
+                    label={__("Player Color")}
+                    colors={colors}
+                    value={playerColor}
+                    onChange={(playerColor) => setAttributes({ playerColor })}
+                />
+                {
+                    (!isProPluginActive) && (
+                        <span className='isPro'>{__('pro', 'embedpress')}</span>
+                    )
+                }
+            </div>
+
+
+            {
+                customPlayer && ( isYTLive || isYTVideo) && (
+                    <div>
                         <ToggleControl
                             label={__("Auto Play")}
                             checked={autoplay}
@@ -134,6 +176,7 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
                             onChange={(fullscreen) => setAttributes({ fullscreen })}
                         />
                     </div>
+
                 )
             }
 
@@ -145,8 +188,7 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
                             checked={vautoplay}
                             onChange={(vautoplay) => setAttributes({ vautoplay })}
                         />
-                        <p className={'is-ep-description'}>{__("Automatically stop the current video from playing when another one starts.")}</p>
-
+                        
                         <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                             <ToggleControl
                                 label={__("Auto Pause")}
@@ -178,68 +220,6 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
                     </div>
                 )
             }
-
-            <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                <ControlHeader headerText={'Player Color'} />
-                <ColorPalette
-                    label={__("Player Color")}
-                    colors={colors}
-                    value={playerColor}
-                    onChange={(playerColor) => setAttributes({ playerColor })}
-                />
-                {
-                    (!isProPluginActive) && (
-                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                    )
-                }
-            </div>
-
-            {
-                !isSelfHostedAudio && (
-                    <div>
-
-                        <ControlHeader headerText={'Thumbnail'} />
-                        {
-                            isProPluginActive && posterThumbnail && (
-                                <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
-                                    <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
-                                        <span class="dashicon dashicons dashicons-trash"></span>
-                                    </button>
-                                    <img
-                                        src={posterThumbnail}
-                                        alt="John"
-                                    />
-                                </div>
-                            )
-                        }
-
-
-                        <div className={isProPluginActive ? "pro-control-active ep-custom-logo-button" : "pro-control ep-custom-logo-button"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                            <MediaUpload
-                                onSelect={onSelectImage}
-                                allowedTypes={['image']}
-                                value={posterThumbnail}
-                                render={({ open }) => (
-                                    <Button className={'ep-logo-upload-button'} icon={!posterThumbnail ? 'upload' : 'update'} onClick={open}>
-                                        {
-                                            (!isProPluginActive || !posterThumbnail) ? 'Upload Image' : 'Change Image'
-                                        }
-                                    </Button>
-                                )}
-
-                            />
-                            {
-                                (!isProPluginActive) && (
-                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                )
-                            }
-                        </div>
-
-                        <hr />
-                    </div>
-                )
-            }
-
 
             <ToggleControl
                 label={__("Restart")}
@@ -300,18 +280,6 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
             </div>
 
             {
-                (isYTLive || isYTVideo) && (
-                    <div className='ep-yt-related-videos'>
-                        <ToggleControl
-                            label={__("Related Videos")}
-                            checked={relatedvideos}
-                            onChange={(relatedvideos) => setAttributes({ relatedvideos })}
-                        />
-                        <p>Enable to display related videos from all channels. Otherwise, related videos will show from the same channel.</p>
-                    </div>
-                )
-            }
-            {
                 !isSelfHostedAudio && (
                     <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                         <ToggleControl
@@ -324,6 +292,65 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
                                 <span className='isPro'>{__('pro', 'embedpress')}</span>
                             )
                         }
+                        <p className={'is-ep-description'}>{__("Watch video and seamlessly scroll through other content with a sleek pop-up window.")}</p>
+                    </div>
+                )
+            }
+
+            {
+                (isYTLive || isYTVideo) && (
+                    <div className='ep-yt-related-videos'>
+                        <ToggleControl
+                            label={__("Related Videos")}
+                            checked={relatedvideos}
+                            onChange={(relatedvideos) => setAttributes({ relatedvideos })}
+                        />
+                        <p>Enable to display related videos from all channels. Otherwise, related videos will show from the same channel.</p>
+                    </div>
+                )
+            }
+
+            {
+                !isSelfHostedAudio && (
+                    <div>
+
+                        <ControlHeader headerText={'Thumbnail'} />
+                        {
+                            isProPluginActive && posterThumbnail && (
+                                <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
+                                    <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
+                                        <span class="dashicon dashicons dashicons-trash"></span>
+                                    </button>
+                                    <img
+                                        src={posterThumbnail}
+                                        alt="John"
+                                    />
+                                </div>
+                            )
+                        }
+
+
+                        <div className={isProPluginActive ? "pro-control-active ep-custom-logo-button" : "pro-control ep-custom-logo-button"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                            <MediaUpload
+                                onSelect={onSelectImage}
+                                allowedTypes={['image']}
+                                value={posterThumbnail}
+                                render={({ open }) => (
+                                    <Button className={'ep-logo-upload-button'} icon={!posterThumbnail ? 'upload' : 'update'} onClick={open}>
+                                        {
+                                            (!isProPluginActive || !posterThumbnail) ? 'Upload Image' : 'Change Image'
+                                        }
+                                    </Button>
+                                )}
+
+                            />
+                            {
+                                (!isProPluginActive) && (
+                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                )
+                            }
+                        </div>
+
                     </div>
                 )
             }
