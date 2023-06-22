@@ -21,7 +21,7 @@ use Embera\Url;
 class SelfHosted extends ProviderAdapter implements ProviderInterface
 {
 
-    public function __construct($url, $config = []){
+    public function __construct($url, array $config = []){
         parent::__construct($url, $config);
         $hosts_url = parse_url($url);
         $this->addHost($hosts_url['host']);
