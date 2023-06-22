@@ -187,6 +187,19 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->add_control(
+			'custom_player_important_note',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => esc_html__('Custom player take effect only when a single video is embedded.', 'embedpress'),
+				'content_classes' => 'elementor-panel-alert elementor-panel-warning-info',
+				'condition'   => [
+					'emberpress_custom_player' => 'yes',
+					'embedpress_pro_embeded_source' => 'youtube',
+				],
+			]
+		);
+
+		$this->add_control(
 			'custom_payer_preset',
 			[
 				'label' => sprintf(__('Preset %s', 'embedpress'), $this->pro_text),

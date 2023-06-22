@@ -18,6 +18,7 @@ use Embera\Url;
  * @license     GPLv3 or later
  * @since       1.0.0
  */
+
 class SelfHosted extends ProviderAdapter implements ProviderInterface
 {
 
