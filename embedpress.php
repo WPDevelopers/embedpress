@@ -48,6 +48,8 @@ define('EMBEDPRESS_SETTINGS_ASSETS_URL', EMBEDPRESS_PLUGIN_DIR_URL . 'EmbedPress
 define('EMBEDPRESS_SETTINGS_PATH', EMBEDPRESS_PLUGIN_DIR_PATH . 'EmbedPress/Ends/Back/Settings/');
 define('EMBEDPRESS_PLUGIN_URL', plugins_url('/', __FILE__));
 
+define('TEMP_ACCESS_TOKEN', '');
+
 require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'includes.php';
 
 include_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -148,7 +150,7 @@ add_action('wp_enqueue_scripts', 'ep_enqueue_jquery_in_header', 1);
 
 function check_instafeed()
 {
-    $accessToken = 'ACCESS_TOKEN'; // Replace with your actual access token
+    $accessToken = TEMP_ACCESS_TOKEN; // Replace with your actual access token
     
     
     // Make a GET request to Instagram's API to retrieve user information
@@ -225,4 +227,4 @@ function check_instafeed()
     
 }
 
-add_action('wp_footer', 'check_instafeed');
+// add_action('wp_footer', 'check_instafeed');

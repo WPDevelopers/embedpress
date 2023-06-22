@@ -21,6 +21,8 @@ use Embera\Url;
 class InstagramFeed extends ProviderAdapter implements ProviderInterface
 {
     /** inline {@inheritdoc} */
+    protected $shouldSendRequest = false;
+
     protected static $hosts = ["instagram.com"];
     /**
      * Method that verifies if the embed URL belongs to InstagramFeed.
@@ -50,9 +52,10 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     public function getInstagramUserInfo($accessToken)
     {
         // Set the transient key
-        $transientKey = 'instagram_user_info_' . md5($accessToken);
+        $transientKey = 'instagram_user_info_' . md5("https://graph.instagram.com/me?fields=id,username,account_type,media_count,followers_count,biography,website&access_token=$accessToken");
 
         // Attempt to retrieve the user info from the transient cache
+
         $cachedUserInfo = get_transient($transientKey);
 
         // If the user info is found in the cache, return it
@@ -82,7 +85,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     public function getInstagramPosts($accessToken)
     {
         // Set the transient key
-        $transientKey = 'instagram_posts_' . md5($accessToken);
+        $transientKey = 'instagram_posts_' . md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,thumbnail_url&access_token=$accessToken");
 
         // Attempt to retrieve the posts from the transient cache
         $cachedPosts = get_transient($transientKey);
@@ -93,7 +96,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         }
 
         // Make a GET request to Instagram's API to retrieve posts
-        $postsResponse = wp_remote_get("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},thumbnail_url&access_token=$accessToken");
+        $postsResponse = wp_remote_get("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,thumbnail_url&access_token=$accessToken");
 
         // Check if the posts request was successful
         if (is_wp_error($postsResponse)) {
@@ -109,12 +112,13 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         }
     }
 
-    function getInstagramMediaDetails($mediaId, $accessToken) {
+    function getInstagramMediaDetails($mediaId, $accessToken)
+    {
         $details = array(
             'likes' => 0,
             'comments' => 0
         );
-    
+
         // Get comments for the media item
         $commentsResponse = wp_remote_get("https://graph.instagram.com/{$mediaId}/comments?access_token={$accessToken}");
         if (is_array($commentsResponse) && !is_wp_error($commentsResponse)) {
@@ -122,7 +126,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             $commentsData = json_decode($commentsBody);
             $details['comments'] = count($commentsData->data);
         }
-    
+
         // Get likes for the media item
         $likesResponse = wp_remote_get("https://graph.instagram.com/{$mediaId}/likes?access_token={$accessToken}");
         if (is_array($likesResponse) && !is_wp_error($likesResponse)) {
@@ -130,28 +134,45 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             $likesData = json_decode($likesBody);
             $details['likes'] = count($likesData->data);
         }
-    
+
         return $details;
     }
-    
 
-    public function getInstaFeedItem($post){
+
+    public function getInstaFeedItem($post)
+    {
         ob_start(); ?>
-        <div class="insta-gallery-item" tabindex="0">
-            <img class="insta-gallery-image" src="<?php echo esc_url($post['media_url']); ?>" alt="<?php echo esc_attr( $post['caption'] ); ?>">
+        <div class="insta-gallery-item">
+            <?php 
+                if($post['media_type'] == 'VIDEO'){
+                    echo '<video class="insta-gallery-image" src="'.esc_url($post['media_url']).'"></video>';
+                }
+                else{
+                    echo ' <img class="insta-gallery-image" src="'.$post['media_url'].'" alt="'.esc_attr($post['caption']).'">';
+                }
+            ?>
+           
             <div class="insta-gallery-item-type">
                 <div class="insta-gallery-item-type-icon">
-                    <svg aria-label="Clip" class="x1lliihq x1n2onr6" color="#FFF" fill="#FFF" height="20" viewBox="1.111 1.111 24.444 24.447" width="20">
-                        <path d="m14.248 1.111 3.304 5.558h-6.2L8.408 1.146c.229-.014.466-.024.713-.03l.379-.005Zm2.586 0h.331c3.4 0 4.964.838 6.267 2.097a6.674 6.674 0 0 1 1.773 3.133l.078.328H20.14l-3.307-5.558ZM6.093 1.53l2.74 5.139H1.382a6.678 6.678 0 0 1 4.38-5.033ZM16.91 15.79l-5.05-2.916a1.01 1.01 0 0 0-1.507.742l-.009.133v5.831a1.011 1.011 0 0 0 1.394.933l.121-.059 5.05-2.916a1.01 1.01 0 0 0 .111-1.674l-.111-.076-5.05-2.916ZM1.132 8.891h24.404l.017.4.003.21v7.666c0 3.401-.839 4.966-2.098 6.267-1.279 1.238-2.778 2.062-5.922 2.121l-.371.003H9.501c-3.4 0-4.963-.839-6.267-2.099-1.238-1.278-2.06-2.776-2.12-5.922l-.003-.37V9.501l.003-.21Z" fill-rule="evenodd" />
-                    </svg>
-                    <svg aria-label="Carousel" class="x1lliihq x1n2onr6" color="#FFF" fill="#FFF" height="20" viewBox="0 0 43.636 43.636" width="20">
-                        <path d="M31.636 27V10a4.695 4.695 0 0 0-4.727-4.727H10A4.695 4.695 0 0 0 5.273 10v17A4.695 4.695 0 0 0 10 31.727h17c2.545-.091 4.636-2.182 4.636-4.727zm4-13.364v14.636c0 4.091-3.364 7.455-7.455 7.455H13.545c-.545 0-.818.636-.455 1 .909 1 2.182 1.636 3.727 1.636h12.182a9.35 9.35 0 0 0 9.364-9.364V16.818a5.076 5.076 0 0 0-1.636-3.727c-.455-.364-1.091 0-1.091.545z" />
-                    </svg>
+                    <?php 
+                        if($post['media_type'] == 'VIDEO'){
+                            echo '<svg aria-label="Clip" class="x1lliihq x1n2onr6" color="#FFF" fill="#FFF" height="20" viewBox="1.111 1.111 24.444 24.447" width="20">
+                            <path d="m14.248 1.111 3.304 5.558h-6.2L8.408 1.146c.229-.014.466-.024.713-.03l.379-.005Zm2.586 0h.331c3.4 0 4.964.838 6.267 2.097a6.674 6.674 0 0 1 1.773 3.133l.078.328H20.14l-3.307-5.558ZM6.093 1.53l2.74 5.139H1.382a6.678 6.678 0 0 1 4.38-5.033ZM16.91 15.79l-5.05-2.916a1.01 1.01 0 0 0-1.507.742l-.009.133v5.831a1.011 1.011 0 0 0 1.394.933l.121-.059 5.05-2.916a1.01 1.01 0 0 0 .111-1.674l-.111-.076-5.05-2.916ZM1.132 8.891h24.404l.017.4.003.21v7.666c0 3.401-.839 4.966-2.098 6.267-1.279 1.238-2.778 2.062-5.922 2.121l-.371.003H9.501c-3.4 0-4.963-.839-6.267-2.099-1.238-1.278-2.06-2.776-2.12-5.922l-.003-.37V9.501l.003-.21Z" fill-rule="evenodd" />
+                        </svg>';
+                        }
+                        else{
+                            echo '<svg aria-label="Carousel" class="x1lliihq x1n2onr6" color="#FFF" fill="#FFF" height="20" viewBox="0 0 43.636 43.636" width="20">
+                            <path d="M31.636 27V10a4.695 4.695 0 0 0-4.727-4.727H10A4.695 4.695 0 0 0 5.273 10v17A4.695 4.695 0 0 0 10 31.727h17c2.545-.091 4.636-2.182 4.636-4.727zm4-13.364v14.636c0 4.091-3.364 7.455-7.455 7.455H13.545c-.545 0-.818.636-.455 1 .909 1 2.182 1.636 3.727 1.636h12.182a9.35 9.35 0 0 0 9.364-9.364V16.818a5.076 5.076 0 0 0-1.636-3.727c-.455-.364-1.091 0-1.091.545z" />
+                        </svg>';
+                        }
+                    ?>
+                    
+                    
                 </div>
             </div>
             <div class="insta-gallery-item-info">
                 <ul>
-                    <li class="insta-gallery-item-likes">
+                    <!-- <li class="insta-gallery-item-likes">
                         <svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 0.8 0.8" xml:space="preserve">
                             <style>
                                 .st0 {
@@ -166,46 +187,49 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                             <path d="M2.374.446a.063.063 0 0 0-.061-.057H.991a.063.063 0 0 0-.063.057H.927v.328h.559c.029 0 .053.022.056.051h.001v.731h.275l.162.162a.063.063 0 0 0 .116-.035v-.127h.217a.063.063 0 0 0 .06-.051h.002V.446h-.001z" />
                             <path d="M1.361.899H.18A.056.056 0 0 0 .125.95v.946h.001a.057.057 0 0 0 .054.045h.194v.113a.057.057 0 0 0 .104.032l.145-.145h.738c.027 0 .05-.02.056-.045h.001V.95h-.001a.056.056 0 0 0-.056-.051z" />
                         </svg>34
-                    </li>
+                    </li> -->
                     <li class="insta-gallery-item-pop-up">
-                        <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" d="M16 2H7.979C6.88 2 6 2.88 6 3.98V12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 10H8V4h8v8zM4 10H2v6c0 1.1.9 2 2 2h6v-2H4v-6z"/></svg>
+                        <svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill="#fff" d="M16 2H7.979C6.88 2 6 2.88 6 3.98V12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 10H8V4h8v8zM4 10H2v6c0 1.1.9 2 2 2h6v-2H4v-6z" /></svg>
                     </li>
                     <li class="insta-gallery-item-permalink">
-                        <a href="'.esc_url( $post['permlaink'] ).'"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5.833 1.667h8.334a4.167 4.167 0 0 1 4.166 4.166v8.334a4.167 4.167 0 0 1-4.166 4.166H5.833a4.167 4.167 0 0 1-4.166-4.166V5.833a4.167 4.167 0 0 1 4.166-4.166z"/><path d="M13.333 9.475a3.333 3.333 0 1 1-2.808-2.808 3.333 3.333 0 0 1 2.808 2.808zm1.25-4.058h.009"/></svg></a>
+                        <!-- <a href="<?php echo esc_url($post['permalink']); ?>"> -->
+                        <svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" xml:space="preserve" width="20" height="20"><style>.st0{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}</style><path class="st0" d="M14.375 19.375h-8.75c-2.75 0-5-2.25-5-5v-8.75c0-2.75 2.25-5 5-5h8.75c2.75 0 5 2.25 5 5v8.75c0 2.75-2.25 5-5 5z"/><path class="st0" d="M14.375 10A4.375 4.375 0 0 1 10 14.375 4.375 4.375 0 0 1 5.625 10a4.375 4.375 0 0 1 8.75 0zm1.25-5.625A.625.625 0 0 1 15 5a.625.625 0 0 1-.625-.625.625.625 0 0 1 1.25 0z"/></svg>
+                        <!-- </a> -->
                     </li>
                 </ul>
             </div>
         </div>
         <?php $feed_item = ob_get_clean();
-        return $feed_item;
-    }
+                return $feed_item;
+            }
 
-    public function getInstagramFeedTemplate($accessToken)
-    {
-        $insta_user_info = $this->getInstagramUserInfo($accessToken);
-        $insta_posts = $this->getInstagramPosts($accessToken);
+            public function getInstagramFeedTemplate($accessToken)
+            {
+                $insta_user_info = $this->getInstagramUserInfo($accessToken);
+                $insta_posts = $this->getInstagramPosts($accessToken);
 
-        if(is_array($insta_posts) and !empty($insta_posts)) {
-            ob_start(); ?>
+                if (is_array($insta_posts) and !empty($insta_posts)) {
+                    ob_start(); ?>
             <div class="embedpress-insta-container">
                 <div class="insta-gallery">
-                    <?php 
-                        foreach ($insta_posts['data'] as $post) {
-                            $this->getInstaFeedItem($post);
-                        }
-                    ?>
+                    <?php
+                                foreach ($insta_posts as $post) {
+                                    print_r($this->getInstaFeedItem($post));
+                                }
+                                ?>
                 </div>
             </div>
-            <?php
+<?php
 
             $feed_template = ob_get_clean();
-            return $feed_template;                
+            return $feed_template;
         }
-
     }
 
-    
-	public function getStaticResponse() {
+
+    public function getStaticResponse()
+    {
         $insta_feed = [
             "title"         => "Unknown Title",
             "type"          => "video",
@@ -215,14 +239,13 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         ];
         $url = $this->getUrl();
 
-        die;
-        $accessToken = 'Access_Token';
+        $accessToken = TEMP_ACCESS_TOKEN;
 
-        if($this->validateInstagramFeed($url)){
+        if ($this->validateInstagramFeed($url)) {
             // print_r("Instagram feed validation successful");
         }
 
-        if($this->getInstagramFeedTemplate($accessToken)){
+        if ($this->getInstagramFeedTemplate($accessToken)) {
             $insta_feed['html'] = $this->getInstagramFeedTemplate($accessToken);
         }
 
@@ -232,8 +255,9 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     }
 
 
-/** inline {@inheritdoc} */
-    public function getFakeResponse() {
+    /** inline {@inheritdoc} */
+    public function getFakeResponse()
+    {
         return [
             'type' => 'video',
             'provider_name' => 'Instagram',
@@ -242,5 +266,4 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             'html' => '',
         ];
     }
-
 }
