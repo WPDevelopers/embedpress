@@ -530,6 +530,26 @@ class Helper {
 		return $svg;
 	}
 
+	public static function get_insta_video_icon(){
+		$svg = '<svg class="insta-video-icon" aria-label="Clip" class="x1lliihq x1n2onr6" color="#FFF" fill="#FFF" height="20" viewBox="1.111 1.111 24.444 24.447" width="20">
+		<path d="m14.248 1.111 3.304 5.558h-6.2L8.408 1.146c.229-.014.466-.024.713-.03l.379-.005Zm2.586 0h.331c3.4 0 4.964.838 6.267 2.097a6.674 6.674 0 0 1 1.773 3.133l.078.328H20.14l-3.307-5.558ZM6.093 1.53l2.74 5.139H1.382a6.678 6.678 0 0 1 4.38-5.033ZM16.91 15.79l-5.05-2.916a1.01 1.01 0 0 0-1.507.742l-.009.133v5.831a1.011 1.011 0 0 0 1.394.933l.121-.059 5.05-2.916a1.01 1.01 0 0 0 .111-1.674l-.111-.076-5.05-2.916ZM1.132 8.891h24.404l.017.4.003.21v7.666c0 3.401-.839 4.966-2.098 6.267-1.279 1.238-2.778 2.062-5.922 2.121l-.371.003H9.501c-3.4 0-4.963-.839-6.267-2.099-1.238-1.278-2.06-2.776-2.12-5.922l-.003-.37V9.501l.003-.21Z" fill-rule="evenodd" /></svg>';
+		
+		return $svg;
+	}
+
+	public static function get_insta_image_carousel_icon(){
+		$svg = '<svg aria-label="Carousel" class="x1lliihq x1n2onr6" color="#FFF" fill="#FFF" height="25" viewBox="0 0 43.636 43.636" width="25">
+		<path d="M31.636 27V10a4.695 4.695 0 0 0-4.727-4.727H10A4.695 4.695 0 0 0 5.273 10v17A4.695 4.695 0 0 0 10 31.727h17c2.545-.091 4.636-2.182 4.636-4.727zm4-13.364v14.636c0 4.091-3.364 7.455-7.455 7.455H13.545c-.545 0-.818.636-.455 1 .909 1 2.182 1.636 3.727 1.636h12.182a9.35 9.35 0 0 0 9.364-9.364V16.818a5.076 5.076 0 0 0-1.636-3.727c-.455-.364-1.091 0-1.091.545z" /></svg>';
+
+		return $svg;
+	}
+
+	public static function get_insta_image_icon(){
+		$svg = '<svg width="22" height="22" viewBox="0 0 0.6 0.6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M.175.05A.125.125 0 0 0 .05.175v.25A.125.125 0 0 0 .175.55h.25A.125.125 0 0 0 .55.425v-.25A.125.125 0 0 0 .425.05h-.25ZM.2.225a.025.025 0 1 1 .05 0 .025.025 0 0 1-.05 0ZM.225.15a.075.075 0 1 0 0 .15.075.075 0 0 0 0-.15Zm.138.205A.025.025 0 0 1 .398.351l.048.042A.025.025 0 1 0 .479.355L.43.312a.075.075 0 0 0-.107.011l-.04.05a.024.024 0 0 1-.032.005.074.074 0 0 0-.099.015L.118.432a.025.025 0 0 0 .038.033l.035-.04A.024.024 0 0 1 .223.42.074.074 0 0 0 .322.405l.04-.05Z" fill="#fff"/></svg>';
+
+		return $svg;
+	}
+
 	public static function get_google_presentation_url($embedded_url){
 		$parsed_url = parse_url($embedded_url);
 		$base_url = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $parsed_url['path'];
