@@ -242,8 +242,8 @@ class Helper {
 		$cipher = base64_decode($epbase64);
 		// Decrypt the cipher using AES-128-CBC encryption
 
-		$iv = $wp_pass_key = hash('sha256', wp_salt(32) . md5($password));
-
+		$wp_pass_key = hash('sha256', wp_salt(32) . md5($password));
+		$iv = substr($wp_pass_key, 0, 16);
 		if ($wp_pass_key === $hash_key) {
 			setcookie("password_correct_", $password, time() + 3600);
 
@@ -285,7 +285,8 @@ class Helper {
 		$key = self::get_hash();
 
 		$salt = wp_salt(32);
-		$iv = $wp_hash_key = hash('sha256', $salt . $pass_hash_key);
+		$wp_hash_key = hash('sha256', $salt . $pass_hash_key);
+		$iv = substr($wp_hash_key, 0, 16);
 
 
 		// Encrypt the plaintext using AES-128-CBC encryption

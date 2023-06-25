@@ -33,7 +33,9 @@ if(!function_exists('lock_content_form_handler')){
 		$cipher = base64_decode($epbase64);
 		// Decrypt the cipher using AES-128-CBC encryption
 
-		$iv = $wp_pass_key = hash('sha256', wp_salt(32) . md5($password));
+		$wp_pass_key = hash('sha256', wp_salt(32) . md5($password));
+		$iv = substr($wp_pass_key, 0, 16);
+
 		if ($wp_pass_key === $hash_key) {
 			setcookie("password_correct_", $password, time()+3600);
 
