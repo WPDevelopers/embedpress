@@ -22,7 +22,7 @@ class Helper {
 	 *
 	 * @return array
 	 */
-	
+
 	public function __construct () {
 		add_action('wp_ajax_lock_content_form_handler', [$this, 'lock_content_form_handler']);
 		add_action('wp_ajax_nopriv_lock_content_form_handler', [$this, 'lock_content_form_handler']);
@@ -80,7 +80,7 @@ class Helper {
 		$ext = end($urlSplit);
 		return $ext;
 	}
-	
+
 	public static function is_file_url($url) {
 		$pattern = '/\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i';
 		return preg_match($pattern, $url) === 1;
@@ -99,13 +99,13 @@ class Helper {
 
 	// Saved sources data temporary in wp_options table
 	public static function get_source_data($blockid, $source_url, $source_option_name, $source_temp_option_name) {
-		
-		
+
+
 		if(self::is_youtube_channel($source_url)){
-			$source_name = 'YoutubeChannel'; 
+			$source_name = 'YoutubeChannel';
 		}
 		else if(self::is_youtube($source_url)){
-			$source_name = 'Youtube'; 
+			$source_name = 'Youtube';
 		}
 		else if (!empty(self::is_file_url($source_url))) {
 			$source_name = 'document_' . self::get_extension_from_file_url($source_url);
@@ -124,7 +124,7 @@ class Helper {
 				$source_name = 'Unknown Source';
 			}
 		}
-		
+
 		if(!empty($blockid) && $blockid != 'undefined'){
 			$sources = json_decode(get_option($source_temp_option_name), true);
 
@@ -132,7 +132,7 @@ class Helper {
 				$sources = array();
 			}
 			$exists = false;
-			
+
 			foreach($sources as $i => $source) {
 				if ($source['id'] === $blockid) {
 					$sources[$i]['source']['name'] = $source_name;
@@ -145,7 +145,7 @@ class Helper {
 			if(!$exists) {
 				$sources[] = array('id' => $blockid, 'source' => array('name' => $source_name, 'url' => $source_url, 'count' => 1));
 			}
-			
+
 			update_option($source_temp_option_name, json_encode($sources));
 		}
 	}
@@ -155,7 +155,7 @@ class Helper {
 
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
-		} 
+		}
 		$temp_data = json_decode(get_option($source_temp_option_name), true);
 		$source_data = json_decode(get_option($source_option_name), true);
 		if(!$temp_data) {
@@ -171,19 +171,19 @@ class Helper {
 		foreach ($sources as $source) {
 			$unique_sources[$source['id']] = $source;
 		}
-		
+
 		$unique_sources = array_values($unique_sources);
 
 		delete_option($source_temp_option_name);
 
 		update_option($source_option_name, json_encode($unique_sources));
 	}
-	
+
 	//Delete source data from option table when widget is removed
 	public static function get_delete_source_data($blockid, $source_option_name, $source_temp_option_name) {
 		if (!empty($blockid) && $blockid != 'undefined') {
-			$sources = json_decode(get_option($source_option_name), true);			
-			$temp_sources = json_decode(get_option($source_temp_option_name), true);	
+			$sources = json_decode(get_option($source_option_name), true);
+			$temp_sources = json_decode(get_option($source_temp_option_name), true);
 			if ($sources) {
 				foreach ($sources as $i => $source) {
 					if ($source['id'] === $blockid) {
@@ -205,7 +205,7 @@ class Helper {
 		}
 		wp_die();
 	}
-	
+
 	//Delete source temporary data when reload without update or publish
 	public static function get_delete_source_temp_data_on_reload($source_temp_option_name) {
 		$source_temp_data = json_decode(get_option($source_temp_option_name), true);
@@ -218,24 +218,31 @@ class Helper {
 		return get_the_title(attachment_url_to_postid( $url ));
 	}
 
+	public static function get_hash(){
+		$hash_key = get_option(EMBEDPRESS_PLG_NAME . '_hash_key');
+		if($hash_key){
+			$hash_key = wp_hash_password(wp_generate_password(30));
+			update_option(EMBEDPRESS_PLG_NAME . '_hash_key', $hash_key);
+		}
+		return $hash_key;
+	}
 
 	public function lock_content_form_handler()
 	{
-		
+
 		$client_id = isset($_POST['client_id']) ? $_POST['client_id'] : '';
-		$password = isset($_POST['password']) ? $_POST['password'] : ''; 
+		$password = isset($_POST['password']) ? $_POST['password'] : '';
 		$epbase64 = isset($_POST['epbase']) ? $_POST['epbase'] : '';
 		$hash_key = isset($_POST['hash_key']) ? $_POST['hash_key'] : '';
 
 		// Set the decryption key and initialization vector (IV)
-		$key = "g72@QKgEcANy8%D7xq8%@n%#";
-		$iv = "^ZCC$93vsbyYjz01";
+		$key = self::get_hash();
 
 		// Decode the base64 encoded cipher
 		$cipher = base64_decode($epbase64);
 		// Decrypt the cipher using AES-128-CBC encryption
 
-		$wp_pass_key = hash('sha256', wp_salt(32) . md5($password));
+		$iv = $wp_pass_key = hash('sha256', wp_salt(32) . md5($password));
 
 		if ($wp_pass_key === $hash_key) {
 			setcookie("password_correct_", $password, time() + 3600);
@@ -275,11 +282,10 @@ class Helper {
 		$enable_footer_message = !empty($attributes['enableFooterMessage']) ? $attributes['enableFooterMessage'] : '';
 
 		// Set the encryption key and initialization vector (IV)
-		$key = "g72@QKgEcANy8%D7xq8%@n%#";
-		$iv = "^ZCC$93vsbyYjz01";
+		$key = self::get_hash();
 
 		$salt = wp_salt(32);
-		$wp_hash_key = hash('sha256', $salt . $pass_hash_key);
+		$iv = $wp_hash_key = hash('sha256', $salt . $pass_hash_key);
 
 
 		// Encrypt the plaintext using AES-128-CBC encryption
@@ -295,7 +301,7 @@ class Helper {
 			<h2>'.esc_html( $lock_heading ).'</h2>
 			<p>'.esc_html( $lock_subheading ).' </p>
 				<form class="password-form" method="post" class="password-form" data-unlocking-text="'.esc_attr( $unlocking_text ).'">
-					
+
 					<div class="password-field">
 						<span class="lock-icon">' . $lock_icon . '</span>
 						<input type="password" name="pass_' . esc_attr($client_id) . '" placeholder="' . esc_attr($password_placeholder) . '" required>
@@ -325,10 +331,10 @@ class Helper {
 		$x = !empty($atts['logoX']) ? $atts['logoX'] : 0;
 		$y = !empty($atts['logoY']) ? $atts['logoY'] : 0;
 		$uniqid = !empty($atts['url'])? '.ose-uid-' . md5($atts['url']): '';
-		
+
 		$brandUrl = !empty($atts['customlogoUrl']) ? $atts['customlogoUrl'] : '';
 		$opacity = !empty($atts['logoOpacity']) ? $atts['logoOpacity'] : '';
-		
+
 		$cssClass = !empty( $atts['url'] ) ? '.ose-uid-' . md5( $atts['url'] ) : '.ose-youtube';
 
 
@@ -339,7 +345,7 @@ class Helper {
 			{
 				position: relative;
 			}
-			
+
 			<?php echo esc_html($cssClass); ?> .watermark {
 				border: 0;
 				position: absolute;
@@ -361,7 +367,7 @@ class Helper {
 				opacity: 1;
 			}
 		</style>
-		<?php 
+		<?php
 
 
 		$style = ob_get_clean();
@@ -388,14 +394,14 @@ class Helper {
 			$cta .= ob_get_clean();
 
 			$imgDom->clear();
-			unset( $img, $imgDom );	
+			unset( $img, $imgDom );
 
 			if ( !empty($brandUrl) ) {
 				$cta = '<a href="'.esc_url($brandUrl).'" target="_blank">'.$cta.'</a>';
 			}
-			$dom     = str_get_html( $embedHTML );		
+			$dom     = str_get_html( $embedHTML );
 
-			$wrapDiv = $dom->find( $uniqid, 0 );		
+			$wrapDiv = $dom->find( $uniqid, 0 );
 
 			if ( ! empty( $wrapDiv ) && is_object( $wrapDiv ) ) {
 				$wrapDiv->innertext .= $cta;
@@ -403,9 +409,9 @@ class Helper {
 
 			ob_start();
 			echo $wrapDiv;
-			
+
 			$markup = ob_get_clean();
-			
+
 			$dom->clear();
 			unset( $dom, $wrapDiv );
 
@@ -424,9 +430,9 @@ class Helper {
 		$custom_thumnail = !empty($attributes['customThumbnail']) ? urlencode($attributes['customThumbnail']) : '';
 		$custom_title = !empty($attributes['customTitle']) ? urlencode($attributes['customTitle']) : '';
 		$custom_description = !empty($attributes['customDescription']) ? urlencode($attributes['customDescription']) : '';
-	
+
 		$page_url = urlencode(get_permalink().'?hash='.$content_id);
-		
+
 		$social_icons = '<div class="ep-social-share-wraper"><div class="ep-social-share share-position-'.esc_attr( $share_position ).'">';
 		$social_icons .= '<a href="https://www.facebook.com/sharer/sharer.php?u=' . $page_url . '" class="ep-social-icon facebook" target="_blank">
 			<svg width="64px" height="64px" fill="#000000" viewBox="0 -6 512 512" xmlns="http://www.w3.org/2000/svg">
@@ -441,14 +447,14 @@ class Helper {
 			</svg>
 			</a>';
 			$social_icons .= '<a href="http://pinterest.com/pin/create/button/?url=' . $page_url . '&media=' .$custom_thumnail . '&description=' . $custom_description . '" class="ep-social-icon pinterest" target="_blank">
-			
+
 				<svg xmlns="http://www.w3.org/2000/svg" height="800" width="1200" viewBox="-36.42015 -60.8 315.6413 364.8"><path d="M121.5 0C54.4 0 0 54.4 0 121.5 0 173 32 217 77.2 234.7c-1.1-9.6-2-24.4.4-34.9 2.2-9.5 14.2-60.4 14.2-60.4s-3.6-7.3-3.6-18c0-16.9 9.8-29.5 22-29.5 10.4 0 15.4 7.8 15.4 17.1 0 10.4-6.6 26-10.1 40.5-2.9 12.1 6.1 22 18 22 21.6 0 38.2-22.8 38.2-55.6 0-29.1-20.9-49.4-50.8-49.4-34.6 0-54.9 25.9-54.9 52.7 0 10.4 4 21.6 9 27.7 1 1.2 1.1 2.3.8 3.5-.9 3.8-3 12.1-3.4 13.8-.5 2.2-1.8 2.7-4.1 1.6-15.2-7.1-24.7-29.2-24.7-47.1 0-38.3 27.8-73.5 80.3-73.5 42.1 0 74.9 30 74.9 70.2 0 41.9-26.4 75.6-63 75.6-12.3 0-23.9-6.4-27.8-14 0 0-6.1 23.2-7.6 28.9-2.7 10.6-10.1 23.8-15.1 31.9 11.4 3.5 23.4 5.4 36 5.4 67.1 0 121.5-54.4 121.5-121.5C243 54.4 188.6 0 121.5 0z" fill="#fff"/></svg>
-	
+
 			</a>';
-	
+
 			$social_icons .= '<a href="https://www.linkedin.com/sharing/share-offsite/?url='.$page_url.'&title='.$custom_title.'&summary='.$custom_description.'&source=LinkedIn" class="ep-social-icon linkedin" target="_blank">
-	
-			<svg fill="#ffffff" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+
+			<svg fill="#ffffff" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
 				viewBox="0 0 310 310" xml:space="preserve">
 			<g id="XMLID_801_">
 				<path id="XMLID_802_" d="M72.16,99.73H9.927c-2.762,0-5,2.239-5,5v199.928c0,2.762,2.238,5,5,5H72.16c2.762,0,5-2.238,5-5V104.73
@@ -463,12 +469,12 @@ class Helper {
 			</svg>
 		</a>';
 		$social_icons .= '</div></div>';
-		
+
 		return  $social_icons ;
 	}
 
 
-	
+
 	public static function ep_get_elementor_widget_settings($page_settings = '', $id = '', $widgetType = ''){
 
 		$data = json_decode($page_settings, true);
@@ -489,9 +495,9 @@ class Helper {
 		// Output the element code
 		if ($element) {
 			return $element;;
-		} 
+		}
 
-	}	
+	}
 
 	public static function ep_get_popup_icon() {
 		$svg = '<div class="ep-doc-popup-icon" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" xml:space="preserve"><path fill="#fff" d="M5 3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-6l-2-2v8H5V5h8l-2-2H5zm9 0 2.7 2.7-7.5 7.5 1.7 1.7 7.5-7.5L21 10V3h-7z"/><path style="fill:none" d="M0 0h24v24H0z"/></svg></div>';
@@ -516,17 +522,17 @@ class Helper {
 		$svg = '<div class="ep-doc-fullscreen-icon"><svg width="25" height="25" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 		<path d="m3 15 .117.007a1 1 0 0 1 .876.876L4 16v4h4l.117.007a1 1 0 0 1 0 1.986L8 22H3l-.117-.007a1 1 0 0 1-.876-.876L2 21v-5l.007-.117a1 1 0 0 1 .876-.876L3 15Zm18 0a1 1 0 0 1 .993.883L22 16v5a1 1 0 0 1-.883.993L21 22h-5a1 1 0 0 1-.117-1.993L16 20h4v-4a1 1 0 0 1 .883-.993L21 15ZM8 2a1 1 0 0 1 .117 1.993L8 4H4v4a1 1 0 0 1-.883.993L3 9a1 1 0 0 1-.993-.883L2 8V3a1 1 0 0 1 .883-.993L3 2h5Zm13 0 .117.007a1 1 0 0 1 .876.876L22 3v5l-.007.117a1 1 0 0 1-.876.876L21 9l-.117-.007a1 1 0 0 1-.876-.876L20 8V4h-4l-.117-.007a1 1 0 0 1 0-1.986L16 2h5Z" fill="#fff"/>
 	  	</svg></div>';
-		
+
 		return $svg;
 	}
 	public static function ep_get_minimize_icon() {
 		$svg = '<div class="ep-doc-minimize-icon" style="display:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" style="enable-background:new 0 0 385.331 385.331" xml:space="preserve" width="20" height="20"><path fill="#fff" d="M13.751 8.131h5.62c0.355 0 0.619 -0.28 0.619 -0.634 0 -0.355 -0.265 -0.615 -0.619 -0.614h-4.995V1.878c0 -0.355 -0.27 -0.624 -0.624 -0.624s-0.624 0.27 -0.624 0.624v5.62c0 0.002 0.001 0.003 0.001 0.004 0 0.002 -0.001 0.003 -0.001 0.005 0 0.348 0.276 0.625 0.624 0.624zM6.244 1.259c-0.354 0 -0.614 0.265 -0.614 0.619v4.995H0.624c-0.355 0 -0.624 0.27 -0.624 0.624 0 0.355 0.27 0.624 0.624 0.624h5.62c0.002 0 0.003 -0.001 0.004 -0.001 0.002 0 0.003 0.001 0.005 0.001 0.348 0 0.624 -0.276 0.624 -0.624V1.878c0 -0.354 -0.28 -0.619 -0.634 -0.619zm0.005 10.61H0.629c-0.355 0.001 -0.619 0.28 -0.619 0.634 0 0.355 0.265 0.615 0.619 0.614h4.995v5.005c0 0.355 0.27 0.624 0.624 0.624 0.355 0 0.624 -0.27 0.624 -0.624V12.502c0 -0.002 -0.001 -0.003 -0.001 -0.004 0 -0.002 0.001 -0.003 0.001 -0.005 0 -0.348 -0.276 -0.624 -0.624 -0.624zm13.127 0H13.756c-0.002 0 -0.003 0.001 -0.004 0.001 -0.002 0 -0.003 -0.001 -0.005 -0.001 -0.348 0 -0.624 0.276 -0.624 0.624v5.62c0 0.355 0.28 0.619 0.634 0.619 0.354 0.001 0.614 -0.265 0.614 -0.619v-4.995H19.376c0.355 0 0.624 -0.27 0.624 -0.624s-0.27 -0.624 -0.624 -0.625z"/><g/><g/><g/><g/><g/><g/></svg></div>';
-		
+
 		return $svg;
 	}
 	public static function ep_get_draw_icon() {
 		$svg = '<div class="ep-doc-draw-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m15 7.5 2.5 2.5m-10 10L19.25 8.25c0.69 -0.69 0.69 -1.81 0 -2.5v0c-0.69 -0.69 -1.81 -0.69 -2.5 0L5 17.5V20h2.5Zm0 0h8.379C17.05 20 18 19.05 18 17.879v0c0 -0.563 -0.224 -1.103 -0.621 -1.5L17 16M4.5 5c2 -2 5.5 -1 5.5 1 0 2.5 -6 2.5 -6 5 0 0.876 0.533 1.526 1.226 2" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
-		
+
 		return $svg;
 	}
 
@@ -542,13 +548,13 @@ class Helper {
 	public static function check_media_format($url) {
 		$pattern1 = '/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i';
 		$pattern2 = '/\.(mp3|wav|ogg|aac)$/i';
-	
+
 		$isVideo = preg_match($pattern1, $url);
 		$isAudio = preg_match($pattern2, $url);
-	
+
 		$is_self_hosted = false;
 		$format = '';
-	
+
 		if (!empty($isVideo) || !empty($isAudio)) {
 			$is_self_hosted = true;
 			if (!empty($isVideo)) {
@@ -557,22 +563,22 @@ class Helper {
 				$format = 'audio';
 			}
 		}
-	
+
 		if (!$is_self_hosted) {
 			return [
 				'selhosted' => false,
 			];
 		}
-	
+
 		return [
 			'selhosted' => true,
 			'format' => $format,
 		];
 	}
-	
-	
-		
-	
+
+
+
+
 }
 
 ?>
