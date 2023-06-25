@@ -220,7 +220,7 @@ class Helper {
 
 	public static function get_hash(){
 		$hash_key = get_option(EMBEDPRESS_PLG_NAME . '_hash_key');
-		if($hash_key){
+		if(!$hash_key){
 			$hash_key = wp_hash_password(wp_generate_password(30));
 			update_option(EMBEDPRESS_PLG_NAME . '_hash_key', $hash_key);
 		}
