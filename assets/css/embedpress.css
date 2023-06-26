@@ -1787,3 +1787,18 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
 .pip-mode iframe {
     pointer-events: none !important;
 }
+
+@media only screen and (max-width: 767px) {
+    .plyr__controls [data-plyr="restart"], .plyr__controls [data-plyr="rewind"], .plyr__controls [data-plyr="fast-forward"], .plyr__controls [data-plyr="pip"] {
+        display: none !important;
+    }
+
+    .plyr__video-wrapper iframe {
+        max-height: 100%!important;
+    }
+
+    .plyr__controls .plyr__volume input[type=range] {
+        max-width: 40px;
+        min-width: 40px;
+    }
+}
