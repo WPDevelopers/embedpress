@@ -163,7 +163,7 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
 
             {
                 customPlayer && ( isYTLive || isYTVideo) && (
-                    <div>
+                    <div className={'remove-last-child-margin'}>
                         <ToggleControl
                             label={__("Auto Play")}
                             checked={autoplay}
