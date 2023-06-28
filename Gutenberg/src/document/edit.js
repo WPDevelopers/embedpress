@@ -30,8 +30,10 @@ const ALLOWED_MEDIA_TYPES = [
 	'application/vnd.ms-excel',
 	'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 	'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-	'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+	'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+	'application/vnd.openxmlformats-officedocument.presentationml.slideshow' // Added PPSX MIME type
 ];
+
 
 class DocumentEdit extends Component {
 	constructor() {
