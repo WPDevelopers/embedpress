@@ -152,6 +152,7 @@ class Shortcode
 
             // Identify what service provider the shortcode's link belongs to
             $is_embra_provider = apply_filters('embedpress:isEmbra', false, $url, self::get_embera_settings());
+            
             if ($is_embra_provider || (strpos($url, 'meetup.com') !== false) || (strpos($url, 'sway.office.com') !== false)) {
                 $serviceProvider = '';
             } else {

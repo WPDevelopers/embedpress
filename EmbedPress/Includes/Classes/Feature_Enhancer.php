@@ -6,6 +6,7 @@ use \EmbedPress\Providers\Youtube;
 use EmbedPress\Shortcode;
 use EmbedPress\Includes\Classes\Helper;
 use \Elementor\Controls_Manager;
+use EmbedPress\Providers\Wrapper;
 
 class Feature_Enhancer
 {
@@ -76,12 +77,21 @@ class Feature_Enhancer
 
 	public function isEmbra($isEmbra, $url, $atts)
 	{
+
 		if (strpos($url, 'youtube.com') !== false) {
 			$youtube = new Youtube($url, $atts);
 			if ($youtube->validateUrl($youtube->getUrl(false))) {
 				return true;
 			}
 		}
+
+		if (strpos($url, site_url( )) !== false) {
+			$wrapper = new Wrapper($url, $atts);
+			if ($wrapper->validateUrl($wrapper->getUrl(false))) {
+				return true;
+			}
+		}
+		
 		return $isEmbra;
 	}
 

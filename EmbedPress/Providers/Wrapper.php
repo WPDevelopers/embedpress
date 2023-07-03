@@ -66,7 +66,6 @@ class Wrapper extends ProviderAdapter implements ProviderInterface
     {
         $src_url = urldecode($this->url);
 
-        // print_r($src_url);
         
 
         $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
