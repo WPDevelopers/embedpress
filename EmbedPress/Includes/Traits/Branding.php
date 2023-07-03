@@ -22,8 +22,8 @@ Trait Branding {
 		];
 		$condition = [];
 		if ( $provider_name !== 'document' ) {
-			$logo_condition["embedpress_pro_embeded_source"] = $provider_name;
-			$condition["embedpress_pro_embeded_source"] = $provider_name;
+			$logo_condition["embedpress_pro_embedded_source"] = $provider_name;
+			$condition["embedpress_pro_embedded_source"] = $provider_name;
 		}
 		$this->add_control(
 			"{$provider_name}_custom_logo_cta_heading",

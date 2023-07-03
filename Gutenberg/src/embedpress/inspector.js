@@ -66,7 +66,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                 {
                     !isOpensea && !isOpenseaSingle && (
                         <div>
-                            <PanelBody title={__("Embeded Options")}>
+                            <PanelBody title={__("General")}>
 
                                 <div>
 

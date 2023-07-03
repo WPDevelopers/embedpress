@@ -115,7 +115,7 @@ class Shortcode
     }
 
     /**
-     * Replace a given content with its embeded HTML code.
+     * Replace a given content with its embedded HTML code.
      *
      * @param string      The raw content that will be replaced.
      * @param bool $stripNewLine

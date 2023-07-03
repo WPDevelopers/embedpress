@@ -10,7 +10,7 @@ use EmbedPress\Includes\Classes\Helper;
 class Elementor_Enhancer {
 	
 	public static function youtube( $embed, $setting ) {
-		if ( isset( $setting['embedpress_pro_embeded_source'] ) && 'youtube' === $setting['embedpress_pro_embeded_source'] && isset( $embed->embed ) && preg_match( '/src=\"(.+?)\"/', $embed->embed, $match ) ) {
+		if ( isset( $setting['embedpress_pro_embedded_source'] ) && 'youtube' === $setting['embedpress_pro_embedded_source'] && isset( $embed->embed ) && preg_match( '/src=\"(.+?)\"/', $embed->embed, $match ) ) {
 
 			$url_full = $match[1];
 			$query    = parse_url( $url_full, PHP_URL_QUERY );
@@ -188,7 +188,7 @@ class Elementor_Enhancer {
 
 	public static function vimeo( $embed, $setting ) {
 
-		if ( ! isset( $embed->provider_name ) || strtoupper( $embed->provider_name ) !== 'VIMEO' || ! isset( $embed->embed ) || $setting['embedpress_pro_embeded_source'] !== 'vimeo' ) {
+		if ( ! isset( $embed->provider_name ) || strtoupper( $embed->provider_name ) !== 'VIMEO' || ! isset( $embed->embed ) || $setting['embedpress_pro_embedded_source'] !== 'vimeo' ) {
 			return $embed;
 		}
 		preg_match( '/src=\"(.+?)\"/', $embed->embed, $match );
@@ -236,7 +236,7 @@ class Elementor_Enhancer {
 	}
 
 	public static function wistia( $embed, $setting ) {
-		if ( ! isset( $embed->provider_name ) || strtoupper( $embed->provider_name ) !== 'WISTIA, INC.' || ! isset( $embed->embed ) || $setting['embedpress_pro_embeded_source'] !== 'wistia' ) {
+		if ( ! isset( $embed->provider_name ) || strtoupper( $embed->provider_name ) !== 'WISTIA, INC.' || ! isset( $embed->embed ) || $setting['embedpress_pro_embedded_source'] !== 'wistia' ) {
 			return $embed;
 		}
 		preg_match( '/src=\"(.+?)\"/', $embed->embed, $match );
@@ -402,7 +402,7 @@ class Elementor_Enhancer {
 
 	public static function soundcloud( $embed, $setting ) {
 
-		if ( ! isset( $embed->provider_name ) || strtoupper( $embed->provider_name ) !== 'SOUNDCLOUD' || ! isset( $embed->embed ) || $setting['embedpress_pro_embeded_source'] !== 'soundcloud' ) {
+		if ( ! isset( $embed->provider_name ) || strtoupper( $embed->provider_name ) !== 'SOUNDCLOUD' || ! isset( $embed->embed ) || $setting['embedpress_pro_embedded_source'] !== 'soundcloud' ) {
 			return $embed;
 		}
 		preg_match( '/src=\"(.+?)\"/', $embed->embed, $match );
@@ -439,7 +439,7 @@ class Elementor_Enhancer {
 	}
 
 	public static function dailymotion( $embed, $setting ) {
-		if ( ! isset( $embed->provider_name ) || strtoupper( $embed->provider_name ) !== 'DAILYMOTION' || ! isset( $embed->embed ) || $setting['embedpress_pro_embeded_source'] !== 'dailymotion' ) {
+		if ( ! isset( $embed->provider_name ) || strtoupper( $embed->provider_name ) !== 'DAILYMOTION' || ! isset( $embed->embed ) || $setting['embedpress_pro_embedded_source'] !== 'dailymotion' ) {
 			return $embed;
 		}
 		preg_match( '/src=\"(.+?)\"/', $embed->embed, $match );
@@ -472,7 +472,7 @@ class Elementor_Enhancer {
 	}
 
 	public static function twitch( $embed_content, $settings ) {
-		if ( ! isset( $embed_content->embed ) || $settings['embedpress_pro_embeded_source'] !== 'twitch' ) {
+		if ( ! isset( $embed_content->embed ) || $settings['embedpress_pro_embedded_source'] !== 'twitch' ) {
 			return $embed_content;
 		}
 		$e           = current( $embed_content );
@@ -527,7 +527,7 @@ class Elementor_Enhancer {
 		preg_match( '/src=\"(.+?)\"/', $embed->embed, $match );
 		$url_full     = $match[1];
 		$modified_url = str_replace( 'playlist-v2', 'playlist', $url_full );
-		if ( $setting['embedpress_pro_embeded_source'] == 'spotify' ) {
+		if ( $setting['embedpress_pro_embedded_source'] == 'spotify' ) {
 			// apply elementor related mod
 			if ( isset( $setting['spotify_theme'] ) ) {
 				if ( strpos( $modified_url, '?' ) !== false ) {

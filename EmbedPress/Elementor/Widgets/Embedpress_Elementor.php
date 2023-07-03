@@ -98,9 +98,9 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-		do_action('embedpress/embeded/extend', $this);
+		do_action('embedpress/embedded/extend', $this);
 		$this->add_control(
-			'embedpress_pro_embeded_source',
+			'embedpress_pro_embedded_source',
 			[
 				'label'       => __('Source Name', 'embedpress'),
 				'type'        => Controls_Manager::SELECT,
@@ -122,7 +122,7 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->add_control(
-			'embedpress_pro_embeded_nft_type',
+			'embedpress_pro_embedded_nft_type',
 			[
 				'label'       => __('Type', 'embedpress'),
 				'type'        => Controls_Manager::SELECT,
@@ -133,13 +133,13 @@ class Embedpress_Elementor extends Widget_Base
 					'single'  => __('Single Asset', 'embedpress'),
 				],
 				'condition'   => [
-					'embedpress_pro_embeded_source' => 'opensea'
+					'embedpress_pro_embedded_source' => 'opensea'
 				]
 			]
 		);
 
 		$this->add_control(
-			'embedpress_embeded_link',
+			'embedpress_embedded_link',
 			[
 
 				'label'       => __('Embedded Link', 'embedpress'),
@@ -166,7 +166,7 @@ class Embedpress_Elementor extends Widget_Base
 					'0' => __('Black & White', 'embedpress')
 				],
 				'condition'   => [
-					'embedpress_pro_embeded_source' => 'spotify'
+					'embedpress_pro_embedded_source' => 'spotify'
 				]
 			]
 		);
@@ -181,7 +181,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => '',
 				'condition'   => [
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video', 'selfhosted_audio']
+					'embedpress_pro_embedded_source' => ['youtube', 'vimeo', 'selfhosted_video', 'selfhosted_audio']
 				],
 			]
 		);
@@ -194,7 +194,7 @@ class Embedpress_Elementor extends Widget_Base
 				'content_classes' => 'elementor-panel-alert elementor-panel-warning-info',
 				'condition'   => [
 					'emberpress_custom_player' => 'yes',
-					'embedpress_pro_embeded_source' => 'youtube',
+					'embedpress_pro_embedded_source' => 'youtube',
 				],
 			]
 		);
@@ -217,7 +217,7 @@ class Embedpress_Elementor extends Widget_Base
 				'classes'     => $this->pro_class,
 				'condition' => [
 					'emberpress_custom_player' => 'yes',
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video']
+					'embedpress_pro_embedded_source' => ['youtube', 'vimeo', 'selfhosted_video']
 				],
 			]
 		);
@@ -229,7 +229,7 @@ class Embedpress_Elementor extends Widget_Base
 				'type'        => Controls_Manager::NUMBER,
 				'description' => __('Specify a start time (in seconds)', 'embedpress'),
 				'condition'   => [
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'wistia', 'dailymotion', 'twitch']
+					'embedpress_pro_embedded_source' => ['youtube', 'vimeo', 'wistia', 'dailymotion', 'twitch']
 				],
 			]
 		);
@@ -303,7 +303,7 @@ class Embedpress_Elementor extends Widget_Base
 	public function init_youtube_controls()
 	{
 		$yt_condition = [
-			'embedpress_pro_embeded_source' => 'youtube'
+			'embedpress_pro_embedded_source' => 'youtube'
 		];
 		$this->add_control(
 			'embedpress_pro_youtube_end_time',
@@ -326,7 +326,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default'     => '#5b4e96',
 				'condition' => [
 					'emberpress_custom_player' => 'yes',
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video', 'selfhosted_audio']
+					'embedpress_pro_embedded_source' => ['youtube', 'vimeo', 'selfhosted_video', 'selfhosted_audio']
 				],
 			]
 		);
@@ -340,7 +340,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'no',
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'vimeo'
+					'embedpress_pro_embedded_source' => 'vimeo'
 				]
 			]
 		);
@@ -358,7 +358,7 @@ class Embedpress_Elementor extends Widget_Base
 					'embedpress'
 				),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'vimeo'
+					'embedpress_pro_embedded_source' => 'vimeo'
 				],
 				'classes'     => $this->pro_class,
 			]
@@ -377,7 +377,7 @@ class Embedpress_Elementor extends Widget_Base
 					'embedpress'
 				),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'vimeo'
+					'embedpress_pro_embedded_source' => 'vimeo'
 				],
 				'classes'     => $this->pro_class,
 			]
@@ -401,7 +401,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label'     => __('Player Options', 'embedpress'),
 				'type'      => Controls_Manager::HEADING,
 				'condition' => [
-					'embedpress_pro_embeded_source' => 'youtube',
+					'embedpress_pro_embedded_source' => 'youtube',
 					'emberpress_custom_player!' => 'yes'
 				],
 			]
@@ -419,7 +419,7 @@ class Embedpress_Elementor extends Widget_Base
 					'0' => __('Hide controls', 'embedpress')
 				],
 				'condition'   => [
-					'embedpress_pro_embeded_source' => 'youtube',
+					'embedpress_pro_embedded_source' => 'youtube',
 					'emberpress_custom_player!' => 'yes'
 				],
 			]
@@ -433,7 +433,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'yes',
 				'condition'    => [
-					'embedpress_pro_embeded_source'            => ['youtube', 'vimeo'], 
+					'embedpress_pro_embedded_source'            => ['youtube', 'vimeo'], 
 					'embedpress_pro_youtube_display_controls!' => '0'
 				]
 			]
@@ -450,7 +450,7 @@ class Embedpress_Elementor extends Widget_Base
 					'3' => __('Do Not Display', 'embedpress')
 				],
 				'condition'   => [
-					'embedpress_pro_embeded_source' => 'youtube',
+					'embedpress_pro_embedded_source' => 'youtube',
 					'emberpress_custom_player!' => 'yes'
 				],
 			]
@@ -468,7 +468,7 @@ class Embedpress_Elementor extends Widget_Base
 					'white' => __('White', 'embedpress')
 				],
 				'condition'   => [
-					'embedpress_pro_embeded_source' => 'youtube',
+					'embedpress_pro_embedded_source' => 'youtube',
 					'emberpress_custom_player!' => 'yes'
 				],
 			]
@@ -484,7 +484,7 @@ class Embedpress_Elementor extends Widget_Base
 				'separator'    => 'before',
 				'classes'     => $this->pro_class,
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'youtube',
+					'embedpress_pro_embedded_source' => 'youtube',
 					'emberpress_custom_player!' => 'yes'
 				],
 			]
@@ -501,7 +501,7 @@ class Embedpress_Elementor extends Widget_Base
 					'1' => __('Do Not Display', 'embedpress')
 				],
 				'condition'   => [
-					'embedpress_pro_embeded_source'              => 'youtube',
+					'embedpress_pro_embedded_source'              => 'youtube',
 					'embedpress_pro_youtube_display_controls!'   => '0',
 					'embedpress_pro_youtube_progress_bar_color!' => 'white',
 					'embedpress_custom_player!' => 'yes',
@@ -529,7 +529,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default'      => '',
 				'condition' => [
 					'emberpress_custom_player' => 'yes',
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video']
+					'embedpress_pro_embedded_source' => ['youtube', 'vimeo', 'selfhosted_video']
 				],
 			]
 		);
@@ -560,7 +560,7 @@ class Embedpress_Elementor extends Widget_Base
 				'classes'     => $this->pro_class,
 				'condition' => [
 					'emberpress_custom_player' => 'yes',
-					'embedpress_pro_embeded_source' => ['youtube', 'vimeo', 'selfhosted_video']
+					'embedpress_pro_embedded_source' => ['youtube', 'vimeo', 'selfhosted_video']
 				],
 			]
 		);
@@ -571,14 +571,14 @@ class Embedpress_Elementor extends Widget_Base
 	public function init_youtube_channel_section()
 	{
 		$yt_condition = [
-			'embedpress_pro_embeded_source' => 'youtube',
+			'embedpress_pro_embedded_source' => 'youtube',
 		];
 		$this->start_controls_section(
 			'embedpress_yt_channel_section',
 			[
 				'label'       => __('YouTube Channel', 'embedpress'),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'youtube',
+					'embedpress_pro_embedded_source' => 'youtube',
 					'emberpress_custom_player!' => 'yes'
 				],
 
@@ -606,7 +606,7 @@ class Embedpress_Elementor extends Widget_Base
 				'conditions'  => [
 					'terms' => [
 						[
-							'name' => 'embedpress_pro_embeded_source',
+							'name' => 'embedpress_pro_embedded_source',
 							'operator' => '===',
 							'value' => 'youtube',
 						],
@@ -632,7 +632,7 @@ class Embedpress_Elementor extends Widget_Base
 				'conditions'  => [
 					'terms' => [
 						[
-							'name' => 'embedpress_pro_embeded_source',
+							'name' => 'embedpress_pro_embedded_source',
 							'operator' => '===',
 							'value' => 'youtube',
 						],
@@ -665,7 +665,7 @@ class Embedpress_Elementor extends Widget_Base
 				'conditions'  => [
 					'terms' => [
 						[
-							'name' => 'embedpress_pro_embeded_source',
+							'name' => 'embedpress_pro_embedded_source',
 							'operator' => '===',
 							'value' => 'youtube',
 						],
@@ -697,7 +697,7 @@ class Embedpress_Elementor extends Widget_Base
 	public function init_youtube_subscription_section()
 	{
 		$yt_condition = [
-			'embedpress_pro_embeded_source' => 'youtube',
+			'embedpress_pro_embedded_source' => 'youtube',
 		];
 		$this->start_controls_section(
 			'embedpress_yt_subscription_section',
@@ -753,7 +753,7 @@ class Embedpress_Elementor extends Widget_Base
 					'full' => __('Full', 'embedpress')
 				],
 				'condition'   => [
-					'embedpress_pro_embeded_source'              => 'youtube',
+					'embedpress_pro_embedded_source'              => 'youtube',
 				],
 				'classes'     => $this->pro_class,
 			]
@@ -771,7 +771,7 @@ class Embedpress_Elementor extends Widget_Base
 					'dark' => __('Dark', 'embedpress')
 				],
 				'condition'   => [
-					'embedpress_pro_embeded_source'  => 'youtube',
+					'embedpress_pro_embedded_source'  => 'youtube',
 				],
 				'classes'     => $this->pro_class,
 			]
@@ -796,7 +796,7 @@ class Embedpress_Elementor extends Widget_Base
 	public function init_youtube_livechat_section()
 	{
 		$yt_condition = [
-			'embedpress_pro_embeded_source' => 'youtube',
+			'embedpress_pro_embedded_source' => 'youtube',
 		];
 		$this->start_controls_section(
 			'embedpress_yt_livechat_section',
@@ -845,7 +845,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'dailymotion'
+					'embedpress_pro_embedded_source' => 'dailymotion'
 				],
 				'classes'     => $this->pro_class,
 			]
@@ -861,7 +861,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'dailymotion'
+					'embedpress_pro_embedded_source' => 'dailymotion'
 				]
 			]
 		);
@@ -876,7 +876,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'dailymotion',
+					'embedpress_pro_embedded_source' => 'dailymotion',
 					'embedpress_pro_dailymotion_autoplay' => 'yes'
 				]
 			]
@@ -892,7 +892,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'dailymotion'
+					'embedpress_pro_embedded_source' => 'dailymotion'
 				]
 			]
 		);
@@ -907,7 +907,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'dailymotion'
+					'embedpress_pro_embedded_source' => 'dailymotion'
 				]
 			]
 		);
@@ -922,7 +922,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'dailymotion'
+					'embedpress_pro_embedded_source' => 'dailymotion'
 				]
 			]
 		);
@@ -934,7 +934,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block' => false,
 				'default'     => '#dd3333',
 				'condition'   => [
-					'embedpress_pro_embeded_source' => 'dailymotion'
+					'embedpress_pro_embedded_source' => 'dailymotion'
 				]
 			]
 		);
@@ -956,7 +956,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'no',
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'wistia'
+					'embedpress_pro_embedded_source' => 'wistia'
 				],
 			]
 		);
@@ -969,7 +969,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block' => false,
 				'default'     => '#dd3333',
 				'condition'   => [
-					'embedpress_pro_embeded_source' => 'wistia'
+					'embedpress_pro_embedded_source' => 'wistia'
 				]
 			]
 		);
@@ -985,7 +985,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'no',
 				'condition'    => [
-					'embedpress_pro_embeded_source'  => 'wistia',
+					'embedpress_pro_embedded_source'  => 'wistia',
 					'embedpress_pro_wistia_captions' => 'yes'
 				],
 				'classes'     => $this->pro_class,
@@ -999,7 +999,7 @@ class Embedpress_Elementor extends Widget_Base
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'condition' => [
-					'embedpress_pro_embeded_source' => 'wistia'
+					'embedpress_pro_embedded_source' => 'wistia'
 				]
 			]
 		);
@@ -1015,7 +1015,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'no',
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'wistia'
+					'embedpress_pro_embedded_source' => 'wistia'
 				],
 			]
 		);
@@ -1029,7 +1029,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'no',
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'wistia'
+					'embedpress_pro_embedded_source' => 'wistia'
 				],
 			]
 		);
@@ -1046,7 +1046,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'no',
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'wistia'
+					'embedpress_pro_embedded_source' => 'wistia'
 				],
 			]
 		);
@@ -1061,7 +1061,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'no',
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'wistia'
+					'embedpress_pro_embedded_source' => 'wistia'
 				],
 			]
 		);
@@ -1076,7 +1076,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'no',
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'wistia'
+					'embedpress_pro_embedded_source' => 'wistia'
 				],
 				'classes'     => $this->pro_class,
 			]
@@ -1090,7 +1090,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'no',
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'wistia'
+					'embedpress_pro_embedded_source' => 'wistia'
 				],
 			]
 		);
@@ -1104,7 +1104,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'yes',
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'wistia'
+					'embedpress_pro_embedded_source' => 'wistia'
 				],
 				'classes'     => $this->pro_class,
 			]
@@ -1126,7 +1126,7 @@ class Embedpress_Elementor extends Widget_Base
 					]
 				],
 				'condition' => [
-					'embedpress_pro_embeded_source'        => 'wistia',
+					'embedpress_pro_embedded_source'        => 'wistia',
 					'embedpress_pro_wistia_volume_control' => 'yes'
 				],
 				'classes'     => $this->pro_class,
@@ -1142,7 +1142,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'no',
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'wistia'
+					'embedpress_pro_embedded_source' => 'wistia'
 				],
 			]
 		);
@@ -1163,7 +1163,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'condition' => [
 					'embedpress_pro_wistia_rewind'  => 'yes',
-					'embedpress_pro_embeded_source' => 'wistia'
+					'embedpress_pro_embedded_source' => 'wistia'
 				],
 			]
 		);
@@ -1179,7 +1179,7 @@ class Embedpress_Elementor extends Widget_Base
 	public function init_twitch_control()
 	{
 		$condition = [
-			'embedpress_pro_embeded_source' => 'twitch'
+			'embedpress_pro_embedded_source' => 'twitch'
 		];
 		$this->add_control(
 			'embedpress_pro_twitch_autoplay',
@@ -1262,7 +1262,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'soundcloud'
+					'embedpress_pro_embedded_source' => 'soundcloud'
 				],
 			]
 		);
@@ -1275,7 +1275,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block' => false,
 				'default'     => '#FF5500',
 				'condition'   => [
-					'embedpress_pro_embeded_source' => 'soundcloud'
+					'embedpress_pro_embedded_source' => 'soundcloud'
 				]
 			]
 		);
@@ -1291,7 +1291,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'soundcloud'
+					'embedpress_pro_embedded_source' => 'soundcloud'
 				],
 			]
 		);
@@ -1309,7 +1309,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'soundcloud'
+					'embedpress_pro_embedded_source' => 'soundcloud'
 				],
 			]
 		);
@@ -1325,7 +1325,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'soundcloud'
+					'embedpress_pro_embedded_source' => 'soundcloud'
 				],
 			]
 		);
@@ -1343,7 +1343,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
-					'embedpress_pro_embeded_source'     => 'soundcloud',
+					'embedpress_pro_embedded_source'     => 'soundcloud',
 					'embedpress_pro_soundcloud_visual!' => 'yes'
 				]
 			]
@@ -1360,7 +1360,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'soundcloud',
+					'embedpress_pro_embedded_source' => 'soundcloud',
 					'embedpress_pro_soundcloud_visual!' => 'yes'
 				],
 			]
@@ -1377,7 +1377,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'soundcloud'
+					'embedpress_pro_embedded_source' => 'soundcloud'
 				],
 			]
 		);
@@ -1393,7 +1393,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'soundcloud'
+					'embedpress_pro_embedded_source' => 'soundcloud'
 				],
 				'classes'     => $this->pro_class,
 			]
@@ -1409,7 +1409,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off'    => __('Hide', 'embedpress'),
 				'label_on'     => __('Show', 'embedpress'),
 				'condition'    => [
-					'embedpress_pro_embeded_source' => 'soundcloud'
+					'embedpress_pro_embedded_source' => 'soundcloud'
 				],
 				'classes'     => $this->pro_class,
 			]
@@ -1434,7 +1434,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default'     => '#00adef',
 				'condition'   => [
 					'emberpress_custom_player!' => 'yes',
-					'embedpress_pro_embeded_source' => 'vimeo'
+					'embedpress_pro_embedded_source' => 'vimeo'
 				]
 			]
 		);
@@ -1446,7 +1446,7 @@ class Embedpress_Elementor extends Widget_Base
 				'type'      => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'condition' => [
-					'embedpress_pro_embeded_source' => 'vimeo',
+					'embedpress_pro_embedded_source' => 'vimeo',
 					'emberpress_custom_player!' => 'yes',
 				]
 			]
@@ -1462,7 +1462,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default'      => 'yes',
 				'condition'    => [
 					'emberpress_custom_player!' => 'yes',
-					'embedpress_pro_embeded_source' => 'vimeo'
+					'embedpress_pro_embedded_source' => 'vimeo'
 				]
 			]
 		);
@@ -1479,7 +1479,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default'      => 'yes',
 				'condition'    => [
 					'emberpress_custom_player!' => 'yes',
-					'embedpress_pro_embeded_source' => 'vimeo'
+					'embedpress_pro_embedded_source' => 'vimeo'
 				],
 			]
 		);
@@ -1494,7 +1494,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default'      => 'yes',
 				'condition'    => [
 					'emberpress_custom_player!' => 'yes',
-					'embedpress_pro_embeded_source' => 'vimeo'
+					'embedpress_pro_embedded_source' => 'vimeo'
 				],
 			]
 		);
@@ -1509,7 +1509,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default'      => 'no',
 				'condition'    => [
 					'emberpress_custom_player!' => 'yes',
-					'embedpress_pro_embeded_source' => 'vimeo'
+					'embedpress_pro_embedded_source' => 'vimeo'
 				],
 				'classes'     => $this->pro_class,
 			]
@@ -1526,7 +1526,7 @@ class Embedpress_Elementor extends Widget_Base
 	public function init_spotify_controls()
 	{
 		$condition = [
-			'embedpress_pro_embeded_source' => 'spotify'
+			'embedpress_pro_embedded_source' => 'spotify'
 		];
 
 		$this->add_control(
@@ -1553,7 +1553,7 @@ class Embedpress_Elementor extends Widget_Base
 	public function init_opensea_control()
 	{
 		$condition = [
-			'embedpress_pro_embeded_source' => 'opensea'
+			'embedpress_pro_embedded_source' => 'opensea'
 		];
 
 		$this->add_control(
@@ -1567,8 +1567,8 @@ class Embedpress_Elementor extends Widget_Base
 				'step' => 1,
 				'default' => 20,
 				'condition'   => [
-					'embedpress_pro_embeded_nft_type' => ['collection'],
-					'embedpress_pro_embeded_source!' => [
+					'embedpress_pro_embedded_nft_type' => ['collection'],
+					'embedpress_pro_embedded_source!' => [
 						'default',
 						'youtube',
 						'vimeo',
@@ -1595,8 +1595,8 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'default' => 'desc',
 				'condition'   => [
-					'embedpress_pro_embeded_nft_type' => ['collection'],
-					'embedpress_pro_embeded_source!' => [
+					'embedpress_pro_embedded_nft_type' => ['collection'],
+					'embedpress_pro_embedded_source!' => [
 						'default',
 						'youtube',
 						'vimeo',
@@ -1615,7 +1615,7 @@ class Embedpress_Elementor extends Widget_Base
 	public function init_opensea_control_section()
 	{
 		$condition = [
-			'embedpress_pro_embeded_source' => 'opensea',
+			'embedpress_pro_embedded_source' => 'opensea',
 		];
 
 		$this->start_controls_section(
@@ -1633,7 +1633,7 @@ class Embedpress_Elementor extends Widget_Base
 				'raw' => esc_html__('These options take effect only when a Opensea Single Asset is embedded.', 'embedpress'),
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
 				'condition'    => [
-					'embedpress_pro_embeded_nft_type' => 'single'
+					'embedpress_pro_embedded_nft_type' => 'single'
 				],
 
 			]
@@ -1645,7 +1645,7 @@ class Embedpress_Elementor extends Widget_Base
 				'raw' => esc_html__('These options take effect only when a Opensea Collection is embedded.', 'embedpress'),
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
 				'condition'    => [
-					'embedpress_pro_embeded_nft_type' => 'collection'
+					'embedpress_pro_embedded_nft_type' => 'collection'
 				],
 			]
 		);
@@ -1664,7 +1664,7 @@ class Embedpress_Elementor extends Widget_Base
 				'conditions'  => [
 					'terms' => [
 						[
-							'name' => 'embedpress_pro_embeded_nft_type',
+							'name' => 'embedpress_pro_embedded_nft_type',
 							'operator' => '===',
 							'value' => 'collection',
 						],
@@ -1689,7 +1689,7 @@ class Embedpress_Elementor extends Widget_Base
 				'conditions'  => [
 					'terms' => [
 						[
-							'name' => 'embedpress_pro_embeded_nft_type',
+							'name' => 'embedpress_pro_embedded_nft_type',
 							'operator' => '===',
 							'value' => 'collection',
 							'relation' => 'and'
@@ -1723,7 +1723,7 @@ class Embedpress_Elementor extends Widget_Base
 					'auto' => esc_html__('Auto', 'embedpress'),
 				],
 				'condition'  => [
-					'embedpress_pro_embeded_nft_type' => ['collection']
+					'embedpress_pro_embedded_nft_type' => ['collection']
 				],
 
 			]
@@ -1747,7 +1747,7 @@ class Embedpress_Elementor extends Widget_Base
 					'size' => 15,
 				],
 				'condition'  => [
-					'embedpress_pro_embeded_nft_type' => ['collection']
+					'embedpress_pro_embedded_nft_type' => ['collection']
 				],
 			]
 		);
@@ -1763,7 +1763,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_on'     => __('Show', 'embedpress'),
 				'default'      => 'yes',
 				'condition'    => [
-					'embedpress_pro_embeded_nft_type' => 'single'
+					'embedpress_pro_embedded_nft_type' => 'single'
 				],
 			]
 		);
@@ -1922,7 +1922,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default'      => '',
 				'classes'     => $this->pro_class,
 				'condition'  => [
-					'embedpress_pro_embeded_nft_type' => ['collection']
+					'embedpress_pro_embedded_nft_type' => ['collection']
 				],
 			]
 		);
@@ -1965,7 +1965,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_on'     => __('Show', 'embedpress'),
 				'default'      => 'yes',
 				'condition'    => [
-					'embedpress_pro_embeded_nft_type' => 'single'
+					'embedpress_pro_embedded_nft_type' => 'single'
 				],
 			]
 		);
@@ -1979,7 +1979,7 @@ class Embedpress_Elementor extends Widget_Base
 				'classes'     => $this->pro_class,
 				'condition' => [
 					'nftrank' => 'yes',
-					'embedpress_pro_embeded_nft_type!' => 'collection'
+					'embedpress_pro_embedded_nft_type!' => 'collection'
 				]
 			]
 		);
@@ -1995,7 +1995,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_on'     => __('Show', 'embedpress'),
 				'default'      => 'yes',
 				'condition'    => [
-					'embedpress_pro_embeded_nft_type' => 'single'
+					'embedpress_pro_embedded_nft_type' => 'single'
 				],
 			]
 		);
@@ -2010,7 +2010,7 @@ class Embedpress_Elementor extends Widget_Base
 				'classes'     => $this->pro_class,
 				'condition' => [
 					'nftdetails' => 'yes',
-					'embedpress_pro_embeded_nft_type!' => 'collection'
+					'embedpress_pro_embedded_nft_type!' => 'collection'
 				]
 			]
 		);
@@ -2021,7 +2021,7 @@ class Embedpress_Elementor extends Widget_Base
 	public function init_opensea_color_and_typography()
 	{
 		$condition = [
-			'embedpress_pro_embeded_source' => 'opensea',
+			'embedpress_pro_embedded_source' => 'opensea',
 		];
 
 		$this->start_controls_section(
@@ -2040,7 +2040,7 @@ class Embedpress_Elementor extends Widget_Base
 				'raw' => esc_html__('These options take effect only when a Opensea Single Asset is embedded.', 'embedpress'),
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
 				'condition'    => [
-					'embedpress_pro_embeded_nft_type' => 'single'
+					'embedpress_pro_embedded_nft_type' => 'single'
 				],
 
 			]
@@ -2052,7 +2052,7 @@ class Embedpress_Elementor extends Widget_Base
 				'raw' => esc_html__('These options take effect only when a Opensea Collection is embedded.', 'embedpress'),
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
 				'condition'    => [
-					'embedpress_pro_embeded_nft_type' => 'collection'
+					'embedpress_pro_embedded_nft_type' => 'collection'
 				],
 			]
 		);
@@ -2287,7 +2287,7 @@ class Embedpress_Elementor extends Widget_Base
 				'separator' => 'before',
 				'condition' => [
 					'loadmore' => 'yes',
-					'embedpress_pro_embeded_nft_type' => 'collection'
+					'embedpress_pro_embedded_nft_type' => 'collection'
 				]
 			]
 		);
@@ -2303,7 +2303,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'condition' => [
 					'loadmore' => 'yes',
-					'embedpress_pro_embeded_nft_type' => 'collection'
+					'embedpress_pro_embedded_nft_type' => 'collection'
 				]
 			]
 		);
@@ -2314,7 +2314,7 @@ class Embedpress_Elementor extends Widget_Base
 				'selector' => '{{WRAPPER}} .nft-loadmore, {{WRAPPER}} .nft-loadmore svg',
 				'condition' => [
 					'loadmore' => 'yes',
-					'embedpress_pro_embeded_nft_type' => 'collection'
+					'embedpress_pro_embedded_nft_type' => 'collection'
 				]
 			]
 		);
@@ -2328,7 +2328,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'condition' => [
 					'loadmore' => 'yes',
-					'embedpress_pro_embeded_nft_type' => 'collection'
+					'embedpress_pro_embedded_nft_type' => 'collection'
 				]
 			]
 		);
@@ -2341,7 +2341,7 @@ class Embedpress_Elementor extends Widget_Base
 				'separator' => 'before',
 				'condition' => [
 					'nftrank' => 'yes',
-					'embedpress_pro_embeded_nft_type!' => 'collection'
+					'embedpress_pro_embedded_nft_type!' => 'collection'
 				]
 			]
 		);
@@ -2356,7 +2356,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'condition' => [
 					'nftrank' => 'yes',
-					'embedpress_pro_embeded_nft_type!' => 'collection'
+					'embedpress_pro_embedded_nft_type!' => 'collection'
 				]
 			]
 		);
@@ -2367,7 +2367,7 @@ class Embedpress_Elementor extends Widget_Base
 				'selector' => '{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper ',
 				'condition' => [
 					'nftrank' => 'yes',
-					'embedpress_pro_embeded_nft_type!' => 'collection'
+					'embedpress_pro_embedded_nft_type!' => 'collection'
 				]
 			]
 		);
@@ -2381,7 +2381,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'condition' => [
 					'nftrank' => 'yes',
-					'embedpress_pro_embeded_nft_type!' => 'collection'
+					'embedpress_pro_embedded_nft_type!' => 'collection'
 				]
 			]
 		);
@@ -2395,7 +2395,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'condition' => [
 					'nftrank' => 'yes',
-					'embedpress_pro_embeded_nft_type!' => 'collection'
+					'embedpress_pro_embedded_nft_type!' => 'collection'
 				]
 			]
 		);
@@ -2406,7 +2406,7 @@ class Embedpress_Elementor extends Widget_Base
 				'selector' => '{{WRAPPER}} .ep-nft-single-item-wraper .ep-nft-rank-wraper span.ep-nft-rank',
 				'condition' => [
 					'nftrank' => 'yes',
-					'embedpress_pro_embeded_nft_type!' => 'collection'
+					'embedpress_pro_embedded_nft_type!' => 'collection'
 				]
 			]
 		);
@@ -2421,7 +2421,7 @@ class Embedpress_Elementor extends Widget_Base
 				'separator' => 'before',
 				'condition' => [
 					'nftrank' => 'yes',
-					'embedpress_pro_embeded_nft_type!' => 'collection'
+					'embedpress_pro_embedded_nft_type!' => 'collection'
 				]
 			]
 		);
@@ -2436,7 +2436,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'condition' => [
 					'nftrank' => 'yes',
-					'embedpress_pro_embeded_nft_type!' => 'collection'
+					'embedpress_pro_embedded_nft_type!' => 'collection'
 				]
 			]
 		);
@@ -2448,7 +2448,7 @@ class Embedpress_Elementor extends Widget_Base
 				'selector' => '{{WRAPPER}} .ep-title',
 				'condition' => [
 					'nftrank' => 'yes',
-					'embedpress_pro_embeded_nft_type!' => 'collection'
+					'embedpress_pro_embedded_nft_type!' => 'collection'
 				]
 			]
 		);
@@ -2463,7 +2463,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'condition' => [
 					'nftrank' => 'yes',
-					'embedpress_pro_embeded_nft_type!' => 'collection'
+					'embedpress_pro_embedded_nft_type!' => 'collection'
 				]
 			]
 		);
@@ -2475,7 +2475,7 @@ class Embedpress_Elementor extends Widget_Base
 				'selector' => '{{WRAPPER}} .ep-asset-detail-item',
 				'condition' => [
 					'nftrank' => 'yes',
-					'embedpress_pro_embeded_nft_type!' => 'collection'
+					'embedpress_pro_embedded_nft_type!' => 'collection'
 				]
 			]
 		);
@@ -2490,7 +2490,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'condition' => [
 					'nftrank' => 'yes',
-					'embedpress_pro_embeded_nft_type!' => 'collection'
+					'embedpress_pro_embedded_nft_type!' => 'collection'
 				]
 			]
 		);
@@ -2501,7 +2501,7 @@ class Embedpress_Elementor extends Widget_Base
 				'selector' => '{{WRAPPER}} .ep-asset-detail-item a, .ep-asset-detail-item',
 				'condition' => [
 					'nftrank' => 'yes',
-					'embedpress_pro_embeded_nft_type!' => 'collection'
+					'embedpress_pro_embedded_nft_type!' => 'collection'
 				]
 			]
 		);
@@ -2523,7 +2523,7 @@ class Embedpress_Elementor extends Widget_Base
 				'conditions'  => [
 					'terms' => [
 						[
-							'name' => 'embedpress_pro_embeded_source',
+							'name' => 'embedpress_pro_embedded_source',
 							'operator' => '!==',
 							'value' => 'opensea',
 						],
@@ -2629,7 +2629,7 @@ class Embedpress_Elementor extends Widget_Base
 		}
 
 		$args = trim($args);
-		echo "[embedpress $args]{$settings['embedpress_embeded_link']}\[/embedpress]";
+		echo "[embedpress $args]{$settings['embedpress_embedded_link']}\[/embedpress]";
 	}
 
 	public function get_custom_player_options($settings)
@@ -2645,7 +2645,7 @@ class Embedpress_Elementor extends Widget_Base
 
 			$poster_thumbnail = !empty($settings['embedpress_player_poster_thumbnail']['url']) ? $settings['embedpress_player_poster_thumbnail']['url'] : '';
 
-			$is_self_hosted = Helper::check_media_format($settings['embedpress_embeded_link']);
+			$is_self_hosted = Helper::check_media_format($settings['embedpress_embedded_link']);
 
 
 			$player_pip = !empty($settings['embepress_player_always_on_top']) ? true : false;
@@ -2745,13 +2745,13 @@ class Embedpress_Elementor extends Widget_Base
 		$settings      = $this->get_settings_for_display();
 
 		$is_editor_view = Plugin::$instance->editor->is_edit_mode();
-		$link = $settings['embedpress_embeded_link'];
+		$link = $settings['embedpress_embedded_link'];
 		$is_apple_podcast = (strpos($link, 'podcasts.apple.com') !== false);
 
 		// conditionaly convert settings data
 		$_settings = [];
-		$source = isset($settings['embedpress_pro_embeded_source']) ? $settings['embedpress_pro_embeded_source'] : 'default';
-		$embed_link = isset($settings['embedpress_embeded_link']) ? $settings['embedpress_embeded_link'] : '';
+		$source = isset($settings['embedpress_pro_embedded_source']) ? $settings['embedpress_pro_embedded_source'] : 'default';
+		$embed_link = isset($settings['embedpress_embedded_link']) ? $settings['embedpress_embedded_link'] : '';
 		$pass_hash_key = isset($settings['embedpress_lock_content_password']) ? md5($settings['embedpress_lock_content_password']) : '';
 
 
@@ -2767,7 +2767,7 @@ class Embedpress_Elementor extends Widget_Base
 		}
 
 
-		$embed_content = Shortcode::parseContent($settings['embedpress_embeded_link'], true, $_settings);
+		$embed_content = Shortcode::parseContent($settings['embedpress_embedded_link'], true, $_settings);
 		$embed_content = $this->onAfterEmbedSpotify($embed_content, $settings);
 		$embed         = apply_filters('embedpress_elementor_embed', $embed_content, $settings);
 		$content       = is_object($embed) ? $embed->embed : $embed;
@@ -2867,7 +2867,7 @@ class Embedpress_Elementor extends Widget_Base
 		</div>
 
 
-		<?php if ($settings['embedpress_pro_embeded_source'] === 'youtube') : ?>
+		<?php if ($settings['embedpress_pro_embedded_source'] === 'youtube') : ?>
 			<style>
 				#ep-elements-id-<?php echo esc_html($this->get_id()); ?>.ep-youtube__content__block .youtube__content__body .content__wrap {
 					grid-template-columns: repeat(auto-fit, minmax(<?php echo esc_html($calVal); ?>, 1fr)) !important;
