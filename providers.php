@@ -15,7 +15,6 @@
  */
 
  $host_url = parse_url(site_url());
-$host_url = parse_url(site_url());
 $additionalServiceProviders = [
 	EMBEDPRESS_NAMESPACE . "\\Providers\\GoogleMaps" => ["google.com", "google.com.*", "maps.google.com", "goo.gl", "google.co.*"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\GoogleDrive" => ["drive.google.com"],
@@ -28,4 +27,5 @@ $additionalServiceProviders = [
 	EMBEDPRESS_NAMESPACE . "\\Providers\\SelfHosted"    => [$host_url['host']],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\NRKRadio"    => ["radio.nrk.no", "nrk.no"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\GitHub"    => ["gist.github.com", "github.com"],
+	EMBEDPRESS_NAMESPACE . "\\Providers\\Wrapper"    => [$host_url['host']],
 ];
