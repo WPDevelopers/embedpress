@@ -2799,8 +2799,9 @@ class Embedpress_Elementor extends Widget_Base
 
 
 		$client_id = $this->get_id();
-		$hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_lock_content_password']));
-		$password_correct =  isset($_COOKIE['password_correct_' . $client_id]) ? $_COOKIE['password_correct_' . $client_id] : '';
+		$hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_lock_content_password']?$settings['embedpress_lock_content_password'] : ''));
+
+		$password_correct =  isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
 
 		$ispagination = 'flex';
 

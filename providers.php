@@ -9,11 +9,12 @@
  *
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
- * @copyright   Copyright (C) 2020 WPDeveloper. All rights reserved.
+ * @copyright   Copyright (C) 2023 WPDeveloper. All rights reserved.
  * @license     GPLv3 or later
  * @since       1.0.0
  */
 
+ $host_url = parse_url(site_url());
 $host_url = parse_url(site_url());
 $additionalServiceProviders = [
 	EMBEDPRESS_NAMESPACE . "\\Providers\\GoogleMaps" => ["google.com", "google.com.*", "maps.google.com", "goo.gl", "google.co.*"],

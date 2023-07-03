@@ -14,7 +14,7 @@ use WP_oEmbed;
  *
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
- * @copyright   Copyright (C) 2020 WPDeveloper. All rights reserved.
+ * @copyright   Copyright (C) 2023 WPDeveloper. All rights reserved.
  * @license     GPLv3 or later
  * @since       1.0.0
  */
@@ -152,6 +152,7 @@ class Shortcode
 
             // Identify what service provider the shortcode's link belongs to
             $is_embra_provider = apply_filters('embedpress:isEmbra', false, $url, self::get_embera_settings());
+            
             if ($is_embra_provider || (strpos($url, 'meetup.com') !== false) || (strpos($url, 'sway.office.com') !== false)) {
                 $serviceProvider = '';
             } else {
