@@ -60,6 +60,10 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         setAttributes({ height: '340' });
     }
 
+    if(isSelfHostedAudio){
+        setAttributes({ height: '48' });
+    }
+
     return (
         !editingURL && embedHTML && (
             <InspectorControls>
