@@ -45,14 +45,6 @@ class Wrapper extends ProviderAdapter implements ProviderInterface
             (string) $url
         );
     }
-
-    public function validateWrapper($url)
-    {
-        return  (bool) preg_match(
-            '/^(https?:\/\/)?(www\.)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i',
-            (string) $url
-        );
-    }
     
 
     /**
@@ -63,29 +55,13 @@ class Wrapper extends ProviderAdapter implements ProviderInterface
      * @return  array
      */
     public function fakeResponse()
-    {
-        $src_url = urldecode($this->url);
-
-        
-
-        $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
-        $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 450;
-        
-        // Check if the url is already converted to the embed format  
-        $html = '';
-        if ($this->validateWrapper($this->url)) {
-            $html ='<iframe width="'.esc_attr($width).'" height="'.esc_attr($height).'" src="'.esc_url($src_url).'" > </iframe>';
-        }
-        else {
-            return [];
-        }
-        
+    {  
         return [
             'type'          => 'rich',
             'provider_name' => 'Wrapper',
             'provider_url'  => site_url(),
             'title'         => 'Unknown title',
-            'html'          => $html,
+            'html'          => '',
         ];
     }
     /** inline @inheritDoc */
