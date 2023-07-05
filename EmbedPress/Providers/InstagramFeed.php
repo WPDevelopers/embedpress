@@ -140,10 +140,14 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     }
 
 
-    public function getInstaFeedItem($post)
+    public function getInstaFeedItem($post, $index, $posts_count)
     {
+        $ref = '';
+        if($index === $posts_count){
+            $ref = ' is-ref';
+        }
         ob_start(); ?>
-        <div class="insta-gallery-item">
+        <div class="insta-gallery-item<?php echo esc_attr( $ref ); ?>">
             <?php 
                 if($post['media_type'] == 'VIDEO'){
                     echo '<video class="insta-gallery-image" src="'.esc_url($post['media_url']).'"></video>';
@@ -195,6 +199,9 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 </ul>
             </div>
         </div>
+        <!-- <div class="pop-insta-feed-item-details">
+            <blockquote class="instagram-media" data-instgrm-permalink="<?php echo esc_url($post['permalink']); ?>" ></blockquote>
+        </div> -->
         <?php $feed_item = ob_get_clean();
                 return $feed_item;
             }
@@ -207,13 +214,38 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         if (is_array($insta_posts) and !empty($insta_posts)) {
             ob_start(); ?>
             <div class="embedpress-insta-container">
-                <div class="insta-gallery masonary">
+                <div class="insta-gallery" id="carousel">
                     <?php
-                        foreach ($insta_posts as $post) {
-                            print_r($this->getInstaFeedItem($post));
+                        $posts_count = is_array($insta_posts) ? count($insta_posts) : 0;
+
+                        foreach ($insta_posts as $index=>$post) {
+                            print_r($this->getInstaFeedItem($post, $index + 1, $posts_count));
                         }
                     ?>
                 </div>
+                <div class='controls'>
+                    <button class='toggle' data-toggle='prev'>Prev</button>
+                    <button class='toggle' data-toggle='next'>Next</button>
+                </div>
+
+                <!-- <script async src="//www.instagram.com/embed.js"></script> -->
+                <script>
+    //                 const popup = document.getElementById('popup');
+    //                 const popupContent = document.getElementById('popup-content');
+    //                 const closeBtn = document.getElementById('close-btn');
+    //                 const triggerBtn = document.getElementById('trigger-btn');
+
+    //                 function showPopup() {
+    //                 popup.style.display = 'flex';
+    //                 }
+
+    //                 function hidePopup() {
+    //   popup.style.display = 'none';
+    // }
+
+    // closeBtn.addEventListener('click', hidePopup);
+    // triggerBtn.addEventListener('click', showPopup);
+  </script>
             </div>
             <?php
 

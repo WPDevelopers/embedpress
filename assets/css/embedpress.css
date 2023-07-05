@@ -1632,15 +1632,15 @@ canvas.ep-doc-canvas {
 
 
 /* Instagram feed layout design */
-.embedpress-insta-container {
+/* .embedpress-insta-container {
     font-family: "open sans", Arial, sans-serif;
-}
+} */
 
 .ose-instagram-feed {
-    max-height: 100%!important;;
-    height: 100%!important;
+    max-height: 100% !important;
+    ;
+    height: 100% !important;
 }
-
 .embedpress-insta-container .insta-gallery {
     display: flex;
     flex-wrap: wrap;
@@ -1660,11 +1660,14 @@ canvas.ep-doc-canvas {
 
 .embedpress-insta-container .insta-gallery-item {
     position: relative;
-    flex: 1 0 22rem;
     color: #fff;
     cursor: pointer;
     height: 350px;
-    transition: 0.3s;
+    /* transition: 0.3s; */
+}
+
+.embedpress-insta-container .carousel:not(.insta-gallery-item) {
+    flex: 1 0 22rem;
 }
 
 .embedpress-insta-container .insta-gallery.masonary .insta-gallery-item {
@@ -1676,6 +1679,7 @@ canvas.ep-doc-canvas {
 .embedpress-insta-container .insta-gallery.masonary .insta-gallery-item video.insta-gallery-image {
     height: 650px;
 }
+
 .embedpress-insta-container .insta-gallery-item .insta-gallery-item-info,
 .embedpress-insta-container .insta-gallery-item .insta-gallery-item-info {
     display: flex;
@@ -1690,6 +1694,7 @@ canvas.ep-doc-canvas {
     opacity: 0;
     visibility: hidden;
 }
+
 
 .embedpress-insta-container .insta-gallery-item:hover .insta-gallery-item-info,
 .embedpress-insta-container .insta-gallery-item:hover .insta-gallery-item-info {
@@ -1730,13 +1735,14 @@ canvas.ep-doc-canvas {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
+} 
 
 .insta-gallery-item-info svg {
     width: 40px;
     height: 40px;
 }
-.insta-gallery-item-type svg{
+
+.insta-gallery-item-type svg {
     width: 25px;
     height: 25px;
 }
@@ -1744,4 +1750,159 @@ canvas.ep-doc-canvas {
 .insta-gallery-item-type svg.insta-video-icon {
     width: 22px;
     height: 22px;
+}
+
+button.slick-prev.slick-arrow {
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+button.slick-next.slick-arrow {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+/* Popup design for instafeed */
+.pop-insta-feed-item-details {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    animation: fade-in 0.3s ease-in-out forwards;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+#popup-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+#close-btn {
+    margin-top: 10px;
+}
+
+/* Instagram feed carousel */
+.wrap {
+    width: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.carousel {
+    display: flex;
+    left: -100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    transform: translateX(100%);
+}
+
+@media (min-width: 30em) {
+    .carousel {
+        left: -50%;
+        transform: translateX(50%);
+    }
+}
+
+@media (min-width: 40em) {
+    .carousel {
+        left: -25%;
+        transform: translateX(25%);
+    }
+}
+
+.carousel.is-reversing {
+    transform: translateX(-100%);
+}
+
+@media (min-width: 30em) {
+    .carousel.is-reversing {
+        transform: translateX(-50%);
+    }
+}
+
+@media (min-width: 40em) {
+    .carousel.is-reversing {
+        transform: translateX(-25%);
+    }
+}
+
+.carousel.is-set {
+    transform: none;
+    transition: transform 0.5s ease-in-out;
+}
+
+.insta-gallery-item {
+    background: #ddd;
+    flex: 1 0 100%;
+    order: 2;
+}
+
+.insta-gallery-item:nth-child(even) {
+    background: #d5d5d5;
+}
+
+@media (min-width: 30em) {
+    .insta-gallery-item {
+        flex-basis: 50%;
+    }
+}
+
+@media (min-width: 40em) {
+    .insta-gallery-item {
+        flex-basis: 25%;
+    }
+}
+
+.insta-gallery-item.is-ref {
+    order: 1;
+}
+
+h2 {
+    color: #aaa;
+    font-size: 7em;
+    font-weight: normal;
+    margin: 0;
+    padding: 0.6em 0;
+    text-align: center;
+}
+
+.controls {
+    padding: 1em;
+    text-align: center;
+}
+
+.controls button {
+    background: #aaa;
+    border: 0;
+    border-radius: 0.25em;
+    color: #eee;
+    padding: 0.5em 1em;
+}
+
+.controls button:hover,
+.controls button:focus {
+    background: orange;
 }

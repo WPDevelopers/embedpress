@@ -54,6 +54,20 @@ class Handler extends EndHandlerAbstract {
     	}
 
 
+        if ('post.php' === $pagenow || 'post-new.php' === $pagenow) {
+            wp_enqueue_script(
+                'slick',
+                EMBEDPRESS_URL_ASSETS . 'js/slick.min.js',
+                ['jquery'],
+                $this->pluginVersion,
+                false
+            );
+
+            wp_enqueue_style('slick', EMBEDPRESS_URL_ASSETS . 'css/slick.css', $this->pluginVersion, true);
+            
+            wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true);
+        }
+
         //load embedpress admin js
 
         wp_enqueue_script( 'embedpress-admin', EMBEDPRESS_URL_ASSETS . 'js/admin.js', [ 'jquery' ],
