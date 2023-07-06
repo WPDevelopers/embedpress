@@ -143,34 +143,30 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     public function getInstaFeedItem($post, $index, $posts_count)
     {
         $ref = '';
-        if($index === $posts_count){
-            $ref = ' is-ref';
+        if ($index === $posts_count) {
+            // $ref = ' is-ref';
         }
         ob_start(); ?>
-        <div class="insta-gallery-item<?php echo esc_attr( $ref ); ?>">
-            <?php 
-                if($post['media_type'] == 'VIDEO'){
-                    echo '<video class="insta-gallery-image" src="'.esc_url($post['media_url']).'"></video>';
-                }
-                
-                else{
-                    echo ' <img class="insta-gallery-image" src="'.$post['media_url'].'" alt="'.esc_attr($post['caption']).'">';
-                }
-            ?>
-           
+        <div class="insta-gallery-item">
+            <?php
+                    if ($post['media_type'] == 'VIDEO') {
+                        echo '<video class="insta-gallery-image" src="' . esc_url($post['media_url']) . '"></video>';
+                    } else {
+                        echo ' <img class="insta-gallery-image" src="' . $post['media_url'] . '" alt="' . esc_attr($post['caption']) . '">';
+                    }
+                    ?>
+
             <div class="insta-gallery-item-type">
                 <div class="insta-gallery-item-type-icon">
-                    <?php 
-                        if($post['media_type'] == 'VIDEO'){
-                            echo Helper::get_insta_video_icon();
-                        }
-                        else if ($post['media_type'] == 'CAROUSEL_ALBUM'){
-                            echo Helper::get_insta_image_carousel_icon();
-                        }
-                        else{
-                            echo Helper::get_insta_image_icon();
-                        }
-                    ?>
+                    <?php
+                            if ($post['media_type'] == 'VIDEO') {
+                                echo Helper::get_insta_video_icon();
+                            } else if ($post['media_type'] == 'CAROUSEL_ALBUM') {
+                                echo Helper::get_insta_image_carousel_icon();
+                            } else {
+                                echo Helper::get_insta_image_icon();
+                            }
+                            ?>
                 </div>
             </div>
             <div class="insta-gallery-item-info">
@@ -193,7 +189,20 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                     </li> -->
                     <li class="insta-gallery-item-permalink">
                         <!-- <a href="<?php echo esc_url($post['permalink']); ?>"> -->
-                        <svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" xml:space="preserve" width="20" height="20"><style>.st0{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}</style><path class="st0" d="M14.375 19.375h-8.75c-2.75 0-5-2.25-5-5v-8.75c0-2.75 2.25-5 5-5h8.75c2.75 0 5 2.25 5 5v8.75c0 2.75-2.25 5-5 5z"/><path class="st0" d="M14.375 10A4.375 4.375 0 0 1 10 14.375 4.375 4.375 0 0 1 5.625 10a4.375 4.375 0 0 1 8.75 0zm1.25-5.625A.625.625 0 0 1 15 5a.625.625 0 0 1-.625-.625.625.625 0 0 1 1.25 0z"/></svg>
+                        <svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" xml:space="preserve" width="20" height="20">
+                            <style>
+                                .st0 {
+                                    fill: none;
+                                    stroke: #fff;
+                                    stroke-width: 2;
+                                    stroke-linecap: round;
+                                    stroke-linejoin: round;
+                                    stroke-miterlimit: 10
+                                }
+                            </style>
+                            <path class="st0" d="M14.375 19.375h-8.75c-2.75 0-5-2.25-5-5v-8.75c0-2.75 2.25-5 5-5h8.75c2.75 0 5 2.25 5 5v8.75c0 2.75-2.25 5-5 5z" />
+                            <path class="st0" d="M14.375 10A4.375 4.375 0 0 1 10 14.375 4.375 4.375 0 0 1 5.625 10a4.375 4.375 0 0 1 8.75 0zm1.25-5.625A.625.625 0 0 1 15 5a.625.625 0 0 1-.625-.625.625.625 0 0 1 1.25 0z" />
+                        </svg>
                         <!-- </a> -->
                     </li>
                 </ul>
@@ -206,48 +215,44 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 return $feed_item;
             }
 
-    public function getInstagramFeedTemplate($accessToken)
-    {
-        $insta_user_info = $this->getInstagramUserInfo($accessToken);
-        $insta_posts = $this->getInstagramPosts($accessToken);
+            public function getInstagramFeedTemplate($accessToken)
+            {
+                $insta_user_info = $this->getInstagramUserInfo($accessToken);
+                $insta_posts = $this->getInstagramPosts($accessToken);
 
-        if (is_array($insta_posts) and !empty($insta_posts)) {
-            ob_start(); ?>
+                if (is_array($insta_posts) and !empty($insta_posts)) {
+                    ob_start(); ?>
             <div class="embedpress-insta-container">
-                <div class="insta-gallery" id="carousel">
+                <div class="insta-gallery carousel" id="carousel">
                     <?php
-                        $posts_count = is_array($insta_posts) ? count($insta_posts) : 0;
+                                $posts_count = is_array($insta_posts) ? count($insta_posts) : 0;
 
-                        foreach ($insta_posts as $index=>$post) {
-                            print_r($this->getInstaFeedItem($post, $index + 1, $posts_count));
-                        }
-                    ?>
+                                foreach ($insta_posts as $index => $post) {
+                                    print_r($this->getInstaFeedItem($post, $index + 1, $posts_count));
+                                }
+                                ?>
                 </div>
-                <div class='controls'>
-                    <button class='toggle' data-toggle='prev'>Prev</button>
-                    <button class='toggle' data-toggle='next'>Next</button>
-                </div>
-
                 <!-- <script async src="//www.instagram.com/embed.js"></script> -->
                 <script>
-    //                 const popup = document.getElementById('popup');
-    //                 const popupContent = document.getElementById('popup-content');
-    //                 const closeBtn = document.getElementById('close-btn');
-    //                 const triggerBtn = document.getElementById('trigger-btn');
+                    //                 const popup = document.getElementById('popup');
+                    //                 const popupContent = document.getElementById('popup-content');
+                    //                 const closeBtn = document.getElementById('close-btn');
+                    //                 const triggerBtn = document.getElementById('trigger-btn');
 
-    //                 function showPopup() {
-    //                 popup.style.display = 'flex';
-    //                 }
+                    //                 function showPopup() {
+                    //                 popup.style.display = 'flex';
+                    //                 }
 
-    //                 function hidePopup() {
-    //   popup.style.display = 'none';
-    // }
+                    //                 function hidePopup() {
+                    //   popup.style.display = 'none';
+                    // }
 
-    // closeBtn.addEventListener('click', hidePopup);
-    // triggerBtn.addEventListener('click', showPopup);
-  </script>
+                    // closeBtn.addEventListener('click', hidePopup);
+                    // triggerBtn.addEventListener('click', showPopup);
+                </script>
+
             </div>
-            <?php
+<?php
 
             $feed_template = ob_get_clean();
             return $feed_template;

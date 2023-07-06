@@ -57,7 +57,7 @@ class Handler extends EndHandlerAbstract {
         if ('post.php' === $pagenow || 'post-new.php' === $pagenow) {
             wp_enqueue_script(
                 'slick',
-                EMBEDPRESS_URL_ASSETS . 'js/slick.min.js',
+                EMBEDPRESS_URL_ASSETS . 'js/glider.min.js',
                 ['jquery'],
                 $this->pluginVersion,
                 false

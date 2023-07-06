@@ -33,7 +33,7 @@ class Handler extends EndHandlerAbstract
     public static function enqueueStyles()
     {
         wp_enqueue_style(EMBEDPRESS_PLG_NAME, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css');
-        wp_enqueue_style('slick', EMBEDPRESS_URL_ASSETS . 'css/slick.min.css');
+        wp_enqueue_style('slick', EMBEDPRESS_URL_ASSETS . 'css/slick.min.css', time());
     }
 
 
@@ -50,7 +50,7 @@ class Handler extends EndHandlerAbstract
         wp_enqueue_script(
             'embedpress-front',
             EMBEDPRESS_URL_ASSETS . 'js/front.js',
-            ['jquery', 'embedpress-pdfobject'],
+            ['jquery', 'embedpress-pdfobject', 'slick'],
             $this->pluginVersion,
             true
         );
@@ -70,7 +70,6 @@ class Handler extends EndHandlerAbstract
             $this->pluginVersion,
             false
         );
-
 
 
         wp_localize_script('embedpress-front', 'eplocalize', array(
