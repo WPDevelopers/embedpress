@@ -16,7 +16,7 @@ use EmbedPress\Shortcode;
  * @package     EmbedPress
  * @subpackage  EmbedPress/Ends/Front
  * @author      EmbedPress <help@embedpress.com>
- * @copyright   Copyright (C) 2020 WPDeveloper. All rights reserved.
+ * @copyright   Copyright (C) 2023 WPDeveloper. All rights reserved.
  * @license     GPLv3 or later
  * @since       1.0.0
  */
@@ -34,8 +34,8 @@ class Handler extends EndHandlerAbstract
     {
         wp_enqueue_style(EMBEDPRESS_PLG_NAME, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css');
         wp_enqueue_style('slick', EMBEDPRESS_URL_ASSETS . 'css/slick.min.css', time());
+        wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css');
     }
-
 
     public function enqueueScripts()
     {
@@ -55,6 +55,13 @@ class Handler extends EndHandlerAbstract
             true
         );
 
+        wp_enqueue_script(
+            'initplyr',
+            EMBEDPRESS_URL_ASSETS . 'js/initplyr.js',
+            ['plyr.polyfilled'],
+            $this->pluginVersion,
+            true
+        );
         wp_enqueue_script(
             'embedpress_documents_viewer_script',
             EMBEDPRESS_URL_ASSETS . 'js/documents-viewer-script.js',

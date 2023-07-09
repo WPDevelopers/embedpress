@@ -14,7 +14,7 @@ use WP_oEmbed;
  *
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
- * @copyright   Copyright (C) 2020 WPDeveloper. All rights reserved.
+ * @copyright   Copyright (C) 2023 WPDeveloper. All rights reserved.
  * @license     GPLv3 or later
  * @since       1.0.0
  */
@@ -152,6 +152,7 @@ class Shortcode
 
             // Identify what service provider the shortcode's link belongs to
             $is_embra_provider = apply_filters('embedpress:isEmbra', false, $url, self::get_embera_settings());
+            
             if ($is_embra_provider || (strpos($url, 'meetup.com') !== false) || (strpos($url, 'sway.office.com') !== false)) {
                 $serviceProvider = '';
             } else {
@@ -194,7 +195,7 @@ class Shortcode
             }
 
             if (isset($customAttributes['width'])) {
-                $attributesHtml[] = "style=\"width:{$customAttributes['width']}px; max-height:{$height}px; max-width:100%; display:inline-block;\"";
+                $attributesHtml[] = "style=\"width:{$customAttributes['width']}px; height:{$customAttributes['height']}px; max-height:{$height}px; max-width:100%; display:inline-block;\"";
             }
 
             // Check if $url is a google shortened url and tries to extract from it which Google service it refers to.
@@ -341,6 +342,16 @@ KAMAL;
 
                 $embed = self::modify_spotify_content($embed);
                 $embed = apply_filters('embedpress:onAfterEmbed', $embed);
+
+                // Attributes to remove
+                $attributesToRemove = 'autoplay;';
+            
+                // New attribute to add
+                $newAttribute = 'encrypted-media;'.'accelerometer;'.'autoplay;'.'clipboard-write;'.'gyroscope;'.'picture-in-picture';
+                
+                // Remove existing attributes
+                $embed->embed = str_replace($attributesToRemove, $newAttribute, $embed->embed);
+                
                 return $embed;
             }
         }

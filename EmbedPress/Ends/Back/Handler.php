@@ -7,7 +7,7 @@ use EmbedPress\Ends\Handler as EndHandlerAbstract;
 use EmbedPress\Shortcode;
 use Embera\Embera;
 
-(defined( 'ABSPATH' ) && defined( 'EMBEDPRESS_IS_LOADED' )) or die( "No direct script access allowed." );
+(defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
 /**
  * The admin-facing functionality of the plugin.
@@ -16,11 +16,12 @@ use Embera\Embera;
  * @package     EmbedPress
  * @subpackage  EmbedPress/Ends/Back
  * @author      EmbedPress <help@embedpress.com>
- * @copyright   Copyright (C) 2020 WPDeveloper. All rights reserved.
+ * @copyright   Copyright (C) 2023 WPDeveloper. All rights reserved.
  * @license     GPLv3 or later
  * @since       1.0.0
  */
-class Handler extends EndHandlerAbstract {
+class Handler extends EndHandlerAbstract
+{
     /**
      * Method that register all scripts for the admin area.
      *
@@ -28,30 +29,50 @@ class Handler extends EndHandlerAbstract {
      * @since   1.0.0
      *
      */
-    public function enqueueScripts() {
-    	global $pagenow;
-	    if ( 'post.php' === $pagenow ) {
-		    $urlSchemes = apply_filters( 'embedpress:getAdditionalURLSchemes', $this->getUrlSchemes() );
+    public function enqueueScripts()
+    {
+        global $pagenow;
+        if ('post.php' === $pagenow) {
+            $urlSchemes = apply_filters('embedpress:getAdditionalURLSchemes', $this->getUrlSchemes());
 
-		    wp_enqueue_script( 'embedpress-pdfobject', EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js', [],
-			    $this->pluginVersion, false );
+            wp_enqueue_script(
+                'embedpress-pdfobject',
+                EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js',
+                [],
+                $this->pluginVersion,
+                false
+            );
 
-		    wp_enqueue_script( "bootbox-bootstrap", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootstrap/bootstrap.min.js',[ 'jquery' ], $this->pluginVersion, false );
-		    wp_enqueue_script( "bootbox", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootbox.min.js', [ 'jquery', 'bootbox-bootstrap' ], $this->pluginVersion, true );
-		    wp_enqueue_script( $this->pluginName, EMBEDPRESS_URL_ASSETS . 'js/preview.js', [ 'jquery', 'bootbox' ],$this->pluginVersion, true );
-		    wp_enqueue_style( $this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true );
+            wp_enqueue_script("bootbox-bootstrap", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootstrap/bootstrap.min.js', ['jquery'], $this->pluginVersion, false);
+            wp_enqueue_script("bootbox", EMBEDPRESS_URL_ASSETS . 'js/vendor/bootbox.min.js', ['jquery', 'bootbox-bootstrap'], $this->pluginVersion, true);
+            wp_enqueue_script($this->pluginName, EMBEDPRESS_URL_ASSETS . 'js/preview.js', ['jquery', 'bootbox'], $this->pluginVersion, true);
 
-		    wp_localize_script( $this->pluginName, '$data', [
-			    'previewSettings'       => [
-				    'baseUrl'    => get_site_url() . '/',
-				    'versionUID' => $this->pluginVersion,
-				    'debug'      => true,
-			    ],
-			    'EMBEDPRESS_SHORTCODE'  => EMBEDPRESS_SHORTCODE,
-			    'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
-			    'urlSchemes'            => $urlSchemes,
-		    ] );
-    	}
+
+            wp_localize_script($this->pluginName, '$data', [
+                'previewSettings'       => [
+                    'baseUrl'    => get_site_url() . '/',
+                    'versionUID' => $this->pluginVersion,
+                    'debug'      => true,
+                ],
+                'EMBEDPRESS_SHORTCODE'  => EMBEDPRESS_SHORTCODE,
+                'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
+                'urlSchemes'            => $urlSchemes,
+            ]);
+        }
+
+        if ('post.php' === $pagenow || 'post-new.php' === $pagenow) {
+            wp_enqueue_script(
+                'plyr.polyfilled',
+                EMBEDPRESS_URL_ASSETS . 'js/plyr.polyfilled.js',
+                [],
+                $this->pluginVersion,
+                false
+            );
+
+            wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css', $this->pluginVersion, true);
+            
+            wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true);
+        }
 
 
         if ('post.php' === $pagenow || 'post-new.php' === $pagenow) {
@@ -77,24 +98,42 @@ class Handler extends EndHandlerAbstract {
 
         //load embedpress admin js
 
-        wp_enqueue_script( 'embedpress-admin', EMBEDPRESS_URL_ASSETS . 'js/admin.js', [ 'jquery' ],
-            $this->pluginVersion, true );
-		
-        wp_localize_script( $this->pluginName, 'EMBEDPRESS_ADMIN_PARAMS', [
+        wp_enqueue_script(
+            'embedpress-admin',
+            EMBEDPRESS_URL_ASSETS . 'js/admin.js',
+            ['jquery'],
+            $this->pluginVersion,
+            true
+        );
+
+        wp_enqueue_script(
+            'embedpress-admin',
+            EMBEDPRESS_URL_ASSETS . 'js/admin.js',
+            ['jquery'],
+            $this->pluginVersion,
+            true
+        );
+
+        wp_localize_script($this->pluginName, 'EMBEDPRESS_ADMIN_PARAMS', [
             'ajaxurl' => admin_url('admin-ajax.php'),
             'nonce'   => wp_create_nonce('embedpress')
-        ] );
+        ]);
 
 
         $installedPlugins = Core::getPlugins();
-        if ( count( $installedPlugins ) > 0 ) {
-            foreach ( $installedPlugins as $plgSlug => $plgNamespace ) {
+        if (count($installedPlugins) > 0) {
+            foreach ($installedPlugins as $plgSlug => $plgNamespace) {
                 $plgScriptPathRelative = "assets/js/embedpress.{$plgSlug}.js";
                 $plgName               = "embedpress-{$plgSlug}";
 
-                if ( file_exists( WP_PLUGIN_DIR . "/{$plgName}/{$plgScriptPathRelative}" ) ) {
-                    wp_enqueue_script( $plgName, plugins_url( $plgName ) . '/' . $plgScriptPathRelative,
-                        [ $this->pluginName ], $this->pluginVersion, true );
+                if (file_exists(WP_PLUGIN_DIR . "/{$plgName}/{$plgScriptPathRelative}")) {
+                    wp_enqueue_script(
+                        $plgName,
+                        plugins_url($plgName) . '/' . $plgScriptPathRelative,
+                        [$this->pluginName],
+                        $this->pluginVersion,
+                        true
+                    );
                 }
             }
         }
@@ -108,11 +147,11 @@ class Handler extends EndHandlerAbstract {
      * @static
      *
      */
-    public static function enqueueStyles() {
-	    if ( isset( $_GET['page']) && 'embedpress' === $_GET['page'] ) {
-		    wp_enqueue_style( 'embedpress-admin', plugins_url( 'embedpress/assets/css/admin.css' ) );
-	    }
-
+    public static function enqueueStyles()
+    {
+        if (isset($_GET['page']) && 'embedpress' === $_GET['page']) {
+            wp_enqueue_style('embedpress-admin', plugins_url('embedpress/assets/css/admin.css'));
+        }
     }
 
     /**
@@ -122,15 +161,16 @@ class Handler extends EndHandlerAbstract {
      * @since   1.0.0
      *
      */
-    public function doShortcodeReceivedViaAjax() {
-        $subject = isset( $_POST['subject'] ) ? $_POST['subject'] : "";
+    public function doShortcodeReceivedViaAjax()
+    {
+        $subject = isset($_POST['subject']) ? $_POST['subject'] : "";
 
         $response = [
-            'data' => Shortcode::parseContent( $subject, true ),
+            'data' => Shortcode::parseContent($subject, true),
         ];
 
-        header( 'Content-Type:application/json;charset=UTF-8' );
-        echo json_encode( $response );
+        header('Content-Type:application/json;charset=UTF-8');
+        echo json_encode($response);
 
         exit();
     }
@@ -142,32 +182,33 @@ class Handler extends EndHandlerAbstract {
      * @since   1.0.0
      *
      */
-    public function getUrlInfoViaAjax() {
-        $url = isset( $_GET['url'] ) ? trim( $_GET['url'] ) : "";
+    public function getUrlInfoViaAjax()
+    {
+        $url = isset($_GET['url']) ? trim($_GET['url']) : "";
 
         $response = [
             'url'             => $url,
             'canBeResponsive' => false,
         ];
 
-        if ( !!strlen( $response['url'] ) ) {
+        if (!!strlen($response['url'])) {
 
             $additionalServiceProviders = Core::getAdditionalServiceProviders();
-            if ( !empty( $additionalServiceProviders ) ) {
-                foreach ( $additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls ) {
-                    Shortcode::addServiceProvider( $serviceProviderClassName, $serviceProviderUrls );
+            if (!empty($additionalServiceProviders)) {
+                foreach ($additionalServiceProviders as $serviceProviderClassName => $serviceProviderUrls) {
+                    Shortcode::addServiceProvider($serviceProviderClassName, $serviceProviderUrls);
                 }
             }
             $embera = new Embera([], Shortcode::get_collection());
 
-            $urlInfo = $embera->getUrlData( $response['url'] );
-            if ( isset( $urlInfo[$response['url']] ) && $urlInfo[$response['url']]['provider_name'] ) {
-                $response['canBeResponsive'] = Core::canServiceProviderBeResponsive( strtolower( $urlInfo[$response['url']]['provider_name']) );
+            $urlInfo = $embera->getUrlData($response['url']);
+            if (isset($urlInfo[$response['url']]) && $urlInfo[$response['url']]['provider_name']) {
+                $response['canBeResponsive'] = Core::canServiceProviderBeResponsive(strtolower($urlInfo[$response['url']]['provider_name']));
             }
         }
 
-        header( 'Content-Type:application/json;charset=UTF-8' );
-        echo json_encode( $response );
+        header('Content-Type:application/json;charset=UTF-8');
+        echo json_encode($response);
 
         exit();
     }
@@ -177,10 +218,11 @@ class Handler extends EndHandlerAbstract {
      *
      * @return array
      */
-    public function getUrlSchemes() {
+    public function getUrlSchemes()
+    {
         return [
-			// Apple podcasts
-	        'podcasts.apple.com/*',
+            // Apple podcasts
+            'podcasts.apple.com/*',
             // PollDaddy
             '*.polldaddy.com/s/*',
             '*.polldaddy.com/poll/*',
@@ -219,11 +261,11 @@ class Handler extends EndHandlerAbstract {
 
             // YouTube (http://www.youtube.com/)
             'youtube.com/watch\\?*',
-	        'youtube.com/playlist\\?*',
-	        'youtube.com/channel/*',
-	        'youtube.com/c/*',
-	        'youtube.com/user/*',
-	        'youtube.com/(\w+)[^?\/]*$',
+            'youtube.com/playlist\\?*',
+            'youtube.com/channel/*',
+            'youtube.com/c/*',
+            'youtube.com/user/*',
+            'youtube.com/(\w+)[^?\/]*$',
 
             // opensea
             'opensea.io/collection/*',
@@ -455,35 +497,35 @@ class Handler extends EndHandlerAbstract {
             // Wistia
             '*.wistia.com/medias/*',
             'fast.wistia.com/embed/medias/*.jsonp',
-	        // Boomplay (http://boomplay.com/)
-	        'boomplay.com/*',
-	        'codepen.io/*',
-	        'archivos.digital/*',
-	        'audioclip.naver.com/*',
-	        'app.blogcast.host/*',
-	        'codepoints.net/*',
-	        'codesandbox.io/*',
-	        'commaful.com/*',
-	        '*.survey.fm/*',
-	        'survey.fm/*',
-	        'datawrapper.dwcdn.net/*',
-	        '*.didacte.com/*',
-	        'didacte.com/*',
-	        'digiteka.com/*',
-	        'docdro.id/*',
-	        'edumedia-sciences.com/*',
-	        'ethfiddle.com/*',
-	        'eyrie.io/*',
-	        '*.getfader.com/*',
-	        'getfader.com/*',
-	        'fitapp.pro/*',
-	        'fite.tv/*',
-	        'public.flourish.studio/*',
-	        'geograph.org.gg/*',
-	        'geo-en.hlipp.de/*',
-	        'geograph.org.uk/*',
-	        'fortest.getshow.io/*',
-	        'opensea.io/assets/*',
+            // Boomplay (http://boomplay.com/)
+            'boomplay.com/*',
+            'codepen.io/*',
+            'archivos.digital/*',
+            'audioclip.naver.com/*',
+            'app.blogcast.host/*',
+            'codepoints.net/*',
+            'codesandbox.io/*',
+            'commaful.com/*',
+            '*.survey.fm/*',
+            'survey.fm/*',
+            'datawrapper.dwcdn.net/*',
+            '*.didacte.com/*',
+            'didacte.com/*',
+            'digiteka.com/*',
+            'docdro.id/*',
+            'edumedia-sciences.com/*',
+            'ethfiddle.com/*',
+            'eyrie.io/*',
+            '*.getfader.com/*',
+            'getfader.com/*',
+            'fitapp.pro/*',
+            'fite.tv/*',
+            'public.flourish.studio/*',
+            'geograph.org.gg/*',
+            'geo-en.hlipp.de/*',
+            'geograph.org.uk/*',
+            'fortest.getshow.io/*',
+            'opensea.io/assets/*',
         ];
     }
 
@@ -492,8 +534,9 @@ class Handler extends EndHandlerAbstract {
      *
      * @since  2.5.1
      */
-    public static function embedpress_notice_dismiss() {
-        check_ajax_referer( 'embedpress', 'security' );
-        update_option( 'embedpress_social_dismiss_notice', true );
+    public static function embedpress_notice_dismiss()
+    {
+        check_ajax_referer('embedpress', 'security');
+        update_option('embedpress_social_dismiss_notice', true);
     }
 }

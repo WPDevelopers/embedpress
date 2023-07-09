@@ -5,7 +5,7 @@ import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
-import { removedBlockID, saveSourceData } from '../common/helper';
+import { removedBlockID, saveSourceData, getPlayerOptions } from '../common/helper';
 
 import { shareIconsHtml } from '../common/helper';
 import md5 from 'md5';
@@ -27,6 +27,7 @@ import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, isY
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import ContentShare from '../common/social-share-control';
+import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo } from './functions';
 
 const {
 	useBlockProps
@@ -38,7 +39,6 @@ removedBlockID();
 
 export default function EmbedPress(props) {
 	const { attributes, className, setAttributes } = props;
-
 
 	// @todo remove unused atts from here.
 	const {
@@ -52,14 +52,30 @@ export default function EmbedPress(props) {
 		width,
 		contentShare,
 		sharePosition,
+		lockContent,
 		customlogo,
 		logoX,
 		logoY,
 		customlogoUrl,
 		logoOpacity,
-		clientId
+		clientId,
+		customPlayer,
+		playerPreset,
 	} = attributes;
 
+	const _isSelfHostedVideo = isSelfHostedVideo(url);
+	const _isSelfHostedAudio = isSelfHostedAudio(url);
+
+
+	if (clientId == null || clientId == undefined) {
+		setAttributes({ clientId: props.clientId });
+	}
+	const _md5ClientId = md5(clientId);
+
+	let playerPresetClass = '';
+	if (customPlayer) {
+		playerPresetClass = playerPreset;
+	}
 
 	let content_share_class = '';
 	let share_position_class = '';
@@ -244,6 +260,10 @@ export default function EmbedPress(props) {
 			saveSourceData(clientId, url);
 		}
 
+		customPlayer && (
+			initCustomPlayer(_md5ClientId, attributes)
+		)
+
 	}
 	// console.log('XopenseaParams', {...openseaParams});
 
@@ -257,7 +277,7 @@ export default function EmbedPress(props) {
 		return () => {
 			clearTimeout(delayDebounceFn)
 		}
-	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams]);
+	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, contentShare, lockContent]);
 
 	return (
 		<Fragment>
@@ -272,6 +292,8 @@ export default function EmbedPress(props) {
 				isOpenseaSingle={isOpenseaSingle}
 				isWistiaVideo={isWistiaVideo}
 				isVimeoVideo={isVimeoVideo}
+				isSelfHostedVideo={_isSelfHostedVideo}
+				isSelfHostedAudio={_isSelfHostedAudio}
 			/>
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
@@ -288,43 +310,49 @@ export default function EmbedPress(props) {
 			</div>}
 
 			{
-				((!isOpensea || (!!editingURL || editingURL === 0)) && (!isOpenseaSingle || (!!editingURL || editingURL === 0)) && ((!isYTVideo && !isYTLive) || (!!editingURL || editingURL === 0)) && (!isYTChannel || (!!editingURL || editingURL === 0)) && (!isWistiaVideo || (!!editingURL || editingURL === 0))) && fetching && (<div className={className}><EmbedLoading /> </div>)
+				(
+					(!isOpensea || (!!editingURL || editingURL === 0)) &&
+					(!isOpenseaSingle || (!!editingURL || editingURL === 0)) &&
+					((!isYTVideo && !isYTLive) || (!!editingURL || editingURL === 0)) &&
+					(!isYTChannel || (!!editingURL || editingURL === 0)) &&
+					(!isWistiaVideo || (!!editingURL || editingURL === 0)) &&
+					(!isVimeoVideo || (!!editingURL || editingURL === 0))
+				) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTLive || isWistiaVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo || isVimeoVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
 				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
-					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} dangerouslySetInnerHTML={{
+					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass}`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo && !isVimeoVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} {...(customPlayer ? { 'data-playerid': md5(clientId) } : {})} {...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})} dangerouslySetInnerHTML={{
 						__html: embedHTML + customLogoTemp + epMessage + shareHtml,
 					}}>
 					</EmbedWrap>
+
+					{
+						fetching && (
+							<div style={{ filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '0.7' }}
+								className="block-library-embed__interactive-overlay"
+								onMouseUp={setAttributes({ interactive: true })}
+							/>
+						)
+					}
+
+					{
+						(!isOpensea && !isOpenseaSingle) && (
+							<div
+								className="block-library-embed__interactive-overlay"
+								onMouseUp={setAttributes({ interactive: true })}
+							/>
+						)
+					}
+
+					<EmbedControls
+						showEditButton={embedHTML && !cannotEmbed}
+						switchBackToURLInput={switchBackToURLInput}
+					/>
 				</div>
-
-				{
-					fetching && (
-						<div style={{ filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '0.7' }}
-							className="block-library-embed__interactive-overlay"
-							onMouseUp={setAttributes({ interactive: true })}
-						/>
-					)
-				}
-
-				{
-					(!isOpensea && !isOpenseaSingle) && (
-						<div
-							className="block-library-embed__interactive-overlay"
-							onMouseUp={setAttributes({ interactive: true })}
-						/>
-					)
-				}
-
-				<EmbedControls
-					showEditButton={embedHTML && !cannotEmbed}
-					switchBackToURLInput={switchBackToURLInput}
-				/>
-
 			</figure>}
 
-			<DynamicStyles url={url} clientId={clientId} {...attributes} />
+			<DynamicStyles attributes={attributes} />
 
 			{
 				customlogo && (

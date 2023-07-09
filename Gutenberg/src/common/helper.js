@@ -265,3 +265,72 @@ export const epAdjustHexColor = (hexColor, percentage) => {
 export const isInstagramFeed = (url) => {
     return /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/[a-zA-Z0-9_\.]+\/?$/.test(url);
 }
+
+
+
+export const getPlayerOptions = ({ attributes }) => {
+
+    const { customPlayer } = attributes;
+
+    if (!customPlayer) {
+        return '';
+    }
+
+    const {
+        playerPreset,
+        playerColor,
+        posterThumbnail,
+        playerPip,
+        playerRestart,
+        playerRewind,
+        playerFastForward,
+        playerTooltip,
+        playerHideControls,
+        playerDownload,
+
+        // youtube options
+        starttime,
+        endtime,
+        relatedvideos,
+        fullscreen,
+
+        // vimeo options
+        vstarttime,
+        vautoplay,
+        vautopause,
+        vdnt
+
+    } = attributes;
+
+
+    const playerOptions = {
+        rewind: playerRewind,
+        restart: playerRestart,
+        pip: playerPip,
+        poster_thumbnail: posterThumbnail,
+        player_color: playerColor,
+        player_preset: playerPreset,
+        fast_forward: playerFastForward,
+        player_tooltip: playerTooltip,
+        hide_controls: playerHideControls,
+        download: playerDownload,
+
+        // youutube
+        ...(starttime && { start: starttime }),
+        ...(endtime && { end: endtime }),
+        ...(relatedvideos && { rel: relatedvideos }),
+        ...(fullscreen && { start: fullscreen }),
+
+        // vimeo
+        ...(vstarttime && { t: vstarttime }),
+        ...(vautoplay && { autoplay: vautoplay }),
+        ...(vautopause && { autopause: vautopause }),
+        ...(vdnt && { dnt: vdnt }),
+
+    };
+
+    const playerOptionsString = JSON.stringify(playerOptions);
+
+    return playerOptionsString;
+
+}

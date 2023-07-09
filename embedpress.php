@@ -6,17 +6,17 @@
  * Description: EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 150+ sources supported.
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
- * Version: 3.7.3
+ * Version: 3.8.1
  * Text Domain: embedpress
  * Domain Path: /languages
  *
- * Copyright (c) 2021 WPDeveloper
+ * Copyright (c) 2023 WPDeveloper
  *
  * EmbedPress plugin bootstrap file.
  *
  * @package     EmbedPress
  * @author      EmbedPress <help@embedpress.com>
- * @copyright   Copyright (C) 2021 WPDeveloper. All rights reserved.
+ * @copyright   Copyright (C) 2023 WPDeveloper. All rights reserved.
  * @license     GPLv3 or later
  * @since       1.0.0
  */
@@ -27,6 +27,7 @@ use EmbedPress\CoreLegacy;
 use EmbedPress\Elementor\Embedpress_Elementor_Integration;
 use EmbedPress\Includes\Classes\Feature_Enhancer;
 use EmbedPress\Includes\Classes\Extend_Elementor_Controls;
+use EmbedPress\Includes\Classes\Extend_CustomPlayer_Controls;
 use EmbedPress\Includes\Classes\Helper;
 use EmbedPress\Shortcode;
 
@@ -37,7 +38,7 @@ define('EMBEDPRESS_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('EMBEDPRESS_FILE', __FILE__);
 
 if (!defined('EMBEDPRESS_PLUGIN_VERSION')) {
-    define('EMBEDPRESS_PLUGIN_VERSION', '3.7.3');
+    define('EMBEDPRESS_PLUGIN_VERSION', '3.8.1');
 }
 
 define('EMBEDPRESS_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
@@ -92,6 +93,7 @@ if ((Compatibility::isWordPress5() && !Compatibility::isClassicalEditorActive())
 $embedPressPlugin->initialize();
 new Feature_Enhancer();
 new Extend_Elementor_Controls();
+new Extend_CustomPlayer_Controls();
 
 
 if (is_plugin_active('elementor/elementor.php')) {

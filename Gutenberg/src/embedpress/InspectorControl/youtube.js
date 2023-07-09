@@ -5,6 +5,7 @@ import { getParams } from '../functions';
 import { addProAlert, isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert } from '../../common/helper';
 import { EPIcon } from '../../common/icons';
 import CustomBranding from './custombranding';
+import CustomPlayerControls from '../../common/custom-player-controls';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
@@ -19,12 +20,8 @@ const {
     RangeControl,
     ToggleControl,
     PanelBody,
-    Button,
 } = wp.components;
 
-import {
-    MediaUpload,
-} from "@wordpress/block-editor";
 
 
 export const init = () => {
@@ -54,6 +51,15 @@ export const getYoutubeParams = (params, attributes) => {
             closedcaptions: false,
             modestbranding: '0',
             relatedvideos: true,
+            customPlayer: false,
+            posterThumbnail: '',
+            playerPreset: '',
+            playerColor: '',
+            playerRestart: false,
+            playerRewind: false,
+            playerFastForward: false,
+            playerTooltip: false,
+            playerHideControls: false,
         }
     }
 
@@ -135,6 +141,15 @@ export const useYTVideo = (attributes) => {
         closedcaptions: null,
         modestbranding: null,
         relatedvideos: null,
+        customPlayer: null,
+        posterThumbnail: null,
+        playerPreset: null,
+        playerColor: null,
+        playerRestart: null,
+        playerRewind: null,
+        playerFastForward: null,
+        playerTooltip: null,
+        playerHideControls: null,
     };
 
     const param = getParams({}, attributes, defaults);
@@ -171,21 +186,17 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         closedcaptions,
         modestbranding,
         relatedvideos,
-        customlogo,
-        logoX,
-        logoY,
-        customlogoUrl,
-        logoOpacity
+        customPlayer
     } = attributes;
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     const onSelectImage = (logo) => {
         console.log(logo.sizes.full.url);
-        setAttributes({ customlogo: logo.sizes.full.url });
+        setAttributes({ posterThumbnail: logo.sizes.full.url });
     }
     const removeImage = (e) => {
-        setAttributes({ customlogo: '' });
+        setAttributes({ posterThumbnail: '' });
     }
 
     if (!document.querySelector('.pro__alert__wrap')) {
@@ -256,110 +267,125 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
 
                 (isYTVideo || isYTLive) && (
                     <div className={'ep__single-yt-video-options'}>
-                        <PanelBody title={__("YouTube Video Controls", 'embedpress')} initialOpen={false}>
-                            <div className={'ep-video-controlers'}>
-                                <TextControl
-                                    label={__("Start Time (in seconds)")}
-                                    value={starttime}
-                                    onChange={(starttime) => setAttributes({ starttime })}
-                                    type={'text'}
-                                    className={'ep-control-field'}
-                                />
+                        <PanelBody title={__("Video Controls", 'embedpress')} initialOpen={false}>
+                            <ToggleControl
+                                label={__("Enable Custom Player", "embedpress")}
+                                checked={customPlayer}
+                                onChange={(customPlayer) => setAttributes({ customPlayer })}
+                            />
 
-                                <TextControl
-                                    label={__("End Time (in seconds)")}
-                                    value={endtime}
-                                    onChange={(endtime) => setAttributes({ endtime })}
-                                    type={'text'}
-                                    className={'ep-control-field'}
-                                />
+                            {
+                                !customPlayer ? (
+                                    <div className={'ep-video-controlers'}>
+                                        <TextControl
+                                            label={__("Start Time (in seconds)")}
+                                            value={starttime}
+                                            onChange={(starttime) => setAttributes({ starttime })}
+                                            type={'text'}
+                                            className={'ep-control-field'}
+                                        />
 
-                                <ToggleControl
-                                    label={__("Auto Play")}
-                                    checked={autoplay}
-                                    onChange={(autoplay) => setAttributes({ autoplay })}
-                                />
+                                        <TextControl
+                                            label={__("End Time (in seconds)")}
+                                            value={endtime}
+                                            onChange={(endtime) => setAttributes({ endtime })}
+                                            type={'text'}
+                                            className={'ep-control-field'}
+                                        />
 
-                                <SelectControl
-                                    label={__("Controls", "embedpress")}
-                                    value={controls}
-                                    options={[
-                                        { label: 'Display immediately', value: '1' },
-                                        { label: 'Hide controls', value: '0' },
-                                        { label: 'Display after user initiation immediately', value: '2' },
-                                    ]}
-                                    onChange={(controls) => setAttributes({ controls })}
-                                    className={'ep-select-control-field'}
-                                    __nextHasNoMarginBottom
-                                />
+                                        <ToggleControl
+                                            label={__("Auto Play")}
+                                            checked={autoplay}
+                                            onChange={(autoplay) => setAttributes({ autoplay })}
+                                        />
 
-                                <ToggleControl
-                                    label={__("Fullscreen Button")}
-                                    checked={fullscreen}
-                                    onChange={(fullscreen) => setAttributes({ fullscreen })}
-                                />
+                                        <SelectControl
+                                            label={__("Controls", "embedpress")}
+                                            value={controls}
+                                            options={[
+                                                { label: 'Display immediately', value: '1' },
+                                                { label: 'Hide controls', value: '0' },
+                                                { label: 'Display after user initiation immediately', value: '2' },
+                                            ]}
+                                            onChange={(controls) => setAttributes({ controls })}
+                                            className={'ep-select-control-field'}
+                                            __nextHasNoMarginBottom
+                                        />
 
-                                <ToggleControl
-                                    label={__("Video Annotations")}
-                                    checked={videoannotations}
-                                    onChange={(videoannotations) => setAttributes({ videoannotations })}
-                                />
+                                        <ToggleControl
+                                            label={__("Fullscreen Button")}
+                                            checked={fullscreen}
+                                            onChange={(fullscreen) => setAttributes({ fullscreen })}
+                                        />
 
-                                <SelectControl
-                                    label={__("Progress Bar Color", "embedpress")}
-                                    value={progressbarcolor}
-                                    options={[
-                                        { label: 'Red', value: 'red' },
-                                        { label: 'White', value: 'white' },
-                                    ]}
-                                    onChange={(progressbarcolor) => setAttributes({ progressbarcolor })}
-                                    className={'ep-select-control-field'}
-                                    __nextHasNoMarginBottom
-                                />
+                                        <ToggleControl
+                                            label={__("Video Annotations")}
+                                            checked={videoannotations}
+                                            onChange={(videoannotations) => setAttributes({ videoannotations })}
+                                        />
 
-                                <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                    <ToggleControl
-                                        label={__("Closed Captions")}
-                                        checked={closedcaptions}
-                                        onChange={(closedcaptions) => setAttributes({ closedcaptions })}
-                                    />
+                                        <SelectControl
+                                            label={__("Progress Bar Color", "embedpress")}
+                                            value={progressbarcolor}
+                                            options={[
+                                                { label: 'Red', value: 'red' },
+                                                { label: 'White', value: 'white' },
+                                            ]}
+                                            onChange={(progressbarcolor) => setAttributes({ progressbarcolor })}
+                                            className={'ep-select-control-field'}
+                                            __nextHasNoMarginBottom
+                                        />
 
-                                    {
-                                        (!isProPluginActive) && (
-                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                        )
-                                    }
-                                </div>
+                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                            <ToggleControl
+                                                label={__("Closed Captions")}
+                                                checked={closedcaptions}
+                                                onChange={(closedcaptions) => setAttributes({ closedcaptions })}
+                                            />
 
-                                <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                    <SelectControl
-                                        label={__("Modest Branding", "embedpress")}
-                                        value={modestbranding}
-                                        options={[
-                                            { label: 'Display', value: '0' },
-                                            { label: 'Do Not Display', value: '1' },
-                                        ]}
-                                        onChange={(modestbranding) => setAttributes({ modestbranding })}
-                                        className={'ep-select-control-field'}
-                                        __nextHasNoMarginBottom
-                                    />
-                                    {
-                                        (!isProPluginActive) && (
-                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                        )
-                                    }
-                                </div>
+                                            {
+                                                (!isProPluginActive) && (
+                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                                )
+                                            }
+                                        </div>
 
-                                <div className='ep-yt-related-videos'>
-                                    <ToggleControl
-                                        label={__("Related Videos")}
-                                        checked={relatedvideos}
-                                        onChange={(relatedvideos) => setAttributes({ relatedvideos })}
-                                    />
-                                    <p>Enable to display related videos from all channels. Otherwise, related videos will show from the same channel.</p>
-                                </div>
+                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                            <SelectControl
+                                                label={__("Modest Branding", "embedpress")}
+                                                value={modestbranding}
+                                                options={[
+                                                    { label: 'Display', value: '0' },
+                                                    { label: 'Do Not Display', value: '1' },
+                                                ]}
+                                                onChange={(modestbranding) => setAttributes({ modestbranding })}
+                                                className={'ep-select-control-field'}
+                                                __nextHasNoMarginBottom
+                                            />
+                                            {
+                                                (!isProPluginActive) && (
+                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                                )
+                                            }
+                                        </div>
 
-                            </div>
+                                        <div className='ep-yt-related-videos'>
+                                            <ToggleControl
+                                                label={__("Related Videos")}
+                                                checked={relatedvideos}
+                                                onChange={(relatedvideos) => setAttributes({ relatedvideos })}
+                                            />
+                                            <p>Enable to display related videos from all channels. Otherwise, related videos will show from the same channel.</p>
+                                        </div>
+
+                                    </div>
+                                ) : (
+                                    <div className={'ep-video-controlers'}>
+                                        <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive}/>
+                                    </div>
+                                )
+                            }
+
                         </PanelBody>
                         <CustomBranding attributes={attributes} setAttributes={setAttributes} />
                     </div>

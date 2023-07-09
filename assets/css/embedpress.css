@@ -1630,6 +1630,177 @@ canvas.ep-doc-canvas {
     opacity: 0;
   } */
 
+/* custom player css */
+:root {
+    /* --plyr-color-main: #3700ff85; */
+    --plyr-control-icon-size: 15px;
+    --plyr-range-track-height: 3px;
+    --plyr-range-thumb-height: 10px;
+
+}
+
+.plyr--audio .plyr--full-ui input[type=range] {
+    color: red !important;
+}
+
+.ep-embed-content-wraper input[type=range]::-webkit-slider-runnable-track {
+    box-shadow: none;
+}
+
+.ep-embed-content-wraper input[type=range]::-moz-range-track {
+    box-shadow: none;
+}
+
+a.plyr__controls__item.plyr__control {
+    border-radius: inherit;
+    color: inherit !important;
+}
+
+.plyr-initialized button:focus {
+    background-color: var(--plyr-color-main);
+}
+
+.custom-player-preset-1 .plyr__controls {
+    background: var(--plyr-color-main) !important;
+    padding: 0 !important;
+}
+
+.custom-player-preset-1 button.plyr__control {
+    border-radius: 0;
+}
+
+.custom-player-preset-1 a.plyr__controls__item.plyr__control {
+    border-radius: inherit;
+}
+
+.custom-player-preset-1 button.plyr__control.plyr__control--overlaid[data-plyr="play"], .custom-player-preset-2 button.plyr__control.plyr__control--overlaid[data-plyr="play"] {
+    width: 100px !important;
+    text-align: center;
+    display: flex;
+    align-items: center !important;
+    justify-content: center;
+    height: 60px;
+}
+
+.custom-player-preset-1 button.plyr__control.plyr__control--overlaid[data-plyr="play"] svg, .custom-player-preset-2 button.plyr__control.plyr__control--overlaid[data-plyr="play"] svg {
+    width: 22px;
+    height: 22px;
+}
+
+.custom-player-preset-1 .plyr__control:focus {
+    border: none;
+}
+
+.custom-player-preset-2 a.plyr__controls__item.plyr__control, .custom-player-preset-2 button.plyr__control.plyr__control--overlaid[data-plyr="play"], .preset-default a.plyr__controls__item.plyr__control {
+    border-radius: 4px;
+}
+
+.custom-player-preset-3 .plyr__controls, .custom-player-preset-4 .plyr__controls {
+    background: var(--plyr-color-main) !important;
+    padding: 0 !important;
+}
+
+
+.custom-player-preset-4 button.plyr__control.plyr__control--overlaid {
+    display: none !important;
+}
+
+/* Overite plyr css  */
+figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
+    padding-bottom: inherit !important;
+}
+
+.plyr {
+    background-color: black;
+}
+
+.pip-mode {
+    position: fixed !important;
+    width: 320px !important;
+    height: 180px !important;
+    top: calc(100% - 200px) !important;
+    left: calc(100% - 340px) !important;
+    z-index: 9999;
+    border-radius: 15px !important;
+
+}
+
+.plyr [data-plyr="pip"] {
+    display: block !important;
+}
+
+.pip-mode .plyr__video-wrapper {
+    pointer-events: none;
+
+}
+
+.pip-mode .pip-play {
+    display: none;
+}
+
+.pip-mode .pip-play, .pip-mode .pip-pause {
+    opacity: 0 !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #0000004a;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.pip-mode .pip-close {
+    opacity: 0;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background: #0000004a;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.pip-mode:hover .pip-play, .pip-mode:hover .pip-close, .pip-mode:hover .pip-pause {
+    opacity: 1 !important;
+}
+
+.pip-mode .overlay-mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.pip-mode iframe {
+    pointer-events: none !important;
+}
+
+@media only screen and (max-width: 767px) {
+    .plyr__controls [data-plyr="restart"], .plyr__controls [data-plyr="rewind"], .plyr__controls [data-plyr="fast-forward"], .plyr__controls [data-plyr="pip"] {
+        display: none !important;
+    }
+
+    .plyr__video-wrapper iframe {
+        max-height: 100%!important;
+    }
+
+    .plyr__controls .plyr__volume input[type=range] {
+        max-width: 40px;
+        min-width: 40px;
+    }
+}
 
 /* Instagram feed layout design */
 /* .embedpress-insta-container {

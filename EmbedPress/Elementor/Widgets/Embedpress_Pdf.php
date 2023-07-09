@@ -116,6 +116,9 @@ class Embedpress_Pdf extends Widget_Base
                 'label'         => __('URL', 'embedpress'),
                 'type'          => Controls_Manager::URL,
                 'placeholder'   => __('https://your-link.com/file.pdf', 'embedpress'),
+                'dynamic'     => [
+					'active' => true,
+				],
                 'show_external' => false,
                 'dynamic'     => [
 					'active' => true,

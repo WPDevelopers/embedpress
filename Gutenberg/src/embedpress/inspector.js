@@ -6,6 +6,7 @@ import Youtube from './InspectorControl/youtube';
 import OpenSea from './InspectorControl/opensea';
 import Wistia from './InspectorControl/wistia';
 import Vimeo from './InspectorControl/vimeo';
+import SlefHosted from './InspectorControl/selfhosted';
 import { EPIcon, InfoIcon } from '../common/icons';
 
 /**
@@ -25,7 +26,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo }) {
+export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio }) {
 
     const {
         url,
@@ -63,13 +64,21 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         removeTipsAlert();
     }
 
+    if ((isYTVideo || isYTLive || isVimeoVideo) && width === '600' && height === '450') {
+        setAttributes({ height: '340' });
+    }
+
+    if(isSelfHostedAudio){
+        setAttributes({ height: '48' });
+    }
+
     return (
         !editingURL && embedHTML && (
             <InspectorControls>
                 {
                     !isOpensea && !isOpenseaSingle && (
                         <div>
-                            <PanelBody title={__("Embeded Options")}>
+                            <PanelBody title={__("General")}>
 
                                 <div>
 
@@ -79,7 +88,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                         )
                                     }
                                     {
-                                        (isYTVideo || isVimeoVideo || isYTLive) && (
+                                        (isYTVideo || isVimeoVideo || isYTLive || isSelfHostedVideo) && (
                                             <SelectControl
                                                 label={__("Video Size")}
                                                 labelPosition='side'
@@ -95,7 +104,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     }
 
                                     {
-                                        ((!isYTVideo && !isYTLive && !isVimeoVideo) || (videosize == 'fixed')) && (
+                                        ((!isYTVideo && !isYTLive && !isVimeoVideo && !isSelfHostedVideo) || (videosize == 'fixed')) && (
                                             <p>{__("You can adjust the width and height of embedded content.")}</p>
                                         )
                                     }
@@ -103,7 +112,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
 
                                     {
-                                        ((isYTVideo || isVimeoVideo || isYTLive) && (videosize == 'responsive')) && (
+                                        ((isYTVideo || isVimeoVideo || isYTLive || isSelfHostedVideo) && (videosize == 'responsive')) && (
                                             <p>{__("You can adjust the width of embedded content.", "embedpress")}</p>
                                         )
                                     }
@@ -112,7 +121,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                         label={__("Width")}
                                         value={width}
                                         onChange={(width) => {
-                                            (isVimeoVideo || isYTVideo || isYTLive) ? (
+                                            (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo) ? (
                                                 setAttributes({
                                                     width: `${Math.round(width)}`,
                                                     height: `${roundToNearestFive(Math.round((width * 9) / 16))}`
@@ -124,13 +133,13 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     />
 
                                     {
-                                        ((!isYTVideo && !isVimeoVideo && !isYTLive) || (videosize == 'fixed')) && (
+                                        ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo) || (videosize == 'fixed')) && (
                                             <TextControl
                                                 label={__("Height")}
                                                 value={height}
                                                 onChange={(height) => {
                                                     {
-                                                        (isVimeoVideo || isYTVideo || isYTLive) ? (
+                                                        (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo) ? (
                                                             setAttributes({
                                                                 height: `${Math.round(height)}`,
                                                                 width: `${roundToNearestFive(Math.round((height * 16) / 9))}`
@@ -245,6 +254,10 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             </PanelBody>
 
                             <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} />
+                            <Youtube attributes={attributes} setAttributes={setAttributes} />
+
+                            <SlefHosted attributes={attributes} setAttributes={setAttributes} />
+
 
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />
                             <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />

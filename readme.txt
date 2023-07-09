@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 6.2
 Requires PHP: 5.6
-Stable tag: 3.7.3
+Stable tag: 3.8.1
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -382,6 +382,20 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [3.8.1] - 2023-07-06 =
+* Added: Wrapper embedding support.
+* Added: PPSX office file support.
+* Fixed: Responsive issues for Custom player.
+* Few minor bug fixes and improvements.
+
+= [3.8.0] - 2023-06-25 =
+* Added: Custom Video/Audio player.
+* Added: Self hosted audio/video embedding support.
+* Fixed: PHP 8.2 compatibility issues.
+* Fixed: Spotify country restricted videos aren’t playing.
+* Improved: Password protected content for Security Enhancement (Reported by Wordfence on 23rd June).
+* Few minor bug fixes and improvements.
+
 = [3.7.3] - 2023-06-06 =
 * Added: Github Gist Embedding.
 * Added: NRK Radio Embedding.
@@ -395,15 +409,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 * Few minor bug fix and improvements.
 
 = [3.7.1] - 2023-05-08 =
-* Added: Youtube live stream embedding with channel handler. 
+* Added: Youtube live stream embedding with channel handler.
 * Fixed: Social Share redirection.
 * Fixed: Height width wasn’t working in Elementor documents widget.
-* Fixed: Conflict with Ninja table pro plugin. 
+* Fixed: Conflict with Ninja table pro plugin.
 * Few minor bug fix and improvements.
 
 = [3.7.0] - 2023-04-17 =
 * Added: Social Share for all Embedded contents.
-* Added: Images/Videos embedding from google drive. 
+* Added: Images/Videos embedding from google drive.
 * Fixed: Google spreadsheet embedding wasn't working in Elementor.
 * Few minor bug fix and improvements.
 

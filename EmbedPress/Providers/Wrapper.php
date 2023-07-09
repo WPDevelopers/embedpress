@@ -9,7 +9,7 @@ use Embera\Url;
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
 /**
- * Entity responsible to support NRKRadio embeds.
+ * Entity responsible to support Wrapper embeds.
  *
  * @package     EmbedPress
  * @subpackage  EmbedPress/Providers
@@ -18,12 +18,20 @@ use Embera\Url;
  * @license     GPLv3 or later
  * @since       1.0.0
  */
-class NRKRadio extends ProviderAdapter implements ProviderInterface
+class Wrapper extends ProviderAdapter implements ProviderInterface
 {
+
+    public function __construct($url, $config = []){
+        parent::__construct($url, $config);
+        $hosts_url = parse_url($url);
+        $this->addHost($hosts_url['host']);
+    }
+
     /** inline {@inheritdoc} */
-    protected static $hosts = ["radio.nrk.no"];
+
+
     /**
-     * Method that verifies if the embed URL belongs to NRKRadio.
+     * Method that verifies if the embed URL belongs to Wrapper.
      *
      * @param Url $url
      * @return  boolean
@@ -33,18 +41,11 @@ class NRKRadio extends ProviderAdapter implements ProviderInterface
     public function validateUrl(Url $url)
     {
         return  (bool) preg_match(
-            "/^https?:\/\/radio\.nrk\.no/i",
+            '/^(https?:\/\/)?(www\.)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/i',
             (string) $url
         );
     }
-
-    public function validateNRKRadio($url)
-    {
-        return  (bool) preg_match(
-            "/^https?:\/\/radio\.nrk\.no/i",
-            (string) $url
-        );
-    }
+    
 
     /**
      * This method fakes an Oembed response.
@@ -54,25 +55,13 @@ class NRKRadio extends ProviderAdapter implements ProviderInterface
      * @return  array
      */
     public function fakeResponse()
-    {
-        $src_url = urldecode($this->url);
-        
-        // Check if the url is already converted to the embed format  
-        if ($this->validateNRKRadio($src_url)) {
-            $iframeSrc = $this->url;
-        } else {
-            return [];
-        }
-
-        $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
-        $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 350;
-
+    {  
         return [
             'type'          => 'rich',
-            'provider_name' => 'NRK Radio',
-            'provider_url'  => 'https://radio.nrk.no',
+            'provider_name' => 'Wrapper',
+            'provider_url'  => site_url(),
             'title'         => 'Unknown title',
-            'html'          => '<iframe title=""  width="' . $width . '" height="' . $height . '" src="' . $iframeSrc . '" ></iframe>',
+            'html'          => '',
         ];
     }
     /** inline @inheritDoc */
