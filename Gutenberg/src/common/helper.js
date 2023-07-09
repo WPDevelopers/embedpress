@@ -260,3 +260,8 @@ export const epAdjustHexColor = (hexColor, percentage) => {
 
     return newHexColor;
 }
+
+// check if is valid instafeed url
+export const isInstagramFeed = (url) => {
+    return /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/[a-zA-Z0-9_\.]+\/?$/.test(url);
+}

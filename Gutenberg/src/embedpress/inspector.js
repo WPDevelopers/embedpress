@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert } from '../common/helper';
+import { isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert, isInstagramFeed } from '../common/helper';
 import LockControl from '../common/lock-control';
 import ContentShare from '../common/social-share-control';
 import Youtube from './InspectorControl/youtube';
@@ -28,9 +28,17 @@ const {
 export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo }) {
 
     const {
+        url,
         width,
         height,
         videosize,
+        instaLayout,
+        slidesShow,
+        slidesScroll,
+        carouselAutoplay,
+        carouselLoop,
+        carouselArrows,
+        carouselDots,
         lockContent,
         contentPassword,
         editingURL,
@@ -152,6 +160,87 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     )
 
                                 }
+
+                                {
+                                    isInstagramFeed(url) && (
+                                        <div className='instafeed-controls'>
+                                            <SelectControl
+                                                label={__("Layout")}
+                                                labelPosition='side'
+                                                value={videosize}
+                                                options={[
+                                                    { label: 'Grid', value: 'insta-grid' },
+                                                    { label: 'Masonary', value: 'insta-masonary' },
+                                                    { label: 'Carousel', value: 'insta-carousel' },
+                                                ]}
+                                                onChange={(videosize) => setAttributes({ videosize })}
+                                                __nextHasNoMarginBottom
+                                            />
+
+                                            <SelectControl
+                                                label={__("Slides to Show")}
+                                                options={[
+                                                    { label: '1', value: '1' },
+                                                    { label: '2', value: '2' },
+                                                    { label: '3', value: '3' },
+                                                    { label: '4', value: '4' },
+                                                    { label: '5', value: '5' },
+                                                    { label: '6', value: '6' },
+                                                    { label: '7', value: '7' },
+                                                    { label: '8', value: '8' },
+                                                    { label: '9', value: '9' },
+                                                    { label: '10', value: '10' },
+                                                ]}
+                                                checked={slidesShow}
+                                                onChange={(slidesShow) => setAttributes({ slidesShow })}
+                                            />
+                                            <SelectControl
+                                                label={__("Slides to Scroll")}
+                                                options={[
+                                                    { label: '1', value: '1' },
+                                                    { label: '2', value: '2' },
+                                                    { label: '3', value: '3' },
+                                                    { label: '4', value: '4' },
+                                                    { label: '5', value: '5' },
+                                                    { label: '6', value: '6' },
+                                                    { label: '7', value: '7' },
+                                                    { label: '8', value: '8' },
+                                                    { label: '9', value: '9' },
+                                                    { label: '10', value: '10' },
+                                                ]}
+                                                checked={slidesShow}
+                                                onChange={(slidesShow) => setAttributes({ slidesShow })}
+                                            />
+
+
+                                            <SelectControl
+                                                label={__("Autoplay")}
+                                                checked={carouselAutoplay}
+                                                onChange={(carouselAutoplay) => setAttributes({ carouselAutoplay })}
+                                            />
+
+                                            <SelectControl
+                                                label={__("Loop")}
+                                                checked={carouselLoop}
+                                                onChange={(carouselLoop) => setAttributes({ carouselAutoplay })}
+                                            />
+
+                                            <SelectControl
+                                                label={__("Arrows")}
+                                                checked={carouselArrows}
+                                                onChange={(carouselArrows) => setAttributes({ carouselArrows })}
+                                            />
+
+                                            <SelectControl
+                                                label={__("Dots")}
+                                                checked={carouselDots}
+                                                onChange={(carouselDots) => setAttributes({ carouselDots })}
+                                            />
+
+                                        </div>
+                                    )
+                                }
+
 
                             </PanelBody>
 

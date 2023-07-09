@@ -480,18 +480,23 @@ let epGlobals = {};
 
     const nextIcon = '<svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="m1.76.29 10.879 10.452.06.054a.97.97 0 0 1 .301.642v.124a.97.97 0 0 1-.3.642l-.054.044L1.761 22.71a1.061 1.061 0 0 1-1.459 0 .964.964 0 0 1 0-1.402l10.15-9.746-10.15-9.87a.964.964 0 0 1 0-1.402 1.061 1.061 0 0 1 1.459 0Z" fill="#fff"/></svg>';
 
-    $('#carousel').slick({
-        centerPadding: '60px',
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        prevArrow: '<button type="button" class="slick-prev">'+ prevIcon +'</button>',
+    epGlobals.initCarousel = (selector, options) => {
+        $(selector).slick({
+            loop: true,
+            autoplay: true,
+            centerPadding: '60px',
+            slidesToShow: 4,
+            slidesToScroll: 4,
+            prevArrow: '<button type="button" class="slick-prev">' + prevIcon + '</button>',
 
-        nextArrow: '<button type="button" class="slick-next">'+ nextIcon +'</button>'
-    });
+            nextArrow: '<button type="button" class="slick-next">' + nextIcon + '</button>'
+        });
+    }
 
+    if ($('.carousel').length > 0) {
+        epGlobals.initCarousel('carousel', {});
+    }
 
-
-    
 
 })(jQuery);
 
@@ -524,6 +529,8 @@ jQuery(window).on("elementor/frontend/init", function () {
         // Get the Elementor unique selector for this widget
         let classes = $scope[0].className;
         let selectorEl = '.' + classes.split(' ').join('.');
+
+        console.log(selectorEl);
 
         const epElLoadMore = () => {
 
@@ -615,6 +622,13 @@ jQuery(window).on("elementor/frontend/init", function () {
             e.preventDefault(); // Prevent the default form submission
             unlockElSubmitHander('ep-elementor-content', this);
         });
+
+        if ($('.carousel').length > 0) {
+            epGlobals.initCarousel(selectorEl + ' .carousel', {});
+        }
+
+        console.log($('.carousel').length);
+
     };
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpress_pdf.default", filterableGalleryHandler);

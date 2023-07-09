@@ -115,6 +115,7 @@ class Embedpress_Elementor extends Widget_Base
 					'twitch'  => __('Twitch', 'embedpress'),
 					'soundcloud'  => __('SoundCloud', 'embedpress'),
 					'opensea'  => __('OpenSea', 'embedpress'),
+					'instafeed'  => __('Instagram Feed', 'embedpress'),
 				]
 			]
 		);
@@ -192,6 +193,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->init_dailymotion_control();
 		$this->init_twitch_control();
 		$this->init_opensea_control();
+		$this->init_instafeed_control();
 		$this->end_controls_section();
 
 		$this->init_youtube_channel_section();
@@ -1437,6 +1439,7 @@ class Embedpress_Elementor extends Widget_Base
 						'wistia',    
 						'twitch',
 						'soundcloud', 
+						'instafeed',
 					],
 				],
 			]
@@ -1463,6 +1466,7 @@ class Embedpress_Elementor extends Widget_Base
 						'wistia',    
 						'twitch',
 						'soundcloud', 
+						'instafeed',
 					],
 				],
 			]
@@ -2364,8 +2368,141 @@ class Embedpress_Elementor extends Widget_Base
 
 		$this->end_controls_section();
 	}
+
 	//End OpenSea controls
 
+
+	/**
+	 * Instagram Feed Controls
+	 */
+	public function init_instafeed_control(){
+		$condition = [
+			'embedpress_pro_embeded_source' => 'instafeed'
+		];
+		
+		$this->add_control(
+			'embedpress_instafeed_layout',
+			[
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label' => esc_html__( 'Layout', 'embedpress' ),
+				'options' => [
+					'insta-grid' => esc_html__( 'Grid', 'embedpress' ),
+					'insta-misonary' => esc_html__( 'Misonary', 'embedpress' ),
+					'insta-carousel' => esc_html__( 'Carousel', 'embedpress' ),
+				],
+				'default' => 'insta-grid',
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'embedpress_instafeed_slide_show',
+			[
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label' => esc_html__( 'Slides to Show', 'embedpress' ),
+				'options' => [
+					'1' => esc_html__( '1', 'embedpress' ),
+					'2' => esc_html__( '2', 'embedpress' ),
+					'3' => esc_html__( '3', 'embedpress' ),
+					'4' => esc_html__( '4', 'embedpress' ),
+					'5' => esc_html__( '5', 'embedpress' ),
+					'6' => esc_html__( '6', 'embedpress' ),
+					'7' => esc_html__( '7', 'embedpress' ),
+					'8' => esc_html__( '8', 'embedpress' ),
+					'9' => esc_html__( '9', 'embedpress' ),
+					'10' => esc_html__( '10', 'embedpress' ),
+				],
+				'default' => '5',
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'embedpress_instafeed_slide_scroll',
+			[
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label' => esc_html__( 'Slides to Scroll', 'embedpress' ),
+				'options' => [
+					'1' => esc_html__( '1', 'embedpress' ),
+					'2' => esc_html__( '2', 'embedpress' ),
+					'3' => esc_html__( '3', 'embedpress' ),
+					'4' => esc_html__( '4', 'embedpress' ),
+					'5' => esc_html__( '5', 'embedpress' ),
+					'6' => esc_html__( '6', 'embedpress' ),
+					'7' => esc_html__( '7', 'embedpress' ),
+					'8' => esc_html__( '8', 'embedpress' ),
+					'9' => esc_html__( '9', 'embedpress' ),
+					'10' => esc_html__( '10', 'embedpress' ),
+				],
+				'default' => '5',
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'embedpress_carousel_autoplay',
+			[
+				'label'        => __('Auto Play', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => true,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'instafeed',
+					'embedpress_instafeed_layout' => 'insta-carousel'
+				],
+			]
+		);
+		$this->add_control(
+			'embedpress_carousel_loop',
+			[
+				'label'        => __('Loop', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => true,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'instafeed',
+					'embedpress_instafeed_layout' => 'insta-carousel'
+				],
+			]
+		);
+
+		$this->add_control(
+			'embedpress_carousel_arrows',
+			[
+				'label'        => __('Arrows', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => true,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'instafeed',
+					'embedpress_instafeed_layout' => 'insta-carousel'
+				],
+			]
+		);
+
+		$this->add_control(
+			'embedpress_carousel_dots',
+			[
+				'label'        => __('Dots', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => true,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'instafeed',
+					'embedpress_instafeed_layout' => 'insta-carousel'
+				],
+			]
+		);
+
+
+	}
+
+	//End Opensea Controls
+	 
 
 
 	public function init_style_controls()

@@ -534,6 +534,37 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: false
 			},
 
+			//Instagram Feed attributes
+			instaLayout: {
+				type: 'string',
+				default: 'insta-grid'
+			},
+			slidesShow: {
+				type: 'string',
+				default: 'insta-grid'
+			},
+			slidesScroll: {
+				type: 'string',
+				default: 'insta-grid'
+			},
+			carouselAutoplay: {
+				type: 'boolean',
+				default: false
+			},
+			carouselLoop: {
+				type: 'boolean',
+				default: false
+			},
+			carouselArrows: {
+				type: 'boolean',
+				default: false
+			},
+			carouselDots: {
+				type: 'boolean',
+				default: false
+			},
+			
+
 			//Custom logo atributes
 			customlogo: {
 				type: 'string',

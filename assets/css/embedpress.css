@@ -1638,15 +1638,17 @@ canvas.ep-doc-canvas {
 
 .ose-instagram-feed {
     max-height: 100% !important;
-    ;
     height: 100% !important;
 }
 .embedpress-insta-container .insta-gallery {
     display: flex;
     flex-wrap: wrap;
-    margin: -1rem -1rem;
     padding-bottom: 3rem;
     gap: 5px;
+}
+
+.embedpress-insta-container .insta-gallery.carousel {
+    padding-bottom: 0;
 }
 
 .embedpress-insta-container .insta-gallery.masonary {
