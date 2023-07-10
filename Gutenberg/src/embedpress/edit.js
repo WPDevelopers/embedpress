@@ -16,6 +16,8 @@ const apiFetch = wp.apiFetch;
 
 const { select, subscribe } = wp.data;
 
+import Slider from 'react-slick';
+
 
 /**
  * WordPress dependencies

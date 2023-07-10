@@ -49,7 +49,7 @@ let epGlobals = {};
 
         console.log($('.carousel'));
 
-    }, 10000);
+    }, 15000);
 
 
     console.log('this is a carousel');

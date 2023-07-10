@@ -72,10 +72,7 @@ class Handler extends EndHandlerAbstract
             wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css', $this->pluginVersion, true);
             
             wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true);
-        }
 
-
-        if ('post.php' === $pagenow || 'post-new.php' === $pagenow) {
             wp_enqueue_script(
                 'slick',
                 EMBEDPRESS_URL_ASSETS . 'js/slick.min.js',
