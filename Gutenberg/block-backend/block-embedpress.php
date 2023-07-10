@@ -73,6 +73,30 @@ function embedpress_render_block($attributes)
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
 	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
 
+	$_carousel_options = '';
+	if(!empty($attributes['instaLayout']) && $attributes['instaLayout'] === 'insta-carousel'){
+		$slidesShow = !empty($attributes['slidesShow']) ? $attributes['slidesShow'] : 5;
+		$carouselAutoplay = !empty($attributes['carouselAutoplay']) ? $attributes['carouselAutoplay'] : 0;
+		$autoplaySpeed = !empty($attributes['autoplaySpeed']) ? $attributes['autoplaySpeed'] : 3000;
+		$transitionSpeed = !empty($attributes['transitionSpeed']) ? $attributes['transitionSpeed'] : 1000;
+		$carouselLoop = !empty($attributes['carouselLoop']) ? $attributes['carouselLoop'] : 0;
+		$carouselArrows = !empty($attributes['carouselArrows']) ? $attributes['carouselArrows'] : 0;
+		$spacing = !empty($attributes['carouselSpacing']) ? $attributes['carouselSpacing'] : 0;
+		
+		$carousel_options = [
+			'slideshow' => $slidesShow,
+			'autoplay' => $carouselAutoplay,
+			'autoplayspeed' => $autoplaySpeed,
+			'transitionspeed' => $transitionSpeed,
+			'loop' => $carouselLoop,
+			'arrows' => $carouselArrows,
+			'spacing' => $spacing
+		];
+
+		$carousel_options_string = json_encode($carousel_options);
+		$_carousel_options = 'data-carousel-options=\'' . htmlentities($carousel_options_string, ENT_QUOTES) . '\'';
+	}
+
 
 	$_custom_player = '';
 	$_player_options = '';
@@ -80,7 +104,6 @@ function embedpress_render_block($attributes)
 	if (!empty($custom_player)) {
 
 		$is_self_hosted = Helper::check_media_format($attributes['url']);
-
 
 		$_custom_player = 'data-playerid="' . esc_attr($client_id) . '"';
 		$player_preset = !empty($attributes['playerPreset']) ? $attributes['playerPreset'] : 'preset-default';
@@ -187,7 +210,7 @@ function embedpress_render_block($attributes)
 			?>
 			<div class="wp-block-embed__wrapper <?php if(!empty($attributes['contentShare'])) echo esc_attr( 'position-'.$share_position.'-wraper'); ?>  <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
 				<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content">
-					<div class="ep-embed-content-wraper <?php !empty($custom_player) ? esc_attr_e($player_preset) : ''; ?>" <?php echo $_custom_player; ?> <?php echo $_player_options; ?>>
+					<div class="ep-embed-content-wraper <?php !empty($custom_player) ? esc_attr_e($player_preset) : ''; ?>" <?php echo $_custom_player; ?> <?php echo $_player_options; ?> <?php echo $_carousel_options; ?>>
 						<?php
 							$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
 							$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';

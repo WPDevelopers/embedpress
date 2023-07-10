@@ -5,7 +5,7 @@ import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
-import { removedBlockID, saveSourceData, getPlayerOptions } from '../common/helper';
+import { removedBlockID, saveSourceData, getPlayerOptions, getCarouselOptions } from '../common/helper';
 
 import { shareIconsHtml } from '../common/helper';
 import md5 from 'md5';
@@ -29,7 +29,7 @@ import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, isY
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import ContentShare from '../common/social-share-control';
-import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo } from './functions';
+import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo, initCarousel, useInstafeed } from './functions';
 
 const {
 	useBlockProps
@@ -62,6 +62,7 @@ export default function EmbedPress(props) {
 		logoOpacity,
 		clientId,
 		customPlayer,
+		instaLayout,
 		playerPreset,
 	} = attributes;
 
@@ -138,6 +139,7 @@ export default function EmbedPress(props) {
 	const youtubeVideoParams = useYTVideo(attributes);
 	const wistiaVideoParams = useWistiaVideo(attributes);
 	const vimeoVideoParams = useVimeoVideo(attributes);
+	const instafeedParams = useInstafeed(attributes);
 
 	let source = '';
 
@@ -265,6 +267,9 @@ export default function EmbedPress(props) {
 		customPlayer && (
 			initCustomPlayer(_md5ClientId, attributes)
 		)
+			initCarousel(_md5ClientId, attributes)
+
+		
 
 	}
 	// console.log('XopenseaParams', {...openseaParams});
@@ -279,7 +284,7 @@ export default function EmbedPress(props) {
 		return () => {
 			clearTimeout(delayDebounceFn)
 		}
-	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, contentShare, lockContent]);
+	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, contentShare, lockContent]);
 
 	return (
 		<Fragment>
@@ -324,7 +329,7 @@ export default function EmbedPress(props) {
 
 			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo || isVimeoVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
 				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
-					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass}`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo && !isVimeoVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} {...(customPlayer ? { 'data-playerid': md5(clientId) } : {})} {...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})} dangerouslySetInnerHTML={{
+					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass}`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo && !isVimeoVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} {...(customPlayer ? { 'data-playerid': md5(clientId) } : {})} {...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})} {...((instaLayout === 'insta-carousel') ? { 'data-carouselid': md5(clientId) } : {})} {...((instaLayout === 'insta-carousel') ? { 'data-carousel-options': getCarouselOptions({ attributes }) } : {})} dangerouslySetInnerHTML={{
 						__html: embedHTML + customLogoTemp + epMessage + shareHtml,
 					}}>
 					</EmbedWrap>

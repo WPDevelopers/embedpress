@@ -140,14 +140,10 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     }
 
 
-    public function getInstaFeedItem($post, $index, $posts_count)
+    public function getInstaFeedItem($post)
     {
-        $ref = '';
-        if ($index === $posts_count) {
-            // $ref = ' is-ref';
-        }
         ob_start(); ?>
-        <div class="insta-gallery-item">
+        <div class="insta-gallery-item cg-carousel__slide js-carousel__slide">
             <?php
                     if ($post['media_type'] == 'VIDEO') {
                         echo '<video class="insta-gallery-image" src="' . esc_url($post['media_url']) . '"></video>';
@@ -223,36 +219,20 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 if (is_array($insta_posts) and !empty($insta_posts)) {
                     ob_start(); ?>
             <div class="embedpress-insta-container">
-                <div class="insta-gallery carousel" id="carousel">
+                <div class="insta-gallery masonary cg-carousel__track js-carousel__track">
                     <?php
-                                $posts_count = is_array($insta_posts) ? count($insta_posts) : 0;
-
-                                foreach ($insta_posts as $index => $post) {
-                                    print_r($this->getInstaFeedItem($post, $index + 1, $posts_count));
-                                }
-                                ?>
+                        foreach ($insta_posts as $post) {
+                            print_r($this->getInstaFeedItem($post));
+                        }
+                        ?>
                 </div>
-                <!-- <script async src="//www.instagram.com/embed.js"></script> -->
-                <script>
-                    //                 const popup = document.getElementById('popup');
-                    //                 const popupContent = document.getElementById('popup-content');
-                    //                 const closeBtn = document.getElementById('close-btn');
-                    //                 const triggerBtn = document.getElementById('trigger-btn');
+                <div class="cg-carousel__btns">
+                    <button class="cg-carousel__btn" id="js-carousel__prev-1"><svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="M11.24.29.361 10.742l-.06.054a.97.97 0 0 0-.301.642v.124a.97.97 0 0 0 .3.642l.054.044L11.239 22.71a1.061 1.061 0 0 0 1.459 0 .964.964 0 0 0 0-1.402l-10.15-9.746 10.15-9.87a.964.964 0 0 0 0-1.402 1.061 1.061 0 0 0-1.459 0Z" fill="#fff"/></svg></button>
 
-                    //                 function showPopup() {
-                    //                 popup.style.display = 'flex';
-                    //                 }
-
-                    //                 function hidePopup() {
-                    //   popup.style.display = 'none';
-                    // }
-
-                    // closeBtn.addEventListener('click', hidePopup);
-                    // triggerBtn.addEventListener('click', showPopup);
-                </script>
-
+                    <button class="cg-carousel__btn" id="js-carousel__next-1"><svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="m1.76.29 10.879 10.452.06.054a.97.97 0 0 1 .301.642v.124a.97.97 0 0 1-.3.642l-.054.044L1.761 22.71a1.061 1.061 0 0 1-1.459 0 .964.964 0 0 1 0-1.402l10.15-9.746-10.15-9.87a.964.964 0 0 1 0-1.402 1.061 1.061 0 0 1 1.459 0Z" fill="#fff"/></svg></button>
+                </div>
             </div>
-<?php
+        <?php
 
             $feed_template = ob_get_clean();
             return $feed_template;

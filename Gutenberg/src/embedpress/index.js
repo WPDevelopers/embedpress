@@ -655,23 +655,35 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			slidesShow: {
 				type: 'string',
-				default: 'insta-grid'
+				default: '4'
 			},
 			slidesScroll: {
 				type: 'string',
-				default: 'insta-grid'
+				default: '4'
 			},
 			carouselAutoplay: {
 				type: 'boolean',
 				default: false
 			},
+			autoplaySpeed: {
+				type: 'string',
+				default: '3000'
+			},
+			transitionSpeed: {
+				type: 'string',
+				default: '1000'
+			},
 			carouselLoop: {
 				type: 'boolean',
-				default: false
+				default: true
 			},
 			carouselArrows: {
 				type: 'boolean',
-				default: false
+				default: true
+			},
+			carouselSpacing: {
+				type: 'string',
+				default: '0'
 			},
 			carouselDots: {
 				type: 'boolean',

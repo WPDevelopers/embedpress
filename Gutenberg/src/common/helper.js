@@ -334,3 +334,37 @@ export const getPlayerOptions = ({ attributes }) => {
     return playerOptionsString;
 
 }
+
+
+export const getCarouselOptions = ({ attributes }) => {
+
+    const { 
+        instaLayout,
+        slidesShow,
+        slidesScroll,
+        carouselAutoplay,
+        autoplaySpeed,
+        transitionSpeed,
+        carouselLoop,
+        carouselArrows,
+        carouselSpacing,
+     } = attributes;
+
+    if (instaLayout !== 'insta-carousel') {
+        return '';
+    }
+    
+    const carouselOptions = {
+            slideshow: slidesShow,
+			autoplay: carouselAutoplay,
+			autoplayspeed: autoplaySpeed,
+			transitionspeed: transitionSpeed,
+			loop: carouselLoop,
+			arrows: carouselArrows,
+			spacing: carouselSpacing
+    };
+
+    const carouselOptionsString = JSON.stringify(carouselOptions);
+
+    return carouselOptionsString;
+}

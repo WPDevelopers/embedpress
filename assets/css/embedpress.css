@@ -1803,9 +1803,9 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
 }
 
 /* Instagram feed layout design */
-/* .embedpress-insta-container {
-    font-family: "open sans", Arial, sans-serif;
-} */
+.embedpress-insta-container {
+    overflow: hidden;
+}
 
 .ose-instagram-feed {
     max-height: 100% !important;
@@ -1925,7 +1925,7 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     height: 22px;
 }
 
-button.slick-prev.slick-arrow {
+button#js-carousel__prev-1 {
     position: absolute;
     left: 30px;
     top: 50%;
@@ -1935,7 +1935,7 @@ button.slick-prev.slick-arrow {
 
 }
 
-button.slick-next.slick-arrow {
+button#js-carousel__next-1 {
     position: absolute;
     right: 30px;
     top: 50%;
@@ -1943,6 +1943,11 @@ button.slick-next.slick-arrow {
     z-index: 1;
     padding: 8px 15px;
 
+}
+
+.cg-carousel__btn svg {
+    width: 25px;
+    height: 25px;
 }
 
 /* Popup design for instafeed */
@@ -1977,109 +1982,4 @@ button.slick-next.slick-arrow {
 
 #close-btn {
     margin-top: 10px;
-}
-
-/* Instagram feed carousel */
-.wrap {
-    width: 100%;
-    margin: 0 auto;
-    overflow: hidden;
-}
-
-.carousel {
-    display: flex;
-    left: -100%;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    position: relative;
-    transform: translateX(100%);
-}
-
-@media (min-width: 30em) {
-    .carousel {
-        left: -50%;
-        transform: translateX(50%);
-    }
-}
-
-@media (min-width: 40em) {
-    .carousel {
-        left: -25%;
-        transform: translateX(25%);
-    }
-}
-
-.carousel.is-reversing {
-    transform: translateX(-100%);
-}
-
-@media (min-width: 30em) {
-    .carousel.is-reversing {
-        transform: translateX(-50%);
-    }
-}
-
-@media (min-width: 40em) {
-    .carousel.is-reversing {
-        transform: translateX(-25%);
-    }
-}
-
-.carousel.is-set {
-    transform: none;
-    transition: transform 0.5s ease-in-out;
-}
-
-.insta-gallery-item {
-    background: #ddd;
-    flex: 1 0 100%;
-    order: 2;
-}
-
-.insta-gallery-item:nth-child(even) {
-    background: #d5d5d5;
-}
-
-@media (min-width: 30em) {
-    .insta-gallery-item {
-        flex-basis: 50%;
-    }
-}
-
-@media (min-width: 40em) {
-    .insta-gallery-item {
-        flex-basis: 25%;
-    }
-}
-
-.insta-gallery-item.is-ref {
-    order: 1;
-}
-
-h2 {
-    color: #aaa;
-    font-size: 7em;
-    font-weight: normal;
-    margin: 0;
-    padding: 0.6em 0;
-    text-align: center;
-}
-
-.controls {
-    padding: 1em;
-    text-align: center;
-}
-
-.controls button {
-    background: #aaa;
-    border: 0;
-    border-radius: 0.25em;
-    color: #eee;
-    padding: 0.5em 1em;
-}
-
-.controls button:hover,
-.controls button:focus {
-    background: orange;
 }

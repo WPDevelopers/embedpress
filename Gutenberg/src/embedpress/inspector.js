@@ -16,6 +16,7 @@ const { __ } = wp.i18n;
 
 const {
     TextControl,
+    NumberControl,
     PanelBody,
     SelectControl,
     ToggleControl
@@ -37,9 +38,11 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         slidesShow,
         slidesScroll,
         carouselAutoplay,
+        autoplaySpeed,
+        transitionSpeed,
         carouselLoop,
         carouselArrows,
-        carouselDots,
+        carouselSpacing,
         lockContent,
         contentPassword,
         editingURL,
@@ -68,7 +71,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         setAttributes({ height: '340' });
     }
 
-    if(isSelfHostedAudio){
+    if (isSelfHostedAudio) {
         setAttributes({ height: '48' });
     }
 
@@ -175,19 +178,19 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                         <div className='instafeed-controls'>
                                             <SelectControl
                                                 label={__("Layout")}
-                                                labelPosition='side'
-                                                value={videosize}
+                                                value={instaLayout}
                                                 options={[
                                                     { label: 'Grid', value: 'insta-grid' },
                                                     { label: 'Masonary', value: 'insta-masonary' },
                                                     { label: 'Carousel', value: 'insta-carousel' },
                                                 ]}
-                                                onChange={(videosize) => setAttributes({ videosize })}
+                                                onChange={(instaLayout) => setAttributes({ instaLayout })}
                                                 __nextHasNoMarginBottom
                                             />
 
                                             <SelectControl
                                                 label={__("Slides to Show")}
+                                                value={slidesShow}
                                                 options={[
                                                     { label: '1', value: '1' },
                                                     { label: '2', value: '2' },
@@ -200,50 +203,43 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                                     { label: '9', value: '9' },
                                                     { label: '10', value: '10' },
                                                 ]}
-                                                checked={slidesShow}
                                                 onChange={(slidesShow) => setAttributes({ slidesShow })}
-                                            />
-                                            <SelectControl
-                                                label={__("Slides to Scroll")}
-                                                options={[
-                                                    { label: '1', value: '1' },
-                                                    { label: '2', value: '2' },
-                                                    { label: '3', value: '3' },
-                                                    { label: '4', value: '4' },
-                                                    { label: '5', value: '5' },
-                                                    { label: '6', value: '6' },
-                                                    { label: '7', value: '7' },
-                                                    { label: '8', value: '8' },
-                                                    { label: '9', value: '9' },
-                                                    { label: '10', value: '10' },
-                                                ]}
-                                                checked={slidesShow}
-                                                onChange={(slidesShow) => setAttributes({ slidesShow })}
+                                                __nextHasNoMarginBottom
                                             />
 
 
-                                            <SelectControl
+                                            <ToggleControl
                                                 label={__("Autoplay")}
                                                 checked={carouselAutoplay}
                                                 onChange={(carouselAutoplay) => setAttributes({ carouselAutoplay })}
                                             />
-
-                                            <SelectControl
-                                                label={__("Loop")}
-                                                checked={carouselLoop}
-                                                onChange={(carouselLoop) => setAttributes({ carouselAutoplay })}
+                                            <TextControl
+                                                label={__("Autoplay Speed")}
+                                                value={autoplaySpeed}
+                                                onChange={(autoplaySpeed) => setAttributes({ autoplaySpeed })}
+                                            />
+                                            <TextControl
+                                                label={__("Transition Speed")}
+                                                value={transitionSpeed}
+                                                onChange={(transitionSpeed) => setAttributes({ transitionSpeed })}
                                             />
 
-                                            <SelectControl
+                                            <ToggleControl
+                                                label={__("Loop")}
+                                                checked={carouselLoop}
+                                                onChange={(carouselLoop) => setAttributes({ carouselLoop })}
+                                            />
+
+                                            <TextControl
+                                                label={__("Space")}
+                                                value={carouselSpacing}
+                                                onChange={(carouselSpacing) => setAttributes({ carouselSpacing })}
+                                            />
+
+                                            <ToggleControl
                                                 label={__("Arrows")}
                                                 checked={carouselArrows}
                                                 onChange={(carouselArrows) => setAttributes({ carouselArrows })}
-                                            />
-
-                                            <SelectControl
-                                                label={__("Dots")}
-                                                checked={carouselDots}
-                                                onChange={(carouselDots) => setAttributes({ carouselDots })}
                                             />
 
                                         </div>

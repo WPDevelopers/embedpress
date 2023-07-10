@@ -1,4 +1,5 @@
 const { useState, useEffect } = wp.element;
+const { isShallowEqualObjects } = wp.isShallowEqual;
 
 export const mergeAtts = (defaults, attributes) => {
     const out = {};
@@ -120,64 +121,112 @@ export const initCustomPlayer = (clientId, attributes) => {
                     ...(options.autopause && { autopause: options.autopause }),
                     ...(options.dnt && { dnt: options.dnt }),
                 }
-                
+
             });
 
             player.poster = posterThumbnail;
         }
     }, 200);
 
+}
 
+//
+export const useInstafeed = (attributes) => {
+    // which attribute should call embed();
+    const defaults = {
+        instaLayout: null,
+        slidesShow: null,
+        slidesScroll: null,
+        carouselAutoplay: null,
+        autoplaySpeed: null,
+        transitionSpeed: null,
+        carouselLoop: null,
+        carouselArrows: null,
+        carouselSpacing: null
+    };
+
+    const param = getParams({}, attributes, defaults);
+    const [atts, setAtts] = useState(param);
+
+    useEffect(() => {
+        const param = getParams(atts, attributes, defaults);
+        if (!isShallowEqualObjects(atts || {}, param)) {
+            setAtts(param);
+        }
+    }, [attributes]);
+
+    return atts;
+}
+
+export const initCarousel = (clientId, attributes) => {
+    const {
+        url,
+        instaLayout,
+        slidesShow,
+        slidesScroll,
+        carouselAutoplay,
+        autoplaySpeed,
+        transitionSpeed,
+        carouselLoop,
+        carouselArrows,
+        carouselSpacing
+    } = attributes;
+
+    const options = {
+        layout: instaLayout,
+        slidesPerView: slidesShow,
+        spacing: carouselSpacing,
+        loop: carouselLoop,
+        autoplay: carouselAutoplay,
+        transitionSpeed: autoplaySpeed,
+        arrows: carouselArrows
+    };
+
+
+    const intervalId = setInterval(() => {
+
+        let carouselSelector = document.querySelector(`[data-carouselid="${clientId}"] .embedpress-insta-container`);
+console.log('outside of carousel ' + clientId);
+        if (carouselSelector) {
+            console.log('inside of carousel');
+
+            clearInterval(intervalId);
+
+            let optionss = document.querySelector(`[data-carouselid="${clientId}"]`).getAttribute('data-carousel-options');
+
+            optionss = JSON.parse(optionss);
+
+            console.log(optionss);
+
+            // const carouselOptions = {
+            //     slidesPerView: options.slidesShow,
+            //     spacing: 5,
+            //     loop: true,
+            //     autoplay: true,
+            //     transitionSpeed: 1000,
+            //     breakpoints: {
+            //         768: {
+            //             slidesPerView: 3,
+            //         },
+            //         1024: {
+            //             slidesPerView: 4,
+            //         }
+            //     }
+            // };
+
+            // INIT CAROUSEL
+            
+            const carousel1 = new CgCarousel(`[data-carouselid="${clientId}"] .embedpress-insta-container`, options, {});
+
+            // Navigation
+            const next1 = document.getElementById('js-carousel__next-1');
+            next1.addEventListener('click', () => carousel1.next());
+
+            const prev1 = document.getElementById('js-carousel__prev-1');
+            prev1.addEventListener('click', () => carousel1.prev());
+
+        }
+    }, 200);
 }
 
 
-
-let epGlobals = {};
-
-(function ($) {
-    'use strict';
-    // function equivalent to jquery ready()
-    function ready(fn) {
-        if (document.readyState !== 'loading') {
-            fn();
-        } else {
-            document.addEventListener('DOMContentLoaded', fn);
-        }
-    }
-
-    const prevIcon = '<svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="M11.24.29.361 10.742l-.06.054a.97.97 0 0 0-.301.642v.124a.97.97 0 0 0 .3.642l.054.044L11.239 22.71a1.061 1.061 0 0 0 1.459 0 .964.964 0 0 0 0-1.402l-10.15-9.746 10.15-9.87a.964.964 0 0 0 0-1.402 1.061 1.061 0 0 0-1.459 0Z" fill="#fff"/></svg>';
-
-    const nextIcon = '<svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="m1.76.29 10.879 10.452.06.054a.97.97 0 0 1 .301.642v.124a.97.97 0 0 1-.3.642l-.054.044L1.761 22.71a1.061 1.061 0 0 1-1.459 0 .964.964 0 0 1 0-1.402l10.15-9.746-10.15-9.87a.964.964 0 0 1 0-1.402 1.061 1.061 0 0 1 1.459 0Z" fill="#fff"/></svg>';
-
-    epGlobals.initCarousel = () => {
-        const carousel = document.addEventListener('click', () => {
-            
-        });
-    }
-
-    epGlobals.initCarousel = (selector, options) => {
-        $(selector).slick({
-            loop: true,
-            autoplay: true,
-            centerPadding: '60px',
-            slidesToShow: 4,
-            slidesToScroll: 4,
-            prevArrow: '<button type="button" class="slick-prev">' + prevIcon + '</button>',
-
-            nextArrow: '<button type="button" class="slick-next">' + nextIcon + '</button>'
-        });
-    }
-
-    setTimeout(() => {
-        if ($('.carousel').length > 0) {
-            epGlobals.initCarousel('.carousel', {});
-        }
-
-        console.log($('.carousel'));
-
-    }, 15000);
-
-
-    console.log('this is a carousel');
-
-})(jQuery);

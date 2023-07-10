@@ -358,7 +358,7 @@ let epGlobals = {};
                     if ($('.embedpress-gutenberg-wrapper .ep-nft-gallery-wrapper').length > 0) {
                         epLoadMore();
                     }
-                    
+
                     // Custom player initialization when content protection enabled
                     document.querySelector('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper').classList.remove('plyr-initialized');
 
@@ -391,121 +391,41 @@ let epGlobals = {};
 
     });
 
-    // Instagram feed carousel layout
-    epGlobals.instagram_carousel = () => {
-        const carousel = document.querySelector('.carousel');
-        console.log(carousel);
 
-        const seats = document.querySelectorAll('.insta-gallery-item');
-        console.log(seats);
+    epGlobals.initCarousel = (carouselSelector) => {
 
-        const toggle = document.querySelectorAll('.toggle');
-
-        console.log(toggle);
-
-
-        document.addEventListener("click", delegate(toggleFilter, toggleHandler));
-
-        // Common helper for event delegation.
-        function delegate(criteria, listener) {
-            return function (e) {
-                let el = e.target;
-                do {
-                    if (!criteria(el)) {
-                        continue;
-                    }
-                    e.delegateTarget = el;
-                    listener.call(this, e);
-                    return;
-                } while ((el = el.parentNode));
-            };
-        }
-
-        // Custom filter to check for required DOM elements
-        function toggleFilter(elem) {
-            return elem instanceof HTMLElement && elem.matches(".toggle");
-        }
-
-        // Custom event handler function
-        function toggleHandler(e) {
-            let newSeat;
-            const el = document.querySelector('.is-ref');
-            const currSliderControl = e.delegateTarget;
-
-            el.classList.remove('is-ref');
-            if (currSliderControl.getAttribute('data-toggle') === 'next') {
-                newSeat = next(el);
-                carousel.classList.remove('is-reversing');
-            } else {
-                newSeat = prev(el);
-                carousel.classList.add('is-reversing');
-            }
-
-            newSeat.classList.add('is-ref');
-            newSeat.style.order = 1;
-            for (let i = 2; i <= seats.length; i++) {
-                newSeat = next(newSeat);
-                newSeat.style.order = i;
-            }
-
-            carousel.classList.remove('is-set');
-            carousel.classList.add('is-animating'); // Add class for animation
-
-            setTimeout(function () {
-                carousel.classList.remove('is-animating'); // Remove class after animation duration
-                carousel.classList.add('is-set');
-            }, 500); // Adjust the timeout to match your animation duration
-
-            function next(el) {
-                if (el.nextElementSibling) {
-                    return el.nextElementSibling;
-                } else {
-                    return carousel.firstElementChild;
-                }
-            }
-
-            function prev(el) {
-                if (el.previousElementSibling) {
-                    return el.previousElementSibling;
-                } else {
-                    return carousel.lastElementChild;
-                }
-            }
-        }
-
-        // Auto loop
-        setInterval(function () {
-            const nextButton = document.querySelector('[data-toggle="next"]');
-            // nextButton.click();
-        }, 2000); // Adjust the interval time (in milliseconds) for the auto loop
-
-    }
-
-    // epGlobals.instagram_carousel();
-
-    const prevIcon = '<svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="M11.24.29.361 10.742l-.06.054a.97.97 0 0 0-.301.642v.124a.97.97 0 0 0 .3.642l.054.044L11.239 22.71a1.061 1.061 0 0 0 1.459 0 .964.964 0 0 0 0-1.402l-10.15-9.746 10.15-9.87a.964.964 0 0 0 0-1.402 1.061 1.061 0 0 0-1.459 0Z" fill="#fff"/></svg>';
-
-    const nextIcon = '<svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="m1.76.29 10.879 10.452.06.054a.97.97 0 0 1 .301.642v.124a.97.97 0 0 1-.3.642l-.054.044L1.761 22.71a1.061 1.061 0 0 1-1.459 0 .964.964 0 0 1 0-1.402l10.15-9.746-10.15-9.87a.964.964 0 0 1 0-1.402 1.061 1.061 0 0 1 1.459 0Z" fill="#fff"/></svg>';
-
-    epGlobals.initCarousel = (selector, options) => {
-        $(selector).slick({
+        const options = {
+            slidesPerView: 1,
+            spacing: 5,
             loop: true,
             autoplay: true,
-            centerPadding: '60px',
-            slidesToShow: 4,
-            slidesToScroll: 4,
-            prevArrow: '<button type="button" class="slick-prev">' + prevIcon + '</button>',
+            transitionSpeed: 1000,
+            breakpoints: {
+                768: {
+                    slidesPerView: 3,
+                },
+                1024: {
+                    slidesPerView: 4,
+                }
+            }
+        };
 
-            nextArrow: '<button type="button" class="slick-next">' + nextIcon + '</button>'
-        });
-    }
 
-    if ($('.carousel').length > 0) {
-        epGlobals.initCarousel('carousel', {});
+        // INIT CAROUSEL
+        const carousel1 = new CgCarousel(carouselSelector, options, {});
+
+        // Navigation
+        const next1 = document.getElementById('js-carousel__next-1');
+        next1.addEventListener('click', () => carousel1.next());
+
+        const prev1 = document.getElementById('js-carousel__prev-1');
+        prev1.addEventListener('click', () => carousel1.prev());
+
     }
 
 
 })(jQuery);
+
 
 
 
@@ -630,11 +550,11 @@ jQuery(window).on("elementor/frontend/init", function () {
             unlockElSubmitHander('ep-elementor-content', this);
         });
 
-        if ($('.carousel').length > 0) {
-            epGlobals.initCarousel(selectorEl + ' .carousel', {});
-        }
+        // if ($('.carousel').length > 0) {
+        //     epGlobals.initCarousel(selectorEl + ' .carousel', {});
+        // }
 
-        console.log($('.carousel').length);
+        // console.log($('.carousel').length);
 
     };
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);
