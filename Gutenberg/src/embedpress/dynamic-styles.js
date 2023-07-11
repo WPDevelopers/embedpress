@@ -2,6 +2,7 @@ import react from 'react';
 import { isOpensea, isOpenseaSingle } from "./InspectorControl/opensea";
 import { isYTChannel, isYTVideo, isYTLive } from "./InspectorControl/youtube";
 import { isVimeoVideo } from "./InspectorControl/vimeo";
+import { isInstagramFeed } from '../common/helper';
 import md5 from 'md5';
 
 export const dynamicStyles = ({ attributes }) => {
@@ -30,7 +31,9 @@ export const dynamicStyles = ({ attributes }) => {
         playerRestart,
         playerRewind,
         playerFastForward,
-        playerDownload
+        playerDownload,
+
+        instaLayout 
     } = attributes;
 
 
@@ -68,6 +71,11 @@ export const dynamicStyles = ({ attributes }) => {
                 display: block !important;
             }
         `;
+    }
+
+    let carouselBtns = 'none';
+    if(instaLayout === 'insta-carousel'){
+        carouselBtns = 'block';
     }
 
     let wehnResponsive = '';
@@ -290,6 +298,19 @@ export const dynamicStyles = ({ attributes }) => {
                         `}
                     </style>
 
+                )
+            }
+
+            {
+                isInstagramFeed(url) && (
+                    <style style={{ display: "none" }}>
+                        {`
+                            [data-carouselid="${clientId}"] .cg-carousel__btns{
+                                display: ${carouselBtns}
+                            };
+                            
+                        `}
+                    </style>
                 )
             }
 

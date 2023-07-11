@@ -202,6 +202,9 @@ export const initCarousel = (clientId, attributes) => {
             if(carouselArrows){
                 document.querySelector(`[data-carouselid="${clientId}"] .cg-carousel__btns`).classList.remove('hidden');
             }
+            else{
+                document.querySelector(`[data-carouselid="${clientId}"] .cg-carousel__btns`).classList.add('hidden');
+            }
 
             // Navigation
             const next1 = document.querySelector(`[data-carouselid="${clientId}"] #js-carousel__next-1`);

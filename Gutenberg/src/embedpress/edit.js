@@ -5,7 +5,7 @@ import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
-import { removedBlockID, saveSourceData, getPlayerOptions, getCarouselOptions, isInstagramFeed as _isInstagramFeed, isInstagramFeed } from '../common/helper';
+import { removedBlockID, saveSourceData, getPlayerOptions, getCarouselOptions, isInstagramFeed as _isInstagramFeed } from '../common/helper';
 
 import { shareIconsHtml } from '../common/helper';
 import md5 from 'md5';
@@ -79,10 +79,7 @@ export default function EmbedPress(props) {
 	if (customPlayer) {
 		playerPresetClass = playerPreset;
 	}
-	let instaLayoutClass = '';
-	if (isInstagramFeed) {
-		instaLayoutClass = instaLayout;
-	}
+
 
 	let content_share_class = '';
 	let share_position_class = '';
@@ -152,6 +149,10 @@ export default function EmbedPress(props) {
 		source = ' source-opensea';
 	}
 
+	let instaLayoutClass = '';
+	if (isInstagramFeed) {
+		instaLayoutClass = instaLayout;
+	}
 
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
@@ -272,9 +273,10 @@ export default function EmbedPress(props) {
 		customPlayer && (
 			initCustomPlayer(_md5ClientId, attributes)
 		)
-		initCarousel(_md5ClientId, attributes)
 
-
+		if (instaLayout === 'insta-carousel') {
+			initCarousel(_md5ClientId, attributes);
+		}
 
 	}
 	// console.log('XopenseaParams', {...openseaParams});
@@ -339,7 +341,7 @@ export default function EmbedPress(props) {
 						<EmbedWrap
 							className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass} ${instaLayoutClass}`}
 							style={{
-								display: fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo && !isVimeoVideo && !isInstagramFeed? 'none' : isOpensea || isOpenseaSingle ? 'block' : 'inline-block',
+								display: fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo && !isVimeoVideo && !isInstagramFeed ? 'none' : isOpensea || isOpenseaSingle ? 'block' : 'inline-block',
 								position: 'relative'
 							}}
 							{...(customPlayer ? { 'data-playerid': md5(clientId) } : {})}
