@@ -1442,19 +1442,13 @@ class Feature_Enhancer
 
 	public function enhance_missing_title($embed){
 
-
 		$embed_arr = get_object_vars($embed);
 
 		$url = $embed->url;
 
 		if (strpos($url, 'gettyimages') !== false) {
 			$title = $embed_arr[$url]['title'];
-		} else {
-			$title = '';
-		}
-
-
-		$embed->embed = $embed->embed . "
+			$embed->embed = $embed->embed . "
 			<script>
 				if (typeof gie === 'function') {
 					gie(function(){
@@ -1466,6 +1460,9 @@ class Feature_Enhancer
 				}
 			</script>
 		";
+		}
+
+		
 		return $embed;
 	}
 
