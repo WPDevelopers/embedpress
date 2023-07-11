@@ -1811,18 +1811,18 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     max-height: 100% !important;
     height: 100% !important;
 }
-.embedpress-insta-container .insta-gallery {
+.insta-grid .embedpress-insta-container .insta-gallery {
     display: flex;
     flex-wrap: wrap;
     padding-bottom: 3rem;
     gap: 5px;
 }
 
-.embedpress-insta-container .insta-gallery.carousel {
+.insta-carousel .embedpress-insta-container .insta-gallery {
     padding-bottom: 0;
 }
 
-.embedpress-insta-container .insta-gallery.masonary {
+.insta-masonary .embedpress-insta-container .insta-gallery {
     column-count: 3;
     gap: .5em;
     margin: auto;
@@ -1831,7 +1831,7 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
 }
 
 
-.embedpress-insta-container .insta-gallery-item {
+.insta-grid .embedpress-insta-container .insta-gallery-item {
     position: relative;
     color: #fff;
     cursor: pointer;
@@ -1839,17 +1839,17 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     /* transition: 0.3s; */
 }
 
-.embedpress-insta-container .carousel:not(.insta-gallery-item) {
+.insta-grid .embedpress-insta-container .insta-gallery-item{
     flex: 1 0 22rem;
 }
 
-.embedpress-insta-container .insta-gallery.masonary .insta-gallery-item {
+.insta-masonary .embedpress-insta-container .insta-gallery .insta-gallery-item {
     height: auto;
     margin-bottom: .5em;
 }
 
 
-.embedpress-insta-container .insta-gallery.masonary .insta-gallery-item video.insta-gallery-image {
+.insta-masonary .embedpress-insta-container .insta-gallery .insta-gallery-item video.insta-gallery-image {
     height: 650px;
 }
 
@@ -1923,6 +1923,10 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
 .insta-gallery-item-type svg.insta-video-icon {
     width: 22px;
     height: 22px;
+}
+
+.cg-carousel__btns.hidden{
+    display: none;
 }
 
 button#js-carousel__prev-1 {

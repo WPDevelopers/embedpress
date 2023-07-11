@@ -187,60 +187,65 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                                 onChange={(instaLayout) => setAttributes({ instaLayout })}
                                                 __nextHasNoMarginBottom
                                             />
+                                            {
+                                                (instaLayout === 'insta-carousel') && (
+                                                    <div>
+                                                        <SelectControl
+                                                            label={__("Slides to Show")}
+                                                            value={slidesShow}
+                                                            options={[
+                                                                { label: '1', value: '1' },
+                                                                { label: '2', value: '2' },
+                                                                { label: '3', value: '3' },
+                                                                { label: '4', value: '4' },
+                                                                { label: '5', value: '5' },
+                                                                { label: '6', value: '6' },
+                                                                { label: '7', value: '7' },
+                                                                { label: '8', value: '8' },
+                                                                { label: '9', value: '9' },
+                                                                { label: '10', value: '10' },
+                                                            ]}
+                                                            onChange={(slidesShow) => setAttributes({ slidesShow })}
+                                                            __nextHasNoMarginBottom
+                                                        />
 
-                                            <SelectControl
-                                                label={__("Slides to Show")}
-                                                value={slidesShow}
-                                                options={[
-                                                    { label: '1', value: '1' },
-                                                    { label: '2', value: '2' },
-                                                    { label: '3', value: '3' },
-                                                    { label: '4', value: '4' },
-                                                    { label: '5', value: '5' },
-                                                    { label: '6', value: '6' },
-                                                    { label: '7', value: '7' },
-                                                    { label: '8', value: '8' },
-                                                    { label: '9', value: '9' },
-                                                    { label: '10', value: '10' },
-                                                ]}
-                                                onChange={(slidesShow) => setAttributes({ slidesShow })}
-                                                __nextHasNoMarginBottom
-                                            />
+                                                        <ToggleControl
+                                                            label={__("Autoplay")}
+                                                            checked={carouselAutoplay}
+                                                            onChange={(carouselAutoplay) => setAttributes({ carouselAutoplay })}
+                                                        />
+                                                        <TextControl
+                                                            label={__("Autoplay Speed")}
+                                                            value={autoplaySpeed}
+                                                            onChange={(autoplaySpeed) => setAttributes({ autoplaySpeed })}
+                                                        />
+                                                        <TextControl
+                                                            label={__("Transition Speed")}
+                                                            value={transitionSpeed}
+                                                            onChange={(transitionSpeed) => setAttributes({ transitionSpeed })}
+                                                        />
 
+                                                        <ToggleControl
+                                                            label={__("Loop")}
+                                                            checked={carouselLoop}
+                                                            onChange={(carouselLoop) => setAttributes({ carouselLoop })}
+                                                        />
 
-                                            <ToggleControl
-                                                label={__("Autoplay")}
-                                                checked={carouselAutoplay}
-                                                onChange={(carouselAutoplay) => setAttributes({ carouselAutoplay })}
-                                            />
-                                            <TextControl
-                                                label={__("Autoplay Speed")}
-                                                value={autoplaySpeed}
-                                                onChange={(autoplaySpeed) => setAttributes({ autoplaySpeed })}
-                                            />
-                                            <TextControl
-                                                label={__("Transition Speed")}
-                                                value={transitionSpeed}
-                                                onChange={(transitionSpeed) => setAttributes({ transitionSpeed })}
-                                            />
+                                                        <TextControl
+                                                            label={__("Space")}
+                                                            value={carouselSpacing}
+                                                            onChange={(carouselSpacing) => setAttributes({ carouselSpacing })}
+                                                        />
 
-                                            <ToggleControl
-                                                label={__("Loop")}
-                                                checked={carouselLoop}
-                                                onChange={(carouselLoop) => setAttributes({ carouselLoop })}
-                                            />
+                                                        <ToggleControl
+                                                            label={__("Arrows")}
+                                                            checked={carouselArrows}
+                                                            onChange={(carouselArrows) => setAttributes({ carouselArrows })}
+                                                        />
+                                                    </div>
+                                                )
+                                            }
 
-                                            <TextControl
-                                                label={__("Space")}
-                                                value={carouselSpacing}
-                                                onChange={(carouselSpacing) => setAttributes({ carouselSpacing })}
-                                            />
-
-                                            <ToggleControl
-                                                label={__("Arrows")}
-                                                checked={carouselArrows}
-                                                onChange={(carouselArrows) => setAttributes({ carouselArrows })}
-                                            />
 
                                         </div>
                                     )

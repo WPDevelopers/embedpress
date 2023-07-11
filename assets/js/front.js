@@ -392,42 +392,68 @@ let epGlobals = {};
     });
 
 
-    epGlobals.initCarousel = (carouselSelector) => {
-
-        const options = {
-            slidesPerView: 1,
-            spacing: 5,
-            loop: true,
-            autoplay: true,
-            transitionSpeed: 1000,
-            breakpoints: {
-                768: {
-                    slidesPerView: 3,
-                },
-                1024: {
-                    slidesPerView: 4,
-                }
-            }
-        };
-
-
-        // INIT CAROUSEL
-        const carousel1 = new CgCarousel(carouselSelector, options, {});
-
-        // Navigation
-        const next1 = document.getElementById('js-carousel__next-1');
-        next1.addEventListener('click', () => carousel1.next());
-
-        const prev1 = document.getElementById('js-carousel__prev-1');
-        prev1.addEventListener('click', () => carousel1.prev());
-
-    }
 
 
 })(jQuery);
 
 
+document.addEventListener('DOMContentLoaded', function() {
 
+    epGlobals.initCarousel = (carouselSelector, options, carouselId) => {
+
+        console.log(options);
+        const carouselOptions = {
+            slidesPerView: options.slideshow,
+            spacing: options.spacing,
+            loop: options.loop, 
+            autoplay: options.autoplay,
+            transitionSpeed: options.transitionspeed,
+            autoplaySpeed: options.autoplayspeed,
+            arrows: options.arrows,
+            breakpoints: {
+                768: {
+                  slidesPerView: parseInt(options.slideshow) - 1
+                },
+                1024: {
+                  slidesPerView: parseInt(options.slideshow)
+                }
+            }
+        };
+    
+        // INIT CAROUSEL
+        const carousel = new CgCarousel(carouselSelector, carouselOptions, {});
+    
+         // Navigation
+         const next = document.querySelector(`[data-carouselid="${carouselId}"] #js-carousel__next-1`);
+         next.addEventListener('click', () => carousel.next());
+
+         const prev = document.querySelector(`[data-carouselid="${carouselId}"] #js-carousel__prev-1`);
+         prev.addEventListener('click', () => carousel.prev());
+    }
+
+    const instaWrappers = document.querySelectorAll('.ep-embed-content-wraper');
+
+    if(instaWrappers.length > 0) {
+        instaWrappers.forEach((wrapper) => {
+            const carouselId = wrapper.getAttribute('data-carouselid');
+
+            let options = wrapper.getAttribute(`data-carousel-options`);
+
+            options = JSON.parse(options);
+            const carouselSelector = `[data-carouselid="${carouselId}"] .embedpress-insta-container`;
+
+            console.log(options);
+
+            if(options.arrows){
+                document.querySelector(`[data-carouselid="${carouselId}"] .cg-carousel__btns`).classList.remove('hidden');
+            }
+
+            epGlobals.initCarousel(carouselSelector, options, carouselId);
+
+        });
+    }
+
+});
 
 // window.addEventListener('load', function () {
 //     new Glider(document.querySelector('.carousel'), {

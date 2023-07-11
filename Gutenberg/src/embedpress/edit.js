@@ -5,7 +5,7 @@ import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
-import { removedBlockID, saveSourceData, getPlayerOptions, getCarouselOptions } from '../common/helper';
+import { removedBlockID, saveSourceData, getPlayerOptions, getCarouselOptions, isInstagramFeed as _isInstagramFeed, isInstagramFeed } from '../common/helper';
 
 import { shareIconsHtml } from '../common/helper';
 import md5 from 'md5';
@@ -79,6 +79,10 @@ export default function EmbedPress(props) {
 	if (customPlayer) {
 		playerPresetClass = playerPreset;
 	}
+	let instaLayoutClass = '';
+	if (isInstagramFeed) {
+		instaLayoutClass = instaLayout;
+	}
 
 	let content_share_class = '';
 	let share_position_class = '';
@@ -130,6 +134,7 @@ export default function EmbedPress(props) {
 	const isYTLive = _isYTLive(url);
 	const isWistiaVideo = _isWistiaVideo(url);
 	const isVimeoVideo = _isVimeoVideo(url);
+	const isInstagramFeed = _isInstagramFeed(url);
 
 	const isOpensea = _isOpensea(url);
 	const isOpenseaSingle = _isOpenseaSingle(url);
@@ -267,9 +272,9 @@ export default function EmbedPress(props) {
 		customPlayer && (
 			initCustomPlayer(_md5ClientId, attributes)
 		)
-			initCarousel(_md5ClientId, attributes)
+		initCarousel(_md5ClientId, attributes)
 
-		
+
 
 	}
 	// console.log('XopenseaParams', {...openseaParams});
@@ -323,41 +328,51 @@ export default function EmbedPress(props) {
 					((!isYTVideo && !isYTLive) || (!!editingURL || editingURL === 0)) &&
 					(!isYTChannel || (!!editingURL || editingURL === 0)) &&
 					(!isWistiaVideo || (!!editingURL || editingURL === 0)) &&
-					(!isVimeoVideo || (!!editingURL || editingURL === 0))
+					(!isVimeoVideo || (!!editingURL || editingURL === 0)) &&
+					(!isInstagramFeed || (!!editingURL || editingURL === 0))
 				) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo || isVimeoVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
-				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
-					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass}`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo && !isVimeoVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} {...(customPlayer ? { 'data-playerid': md5(clientId) } : {})} {...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})} {...((instaLayout === 'insta-carousel') ? { 'data-carouselid': md5(clientId) } : {})} {...((instaLayout === 'insta-carousel') ? { 'data-carousel-options': getCarouselOptions({ attributes }) } : {})} dangerouslySetInnerHTML={{
-						__html: embedHTML + customLogoTemp + epMessage + shareHtml,
-					}}>
-					</EmbedWrap>
+			{embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo || isVimeoVideo || isInstagramFeed) && (
+				<figure {...blockProps} data-source-id={'source-' + clientId}>
+					<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
+						<EmbedWrap
+							className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass} ${instaLayoutClass}`}
+							style={{
+								display: fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo && !isVimeoVideo && !isInstagramFeed? 'none' : isOpensea || isOpenseaSingle ? 'block' : 'inline-block',
+								position: 'relative'
+							}}
+							{...(customPlayer ? { 'data-playerid': md5(clientId) } : {})}
+							{...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})}
+							{...(instaLayout === 'insta-carousel' ? { 'data-carouselid': md5(clientId) } : {})}
+							{...(instaLayout === 'insta-carousel' ? { 'data-carousel-options': getCarouselOptions({ attributes }) } : {})}
+							dangerouslySetInnerHTML={{
+								__html: embedHTML + customLogoTemp + epMessage + shareHtml,
+							}}
+						></EmbedWrap>
 
-					{
-						fetching && (
-							<div style={{ filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '0.7' }}
+						{fetching && (
+							<div style={{ filter: 'grayscale(1)', backgroundColor: '#fffafa', opacity: '0.7' }}
 								className="block-library-embed__interactive-overlay"
 								onMouseUp={setAttributes({ interactive: true })}
 							/>
-						)
-					}
+						)}
 
-					{
-						(!isOpensea && !isOpenseaSingle) && (
+						{!isOpensea && !isOpenseaSingle && (
 							<div
 								className="block-library-embed__interactive-overlay"
 								onMouseUp={setAttributes({ interactive: true })}
 							/>
-						)
-					}
+						)}
 
-					<EmbedControls
-						showEditButton={embedHTML && !cannotEmbed}
-						switchBackToURLInput={switchBackToURLInput}
-					/>
-				</div>
-			</figure>}
+						<EmbedControls
+							showEditButton={embedHTML && !cannotEmbed}
+							switchBackToURLInput={switchBackToURLInput}
+						/>
+					</div>
+				</figure>
+			)}
+
 
 			<DynamicStyles attributes={attributes} />
 

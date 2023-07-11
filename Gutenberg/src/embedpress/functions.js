@@ -178,52 +178,37 @@ export const initCarousel = (clientId, attributes) => {
         spacing: carouselSpacing,
         loop: carouselLoop,
         autoplay: carouselAutoplay,
-        transitionSpeed: autoplaySpeed,
-        arrows: carouselArrows
+        autoplaySpeed: autoplaySpeed,
+        transitionSpeed: transitionSpeed,
+        arrows: carouselArrows,
+        breakpoints: {
+            768: {
+              slidesPerView: 2
+            },
+            1024: {
+              slidesPerView: 4
+            }
+        }
     };
 
-
     const intervalId = setInterval(() => {
-
         let carouselSelector = document.querySelector(`[data-carouselid="${clientId}"] .embedpress-insta-container`);
-console.log('outside of carousel ' + clientId);
         if (carouselSelector) {
-            console.log('inside of carousel');
 
             clearInterval(intervalId);
-
-            let optionss = document.querySelector(`[data-carouselid="${clientId}"]`).getAttribute('data-carousel-options');
-
-            optionss = JSON.parse(optionss);
-
-            console.log(optionss);
-
-            // const carouselOptions = {
-            //     slidesPerView: options.slidesShow,
-            //     spacing: 5,
-            //     loop: true,
-            //     autoplay: true,
-            //     transitionSpeed: 1000,
-            //     breakpoints: {
-            //         768: {
-            //             slidesPerView: 3,
-            //         },
-            //         1024: {
-            //             slidesPerView: 4,
-            //         }
-            //     }
-            // };
-
-            // INIT CAROUSEL
             
-            const carousel1 = new CgCarousel(`[data-carouselid="${clientId}"] .embedpress-insta-container`, options, {});
+            const carousel = new CgCarousel(`[data-carouselid="${clientId}"] .embedpress-insta-container`, options, {});
+
+            if(carouselArrows){
+                document.querySelector(`[data-carouselid="${clientId}"] .cg-carousel__btns`).classList.remove('hidden');
+            }
 
             // Navigation
-            const next1 = document.getElementById('js-carousel__next-1');
-            next1.addEventListener('click', () => carousel1.next());
+            const next1 = document.querySelector(`[data-carouselid="${clientId}"] #js-carousel__next-1`);
+            next1.addEventListener('click', () => carousel.next());
 
-            const prev1 = document.getElementById('js-carousel__prev-1');
-            prev1.addEventListener('click', () => carousel1.prev());
+            const prev1 = document.querySelector(`[data-carouselid="${clientId}"] #js-carousel__prev-1`);
+            prev1.addEventListener('click', () => carousel.prev());
 
         }
     }, 200);

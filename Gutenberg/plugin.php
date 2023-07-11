@@ -415,6 +415,49 @@ function embedpress_gutenberg_register_all_block()
 								'default' => false
 							],
 
+							// instaFeed attributes
+							'instaLayout' => [
+								'type' => 'string',
+								'default' => 'insta-grid',
+							],
+							'slidesShow' => [
+								'type' => 'string',
+								'default' => '4',
+							],
+							'slidesScroll' => [
+								'type' => 'string',
+								'default' => '4',
+							],
+							'carouselAutoplay' => [
+								'type' => 'boolean',
+								'default' => false,
+							],
+							'autoplaySpeed' => [
+								'type' => 'string',
+								'default' => '3000',
+							],
+							'transitionSpeed' => [
+								'type' => 'string',
+								'default' => '1000',
+							],
+							'carouselLoop' => [
+								'type' => 'boolean',
+								'default' => true,
+							],
+							'carouselArrows' => [
+								'type' => 'boolean',
+								'default' => true,
+							],
+							'carouselSpacing' => [
+								'type' => 'string',
+								'default' => '0',
+							],
+							'carouselDots' => [
+								'type' => 'boolean',
+								'default' => false,
+							],
+							
+
 						),
 					]);
 				} elseif ('embedpress-pdf' === $blocks_to_register) {

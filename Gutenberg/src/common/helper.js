@@ -338,7 +338,7 @@ export const getPlayerOptions = ({ attributes }) => {
 
 export const getCarouselOptions = ({ attributes }) => {
 
-    const { 
+    const {
         instaLayout,
         slidesShow,
         slidesScroll,
@@ -348,20 +348,21 @@ export const getCarouselOptions = ({ attributes }) => {
         carouselLoop,
         carouselArrows,
         carouselSpacing,
-     } = attributes;
+    } = attributes;
 
     if (instaLayout !== 'insta-carousel') {
         return '';
     }
-    
+
     const carouselOptions = {
-            slideshow: slidesShow,
-			autoplay: carouselAutoplay,
-			autoplayspeed: autoplaySpeed,
-			transitionspeed: transitionSpeed,
-			loop: carouselLoop,
-			arrows: carouselArrows,
-			spacing: carouselSpacing
+        layout: instaLayout,
+        slideshow: slidesShow,
+        autoplay: carouselAutoplay,
+        autoplayspeed: autoplaySpeed,
+        transitionspeed: transitionSpeed,
+        loop: carouselLoop,
+        arrows: carouselArrows,
+        spacing: carouselSpacing
     };
 
     const carouselOptionsString = JSON.stringify(carouselOptions);
