@@ -2532,7 +2532,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label' => esc_html__( 'Layout', 'embedpress' ),
 				'options' => [
 					'insta-grid' => esc_html__( 'Grid', 'embedpress' ),
-					'insta-misonary' => esc_html__( 'Misonary', 'embedpress' ),
+					'insta-masonary' => esc_html__( 'Masonary', 'embedpress' ),
 					'insta-carousel' => esc_html__( 'Carousel', 'embedpress' ),
 				],
 				'default' => 'insta-grid',
@@ -2558,29 +2558,10 @@ class Embedpress_Elementor extends Widget_Base
 					'10' => esc_html__( '10', 'embedpress' ),
 				],
 				'default' => '5',
-				'condition'   => $condition,
-			]
-		);
-
-		$this->add_control(
-			'embedpress_instafeed_slide_scroll',
-			[
-				'type' => \Elementor\Controls_Manager::SELECT,
-				'label' => esc_html__( 'Slides to Scroll', 'embedpress' ),
-				'options' => [
-					'1' => esc_html__( '1', 'embedpress' ),
-					'2' => esc_html__( '2', 'embedpress' ),
-					'3' => esc_html__( '3', 'embedpress' ),
-					'4' => esc_html__( '4', 'embedpress' ),
-					'5' => esc_html__( '5', 'embedpress' ),
-					'6' => esc_html__( '6', 'embedpress' ),
-					'7' => esc_html__( '7', 'embedpress' ),
-					'8' => esc_html__( '8', 'embedpress' ),
-					'9' => esc_html__( '9', 'embedpress' ),
-					'10' => esc_html__( '10', 'embedpress' ),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'instafeed',
+					'embedpress_instafeed_layout' => 'insta-carousel'
 				],
-				'default' => '5',
-				'condition'   => $condition,
 			]
 		);
 
@@ -2589,9 +2570,37 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'label'        => __('Auto Play', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => true,
+				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => '',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'instafeed',
+					'embedpress_instafeed_layout' => 'insta-carousel'
+				],
+			]
+		);
+		$this->add_control(
+			'embedpress_carousel_autoplay_speed',
+			[
+				'label' => esc_html__( 'Autoplay Speed', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::NUMBER,
+				'min' => 0,
+				'step' => 1,
+				'default' => 0,
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'instafeed',
+					'embedpress_instafeed_layout' => 'insta-carousel'
+				],
+			]
+		);
+		$this->add_control(
+			'embedpress_carousel_transition_speed',
+			[
+				'label' => esc_html__( 'Transition Speed', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::NUMBER,
+				'min' => 0,
+				'step' => 1,
+				'default' => 0,
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'instafeed',
 					'embedpress_instafeed_layout' => 'insta-carousel'
@@ -2603,7 +2612,7 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'label'        => __('Loop', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => true,
+				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => '',
 				'condition'    => [
@@ -2618,7 +2627,7 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'label'        => __('Arrows', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => true,
+				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => '',
 				'condition'    => [
@@ -2627,23 +2636,24 @@ class Embedpress_Elementor extends Widget_Base
 				],
 			]
 		);
+
 
 		$this->add_control(
-			'embedpress_carousel_dots',
+			'embedpress_carousel_spacing',
 			[
-				'label'        => __('Dots', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => true,
-				'return_value' => 'yes',
-				'default'      => '',
+				'label' => esc_html__( 'Spacing', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::NUMBER,
+				'min' => 0,
+				'max' => 100,
+				'step' => 1,
+				'default' => 0,
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'instafeed',
 					'embedpress_instafeed_layout' => 'insta-carousel'
 				],
 			]
 		);
-
-
+		
 	}
 
 	//End Opensea Controls
@@ -2855,6 +2865,50 @@ class Embedpress_Elementor extends Widget_Base
 		return $_player_options;
 	}
 
+	public function get_instafeed_carousel_options($settings)
+	{
+		$_carousel_options = '';
+
+		if(!empty($settings['embedpress_instafeed_layout']) && $settings['embedpress_instafeed_layout'] === 'insta-carousel'){
+			$_carousel_id = 'data-carouselid=' . esc_attr($this->get_id()) . '';
+	
+			$layout = $settings['embedpress_instafeed_layout'];
+			$embedpress_instafeed_slide_show = !empty($settings['embedpress_instafeed_slide_show']) ? $settings['embedpress_instafeed_slide_show'] : 5;
+			$embedpress_carousel_autoplay = !empty($settings['embedpress_carousel_autoplay']) ? $settings['embedpress_carousel_autoplay'] : 0;
+			$embedpress_carousel_autoplay_speed = !empty($settings['embedpress_carousel_autoplay_speed']) ? $settings['embedpress_carousel_autoplay_speed'] : 3000;
+			$embedpress_carousel_transition_speed = !empty($settings['embedpress_carousel_transition_speed']) ? $settings['embedpress_carousel_transition_speed'] : 1000;
+			$embedpress_carousel_loop = !empty($settings['embedpress_carousel_loop']) ? $settings['embedpress_carousel_loop'] : 0;
+			$embedpress_carousel_arrows = !empty($settings['embedpress_carousel_arrows']) ? $settings['embedpress_carousel_arrows'] : 0;
+			$spacing = !empty($settings['embedpress_carousel_spacing']) ? $settings['embedpress_carousel_spacing'] : 0;
+			
+			// print_r($settings); 
+			
+			$carousel_options = [
+				'layout' => $layout,
+				'slideshow' => $embedpress_instafeed_slide_show,
+				'autoplay' => $embedpress_carousel_autoplay,
+				'autoplayspeed' => $embedpress_carousel_autoplay_speed,
+				'transitionspeed' => $embedpress_carousel_transition_speed,
+				'loop' => $embedpress_carousel_loop,
+				'arrows' => $embedpress_carousel_arrows,
+				'spacing' => $spacing
+			];
+	
+			$carousel_options_string = json_encode($carousel_options);
+			$_carousel_options = 'data-carousel-options='. htmlentities($carousel_options_string, ENT_QUOTES) .'';
+		}
+		return $_carousel_options;
+	}
+
+	public function get_instafeed_layout($settings){
+		$insta_layout = '';
+		if($settings['embedpress_pro_embeded_source'] == 'instafeed'){
+			$insta_layout = ' '. $settings['embedpress_instafeed_layout'];
+		}
+
+		return $insta_layout;
+	}
+
 	protected function convert_settings($settings)
 	{
 		$_settings = [];
@@ -2874,7 +2928,6 @@ class Embedpress_Elementor extends Widget_Base
 	}
 
 
-
 	protected function render()
 	{
 
@@ -2890,7 +2943,6 @@ class Embedpress_Elementor extends Widget_Base
 		$source = isset($settings['embedpress_pro_embeded_source']) ? $settings['embedpress_pro_embeded_source'] : 'default';
 		$embed_link = isset($settings['embedpress_embeded_link']) ? $settings['embedpress_embeded_link'] : '';
 		$pass_hash_key = isset($settings['embedpress_lock_content_password']) ? md5($settings['embedpress_lock_content_password']) : '';
-
 
 
 		Helper::get_source_data(md5($this->get_id()) . '_eb_elementor', $embed_link, 'elementor_source_data', 'elementor_temp_source_data');
@@ -2966,9 +3018,19 @@ class Embedpress_Elementor extends Widget_Base
 			$content_protection_class = 'ep-content-protection-disabled';
 		}
 
+		$data_playerid = '';
+		if(!empty($settings['embedpress_custom_player'])){
+			$data_playerid = 'data-playerid="'.esc_attr($this->get_id()).'"';
+		}
+
+		$data_carouselid = '';
+		if(!empty($settings['embedpress_instafeed_layout'] && $settings['embedpress_instafeed_layout'] === 'insta-carousel')){
+			$data_playerid = 'data-carouselid="'.esc_attr($this->get_id()).'"';
+		}
+
 		?>
 
-		<div class="embedpress-elements-wrapper  <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; ?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
+		<div class="embedpress-elements-wrapper <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; ?> " id="ep-elements-id-<?php echo $this->get_id(); ?>">
 			<?php
 					// handle notice display
 					if ($is_editor_view && $is_apple_podcast && !is_embedpress_pro_active()) {
@@ -2977,28 +3039,27 @@ class Embedpress_Elementor extends Widget_Base
 			<?php
 					} else { ?>
 
-				<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_content_share'])) : echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper');
-																															endif; ?> <?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);
-																																																																						echo esc_attr(' source-' . $source); ?>">
-					<div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?>" data-playerid="<?php echo esc_attr($this->get_id()); ?>" <?php echo $this->get_custom_player_options($settings); ?>>
+				<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_content_share'])) : echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper'); endif; ?> <?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); echo esc_attr(' source-' . $source); ?>">
+
+					<div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?><?php echo esc_attr( $this->get_instafeed_layout($settings) ); ?>" <?php echo $data_playerid; ?> <?php echo $data_carouselid; ?> <?php echo $this->get_custom_player_options($settings); ?> <?php echo $this->get_instafeed_carousel_options($settings); ?>>
 						<?php
-									$content_id = $client_id;
-
-									if ((empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct))) {
-
-										if (!empty($settings['embedpress_content_share'])) {
-											$content .= Helper::embed_content_share($content_id, $embed_settings);
-										}
-										echo $content;
-									} else {
-										if (!empty($settings['embedpress_content_share'])) {
-											$content .= Helper::embed_content_share($content_id, $embed_settings);
-										}
-										Helper::display_password_form($client_id, $content, $pass_hash_key, $embed_settings);
-									}
-									?>
+						$content_id = $client_id;
+						if ((empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct))) {
+							if (!empty($settings['embedpress_content_share'])) {
+								$content .= Helper::embed_content_share($content_id, $embed_settings);
+							}
+							echo $content;
+						} else {
+							if (!empty($settings['embedpress_content_share'])) {
+								$content .= Helper::embed_content_share($content_id, $embed_settings);
+							}
+							Helper::display_password_form($client_id, $content, $pass_hash_key, $embed_settings);
+						}
+						?>
 					</div>
+
 				</div>
+
 			<?php
 					}
 					?>

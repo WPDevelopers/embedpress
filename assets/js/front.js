@@ -397,7 +397,7 @@ let epGlobals = {};
 })(jQuery);
 
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
 
     epGlobals.initCarousel = (carouselSelector, options, carouselId) => {
 
@@ -405,37 +405,39 @@ document.addEventListener('DOMContentLoaded', function() {
         const carouselOptions = {
             slidesPerView: options.slideshow,
             spacing: options.spacing,
-            loop: options.loop, 
+            loop: options.loop,
             autoplay: options.autoplay,
             transitionSpeed: options.transitionspeed,
             autoplaySpeed: options.autoplayspeed,
             arrows: options.arrows,
             breakpoints: {
                 768: {
-                  slidesPerView: parseInt(options.slideshow) - 1
+                    slidesPerView: parseInt(options.slideshow) - 1
                 },
                 1024: {
-                  slidesPerView: parseInt(options.slideshow)
+                    slidesPerView: parseInt(options.slideshow)
                 }
             }
         };
-    
+
         // INIT CAROUSEL
         const carousel = new CgCarousel(carouselSelector, carouselOptions, {});
-    
-         // Navigation
-         const next = document.querySelector(`[data-carouselid="${carouselId}"] #js-carousel__next-1`);
-         next.addEventListener('click', () => carousel.next());
 
-         const prev = document.querySelector(`[data-carouselid="${carouselId}"] #js-carousel__prev-1`);
-         prev.addEventListener('click', () => carousel.prev());
+        // Navigation
+        const next = document.querySelector(`[data-carouselid="${carouselId}"] #js-carousel__next-1`);
+        next.addEventListener('click', () => carousel.next());
+
+        const prev = document.querySelector(`[data-carouselid="${carouselId}"] #js-carousel__prev-1`);
+        prev.addEventListener('click', () => carousel.prev());
     }
 
     const instaWrappers = document.querySelectorAll('.ep-embed-content-wraper');
 
-    if(instaWrappers.length > 0) {
+    if (instaWrappers.length > 0) {
         instaWrappers.forEach((wrapper) => {
             const carouselId = wrapper.getAttribute('data-carouselid');
+
+            if (!carouselId) return;
 
             let options = wrapper.getAttribute(`data-carousel-options`);
 
@@ -444,7 +446,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             console.log(options);
 
-            if(options.arrows){
+            if (options.arrows) {
                 document.querySelector(`[data-carouselid="${carouselId}"] .cg-carousel__btns`).classList.remove('hidden');
             }
 
@@ -576,11 +578,30 @@ jQuery(window).on("elementor/frontend/init", function () {
             unlockElSubmitHander('ep-elementor-content', this);
         });
 
-        // if ($('.carousel').length > 0) {
-        //     epGlobals.initCarousel(selectorEl + ' .carousel', {});
-        // }
 
-        // console.log($('.carousel').length);
+        const instaWrappers = document.querySelectorAll('.ep-embed-content-wraper');
+
+        if (instaWrappers.length > 0) {
+            instaWrappers.forEach((wrapper) => {
+                const carouselId = wrapper.getAttribute('data-carouselid');
+
+                if (!carouselId) return;
+
+                let options = wrapper.getAttribute(`data-carousel-options`);
+
+                options = JSON.parse(options);
+                const carouselSelector = `[data-carouselid="${carouselId}"] .embedpress-insta-container`;
+
+                console.log(options);
+
+                if (options.arrows) {
+                    document.querySelector(`[data-carouselid="${carouselId}"] .cg-carousel__btns`).classList.remove('hidden');
+                }
+
+                epGlobals.initCarousel(carouselSelector, options, carouselId);
+
+            });
+        }
 
     };
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);

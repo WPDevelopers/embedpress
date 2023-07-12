@@ -143,7 +143,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     public function getInstaFeedItem($post)
     {
         ob_start(); ?>
-        <div class="insta-gallery-item cg-carousel__slide js-carousel__slide">
+        <div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr( $post['id'] )?>">
             <?php
                     if ($post['media_type'] == 'VIDEO') {
                         echo '<video class="insta-gallery-image" src="' . esc_url($post['media_url']) . '"></video>';
@@ -207,17 +207,16 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         <!-- <div class="pop-insta-feed-item-details">
             <blockquote class="instagram-media" data-instgrm-permalink="<?php echo esc_url($post['permalink']); ?>" ></blockquote>
         </div> -->
-        <?php $feed_item = ob_get_clean();
-                return $feed_item;
-            }
+    <?php $feed_item = ob_get_clean(); return $feed_item;
+    }
 
-            public function getInstagramFeedTemplate($accessToken)
-            {
-                $insta_user_info = $this->getInstagramUserInfo($accessToken);
-                $insta_posts = $this->getInstagramPosts($accessToken);
+    public function getInstagramFeedTemplate($accessToken)
+    {
+        $insta_user_info = $this->getInstagramUserInfo($accessToken);
+        $insta_posts = $this->getInstagramPosts($accessToken);
 
-                if (is_array($insta_posts) and !empty($insta_posts)) {
-                    ob_start(); ?>
+        if (is_array($insta_posts) and !empty($insta_posts)) {
+            ob_start(); ?>
             <div class="embedpress-insta-container">
                 <div class="insta-gallery cg-carousel__track js-carousel__track">
                     <?php
@@ -232,6 +231,45 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                     <button class="cg-carousel__btn" id="js-carousel__next-1"><svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="m1.76.29 10.879 10.452.06.054a.97.97 0 0 1 .301.642v.124a.97.97 0 0 1-.3.642l-.054.044L1.761 22.71a1.061 1.061 0 0 1-1.459 0 .964.964 0 0 1 0-1.402l10.15-9.746-10.15-9.87a.964.964 0 0 1 0-1.402 1.061 1.061 0 0 1 1.459 0Z" fill="#fff"/></svg></button>
                 </div>
             </div>
+
+            <!-- Popup div -->
+            <div id="popup" class="popup"></div>
+
+            <script>
+                // Preloaded data for each post
+                const postData = <?php echo json_encode($insta_posts); ?>;
+
+                // Add click event listener to the post elements
+                const posts = document.querySelectorAll('.insta-gallery-item');
+                posts.forEach(post => {
+                    post.addEventListener('click', function () {
+                        const postId = this.dataset.instaPostid;
+                        showPopup(postId);
+                    });
+                });
+
+                function showPopup(postId) {
+                    // Retrieve data for the clicked post
+                    const post = postData.find(item => item.id == postId);
+                    // Get the popup element
+                    const popup = document.getElementById("popup");
+                    popup.innerHTML = `
+                        <h2>${post.caption}</h2>
+                        <button onclick="closePopup()">Close</button>
+                    `;
+
+                    // Show the popup
+                    popup.classList.add("show");
+                }
+
+                function closePopup() {
+                    // Get the popup element
+                    const popup = document.getElementById("popup");
+
+                    // Hide the popup
+                    popup.classList.remove("show");
+                }
+            </script>
         <?php
 
             $feed_template = ob_get_clean();
