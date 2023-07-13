@@ -140,10 +140,10 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     }
 
 
-    public function getInstaFeedItem($post)
+    public function getInstaFeedItem($post, $index)
     {
         ob_start(); ?>
-        <div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr( $post['id'] )?>">
+        <div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr( $post['id'] )?>" data-postindex="<?php echo esc_attr( $index ); ?>">
             <?php
                     if ($post['media_type'] == 'VIDEO') {
                         echo '<video class="insta-gallery-image" src="' . esc_url($post['media_url']) . '"></video>';
@@ -214,14 +214,17 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     {
         $insta_user_info = $this->getInstagramUserInfo($accessToken);
         $insta_posts = $this->getInstagramPosts($accessToken);
+        
+        $tkey = md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,thumbnail_url&access_token=$accessToken");
+
 
         if (is_array($insta_posts) and !empty($insta_posts)) {
             ob_start(); ?>
-            <div class="embedpress-insta-container">
+            <div class="embedpress-insta-container" data-tkey="<?php echo esc_attr( $tkey ); ?>">
                 <div class="insta-gallery cg-carousel__track js-carousel__track">
                     <?php
-                        foreach ($insta_posts as $post) {
-                            print_r($this->getInstaFeedItem($post));
+                        foreach ($insta_posts as $index => $post) {
+                            print_r($this->getInstaFeedItem($post, $index));
                         }
                         ?>
                 </div>
@@ -233,7 +236,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             </div>
 
             <!-- Popup div -->
-            <div id="popup" class="popup"></div>
+            <div id="popup"></div>
 
             <script>
                 // Preloaded data for each post
@@ -244,31 +247,31 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 posts.forEach(post => {
                     post.addEventListener('click', function () {
                         const postId = this.dataset.instaPostid;
-                        showPopup(postId);
+                        // showPopup(postId);
                     });
                 });
 
-                function showPopup(postId) {
-                    // Retrieve data for the clicked post
-                    const post = postData.find(item => item.id == postId);
-                    // Get the popup element
-                    const popup = document.getElementById("popup");
-                    popup.innerHTML = `
-                        <h2>${post.caption}</h2>
-                        <button onclick="closePopup()">Close</button>
-                    `;
+                // function showPopup(postId) {
+                //     // Retrieve data for the clicked post
+                //     const post = postData.find(item => item.id == postId);
+                //     // Get the popup element
+                //     const popup = document.getElementById("popup");
+                //     popup.innerHTML = `
+                //         <h2>${post.caption}</h2>
+                //         <button onclick="closePopup()">Close</button>
+                //     `;
 
-                    // Show the popup
-                    popup.classList.add("show");
-                }
+                //     // Show the popup
+                //     popup.classList.add("show");
+                // }
 
-                function closePopup() {
-                    // Get the popup element
-                    const popup = document.getElementById("popup");
+                // function closePopup() {
+                //     // Get the popup element
+                //     const popup = document.getElementById("popup");
 
-                    // Hide the popup
-                    popup.classList.remove("show");
-                }
+                //     // Hide the popup
+                //     popup.classList.remove("show");
+                // }
             </script>
         <?php
 

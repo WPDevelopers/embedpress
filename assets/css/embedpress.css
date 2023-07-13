@@ -1793,7 +1793,7 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     }
 
     .plyr__video-wrapper iframe {
-        max-height: 100%!important;
+        max-height: 100% !important;
     }
 
     .plyr__controls .plyr__volume input[type=range] {
@@ -1811,6 +1811,7 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     max-height: 100% !important;
     height: 100% !important;
 }
+
 .insta-grid .embedpress-insta-container .insta-gallery {
     display: flex;
     flex-wrap: wrap;
@@ -1822,7 +1823,7 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     padding-bottom: 0;
 }
 
-.insta-masonary .embedpress-insta-container .insta-gallery {
+.insta-masonry .embedpress-insta-container .insta-gallery {
     column-count: 3;
     gap: .5em;
     margin: auto;
@@ -1839,17 +1840,20 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     /* transition: 0.3s; */
 }
 
-.insta-grid .embedpress-insta-container .insta-gallery-item{
+.insta-grid .embedpress-insta-container .insta-gallery-item {
     flex: 1 0 22rem;
 }
+.embedpress-insta-container .insta-gallery-item:hover {
+    cursor: pointer;
+}
 
-.insta-masonary .embedpress-insta-container .insta-gallery .insta-gallery-item {
+.insta-masonry .embedpress-insta-container .insta-gallery .insta-gallery-item {
     height: auto;
     margin-bottom: .5em;
 }
 
 
-.insta-masonary .embedpress-insta-container .insta-gallery .insta-gallery-item video.insta-gallery-image {
+.insta-masonry .embedpress-insta-container .insta-gallery .insta-gallery-item video.insta-gallery-image {
     height: 650px;
 }
 
@@ -1908,7 +1912,7 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     width: 100%;
     height: 100%;
     object-fit: cover;
-} 
+}
 
 .insta-gallery-item-info svg {
     width: 40px;
@@ -1925,7 +1929,7 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     height: 22px;
 }
 
-.cg-carousel__btns.hidden{
+.cg-carousel__btns.hidden {
     display: none;
 }
 
@@ -1955,35 +1959,107 @@ button#js-carousel__next-1 {
 }
 
 /* Popup design for instafeed */
-.pop-insta-feed-item-details {
+
+
+.popup-container {
+    display: flex;
+}
+
+/* Wrapper */
+.popup-wrapper {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    display: none;
-    align-items: center;
+    display: flex;
     justify-content: center;
-    animation: fade-in 0.3s ease-in-out forwards;
+    align-items: center;
 }
 
-@keyframes fade-in {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-#popup-content {
+/* Popup Container */
+.popup {
     background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
+    max-width: 850px;
+    width: 90%;
+    border-radius: 10px;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+/* .popup-md-3.red {
+    display: flex;
+    align-items: center;
+} */
+
+/* Image Block */
+.embedpress-popup-img img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
 }
 
-#close-btn {
-    margin-top: 10px;
+/* Header */
+.embedpress-popup-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.embedpress-popup-header-img img {
+    border-radius: 50%;
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+}
+
+.embedpress-popup-username {
+    font-weight: bold;
+}
+
+/* Text */
+.embedpress-popup-text {
+    padding: 10px;
+}
+
+/* Stats */
+.embedpress-popup-stats {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.embedpress-popup-stats .fa {
+    margin-right: 5px;
+}
+
+/* Share Buttons */
+.embedpress-popup-share-buttons {
+    padding: 10px;
+    background-color: #fafafa;
+    display: flex;
+    align-items: center;
+}
+
+.embedpress-popup-share-buttons a {
+    margin-right: 10px;
+    color: #262626;
+}
+
+.embedpress-href.embedpress-popup-share {
+    cursor: pointer;
+    text-decoration: underline;
+    color: #262626;
+}
+
+/* Date */
+.date-post {
+    padding: 10px;
+    font-size: 12px;
+    color: #8e8e8e;
 }

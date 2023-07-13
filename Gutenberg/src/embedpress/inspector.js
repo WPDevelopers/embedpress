@@ -181,7 +181,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                                 value={instaLayout}
                                                 options={[
                                                     { label: 'Grid', value: 'insta-grid' },
-                                                    { label: 'Masonary', value: 'insta-masonary' },
+                                                    { label: 'Masonry', value: 'insta-masonry' },
                                                     { label: 'Carousel', value: 'insta-carousel' },
                                                 ]}
                                                 onChange={(instaLayout) => setAttributes({ instaLayout })}

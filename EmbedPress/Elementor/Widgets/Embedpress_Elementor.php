@@ -2532,7 +2532,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label' => esc_html__( 'Layout', 'embedpress' ),
 				'options' => [
 					'insta-grid' => esc_html__( 'Grid', 'embedpress' ),
-					'insta-masonary' => esc_html__( 'Masonary', 'embedpress' ),
+					'insta-masonry' => esc_html__( 'Masonry', 'embedpress' ),
 					'insta-carousel' => esc_html__( 'Carousel', 'embedpress' ),
 				],
 				'default' => 'insta-grid',

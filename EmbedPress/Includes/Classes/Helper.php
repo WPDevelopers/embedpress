@@ -26,12 +26,17 @@ class Helper {
 	public function __construct () {
 		add_action('wp_ajax_lock_content_form_handler', [$this, 'lock_content_form_handler']);
 		add_action('wp_ajax_nopriv_lock_content_form_handler', [$this, 'lock_content_form_handler']);
-		add_action( 'wp_head', [$this, 'ep_add_meta_tags'] );
+
+		
+		add_action('wp_ajax_instagram_single_feed_data', [$this, 'instagram_single_feed_data']);
+		add_action('wp_ajax_nopriv_instagram_single_feed_data', [$this, 'instagram_single_feed_data']);
+		
+		// add_action( 'wp_head', [$this, 'ep_add_meta_tags'] );
 	}
 
-	public function ep_add_meta_tags() {
-		echo 'abstract';
-	}
+	// public function ep_add_meta_tags() {
+	// 	echo 'abstract';
+	// }
 
 	public static function parse_query($str, $urlEncoding = true)
 	{
@@ -597,9 +602,15 @@ class Helper {
 		];
 	}
 
-
-
-
+	// Ajax Methods get instagram feed data
+	public function instagram_single_feed_data(){
+		
+		$insta_transient_key = isset($_POST['insta_transient_key']) ? $_POST['insta_transient_key'] : '';
+		$post_index = isset($_POST['post_index']) ? $_POST['post_index'] : '';
+		$feed_data = get_transient('instagram_posts_'.$insta_transient_key);
+		
+		wp_send_json( $feed_data[$post_index] );
+	}
 }
 
 ?>
