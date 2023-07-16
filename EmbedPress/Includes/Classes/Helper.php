@@ -606,10 +606,19 @@ class Helper {
 	public function instagram_single_feed_data(){
 		
 		$insta_transient_key = isset($_POST['insta_transient_key']) ? $_POST['insta_transient_key'] : '';
-		$post_index = isset($_POST['post_index']) ? $_POST['post_index'] : '';
-		$feed_data = get_transient('instagram_posts_'.$insta_transient_key);
 		
-		wp_send_json( $feed_data[$post_index] );
+		$post_index = isset($_POST['post_index']) ? $_POST['post_index'] : '';
+
+		$post_feed = get_transient('instagram_posts_'.$insta_transient_key);
+		$user_info = get_transient('instagram_user_info_'.$insta_transient_key);
+
+		$response = array(
+			'post_feed' => $post_feed[$post_index],
+			'user_info' => $user_info
+		);
+
+		wp_send_json($response);
+
 	}
 }
 

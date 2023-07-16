@@ -1989,6 +1989,10 @@ button#js-carousel__next-1 {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    height: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 /* .popup-md-3.red {
     display: flex;
@@ -2063,3 +2067,53 @@ button#js-carousel__next-1 {
     font-size: 12px;
     color: #8e8e8e;
 }
+
+div#popup-close {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    color: white;
+    z-index: 15566555655;
+    cursor: pointer;
+    padding: 15px;
+    background: #643535;
+    border-radius: 15px;
+    height: 30px;
+    width: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.load-spin {
+    width: 100px;
+    height: 100px;
+    background-color: #f00;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+
+  .loader {
+    margin: auto;
+    border: 5px solid #EAF0F6;
+    border-radius: 50%;
+    border-top: 5px solid #FF7A59;
+    width: 30px;
+    height: 30px;
+    animation: spinner 4s linear infinite;
+  }
+  
+  @keyframes spinner {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  

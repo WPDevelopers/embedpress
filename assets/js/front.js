@@ -395,22 +395,30 @@ let epGlobals = {};
     const getPopupTemplate = (instPost) => {
         console.log(instPost);
 
+        const instaPostData = instPost.post_feed;
+        const instaUserInfo = instPost.user_info;
+
+        let getDate = new Date(instaPostData.timestamp);
+        getDate = getDate.toLocaleString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+
+        let getTime = new Date(instaPostData.timestamp);
+        getTime = getTime.toLocaleString('en-US', { hour12: false, hour: 'numeric', minute: 'numeric', second: 'numeric' });
+ 
+
         let popupHtml = '';
         popupHtml += `
-        <div class="popup-wrapper popup-is-opened" style="display: block;" data-popup-id="17895352454752362">
-        <div class="popup popup-is-initialized popup-is-opened"  tabindex="-1">
-            <div class="popup-container">
+        <div class="popup-container">
                 <div class="popup-md-9 white">
                     <div class="embedpress-popup-block embedpress-popup-img">
-                        <div style="width: 100%;"> <img decoding="async" alt=""
-                                src="https://scontent-lhr8-1.cdninstagram.com/v/t51.36329-15/348592904_1024950788491326_9085239690648547754_n.jpg?_nc_cat=109&amp;ccb=1-7&amp;_nc_sid=8ae9d6&amp;_nc_ohc=Gy7Fs9gP5AMAX9kkYyL&amp;_nc_ht=scontent-lhr8-1.cdninstagram.com&amp;edm=AM6HXa8EAAAA&amp;oh=00_AfBplfpRizeG4fY1w6lUGKq-v0n8fWnxRlz7XhSrxNd8og&amp;oe=64B454A5"
+                        <div style="width: 100%;"> <img decoding="async" alt="${instaPostData.caption}"
+                                src="${instaPostData.media_url}"
                                 width="630" class="popup-media-image"></div>
                     </div>
                 </div>
                 <div class="popup-md-3 red">
                     <div class="embedpress-popup-block embedpress-popup-info">
                         <div class="embedpress-popup-header">
-                            <div class="embedpress-popup-header-img"> <a href="https://www.instagram.com/studiopioneer/"
+                            <div class="embedpress-popup-header-img"> <a href="${instaUserInfo.username}"
                                     target="_blank" class="embedpress-href"> <img decoding="async" loading="lazy"
                                         class="embedpress-popup-round"
                                         src="https://scontent-ams4-1.xx.fbcdn.net/v/t51.2885-15/338433328_175198498691629_5043138981979098225_n.jpg?_nc_cat=108&amp;ccb=1-7&amp;_nc_sid=86c713&amp;_nc_ohc=kx4hoPmlMnEAX8aH3LP&amp;_nc_ht=scontent-ams4-1.xx&amp;edm=AL-3X8kEAAAA&amp;oh=00_AfAqL6KDgOTQWPM4BZ4DOsFsv1pWBdfActQYJR4459W1iQ&amp;oe=64B348E4"
@@ -418,37 +426,34 @@ let epGlobals = {};
                                 </a>
                             </div>
                         </div>
-                        <div class="embedpress-popup-text">Монумент "Хроники Грузии". Удивительно красивое место на
-                            Тбилисском
-                            море.</div>
+                        <div class="embedpress-popup-text">${instaPostData.caption}</div>
                         <div class="embedpress-popup-stats">
                             <div class="embedpress-inline"><span class="fa fa-heart">&nbsp;</span>15</div> &nbsp;&nbsp;<div
                                 class="embedpress-inline"><span class="fa fa-comment">&nbsp;</span>0</div>
                             &nbsp;&nbsp;|&nbsp;&nbsp;
                             <div class="embedpress-inline">
                                 <p class="embedpress-popup-share-buttons" style="display: none"> <a
-                                        href="https://www.facebook.com/sharer/sharer.php?u=https://www.instagram.com/reel/CsmIDkBLfFH/"><span
+                                        href="https://www.facebook.com/sharer/sharer.php?u=${instaPostData.permalink}"><span
                                             class="fa fa-facebook-square shr-btn shr-btn-fcbk"></span></a> <a
-                                        href="https://twitter.com/home?status=https://www.instagram.com/reel/CsmIDkBLfFH/"
+                                        href="https://twitter.com/home?status=${instaPostData.permalink}"
                                         target="_blank"><span class="fa fa-twitter-square shr-btn"></span></a> <a
-                                        href="https://plus.google.com/share?url=https://www.instagram.com/reel/CsmIDkBLfFH/"
+                                        href="https://plus.google.com/share?url=${instaPostData.permalink}"
                                         target="_blank"><span class="fa fa-google-plus-square shr-btn"></span></a> <a
-                                        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.instagram.com/reel/CsmIDkBLfFH/"
+                                        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=${instaPostData.permalink}"
                                         target="_blank"><span class="fa fa-linkedin-square shr-btn"></span></a> <a
-                                        href="https://pinterest.com/pin/create/button/?url=https://www.instagram.com/reel/CsmIDkBLfFH/"
+                                        href="https://pinterest.com/pin/create/button/?url=${instaPostData.permalink}"
                                         target="_blank"><span class="fa fa-pinterest-square shr-btn"></span></a></p>
                                 <div class="embedpress-href embedpress-popup-share"><span
                                         class="fa fa-share ">&nbsp;</span>Share</div>
                             </div>&nbsp;&nbsp;|&nbsp;&nbsp;<div class="embedpress-inline"><a
-                                    href="https://www.instagram.com/reel/CsmIDkBLfFH/" target="_blank"
+                                    href="${instaPostData.permalink}" target="_blank"
                                     class="embedpress-href"><span class="fa fa-instagram">&nbsp;</span>Instagram</a></div>
                         </div>
-                        <div class="date-post"> <span class="fa fa-clock">&nbsp;</span>23 May</div>
+                        <div class="date-post"> <span class="fa fa-clock">&nbsp;</span>${getDate}</div>
+                        <div class="date-post"> <span class="fa fa-clock">&nbsp;</span>${getTime}</div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
         `;
 
         return popupHtml;
@@ -456,16 +461,22 @@ let epGlobals = {};
     const instaContainer = document.querySelector('.insta-gallery');
 
     // Add a click event listener to the insta-gallery container
-    instaContainer.addEventListener('click', function (event) {
+    instaContainer?.addEventListener('click', function (event) {
 
         // Check if the clicked element has the class insta-gallery-item
         const instaItem = event.target.closest('.insta-gallery-item');
+
 
         if (instaItem) {
 
             const postid = instaItem.getAttribute('data-insta-postid');
             const postIndex = instaItem.getAttribute('data-postindex');
             const tkey = instaItem.parentElement.parentElement.getAttribute('data-tkey');
+
+            const closestPopup = event.target.closest('.ose-instagram-feed').querySelector('.insta-popup');
+            closestPopup.style.display = 'block';
+
+            console.log(postIndex);
 
             var data = {
                 'action': 'instagram_single_feed_data',
@@ -474,16 +485,13 @@ let epGlobals = {};
                 'post_index': postIndex
             };
 
+            event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = '<div class="loader"></div>';
+
             jQuery.post(eplocalize.ajaxurl, data, function (post) {
-                console.log(post);
-
                 if (post) {
-                    // console.log(post);
-                    document.getElementById('popup').innerHTML = getPopupTemplate(post);
-                    console.log(document.getElementById('popup'));
-
-
+                    event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(post);
                 } else {
+                    console.log(post);
 
                 }
             }, 'json');
@@ -494,6 +502,10 @@ let epGlobals = {};
         }
     });
 
+    $('#popup-close').click(function () {
+        // Hide the popup by setting display to none
+        $('.insta-popup').hide();
+    });
 
 
 

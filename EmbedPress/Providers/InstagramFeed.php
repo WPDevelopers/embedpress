@@ -53,8 +53,9 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     public function getInstagramUserInfo($accessToken)
     {
         // Set the transient key
-        $transientKey = 'instagram_user_info_' . md5("https://graph.instagram.com/me?fields=id,username,account_type,media_count,followers_count,biography,website&access_token=$accessToken");
+        $transientKey = 'instagram_user_info_' . md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,timestamp,thumbnail_url&access_token=$accessToken");
 
+    
         // Attempt to retrieve the user info from the transient cache
 
         $cachedUserInfo = get_transient($transientKey);
@@ -85,8 +86,10 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     // Get Instagram posts, videos, reels
     public function getInstagramPosts($accessToken)
     {
+        $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,timestamp,thumbnail_url&access_token=$accessToken";
+
         // Set the transient key
-        $transientKey = 'instagram_posts_' . md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,thumbnail_url&access_token=$accessToken");
+        $transientKey = 'instagram_posts_' . md5($api_url);
 
         // Attempt to retrieve the posts from the transient cache
         $cachedPosts = get_transient($transientKey);
@@ -97,7 +100,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         }
 
         // Make a GET request to Instagram's API to retrieve posts
-        $postsResponse = wp_remote_get("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,thumbnail_url&access_token=$accessToken");
+        $postsResponse = wp_remote_get($api_url);
 
         // Check if the posts request was successful
         if (is_wp_error($postsResponse)) {
@@ -145,12 +148,12 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         ob_start(); ?>
         <div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr( $post['id'] )?>" data-postindex="<?php echo esc_attr( $index ); ?>">
             <?php
-                    if ($post['media_type'] == 'VIDEO') {
-                        echo '<video class="insta-gallery-image" src="' . esc_url($post['media_url']) . '"></video>';
-                    } else {
-                        echo ' <img class="insta-gallery-image" src="' . $post['media_url'] . '" alt="' . esc_attr($post['caption']) . '">';
-                    }
-                    ?>
+                if ($post['media_type'] == 'VIDEO') {
+                    echo '<video class="insta-gallery-image" src="' . esc_url($post['media_url']) . '"></video>';
+                } else {
+                    echo ' <img class="insta-gallery-image" src="' . $post['media_url'] . '" alt="' . esc_attr($post['caption']) . '">';
+                }
+            ?>
 
             <div class="insta-gallery-item-type">
                 <div class="insta-gallery-item-type-icon">
@@ -215,7 +218,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         $insta_user_info = $this->getInstagramUserInfo($accessToken);
         $insta_posts = $this->getInstagramPosts($accessToken);
         
-        $tkey = md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,thumbnail_url&access_token=$accessToken");
+        $tkey = md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,timestamp,thumbnail_url&access_token=$accessToken");
 
 
         if (is_array($insta_posts) and !empty($insta_posts)) {
@@ -236,7 +239,12 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             </div>
 
             <!-- Popup div -->
-            <div id="popup"></div>
+            <div class="insta-popup" style="display: none;">  
+                <div class="popup-wrapper popup-is-opened">
+                    <div class="popup popup-is-initialized popup-is-opened"  tabindex="-1"> </div>
+                    <div id="popup-close">x</div>
+                </div>
+            </div>
 
             <script>
                 // Preloaded data for each post

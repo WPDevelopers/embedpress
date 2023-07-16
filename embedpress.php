@@ -95,6 +95,8 @@ new Feature_Enhancer();
 new Extend_Elementor_Controls();
 new Extend_CustomPlayer_Controls();
 
+new Helper();
+
 
 if (is_plugin_active('elementor/elementor.php')) {
     $embedPressElements = new Embedpress_Elementor_Integration();
@@ -156,7 +158,7 @@ function check_instafeed()
     
     
     // Make a GET request to Instagram's API to retrieve user information
-    $userInfoResponse = wp_remote_get("https://graph.instagram.com/me?fields=id,username,account_type,media_count,followers_count,biography,website&access_token=$accessToken");
+    $userInfoResponse = wp_remote_get("https://graph.instagram.com/me?fields=id,username,account_type,media_count,followers_count,biography,profile_picture_url,website&access_token=$accessToken");
     
     // Check if the user information request was successful
     if (is_wp_error($userInfoResponse)) {
@@ -164,6 +166,7 @@ function check_instafeed()
     } else {
         $userInfoBody = wp_remote_retrieve_body($userInfoResponse);
         $userInfo = json_decode($userInfoBody, true);
+        
     
         // Access the relevant user data
         // $userId = $userInfo['id'];
@@ -187,7 +190,7 @@ function check_instafeed()
     echo '<br/><br/><br/><br/><br/><br/>';
     
     // Make a GET request to Instagram's API to retrieve posts
-    $postsResponse = wp_remote_get("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,thumbnail_url&access_token=$accessToken");
+    $postsResponse = wp_remote_get("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,timestamp,thumbnail_url&access_token=$accessToken");
     
     // Check if the posts request was successful
     if (is_wp_error($postsResponse)) {
@@ -229,4 +232,4 @@ function check_instafeed()
     
 }
 
-// add_action('wp_footer', 'check_instafeed');
+add_action('wp_footer', 'check_instafeed');
