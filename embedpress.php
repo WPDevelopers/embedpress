@@ -51,6 +51,9 @@ define('EMBEDPRESS_PLUGIN_URL', plugins_url('/', __FILE__));
 
 define('TEMP_ACCESS_TOKEN', '');
 
+define('BUSINESS_ACCESS_TOKEN', '');
+
+
 require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'includes.php';
 
 include_once ABSPATH . 'wp-admin/includes/plugin.php';
@@ -228,8 +231,11 @@ function check_instafeed()
         print_r($posts);
         echo '</pre>';
     }
+
+     
+    
     
     
 }
 
-add_action('wp_footer', 'check_instafeed');
+// add_action('wp_footer', 'check_instafeed');

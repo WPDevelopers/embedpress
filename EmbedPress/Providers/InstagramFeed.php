@@ -33,6 +33,13 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
      * @since   1.0.0
      *
      */
+
+    //  Business profile endpoints url 
+    // https://graph.facebook.com/17841451532462963?fields=biography,id,username,website,followers_count,media_count,profile_picture_url,name&access_token=BUSINESS_ACCESS_TOKEN
+
+    //Business Instagram Feed endpoints url
+    // https://graph.facebook.com/v17.0/17841451532462963/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=20&access_token=BUSINESS_ACCESS_TOKEN
+
     public function validateUrl(Url $url)
     {
         return  (bool) preg_match(
