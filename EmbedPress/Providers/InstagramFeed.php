@@ -60,7 +60,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     public function getInstagramUserInfo($accessToken)
     {
         // Set the transient key
-        $transientKey = 'instagram_user_info_' . md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,timestamp,thumbnail_url&access_token=$accessToken");
+        $transientKey = 'instagram_user_info_' . md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,timestamp,username,thumbnail_url&access_token=$accessToken");
 
     
         // Attempt to retrieve the user info from the transient cache
@@ -91,15 +91,27 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
 
     // Get Instagram posts, videos, reels
-    public function getInstagramPosts($accessToken)
+    public function getInstagramPosts($accessToken, $account_type)
     {
-        $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,timestamp,thumbnail_url&access_token=$accessToken";
+        if(strtolower($account_type) === 'business'){
+            $api_url = 'https://graph.facebook.com/v17.0/17841451532462963/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=20&access_token='.BUSINESS_ACCESS_TOKEN;
+        }
+        else{
+            $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,timestamp,username,thumbnail_url&access_token=$accessToken";
+        }
+        
 
         // Set the transient key
         $transientKey = 'instagram_posts_' . md5($api_url);
 
         // Attempt to retrieve the posts from the transient cache
         $cachedPosts = get_transient($transientKey);
+
+        echo '<pre>'; 
+        print_r($cachedPosts);
+        echo '</pre>'; 
+
+
 
         // If the posts are found in the cache, return them
         if ($cachedPosts !== false) {
@@ -108,6 +120,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
         // Make a GET request to Instagram's API to retrieve posts
         $postsResponse = wp_remote_get($api_url);
+
 
         // Check if the posts request was successful
         if (is_wp_error($postsResponse)) {
@@ -118,6 +131,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
             // Save the posts in the transient cache for 1 hour (adjust the time as needed)
             set_transient($transientKey, $posts['data'], 1 * HOUR_IN_SECONDS);
+
 
             return $posts['data'];
         }
@@ -150,68 +164,66 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     }
 
 
-    public function getInstaFeedItem($post, $index)
+    public function getInstaFeedItem($post, $index, $account_type)
     {
+        $caption = !empty($post['caption']) ? $post['caption'] : '';
+        $media_type = !empty($post['media_type']) ? $post['media_type'] : '';
+        $media_url = !empty($post['media_url']) ? $post['media_url'] : '';
+        $permalink = !empty($post['permalink']) ? $post['permalink'] : '';
+        $timestamp = !empty($post['timestamp']) ? $post['timestamp'] : '';
+        $username = !empty($post['username']) ? $post['username'] : '';
+
+        $like_count = !empty($post['like_count']) ? $post['like_count'] : 0;
+        $comments_count = !empty($post['comments_count']) ? $post['comments_count'] : 0;
+
+        $dataAttributes = 'data-caption="' . htmlspecialchars($caption) . '" ' .
+        'data-media-type="' . htmlspecialchars($media_type) . '" ' .
+        'data-media-type="' . htmlspecialchars($media_type) . '" ' .
+        'data-media-url="' . htmlspecialchars($media_url) . '" ' .
+        'data-permalink="' . htmlspecialchars($permalink) . '" ' .
+        'data-timestamp="' . htmlspecialchars($timestamp) . '" ' .
+        'data-username="' . htmlspecialchars($username) . '" ' .
+        (($account_type === 'business') ? 'data-like-count="' . htmlspecialchars($like_count) . '" ' : '') .
+        (($account_type === 'business') ? 'data-comments-count="' . htmlspecialchars($comments_count) . '" ' : '');
+
         ob_start(); ?>
-        <div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr( $post['id'] )?>" data-postindex="<?php echo esc_attr( $index ); ?>">
+        <div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr( $post['id'] )?>" data-postindex="<?php echo esc_attr( $index ); ?>" <?php echo $dataAttributes; ?>>
             <?php
-                if ($post['media_type'] == 'VIDEO') {
-                    echo '<video class="insta-gallery-image" src="' . esc_url($post['media_url']) . '"></video>';
+                if ($media_type == 'VIDEO') {
+                    echo '<video class="insta-gallery-image" src="' . esc_url($media_url) . '"></video>';
                 } else {
-                    echo ' <img class="insta-gallery-image" src="' . $post['media_url'] . '" alt="' . esc_attr($post['caption']) . '">';
+                    echo ' <img class="insta-gallery-image" src="' . esc_url($media_url) . '" alt="' . esc_attr($caption) . '">';
                 }
             ?>
 
             <div class="insta-gallery-item-type">
                 <div class="insta-gallery-item-type-icon">
                     <?php
-                            if ($post['media_type'] == 'VIDEO') {
-                                echo Helper::get_insta_video_icon();
-                            } else if ($post['media_type'] == 'CAROUSEL_ALBUM') {
-                                echo Helper::get_insta_image_carousel_icon();
-                            } else {
-                                echo Helper::get_insta_image_icon();
-                            }
-                            ?>
+                        if ($media_type == 'VIDEO') {
+                            echo Helper::get_insta_video_icon();
+                        } else if ($media_type == 'CAROUSEL_ALBUM') {
+                            echo Helper::get_insta_image_carousel_icon();
+                        } else {
+                            echo Helper::get_insta_image_icon();
+                        }
+                    ?>
                 </div>
             </div>
             <div class="insta-gallery-item-info">
-                <ul>
-                    <!-- <li class="insta-gallery-item-likes">
-                        <svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 0.8 0.8" xml:space="preserve">
-                            <style>
-                                .st0 {
-                                    fill: #fff
-                                }
-                            </style>
-                            <path d="M.225.25C.225.264.214.275.2.275S.175.264.175.25.186.225.2.225.225.236.225.25zM.75.3C.75.453.589.582.485.65a1.06 1.06 0 0 1-.073.044.025.025 0 0 1-.024 0A1.049 1.049 0 0 1 .315.65C.211.582.05.453.05.3a.2.2 0 0 1 .2-.2.199.199 0 0 1 .15.068A.199.199 0 0 1 .55.1a.2.2 0 0 1 .2.2zM.25.25a.05.05 0 1 0-.1 0 .05.05 0 0 0 .1 0z" style="fill:#fff" />
-                        </svg> 120
-                    </li>
-                    <li class="insta-gallery-item-comments">
-                        <svg fill="#fff" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 2.5 2.5" xml:space="preserve">
-                            <path d="M2.374.446a.063.063 0 0 0-.061-.057H.991a.063.063 0 0 0-.063.057H.927v.328h.559c.029 0 .053.022.056.051h.001v.731h.275l.162.162a.063.063 0 0 0 .116-.035v-.127h.217a.063.063 0 0 0 .06-.051h.002V.446h-.001z" />
-                            <path d="M1.361.899H.18A.056.056 0 0 0 .125.95v.946h.001a.057.057 0 0 0 .054.045h.194v.113a.057.057 0 0 0 .104.032l.145-.145h.738c.027 0 .05-.02.056-.045h.001V.95h-.001a.056.056 0 0 0-.056-.051z" />
-                        </svg>34
-                    </li> -->
-                    <li class="insta-gallery-item-permalink">
-                        <!-- <a href="<?php echo esc_url($post['permalink']); ?>"> -->
-                        <svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" xml:space="preserve" width="20" height="20">
-                            <style>
-                                .st0 {
-                                    fill: none;
-                                    stroke: #fff;
-                                    stroke-width: 2;
-                                    stroke-linecap: round;
-                                    stroke-linejoin: round;
-                                    stroke-miterlimit: 10
-                                }
-                            </style>
-                            <path class="st0" d="M14.375 19.375h-8.75c-2.75 0-5-2.25-5-5v-8.75c0-2.75 2.25-5 5-5h8.75c2.75 0 5 2.25 5 5v8.75c0 2.75-2.25 5-5 5z" />
-                            <path class="st0" d="M14.375 10A4.375 4.375 0 0 1 10 14.375 4.375 4.375 0 0 1 5.625 10a4.375 4.375 0 0 1 8.75 0zm1.25-5.625A.625.625 0 0 1 15 5a.625.625 0 0 1-.625-.625.625.625 0 0 1 1.25 0z" />
-                        </svg>
-                        <!-- </a> -->
-                    </li>
-                </ul>
+                <?php if(strtolower($account_type) === 'business'): ?>
+                    <div class="insta-item-reaction-count">
+                        <div class="insta-gallery-item-likes">
+                            <?php echo Helper::get_insta_like_icon(); echo esc_html($like_count); ?>
+                        </div>
+                        <div class="insta-gallery-item-comments">
+                            <?php echo Helper::get_insta_comment_icon(); echo esc_html($comments_count); ?>
+                        </div>
+                    </div>
+                <?php else: ?>
+                    <div class="insta-gallery-item-permalink">
+                        <?php  echo Helper::get_instagram_icon(); ?>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
         <!-- <div class="pop-insta-feed-item-details">
@@ -220,12 +232,18 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     <?php $feed_item = ob_get_clean(); return $feed_item;
     }
 
-    public function getInstagramFeedTemplate($accessToken)
+    public function getInstagramFeedTemplate($accessToken, $account_type)
     {
         $insta_user_info = $this->getInstagramUserInfo($accessToken);
-        $insta_posts = $this->getInstagramPosts($accessToken);
+        $insta_posts = $this->getInstagramPosts($accessToken, $account_type);
         
-        $tkey = md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,timestamp,thumbnail_url&access_token=$accessToken");
+
+        if(strtolower($account_type) === 'business'){
+            $tkey = md5('https://graph.facebook.com/v17.0/17841451532462963/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=20&access_token='.BUSINESS_ACCESS_TOKEN);
+        }
+        else{
+            $tkey = md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,timestamp,username,thumbnail_url&access_token=$accessToken");
+        }
 
 
         if (is_array($insta_posts) and !empty($insta_posts)) {
@@ -234,7 +252,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 <div class="insta-gallery cg-carousel__track js-carousel__track">
                     <?php
                         foreach ($insta_posts as $index => $post) {
-                            print_r($this->getInstaFeedItem($post, $index));
+                            print_r($this->getInstaFeedItem($post, $index, 'business'));
                         }
                         ?>
                 </div>
@@ -313,8 +331,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             // print_r("Instagram feed validation successful");
         }
 
-        if ($this->getInstagramFeedTemplate($accessToken)) {
-            $insta_feed['html'] = $this->getInstagramFeedTemplate($accessToken);
+        if ($this->getInstagramFeedTemplate($accessToken, 'business')) {
+            $insta_feed['html'] = $this->getInstagramFeedTemplate($accessToken, 'business');
         }
 
         // print_r($insta_feed);

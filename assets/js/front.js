@@ -393,9 +393,16 @@ let epGlobals = {};
 
     // Get the insta-gallery container element
     const getPopupTemplate = (instPost) => {
-        console.log(instPost);
 
-        const instaPostData = instPost.post_feed;
+        const likeIcon = '<svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 0.8 0.8" xml:space="preserve"><style>.st0{fill:#ca379d}</style><path d="M.225.25C.225.264.214.275.2.275S.175.264.175.25.186.225.2.225.225.236.225.25zM.75.3C.75.453.589.582.485.65a1.06 1.06 0 0 1-.073.044.025.025 0 0 1-.024 0A1.049 1.049 0 0 1 .315.65C.211.582.05.453.05.3a.2.2 0 0 1 .2-.2.199.199 0 0 1 .15.068A.199.199 0 0 1 .55.1a.2.2 0 0 1 .2.2zM.25.25a.05.05 0 1 0-.1 0 .05.05 0 0 0 .1 0z" style="fill:#ca379d"/></svg>';
+
+        const commentsIcon = '<svg fill="#ca379d" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 2.5 2.5" xml:space="preserve"><path d="M2.374.446a.063.063 0 0 0-.061-.057H.991a.063.063 0 0 0-.063.057H.927v.328h.559c.029 0 .053.022.056.051h.001v.731h.275l.162.162a.063.063 0 0 0 .116-.035v-.127h.217a.063.063 0 0 0 .06-.051h.002V.446h-.001z"/><path d="M1.361.899H.18A.056.056 0 0 0 .125.95v.946h.001a.057.057 0 0 0 .054.045h.194v.113a.057.057 0 0 0 .104.032l.145-.145h.738c.027 0 .05-.02.056-.045h.001V.95h-.001a.056.056 0 0 0-.056-.051z"/></svg>';
+
+        const shareIcon = '<svg width="20" height="20" viewBox="0 0 0.375 0.375" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.25 0.062a0.063 0.063 0 0 1 0.125 0 0.063 0.063 0 0 1 -0.089 0.056L0.228 0.188l0.051 0.071A0.063 0.063 0 0 1 0.375 0.312a0.063 0.063 0 1 1 -0.114 -0.035L0.206 0.2H0.124A0.063 0.063 0 0 1 0 0.187 0.063 0.063 0 0 1 0.124 0.175h0.083l0.059 -0.071A0.062 0.062 0 0 1 0.25 0.062Z" fill="#ca379d"/></svg>';
+
+        const instaIcon = '<svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" xml:space="preserve" width="20" height="20"><style>.st0{fill:none;stroke:#ca379d;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}</style><path class="st0" d="M14.375 19.375h-8.75c-2.75 0-5-2.25-5-5v-8.75c0-2.75 2.25-5 5-5h8.75c2.75 0 5 2.25 5 5v8.75c0 2.75-2.25 5-5 5z"/><path class="st0" d="M14.375 10A4.375 4.375 0 0 1 10 14.375 4.375 4.375 0 0 1 5.625 10a4.375 4.375 0 0 1 8.75 0zm1.25-5.625A.625.625 0 0 1 15 5a.625.625 0 0 1-.625-.625.625.625 0 0 1 1.25 0z"/></svg>';
+
+        const instaPostData = instPost;
         const instaUserInfo = instPost.user_info;
 
         let getDate = new Date(instaPostData.timestamp);
@@ -403,7 +410,20 @@ let epGlobals = {};
 
         let getTime = new Date(instaPostData.timestamp);
         getTime = getTime.toLocaleString('en-US', { hour12: false, hour: 'numeric', minute: 'numeric', second: 'numeric' });
- 
+
+        let captionText = instaPostData.caption ? instaPostData.caption : '';
+        const tagRegex = /(#\w+)/g;
+
+        const wordsWithoutHash = captionText.match(tagRegex).map(function(tag) {
+            return tag.replace("#", "");
+          });
+
+        const wrapTag = `<span class="tag-wrapper"><a href="https://www.instagram.com/explore/tags/${wordsWithoutHash}">$1</a></span>`;
+
+        captionText = captionText.replace(tagRegex, wrapTag);
+
+        console.log(captionText);
+
 
         let popupHtml = '';
         popupHtml += `
@@ -411,27 +431,28 @@ let epGlobals = {};
                 <div class="popup-md-9 white">
                     <div class="embedpress-popup-block embedpress-popup-img">
                         <div style="width: 100%;"> <img decoding="async" alt="${instaPostData.caption}"
-                                src="${instaPostData.media_url}"
+                                src="${instaPostData.mediaUrl}"
                                 width="630" class="popup-media-image"></div>
                     </div>
                 </div>
                 <div class="popup-md-3 red">
                     <div class="embedpress-popup-block embedpress-popup-info">
                         <div class="embedpress-popup-header">
-                            <div class="embedpress-popup-header-img"> <a href="${instaUserInfo.username}"
+                            <div class="embedpress-popup-header-img"> <a target="_blank" href="https://www.instagram.com/${instaPostData.username}/"
                                     target="_blank" class="embedpress-href"> <img decoding="async" loading="lazy"
                                         class="embedpress-popup-round"
-                                        src="https://scontent-ams4-1.xx.fbcdn.net/v/t51.2885-15/338433328_175198498691629_5043138981979098225_n.jpg?_nc_cat=108&amp;ccb=1-7&amp;_nc_sid=86c713&amp;_nc_ohc=kx4hoPmlMnEAX8aH3LP&amp;_nc_ht=scontent-ams4-1.xx&amp;edm=AL-3X8kEAAAA&amp;oh=00_AfAqL6KDgOTQWPM4BZ4DOsFsv1pWBdfActQYJR4459W1iQ&amp;oe=64B348E4"
-                                        width="30" height="30"> <span class="embedpress-popup-username">studiopioneer</span>
+                                        src="https://awplife.com/demo/instagram-feed-gallery-premium/wp-content/plugins/instagram-feed-gallery-premium//img/instagram-gallery-premium.png"
+                                        width="30" height="30"> <span class="embedpress-popup-username">${instaPostData.username}</span>
                                 </a>
                             </div>
+                            <div class="insta-followbtn">
+                                <a target="_new" href="https://www.instagram.com/${instaPostData.username}/" type="button" class="btn btn-primary">Follow</a>
+                            </div>
                         </div>
-                        <div class="embedpress-popup-text">${instaPostData.caption}</div>
+                        <div class="embedpress-popup-text">${captionText}</div>
                         <div class="embedpress-popup-stats">
-                            <div class="embedpress-inline"><span class="fa fa-heart">&nbsp;</span>15</div> &nbsp;&nbsp;<div
-                                class="embedpress-inline"><span class="fa fa-comment">&nbsp;</span>0</div>
-                            &nbsp;&nbsp;|&nbsp;&nbsp;
-                            <div class="embedpress-inline">
+                            <div class="embedpress-inline">${likeIcon} ${instaPostData.likeCount}</div> <div
+                                class="embedpress-inline">${commentsIcon} ${instaPostData.commentsCount}</div><div class="embedpress-inline">
                                 <p class="embedpress-popup-share-buttons" style="display: none"> <a
                                         href="https://www.facebook.com/sharer/sharer.php?u=${instaPostData.permalink}"><span
                                             class="fa fa-facebook-square shr-btn shr-btn-fcbk"></span></a> <a
@@ -443,14 +464,12 @@ let epGlobals = {};
                                         target="_blank"><span class="fa fa-linkedin-square shr-btn"></span></a> <a
                                         href="https://pinterest.com/pin/create/button/?url=${instaPostData.permalink}"
                                         target="_blank"><span class="fa fa-pinterest-square shr-btn"></span></a></p>
-                                <div class="embedpress-href embedpress-popup-share"><span
-                                        class="fa fa-share ">&nbsp;</span>Share</div>
-                            </div>&nbsp;&nbsp;|&nbsp;&nbsp;<div class="embedpress-inline"><a
+                                <div class="embedpress-href embedpress-popup-share">${shareIcon} Share</div>
+                            </div><div class="embedpress-inline"><a
                                     href="${instaPostData.permalink}" target="_blank"
-                                    class="embedpress-href"><span class="fa fa-instagram">&nbsp;</span>Instagram</a></div>
+                                    class="embedpress-href">${instaIcon} Instagram</a></div>
                         </div>
-                        <div class="date-post"> <span class="fa fa-clock">&nbsp;</span>${getDate}</div>
-                        <div class="date-post"> <span class="fa fa-clock">&nbsp;</span>${getTime}</div>
+                        
                     </div>
                 </div>
             </div>
@@ -469,6 +488,8 @@ let epGlobals = {};
 
         if (instaItem) {
 
+            const postData = instaItem.dataset;
+
             const postid = instaItem.getAttribute('data-insta-postid');
             const postIndex = instaItem.getAttribute('data-postindex');
             const tkey = instaItem.parentElement.parentElement.getAttribute('data-tkey');
@@ -476,33 +497,35 @@ let epGlobals = {};
             const closestPopup = event.target.closest('.ose-instagram-feed').querySelector('.insta-popup');
             closestPopup.style.display = 'block';
 
-            console.log(postIndex);
+            event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData);
 
-            var data = {
-                'action': 'instagram_single_feed_data',
-                'insta_transient_key': tkey,
-                'post_id': postid,
-                'post_index': postIndex
-            };
+            // console.log(postIndex);
 
-            event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = '<div class="loader"></div>';
+            // var data = {
+            //     'action': 'instagram_single_feed_data',
+            //     'insta_transient_key': tkey,
+            //     'post_id': postid,
+            //     'post_index': postIndex
+            // };
 
-            jQuery.post(eplocalize.ajaxurl, data, function (post) {
-                if (post) {
-                    event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(post);
-                } else {
-                    console.log(post);
+            // event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = '<div class="loader"></div>';
 
-                }
-            }, 'json');
+            // jQuery.post(eplocalize.ajaxurl, data, function (post) {
+            //     if (post) {
+            //         event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(post);
+            //     } else {
+            //         console.log(post);
 
-            // Output the postid and tkey
-            console.log('Post ID:', postid);
-            console.log('TKey:', tkey);
+            //     }
+            // }, 'json');
+
+            // // Output the postid and tkey
+            // console.log('Post ID:', postid);
+            // console.log('TKey:', tkey);
         }
     });
 
-    $('#popup-close').click(function () {
+    $('#popup-close, .popup-wrapper').click(function () {
         // Hide the popup by setting display to none
         $('.insta-popup').hide();
     });
