@@ -394,16 +394,25 @@ let epGlobals = {};
     // Get the insta-gallery container element
     const getPopupTemplate = (instPost) => {
 
-        const likeIcon = '<svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 0.8 0.8" xml:space="preserve"><style>.st0{fill:#ca379d}</style><path d="M.225.25C.225.264.214.275.2.275S.175.264.175.25.186.225.2.225.225.236.225.25zM.75.3C.75.453.589.582.485.65a1.06 1.06 0 0 1-.073.044.025.025 0 0 1-.024 0A1.049 1.049 0 0 1 .315.65C.211.582.05.453.05.3a.2.2 0 0 1 .2-.2.199.199 0 0 1 .15.068A.199.199 0 0 1 .55.1a.2.2 0 0 1 .2.2zM.25.25a.05.05 0 1 0-.1 0 .05.05 0 0 0 .1 0z" style="fill:#ca379d"/></svg>';
+        let instaPostData = JSON.parse(instPost);
 
-        const commentsIcon = '<svg fill="#ca379d" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 2.5 2.5" xml:space="preserve"><path d="M2.374.446a.063.063 0 0 0-.061-.057H.991a.063.063 0 0 0-.063.057H.927v.328h.559c.029 0 .053.022.056.051h.001v.731h.275l.162.162a.063.063 0 0 0 .116-.035v-.127h.217a.063.063 0 0 0 .06-.051h.002V.446h-.001z"/><path d="M1.361.899H.18A.056.056 0 0 0 .125.95v.946h.001a.057.057 0 0 0 .054.045h.194v.113a.057.057 0 0 0 .104.032l.145-.145h.738c.027 0 .05-.02.056-.045h.001V.95h-.001a.056.056 0 0 0-.056-.051z"/></svg>';
+        let likeIcon = '<svg aria-label="Like" class="x1lliihq x1n2onr6" color="#262626" fill="#262626" height="24" viewBox="0 0 24 24" width="24"><path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z"/></svg>';
 
-        const shareIcon = '<svg width="20" height="20" viewBox="0 0 0.375 0.375" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.25 0.062a0.063 0.063 0 0 1 0.125 0 0.063 0.063 0 0 1 -0.089 0.056L0.228 0.188l0.051 0.071A0.063 0.063 0 0 1 0.375 0.312a0.063 0.063 0 1 1 -0.114 -0.035L0.206 0.2H0.124A0.063 0.063 0 0 1 0 0.187 0.063 0.063 0 0 1 0.124 0.175h0.083l0.059 -0.071A0.062 0.062 0 0 1 0.25 0.062Z" fill="#ca379d"/></svg>';
+        if (instaPostData.like_count > 0) {
+            likeIcon = '<svg aria-label="Unlike" class="x1lliihq x1n2onr6" color="#FF3040" fill="#FF3040" height="24" viewBox="0 0 48 48" width="24"><path d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"/></svg>';
+        }
 
-        const instaIcon = '<svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" xml:space="preserve" width="20" height="20"><style>.st0{fill:none;stroke:#ca379d;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}</style><path class="st0" d="M14.375 19.375h-8.75c-2.75 0-5-2.25-5-5v-8.75c0-2.75 2.25-5 5-5h8.75c2.75 0 5 2.25 5 5v8.75c0 2.75-2.25 5-5 5z"/><path class="st0" d="M14.375 10A4.375 4.375 0 0 1 10 14.375 4.375 4.375 0 0 1 5.625 10a4.375 4.375 0 0 1 8.75 0zm1.25-5.625A.625.625 0 0 1 15 5a.625.625 0 0 1-.625-.625.625.625 0 0 1 1.25 0z"/></svg>';
+        const commentsIcon = '<svg aria-label="Comment" class="x1lliihq x1n2onr6" color="#000" height="24" viewBox="0 0 24 24" width="24"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/></svg>';
 
-        const instaPostData = instPost;
+        
+
+        const shareIcon = '<svg aria-label="Share Post" class="x1lliihq x1n2onr6" color="#000" fill="#737373" height="24" viewBox="0 0 24 24" width="24"><path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M22 3 9.218 10.083m2.48 10.251L22 3.001H2l7.218 7.083 2.48 10.25z"/></svg>';
+
+        const instaIcon = '<svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" xml:space="preserve" width="20" height="20"><style>.st0{fill:none;stroke:#000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}</style><path class="st0" d="M14.375 19.375h-8.75c-2.75 0-5-2.25-5-5v-8.75c0-2.75 2.25-5 5-5h8.75c2.75 0 5 2.25 5 5v8.75c0 2.75-2.25 5-5 5z"/><path class="st0" d="M14.375 10A4.375 4.375 0 0 1 10 14.375 4.375 4.375 0 0 1 5.625 10a4.375 4.375 0 0 1 8.75 0zm1.25-5.625A.625.625 0 0 1 15 5a.625.625 0 0 1-.625-.625.625.625 0 0 1 1.25 0z"/></svg>';
+
         const instaUserInfo = instPost.user_info;
+
+
 
         let getDate = new Date(instaPostData.timestamp);
         getDate = getDate.toLocaleString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
@@ -414,25 +423,53 @@ let epGlobals = {};
         let captionText = instaPostData.caption ? instaPostData.caption : '';
         const tagRegex = /(#\w+)/g;
 
-        const wordsWithoutHash = captionText.match(tagRegex).map(function(tag) {
-            return tag.replace("#", "");
-          });
+        let tagUrl = 'https://www.instagram.com/explore/tags/$1';
 
-        const wrapTag = `<span class="tag-wrapper"><a href="https://www.instagram.com/explore/tags/${wordsWithoutHash}">$1</a></span>`;
+        tagUrl = tagUrl.replace(/#/g, '');
+
+        const wrapTag = `<span class="tag-wrapper"><a target="_blank" href="${tagUrl}">$1</a></span>`;
 
         captionText = captionText.replace(tagRegex, wrapTag);
 
-        console.log(captionText);
+        console.log(instaPostData.children || []);
+        let carouselTemplate = '';
+        if (instaPostData.media_type === 'CAROUSEL_ALBUM') {
+            carouselTemplate += `<div class="popup-carousel"><div class="cg-carousel__track js-carousel__track">`;
+
+            instaPostData.children.data?.map((item) => {
+                if (item.media_type.toLowerCase() === 'video') {
+                    carouselTemplate += `<video width="630" class="popup-media-image cg-carousel__slide js-carousel__slide" controls src="${item.media_url || ''}" alt="${item.caption || ''}" controlsList="nodownload"></video>`;
+                }
+                else {
+                    carouselTemplate += `<img width="630" class="popup-media-image cg-carousel__slide js-carousel__slide" src="${item.media_url || ''}" alt="${item.caption || ''}" />`;
+                    console.log(item);
+                }
+            });
+
+            carouselTemplate += `</div></div>`;
+
+            carouselTemplate += `<div class="cg-carousel__btns">
+                    <button class="cg-carousel__btn js-carousel__prev-1"><svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="M11.24.29.361 10.742l-.06.054a.97.97 0 0 0-.301.642v.124a.97.97 0 0 0 .3.642l.054.044L11.239 22.71a1.061 1.061 0 0 0 1.459 0 .964.964 0 0 0 0-1.402l-10.15-9.746 10.15-9.87a.964.964 0 0 0 0-1.402 1.061 1.061 0 0 0-1.459 0Z" fill="#fff"/></svg></button>
+
+                    <button class="cg-carousel__btn js-carousel__next-1"><svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="m1.76.29 10.879 10.452.06.054a.97.97 0 0 1 .301.642v.124a.97.97 0 0 1-.3.642l-.054.044L1.761 22.71a1.061 1.061 0 0 1-1.459 0 .964.964 0 0 1 0-1.402l10.15-9.746-10.15-9.87a.964.964 0 0 1 0-1.402 1.061 1.061 0 0 1 1.459 0Z" fill="#fff"/></svg></button>
+                </div>`
+        }
+        else {
+            if (instaPostData.media_type.toLowerCase() === 'video') {
+                carouselTemplate += `<video width="630" class="popup-media-image" controls src="${instaPostData.media_url || ''}" alt="${instaPostData.caption || ''}"></video>`;
+            }
+            else {
+                carouselTemplate += `<img width="630" class="popup-media-image" src="${instaPostData.media_url || ''}" alt="${instaPostData.caption || ''}" />`;
+            }
+        }
 
 
         let popupHtml = '';
         popupHtml += `
         <div class="popup-container">
                 <div class="popup-md-9 white">
-                    <div class="embedpress-popup-block embedpress-popup-img">
-                        <div style="width: 100%;"> <img decoding="async" alt="${instaPostData.caption}"
-                                src="${instaPostData.mediaUrl}"
-                                width="630" class="popup-media-image"></div>
+                    <div class="embedpress-popup-block embedpress-popup-img" id="post-${instaPostData.id}">
+                        ${carouselTemplate}
                     </div>
                 </div>
                 <div class="popup-md-3 red">
@@ -451,9 +488,9 @@ let epGlobals = {};
                         </div>
                         <div class="embedpress-popup-text">${captionText}</div>
                         <div class="embedpress-popup-stats">
-                            <div class="embedpress-inline">${likeIcon} ${instaPostData.likeCount}</div> <div
-                                class="embedpress-inline">${commentsIcon} ${instaPostData.commentsCount}</div><div class="embedpress-inline">
-                                <p class="embedpress-popup-share-buttons" style="display: none"> <a
+                            <div class="embedpress-inline">${likeIcon} ${instaPostData.like_count || 0}</div> <div
+                                class="embedpress-inline">${commentsIcon} ${instaPostData.comments_count || 0}</div><div class="embedpress-inline">
+                                <p class="embedpress-popup-share-buttons hidden"> <a
                                         href="https://www.facebook.com/sharer/sharer.php?u=${instaPostData.permalink}"><span
                                             class="fa fa-facebook-square shr-btn shr-btn-fcbk"></span></a> <a
                                         href="https://twitter.com/home?status=${instaPostData.permalink}"
@@ -464,16 +501,21 @@ let epGlobals = {};
                                         target="_blank"><span class="fa fa-linkedin-square shr-btn"></span></a> <a
                                         href="https://pinterest.com/pin/create/button/?url=${instaPostData.permalink}"
                                         target="_blank"><span class="fa fa-pinterest-square shr-btn"></span></a></p>
-                                <div class="embedpress-href embedpress-popup-share">${shareIcon} Share</div>
+                                <div class="embedpress-href embedpress-popup-share">${shareIcon}</div>
                             </div><div class="embedpress-inline"><a
                                     href="${instaPostData.permalink}" target="_blank"
-                                    class="embedpress-href">${instaIcon} Instagram</a></div>
+                                    class="embedpress-href">${instaIcon} See More</a></div>
                         </div>
                         
                     </div>
                 </div>
             </div>
         `;
+
+        // INIT CAROUSEL
+
+
+
 
         return popupHtml;
     }
@@ -488,7 +530,7 @@ let epGlobals = {};
 
         if (instaItem) {
 
-            const postData = instaItem.dataset;
+            const postData = instaItem.dataset.postdata;
 
             const postid = instaItem.getAttribute('data-insta-postid');
             const postIndex = instaItem.getAttribute('data-postindex');
@@ -499,36 +541,30 @@ let epGlobals = {};
 
             event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData);
 
-            // console.log(postIndex);
+            if (!document.querySelector(`#post-${postid}`).classList.contains('carousel-is-initialized')) {
+                const carousel = new CgCarousel(`#post-${postid}`, { slidesPerView: 1, loop: true }, {});
 
-            // var data = {
-            //     'action': 'instagram_single_feed_data',
-            //     'insta_transient_key': tkey,
-            //     'post_id': postid,
-            //     'post_index': postIndex
-            // };
+                // const plyer = new Plyr(`#post-${postid} video`);
+                // console.log(plyer);
 
-            // event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = '<div class="loader"></div>';
+                const next = document.querySelector(`#post-${postid} .js-carousel__next-1`);
+                next?.addEventListener('click', () => carousel.next());
 
-            // jQuery.post(eplocalize.ajaxurl, data, function (post) {
-            //     if (post) {
-            //         event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(post);
-            //     } else {
-            //         console.log(post);
+                const prev = document.querySelector(`#post-${postid} .js-carousel__prev-1`);
+                prev?.addEventListener('click', () => carousel.prev());
 
-            //     }
-            // }, 'json');
+                document.querySelector(`#post-${postid}`).classList.add('carousel-is-initialized');
+            }
 
-            // // Output the postid and tkey
-            // console.log('Post ID:', postid);
-            // console.log('TKey:', tkey);
         }
     });
 
-    $('#popup-close, .popup-wrapper').click(function () {
+    $('#popup-close').click(function (e) {
+        // e.stopPropagation();
         // Hide the popup by setting display to none
         $('.insta-popup').hide();
     });
+
 
 
 
@@ -592,6 +628,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         });
     }
+
+
 
 });
 

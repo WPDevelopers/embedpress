@@ -107,9 +107,9 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         // Attempt to retrieve the posts from the transient cache
         $cachedPosts = get_transient($transientKey);
 
-        echo '<pre>'; 
-        print_r($cachedPosts);
-        echo '</pre>'; 
+        // echo '<pre>'; 
+        // print_r($cachedPosts);
+        // echo '</pre>'; 
 
 
 
@@ -187,7 +187,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         (($account_type === 'business') ? 'data-comments-count="' . htmlspecialchars($comments_count) . '" ' : '');
 
         ob_start(); ?>
-        <div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr( $post['id'] )?>" data-postindex="<?php echo esc_attr( $index ); ?>" <?php echo $dataAttributes; ?>>
+        <div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr( $post['id'] )?>" data-postindex="<?php echo esc_attr( $index ); ?>" data-postdata="<?php echo htmlspecialchars(json_encode($post), ENT_QUOTES, 'UTF-8'); ?>">
             <?php
                 if ($media_type == 'VIDEO') {
                     echo '<video class="insta-gallery-image" src="' . esc_url($media_url) . '"></video>';
@@ -248,64 +248,65 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
         if (is_array($insta_posts) and !empty($insta_posts)) {
             ob_start(); ?>
-            <div class="embedpress-insta-container" data-tkey="<?php echo esc_attr( $tkey ); ?>">
-                <div class="insta-gallery cg-carousel__track js-carousel__track">
-                    <?php
-                        foreach ($insta_posts as $index => $post) {
-                            print_r($this->getInstaFeedItem($post, $index, 'business'));
-                        }
-                        ?>
+            <header class="profile-header">
+                <div class="profile-image">
+                    <img src="https://scontent.cdninstagram.com/v/t51.29350-15/298060274_378096814396551_7463359385267832289_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=8ae9d6&_nc_ohc=I9IwvDsl_DIAX8o6S8R&_nc_ht=scontent.cdninstagram.com&edm=AM6HXa8EAAAA&oh=00_AfDKP_WX2qSYwDAtYgk-tmRag0txCe6gm2SI662M8F6itQ&oe=64BBDFE1" alt="">
                 </div>
-                <div class="cg-carousel__btns hidden">
-                    <button class="cg-carousel__btn" id="js-carousel__prev-1"><svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="M11.24.29.361 10.742l-.06.054a.97.97 0 0 0-.301.642v.124a.97.97 0 0 0 .3.642l.054.044L11.239 22.71a1.061 1.061 0 0 0 1.459 0 .964.964 0 0 0 0-1.402l-10.15-9.746 10.15-9.87a.964.964 0 0 0 0-1.402 1.061 1.061 0 0 0-1.459 0Z" fill="#fff"/></svg></button>
+                <section class="profile-details">
+                    <div class="username-section">
+                        <a class="profile-link" href="#" role="link" tabindex="0">
+                            <h2 class="username" dir="auto">me_tester23</h2>
+                        </a>
+                        <div class="edit-profile-button">
+                            <a class="edit-profile-link" href="/accounts/edit/" role="link" tabindex="0"><?php echo esc_html__( 'Follow', 'embedpress' ); ?></a>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <ul class="stats-list">
+                            <li class="posts-count"><span class="count">9</span> posts</li>
+                            <li class="followers-count">
+                                <a class="followers-link" href="/me_tester23/followers/" role="link" tabindex="0">
+                                    <span class="count" title="36">36</span> followers
+                                </a>
+                            </li>
+                            <li class="following-count">
+                                <a class="following-link" href="/me_tester23/following/" role="link" tabindex="0">
+                                    <span class="count">13</span> following
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bio-section">
+                        <span class="bio" dir="auto">Testing Account</span>
+                    </div>
+                </section>
+            </header>
 
-                    <button class="cg-carousel__btn" id="js-carousel__next-1"><svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="m1.76.29 10.879 10.452.06.054a.97.97 0 0 1 .301.642v.124a.97.97 0 0 1-.3.642l-.054.044L1.761 22.71a1.061 1.061 0 0 1-1.459 0 .964.964 0 0 1 0-1.402l10.15-9.746-10.15-9.87a.964.964 0 0 1 0-1.402 1.061 1.061 0 0 1 1.459 0Z" fill="#fff"/></svg></button>
+            <div class="instagram-container">
+                <div class="embedpress-insta-container" data-tkey="<?php echo esc_attr( $tkey ); ?>">
+                    <div class="insta-gallery cg-carousel__track js-carousel__track">
+                        <?php
+                            foreach ($insta_posts as $index => $post) {
+                                print_r($this->getInstaFeedItem($post, $index, 'business'));
+                            }
+                            ?>
+                    </div>
+                    <div class="cg-carousel__btns hidden">
+                        <button class="cg-carousel__btn" id="js-carousel__prev-1"><svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="M11.24.29.361 10.742l-.06.054a.97.97 0 0 0-.301.642v.124a.97.97 0 0 0 .3.642l.054.044L11.239 22.71a1.061 1.061 0 0 0 1.459 0 .964.964 0 0 0 0-1.402l-10.15-9.746 10.15-9.87a.964.964 0 0 0 0-1.402 1.061 1.061 0 0 0-1.459 0Z" fill="#fff"/></svg></button>
+
+                        <button class="cg-carousel__btn" id="js-carousel__next-1"><svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="m1.76.29 10.879 10.452.06.054a.97.97 0 0 1 .301.642v.124a.97.97 0 0 1-.3.642l-.054.044L1.761 22.71a1.061 1.061 0 0 1-1.459 0 .964.964 0 0 1 0-1.402l10.15-9.746-10.15-9.87a.964.964 0 0 1 0-1.402 1.061 1.061 0 0 1 1.459 0Z" fill="#fff"/></svg></button>
+                    </div>
+                </div>
+
+                <!-- Popup div -->
+                <div class="insta-popup" style="display: none;">  
+                    <div class="popup-wrapper popup-is-opened">
+                        <div class="popup popup-is-initialized"  tabindex="-1"> </div>
+                        <div id="popup-close">x</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- Popup div -->
-            <div class="insta-popup" style="display: none;">  
-                <div class="popup-wrapper popup-is-opened">
-                    <div class="popup popup-is-initialized popup-is-opened"  tabindex="-1"> </div>
-                    <div id="popup-close">x</div>
-                </div>
-            </div>
-
-            <script>
-                // Preloaded data for each post
-                const postData = <?php echo json_encode($insta_posts); ?>;
-
-                // Add click event listener to the post elements
-                const posts = document.querySelectorAll('.insta-gallery-item');
-                posts.forEach(post => {
-                    post.addEventListener('click', function () {
-                        const postId = this.dataset.instaPostid;
-                        // showPopup(postId);
-                    });
-                });
-
-                // function showPopup(postId) {
-                //     // Retrieve data for the clicked post
-                //     const post = postData.find(item => item.id == postId);
-                //     // Get the popup element
-                //     const popup = document.getElementById("popup");
-                //     popup.innerHTML = `
-                //         <h2>${post.caption}</h2>
-                //         <button onclick="closePopup()">Close</button>
-                //     `;
-
-                //     // Show the popup
-                //     popup.classList.add("show");
-                // }
-
-                // function closePopup() {
-                //     // Get the popup element
-                //     const popup = document.getElementById("popup");
-
-                //     // Hide the popup
-                //     popup.classList.remove("show");
-                // }
-            </script>
         <?php
 
             $feed_template = ob_get_clean();

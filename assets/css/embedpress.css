@@ -1802,6 +1802,109 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     }
 }
 
+/* Instagram profile info design  */
+/* Base styles for the profile header */
+.profile-header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid #ddd;
+    justify-content: center;
+}
+
+/* Styles for the profile image and change photo button */
+.profile-image {
+    margin-right: 16px;
+}
+
+.profile-image img {
+    width: 150px;
+    height: 150px!important;
+    object-fit: cover;
+    border-radius: 50%!important;
+}
+.change-photo-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.change-photo-image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+/* Styles for the profile username and edit profile button */
+.username-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.profile-link {
+    text-decoration: none;
+}
+
+.username {
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 12px;
+}
+
+.edit-profile-link {
+    text-decoration: none;
+    color: #3897f0;
+    font-weight: bold;
+}
+
+/* Styles for the profile stats */
+.profile-stats {
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.stats-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.stats-list li {
+    margin-right: 24px;
+    font-size: 14px;
+}
+
+/* Styles for the profile bio */
+.bio-section {
+    margin-bottom: 12px;
+}
+
+.bio {
+    font-size: 14px;
+}
+
+a.edit-profile-link {
+    padding: 8px 15px;
+    background: #efefef;
+    text-decoration: none!important;
+    border-radius: 7px;
+    color: #222;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Hover effect for the edit profile button */
+
+
+a.profile-link, a.profile-link h2 {
+    font-size: 18px;
+    text-decoration: none!important;
+    margin: 0;
+    margin-right: 15px;
+}
 /* Instagram feed layout design */
 .embedpress-insta-container {
     overflow: hidden;
@@ -1843,6 +1946,7 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
 .insta-grid .embedpress-insta-container .insta-gallery-item {
     flex: 1 0 22rem;
 }
+
 .embedpress-insta-container .insta-gallery-item:hover {
     cursor: pointer;
 }
@@ -1854,7 +1958,8 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
 
 
 .insta-masonry .embedpress-insta-container .insta-gallery .insta-gallery-item video.insta-gallery-image {
-    height: 650px;
+    height: 550px;
+    margin-bottom: -7px;
 }
 
 .embedpress-insta-container .insta-gallery-item .insta-gallery-item-info,
@@ -1918,9 +2023,11 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     width: 40px;
     height: 40px;
 }
+
 .insta-item-reaction-count {
     display: flex;
 }
+
 .insta-item-reaction-count .insta-gallery-item-likes, .insta-item-reaction-count .insta-gallery-item-comments {
     display: flex;
     align-items: center;
@@ -1928,7 +2035,9 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     gap: 6px;
     font-size: 20px;
     font-weight: bold;
+    color: #fff;
 }
+
 .insta-gallery-item-info .insta-item-reaction-count svg {
     width: 25px;
     height: 25px;
@@ -1968,6 +2077,30 @@ button#js-carousel__next-1 {
 
 }
 
+.embedpress-popup-block.embedpress-popup-img {
+    position: relative;
+}
+
+button.js-carousel__prev-1 {
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    padding: 8px 15px;
+
+}
+
+button.js-carousel__next-1 {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    padding: 8px 15px;
+
+}
+
 .cg-carousel__btn svg {
     width: 25px;
     height: 25px;
@@ -1978,6 +2111,7 @@ button#js-carousel__next-1 {
 
 .popup-container {
     display: flex;
+    width: 100%;
 }
 
 /* Wrapper */
@@ -1987,16 +2121,17 @@ button#js-carousel__next-1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.85);
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 999;
 }
 
 /* Popup Container */
 .popup {
     background-color: #fff;
-    max-width: 850px;
+    max-width: 950px;
     width: 90%;
     border-radius: 10px;
     overflow: hidden;
@@ -2008,6 +2143,7 @@ button#js-carousel__next-1 {
     align-items: center;
     justify-content: center;
 }
+
 /* .popup-md-3.red {
     display: flex;
     align-items: center;
@@ -2015,7 +2151,9 @@ button#js-carousel__next-1 {
 
 .popup-md-9.white {
     width: 60%;
+    overflow: hidden;
 }
+
 .popup-md-3.red {
     width: 40%;
 }
@@ -2025,6 +2163,15 @@ button#js-carousel__next-1 {
     width: 100%;
     height: auto;
     object-fit: cover;
+}
+
+video.popup-media-image {
+    height: 100% !important;
+    margin-bottom: -7px !important;
+}
+
+img.popup-media-image {
+    height: 100% !important;
 }
 
 /* Header */
@@ -2043,8 +2190,9 @@ button#js-carousel__next-1 {
     height: 30px;
     object-fit: cover;
 }
+
 .embedpress-popup-header-img a {
-    text-decoration: none!important;
+    text-decoration: none !important;
 }
 
 .embedpress-popup-username {
@@ -2055,7 +2203,7 @@ button#js-carousel__next-1 {
 }
 
 .insta-followbtn a {
-    text-decoration: none!important;
+    text-decoration: none !important;
     padding: 8px 15px;
     background: #007bff;
     border-radius: 5px;
@@ -2084,6 +2232,7 @@ button#js-carousel__next-1 {
     border-bottom: 1px solid #ddd;
 
 }
+
 /* Stats */
 .embedpress-popup-stats {
     display: flex;
@@ -2091,24 +2240,40 @@ button#js-carousel__next-1 {
     justify-content: space-between;
     padding: 10px;
 }
+
 .embedpress-popup-stats .embedpress-inline {
     display: flex;
     align-items: center;
     gap: 5px;
     font-weight: bold;
-    color: #ca379d;
+    color: #000;
+    cursor: pointer;
 }
+
+.embedpress-popup-stats .embedpress-inline:hover svg, .embedpress-popup-stats .embedpress-inline a:hover, .embedpress-popup-stats .embedpress-inline:hover, .embedpress-href:hover svg .st0 {
+    color: rgb(115, 115, 115) !important;
+    stroke: rgb(115, 115, 115);
+}
+
 .embedpress-popup-stats .embedpress-inline a {
     display: flex;
     align-items: center;
     gap: 6px;
+    color: #000;
+    text-decoration: none;
+    font-weight: 400;
 }
-.embedpress-popup-stats .embedpress-inline a svg {
+
+/* .embedpress-popup-stats .embedpress-inline a svg {
     width: 15px;
-}
+} */
 
 
 /* Share Buttons */
+.hidden {
+    display: none !important;
+}
+
 .embedpress-popup-share-buttons {
     padding: 10px;
     background-color: #fafafa;
@@ -2127,12 +2292,18 @@ button#js-carousel__next-1 {
     display: flex;
     align-items: center;
     gap: 6px;
+    margin-top: 5px;
 }
 
-.embedpress-href.embedpress-popup-share svg {
+span.tag-wrapper a {
+    font-weight: bold;
+    text-decoration: none !important;
+}
+
+/* .embedpress-href.embedpress-popup-share svg {
     width: 15px;
     height: 15px;
-}
+} */
 
 /* Date */
 .date-post {
@@ -2156,6 +2327,7 @@ div#popup-close {
     display: flex;
     align-items: center;
     justify-content: center;
+    text-transform: uppercase;
 }
 
 .load-spin {
@@ -2163,19 +2335,20 @@ div#popup-close {
     height: 100px;
     background-color: #f00;
     animation: spin 2s linear infinite;
-  }
-  
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  
+}
 
-  .loader {
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+.loader {
     margin: auto;
     border: 5px solid #EAF0F6;
     border-radius: 50%;
@@ -2183,10 +2356,14 @@ div#popup-close {
     width: 30px;
     height: 30px;
     animation: spinner 4s linear infinite;
-  }
-  
-  @keyframes spinner {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-  
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
