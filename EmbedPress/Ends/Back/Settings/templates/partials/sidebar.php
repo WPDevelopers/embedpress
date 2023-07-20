@@ -33,9 +33,15 @@
 
 		<?php do_action( 'ep_before_platform_menu'); ?>
         <li class="sidebar__item sidebar__dropdown <?php echo in_array( $template, $platform_menu_template_names)? 'show' : ''; ?>">
-            <a href="<?php echo esc_url( $ep_page.'&page_type=youtube'); ?>" class="sidebar__link sidebar__link--toggler <?php echo in_array( $template, $platform_menu_template_names) ? 'active' : ''; ?>"><span><i class="ep-icon ep-platform"></i></span> Platforms</a>
+            <a href="<?php echo esc_url( $ep_page.'&page_type=instagram'); ?>" class="sidebar__link sidebar__link--toggler <?php echo in_array( $template, $platform_menu_template_names) ? 'active' : ''; ?>"><span><i class="ep-icon ep-platform"></i></span> Platforms</a>
             <ul class="dropdown__menu <?php echo in_array( $template, $platform_menu_template_names) ? 'show' : ''; ?>">
 				<?php do_action( 'ep_before_platform_menu_items'); ?>
+                <li class="dropdown__item">
+                    <a href="<?php echo esc_url( $ep_page.'&page_type=instagram'); ?>" class="dropdown__link <?php echo 'instagram' === $template ? 'active' : ''; ?>">
+                        <img class="embedpress-settings-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/instagram.svg" alt="">
+						<?php esc_html_e( "Instagram", "embedpress" ); ?>
+                    </a>
+                </li>
                 <li class="dropdown__item">
                     <a href="<?php echo esc_url( $ep_page.'&page_type=youtube'); ?>" class="dropdown__link <?php echo 'youtube' === $template ? 'active' : ''; ?>">
                         <img class="embedpress-settings-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/youtube.svg" alt="">

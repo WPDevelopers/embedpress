@@ -1810,8 +1810,80 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     padding: 16px;
     border-bottom: 1px solid #ddd;
     justify-content: center;
+    gap: 30px;
+    padding-bottom: 30px;
 }
 
+/* Styling for the container holding the tabs */
+.posts-tab-options {
+    text-align: center;
+    margin: 0;
+}
+
+/* Styling for the tabs */
+.tabs {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: inline-flex;
+    border-radius: 5px;
+    gap: 25px;
+}
+
+ul.tabs svg {
+    width: 15px;
+    height: 15px;
+}
+li[data-media-type="ALL"] svg {
+    width: 12px;
+    height: 12px;
+}
+.tabs li {
+    margin-right: 15px;
+    cursor: pointer;
+    padding: 10px 0;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.tabs li:last-child {
+    margin-right: 0;
+}
+
+/* Styling for the active tab */
+.tabs li.active {
+    /* border-top: 1px solid rgb(115,115,115); */
+    position: relative;
+    color: rgb(115,115,115);
+
+}
+.tabs li svg{
+    border-radius: 2px;
+}
+.tabs li.active svg {
+    color: rgb(115,115,115);
+}
+.tabs li:hover, .tabs li:hover svg, .tabs li:hover .fill-color {
+    color: rgb(115,115,115);
+}
+.tabs li:hover .fill-color, .tabs li.active .fill-color {
+    fill: rgb(115,115,115)!important;
+}
+.tabs li.active::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    height: 1px;
+    width: 100%;
+    background-color: rgb(115,115,115);
+    left: 0;
+    right: 0;
+}
 /* Styles for the profile image and change photo button */
 .profile-image {
     margin-right: 16px;
@@ -1819,10 +1891,11 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
 
 .profile-image img {
     width: 150px;
-    height: 150px!important;
+    height: 150px !important;
     object-fit: cover;
-    border-radius: 50%!important;
+    border-radius: 50% !important;
 }
+
 .change-photo-button {
     background-color: transparent;
     border: none;
@@ -1889,22 +1962,31 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
 a.edit-profile-link {
     padding: 8px 15px;
     background: #efefef;
-    text-decoration: none!important;
+    text-decoration: none !important;
     border-radius: 7px;
     color: #222;
     font-size: 12px;
     font-weight: 500;
 }
 
+span.count {
+    font-weight: 600;
+}
+
+a.followers-link {
+    text-decoration: none !important;
+}
+
+
 /* Hover effect for the edit profile button */
 
-
 a.profile-link, a.profile-link h2 {
-    font-size: 18px;
-    text-decoration: none!important;
+    font-size: 20px;
+    text-decoration: none !important;
     margin: 0;
     margin-right: 15px;
 }
+
 /* Instagram feed layout design */
 .embedpress-insta-container {
     overflow: hidden;
@@ -2079,6 +2161,10 @@ button#js-carousel__next-1 {
 
 .embedpress-popup-block.embedpress-popup-img {
     position: relative;
+    height: 100%;
+}
+.popup-carousel, .cg-carousel__track{
+    height: 100%;
 }
 
 button.js-carousel__prev-1 {
@@ -2312,7 +2398,7 @@ span.tag-wrapper a {
     color: #8e8e8e;
 }
 
-div#popup-close {
+div.popup-close {
     position: absolute;
     top: 50px;
     right: 50px;

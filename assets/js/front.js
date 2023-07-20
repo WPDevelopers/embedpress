@@ -404,7 +404,7 @@ let epGlobals = {};
 
         const commentsIcon = '<svg aria-label="Comment" class="x1lliihq x1n2onr6" color="#000" height="24" viewBox="0 0 24 24" width="24"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/></svg>';
 
-        
+
 
         const shareIcon = '<svg aria-label="Share Post" class="x1lliihq x1n2onr6" color="#000" fill="#737373" height="24" viewBox="0 0 24 24" width="24"><path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M22 3 9.218 10.083m2.48 10.251L22 3.001H2l7.218 7.083 2.48 10.25z"/></svg>';
 
@@ -488,8 +488,8 @@ let epGlobals = {};
                         </div>
                         <div class="embedpress-popup-text">${captionText}</div>
                         <div class="embedpress-popup-stats">
-                            <div class="embedpress-inline">${likeIcon} ${instaPostData.like_count || 0}</div> <div
-                                class="embedpress-inline">${commentsIcon} ${instaPostData.comments_count || 0}</div><div class="embedpress-inline">
+                            <div class="embedpress-inline"><a target="_blank" href="${instaPostData.permalink}">${likeIcon} ${instaPostData.like_count || 0}</a></div> <div
+                                class="embedpress-inline"><a target="_blank" href="${instaPostData.permalink}">${commentsIcon} ${instaPostData.comments_count || 0}</a></div><div class="embedpress-inline">
                                 <p class="embedpress-popup-share-buttons hidden"> <a
                                         href="https://www.facebook.com/sharer/sharer.php?u=${instaPostData.permalink}"><span
                                             class="fa fa-facebook-square shr-btn shr-btn-fcbk"></span></a> <a
@@ -504,7 +504,7 @@ let epGlobals = {};
                                 <div class="embedpress-href embedpress-popup-share">${shareIcon}</div>
                             </div><div class="embedpress-inline"><a
                                     href="${instaPostData.permalink}" target="_blank"
-                                    class="embedpress-href">${instaIcon} See More</a></div>
+                                    class="embedpress-href">${instaIcon}</a></div>
                         </div>
                         
                     </div>
@@ -515,57 +515,100 @@ let epGlobals = {};
         // INIT CAROUSEL
 
 
-
-
         return popupHtml;
     }
-    const instaContainer = document.querySelector('.insta-gallery');
 
     // Add a click event listener to the insta-gallery container
-    instaContainer?.addEventListener('click', function (event) {
+    epGlobals.instaPopup = (container) => {
+        container?.addEventListener('click', function (event) {
+            // Check if the clicked element has the class insta-gallery-item
+            const instaItem = event.target.closest('.insta-gallery-item');
 
-        // Check if the clicked element has the class insta-gallery-item
-        const instaItem = event.target.closest('.insta-gallery-item');
+            if (instaItem) {
 
+                const postData = instaItem.dataset.postdata;
 
-        if (instaItem) {
+                const postid = instaItem.getAttribute('data-insta-postid');
+                const postIndex = instaItem.getAttribute('data-postindex');
+                const tkey = instaItem.parentElement.parentElement.getAttribute('data-tkey');
 
-            const postData = instaItem.dataset.postdata;
+                const closestPopup = event.target.closest('.ose-instagram-feed').querySelector('.insta-popup');
+                closestPopup.style.display = 'block';
 
-            const postid = instaItem.getAttribute('data-insta-postid');
-            const postIndex = instaItem.getAttribute('data-postindex');
-            const tkey = instaItem.parentElement.parentElement.getAttribute('data-tkey');
+                event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData);
 
-            const closestPopup = event.target.closest('.ose-instagram-feed').querySelector('.insta-popup');
-            closestPopup.style.display = 'block';
+                if (!document.querySelector(`#post-${postid}`).classList.contains('carousel-is-initialized')) {
+                    const carousel = new CgCarousel(`#post-${postid}`, { slidesPerView: 1, loop: true }, {});
 
-            event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData);
+                    // const plyer = new Plyr(`#post-${postid} video`);
+                    // console.log(plyer);
 
-            if (!document.querySelector(`#post-${postid}`).classList.contains('carousel-is-initialized')) {
-                const carousel = new CgCarousel(`#post-${postid}`, { slidesPerView: 1, loop: true }, {});
+                    const next = document.querySelector(`#post-${postid} .js-carousel__next-1`);
+                    next?.addEventListener('click', () => carousel.next());
 
-                // const plyer = new Plyr(`#post-${postid} video`);
-                // console.log(plyer);
+                    const prev = document.querySelector(`#post-${postid} .js-carousel__prev-1`);
+                    prev?.addEventListener('click', () => carousel.prev());
 
-                const next = document.querySelector(`#post-${postid} .js-carousel__next-1`);
-                next?.addEventListener('click', () => carousel.next());
+                    document.querySelector(`#post-${postid}`).classList.add('carousel-is-initialized');
+                }
 
-                const prev = document.querySelector(`#post-${postid} .js-carousel__prev-1`);
-                prev?.addEventListener('click', () => carousel.prev());
-
-                document.querySelector(`#post-${postid}`).classList.add('carousel-is-initialized');
             }
+        });
+    }
 
-        }
-    });
+    const instaContainers = document.querySelectorAll('.embedpress-gutenberg-wrapper .insta-gallery');
+    if (instaContainers.length > 0) {
+        instaContainers.forEach((container) => {
+            epGlobals.instaPopup(container);
+        });
+    }
 
-    $('#popup-close').click(function (e) {
-        // e.stopPropagation();
+    $('.popup-close').click(function (e) {
         // Hide the popup by setting display to none
         $('.insta-popup').hide();
+        $('.popup-container').remove();
     });
 
 
+    const instafeeds = document.querySelectorAll('.ose-instagram-feed');
+
+    epGlobals.initializeTabs = (containerEl) => {
+
+        const tabs = containerEl.querySelectorAll('.tabs li');
+        const items = containerEl.querySelectorAll('.insta-gallery-item');
+
+        // Initial tab selection
+        showItems('ALL');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', function () {
+                if (tab.classList.contains('active')) {
+                    return;
+                } else {
+                    const mediaType = tab.getAttribute('data-media-type');
+                    showItems(mediaType);
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                }
+            });
+        });
+
+        function showItems(mediaType) {
+            items.forEach(item => {
+                if (mediaType === 'ALL' || item.getAttribute('data-media-type') === mediaType) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    }
+
+    if (instafeeds.length > 0) {
+        instafeeds.forEach(function (feed) {
+            epGlobals.initializeTabs(feed);
+        });
+    }
 
 
 })(jQuery);
@@ -632,24 +675,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 });
-
-// window.addEventListener('load', function () {
-//     new Glider(document.querySelector('.carousel'), {
-//         slidesToShow: 5,
-//         slidesToScroll: 5,
-//         draggable: true,
-//         rewind: true,
-//         autoplay: true,
-//         loop: true,
-//         dots: '.dots',
-//         arrows: {
-//             prev: '.slick-prev',
-//             next: '.slick-next'
-//         }
-//     });
-// });
-
-
 
 
 
@@ -777,6 +802,16 @@ jQuery(window).on("elementor/frontend/init", function () {
                 epGlobals.initCarousel(carouselSelector, options, carouselId);
 
             });
+        }
+
+        const instaFeed = document.querySelector(`${selectorEl} .ose-instagram-feed`);
+        const instaGallery = document.querySelector(`${selectorEl} .insta-gallery`);
+        if (instaFeed) {
+            epGlobals.initializeTabs(instaFeed);
+        }
+        if (instaFeed) {
+            epGlobals.instaPopup(instaFeed);
+
         }
 
     };
