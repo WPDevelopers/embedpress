@@ -431,13 +431,13 @@ let epGlobals = {};
 
         captionText = captionText.replace(tagRegex, wrapTag);
 
-        console.log(instaPostData.children || []);
         let carouselTemplate = '';
         if (instaPostData.media_type === 'CAROUSEL_ALBUM') {
             carouselTemplate += `<div class="popup-carousel"><div class="cg-carousel__track js-carousel__track">`;
 
             instaPostData.children.data?.map((item) => {
-                if (item.media_type.toLowerCase() === 'video') {
+                console.log(item);
+                if (item.media_type?.toLowerCase() === 'video') {
                     carouselTemplate += `<video width="630" class="popup-media-image cg-carousel__slide js-carousel__slide" controls src="${item.media_url || ''}" alt="${item.caption || ''}" controlsList="nodownload"></video>`;
                 }
                 else {
@@ -455,7 +455,7 @@ let epGlobals = {};
                 </div>`
         }
         else {
-            if (instaPostData.media_type.toLowerCase() === 'video') {
+            if (instaPostData.media_type?.toLowerCase() === 'video') {
                 carouselTemplate += `<video width="630" class="popup-media-image" controls src="${instaPostData.media_url || ''}" alt="${instaPostData.caption || ''}"></video>`;
             }
             else {
@@ -618,7 +618,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     epGlobals.initCarousel = (carouselSelector, options, carouselId) => {
 
-        console.log(options);
         const carouselOptions = {
             slidesPerView: options.slideshow,
             spacing: options.spacing,
@@ -661,8 +660,6 @@ document.addEventListener('DOMContentLoaded', function () {
             options = JSON.parse(options);
             const carouselSelector = `[data-carouselid="${carouselId}"] .embedpress-insta-container`;
 
-            console.log(options);
-
             if (options.arrows) {
                 document.querySelector(`[data-carouselid="${carouselId}"] .cg-carousel__btns`).classList.remove('hidden');
             }
@@ -685,8 +682,6 @@ jQuery(window).on("elementor/frontend/init", function () {
         // Get the Elementor unique selector for this widget
         let classes = $scope[0].className;
         let selectorEl = '.' + classes.split(' ').join('.');
-
-        console.log(selectorEl);
 
         const epElLoadMore = () => {
 
@@ -792,8 +787,6 @@ jQuery(window).on("elementor/frontend/init", function () {
 
                 options = JSON.parse(options);
                 const carouselSelector = `[data-carouselid="${carouselId}"] .embedpress-insta-container`;
-
-                console.log(options);
 
                 if (options.arrows) {
                     document.querySelector(`[data-carouselid="${carouselId}"] .cg-carousel__btns`).classList.remove('hidden');
