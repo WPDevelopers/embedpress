@@ -3385,3 +3385,126 @@ button.button__instagram.hover__highlight:hover .icon {
       margin-bottom: 25px;
     }
   }
+
+  /* Instagram setting css */
+  /* Reset default table styles */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+/* Apply custom styles for the 'emebedpress' class */
+.emebedpress {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.emebedpress thead {
+    background-color: #F5F7FD;
+}
+
+.emebedpress th, .emebedpress td {
+    padding: 12px;
+    text-align: left;
+    position: relative;
+    text-align: center;
+}
+
+.emebedpress th {
+    font-weight: bold;
+}
+
+.emebedpress tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.emebedpress img.user-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.emebedpress input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    background-color: transparent;
+    padding-right: 48px;
+}
+
+.emebedpress .button {
+    background-color: #0073aa;
+    color: #fff;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.emebedpress .button i{
+    font-size: 18px;
+
+}
+.emebedpress .button-primary {
+    background-color: #5b4e96;
+    position: absolute;
+    right: 20px;
+    align-items: center;
+    justify-content: center;
+}
+.emebedpress .button-secondary {
+    background-color: #f44336;
+}
+
+/* Styles for the account-section */
+.account-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.account-section p {
+    margin-bottom: 10px;
+}
+
+.account-button {
+    display: inline-block!important;
+    text-decoration: none!important;
+    background-color: #0073aa!important;
+    color: #fff!important;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.personal-account {
+    background-color: #4caf50;
+}
+
+.business-account {
+    background-color: #f44336;
+}
+
+.account-link {
+    margin-left: 10px;
+    color: #0073aa;
+    text-decoration: none;
+}
+
+.premium-field {
+    display: inline-block;
+    margin-left: 10px;
+    color: #999;
+}
+
+.premium-field small {
+    font-size: 12px;
+}
+
+.description.hidden {
+    display: none;
+}
