@@ -6,7 +6,7 @@
 
 $personal_token_url = 'https://www.instagram.com/oauth/authorize?app_id=1021573018834002&redirect_uri=https://api.embedpress.com/instagram.php&response_type=code&scope=user_profile,user_media&state=' . site_url();
 
-if (!empty($_POST['user_id'])) {
+
     $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : '';
     $username = isset($_POST['username']) ? $_POST['username'] : '';
     $account_type = isset($_POST['account_type']) ? $_POST['account_type'] : '';
@@ -46,7 +46,7 @@ if (!empty($_POST['user_id'])) {
 
 
     update_option('instagram_personal_account_type', $token_data);
-}
+
 ?>
 
 <div class="embedpress__settings background__white radius-25 p40">
