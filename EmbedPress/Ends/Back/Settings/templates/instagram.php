@@ -4,28 +4,49 @@
  *  All undefined vars comes from 'render_settings_page' method
  *  */
 
-$personal_token_url = 'https://www.instagram.com/oauth/authorize?app_id=1021573018834002&redirect_uri=https://api.embedpress.com/instagram.php&response_type=code&scope=user_profile,user_media&state=' . admin_url('admin.php');
+$personal_token_url = 'https://www.instagram.com/oauth/authorize?app_id=1021573018834002&redirect_uri=https://api.embedpress.com/instagram.php&response_type=code&scope=user_profile,user_media&state=' . site_url();
 
-$account_type = isset($_GET['account_type']) ? $_GET['account_type'] : '';
-$access_token = isset($_GET['access_token']) ? $_GET['access_token'] : '';
+if (!empty($_POST['user_id'])) {
+    $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : '';
+    $username = isset($_POST['username']) ? $_POST['username'] : '';
+    $account_type = isset($_POST['account_type']) ? $_POST['account_type'] : '';
+    $access_token = isset($_POST['access_token']) ? $_POST['access_token'] : '';
 
-$get_personal_account = get_option( 'instagram_personal_account_type');
+    // $user_id = $_POST['user_id'];
+    // $username = $_POST['username'];
+    // $account_type = $_POST['account_type'];
+    // $access_token = $_POST['access_token'];
 
-$token_data = [
-    [
-        'account_type' => $account_type,
-        'access_token' => $access_token,
-    ]
-];
+    echo $user_id . "\n.";
+    echo $username . "\n";
+    echo $account_type . "\n";
+    echo $access_token . "\n";
 
-$token_data = [];
+    $get_personal_account = get_option('instagram_personal_account_type');
 
-if(is_array($get_personal_account) && !empty($get_personal_account)) {
-    $token_data = array_unique(array_merge($token_data, $get_personal_account));
+    $token_data = [
+        [
+            'user_id' => $user_id,
+            'username' => $username,
+            'account_type' => $account_type,
+            'access_token' => $access_token,
+        ]
+    ];
+
+    if (!empty($get_personal_account)) {
+        // Merge the two arrays and use 'user_id' as the key
+        $merged_data = array_reduce(array_merge($token_data, $get_personal_account), function ($carry, $item) {
+            $carry[$item['user_id']] = $item;
+            return $carry;
+        }, []);
+
+        // Get the values from the merged array to remove the 'user_id' keys
+        $token_data = array_values($merged_data);
+    }
+
+
+    update_option('instagram_personal_account_type', $token_data);
 }
-
-update_option( 'instagram_personal_account_type', $token_data);
-
 ?>
 
 <div class="embedpress__settings background__white radius-25 p40">
@@ -34,7 +55,7 @@ update_option( 'instagram_personal_account_type', $token_data);
         <div class="account-section">
             <div class="account-wrap full-width-layout">
                 <p>
-                    <a href="<?php echo esc_url($personal_token_url); ?>" class="account-button personal-account" target="_blank" title="Add Personal Account">Add Personal Account</a>
+                    <a href="<?php echo esc_url($personal_token_url); ?>" class="account-button personal-account" target="_self" title="Add Personal Account">Add Personal Account</a>
 
                     <a href="https://www.facebook.com/dialog/oauth?client_id=834353156975525&redirect_uri=https://socialfeed.quadlayers.com/facebook.php&response_type=code&scope=pages_show_list,instagram_basic,instagram_manage_comments,instagram_manage_insights,pages_read_engagement&state=http://development.local/wp-admin/admin.php" class="account-button business-account" target="_self" title="Add Business Account">Add Business Account</a>
                     <a class="account-link" href="#">Button not working?</a>
