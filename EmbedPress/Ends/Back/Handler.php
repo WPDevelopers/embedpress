@@ -29,6 +29,92 @@ class Handler extends EndHandlerAbstract
      * @since   1.0.0
      *
      */
+
+    public function __construct($pluginName, $pluginVersion)
+    {
+        parent::__construct($pluginName, $pluginVersion);
+
+        add_action('wp_ajax_delete_instagram_account', [$this, 'delete_instagram_account']);
+        add_action('init', [$this, 'handle_instagram_data']);
+    }
+
+    public function handle_instagram_data()
+    {
+        if (!empty($_GET['user_id'])) {
+            $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
+            $username = isset($_GET['username']) ? $_GET['username'] : '';
+            $account_type = isset($_GET['account_type']) ? $_GET['account_type'] : '';
+            $access_token = isset($_GET['access_token']) ? $_GET['access_token'] : '';
+
+            // $user_id = $_GET['user_id'];
+            // $username = $_GET['username'];
+            // $account_type = $_GET['account_type'];
+            // $access_token = $_GET['access_token'];
+
+            // echo $user_id . "\n.";
+            // echo $username . "\n";
+            // echo $account_type . "\n";
+            // echo $access_token . "\n";
+
+            if (strtolower($account_type) == 'personal') {
+
+                $get_personal_account = get_option('instagram_personal_account_type');
+
+                $token_data = [
+                    [
+                        'user_id' => $user_id,
+                        'username' => $username,
+                        'account_type' => $account_type,
+                        'access_token' => $access_token,
+                    ]
+                ];
+
+                if (!empty($get_personal_account)) {
+                    // Merge the two arrays and use 'user_id' as the key
+                    $merged_data = array_reduce(array_merge($token_data, $get_personal_account), function ($carry, $item) {
+                        $carry[$item['user_id']] = $item;
+                        return $carry;
+                    }, []);
+
+                    // Get the values from the merged array to remove the 'user_id' keys
+                    $token_data = array_values($merged_data);
+                    echo count($token_data);
+                }
+
+                update_option('instagram_personal_account_type', $token_data);
+
+                wp_redirect(admin_url('admin.php?page=embedpress&page_type=instagram'), 301);
+                exit();
+
+            } else {
+                $get_personal_account = get_option('instagram_business_account_type');
+                $token_data = [
+                    [
+                        'user_id' => $user_id,
+                        'username' => $username,
+                        'account_type' => $account_type,
+                        'access_token' => $access_token,
+                    ]
+                ];
+
+                if (!empty($get_personal_account)) {
+                    // Merge the two arrays and use 'user_id' as the key
+                    $merged_data = array_reduce(array_merge($token_data, $get_personal_account), function ($carry, $item) {
+                        $carry[$item['user_id']] = $item;
+                        return $carry;
+                    }, []);
+
+                    // Get the values from the merged array to remove the 'user_id' keys
+                    $token_data = array_values($merged_data);
+                }
+                update_option('instagram_business_account_type', $token_data);
+                
+                wp_redirect(admin_url('admin.php?page=embedpress&page_type=instagram'), 301);
+                exit();
+            }
+        }
+    }
+
     public function enqueueScripts()
     {
         global $pagenow;
@@ -70,7 +156,7 @@ class Handler extends EndHandlerAbstract
             );
 
             wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css', $this->pluginVersion, true);
-            
+
             wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true);
 
             wp_enqueue_script(
@@ -89,7 +175,7 @@ class Handler extends EndHandlerAbstract
             );
 
             wp_enqueue_style('slick', EMBEDPRESS_URL_ASSETS . 'css/slick.min.css', $this->pluginVersion, true);
-            
+
             wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true);
         }
 
@@ -524,6 +610,19 @@ class Handler extends EndHandlerAbstract
             'fortest.getshow.io/*',
             'opensea.io/assets/*',
         ];
+    }
+
+    public function delete_instagram_account()
+    {
+        $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : '';
+        $account_type = isset($_POST['account_type']) ? $_POST['account_type'] : '';
+        $account_data = get_option('instagram_' . $account_type . '_account_type');
+
+        $data = array_filter($account_data, function ($item) use ($user_id) {
+            return $item['user_id'] !== $user_id;
+        });
+
+        update_option('instagram_' . $account_type . '_account_type', $data);
     }
 
     /**

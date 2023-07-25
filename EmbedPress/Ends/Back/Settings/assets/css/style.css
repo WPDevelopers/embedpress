@@ -3457,15 +3457,22 @@ table, th, td {
     justify-content: center;
 }
 .emebedpress .button-secondary {
-    background-color: #f44336;
+    background-color: #f44336!important;
 }
-
+.emebedpress .button-secondary:focus i {
+    color: white;
+}
 /* Styles for the account-section */
 .account-wrap {
     max-width: 1200px;
     margin: 0 auto;
 }
 
+.user-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .account-section p {
     margin-bottom: 10px;
 }
@@ -3508,3 +3515,42 @@ table, th, td {
 .description.hidden {
     display: none;
 }
+
+/* delete alrert box */
+.custom-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+  }
+  
+  .custom-dialog p {
+    margin: 0 0 10px;
+  }
+  
+  .custom-dialog button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .custom-dialog button:hover {
+    background-color: #0056b3;
+  }
+  
+  .custom-dialog button:last-child {
+    margin-right: 0;
+    background-color: #ccc;
+  }
+  
+  /* Optional: To make the buttons the same width */
+  .custom-dialog button {
+    width: 80px;
+  }
