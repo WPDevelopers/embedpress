@@ -3430,11 +3430,12 @@ table, th, td {
 }
 
 .emebedpress input[type="text"] {
-    width: 100%;
+    width: 60%;
     box-sizing: border-box;
     border: none;
     background-color: transparent;
-    padding-right: 48px;
+    margin: 0;
+    padding: 0;
 }
 
 .emebedpress .button {

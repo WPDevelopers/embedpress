@@ -46,72 +46,49 @@ class Handler extends EndHandlerAbstract
             $account_type = isset($_GET['account_type']) ? $_GET['account_type'] : '';
             $access_token = isset($_GET['access_token']) ? $_GET['access_token'] : '';
 
-            // $user_id = $_GET['user_id'];
-            // $username = $_GET['username'];
-            // $account_type = $_GET['account_type'];
-            // $access_token = $_GET['access_token'];
+            $get_instagram_data = get_option('instagram_account_data');
 
-            // echo $user_id . "\n.";
-            // echo $username . "\n";
-            // echo $account_type . "\n";
-            // echo $access_token . "\n";
+            $token_data = [
+                [
+                    'user_id' => $user_id,
+                    'username' => $username,
+                    'account_type' => $account_type,
+                    'access_token' => $access_token,
+                ]
+            ];
+            
+            if (!empty($get_instagram_data)) {
+                $updated = false;
+            
+                foreach ($get_instagram_data as &$data) {
 
-            if (strtolower($account_type) == 'personal') {
+                    if ($data['user_id'] === $user_id) {
 
-                $get_personal_account = get_option('instagram_personal_account_type');
+                        // If user_id matches, update the data
+                        $data['username'] = $username;
+                        $data['account_type'] = $account_type;
+                        $data['access_token'] = $access_token;
 
-                $token_data = [
-                    [
-                        'user_id' => $user_id,
-                        'username' => $username,
-                        'account_type' => $account_type,
-                        'access_token' => $access_token,
-                    ]
-                ];
-
-                if (!empty($get_personal_account)) {
-                    // Merge the two arrays and use 'user_id' as the key
-                    $merged_data = array_reduce(array_merge($token_data, $get_personal_account), function ($carry, $item) {
-                        $carry[$item['user_id']] = $item;
-                        return $carry;
-                    }, []);
-
-                    // Get the values from the merged array to remove the 'user_id' keys
-                    $token_data = array_values($merged_data);
-                    echo count($token_data);
+                        $updated = true;
+                        break;
+                    }
                 }
-
-                update_option('instagram_personal_account_type', $token_data);
-
-                wp_redirect(admin_url('admin.php?page=embedpress&page_type=instagram'), 301);
-                exit();
-
+            
+                if (!$updated) {
+                    // If user_id does not exist, add new data
+                    $get_instagram_data[] = $token_data[0];
+                }
+            
             } else {
-                $get_personal_account = get_option('instagram_business_account_type');
-                $token_data = [
-                    [
-                        'user_id' => $user_id,
-                        'username' => $username,
-                        'account_type' => $account_type,
-                        'access_token' => $access_token,
-                    ]
-                ];
-
-                if (!empty($get_personal_account)) {
-                    // Merge the two arrays and use 'user_id' as the key
-                    $merged_data = array_reduce(array_merge($token_data, $get_personal_account), function ($carry, $item) {
-                        $carry[$item['user_id']] = $item;
-                        return $carry;
-                    }, []);
-
-                    // Get the values from the merged array to remove the 'user_id' keys
-                    $token_data = array_values($merged_data);
-                }
-                update_option('instagram_business_account_type', $token_data);
-                
-                wp_redirect(admin_url('admin.php?page=embedpress&page_type=instagram'), 301);
-                exit();
+                // If $get_instagram_data is empty, add the new data directly
+                $get_instagram_data = $token_data;
             }
+            
+            update_option('instagram_account_data', $get_instagram_data);
+            
+            wp_redirect(admin_url('admin.php?page=embedpress&page_type=instagram'), 301);
+            exit();
+            
         }
     }
 
@@ -616,13 +593,14 @@ class Handler extends EndHandlerAbstract
     {
         $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : '';
         $account_type = isset($_POST['account_type']) ? $_POST['account_type'] : '';
-        $account_data = get_option('instagram_' . $account_type . '_account_type');
+        $account_data = get_option('instagram_account_data');
 
         $data = array_filter($account_data, function ($item) use ($user_id) {
             return $item['user_id'] !== $user_id;
         });
+        
 
-        update_option('instagram_' . $account_type . '_account_type', $data);
+        update_option('instagram_account_data', $data);
     }
 
     /**

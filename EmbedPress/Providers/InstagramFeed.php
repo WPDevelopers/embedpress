@@ -57,10 +57,11 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     }
 
     // get instagram user info
-    public function getInstagramUserInfo($accessToken, $account_type)
+    public function getInstagramUserInfo($accessToken, $accountType, $userId)
     {
-        if(strtolower($account_type) === 'business'){
-            $api_url = 'https://graph.facebook.com/17841451532462963?fields=biography,id,username,website,followers_count,media_count,profile_picture_url,name&access_token='.BUSINESS_ACCESS_TOKEN;
+        if(strtolower($accountType) === 'business'){
+            $api_url = 'https://graph.facebook.com/'.$userId.'?fields=biography,id,username,website,followers_count,media_count,profile_picture_url,name&access_token='.$accessToken;
+
         }
         else{
             $api_url = "https://graph.instagram.com/me?fields=id,username,account_type,media_count,followers_count,biography,website&access_token=$accessToken";
@@ -188,7 +189,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         $like_count = !empty($post['like_count']) ? $post['like_count'] : 0;
         $comments_count = !empty($post['comments_count']) ? $post['comments_count'] : 0;
 
-        $dataAttributes = 'data-caption="' . htmlspecialchars($caption) . '" ' .
+        $connected_usersAttributes = 'data-caption="' . htmlspecialchars($caption) . '" ' .
         'data-media-type="' . htmlspecialchars($media_type) . '" ' .
         'data-media-type="' . htmlspecialchars($media_type) . '" ' .
         'data-media-url="' . htmlspecialchars($media_url) . '" ' .
@@ -244,9 +245,12 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     <?php $feed_item = ob_get_clean(); return $feed_item;
     }
 
-    public function getInstagramFeedTemplate($accessToken, $account_type)
+    public function getInstagramFeedTemplate($accessToken, $account_type, $userID)
     {
-        $profile_info = $this->getInstagramUserInfo($accessToken, $account_type);
+        $profile_info = $this->getInstagramUserInfo($accessToken, $account_type, $userID);
+
+        // print_r($profile_info); 
+        // die;
 
         // Check and assign each item to separate variables
         $id = !empty($profile_info['id']) ? $profile_info['id'] : '';
@@ -341,6 +345,11 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         }
     }
 
+    public function getInstagramUnserName($url){
+        $pattern = '/instagram\.com\/([^\/?]+)/i';
+        preg_match($pattern, $url, $matches);
+        return isset($matches[1]) ? $matches[1] : '';
+    }
 
     public function getStaticResponse()
     {
@@ -353,12 +362,46 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         ];
         $url = $this->getUrl();
 
-        $accessToken = TEMP_ACCESS_TOKEN;
-        $account_type = 'business';
+        // $accessToken = TEMP_ACCESS_TOKEN;
+        // $account_type = 'business';
+
+        $access_token = ''; // The access token';
+        $account_type = '';
+        $userid = ''; 
 
         if ($this->validateInstagramFeed($url)) {
-            if ($this->getInstagramFeedTemplate($accessToken, $account_type)) {
-                $insta_feed['html'] = $this->getInstagramFeedTemplate($accessToken, $account_type);
+
+            $username = $this->getInstagramUnserName($url);
+            if(!empty($username)){
+                $connected_users = get_option( 'instagram_account_data' );
+                
+                // $connected_users = [
+                //     [
+                //         'user_id' => '6317223241664902',
+                //         'username' => 'akashdev260',
+                //         'account_type' => 'business',
+                //         'access_token' => 'EAANMn7N8IkEBO7lOmXHZCzR4ZAPgg8U5XDR55yBuUUZBTsD2ql4ZBvNctZCtCYIjNeJZBa5jJ5QXKD6MZAiOCyG33M9kihoSDIqu6fkRkvl6qQZBbNbki5o3xr8pLaTT6xuqWLzn61TkB7hP1MLWCPAGEmSA8MZAUxfBTC3inhZC1EIhRJenTp1Q0FRDPSw1EnU7cvPoMgdMAdIV0w8WELPNTd7JcD2I4KLEQZAXwZBwU0PuSFaZBZB4CklSOQ',
+                //     ],
+                //     // Add more objects if needed
+                // ];
+                
+                
+               
+                
+                foreach ($connected_users as $user_data) {
+                    if ($user_data['username'] === $username) {
+                        $access_token = $user_data['access_token'];
+                        $userid = $user_data['user_id'];
+                        $account_type = $user_data['account_type'];
+                        break; // Found the matching user_id, no need to continue the loop
+                    }
+                    else{
+
+                    }
+                }
+            }
+            if ($this->getInstagramFeedTemplate($access_token, $account_type, $userid )) {
+                $insta_feed['html'] = $this->getInstagramFeedTemplate($access_token, $account_type, $userid );
             }
         }
 
