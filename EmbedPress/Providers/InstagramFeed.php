@@ -35,7 +35,6 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
      */
 
     //  Business profile endpoints url 
-    // https://graph.facebook.com/17841451532462963?fields=biography,id,username,website,followers_count,media_count,profile_picture_url,name&access_token=BUSINESS_ACCESS_TOKEN
 
     //Business Instagram Feed endpoints url
     // https://graph.facebook.com/v17.0/17841451532462963/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=20&access_token=BUSINESS_ACCESS_TOKEN
@@ -56,17 +55,32 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         );
     }
 
+    public function get_connected_account_type($userID){
+        $instagram_account_data = get_option( 'instagram_account_data');
+
+        if(is_array($instagram_account_data) && !empty($instagram_account_data)){
+            foreach($instagram_account_data as $account){
+                if($account['user_id'] == $userID){
+                    return $account['account_type'];
+                }
+            }
+        }
+
+        return false;
+    }
+
     // get instagram user info
     public function getInstagramUserInfo($accessToken, $accountType, $userId)
     {
         if(strtolower($accountType) === 'business'){
             $api_url = 'https://graph.facebook.com/'.$userId.'?fields=biography,id,username,website,followers_count,media_count,profile_picture_url,name&access_token='.$accessToken;
-
         }
         else{
-            $api_url = "https://graph.instagram.com/me?fields=id,username,account_type,media_count,followers_count,biography,website&access_token=$accessToken";
+            $api_url = "https://graph.instagram.com/me?fields=id,username,account_type,media_count,followers_count,biography,website&access_token={$accessToken}";
         }
 
+        $connected_account_type = $this->get_connected_account_type($userId);
+        
         // Set the transient key
         $transientKey = 'instagram_profile_info_' . md5($api_url);
 
@@ -80,6 +94,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             return $cachedUserInfo;
         }
 
+
         // Make a GET request to Instagram's API to retrieve user information
         $userInfoResponse = wp_remote_get($api_url);
         
@@ -91,6 +106,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             $userInfoBody = wp_remote_retrieve_body($userInfoResponse);
             $userInfo = json_decode($userInfoBody, true);
 
+            $userInfo['connected_account_type'] = $connected_account_type;
+
             // Save the user info in the transient cache for 1 hour (adjust the time as needed)
             set_transient($transientKey, $userInfo, 1 * HOUR_IN_SECONDS);
 
@@ -100,13 +117,20 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
 
     // Get Instagram posts, videos, reels
-    public function getInstagramPosts($accessToken, $account_type)
+    public function getInstagramPosts($accessToken, $account_type, $userId)
     {
+        // print_r($userId);
+        // print_r($accessToken);
+
+        // die;
+        
         if(strtolower($account_type) === 'business'){
-            $api_url = 'https://graph.facebook.com/v17.0/17841451532462963/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=20&access_token='.BUSINESS_ACCESS_TOKEN;
+            $api_url = 'https://graph.facebook.com/v17.0/'.$userId.'/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=5&access_token='.$accessToken;
+
         }
         else{
-            $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,timestamp,username,thumbnail_url&access_token=$accessToken";
+            $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=5&access_token=$accessToken";
+
         }
         
 
@@ -138,14 +162,15 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             $postsBody = wp_remote_retrieve_body($postsResponse);
             $posts = json_decode($postsBody, true);
 
+            if(empty($posts['data']) ) {
+                return 'Please add Instagram Access Token';
+            }
+
             // Save the posts in the transient cache for 1 hour (adjust the time as needed)
             set_transient($transientKey, $posts['data'], 1 * HOUR_IN_SECONDS);
 
-            if(!empty($posts['data'])){
-                return $posts['data'];
-            }
+            return $posts['data'];
 
-            return 'Please add Instagram Access Token';
         }
     }
 
@@ -239,19 +264,14 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 <?php endif; ?>
             </div>
         </div>
-        <!-- <div class="pop-insta-feed-item-details">
-            <blockquote class="instagram-media" data-instgrm-permalink="<?php echo esc_url($post['permalink']); ?>" ></blockquote>
-        </div> -->
+        
     <?php $feed_item = ob_get_clean(); return $feed_item;
     }
 
     public function getInstagramFeedTemplate($accessToken, $account_type, $userID)
     {
         $profile_info = $this->getInstagramUserInfo($accessToken, $account_type, $userID);
-
-        // print_r($profile_info); 
-        // die;
-
+        
         // Check and assign each item to separate variables
         $id = !empty($profile_info['id']) ? $profile_info['id'] : '';
         $username = !empty($profile_info['username']) ? $profile_info['username'] : '';
@@ -264,10 +284,12 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         // print_r ($profile_info);
         // echo '</pre>';
 
-        $insta_posts = $this->getInstagramPosts($accessToken, $account_type);
+        $insta_posts = $this->getInstagramPosts($accessToken, $account_type, $userID);
+
+        $connected_account_type = $account_type;
 
         if(strtolower($account_type) === 'business'){
-            $tkey = md5('https://graph.facebook.com/v17.0/'.$id.'/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=20&access_token='.BUSINESS_ACCESS_TOKEN);
+            $tkey = md5('https://graph.facebook.com/v17.0/'.$id.'/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=20&access_token='.$accessToken);
         }
         else{
             $tkey = md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,timestamp,username,thumbnail_url&access_token=$accessToken");
@@ -278,27 +300,36 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             ob_start(); ?>
             <header class="profile-header">
 
+            <?php 
+                $avater_url = 'http://2.gravatar.com/avatar/b642b4217b34b1e8d3bd915fc65c4452?s=150&d=mm&r=g';
+                if (!empty($connected_account_type) && (strtolower($connected_account_type)  === 'business')) {
+                    $avater_url = $profile_picture_url;
+                }
+            ?>
                 <div class="profile-image">
-                    <img src="<?php echo esc_url($profile_picture_url); ?>" alt="<?php echo esc_attr( $name ); ?>">
+                    <img src="<?php echo esc_url($avater_url); ?>" alt="<?php echo esc_attr( $name ); ?>">
                 </div>
 
                 <section class="profile-details">
                     <div class="username-section">
-                        <a class="profile-link" href="<?php echo esc_url( 'https://instagram.com/'.$username); ?>" role="link" tabindex="0">
+                        <a class="profile-link" target="__blank" href="<?php echo esc_url( 'https://instagram.com/'.$username); ?>" role="link" tabindex="0">
                             <h2 class="username" dir="auto"><?php echo esc_html($username ); ?></h2>
                         </a>
                         <div class="edit-profile-button">
-                            <a class="edit-profile-link" href="/accounts/edit/" role="link" tabindex="0"><?php echo esc_html__( 'Follow', 'embedpress' ); ?></a>
+                            <a class="edit-profile-link" target="__blank" href="<?php echo esc_url( 'https://instagram.com/'.$username); ?>" role="link" tabindex="0"><?php echo esc_html__( 'Follow', 'embedpress' ); ?></a>
                         </div>
                     </div>
                     <div class="profile-stats">
                         <ul class="stats-list">
                             <li class="posts-count"><span class="count"><?php echo esc_html( $media_count ); ?></span> <?php echo esc_html__( 'posts', 'embedpress' ); ?></li>
-                            <li class="followers-count">
-                                <a class="followers-link" target="_blank" href="<?php echo esc_url( 'https://instagram.com/'.$username.'/followers'); ?>" role="link" tabindex="0">
-                                    <span class="count" title="<?php echo esc_attr( $followers_count ); ?>"><?php echo esc_attr( $followers_count ); ?></span> <?php echo esc_html__( 'followers', 'embedpress' ); ?>
-                                </a>
-                            </li>
+
+                            <?php if(strtolower($connected_account_type) !== 'personal'): ?>
+                                <li class="followers-count">
+                                    <a class="followers-link" target="_blank" href="<?php echo esc_url( 'https://instagram.com/'.$username.'/followers'); ?>" role="link" tabindex="0">
+                                        <span class="count" title="<?php echo esc_attr( $followers_count ); ?>"><?php echo esc_attr( $followers_count ); ?></span> <?php echo esc_html__( 'followers', 'embedpress' ); ?>
+                                    </a>
+                                </li>
+                            <?php endif; ?>
                         </ul>
                     </div>
                     <div class="bio-section">
@@ -318,7 +349,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                     <div class="insta-gallery cg-carousel__track js-carousel__track">
                         <?php
                             foreach ($insta_posts as $index => $post) {
-                                print_r($this->getInstaFeedItem($post, $index, 'business'));
+                                print_r($this->getInstaFeedItem($post, $index, $connected_account_type));
                             }
                             ?>
                     </div>
@@ -386,13 +417,16 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 // ];
                 
                 
-               
-                
                 foreach ($connected_users as $user_data) {
                     if ($user_data['username'] === $username) {
                         $access_token = $user_data['access_token'];
                         $userid = $user_data['user_id'];
                         $account_type = $user_data['account_type'];
+
+                        //This code will be removed in the future
+                        if($account_type === 'business'){
+                            $userid = '17841451532462963';
+                        }
                         break; // Found the matching user_id, no need to continue the loop
                     }
                     else{
