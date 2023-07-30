@@ -117,7 +117,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
 
     // Get Instagram posts, videos, reels
-    public function getInstagramPosts($accessToken, $account_type, $userId)
+    public function getInstagramPosts($accessToken, $account_type, $userId, $limit=100)
     {
         // print_r($userId);
         // print_r($accessToken);
@@ -125,14 +125,12 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         // die;
         
         if(strtolower($account_type) === 'business'){
-            $api_url = 'https://graph.facebook.com/v17.0/'.$userId.'/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=5&access_token='.$accessToken;
-
+            $api_url = 'https://graph.facebook.com/v17.0/'.$userId.'/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit='.$limit.'&access_token='.$accessToken;
         }
         else{
-            $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=5&access_token=$accessToken";
+            $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit='.$limit.'&access_token=$accessToken";
 
         }
-        
 
         // Set the transient key
         $transientKey = 'instagram_posts_' . md5($api_url);
@@ -169,10 +167,16 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             // Save the posts in the transient cache for 1 hour (adjust the time as needed)
             set_transient($transientKey, $posts['data'], 1 * HOUR_IN_SECONDS);
 
+            // echo '<pre>'; 
+            // print_r($posts);
+            // echo '</pre>';
+
             return $posts['data'];
 
         }
     }
+
+    
 
     function getInstagramMediaDetails($mediaId, $accessToken)
     {
@@ -199,7 +203,6 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
         return $details;
     }
-
 
     public function getInstaFeedItem($post, $index, $account_type)
     {
@@ -284,15 +287,15 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         // print_r ($profile_info);
         // echo '</pre>';
 
-        $insta_posts = $this->getInstagramPosts($accessToken, $account_type, $userID);
+        $insta_posts = $this->getInstagramPosts($accessToken, $account_type, $userID, $limit=100);
 
         $connected_account_type = $account_type;
 
         if(strtolower($account_type) === 'business'){
-            $tkey = md5('https://graph.facebook.com/v17.0/'.$id.'/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=20&access_token='.$accessToken);
+            $tkey = md5('https://graph.facebook.com/v17.0/'.$id.'/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit='.$limit.'&access_token='.$accessToken);
         }
         else{
-            $tkey = md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,timestamp,username,thumbnail_url&access_token=$accessToken");
+            $tkey = md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,timestamp,username,thumbnail_url&limit='.$limit.'&access_token=$accessToken");
         }
 
 
@@ -348,10 +351,18 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 <div class="embedpress-insta-container" data-tkey="<?php echo esc_attr( $tkey ); ?>">
                     <div class="insta-gallery cg-carousel__track js-carousel__track">
                         <?php
+                            $limit = 5; // Set the limit to 5
+                            $counter = 0; // Initialize a counter variable
+                            
                             foreach ($insta_posts as $index => $post) {
+                                if ($counter >= $limit) {
+                                    break; // Exit the loop when the counter reaches the limit
+                                }
                                 print_r($this->getInstaFeedItem($post, $index, $connected_account_type));
+                            
+                                $counter++; // Increment the counter for each processed item
                             }
-                            ?>
+                        ?>
                     </div>
                     <div class="cg-carousel__btns hidden">
                         <button class="cg-carousel__btn" id="js-carousel__prev-1"><svg width="20" height="30" viewBox="-5 0 23 23" xmlns="http://www.w3.org/2000/svg"><path d="M11.24.29.361 10.742l-.06.054a.97.97 0 0 0-.301.642v.124a.97.97 0 0 0 .3.642l.054.044L11.239 22.71a1.061 1.061 0 0 0 1.459 0 .964.964 0 0 0 0-1.402l-10.15-9.746 10.15-9.87a.964.964 0 0 0 0-1.402 1.061 1.061 0 0 0-1.459 0Z" fill="#fff"/></svg></button>
@@ -369,6 +380,10 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 </div>
             </div>
 
+            <div class="load-more-button-container" data-loadmorekey="<?php echo esc_attr( $tkey ); ?>">
+                <button class="insta-load-more-button">Load More</button>
+            </div>
+
         <?php
 
             $feed_template = ob_get_clean();
@@ -381,6 +396,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         preg_match($pattern, $url, $matches);
         return isset($matches[1]) ? $matches[1] : '';
     }
+
+
 
     public function getStaticResponse()
     {

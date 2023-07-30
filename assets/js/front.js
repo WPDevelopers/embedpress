@@ -556,6 +556,7 @@ let epGlobals = {};
         });
     }
 
+
     const instaContainers = document.querySelectorAll('.embedpress-gutenberg-wrapper .insta-gallery');
     if (instaContainers.length > 0) {
         instaContainers.forEach((container) => {
@@ -609,6 +610,33 @@ let epGlobals = {};
             epGlobals.initializeTabs(feed);
         });
     }
+
+
+    epGlobals.instaLoadMore = () => {
+        $('.insta-load-more-button').on('click', function (e) {
+            const $tkey = $(this).closest('.load-more-button-container').data('loadmorekey');
+
+            var data = {
+                'action': 'loadmore_data_handler',
+                'insta_transient_key': $tkey,
+            };
+
+            console.log($tkey);
+
+            jQuery.post(eplocalize.ajaxurl, data, function (response) {
+                
+                if (response) {
+                    console.log(response);
+                    $(`[data-tkey="${$tkey}"] .insta-gallery`).append(response);
+                }
+            });
+        });
+
+    }
+
+
+
+    epGlobals.instaLoadMore();
 
 
 })(jQuery);
