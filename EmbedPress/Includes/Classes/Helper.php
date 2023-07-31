@@ -619,86 +619,90 @@ class Helper {
 	}
 
 	// Ajax Methods get instagram feed data
-	public function loadmore_data_handler(){
-		
+	public function loadmore_data_handler() {
 		$insta_transient_key = isset($_POST['insta_transient_key']) ? $_POST['insta_transient_key'] : '';
-		$post_index = isset($_POST['post_index']) ? $_POST['post_index'] : '';
-		$account_type = isset($_POST['account_type']) ? $_POST['account_type'] : 'personal';
+		$connected_account_type = isset($_POST['connected_account_type']) ? $_POST['connected_account_type'] : 'personal';
 		$posts = get_transient('instagram_posts_'.$insta_transient_key);
-		
-		// $user_info = get_transient('instagram_user_info_'.$insta_transient_key);
 
-		// $response = array(
-		// 	'post_feed' => $post_feed[$post_index],
-		// 	'user_info' => $user_info
-		// );
+		if (is_array($posts) && count($posts) > 0) {
+			$loaded_posts = isset($_POST['loaded_posts']) ? intval($_POST['loaded_posts']) : 0;
+			$posts_per_page = isset($_POST['posts_per_page']) ? intval($_POST['posts_per_page']) : 0;
 
-		// print_r('instagram_posts_'.$insta_transient_key);
+			$post_index = $loaded_posts + 1;
+			$start_index = $loaded_posts;
+			
+			$next_posts = array_slice($posts, $start_index, $posts_per_page);
 
-		// print_r($posts);
-		 
-        ob_start(); ?>
-
-		<?php if(is_array($posts) && count($posts) > 0) :?>
-			<?php foreach ($posts as $post) : 
-				$caption = !empty($post['caption']) ? $post['caption'] : '';
-				$media_type = !empty($post['media_type']) ? $post['media_type'] : '';
-				$media_url = !empty($post['media_url']) ? $post['media_url'] : '';
-				$permalink = !empty($post['permalink']) ? $post['permalink'] : '';
-				$timestamp = !empty($post['timestamp']) ? $post['timestamp'] : '';
-				$username = !empty($post['username']) ? $post['username'] : '';
-				$like_count = !empty($post['like_count']) ? $post['like_count'] : 0;
-				$comments_count = !empty($post['comments_count']) ? $post['comments_count'] : 0;
-			?>
-				
-				<div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr( $post['id'] )?>" data-postindex="<?php echo esc_attr( $post_index ); ?>" data-postdata="<?php echo htmlspecialchars(json_encode($post), ENT_QUOTES, 'UTF-8'); ?>" data-media-type="<?php echo esc_attr( $media_type );?>">
-				<?php
-					if ($media_type == 'VIDEO') {
-						echo '<video class="insta-gallery-image" src="' . esc_url($media_url) . '"></video>';
-					} else {
-						echo ' <img class="insta-gallery-image" src="' . esc_url($media_url) . '" alt="' . esc_attr($caption) . '">';
-					}
+			ob_start();
+			
+			if(is_array($next_posts) && count($next_posts) > 0) :
+				foreach ($next_posts as $post) : 
+					$caption = !empty($post['caption']) ? $post['caption'] : '';
+					$media_type = !empty($post['media_type']) ? $post['media_type'] : '';
+					$media_url = !empty($post['media_url']) ? $post['media_url'] : '';
+					$permalink = !empty($post['permalink']) ? $post['permalink'] : '';
+					$timestamp = !empty($post['timestamp']) ? $post['timestamp'] : '';
+					$username = !empty($post['username']) ? $post['username'] : '';
+					$like_count = !empty($post['like_count']) ? $post['like_count'] : 0;
+					$comments_count = !empty($post['comments_count']) ? $post['comments_count'] : 0;
 				?>
+					
+				<div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr( $post['id'] )?>" data-postindex="<?php echo esc_attr( $post_index ); ?>" data-postdata="<?php echo htmlspecialchars(json_encode($post), ENT_QUOTES, 'UTF-8'); ?>" data-media-type="<?php echo esc_attr( $media_type );?>">
+					<?php
+						if ($media_type == 'VIDEO') {
+							echo '<video class="insta-gallery-image" src="' . esc_url($media_url) . '"></video>';
+						} else {
+							echo ' <img class="insta-gallery-image" src="' . esc_url($media_url) . '" alt="' . esc_attr($caption) . '">';
+						}
+					?>
 
-				<div class="insta-gallery-item-type">
-					<div class="insta-gallery-item-type-icon">
-						<?php
-							if ($media_type == 'VIDEO') {
-								echo Helper::get_insta_video_icon();
-							} else if ($media_type == 'CAROUSEL_ALBUM') {
-								echo Helper::get_insta_image_carousel_icon();
-							} else {
-								echo Helper::get_insta_image_icon();
-							}
-						?>
+					<div class="insta-gallery-item-type">
+						<div class="insta-gallery-item-type-icon">
+							<?php
+								if ($media_type == 'VIDEO') {
+									echo Helper::get_insta_video_icon();
+								} else if ($media_type == 'CAROUSEL_ALBUM') {
+									echo Helper::get_insta_image_carousel_icon();
+								} else {
+									echo Helper::get_insta_image_icon();
+								}
+							?>
+						</div>
+					</div>
+					<div class="insta-gallery-item-info">
+						<?php if(strtolower($connected_account_type) === 'business'): ?>
+							<div class="insta-item-reaction-count">
+								<div class="insta-gallery-item-likes">
+									<?php echo Helper::get_insta_like_icon(); echo esc_html($like_count); ?>
+								</div>
+								<div class="insta-gallery-item-comments">
+									<?php echo Helper::get_insta_comment_icon(); echo esc_html($comments_count); ?>
+								</div>
+							</div>
+						<?php else: ?>
+							<div class="insta-gallery-item-permalink">
+								<?php  echo Helper::get_instagram_icon(); ?>
+							</div>
+						<?php endif; ?>
 					</div>
 				</div>
-				<div class="insta-gallery-item-info">
-					<?php if(strtolower($account_type) === 'business'): ?>
-						<div class="insta-item-reaction-count">
-							<div class="insta-gallery-item-likes">
-								<?php echo Helper::get_insta_like_icon(); echo esc_html($like_count); ?>
-							</div>
-							<div class="insta-gallery-item-comments">
-								<?php echo Helper::get_insta_comment_icon(); echo esc_html($comments_count); ?>
-							</div>
-						</div>
-					<?php else: ?>
-						<div class="insta-gallery-item-permalink">
-							<?php  echo Helper::get_instagram_icon(); ?>
-						</div>
-					<?php endif; ?>
-				</div>
-			</div>
-			<?php endforeach; ?>
-		<?php endif; ?>
-        
-    	<?php $feed_item = ob_get_clean();
-	
-	
-		wp_send_json($feed_item);
+				
+				<?php $post_index++; endforeach;  endif; 
+			
+			$feed_item = ob_get_clean();
+			
+			$next_start_index = $start_index + count($next_posts);
 
+			wp_send_json(array(
+				'html' => $feed_item,
+				'next_post_index' => $next_start_index 
+			));
+		} else {
+			wp_send_json('');
+		}
 	}
+
+
 
 }
 

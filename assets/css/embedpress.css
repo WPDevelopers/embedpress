@@ -2192,6 +2192,13 @@ button.js-carousel__next-1 {
     height: 25px;
 }
 
+.load-more-button-container, .load-more-button-container button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
 /* Popup design for instafeed */
 
 

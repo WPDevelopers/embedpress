@@ -128,7 +128,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             $api_url = 'https://graph.facebook.com/v17.0/'.$userId.'/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit='.$limit.'&access_token='.$accessToken;
         }
         else{
-            $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit='.$limit.'&access_token=$accessToken";
+            $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$accessToken";
 
         }
 
@@ -228,7 +228,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         (($account_type === 'business') ? 'data-comments-count="' . htmlspecialchars($comments_count) . '" ' : '');
 
         ob_start(); ?>
-        <div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr( $post['id'] )?>" data-postindex="<?php echo esc_attr( $index ); ?>" data-postdata="<?php echo htmlspecialchars(json_encode($post), ENT_QUOTES, 'UTF-8'); ?>" data-media-type="<?php echo esc_attr( $media_type );?>">
+        <div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr( $post['id'] )?>" data-postindex="<?php echo esc_attr( $index + 1 ); ?>" data-postdata="<?php echo htmlspecialchars(json_encode($post), ENT_QUOTES, 'UTF-8'); ?>" data-media-type="<?php echo esc_attr( $media_type );?>">
             <?php
                 if ($media_type == 'VIDEO') {
                     echo '<video class="insta-gallery-image" src="' . esc_url($media_url) . '"></video>';
@@ -291,11 +291,11 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
         $connected_account_type = $account_type;
 
-        if(strtolower($account_type) === 'business'){
+        if(strtolower($connected_account_type) === 'business'){
             $tkey = md5('https://graph.facebook.com/v17.0/'.$id.'/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit='.$limit.'&access_token='.$accessToken);
         }
         else{
-            $tkey = md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,timestamp,username,thumbnail_url&limit='.$limit.'&access_token=$accessToken");
+            $tkey = md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$accessToken");
         }
 
 
@@ -348,14 +348,14 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 </ul>
             </div>
             <div class="instagram-container">
-                <div class="embedpress-insta-container" data-tkey="<?php echo esc_attr( $tkey ); ?>">
+                <div class="embedpress-insta-container" data-tkey="<?php echo esc_attr( $tkey ); ?>" data-connected-acc-type="<?php echo esc_attr( $connected_account_type ); ?>">
                     <div class="insta-gallery cg-carousel__track js-carousel__track">
                         <?php
-                            $limit = 5; // Set the limit to 5
+                            $posts_per_page = 2; // Set the limit to 5
                             $counter = 0; // Initialize a counter variable
                             
                             foreach ($insta_posts as $index => $post) {
-                                if ($counter >= $limit) {
+                                if ($counter >= $posts_per_page) {
                                     break; // Exit the loop when the counter reaches the limit
                                 }
                                 print_r($this->getInstaFeedItem($post, $index, $connected_account_type));
@@ -380,7 +380,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 </div>
             </div>
 
-            <div class="load-more-button-container" data-loadmorekey="<?php echo esc_attr( $tkey ); ?>">
+            <div class="load-more-button-container" data-loadmorekey="<?php echo esc_attr( $tkey ); ?>" data-loaded-posts="<?php echo esc_attr( $posts_per_page ); ?>" data-posts-per-page="<?php echo esc_attr( $posts_per_page ); ?>">
                 <button class="insta-load-more-button">Load More</button>
             </div>
 
@@ -420,41 +420,44 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         if ($this->validateInstagramFeed($url)) {
 
             $username = $this->getInstagramUnserName($url);
+
+            
             if(!empty($username)){
                 $connected_users = get_option( 'instagram_account_data' );
                 
-                // $connected_users = [
-                //     [
-                //         'user_id' => '6317223241664902',
-                //         'username' => 'akashdev260',
-                //         'account_type' => 'business',
-                //         'access_token' => 'EAANMn7N8IkEBO7lOmXHZCzR4ZAPgg8U5XDR55yBuUUZBTsD2ql4ZBvNctZCtCYIjNeJZBa5jJ5QXKD6MZAiOCyG33M9kihoSDIqu6fkRkvl6qQZBbNbki5o3xr8pLaTT6xuqWLzn61TkB7hP1MLWCPAGEmSA8MZAUxfBTC3inhZC1EIhRJenTp1Q0FRDPSw1EnU7cvPoMgdMAdIV0w8WELPNTd7JcD2I4KLEQZAXwZBwU0PuSFaZBZB4CklSOQ',
-                //     ],
-                //     // Add more objects if needed
-                // ];
-                
-                
-                foreach ($connected_users as $user_data) {
-                    if ($user_data['username'] === $username) {
-                        $access_token = $user_data['access_token'];
-                        $userid = $user_data['user_id'];
-                        $account_type = $user_data['account_type'];
+                // Find the key of the matching username
+                $index = array_search($username, array_column($connected_users, 'username'));
 
-                        //This code will be removed in the future
-                        if($account_type === 'business'){
-                            $userid = '17841451532462963';
-                        }
-                        break; // Found the matching user_id, no need to continue the loop
-                    }
-                    else{
+                if ($index !== false) {
+                    // Matching username found
+                    $access_token = $connected_users[$index]['access_token'];
+                    $userid = $connected_users[$index]['user_id'];
+                    $account_type = $connected_users[$index]['account_type'];
 
+                    // This code will be removed in the future
+                    if ($account_type === 'business') {
+                        $userid = '17841451532462963';
                     }
+                } else {
+                    // No matching username found
+                    $page = site_url() . "/wp-admin/admin.php?page=embedpress&page_type=instagram";
+                    $insta_feed['html'] = '<h1>Please add your access from <a href="' . esc_url($page) . '">here</a></h1>';
+                    return $insta_feed;
                 }
+                
+                // if(empty($has_username)){
+                //     $page = site_url()."/wp-admin/admin.php?page=embedpress&page_type=instagram";
+
+                //     $insta_feed['html'] = '<h1>Please add your access from <a href="'.esc_url($page).'">here</a></h1>';
+                //     return $insta_feed;
+                // }
             }
+
             if ($this->getInstagramFeedTemplate($access_token, $account_type, $userid )) {
                 $insta_feed['html'] = $this->getInstagramFeedTemplate($access_token, $account_type, $userid );
             }
         }
+
 
         return $insta_feed;
     }

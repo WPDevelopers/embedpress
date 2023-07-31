@@ -614,20 +614,44 @@ let epGlobals = {};
 
     epGlobals.instaLoadMore = () => {
         $('.insta-load-more-button').on('click', function (e) {
-            const $tkey = $(this).closest('.load-more-button-container').data('loadmorekey');
+            const loadmoreBtn = $(this).closest('.load-more-button-container');
+            const tkey = loadmoreBtn.data('loadmorekey');
+            const connectedAccount = $(`[data-tkey="${tkey}"]`).data('connected-acc-type');
+            let loadedPosts = loadmoreBtn.data('loaded-posts') || 0;
+            let postsPerPage = loadmoreBtn.data('posts-per-page') || 0;
+            // const parentEl = $(this).closest('.ose-instagram-feed');
+            // const elementsInsideParent = parentEl.find('.ose-instagram-feed');
+            // console.log(elementsInsideParent);
+            // if(elementsInsideParent) {
+                // epGlobals.initializeTabs('.ose-instagram-feed');
+            // }
+            
+
+            const spinicon = `<svg class="insta-loadmore-spinicon" width="18" height="18" fill="${'#fff'}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_GuJz{transform-origin:center;animation:spinner_STY6 1.5s linear infinite}@keyframes spinner_STY6{100%{transform:rotate(360deg)}}</style><g class="spinner_GuJz"><circle cx="3" cy="12" r="2"/><circle cx="21" cy="12" r="2"/><circle cx="12" cy="21" r="2"/><circle cx="12" cy="3" r="2"/><circle cx="5.64" cy="5.64" r="2"/><circle cx="18.36" cy="18.36" r="2"/><circle cx="5.64" cy="18.36" r="2"/><circle cx="18.36" cy="5.64" r="2"/></g></svg>`;
+
+            $(this).append(spinicon);
 
             var data = {
                 'action': 'loadmore_data_handler',
-                'insta_transient_key': $tkey,
+                'insta_transient_key': tkey,
+                'loaded_posts': loadedPosts,
+                'posts_per_page': postsPerPage,
+                'connected_account_type': connectedAccount
             };
 
-            console.log($tkey);
 
             jQuery.post(eplocalize.ajaxurl, data, function (response) {
-                
-                if (response) {
-                    console.log(response);
-                    $(`[data-tkey="${$tkey}"] .insta-gallery`).append(response);
+
+                if (response.html?.trim() !== '') {
+                    var $responseHtml = $(response.html).css('opacity', 0);
+                    $(`[data-tkey="${tkey}"] .insta-gallery`).append($responseHtml);
+                    $responseHtml.animate({ opacity: 1 }, 1000);
+                    $('.insta-loadmore-spinicon').remove();
+                    loadedPosts = response.next_post_index;
+                    loadmoreBtn.data('loaded-posts', loadedPosts);
+
+                } else {
+                    loadmoreBtn.hide();
                 }
             });
         });
