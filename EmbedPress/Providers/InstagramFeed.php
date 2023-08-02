@@ -34,10 +34,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
      *
      */
 
-    //  Business profile endpoints url 
-
-    //Business Instagram Feed endpoints url
-    // https://graph.facebook.com/v17.0/17841451532462963/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=20&access_token=BUSINESS_ACCESS_TOKEN
+     
 
     public function validateUrl(Url $url)
     {
@@ -54,6 +51,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             (string) $url
         );
     }
+    
 
     public function get_connected_account_type($userID){
         $instagram_account_data = get_option( 'instagram_account_data');
@@ -73,7 +71,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     public function getInstagramUserInfo($accessToken, $accountType, $userId)
     {
         if(strtolower($accountType) === 'business'){
-            $api_url = 'https://graph.facebook.com/'.$userId.'?fields=biography,id,username,website,followers_count,media_count,profile_picture_url,name&access_token='.$accessToken;
+            $api_url = 'https://graph.facebook.com/'.$userId.'?fields=biography,id,username,account_type,website,followers_count,media_count,profile_picture_url,name&access_token='.$accessToken;
         }
         else{
             $api_url = "https://graph.instagram.com/me?fields=id,username,account_type,media_count,followers_count,biography,website&access_token={$accessToken}";
@@ -81,19 +79,6 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
         $connected_account_type = $this->get_connected_account_type($userId);
         
-        // Set the transient key
-        $transientKey = 'instagram_profile_info_' . md5($api_url);
-
-    
-        // Attempt to retrieve the user info from the transient cache
-
-        $cachedUserInfo = get_transient($transientKey);
-
-        // If the user info is found in the cache, return it
-        if ($cachedUserInfo !== false) {
-            return $cachedUserInfo;
-        }
-
 
         // Make a GET request to Instagram's API to retrieve user information
         $userInfoResponse = wp_remote_get($api_url);
@@ -108,22 +93,17 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
             $userInfo['connected_account_type'] = $connected_account_type;
 
-            // Save the user info in the transient cache for 1 hour (adjust the time as needed)
-            set_transient($transientKey, $userInfo, 1 * HOUR_IN_SECONDS);
+            if(!isset($userInfo['profile_picture_url'])){
+                $userInfo['profile_picture_url'] = '';
+            }
 
             return $userInfo;
         }
     }
 
-
     // Get Instagram posts, videos, reels
     public function getInstagramPosts($accessToken, $account_type, $userId, $limit=100)
     {
-        // print_r($userId);
-        // print_r($accessToken);
-
-        // die;
-        
         if(strtolower($account_type) === 'business'){
             $api_url = 'https://graph.facebook.com/v17.0/'.$userId.'/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit='.$limit.'&access_token='.$accessToken;
         }
@@ -132,22 +112,6 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
         }
 
-        // Set the transient key
-        $transientKey = 'instagram_posts_' . md5($api_url);
-
-        // Attempt to retrieve the posts from the transient cache
-        $cachedPosts = get_transient($transientKey);
-
-        // echo '<pre>'; 
-        // print_r($cachedPosts);
-        // echo '</pre>'; 
-
-
-
-        // If the posts are found in the cache, return them
-        if ($cachedPosts !== false) {
-            return $cachedPosts;
-        }
 
         // Make a GET request to Instagram's API to retrieve posts
         $postsResponse = wp_remote_get($api_url);
@@ -164,45 +128,45 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 return 'Please add Instagram Access Token';
             }
 
-            // Save the posts in the transient cache for 1 hour (adjust the time as needed)
-            set_transient($transientKey, $posts['data'], 1 * HOUR_IN_SECONDS);
-
-            // echo '<pre>'; 
-            // print_r($posts);
-            // echo '</pre>';
-
             return $posts['data'];
 
         }
     }
 
+    public function data_instagram_feed($access_token, $connected_account_type, $user_id, $limit = 100) {
+       
+        if(strtolower($connected_account_type) === 'business'){
+            $api_url = "https://graph.facebook.com/v17.0/$user_id/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=$limit&access_token=$access_token";
+        }
+        else{
+            $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$access_token";
+        }
     
+        $transientKey = 'instagram_feed_data_' . md5($api_url);
+    
+        // Check if transient data exists
+        $feed_data = get_transient($transientKey);
 
-    function getInstagramMediaDetails($mediaId, $accessToken)
-    {
-        $details = array(
-            'likes' => 0,
-            'comments' => 0
-        );
+    
+        if ($feed_data === false) {
+            // Transient data is not available, fetch the data and store it in a transient
+            $feed_userinfo = $this->getInstagramUserInfo($access_token, $connected_account_type, $user_id);
+            $feed_posts = $this->getInstagramPosts($access_token, $connected_account_type, $user_id, $limit=100);
+    
+            $feed_data = [
+                $user_id => [
+                    'feed_userinfo' => $feed_userinfo,
+                    'feed_posts' => $feed_posts
+                ]
+            ];
 
-        // Get comments for the media item
-        $commentsResponse = wp_remote_get("https://graph.instagram.com/{$mediaId}/comments?access_token={$accessToken}");
-        if (is_array($commentsResponse) && !is_wp_error($commentsResponse)) {
-            $commentsBody = wp_remote_retrieve_body($commentsResponse);
-            $commentsData = json_decode($commentsBody);
-            $details['comments'] = count($commentsData->data);
+            // Set the transient with an expiration time of, for example, 1 hour (3600 seconds)
+            set_transient($transientKey, $feed_data, 3600);
         }
-
-        // Get likes for the media item
-        $likesResponse = wp_remote_get("https://graph.instagram.com/{$mediaId}/likes?access_token={$accessToken}");
-        if (is_array($likesResponse) && !is_wp_error($likesResponse)) {
-            $likesBody = wp_remote_retrieve_body($likesResponse);
-            $likesData = json_decode($likesBody);
-            $details['likes'] = count($likesData->data);
-        }
-
-        return $details;
+    
+        return $feed_data;
     }
+    
 
     public function getInstaFeedItem($post, $index, $account_type)
     {
@@ -273,7 +237,9 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
     public function getInstagramFeedTemplate($accessToken, $account_type, $userID)
     {
-        $profile_info = $this->getInstagramUserInfo($accessToken, $account_type, $userID);
+        $feed_data = $this->data_instagram_feed($accessToken, $account_type, $userID, $limit=100);
+        $profile_info = $feed_data[$userID]['feed_userinfo'];
+        $insta_posts = $feed_data[$userID]['feed_posts'];
         
         // Check and assign each item to separate variables
         $id = !empty($profile_info['id']) ? $profile_info['id'] : '';
@@ -282,12 +248,6 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         $media_count = !empty($profile_info['media_count']) ? $profile_info['media_count'] : 0;
         $profile_picture_url = !empty($profile_info['profile_picture_url']) ? $profile_info['profile_picture_url'] : '';
         $name = !empty($profile_info['name']) ? $profile_info['name'] : '';
-
-        // echo '<pre>';
-        // print_r ($profile_info);
-        // echo '</pre>';
-
-        $insta_posts = $this->getInstagramPosts($accessToken, $account_type, $userID, $limit=100);
 
         $connected_account_type = $account_type;
 
@@ -348,10 +308,10 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 </ul>
             </div>
             <div class="instagram-container">
-                <div class="embedpress-insta-container" data-tkey="<?php echo esc_attr( $tkey ); ?>" data-connected-acc-type="<?php echo esc_attr( $connected_account_type ); ?>">
+                <div class="embedpress-insta-container" data-tkey="<?php echo esc_attr( $tkey ); ?>" data-connected-acc-type="<?php echo esc_attr( $connected_account_type ); ?>" data-uid="<?php echo esc_attr( $userID ); ?>">
                     <div class="insta-gallery cg-carousel__track js-carousel__track">
                         <?php
-                            $posts_per_page = 2; // Set the limit to 5
+                            $posts_per_page = 3; // Set the limit to 5
                             $counter = 0; // Initialize a counter variable
                             
                             foreach ($insta_posts as $index => $post) {
@@ -409,10 +369,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             'html'          => "",
         ];
         $url = $this->getUrl();
-
-        // $accessToken = TEMP_ACCESS_TOKEN;
-        // $account_type = 'business';
-
+        
         $access_token = ''; // The access token';
         $account_type = '';
         $userid = ''; 
@@ -423,7 +380,16 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
             
             if(!empty($username)){
+
                 $connected_users = get_option( 'instagram_account_data' );
+                if(empty($connected_users)){
+                    $connected_users = [];
+                }
+
+                // echo '<pre>';
+                // print_r( $connected_users); 
+                // echo '</pre>';
+                // die;
                 
                 // Find the key of the matching username
                 $index = array_search($username, array_column($connected_users, 'username'));
@@ -433,6 +399,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                     $access_token = $connected_users[$index]['access_token'];
                     $userid = $connected_users[$index]['user_id'];
                     $account_type = $connected_users[$index]['account_type'];
+
 
                     // This code will be removed in the future
                     if ($account_type === 'business') {
@@ -452,6 +419,12 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 //     return $insta_feed;
                 // }
             }
+
+            // echo '<pre>';
+            // print_r($this->data_instagram_feed($access_token, $account_type, $userid, $limit = 100)); 
+            // echo '</pre>';
+            // die;
+
 
             if ($this->getInstagramFeedTemplate($access_token, $account_type, $userid )) {
                 $insta_feed['html'] = $this->getInstagramFeedTemplate($access_token, $account_type, $userid );

@@ -49,10 +49,6 @@ define('EMBEDPRESS_SETTINGS_ASSETS_URL', EMBEDPRESS_PLUGIN_DIR_URL . 'EmbedPress
 define('EMBEDPRESS_SETTINGS_PATH', EMBEDPRESS_PLUGIN_DIR_PATH . 'EmbedPress/Ends/Back/Settings/');
 define('EMBEDPRESS_PLUGIN_URL', plugins_url('/', __FILE__));
 
-define('TEMP_ACCESS_TOKEN', '');
-
-define('BUSINESS_ACCESS_TOKEN', '');
-
 
 require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'includes.php';
 
@@ -155,87 +151,5 @@ function ep_enqueue_jquery_in_header()
 add_action('wp_enqueue_scripts', 'ep_enqueue_jquery_in_header', 1);
 
 
-function check_instafeed()
-{
-    $accessToken = TEMP_ACCESS_TOKEN; // Replace with your actual access token
-    
-    
-    // Make a GET request to Instagram's API to retrieve user information
-    $userInfoResponse = wp_remote_get("https://graph.instagram.com/me?fields=id,username,account_type,media_count,followers_count,biography,profile_picture_url,website&access_token=$accessToken");
-    
-    // Check if the user information request was successful
-    if (is_wp_error($userInfoResponse)) {
-        echo 'Error: Unable to retrieve Instagram user information.';
-    } else {
-        $userInfoBody = wp_remote_retrieve_body($userInfoResponse);
-        $userInfo = json_decode($userInfoBody, true);
-        
-    
-        // Access the relevant user data
-        // $userId = $userInfo['id'];
-        // $username = $userInfo['username'];
-        // $accountType = $userInfo['account_type'];
-        // $mediaCount = $userInfo['media_count'];
-        // $followersCount = $userInfo['followers_count'];
-        // $biography = $userInfo['biography'];
-        // $website = $userInfo['website'];
-    
-        // Do something with the user data
-        // echo "User ID: $userId\n";
-        // echo "Username: $username\n";
-        // echo "Account Type: $accountType\n";
-        // echo "Media Count: $mediaCount\n";
-        // echo "Followers Count: $followersCount\n";
-        // echo "Biography: $biography\n";
-        // echo "Website: $website\n\n";
-    }
 
-    echo '<br/><br/><br/><br/><br/><br/>';
-    
-    // Make a GET request to Instagram's API to retrieve posts
-    $postsResponse = wp_remote_get("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url},permalink,timestamp,thumbnail_url&access_token=$accessToken");
-    
-    // Check if the posts request was successful
-    if (is_wp_error($postsResponse)) {
-        echo 'Error: Unable to retrieve Instagram posts.';
-    } else {
-        $postsBody = wp_remote_retrieve_body($postsResponse);
-        $posts = json_decode($postsBody, true);
-    
-        // Process the posts
-        // foreach ($posts['data'] as $post) {
-        //     // Access the relevant post data
-        //     $postId = $post['id'];
-        //     $caption = $post['caption'];
-        //     $mediaType = $post['media_type'];
-        //     $mediaUrl = $post['media_url'];
-        //     // $thumbnailUrl = $post['thumbnail_url'];
-    
-        //     // Do something with the post data
-        //     echo "Post ID: $postId<br>";
-        //     echo "Caption: $caption<br/>";
-        //     echo "Media Type: $mediaType<br/>";
-        //     echo "Media URL: $mediaUrl<br/>";
-        //     // echo "Thumbnail URL: $thumbnailUrl\n\n";
 
-        //     echo '<br/><br/><br/><br/>';
-        // }
-
-        echo '<h1>User Information</h1>';
-        echo '<pre>';
-        print_r($userInfo);
-        echo '</pre>';
-
-        echo '<h1>Posts Information</h1>';
-        echo '<pre>';
-        print_r($posts);
-        echo '</pre>';
-    }
-
-     
-    
-    
-    
-}
-
-// add_action('wp_footer', 'check_instafeed');

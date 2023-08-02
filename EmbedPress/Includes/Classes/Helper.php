@@ -573,7 +573,7 @@ class Helper {
 		return $svg;
 	}
 	public static function get_instagram_icon(){
-		$svg = '<svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" xml:space="preserve" width="20" height="20"><style>.st0{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}</style><path class="st0" d="M14.375 19.375h-8.75c-2.75 0-5-2.25-5-5v-8.75c0-2.75 2.25-5 5-5h8.75c2.75 0 5 2.25 5 5v8.75c0 2.75-2.25 5-5 5z"/><path class="st0" d="M14.375 10A4.375 4.375 0 0 1 10 14.375 4.375 4.375 0 0 1 5.625 10a4.375 4.375 0 0 1 8.75 0zm1.25-5.625A.625.625 0 0 1 15 5a.625.625 0 0 1-.625-.625.625.625 0 0 1 1.25 0z"/></svg>';
+		$svg = '<svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" xml:space="preserve" width="1285" height="400"><style>.st0{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}</style><path class="st0" d="M14.375 19.375h-8.75c-2.75 0-5-2.25-5-5v-8.75c0-2.75 2.25-5 5-5h8.75c2.75 0 5 2.25 5 5v8.75c0 2.75-2.25 5-5 5z"/><path class="st0" d="M14.375 10A4.375 4.375 0 0 1 10 14.375 4.375 4.375 0 0 1 5.625 10a4.375 4.375 0 0 1 8.75 0zm1.25-5.625A.625.625 0 0 1 15 5a.625.625 0 0 1-.625-.625.625.625 0 0 1 1.25 0z"/></svg>';
 
 		return $svg;
 	}
@@ -622,16 +622,20 @@ class Helper {
 	public function loadmore_data_handler() {
 		$insta_transient_key = isset($_POST['insta_transient_key']) ? $_POST['insta_transient_key'] : '';
 		$connected_account_type = isset($_POST['connected_account_type']) ? $_POST['connected_account_type'] : 'personal';
-		$posts = get_transient('instagram_posts_'.$insta_transient_key);
+		$user_id = isset($_POST['user_id']) ? $_POST['user_id'] : '';
 
-		if (is_array($posts) && count($posts) > 0) {
+		$feed_data = get_transient('instagram_feed_data_'.$insta_transient_key);
+		
+		$feed_posts = $feed_data[$user_id]['feed_posts'];
+
+		if (is_array($feed_posts) && count($feed_posts) > 0) {
 			$loaded_posts = isset($_POST['loaded_posts']) ? intval($_POST['loaded_posts']) : 0;
 			$posts_per_page = isset($_POST['posts_per_page']) ? intval($_POST['posts_per_page']) : 0;
 
 			$post_index = $loaded_posts + 1;
 			$start_index = $loaded_posts;
 			
-			$next_posts = array_slice($posts, $start_index, $posts_per_page);
+			$next_posts = array_slice($feed_posts, $start_index, $posts_per_page);
 
 			ob_start();
 			

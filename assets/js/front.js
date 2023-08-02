@@ -575,34 +575,87 @@ let epGlobals = {};
 
     epGlobals.initializeTabs = (containerEl) => {
 
-        const tabs = containerEl.querySelectorAll('.tabs li');
-        const items = containerEl.querySelectorAll('.insta-gallery-item');
-
         // Initial tab selection
         showItems('ALL');
-
-        tabs.forEach(tab => {
-            tab.addEventListener('click', function () {
-                if (tab.classList.contains('active')) {
-                    return;
-                } else {
-                    const mediaType = tab.getAttribute('data-media-type');
-                    showItems(mediaType);
-                    tabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                }
-            });
+      
+        containerEl.addEventListener('click', function (event) {
+          const clickedElement = event.target;
+          if (!clickedElement) {
+            return; // No element clicked, ignore the event
+          }
+      
+          // Handle tab click
+          if (clickedElement.matches('.tabs li')) {
+            if (clickedElement.classList.contains('active')) {
+              return;
+            } else {
+              const mediaType = clickedElement.getAttribute('data-media-type');
+              showItems(mediaType);
+      
+              const tabs = containerEl.querySelectorAll('.tabs li');
+              tabs.forEach(t => t.classList.remove('active'));
+              clickedElement.classList.add('active');
+            }
+          }
+          
         });
-
+      
         function showItems(mediaType) {
-            items.forEach(item => {
-                if (mediaType === 'ALL' || item.getAttribute('data-media-type') === mediaType) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
+          const items = containerEl.getElementsByClassName('insta-gallery-item');
+          for (let i = 0; i < items.length; i++) {
+            const item = items[i];
+            if (mediaType === 'ALL' || item.getAttribute('data-media-type') === mediaType) {
+              console.log(item.getAttribute('data-media-type'));
+              console.log(mediaType);
+              item.style.display = 'block';
+            } else {
+              item.style.display = 'none';
+            }
+          }
         }
+      }
+      
+    epGlobals.instaLoadMore = () => {
+        $('.insta-load-more-button').on('click', function (e) {
+            const loadmoreBtn = $(this).closest('.load-more-button-container');
+            const tkey = loadmoreBtn.data('loadmorekey');
+            const connectedAccount = $(`[data-tkey="${tkey}"]`).data('connected-acc-type');
+            const userId = $(`[data-tkey="${tkey}"]`).data('uid');
+            let loadedPosts = loadmoreBtn.data('loaded-posts') || 0;
+            let postsPerPage = loadmoreBtn.data('posts-per-page') || 0;
+        
+            const spinicon = `<svg class="insta-loadmore-spinicon" width="18" height="18" fill="${'#fff'}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_GuJz{transform-origin:center;animation:spinner_STY6 1.5s linear infinite}@keyframes spinner_STY6{100%{transform:rotate(360deg)}}</style><g class="spinner_GuJz"><circle cx="3" cy="12" r="2"/><circle cx="21" cy="12" r="2"/><circle cx="12" cy="21" r="2"/><circle cx="12" cy="3" r="2"/><circle cx="5.64" cy="5.64" r="2"/><circle cx="18.36" cy="18.36" r="2"/><circle cx="5.64" cy="18.36" r="2"/><circle cx="18.36" cy="5.64" r="2"/></g></svg>`;
+        
+            $(this).append(spinicon);
+        
+            var data = {
+              'action': 'loadmore_data_handler',
+              'insta_transient_key': tkey,
+              'user_id': userId,
+              'loaded_posts': loadedPosts,
+              'posts_per_page': postsPerPage,
+              'connected_account_type': connectedAccount
+            };
+        
+            jQuery.post(eplocalize.ajaxurl, data, function (response) {
+              if (response.html?.trim() !== '') {
+                var $responseHtml = $(response.html).css('opacity', 0);
+                $(`[data-tkey="${tkey}"] .insta-gallery`).append($responseHtml);
+                $responseHtml.animate({ opacity: 1 }, 1000);
+                $('.insta-loadmore-spinicon').remove();
+                loadedPosts = response.next_post_index;
+                loadmoreBtn.data('loaded-posts', loadedPosts);
+        
+                // After loading more items, reinitialize the tabs for the specific container
+                const containerEl = loadmoreBtn.closest('.ose-instagram-feed')[0];
+                console.log(containerEl);
+                epGlobals.initializeTabs(containerEl);
+              } else {
+                loadmoreBtn.hide();
+              }
+            });
+          });
+
     }
 
     if (instafeeds.length > 0) {
@@ -610,55 +663,6 @@ let epGlobals = {};
             epGlobals.initializeTabs(feed);
         });
     }
-
-
-    epGlobals.instaLoadMore = () => {
-        $('.insta-load-more-button').on('click', function (e) {
-            const loadmoreBtn = $(this).closest('.load-more-button-container');
-            const tkey = loadmoreBtn.data('loadmorekey');
-            const connectedAccount = $(`[data-tkey="${tkey}"]`).data('connected-acc-type');
-            let loadedPosts = loadmoreBtn.data('loaded-posts') || 0;
-            let postsPerPage = loadmoreBtn.data('posts-per-page') || 0;
-            // const parentEl = $(this).closest('.ose-instagram-feed');
-            // const elementsInsideParent = parentEl.find('.ose-instagram-feed');
-            // console.log(elementsInsideParent);
-            // if(elementsInsideParent) {
-                // epGlobals.initializeTabs('.ose-instagram-feed');
-            // }
-            
-
-            const spinicon = `<svg class="insta-loadmore-spinicon" width="18" height="18" fill="${'#fff'}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_GuJz{transform-origin:center;animation:spinner_STY6 1.5s linear infinite}@keyframes spinner_STY6{100%{transform:rotate(360deg)}}</style><g class="spinner_GuJz"><circle cx="3" cy="12" r="2"/><circle cx="21" cy="12" r="2"/><circle cx="12" cy="21" r="2"/><circle cx="12" cy="3" r="2"/><circle cx="5.64" cy="5.64" r="2"/><circle cx="18.36" cy="18.36" r="2"/><circle cx="5.64" cy="18.36" r="2"/><circle cx="18.36" cy="5.64" r="2"/></g></svg>`;
-
-            $(this).append(spinicon);
-
-            var data = {
-                'action': 'loadmore_data_handler',
-                'insta_transient_key': tkey,
-                'loaded_posts': loadedPosts,
-                'posts_per_page': postsPerPage,
-                'connected_account_type': connectedAccount
-            };
-
-
-            jQuery.post(eplocalize.ajaxurl, data, function (response) {
-
-                if (response.html?.trim() !== '') {
-                    var $responseHtml = $(response.html).css('opacity', 0);
-                    $(`[data-tkey="${tkey}"] .insta-gallery`).append($responseHtml);
-                    $responseHtml.animate({ opacity: 1 }, 1000);
-                    $('.insta-loadmore-spinicon').remove();
-                    loadedPosts = response.next_post_index;
-                    loadmoreBtn.data('loaded-posts', loadedPosts);
-
-                } else {
-                    loadmoreBtn.hide();
-                }
-            });
-        });
-
-    }
-
-
 
     epGlobals.instaLoadMore();
 
