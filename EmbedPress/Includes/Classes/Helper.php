@@ -232,7 +232,7 @@ class Helper {
 
 		$client_id = isset($_POST['client_id']) ? $_POST['client_id'] : '';
 		$password = isset($_POST['password']) ? $_POST['password'] : '';
-		$post_id = isset($_POST['post_id']) ? $_POST['post_id'] : '';
+		$post_id = isset($_POST['post_id']) ? $_POST['post_id'] : 'sdfds';
 
 		// $epbase64 = isset($_POST['epbase']) ? $_POST['epbase'] : '';
 		// $hash_key = isset($_POST['hash_key']) ? $_POST['hash_key'] : '';
@@ -267,7 +267,7 @@ class Helper {
 		$response = array(
 			'success' => true,
 			'password' => $password,
-			'embedHtml' => $embed
+			'embedHtml' => $embed,
 		);
 
 		echo json_encode($response);
