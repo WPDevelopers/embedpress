@@ -677,13 +677,23 @@ class Embedpress_Google_Helper {
 		$filterHTML = '<div class="epgc-calendar-filter" ' . $dataUnchekedCalendarIds . '></div>';
 
 		return '<div class="epgc-calendar-wrapper epgc-calendar-page">' . ($userFilter === 'top' ? $filterHTML : '') . '<div '
-		       . $dataCalendarIds . ' data-filter=\'' . $userFilter . '\' data-eventpopup=\'' . $userEventPopup . '\' data-eventlink=\''
-		       . $userEventLink . '\' data-eventdescription=\'' . $userEventDescription . '\' data-eventlocation=\''
-		       . $userEventLocation . '\' data-eventattachments=\'' . $userEventAttachments . '\' data-eventattendees=\''
-		       . $userEventAttendees . '\' data-eventcreator=\'' . $userEventCreator . '\' data-eventcalendarname=\''
-		       . $userEventCalendarname . '\' data-hidefuture=\'' . $userHideFuture . '\' data-hidepassed=\''
-		       . $userHidePassed . '\' data-config=\'' . json_encode($userConfig) . '\' data-locale="'
-		       . get_locale() . '" class="epgc-calendar"></div>' . ($userFilter === 'bottom' ? $filterHTML : '') . '</div>';
+			. $dataCalendarIds . ' data-filter=\''
+			. $userFilter . '\' data-eventpopup=\''
+			. $userEventPopup . '\' data-eventlink=\''
+			. $userEventLink . '\' data-eventdescription=\''
+			. $userEventDescription . '\' data-eventlocation=\''
+			. $userEventLocation . '\' data-eventattachments=\''
+			. $userEventAttachments . '\' data-eventattendees=\''
+			. $userEventAttendees . '\' data-eventcreator=\''
+			. $userEventCreator . '\' data-eventcalendarname=\''
+			. $userEventCalendarname . '\' data-hidefuture=\''
+			. $userHideFuture . '\' data-hidepassed=\''
+			. $userHidePassed . '\' data-config=\''
+			. json_encode($userConfig) . '\' data-locale="'
+			. get_locale()
+			. '" class="epgc-calendar"></div>'
+			. ($userFilter === 'bottom' ? $filterHTML : '')
+		. '</div>';
 	}
 
 	public static function admin_post_calendarlist() {
