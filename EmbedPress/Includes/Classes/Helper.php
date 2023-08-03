@@ -232,8 +232,13 @@ class Helper {
 
 		$client_id = isset($_POST['client_id']) ? $_POST['client_id'] : '';
 		$password = isset($_POST['password']) ? $_POST['password'] : '';
-		$epbase64 = isset($_POST['epbase']) ? $_POST['epbase'] : '';
-		$hash_key = isset($_POST['hash_key']) ? $_POST['hash_key'] : '';
+		$post_id = isset($_POST['post_id']) ? $_POST['post_id'] : '';
+
+		// $epbase64 = isset($_POST['epbase']) ? $_POST['epbase'] : '';
+		// $hash_key = isset($_POST['hash_key']) ? $_POST['hash_key'] : '';
+
+		$epbase64 = get_post_meta($post_id, 'ep_base_' .$client_id, false );	
+		$hash_key = get_post_meta( $post_id, 'hash_key_' .$client_id, false  );
 
 		// Set the decryption key and initialization vector (IV)
 		$key = self::get_hash();
@@ -294,6 +299,9 @@ class Helper {
 
 		// Base64 encode the encrypted cipher
 		$encrypted_data = base64_encode($cipher);
+		
+		update_post_meta( get_the_ID( ), 'ep_base_' .$client_id, $encrypted_data );
+		update_post_meta( get_the_ID( ), 'hash_key_' .$client_id, $wp_hash_key );
 
 		$lock_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g fill="#6354a5" class="color134563 svgShape"><path d="M46.3 28.7h-3v-6.4C43.3 16.1 38.2 11 32 11c-6.2 0-11.3 5.1-11.3 11.3v6.4h-3v-6.4C17.7 14.4 24.1 8 32 8s14.3 6.4 14.3 14.3v6.4" fill="#6354a5" class="color000000 svgShape"></path><path d="M44.8 55.9H19.2c-2.6 0-4.8-2.2-4.8-4.8V31.9c0-2.6 2.2-4.8 4.8-4.8h25.6c2.6 0 4.8 2.2 4.8 4.8v19.2c0 2.7-2.2 4.8-4.8 4.8zM19.2 30.3c-.9 0-1.6.7-1.6 1.6v19.2c0 .9.7 1.6 1.6 1.6h25.6c.9 0 1.6-.7 1.6-1.6V31.9c0-.9-.7-1.6-1.6-1.6H19.2z" fill="#6354a5" class="color000000 svgShape"></path><path d="M35.2 36.7c0 1.8-1.4 3.2-3.2 3.2s-3.2-1.4-3.2-3.2 1.4-3.2 3.2-3.2 3.2 1.5 3.2 3.2" fill="#6354a5" class="color000000 svgShape"></path><path d="M32.8 36.7h-1.6l-1.6 9.6h4.8l-1.6-9.6" fill="#6354a5" class="color000000 svgShape"></path></g></svg>';
 
@@ -308,8 +316,8 @@ class Helper {
 						<input type="password" name="pass_' . esc_attr($client_id) . '" placeholder="' . esc_attr($password_placeholder) . '" required>
 					</div>
 					<input type="hidden" name="ep_client_id" value="' . esc_attr($client_id) . '">
-					<input type="hidden" name="ep_base_' . esc_attr($client_id) . '" value="' . esc_attr($encrypted_data) . '">
-					<input type="hidden" name="hash_key_' . esc_attr($client_id) . '" value="' . esc_attr($wp_hash_key ) . '">
+					<input type="hidden" name="post_id" value="' . esc_attr(get_the_ID(  ) ) . '">
+					
 					<input type="submit" name="password_submit" value="'.esc_attr( $button_text ).'">
 					<div class="error-message hidden">'.esc_html( $lock_error_message ).'</div>
 				</form>
