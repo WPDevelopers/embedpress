@@ -676,23 +676,23 @@ class Embedpress_Google_Helper {
 
 		$filterHTML = '<div class="epgc-calendar-filter" ' . $dataUnchekedCalendarIds . '></div>';
 
-		return '<div class="epgc-calendar-wrapper epgc-calendar-page">' . ($userFilter === 'top' ? $filterHTML : '') . '<div '
-			. $dataCalendarIds . ' data-filter=\''
-			. $userFilter . '\' data-eventpopup=\''
-			. $userEventPopup . '\' data-eventlink=\''
-			. $userEventLink . '\' data-eventdescription=\''
-			. $userEventDescription . '\' data-eventlocation=\''
-			. $userEventLocation . '\' data-eventattachments=\''
-			. $userEventAttachments . '\' data-eventattendees=\''
-			. $userEventAttendees . '\' data-eventcreator=\''
-			. $userEventCreator . '\' data-eventcalendarname=\''
-			. $userEventCalendarname . '\' data-hidefuture=\''
-			. $userHideFuture . '\' data-hidepassed=\''
-			. $userHidePassed . '\' data-config=\''
+		return '<div class="epgc-calendar-wrapper epgc-calendar-page">' . ($userFilter === 'top' ? wp_kses_post($filterHTML) : '') . '<div '
+			. esc_attr($dataCalendarIds) . ' data-filter=\''
+			. esc_attr($userFilter) . '\' data-eventpopup=\''
+			. esc_attr($userEventPopup) . '\' data-eventlink=\''
+			. esc_attr($userEventLink) . '\' data-eventdescription=\''
+			. esc_attr($userEventDescription) . '\' data-eventlocation=\''
+			. esc_attr($userEventLocation) . '\' data-eventattachments=\''
+			. esc_attr($userEventAttachments) . '\' data-eventattendees=\''
+			. esc_attr($userEventAttendees) . '\' data-eventcreator=\''
+			. esc_attr($userEventCreator) . '\' data-eventcalendarname=\''
+			. esc_attr($userEventCalendarname) . '\' data-hidefuture=\''
+			. esc_attr($userHideFuture) . '\' data-hidepassed=\''
+			. esc_attr($userHidePassed) . '\' data-config=\''
 			. json_encode($userConfig) . '\' data-locale="'
-			. get_locale()
+			. esc_attr(get_locale())
 			. '" class="epgc-calendar"></div>'
-			. ($userFilter === 'bottom' ? $filterHTML : '')
+			. ($userFilter === 'bottom' ? wp_kses_post($filterHTML) : '')
 		. '</div>';
 	}
 
