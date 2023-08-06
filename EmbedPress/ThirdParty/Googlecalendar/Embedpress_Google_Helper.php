@@ -736,9 +736,14 @@ class Embedpress_Google_Helper {
 		}
 	}
 	public static function admin_post_deletecache() {
-		self::delete_calendar_cache();
-		self::add_notice(PGC_NOTICES_CACHE_DELETED, 'success', true);
-		exit;
+		if ( ! isset( $_POST['epgc_deletecache_data'] ) || ! wp_verify_nonce( $_POST['epgc_deletecache_data'], 'epgc_deletecache' ) || !current_user_can('manage_options')) {
+			print 'Sorry, your nonce did not verify.';
+			exit;
+		} else {
+			self::delete_calendar_cache();
+			self::add_notice(PGC_NOTICES_CACHE_DELETED, 'success', true);
+			exit;
+		}
 	}
 	public static function admin_post_verify() {
 		try {
@@ -949,6 +954,7 @@ add_action('admin_post_epgc_calendarlist', [Embedpress_Google_Helper::class,'adm
 
 add_action('admin_post_epgc_colorlist', [Embedpress_Google_Helper::class, 'admin_post_colorlist']);
 add_action('admin_post_epgc_deletecache', [Embedpress_Google_Helper::class, 'admin_post_deletecache']);
+
 
 /**
  * Admin post action to verify if we have valid access and refresh token.
