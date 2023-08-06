@@ -70,15 +70,18 @@ $calendarList = Embedpress_Google_Helper::getDecoded( 'epgc_calendarlist' ); //s
 
             <br>
         <form style="display:inline" method="post" action="<?php echo admin_url('admin-post.php'); ?>">
+            <?php wp_nonce_field( 'epgc_authorize', 'epgc_authorize_data' ); ?>
             <input type="hidden" name="action" value="epgc_authorize">
 			<?php submit_button(__('Authorize', 'embedpress'), 'primary', 'epgc_authorize', false); ?>
         </form>
 
         <form style="display:inline" method="post" action="<?php echo admin_url('admin-post.php'); ?>">
+            <?php wp_nonce_field( 'epgc_remove_private', 'epgc_remove_private_data' ); ?>
             <input type="hidden" name="action" value="epgc_remove_private">
 			<?php submit_button(__('Stop', 'embedpress'), '', 'epgc_remove_private', false); ?>
         </form>
         <?php } ?>
+
 
 
 	</div>

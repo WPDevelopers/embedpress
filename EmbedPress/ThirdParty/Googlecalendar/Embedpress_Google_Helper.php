@@ -809,15 +809,28 @@ class Embedpress_Google_Helper {
     }
 
 	public static function remove_private_data() {
-		self::delete_plugin_data('private');
-		self::add_notice(EPGC_NOTICES_REMOVE_SUCCESS, 'success', true);
-		exit;
+		if ( ! isset( $_POST['epgc_remove_private_data'] ) || ! wp_verify_nonce( $_POST['epgc_remove_private_data'], 'epgc_remove_private' ) || !current_user_can('manage_options')) {
+			print 'Sorry, your nonce did not verify.';
+			exit;
+		} else {
+			self::delete_plugin_data('private');
+			self::add_notice(EPGC_NOTICES_REMOVE_SUCCESS, 'success', true);
+			exit;
+		}
 	}
 
     public static function admin_post_remove() {
-	    self::delete_plugin_data();
-	    self::add_notice(EPGC_NOTICES_REMOVE_SUCCESS, 'success', true);
-	    exit;
+
+		if ( ! isset( $_POST['epgc_remove_private_data'] ) || ! wp_verify_nonce( $_POST['epgc_remove_private_data'], 'epgc_remove_private' ) || !current_user_can('manage_options')) {
+			print 'Sorry, your nonce did not verify.';
+			exit;
+		} else {
+			
+			self::delete_plugin_data();
+			self::add_notice(EPGC_NOTICES_REMOVE_SUCCESS, 'success', true);
+			exit;
+		}
+		
     }
     public static function admin_post_revoke() {
 	    try {
@@ -843,13 +856,19 @@ class Embedpress_Google_Helper {
 	    }
     }
     public static function admin_post_authorize() {
-	    try {
-		    $client = self::getGoogleClient();
-		    $client->authorize();
-		    exit;
-	    } catch (Exception $ex) {
-		    self::embedpress_die($ex);
-	    }
+		if ( ! isset( $_POST['epgc_authorize_data'] ) || ! wp_verify_nonce( $_POST['epgc_authorize_data'], 'epgc_authorize' ) || !current_user_can('manage_options')) {
+			print 'Sorry, your nonce did not verify.';
+			exit;
+		} else {
+			try {
+				$client = self::getGoogleClient();
+				$client->authorize();
+				exit;
+			} catch (Exception $ex) {
+				self::embedpress_die($ex);
+			}
+		}
+
     }
 
 	public static function fetch_calendar() {
@@ -886,7 +905,6 @@ class Embedpress_Google_Helper {
 		$accessToken = self::getDecoded('epgc_access_token');
 
 		if (empty($clientSecret) || !empty($clientSecretError)) {
-			update_option('epgc_client_secret', '', false);
 			update_option('epgc_selected_calendar_ids', [], false);
 		}
 		if (!empty($accessToken)) {
@@ -931,6 +949,7 @@ add_action('admin_post_epgc_calendarlist', [Embedpress_Google_Helper::class,'adm
 
 add_action('admin_post_epgc_colorlist', [Embedpress_Google_Helper::class, 'admin_post_colorlist']);
 add_action('admin_post_epgc_deletecache', [Embedpress_Google_Helper::class, 'admin_post_deletecache']);
+
 /**
  * Admin post action to verify if we have valid access and refresh token.
  */
@@ -940,11 +959,6 @@ add_shortcode( 'embedpress_calendar', [Embedpress_Google_Helper::class, 'shortco
 add_action('wp_enqueue_scripts', [Embedpress_Google_Helper::class, 'enqueue_scripts'], EPGC_ENQUEUE_ACTION_PRIORITY);
 
 add_action('admin_post_epgc_remove_private', [Embedpress_Google_Helper::class, 'remove_private_data']);
-/**
- * Admin post action to delete all plugin data.
- */
-add_action('admin_post_epgc_remove', [Embedpress_Google_Helper::class,'admin_post_remove']);
-
 
 /**
  * Admin post action to authorize access.
