@@ -676,14 +676,24 @@ class Embedpress_Google_Helper {
 
 		$filterHTML = '<div class="epgc-calendar-filter" ' . $dataUnchekedCalendarIds . '></div>';
 
-		return '<div class="epgc-calendar-wrapper epgc-calendar-page">' . ($userFilter === 'top' ? $filterHTML : '') . '<div '
-		       . $dataCalendarIds . ' data-filter=\'' . $userFilter . '\' data-eventpopup=\'' . $userEventPopup . '\' data-eventlink=\''
-		       . $userEventLink . '\' data-eventdescription=\'' . $userEventDescription . '\' data-eventlocation=\''
-		       . $userEventLocation . '\' data-eventattachments=\'' . $userEventAttachments . '\' data-eventattendees=\''
-		       . $userEventAttendees . '\' data-eventcreator=\'' . $userEventCreator . '\' data-eventcalendarname=\''
-		       . $userEventCalendarname . '\' data-hidefuture=\'' . $userHideFuture . '\' data-hidepassed=\''
-		       . $userHidePassed . '\' data-config=\'' . json_encode($userConfig) . '\' data-locale="'
-		       . get_locale() . '" class="epgc-calendar"></div>' . ($userFilter === 'bottom' ? $filterHTML : '') . '</div>';
+		return '<div class="epgc-calendar-wrapper epgc-calendar-page">' . ($userFilter === 'top' ? wp_kses_post($filterHTML) : '') . '<div '
+			. esc_attr($dataCalendarIds) . ' data-filter=\''
+			. esc_attr($userFilter) . '\' data-eventpopup=\''
+			. esc_attr($userEventPopup) . '\' data-eventlink=\''
+			. esc_attr($userEventLink) . '\' data-eventdescription=\''
+			. esc_attr($userEventDescription) . '\' data-eventlocation=\''
+			. esc_attr($userEventLocation) . '\' data-eventattachments=\''
+			. esc_attr($userEventAttachments) . '\' data-eventattendees=\''
+			. esc_attr($userEventAttendees) . '\' data-eventcreator=\''
+			. esc_attr($userEventCreator) . '\' data-eventcalendarname=\''
+			. esc_attr($userEventCalendarname) . '\' data-hidefuture=\''
+			. esc_attr($userHideFuture) . '\' data-hidepassed=\''
+			. esc_attr($userHidePassed) . '\' data-config=\''
+			. json_encode($userConfig) . '\' data-locale="'
+			. esc_attr(get_locale())
+			. '" class="epgc-calendar"></div>'
+			. ($userFilter === 'bottom' ? wp_kses_post($filterHTML) : '')
+		. '</div>';
 	}
 
 	public static function admin_post_calendarlist() {
@@ -726,9 +736,14 @@ class Embedpress_Google_Helper {
 		}
 	}
 	public static function admin_post_deletecache() {
-		self::delete_calendar_cache();
-		self::add_notice(PGC_NOTICES_CACHE_DELETED, 'success', true);
-		exit;
+		if ( ! isset( $_POST['epgc_deletecache_data'] ) || ! wp_verify_nonce( $_POST['epgc_deletecache_data'], 'epgc_deletecache' ) || !current_user_can('manage_options')) {
+			print 'Sorry, your nonce did not verify.';
+			exit;
+		} else {
+			self::delete_calendar_cache();
+			self::add_notice(PGC_NOTICES_CACHE_DELETED, 'success', true);
+			exit;
+		}
 	}
 	public static function admin_post_verify() {
 		try {
@@ -799,15 +814,28 @@ class Embedpress_Google_Helper {
     }
 
 	public static function remove_private_data() {
-		self::delete_plugin_data('private');
-		self::add_notice(EPGC_NOTICES_REMOVE_SUCCESS, 'success', true);
-		exit;
+		if ( ! isset( $_POST['epgc_remove_private_data'] ) || ! wp_verify_nonce( $_POST['epgc_remove_private_data'], 'epgc_remove_private' ) || !current_user_can('manage_options')) {
+			print 'Sorry, your nonce did not verify.';
+			exit;
+		} else {
+			self::delete_plugin_data('private');
+			self::add_notice(EPGC_NOTICES_REMOVE_SUCCESS, 'success', true);
+			exit;
+		}
 	}
 
     public static function admin_post_remove() {
-	    self::delete_plugin_data();
-	    self::add_notice(EPGC_NOTICES_REMOVE_SUCCESS, 'success', true);
-	    exit;
+
+		if ( ! isset( $_POST['epgc_remove_private_data'] ) || ! wp_verify_nonce( $_POST['epgc_remove_private_data'], 'epgc_remove_private' ) || !current_user_can('manage_options')) {
+			print 'Sorry, your nonce did not verify.';
+			exit;
+		} else {
+			
+			self::delete_plugin_data();
+			self::add_notice(EPGC_NOTICES_REMOVE_SUCCESS, 'success', true);
+			exit;
+		}
+		
     }
     public static function admin_post_revoke() {
 	    try {
@@ -833,13 +861,19 @@ class Embedpress_Google_Helper {
 	    }
     }
     public static function admin_post_authorize() {
-	    try {
-		    $client = self::getGoogleClient();
-		    $client->authorize();
-		    exit;
-	    } catch (Exception $ex) {
-		    self::embedpress_die($ex);
-	    }
+		if ( ! isset( $_POST['epgc_authorize_data'] ) || ! wp_verify_nonce( $_POST['epgc_authorize_data'], 'epgc_authorize' ) || !current_user_can('manage_options')) {
+			print 'Sorry, your nonce did not verify.';
+			exit;
+		} else {
+			try {
+				$client = self::getGoogleClient();
+				$client->authorize();
+				exit;
+			} catch (Exception $ex) {
+				self::embedpress_die($ex);
+			}
+		}
+
     }
 
 	public static function fetch_calendar() {
@@ -876,7 +910,6 @@ class Embedpress_Google_Helper {
 		$accessToken = self::getDecoded('epgc_access_token');
 
 		if (empty($clientSecret) || !empty($clientSecretError)) {
-			update_option('epgc_client_secret', '', false);
 			update_option('epgc_selected_calendar_ids', [], false);
 		}
 		if (!empty($accessToken)) {
@@ -921,6 +954,8 @@ add_action('admin_post_epgc_calendarlist', [Embedpress_Google_Helper::class,'adm
 
 add_action('admin_post_epgc_colorlist', [Embedpress_Google_Helper::class, 'admin_post_colorlist']);
 add_action('admin_post_epgc_deletecache', [Embedpress_Google_Helper::class, 'admin_post_deletecache']);
+
+
 /**
  * Admin post action to verify if we have valid access and refresh token.
  */
@@ -930,11 +965,6 @@ add_shortcode( 'embedpress_calendar', [Embedpress_Google_Helper::class, 'shortco
 add_action('wp_enqueue_scripts', [Embedpress_Google_Helper::class, 'enqueue_scripts'], EPGC_ENQUEUE_ACTION_PRIORITY);
 
 add_action('admin_post_epgc_remove_private', [Embedpress_Google_Helper::class, 'remove_private_data']);
-/**
- * Admin post action to delete all plugin data.
- */
-add_action('admin_post_epgc_remove', [Embedpress_Google_Helper::class,'admin_post_remove']);
-
 
 /**
  * Admin post action to authorize access.
