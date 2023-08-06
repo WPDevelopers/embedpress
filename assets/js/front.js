@@ -324,8 +324,7 @@ let epGlobals = {};
     const unlockSubmitHander = (perentSel, that) => {
         var ep_client_id = jQuery(that).closest('form').find('input[name="ep_client_id"]').val();
         var password = jQuery(`input[name="pass_${ep_client_id}"]`).val();
-        var epbase = jQuery(`input[name="ep_base_${ep_client_id}"]`).val();
-        var hash_key = jQuery(`input[name="hash_key_${ep_client_id}"]`).val();
+        var post_id = jQuery(`input[name="post_id"]`).val();
         const buttonText = jQuery(that).closest('.password-form-container').find('input[type="submit"]').val();
         const unlokingText = jQuery(that).data('unlocking-text');
 
@@ -334,8 +333,7 @@ let epGlobals = {};
             'action': 'lock_content_form_handler',
             'client_id': ep_client_id,
             'password': password,
-            'hash_key': hash_key,
-            'epbase': epbase
+            'post_id': post_id,
         };
 
         jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val(unlokingText);
@@ -442,8 +440,7 @@ jQuery(window).on("elementor/frontend/init", function () {
         const unlockElSubmitHander = (perentSel, that) => {
             var ep_client_id = jQuery(that).closest('form').find('input[name="ep_client_id"]').val();
             var password = jQuery(`input[name="pass_${ep_client_id}"]`).val();
-            var epbase = jQuery(`input[name="ep_base_${ep_client_id}"]`).val();
-            var hash_key = jQuery(`input[name="hash_key_${ep_client_id}"]`).val();
+            var post_id = jQuery(`input[name="post_id"]`).val();
             const buttonText = jQuery(that).closest('.password-form-container').find('input[type="submit"]').val();
             const unlokingText = jQuery(that).data('unlocking-text');
 
@@ -451,8 +448,7 @@ jQuery(window).on("elementor/frontend/init", function () {
                 'action': 'lock_content_form_handler',
                 'client_id': ep_client_id,
                 'password': password,
-                'hash_key': hash_key,
-                'epbase': epbase
+                'post_id': post_id,
             };
 
             jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val(unlokingText);
