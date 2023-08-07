@@ -165,8 +165,11 @@ class Embedpress_Elementor extends Widget_Base
 					'active' => true,
 				],
 				'placeholder' => __('Enter your Link', 'embedpress'),
-				'label_block' => true
-
+				'label_block' => true,
+				'ai' => [
+					'active' => false,
+				]
+			
 			]
 		);
 
@@ -280,7 +283,6 @@ class Embedpress_Elementor extends Widget_Base
 		$this->init_dailymotion_control();
 		$this->init_twitch_control();
 		$this->init_opensea_control();
-		$this->init_instafeed_control();
 		$this->end_controls_section();
 
 
@@ -293,8 +295,7 @@ class Embedpress_Elementor extends Widget_Base
 		 * Opensea Control section
 		 */
 		$this->init_opensea_control_section();
-
-
+		$this->init_instafeed_control_section();
 
 		do_action('extend_elementor_controls', $this, '_', $this->pro_text, $this->pro_class);
 
@@ -2555,7 +2556,10 @@ class Embedpress_Elementor extends Widget_Base
 		$condition = [
 			'embedpress_pro_embeded_source' => 'instafeed'
 		];
-		
+		$disableAi = [
+			'active' => false,
+		];
+
 		$this->add_control(
 			'embedpress_instafeed_layout',
 			[
@@ -2586,7 +2590,8 @@ class Embedpress_Elementor extends Widget_Base
 					'auto' => esc_html__('Auto', 'embedpress'),
 				],
 				'condition'    => [
-					'embedpress_instafeed_layout' => ['insta-grid', 'insta-masonry']
+					'embedpress_instafeed_layout' => ['insta-grid', 'insta-masonry'],
+					'embedpress_pro_embeded_source' => 'instafeed'
 				],
 			]
 		);
@@ -2719,6 +2724,100 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		
+		
+		$this->add_control(
+			'instafeedPopup',
+			[
+				'label'        => __('Popup', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'   => $condition,
+			]
+		);
+		$this->add_control(
+			'instafeedPopupFollowBtn',
+			[
+				'label'        => __('Popup Follow Button', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'instafeed',
+					'instafeedPopup' => 'yes'
+				],
+			]
+		);
+
+		$this->add_control(
+			'instafeedPopupFollowBtnLabel',
+			[
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'label' => esc_html__('Follow Button Label', 'embedpress'),
+				'placeholder' => 'Follow',
+				'default' => 'Follow',
+				'condition'    => [
+					'instafeedPopupFollowBtn' => 'yes',
+					'embedpress_pro_embeded_source' => 'instafeed'
+				],
+				'ai' => $disableAi
+			]
+		);
+
+		$this->add_control(
+			'instafeedLoadmore',
+			[
+				'label'        => __('Load More', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'instafeed',
+					'embedpress_instafeed_layout!' => 'insta-carousel'
+				],
+			]
+		);
+		$this->add_control(
+			'instafeedLoadmoreLabel',
+			[
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'label' => esc_html__('Load More Label', 'embedpress'),
+				'placeholder' => 'Load More',
+				'default' => 'Load More',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'instafeed',
+					'instafeedLoadmore' => 'yes',
+					'embedpress_instafeed_layout!' => 'insta-carousel'
+				],
+				'ai' => $disableAi
+			]
+		);
+		
+	}
+
+	public function init_instafeed_control_section()
+	{
+		$condition = [
+			'embedpress_pro_embeded_source' => 'instafeed'
+		];
+		$disableAi = [
+			'active' => false,
+		];
+
+		$this->start_controls_section(
+			'embedpress_instafeed_profile_section',
+			[
+				'label'       => __('Instagram Profile Settings', 'embedpress'),
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'instafeed'
+				],
+			]
+		);
+
+
 		$this->add_control(
 			'instafeedFollowBtn',
 			[
@@ -2765,74 +2864,26 @@ class Embedpress_Elementor extends Widget_Base
 				'condition'   => $condition,
 			]
 		);
-		$this->add_control(
-			'instafeedPopup',
-			[
-				'label'        => __('Popup', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => '',
-				'condition'   => $condition,
-			]
-		);
-		$this->add_control(
-			'instafeedPopupFollowBtn',
-			[
-				'label'        => __('Popup Follow Button', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => '',
-				'condition'   => [
-					'instafeedPopup' => 'yes'
-				],
-			]
-		);
+		$this->end_controls_section();
 
-		$this->add_control(
-			'instafeedPopupFollowBtnLabel',
+		$this->start_controls_section(
+			'embedpress_instafeed_control_section',
 			[
-				'type' => \Elementor\Controls_Manager::TEXT,
-				'label' => esc_html__('Follow Button Label', 'embedpress'),
-				'placeholder' => 'Follow',
-				'default' => 'Follow',
+				'label'       => __('Instagram Feed Settings', 'embedpress'),
 				'condition'    => [
-					'instafeedPopupFollowBtn' => 'yes',
+					'embedpress_pro_embeded_source' => 'instafeed'
 				],
 			]
 		);
 
-		$this->add_control(
-			'instafeedLoadmore',
-			[
-				'label'        => __('Load More', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => '',
-				'condition'   => [
-					'embedpress_pro_embeded_source' => 'instafeed',
-					'embedpress_instafeed_layout!' => 'insta-carousel'
-				],
-			]
-		);
-		$this->add_control(
-			'instafeedLoadmoreLabel',
-			[
-				'type' => \Elementor\Controls_Manager::TEXT,
-				'label' => esc_html__('Load More Label', 'embedpress'),
-				'placeholder' => 'Load More',
-				'default' => 'Load More',
-				'condition'    => [
-					'instafeedLoadmore' => 'yes',
-					'embedpress_instafeed_layout!' => 'insta-carousel'
+		$this->init_instafeed_control();
 
-				],
-			]
-		);
+		$this->end_controls_section();
+
 		
+
 	}
+
 
 	//End Carousel Controls
 	 

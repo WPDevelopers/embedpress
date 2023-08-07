@@ -46,6 +46,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         'instafeedAccName',
         'instafeedPopup',
         'instafeedPopupFollowBtn',
+        'instafeedLoadmore',
+        'instafeedLoadmoreLabel'
     ];
 
      
@@ -274,7 +276,6 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             $tkey = md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$accessToken");
         }
 
-
         if (is_array($insta_posts) and !empty($insta_posts)) {
             ob_start(); ?>
             <header class="profile-header">
@@ -294,35 +295,48 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                         <a class="profile-link" target="__blank" href="<?php echo esc_url( 'https://instagram.com/'.$username); ?>" role="link" tabindex="0">
                             <h2 class="username" dir="auto"><?php echo esc_html($username ); ?></h2>
                         </a>
+
+                        <?php if(!empty($params['instafeedFollowBtn']) && $params['instafeedFollowBtn'] !== 'false'): ?>
+
                         <div class="edit-profile-button">
                             <a class="edit-profile-link" target="__blank" href="<?php echo esc_url( 'https://instagram.com/'.$username); ?>" role="link" tabindex="0"><?php echo esc_html__( 'Follow', 'embedpress' ); ?></a>
                         </div>
+                        <?php endif; ?>
                     </div>
                     <div class="profile-stats">
                         <ul class="stats-list">
-                            <li class="posts-count"><span class="count"><?php echo esc_html( $media_count ); ?></span> <?php echo esc_html__( 'posts', 'embedpress' ); ?></li>
+                            <?php if(!empty($params['instafeedPostsCount']) && $params['instafeedPostsCount'] !== 'false'): ?>
+                                <li class="posts-count"><span class="count"><?php echo esc_html( $media_count ); ?></span> <?php echo esc_html__( 'posts', 'embedpress' ); ?></li>
+                            <?php endif; ?>
 
-                            <?php if(strtolower($connected_account_type) !== 'personal'): ?>
-                                <li class="followers-count">
-                                    <a class="followers-link" target="_blank" href="<?php echo esc_url( 'https://instagram.com/'.$username.'/followers'); ?>" role="link" tabindex="0">
-                                        <span class="count" title="<?php echo esc_attr( $followers_count ); ?>"><?php echo esc_attr( $followers_count ); ?></span> <?php echo esc_html__( 'followers', 'embedpress' ); ?>
-                                    </a>
-                                </li>
+                            <?php if(!empty($params['instafeedFollowersCount']) && $params['instafeedFollowersCount'] !== 'false'): ?>
+                                <?php if(strtolower($connected_account_type) !== 'personal'): ?>
+                                    <li class="followers-count">
+                                        <a class="followers-link" target="_blank" href="<?php echo esc_url( 'https://instagram.com/'.$username.'/followers'); ?>" role="link" tabindex="0">
+                                            <span class="count" title="<?php echo esc_attr( $followers_count ); ?>"><?php echo esc_attr( $followers_count ); ?></span> <?php echo esc_html__( 'followers', 'embedpress' ); ?>
+                                        </a>
+                                    </li>
+                                <?php endif; ?>
                             <?php endif; ?>
                         </ul>
                     </div>
-                    <div class="bio-section">
-                        <span class="bio" dir="auto"><?php echo esc_attr( $name ); ?></span>
-                    </div>
+                    <?php if(!empty($params['instafeedAccName']) && $params['instafeedAccName'] !== 'false'): ?>
+                        <div class="bio-section">
+                            <span class="bio" dir="auto"><?php echo esc_attr( $name ); ?></span>
+                        </div>
+                    <?php endif; ?>
                 </section>
             </header>
-            <div class="posts-tab-options">
-                <ul class="tabs">
-                    <li data-media-type="ALL" class="active"><svg class="_ab6-" color="#000" height="20" viewBox="5 5 30 30" width="20"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.3333333333333335" d="M5 5h30v30H5zm10.025 0v30m9.95 -30v30M35 15.025H5m30 9.95H5"/></svg>Posts</li>
-                    <li data-media-type="VIDEO"><svg class="_ab6-" color="#000" height="20" viewBox="0 0 40 40" width="20"><path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="3.333" d="M3.415 11.67h33.168"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.333" d="m22.507 3.335 4.763 8.335M12.012 3.517l4.658 8.153M3.333 20.002v5.748c0 4.748 1.163 6.677 2.677 8.242 1.567 1.513 3.497 2.678 8.243 2.678h11.493c4.747 0 6.677-1.165 8.243-2.678 1.513-1.565 2.677-3.493 2.677-8.242V14.253c0-4.747-1.163-6.677-2.677-8.242-1.566-1.513-3.496-2.678-8.242-2.678H14.253c-4.747 0-6.677 1.165-8.243 2.678-1.513 1.566-2.677 3.496-2.677 8.242Z"/><path class="fill-color" d="M16.272 29.44a1.513 1.513 0 0 1-.757-1.312v-8.745a1.515 1.515 0 0 1 2.273-1.313l7.575 4.373a1.515 1.515 0 0 1 0 2.625l-7.575 4.373a1.517 1.517 0 0 1-1.517 0Z" fill-rule="evenodd"/></svg>Reels</li>
-                    <li data-media-type="CAROUSEL_ALBUM"><svg aria-label="Carousel" class="x1lliihq x1n2onr6" color="#000" height="20" viewBox="0 0 43.636 43.636" width="20"><path class="fill-color" d="M31.636 27V10a4.695 4.695 0 0 0-4.727-4.727H10A4.695 4.695 0 0 0 5.273 10v17A4.695 4.695 0 0 0 10 31.727h17c2.545-.091 4.636-2.182 4.636-4.727zm4-13.364v14.636c0 4.091-3.364 7.455-7.455 7.455H13.545c-.545 0-.818.636-.455 1 .909 1 2.182 1.636 3.727 1.636h12.182a9.35 9.35 0 0 0 9.364-9.364V16.818a5.076 5.076 0 0 0-1.636-3.727c-.455-.364-1.091 0-1.091.545z"/></svg>Album</li>
-                </ul>
-            </div>
+            <?php if(!empty($params['instafeedTab']) && $params['instafeedTab'] !== 'false') : ?>
+                <div class="posts-tab-options">
+                    <ul class="tabs">
+                        <li data-media-type="ALL" class="active"><svg class="_ab6-" color="#000" height="20" viewBox="5 5 30 30" width="20"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.3333333333333335" d="M5 5h30v30H5zm10.025 0v30m9.95 -30v30M35 15.025H5m30 9.95H5"/></svg>Posts</li>
+                        <li data-media-type="VIDEO"><svg class="_ab6-" color="#000" height="20" viewBox="0 0 40 40" width="20"><path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="3.333" d="M3.415 11.67h33.168"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.333" d="m22.507 3.335 4.763 8.335M12.012 3.517l4.658 8.153M3.333 20.002v5.748c0 4.748 1.163 6.677 2.677 8.242 1.567 1.513 3.497 2.678 8.243 2.678h11.493c4.747 0 6.677-1.165 8.243-2.678 1.513-1.565 2.677-3.493 2.677-8.242V14.253c0-4.747-1.163-6.677-2.677-8.242-1.566-1.513-3.496-2.678-8.242-2.678H14.253c-4.747 0-6.677 1.165-8.243 2.678-1.513 1.566-2.677 3.496-2.677 8.242Z"/><path class="fill-color" d="M16.272 29.44a1.513 1.513 0 0 1-.757-1.312v-8.745a1.515 1.515 0 0 1 2.273-1.313l7.575 4.373a1.515 1.515 0 0 1 0 2.625l-7.575 4.373a1.517 1.517 0 0 1-1.517 0Z" fill-rule="evenodd"/></svg>Reels</li>
+                        <li data-media-type="CAROUSEL_ALBUM"><svg aria-label="Carousel" class="x1lliihq x1n2onr6" color="#000" height="20" viewBox="0 0 43.636 43.636" width="20"><path class="fill-color" d="M31.636 27V10a4.695 4.695 0 0 0-4.727-4.727H10A4.695 4.695 0 0 0 5.273 10v17A4.695 4.695 0 0 0 10 31.727h17c2.545-.091 4.636-2.182 4.636-4.727zm4-13.364v14.636c0 4.091-3.364 7.455-7.455 7.455H13.545c-.545 0-.818.636-.455 1 .909 1 2.182 1.636 3.727 1.636h12.182a9.35 9.35 0 0 0 9.364-9.364V16.818a5.076 5.076 0 0 0-1.636-3.727c-.455-.364-1.091 0-1.091.545z"/></svg>Album</li>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
             <div class="instagram-container">
                 <div class="embedpress-insta-container" data-tkey="<?php echo esc_attr( $tkey ); ?>" data-connected-acc-type="<?php echo esc_attr( $connected_account_type ); ?>" data-uid="<?php echo esc_attr( $userID ); ?>">
                     <div class="insta-gallery cg-carousel__track js-carousel__track">
@@ -361,12 +375,15 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 </div>
             </div>
 
-            <div class="load-more-button-container" data-loadmorekey="<?php echo esc_attr( $tkey ); ?>" data-loaded-posts="<?php echo esc_attr( $posts_per_page ); ?>" data-posts-per-page="<?php echo esc_attr( $posts_per_page ); ?>">
-                <button class="insta-load-more-button">Load More</button>
-            </div>
+            <?php if(!empty($params['instafeedLoadmore']) && $params['instafeedLoadmore'] !== 'false'): ?>
+                <div class="load-more-button-container" data-loadmorekey="<?php echo esc_attr( $tkey ); ?>" data-loaded-posts="<?php echo esc_attr( $posts_per_page ); ?>" data-posts-per-page="<?php echo esc_attr( $posts_per_page ); ?>">
+                    <button class="insta-load-more-button">
+                        <?php echo !empty($params['instafeedLoadmoreLabel']) ? esc_html($params['instafeedLoadmoreLabel']) : ''; ?>
+                    </button>
+                </div>
+            <?php endif; ?>
 
         <?php
-
             $feed_template = ob_get_clean();
             return $feed_template;
         }

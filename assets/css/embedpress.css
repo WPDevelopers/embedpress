@@ -1990,6 +1990,7 @@ a.profile-link, a.profile-link h2 {
 /* Instagram feed layout design */
 .embedpress-insta-container {
     overflow: hidden;
+    position: relative;
 }
 
 .ose-instagram-feed {
@@ -2139,11 +2140,18 @@ a.profile-link, a.profile-link h2 {
     display: none;
 }
 
+.cg-carousel__btns {
+    top: calc(50% - 22px);
+    transform: translateY(-50%);
+    position: absolute;
+    width: 100%;
+}
+
 button#js-carousel__prev-1 {
     position: absolute;
     left: 30px;
-    top: 50%;
-    transform: translateY(-50%);
+    /* top: 50%;
+    transform: translateY(-50%); */
     z-index: 1;
     padding: 8px 15px;
 
@@ -2152,8 +2160,8 @@ button#js-carousel__prev-1 {
 button#js-carousel__next-1 {
     position: absolute;
     right: 30px;
-    top: 50%;
-    transform: translateY(-50%);
+    /* top: 50%;
+    transform: translateY(-50%); */
     z-index: 1;
     padding: 8px 15px;
 
