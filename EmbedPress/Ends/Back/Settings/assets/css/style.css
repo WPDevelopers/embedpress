@@ -3414,8 +3414,11 @@ table, th, td {
     text-align: center;
 }
 
-.emebedpress th {
+table.emebedpress th {
+    white-space: nowrap;
+    width: 150px;
     font-weight: bold;
+
 }
 
 .emebedpress tbody tr:nth-child(even) {
@@ -3477,16 +3480,24 @@ table, th, td {
 .account-section p {
     margin-bottom: 10px;
 }
-
 .account-button {
-    display: inline-block!important;
     text-decoration: none!important;
     background-color: #0073aa!important;
     color: #fff!important;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 15px;
     border-radius: 4px;
     margin-right: 10px;
+    display: inline-flex!important;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.account-button svg{
+    fill: currentColor;
+    width: 20px;
+    height: 20px;
 }
 
 .personal-account {

@@ -34,6 +34,20 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
      *
      */
 
+    /** @var array Array with allowed params for the current Provider */
+    protected $allowedParams = [
+        'maxwidth',
+        'maxheight',
+        'instafeedPostsPerPage',
+        'instafeedTab',
+        'instafeedFollowBtn',
+        'instafeedPostsCount',
+        'instafeedFollowersCount',
+        'instafeedAccName',
+        'instafeedPopup',
+        'instafeedPopupFollowBtn',
+    ];
+
      
 
     public function validateUrl(Url $url)
@@ -71,7 +85,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     public function getInstagramUserInfo($accessToken, $accountType, $userId)
     {
         if(strtolower($accountType) === 'business'){
-            $api_url = 'https://graph.facebook.com/'.$userId.'?fields=biography,id,username,account_type,website,followers_count,media_count,profile_picture_url,name&access_token='.$accessToken;
+            $api_url = 'https://graph.facebook.com/'.$userId.'?fields=biography,id,username,website,followers_count,media_count,profile_picture_url,name&access_token='.$accessToken;
         }
         else{
             $api_url = "https://graph.instagram.com/me?fields=id,username,account_type,media_count,followers_count,biography,website&access_token={$accessToken}";
@@ -163,7 +177,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             // Set the transient with an expiration time of, for example, 1 hour (3600 seconds)
             set_transient($transientKey, $feed_data, 3600);
         }
-    
+        
         return $feed_data;
     }
     
@@ -237,6 +251,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
     public function getInstagramFeedTemplate($accessToken, $account_type, $userID)
     {
+        $params = $this->getParams(); 
+
         $feed_data = $this->data_instagram_feed($accessToken, $account_type, $userID, $limit=100);
         $profile_info = $feed_data[$userID]['feed_userinfo'];
         $insta_posts = $feed_data[$userID]['feed_posts'];
@@ -311,7 +327,12 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 <div class="embedpress-insta-container" data-tkey="<?php echo esc_attr( $tkey ); ?>" data-connected-acc-type="<?php echo esc_attr( $connected_account_type ); ?>" data-uid="<?php echo esc_attr( $userID ); ?>">
                     <div class="insta-gallery cg-carousel__track js-carousel__track">
                         <?php
-                            $posts_per_page = 3; // Set the limit to 5
+                            $posts_per_page = 6;
+                        
+                            if(!empty($params['instafeedPostsPerPage'])){
+                                $posts_per_page = $params['instafeedPostsPerPage'];
+                            } 
+                             // Set the limit to 5
                             $counter = 0; // Initialize a counter variable
                             
                             foreach ($insta_posts as $index => $post) {

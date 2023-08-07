@@ -123,6 +123,22 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->add_control(
+			'embedpress_instafeed_account_type',
+			[
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label' => esc_html__( 'Account Type', 'embedpress' ),
+				'options' => [
+					'personal' => esc_html__( 'Personal', 'embedpress' ),
+					'business' => esc_html__( 'Business', 'embedpress' ),
+				],
+				'default' => 'personal',
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'instafeed'
+				]
+			]
+		);
+
+		$this->add_control(
 			'embedpress_pro_embeded_nft_type',
 			[
 				'label'       => __('Type', 'embedpress'),
@@ -151,6 +167,21 @@ class Embedpress_Elementor extends Widget_Base
 				'placeholder' => __('Enter your Link', 'embedpress'),
 				'label_block' => true
 
+			]
+		);
+
+		$this->add_control(
+			'instafeedPostsPerPage',
+			[
+				'label' => esc_html__( 'Posts Per Page', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::NUMBER,
+				'min' => 1,
+				'max' => 100,
+				'step' => 12,
+				'default' => 0,
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'instafeed',
+				],
 			]
 		);
 
@@ -2532,14 +2563,34 @@ class Embedpress_Elementor extends Widget_Base
 				'label' => esc_html__( 'Layout', 'embedpress' ),
 				'options' => [
 					'insta-grid' => esc_html__( 'Grid', 'embedpress' ),
-					'insta-masonry' => esc_html__( 'Masonry', 'embedpress' ),
-					'insta-carousel' => esc_html__( 'Carousel', 'embedpress' ),
+					'insta-masonry' => esc_html__( 'Masonry (Pro)', 'embedpress' ),
+					'insta-carousel' => esc_html__( 'Carousel (Pro)', 'embedpress' ),
 				],
 				'default' => 'insta-grid',
 				'condition'   => $condition,
 			]
 		);
 
+		$this->add_control(
+			'instafeed_columns',
+			[
+				'label'       => __('Column', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label_block' => false,
+				'default' => '3',
+				'options' => [
+					'2'  => esc_html__('2', 'embedpress'),
+					'3' => esc_html__('3', 'embedpress'),
+					'4' => esc_html__('4', 'embedpress'),
+					'6' => esc_html__('6', 'embedpress'),
+					'auto' => esc_html__('Auto', 'embedpress'),
+				],
+				'condition'    => [
+					'embedpress_instafeed_layout' => ['insta-grid', 'insta-masonry']
+				],
+			]
+		);
+		
 		$this->add_control(
 			'embedpress_instafeed_slide_show',
 			[
@@ -2653,10 +2704,137 @@ class Embedpress_Elementor extends Widget_Base
 				],
 			]
 		);
+
+		
+		$this->add_control(
+			'instafeedTab',
+			[
+				'label'        => __('Feed Tab', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'   => $condition,
+			]
+		);
+
+		
+		$this->add_control(
+			'instafeedFollowBtn',
+			[
+				'label'        => __('Follow Button', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'instafeedPostsCount',
+			[
+				'label'        => __('Posts Count', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'   => $condition,
+			]
+		);
+		$this->add_control(
+			'instafeedFollowersCount',
+			[
+				'label'        => __('Followers Count', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'instafeedAccName',
+			[
+				'label'        => __('Account Name', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'   => $condition,
+			]
+		);
+		$this->add_control(
+			'instafeedPopup',
+			[
+				'label'        => __('Popup', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'   => $condition,
+			]
+		);
+		$this->add_control(
+			'instafeedPopupFollowBtn',
+			[
+				'label'        => __('Popup Follow Button', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'   => [
+					'instafeedPopup' => 'yes'
+				],
+			]
+		);
+
+		$this->add_control(
+			'instafeedPopupFollowBtnLabel',
+			[
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'label' => esc_html__('Follow Button Label', 'embedpress'),
+				'placeholder' => 'Follow',
+				'default' => 'Follow',
+				'condition'    => [
+					'instafeedPopupFollowBtn' => 'yes',
+				],
+			]
+		);
+
+		$this->add_control(
+			'instafeedLoadmore',
+			[
+				'label'        => __('Load More', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'instafeed',
+					'embedpress_instafeed_layout!' => 'insta-carousel'
+				],
+			]
+		);
+		$this->add_control(
+			'instafeedLoadmoreLabel',
+			[
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'label' => esc_html__('Load More Label', 'embedpress'),
+				'placeholder' => 'Load More',
+				'default' => 'Load More',
+				'condition'    => [
+					'instafeedLoadmore' => 'yes',
+					'embedpress_instafeed_layout!' => 'insta-carousel'
+
+				],
+			]
+		);
 		
 	}
 
-	//End Opensea Controls
+	//End Carousel Controls
 	 
 
 

@@ -860,8 +860,18 @@ jQuery(window).on("elementor/frontend/init", function () {
         }
         if (instaFeed) {
             epGlobals.instaPopup(instaFeed);
+            
+            $('.popup-close').click(function (e) {
+                // Hide the popup by setting display to none
+                $('.insta-popup').hide();
+                $('.popup-container').remove();
+            });
 
         }
+
+        epGlobals.instaLoadMore();
+
+
 
     };
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);
