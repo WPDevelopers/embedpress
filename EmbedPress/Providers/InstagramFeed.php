@@ -39,17 +39,22 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         'maxwidth',
         'maxheight',
         'instafeedPostsPerPage',
+        'instafeedProfileImage',
+        'instafeedProfileImageUrl',
         'instafeedTab',
         'instafeedFollowBtn',
+        'instafeedFollowBtnLabel',
         'instafeedPostsCount',
+        'instafeedPostsCountText',
         'instafeedFollowersCount',
+        'instafeedFollowersCountText',
         'instafeedAccName',
         'instafeedPopup',
         'instafeedPopupFollowBtn',
+        'instafeedPopupFollowBtnLabel',
         'instafeedLoadmore',
         'instafeedLoadmoreLabel'
     ];
-
      
 
     public function validateUrl(Url $url)
@@ -282,39 +287,62 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
             <?php 
                 $avater_url = 'http://2.gravatar.com/avatar/b642b4217b34b1e8d3bd915fc65c4452?s=150&d=mm&r=g';
+
                 if (!empty($connected_account_type) && (strtolower($connected_account_type)  === 'business')) {
                     $avater_url = $profile_picture_url;
                 }
+                if(!empty($params['instafeedProfileImageUrl'])){
+                    $avater_url = $params['instafeedProfileImageUrl'];
+                }
+
             ?>
+                <?php if(!empty($params['instafeedProfileImage']) && $params['instafeedProfileImage'] !== 'false'): ?>
                 <div class="profile-image">
                     <img src="<?php echo esc_url($avater_url); ?>" alt="<?php echo esc_attr( $name ); ?>">
                 </div>
-
+                <?php endif; ?>
                 <section class="profile-details">
                     <div class="username-section">
                         <a class="profile-link" target="__blank" href="<?php echo esc_url( 'https://instagram.com/'.$username); ?>" role="link" tabindex="0">
                             <h2 class="username" dir="auto"><?php echo esc_html($username ); ?></h2>
                         </a>
 
-                        <?php if(!empty($params['instafeedFollowBtn']) && $params['instafeedFollowBtn'] !== 'false'): ?>
-
-                        <div class="edit-profile-button">
-                            <a class="edit-profile-link" target="__blank" href="<?php echo esc_url( 'https://instagram.com/'.$username); ?>" role="link" tabindex="0"><?php echo esc_html__( 'Follow', 'embedpress' ); ?></a>
-                        </div>
+                        <?php if (!empty($params['instafeedFollowBtn']) && $params['instafeedFollowBtn'] !== 'false' && !empty($params['instafeedFollowBtnLabel']) && $params['instafeedFollowBtnLabel'] !== 'false'): ?>
+                            <div class="edit-profile-button">
+                                <a class="edit-profile-link" target="__blank" href="<?php echo esc_url('https://instagram.com/' . $username); ?>" role="link" tabindex="0">
+                                    <?php echo esc_html($params['instafeedFollowBtnLabel']); ?>
+                                </a>
+                            </div>
                         <?php endif; ?>
+
                     </div>
                     <div class="profile-stats">
                         <ul class="stats-list">
                             <?php if(!empty($params['instafeedPostsCount']) && $params['instafeedPostsCount'] !== 'false'): ?>
-                                <li class="posts-count"><span class="count"><?php echo esc_html( $media_count ); ?></span> <?php echo esc_html__( 'posts', 'embedpress' ); ?></li>
+                                <li class="posts-count">
+                                   <?php 
+                                        if(!empty($params['instafeedPostsCountText']) &&$params['instafeedPostsCountText'] !== 'false'):
+                                                $posts_count_text = str_replace('[count]', '<span class="count">' . $media_count . '</span>', $params['instafeedPostsCountText']);
+
+                                                echo wp_kses_post($posts_count_text);
+                                        endif;
+                                   ?>
+                                
+                                </li>
                             <?php endif; ?>
 
                             <?php if(!empty($params['instafeedFollowersCount']) && $params['instafeedFollowersCount'] !== 'false'): ?>
                                 <?php if(strtolower($connected_account_type) !== 'personal'): ?>
                                     <li class="followers-count">
-                                        <a class="followers-link" target="_blank" href="<?php echo esc_url( 'https://instagram.com/'.$username.'/followers'); ?>" role="link" tabindex="0">
-                                            <span class="count" title="<?php echo esc_attr( $followers_count ); ?>"><?php echo esc_attr( $followers_count ); ?></span> <?php echo esc_html__( 'followers', 'embedpress' ); ?>
-                                        </a>
+                                        <?php  if(!empty($params['instafeedPostsCountText']) &&$params['instafeedPostsCountText'] !== 'false'): ?>
+                                            <a class="followers-link" target="_blank" href="<?php echo esc_url( 'https://instagram.com/'.$username.'/followers'); ?>" role="link" tabindex="0">
+                                                <?php
+                                                    $followers_count_text = str_replace('[count]', '<span class="count">' . $followers_count . '</span>', $params['instafeedFollowersCountText']);
+
+                                                    echo wp_kses_post($followers_count_text);
+                                                    ?>
+                                                </a>
+                                           <?php endif; ?>
                                     </li>
                                 <?php endif; ?>
                             <?php endif; ?>
@@ -367,12 +395,14 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 </div>
 
                 <!-- Popup div -->
-                <div class="insta-popup" style="display: none;">  
-                    <div class="popup-wrapper popup-is-opened">
-                        <div class="popup popup-is-initialized"  tabindex="-1"> </div>
-                        <div class="popup-close">x</div>
+                <?php if(!empty($params['instafeedPopup']) && $params['instafeedPopup'] !== 'false'): ?>
+                    <div class="insta-popup" style="display: none;">  
+                        <div class="popup-wrapper popup-is-opened">
+                            <div class="popup popup-is-initialized"  tabindex="-1" data-follow-text="<?php echo (!empty($params['instafeedPopupFollowBtnLabel']) && $params['instafeedPopupFollowBtnLabel'] !== 'false') ? esc_attr($params['instafeedPopupFollowBtnLabel']) : ''; ?>" > </div>
+                            <div class="popup-close">x</div>
+                        </div>
                     </div>
-                </div>
+                <?php endif; ?>
             </div>
 
             <?php if(!empty($params['instafeedLoadmore']) && $params['instafeedLoadmore'] !== 'false'): ?>

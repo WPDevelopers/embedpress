@@ -2635,7 +2635,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 			]
 		);
-		$this->add_control(
+		$this->add_control(    
 			'embedpress_carousel_autoplay_speed',
 			[
 				'label' => esc_html__( 'Autoplay Speed', 'embedpress' ),
@@ -2755,11 +2755,13 @@ class Embedpress_Elementor extends Widget_Base
 			'instafeedPopupFollowBtnLabel',
 			[
 				'type' => \Elementor\Controls_Manager::TEXT,
-				'label' => esc_html__('Follow Button Label', 'embedpress'),
+				'label' => esc_html__('Button Label', 'embedpress'),
 				'placeholder' => 'Follow',
 				'default' => 'Follow',
+				'separator'    => 'after',
 				'condition'    => [
 					'instafeedPopupFollowBtn' => 'yes',
+					'instafeedPopup' => 'yes',
 					'embedpress_pro_embeded_source' => 'instafeed'
 				],
 				'ai' => $disableAi
@@ -2819,6 +2821,36 @@ class Embedpress_Elementor extends Widget_Base
 
 
 		$this->add_control(
+			'instafeedProfileImage',
+			[
+				'label'        => __('Profile Image', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			"instafeedProfileImageUrl",
+			[
+				'label' => sprintf(__('Image %s', 'embedpress'), $this->pro_text),
+				'type' => Controls_Manager::MEDIA,
+				'dynamic' => [
+					'active' => false,
+				],
+				'classes'     => $this->pro_class,
+				'condition' => [
+					'instafeedProfileImage' => 'yes',
+					'embedpress_pro_embeded_source' => 'instafeed'
+				],
+				'ai' => $disableAi
+			]
+		);
+
+
+		$this->add_control(
 			'instafeedFollowBtn',
 			[
 				'label'        => __('Follow Button', 'embedpress'),
@@ -2827,6 +2859,24 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => '',
 				'condition'   => $condition,
+			]
+		);
+
+		$this->add_control(
+			'instafeedFollowBtnLabel',
+			[
+				'label' => sprintf(__('Button Label %s', 'embedpress'), $this->pro_text),
+				'type'        => Controls_Manager::TEXT,
+				'classes'     => $this->pro_class,
+				'placeholder' => __('Follow', 'embedpress'),
+				'default' => 'Follow',
+				'separator'    => 'after',
+				'label_block' => false,
+				'condition' => [
+					'instafeedFollowBtn' => 'yes',
+					'embedpress_pro_embeded_source' => 'instafeed'
+				],
+				'ai' => $disableAi
 			]
 		);
 
@@ -2842,6 +2892,23 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 		$this->add_control(
+			'instafeedPostsCountText',
+			[
+				'label' => sprintf(__('Count Text %s', 'embedpress'), $this->pro_text),
+				'type'        => Controls_Manager::TEXT,
+				'classes'     => $this->pro_class,
+				'placeholder' => __('[count] posts', 'embedpress'),
+				'default' => '[count] posts',
+				'label_block' => false,
+				'separator'    => 'after',
+				'condition' => [
+					'instafeedPostsCount' => 'yes',
+					'embedpress_pro_embeded_source' => 'instafeed'
+				],
+				'ai' => $disableAi
+			]
+		);
+		$this->add_control(
 			'instafeedFollowersCount',
 			[
 				'label'        => __('Followers Count', 'embedpress'),
@@ -2850,6 +2917,23 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => '',
 				'condition'   => $condition,
+			]
+		);
+		$this->add_control(
+			'instafeedFollowersCountText',
+			[
+				'label' => sprintf(__('Count Text %s', 'embedpress'), $this->pro_text),
+				'type'        => Controls_Manager::TEXT,
+				'classes'     => $this->pro_class,
+				'placeholder' => __('[count] followers', 'embedpress'),
+				'default' => '[count] followers',
+				'label_block' => false,
+				'separator'    => 'after',
+				'condition' => [
+					'instafeedFollowersCount' => 'yes',
+					'embedpress_pro_embeded_source' => 'instafeed'
+				],
+				'ai' => $disableAi
 			]
 		);
 

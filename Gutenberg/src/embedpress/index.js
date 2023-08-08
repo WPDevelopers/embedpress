@@ -649,6 +649,44 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 
 
 			//Instagram Feed attributes
+			instafeedProfileImage: {
+				type: 'boolean',
+				default: false,
+			},
+			instafeedProfileImageUrl: {
+				type: 'string',
+				default: '',
+			},
+			instafeedFollowBtn: {
+				type: 'boolean',
+				default: false,
+			},
+			instafeedFollowBtnLabel: {
+				type: 'string',
+				default: 'Follow',
+			},
+			instafeedPostsCount: {
+				type: 'boolean',
+				default: false,
+			},
+			instafeedPostsCountText: {
+				type: 'string',
+				default: '[count] posts',
+			},
+			instafeedFollowersCount: {
+				type: 'boolean',
+				default: false,
+			},
+			instafeedFollowersCountText: {
+				type: 'string',
+				default: '[count] followers',
+			},
+			instafeedAccName: {
+				type: 'boolean',
+				default: false,
+			},
+
+			
 			instaLayout: {
 				type: 'string',
 				default: 'insta-grid'
