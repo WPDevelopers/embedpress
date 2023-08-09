@@ -173,20 +173,6 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-		$this->add_control(
-			'instafeedPostsPerPage',
-			[
-				'label' => esc_html__( 'Posts Per Page', 'embedpress' ),
-				'type' => \Elementor\Controls_Manager::NUMBER,
-				'min' => 1,
-				'max' => 100,
-				'step' => 12,
-				'default' => 0,
-				'condition'    => [
-					'embedpress_pro_embeded_source' => 'instafeed',
-				],
-			]
-		);
 
 		$this->add_control(
 			'spotify_theme',
@@ -2561,7 +2547,7 @@ class Embedpress_Elementor extends Widget_Base
 		];
 
 		$this->add_control(
-			'embedpress_instafeed_layout',
+			'instaLayout',
 			[
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'label' => esc_html__( 'Layout', 'embedpress' ),
@@ -2575,8 +2561,22 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
+		if ( !is_embedpress_pro_active() ) {
+			$this->add_control(
+				'embedpress_insta_layout__pro_enable_warning',
+				[
+					'label'     => sprintf( '<a style="color: red" target="_blank" href="https://wpdeveloper.com/in/upgrade-embedpress">%s</a>',
+						esc_html__( 'Only Available in Pro Version!', 'essential-addons-for-elementor-lite' ) ),
+					'type'      => Controls_Manager::RAW_HTML,
+					'condition' => [
+						'instaLayout' => [ 'insta-masonry', 'insta-carousel' ],
+					],
+				]
+			);
+		}
+
 		$this->add_control(
-			'instafeed_columns',
+			'instafeedColumns',
 			[
 				'label'       => __('Column', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::SELECT,
@@ -2590,8 +2590,23 @@ class Embedpress_Elementor extends Widget_Base
 					'auto' => esc_html__('Auto', 'embedpress'),
 				],
 				'condition'    => [
-					'embedpress_instafeed_layout' => ['insta-grid', 'insta-masonry'],
+					'instaLayout' => ['insta-grid', 'insta-masonry'],
 					'embedpress_pro_embeded_source' => 'instafeed'
+				],
+			]
+		);
+
+		$this->add_control(
+			'instafeedColumnsGap',
+			[
+				'label' => esc_html__( 'Column Gap', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::NUMBER,
+				'min' => 0,
+				'max' => 100,
+				'step' => 1,
+				'default' => 5,
+				'condition' => [
+					'instaLayout' => [ 'insta-masonry', 'insta-grid' ],
 				],
 			]
 		);
@@ -2616,7 +2631,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default' => '5',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'instafeed',
-					'embedpress_instafeed_layout' => 'insta-carousel'
+					'instaLayout' => 'insta-carousel'
 				],
 			]
 		);
@@ -2631,7 +2646,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default'      => '',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'instafeed',
-					'embedpress_instafeed_layout' => 'insta-carousel'
+					'instaLayout' => 'insta-carousel'
 				],
 			]
 		);
@@ -2645,7 +2660,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default' => 0,
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'instafeed',
-					'embedpress_instafeed_layout' => 'insta-carousel'
+					'instaLayout' => 'insta-carousel'
 				],
 			]
 		);
@@ -2659,7 +2674,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default' => 0,
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'instafeed',
-					'embedpress_instafeed_layout' => 'insta-carousel'
+					'instaLayout' => 'insta-carousel'
 				],
 			]
 		);
@@ -2673,7 +2688,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default'      => '',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'instafeed',
-					'embedpress_instafeed_layout' => 'insta-carousel'
+					'instaLayout' => 'insta-carousel'
 				],
 			]
 		);
@@ -2688,7 +2703,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default'      => '',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'instafeed',
-					'embedpress_instafeed_layout' => 'insta-carousel'
+					'instaLayout' => 'insta-carousel'
 				],
 			]
 		);
@@ -2705,11 +2720,25 @@ class Embedpress_Elementor extends Widget_Base
 				'default' => 0,
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'instafeed',
-					'embedpress_instafeed_layout' => 'insta-carousel'
+					'instaLayout' => 'insta-carousel'
 				],
 			]
 		);
 
+		$this->add_control(
+			'instafeedPostsPerPage',
+			[
+				'label' => esc_html__( 'Posts Per Page', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::NUMBER,
+				'min' => 1,
+				'max' => 100,
+				'step' => 12,
+				'default' => 12,
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'instafeed',
+				],
+			]
+		);
 		
 		$this->add_control(
 			'instafeedTab',
@@ -2778,7 +2807,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default'      => '',
 				'condition'   => [
 					'embedpress_pro_embeded_source' => 'instafeed',
-					'embedpress_instafeed_layout!' => 'insta-carousel'
+					'instaLayout!' => 'insta-carousel'
 				],
 			]
 		);
@@ -2792,7 +2821,7 @@ class Embedpress_Elementor extends Widget_Base
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'instafeed',
 					'instafeedLoadmore' => 'yes',
-					'embedpress_instafeed_layout!' => 'insta-carousel'
+					'instaLayout!' => 'insta-carousel'
 				],
 				'ai' => $disableAi
 			]
@@ -2835,12 +2864,11 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			"instafeedProfileImageUrl",
 			[
-				'label' => sprintf(__('Image %s', 'embedpress'), $this->pro_text),
+				'label' => __('Image', 'embedpress'),
 				'type' => Controls_Manager::MEDIA,
 				'dynamic' => [
 					'active' => false,
 				],
-				'classes'     => $this->pro_class,
 				'condition' => [
 					'instafeedProfileImage' => 'yes',
 					'embedpress_pro_embeded_source' => 'instafeed'
@@ -2894,9 +2922,8 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'instafeedPostsCountText',
 			[
-				'label' => sprintf(__('Count Text %s', 'embedpress'), $this->pro_text),
+				'label' => __('Count Text', 'embedpress'),
 				'type'        => Controls_Manager::TEXT,
-				'classes'     => $this->pro_class,
 				'placeholder' => __('[count] posts', 'embedpress'),
 				'default' => '[count] posts',
 				'label_block' => false,
@@ -2922,9 +2949,8 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'instafeedFollowersCountText',
 			[
-				'label' => sprintf(__('Count Text %s', 'embedpress'), $this->pro_text),
+				'label' => __('Count Text', 'embedpress'),
 				'type'        => Controls_Manager::TEXT,
-				'classes'     => $this->pro_class,
 				'placeholder' => __('[count] followers', 'embedpress'),
 				'default' => '[count] followers',
 				'label_block' => false,
@@ -3182,10 +3208,10 @@ class Embedpress_Elementor extends Widget_Base
 	{
 		$_carousel_options = '';
 
-		if(!empty($settings['embedpress_instafeed_layout']) && $settings['embedpress_instafeed_layout'] === 'insta-carousel'){
+		if(!empty($settings['instaLayout']) && $settings['instaLayout'] === 'insta-carousel'){
 			$_carousel_id = 'data-carouselid=' . esc_attr($this->get_id()) . '';
 	
-			$layout = $settings['embedpress_instafeed_layout'];
+			$layout = $settings['instaLayout'];
 			$embedpress_instafeed_slide_show = !empty($settings['embedpress_instafeed_slide_show']) ? $settings['embedpress_instafeed_slide_show'] : 5;
 			$embedpress_carousel_autoplay = !empty($settings['embedpress_carousel_autoplay']) ? $settings['embedpress_carousel_autoplay'] : 0;
 			$embedpress_carousel_autoplay_speed = !empty($settings['embedpress_carousel_autoplay_speed']) ? $settings['embedpress_carousel_autoplay_speed'] : 3000;
@@ -3216,7 +3242,7 @@ class Embedpress_Elementor extends Widget_Base
 	public function get_instafeed_layout($settings){
 		$insta_layout = '';
 		if($settings['embedpress_pro_embeded_source'] == 'instafeed'){
-			$insta_layout = ' '. $settings['embedpress_instafeed_layout'];
+			$insta_layout = ' '. $settings['instaLayout'];
 		}
 
 		return $insta_layout;
@@ -3246,6 +3272,10 @@ class Embedpress_Elementor extends Widget_Base
 
 		add_filter('embedpress_should_modify_spotify', '__return_false');
 		$settings      = $this->get_settings_for_display();
+
+		if(!is_embedpress_pro_active() && ($settings['instaLayout'] === 'insta-masonry' || $settings['instaLayout'] === 'insta-carousel')){
+			return '';
+		}
 
 		$is_editor_view = Plugin::$instance->editor->is_edit_mode();
 		$link = $settings['embedpress_embeded_link'];
@@ -3337,7 +3367,7 @@ class Embedpress_Elementor extends Widget_Base
 		}
 
 		$data_carouselid = '';
-		if(!empty($settings['embedpress_instafeed_layout'] && $settings['embedpress_instafeed_layout'] === 'insta-carousel')){
+		if(!empty($settings['instaLayout'] && $settings['instaLayout'] === 'insta-carousel')){
 			$data_playerid = 'data-carouselid="'.esc_attr($this->get_id()).'"';
 		}
 

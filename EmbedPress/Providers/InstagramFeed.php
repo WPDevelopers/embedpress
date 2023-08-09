@@ -38,6 +38,9 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     protected $allowedParams = [
         'maxwidth',
         'maxheight',
+        'instaLayout',
+        'instafeedColumns',
+        'instafeedColumnsGap',
         'instafeedPostsPerPage',
         'instafeedProfileImage',
         'instafeedProfileImageUrl',
@@ -260,6 +263,20 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     {
         $params = $this->getParams(); 
 
+        $styleAttribute = '';
+
+        if($params['instaLayout'] === 'insta-grid'){
+            
+            $column = (100 / intval(!empty($params['instafeedColumns'])? $params['instafeedColumns'] : 1));
+            $gap = $params['instafeedColumnsGap'];
+
+            $styleAttribute = 'style="grid-template-columns: repeat(auto-fit, minmax(calc({'.esc_attr($column).'% - {$gap}px), 1fr)); gap: '.esc_attr($gap).'px;"';
+        }
+        else if($params['instaLayout'] === 'insta-masonry'){
+            $styleAttribute = 'style="column-count: '.esc_attr($params['instafeedColumns']).'; gap: '.esc_attr($params['instafeedColumnsGap']).'px;"';
+        }
+
+
         $feed_data = $this->data_instagram_feed($accessToken, $account_type, $userID, $limit=100);
         $profile_info = $feed_data[$userID]['feed_userinfo'];
         $insta_posts = $feed_data[$userID]['feed_posts'];
@@ -367,9 +384,9 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
             <div class="instagram-container">
                 <div class="embedpress-insta-container" data-tkey="<?php echo esc_attr( $tkey ); ?>" data-connected-acc-type="<?php echo esc_attr( $connected_account_type ); ?>" data-uid="<?php echo esc_attr( $userID ); ?>">
-                    <div class="insta-gallery cg-carousel__track js-carousel__track">
+                    <div class="insta-gallery cg-carousel__track js-carousel__track"  <?php echo  $styleAttribute; ?>>
                         <?php
-                            $posts_per_page = 6;
+                            $posts_per_page = 12;
                         
                             if(!empty($params['instafeedPostsPerPage'])){
                                 $posts_per_page = $params['instafeedPostsPerPage'];
@@ -396,21 +413,23 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
                 <!-- Popup div -->
                 <?php if(!empty($params['instafeedPopup']) && $params['instafeedPopup'] !== 'false'): ?>
-                    <div class="insta-popup" style="display: none;">  
-                        <div class="popup-wrapper popup-is-opened">
-                            <div class="popup popup-is-initialized"  tabindex="-1" data-follow-text="<?php echo (!empty($params['instafeedPopupFollowBtnLabel']) && $params['instafeedPopupFollowBtnLabel'] !== 'false') ? esc_attr($params['instafeedPopupFollowBtnLabel']) : ''; ?>" > </div>
-                            <div class="popup-close">x</div>
+                        <div class="insta-popup" style="display: none;">  
+                            <div class="popup-wrapper popup-is-opened">
+                                <div class="popup popup-is-initialized"  tabindex="-1" data-follow-text="<?php echo (!empty($params['instafeedPopupFollowBtnLabel']) && $params['instafeedPopupFollowBtnLabel'] !== 'false') ? esc_attr($params['instafeedPopupFollowBtnLabel']) : ''; ?>" > </div>
+                                <div class="popup-close">x</div>
+                            </div>
                         </div>
-                    </div>
                 <?php endif; ?>
             </div>
 
             <?php if(!empty($params['instafeedLoadmore']) && $params['instafeedLoadmore'] !== 'false'): ?>
-                <div class="load-more-button-container" data-loadmorekey="<?php echo esc_attr( $tkey ); ?>" data-loaded-posts="<?php echo esc_attr( $posts_per_page ); ?>" data-posts-per-page="<?php echo esc_attr( $posts_per_page ); ?>">
-                    <button class="insta-load-more-button">
-                        <?php echo !empty($params['instafeedLoadmoreLabel']) ? esc_html($params['instafeedLoadmoreLabel']) : ''; ?>
-                    </button>
-                </div>
+                <?php if(count($insta_posts) > $posts_per_page) : ?>
+                    <div class="load-more-button-container" data-loadmorekey="<?php echo esc_attr( $tkey ); ?>" data-loaded-posts="<?php echo esc_attr( $posts_per_page ); ?>" data-posts-per-page="<?php echo esc_attr( $posts_per_page ); ?>">
+                        <button class="insta-load-more-button">
+                            <?php echo !empty($params['instafeedLoadmoreLabel']) ? esc_html($params['instafeedLoadmoreLabel']) : ''; ?>
+                        </button>
+                    </div>
+                <?php endif; ?>
             <?php endif; ?>
 
         <?php

@@ -27,6 +27,15 @@ export default function Instafeed({ attributes, setAttributes }) {
     const {
         url,
         instaLayout,
+        instafeedColumns,
+        instafeedColumnsGap,
+        instafeedPostsPerPage,
+        instafeedTab,
+        instafeedPopup,
+        instafeedPopupFollowBtn,
+        instafeedPopupFollowBtnLabel,
+        instafeedLoadmore,
+        instafeedLoadmoreLabel,
         slidesShow,
         slidesScroll,
         carouselAutoplay,
@@ -66,6 +75,14 @@ export default function Instafeed({ attributes, setAttributes }) {
         removeAlert();
     }
 
+    const columnOptions = [
+        { label: 'Auto', value: 'auto' },
+        { label: '2', value: '2' },
+        { label: '3', value: '3' },
+        { label: '4', value: '4' },
+        { label: '6', value: '6' },
+    ];
+
     return (
         <div>
 
@@ -74,59 +91,59 @@ export default function Instafeed({ attributes, setAttributes }) {
                     <div className={'ep__instafeed-options'}>
                         <PanelBody title={__('Instagram Profile Settings', 'embedpress')} initialOpen={false}>
                             <ToggleControl
-                                label={__('Profile Image', 'your-plugin')}
+                                label={__('Profile Image', 'embedpress')}
                                 checked={instafeedProfileImage}
                                 onChange={(value) => setAttributes({ instafeedProfileImage: value })}
                             />
                             {instafeedProfileImage && (
                                 <TextControl
-                                    label={__('Image URL', 'your-plugin')}
+                                    label={__('Image URL', 'embedpress')}
                                     value={instafeedProfileImageUrl}
                                     onChange={(value) => setAttributes({ instafeedProfileImageUrl: value })}
                                 />
                             )}
 
                             <ToggleControl
-                                label={__('Follow Button', 'your-plugin')}
+                                label={__('Follow Button', 'embedpress')}
                                 checked={instafeedFollowBtn}
                                 onChange={(value) => setAttributes({ instafeedFollowBtn: value })}
                             />
                             {instafeedFollowBtn && (
                                 <TextControl
-                                    label={__('Button Label', 'your-plugin')}
+                                    label={__('Button Label', 'embedpress')}
                                     value={instafeedFollowBtnLabel}
                                     onChange={(value) => setAttributes({ instafeedFollowBtnLabel: value })}
                                 />
                             )}
 
                             <ToggleControl
-                                label={__('Posts Count', 'your-plugin')}
+                                label={__('Posts Count', 'embedpress')}
                                 checked={instafeedPostsCount}
                                 onChange={(value) => setAttributes({ instafeedPostsCount: value })}
                             />
                             {instafeedPostsCount && (
                                 <TextControl
-                                    label={__('Count Text', 'your-plugin')}
+                                    label={__('Count Text', 'embedpress')}
                                     value={instafeedPostsCountText}
                                     onChange={(value) => setAttributes({ instafeedPostsCountText: value })}
                                 />
                             )}
 
                             <ToggleControl
-                                label={__('Followers Count', 'your-plugin')}
+                                label={__('Followers Count', 'embedpress')}
                                 checked={instafeedFollowersCount}
                                 onChange={(value) => setAttributes({ instafeedFollowersCount: value })}
                             />
                             {instafeedFollowersCount && (
                                 <TextControl
-                                    label={__('Count Text', 'your-plugin')}
+                                    label={__('Count Text', 'embedpress')}
                                     value={instafeedFollowersCountText}
                                     onChange={(value) => setAttributes({ instafeedFollowersCountText: value })}
                                 />
                             )}
 
                             <ToggleControl
-                                label={__('Account Name', 'your-plugin')}
+                                label={__('Account Name', 'embedpress')}
                                 checked={instafeedAccName}
                                 onChange={(value) => setAttributes({ instafeedAccName: value })}
                             />
@@ -136,7 +153,7 @@ export default function Instafeed({ attributes, setAttributes }) {
 
                         <PanelBody title={__('Instagram Feed Settings', 'embedpress')} initialOpen={false}>
                             {
-                                isInstagramFeed(url) && (
+                                _isInstagramFeed && (
                                     <div className='instafeed-controls'>
                                         <SelectControl
                                             label={__("Layout")}
@@ -149,6 +166,23 @@ export default function Instafeed({ attributes, setAttributes }) {
                                             onChange={(instaLayout) => setAttributes({ instaLayout })}
                                             __nextHasNoMarginBottom
                                         />
+
+
+                                        {(instaLayout === 'insta-grid' || instaLayout === 'insta-masonry') && (
+                                            <div>
+                                                <SelectControl
+                                                    label={__('Columns', 'embedpress')}
+                                                    value={instafeedColumns}
+                                                    options={columnOptions}
+                                                    onChange={(instafeedColumns) => setAttributes({ instafeedColumns })}
+                                                />
+                                                <TextControl
+                                                    label={__('Column Gap', 'embedpress')}
+                                                    value={instafeedColumnsGap}
+                                                    onChange={(instafeedColumnsGap) => setAttributes({ instafeedColumnsGap })}
+                                                />
+                                            </div>
+                                        )}
                                         {
                                             (instaLayout === 'insta-carousel') && (
                                                 <div>
@@ -207,6 +241,56 @@ export default function Instafeed({ attributes, setAttributes }) {
                                                 </div>
                                             )
                                         }
+
+                                        <TextControl
+                                            label={__('Posts Per Page', 'embedpress')}
+                                            value={instafeedPostsPerPage}
+                                            onChange={(value) => setAttributes({ instafeedPostsPerPage: value })}
+                                        />
+
+                                        <ToggleControl
+                                            label={__('Feed Tab', 'embedpress')}
+                                            checked={instafeedTab}
+                                            onChange={(value) => setAttributes({ instafeedTab: value })}
+                                        />
+
+                                        <ToggleControl
+                                            label={__('Popup', 'embedpress')}
+                                            checked={instafeedPopup}
+                                            onChange={(value) => setAttributes({ instafeedPopup: value })}
+                                        />
+
+                                        {instafeedPopup && (
+                                            <div>
+                                                <ToggleControl
+                                                    label={__('Popup Follow Button', 'embedpress')}
+                                                    checked={instafeedPopupFollowBtn}
+                                                    onChange={(value) => setAttributes({ instafeedPopupFollowBtn: value })}
+                                                />
+                                                {instafeedPopupFollowBtn && (
+                                                    <TextControl
+                                                        label={__('Button Label', 'embedpress')}
+                                                        value={instafeedPopupFollowBtnLabel}
+                                                        onChange={(value) => setAttributes({ instafeedPopupFollowBtnLabel: value })}
+                                                    />
+                                                )}
+                                            </div>
+                                        )}
+
+                                        {(instaLayout === 'insta-grid' || instaLayout === 'insta-masonry') && (
+                                            <ToggleControl
+                                                label={__('Load More', 'embedpress')}
+                                                checked={instafeedLoadmore}
+                                                onChange={(value) => setAttributes({ instafeedLoadmore: value })}
+                                            />
+                                        )}
+                                        {instafeedLoadmore && (
+                                            <TextControl
+                                                label={__('Load More Label', 'embedpress')}
+                                                value={instafeedLoadmoreLabel}
+                                                onChange={(instafeedLoadmoreLabel) => setAttributes({ instafeedLoadmoreLabel })}
+                                            />
+                                        )}
 
 
                                     </div>

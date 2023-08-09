@@ -1999,10 +1999,15 @@ a.profile-link, a.profile-link h2 {
 }
 
 .insta-grid .embedpress-insta-container .insta-gallery {
-    display: flex;
+    /* display: flex;
     flex-wrap: wrap;
     padding-bottom: 3rem;
-    gap: 5px;
+    gap: 5px; */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(calc(33.333333333333% - 15px), 1fr));
+    gap: 15px;
+    grid-auto-flow: unset!important;
+
 }
 
 .insta-carousel .embedpress-insta-container .insta-gallery {
@@ -2023,11 +2028,6 @@ a.profile-link, a.profile-link h2 {
     color: #fff;
     cursor: pointer;
     height: 350px;
-    /* transition: 0.3s; */
-}
-
-.insta-grid .embedpress-insta-container .insta-gallery-item {
-    flex: 1 0 22rem;
 }
 
 .embedpress-insta-container .insta-gallery-item:hover {

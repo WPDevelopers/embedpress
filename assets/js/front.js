@@ -609,8 +609,6 @@ let epGlobals = {};
             for (let i = 0; i < items.length; i++) {
                 const item = items[i];
                 if (mediaType === 'ALL' || item.getAttribute('data-media-type') === mediaType) {
-                    console.log(item.getAttribute('data-media-type'));
-                    console.log(mediaType);
                     item.style.display = 'block';
                 } else {
                     item.style.display = 'none';

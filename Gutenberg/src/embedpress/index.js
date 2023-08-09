@@ -647,8 +647,8 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: true,
 			},
 
-
 			//Instagram Feed attributes
+			
 			instafeedProfileImage: {
 				type: 'boolean',
 				default: false,
@@ -685,11 +685,18 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: false,
 			},
-
 			
 			instaLayout: {
 				type: 'string',
 				default: 'insta-grid'
+			},
+			instafeedColumns: {
+				type: 'string',
+				default: '3'
+			},
+			instafeedColumnsGap: {
+				type: 'string',
+				default: '5'
 			},
 			slidesShow: {
 				type: 'string',
