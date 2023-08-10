@@ -13,6 +13,18 @@ class Dismiss extends Base {
 	private $scope = 'user';
 	private $app   = null;
 	private $hook  = null;
+	private $classes;
+	private $recurrence;
+	private $screens;
+	private $type;
+	private $start;
+	private $dismissible;
+	private $refresh;
+	private $do_action;
+	private $display_if;
+	private $capability;
+	
+
 
 	public function __construct( $id, $options, $app ){
 		$this->id = $id;

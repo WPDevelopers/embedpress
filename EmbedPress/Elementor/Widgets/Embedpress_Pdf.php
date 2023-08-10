@@ -198,7 +198,7 @@ class Embedpress_Pdf extends Widget_Base
 					'unit' => 'px',
 				],
 				'selectors' => [
-                    '{{WRAPPER}} .embedpress-document-embed iframe'               => 'width: {{SIZE}}{{UNIT}}; max-width: 100%',
+                    '{{WRAPPER}} .embedpress-document-embed iframe'               => 'width: {{SIZE}}{{UNIT}}!important; max-width: {{SIZE}}{{UNIT}}!important',
                     // '{{WRAPPER}} .embedpress-document-embed' => 'width: {{SIZE}}{{UNIT}}; max-width: 100%',
                     // '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
                 ],
@@ -234,8 +234,8 @@ class Embedpress_Pdf extends Widget_Base
 					'unit' => 'px',
 				],
 				'selectors' => [
-                    '{{WRAPPER}} .embedpress-document-embed iframe'               => 'height: {{SIZE}}{{UNIT}};',
-                    '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'height: {{SIZE}}{{UNIT}};',
+                    '{{WRAPPER}} .embedpress-document-embed iframe'               => 'height: {{SIZE}}{{UNIT}}!important;',
+                    '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'height: {{SIZE}}{{UNIT}}!important;',
                 ],
                 'render_type' => 'template',
 			]

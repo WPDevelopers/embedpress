@@ -20,11 +20,10 @@ if(!function_exists('lock_content_form_handler')){
 
 		$client_id = isset($_POST['client_id']) ? $_POST['client_id'] : '';
 		$password = isset($_POST['password']) ? $_POST['password'] : '';
-		$epbase64 = isset($_POST['epbase']) ? $_POST['epbase'] : '';
-		$hash_key = isset($_POST['hash_key']) ? $_POST['hash_key'] : '';
-
-		// echo $client_id;
-
+		$post_id = isset($_POST['post_id']) ? $_POST['post_id'] : '';
+		
+		$epbase64 = get_post_meta( $post_id, 'ep_base_' .$client_id, true );	
+		$hash_key = get_post_meta( $post_id, 'hash_key_' .$client_id, true  );
 
 		// Set the decryption key and initialization vector (IV)
 		$key = Helper::get_hash();
@@ -56,7 +55,8 @@ if(!function_exists('lock_content_form_handler')){
 		$response = array(
 		'success' => true,
 		'password' => $password,
-		'embedHtml' => $embed
+		'embedHtml' => $embed,
+		'post_id' => $post_id
 		);
 
 		echo json_encode($response);
@@ -64,6 +64,7 @@ if(!function_exists('lock_content_form_handler')){
 		wp_die();
 	}
 }
+
 
 
 function embedpress_render_block($attributes)

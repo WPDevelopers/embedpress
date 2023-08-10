@@ -22,6 +22,9 @@ final class Notices extends Base {
 
 	private $scripts = null;
 
+	private $dev_mode;
+	
+
 	public function __get( $name ){
 		if( property_exists( $this, $name ) ) {
 			return $this->$name;
