@@ -522,6 +522,7 @@ let epGlobals = {};
             // Check if the clicked element has the class insta-gallery-item
             const instaItem = event.target.closest('.insta-gallery-item');
 
+
             if (instaItem) {
 
                 const postData = instaItem.dataset.postdata;
@@ -531,9 +532,14 @@ let epGlobals = {};
                 const tkey = instaItem.parentElement.parentElement.getAttribute('data-tkey');
 
                 const closestPopup = event.target.closest('.ose-instagram-feed').querySelector('.insta-popup');
-                closestPopup.style.display = 'block';
+                
+                console.log(event.target);
 
-                event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData);
+                if(closestPopup){
+                    closestPopup.style.display = 'block';
+                }
+
+                event.target.closest('.ose-instagram-feed')?.querySelector('.popup-is-initialized')?.innerHTML = getPopupTemplate(postData);
 
                 const followText = event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').getAttribute('data-follow-text');
 

@@ -418,7 +418,7 @@ function embedpress_gutenberg_register_all_block()
 							// instaFeed attributes
 							'instaLayout' => [
 								'type' => 'string',
-								'default' => 'insta-grid',
+								'default' => 'insta-grid',       
 							],
 							'instafeedProfileImage' => [
 								'type' => 'boolean',
@@ -456,10 +456,6 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'boolean',
 								'default' => false,
 							],
-							'instaLayout' => [
-								'type' => 'string',
-								'default' => 'insta-grid',
-							],
 							'instafeedColumns' => [
 								'type' => 'string',
 								'default' => '3',
@@ -467,6 +463,10 @@ function embedpress_gutenberg_register_all_block()
 							'instafeedColumnsGap' => [
 								'type' => 'string',
 								'default' => '5',
+							],
+							'instafeedPostsPerPage' => [
+								'type' => 'string',
+								'default' => '12',
 							],
 							'slidesShow' => [
 								'type' => 'string',

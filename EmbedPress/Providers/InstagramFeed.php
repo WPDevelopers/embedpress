@@ -58,6 +58,13 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         'instafeedLoadmore',
         'instafeedLoadmoreLabel'
     ];
+
+     /** inline {@inheritdoc} */
+     protected $httpsSupport = true;
+
+     public function getAllowedParams(){
+         return $this->allowedParams;
+     }
      
 
     public function validateUrl(Url $url)

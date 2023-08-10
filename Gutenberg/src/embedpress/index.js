@@ -698,6 +698,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: '5'
 			},
+			instafeedPostsPerPage: {
+				type: 'string',
+				default: '12'
+			},
 			slidesShow: {
 				type: 'string',
 				default: '4'

@@ -70,6 +70,7 @@ if(!function_exists('lock_content_form_handler')){
 function embedpress_render_block($attributes)
 {
 
+
 	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
 	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;

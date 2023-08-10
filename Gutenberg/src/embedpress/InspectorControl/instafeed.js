@@ -22,6 +22,90 @@ const {
 } = wp.components;
 
 
+/**
+ *
+ * @param {object} attributes
+ * @returns
+ */
+export const useOpensea = (attributes) => {
+    // which attribute should call embed();
+    const defaults = {
+        limit: null,
+        itemperpage: null,
+        loadmore: null,
+        loadmorelabel: null,
+        layout: null,
+        preset: null,
+        orderby: null,
+        collectionname: null,
+        nftimage: null,
+        nfttitle: null,
+        nftprice: null,
+        prefix_nftprice: null,
+        nftlastsale: null,
+        prefix_nftlastsale: null,
+        nftperrow: null,
+        gapbetweenitem: null,
+        nftbutton: null,
+        nftrank: null,
+        label_nftrank: null,
+        nftdetails: null,
+        label_nftdetails: null,
+        label_nftbutton: null,
+        nftcreator: null,
+        prefix_nftcreator: null,
+        itemBGColor: null,
+        collectionNameColor: null,
+        collectionNameFZ: null,
+        titleColor: null,
+        titleFontsize: null,
+        creatorColor: null,
+        creatorFontsize: null,
+        creatorLinkColor: null,
+        creatorLinkFontsize: null,
+        priceLabelColor: null,
+        priceLabelFontsize: null,
+        priceColor: null,
+        priceFontsize: null,
+        priceUSDColor: null,
+        priceUSDFontsize: null,
+        lastSaleLabelColor: null,
+        lastSaleLabelFontsize: null,
+        lastSaleColor: null,
+        lastSaleFontsize: null,
+        lastSaleUSDColor: null,
+        lastSaleUSDFontsize: null,
+        buttonTextColor: null,
+        buttonBackgroundColor: null,
+        buttonFontSize: null,
+        loadmoreTextColor: null,
+        loadmoreBackgroundColor: null,
+        loadmoreTextFontsize: null,
+        rankBtnColor: null,
+        rankBtnFZ: null,
+        rankBtnBorderColor: null,
+        rankLabelColor: null,
+        rankLabelFZ: null,
+        detialTitleColor: null,
+        detialTitleFZ: null,
+        detailTextColor: null,
+        detailTextLinkColor: null,
+        detailTextFZ: null,
+    };
+    const param = getParams({}, attributes, defaults);
+    const [atts, setAtts] = useState(param);
+
+    useEffect(() => {
+        const param = getParams(atts, attributes, defaults);
+        if (!isShallowEqualObjects(atts || {}, param)) {
+            setAtts(param);
+        }
+    }, [attributes]);
+
+    return atts;
+}
+
+
 export default function Instafeed({ attributes, setAttributes }) {
 
     const {
@@ -60,6 +144,7 @@ export default function Instafeed({ attributes, setAttributes }) {
 
     const _isInstagramFeed = isInstagramFeed(url);
 
+
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     const onSelectImage = (logo) => {
@@ -93,59 +178,59 @@ export default function Instafeed({ attributes, setAttributes }) {
                             <ToggleControl
                                 label={__('Profile Image', 'embedpress')}
                                 checked={instafeedProfileImage}
-                                onChange={(value) => setAttributes({ instafeedProfileImage: value })}
+                                onChange={(instafeedProfileImage) => setAttributes({ instafeedProfileImage })}
                             />
                             {instafeedProfileImage && (
                                 <TextControl
                                     label={__('Image URL', 'embedpress')}
                                     value={instafeedProfileImageUrl}
-                                    onChange={(value) => setAttributes({ instafeedProfileImageUrl: value })}
+                                    onChange={(instafeedProfileImageUrl) => setAttributes({ instafeedProfileImageUrl })}
                                 />
                             )}
 
                             <ToggleControl
                                 label={__('Follow Button', 'embedpress')}
                                 checked={instafeedFollowBtn}
-                                onChange={(value) => setAttributes({ instafeedFollowBtn: value })}
+                                onChange={(instafeedFollowBtn) => setAttributes({ instafeedFollowBtn })}
                             />
                             {instafeedFollowBtn && (
                                 <TextControl
                                     label={__('Button Label', 'embedpress')}
                                     value={instafeedFollowBtnLabel}
-                                    onChange={(value) => setAttributes({ instafeedFollowBtnLabel: value })}
+                                    onChange={(instafeedFollowBtnLabel) => setAttributes({ instafeedFollowBtnLabel })}
                                 />
                             )}
 
                             <ToggleControl
                                 label={__('Posts Count', 'embedpress')}
                                 checked={instafeedPostsCount}
-                                onChange={(value) => setAttributes({ instafeedPostsCount: value })}
+                                onChange={(instafeedPostsCount) => setAttributes({ instafeedPostsCount })}
                             />
                             {instafeedPostsCount && (
                                 <TextControl
                                     label={__('Count Text', 'embedpress')}
                                     value={instafeedPostsCountText}
-                                    onChange={(value) => setAttributes({ instafeedPostsCountText: value })}
+                                    onChange={(instafeedPostsCountText) => setAttributes({ instafeedPostsCountText })}
                                 />
                             )}
 
                             <ToggleControl
                                 label={__('Followers Count', 'embedpress')}
                                 checked={instafeedFollowersCount}
-                                onChange={(value) => setAttributes({ instafeedFollowersCount: value })}
+                                onChange={(instafeedFollowersCount) => setAttributes({ instafeedFollowersCount})}
                             />
                             {instafeedFollowersCount && (
                                 <TextControl
                                     label={__('Count Text', 'embedpress')}
                                     value={instafeedFollowersCountText}
-                                    onChange={(value) => setAttributes({ instafeedFollowersCountText: value })}
+                                    onChange={(instafeedFollowersCountText) => setAttributes({ instafeedFollowersCountText})}
                                 />
                             )}
 
                             <ToggleControl
                                 label={__('Account Name', 'embedpress')}
                                 checked={instafeedAccName}
-                                onChange={(value) => setAttributes({ instafeedAccName: value })}
+                                onChange={(instafeedAccName) => setAttributes({ instafeedAccName})}
                             />
 
 
@@ -183,6 +268,9 @@ export default function Instafeed({ attributes, setAttributes }) {
                                                 />
                                             </div>
                                         )}
+                                        {
+                                            console.log({instafeedColumns})
+                                        }
                                         {
                                             (instaLayout === 'insta-carousel') && (
                                                 <div>
@@ -245,19 +333,19 @@ export default function Instafeed({ attributes, setAttributes }) {
                                         <TextControl
                                             label={__('Posts Per Page', 'embedpress')}
                                             value={instafeedPostsPerPage}
-                                            onChange={(value) => setAttributes({ instafeedPostsPerPage: value })}
+                                            onChange={(instafeedPostsPerPage) => setAttributes({ instafeedPostsPerPage })}
                                         />
 
                                         <ToggleControl
                                             label={__('Feed Tab', 'embedpress')}
                                             checked={instafeedTab}
-                                            onChange={(value) => setAttributes({ instafeedTab: value })}
+                                            onChange={(instafeedTab) => setAttributes({ instafeedTab})}
                                         />
 
                                         <ToggleControl
                                             label={__('Popup', 'embedpress')}
                                             checked={instafeedPopup}
-                                            onChange={(value) => setAttributes({ instafeedPopup: value })}
+                                            onChange={(instafeedPopup) => setAttributes({ instafeedPopup})}
                                         />
 
                                         {instafeedPopup && (
@@ -265,13 +353,13 @@ export default function Instafeed({ attributes, setAttributes }) {
                                                 <ToggleControl
                                                     label={__('Popup Follow Button', 'embedpress')}
                                                     checked={instafeedPopupFollowBtn}
-                                                    onChange={(value) => setAttributes({ instafeedPopupFollowBtn: value })}
+                                                    onChange={(instafeedPopupFollowBtn) => setAttributes({ instafeedPopupFollowBtn })}
                                                 />
                                                 {instafeedPopupFollowBtn && (
                                                     <TextControl
                                                         label={__('Button Label', 'embedpress')}
                                                         value={instafeedPopupFollowBtnLabel}
-                                                        onChange={(value) => setAttributes({ instafeedPopupFollowBtnLabel: value })}
+                                                        onChange={(instafeedPopupFollowBtnLabel) => setAttributes({ instafeedPopupFollowBtnLabel })}
                                                     />
                                                 )}
                                             </div>
@@ -281,7 +369,7 @@ export default function Instafeed({ attributes, setAttributes }) {
                                             <ToggleControl
                                                 label={__('Load More', 'embedpress')}
                                                 checked={instafeedLoadmore}
-                                                onChange={(value) => setAttributes({ instafeedLoadmore: value })}
+                                                onChange={(instafeedLoadmore) => setAttributes({ instafeedLoadmore })}
                                             />
                                         )}
                                         {instafeedLoadmore && (
