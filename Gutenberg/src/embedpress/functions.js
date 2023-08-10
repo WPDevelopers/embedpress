@@ -142,7 +142,25 @@ export const useInstafeed = (attributes) => {
         transitionSpeed: null,
         carouselLoop: null,
         carouselArrows: null,
-        carouselSpacing: null
+        carouselSpacing: null,
+        instafeedProfileImage: null,
+        instafeedProfileImageUrl: null,
+        instafeedFollowBtn: null,
+        instafeedFollowBtnLabel: null,
+        instafeedPostsCount: null,
+        instafeedPostsCountText: null,
+        instafeedFollowersCount: null,
+        instafeedFollowersCountText: null,
+        instafeedAccName: null,
+        instafeedColumns: null,
+        instafeedColumnsGap: null,
+        instafeedPostsPerPage: null,
+        instafeedTab: null,
+        instafeedPopup: null,
+        instafeedPopupFollowBtn: null,
+        instafeedPopupFollowBtnLabel: null,
+        instafeedLoadmore: null,
+        instafeedLoadmoreLabel: null,
     };
 
     const param = getParams({}, attributes, defaults);

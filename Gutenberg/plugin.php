@@ -420,6 +420,54 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'string',
 								'default' => 'insta-grid',
 							],
+							'instafeedProfileImage' => [
+								'type' => 'boolean',
+								'default' => false,
+							],
+							'instafeedProfileImageUrl' => [
+								'type' => 'string',
+								'default' => '',
+							],
+							'instafeedFollowBtn' => [
+								'type' => 'boolean',
+								'default' => false,
+							],
+							'instafeedFollowBtnLabel' => [
+								'type' => 'string',
+								'default' => 'Follow',
+							],
+							'instafeedPostsCount' => [
+								'type' => 'boolean',
+								'default' => false,
+							],
+							'instafeedPostsCountText' => [
+								'type' => 'string',
+								'default' => '[count] posts',
+							],
+							'instafeedFollowersCount' => [
+								'type' => 'boolean',
+								'default' => false,
+							],
+							'instafeedFollowersCountText' => [
+								'type' => 'string',
+								'default' => '[count] followers',
+							],
+							'instafeedAccName' => [
+								'type' => 'boolean',
+								'default' => false,
+							],
+							'instaLayout' => [
+								'type' => 'string',
+								'default' => 'insta-grid',
+							],
+							'instafeedColumns' => [
+								'type' => 'string',
+								'default' => '3',
+							],
+							'instafeedColumnsGap' => [
+								'type' => 'string',
+								'default' => '5',
+							],
 							'slidesShow' => [
 								'type' => 'string',
 								'default' => '4',
@@ -457,7 +505,6 @@ function embedpress_gutenberg_register_all_block()
 								'default' => false,
 							],
 							
-
 						),
 					]);
 				} elseif ('embedpress-pdf' === $blocks_to_register) {
