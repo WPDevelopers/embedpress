@@ -23,11 +23,11 @@ const { select, subscribe } = wp.data;
 const { __ } = wp.i18n;
 import { embedPressIcon } from '../common/icons';
 import { isOpensea as _isOpensea, isOpenseaSingle as _isOpenseaSingle, useOpensea } from './InspectorControl/opensea';
-import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, isYTLive as _isYTLive, useYTVideo } from './InspectorControl/youtube';
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import ContentShare from '../common/social-share-control';
 import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo, initCarousel, useInstafeed } from './functions';
+import { useYoutube } from './InspectorControl/youtube';
 
 const {
 	useBlockProps
@@ -124,9 +124,6 @@ export default function EmbedPress(props) {
 
 	const blockProps = useBlockProps ? useBlockProps() : [];
 
-	const isYTChannel = _isYTChannel(url);
-	const isYTVideo = _isYTVideo(url);
-	const isYTLive = _isYTLive(url);
 	const isWistiaVideo = _isWistiaVideo(url);
 	const isVimeoVideo = _isVimeoVideo(url);
 	const isInstagramFeed = _isInstagramFeed(url);
@@ -135,8 +132,7 @@ export default function EmbedPress(props) {
 	const isOpenseaSingle = _isOpenseaSingle(url);
 
 	const openseaParams = useOpensea(attributes);
-	const youtubeParams = useYTChannel(attributes);
-	const youtubeVideoParams = useYTVideo(attributes);
+	const { youtubeParams, isYTChannel, isYTVideo, isYTLive } = useYoutube(attributes, url);
 	const wistiaVideoParams = useWistiaVideo(attributes);
 	const vimeoVideoParams = useVimeoVideo(attributes);
 	const instafeedParams = useInstafeed(attributes);
@@ -289,7 +285,7 @@ export default function EmbedPress(props) {
 		return () => {
 			clearTimeout(delayDebounceFn)
 		}
-	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, contentShare, lockContent]);
+	}, [openseaParams, youtubeParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, contentShare, lockContent]);
 
 	return (
 		<Fragment>

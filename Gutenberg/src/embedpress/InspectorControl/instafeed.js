@@ -2,14 +2,14 @@
  * WordPress dependencies
  */
 
-import { addProAlert, isPro, removeAlert, isInstagramFeed } from '../../common/helper';
-import ControlHeader from '../../common/control-heading';
+// import { addProAlert, isPro, removeAlert, isInstagramFeed } from '../../common/helper';
+// import ControlHeader from '../../common/control-heading';
 import CustomBranding from './custombranding';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
 const { __ } = wp.i18n;
-const { addFilter } = wp.hooks;
+// const { addFilter } = wp.hooks;
 
 const {
     TextControl,

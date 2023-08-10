@@ -11,7 +11,6 @@ import './editor.scss';
 import edit from './edit';
 import { embedPressIcon } from '../common/icons';
 import { init as openseaInit } from './InspectorControl/opensea';
-import { init as youtubeInit } from './InspectorControl/youtube';
 import { init as wistiaInit } from './InspectorControl/wistia';
 import { init as vimeoInit } from './InspectorControl/vimeo';
 
@@ -535,7 +534,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 
 			// custom player attributes
-			customPlayer: {  
+			customPlayer: {
 				type: 'boolean',
 				default: false
 			},
@@ -547,12 +546,12 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: 'preset-default'
 			},
-			
+
 			playerColor: {
 				type: 'string',
 				default: '#5b4e96',
 			},
-			
+
 			playerPip: {
 				type: 'boolean',
 				default: false,
@@ -648,7 +647,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 
 			//Instagram Feed attributes
-			
+
 			instafeedProfileImage: {
 				type: 'boolean',
 				default: false,
@@ -685,7 +684,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: false,
 			},
-			
+
 			instaLayout: {
 				type: 'string',
 				default: 'insta-grid'
@@ -738,7 +737,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: false
 			},
-			
+
 
 			//Custom logo atributes
 			customlogo: {
@@ -785,7 +784,6 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 
 
 	openseaInit();
-	youtubeInit();
 	wistiaInit();
 	vimeoInit();
 }

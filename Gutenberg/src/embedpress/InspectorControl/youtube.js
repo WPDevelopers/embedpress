@@ -165,6 +165,18 @@ export const useYTVideo = (attributes) => {
     return atts;
 }
 
+export const useYoutube = (attributes, url) => {
+	init();
+
+	const attrs = isYTChannel(url) ? useYTChannel(attributes) : useYTVideo(attributes);
+
+    return {
+		youtubeParams: attrs,
+		isYTChannel  : isYTChannel(url),
+		isYTVideo    : isYTVideo(url),
+		isYTLive     : isYTLive(url),
+	};
+}
 
 
 export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive }) {
