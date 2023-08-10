@@ -277,7 +277,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             $column = (100 / intval(!empty($params['instafeedColumns'])? $params['instafeedColumns'] : 1));
             $gap = $params['instafeedColumnsGap'];
 
-            $styleAttribute = 'style="grid-template-columns: repeat(auto-fit, minmax(calc({'.esc_attr($column).'% - {$gap}px), 1fr)); gap: '.esc_attr($gap).'px;"';
+            $styleAttribute = 'style="grid-template-columns: repeat(auto-fit, minmax(calc('.esc_attr($column).'% - '.esc_attr($gap).'px), 1fr)); gap: '.esc_attr($gap).'px;"';
         }
         else if($params['instaLayout'] === 'insta-masonry'){
             $styleAttribute = 'style="column-count: '.esc_attr($params['instafeedColumns']).'; gap: '.esc_attr($params['instafeedColumnsGap']).'px;"';

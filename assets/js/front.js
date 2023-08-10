@@ -523,6 +523,8 @@ let epGlobals = {};
             const instaItem = event.target.closest('.insta-gallery-item');
 
 
+            console.log(instaItem);
+
             if (instaItem) {
 
                 const postData = instaItem.dataset.postdata;
@@ -536,8 +538,10 @@ let epGlobals = {};
                 console.log(event.target);
 
                 if(closestPopup){
-                    closestPopup.style.display = 'block';
+                    // closestPopup.style.display = 'block';
                 }
+
+                console.log(event.target.closest('.ose-instagram-feed'));
 
                 event.target.closest('.ose-instagram-feed')?.querySelector('.popup-is-initialized')?.innerHTML = getPopupTemplate(postData);
 
@@ -566,8 +570,11 @@ let epGlobals = {};
 
 
     const instaContainers = document.querySelectorAll('.embedpress-gutenberg-wrapper .insta-gallery');
+    console.log(instaContainers + ' containers');
     if (instaContainers.length > 0) {
         instaContainers.forEach((container) => {
+            console.log(container);
+
             epGlobals.instaPopup(container);
         });
     }
@@ -678,6 +685,8 @@ let epGlobals = {};
 
 })(jQuery);
 
+
+console.log('aksdasd');
 
 document.addEventListener('DOMContentLoaded', function () {
 

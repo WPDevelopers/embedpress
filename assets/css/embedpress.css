@@ -1953,6 +1953,7 @@ li[data-media-type="ALL"] svg {
 /* Styles for the profile bio */
 .bio-section {
     margin-bottom: 12px;
+    text-align: left;
 }
 
 .bio {

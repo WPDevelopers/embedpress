@@ -2,11 +2,13 @@
  * WordPress dependencies
  */
 
-// import { addProAlert, isPro, removeAlert, isInstagramFeed } from '../../common/helper';
-// import ControlHeader from '../../common/control-heading';
+import { addProAlert, isPro, removeAlert, isInstagramFeed } from '../../common/helper';
+import ControlHeader from '../../common/control-heading';
 import CustomBranding from './custombranding';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
+
+import { MediaUpload } from "@wordpress/block-editor";
 const { useState, useEffect } = wp.element;
 const { __ } = wp.i18n;
 // const { addFilter } = wp.hooks;
@@ -27,71 +29,90 @@ const {
  * @param {object} attributes
  * @returns
  */
-export const useOpensea = (attributes) => {
+
+
+
+
+
+const isProPluginActive = embedpressObj.is_pro_plugin_active;
+
+
+export const init = () => {
+    addFilter('embedpress_block_rest_param', 'embedpress', getInstafeedParams, 10);
+}
+
+
+export const getInstafeedParams = (params, attributes) => {
+    if (!attributes.url || !(isInstagramFeed(attributes.url))) {
+        return params;
+    }
+    // which attributes should be passed with rest api.
+    const defaults = {
+        instafeedAccName: 'default value',
+        instafeedProfileImage: true,
+        instafeedProfileImageUrl: '',
+        instafeedFollowBtn: true,
+        instafeedFollowBtnLabel: 'Follow',
+        instafeedPostsCount: true,
+        instafeedPostsCountText: '[count] posts',
+        instafeedFollowersCount: true,
+        instafeedFollowersCountText: '[count] followers',
+        instaLayout: 'insta-grid',
+        instafeedColumns: '3',
+        instafeedColumnsGap: '5',
+        instafeedPostsPerPage: true,
+        instafeedTab: true,
+        instafeedPopup: true,
+        instafeedPopupFollowBtn: true,
+        instafeedPopupFollowBtnLabel: 'Follow',
+        instafeedLoadmore: true,
+        instafeedLoadmoreLabel: 'Load More',
+        slidesShow: '4',
+        slidesScroll: '4',
+        carouselAutoplay: false,
+        autoplaySpeed: '3000',
+        transitionSpeed: '1000',
+        carouselLoop: true,
+        carouselArrows: true,
+        carouselSpacing: '0',
+        carouselDots: false,
+    };
+
+    return getParams(params, attributes, defaults);
+}
+//
+export const useInstafeed = (attributes) => {
     // which attribute should call embed();
     const defaults = {
-        limit: null,
-        itemperpage: null,
-        loadmore: null,
-        loadmorelabel: null,
-        layout: null,
-        preset: null,
-        orderby: null,
-        collectionname: null,
-        nftimage: null,
-        nfttitle: null,
-        nftprice: null,
-        prefix_nftprice: null,
-        nftlastsale: null,
-        prefix_nftlastsale: null,
-        nftperrow: null,
-        gapbetweenitem: null,
-        nftbutton: null,
-        nftrank: null,
-        label_nftrank: null,
-        nftdetails: null,
-        label_nftdetails: null,
-        label_nftbutton: null,
-        nftcreator: null,
-        prefix_nftcreator: null,
-        itemBGColor: null,
-        collectionNameColor: null,
-        collectionNameFZ: null,
-        titleColor: null,
-        titleFontsize: null,
-        creatorColor: null,
-        creatorFontsize: null,
-        creatorLinkColor: null,
-        creatorLinkFontsize: null,
-        priceLabelColor: null,
-        priceLabelFontsize: null,
-        priceColor: null,
-        priceFontsize: null,
-        priceUSDColor: null,
-        priceUSDFontsize: null,
-        lastSaleLabelColor: null,
-        lastSaleLabelFontsize: null,
-        lastSaleColor: null,
-        lastSaleFontsize: null,
-        lastSaleUSDColor: null,
-        lastSaleUSDFontsize: null,
-        buttonTextColor: null,
-        buttonBackgroundColor: null,
-        buttonFontSize: null,
-        loadmoreTextColor: null,
-        loadmoreBackgroundColor: null,
-        loadmoreTextFontsize: null,
-        rankBtnColor: null,
-        rankBtnFZ: null,
-        rankBtnBorderColor: null,
-        rankLabelColor: null,
-        rankLabelFZ: null,
-        detialTitleColor: null,
-        detialTitleFZ: null,
-        detailTextColor: null,
-        detailTextLinkColor: null,
-        detailTextFZ: null,
+        instaLayout: null,
+        slidesShow: null,
+        slidesScroll: null,
+        carouselAutoplay: null,
+        autoplaySpeed: null,
+        transitionSpeed: null,
+        carouselLoop: null,
+        carouselArrows: null,
+        carouselSpacing: null,
+        instafeedProfileImage: null,
+        instafeedProfileImageUrl: null,
+        instafeedFollowBtn: null,
+        instafeedFollowBtnLabel: null,
+        instafeedPostsCount: null,
+        instafeedPostsCountText: null,
+        instafeedFollowersCount: null,
+        instafeedFollowersCountText: null,
+        instafeedAccName: null,
+        instafeedColumns: null,
+        instafeedColumnsGap: null,
+        instafeedPostsPerPage: null,
+        instafeedTab: null,
+        instafeedPopup: null,
+        instafeedPopupFollowBtn: null,
+        instafeedPopupFollowBtnLabel: null,
+        instafeedLoadmore: null,
+        instafeedLoadmoreLabel: null,
     };
+
     const param = getParams({}, attributes, defaults);
     const [atts, setAtts] = useState(param);
 
@@ -104,7 +125,6 @@ export const useOpensea = (attributes) => {
 
     return atts;
 }
-
 
 export default function Instafeed({ attributes, setAttributes }) {
 
@@ -141,18 +161,15 @@ export default function Instafeed({ attributes, setAttributes }) {
 
     } = attributes;
 
-
     const _isInstagramFeed = isInstagramFeed(url);
 
 
-    const isProPluginActive = embedpressObj.is_pro_plugin_active;
-
     const onSelectImage = (logo) => {
         console.log(logo.sizes.full.url);
-        setAttributes({ customlogo: logo.sizes.full.url });
+        setAttributes({ instafeedProfileImageUrl: logo.sizes.full.url });
     }
     const removeImage = (e) => {
-        setAttributes({ customlogo: '' });
+        setAttributes({ instafeedProfileImageUrl: '' });
     }
 
     if (!document.querySelector('.pro__alert__wrap')) {
@@ -180,11 +197,31 @@ export default function Instafeed({ attributes, setAttributes }) {
                                 checked={instafeedProfileImage}
                                 onChange={(instafeedProfileImage) => setAttributes({ instafeedProfileImage })}
                             />
+                            {
+                                instafeedProfileImageUrl && (
+                                    <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
+                                        <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
+                                            <span class="dashicon dashicons dashicons-trash"></span>
+                                        </button>
+                                        <img
+                                            src={instafeedProfileImageUrl}
+                                            alt="John"
+                                        />
+                                    </div>
+                                )
+                            }
                             {instafeedProfileImage && (
-                                <TextControl
-                                    label={__('Image URL', 'embedpress')}
+                                <MediaUpload
+                                    onSelect={onSelectImage}
+                                    allowedTypes={['image']}
                                     value={instafeedProfileImageUrl}
-                                    onChange={(instafeedProfileImageUrl) => setAttributes({ instafeedProfileImageUrl })}
+                                    render={({ open }) => (
+                                        <Button className={'ep-logo-upload-button'} icon={!instafeedProfileImageUrl ? 'upload' : 'update'} onClick={open}>
+                                            {
+                                                (!instafeedProfileImageUrl) ? 'Upload Image' : 'Change Image'
+                                            }
+                                        </Button>
+                                    )}
                                 />
                             )}
 
@@ -217,20 +254,20 @@ export default function Instafeed({ attributes, setAttributes }) {
                             <ToggleControl
                                 label={__('Followers Count', 'embedpress')}
                                 checked={instafeedFollowersCount}
-                                onChange={(instafeedFollowersCount) => setAttributes({ instafeedFollowersCount})}
+                                onChange={(instafeedFollowersCount) => setAttributes({ instafeedFollowersCount })}
                             />
                             {instafeedFollowersCount && (
                                 <TextControl
                                     label={__('Count Text', 'embedpress')}
                                     value={instafeedFollowersCountText}
-                                    onChange={(instafeedFollowersCountText) => setAttributes({ instafeedFollowersCountText})}
+                                    onChange={(instafeedFollowersCountText) => setAttributes({ instafeedFollowersCountText })}
                                 />
                             )}
 
                             <ToggleControl
                                 label={__('Account Name', 'embedpress')}
                                 checked={instafeedAccName}
-                                onChange={(instafeedAccName) => setAttributes({ instafeedAccName})}
+                                onChange={(instafeedAccName) => setAttributes({ instafeedAccName })}
                             />
 
 
@@ -269,7 +306,7 @@ export default function Instafeed({ attributes, setAttributes }) {
                                             </div>
                                         )}
                                         {
-                                            console.log({instafeedColumns})
+                                            console.log({ instafeedColumns })
                                         }
                                         {
                                             (instaLayout === 'insta-carousel') && (
@@ -339,13 +376,13 @@ export default function Instafeed({ attributes, setAttributes }) {
                                         <ToggleControl
                                             label={__('Feed Tab', 'embedpress')}
                                             checked={instafeedTab}
-                                            onChange={(instafeedTab) => setAttributes({ instafeedTab})}
+                                            onChange={(instafeedTab) => setAttributes({ instafeedTab })}
                                         />
 
                                         <ToggleControl
                                             label={__('Popup', 'embedpress')}
                                             checked={instafeedPopup}
-                                            onChange={(instafeedPopup) => setAttributes({ instafeedPopup})}
+                                            onChange={(instafeedPopup) => setAttributes({ instafeedPopup })}
                                         />
 
                                         {instafeedPopup && (

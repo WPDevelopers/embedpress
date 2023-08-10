@@ -130,51 +130,6 @@ export const initCustomPlayer = (clientId, attributes) => {
 
 }
 
-//
-export const useInstafeed = (attributes) => {
-    // which attribute should call embed();
-    const defaults = {
-        instaLayout: null,
-        slidesShow: null,
-        slidesScroll: null,
-        carouselAutoplay: null,
-        autoplaySpeed: null,
-        transitionSpeed: null,
-        carouselLoop: null,
-        carouselArrows: null,
-        carouselSpacing: null,
-        instafeedProfileImage: null,
-        instafeedProfileImageUrl: null,
-        instafeedFollowBtn: null,
-        instafeedFollowBtnLabel: null,
-        instafeedPostsCount: null,
-        instafeedPostsCountText: null,
-        instafeedFollowersCount: null,
-        instafeedFollowersCountText: null,
-        instafeedAccName: null,
-        instafeedColumns: null,
-        instafeedColumnsGap: null,
-        instafeedPostsPerPage: null,
-        instafeedTab: null,
-        instafeedPopup: null,
-        instafeedPopupFollowBtn: null,
-        instafeedPopupFollowBtnLabel: null,
-        instafeedLoadmore: null,
-        instafeedLoadmoreLabel: null,
-    };
-
-    const param = getParams({}, attributes, defaults);
-    const [atts, setAtts] = useState(param);
-
-    useEffect(() => {
-        const param = getParams(atts, attributes, defaults);
-        if (!isShallowEqualObjects(atts || {}, param)) {
-            setAtts(param);
-        }
-    }, [attributes]);
-
-    return atts;
-}
 
 export const initCarousel = (clientId, attributes) => {
     const {

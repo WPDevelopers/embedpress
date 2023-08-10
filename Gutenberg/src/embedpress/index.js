@@ -10,6 +10,7 @@ import './style.scss';
 import './editor.scss';
 import edit from './edit';
 import { embedPressIcon } from '../common/icons';
+import { init as instafeedInit } from './InspectorControl/instafeed';
 import { init as openseaInit } from './InspectorControl/opensea';
 import { init as wistiaInit } from './InspectorControl/wistia';
 import { init as vimeoInit } from './InspectorControl/vimeo';
@@ -701,6 +702,34 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: '12'
 			},
+			instafeedTab: {
+				type: 'boolean',
+				default: true,
+			},
+			instafeedPopup: {
+				type: 'boolean',
+				default: true,
+			},
+
+
+			instafeedPopupFollowBtn: {
+				type: 'boolean',
+				default: true,
+			},
+
+			instafeedPopupFollowBtnLabel: {
+				type: 'string',
+				default: 'Follow',
+			},
+			instafeedLoadmore: {
+				type: 'boolean',
+				default: true,
+			},
+			instafeedPopupFollowBtnLabel: {
+				type: 'string',
+				default: 'Load More',
+			},
+
 			slidesShow: {
 				type: 'string',
 				default: '4'
@@ -782,7 +811,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 		save: () => null,
 	});
 
-
+	instafeedInit();
 	openseaInit();
 	wistiaInit();
 	vimeoInit();

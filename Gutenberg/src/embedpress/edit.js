@@ -23,10 +23,11 @@ const { select, subscribe } = wp.data;
 const { __ } = wp.i18n;
 import { embedPressIcon } from '../common/icons';
 import { isOpensea as _isOpensea, isOpenseaSingle as _isOpenseaSingle, useOpensea } from './InspectorControl/opensea';
+import { useInstafeed } from './InspectorControl/instafeed';
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import ContentShare from '../common/social-share-control';
-import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo, initCarousel, useInstafeed } from './functions';
+import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo, initCarousel } from './functions';
 import { useYoutube } from './InspectorControl/youtube';
 
 const {
