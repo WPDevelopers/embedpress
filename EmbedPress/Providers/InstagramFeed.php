@@ -133,13 +133,13 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     }
 
     // Get Instagram posts, videos, reels
-    public function getInstagramPosts($accessToken, $account_type, $userId, $limit=100)
+    public function getInstagramPosts($access_token, $account_type, $userId, $limit=100)
     {
         if(strtolower($account_type) === 'business'){
-            $api_url = 'https://graph.facebook.com/v17.0/'.$userId.'/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit='.$limit.'&access_token='.$accessToken;
+            $api_url = 'https://graph.facebook.com/v17.0/'.$userId.'/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit='.$limit.'&access_token='.$access_token;
         }
         else{
-            $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$accessToken";
+            $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$access_token";
 
         }
 
@@ -164,7 +164,55 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         }
     }
 
-    public function data_instagram_feed($access_token, $connected_account_type, $user_id, $limit = 100) {
+    public function getHashTagId($access_token, $hashtag, $user_id ){
+        $api_url = "https://graph.facebook.com/v17.0/ig_hashtag_search?user_id=$user_id&q=$hashtag&access_token=$access_token";
+
+        // Make a GET request to Instagram's API to retrieve posts
+        $postsResponse = wp_remote_get($api_url);
+
+        // Check if the posts request was successful
+        if (is_wp_error($postsResponse)) {
+            echo 'Error: Unable to retrieve Instagram posts.';
+        } else {
+            $postsBody = wp_remote_retrieve_body($postsResponse);
+            $hashtagId = json_decode($postsBody, true);
+
+            if(empty($hashtagId['data']) ) {
+                return 'Please add Instagram Access Token';
+            }
+
+            return $hashtagId['data'][0]['id'];
+
+        }
+
+        
+    }
+    public function getHashTagPosts($access_token, $hashtag, $user_id){
+        $hashtag_id = $this->getHashTagId($access_token, $hashtag, $user_id);
+
+        // print_r($hashtag_id); die;
+
+        $api_url = "https://graph.facebook.com/$hashtag_id/top_media?user_id=$user_id&fields=id,media_type,comments_count,like_count,children{media_url,id,media_type},media_url,permalink,timestamp&access_token=$access_token";
+
+        // Make a GET request to Instagram's API to retrieve posts
+        $postsResponse = wp_remote_get($api_url, array('timeout' => 30));
+
+        // Check if the posts request was successful
+        if (is_wp_error($postsResponse)) {
+            echo 'Error: Unable to retrieve Hastag Instagram posts.';
+        } else {
+            $postsBody = wp_remote_retrieve_body($postsResponse);
+            $posts = json_decode($postsBody, true);
+
+            if(empty($posts['data']) ) {
+                return 'Please add Instagram Access Token';
+            }
+            return $posts['data'];
+        }
+
+    }
+
+    public function data_instagram_feed($access_token, $connected_account_type, $user_id, $limit = 100, $hashtag='worldelephantday') {
        
         if(strtolower($connected_account_type) === 'business'){
             $api_url = "https://graph.facebook.com/v17.0/$user_id/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=$limit&access_token=$access_token";
@@ -183,11 +231,13 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             // Transient data is not available, fetch the data and store it in a transient
             $feed_userinfo = $this->getInstagramUserInfo($access_token, $connected_account_type, $user_id);
             $feed_posts = $this->getInstagramPosts($access_token, $connected_account_type, $user_id, $limit=100);
+            $hashtag_posts = $this->getHashtagPosts($access_token, $hashtag, $user_id);
     
             $feed_data = [
                 $user_id => [
                     'feed_userinfo' => $feed_userinfo,
-                    'feed_posts' => $feed_posts
+                    'feed_posts' => $feed_posts,
+                    'hashtag_posts' => $hashtag_posts
                 ]
             ];
 
@@ -201,6 +251,10 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
     public function getInstaFeedItem($post, $index, $account_type)
     {
+        // echo '<pre>';
+        // print_r($post); die;
+        // echo '</pre>';
+
 
         $caption = !empty($post['caption']) ? $post['caption'] : '';
         $media_type = !empty($post['media_type']) ? $post['media_type'] : '';
@@ -287,6 +341,11 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         $feed_data = $this->data_instagram_feed($accessToken, $account_type, $userID, $limit=100);
         $profile_info = $feed_data[$userID]['feed_userinfo'];
         $insta_posts = $feed_data[$userID]['feed_posts'];
+        $hashtag_posts = $feed_data[$userID]['hashtag_posts'];
+
+        // echo '<pre>'; 
+        // print_r($hashtag_posts); die;
+        // echo '</pre>'; 
         
         // Check and assign each item to separate variables
         $id = !empty($profile_info['id']) ? $profile_info['id'] : '';
@@ -299,7 +358,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         $connected_account_type = $account_type;
 
         if(strtolower($connected_account_type) === 'business'){
-            $tkey = md5('https://graph.facebook.com/v17.0/'.$id.'/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit='.$limit.'&access_token='.$accessToken);
+            $tkey = md5('https://graph.facebook.com/v17.0/'.$id.'/media?fi  elds=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit='.$limit.'&access_token='.$accessToken);
         }
         else{
             $tkey = md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$accessToken");
