@@ -181,36 +181,53 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 return 'Please add Instagram Access Token';
             }
 
-            return $hashtagId['data'][0]['id'];
+            if(isset($hashtagId['data'][0]['id'])){
+                return $hashtagId['data'][0]['id'];
+            }
+
+            return '';
 
         }
 
         
     }
-    public function getHashTagPosts($access_token, $hashtag, $user_id){
+    public function getHashTagPosts($access_token, $hashtag, $user_id) {
+        // Check if the data is already cached in a transient
+        $transient_key = 'hashtag_posts_key';
+        $cached_posts = get_transient($transient_key);
+    
+        if (isset($cached_posts[$hashtag])) {
+            return $cached_posts[$hashtag];
+        }
+    
         $hashtag_id = $this->getHashTagId($access_token, $hashtag, $user_id);
-
-        // print_r($hashtag_id); die;
-
-        $api_url = "https://graph.facebook.com/$hashtag_id/top_media?user_id=$user_id&fields=id,media_type,comments_count,like_count,children{media_url,id,media_type},media_url,permalink,timestamp&access_token=$access_token";
-
-        // Make a GET request to Instagram's API to retrieve posts
+    
+        $api_url = "https://graph.facebook.com/$hashtag_id/top_media?user_id=$user_id&fields=id,media_url,media_type,comments_count,like_count,children{media_url,id,media_type},permalink,timestamp&access_token=$access_token";
+    
         $postsResponse = wp_remote_get($api_url, array('timeout' => 30));
 
-        // Check if the posts request was successful
+        print_r($postsResponse); die;
+    
         if (is_wp_error($postsResponse)) {
-            echo 'Error: Unable to retrieve Hastag Instagram posts.';
+            echo 'Error: Unable to retrieve Hashtag Instagram posts.';
         } else {
             $postsBody = wp_remote_retrieve_body($postsResponse);
             $posts = json_decode($postsBody, true);
-
-            if(empty($posts['data']) ) {
+    
+            if (empty($posts['data'])) {
                 return 'Please add Instagram Access Token';
             }
-            return $posts['data'];
+    
+            // Update the cached posts array with the new data
+            $cached_posts[$hashtag] = $posts['data'];
+    
+            // Store the updated array in the transient
+            set_transient($transient_key, $cached_posts, HOUR_IN_SECONDS);
+    
+            return $cached_posts[$hashtag];
         }
-
     }
+    
 
     public function data_instagram_feed($access_token, $connected_account_type, $user_id, $limit = 100, $hashtag='worldelephantday') {
        
@@ -231,6 +248,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             // Transient data is not available, fetch the data and store it in a transient
             $feed_userinfo = $this->getInstagramUserInfo($access_token, $connected_account_type, $user_id);
             $feed_posts = $this->getInstagramPosts($access_token, $connected_account_type, $user_id, $limit=100);
+            // $feed_posts = $this->getHashtagPosts($access_token, $hashtag, $user_id);
             $hashtag_posts = $this->getHashtagPosts($access_token, $hashtag, $user_id);
     
             $feed_data = [
@@ -245,11 +263,17 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             set_transient($transientKey, $feed_data, 3600);
         }
         
+        // echo '<pre>'; 
+        // print_r($feed_data[$user_id]['hashtag_posts']);
+        // echo '</pre>'; 
+
+        // die;
+
         return $feed_data;
     }
     
 
-    public function getInstaFeedItem($post, $index, $account_type)
+    public function getInstaFeedItem($post, $index, $account_type, $hashtag)
     {
         // echo '<pre>';
         // print_r($post); die;
@@ -279,11 +303,26 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         ob_start(); ?>
         <div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr( $post['id'] )?>" data-postindex="<?php echo esc_attr( $index + 1 ); ?>" data-postdata="<?php echo htmlspecialchars(json_encode($post), ENT_QUOTES, 'UTF-8'); ?>" data-media-type="<?php echo esc_attr( $media_type );?>">
             <?php
-                if ($media_type == 'VIDEO') {
-                    echo '<video class="insta-gallery-image" src="' . esc_url($media_url) . '"></video>';
-                } else {
-                    echo ' <img class="insta-gallery-image" src="' . esc_url($media_url) . '" alt="' . esc_attr($caption) . '">';
+                if(!empty($hashtag) && $media_type == 'CAROUSEL_ALBUM'){
+                    if (isset($post['children']['data'][0]['media_url'])) {
+                        $hashtag_media_url = $post['children']['data'][0]['media_url'];
+                        $hashtag_media_type = $post['children']['data'][0]['media_type'];
+
+                        if ($hashtag_media_type == 'VIDEO') {
+                            echo '<video class="insta-gallery-image" src="' . esc_url($hashtag_media_url) . '"></video>';
+                        } else {
+                            echo ' <img class="insta-gallery-image" src="' . esc_url($hashtag_media_url) . '" alt="' . esc_attr($caption) . '">';
+                        }
+                    }
                 }
+                else{
+                    if ($media_type == 'VIDEO') {
+                        echo '<video class="insta-gallery-image" src="' . esc_url($media_url) . '"></video>';
+                    } else {
+                        echo ' <img class="insta-gallery-image" src="' . esc_url($media_url) . '" alt="' . esc_attr($caption) . '">';
+                    }
+                }
+                
             ?>
 
             <div class="insta-gallery-item-type">
@@ -320,7 +359,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     <?php $feed_item = ob_get_clean(); return $feed_item;
     }
 
-    public function getInstagramFeedTemplate($accessToken, $account_type, $userID)
+    public function getInstagramFeedTemplate($accessToken, $account_type, $userID, $hashtag='')
     {
         $params = $this->getParams(); 
 
@@ -338,13 +377,18 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         }
 
 
-        $feed_data = $this->data_instagram_feed($accessToken, $account_type, $userID, $limit=100);
+        $feed_data = $this->data_instagram_feed($accessToken, $account_type, $userID, $limit=100, $hashtag);
+
         $profile_info = $feed_data[$userID]['feed_userinfo'];
+
         $insta_posts = $feed_data[$userID]['feed_posts'];
-        $hashtag_posts = $feed_data[$userID]['hashtag_posts'];
+
+        if(!empty($hashtag)){
+            $insta_posts = $feed_data[$userID]['hashtag_posts'];
+        }
 
         // echo '<pre>'; 
-        // print_r($hashtag_posts); die;
+        // print_r($insta_posts); die;
         // echo '</pre>'; 
         
         // Check and assign each item to separate variables
@@ -464,7 +508,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                                 if ($counter >= $posts_per_page) {
                                     break; // Exit the loop when the counter reaches the limit
                                 }
-                                print_r($this->getInstaFeedItem($post, $index, $connected_account_type));
+                                print_r($this->getInstaFeedItem($post, $index, $connected_account_type, $hashtag));
                             
                                 $counter++; // Increment the counter for each processed item
                             }
@@ -580,7 +624,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
 
             if ($this->getInstagramFeedTemplate($access_token, $account_type, $userid )) {
-                $insta_feed['html'] = $this->getInstagramFeedTemplate($access_token, $account_type, $userid );
+                $insta_feed['html'] = $this->getInstagramFeedTemplate($access_token, $account_type, $userid, 'madewithcc' );
             }
         }
 
