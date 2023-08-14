@@ -56,7 +56,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         'instafeedPopupFollowBtn',
         'instafeedPopupFollowBtnLabel',
         'instafeedLoadmore',
-        'instafeedLoadmoreLabel'
+        'instafeedLoadmoreLabel',
+        'instafeedHashtag',
     ];
 
      /** inline {@inheritdoc} */
@@ -204,7 +205,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             return $cached_posts[$hashtag];
         }
     
-        $api_url = "https://graph.facebook.com/$hashtag_id/top_media?user_id=$user_id&fields=id,media_url,media_type,comments_count,like_count,children{media_url,id,media_type},permalink,timestamp&access_token=$access_token";
+        $api_url = "https://graph.facebook.com/$hashtag_id/top_media?user_id=$user_id&fields=id,media_url,media_type,comments_count,like_count,caption,children{media_url,id,media_type},permalink,timestamp&access_token=$access_token";
     
         $postsResponse = wp_remote_get($api_url, array('timeout' => 30));
     
@@ -376,7 +377,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
         $insta_posts = $feed_data[$userID]['feed_posts'];
 
-        if(!empty($hashtag)){
+        if(!empty($hashtag) && $hashtag !== 'false'){
             $insta_posts = $this->getHashtagPosts($accessToken, $hashtag, $userID);
         }
         
@@ -400,7 +401,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         if (is_array($insta_posts) and !empty($insta_posts)) {
             ob_start(); ?>
 
-            <?php if(empty($hashtag)): ?>
+            <?php if(empty($hashtag) || $hashtag === 'false'): ?>
                 <header class="profile-header">
                     <?php 
                         $avater_url = 'http://2.gravatar.com/avatar/b642b4217b34b1e8d3bd915fc65c4452?s=150&d=mm&r=g';
@@ -472,6 +473,17 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                             <?php endif; ?>
                         </section>
                 </header>
+            <?php else: ?>
+                <div class="hashtag-container">
+                    <div class="embedpress-hashtag-header">
+                        <div class="embedpress-hashtag-header-img"> <a target="_blank" href="<?php echo esc_url("https://www.instagram.com/explore/tags/$hashtag/"); ?>" class="embedpress-href"> <img decoding="async" loading="lazy" class="embedpress-hashtag-round" src="https://awplife.com/demo/instagram-feed-gallery-premium/wp-content/plugins/instagram-feed-gallery-premium//img/instagram-gallery-premium.png" width="30" height="30"> <span class="embedpress-hashtag-username"><?php echo esc_html( "#$hashtag" ); ?></span>
+                            </a>
+                        </div>
+                        <div class="insta-followbtn">
+                            <a target="_new" href="<?php echo esc_url("https://www.instagram.com/explore/tags/$hashtag/"); ?>" type="button" class="btn btn-primary"><?php echo esc_html($params['instafeedFollowBtnLabel']); ?></a>
+                        </div>
+                    </div>
+                </div>
             <?php endif; ?>
             
             <?php if(!empty($params['instafeedTab']) && $params['instafeedTab'] !== 'false') : ?>
@@ -547,7 +559,6 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     }
 
 
-
     public function getStaticResponse()
     {
         $insta_feed = [
@@ -557,20 +568,47 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             "provider_url"  => 'https://instagram.com',
             'html'          => "",
         ];
+        
         $url = $this->getUrl();
+        $params = $this->getParams();
+        $hashtag = !empty($params['instafeedHashtag']) ? $params['instafeedHashtag'] : '';
+
+
+
+        $connected_users =  get_option( 'instagram_account_data' );
+
+        $username = $this->getInstagramUnserName($url) ? $this->getInstagramUnserName($url) : '';
+
+        if(!empty($hashtag)){
+            $option_data = get_option('instagram_account_data');
+            if ($option_data !== false) {
+                $username = implode(', ', array_column(array_filter($option_data, fn($item) => $item['account_type'] === 'business'), 'username'));
+                $url = "https://instagram.com/$username";
+            }
+        }
+        
+
+
+        // Extract the data between account_type and access_token for each entry
+
+        if(!empty($hashtag)){
+            $pattern = '/account_type";s:8:"business";s:12:"access_token";s:\d+:"(.*?)";/';
+            preg_match_all($pattern, $data, $matches);
+    
+            if (isset($matches[1]) && !empty($matches[1])) {
+                // Extract usernames from the matched results
+                $usernames = $matches[1];
+                $username = $usernames[0] ? $usernames[0] : '';
+            }
+        }
         
         $access_token = ''; // The access token';
         $account_type = '';
         $userid = ''; 
 
-        if ($this->validateInstagramFeed($url)) {
-
-            $username = $this->getInstagramUnserName($url);
-
-            
+        if ($this->validateInstagramFeed($url) || !empty($username)) {
             if(!empty($username)){
 
-                $connected_users = get_option( 'instagram_account_data' );
                 if(empty($connected_users)){
                     $connected_users = [];
                 }
@@ -592,14 +630,15 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 } else {
                     // No matching username found
                     $page = site_url() . "/wp-admin/admin.php?page=embedpress&page_type=instagram";
-                    $insta_feed['html'] = '<h1>Please add your access from <a href="' . esc_url($page) . '">here</a></h1>';
+                    $insta_feed['html'] = '<h4 style="text-align:center;">Please add your access token from <a href="' . esc_url($page) . '">here</a>.</h4>';
                     return $insta_feed;
                 }
                 
             }
 
+
             if ($this->getInstagramFeedTemplate($access_token, $account_type, $userid )) {
-                $insta_feed['html'] = $this->getInstagramFeedTemplate($access_token, $account_type, $userid, 'swizerland' );
+                $insta_feed['html'] = $this->getInstagramFeedTemplate($access_token, $account_type, $userid, $hashtag );
             }
         }
 

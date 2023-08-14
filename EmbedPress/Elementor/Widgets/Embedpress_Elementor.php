@@ -126,10 +126,11 @@ class Embedpress_Elementor extends Widget_Base
 			'embedpress_instafeed_account_type',
 			[
 				'type' => \Elementor\Controls_Manager::SELECT,
-				'label' => esc_html__( 'Account Type', 'embedpress' ),
+				'label' => esc_html__( 'Type', 'embedpress' ),
 				'options' => [
 					'personal' => esc_html__( 'Personal', 'embedpress' ),
 					'business' => esc_html__( 'Business', 'embedpress' ),
+					'hashtag' => esc_html__( 'HashTag', 'embedpress' ),
 				],
 				'default' => 'personal',
 				'condition'   => [
@@ -168,6 +169,30 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block' => true,
 				'ai' => [
 					'active' => false,
+				],
+				'condition'   => [
+					'embedpress_instafeed_account_type!' => 'hashtag'
+				]
+			
+			]
+		);
+
+		$this->add_control(
+			'instafeedHashtag',
+			[
+
+				'label'       => __('Hashtag', 'embedpress'),
+				'type'        => Controls_Manager::TEXT,
+				'dynamic'     => [
+					'active' => true,
+				],
+				'placeholder' => __('lovenala', 'embedpress'),
+				'label_block' => true,
+				'ai' => [
+					'active' => false,
+				],
+				'condition'   => [
+					'embedpress_instafeed_account_type' => 'hashtag'
 				]
 			
 			]

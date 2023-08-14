@@ -421,11 +421,11 @@ let epGlobals = {};
         let captionText = instaPostData.caption ? instaPostData.caption : '';
         const tagRegex = /(#\w+)/g;
 
-        let tagUrl = 'https://www.instagram.com/explore/tags/$1';
-
-        tagUrl = tagUrl.replace(/#/g, '');
-
-        const wrapTag = `<span class="tag-wrapper"><a target="_blank" href="${tagUrl}">$1</a></span>`;
+        const wrapTag = (match) => {
+            const tag = match.substring(1); // Remove the '#' character
+            const tagUrl = `https://www.instagram.com/explore/tags/${tag}`;
+            return `<span class="tag-wrapper"><a target="_blank" href="${tagUrl}">${match}</a></span>`;
+        };
 
         captionText = captionText.replace(tagRegex, wrapTag);
 
@@ -434,13 +434,11 @@ let epGlobals = {};
             carouselTemplate += `<div class="popup-carousel"><div class="cg-carousel__track js-carousel__track">`;
 
             instaPostData.children.data?.map((item) => {
-                console.log(item);
                 if (item.media_type?.toLowerCase() === 'video') {
                     carouselTemplate += `<video width="630" class="popup-media-image cg-carousel__slide js-carousel__slide" controls src="${item.media_url || ''}" alt="${item.caption || ''}" controlsList="nodownload"></video>`;
                 }
                 else {
                     carouselTemplate += `<img width="630" class="popup-media-image cg-carousel__slide js-carousel__slide" src="${item.media_url || ''}" alt="${item.caption || ''}" />`;
-                    console.log(item);
                 }
             });
 
@@ -522,9 +520,6 @@ let epGlobals = {};
             // Check if the clicked element has the class insta-gallery-item
             const instaItem = event.target.closest('.insta-gallery-item');
 
-
-            console.log(instaItem);
-
             if (instaItem) {
 
                 const postData = instaItem.dataset.postdata;
@@ -534,16 +529,12 @@ let epGlobals = {};
                 const tkey = instaItem.parentElement.parentElement.getAttribute('data-tkey');
 
                 const closestPopup = event.target.closest('.ose-instagram-feed').querySelector('.insta-popup');
-                
-                console.log(event.target);
 
-                if(closestPopup){
-                    // closestPopup.style.display = 'block';
+                if (closestPopup) {
+                    closestPopup.style.display = 'block';
                 }
 
-                console.log(event.target.closest('.ose-instagram-feed'));
-
-                event.target.closest('.ose-instagram-feed')?.querySelector('.popup-is-initialized')?.innerHTML = getPopupTemplate(postData);
+                event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData);
 
                 const followText = event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').getAttribute('data-follow-text');
 
@@ -551,9 +542,6 @@ let epGlobals = {};
 
                 if (!document.querySelector(`#post-${postid}`).classList.contains('carousel-is-initialized')) {
                     const carousel = new CgCarousel(`#post-${postid}`, { slidesPerView: 1, loop: true }, {});
-
-                    // const plyer = new Plyr(`#post-${postid} video`);
-                    // console.log(plyer);
 
                     const next = document.querySelector(`#post-${postid} .js-carousel__next-1`);
                     next?.addEventListener('click', () => carousel.next());
@@ -570,11 +558,8 @@ let epGlobals = {};
 
 
     const instaContainers = document.querySelectorAll('.embedpress-gutenberg-wrapper .insta-gallery');
-    console.log(instaContainers + ' containers');
     if (instaContainers.length > 0) {
         instaContainers.forEach((container) => {
-            console.log(container);
-
             epGlobals.instaPopup(container);
         });
     }
@@ -661,7 +646,6 @@ let epGlobals = {};
 
                     // After loading more items, reinitialize the tabs for the specific container
                     const containerEl = loadmoreBtn.closest('.ose-instagram-feed')[0];
-                    console.log(containerEl);
                     epGlobals.initializeTabs(containerEl);
                 } else {
                     loadmoreBtn.hide();
@@ -686,7 +670,6 @@ let epGlobals = {};
 })(jQuery);
 
 
-console.log('aksdasd');
 
 document.addEventListener('DOMContentLoaded', function () {
 
