@@ -193,20 +193,20 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     }
     public function getHashTagPosts($access_token, $hashtag, $user_id) {
         // Check if the data is already cached in a transient
-        $transient_key = 'hashtag_posts_key';
+        $hashtag_id = $this->getHashTagId($access_token, $hashtag, $user_id);
+
+
+        $transient_key = 'hashtag_posts_'.$hashtag_id;
+
         $cached_posts = get_transient($transient_key);
     
         if (isset($cached_posts[$hashtag])) {
             return $cached_posts[$hashtag];
         }
     
-        $hashtag_id = $this->getHashTagId($access_token, $hashtag, $user_id);
-    
         $api_url = "https://graph.facebook.com/$hashtag_id/top_media?user_id=$user_id&fields=id,media_url,media_type,comments_count,like_count,children{media_url,id,media_type},permalink,timestamp&access_token=$access_token";
     
         $postsResponse = wp_remote_get($api_url, array('timeout' => 30));
-
-        print_r($postsResponse); die;
     
         if (is_wp_error($postsResponse)) {
             echo 'Error: Unable to retrieve Hashtag Instagram posts.';
@@ -229,7 +229,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     }
     
 
-    public function data_instagram_feed($access_token, $connected_account_type, $user_id, $limit = 100, $hashtag='worldelephantday') {
+    public function data_instagram_feed($access_token, $connected_account_type, $user_id, $limit = 100) {
        
         if(strtolower($connected_account_type) === 'business'){
             $api_url = "https://graph.facebook.com/v17.0/$user_id/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=$limit&access_token=$access_token";
@@ -249,13 +249,11 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             $feed_userinfo = $this->getInstagramUserInfo($access_token, $connected_account_type, $user_id);
             $feed_posts = $this->getInstagramPosts($access_token, $connected_account_type, $user_id, $limit=100);
             // $feed_posts = $this->getHashtagPosts($access_token, $hashtag, $user_id);
-            $hashtag_posts = $this->getHashtagPosts($access_token, $hashtag, $user_id);
     
             $feed_data = [
                 $user_id => [
                     'feed_userinfo' => $feed_userinfo,
                     'feed_posts' => $feed_posts,
-                    'hashtag_posts' => $hashtag_posts
                 ]
             ];
 
@@ -275,11 +273,6 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
     public function getInstaFeedItem($post, $index, $account_type, $hashtag)
     {
-        // echo '<pre>';
-        // print_r($post); die;
-        // echo '</pre>';
-
-
         $caption = !empty($post['caption']) ? $post['caption'] : '';
         $media_type = !empty($post['media_type']) ? $post['media_type'] : '';
         $media_url = !empty($post['media_url']) ? $post['media_url'] : '';
@@ -377,19 +370,15 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         }
 
 
-        $feed_data = $this->data_instagram_feed($accessToken, $account_type, $userID, $limit=100, $hashtag);
+        $feed_data = $this->data_instagram_feed($accessToken, $account_type, $userID, $limit=100);
 
         $profile_info = $feed_data[$userID]['feed_userinfo'];
 
         $insta_posts = $feed_data[$userID]['feed_posts'];
 
         if(!empty($hashtag)){
-            $insta_posts = $feed_data[$userID]['hashtag_posts'];
+            $insta_posts = $this->getHashtagPosts($accessToken, $hashtag, $userID);
         }
-
-        // echo '<pre>'; 
-        // print_r($insta_posts); die;
-        // echo '</pre>'; 
         
         // Check and assign each item to separate variables
         $id = !empty($profile_info['id']) ? $profile_info['id'] : '';
@@ -410,78 +399,81 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
         if (is_array($insta_posts) and !empty($insta_posts)) {
             ob_start(); ?>
-            <header class="profile-header">
 
-            <?php 
-                $avater_url = 'http://2.gravatar.com/avatar/b642b4217b34b1e8d3bd915fc65c4452?s=150&d=mm&r=g';
+            <?php if(empty($hashtag)): ?>
+                <header class="profile-header">
+                    <?php 
+                        $avater_url = 'http://2.gravatar.com/avatar/b642b4217b34b1e8d3bd915fc65c4452?s=150&d=mm&r=g';
 
-                if (!empty($connected_account_type) && (strtolower($connected_account_type)  === 'business')) {
-                    $avater_url = $profile_picture_url;
-                }
-                if(!empty($params['instafeedProfileImageUrl'])){
-                    $avater_url = $params['instafeedProfileImageUrl'];
-                }
+                        if (!empty($connected_account_type) && (strtolower($connected_account_type)  === 'business')) {
+                            $avater_url = $profile_picture_url;
+                        }
+                        if(!empty($params['instafeedProfileImageUrl'])){
+                            $avater_url = $params['instafeedProfileImageUrl'];
+                        }
 
-            ?>
-                <?php if(!empty($params['instafeedProfileImage']) && $params['instafeedProfileImage'] !== 'false'): ?>
-                <div class="profile-image">
-                    <img src="<?php echo esc_url($avater_url); ?>" alt="<?php echo esc_attr( $name ); ?>">
-                </div>
-                <?php endif; ?>
-                <section class="profile-details">
-                    <div class="username-section">
-                        <a class="profile-link" target="__blank" href="<?php echo esc_url( 'https://instagram.com/'.$username); ?>" role="link" tabindex="0">
-                            <h2 class="username" dir="auto"><?php echo esc_html($username ); ?></h2>
-                        </a>
-
-                        <?php if (!empty($params['instafeedFollowBtn']) && $params['instafeedFollowBtn'] !== 'false' && !empty($params['instafeedFollowBtnLabel']) && $params['instafeedFollowBtnLabel'] !== 'false'): ?>
-                            <div class="edit-profile-button">
-                                <a class="edit-profile-link" target="__blank" href="<?php echo esc_url('https://instagram.com/' . $username); ?>" role="link" tabindex="0">
-                                    <?php echo esc_html($params['instafeedFollowBtnLabel']); ?>
-                                </a>
-                            </div>
-                        <?php endif; ?>
-
-                    </div>
-                    <div class="profile-stats">
-                        <ul class="stats-list">
-                            <?php if(!empty($params['instafeedPostsCount']) && $params['instafeedPostsCount'] !== 'false'): ?>
-                                <li class="posts-count">
-                                   <?php 
-                                        if(!empty($params['instafeedPostsCountText']) &&$params['instafeedPostsCountText'] !== 'false'):
-                                                $posts_count_text = str_replace('[count]', '<span class="count">' . $media_count . '</span>', $params['instafeedPostsCountText']);
-
-                                                echo wp_kses_post($posts_count_text);
-                                        endif;
-                                   ?>
-                                
-                                </li>
-                            <?php endif; ?>
-
-                            <?php if(!empty($params['instafeedFollowersCount']) && $params['instafeedFollowersCount'] !== 'false'): ?>
-                                <?php if(strtolower($connected_account_type) !== 'personal'): ?>
-                                    <li class="followers-count">
-                                        <?php  if(!empty($params['instafeedPostsCountText']) &&$params['instafeedPostsCountText'] !== 'false'): ?>
-                                            <a class="followers-link" target="_blank" href="<?php echo esc_url( 'https://instagram.com/'.$username.'/followers'); ?>" role="link" tabindex="0">
-                                                <?php
-                                                    $followers_count_text = str_replace('[count]', '<span class="count">' . $followers_count . '</span>', $params['instafeedFollowersCountText']);
-
-                                                    echo wp_kses_post($followers_count_text);
-                                                    ?>
-                                                </a>
-                                           <?php endif; ?>
-                                    </li>
-                                <?php endif; ?>
-                            <?php endif; ?>
-                        </ul>
-                    </div>
-                    <?php if(!empty($params['instafeedAccName']) && $params['instafeedAccName'] !== 'false'): ?>
-                        <div class="bio-section">
-                            <span class="bio" dir="auto"><?php echo esc_attr( $name ); ?></span>
+                    ?>
+                        <?php if(!empty($params['instafeedProfileImage']) && $params['instafeedProfileImage'] !== 'false'): ?>
+                        <div class="profile-image">
+                            <img src="<?php echo esc_url($avater_url); ?>" alt="<?php echo esc_attr( $name ); ?>">
                         </div>
-                    <?php endif; ?>
-                </section>
-            </header>
+                        <?php endif; ?>
+                        <section class="profile-details">
+                            <div class="username-section">
+                                <a class="profile-link" target="__blank" href="<?php echo esc_url( 'https://instagram.com/'.$username); ?>" role="link" tabindex="0">
+                                    <h2 class="username" dir="auto"><?php echo esc_html($username ); ?></h2>
+                                </a>
+
+                                <?php if (!empty($params['instafeedFollowBtn']) && $params['instafeedFollowBtn'] !== 'false' && !empty($params['instafeedFollowBtnLabel']) && $params['instafeedFollowBtnLabel'] !== 'false'): ?>
+                                    <div class="edit-profile-button">
+                                        <a class="edit-profile-link" target="__blank" href="<?php echo esc_url('https://instagram.com/' . $username); ?>" role="link" tabindex="0">
+                                            <?php echo esc_html($params['instafeedFollowBtnLabel']); ?>
+                                        </a>
+                                    </div>
+                                <?php endif; ?>
+
+                            </div>
+                            <div class="profile-stats">
+                                <ul class="stats-list">
+                                    <?php if(!empty($params['instafeedPostsCount']) && $params['instafeedPostsCount'] !== 'false'): ?>
+                                        <li class="posts-count">
+                                        <?php 
+                                                if(!empty($params['instafeedPostsCountText']) &&$params['instafeedPostsCountText'] !== 'false'):
+                                                        $posts_count_text = str_replace('[count]', '<span class="count">' . $media_count . '</span>', $params['instafeedPostsCountText']);
+
+                                                        echo wp_kses_post($posts_count_text);
+                                                endif;
+                                        ?>
+                                        
+                                        </li>
+                                    <?php endif; ?>
+
+                                    <?php if(!empty($params['instafeedFollowersCount']) && $params['instafeedFollowersCount'] !== 'false'): ?>
+                                        <?php if(strtolower($connected_account_type) !== 'personal'): ?>
+                                            <li class="followers-count">
+                                                <?php  if(!empty($params['instafeedPostsCountText']) &&$params['instafeedPostsCountText'] !== 'false'): ?>
+                                                    <a class="followers-link" target="_blank" href="<?php echo esc_url( 'https://instagram.com/'.$username.'/followers'); ?>" role="link" tabindex="0">
+                                                        <?php
+                                                            $followers_count_text = str_replace('[count]', '<span class="count">' . $followers_count . '</span>', $params['instafeedFollowersCountText']);
+
+                                                            echo wp_kses_post($followers_count_text);
+                                                            ?>
+                                                        </a>
+                                                <?php endif; ?>
+                                            </li>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </ul>
+                            </div>
+                            <?php if(!empty($params['instafeedAccName']) && $params['instafeedAccName'] !== 'false'): ?>
+                                <div class="bio-section">
+                                    <span class="bio" dir="auto"><?php echo esc_attr( $name ); ?></span>
+                                </div>
+                            <?php endif; ?>
+                        </section>
+                </header>
+            <?php endif; ?>
+            
             <?php if(!empty($params['instafeedTab']) && $params['instafeedTab'] !== 'false') : ?>
                 <div class="posts-tab-options">
                     <ul class="tabs">
@@ -582,11 +574,6 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 if(empty($connected_users)){
                     $connected_users = [];
                 }
-
-                // echo '<pre>';
-                // print_r( $connected_users); 
-                // echo '</pre>';
-                // die;
                 
                 // Find the key of the matching username
                 $index = array_search($username, array_column($connected_users, 'username'));
@@ -609,22 +596,10 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                     return $insta_feed;
                 }
                 
-                // if(empty($has_username)){
-                //     $page = site_url()."/wp-admin/admin.php?page=embedpress&page_type=instagram";
-
-                //     $insta_feed['html'] = '<h1>Please add your access from <a href="'.esc_url($page).'">here</a></h1>';
-                //     return $insta_feed;
-                // }
             }
 
-            // echo '<pre>';
-            // print_r($this->data_instagram_feed($access_token, $account_type, $userid, $limit = 100)); 
-            // echo '</pre>';
-            // die;
-
-
             if ($this->getInstagramFeedTemplate($access_token, $account_type, $userid )) {
-                $insta_feed['html'] = $this->getInstagramFeedTemplate($access_token, $account_type, $userid, 'madewithcc' );
+                $insta_feed['html'] = $this->getInstagramFeedTemplate($access_token, $account_type, $userid, 'swizerland' );
             }
         }
 
