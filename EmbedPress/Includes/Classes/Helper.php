@@ -630,12 +630,30 @@ class Helper {
 	public function loadmore_data_handler() {
 		$insta_transient_key = isset($_POST['insta_transient_key']) ? $_POST['insta_transient_key'] : '';
 		$connected_account_type = isset($_POST['connected_account_type']) ? $_POST['connected_account_type'] : 'personal';
+
+		$hashtag_id = isset($_POST['hashtag_id']) ? $_POST['hashtag_id'] : '';
+
+		$feed_type = isset($_POST['feed_type']) ? $_POST['feed_type'] : 'user_aacount_type';
 		$user_id = isset($_POST['user_id']) ? $_POST['user_id'] : '';
 
 		$feed_data = get_transient('instagram_feed_data_'.$insta_transient_key);
-		
-		$feed_posts = $feed_data[$user_id]['feed_posts'];
 
+		$transient_key = 'hashtag_posts_'.$hashtag_id;
+
+        $hashtag_posts = get_transient($transient_key);
+
+
+    
+		if($feed_type === 'user_account_type'){
+			$feed_posts = $feed_data[$user_id]['feed_posts'];
+		}
+		else if($feed_type === 'hashtag_type' && isset($hashtag_posts[$hashtag_id])){
+			$feed_posts = $hashtag_posts[$hashtag_id];
+		}
+		else{
+			$feed_posts = [];
+		}
+		
 		if (is_array($feed_posts) && count($feed_posts) > 0) {
 			$loaded_posts = isset($_POST['loaded_posts']) ? intval($_POST['loaded_posts']) : 0;
 			$posts_per_page = isset($_POST['posts_per_page']) ? intval($_POST['posts_per_page']) : 0;
@@ -661,10 +679,25 @@ class Helper {
 					
 				<div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr( $post['id'] )?>" data-postindex="<?php echo esc_attr( $post_index ); ?>" data-postdata="<?php echo htmlspecialchars(json_encode($post), ENT_QUOTES, 'UTF-8'); ?>" data-media-type="<?php echo esc_attr( $media_type );?>">
 					<?php
-						if ($media_type == 'VIDEO') {
-							echo '<video class="insta-gallery-image" src="' . esc_url($media_url) . '"></video>';
-						} else {
-							echo ' <img class="insta-gallery-image" src="' . esc_url($media_url) . '" alt="' . esc_attr($caption) . '">';
+
+						if(!empty($hashtag_id) && $media_type == 'CAROUSEL_ALBUM'){
+							if (isset($post['children']['data'][0]['media_url'])) {
+								$hashtag_media_url = $post['children']['data'][0]['media_url'];
+								$hashtag_media_type = $post['children']['data'][0]['media_type'];
+		
+								if ($hashtag_media_type == 'VIDEO') {
+									echo '<video class="insta-gallery-image" src="' . esc_url($hashtag_media_url) . '"></video>';
+								} else {
+									echo ' <img class="insta-gallery-image" src="' . esc_url($hashtag_media_url) . '" alt="' . esc_attr('image') . '">';
+								}
+							}
+						}
+						else{
+							if ($media_type == 'VIDEO') {
+								echo '<video class="insta-gallery-image" src="' . esc_url($media_url) . '"></video>';
+							} else {
+								echo ' <img class="insta-gallery-image" src="' . esc_url($media_url) . '" alt="' . esc_attr('image') . '">';
+							}
 						}
 					?>
 

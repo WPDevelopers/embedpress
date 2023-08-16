@@ -2320,6 +2320,9 @@ img.popup-media-image {
     font-size: 15px;
     text-decoration: none !important;
 }
+img.embedpress-hashtag-round {
+    border-radius: 50px!important;
+}
 
 .insta-followbtn a {
     text-decoration: none !important;

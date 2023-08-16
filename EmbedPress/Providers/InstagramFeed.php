@@ -58,6 +58,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         'instafeedLoadmore',
         'instafeedLoadmoreLabel',
         'instafeedHashtag',
+        'instafeedFeedType',
     ];
 
      /** inline {@inheritdoc} */
@@ -70,16 +71,16 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
     public function validateUrl(Url $url)
     {
-        return  (bool) preg_match(
-            '/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/[a-zA-Z0-9_\.]+\/?$/',
+        return (bool) preg_match(
+            '/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?|explore\/tags\/[a-zA-Z0-9_\-]+\/?)$/',
             (string) $url
         );
     }
 
     public function validateInstagramFeed($url)
     {
-        return  (bool) preg_match(
-            '/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/[a-zA-Z0-9_\.]+\/?$/',
+        return (bool) preg_match(
+            '/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?|explore\/tags\/[a-zA-Z0-9_\-]+\/?)$/',
             (string) $url
         );
     }
@@ -165,33 +166,46 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         }
     }
 
-    public function getHashTagId($access_token, $hashtag, $user_id ){
-        $api_url = "https://graph.facebook.com/v17.0/ig_hashtag_search?user_id=$user_id&q=$hashtag&access_token=$access_token";
-
-        // Make a GET request to Instagram's API to retrieve posts
-        $postsResponse = wp_remote_get($api_url);
-
-        // Check if the posts request was successful
-        if (is_wp_error($postsResponse)) {
-            echo 'Error: Unable to retrieve Instagram posts.';
-        } else {
-            $postsBody = wp_remote_retrieve_body($postsResponse);
-            $hashtagId = json_decode($postsBody, true);
-
-            if(empty($hashtagId['data']) ) {
-                return 'Please add Instagram Access Token';
-            }
-
-            if(isset($hashtagId['data'][0]['id'])){
-                return $hashtagId['data'][0]['id'];
-            }
-
-            return '';
-
-        }
-
-        
+    public function getHashTag($url){
+        if (preg_match('/\/explore\/tags\/([a-zA-Z0-9_\-]+)/', parse_url($url, PHP_URL_PATH), $matches)) {
+            return $matches[1];
+        } 
+        return '';
     }
+
+    public function getHashTagId($access_token, $hashtag, $user_id ){
+        $transient_key = 'hashtag_id_' . md5($access_token . $hashtag . $user_id);
+        $transient_data = get_transient($transient_key);
+    
+        if (false === $transient_data) {
+            $api_url = "https://graph.facebook.com/v17.0/ig_hashtag_search?user_id=$user_id&q=$hashtag&access_token=$access_token";
+    
+            // Make a GET request to Instagram's API to retrieve posts
+            $postsResponse = wp_remote_get($api_url);
+    
+            // Check if the posts request was successful
+            if (is_wp_error($postsResponse)) {
+                echo 'Error: Unable to retrieve Instagram posts.';
+            } else {
+                $postsBody = wp_remote_retrieve_body($postsResponse);
+                $hashtagId = json_decode($postsBody, true);
+    
+                if (empty($hashtagId['data'])) {
+                    $transient_data = 'Please add Instagram Access Token';
+                } elseif (isset($hashtagId['data'][0]['id'])) {
+                    $transient_data = $hashtagId['data'][0]['id'];
+                } else {
+                    $transient_data = '';
+                }
+    
+                // Set the transient with a 1-hour expiration
+                set_transient($transient_key, $transient_data, HOUR_IN_SECONDS);
+            }
+        }
+    
+        return $transient_data;
+    }
+    
     public function getHashTagPosts($access_token, $hashtag, $user_id) {
         // Check if the data is already cached in a transient
         $hashtag_id = $this->getHashTagId($access_token, $hashtag, $user_id);
@@ -201,8 +215,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
         $cached_posts = get_transient($transient_key);
     
-        if (isset($cached_posts[$hashtag])) {
-            return $cached_posts[$hashtag];
+        if (isset($cached_posts[$hashtag_id])) {
+            return $cached_posts[$hashtag_id];
         }
     
         $api_url = "https://graph.facebook.com/$hashtag_id/top_media?user_id=$user_id&fields=id,media_url,media_type,comments_count,like_count,caption,children{media_url,id,media_type},permalink,timestamp&access_token=$access_token";
@@ -220,12 +234,12 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             }
     
             // Update the cached posts array with the new data
-            $cached_posts[$hashtag] = $posts['data'];
+            $cached_posts[$hashtag_id] = $posts['data'];
     
             // Store the updated array in the transient
             set_transient($transient_key, $cached_posts, HOUR_IN_SECONDS);
     
-            return $cached_posts[$hashtag];
+            return $cached_posts[$hashtag_id];
         }
     }
     
@@ -305,7 +319,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                         if ($hashtag_media_type == 'VIDEO') {
                             echo '<video class="insta-gallery-image" src="' . esc_url($hashtag_media_url) . '"></video>';
                         } else {
-                            echo ' <img class="insta-gallery-image" src="' . esc_url($hashtag_media_url) . '" alt="' . esc_attr($caption) . '">';
+                            echo ' <img class="insta-gallery-image" src="' . esc_url($hashtag_media_url) . '" alt="' . esc_attr('image') . '">';
                         }
                     }
                 }
@@ -313,7 +327,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                     if ($media_type == 'VIDEO') {
                         echo '<video class="insta-gallery-image" src="' . esc_url($media_url) . '"></video>';
                     } else {
-                        echo ' <img class="insta-gallery-image" src="' . esc_url($media_url) . '" alt="' . esc_attr($caption) . '">';
+                        echo ' <img class="insta-gallery-image" src="' . esc_url($media_url) . '" alt="' . esc_attr('image') . '">';
                     }
                 }
                 
@@ -353,9 +367,17 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     <?php $feed_item = ob_get_clean(); return $feed_item;
     }
 
-    public function getInstagramFeedTemplate($accessToken, $account_type, $userID, $hashtag='')
+    public function getInstagramFeedTemplate($accessToken, $account_type, $userID)
     {
         $params = $this->getParams(); 
+
+        // print_r($params);
+
+        $hashtag = $this->getHashTag($this->url);
+        
+        $feed_type = $params['instafeedFeedType'];
+
+
 
         $styleAttribute = '';
 
@@ -374,12 +396,19 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         $feed_data = $this->data_instagram_feed($accessToken, $account_type, $userID, $limit=100);
 
         $profile_info = $feed_data[$userID]['feed_userinfo'];
-
         $insta_posts = $feed_data[$userID]['feed_posts'];
 
-        if(!empty($hashtag) && $hashtag !== 'false'){
+        $hashtag_id = '';
+        if(!empty($hashtag)){
+            $hashtag_id = $this->getHashTagId($accessToken, $hashtag, $userID);
             $insta_posts = $this->getHashtagPosts($accessToken, $hashtag, $userID);
         }
+
+        // echo '<pre>';
+        // print_r($insta_posts);
+        // echo '</pre>';
+
+        // die;
         
         // Check and assign each item to separate variables
         $id = !empty($profile_info['id']) ? $profile_info['id'] : '';
@@ -401,19 +430,21 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         if (is_array($insta_posts) and !empty($insta_posts)) {
             ob_start(); ?>
 
+                <?php 
+                    $avater_url = 'https://awplife.com/demo/instagram-feed-gallery-premium/wp-content/plugins/instagram-feed-gallery-premium//img/instagram-gallery-premium.png';
+
+                    if (!empty($connected_account_type) && (strtolower($connected_account_type)  === 'business')) {
+                        $avater_url = $profile_picture_url;
+                    }
+                    if(!empty($params['instafeedProfileImageUrl'])){
+                        $avater_url = $params['instafeedProfileImageUrl'];
+                    }
+
+                ?>
+
             <?php if(empty($hashtag) || $hashtag === 'false'): ?>
                 <header class="profile-header">
-                    <?php 
-                        $avater_url = 'http://2.gravatar.com/avatar/b642b4217b34b1e8d3bd915fc65c4452?s=150&d=mm&r=g';
-
-                        if (!empty($connected_account_type) && (strtolower($connected_account_type)  === 'business')) {
-                            $avater_url = $profile_picture_url;
-                        }
-                        if(!empty($params['instafeedProfileImageUrl'])){
-                            $avater_url = $params['instafeedProfileImageUrl'];
-                        }
-
-                    ?>
+                    
                         <?php if(!empty($params['instafeedProfileImage']) && $params['instafeedProfileImage'] !== 'false'): ?>
                         <div class="profile-image">
                             <img src="<?php echo esc_url($avater_url); ?>" alt="<?php echo esc_attr( $name ); ?>">
@@ -473,15 +504,22 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                             <?php endif; ?>
                         </section>
                 </header>
-            <?php else: ?>
+            <?php else: ?>            
                 <div class="hashtag-container">
                     <div class="embedpress-hashtag-header">
-                        <div class="embedpress-hashtag-header-img"> <a target="_blank" href="<?php echo esc_url("https://www.instagram.com/explore/tags/$hashtag/"); ?>" class="embedpress-href"> <img decoding="async" loading="lazy" class="embedpress-hashtag-round" src="https://awplife.com/demo/instagram-feed-gallery-premium/wp-content/plugins/instagram-feed-gallery-premium//img/instagram-gallery-premium.png" width="30" height="30"> <span class="embedpress-hashtag-username"><?php echo esc_html( "#$hashtag" ); ?></span>
+
+                        <?php if(!empty($params['instafeedProfileImage']) && $params['instafeedProfileImage'] !== 'false'): ?>
+
+                        <div class="embedpress-hashtag-header-img"> <a target="_blank" href="<?php echo esc_url("https://www.instagram.com/explore/tags/$hashtag/"); ?>" class="embedpress-href"> <img decoding="async" loading="lazy" class="embedpress-hashtag-round" src="<?php echo esc_url($avater_url); ?>" width="30" height="30"> <span class="embedpress-hashtag-username"><?php echo esc_html( "#$hashtag" ); ?></span>
                             </a>
                         </div>
-                        <div class="insta-followbtn">
-                            <a target="_new" href="<?php echo esc_url("https://www.instagram.com/explore/tags/$hashtag/"); ?>" type="button" class="btn btn-primary"><?php echo esc_html($params['instafeedFollowBtnLabel']); ?></a>
-                        </div>
+                        <?php endif; ?>
+
+                        <?php if (!empty($params['instafeedFollowBtn']) && $params['instafeedFollowBtn'] !== 'false' && !empty($params['instafeedFollowBtnLabel']) && $params['instafeedFollowBtnLabel'] !== 'false'): ?>
+                            <div class="insta-followbtn">
+                                <a target="_new" href="<?php echo esc_url("https://www.instagram.com/explore/tags/$hashtag/"); ?>" type="button" class="btn btn-primary"><?php echo esc_html($params['instafeedFollowBtnLabel']); ?></a>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             <?php endif; ?>
@@ -497,7 +535,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             <?php endif; ?>
 
             <div class="instagram-container">
-                <div class="embedpress-insta-container" data-tkey="<?php echo esc_attr( $tkey ); ?>" data-connected-acc-type="<?php echo esc_attr( $connected_account_type ); ?>" data-uid="<?php echo esc_attr( $userID ); ?>">
+                <div class="embedpress-insta-container" data-tkey="<?php echo esc_attr( $tkey ); ?>" data-feed-type="<?php echo esc_attr( $feed_type ); ?>" data-hashtag="<?php echo esc_attr( $hashtag ); ?>" data-hashtag-id="<?php echo esc_attr( $hashtag_id ); ?>" data-connected-acc-type="<?php echo esc_attr( $connected_account_type ); ?>" data-uid="<?php echo esc_attr( $userID ); ?>">
                     <div class="insta-gallery cg-carousel__track js-carousel__track"  <?php echo  $styleAttribute; ?>>
                         <?php
                             $posts_per_page = 12;
@@ -571,37 +609,21 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         
         $url = $this->getUrl();
         $params = $this->getParams();
-        $hashtag = !empty($params['instafeedHashtag']) ? $params['instafeedHashtag'] : '';
-
-
 
         $connected_users =  get_option( 'instagram_account_data' );
 
         $username = $this->getInstagramUnserName($url) ? $this->getInstagramUnserName($url) : '';
 
-        if(!empty($hashtag)){
-            $option_data = get_option('instagram_account_data');
-            if ($option_data !== false) {
-                $username = implode(', ', array_column(array_filter($option_data, fn($item) => $item['account_type'] === 'business'), 'username'));
-                $url = "https://instagram.com/$username";
+        if($this->validateInstagramFeed($url) && $this->getHashTag($url)){
+            foreach ($connected_users as $entry) {
+                if ($entry['account_type'] === 'business') {
+                    $businessUsernames[] = $entry['username'];
+                    $username = $businessUsernames[0];
+                }
             }
         }
         
 
-
-        // Extract the data between account_type and access_token for each entry
-
-        if(!empty($hashtag)){
-            $pattern = '/account_type";s:8:"business";s:12:"access_token";s:\d+:"(.*?)";/';
-            preg_match_all($pattern, $data, $matches);
-    
-            if (isset($matches[1]) && !empty($matches[1])) {
-                // Extract usernames from the matched results
-                $usernames = $matches[1];
-                $username = $usernames[0] ? $usernames[0] : '';
-            }
-        }
-        
         $access_token = ''; // The access token';
         $account_type = '';
         $userid = ''; 
@@ -638,7 +660,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
 
             if ($this->getInstagramFeedTemplate($access_token, $account_type, $userid )) {
-                $insta_feed['html'] = $this->getInstagramFeedTemplate($access_token, $account_type, $userid, $hashtag );
+                $insta_feed['html'] = $this->getInstagramFeedTemplate($access_token, $account_type, $userid );
             }
         }
 

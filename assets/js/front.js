@@ -390,7 +390,7 @@ let epGlobals = {};
     });
 
     // Get the insta-gallery container element
-    const getPopupTemplate = (instPost) => {
+    const getPopupTemplate = (instPost, hashtag = '') => {
 
         let instaPostData = JSON.parse(instPost);
 
@@ -459,6 +459,12 @@ let epGlobals = {};
             }
         }
 
+        let srcUrl = `https://www.instagram.com/${instaPostData.username}/`;
+
+        if(hashtag){
+            instaPostData.username = '#' + hashtag;
+            srcUrl = `https://www.instagram.com/explore/tags/${hashtag}/`;
+        }
 
         let popupHtml = '';
         popupHtml += `
@@ -471,7 +477,7 @@ let epGlobals = {};
                 <div class="popup-md-3 red">
                     <div class="embedpress-popup-block embedpress-popup-info">
                         <div class="embedpress-popup-header">
-                            <div class="embedpress-popup-header-img"> <a target="_blank" href="https://www.instagram.com/${instaPostData.username}/"
+                            <div class="embedpress-popup-header-img"> <a target="_blank" href="${srcUrl}"
                                     target="_blank" class="embedpress-href"> <img decoding="async" loading="lazy"
                                         class="embedpress-popup-round"
                                         src="https://awplife.com/demo/instagram-feed-gallery-premium/wp-content/plugins/instagram-feed-gallery-premium//img/instagram-gallery-premium.png"
@@ -479,7 +485,7 @@ let epGlobals = {};
                                 </a>
                             </div>
                             <div class="insta-followbtn">
-                                <a target="_new" href="https://www.instagram.com/${instaPostData.username}/" type="button" class="btn btn-primary">Follow</a>
+                                <a target="_new" href="${srcUrl}" type="button" class="btn btn-primary">Follow</a>
                             </div>
                         </div>
                         <div class="embedpress-popup-text">${captionText}</div>
@@ -528,13 +534,18 @@ let epGlobals = {};
                 const postIndex = instaItem.getAttribute('data-postindex');
                 const tkey = instaItem.parentElement.parentElement.getAttribute('data-tkey');
 
+                let hashtag = '';
+                if(document.querySelector('[data-tkey="' + tkey + '"]').getAttribute('data-hashtag')){
+                    hashtag = document.querySelector('[data-tkey="' + tkey + '"]').getAttribute('data-hashtag');
+                }
+
                 const closestPopup = event.target.closest('.ose-instagram-feed').querySelector('.insta-popup');
 
                 if (closestPopup) {
                     closestPopup.style.display = 'block';
                 }
 
-                event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData);
+                event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData, hashtag);
 
                 const followText = event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').getAttribute('data-follow-text');
 
@@ -618,6 +629,8 @@ let epGlobals = {};
             const loadmoreBtn = $(this).closest('.load-more-button-container');
             const tkey = loadmoreBtn.data('loadmorekey');
             const connectedAccount = $(`[data-tkey="${tkey}"]`).data('connected-acc-type');
+            const feedType = $(`[data-tkey="${tkey}"]`).data('feed-type');
+            const hashtagId = $(`[data-tkey="${tkey}"]`).data('hashtag-id');
             const userId = $(`[data-tkey="${tkey}"]`).data('uid');
             let loadedPosts = loadmoreBtn.data('loaded-posts') || 0;
             let postsPerPage = loadmoreBtn.data('posts-per-page') || 0;
@@ -632,8 +645,13 @@ let epGlobals = {};
                 'user_id': userId,
                 'loaded_posts': loadedPosts,
                 'posts_per_page': postsPerPage,
+                'feed_type': feedType,
                 'connected_account_type': connectedAccount
             };
+
+            if(feedType === 'hashtag_type'){
+                data.hashtag_id = hashtagId;
+            }
 
             jQuery.post(eplocalize.ajaxurl, data, function (response) {
                 if (response.html?.trim() !== '') {

@@ -19,6 +19,7 @@ class Embedpress_Elementor extends Widget_Base
 	use Branding;
 	protected $pro_class = '';
 	protected $pro_text = '';
+	protected $pro_label = '';
 	public function get_name()
 	{
 		return 'embedpres_elementor';
@@ -87,6 +88,7 @@ class Embedpress_Elementor extends Widget_Base
 	protected function register_controls()
 	{
 		$this->pro_class = is_embedpress_pro_active() ? '' : 'embedpress-pro-control  not-active';
+		$this->pro_label = is_embedpress_pro_active() ? '' : '(Pro)';
 		$this->pro_text = is_embedpress_pro_active() ? '' : '<sup class="embedpress-pro-label" style="color:red">' . __('Pro', 'embedpress') . '</sup>';
 		/**
 		 * EmbedPress General Settings
@@ -122,20 +124,65 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
+
+		$this->add_control(
+			'instafeedFeedType',
+			[
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label' => esc_html__( 'Feed Type', 'embedpress' ),
+				'options' => [
+					'user_account_type' => esc_html__( 'User Account', 'embedpress' ),
+					'hashtag_type' => sprintf(__('Hashtag%s', 'embedpress'), $this->pro_label),
+					'tagged_type' => esc_html__( 'Tagged(Coming Soon)', 'embedpress' ),
+					'mixed_type' => esc_html__( 'Mixed(Coming Soon)', 'embedpress' ),
+				],
+				'default' => 'user_account_type',
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'instafeed',
+				]
+			]
+		);
+
+		if ( !is_embedpress_pro_active() ) {
+			$this->add_control(
+				'embedpress_insta_layout__pro_enable_warning_1',
+				[
+					'label'     => sprintf( '<a style="color: red" target="_blank" href="https://wpdeveloper.com/in/upgrade-embedpress">%s</a>',
+						esc_html__( 'Only Available in Pro Version!', 'essential-addons-for-elementor-lite' ) ),
+					'type'      => Controls_Manager::RAW_HTML,
+					'condition' => [
+						'instafeedFeedType' => [ 'hashtag_type'],
+					],
+				]
+			);
+		}
+
 		$this->add_control(
 			'embedpress_instafeed_account_type',
 			[
 				'type' => \Elementor\Controls_Manager::SELECT,
-				'label' => esc_html__( 'Type', 'embedpress' ),
+				'label' => esc_html__( 'Account Type', 'embedpress' ),
 				'options' => [
 					'personal' => esc_html__( 'Personal', 'embedpress' ),
 					'business' => esc_html__( 'Business', 'embedpress' ),
-					'hashtag' => esc_html__( 'HashTag', 'embedpress' ),
 				],
 				'default' => 'personal',
 				'condition'   => [
+					'instafeedFeedType' => 'user_account_type',
 					'embedpress_pro_embeded_source' => 'instafeed'
 				]
+			]
+		);
+
+		$this->add_control(
+			'instafeed_feed_type_important_note',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => 'To embed #hashtag posts you need to connect bussiness account. <a href="/learnmore">Learn More</a>',
+				'content_classes' => 'elementor-panel-alert elementor-panel-warning-info',
+				'condition'   => [
+					'instafeedFeedType' => 'hashtag_type',
+				],
 			]
 		);
 
@@ -177,26 +224,6 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-		$this->add_control(
-			'instafeedHashtag',
-			[
-
-				'label'       => __('Hashtag', 'embedpress'),
-				'type'        => Controls_Manager::TEXT,
-				'dynamic'     => [
-					'active' => true,
-				],
-				'placeholder' => __('lovenala', 'embedpress'),
-				'label_block' => true,
-				'ai' => [
-					'active' => false,
-				],
-				'condition'   => [
-					'embedpress_instafeed_account_type' => 'hashtag'
-				]
-			
-			]
-		);
 
 
 		$this->add_control(
@@ -2578,8 +2605,8 @@ class Embedpress_Elementor extends Widget_Base
 				'label' => esc_html__( 'Layout', 'embedpress' ),
 				'options' => [
 					'insta-grid' => esc_html__( 'Grid', 'embedpress' ),
-					'insta-masonry' => esc_html__( 'Masonry (Pro)', 'embedpress' ),
-					'insta-carousel' => esc_html__( 'Carousel (Pro)', 'embedpress' ),
+					'insta-masonry' => sprintf(__('Masonry%s', 'embedpress'), $this->pro_label),
+					'insta-carousel' => sprintf(__('Carousel%s', 'embedpress'), $this->pro_label),
 				],
 				'default' => 'insta-grid',
 				'condition'   => $condition,
@@ -2710,7 +2737,7 @@ class Embedpress_Elementor extends Widget_Base
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => '',
+				'default'      => 'yes',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'instafeed',
 					'instaLayout' => 'insta-carousel'
@@ -2725,7 +2752,7 @@ class Embedpress_Elementor extends Widget_Base
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => '',
+				'default'      => 'yes',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'instafeed',
 					'instaLayout' => 'insta-carousel'
@@ -2768,8 +2795,9 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'instafeedTab',
 			[
-				'label'        => __('Feed Tab', 'embedpress'),
+				'label' => sprintf(__('Feed Tab %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
+				'classes'     => $this->pro_class,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => '',
@@ -2777,13 +2805,14 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-		
+
 		
 		$this->add_control(
 			'instafeedPopup',
 			[
-				'label'        => __('Popup', 'embedpress'),
+				'label' => sprintf(__('Popup %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
+				'classes'     => $this->pro_class,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => '',
@@ -2797,7 +2826,7 @@ class Embedpress_Elementor extends Widget_Base
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => '',
+				'default'      => 'yes',
 				'condition'   => [
 					'embedpress_pro_embeded_source' => 'instafeed',
 					'instafeedPopup' => 'yes'
@@ -2829,7 +2858,7 @@ class Embedpress_Elementor extends Widget_Base
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => '',
+				'default'      => 'yes',
 				'condition'   => [
 					'embedpress_pro_embeded_source' => 'instafeed',
 					'instaLayout!' => 'insta-carousel'
@@ -2881,8 +2910,10 @@ class Embedpress_Elementor extends Widget_Base
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => '',
-				'condition'   => $condition,
+				'default'      => 'yes',
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'instafeed'
+				],
 			]
 		);
 
@@ -2910,7 +2941,7 @@ class Embedpress_Elementor extends Widget_Base
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => '',
+				'default'      => 'yes',
 				'condition'   => $condition,
 			]
 		);
@@ -2941,7 +2972,10 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => '',
-				'condition'   => $condition,
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'instafeed',
+					'instafeedFeedType!' => 'hashtag_type'
+				],
 			]
 		);
 		$this->add_control(
@@ -2955,7 +2989,8 @@ class Embedpress_Elementor extends Widget_Base
 				'separator'    => 'after',
 				'condition' => [
 					'instafeedPostsCount' => 'yes',
-					'embedpress_pro_embeded_source' => 'instafeed'
+					'instafeedFeedType!' => 'hashtag_type',
+					'embedpress_pro_embeded_source' => 'instafeed',
 				],
 				'ai' => $disableAi
 			]
@@ -2968,7 +3003,10 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => '',
-				'condition'   => $condition,
+				'condition' => [
+					'instafeedFeedType!' => 'hashtag_type',
+					'embedpress_pro_embeded_source' => 'instafeed',
+				],
 			]
 		);
 		$this->add_control(
@@ -2982,6 +3020,7 @@ class Embedpress_Elementor extends Widget_Base
 				'separator'    => 'after',
 				'condition' => [
 					'instafeedFollowersCount' => 'yes',
+					'instafeedFeedType!' => 'hashtag_type',
 					'embedpress_pro_embeded_source' => 'instafeed'
 				],
 				'ai' => $disableAi
@@ -2996,7 +3035,10 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => '',
-				'condition'   => $condition,
+				'condition' => [
+					'instafeedFeedType!' => 'hashtag_type',
+					'embedpress_pro_embeded_source' => 'instafeed'
+				],
 			]
 		);
 		$this->end_controls_section();
@@ -3298,7 +3340,12 @@ class Embedpress_Elementor extends Widget_Base
 		add_filter('embedpress_should_modify_spotify', '__return_false');
 		$settings      = $this->get_settings_for_display();
 
-		if(!is_embedpress_pro_active() && ($settings['instaLayout'] === 'insta-masonry' || $settings['instaLayout'] === 'insta-carousel')){
+		if(!is_embedpress_pro_active() && ($settings['instaLayout'] === 'insta-masonry' || $settings['instaLayout'] === 'insta-carousel' || $settings['instafeedFeedType'] === 'hashtag_type')){
+			return '';
+		}
+
+		if($settings['instafeedFeedType'] === 'mixed_type' || $settings['instafeedFeedType'] === 'tagged_type'){
+			echo 'Comming Soon.';
 			return '';
 		}
 
@@ -3322,7 +3369,6 @@ class Embedpress_Elementor extends Widget_Base
 		if (strpos($embed_link, 'opensea.io') !== false) {
 			$source = 'opensea';
 		}
-
 
 		$embed_content = Shortcode::parseContent($settings['embedpress_embeded_link'], true, $_settings);
 		$embed_content = $this->onAfterEmbedSpotify($embed_content, $settings);
