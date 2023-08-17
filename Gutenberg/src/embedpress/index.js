@@ -706,6 +706,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: true,
 			},
+			instafeedLikesCount: {
+				type: 'boolean',
+				default: true,
+			},
+			instafeedCommentsCount: {
+				type: 'boolean',
+				default: true,
+			},
 			instafeedPopup: {
 				type: 'boolean',
 				default: true,

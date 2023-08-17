@@ -476,6 +476,14 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'boolean',
 								'default' => true,
 							],
+							'instafeedLikesCount' => [
+								'type' => 'boolean',
+								'default' => true,
+							],
+							'instafeedCommentsCount' => [
+								'type' => 'boolean',
+								'default' => true,
+							],
 							'instafeedPopup' => [
 								'type' => 'boolean',
 								'default' => true,

@@ -58,6 +58,9 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         'instafeedLoadmore',
         'instafeedLoadmoreLabel',
         'instafeedHashtag',
+        'instafeedAccountType',
+        'instafeedLikesCount',
+        'instafeedCommentsCount',
         'instafeedFeedType',
     ];
 
@@ -84,6 +87,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             (string) $url
         );
     }
+
+   
     
 
     public function get_connected_account_type($userID){
@@ -288,6 +293,9 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
     public function getInstaFeedItem($post, $index, $account_type, $hashtag)
     {
+        $params = $this->getParams();
+
+
         $caption = !empty($post['caption']) ? $post['caption'] : '';
         $media_type = !empty($post['media_type']) ? $post['media_type'] : '';
         $media_url = !empty($post['media_url']) ? $post['media_url'] : '';
@@ -347,14 +355,18 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 </div>
             </div>
             <div class="insta-gallery-item-info">
-                <?php if(strtolower($account_type) === 'business'): ?>
+                <?php if((strtolower($account_type) === 'business' && $params['instafeedAccountType'] === 'business')  && ((!empty($params['instafeedLikesCount']) && $params['instafeedLikesCount'] !== 'false') || (!empty($params['instafeedLikesCount']) || $params['instafeedLikesCount'] !== 'false'))): ?>
                     <div class="insta-item-reaction-count">
-                        <div class="insta-gallery-item-likes">
-                            <?php echo Helper::get_insta_like_icon(); echo esc_html($like_count); ?>
-                        </div>
-                        <div class="insta-gallery-item-comments">
-                            <?php echo Helper::get_insta_comment_icon(); echo esc_html($comments_count); ?>
-                        </div>
+                        <?php if(!empty($params['instafeedLikesCount']) && $params['instafeedLikesCount'] !== 'false' ): ?>
+                            <div class="insta-gallery-item-likes">
+                                <?php echo Helper::get_insta_like_icon(); echo esc_html($like_count); ?>
+                            </div>
+                        <?php endif; ?>
+                        <?php if(!empty($params['instafeedCommentsCount']) && $params['instafeedCommentsCount'] !== 'false'): ?>
+                            <div class="insta-gallery-item-comments">
+                                <?php echo Helper::get_insta_comment_icon(); echo esc_html($comments_count); ?>
+                            </div>
+                        <?php endif; ?>
                     </div>
                 <?php else: ?>
                     <div class="insta-gallery-item-permalink">
@@ -371,12 +383,9 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     {
         $params = $this->getParams(); 
 
-        // print_r($params);
-
         $hashtag = $this->getHashTag($this->url);
         
         $feed_type = $params['instafeedFeedType'];
-
 
 
         $styleAttribute = '';

@@ -5,13 +5,15 @@
 import { addProAlert, isPro, removeAlert, isInstagramFeed } from '../../common/helper';
 import ControlHeader from '../../common/control-heading';
 import CustomBranding from './custombranding';
+import { getParams } from '../functions';
+
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 
 import { MediaUpload } from "@wordpress/block-editor";
 const { useState, useEffect } = wp.element;
 const { __ } = wp.i18n;
-// const { addFilter } = wp.hooks;
+const { addFilter } = wp.hooks;
 
 const {
     TextControl,
@@ -62,6 +64,8 @@ export const getInstafeedParams = (params, attributes) => {
         instafeedColumnsGap: '5',
         instafeedPostsPerPage: true,
         instafeedTab: true,
+        instafeedCommentsCount: false,
+        instafeedLikesCount: false,
         instafeedPopup: true,
         instafeedPopupFollowBtn: true,
         instafeedPopupFollowBtnLabel: 'Follow',
@@ -106,6 +110,8 @@ export const useInstafeed = (attributes) => {
         instafeedColumnsGap: null,
         instafeedPostsPerPage: null,
         instafeedTab: null,
+        instafeedCommentsCount: null,
+        instafeedLikesCount: null,
         instafeedPopup: null,
         instafeedPopupFollowBtn: null,
         instafeedPopupFollowBtnLabel: null,
@@ -135,6 +141,8 @@ export default function Instafeed({ attributes, setAttributes }) {
         instafeedColumnsGap,
         instafeedPostsPerPage,
         instafeedTab,
+        instafeedCommentsCount,
+        instafeedLikesCount,
         instafeedPopup,
         instafeedPopupFollowBtn,
         instafeedPopupFollowBtnLabel,
@@ -377,6 +385,17 @@ export default function Instafeed({ attributes, setAttributes }) {
                                             label={__('Feed Tab', 'embedpress')}
                                             checked={instafeedTab}
                                             onChange={(instafeedTab) => setAttributes({ instafeedTab })}
+                                        />
+
+                                        <ToggleControl
+                                            label={__('Likes Count', 'embedpress')}
+                                            checked={instafeedLikesCount}
+                                            onChange={(instafeedLikesCount) => setAttributes({ instafeedLikesCount })}
+                                        />
+                                        <ToggleControl
+                                            label={__('Comments Count', 'embedpress')}
+                                            checked={instafeedCommentsCount}
+                                            onChange={(instafeedCommentsCount) => setAttributes({ instafeedCommentsCount })}
                                         />
 
                                         <ToggleControl

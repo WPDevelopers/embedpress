@@ -158,7 +158,7 @@ class Embedpress_Elementor extends Widget_Base
 		}
 
 		$this->add_control(
-			'embedpress_instafeed_account_type',
+			'instafeedAccountType',
 			[
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'label' => esc_html__( 'Account Type', 'embedpress' ),
@@ -218,7 +218,7 @@ class Embedpress_Elementor extends Widget_Base
 					'active' => false,
 				],
 				'condition'   => [
-					'embedpress_instafeed_account_type!' => 'hashtag'
+					'instafeedAccountType!' => 'hashtag'
 				]
 			
 			]
@@ -2805,20 +2805,51 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-
-		
 		$this->add_control(
-			'instafeedPopup',
+			'instafeedLikesCount',
 			[
-				'label' => sprintf(__('Popup %s', 'embedpress'), $this->pro_text),
+				'label' => sprintf(__('Like Count %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'classes'     => $this->pro_class,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => '',
+				'condition'   => [
+					'instafeedAccountType' => 'business',
+					'embedpress_pro_embeded_source' => 'instafeed'
+				],
+			]
+		);
+
+		$this->add_control(
+			'instafeedCommentsCount',
+			[
+				'label' => sprintf(__('Comments Count %s', 'embedpress'), $this->pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'classes'     => $this->pro_class,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => '',
+				'condition'   => [
+					'instafeedAccountType' => 'business',
+					'embedpress_pro_embeded_source' => 'instafeed'
+				],
+			]
+		);
+		
+
+		$this->add_control(
+			'instafeedPopup',
+			[
+				'label' => __('Popup', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
 				'condition'   => $condition,
 			]
 		);
+
 		$this->add_control(
 			'instafeedPopupFollowBtn',
 			[
@@ -2971,7 +3002,7 @@ class Embedpress_Elementor extends Widget_Base
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => '',
+				'default'      => 'yes',
 				'condition'   => [
 					'embedpress_pro_embeded_source' => 'instafeed',
 					'instafeedFeedType!' => 'hashtag_type'
@@ -3002,8 +3033,9 @@ class Embedpress_Elementor extends Widget_Base
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => '',
+				'default'      => 'yes',
 				'condition' => [
+					'instafeedAccountType!' => 'personal',
 					'instafeedFeedType!' => 'hashtag_type',
 					'embedpress_pro_embeded_source' => 'instafeed',
 				],
@@ -3019,6 +3051,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block' => false,
 				'separator'    => 'after',
 				'condition' => [
+					'instafeedAccountType!' => 'personal',
 					'instafeedFollowersCount' => 'yes',
 					'instafeedFeedType!' => 'hashtag_type',
 					'embedpress_pro_embeded_source' => 'instafeed'
@@ -3034,7 +3067,7 @@ class Embedpress_Elementor extends Widget_Base
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => '',
+				'default'      => 'yes',
 				'condition' => [
 					'instafeedFeedType!' => 'hashtag_type',
 					'embedpress_pro_embeded_source' => 'instafeed'
@@ -3333,12 +3366,23 @@ class Embedpress_Elementor extends Widget_Base
 		return $_settings;
 	}
 
+	public function validUserAccountUrl($url){
+        $pattern = '/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?)$/';
+        return (bool) preg_match($pattern, $url);
+    }
+
+    function validInstagramTagUrl($url) {
+        $pattern = '/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/explore\/tags\/[a-zA-Z0-9_\-]+\/?$/';
+        return (bool) preg_match($pattern, $url);
+    }
 
 	protected function render()
 	{
 
 		add_filter('embedpress_should_modify_spotify', '__return_false');
 		$settings      = $this->get_settings_for_display();
+		$embed_link = isset($settings['embedpress_embeded_link']) ? $settings['embedpress_embeded_link'] : '';
+
 
 		if(!is_embedpress_pro_active() && ($settings['instaLayout'] === 'insta-masonry' || $settings['instaLayout'] === 'insta-carousel' || $settings['instafeedFeedType'] === 'hashtag_type')){
 			return '';
@@ -3349,6 +3393,16 @@ class Embedpress_Elementor extends Widget_Base
 			return '';
 		}
 
+		if($settings['instafeedFeedType'] === 'hashtag_type' && !$this->validInstagramTagUrl($embed_link)){
+			echo 'Please valid hashtag link url';
+			return '';
+		}
+
+		if($settings['instafeedFeedType'] === 'user_account_type' && !$this->validUserAccountUrl($embed_link)){
+			echo 'Please valid user account link url';
+			return '';
+		}
+		
 		$is_editor_view = Plugin::$instance->editor->is_edit_mode();
 		$link = $settings['embedpress_embeded_link'];
 		$is_apple_podcast = (strpos($link, 'podcasts.apple.com') !== false);
@@ -3356,7 +3410,6 @@ class Embedpress_Elementor extends Widget_Base
 		// conditionaly convert settings data
 		$_settings = [];
 		$source = isset($settings['embedpress_pro_embeded_source']) ? $settings['embedpress_pro_embeded_source'] : 'default';
-		$embed_link = isset($settings['embedpress_embeded_link']) ? $settings['embedpress_embeded_link'] : '';
 		$pass_hash_key = isset($settings['embedpress_lock_content_password']) ? md5($settings['embedpress_lock_content_password']) : '';
 
 
