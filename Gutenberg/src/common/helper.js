@@ -263,9 +263,15 @@ export const epAdjustHexColor = (hexColor, percentage) => {
 
 // check if is valid instafeed url
 export const isInstagramFeed = (url) => {
-    return /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/[a-zA-Z0-9_\.]+\/?$/.test(url);
+    const pattern = /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?|explore\/tags\/[a-zA-Z0-9_\-]+\/?)$/;
+    return pattern.test(url);
 }
 
+
+const pattern = /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?|explore\/tags\/[a-zA-Z0-9_\-]+\/?)$/;
+const url = "your-instagram-url-here"; // Replace this with the actual URL you want to check
+const isMatch = pattern.test(url);
+console.log(isMatch);
 
 
 export const getPlayerOptions = ({ attributes }) => {

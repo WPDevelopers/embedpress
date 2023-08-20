@@ -642,9 +642,8 @@ class Helper {
 
         $hashtag_posts = get_transient($transient_key);
 
-
     
-		if($feed_type === 'user_account_type'){
+		if($feed_type === 'user_account_type' && isset($feed_data[$user_id]['feed_posts'])){
 			$feed_posts = $feed_data[$user_id]['feed_posts'];
 		}
 		else if($feed_type === 'hashtag_type' && isset($hashtag_posts[$hashtag_id])){

@@ -649,6 +649,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 
 			//Instagram Feed attributes
 
+			instafeedFeedType: {
+				type: 'string',
+				default: 'user_account_type',
+			},
+			instafeedAccountType: {
+				type: 'string',
+				default: 'personal',
+			},
 			instafeedProfileImage: {
 				type: 'boolean',
 				default: false,

@@ -1247,6 +1247,15 @@ p.ep-live-video-info svg {
 .components-text-control__input::placeholder,
 .components-textarea-control__input::placeholder {
   color: #757575; }
+
+.components-panel__row.elementor-panel-alert.elementor-panel-warning-info {
+  margin-top: -15px;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  background: #F6D88C;
+  padding: 8px 8px;
+  border-radius: 10px; }
 /**
  * #.# Common SCSS
  *

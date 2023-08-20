@@ -250,6 +250,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     
 
     public function data_instagram_feed($access_token, $connected_account_type, $user_id, $limit = 100) {
+
        
         if(strtolower($connected_account_type) === 'business'){
             $api_url = "https://graph.facebook.com/v17.0/$user_id/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=$limit&access_token=$access_token";
@@ -257,9 +258,9 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         else{
             $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$access_token";
         }
-    
+
         $transientKey = 'instagram_feed_data_' . md5($api_url);
-    
+
         // Check if transient data exists
         $feed_data = get_transient($transientKey);
 
@@ -387,6 +388,18 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         
         $feed_type = $params['instafeedFeedType'];
 
+        if( $feed_type === 'user_account_type' && !empty($hashtag)){
+            return 'Please add valid url for user account';
+        }
+        else if( $feed_type === 'hashtag_type' && empty($hashtag)){
+            return 'Please add valid url for hashtag feed';
+        }
+        else if( $feed_type === 'mixed_type'){
+            return 'Please add valid url for hashtag feed';
+        }
+        else if( $feed_type === 'tagged_type'){
+            return 'Please add valid url for hashtag feed';
+        }
 
         $styleAttribute = '';
 
@@ -430,7 +443,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         $connected_account_type = $account_type;
 
         if(strtolower($connected_account_type) === 'business'){
-            $tkey = md5('https://graph.facebook.com/v17.0/'.$id.'/media?fi  elds=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit='.$limit.'&access_token='.$accessToken);
+            $tkey = md5('https://graph.facebook.com/v17.0/'.$id.'/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit='.$limit.'&access_token='.$accessToken);
         }
         else{
             $tkey = md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$accessToken");

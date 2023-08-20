@@ -50,7 +50,7 @@ export const getInstafeedParams = (params, attributes) => {
     }
     // which attributes should be passed with rest api.
     const defaults = {
-        instafeedAccName: 'default value',
+        instafeedAccName: true,
         instafeedProfileImage: true,
         instafeedProfileImageUrl: '',
         instafeedFollowBtn: true,
@@ -60,6 +60,8 @@ export const getInstafeedParams = (params, attributes) => {
         instafeedFollowersCount: true,
         instafeedFollowersCountText: '[count] followers',
         instaLayout: 'insta-grid',
+        instafeedFeedType: 'user_account_type',
+        instafeedAccountType: 'personal',
         instafeedColumns: '3',
         instafeedColumnsGap: '5',
         instafeedPostsPerPage: true,
@@ -89,6 +91,8 @@ export const useInstafeed = (attributes) => {
     // which attribute should call embed();
     const defaults = {
         instaLayout: null,
+        instafeedFeedType: null,
+        instafeedAccountType: null,
         slidesShow: null,
         slidesScroll: null,
         carouselAutoplay: null,
@@ -137,6 +141,8 @@ export default function Instafeed({ attributes, setAttributes }) {
     const {
         url,
         instaLayout,
+        instafeedFeedType,
+        instafeedAccountType,
         instafeedColumns,
         instafeedColumnsGap,
         instafeedPostsPerPage,

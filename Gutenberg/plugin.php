@@ -424,8 +424,16 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'string',
 								'default' => 'insta-grid',
 							],
+							'instafeedFeedType' => [
+								'type' => 'string',
+								'default' => 'user_account_type',
+							],
+							'instafeedAccountType' => [
+								'type' => 'string',
+								'default' => 'personal',
+							],
 							'instafeedProfileImage' => [
-								'type' => 'boolean',
+		         						'type' => 'boolean',
 								'default' => false,
 							],
 							'instafeedProfileImageUrl' => [
@@ -458,7 +466,7 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'instafeedAccName' => [
 								'type' => 'boolean',
-								'default' => false,
+								'default' => true,
 							],
 							'instafeedColumns' => [
 								'type' => 'string',

@@ -2207,6 +2207,24 @@ button.js-carousel__next-1 {
     justify-content: center;
     gap: 5px;
 }
+.load-more-button-container button {
+    border-style: solid;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-left-width: 0;
+    border-bottom-width: 0;
+    color: #ffffff;
+    border-color: #0170B9;
+    background-color: #0170B9;
+    padding-top: 15px;
+    padding-right: 30px;
+    padding-bottom: 15px;
+    padding-left: 30px;
+    font-family: inherit;
+    font-weight: inherit;
+    line-height: 1em;
+}
+
 
 /* Popup design for instafeed */
 
