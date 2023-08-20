@@ -1138,7 +1138,7 @@ span.ep-nft-rank {
 
     }
 
-    .ose-nrk-radio iframe {
+    .ose-nrk-radio iframe, .ose-spotify iframe {
         height: 400px !important;
     }
 
