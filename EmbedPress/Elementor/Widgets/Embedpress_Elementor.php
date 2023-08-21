@@ -148,7 +148,10 @@ class Embedpress_Elementor extends Widget_Base
 					'active' => true,
 				],
 				'placeholder' => __('Enter your Link', 'embedpress'),
-				'label_block' => true
+				'label_block' => true,
+				'ai'     => [
+					'active' => false,
+				],
 
 			]
 		);
@@ -2532,7 +2535,7 @@ class Embedpress_Elementor extends Widget_Base
 
 			]
 		);
-		$this->add_control(
+		$this->add_responsive_control(
 			'width',
 			[
 				'label' => __('Width', 'embedpress'),
@@ -2542,16 +2545,30 @@ class Embedpress_Elementor extends Widget_Base
 					'px' => [
 						'min' => 0,
 						'max' => 1500,
-						'step' => 5,
+						'step' => 1,
 					],
 				],
-				'default' => [
-					'unit' => 'px',
+				'devices' => [ 'desktop', 'tablet', 'mobile' ],
+				'desktop_default' => [
 					'size' => 600,
-				]
+					'unit' => 'px',
+				],
+				'tablet_default' => [
+					'size' => 600,
+					'unit' => 'px',
+				],
+				'mobile_default' => [
+					'size' => 600,
+					'unit' => 'px',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive
+					' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
+				],
 			]
 		);
-		$this->add_control(
+		
+		$this->add_responsive_control(
 			'height',
 			[
 				'label' => __('Height', 'embedpress'),
@@ -2561,13 +2578,34 @@ class Embedpress_Elementor extends Widget_Base
 					'px' => [
 						'min' => 0,
 						'max' => 1500,
-						'step' => 5,
+						'step' => 1,
 					],
 				],
-				'default' => [
-					'unit' => 'px',
+				'devices' => [ 'desktop', 'tablet', 'mobile' ],
+				'desktop_default' => [
 					'size' => 400,
-				]
+					'unit' => 'px',
+				],
+				'tablet_default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
+				'mobile_default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive
+					' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
+				],
+			]
+		);
+		$this->add_control(
+			'width_height_important_note',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => esc_html__('Note: The maximum width and height are set to 100%.', 'embedpress'),
+				'content_classes' => 'elementor-panel-alert elementor-panel-warning-info',
 			]
 		);
 		$this->add_responsive_control(

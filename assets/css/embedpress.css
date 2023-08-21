@@ -126,15 +126,8 @@
     width: 100%;
 }
 
-.elementor-widget-container iframe {
-    max-height: 100% !important;
-}
-
 @media only screen and (max-width: 800px) {
-    .elementor-widget-container iframe {
-        max-height: 100% !important;
-    }
-
+    
     .elementor-widget-container .embedpress-facebook-vid-iframe,
     .embedpress-gutenberg-wrapper .embedpress-facebook-vid-iframe,
     .embedpress-facebook-vid-iframe {
@@ -1127,10 +1120,6 @@ span.ep-nft-rank {
     .ep-nft-single-item-wraper sub.ep-usd-price {
         margin-bottom: 15px;
         display: block;
-    }
-
-    .ose-embedpress-responsive>iframe {
-        height: auto !important;
     }
 
     .ose-google-drive iframe {
