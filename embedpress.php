@@ -139,10 +139,3 @@ function ep_track_embed_usage()
     $wpdb->insert('embed_usage_log', array('embed_type' => $embed_type, 'user_id' => get_current_user_id()));
 }
 add_action('embed_content', 'ep_track_embed_usage');
-
-
-function ep_enqueue_jquery_in_header()
-{
-    wp_enqueue_script('jquery', false, array(), false, true);
-}
-add_action('wp_enqueue_scripts', 'ep_enqueue_jquery_in_header', 1);
