@@ -535,7 +535,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 
 			// custom player attributes
-			customPlayer: {  
+			customPlayer: {
 				type: 'boolean',
 				default: false
 			},
@@ -547,12 +547,12 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: 'preset-default'
 			},
-			
+
 			playerColor: {
 				type: 'string',
 				default: '#5b4e96',
 			},
-			
+
 			playerPip: {
 				type: 'boolean',
 				default: false,
@@ -647,6 +647,47 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: true,
 			},
 
+			// Calendly attributes
+			cEmbedType: {
+				type: 'string',
+				default: 'inline'
+			},
+			hideCookieBanner: {
+				type: 'boolean',
+				default: false
+			},
+			hideEventTypeDetails: {
+				type: 'boolean',
+				default: false
+			},
+			cBackgroundColor: {
+				type: 'string',
+				default: '643cd5'
+			},
+			cTextColor: {
+				type: 'string',
+				default: '2cff2c'
+			},
+			cButtonLinkColor: {
+				type: 'string',
+				default: '0069FF'
+			},
+			cPopupButtonText: {
+				type: 'string',
+				default: 'Schedule time with me'
+			},
+			cPopupButtonBGColor: {
+				type: 'string',
+				default: '0069FF'
+			},
+			cPopupButtonTextColor: {
+				type: 'string',
+				default: 'FFFFFF'
+			},
+			cPopupLinkText: {
+				type: 'string',
+				default: 'Schedule time with me'
+			},
 
 			//Custom logo atributes
 			customlogo: {

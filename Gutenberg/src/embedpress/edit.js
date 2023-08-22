@@ -28,6 +28,7 @@ import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorCont
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import ContentShare from '../common/social-share-control';
 import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo } from './functions';
+import { isCalendly as _isCalendly, useCalendly } from './InspectorControl/calendly';
 
 const {
 	useBlockProps
@@ -131,11 +132,14 @@ export default function EmbedPress(props) {
 	const isOpensea = _isOpensea(url);
 	const isOpenseaSingle = _isOpenseaSingle(url);
 
+	const isCalendly = _isCalendly(url);
+
 	const openseaParams = useOpensea(attributes);
 	const youtubeParams = useYTChannel(attributes);
 	const youtubeVideoParams = useYTVideo(attributes);
 	const wistiaVideoParams = useWistiaVideo(attributes);
 	const vimeoVideoParams = useVimeoVideo(attributes);
+	const calendlyParamns = useCalendly(attributes);
 
 	let source = '';
 
@@ -277,7 +281,7 @@ export default function EmbedPress(props) {
 		return () => {
 			clearTimeout(delayDebounceFn)
 		}
-	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, contentShare, lockContent]);
+	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, calendlyParamns, contentShare, lockContent]);
 
 	return (
 		<Fragment>
@@ -294,6 +298,7 @@ export default function EmbedPress(props) {
 				isVimeoVideo={isVimeoVideo}
 				isSelfHostedVideo={_isSelfHostedVideo}
 				isSelfHostedAudio={_isSelfHostedAudio}
+				isCalendly={isCalendly}
 			/>
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
