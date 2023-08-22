@@ -33,7 +33,7 @@ class Calendly extends ProviderAdapter implements ProviderInterface
     public function validateUrl(Url $url)
     {
         return  (bool) preg_match(
-            "/^https:\/\/calendly\.com\/.*/",
+            "/^https:\/\/calendly\.com\/[a-zA-Z0-9_-]+\/.*/",
             (string) $url
         );
     }
@@ -41,7 +41,7 @@ class Calendly extends ProviderAdapter implements ProviderInterface
     public function validateCalendly($url)
     {
         return  (bool) preg_match(
-            "/^https:\/\/calendly\.com\/.*/",
+            "/^https:\/\/calendly\.com\/[a-zA-Z0-9_-]+\/.*/",
             (string) $url
         );
     }
