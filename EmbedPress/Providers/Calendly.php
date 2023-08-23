@@ -30,6 +30,30 @@ class Calendly extends ProviderAdapter implements ProviderInterface
      * @since   1.0.0
      *
      */
+
+      /** inline {@inheritdoc} */
+    /** @var array Array with allowed params for the current Provider */
+    protected $allowedParams = [
+        'cEmbedType',
+        'hideCookieBanner',
+        'hideEventTypeDetails',
+        'cBackgroundColor',
+        'cTextColor',
+        'cButtonLinkColor',
+        'cPopupButtonText',
+        'cPopupButtonBGColor',
+        'cPopupButtonTextColor',
+        'cPopupLinkText'
+    ];
+
+
+    /** inline {@inheritdoc} */
+    protected $httpsSupport = true;
+
+    public function getAllowedParams(){
+        return $this->allowedParams;
+    }
+
     public function validateUrl(Url $url)
     {
         return  (bool) preg_match(
@@ -55,16 +79,63 @@ class Calendly extends ProviderAdapter implements ProviderInterface
      */
     public function fakeResponse()
     {
-        $src_url = urldecode($this->url);
+
+        $params = $this->getParams();
+
+        // $hideCookieBanner = 0;
+        // $hideEventTypeDetails = 0;
+        // $cBackgroundColor = '';
+        // $cTextColor = '';
+
+        $parameters = array();
+
+        if (!empty($params['hideCookieBanner']) && $params['hideCookieBanner'] !== 'false') {
+            $parameters['hide_gdpr_banner'] = 1;
+        }
+
+        if (!empty($params['hideEventTypeDetails']) && $params['hideEventTypeDetails'] !== 'false') {
+            $parameters['hide_event_type_details'] = 1;
+        }
+
+        if (!empty($params['cBackgroundColor']) && $params['cBackgroundColor'] !== 'false') {
+            $parameters['background_color'] = ltrim($params['cBackgroundColor'], '#');
+        }
+
+        if (!empty($params['cTextColor']) && $params['cTextColor'] !== 'false') {
+            $parameters['text_color'] = ltrim($params['cTextColor'], '#');
+        }
+        
+        $query_string = http_build_query($parameters);
+
+        $src_url = $this->url.'?'.$query_string;
+
         
         $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
         $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 350;
         
         // Check if the url is already converted to the embed format  
         if ($this->validateCalendly($src_url)) {
-            $html =    '<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
-            <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-            <div class="calendly-inline-widget" data-url="'.esc_url($this->url).'" style="min-width:'. $width.'px;height:'.$height.'px;"></div>';
+            if($params['cEmbedType'] == 'inline'){
+                $html =    '<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+                <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+                <div class="calendly-inline-widget" data-url="'.esc_url($src_url).'" style="min-width:'. $width.'px;height:'.$height.'px;"></div>';
+            }
+            else if($params['cEmbedType'] == 'popup_button'){
+                $html = '<!-- Calendly badge widget begin -->
+                <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+                <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+                
+                <script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: "'.esc_url($src_url).'", text: "Schedule time with me", color: "#609c6b", textColor: "#ffffff", branding: undefined }); }</script>';
+            }
+            else{
+                $html = '
+                <!-- Calendly link widget begin -->
+                <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+                <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+                <a href="/#" onclick="Calendly.initPopupWidget({url: \'' . esc_url($src_url) . '\'}); return false;">Schedule time with me</a>';
+
+            }
+            
         } else {
             $html = '';
         }

@@ -11,6 +11,7 @@ import './editor.scss';
 import edit from './edit';
 import { embedPressIcon } from '../common/icons';
 import { init as openseaInit } from './InspectorControl/opensea';
+import { init as calendlyInit } from './InspectorControl/calendly';
 import { init as youtubeInit } from './InspectorControl/youtube';
 import { init as wistiaInit } from './InspectorControl/wistia';
 import { init as vimeoInit } from './InspectorControl/vimeo';
@@ -737,4 +738,5 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 	youtubeInit();
 	wistiaInit();
 	vimeoInit();
+	calendlyInit();
 }

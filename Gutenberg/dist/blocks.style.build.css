@@ -832,6 +832,12 @@ span.eb_nft_currency svg {
   margin-left: -16px;
   padding-left: 16px; }
 
+button.components-color-palette__custom-color-button {
+  height: 24px; }
+
+.components-color-palette__custom-color-text-wrapper {
+  display: none !important; }
+
 .ep-video-controlers .ep-control-field .components-base-control__field {
   display: -ms-flexbox;
   display: flex;

@@ -21,10 +21,8 @@ const {
     PanelBody,
     ColorPalette,
     FontSizePicker,
-    // AlignmentMatrixControl
 } = wp.components;
 
-// import { __experimentalAlignmentMatrixControl as AlignmentMatrixControl } from '@wordpress/components';
 
 const {
     InspectorControls
@@ -35,7 +33,7 @@ export const init = () => {
 }
 
 export const getCalendlyParams = (params, attributes) => {
-    if (!url) {
+    if (!attributes.url) {
         return params;
     }
 
@@ -168,12 +166,13 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
     ];
 
     const colors = [
-        { name: '', color: 'red' },
-        { name: '', color: 'green' },
-        { name: '', color: 'blue' },
-        { name: '', color: 'yellow' },
-        { name: '', color: 'orange' },
+        { name: '', color: '#FF0000' },
+        { name: '', color: '#00FF00' },
+        { name: '', color: '#0000FF' },
+        { name: '', color: '#FFFF00' },
+        { name: '', color: '#FFA500' } 
     ];
+    
 
     const fallbackFontSize = 16;
 
@@ -200,8 +199,10 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
                                     value={cPopupButtonText}
                                     onChange={(cPopupButtonText) => setAttributes({ cPopupButtonText })}
                                 />
-                                <TextControl
-                                    label="Popup Button Background Color"
+                                <ControlHeader headerText={'Popup Button Background Color'} />
+                                <ColorPalette
+                                    label={__("Popup Button Background Color")}
+                                    colors={colors}
                                     value={cPopupButtonBGColor}
                                     onChange={(cPopupButtonBGColor) => setAttributes({ cPopupButtonBGColor })}
                                 />
