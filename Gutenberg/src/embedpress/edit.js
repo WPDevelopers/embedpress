@@ -62,6 +62,7 @@ export default function EmbedPress(props) {
 		clientId,
 		customPlayer,
 		playerPreset,
+		cEmbedType
 	} = attributes;
 
 	const _isSelfHostedVideo = isSelfHostedVideo(url);
@@ -89,6 +90,12 @@ export default function EmbedPress(props) {
 	let customLogoTemp = '';
 	let customLogoStyle = '';
 	let epMessage = '';
+
+	let cPopupButton = '';
+
+	if(cEmbedType === 'popup_button') {
+		cPopupButton = '<div class="calendly-badge-widget"><div class="calendly-badge-content" style="background: rgb(0, 0, 255);">My schedule</div></div>';
+	}
 
 	if (customlogo) {
 		customLogoStyle = `
@@ -328,7 +335,7 @@ export default function EmbedPress(props) {
 			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo || isVimeoVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
 				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
 					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass}`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo && !isVimeoVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} {...(customPlayer ? { 'data-playerid': md5(clientId) } : {})} {...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})} dangerouslySetInnerHTML={{
-						__html: embedHTML + customLogoTemp + epMessage + shareHtml,
+						__html: embedHTML + customLogoTemp + epMessage + shareHtml + cPopupButton,
 					}}>
 					</EmbedWrap>
 

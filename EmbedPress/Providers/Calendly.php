@@ -109,6 +109,30 @@ class Calendly extends ProviderAdapter implements ProviderInterface
 
         $src_url = $this->url.'?'.$query_string;
 
+        // Array
+        // (
+        //     [cEmbedType] => popup_button
+        //     [hideCookieBanner] => false
+        //     [hideEventTypeDetails] => false
+        //     [cBackgroundColor] => 643cd5
+        //     [cTextColor] => 2cff2c
+        //     [cButtonLinkColor] => 0069FF
+        //     [cPopupButtonText] => My schedule
+        //     [cPopupButtonBGColor] => 0069FF
+        //     [cPopupButtonTextColor] => FFFFFF
+        //     [cPopupLinkText] => Schedule time with me
+        //     [url] => https://calendly.com/akash-mia/dailly-stand-up-meeting
+        // )
+
+
+        $cButtonLinkColor = !empty($params['cButtonLinkColor']) ? $params['cButtonLinkColor'] : '';
+        $cPopupButtonText = !empty($params['cPopupButtonText']) ? $params['cPopupButtonText'] : '';
+        $cPopupButtonBGColor = !empty($params['cPopupButtonBGColor']) ? $params['cPopupButtonBGColor'] : '';
+
+        $cPopupButtonTextColor = !empty($params['cPopupButtonTextColor']) ? $params['cPopupButtonTextColor'] : '';
+
+        $cPopupLinkText = !empty($params['cPopupLinkText']) ? $params['cPopupLinkText'] : '';
+
         
         $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
         $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 350;
@@ -125,7 +149,7 @@ class Calendly extends ProviderAdapter implements ProviderInterface
                 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
                 <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
                 
-                <script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: "'.esc_url($src_url).'", text: "Schedule time with me", color: "#609c6b", textColor: "#ffffff", branding: undefined }); }</script>';
+                <script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: "'.esc_url($src_url).'", text: "'.esc_attr( $cPopupButtonText ).'", color: "'.esc_attr( $cPopupButtonBGColor ).'", textColor: "'.esc_attr( $cPopupButtonTextColor ).'", branding: undefined }); }</script>';
             }
             else{
                 $html = '

@@ -170,101 +170,109 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
         { name: '', color: '#00FF00' },
         { name: '', color: '#0000FF' },
         { name: '', color: '#FFFF00' },
-        { name: '', color: '#FFA500' } 
+        { name: '', color: '#FFA500' }
     ];
-    
+
 
     const fallbackFontSize = 16;
 
     return (
         (isCalendly) && (
-            <PanelBody title={__("Calendly Controls")} initialOpen={false} className={'ep-opensea-options'}>
-                <div>
-                    <SelectControl
-                        label={__("Embed Type", "embedpress")}
-                        value={cEmbedType}
-                        options={[
-                            { label: 'Inline', value: 'inline' },
-                            { label: 'Popup Button', value: 'popup_button' },
-                            { label: 'Popup Text', value: 'popup_text' },
-                        ]}
-                        onChange={(cEmbedType) => setAttributes({ cEmbedType })}
-                    />
+            <div>
+                <PanelBody title={__("Calendly Controls")} initialOpen={false} className={'ep-calendly-options'}>
+                    <div>
+                        <SelectControl
+                            label={__("Embed Type", "embedpress")}
+                            value={cEmbedType}
+                            options={[
+                                { label: 'Inline', value: 'inline' },
+                                { label: 'Popup Button', value: 'popup_button' },
+                                { label: 'Popup Text', value: 'popup_text' },
+                            ]}
+                            onChange={(cEmbedType) => setAttributes({ cEmbedType })}
+                        />
 
+                        <ToggleControl
+                            label="Hide Cookie Banner"
+                            checked={hideCookieBanner}
+                            onChange={(hideCookieBanner) => setAttributes({ hideCookieBanner })}
+                        />
+                        <ToggleControl
+                            label="Hide Event Type Details"
+                            checked={hideEventTypeDetails}
+                            onChange={(hideEventTypeDetails) => setAttributes({ hideEventTypeDetails })}
+                        />
+                        <ControlHeader headerText={'Background Color'} />
+                        <ColorPalette
+                            label={__("Background Color")}
+                            colors={colors}
+                            value={cBackgroundColor}
+                            onChange={(cBackgroundColor) => setAttributes({ cBackgroundColor })}
+                        />
+
+                        <ControlHeader headerText={'Text Color'} />
+                        <ColorPalette
+                            label={__("Text Color")}
+                            colors={colors}
+                            value={cTextColor}
+                            onChange={(cTextColor) => setAttributes({ cTextColor })}
+                        />
+                    </div>
+                </PanelBody>
+                <div>
                     {
                         (cEmbedType === 'popup_button') && (
-                            <div>
-                                <TextControl
-                                    label="Popup Button Text"
-                                    value={cPopupButtonText}
-                                    onChange={(cPopupButtonText) => setAttributes({ cPopupButtonText })}
-                                />
-                                <ControlHeader headerText={'Popup Button Background Color'} />
-                                <ColorPalette
-                                    label={__("Popup Button Background Color")}
-                                    colors={colors}
-                                    value={cPopupButtonBGColor}
-                                    onChange={(cPopupButtonBGColor) => setAttributes({ cPopupButtonBGColor })}
-                                />
-                            </div>
+                            <PanelBody title={__("Popup Settings")} initialOpen={false} className={'ep-calendly-options'}>
+                                <div>
+                                    <TextControl
+                                        label="Popup Button Text"
+                                        value={cPopupButtonText}
+                                        onChange={(cPopupButtonText) => setAttributes({ cPopupButtonText })}
+                                    />
+
+
+                                    <ControlHeader headerText={'Button Link Color'} />
+                                    <ColorPalette
+                                        label={__("Text Color")}
+                                        colors={colors}
+                                        value={cButtonLinkColor}
+                                        onChange={(cButtonLinkColor) => setAttributes({ cButtonLinkColor })}
+                                    />
+
+                                    <ControlHeader headerText={'Popup Button Background Color'} />
+                                    <ColorPalette
+                                        label={__("Popup Button Background Color")}
+                                        colors={colors}
+                                        value={cPopupButtonBGColor}
+                                        onChange={(cPopupButtonBGColor) => setAttributes({ cPopupButtonBGColor })}
+                                    />
+                                </div>
+                            </PanelBody>
                         )
                     }
 
                     {
                         (cEmbedType === 'popup_text') && (
-                            <div>
-                                <ControlHeader headerText={'Popup Button Text Color'} />
-                                <ColorPalette
-                                    label={__("Popup Button Text Color")}
-                                    colors={colors}
-                                    value={cPopupButtonTextColor}
-                                    onChange={(cPopupButtonTextColor) => setAttributes({ cPopupButtonTextColor })}
-                                />
-                                <TextControl
-                                    label="Popup Link Text"
-                                    value={cPopupLinkText}
-                                    onChange={(cPopupLinkText) => setAttributes({ cPopupLinkText })}
-                                />
-                            </div>
+                            <PanelBody title={__("Popup Settings")} initialOpen={false} className={'ep-calendly-options'}>
+                                <div>
+                                    <TextControl
+                                        label="Popup Link Text"
+                                        value={cPopupLinkText}
+                                        onChange={(cPopupLinkText) => setAttributes({ cPopupLinkText })}
+                                    />
+                                    <ControlHeader headerText={'Popup Button Text Color'} />
+                                    <ColorPalette
+                                        label={__("Popup Button Text Color")}
+                                        colors={colors}
+                                        value={cPopupButtonTextColor}
+                                        onChange={(cPopupButtonTextColor) => setAttributes({ cPopupButtonTextColor })}
+                                    />
+                                </div>
+                            </PanelBody>
                         )
                     }
-
-                    <ToggleControl
-                        label="Hide Cookie Banner"
-                        checked={hideCookieBanner}
-                        onChange={(hideCookieBanner) => setAttributes({ hideCookieBanner })}
-                    />
-                    <ToggleControl
-                        label="Hide Event Type Details"
-                        checked={hideEventTypeDetails}
-                        onChange={(hideEventTypeDetails) => setAttributes({ hideEventTypeDetails })}
-                    />
-                    <ControlHeader headerText={'Background Color'} />
-                    <ColorPalette
-                        label={__("Background Color")}
-                        colors={colors}
-                        value={cBackgroundColor}
-                        onChange={(cBackgroundColor) => setAttributes({ cBackgroundColor })}
-                    />
-
-                    <ControlHeader headerText={'Text Color'} />
-                    <ColorPalette
-                        label={__("Text Color")}
-                        colors={colors}
-                        value={cTextColor}
-                        onChange={(cTextColor) => setAttributes({ cTextColor })}
-                    />
-
-                    <ControlHeader headerText={'Button Link Color'} />
-                    <ColorPalette
-                        label={__("Text Color")}
-                        colors={colors}
-                        value={cButtonLinkColor}
-                        onChange={(cButtonLinkColor) => setAttributes({ cButtonLinkColor })}
-                    />
-
                 </div>
-            </PanelBody>
+            </div>
 
         )
     )
