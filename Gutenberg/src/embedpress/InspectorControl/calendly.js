@@ -187,7 +187,6 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
                             options={[
                                 { label: 'Inline', value: 'inline' },
                                 { label: 'Popup Button', value: 'popup_button' },
-                                { label: 'Popup Text', value: 'popup_text' },
                             ]}
                             onChange={(cEmbedType) => setAttributes({ cEmbedType })}
                         />
@@ -251,26 +250,7 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
                         )
                     }
 
-                    {
-                        (cEmbedType === 'popup_text') && (
-                            <PanelBody title={__("Popup Settings")} initialOpen={false} className={'ep-calendly-options'}>
-                                <div>
-                                    <TextControl
-                                        label="Popup Link Text"
-                                        value={cPopupLinkText}
-                                        onChange={(cPopupLinkText) => setAttributes({ cPopupLinkText })}
-                                    />
-                                    <ControlHeader headerText={'Popup Button Text Color'} />
-                                    <ColorPalette
-                                        label={__("Popup Button Text Color")}
-                                        colors={colors}
-                                        value={cPopupButtonTextColor}
-                                        onChange={(cPopupButtonTextColor) => setAttributes({ cPopupButtonTextColor })}
-                                    />
-                                </div>
-                            </PanelBody>
-                        )
-                    }
+                   
                 </div>
             </div>
 

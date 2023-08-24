@@ -2544,17 +2544,40 @@ class Embedpress_Elementor extends Widget_Base
 				'options' => [
 					'inline'  => __( 'Inline', 'embedpress' ),
 					'popupButton' => __( 'Popup Button', 'embedpress' ),
-					'popupText' => __( 'Popup Text', 'embedpress' ),
 				],
 				'condition' => $condition
 			]
 		);
-		
+		$this->add_control(
+			'popupControlsHeadding',
+			[
+				'label' => esc_html__( 'Popup Settings', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
 		$this->add_control(
 			'popupButtonText',
 			[
 				'label' => __( 'Popup Button Text', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::TEXT,
+				'default' => '',
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'calendly',
+					'cEmbedType' => 'popupButton'
+				],
+				'ai'     => [
+					'active' => true,
+				],
+			]
+		);
+		
+	
+		$this->add_control(
+			'popupButtonTextColor',
+			[
+				'label' => __( 'Popup Button Text Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
 				'default' => '',
 				'condition' => [
 					'embedpress_pro_embeded_source' => 'calendly',
@@ -2574,29 +2597,13 @@ class Embedpress_Elementor extends Widget_Base
 				]
 			]
 		);
-	
+
 		$this->add_control(
-			'popupButtonTextColor',
+			'calendlyControlsHeadding',
 			[
-				'label' => __( 'Popup Button Text Color', 'embedpress' ),
-				'type' => \Elementor\Controls_Manager::COLOR,
-				'default' => '',
-				'condition' => [
-					'embedpress_pro_embeded_source' => 'calendly',
-					'cEmbedType' => 'popupText'
-				]
-			]
-		);
-		$this->add_control(
-			'popupLinkText',
-			[
-				'label' => __( 'Popup Link Text', 'embedpress' ),
-				'type' => \Elementor\Controls_Manager::TEXT,
-				'default' => '',
-				'condition' => [
-					'embedpress_pro_embeded_source' => 'calendly',
-					'cEmbedType' => 'popupText'
-				]
+				'label' => esc_html__( 'Popup Settings', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
 			]
 		);
 
