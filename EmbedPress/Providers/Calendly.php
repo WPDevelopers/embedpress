@@ -82,6 +82,8 @@ class Calendly extends ProviderAdapter implements ProviderInterface
 
         $params = $this->getParams();
 
+        print_r($params); 
+
         // $hideCookieBanner = 0;
         // $hideEventTypeDetails = 0;
         // $cBackgroundColor = '';
@@ -116,11 +118,14 @@ class Calendly extends ProviderAdapter implements ProviderInterface
         //     [hideEventTypeDetails] => false
         //     [cBackgroundColor] => 643cd5
         //     [cTextColor] => 2cff2c
-        //     [cButtonLinkColor] => 0069FF
+
         //     [cPopupButtonText] => My schedule
         //     [cPopupButtonBGColor] => 0069FF
+        //     [cButtonLinkColor] => 0069FF
+
         //     [cPopupButtonTextColor] => FFFFFF
         //     [cPopupLinkText] => Schedule time with me
+
         //     [url] => https://calendly.com/akash-mia/dailly-stand-up-meeting
         // )
 
@@ -151,14 +156,14 @@ class Calendly extends ProviderAdapter implements ProviderInterface
                 
                 <script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: "'.esc_url($src_url).'", text: "'.esc_attr( $cPopupButtonText ).'", color: "'.esc_attr( $cPopupButtonBGColor ).'", textColor: "'.esc_attr( $cPopupButtonTextColor ).'", branding: undefined }); }</script>';
             }
-            else{
-                $html = '
-                <!-- Calendly link widget begin -->
-                <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-                <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
-                <a href="/#" onclick="Calendly.initPopupWidget({url: \'' . esc_url($src_url) . '\'}); return false;">Schedule time with me</a>';
+            // else{
+            //     $html = '
+            //     <!-- Calendly link widget begin -->
+            //     <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+            //     <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
+            //     <a href="/#" onclick="Calendly.initPopupWidget({url: \'' . esc_url($src_url) . '\'}); return false;">Schedule time with me</a>';
 
-            }
+            // }
             
         } else {
             $html = '';
