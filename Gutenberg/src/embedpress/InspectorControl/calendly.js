@@ -42,12 +42,12 @@ export const getCalendlyParams = (params, attributes) => {
         cEmbedType: 'inline',
         hideCookieBanner: 0,
         hideEventTypeDetails: 0,
-        cBackgroundColor: '643cd5',
+        cBackgroundColor: 'ffffff',
         cTextColor: '2cff2c',
         cButtonLinkColor: '0069FF',
         cPopupButtonText: 'Schedule time with me',
-        cPopupButtonBGColor: '0069FF',
-        cPopupButtonTextColor: 'FFFFFF',
+        cPopupButtonBGColor: '#0069FF',
+        cPopupButtonTextColor: '#FFFFFF',
         cPopupLinkText: 'Schedule time with me',
 
 
@@ -230,12 +230,12 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
                                     />
 
 
-                                    <ControlHeader headerText={'Button Link Color'} />
+                                    <ControlHeader headerText={'Button Text Color'} />
                                     <ColorPalette
                                         label={__("Text Color")}
                                         colors={colors}
-                                        value={cButtonLinkColor}
-                                        onChange={(cButtonLinkColor) => setAttributes({ cButtonLinkColor })}
+                                        value={cPopupButtonTextColor}
+                                        onChange={(cPopupButtonTextColor) => setAttributes({ cPopupButtonTextColor })}
                                     />
 
                                     <ControlHeader headerText={'Popup Button Background Color'} />

@@ -129,6 +129,14 @@
 .elementor-widget-container iframe {
     max-height: 100% !important;
 }
+.elementor-cbutton-preview-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 100px 30px;
+    background: #fbf6f6;
+}
 
 @media only screen and (max-width: 800px) {
     .elementor-widget-container iframe {
@@ -1291,7 +1299,9 @@ p.need-access-message {
 .ep-embed-content-wraper {
     width: 100%;
 }
-
+.embedpress-gutenberg-wrapper.popup_button {
+    display: none!important;
+}
 .ep-content-share-enabled .ep-embed-content-wraper {
     display: flex !important;
 }

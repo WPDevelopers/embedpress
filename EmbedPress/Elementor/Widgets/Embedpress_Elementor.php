@@ -2543,7 +2543,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default' => 'inline',
 				'options' => [
 					'inline'  => __( 'Inline', 'embedpress' ),
-					'popupButton' => __( 'Popup Button', 'embedpress' ),
+					'popup_button' => __( 'Popup Button', 'embedpress' ),
 				],
 				'condition' => $condition
 			]
@@ -2557,43 +2557,44 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 		$this->add_control(
-			'popupButtonText',
+			'cPopupButtonText',
 			[
 				'label' => __( 'Popup Button Text', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::TEXT,
-				'default' => '',
+				'label_block' => true,
+				'default' => 'Schedule time with me',
 				'condition' => [
 					'embedpress_pro_embeded_source' => 'calendly',
-					'cEmbedType' => 'popupButton'
+					'cEmbedType' => 'popup_button'
 				],
 				'ai'     => [
-					'active' => true,
+					'active' => false,
 				],
 			]
 		);
 		
 	
 		$this->add_control(
-			'popupButtonTextColor',
+			'cPopupButtonTextColor',
 			[
 				'label' => __( 'Popup Button Text Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'default' => '',
 				'condition' => [
 					'embedpress_pro_embeded_source' => 'calendly',
-					'cEmbedType' => 'popupButton'
+					'cEmbedType' => 'popup_button'
 				]
 			]
 		);
 		$this->add_control(
-			'popupButtonBGColor',
+			'cPopupButtonBGColor',
 			[
 				'label' => __( 'Popup Button Background Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'default' => '',
 				'condition' => [
 					'embedpress_pro_embeded_source' => 'calendly',
-					'cEmbedType' => 'popupButton'
+					'cEmbedType' => 'popup_button'
 				]
 			]
 		);
@@ -2601,7 +2602,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'calendlyControlsHeadding',
 			[
-				'label' => esc_html__( 'Popup Settings', 'embedpress' ),
+				'label' => esc_html__( 'Calender Settings', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -2628,7 +2629,7 @@ class Embedpress_Elementor extends Widget_Base
 		);
 		
 		$this->add_control(
-			'backgroundColor',
+			'cBackgroundColor',
 			[
 				'label' => __( 'Background Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
@@ -2638,7 +2639,7 @@ class Embedpress_Elementor extends Widget_Base
 		);
 		
 		$this->add_control(
-			'textColor',
+			'cTextColor',
 			[
 				'label' => __( 'Text Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,

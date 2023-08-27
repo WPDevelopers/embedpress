@@ -430,11 +430,11 @@ function embedpress_gutenberg_register_all_block()
 							),
 							'cBackgroundColor' => array(
 								'type' => 'string',
-								'default' => '643cd5'
+								'default' => 'ffffff'
 							),
 							'cTextColor' => array(
 								'type' => 'string',
-								'default' => '2cff2c'
+								'default' => '1A1A1A'
 							),
 							'cButtonLinkColor' => array(
 								'type' => 'string',
@@ -446,11 +446,11 @@ function embedpress_gutenberg_register_all_block()
 							),
 							'cPopupButtonBGColor' => array(
 								'type' => 'string',
-								'default' => '0069FF'
+								'default' => '#0069FF'
 							),
 							'cPopupButtonTextColor' => array(
 								'type' => 'string',
-								'default' => 'FFFFFF'
+								'default' => '#FFFFFF'
 							),
 							'cPopupLinkText' => array(
 								'type' => 'string',

@@ -663,11 +663,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			cBackgroundColor: {
 				type: 'string',
-				default: '643cd5'
+				default: 'ffffff'
 			},
 			cTextColor: {
 				type: 'string',
-				default: '2cff2c'
+				default: '1A1A1A'
 			},
 			cButtonLinkColor: {
 				type: 'string',

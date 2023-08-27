@@ -79,15 +79,7 @@ class Calendly extends ProviderAdapter implements ProviderInterface
      */
     public function fakeResponse()
     {
-
         $params = $this->getParams();
-
-        print_r($params); 
-
-        // $hideCookieBanner = 0;
-        // $hideEventTypeDetails = 0;
-        // $cBackgroundColor = '';
-        // $cTextColor = '';
 
         $parameters = array();
 
@@ -111,6 +103,11 @@ class Calendly extends ProviderAdapter implements ProviderInterface
 
         $src_url = $this->url.'?'.$query_string;
 
+        // echo '<br><br>';
+        // print_r($query_string);
+
+        // https://calendly.com/akash-mia/dailly-stand-up-meeting?background_color=643cd5&text_color=2cff2c
+        
         // Array
         // (
         //     [cEmbedType] => popup_button
@@ -141,33 +138,49 @@ class Calendly extends ProviderAdapter implements ProviderInterface
         
         $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
         $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 350;
+
+        $cEmbedType = !empty($params['cEmbedType']) ? $params['cEmbedType'] : '';
         
         // Check if the url is already converted to the embed format  
         if ($this->validateCalendly($src_url)) {
-            if($params['cEmbedType'] == 'inline'){
+            
+            if($cEmbedType == 'inline'){
                 $html =    '<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
                 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
                 <div class="calendly-inline-widget" data-url="'.esc_url($src_url).'" style="min-width:'. $width.'px;height:'.$height.'px;"></div>';
             }
-            else if($params['cEmbedType'] == 'popup_button'){
+            else if($cEmbedType == 'popup_button'){
                 $html = '<!-- Calendly badge widget begin -->
                 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
                 <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
                 
-                <script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: "'.esc_url($src_url).'", text: "'.esc_attr( $cPopupButtonText ).'", color: "'.esc_attr( $cPopupButtonBGColor ).'", textColor: "'.esc_attr( $cPopupButtonTextColor ).'", branding: undefined }); }</script>';
-            }
-            // else{
-            //     $html = '
-            //     <!-- Calendly link widget begin -->
-            //     <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-            //     <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
-            //     <a href="/#" onclick="Calendly.initPopupWidget({url: \'' . esc_url($src_url) . '\'}); return false;">Schedule time with me</a>';
+                <script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: "'.$src_url.'", text: "'.$cPopupButtonText.'", color: "'. $cPopupButtonBGColor .'", textColor: "'.$cPopupButtonTextColor.'", branding: undefined }); }</script>';
 
-            // }
+                if (class_exists('Elementor\Plugin')) {
+                    if (\Elementor\Plugin::$instance->editor->is_edit_mode() && $cEmbedType === 'popup_button') {
+                        $html = $html .'
+                            <div class="elementor-cbutton-preview-wrapper">
+                                <h4 class="cbutton-preview-text">Preview Popup Button</h4>
+                                <div style="position: static" class="calendly-badge-widget">
+                                    <div class="calendly-badge-content" style="color: ' . $cPopupButtonTextColor . '; background: ' . $cPopupButtonBGColor . ';">' . $cPopupButtonText . '</div>
+                                </div>
+                            </div>
+                        ';
+                    } 
+                }
+                
+            }
+            else{
+                $html = 'Elese wehn validated';
+
+            }
             
         } else {
             $html = '';
         }
+
+
+        
 
 
         return [
