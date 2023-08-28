@@ -8,6 +8,7 @@ import Wistia from './InspectorControl/wistia';
 import Vimeo from './InspectorControl/vimeo';
 import SlefHosted from './InspectorControl/selfhosted';
 import { EPIcon, InfoIcon } from '../common/icons';
+import Calendly from './InspectorControl/calendly';
 
 /**
  * WordPress dependencies
@@ -26,7 +27,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio }) {
+export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly }) {
 
     const {
         width,
@@ -172,6 +173,8 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />
                             <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />
+
+                            <Calendly attributes={attributes} setAttributes={setAttributes} isCalendly={isCalendly} />
 
                             <LockControl attributes={attributes} setAttributes={setAttributes} />
                             <ContentShare attributes={attributes} setAttributes={setAttributes} />

@@ -11,6 +11,7 @@ import './editor.scss';
 import edit from './edit';
 import { embedPressIcon } from '../common/icons';
 import { init as openseaInit } from './InspectorControl/opensea';
+import { init as calendlyInit } from './InspectorControl/calendly';
 import { init as youtubeInit } from './InspectorControl/youtube';
 import { init as wistiaInit } from './InspectorControl/wistia';
 import { init as vimeoInit } from './InspectorControl/vimeo';
@@ -535,7 +536,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 
 			// custom player attributes
-			customPlayer: {  
+			customPlayer: {
 				type: 'boolean',
 				default: false
 			},
@@ -547,12 +548,12 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: 'preset-default'
 			},
-			
+
 			playerColor: {
 				type: 'string',
 				default: '#5b4e96',
 			},
-			
+
 			playerPip: {
 				type: 'boolean',
 				default: false,
@@ -647,6 +648,47 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: true,
 			},
 
+			// Calendly attributes
+			cEmbedType: {
+				type: 'string',
+				default: 'inline'
+			},
+			hideCookieBanner: {
+				type: 'boolean',
+				default: false
+			},
+			hideEventTypeDetails: {
+				type: 'boolean',
+				default: false
+			},
+			cBackgroundColor: {
+				type: 'string',
+				default: 'ffffff'
+			},
+			cTextColor: {
+				type: 'string',
+				default: '1A1A1A'
+			},
+			cButtonLinkColor: {
+				type: 'string',
+				default: '0069FF'
+			},
+			cPopupButtonText: {
+				type: 'string',
+				default: 'Schedule time with me'
+			},
+			cPopupButtonBGColor: {
+				type: 'string',
+				default: '0069FF'
+			},
+			cPopupButtonTextColor: {
+				type: 'string',
+				default: 'FFFFFF'
+			},
+			cPopupLinkText: {
+				type: 'string',
+				default: 'Schedule time with me'
+			},
 
 			//Custom logo atributes
 			customlogo: {
@@ -696,4 +738,5 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 	youtubeInit();
 	wistiaInit();
 	vimeoInit();
+	calendlyInit();
 }

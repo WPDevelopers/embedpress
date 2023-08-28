@@ -415,6 +415,48 @@ function embedpress_gutenberg_register_all_block()
 								'default' => false
 							],
 
+							// Calendly attributes
+							'cEmbedType' => array(
+								'type' => 'string',
+								'default' => 'inline'
+							),
+							'hideCookieBanner' => array(
+								'type' => 'boolean',
+								'default' => false
+							),
+							'hideEventTypeDetails' => array(
+								'type' => 'boolean',
+								'default' => false
+							),
+							'cBackgroundColor' => array(
+								'type' => 'string',
+								'default' => 'ffffff'
+							),
+							'cTextColor' => array(
+								'type' => 'string',
+								'default' => '1A1A1A'
+							),
+							'cButtonLinkColor' => array(
+								'type' => 'string',
+								'default' => '0069FF'
+							),
+							'cPopupButtonText' => array(
+								'type' => 'string',
+								'default' => 'Schedule time with me'
+							),
+							'cPopupButtonBGColor' => array(
+								'type' => 'string',
+								'default' => '#0069FF'
+							),
+							'cPopupButtonTextColor' => array(
+								'type' => 'string',
+								'default' => '#FFFFFF'
+							),
+							'cPopupLinkText' => array(
+								'type' => 'string',
+								'default' => 'Schedule time with me'
+							)
+
 						),
 					]);
 				} elseif ('embedpress-pdf' === $blocks_to_register) {

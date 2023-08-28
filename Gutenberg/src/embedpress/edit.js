@@ -28,6 +28,7 @@ import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorCont
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import ContentShare from '../common/social-share-control';
 import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo } from './functions';
+import { isCalendly as _isCalendly, useCalendly } from './InspectorControl/calendly';
 
 const {
 	useBlockProps
@@ -61,6 +62,12 @@ export default function EmbedPress(props) {
 		clientId,
 		customPlayer,
 		playerPreset,
+		cEmbedType,
+		cButtonLinkColor,
+        cPopupButtonText,
+        cPopupButtonBGColor,
+        cPopupButtonTextColor,
+        cPopupLinkText
 	} = attributes;
 
 	const _isSelfHostedVideo = isSelfHostedVideo(url);
@@ -88,6 +95,21 @@ export default function EmbedPress(props) {
 	let customLogoTemp = '';
 	let customLogoStyle = '';
 	let epMessage = '';
+
+	let cPopupButton = '';
+
+	console.log(cEmbedType);
+
+	if(cEmbedType == 'popup_button') {
+
+		cPopupButton = `
+			<div class="cbutton-preview-wrapper" style="margin-top:-${height}px">
+			<h4 class="cbutton-preview-text">Preview Popup Button</h4>
+			<div style="position: static" class="calendly-badge-widget"><div class="calendly-badge-content" style="color: ${cButtonLinkColor}; background: ${cPopupButtonBGColor};">${cPopupButtonText}</div></div>
+			</div>
+		`;
+
+	}
 
 	if (customlogo) {
 		customLogoStyle = `
@@ -131,11 +153,14 @@ export default function EmbedPress(props) {
 	const isOpensea = _isOpensea(url);
 	const isOpenseaSingle = _isOpenseaSingle(url);
 
+	const isCalendly = _isCalendly(url);
+
 	const openseaParams = useOpensea(attributes);
 	const youtubeParams = useYTChannel(attributes);
 	const youtubeVideoParams = useYTVideo(attributes);
 	const wistiaVideoParams = useWistiaVideo(attributes);
 	const vimeoVideoParams = useVimeoVideo(attributes);
+	const calendlyParamns = useCalendly(attributes);
 
 	let source = '';
 
@@ -277,7 +302,7 @@ export default function EmbedPress(props) {
 		return () => {
 			clearTimeout(delayDebounceFn)
 		}
-	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, contentShare, lockContent]);
+	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, calendlyParamns, contentShare, lockContent]);
 
 	return (
 		<Fragment>
@@ -294,6 +319,7 @@ export default function EmbedPress(props) {
 				isVimeoVideo={isVimeoVideo}
 				isSelfHostedVideo={_isSelfHostedVideo}
 				isSelfHostedAudio={_isSelfHostedAudio}
+				isCalendly={isCalendly}
 			/>
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
@@ -323,7 +349,7 @@ export default function EmbedPress(props) {
 			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo || isVimeoVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
 				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
 					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass}`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo && !isVimeoVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} {...(customPlayer ? { 'data-playerid': md5(clientId) } : {})} {...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})} dangerouslySetInnerHTML={{
-						__html: embedHTML + customLogoTemp + epMessage + shareHtml,
+						__html: embedHTML + customLogoTemp + epMessage + shareHtml + cPopupButton,
 					}}>
 					</EmbedWrap>
 

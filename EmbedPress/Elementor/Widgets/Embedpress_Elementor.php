@@ -115,6 +115,7 @@ class Embedpress_Elementor extends Widget_Base
 					'twitch'  => __('Twitch', 'embedpress'),
 					'soundcloud'  => __('SoundCloud', 'embedpress'),
 					'opensea'  => __('OpenSea', 'embedpress'),
+					'calendly'  => __('Calendly', 'embedpress'),
 					'selfhosted_video' => __('Self-hosted Video', 'embedpress'),
 					'selfhosted_audio'  => __('Self-hosted Audio', 'embedpress'),
 				]
@@ -264,6 +265,10 @@ class Embedpress_Elementor extends Widget_Base
 		 */
 		$this->init_opensea_control_section();
 
+		/**
+		 * Calendly Control section
+		 */
+		$this->init_calendly_control_section();
 
 
 		do_action('extend_elementor_controls', $this, '_', $this->pro_text, $this->pro_class);
@@ -1579,6 +1584,7 @@ class Embedpress_Elementor extends Widget_Base
 						'wistia',
 						'twitch',
 						'soundcloud',
+						'calendly',
 						'selfhosted_video',
 						'selfhosted_audio',
 					],
@@ -1607,6 +1613,7 @@ class Embedpress_Elementor extends Widget_Base
 						'wistia',
 						'twitch',
 						'soundcloud',
+						'calendly',
 						'selfhosted_video',
 						'selfhosted_audio',
 					],
@@ -2514,7 +2521,151 @@ class Embedpress_Elementor extends Widget_Base
 	}
 	//End OpenSea controls
 
+	/**
+	 * Calendly Controls
+	 */
 
+	 public function init_calendly_control_section(){
+
+		$condition = [
+			'embedpress_pro_embeded_source' => 'calendly',
+		];
+
+		$this->start_controls_section(
+			'embedpress_calendly_control_section',
+			[
+				'label'       => __('Calendly Controls', 'embedpress'),
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'cEmbedType',
+			[
+				'label' => __( 'Embed Type', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => 'inline',
+				'options' => [
+					'inline'  => __( 'Inline', 'embedpress' ),
+					'popup_button' => __( 'Popup Button', 'embedpress' ),
+				],
+				'condition' => $condition
+			]
+		);
+		$this->add_control(
+			'popupControlsHeadding',
+			[
+				'label' => esc_html__( 'Popup Settings', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+		$this->add_control(
+			'cPopupButtonText',
+			[
+				'label' => __( 'Popup Button Text', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'label_block' => true,
+				'default' => 'Schedule time with me',
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'calendly',
+					'cEmbedType' => 'popup_button'
+				],
+				'ai'     => [
+					'active' => false,
+				],
+			]
+		);
+		
+	
+		$this->add_control(
+			'cPopupButtonTextColor',
+			[
+				'label' => __( 'Popup Button Text Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'default' => '',
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'calendly',
+					'cEmbedType' => 'popup_button'
+				]
+			]
+		);
+		$this->add_control(
+			'cPopupButtonBGColor',
+			[
+				'label' => __( 'Popup Button Background Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'default' => '',
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'calendly',
+					'cEmbedType' => 'popup_button'
+				]
+			]
+		);
+
+		$this->add_control(
+			'calendlyControlsHeadding',
+			[
+				'label' => esc_html__( 'Calender Settings', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_control(
+			'hideCookieBanner',
+			[
+				'label' => __( 'Hide Cookie Banner', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'default' => '',
+				'condition' => $condition
+			]
+		);
+		
+		$this->add_control(
+			'hideEventTypeDetails',
+			[
+				'label' => __( 'Hide Event Type Details', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'default' => '',
+				'condition' => $condition
+			]
+		);
+		
+		$this->add_control(
+			'cBackgroundColor',
+			[
+				'label' => __( 'Background Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'default' => '',
+				'condition' => $condition
+			]
+		);
+		
+		$this->add_control(
+			'cTextColor',
+			[
+				'label' => __( 'Text Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'default' => '',
+				'condition' => $condition
+			]
+		);
+		
+		$this->add_control(
+			'buttonLinkColor',
+			[
+				'label' => __( 'Button Link Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'default' => '',
+				'condition' => $condition
+			]
+		);
+
+		$this->end_controls_section();
+
+	 }
+
+	 //End calendly controlS
 
 	public function init_style_controls()
 	{

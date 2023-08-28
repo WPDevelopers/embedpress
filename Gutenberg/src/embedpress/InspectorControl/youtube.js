@@ -264,7 +264,6 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
 
 
             {
-
                 (isYTVideo || isYTLive) && (
                     <div className={'ep__single-yt-video-options'}>
                         <PanelBody title={__("Video Controls", 'embedpress')} initialOpen={false}>
