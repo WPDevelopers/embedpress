@@ -3018,9 +3018,12 @@ class Embedpress_Elementor extends Widget_Base
 			$content_protection_class = 'ep-content-protection-disabled';
 		}
 
+		$cEmbedType = !empty($settings['cEmbedType']) ? $settings['cEmbedType'] : '';
+
+
 		?>
 
-		<div class="embedpress-elements-wrapper  <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; ?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
+		<div class="embedpress-elements-wrapper <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; echo esc_attr( $cEmbedType );?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
 			<?php
 					// handle notice display
 					if ($is_editor_view && $is_apple_podcast && !is_embedpress_pro_active()) {

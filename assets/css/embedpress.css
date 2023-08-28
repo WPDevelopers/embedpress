@@ -1292,7 +1292,7 @@ p.need-access-message {
 .ep-embed-content-wraper {
     width: 100%;
 }
-.embedpress-gutenberg-wrapper.popup_button {
+.embedpress-gutenberg-wrapper.popup_button, .embedpress-elements-wrapper.popup_button {
     display: none!important;
 }
 .ep-content-share-enabled .ep-embed-content-wraper {
