@@ -21,7 +21,8 @@ const {
     PanelBody,
     SelectControl,
     ToggleControl,
-    PanelRow
+    PanelRow,
+    RawHTML,
 } = wp.components;
 
 const {
