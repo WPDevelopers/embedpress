@@ -93,6 +93,13 @@
 			            <?php esc_html_e( "OpenSea", "embedpress" ); ?>
                     </a>
                 </li>
+                <li class="dropdown__item">
+                    <a href="<?php echo esc_url( $ep_page.'&page_type=calendly'); ?>" class="dropdown__link <?php echo 'calendly' === $template ? 'active' : ''; ?>">
+                        <img class="embedpress-settings-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/calendly.svg" alt="">
+
+			            <?php esc_html_e( "Calendly", "embedpress" ); ?>
+                    </a>
+                </li>
 				<?php do_action( 'ep_after_platform_menu_items'); ?>
             </ul>
         </li>
