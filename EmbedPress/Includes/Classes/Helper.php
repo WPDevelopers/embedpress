@@ -70,7 +70,10 @@ class Helper {
 		return $result;
 	}
 	public static function get_pdf_renderer() {
-		$renderer = EMBEDPRESS_URL_ASSETS . 'pdf/web/viewer.html';
+		// $renderer = EMBEDPRESS_URL_ASSETS . 'pdf/web/viewer.html';
+
+		$renderer = admin_url('admin-ajax.php?action=get_viewer');
+
 		// @TODO; apply settings query args here
 		return $renderer;
 	}
