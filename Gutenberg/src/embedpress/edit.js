@@ -105,7 +105,7 @@ export default function EmbedPress(props) {
 		cPopupButton = `
 			<div class="cbutton-preview-wrapper" style="margin-top:-${height}px">
 			<h4 class="cbutton-preview-text">Preview Popup Button</h4>
-			<div style="position: static" class="calendly-badge-widget"><div class="calendly-badge-content" style="color: ${cButtonLinkColor}; background: ${cPopupButtonBGColor};">${cPopupButtonText}</div></div>
+			<div style="position: static" class="calendly-badge-widget"><div class="calendly-badge-content" style="color: ${cPopupButtonTextColor}; background: ${cPopupButtonBGColor};">${cPopupButtonText}</div></div>
 			</div>
 		`;
 

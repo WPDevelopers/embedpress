@@ -216,6 +216,14 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
                             value={cTextColor}
                             onChange={(cTextColor) => setAttributes({ cTextColor })}
                         />
+
+                        <ControlHeader headerText={'Button & Link Color'} />
+                        <ColorPalette
+                            label={__("Button & Link Color")}
+                            colors={colors}
+                            value={cButtonLinkColor}
+                            onChange={(cButtonLinkColor) => setAttributes({ cButtonLinkColor })}
+                        />
                     </div>
                 </PanelBody>
                 <div>

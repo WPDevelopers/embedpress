@@ -98,6 +98,11 @@ class Calendly extends ProviderAdapter implements ProviderInterface
         if (!empty($params['cTextColor']) && $params['cTextColor'] !== 'false') {
             $parameters['text_color'] = ltrim($params['cTextColor'], '#');
         }
+
+        if (!empty($params['cButtonLinkColor']) && $params['cButtonLinkColor'] !== 'false') {
+            $parameters['primary_color'] = ltrim($params['cButtonLinkColor'], '#');
+        }
+
         
         $query_string = http_build_query($parameters);
 

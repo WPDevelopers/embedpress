@@ -2554,15 +2554,19 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'popupControlsHeadding',
 			[
-				'label' => esc_html__( 'Popup Settings', 'embedpress' ),
+				'label' => esc_html__( 'Popup Button Settings', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'calendly',
+					'cEmbedType' => 'popup_button'
+				]
 			]
 		);
 		$this->add_control(
 			'cPopupButtonText',
 			[
-				'label' => __( 'Popup Button Text', 'embedpress' ),
+				'label' => __( 'Button Text', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'label_block' => true,
 				'default' => 'Schedule time with me',
@@ -2580,7 +2584,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'cPopupButtonTextColor',
 			[
-				'label' => __( 'Popup Button Text Color', 'embedpress' ),
+				'label' => __( 'Button Text Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'default' => '',
 				'condition' => [
@@ -2592,7 +2596,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'cPopupButtonBGColor',
 			[
-				'label' => __( 'Popup Button Background Color', 'embedpress' ),
+				'label' => __( 'Button Background Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'default' => '',
 				'condition' => [
@@ -2620,7 +2624,6 @@ class Embedpress_Elementor extends Widget_Base
 				'condition' => $condition
 			]
 		);
-		
 		$this->add_control(
 			'hideEventTypeDetails',
 			[
@@ -2652,9 +2655,9 @@ class Embedpress_Elementor extends Widget_Base
 		);
 		
 		$this->add_control(
-			'buttonLinkColor',
+			'cButtonLinkColor',
 			[
-				'label' => __( 'Button Link Color', 'embedpress' ),
+				'label' => __( 'Button & Link Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'default' => '',
 				'condition' => $condition
