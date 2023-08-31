@@ -342,7 +342,8 @@ export default function EmbedPress(props) {
 					((!isYTVideo && !isYTLive) || (!!editingURL || editingURL === 0)) &&
 					(!isYTChannel || (!!editingURL || editingURL === 0)) &&
 					(!isWistiaVideo || (!!editingURL || editingURL === 0)) &&
-					(!isVimeoVideo || (!!editingURL || editingURL === 0))
+					(!isVimeoVideo || (!!editingURL || editingURL === 0))&&
+					(!isCalendly || (!!editingURL || editingURL === 0))
 				) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 

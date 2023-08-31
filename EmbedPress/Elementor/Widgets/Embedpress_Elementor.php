@@ -103,7 +103,7 @@ class Embedpress_Elementor extends Widget_Base
 			'embedpress_pro_embeded_source',
 			[
 				'label'       => __('Source Name', 'embedpress'),
-				'type'        => Controls_Manager::SELECT,
+				'type'        => Controls_Manager::SELECT2,
 				'label_block' => false,
 				'default'     => 'default',
 				'options'     => [

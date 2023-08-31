@@ -1295,6 +1295,10 @@ p.need-access-message {
 .embedpress-gutenberg-wrapper.popup_button, .embedpress-elements-wrapper.popup_button {
     display: none!important;
 }
+.elementor-element-edit-mode .embedpress-elements-wrapper.popup_button {
+    display: block!important;
+}
+
 .ep-content-share-enabled .ep-embed-content-wraper {
     display: flex !important;
 }
