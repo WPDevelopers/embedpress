@@ -44,9 +44,9 @@ export const getCalendlyParams = (params, attributes) => {
         hideEventTypeDetails: 0,
         cBackgroundColor: 'ffffff',
         cTextColor: '2cff2c',
-        cButtonLinkColor: '0069FF',
+        cButtonLinkColor: '0000FF',
         cPopupButtonText: 'Schedule time with me',
-        cPopupButtonBGColor: '#0069FF',
+        cPopupButtonBGColor: '#0000FF',
         cPopupButtonTextColor: '#FFFFFF',
         cPopupLinkText: 'Schedule time with me',
 
@@ -173,8 +173,7 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
         { name: '', color: '#FFA500' }
     ];
 
-
-    const fallbackFontSize = 16;
+    
 
     return (
         (isCalendly) && (
@@ -232,13 +231,13 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
                             <PanelBody title={__("Popup Settings")} initialOpen={false} className={'ep-calendly-options'}>
                                 <div>
                                     <TextControl
-                                        label="Popup Button Text"
+                                        label="Button Text"
                                         value={cPopupButtonText}
                                         onChange={(cPopupButtonText) => setAttributes({ cPopupButtonText })}
                                     />
 
 
-                                    <ControlHeader headerText={'Button Text Color'} />
+                                    <ControlHeader headerText={'Text Color'} />
                                     <ColorPalette
                                         label={__("Text Color")}
                                         colors={colors}
@@ -246,9 +245,9 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
                                         onChange={(cPopupButtonTextColor) => setAttributes({ cPopupButtonTextColor })}
                                     />
 
-                                    <ControlHeader headerText={'Popup Button Background Color'} />
+                                    <ControlHeader headerText={'Background Color'} />
                                     <ColorPalette
-                                        label={__("Popup Button Background Color")}
+                                        label={__("Background Color")}
                                         colors={colors}
                                         value={cPopupButtonBGColor}
                                         onChange={(cPopupButtonBGColor) => setAttributes({ cPopupButtonBGColor })}

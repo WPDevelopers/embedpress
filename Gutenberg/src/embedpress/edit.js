@@ -98,14 +98,21 @@ export default function EmbedPress(props) {
 
 	let cPopupButton = '';
 
-	console.log(cEmbedType);
-
 	if(cEmbedType == 'popup_button') {
+		let textColor = cPopupButtonTextColor;
+		let bgColor = cPopupButtonBGColor;
+		if (!cPopupButtonTextColor.startsWith("#")) {
+			textColor = "#" + textColor;
+		} 
+
+		if (!cPopupButtonBGColor.startsWith("#")) {
+			bgColor = "#" + cPopupButtonBGColor;
+		} 
 
 		cPopupButton = `
 			<div class="cbutton-preview-wrapper" style="margin-top:-${height}px">
 			<h4 class="cbutton-preview-text">Preview Popup Button</h4>
-			<div style="position: static" class="calendly-badge-widget"><div class="calendly-badge-content" style="color: ${cPopupButtonTextColor}; background: ${cPopupButtonBGColor};">${cPopupButtonText}</div></div>
+			<div style="position: static" class="calendly-badge-widget"><div class="calendly-badge-content" style="color: ${textColor}; background: ${bgColor};">${cPopupButtonText}</div></div>
 			</div>
 		`;
 

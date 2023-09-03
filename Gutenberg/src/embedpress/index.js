@@ -671,7 +671,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			cButtonLinkColor: {
 				type: 'string',
-				default: '0069FF'
+				default: '0000FF'
 			},
 			cPopupButtonText: {
 				type: 'string',
@@ -679,7 +679,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			cPopupButtonBGColor: {
 				type: 'string',
-				default: '0069FF'
+				default: '0000FF'
 			},
 			cPopupButtonTextColor: {
 				type: 'string',

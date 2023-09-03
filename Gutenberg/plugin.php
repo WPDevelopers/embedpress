@@ -438,7 +438,7 @@ function embedpress_gutenberg_register_all_block()
 							),
 							'cButtonLinkColor' => array(
 								'type' => 'string',
-								'default' => '0069FF'
+								'default' => '0000FF'
 							),
 							'cPopupButtonText' => array(
 								'type' => 'string',
@@ -446,7 +446,7 @@ function embedpress_gutenberg_register_all_block()
 							),
 							'cPopupButtonBGColor' => array(
 								'type' => 'string',
-								'default' => '#0069FF'
+								'default' => '#0000FF'
 							),
 							'cPopupButtonTextColor' => array(
 								'type' => 'string',
