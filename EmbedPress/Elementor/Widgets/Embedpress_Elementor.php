@@ -2584,9 +2584,9 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'cPopupButtonTextColor',
 			[
-				'label' => __( 'Button Text Color', 'embedpress' ),
+				'label' => __( 'Text Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
-				'default' => '',
+				'default' => '#ffffff',
 				'condition' => [
 					'embedpress_pro_embeded_source' => 'calendly',
 					'cEmbedType' => 'popup_button'
@@ -2596,9 +2596,9 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'cPopupButtonBGColor',
 			[
-				'label' => __( 'Button Background Color', 'embedpress' ),
+				'label' => __( 'Background Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
-				'default' => '',
+				'default' => '#0000FF',
 				'condition' => [
 					'embedpress_pro_embeded_source' => 'calendly',
 					'cEmbedType' => 'popup_button'
