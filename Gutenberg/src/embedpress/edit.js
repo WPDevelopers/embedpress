@@ -101,12 +101,18 @@ export default function EmbedPress(props) {
 	if(cEmbedType == 'popup_button') {
 		let textColor = cPopupButtonTextColor;
 		let bgColor = cPopupButtonBGColor;
-		if (!cPopupButtonTextColor.startsWith("#")) {
-			textColor = "#" + textColor;
+
+		console.log({cPopupButtonBGColor});
+
+		if (cPopupButtonTextColor && !cPopupButtonTextColor.startsWith("#")) {
+			textColor = "#" + cPopupButtonTextColor;
+			setAttributes({cPopupButtonTextColor: textColor });
 		} 
 
-		if (!cPopupButtonBGColor.startsWith("#")) {
+		if (cPopupButtonBGColor && !cPopupButtonBGColor.startsWith("#")) {
 			bgColor = "#" + cPopupButtonBGColor;
+			setAttributes({cPopupButtonBGColor: bgColor });
+
 		} 
 
 		cPopupButton = `
