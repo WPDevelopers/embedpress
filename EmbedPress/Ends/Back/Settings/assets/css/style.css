@@ -3385,3 +3385,111 @@ button.button__instagram.hover__highlight:hover .icon {
       margin-bottom: 25px;
     }
   }
+
+
+  /* // Calendly settings page design  */
+  a.calendly-connect-button{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #3664ae;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 17px;
+    color: #fff;
+}
+  a.calendly-connect-button img{
+    width: 20px;
+}
+
+
+/* Apply styles to the event-type-list container */
+.event-type-list {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+/* Apply styles to the list-header */
+.list-header {
+    background-color: #6633cc;
+    color: #fff;
+    padding: 10px;
+}
+
+/* Apply styles to the user section */
+.user {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+/* Apply styles to the user's avatar */
+.user .bqa3nmp img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Apply styles to the user's name */
+.user .name p {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Apply styles to the link */
+.user .u1xbh6v5 {
+    text-decoration: none;
+    color: #6633cc;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Apply styles to the event-type-card */
+.event-type-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Apply styles to the event-type-card title */
+.event-type-card h2 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+/* Apply styles to the event-type-card description */
+.event-type-card p {
+    font-size: 14px;
+    color: #888;
+}
+
+/* Apply styles to the link inside the event-type-card */
+.event-type-card .u1xbh6v5 {
+    text-decoration: none;
+    color: #6633cc;
+    font-weight: bold;
+}
+
+/* Apply styles to the copy link and share buttons */
+.event-type-card .event-type-card-foot button {
+    background-color: #6633cc;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-right: 5px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Apply styles to the disabled button */
+.event-type-card .event-type-card-foot button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+    color: #666;
+}
