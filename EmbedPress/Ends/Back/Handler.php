@@ -6,6 +6,7 @@ use EmbedPress\Core;
 use EmbedPress\Ends\Handler as EndHandlerAbstract;
 use EmbedPress\Shortcode;
 use Embera\Embera;
+use EmbedPress\Includes\Classes\Helper;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -29,6 +30,33 @@ class Handler extends EndHandlerAbstract
      * @since   1.0.0
      *
      */
+
+     public function __construct($pluginName, $pluginVersion)
+    {
+        parent::__construct($pluginName, $pluginVersion);
+
+        add_action('init', [$this, 'handle_calendly_data']);
+    }
+
+    public function handle_calendly_data()
+    {
+        if (!empty($_GET['access_token'])) {
+
+            $access_tokaen = $_GET['access_token'];
+
+            $user_info = Helper::getCalendlyUserInfo($access_tokaen);
+            $event_types = Helper::getCalaendlyEventTypes($user_info['resource']['uri'], $access_tokaen);
+            $scheduled_events = Helper::getCalaendlyScheduledEvents($user_info['resource']['uri'], $access_tokaen);
+
+            update_option( 'calendly_user_info', $user_info );
+            update_option( 'calendly_event_types', $event_types );
+            update_option( 'calendly_scheduled_events', $scheduled_events );
+
+            wp_redirect(admin_url('admin.php?page=embedpress&page_type=calendly'), 301);
+            exit();
+        }
+    }
+
     public function enqueueScripts()
     {
         global $pagenow;
