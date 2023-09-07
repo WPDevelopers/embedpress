@@ -3433,9 +3433,11 @@ button.button__instagram.hover__highlight:hover .icon {
     justify-content: space-between;
     margin-bottom: 30px;
 }
-.calendly-settings-title{
-    margin-bottom: 30px!important;
+
+.calendly-settings-title {
+    margin-bottom: 30px !important;
 }
+
 a.calendly-connect-button {
     display: inline-flex;
     align-items: center;
@@ -3492,6 +3494,7 @@ a.calendly-connect-button img {
     gap: 20px;
     margin-top: 15px;
 }
+
 .event-type-card-list-item {
     background-color: #ffffff;
     border: 1px solid #faf4f4;
@@ -3511,39 +3514,48 @@ a.calendly-connect-button img {
 .calendly-profile-avatar img {
     border-radius: 50px;
 }
+
 .event-type-card-top {
     border-bottom: 1px solid #ebe1e1;
     padding-bottom: 10px;
 }
+
 .event-type-card-top h2 {
     font-size: 15px;
     font-weight: 500;
     margin-bottom: 8px;
 }
+
 .event-type-card-top p {
     font-size: 11px;
     color: #b19999;
     margin-bottom: 12px;
 }
+
 .event-type-card-top a {
     color: #6633cc;
     font-size: 12px;
 }
+
 .event-type-card-bottom {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-top: 10px;
 }
+
 .event-status {
     font-weight: 600;
 }
-.event-status.Active{
+
+.event-status.Active {
     color: green;
 }
-.event-status.In-active{
+
+.event-status.In-active {
     color: gray;
 }
+
 .calendly-event-copy-link {
     display: flex;
     align-items: center;
@@ -3552,11 +3564,12 @@ a.calendly-connect-button img {
     color: #6633cc;
 }
 
-[data-event-status="In-active"] .event-type-card-top a, [data-event-status="In-active"] .calendly-event-copy-link{
+[data-event-status="In-active"] .event-type-card-top a, [data-event-status="In-active"] .calendly-event-copy-link {
     color: gray;
 }
-[data-event-status="In-active"].event-type-card-list-item{
-    border-top-color: gray!important;
+
+[data-event-status="In-active"].event-type-card-list-item {
+    border-top-color: gray !important;
 }
 
 [data-event-status="In-active"] .calendly-event-copy-link svg path {
@@ -3568,3 +3581,75 @@ a.calendly-connect-button img {
     height: 14px;
 }
 
+
+/* scheduled list table css */
+
+
+.rwd-table {
+    max-width: 100%;
+    width: 100%;
+
+}
+
+.rwd-table tr:first-child {
+    border-top: none;
+    background: #428bca;
+    color: #fff;
+}
+
+.rwd-table tr {
+    border-top: 1px dotted red;
+    border-bottom: 1px dotted red;
+}
+
+
+.rwd-table th {
+    display: none;
+}
+
+.rwd-table td {
+    display: block;
+
+}
+
+.rwd-table td:before {
+    content: attr(data-th) ": ";
+    width: 120px;
+    display: inline-block;
+    color: #000;
+}
+
+.rwd-table th,
+.rwd-table td {
+    text-align: center;
+}
+
+.rwd-table {
+    color: #333;
+    border-radius: .4em;
+}
+
+.rwd-table tr {
+    border-color: red;
+}
+
+
+.rwd-table td:before {
+    display: none;
+}
+
+.rwd-table th,
+.rwd-table td {
+    display: table-cell;
+    padding: 1em .5em;
+}
+
+.rwd-table th:first-child,
+.rwd-table td:first-child {
+    padding-left: 0;
+}
+
+.rwd-table th:last-child,
+.rwd-table td:last-child {
+    padding-right: 0;
+}

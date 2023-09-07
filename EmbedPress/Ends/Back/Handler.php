@@ -42,18 +42,27 @@ class Handler extends EndHandlerAbstract
     {
         if (!empty($_GET['access_token'])) {
 
-            $access_tokaen = $_GET['access_token'];
+            $access_token = $_GET['access_token'];
 
-            $user_info = Helper::getCalendlyUserInfo($access_tokaen);
-            $event_types = Helper::getCalaendlyEventTypes($user_info['resource']['uri'], $access_tokaen);
-            $scheduled_events = Helper::getCalaendlyScheduledEvents($user_info['resource']['uri'], $access_tokaen);
+            $user_info = Helper::getCalendlyUserInfo($access_token);
+            $event_types = Helper::getCalaendlyEventTypes($user_info['resource']['uri'], $access_token);
+            $scheduled_events = Helper::getCalaendlyScheduledEvents($user_info['resource']['uri'], $access_token);
 
             update_option( 'calendly_user_info', $user_info );
             update_option( 'calendly_event_types', $event_types );
             update_option( 'calendly_scheduled_events', $scheduled_events );
 
-            wp_redirect(admin_url('admin.php?page=embedpress&page_type=calendly'), 301);
-            exit();
+            $invite_list = [];
+
+            foreach ($scheduled_events['collection'] as $event) :
+                $uuid = Helper::getCalendlyUuid($event['uri']);
+                $invite_list[$uuid] = Helper::getListEventInvitee($uuid, $access_token);
+            endforeach;
+
+            update_option( 'calendly_invitees_list', $invite_list );
+
+            // wp_redirect(admin_url('admin.php?page=embedpress&page_type=calendly'), 301);
+            // exit();
         }
     }
 
