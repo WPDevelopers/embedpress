@@ -24,7 +24,7 @@ import {
 import ControlHeader from './control-heading';
 import { isSelfHostedVideo } from '../embedpress/functions';
 
-const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, isVimeoVideo, isSelfHostedAudio }) => {
+const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, isYTShorts, isVimeoVideo, isSelfHostedAudio }) => {
     const {
         url,
         customPlayer,
@@ -103,7 +103,7 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
 
 
             {
-                (isYTLive || isYTVideo) && (
+                (isYTLive || isYTVideo || isYTShorts) && (
 
                     <div className='youtube-player-controls'>
                         <TextControl

@@ -27,7 +27,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly }) {
+export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly }) {
 
     const {
         width,
@@ -157,7 +157,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                 </div>
 
                                 {
-                                    !isYTLive && (
+                                    !isYTLive && !isYTShorts && (
                                         <Youtube attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} />
                                     )
 
@@ -165,7 +165,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                             </PanelBody>
 
-                            <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} />
+                            <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} isYTShorts={isYTShorts} />
                             <Youtube attributes={attributes} setAttributes={setAttributes} />
 
                             <SlefHosted attributes={attributes} setAttributes={setAttributes} />

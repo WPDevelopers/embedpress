@@ -38,7 +38,7 @@ export const getYoutubeParams = (params, attributes) => {
     let ytvAtts = {};
     let ytcAtts = {};
 
-    if (isYTVideo(attributes.url) || isYTLive(attributes.url)) {
+    if (isYTVideo(attributes.url) || isYTLive(attributes.url) || isYTShorts(attributes.url)) {
         ytvAtts = {
             videosize: 'fixed',
             starttime: '',
@@ -90,6 +90,11 @@ export const isYTLive = (url) => {
     if (!liveMatch)
         return false;
     return true;
+}
+
+export const isYTShorts = (url) => {
+    const regex = /^https:\/\/www\.youtube\.com\/shorts\/[A-Za-z0-9_-]+$/;
+    return regex.test(url);
 }
 
 export const isYTVideo = (url) => {
@@ -167,7 +172,7 @@ export const useYTVideo = (attributes) => {
 
 
 
-export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive }) {
+export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts }) {
 
     const {
         url,
@@ -264,7 +269,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
 
 
             {
-                (isYTVideo || isYTLive) && (
+                (isYTVideo || isYTLive || isYTShorts) && (
                     <div className={'ep__single-yt-video-options'}>
                         <PanelBody title={__("Video Controls", 'embedpress')} initialOpen={false}>
                             <ToggleControl

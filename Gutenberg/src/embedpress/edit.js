@@ -23,7 +23,7 @@ const { select, subscribe } = wp.data;
 const { __ } = wp.i18n;
 import { embedPressIcon } from '../common/icons';
 import { isOpensea as _isOpensea, isOpenseaSingle as _isOpenseaSingle, useOpensea } from './InspectorControl/opensea';
-import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, isYTLive as _isYTLive, useYTVideo } from './InspectorControl/youtube';
+import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, isYTLive as _isYTLive, isYTShorts as _isYTShorts, useYTVideo } from './InspectorControl/youtube';
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import ContentShare from '../common/social-share-control';
@@ -64,10 +64,10 @@ export default function EmbedPress(props) {
 		playerPreset,
 		cEmbedType,
 		cButtonLinkColor,
-        cPopupButtonText,
-        cPopupButtonBGColor,
-        cPopupButtonTextColor,
-        cPopupLinkText
+		cPopupButtonText,
+		cPopupButtonBGColor,
+		cPopupButtonTextColor,
+		cPopupLinkText
 	} = attributes;
 
 	const _isSelfHostedVideo = isSelfHostedVideo(url);
@@ -98,22 +98,22 @@ export default function EmbedPress(props) {
 
 	let cPopupButton = '';
 
-	if(cEmbedType == 'popup_button') {
+	if (cEmbedType == 'popup_button') {
 		let textColor = cPopupButtonTextColor;
 		let bgColor = cPopupButtonBGColor;
 
-		console.log({cPopupButtonBGColor});
+		console.log({ cPopupButtonBGColor });
 
 		if (cPopupButtonTextColor && !cPopupButtonTextColor.startsWith("#")) {
 			textColor = "#" + cPopupButtonTextColor;
-			setAttributes({cPopupButtonTextColor: textColor });
-		} 
+			setAttributes({ cPopupButtonTextColor: textColor });
+		}
 
 		if (cPopupButtonBGColor && !cPopupButtonBGColor.startsWith("#")) {
 			bgColor = "#" + cPopupButtonBGColor;
-			setAttributes({cPopupButtonBGColor: bgColor });
+			setAttributes({ cPopupButtonBGColor: bgColor });
 
-		} 
+		}
 
 		cPopupButton = `
 			<div class="cbutton-preview-wrapper" style="margin-top:-${height}px">
@@ -160,6 +160,7 @@ export default function EmbedPress(props) {
 	const isYTChannel = _isYTChannel(url);
 	const isYTVideo = _isYTVideo(url);
 	const isYTLive = _isYTLive(url);
+	const isYTShorts = _isYTShorts(url);
 	const isWistiaVideo = _isWistiaVideo(url);
 	const isVimeoVideo = _isVimeoVideo(url);
 
@@ -326,6 +327,7 @@ export default function EmbedPress(props) {
 				isYTChannel={isYTChannel}
 				isYTVideo={isYTVideo}
 				isYTLive={isYTLive}
+				isYTShorts={isYTShorts}
 				isOpensea={isOpensea}
 				isOpenseaSingle={isOpenseaSingle}
 				isWistiaVideo={isWistiaVideo}
@@ -352,17 +354,17 @@ export default function EmbedPress(props) {
 				(
 					(!isOpensea || (!!editingURL || editingURL === 0)) &&
 					(!isOpenseaSingle || (!!editingURL || editingURL === 0)) &&
-					((!isYTVideo && !isYTLive) || (!!editingURL || editingURL === 0)) &&
+					((!isYTVideo && !isYTLive && !isYTShorts) || (!!editingURL || editingURL === 0)) &&
 					(!isYTChannel || (!!editingURL || editingURL === 0)) &&
 					(!isWistiaVideo || (!!editingURL || editingURL === 0)) &&
-					(!isVimeoVideo || (!!editingURL || editingURL === 0))&&
+					(!isVimeoVideo || (!!editingURL || editingURL === 0)) &&
 					(!isCalendly || (!!editingURL || editingURL === 0))
 				) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo || isVimeoVideo || isCalendly)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTLive || isYTShorts || isWistiaVideo || isVimeoVideo || isCalendly)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
 				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
-					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass}`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo && !isVimeoVideo && !isCalendly) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} {...(customPlayer ? { 'data-playerid': md5(clientId) } : {})} {...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})} dangerouslySetInnerHTML={{
+					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass}`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isYTShorts && !isWistiaVideo && !isVimeoVideo && !isCalendly) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} {...(customPlayer ? { 'data-playerid': md5(clientId) } : {})} {...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})} dangerouslySetInnerHTML={{
 						__html: embedHTML + customLogoTemp + epMessage + shareHtml + cPopupButton,
 					}}>
 					</EmbedWrap>
