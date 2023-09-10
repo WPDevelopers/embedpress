@@ -43,7 +43,24 @@ class Handler extends EndHandlerAbstract
         if (!empty($_GET['access_token'])) {
 
             $access_token = $_GET['access_token'];
+            $refresh_token = $_GET['refresh_token'];
+            $expires_in = $_GET['expires_in'];
+            $created_at = $_GET['created_at'];
 
+            // Create an array to store the tokens and expiration time
+            $token_data = array(
+                'access_token' => $access_token,
+                'refresh_token' => $refresh_token,
+                'expires_in' => $expires_in,
+                'created_at' => $created_at
+            );
+
+            // Serialize the array before saving it
+            $serialized_token_data = serialize($token_data);
+
+            // Save the serialized data in a single option key
+            update_option('calendly_tokens', $serialized_token_data);
+            
             $user_info = Helper::getCalendlyUserInfo($access_token);
             $event_types = Helper::getCalaendlyEventTypes($user_info['resource']['uri'], $access_token);
             $scheduled_events = Helper::getCalaendlyScheduledEvents($user_info['resource']['uri'], $access_token);

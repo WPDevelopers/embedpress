@@ -3461,7 +3461,7 @@ a.calendly-connect-button img {
 
 /* Apply styles to the list-header */
 .list-header {
-    background-color: #6633cc;
+    background-color: #3664ae;
     color: #fff;
     padding: 10px;
     display: flex;
@@ -3533,7 +3533,7 @@ a.calendly-connect-button img {
 }
 
 .event-type-card-top a {
-    color: #6633cc;
+    color: #3664ae;
     font-size: 12px;
 }
 
@@ -3561,7 +3561,7 @@ a.calendly-connect-button img {
     align-items: center;
     gap: 5px;
     font-size: 14px;
-    color: #6633cc;
+    color: #3664ae;
 }
 
 [data-event-status="In-active"] .event-type-card-top a, [data-event-status="In-active"] .calendly-event-copy-link {
@@ -3593,7 +3593,7 @@ a.calendly-connect-button img {
 
 .rwd-table tr:first-child {
     border-top: none;
-    background: #428bca;
+    background: #3664ae;
     color: #fff;
 }
 
@@ -3619,14 +3619,15 @@ a.calendly-connect-button img {
     color: #000;
 }
 
-.rwd-table th,
-.rwd-table td {
-    text-align: center;
+.rwd-table th, .rwd-table td {
+    padding-left: 30px !important;
 }
 
 .rwd-table {
     color: #333;
     border-radius: .4em;
+    width: 100%; /* Set the table width to 100% */
+    table-layout: fixed; 
 }
 
 .rwd-table tr {
@@ -3638,18 +3639,37 @@ a.calendly-connect-button img {
     display: none;
 }
 
-.rwd-table th,
-.rwd-table td {
+.rwd-table th, .rwd-table td {
     display: table-cell;
     padding: 1em .5em;
+    text-align: left;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    width: 25%; /* Divide the width evenly among the columns */
+
 }
 
-.rwd-table th:first-child,
-.rwd-table td:first-child {
-    padding-left: 0;
+.rwd-table th {
+    font-size: 15px;
 }
 
-.rwd-table th:last-child,
-.rwd-table td:last-child {
-    padding-right: 0;
+.rwd-table th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
+
+.rwd-table th:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.rwd-table td {
+    border-bottom: 1px dotted #ddd;
+    /* border-radius: 10px; */
+    /* border-right: 1px dotted #ddd; */
+}
+
+/* .rwd-table td:first-child {
+    border-left: 1px dotted #ddd;
+} */
+
