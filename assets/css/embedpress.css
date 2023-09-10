@@ -139,10 +139,7 @@
 }
 
 @media only screen and (max-width: 800px) {
-    .elementor-widget-container iframe {
-        max-height: 100% !important;
-    }
-
+    
     .elementor-widget-container .embedpress-facebook-vid-iframe,
     .embedpress-gutenberg-wrapper .embedpress-facebook-vid-iframe,
     .embedpress-facebook-vid-iframe {
@@ -1137,10 +1134,6 @@ span.ep-nft-rank {
         display: block;
     }
 
-    .ose-embedpress-responsive>iframe {
-        height: auto !important;
-    }
-
     .ose-google-drive iframe {
         height: 250px !important;
 
@@ -1299,9 +1292,13 @@ p.need-access-message {
 .ep-embed-content-wraper {
     width: 100%;
 }
-.embedpress-gutenberg-wrapper.popup_button {
+.embedpress-gutenberg-wrapper.popup_button, .embedpress-elements-wrapper.popup_button {
     display: none!important;
 }
+.elementor-element-edit-mode .embedpress-elements-wrapper.popup_button {
+    display: block!important;
+}
+
 .ep-content-share-enabled .ep-embed-content-wraper {
     display: flex !important;
 }

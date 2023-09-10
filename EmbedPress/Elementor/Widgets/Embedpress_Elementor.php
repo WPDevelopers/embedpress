@@ -103,7 +103,7 @@ class Embedpress_Elementor extends Widget_Base
 			'embedpress_pro_embeded_source',
 			[
 				'label'       => __('Source Name', 'embedpress'),
-				'type'        => Controls_Manager::SELECT,
+				'type'        => Controls_Manager::SELECT2,
 				'label_block' => false,
 				'default'     => 'default',
 				'options'     => [
@@ -149,7 +149,10 @@ class Embedpress_Elementor extends Widget_Base
 					'active' => true,
 				],
 				'placeholder' => __('Enter your Link', 'embedpress'),
-				'label_block' => true
+				'label_block' => true,
+				'ai'     => [
+					'active' => false,
+				],
 
 			]
 		);
@@ -2551,15 +2554,19 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'popupControlsHeadding',
 			[
-				'label' => esc_html__( 'Popup Settings', 'embedpress' ),
+				'label' => esc_html__( 'Popup Button Settings', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'calendly',
+					'cEmbedType' => 'popup_button'
+				]
 			]
 		);
 		$this->add_control(
 			'cPopupButtonText',
 			[
-				'label' => __( 'Popup Button Text', 'embedpress' ),
+				'label' => __( 'Button Text', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'label_block' => true,
 				'default' => 'Schedule time with me',
@@ -2577,9 +2584,9 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'cPopupButtonTextColor',
 			[
-				'label' => __( 'Popup Button Text Color', 'embedpress' ),
+				'label' => __( 'Text Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
-				'default' => '',
+				'default' => '#ffffff',
 				'condition' => [
 					'embedpress_pro_embeded_source' => 'calendly',
 					'cEmbedType' => 'popup_button'
@@ -2589,9 +2596,9 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'cPopupButtonBGColor',
 			[
-				'label' => __( 'Popup Button Background Color', 'embedpress' ),
+				'label' => __( 'Background Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
-				'default' => '',
+				'default' => '#0000FF',
 				'condition' => [
 					'embedpress_pro_embeded_source' => 'calendly',
 					'cEmbedType' => 'popup_button'
@@ -2617,7 +2624,6 @@ class Embedpress_Elementor extends Widget_Base
 				'condition' => $condition
 			]
 		);
-		
 		$this->add_control(
 			'hideEventTypeDetails',
 			[
@@ -2649,9 +2655,9 @@ class Embedpress_Elementor extends Widget_Base
 		);
 		
 		$this->add_control(
-			'buttonLinkColor',
+			'cButtonLinkColor',
 			[
-				'label' => __( 'Button Link Color', 'embedpress' ),
+				'label' => __( 'Button & Link Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'default' => '',
 				'condition' => $condition
@@ -2683,7 +2689,7 @@ class Embedpress_Elementor extends Widget_Base
 
 			]
 		);
-		$this->add_control(
+		$this->add_responsive_control(
 			'width',
 			[
 				'label' => __('Width', 'embedpress'),
@@ -2693,16 +2699,30 @@ class Embedpress_Elementor extends Widget_Base
 					'px' => [
 						'min' => 0,
 						'max' => 1500,
-						'step' => 5,
+						'step' => 1,
 					],
 				],
-				'default' => [
-					'unit' => 'px',
+				'devices' => [ 'desktop', 'tablet', 'mobile' ],
+				'desktop_default' => [
 					'size' => 600,
-				]
+					'unit' => 'px',
+				],
+				'tablet_default' => [
+					'size' => 600,
+					'unit' => 'px',
+				],
+				'mobile_default' => [
+					'size' => 600,
+					'unit' => 'px',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive
+					' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
+				],
 			]
 		);
-		$this->add_control(
+		
+		$this->add_responsive_control(
 			'height',
 			[
 				'label' => __('Height', 'embedpress'),
@@ -2712,13 +2732,34 @@ class Embedpress_Elementor extends Widget_Base
 					'px' => [
 						'min' => 0,
 						'max' => 1500,
-						'step' => 5,
+						'step' => 1,
 					],
 				],
-				'default' => [
-					'unit' => 'px',
+				'devices' => [ 'desktop', 'tablet', 'mobile' ],
+				'desktop_default' => [
 					'size' => 400,
-				]
+					'unit' => 'px',
+				],
+				'tablet_default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
+				'mobile_default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive
+					' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
+				],
+			]
+		);
+		$this->add_control(
+			'width_height_important_note',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => esc_html__('Note: The maximum width and height are set to 100%.', 'embedpress'),
+				'content_classes' => 'elementor-panel-alert elementor-panel-warning-info',
 			]
 		);
 		$this->add_responsive_control(
@@ -2980,9 +3021,12 @@ class Embedpress_Elementor extends Widget_Base
 			$content_protection_class = 'ep-content-protection-disabled';
 		}
 
+		$cEmbedType = !empty($settings['cEmbedType']) ? $settings['cEmbedType'] : '';
+
+
 		?>
 
-		<div class="embedpress-elements-wrapper  <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; ?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
+		<div class="embedpress-elements-wrapper <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; echo esc_attr( $cEmbedType );?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
 			<?php
 					// handle notice display
 					if ($is_editor_view && $is_apple_podcast && !is_embedpress_pro_active()) {

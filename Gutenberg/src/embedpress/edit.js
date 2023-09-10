@@ -98,14 +98,27 @@ export default function EmbedPress(props) {
 
 	let cPopupButton = '';
 
-	console.log(cEmbedType);
-
 	if(cEmbedType == 'popup_button') {
+		let textColor = cPopupButtonTextColor;
+		let bgColor = cPopupButtonBGColor;
+
+		console.log({cPopupButtonBGColor});
+
+		if (cPopupButtonTextColor && !cPopupButtonTextColor.startsWith("#")) {
+			textColor = "#" + cPopupButtonTextColor;
+			setAttributes({cPopupButtonTextColor: textColor });
+		} 
+
+		if (cPopupButtonBGColor && !cPopupButtonBGColor.startsWith("#")) {
+			bgColor = "#" + cPopupButtonBGColor;
+			setAttributes({cPopupButtonBGColor: bgColor });
+
+		} 
 
 		cPopupButton = `
 			<div class="cbutton-preview-wrapper" style="margin-top:-${height}px">
 			<h4 class="cbutton-preview-text">Preview Popup Button</h4>
-			<div style="position: static" class="calendly-badge-widget"><div class="calendly-badge-content" style="color: ${cButtonLinkColor}; background: ${cPopupButtonBGColor};">${cPopupButtonText}</div></div>
+			<div style="position: static" class="calendly-badge-widget"><div class="calendly-badge-content" style="color: ${textColor}; background: ${bgColor};">${cPopupButtonText}</div></div>
 			</div>
 		`;
 
@@ -342,13 +355,14 @@ export default function EmbedPress(props) {
 					((!isYTVideo && !isYTLive) || (!!editingURL || editingURL === 0)) &&
 					(!isYTChannel || (!!editingURL || editingURL === 0)) &&
 					(!isWistiaVideo || (!!editingURL || editingURL === 0)) &&
-					(!isVimeoVideo || (!!editingURL || editingURL === 0))
+					(!isVimeoVideo || (!!editingURL || editingURL === 0))&&
+					(!isCalendly || (!!editingURL || editingURL === 0))
 				) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo || isVimeoVideo)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo || isVimeoVideo || isCalendly)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
 				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
-					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass}`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo && !isVimeoVideo) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} {...(customPlayer ? { 'data-playerid': md5(clientId) } : {})} {...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})} dangerouslySetInnerHTML={{
+					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass}`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo && !isVimeoVideo && !isCalendly) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} {...(customPlayer ? { 'data-playerid': md5(clientId) } : {})} {...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})} dangerouslySetInnerHTML={{
 						__html: embedHTML + customLogoTemp + epMessage + shareHtml + cPopupButton,
 					}}>
 					</EmbedWrap>

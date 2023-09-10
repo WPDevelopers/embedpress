@@ -4,9 +4,9 @@ Author: WPDeveloper
 Author URI: https://wpdeveloper.com
 Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embed, video embed, Google Doc, map embed, youTube Embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, block editor, embed wordpress, elementor, WPML, Meetup, Boomplay, PDF Logo
 Requires at least: 4.6
-Tested up to: 6.2
+Tested up to: 6.3
 Requires PHP: 5.6
-Stable tag: 3.8.3
+Stable tag: 3.8.4
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -381,6 +381,13 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.8.4] - 2023-09-07 =
+- Added: Calendly Embedding.
+- Fixed: Conflict with ninja table pro plugin.
+- Fixed : Security issues for optimized performance.
+- Improved: PDF embedding with better responsive controls.
+- Few minor bug fixes & improvements.
 
 = [3.8.3] - 2023-08-09 =
 - Added: Gumroad Embedding support.

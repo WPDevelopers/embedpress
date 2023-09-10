@@ -297,7 +297,7 @@ class EmbedPressPDFEdit extends Component {
 			);
 		} else {
 			const url = '//view.officeapps.live.com/op/embed.aspx?src=' + getParamData(href);
-			const pdf_viewer_src = embedpressObj.pdf_renderer + '?file=' + getParamData(href);
+			const pdf_viewer_src = embedpressObj.pdf_renderer + ((embedpressObj.pdf_renderer.indexOf('?') === -1) ? '?' : '&') + 'file=' + getParamData(href);
 
 			// this.iframeManupulate(`.${id}`, themeMode, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation);
 

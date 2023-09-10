@@ -99,32 +99,13 @@ class Calendly extends ProviderAdapter implements ProviderInterface
             $parameters['text_color'] = ltrim($params['cTextColor'], '#');
         }
         
+        if (!empty($params['cButtonLinkColor']) && $params['cButtonLinkColor'] !== 'false') {
+            $parameters['primary_color'] = ltrim($params['cButtonLinkColor'], '#');
+        }
+        
         $query_string = http_build_query($parameters);
 
         $src_url = $this->url.'?'.$query_string;
-
-        // echo '<br><br>';
-        // print_r($query_string);
-
-        // https://calendly.com/akash-mia/dailly-stand-up-meeting?background_color=643cd5&text_color=2cff2c
-        
-        // Array
-        // (
-        //     [cEmbedType] => popup_button
-        //     [hideCookieBanner] => false
-        //     [hideEventTypeDetails] => false
-        //     [cBackgroundColor] => 643cd5
-        //     [cTextColor] => 2cff2c
-
-        //     [cPopupButtonText] => My schedule
-        //     [cPopupButtonBGColor] => 0069FF
-        //     [cButtonLinkColor] => 0069FF
-
-        //     [cPopupButtonTextColor] => FFFFFF
-        //     [cPopupLinkText] => Schedule time with me
-
-        //     [url] => https://calendly.com/akash-mia/dailly-stand-up-meeting
-        // )
 
 
         $cButtonLinkColor = !empty($params['cButtonLinkColor']) ? $params['cButtonLinkColor'] : '';
@@ -147,14 +128,14 @@ class Calendly extends ProviderAdapter implements ProviderInterface
             if($cEmbedType == 'inline'){
                 $html =    '<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
                 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
-                <div class="calendly-inline-widget" data-url="'.esc_url($src_url).'" style="min-width:'. $width.'px;height:'.$height.'px;"></div>';
+                <div class="calendly-inline-widget" data-url="'.esc_url($src_url).'" style="min-width:'. esc_attr( $width ).'px;height:'.esc_attr($height).'px;"></div>';
             }
             else if($cEmbedType == 'popup_button'){
                 $html = '<!-- Calendly badge widget begin -->
                 <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
                 <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
                 
-                <script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: "'.$src_url.'", text: "'.$cPopupButtonText.'", color: "'. $cPopupButtonBGColor .'", textColor: "'.$cPopupButtonTextColor.'", branding: undefined }); }</script>';
+                <script type="text/javascript">window.onload = function() { Calendly.initBadgeWidget({ url: "'.$src_url.'", text: "'.esc_html( $cPopupButtonText ).'", color: "'. $cPopupButtonBGColor .'", textColor: "'.$cPopupButtonTextColor.'", branding: undefined }); }</script>';
 
                 if (class_exists('Elementor\Plugin')) {
                     if (\Elementor\Plugin::$instance->editor->is_edit_mode() && $cEmbedType === 'popup_button') {
@@ -162,7 +143,7 @@ class Calendly extends ProviderAdapter implements ProviderInterface
                             <div class="elementor-cbutton-preview-wrapper">
                                 <h4 class="cbutton-preview-text">Preview Popup Button</h4>
                                 <div style="position: static" class="calendly-badge-widget">
-                                    <div class="calendly-badge-content" style="color: ' . $cPopupButtonTextColor . '; background: ' . $cPopupButtonBGColor . ';">' . $cPopupButtonText . '</div>
+                                    <div class="calendly-badge-content" style="color: ' . $cPopupButtonTextColor . '; background: ' . $cPopupButtonBGColor . ';">' . esc_html( $cPopupButtonText ) . '</div>
                                 </div>
                             </div>
                         ';
@@ -171,7 +152,7 @@ class Calendly extends ProviderAdapter implements ProviderInterface
                 
             }
             else{
-                $html = 'Elese wehn validated';
+                $html = '';
 
             }
             

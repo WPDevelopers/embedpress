@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the EmbedPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: EmbedPress 3.8.1\n"
+"Project-Id-Version: EmbedPress 3.8.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/embedpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-07-06T06:47:46+00:00\n"
+"POT-Creation-Date: 2023-09-07T07:52:50+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.0\n"
 "X-Domain: embedpress\n"
@@ -58,33 +58,33 @@ msgid "Go Pro"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:69
-#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:790
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:805
 msgid "All day"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:70
-#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:791
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:806
 msgid "Created by"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:71
-#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:792
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:807
 msgid "Go to event"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:72
 #: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:481
-#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:793
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:808
 msgid "Unknown error"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:73
-#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:794
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:809
 msgid "Request error"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:74
-#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:795
+#: EmbedPress/ThirdParty/Googlecalendar/Embedpress_Google_Helper.php:810
 msgid "Loading"
 msgstr ""
 
@@ -125,7 +125,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:177
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:141
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2538
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2695
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:175
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:262
@@ -135,7 +135,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:200
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:176
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2557
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2728
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:212
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:274
@@ -146,14 +146,14 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:223
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:211
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2598
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2790
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:247
 msgid "Alignment"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:227
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:215
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2602
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2794
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:251
 #: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:188
 msgid "Left"
@@ -161,14 +161,14 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:231
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:219
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2606
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2798
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:255
 msgid "Center"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:235
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:223
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2610
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2802
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:259
 #: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:186
 msgid "Right"
@@ -189,35 +189,35 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:316
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:331
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:348
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:686
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:819
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:846
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:862
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:877
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:893
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:908
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:923
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1214
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1226
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1263
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1292
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1310
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1326
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1344
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1361
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1378
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1394
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1410
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1763
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1778
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1792
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1806
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1835
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1864
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1893
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1921
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1965
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1995
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:694
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:827
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:854
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:870
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:885
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:901
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:916
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:931
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1222
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1234
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1271
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1300
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1318
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1334
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1352
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1369
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1386
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1402
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1418
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1773
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1788
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1802
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1816
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1845
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1874
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1903
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1931
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1975
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2005
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:273
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:330
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:368
@@ -245,35 +245,35 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:317
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:332
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:349
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:687
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:818
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:845
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:861
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:876
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:892
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:907
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:922
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1213
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1225
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1262
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1291
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1309
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1325
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1343
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1360
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1377
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1393
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1409
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1762
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1777
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1791
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1805
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1834
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1863
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1892
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1920
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1964
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1994
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:695
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:826
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:853
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:869
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:884
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:900
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:915
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:930
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1221
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1233
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1270
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1299
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1317
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1333
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1351
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1368
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1385
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1401
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1417
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1772
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1787
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1801
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1815
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1844
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1873
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1902
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1930
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1974
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2004
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:274
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:331
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:369
@@ -297,14 +297,14 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:264
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:367
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:272
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:280
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:477
 msgid "Go Premium for More Features"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:271
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:374
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:279
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:287
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:484
 msgid "Unlock more possibilities"
 msgstr ""
@@ -327,8 +327,8 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:683
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:691
 #: EmbedPress/Shortcode.php:973
-#: Gutenberg/plugin.php:642
-#: Gutenberg/plugin.php:731
+#: Gutenberg/plugin.php:684
+#: Gutenberg/plugin.php:773
 msgid "Powered By EmbedPress"
 msgstr ""
 
@@ -338,7 +338,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:70
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:97
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2521
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2678
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:72
 msgid "General"
 msgstr ""
@@ -375,10 +375,10 @@ msgid "https://your-link.com/file.pdf"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:255
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:412
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:420
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:292
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:303
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:302
 msgid "Controls"
 msgstr ""
 
@@ -387,7 +387,7 @@ msgid "Download feature is available when link has the document extension at the
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:274
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1233
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1241
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:302
 #: EmbedPress/Ends/Back/Settings/templates/twitch.php:66
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:255
@@ -400,8 +400,8 @@ msgid "System Default"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:279
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:771
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1237
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:779
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1245
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:307
 #: EmbedPress/Ends/Back/Settings/templates/twitch.php:71
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:261
@@ -409,7 +409,7 @@ msgid "Dark"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:280
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1238
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1246
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:308
 #: EmbedPress/Ends/Back/Settings/templates/twitch.php:72
 msgid "Light"
@@ -422,12 +422,12 @@ msgid "Custom"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:289
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2093
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2130
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2158
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2204
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2231
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2258
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2103
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2140
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2168
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2214
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2241
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2268
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:317
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:102
 #: EmbedPress/Ends/Back/Settings/templates/wistia.php:134
@@ -462,9 +462,9 @@ msgid "Source Name"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:110
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:211
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:752
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:770
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:215
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:760
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:778
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:244
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:260
 msgid "Default"
@@ -506,105 +506,109 @@ msgid "OpenSea"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:118
-msgid "Self-hosted Video"
+msgid "Calendly"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:119
+msgid "Self-hosted Video"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:120
 msgid "Self-hosted Audio"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:127
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:128
 msgid "Type"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:132
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:133
 msgid "Assets Collection"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:133
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:134
 msgid "Single Asset"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:145
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:146
 msgid "Embedded Link"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:150
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:151
 msgid "Enter your Link"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:159
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1535
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:163
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1543
 msgid "Player Background"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:160
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1536
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:164
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1544
 #: EmbedPress/Ends/Back/Settings/templates/spotify.php:29
 msgid "Dynamic option will use the most vibrant color from the album art."
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:165
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1541
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:169
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1549
 msgid "Dynamic"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:166
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1542
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:170
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1550
 msgid "Black & White"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:178
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:182
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/selfhosted.js:79
 #: Gutenberg/src/embedpress/InspectorControl/vimeo.js:158
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:272
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:271
 msgid "Enable Custom Player"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:193
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:197
 msgid "Custom player take effect only when a single video is embedded."
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:205
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:209
 msgid "Preset %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:212
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1686
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:216
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1696
 msgid "Preset 1"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:214
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1687
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:218
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1697
 msgid "Preset 2"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:228
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:232
 msgid "Start Time"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:230
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:234
 msgid "Specify a start time (in seconds)"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:311
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:319
 msgid "End Time"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:313
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:321
 msgid "Specify an end time (in seconds)"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:322
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:330
 msgid "Player Color %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:337
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:390
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:856
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:953
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1286
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:345
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:398
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:864
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:961
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1294
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:38
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:51
 #: EmbedPress/Ends/Back/Settings/templates/twitch.php:33
@@ -614,11 +618,11 @@ msgstr ""
 msgid "Auto Play"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:351
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:359
 msgid "Auto Pause %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:356
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:364
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:81
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/common/custom-player-controls.js:198
@@ -626,279 +630,279 @@ msgstr ""
 msgid "Automatically stop the current video from playing when another one starts."
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:370
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:378
 msgid "DNT %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:375
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:383
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:98
 msgid "Set this parameter to \"yes\" will block tracking any session data, including cookies. If Auto Pause is enabled this will not work."
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:401
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:998
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:409
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1006
 msgid "Player Options"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:417
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:425
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:125
 msgid "Display immediately"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:418
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:426
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:126
 msgid "Display after user initiation"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:419
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:427
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:127
 msgid "Hide controls"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:430
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:438
 msgid "Fullscreen button"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:444
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:452
 msgid "Video Annotations"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:449
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:500
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:457
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:508
 msgid "Display"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:450
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:501
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:458
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:509
 msgid "Do Not Display"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:462
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:470
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:88
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:328
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:327
 msgid "Progress Bar Color"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:467
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:475
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:93
 msgid "Red"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:468
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:476
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:94
 msgid "White"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:479
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1073
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:487
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1081
 msgid "Closed Captions %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:495
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:503
 msgid "Modest Branding %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:523
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:531
 msgid "Sticky Video %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:524
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:532
 msgid "Watch video and seamlessly scroll through other content with a sleek pop-up window."
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:540
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:548
 msgid "Related Videos"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:541
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:549
 msgid "Set it to \"Yes\" to display related videos from all channels. Otherwise, related videos will show from the same channel."
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:555
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:563
 msgid "Thumbnail %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:579
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:587
 msgid "YouTube Channel"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:592
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:600
 msgid "These options take effect only when a YouTube channel is embedded."
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:600
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:608
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:47
 msgid "Video Per Page"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:621
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1712
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:629
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1722
 msgid "Column"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:626
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1718
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:634
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1728
 msgid "2"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:627
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1719
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:635
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1729
 msgid "3"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:628
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1720
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:636
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1730
 msgid "4"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:629
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1722
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:637
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1732
 msgid "6"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:630
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1723
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:638
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1733
 msgid "Auto"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:646
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:654
 msgid "Gap Between Videos"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:683
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:691
 msgid "Pagination"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:705
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:713
 msgid "YouTube Subscriber"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:716
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:724
 msgid "Channel ID %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:721
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:729
 msgid "Enter Channel ID"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:731
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:739
 msgid "Subscription Text %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:736
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:744
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:230
 msgid "Eg. Don't miss out! Subscribe"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:747
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:755
 msgid "Layout %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:753
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:761
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:245
 msgid "Full"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:765
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:773
 msgid "Theme %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:783
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:791
 msgid "Subscriber Count %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:804
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:812
 msgid "YouTube Live Chat"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:813
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:821
 msgid "Show YouTube Live Chat %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:840
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:848
 msgid "Logo %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:871
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:879
 msgid "Play On Mobile"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:887
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:895
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:72
 msgid "Mute"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:902
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:910
 msgid "Player Controls"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:917
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:925
 msgid "Video Info"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:932
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:940
 msgid "Control Color"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:967
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1273
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1431
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:975
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1281
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1439
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:44
 msgid "Scheme"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:982
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:990
 #: EmbedPress/Ends/Back/Settings/templates/wistia.php:175
 msgid "Captions Enabled By Default"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1012
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1020
 #: EmbedPress/Ends/Back/Settings/templates/wistia.php:40
 msgid "Fullscreen Button"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1026
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1034
 #: EmbedPress/Ends/Back/Settings/templates/wistia.php:72
 msgid "Small Play Button"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1043
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1051
 msgid "Resumable"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1058
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1066
 msgid "Focus"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1087
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1095
 msgid "Playbar "
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1101
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1109
 msgid "Volume Control %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1117
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1125
 msgid "Volume %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1139
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1147
 #: EmbedPress/Includes/Classes/Extend_CustomPlayer_Controls.php:37
 msgid "Rewind"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1153
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1161
 msgid "Rewind time"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1187
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1195
 #: Gutenberg/src/embedpress/InspectorControl/customplayer.js:59
 msgid "Autoplay"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1189
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1200
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1197
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1208
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:43
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:60
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:77
@@ -936,8 +940,8 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1190
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1201
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1198
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1209
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:47
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:64
 #: EmbedPress/Ends/Back/Settings/templates/dailymotion.php:81
@@ -975,332 +979,383 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1198
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1206
 msgid "Allow Full Screen Video"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1211
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1219
 msgid "Show Chat %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1223
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1231
 msgid "Mute on start"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1257
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1265
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:29
 msgid "Visual Player"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1304
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1312
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:104
 msgid "Share Button"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1320
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1328
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:119
 msgid "Comments"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1338
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1346
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:135
 msgid "Artwork"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1355
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1363
 #: EmbedPress/Ends/Back/Settings/templates/soundcloud.php:154
 msgid "Play Count"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1372
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1380
 msgid "User Name"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1388
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1396
 msgid "Buy Button %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1404
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1412
 msgid "Download Button %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1445
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1453
 msgid "Author Information"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1458
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1786
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2121
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1466
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1796
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2131
 #: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:198
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:436
 msgid "Title"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1475
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1483
 msgid "Author"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1490
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1498
 msgid "Avatar"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1505
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1513
 msgid "Loop %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1563
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1571
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:346
 msgid "Limit"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1591
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1600
 #: EmbedPress/Ends/Back/Settings/templates/opensea.php:41
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:354
 msgid "Order By"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1593
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1602
 #: EmbedPress/Ends/Back/Settings/templates/opensea.php:47
 msgid "Oldest"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1594
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1603
 #: EmbedPress/Ends/Back/Settings/templates/opensea.php:46
 msgid "Newest"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1624
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1634
 msgid "OpenSea Control Settings"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1633
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2040
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1643
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2050
 msgid "These options take effect only when a Opensea Single Asset is embedded."
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1645
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2052
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1655
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2062
 msgid "These options take effect only when a Opensea Collection is embedded."
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1656
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1666
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:239
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:373
 msgid "Layout"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1661
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1671
 msgid "Grid"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1662
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1672
 msgid "List"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1681
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1691
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:384
 msgid "Preset"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1717
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1727
 msgid "1"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1721
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1731
 msgid "5"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1735
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1745
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:407
 msgid "Gap Between Item"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1758
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2084
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1768
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2094
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:424
 msgid "Collection Name"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1773
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1783
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:431
 msgid "Thumbnail"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1800
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2149
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1810
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2159
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:442
 msgid "Creator"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1815
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1844
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1873
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1825
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1854
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1883
 msgid "Prefix %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1817
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1818
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1827
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1828
 msgid "Created By"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1829
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1846
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1847
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2195
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1839
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1856
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1857
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2205
 msgid "Current Price"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1858
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1875
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1876
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1868
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1885
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1886
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:486
 msgid "Last Sale"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1887
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2248
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1897
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2258
 msgid "Button"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1901
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1911
 msgid "Button Label %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1903
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1904
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1913
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1914
 msgid "See Details"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1915
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1925
 msgid "Load More %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1933
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1943
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:605
 msgid "Item Per Page"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1948
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1958
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:613
 msgid "Load More Label"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1960
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1977
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1978
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2339
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1970
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1987
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1988
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2349
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:535
 msgid "Rank"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1975
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1985
 msgid "Rank Label %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1990
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2008
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2009
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2419
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2000
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2018
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2019
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2429
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:558
 msgid "Details"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2006
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2016
 msgid "Details Label %s"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2030
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2040
 msgid "Color and Typography"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2064
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2074
 msgid "Item"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2073
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2268
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2324
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2083
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2278
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2334
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2599
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2640
 msgid "Background Color"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2103
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2113
 msgid "Hove Color"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2176
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2486
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2186
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2496
 msgid "Link Color"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2186
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2196
 msgid "Link Typography"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2222
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2232
 msgid "Last Sale Price"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2285
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2295
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:591
 msgid "Load More"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2298
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2308
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2587
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2650
 msgid "Text Color"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2352
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2362
 msgid "Label Color"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2377
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2387
 msgid "Rank Color"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2391
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2401
 msgid "Border Color"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2432
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2442
 msgid "Title Color"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2446
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2456
 msgid "Title Typography"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2459
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2469
 msgid "Content Color"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2473
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2483
 msgid "Content Typography"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2576
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2537
+msgid "Calendly Controls"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2544
+#: Gutenberg/dist/blocks.build.js:1
+#: Gutenberg/src/embedpress/InspectorControl/calendly.js:184
+msgid "Embed Type"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2548
+msgid "Inline"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2549
+msgid "Popup Button"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2557
+msgid "Popup Button Settings"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2569
+#: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:76
+msgid "Button Text"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2612
+msgid "Calender Settings"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2621
+msgid "Hide Cookie Banner"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2630
+msgid "Hide Event Type Details"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2660
+msgid "Button & Link Color"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2761
+msgid "Note: The maximum width and height are set to 100%."
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2768
 msgid "Margin"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2587
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2779
 msgid "Padding"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2839
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3034
 msgid "You need EmbedPress Pro to Embed Apple Podcast. Note. This message is only visible to you."
 msgstr ""
 
@@ -1665,11 +1720,11 @@ msgstr ""
 msgid "You need to authorize before fetching new calendars"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:74
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:75
 msgid "Authorize"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:79
+#: EmbedPress/Ends/Back/Settings/templates/google-calendar.php:81
 msgid "Stop"
 msgstr ""
 
@@ -2060,7 +2115,7 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:178
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:355
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:354
 msgid "Modest Branding"
 msgstr ""
 
@@ -2112,67 +2167,67 @@ msgstr ""
 msgid "Install Now!"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:382
+#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:392
 msgid "We can't detect any plugin information. This is most probably because you have not included the code in the plugin main file."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:695
+#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:708
 msgid "What we collect."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:696
+#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:709
 msgid "Sure, I'd like to help"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:697
+#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:710
 msgid "No Thanks."
 msgstr ""
 
-#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:796
+#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:814
 msgid "Sorry to see you go"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:797
+#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:815
 msgid "Before you deactivate the plugin, would you quickly give us your reason for doing so?"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:800
+#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:818
 msgid "I no longer need the plugin"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:802
+#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:820
 msgid "I found a better plugin"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:803
+#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:821
 msgid "Please share which plugin"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:805
+#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:823
 msgid "I couldn't get the plugin to work"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:806
+#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:824
 msgid "It's a temporary deactivation"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:808
+#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:826
 msgid "Other"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:809
+#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:827
 msgid "Please share the reason"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:851
+#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:869
 msgid "Submitting form"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:909
+#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:927
 msgid "Submit and Deactivate"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:909
+#: EmbedPress/Includes/Classes/EmbedPress_Plugin_Usage_Tracker.php:927
 msgid "Just Deactivate"
 msgstr ""
 
@@ -2224,10 +2279,6 @@ msgstr ""
 
 #: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:66
 msgid "Password"
-msgstr ""
-
-#: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:76
-msgid "Button Text"
 msgstr ""
 
 #: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:79
@@ -2291,23 +2342,23 @@ msgstr ""
 msgid "Enter share description"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:324
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:871
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1248
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:341
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:888
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1265
 #: Gutenberg/plugin.php:75
 msgid "Watch from the beginning"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:325
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:872
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1249
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:342
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:889
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1266
 #: Gutenberg/plugin.php:76
 msgid "Skip to where you left off"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:326
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:873
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1250
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:343
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:890
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1267
 #: Gutenberg/plugin.php:77
 msgid "It looks like you've watched<br />part of this video before!"
 msgstr ""
@@ -2502,18 +2553,6 @@ msgid "Unknown error format"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/inspector.js:152
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:258
-msgid "Tips & Tricks"
-msgstr ""
-
-#: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/vimeo.js:156
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:270
-msgid "Video Controls"
-msgstr ""
-
-#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/common/custom-player-controls.js:97
 #: Gutenberg/src/common/custom-player-controls.js:158
 #: Gutenberg/src/common/custom-player-controls.js:201
@@ -2544,9 +2583,21 @@ msgstr ""
 #: Gutenberg/src/embedpress/InspectorControl/wistia.js:221
 #: Gutenberg/src/embedpress/InspectorControl/wistia.js:241
 #: Gutenberg/src/embedpress/InspectorControl/wistia.js:259
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:348
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:367
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:347
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:366
 msgid "pro"
+msgstr ""
+
+#: Gutenberg/dist/blocks.build.js:1
+#: Gutenberg/src/embedpress/inspector.js:153
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:258
+msgid "Tips & Tricks"
+msgstr ""
+
+#: Gutenberg/dist/blocks.build.js:1
+#: Gutenberg/src/embedpress/InspectorControl/vimeo.js:156
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:269
+msgid "Video Controls"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
@@ -2650,7 +2701,7 @@ msgid "Print/Download"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/inspector.js:108
+#: Gutenberg/src/embedpress/inspector.js:109
 msgid "You can adjust the width of embedded content."
 msgstr ""
 

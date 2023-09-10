@@ -43,6 +43,23 @@ class Feature_Enhancer
 		add_action( 'elementor/editor/after_save', [$this, 'save_el_source_data_on_post_update'] );
 		
 		add_action('wp_head', [$this, 'embedpress_generate_social_share_meta']);
+
+		add_action( 'wp_ajax_get_viewer', function(){
+			$pdf = EMBEDPRESS_PATH_BASE . 'assets/pdf/web/viewer.html';
+			// header type html
+			header('Content-Type: text/html');
+			$contents = file_get_contents($pdf);
+			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS . 'pdf/web/' . '">', $contents);
+			die;
+		} );
+		add_action( 'wp_ajax_nopriv_get_viewer', function(){
+			$pdf = EMBEDPRESS_PATH_BASE . 'assets/pdf/web/viewer.html';
+			// header type html
+			header('Content-Type: text/html');
+			$contents = file_get_contents($pdf);
+			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS . 'pdf/web/' . '">', $contents);
+			die;
+		} );
 	}
 
 	public function save_source_data(){

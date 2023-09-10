@@ -1,0 +1,60 @@
+{
+  "name": "embedpress",
+  "version": "3.8.4",
+  "description": "EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors.",
+  "scripts": {
+    "pot": "wp i18n make-pot . languages/embedpress.pot",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WPDevelopers/embedpress.git"
+  },
+  "keywords": [
+    "embed",
+    "embed",
+    "youtube",
+    "gutenberg",
+    "embed",
+    "pdf",
+    "doc",
+    "docs",
+    "ppt",
+    "elementor",
+    "embed",
+    "video",
+    "embed",
+    "Google",
+    "Doc",
+    "map",
+    "embed",
+    "youTube",
+    "Embed",
+    "content",
+    "embed",
+    "iframes",
+    "vimeo",
+    "embed",
+    "wistia",
+    "google",
+    "sheet",
+    "youtube",
+    "player",
+    "block",
+    "editor",
+    "embed",
+    "wordpress",
+    "elementor",
+    "WPML",
+    "Meetup",
+    "Boomplay",
+    "PDF",
+    "Logo"
+  ],
+  "author": "EmbedPress, asif2bd, re_enter_rupok, wpdevteam, seakashdiu, alimuzzamanalim",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WPDevelopers/embedpress/issues"
+  },
+  "homepage": "https://github.com/WPDevelopers/embedpress#readme"
+}
