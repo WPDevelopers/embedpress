@@ -82,34 +82,37 @@ if (!function_exists('getCalendlyUuid')) {
                 <div>
                     <div class="event-type-card-list">
                         <?php
-                        foreach ($event_types['collection'] as $item) {
-                            $status = 'In-active';
-                            if (!empty($item['active'])) {
-                                $status = 'Active';
-                            }
-                            ?>
-                            <div class="event-type-card-list-item" data-event-status="<?php echo esc_attr($status); ?>" style="color: var(--calendly-card-color); ">
-                                <div class="event-type-card">
-                                    <div class="event-type-card-top">
-                                        <h2><?php echo esc_html($item['name']); ?></h2>
-                                        <p>30 mins, One-on-One</p>
-                                        <a target="_blank" href="<?php echo esc_url($item['scheduling_url']); ?>"><?php echo esc_html__('View booking page', 'embedpress'); ?></a>
-                                    </div>
-                                    <div class="event-type-card-bottom">
-                                        <div class="calendly-event-copy-link">
-                                            <svg width="40" height="40" viewBox="0 0 0.75 0.75" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M0.05 0.476a0.076 0.076 0 0 0 0.076 0.074H0.2V0.5H0.126A0.026 0.026 0 0 1 0.1 0.474V0.124A0.026 0.026 0 0 1 0.126 0.098h0.35a0.026 0.026 0 0 1 0.026 0.026V0.2H0.276A0.076 0.076 0 0 0 0.2 0.276v0.35A0.076 0.076 0 0 0 0.276 0.7h0.35A0.076 0.076 0 0 0 0.702 0.624V0.274A0.076 0.076 0 0 0 0.626 0.2H0.55V0.126A0.076 0.076 0 0 0 0.476 0.05H0.126a0.076 0.076 0 0 0 -0.076 0.076v0.35Zm0.2 -0.2A0.026 0.026 0 0 1 0.276 0.25h0.35a0.026 0.026 0 0 1 0.026 0.026v0.35a0.026 0.026 0 0 1 -0.026 0.026H0.276A0.026 0.026 0 0 1 0.25 0.626V0.276Z" fill="#6633cc" /></svg>
-                                            Copy link
+                        if (is_array($scheduled_events) && count($scheduled_events) > 0) :
+                            foreach ($event_types['collection'] as $item) :
+                                $status = 'In-active';
+                                if (!empty($item['active'])) {
+                                    $status = 'Active';
+                                }
+                                ?>
+                                <div class="event-type-card-list-item" data-event-status="<?php echo esc_attr($status); ?>" style="color: var(--calendly-card-color); ">
+                                    <div class="event-type-card">
+                                        <div class="event-type-card-top">
+                                            <h2><?php echo esc_html($item['name']); ?></h2>
+                                            <p>30 mins, One-on-One</p>
+                                            <a target="_blank" href="<?php echo esc_url($item['scheduling_url']); ?>"><?php echo esc_html__('View booking page', 'embedpress'); ?></a>
                                         </div>
-                                        <div class="event-status <?php echo esc_attr($status); ?>">
-                                            <?php echo esc_html($status); ?>
+                                        <div class="event-type-card-bottom">
+                                            <div class="calendly-event-copy-link">
+                                                <svg width="40" height="40" viewBox="0 0 0.75 0.75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0.05 0.476a0.076 0.076 0 0 0 0.076 0.074H0.2V0.5H0.126A0.026 0.026 0 0 1 0.1 0.474V0.124A0.026 0.026 0 0 1 0.126 0.098h0.35a0.026 0.026 0 0 1 0.026 0.026V0.2H0.276A0.076 0.076 0 0 0 0.2 0.276v0.35A0.076 0.076 0 0 0 0.276 0.7h0.35A0.076 0.076 0 0 0 0.702 0.624V0.274A0.076 0.076 0 0 0 0.626 0.2H0.55V0.126A0.076 0.076 0 0 0 0.476 0.05H0.126a0.076 0.076 0 0 0 -0.076 0.076v0.35Zm0.2 -0.2A0.026 0.026 0 0 1 0.276 0.25h0.35a0.026 0.026 0 0 1 0.026 0.026v0.35a0.026 0.026 0 0 1 -0.026 0.026H0.276A0.026 0.026 0 0 1 0.25 0.626V0.276Z" fill="#6633cc" /></svg>
+                                                Copy link
+                                            </div>
+                                            <div class="event-status <?php echo esc_attr($status); ?>">
+                                                <?php echo esc_html($status); ?>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
 
-                            </div>
+                                </div>
                         <?php
-                        }
+                            endforeach;
+                        endif;
+
                         ?>
                     </div>
                 </div>
@@ -175,7 +178,7 @@ if (!function_exists('getCalendlyUuid')) {
                 // Merge upcoming and past events for display
                 $sorted_events = array_merge($upcoming_events, $past_events);
 
-                
+
                 if (is_array($sorted_events) && count($sorted_events) > 0) :
                     foreach ($sorted_events as $event_data) :
                         $event = $event_data['event'];

@@ -139,3 +139,5 @@ function ep_track_embed_usage()
     $wpdb->insert('embed_usage_log', array('embed_type' => $embed_type, 'user_id' => get_current_user_id()));
 }
 add_action('embed_content', 'ep_track_embed_usage');
+
+
