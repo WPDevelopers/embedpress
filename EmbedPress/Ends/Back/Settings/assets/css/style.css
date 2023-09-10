@@ -3466,7 +3466,6 @@ a.calendly-connect-button img {
     padding: 10px;
     display: flex;
     align-items: center;
-    margin-top: 10px;
     gap: 10px;
     border-radius: 10px;
 }
@@ -3626,8 +3625,9 @@ a.calendly-connect-button img {
 .rwd-table {
     color: #333;
     border-radius: .4em;
-    width: 100%; /* Set the table width to 100% */
-    table-layout: fixed; 
+    width: 100%;
+    /* Set the table width to 100% */
+    table-layout: fixed;
 }
 
 .rwd-table tr {
@@ -3645,7 +3645,8 @@ a.calendly-connect-button img {
     text-align: left;
     font-family: Arial, sans-serif;
     font-size: 14px;
-    width: 25%; /* Divide the width evenly among the columns */
+    width: 25%;
+    /* Divide the width evenly among the columns */
 
 }
 
@@ -3673,3 +3674,34 @@ a.calendly-connect-button img {
     border-left: 1px dotted #ddd;
 } */
 
+
+/* Tab container */
+.tab-container {
+    display: flex;
+    background-color: #f0f0f0;
+}
+
+/* Individual tab */
+.tab {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+/* Active tab */
+.active-tab {
+    background-color: #3664ae;
+    border-radius: 10px;
+    color: #fff;
+}
+
+/* Content container */
+.tab-content {
+    display: none;
+    width: 100%;
+}
+
+/* Show the active tab content */
+.tab-content.active {
+    display: block;
+}

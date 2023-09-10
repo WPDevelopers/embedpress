@@ -49,6 +49,10 @@ if (!function_exists('getCalendlyUuid')) {
             <?php endif; ?>
         </div>
 
+        <div class="calendly-sync-button tab active-tab" onclick="showTab('event-types')">Event Types</div>
+        <!-- Scheduled Events Tab -->
+        <div class="calendly-sync-button tab" onclick="showTab('scheduled-events')">Scheduled Events</div>
+
         <?php if (is_array($scheduled_events) && count($scheduled_events) > 0) : ?>
             <div class="calendly-sync-button">
                 <a href="<?php echo esc_url($authorize_url); ?>" class="calendly-connect-button" target="_self" title="Connect with Calendly">
@@ -59,158 +63,191 @@ if (!function_exists('getCalendlyUuid')) {
 
     </div>
 
-    <div class="event-type-list">
-        <div class="event-type-group-list">
-            <div class="event-type-group-list-item user-item">
 
-                <div class="list-header">
-                    <div class="calendly-profile-avatar">
-                        <img src="<?php echo esc_url($avatarUrl); ?>" alt="<?php echo esc_attr($name); ?>" class="il6wqd3">
-                    </div>
-                    <div class="calendly-user">
-                        <div class="KF8rYwhNst0H6JyJ1_kq">
-                            <span>
-                                <p style="color: currentcolor;"><?php echo esc_html($name); ?></p>
-                            </span>
+
+    <!-- Event Types Content -->
+    <div class="tab-content active" id="event-types">
+        <div class="event-type-list">
+            <div class="event-type-group-list">
+                <div class="event-type-group-list-item user-item">
+
+                    <div class="list-header">
+                        <div class="calendly-profile-avatar">
+                            <img src="<?php echo esc_url($avatarUrl); ?>" alt="<?php echo esc_attr($name); ?>" class="il6wqd3">
                         </div>
-                        <a target="_blank" rel="noopener noreferrer" href="<?php echo esc_url($schedulingUrl); ?>">
-                            <span><?php echo esc_html($schedulingUrl); ?></span>
-                        </a>
+                        <div class="calendly-user">
+                            <div class="KF8rYwhNst0H6JyJ1_kq">
+                                <span>
+                                    <p style="color: currentcolor;"><?php echo esc_html($name); ?></p>
+                                </span>
+                            </div>
+                            <a target="_blank" rel="noopener noreferrer" href="<?php echo esc_url($schedulingUrl); ?>">
+                                <span><?php echo esc_html($schedulingUrl); ?></span>
+                            </a>
+                        </div>
                     </div>
-                </div>
 
-                <div>
-                    <div class="event-type-card-list">
-                        <?php
-                        if (is_array($scheduled_events) && count($scheduled_events) > 0) :
-                            foreach ($event_types['collection'] as $item) :
-                                $status = 'In-active';
-                                if (!empty($item['active'])) {
-                                    $status = 'Active';
-                                }
-                                ?>
-                                <div class="event-type-card-list-item" data-event-status="<?php echo esc_attr($status); ?>" style="color: var(--calendly-card-color); ">
-                                    <div class="event-type-card">
-                                        <div class="event-type-card-top">
-                                            <h2><?php echo esc_html($item['name']); ?></h2>
-                                            <p>30 mins, One-on-One</p>
-                                            <a target="_blank" href="<?php echo esc_url($item['scheduling_url']); ?>"><?php echo esc_html__('View booking page', 'embedpress'); ?></a>
-                                        </div>
-                                        <div class="event-type-card-bottom">
-                                            <div class="calendly-event-copy-link">
-                                                <svg width="40" height="40" viewBox="0 0 0.75 0.75" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M0.05 0.476a0.076 0.076 0 0 0 0.076 0.074H0.2V0.5H0.126A0.026 0.026 0 0 1 0.1 0.474V0.124A0.026 0.026 0 0 1 0.126 0.098h0.35a0.026 0.026 0 0 1 0.026 0.026V0.2H0.276A0.076 0.076 0 0 0 0.2 0.276v0.35A0.076 0.076 0 0 0 0.276 0.7h0.35A0.076 0.076 0 0 0 0.702 0.624V0.274A0.076 0.076 0 0 0 0.626 0.2H0.55V0.126A0.076 0.076 0 0 0 0.476 0.05H0.126a0.076 0.076 0 0 0 -0.076 0.076v0.35Zm0.2 -0.2A0.026 0.026 0 0 1 0.276 0.25h0.35a0.026 0.026 0 0 1 0.026 0.026v0.35a0.026 0.026 0 0 1 -0.026 0.026H0.276A0.026 0.026 0 0 1 0.25 0.626V0.276Z" fill="#6633cc" /></svg>
-                                                Copy link
+                    <div>
+                        <div class="event-type-card-list">
+                            <?php
+                            if (is_array($scheduled_events) && count($scheduled_events) > 0) :
+                                foreach ($event_types['collection'] as $item) :
+                                    $status = 'In-active';
+                                    if (!empty($item['active'])) {
+                                        $status = 'Active';
+                                    }
+                                    ?>
+                                    <div class="event-type-card-list-item" data-event-status="<?php echo esc_attr($status); ?>" style="color: var(--calendly-card-color); ">
+                                        <div class="event-type-card">
+                                            <div class="event-type-card-top">
+                                                <h2><?php echo esc_html($item['name']); ?></h2>
+                                                <p>30 mins, One-on-One</p>
+                                                <a target="_blank" href="<?php echo esc_url($item['scheduling_url']); ?>"><?php echo esc_html__('View booking page', 'embedpress'); ?></a>
                                             </div>
-                                            <div class="event-status <?php echo esc_attr($status); ?>">
-                                                <?php echo esc_html($status); ?>
+                                            <div class="event-type-card-bottom">
+                                                <div class="calendly-event-copy-link">
+                                                    <svg width="40" height="40" viewBox="0 0 0.75 0.75" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0.05 0.476a0.076 0.076 0 0 0 0.076 0.074H0.2V0.5H0.126A0.026 0.026 0 0 1 0.1 0.474V0.124A0.026 0.026 0 0 1 0.126 0.098h0.35a0.026 0.026 0 0 1 0.026 0.026V0.2H0.276A0.076 0.076 0 0 0 0.2 0.276v0.35A0.076 0.076 0 0 0 0.276 0.7h0.35A0.076 0.076 0 0 0 0.702 0.624V0.274A0.076 0.076 0 0 0 0.626 0.2H0.55V0.126A0.076 0.076 0 0 0 0.476 0.05H0.126a0.076 0.076 0 0 0 -0.076 0.076v0.35Zm0.2 -0.2A0.026 0.026 0 0 1 0.276 0.25h0.35a0.026 0.026 0 0 1 0.026 0.026v0.35a0.026 0.026 0 0 1 -0.026 0.026H0.276A0.026 0.026 0 0 1 0.25 0.626V0.276Z" fill="#6633cc" /></svg>
+                                                    Copy link
+                                                </div>
+                                                <div class="event-status <?php echo esc_attr($status); ?>">
+                                                    <?php echo esc_html($status); ?>
+                                                </div>
                                             </div>
                                         </div>
+
                                     </div>
+                            <?php
+                                endforeach;
+                            endif;
 
-                                </div>
-                        <?php
-                            endforeach;
-                        endif;
-
-                        ?>
+                            ?>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
+        </div>
     </div>
 
-    <div class="calendly-day-list">
+    <!-- Scheduled Events Content -->
+    <div class="tab-content" id="scheduled-events">
 
-        <table class="rwd-table" cellspacing="0">
-            <tbody>
-                <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Event</th>
-                    <th>Scheduled Events</th>
-                </tr>
-                <?php
-                $index = 0;
-                $current_datetime = new DateTime(); // Get the current date and time
+        <div class="calendly-day-list">
 
-                $upcoming_events = [];
-                $past_events = [];
+            <table class="rwd-table" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Event</th>
+                        <th>Scheduled Events</th>
+                    </tr>
+                    <?php
+                    $index = 0;
+                    $current_datetime = new DateTime(); // Get the current date and time
 
-                if (is_array($scheduled_events) && count($scheduled_events) > 0) {
-                    foreach ($scheduled_events['collection'] as $event) {
-                        $uuid = getCalendlyUuid($event['uri']);
-                        $name = $invtitees_list[$uuid]['collection'][$index]['name'];
+                    $upcoming_events = [];
+                    $past_events = [];
 
-                        // Convert event start and end times to DateTime objects
-                        $start_time = new DateTime($event['start_time']);
-                        $end_time = new DateTime($event['end_time']);
+                    if (is_array($scheduled_events) && count($scheduled_events) > 0) {
+                        foreach ($scheduled_events['collection'] as $event) {
+                            $uuid = getCalendlyUuid($event['uri']);
+                            $name = $invtitees_list[$uuid]['collection'][$index]['name'];
 
-                        // Check if the event is in the past or upcoming
-                        $is_past_event = $end_time < $current_datetime;
+                            // Convert event start and end times to DateTime objects
+                            $start_time = new DateTime($event['start_time']);
+                            $end_time = new DateTime($event['end_time']);
 
-                        // Categorize events into upcoming and past
-                        if ($is_past_event) {
-                            $past_events[] = [
-                                'event' => $event,
-                                'name' => $name,
-                            ];
-                        } else {
-                            $upcoming_events[] = [
-                                'event' => $event,
-                                'name' => $name,
-                            ];
+                            // Check if the event is in the past or upcoming
+                            $is_past_event = $end_time < $current_datetime;
+
+                            // Categorize events into upcoming and past
+                            if ($is_past_event) {
+                                $past_events[] = [
+                                    'event' => $event,
+                                    'name' => $name,
+                                ];
+                            } else {
+                                $upcoming_events[] = [
+                                    'event' => $event,
+                                    'name' => $name,
+                                ];
+                            }
                         }
                     }
-                }
 
-                // Sort upcoming events by start time
-                usort($upcoming_events, function ($a, $b) {
-                    return strtotime($a['event']['start_time']) - strtotime($b['event']['start_time']);
-                });
+                    // Sort upcoming events by start time
+                    usort($upcoming_events, function ($a, $b) {
+                        return strtotime($a['event']['start_time']) - strtotime($b['event']['start_time']);
+                    });
 
-                // Sort past events by start time in descending order
-                usort($past_events, function ($a, $b) {
-                    return strtotime($b['event']['start_time']) - strtotime($a['event']['start_time']);
-                });
+                    // Sort past events by start time in descending order
+                    usort($past_events, function ($a, $b) {
+                        return strtotime($b['event']['start_time']) - strtotime($a['event']['start_time']);
+                    });
 
-                // Merge upcoming and past events for display
-                $sorted_events = array_merge($upcoming_events, $past_events);
-
-
-                if (is_array($sorted_events) && count($sorted_events) > 0) :
-                    foreach ($sorted_events as $event_data) :
-                        $event = $event_data['event'];
-                        $name = $event_data['name'];
-
-                        // Convert event start and end times to DateTime objects
-                        $start_time = new DateTime($event['start_time']);
-                        $end_time = new DateTime($event['end_time']);
-
-                        // Check if the event is in the past or upcoming
-                        $is_past_event = $end_time < $current_datetime;
-                        ?>
-
-                        <tr>
-                            <td class="event-date"><?php echo esc_html(date('l, j F Y', strtotime($event['start_time']))); ?></td>
-                            <td class="event-time"><?php echo esc_html(date('h:ia', strtotime($event['start_time'])) . ' - ' . date('h:ia', strtotime($event['end_time']))); ?></td>
-                            <td class="event-info">
-                                <strong><?php echo esc_html($name); ?></strong><br>
-                                Event type: <strong><?php echo esc_html($event['name']); ?></strong>
-                            </td>
-                            <td class="event-action">
-                                <?php echo $is_past_event ? 'Past' : 'Upcoming'; ?>
-                            </td>
-                        </tr>
-
-                    <?php endforeach; ?>
-                <?php endif; ?>
-
-            </tbody>
-        </table>
+                    // Merge upcoming and past events for display
+                    $sorted_events = array_merge($upcoming_events, $past_events);
 
 
+                    if (is_array($sorted_events) && count($sorted_events) > 0) :
+                        foreach ($sorted_events as $event_data) :
+                            $event = $event_data['event'];
+                            $name = $event_data['name'];
+
+                            // Convert event start and end times to DateTime objects
+                            $start_time = new DateTime($event['start_time']);
+                            $end_time = new DateTime($event['end_time']);
+
+                            // Check if the event is in the past or upcoming
+                            $is_past_event = $end_time < $current_datetime;
+                            ?>
+
+                            <tr>
+                                <td class="event-date"><?php echo esc_html(date('l, j F Y', strtotime($event['start_time']))); ?></td>
+                                <td class="event-time"><?php echo esc_html(date('h:ia', strtotime($event['start_time'])) . ' - ' . date('h:ia', strtotime($event['end_time']))); ?></td>
+                                <td class="event-info">
+                                    <strong><?php echo esc_html($name); ?></strong><br>
+                                    Event type: <strong><?php echo esc_html($event['name']); ?></strong>
+                                </td>
+                                <td class="event-action">
+                                    <?php echo $is_past_event ? 'Past' : 'Upcoming'; ?>
+                                </td>
+                            </tr>
+
+                        <?php endforeach; ?>
+                    <?php endif; ?>
+
+                </tbody>
+            </table>
+
+
+        </div>
     </div>
+
+    <script>
+        // JavaScript function to switch between tabs
+        function showTab(tabId) {
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            // Hide all tab contents
+            tabContents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Deactivate all tabs
+            tabs.forEach(tab => {
+                tab.classList.remove('active-tab');
+            });
+
+            // Activate the selected tab
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active-tab');
+        }
+    </script>
+
+
 
 </div>
