@@ -3682,11 +3682,13 @@ a.calendly-connect-button img {
 .tab-container {
     display: flex;
     gap: 5px;
+    background: #fff7f7;
+    padding: 8px 10px;
+    border-radius: 10px;
 }
-
 /* Individual tab */
 .tab-container .tab {
-    padding: 10px 20px;
+    padding: 8px 20px;
     cursor: pointer;
     background-color: #fff7f7;
     border-radius: 10px;
