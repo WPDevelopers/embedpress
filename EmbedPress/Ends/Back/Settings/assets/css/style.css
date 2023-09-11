@@ -3431,7 +3431,7 @@ button.button__instagram.hover__highlight:hover .icon {
 .calendly-embedpress-authorize-button {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
 }
 
 .calendly-settings-title {
@@ -3443,10 +3443,13 @@ a.calendly-connect-button {
     align-items: center;
     gap: 6px;
     background: #3664ae;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 17px;
+    padding: 8px 15px;
+    border-radius: 10px;
+    font-size: 15px;
     color: #fff;
+}
+a.calendly-connected{
+    pointer-events: none!important;
 }
 
 a.calendly-connect-button img {
@@ -3678,20 +3681,22 @@ a.calendly-connect-button img {
 /* Tab container */
 .tab-container {
     display: flex;
-    background-color: #f0f0f0;
+    gap: 5px;
 }
 
 /* Individual tab */
-.tab {
+.tab-container .tab {
     padding: 10px 20px;
     cursor: pointer;
-    background-color: #fff;
+    background-color: #fff7f7;
+    border-radius: 10px;
+    font-size: 15px;
+
 }
 
 /* Active tab */
-.active-tab {
+.tab-container .active-tab {
     background-color: #3664ae;
-    border-radius: 10px;
     color: #fff;
 }
 
@@ -3704,4 +3709,48 @@ a.calendly-connect-button img {
 /* Show the active tab content */
 .tab-content.active {
     display: block;
+}
+
+.calendly-data-placeholder {
+    position: relative;
+    margin-top: 15px;
+}
+.calendly-data-placeholder img {
+    pointer-events: none;
+}
+
+.calendly-data-placeholder {
+    position: relative;
+    margin-top: 5px;
+    padding-top: 5px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #3664ae26;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 10px;
+    align-items: center;
+}
+
+.overlay-button {
+    background-color: #3664ae;
+    color: #fff!important;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+    max-width: 300px;
+    border-radius: 10px;
+}
+
+.calendly-connector-container {
+    display: flex;
+    gap: 5px;
 }

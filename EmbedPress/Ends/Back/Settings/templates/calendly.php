@@ -28,38 +28,48 @@ if (!function_exists('getCalendlyUuid')) {
     }
 }
 
+$calendly_tokens = get_option('calendly_tokens');
+$expirationTime = $calendly_tokens['created_at'] + $calendly_tokens['expires_in'];
+$currentTimestamp = time();
 
 ?>
 
 <div class="embedpress_calendly_settings  background__white radius-25 p40">
     <h3 class="calendly-settings-title"><?php esc_html_e("Calendly Settings", "embedpress"); ?></h3>
     <div class="calendly-embedpress-authorize-button">
-        <div class="account-wrap full-width-layout">
 
+        <div class="calendly-connector-container">
+            <div class="account-wrap full-width-layout">
+
+                <?php if (is_array($scheduled_events) && count($scheduled_events) > 0) : ?>
+                    <div title="<?php echo esc_attr__('Calendly already connected', 'embedpress'); ?>">
+                        <a href="#" class="calendly-connect-button calendly-connected">
+                            <img class="embedpress-calendly-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/calendly-white.svg" alt="calendly">
+                            <?php echo esc_html__('Connected', 'embedpress'); ?>
+                        </a>
+                    </div>
+                <?php else : ?>
+                    <a href="<?php echo esc_url($authorize_url); ?>" class="calendly-connect-button" target="_self" title="Connect with Calendly">
+                        <img class="embedpress-calendly-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/calendly-white.svg" alt="calendly">
+                        <?php echo esc_html__('Connect with Calendly', 'embedpress'); ?>
+                    </a>
+                <?php endif; ?>
+            </div>
             <?php if (is_array($scheduled_events) && count($scheduled_events) > 0) : ?>
-                <a href="#" class="calendly-connect-button">
-                    <img class="embedpress-calendly-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/calendly-white.svg" alt="calendly">
-                    <?php echo esc_html__('Connected', 'embedpress'); ?>
-                </a>
-            <?php else : ?>
-                <a href="<?php echo esc_url($authorize_url); ?>" class="calendly-connect-button" target="_self" title="Connect with Calendly">
-                    <img class="embedpress-calendly-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/calendly-white.svg" alt="calendly">
-                    <?php echo esc_html__('Connect with Calendly', 'embedpress'); ?>
-                </a>
+                <?php if ($currentTimestamp >= $expirationTime) : ?>
+                    <div class="calendly-sync-button">
+                        <a href="<?php echo esc_url($authorize_url); ?>" class="calendly-connect-button" target="_self" title="Sync new calendly data">
+                            <span class="dashicons dashicons-update-alt emcs-dashicon"></span><?php echo esc_html__('Sync', 'embedpress'); ?>
+                        </a>
+                    </div>
+                <?php endif; ?>
             <?php endif; ?>
         </div>
-
-        <div class="calendly-sync-button tab active-tab" onclick="showTab('event-types')">Event Types</div>
-        <!-- Scheduled Events Tab -->
-        <div class="calendly-sync-button tab" onclick="showTab('scheduled-events')">Scheduled Events</div>
-
-        <?php if (is_array($scheduled_events) && count($scheduled_events) > 0) : ?>
-            <div class="calendly-sync-button">
-                <a href="<?php echo esc_url($authorize_url); ?>" class="calendly-connect-button" target="_self" title="Connect with Calendly">
-                    <span class="dashicons dashicons-update-alt emcs-dashicon"></span><?php echo esc_html__('Sync', 'embedpress'); ?>
-                </a>
-            </div>
-        <?php endif; ?>
+        <div class="tab-container">
+            <div class="calendly-Event-button tab active-tab" onclick="showTab('event-types')">Event Types</div>
+            <!-- Scheduled Events Tab -->
+            <div class="calendly-Scheduled-button tab" onclick="showTab('scheduled-events')">Scheduled Events</div>
+        </div>
 
     </div>
 
@@ -86,17 +96,16 @@ if (!function_exists('getCalendlyUuid')) {
                             </a>
                         </div>
                     </div>
-
-                    <div>
+                    <?php if (is_embedpress_pro_active()) : ?>
                         <div class="event-type-card-list">
                             <?php
-                            if (is_array($scheduled_events) && count($scheduled_events) > 0) :
-                                foreach ($event_types['collection'] as $item) :
-                                    $status = 'In-active';
-                                    if (!empty($item['active'])) {
-                                        $status = 'Active';
-                                    }
-                                    ?>
+                                if (is_array($scheduled_events) && count($scheduled_events) > 0) :
+                                    foreach ($event_types['collection'] as $item) :
+                                        $status = 'In-active';
+                                        if (!empty($item['active'])) {
+                                            $status = 'Active';
+                                        }
+                                        ?>
                                     <div class="event-type-card-list-item" data-event-status="<?php echo esc_attr($status); ?>" style="color: var(--calendly-card-color); ">
                                         <div class="event-type-card">
                                             <div class="event-type-card-top">
@@ -118,12 +127,19 @@ if (!function_exists('getCalendlyUuid')) {
 
                                     </div>
                             <?php
-                                endforeach;
-                            endif;
+                                    endforeach;
+                                endif;
 
-                            ?>
+                                ?>
                         </div>
-                    </div>
+                    <?php else : ?>
+                        <div class="calendly-data-placeholder">
+                            <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/blur-event-type.png'); ?>" alt="<?php echo esc_attr__('Get PRO to Unlock', 'embedpress'); ?>">
+                            <div class="overlay">
+                                <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" class="overlay-button" target="_blank"><?php echo esc_html__('Get PRO to Unlock', 'embedpress'); ?></a>
+                            </div>
+                        </div>
+                    <?php endif ?>
                 </div>
             </div>
 
@@ -134,93 +150,113 @@ if (!function_exists('getCalendlyUuid')) {
     <div class="tab-content" id="scheduled-events">
 
         <div class="calendly-day-list">
+            <?php if (is_embedpress_pro_active()) : ?>
+                <table class="rwd-table" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Event</th>
+                            <th>Scheduled Events</th>
+                        </tr>
+                        <?php
+                            $index = 0;
+                            $current_datetime = new DateTime(); // Get the current date and time
 
-            <table class="rwd-table" cellspacing="0">
-                <tbody>
-                    <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Event</th>
-                        <th>Scheduled Events</th>
-                    </tr>
-                    <?php
-                    $index = 0;
-                    $current_datetime = new DateTime(); // Get the current date and time
+                            $upcoming_events = [];
+                            $past_events = [];
 
-                    $upcoming_events = [];
-                    $past_events = [];
+                            if (is_array($scheduled_events) && count($scheduled_events) > 0) {
+                                foreach ($scheduled_events['collection'] as $event) {
+                                    $uuid = getCalendlyUuid($event['uri']);
+                                    $name = $invtitees_list[$uuid]['collection'][$index]['name'];
 
-                    if (is_array($scheduled_events) && count($scheduled_events) > 0) {
-                        foreach ($scheduled_events['collection'] as $event) {
-                            $uuid = getCalendlyUuid($event['uri']);
-                            $name = $invtitees_list[$uuid]['collection'][$index]['name'];
+                                    // Convert event start and end times to DateTime objects
+                                    $start_time = new DateTime($event['start_time']);
+                                    $end_time = new DateTime($event['end_time']);
 
-                            // Convert event start and end times to DateTime objects
-                            $start_time = new DateTime($event['start_time']);
-                            $end_time = new DateTime($event['end_time']);
+                                    // Check if the event is in the past or upcoming
+                                    $is_past_event = $end_time < $current_datetime;
 
-                            // Check if the event is in the past or upcoming
-                            $is_past_event = $end_time < $current_datetime;
-
-                            // Categorize events into upcoming and past
-                            if ($is_past_event) {
-                                $past_events[] = [
-                                    'event' => $event,
-                                    'name' => $name,
-                                ];
-                            } else {
-                                $upcoming_events[] = [
-                                    'event' => $event,
-                                    'name' => $name,
-                                ];
+                                    // Categorize events into upcoming and past
+                                    if ($is_past_event) {
+                                        $past_events[] = [
+                                            'event' => $event,
+                                            'name' => $name,
+                                        ];
+                                    } else {
+                                        $upcoming_events[] = [
+                                            'event' => $event,
+                                            'name' => $name,
+                                        ];
+                                    }
+                                }
                             }
-                        }
-                    }
 
-                    // Sort upcoming events by start time
-                    usort($upcoming_events, function ($a, $b) {
-                        return strtotime($a['event']['start_time']) - strtotime($b['event']['start_time']);
-                    });
+                            // Sort upcoming events by start time
+                            usort($upcoming_events, function ($a, $b) {
+                                return strtotime($a['event']['start_time']) - strtotime($b['event']['start_time']);
+                            });
 
-                    // Sort past events by start time in descending order
-                    usort($past_events, function ($a, $b) {
-                        return strtotime($b['event']['start_time']) - strtotime($a['event']['start_time']);
-                    });
+                            // Sort past events by start time in descending order
+                            usort($past_events, function ($a, $b) {
+                                return strtotime($b['event']['start_time']) - strtotime($a['event']['start_time']);
+                            });
 
-                    // Merge upcoming and past events for display
-                    $sorted_events = array_merge($upcoming_events, $past_events);
+                            // Merge upcoming and past events for display
+                            $sorted_events = array_merge($upcoming_events, $past_events);
 
 
-                    if (is_array($sorted_events) && count($sorted_events) > 0) :
-                        foreach ($sorted_events as $event_data) :
-                            $event = $event_data['event'];
-                            $name = $event_data['name'];
+                            if (is_array($sorted_events) && count($sorted_events) > 0) :
+                                foreach ($sorted_events as $event_data) :
+                                    $event = $event_data['event'];
+                                    $name = $event_data['name'];
 
-                            // Convert event start and end times to DateTime objects
-                            $start_time = new DateTime($event['start_time']);
-                            $end_time = new DateTime($event['end_time']);
+                                    // Convert event start and end times to DateTime objects
+                                    $start_time = new DateTime($event['start_time']);
+                                    $end_time = new DateTime($event['end_time']);
 
-                            // Check if the event is in the past or upcoming
-                            $is_past_event = $end_time < $current_datetime;
-                            ?>
+                                    // Check if the event is in the past or upcoming
+                                    $is_past_event = $end_time < $current_datetime;
+                                    ?>
 
-                            <tr>
-                                <td class="event-date"><?php echo esc_html(date('l, j F Y', strtotime($event['start_time']))); ?></td>
-                                <td class="event-time"><?php echo esc_html(date('h:ia', strtotime($event['start_time'])) . ' - ' . date('h:ia', strtotime($event['end_time']))); ?></td>
-                                <td class="event-info">
-                                    <strong><?php echo esc_html($name); ?></strong><br>
-                                    Event type: <strong><?php echo esc_html($event['name']); ?></strong>
-                                </td>
-                                <td class="event-action">
-                                    <?php echo $is_past_event ? 'Past' : 'Upcoming'; ?>
-                                </td>
-                            </tr>
+                                <tr>
+                                    <td class="event-date"><?php echo esc_html(date('l, j F Y', strtotime($event['start_time']))); ?></td>
+                                    <td class="event-time"><?php echo esc_html(date('h:ia', strtotime($event['start_time'])) . ' - ' . date('h:ia', strtotime($event['end_time']))); ?></td>
+                                    <td class="event-info">
+                                        <strong><?php echo esc_html($name); ?></strong><br>
+                                        Event type: <strong><?php echo esc_html($event['name']); ?></strong>
+                                    </td>
+                                    <td class="event-action">
+                                        <?php echo $is_past_event ? 'Past' : 'Upcoming'; ?>
+                                    </td>
+                                </tr>
 
-                        <?php endforeach; ?>
-                    <?php endif; ?>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            <?php else : ?>
+                <table class="rwd-table" cellspacing="0" style="width: 100%;">
+                    <tbody>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Event</th>
+                            <th>Scheduled Events</th>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="calendly-data-placeholder">
+                    <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/blur-scheduled-type.png'); ?>" alt="<?php echo esc_attr__('Get PRO to Unlock', 'embedpress'); ?>">
+                    <div class="overlay">
+                        <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" class="overlay-button" target="_blank"><?php echo esc_html__('Get PRO to Unlock', 'embedpress'); ?></a>
+                    </div>
+                </div>
+
+
+            <?php endif; ?>
 
 
         </div>

@@ -55,11 +55,8 @@ class Handler extends EndHandlerAbstract
                 'created_at' => $created_at
             );
 
-            // Serialize the array before saving it
-            $serialized_token_data = serialize($token_data);
-
             // Save the serialized data in a single option key
-            update_option('calendly_tokens', $serialized_token_data);
+            update_option('calendly_tokens', $token_data);
             
             $user_info = Helper::getCalendlyUserInfo($access_token);
             $event_types = Helper::getCalaendlyEventTypes($user_info['resource']['uri'], $access_token);
@@ -78,8 +75,8 @@ class Handler extends EndHandlerAbstract
 
             update_option( 'calendly_invitees_list', $invite_list );
 
-            // wp_redirect(admin_url('admin.php?page=embedpress&page_type=calendly'), 301);
-            // exit();
+            wp_redirect(admin_url('admin.php?page=embedpress&page_type=calendly'), 301);
+            exit();
         }
     }
 
