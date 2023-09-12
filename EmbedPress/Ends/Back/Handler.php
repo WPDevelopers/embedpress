@@ -40,7 +40,10 @@ class Handler extends EndHandlerAbstract
 
     public function handle_calendly_data()
     {
+
         if (!empty($_GET['access_token'])) {
+
+            update_option('is_calendly_connected', true);
 
             $access_token = $_GET['access_token'];
             $refresh_token = $_GET['refresh_token'];
