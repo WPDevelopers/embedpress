@@ -65,6 +65,10 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         setAttributes({ height: '48' });
     }
 
+    if(isCalendly && width === '600' && height === '450'){
+        setAttributes({ height: '950' });
+    }
+
     return (
         !editingURL && embedHTML && (
             <InspectorControls>

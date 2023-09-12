@@ -44,7 +44,7 @@ $currentTimestamp = time();
                 <?php if (is_array($scheduled_events) && count($scheduled_events) > 0) : ?>
                     <div title="<?php echo esc_attr__('Calendly already connected', 'embedpress'); ?>">
                         <a href="#" class="calendly-connect-button calendly-connected">
-                            <img class="embedpress-calendly-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/calendly-white.svg" alt="calendly">
+                            <img class="embedpress-calendly-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/calendly.svg" alt="calendly">
                             <?php echo esc_html__('Connected', 'embedpress'); ?>
                         </a>
                     </div>
@@ -56,13 +56,11 @@ $currentTimestamp = time();
                 <?php endif; ?>
             </div>
             <?php if (is_array($scheduled_events) && count($scheduled_events) > 0) : ?>
-                <?php if ($currentTimestamp >= $expirationTime) : ?>
                     <div class="calendly-sync-button">
                         <a href="<?php echo esc_url($authorize_url); ?>" class="calendly-connect-button" target="_self" title="Sync new calendly data">
                             <span class="dashicons dashicons-update-alt emcs-dashicon"></span><?php echo esc_html__('Sync', 'embedpress'); ?>
                         </a>
                     </div>
-                <?php endif; ?>
             <?php endif; ?>
         </div>
         <div class="tab-container">
@@ -114,10 +112,10 @@ $currentTimestamp = time();
                                                 <a target="_blank" href="<?php echo esc_url($item['scheduling_url']); ?>"><?php echo esc_html__('View booking page', 'embedpress'); ?></a>
                                             </div>
                                             <div class="event-type-card-bottom">
-                                                <div class="calendly-event-copy-link">
+                                                <div class="calendly-event-copy-link" data-event-link="<?php echo esc_url($item['scheduling_url']); ?>">
                                                     <svg width="40" height="40" viewBox="0 0 0.75 0.75" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0.05 0.476a0.076 0.076 0 0 0 0.076 0.074H0.2V0.5H0.126A0.026 0.026 0 0 1 0.1 0.474V0.124A0.026 0.026 0 0 1 0.126 0.098h0.35a0.026 0.026 0 0 1 0.026 0.026V0.2H0.276A0.076 0.076 0 0 0 0.2 0.276v0.35A0.076 0.076 0 0 0 0.276 0.7h0.35A0.076 0.076 0 0 0 0.702 0.624V0.274A0.076 0.076 0 0 0 0.626 0.2H0.55V0.126A0.076 0.076 0 0 0 0.476 0.05H0.126a0.076 0.076 0 0 0 -0.076 0.076v0.35Zm0.2 -0.2A0.026 0.026 0 0 1 0.276 0.25h0.35a0.026 0.026 0 0 1 0.026 0.026v0.35a0.026 0.026 0 0 1 -0.026 0.026H0.276A0.026 0.026 0 0 1 0.25 0.626V0.276Z" fill="#6633cc" /></svg>
-                                                    Copy link
+                                                        <path fill-rule="evenodd" clip-rule="evenodd" d="M0.05 0.476a0.076 0.076 0 0 0 0.076 0.074H0.2V0.5H0.126A0.026 0.026 0 0 1 0.1 0.474V0.124A0.026 0.026 0 0 1 0.126 0.098h0.35a0.026 0.026 0 0 1 0.026 0.026V0.2H0.276A0.076 0.076 0 0 0 0.2 0.276v0.35A0.076 0.076 0 0 0 0.276 0.7h0.35A0.076 0.076 0 0 0 0.702 0.624V0.274A0.076 0.076 0 0 0 0.626 0.2H0.55V0.126A0.076 0.076 0 0 0 0.476 0.05H0.126a0.076 0.076 0 0 0 -0.076 0.076v0.35Zm0.2 -0.2A0.026 0.026 0 0 1 0.276 0.25h0.35a0.026 0.026 0 0 1 0.026 0.026v0.35a0.026 0.026 0 0 1 -0.026 0.026H0.276A0.026 0.026 0 0 1 0.25 0.626V0.276Z" fill="#3664ae" /></svg>
+                                                    <span><?php echo esc_html__( 'Copy link', 'embedpress' ); ?></span>
                                                 </div>
                                                 <div class="event-status <?php echo esc_attr($status); ?>">
                                                     <?php echo esc_html($status); ?>
