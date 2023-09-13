@@ -2616,6 +2616,16 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->add_control(
+			'calendlyData',
+			[
+				'label' => __( 'Calendly Data', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'default' => '',
+				'condition' => $condition
+			]
+		);
+
+		$this->add_control(
 			'hideCookieBanner',
 			[
 				'label' => __( 'Hide Cookie Banner', 'embedpress' ),

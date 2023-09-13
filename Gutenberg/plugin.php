@@ -420,6 +420,10 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'string',
 								'default' => 'inline'
 							),
+							'calendlyData' => array(
+								'type' => 'boolean',
+								'default' => false
+							),
 							'hideCookieBanner' => array(
 								'type' => 'boolean',
 								'default' => false
