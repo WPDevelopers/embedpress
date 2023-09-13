@@ -26,6 +26,7 @@
     --base-spacer-x: 16px;
     --base-spacer-y: 16px;
     --b-radius-6: 25px;
+    --calendly-event-color: #3664ae;
 }
 
 @media (max-width: 1600px) {
@@ -3451,6 +3452,7 @@ a.calendly-connect-button {
     padding: 8px 20px;
     border-radius: 10px;
 }
+
 a.calendly-connected {
     pointer-events: none !important;
     background: rgba(54, 100, 174, 0.08);
@@ -3509,7 +3511,7 @@ a.calendly-connect-button img {
     background-color: #ffffff;
     border: 1px solid #faf4f4;
     border-radius: 5px;
-    border-top: 5px solid #63c;
+    border-top: 6px solid var(--calendly-event-color);
 }
 
 .event-type-card {
@@ -3555,11 +3557,10 @@ a.calendly-connect-button img {
 }
 
 .event-status {
-    font-weight: 600;
+    font-size: 14px;
 }
-
 .event-status.Active {
-    color: green;
+    color: #008000c9;
 }
 
 .event-status.In-active {
@@ -3580,7 +3581,7 @@ a.calendly-connect-button img {
 }
 
 [data-event-status="In-active"].event-type-card-list-item {
-    border-top-color: gray !important;
+    border-top-color: #b2b2b2 !important;
 }
 
 [data-event-status="In-active"] .calendly-event-copy-link svg path {
@@ -3639,7 +3640,7 @@ a.calendly-connect-button img {
     border-radius: .4em;
     width: 100%;
     /* Set the table width to 100% */
-    table-layout: fixed;
+    /* table-layout: fixed; */
 }
 
 .rwd-table tr {
@@ -3657,7 +3658,8 @@ a.calendly-connect-button img {
     text-align: left;
     font-family: Arial, sans-serif;
     font-size: 14px;
-    width: 25%;
+    white-space: nowrap;
+    /* width: 25%; */
     /* Divide the width evenly among the columns */
 
 }
@@ -3695,6 +3697,7 @@ a.calendly-connect-button img {
     padding: 8px 10px;
     border-radius: 10px;
 }
+
 /* Individual tab */
 .tab-container .tab {
     padding: 8px 20px;
@@ -3726,6 +3729,7 @@ a.calendly-connect-button img {
     position: relative;
     margin-top: 15px;
 }
+
 .calendly-data-placeholder img {
     pointer-events: none;
 }
@@ -3753,7 +3757,7 @@ a.calendly-connect-button img {
 
 .overlay-button {
     background-color: #3664ae;
-    color: #fff!important;
+    color: #fff !important;
     padding: 12px 20px;
     border: none;
     cursor: pointer;
@@ -3766,3 +3770,65 @@ a.calendly-connect-button img {
     align-items: end;
     gap: 5px;
 }
+
+@media only screen and (max-width: 768px) {
+    .calendly-connector-container {
+        margin-bottom: 15px;
+    }
+    .calendly-embedpress-authorize-button {
+        flex-direction: column;
+        justify-content: center;
+    }
+    .tab-container {
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+    .tab-container .tab {
+        padding: 8px 10px;
+        font-size: 14px;
+        width: 50%;
+        text-align: center;
+    }
+
+    .calendly-data {
+        overflow: auto;
+    }
+
+    .event-type-card-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .rwd-table {
+        min-width: 700px;
+        overflow: auto;
+        table-layout: auto;
+    }
+
+    .rwd-table th, .rwd-table td {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .rwd-table th, .rwd-table td {
+        padding-left: 20px !important;
+        width: auto;
+    }
+}
+
+
+@media only screen and (max-width: 480px) {
+    .event-type-card-list {
+        grid-template-columns: repeat(1, 1fr);
+    }
+    .tab-container {
+        padding: 8px 6px;
+    }
+    .tab-container .tab {
+        white-space: nowrap;
+        padding: 8px 5px;
+        font-size: 12px;
+        text-align: center;
+    }
+}
+

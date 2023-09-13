@@ -31,7 +31,7 @@ class Handler extends EndHandlerAbstract
      *
      */
 
-     public function __construct($pluginName, $pluginVersion)
+    public function __construct($pluginName, $pluginVersion)
     {
         parent::__construct($pluginName, $pluginVersion);
 
@@ -60,14 +60,12 @@ class Handler extends EndHandlerAbstract
 
             // Save the serialized data in a single option key
             update_option('calendly_tokens', $token_data);
-            
+
             $user_info = Helper::getCalendlyUserInfo($access_token);
             $event_types = Helper::getCalaendlyEventTypes($user_info['resource']['uri'], $access_token);
             $scheduled_events = Helper::getCalaendlyScheduledEvents($user_info['resource']['uri'], $access_token);
 
-            update_option( 'calendly_user_info', $user_info );
-            update_option( 'calendly_event_types', $event_types );
-            update_option( 'calendly_scheduled_events', $scheduled_events );
+
 
             $invite_list = [];
 
@@ -76,7 +74,17 @@ class Handler extends EndHandlerAbstract
                 $invite_list[$uuid] = Helper::getListEventInvitee($uuid, $access_token);
             endforeach;
 
-            update_option( 'calendly_invitees_list', $invite_list );
+            update_option('calendly_user_info', $user_info);
+
+            update_option('calendly_event_types', []);
+            update_option('calendly_scheduled_events', []);
+            update_option('calendly_invitees_list', []);
+
+            if (is_embedpress_pro_active()) {
+                update_option('calendly_event_types', $event_types);
+                update_option('calendly_scheduled_events', $scheduled_events);
+                update_option('calendly_invitees_list', $invite_list);
+            }
 
             wp_redirect(admin_url('admin.php?page=embedpress&page_type=calendly'), 301);
             exit();
@@ -124,7 +132,7 @@ class Handler extends EndHandlerAbstract
             );
 
             wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css', $this->pluginVersion, true);
-            
+
             wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true);
         }
 
