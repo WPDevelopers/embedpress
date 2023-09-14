@@ -51,7 +51,7 @@ if (isset($_GET['cstatus']) && $_GET['cstatus'] == 'disconnect') {
 
 $is_calendly_connected = get_option('is_calendly_connected');
 
-if (!is_embedpress_pro_active() || !$is_calendly_connected) {
+if (!is_embedpress_pro_active()) {
     $invtitees_list = [
         'e84408fc-d58a-421a-bf65-5efeefa182b0' => [
             'collection' => [
@@ -170,8 +170,11 @@ if (!is_embedpress_pro_active() || !$is_calendly_connected) {
             ],
         ]
     ];
+} else if (is_embedpress_pro_active() && !$is_calendly_connected) {
+    $invtitees_list = [];
+    $scheduled_events = [];
+    $event_types = [];
 }
-
 
 ?>
 
@@ -275,7 +278,8 @@ if (!is_embedpress_pro_active() || !$is_calendly_connected) {
                                     </div>
                             <?php
                                 endforeach;
-                            
+                            elseif (is_embedpress_pro_active() && !$is_calendly_connected) :
+                                echo esc_html__('Please connect with calendly', 'embedpress');
                             endif;
 
                             ?>
@@ -387,6 +391,12 @@ if (!is_embedpress_pro_active() || !$is_calendly_connected) {
 
                     </tbody>
                 </table>
+
+                <?php
+                if (is_embedpress_pro_active() && !$is_calendly_connected) :
+                    echo '<br>'.esc_html__('Please connect with calendly', 'embedpress');
+                endif;
+                ?>
 
                 <?php if (!is_embedpress_pro_active()) : ?>
                     <div class="overlay">
