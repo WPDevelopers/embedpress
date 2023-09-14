@@ -29,8 +29,27 @@ if (!function_exists('getCalendlyUuid')) {
 }
 
 
-$is_calendly_connected = get_option('is_calendly_connected');
 
+$calendly_tokens = get_option('calendly_tokens');
+$expirationTime = is_array($calendly_tokens) ? ($calendly_tokens['created_at'] ?? 0) + ($calendly_tokens['expires_in'] ?? 0) : 0;
+$currentTimestamp = time();
+
+$calendly_connect_url = $authorize_url;
+$calendly_disconnect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&cstatus=disconnect';
+
+if ($currentTimestamp < $expirationTime) {
+    $calendly_connect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&cstatus=connect';
+
+    if (isset($_GET['cstatus']) && $_GET['cstatus'] == 'connect') {
+        update_option('is_calendly_connected', true);
+    }
+}
+
+if (isset($_GET['cstatus']) && $_GET['cstatus'] == 'disconnect') {
+    update_option('is_calendly_connected', '');
+}
+
+$is_calendly_connected = get_option('is_calendly_connected');
 
 if (!is_embedpress_pro_active() || !$is_calendly_connected) {
     $invtitees_list = [
@@ -154,10 +173,6 @@ if (!is_embedpress_pro_active() || !$is_calendly_connected) {
 }
 
 
-$calendly_tokens = get_option('calendly_tokens');
-$expirationTime = is_array($calendly_tokens) ? ($calendly_tokens['created_at'] ?? 0) + ($calendly_tokens['expires_in'] ?? 0) : 0;
-$currentTimestamp = time();
-
 ?>
 
 <div class="embedpress_calendly_settings  background__white radius-25 p40">
@@ -169,13 +184,13 @@ $currentTimestamp = time();
 
                 <?php if (!empty($is_calendly_connected)) : ?>
                     <div title="<?php echo esc_attr__('Calendly already connected', 'embedpress'); ?>">
-                        <a href="#" class="calendly-connect-button calendly-connected">
+                        <a href="<?php echo esc_url($calendly_disconnect_url); ?>" class="calendly-connect-button calendly-connected">
                             <img class="embedpress-calendly-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/calendly.svg" alt="calendly">
-                            <?php echo esc_html__('Connected', 'embedpress'); ?>
+                            <?php echo esc_html__('Disconnect', 'embedpress'); ?>
                         </a>
                     </div>
                 <?php else : ?>
-                    <a href="<?php echo esc_url($authorize_url); ?>" class="calendly-connect-button" target="_self" title="Connect with Calendly">
+                    <a href="<?php echo esc_url($calendly_connect_url); ?>" class="calendly-connect-button" target="_self" title="Connect with Calendly">
                         <img class="embedpress-calendly-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/calendly.svg" alt="calendly">
                         <?php echo esc_html__('Connect with Calendly', 'embedpress'); ?>
                     </a>
@@ -260,6 +275,7 @@ $currentTimestamp = time();
                                     </div>
                             <?php
                                 endforeach;
+                            
                             endif;
 
                             ?>

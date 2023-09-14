@@ -3452,9 +3452,13 @@ a.calendly-connect-button {
     padding: 8px 20px;
     border-radius: 10px;
 }
+a.calendly-connect-button:hover {
+    color: #fff;
+    background: rgb(54, 100, 174);
+}
 
 a.calendly-connected {
-    pointer-events: none !important;
+    /* pointer-events: none !important; */
     background: rgba(54, 100, 174, 0.08);
     border-width: 1px;
     border-style: solid;
@@ -3505,6 +3509,10 @@ a.calendly-connect-button img {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
     margin-top: 15px;
+}
+
+.calendly-data-placeholder .event-type-card-list {
+    padding: 0 20px 20px;
 }
 
 .event-type-card-list-item {
@@ -3758,11 +3766,11 @@ a.calendly-connect-button img {
 .overlay-button {
     background-color: #006bff;
     color: #fff !important;
-    padding: 12px 20px;
+    padding: 10px 20px;
     border: none;
     cursor: pointer;
     max-width: 300px;
-    font-weight: 600;
+    font-weight: 500;
     border-radius: 10px;
 }
 
