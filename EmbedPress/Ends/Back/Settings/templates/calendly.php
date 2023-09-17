@@ -282,6 +282,8 @@ if (!is_embedpress_pro_active()) {
                                 endforeach;
                             elseif (is_embedpress_pro_active() && !$is_calendly_connected) :
                                 echo esc_html__('Please connect with calendly', 'embedpress');
+                            elseif (is_embedpress_pro_active() && $is_calendly_connected && count($event_types) < 1) :
+                                echo esc_html__('Calendly has no events.', 'embedpress');
                             endif;
 
                             ?>
@@ -388,15 +390,17 @@ if (!is_embedpress_pro_active()) {
                                     </td>
                                 </tr>
 
-                            <?php endforeach; ?>
-                        <?php endif; ?>
+                        <?php endforeach;
+                        elseif (is_embedpress_pro_active() && $is_calendly_connected && count($sorted_events) < 1) :
+                            echo esc_html__('Calendly has no events.', 'embedpress');
+                        endif; ?>
 
                     </tbody>
                 </table>
 
                 <?php
                 if (is_embedpress_pro_active() && !$is_calendly_connected) :
-                    echo '<br>'.esc_html__('Please connect with calendly', 'embedpress');
+                    echo '<br>' . esc_html__('Please connect with calendly', 'embedpress');
                 endif;
                 ?>
 

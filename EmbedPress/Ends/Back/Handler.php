@@ -40,7 +40,7 @@ class Handler extends EndHandlerAbstract
 
     public function handle_calendly_data()
     {
-
+ 
         if (!empty($_GET['access_token']) || (isset($_GET['calendly_status']) && ($_GET['calendly_status'] == 'sync' || $_GET['calendly_status'] == 'connect')) ) {
 
             update_option('is_calendly_connected', true);
