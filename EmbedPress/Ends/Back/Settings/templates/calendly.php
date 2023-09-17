@@ -217,8 +217,6 @@ if (!is_embedpress_pro_active()) {
 
     </div>
 
-
-
     <!-- Event Types Content -->
     <div class="tab-content active" id="event-types">
         <div class="event-type-list">
@@ -392,7 +390,7 @@ if (!is_embedpress_pro_active()) {
 
                         <?php endforeach;
                         elseif (is_embedpress_pro_active() && $is_calendly_connected && count($sorted_events) < 1) :
-                            echo esc_html__('Calendly has no events.', 'embedpress');
+                            echo esc_html__('Calendly has no schedule.', 'embedpress');
                         endif; ?>
 
                     </tbody>
