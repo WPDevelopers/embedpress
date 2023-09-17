@@ -251,7 +251,7 @@ if (!is_embedpress_pro_active()) {
 
                         <div class="event-type-card-list">
                             <?php
-                            if (is_array($event_types) && count($event_types) > 0) :
+                            if (is_array($event_types) && isset($scheduled_events['collection']) && count($event_types) > 0) :
                                 foreach ($event_types['collection'] as $item) :
                                     $status = 'In-active';
                                     if (!empty($item['active'])) {
@@ -320,7 +320,7 @@ if (!is_embedpress_pro_active()) {
                         $upcoming_events = [];
                         $past_events = [];
 
-                        if (is_array($scheduled_events) && count($scheduled_events) > 0) {
+                        if (is_array($scheduled_events) && isset($scheduled_events['collection']) && count($scheduled_events) > 0) {
                             foreach ($scheduled_events['collection'] as $event) {
                                 $uuid = getCalendlyUuid($event['uri']);
 
