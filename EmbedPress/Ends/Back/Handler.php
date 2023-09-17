@@ -92,7 +92,7 @@ class Handler extends EndHandlerAbstract
                 update_option('calendly_invitees_list', $invite_list);
             }
 
-            wp_redirect(admin_url('admin.php?page=embedpress&page_type=calendly'), 301);
+            wp_redirect(admin_url('admin.php?page=embedpress&page_type=calendly'), 302);
             exit();
         }
     }
