@@ -35,10 +35,12 @@ $expirationTime = is_array($calendly_tokens) ? ($calendly_tokens['created_at'] ?
 $currentTimestamp = time();
 
 $calendly_connect_url = $authorize_url;
+$calendly_sync_url = $authorize_url;
 $calendly_disconnect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&cstatus=disconnect';
 
 if ($currentTimestamp < $expirationTime) {
     $calendly_connect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&cstatus=connect';
+    $calendly_sync_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&cstatus=sync';
 
     if (isset($_GET['cstatus']) && $_GET['cstatus'] == 'connect') {
         update_option('is_calendly_connected', true);
@@ -201,7 +203,7 @@ if (!is_embedpress_pro_active()) {
             </div>
             <?php if ($is_calendly_connected) : ?>
                 <div class="calendly-sync-button">
-                    <a href="<?php echo esc_url($authorize_url); ?>" class="calendly-connect-button" target="_self" title="Sync new calendly data">
+                    <a href="<?php echo esc_url($calendly_sync_url); ?>" class="calendly-connect-button" target="_self" title="Sync new calendly data">
                         <span class="dashicons dashicons-update-alt emcs-dashicon"></span><?php echo esc_html__('Sync', 'embedpress'); ?>
                     </a>
                 </div>
@@ -241,7 +243,7 @@ if (!is_embedpress_pro_active()) {
                                 </a>
                             </div>
                         <?php else : ?>
-                            <?php echo esc_html__('Events Demo Data', 'embedpress'); ?>
+                            <?php echo esc_html__('Events', 'embedpress'); ?>
                         <?php endif; ?>
                     </div>
                     <div class="calendly-data<?php if (!is_embedpress_pro_active()) : echo '-placeholder';

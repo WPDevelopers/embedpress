@@ -41,14 +41,22 @@ class Handler extends EndHandlerAbstract
     public function handle_calendly_data()
     {
 
-        if (!empty($_GET['access_token'])) {
+        if (!empty($_GET['access_token']) || (isset($_GET['cstatus']) && ($_GET['cstatus'] == 'sync' || $_GET['cstatus'] == 'connect')) ) {
 
             update_option('is_calendly_connected', true);
 
-            $access_token = $_GET['access_token'];
-            $refresh_token = $_GET['refresh_token'];
-            $expires_in = $_GET['expires_in'];
-            $created_at = $_GET['created_at'];
+            if (isset($_GET['access_token']) && !empty($_GET['access_token'])) {
+                $access_token = $_GET['access_token'];
+                $refresh_token = $_GET['refresh_token'];
+                $expires_in = $_GET['expires_in'];
+                $created_at = $_GET['created_at'];
+            } elseif (isset($_GET['cstatus']) && ($_GET['cstatus'] == 'sync' || $_GET['cstatus'] == 'connect')) {
+                $token_data = get_option('calendly_tokens');
+                $access_token = $token_data['access_token'];
+                $refresh_token = $token_data['refresh_token'];
+                $expires_in = $token_data['expires_in'];
+                $created_at = $token_data['created_at'];
+            }
 
             // Create an array to store the tokens and expiration time
             $token_data = array(
@@ -61,11 +69,10 @@ class Handler extends EndHandlerAbstract
             // Save the serialized data in a single option key
             update_option('calendly_tokens', $token_data);
 
+
             $user_info = Helper::getCalendlyUserInfo($access_token);
             $event_types = Helper::getCalaendlyEventTypes($user_info['resource']['uri'], $access_token);
             $scheduled_events = Helper::getCalaendlyScheduledEvents($user_info['resource']['uri'], $access_token);
-
-
 
             $invite_list = [];
 
