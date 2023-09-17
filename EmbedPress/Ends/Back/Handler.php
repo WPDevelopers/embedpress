@@ -41,7 +41,7 @@ class Handler extends EndHandlerAbstract
     public function handle_calendly_data()
     {
 
-        if (!empty($_GET['access_token']) || (isset($_GET['cstatus']) && ($_GET['cstatus'] == 'sync' || $_GET['cstatus'] == 'connect')) ) {
+        if (!empty($_GET['access_token']) || (isset($_GET['calendly_status']) && ($_GET['calendly_status'] == 'sync' || $_GET['calendly_status'] == 'connect')) ) {
 
             update_option('is_calendly_connected', true);
 
@@ -50,7 +50,7 @@ class Handler extends EndHandlerAbstract
                 $refresh_token = $_GET['refresh_token'];
                 $expires_in = $_GET['expires_in'];
                 $created_at = $_GET['created_at'];
-            } elseif (isset($_GET['cstatus']) && ($_GET['cstatus'] == 'sync' || $_GET['cstatus'] == 'connect')) {
+            } elseif (isset($_GET['calendly_status']) && ($_GET['calendly_status'] == 'sync' || $_GET['calendly_status'] == 'connect')) {
                 $token_data = get_option('calendly_tokens');
                 $access_token = $token_data['access_token'];
                 $refresh_token = $token_data['refresh_token'];
@@ -68,7 +68,6 @@ class Handler extends EndHandlerAbstract
 
             // Save the serialized data in a single option key
             update_option('calendly_tokens', $token_data);
-
 
             $user_info = Helper::getCalendlyUserInfo($access_token);
             $event_types = Helper::getCalaendlyEventTypes($user_info['resource']['uri'], $access_token);

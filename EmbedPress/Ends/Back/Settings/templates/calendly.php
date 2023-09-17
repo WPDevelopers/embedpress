@@ -36,18 +36,18 @@ $currentTimestamp = time();
 
 $calendly_connect_url = $authorize_url;
 $calendly_sync_url = $authorize_url;
-$calendly_disconnect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&cstatus=disconnect';
+$calendly_disconnect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=disconnect';
 
 if ($currentTimestamp < $expirationTime) {
-    $calendly_connect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&cstatus=connect';
-    $calendly_sync_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&cstatus=sync';
+    $calendly_connect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=connect';
+    $calendly_sync_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=sync';
 
-    if (isset($_GET['cstatus']) && $_GET['cstatus'] == 'connect') {
+    if (isset($_GET['calendly_status']) && $_GET['calendly_status'] == 'connect') {
         update_option('is_calendly_connected', true);
     }
 }
 
-if (isset($_GET['cstatus']) && $_GET['cstatus'] == 'disconnect') {
+if (isset($_GET['calendly_status']) && $_GET['calendly_status'] == 'disconnect') {
     update_option('is_calendly_connected', '');
 }
 
