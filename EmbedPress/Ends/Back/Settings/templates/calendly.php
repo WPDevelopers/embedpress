@@ -201,7 +201,7 @@ if (!is_embedpress_pro_active()) {
                     </a>
                 <?php endif; ?>
             </div>
-            <?php if ($is_calendly_connected) : ?>
+            <?php if ($is_calendly_connected && is_embedpress_pro_active()) : ?>
                 <div class="calendly-sync-button">
                     <a href="<?php echo esc_url($calendly_sync_url); ?>" class="calendly-connect-button" target="_self" title="Sync new calendly data">
                         <span class="dashicons dashicons-update-alt emcs-dashicon"></span><?php echo esc_html__('Sync', 'embedpress'); ?>
@@ -389,8 +389,6 @@ if (!is_embedpress_pro_active()) {
                                 </tr>
 
                         <?php endforeach;
-                        elseif (is_embedpress_pro_active() && $is_calendly_connected && count($sorted_events) < 1) :
-                            echo esc_html__('Calendly has no schedule.', 'embedpress');
                         endif; ?>
 
                     </tbody>
@@ -399,6 +397,8 @@ if (!is_embedpress_pro_active()) {
                 <?php
                 if (is_embedpress_pro_active() && !$is_calendly_connected) :
                     echo '<br>' . esc_html__('Please connect with calendly', 'embedpress');
+                elseif (is_embedpress_pro_active() && $is_calendly_connected && count($sorted_events) < 1) :
+                    echo esc_html__('Calendly has no schedule.', 'embedpress');
                 endif;
                 ?>
 
