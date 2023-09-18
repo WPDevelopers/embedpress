@@ -3,17 +3,17 @@
 @font-face {
     font-family: 'DMSans-Regular';
     src: url('./fonts/DMSans-Regular.svg#DMSans-Regular') format('svg'),
-         url('./fonts/DMSans-Regular.ttf') format('truetype'),
-         url('./fonts/DMSans-Regular.woff') format('woff');
+        url('./fonts/DMSans-Regular.ttf') format('truetype'),
+        url('./fonts/DMSans-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-  }
-  
-  @font-face {
+}
+
+@font-face {
     font-family: 'DMSans';
     src: url('./fonts/DMSans.eot');
     src: url('./fonts/DMSans.eot?#iefix') format('embedded-opentype'),
-         url('./fonts/DMSans.woff2') format('woff2');
+        url('./fonts/DMSans.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
@@ -26,6 +26,7 @@
     --base-spacer-x: 16px;
     --base-spacer-y: 16px;
     --b-radius-6: 25px;
+    --pro-upgrade-margin-bottom: 20px;
 }
 
 @media (max-width: 1600px) {
@@ -1633,10 +1634,30 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 .embedpress-header {
-    padding-bottom: 25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: #fff;
+    padding: 15px 15px;
+    margin-bottom: 15px;
+    border-radius: 20px;
+}
+
+header.embedpress-header img {
+    width: 150px;
+}
+
+header.embedpress-header p {
+    font-size: 15px;
+    color: #25396F;
+}
+
+header.embedpress-header a {
+    color: #FF7369 !important;
+}
+
+a.site__logo {
+    display: inline-flex;
 }
 
 .embedpress-sidebar {
@@ -1645,11 +1666,12 @@ button.button__instagram.hover__highlight:hover .icon {
     border-radius: 25px;
     position: relative;
 }
+
 .embedpress-version-wrapper li {
-        font-size: 14px;
-        font-weight: 800;
-        color: #7C8DB5;
-        text-align: right;
+    font-size: 14px;
+    font-weight: 800;
+    color: #7C8DB5;
+    text-align: right;
 }
 
 @media all and (max-width: 767px) {
@@ -1663,9 +1685,11 @@ button.button__instagram.hover__highlight:hover .icon {
     .embedpress-header {
         display: block;
     }
+
     .embedpress-header .embedpress-version-wrapper {
         margin-top: 10px;
     }
+
     .embedpress-version-wrapper li {
         text-align: left;
     }
@@ -1748,7 +1772,7 @@ button.button__instagram.hover__highlight:hover .icon {
     transition: rotate .3s ease;
 }
 
-.embedpress-sidebar .sidebar__menu .sidebar__item .sidebar__link.active + .dropdown__menu {
+.embedpress-sidebar .sidebar__menu .sidebar__item .sidebar__link.active+.dropdown__menu {
     display: block;
 }
 
@@ -1776,6 +1800,7 @@ button.button__instagram.hover__highlight:hover .icon {
     color: #7C8DB5;
     display: flex;
 }
+
 .embedpress-sidebar .sidebar__menu .sidebar__item .dropdown__menu .dropdown__item .dropdown__link img {
     max-width: 16px;
     margin-right: 7px;
@@ -1817,12 +1842,15 @@ button.button__instagram.hover__highlight:hover .icon {
     .embedpress-tab .nav__menu ul:not(.menu__grow) {
         display: block;
     }
+
     .embedpress-tab .nav__menu ul:not(.menu__grow) .nav__item:not(:last-child) {
         margin-right: 0;
     }
+
     .embedpress-tab .nav__menu ul:not(.menu__grow) .nav__item:first-child span {
         border-top-right-radius: 10px;
     }
+
     .embedpress-tab .nav__menu ul:not(.menu__grow) .nav__item:last-child span {
         border-top-right-radius: 0;
     }
@@ -1904,7 +1932,7 @@ button.button__instagram.hover__highlight:hover .icon {
     min-height: 100%;
 }
 
-.upgrade__card + .embedpress__settings {
+.upgrade__card+.embedpress__settings {
     min-height: auto;
 }
 
@@ -2015,7 +2043,7 @@ button.button__instagram.hover__highlight:hover .icon {
     display: none;
 }
 
-.input__radio input:checked ~ span:after {
+.input__radio input:checked~span:after {
     opacity: 1;
 }
 
@@ -2055,11 +2083,11 @@ button.button__instagram.hover__highlight:hover .icon {
     display: none;
 }
 
-.template__wrapper .input__switch input:checked ~ span {
+.template__wrapper .input__switch input:checked~span {
     background: #5B4E96;
 }
 
-.template__wrapper .input__switch input:checked ~ span:before {
+.template__wrapper .input__switch input:checked~span:before {
     left: 15px;
 }
 
@@ -2165,6 +2193,7 @@ button.button__instagram.hover__highlight:hover .icon {
         font-weight: 700;
         margin-right: 15px;
     }
+
     .iframe__size__control__form .form__group label:after {
         content: ':';
     }
@@ -2269,6 +2298,7 @@ button.button__instagram.hover__highlight:hover .icon {
         margin-bottom: 10px;
         font-weight: 700;
     }
+
     .embedpress__settings__form .form__group .form__label:after {
         content: ':';
     }
@@ -2321,11 +2351,104 @@ button.button__instagram.hover__highlight:hover .icon {
     color: #7C8DB5;
     margin-top: 10px;
 }
+
 .embedpress__settings__form .form__group .form__control__wrap p.ep-note {
     font-size: 12px;
 }
+
 .embedpress__settings__form .form__group .form__control__wrap .isPro:not(.embedpress__select) {
     opacity: 0.3;
+}
+
+.embedpress-genral-settings-page {
+    display: flex;
+}
+
+.embedpress_general_settings__form {
+    width: calc(100% - 230px);
+}
+
+.embedpress-upgrade-pro-sidebar {
+    width: 230px;
+    border-radius: 16px;
+    background: linear-gradient(192deg, #FFE3E1 4%, #E9E4FF 98.26%);
+    padding: 6px;
+}
+
+.embedpress-upgrade-pro-sidebar .gradient-color{
+    border-radius: 16px;
+    background: white;
+    padding: 15px;
+
+
+}
+
+.embedpress-upgrade-pro-sidebar img.embedpress-banner {
+    margin-bottom: var(--pro-upgrade-margin-bottom);
+}
+
+.embedpress-upgrade-pro-sidebar h3 {
+    color: #25396F;
+    font-family: DMSans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    margin-bottom: var(--pro-upgrade-margin-bottom);
+}
+
+.embedpress-upgrade-pro-sidebar h3 span {
+    color: #FF7369;
+}
+
+ul.feature-list {
+    margin-bottom: 30px;
+}
+
+ul.feature-list li {
+    display: flex;
+    align-items: start;
+    gap: 5px;
+    margin-bottom: 6px;
+    color: #25396fde;
+    font-family: DMSans;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px;
+}
+
+ul.feature-list img {
+    margin-top: 0px;
+    width: 18px;
+    height: 20px;
+}
+
+p.embedpress-tagline {
+    color: #707070;
+    font-family: DMSans;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+    text-align: center;
+    margin-bottom: var(--pro-upgrade-margin-bottom);
+}
+
+.pro-upgrade-button {
+    border-radius: 8px;
+    background: #FF7369;
+    padding: 10px 20px;
+    color: #fff !important;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    line-height: 120%;
+    width: 100%;
+    display: flex !important;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
 }
 
 .frame__size__wrap {
@@ -2333,10 +2456,12 @@ button.button__instagram.hover__highlight:hover .icon {
     display: -ms-flexbox;
     display: flex;
 }
+
 .template__wrapper .button.ep-settings-form-changed {
     background: #f11d1d;
-    color:#fff;
+    color: #fff;
 }
+
 @media (max-width: 1199px) {
     .frame__size__wrap {
         display: block;
@@ -2372,6 +2497,7 @@ button.button__instagram.hover__highlight:hover .icon {
     visibility: hidden;
     transition: all .3s ease;
 }
+
 .form__control__wrap .input__switch .logo__adjust__toggler i {
     font-size: 10px;
     margin-left: 8px;
@@ -2381,11 +2507,12 @@ button.button__instagram.hover__highlight:hover .icon {
     transition: all .3s ease;
     transform: rotate(0);
 }
+
 .form__control__wrap .input__switch .logo__adjust__toggler.show i {
     transform: rotate(-180deg);
 }
 
-.form__control__wrap .input__switch input[type="checkbox"]:checked ~ .logo__adjust__toggler {
+.form__control__wrap .input__switch input[type="checkbox"]:checked~.logo__adjust__toggler {
     opacity: 1;
     visibility: visible;
 }
@@ -2449,6 +2576,7 @@ button.button__instagram.hover__highlight:hover .icon {
     transform: translate(-50%, -50%);
     font-size: 0;
 }
+
 .logo__adjust__wrap .logo__upload__preview .instant__preview .preview__remove {
     position: absolute;
     bottom: 100%;
@@ -2461,6 +2589,7 @@ button.button__instagram.hover__highlight:hover .icon {
     line-height: 22px;
     border-radius: 50%;
 }
+
 .logo__adjust__wrap .logo__adjust {
     margin-top: 20px;
     display: -webkit-box;
@@ -2572,7 +2701,7 @@ button.button__instagram.hover__highlight:hover .icon {
 .logo__adjust__wrap .logo__adjust .logo__adjust__preview .preview__box iframe {
     width: 100%;
     height: 100%;
-    min-height:300px;
+    min-height: 300px;
 }
 
 .logo__adjust__wrap .logo__adjust .logo__adjust__preview .preview__box img {
@@ -2592,6 +2721,7 @@ button.button__instagram.hover__highlight:hover .icon {
     z-index: 99999;
     display: none;
 }
+
 .pro__alert__wrap .pro__alert__card, .tips__alert__wrap .tips__alert__card {
     width: calc(100% - 30px);
     max-width: 500px;
@@ -2604,27 +2734,32 @@ button.button__instagram.hover__highlight:hover .icon {
     align-items: center;
     text-align: center;
 }
+
 .pro__alert__wrap .pro__alert__card img, .tips__alert__wrap .tips__alert__card img {
     height: 100px;
     margin-bottom: 20px;
 }
+
 .pro__alert__wrap .pro__alert__card h2, .tips__alert__wrap .tips__alert__card h2 {
     font-size: 32px;
     font-weight: 500;
     color: #131F4D;
     margin-bottom: 15px;
 }
+
 .pro__alert__wrap .pro__alert__card p, .tips__alert__wrap .tips__alert__card p {
     font-size: 14px;
     font-weight: 400;
     color: #7C8DB5;
     margin-bottom: 15px;
 }
+
 .pro__alert__wrap .pro__alert__card p a, .tips__alert__wrap .tips__alert__card a {
     text-decoration: underline;
     font-weight: 700;
     color: #131F4D;
 }
+
 .pro__alert__wrap .pro__alert__card .button, .tips__alert__wrap .tips__alert__card button {
     align-self: flex-end;
     margin-top: 20px;
@@ -2879,6 +3014,7 @@ button.button__instagram.hover__highlight:hover .icon {
     .embedpress-license__details .license__content .form__inline {
         display: block;
     }
+
     .embedpress-license__details .license__content .form__inline .form__group {
         margin-bottom: 25px;
         margin-right: 0;
@@ -2890,6 +3026,7 @@ button.button__instagram.hover__highlight:hover .icon {
     /* text-align: center; */
     margin-bottom: 30px;
 }
+
 .embedpress-license__details .license__content .thumb__area img {
     max-width: 320px;
 }
@@ -2979,6 +3116,7 @@ button.button__instagram.hover__highlight:hover .icon {
         top: 15px;
         left: 15px;
     }
+
     .embedpress-license__details .license__content .form__group .input__icon i {
         font-size: 16px;
     }
@@ -3163,6 +3301,7 @@ button.button__instagram.hover__highlight:hover .icon {
     margin-right: 10px;
     position: relative;
 }
+
 .element__item .has__question .element__tooltip {
     position: absolute;
     bottom: calc(100% + 12px);
@@ -3179,10 +3318,12 @@ button.button__instagram.hover__highlight:hover .icon {
     visibility: hidden;
     z-index: 9;
 }
+
 .element__item .has__question:hover .element__tooltip {
     visibility: visible;
     opacity: 1;
 }
+
 .element__item .has__question .element__tooltip:before {
     position: absolute;
     top: 100%;
@@ -3193,6 +3334,7 @@ button.button__instagram.hover__highlight:hover .icon {
     border-top: 10px solid #5B4E96;
     content: '';
 }
+
 .element__item .input__switch {
     margin-left: auto;
     margin-bottom: 0;
@@ -3251,7 +3393,8 @@ button.button__instagram.hover__highlight:hover .icon {
         grid-template-columns: repeat(1, 1fr);
     }
 }
-.valid-license-icon{
+
+.valid-license-icon {
     max-width: 100%;
     width: 1.5rem;
 }
@@ -3272,6 +3415,7 @@ button.button__instagram.hover__highlight:hover .icon {
     visibility: hidden;
     transition: all .3s ease;
 }
+
 .embedpress-toast__message.show {
     opacity: 1;
     visibility: visible;
@@ -3299,21 +3443,25 @@ button.button__instagram.hover__highlight:hover .icon {
     font-size: 14px;
 }
 
-.template__wrapper  .wp-color-result-text {
+.template__wrapper .wp-color-result-text {
     padding: 0 5px;
 }
+
 @media all and (max-width: 1600px) {
     .embedpress-license__details .license__content .form__inline {
         display: block;
     }
+
     .embedpress-license__details .license__content .form__group {
         margin-bottom: 25px;
         margin-right: 0;
     }
+
     .embedpress-license__details .license__content .form__group .form__control {
         height: 50px;
         font-size: 14px;
     }
+
     .embedpress-license__details .license__content .form__group .input__icon {
         width: 18px;
         top: 16px;
@@ -3321,27 +3469,30 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 .ep-coming-soon {
-    color:#5b4e96;
+    color: #5b4e96;
     font-size: 12px;
     font-weight: 900;
 }
 
-.embedpress-card a, .template__wrapper .ep-link{
-    color:#5b4e96;
+.embedpress-card a, .template__wrapper .ep-link {
+    color: #5b4e96;
 }
+
 .template__wrapper .ep-link {
     font-weight: 600;
 }
+
 .proOverlay {
     opacity: .3;
     position: relative;
 }
-.proOverlay::after{
+
+.proOverlay::after {
     position: absolute;
-    top:0;
-    left:0;
-    bottom:0;
-    content:'';
+    top: 0;
+    left: 0;
+    bottom: 0;
+    content: '';
     width: 100%;
     height: 100%;
     display: block;
@@ -3353,35 +3504,36 @@ button.button__instagram.hover__highlight:hover .icon {
     border-radius: 10px;
     margin-bottom: 30px;
     font-size: 16px;
-    color:#25396F;
-  }
-  
-  .embedpress__shortcode .shortcode__form .form__group {
+    color: #25396F;
+}
+
+.embedpress__shortcode .shortcode__form .form__group {
     -webkit-box-flex: 0;
-        -ms-flex: 0 0 40%;
-            flex: 0 0 40%;
-  }
-  
-  .embedpress__shortcode .shortcode__form .form__group .form__control {
+    -ms-flex: 0 0 40%;
+    flex: 0 0 40%;
+}
+
+.embedpress__shortcode .shortcode__form .form__group .form__control {
     height: 50px;
-  }
-  
-  .embedpress__shortcode .shortcode__form .form__group .form__control[readonly] {
+}
+
+.embedpress__shortcode .shortcode__form .form__group .form__control[readonly] {
     background: #F5F7FD;
-  }
-  
-  .embedpress__shortcode .shortcode__form .copy__button {
+}
+
+.embedpress__shortcode .shortcode__form .copy__button {
     padding: 16px;
     width: 50px;
     text-align: center;
-  }
+}
 
-  @media all and (max-width: 767px) {
+@media all and (max-width: 767px) {
     .embedpress__shortcode .shortcode__form {
-      display: block;
+        display: block;
     }
+
     .embedpress__shortcode .shortcode__form .form__group {
-      margin-right: 0;
-      margin-bottom: 25px;
+        margin-right: 0;
+        margin-bottom: 25px;
     }
-  }
+}
