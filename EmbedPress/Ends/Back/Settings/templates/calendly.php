@@ -249,7 +249,7 @@ if (!is_embedpress_pro_active()) {
 
                         <div class="event-type-card-list">
                             <?php
-                            if (is_array($event_types) && isset($scheduled_events['collection']) && count($event_types) > 0) :
+                            if (is_array($event_types) && isset($event_types['collection']) && count($event_types) > 0) :
                                 foreach ($event_types['collection'] as $item) :
                                     $status = 'In-active';
                                     if (!empty($item['active'])) {
@@ -280,7 +280,7 @@ if (!is_embedpress_pro_active()) {
                                 endforeach;
                             elseif (is_embedpress_pro_active() && !$is_calendly_connected) :
                                 echo esc_html__('Please connect with calendly', 'embedpress');
-                            elseif (is_embedpress_pro_active() && $is_calendly_connected && count($event_types) < 1) :
+                            elseif (is_embedpress_pro_active() && $is_calendly_connected && isset($event_types['collection']) && count($event_types['collection']) < 1) :
                                 echo esc_html__('Calendly has no events.', 'embedpress');
                             endif;
 
