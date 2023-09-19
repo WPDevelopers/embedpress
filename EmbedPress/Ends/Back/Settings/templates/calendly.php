@@ -249,7 +249,7 @@ if (!is_embedpress_pro_active()) {
 
                         <div class="event-type-card-list">
                             <?php
-                            if (is_array($event_types) && isset($event_types['collection']) && count($$event_types['collection']) > 0) :
+                            if (is_array($event_types) && isset($event_types['collection']) && count($event_types['collection']) > 0) :
                                 foreach ($event_types['collection'] as $item) :
                                     $status = 'In-active';
                                     if (!empty($item['active'])) {
