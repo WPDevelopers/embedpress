@@ -2369,14 +2369,14 @@ a.site__logo {
 }
 
 .embedpress-upgrade-pro-sidebar {
-    width: 230px;
+    width: 235px;
     border-radius: 16px;
     background: linear-gradient(192deg, #FFE3E1 4%, #E9E4FF 98.26%);
-    padding: 6px;
+    padding: 8px;
 }
 
 .embedpress-upgrade-pro-sidebar .gradient-color{
-    border-radius: 16px;
+    border-radius: 12px;
     background: white;
     padding: 15px;
 
@@ -2402,7 +2402,7 @@ a.site__logo {
 }
 
 ul.feature-list {
-    margin-bottom: 30px;
+    margin-bottom:  var(--pro-upgrade-margin-bottom);
 }
 
 ul.feature-list li {
