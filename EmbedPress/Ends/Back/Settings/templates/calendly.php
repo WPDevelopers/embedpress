@@ -308,10 +308,11 @@ if (!is_embedpress_pro_active()) {
                 <table class="rwd-table" cellspacing="0">
                     <tbody>
                         <tr>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Event</th>
-                            <th>Scheduled Events</th>
+                            <th>Date & Time</th>
+                            <th>Event Type</th>
+                            <th>Attendee</th>
+                            <th>Scheduled</th>
+                            <th>Status</th>
                         </tr>
                         <?php
                         $index = 0;
@@ -377,14 +378,21 @@ if (!is_embedpress_pro_active()) {
                                 ?>
 
                                 <tr>
-                                    <td class="event-date"><?php echo esc_html(date('D, j M Y', strtotime($event['start_time']))); ?></td>
-                                    <td class="event-time"><?php echo esc_html(date('h:ia', strtotime($event['start_time'])) . ' - ' . date('h:ia', strtotime($event['end_time']))); ?></td>
+                                    <td class="event-time">
+                                        <small><?php echo esc_html(date('D, j M Y', strtotime($event['start_time']))); ?><br></small>
+                                        <?php echo esc_html(date('h:ia', strtotime($event['start_time'])) . ' - ' . date('h:ia', strtotime($event['end_time']))); ?>
+                                    </td>
                                     <td class="event-info">
-                                        <strong><?php echo esc_html($name); ?></strong><br>
-                                        Event type: <strong><?php echo esc_html($event['name']); ?></strong>
+                                        <?php echo esc_html($event['name']); ?>
+                                    </td>
+                                    <td class="attendee">
+                                        <?php echo esc_html($name); ?>
                                     </td>
                                     <td class="event-action">
                                         <?php echo $is_past_event ? 'Past' : 'Upcoming'; ?>
+                                    </td>
+                                    <td class="scheduled-status">
+                                        <?php echo esc_html( ucfirst($event['status']) ); ?>
                                     </td>
                                 </tr>
 

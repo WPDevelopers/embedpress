@@ -3662,7 +3662,7 @@ a.calendly-connect-button img {
 
 .rwd-table th, .rwd-table td {
     display: table-cell;
-    padding: 1em .5em;
+    padding: .5em .5em;
     text-align: left;
     font-family: Arial, sans-serif;
     font-size: 14px;
@@ -3674,6 +3674,8 @@ a.calendly-connect-button img {
 
 .rwd-table th {
     font-size: 15px;
+    padding: 1em .5em;
+    font-weight: 500;
 }
 
 .rwd-table th:first-child {
