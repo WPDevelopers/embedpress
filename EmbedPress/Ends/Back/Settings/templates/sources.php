@@ -167,7 +167,7 @@ $sources = [
             </div>
         <?php endforeach; ?>
 
-       
+
     </div>
 </div>
 
@@ -211,102 +211,3 @@ $sources = [
     });
 </script>
 
-<style>
-    .source-settings-page {
-        background: #fff;
-        padding: 25px;
-        border-radius: 25px;
-    }
-
-    ul.source-tab {
-        margin-top: 10px;
-        width: calc(100% - 30px);
-        margin: auto;
-        margin-top: 10px;
-    }
-
-    li.tab-button {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        background-color: transparent;
-        padding: 10px 15px;
-        border-radius: 15px;
-        /* margin-bottom: 5px; */
-        cursor: pointer;
-        width: 100%;
-    }
-
-    li.tab-button.active {
-        background: #f5f7fd;
-    }
-
-    img.source-image {
-        width: 14px;
-        height: 14px;
-    }
-
-    .tab-content-section {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        /* Three items per row */
-        gap: 15px;
-        /* Adjust the gap between items as needed */
-    }
-
-    .source-item {
-        padding: 10px;
-        text-align: center;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        background: #f5f7fd;
-        border-radius: 8px;
-    }
-
-    .source-item div {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        color: #404040;
-        font-family: 'DMSans';
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 120%;
-        /* 16.8px */
-        letter-spacing: -0.28px;
-    }
-
-    .source-left .icon {
-        width: 32px;
-        height: 32px;
-        background: #fff;
-        border-radius: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .source-left .icon img {
-        width: 20px;
-        height: auto;
-    }
-
-    .source-right a {
-        width: 28px;
-        height: 28px;
-        background: #fff;
-        border-radius: 5px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .source-right a img {
-        width: 18px;
-        height: 18px;
-    }
-
-    /* Additional styles for source-item if needed */
-</style>
