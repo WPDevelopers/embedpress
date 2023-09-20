@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-09-07T07:52:50+00:00\n"
+"POT-Creation-Date: 2023-09-20T07:53:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.0\n"
 "X-Domain: embedpress\n"
@@ -125,7 +125,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:177
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:141
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2695
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2718
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:175
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:262
@@ -135,7 +135,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:200
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:176
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2728
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2751
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:212
 #: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:274
@@ -146,14 +146,14 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:223
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:211
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2790
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2813
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:247
 msgid "Alignment"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:227
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:215
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2794
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2817
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:251
 #: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:188
 msgid "Left"
@@ -161,14 +161,14 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:231
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:219
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2798
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2821
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:255
 msgid "Center"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:235
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:223
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2802
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2825
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:259
 #: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:186
 msgid "Right"
@@ -327,8 +327,8 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:683
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:691
 #: EmbedPress/Shortcode.php:973
-#: Gutenberg/plugin.php:684
-#: Gutenberg/plugin.php:773
+#: Gutenberg/plugin.php:688
+#: Gutenberg/plugin.php:777
 msgid "Powered By EmbedPress"
 msgstr ""
 
@@ -338,7 +338,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:70
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:97
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2678
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2701
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:72
 msgid "General"
 msgstr ""
@@ -506,6 +506,7 @@ msgid "OpenSea"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:118
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:100
 msgid "Calendly"
 msgstr ""
 
@@ -1239,7 +1240,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2278
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2334
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2599
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2640
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2663
 msgid "Background Color"
 msgstr ""
 
@@ -1268,7 +1269,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2308
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2587
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2650
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2673
 msgid "Text Color"
 msgstr ""
 
@@ -1306,7 +1307,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2544
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/InspectorControl/calendly.js:184
+#: Gutenberg/src/embedpress/InspectorControl/calendly.js:188
 msgid "Embed Type"
 msgstr ""
 
@@ -1332,30 +1333,34 @@ msgid "Calender Settings"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2621
+msgid "Calendly Data %s"
+msgstr ""
+
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2644
 msgid "Hide Cookie Banner"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2630
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2653
 msgid "Hide Event Type Details"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2660
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2683
 msgid "Button & Link Color"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2761
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2784
 msgid "Note: The maximum width and height are set to 100%."
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2768
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2791
 msgid "Margin"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2779
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2802
 msgid "Padding"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3034
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3057
 msgid "You need EmbedPress Pro to Embed Apple Podcast. Note. This message is only visible to you."
 msgstr ""
 
@@ -1483,6 +1488,56 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/EmbedpressSettings.php:182
 #: EmbedPress/Ends/Back/Settings/templates/partials/toast-message.php:8
 msgid "Ops! Something went wrong."
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:184
+msgid "Calendly Settings"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:191
+msgid "Calendly already connected"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:194
+msgid "Disconnect"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:200
+msgid "Connect with Calendly"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:207
+msgid "Sync"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:244
+msgid "Events"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:264
+msgid "View booking page"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:270
+msgid "Copy link"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:282
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:407
+msgid "Please connect with calendly"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:284
+msgid "Calendly has no events."
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:292
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:415
+msgid "Get PRO to Unlock"
+msgstr ""
+
+#: EmbedPress/Ends/Back/Settings/templates/calendly.php:409
+msgid "Calendly has no schedule."
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/custom-logo.php:38
@@ -1830,15 +1885,15 @@ msgstr ""
 msgid "Google Calendar"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:106
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:113
 msgid "Elements"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:120
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:127
 msgid "Go Premium"
 msgstr ""
 
-#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:129
+#: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:136
 msgid "License"
 msgstr ""
 
@@ -2569,6 +2624,7 @@ msgstr ""
 #: Gutenberg/src/embedpress-pdf/edit.js:466
 #: Gutenberg/src/embedpress-pdf/edit.js:489
 #: Gutenberg/src/embedpress-pdf/edit.js:505
+#: Gutenberg/src/embedpress/InspectorControl/calendly.js:206
 #: Gutenberg/src/embedpress/InspectorControl/custombranding.js:84
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:456
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:478
@@ -2589,7 +2645,7 @@ msgid "pro"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/inspector.js:153
+#: Gutenberg/src/embedpress/inspector.js:157
 #: Gutenberg/src/embedpress/InspectorControl/youtube.js:258
 msgid "Tips & Tricks"
 msgstr ""
@@ -2672,6 +2728,11 @@ msgid "Wistia Video Controls"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
+#: Gutenberg/src/embedpress/InspectorControl/calendly.js:214
+msgid "View Calendly Data"
+msgstr ""
+
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:258
 msgid "Embed Size"
 msgstr ""
@@ -2701,7 +2762,7 @@ msgid "Print/Download"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1
-#: Gutenberg/src/embedpress/inspector.js:109
+#: Gutenberg/src/embedpress/inspector.js:113
 msgid "You can adjust the width of embedded content."
 msgstr ""
 
