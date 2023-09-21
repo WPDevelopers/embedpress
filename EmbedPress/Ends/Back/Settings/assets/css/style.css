@@ -1482,7 +1482,7 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 .template__wrapper {
-    overflow: hidden;
+    /* overflow: hidden; */
     min-height: 100vh;
     -webkit-display: flex;
     -moz-display: flex;
@@ -1540,6 +1540,11 @@ button.button__instagram.hover__highlight:hover .icon {
     flex: 0 0 220px;
     min-width: 220px;
     margin-right: 30px;
+
+    position: sticky;
+    top: 40px;
+    max-width: 220px;
+    overflow: unset;
 }
 
 @media (max-width: 991px) {
@@ -1752,7 +1757,7 @@ a.site__logo {
 }
 
 .embedpress-sidebar .sidebar__menu .sidebar__item .sidebar__link {
-    padding: 12px 20px;
+    padding: 10px 20px;
     width: 100%;
     font-size: 16px;
     font-weight: 500;
@@ -3558,11 +3563,16 @@ li.tab-button {
     align-items: center;
     gap: 5px;
     background-color: transparent;
-    padding: 10px 15px;
+    padding: 8px 15px;
     border-radius: 15px;
-    /* margin-bottom: 5px; */
     cursor: pointer;
     width: 100%;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+li.tab-button:hover {
+    background: #f5f7fd;
 }
 
 li.tab-button.active {
@@ -3625,7 +3635,7 @@ li.sidebar__item.show .tab-button-section {
 }
 
 .source-left .icon img {
-    width: 20px;
+    width: 18px;
     height: auto;
 }
 
@@ -3639,7 +3649,16 @@ li.sidebar__item.show .tab-button-section {
     justify-content: center;
 }
 
-.source-right a img {
+.source-right a svg g {
+    transition: 0.2s;
+
+}
+
+.source-right a svg {
     width: 18px;
     height: 18px;
+}
+
+.source-right a:hover svg g {
+    stroke: #5B4E96;
 }
