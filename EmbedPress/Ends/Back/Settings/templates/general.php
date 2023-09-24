@@ -94,25 +94,26 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? $g_sett
 			</form>
 		</div>
 	</div>
+	<?php if (empty($pro_active) || !$pro_active) : ?>
+		<div class="embedpress-upgrade-pro-sidebar">
+			<div class="gradient-color">
+				<img class="embedpress-banner" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/feature.svg" alt="">
+				<h3>Upgrade To <span>Pro</span></h3>
+				<ul class="feature-list">
+					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Lazy Loading</li>
+					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Custom Branding</li>
+					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Content Protection</li>
+					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Video and Audio Custom Player</li>
+					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Advanced Options</li>
 
-	<div class="embedpress-upgrade-pro-sidebar">
-		<div class="gradient-color">
-			<img class="embedpress-banner" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/feature.svg" alt="">
-			<h3>Upgrade To <span>Pro</span></h3>
-			<ul class="feature-list">
-				<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Lazy Loading</li>
-				<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Custom Branding</li>
-				<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Content Protection</li>
-				<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Video and Audio Custom Player</li>
-				<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Advanced Options</li>
+				</ul>
+				<p class="embedpress-tagline">
+					All-In-One WordPress Embedding Solution To Fuel up Gutenberg
+				</p>
 
-			</ul>
-			<p class="embedpress-tagline">
-				All-In-One WordPress Embedding Solution To Fuel up Gutenberg
-			</p>
+				<a class="pro-upgrade-button" href="<?php echo esc_url('#'); ?>">Upgrade to Pro <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/external-white.svg" alt=""></a>
+			</div>
 
-			<a class="pro-upgrade-button" href="<?php echo esc_url('#'); ?>">Upgrade to Pro <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/external-white.svg" alt=""></a>
 		</div>
-
-	</div>
+	<?php endif; ?>
 </div>

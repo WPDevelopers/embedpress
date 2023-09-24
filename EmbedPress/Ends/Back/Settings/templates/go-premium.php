@@ -27,7 +27,7 @@ $sources = [
 
 
 ?>
-<div class="background__white radius-25 p40">
+<div class="background__white radius-16 p40">
 	<div class="source-settings-page">
 
 		<div class="tab-content-section">
