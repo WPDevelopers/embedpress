@@ -1550,15 +1550,6 @@ button.button__instagram.hover__highlight:hover .icon {
     overflow: unset;
 }
 
-@media (max-width: 991px) {
-    .embedpress-body .embedpress-sidebar {
-        display: inline-block;
-        width: 50px;
-        min-width: 50px;
-        margin-right: 0;
-    }
-}
-
 .embedpress-body .embedpress-content {
     -webkit-box-flex: 1;
     -ms-flex-positive: 1;
@@ -3735,4 +3726,29 @@ li.sidebar__item.show .tab-button-section {
 .premium-button svg {
     width: 18px;
     height: 18px;
+}
+
+
+@media only screen and (max-width: 991px) {
+    .tab-content-section {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .embedpress-body .embedpress-sidebar {
+        display: inline-flex;
+        min-width: 50px;
+        margin-right: 0;
+        align-items: center;
+    }
+
+    .premium-button {
+        margin-top: 0px !important;
+        padding: 0 4px 0 0;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .tab-content-section {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }
