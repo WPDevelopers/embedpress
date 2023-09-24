@@ -3,33 +3,26 @@ $icon_src = EMBEDPRESS_SETTINGS_ASSETS_URL . "img/sources/icons";
 
 $sources = [
 	["name" => "YouTube", "icon" => $icon_src . "/youtube.png", "type" => "video", "settings" => true],
+	["name" => "Youtube Live", "icon" => $icon_src . "/youtubelive.png", "type" => "stream", "settings" => true],
 	["name" => "Vimeo", "icon" => $icon_src . "/vimeo.png", "type" => "video", "settings" => true],
 	["name" => "Wistia", "icon" => $icon_src . "/wistia.png", "type" => "video", "settings" => true],
-	["name" => "Twitch", "icon" => $icon_src . "/twitch.png", "type" => "video"],
+	["name" => "Twitch", "icon" => $icon_src . "/twitch.png", "type" => "video", "settings" => true],
 	["name" => "Dailymotion", "icon" => $icon_src . "/dailymotion.png", "type" => "video", "settings" => true],
-	["name" => "SoundCloud", "icon" => $icon_src . "/soundcloud.png", "type" => "audio"],
-	["name" => "Spotify", "icon" => $icon_src . "/spotify.png", "type" => "audio"],
-	["name" => "Google Calendar", "icon" => $icon_src . "/google-calendar.png", "type" => "google"],
-	["name" => "OpenSea", "icon" => $icon_src . "/opensea.png", "type" => "google"],
-	["name" => "Google Drawings", "icon" => $icon_src . "/google-drawings.png", "type" => "google"],
-	["name" => "Google Docs", "icon" => $icon_src . "/google-docs.png", "type" => "google"],
-	["name" => "Google Slides", "icon" => $icon_src . "/google-slides.png", "type" => "google"],
-	["name" => "Google Forms", "icon" => $icon_src . "/google-forms.png", "type" => "google"],
-	["name" => "Google Maps", "icon" => $icon_src . "/google-maps.png", "type" => "google"],
-	["name" => "Google Sheets", "icon" => $icon_src . "/google-sheets.png", "type" => "google"],
-	["name" => "Twitter", "icon" => $icon_src . "/twitter.png", "type" => "social"],
-	["name" => "Facebook", "icon" => $icon_src . "/facebook.png", "type" => "social"],
-	["name" => "Instagram", "icon" => $icon_src . "/instagram.png", "type" => "social"],
-	["name" => "Youtube Live", "icon" => $icon_src . "/youtubelive.png", "type" => "stream"],
-	["name" => "Polarishare", "icon" => $icon_src . "/polarishare.png", "type" => "stream"],
-	["name" => "PDF", "icon" => $icon_src . "/pdf.png", "type" => "pdf"]
+	["name" => "SoundCloud", "icon" => $icon_src . "/soundcloud.png", "type" => "audio", "settings" => true],
+	["name" => "Spotify", "icon" => $icon_src . "/spotify.png", "type" => "audio", "settings" => true],
+	["name" => "Google Calendar", "icon" => $icon_src . "/google-calendar.png", "type" => "google", "settings" => true],
+	["name" => "OpenSea", "icon" => $icon_src . "/opensea.png", "type" => "google", "settings" => true],
+	["name" => "Calendly", "icon" => $icon_src . "/calendly.png", "type" => "calendar", "settings" => true],
 ];
 
 
 ?>
 <div class="background__white radius-16 p40">
-	<div class="source-settings-page">
 
+	<h1 class="page-heading">
+		<?php echo esc_html__( 'Premium Embed Platform', 'embedpress' ); ?>
+	</h1>
+	<div class="source-settings-page page-premium">
 		<div class="tab-content-section">
 			<?php
 			foreach ($sources as $source) : ?>
@@ -77,6 +70,6 @@ $sources = [
 	<div class="upgrage__card__tab__style">
 		<h3><?php esc_html_e("Why upgrade to Premium Version?", "embedpress"); ?></h3>
 		<p><?php esc_html_e("The premium version helps us to continue development of the product incorporating even more features and enhancements. You will also get world class support from our dedicated team, 24/7.", "embedpress"); ?></p>
-		<a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="button button__themeColor radius-10"><?php esc_html_e("Get Premium Version", "embedpress"); ?></a>
+		<a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="button button__themeColor"><?php esc_html_e("Get Premium Version", "embedpress"); ?></a>
 	</div>
 </div>
