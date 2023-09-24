@@ -3,14 +3,16 @@ $icon_src = EMBEDPRESS_SETTINGS_ASSETS_URL . "img/sources/icons";
 
 $sources = [
     ["name" => "YouTube", "icon" => $icon_src . "/youtube.png", "type" => "video", "settings" => true],
+    ["name" => "Youtube Live", "icon" => $icon_src . "/youtubelive.png", "type" => "stream", "settings" => true],
     ["name" => "Vimeo", "icon" => $icon_src . "/vimeo.png", "type" => "video", "settings" => true],
     ["name" => "Wistia", "icon" => $icon_src . "/wistia.png", "type" => "video", "settings" => true],
-    ["name" => "Twitch", "icon" => $icon_src . "/twitch.png", "type" => "video"],
+    ["name" => "Twitch", "icon" => $icon_src . "/twitch.png", "type" => "video", "settings" => true],
     ["name" => "Dailymotion", "icon" => $icon_src . "/dailymotion.png", "type" => "video", "settings" => true],
-    ["name" => "SoundCloud", "icon" => $icon_src . "/soundcloud.png", "type" => "audio"],
-    ["name" => "Spotify", "icon" => $icon_src . "/spotify.png", "type" => "audio"],
-    ["name" => "Google Calendar", "icon" => $icon_src . "/google-calendar.png", "type" => "google"],
-    ["name" => "OpenSea", "icon" => $icon_src . "/opensea.png", "type" => "google"],
+    ["name" => "SoundCloud", "icon" => $icon_src . "/soundcloud.png", "type" => "audio", "settings" => true],
+    ["name" => "Spotify", "icon" => $icon_src . "/spotify.png", "type" => "audio", "settings" => true],
+    ["name" => "Google Calendar", "icon" => $icon_src . "/google-calendar.png", "type" => "google", "settings" => true],
+    ["name" => "OpenSea", "icon" => $icon_src . "/opensea.png", "type" => "google", "settings" => true],
+    ["name" => "Calendly", "icon" => $icon_src . "/calendly.png", "type" => "calendar", "settings" => true],
     ["name" => "Google Drawings", "icon" => $icon_src . "/google-drawings.png", "type" => "google"],
     ["name" => "Google Docs", "icon" => $icon_src . "/google-docs.png", "type" => "google"],
     ["name" => "Google Slides", "icon" => $icon_src . "/google-slides.png", "type" => "google"],
@@ -117,7 +119,6 @@ $sources = [
     ["name" => "Sway", "icon" => $icon_src . "/sway.png", "type" => "presentation"],
     ["name" => "Geograph", "icon" => $icon_src . "/geograph.png", "type" => "map"],
     ["name" => "VoxSnap", "icon" => $icon_src . "/voxsnap.png", "type" => "audio"],
-    ["name" => "Calendly", "icon" => $icon_src . "/calendly.png", "type" => "calendar"],
     ["name" => "Overflow", "icon" => $icon_src . "/overflow.png", "type" => "web"],
     ["name" => "The NY Times IN", "icon" => $icon_src . "/nytimesin.png", "type" => "news"],
     ["name" => "SproutVideo", "icon" => $icon_src . "/sproutvideo.png", "type" => "video"],
@@ -137,7 +138,6 @@ $sources = [
     ["name" => "Geograph G", "icon" => $icon_src . "/geograph-g.png", "type" => "map"],
     ["name" => "Mermaid", "icon" => $icon_src . "/mermaid.png", "type" => "graphics"],
     ["name" => "Facebook Live", "icon" => $icon_src . "/facebooklive.png", "type" => "stream"],
-    ["name" => "Youtube Live", "icon" => $icon_src . "/youtubelive.png", "type" => "stream"],
     ["name" => "Polarishare", "icon" => $icon_src . "/polarishare.png", "type" => "stream"],
     ["name" => "PDF", "icon" => $icon_src . "/pdf.png", "type" => "pdf"]
 ];
