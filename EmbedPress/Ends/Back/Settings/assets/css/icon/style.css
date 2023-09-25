@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?gc2ib3');
-  src:  url('fonts/icomoon.eot?gc2ib3#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?gc2ib3') format('truetype'),
-    url('fonts/icomoon.woff?gc2ib3') format('woff'),
-    url('fonts/icomoon.svg?gc2ib3#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?6wwmrx');
+  src:  url('fonts/icomoon.eot?6wwmrx#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?6wwmrx') format('truetype'),
+    url('fonts/icomoon.woff?6wwmrx') format('woff'),
+    url('fonts/icomoon.svg?6wwmrx#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -25,33 +25,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.ep-platform:before {
-  content: "\e90e";
-}
-.ep-copy:before {
-  content: "\e90d";
-}
-.ep-code:before {
-  content: "\e90c";
-}
-.ep-bar:before {
-  content: "\e90b";
-}
-.ep-upload:before {
-  content: "\e90a";
-}
-.ep-branding:before {
-  content: "\e909";
-}
-.ep-lock:before {
-  content: "\e908";
-}
-.ep-question:before {
-  content: "\e907";
-}
-.ep-caret-down:before {
-  content: "\e906";
-}
 .ep-file:before {
   content: "\e900";
 }
@@ -70,6 +43,39 @@
 .ep-premium:before {
   content: "\e905";
 }
+.ep-caret-down:before {
+  content: "\e906";
+}
+.ep-question:before {
+  content: "\e907";
+}
+.ep-lock:before {
+  content: "\e908";
+}
+.ep-branding:before {
+  content: "\e909";
+}
+.ep-upload:before {
+  content: "\e90a";
+}
+.ep-bar:before {
+  content: "\e90b";
+}
+.ep-code:before {
+  content: "\e90c";
+}
+.ep-copy:before {
+  content: "\e90d";
+}
+.ep-platform:before {
+  content: "\e90e";
+}
 .ep-cross:before {
   content: "\ea0f";
+}
+.ep-link-icon:before {
+  content: "\e90f";
+}
+.ep-tick:before {
+  content: "\e910";
 }
