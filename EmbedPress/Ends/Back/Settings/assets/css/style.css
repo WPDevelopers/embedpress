@@ -1400,6 +1400,9 @@ button.button__instagram.hover__highlight:hover .icon {
     color: #e1306c;
 }
 
+.template__wrapper .button.button-pro-upgrade {
+    font-weight: 700;
+}
 .template__wrapper .button {
     display: inline-flex;
     align-items: center;
@@ -1417,6 +1420,7 @@ button.button__instagram.hover__highlight:hover .icon {
     cursor: pointer;
     -webkit-transition: all 0.3s ease-in-out 0s;
     transition: all 0.3s ease-in-out 0s;
+    border-radius: 8px;
 }
 
 @media (max-width: 767px) {
@@ -2979,6 +2983,39 @@ p.embedpress-tagline {
     }
 }
 
+.upgrage__card__tab__list {
+    max-width: 650px;
+    width: 100%;
+    display: grid;
+    -ms-grid-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 50px!important;
+}
+
+.upgrage__card__tab__list .upgrage__card__tab__list__item {
+    color: #5B4E96;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px; 
+}
+
+@media (max-width: 767px) {
+    .upgrage__card__tab__list {
+        -ms-grid-columns: 1fr;
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+.upgrage__card__tab__list .upgrage__card__tab__list__item:before {
+    content: "\e910";
+    font-family: 'icomoon';
+    color: #4AD750;
+}
+
 .upgrage__card__tab__style h3 {
     font-size: 30px;
     font-weight: 700;
@@ -3577,7 +3614,14 @@ p.embedpress-tagline {
 }
 
 .source-settings-page.page-premium {
-    padding: 25px 0;
+    padding: 24px 0;
+}
+
+.source-settings-page.page-premium .page-premium-text {
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #25396F;
 }
 
 h1.page-heading {
@@ -3597,7 +3641,7 @@ h1.page-heading {
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
-    line-height: 120%;
+    line-height: 1;
     /* 24px */
 }
 

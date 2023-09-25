@@ -12,13 +12,13 @@
 			<div class="form__group">
 				<input type="url" id="ep-link" class="form__control" placeholder="<?php esc_attr_e( "Place your link here to generate shortcode", "embedpress" ); ?>">
 			</div>
-			<button class="button button__themeColor radius-10" id="ep-shortcode-btn"><?php esc_html_e( "Generate", "embedpress" ); ?></button>
+			<button class="button button__themeColor" id="ep-shortcode-btn"><?php esc_html_e( "Generate", "embedpress" ); ?></button>
 		</div>
 		<div class="shortcode__form form__inline">
 			<div class="form__group">
 				<input type="text" class="form__control" id="ep-shortcode" readonly>
 			</div>
-			<button class="button button__themeColor copy__button radius-10" id="ep-shortcode-cp"><i class="ep-icon ep-copy"></i><span>Copy Link</span></button>
+			<button class="button button__themeColor copy__button" id="ep-shortcode-cp"><i class="ep-icon ep-copy"></i><span>Copy Link</span></button>
 		</div>
 	</div>
 </div>	
