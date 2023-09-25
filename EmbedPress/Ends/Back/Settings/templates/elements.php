@@ -10,7 +10,7 @@ $enablePluginInAdmin = isset( $settings['enablePluginInAdmin'] ) ? $settings['en
 $enablePluginInFront = isset( $settings['enablePluginInFront'] ) ? $settings['enablePluginInFront'] : 1;
 ?>
 
-<div class="background__white p40 radius-25 mb30">
+<div class="background__white p-24 radius-16 mb-20">
     <div class="embedpress--elements__wrap">
         <h3>Gutenberg</h3>
         <div class="embedpress__row grid__3">
@@ -172,7 +172,7 @@ $enablePluginInFront = isset( $settings['enablePluginInFront'] ) ? $settings['en
     </div>
 </div>
 <!--ELEMENTOR WIDGETS STARTS -->
-<div class="background__white p40 radius-25 mb30">
+<div class="background__white p-24 radius-16 mb-20">
 	<div class="embedpress--elements__wrap">
 		<h3>Elementor</h3>
 		<div class="embedpress__row grid__3">
@@ -230,7 +230,7 @@ $enablePluginInFront = isset( $settings['enablePluginInFront'] ) ? $settings['en
 	</div>
 </div>
 <!--CLASSIC EDITOR SETTINGS STARTS-->
-<div class="background__white radius-25 p40">
+<div class="background__white radius-16 p-24">
 	<div class="embedpress--elements__wrap">
 		<h3>Classic Editor</h3>
 		<div class="embedpress__row grid__3">

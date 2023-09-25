@@ -34,7 +34,7 @@ $vm_cta_url = isset( $vm_settings['cta_url']) ? esc_url( $vm_settings['cta_url']
 
 ?>
 
-<div class="embedpress__settings background__white radius-25 p40">
+<div class="embedpress__settings background__white radius-16 p-24">
     <h3><?php esc_html_e( "Global Branding Settings", "embedpress" ); ?></h3>
     <div class="embedpress__settings__form">
         <form action="" method="post" enctype="multipart/form-data"  class="embedpress-settings-form">

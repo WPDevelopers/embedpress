@@ -17,7 +17,7 @@ $sources = [
 
 
 ?>
-<div class="background__white radius-16 p40">
+<div class="background__white radius-16 p-24">
 
 	<h1 class="page-heading">
 		<?php echo esc_html__( 'Premium Embed Platform', 'embedpress' ); ?>

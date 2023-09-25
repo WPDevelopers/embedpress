@@ -221,6 +221,14 @@
     margin: 40px;
 }
 
+.p-24 {
+    padding: 24px;
+}
+
+.p-32 {
+    padding: 32px;
+}
+
 .p40 {
     padding: 40px;
 }
@@ -271,6 +279,10 @@
 
 .pt30 {
     padding-top: 30px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
 }
 
 .mb30 {
@@ -1477,6 +1489,10 @@ button.button__instagram.hover__highlight:hover .icon {
     border-radius: 20px;
 }
 
+.template__wrapper .radius-24 {
+    border-radius: 24px;
+}
+
 .template__wrapper .radius-25 {
     border-radius: 25px;
 }
@@ -1537,13 +1553,22 @@ button.button__instagram.hover__highlight:hover .icon {
         display: block;
     }
 }
+/* 
+.embedpress-body .embedpress-sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.embedpress-body .embedpress-sidebar-wrapper .sticky-sibling {
+    flex-grow: 1;
+} */
 
 .embedpress-body .embedpress-sidebar {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 220px;
     flex: 0 0 220px;
     min-width: 220px;
-    margin-right: 30px;
+    margin-right: 24px;
     position: sticky;
     top: 40px;
     max-width: 220px;
@@ -1559,7 +1584,7 @@ button.button__instagram.hover__highlight:hover .icon {
 .embedpress__row {
     display: -ms-grid;
     display: grid;
-    gap: 30px;
+    gap: 20px;
 }
 
 .embedpress__row.grid__3 {
@@ -1935,11 +1960,17 @@ a.site__logo {
     min-height: auto;
 }
 
+.embedpress-genral-settings-page .embedpress__settings:not(:last-child) {
+    margin-right: 24px;
+}
+
 .embedpress__settings h3 {
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 700;
     color: #131F4D;
-    margin-bottom: 25px;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #F5F7FC;
 }
 
 @media (max-width: 767px) {
@@ -3183,8 +3214,8 @@ p.embedpress-tagline {
 
 .embedpress-card {
     background: #F5F7FD;
-    border-radius: 20px;
-    padding: 30px;
+    border-radius: 16px;
+    padding: 24px;
     padding-left: 100px;
     border: 2px solid rgba(91, 78, 150, 0.1);
     position: relative;
@@ -3192,14 +3223,14 @@ p.embedpress-tagline {
 
 @media (min-width: 1199px) and (max-width: 1399px) {
     .embedpress-card {
-        padding-left: 30px;
+        padding-left: 24px;
     }
 }
 
 @media (max-width: 767px) {
     .embedpress-card {
-        padding-left: 25px;
-        padding: 25px;
+        padding-left: 20px;
+        padding: 20px;
     }
 }
 
@@ -3257,7 +3288,8 @@ p.embedpress-tagline {
 .element__item {
     background: #F5F7FD;
     border-radius: 10px;
-    padding: 25px 30px;
+    min-height: 80px;
+    padding: 10px 24px;
     border: 2px solid rgba(91, 78, 150, 0.1);
     position: relative;
     display: -webkit-box;
@@ -3281,7 +3313,7 @@ p.embedpress-tagline {
 }
 
 .element__item h5 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     color: #25396F;
     margin-right: 15px;
@@ -3361,10 +3393,12 @@ p.embedpress-tagline {
 }
 
 .embedpress--elements__wrap h3 {
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 700;
     color: #131F4D;
-    margin-bottom: 25px;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #F5F7FC;
 }
 
 @media (max-width: 767px) {
@@ -3498,11 +3532,9 @@ p.embedpress-tagline {
 }
 
 .embedpress__shortcode .shortcode__text {
-    padding: 25px;
-    border: 2px solid rgba(91, 78, 150, 0.1);
-    border-radius: 10px;
     margin-bottom: 30px;
     font-size: 16px;
+    line-height: 1.6;
     color: #25396F;
 }
 
@@ -3541,8 +3573,8 @@ p.embedpress-tagline {
 /* source page css */
 .source-settings-page {
     background: #fff;
-    padding: 25px;
-    border-radius: 25px;
+    padding: 24px;
+    border-radius: 16px;
 }
 
 .source-settings-page.page-premium {
@@ -3556,7 +3588,8 @@ h1.page-heading {
     font-style: normal;
     font-weight: 600;
     line-height: 120%;
-    /* 28.8px */
+    padding-bottom: 16px;
+    border-bottom: 1px solid #F5F7FC;
 }
 
 .upgrage__card__tab__style h3 {
@@ -3587,9 +3620,24 @@ a.button.button__themeColor {
 
 ul.source-tab {
     margin-top: 10px;
-    width: calc(100% - 30px);
-    margin: auto;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
     margin-top: 10px;
+    max-height: 185px;
+    overflow-y: scroll;
+}
+
+ul.source-tab::-webkit-scrollbar {
+    width: 5px;
+}
+ul.source-tab::-webkit-scrollbar-track {
+    background: #f5f7fd;
+    border-radius: 5px;
+}
+ul.source-tab::-webkit-scrollbar-thumb {
+    background: #988FBD;
+    border-radius: 5px;
 }
 
 li.tab-button {

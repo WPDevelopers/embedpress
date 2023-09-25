@@ -4,7 +4,7 @@
  *  All undefined vars comes from 'render_settings_page' method
  */
 ?>
-<div class="embedpress__settings background__white radius-25 p40">
+<div class="embedpress__settings background__white radius-16 p-24">
 	<h3><?php esc_html_e( "Shortcode", "embedpress" ); ?></h3>
 	<div class="embedpress__shortcode">
 		<p class="shortcode__text"><?php printf( esc_html__( "EmbedPress has direct integration with Classic, Gutenberg and Elementor Editor. But for other page editor you can use EmbedPress shortcode feature. To generate shortcode simply insert your link, click %s'Generate'%s button and then copy your shortcode. For details, check out this %sdocumentation%s.", "embedpress" ),'<strong>', '</strong>','<a class="ep-link" href="https://embedpress.com/docs/how-to-use-embedpress-shortcodes-page-builders/" target="_blank">', '</a>'); ?></p>

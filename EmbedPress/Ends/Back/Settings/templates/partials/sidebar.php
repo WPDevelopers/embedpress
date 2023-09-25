@@ -6,6 +6,7 @@
 ?>
 
 <div class="embedpress-sidebar-wrapper">
+    <!-- <div class="sticky-sibling"></div> -->
     <div class="embedpress-sidebar">
         <a href="#" class="sidebar__toggler"><i class="ep-icon ep-bar"></i></a>
         <ul class="sidebar__menu">
