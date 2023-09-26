@@ -12,7 +12,7 @@
 			<div class="form__group">
 				<input type="url" id="ep-link" class="form__control" placeholder="<?php esc_attr_e( "Place your link here to generate shortcode", "embedpress" ); ?>">
 			</div>
-			<button class="button button__themeColor" id="ep-shortcode-btn"><?php esc_html_e( "Generate", "embedpress" ); ?></button>
+			<button class="button button__redColor" id="ep-shortcode-btn"><?php esc_html_e( "Generate", "embedpress" ); ?></button>
 		</div>
 		<div class="shortcode__form form__inline">
 			<div class="form__group">

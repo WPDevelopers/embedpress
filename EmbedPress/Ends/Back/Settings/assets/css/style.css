@@ -1402,6 +1402,9 @@ button.button__instagram.hover__highlight:hover .icon {
 
 .template__wrapper .button.button-pro-upgrade {
     font-weight: 700;
+    color: #fff;
+    background-color: #FF7369;
+    border-color: #FF7369;
 }
 .template__wrapper .button {
     display: inline-flex;
@@ -1411,9 +1414,9 @@ button.button__instagram.hover__highlight:hover .icon {
     text-align: center;
     padding: 16px 30px;
     line-height: 1;
-    color: #ffffff;
-    background: #FF7369;
-    border: 1px solid #FF7369;
+    color: #594E91;
+    background: rgba(91, 78, 150, 0.1);
+    border: 1px solid rgba(91, 78, 150, 0.1);
     font-size: 16px;
     font-weight: 500;
     font-family: 'DMSans';
@@ -1430,9 +1433,9 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 .template__wrapper .button:hover {
-    background: #5B4E96;
-    color: #ffffff;
-    border-color: #5B4E96;
+    background: #5B4E96!important;
+    color: #ffffff!important;
+    border-color: #5B4E96!important;
 }
 
 .template__wrapper .button:focus {
@@ -1659,19 +1662,31 @@ button.button__instagram.hover__highlight:hover .icon {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    column-gap: 15px;
+    row-gap: 10px;
     background: #fff;
     padding: 15px 15px;
     margin-bottom: 15px;
     border-radius: 16px;
 }
 
+
+@media all and (max-width: 767px) {
+    .embedpress-header {
+        flex-direction: column;
+    }
+}
+
 header.embedpress-header img {
     width: 150px;
+    min-width: 150px;
 }
 
 header.embedpress-header p {
     font-size: 16px;
     color: #25396F;
+    line-height: 1.1;
+    text-align: center;
 }
 
 header.embedpress-header a {
@@ -1691,9 +1706,11 @@ a.site__logo {
 
 .embedpress-version-wrapper li {
     font-size: 14px;
-    font-weight: 800;
+    font-weight: 600;
     color: #7C8DB5;
     text-align: right;
+    line-height: 1.2;
+    white-space: nowrap;
 }
 
 @media all and (max-width: 767px) {
@@ -2275,12 +2292,6 @@ a.site__logo {
     align-items: flex-start;
 }
 
-@media (max-width: 767px) {
-    .embedpress__settings__form .form__group {
-        display: block;
-    }
-}
-
 .embedpress__settings__form .form__group .form__label {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 410px;
@@ -2309,22 +2320,11 @@ a.site__logo {
     }
 }
 
-@media (min-width: 991px) and (max-width: 1199px) {
+@media (max-width: 1199px) {
     .embedpress__settings__form .form__group .form__label {
         -webkit-box-flex: 0;
         -ms-flex: 0 0 250px;
         flex: 0 0 250px;
-    }
-}
-
-@media (max-width: 767px) {
-    .embedpress__settings__form .form__group .form__label {
-        margin-bottom: 10px;
-        font-weight: 700;
-    }
-
-    .embedpress__settings__form .form__group .form__label:after {
-        content: ':';
     }
 }
 
@@ -2404,8 +2404,18 @@ a.site__logo {
     padding: 8px;
 }
 
-@media (max-width: 1199px) {
-    .embedpress_general_settings__form {
+@media (min-width: 992px) and (max-width: 1199px) {
+    .embedpress_general_settings__form:not(:last-child) {
+        width: 100%;
+        margin-right: 0;
+    }
+    .embedpress-upgrade-pro-sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .embedpress_general_settings__form:not(:last-child) {
         width: 100%;
         margin-right: 0;
     }
@@ -3003,7 +3013,7 @@ p.embedpress-tagline {
     gap: 8px; 
 }
 
-@media (max-width: 767px) {
+@media (max-width: 575px) {
     .upgrage__card__tab__list {
         -ms-grid-columns: 1fr;
         grid-template-columns: repeat(1, 1fr);
@@ -3333,7 +3343,6 @@ p.embedpress-tagline {
     min-height: 80px;
     padding: 10px 24px;
     border: 2px solid rgba(91, 78, 150, 0.1);
-    position: relative;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -3600,9 +3609,16 @@ p.embedpress-tagline {
     border: none;
 }
 
+.embedpress__shortcode .shortcode__form .button__redColor {
+    background-color: #FF7369;
+    border-color: #FF7369;
+    color: #fff;
+}
+
 .embedpress__shortcode .shortcode__form .copy__button {
     background-color: #5B4E96;
     border-color: #5B4E96;
+    color: #fff;
 }
 
 
