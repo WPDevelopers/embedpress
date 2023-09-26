@@ -143,6 +143,102 @@ $sources = [
 ];
 
 
+$docs_url = [
+    "https://embedpress.com/docs/embed-youtube-wordpress/",
+    "https://embedpress.com/docs/embed-google-docs-wordpress/",
+    "https://embedpress.com/docs/embed-google-slides-wordpress/",
+    "https://embedpress.com/docs/embed-google-drawings-wordpress/",
+    "https://embedpress.com/docs/embed-google-maps-wordpress/",
+    "https://embedpress.com/docs/embed-google-sheets-wordpress/",
+    "https://embedpress.com/docs/embed-facebook-posts-wordpress/",
+    "https://embedpress.com/docs/embed-instagram-wordpress/",
+    "https://embedpress.com/docs/embed-twitter-tweets-wordpress/",
+    "https://embedpress.com/docs/embed-tiktok-in-wordpress/",
+    "https://embedpress.com/docs/embed-reddit-post-wordpress/",
+    "https://embedpress.com/docs/embed-github-gist-snippets-wordpress/",
+    "https://embedpress.com/docs/embed-tumblr-wordpress/",
+    "https://embedpress.com/docs/embed-wordpress-tv-videos-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-pantheon-sorbonne-university/",
+    "https://embedpress.com/docs/how-to-embed-rumble-video/",
+    "https://embedpress.com/docs/embed-deviantart-image-wordpress/",
+    "https://embedpress.com/docs/embed-imgur-images-wordpress/",
+    "https://embedpress.com/docs/embed-soundcloud-audio-wordpress/",
+    "https://embedpress.com/docs/embed-dailymotion-videos-wordpress/",
+    "https://embedpress.com/docs/embed-scribd-document-wordpress/",
+    "https://embedpress.com/docs/embed-flickr-image-wordpress/",
+    "https://embedpress.com/docs/embed-vimeo-videos-wordpress/",
+    "https://embedpress.com/docs/embed-slideshare-presentations-wordpress/",
+    "https://embedpress.com/docs/embed-giphy-gifs-wordpress/",
+    "https://embedpress.com/docs/embed-gumroad-product/",
+    "https://embedpress.com/docs/embed-meetup-groups-events-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-wordwall-lessons-in-wordpress/",
+    "https://embedpress.com/docs/embed-smugmug-images-wordpress/",
+    "https://embedpress.com/docs/embed-kickstarter-videos-wordpress/",
+    "https://embedpress.com/docs/embed-getty-images-wordpress/",
+    "https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-matterport-3d-scans/",
+    "https://embedpress.com/docs/embed-codepen-codes-in-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-padlet-in-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-streamable-videos-in-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-codesandbox-codes-in-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-gyazo/",
+    "https://embedpress.com/docs/how-to-embed-ifixit-repair-manuals-in-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-gloria-tv-videos-in-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-boomplay-music/",
+    "https://embedpress.com/docs/embed-ted-videos-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-gfycat-gifs-in-wordpress/",
+    "https://embedpress.com/docs/embed-mixcloud-audio-wordpress/",
+    "https://embedpress.com/docs/embed-docdroid-documentation-in-wordpress/",
+    "https://embedpress.com/docs/embed-coub-videos-iwordpress/",
+    "https://embedpress.com/docs/embed-speakerdeck-presentations-wordpress/",
+    "https://embedpress.com/docs/embed-reverbnation-audio-wordpress/",
+    "https://embedpress.com/docs/embed-wistia-videos-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-spreaker-podcasts-in-wordpress/",
+    "https://embedpress.com/docs/embed-vidyard-in-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-learningapps-apps-in-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-iheartradio-podcasts-in-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-hearthis-audio-in-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-flourish/",
+    "https://embedpress.com/docs/embed-nrk-radio-podcasts-in-wordpress/",
+    "https://embedpress.com/docs/embed-infogram-charts-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-fite/",
+    "https://embedpress.com/docs/embed-animoto-videos-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-toornament/",
+    "https://embedpress.com/docs/how-to-embed-sapo-videos-in-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-fader/",
+    "https://embedpress.com/docs/how-to-embed-geograph/",
+    "https://embedpress.com/docs/how-to-embed-tvcf-advertisements-in-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-wizer/",
+    "https://embedpress.com/docs/embed-cloudup-videos-images-or-audios-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-sudomemo/",
+    "https://embedpress.com/docs/embed-circuitlab-circuit-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-edumedia-science-files-in-wordpress/",
+    "https://embedpress.com/docs/embed-ludus-in-wordpress/",
+    "https://embedpress.com/docs/embed-runkit-in-wordpress/",
+    "https://embedpress.com/docs/embed-clypit-audio-wordpress/",
+    "https://embedpress.com/docs/embed-gumroad-product/",
+    "https://embedpress.com/docs/embed-roomshare-listings-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-didacte-courses-in-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-lumiere/",
+    "https://embedpress.com/docs/how-to-embed-huffduffer-podcasts-in-wordpress/",
+    "https://embedpress.com/docs/embed-onsizzle-content-in-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-social-explorer-maps-in-wordpress/",
+    "https://embedpress.com/docs/embed-chartblocks-charts-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-orbitvu-360-images-in-wordpress/",
+    "https://embedpress.com/docs/embed-shortnote-notes-wordpress/",
+    "https://embedpress.com/docs/embed-dotsub-videos-wordpress/",
+    "https://embedpress.com/docs/embed-chirbit-audio-wordpress/",
+    "https://embedpress.com/docs/embed-songlink-odesli-page/",
+    "https://embedpress.com/docs/embed-the-new-york-times-news-in-wordpres/",
+    "https://embedpress.com/docs/how-to-embed-smash-notes-podcasts-in-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-zingsoft-charts-grids-in-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-ethfiddle/",
+    "https://embedpress.com/docs/how-to-embed-namchey/",
+    "https://embedpress.com/docs/polldaddy-embed-wordpress/",
+    "https://embedpress.com/docs/how-to-embed-sway/",
+    "https://embedpress.com/docs/how-to-embed-voxsnap/"
+];
+
 ?>
 
 
@@ -150,6 +246,7 @@ $sources = [
 
     <div class="tab-content-section">
         <?php
+        $index = 0;
         foreach ($sources as $source) : ?>
             <div class="source-item" data-tab="<?php echo esc_attr($source['type']); ?>">
                 <div class="source-left">
@@ -175,8 +272,8 @@ $sources = [
                             </svg>
                         </a>
                     <?php endif; ?>
-                    
-                    <a href="#">
+
+                    <a href="<?php echo esc_url($docs_url[$index]); ?>">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                             <g clip-path="url(#a)" stroke="#988FBD" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M9.333 2v2.667a.667.667 0 0 0 .667.666h2.666" />
@@ -191,7 +288,8 @@ $sources = [
                     </a>
                 </div>
             </div>
-        <?php endforeach; ?>
+        <?php $index++;
+        endforeach; ?>
     </div>
 </div>
 
