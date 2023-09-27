@@ -1700,6 +1700,7 @@ a.site__logo {
 .embedpress-sidebar {
     padding: 10px;
     background: #ffffff;
+    justify-content: center;
     border-radius: 16px;
     position: relative;
 }
@@ -1720,20 +1721,6 @@ a.site__logo {
 }
 
 
-@media all and (max-width: 575px) {
-    .embedpress-header {
-        display: block;
-    }
-
-    .embedpress-header .embedpress-version-wrapper {
-        margin-top: 10px;
-    }
-
-    .embedpress-version-wrapper li {
-        text-align: left;
-    }
-}
-
 @media (max-width: 991px) {
     .embedpress-sidebar {
         padding: 0;
@@ -1748,7 +1735,9 @@ a.site__logo {
 
 @media (max-width: 991px) {
     .embedpress-sidebar .sidebar__toggler {
-        display: block;
+        display: flex;
+        align-items: center;
+        min-height: 50px;
         font-size: 24px;
         padding: 5px 10px;
         text-align: center;
@@ -2404,17 +2393,7 @@ a.site__logo {
     padding: 8px;
 }
 
-@media (min-width: 992px) and (max-width: 1199px) {
-    .embedpress_general_settings__form:not(:last-child) {
-        width: 100%;
-        margin-right: 0;
-    }
-    .embedpress-upgrade-pro-sidebar {
-        display: none;
-    }
-}
-
-@media (max-width: 767px) {
+@media (max-width: 1299px) {
     .embedpress_general_settings__form:not(:last-child) {
         width: 100%;
         margin-right: 0;
