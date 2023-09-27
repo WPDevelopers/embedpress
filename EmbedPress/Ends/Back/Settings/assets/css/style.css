@@ -3894,3 +3894,426 @@ li.sidebar__item.show .tab-button-section {
         text-align: left;
     }
 }
+
+
+/* // Calendly settings page design  */
+.calendly-embedpress-authorize-button {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.calendly-settings-title {
+    margin-bottom: 30px !important;
+}
+
+a.calendly-connect-button {
+    display: inline-flex;
+    align-items: center;
+    font-size: 15px;
+    color: rgb(54, 100, 174);
+    gap: 6px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(54, 100, 174);
+    border-image: initial;
+    padding: 8px 20px;
+    border-radius: 10px;
+}
+
+a.calendly-connect-button:hover {
+    color: #fff;
+    background: rgb(54, 100, 174);
+}
+
+a.calendly-connected {
+    /* pointer-events: none !important; */
+    background: rgba(54, 100, 174, 0.08);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(54, 100, 174, 0.08);
+    border-image: initial;
+}
+
+a.calendly-connect-button img {
+    width: 20px;
+}
+
+
+/* Apply styles to the event-type-list container */
+.event-type-list {
+    font-family: Arial, sans-serif;
+}
+
+/* Apply styles to the list-header */
+.list-header {
+    background-color: #3664ae;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+
+/* Apply styles to the user's avatar */
+.calendly-user .bqa3nmp img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Apply styles to the user's name */
+.calendly-user .name p {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+
+/* Apply styles to the event-type-card */
+.event-type-card-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.calendly-data-placeholder .event-type-card-list {
+    padding: 0 20px 20px;
+}
+
+.event-type-card-list-item {
+    background-color: #ffffff;
+    border: 1px solid #faf4f4;
+    border-radius: 5px;
+    border-top: 6px solid var(--calendly-event-color);
+}
+
+.event-type-card {
+    padding: 10px;
+}
+
+.calendly-profile-avatar {
+    width: 50px;
+    height: 50px;
+}
+
+.calendly-profile-avatar img {
+    border-radius: 50px;
+}
+
+.event-type-card-top {
+    border-bottom: 1px solid #ebe1e1;
+    padding-bottom: 10px;
+}
+
+.event-type-card-top h2 {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.event-type-card-top p {
+    font-size: 11px;
+    color: #b19999;
+    margin-bottom: 12px;
+}
+
+.event-type-card-top a {
+    color: #3664ae;
+    font-size: 12px;
+}
+
+.event-type-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+}
+
+.event-status {
+    font-size: 14px;
+}
+
+.event-status.Active {
+    color: #008000c9;
+}
+
+.event-status.In-active {
+    color: gray;
+}
+
+.calendly-event-copy-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #3664ae;
+    cursor: pointer;
+}
+
+[data-event-status="In-active"] .event-type-card-top a, [data-event-status="In-active"] .calendly-event-copy-link {
+    color: gray;
+}
+
+[data-event-status="In-active"].event-type-card-list-item {
+    border-top-color: #b2b2b2 !important;
+}
+
+[data-event-status="In-active"] .calendly-event-copy-link svg path {
+    fill: gray;
+}
+
+.calendly-event-copy-link svg {
+    width: 14px;
+    height: 14px;
+}
+
+
+/* scheduled list table css */
+
+
+.rwd-table {
+    max-width: 100%;
+    width: 100%;
+
+}
+
+.rwd-table tr:first-child {
+    border-top: none;
+    background: #3664ae;
+    color: #fff;
+}
+
+.rwd-table tr {
+    border-top: 1px dotted red;
+    border-bottom: 1px dotted red;
+}
+
+
+.rwd-table th {
+    display: none;
+}
+
+.rwd-table td {
+    display: block;
+
+}
+
+.rwd-table td:before {
+    content: attr(data-th) ": ";
+    width: 120px;
+    display: inline-block;
+    color: #000;
+}
+
+.rwd-table th, .rwd-table td {
+    padding-left: 30px !important;
+}
+
+.rwd-table {
+    color: #333;
+    border-radius: .4em;
+    width: 100%;
+    /* Set the table width to 100% */
+    /* table-layout: fixed; */
+}
+
+.rwd-table tr {
+    border-color: red;
+}
+
+
+.rwd-table td:before {
+    display: none;
+}
+
+.rwd-table th, .rwd-table td {
+    display: table-cell;
+    padding: .5em .5em;
+    text-align: left;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    white-space: nowrap;
+    /* width: 25%; */
+    /* Divide the width evenly among the columns */
+
+}
+
+.rwd-table th {
+    font-size: 15px;
+    padding: 1em .5em;
+    font-weight: 500;
+}
+
+.rwd-table th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.rwd-table th:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.rwd-table td {
+    border-bottom: 1px dotted #ddd;
+    /* border-radius: 10px; */
+    /* border-right: 1px dotted #ddd; */
+}
+
+/* .rwd-table td:first-child {
+    border-left: 1px dotted #ddd;
+} */
+
+
+/* Tab container */
+.tab-container {
+    display: flex;
+    gap: 5px;
+    background: #fff7f7;
+    padding: 8px 10px;
+    border-radius: 10px;
+}
+
+/* Individual tab */
+.tab-container .tab {
+    padding: 8px 20px;
+    cursor: pointer;
+    background-color: #fff7f7;
+    border-radius: 10px;
+    font-size: 15px;
+
+}
+
+/* Active tab */
+.tab-container .active-tab {
+    background-color: #3664ae;
+    color: #fff;
+}
+
+/* Content container */
+.tab-content {
+    display: none;
+    width: 100%;
+}
+
+/* Show the active tab content */
+.tab-content.active {
+    display: block;
+}
+
+.calendly-data-placeholder {
+    position: relative;
+    margin-top: 15px;
+}
+
+.calendly-data-placeholder img {
+    pointer-events: none;
+}
+
+.calendly-data-placeholder {
+    position: relative;
+    margin-top: 5px;
+    padding-top: 5px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #3664ae26;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 10px;
+    align-items: center;
+}
+
+.overlay-button {
+    background-color: #006bff;
+    color: #fff !important;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    max-width: 300px;
+    font-weight: 500;
+    border-radius: 10px;
+}
+
+.calendly-connector-container {
+    display: flex;
+    align-items: end;
+    gap: 5px;
+}
+
+@media only screen and (max-width: 768px) {
+    .calendly-connector-container {
+        margin-bottom: 15px;
+    }
+
+    .calendly-embedpress-authorize-button {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .tab-container {
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .tab-container .tab {
+        padding: 8px 10px;
+        font-size: 14px;
+        width: 50%;
+        text-align: center;
+    }
+
+    .calendly-data {
+        overflow: auto;
+    }
+
+    .event-type-card-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .rwd-table {
+        min-width: 700px;
+        overflow: auto;
+        table-layout: auto;
+    }
+
+    .rwd-table th, .rwd-table td {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .rwd-table th, .rwd-table td {
+        padding-left: 20px !important;
+        width: auto;
+    }
+}
+
+
+@media only screen and (max-width: 480px) {
+    .event-type-card-list {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .tab-container {
+        padding: 8px 6px;
+    }
+
+    .tab-container .tab {
+        white-space: nowrap;
+        padding: 8px 5px;
+        font-size: 12px;
+        text-align: center;
+    }
+}
