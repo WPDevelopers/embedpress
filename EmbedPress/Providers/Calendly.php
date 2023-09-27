@@ -35,6 +35,7 @@ class Calendly extends ProviderAdapter implements ProviderInterface
     /** @var array Array with allowed params for the current Provider */
     protected $allowedParams = [
         'cEmbedType',
+        'calendlyData',
         'hideCookieBanner',
         'hideEventTypeDetails',
         'cBackgroundColor',
@@ -82,6 +83,10 @@ class Calendly extends ProviderAdapter implements ProviderInterface
         $params = $this->getParams();
 
         $parameters = array();
+
+        if (!empty($params['calendlyData']) && $params['calendlyData'] !== 'false') {
+            $parameters['calendlyData'] = 1;
+        }
 
         if (!empty($params['hideCookieBanner']) && $params['hideCookieBanner'] !== 'false') {
             $parameters['hide_gdpr_banner'] = 1;

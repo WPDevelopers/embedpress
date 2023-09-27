@@ -443,5 +443,23 @@ jQuery(document).ready( function($){
         }, 3000);
     }
 
+    $(document).ready(function() {
+        $('.calendly-event-copy-link').click(function() {
+            var eventLink = $(this).data('event-link');
+            var tempInput = $('<input>');
+            $('body').append(tempInput);
+            tempInput.val(eventLink).select();
+            document.execCommand('copy');
+            tempInput.remove();
+
+            var button = $(this);
+            button.find('span').text('Copied!');
+
+            setTimeout(function() {
+                button.find('span').text('Copy link');
+            }, 1500);
+        });
+    });
+
 });
 

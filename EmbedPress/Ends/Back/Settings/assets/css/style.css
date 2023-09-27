@@ -26,6 +26,7 @@
     --base-spacer-x: 16px;
     --base-spacer-y: 16px;
     --b-radius-6: 25px;
+    --calendly-event-color: #3664ae;
     --pro-upgrade-margin-bottom: 20px;
 }
 
@@ -2329,6 +2330,17 @@ a.site__logo {
         -webkit-box-flex: 0;
         -ms-flex: 0 0 250px;
         flex: 0 0 250px;
+    }
+}
+
+@media (max-width: 767px) {
+    .embedpress__settings__form .form__group .form__label {
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+
+    .embedpress__settings__form .form__group .form__label:after {
+        content: ':';
     }
 }
 

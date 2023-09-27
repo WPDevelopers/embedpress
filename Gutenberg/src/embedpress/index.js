@@ -653,6 +653,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: 'inline'
 			},
+			calendlyData: {
+				type: 'boolean',
+				default: false
+			},
 			hideCookieBanner: {
 				type: 'boolean',
 				default: false

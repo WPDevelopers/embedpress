@@ -588,7 +588,150 @@ class Helper {
 		];
 	}
 
+	public static function getCalendlyUuid($url){
+		$pattern = '/\/([0-9a-fA-F-]+)$/';
+		if (preg_match($pattern, $url, $matches)) {
+			$uuid = $matches[1];
+			return $uuid;
+		}
+		return '';
+	}
 
+	public static function getCalendlyUserInfo($access_token)
+	{
+		// Attempt to retrieve the data from the transient
+		$user_info = get_transient('calendly_user_info_' . md5($access_token));
+
+		if (false === $user_info) {
+			// If the data is not in the transient, fetch it from the API
+			$user_endpoint = 'https://api.calendly.com/users/me';
+
+			$headers = array(
+				'Authorization' => "Bearer $access_token",
+				'Content-Type' => 'application/json',
+			);
+
+			$args = array(
+				'headers' => $headers,
+			);
+
+			$response = wp_remote_get($user_endpoint, $args);
+
+			if (!is_wp_error($response)) {
+				$body = wp_remote_retrieve_body($response);
+				$data = json_decode($body, true);
+
+				// Store the data in a transient for a specified time (e.g., 1 hour)
+				set_transient('calendly_user_info', $data, HOUR_IN_SECONDS);
+
+				return $data;
+			}
+		}
+
+		return $user_info;
+	}
+
+	public static function getCalaendlyEventTypes($user_uri, $access_token)
+	{
+		// Attempt to retrieve the data from the transient
+		$events_list = get_transient('calendly_events_list_' . md5($access_token));
+
+		if (false === $events_list) {
+			// If the data is not in the transient, fetch it from the API
+			$events_endpoint = "https://api.calendly.com/event_types?user=$user_uri";
+
+			$headers = array(
+				'Authorization' => "Bearer $access_token",
+				'Content-Type' => 'application/json',
+			);
+
+			$args = array(
+				'headers' => $headers,
+			);
+
+			$response = wp_remote_get($events_endpoint, $args);
+
+			if (!is_wp_error($response)) {
+				$body = wp_remote_retrieve_body($response);
+				$events_list = json_decode($body, true);
+
+				// Store the data in a transient for a specified time (e.g., 1 hour)
+				set_transient('calendly_events_list', $events_list, HOUR_IN_SECONDS);
+
+				return $events_list;
+			}
+		}
+
+		return $events_list;
+	}
+	
+	public static function getListEventInvitee($uuid, $access_token)
+	{
+		// Attempt to retrieve the data from the transient
+		$invitee_list = get_transient('calendly_invitee_list_' . md5($access_token));
+
+		if (false === $invitee_list) {
+			// If the data is not in the transient, fetch it from the API
+			$events_endpoint = "https://api.calendly.com/scheduled_events/$uuid/invitees";
+
+			$headers = array(
+				'Authorization' => "Bearer $access_token",
+				'Content-Type' => 'application/json',
+			);
+
+			$args = array(
+				'headers' => $headers,
+			);
+
+			$response = wp_remote_get($events_endpoint, $args);
+
+			if (!is_wp_error($response)) {
+				$body = wp_remote_retrieve_body($response);
+				$invitee_list = json_decode($body, true);
+
+				// Store the data in a transient for a specified time (e.g., 1 hour)
+				set_transient('calendly_invitee_list', $invitee_list, HOUR_IN_SECONDS);
+
+				return $invitee_list;
+			}
+		}
+
+		return $invitee_list;
+	}
+
+	public static function getCalaendlyScheduledEvents($user_uri, $access_token)
+	{
+		// Attempt to retrieve the data from the transient
+		$events_list = get_transient('calendly_events_list_' . md5($access_token));
+
+		if (false === $events_list) {
+			// If the data is not in the transient, fetch it from the API
+			$events_endpoint = "https://api.calendly.com/scheduled_events?user=$user_uri";
+
+			$headers = array(
+				'Authorization' => "Bearer $access_token",
+				'Content-Type' => 'application/json',
+			);
+
+			$args = array(
+				'headers' => $headers,
+			);
+
+			$response = wp_remote_get($events_endpoint, $args);
+
+			if (!is_wp_error($response)) {
+				$body = wp_remote_retrieve_body($response);
+				$events_list = json_decode($body, true);
+
+				// Store the data in a transient for a specified time (e.g., 1 hour)
+				set_transient('calendly_events_list', $events_list, HOUR_IN_SECONDS);
+
+				return $events_list;
+			}
+		}
+
+		return $events_list;
+	}
 
 
 }

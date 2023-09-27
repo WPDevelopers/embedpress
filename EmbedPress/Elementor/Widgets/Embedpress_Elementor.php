@@ -2616,6 +2616,29 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->add_control(
+			'calendlyData',
+			[
+				'label' => sprintf(__('Calendly Data %s', 'embedpress'), $this->pro_text),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'default' => '',
+				'classes' => $this->pro_class,
+				'condition' => $condition
+			]
+		);
+
+		$this->add_control(
+			'calendlyDataLink',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => '<div style="display: flex; align-items: center;gap:5px;"><span style="font-size:18px" class="eicon-editor-external-link"></span><a href="/wp-admin/admin.php?page=embedpress&page_type=calendly" target="_blank" >View Calendly Data</a></div>',
+				'condition' => [
+					'calendlyData' => 'yes'
+				]
+
+			]
+		);
+
+		$this->add_control(
 			'hideCookieBanner',
 			[
 				'label' => __( 'Hide Cookie Banner', 'embedpress' ),

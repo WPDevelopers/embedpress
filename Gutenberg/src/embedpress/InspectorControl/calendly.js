@@ -7,6 +7,7 @@ import ControlHeader from '../../common/control-heading';
 import { getParams } from '../functions';
 import LockControl from '../../common/lock-control';
 import ContentShare from '../../common/social-share-control';
+import { blanKTabIcon } from '../../common/icons';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
@@ -40,6 +41,7 @@ export const getCalendlyParams = (params, attributes) => {
     // which attributes should be passed with rest api.
     const defaults = {
         cEmbedType: 'inline',
+        calendlyData: 0,
         hideCookieBanner: 0,
         hideEventTypeDetails: 0,
         cBackgroundColor: 'ffffff',
@@ -69,6 +71,7 @@ export const useCalendly = (attributes) => {
     // which attribute should call embed();
     const defaults = {
         cEmbedType: null,
+        calendlyData: null,
         hideCookieBanner: null,
         hideEventTypeDetails: null,
         cBackgroundColor: null,
@@ -95,6 +98,7 @@ export const useCalendly = (attributes) => {
 export default function Calendly({ attributes, setAttributes, isCalendly }) {
     const {
         cEmbedType,
+        calendlyData,
         hideCookieBanner,
         hideEventTypeDetails,
         cBackgroundColor,
@@ -173,7 +177,7 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
         { name: '', color: '#FFA500' }
     ];
 
-    
+
 
     return (
         (isCalendly) && (
@@ -189,6 +193,28 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
                             ]}
                             onChange={(cEmbedType) => setAttributes({ cEmbedType })}
                         />
+
+                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                            <ToggleControl
+                                label={__("Calendly Data")}
+                                checked={calendlyData}
+                                onChange={(calendlyData) => setAttributes({ calendlyData })}
+                            />
+
+                            {
+                                (!isProPluginActive) && (
+                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                )
+                            }
+                        </div>
+                        {
+                            isProPluginActive && calendlyData && (
+                                <div className={'ep-calendly-data-link'}>
+                                    {blanKTabIcon}
+                                    <a href="/wp-admin/admin.php?page=embedpress&page_type=calendly" target={'_blank'} > {__("View Calendly Data", "embedpress")} </a>
+                                </div>
+                            )
+                        }
 
                         <ToggleControl
                             label="Hide Cookie Banner"
@@ -257,7 +283,7 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
                         )
                     }
 
-                   
+
                 </div>
             </div>
 
