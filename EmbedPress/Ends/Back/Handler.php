@@ -40,8 +40,8 @@ class Handler extends EndHandlerAbstract
 
     public function handle_calendly_data()
     {
- 
-        if (!empty($_GET['access_token']) || (isset($_GET['calendly_status']) && ($_GET['calendly_status'] == 'sync' || $_GET['calendly_status'] == 'connect')) ) {
+
+        if ((!empty($_GET['access_token']) && isset($_GET['page_type']) && $_GET['page_type'] == 'calendly') || (isset($_GET['calendly_status']) && ($_GET['calendly_status'] == 'sync' || $_GET['calendly_status'] == 'connect'))) {
 
             update_option('is_calendly_connected', true);
 
@@ -82,7 +82,7 @@ class Handler extends EndHandlerAbstract
 
             update_option('calendly_user_info', $user_info);
 
-          
+
 
             if (is_embedpress_pro_active() && (!isset($event_types['title']) && $event_types['title'] !== 'Unauthenticated')) {
                 update_option('calendly_event_types', $event_types);
@@ -90,7 +90,7 @@ class Handler extends EndHandlerAbstract
                 update_option('calendly_invitees_list', $invite_list);
             }
 
-            if(!is_embedpress_pro_active()){
+            if (!is_embedpress_pro_active()) {
                 update_option('calendly_event_types', []);
                 update_option('calendly_scheduled_events', []);
                 update_option('calendly_invitees_list', []);
