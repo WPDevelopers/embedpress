@@ -107,13 +107,12 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? $g_sett
 					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Content Protection</li>
 					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Video and Audio Custom Player</li>
 					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Advanced Options</li>
-
 				</ul>
 				<p class="embedpress-tagline">
 					All-In-One WordPress Embedding Solution To Fuel up Gutenberg
 				</p>
 
-				<a class="pro-upgrade-button" href="<?php echo esc_url('#'); ?>">Upgrade to Pro <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/external-white.svg" alt=""></a>
+				<a class="pro-upgrade-button" type="_blank" href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>">Upgrade to Pro <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/external-white.svg" alt=""></a>
 			</div>
 
 		</div>
