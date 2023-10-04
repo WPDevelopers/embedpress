@@ -101,18 +101,21 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? $g_sett
 			<div class="gradient-color">
 				<img class="embedpress-banner" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/feature.svg" alt="">
 				<h3>Upgrade To <span>Pro</span></h3>
+				
 				<ul class="feature-list">
+					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Social Share</li>
 					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Lazy Loading</li>
+					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">SEO Optimized</li>
 					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Custom Branding</li>
 					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Content Protection</li>
-					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Video and Audio Custom Player</li>
-					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Advanced Options</li>
+					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Custom Audio & Video Player</li>
+					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">PDF & Documents Embedding</li>
+					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Embed From 150+ Sources</li>
+					<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Wrapper Support</li>
 				</ul>
-				<p class="embedpress-tagline">
-					All-In-One WordPress Embedding Solution To Fuel up Gutenberg
-				</p>
 
-				<a class="pro-upgrade-button" type="_blank" href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>">Upgrade to Pro <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/external-white.svg" alt=""></a>
+
+				<a class="pro-upgrade-button" target="_blank" href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>">Upgrade to Pro <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/external-white.svg" alt=""></a>
 			</div>
 
 		</div>

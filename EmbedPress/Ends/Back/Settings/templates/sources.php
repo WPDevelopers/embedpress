@@ -4,11 +4,12 @@ $icon_src = EMBEDPRESS_SETTINGS_ASSETS_URL . "img/sources/icons";
 
 $sources = [
     ["name" => "YouTube", "icon" => $icon_src . "/youtube.png", "type" => "video", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=youtube", "doc_url" => "https://embedpress.com/docs/embed-youtube-wordpress/"],
-    ["name" => "Youtube Live", "icon" => $icon_src . "/youtubelive.png", "type" => "stream", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=youtube", "doc_url" => ""],
+    ["name" => "YouTube Live", "icon" => $icon_src . "/youtubelive.png", "type" => "stream", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=youtube", "doc_url" => ""],
     ["name" => "Vimeo", "icon" => $icon_src . "/vimeo.png", "type" => "video", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=vimeo", "doc_url" => "https://embedpress.com/docs/embed-vimeo-videos-wordpress/"],
     ["name" => "Wistia", "icon" => $icon_src . "/wistia.png", "type" => "video", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=wistia", "doc_url" => "https://embedpress.com/docs/embed-wistia-videos-wordpress/"],
     ["name" => "Twitch", "icon" => $icon_src . "/twitch.png", "type" => "video", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=twitch", "doc_url" => "https://embedpress.com/docs/how-to-embed-twitch-streams-in-wordpress/"],
     ["name" => "Dailymotion", "icon" => $icon_src . "/dailymotion.png", "type" => "video", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=dailymotion", "doc_url" => "https://embedpress.com/docs/embed-dailymotion-videos-wordpress/"],
+    ["name" => "PDF", "icon" => $icon_src . "/pdf.png", "type" => "pdf", "doc_url" => "https://wpdeveloper.com/embed-pdf-documents-wordpress"],
     ["name" => "SoundCloud", "icon" => $icon_src . "/soundcloud.png", "type" => "audio", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=soundcloud", "doc_url" => "https://embedpress.com/docs/embed-soundcloud-audio-wordpress/"],
     ["name" => "Spotify", "icon" => $icon_src . "/spotify.png", "type" => "audio", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=soundcloud", "doc_url" => "https://embedpress.com/docs/how-to-embed-spotify-playlists-in-wordpress/"],
     ["name" => "Google Calendar", "icon" => $icon_src . "/google-calendar.png", "type" => "google", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=google-calendar", "doc_url" => "https://embedpress.com/docs/how-to-embed-google-calendar-in-wordpress/"],
@@ -55,7 +56,6 @@ $sources = [
     ["name" => "Coub", "icon" => $icon_src . "/coub-videos.png", "type" => "video", "doc_url" => "https://embedpress.com/docs/embed-coub-videos-iwordpress/"],
     ["name" => "Speakerdeck", "icon" => $icon_src . "/speakerdeck.png", "type" => "presentation", "doc_url" => "https://embedpress.com/docs/embed-speakerdeck-presentations-wordpress/"],
     ["name" => "ReverbNation", "icon" => $icon_src . "/reverbnation.png", "type" => "audio", "doc_url" => "https://embedpress.com/docs/embed-reverbnation-audio-wordpress/"],
-    ["name" => "Wistia", "icon" => $icon_src . "/wistia.png", "type" => "video", "doc_url" => "https://embedpress.com/docs/embed-wistia-videos-wordpress/"],
     ["name" => "Spreaker", "icon" => $icon_src . "/spreaker.png", "type" => "podcast", "doc_url" => "https://embedpress.com/docs/how-to-embed-spreaker-podcasts-in-wordpress/"],
     ["name" => "Vidyard", "icon" => $icon_src . "/vidyard.png", "type" => "video", "doc_url" => "https://embedpress.com/docs/embed-vidyard-in-wordpress/"],
     ["name" => "LearningApps", "icon" => $icon_src . "/learningapps.png", "type" => "app", "doc_url" => "https://embedpress.com/docs/how-to-embed-learningapps-apps-in-wordpress/"],
@@ -85,7 +85,6 @@ $sources = [
 
     ["name" => "Hippo Videos", "icon" => $icon_src . "/hippo-videos.png", "type" => "video", "doc_url" => ""],
 
-    ["name" => "Gumroad", "icon" => $icon_src . "/gumroad.png", "type" => "product", "doc_url" => "https://embedpress.com/docs/embed-gumroad-product/"],
     ["name" => "Roomshare Listings", "icon" => $icon_src . "/roomshare.png", "type" => "listing", "doc_url" => "https://embedpress.com/docs/embed-roomshare-listings-wordpress/"],
     ["name" => "Didacte Courses", "icon" => $icon_src . "/didacte.png", "type" => "course", "doc_url" => "https://embedpress.com/docs/how-to-embed-didacte-courses-in-wordpress/"],
     ["name" => "Lumiere", "icon" => $icon_src . "/lumiere.png", "type" => "video", "doc_url" => "https://embedpress.com/docs/how-to-embed-lumiere/"],
@@ -109,7 +108,6 @@ $sources = [
     ["name" => "ShowTheWay", "icon" => $icon_src . "/showtheway.png", "type" => "map", "doc_url" => "https://embedpress.com/docs/how-to-embed-showtheway-maps-in-wordpress/"],
     ["name" => "Blogcast", "icon" => $icon_src . "/blogcast.png", "type" => "podcast", "doc_url" => "https://embedpress.com/docs/how-to-embed-blogcast-podcasts-in-wordpress/"],
     ["name" => "VideoPress", "icon" => $icon_src . "/videopress.png", "type" => "video", "doc_url" => "https://embedpress.com/docs/how-to-embed-videopress-videos-in-wordpress/"],
-    ["name" => "Ethfiddle", "icon" => $icon_src . "/ethfiddle.png", "type" => "development", "doc_url" => "https://embedpress.com/docs/how-to-embed-ethfiddle-code-snippets-in-wordpress/"],
     ["name" => "KaKao TV", "icon" => $icon_src . "/kakaotv.png", "type" => "video", "doc_url" => "https://embedpress.com/docs/how-to-embed-kakao-tv-videos-in-wordpress/"],
     ["name" => "Crowdsignal", "icon" => $icon_src . "/crowdsignal.png", "type" => "survey", "doc_url" => "https://embedpress.com/docs/how-to-embed-crowdsignal-surveys-in-wordpress/"],
     ["name" => "Medienarchiv", "icon" => $icon_src . "/medienarchiv.png", "type" => "media", "doc_url" => "https://embedpress.com/docs/how-to-embed-medienarchiv-media-in-wordpress/"],
@@ -140,9 +138,8 @@ $sources = [
     ["name" => "Geograph G", "icon" => $icon_src . "/geograph-g.png", "type" => "map", "doc_url" => "https://embedpress.com/docs/how-to-embed-geograph-g-in-wordpress/"],
     ["name" => "Mermaid", "icon" => $icon_src . "/mermaid.png", "type" => "graphics", "doc_url" => "https://embedpress.com/docs/how-to-embed-mermaid-diagrams-in-wordpress/"],
     ["name" => "Facebook Live", "icon" => $icon_src . "/facebooklive.png", "type" => "stream", "doc_url" => "https://embedpress.com/docs/how-to-embed-facebook-live-streams-in-wordpress/"],
-    ["name" => "Polarishare", "icon" => $icon_src . "/polarishare.png", "type" => "stream", "doc_url" => "https://embedpress.com/docs/how-to-embed-polarishare-videos-in-wordpress/"],
+    ["name" => "PolariShare", "icon" => $icon_src . "/polarishare.png", "type" => "stream", "doc_url" => "https://embedpress.com/docs/how-to-embed-polarishare-videos-in-wordpress/"],
 
-    ["name" => "PDF", "icon" => $icon_src . "/pdf.png", "type" => "pdf", "doc_url" => "https://wpdeveloper.com/embed-pdf-documents-wordpress"]
 ];
 
 

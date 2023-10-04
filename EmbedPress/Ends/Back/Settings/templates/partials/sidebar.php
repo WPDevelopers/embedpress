@@ -28,13 +28,13 @@
                 <div class="tab-button-section">
                     <ul class="source-tab">
                         <!-- <li class="tab-button active" data-tab="all"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/code.svg" alt=""> All</li> -->
+                        <li class="tab-button" data-tab="audio"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/audio.svg" alt="">Audio</li>
                         <li class="tab-button" data-tab="video"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/video.svg" alt="">Video</li>
                         <li class="tab-button" data-tab="image"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/image.svg" alt="">Image</li>
-                        <li class="tab-button" data-tab="google"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/google.svg" alt="">Google</li>
-                        <li class="tab-button" data-tab="social"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/social.svg" alt="">Social</li>
-                        <li class="tab-button" data-tab="audio"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/audio.svg" alt="">Audio</li>
-                        <li class="tab-button" data-tab="stream"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/stream.svg" alt="">Live Stream</li>
                         <li class="tab-button" data-tab="pdf"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/pdf.svg" alt="">PDF & Doc</li>
+                        <li class="tab-button" data-tab="social"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/social.svg" alt="">Social</li>
+                        <li class="tab-button" data-tab="google"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/google.svg" alt="">Google Sources</li>
+                        <li class="tab-button" data-tab="stream"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/stream.svg" alt="">Live Stream</li>
                     </ul>
                 </div>
                 <?php do_action('ep_after_element_item'); ?>
@@ -60,7 +60,6 @@
             <?php do_action('ep_after_license_menu');
             }
             ?>
-
 
         </ul>
 
