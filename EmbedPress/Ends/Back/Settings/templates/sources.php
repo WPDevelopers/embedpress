@@ -15,12 +15,12 @@ $sources = [
     ["name" => "Google Calendar", "icon" => $icon_src . "/google-calendar.png", "type" => "google", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=google-calendar", "doc_url" => "https://embedpress.com/docs/embed-google-calendar-in-wordpress/"],
     ["name" => "OpenSea NFT", "icon" => $icon_src . "/opensea.png", "type" => "image", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=twitch", "doc_url" => "https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/"],
     ["name" => "Calendly", "icon" => $icon_src . "/calendly.png", "type" => "calendar", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=calendly", "doc_url" => "https://embedpress.com/docs/how-to-embed-calendly-events-with-embedpress/"],
-    ["name" => "Google Drawings", "icon" => $icon_src . "/google-drawings.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-drawings-wordpress/"],
-    ["name" => "Google Docs", "icon" => $icon_src . "/google-docs.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-docs-wordpress/"],
-    ["name" => "Google Slides", "icon" => $icon_src . "/google-slides.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-slides-wordpress/"],
+    ["name" => "Google Drawings", "icon" => $icon_src . "/google-drawings.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-drawings-wordpress/"],
+    ["name" => "Google Docs", "icon" => $icon_src . "/google-docs.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-docs-wordpress/"],
+    ["name" => "Google Slides", "icon" => $icon_src . "/google-slides.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-slides-wordpress/"],
     ["name" => "Google Forms", "icon" => $icon_src . "/google-forms.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-forms-wordpress/"],
     ["name" => "Google Maps", "icon" => $icon_src . "/google-maps.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-maps-wordpress/"],
-    ["name" => "Google Sheets", "icon" => $icon_src . "/google-sheets.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-sheets-wordpress/"],
+    ["name" => "Google Sheets", "icon" => $icon_src . "/google-sheets.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-sheets-wordpress/"],
     ["name" => "X", "icon" => $icon_src . "/x.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-twitter-tweets-wordpress/"],
     ["name" => "Facebook", "icon" => $icon_src . "/facebook.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-facebook-posts-wordpress/"],
     ["name" => "Instagram", "icon" => $icon_src . "/instagram.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-instagram-wordpress/"],
@@ -215,8 +215,8 @@ $sources = [
                 var tabName = button.getAttribute("data-tab");
 
                 tabItems.forEach(function (item) {
-                    var dataTab = item.getAttribute("data-tab");
-                    if (tabName === "all" || tabName === dataTab) {
+                    var dataTabs = item.getAttribute("data-tab").split(' ');
+                    if (tabName === "all" || dataTabs.includes(tabName)) {
                         item.style.display = "flex";
                     } else {
                         item.style.display = "none";
