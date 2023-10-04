@@ -47,14 +47,14 @@ $sources = [
     ["name" => "CodeSandbox", "icon" => $icon_src . "/codesandbox.png", "type" => "code", "doc_url" => "https://embedpress.com/docs/how-to-embed-codesandbox-codes-in-wordpress/"],
     ["name" => "Gyazo", "icon" => $icon_src . "/gyazo.png", "type" => "image", "doc_url" => "https://embedpress.com/docs/how-to-embed-gyazo/"],
     ["name" => "iFixit", "icon" => $icon_src . "/ifixit.png", "type" => "repair", "doc_url" => "https://embedpress.com/docs/how-to-embed-ifixit-repair-manuals-in-wordpress/"],
-    ["name" => "Gloria TV", "icon" => $icon_src . "/gloria-tv.png", "type" => "video", "doc_url" => "https://embedpress.com/docs/how-to-embed-gloria-tv-videos-in-wordpress/"],
+    ["name" => "Gloria.tv", "icon" => $icon_src . "/gloria-tv.png", "type" => "video", "doc_url" => "https://embedpress.com/docs/how-to-embed-gloria-tv-videos-in-wordpress/"],
     ["name" => "Boomplay Music", "icon" => $icon_src . "/boomplay.png", "type" => "music", "doc_url" => "https://embedpress.com/docs/how-to-embed-boomplay-music/"],
     ["name" => "TED", "icon" => $icon_src . "/ted-videos.png", "type" => "video", "doc_url" => "https://embedpress.com/docs/embed-ted-videos-wordpress/"],
     ["name" => "Gfycat", "icon" => $icon_src . "/gfycat.png", "type" => "gif", "doc_url" => "https://embedpress.com/docs/how-to-embed-gfycat-gifs-in-wordpress/"],
     ["name" => "Mixcloud", "icon" => $icon_src . "/mixcloud-audio.png", "type" => "audio", "doc_url" => "https://embedpress.com/docs/embed-mixcloud-audio-wordpress/"],
     ["name" => "DocDroid", "icon" => $icon_src . "/docdroid.png", "type" => "document", "doc_url" => "https://embedpress.com/docs/embed-docdroid-documentation-in-wordpress/"],
     ["name" => "Coub", "icon" => $icon_src . "/coub-videos.png", "type" => "video", "doc_url" => "https://embedpress.com/docs/embed-coub-videos-iwordpress/"],
-    ["name" => "Speakerdeck", "icon" => $icon_src . "/speakerdeck.png", "type" => "presentation", "doc_url" => "https://embedpress.com/docs/embed-speakerdeck-presentations-wordpress/"],
+    ["name" => "Speaker Deck", "icon" => $icon_src . "/speakerdeck.png", "type" => "presentation", "doc_url" => "https://embedpress.com/docs/embed-speakerdeck-presentations-wordpress/"],
     ["name" => "ReverbNation", "icon" => $icon_src . "/reverbnation.png", "type" => "audio", "doc_url" => "https://embedpress.com/docs/embed-reverbnation-audio-wordpress/"],
     ["name" => "Spreaker", "icon" => $icon_src . "/spreaker.png", "type" => "podcast", "doc_url" => "https://embedpress.com/docs/how-to-embed-spreaker-podcasts-in-wordpress/"],
     ["name" => "Vidyard", "icon" => $icon_src . "/vidyard.png", "type" => "video", "doc_url" => "https://embedpress.com/docs/embed-vidyard-in-wordpress/"],
@@ -73,7 +73,7 @@ $sources = [
     ["name" => "SAPO Videos", "icon" => $icon_src . "/sapa.png", "type" => "video", "doc_url" => "https://embedpress.com/docs/how-to-embed-sapo-videos-in-wordpress/"],
     ["name" => "Fader", "icon" => $icon_src . "/fader.png", "type" => "music", "doc_url" => "https://embedpress.com/docs/how-to-embed-fader/"],
     ["name" => "Geograph", "icon" => $icon_src . "/geograph.png", "type" => "map", "doc_url" => "https://embedpress.com/docs/how-to-embed-geograph/"],
-    ["name" => "TVCf Advertisements", "icon" => $icon_src . "/tvcf.png", "type" => "video", "doc_url" => "https://embedpress.com/docs/how-to-embed-tvcf-advertisements-in-wordpress/"],
+    ["name" => "TVCF Advertisements", "icon" => $icon_src . "/tvcf.png", "type" => "video", "doc_url" => "https://embedpress.com/docs/how-to-embed-tvcf-advertisements-in-wordpress/"],
     ["name" => "Wizer", "icon" => $icon_src . "/wizer.png", "type" => "education", "doc_url" => "https://embedpress.com/docs/how-to-embed-wizer/"],
     ["name" => "Cloudup", "icon" => $icon_src . "/cloudup.png", "type" => "cloud", "doc_url" => "https://embedpress.com/docs/embed-cloudup-videos-images-or-audios-wordpress/"],
     ["name" => "Sudomemo", "icon" => $icon_src . "/sudomemo.png", "type" => "animation", "doc_url" => "https://embedpress.com/docs/how-to-embed-sudomemo/"],
@@ -152,59 +152,63 @@ $sources = [
         <?php
         $index = 0;
         foreach ($sources as $source) : ?>
-            <div class="source-item" data-tab="<?php echo esc_attr($source['type']); ?>">
-                <div class="source-left">
-                    <div class="icon">
-                        <img class="source-image" src="<?php echo esc_url($source['icon']); ?>" alt="<?php echo esc_attr($source['name']); ?>">
-                    </div>
-                    <span class="source-name"><?php echo esc_html($source['name']); ?></span>
+        <div class="source-item" data-tab="<?php echo esc_attr($source['type']); ?>">
+            <div class="source-left">
+                <div class="icon">
+                    <img class="source-image" src="<?php echo esc_url($source['icon']); ?>"
+                        alt="<?php echo esc_attr($source['name']); ?>">
                 </div>
-                <div class="source-right">
-
-                    <?php if (!empty($source['settings'])) : ?>
-                        <a href="<?php echo esc_url($source['settings_url']); ?>">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <g clip-path="url(#a)" stroke="#988FBD" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M6.883 2.878c.284-1.17 1.95-1.17 2.234 0a1.15 1.15 0 0 0 1.715.71c1.029-.626 2.207.551 1.58 1.58a1.148 1.148 0 0 0 .71 1.715c1.17.284 1.17 1.95 0 2.234a1.15 1.15 0 0 0-.71 1.715c.626 1.029-.551 2.207-1.58 1.58a1.148 1.148 0 0 0-1.715.71c-.284 1.17-1.95 1.17-2.234 0a1.15 1.15 0 0 0-1.715-.71c-1.029.626-2.207-.551-1.58-1.58a1.15 1.15 0 0 0-.71-1.715c-1.17-.284-1.17-1.95 0-2.234a1.15 1.15 0 0 0 .71-1.715c-.626-1.029.551-2.207 1.58-1.58a1.149 1.149 0 0 0 1.715-.71Z" />
-                                    <path d="M6 8a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z" />
-                                </g>
-                                <defs>
-                                    <clipPath id="a">
-                                        <path fill="#fff" d="M0 0h16v16H0z" />
-                                    </clipPath>
-                                </defs>
-                            </svg>
-                        </a>
-                    <?php endif; ?>
-
-                    <a href="<?php if(!empty($source['doc_url'])): echo esc_url($source['doc_url']); endif; ?>" target="_blank">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                            <g clip-path="url(#a)" stroke="#988FBD" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M9.333 2v2.667a.667.667 0 0 0 .667.666h2.666" />
-                                <path d="M11.333 14H4.666a1.334 1.334 0 0 1-1.333-1.333V3.333A1.333 1.333 0 0 1 4.666 2h4.667l3.333 3.333v7.334A1.333 1.333 0 0 1 11.333 14ZM6 11.333h4M6 8.667h4" />
-                            </g>
-                            <defs>
-                                <clipPath id="a">
-                                    <path fill="#fff" d="M0 0h16v16H0z" />
-                                </clipPath>
-                            </defs>
-                        </svg>
-                    </a>
-                </div>
+                <span class="source-name"><?php echo esc_html($source['name']); ?></span>
             </div>
+            <div class="source-right">
+
+                <?php if (!empty($source['settings'])) : ?>
+                <a href="<?php echo esc_url($source['settings_url']); ?>">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#a)" stroke="#988FBD" stroke-linecap="round" stroke-linejoin="round">
+                            <path
+                                d="M6.883 2.878c.284-1.17 1.95-1.17 2.234 0a1.15 1.15 0 0 0 1.715.71c1.029-.626 2.207.551 1.58 1.58a1.148 1.148 0 0 0 .71 1.715c1.17.284 1.17 1.95 0 2.234a1.15 1.15 0 0 0-.71 1.715c.626 1.029-.551 2.207-1.58 1.58a1.148 1.148 0 0 0-1.715.71c-.284 1.17-1.95 1.17-2.234 0a1.15 1.15 0 0 0-1.715-.71c-1.029.626-2.207-.551-1.58-1.58a1.15 1.15 0 0 0-.71-1.715c-1.17-.284-1.17-1.95 0-2.234a1.15 1.15 0 0 0 .71-1.715c-.626-1.029.551-2.207 1.58-1.58a1.149 1.149 0 0 0 1.715-.71Z" />
+                            <path d="M6 8a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z" />
+                        </g>
+                        <defs>
+                            <clipPath id="a">
+                                <path fill="#fff" d="M0 0h16v16H0z" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </a>
+                <?php endif; ?>
+
+                <a href="<?php if(!empty($source['doc_url'])): echo esc_url($source['doc_url']); endif; ?>"
+                    target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <g clip-path="url(#a)" stroke="#988FBD" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9.333 2v2.667a.667.667 0 0 0 .667.666h2.666" />
+                            <path
+                                d="M11.333 14H4.666a1.334 1.334 0 0 1-1.333-1.333V3.333A1.333 1.333 0 0 1 4.666 2h4.667l3.333 3.333v7.334A1.333 1.333 0 0 1 11.333 14ZM6 11.333h4M6 8.667h4" />
+                        </g>
+                        <defs>
+                            <clipPath id="a">
+                                <path fill="#fff" d="M0 0h16v16H0z" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </a>
+            </div>
+        </div>
         <?php $index++;
         endforeach; ?>
     </div>
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         var tabButtons = document.querySelectorAll(".tab-button");
         var tabItems = document.querySelectorAll(".source-item");
 
-        tabButtons.forEach(function(button) {
-            button.addEventListener("click", function() {
-                tabButtons.forEach(function(btn) {
+        tabButtons.forEach(function (button) {
+            button.addEventListener("click", function () {
+                tabButtons.forEach(function (btn) {
                     btn.classList.remove("active");
                 });
 
@@ -212,7 +216,7 @@ $sources = [
 
                 var tabName = button.getAttribute("data-tab");
 
-                tabItems.forEach(function(item) {
+                tabItems.forEach(function (item) {
                     var dataTab = item.getAttribute("data-tab");
                     if (tabName === "all" || tabName === dataTab) {
                         item.style.display = "flex";

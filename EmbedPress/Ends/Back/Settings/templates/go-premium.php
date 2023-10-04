@@ -23,18 +23,34 @@ $sources = [
 		<?php echo esc_html__( 'Why upgrade to Premium Version?', 'embedpress' ); ?>
 	</h1>
 	<div class="source-settings-page page-premium">
-		<p class="page-premium-text"><?php printf( esc_html__( "The premium version helps us to continue development of the product incorporating even more features and enhancements. You will also get world class support from our dedicated team, 24/7.", "embedpress" )); ?></p>
+		<p class="page-premium-text">
+			<?php printf( esc_html__( "The premium version helps us to continue development of the product incorporating even more features and enhancements. You will also get world class support from our dedicated team, 24/7.", "embedpress" )); ?>
+		</p>
 	</div>
 	<div class="upgrage__card__tab__style">
 		<h3><?php esc_html_e("Exclusive PRO Features", "embedpress"); ?></h3>
 		<ul class="upgrage__card__tab__list">
-			<li class="upgrage__card__tab__list__item"><?php printf( esc_html__( "Lazy Loading", "embedpress" )); ?></li>
-			<li class="upgrage__card__tab__list__item"><?php printf( esc_html__( "Video & Audio Custom Player", "embedpress" )); ?></li>
-			<li class="upgrage__card__tab__list__item"><?php printf( esc_html__( "Custom Branding", "embedpress" )); ?></li>
-			<li class="upgrage__card__tab__list__item"><?php printf( esc_html__( "Advanced Customization Options", "embedpress" )); ?></li>
-			<li class="upgrage__card__tab__list__item"><?php printf( esc_html__( "Content Protection", "embedpress" )); ?></li>
-			<li class="upgrage__card__tab__list__item"><?php printf( esc_html__( "24/7 Customer Support", "embedpress" )); ?></li>
+			<li class="upgrage__card__tab__list__item"><?php printf( esc_html__( "Social Share", "embedpress" )); ?>
+			</li>
+			<li class="upgrage__card__tab__list__item"><?php printf( esc_html__( "Lazy Loading", "embedpress" )); ?>
+			</li>
+			<li class="upgrage__card__tab__list__item"><?php printf( esc_html__( "SEO Optimized", "embedpress" )); ?>
+			</li>
+			<li class="upgrage__card__tab__list__item"><?php printf( esc_html__( "Custom Branding", "embedpress" )); ?>
+			</li>
+			<li class="upgrage__card__tab__list__item">
+				<?php printf( esc_html__( "Content Protection", "embedpress" )); ?></li>
+			<li class="upgrage__card__tab__list__item">
+				<?php printf( esc_html__( "Custom Audio & Video Player", "embedpress" )); ?></li>
+			<li class="upgrage__card__tab__list__item">
+				<?php printf( esc_html__( "PDF & Documents Embedding", "embedpress" )); ?></li>
+			<li class="upgrage__card__tab__list__item">
+				<?php printf( esc_html__( "Embed From 150+ Sources", "embedpress" )); ?></li>
+			<li class="upgrage__card__tab__list__item"><?php printf( esc_html__( "Wrapper Support", "embedpress" )); ?>
+			</li>
 		</ul>
-		<a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="button button-pro-upgrade"><?php esc_html_e("Upgrade To Pro", "embedpress"); ?><i class="ep-icon ep-link-icon"></i></a>
+		<a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank"
+			class="button button-pro-upgrade"><?php esc_html_e("Upgrade To Pro", "embedpress"); ?><i
+				class="ep-icon ep-link-icon"></i></a>
 	</div>
 </div>
