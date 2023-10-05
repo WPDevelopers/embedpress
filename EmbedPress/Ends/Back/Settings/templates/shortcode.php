@@ -25,8 +25,7 @@
 		<?php if (empty($pro_active) || !$pro_active) : ?>
 			<div class="embedpress-upgrade-pro-sidebar">
 				<div class="gradient-color">
-					<img class="embedpress-banner" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/feature.svg" alt="">
-					<h3>Upgrade To <span>Pro</span></h3>
+					<img class="embedpress-banner" src="<?php echo esc_url('https://embedpress.com/wp-content/uploads/2023/10/Mega-Page.gif'); ?>" alt="">
 					
 					<ul class="feature-list">
 						<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Social Share</li>

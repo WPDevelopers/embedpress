@@ -2418,9 +2418,10 @@ a.site__logo {
     border-radius: 16px;
     background: linear-gradient(192deg, #FFE3E1 4%, #E9E4FF 98.26%);
     padding: 8px;
+    margin-top: -70px;
 }
 
-.shortcode-settings-wrapper{
+.shortcode-settings-wrapper {
     display: flex;
 
 }
@@ -2432,9 +2433,17 @@ a.site__logo {
         margin-right: 0;
     }
 
+}
+
+@media (max-width:1024px) {
+    .shortcode-settings-wrapper , .embedpress_general_settings__form:not(:last-child), .embedpress__shortcode{
+        width: 100%;
+        display: block;
+    }
     .embedpress-upgrade-pro-sidebar {
         display: none;
     }
+    
 }
 
 @media (max-width: 767px) {
@@ -2443,9 +2452,6 @@ a.site__logo {
         margin-right: 0;
     }
 
-    .embedpress-upgrade-pro-sidebar {
-        display: none;
-    }
 }
 
 .embedpress-upgrade-pro-sidebar .gradient-color {
@@ -2512,7 +2518,7 @@ p.embedpress-tagline {
 .pro-upgrade-button {
     border-radius: 8px;
     background: #FF7369;
-    padding: 10px 20px;
+    padding: 16px 20px;
     color: #fff !important;
     text-align: center;
     font-size: 16px;
