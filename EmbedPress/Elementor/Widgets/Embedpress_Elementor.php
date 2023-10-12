@@ -2700,14 +2700,8 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'label' => __('General', 'embedpress'),
 				'tab'   => Controls_Manager::TAB_STYLE,
-				'conditions'  => [
-					'terms' => [
-						[
-							'name' => 'embedpress_pro_embeded_source',
-							'operator' => '!==',
-							'value' => 'opensea',
-						],
-					],
+				'condition'   => [
+					'embedpress_pro_embeded_source!' => 'opensea',
 				]
 
 			]
