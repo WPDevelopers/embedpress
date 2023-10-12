@@ -162,7 +162,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         $params = $this->getParams();
 
-        $api_key = 'b61c8a54123d4dcb9acc1b9c26a01cd1';
+        $api_key = 'e63d36afdf3f424d9adf1a06269d7ee3';
         
         if(!empty($opensea_settings['api_key'])){
             $api_key = $opensea_settings['api_key'];
@@ -245,7 +245,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         $opensea_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
 
-        $api_key = 'b61c8a54123d4dcb9acc1b9c26a01cd1';
+        $api_key = 'e63d36afdf3f424d9adf1a06269d7ee3';
         $orderby = 'desc';
 
         if(!empty($opensea_settings['api_key'])){
