@@ -99,7 +99,7 @@ class SelfHosted extends ProviderAdapter implements ProviderInterface
         $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 450;
 
         // Check if the url is already converted to the embed format  
-        if ($this->fileExtention($src_url) === 'pptx' || $this->fileExtention($src_url) === 'ppt' || $this->fileExtention($src_url) === 'xlsx' || $this->fileExtention($src_url) === 'xls' || $this->fileExtention($src_url) === 'doc' || $this->fileExtention($src_url) === 'docx') {
+        if ($this->fileExtention($src_url) === 'ppsx' || $this->fileExtention($src_url) === 'pptx' || $this->fileExtention($src_url) === 'ppt' || $this->fileExtention($src_url) === 'xlsx' || $this->fileExtention($src_url) === 'xls' || $this->fileExtention($src_url) === 'doc' || $this->fileExtention($src_url) === 'docx') {
             $src_url = '//view.officeapps.live.com/op/embed.aspx?src=' . $this->url;
         }
 
