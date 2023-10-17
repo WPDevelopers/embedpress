@@ -1172,6 +1172,27 @@ a.ep-social-icon.pinterest svg {
   font-size: 13px;
   color: #5b4e96; }
 
+.ep-calendly-data-link {
+  display: -ms-flexbox;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-align: center;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 5px;
+  padding: 0 10px;
+  margin-top: -10px !important;
+  margin-bottom: 15px; }
+
+.ep-calendly-data-link svg {
+  width: 22px;
+  height: auto; }
+
+.ep-calendly-data-link a {
+  font-weight: 500;
+  font-size: 14px;
+  color: #5b4e96; }
+
 .tips__alert__wrap {
   position: fixed;
   top: 0;
