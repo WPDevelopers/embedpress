@@ -715,6 +715,32 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: 0.6
 			},
 
+			//Ads Manage attributes
+			adManager: {
+				type: 'boolean',
+				default: false
+			},
+			adSource: {
+				type: 'string',
+				default: 'video'
+			},
+			adContent: {
+				type: 'string',
+				default: ''
+			},
+			adStart: {
+				type: 'string',
+				default: ''
+			},
+			adSkipButton: {
+				type: 'boolean',
+				default: true
+			},
+			adSkipButtonAfrer: {
+				type: 'string',
+				default: '5'
+			},
+
 		},
 		/**
 		 * The edit function describes the structure of your block in the context of the editor.

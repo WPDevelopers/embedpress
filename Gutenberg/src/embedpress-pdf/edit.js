@@ -17,6 +17,7 @@ import {
 } from '@wordpress/components';
 
 import { PdfIcon } from '../common/icons'
+import AdControl from '../common/ads-control';
 
 /**
  * WordPress dependencies
@@ -537,6 +538,8 @@ class EmbedPressPDFEdit extends Component {
 						<LockControl attributes={attributes} setAttributes={setAttributes} />
 						
 						<ContentShare attributes={attributes} setAttributes={setAttributes} />
+						<AdControl attributes={attributes} setAttributes={setAttributes} />
+
 					</InspectorControls>
 
 					<style style={{ display: "none" }}>
