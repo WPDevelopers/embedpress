@@ -996,9 +996,9 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                 </PanelBody>
 
+                <AdControl attributes={attributes} setAttributes={setAttributes} />
                 <LockControl attributes={attributes} setAttributes={setAttributes} />
                 <ContentShare attributes={attributes} setAttributes={setAttributes} />
-                <AdControl attributes={attributes} setAttributes={setAttributes} />
             </div>
         )
     )

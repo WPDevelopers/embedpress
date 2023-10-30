@@ -18,30 +18,48 @@ const {
 import {
     MediaUpload,
 } from "@wordpress/block-editor";
+import AdTemplate from './ads-template';
 
 export default function AdControl({ attributes, setAttributes }) {
 
-    const onSelectImage = (logo) => {
-        console.log(logo.sizes.full.url);
-        setAttributes({ adContent: logo.sizes.full.url });
-    }
-    const removeImage = (e) => {
-        setAttributes({ adContent: '' });
-    }
+
 
     const {
         adManager,
         adSource,
         adContent,
+        adFileUrl,
         adStart,
         adSkipButton,
         adSkipButtonAfrer
 
     } = attributes;
 
+    const onSelectImage = (ad) => {
+        console.log({ ad });
+        if (ad.type === 'image') {
+            setAttributes({ adContent: ad });
+            setAttributes({ adFileUrl: ad.sizes.full.url });
+            setAttributes({ adSource: 'image' });
+        }
+        else if (ad.type === 'video') {
+            setAttributes({ adContent: ad });
+            setAttributes({ adFileUrl: ad.url });
+            setAttributes({ adSource: 'video' });
+
+        }
+    }
+
+    console.log({adContent, adFileUrl})
+
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     const inputRef = useRef(null);
+
+    let adLabel = 'Ad Content';
+    if (adContent) {
+        adLabel = 'Preview';
+    }
 
     return (
         <PanelBody title={__('Ad Manager', 'embedpress')} initialOpen={false} className={adManager ? "" : "disabled-content-protection"} >
@@ -66,48 +84,52 @@ export default function AdControl({ attributes, setAttributes }) {
                             label={__("Ad Source")}
                             value={adSource}
                             options={[
-                                { label: 'Video', value: 'video' },
-                                { label: 'Image', value: 'image' },
+                                { label: 'Upload Video', value: 'video' },
+                                { label: 'Upload Image', value: 'image' },
+                                { label: 'URL', value: 'url' },
                             ]}
                             onChange={(adSource) => setAttributes({ adSource })}
                             __nextHasNoMarginBottom
                         />
 
                         <div>
-                            <label class="custom-share-thumbnail-label">Ad Content</label>
+
+                            <label class="custom-share-thumbnail-label">{adLabel}</label>
                             {
-                                adContent && (
-                                    <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
-                                        <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
-                                            <span class="dashicon dashicons dashicons-trash"></span>
-                                        </button>
-                                        <img
-                                            src={adContent}
-                                            alt="John"
-                                        />
-                                    </div>
+                                adFileUrl && (
+                                    <AdTemplate attributes={attributes} setAttributes={setAttributes} />
                                 )
                             }
 
-                            <div className={'ep-custom-logo-button'} >
-                                <MediaUpload
-                                    onSelect={onSelectImage}
-                                    allowedTypes={['image', 'mp4']}
-                                    value={adContent}
-                                    render={({ open }) => (
-                                        <Button className={'ep-logo-upload-button'} icon={!adContent ? 'upload' : 'update'} onClick={open}>
-                                            {
-                                                (!adContent) ? 'Upload Ad' : 'Change Ad'
-                                            }
-                                        </Button>
-                                    )}
+                            {
+                                adSource !== 'url' ? (
+                                    <div className={'ep-custom-logo-button'}>
+                                        <MediaUpload
+                                            onSelect={onSelectImage}
+                                            allowedTypes={['image', 'video']}
+                                            value={adContent}
+                                            render={({ open }) => (
+                                                <Button className={'ep-logo-upload-button'} icon={!adContent ? 'upload' : 'update'} onClick={open}>
+                                                    {
+                                                        (!adContent) ? 'Upload Ad' : 'Change Ad'
+                                                    }
+                                                </Button>
+                                            )}
+                                        />
+                                    </div>
+                                ) : (
+                                    <TextControl
+                                        value={adFileUrl}
+                                        onChange={(adFileUrl) => setAttributes({ adFileUrl })}
+                                    />
+                                )
+                            }
 
-                                />
-                            </div>
+
                         </div>
 
                         <TextControl
-                            label={__("Ad Start")}
+                            label={__("Ad Start After (sec)")}
                             value={adStart}
                             onChange={(adStart) => setAttributes({ adStart: adStart })}
                         />
@@ -122,7 +144,7 @@ export default function AdControl({ attributes, setAttributes }) {
                             adSkipButton && (
 
                                 <TextControl
-                                    label={__("Skip Button After(sec)")}
+                                    label={__("Skip Button After (sec)")}
                                     value={adSkipButtonAfrer}
                                     onChange={(adSkipButtonAfrer) => setAttributes({ adSkipButtonAfrer: adSkipButtonAfrer })}
                                 />

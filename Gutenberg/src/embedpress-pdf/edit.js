@@ -535,10 +535,9 @@ class EmbedPressPDFEdit extends Component {
 							}
 						</PanelBody>
 
-						<LockControl attributes={attributes} setAttributes={setAttributes} />
-						
-						<ContentShare attributes={attributes} setAttributes={setAttributes} />
 						<AdControl attributes={attributes} setAttributes={setAttributes} />
+						<LockControl attributes={attributes} setAttributes={setAttributes} />
+						<ContentShare attributes={attributes} setAttributes={setAttributes} />
 
 					</InspectorControls>
 

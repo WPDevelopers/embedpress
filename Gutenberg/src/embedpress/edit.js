@@ -6,6 +6,7 @@ import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
 import { removedBlockID, saveSourceData, getPlayerOptions } from '../common/helper';
+import AdTemplate from '../common/ads-template';
 
 import { shareIconsHtml } from '../common/helper';
 import md5 from 'md5';

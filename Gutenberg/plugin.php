@@ -459,7 +459,37 @@ function embedpress_gutenberg_register_all_block()
 							'cPopupLinkText' => array(
 								'type' => 'string',
 								'default' => 'Schedule time with me'
-							)
+							),
+
+							//Ad attributes
+							'adManager' => [
+								'type' => 'boolean',
+								'default' => false
+							],
+							'adSource' => [
+								'type' => 'string',
+								'default' => 'video'
+							],
+							'adContent' => [
+								'type' => 'string',
+								'default' => ''
+							],
+							'adUrl' => [
+								'type' => 'string',
+								'default' => ''
+							],
+							'adStart' => [
+								'type' => 'string',
+								'default' => ''
+							],
+							'adSkipButton' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'adSkipButtonAfter' => [
+								'type' => 'string',
+								'default' => '5'
+							]
 
 						),
 					]);
@@ -569,6 +599,36 @@ function embedpress_gutenberg_register_all_block()
 								'type' => "string",
 								'default' => 'px',
 							],
+
+							//Ad attributes
+							'adManager' => [
+								'type' => 'boolean',
+								'default' => false
+							],
+							'adSource' => [
+								'type' => 'string',
+								'default' => 'video'
+							],
+							'adContent' => [
+								'type' => 'string',
+								'default' => ''
+							],
+							'adUrl' => [
+								'type' => 'string',
+								'default' => ''
+							],
+							'adStart' => [
+								'type' => 'string',
+								'default' => ''
+							],
+							'adSkipButton' => [
+								'type' => 'boolean',
+								'default' => true
+							],
+							'adSkipButtonAfter' => [
+								'type' => 'string',
+								'default' => '5'
+							]
 						),
 						'render_callback' => 'embedpress_pdf_render_block',
 					]);

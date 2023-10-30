@@ -728,6 +728,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: ''
 			},
+			adFileUrl: {
+				type: 'string',
+				default: ''
+			},
+			adUrl: {
+				type: 'string',
+				default: ''
+			},
 			adStart: {
 				type: 'string',
 				default: ''
