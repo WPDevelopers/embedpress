@@ -70,6 +70,11 @@ if(!function_exists('lock_content_form_handler')){
 function embedpress_render_block($attributes)
 {
 
+	// echo '<pre>';
+	// print_r($attributes);
+	// echo '</pre>';
+
+
 	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
 	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
@@ -149,6 +154,11 @@ function embedpress_render_block($attributes)
 
 	$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']): '';
 
+	// Example usage
+	$adSource = isset($attributes['adSource']) ? $attributes['adSource']: ''; // Replace with actual value
+	$adContent = ['fileLength' => '02:30']; // Replace with actual value
+	$adFileUrl = isset($attributes['adFileUrl']) ? $attributes['adFileUrl']: ''; // Replace with actual value
+
 	if (!empty($attributes['embedHTML'])) {
 		$embed  = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
 
@@ -207,6 +217,11 @@ function embedpress_render_block($attributes)
 								}
 								Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
 							}
+
+							if(!empty($attributes['adManager'])) {
+								$embed .= Helper::generateAdTemplate($adSource, $adContent, $adFileUrl);
+							}
+
 						?>
 					</div>
 				</div>

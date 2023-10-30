@@ -1274,6 +1274,16 @@ p.ep-live-video-info svg {
 .components-text-control__input::placeholder,
 .components-textarea-control__input::placeholder {
   color: #757575; }
+
+button.skip-ad-button {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  border: none;
+  background: #ff00578a;
+  padding: 6px 8px;
+  color: white;
+  z-index: 122222222; }
 /**
  * #.# Common SCSS
  *
