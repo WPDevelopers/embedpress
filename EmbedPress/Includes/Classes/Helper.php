@@ -391,91 +391,91 @@ class Helper
 				opacity: 1;
 			}
 		</style>
-<?php
+		<?php
 
 
-		$style = ob_get_clean();
+				$style = ob_get_clean();
 
-		if (!class_exists('\simple_html_dom')) {
-			include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
-		}
+				if (!class_exists('\simple_html_dom')) {
+					include_once EMBEDPRESS_PATH_CORE . 'simple_html_dom.php';
+				}
 
-		$cta    = '';
-		$img = '';
+				$cta    = '';
+				$img = '';
 
-		if (!empty($atts['customlogo'])) {
-			$img = '<img src="' . esc_url($atts['customlogo']) . '"/>';
+				if (!empty($atts['customlogo'])) {
+					$img = '<img src="' . esc_url($atts['customlogo']) . '"/>';
 
-			$imgDom = str_get_html($img);
-			$imgDom = $imgDom->find('img', 0);
-			$imgDom->setAttribute('class', 'watermark ep-custom-logo');
-			$imgDom->removeAttribute('style');
-			$imgDom->setAttribute('width', 'auto');
-			$imgDom->setAttribute('height', 'auto');
-			ob_start();
-			echo $imgDom;
+					$imgDom = str_get_html($img);
+					$imgDom = $imgDom->find('img', 0);
+					$imgDom->setAttribute('class', 'watermark ep-custom-logo');
+					$imgDom->removeAttribute('style');
+					$imgDom->setAttribute('width', 'auto');
+					$imgDom->setAttribute('height', 'auto');
+					ob_start();
+					echo $imgDom;
 
-			$cta .= ob_get_clean();
+					$cta .= ob_get_clean();
 
-			$imgDom->clear();
-			unset($img, $imgDom);
+					$imgDom->clear();
+					unset($img, $imgDom);
 
-			if (!empty($brandUrl)) {
-				$cta = '<a href="' . esc_url($brandUrl) . '" target="_blank">' . $cta . '</a>';
+					if (!empty($brandUrl)) {
+						$cta = '<a href="' . esc_url($brandUrl) . '" target="_blank">' . $cta . '</a>';
+					}
+					$dom     = str_get_html($embedHTML);
+
+					$wrapDiv = $dom->find($uniqid, 0);
+
+					if (!empty($wrapDiv) && is_object($wrapDiv)) {
+						$wrapDiv->innertext .= $cta;
+					}
+
+					ob_start();
+					echo $wrapDiv;
+
+					$markup = ob_get_clean();
+
+					$dom->clear();
+					unset($dom, $wrapDiv);
+
+					$embedHTML = $style . $markup;
+				}
+
+				return $embedHTML;
 			}
-			$dom     = str_get_html($embedHTML);
-
-			$wrapDiv = $dom->find($uniqid, 0);
-
-			if (!empty($wrapDiv) && is_object($wrapDiv)) {
-				$wrapDiv->innertext .= $cta;
-			}
-
-			ob_start();
-			echo $wrapDiv;
-
-			$markup = ob_get_clean();
-
-			$dom->clear();
-			unset($dom, $wrapDiv);
-
-			$embedHTML = $style . $markup;
-		}
-
-		return $embedHTML;
-	}
 
 
-	public static function embed_content_share($content_id = '', $attributes = [])
-	{
+			public static function embed_content_share($content_id = '', $attributes = [])
+			{
 
-		$share_position = !empty($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
-		$custom_thumnail = !empty($attributes['customThumbnail']) ? urlencode($attributes['customThumbnail']) : '';
-		$custom_title = !empty($attributes['customTitle']) ? urlencode($attributes['customTitle']) : '';
-		$custom_description = !empty($attributes['customDescription']) ? urlencode($attributes['customDescription']) : '';
+				$share_position = !empty($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
+				$custom_thumnail = !empty($attributes['customThumbnail']) ? urlencode($attributes['customThumbnail']) : '';
+				$custom_title = !empty($attributes['customTitle']) ? urlencode($attributes['customTitle']) : '';
+				$custom_description = !empty($attributes['customDescription']) ? urlencode($attributes['customDescription']) : '';
 
-		$page_url = urlencode(get_permalink() . '?hash=' . $content_id);
+				$page_url = urlencode(get_permalink() . '?hash=' . $content_id);
 
-		$social_icons = '<div class="ep-social-share-wraper"><div class="ep-social-share share-position-' . esc_attr($share_position) . '">';
-		$social_icons .= '<a href="https://www.facebook.com/sharer/sharer.php?u=' . $page_url . '" class="ep-social-icon facebook" target="_blank">
+				$social_icons = '<div class="ep-social-share-wraper"><div class="ep-social-share share-position-' . esc_attr($share_position) . '">';
+				$social_icons .= '<a href="https://www.facebook.com/sharer/sharer.php?u=' . $page_url . '" class="ep-social-icon facebook" target="_blank">
 			<svg width="64px" height="64px" fill="#000000" viewBox="0 -6 512 512" xmlns="http://www.w3.org/2000/svg">
 			<path d="M0 0h512v500H0z" fill="#475a96"/>
 			<path d="m375.72 112.55h-237.43c-8.137 0-14.73 6.594-14.73 14.73v237.43c0 8.135 6.594 14.73 14.73 14.73h127.83v-103.36h-34.781v-40.28h34.781v-29.705c0-34.473 21.055-53.244 51.807-53.244 14.73 0 27.391 1.097 31.08 1.587v36.026l-21.328 0.01c-16.725 0-19.963 7.947-19.963 19.609v25.717h39.887l-5.193 40.28h-34.693v103.36h68.012c8.135 0 14.73-6.596 14.73-14.73v-237.43c-1e-3 -8.137-6.596-14.73-14.731-14.73z" fill="#fff"/>
 			</svg>
 			</a>';
-		$social_icons .= '<a href="https://twitter.com/intent/tweet?url=' . $page_url . '&text=' . $custom_title . '" class="ep-social-icon twitter" target="_blank">
+				$social_icons .= '<a href="https://twitter.com/intent/tweet?url=' . $page_url . '&text=' . $custom_title . '" class="ep-social-icon twitter" target="_blank">
 			<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" viewBox="0 0 248 204">
 				<path fill="#ffffff"
 					d="M221.95 51.29c.15 2.17.15 4.34.15 6.53 0 66.73-50.8 143.69-143.69 143.69v-.04c-27.44.04-54.31-7.82-77.41-22.64 3.99.48 8 .72 12.02.73 22.74.02 44.83-7.61 62.72-21.66-21.61-.41-40.56-14.5-47.18-35.07 7.57 1.46 15.37 1.16 22.8-.87-23.56-4.76-40.51-25.46-40.51-49.5v-.64c7.02 3.91 14.88 6.08 22.92 6.32C11.58 63.31 4.74 33.79 18.14 10.71c25.64 31.55 63.47 50.73 104.08 52.76-4.07-17.54 1.49-35.92 14.61-48.25 20.34-19.12 52.33-18.14 71.45 2.19 11.31-2.23 22.15-6.38 32.07-12.26-3.77 11.69-11.66 21.62-22.2 27.93 10.01-1.18 19.79-3.86 29-7.95-6.78 10.16-15.32 19.01-25.2 26.16z" />
 			</svg>
 			</a>';
-		$social_icons .= '<a href="http://pinterest.com/pin/create/button/?url=' . $page_url . '&media=' . $custom_thumnail . '&description=' . $custom_description . '" class="ep-social-icon pinterest" target="_blank">
+				$social_icons .= '<a href="http://pinterest.com/pin/create/button/?url=' . $page_url . '&media=' . $custom_thumnail . '&description=' . $custom_description . '" class="ep-social-icon pinterest" target="_blank">
 
 				<svg xmlns="http://www.w3.org/2000/svg" height="800" width="1200" viewBox="-36.42015 -60.8 315.6413 364.8"><path d="M121.5 0C54.4 0 0 54.4 0 121.5 0 173 32 217 77.2 234.7c-1.1-9.6-2-24.4.4-34.9 2.2-9.5 14.2-60.4 14.2-60.4s-3.6-7.3-3.6-18c0-16.9 9.8-29.5 22-29.5 10.4 0 15.4 7.8 15.4 17.1 0 10.4-6.6 26-10.1 40.5-2.9 12.1 6.1 22 18 22 21.6 0 38.2-22.8 38.2-55.6 0-29.1-20.9-49.4-50.8-49.4-34.6 0-54.9 25.9-54.9 52.7 0 10.4 4 21.6 9 27.7 1 1.2 1.1 2.3.8 3.5-.9 3.8-3 12.1-3.4 13.8-.5 2.2-1.8 2.7-4.1 1.6-15.2-7.1-24.7-29.2-24.7-47.1 0-38.3 27.8-73.5 80.3-73.5 42.1 0 74.9 30 74.9 70.2 0 41.9-26.4 75.6-63 75.6-12.3 0-23.9-6.4-27.8-14 0 0-6.1 23.2-7.6 28.9-2.7 10.6-10.1 23.8-15.1 31.9 11.4 3.5 23.4 5.4 36 5.4 67.1 0 121.5-54.4 121.5-121.5C243 54.4 188.6 0 121.5 0z" fill="#fff"/></svg>
 
 			</a>';
 
-		$social_icons .= '<a href="https://www.linkedin.com/sharing/share-offsite/?url=' . $page_url . '&title=' . $custom_title . '&summary=' . $custom_description . '&source=LinkedIn" class="ep-social-icon linkedin" target="_blank">
+				$social_icons .= '<a href="https://www.linkedin.com/sharing/share-offsite/?url=' . $page_url . '&title=' . $custom_title . '&summary=' . $custom_description . '&source=LinkedIn" class="ep-social-icon linkedin" target="_blank">
 
 			<svg fill="#ffffff" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
 				viewBox="0 0 310 310" xml:space="preserve">
@@ -491,336 +491,400 @@ class Helper
 			</g>
 			</svg>
 		</a>';
-		$social_icons .= '</div></div>';
+				$social_icons .= '</div></div>';
 
-		return  $social_icons;
-	}
+				return  $social_icons;
+			}
 
-	public static function ep_get_elementor_widget_settings($page_settings = '', $id = '', $widgetType = '')
-	{
+			public static function ep_get_elementor_widget_settings($page_settings = '', $id = '', $widgetType = '')
+			{
 
-		$data = json_decode($page_settings, true);
+				$data = json_decode($page_settings, true);
 
-		// Search for the element with the given ID
-		$element = null;
-		foreach ($data as $section) {
-			foreach ($section['elements'] as $column) {
-				foreach ($column['elements'] as $el) {
-					if ($el['id'] == $id && $el['elType'] == 'widget' && $el['widgetType'] == $widgetType) {
-						$element = $el;
-						break 3;
+				// Search for the element with the given ID
+				$element = null;
+				foreach ($data as $section) {
+					foreach ($section['elements'] as $column) {
+						foreach ($column['elements'] as $el) {
+							if ($el['id'] == $id && $el['elType'] == 'widget' && $el['widgetType'] == $widgetType) {
+								$element = $el;
+								break 3;
+							}
+						}
 					}
 				}
+
+				// Output the element code
+				if ($element) {
+					return $element;;
+				}
 			}
-		}
 
-		// Output the element code
-		if ($element) {
-			return $element;;
-		}
-	}
+			public static function ep_get_popup_icon()
+			{
+				$svg = '<div class="ep-doc-popup-icon" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" xml:space="preserve"><path fill="#fff" d="M5 3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-6l-2-2v8H5V5h8l-2-2H5zm9 0 2.7 2.7-7.5 7.5 1.7 1.7 7.5-7.5L21 10V3h-7z"/><path style="fill:none" d="M0 0h24v24H0z"/></svg></div>';
 
-	public static function ep_get_popup_icon()
-	{
-		$svg = '<div class="ep-doc-popup-icon" ><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" xml:space="preserve"><path fill="#fff" d="M5 3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-6l-2-2v8H5V5h8l-2-2H5zm9 0 2.7 2.7-7.5 7.5 1.7 1.7 7.5-7.5L21 10V3h-7z"/><path style="fill:none" d="M0 0h24v24H0z"/></svg></div>';
+				return $svg;
+			}
+			public static function ep_get_download_icon()
+			{
+				$svg = '<div class="ep-doc-download-icon" ><svg width="25" height="25" viewBox="0 0 0.6 0.6" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" fill-rule="evenodd" d="M.525.4A.025.025 0 0 1 .55.422v.053A.075.075 0 0 1 .479.55H.125A.075.075 0 0 1 .05.479V.425A.025.025 0 0 1 .1.422v.053A.025.025 0 0 0 .122.5h.353A.025.025 0 0 0 .5.478V.425A.025.025 0 0 1 .525.4ZM.3.05a.025.025 0 0 1 .025.025v.24L.357.283A.025.025 0 0 1 .39.281l.002.002a.025.025 0 0 1 .002.033L.392.318.317.393.316.394.314.395.311.397.308.398.305.399.301.4H.295L.292.399.289.398.287.397.285.395A.025.025 0 0 1 .283.393L.208.318A.025.025 0 0 1 .241.281l.002.002.032.032v-.24A.025.025 0 0 1 .3.05Z"/></svg></div>';
 
-		return $svg;
-	}
-	public static function ep_get_download_icon()
-	{
-		$svg = '<div class="ep-doc-download-icon" ><svg width="25" height="25" viewBox="0 0 0.6 0.6" xmlns="http://www.w3.org/2000/svg"><path fill="#fff" fill-rule="evenodd" d="M.525.4A.025.025 0 0 1 .55.422v.053A.075.075 0 0 1 .479.55H.125A.075.075 0 0 1 .05.479V.425A.025.025 0 0 1 .1.422v.053A.025.025 0 0 0 .122.5h.353A.025.025 0 0 0 .5.478V.425A.025.025 0 0 1 .525.4ZM.3.05a.025.025 0 0 1 .025.025v.24L.357.283A.025.025 0 0 1 .39.281l.002.002a.025.025 0 0 1 .002.033L.392.318.317.393.316.394.314.395.311.397.308.398.305.399.301.4H.295L.292.399.289.398.287.397.285.395A.025.025 0 0 1 .283.393L.208.318A.025.025 0 0 1 .241.281l.002.002.032.032v-.24A.025.025 0 0 1 .3.05Z"/></svg></div>';
+				return $svg;
+			}
 
-		return $svg;
-	}
-
-	public static function ep_get_print_icon()
-	{
-		$svg = '<div class="ep-doc-print-icon" ><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
+			public static function ep_get_print_icon()
+			{
+				$svg = '<div class="ep-doc-print-icon" ><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
 		<path d="M19 8H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zm-3 11H8v-5h8v5zm3-7c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm-1-9H6v4h12V3z" fill="#fff"/>
 		</svg></div>';
 
-		return $svg;
-	}
+				return $svg;
+			}
 
-	public static function ep_get_fullscreen_icon()
-	{
-		$svg = '<div class="ep-doc-fullscreen-icon"><svg width="25" height="25" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+			public static function ep_get_fullscreen_icon()
+			{
+				$svg = '<div class="ep-doc-fullscreen-icon"><svg width="25" height="25" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
 		<path d="m3 15 .117.007a1 1 0 0 1 .876.876L4 16v4h4l.117.007a1 1 0 0 1 0 1.986L8 22H3l-.117-.007a1 1 0 0 1-.876-.876L2 21v-5l.007-.117a1 1 0 0 1 .876-.876L3 15Zm18 0a1 1 0 0 1 .993.883L22 16v5a1 1 0 0 1-.883.993L21 22h-5a1 1 0 0 1-.117-1.993L16 20h4v-4a1 1 0 0 1 .883-.993L21 15ZM8 2a1 1 0 0 1 .117 1.993L8 4H4v4a1 1 0 0 1-.883.993L3 9a1 1 0 0 1-.993-.883L2 8V3a1 1 0 0 1 .883-.993L3 2h5Zm13 0 .117.007a1 1 0 0 1 .876.876L22 3v5l-.007.117a1 1 0 0 1-.876.876L21 9l-.117-.007a1 1 0 0 1-.876-.876L20 8V4h-4l-.117-.007a1 1 0 0 1 0-1.986L16 2h5Z" fill="#fff"/>
 	  	</svg></div>';
 
-		return $svg;
-	}
-	public static function ep_get_minimize_icon()
-	{
-		$svg = '<div class="ep-doc-minimize-icon" style="display:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" style="enable-background:new 0 0 385.331 385.331" xml:space="preserve" width="20" height="20"><path fill="#fff" d="M13.751 8.131h5.62c0.355 0 0.619 -0.28 0.619 -0.634 0 -0.355 -0.265 -0.615 -0.619 -0.614h-4.995V1.878c0 -0.355 -0.27 -0.624 -0.624 -0.624s-0.624 0.27 -0.624 0.624v5.62c0 0.002 0.001 0.003 0.001 0.004 0 0.002 -0.001 0.003 -0.001 0.005 0 0.348 0.276 0.625 0.624 0.624zM6.244 1.259c-0.354 0 -0.614 0.265 -0.614 0.619v4.995H0.624c-0.355 0 -0.624 0.27 -0.624 0.624 0 0.355 0.27 0.624 0.624 0.624h5.62c0.002 0 0.003 -0.001 0.004 -0.001 0.002 0 0.003 0.001 0.005 0.001 0.348 0 0.624 -0.276 0.624 -0.624V1.878c0 -0.354 -0.28 -0.619 -0.634 -0.619zm0.005 10.61H0.629c-0.355 0.001 -0.619 0.28 -0.619 0.634 0 0.355 0.265 0.615 0.619 0.614h4.995v5.005c0 0.355 0.27 0.624 0.624 0.624 0.355 0 0.624 -0.27 0.624 -0.624V12.502c0 -0.002 -0.001 -0.003 -0.001 -0.004 0 -0.002 0.001 -0.003 0.001 -0.005 0 -0.348 -0.276 -0.624 -0.624 -0.624zm13.127 0H13.756c-0.002 0 -0.003 0.001 -0.004 0.001 -0.002 0 -0.003 -0.001 -0.005 -0.001 -0.348 0 -0.624 0.276 -0.624 0.624v5.62c0 0.355 0.28 0.619 0.634 0.619 0.354 0.001 0.614 -0.265 0.614 -0.619v-4.995H19.376c0.355 0 0.624 -0.27 0.624 -0.624s-0.27 -0.624 -0.624 -0.625z"/><g/><g/><g/><g/><g/><g/></svg></div>';
-
-		return $svg;
-	}
-	public static function ep_get_draw_icon()
-	{
-		$svg = '<div class="ep-doc-draw-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m15 7.5 2.5 2.5m-10 10L19.25 8.25c0.69 -0.69 0.69 -1.81 0 -2.5v0c-0.69 -0.69 -1.81 -0.69 -2.5 0L5 17.5V20h2.5Zm0 0h8.379C17.05 20 18 19.05 18 17.879v0c0 -0.563 -0.224 -1.103 -0.621 -1.5L17 16M4.5 5c2 -2 5.5 -1 5.5 1 0 2.5 -6 2.5 -6 5 0 0.876 0.533 1.526 1.226 2" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
-
-		return $svg;
-	}
-
-	public static function get_google_presentation_url($embedded_url)
-	{
-		$parsed_url = parse_url($embedded_url);
-		$base_url = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $parsed_url['path'];
-		$base_url = strtok($base_url, '?');
-		$base_url = rtrim($base_url, '/');
-		return $base_url;
-	}
-
-	public static function check_media_format($url)
-	{
-		$pattern1 = '/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i';
-		$pattern2 = '/\.(mp3|wav|ogg|aac)$/i';
-
-		$isVideo = preg_match($pattern1, $url);
-		$isAudio = preg_match($pattern2, $url);
-
-		$is_self_hosted = false;
-		$format = '';
-
-		if (!empty($isVideo) || !empty($isAudio)) {
-			$is_self_hosted = true;
-			if (!empty($isVideo)) {
-				$format = 'video';
-			} else if (!empty($isAudio)) {
-				$format = 'audio';
+				return $svg;
 			}
-		}
+			public static function ep_get_minimize_icon()
+			{
+				$svg = '<div class="ep-doc-minimize-icon" style="display:none"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" style="enable-background:new 0 0 385.331 385.331" xml:space="preserve" width="20" height="20"><path fill="#fff" d="M13.751 8.131h5.62c0.355 0 0.619 -0.28 0.619 -0.634 0 -0.355 -0.265 -0.615 -0.619 -0.614h-4.995V1.878c0 -0.355 -0.27 -0.624 -0.624 -0.624s-0.624 0.27 -0.624 0.624v5.62c0 0.002 0.001 0.003 0.001 0.004 0 0.002 -0.001 0.003 -0.001 0.005 0 0.348 0.276 0.625 0.624 0.624zM6.244 1.259c-0.354 0 -0.614 0.265 -0.614 0.619v4.995H0.624c-0.355 0 -0.624 0.27 -0.624 0.624 0 0.355 0.27 0.624 0.624 0.624h5.62c0.002 0 0.003 -0.001 0.004 -0.001 0.002 0 0.003 0.001 0.005 0.001 0.348 0 0.624 -0.276 0.624 -0.624V1.878c0 -0.354 -0.28 -0.619 -0.634 -0.619zm0.005 10.61H0.629c-0.355 0.001 -0.619 0.28 -0.619 0.634 0 0.355 0.265 0.615 0.619 0.614h4.995v5.005c0 0.355 0.27 0.624 0.624 0.624 0.355 0 0.624 -0.27 0.624 -0.624V12.502c0 -0.002 -0.001 -0.003 -0.001 -0.004 0 -0.002 0.001 -0.003 0.001 -0.005 0 -0.348 -0.276 -0.624 -0.624 -0.624zm13.127 0H13.756c-0.002 0 -0.003 0.001 -0.004 0.001 -0.002 0 -0.003 -0.001 -0.005 -0.001 -0.348 0 -0.624 0.276 -0.624 0.624v5.62c0 0.355 0.28 0.619 0.634 0.619 0.354 0.001 0.614 -0.265 0.614 -0.619v-4.995H19.376c0.355 0 0.624 -0.27 0.624 -0.624s-0.27 -0.624 -0.624 -0.625z"/><g/><g/><g/><g/><g/><g/></svg></div>';
 
-		if (!$is_self_hosted) {
-			return [
-				'selhosted' => false,
-			];
-		}
-
-		return [
-			'selhosted' => true,
-			'format' => $format,
-		];
-	}
-
-	public static function getCalendlyUuid($url)
-	{
-		$pattern = '/\/([0-9a-fA-F-]+)$/';
-		if (preg_match($pattern, $url, $matches)) {
-			$uuid = $matches[1];
-			return $uuid;
-		}
-		return '';
-	}
-
-	public static function getCalendlyUserInfo($access_token)
-	{
-		// Attempt to retrieve the data from the transient
-		$user_info = get_transient('calendly_user_info_' . md5($access_token));
-
-		if (false === $user_info) {
-			// If the data is not in the transient, fetch it from the API
-			$user_endpoint = 'https://api.calendly.com/users/me';
-
-			$headers = array(
-				'Authorization' => "Bearer $access_token",
-				'Content-Type' => 'application/json',
-			);
-
-			$args = array(
-				'headers' => $headers,
-			);
-
-			$response = wp_remote_get($user_endpoint, $args);
-
-			if (!is_wp_error($response)) {
-				$body = wp_remote_retrieve_body($response);
-				$data = json_decode($body, true);
-
-				// Store the data in a transient for a specified time (e.g., 1 hour)
-				set_transient('calendly_user_info', $data, HOUR_IN_SECONDS);
-
-				return $data;
+				return $svg;
 			}
-		}
+			public static function ep_get_draw_icon()
+			{
+				$svg = '<div class="ep-doc-draw-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="m15 7.5 2.5 2.5m-10 10L19.25 8.25c0.69 -0.69 0.69 -1.81 0 -2.5v0c-0.69 -0.69 -1.81 -0.69 -2.5 0L5 17.5V20h2.5Zm0 0h8.379C17.05 20 18 19.05 18 17.879v0c0 -0.563 -0.224 -1.103 -0.621 -1.5L17 16M4.5 5c2 -2 5.5 -1 5.5 1 0 2.5 -6 2.5 -6 5 0 0.876 0.533 1.526 1.226 2" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>';
 
-		return $user_info;
-	}
+				return $svg;
+			}
 
-	public static function getCalaendlyEventTypes($user_uri, $access_token)
-	{
-		// Attempt to retrieve the data from the transient
-		$events_list = get_transient('calendly_events_list_' . md5($access_token));
+			public static function get_google_presentation_url($embedded_url)
+			{
+				$parsed_url = parse_url($embedded_url);
+				$base_url = $parsed_url['scheme'] . '://' . $parsed_url['host'] . $parsed_url['path'];
+				$base_url = strtok($base_url, '?');
+				$base_url = rtrim($base_url, '/');
+				return $base_url;
+			}
 
-		if (false === $events_list) {
-			// If the data is not in the transient, fetch it from the API
-			$events_endpoint = "https://api.calendly.com/event_types?user=$user_uri";
+			public static function check_media_format($url)
+			{
+				$pattern1 = '/\.(mp4|mov|avi|wmv|flv|mkv|webm|mpeg|mpg)$/i';
+				$pattern2 = '/\.(mp3|wav|ogg|aac)$/i';
 
-			$headers = array(
-				'Authorization' => "Bearer $access_token",
-				'Content-Type' => 'application/json',
-			);
+				$isVideo = preg_match($pattern1, $url);
+				$isAudio = preg_match($pattern2, $url);
 
-			$args = array(
-				'headers' => $headers,
-			);
+				$is_self_hosted = false;
+				$format = '';
 
-			$response = wp_remote_get($events_endpoint, $args);
+				if (!empty($isVideo) || !empty($isAudio)) {
+					$is_self_hosted = true;
+					if (!empty($isVideo)) {
+						$format = 'video';
+					} else if (!empty($isAudio)) {
+						$format = 'audio';
+					}
+				}
 
-			if (!is_wp_error($response)) {
-				$body = wp_remote_retrieve_body($response);
-				$events_list = json_decode($body, true);
+				if (!$is_self_hosted) {
+					return [
+						'selhosted' => false,
+					];
+				}
 
-				// Store the data in a transient for a specified time (e.g., 1 hour)
-				set_transient('calendly_events_list', $events_list, HOUR_IN_SECONDS);
+				return [
+					'selhosted' => true,
+					'format' => $format,
+				];
+			}
+
+			public static function getCalendlyUuid($url)
+			{
+				$pattern = '/\/([0-9a-fA-F-]+)$/';
+				if (preg_match($pattern, $url, $matches)) {
+					$uuid = $matches[1];
+					return $uuid;
+				}
+				return '';
+			}
+
+			public static function getCalendlyUserInfo($access_token)
+			{
+				// Attempt to retrieve the data from the transient
+				$user_info = get_transient('calendly_user_info_' . md5($access_token));
+
+				if (false === $user_info) {
+					// If the data is not in the transient, fetch it from the API
+					$user_endpoint = 'https://api.calendly.com/users/me';
+
+					$headers = array(
+						'Authorization' => "Bearer $access_token",
+						'Content-Type' => 'application/json',
+					);
+
+					$args = array(
+						'headers' => $headers,
+					);
+
+					$response = wp_remote_get($user_endpoint, $args);
+
+					if (!is_wp_error($response)) {
+						$body = wp_remote_retrieve_body($response);
+						$data = json_decode($body, true);
+
+						// Store the data in a transient for a specified time (e.g., 1 hour)
+						set_transient('calendly_user_info', $data, HOUR_IN_SECONDS);
+
+						return $data;
+					}
+				}
+
+				return $user_info;
+			}
+
+			public static function getCalaendlyEventTypes($user_uri, $access_token)
+			{
+				// Attempt to retrieve the data from the transient
+				$events_list = get_transient('calendly_events_list_' . md5($access_token));
+
+				if (false === $events_list) {
+					// If the data is not in the transient, fetch it from the API
+					$events_endpoint = "https://api.calendly.com/event_types?user=$user_uri";
+
+					$headers = array(
+						'Authorization' => "Bearer $access_token",
+						'Content-Type' => 'application/json',
+					);
+
+					$args = array(
+						'headers' => $headers,
+					);
+
+					$response = wp_remote_get($events_endpoint, $args);
+
+					if (!is_wp_error($response)) {
+						$body = wp_remote_retrieve_body($response);
+						$events_list = json_decode($body, true);
+
+						// Store the data in a transient for a specified time (e.g., 1 hour)
+						set_transient('calendly_events_list', $events_list, HOUR_IN_SECONDS);
+
+						return $events_list;
+					}
+				}
 
 				return $events_list;
 			}
-		}
 
-		return $events_list;
-	}
+			public static function getListEventInvitee($uuid, $access_token)
+			{
+				// Attempt to retrieve the data from the transient
+				$invitee_list = get_transient('calendly_invitee_list_' . md5($access_token));
 
-	public static function getListEventInvitee($uuid, $access_token)
-	{
-		// Attempt to retrieve the data from the transient
-		$invitee_list = get_transient('calendly_invitee_list_' . md5($access_token));
+				if (false === $invitee_list) {
+					// If the data is not in the transient, fetch it from the API
+					$events_endpoint = "https://api.calendly.com/scheduled_events/$uuid/invitees";
 
-		if (false === $invitee_list) {
-			// If the data is not in the transient, fetch it from the API
-			$events_endpoint = "https://api.calendly.com/scheduled_events/$uuid/invitees";
+					$headers = array(
+						'Authorization' => "Bearer $access_token",
+						'Content-Type' => 'application/json',
+					);
 
-			$headers = array(
-				'Authorization' => "Bearer $access_token",
-				'Content-Type' => 'application/json',
-			);
+					$args = array(
+						'headers' => $headers,
+					);
 
-			$args = array(
-				'headers' => $headers,
-			);
+					$response = wp_remote_get($events_endpoint, $args);
 
-			$response = wp_remote_get($events_endpoint, $args);
+					if (!is_wp_error($response)) {
+						$body = wp_remote_retrieve_body($response);
+						$invitee_list = json_decode($body, true);
 
-			if (!is_wp_error($response)) {
-				$body = wp_remote_retrieve_body($response);
-				$invitee_list = json_decode($body, true);
+						// Store the data in a transient for a specified time (e.g., 1 hour)
+						set_transient('calendly_invitee_list', $invitee_list, HOUR_IN_SECONDS);
 
-				// Store the data in a transient for a specified time (e.g., 1 hour)
-				set_transient('calendly_invitee_list', $invitee_list, HOUR_IN_SECONDS);
+						return $invitee_list;
+					}
+				}
 
 				return $invitee_list;
 			}
-		}
 
-		return $invitee_list;
-	}
+			public static function getCalaendlyScheduledEvents($user_uri, $access_token)
+			{
+				// Attempt to retrieve the data from the transient
+				$events_list = get_transient('calendly_events_list_' . md5($access_token));
 
-	public static function getCalaendlyScheduledEvents($user_uri, $access_token)
-	{
-		// Attempt to retrieve the data from the transient
-		$events_list = get_transient('calendly_events_list_' . md5($access_token));
+				if (false === $events_list) {
+					// If the data is not in the transient, fetch it from the API
+					$events_endpoint = "https://api.calendly.com/scheduled_events?user=$user_uri";
 
-		if (false === $events_list) {
-			// If the data is not in the transient, fetch it from the API
-			$events_endpoint = "https://api.calendly.com/scheduled_events?user=$user_uri";
+					$headers = array(
+						'Authorization' => "Bearer $access_token",
+						'Content-Type' => 'application/json',
+					);
 
-			$headers = array(
-				'Authorization' => "Bearer $access_token",
-				'Content-Type' => 'application/json',
-			);
+					$args = array(
+						'headers' => $headers,
+					);
 
-			$args = array(
-				'headers' => $headers,
-			);
+					$response = wp_remote_get($events_endpoint, $args);
 
-			$response = wp_remote_get($events_endpoint, $args);
+					if (!is_wp_error($response)) {
+						$body = wp_remote_retrieve_body($response);
+						$events_list = json_decode($body, true);
 
-			if (!is_wp_error($response)) {
-				$body = wp_remote_retrieve_body($response);
-				$events_list = json_decode($body, true);
+						// Store the data in a transient for a specified time (e.g., 1 hour)
+						set_transient('calendly_events_list', $events_list, HOUR_IN_SECONDS);
 
-				// Store the data in a transient for a specified time (e.g., 1 hour)
-				set_transient('calendly_events_list', $events_list, HOUR_IN_SECONDS);
+						return $events_list;
+					}
+				}
 
 				return $events_list;
 			}
-		}
 
-		return $events_list;
-	}
 
-	public static function generateAdTemplate($adSource, $adContent, $adFileUrl)
-	{
-		$currentTime = 0;
-		$showSkipButton = false;
-		$videoDuration = 0;
-
-		function parseDuration($durationString)
-		{
-			list($minutes, $seconds) = explode(':', $durationString);
-			return intval($minutes) * 60 + intval($seconds);
-		}
-
-		if ($adContent && isset($adContent['fileLength'])) {
-			$videoDuration = parseDuration($adContent['fileLength']);
-		}
-
-		if ($adSource === 'video') {
-			// Simulate video time update
-			// You can replace this with actual values from your application
-			$currentTime = 5;
-
-			if ($currentTime >= 3) {
-				$showSkipButton = true;
+			public static function parseDuration($durationString)
+			{
+				list($minutes, $seconds) = explode(':', $durationString);
+				return intval($minutes) * 60 + intval($seconds);
 			}
-		} else {
-			// Show skip button for image ads after 3 seconds
-			$showSkipButton = true;
-		}
+			public static function generateAdTemplate($attributes)
+			{
 
-		echo '
-    <div class="main-ad-template">
-        <div class="ep-ad-container">
-            <div class="ep__custom-logo" style="position: relative;">';
+				// Example usage
+				$width = isset($attributes['width']) ? $attributes['width'] : '600';
+				$height = isset($attributes['height']) ? $attributes['height'] : '550';
+				$adSource = isset($attributes['adSource']) ? $attributes['adSource'] : '';
+				$adContent = ['fileLength' => '02:30'];
+				$adFileUrl = isset($attributes['adFileUrl']) ? $attributes['adFileUrl'] : '';
 
-		if ($adSource === 'video') {
-			echo '
-                <div>
-                    <video class="ep-ad" autoplay>
-                        <source src="' . $adFileUrl . '">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>';
-		} else {
-			echo '
-                <div>
-                    <img src="' . $adFileUrl . '">
-                </div>';
-		}
+				$currentTime = 0;
+				$showSkipButton = false;
+				$videoDuration = 0;
 
-		echo '
-                <div class="progress-bar-container">
-                    <div class="progress-bar" style="background: #5be82a; height: 4px; margin-top: -4px; width: ' . ($adSource === 'video' ? ($currentTime / $videoDuration) * 100 : 100) . '%; max-width: 100%;"></div>
-                </div>';
 
-		if ($showSkipButton) {
-			echo '
-                <button title="Skip Ad" class="skip-ad-button">
-                    Skip Ad
-                </button>';
-		}
+				if ($adContent && isset($adContent['fileLength'])) {
+					$videoDuration = self::parseDuration($adContent['fileLength']);
+				}
 
-		echo '
-            </div>
-            <div class="ad-overlay">
-                <div class="ad-content">
-                    <h2>Check out our product!</h2>
-                    <p>Click the ad to learn more.</p>
-                </div>
-            </div>
-        </div>
-    </div>';
+				if ($adSource === 'video') {
+					// Simulate video time update
+					// You can replace this with actual values from your application
+					$currentTime = 5;
+
+					if ($currentTime >= 3) {
+						$showSkipButton = true;
+					}
+				} else {
+					// Show skip button for image ads after 3 seconds
+					$showSkipButton = true;
+				}
+
+				// print_r($attributes); die;
+
+				?>
+		<div class="main-ad-template" id="<?php echo esc_attr('ad-' . $attributes['clientId']); ?>">
+			<div class="ep-ad-container">
+				<div class="ep-ad-content" style="position: relative;">
+					<?php if ($adSource === 'video') : ?>
+						<video class="ep-ad" autoplay muted >
+							<source src="<?= $adFileUrl ?>">
+							Your browser does not support the video tag.
+						</video>
+
+					<?php else : ?>
+						<img class="ep-ad" src="<?= $adFileUrl ?>">
+					<?php endif; ?>
+
+					<div class="progress-bar-container">
+						<div class="progress-bar" style=" width: <?= ($adSource === 'video' ? ($currentTime / $videoDuration) * 100 : 100) ?>%; "></div>
+					</div>
+
+					<?php if ($showSkipButton) : ?>
+						<button title="Skip Ad" class="skip-ad-button">
+							Skip Ad
+						</button>
+					<?php endif; ?>
+				</div>
+				<div class="ad-overlay">
+					<div class="ad-content">
+						<h2>Check out our product!</h2>
+						<p>Click the ad to learn more.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<style>
+			.ep-embed-content-wraper {
+				position: relative;
+			}
+
+			.ose-youtube {
+				/* display: none !important; */
+			}
+
+			.main-ad-template {
+				width: <?php echo esc_attr($width); ?>px;
+				height: <?php echo esc_attr($height); ?>px;
+				max-width: 100%;
+				display: inline-block;
+
+			}
+
+			.ep-ad-container {
+				position: relative;
+			}
+
+			.main-ad-template video,
+			.main-ad-template img {
+				width: 100%;
+				height: 100%;
+			}
+
+			.progress-bar {
+				background: #5be82a;
+				height: 4px;
+				margin-top: -4px;
+				max-width: 100%;
+			}
+		</style>
+
+		<script>
+			const blockId = "<?php echo esc_attr($attributes['clientId']); ?>";
+			const blockIdMD5 = "<?php echo esc_attr(md5($attributes['clientId'])); ?>";
+			const adVideo = document.querySelector('#ad-' + blockId + ' .ep-ad');
+
+			let epEmbedContentWrapper = document.querySelector('#ep-gutenberg-content-' + blockIdMD5);
+
+			let playbackInitiated = false;
+
+			console.log(epEmbedContentWrapper);
+
+
+
+			epEmbedContentWrapper.addEventListener('click', function() {
+				if (!playbackInitiated) {
+					// Delay the video playback by 3 seconds
+					setInterval(function() {
+						adVideo.play().catch(error => {
+							// Handle any errors that occur when trying to play the video
+							console.error('Video play error:', error);
+						});
+					}, 3000); // 3000 milliseconds (3 seconds)
+					playbackInitiated = true;
+				}
+			});
+		</script>
+<?php
 	}
 }
 

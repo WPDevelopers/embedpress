@@ -154,10 +154,7 @@ function embedpress_render_block($attributes)
 
 	$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']): '';
 
-	// Example usage
-	$adSource = isset($attributes['adSource']) ? $attributes['adSource']: ''; // Replace with actual value
-	$adContent = ['fileLength' => '02:30']; // Replace with actual value
-	$adFileUrl = isset($attributes['adFileUrl']) ? $attributes['adFileUrl']: ''; // Replace with actual value
+	
 
 	if (!empty($attributes['embedHTML'])) {
 		$embed  = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
@@ -219,7 +216,7 @@ function embedpress_render_block($attributes)
 							}
 
 							if(!empty($attributes['adManager'])) {
-								$embed .= Helper::generateAdTemplate($adSource, $adContent, $adFileUrl);
+								$embed .= Helper::generateAdTemplate($attributes);
 							}
 
 						?>
