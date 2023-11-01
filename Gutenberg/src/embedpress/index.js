@@ -725,8 +725,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: 'video'
 			},
 			adContent: {
-				type: 'string',
-				default: ''
+				type: 'object',
 			},
 			adFileUrl: {
 				type: 'string',
@@ -738,7 +737,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			adStart: {
 				type: 'string',
-				default: ''
+				default: '10'
 			},
 			adSkipButton: {
 				type: 'boolean',

@@ -36,28 +36,27 @@ export default function AdControl({ attributes, setAttributes }) {
     } = attributes;
 
     const onSelectImage = (ad) => {
-        console.log({ ad });
+        setAttributes({ adContent: ad });
+
         if (ad.type === 'image') {
-            setAttributes({ adContent: ad });
             setAttributes({ adFileUrl: ad.sizes.full.url });
             setAttributes({ adSource: 'image' });
         }
         else if (ad.type === 'video') {
-            setAttributes({ adContent: ad });
             setAttributes({ adFileUrl: ad.url });
             setAttributes({ adSource: 'video' });
 
         }
     }
 
-    console.log({adContent, adFileUrl})
+    console.log({ adContent, adFileUrl })
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     const inputRef = useRef(null);
 
     let adLabel = 'Ad Content';
-    if (adContent) {
+    if (adFileUrl) {
         adLabel = 'Preview';
     }
 
@@ -107,11 +106,11 @@ export default function AdControl({ attributes, setAttributes }) {
                                         <MediaUpload
                                             onSelect={onSelectImage}
                                             allowedTypes={['image', 'video']}
-                                            value={adContent}
+                                            value={adFileUrl}
                                             render={({ open }) => (
-                                                <Button className={'ep-logo-upload-button'} icon={!adContent ? 'upload' : 'update'} onClick={open}>
+                                                <Button className={'ep-logo-upload-button'} icon={!adFileUrl ? 'upload' : 'update'} onClick={open}>
                                                     {
-                                                        (!adContent) ? 'Upload Ad' : 'Change Ad'
+                                                        (!adFileUrl) ? 'Upload Ad' : 'Change Ad'
                                                     }
                                                 </Button>
                                             )}
@@ -131,7 +130,7 @@ export default function AdControl({ attributes, setAttributes }) {
                         <TextControl
                             label={__("Ad Start After (sec)")}
                             value={adStart}
-                            onChange={(adStart) => setAttributes({ adStart: adStart })}
+                            onChange={(adStart) => setAttributes({ adStart })}
                         />
 
                         <ToggleControl

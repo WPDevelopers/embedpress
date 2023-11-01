@@ -756,6 +756,7 @@ class Helper
 				list($minutes, $seconds) = explode(':', $durationString);
 				return intval($minutes) * 60 + intval($seconds);
 			}
+
 			public static function generateAdTemplate($attributes)
 			{
 
@@ -764,12 +765,13 @@ class Helper
 				$height = isset($attributes['height']) ? $attributes['height'] : '550';
 				$adSource = isset($attributes['adSource']) ? $attributes['adSource'] : '';
 				$adContent = ['fileLength' => '02:30'];
+				$adContent = isset($attributes['adContent']) ? $attributes['adContent'] : 'akash';
 				$adFileUrl = isset($attributes['adFileUrl']) ? $attributes['adFileUrl'] : '';
+				$adStart = isset($attributes['adStart']) ? intval($attributes['adStart']) : 0;
 
 				$currentTime = 0;
 				$showSkipButton = false;
 				$videoDuration = 0;
-
 
 				if ($adContent && isset($adContent['fileLength'])) {
 					$videoDuration = self::parseDuration($adContent['fileLength']);
@@ -788,18 +790,15 @@ class Helper
 					$showSkipButton = true;
 				}
 
-				// print_r($attributes); die;
-
 				?>
 		<div class="main-ad-template" id="<?php echo esc_attr('ad-' . $attributes['clientId']); ?>">
 			<div class="ep-ad-container">
 				<div class="ep-ad-content" style="position: relative;">
 					<?php if ($adSource === 'video') : ?>
-						<video class="ep-ad" autoplay muted >
+						<video class="ep-ad" autoplay muted>
 							<source src="<?= $adFileUrl ?>">
 							Your browser does not support the video tag.
 						</video>
-
 					<?php else : ?>
 						<img class="ep-ad" src="<?= $adFileUrl ?>">
 					<?php endif; ?>
@@ -862,6 +861,9 @@ class Helper
 			const blockId = "<?php echo esc_attr($attributes['clientId']); ?>";
 			const blockIdMD5 = "<?php echo esc_attr(md5($attributes['clientId'])); ?>";
 			const adVideo = document.querySelector('#ad-' + blockId + ' .ep-ad');
+			const adContainer = document.querySelector('#ad-' + blockId);
+			const adStartAfter = <?php echo $adStart; ?> * 1000;
+			const adContent = <?php echo json_encode($attributes['adContent']); ?>
 
 			let epEmbedContentWrapper = document.querySelector('#ep-gutenberg-content-' + blockIdMD5);
 
@@ -869,20 +871,22 @@ class Helper
 
 			console.log(epEmbedContentWrapper);
 
-
-
-			epEmbedContentWrapper.addEventListener('click', function() {
+			console.log(adContent);
+			
+			document.addEventListener('click', function() {
 				if (!playbackInitiated) {
-					// Delay the video playback by 3 seconds
-					setInterval(function() {
-						adVideo.play().catch(error => {
-							// Handle any errors that occur when trying to play the video
-							console.error('Video play error:', error);
-						});
-					}, 3000); // 3000 milliseconds (3 seconds)
+					setTimeout(() => {
+						epEmbedContentWrapper.querySelector('.ose-embedpress-responsive').style.display = 'none';
+						adContainer.style.display = 'inline-block';
+						adVideo.muted = false;
+						adVideo.play();
+					}, adStartAfter);
+					
 					playbackInitiated = true;
 				}
 			});
+
+			adContainer.style.display = 'none';
 		</script>
 <?php
 	}

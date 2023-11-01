@@ -471,8 +471,7 @@ function embedpress_gutenberg_register_all_block()
 								'default' => 'video'
 							],
 							'adContent' => [
-								'type' => 'string',
-								'default' => ''
+								'type' => 'object',
 							],
 							'adUrl' => [
 								'type' => 'string',
@@ -480,7 +479,7 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'adStart' => [
 								'type' => 'string',
-								'default' => ''
+								'default' => '10'
 							],
 							'adSkipButton' => [
 								'type' => 'boolean',
@@ -610,8 +609,7 @@ function embedpress_gutenberg_register_all_block()
 								'default' => 'video'
 							],
 							'adContent' => [
-								'type' => 'string',
-								'default' => ''
+								'type' => 'object',
 							],
 							'adUrl' => [
 								'type' => 'string',
@@ -619,7 +617,7 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'adStart' => [
 								'type' => 'string',
-								'default' => ''
+								'default' => '10'
 							],
 							'adSkipButton' => [
 								'type' => 'boolean',

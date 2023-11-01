@@ -14,9 +14,10 @@ const AdTemplate = ({ attributes, setAttributes }) => {
         const [minutes, seconds] = durationString.split(':');
         return parseInt(minutes, 10) * 60 + parseInt(seconds, 10);
     }
-
-    const videoDuration = adContent.fileLength ? parseDuration(adContent.fileLength) : 0;
-
+    let videoDuration = 0;
+    if (adContent) {
+        videoDuration = adContent.fileLength ? parseDuration(adContent.fileLength) : 0;
+    }
     const handleTimeUpdate = () => {
         const videoElement = videoRef.current;
         if (videoElement) {
