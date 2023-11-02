@@ -761,6 +761,8 @@ class Helper
 			{
 
 				// Example usage
+				$client_id = isset($attributes['clientId']) ? $attributes['clientId'] : '';
+				$md5_client_id = isset($attributes['clientId']) ? md5($attributes['clientId']) : '';
 				$width = isset($attributes['width']) ? $attributes['width'] : '600';
 				$height = isset($attributes['height']) ? $attributes['height'] : '550';
 				$adSource = isset($attributes['adSource']) ? $attributes['adSource'] : '';
@@ -791,7 +793,7 @@ class Helper
 				}
 
 				?>
-		<div class="main-ad-template" id="<?php echo esc_attr('ad-' . $attributes['clientId']); ?>">
+		<div class="main-ad-template" id="<?php echo esc_attr('ad-' . $attributes['clientId']); ?>" style="display:none">
 			<div class="ep-ad-container">
 				<div class="ep-ad-content" style="position: relative;">
 					<?php if ($adSource === 'video') : ?>
@@ -804,14 +806,15 @@ class Helper
 					<?php endif; ?>
 
 					<div class="progress-bar-container">
-						<div class="progress-bar" style=" width: <?= ($adSource === 'video' ? ($currentTime / $videoDuration) * 100 : 100) ?>%; "></div>
+						<div class="progress-bar"></div>
 					</div>
 
 					<?php if ($showSkipButton) : ?>
-						<button title="Skip Ad" class="skip-ad-button">
+						<button title="Skip Ad" class="skip-ad-button" style="display: none;">
 							Skip Ad
 						</button>
 					<?php endif; ?>
+
 				</div>
 				<div class="ad-overlay">
 					<div class="ad-content">
@@ -821,8 +824,26 @@ class Helper
 				</div>
 			</div>
 		</div>
+		<div>
+			<button type="button" id="play-button">play</button>
+			<button type="button" id="pause-button">pause</button>
+		</div>
 
 		<style>
+			[data-ad-id="<?php echo esc_attr($md5_client_id); ?>"] .ose-embedpress-responsive {
+				position: relative;
+			}
+
+			[data-ad-id="<?php echo esc_attr($md5_client_id); ?>"] .ose-embedpress-responsive::after {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				cursor: pointer;
+			}
+
 			.ep-embed-content-wraper {
 				position: relative;
 			}
@@ -849,45 +870,228 @@ class Helper
 				height: 100%;
 			}
 
+			.progress-bar-container {
+				margin-top: -8px;
+			}
+
 			.progress-bar {
 				background: #5be82a;
 				height: 4px;
 				margin-top: -4px;
 				max-width: 100%;
 			}
+
+			button.skip-ad-button {
+				position: absolute;
+				bottom: 12px;
+				right: 8px;
+				border: none;
+				background: #ff0057ba !important;
+				padding: 6px 8px;
+				color: white !important;
+				z-index: 122222222;
+				font-size: 16px;
+				font-weight: bold;
+			}
 		</style>
 
+
+		<!-- <script src="https://www.youtube.com/iframe_api"></script> -->
+
 		<script>
-			const blockId = "<?php echo esc_attr($attributes['clientId']); ?>";
-			const blockIdMD5 = "<?php echo esc_attr(md5($attributes['clientId'])); ?>";
-			const adVideo = document.querySelector('#ad-' + blockId + ' .ep-ad');
-			const adContainer = document.querySelector('#ad-' + blockId);
-			const adStartAfter = <?php echo $adStart; ?> * 1000;
-			const adContent = <?php echo json_encode($attributes['adContent']); ?>
+			document.addEventListener('DOMContentLoaded', function() {
+				let blockId = "<?php echo esc_attr($attributes['clientId']); ?>";
+				let blockIdMD5 = "<?php echo esc_attr(md5($attributes['clientId'])); ?>";
+				let adStartAfter = <?php echo $adStart; ?> * 1000;
+				let adContent = <?php echo json_encode($attributes['adContent']); ?>;
+				let adVideos = [];
 
-			let epEmbedContentWrapper = document.querySelector('#ep-gutenberg-content-' + blockIdMD5);
+				let epEmbedContentWrappers = document.querySelectorAll('#ep-gutenberg-content-' + blockIdMD5);
 
-			let playbackInitiated = false;
+				// Convert NodeList to an array
+				epEmbedContentWrappers = Array.from(epEmbedContentWrappers);
 
-			console.log(epEmbedContentWrapper);
+				// Initialize some variables
+				let player;
+				const playButton = document.getElementById('play-button');
+				const pauseButton = document.getElementById('pause-button');
 
-			console.log(adContent);
-			
-			document.addEventListener('click', function() {
-				if (!playbackInitiated) {
-					setTimeout(() => {
-						epEmbedContentWrapper.querySelector('.ose-embedpress-responsive').style.display = 'none';
-						adContainer.style.display = 'inline-block';
-						adVideo.muted = false;
-						adVideo.play();
-					}, adStartAfter);
-					
-					playbackInitiated = true;
+				// This function is called when the YouTube IFrame API is ready
+				// function onYouTubeIframeAPIReady() {
+				// 	// Find the iframe by its src attribute
+				// 	const iframe = document.querySelector('iframe[src*="B84OMFhpgFE"]');
+
+				// 	if (iframe) {
+				// 		player = new YT.Player(iframe, {
+				// 			events: {
+				// 				'onReady': onPlayerReady,
+				// 			}
+				// 		});
+				// 	}
+				// }
+
+				// // This function is called when the player is ready
+				// function onPlayerReady(event) {
+				// 	// Iterate over ad videos and synchronize each one
+				// 	adVideos.forEach(function(adVideo) {
+				// 		adVideo.addEventListener('start', () => {
+				// 			player.pauseVideo();
+				// 		});
+				// 		adVideo.addEventListener('end', () => {
+				// 			player.playVideo();
+				// 		});
+				// 	});
+				// }
+
+				// console.log(playButton);
+				// console.log(pauseButton);
+				function onYouTubeIframeAPIReady() {
+					// Find the iframe by its src attribute
+					const iframe = document.querySelector('iframe[src*="B84OMFhpgFE"]');
+
+					if (iframe) {
+						player = new YT.Player(iframe, {
+							events: {
+								'onReady': onPlayerReady,
+							}
+						});
+					}
 				}
-			});
 
-			adContainer.style.display = 'none';
+				// This function is called when the player is ready
+				function onPlayerReady(event) {
+					console.log(event);
+					playButton.addEventListener('click', function() {
+						console.log(playButton);
+						player.playVideo();
+					});
+
+					pauseButton.addEventListener('click', function() {
+						player.pauseVideo();
+					});
+				}
+
+				// window.onload = function() {
+				// 	onYouTubeIframeAPIReady();
+				// };
+
+
+				epEmbedContentWrappers.forEach((epEmbedContentWrapper) => {
+					let adVideo = epEmbedContentWrapper.querySelector('#ad-' + blockId + ' .ep-ad');
+					adVideos.push(adVideo);
+
+					let adContainer = epEmbedContentWrapper.querySelector('#ad-' + blockId);
+					let progressBar = epEmbedContentWrapper.querySelector('#ad-' + blockId + ' .progress-bar');
+					let skipButton = epEmbedContentWrapper.querySelector('#ad-' + blockId + ' .skip-ad-button');
+
+					let playbackInitiated = false;
+
+					epEmbedContentWrapper.addEventListener('click', function() {
+						let adElement = epEmbedContentWrapper.querySelector(`[data-ad-id="${blockIdMD5}"]`);
+						if (adElement) {
+							adElement.removeAttribute('data-ad-id');
+						}
+
+						if (!playbackInitiated) {
+							setTimeout(() => {
+								epEmbedContentWrapper.querySelector('.ose-embedpress-responsive').style.display = 'none';
+								adContainer.style.display = 'inline-block';
+								adVideo.muted = false;
+								adVideo.play();
+							}, adStartAfter);
+
+							playbackInitiated = true;
+						}
+					});
+
+					adVideo.addEventListener('timeupdate', () => {
+						const currentTime = adVideo.currentTime;
+						const videoDuration = adVideo.duration;
+
+						if (!isNaN(currentTime) && !isNaN(videoDuration)) {
+							const progress = (currentTime / videoDuration) * 100;
+							progressBar.style.width = progress + '%';
+
+							if (currentTime >= 3) {
+								// Show the skip button after 3 seconds
+								skipButton.style.display = 'inline-block';
+							}
+						}
+					});
+
+					// Add a click event listener to the skip button
+					skipButton.addEventListener('click', () => {
+						adVideo.pause();
+						adContainer.parentNode.removeChild(adContainer);
+						epEmbedContentWrapper.querySelector('.ose-embedpress-responsive').style.display = 'inline-block';
+					});
+
+					// Add an event listener to check for video end
+					adVideo.addEventListener('ended', () => {
+						// Remove the main ad template from the DOM when the video ends
+						adContainer.parentNode.removeChild(adContainer);
+						epEmbedContentWrapper.querySelector('.ose-embedpress-responsive').style.display = 'inline-block';
+					});
+
+				});
+			});
 		</script>
+
+		<!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
+		<div class="player"></div>
+
+		<script>
+			// 2. This code loads the IFrame Player API code asynchronously.
+			var tag = document.createElement('script');
+			const iframe = document.querySelector('.player');
+
+
+			tag.src = "https://www.youtube.com/iframe_api";
+			var firstScriptTag = document.getElementsByTagName('script')[0];
+			firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+			// 3. This function creates an <iframe> (and YouTube player)
+			//    after the API code downloads.
+			var player;
+
+			function onYouTubeIframeAPIReady() {
+				player = new YT.Player(iframe, {
+					height: '390',
+					width: '640',
+					videoId: 'M7lc1UVf-VE',
+					playerVars: {
+						'playsinline': 1
+					},
+					events: {
+						'onReady': onPlayerReady,
+						'onStateChange': onPlayerStateChange
+					}
+				});
+			}
+
+			// 4. The API will call this function when the video player is ready.
+			function onPlayerReady(event) {
+				event.target.playVideo();
+			}
+
+			// 5. The API calls this function when the player's state changes.
+			//    The function indicates that when playing a video (state=1),
+			//    the player should play for six seconds and then stop.
+			var done = false;
+
+			function onPlayerStateChange(event) {
+				if (event.data == YT.PlayerState.PLAYING && !done) {
+					setTimeout(stopVideo, 6000);
+					done = true;
+				}
+			}
+
+			function stopVideo() {
+				player.stopVideo();
+			}
+		</script>
+
+
 <?php
 	}
 }

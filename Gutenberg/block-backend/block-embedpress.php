@@ -187,6 +187,11 @@ function embedpress_render_block($attributes)
 		$embed = Helper::customLogo($embed, $attributes);
 		$url = !empty($attributes['href']) ? $attributes['href'] : '';
 
+		$adsAtts = '';
+		if(!empty($attributes['adManager'])) {
+			$adsAtts = "data-ad-id=$client_id";
+		}
+
 		ob_start();
 		?>
 		<div class="embedpress-gutenberg-wrapper <?php echo esc_attr( $alignment.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class); echo esc_attr( $cEmbedType ); ?>" id="<?php echo esc_attr($block_id); ?>">
@@ -196,7 +201,7 @@ function embedpress_render_block($attributes)
 			?>
 			<div class="wp-block-embed__wrapper <?php if(!empty($attributes['contentShare'])) echo esc_attr( 'position-'.$share_position.'-wraper'); ?>  <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
 				<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content">
-					<div class="ep-embed-content-wraper <?php !empty($custom_player) ? esc_attr_e($player_preset) : ''; ?>" <?php echo $_custom_player; ?> <?php echo $_player_options; ?>>
+					<div <?php echo esc_attr( $adsAtts ); ?> class="ep-embed-content-wraper <?php !empty($custom_player) ? esc_attr_e($player_preset) : ''; ?>" <?php echo $_custom_player; ?> <?php echo $_player_options; ?>>
 						<?php
 							$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
 							$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
@@ -307,7 +312,7 @@ function embedpress_render_block_style($attributes)
 	$youtubeStyles = '<style>
 		' . esc_attr($uniqid) . ' {
 			width: ' . esc_attr($attributes['width']) . 'px !important;
-			height: ' . esc_attr($attributes['height']) . 'px;
+			height: ' . esc_attr($attributes['height']) . 'px!important;
 			max-width: 100%;
 		}
 
