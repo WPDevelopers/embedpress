@@ -26,67 +26,60 @@ const getYTVideoId = (url) => {
 
 const adInitialization = (adContainer) => {
     const adAtts = JSON.parse(atob(adContainer.getAttribute('data-ad-attrs')));;
-
-    console.log(adAtts.width);
-
     const blockId = adAtts.clientId;
     const blockIdMD5 = adContainer.getAttribute('data-ad-id');
     const adStartAfter = adAtts.adStart * 1000;
     const adContent = adAtts.adContent;
-
     const adVideo = adContainer.querySelector('#ad-' + blockId + ' .ep-ad');
-    const youtubeIframe = adContainer.querySelector(`[data-ad-id="${blockIdMD5}"] iframe`);
-
+    const youtubeIframe = adContainer.querySelector(`.ose-youtube iframe`);
     const adVideos = [];
-
     const srcUrl = adAtts.url;
+    let player;
+
 
     if (youtubeIframe && getYTVideoId(srcUrl)) {
+
         const divWrapper = document.createElement('div');
         divWrapper.className = 'ad-youtube-video';
         youtubeIframe.setAttribute('width', adAtts.width);
         youtubeIframe.setAttribute('height', adAtts.height);
         youtubeIframe.parentNode.replaceChild(divWrapper, youtubeIframe);
         divWrapper.appendChild(youtubeIframe);
-    }
 
-    let player;
 
-    function onYouTubeIframeAPIReady() {
-        // Find the iframe by its src attribute
-        const iframe = adContainer.querySelector('.ad-youtube-video');
-        console.log(adContainer);
+        function onYouTubeIframeAPIReady() {
+            // Find the iframe by its src attribute
+            const iframe = document.querySelector('.ad-youtube-video');
 
-        if (iframe && getYTVideoId(srcUrl) !== null) {
-            player = new YT.Player(iframe, {
-                videoId: getYTVideoId(srcUrl),
+            if (iframe && getYTVideoId(srcUrl) !== null) {
+                player = new YT.Player(iframe, {
+                    videoId: getYTVideoId(srcUrl),
 
-                events: {
-                    'onReady': onPlayerReady,
-                }
-            });
-            console.log(getYTVideoId(srcUrl));
+                    events: {
+                        'onReady': onPlayerReady,
+                    }
+                });
+                console.log(getYTVideoId(srcUrl));
+            }
+
         }
 
+        // This function is called when the player is ready
+        function onPlayerReady(event) {
+            adVideo.addEventListener('ended', function () {
+                event.target.playVideo();
+            });
+
+            adVideo.addEventListener('play', function () {
+                event.target.pauseVideo();
+            });
+        }
+
+        window.onload = function () {
+            onYouTubeIframeAPIReady();
+        };
+
     }
-
-
-
-    // This function is called when the player is ready
-    function onPlayerReady(event) {
-        adVideo.addEventListener('ended', function () {
-            event.target.playVideo();
-        });
-
-        adVideo.addEventListener('play', function () {
-            event.target.pauseVideo();
-        });
-    }
-
-    window.onload = function () {
-        onYouTubeIframeAPIReady();
-    };
-
 
 
     // let adVideo = adContainer.querySelector('#ad-' + blockId + ' .ep-ad');
@@ -133,7 +126,6 @@ const adInitialization = (adContainer) => {
         }
     });
 
-    console.log(player);
 
     // Add a click event listener to the skip button
     skipButton.addEventListener('click', () => {
@@ -155,7 +147,9 @@ const adInitialization = (adContainer) => {
 
 console.log(adsConainers);
 
-adsConainers.forEach(element => {
-    console.log("Initializing");
-    adInitialization(element);
-});
+if (adsConainers.length > 0) {
+    adsConainers.forEach(element => {
+        console.log("Initializing");
+        adInitialization(element);
+    });
+}
