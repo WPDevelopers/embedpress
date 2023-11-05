@@ -269,9 +269,9 @@ class Helper
 			setcookie("password_correct_", $password, time() + 3600);
 
 			$embed = openssl_decrypt($cipher, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv) . '<script>
-		var now = new Date();
-		var time = now.getTime();
-		var expireTime = time + 1000 * 60 * 60 * 24 * 30;
+		const now = new Date();
+		const time = now.getTime();
+		const expireTime = time + 1000 * 60 * 60 * 24 * 30;
 		now.setTime(expireTime);
 		document.cookie = "password_correct_' . $client_id . '=' . $hash_key . '; expires=" + now.toUTCString() + "; path=/";
 	</script>';
@@ -824,17 +824,17 @@ class Helper
 				</div>
 			</div>
 		</div>
-		<div>
-			<button type="button" id="play-button">play</button>
-			<button type="button" id="pause-button">pause</button>
-		</div>
-
+		
 		<style>
-			[data-ad-id="<?php echo esc_attr($md5_client_id); ?>"] .ose-embedpress-responsive {
+			.ad-mask .ose-embedpress-responsive {
 				position: relative;
 			}
 
-			[data-ad-id="<?php echo esc_attr($md5_client_id); ?>"] .ose-embedpress-responsive::after {
+			.ad-running {
+				display: inline-block !important;
+			}
+
+			.ad-mask .ose-embedpress-responsive::after {
 				content: '';
 				position: absolute;
 				top: 0;
@@ -871,12 +871,13 @@ class Helper
 			}
 
 			.progress-bar-container {
-				margin-top: -8px;
+				margin-top: -10px;
+				background: #ff000021;
 			}
 
 			.progress-bar {
 				background: #5be82a;
-				height: 4px;
+				height: 5px;
 				margin-top: -4px;
 				max-width: 100%;
 			}
@@ -895,147 +896,6 @@ class Helper
 			}
 		</style>
 
-
-		<!-- <script src="https://www.youtube.com/iframe_api"></script> -->
-
-		<script>
-			document.addEventListener('DOMContentLoaded', function() {
-				let blockId = "<?php echo esc_attr($attributes['clientId']); ?>";
-				let blockIdMD5 = "<?php echo esc_attr(md5($attributes['clientId'])); ?>";
-				let adStartAfter = <?php echo $adStart; ?> * 1000;
-				let adContent = <?php echo json_encode($attributes['adContent']); ?>;
-				let adVideos = [];
-
-				let epEmbedContentWrappers = document.querySelectorAll('#ep-gutenberg-content-' + blockIdMD5);
-
-				// Convert NodeList to an array
-				epEmbedContentWrappers = Array.from(epEmbedContentWrappers);
-
-				epEmbedContentWrappers.forEach((epEmbedContentWrapper) => {
-					let adVideo = epEmbedContentWrapper.querySelector('#ad-' + blockId + ' .ep-ad');
-					adVideos.push(adVideo);
-
-					let adContainer = epEmbedContentWrapper.querySelector('#ad-' + blockId);
-					let progressBar = epEmbedContentWrapper.querySelector('#ad-' + blockId + ' .progress-bar');
-					let skipButton = epEmbedContentWrapper.querySelector('#ad-' + blockId + ' .skip-ad-button');
-
-					let playbackInitiated = false;
-
-					epEmbedContentWrapper.addEventListener('click', function() {
-						let adElement = epEmbedContentWrapper.querySelector(`[data-ad-id="${blockIdMD5}"]`);
-						if (adElement) {
-							adElement.removeAttribute('data-ad-id');
-						}
-
-						if (!playbackInitiated) {
-							setTimeout(() => {
-								epEmbedContentWrapper.querySelector('.ose-embedpress-responsive').style.display = 'none';
-								adContainer.style.display = 'inline-block';
-								adVideo.muted = false;
-								adVideo.play();
-							}, adStartAfter);
-
-							playbackInitiated = true;
-						}
-					});
-
-					adVideo.addEventListener('timeupdate', () => {
-						const currentTime = adVideo.currentTime;
-						const videoDuration = adVideo.duration;
-
-						if (!isNaN(currentTime) && !isNaN(videoDuration)) {
-							const progress = (currentTime / videoDuration) * 100;
-							progressBar.style.width = progress + '%';
-
-							if (currentTime >= 3) {
-								// Show the skip button after 3 seconds
-								skipButton.style.display = 'inline-block';
-							}
-						}
-					});
-
-					// Add a click event listener to the skip button
-					skipButton.addEventListener('click', () => {
-						adVideo.pause();
-						adContainer.parentNode.removeChild(adContainer);
-						epEmbedContentWrapper.querySelector('.ose-embedpress-responsive').style.display = 'inline-block';
-					});
-
-					// Add an event listener to check for video end
-					adVideo.addEventListener('ended', () => {
-						// Remove the main ad template from the DOM when the video ends
-						adContainer.parentNode.removeChild(adContainer);
-						epEmbedContentWrapper.querySelector('.ose-embedpress-responsive').style.display = 'inline-block';
-					});
-
-				});
-			});
-			
-			// 2. This code loads the IFrame Player API code asynchronously.
-			var tag = document.createElement('script');
-			const iframe = document.querySelector('.ose-youtube');
-			// const iframe = document.querySelector('.ose-youtube iframe');
-			const srcUrl = "<?php echo isset($attributes['url']) ? $attributes['url'] : ''; ?>"
-
-
-			tag.src = "https://www.youtube.com/iframe_api";
-			var firstScriptTag = document.getElementsByTagName('script')[0];
-			firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
-			// 3. This function creates an <iframe> (and YouTube player)
-			//    after the API code downloads.
-			var player;
-
-			function onYouTubeIframeAPIReady() {
-				player = new YT.Player(iframe, {
-					videoId: getYTVideoId(srcUrl),
-					playerVars: {
-						'playsinline': 1
-					},
-					events: {
-						'onReady': onPlayerReady,
-						'onStateChange': onPlayerStateChange
-					}
-				});
-			}
-
-			// 4. The API will call this function when the video player is ready.
-			function onPlayerReady(event) {
-				event.target.playVideo();
-
-			}
-
-			// 5. The API calls this function when the player's state changes.
-			//    The function indicates that when playing a video (state=1),
-			//    the player should play for six seconds and then stop.
-			var done = false;
-
-			function onPlayerStateChange(event) {
-				if (event.data == YT.PlayerState.PLAYING && !done) {
-					setTimeout(stopVideo, 6000);
-					done = true;
-				}
-			}
-
-			function stopVideo() {
-				player.stopVideo();
-			}
-
-
-			function getYTVideoId(url) {
-				const regex = /(?:youtube\.com\/(?:[^\/]+\/[^\/]+\/|(?:v|e(?:mbed)?)\/|[^#]*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
-				const match = url.match(regex);
-
-				if (match && match[1]) {
-					return match[1];
-				} else {
-					return null; // Invalid URL or couldn't find the video ID
-				}
-			}
-
-			console.log(getYTVideoId(srcUrl));
-			console.log(my_url);
-		</script>
 
 
 <?php

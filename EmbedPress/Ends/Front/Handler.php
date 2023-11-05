@@ -73,6 +73,14 @@ class Handler extends EndHandlerAbstract
             true
         );
 
+        wp_enqueue_script(
+            'embedpress-ads',
+            EMBEDPRESS_URL_ASSETS . 'js/ads.js',
+            ['jquery'],
+            $this->pluginVersion,
+            true
+        );
+
        
 
         wp_enqueue_script( 'embedpress_documents_viewer_script', EMBEDPRESS_URL_ASSETS . 'js/documents-viewer-script.js', ['jquery'],

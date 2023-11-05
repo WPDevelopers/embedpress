@@ -188,8 +188,10 @@ function embedpress_render_block($attributes)
 		$url = !empty($attributes['href']) ? $attributes['href'] : '';
 
 		$adsAtts = '';
+
 		if(!empty($attributes['adManager'])) {
-			$adsAtts = "data-ad-id=$client_id";
+			$ad = base64_encode(json_encode($attributes));
+			$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
 		}
 
 		ob_start();
