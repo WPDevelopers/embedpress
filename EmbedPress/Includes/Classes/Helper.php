@@ -911,71 +911,6 @@ class Helper
 				// Convert NodeList to an array
 				epEmbedContentWrappers = Array.from(epEmbedContentWrappers);
 
-				// Initialize some variables
-				let player;
-				const playButton = document.getElementById('play-button');
-				const pauseButton = document.getElementById('pause-button');
-
-				// This function is called when the YouTube IFrame API is ready
-				// function onYouTubeIframeAPIReady() {
-				// 	// Find the iframe by its src attribute
-				// 	const iframe = document.querySelector('iframe[src*="B84OMFhpgFE"]');
-
-				// 	if (iframe) {
-				// 		player = new YT.Player(iframe, {
-				// 			events: {
-				// 				'onReady': onPlayerReady,
-				// 			}
-				// 		});
-				// 	}
-				// }
-
-				// // This function is called when the player is ready
-				// function onPlayerReady(event) {
-				// 	// Iterate over ad videos and synchronize each one
-				// 	adVideos.forEach(function(adVideo) {
-				// 		adVideo.addEventListener('start', () => {
-				// 			player.pauseVideo();
-				// 		});
-				// 		adVideo.addEventListener('end', () => {
-				// 			player.playVideo();
-				// 		});
-				// 	});
-				// }
-
-				// console.log(playButton);
-				// console.log(pauseButton);
-				function onYouTubeIframeAPIReady() {
-					// Find the iframe by its src attribute
-					const iframe = document.querySelector('iframe[src*="B84OMFhpgFE"]');
-
-					if (iframe) {
-						player = new YT.Player(iframe, {
-							events: {
-								'onReady': onPlayerReady,
-							}
-						});
-					}
-				}
-
-				// This function is called when the player is ready
-				function onPlayerReady(event) {
-					console.log(event);
-					playButton.addEventListener('click', function() {
-						console.log(playButton);
-						player.playVideo();
-					});
-
-					pauseButton.addEventListener('click', function() {
-						player.pauseVideo();
-					});
-				}
-
-				// window.onload = function() {
-				// 	onYouTubeIframeAPIReady();
-				// };
-
-
 				epEmbedContentWrappers.forEach((epEmbedContentWrapper) => {
 					let adVideo = epEmbedContentWrapper.querySelector('#ad-' + blockId + ' .ep-ad');
 					adVideos.push(adVideo);
@@ -1035,15 +970,12 @@ class Helper
 
 				});
 			});
-		</script>
-
-		<!-- 1. The <iframe> (and video player) will replace this <div> tag. -->
-		<div class="player"></div>
-
-		<script>
+			
 			// 2. This code loads the IFrame Player API code asynchronously.
 			var tag = document.createElement('script');
-			const iframe = document.querySelector('.player');
+			const iframe = document.querySelector('.ose-youtube');
+			// const iframe = document.querySelector('.ose-youtube iframe');
+			const srcUrl = "<?php echo isset($attributes['url']) ? $attributes['url'] : ''; ?>"
 
 
 			tag.src = "https://www.youtube.com/iframe_api";
@@ -1056,9 +988,7 @@ class Helper
 
 			function onYouTubeIframeAPIReady() {
 				player = new YT.Player(iframe, {
-					height: '390',
-					width: '640',
-					videoId: 'M7lc1UVf-VE',
+					videoId: getYTVideoId(srcUrl),
 					playerVars: {
 						'playsinline': 1
 					},
@@ -1072,6 +1002,7 @@ class Helper
 			// 4. The API will call this function when the video player is ready.
 			function onPlayerReady(event) {
 				event.target.playVideo();
+
 			}
 
 			// 5. The API calls this function when the player's state changes.
@@ -1089,6 +1020,21 @@ class Helper
 			function stopVideo() {
 				player.stopVideo();
 			}
+
+
+			function getYTVideoId(url) {
+				const regex = /(?:youtube\.com\/(?:[^\/]+\/[^\/]+\/|(?:v|e(?:mbed)?)\/|[^#]*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+				const match = url.match(regex);
+
+				if (match && match[1]) {
+					return match[1];
+				} else {
+					return null; // Invalid URL or couldn't find the video ID
+				}
+			}
+
+			console.log(getYTVideoId(srcUrl));
+			console.log(my_url);
 		</script>
 
 
