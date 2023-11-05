@@ -32,6 +32,7 @@ const adInitialization = (adContainer) => {
     const adContent = adAtts.adContent;
     const adVideo = adContainer.querySelector('#ad-' + blockId + ' .ep-ad');
     const youtubeIframe = adContainer.querySelector(`.ose-youtube iframe`);
+    const adSource = adAtts.adSource;
     const adVideos = [];
     const srcUrl = adAtts.url;
     let player;
@@ -93,6 +94,9 @@ const adInitialization = (adContainer) => {
 
     let playbackInitiated = false;
 
+    if (skipButton && adSource !== 'video') {
+        skipButton.style.display = 'inline-block';
+    }
 
     adMask.addEventListener('click', function () {
 
@@ -100,7 +104,9 @@ const adInitialization = (adContainer) => {
 
         if (!playbackInitiated) {
             setTimeout(() => {
-                adContainer.querySelector('.ose-embedpress-responsive').style.display = 'none';
+                if (adSource !== 'image') {
+                    adContainer.querySelector('.ose-embedpress-responsive').style.display = 'none';
+                }
                 adTemplate.classList.add('ad-running');
                 console.log(adTemplate);
                 adVideo.muted = false;

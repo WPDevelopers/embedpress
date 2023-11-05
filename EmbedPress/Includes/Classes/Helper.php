@@ -770,6 +770,7 @@ class Helper
 				$adContent = isset($attributes['adContent']) ? $attributes['adContent'] : 'akash';
 				$adFileUrl = isset($attributes['adFileUrl']) ? $attributes['adFileUrl'] : '';
 				$adStart = isset($attributes['adStart']) ? intval($attributes['adStart']) : 0;
+				$adStart = isset($attributes['adStart']) ? intval($attributes['adStart']) : 0;
 
 				$currentTime = 0;
 				$showSkipButton = false;
@@ -793,7 +794,7 @@ class Helper
 				}
 
 				?>
-		<div class="main-ad-template" id="<?php echo esc_attr('ad-' . $attributes['clientId']); ?>" style="display:none">
+		<div class="main-ad-template <?php echo esc_attr($adSource); ?>" id="<?php echo esc_attr('ad-' . $attributes['clientId']); ?>" style="display:none">
 			<div class="ep-ad-container">
 				<div class="ep-ad-content" style="position: relative;">
 					<?php if ($adSource === 'video') : ?>
@@ -824,7 +825,7 @@ class Helper
 				</div>
 			</div>
 		</div>
-		
+
 		<style>
 			.ad-mask .ose-embedpress-responsive {
 				position: relative;
@@ -858,6 +859,32 @@ class Helper
 				max-width: 100%;
 				display: inline-block;
 
+			}
+
+
+
+			[data-ad-id] {
+				position: relative;
+				display: inline-block;
+
+			}
+
+			.main-ad-template.image.ad-running {
+				width: 280px;
+				max-height: calc(100% - 150px);
+				position: absolute;
+				z-index: 1;
+				bottom: 75px;
+				left: 50%;
+				transform: translate(-50%, -0%);
+				height: auto;
+			}
+
+			.main-ad-template.image.ad-running img,
+			.ep-ad-container,
+			.ep-ad-content {
+				height: auto;
+				object-fit: cover
 			}
 
 			.ep-ad-container {
