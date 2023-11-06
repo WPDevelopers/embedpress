@@ -757,20 +757,29 @@ class Helper
 				return intval($minutes) * 60 + intval($seconds);
 			}
 
-			public static function generateAdTemplate($attributes)
+			public static function generateAdTemplate($client_id, $attributes, $editor = 'elementor')
 			{
 
 				// Example usage
-				$client_id = isset($attributes['clientId']) ? $attributes['clientId'] : '';
-				$md5_client_id = isset($attributes['clientId']) ? md5($attributes['clientId']) : '';
-				$width = isset($attributes['width']) ? $attributes['width'] : '600';
-				$height = isset($attributes['height']) ? $attributes['height'] : '550';
+				$md5_client_id = isset($client_id) ? md5($client_id) : '';
+				if($editor == 'elementor'){
+					$md5_client_id = $client_id;
+				}
+
 				$adSource = isset($attributes['adSource']) ? $attributes['adSource'] : '';
-				$adContent = ['fileLength' => '02:30'];
-				$adContent = isset($attributes['adContent']) ? $attributes['adContent'] : 'akash';
-				$adFileUrl = isset($attributes['adFileUrl']) ? $attributes['adFileUrl'] : '';
+				$adContent = isset($attributes['adContent']) ? $attributes['adContent'] : '';
+
+				if ($editor === 'elementor') {
+					$adFileUrl = isset($attributes['adFileUrl']['url']) ? $attributes['adFileUrl']['url'] : '';
+					$width = isset($attributes['width']) ? $attributes['width']['size'] : '600';
+					$height = isset($attributes['height']) ? $attributes['height']['size'] : '550';
+				} else {
+					$adFileUrl = isset($attributes['adFileUrl']) ? $attributes['adFileUrl'] : '';
+					$width = isset($attributes['width']) ? $attributes['width'] : '600';
+					$height = isset($attributes['height']) ? $attributes['height'] : '550';
+				}
 				$adStart = isset($attributes['adStart']) ? intval($attributes['adStart']) : 0;
-				$adStart = isset($attributes['adStart']) ? intval($attributes['adStart']) : 0;
+				$adUrl = isset($attributes['adUrl']) ? $attributes['adUrl'] : '';
 
 				$currentTime = 0;
 				$showSkipButton = false;
@@ -794,37 +803,42 @@ class Helper
 				}
 
 				?>
-		<div class="main-ad-template <?php echo esc_attr($adSource); ?>" id="<?php echo esc_attr('ad-' . $attributes['clientId']); ?>" style="display:none">
+		<div class="main-ad-template <?php echo esc_attr($adSource); ?>" id="<?php echo esc_attr('ad-' . $client_id); ?>" style="display:none">
 			<div class="ep-ad-container">
 				<div class="ep-ad-content" style="position: relative;">
-					<?php if ($adSource === 'video') : ?>
-						<video class="ep-ad" autoplay muted>
-							<source src="<?= $adFileUrl ?>">
-							Your browser does not support the video tag.
-						</video>
-					<?php else : ?>
-						<img class="ep-ad" src="<?= $adFileUrl ?>">
+					<?php if (!empty($adUrl)) : ?> <a target="_blank" href="<?php echo esc_url($adUrl); ?>"> <?php endif; ?>
+						<?php if ($adSource === 'video') : ?>
+							<video class="ep-ad" autoplay muted>
+								<source src="<?= $adFileUrl ?>">
+							</video>
+
+							<div class="ad-timer">
+								<span class="ad-running-time"></span>
+								<span class="ad-duration"><?php echo sprintf("%d:%02d", floor($videoDuration / 60), $videoDuration % 60); ?></span>
+							</div>
+							<div class="progress-bar-container">
+								<div class="progress-bar"></div>
+							</div>
+
+						<?php else : ?>
+							<img class="ep-ad" src="<?= $adFileUrl ?>">
+						<?php endif; ?>
+
+						<?php if (!empty($adUrl)) : ?>
+						</a>
 					<?php endif; ?>
 
-					<div class="progress-bar-container">
-						<div class="progress-bar"></div>
-					</div>
 
 					<?php if ($showSkipButton) : ?>
 						<button title="Skip Ad" class="skip-ad-button" style="display: none;">
-							Skip Ad
+							<?php echo esc_html__('Skip Ad', 'embedpress'); ?>
 						</button>
 					<?php endif; ?>
 
 				</div>
-				<div class="ad-overlay">
-					<div class="ad-content">
-						<h2>Check out our product!</h2>
-						<p>Click the ad to learn more.</p>
-					</div>
-				</div>
 			</div>
 		</div>
+
 
 		<style>
 			.ad-mask .ose-embedpress-responsive {
@@ -853,15 +867,12 @@ class Helper
 				/* display: none !important; */
 			}
 
-			.main-ad-template {
+			[data-ad-id="<?php echo esc_attr($md5_client_id) ?>"] .main-ad-template {
 				width: <?php echo esc_attr($width); ?>px;
 				height: <?php echo esc_attr($height); ?>px;
 				max-width: 100%;
 				display: inline-block;
-
 			}
-
-
 
 			[data-ad-id] {
 				position: relative;
@@ -870,7 +881,7 @@ class Helper
 			}
 
 			.main-ad-template.image.ad-running {
-				width: 280px;
+				width: 300px;
 				max-height: calc(100% - 150px);
 				position: absolute;
 				z-index: 1;
@@ -878,6 +889,7 @@ class Helper
 				left: 50%;
 				transform: translate(-50%, -0%);
 				height: auto;
+				max-width: 80%;
 			}
 
 			.main-ad-template.image.ad-running img,
@@ -911,14 +923,30 @@ class Helper
 
 			button.skip-ad-button {
 				position: absolute;
-				bottom: 12px;
-				right: 8px;
+				bottom: 15px;
+				right: 10px;
 				border: none;
-				background: #ff0057ba !important;
+				background: #d41556b5 !important;
 				padding: 6px 8px;
 				color: white !important;
 				z-index: 122222222;
-				font-size: 16px;
+				font-size: 15px;
+				font-weight: bold;
+				border-radius: 4px;
+
+			}
+
+			.ad-timer {
+				position: absolute;
+				background: #d41556b5;
+				padding: 6px 0;
+				font-size: 15px;
+				width: 110px;
+				color: white;
+				bottom: 15px;
+				left: 10px;
+				text-align: center;
+				border-radius: 4px;
 				font-weight: bold;
 			}
 		</style>

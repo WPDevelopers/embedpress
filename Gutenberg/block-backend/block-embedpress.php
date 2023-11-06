@@ -223,7 +223,7 @@ function embedpress_render_block($attributes)
 							}
 
 							if(!empty($attributes['adManager'])) {
-								$embed .= Helper::generateAdTemplate($attributes);
+								$embed .= Helper::generateAdTemplate($client_id, $attributes, 'gutenberg');
 							}
 
 						?>

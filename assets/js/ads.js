@@ -9,7 +9,10 @@ if (!YT.loading) {
 };
 
 
+
 let adsConainers = document.querySelectorAll('[data-ad-id]');
+let container = document.querySelector('[data-ad-id]');
+ 
 
 adsConainers = Array.from(adsConainers);
 
@@ -25,17 +28,21 @@ const getYTVideoId = (url) => {
 }
 
 const adInitialization = (adContainer) => {
-    const adAtts = JSON.parse(atob(adContainer.getAttribute('data-ad-attrs')));;
+    
+    const adAtts = JSON.parse(atob(adContainer.getAttribute('data-ad-attrs')));
+
     const blockId = adAtts.clientId;
     const blockIdMD5 = adContainer.getAttribute('data-ad-id');
     const adStartAfter = adAtts.adStart * 1000;
     const adContent = adAtts.adContent;
-    const adVideo = adContainer.querySelector('#ad-' + blockId + ' .ep-ad');
+    const adVideo = adContainer.querySelector('.ep-ad');
     const youtubeIframe = adContainer.querySelector(`.ose-youtube iframe`);
     const adSource = adAtts.adSource;
     const adVideos = [];
-    const srcUrl = adAtts.url;
+    const srcUrl = adAtts.url || adAtts.embedpress_embeded_link;
     let player;
+
+    console.log(adAtts);
 
 
     if (youtubeIframe && getYTVideoId(srcUrl)) {
@@ -60,18 +67,17 @@ const adInitialization = (adContainer) => {
                         'onReady': onPlayerReady,
                     }
                 });
-                console.log(getYTVideoId(srcUrl));
             }
 
         }
 
         // This function is called when the player is ready
         function onPlayerReady(event) {
-            adVideo.addEventListener('ended', function () {
+            adVideo?.addEventListener('ended', function () {
                 event.target.playVideo();
             });
 
-            adVideo.addEventListener('play', function () {
+            adVideo?.addEventListener('play', function () {
                 event.target.pauseVideo();
             });
         }
@@ -86,11 +92,13 @@ const adInitialization = (adContainer) => {
     // let adVideo = adContainer.querySelector('#ad-' + blockId + ' .ep-ad');
     adVideos.push(adVideo);
 
-    const adTemplate = adContainer.querySelector('#ad-' + blockId);
-    const progressBar = adContainer.querySelector('#ad-' + blockId + ' .progress-bar');
-    const skipButton = adContainer.querySelector('#ad-' + blockId + ' .skip-ad-button');
+    const adTemplate = adContainer.querySelector('.main-ad-template');
+    const progressBar = adContainer.querySelector('.progress-bar');
+    const skipButton = adContainer.querySelector('.skip-ad-button');
+    const adRunningTime = adContainer.querySelector('.ad-running-time');
 
     const adMask = adContainer.querySelector('.ose-embedpress-responsive');
+
 
     let playbackInitiated = false;
 
@@ -98,29 +106,39 @@ const adInitialization = (adContainer) => {
         skipButton.style.display = 'inline-block';
     }
 
-    adMask.addEventListener('click', function () {
+    adMask?.addEventListener('click', function () {
 
         adContainer.classList.remove('ad-mask');
+
+        if(getYTVideoId(srcUrl)){
+            console.log(player);
+            player.playVideo();
+        }
 
         if (!playbackInitiated) {
             setTimeout(() => {
                 if (adSource !== 'image') {
                     adContainer.querySelector('.ose-embedpress-responsive').style.display = 'none';
                 }
-                adTemplate.classList.add('ad-running');
-                console.log(adTemplate);
-                adVideo.muted = false;
-                adVideo.play();
+                adTemplate?.classList.add('ad-running');
+                if(adVideo){
+                    adVideo.muted = false;
+                    adVideo.play();
+                }
             }, adStartAfter);
 
             playbackInitiated = true;
         }
     });
 
-    adVideo.addEventListener('timeupdate', () => {
-        const currentTime = adVideo.currentTime;
-        const videoDuration = adVideo.duration;
+    adVideo?.addEventListener('timeupdate', () => {
+        const currentTime = adVideo?.currentTime;
+        const videoDuration = adVideo?.duration;
 
+
+        if (currentTime <= videoDuration) {
+            adRunningTime.innerText = Math.floor(currentTime / 60) + ':' + (Math.floor(currentTime) % 60).toString().padStart(2, '0');
+        }
         if (!isNaN(currentTime) && !isNaN(videoDuration)) {
             const progress = (currentTime / videoDuration) * 100;
             progressBar.style.width = progress + '%';
@@ -134,7 +152,7 @@ const adInitialization = (adContainer) => {
 
 
     // Add a click event listener to the skip button
-    skipButton.addEventListener('click', () => {
+    skipButton?.addEventListener('click', () => {
         adTemplate.remove();
         if (getYTVideoId(srcUrl)) {
             player.playVideo();
@@ -143,7 +161,7 @@ const adInitialization = (adContainer) => {
     });
 
     // Add an event listener to check for video end
-    adVideo.addEventListener('ended', () => {
+    adVideo?.addEventListener('ended', () => {
         // Remove the main ad template from the DOM when the video ends
         adTemplate.remove();
         adContainer.querySelector('.ose-embedpress-responsive').style.display = 'inline-block';
@@ -151,11 +169,9 @@ const adInitialization = (adContainer) => {
 
 }
 
-console.log(adsConainers);
 
 if (adsConainers.length > 0) {
     adsConainers.forEach(element => {
-        console.log("Initializing");
         adInitialization(element);
     });
 }

@@ -29,6 +29,7 @@ export default function AdControl({ attributes, setAttributes }) {
         adSource,
         adContent,
         adFileUrl,
+        adUrl,
         adStart,
         adSkipButton,
         adSkipButtonAfrer
@@ -61,7 +62,7 @@ export default function AdControl({ attributes, setAttributes }) {
     }
 
     return (
-        <PanelBody title={__('Ad Manager', 'embedpress')} initialOpen={false} className={adManager ? "" : "disabled-content-protection"} >
+        <PanelBody title={__('EP Ad Manager', 'embedpress')} initialOpen={false} className={adManager ? "" : "disabled-content-protection"} >
             <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                 <ToggleControl
                     label={__("Ad Manager")}
@@ -126,6 +127,12 @@ export default function AdControl({ attributes, setAttributes }) {
 
 
                         </div>
+
+                        <TextControl
+                            label={__("Ad URL")}
+                            value={adUrl}
+                            onChange={(adUrl) => setAttributes({ adUrl })}
+                        />
 
                         <TextControl
                             label={__("Ad Start After (sec)")}

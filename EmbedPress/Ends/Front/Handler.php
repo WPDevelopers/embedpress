@@ -74,9 +74,16 @@ class Handler extends EndHandlerAbstract
         );
 
         wp_enqueue_script(
+            'vimeo-player',
+            EMBEDPRESS_URL_ASSETS . 'js/vimeo-player.js',
+            ['jquery'],
+            $this->pluginVersion,
+            true
+        );
+        wp_enqueue_script(
             'embedpress-ads',
             EMBEDPRESS_URL_ASSETS . 'js/ads.js',
-            ['jquery'],
+            ['jquery', 'vimeo-player'],
             $this->pluginVersion,
             true
         );

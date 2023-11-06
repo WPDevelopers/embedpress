@@ -1,24 +1,133 @@
 <?php
 
 namespace EmbedPress\Includes\Classes;
+
 use \Elementor\Controls_Manager;
 
-class Extend_Elementor_Controls {
+class Extend_Elementor_Controls
+{
 
-	public function __construct () {
-		add_action( 'extend_elementor_controls', [$this, 'extend_elementor_share_and_lock_controls'], 10, 4 );
+	public function __construct()
+	{
+		add_action('extend_elementor_controls', [$this, 'extend_elementor_share_and_lock_controls'], 10, 4);
 	}
-	
-	public function extend_elementor_share_and_lock_controls($that, $infix = '', $pro_text = '', $pro_class = ''){
-		$that->start_controls_section(
-            'embedpress_content_protection_settings',
-            [
-                'label' => esc_html__('EP Content Protection', 'embedpress'),
-            ]
-        );
 
-        $that->add_control(
-			'embedpress'.$infix.'lock_content',
+	public function extend_elementor_share_and_lock_controls($that, $infix = '', $pro_text = '', $pro_class = '')
+	{
+		$ad_condition = [
+			'ad_manager' => 'yes'
+		];
+		$ai_condition = [
+			'active' => false,
+		];
+
+		$that->start_controls_section(
+			'embedpress_ad_manager',
+			[
+				'label' => esc_html__('EP Ad Manager', 'embedpress'),
+			]
+		);
+		$that->add_control(
+			'adManager',
+			[
+				'label'        => sprintf(__('Ad Manager %s', 'embedpress'), $pro_text),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'default' => 'false',
+				'class' => $pro_class
+			]
+		);
+
+		$that->add_control(
+			'adSource',
+			[
+				'label' => __('Ad Source', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'options' => [
+					'video' => __('Upload Video', 'embedpress'),
+					'image' => __('Upload Image', 'embedpress'),
+					'url' => __('URL', 'embedpress'),
+				],
+				'default' => 'video',
+				'condition' => $ad_condition,
+				'ai'     => $ai_condition,
+			]
+		);
+
+		$that->add_control(
+			'adFileUrl',
+			[
+				'label' => __('Ad File URL', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::MEDIA,
+				'media_types' => [
+					'image', 'video'
+				],
+				'condition' => $ad_condition,
+				'ai'     => $ai_condition,
+			]
+		);
+
+		$that->add_control(
+			'adUrl',
+			[
+				'label' => __('Ad URL', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'condition' => $ad_condition,
+				'ai'     => $ai_condition,
+
+			]
+		);
+
+		$that->add_control(
+			'adStart',
+			[
+				'label' => __('Ad Start After (sec)', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'condition' => $ad_condition,
+				'default' => '5',
+				'ai'     => $ai_condition,
+
+			]
+		);
+
+		$that->add_control(
+			'adSkipButton',
+			[
+				'label' => __('Ad Skip Button', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'default' => 'yes',
+				'condition' => $ad_condition
+			]
+		);
+
+		$that->add_control(
+			'adSkipButtonAfter',
+			[
+				'label' => __('Skip Button After (sec)', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'condition' => [
+					'ad_manager' => 'yes',
+					'ad_skip_button' => 'yes',
+				],
+				'ai'     => $ai_condition,
+				'default' => '5'
+			]
+		);
+
+		$that->end_controls_section();
+
+		$that->start_controls_section(
+			'embedpress_content_protection_settings',
+			[
+				'label' => esc_html__('EP Content Protection', 'embedpress'),
+			]
+		);
+
+		$that->add_control(
+			'embedpress' . $infix . 'lock_content',
 			[
 				'label'        => sprintf(__('Enable Content Protection %s', 'embedpress'), $pro_text),
 				'type'         => Controls_Manager::SWITCHER,
@@ -30,7 +139,7 @@ class Extend_Elementor_Controls {
 		);
 
 		$that->add_control(
-			'embedpress'.$infix.'lock_content_password',
+			'embedpress' . $infix . 'lock_content_password',
 			[
 				'label'       => __('Set Password', 'embedpress'),
 				'type'        => Controls_Manager::TEXT,
@@ -38,14 +147,14 @@ class Extend_Elementor_Controls {
 				'placeholder'	=> '••••••',
 				'label_block' => false,
 				'condition'   => [
-					'embedpress'.$infix.'lock_content' => 'yes'
+					'embedpress' . $infix . 'lock_content' => 'yes'
 				]
 			]
 		);
 
-		
+
 		$that->add_control(
-			'embedpress'.$infix.'lock_content_error_message',
+			'embedpress' . $infix . 'lock_content_error_message',
 			[
 				'label' => __('Error Message', 'embedpress'),
 				'type' => Controls_Manager::TEXTAREA,
@@ -53,12 +162,12 @@ class Extend_Elementor_Controls {
 				'placeholder' => __('Oops, that wasn\'t the right password. Try again.', 'embedpress'),
 				'label_block' => true,
 				'condition' => [
-					'embedpress'.$infix.'lock_content' => 'yes'
+					'embedpress' . $infix . 'lock_content' => 'yes'
 				]
 			]
 		);
 		$that->add_control(
-			'embedpress'.$infix.'password_placeholder',
+			'embedpress' . $infix . 'password_placeholder',
 			[
 				'label' => __('Placeholder', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
@@ -66,12 +175,12 @@ class Extend_Elementor_Controls {
 				'placeholder' => __('Password', 'embedpress'),
 				'label_block' => false,
 				'condition' => [
-					'embedpress'.$infix.'lock_content' => 'yes'
+					'embedpress' . $infix . 'lock_content' => 'yes'
 				]
 			]
 		);
 		$that->add_control(
-			'embedpress'.$infix.'submit_button_text',
+			'embedpress' . $infix . 'submit_button_text',
 			[
 				'label' => __('Button Text', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
@@ -79,12 +188,12 @@ class Extend_Elementor_Controls {
 				'placeholder' => __('Unlock', 'embedpress'),
 				'label_block' => false,
 				'condition' => [
-					'embedpress'.$infix.'lock_content' => 'yes'
+					'embedpress' . $infix . 'lock_content' => 'yes'
 				]
 			]
 		);
 		$that->add_control(
-			'embedpress'.$infix.'submit_Unlocking_text',
+			'embedpress' . $infix . 'submit_Unlocking_text',
 			[
 				'label' => __('Loader Text', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
@@ -92,13 +201,13 @@ class Extend_Elementor_Controls {
 				'placeholder' => __('Unlocking...', 'embedpress'),
 				'label_block' => false,
 				'condition' => [
-					'embedpress'.$infix.'lock_content' => 'yes'
+					'embedpress' . $infix . 'lock_content' => 'yes'
 				]
 			]
 		);
 
-        $that->add_control(
-			'embedpress'.$infix.'lock_content_heading',
+		$that->add_control(
+			'embedpress' . $infix . 'lock_content_heading',
 			[
 				'label' => __('Header', 'embedpress'),
 				'type' => Controls_Manager::TEXT,
@@ -106,13 +215,13 @@ class Extend_Elementor_Controls {
 				'placeholder' => __('Content Locked', 'embedpress'),
 				'label_block' => false,
 				'condition' => [
-					'embedpress'.$infix.'lock_content' => 'yes'
+					'embedpress' . $infix . 'lock_content' => 'yes'
 				]
 			]
 		);
-		
+
 		$that->add_control(
-			'embedpress'.$infix.'lock_content_sub_heading',
+			'embedpress' . $infix . 'lock_content_sub_heading',
 			[
 				'label' => __('Description', 'embedpress'),
 				'type' => Controls_Manager::TEXTAREA,
@@ -120,14 +229,14 @@ class Extend_Elementor_Controls {
 				'placeholder' => __('Content is locked and requires password to access it.', 'embedpress'),
 				'label_block' => true,
 				'condition' => [
-					'embedpress'.$infix.'lock_content' => 'yes'
+					'embedpress' . $infix . 'lock_content' => 'yes'
 				]
 			]
 		);
-		
+
 
 		$that->add_control(
-			'embedpress'.$infix.'enable_footer_message',
+			'embedpress' . $infix . 'enable_footer_message',
 			[
 				'label'        => __('Footer Text', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
@@ -135,14 +244,14 @@ class Extend_Elementor_Controls {
 				'return_value' => 'yes',
 				'default'      => '',
 				'condition' => [
-					'embedpress'.$infix.'lock_content' => 'yes'
+					'embedpress' . $infix . 'lock_content' => 'yes'
 				],
-				
+
 			]
 		);
-		  
+
 		$that->add_control(
-			'embedpress'.$infix.'lock_content_footer_message',
+			'embedpress' . $infix . 'lock_content_footer_message',
 			[
 				'label' => __('Footer', 'embedpress'),
 				'type' => Controls_Manager::TEXTAREA,
@@ -150,23 +259,26 @@ class Extend_Elementor_Controls {
 				'placeholder' => __('In case you don\'t have the password, kindly reach out to content owner or administrator to request access.', 'embedpress'),
 				'label_block' => true,
 				'condition' => [
-					'embedpress'.$infix.'enable_footer_message' => 'yes',
-					'embedpress'.$infix.'lock_content' => 'yes'
+					'embedpress' . $infix . 'enable_footer_message' => 'yes',
+					'embedpress' . $infix . 'lock_content' => 'yes'
 				]
 			]
 		);
-        
-        $that->end_controls_section();
 
-        $that->start_controls_section(
-            'embedpress_content_share_settings',
-            [
-                'label' => esc_html__('EP Social Share', 'embedpress'),
-            ]
-        );
+		$that->end_controls_section();
 
-        $that->add_control(
-			'embedpress'.$infix.'content_share',
+
+
+
+		$that->start_controls_section(
+			'embedpress_content_share_settings',
+			[
+				'label' => esc_html__('EP Social Share', 'embedpress'),
+			]
+		);
+
+		$that->add_control(
+			'embedpress' . $infix . 'content_share',
 			[
 				'label'        => __('Enable Social Share', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
@@ -175,62 +287,59 @@ class Extend_Elementor_Controls {
 				'default'      => '',
 			]
 		);
-        $that->add_control(
-            'embedpress'.$infix.'content_share_position',
-            [
-                'label'   => __('Position', 'embedpress'),
-                'type'    => Controls_Manager::SELECT,
-                'default' => 'right',
-                'options' => [
-                    'top'        => __('Top', 'embedpress'),
-                    'right' => __('Right', 'embedpress'),
-                    'bottom'    => __('Bottom', 'embedpress'),
-                    'left'  => __('Left', 'embedpress'),
-                ],
-                'condition'   => [
-					'embedpress'.$infix.'content_share' => 'yes'
-				]
-            ]
-        );
-        $that->add_control(
-            'embedpress'.$infix.'content_title',
-            [
-                'label'   => __('Title', 'embedpress'),
-                'type'    => Controls_Manager::TEXT,
-                'placeholder' => __('Enter share title', 'embedpress'),
-                'condition'   => [
-					'embedpress'.$infix.'content_share' => 'yes'
-				]
-            ]
-        );
-        $that->add_control(
-            'embedpress'.$infix.'content_descripiton',
-            [
-                'label'   => __('Description', 'embedpress'),
-                'type'    => Controls_Manager::TEXTAREA,
-                'placeholder' => __('Enter share description', 'embedpress'),
-                'condition'   => [
-					'embedpress'.$infix.'content_share' => 'yes'
-				]
-            ]
-        );
-
-        $that->add_control(
-			'embedpress'.$infix.'content_share_custom_thumbnail',
+		$that->add_control(
+			'embedpress' . $infix . 'content_share_position',
 			[
-				'label' => esc_html__( 'Thumbnail', 'textdomain' ),
+				'label'   => __('Position', 'embedpress'),
+				'type'    => Controls_Manager::SELECT,
+				'default' => 'right',
+				'options' => [
+					'top'        => __('Top', 'embedpress'),
+					'right' => __('Right', 'embedpress'),
+					'bottom'    => __('Bottom', 'embedpress'),
+					'left'  => __('Left', 'embedpress'),
+				],
+				'condition'   => [
+					'embedpress' . $infix . 'content_share' => 'yes'
+				]
+			]
+		);
+		$that->add_control(
+			'embedpress' . $infix . 'content_title',
+			[
+				'label'   => __('Title', 'embedpress'),
+				'type'    => Controls_Manager::TEXT,
+				'placeholder' => __('Enter share title', 'embedpress'),
+				'condition'   => [
+					'embedpress' . $infix . 'content_share' => 'yes'
+				]
+			]
+		);
+		$that->add_control(
+			'embedpress' . $infix . 'content_descripiton',
+			[
+				'label'   => __('Description', 'embedpress'),
+				'type'    => Controls_Manager::TEXTAREA,
+				'placeholder' => __('Enter share description', 'embedpress'),
+				'condition'   => [
+					'embedpress' . $infix . 'content_share' => 'yes'
+				]
+			]
+		);
+
+		$that->add_control(
+			'embedpress' . $infix . 'content_share_custom_thumbnail',
+			[
+				'label' => esc_html__('Thumbnail', 'textdomain'),
 				'type' => \Elementor\Controls_Manager::MEDIA,
 				'default' => [
 					'url' => \Elementor\Utils::get_placeholder_image_src(),
 				],
-                'condition'   => [
-					'embedpress'.$infix.'content_share' => 'yes'
+				'condition'   => [
+					'embedpress' . $infix . 'content_share' => 'yes'
 				]
 			]
 		);
-        $that->end_controls_section();
-
+		$that->end_controls_section();
 	}
-
-
 }
