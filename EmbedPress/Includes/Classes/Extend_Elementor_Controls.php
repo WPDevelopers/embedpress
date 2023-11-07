@@ -68,6 +68,50 @@ class Extend_Elementor_Controls
 			]
 		);
 
+		// For Ad Width TextControl
+		$that->add_control(
+			'adWidth',
+			[
+				'label' => __('Ad Width', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'ai'     => $ai_condition,
+			]
+		);
+
+		// For Ad Height TextControl
+		$that->add_control(
+			'adHeight',
+			[
+				'label' => __('Ad Height', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'ai'     => $ai_condition,
+			]
+		);
+
+		// For Ad X Position RangeControl
+		$that->add_control(
+			'adXPosition',
+			[
+				'label' => __('Ad X Position(%)', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::NUMBER,
+				'default' => 50, // Set the default value if needed
+				'min' => 0,
+				'max' => 100,
+			]
+		);
+
+		// For Ad Y Position RangeControl
+		$that->add_control(
+			'adYPosition',
+			[
+				'label' => __('Ad Y Position(%)', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::NUMBER,
+				'default' => 50, // Set the default value if needed
+				'min' => 0,
+				'max' => 100,
+			]
+		);
+
 		$that->add_control(
 			'adUrl',
 			[
