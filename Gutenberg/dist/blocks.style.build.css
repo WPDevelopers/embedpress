@@ -1277,13 +1277,16 @@ p.ep-live-video-info svg {
 
 button.skip-ad-button {
   position: absolute;
-  bottom: 8px;
-  right: 8px;
+  bottom: 15px;
+  right: 10px;
   border: none;
-  background: #ff00578a;
+  background: #d41556b5 !important;
   padding: 6px 8px;
-  color: white;
-  z-index: 122222222; }
+  color: white !important;
+  z-index: 122222222;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 4px; }
 /**
  * #.# Common SCSS
  *

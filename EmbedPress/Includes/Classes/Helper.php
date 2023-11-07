@@ -761,10 +761,6 @@ class Helper
 			{
 
 				// Example usage
-				$md5_client_id = isset($client_id) ? md5($client_id) : '';
-				if($editor == 'elementor'){
-					$md5_client_id = $client_id;
-				}
 
 				$adSource = isset($attributes['adSource']) ? $attributes['adSource'] : '';
 				$adContent = isset($attributes['adContent']) ? $attributes['adContent'] : '';
@@ -780,6 +776,10 @@ class Helper
 				}
 				$adStart = isset($attributes['adStart']) ? intval($attributes['adStart']) : 0;
 				$adUrl = isset($attributes['adUrl']) ? $attributes['adUrl'] : '';
+				$adXPosition = isset($attributes['adXPosition']) ? $attributes['adXPosition'] : '';
+				$adYPosition = isset($attributes['adYPosition']) ? $attributes['adYPosition'] : '';
+				$adWidth = isset($attributes['adWidth']) ? $attributes['adWidth'] : '';
+				$adHeight = isset($attributes['adHeight']) ? $attributes['adHeight'] : '';
 
 				$currentTime = 0;
 				$showSkipButton = false;
@@ -867,7 +867,7 @@ class Helper
 				/* display: none !important; */
 			}
 
-			[data-ad-id="<?php echo esc_attr($md5_client_id) ?>"] .main-ad-template {
+			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template {
 				width: <?php echo esc_attr($width); ?>px;
 				height: <?php echo esc_attr($height); ?>px;
 				max-width: 100%;
@@ -881,22 +881,31 @@ class Helper
 			}
 
 			.main-ad-template.image.ad-running {
-				width: 300px;
-				max-height: calc(100% - 150px);
 				position: absolute;
 				z-index: 1;
 				bottom: 75px;
 				left: 50%;
-				transform: translate(-50%, -0%);
 				height: auto;
 				max-width: 80%;
 			}
 
-			.main-ad-template.image.ad-running img,
-			.ep-ad-container,
-			.ep-ad-content {
-				height: auto;
-				object-fit: cover
+			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template.image.ad-running {
+				width: <?php echo esc_attr($adWidth); ?>px!important;
+				height: <?php echo esc_attr($adHeight); ?>px!important;
+				bottom: <?php echo esc_attr($adXPosition); ?>%;
+				left: <?php echo esc_attr($adYPosition); ?>%;
+			}
+
+			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template .ep-ad-content, [data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template .ep-ad-container,
+			.main-ad-template div img {
+				height: 100%;
+				object-fit: cover;
+
+			}
+
+
+			.main-ad-template.image.ad-running img{
+				border-radius: 5px;
 			}
 
 			.ep-ad-container {

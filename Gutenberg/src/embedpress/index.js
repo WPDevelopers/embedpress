@@ -731,6 +731,22 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: ''
 			},
+			adWidth: {
+				type: 'string',
+				default: '300'
+			},
+			adHeight: {
+				type: 'string',
+				default: '200'
+			},
+
+			adXPosition: {
+				type: 'number',
+			},
+			adYPosition: {
+				type: 'number',
+			},
+
 			adUrl: {
 				type: 'string',
 				default: ''

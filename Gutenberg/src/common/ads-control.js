@@ -9,6 +9,7 @@ const { __ } = wp.i18n;
 
 const {
     TextControl,
+    RangeControl,
     SelectControl,
     ToggleControl,
     PanelBody,
@@ -29,6 +30,10 @@ export default function AdControl({ attributes, setAttributes }) {
         adSource,
         adContent,
         adFileUrl,
+        adWidth,
+        adHeight,
+        adXPosition,
+        adYPosition,
         adUrl,
         adStart,
         adSkipButton,
@@ -124,10 +129,42 @@ export default function AdControl({ attributes, setAttributes }) {
                                     />
                                 )
                             }
-
-
                         </div>
 
+                        {
+                            (adSource === 'image') && (
+                                <div>
+                                    <TextControl
+                                        label={__("Ad Width")}
+                                        value={adWidth}
+                                        onChange={(adWidth) => setAttributes({ adWidth })}
+                                    />
+                                    <TextControl
+                                        label={__("Ad Height")}
+                                        value={adHeight}
+                                        onChange={(adHeight) => setAttributes({ adHeight })}
+                                    />
+                                    <RangeControl
+                                        label={__('Ad X position(%)', 'embedpress')}
+                                        value={adXPosition}
+                                        onChange={(adXPosition) =>
+                                            setAttributes({ adXPosition })
+                                        }
+                                        max={100}
+                                        min={0}
+                                    />
+                                    <RangeControl
+                                        label={__('Ad Y position(%)', 'embedpress')}
+                                        value={adYPosition}
+                                        onChange={(adYPosition) =>
+                                            setAttributes({ adYPosition })
+                                        }
+                                        max={100}
+                                        min={0}
+                                    />
+                                </div>
+                            )
+                        }
                         <TextControl
                             label={__("Ad URL")}
                             value={adUrl}

@@ -68,12 +68,18 @@ export default function EmbedPress(props) {
 		cPopupButtonText,
 		cPopupButtonBGColor,
 		cPopupButtonTextColor,
-		cPopupLinkText
+		cPopupLinkText,
+		adManager,
+		adSource,
+		adFileUrl,
+		adXPosition,
+		adYPosition
 	} = attributes;
 
 	const _isSelfHostedVideo = isSelfHostedVideo(url);
 	const _isSelfHostedAudio = isSelfHostedAudio(url);
 
+	console.log({ adFileUrl, adSource });
 
 	if (clientId == null || clientId == undefined) {
 		setAttributes({ clientId: props.clientId });
@@ -371,6 +377,12 @@ export default function EmbedPress(props) {
 					</EmbedWrap>
 
 					{
+						(adSource === 'image') && adFileUrl && (
+							<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon={false} progressBar={false} inEditor={true} />
+						)
+					}
+
+					{
 						fetching && (
 							<div style={{ filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '0.7' }}
 								className="block-library-embed__interactive-overlay"
@@ -418,6 +430,24 @@ export default function EmbedPress(props) {
 							`
 							[data-source-id="source-${clientId}"] img.watermark{
 								display: none;
+							}
+							`
+						}
+					</style>
+				)
+			}
+			{
+				adManager && (adSource === 'image') && (
+					<style style={{ display: "none" }}>
+						{
+							`
+							[data-source-id="source-${clientId}"] .main-ad-template div, .main-ad-template div img{
+								height: 100%;
+							}
+							[data-source-id="source-${clientId}"] .main-ad-template {
+								position: absolute;
+								bottom: ${adXPosition}%;
+								left: ${adYPosition}%;
 							}
 							`
 						}

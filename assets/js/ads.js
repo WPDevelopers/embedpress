@@ -12,7 +12,8 @@ if (!YT.loading) {
 
 let adsConainers = document.querySelectorAll('[data-ad-id]');
 let container = document.querySelector('[data-ad-id]');
- 
+// let player;
+
 
 adsConainers = Array.from(adsConainers);
 
@@ -27,8 +28,35 @@ const getYTVideoId = (url) => {
     }
 }
 
+function onYouTubeIframeAPIReady (iframe, srcUrl, adVideo, player) {
+    // Find the iframe by its src attribute
+    console.log(player)
+
+    if (iframe && getYTVideoId(srcUrl) !== null) {
+        player = new YT.Player(iframe, {
+            videoId: getYTVideoId(srcUrl),
+
+            events: {
+                'onReady': (event) => onPlayerReady(event, adVideo),
+            }
+        });
+    }
+
+}
+
+// This function is called when the player is ready
+function onPlayerReady (event, adVideo) {
+    adVideo?.addEventListener('ended', function () {
+        event.target.playVideo();
+    });
+
+    adVideo?.addEventListener('play', function () {
+        event.target.pauseVideo();
+    });
+}
+
 const adInitialization = (adContainer) => {
-    
+
     const adAtts = JSON.parse(atob(adContainer.getAttribute('data-ad-attrs')));
 
     const blockId = adAtts.clientId;
@@ -42,48 +70,24 @@ const adInitialization = (adContainer) => {
     const srcUrl = adAtts.url || adAtts.embedpress_embeded_link;
     let player;
 
-    console.log(adAtts);
+    // console.log(blockIdMD5);
 
 
     if (youtubeIframe && getYTVideoId(srcUrl)) {
 
         const divWrapper = document.createElement('div');
-        divWrapper.className = 'ad-youtube-video';
+        divWrapper.className = 'ad-youtube-video-' + blockIdMD5;
         youtubeIframe.setAttribute('width', adAtts.width);
         youtubeIframe.setAttribute('height', adAtts.height);
         youtubeIframe.parentNode.replaceChild(divWrapper, youtubeIframe);
         divWrapper.appendChild(youtubeIframe);
 
+        const iframe = adContainer.querySelector('.ad-youtube-video-' + blockIdMD5);
 
-        function onYouTubeIframeAPIReady() {
-            // Find the iframe by its src attribute
-            const iframe = document.querySelector('.ad-youtube-video');
-
-            if (iframe && getYTVideoId(srcUrl) !== null) {
-                player = new YT.Player(iframe, {
-                    videoId: getYTVideoId(srcUrl),
-
-                    events: {
-                        'onReady': onPlayerReady,
-                    }
-                });
-            }
-
-        }
-
-        // This function is called when the player is ready
-        function onPlayerReady(event) {
-            adVideo?.addEventListener('ended', function () {
-                event.target.playVideo();
-            });
-
-            adVideo?.addEventListener('play', function () {
-                event.target.pauseVideo();
-            });
-        }
+        // console.log('here');
 
         window.onload = function () {
-            onYouTubeIframeAPIReady();
+            onYouTubeIframeAPIReady(iframe, srcUrl, adVideo, player);
         };
 
     }
@@ -109,8 +113,10 @@ const adInitialization = (adContainer) => {
     adMask?.addEventListener('click', function () {
 
         adContainer.classList.remove('ad-mask');
+        console.log(getYTVideoId(srcUrl));
+        console.log(player);
 
-        if(getYTVideoId(srcUrl)){
+        if (getYTVideoId(srcUrl) && player) {
             console.log(player);
             player.playVideo();
         }
@@ -121,7 +127,7 @@ const adInitialization = (adContainer) => {
                     adContainer.querySelector('.ose-embedpress-responsive').style.display = 'none';
                 }
                 adTemplate?.classList.add('ad-running');
-                if(adVideo){
+                if (adVideo && adSource === 'video') {
                     adVideo.muted = false;
                     adVideo.play();
                 }

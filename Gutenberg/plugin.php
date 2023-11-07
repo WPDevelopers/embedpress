@@ -473,6 +473,20 @@ function embedpress_gutenberg_register_all_block()
 							'adContent' => [
 								'type' => 'object',
 							],
+							'adWidth' => array(
+								'type' => 'string',
+								'default' => '300'
+							),
+							'adHeight' => array(
+								'type' => 'string',
+								'default' => '200'
+							),
+							'adXPosition' => array(
+								'type' => 'number'
+							),
+							'adYPosition' => array(
+								'type' => 'number'
+							),
 							'adUrl' => [
 								'type' => 'string',
 								'default' => ''

@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-const AdTemplate = ({ attributes, setAttributes }) => {
+const AdTemplate = ({ attributes, setAttributes, deleteIcon, inEditor, progressBar }) => {
     const { adSource, adContent, adFileUrl } = attributes;
     const [showSkipButton, setShowSkipButton] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const videoRef = useRef(null);
+
+    const { adWidth, adHeight } = attributes;
 
     const removeAd = () => {
         setAttributes({ adFileUrl: '' });
@@ -50,13 +52,26 @@ const AdTemplate = ({ attributes, setAttributes }) => {
         setAttributes({ adFileUrl: '' });
     }
 
+    let size = {
+        width: adWidth + 'px',
+        height: adHeight + 'px',
+    };
+
+    if(!inEditor){
+        size = {};
+    }
+
     return (
-        <div className="main-ad-template">
+        <div className="main-ad-template" style={size} >
             <div className="ep-ad-container">
                 <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
-                    <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeAd}>
-                        <span className="dashicon dashicons dashicons-trash"></span>
-                    </button>
+                    {
+                        deleteIcon || !inEditor && (
+                            <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeAd}>
+                                <span className="dashicon dashicons dashicons-trash"></span>
+                            </button>
+                        )
+                    }
                     {adSource === 'video' ? (
                         <div>
                             <video ref={videoRef} className="ep-ad" autoPlay>
@@ -69,30 +84,31 @@ const AdTemplate = ({ attributes, setAttributes }) => {
                             <img src={adFileUrl} />
                         </div>
                     )}
-                    <div className="progress-bar-container">
-                        <div
-                            className="progress-bar"
-                            style={{
-                                background: '#5be82a',
-                                height: '4px',
-                                marginTop: '-4px',
-                                width: `${adSource === 'video' ? (currentTime / videoDuration) * 100 : 100
-                                    }%`,
-                                maxWidth: '100%',
-                            }}
-                        ></div>
-                    </div>
+
+                    {
+                        progressBar || !(adSource === 'image') && (
+                            <div className="progress-bar-container">
+                                <div
+                                    className="progress-bar"
+                                    style={{
+                                        background: '#5be82a',
+                                        height: '4px',
+                                        marginTop: '-4px',
+                                        width: `${adSource === 'video' ? (currentTime / videoDuration) * 100 : 100
+                                            }%`,
+                                        maxWidth: '100%',
+                                    }}
+                                ></div>
+                            </div>
+                        )
+                    }
+
+
                     {showSkipButton && (
                         <button title="Skip Ad" className="skip-ad-button" onClick={handleSkipAd}>
                             Skip Ad
                         </button>
                     )}
-                </div>
-                <div className="ad-overlay">
-                    <div className="ad-content">
-                        <h2>Check out our product!</h2>
-                        <p>Click the ad to learn more.</p>
-                    </div>
                 </div>
             </div>
         </div>
