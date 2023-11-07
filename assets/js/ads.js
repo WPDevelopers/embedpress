@@ -12,7 +12,7 @@ if (!YT.loading) {
 
 let adsConainers = document.querySelectorAll('[data-ad-id]');
 let container = document.querySelector('[data-ad-id]');
-// let player;
+
 
 
 adsConainers = Array.from(adsConainers);
@@ -28,34 +28,9 @@ const getYTVideoId = (url) => {
     }
 }
 
-function onYouTubeIframeAPIReady (iframe, srcUrl, adVideo, player) {
-    // Find the iframe by its src attribute
-    console.log(player)
-
-    if (iframe && getYTVideoId(srcUrl) !== null) {
-        player = new YT.Player(iframe, {
-            videoId: getYTVideoId(srcUrl),
-
-            events: {
-                'onReady': (event) => onPlayerReady(event, adVideo),
-            }
-        });
-    }
-
-}
-
-// This function is called when the player is ready
-function onPlayerReady (event, adVideo) {
-    adVideo?.addEventListener('ended', function () {
-        event.target.playVideo();
-    });
-
-    adVideo?.addEventListener('play', function () {
-        event.target.pauseVideo();
-    });
-}
-
 const adInitialization = (adContainer) => {
+
+    console.log(adContainer);
 
     const adAtts = JSON.parse(atob(adContainer.getAttribute('data-ad-attrs')));
 
@@ -76,18 +51,45 @@ const adInitialization = (adContainer) => {
     if (youtubeIframe && getYTVideoId(srcUrl)) {
 
         const divWrapper = document.createElement('div');
-        divWrapper.className = 'ad-youtube-video-' + blockIdMD5;
+        divWrapper.className = 'ad-youtube-video';
         youtubeIframe.setAttribute('width', adAtts.width);
         youtubeIframe.setAttribute('height', adAtts.height);
         youtubeIframe.parentNode.replaceChild(divWrapper, youtubeIframe);
         divWrapper.appendChild(youtubeIframe);
 
-        const iframe = adContainer.querySelector('.ad-youtube-video-' + blockIdMD5);
-
         // console.log('here');
+        const iframe = adContainer.querySelector('.ad-youtube-video');
+
+        function onYouTubeIframeAPIReady(iframe) {
+            // Find the iframe by its src attribute
+
+            console.log(iframe)
+
+            if (iframe && getYTVideoId(srcUrl) !== null) {
+                player = new YT.Player(iframe, {
+                    videoId: getYTVideoId(srcUrl),
+
+                    events: {
+                        'onReady': (event) => onPlayerReady(event),
+                    }
+                });
+            }
+
+        }
+
+        // This function is called when the player is ready
+        function onPlayerReady(event) {
+            adVideo?.addEventListener('ended', function () {
+                event.target.playVideo();
+            });
+
+            adVideo?.addEventListener('play', function () {
+                event.target.pauseVideo();
+            });
+        }
 
         window.onload = function () {
-            onYouTubeIframeAPIReady(iframe, srcUrl, adVideo, player);
+            onYouTubeIframeAPIReady(iframe);
         };
 
     }

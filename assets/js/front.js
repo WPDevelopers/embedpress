@@ -490,9 +490,19 @@ jQuery(window).on("elementor/frontend/init", function () {
             unlockElSubmitHander('ep-elementor-content', this);
         });
     };
+
+    const adsHandler  = function($scope, $){
+        let classes = $scope[0].className;
+        let classJoint = '.' + classes.split(' ').join('.');
+        const selectorEl = document.querySelector(classJoint + ' [data-ad-id]');
+
+        adInitialization(selectorEl);
+    }
+
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpress_pdf.default", filterableGalleryHandler);
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_document.default", filterableGalleryHandler);
+    elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", adsHandler);
 });
 
 

@@ -2733,7 +2733,7 @@ class Embedpress_Elementor extends Widget_Base
 					'unit' => 'px',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive, {{WRAPPER}} .ad-youtube-video > iframe 
 					' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
 				],
 			]
@@ -2766,7 +2766,7 @@ class Embedpress_Elementor extends Widget_Base
 					'unit' => 'px',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive,{{WRAPPER}} .ad-youtube-video > iframe
 					' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
 				],
 			]
@@ -3081,7 +3081,7 @@ class Embedpress_Elementor extends Widget_Base
 									if(!empty($settings['adManager'])) {
 										$content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
 									}
-									?>
+								?>
 					</div>
 				</div>
 			<?php
