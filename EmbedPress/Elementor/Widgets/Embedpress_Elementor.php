@@ -2720,6 +2720,10 @@ class Embedpress_Elementor extends Widget_Base
 					],
 				],
 				'devices' => [ 'desktop', 'tablet', 'mobile' ],
+				'default' => [
+					'size' => 600,
+					'unit' => 'px',
+				],
 				'desktop_default' => [
 					'size' => 600,
 					'unit' => 'px',
@@ -2754,6 +2758,10 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'devices' => [ 'desktop', 'tablet', 'mobile' ],
 				'desktop_default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
+				'default' => [
 					'size' => 400,
 					'unit' => 'px',
 				],

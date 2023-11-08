@@ -143,10 +143,11 @@ const adInitialization = (adContainer) => {
         const currentTime = adVideo?.currentTime;
         const videoDuration = adVideo?.duration;
 
-
         if (currentTime <= videoDuration) {
-            adRunningTime.innerText = Math.floor(currentTime / 60) + ':' + (Math.floor(currentTime) % 60).toString().padStart(2, '0');
+            const remainingTime = Math.max(0, videoDuration - currentTime); // Ensure it's not negative
+            adRunningTime.innerText = Math.floor(remainingTime / 60) + ':' + (Math.floor(remainingTime) % 60).toString().padStart(2, '0');
         }
+
         if (!isNaN(currentTime) && !isNaN(videoDuration)) {
             const progress = (currentTime / videoDuration) * 100;
             progressBar.style.width = progress + '%';

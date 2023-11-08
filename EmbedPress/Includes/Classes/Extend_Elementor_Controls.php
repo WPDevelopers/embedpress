@@ -15,14 +15,14 @@ class Extend_Elementor_Controls
 	public function extend_elementor_share_and_lock_controls($that, $infix = '', $pro_text = '', $pro_class = '')
 	{
 		$ad_condition = [
-			'ad_manager' => 'yes'
+			'adManager' => 'yes'
 		];
 		$ai_condition = [
 			'active' => false,
 		];
 
 		$that->start_controls_section(
-			'embedpress_ad_manager',
+			'embedpress_adManager',
 			[
 				'label' => esc_html__('EP Ad Manager', 'embedpress'),
 			]
@@ -74,6 +74,10 @@ class Extend_Elementor_Controls
 			[
 				'label' => __('Ad Width', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::TEXT,
+				'condition' => [
+					'adManager' => 'yes',
+					'adSource' => 'image',
+				],
 				'ai'     => $ai_condition,
 			]
 		);
@@ -84,6 +88,10 @@ class Extend_Elementor_Controls
 			[
 				'label' => __('Ad Height', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::TEXT,
+				'condition' => [
+					'adManager' => 'yes',
+					'adSource' => 'image',
+				],
 				'ai'     => $ai_condition,
 			]
 		);
@@ -97,6 +105,10 @@ class Extend_Elementor_Controls
 				'default' => 50, // Set the default value if needed
 				'min' => 0,
 				'max' => 100,
+				'condition' => [
+					'adManager' => 'yes',
+					'adSource' => 'image',
+				],
 			]
 		);
 
@@ -109,6 +121,10 @@ class Extend_Elementor_Controls
 				'default' => 50, // Set the default value if needed
 				'min' => 0,
 				'max' => 100,
+				'condition' => [
+					'adManager' => 'yes',
+					'adSource' => 'image',
+				],
 			]
 		);
 
@@ -153,8 +169,8 @@ class Extend_Elementor_Controls
 				'label' => __('Skip Button After (sec)', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'condition' => [
-					'ad_manager' => 'yes',
-					'ad_skip_button' => 'yes',
+					'adManager' => 'yes',
+					'adSkipButton' => 'yes',
 				],
 				'ai'     => $ai_condition,
 				'default' => '5'

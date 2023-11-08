@@ -814,7 +814,7 @@ class Helper
 
 							<div class="ad-timer">
 								<span class="ad-running-time"></span>
-								<span class="ad-duration"><?php echo sprintf("%d:%02d", floor($videoDuration / 60), $videoDuration % 60); ?></span>
+								<span class="ad-duration"><?php echo esc_html__( '• Ad', 'embedpress' ); ?></span>
 							</div>
 							<div class="progress-bar-container">
 								<div class="progress-bar"></div>
@@ -916,6 +916,7 @@ class Helper
 			.main-ad-template img {
 				width: 100%;
 				height: 100%;
+				background-color: #000;
 			}
 
 			.progress-bar-container {
