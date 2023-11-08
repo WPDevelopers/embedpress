@@ -397,9 +397,24 @@ class Embedpress_Pdf extends Widget_Base
         );
 
         $this->add_control(
-            'pdf_print_download',
+            'pdf_print',
             [
-                'label'        => sprintf(__('Print/Download %s', 'embedpress'), $this->pro_text),
+                'label'        => sprintf(__('Print %s', 'embedpress'), $this->pro_text),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Show', 'embedpress'),
+                'label_off'    => __('Hide', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+                'classes'     => $this->pro_class,
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
+            ]
+        );
+        $this->add_control(
+            'pdf_download',
+            [
+                'label'        => sprintf(__('Download %s', 'embedpress'), $this->pro_text),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => __('Show', 'embedpress'),
                 'label_off'    => __('Hide', 'embedpress'),
@@ -568,7 +583,8 @@ class Embedpress_Pdf extends Widget_Base
             'toolbar' => !empty($settings['pdf_toolbar']) ? 'true' : 'false',
             'position' =>  $settings['pdf_toolbar_position'],
             'presentation' => !empty($settings['pdf_presentation_mode']) ? 'true' : 'false',
-            'download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print_download'] : 'true',
+            'print' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print'] : 'true',
+            'download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_download'] : 'true',
             'copy_text' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'true',
             'add_text' => !empty($settings['add_text']) ? 'true' : 'false',
             'draw' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['draw'] : 'true',
@@ -622,7 +638,8 @@ class Embedpress_Pdf extends Widget_Base
             'data-toolbar-position' =>  $settings['pdf_toolbar_position'],
             'data-open' => 'no',
             'data-presentation-mode' => $settings['pdf_presentation_mode'],
-            'data-download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print_download'] : 'yes',
+            'data-print' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print'] : 'yes',
+            'data-download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_download'] : 'yes',
             'data-copy' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'yes',
             'data-rotate' => $settings['pdf_rotate_access'],
             'data-details' => $settings['pdf_details'],

@@ -35,6 +35,7 @@ const getParamObj = (hash) => {
             add_text: hashParams.get('add_text'),
             draw: hashParams.get('draw'),
             position: hashParams.get('position'),
+            print: hashParams.get('print'),
             download: hashParams.get('download'),
             toolbar: hashParams.get('toolbar'),
             doc_details: hashParams.get('doc_details'),
@@ -114,6 +115,7 @@ const pdfIframeStyle = (data) => {
     let position = 'top';
     let toolbar = isDisplay(data.toolbar);
     let presentation = isDisplay(data.presentation);
+    let print = isDisplay(data.print);
     let download = isDisplay(data.download);
     let copy_text = isDisplay(data.copy_text);
     let add_text = isDisplay(data.add_text);
@@ -223,8 +225,11 @@ const pdfIframeStyle = (data) => {
         #secondaryOpenFile, #toolbarViewerRight #openFile{
             display: none!important;
         }
-        #secondaryDownload, #secondaryPrint, #toolbarViewerRight #print, #toolbarViewerRight #download{
+        #secondaryDownload, #toolbarViewerRight #download{
             display: ${download}!important;
+        }
+        #secondaryPrint, #toolbarViewerRight #print{
+            display: ${print}!important;
         }
         #pageRotateCw{
             display: ${doc_rotation}!important;

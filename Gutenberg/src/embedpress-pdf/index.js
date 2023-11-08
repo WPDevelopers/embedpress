@@ -128,6 +128,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "boolean",
 				default: true,
 			},
+			
+			print: {
+				type: "boolean",
+				default: true,
+			},
 			open: {
 				type: "boolean",
 				default: false,

@@ -181,7 +181,7 @@ class EmbedPressPDFEdit extends Component {
 
 		const { attributes, noticeUI, setAttributes } = this.props;
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, clientId, sharePosition, contentShare } = attributes;
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download,print, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, clientId, sharePosition, contentShare } = attributes;
 
 		if (!clientId) {
 			setAttributes({ clientId: this.props.clientId });
@@ -227,6 +227,7 @@ class EmbedPressPDFEdit extends Component {
 
 		if (!isProPluginActive) {
 			setAttributes({ download: true });
+			setAttributes({ print: true });
 			setAttributes({ copy_text: true });
 			setAttributes({ draw: false });
 		}
@@ -253,6 +254,7 @@ class EmbedPressPDFEdit extends Component {
 				...colorsObj,
 				presentation: presentation ? presentation : false,
 				position: position ? position : 'top',
+				print: print ? print : false,
 				download: download ? download : false,
 				toolbar: toolbar ? toolbar : false,
 				copy_text: copy_text ? copy_text : false,
@@ -455,7 +457,21 @@ class EmbedPressPDFEdit extends Component {
 
 										<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
 											<ToggleControl
-												label={__('Print/Download', 'embedpress')}
+												label={__('Print', 'embedpress')}
+												onChange={(print) =>
+													setAttributes({ print })
+												}
+												checked={print}
+											/>
+											{
+												(!isProPluginActive) && (
+													<span className='isPro'>{__('pro', 'embedpress')}</span>
+												)
+											}
+										</div>
+										<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
+											<ToggleControl
+												label={__('Download', 'embedpress')}
 												onChange={(download) =>
 													setAttributes({ download })
 												}
