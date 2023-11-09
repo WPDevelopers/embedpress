@@ -203,29 +203,31 @@ function embedpress_render_block($attributes)
 			?>
 			<div class="wp-block-embed__wrapper <?php if(!empty($attributes['contentShare'])) echo esc_attr( 'position-'.$share_position.'-wraper'); ?>  <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
 				<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content">
-					<div <?php echo esc_attr( $adsAtts ); ?> class="ep-embed-content-wraper <?php !empty($custom_player) ? esc_attr_e($player_preset) : ''; ?>" <?php echo $_custom_player; ?> <?php echo $_player_options; ?>>
-						<?php
-							$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
-							$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
-							if(empty($attributes['lockContent']) || empty($attributes['contentPassword'])  || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
+					<div <?php echo esc_attr( $adsAtts ); ?> >
+						<div  class="ep-embed-content-wraper <?php !empty($custom_player) ? esc_attr_e($player_preset) : ''; ?>" <?php echo $_custom_player; ?> <?php echo $_player_options; ?>>
+							<?php
+								$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
+								$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
+								if(empty($attributes['lockContent']) || empty($attributes['contentPassword'])  || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
 
-								if(!empty($attributes['contentShare'])) {
-									$content_id = $attributes['clientId'];
-									$embed .= Helper::embed_content_share($content_id, $attributes);
+									if(!empty($attributes['contentShare'])) {
+										$content_id = $attributes['clientId'];
+										$embed .= Helper::embed_content_share($content_id, $attributes);
+									}
+									echo $embed;
+								} else {
+									if(!empty($attributes['contentShare'])) {
+										$content_id = $attributes['clientId'];
+										$embed .= Helper::embed_content_share($content_id, $attributes);
+									}
+									Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
 								}
-								echo $embed;
-							} else {
-								if(!empty($attributes['contentShare'])) {
-									$content_id = $attributes['clientId'];
-									$embed .= Helper::embed_content_share($content_id, $attributes);
-								}
-								Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
-							}
-
+							?>
+						</div>
+						<?php 
 							if(!empty($attributes['adManager'])) {
 								$embed .= Helper::generateAdTemplate($client_id, $attributes, 'gutenberg');
 							}
-
 						?>
 					</div>
 				</div>

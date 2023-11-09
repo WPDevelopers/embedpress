@@ -12,7 +12,7 @@ if (!YT.loading) {
 
 let adsConainers = document.querySelectorAll('[data-ad-id]');
 let container = document.querySelector('[data-ad-id]');
-
+const player = [];
 
 
 adsConainers = Array.from(adsConainers);
@@ -28,9 +28,7 @@ const getYTVideoId = (url) => {
     }
 }
 
-const adInitialization = (adContainer) => {
-
-    console.log(adContainer);
+const adInitialization = (adContainer, index) => {
 
     const adAtts = JSON.parse(atob(adContainer.getAttribute('data-ad-attrs')));
 
@@ -39,61 +37,11 @@ const adInitialization = (adContainer) => {
     const adStartAfter = adAtts.adStart * 1000;
     const adContent = adAtts.adContent;
     const adVideo = adContainer.querySelector('.ep-ad');
-    const youtubeIframe = adContainer.querySelector(`.ose-youtube iframe`);
     const adSource = adAtts.adSource;
     const adVideos = [];
     const srcUrl = adAtts.url || adAtts.embedpress_embeded_link;
-    let player;
 
-    // console.log(blockIdMD5);
-
-
-    if (youtubeIframe && getYTVideoId(srcUrl)) {
-
-        const divWrapper = document.createElement('div');
-        divWrapper.className = 'ad-youtube-video';
-        youtubeIframe.setAttribute('width', adAtts.width);
-        youtubeIframe.setAttribute('height', adAtts.height);
-        youtubeIframe.parentNode.replaceChild(divWrapper, youtubeIframe);
-        divWrapper.appendChild(youtubeIframe);
-
-        // console.log('here');
-        const iframe = adContainer.querySelector('.ad-youtube-video');
-
-        function onYouTubeIframeAPIReady(iframe) {
-            // Find the iframe by its src attribute
-
-            console.log(iframe)
-
-            if (iframe && getYTVideoId(srcUrl) !== null) {
-                player = new YT.Player(iframe, {
-                    videoId: getYTVideoId(srcUrl),
-
-                    events: {
-                        'onReady': (event) => onPlayerReady(event),
-                    }
-                });
-            }
-
-        }
-
-        // This function is called when the player is ready
-        function onPlayerReady(event) {
-            adVideo?.addEventListener('ended', function () {
-                event.target.playVideo();
-            });
-
-            adVideo?.addEventListener('play', function () {
-                event.target.pauseVideo();
-            });
-        }
-
-        window.onload = function () {
-            onYouTubeIframeAPIReady(iframe);
-        };
-
-    }
-
+    addWrapperForYoutube(adContainer, srcUrl, adAtts);
 
     // let adVideo = adContainer.querySelector('#ad-' + blockId + ' .ep-ad');
     adVideos.push(adVideo);
@@ -115,18 +63,16 @@ const adInitialization = (adContainer) => {
     adMask?.addEventListener('click', function () {
 
         adContainer.classList.remove('ad-mask');
-        console.log(getYTVideoId(srcUrl));
-        console.log(player);
 
-        if (getYTVideoId(srcUrl) && player) {
+        if (getYTVideoId(srcUrl)) {
             console.log(player);
-            player.playVideo();
+            player[index]?.playVideo();
         }
 
         if (!playbackInitiated) {
             setTimeout(() => {
                 if (adSource !== 'image') {
-                    adContainer.querySelector('.ose-embedpress-responsive').style.display = 'none';
+                    adContainer.querySelector('.ep-embed-content-wraper').classList.add('hidden');
                 }
                 adTemplate?.classList.add('ad-running');
                 if (adVideo && adSource === 'video') {
@@ -164,23 +110,81 @@ const adInitialization = (adContainer) => {
     skipButton?.addEventListener('click', () => {
         adTemplate.remove();
         if (getYTVideoId(srcUrl)) {
-            player.playVideo();
+            player[index]?.playVideo();
         }
-        adContainer.querySelector('.ose-embedpress-responsive').style.display = 'inline-block';
+        adContainer.querySelector('.ep-embed-content-wraper').classList.remove('hidden');
     });
 
     // Add an event listener to check for video end
     adVideo?.addEventListener('ended', () => {
         // Remove the main ad template from the DOM when the video ends
         adTemplate.remove();
-        adContainer.querySelector('.ose-embedpress-responsive').style.display = 'inline-block';
+        adContainer.querySelector('.ep-embed-content-wraper').classList.remove('hidden');
     });
 
 }
 
+const addWrapperForYoutube = (adContainer, srcUrl, adAtts) => {
+    const youtubeIframe = adContainer.querySelector(`.ose-youtube iframe`);
+    if (youtubeIframe && getYTVideoId(srcUrl)) {
+
+        const divWrapper = document.createElement('div');
+        divWrapper.className = 'ad-youtube-video';
+        youtubeIframe.setAttribute('width', adAtts.width);
+        youtubeIframe.setAttribute('height', adAtts.height);
+        youtubeIframe.parentNode.replaceChild(divWrapper, youtubeIframe);
+        divWrapper.appendChild(youtubeIframe);
+    }
+    console.log('this is a youtube video');
+}
+
+
+function onYouTubeIframeAPIReady(iframe, srcUrl, adVideo, index) {
+    // Find the iframe by its src attribute
+
+    if (iframe && getYTVideoId(srcUrl) !== null) {
+        player[index] = new YT.Player(iframe, {
+            videoId: getYTVideoId(srcUrl),
+
+            events: {
+                'onReady': (event) => onPlayerReady(event, adVideo),
+            }
+        });
+
+    }
+
+}
+
+// This function is called when the player is ready
+function onPlayerReady(event, adVideo) {
+    adVideo?.addEventListener('ended', function () {
+        event.target.playVideo();
+    });
+
+    adVideo?.addEventListener('play', function () {
+        event.target.pauseVideo();
+    });
+}
+
+
+window.onload = function () {
+    let yVideos = setInterval(() => {
+        var youtubeVideos = document.querySelectorAll('.ad-youtube-video');
+        if (youtubeVideos.length > 0) {
+            clearInterval(yVideos);
+            youtubeVideos.forEach((yVideo, index) => {
+                const srcUrl = yVideo.querySelector('iframe').getAttribute('src');
+                const adVideo = yVideo.parentElement.parentElement.querySelector('.ep-ad');
+                onYouTubeIframeAPIReady(yVideo, srcUrl, adVideo, index);
+            });
+        }
+    }, 100);
+};
+
 
 if (adsConainers.length > 0) {
-    adsConainers.forEach(element => {
-        adInitialization(element);
+    adsConainers.forEach((adContainer, index) => {
+        adContainer.setAttribute('data-ad-index', index);
+        adInitialization(adContainer, index);
     });
 }

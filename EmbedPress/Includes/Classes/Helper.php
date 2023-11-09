@@ -892,8 +892,8 @@ class Helper
 			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template.image.ad-running {
 				width: <?php echo esc_attr($adWidth); ?>px !important;
 				height: <?php echo esc_attr($adHeight); ?>px !important;
-				bottom: calc(<?php echo esc_attr($adXPosition); ?>% - <?php echo esc_html($adWidth); ?>px);
-				left: calc(<?php echo esc_attr($adYPosition); ?>% - <?php echo esc_html($adWidth); ?>px);
+				bottom: <?php echo esc_attr($adYPosition); ?>%;
+				left: <?php echo esc_attr($adXPosition); ?>%;
 			}
 
 			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template .ep-ad-content,
@@ -959,6 +959,9 @@ class Helper
 				text-align: center;
 				border-radius: 4px;
 				font-weight: bold;
+			}
+			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .hidden{
+				display: none !important;
 			}
 		</style>
 
