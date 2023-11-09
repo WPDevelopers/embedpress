@@ -502,7 +502,9 @@ jQuery(window).on("elementor/frontend/init", function () {
         let classes = $scope[0].className;
         let classJoint = '.' + classes.split(' ').join('.');
         const selectorEl = document.querySelector(classJoint + ' [data-ad-id]');
+        
 
+        console.log(classJoint);
         if (jQuery('body').hasClass('elementor-editor-active')) {
             adInitialization(selectorEl, window.epAdIndex);
         }

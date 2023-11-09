@@ -3069,7 +3069,8 @@ class Embedpress_Elementor extends Widget_Base
 				<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_content_share'])) : echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper');
 																															endif; ?> <?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);
 																																																																						echo esc_attr(' source-' . $source); ?>">
-					<div <?php echo esc_attr( $adsAtts ); ?> id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?>" data-playerid="<?php echo esc_attr($this->get_id()); ?>" <?php echo $this->get_custom_player_options($settings); ?>>
+																																																																					<div <?php echo esc_attr( $adsAtts ); ?>>
+					<div  id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?>" data-playerid="<?php echo esc_attr($this->get_id()); ?>" <?php echo $this->get_custom_player_options($settings); ?>>
 						<?php
 									$content_id = $client_id;
 
@@ -3085,11 +3086,14 @@ class Embedpress_Elementor extends Widget_Base
 										}
 										Helper::display_password_form($client_id, $content, $pass_hash_key, $embed_settings);
 									}
-
-									if(!empty($settings['adManager'])) {
-										$content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
-									}
 								?>
+					</div>
+					<?php 
+
+						if(!empty($settings['adManager'])) {
+							$content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
+						}
+					?>
 					</div>
 				</div>
 			<?php
