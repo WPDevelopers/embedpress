@@ -72,6 +72,8 @@ export default function EmbedPress(props) {
 		adManager,
 		adSource,
 		adFileUrl,
+		adWidth,
+		adHeight,
 		adXPosition,
 		adYPosition
 	} = attributes;
@@ -446,8 +448,8 @@ export default function EmbedPress(props) {
 							}
 							[data-source-id="source-${clientId}"] .main-ad-template {
 								position: absolute;
-								bottom: ${adXPosition}%;
-								left: ${adYPosition}%;
+								bottom: calc(${adXPosition}% - ${adHeight}px);
+								left: calc(${adYPosition}% - ${adWidth}px);
 							}
 							`
 						}

@@ -814,7 +814,7 @@ class Helper
 
 							<div class="ad-timer">
 								<span class="ad-running-time"></span>
-								<span class="ad-duration"><?php echo esc_html__( '• Ad', 'embedpress' ); ?></span>
+								<span class="ad-duration"><?php echo esc_html__('• Ad', 'embedpress'); ?></span>
 							</div>
 							<div class="progress-bar-container">
 								<div class="progress-bar"></div>
@@ -890,13 +890,14 @@ class Helper
 			}
 
 			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template.image.ad-running {
-				width: <?php echo esc_attr($adWidth); ?>px!important;
-				height: <?php echo esc_attr($adHeight); ?>px!important;
-				bottom: <?php echo esc_attr($adXPosition); ?>%;
-				left: <?php echo esc_attr($adYPosition); ?>%;
+				width: <?php echo esc_attr($adWidth); ?>px !important;
+				height: <?php echo esc_attr($adHeight); ?>px !important;
+				bottom: calc(<?php echo esc_attr($adXPosition); ?>% - <?php echo esc_html($adWidth); ?>px);
+				left: calc(<?php echo esc_attr($adYPosition); ?>% - <?php echo esc_html($adWidth); ?>px);
 			}
 
-			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template .ep-ad-content, [data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template .ep-ad-container,
+			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template .ep-ad-content,
+			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template .ep-ad-container,
 			.main-ad-template div img {
 				height: 100%;
 				object-fit: cover;
@@ -904,7 +905,7 @@ class Helper
 			}
 
 
-			.main-ad-template.image.ad-running img{
+			.main-ad-template.image.ad-running img {
 				border-radius: 5px;
 			}
 
