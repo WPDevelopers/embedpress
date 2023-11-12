@@ -21,8 +21,6 @@ const { RangeControl, PanelBody, ExternalLink, ToggleControl } = wp.components;
 import { epGetPopupIcon, epGetDownloadIcon, epGetPrintIcon, epGetFullscreenIcon, epGetMinimizeIcon, epGetDrawIcon } from '../common/icons';
 import { isFileUrl } from '../common/helper';
 import DocControls from './doc-controls';
-import AdControl from '../common/ads-control';
-import AdTemplate from '../common/ads-template';
 
 
 const ALLOWED_MEDIA_TYPES = [
@@ -150,7 +148,7 @@ class DocumentEdit extends Component {
 	render() {
 
 		const { attributes, noticeUI, setAttributes } = this.props;
-		const { href, mime, id, width, height, themeMode, customColor, presentation, position, download, draw, toolbar, copy_text, doc_rotation, powered_by, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition  } = attributes;
+		const { href, mime, id, width, height, themeMode, customColor, presentation, position, download, draw, toolbar, copy_text, doc_rotation, powered_by } = attributes;
 		const { hasError, interactive, fetching, loadPdf } = this.state;
 		const min = 1;
 		const max = 1000;
@@ -253,13 +251,6 @@ class DocumentEdit extends Component {
 
 						<DocStyle attributes={attributes} />
 
-						{
-							(adSource === 'image') && adFileUrl && (
-								<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon={false} progressBar={false} inEditor={true} />
-							)
-						}
-						
-
 					</div>
 
 					<InspectorControls key="inspector">
@@ -295,29 +286,8 @@ class DocumentEdit extends Component {
 						</PanelBody>
 
 						<DocControls attributes={attributes} setAttributes={setAttributes} />
-						<AdControl attributes={attributes} setAttributes={setAttributes} />
-					
 
 					</InspectorControls>
-
-					{
-						adManager && (adSource === 'image') && (
-							<style style={{ display: "none" }}>
-								{
-									`
-							#block-${this.props.clientId} .main-ad-template div, .main-ad-template div img{
-								height: 100%;
-							}
-							#block-${this.props.clientId} .main-ad-template {
-								position: absolute;
-								bottom: ${adYPosition}%;
-								left: ${adXPosition}%;
-							}
-							`
-								}
-							</style>
-						)
-					}
 				</Fragment>
 			);
 		}

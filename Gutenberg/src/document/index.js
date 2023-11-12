@@ -100,57 +100,6 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: true,
 			},
-			//Ads Manage attributes
-			adManager: {
-				type: 'boolean',
-				default: false
-			},
-			adSource: {
-				type: 'string',
-				default: 'video'
-			},
-			adContent: {
-				type: 'object',
-			},
-			adFileUrl: {
-				type: 'string',
-				default: ''
-			},
-			adWidth: {
-				type: 'string',
-				default: '300'
-			},
-			adHeight: {
-				type: 'string',
-				default: '200'
-			},
-
-			adXPosition: {
-				type: 'number',
-				default: 25
-				
-			},
-			adYPosition: {
-				type: 'number',
-				default: 20
-			},
-
-			adUrl: {
-				type: 'string',
-				default: ''
-			},
-			adStart: {
-				type: 'string',
-				default: '10'
-			},
-			adSkipButton: {
-				type: 'boolean',
-				default: true
-			},
-			adSkipButtonAfrer: {
-				type: 'string',
-				default: '5'
-			},
 
 		},
 		edit,

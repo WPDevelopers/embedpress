@@ -1,5 +1,6 @@
-if (playerInit[1] === 0) {
-    var scriptUrl = 'https:\/\/www.youtube.com\/s\/player\/9d15588c\/www-widgetapi.vflset\/www-widgetapi.js'; try { var ttPolicy = window.trustedTypes.createPolicy("youtube-widget-api", { createScriptURL: function (x) { return x } }); scriptUrl = ttPolicy.createScriptURL(scriptUrl) } catch (e) { } var YT; if (!window["YT"]) YT = { loading: 0, loaded: 0 }; var YTConfig; if (!window["YTConfig"]) YTConfig = { "host": "https://www.youtube.com" };
+const isPyr = document.querySelector('[data-playerid]')?.getAttribute('data-playerid');
+if (!isPyr) {
+    const scriptUrl = 'https:\/\/www.youtube.com\/s\/player\/9d15588c\/www-widgetapi.vflset\/www-widgetapi.js'; try { var ttPolicy = window.trustedTypes.createPolicy("youtube-widget-api", { createScriptURL: function (x) { return x } }); scriptUrl = ttPolicy.createScriptURL(scriptUrl) } catch (e) { } var YT; if (!window["YT"]) YT = { loading: 0, loaded: 0 }; var YTConfig; if (!window["YTConfig"]) YTConfig = { "host": "https://www.youtube.com" };
     if (!YT.loading) {
         YT.loading = 1; (function () {
             var l = []; YT.ready = function (f) { if (YT.loaded) f(); else l.push(f) }; window.onYTReady = function () { YT.loaded = 1; var i = 0; for (; i < l.length; i++)try { l[i]() } catch (e) { } }; YT.setConfig = function (c) { var k; for (k in c) if (c.hasOwnProperty(k)) YTConfig[k] = c[k] }; var a = document.createElement("script"); a.type = "text/javascript"; a.id = "www-widgetapi-script"; a.src = scriptUrl; a.async = true; var c = document.currentScript; if (c) {
@@ -8,12 +9,12 @@ if (playerInit[1] === 0) {
             } var b = document.getElementsByTagName("script")[0]; b.parentNode.insertBefore(a, b)
         })()
     };
-} 
-
+}
 
 let adsConainers = document.querySelectorAll('[data-ad-id]');
 let container = document.querySelector('[data-ad-id]');
 const player = [];
+let playerIndex = 0;
 
 
 adsConainers = Array.from(adsConainers);
@@ -21,8 +22,7 @@ adsConainers = Array.from(adsConainers);
 const getYTVideoId = (url) => {
     // Check if the input is a string
     if (typeof url !== 'string') {
-        console.error('Invalid input. Expected a string.');
-        return null;
+        return false;
     }
 
     const regex = /(?:youtube\.com\/(?:[^\/]+\/[^\/]+\/|(?:v|e(?:mbed)?)\/|[^#]*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
@@ -30,9 +30,8 @@ const getYTVideoId = (url) => {
 
     if (match && match[1]) {
         return match[1];
-    } else {
-        return null; // Invalid URL or couldn't find the video ID
-    }
+    } 
+    return false;
 }
 
 
@@ -59,7 +58,7 @@ const adInitialization = (adContainer, index) => {
     const skipButton = adContainer.querySelector('.skip-ad-button');
     const adRunningTime = adContainer.querySelector('.ad-running-time');
 
-    const adMask = adContainer.querySelector('.ep-embed-content-wraper');
+    const adMask = adContainer;
 
     const playerId = adContainer.querySelector('[data-playerid]')?.getAttribute('data-playerid');
 
@@ -73,14 +72,14 @@ const adInitialization = (adContainer, index) => {
 
         adContainer.classList.remove('ad-mask');
 
-        console.log(playerInit, playerId);
+        // console.log(playerInit.length)
 
-        if (playerInit) {
+        if (playerInit.length > 0) {
             playerInit[playerId]?.play();
         }
 
         if (getYTVideoId(srcUrl)) {
-            console.log(player);
+            console.log(index);
             player[index]?.playVideo();
         }
 
@@ -124,8 +123,9 @@ const adInitialization = (adContainer, index) => {
     // Add a click event listener to the skip button
     skipButton?.addEventListener('click', () => {
         adTemplate.remove();
-        if (playerInit) {
+        if (playerInit.length > 0) {
             playerInit[playerId]?.play();
+
         }
         if (getYTVideoId(srcUrl)) {
             player[index]?.playVideo();
@@ -135,7 +135,7 @@ const adInitialization = (adContainer, index) => {
 
     // Add an event listener to check for video end
     adVideo?.addEventListener('play', () => {
-        if (playerInit) {
+        if (playerInit.length > 0) {
             playerInit[playerId]?.stop();
         }
     });
@@ -146,6 +146,8 @@ const adInitialization = (adContainer, index) => {
         adTemplate.remove();
         adContainer.querySelector('.ep-embed-content-wraper').classList.remove('hidden');
     });
+
+    playerIndex++;
 
 }
 
@@ -160,14 +162,15 @@ const addWrapperForYoutube = (adContainer, srcUrl, adAtts) => {
         youtubeIframe.parentNode.replaceChild(divWrapper, youtubeIframe);
         divWrapper.appendChild(youtubeIframe);
     }
-    console.log('this is a youtube video');
 }
+
 
 
 function onYouTubeIframeAPIReady(iframe, srcUrl, adVideo, index) {
     // Find the iframe by its src attribute
 
     if (iframe && getYTVideoId(srcUrl) !== null) {
+        console.log(index);
         player[index] = new YT.Player(iframe, {
             videoId: getYTVideoId(srcUrl),
 
@@ -197,9 +200,10 @@ window.onload = function () {
         var youtubeVideos = document.querySelectorAll('.ad-youtube-video');
         if (youtubeVideos.length > 0) {
             clearInterval(yVideos);
+
             youtubeVideos.forEach((yVideo, index) => {
                 const srcUrl = yVideo.querySelector('iframe').getAttribute('src');
-                const adVideo = yVideo.parentElement.parentElement.querySelector('.ep-ad');
+                const adVideo = yVideo.closest('.ad-mask').querySelector('.ep-ad');
                 onYouTubeIframeAPIReady(yVideo, srcUrl, adVideo, index);
             });
         }
@@ -208,8 +212,13 @@ window.onload = function () {
 
 
 if (adsConainers.length > 0) {
-    adsConainers.forEach((adContainer, index) => {
-        adContainer.setAttribute('data-ad-index', index);
-        adInitialization(adContainer, index);
+    let ytIndex = 0;
+    adsConainers.forEach((adContainer, epAdIndex) => {
+        
+        adContainer.setAttribute('data-ad-index', epAdIndex);
+        adInitialization(adContainer, ytIndex);
+        if(getYTVideoId(adContainer.querySelector('iframe')?.getAttribute('src'))){
+            ytIndex++;
+        }
     });
 }

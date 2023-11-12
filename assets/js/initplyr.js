@@ -2,7 +2,7 @@
  * Note: This is complex initialization, but it is necessary for Gutenberg and Elementor compatibility. There are some known issues in Gutenberg that require this complex setup.
  */
 var playerInit = [];
-playerInit[1] = 0;
+
 // Event listener for when the DOM content is loaded
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (node.hasChildNodes()) {
-      node.childNodes.forEach(childNode => {ƒ
+      node.childNodes.forEach(childNode => {
         traverseAndInitPlayer(childNode);
       });
     }
@@ -156,8 +156,7 @@ function initPlayer(wrapper) {
       }
     });
 
-      playerInit[playerId] = player;
-      playerInit[1] = 1;
+    playerInit[playerId] = player;
 
     // Mark the wrapper as initialized
     wrapper.classList.add('plyr-initialized');

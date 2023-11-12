@@ -670,6 +670,13 @@ class Embedpress_Pdf extends Widget_Base
 			$share_position_class = 'ep-share-position-'.$share_position;
 		}
 
+        $adsAtts = '';
+
+		if(!empty($settings['adManager'])) {
+			$ad = base64_encode(json_encode($settings));
+			$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
+		}
+
         ?>
     <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style=" max-width:100%; display: inline-block">
         
@@ -712,27 +719,34 @@ class Embedpress_Pdf extends Widget_Base
 
                 ?>
 
+                <div <?php echo esc_attr( $adsAtts ); ?>>
                 
-                <div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_pdf_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_pdf_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($width_class.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>">
-                    <div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
-                        <?php 
-                            $embed = '<div>'.$embed_content.'</div>';
+                    <div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_pdf_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_pdf_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($width_class.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>">
+                        <div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
+                            <?php 
+                                $embed = '<div>'.$embed_content.'</div>';
 
-                            $content_id = $client_id;
-                            if((empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password']) || $settings['embedpress_pdf_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
-                                if(!empty($settings['embedpress_pdf_content_share'])){
-                                    $embed  .= Helper::embed_content_share($content_id, $embed_settings);
+                                $content_id = $client_id;
+                                if((empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password']) || $settings['embedpress_pdf_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
+                                    if(!empty($settings['embedpress_pdf_content_share'])){
+                                        $embed  .= Helper::embed_content_share($content_id, $embed_settings);
+                                    }
+                                    echo $embed ;
+                                    
+                                } else {
+                                    if(!empty($settings['embedpress_pdf_content_share'])){
+                                        $embed .= Helper::embed_content_share($content_id, $embed_settings);
+                                    }
+                                    Helper::display_password_form($client_id, $embed, $pass_hash_key, $embed_settings);
                                 }
-                                echo $embed ;
-                                
-                            } else {
-                                if(!empty($settings['embedpress_pdf_content_share'])){
-                                    $embed .= Helper::embed_content_share($content_id, $embed_settings);
-                                }
-                                Helper::display_password_form($client_id, $embed, $pass_hash_key, $embed_settings);
-                            }
-                        ?>
+                            ?>
+                        </div>
                     </div>
+                    <?php 
+						if(!empty($settings['adManager'])) {
+							$embed_content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
+						}
+					?>
                 </div>
             <?php
                 

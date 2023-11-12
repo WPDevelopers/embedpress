@@ -3055,6 +3055,11 @@ class Embedpress_Elementor extends Widget_Base
 			$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
 		}
 
+		$data_player_id = '';
+		if(!empty($settings['emberpress_custom_player']) === 'yes') {
+			$data_player_id = "data-playerid=".$this->get_id();
+		}
+
 		?>
 
 		<div class="embedpress-elements-wrapper <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; echo esc_attr( $cEmbedType );?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
@@ -3070,7 +3075,7 @@ class Embedpress_Elementor extends Widget_Base
 																															endif; ?> <?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);
 																																																																						echo esc_attr(' source-' . $source); ?>">
 																																																																					<div <?php echo esc_attr( $adsAtts ); ?>>
-					<div  id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?>" data-playerid="<?php echo esc_attr($this->get_id()); ?>" <?php echo $this->get_custom_player_options($settings); ?>>
+					<div  id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?>" <?php echo esc_attr($data_player_id); ?> <?php echo $this->get_custom_player_options($settings); ?>>
 						<?php
 									$content_id = $client_id;
 

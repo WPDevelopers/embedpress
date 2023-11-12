@@ -104,7 +104,7 @@ class Extend_Elementor_Controls
 			[
 				'label' => __('Ad X Position(%)', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::NUMBER,
-				'default' => 50, // Set the default value if needed
+				'default' => 25, // Set the default value if needed
 				'min' => 0,
 				'max' => 100,
 				'condition' => [
@@ -120,7 +120,7 @@ class Extend_Elementor_Controls
 			[
 				'label' => __('Ad Y Position(%)', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::NUMBER,
-				'default' => 50, // Set the default value if needed
+				'default' => 20, // Set the default value if needed
 				'min' => 0,
 				'max' => 100,
 				'condition' => [
