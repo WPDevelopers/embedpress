@@ -742,9 +742,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 
 			adXPosition: {
 				type: 'number',
+				default: 25
 			},
 			adYPosition: {
 				type: 'number',
+				default: 10
 			},
 
 			adUrl: {

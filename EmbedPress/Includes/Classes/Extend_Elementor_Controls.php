@@ -78,6 +78,7 @@ class Extend_Elementor_Controls
 					'adManager' => 'yes',
 					'adSource' => 'image',
 				],
+				'default' => '300',
 				'ai'     => $ai_condition,
 			]
 		);
@@ -92,6 +93,7 @@ class Extend_Elementor_Controls
 					'adManager' => 'yes',
 					'adSource' => 'image',
 				],
+				'default' => '200',
 				'ai'     => $ai_condition,
 			]
 		);

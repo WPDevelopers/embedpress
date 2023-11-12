@@ -849,7 +849,7 @@ class Helper
 				display: inline-block !important;
 			}
 
-			.ad-mask .ose-embedpress-responsive::after {
+			.ad-mask .ep-embed-content-wraper::after {
 				content: '';
 				position: absolute;
 				top: 0;

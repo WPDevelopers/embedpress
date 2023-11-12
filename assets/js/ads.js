@@ -1,13 +1,14 @@
-var scriptUrl = 'https:\/\/www.youtube.com\/s\/player\/9d15588c\/www-widgetapi.vflset\/www-widgetapi.js'; try { var ttPolicy = window.trustedTypes.createPolicy("youtube-widget-api", { createScriptURL: function (x) { return x } }); scriptUrl = ttPolicy.createScriptURL(scriptUrl) } catch (e) { } var YT; if (!window["YT"]) YT = { loading: 0, loaded: 0 }; var YTConfig; if (!window["YTConfig"]) YTConfig = { "host": "https://www.youtube.com" };
-if (!YT.loading) {
-    YT.loading = 1; (function () {
-        var l = []; YT.ready = function (f) { if (YT.loaded) f(); else l.push(f) }; window.onYTReady = function () { YT.loaded = 1; var i = 0; for (; i < l.length; i++)try { l[i]() } catch (e) { } }; YT.setConfig = function (c) { var k; for (k in c) if (c.hasOwnProperty(k)) YTConfig[k] = c[k] }; var a = document.createElement("script"); a.type = "text/javascript"; a.id = "www-widgetapi-script"; a.src = scriptUrl; a.async = true; var c = document.currentScript; if (c) {
-            var n = c.nonce || c.getAttribute("nonce"); if (n) a.setAttribute("nonce",
-                n)
-        } var b = document.getElementsByTagName("script")[0]; b.parentNode.insertBefore(a, b)
-    })()
-};
-
+if (playerInit[1] === 0) {
+    var scriptUrl = 'https:\/\/www.youtube.com\/s\/player\/9d15588c\/www-widgetapi.vflset\/www-widgetapi.js'; try { var ttPolicy = window.trustedTypes.createPolicy("youtube-widget-api", { createScriptURL: function (x) { return x } }); scriptUrl = ttPolicy.createScriptURL(scriptUrl) } catch (e) { } var YT; if (!window["YT"]) YT = { loading: 0, loaded: 0 }; var YTConfig; if (!window["YTConfig"]) YTConfig = { "host": "https://www.youtube.com" };
+    if (!YT.loading) {
+        YT.loading = 1; (function () {
+            var l = []; YT.ready = function (f) { if (YT.loaded) f(); else l.push(f) }; window.onYTReady = function () { YT.loaded = 1; var i = 0; for (; i < l.length; i++)try { l[i]() } catch (e) { } }; YT.setConfig = function (c) { var k; for (k in c) if (c.hasOwnProperty(k)) YTConfig[k] = c[k] }; var a = document.createElement("script"); a.type = "text/javascript"; a.id = "www-widgetapi-script"; a.src = scriptUrl; a.async = true; var c = document.currentScript; if (c) {
+                var n = c.nonce || c.getAttribute("nonce"); if (n) a.setAttribute("nonce",
+                    n)
+            } var b = document.getElementsByTagName("script")[0]; b.parentNode.insertBefore(a, b)
+        })()
+    };
+} 
 
 
 let adsConainers = document.querySelectorAll('[data-ad-id]');
@@ -18,6 +19,12 @@ const player = [];
 adsConainers = Array.from(adsConainers);
 
 const getYTVideoId = (url) => {
+    // Check if the input is a string
+    if (typeof url !== 'string') {
+        console.error('Invalid input. Expected a string.');
+        return null;
+    }
+
     const regex = /(?:youtube\.com\/(?:[^\/]+\/[^\/]+\/|(?:v|e(?:mbed)?)\/|[^#]*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
     const match = url.match(regex);
 
@@ -27,6 +34,7 @@ const getYTVideoId = (url) => {
         return null; // Invalid URL or couldn't find the video ID
     }
 }
+
 
 const adInitialization = (adContainer, index) => {
 
@@ -51,8 +59,9 @@ const adInitialization = (adContainer, index) => {
     const skipButton = adContainer.querySelector('.skip-ad-button');
     const adRunningTime = adContainer.querySelector('.ad-running-time');
 
-    const adMask = adContainer.querySelector('.ose-embedpress-responsive');
+    const adMask = adContainer.querySelector('.ep-embed-content-wraper');
 
+    const playerId = adContainer.querySelector('[data-playerid]')?.getAttribute('data-playerid');
 
     let playbackInitiated = false;
 
@@ -63,6 +72,12 @@ const adInitialization = (adContainer, index) => {
     adMask?.addEventListener('click', function () {
 
         adContainer.classList.remove('ad-mask');
+
+        console.log(playerInit, playerId);
+
+        if (playerInit) {
+            playerInit[playerId]?.play();
+        }
 
         if (getYTVideoId(srcUrl)) {
             console.log(player);
@@ -109,10 +124,20 @@ const adInitialization = (adContainer, index) => {
     // Add a click event listener to the skip button
     skipButton?.addEventListener('click', () => {
         adTemplate.remove();
+        if (playerInit) {
+            playerInit[playerId]?.play();
+        }
         if (getYTVideoId(srcUrl)) {
             player[index]?.playVideo();
         }
         adContainer.querySelector('.ep-embed-content-wraper').classList.remove('hidden');
+    });
+
+    // Add an event listener to check for video end
+    adVideo?.addEventListener('play', () => {
+        if (playerInit) {
+            playerInit[playerId]?.stop();
+        }
     });
 
     // Add an event listener to check for video end

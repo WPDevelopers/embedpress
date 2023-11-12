@@ -482,10 +482,12 @@ function embedpress_gutenberg_register_all_block()
 								'default' => '200'
 							),
 							'adXPosition' => array(
-								'type' => 'number'
+								'type' => 'number',
+								'default' => 25
 							),
 							'adYPosition' => array(
-								'type' => 'number'
+								'type' => 'number',
+								'default' => 10
 							),
 							'adUrl' => [
 								'type' => 'string',
@@ -625,6 +627,22 @@ function embedpress_gutenberg_register_all_block()
 							'adContent' => [
 								'type' => 'object',
 							],
+							'adWidth' => array(
+								'type' => 'string',
+								'default' => '300'
+							),
+							'adHeight' => array(
+								'type' => 'string',
+								'default' => '200'
+							),
+							'adXPosition' => array(
+								'type' => 'number',
+								'default' => 25
+							),
+							'adYPosition' => array(
+								'type' => 'number',
+								'default' => 20
+							),
 							'adUrl' => [
 								'type' => 'string',
 								'default' => ''
@@ -762,43 +780,54 @@ if (!empty($attributes['href'])) {
 		
 
 		$url = !empty($attributes['href']) ? $attributes['href'] : '';
+
+		if(!empty($attributes['adManager'])) {
+			$ad = base64_encode(json_encode($attributes));
+			$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
+		}
 	?>
 
 	<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content <?php echo  esc_attr( $alignment.' '.$width_class.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?> ">
 		<div class="embedpress-inner-iframe <?php if ($unitoption === '%') { echo esc_attr('emebedpress-unit-percent'); }  ?> ep-doc-<?php echo esc_attr($client_id); ?>"<?php if ($unitoption === '%' && !empty($attributes['width'])) { $style_attr = 'max-width:' . $attributes['width'] . '%'; } else { $style_attr = 'max-width:100%'; } ?> style="<?php echo esc_attr($style_attr); ?>" id="<?php echo esc_attr($id); ?>">
-		
-			<?php 
-				do_action('embedpress_pdf_gutenberg_after_embed',  $client_id, 'pdf', $attributes, $pdf_url);
-				$embed = $embed_code;
-				if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
-					
-					$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
-					
-					echo '<div class="ep-embed-content-wraper">';
-						$embed = '<div class="position-'.esc_attr( $share_position ).'-wraper gutenberg-pdf-wraper">';
-						$embed .= $embed_code;
-						$embed.= '</div>';
+			<div <?php echo esc_attr( $adsAtts ); ?> >
+				<?php 
+					do_action('embedpress_pdf_gutenberg_after_embed',  $client_id, 'pdf', $attributes, $pdf_url);
+					$embed = $embed_code;
+					if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
 						
+						$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
+						
+						echo '<div class="ep-embed-content-wraper">';
+							$embed = '<div class="position-'.esc_attr( $share_position ).'-wraper gutenberg-pdf-wraper">';
+							$embed .= $embed_code;
+							$embed.= '</div>';
+							
+							if(!empty($attributes['contentShare'])) {
+								$content_id = $attributes['id'];
+								$embed .= Helper::embed_content_share($content_id, $attributes);
+							}
+							echo $embed;
+						echo '</div>';
+					} else {
 						if(!empty($attributes['contentShare'])) {
-							$content_id = $attributes['id'];
+							$content_id = $attributes['clientId'];
+							$embed = '<div class="position-'.esc_attr( $share_position ).'-wraper gutenberg-pdf-wraper">';
+							$embed .= $embed_code;
+							$embed.= '</div>';	
 							$embed .= Helper::embed_content_share($content_id, $attributes);
 						}
-						echo $embed;
-					echo '</div>';
-				} else {
-					if(!empty($attributes['contentShare'])) {
-						$content_id = $attributes['clientId'];
-						$embed = '<div class="position-'.esc_attr( $share_position ).'-wraper gutenberg-pdf-wraper">';
-						$embed .= $embed_code;
-						$embed.= '</div>';	
-						$embed .= Helper::embed_content_share($content_id, $attributes);
+						echo '<div class="ep-embed-content-wraper">';
+								Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
+						echo '</div>';
 					}
-					echo '<div class="ep-embed-content-wraper">';
-							Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
-					echo '</div>';
-				}
-			?>
-			
+				?>
+
+				<?php 
+					if(!empty($attributes['adManager'])) {
+						$embed .= Helper::generateAdTemplate($client_id, $attributes, 'gutenberg');
+					}
+				?>
+			</div>			
 		</div>
 	</div>
 <?php
