@@ -7,6 +7,7 @@ import ControlHeader from '../../common/control-heading';
 import { getParams } from '../functions';
 import LockControl from '../../common/lock-control';
 import ContentShare from '../../common/social-share-control';
+import AdControl from '../../common/ads-control';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
