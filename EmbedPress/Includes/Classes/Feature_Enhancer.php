@@ -1494,7 +1494,7 @@ class Feature_Enhancer
 
 		if (!empty($_GET['hash'])) {
 
-			$id_value = senitize_text_field($_GET['hash']);
+			$id_value = sanitize_text_field($_GET['hash']);
 
 			$url = get_the_permalink( $post_id );
 
