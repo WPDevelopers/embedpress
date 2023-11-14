@@ -237,9 +237,6 @@ class Helper {
 		$password = isset($_POST['password']) ? senitize_text_filed($_POST['password']) : '';
 		$post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
 
-		// $epbase64 = isset($_POST['epbase']) ? $_POST['epbase'] : '';
-		// $hash_key = isset($_POST['hash_key']) ? $_POST['hash_key'] : '';
-
 		$epbase64 = get_post_meta($post_id, 'ep_base_' .$client_id, false );	
 		$hash_key = get_post_meta( $post_id, 'hash_key_' .$client_id, false  );
 
