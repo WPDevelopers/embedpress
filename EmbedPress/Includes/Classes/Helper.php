@@ -233,9 +233,9 @@ class Helper {
 	public function lock_content_form_handler()
 	{
 
-		$client_id = isset($_POST['client_id']) ? $_POST['client_id'] : '';
-		$password = isset($_POST['password']) ? $_POST['password'] : '';
-		$post_id = isset($_POST['post_id']) ? $_POST['post_id'] : 'sdfds';
+		$client_id = isset($_POST['client_id']) ? senitize_text_filed($_POST['client_id']) : '';
+		$password = isset($_POST['password']) ? senitize_text_filed($_POST['password']) : '';
+		$post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
 
 		// $epbase64 = isset($_POST['epbase']) ? $_POST['epbase'] : '';
 		// $hash_key = isset($_POST['hash_key']) ? $_POST['hash_key'] : '';
@@ -260,7 +260,7 @@ class Helper {
 		var time = now.getTime();
 		var expireTime = time + 1000 * 60 * 60 * 24 * 30;
 		now.setTime(expireTime);
-		document.cookie = "password_correct_' . $client_id . '=' . $hash_key . '; expires=" + now.toUTCString() + "; path=/";
+		document.cookie = "password_correct_' . esc_js($client_id) . '=' . esc_js($hash_key) . '; expires=" + now.toUTCString() + "; path=/";
 	</script>';
 		} else {
 			$embed = 0;
@@ -273,9 +273,8 @@ class Helper {
 			'embedHtml' => $embed,
 		);
 
-		echo json_encode($response);
+		wp_send_json($response);
 
-		wp_die();
 	}
 
 	public static function display_password_form($client_id='', $embedHtml='', $pass_hash_key='', $attributes = [])

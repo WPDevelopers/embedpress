@@ -18,9 +18,9 @@ if(!function_exists('lock_content_form_handler')){
 	function lock_content_form_handler() {
 		// print_r($embedHTML);
 
-		$client_id = isset($_POST['client_id']) ? $_POST['client_id'] : '';
-		$password = isset($_POST['password']) ? $_POST['password'] : '';
-		$post_id = isset($_POST['post_id']) ? $_POST['post_id'] : '';
+		$client_id = isset($_POST['client_id']) ? senitize_text_filed($_POST['client_id']) : '';
+		$password = isset($_POST['password']) ? senitize_text_filed($_POST['password']) : '';
+		$post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
 		
 		$epbase64 = get_post_meta( $post_id, 'ep_base_' .$client_id, true );	
 		$hash_key = get_post_meta( $post_id, 'hash_key_' .$client_id, true  );
@@ -43,7 +43,7 @@ if(!function_exists('lock_content_form_handler')){
 			var time = now.getTime();
 			var expireTime = time + 1000 * 60 * 60 * 24 * 30;
 			now.setTime(expireTime);
-			document.cookie = "password_correct_'.$client_id.'='.$hash_key.'; expires=" + now.toUTCString() + "; path=/";
+			document.cookie = "password_correct_'.esc_js($client_id).'='.esc_js($hash_key).'; expires=" + now.toUTCString() + "; path=/";
 		</script>';
 
 		}
@@ -59,9 +59,8 @@ if(!function_exists('lock_content_form_handler')){
 		'post_id' => $post_id
 		);
 
-		echo json_encode($response);
+		wp_send_json($response);
 
-		wp_die();
 	}
 }
 
