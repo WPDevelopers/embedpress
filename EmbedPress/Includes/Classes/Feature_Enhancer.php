@@ -1540,15 +1540,15 @@ class Feature_Enhancer
 				
 				if (!empty($title)) {
 					$title = json_decode('"' . $title . '"', JSON_UNESCAPED_UNICODE);
-					$tags .= "<meta property='og:title' content='" . esc_html($title) . "'/>\n";
-					$tags .= "<meta name='title' property='og:title' content='" . esc_html($title) . "'>\n";
-					$tags .= "<meta name='twitter:title' content='" . esc_html($title) . "'/>\n";
+					$tags .= "<meta property='og:title' content='" . esc_attr($title) . "'/>\n";
+					$tags .= "<meta name='title' property='og:title' content='" . esc_attr($title) . "'>\n";
+					$tags .= "<meta name='twitter:title' content='" . esc_attr($title) . "'/>\n";
 				}
 				
 				if (!empty($description)) {
 					$description = json_decode('"' . $description . '"', JSON_UNESCAPED_UNICODE);
-					$tags .= "<meta property='og:description' content='" . esc_html($description) . "'/>\n";
-					$tags .= "<meta name='twitter:description' content='" . esc_html($description) . "'/>\n";
+					$tags .= "<meta property='og:description' content='" . esc_attr($description) . "'/>\n";
+					$tags .= "<meta name='twitter:description' content='" . esc_attr($description) . "'/>\n";
 				}
 				
 				
@@ -1575,15 +1575,15 @@ class Feature_Enhancer
 
 				if (preg_match($title, $block_content, $matches2)) {
 					$title = json_decode('"' . $matches2[1] . '"', JSON_UNESCAPED_UNICODE);
-					echo "<meta property='og:title' content='" . esc_html($title) . "'/>\n";
-					echo "<meta name='title' property='og:title' content='" . esc_html($title) . "'>\n";
-					echo "<meta name='twitter:title' content='" . esc_html($title) . "'/>\n";
+					echo "<meta property='og:title' content='" . esc_attr($title) . "'/>\n";
+					echo "<meta name='title' property='og:title' content='" . esc_attr($title) . "'>\n";
+					echo "<meta name='twitter:title' content='" . esc_attr($title) . "'/>\n";
 				}
 
 				if (preg_match($description, $block_content, $matches3)) {
 					$description = json_decode('"' . $matches3[1] . '"', JSON_UNESCAPED_UNICODE);
-					echo "<meta property='og:description' content='" . esc_html($description) . "'/>\n";
-					echo "<meta name='twitter:description' content='" . esc_html($description) . "'/>\n";
+					echo "<meta property='og:description' content='" . esc_attr($description) . "'/>\n";
+					echo "<meta name='twitter:description' content='" . esc_attr($description) . "'/>\n";
 				}
 
 			}
