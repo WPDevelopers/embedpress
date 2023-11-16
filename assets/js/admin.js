@@ -20,6 +20,44 @@
     });
     $(document).on('click', '.embedpress-license-activation-btn', function (e) {
         e.preventDefault();
+        let $this = $(this);
+
+        const licensesKey = $('#embedpress-pro-license-key').val();
+
+        if (licensesKey) {
+            $this.attr('disabled', 'disabled');
+            $this.html('Sending Request.....');
+        }
+        // var ajaxUrl = 'embedpress/license/activate'; // Replace with the actual URL
+
+        $.ajax({
+            type: 'POST',
+            url: ajaxurl,
+            data: {
+                // Your data to be sent in the request body
+                action: 'embedpress/license/activate',
+                _nonce: wpdeveloperLicenseManagerConfig.nonce, //
+                license_key: licensesKey,
+            },
+            success: function (response) {
+                // Handle the successful response here
+                console.log('Success:', response);
+                if (!response.success) {
+                    $this.html('Active License');
+                    console.log($this);
+                    $this.removeAttr('disabled');
+
+                }
+            },
+            error: function (xhr, status, error) {
+                // Handle errors here
+                console.error('Error:', status, error);
+            }
+        });
+
+    });
+    $(document).on('click', '.embedpress-license-activation-btn', function (e) {
+        e.preventDefault();
 
         const $licensesKey = $('#embedpress-pro-license-key').val();
 
