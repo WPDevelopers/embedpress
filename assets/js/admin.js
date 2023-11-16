@@ -18,4 +18,33 @@
 
         });
     });
+    $(document).on('click', '.embedpress-license-activation-btn', function (e) {
+        e.preventDefault();
+
+        const $licensesKey = $('#embedpress-pro-license-key').val();
+
+        // var ajaxUrl = 'embedpress/license/activate'; // Replace with the actual URL
+
+        $.ajax({
+            type: 'POST',
+            url: ajaxurl,
+            data: {
+                // Your data to be sent in the request body
+                action: 'embedpress/license/activate',
+                _nonce: wpdeveloperLicenseManagerConfig.nonce, //
+                license_key: $licensesKey,
+            },
+            success: function (response) {
+                // Handle the successful response here
+                console.log('Success:', response);
+            },
+            error: function (xhr, status, error) {
+                // Handle errors here
+                console.error('Error:', status, error);
+            }
+        });
+
+    });
+
+
 })(jQuery);
