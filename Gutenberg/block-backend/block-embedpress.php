@@ -18,8 +18,8 @@ if(!function_exists('lock_content_form_handler')){
 	function lock_content_form_handler() {
 		// print_r($embedHTML);
 
-		$client_id = isset($_POST['client_id']) ? senitize_text_filed($_POST['client_id']) : '';
-		$password = isset($_POST['password']) ? senitize_text_filed($_POST['password']) : '';
+		$client_id = isset($_POST['client_id']) ? sanitize_text_field($_POST['client_id']) : '';
+		$password = isset($_POST['password']) ? sanitize_text_field($_POST['password']) : '';
 		$post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
 		
 		$epbase64 = get_post_meta( $post_id, 'ep_base_' .$client_id, true );	
