@@ -2436,14 +2436,15 @@ a.site__logo {
 }
 
 @media (max-width:1024px) {
-    .shortcode-settings-wrapper , .embedpress_general_settings__form:not(:last-child), .embedpress__shortcode{
+    .shortcode-settings-wrapper, .embedpress_general_settings__form:not(:last-child), .embedpress__shortcode {
         width: 100%;
         display: block;
     }
+
     .embedpress-upgrade-pro-sidebar {
         display: none;
     }
-    
+
 }
 
 @media (max-width: 767px) {
@@ -2548,7 +2549,7 @@ p.embedpress-tagline {
     }
 }
 
-.form__inline {
+.form__inline .form-inner-field {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -2617,6 +2618,49 @@ p.embedpress-tagline {
     height: 172px;
 }
 
+#valid-license-key-message {
+    font-weight: 500;
+}
+
+div#valid-license-key-message {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+span#email-placeholder {
+    font-weight: 700;
+}
+
+.form__inline .hidden, #otp-varify-form.hidden {
+    display: none !important;
+}
+
+.short-description {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background: #f2f2f2;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+div#invalid-license-key-message, #invalid-varification-key-message {
+    padding: 10px;
+    background: #f2f2f2;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.short-description a {
+    color: #5b4e96;
+}
+div#resend-varification-key-message {
+    margin-top: 10px;
+}
+div#resend-varification-key-message a{
+    color: #5b4e96;
+}
+.show-toast{
+    visibility: visible!important;
+    opacity: 1!important;
+}
 @media (max-width: 479px) {
     .logo__adjust__wrap .logo__upload {
         width: 225px;

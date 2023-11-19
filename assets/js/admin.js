@@ -22,6 +22,8 @@
         e.preventDefault();
         let $this = $(this);
 
+        $('#invalid-license-key-message').addClass('hidden');
+
         const licensesKey = $('#embedpress-pro-license-key').val();
 
         if (licensesKey) {
@@ -29,6 +31,8 @@
             $this.html('Sending Request.....');
         }
         // var ajaxUrl = 'embedpress/license/activate'; // Replace with the actual URL
+
+        console.log($('.embedpress-toast__message toast__message--error').length);
 
         $.ajax({
             type: 'POST',
@@ -44,9 +48,20 @@
                 console.log('Success:', response);
                 if (!response.success) {
                     $this.html('Active License');
-                    console.log($this);
                     $this.removeAttr('disabled');
+                    $('#invalid-license-key-message').removeClass('hidden');
+                    $('.embedpress-toast__message toast__message--error p').text(response?.data?.message);
+                    $('.embedpress-toast__message toast__message--error').addClass('show-toast');
+                }
+                else{
+                    $this.html('Varification Required');
+                    $('#valid-license-key-message').removeClass('hidden');
+                    $('#email-placeholder').text(response.data.customer_email);
+                    $('#embedpress-pro-license-key').attr('disabled', 'disabled');;
 
+                    if(response.data.license === 'required_otp'){
+                        $('#otp-varify-form').removeClass('hidden');
+                    }
                 }
             },
             error: function (xhr, status, error) {
@@ -56,11 +71,21 @@
         });
 
     });
-    $(document).on('click', '.embedpress-license-activation-btn', function (e) {
+
+
+    $(document).on('click', '.embedpress-varification-activation-btn', function (e) {
         e.preventDefault();
+        let $this = $(this);
 
-        const $licensesKey = $('#embedpress-pro-license-key').val();
+        const licensesKey = $('#embedpress-pro-license-key').val();
+        const otpCode = $('#embedpress-pro-varification-key').val();
 
+        $('#invalid-varification-key-message').addClass('hidden');
+
+        if (licensesKey) {
+            $this.attr('disabled', 'disabled');
+            $this.html('Verifying.....');
+        }
         // var ajaxUrl = 'embedpress/license/activate'; // Replace with the actual URL
 
         $.ajax({
@@ -68,13 +93,27 @@
             url: ajaxurl,
             data: {
                 // Your data to be sent in the request body
-                action: 'embedpress/license/activate',
+                action: 'embedpress/license/submit-otp',
                 _nonce: wpdeveloperLicenseManagerConfig.nonce, //
-                license_key: $licensesKey,
+                license: licensesKey,
+                otp: otpCode,
             },
             success: function (response) {
                 // Handle the successful response here
                 console.log('Success:', response);
+                if (!response.success) {
+                    $this.html('Verify');
+                    $this.removeAttr('disabled');
+                    $('#invalid-varification-key-message').removeClass('hidden');
+                    $('#invalid-varification-key-message').text(response?.data?.message);
+
+                    $('.embedpress-toast__message toast__message--error p').text(response?.data?.message);
+                    $('.embedpress-toast__message toast__message--error').addClass('show-toast');
+                }
+                else{
+                    $this.html('Verified');
+                    location.reload();
+                }
             },
             error: function (xhr, status, error) {
                 // Handle errors here
@@ -83,6 +122,84 @@
         });
 
     });
+    $(document).on('click', '#resend-license-verification-key', function (e) {
+        e.preventDefault();
+        let $this = $(this);
+
+
+        const licensesKey = $('#embedpress-pro-license-key').val();
+        $('#resend-license-verification-key').text('"Resending"');
+
+        $.ajax({
+            type: 'POST',
+            url: ajaxurl,
+            data: {
+                // Your data to be sent in the request body
+                action: 'embedpress/license/resend-otp',
+                _nonce: wpdeveloperLicenseManagerConfig.nonce, //
+                license: licensesKey,
+            },
+            success: function (response) {
+                // Handle the successful response here
+                console.log('Success:', response);
+                if (!response.success) {
+                    $('#resend-license-verification-key').text('"Resend Failed"');
+                    $('.embedpress-toast__message toast__message--error p').text(response?.data?.message);
+                    $('.embedpress-toast__message toast__message--error').addClass('show-toast');
+
+                }
+                else{
+                    $('#resend-license-verification-key').text('"Resented"');
+                }
+            },
+            error: function (xhr, status, error) {
+                // Handle errors here
+                console.error('Error:', status, error);
+            }
+        });
+
+    });
+
+    $(document).on('click', '.embedpress-license-deactivation-btn', function (e) {
+        e.preventDefault();
+        let $this = $(this);
+
+        const licensesKey = $('#embedpress-pro-license-key').val();
+        const otpCode = $('#embedpress-pro-varification-key').val();
+
+        console.log(licensesKey);
+
+        if (licensesKey) {
+            $this.attr('disabled', 'disabled');
+            $this.html('Deactivating.....');
+        }
+        // var ajaxUrl = 'embedpress/license/activate'; // Replace with the actual URL
+
+        $.ajax({
+            type: 'POST',
+            url: ajaxurl,
+            data: {
+                // Your data to be sent in the request body
+                action: 'embedpress/license/deactivate',
+                _nonce: wpdeveloperLicenseManagerConfig.nonce, //
+            },
+            success: function (response) {
+                // Handle the successful response here
+                console.log('Success:', response);
+                if (response.success) {
+                    $this.html('Deactivated');
+
+                    location.reload();
+                }
+            },
+            error: function (xhr, status, error) {
+                // Handle errors here
+                console.error('Error:', status, error);
+            }
+        });
+
+    });
+    
 
 
 })(jQuery);
