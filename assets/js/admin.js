@@ -22,8 +22,6 @@
         e.preventDefault();
         let $this = $(this);
 
-        $('#invalid-license-key-message').addClass('hidden');
-
         const licensesKey = $('#embedpress-pro-license-key').val();
 
         if (licensesKey) {
@@ -32,7 +30,6 @@
         }
         // var ajaxUrl = 'embedpress/license/activate'; // Replace with the actual URL
 
-        console.log($('.embedpress-toast__message toast__message--error').length);
 
         $.ajax({
             type: 'POST',
@@ -50,16 +47,28 @@
                     $this.html('Active License');
                     $this.removeAttr('disabled');
                     $('#invalid-license-key-message').removeClass('hidden');
-                    $('.embedpress-toast__message toast__message--error p').text(response?.data?.message);
-                    $('.embedpress-toast__message toast__message--error').addClass('show-toast');
+                    $('.embedpress-toast__message.toast__message--error p').text(response?.data?.message);
+                    $('.toast__message--error').addClass('show-toast');
+
+                    setTimeout(() => {
+                        $('.toast__message--error').removeClass('show-toast');
+                    }, 2000);
+
                 }
-                else{
+                else {
                     $this.html('Varification Required');
                     $('#valid-license-key-message').removeClass('hidden');
                     $('#email-placeholder').text(response.data.customer_email);
-                    $('#embedpress-pro-license-key').attr('disabled', 'disabled');;
+                    $('#embedpress-pro-license-key').attr('disabled', 'disabled');
 
-                    if(response.data.license === 'required_otp'){
+                    $('.embedpress-toast__message.toast__message--success p').text('Verification Code Sent');
+                    $('.toast__message--success').addClass('show-toast');
+
+                    setTimeout(() => {
+                        $('.toast__message--success').removeClass('show-toast');
+                    }, 2000);
+
+                    if (response.data.license === 'required_otp') {
                         $('#otp-varify-form').removeClass('hidden');
                     }
                 }
@@ -107,10 +116,14 @@
                     $('#invalid-varification-key-message').removeClass('hidden');
                     $('#invalid-varification-key-message').text(response?.data?.message);
 
-                    $('.embedpress-toast__message toast__message--error p').text(response?.data?.message);
-                    $('.embedpress-toast__message toast__message--error').addClass('show-toast');
+                    $('.embedpress-toast__message.toast__message--error p').text(response?.data?.message);
+                    $('.toast__message--error').addClass('show-toast');
+                    setTimeout(() => {
+                        $('.toast__message--error').removeClass('show-toast');
+                    }, 2000);
+
                 }
-                else{
+                else {
                     $this.html('Verified');
                     location.reload();
                 }
@@ -143,13 +156,21 @@
                 // Handle the successful response here
                 console.log('Success:', response);
                 if (!response.success) {
-                    $('#resend-license-verification-key').text('"Resend Failed"');
-                    $('.embedpress-toast__message toast__message--error p').text(response?.data?.message);
-                    $('.embedpress-toast__message toast__message--error').addClass('show-toast');
+                    $('.embedpress-toast__message.toast__message--error p').text(response?.data?.message);
+                    $('.toast__message--error').addClass('show-toast');
+
+                    setTimeout(() => {
+                        $('.toast__message--error').removeClass('show-toast');
+                    }, 2000);
 
                 }
-                else{
-                    $('#resend-license-verification-key').text('"Resented"');
+                else {
+                    $('.embedpress-toast__message.toast__message--success p').text(response?.data?.message);
+                    $('.toast__message--success').addClass('show-toast');
+
+                    setTimeout(() => {
+                        $('.toast__message--success').removeClass('show-toast');
+                    }, 2000);
                 }
             },
             error: function (xhr, status, error) {
@@ -199,7 +220,7 @@
         });
 
     });
-    
+
 
 
 })(jQuery);
