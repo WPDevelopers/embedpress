@@ -3,7 +3,7 @@
         'name' => 'embedpress/embedpress',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'ab9fadb98fe42c1a8907590f208857bc5b3b8bf4',
+        'reference' => '8e6378108bd981065e76ac3e514642732c340f84',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'embedpress/embedpress' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'ab9fadb98fe42c1a8907590f208857bc5b3b8bf4',
+            'reference' => '8e6378108bd981065e76ac3e514642732c340f84',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -22,7 +22,7 @@
         'priyomukul/wp-notice' => array(
             'pretty_version' => 'v2.x-dev',
             'version' => '2.9999999.9999999.9999999-dev',
-            'reference' => 'cc674c9b76c74289966d0b395078a9fcfe3a0af1',
+            'reference' => '900b707c690b44b5f799fcc11b93099851da0afa',
             'type' => 'library',
             'install_path' => __DIR__ . '/../priyomukul/wp-notice',
             'aliases' => array(),
