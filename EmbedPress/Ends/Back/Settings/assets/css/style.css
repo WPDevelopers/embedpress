@@ -2665,6 +2665,7 @@ div#resend-verification-key-message span {
     font-weight: bold;
     color: #5b4e96;
     text-decoration: underline;
+    cursor: pointer;
 }
 @media (max-width: 479px) {
     .logo__adjust__wrap .logo__upload {
