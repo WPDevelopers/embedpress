@@ -2436,14 +2436,15 @@ a.site__logo {
 }
 
 @media (max-width:1024px) {
-    .shortcode-settings-wrapper , .embedpress_general_settings__form:not(:last-child), .embedpress__shortcode{
+    .shortcode-settings-wrapper, .embedpress_general_settings__form:not(:last-child), .embedpress__shortcode {
         width: 100%;
         display: block;
     }
+
     .embedpress-upgrade-pro-sidebar {
         display: none;
     }
-    
+
 }
 
 @media (max-width: 767px) {
@@ -2548,10 +2549,14 @@ p.embedpress-tagline {
     }
 }
 
-.form__inline {
+.form__inline .form-inner-field {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    gap: 15px;
+}
+.form-inner-field button {
+    height: 60px;
 }
 
 .form__inline .form__group {
@@ -2617,6 +2622,61 @@ p.embedpress-tagline {
     height: 172px;
 }
 
+#valid-license-key-message {
+    font-weight: 500;
+}
+
+div#valid-license-key-message {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+span#email-placeholder {
+    font-weight: 700;
+}
+
+.form__inline .hidden, #otp-varify-form.hidden {
+    display: none !important;
+}
+
+.short-description {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background: #f2f2f2;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+div#invalid-license-key-message, #invalid-verification-key-message {
+    padding: 10px;
+    background: #f2f2f2;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+.short-description a {
+    color: #5b4e96;
+}
+div#resend-verification-key-message {
+    margin-top: 10px;
+}
+div#resend-verification-key-message a{
+    color: #5b4e96;
+}
+.show-toast{
+    visibility: visible!important;
+    opacity: 1!important;
+}
+div#resend-verification-key-message span {
+    font-weight: bold;
+    color: #5b4e96;
+    text-decoration: underline;
+    cursor: pointer;
+}
+div#resend-verification-key-message a {
+    font-weight: 600;
+}
+.form-inner-field .form__group {
+    margin-right: 0;
+}
 @media (max-width: 479px) {
     .logo__adjust__wrap .logo__upload {
         width: 225px;
@@ -3628,6 +3688,7 @@ p.embedpress-tagline {
     border: 1px solid #D7DEEE;
     border-radius: 8px;
     padding: 12px;
+    display: flex;
 }
 
 .embedpress__shortcode .shortcode__form .form__group {
