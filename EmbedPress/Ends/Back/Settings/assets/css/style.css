@@ -3303,6 +3303,10 @@ div#resend-verification-key-message a {
     padding-left: 50px;
 }
 
+input#embedpress-pro-license-key::placeholder {
+    font-size: 18px;
+}
+
 .embedpress-license__details .license__content .form__group .form__control::-webkit-input-placeholder {
     color: #7C8DB5;
 }
