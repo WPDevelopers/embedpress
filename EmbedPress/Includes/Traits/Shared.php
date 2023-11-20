@@ -72,7 +72,7 @@ trait Shared
             'lifetime'    => 3,
             'stylesheet_url'      => $_assets_url . 'css/admin-notices.css',
             'styles'      => $_assets_url . 'css/admin-notices.css',
-            'priority'    => '6'
+            'priority'    => 6
         ]);
 
         /**
