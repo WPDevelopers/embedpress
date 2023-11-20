@@ -8,6 +8,8 @@
 (function ($) {
     'use strict';
 
+    var __ = wp.i18n.__;
+    var addQueryArgs = wp.url.addQueryArgs;
     $(document).on('click', '.embedpress-plugin-notice-dismissible.is-dismissible', function () {
         var data = {
             action: 'embedpress_notice_dismiss',
@@ -27,7 +29,7 @@
 
         if (licensesKey) {
             $this.attr('disabled', 'disabled');
-            $this.html('Sending Request.....');
+            $this.html(__('Sending Request.....', 'embedpress'));
         }
 
         $.ajax({
@@ -41,9 +43,8 @@
             },
             success: function (response) {
                 // Handle the successful response here
-                console.log('Success:', response);
                 if (!response.success) {
-                    $this.html('Active License');
+                    $this.html(__('Active License', 'embedpress'));
                     $this.removeAttr('disabled');
                     $('.embedpress-toast__message.toast__message--error p').text(response?.data?.message);
                     $('.toast__message--error').addClass('show-toast');
@@ -53,8 +54,11 @@
                     }, 2000);
 
                 }
-                else {
-                    $this.html('Verification Required');
+                else if (response.data.license === 'valid') {
+                    activationMessage();
+                }
+                else if (response.data.license === 'required_otp') {
+                    $this.html(__('Verification Required', 'embedpress'));
                     $('#valid-license-key-message').removeClass('hidden');
                     $('#email-placeholder').text(response.data.customer_email);
                     $('#embedpress-pro-license-key').attr('disabled', 'disabled');
@@ -66,9 +70,7 @@
                         $('.toast__message--success').removeClass('show-toast');
                     }, 2000);
 
-                    if (response.data.license === 'required_otp') {
-                        $('#otp-varify-form').removeClass('hidden');
-                    }
+                    $('#otp-varify-form').removeClass('hidden');
                 }
             },
             error: function (xhr, status, error) {
@@ -90,7 +92,7 @@
 
         if (licensesKey) {
             $this.attr('disabled', 'disabled');
-            $this.html('Verifying.....');
+            $this.html(__('Verifying.....', 'embedpress'));
         }
         // var ajaxUrl = 'embedpress/license/activate'; // Replace with the actual URL
 
@@ -118,7 +120,7 @@
 
                 }
                 else {
-                    $this.html('Verified');
+                    $this.html(__('Verified', 'embedpress'));
                     activationMessage();
                 }
             },
@@ -135,7 +137,7 @@
 
 
         const licensesKey = $('#embedpress-pro-license-key').val();
-        $('#resend-license-verification-key').text('"Resending"');
+        $('#resend-license-verification-key').text(__('Resending', 'embedpress'));
 
         $.ajax({
             type: 'POST',
@@ -167,7 +169,7 @@
                     }, 2000);
                 }
 
-                $('#resend-license-verification-key').text('Resend');
+                $('#resend-license-verification-key').text(__('Resend', 'embedpress'));
 
             },
             error: function (xhr, status, error) {
@@ -189,7 +191,7 @@
 
         if (licensesKey) {
             $this.attr('disabled', 'disabled');
-            $this.html('Deactivating.....');
+            $this.html(__('Deactivating.....', 'embedpress'));
         }
         // var ajaxUrl = 'embedpress/license/activate'; // Replace with the actual URL
 
@@ -218,14 +220,19 @@
 
     function activationMessage() {
         var currentUrl = window.location.href;
-        var separator = currentUrl.includes('?') ? '&' : '?';
-        var newUrl = currentUrl + separator + 'success=true&message=License+has+been+activated';
+        var newUrl = addQueryArgs(currentUrl,  {
+            success: true,
+            message: __('License has been activated', 'embedpress')
+        });
         window.location.href = newUrl;
     }
     function deactivationMessage() {
         var currentUrl = window.location.href;
-        var separator = currentUrl.includes('?') ? '&' : '?';
-        var newUrl = currentUrl + separator + 'success=true&message=License+has+been+deactivated';
+        var newUrl = addQueryArgs(currentUrl,  {
+            success: true,
+            message: __('License has been deactivated', 'embedpress')
+        });
+        
         window.location.href = newUrl;
     }
 

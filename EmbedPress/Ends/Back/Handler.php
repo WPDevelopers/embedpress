@@ -152,15 +152,7 @@ class Handler extends EndHandlerAbstract
         wp_enqueue_script(
             'embedpress-admin',
             EMBEDPRESS_URL_ASSETS . 'js/admin.js',
-            ['jquery'],
-            $this->pluginVersion,
-            true
-        );
-
-        wp_enqueue_script(
-            'embedpress-admin',
-            EMBEDPRESS_URL_ASSETS . 'js/admin.js',
-            ['jquery'],
+            ['jquery', 'wp-i18n', 'wp-url'],
             $this->pluginVersion,
             true
         );
