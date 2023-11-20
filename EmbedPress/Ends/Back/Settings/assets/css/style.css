@@ -2553,6 +2553,10 @@ p.embedpress-tagline {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    gap: 15px;
+}
+.form-inner-field button {
+    height: 60px;
 }
 
 .form__inline .form__group {
@@ -2666,6 +2670,12 @@ div#resend-verification-key-message span {
     color: #5b4e96;
     text-decoration: underline;
     cursor: pointer;
+}
+div#resend-verification-key-message a {
+    font-weight: 600;
+}
+.form-inner-field .form__group {
+    margin-right: 0;
 }
 @media (max-width: 479px) {
     .logo__adjust__wrap .logo__upload {
@@ -3678,6 +3688,7 @@ div#resend-verification-key-message span {
     border: 1px solid #D7DEEE;
     border-radius: 8px;
     padding: 12px;
+    display: flex;
 }
 
 .embedpress__shortcode .shortcode__form .form__group {
