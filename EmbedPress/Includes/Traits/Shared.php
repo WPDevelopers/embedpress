@@ -141,7 +141,7 @@ trait Shared
             ]
         );
 
-        $b_message            = '<p style="margin-top: 0; margin-bottom: 10px;">Black Friday Sale: Save up to 40% now & <strong>embed from 150+</strong> sources with advanced features</p><a class="button button-primary" href="https://wpdeveloper.com/upgrade/embedpress-bfcm" target="_blank">Upgrade to pro</a> <button data-dismiss="true" class="dismiss-btn button button-link">I don’t want to save money</button>';
+        $b_message            = '<p style="margin-top: 0; margin-bottom: 10px;">Black Friday Sale: Save up to 40% now & <strong>embed from 150+</strong> sources with advanced features ⚡</p><a class="button button-primary" href="https://wpdeveloper.com/upgrade/embedpress-bfcm" target="_blank">Upgrade to pro</a> <button data-dismiss="true" class="dismiss-btn button button-link">I don’t want to save money</button>';
         $_black_friday_notice = [
             'thumbnail' => $_assets_url . 'images/full-logo.svg',
             'html'      => $b_message,
