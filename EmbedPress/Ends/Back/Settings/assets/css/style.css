@@ -2642,7 +2642,7 @@ span#email-placeholder {
     margin-bottom: 10px;
     border-radius: 5px;
 }
-div#invalid-license-key-message, #invalid-varification-key-message {
+div#invalid-license-key-message, #invalid-verification-key-message {
     padding: 10px;
     background: #f2f2f2;
     border-radius: 5px;
@@ -2651,15 +2651,20 @@ div#invalid-license-key-message, #invalid-varification-key-message {
 .short-description a {
     color: #5b4e96;
 }
-div#resend-varification-key-message {
+div#resend-verification-key-message {
     margin-top: 10px;
 }
-div#resend-varification-key-message a{
+div#resend-verification-key-message a{
     color: #5b4e96;
 }
 .show-toast{
     visibility: visible!important;
     opacity: 1!important;
+}
+div#resend-verification-key-message span {
+    font-weight: bold;
+    color: #5b4e96;
+    text-decoration: underline;
 }
 @media (max-width: 479px) {
     .logo__adjust__wrap .logo__upload {
