@@ -3331,6 +3331,10 @@ div#resend-verification-key-message a {
         padding-left: 35px;
         font-size: 14px;
     }
+    .form-inner-field button {
+        height: 60px;
+    }
+    
 }
 
 .embedpress-license__details .license__manage {
@@ -3633,7 +3637,7 @@ div#resend-verification-key-message a {
     }
 
     .embedpress-license__details .license__content .form__group .form__control {
-        height: 50px;
+        height: 60px;
         font-size: 14px;
     }
 
