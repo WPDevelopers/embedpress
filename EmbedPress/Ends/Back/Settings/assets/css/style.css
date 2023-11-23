@@ -2668,7 +2668,6 @@ div#resend-verification-key-message a{
 div#resend-verification-key-message span {
     font-weight: bold;
     color: #5b4e96;
-    text-decoration: underline;
     cursor: pointer;
 }
 div#resend-verification-key-message a {

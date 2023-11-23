@@ -96,7 +96,7 @@
   background: AccentColor;
 }
 
-/* Avoids https://github.com/mozilla/pdf.js/issues/13840 in Chrome */
+/* Avoids https://github.com/mozilla/script.js/issues/13840 in Chrome */
 .textLayer br::-moz-selection {
   background: transparent;
 }
