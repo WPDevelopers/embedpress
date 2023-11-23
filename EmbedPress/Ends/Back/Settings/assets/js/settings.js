@@ -322,23 +322,25 @@ jQuery(document).ready( function($){
 
 
     // license
-    $(document).on('click', '.embedpress-license-deactivation-btn', function (e) {
-        let $this = $(this);
-        setTimeout(function (){
-            $this.attr('disabled', 'disabled');
-        }, 2000);
-        $this.html('Deactivating.....');
-    });
-    $(document).on('click', '.embedpress-license-activation-btn', function (e) {
-        let $this = $(this);
-        let val = $('#embedpress-pro-license-key').val();
-        if (val){
-            setTimeout(function (){
-                $this.attr('disabled', 'disabled');
-            }, 2000);
-            $this.html('Activating.....');
-        }
-    });
+    // $(document).on('click', '.embedpress-license-deactivation-btn', function (e) {
+    //     let $this = $(this);
+    //     setTimeout(function (){
+    //         $this.attr('disabled', 'disabled');
+    //     }, 2000);
+    //     $this.html('Deactivating.....');
+    // });
+
+    // $(document).on('click', '.embedpress-license-activation-btn', function (e) {
+    //     let $this = $(this);
+    //     let val = $('#embedpress-pro-license-key').val();
+    //     if (val){
+    //         setTimeout(function (){
+    //             $this.attr('disabled', 'disabled');
+    //         }, 2000);
+    //         $this.html('Activating.....');
+    //     }
+    // });
+
     // Helpers
     function copyToClipboard(text) {
         if (window.clipboardData && window.clipboardData.setData) {
