@@ -158,6 +158,8 @@ function initPlayer(wrapper) {
 
     playerInit[playerId] = player;
 
+    
+
     // Mark the wrapper as initialized
     wrapper.classList.add('plyr-initialized');
   }

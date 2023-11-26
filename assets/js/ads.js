@@ -1,5 +1,7 @@
 const isPyr = document.querySelector('[data-playerid]')?.getAttribute('data-playerid');
 if (!isPyr) {
+    console.log('Player');
+    let v = 'akashi';
     var scriptUrl = 'https:\/\/www.youtube.com\/s\/player\/9d15588c\/www-widgetapi.vflset\/www-widgetapi.js'; try { var ttPolicy = window.trustedTypes.createPolicy("youtube-widget-api", { createScriptURL: function (x) { return x } }); scriptUrl = ttPolicy.createScriptURL(scriptUrl) } catch (e) { } var YT; if (!window["YT"]) YT = { loading: 0, loaded: 0 }; var YTConfig; if (!window["YTConfig"]) YTConfig = { "host": "https://www.youtube.com" };
     if (!YT.loading) {
         YT.loading = 1; (function () {
@@ -10,6 +12,9 @@ if (!isPyr) {
         })()
     };
 }
+
+
+
 
 let adsConainers = document.querySelectorAll('[data-ad-id]');
 let container = document.querySelector('[data-ad-id]');
@@ -30,7 +35,7 @@ const getYTVideoId = (url) => {
 
     if (match && match[1]) {
         return match[1];
-    } 
+    }
     return false;
 }
 
@@ -57,10 +62,9 @@ const adInitialization = (adContainer, index) => {
     const progressBar = adContainer.querySelector('.progress-bar');
     const skipButton = adContainer.querySelector('.skip-ad-button');
     const adRunningTime = adContainer.querySelector('.ad-running-time');
-
+    var playerId;
     const adMask = adContainer;
 
-    const playerId = adContainer.querySelector('[data-playerid]')?.getAttribute('data-playerid');
 
     let playbackInitiated = false;
 
@@ -69,34 +73,38 @@ const adInitialization = (adContainer, index) => {
     }
 
     adMask?.addEventListener('click', function () {
+        console.log(playerInit);
+        if (adContainer.classList.contains('ad-mask')) {
+            playerId = adContainer.querySelector('[data-playerid]')?.getAttribute('data-playerid');
 
-        adContainer.classList.remove('ad-mask');
+            if (playerInit.length > 0) {
+                console.log(playerInit);
+                playerInit[playerId]?.play();
+            }
 
-        // console.log(playerInit.length)
+            if (getYTVideoId(srcUrl)) {
+                console.log(index);
+                player[index]?.playVideo();
+            }
 
-        if (playerInit.length > 0) {
-            playerInit[playerId]?.play();
+            if (!playbackInitiated) {
+                setTimeout(() => {
+                    if (adSource !== 'image') {
+                        adContainer.querySelector('.ep-embed-content-wraper').classList.add('hidden');
+                    }
+                    adTemplate?.classList.add('ad-running');
+                    if (adVideo && adSource === 'video') {
+                        adVideo.muted = false;
+                        adVideo.play();
+                    }
+                }, adStartAfter);
+
+                playbackInitiated = true;
+            }
+
+            adContainer.classList.remove('ad-mask');
         }
 
-        if (getYTVideoId(srcUrl)) {
-            console.log(index);
-            player[index]?.playVideo();
-        }
-
-        if (!playbackInitiated) {
-            setTimeout(() => {
-                if (adSource !== 'image') {
-                    adContainer.querySelector('.ep-embed-content-wraper').classList.add('hidden');
-                }
-                adTemplate?.classList.add('ad-running');
-                if (adVideo && adSource === 'video') {
-                    adVideo.muted = false;
-                    adVideo.play();
-                }
-            }, adStartAfter);
-
-            playbackInitiated = true;
-        }
     });
 
     adVideo?.addEventListener('timeupdate', () => {
@@ -197,7 +205,8 @@ function onPlayerReady(event, adVideo) {
 
 window.onload = function () {
     let yVideos = setInterval(() => {
-        var youtubeVideos = document.querySelectorAll('.ad-youtube-video');
+        var youtubeVideos = document.querySelectorAll('.ose-youtube');
+        console.log(youtubeVideos);
         if (youtubeVideos.length > 0) {
             clearInterval(yVideos);
 
@@ -214,10 +223,10 @@ window.onload = function () {
 if (adsConainers.length > 0) {
     let ytIndex = 0;
     adsConainers.forEach((adContainer, epAdIndex) => {
-        
+
         adContainer.setAttribute('data-ad-index', epAdIndex);
         adInitialization(adContainer, ytIndex);
-        if(getYTVideoId(adContainer.querySelector('iframe')?.getAttribute('src'))){
+        if (getYTVideoId(adContainer.querySelector('iframe')?.getAttribute('src'))) {
             ytIndex++;
         }
     });
