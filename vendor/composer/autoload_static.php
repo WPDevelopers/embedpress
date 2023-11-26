@@ -244,7 +244,9 @@ class ComposerStaticInit892912675c615e61d62bcd5adc416c51
         'PriyoMukul\\WPNotice\\Notice' => __DIR__ . '/..' . '/priyomukul/wp-notice/src/Notice.php',
         'PriyoMukul\\WPNotice\\Notices' => __DIR__ . '/..' . '/priyomukul/wp-notice/src/Notices.php',
         'PriyoMukul\\WPNotice\\Utils\\Base' => __DIR__ . '/..' . '/priyomukul/wp-notice/src/Utils/Base.php',
+        'PriyoMukul\\WPNotice\\Utils\\CacheBank' => __DIR__ . '/..' . '/priyomukul/wp-notice/src/Utils/CacheBank.php',
         'PriyoMukul\\WPNotice\\Utils\\Helper' => __DIR__ . '/..' . '/priyomukul/wp-notice/src/Utils/Helper.php',
+        'PriyoMukul\\WPNotice\\Utils\\NoticeRemover' => __DIR__ . '/..' . '/priyomukul/wp-notice/src/Utils/NoticeRemover.php',
         'PriyoMukul\\WPNotice\\Utils\\Storage' => __DIR__ . '/..' . '/priyomukul/wp-notice/src/Utils/Storage.php',
     );
 
