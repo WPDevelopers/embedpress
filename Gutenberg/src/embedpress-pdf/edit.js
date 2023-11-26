@@ -340,7 +340,7 @@ class EmbedPressPDFEdit extends Component {
 
 						</div>
 						{
-							(adSource === 'image') && adFileUrl && (
+							adManager && (adSource === 'image') && adFileUrl && (
 								<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon={false} progressBar={false} inEditor={true} />
 							)
 						}

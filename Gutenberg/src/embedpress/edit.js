@@ -81,7 +81,6 @@ export default function EmbedPress(props) {
 	const _isSelfHostedVideo = isSelfHostedVideo(url);
 	const _isSelfHostedAudio = isSelfHostedAudio(url);
 
-	console.log({ adFileUrl, adSource });
 
 	if (clientId == null || clientId == undefined) {
 		setAttributes({ clientId: props.clientId });
@@ -379,7 +378,7 @@ export default function EmbedPress(props) {
 					</EmbedWrap>
 
 					{
-						(adSource === 'image') && adFileUrl && (
+						adManager && (adSource === 'image') && adFileUrl && (
 							<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon={false} progressBar={false} inEditor={true} />
 						)
 					}

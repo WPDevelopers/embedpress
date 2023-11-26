@@ -780,6 +780,7 @@ class Helper
 				$adYPosition = isset($attributes['adYPosition']) ? $attributes['adYPosition'] : '';
 				$adWidth = isset($attributes['adWidth']) ? $attributes['adWidth'] : '';
 				$adHeight = isset($attributes['adHeight']) ? $attributes['adHeight'] : '';
+				$adSkipButton = isset($attributes['adSkipButton']) ? $attributes['adSkipButton'] : false;
 
 				$currentTime = 0;
 				$showSkipButton = false;
@@ -829,7 +830,7 @@ class Helper
 					<?php endif; ?>
 
 
-					<?php if ($showSkipButton) : ?>
+					<?php if (!empty($adSkipButton) && !empty($showSkipButton)) : ?>
 						<button title="Skip Ad" class="skip-ad-button" style="display: none;">
 							<?php echo esc_html__('Skip Ad', 'embedpress'); ?>
 						</button>
@@ -886,7 +887,6 @@ class Helper
 				bottom: 75px;
 				left: 50%;
 				height: auto;
-				max-width: 80%;
 			}
 
 			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template.image.ad-running {

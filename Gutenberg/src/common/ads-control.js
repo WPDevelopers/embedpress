@@ -184,7 +184,7 @@ export default function AdControl({ attributes, setAttributes }) {
                         />
 
                         {
-                            adSkipButton && (
+                            adSkipButton && (adSource !== 'image') && (
 
                                 <TextControl
                                     label={__("Skip Button After (sec)")}

@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 const AdTemplate = ({ attributes, setAttributes, deleteIcon, inEditor, progressBar }) => {
-    const { adSource, adContent, adFileUrl } = attributes;
+    const { adSource, adContent, adFileUrl, adSkipButton } = attributes;
     const [showSkipButton, setShowSkipButton] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const videoRef = useRef(null);
+
+
 
     const { adWidth, adHeight } = attributes;
 
@@ -57,8 +59,12 @@ const AdTemplate = ({ attributes, setAttributes, deleteIcon, inEditor, progressB
         height: adHeight + 'px',
     };
 
+    let isMuted = false;
+
     if(!inEditor){
         size = {};
+        isMuted = true;
+
     }
 
     return (
@@ -74,7 +80,7 @@ const AdTemplate = ({ attributes, setAttributes, deleteIcon, inEditor, progressB
                     }
                     {adSource === 'video' ? (
                         <div>
-                            <video ref={videoRef} className="ep-ad" autoPlay>
+                            <video ref={videoRef} className="ep-ad" autoPlay muted={isMuted}>
                                 <source src={adFileUrl} />
                                 Your browser does not support the video tag.
                             </video>
@@ -104,7 +110,7 @@ const AdTemplate = ({ attributes, setAttributes, deleteIcon, inEditor, progressB
                     }
 
 
-                    {showSkipButton && (
+                    {adSkipButton && showSkipButton && (
                         <button title="Skip Ad" className="skip-ad-button" onClick={handleSkipAd}>
                             Skip Ad
                         </button>
