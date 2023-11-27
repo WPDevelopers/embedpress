@@ -39,6 +39,17 @@ const getYTVideoId = (url) => {
     return false;
 }
 
+const hashParentClass = (element, className) => {
+    var parent = element.parentNode;
+
+    while (parent && !parent.classList?.contains(className)) {
+        parent = parent.parentNode;
+    }
+
+    return !!parent;
+}
+
+
 
 const adInitialization = (adContainer, index) => {
 
@@ -72,8 +83,17 @@ const adInitialization = (adContainer, index) => {
         skipButton.style.display = 'inline-block';
     }
 
+    const hashClass = hashParentClass(adContainer, 'ep-content-protection-enabled');
+
+    console.log(hashClass);
+
+    if (hashClass) {
+        adContainer.classList.remove('ad-mask');
+    }
+
     adMask?.addEventListener('click', function () {
         console.log(playerInit);
+
         if (adContainer.classList.contains('ad-mask')) {
             playerId = adContainer.querySelector('[data-playerid]')?.getAttribute('data-playerid');
 

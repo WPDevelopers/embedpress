@@ -853,7 +853,6 @@ class Helper
 				left: 0;
 				right: 0;
 				bottom: 0;
-				cursor: pointer;
 			}
 
 			.ep-embed-content-wraper {
