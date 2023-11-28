@@ -3,6 +3,7 @@ $icon_src = EMBEDPRESS_SETTINGS_ASSETS_URL . "img/sources/icons";
 
 
 $sources = [
+    ["name" => "Instagram", "icon" => $icon_src . "/instagram.png", "type" => "social", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=instagram", "doc_url" => "https://embedpress.com/docs/embed-instagram-wordpress/"],
     ["name" => "YouTube", "icon" => $icon_src . "/youtube.png", "type" => "video", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=youtube", "doc_url" => "https://embedpress.com/docs/embed-youtube-wordpress/"],
     ["name" => "YouTube Live", "icon" => $icon_src . "/youtubelive.png", "type" => "stream", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=youtube", "doc_url" => "https://embedpress.com/docs/embed-youtube-wordpress/"],
     ["name" => "Vimeo", "icon" => $icon_src . "/vimeo.png", "type" => "video", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=vimeo", "doc_url" => "https://embedpress.com/docs/embed-vimeo-videos-wordpress/"],
@@ -23,7 +24,6 @@ $sources = [
     ["name" => "Google Sheets", "icon" => $icon_src . "/google-sheets.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-sheets-wordpress/"],
     ["name" => "X", "icon" => $icon_src . "/x.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-twitter-tweets-wordpress/"],
     ["name" => "Facebook", "icon" => $icon_src . "/facebook.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-facebook-posts-wordpress/"],
-    ["name" => "Instagram", "icon" => $icon_src . "/instagram.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-instagram-wordpress/"],
     ["name" => "Github", "icon" => $icon_src . "/github.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-github-gist-snippets-wordpress/"],
     ["name" => "Tumblr", "icon" => $icon_src . "/tumblr.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-tumblr-wordpress/"],
     ["name" => "WordPress.tv", "icon" => $icon_src . "/wordpress-tv.png", "type" => "video",  "doc_url" => "https://embedpress.com/docs/embed-wordpress-tv-videos-wordpress/"],
