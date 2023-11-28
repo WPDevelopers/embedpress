@@ -139,6 +139,7 @@ export const dynamicStyles = ({ attributes }) => {
                         width: ${width}px!important;
                     }
                     
+                    
                 `}
                     </style>
                 )

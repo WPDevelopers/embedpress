@@ -303,7 +303,9 @@ function embedpress_render_block_style($attributes)
 			height: ' . esc_attr($attributes['height']) . 'px !important;
 			max-height: ' . esc_attr($attributes['height']) . 'px !important;
 			width: 100%;
+			position: relative !important;
 		}
+		
 
 		' . esc_attr($uniqid) . ' .wistia_embed {
 			max-width: 100%;
@@ -323,6 +325,8 @@ function embedpress_render_block_style($attributes)
 		}
 		'.$_iscustomlogo.'
 		'.$playerStyle.'
+
+		
 
 	</style>';
 
