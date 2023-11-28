@@ -4050,10 +4050,10 @@ table.emebedpress th {
 }
 
 /* Styles for the account-section */
-.account-wrap {
+/* .account-wrap {
     max-width: 1200px;
     margin: 0 auto;
-}
+} */
 
 .user-image {
     display: flex;
@@ -4150,13 +4150,6 @@ table.emebedpress th {
 /* Optional: To make the buttons the same width */
 .custom-dialog button {
     width: 80px;
-}
-
-.embedpress-body .embedpress-sidebar {
-    display: inline-flex;
-    min-width: 50px;
-    margin-right: 0;
-    align-items: center;
 }
 
 .premium-button {
