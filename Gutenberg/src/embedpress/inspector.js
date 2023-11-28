@@ -9,6 +9,7 @@ import Vimeo from './InspectorControl/vimeo';
 import SlefHosted from './InspectorControl/selfhosted';
 import { EPIcon, InfoIcon } from '../common/icons';
 import Instafeed from './InspectorControl/instafeed';
+import Calendly from './InspectorControl/calendly';
 
 /**
  * WordPress dependencies
@@ -30,7 +31,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio }) {
+export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly }) {
 
     const {
         url,
@@ -78,6 +79,10 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
     if (isSelfHostedAudio) {
         setAttributes({ height: '48' });
+    }
+
+    if(isCalendly && width === '600' && height === '450'){
+        setAttributes({ height: '950' });
     }
 
     return (
@@ -172,7 +177,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                 </div>
 
                                 {
-                                    !isYTLive && (
+                                    !isYTLive && !isYTShorts && (
                                         <Youtube attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} />
                                     )
                                 }
@@ -229,8 +234,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                             <Instafeed attributes={attributes} setAttributes={setAttributes} />
 
-
-                            <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} />
+                            <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} isYTShorts={isYTShorts} />
                             <Youtube attributes={attributes} setAttributes={setAttributes} />
 
                             <SlefHosted attributes={attributes} setAttributes={setAttributes} />
@@ -238,6 +242,8 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />
                             <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />
+
+                            <Calendly attributes={attributes} setAttributes={setAttributes} isCalendly={isCalendly} />
 
                             <LockControl attributes={attributes} setAttributes={setAttributes} />
                             <ContentShare attributes={attributes} setAttributes={setAttributes} />

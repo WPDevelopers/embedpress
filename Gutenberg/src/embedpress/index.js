@@ -12,6 +12,8 @@ import edit from './edit';
 import { embedPressIcon } from '../common/icons';
 import { init as instafeedInit } from './InspectorControl/instafeed';
 import { init as openseaInit } from './InspectorControl/opensea';
+import { init as calendlyInit } from './InspectorControl/calendly';
+import { init as youtubeInit } from './InspectorControl/youtube';
 import { init as wistiaInit } from './InspectorControl/wistia';
 import { init as vimeoInit } from './InspectorControl/vimeo';
 
@@ -783,6 +785,51 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: false
 			},
 
+			// Calendly attributes
+			cEmbedType: {
+				type: 'string',
+				default: 'inline'
+			},
+			calendlyData: {
+				type: 'boolean',
+				default: false
+			},
+			hideCookieBanner: {
+				type: 'boolean',
+				default: false
+			},
+			hideEventTypeDetails: {
+				type: 'boolean',
+				default: false
+			},
+			cBackgroundColor: {
+				type: 'string',
+				default: 'ffffff'
+			},
+			cTextColor: {
+				type: 'string',
+				default: '1A1A1A'
+			},
+			cButtonLinkColor: {
+				type: 'string',
+				default: '0000FF'
+			},
+			cPopupButtonText: {
+				type: 'string',
+				default: 'Schedule time with me'
+			},
+			cPopupButtonBGColor: {
+				type: 'string',
+				default: '0000FF'
+			},
+			cPopupButtonTextColor: {
+				type: 'string',
+				default: 'FFFFFF'
+			},
+			cPopupLinkText: {
+				type: 'string',
+				default: 'Schedule time with me'
+			},
 
 			//Custom logo atributes
 			customlogo: {
@@ -828,7 +875,9 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 	});
 
 	instafeedInit();
+	youtubeInit();
 	openseaInit();
 	wistiaInit();
 	vimeoInit();
+	calendlyInit();
 }

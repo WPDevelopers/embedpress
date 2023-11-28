@@ -3,17 +3,17 @@
 @font-face {
     font-family: 'DMSans-Regular';
     src: url('./fonts/DMSans-Regular.svg#DMSans-Regular') format('svg'),
-         url('./fonts/DMSans-Regular.ttf') format('truetype'),
-         url('./fonts/DMSans-Regular.woff') format('woff');
+        url('./fonts/DMSans-Regular.ttf') format('truetype'),
+        url('./fonts/DMSans-Regular.woff') format('woff');
     font-weight: normal;
     font-style: normal;
-  }
-  
-  @font-face {
+}
+
+@font-face {
     font-family: 'DMSans';
     src: url('./fonts/DMSans.eot');
     src: url('./fonts/DMSans.eot?#iefix') format('embedded-opentype'),
-         url('./fonts/DMSans.woff2') format('woff2');
+        url('./fonts/DMSans.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
@@ -26,6 +26,8 @@
     --base-spacer-x: 16px;
     --base-spacer-y: 16px;
     --b-radius-6: 25px;
+    --calendly-event-color: #3664ae;
+    --pro-upgrade-margin-bottom: 20px;
 }
 
 @media (max-width: 1600px) {
@@ -220,6 +222,14 @@
     margin: 40px;
 }
 
+.p-24 {
+    padding: 24px;
+}
+
+.p-32 {
+    padding: 32px;
+}
+
 .p40 {
     padding: 40px;
 }
@@ -270,6 +280,10 @@
 
 .pt30 {
     padding-top: 30px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
 }
 
 .mb30 {
@@ -1387,20 +1401,31 @@ button.button__instagram.hover__highlight:hover .icon {
     color: #e1306c;
 }
 
+.template__wrapper .button.button-pro-upgrade {
+    font-weight: 700;
+    color: #fff;
+    background-color: #FF7369;
+    border-color: #FF7369;
+}
+
 .template__wrapper .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     text-align: center;
     padding: 16px 30px;
     line-height: 1;
-    color: #5B4E96;
+    color: #594E91;
     background: rgba(91, 78, 150, 0.1);
     border: 1px solid rgba(91, 78, 150, 0.1);
     font-size: 16px;
     font-weight: 500;
-    /* font-family: "DM Sans", sans-serif; */
     font-family: 'DMSans';
     cursor: pointer;
     -webkit-transition: all 0.3s ease-in-out 0s;
     transition: all 0.3s ease-in-out 0s;
+    border-radius: 8px;
 }
 
 @media (max-width: 767px) {
@@ -1410,9 +1435,9 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 .template__wrapper .button:hover {
-    background: #5B4E96;
-    color: #ffffff;
-    border-color: #5B4E96;
+    background: #5B4E96 !important;
+    color: #ffffff !important;
+    border-color: #5B4E96 !important;
 }
 
 .template__wrapper .button:focus {
@@ -1420,17 +1445,8 @@ button.button__instagram.hover__highlight:hover .icon {
     -webkit-box-shadow: none;
     box-shadow: none;
     border-color: #5B4E96;
-}
-
-.template__wrapper .button.button__white {
-    background: #ffffff;
-    color: #5B4E96;
-    border-color: transparent;
-}
-
-.template__wrapper .button.button__white:hover {
-    color: #5B4E96;
-    background: #f2f2f2;
+    background-color: #5B4E96;
+    color: #ffffff;
 }
 
 .template__wrapper .button .ss-icon {
@@ -1468,8 +1484,16 @@ button.button__instagram.hover__highlight:hover .icon {
     border-radius: 12px;
 }
 
+.template__wrapper .radius-16 {
+    border-radius: 16px;
+}
+
 .template__wrapper .radius-20 {
     border-radius: 20px;
+}
+
+.template__wrapper .radius-24 {
+    border-radius: 24px;
 }
 
 .template__wrapper .radius-25 {
@@ -1481,7 +1505,7 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 .template__wrapper {
-    overflow: hidden;
+    /* overflow: hidden; */
     min-height: 100vh;
     -webkit-display: flex;
     -moz-display: flex;
@@ -1533,21 +1557,26 @@ button.button__instagram.hover__highlight:hover .icon {
     }
 }
 
+/* 
+.embedpress-body .embedpress-sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.embedpress-body .embedpress-sidebar-wrapper .sticky-sibling {
+    flex-grow: 1;
+} */
+
 .embedpress-body .embedpress-sidebar {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 220px;
     flex: 0 0 220px;
     min-width: 220px;
-    margin-right: 30px;
-}
-
-@media (max-width: 991px) {
-    .embedpress-body .embedpress-sidebar {
-        display: inline-block;
-        width: 50px;
-        min-width: 50px;
-        margin-right: 0;
-    }
+    margin-right: 24px;
+    position: sticky;
+    top: 40px;
+    max-width: 220px;
+    overflow: unset;
 }
 
 .embedpress-body .embedpress-content {
@@ -1559,36 +1588,36 @@ button.button__instagram.hover__highlight:hover .icon {
 .embedpress__row {
     display: -ms-grid;
     display: grid;
-    gap: 30px;
+    gap: 20px;
 }
 
 .embedpress__row.grid__3 {
-    -ms-grid-columns: (1fr)[3];
+    -ms-grid-columns: 1fr 1fr 1fr;
     grid-template-columns: repeat(3, 1fr);
 }
 
 @media (max-width: 1199px) {
     .embedpress__row.grid__3 {
-        -ms-grid-columns: (1fr)[2];
+        -ms-grid-columns: 1fr 1fr;
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 575px) {
     .embedpress__row.grid__3 {
-        -ms-grid-columns: (1fr)[1];
+        -ms-grid-columns: 1fr;
         grid-template-columns: repeat(1, 1fr);
     }
 }
 
 .embedpress__row.grid__4 {
-    -ms-grid-columns: (1fr)[4];
+    -ms-grid-columns: 1fr 1fr 1fr 1fr;
     grid-template-columns: repeat(4, 1fr);
 }
 
 @media (max-width: 1199px) {
     .embedpress__row.grid__4 {
-        -ms-grid-columns: (1fr)[3];
+        -ms-grid-columns: 1fr 1fr 1fr;
         grid-template-columns: repeat(3, 1fr);
     }
 }
@@ -1633,23 +1662,60 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 .embedpress-header {
-    padding-bottom: 25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    column-gap: 15px;
+    row-gap: 10px;
+    background: #fff;
+    padding: 15px 15px;
+    margin-bottom: 15px;
+    border-radius: 16px;
+}
+
+
+@media all and (max-width: 767px) {
+    .embedpress-header {
+        flex-direction: column;
+        align-items: baseline;
+
+    }
+}
+
+header.embedpress-header img {
+    width: 150px;
+    min-width: 150px;
+}
+
+header.embedpress-header p {
+    font-size: 16px;
+    color: #25396F;
+    line-height: 1.1;
+    text-align: center;
+}
+
+header.embedpress-header a {
+    color: #FF7369 !important;
+}
+
+a.site__logo {
+    display: inline-flex;
 }
 
 .embedpress-sidebar {
     padding: 10px;
     background: #ffffff;
-    border-radius: 25px;
+    border-radius: 16px;
     position: relative;
 }
+
 .embedpress-version-wrapper li {
-        font-size: 14px;
-        font-weight: 800;
-        color: #7C8DB5;
-        text-align: right;
+    font-size: 14px;
+    font-weight: 600;
+    color: #7C8DB5;
+    text-align: right;
+    line-height: 1.2;
+    white-space: nowrap;
 }
 
 @media all and (max-width: 767px) {
@@ -1663,9 +1729,11 @@ button.button__instagram.hover__highlight:hover .icon {
     .embedpress-header {
         display: block;
     }
+
     .embedpress-header .embedpress-version-wrapper {
         margin-top: 10px;
     }
+
     .embedpress-version-wrapper li {
         text-align: left;
     }
@@ -1728,12 +1796,12 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 .embedpress-sidebar .sidebar__menu .sidebar__item .sidebar__link {
-    padding: 12px 20px;
+    padding: 10px 20px;
     width: 100%;
     font-size: 16px;
     font-weight: 500;
     color: #25396F;
-    border-radius: 15px;
+    border-radius: 8px;
     position: relative;
 }
 
@@ -1748,7 +1816,7 @@ button.button__instagram.hover__highlight:hover .icon {
     transition: rotate .3s ease;
 }
 
-.embedpress-sidebar .sidebar__menu .sidebar__item .sidebar__link.active + .dropdown__menu {
+.embedpress-sidebar .sidebar__menu .sidebar__item .sidebar__link.active+.dropdown__menu {
     display: block;
 }
 
@@ -1776,6 +1844,7 @@ button.button__instagram.hover__highlight:hover .icon {
     color: #7C8DB5;
     display: flex;
 }
+
 .embedpress-sidebar .sidebar__menu .sidebar__item .dropdown__menu .dropdown__item .dropdown__link img {
     max-width: 16px;
     margin-right: 7px;
@@ -1817,12 +1886,15 @@ button.button__instagram.hover__highlight:hover .icon {
     .embedpress-tab .nav__menu ul:not(.menu__grow) {
         display: block;
     }
+
     .embedpress-tab .nav__menu ul:not(.menu__grow) .nav__item:not(:last-child) {
         margin-right: 0;
     }
+
     .embedpress-tab .nav__menu ul:not(.menu__grow) .nav__item:first-child span {
         border-top-right-radius: 10px;
     }
+
     .embedpress-tab .nav__menu ul:not(.menu__grow) .nav__item:last-child span {
         border-top-right-radius: 0;
     }
@@ -1904,15 +1976,17 @@ button.button__instagram.hover__highlight:hover .icon {
     min-height: 100%;
 }
 
-.upgrade__card + .embedpress__settings {
+.upgrade__card+.embedpress__settings {
     min-height: auto;
 }
 
 .embedpress__settings h3 {
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 700;
     color: #131F4D;
-    margin-bottom: 25px;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #F5F7FC;
 }
 
 @media (max-width: 767px) {
@@ -2015,7 +2089,7 @@ button.button__instagram.hover__highlight:hover .icon {
     display: none;
 }
 
-.input__radio input:checked ~ span:after {
+.input__radio input:checked~span:after {
     opacity: 1;
 }
 
@@ -2055,11 +2129,11 @@ button.button__instagram.hover__highlight:hover .icon {
     display: none;
 }
 
-.template__wrapper .input__switch input:checked ~ span {
+.template__wrapper .input__switch input:checked~span {
     background: #5B4E96;
 }
 
-.template__wrapper .input__switch input:checked ~ span:before {
+.template__wrapper .input__switch input:checked~span:before {
     left: 15px;
 }
 
@@ -2165,6 +2239,7 @@ button.button__instagram.hover__highlight:hover .icon {
         font-weight: 700;
         margin-right: 15px;
     }
+
     .iframe__size__control__form .form__group label:after {
         content: ':';
     }
@@ -2222,12 +2297,6 @@ button.button__instagram.hover__highlight:hover .icon {
     align-items: flex-start;
 }
 
-@media (max-width: 767px) {
-    .embedpress__settings__form .form__group {
-        display: block;
-    }
-}
-
 .embedpress__settings__form .form__group .form__label {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 410px;
@@ -2256,7 +2325,7 @@ button.button__instagram.hover__highlight:hover .icon {
     }
 }
 
-@media (min-width: 991px) and (max-width: 1199px) {
+@media (max-width: 1199px) {
     .embedpress__settings__form .form__group .form__label {
         -webkit-box-flex: 0;
         -ms-flex: 0 0 250px;
@@ -2269,6 +2338,7 @@ button.button__instagram.hover__highlight:hover .icon {
         margin-bottom: 10px;
         font-weight: 700;
     }
+
     .embedpress__settings__form .form__group .form__label:after {
         content: ':';
     }
@@ -2321,11 +2391,145 @@ button.button__instagram.hover__highlight:hover .icon {
     color: #7C8DB5;
     margin-top: 10px;
 }
+
 .embedpress__settings__form .form__group .form__control__wrap p.ep-note {
     font-size: 12px;
 }
+
 .embedpress__settings__form .form__group .form__control__wrap .isPro:not(.embedpress__select) {
     opacity: 0.3;
+}
+
+.embedpress-genral-settings-page {
+    display: flex;
+}
+
+.embedpress_general_settings__form:not(:last-child), .embedpress__shortcode {
+    margin-right: 24px;
+    width: calc(100% - 300px);
+}
+
+.embedpress_general_settings__form:last-child {
+    width: 100%;
+}
+
+.embedpress-upgrade-pro-sidebar {
+    width: 300px;
+    border-radius: 16px;
+    background: linear-gradient(192deg, #FFE3E1 4%, #E9E4FF 98.26%);
+    padding: 8px;
+    margin-top: -70px;
+}
+
+.shortcode-settings-wrapper {
+    display: flex;
+
+}
+
+
+@media (min-width: 992px) and (max-width: 1199px) {
+    .embedpress_general_settings__form:not(:last-child), .embedpress__shortcode {
+        width: 100%;
+        margin-right: 0;
+    }
+
+}
+
+@media (max-width:1024px) {
+    .shortcode-settings-wrapper, .embedpress_general_settings__form:not(:last-child), .embedpress__shortcode {
+        width: 100%;
+        display: block;
+    }
+
+    .embedpress-upgrade-pro-sidebar {
+        display: none;
+    }
+
+}
+
+@media (max-width: 767px) {
+    .embedpress_general_settings__form:not(:last-child) {
+        width: 100%;
+        margin-right: 0;
+    }
+
+}
+
+.embedpress-upgrade-pro-sidebar .gradient-color {
+    border-radius: 12px;
+    background: white;
+    padding: 15px;
+
+
+}
+
+.embedpress-upgrade-pro-sidebar img.embedpress-banner {
+    margin-bottom: var(--pro-upgrade-margin-bottom);
+    width: 100%;
+}
+
+.embedpress-upgrade-pro-sidebar h3 {
+    color: #25396F;
+    font-family: DMSans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    margin-bottom: var(--pro-upgrade-margin-bottom);
+}
+
+.embedpress-upgrade-pro-sidebar h3 span {
+    color: #FF7369;
+}
+
+ul.feature-list {
+    margin-bottom: var(--pro-upgrade-margin-bottom);
+}
+
+ul.feature-list li {
+    display: flex;
+    align-items: start;
+    gap: 5px;
+    margin-bottom: 6px;
+    color: #25396fde;
+    font-family: DMSans;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 18px;
+}
+
+ul.feature-list img {
+    margin-top: 0px;
+    width: 18px;
+    height: 20px;
+}
+
+p.embedpress-tagline {
+    color: #707070;
+    font-family: DMSans;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+    text-align: center;
+    margin-bottom: var(--pro-upgrade-margin-bottom);
+}
+
+.pro-upgrade-button {
+    border-radius: 8px;
+    background: #FF7369;
+    padding: 16px 20px;
+    color: #fff !important;
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+    line-height: 120%;
+    width: 100%;
+    display: flex !important;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
 }
 
 .frame__size__wrap {
@@ -2333,20 +2537,27 @@ button.button__instagram.hover__highlight:hover .icon {
     display: -ms-flexbox;
     display: flex;
 }
+
 .template__wrapper .button.ep-settings-form-changed {
     background: #f11d1d;
-    color:#fff;
+    color: #fff;
 }
+
 @media (max-width: 1199px) {
     .frame__size__wrap {
         display: block;
     }
 }
 
-.form__inline {
+.form__inline .form-inner-field {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    gap: 15px;
+}
+
+.form-inner-field button {
+    height: 60px;
 }
 
 .form__inline .form__group {
@@ -2372,6 +2583,7 @@ button.button__instagram.hover__highlight:hover .icon {
     visibility: hidden;
     transition: all .3s ease;
 }
+
 .form__control__wrap .input__switch .logo__adjust__toggler i {
     font-size: 10px;
     margin-left: 8px;
@@ -2381,11 +2593,12 @@ button.button__instagram.hover__highlight:hover .icon {
     transition: all .3s ease;
     transform: rotate(0);
 }
+
 .form__control__wrap .input__switch .logo__adjust__toggler.show i {
     transform: rotate(-180deg);
 }
 
-.form__control__wrap .input__switch input[type="checkbox"]:checked ~ .logo__adjust__toggler {
+.form__control__wrap .input__switch input[type="checkbox"]:checked~.logo__adjust__toggler {
     opacity: 1;
     visibility: visible;
 }
@@ -2408,6 +2621,69 @@ button.button__instagram.hover__highlight:hover .icon {
     position: relative;
     margin-bottom: 0;
     height: 172px;
+}
+
+#valid-license-key-message {
+    font-weight: 500;
+}
+
+div#valid-license-key-message {
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+span#email-placeholder {
+    font-weight: 700;
+}
+
+.form__inline .hidden, #otp-varify-form.hidden {
+    display: none !important;
+}
+
+.short-description {
+    margin-top: 10px;
+    padding: 10px 15px;
+    background: #f2f2f2;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+div#invalid-license-key-message, #invalid-verification-key-message {
+    padding: 10px;
+    background: #f2f2f2;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.short-description a {
+    color: #5b4e96;
+}
+
+div#resend-verification-key-message {
+    margin-top: 10px;
+}
+
+div#resend-verification-key-message a {
+    color: #5b4e96;
+}
+
+.show-toast {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+div#resend-verification-key-message span {
+    font-weight: bold;
+    color: #5b4e96;
+    cursor: pointer;
+}
+
+div#resend-verification-key-message a {
+    font-weight: 600;
+}
+
+.form-inner-field .form__group {
+    margin-right: 0;
 }
 
 @media (max-width: 479px) {
@@ -2449,6 +2725,7 @@ button.button__instagram.hover__highlight:hover .icon {
     transform: translate(-50%, -50%);
     font-size: 0;
 }
+
 .logo__adjust__wrap .logo__upload__preview .instant__preview .preview__remove {
     position: absolute;
     bottom: 100%;
@@ -2461,6 +2738,7 @@ button.button__instagram.hover__highlight:hover .icon {
     line-height: 22px;
     border-radius: 50%;
 }
+
 .logo__adjust__wrap .logo__adjust {
     margin-top: 20px;
     display: -webkit-box;
@@ -2572,7 +2850,7 @@ button.button__instagram.hover__highlight:hover .icon {
 .logo__adjust__wrap .logo__adjust .logo__adjust__preview .preview__box iframe {
     width: 100%;
     height: 100%;
-    min-height:300px;
+    min-height: 300px;
 }
 
 .logo__adjust__wrap .logo__adjust .logo__adjust__preview .preview__box img {
@@ -2592,6 +2870,7 @@ button.button__instagram.hover__highlight:hover .icon {
     z-index: 99999;
     display: none;
 }
+
 .pro__alert__wrap .pro__alert__card, .tips__alert__wrap .tips__alert__card {
     width: calc(100% - 30px);
     max-width: 500px;
@@ -2604,27 +2883,32 @@ button.button__instagram.hover__highlight:hover .icon {
     align-items: center;
     text-align: center;
 }
+
 .pro__alert__wrap .pro__alert__card img, .tips__alert__wrap .tips__alert__card img {
     height: 100px;
     margin-bottom: 20px;
 }
+
 .pro__alert__wrap .pro__alert__card h2, .tips__alert__wrap .tips__alert__card h2 {
     font-size: 32px;
     font-weight: 500;
     color: #131F4D;
     margin-bottom: 15px;
 }
+
 .pro__alert__wrap .pro__alert__card p, .tips__alert__wrap .tips__alert__card p {
     font-size: 14px;
     font-weight: 400;
     color: #7C8DB5;
     margin-bottom: 15px;
 }
+
 .pro__alert__wrap .pro__alert__card p a, .tips__alert__wrap .tips__alert__card a {
     text-decoration: underline;
     font-weight: 700;
     color: #131F4D;
 }
+
 .pro__alert__wrap .pro__alert__card .button, .tips__alert__wrap .tips__alert__card button {
     align-self: flex-end;
     margin-top: 20px;
@@ -2809,6 +3093,39 @@ button.button__instagram.hover__highlight:hover .icon {
     }
 }
 
+.upgrage__card__tab__list {
+    max-width: 650px;
+    width: 100%;
+    display: grid;
+    -ms-grid-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 50px !important;
+}
+
+.upgrage__card__tab__list .upgrage__card__tab__list__item {
+    color: #5B4E96;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 18px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+@media (max-width: 575px) {
+    .upgrage__card__tab__list {
+        -ms-grid-columns: 1fr;
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+.upgrage__card__tab__list .upgrage__card__tab__list__item:before {
+    content: "\e910";
+    font-family: 'icomoon';
+    color: #4AD750;
+}
+
 .upgrage__card__tab__style h3 {
     font-size: 30px;
     font-weight: 700;
@@ -2879,6 +3196,7 @@ button.button__instagram.hover__highlight:hover .icon {
     .embedpress-license__details .license__content .form__inline {
         display: block;
     }
+
     .embedpress-license__details .license__content .form__inline .form__group {
         margin-bottom: 25px;
         margin-right: 0;
@@ -2890,6 +3208,7 @@ button.button__instagram.hover__highlight:hover .icon {
     /* text-align: center; */
     margin-bottom: 30px;
 }
+
 .embedpress-license__details .license__content .thumb__area img {
     max-width: 320px;
 }
@@ -2979,6 +3298,7 @@ button.button__instagram.hover__highlight:hover .icon {
         top: 15px;
         left: 15px;
     }
+
     .embedpress-license__details .license__content .form__group .input__icon i {
         font-size: 16px;
     }
@@ -2990,6 +3310,10 @@ button.button__instagram.hover__highlight:hover .icon {
     color: #7C8DB5;
     font-size: 20px;
     padding-left: 50px;
+}
+
+input#embedpress-pro-license-key::placeholder {
+    font-size: 18px;
 }
 
 .embedpress-license__details .license__content .form__group .form__control::-webkit-input-placeholder {
@@ -3020,6 +3344,11 @@ button.button__instagram.hover__highlight:hover .icon {
         padding-left: 35px;
         font-size: 14px;
     }
+
+    .form-inner-field button {
+        height: 60px;
+    }
+
 }
 
 .embedpress-license__details .license__manage {
@@ -3046,8 +3375,8 @@ button.button__instagram.hover__highlight:hover .icon {
 
 .embedpress-card {
     background: #F5F7FD;
-    border-radius: 20px;
-    padding: 30px;
+    border-radius: 16px;
+    padding: 24px;
     padding-left: 100px;
     border: 2px solid rgba(91, 78, 150, 0.1);
     position: relative;
@@ -3055,14 +3384,14 @@ button.button__instagram.hover__highlight:hover .icon {
 
 @media (min-width: 1199px) and (max-width: 1399px) {
     .embedpress-card {
-        padding-left: 30px;
+        padding-left: 24px;
     }
 }
 
 @media (max-width: 767px) {
     .embedpress-card {
-        padding-left: 25px;
-        padding: 25px;
+        padding-left: 20px;
+        padding: 20px;
     }
 }
 
@@ -3120,9 +3449,9 @@ button.button__instagram.hover__highlight:hover .icon {
 .element__item {
     background: #F5F7FD;
     border-radius: 10px;
-    padding: 25px 30px;
+    min-height: 80px;
+    padding: 10px 24px;
     border: 2px solid rgba(91, 78, 150, 0.1);
-    position: relative;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -3144,7 +3473,7 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 .element__item h5 {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
     color: #25396F;
     margin-right: 15px;
@@ -3163,6 +3492,7 @@ button.button__instagram.hover__highlight:hover .icon {
     margin-right: 10px;
     position: relative;
 }
+
 .element__item .has__question .element__tooltip {
     position: absolute;
     bottom: calc(100% + 12px);
@@ -3179,10 +3509,12 @@ button.button__instagram.hover__highlight:hover .icon {
     visibility: hidden;
     z-index: 9;
 }
+
 .element__item .has__question:hover .element__tooltip {
     visibility: visible;
     opacity: 1;
 }
+
 .element__item .has__question .element__tooltip:before {
     position: absolute;
     top: 100%;
@@ -3193,6 +3525,7 @@ button.button__instagram.hover__highlight:hover .icon {
     border-top: 10px solid #5B4E96;
     content: '';
 }
+
 .element__item .input__switch {
     margin-left: auto;
     margin-bottom: 0;
@@ -3220,10 +3553,12 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 .embedpress--elements__wrap h3 {
-    font-size: 30px;
+    font-size: 24px;
     font-weight: 700;
     color: #131F4D;
-    margin-bottom: 25px;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #F5F7FC;
 }
 
 @media (max-width: 767px) {
@@ -3240,18 +3575,19 @@ button.button__instagram.hover__highlight:hover .icon {
 
 @media (max-width: 991px) {
     .embedpress--elements__wrap .embedpress__row.grid__4 {
-        -ms-grid-columns: (1fr)[2];
+        -ms-grid-columns: 1fr 1fr;
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
 @media (max-width: 575px) {
     .embedpress--elements__wrap .embedpress__row.grid__4 {
-        -ms-grid-columns: (1fr)[1];
+        -ms-grid-columns: 1fr;
         grid-template-columns: repeat(1, 1fr);
     }
 }
-.valid-license-icon{
+
+.valid-license-icon {
     max-width: 100%;
     width: 1.5rem;
 }
@@ -3272,6 +3608,7 @@ button.button__instagram.hover__highlight:hover .icon {
     visibility: hidden;
     transition: all .3s ease;
 }
+
 .embedpress-toast__message.show {
     opacity: 1;
     visibility: visible;
@@ -3299,21 +3636,25 @@ button.button__instagram.hover__highlight:hover .icon {
     font-size: 14px;
 }
 
-.template__wrapper  .wp-color-result-text {
+.template__wrapper .wp-color-result-text {
     padding: 0 5px;
 }
+
 @media all and (max-width: 1600px) {
     .embedpress-license__details .license__content .form__inline {
         display: block;
     }
+
     .embedpress-license__details .license__content .form__group {
         margin-bottom: 25px;
         margin-right: 0;
     }
+
     .embedpress-license__details .license__content .form__group .form__control {
-        height: 50px;
+        height: 60px;
         font-size: 14px;
     }
+
     .embedpress-license__details .license__content .form__group .input__icon {
         width: 18px;
         top: 16px;
@@ -3321,74 +3662,311 @@ button.button__instagram.hover__highlight:hover .icon {
 }
 
 .ep-coming-soon {
-    color:#5b4e96;
+    color: #5b4e96;
     font-size: 12px;
     font-weight: 900;
 }
 
-.embedpress-card a, .template__wrapper .ep-link{
-    color:#5b4e96;
+.embedpress-card a, .template__wrapper .ep-link {
+    color: #5b4e96;
 }
+
 .template__wrapper .ep-link {
     font-weight: 600;
 }
+
 .proOverlay {
     opacity: .3;
     position: relative;
 }
-.proOverlay::after{
+
+.proOverlay::after {
     position: absolute;
-    top:0;
-    left:0;
-    bottom:0;
-    content:'';
+    top: 0;
+    left: 0;
+    bottom: 0;
+    content: '';
     width: 100%;
     height: 100%;
     display: block;
 }
 
 .embedpress__shortcode .shortcode__text {
-    padding: 25px;
-    border: 2px solid rgba(91, 78, 150, 0.1);
-    border-radius: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     font-size: 16px;
-    color:#25396F;
-  }
-  
-  .embedpress__shortcode .shortcode__form .form__group {
-    -webkit-box-flex: 0;
-        -ms-flex: 0 0 40%;
-            flex: 0 0 40%;
-  }
-  
-  .embedpress__shortcode .shortcode__form .form__group .form__control {
+    line-height: 1.6;
+    color: #25396F;
+}
+
+.embedpress__shortcode .shortcode__form {
+    width: 100%;
+    max-width: 750px;
+    box-sizing: border-box;
+    background-color: #F5F7FC;
+    border: 1px solid #D7DEEE;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+}
+
+.embedpress__shortcode .shortcode__form .form__group {
+    flex-grow: 1;
+}
+
+.embedpress__shortcode .shortcode__form .form__group .form__control {
     height: 50px;
-  }
-  
-  .embedpress__shortcode .shortcode__form .form__group .form__control[readonly] {
-    background: #F5F7FD;
-  }
-  
-  .embedpress__shortcode .shortcode__form .copy__button {
-    padding: 16px;
-    width: 50px;
+    background-color: transparent;
+    border: none;
+}
+
+.embedpress__shortcode .shortcode__form .button__redColor {
+    background-color: #FF7369;
+    border-color: #FF7369;
+    color: #fff;
+}
+
+.embedpress__shortcode .shortcode__form .copy__button {
+    background-color: #5B4E96;
+    border-color: #5B4E96;
+    color: #fff;
+}
+
+
+/* source page css */
+.source-settings-page {
+    background: #fff;
+    padding: 24px;
+    border-radius: 16px;
+}
+
+.source-settings-page.page-premium {
+    padding: 24px 0;
+}
+
+.source-settings-page.page-premium .page-premium-text {
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #25396F;
+    max-width: 80%;
+}
+
+h1.page-heading {
+    color: #25396F;
+    font-family: 'DMSans';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #F5F7FC;
+}
+
+.upgrage__card__tab__style h3 {
+    color: #25396F;
+    font-family: 'DMSans';
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 1;
+    /* 24px */
+}
+
+.upgrage__card__tab__style p {
+    color: #707070;
+    font-family: 'DMSans';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%;
+    /* 25.6px */
+}
+
+a.button.button__themeColor {
+    border-radius: 8px;
+    background: #EEEDF4;
+    border: none;
+}
+
+ul.source-tab {
+    margin-top: 10px;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-top: 10px;
+    max-height: 185px;
+    overflow-y: scroll;
+}
+
+ul.source-tab::-webkit-scrollbar {
+    width: 5px;
+}
+
+ul.source-tab::-webkit-scrollbar-track {
+    background: #f5f7fd;
+    border-radius: 5px;
+}
+
+ul.source-tab::-webkit-scrollbar-thumb {
+    background: #988FBD;
+    border-radius: 5px;
+}
+
+li.tab-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background-color: transparent;
+    padding: 8px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+li.tab-button:hover {
+    background: #f5f7fd;
+}
+
+li.tab-button.active {
+    background: #f5f7fd;
+}
+
+img.source-image {
+    width: 14px;
+    height: 14px;
+}
+
+.tab-content-section {
+    display: grid;
+    -ms-grid-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    /* Three items per row */
+    gap: 15px;
+    /* Adjust the gap between items as needed */
+}
+
+@media (max-width: 1199px) {
+    .tab-content-section {
+        -ms-grid-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.source-item {
+    padding: 10px;
     text-align: center;
-  }
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #f5f7fd;
+    border-radius: 8px;
+}
 
-  @media all and (max-width: 767px) {
-    .embedpress__shortcode .shortcode__form {
-      display: block;
-    }
-    .embedpress__shortcode .shortcode__form .form__group {
-      margin-right: 0;
-      margin-bottom: 25px;
-    }
-  }
+.tab-button-section {
+    display: none;
+}
 
-  /* Instagram setting css */
-  /* Reset default table styles */
-  table {
+li.sidebar__item.show .tab-button-section {
+    display: block;
+}
+
+.source-item div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #404040;
+    font-family: 'DMSans';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+    /* 16.8px */
+    letter-spacing: -0.28px;
+}
+
+.source-left .icon {
+    width: 32px;
+    height: 32px;
+    background: #fff;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.source-left .icon img {
+    width: 16px;
+    height: auto;
+}
+
+.source-right a {
+    width: 28px;
+    height: 28px;
+    background: #fff;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.source-right a svg g {
+    transition: 0.2s;
+
+}
+
+.source-right a svg {
+    width: 18px;
+    height: 18px;
+}
+
+.source-right a:hover svg g {
+    stroke: #5B4E96;
+}
+
+.premium-button {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.premium-button a {
+    display: flex !important;
+    align-items: center;
+    gap: 8px;
+    background: #EEEDF4;
+    padding: 10px 25px;
+    border-radius: 8px;
+    width: 100%;
+    justify-content: center;
+}
+
+.premium-button span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.premium-button svg {
+    width: 18px;
+    height: 18px;
+}
+
+
+@media only screen and (max-width: 991px) {
+    .tab-content-section {
+        -ms-grid-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Instagram setting css */
+/* Reset default table styles */
+table {
     border-collapse: collapse;
     width: 100%;
 }
@@ -3449,10 +4027,12 @@ table.emebedpress th {
     cursor: pointer;
     border-radius: 4px;
 }
-.emebedpress .button i{
+
+.emebedpress .button i {
     font-size: 18px;
 
 }
+
 .emebedpress .button-primary {
     background-color: #5b4e96;
     position: absolute;
@@ -3460,12 +4040,15 @@ table.emebedpress th {
     align-items: center;
     justify-content: center;
 }
+
 .emebedpress .button-secondary {
-    background-color: #f44336!important;
+    background-color: #f44336 !important;
 }
+
 .emebedpress .button-secondary:focus i {
     color: white;
 }
+
 /* Styles for the account-section */
 .account-wrap {
     max-width: 1200px;
@@ -3477,24 +4060,26 @@ table.emebedpress th {
     align-items: center;
     justify-content: center;
 }
+
 .account-section p {
     margin-bottom: 10px;
 }
+
 .account-button {
-    text-decoration: none!important;
-    background-color: #0073aa!important;
-    color: #fff!important;
+    text-decoration: none !important;
+    background-color: #0073aa !important;
+    color: #fff !important;
     border: none;
     padding: 10px 15px;
     border-radius: 4px;
     margin-right: 10px;
-    display: inline-flex!important;
+    display: inline-flex !important;
     align-items: center;
     gap: 5px;
     font-size: 14px;
 }
 
-.account-button svg{
+.account-button svg {
     fill: currentColor;
     width: 20px;
     height: 20px;
@@ -3538,31 +4123,479 @@ table.emebedpress th {
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     z-index: 9999;
-  }
-  
-  .custom-dialog p {
+}
+
+.custom-dialog p {
     margin: 0 0 10px;
-  }
-  
-  .custom-dialog button {
+}
+
+.custom-dialog button {
     margin-right: 10px;
     padding: 5px 10px;
     background-color: #007bff;
     color: #fff;
     border: none;
     cursor: pointer;
-  }
-  
-  .custom-dialog button:hover {
+}
+
+.custom-dialog button:hover {
     background-color: #0056b3;
-  }
-  
-  .custom-dialog button:last-child {
+}
+
+.custom-dialog button:last-child {
     margin-right: 0;
     background-color: #ccc;
-  }
-  
-  /* Optional: To make the buttons the same width */
-  .custom-dialog button {
+}
+
+/* Optional: To make the buttons the same width */
+.custom-dialog button {
     width: 80px;
-  }
+}
+
+.embedpress-body .embedpress-sidebar {
+    display: inline-flex;
+    min-width: 50px;
+    margin-right: 0;
+    align-items: center;
+}
+
+.premium-button {
+    margin-top: 0px !important;
+    padding: 0 4px 0 0;
+}
+
+
+@media only screen and (max-width: 767px) {
+    .tab-content-section {
+        -ms-grid-columns: 1fr;
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    header.embedpress-header p {
+        margin: 10px 0;
+        text-align: left;
+    }
+}
+
+
+/* // Calendly settings page design  */
+.calendly-embedpress-authorize-button {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.calendly-settings-title {
+    margin-bottom: 30px !important;
+}
+
+a.calendly-connect-button {
+    display: inline-flex;
+    align-items: center;
+    font-size: 15px;
+    color: rgb(54, 100, 174);
+    gap: 6px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(54, 100, 174);
+    border-image: initial;
+    padding: 8px 20px;
+    border-radius: 10px;
+}
+
+a.calendly-connect-button:hover {
+    color: #fff;
+    background: rgb(54, 100, 174);
+}
+
+a.calendly-connected {
+    /* pointer-events: none !important; */
+    background: rgba(54, 100, 174, 0.08);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(54, 100, 174, 0.08);
+    border-image: initial;
+}
+
+a.calendly-connect-button img {
+    width: 20px;
+}
+
+
+/* Apply styles to the event-type-list container */
+.event-type-list {
+    font-family: Arial, sans-serif;
+}
+
+/* Apply styles to the list-header */
+.list-header {
+    background-color: #3664ae;
+    color: #fff;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+}
+
+
+/* Apply styles to the user's avatar */
+.calendly-user .bqa3nmp img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/* Apply styles to the user's name */
+.calendly-user .name p {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+
+/* Apply styles to the event-type-card */
+.event-type-card-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.calendly-data-placeholder .event-type-card-list {
+    padding: 0 20px 20px;
+}
+
+.event-type-card-list-item {
+    background-color: #ffffff;
+    border: 1px solid #faf4f4;
+    border-radius: 5px;
+    border-top: 6px solid var(--calendly-event-color);
+}
+
+.event-type-card {
+    padding: 10px;
+}
+
+.calendly-profile-avatar {
+    width: 50px;
+    height: 50px;
+}
+
+.calendly-profile-avatar img {
+    border-radius: 50px;
+}
+
+.event-type-card-top {
+    border-bottom: 1px solid #ebe1e1;
+    padding-bottom: 10px;
+}
+
+.event-type-card-top h2 {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.event-type-card-top p {
+    font-size: 11px;
+    color: #b19999;
+    margin-bottom: 12px;
+}
+
+.event-type-card-top a {
+    color: #3664ae;
+    font-size: 12px;
+}
+
+.event-type-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+}
+
+.event-status {
+    font-size: 14px;
+}
+
+.event-status.Active {
+    color: #008000c9;
+}
+
+.event-status.In-active {
+    color: gray;
+}
+
+.calendly-event-copy-link {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #3664ae;
+    cursor: pointer;
+}
+
+[data-event-status="In-active"] .event-type-card-top a, [data-event-status="In-active"] .calendly-event-copy-link {
+    color: gray;
+}
+
+[data-event-status="In-active"].event-type-card-list-item {
+    border-top-color: #b2b2b2 !important;
+}
+
+[data-event-status="In-active"] .calendly-event-copy-link svg path {
+    fill: gray;
+}
+
+.calendly-event-copy-link svg {
+    width: 14px;
+    height: 14px;
+}
+
+
+/* scheduled list table css */
+
+
+.rwd-table {
+    max-width: 100%;
+    width: 100%;
+
+}
+
+.rwd-table tr:first-child {
+    border-top: none;
+    background: #3664ae;
+    color: #fff;
+}
+
+.rwd-table tr {
+    border-top: 1px dotted red;
+    border-bottom: 1px dotted red;
+}
+
+
+.rwd-table th {
+    display: none;
+}
+
+.rwd-table td {
+    display: block;
+
+}
+
+.rwd-table td:before {
+    content: attr(data-th) ": ";
+    width: 120px;
+    display: inline-block;
+    color: #000;
+}
+
+.rwd-table th, .rwd-table td {
+    padding-left: 30px !important;
+}
+
+.rwd-table {
+    color: #333;
+    border-radius: .4em;
+    width: 100%;
+    /* Set the table width to 100% */
+    /* table-layout: fixed; */
+}
+
+.rwd-table tr {
+    border-color: red;
+}
+
+
+.rwd-table td:before {
+    display: none;
+}
+
+.rwd-table th, .rwd-table td {
+    display: table-cell;
+    padding: .5em .5em;
+    text-align: left;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    white-space: nowrap;
+    /* width: 25%; */
+    /* Divide the width evenly among the columns */
+
+}
+
+.rwd-table th {
+    font-size: 15px;
+    padding: 1em .5em;
+    font-weight: 500;
+}
+
+.rwd-table th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.rwd-table th:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.rwd-table td {
+    border-bottom: 1px dotted #ddd;
+    /* border-radius: 10px; */
+    /* border-right: 1px dotted #ddd; */
+}
+
+/* .rwd-table td:first-child {
+    border-left: 1px dotted #ddd;
+} */
+
+
+/* Tab container */
+.tab-container {
+    display: flex;
+    gap: 5px;
+    background: #fff7f7;
+    padding: 8px 10px;
+    border-radius: 10px;
+}
+
+/* Individual tab */
+.tab-container .tab {
+    padding: 8px 20px;
+    cursor: pointer;
+    background-color: #fff7f7;
+    border-radius: 10px;
+    font-size: 15px;
+
+}
+
+/* Active tab */
+.tab-container .active-tab {
+    background-color: #3664ae;
+    color: #fff;
+}
+
+/* Content container */
+.tab-content {
+    display: none;
+    width: 100%;
+}
+
+/* Show the active tab content */
+.tab-content.active {
+    display: block;
+}
+
+.calendly-data-placeholder {
+    position: relative;
+    margin-top: 15px;
+}
+
+.calendly-data-placeholder img {
+    pointer-events: none;
+}
+
+.calendly-data-placeholder {
+    position: relative;
+    margin-top: 5px;
+    padding-top: 5px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #3664ae26;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 10px;
+    align-items: center;
+}
+
+.overlay-button {
+    background-color: #006bff;
+    color: #fff !important;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    max-width: 300px;
+    font-weight: 500;
+    border-radius: 10px;
+}
+
+.calendly-connector-container {
+    display: flex;
+    align-items: end;
+    gap: 5px;
+}
+
+@media only screen and (max-width: 768px) {
+    .calendly-connector-container {
+        margin-bottom: 15px;
+    }
+
+    .calendly-embedpress-authorize-button {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .tab-container {
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .tab-container .tab {
+        padding: 8px 10px;
+        font-size: 14px;
+        width: 50%;
+        text-align: center;
+    }
+
+    .calendly-data {
+        overflow: auto;
+    }
+
+    .event-type-card-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .rwd-table {
+        min-width: 700px;
+        overflow: auto;
+        table-layout: auto;
+    }
+
+    .rwd-table th, .rwd-table td {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .rwd-table th, .rwd-table td {
+        padding-left: 20px !important;
+        width: auto;
+    }
+}
+
+
+@media only screen and (max-width: 480px) {
+    .event-type-card-list {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .tab-container {
+        padding: 8px 6px;
+    }
+
+    .tab-container .tab {
+        white-space: nowrap;
+        padding: 8px 5px;
+        font-size: 12px;
+        text-align: center;
+    }
+}

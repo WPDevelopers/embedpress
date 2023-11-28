@@ -126,3 +126,24 @@ margin-left: 15px;
 #embedpress-settings-wrapper a.embedpress-settings-link {
 color: #0073aa;
 }
+
+#wpnotice-embedpress-black_friday_notice {
+    padding: 16px 0;
+}
+#wpnotice-embedpress-black_friday_notice.notice-info {
+    border-left-color: #5b4e96;
+}
+#wpnotice-embedpress-black_friday_notice .wpnotice-thumbnail-wrapper {
+    padding-left: 30px;
+    padding-right: 28px;
+}
+#wpnotice-embedpress-black_friday_notice .wpnotice-content-wrapper a {
+    text-transform: capitalize;
+    margin-right: 16px;
+}
+#wpnotice-embedpress-black_friday_notice .wpnotice-content-wrapper button {
+    text-transform: capitalize;
+}
+#wpnotice-embedpress-black_friday_notice .wpnotice-content-wrapper button:hover {
+    background-color: transparent;
+}

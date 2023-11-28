@@ -24,7 +24,6 @@
     "minimum-stability": "stable",
     "require": {
         "wpdevelopers/embera": "*",
-        "priyomukul/wp-notice": "dev-main"
+        "priyomukul/wp-notice": "v2.x-dev"
     }
-
 }

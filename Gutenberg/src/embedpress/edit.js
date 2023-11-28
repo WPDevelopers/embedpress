@@ -24,11 +24,14 @@ const { __ } = wp.i18n;
 import { embedPressIcon } from '../common/icons';
 import { isOpensea as _isOpensea, isOpenseaSingle as _isOpenseaSingle, useOpensea } from './InspectorControl/opensea';
 import { useInstafeed } from './InspectorControl/instafeed';
-import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
-import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import ContentShare from '../common/social-share-control';
 import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo, initCarousel } from './functions';
 import { useYoutube } from './InspectorControl/youtube';
+import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, isYTLive as _isYTLive, isYTShorts as _isYTShorts, useYTVideo } from './InspectorControl/youtube';
+import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
+import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
+import ContentShare from '../common/social-share-control';
+import { isCalendly as _isCalendly, useCalendly } from './InspectorControl/calendly';
 
 const {
 	useBlockProps
@@ -63,6 +66,12 @@ export default function EmbedPress(props) {
 		customPlayer,
 		instaLayout,
 		playerPreset,
+		cEmbedType,
+		cButtonLinkColor,
+		cPopupButtonText,
+		cPopupButtonBGColor,
+		cPopupButtonTextColor,
+		cPopupLinkText
 	} = attributes;
 
 	const _isSelfHostedVideo = isSelfHostedVideo(url);
@@ -91,6 +100,34 @@ export default function EmbedPress(props) {
 	let customLogoTemp = '';
 	let customLogoStyle = '';
 	let epMessage = '';
+
+	let cPopupButton = '';
+
+	if (cEmbedType == 'popup_button') {
+		let textColor = cPopupButtonTextColor;
+		let bgColor = cPopupButtonBGColor;
+
+		console.log({ cPopupButtonBGColor });
+
+		if (cPopupButtonTextColor && !cPopupButtonTextColor.startsWith("#")) {
+			textColor = "#" + cPopupButtonTextColor;
+			setAttributes({ cPopupButtonTextColor: textColor });
+		}
+
+		if (cPopupButtonBGColor && !cPopupButtonBGColor.startsWith("#")) {
+			bgColor = "#" + cPopupButtonBGColor;
+			setAttributes({ cPopupButtonBGColor: bgColor });
+
+		}
+
+		cPopupButton = `
+			<div class="cbutton-preview-wrapper" style="margin-top:-${height}px">
+			<h4 class="cbutton-preview-text">Preview Popup Button</h4>
+			<div style="position: static" class="calendly-badge-widget"><div class="calendly-badge-content" style="color: ${textColor}; background: ${bgColor};">${cPopupButtonText}</div></div>
+			</div>
+		`;
+
+	}
 
 	if (customlogo) {
 		customLogoStyle = `
@@ -124,7 +161,7 @@ export default function EmbedPress(props) {
 	}
 
 	const blockProps = useBlockProps ? useBlockProps() : [];
-
+	const isYTShorts = _isYTShorts(url);
 	const isWistiaVideo = _isWistiaVideo(url);
 	const isVimeoVideo = _isVimeoVideo(url);
 	const isInstagramFeed = _isInstagramFeed(url);
@@ -132,11 +169,14 @@ export default function EmbedPress(props) {
 	const isOpensea = _isOpensea(url);
 	const isOpenseaSingle = _isOpenseaSingle(url);
 
+	const isCalendly = _isCalendly(url);
+
 	const openseaParams = useOpensea(attributes);
 	const { youtubeParams, isYTChannel, isYTVideo, isYTLive } = useYoutube(attributes, url);
 	const wistiaVideoParams = useWistiaVideo(attributes);
 	const vimeoVideoParams = useVimeoVideo(attributes);
 	const instafeedParams = useInstafeed(attributes);
+	const calendlyParamns = useCalendly(attributes);
 
 	let source = '';
 
@@ -286,7 +326,7 @@ export default function EmbedPress(props) {
 		return () => {
 			clearTimeout(delayDebounceFn)
 		}
-	}, [openseaParams, youtubeParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, contentShare, lockContent]);
+	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent]);
 
 	return (
 		<Fragment>
@@ -297,12 +337,14 @@ export default function EmbedPress(props) {
 				isYTChannel={isYTChannel}
 				isYTVideo={isYTVideo}
 				isYTLive={isYTLive}
+				isYTShorts={isYTShorts}
 				isOpensea={isOpensea}
 				isOpenseaSingle={isOpenseaSingle}
 				isWistiaVideo={isWistiaVideo}
 				isVimeoVideo={isVimeoVideo}
 				isSelfHostedVideo={_isSelfHostedVideo}
 				isSelfHostedAudio={_isSelfHostedAudio}
+				isCalendly={isCalendly}
 			/>
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
@@ -322,21 +364,22 @@ export default function EmbedPress(props) {
 				(
 					(!isOpensea || (!!editingURL || editingURL === 0)) &&
 					(!isOpenseaSingle || (!!editingURL || editingURL === 0)) &&
-					((!isYTVideo && !isYTLive) || (!!editingURL || editingURL === 0)) &&
+					((!isYTVideo && !isYTLive && !isYTShorts) || (!!editingURL || editingURL === 0)) &&
 					(!isYTChannel || (!!editingURL || editingURL === 0)) &&
 					(!isWistiaVideo || (!!editingURL || editingURL === 0)) &&
 					(!isVimeoVideo || (!!editingURL || editingURL === 0)) &&
+					(!isCalendly || (!!editingURL || editingURL === 0)) &&
 					(!isInstagramFeed || (!!editingURL || editingURL === 0))
 				) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isWistiaVideo || isVimeoVideo || isInstagramFeed) && (
-				<figure {...blockProps} data-source-id={'source-' + clientId}>
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTShorts || isWistiaVideo || isVimeoVideo || isCalendly || isInstagramFeed)) && ( <figure {...blockProps} data-source-id={'source-' + clientId}>
+				
 					<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
 						<EmbedWrap
 							className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass} ${instaLayoutClass}`}
 							style={{
-								display: fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isWistiaVideo && !isVimeoVideo && !isInstagramFeed ? 'none' : isOpensea || isOpenseaSingle ? 'block' : 'inline-block',
+								display: fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isYTShorts && !isWistiaVideo && !isVimeoVideo && !isCalendly && !isInstagramFeed ? 'none' : isOpensea || isOpenseaSingle ? 'block' : 'inline-block',
 								position: 'relative'
 							}}
 							{...(customPlayer ? { 'data-playerid': md5(clientId) } : {})}

@@ -105,7 +105,7 @@ class Embedpress_Elementor extends Widget_Base
 			'embedpress_pro_embeded_source',
 			[
 				'label'       => __('Source Name', 'embedpress'),
-				'type'        => Controls_Manager::SELECT,
+				'type'        => Controls_Manager::SELECT2,
 				'label_block' => false,
 				'default'     => 'default',
 				'options'     => [
@@ -118,6 +118,7 @@ class Embedpress_Elementor extends Widget_Base
 					'soundcloud'  => __('SoundCloud', 'embedpress'),
 					'opensea'  => __('OpenSea', 'embedpress'),
 					'instafeed'  => __('Instagram Feed', 'embedpress'),
+					'calendly'  => __('Calendly', 'embedpress'),
 					'selfhosted_video' => __('Self-hosted Video', 'embedpress'),
 					'selfhosted_audio'  => __('Self-hosted Audio', 'embedpress'),
 				]
@@ -334,6 +335,12 @@ class Embedpress_Elementor extends Widget_Base
 		 */
 		$this->init_opensea_control_section();
 		$this->init_instafeed_control_section();
+
+		/**
+		 * Calendly Control section
+		 */
+		$this->init_calendly_control_section();
+
 
 		do_action('extend_elementor_controls', $this, '_', $this->pro_text, $this->pro_class);
 
@@ -1649,6 +1656,7 @@ class Embedpress_Elementor extends Widget_Base
 						'twitch',
 						'soundcloud',
 						'instafeed',
+						'calendly',
 						'selfhosted_video',
 						'selfhosted_audio',
 					],
@@ -1678,6 +1686,7 @@ class Embedpress_Elementor extends Widget_Base
 						'twitch',
 						'soundcloud',
 						'instafeed',
+						'calendly',
 						'selfhosted_video',
 						'selfhosted_audio',
 					],
@@ -2586,6 +2595,7 @@ class Embedpress_Elementor extends Widget_Base
 
 	//End OpenSea controls
 
+	
 
 	/**
 	 * Instagram Feed Controls
@@ -3095,9 +3105,179 @@ class Embedpress_Elementor extends Widget_Base
 	}
 
 
-	//End Carousel Controls
+	//End Feed Controls
 	 
 
+	/**
+	 * Calendly Controls
+	 */
+	 public function init_calendly_control_section(){
+
+		$condition = [
+			'embedpress_pro_embeded_source' => 'calendly',
+		];
+
+		$this->start_controls_section(
+			'embedpress_calendly_control_section',
+			[
+				'label'       => __('Calendly Controls', 'embedpress'),
+				'condition'    => $condition,
+			]
+		);
+		$this->add_control(
+			'cEmbedType',
+			[
+				'label' => __( 'Embed Type', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => 'inline',
+				'options' => [
+					'inline'  => __( 'Inline', 'embedpress' ),
+					'popup_button' => __( 'Popup Button', 'embedpress' ),
+				],
+				'condition' => $condition
+			]
+		);
+		$this->add_control(
+			'popupControlsHeadding',
+			[
+				'label' => esc_html__( 'Popup Button Settings', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'calendly',
+					'cEmbedType' => 'popup_button'
+				]
+			]
+		);
+		$this->add_control(
+			'cPopupButtonText',
+			[
+				'label' => __( 'Button Text', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::TEXT,
+				'label_block' => true,
+				'default' => 'Schedule time with me',
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'calendly',
+					'cEmbedType' => 'popup_button'
+				],
+				'ai'     => [
+					'active' => false,
+				],
+			]
+		);
+		
+	
+		$this->add_control(
+			'cPopupButtonTextColor',
+			[
+				'label' => __( 'Text Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'default' => '#ffffff',
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'calendly',
+					'cEmbedType' => 'popup_button'
+				]
+			]
+		);
+		$this->add_control(
+			'cPopupButtonBGColor',
+			[
+				'label' => __( 'Background Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'default' => '#0000FF',
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'calendly',
+					'cEmbedType' => 'popup_button'
+				]
+			]
+		);
+
+		$this->add_control(
+			'calendlyControlsHeadding',
+			[
+				'label' => esc_html__( 'Calender Settings', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::HEADING,
+				'separator' => 'before',
+			]
+		);
+
+		$this->add_control(
+			'calendlyData',
+			[
+				'label' => sprintf(__('Calendly Data %s', 'embedpress'), $this->pro_text),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'default' => '',
+				'classes' => $this->pro_class,
+				'condition' => $condition
+			]
+		);
+
+		$this->add_control(
+			'calendlyDataLink',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => '<div style="display: flex; align-items: center;gap:5px;"><span style="font-size:18px" class="eicon-editor-external-link"></span><a href="/wp-admin/admin.php?page=embedpress&page_type=calendly" target="_blank" >View Calendly Data</a></div>',
+				'condition' => [
+					'calendlyData' => 'yes'
+				]
+
+			]
+		);
+
+		$this->add_control(
+			'hideCookieBanner',
+			[
+				'label' => __( 'Hide Cookie Banner', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'default' => '',
+				'condition' => $condition
+			]
+		);
+		$this->add_control(
+			'hideEventTypeDetails',
+			[
+				'label' => __( 'Hide Event Type Details', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'default' => '',
+				'condition' => $condition
+			]
+		);
+		
+		$this->add_control(
+			'cBackgroundColor',
+			[
+				'label' => __( 'Background Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'default' => '',
+				'condition' => $condition
+			]
+		);
+		
+		$this->add_control(
+			'cTextColor',
+			[
+				'label' => __( 'Text Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'default' => '',
+				'condition' => $condition
+			]
+		);
+		
+		$this->add_control(
+			'cButtonLinkColor',
+			[
+				'label' => __( 'Button & Link Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'default' => '',
+				'condition' => $condition
+			]
+		);
+
+		$this->end_controls_section();
+
+	 }
+
+	 //End calendly controlS
 
 	public function init_style_controls()
 	{
@@ -3106,19 +3286,13 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'label' => __('General', 'embedpress'),
 				'tab'   => Controls_Manager::TAB_STYLE,
-				'conditions'  => [
-					'terms' => [
-						[
-							'name' => 'embedpress_pro_embeded_source',
-							'operator' => '!==',
-							'value' => 'opensea',
-						],
-					],
+				'condition'   => [
+					'embedpress_pro_embeded_source!' => 'opensea',
 				]
 
 			]
 		);
-		$this->add_control(
+		$this->add_responsive_control(
 			'width',
 			[
 				'label' => __('Width', 'embedpress'),
@@ -3128,16 +3302,30 @@ class Embedpress_Elementor extends Widget_Base
 					'px' => [
 						'min' => 0,
 						'max' => 1500,
-						'step' => 5,
+						'step' => 1,
 					],
 				],
-				'default' => [
-					'unit' => 'px',
+				'devices' => [ 'desktop', 'tablet', 'mobile' ],
+				'desktop_default' => [
 					'size' => 600,
-				]
+					'unit' => 'px',
+				],
+				'tablet_default' => [
+					'size' => 600,
+					'unit' => 'px',
+				],
+				'mobile_default' => [
+					'size' => 600,
+					'unit' => 'px',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive
+					' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
+				],
 			]
 		);
-		$this->add_control(
+		
+		$this->add_responsive_control(
 			'height',
 			[
 				'label' => __('Height', 'embedpress'),
@@ -3147,13 +3335,34 @@ class Embedpress_Elementor extends Widget_Base
 					'px' => [
 						'min' => 0,
 						'max' => 1500,
-						'step' => 5,
+						'step' => 1,
 					],
 				],
-				'default' => [
-					'unit' => 'px',
+				'devices' => [ 'desktop', 'tablet', 'mobile' ],
+				'desktop_default' => [
 					'size' => 400,
-				]
+					'unit' => 'px',
+				],
+				'tablet_default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
+				'mobile_default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive
+					' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
+				],
+			]
+		);
+		$this->add_control(
+			'width_height_important_note',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => esc_html__('Note: The maximum width and height are set to 100%.', 'embedpress'),
+				'content_classes' => 'elementor-panel-alert elementor-panel-warning-info',
 			]
 		);
 		$this->add_responsive_control(
@@ -3495,9 +3704,12 @@ class Embedpress_Elementor extends Widget_Base
 			$data_playerid = 'data-carouselid="'.esc_attr($this->get_id()).'"';
 		}
 
+		$cEmbedType = !empty($settings['cEmbedType']) ? $settings['cEmbedType'] : '';
+
+
 		?>
 
-		<div class="embedpress-elements-wrapper <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; ?> " id="ep-elements-id-<?php echo $this->get_id(); ?>">
+		<div class="embedpress-elements-wrapper <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; echo esc_attr( $cEmbedType );?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
 			<?php
 					// handle notice display
 					if ($is_editor_view && $is_apple_podcast && !is_embedpress_pro_active()) {

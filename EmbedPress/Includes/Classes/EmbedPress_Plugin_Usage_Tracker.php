@@ -50,15 +50,15 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 		 */
 		private static $_instance = null;
 
-		private $disabled_wp_cron;	
-		private $enable_self_cron;	
-		private $require_optin;	
-		private $include_goodbye_form;	
-		private $marketing;	
-		private $options;	
-		private $item_id;	
+		private $disabled_wp_cron;
+		private $enable_self_cron;
+		private $require_optin;
+		private $include_goodbye_form;
+		private $marketing;
+		private $options;
+		private $item_id;
 		private $notice_options;
-		
+
 		/**
 		 * Get Instance of EmbedPress_Plugin_Usage_Tracker
 		 * @return EmbedPress_Plugin_Usage_Tracker
@@ -442,35 +442,35 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 		 *
 		 * @since 3.6.6
 		 */
-		
+
 		public function get_count_source_data($elementor_source_option_name, $gutenbert_source_option_name) {
 
 			$elementor_sources = json_decode(get_option($elementor_source_option_name), true);
 			$gutenberg_sources = json_decode(get_option($gutenbert_source_option_name), true);
-	
+
 			$e_counts = [];
 			$g_counts = [];
 			$counts = [];
-	
+
 			$elementor_option_name = str_replace("_source_data", "", $elementor_source_option_name);
 			$gutenberg_option_name = str_replace("_source_data", "", $gutenbert_source_option_name);
-	
+
 			foreach ($elementor_sources as $item) {
 				if (isset($item['source']['name'])) {
 					$name = strtolower(str_replace(' ', '-', $item['source']['name'])); // normalize source name
 					$e_counts["$elementor_option_name-$name"] = isset($e_counts["$elementor_option_name-$name"]) ? $e_counts["$elementor_option_name-$name"] + 1 : 1;
 				}
 			}
-	
+
 			foreach ($gutenberg_sources as $item) {
 				if (isset($item['source']['name'])) {
 					$name = strtolower(str_replace(' ', '-', $item['source']['name'])); // normalize source name
 					$g_counts["$gutenberg_option_name-$name"] = isset($g_counts["$gutenberg_option_name-$name"]) ? $g_counts["$gutenberg_option_name-$name"] + 1 : 1;
 				}
 			}
-	
+
 			$counts = array_merge($e_counts, $g_counts);
-	
+
 			return $counts;
 		}
 
@@ -674,6 +674,9 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 				'plugin_action'	=> 'no'
 			) );
 
+			$url_yes = wp_nonce_url( $url_yes, '_wpnonce_optin_' . $this->plugin_name );
+			$url_no = wp_nonce_url( $url_no, '_wpnonce_optin_' . $this->plugin_name );
+
 			// Decide on notice text
 			$notice_text = $this->notice_options['notice'] . ' <a href="#" class="wpinsights-'. $this->plugin_name .'-collect">'. $this->notice_options['consent_button_text'] .'</a>';
 			$extra_notice_text = $this->notice_options['extra_notice'];
@@ -714,10 +717,15 @@ if( ! class_exists('EmbedPress_Plugin_Usage_Tracker') ) :
 		 * @return void
 		 */
 		public function clicked( $notice = null ){
-			if( isset( $_GET['plugin'] ) && trim($_GET['plugin']) === $this->plugin_name && isset( $_GET['plugin_action'] ) ) {
+			if( isset( $_GET[ '_wpnonce' ] ) && isset( $_GET['plugin'] ) && trim($_GET['plugin']) === $this->plugin_name && isset( $_GET['plugin_action'] ) ) {
 				if( isset( $_GET['tab'] ) && $_GET['tab'] === 'plugin-information' ) {
                     return;
                 }
+
+				if( ! wp_verify_nonce( $_GET[ '_wpnonce' ], '_wpnonce_optin_' . $this->plugin_name ) ) {
+					return;
+				}
+
 				$plugin = sanitize_text_field( $_GET['plugin'] );
 				$action = sanitize_text_field( $_GET['plugin_action'] );
 				if( $action == 'yes' ) {

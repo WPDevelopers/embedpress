@@ -6,7 +6,7 @@
  * Description: EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 150+ sources supported.
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
- * Version: 3.8.3
+ * Version: 3.9.4
  * Text Domain: embedpress
  * Domain Path: /languages
  *
@@ -38,7 +38,7 @@ define('EMBEDPRESS_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('EMBEDPRESS_FILE', __FILE__);
 
 if (!defined('EMBEDPRESS_PLUGIN_VERSION')) {
-    define('EMBEDPRESS_PLUGIN_VERSION', '3.8.3');
+    define('EMBEDPRESS_PLUGIN_VERSION', '3.9.4');
 }
 
 define('EMBEDPRESS_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
@@ -142,14 +142,4 @@ function ep_track_embed_usage()
     $wpdb->insert('embed_usage_log', array('embed_type' => $embed_type, 'user_id' => get_current_user_id()));
 }
 add_action('embed_content', 'ep_track_embed_usage');
-
-
-function ep_enqueue_jquery_in_header()
-{
-    wp_enqueue_script('jquery', false, array(), false, true);
-}
-add_action('wp_enqueue_scripts', 'ep_enqueue_jquery_in_header', 1);
-
-
-
 

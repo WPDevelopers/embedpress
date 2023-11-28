@@ -43,6 +43,23 @@ class Feature_Enhancer
 		add_action( 'elementor/editor/after_save', [$this, 'save_el_source_data_on_post_update'] );
 		
 		add_action('wp_head', [$this, 'embedpress_generate_social_share_meta']);
+
+		add_action( 'wp_ajax_get_viewer', function(){
+			$pdf = EMBEDPRESS_PATH_BASE . 'assets/pdf/web/viewer.html';
+			// header type html
+			header('Content-Type: text/html');
+			$contents = file_get_contents($pdf);
+			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS . 'pdf/web/' . '">', $contents);
+			die;
+		} );
+		add_action( 'wp_ajax_nopriv_get_viewer', function(){
+			$pdf = EMBEDPRESS_PATH_BASE . 'assets/pdf/web/viewer.html';
+			// header type html
+			header('Content-Type: text/html');
+			$contents = file_get_contents($pdf);
+			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS . 'pdf/web/' . '">', $contents);
+			die;
+		} );
 	}
 
 	public function save_source_data(){
@@ -1477,7 +1494,8 @@ class Feature_Enhancer
 
 		if (!empty($_GET['hash'])) {
 
-			$id_value = $_GET['hash'];
+			$id_value = sanitize_text_field($_GET['hash']);
+
 			$url = get_the_permalink( $post_id );
 
 			if (class_exists('Elementor\Plugin') && \Elementor\Plugin::$instance->db->is_built_with_elementor(get_the_ID())) {
@@ -1511,28 +1529,28 @@ class Feature_Enhancer
 					$image_url = !empty($doc_settings['settings']['embedpress_doc_content_share_custom_thumbnail']['url']) ? $doc_settings['settings']['embedpress_doc_content_share_custom_thumbnail']['url'] : '';
 				}
 
-				// Search for the regex pattern in the string and extract the href value
 				if (!empty($image_url)) {
-					$tags .= "<meta name='twitter:image' content='$image_url'/>\n";
-					$tags .= "<meta property='og:image' content='$image_url'/>\n";
-					$tags .= "<meta property='og:url' content='$url?hash=$id_value'/>\n";
+					$tags .= "<meta name='twitter:image' content='" . esc_url($image_url) . "'/>\n";
+					$tags .= "<meta property='og:image' content='" . esc_url($image_url) . "'/>\n";
+					$tags .= "<meta property='og:url' content='" . esc_url("$url?hash=$id_value") . "'/>\n";
+				} else if (!empty($thumbnail_url)) {
+					$tags .= "<meta name='twitter:image' content='" . esc_url($thumbnail_url) . "'/>\n";
+					$tags .= "<meta property='og:image' content='" . esc_url($thumbnail_url) . "'/>\n";
 				}
-				else if(!empty($thumbnail_ur)){
-					$tags .= "<meta name='twitter:image' content='$image_url'/>\n";
-					$tags .= "<meta property='og:image' content='$image_url'/>\n";
-				}
-
+				
 				if (!empty($title)) {
 					$title = json_decode('"' . $title . '"', JSON_UNESCAPED_UNICODE);
-					$tags .= "<meta property='og:title' content='$title'/>\n";
-					$tags .= "<meta name='title' property='og:title' content='$title'>\n";
-					$tags .= "<meta name='twitter:title' content='$title'/>\n";
+					$tags .= "<meta property='og:title' content='" . esc_attr($title) . "'/>\n";
+					$tags .= "<meta name='title' property='og:title' content='" . esc_attr($title) . "'>\n";
+					$tags .= "<meta name='twitter:title' content='" . esc_attr($title) . "'/>\n";
 				}
+				
 				if (!empty($description)) {
 					$description = json_decode('"' . $description . '"', JSON_UNESCAPED_UNICODE);
-					$tags .= "<meta property='og:description' content='$description'/>\n";
-					$tags .= "<meta name='twitter:description' content='$description'/>\n";
+					$tags .= "<meta property='og:description' content='" . esc_attr($description) . "'/>\n";
+					$tags .= "<meta name='twitter:description' content='" . esc_attr($description) . "'/>\n";
 				}
+				
 				
 			} else {
 
@@ -1544,29 +1562,30 @@ class Feature_Enhancer
 				$description = '/(?:"id":"' . $id_value . '"|"clientId":"' . $id_value . '").*?"customDescription":"(.*?)"/';
 
 				// Search for the regex pattern in the string and extract the href value
+				// Search for the regex pattern in the string and extract the href value
 				if (preg_match($thumb, $block_content, $matches1)) {
-					$image_url = $matches1[1];
-					$tags .= "\n<meta name='twitter:image' content='$image_url'/>\n";
-					$tags .= "<meta property='og:image' content='$image_url'/>\n";
-					$tags .= "<meta property='og:url' content='$url?hash=$id_value'/>\n";
-				}
-				else if(!empty($thumbnail_url)){
-					$tags .= "\n<meta name='twitter:image' content='$thumbnail_url'/>\n";
-					$tags .= "<meta property='og:image' content='$thumbnail_url'/>\n";
+					$image_url = esc_url($matches1[1]);
+					echo "\n<meta name='twitter:image' content='" . esc_attr($image_url) . "'/>\n";
+					echo "<meta property='og:image' content='" . esc_attr($image_url) . "'/>\n";
+					echo "<meta property='og:url' content='" . esc_url("$url?hash=$id_value") . "'/>\n";
+				} else if (!empty($thumbnail_url)) {
+					echo "\n<meta name='twitter:image' content='" . esc_attr($thumbnail_url) . "'/>\n";
+					echo "<meta property='og:image' content='" . esc_attr($thumbnail_url) . "'/>\n";
 				}
 
 				if (preg_match($title, $block_content, $matches2)) {
 					$title = json_decode('"' . $matches2[1] . '"', JSON_UNESCAPED_UNICODE);
-					$tags .= "<meta property='og:title' content='$title'/>\n";
-					$tags .= "<meta name='title' property='og:title' content='$title'>\n";
-					$tags .= "<meta name='twitter:title' content='$title'/>\n";
+					echo "<meta property='og:title' content='" . esc_attr($title) . "'/>\n";
+					echo "<meta name='title' property='og:title' content='" . esc_attr($title) . "'>\n";
+					echo "<meta name='twitter:title' content='" . esc_attr($title) . "'/>\n";
 				}
-				
-				if (preg_match($description, $block_content, $matches3)) {	
+
+				if (preg_match($description, $block_content, $matches3)) {
 					$description = json_decode('"' . $matches3[1] . '"', JSON_UNESCAPED_UNICODE);
-					$tags .= "<meta property='og:description' content='$description'/>\n";
-					$tags .= "<meta name='twitter:description' content='$description'/>\n";
+					echo "<meta property='og:description' content='" . esc_attr($description) . "'/>\n";
+					echo "<meta name='twitter:description' content='" . esc_attr($description) . "'/>\n";
 				}
+
 			}
 			
 			$tags .= "<meta name='twitter:card' content='summary_large_image'/>\n";

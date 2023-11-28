@@ -3,7 +3,7 @@
  * Footer of the settings page
  * */
 ?>
-<div class="background__white radius-25 p40">
+<div class="background__white radius-16 p-24">
     <div class="embedpress__row grid__3">
         <div class="embedpress-card">
             <div class="icon">

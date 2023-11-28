@@ -6,6 +6,7 @@ use EmbedPress\Core;
 use EmbedPress\Ends\Handler as EndHandlerAbstract;
 use EmbedPress\Shortcode;
 use Embera\Embera;
+use EmbedPress\Includes\Classes\Helper;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
 
@@ -36,6 +37,9 @@ class Handler extends EndHandlerAbstract
 
         add_action('wp_ajax_delete_instagram_account', [$this, 'delete_instagram_account']);
         add_action('init', [$this, 'handle_instagram_data']);
+
+        add_action('init', [$this, 'handle_calendly_data']);
+
     }
 
     public function handle_instagram_data()
@@ -88,7 +92,70 @@ class Handler extends EndHandlerAbstract
             
             wp_redirect(admin_url('admin.php?page=embedpress&page_type=instagram'), 301);
             exit();
+        }
             
+    }
+
+    public function handle_calendly_data()
+    {
+
+        if ((!empty($_GET['access_token']) && isset($_GET['page_type']) && $_GET['page_type'] == 'calendly') || (isset($_GET['calendly_status']) && ($_GET['calendly_status'] == 'sync' || $_GET['calendly_status'] == 'connect'))) {
+
+            update_option('is_calendly_connected', true);
+
+            if (isset($_GET['access_token']) && !empty($_GET['access_token'])) {
+                $access_token = $_GET['access_token'];
+                $refresh_token = $_GET['refresh_token'];
+                $expires_in = $_GET['expires_in'];
+                $created_at = $_GET['created_at'];
+            } elseif (isset($_GET['calendly_status']) && ($_GET['calendly_status'] == 'sync' || $_GET['calendly_status'] == 'connect')) {
+                $token_data = get_option('calendly_tokens');
+                $access_token = $token_data['access_token'];
+                $refresh_token = $token_data['refresh_token'];
+                $expires_in = $token_data['expires_in'];
+                $created_at = $token_data['created_at'];
+            }
+
+            // Create an array to store the tokens and expiration time
+            $token_data = array(
+                'access_token' => $access_token,
+                'refresh_token' => $refresh_token,
+                'expires_in' => $expires_in,
+                'created_at' => $created_at
+            );
+
+            // Save the serialized data in a single option key
+            update_option('calendly_tokens', $token_data);
+
+            $user_info = Helper::getCalendlyUserInfo($access_token);
+            $event_types = Helper::getCalaendlyEventTypes($user_info['resource']['uri'], $access_token);
+            $scheduled_events = Helper::getCalaendlyScheduledEvents($user_info['resource']['uri'], $access_token);
+
+            $invite_list = [];
+
+            foreach ($scheduled_events['collection'] as $event) :
+                $uuid = Helper::getCalendlyUuid($event['uri']);
+                $invite_list[$uuid] = Helper::getListEventInvitee($uuid, $access_token);
+            endforeach;
+
+            update_option('calendly_user_info', $user_info);
+
+
+
+            if (is_embedpress_pro_active() && (!isset($event_types['title']) && $event_types['title'] !== 'Unauthenticated')) {
+                update_option('calendly_event_types', $event_types);
+                update_option('calendly_scheduled_events', $scheduled_events);
+                update_option('calendly_invitees_list', $invite_list);
+            }
+
+            if (!is_embedpress_pro_active()) {
+                update_option('calendly_event_types', []);
+                update_option('calendly_scheduled_events', []);
+                update_option('calendly_invitees_list', []);
+            }
+
+            wp_redirect(admin_url('admin.php?page=embedpress&page_type=calendly'), 302);
+            exit();
         }
     }
 
@@ -161,15 +228,7 @@ class Handler extends EndHandlerAbstract
         wp_enqueue_script(
             'embedpress-admin',
             EMBEDPRESS_URL_ASSETS . 'js/admin.js',
-            ['jquery'],
-            $this->pluginVersion,
-            true
-        );
-
-        wp_enqueue_script(
-            'embedpress-admin',
-            EMBEDPRESS_URL_ASSETS . 'js/admin.js',
-            ['jquery'],
+            ['jquery', 'wp-i18n', 'wp-url'],
             $this->pluginVersion,
             true
         );

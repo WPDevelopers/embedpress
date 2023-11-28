@@ -87,6 +87,22 @@ class Embedpress_Pdf extends Widget_Base
         );
 
         $this->add_control(
+            'embedpress_pdf_file_link_from',
+            [
+                'label'   => __( 'URL From', 'embedpress' ),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'external',
+                'options' => [
+                    'self' => __( 'Self', 'embedpress' ),
+                    'external'  => __( 'External', 'embedpress' )
+                ],
+                'condition' => [
+                    'embedpress_pdf_type' => 'url'
+                ]
+            ]
+        );
+
+        $this->add_control(
             'embedpress_pdf_Uploader',
             [
                 'label'       => __('Upload File', 'embedpress'),
@@ -286,15 +302,20 @@ class Embedpress_Pdf extends Widget_Base
          * EmbedPress PDF Control Settings
          */
 
-        $this->start_controls_section(
+         $this->start_controls_section(
             'embedpress_pdf_content_settings',
             [
                 'label' => esc_html__('Controls', 'embedpress'),
-                'condition'   => [
-                    'embedpress_pdf_type' => 'file'
+                'conditions' => [
+                    'relation' => 'or',
+                    'terms' => [
+                        ['name' => 'embedpress_pdf_type', 'operator' => '===', 'value' => 'file'],
+                        ['name' => 'embedpress_pdf_file_link_from', 'operator' => '===', 'value' => 'self'],
+                    ],
                 ],
             ]
         );
+        
 
         $this->add_control(
             'embedpress_theme_mode',
@@ -559,10 +580,7 @@ class Embedpress_Pdf extends Widget_Base
             $urlParamData['customColor'] = $settings['embedpress_pdf_custom_color'];
         }
 
-        if($settings['embedpress_pdf_type'] == 'file'){   
-            return "#key=" . base64_encode(utf8_encode(http_build_query($urlParamData)));
-        }
-        return '';
+        return "#key=" . base64_encode(utf8_encode(http_build_query($urlParamData)));
     
     }
 

@@ -83,7 +83,6 @@ class Embedpress_Document extends Widget_Base
                 ],
             ]
         );
-
         $this->add_control(
             'embedpress_document_Uploader',
             [

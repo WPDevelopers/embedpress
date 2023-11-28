@@ -31,4 +31,5 @@ $additionalServiceProviders = [
 	EMBEDPRESS_NAMESPACE . "\\Providers\\InstagramFeed"    => ["instagram.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\SelfHosted"    => [$host_url['host'], "*.com", "*.net", "*.org", "*.edu", "*.gov", "*.mil", "*.int", "*.biz", "*.info", "*.jobs", "*.mobi", "*.name", "*.aero", "*.coop", "*.travel", "*.museum", "*.cat", "*.pro", "*.tel", "*.asia", "*.xxx", "*.post", "*.geo", "*.nato"], 
 	EMBEDPRESS_NAMESPACE . "\\Providers\\Gumroad"    => ["*.gumroad.com","gumroad.com"], 
+	EMBEDPRESS_NAMESPACE . "\\Providers\\Calendly"    => ["*.calendly.com","calendly.com"], 
 ];

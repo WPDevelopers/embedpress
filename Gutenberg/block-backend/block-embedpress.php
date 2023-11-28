@@ -18,9 +18,9 @@ if(!function_exists('lock_content_form_handler')){
 	function lock_content_form_handler() {
 		// print_r($embedHTML);
 
-		$client_id = isset($_POST['client_id']) ? $_POST['client_id'] : '';
-		$password = isset($_POST['password']) ? $_POST['password'] : '';
-		$post_id = isset($_POST['post_id']) ? $_POST['post_id'] : '';
+		$client_id = isset($_POST['client_id']) ? sanitize_text_field($_POST['client_id']) : '';
+		$password = isset($_POST['password']) ? sanitize_text_field($_POST['password']) : '';
+		$post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
 		
 		$epbase64 = get_post_meta( $post_id, 'ep_base_' .$client_id, true );	
 		$hash_key = get_post_meta( $post_id, 'hash_key_' .$client_id, true  );
@@ -43,7 +43,7 @@ if(!function_exists('lock_content_form_handler')){
 			var time = now.getTime();
 			var expireTime = time + 1000 * 60 * 60 * 24 * 30;
 			now.setTime(expireTime);
-			document.cookie = "password_correct_'.$client_id.'='.$hash_key.'; expires=" + now.toUTCString() + "; path=/";
+			document.cookie = "password_correct_'.esc_js($client_id).'='.esc_js($hash_key).'; expires=" + now.toUTCString() + "; path=/";
 		</script>';
 
 		}
@@ -59,9 +59,8 @@ if(!function_exists('lock_content_form_handler')){
 		'post_id' => $post_id
 		);
 
-		echo json_encode($response);
+		wp_send_json($response);
 
-		wp_die();
 	}
 }
 
@@ -107,6 +106,7 @@ function embedpress_render_block($attributes)
 		$_carousel_options = 'data-carousel-options='. htmlentities($carousel_options_string, ENT_QUOTES) .'';
 	}
 
+	$cEmbedType = !empty($attributes['cEmbedType']) ? $attributes['cEmbedType'] : '';
 
 	$_custom_player = '';
 	$_player_options = '';
@@ -213,7 +213,7 @@ function embedpress_render_block($attributes)
 
 		ob_start();
 		?>
-		<div class="embedpress-gutenberg-wrapper <?php echo  esc_attr( $alignment.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>" id="<?php echo esc_attr($block_id); ?>">
+		<div class="embedpress-gutenberg-wrapper <?php echo esc_attr( $alignment.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class); echo esc_attr( $cEmbedType ); ?>" id="<?php echo esc_attr($block_id); ?>">
 			<?php
 				$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
 				$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
@@ -337,7 +337,7 @@ function embedpress_render_block_style($attributes)
 	$youtubeStyles = '<style>
 		' . esc_attr($uniqid) . ' {
 			width: ' . esc_attr($attributes['width']) . 'px !important;
-			height: ' . esc_attr($attributes['height']) . 'px;
+			height: ' . esc_attr($attributes['height']) . 'px!important;
 			max-width: 100%;
 		}
 

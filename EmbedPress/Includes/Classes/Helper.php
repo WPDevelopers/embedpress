@@ -75,7 +75,10 @@ class Helper {
 		return $result;
 	}
 	public static function get_pdf_renderer() {
-		$renderer = EMBEDPRESS_URL_ASSETS . 'pdf/web/viewer.html';
+		// $renderer = EMBEDPRESS_URL_ASSETS . 'pdf/web/viewer.html';
+
+		$renderer = admin_url('admin-ajax.php?action=get_viewer');
+
 		// @TODO; apply settings query args here
 		return $renderer;
 	}
@@ -235,12 +238,9 @@ class Helper {
 	public function lock_content_form_handler()
 	{
 
-		$client_id = isset($_POST['client_id']) ? $_POST['client_id'] : '';
-		$password = isset($_POST['password']) ? $_POST['password'] : '';
-		$post_id = isset($_POST['post_id']) ? $_POST['post_id'] : 'sdfds';
-
-		// $epbase64 = isset($_POST['epbase']) ? $_POST['epbase'] : '';
-		// $hash_key = isset($_POST['hash_key']) ? $_POST['hash_key'] : '';
+		$client_id = isset($_POST['client_id']) ? sanitize_text_field($_POST['client_id']) : '';
+		$password = isset($_POST['password']) ? sanitize_text_field($_POST['password']) : '';
+		$post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
 
 		$epbase64 = get_post_meta($post_id, 'ep_base_' .$client_id, false );	
 		$hash_key = get_post_meta( $post_id, 'hash_key_' .$client_id, false  );
@@ -262,7 +262,7 @@ class Helper {
 		var time = now.getTime();
 		var expireTime = time + 1000 * 60 * 60 * 24 * 30;
 		now.setTime(expireTime);
-		document.cookie = "password_correct_' . $client_id . '=' . $hash_key . '; expires=" + now.toUTCString() + "; path=/";
+		document.cookie = "password_correct_' . esc_js($client_id) . '=' . esc_js($hash_key) . '; expires=" + now.toUTCString() + "; path=/";
 	</script>';
 		} else {
 			$embed = 0;
@@ -275,9 +275,8 @@ class Helper {
 			'embedHtml' => $embed,
 		);
 
-		echo json_encode($response);
+		wp_send_json($response);
 
-		wp_die();
 	}
 
 	public static function display_password_form($client_id='', $embedHtml='', $pass_hash_key='', $attributes = [])
@@ -745,7 +744,151 @@ class Helper {
 			wp_send_json('');
 		}
 	}
+	
+	public static function getCalendlyUuid($url){
+		$pattern = '/\/([0-9a-fA-F-]+)$/';
+		if (preg_match($pattern, $url, $matches)) {
+			$uuid = $matches[1];
+			return $uuid;
+		}
+		return '';
+	}
 
+	public static function getCalendlyUserInfo($access_token)
+	{
+		// Attempt to retrieve the data from the transient
+		$user_info = get_transient('calendly_user_info_' . md5($access_token));
+
+		if (false === $user_info) {
+			// If the data is not in the transient, fetch it from the API
+			$user_endpoint = 'https://api.calendly.com/users/me';
+
+			$headers = array(
+				'Authorization' => "Bearer $access_token",
+				'Content-Type' => 'application/json',
+			);
+
+			$args = array(
+				'headers' => $headers,
+			);
+
+			$response = wp_remote_get($user_endpoint, $args);
+
+			if (!is_wp_error($response)) {
+				$body = wp_remote_retrieve_body($response);
+				$data = json_decode($body, true);
+
+				// Store the data in a transient for a specified time (e.g., 1 hour)
+				set_transient('calendly_user_info', $data, HOUR_IN_SECONDS);
+
+				return $data;
+			}
+		}
+
+		return $user_info;
+	}
+
+	public static function getCalaendlyEventTypes($user_uri, $access_token)
+	{
+		// Attempt to retrieve the data from the transient
+		$events_list = get_transient('calendly_events_list_' . md5($access_token));
+
+		if (false === $events_list) {
+			// If the data is not in the transient, fetch it from the API
+			$events_endpoint = "https://api.calendly.com/event_types?user=$user_uri";
+
+			$headers = array(
+				'Authorization' => "Bearer $access_token",
+				'Content-Type' => 'application/json',
+			);
+
+			$args = array(
+				'headers' => $headers,
+			);
+
+			$response = wp_remote_get($events_endpoint, $args);
+
+			if (!is_wp_error($response)) {
+				$body = wp_remote_retrieve_body($response);
+				$events_list = json_decode($body, true);
+
+				// Store the data in a transient for a specified time (e.g., 1 hour)
+				set_transient('calendly_events_list', $events_list, HOUR_IN_SECONDS);
+
+				return $events_list;
+			}
+		}
+
+		return $events_list;
+	}
+	
+	public static function getListEventInvitee($uuid, $access_token)
+	{
+		// Attempt to retrieve the data from the transient
+		$invitee_list = get_transient('calendly_invitee_list_' . md5($access_token));
+
+		if (false === $invitee_list) {
+			// If the data is not in the transient, fetch it from the API
+			$events_endpoint = "https://api.calendly.com/scheduled_events/$uuid/invitees";
+
+			$headers = array(
+				'Authorization' => "Bearer $access_token",
+				'Content-Type' => 'application/json',
+			);
+
+			$args = array(
+				'headers' => $headers,
+			);
+
+			$response = wp_remote_get($events_endpoint, $args);
+
+			if (!is_wp_error($response)) {
+				$body = wp_remote_retrieve_body($response);
+				$invitee_list = json_decode($body, true);
+
+				// Store the data in a transient for a specified time (e.g., 1 hour)
+				set_transient('calendly_invitee_list', $invitee_list, HOUR_IN_SECONDS);
+
+				return $invitee_list;
+			}
+		}
+
+		return $invitee_list;
+	}
+
+	public static function getCalaendlyScheduledEvents($user_uri, $access_token)
+	{
+		// Attempt to retrieve the data from the transient
+		$events_list = get_transient('calendly_events_list_' . md5($access_token));
+
+		if (false === $events_list) {
+			// If the data is not in the transient, fetch it from the API
+			$events_endpoint = "https://api.calendly.com/scheduled_events?user=$user_uri";
+
+			$headers = array(
+				'Authorization' => "Bearer $access_token",
+				'Content-Type' => 'application/json',
+			);
+
+			$args = array(
+				'headers' => $headers,
+			);
+
+			$response = wp_remote_get($events_endpoint, $args);
+
+			if (!is_wp_error($response)) {
+				$body = wp_remote_retrieve_body($response);
+				$events_list = json_decode($body, true);
+
+				// Store the data in a transient for a specified time (e.g., 1 hour)
+				set_transient('calendly_events_list', $events_list, HOUR_IN_SECONDS);
+
+				return $events_list;
+			}
+		}
+
+		return $events_list;
+	}
 
 
 }

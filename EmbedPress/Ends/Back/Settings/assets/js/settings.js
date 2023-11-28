@@ -339,6 +339,8 @@ jQuery(document).ready(function ($) {
             $this.html('Activating.....');
         }
     });
+
+
     // Helpers
     function copyToClipboard(text) {
         if (window.clipboardData && window.clipboardData.setData) {
@@ -504,7 +506,25 @@ jQuery(document).ready(function ($) {
             // Code when deletion is cancelled
             console.log('Deletion cancelled.');
         }
-    });
 
+
+    });
 });
 
+$(document).ready(function () {
+    $('.calendly-event-copy-link').click(function () {
+        var eventLink = $(this).data('event-link');
+        var tempInput = $('<input>');
+        $('body').append(tempInput);
+        tempInput.val(eventLink).select();
+        document.execCommand('copy');
+        tempInput.remove();
+
+        var button = $(this);
+        button.find('span').text('Copied!');
+
+        setTimeout(function () {
+            button.find('span').text('Copy link');
+        }, 1500);
+    });
+});

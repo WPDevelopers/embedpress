@@ -316,7 +316,7 @@
 .editor-styles-wrapper .wp-block[data-align=center]{
 	text-align: center;
 }
-.editor-styles-wrapper .wp-block[data-align=center] > * {
+.editor-styles-wrapper .wp-block[data-align=center] > *:not(style) {
 	display: inline-block;
 }
 .editor-styles-wrapper .wp-block::after,
@@ -344,4 +344,22 @@
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.cbutton-preview-wrapper {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: #fff8f8;
+    height: 200px;
+    width: 300px;
+    margin: auto;
+    margin-top: -350px;
+}
+
+h4.cbutton-preview-text {
+    padding-top: 0;
+    margin-top: 0;
 }
