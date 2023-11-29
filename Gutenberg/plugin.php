@@ -715,7 +715,6 @@ if (!empty($attributes['href'])) {
 	$id = !empty($attributes['id']) ? $attributes['id'] : 'embedpress-pdf-' . rand(100, 10000);
 	$client_id = md5($id);
 	
-	$hash_pass = hash('sha256', wp_salt(32) . md5(isset($attributes['contentPassword']) ? $attributes['contentPassword'] : ''));
 
 	$unitoption = !empty($attributes['unitoption']) ? $attributes['unitoption'] : 'px';
 	$width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : '600px';
@@ -736,6 +735,8 @@ if (!empty($attributes['href'])) {
 	}
 	
 	$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
+	$hash_pass = hash('sha256', wp_salt(32) . md5(isset($attributes['contentPassword']) ? $attributes['contentPassword'] : ''));
+
 
 	$content_protection_class = 'ep-content-protection-enabled';
 	if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || $hash_pass === $password_correct) {

@@ -78,7 +78,7 @@ function embedpress_render_block($attributes)
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
 	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
 
-	$cEmbedType = !empty($attributes['cEmbedType']) ? $attributes['cEmbedType'] : '';
+	$cEmbedType = !empty($attributes['cEmbedType']) ? ' '.$attributes['cEmbedType'] : '';
 
 	$_custom_player = '';
 	$_player_options = '';
@@ -166,9 +166,13 @@ function embedpress_render_block($attributes)
 			$content_share_class = 'ep-content-share-enabled';
 			$share_position_class = 'ep-share-position-'.$share_position;
 		}
-		$content_protection_class = '';
-		if(!empty($attributes['lockContent']) && !empty($attributes['contentPassword'])) {
-			$content_protection_class = 'ep-content-protection-enabled';
+
+		$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
+		$hash_pass = hash('sha256', wp_salt(32) . md5(isset($attributes['contentPassword']) ? $attributes['contentPassword'] : ''));
+
+		$content_protection_class = 'ep-content-protection-enabled';
+		if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || $hash_pass === $password_correct) {
+			$content_protection_class = 'ep-content-protection-disabled';
 		}
 
 		$aligns = [
