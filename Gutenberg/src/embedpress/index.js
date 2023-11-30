@@ -761,7 +761,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: true
 			},
-			adSkipButtonAfrer: {
+			adSkipButtonAfter: {
 				type: 'string',
 				default: '5'
 			},

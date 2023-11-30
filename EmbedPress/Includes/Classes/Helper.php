@@ -284,7 +284,6 @@ class Helper
 		);
 
 		wp_send_json($response);
-
 	}
 
 	public static function display_password_form($client_id = '', $embedHtml = '', $pass_hash_key = '', $attributes = [])
@@ -777,6 +776,7 @@ class Helper
 				$adWidth = isset($attributes['adWidth']) ? $attributes['adWidth'] : '';
 				$adHeight = isset($attributes['adHeight']) ? $attributes['adHeight'] : '';
 				$adSkipButton = isset($attributes['adSkipButton']) ? $attributes['adSkipButton'] : false;
+				$adSkipButtonAfter = isset($attributes['adSkipButtonAfter']) ? intval($attributes['adSkipButtonAfter']) : 5;
 
 				$currentTime = 0;
 				$showSkipButton = false;
@@ -786,18 +786,7 @@ class Helper
 					$videoDuration = self::parseDuration($adContent['fileLength']);
 				}
 
-				if ($adSource === 'video') {
-					// Simulate video time update
-					// You can replace this with actual values from your application
-					$currentTime = 5;
-
-					if ($currentTime >= 3) {
-						$showSkipButton = true;
-					}
-				} else {
-					// Show skip button for image ads after 3 seconds
-					$showSkipButton = true;
-				}
+				$showSkipButton = true;
 
 				?>
 		<div class="main-ad-template <?php echo esc_attr($adSource); ?>" id="<?php echo esc_attr('ad-' . $client_id); ?>" style="display:none">
@@ -805,13 +794,13 @@ class Helper
 				<div class="ep-ad-content" style="position: relative;">
 					<?php if (!empty($adUrl)) : ?> <a target="_blank" href="<?php echo esc_url($adUrl); ?>"> <?php endif; ?>
 						<?php if ($adSource === 'video') : ?>
-							<video class="ep-ad" autoplay muted>
+							<video class="ep-ad" muted>
 								<source src="<?= $adFileUrl ?>">
 							</video>
 
 							<div class="ad-timer">
 								<span class="ad-running-time"></span>
-								<span class="ad-duration"><?php echo esc_html__('• Ad', 'embedpress'); ?></span>
+								<span class="ad-duration">&nbsp;<?php echo esc_html__('• Ad', 'embedpress'); ?></span>
 							</div>
 							<div class="progress-bar-container">
 								<div class="progress-bar"></div>
@@ -933,29 +922,40 @@ class Helper
 				right: 10px;
 				border: none;
 				background: #d41556b5 !important;
-				padding: 6px 8px;
 				color: white !important;
 				z-index: 122222222;
-				font-size: 15px;
-				font-weight: bold;
+				font-size: 14px;
 				border-radius: 4px;
+				height: 30px;
+				width: 80px;
+				font-weight: normal;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				cursor: pointer;
 
 			}
 
 			.ad-timer {
 				position: absolute;
 				background: #d41556b5;
-				padding: 6px 0;
-				font-size: 15px;
+				font-size: 14px;
 				width: 110px;
 				color: white;
 				bottom: 15px;
 				left: 10px;
 				text-align: center;
 				border-radius: 4px;
-				font-weight: bold;
+				height: 30px;
+				width: 80px;
+				font-weight: normal;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
 			}
-			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .hidden{
+
+			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .hidden {
 				display: none !important;
 			}
 		</style>

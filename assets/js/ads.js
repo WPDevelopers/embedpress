@@ -1,7 +1,5 @@
 const isPyr = document.querySelector('[data-playerid]')?.getAttribute('data-playerid');
 if (!isPyr) {
-    console.log('Player');
-    let v = 'akashi';
     var scriptUrl = 'https:\/\/www.youtube.com\/s\/player\/9d15588c\/www-widgetapi.vflset\/www-widgetapi.js'; try { var ttPolicy = window.trustedTypes.createPolicy("youtube-widget-api", { createScriptURL: function (x) { return x } }); scriptUrl = ttPolicy.createScriptURL(scriptUrl) } catch (e) { } var YT; if (!window["YT"]) YT = { loading: 0, loaded: 0 }; var YTConfig; if (!window["YTConfig"]) YTConfig = { "host": "https://www.youtube.com" };
     if (!YT.loading) {
         YT.loading = 1; (function () {
@@ -63,7 +61,9 @@ const adInitialization = (adContainer, index) => {
     const adSource = adAtts.adSource;
     const adVideos = [];
     const srcUrl = adAtts.url || adAtts.embedpress_embeded_link;
+    const adSkipButtonAfter = parseInt(adAtts.adSkipButtonAfter);
 
+    
     addWrapperForYoutube(adContainer, srcUrl, adAtts);
 
     // let adVideo = adContainer.querySelector('#ad-' + blockId + ' .ep-ad');
@@ -85,25 +85,20 @@ const adInitialization = (adContainer, index) => {
 
     const hashClass = hashParentClass(adContainer, 'ep-content-protection-enabled');
 
-    console.log(hashClass);
-
     if (hashClass) {
         adContainer.classList.remove('ad-mask');
     }
 
     adMask?.addEventListener('click', function () {
-        console.log(playerInit);
 
         if (adContainer.classList.contains('ad-mask')) {
             playerId = adContainer.querySelector('[data-playerid]')?.getAttribute('data-playerid');
 
             if (playerInit.length > 0) {
-                console.log(playerInit);
                 playerInit[playerId]?.play();
             }
 
             if (getYTVideoId(srcUrl)) {
-                console.log(index);
                 player[index]?.playVideo();
             }
 
@@ -140,7 +135,7 @@ const adInitialization = (adContainer, index) => {
             const progress = (currentTime / videoDuration) * 100;
             progressBar.style.width = progress + '%';
 
-            if (currentTime >= 3) {
+            if (currentTime >= adSkipButtonAfter) {
                 // Show the skip button after 3 seconds
                 skipButton.style.display = 'inline-block';
             }
@@ -198,7 +193,6 @@ function onYouTubeIframeAPIReady(iframe, srcUrl, adVideo, index) {
     // Find the iframe by its src attribute
 
     if (iframe && getYTVideoId(srcUrl) !== null) {
-        console.log(index);
         player[index] = new YT.Player(iframe, {
             videoId: getYTVideoId(srcUrl),
 
@@ -226,7 +220,6 @@ function onPlayerReady(event, adVideo) {
 window.onload = function () {
     let yVideos = setInterval(() => {
         var youtubeVideos = document.querySelectorAll('.ose-youtube');
-        console.log(youtubeVideos);
         if (youtubeVideos.length > 0) {
             clearInterval(yVideos);
 

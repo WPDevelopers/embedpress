@@ -37,7 +37,7 @@ export default function AdControl({ attributes, setAttributes }) {
         adUrl,
         adStart,
         adSkipButton,
-        adSkipButtonAfrer
+        adSkipButtonAfter
 
     } = attributes;
 
@@ -188,8 +188,8 @@ export default function AdControl({ attributes, setAttributes }) {
 
                                 <TextControl
                                     label={__("Skip Button After (sec)")}
-                                    value={adSkipButtonAfrer}
-                                    onChange={(adSkipButtonAfrer) => setAttributes({ adSkipButtonAfrer: adSkipButtonAfrer })}
+                                    value={adSkipButtonAfter}
+                                    onChange={(adSkipButtonAfter) => setAttributes({ adSkipButtonAfter: adSkipButtonAfter })}
                                 />
                             )
                         }
