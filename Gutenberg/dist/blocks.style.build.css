@@ -1420,11 +1420,11 @@ span.isPro {
   background-color: #b89d9d;
   border: 5px solid #b89d9d; }
 
-.block-editor-block-inspector .components-base-control {
+.ep-gutenberg-controls-wrapper .components-base-control {
   margin-top: 15px;
   margin-bottom: 30px; }
 
-.block-editor-block-inspector .remove-last-child-margin .components-base-control:last-child {
+.ep-gutenberg-controls-wrapper .remove-last-child-margin .components-base-control:last-child {
   margin-bottom: 30px; }
 
 .embedpress-documents-control .components-base-control {
