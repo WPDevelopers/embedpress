@@ -24,13 +24,13 @@ class Extend_Elementor_Controls
 		$that->start_controls_section(
 			'embedpress_adManager',
 			[
-				'label' => esc_html__('EP Ad Manager', 'embedpress'),
+				'label' => esc_html__('EP Ads Settings', 'embedpress'),
 			]
 		);
 		$that->add_control(
 			'adManager',
 			[
-				'label'        => sprintf(__('Ad Manager %s', 'embedpress'), $pro_text),
+				'label'        => sprintf(__('Ads Settings %s', 'embedpress'), $pro_text),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'label_on' => __('Yes', 'embedpress'),
 				'label_off' => __('No', 'embedpress'),
