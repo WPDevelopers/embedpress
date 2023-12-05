@@ -76,7 +76,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                 {
                     !isOpensea && !isOpenseaSingle && (
                         <div>
-                            <PanelBody title={__("General")}>
+                            <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('General', 'embedpress')}</div>}>
 
                                 <div>
 

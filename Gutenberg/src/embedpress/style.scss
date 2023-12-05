@@ -1061,6 +1061,19 @@ a.ep-social-icon.pinterest svg {
     background-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #6354a5));
 }
 
+.ep-pannel-icon {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+.ep-pannel-icon svg{
+    width: 18px;
+    height: auto;
+}
+
 .ep-documentation, .ep-tips-and-tricks {
     display: flex;
     align-items: center;
