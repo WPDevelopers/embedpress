@@ -83,8 +83,6 @@ class Feature_Enhancer
 	
 	public function delete_source_data() {
 
-		print_r($_POST); die;
-
 		if( ! wp_verify_nonce( $_POST[ '_source_nonce' ], 'source_nonce_embedpress' ) ) {
 			return;
 		}
