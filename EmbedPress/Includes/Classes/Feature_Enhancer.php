@@ -34,10 +34,8 @@ class Feature_Enhancer
 		add_action('wp_ajax_nopriv_youtube_rest_api', [$this, 'youtube_rest_api']);
 		add_action('embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2);
 		add_action( 'wp_ajax_save_source_data', [$this, 'save_source_data'] );
-		add_action( 'wp_ajax_nopriv_save_source_data', [$this, 'save_source_data'] );
 		add_action( 'save_post', [$this, 'save_source_data_on_post_update'], 10, 3 );
 		add_action( 'wp_ajax_delete_source_data', [$this, 'delete_source_data'] );
-		add_action( 'wp_ajax_nopriv_delete_source_data', [$this, 'delete_source_data'] );
 		add_action( 'load-post.php', [$this, 'delete_source_temp_data_on_reload'] );
 		add_action('embedpress:isEmbra', [$this, 'isEmbra'], 10, 3);
 		add_action( 'elementor/editor/after_save', [$this, 'save_el_source_data_on_post_update'] );
@@ -63,7 +61,10 @@ class Feature_Enhancer
 	}
 
 	public function save_source_data(){
-
+		
+		if( ! wp_verify_nonce( $_POST[ '_source_nonce' ], 'source_nonce_embedpress' ) ) {
+			return;
+		}
 		$source_url = $_POST['source_url'];
 		$blockid = $_POST['block_id'];
 
@@ -81,6 +82,12 @@ class Feature_Enhancer
 	}
 	
 	public function delete_source_data() {
+
+		print_r($_POST); die;
+
+		if( ! wp_verify_nonce( $_POST[ '_source_nonce' ], 'source_nonce_embedpress' ) ) {
+			return;
+		}
 		$blockid = $_POST['block_id'];
 		Helper::get_delete_source_data($blockid, 'gutenberg_source_data', 'gutenberg_temp_source_data');
 	}
