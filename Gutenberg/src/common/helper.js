@@ -113,6 +113,7 @@ export const deleteSourceData = (clientId) => {
     const data = {
         action: 'delete_source_data',
         block_id: clientId,
+        _source_nonce: embedpressObj.source_nonce,
     };
 
     const encodedData = Object.keys(data)
