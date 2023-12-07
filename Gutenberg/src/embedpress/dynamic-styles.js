@@ -119,10 +119,13 @@ export const dynamicStyles = ({ attributes }) => {
                     [data-source-id="source-${clientId}"] .ose-embedpress-responsive{
                         width: ${width}px!important;
                         height: ${height}px!important
+                        max-height: ${height}px!important
                     }
                     [data-source-id="source-${clientId}"] iframe{
                         width: ${width}px!important;
                         height: ${height}px!important
+                        max-height: ${height}px!important
+
                     }
                     [data-source-id="source-${clientId}"] .embedpress-yt-subscribe iframe{
                         height: 100%!important
@@ -135,6 +138,7 @@ export const dynamicStyles = ({ attributes }) => {
                         height: ${height}px!important;
                         width: ${width}px!important;
                     }
+                    
                     
                 `}
                     </style>
