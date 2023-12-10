@@ -58,12 +58,41 @@ class Extend_Elementor_Controls
 		$that->add_control(
 			'adFileUrl',
 			[
-				'label' => __('Ad File URL', 'embedpress'),
+				'label' => __('Uploaded Video', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::MEDIA,
 				'media_types' => [
-					'image', 'video'
+					'video'
 				],
-				'condition' => $ad_condition,
+				'condition' => [
+					'adManager' => 'yes',
+					'adSource'  => 'video',
+				],
+				'ai'     => $ai_condition,
+			]
+		);
+		$that->add_control(
+			'adFileUrl1',
+			[
+				'label' => __('Uploaded Image', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::MEDIA,
+				'media_types' => [
+					'image'
+				],
+				'condition' => [
+					'adManager' => 'yes',
+					'adSource'  => 'image',
+				],
+				'ai'     => $ai_condition,
+			]
+		);
+		$that->add_control(
+			'adFileUrl2',
+			[
+				'type' => \Elementor\Controls_Manager::URL,
+				'condition' => [
+					'adManager' => 'yes',
+					'adSource'  => 'url',
+				],
 				'ai'     => $ai_condition,
 			]
 		);

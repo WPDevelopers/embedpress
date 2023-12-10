@@ -761,7 +761,16 @@ class Helper
 				$adContent = isset($attributes['adContent']) ? $attributes['adContent'] : '';
 
 				if ($editor === 'elementor') {
-					$adFileUrl = isset($attributes['adFileUrl']['url']) ? $attributes['adFileUrl']['url'] : '';
+					if($attributes['adSource'] === 'video'){
+						$adFileUrl = isset($attributes['adFileUrl']['url']) ? $attributes['adFileUrl']['url'] : '';
+					}
+					else if($attributes['adSource'] === 'image'){
+						$adFileUrl = isset($attributes['adFileUrl1']['url']) ? $attributes['adFileUrl1']['url'] : '';
+					}
+					else{
+						$adFileUrl = isset($attributes['adFileUrl2']['url']) ? $attributes['adFileUrl2']['url'] : '';
+					}
+
 					$width = isset($attributes['width']) ? $attributes['width']['size'] : '600';
 					$height = isset($attributes['height']) ? $attributes['height']['size'] : '550';
 				} else {
