@@ -63,7 +63,7 @@ const adInitialization = (adContainer, index) => {
     const srcUrl = adAtts.url || adAtts.embedpress_embeded_link;
     const adSkipButtonAfter = parseInt(adAtts.adSkipButtonAfter);
 
-    
+
     addWrapperForYoutube(adContainer, srcUrl, adAtts);
 
     // let adVideo = adContainer.querySelector('#ad-' + blockId + ' .ep-ad');
@@ -224,9 +224,15 @@ window.onload = function () {
             clearInterval(yVideos);
 
             youtubeVideos.forEach((yVideo, index) => {
-                const srcUrl = yVideo.querySelector('iframe').getAttribute('src');
-                const adVideo = yVideo.closest('.ad-mask').querySelector('.ep-ad');
-                onYouTubeIframeAPIReady(yVideo, srcUrl, adVideo, index);
+                const srcUrl = yVideo.querySelector('iframe')?.getAttribute('src');
+                const adVideo = yVideo.closest('.ad-mask')?.querySelector('.ep-ad');
+                const isYTChannel = yVideo.closest('.ad-mask')?.querySelector('.ep-youtube-channel');
+                if(adVideo && !isYTChannel){
+
+                    console.log(isYTChannel);
+                    
+                    onYouTubeIframeAPIReady(yVideo, srcUrl, adVideo, index);
+                }
             });
         }
     }, 100);

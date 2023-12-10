@@ -797,8 +797,13 @@ class Helper
 
 				$showSkipButton = true;
 
+				$isYTChannelClass = '';
+				if(self::is_youtube_channel($attributes['url'])){
+					$isYTChannelClass = ' ep-youtube-channel';
+				}
+
 				?>
-		<div class="main-ad-template <?php echo esc_attr($adSource); ?>" id="<?php echo esc_attr('ad-' . $client_id); ?>" style="display:none">
+		<div class="main-ad-template <?php echo esc_attr($adSource); echo esc_attr($isYTChannelClass); ?>" id="<?php echo esc_attr('ad-' . $client_id); ?>" style="display:none">
 			<div class="ep-ad-container">
 				<div class="ep-ad-content" style="position: relative;">
 					<?php if (!empty($adUrl)) : ?> <a target="_blank" href="<?php echo esc_url($adUrl); ?>"> <?php endif; ?>
