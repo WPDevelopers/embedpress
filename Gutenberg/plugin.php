@@ -782,6 +782,7 @@ if (!empty($attributes['href'])) {
 
 		$url = !empty($attributes['href']) ? $attributes['href'] : '';
 
+		$adsAtts = '';
 		if(!empty($attributes['adManager'])) {
 			$ad = base64_encode(json_encode($attributes));
 			$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
