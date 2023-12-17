@@ -798,7 +798,7 @@ class Helper
 				$showSkipButton = true;
 
 				$isYTChannelClass = '';
-				if(self::is_youtube_channel($attributes['url'])){
+				if(!empty($attributes['url']) && self::is_youtube_channel($attributes['url'])){
 					$isYTChannelClass = ' ep-youtube-channel';
 				}
 

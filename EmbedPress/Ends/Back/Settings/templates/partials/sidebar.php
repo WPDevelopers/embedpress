@@ -51,6 +51,10 @@
             <?php do_action('ep_before_branding_menu'); ?>
 
 
+            <li class="sidebar__item <?php echo 'ads' === $template ? 'show' : ''; ?>">
+                <a href="<?php echo esc_url($ep_page . '&page_type=ads'); ?>" class="sidebar__link  <?php echo 'ads' === $template ? 'active' : ''; ?>"><span><i class="ep-icon ep-branding"></i></span> Ads</a>
+            </li>
+
             <?php
             if (isset($pro_active) && $pro_active) {
                 do_action('ep_before_license_menu'); ?>
