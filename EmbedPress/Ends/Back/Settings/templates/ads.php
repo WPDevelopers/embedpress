@@ -5,64 +5,66 @@
     <div class="entry-content clear" ast-blocks-layout="true" itemprop="text">
         <div class="ad-preview-sectiion">
             <div class="video-ad-prewiew-options">
-                <div class="logo__adjust__wrap " style="display: block;">
-                    <label class="logo__upload" id="yt_logo_upload_wrap" style="">
-                        <input type="hidden" class="preview__video__input" name="ad_video_url" id="ad_video_url" data-default="" value="">
-                        <input type="hidden" class="preview__video__input_id" name="ad_video_id" id="ad_video_id" data-default="0" value="0">
-                        <span class="icon"><i class="ep-icon ep-upload"></i></span>
-                        <span class="text">Click To Upload</span>
-                    </label>
-                    <div class="logo__upload__preview" id="yt_logo__upload__preview" style="display:none ">
-                        <div class="instant__preview">
-                            <a href="#" id="yt_preview__remove" class="preview__remove"><i class="ep-icon ep-cross"></i></a>
-                            <img class="instant__preview__img" id="yt_logo_preview" src="" alt="">
-                        </div>
-                    </div>
+                <div class="ad__adjust__wrap " style="display: block;">
 
-                    <div class="logo__adjust">
-                        <div class="logo__adjust__controller">
-                            <div class="logo__adjust__controller__item">
+                    <div class="ad__adjust" >
+                        <form class="ad__adjust__controller" id="ad-preview-1">
+                            <div class="ad__adjust__controller__item">
+                                <span class="controller__label">Upload Ad</span>
+                                <div class="ad__adjust__controller__inputs ad-upload-options">
+                                    <input type="button" id="uploadBtn" class="button" value="Upload" /><br/>
+                                    <input type="hidden" id="fileInput" name="adFileUrl"/><br/>
+                                    <p class="uploaded-file-url"></p>
+                                    <div class="ad__upload__preview" id="yt_ad__upload__preview" style="display:none ">
+                                        <div class="instant__preview">
+                                            <a href="#" id="yt_preview__remove" class="preview__remove"><i class="ep-icon ep-cross"></i></a>
+                                            <img class="instant__preview__img" id="yt_logo_preview" src="" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="ad__adjust__controller__item">
                                 <span class="controller__label">Ad Start After (Sec)</span>
-                                <div class="logo__adjust__controller__inputs">
-                                    <input type="range" max="100" data-default="50" value="50" class="opacity__range" name="yt_logo_opacity">
-                                    <input readonly="" type="number" class="form__control range__value" data-default="50" value="50">
-                                </div>
-                            </div>
-
-                            <div class="logo__adjust__controller__item">
-                                <span class="controller__label">Skip Button</span>
-                                <div class="logo__adjust__controller__inputs">
-                                    <label class="input__switch switch__text ">
-                                        <input type="checkbox" name="yt_branding" data-default="no" data-value="no" value="yes">
-                                        <span></span>
-                                        <a href="#" class="logo__adjust__toggler">Settings<i class="ep-icon ep-caret-down"></i></a>
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="logo__adjust__controller__item">
-                                <span class="controller__label">Skip Button After (Sec)</span>
-                                <div class="logo__adjust__controller__inputs">
-                                    <input type="range" max="100" data-default="10" value="10" class="x__range" name="yt_logo_xpos">
+                                <div class="ad__adjust__controller__inputs">
+                                    <input type="range" max="100" data-default="10" value="10" class="opacity__range" name="adStart">
                                     <input readonly="" type="number" class="form__control range__value" data-default="10" value="10">
                                 </div>
                             </div>
 
-                            <button type="button" class="button preview-btn">
-                                Play Preview
-                            </button>
-                        </div>
+                            <div class="ad__adjust__controller__item">
+                                <span class="controller__label">Skip Button</span>
+                                <div class="ad__adjust__controller__inputs">
+                                    <label class="input__switch switch__text ">
+                                        <input type="checkbox" name="adSkipButton" data-default="no" data-value="no" value="yes" checked>
+                                        <span></span>
+                                       
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="ad__adjust__controller__item">
+                                <span class="controller__label">Skip Button After (Sec)</span>
+                                <div class="ad__adjust__controller__inputs">
+                                    <input type="range" max="100" data-default="5" value="5" class="x__range" name="adSkipButtonAfter">
+                                    <input readonly="" type="number" class="form__control range__value" data-default="5" value="5">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="button preview-btn" onclick="playPreview('#ep-ad-preview-1', '1')"> Play Preview </button>
+                        </form>
+
                     </div>
                 </div>
             </div>
             <div class="embedpress-gutenberg-wrapper aligncenter   ep-content-protection-disabled inline" id="1c3da3de-7606-4e9f-9693-d4b570cd2ca3">
                 <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Video ad Preview</mark> in Video</h2>
                 <div class="wp-block-embed__wrapper   ">
-                    <div id="ep-gutenberg-content-c1be37f85737fffde902f567d581d02f" class="ep-gutenberg-content">
-                        <div data-ad-id="c1be37f85737fffde902f567d581d02f" data-ad-attrs="eyJjbGllbnRJZCI6IjFjM2RhM2RlLTc2MDYtNGU5Zi05NjkzLWQ0YjU3MGNkMmNhMyIsInVybCI6Imh0dHBzOlwvXC93d3cueW91dHViZS5jb21cL3dhdGNoP3Y9QU1VNjZuYkZuR2cmcHA9eWdVTWQzQmtaWFpsYkc5bGNHVnkiLCJlbWJlZEhUTUwiOiI8ZGl2IGNsYXNzPVwib3NlLXlvdXR1YmUgb3NlLXVpZC1jYzkyZjFiZGQwZDQ3ZWQyYTEyOWMzMjBjMTA4MmFkNSBvc2UtZW1iZWRwcmVzcy1yZXNwb25zaXZlXCIgc3R5bGU9XCJ3aWR0aDo2MDBweDsgaGVpZ2h0OjM0MHB4OyBtYXgtaGVpZ2h0OjM0MHB4OyBtYXgtd2lkdGg6MTAwJTsgZGlzcGxheTppbmxpbmUtYmxvY2s7XCI+PGlmcmFtZSBhbGxvd2Z1bGxzY3JlZW4gdGl0bGU9XCJIb3cgVG8gTWFrZSBBbnkgUGFnZSBMYXlvdXQgVXNpbmcgVGhlIFdvcmRQcmVzcyBCbG9jayBFZGl0b3I6IEd1dGVuYmVyZ1wiIHdpZHRoPVwiNjAwXCIgaGVpZ2h0PVwiMzQwXCIgc3JjPVwiaHR0cHM6XC9cL3d3dy55b3V0dWJlLmNvbVwvZW1iZWRcL0FNVTY2bmJGbkdnP2ZlYXR1cmU9b2VtYmVkJmNvbG9yPXJlZCZyZWw9MSZjb250cm9scz0yJnN0YXJ0PXRydWUmZW5kPXRydWUmZnM9MSZpdl9sb2FkX3BvbGljeT0xJmF1dG9wbGF5PTAmbW9kZXN0YnJhbmRpbmc9MCZjY19sb2FkX3BvbGljeT0wXCIgZnJhbWVib3JkZXI9XCIwXCIgYWxsb3c9XCJhY2NlbGVyb21ldGVyOyBlbmNyeXB0ZWQtbWVkaWE7YWNjZWxlcm9tZXRlcjthdXRvcGxheTtjbGlwYm9hcmQtd3JpdGU7Z3lyb3Njb3BlO3BpY3R1cmUtaW4tcGljdHVyZSBjbGlwYm9hcmQtd3JpdGU7IGVuY3J5cHRlZC1tZWRpYTsgZ3lyb3Njb3BlOyBwaWN0dXJlLWluLXBpY3R1cmU7IHdlYi1zaGFyZVwiIGxvYWRpbmc9bGF6eT48XC9pZnJhbWU+PFwvZGl2PiIsImhlaWdodCI6IjM0MCIsImNvbnRlbnRQYXNzd29yZCI6IjEiLCJlZGl0aW5nVVJMIjpmYWxzZSwiaW50ZXJhY3RpdmUiOnRydWUsImxvZ29YIjoxMDAsImFkTWFuYWdlciI6dHJ1ZSwiYWRDb250ZW50Ijp7ImlkIjoxOTcsInRpdGxlIjoiNSBTdGFycyBFdmVyeXdoZXJlIiwiZmlsZW5hbWUiOiI1LVN0YXJzLUV2ZXJ5d2hlcmUubXA0IiwidXJsIjoiaHR0cDpcL1wvZW1iZWRwcmVzcy5sb2NhbFwvd3AtY29udGVudFwvdXBsb2Fkc1wvMjAyM1wvMTFcLzUtU3RhcnMtRXZlcnl3aGVyZS5tcDQiLCJsaW5rIjoiaHR0cDpcL1wvZW1iZWRwcmVzcy5sb2NhbFwvZW1iZWRwcmVzcy1hZHNcLzUtc3RhcnMtZXZlcnl3aGVyZVwvIiwiYWx0IjoiIiwiYXV0aG9yIjoiMSIsImRlc2NyaXB0aW9uIjoiIiwiY2FwdGlvbiI6IiIsIm5hbWUiOiI1LXN0YXJzLWV2ZXJ5d2hlcmUiLCJzdGF0dXMiOiJpbmhlcml0IiwidXBsb2FkZWRUbyI6MTA0LCJkYXRlIjoiMjAyMy0xMS0wMlQwOTo1NDozOS4wMDBaIiwibW9kaWZpZWQiOiIyMDIzLTExLTAyVDA5OjU0OjM5LjAwMFoiLCJtZW51T3JkZXIiOjAsIm1pbWUiOiJ2aWRlb1wvbXA0IiwidHlwZSI6InZpZGVvIiwic3VidHlwZSI6Im1wNCIsImljb24iOiJodHRwOlwvXC9lbWJlZHByZXNzLmxvY2FsXC93cC1pbmNsdWRlc1wvaW1hZ2VzXC9tZWRpYVwvdmlkZW8ucG5nIiwiZGF0ZUZvcm1hdHRlZCI6Ik5vdmVtYmVyIDIsIDIwMjMiLCJub25jZXMiOnsidXBkYXRlIjoiNGE4MDM3MGMzNyIsImRlbGV0ZSI6IjU5YzFjNzc3NDkiLCJlZGl0IjoiZTkxYmZmM2U0OCJ9LCJlZGl0TGluayI6Imh0dHA6XC9cL2VtYmVkcHJlc3MubG9jYWxcL3dwLWFkbWluXC9wb3N0LnBocD9wb3N0PTE5NyZhY3Rpb249ZWRpdCIsIm1ldGEiOnsiYXJ0aXN0IjpmYWxzZSwiYWxidW0iOmZhbHNlLCJiaXRyYXRlIjpmYWxzZSwiYml0cmF0ZV9tb2RlIjpmYWxzZX0sImF1dGhvck5hbWUiOiJhZG1pbiIsImF1dGhvckxpbmsiOiJodHRwOlwvXC9lbWJlZHByZXNzLmxvY2FsXC93cC1hZG1pblwvcHJvZmlsZS5waHAiLCJ1cGxvYWRlZFRvVGl0bGUiOiJFbWJlZFByZXNzIEFEcyIsInVwbG9hZGVkVG9MaW5rIjoiaHR0cDpcL1wvZW1iZWRwcmVzcy5sb2NhbFwvd3AtYWRtaW5cL3Bvc3QucGhwP3Bvc3Q9MTA0JmFjdGlvbj1lZGl0IiwiZmlsZXNpemVJbkJ5dGVzIjoyOTI1NjU2LCJmaWxlc2l6ZUh1bWFuUmVhZGFibGUiOiIzIE1CIiwiY29udGV4dCI6IiIsIndpZHRoIjoxMjgwLCJoZWlnaHQiOjcyMCwiZmlsZUxlbmd0aCI6IjE6MDMiLCJmaWxlTGVuZ3RoSHVtYW5SZWFkYWJsZSI6IjEgbWludXRlLCAzIHNlY29uZHMiLCJpbWFnZSI6eyJzcmMiOiJodHRwOlwvXC9lbWJlZHByZXNzLmxvY2FsXC93cC1pbmNsdWRlc1wvaW1hZ2VzXC9tZWRpYVwvdmlkZW8ucG5nIiwid2lkdGgiOjQ4LCJoZWlnaHQiOjY0fSwidGh1bWIiOnsic3JjIjoiaHR0cDpcL1wvZW1iZWRwcmVzcy5sb2NhbFwvd3AtaW5jbHVkZXNcL2ltYWdlc1wvbWVkaWFcL3ZpZGVvLnBuZyIsIndpZHRoIjo0OCwiaGVpZ2h0Ijo2NH0sImNvbXBhdCI6eyJpdGVtIjoiIiwibWV0YSI6IiJ9fSwiYWRGaWxlVXJsIjoiaHR0cDpcL1wvZW1iZWRwcmVzcy5sb2NhbFwvd3AtY29udGVudFwvdXBsb2Fkc1wvMjAyM1wvMTFcLzUtU3RhcnMtRXZlcnl3aGVyZS5tcDQiLCJhZFVybCI6Imh0dHBzOlwvXC93cGRldmVsb3Blci5jb21cLyIsIndpZHRoIjoiNjAwIiwibG9ja0NvbnRlbnQiOmZhbHNlLCJsb2NrSGVhZGluZyI6IkNvbnRlbnQgTG9ja2VkIiwibG9ja1N1YkhlYWRpbmciOiJDb250ZW50IGlzIGxvY2tlZCBhbmQgcmVxdWlyZXMgcGFzc3dvcmQgdG8gYWNjZXNzIGl0LiIsImxvY2tFcnJvck1lc3NhZ2UiOiJPb3BzLCB0aGF0IHdhc24ndCB0aGUgcmlnaHQgcGFzc3dvcmQuIFRyeSBhZ2Fpbi4iLCJwYXNzd29yZFBsYWNlaG9sZGVyIjoiUGFzc3dvcmQiLCJzdWJtaXRCdXR0b25UZXh0IjoiVW5sb2NrIiwic3VibWl0VW5sb2NraW5nVGV4dCI6IlVubG9ja2luZyIsImVuYWJsZUZvb3Rlck1lc3NhZ2UiOmZhbHNlLCJmb290ZXJNZXNzYWdlIjoiSW4gY2FzZSB5b3UgZG9uJ3QgaGF2ZSB0aGUgcGFzc3dvcmQsIGtpbmRseSByZWFjaCBvdXQgdG8gY29udGVudCBvd25lciBvciBhZG1pbmlzdHJhdG9yIHRvIHJlcXVlc3QgYWNjZXNzLiIsImNvbnRlbnRTaGFyZSI6ZmFsc2UsInNoYXJlUG9zaXRpb24iOiJyaWdodCIsImN1c3RvbVRpdGxlIjoiIiwiY3VzdG9tRGVzY3JpcHRpb24iOiIiLCJjdXN0b21UaHVtYm5haWwiOiIiLCJ2aWRlb3NpemUiOiJmaXhlZCIsImxvYWRtb3JlIjpmYWxzZSwiYXV0b3BsYXkiOmZhbHNlLCJjbG9zZWRjYXB0aW9ucyI6dHJ1ZSwicmVsYXRlZHZpZGVvcyI6dHJ1ZSwiZnVsbHNjcmVlbiI6dHJ1ZSwiY3VzdG9tUGxheWVyIjpmYWxzZSwicG9zdGVyVGh1bWJuYWlsIjoiIiwicGxheWVyUHJlc2V0IjoiIiwicGxheWVyQ29sb3IiOiIjMmUyZTk5IiwicGxheWVyUGlwIjpmYWxzZSwicGxheWVyUmVzdGFydCI6dHJ1ZSwicGxheWVyUmV3aW5kIjp0cnVlLCJwbGF5ZXJGYXN0Rm9yd2FyZCI6dHJ1ZSwicGxheWVyVG9vbHRpcCI6dHJ1ZSwicGxheWVySGlkZUNvbnRyb2xzIjp0cnVlLCJwbGF5ZXJEb3dubG9hZCI6dHJ1ZSwid2F1dG9wbGF5Ijp0cnVlLCJjYXB0aW9ucyI6dHJ1ZSwicGxheWJ1dHRvbiI6dHJ1ZSwic21hbGxwbGF5YnV0dG9uIjp0cnVlLCJwbGF5YmFyIjp0cnVlLCJyZXN1bWFibGUiOnRydWUsIndpc3RpYWZvY3VzIjp0cnVlLCJ2b2x1bWVjb250cm9sIjp0cnVlLCJ2b2x1bWUiOjEwMCwicmV3aW5kIjpmYWxzZSwid2Z1bGxzY3JlZW4iOnRydWUsInZhdXRvcGxheSI6ZmFsc2UsInZ0aXRsZSI6dHJ1ZSwidmF1dGhvciI6dHJ1ZSwidmF2YXRhciI6dHJ1ZSwidmxvb3AiOmZhbHNlLCJ2YXV0b3BhdXNlIjpmYWxzZSwidmRudCI6ZmFsc2UsImNFbWJlZFR5cGUiOiJpbmxpbmUiLCJjYWxlbmRseURhdGEiOmZhbHNlLCJoaWRlQ29va2llQmFubmVyIjpmYWxzZSwiaGlkZUV2ZW50VHlwZURldGFpbHMiOmZhbHNlLCJjQmFja2dyb3VuZENvbG9yIjoiZmZmZmZmIiwiY1RleHRDb2xvciI6IjFBMUExQSIsImNCdXR0b25MaW5rQ29sb3IiOiIwMDAwRkYiLCJjUG9wdXBCdXR0b25UZXh0IjoiU2NoZWR1bGUgdGltZSB3aXRoIG1lIiwiY1BvcHVwQnV0dG9uQkdDb2xvciI6IiMwMDAwRkYiLCJjUG9wdXBCdXR0b25UZXh0Q29sb3IiOiIjRkZGRkZGIiwiY1BvcHVwTGlua1RleHQiOiJTY2hlZHVsZSB0aW1lIHdpdGggbWUiLCJhZFNvdXJjZSI6InZpZGVvIiwiYWRXaWR0aCI6IjMwMCIsImFkSGVpZ2h0IjoiMjAwIiwiYWRYUG9zaXRpb24iOjI1LCJhZFlQb3NpdGlvbiI6MTAsImFkU3RhcnQiOiIxMCIsImFkU2tpcEJ1dHRvbiI6dHJ1ZSwiYWRTa2lwQnV0dG9uQWZ0ZXIiOiI1In0=" class="ad-mask" data-ad-index="0">
+                    <div id="ep-gutenberg-content-ep-ad-preview-1" class="ep-gutenberg-content">
+                        <div data-ad-id="ep-ad-preview-1" id="ep-ad-preview-1" data-ad-attrs="eyJjbGllbnRJZCI6IjFjM2RhM2RlLTc2MDYtNGU5Zi05NjkzLWQ0YjU3MGNkMmNhMyIsInVybCI6Imh0dHBzOlwvXC93d3cueW91dHViZS5jb21cL3dhdGNoP3Y9QU1VNjZuYkZuR2cmcHA9eWdVTWQzQmtaWFpsYkc5bGNHVnkiLCJlbWJlZEhUTUwiOiI8ZGl2IGNsYXNzPVwib3NlLXlvdXR1YmUgb3NlLXVpZC1jYzkyZjFiZGQwZDQ3ZWQyYTEyOWMzMjBjMTA4MmFkNSBvc2UtZW1iZWRwcmVzcy1yZXNwb25zaXZlXCIgc3R5bGU9XCJ3aWR0aDo2MDBweDsgaGVpZ2h0OjM0MHB4OyBtYXgtaGVpZ2h0OjM0MHB4OyBtYXgtd2lkdGg6MTAwJTsgZGlzcGxheTppbmxpbmUtYmxvY2s7XCI+PGlmcmFtZSBhbGxvd2Z1bGxzY3JlZW4gdGl0bGU9XCJIb3cgVG8gTWFrZSBBbnkgUGFnZSBMYXlvdXQgVXNpbmcgVGhlIFdvcmRQcmVzcyBCbG9jayBFZGl0b3I6IEd1dGVuYmVyZ1wiIHdpZHRoPVwiNjAwXCIgaGVpZ2h0PVwiMzQwXCIgc3JjPVwiaHR0cHM6XC9cL3d3dy55b3V0dWJlLmNvbVwvZW1iZWRcL0FNVTY2bmJGbkdnP2ZlYXR1cmU9b2VtYmVkJmNvbG9yPXJlZCZyZWw9MSZjb250cm9scz0yJnN0YXJ0PXRydWUmZW5kPXRydWUmZnM9MSZpdl9sb2FkX3BvbGljeT0xJmF1dG9wbGF5PTAmbW9kZXN0YnJhbmRpbmc9MCZjY19sb2FkX3BvbGljeT0wXCIgZnJhbWVib3JkZXI9XCIwXCIgYWxsb3c9XCJhY2NlbGVyb21ldGVyOyBlbmNyeXB0ZWQtbWVkaWE7YWNjZWxlcm9tZXRlcjthdXRvcGxheTtjbGlwYm9hcmQtd3JpdGU7Z3lyb3Njb3BlO3BpY3R1cmUtaW4tcGljdHVyZSBjbGlwYm9hcmQtd3JpdGU7IGVuY3J5cHRlZC1tZWRpYTsgZ3lyb3Njb3BlOyBwaWN0dXJlLWluLXBpY3R1cmU7IHdlYi1zaGFyZVwiIGxvYWRpbmc9bGF6eT48XC9pZnJhbWU+PFwvZGl2PiIsImhlaWdodCI6IjM0MCIsImNvbnRlbnRQYXNzd29yZCI6IjEiLCJlZGl0aW5nVVJMIjpmYWxzZSwiaW50ZXJhY3RpdmUiOnRydWUsImxvZ29YIjoxMDAsImFkTWFuYWdlciI6dHJ1ZSwiYWRDb250ZW50Ijp7ImlkIjoxOTcsInRpdGxlIjoiNSBTdGFycyBFdmVyeXdoZXJlIiwiZmlsZW5hbWUiOiI1LVN0YXJzLUV2ZXJ5d2hlcmUubXA0IiwidXJsIjoiaHR0cDpcL1wvZW1iZWRwcmVzcy5sb2NhbFwvd3AtY29udGVudFwvdXBsb2Fkc1wvMjAyM1wvMTFcLzUtU3RhcnMtRXZlcnl3aGVyZS5tcDQiLCJsaW5rIjoiaHR0cDpcL1wvZW1iZWRwcmVzcy5sb2NhbFwvZW1iZWRwcmVzcy1hZHNcLzUtc3RhcnMtZXZlcnl3aGVyZVwvIiwiYWx0IjoiIiwiYXV0aG9yIjoiMSIsImRlc2NyaXB0aW9uIjoiIiwiY2FwdGlvbiI6IiIsIm5hbWUiOiI1LXN0YXJzLWV2ZXJ5d2hlcmUiLCJzdGF0dXMiOiJpbmhlcml0IiwidXBsb2FkZWRUbyI6MTA0LCJkYXRlIjoiMjAyMy0xMS0wMlQwOTo1NDozOS4wMDBaIiwibW9kaWZpZWQiOiIyMDIzLTExLTAyVDA5OjU0OjM5LjAwMFoiLCJtZW51T3JkZXIiOjAsIm1pbWUiOiJ2aWRlb1wvbXA0IiwidHlwZSI6InZpZGVvIiwic3VidHlwZSI6Im1wNCIsImljb24iOiJodHRwOlwvXC9lbWJlZHByZXNzLmxvY2FsXC93cC1pbmNsdWRlc1wvaW1hZ2VzXC9tZWRpYVwvdmlkZW8ucG5nIiwiZGF0ZUZvcm1hdHRlZCI6Ik5vdmVtYmVyIDIsIDIwMjMiLCJub25jZXMiOnsidXBkYXRlIjoiNGE4MDM3MGMzNyIsImRlbGV0ZSI6IjU5YzFjNzc3NDkiLCJlZGl0IjoiZTkxYmZmM2U0OCJ9LCJlZGl0TGluayI6Imh0dHA6XC9cL2VtYmVkcHJlc3MubG9jYWxcL3dwLWFkbWluXC9wb3N0LnBocD9wb3N0PTE5NyZhY3Rpb249ZWRpdCIsIm1ldGEiOnsiYXJ0aXN0IjpmYWxzZSwiYWxidW0iOmZhbHNlLCJiaXRyYXRlIjpmYWxzZSwiYml0cmF0ZV9tb2RlIjpmYWxzZX0sImF1dGhvck5hbWUiOiJhZG1pbiIsImF1dGhvckxpbmsiOiJodHRwOlwvXC9lbWJlZHByZXNzLmxvY2FsXC93cC1hZG1pblwvcHJvZmlsZS5waHAiLCJ1cGxvYWRlZFRvVGl0bGUiOiJFbWJlZFByZXNzIEFEcyIsInVwbG9hZGVkVG9MaW5rIjoiaHR0cDpcL1wvZW1iZWRwcmVzcy5sb2NhbFwvd3AtYWRtaW5cL3Bvc3QucGhwP3Bvc3Q9MTA0JmFjdGlvbj1lZGl0IiwiZmlsZXNpemVJbkJ5dGVzIjoyOTI1NjU2LCJmaWxlc2l6ZUh1bWFuUmVhZGFibGUiOiIzIE1CIiwiY29udGV4dCI6IiIsIndpZHRoIjoxMjgwLCJoZWlnaHQiOjcyMCwiZmlsZUxlbmd0aCI6IjE6MDMiLCJmaWxlTGVuZ3RoSHVtYW5SZWFkYWJsZSI6IjEgbWludXRlLCAzIHNlY29uZHMiLCJpbWFnZSI6eyJzcmMiOiJodHRwOlwvXC9lbWJlZHByZXNzLmxvY2FsXC93cC1pbmNsdWRlc1wvaW1hZ2VzXC9tZWRpYVwvdmlkZW8ucG5nIiwid2lkdGgiOjQ4LCJoZWlnaHQiOjY0fSwidGh1bWIiOnsic3JjIjoiaHR0cDpcL1wvZW1iZWRwcmVzcy5sb2NhbFwvd3AtaW5jbHVkZXNcL2ltYWdlc1wvbWVkaWFcL3ZpZGVvLnBuZyIsIndpZHRoIjo0OCwiaGVpZ2h0Ijo2NH0sImNvbXBhdCI6eyJpdGVtIjoiIiwibWV0YSI6IiJ9fSwiYWRGaWxlVXJsIjoiaHR0cDpcL1wvZW1iZWRwcmVzcy5sb2NhbFwvd3AtY29udGVudFwvdXBsb2Fkc1wvMjAyM1wvMTFcLzUtU3RhcnMtRXZlcnl3aGVyZS5tcDQiLCJhZFVybCI6Imh0dHBzOlwvXC93cGRldmVsb3Blci5jb21cLyIsIndpZHRoIjoiNjAwIiwibG9ja0NvbnRlbnQiOmZhbHNlLCJsb2NrSGVhZGluZyI6IkNvbnRlbnQgTG9ja2VkIiwibG9ja1N1YkhlYWRpbmciOiJDb250ZW50IGlzIGxvY2tlZCBhbmQgcmVxdWlyZXMgcGFzc3dvcmQgdG8gYWNjZXNzIGl0LiIsImxvY2tFcnJvck1lc3NhZ2UiOiJPb3BzLCB0aGF0IHdhc24ndCB0aGUgcmlnaHQgcGFzc3dvcmQuIFRyeSBhZ2Fpbi4iLCJwYXNzd29yZFBsYWNlaG9sZGVyIjoiUGFzc3dvcmQiLCJzdWJtaXRCdXR0b25UZXh0IjoiVW5sb2NrIiwic3VibWl0VW5sb2NraW5nVGV4dCI6IlVubG9ja2luZyIsImVuYWJsZUZvb3Rlck1lc3NhZ2UiOmZhbHNlLCJmb290ZXJNZXNzYWdlIjoiSW4gY2FzZSB5b3UgZG9uJ3QgaGF2ZSB0aGUgcGFzc3dvcmQsIGtpbmRseSByZWFjaCBvdXQgdG8gY29udGVudCBvd25lciBvciBhZG1pbmlzdHJhdG9yIHRvIHJlcXVlc3QgYWNjZXNzLiIsImNvbnRlbnRTaGFyZSI6ZmFsc2UsInNoYXJlUG9zaXRpb24iOiJyaWdodCIsImN1c3RvbVRpdGxlIjoiIiwiY3VzdG9tRGVzY3JpcHRpb24iOiIiLCJjdXN0b21UaHVtYm5haWwiOiIiLCJ2aWRlb3NpemUiOiJmaXhlZCIsImxvYWRtb3JlIjpmYWxzZSwiYXV0b3BsYXkiOmZhbHNlLCJjbG9zZWRjYXB0aW9ucyI6dHJ1ZSwicmVsYXRlZHZpZGVvcyI6dHJ1ZSwiZnVsbHNjcmVlbiI6dHJ1ZSwiY3VzdG9tUGxheWVyIjpmYWxzZSwicG9zdGVyVGh1bWJuYWlsIjoiIiwicGxheWVyUHJlc2V0IjoiIiwicGxheWVyQ29sb3IiOiIjMmUyZTk5IiwicGxheWVyUGlwIjpmYWxzZSwicGxheWVyUmVzdGFydCI6dHJ1ZSwicGxheWVyUmV3aW5kIjp0cnVlLCJwbGF5ZXJGYXN0Rm9yd2FyZCI6dHJ1ZSwicGxheWVyVG9vbHRpcCI6dHJ1ZSwicGxheWVySGlkZUNvbnRyb2xzIjp0cnVlLCJwbGF5ZXJEb3dubG9hZCI6dHJ1ZSwid2F1dG9wbGF5Ijp0cnVlLCJjYXB0aW9ucyI6dHJ1ZSwicGxheWJ1dHRvbiI6dHJ1ZSwic21hbGxwbGF5YnV0dG9uIjp0cnVlLCJwbGF5YmFyIjp0cnVlLCJyZXN1bWFibGUiOnRydWUsIndpc3RpYWZvY3VzIjp0cnVlLCJ2b2x1bWVjb250cm9sIjp0cnVlLCJ2b2x1bWUiOjEwMCwicmV3aW5kIjpmYWxzZSwid2Z1bGxzY3JlZW4iOnRydWUsInZhdXRvcGxheSI6ZmFsc2UsInZ0aXRsZSI6dHJ1ZSwidmF1dGhvciI6dHJ1ZSwidmF2YXRhciI6dHJ1ZSwidmxvb3AiOmZhbHNlLCJ2YXV0b3BhdXNlIjpmYWxzZSwidmRudCI6ZmFsc2UsImNFbWJlZFR5cGUiOiJpbmxpbmUiLCJjYWxlbmRseURhdGEiOmZhbHNlLCJoaWRlQ29va2llQmFubmVyIjpmYWxzZSwiaGlkZUV2ZW50VHlwZURldGFpbHMiOmZhbHNlLCJjQmFja2dyb3VuZENvbG9yIjoiZmZmZmZmIiwiY1RleHRDb2xvciI6IjFBMUExQSIsImNCdXR0b25MaW5rQ29sb3IiOiIwMDAwRkYiLCJjUG9wdXBCdXR0b25UZXh0IjoiU2NoZWR1bGUgdGltZSB3aXRoIG1lIiwiY1BvcHVwQnV0dG9uQkdDb2xvciI6IiMwMDAwRkYiLCJjUG9wdXBCdXR0b25UZXh0Q29sb3IiOiIjRkZGRkZGIiwiY1BvcHVwTGlua1RleHQiOiJTY2hlZHVsZSB0aW1lIHdpdGggbWUiLCJhZFNvdXJjZSI6InZpZGVvIiwiYWRXaWR0aCI6IjMwMCIsImFkSGVpZ2h0IjoiMjAwIiwiYWRYUG9zaXRpb24iOjI1LCJhZFlQb3NpdGlvbiI6MTAsImFkU3RhcnQiOiIxMCIsImFkU2tpcEJ1dHRvbiI6dHJ1ZSwiYWRTa2lwQnV0dG9uQWZ0ZXIiOiI1In0=" class="ad-mask" data-ad-index="0">
                             <div class="ep-embed-content-wraper ">
                                 <iframe class="ose-youtube ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 ose-embedpress-responsive" style="width: 600px; height: 550px; max-height: 338px; max-width: 100%; display: inline-block;" frameborder="0" allowfullscreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" title="How To Make Any Page Layout Using The WordPress Block Editor: Gutenberg" width="640" height="360" src="https://www.youtube.com/embed/AMU66nbFnGg?enablejsapi=1&amp;origin=http%3A%2F%2Fembedpress.local&amp;widgetid=1" id="widget2"></iframe> </div>
-                            <div class="main-ad-template video" id="ad-c1be37f85737fffde902f567d581d02f" style="display:none">
+                            <div class="main-ad-template video" id="ad-ep-ad-preview-1" style="display:none">
                                 <div class="ep-ad-container">
                                     <div class="ep-ad-content" style="position: relative;">
                                         <a target="_blank" href="https://wpdeveloper.com/"> <video class="ep-ad" muted="">
@@ -87,9 +89,6 @@
                                     </div>
                                 </div>
                             </div>
-
-
-
                         </div>
                     </div>
                 </div>
@@ -275,6 +274,31 @@
     .ad-preview-sectiion {
         display: flex;
         gap: 30px;
+        justify-content: space-between;
+        margin-bottom: 60px;
+    }
+
+    .video-ad-prewiew-options {
+        width: 49%;
+    }
+
+    .ad-upload-options{
+        width: 320px;
+    }
+
+    .uploaded-file-url.uploaded {
+        background: #efeef5;
+        padding: 5px;
+        word-wrap: break-word;
+        border-radius: 5px;
+    }
+
+
+    .ad__adjust__controller__item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 30px;
     }
 
     /* Common Styles */
@@ -385,14 +409,14 @@
     }
 
     /* Specific Styles for Ad Type 1 */
-    [data-ad-id="c1be37f85737fffde902f567d581d02f"] .main-ad-template {
+    [data-ad-id="ep-ad-preview-1"] .main-ad-template {
         width: 600px;
         height: 340px;
         max-width: 100%;
         display: inline-block;
     }
 
-    [data-ad-id="c1be37f85737fffde902f567d581d02f"] .main-ad-template.image.ad-running {
+    [data-ad-id="ep-ad-preview-1"] .main-ad-template.image.ad-running {
         width: 300px !important;
         height: 200px !important;
         bottom: 10%;
@@ -446,302 +470,341 @@
 </style>
 
 
+
 <script>
-    const isPyr = document.querySelector('[data-playerid]') ? .getAttribute('data-playerid');
-    if (!isPyr) {
-        var scriptUrl = 'https:\/\/www.youtube.com\/s\/player\/9d15588c\/www-widgetapi.vflset\/www-widgetapi.js';
-        try {
-            var ttPolicy = window.trustedTypes.createPolicy("youtube-widget-api", {
-                createScriptURL: function(x) {
-                    return x
-                }
-            });
-            scriptUrl = ttPolicy.createScriptURL(scriptUrl)
-        } catch (e) {}
-        var YT;
-        if (!window["YT"]) YT = {
-            loading: 0,
-            loaded: 0
-        };
-        var YTConfig;
-        if (!window["YTConfig"]) YTConfig = {
-            "host": "https://www.youtube.com"
-        };
-        if (!YT.loading) {
-            YT.loading = 1;
-            (function() {
-                var l = [];
-                YT.ready = function(f) {
-                    if (YT.loaded) f();
-                    else l.push(f)
-                };
-                window.onYTReady = function() {
-                    YT.loaded = 1;
-                    var i = 0;
-                    for (; i < l.length; i++) try {
-                        l[i]()
-                    } catch (e) {}
-                };
-                YT.setConfig = function(c) {
-                    var k;
-                    for (k in c)
-                        if (c.hasOwnProperty(k)) YTConfig[k] = c[k]
-                };
-                var a = document.createElement("script");
-                a.type = "text/javascript";
-                a.id = "www-widgetapi-script";
-                a.src = scriptUrl;
-                a.async = true;
-                var c = document.currentScript;
-                if (c) {
-                    var n = c.nonce || c.getAttribute("nonce");
-                    if (n) a.setAttribute("nonce",
-                        n)
-                }
-                var b = document.getElementsByTagName("script")[0];
-                b.parentNode.insertBefore(a, b)
-            })()
-        };
-    }
+const isPyr = document.querySelector('[data-playerid]')?.getAttribute('data-playerid');
+if (!isPyr) {
+    var scriptUrl = 'https:\/\/www.youtube.com\/s\/player\/9d15588c\/www-widgetapi.vflset\/www-widgetapi.js'; try { var ttPolicy = window.trustedTypes.createPolicy("youtube-widget-api", { createScriptURL: function (x) { return x } }); scriptUrl = ttPolicy.createScriptURL(scriptUrl) } catch (e) { } var YT; if (!window["YT"]) YT = { loading: 0, loaded: 0 }; var YTConfig; if (!window["YTConfig"]) YTConfig = { "host": "https://www.youtube.com" };
+    if (!YT.loading) {
+        YT.loading = 1; (function () {
+            var l = []; YT.ready = function (f) { if (YT.loaded) f(); else l.push(f) }; window.onYTReady = function () { YT.loaded = 1; var i = 0; for (; i < l.length; i++)try { l[i]() } catch (e) { } }; YT.setConfig = function (c) { var k; for (k in c) if (c.hasOwnProperty(k)) YTConfig[k] = c[k] }; var a = document.createElement("script"); a.type = "text/javascript"; a.id = "www-widgetapi-script"; a.src = scriptUrl; a.async = true; var c = document.currentScript; if (c) {
+                var n = c.nonce || c.getAttribute("nonce"); if (n) a.setAttribute("nonce",
+                    n)
+            } var b = document.getElementsByTagName("script")[0]; b.parentNode.insertBefore(a, b)
+        })()
+    };
+}
 
 
 
 
-    let adsConainers = document.querySelectorAll('[data-ad-id]');
-    let container = document.querySelector('[data-ad-id]');
-    const player = [];
-    const playerInit = [];
-    let playerIndex = 0;
+let adsConainers = document.querySelectorAll('[data-ad-id]');
+let container = document.querySelector('[data-ad-id]');
+const player = [];
+const playerInit = [];
+let playerIndex = 0;
 
 
-    adsConainers = Array.from(adsConainers);
+adsConainers = Array.from(adsConainers);
 
-    const getYTVideoId = (url) => {
-        // Check if the input is a string
-        if (typeof url !== 'string') {
-            return false;
-        }
-
-        const regex = /(?:youtube\.com\/(?:[^\/]+\/[^\/]+\/|(?:v|e(?:mbed)?)\/|[^#]*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
-        const match = url.match(regex);
-
-        if (match && match[1]) {
-            return match[1];
-        }
+const getYTVideoId = (url) => {
+    // Check if the input is a string
+    if (typeof url !== 'string') {
         return false;
     }
 
-    const hashParentClass = (element, className) => {
-        var parent = element.parentNode;
+    const regex = /(?:youtube\.com\/(?:[^\/]+\/[^\/]+\/|(?:v|e(?:mbed)?)\/|[^#]*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
+    const match = url.match(regex);
 
-        while (parent && !parent.classList ? .contains(className)) {
-            parent = parent.parentNode;
-        }
+    if (match && match[1]) {
+        return match[1];
+    }
+    return false;
+}
 
-        return !!parent;
+const hashParentClass = (element, className) => {
+    var parent = element.parentNode;
+
+    while (parent && !parent.classList?.contains(className)) {
+        parent = parent.parentNode;
     }
 
+    return !!parent;
+}
 
 
-    const adInitialization = (adContainer, index) => {
 
-        const adAtts = JSON.parse(atob(adContainer.getAttribute('data-ad-attrs')));
+const adInitialization = (adContainer, index) => {
 
-        const blockId = adAtts.clientId;
-        const blockIdMD5 = adContainer.getAttribute('data-ad-id');
-        const adStartAfter = adAtts.adStart * 1000;
-        const adContent = adAtts.adContent;
-        const adVideo = adContainer.querySelector('.ep-ad');
-        const adSource = adAtts.adSource;
-        const adVideos = [];
-        const srcUrl = adAtts.url || adAtts.embedpress_embeded_link;
-        const adSkipButtonAfter = parseInt(adAtts.adSkipButtonAfter);
+    const adAtts = JSON.parse(atob(adContainer.getAttribute('data-ad-attrs')));
 
+    console.log(adAtts);
 
-        addWrapperForYoutube(adContainer, srcUrl, adAtts);
-
-        // let adVideo = adContainer.querySelector('#ad-' + blockId + ' .ep-ad');
-        adVideos.push(adVideo);
-
-        const adTemplate = adContainer.querySelector('.main-ad-template');
-        const progressBar = adContainer.querySelector('.progress-bar');
-        const skipButton = adContainer.querySelector('.skip-ad-button');
-        const adRunningTime = adContainer.querySelector('.ad-running-time');
-        var playerId;
-        const adMask = adContainer;
+    const blockId = adAtts.clientId;
+    const blockIdMD5 = adContainer.getAttribute('data-ad-id');
+    const adStartAfter = adAtts.adStart * 1000;
+    const adContent = adAtts.adContent;
+    const adVideo = adContainer.querySelector('.ep-ad');
+    const adSource = adAtts.adSource;
+    const adVideos = [];
+    const srcUrl = adAtts.url || adAtts.embedpress_embeded_link;
+    const adSkipButtonAfter = parseInt(adAtts.adSkipButtonAfter);
 
 
-        let playbackInitiated = false;
+    addWrapperForYoutube(adContainer, srcUrl, adAtts);
 
-        if (skipButton && adSource !== 'video') {
-            skipButton.style.display = 'inline-block';
-        }
+    // let adVideo = adContainer.querySelector('#ad-' + blockId + ' .ep-ad');
+    adVideos.push(adVideo);
 
-        const hashClass = hashParentClass(adContainer, 'ep-content-protection-enabled');
+    const adTemplate = adContainer.querySelector('.main-ad-template');
+    const progressBar = adContainer.querySelector('.progress-bar');
+    const skipButton = adContainer.querySelector('.skip-ad-button');
+    const adRunningTime = adContainer.querySelector('.ad-running-time');
+    var playerId;
+    const adMask = adContainer;
 
-        if (hashClass) {
+
+    let playbackInitiated = false;
+
+    if (skipButton && adSource !== 'video') {
+        skipButton.style.display = 'inline-block';
+    }
+
+    const hashClass = hashParentClass(adContainer, 'ep-content-protection-enabled');
+
+    if (hashClass) {
+        adContainer.classList.remove('ad-mask');
+    }
+
+    adMask?.addEventListener('click', function () {
+
+        if (adContainer.classList.contains('ad-mask')) {
+            playerId = adContainer.querySelector('[data-playerid]')?.getAttribute('data-playerid');
+
+            if (playerInit?.length > 0) {
+                playerInit[playerId]?.play();
+            }
+
+            if (getYTVideoId(srcUrl)) {
+                player[index]?.playVideo();
+            }
+
+            if (!playbackInitiated) {
+                setTimeout(() => {
+                    if (adSource !== 'image') {
+                        adContainer.querySelector('.ep-embed-content-wraper').classList.add('hidden');
+                    }
+                    adTemplate?.classList.add('ad-running');
+                    if (adVideo && adSource === 'video') {
+                        adVideo.muted = false;
+                        adVideo.play();
+                    }
+                }, adStartAfter);
+
+                playbackInitiated = true;
+            }
+
             adContainer.classList.remove('ad-mask');
         }
 
-        adMask ? .addEventListener('click', function() {
+    });
 
-            if (adContainer.classList.contains('ad-mask')) {
-                playerId = adContainer.querySelector('[data-playerid]') ? .getAttribute('data-playerid');
+    adVideo?.addEventListener('timeupdate', () => {
+        const currentTime = adVideo?.currentTime;
+        const videoDuration = adVideo?.duration;
 
-                if (playerInit ? .length > 0) {
-                    playerInit[playerId] ? .play();
-                }
-
-                if (getYTVideoId(srcUrl)) {
-                    player[index] ? .playVideo();
-                }
-
-                if (!playbackInitiated) {
-                    setTimeout(() => {
-                        if (adSource !== 'image') {
-                            adContainer.querySelector('.ep-embed-content-wraper').classList.add('hidden');
-                        }
-                        adTemplate ? .classList.add('ad-running');
-                        if (adVideo && adSource === 'video') {
-                            adVideo.muted = false;
-                            adVideo.play();
-                        }
-                    }, adStartAfter);
-
-                    playbackInitiated = true;
-                }
-
-                adContainer.classList.remove('ad-mask');
-            }
-
-        });
-
-        adVideo ? .addEventListener('timeupdate', () => {
-            const currentTime = adVideo ? .currentTime;
-            const videoDuration = adVideo ? .duration;
-
-            if (currentTime <= videoDuration) {
-                const remainingTime = Math.max(0, videoDuration - currentTime); // Ensure it's not negative
-                adRunningTime.innerText = Math.floor(remainingTime / 60) + ':' + (Math.floor(remainingTime) % 60).toString().padStart(2, '0');
-            }
-
-            if (!isNaN(currentTime) && !isNaN(videoDuration)) {
-                const progress = (currentTime / videoDuration) * 100;
-                progressBar.style.width = progress + '%';
-
-                if (currentTime >= adSkipButtonAfter) {
-                    // Show the skip button after 3 seconds
-                    skipButton.style.display = 'inline-block';
-                }
-            }
-        });
-
-
-        // Add a click event listener to the skip button
-        skipButton ? .addEventListener('click', () => {
-            adTemplate.remove();
-            if (playerInit ? .length > 0) {
-                playerInit[playerId] ? .play();
-
-            }
-            if (getYTVideoId(srcUrl)) {
-                player[index] ? .playVideo();
-            }
-            adContainer.querySelector('.ep-embed-content-wraper').classList.remove('hidden');
-        });
-
-        // Add an event listener to check for video end
-        adVideo ? .addEventListener('play', () => {
-            if (playerInit ? .length > 0) {
-                playerInit[playerId] ? .stop();
-            }
-        });
-
-        // Add an event listener to check for video end
-        adVideo ? .addEventListener('ended', () => {
-            // Remove the main ad template from the DOM when the video ends
-            adTemplate.remove();
-            adContainer.querySelector('.ep-embed-content-wraper').classList.remove('hidden');
-        });
-
-        playerIndex++;
-
-    }
-
-    const addWrapperForYoutube = (adContainer, srcUrl, adAtts) => {
-        const youtubeIframe = adContainer.querySelector(`.ose-youtube iframe`);
-        if (youtubeIframe && getYTVideoId(srcUrl)) {
-
-            const divWrapper = document.createElement('div');
-            divWrapper.className = 'ad-youtube-video';
-            youtubeIframe.setAttribute('width', adAtts.width);
-            youtubeIframe.setAttribute('height', adAtts.height);
-            youtubeIframe.parentNode.replaceChild(divWrapper, youtubeIframe);
-            divWrapper.appendChild(youtubeIframe);
+        if (currentTime <= videoDuration) {
+            const remainingTime = Math.max(0, videoDuration - currentTime); // Ensure it's not negative
+            adRunningTime.innerText = Math.floor(remainingTime / 60) + ':' + (Math.floor(remainingTime) % 60).toString().padStart(2, '0');
         }
+
+        if (!isNaN(currentTime) && !isNaN(videoDuration)) {
+            const progress = (currentTime / videoDuration) * 100;
+            progressBar.style.width = progress + '%';
+
+            if (currentTime >= adSkipButtonAfter) {
+                // Show the skip button after 3 seconds
+                skipButton.style.display = 'inline-block';
+            }
+        }
+    });
+
+
+    // Add a click event listener to the skip button
+    skipButton?.addEventListener('click', () => {
+        adTemplate.remove();
+        if (playerInit?.length > 0) {
+            playerInit[playerId]?.play();
+
+        }
+        if (getYTVideoId(srcUrl)) {
+            player[index]?.playVideo();
+        }
+        adContainer.querySelector('.ep-embed-content-wraper').classList.remove('hidden');
+    });
+
+    // Add an event listener to check for video end
+    adVideo?.addEventListener('play', () => {
+        if (playerInit?.length > 0) {
+            playerInit[playerId]?.stop();
+        }
+    });
+
+    // Add an event listener to check for video end
+    adVideo?.addEventListener('ended', () => {
+        // Remove the main ad template from the DOM when the video ends
+        adTemplate.remove();
+        adContainer.querySelector('.ep-embed-content-wraper').classList.remove('hidden');
+    });
+
+    playerIndex++;
+
+}
+
+const addWrapperForYoutube = (adContainer, srcUrl, adAtts) => {
+    const youtubeIframe = adContainer.querySelector(`.ose-youtube iframe`);
+    if (youtubeIframe && getYTVideoId(srcUrl)) {
+
+        const divWrapper = document.createElement('div');
+        divWrapper.className = 'ad-youtube-video';
+        youtubeIframe.setAttribute('width', adAtts.width);
+        youtubeIframe.setAttribute('height', adAtts.height);
+        youtubeIframe.parentNode.replaceChild(divWrapper, youtubeIframe);
+        divWrapper.appendChild(youtubeIframe);
+    }
+}
+
+
+
+function onYouTubeIframeAPIReady(iframe, srcUrl, adVideo, index) {
+    // Find the iframe by its src attribute
+
+    if (iframe && getYTVideoId(srcUrl) !== null) {
+        player[index] = new YT.Player(iframe, {
+            videoId: getYTVideoId(srcUrl),
+
+            events: {
+                'onReady': (event) => onPlayerReady(event, adVideo),
+            }
+        });
+
     }
 
+}
+
+// This function is called when the player is ready
+function onPlayerReady(event, adVideo) {
+    adVideo?.addEventListener('ended', function () {
+        event.target.playVideo();
+    });
+
+    adVideo?.addEventListener('play', function () {
+        event.target.pauseVideo();
+    });
+}
 
 
-    function onYouTubeIframeAPIReady(iframe, srcUrl, adVideo, index) {
-        // Find the iframe by its src attribute
+window.onload = function () {
+    let yVideos = setInterval(() => {
+        var youtubeVideos = document.querySelectorAll('.ose-youtube');
+        if (youtubeVideos.length > 0) {
+            clearInterval(yVideos);
 
-        if (iframe && getYTVideoId(srcUrl) !== null) {
-            player[index] = new YT.Player(iframe, {
-                videoId: getYTVideoId(srcUrl),
+            youtubeVideos.forEach((yVideo, index) => {
+                const srcUrl = yVideo.querySelector('iframe')?.getAttribute('src');
+                const adVideo = yVideo.closest('.ad-mask')?.querySelector('.ep-ad');
+                const isYTChannel = yVideo.closest('.ad-mask')?.querySelector('.ep-youtube-channel');
+                if(adVideo && !isYTChannel){
 
-                events: {
-                    'onReady': (event) => onPlayerReady(event, adVideo),
+                    console.log(isYTChannel);
+                    
+                    onYouTubeIframeAPIReady(yVideo, srcUrl, adVideo, index);
                 }
             });
+        }
+    }, 100);
+};
 
+
+if (adsConainers.length > 0) {
+    let ytIndex = 0;
+    adsConainers.forEach((adContainer, epAdIndex) => {
+
+        adContainer.setAttribute('data-ad-index', epAdIndex);
+        adInitialization(adContainer, ytIndex);
+        if (getYTVideoId(adContainer.querySelector('iframe')?.getAttribute('src'))) {
+            ytIndex++;
+        }
+    });
+}
+
+
+// const playPreview = (adPreviewId) => {
+//     const adPreviewContainer = document.querySelector(adPreviewId);
+//     console.log(adPreviewContainer);
+// }
+
+function playPreview() {
+
+
+    var form = document.getElementById("ad-preview-1");
+    var formData = new FormData(form);
+
+    // You can now access form data using the FormData object
+    // For example, to get the value of the "videoFile" field:
+    var videoFile = formData.get("videoFile");
+
+    // To get all form data as an object, you can convert FormData to JSON
+    var formDataObject = {};
+    formData.forEach(function(value, key){
+        formDataObject[key] = value;
+    });
+
+    // Now formDataObject contains all form data as key-value pairs
+    console.log(formDataObject);
+
+    adInitialization
+
+    // Perform any additional actions, such as AJAX request or other processing
+    event.preventDefault();
+
+
+}
+
+
+
+
+
+</script>
+
+<form id="uploadForm">
+    <input type="button" id="uploadBtn" class="button" value="Upload" />
+    <input type="hidden" id="fileInput" name="file_input" value="" />
+</form>
+
+<script>
+jQuery(document).ready(function($){
+    var mediaUploader;
+
+    // Trigger when the "Upload" button is clicked
+    $('#uploadBtn').click(function(e) {
+        e.preventDefault();
+        if (mediaUploader) {
+            mediaUploader.open();
+            return;
         }
 
-    }
-
-    // This function is called when the player is ready
-    function onPlayerReady(event, adVideo) {
-        adVideo ? .addEventListener('ended', function() {
-            event.target.playVideo();
+        // Extend the wp.media object
+        mediaUploader = wp.media.frames.file_frame = wp.media({
+            title: 'Choose File',
+            button: {
+                text: 'Choose File'
+            },
+            multiple: false
         });
 
-        adVideo ? .addEventListener('play', function() {
-            event.target.pauseVideo();
+        // Handle the file selection
+        mediaUploader.on('select', function() {
+            var attachment = mediaUploader.state().get('selection').first().toJSON();
+
+            console.log(attachment);
+            $('#fileInput').val(attachment.url);
+            $('.uploaded-file-url').text(attachment.url);
+            $('.uploaded-file-url').addClass('uploaded');
         });
-    }
 
-
-    window.onload = function() {
-        let yVideos = setInterval(() => {
-            var youtubeVideos = document.querySelectorAll('.ose-youtube');
-            if (youtubeVideos.length > 0) {
-                clearInterval(yVideos);
-
-                youtubeVideos.forEach((yVideo, index) => {
-                    const srcUrl = yVideo.querySelector('iframe') ? .getAttribute('src');
-                    const adVideo = yVideo.closest('.ad-mask') ? .querySelector('.ep-ad');
-                    const isYTChannel = yVideo.closest('.ad-mask') ? .querySelector('.ep-youtube-channel');
-                    if (adVideo && !isYTChannel) {
-
-                        console.log(isYTChannel);
-
-                        onYouTubeIframeAPIReady(yVideo, srcUrl, adVideo, index);
-                    }
-                });
-            }
-        }, 100);
-    };
-
-
-    if (adsConainers.length > 0) {
-        let ytIndex = 0;
-        adsConainers.forEach((adContainer, epAdIndex) => {
-
-            adContainer.setAttribute('data-ad-index', epAdIndex);
-            adInitialization(adContainer, ytIndex);
-            if (getYTVideoId(adContainer.querySelector('iframe') ? .getAttribute('src'))) {
-                ytIndex++;
-            }
-        });
-    }
+        // Open the media uploader
+        mediaUploader.open();
+    });
+});
 </script>
