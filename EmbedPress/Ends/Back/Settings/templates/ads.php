@@ -1,5 +1,13 @@
 <div class="embedpress_calendly_settings  background__white radius-25 p40">
-    <h3 class="ads-settings-title"><?php esc_html_e("Ads Preview", "embedpress"); ?></h3>
+
+    <div class="ad-settings-top">
+        <div class="ad-settings-content">
+            <h3 class="ads-settings-title"><?php esc_html_e("Ads Preview", "embedpress"); ?></h3>
+            <p class="ads-settings-description"><?php esc_html_e("Experience the future of advertising with our revolutionary 'Ad Preview in Video' feature! ", "embedpress"); ?></p>
+        </div>
+        <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="button button-pro-upgrade"><?php echo esc_html__('Upgrade To Pro', 'embedpress'); ?><i class="ep-icon ep-link-icon"></i></a>
+
+    </div>
 
 
     <div class="entry-content clear" ast-blocks-layout="true" itemprop="text">
@@ -12,7 +20,11 @@
                             <div class="ad__adjust__controller__item">
                                 <span class="controller__label"><?php echo esc_html__('Upload Ad', 'embedpress'); ?></span>
                                 <div class="ad__adjust__controller__inputs ad-upload-options">
-                                    <input type="button" class="uploadBtn button" value="Upload" data-upload-index="0"/><br/>
+                                    
+                                    <button class="uploadBtn" type="button" data-upload-index="0">
+                                        <span class="dashicons dashicons-upload"></span> <?php echo esc_html__('Upload', 'embedpress'); ?>
+                                    </button>
+
                                     <input type="hidden" id="fileInput-0" name="adFileUrl"/>
                                     <p class="uploaded-file-url-0"></p>
                                     <div class="ad__upload__preview" id="yt_ad__upload__preview" style="display:none ">
@@ -48,7 +60,7 @@
                             <div class="ad__adjust__controller__item">
                                 <span class="controller__label"><?php echo esc_html__('Ad Start After (Sec)', 'embedpress'); ?></span>
                                 <div class="ad__adjust__controller__inputs">
-                                    <input type="range" max="100" data-default="10" value="10" class="opacity__range" name="adStart">
+                                    <input type="range" min="1" max="100" data-default="10" value="10" class="opacity__range" name="adStart">
                                     <input readonly="" type="number" class="form__control range__value" data-default="10" value="10">
                                 </div>
                             </div>
@@ -67,24 +79,25 @@
                             <div class="ad__adjust__controller__item skip-controller">
                                 <span class="controller__label"><?php echo esc_html__('Skip Button After (Sec)', 'embedpress'); ?></span>
                                 <div class="ad__adjust__controller__inputs">
-                                    <input type="range" max="100" data-default="5" value="5" class="x__range" name="adSkipButtonAfter">
+                                    <input type="range" min="1" max="100" data-default="5" value="5" class="x__range" name="adSkipButtonAfter">
                                     <input readonly="" type="number" class="form__control range__value" data-default="5" value="5">
                                 </div>
                             </div>
 
-                            <button type="submit" class="button preview-btn-0"> <?php echo esc_html__('Play Preview', 'embedpress'); ?> </button>
+                            <button type="submit" class="button preview-btn-0"> <?php echo esc_html__('Start Preview', 'embedpress'); ?> </button>
                         </form>
 
                     </div>
                 </div>
             </div>
             <div class="embedpress-gutenberg-wrapper aligncenter   ep-content-protection-disabled inline" id="1c3da3de-7606-4e9f-9693-d4b570cd2ca30">
-                <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Video ad Preview</mark> in Video</h2>
+                <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Ad Preview</mark> in Video</h2>
+                <p class="preview-description">Experience the future of advertising with our revolutionary 'Ad Preview in Video' feature! </p>
                 <div class="wp-block-embed__wrapper   ">
                     <div id="ep-gutenberg-content-ep-ad-preview-0" class="ep-gutenberg-content">
                         <div data-ad-id="ep-ad-preview-0" id="ep-ad-preview-0" class="ad-mask" data-ad-index="0">
                             <div class="ep-embed-content-wraper ">
-                                <iframe class="ose-youtube ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 ose-embedpress-responsive" style="width: 600px; height: 550px; max-height: 338px; max-width: 100%; display: inline-block;" frameborder="0" allowfullscreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" title="How To Make Any Page Layout Using The WordPress Block Editor: Gutenberg" width="640" height="360" src="https://www.youtube.com/embed/AMU66nbFnGg?enablejsapi=1&amp;origin=http%3A%2F%2Fembedpress.local&amp;widgetid=1" id="widget2"></iframe> </div>
+                                <iframe class="ose-youtube ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 ose-embedpress-responsive" style="width: 550px; height: 550px; max-height: 338px; max-width: 100%; display: inline-block;" frameborder="0" allowfullscreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" title="How To Make Any Page Layout Using The WordPress Block Editor: Gutenberg" width="640" height="360" src="https://www.youtube.com/embed/AMU66nbFnGg?enablejsapi=1&amp;origin=http%3A%2F%2Fembedpress.local&amp;widgetid=1" id="widget2"></iframe> </div>
                             <div class="main-ad-template" id="ad-template-0" style="display:none">
                                 <div class="ep-ad-container">
 
@@ -124,39 +137,7 @@
                     </div>
                 </div>
             </div>
-            <style>
-                .ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 {
-                    width: 600px !important;
-                    height: 340px !important;
-                    max-width: 100%;
-                }
-
-                .ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5>iframe {
-                    height: 340px !important;
-                    max-height: 340px !important;
-                    width: 100%;
-                }
-
-                .ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 .wistia_embed {
-                    max-width: 100%;
-                }
-
-                .alignright .ose-wistia.ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 {
-                    margin-left: auto;
-                }
-
-                .alignleft .ose-wistia.ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 {
-                    margin-right: auto;
-                }
-
-                .aligncenter .ose-wistia.ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 {
-                    margin: auto;
-                }
-
-                .ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 img.watermark {
-                    display: none;
-                }
-            </style>
+            
         </div>
         <div class="ad-preview-sectiion">
             <div class="video-ad-prewiew-options">
@@ -166,7 +147,10 @@
                             <div class="ad__adjust__controller__item">
                                 <span class="controller__label"><?php echo esc_html__('Upload Ad', 'embedpress'); ?></span>
                                 <div class="ad__adjust__controller__inputs ad-upload-options">
-                                    <input type="button" class="uploadBtn button" value="Upload" data-upload-index="1" /><br />
+                                    <button class="uploadBtn" type="button" data-upload-index="1">
+                                        <span class="dashicons dashicons-upload"></span> <?php echo esc_html__('Upload', 'embedpress'); ?>
+                                    </button>
+
                                     <input type="hidden" id="fileInput-1" name="adFileUrl" />
                                     <p class="uploaded-file-url-1"></p>
                                     <div class="ad__upload__preview" id="yt_ad__upload__preview" style="display:none ">
@@ -226,7 +210,7 @@
                                 </div>
                             </div>
 
-                            <button type="submit" class="button preview-btn-1"> <?php echo esc_html__('Play Preview', 'embedpress'); ?> </button>
+                            <button type="submit" class="button preview-btn-1"> <?php echo esc_html__('Start Preview', 'embedpress'); ?> </button>
                         </form>
 
                     </div>
@@ -234,11 +218,12 @@
             </div>
             <div class="embedpress-gutenberg-wrapper aligncenter   ep-content-protection-disabled inline" id="1c3da3de-7606-4e9f-9693-d4b570cd2ca31">
                 <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Ad Preview for Documents</h2>
+                <p class="preview-description">Experience the future of advertising with our revolutionary 'Ad Preview in Video' feature! </p>
                 <div class="wp-block-embed__wrapper   ">
                     <div id="ep-gutenberg-content-ep-ad-preview-1" class="ep-gutenberg-content">
                         <div data-ad-id="ep-ad-preview-1" id="ep-ad-preview-1" class="ad-mask" data-ad-index="0">
                             <div class="ep-embed-content-wraper">
-                                <div class="position-right-wraper gutenberg-pdf-wraper"><iframe title="sample" class="embedpress-embed-document-pdf embedpress-pdf-1701320841615" style="width:600px;height:450px; max-width:100%; display: inline-block" src="https://www.africau.edu/images/default/sample.pdf" frameborder="0" oncontextmenu="return false;"></iframe>
+                                <div class="position-right-wraper gutenberg-pdf-wraper"><iframe title="sample" class="embedpress-embed-document-pdf embedpress-pdf-1701320841615" style="width:550px;height:450px; max-width:100%; display: inline-block" src="https://www.africau.edu/images/default/sample.pdf" frameborder="0" oncontextmenu="return false;"></iframe>
                                     <p class="embedpress-el-powered">Powered By EmbedPress</p>
                                 </div>
                             </div>
@@ -282,39 +267,7 @@
                     </div>
                 </div>
             </div>
-            <style>
-                .ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 {
-                    width: 600px !important;
-                    height: 340px !important;
-                    max-width: 100%;
-                }
-
-                .ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5>iframe {
-                    height: 340px !important;
-                    max-height: 340px !important;
-                    width: 100%;
-                }
-
-                .ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 .wistia_embed {
-                    max-width: 100%;
-                }
-
-                .alignright .ose-wistia.ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 {
-                    margin-left: auto;
-                }
-
-                .alignleft .ose-wistia.ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 {
-                    margin-right: auto;
-                }
-
-                .aligncenter .ose-wistia.ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 {
-                    margin: auto;
-                }
-
-                .ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 img.watermark {
-                    display: none;
-                }
-            </style>
+           
         </div>
     </div>
 
@@ -322,39 +275,90 @@
 
 <style>
     /* page css */
+    .entry-content.clear {
+        padding: 0 10px;
+    }
+    .ad-settings-top {
+        padding: 15px 30px;
+        /* background: #EEEDF4; */
+        color: #444;
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 40px;
+        border: 1px solid #f9f3f3;
+    }
+    .ad-settings-content {
+        width: calc(100% - 300px);
+    }
+    h3.ads-settings-title {
+        color: #333;
+        margin-bottom: 5px;
+        font-size: 20px;
+    }
+    p.ads-settings-description {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #25396F;
+    }
+    .ad__adjust__controller__item .controller__label {
+        font-size: 16px;
+        font-weight: 400;
+        color: #7C8DB5;
+        width: 180px;
+    }
     .ad-preview-sectiion {
         display: flex;
         gap: 30px;
-        justify-content: space-between;
+        justify-content: space-around;
         margin-bottom: 60px;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 60px;
     }
 
-    .video-ad-prewiew-options {
-        width: 49%;
-    }
 
     .ad-upload-options{
         width: 320px;
     }
 
-    .uploaded-file-url-0.uploaded {
+    p.uploaded {
         background: #efeef5;
         padding: 5px 10px;
         word-wrap: break-word;
         border-radius: 5px;
     }
-    input.uploadBtn.button {
+    
+    button.uploadBtn {
+        font-size: 14px;
+        padding: 10px 15px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        border: 1px solid #ddd;
+        cursor: pointer;
+        color: #394b7b;
         margin-bottom: 10px;
-    }
 
+    }
+    button.uploadBtn span.dashicons.dashicons-upload {
+        font-size: 18px;
+    }
+    .video-ad-prewiew-options {
+        width: calc(100% - 550px);
+        max-width: 600px;
+    }
     .ad__adjust__controller__item {
         display: flex;
         align-items: center;
         justify-content: space-between;
         margin-bottom: 30px;
+        gap: 20px;
     }
     .ad__adjust__controller__inputs {
-        width: 320px;
+        width: 280px;
+        max-width: 100%;
     }
     .ad__adjust__controller__inputs p {
         margin-top: 5px;
@@ -386,6 +390,20 @@
     .ep-embed-content-wraper {
         position: relative;
     }
+    .embedpress-gutenberg-wrapper {
+        max-width: 550px;
+    }
+    h2.wp-block-heading {
+        font-size: 22px;
+        margin-bottom: 12px;
+    }
+
+    p.preview-description {
+        font-size: 16px;
+        line-height: 1.6;
+        color: #25396F;
+        margin-bottom: 15px;
+    }
 
     .ose-youtube {
         /* display: none !important; */
@@ -394,6 +412,7 @@
     [data-ad-id] {
         position: relative;
         display: inline-block;
+        max-width: 100%;
     }
 
     .main-ad-template.image.ad-running {
@@ -478,8 +497,8 @@
 
     /* Specific Styles for Ad Type 1 */
     [data-ad-id="ep-ad-preview-0"] .main-ad-template {
-        width: 600px;
-        height: 340px;
+        width: 550px;
+        height: 310px;
         max-width: 100%;
         display: inline-block;
     }
@@ -493,8 +512,8 @@
 
     /* Specific Styles for Ad Type 2 */
     [data-ad-id="ep-ad-preview-1"] .main-ad-template {
-        width: 600px;
-        height: 340px;
+        width: 550px;
+        height: 310px;
         max-width: 100%;
         display: inline-block;
     }
@@ -511,6 +530,20 @@
     }
     p.embedpress-el-powered {
         text-align: center;
+    }
+
+    @media screen and (max-width: 1250px) {
+        .ad-preview-sectiion {
+            flex-direction: column-reverse;
+        }
+        
+        .video-ad-prewiew-options {
+            width: 100%;
+        }
+
+        .embedpress-gutenberg-wrapper {
+            width: 100%;
+        }
     }
 
 </style>
@@ -695,6 +728,9 @@ const adInitialization = (adContainer, index, adAtts, adType) => {
         if (event.target.classList.contains('skip-ad-button')) {
 
             adTemplate?.classList.remove('ad-running');
+            document.querySelector('.preview-btn-'+index).innerText = 'Play Preview';
+            document.querySelector('.preview-btn-' + index).removeAttribute('disabled');
+
             if(adType == 'video'){
                 adVideo.pause();
                 adVideo.currentTime = 0;
@@ -725,6 +761,8 @@ const adInitialization = (adContainer, index, adAtts, adType) => {
             // Remove the main ad template from the DOM when the video ends
             adTemplate.classList.add('hidden');
             adContainer.querySelector('.ep-embed-content-wraper').classList.remove('hidden');
+            document.querySelector('.preview-btn-'+index).innerText = 'Play Preview';
+            document.querySelector('.preview-btn-' + index).removeAttribute('disabled');
         });
     }
     playerIndex++;
@@ -838,7 +876,7 @@ jQuery(document).on('click', '.preview-btn-0', function(e){
     const adAtts = {
         "clientId": "1c3da3de-7606-4e9f-9693-d4b570cd2ca30",
         "url": "https://www.youtube.com/watch?v=AMU66nbFnGg&pp=ygUMd3BkZXZlbG9lcGVy",
-        "height": "340",
+        "height": "310",
         "adManager": true,
         "adFileUrl": currentAdAtts?.adFileUrl,
         "adUrl": currentAdAtts?.adUrl,
@@ -855,6 +893,16 @@ jQuery(document).on('click', '.preview-btn-0', function(e){
 
     if(currentAdAtts?.adFileUrl){
         adInitialization(adContainer, index, adAtts, adType);
+        jQuery('.preview-btn-'+index).attr('disabled', true);
+
+        let startIn = parseInt(currentAdAtts?.adStart) - 1;
+        const setinterval = setInterval(() => {
+            jQuery('.preview-btn-'+index).text('Ad staring in ' + startIn-- + ' sec');
+            if(startIn === -1){
+                clearInterval(setinterval);
+                jQuery('.preview-btn-'+index).text('Ad Running');
+            }
+        }, 1000);
     }
     else{
         jQuery('.uploaded-file-url-'+index).text('Please upload a video/image Ad.' );
@@ -873,7 +921,7 @@ jQuery(document).on('click', '.preview-btn-1', function(e){
     const adAtts = {
         "clientId": "1c3da3de-7606-4e9f-9693-d4b570cd2ca31",
         "url": "https://www.africau.edu/images/default/sample.pdf",
-        "height": "340",
+        "height": "310",
         "adManager": true,
         "adFileUrl": currentAdAtts?.adFileUrl,
         "adUrl": currentAdAtts?.adUrl,
@@ -890,6 +938,16 @@ jQuery(document).on('click', '.preview-btn-1', function(e){
 
     if(currentAdAtts?.adFileUrl){
         adInitialization(adContainer, index, adAtts, adType);
+        jQuery('.preview-btn-'+index).attr('disabled', true);
+
+        let startIn = parseInt(currentAdAtts?.adStart) - 1;
+        const setinterval = setInterval(() => {
+            jQuery('.preview-btn-'+index).text('Ad staring in ' + startIn-- + ' sec');
+            if(startIn === -1){
+                clearInterval(setinterval);
+                jQuery('.preview-btn-'+index).text('Ad Running');
+            }
+        }, 1000);
     }
     else{
         jQuery('.uploaded-file-url-'+index).text('Please upload a video/image Ad.' );
@@ -912,6 +970,11 @@ jQuery(document).ready(function($){
 
         const index = $(this).data('upload-index');
 
+        console.log(index);
+
+        // Reset mediaUploader variable
+        mediaUploader = undefined;
+
         if (mediaUploader) {
             mediaUploader.open();
             return;
@@ -933,6 +996,8 @@ jQuery(document).ready(function($){
         mediaUploader.on('select', function() {
             var attachment = mediaUploader.state().get('selection').first().toJSON();
 
+            console.log(attachment);
+
             if(attachment.type === 'image') {
                 $('.skip-controller').addClass('hidden');
                 $('.image-ad-control').removeClass('hidden');
@@ -946,14 +1011,16 @@ jQuery(document).ready(function($){
             }
 
             $('#fileInput-'+index).val(attachment.url);
-            $('.uploaded-file-url-'+index).text('File Name: ' +attachment.name);
+            $('.uploaded-file-url-'+index).text('File Name: ' +attachment.name + '.' + attachment.subtype);
             $('#ad-template-'+index).attr('data-adType', attachment.type);
             $('.uploaded-file-url-'+index).addClass('uploaded');
+            console.log($('.uploaded-file-url-'+index));
         });
 
         // Open the media uploader
         mediaUploader.open();
     });
 });
+
 
 </script>

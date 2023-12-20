@@ -50,6 +50,10 @@
   pointer-events: none;
 }
 
+.pro-control .ad-manager-controllers {
+  opacity: .5;
+}
+
 button.components-flex.components-color-palette__custom-color {
   height: 20px;
 }
@@ -70,7 +74,10 @@ button.components-flex.components-color-palette__custom-color {
   .wp-block-embedpress-document.embedpress-document-embed {
     max-height: 400px !important;
   }
+
   .ep-file-download-option-masked {
     height: 100%;
   }
-}/*# sourceMappingURL=style.css.map */
+}
+
+/*# sourceMappingURL=style.css.map */

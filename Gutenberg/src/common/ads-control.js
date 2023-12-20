@@ -69,9 +69,9 @@ export default function AdControl({ attributes, setAttributes }) {
         adLabel = 'Preview';
     }
 
-    
+
     return (
-        
+
         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Ads Settings', 'embedpress')}</div>} initialOpen={false} className={adManager ? "" : "disabled-content-protection"} >
             <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                 <ToggleControl
@@ -85,129 +85,131 @@ export default function AdControl({ attributes, setAttributes }) {
                         <span className='isPro'>{__('pro', 'embedpress')}</span>
                     )
                 }
-        {/* console.log({EPIcon}) */}
+                {/* console.log({EPIcon}) */}
 
-            </div>
-            {
-                adManager && (
-                    <div className={'ad-manager-controllers'}>
 
-                        <SelectControl
-                            label={__("Ad Source")}
-                            value={adSource}
-                            options={[
-                                { label: 'Upload Video', value: 'video' },
-                                { label: 'Upload Image', value: 'image' },
-                                { label: 'URL', value: 'url' },
-                            ]}
-                            onChange={(adSource) => setAttributes({ adSource })}
-                            __nextHasNoMarginBottom
-                        />
+                {
+                    adManager && (
+                        <div className={'ad-manager-controllers'}>
 
-                        <div>
+                            <SelectControl
+                                label={__("Ad Source")}
+                                value={adSource}
+                                options={[
+                                    { label: 'Upload Video', value: 'video' },
+                                    { label: 'Upload Image', value: 'image' },
+                                    { label: 'URL', value: 'url' },
+                                ]}
+                                onChange={(adSource) => setAttributes({ adSource })}
+                                __nextHasNoMarginBottom
+                            />
 
-                            <label class="custom-share-thumbnail-label">{adLabel}</label>
-                            {
-                                adFileUrl && (
-                                    <AdTemplate attributes={attributes} setAttributes={setAttributes} />
-                                )
-                            }
+                            <div>
 
-                            {
-                                adSource !== 'url' ? (
-                                    <div className={'ep-custom-logo-button'}>
-                                        <MediaUpload
-                                            onSelect={onSelectImage}
-                                            allowedTypes={['image', 'video']}
+                                <label class="custom-share-thumbnail-label">{adLabel}</label>
+                                {
+                                    adFileUrl && (
+                                        <AdTemplate attributes={attributes} setAttributes={setAttributes} />
+                                    )
+                                }
+
+                                {
+                                    adSource !== 'url' ? (
+                                        <div className={'ep-custom-logo-button'}>
+                                            <MediaUpload
+                                                onSelect={onSelectImage}
+                                                allowedTypes={['image', 'video']}
+                                                value={adFileUrl}
+                                                render={({ open }) => (
+                                                    <Button className={'ep-logo-upload-button'} icon={!adFileUrl ? 'upload' : 'update'} onClick={open}>
+                                                        {
+                                                            (!adFileUrl) ? 'Upload Ad' : 'Change Ad'
+                                                        }
+                                                    </Button>
+                                                )}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <TextControl
                                             value={adFileUrl}
-                                            render={({ open }) => (
-                                                <Button className={'ep-logo-upload-button'} icon={!adFileUrl ? 'upload' : 'update'} onClick={open}>
-                                                    {
-                                                        (!adFileUrl) ? 'Upload Ad' : 'Change Ad'
-                                                    }
-                                                </Button>
-                                            )}
+                                            onChange={(adFileUrl) => setAttributes({ adFileUrl })}
+                                        />
+                                    )
+                                }
+                            </div>
+
+                            {
+                                (adSource === 'image') && (
+                                    <div>
+                                        <TextControl
+                                            label={__("Ad Width")}
+                                            value={adWidth}
+                                            onChange={(adWidth) => setAttributes({ adWidth })}
+                                        />
+                                        <TextControl
+                                            label={__("Ad Height")}
+                                            value={adHeight}
+                                            onChange={(adHeight) => setAttributes({ adHeight })}
+                                        />
+                                        <RangeControl
+                                            label={__('Ad X position(%)', 'embedpress')}
+                                            value={adXPosition}
+                                            onChange={(adXPosition) =>
+                                                setAttributes({ adXPosition })
+                                            }
+                                            max={100}
+                                            min={0}
+                                        />
+                                        <RangeControl
+                                            label={__('Ad Y position(%)', 'embedpress')}
+                                            value={adYPosition}
+                                            onChange={(adYPosition) =>
+                                                setAttributes({ adYPosition })
+                                            }
+                                            max={100}
+                                            min={0}
                                         />
                                     </div>
-                                ) : (
+                                )
+                            }
+                            <TextControl
+                                label={__("Ad URL")}
+                                value={adUrl}
+                                onChange={(adUrl) => setAttributes({ adUrl })}
+                            />
+
+                            <TextControl
+                                label={__("Ad Start After (sec)")}
+                                value={adStart}
+                                onChange={(adStart) => setAttributes({ adStart })}
+                            />
+
+                            <ToggleControl
+                                label={__("Ad Skip Button")}
+                                checked={adSkipButton}
+                                onChange={(adSkipButton) => setAttributes({ adSkipButton: adSkipButton })}
+                            />
+
+                            {
+                                adSkipButton && (adSource !== 'image') && (
+
                                     <TextControl
-                                        value={adFileUrl}
-                                        onChange={(adFileUrl) => setAttributes({ adFileUrl })}
+                                        label={__("Skip Button After (sec)")}
+                                        value={adSkipButtonAfter}
+                                        onChange={(adSkipButtonAfter) => setAttributes({ adSkipButtonAfter: adSkipButtonAfter })}
                                     />
                                 )
                             }
+
                         </div>
+                    )
+                }
 
-                        {
-                            (adSource === 'image') && (
-                                <div>
-                                    <TextControl
-                                        label={__("Ad Width")}
-                                        value={adWidth}
-                                        onChange={(adWidth) => setAttributes({ adWidth })}
-                                    />
-                                    <TextControl
-                                        label={__("Ad Height")}
-                                        value={adHeight}
-                                        onChange={(adHeight) => setAttributes({ adHeight })}
-                                    />
-                                    <RangeControl
-                                        label={__('Ad X position(%)', 'embedpress')}
-                                        value={adXPosition}
-                                        onChange={(adXPosition) =>
-                                            setAttributes({ adXPosition })
-                                        }
-                                        max={100}
-                                        min={0}
-                                    />
-                                    <RangeControl
-                                        label={__('Ad Y position(%)', 'embedpress')}
-                                        value={adYPosition}
-                                        onChange={(adYPosition) =>
-                                            setAttributes({ adYPosition })
-                                        }
-                                        max={100}
-                                        min={0}
-                                    />
-                                </div>
-                            )
-                        }
-                        <TextControl
-                            label={__("Ad URL")}
-                            value={adUrl}
-                            onChange={(adUrl) => setAttributes({ adUrl })}
-                        />
-
-                        <TextControl
-                            label={__("Ad Start After (sec)")}
-                            value={adStart}
-                            onChange={(adStart) => setAttributes({ adStart })}
-                        />
-
-                        <ToggleControl
-                            label={__("Ad Skip Button")}
-                            checked={adSkipButton}
-                            onChange={(adSkipButton) => setAttributes({ adSkipButton: adSkipButton })}
-                        />
-
-                        {
-                            adSkipButton && (adSource !== 'image') && (
-
-                                <TextControl
-                                    label={__("Skip Button After (sec)")}
-                                    value={adSkipButtonAfter}
-                                    onChange={(adSkipButtonAfter) => setAttributes({ adSkipButtonAfter: adSkipButtonAfter })}
-                                />
-                            )
-                        }
-
-                        <div className={'ep-documentation'}>
-                            {EPIcon}
-                            <a href="https://embedpress.com/docs/add-ep-content-protection-in-embedded-content/" target={'_blank'}> Need Help? </a>
-                        </div>
-                    </div>
-                )
-            }
+                <div className={'ep-documentation ads-help'}>
+                    {EPIcon}
+                    <a href="https://embedpress.com/docs/add-ep-content-protection-in-embedded-content/" target={'_blank'}> {__('Need Help?', 'emebdpress')} </a>
+                </div>
+            </div>
         </PanelBody>
     )
 }

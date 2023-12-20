@@ -143,6 +143,12 @@
 .pro-control .components-base-control {
   pointer-events: none; }
 
+.pro-control .ad-manager-controllers {
+  opacity: .5; }
+
+.ads-help {
+  margin-top: 30px; }
+
 button.components-flex.components-color-palette__custom-color {
   height: 20px; }
 
