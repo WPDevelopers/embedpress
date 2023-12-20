@@ -10,7 +10,7 @@
                     <div class="ad__adjust" >
                         <form class="ad__adjust__controller" id="ad-preview-0">
                             <div class="ad__adjust__controller__item">
-                                <span class="controller__label">Upload Video Ad</span>
+                                <span class="controller__label"><?php echo esc_html__('Upload Ad', 'embedpress'); ?></span>
                                 <div class="ad__adjust__controller__inputs ad-upload-options">
                                     <input type="button" class="uploadBtn button" value="Upload" data-upload-index="0"/><br/>
                                     <input type="hidden" id="fileInput-0" name="adFileUrl"/>
@@ -24,16 +24,37 @@
                                 </div>
                             </div>
 
+                            <!-- <div class="ad__adjust__controller__item hidden image-ad-control">
+                                <span class="controller__label">Ad Width</span>
+                                <div class="ad__adjust__controller__inputs">
+                                    <input type="range" max="600" data-default="300" value="300" class="opacity__range" name="adWidth">
+                                    <input readonly="" type="number" class="form__control range__value" data-default="300" value="300">
+                                </div>
+                            </div>
+                            <div class="ad__adjust__controller__item hidden image-ad-control">
+                                <span class="controller__label">Ad Height</span>
+                                <div class="ad__adjust__controller__inputs">
+                                    <input type="range" max="600" data-default="200" value="200" class="opacity__range" name="adHeight">
+                                    <input readonly="" type="number" class="form__control range__value" data-default="200" value="200">
+                                </div>
+                            </div>   -->
                             <div class="ad__adjust__controller__item">
-                                <span class="controller__label">Ad Start After (Sec)</span>
+                                <span class="controller__label"><?php echo esc_html__('Ad URL', 'embedpress'); ?></span>
+                                <div class="ad__adjust__controller__inputs">
+                                    <input type="url" name="adUrl" id="ad_cta_url" class="form__control" data-default="<?php echo esc_url('https://embedpress.com/'); ?>" value="<?php echo esc_url('https://embedpress.com/'); ?>">
+                                </div>
+                            </div>
+
+                            <div class="ad__adjust__controller__item">
+                                <span class="controller__label"><?php echo esc_html__('Ad Start After (Sec)', 'embedpress'); ?></span>
                                 <div class="ad__adjust__controller__inputs">
                                     <input type="range" max="100" data-default="10" value="10" class="opacity__range" name="adStart">
                                     <input readonly="" type="number" class="form__control range__value" data-default="10" value="10">
                                 </div>
                             </div>
 
-                            <div class="ad__adjust__controller__item">
-                                <span class="controller__label">Skip Button</span>
+                            <div class="ad__adjust__controller__item skip-controller">
+                                <span class="controller__label"><?php echo esc_html__('Skip Button', 'embedpress'); ?></span>
                                 <div class="ad__adjust__controller__inputs">
                                     <label class="input__switch switch__text ">
                                         <input type="checkbox" name="adSkipButton" data-default="no" data-value="no" value="yes" checked>
@@ -43,21 +64,21 @@
                                 </div>
                             </div>
 
-                            <div class="ad__adjust__controller__item">
-                                <span class="controller__label">Skip Button After (Sec)</span>
+                            <div class="ad__adjust__controller__item skip-controller">
+                                <span class="controller__label"><?php echo esc_html__('Skip Button After (Sec)', 'embedpress'); ?></span>
                                 <div class="ad__adjust__controller__inputs">
                                     <input type="range" max="100" data-default="5" value="5" class="x__range" name="adSkipButtonAfter">
                                     <input readonly="" type="number" class="form__control range__value" data-default="5" value="5">
                                 </div>
                             </div>
 
-                            <button type="submit" class="button preview-btn-0"> Play Preview </button>
+                            <button type="submit" class="button preview-btn-0"> <?php echo esc_html__('Play Preview', 'embedpress'); ?> </button>
                         </form>
 
                     </div>
                 </div>
             </div>
-            <div class="embedpress-gutenberg-wrapper aligncenter   ep-content-protection-disabled inline" id="1c3da3de-7606-4e9f-9693-d4b570cd2ca3">
+            <div class="embedpress-gutenberg-wrapper aligncenter   ep-content-protection-disabled inline" id="1c3da3de-7606-4e9f-9693-d4b570cd2ca30">
                 <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Video ad Preview</mark> in Video</h2>
                 <div class="wp-block-embed__wrapper   ">
                     <div id="ep-gutenberg-content-ep-ad-preview-0" class="ep-gutenberg-content">
@@ -68,10 +89,10 @@
                                 <div class="ep-ad-container">
 
                                     <div class="ep-ad-content ad-video hidden" style="position: relative;">
-                                        <a target="_blank" href="https://wpdeveloper.com/"> 
+                                        <a target="_blank" class="ad-url" href="https://wpdeveloper.com/"> 
 
                                             <video class="ep-ad" muted="">
-                                                <source src="http://embedpress.local/wp-content/uploads/2023/11/5-Stars-Everywhere.mp4">
+                                                <source src="">
                                             </video>
 
                                             <div class="ad-timer">
@@ -81,8 +102,6 @@
                                             <div class="progress-bar-container">
                                                 <div class="progress-bar"></div>
                                             </div>
-
-
                                         </a>
 
 
@@ -92,8 +111,167 @@
                                     </div>
 
                                     <div class="ep-ad-content ad-image hidden" style="position: relative;">
-                                        <img decoding="async" class="ep-ad" src="http://embedpress.local/wp-content/uploads/2023/11/27946a99657cddf0cbde79a7e4e6f51f.gif">
+                                         <a target="_blank" class="ad-url" href="https://wpdeveloper.com/"> 
+                                            <img decoding="async" class="ep-ad" src="http://embedpress.local/wp-content/uploads/2023/11/27946a99657cddf0cbde79a7e4e6f51f.gif">
+                                        </a>
+                                            <button title="Skip Ad" class="skip-ad-button" style="display: inline-block;">
+                                                Skip Ad </button>
 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <style>
+                .ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 {
+                    width: 600px !important;
+                    height: 340px !important;
+                    max-width: 100%;
+                }
+
+                .ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5>iframe {
+                    height: 340px !important;
+                    max-height: 340px !important;
+                    width: 100%;
+                }
+
+                .ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 .wistia_embed {
+                    max-width: 100%;
+                }
+
+                .alignright .ose-wistia.ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 {
+                    margin-left: auto;
+                }
+
+                .alignleft .ose-wistia.ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 {
+                    margin-right: auto;
+                }
+
+                .aligncenter .ose-wistia.ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 {
+                    margin: auto;
+                }
+
+                .ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 img.watermark {
+                    display: none;
+                }
+            </style>
+        </div>
+        <div class="ad-preview-sectiion">
+            <div class="video-ad-prewiew-options">
+                <div class="ad__adjust__wrap " style="display: block;">
+                    <div class="ad__adjust">
+                        <form class="ad__adjust__controller" id="ad-preview-1">
+                            <div class="ad__adjust__controller__item">
+                                <span class="controller__label"><?php echo esc_html__('Upload Ad', 'embedpress'); ?></span>
+                                <div class="ad__adjust__controller__inputs ad-upload-options">
+                                    <input type="button" class="uploadBtn button" value="Upload" data-upload-index="1" /><br />
+                                    <input type="hidden" id="fileInput-1" name="adFileUrl" />
+                                    <p class="uploaded-file-url-1"></p>
+                                    <div class="ad__upload__preview" id="yt_ad__upload__preview" style="display:none ">
+                                        <div class="instant__preview">
+                                            <a href="#" id="yt_preview__remove" class="preview__remove"><i class="ep-icon ep-cross"></i></a>
+                                            <img class="instant__preview__img" id="yt_logo_preview" src="" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- <div class="ad__adjust__controller__item hidden image-ad-control">
+                                        <span class="controller__label">Ad Width</span>
+                                        <div class="ad__adjust__controller__inputs">
+                                            <input type="range" max="600" data-default="300" value="300" class="opacity__range" name="adWidth">
+                                            <input readonly="" type="number" class="form__control range__value" data-default="300" value="300">
+                                        </div>
+                                    </div>
+                                    <div class="ad__adjust__controller__item hidden image-ad-control">
+                                        <span class="controller__label">Ad Height</span>
+                                        <div class="ad__adjust__controller__inputs">
+                                            <input type="range" max="600" data-default="200" value="200" class="opacity__range" name="adHeight">
+                                            <input readonly="" type="number" class="form__control range__value" data-default="200" value="200">
+                                        </div>
+                                    </div>   -->
+                            <div class="ad__adjust__controller__item">
+                                <span class="controller__label"><?php echo esc_html__('Ad URL', 'embedpress'); ?></span>
+                                <div class="ad__adjust__controller__inputs">
+                                    <input type="url" name="adUrl" id="ad_cta_url" class="form__control" data-default="<?php echo esc_url('https://embedpress.com/'); ?>" value="<?php echo esc_url('https://embedpress.com/'); ?>">
+                                </div>
+                            </div>
+
+                            <div class="ad__adjust__controller__item">
+                                <span class="controller__label"><?php echo esc_html__('Ad Start After (Sec)', 'embedpress'); ?></span>
+                                <div class="ad__adjust__controller__inputs">
+                                    <input type="range" max="100" data-default="10" value="10" class="opacity__range" name="adStart">
+                                    <input readonly="" type="number" class="form__control range__value" data-default="10" value="10">
+                                </div>
+                            </div>
+
+                            <div class="ad__adjust__controller__item skip-controller">
+                                <span class="controller__label"><?php echo esc_html__('Skip Button', 'embedpress'); ?></span>
+                                <div class="ad__adjust__controller__inputs">
+                                    <label class="input__switch switch__text ">
+                                        <input type="checkbox" name="adSkipButton" data-default="no" data-value="no" value="yes" checked>
+                                        <span></span>
+
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="ad__adjust__controller__item skip-controller">
+                                <span class="controller__label"><?php echo esc_html__('Skip Button After (Sec)', 'embedpress'); ?></span>
+                                <div class="ad__adjust__controller__inputs">
+                                    <input type="range" max="100" data-default="5" value="5" class="x__range" name="adSkipButtonAfter">
+                                    <input readonly="" type="number" class="form__control range__value" data-default="5" value="5">
+                                </div>
+                            </div>
+
+                            <button type="submit" class="button preview-btn-1"> <?php echo esc_html__('Play Preview', 'embedpress'); ?> </button>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <div class="embedpress-gutenberg-wrapper aligncenter   ep-content-protection-disabled inline" id="1c3da3de-7606-4e9f-9693-d4b570cd2ca31">
+                <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Ad Preview for Documents</h2>
+                <div class="wp-block-embed__wrapper   ">
+                    <div id="ep-gutenberg-content-ep-ad-preview-1" class="ep-gutenberg-content">
+                        <div data-ad-id="ep-ad-preview-1" id="ep-ad-preview-1" class="ad-mask" data-ad-index="0">
+                            <div class="ep-embed-content-wraper">
+                                <div class="position-right-wraper gutenberg-pdf-wraper"><iframe title="sample" class="embedpress-embed-document-pdf embedpress-pdf-1701320841615" style="width:600px;height:450px; max-width:100%; display: inline-block" src="https://www.africau.edu/images/default/sample.pdf" frameborder="0" oncontextmenu="return false;"></iframe>
+                                    <p class="embedpress-el-powered">Powered By EmbedPress</p>
+                                </div>
+                            </div>
+
+                            <div class="main-ad-template" id="ad-template-1" style="display:none">
+                                <div class="ep-ad-container">
+
+                                    <div class="ep-ad-content ad-video hidden" style="position: relative;">
+                                        <a target="_blank" class="ad-url" href="https://wpdeveloper.com/">
+
+                                            <video class="ep-ad" muted="">
+                                                <source src="">
+                                            </video>
+
+                                            <div class="ad-timer">
+                                                <span class="ad-running-time"></span>
+                                                <span class="ad-duration">&nbsp;• Ad</span>
+                                            </div>
+                                            <div class="progress-bar-container">
+                                                <div class="progress-bar"></div>
+                                            </div>
+                                        </a>
+
+
+                                        <button title="Skip Ad" class="skip-ad-button" style="display: none;">
+                                            Skip Ad </button>
+
+                                    </div>
+
+                                    <div class="ep-ad-content ad-image hidden" style="position: relative;">
+                                        <a target="_blank" class="ad-url" href="https://wpdeveloper.com/">
+                                            <img decoding="async" class="ep-ad" src="http://embedpress.local/wp-content/uploads/2023/11/27946a99657cddf0cbde79a7e4e6f51f.gif">
+                                        </a>
                                         <button title="Skip Ad" class="skip-ad-button" style="display: inline-block;">
                                             Skip Ad </button>
 
@@ -138,143 +316,6 @@
                 }
             </style>
         </div>
-
-        <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Image ad Preview</mark> in Video</h2>
-
-
-        <div class="embedpress-gutenberg-wrapper aligncenter   ep-content-protection-disabled inline" id="0a6178a7-c433-4cd3-a761-edb000bbf2fa">
-            <div class="wp-block-embed__wrapper   ">
-                <div id="ep-gutenberg-content-291c61c171ca2add49648c86f82a230f" class="ep-gutenberg-content">
-                    <div data-ad-id="291c61c171ca2add49648c86f82a230f" class="ad-mask" data-ad-index="1">
-                        <div class="ep-embed-content-wraper ">
-                            <iframe class="ose-youtube ose-uid-a7157e874ea458e2aaa5b5dd18af9711 ose-embedpress-responsive" style="width: 600px; height: 550px; max-height: 338px; max-width: 100%; display: inline-block;" frameborder="0" allowfullscreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" title="Configure The WooCommerce My Account With EA Woo Account Dashboard Widget" width="640" height="360" src="https://www.youtube.com/embed/CEUqgOS4CN0?enablejsapi=1&amp;origin=http%3A%2F%2Fembedpress.local&amp;widgetid=3" id="widget4"></iframe> </div>
-                        <div class="main-ad-template image" id="ad-291c61c171ca2add49648c86f82a230f" style="display:none">
-                            <div class="ep-ad-container">
-                                <div class="ep-ad-content" style="position: relative;">
-                                    <img decoding="async" class="ep-ad" src="http://embedpress.local/wp-content/uploads/2023/11/27946a99657cddf0cbde79a7e4e6f51f.gif">
-
-
-
-                                    <button title="Skip Ad" class="skip-ad-button" style="display: inline-block;">
-                                        Skip Ad </button>
-
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <style>
-            .ose-uid-a7157e874ea458e2aaa5b5dd18af9711 {
-                width: 600px !important;
-                height: 340px !important;
-                max-width: 100%;
-            }
-
-            .ose-uid-a7157e874ea458e2aaa5b5dd18af9711>iframe {
-                height: 340px !important;
-                max-height: 340px !important;
-                width: 100%;
-            }
-
-            .ose-uid-a7157e874ea458e2aaa5b5dd18af9711 .wistia_embed {
-                max-width: 100%;
-            }
-
-            .alignright .ose-wistia.ose-uid-a7157e874ea458e2aaa5b5dd18af9711 {
-                margin-left: auto;
-            }
-
-            .alignleft .ose-wistia.ose-uid-a7157e874ea458e2aaa5b5dd18af9711 {
-                margin-right: auto;
-            }
-
-            .aligncenter .ose-wistia.ose-uid-a7157e874ea458e2aaa5b5dd18af9711 {
-                margin: auto;
-            }
-
-            .ose-uid-a7157e874ea458e2aaa5b5dd18af9711 img.watermark {
-                display: none;
-            }
-        </style>
-
-
-        <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Video ad Preview</mark> in PDF documents</h2>
-
-        <div id="ep-gutenberg-content-fc2d9f8fc6a2e87c25ecb6bdb7561542" class="ep-gutenberg-content ep-aligncenter ep-fixed-width   ep-content-protection-disabled ">
-            <div class="embedpress-inner-iframe  ep-doc-fc2d9f8fc6a2e87c25ecb6bdb7561542" style="max-width:100%" id="embedpress-pdf-1702801774415">
-                <div data-ad-id="fc2d9f8fc6a2e87c25ecb6bdb7561542" class="ad-mask" data-ad-index="2">
-                    <div class="ep-embed-content-wraper">
-                        <div class="position-right-wraper gutenberg-pdf-wraper"><iframe title="sample" class="embedpress-embed-document-pdf embedpress-pdf-1702801774415" style="width:600px;height:600px; max-width:100%; display: inline-block" src="http://embedpress.local/wp-admin/admin-ajax.php?action=get_viewer&amp;file=http%3A%2F%2Fembedpress.local%2Fwp-content%2Fuploads%2F2023%2F10%2Fsample.pdf#key=dGhlbWVNb2RlPWRlZmF1bHQmdG9vbGJhcj10cnVlJnBvc2l0aW9uPXRvcCZwcmVzZW50YXRpb249dHJ1ZSZkb3dubG9hZD10cnVlJmNvcHlfdGV4dD10cnVlJmFkZF90ZXh0PXRydWUmZHJhdz10cnVlJmRvY19yb3RhdGlvbj10cnVlJmRvY19kZXRhaWxzPXRydWU=" frameborder="0" oncontextmenu="return false;"></iframe>
-                            <p class="embedpress-el-powered">Powered By EmbedPress</p>
-                        </div>
-                    </div>
-                    <div class="main-ad-template video" id="ad-fc2d9f8fc6a2e87c25ecb6bdb7561542" style="display:none">
-                        <div class="ep-ad-container">
-                            <div class="ep-ad-content" style="position: relative;">
-                                <video class="ep-ad" muted="">
-                                    <source src="http://embedpress.local/wp-content/uploads/2023/11/5-Stars-Everywhere.mp4">
-                                </video>
-
-                                <div class="ad-timer">
-                                    <span class="ad-running-time"></span>
-                                    <span class="ad-duration">&nbsp;• Ad</span>
-                                </div>
-                                <div class="progress-bar-container">
-                                    <div class="progress-bar"></div>
-                                </div>
-
-
-
-
-                                <button title="Skip Ad" class="skip-ad-button" style="display: none;">
-                                    Skip Ad </button>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-        </div>
-
-
-
-        <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Image ad Preview</mark> in PDF documents</h2>
-
-        <div id="ep-gutenberg-content-1081011a548224fec38c97e5471bd6c0" class="ep-gutenberg-content ep-aligncenter ep-fixed-width   ep-content-protection-disabled ">
-            <div class="embedpress-inner-iframe  ep-doc-1081011a548224fec38c97e5471bd6c0" style="max-width:100%" id="embedpress-pdf-1701320841615">
-                <div data-ad-id="1081011a548224fec38c97e5471bd6c0" class="ad-mask" data-ad-index="3">
-                    <div class="ep-embed-content-wraper">
-                        <div class="position-right-wraper gutenberg-pdf-wraper"><iframe title="sample" class="embedpress-embed-document-pdf embedpress-pdf-1701320841615" style="width:666px;height:600px; max-width:100%; display: inline-block" src="http://embedpress.local/wp-admin/admin-ajax.php?action=get_viewer&amp;file=http%3A%2F%2Fembedpress.local%2Fwp-content%2Fuploads%2F2023%2F10%2Fsample.pdf#key=dGhlbWVNb2RlPWRlZmF1bHQmdG9vbGJhcj10cnVlJnBvc2l0aW9uPXRvcCZwcmVzZW50YXRpb249dHJ1ZSZkb3dubG9hZD10cnVlJmNvcHlfdGV4dD10cnVlJmFkZF90ZXh0PXRydWUmZHJhdz10cnVlJmRvY19yb3RhdGlvbj10cnVlJmRvY19kZXRhaWxzPXRydWU=" frameborder="0" oncontextmenu="return false;"></iframe>
-                            <p class="embedpress-el-powered">Powered By EmbedPress</p>
-                        </div>
-                    </div>
-                    <div class="main-ad-template image" id="ad-1081011a548224fec38c97e5471bd6c0" style="display:none">
-                        <div class="ep-ad-container">
-                            <div class="ep-ad-content" style="position: relative;">
-                                <img decoding="async" class="ep-ad" src="http://embedpress.local/wp-content/uploads/2023/11/27946a99657cddf0cbde79a7e4e6f51f.gif">
-
-
-
-                                <button title="Skip Ad" class="skip-ad-button" style="display: inline-block;">
-                                    Skip Ad </button>
-
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                </div>
-            </div>
-        </div>
-
     </div>
 
 </div>
@@ -298,7 +339,7 @@
 
     .uploaded-file-url-0.uploaded {
         background: #efeef5;
-        padding: 5px;
+        padding: 5px 10px;
         word-wrap: break-word;
         border-radius: 5px;
     }
@@ -315,6 +356,9 @@
     .ad__adjust__controller__inputs {
         width: 320px;
     }
+    .ad__adjust__controller__inputs p {
+        margin-top: 5px;
+    }
     /* Common Styles */
     .ad-mask .ose-embedpress-responsive {
         position: relative;
@@ -322,6 +366,12 @@
 
     .ad-running {
         display: inline-block !important;
+    }
+    .ep-ad-content.ad-image img {
+        object-fit: cover;
+    }
+    .ep-ad-content.ad-image {
+        height: 100%;
     }
 
     .ad-mask .ep-embed-content-wraper::after {
@@ -360,6 +410,10 @@
 
     .ep-ad-container {
         position: relative;
+        height: 100%;
+    }
+    a.ad-url {
+        display: inline;
     }
 
     .main-ad-template video,
@@ -418,7 +472,7 @@
         justify-content: center;
     }
 
-    [data-ad-id] .hidden {
+    [data-ad-id] .hidden, .hidden {
         display: none !important;
     }
 
@@ -431,56 +485,34 @@
     }
 
     [data-ad-id="ep-ad-preview-0"] .main-ad-template.image.ad-running {
-        width: 300px !important;
-        height: 200px !important;
+        width: 300px;
+        height: 200px;
         bottom: 10%;
         left: 25%;
     }
 
     /* Specific Styles for Ad Type 2 */
-    [data-ad-id="291c61c171ca2add49648c86f82a230f"] .main-ad-template {
+    [data-ad-id="ep-ad-preview-1"] .main-ad-template {
         width: 600px;
         height: 340px;
         max-width: 100%;
         display: inline-block;
     }
 
-    [data-ad-id="291c61c171ca2add49648c86f82a230f"] .main-ad-template.image.ad-running {
+    [data-ad-id="ep-ad-preview-1"] .main-ad-template.image.ad-running {
         width: 300px !important;
         height: 200px !important;
         bottom: 10%;
         left: 25%;
     }
 
-    /* Specific Styles for Ad Type 3 */
-    [data-ad-id="fc2d9f8fc6a2e87c25ecb6bdb7561542"] .main-ad-template {
-        width: 600px;
-        height: 550px;
-        max-width: 100%;
-        display: inline-block;
+    .position-right-wraper.gutenberg-pdf-wraper iframe {
+        border: 1px solid #ddd;
+    }
+    p.embedpress-el-powered {
+        text-align: center;
     }
 
-    [data-ad-id="fc2d9f8fc6a2e87c25ecb6bdb7561542"] .main-ad-template.image.ad-running {
-        width: 300px !important;
-        height: 200px !important;
-        bottom: 20%;
-        left: 25%;
-    }
-
-    /* Specific Styles for Ad Type 4 */
-    [data-ad-id="1081011a548224fec38c97e5471bd6c0"] .main-ad-template {
-        width: 666px;
-        height: 550px;
-        max-width: 100%;
-        display: inline-block;
-    }
-
-    [data-ad-id="1081011a548224fec38c97e5471bd6c0"] .main-ad-template.image.ad-running {
-        width: 300px !important;
-        height: 200px !important;
-        bottom: 20%;
-        left: 39%;
-    }
 </style>
 
 
@@ -549,6 +581,9 @@ const adInitialization = (adContainer, index, adAtts, adType) => {
     const srcUrl = adAtts.url || adAtts.embedpress_embeded_link;
     const adSkipButtonAfter = parseInt(adAtts.adSkipButtonAfter);
     const adSkipButton = adAtts.adSkipButton;
+    const adUrl = adAtts.adUrl;
+    // const adWidth = adAtts.adWidth;
+    // const adHeight = adAtts.adHeight;
 
 
     addWrapperForYoutube(adContainer, srcUrl, adAtts);
@@ -557,6 +592,7 @@ const adInitialization = (adContainer, index, adAtts, adType) => {
     adVideos.push(adVideo);
 
     const adTemplate = adContainer.querySelector('.main-ad-template');
+    const imageAdTemplate = adContainer.querySelector('.main-ad-template.image');
     const progressBar = adContainer.querySelector('.progress-bar');
     const skipButton = adTemplate.querySelector('.skip-ad-button');
     const adRunningTime = adContainer.querySelector('.ad-running-time');
@@ -591,6 +627,20 @@ const adInitialization = (adContainer, index, adAtts, adType) => {
 
     adTemplate.classList.remove('image', 'video');
     adTemplate.classList.add(adType);
+
+    // if(adType === 'image') {
+    //     console.log(adTemplate)
+    //     adTemplate.style.width = adWidth + 'px!important';
+    //     adTemplate.style.height = adHeight + 'px!important';
+    // }
+
+    if(adType === 'image' && adUrl){
+        adTemplate.querySelector('.ad-image .ad-url')?.setAttribute('href', adUrl);
+    }
+    else{
+        adTemplate.querySelector('.ad-video .ad-url')?.setAttribute('href', adUrl);
+    }
+
 
     if (!playbackInitiated) {
         adTimeOut = setTimeout(() => {
@@ -644,6 +694,7 @@ const adInitialization = (adContainer, index, adAtts, adType) => {
     document?.addEventListener('click', (event) => {
         if (event.target.classList.contains('skip-ad-button')) {
 
+            adTemplate?.classList.remove('ad-running');
             if(adType == 'video'){
                 adVideo.pause();
                 adVideo.currentTime = 0;
@@ -774,30 +825,27 @@ const rangeUpdate = () => {
 
 rangeUpdate();
 
-const getAdTye = (adUrl) => {
-
-    return mediaType; //video/image
-}
 
 jQuery(document).on('click', '.preview-btn-0', function(e){
     e.preventDefault();
     const index = 0;
     const adContainer = document.querySelector('#ep-ad-preview-'+index);
     const adType = document.querySelector('#ad-template-'+index).getAttribute('data-adType');
-    const currentAdAtts = getFormData(0);
+    const currentAdAtts = getFormData(index);
     
+    console.log(currentAdAtts);
 
     const adAtts = {
-        "clientId": "1c3da3de-7606-4e9f-9693-d4b570cd2ca3",
+        "clientId": "1c3da3de-7606-4e9f-9693-d4b570cd2ca30",
         "url": "https://www.youtube.com/watch?v=AMU66nbFnGg&pp=ygUMd3BkZXZlbG9lcGVy",
         "height": "340",
         "adManager": true,
         "adFileUrl": currentAdAtts?.adFileUrl,
-        "adUrl": "https://wpdeveloper.com/",
+        "adUrl": currentAdAtts?.adUrl,
         "width": "600",
         "adSource": adType,
-        "adWidth": "300",
-        "adHeight": "200",
+        // "adWidth": currentAdAtts?.adWidth,
+        // "adHeight": currentAdAtts?.adHeight,
         "adXPosition": 25,
         "adYPosition": 10,
         "adStart": currentAdAtts?.adStart,
@@ -806,23 +854,46 @@ jQuery(document).on('click', '.preview-btn-0', function(e){
     }
 
     if(currentAdAtts?.adFileUrl){
-        adInitialization(adContainer, 0, adAtts, adType);
+        adInitialization(adContainer, index, adAtts, adType);
     }
     else{
         jQuery('.uploaded-file-url-'+index).text('Please upload a video/image Ad.' );
     }
-})
+});
 
-jQuery(document).on('click', '.preview-btn-2', function(e){
-    getFormData();
-})
+jQuery(document).on('click', '.preview-btn-1', function(e){
+    e.preventDefault();
+    const index = 1;
+    const adContainer = document.querySelector('#ep-ad-preview-'+index);
+    const adType = document.querySelector('#ad-template-'+index).getAttribute('data-adType');
+    const currentAdAtts = getFormData(index);
+    
+    console.log(currentAdAtts);
 
-jQuery(document).on('click', '.preview-btn-3', function(e){
-    getFormData();
-})
+    const adAtts = {
+        "clientId": "1c3da3de-7606-4e9f-9693-d4b570cd2ca31",
+        "url": "https://www.africau.edu/images/default/sample.pdf",
+        "height": "340",
+        "adManager": true,
+        "adFileUrl": currentAdAtts?.adFileUrl,
+        "adUrl": currentAdAtts?.adUrl,
+        "width": "600",
+        "adSource": adType,
+        // "adWidth": currentAdAtts?.adWidth,
+        // "adHeight": currentAdAtts?.adHeight,
+        "adXPosition": 25,
+        "adYPosition": 10,
+        "adStart": currentAdAtts?.adStart,
+        "adSkipButton": currentAdAtts?.adSkipButton === 'yes' ? true : false,
+        "adSkipButtonAfter": currentAdAtts?.adSkipButtonAfter
+    }
 
-jQuery(document).on('click', '.preview-btn-4', function(e){
-    getFormData();
+    if(currentAdAtts?.adFileUrl){
+        adInitialization(adContainer, index, adAtts, adType);
+    }
+    else{
+        jQuery('.uploaded-file-url-'+index).text('Please upload a video/image Ad.' );
+    }
 })
 
 
@@ -852,17 +923,30 @@ jQuery(document).ready(function($){
             button: {
                 text: 'Choose File'
             },
-            multiple: false
+            multiple: false,
+            library: {
+                type: ['image', 'video']
+            },
         });
 
         // Handle the file selection
         mediaUploader.on('select', function() {
             var attachment = mediaUploader.state().get('selection').first().toJSON();
 
-            console.log(attachment);
+            if(attachment.type === 'image') {
+                $('.skip-controller').addClass('hidden');
+                $('.image-ad-control').removeClass('hidden');
+                $('#ad-template-'+index+' img').attr('src', attachment.url);
+
+            }
+            else{
+                $('.skip-controller').removeClass('hidden');
+                $('.image-ad-control').addClass('hidden');
+                $('#ad-template-'+index+' video').attr('src', attachment.url);
+            }
+
             $('#fileInput-'+index).val(attachment.url);
             $('.uploaded-file-url-'+index).text('File Name: ' +attachment.name);
-            $('#ad-template-'+index+' video').attr('src', attachment.url);
             $('#ad-template-'+index).attr('data-adType', attachment.type);
             $('.uploaded-file-url-'+index).addClass('uploaded');
         });

@@ -178,7 +178,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			//Ads Manage attributes
 			adManager: {
 				type: 'boolean',
-				default: false
+				default: true
 			},
 			adSource: {
 				type: 'string',
