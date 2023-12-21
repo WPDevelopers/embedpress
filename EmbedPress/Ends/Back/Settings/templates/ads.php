@@ -1,9 +1,49 @@
+<?php
+/*
+ * Custom Logo Settings page
+ * All undefined vars comes from 'render_settings_page' method
+ *
+ *  */
+
+use EmbedPress\Includes\Classes\Helper;
+
+$video_demo_adUrl = 'https://embedpress.com/wp-content/uploads/2023/12/demo-ad.mp4';
+$image_demo_adUrl = 'https://embedpress.com/wp-content/uploads/2023/12/demo-ad.gif';
+$youtube_embed_url = 'https://www.youtube.com/embed/AMU66nbFnGg?enablejsapi=1&amp;origin=http%3A%2F%2Fembedpress.local&amp;widgetid=1';
+
+?>
+
 <div class="embedpress_calendly_settings  background__white radius-25 p40">
 
     <div class="ad-settings-top">
         <div class="ad-settings-content">
-            <h3 class="ads-settings-title"><?php esc_html_e("Ads Preview", "embedpress"); ?></h3>
-            <p class="ads-settings-description"><?php esc_html_e("Experience the future of advertising with our revolutionary 'Ad Preview in Video' feature! ", "embedpress"); ?></p>
+            <h3 class="ads-settings-title">
+            <?php
+                echo wp_kses_post(
+                    sprintf(
+                        esc_html__(
+                            'Advertise Across %s with Embedpress – Your Gateway to Unlimited Exposure!',
+                            'embedpress'
+                        ),
+                        '<span style="color:#FF7369">' . esc_html__('150+ Platforms', 'embedpress') . '</span>'
+                    )
+                );
+            ?>
+        
+        </h3>
+            <p class="ads-settings-description">
+                <?php
+                    echo wp_kses_post(
+                        sprintf(
+                            esc_html__(
+                                "Amplify your brand's reach effortlessly as Embedpress empowers you to showcase your ads across %s, ensuring unlimited exposure for your business.",
+                                'embedpress'
+                            ),
+                            '<strong>' . esc_html__('150+ diverse platforms', 'embedpress') . '</strong>'
+                        )
+                    );
+                ?>
+            </p>
         </div>
         <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="button button-pro-upgrade"><?php echo esc_html__('Upgrade To Pro', 'embedpress'); ?><i class="ep-icon ep-link-icon"></i></a>
 
@@ -25,8 +65,9 @@
                                         <span class="dashicons dashicons-upload"></span> <?php echo esc_html__('Upload', 'embedpress'); ?>
                                     </button>
 
-                                    <input type="hidden" id="fileInput-0" name="adFileUrl"/>
-                                    <p class="uploaded-file-url-0"></p>
+                                    <input type="hidden" id="fileInput-0" name="adFileUrl" value="<?php echo esc_attr('https://embedpress.com/wp-content/uploads/2023/12/demo-ad.mp4'); ?>"/>
+
+                                    <p class="uploaded-file-url-0 uploaded"><?php echo esc_html('File Name: demo-ad.mp4'); ?></p>
                                     <div class="ad__upload__preview" id="yt_ad__upload__preview" style="display:none ">
                                         <div class="instant__preview">
                                             <a href="#" id="yt_preview__remove" class="preview__remove"><i class="ep-icon ep-cross"></i></a>
@@ -51,7 +92,7 @@
                                 </div>
                             </div>   -->
                             <div class="ad__adjust__controller__item">
-                                <span class="controller__label"><?php echo esc_html__('Ad URL', 'embedpress'); ?></span>
+                                <span class="controller__label"><?php echo esc_html__('Ad Redirection URL', 'embedpress'); ?></span>
                                 <div class="ad__adjust__controller__inputs">
                                     <input type="url" name="adUrl" id="ad_cta_url" class="form__control" data-default="<?php echo esc_url('https://embedpress.com/'); ?>" value="<?php echo esc_url('https://embedpress.com/'); ?>">
                                 </div>
@@ -91,21 +132,21 @@
                 </div>
             </div>
             <div class="embedpress-gutenberg-wrapper aligncenter   ep-content-protection-disabled inline" id="1c3da3de-7606-4e9f-9693-d4b570cd2ca30">
-                <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Ad Preview</mark> in Video</h2>
+                <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Live Preview</mark> in Video</h2>
                 <p class="preview-description">Experience the future of advertising with our revolutionary 'Ad Preview in Video' feature! </p>
                 <div class="wp-block-embed__wrapper   ">
                     <div id="ep-gutenberg-content-ep-ad-preview-0" class="ep-gutenberg-content">
                         <div data-ad-id="ep-ad-preview-0" id="ep-ad-preview-0" class="ad-mask" data-ad-index="0">
                             <div class="ep-embed-content-wraper ">
-                                <iframe class="ose-youtube ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 ose-embedpress-responsive" style="width: 550px; height: 550px; max-height: 338px; max-width: 100%; display: inline-block;" frameborder="0" allowfullscreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" title="How To Make Any Page Layout Using The WordPress Block Editor: Gutenberg" width="640" height="360" src="https://www.youtube.com/embed/AMU66nbFnGg?enablejsapi=1&amp;origin=http%3A%2F%2Fembedpress.local&amp;widgetid=1" id="widget2"></iframe> </div>
-                            <div class="main-ad-template" id="ad-template-0" style="display:none">
+                                <iframe class="ose-youtube ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 ose-embedpress-responsive" style="width: 550px; height: 550px; max-height: 338px; max-width: 100%; display: inline-block;" frameborder="0" allowfullscreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" title="How To Make Any Page Layout Using The WordPress Block Editor: Gutenberg" width="640" height="360" src="<?php echo esc_url($youtube_embed_url); ?>" id="widget2"></iframe> </div>
+                            <div class="main-ad-template" id="ad-template-0" data-adType="video" style="display:none">
                                 <div class="ep-ad-container">
 
                                     <div class="ep-ad-content ad-video hidden" style="position: relative;">
-                                        <a target="_blank" class="ad-url" href="https://wpdeveloper.com/"> 
+                                        <a target="_blank" class="ad-url" href="#"> 
 
                                             <video class="ep-ad" muted="">
-                                                <source src="">
+                                                <source src="<?php echo esc_url($video_demo_adUrl); ?>">
                                             </video>
 
                                             <div class="ad-timer">
@@ -119,16 +160,16 @@
 
 
                                         <button title="Skip Ad" class="skip-ad-button" style="display: none;">
-                                            Skip Ad </button>
+                                            <?php echo esc_html__('Skip Ad', 'embedpress'); ?> </button>
 
                                     </div>
 
                                     <div class="ep-ad-content ad-image hidden" style="position: relative;">
-                                         <a target="_blank" class="ad-url" href="https://wpdeveloper.com/"> 
-                                            <img decoding="async" class="ep-ad" src="http://embedpress.local/wp-content/uploads/2023/11/27946a99657cddf0cbde79a7e4e6f51f.gif">
+                                         <a target="_blank" class="ad-url" href="#"> 
+                                            <img decoding="async" class="ep-ad" src="<?php echo esc_url($image_demo_adUrl); ?>">
                                         </a>
                                             <button title="Skip Ad" class="skip-ad-button" style="display: inline-block;">
-                                                Skip Ad </button>
+                                                <?php echo esc_html__('Skip Ad', 'embedpress'); ?> </button>
 
                                     </div>
                                 </div>
@@ -151,8 +192,8 @@
                                         <span class="dashicons dashicons-upload"></span> <?php echo esc_html__('Upload', 'embedpress'); ?>
                                     </button>
 
-                                    <input type="hidden" id="fileInput-1" name="adFileUrl" />
-                                    <p class="uploaded-file-url-1"></p>
+                                    <input type="hidden" id="fileInput-1" name="adFileUrl" value="<?php echo esc_attr($image_demo_adUrl); ?>"/>
+                                    <p class="uploaded-file-url-1 uploaded"><?php echo esc_html('File Name: demo-ad.gif'); ?></p>
                                     <div class="ad__upload__preview" id="yt_ad__upload__preview" style="display:none ">
                                         <div class="instant__preview">
                                             <a href="#" id="yt_preview__remove" class="preview__remove"><i class="ep-icon ep-cross"></i></a>
@@ -177,7 +218,7 @@
                                         </div>
                                     </div>   -->
                             <div class="ad__adjust__controller__item">
-                                <span class="controller__label"><?php echo esc_html__('Ad URL', 'embedpress'); ?></span>
+                                <span class="controller__label"><?php echo esc_html__('Ad Redirection URL', 'embedpress'); ?></span>
                                 <div class="ad__adjust__controller__inputs">
                                     <input type="url" name="adUrl" id="ad_cta_url" class="form__control" data-default="<?php echo esc_url('https://embedpress.com/'); ?>" value="<?php echo esc_url('https://embedpress.com/'); ?>">
                                 </div>
@@ -191,7 +232,7 @@
                                 </div>
                             </div>
 
-                            <div class="ad__adjust__controller__item skip-controller">
+                            <div class="ad__adjust__controller__item skip-controller hidden">
                                 <span class="controller__label"><?php echo esc_html__('Skip Button', 'embedpress'); ?></span>
                                 <div class="ad__adjust__controller__inputs">
                                     <label class="input__switch switch__text ">
@@ -202,7 +243,7 @@
                                 </div>
                             </div>
 
-                            <div class="ad__adjust__controller__item skip-controller">
+                            <div class="ad__adjust__controller__item skip-controller hidden">
                                 <span class="controller__label"><?php echo esc_html__('Skip Button After (Sec)', 'embedpress'); ?></span>
                                 <div class="ad__adjust__controller__inputs">
                                     <input type="range" max="100" data-default="5" value="5" class="x__range" name="adSkipButtonAfter">
@@ -217,25 +258,30 @@
                 </div>
             </div>
             <div class="embedpress-gutenberg-wrapper aligncenter   ep-content-protection-disabled inline" id="1c3da3de-7606-4e9f-9693-d4b570cd2ca31">
-                <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Ad Preview for Documents</h2>
+                <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Live Preview for Documents</h2>
                 <p class="preview-description">Experience the future of advertising with our revolutionary 'Ad Preview in Video' feature! </p>
                 <div class="wp-block-embed__wrapper   ">
                     <div id="ep-gutenberg-content-ep-ad-preview-1" class="ep-gutenberg-content">
                         <div data-ad-id="ep-ad-preview-1" id="ep-ad-preview-1" class="ad-mask" data-ad-index="0">
                             <div class="ep-embed-content-wraper">
-                                <div class="position-right-wraper gutenberg-pdf-wraper"><iframe title="sample" class="embedpress-embed-document-pdf embedpress-pdf-1701320841615" style="width:550px;height:450px; max-width:100%; display: inline-block" src="https://www.africau.edu/images/default/sample.pdf" frameborder="0" oncontextmenu="return false;"></iframe>
+                                <div class="position-right-wraper gutenberg-pdf-wraper">
+                                <?php 
+                                    $pdf_url = EMBEDPRESS_SETTINGS_ASSETS_URL . 'embedpress.pdf';
+                                    $renderer = Helper::get_pdf_renderer();
+                                    $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($pdf_url);
+                                ?>
+                                <iframe title="sample" class="embedpress-embed-document-pdf embedpress-pdf-1701320841615" style="width:550px;height:320px; max-width:100%; display: inline-block" src="<?php echo esc_url($src); ?>" frameborder="0" oncontextmenu="return false;"></iframe>
                                     <p class="embedpress-el-powered">Powered By EmbedPress</p>
                                 </div>
                             </div>
 
-                            <div class="main-ad-template" id="ad-template-1" style="display:none">
+                            <div class="main-ad-template" id="ad-template-1" data-adType="image" style="display:none">
                                 <div class="ep-ad-container">
-
                                     <div class="ep-ad-content ad-video hidden" style="position: relative;">
-                                        <a target="_blank" class="ad-url" href="https://wpdeveloper.com/">
+                                        <a target="_blank" class="ad-url" href="#"> 
 
                                             <video class="ep-ad" muted="">
-                                                <source src="">
+                                                <source src="<?php echo esc_url($video_demo_adUrl); ?>">
                                             </video>
 
                                             <div class="ad-timer">
@@ -249,16 +295,16 @@
 
 
                                         <button title="Skip Ad" class="skip-ad-button" style="display: none;">
-                                            Skip Ad </button>
+                                            <?php echo esc_html__('Skip Ad', 'embedpress'); ?> </button>
 
                                     </div>
 
                                     <div class="ep-ad-content ad-image hidden" style="position: relative;">
-                                        <a target="_blank" class="ad-url" href="https://wpdeveloper.com/">
-                                            <img decoding="async" class="ep-ad" src="http://embedpress.local/wp-content/uploads/2023/11/27946a99657cddf0cbde79a7e4e6f51f.gif">
+                                        <a target="_blank" class="ad-url" href="#"> 
+                                            <img decoding="async" class="ep-ad" src="<?php echo esc_url($image_demo_adUrl); ?>">
                                         </a>
-                                        <button title="Skip Ad" class="skip-ad-button" style="display: inline-block;">
-                                            Skip Ad </button>
+                                            <button title="Skip Ad" class="skip-ad-button" style="display: inline-block;">
+                                                <?php echo esc_html__('Skip Ad', 'embedpress'); ?> </button>
 
                                     </div>
                                 </div>
@@ -279,7 +325,7 @@
         padding: 0 10px;
     }
     .ad-settings-top {
-        padding: 15px 30px;
+        padding: 20px 25px;
         /* background: #EEEDF4; */
         color: #444;
         border-radius: 15px;
@@ -293,9 +339,9 @@
         width: calc(100% - 300px);
     }
     h3.ads-settings-title {
-        color: #333;
-        margin-bottom: 5px;
-        font-size: 20px;
+        color: #131F4D;
+        margin-bottom: 10px;
+        font-size: 18px;
     }
     p.ads-settings-description {
         font-size: 16px;
@@ -362,11 +408,12 @@
     }
     .ad__adjust__controller__inputs p {
         margin-top: 5px;
+        color: #131F4D;
     }
     /* Common Styles */
-    .ad-mask .ose-embedpress-responsive {
+    /* .ad-mask .ose-embedpress-responsive {
         position: relative;
-    }
+    } */
 
     .ad-running {
         display: inline-block !important;
@@ -376,16 +423,17 @@
     }
     .ep-ad-content.ad-image {
         height: 100%;
+        width: 100%;
     }
 
-    .ad-mask .ep-embed-content-wraper::after {
+    /* .ad-mask .ep-embed-content-wraper::after {
         content: '';
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
-    }
+    } */
 
     .ep-embed-content-wraper {
         position: relative;
@@ -396,6 +444,7 @@
     h2.wp-block-heading {
         font-size: 22px;
         margin-bottom: 12px;
+        color: #131F4D
     }
 
     p.preview-description {
@@ -430,6 +479,10 @@
     .ep-ad-container {
         position: relative;
         height: 100%;
+        display: flex;
+        align-items: center;
+        background-color: #000;
+
     }
     a.ad-url {
         display: inline;
@@ -544,6 +597,20 @@
         .embedpress-gutenberg-wrapper {
             width: 100%;
         }
+
+        .ad-settings-top{
+            display: block;
+        }
+        .ad-settings-content {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        h3.ads-settings-title {
+            line-height: 1.5;
+        }
+        p.ads-settings-description{
+            line-height: 1.3;
+        }
     }
 
 </style>
@@ -647,13 +714,8 @@ const adInitialization = (adContainer, index, adAtts, adType) => {
 
     playerId = adContainer.querySelector('[data-playerid]')?.getAttribute('data-playerid');
 
-    if (playerInit?.length > 0) {
-        playerInit[playerId]?.play();
-    }
-
-
     if (getYTVideoId(srcUrl)) {
-        // console.log(player[index]?.seekTo().getCurrentTime());
+        player[index]?.playVideo();
         player[index]?.seekTo(0);
     }
     clearTimeout(adTimeOut);
@@ -700,6 +762,8 @@ const adInitialization = (adContainer, index, adAtts, adType) => {
     }
 
     adContainer.classList.remove('ad-mask');
+
+    console.log(adType, adVideo);
     
     if(adType == 'video'){
         adVideo?.addEventListener('timeupdate', () => {
@@ -795,9 +859,7 @@ function onYouTubeIframeAPIReady(iframe, srcUrl, adVideo, index) {
                 'onReady': (event) => onPlayerReady(event, adVideo),
             }
         });
-
     }
-
 }
 
 // This function is called when the player is ready
@@ -881,7 +943,7 @@ jQuery(document).on('click', '.preview-btn-0', function(e){
         "adFileUrl": currentAdAtts?.adFileUrl,
         "adUrl": currentAdAtts?.adUrl,
         "width": "600",
-        "adSource": adType,
+        "adSource": adType?adType:'video',
         // "adWidth": currentAdAtts?.adWidth,
         // "adHeight": currentAdAtts?.adHeight,
         "adXPosition": 25,
@@ -926,7 +988,7 @@ jQuery(document).on('click', '.preview-btn-1', function(e){
         "adFileUrl": currentAdAtts?.adFileUrl,
         "adUrl": currentAdAtts?.adUrl,
         "width": "600",
-        "adSource": adType,
+        "adSource": adType?adType:'video',
         // "adWidth": currentAdAtts?.adWidth,
         // "adHeight": currentAdAtts?.adHeight,
         "adXPosition": 25,

@@ -464,7 +464,7 @@ function embedpress_gutenberg_register_all_block()
 							//Ad attributes
 							'adManager' => [
 								'type' => 'boolean',
-								'default' => false
+								'default' => true
 							],
 							'adSource' => [
 								'type' => 'string',
@@ -618,7 +618,7 @@ function embedpress_gutenberg_register_all_block()
 							//Ad attributes
 							'adManager' => [
 								'type' => 'boolean',
-								'default' => false
+								'default' => true
 							],
 							'adSource' => [
 								'type' => 'string',
