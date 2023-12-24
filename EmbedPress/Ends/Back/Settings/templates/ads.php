@@ -460,6 +460,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
 
     .ose-youtube {
         /* display: none !important; */
+        opacity: 0
     }
 
     [data-ad-id] {
@@ -858,6 +859,7 @@ function onYouTubeIframeAPIReady(iframe, srcUrl, adVideo, index) {
                 'onReady': (event) => onPlayerReady(event, adVideo),
             }
         });
+
     }
 }
 
@@ -870,6 +872,8 @@ function onPlayerReady(event, adVideo) {
     adVideo?.addEventListener('play', function () {
         event.target.pauseVideo();
     });
+    event.target.g.style = 'opacity: 1';
+
 }
 
 
@@ -1060,14 +1064,14 @@ jQuery(document).ready(function($){
             console.log(attachment);
 
             if(attachment.type === 'image') {
-                $('.skip-controller').addClass('hidden');
-                $('.image-ad-control').removeClass('hidden');
+                $('#ad-preview-'+index+' .skip-controller').addClass('hidden');
+                $('#ad-preview-'+index+' .image-ad-control').removeClass('hidden');
                 $('#ad-template-'+index+' img').attr('src', attachment.url);
 
             }
             else{
-                $('.skip-controller').removeClass('hidden');
-                $('.image-ad-control').addClass('hidden');
+                $('#ad-preview-'+index+' .skip-controller').removeClass('hidden');
+                $('#ad-preview-'+index+' .image-ad-control').addClass('hidden');
                 $('#ad-template-'+index+' video').attr('src', attachment.url);
             }
 

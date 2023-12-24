@@ -1826,6 +1826,16 @@ a.site__logo {
     width: 20px;
     text-align: center;
 }
+a.sidebar__link.ads-icon span {
+    display: flex!important;
+}
+a.sidebar__link.ads-icon {
+    display: flex;
+    align-items: center;
+}
+a.sidebar__link.ads-icon.active span svg path,  a.sidebar__link.ads-icon:hover span svg path{
+    fill: #fff;
+}
 
 .embedpress-sidebar .sidebar__menu .sidebar__item .dropdown__menu {
     margin-left: 35px;
