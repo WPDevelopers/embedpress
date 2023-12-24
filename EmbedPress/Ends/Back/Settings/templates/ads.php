@@ -9,7 +9,8 @@ use EmbedPress\Includes\Classes\Helper;
 
 $video_demo_adUrl = 'https://embedpress.com/wp-content/uploads/2023/12/demo-ad.mp4';
 $image_demo_adUrl = 'https://embedpress.com/wp-content/uploads/2023/12/demo-ad.gif';
-$youtube_embed_url = 'https://www.youtube.com/embed/AMU66nbFnGg?enablejsapi=1&amp;origin=http%3A%2F%2Fembedpress.local&amp;widgetid=1';
+$youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&origin='.site_url();
+
 
 ?>
 
@@ -138,7 +139,10 @@ $youtube_embed_url = 'https://www.youtube.com/embed/AMU66nbFnGg?enablejsapi=1&am
                     <div id="ep-gutenberg-content-ep-ad-preview-0" class="ep-gutenberg-content">
                         <div data-ad-id="ep-ad-preview-0" id="ep-ad-preview-0" class="ad-mask" data-ad-index="0">
                             <div class="ep-embed-content-wraper ">
-                                <iframe class="ose-youtube ose-uid-cc92f1bdd0d47ed2a129c320c1082ad5 ose-embedpress-responsive" style="width: 550px; height: 550px; max-height: 338px; max-width: 100%; display: inline-block;" frameborder="0" allowfullscreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" title="How To Make Any Page Layout Using The WordPress Block Editor: Gutenberg" width="640" height="360" src="<?php echo esc_url($youtube_embed_url); ?>" id="widget2"></iframe> </div>
+                                <div class="ose-youtube ose-embedpress-responsive">
+                                <iframe width="560" height="315" src="<?php echo esc_url($youtube_embed_url); ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                    </div>
+                                </div>
                             <div class="main-ad-template" id="ad-template-0" data-adType="video" style="display:none">
                                 <div class="ep-ad-container">
 
@@ -578,6 +582,14 @@ $youtube_embed_url = 'https://www.youtube.com/embed/AMU66nbFnGg?enablejsapi=1&am
         left: 25%;
     }
 
+    iframe.ose-youtube {
+    /* display: none !important; */
+        max-width: 550px;
+        max-height: 310px;
+        height: 310px;
+        width: 550px;
+    }
+
     .position-right-wraper.gutenberg-pdf-wraper iframe {
         border: 1px solid #ddd;
     }
@@ -686,7 +698,7 @@ const adInitialization = (adContainer, index, adAtts, adType) => {
     // const adHeight = adAtts.adHeight;
 
 
-    addWrapperForYoutube(adContainer, srcUrl, adAtts);
+    // addWrapperForYoutube(adContainer, srcUrl, adAtts);
 
     // let adVideo = adContainer.querySelector('#ad-' + blockId + ' .ep-ad');
     adVideos.push(adVideo);
@@ -831,19 +843,6 @@ const adInitialization = (adContainer, index, adAtts, adType) => {
     }
     playerIndex++;
 
-}
-
-const addWrapperForYoutube = (adContainer, srcUrl, adAtts) => {
-    const youtubeIframe = adContainer.querySelector(`.ose-youtube iframe`);
-    if (youtubeIframe && getYTVideoId(srcUrl)) {
-
-        const divWrapper = document.createElement('div');
-        divWrapper.className = 'ad-youtube-video';
-        youtubeIframe.setAttribute('width', adAtts.width);
-        youtubeIframe.setAttribute('height', adAtts.height);
-        youtubeIframe.parentNode.replaceChild(divWrapper, youtubeIframe);
-        divWrapper.appendChild(youtubeIframe);
-    }
 }
 
 
