@@ -207,6 +207,12 @@ class Shortcode
             // Check if $url is a google shortened url and tries to extract from it which Google service it refers to.
             self::check_for_google_url($url);
             $provider_name = self::get_provider_name($urlData, $url);
+            
+            // $html = '{html}';
+            // if (strpos($url, 'youtube') !== false) {
+            //     $html = '<div class="youtube-video">{html}</div>';
+            // }
+            
             $embedTemplate = '<div ' . implode(' ', $attributesHtml) . '>{html}</div>';
 
             $parsedContent = self::get_content_from_template($url, $embedTemplate, $serviceProvider);

@@ -6,6 +6,7 @@ import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
 import { removedBlockID, saveSourceData, getPlayerOptions } from '../common/helper';
+import AdTemplate from '../common/ads-template';
 
 import { shareIconsHtml } from '../common/helper';
 import md5 from 'md5';
@@ -67,7 +68,14 @@ export default function EmbedPress(props) {
 		cPopupButtonText,
 		cPopupButtonBGColor,
 		cPopupButtonTextColor,
-		cPopupLinkText
+		cPopupLinkText,
+		adManager,
+		adSource,
+		adFileUrl,
+		adWidth,
+		adHeight,
+		adXPosition,
+		adYPosition
 	} = attributes;
 
 	const _isSelfHostedVideo = isSelfHostedVideo(url);
@@ -370,6 +378,12 @@ export default function EmbedPress(props) {
 					</EmbedWrap>
 
 					{
+						adManager && (adSource === 'image') && adFileUrl && (
+							<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon={false} progressBar={false} inEditor={true} />
+						)
+					}
+
+					{
 						fetching && (
 							<div style={{ filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '0.7' }}
 								className="block-library-embed__interactive-overlay"
@@ -417,6 +431,24 @@ export default function EmbedPress(props) {
 							`
 							[data-source-id="source-${clientId}"] img.watermark{
 								display: none;
+							}
+							`
+						}
+					</style>
+				)
+			}
+			{
+				adManager && (adSource === 'image') && (
+					<style style={{ display: "none" }}>
+						{
+							`
+							[data-source-id="source-${clientId}"] .main-ad-template div, .main-ad-template div img{
+								height: 100%;
+							}
+							[data-source-id="source-${clientId}"] .main-ad-template {
+								position: absolute;
+								bottom: ${adYPosition}%;
+								left: ${adXPosition}%;
 							}
 							`
 						}

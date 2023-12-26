@@ -9,6 +9,7 @@ import Vimeo from './InspectorControl/vimeo';
 import SlefHosted from './InspectorControl/selfhosted';
 import { EPIcon, InfoIcon } from '../common/icons';
 import Calendly from './InspectorControl/calendly';
+import AdControl from '../common/ads-control';
 
 /**
  * WordPress dependencies
@@ -179,7 +180,8 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />
 
                             <Calendly attributes={attributes} setAttributes={setAttributes} isCalendly={isCalendly} />
-
+                            
+                            <AdControl attributes={attributes} setAttributes={setAttributes} />
                             <LockControl attributes={attributes} setAttributes={setAttributes} />
                             <ContentShare attributes={attributes} setAttributes={setAttributes} />
                         </div>

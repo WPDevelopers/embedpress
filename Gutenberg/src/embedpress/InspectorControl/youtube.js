@@ -7,6 +7,7 @@ import { EPIcon } from '../../common/icons';
 import CustomBranding from './custombranding';
 import CustomPlayerControls from '../../common/custom-player-controls';
 
+
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
 const { __ } = wp.i18n;
@@ -271,7 +272,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
             {
                 (isYTVideo || isYTLive || isYTShorts) && (
                     <div className={'ep__single-yt-video-options'}>
-                        <PanelBody title={__("Video Controls", 'embedpress')} initialOpen={false}>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Video Controls', 'embedpress')}</div>} initialOpen={false}>
                             <ToggleControl
                                 label={__("Enable Custom Player", "embedpress")}
                                 checked={customPlayer}

@@ -4,6 +4,8 @@
 
 import { addProAlert, isPro, removeAlert } from '../../common/helper';
 const { __ } = wp.i18n;
+import { EPIcon } from '../../common/icons';
+
 
 const {
     TextControl,
@@ -50,7 +52,7 @@ export default function CustomBranding({ attributes, setAttributes}) {
     }
 
     return (
-        <PanelBody title={__("Custom Branding", 'embedpress')} initialOpen={false}>
+        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Custom Branding', 'embedpress')}</div>} initialOpen={false}>
             {
                 isProPluginActive && customlogo && (
                     <div className={'ep__custom-logo'} style={{ position: 'relative' }}>

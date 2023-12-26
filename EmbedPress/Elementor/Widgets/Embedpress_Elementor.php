@@ -2720,6 +2720,10 @@ class Embedpress_Elementor extends Widget_Base
 					],
 				],
 				'devices' => [ 'desktop', 'tablet', 'mobile' ],
+				'default' => [
+					'size' => 600,
+					'unit' => 'px',
+				],
 				'desktop_default' => [
 					'size' => 600,
 					'unit' => 'px',
@@ -2733,7 +2737,7 @@ class Embedpress_Elementor extends Widget_Base
 					'unit' => 'px',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive, {{WRAPPER}} .ad-youtube-video > iframe 
 					' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
 				],
 			]
@@ -2757,6 +2761,10 @@ class Embedpress_Elementor extends Widget_Base
 					'size' => 400,
 					'unit' => 'px',
 				],
+				'default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
 				'tablet_default' => [
 					'size' => 400,
 					'unit' => 'px',
@@ -2766,7 +2774,7 @@ class Embedpress_Elementor extends Widget_Base
 					'unit' => 'px',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive,{{WRAPPER}} .ad-youtube-video > iframe
 					' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
 				],
 			]
@@ -3040,6 +3048,17 @@ class Embedpress_Elementor extends Widget_Base
 
 		$cEmbedType = !empty($settings['cEmbedType']) ? $settings['cEmbedType'] : '';
 
+		$adsAtts = '';
+
+		if(!empty($settings['adManager'])) {
+			$ad = base64_encode(json_encode($settings));
+			$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
+		}
+
+		$data_player_id = '';
+		if(!empty($settings['emberpress_custom_player']) === 'yes') {
+			$data_player_id = "data-playerid=".$this->get_id();
+		}
 
 		?>
 
@@ -3055,7 +3074,8 @@ class Embedpress_Elementor extends Widget_Base
 				<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_content_share'])) : echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper');
 																															endif; ?> <?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);
 																																																																						echo esc_attr(' source-' . $source); ?>">
-					<div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?>" data-playerid="<?php echo esc_attr($this->get_id()); ?>" <?php echo $this->get_custom_player_options($settings); ?>>
+																																																																					<div <?php echo esc_attr( $adsAtts ); ?>>
+					<div  id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?>" <?php echo esc_attr($data_player_id); ?> <?php echo $this->get_custom_player_options($settings); ?>>
 						<?php
 									$content_id = $client_id;
 
@@ -3071,7 +3091,14 @@ class Embedpress_Elementor extends Widget_Base
 										}
 										Helper::display_password_form($client_id, $content, $pass_hash_key, $embed_settings);
 									}
-									?>
+								?>
+					</div>
+					<?php 
+
+						if(!empty($settings['adManager'])) {
+							$content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
+						}
+					?>
 					</div>
 				</div>
 			<?php

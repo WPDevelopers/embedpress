@@ -7,6 +7,7 @@ import ControlHeader from '../../common/control-heading';
 import { getParams } from '../functions';
 import LockControl from '../../common/lock-control';
 import ContentShare from '../../common/social-share-control';
+import AdControl from '../../common/ads-control';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
@@ -996,6 +997,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                 </PanelBody>
 
+                <AdControl attributes={attributes} setAttributes={setAttributes} />
                 <LockControl attributes={attributes} setAttributes={setAttributes} />
                 <ContentShare attributes={attributes} setAttributes={setAttributes} />
             </div>

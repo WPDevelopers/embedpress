@@ -143,6 +143,12 @@
 .pro-control .components-base-control {
   pointer-events: none; }
 
+.pro-control .ad-manager-controllers {
+  opacity: .5; }
+
+.ads-help {
+  margin-top: 30px; }
+
 button.components-flex.components-color-palette__custom-color {
   height: 20px; }
 
@@ -1155,6 +1161,18 @@ a.ep-social-icon.pinterest svg {
 .content-share-toggle .components-form-toggle.is-checked .components-form-toggle__track {
   background-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #6354a5)); }
 
+.ep-pannel-icon {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  gap: 10px; }
+
+.ep-pannel-icon svg {
+  width: 18px;
+  height: auto; }
+
 .ep-documentation, .ep-tips-and-tricks {
   display: -ms-flexbox;
   display: flex;
@@ -1274,6 +1292,19 @@ p.ep-live-video-info svg {
 .components-text-control__input::placeholder,
 .components-textarea-control__input::placeholder {
   color: #757575; }
+
+button.skip-ad-button {
+  position: absolute;
+  bottom: 15px;
+  right: 10px;
+  border: none;
+  background: #d41556b5 !important;
+  padding: 6px 8px;
+  color: white !important;
+  z-index: 122222222;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 4px; }
 /**
  * #.# Common SCSS
  *

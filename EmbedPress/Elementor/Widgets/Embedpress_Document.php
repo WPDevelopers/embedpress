@@ -493,6 +493,13 @@ class Embedpress_Document extends Widget_Base
 			$content_protection_class = 'ep-content-protection-disabled';
 		}
 
+        $adsAtts = '';
+
+		if(!empty($settings['adManager'])) {
+			$ad = base64_encode(json_encode($settings));
+			$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
+		}
+
         ?>
         
 
@@ -620,27 +627,35 @@ class Embedpress_Document extends Widget_Base
 
 
             ?>
-            <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_doc_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_doc_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>">
-                <div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
-                <?php
+            <div <?php echo esc_attr( $adsAtts ); ?>>
 
-                    $content_id = $client_id;
-                    if ((empty($settings['embedpress_doc_lock_content']) || $settings['embedpress_doc_lock_content'] == 'no' || empty($settings['embedpress_doc_lock_content_password'])) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_' . $client_id]))) {
-                        
-                        if(!empty($settings['embedpress_doc_content_share'])){
-                            $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
+                <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_doc_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_doc_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>">
+                    <div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
+                    <?php
+
+                        $content_id = $client_id;
+                        if ((empty($settings['embedpress_doc_lock_content']) || $settings['embedpress_doc_lock_content'] == 'no' || empty($settings['embedpress_doc_lock_content_password'])) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_' . $client_id]))) {
+                            
+                            if(!empty($settings['embedpress_doc_content_share'])){
+                                $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
+                            }
+                            if(!empty($embed_content)){
+                                echo $embed_content;
+                            }
+                        } else {
+                            if(!empty($settings['embedpress_doc_content_share'])){
+                                $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
+                            }
+                            Helper::display_password_form($client_id, $embed_content, $pass_hash_key, $embed_settings);
                         }
-                        if(!empty($embed_content)){
-                            echo $embed_content;
-                        }
-                    } else {
-                        if(!empty($settings['embedpress_doc_content_share'])){
-                            $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
-                        }
-                        Helper::display_password_form($client_id, $embed_content, $pass_hash_key, $embed_settings);
+                    ?>
+                    </div>
+                </div>
+                <?php 
+                    if(!empty($settings['adManager'])) {
+                        $embed_content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
                     }
                 ?>
-                </div>
             </div>
         </div>
 

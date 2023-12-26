@@ -26,7 +26,7 @@ export default function ContentShare({ attributes, setAttributes }) {
 
 
     return (
-        <PanelBody title={__("EP Social Share")} initialOpen={false}>
+        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Social Share', 'embedpress')}</div>} initialOpen={false}>
             <div className={'content-share-toggle'}>
                 <ToggleControl
                     label={__("Enable Social Share")}

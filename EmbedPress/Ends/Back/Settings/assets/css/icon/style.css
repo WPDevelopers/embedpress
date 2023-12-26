@@ -28,6 +28,9 @@
 .ep-file:before {
   content: "\e900";
 }
+.ep-ads:before {
+  content: "\e839";
+}
 .ep-star:before {
   content: "\e901";
 }

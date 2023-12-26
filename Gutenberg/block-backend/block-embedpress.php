@@ -69,11 +69,16 @@ if(!function_exists('lock_content_form_handler')){
 function embedpress_render_block($attributes)
 {
 
+	// echo '<pre>';
+	// print_r($attributes);
+	// echo '</pre>';
+
+
 	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
 	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
 
-	$cEmbedType = !empty($attributes['cEmbedType']) ? $attributes['cEmbedType'] : '';
+	$cEmbedType = !empty($attributes['cEmbedType']) ? ' '.$attributes['cEmbedType'] : '';
 
 	$_custom_player = '';
 	$_player_options = '';
@@ -148,6 +153,8 @@ function embedpress_render_block($attributes)
 
 	$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']): '';
 
+	
+
 	if (!empty($attributes['embedHTML'])) {
 		$embed  = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
 
@@ -159,9 +166,13 @@ function embedpress_render_block($attributes)
 			$content_share_class = 'ep-content-share-enabled';
 			$share_position_class = 'ep-share-position-'.$share_position;
 		}
-		$content_protection_class = '';
-		if(!empty($attributes['lockContent']) && !empty($attributes['contentPassword'])) {
-			$content_protection_class = 'ep-content-protection-enabled';
+
+		$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
+		$hash_pass = hash('sha256', wp_salt(32) . md5(isset($attributes['contentPassword']) ? $attributes['contentPassword'] : ''));
+
+		$content_protection_class = 'ep-content-protection-enabled';
+		if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || $hash_pass === $password_correct) {
+			$content_protection_class = 'ep-content-protection-disabled';
 		}
 
 		$aligns = [
@@ -179,6 +190,13 @@ function embedpress_render_block($attributes)
 		$embed = Helper::customLogo($embed, $attributes);
 		$url = !empty($attributes['href']) ? $attributes['href'] : '';
 
+		$adsAtts = '';
+
+		if(!empty($attributes['adManager'])) {
+			$ad = base64_encode(json_encode($attributes));
+			$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
+		}
+
 		ob_start();
 		?>
 		<div class="embedpress-gutenberg-wrapper <?php echo esc_attr( $alignment.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class); echo esc_attr( $cEmbedType ); ?>" id="<?php echo esc_attr($block_id); ?>">
@@ -188,23 +206,30 @@ function embedpress_render_block($attributes)
 			?>
 			<div class="wp-block-embed__wrapper <?php if(!empty($attributes['contentShare'])) echo esc_attr( 'position-'.$share_position.'-wraper'); ?>  <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
 				<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content">
-					<div class="ep-embed-content-wraper <?php !empty($custom_player) ? esc_attr_e($player_preset) : ''; ?>" <?php echo $_custom_player; ?> <?php echo $_player_options; ?>>
-						<?php
-							$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
-							$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
-							if(empty($attributes['lockContent']) || empty($attributes['contentPassword'])  || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
+					<div <?php echo esc_attr( $adsAtts ); ?> >
+						<div  class="ep-embed-content-wraper <?php !empty($custom_player) ? esc_attr_e($player_preset) : ''; ?>" <?php echo $_custom_player; ?> <?php echo $_player_options; ?>>
+							<?php
+								$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
+								$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
+								if(empty($attributes['lockContent']) || empty($attributes['contentPassword'])  || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
 
-								if(!empty($attributes['contentShare'])) {
-									$content_id = $attributes['clientId'];
-									$embed .= Helper::embed_content_share($content_id, $attributes);
+									if(!empty($attributes['contentShare'])) {
+										$content_id = $attributes['clientId'];
+										$embed .= Helper::embed_content_share($content_id, $attributes);
+									}
+									echo $embed;
+								} else {
+									if(!empty($attributes['contentShare'])) {
+										$content_id = $attributes['clientId'];
+										$embed .= Helper::embed_content_share($content_id, $attributes);
+									}
+									Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
 								}
-								echo $embed;
-							} else {
-								if(!empty($attributes['contentShare'])) {
-									$content_id = $attributes['clientId'];
-									$embed .= Helper::embed_content_share($content_id, $attributes);
-								}
-								Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
+							?>
+						</div>
+						<?php 
+							if(!empty($attributes['adManager'])) {
+								$embed .= Helper::generateAdTemplate($client_id, $attributes, 'gutenberg');
 							}
 						?>
 					</div>
