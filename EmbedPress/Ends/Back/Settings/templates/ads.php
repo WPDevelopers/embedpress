@@ -190,73 +190,77 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
                 <div class="ad__adjust__wrap " style="display: block;">
                     <div class="ad__adjust">
                         <form class="ad__adjust__controller" id="ad-preview-1">
-                            <div class="ad__adjust__controller__item">
-                                <span class="controller__label"><?php echo esc_html__('Upload Ad', 'embedpress'); ?></span>
-                                <div class="ad__adjust__controller__inputs ad-upload-options">
-                                    <button class="uploadBtn" type="button" data-upload-index="1">
-                                        <span class="dashicons dashicons-upload"></span> <?php echo esc_html__('Upload', 'embedpress'); ?>
-                                    </button>
+                            <div class="form-input-wrapper">
 
-                                    <input type="hidden" id="fileInput-1" name="adFileUrl" value="<?php echo esc_attr($image_demo_adUrl); ?>"/>
-                                    <p class="uploaded-file-url-1 uploaded"><?php echo esc_html('File Name: demo-ad.gif'); ?></p>
-                                    <div class="ad__upload__preview" id="yt_ad__upload__preview" style="display:none ">
-                                        <div class="instant__preview">
-                                            <a href="#" id="yt_preview__remove" class="preview__remove"><i class="ep-icon ep-cross"></i></a>
-                                            <img class="instant__preview__img" id="yt_logo_preview" src="" alt="">
+                                <div class="ad__adjust__controller__item">
+                                    <span class="controller__label"><?php echo esc_html__('Upload Ad', 'embedpress'); ?></span>
+                                    <div class="ad__adjust__controller__inputs ad-upload-options">
+                                        <button class="uploadBtn" type="button" data-upload-index="1">
+                                            <span class="dashicons dashicons-upload"></span> <?php echo esc_html__('Upload', 'embedpress'); ?>
+                                        </button>
+
+                                        <input type="hidden" id="fileInput-1" name="adFileUrl" value="<?php echo esc_attr($image_demo_adUrl); ?>"/>
+                                        <p class="uploaded-file-url-1 uploaded"><?php echo esc_html('File Name: demo-ad.gif'); ?></p>
+                                        <div class="ad__upload__preview" id="yt_ad__upload__preview" style="display:none ">
+                                            <div class="instant__preview">
+                                                <a href="#" id="yt_preview__remove" class="preview__remove"><i class="ep-icon ep-cross"></i></a>
+                                                <img class="instant__preview__img" id="yt_logo_preview" src="" alt="">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <!-- <div class="ad__adjust__controller__item hidden image-ad-control">
-                                        <span class="controller__label">Ad Width</span>
-                                        <div class="ad__adjust__controller__inputs">
-                                            <input type="range" max="600" data-default="300" value="300" class="opacity__range" name="adWidth">
-                                            <input readonly="" type="number" class="form__control range__value" data-default="300" value="300">
+                                <!-- <div class="ad__adjust__controller__item hidden image-ad-control">
+                                            <span class="controller__label">Ad Width</span>
+                                            <div class="ad__adjust__controller__inputs">
+                                                <input type="range" max="600" data-default="300" value="300" class="opacity__range" name="adWidth">
+                                                <input readonly="" type="number" class="form__control range__value" data-default="300" value="300">
+                                            </div>
                                         </div>
+                                        <div class="ad__adjust__controller__item hidden image-ad-control">
+                                            <span class="controller__label">Ad Height</span>
+                                            <div class="ad__adjust__controller__inputs">
+                                                <input type="range" max="600" data-default="200" value="200" class="opacity__range" name="adHeight">
+                                                <input readonly="" type="number" class="form__control range__value" data-default="200" value="200">
+                                            </div>
+                                        </div>   -->
+                                <div class="ad__adjust__controller__item">
+                                    <span class="controller__label"><?php echo esc_html__('Ad Redirection URL', 'embedpress'); ?></span>
+                                    <div class="ad__adjust__controller__inputs">
+                                        <input type="url" name="adUrl" id="ad_cta_url" class="form__control" data-default="<?php echo esc_url('https://embedpress.com/'); ?>" value="<?php echo esc_url('https://embedpress.com/'); ?>">
                                     </div>
-                                    <div class="ad__adjust__controller__item hidden image-ad-control">
-                                        <span class="controller__label">Ad Height</span>
-                                        <div class="ad__adjust__controller__inputs">
-                                            <input type="range" max="600" data-default="200" value="200" class="opacity__range" name="adHeight">
-                                            <input readonly="" type="number" class="form__control range__value" data-default="200" value="200">
-                                        </div>
-                                    </div>   -->
-                            <div class="ad__adjust__controller__item">
-                                <span class="controller__label"><?php echo esc_html__('Ad Redirection URL', 'embedpress'); ?></span>
-                                <div class="ad__adjust__controller__inputs">
-                                    <input type="url" name="adUrl" id="ad_cta_url" class="form__control" data-default="<?php echo esc_url('https://embedpress.com/'); ?>" value="<?php echo esc_url('https://embedpress.com/'); ?>">
                                 </div>
-                            </div>
 
-                            <div class="ad__adjust__controller__item">
-                                <span class="controller__label"><?php echo esc_html__('Ad Start After (Sec)', 'embedpress'); ?></span>
-                                <div class="ad__adjust__controller__inputs">
-                                    <input type="range" max="100" data-default="10" value="10" class="opacity__range" name="adStart">
-                                    <input readonly="" type="number" class="form__control range__value" data-default="10" value="10">
+                                <div class="ad__adjust__controller__item">
+                                    <span class="controller__label"><?php echo esc_html__('Ad Start After (Sec)', 'embedpress'); ?></span>
+                                    <div class="ad__adjust__controller__inputs">
+                                        <input type="range" max="100" data-default="10" value="10" class="opacity__range" name="adStart">
+                                        <input readonly="" type="number" class="form__control range__value" data-default="10" value="10">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="ad__adjust__controller__item skip-controller hidden">
-                                <span class="controller__label"><?php echo esc_html__('Skip Button', 'embedpress'); ?></span>
-                                <div class="ad__adjust__controller__inputs">
-                                    <label class="input__switch switch__text ">
-                                        <input type="checkbox" name="adSkipButton" data-default="no" data-value="no" value="yes" checked>
-                                        <span></span>
+                                <div class="ad__adjust__controller__item skip-controller hidden">
+                                    <span class="controller__label"><?php echo esc_html__('Skip Button', 'embedpress'); ?></span>
+                                    <div class="ad__adjust__controller__inputs">
+                                        <label class="input__switch switch__text ">
+                                            <input type="checkbox" name="adSkipButton" data-default="no" data-value="no" value="yes" checked>
+                                            <span></span>
 
-                                    </label>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="ad__adjust__controller__item skip-controller hidden">
-                                <span class="controller__label"><?php echo esc_html__('Skip Button After (Sec)', 'embedpress'); ?></span>
-                                <div class="ad__adjust__controller__inputs">
-                                    <input type="range" max="100" data-default="5" value="5" class="x__range" name="adSkipButtonAfter">
-                                    <input readonly="" type="number" class="form__control range__value" data-default="5" value="5">
+                                <div class="ad__adjust__controller__item skip-controller hidden">
+                                    <span class="controller__label"><?php echo esc_html__('Skip Button After (Sec)', 'embedpress'); ?></span>
+                                    <div class="ad__adjust__controller__inputs">
+                                        <input type="range" max="100" data-default="5" value="5" class="x__range" name="adSkipButtonAfter">
+                                        <input readonly="" type="number" class="form__control range__value" data-default="5" value="5">
+                                    </div>
                                 </div>
-                            </div>
 
+                            </div>
                             <button type="submit" class="button preview-btn-1"> <?php echo esc_html__('Start Preview', 'embedpress'); ?> </button>
+
                         </form>
 
                     </div>
@@ -609,6 +613,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         .video-ad-prewiew-options .form-input-wrapper {
             max-height: 430px;
             overflow: auto;
+            max-width: 250px;
         }
 
 
