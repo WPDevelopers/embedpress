@@ -129,8 +129,6 @@ class Shortcode
      */
     public static function parseContent($subject, $stripNewLine = false, $customAttributes = [])
     {
-        $subject = esc_url($subject);
-
         if (!empty($subject)) {
             if (empty($customAttributes)) {
                 $customAttributes = self::parseContentAttributesFromString($subject);
@@ -142,11 +140,14 @@ class Shortcode
                 $subject
             );
 
+            $uniqid = 'ose-uid-'.md5($url);
+            $subject = esc_url($subject);
+
+
             // Converts any special HTML entities back to characters.
             $url = htmlspecialchars_decode($url);
             $url = esc_url($url);
 
-            $uniqid = 'ose-uid-'.md5($url);
 
             $content_uid = md5($url);
 

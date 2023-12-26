@@ -216,30 +216,30 @@ function onPlayerReady(event, adVideo) {
     });
 }
 
+if (adsConainers.length > 0 && eplocalize.is_pro_plugin_active) {
 
-window.onload = function () {
-    let yVideos = setInterval(() => {
-        var youtubeVideos = document.querySelectorAll('.ose-youtube');
-        if (youtubeVideos.length > 0) {
-            clearInterval(yVideos);
+    window.onload = function () {
+        let yVideos = setInterval(() => {
+            var youtubeVideos = document.querySelectorAll('.ose-youtube');
+            if (youtubeVideos.length > 0) {
+                clearInterval(yVideos);
 
-            youtubeVideos.forEach((yVideo, index) => {
-                const srcUrl = yVideo.querySelector('iframe')?.getAttribute('src');
-                const adVideo = yVideo.closest('.ad-mask')?.querySelector('.ep-ad');
-                const isYTChannel = yVideo.closest('.ad-mask')?.querySelector('.ep-youtube-channel');
-                if(adVideo && !isYTChannel){
+                youtubeVideos.forEach((yVideo, index) => {
+                    const srcUrl = yVideo.querySelector('iframe')?.getAttribute('src');
+                    const adVideo = yVideo.closest('.ad-mask')?.querySelector('.ep-ad');
+                    const isYTChannel = yVideo.closest('.ad-mask')?.querySelector('.ep-youtube-channel');
+                    if (adVideo && !isYTChannel) {
 
-                    console.log(isYTChannel);
-                    
-                    onYouTubeIframeAPIReady(yVideo, srcUrl, adVideo, index);
-                }
-            });
-        }
-    }, 100);
-};
+                        console.log(isYTChannel);
 
-
-if (adsConainers.length > 0) {
+                        onYouTubeIframeAPIReady(yVideo, srcUrl, adVideo, index);
+                    }
+                });
+            }
+        }, 100);
+    };
+    
+    console.log('ads settings');
     let ytIndex = 0;
     adsConainers.forEach((adContainer, epAdIndex) => {
 
@@ -249,4 +249,7 @@ if (adsConainers.length > 0) {
             ytIndex++;
         }
     });
+}
+else{
+    jQuery('.ad-mask').removeClass('ad-mask');
 }

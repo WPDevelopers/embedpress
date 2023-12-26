@@ -36,7 +36,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
                     echo wp_kses_post(
                         sprintf(
                             esc_html__(
-                                "Amplify your brand's reach effortlessly as EmbedPress empowers you to showcase your ads across %s, ensuring unlimited exposure for your business.",
+                                "Boost the visibility of your brand and products effortlessly with EmbedPress. Now, you can showcase your ads across %s, guaranteeing unlimited exposure for your business through your embedded contents.",
                                 'embedpress'
                             ),
                             '<strong>' . esc_html__('150+ diverse platforms', 'embedpress') . '</strong>'
@@ -135,7 +135,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
             </div>
             <div class="embedpress-gutenberg-wrapper aligncenter   ep-content-protection-disabled inline" id="1c3da3de-7606-4e9f-9693-d4b570cd2ca30">
                 <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Live Preview</mark> in Video</h2>
-                <p class="preview-description">Experience the future of advertising with our revolutionary 'Ad Preview in Video' feature! </p>
+                <p class="preview-description">To experience its full capabilities, you need to install the EmbedPress pro version. Check the settings below for a demo example with YouTube, but it will work with all embedded contents such as videos, audios, documents, etc..</p>
                 <div class="wp-block-embed__wrapper   ">
                     <div id="ep-gutenberg-content-ep-ad-preview-0" class="ep-gutenberg-content">
                         <div data-ad-id="ep-ad-preview-0" id="ep-ad-preview-0" class="ad-mask" data-ad-index="0">
@@ -268,7 +268,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
             </div>
             <div class="embedpress-gutenberg-wrapper aligncenter   ep-content-protection-disabled inline" id="1c3da3de-7606-4e9f-9693-d4b570cd2ca31">
                 <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Live Preview for Documents</h2>
-                <p class="preview-description">Experience the future of advertising with our revolutionary 'Ad Preview in Video' feature! </p>
+                <p class="preview-description">This feature is available in the pro version of EmbedPress. To experience its full capabilities, you need to install the EmbedPress pro version. Check the settings below for a demo example with YouTube, but it will work with all embedded contents such as videos, audios, documents, etc..</p>
                 <div class="wp-block-embed__wrapper   ">
                     <div id="ep-gutenberg-content-ep-ad-preview-1" class="ep-gutenberg-content">
                         <div data-ad-id="ep-ad-preview-1" id="ep-ad-preview-1" class="ad-mask" data-ad-index="0">
@@ -604,7 +604,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
     }
 
 
-    @media only screen and (max-width: 1440px) and (min-width: 1249px) {
+    @media only screen and (max-width: 1540px) and (min-width: 1249px) {
         .ad__adjust__controller__item {
             flex-direction: column;
             align-items: start;

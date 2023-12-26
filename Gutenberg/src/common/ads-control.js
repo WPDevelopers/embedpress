@@ -74,11 +74,20 @@ export default function AdControl({ attributes, setAttributes }) {
 
         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Ads Settings', 'embedpress')}</div>} initialOpen={false} className={adManager ? "" : "disabled-content-protection"} >
             <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                <ToggleControl
-                    label={__("Ads Settings")}
-                    checked={adManager}
-                    onChange={(adManager) => setAttributes({ adManager: adManager })}
-                />
+                {
+                    isProPluginActive ? (
+                        <ToggleControl
+                            label={__("Ads Settings", "embedpress")}
+                            checked={adManager}
+                            onChange={(adManager) => setAttributes({ adManager: adManager })}
+                        />
+                    ) : (
+                        <ToggleControl
+                            label={__("Ads Settings", "embedpress")}
+                            checked={true}
+                        />
+                    )
+                }
 
                 {
                     (!isProPluginActive) && (
@@ -89,7 +98,7 @@ export default function AdControl({ attributes, setAttributes }) {
 
 
                 {
-                    adManager && (
+                    (isProPluginActive || adManager) && (
                         <div className={'ad-manager-controllers'}>
 
                             <SelectControl

@@ -93,7 +93,9 @@ class Handler extends EndHandlerAbstract
             EMBEDPRESS_PLUGIN_VERSION, true );
 
         wp_localize_script('embedpress-front', 'eplocalize', array(
-            'ajaxurl' => admin_url('admin-ajax.php')
+            'ajaxurl' => admin_url('admin-ajax.php'),
+		    'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
+            
         ));
     }
 
