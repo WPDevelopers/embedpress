@@ -23,7 +23,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
                 echo wp_kses_post(
                     sprintf(
                         esc_html__(
-                            'Advertise Across %s with Embedpress – Your Gateway to Unlimited Exposure!',
+                            'Advertise Across %s with EmbedPress – Your Gateway to Unlimited Exposure!',
                             'embedpress'
                         ),
                         '<span style="color:#FF7369">' . esc_html__('150+ Platforms', 'embedpress') . '</span>'
@@ -37,7 +37,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
                     echo wp_kses_post(
                         sprintf(
                             esc_html__(
-                                "Amplify your brand's reach effortlessly as Embedpress empowers you to showcase your ads across %s, ensuring unlimited exposure for your business.",
+                                "Amplify your brand's reach effortlessly as EmbedPress empowers you to showcase your ads across %s, ensuring unlimited exposure for your business.",
                                 'embedpress'
                             ),
                             '<strong>' . esc_html__('150+ diverse platforms', 'embedpress') . '</strong>'

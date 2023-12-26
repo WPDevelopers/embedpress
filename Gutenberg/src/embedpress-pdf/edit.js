@@ -10,6 +10,8 @@ import { saveSourceData } from '../common/helper';
 import LockControl from '../common/lock-control';
 import ContentShare from '../common/social-share-control';
 import SocialShareHtml from '../common/social-share-html';
+import { EPIcon, InfoIcon } from '../common/icons';
+
 
 import {
 	__experimentalToggleGroupControl as ToggleGroupControl,
@@ -349,9 +351,8 @@ class EmbedPressPDFEdit extends Component {
 					</div>
 
 					<InspectorControls key="inspector">
-						<PanelBody
-							title={__('Embed Size(px)', 'embedpress')}
-						>
+						<PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Embed Size', 'embedpress')}</div>}>
+
 							<div className={'ep-pdf-width-contol'}>
 								<ControlHeader classname={'ep-control-header'} headerText={'WIDTH'} />
 								<RadioControl
@@ -391,10 +392,8 @@ class EmbedPressPDFEdit extends Component {
 							/>
 						</PanelBody>
 
-						<PanelBody
-							title={__('Document Controls', 'embedpress')}
-							initialOpen={false}
-						>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Document Controls', 'embedpress')}</div>} initialOpen={false}>
+
 
 
 							<SelectControl

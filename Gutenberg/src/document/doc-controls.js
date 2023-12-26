@@ -15,6 +15,7 @@ const { __ } = wp.i18n;
 const { Fragment } = wp.element;
 const { PanelBody, ToggleControl, SelectControl, ColorPalette } = wp.components;
 import { addProAlert, isPro, removeAlert } from '../common/helper';
+import { EPIcon, InfoIcon } from '../common/icons';
 
 const DocControls = ({ attributes, setAttributes }) => {
 
@@ -35,10 +36,9 @@ const DocControls = ({ attributes, setAttributes }) => {
     ];
 
     return (
-        <PanelBody
-            title={__('Document Controls', 'embedpress')}
-            initialOpen={false}
-        >
+
+        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Document Controls', 'embedpress')}</div>} initialOpen={false}>
+
             <SelectControl
                 label="Theme"
                 value={themeMode}
@@ -120,7 +120,7 @@ const DocControls = ({ attributes, setAttributes }) => {
                             }
                             checked={draw}
                         />
-                        
+
                         <ToggleControl
                             label={__('Powered By')}
                             onChange={(powered_by) =>

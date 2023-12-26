@@ -7,7 +7,7 @@ import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
 import { saveSourceData } from '../common/helper';
 import { DocumentIcon } from '../common/icons';
-import DocStyle  from './doc-style';
+import DocStyle from './doc-style';
 
 /**
  * WordPress dependencies
@@ -21,6 +21,7 @@ const { RangeControl, PanelBody, ExternalLink, ToggleControl } = wp.components;
 import { epGetPopupIcon, epGetDownloadIcon, epGetPrintIcon, epGetFullscreenIcon, epGetMinimizeIcon, epGetDrawIcon } from '../common/icons';
 import { isFileUrl } from '../common/helper';
 import DocControls from './doc-controls';
+import { EPIcon, InfoIcon } from '../common/icons';
 
 
 const ALLOWED_MEDIA_TYPES = [
@@ -168,7 +169,7 @@ class DocumentEdit extends Component {
 		const docLink = 'https://embedpress.com/docs/embed-document/';
 
 		let isDownloadEnabled = ' enabled-file-download';
-		if ( !download ) {
+		if (!download) {
 			isDownloadEnabled = '';
 		}
 
@@ -254,10 +255,8 @@ class DocumentEdit extends Component {
 					</div>
 
 					<InspectorControls key="inspector">
-						<PanelBody
-							title={__('Embed Size', 'embedpress')}
-							className={'embedpress-documents-control'}
-						>
+						<PanelBody className={'embedpress-documents-control'} title={<div className='ep-pannel-icon'>{EPIcon} {__('Embed Size', 'embedpress')}</div>}>
+
 							<RangeControl
 								label={__(
 									'Width',

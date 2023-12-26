@@ -75,8 +75,8 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
             <InspectorControls>
                 {
                     !isOpensea && !isOpenseaSingle && (
-                        <div className={'ep-gutenberg-controls-wrapper'}>
-                            <PanelBody title={__("General")}>
+                        <div>
+                            <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('General', 'embedpress')}</div>}>
 
                                 <div>
 
