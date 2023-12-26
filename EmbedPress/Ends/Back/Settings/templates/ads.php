@@ -770,11 +770,6 @@ const adInitialization = (adContainer, index, adAtts, adType) => {
     adTemplate.classList.remove('image', 'video');
     adTemplate.classList.add(adType);
 
-    // if(adType === 'image') {
-    //     console.log(adTemplate)
-    //     adTemplate.style.width = adWidth + 'px!important';
-    //     adTemplate.style.height = adHeight + 'px!important';
-    // }
 
     if(adType === 'image' && adUrl){
         adTemplate.querySelector('.ad-image .ad-url')?.setAttribute('href', adUrl);
@@ -810,7 +805,6 @@ const adInitialization = (adContainer, index, adAtts, adType) => {
 
     adContainer.classList.remove('ad-mask');
 
-    console.log(adType, adVideo);
     
     if(adType == 'video'){
         adVideo?.addEventListener('timeupdate', () => {
@@ -973,7 +967,6 @@ jQuery(document).on('click', '.preview-btn-0', function(e){
     const adType = document.querySelector('#ad-template-'+index).getAttribute('data-adType');
     const currentAdAtts = getFormData(index);
     
-    console.log(currentAdAtts);
 
     const adAtts = {
         "clientId": "1c3da3de-7606-4e9f-9693-d4b570cd2ca30",
@@ -1018,7 +1011,6 @@ jQuery(document).on('click', '.preview-btn-1', function(e){
     const adType = document.querySelector('#ad-template-'+index).getAttribute('data-adType');
     const currentAdAtts = getFormData(index);
     
-    console.log(currentAdAtts);
 
     const adAtts = {
         "clientId": "1c3da3de-7606-4e9f-9693-d4b570cd2ca31",
@@ -1072,8 +1064,6 @@ jQuery(document).ready(function($){
 
         const index = $(this).data('upload-index');
 
-        console.log(index);
-
         // Reset mediaUploader variable
         mediaUploader = undefined;
 
@@ -1098,8 +1088,6 @@ jQuery(document).ready(function($){
         mediaUploader.on('select', function() {
             var attachment = mediaUploader.state().get('selection').first().toJSON();
 
-            console.log(attachment);
-
             if(attachment.type === 'image') {
                 $('#ad-preview-'+index+' .skip-controller').addClass('hidden');
                 $('#ad-preview-'+index+' .image-ad-control').removeClass('hidden');
@@ -1116,7 +1104,6 @@ jQuery(document).ready(function($){
             $('.uploaded-file-url-'+index).text('File Name: ' +attachment.name + '.' + attachment.subtype);
             $('#ad-template-'+index).attr('data-adType', attachment.type);
             $('.uploaded-file-url-'+index).addClass('uploaded');
-            console.log($('.uploaded-file-url-'+index));
         });
 
         // Open the media uploader
