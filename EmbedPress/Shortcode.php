@@ -958,6 +958,8 @@ KAMAL;
             $subject
         );
 
+        $url = esc_url($url);
+
         ob_start();
 
         $id = 'embedpress-pdf-shortcode';
