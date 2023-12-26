@@ -11,7 +11,6 @@ $video_demo_adUrl = 'https://embedpress.com/wp-content/uploads/2023/12/demo-ad.m
 $image_demo_adUrl = 'https://embedpress.com/wp-content/uploads/2023/12/demo-ad.gif';
 $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&origin='.site_url();
 
-
 ?>
 
 <div class="embedpress_calendly_settings  background__white radius-25 p40">
@@ -827,13 +826,16 @@ const adInitialization = (adContainer, index, adAtts, adType) => {
                     // Show the skip button after 3 seconds
                     skipButton.style.display = 'inline-block';
                 }
+                else{
+                    skipButton.style.display = 'none';
+                }
             }
         });
     }
     // Add a click event listener to the skip button
     document?.addEventListener('click', (event) => {
         if (event.target.classList.contains('skip-ad-button')) {
-
+            // event.target.classList.add('hidden');
             adTemplate?.classList.remove('ad-running');
             document.querySelector('.preview-btn-'+index).innerText = 'Play Preview';
             document.querySelector('.preview-btn-' + index).removeAttribute('disabled');
