@@ -49,6 +49,29 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
 
     </div>
 
+    <div class="info-message-section">
+        <div class="info-message">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="21" viewBox="0 0 24 21" fill="none"><path d="M19.68 17.28H4.32c-.794 0-1.44.646-1.44 1.44 0 .794.646 1.44 1.44 1.44h15.36c.794 0 1.44-.646 1.44-1.44 0-.794-.646-1.44-1.44-1.44Z" fill="#F90"/><path d="M22.08 2.88c-1.059 0-1.92.861-1.92 1.92 0 .711.394 1.327.97 1.659-1.11 2.63-2.843 4.244-4.462 4.098-1.801-.147-3.27-2.276-4.08-5.839A2.397 2.397 0 0 0 14.4 2.4C14.4 1.076 13.324 0 12 0a2.402 2.402 0 0 0-2.4 2.4c0 1.12.774 2.055 1.812 2.318-.81 3.563-2.279 5.692-4.08 5.84-1.612.145-3.353-1.469-4.463-4.1A1.912 1.912 0 0 0 1.92 2.88C.861 2.88 0 3.741 0 4.8c0 .985.749 1.79 1.705 1.899l1.849 9.621h16.892l1.849-9.621A1.918 1.918 0 0 0 24 4.8c0-1.059-.861-1.92-1.92-1.92Z" fill="url(#a)"/><defs><linearGradient id="a" x1="12" y1="0" x2="12" y2="16.32" gradientUnits="userSpaceOnUse"><stop stop-color="#FFC045"/><stop offset="1" stop-color="#F90"/></linearGradient></defs></svg>
+            <div>
+                <?php
+                    echo wp_kses_post(
+                        sprintf(
+                            esc_html__(
+                                'EmbedPress Ads: Exclusively for %s users. Upgrade now to unlock premium features and elevate your experience!'
+                            ),
+                            '<strong>'.esc_html__( 'Pro', 'emebdpress' ).'</strong> '
+                        )
+                    );
+                ?>
+            </div>
+            
+            <!-- <div>Enhance your experience with EmbedPress Ads, available exclusively for <strong>Pro</strong> users. Upgrade now to unlock premium features!</div>
+
+            <div>Enhance your experience with EmbedPress Ads, available exclusively for <strong>Pro</strong> users. Upgrade now to unlock premium features!</div> -->
+        </div>
+    </div>
+   
+
 
     <div class="entry-content clear" ast-blocks-layout="true" itemprop="text">
         <div class="ad-preview-sectiion">
@@ -364,7 +387,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         font-size: 18px;
     }
     .video-ad-prewiew-options {
-        width: 40%
+        width: 45%
     }
     .ad__adjust__controller__item {
         display: flex;
@@ -374,8 +397,8 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         gap: 20px;
     }
     .ad__adjust__controller__inputs {
-        width: 320px;
         max-width: 100%;
+        width: calc(100% - 15px);
     }
     .ad__adjust__controller__inputs p {
         margin-top: 5px;
@@ -410,7 +433,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         position: relative;
     }
     .embedpress-gutenberg-wrapper {
-        width: 60%;
+        width: 55%;
     }
     h2.wp-block-heading {
         font-size: 22px;
@@ -423,6 +446,8 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         line-height: 1.6;
         color: #25396F;
         margin-bottom: 15px;
+        width: 580px;
+        max-width: 100%;
     }
 
     .ose-youtube {
@@ -565,7 +590,36 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         text-align: center;
     }
 
+    .info-message-section {
+        max-width: 800px;
+        margin: auto;
+        margin-bottom: 60px;
+        width: 100%;
+    }
+
+    .info-message {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        /* background: #fbebed; */
+        padding: 12px;
+        border-radius: 5px;
+        font-size: 14px;
+        line-height: 1.4em;
+        border-left: 4px solid #fe8c59;
+        border: 1px solid #faf4f4;
+        color: #25396F;
+    }
+    .info-message svg {
+        width: 18px;
+    }
+    
+    span.dashicons.dashicons-warning{
+        color: #fe8c59;
+    }
+
     @media only screen and (max-width: 1540px) {
+       
 
        .ad__adjust__controller__item {
             flex-direction: column;
@@ -604,8 +658,11 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
 
 
     @media only screen and (max-width: 1440px){
-        .video-ad-prewiew-options .form-input-wrapper {
-            /* max-width: 250px; */
+        .embedpress-gutenberg-wrapper {
+            width: 60%;
+        }
+        .video-ad-prewiew-options {
+            width: 40%
         }
     }
 

@@ -1569,13 +1569,13 @@ button.button__instagram.hover__highlight:hover .icon {
 
 .embedpress-body .embedpress-sidebar {
     -webkit-box-flex: 0;
-    -ms-flex: 0 0 220px;
-    flex: 0 0 220px;
-    min-width: 220px;
+    -ms-flex: 0 0 240px;
+    flex: 0 0 240px;
+    min-width: 240px;
     margin-right: 24px;
     position: sticky;
     top: 40px;
-    max-width: 220px;
+    max-width: 240px;
     overflow: unset;
 }
 
