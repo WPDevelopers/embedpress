@@ -757,8 +757,10 @@ class Helper
 
 				// Example usage
 
+
 				$adSource = isset($attributes['adSource']) ? $attributes['adSource'] : '';
 				$adContent = isset($attributes['adContent']) ? $attributes['adContent'] : '';
+				$unit = isset($attributes['unitoption']) ? $attributes['unitoption'] : 'px';
 
 				if ($editor === 'elementor') {
 					if($attributes['adSource'] === 'video'){
@@ -867,7 +869,7 @@ class Helper
 			}
 
 			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template {
-				width: <?php echo esc_attr($width); ?>px;
+				width: <?php echo esc_attr($width); ?><?php echo esc_attr($unit); ?>;
 				height: <?php echo esc_attr($height); ?>px;
 				max-width: 100%;
 				display: inline-block;
@@ -877,6 +879,10 @@ class Helper
 				position: relative;
 				display: inline-block;
 
+			}
+
+			.ep-percentage-width [data-ad-id] {
+				display: block;
 			}
 
 			.main-ad-template.image.ad-running {

@@ -362,10 +362,10 @@ let epGlobals = {};
 
                     initPlayer(document.querySelector('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper'));
                     
-                    const adIdEl = document.querySelector('#' + perentSel + '-' + ep_client_id + ' [data-ad-id]');
-                    adInitialization(adIdEl, adIdEl.getAttribute('data-ad-index'));
-
-                    console.log(adIdEl.getAttribute('data-ad-index'));
+                    if(eplocalize.is_pro_plugin_active){
+                        const adIdEl = document.querySelector('#' + perentSel + '-' + ep_client_id + ' [data-ad-id]');
+                        adInitialization(adIdEl, adIdEl.getAttribute('data-ad-index'));
+                    }
 
                 }
             } else {
@@ -505,7 +505,7 @@ jQuery(window).on("elementor/frontend/init", function () {
         
 
         console.log(classJoint);
-        if (jQuery('body').hasClass('elementor-editor-active')) {
+        if (jQuery('body').hasClass('elementor-editor-active') && eplocalize.is_pro_plugin_active) {
             adInitialization(selectorEl, window.epAdIndex);
         }
 
