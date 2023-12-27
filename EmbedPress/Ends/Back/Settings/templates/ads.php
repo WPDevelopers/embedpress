@@ -7,7 +7,7 @@
 
 use EmbedPress\Includes\Classes\Helper;
 
-$video_demo_adUrl = 'https://embedpress.com/wp-content/uploads/2023/12/demo-ad.mp4';
+$video_demo_adUrl = 'https://embedpress.com/wp-content/uploads/2023/12/notificationX-demo-ad.mp4';
 $image_demo_adUrl = 'https://embedpress.com/wp-content/uploads/2023/12/demo-ad.gif';
 $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&origin='.site_url();
 
@@ -66,36 +66,16 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
                                             <span class="dashicons dashicons-upload"></span> <?php echo esc_html__('Upload', 'embedpress'); ?>
                                         </button>
 
-                                        <input type="hidden" id="fileInput-0" name="adFileUrl" value="<?php echo esc_attr('https://embedpress.com/wp-content/uploads/2023/12/demo-ad.mp4'); ?>"/>
+                                        <input type="hidden" id="fileInput-0" name="adFileUrl" value="<?php echo esc_attr('https://embedpress.com/wp-content/uploads/2023/12/notificationX-demo-ad.mp4'); ?>"/>
 
-                                        <p class="uploaded-file-url-0 uploaded"><?php echo esc_html('File Name: demo-ad.mp4'); ?></p>
-                                        <div class="ad__upload__preview" id="yt_ad__upload__preview" style="display:none ">
-                                            <div class="instant__preview">
-                                                <a href="#" id="yt_preview__remove" class="preview__remove"><i class="ep-icon ep-cross"></i></a>
-                                                <img class="instant__preview__img" id="yt_logo_preview" src="" alt="">
-                                            </div>
-                                        </div>
+                                        <p class="uploaded-file-url-0 uploaded"><?php echo esc_html('File Name: notificationX-demo-ad.mp4'); ?></p>
                                     </div>
                                 </div>
 
-                                <!-- <div class="ad__adjust__controller__item hidden image-ad-control">
-                                    <span class="controller__label">Ad Width</span>
-                                    <div class="ad__adjust__controller__inputs">
-                                        <input type="range" max="600" data-default="300" value="300" class="opacity__range" name="adWidth">
-                                        <input readonly="" type="number" class="form__control range__value" data-default="300" value="300">
-                                    </div>
-                                </div>
-                                <div class="ad__adjust__controller__item hidden image-ad-control">
-                                    <span class="controller__label">Ad Height</span>
-                                    <div class="ad__adjust__controller__inputs">
-                                        <input type="range" max="600" data-default="200" value="200" class="opacity__range" name="adHeight">
-                                        <input readonly="" type="number" class="form__control range__value" data-default="200" value="200">
-                                    </div>
-                                </div>   -->
                                 <div class="ad__adjust__controller__item">
                                     <span class="controller__label"><?php echo esc_html__('Ad Redirection URL', 'embedpress'); ?></span>
                                     <div class="ad__adjust__controller__inputs">
-                                        <input type="url" name="adUrl" id="ad_cta_url" class="form__control" data-default="<?php echo esc_url('https://embedpress.com/'); ?>" value="<?php echo esc_url('https://embedpress.com/'); ?>">
+                                        <input type="url" name="adUrl" id="ad_cta_url" class="form__control" data-default="<?php echo esc_url('https://notificationx.com/'); ?>" value="<?php echo esc_url('https://notificationx.com/'); ?>">
                                     </div>
                                 </div>
 
@@ -134,8 +114,8 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
                 </div>
             </div>
             <div class="embedpress-gutenberg-wrapper aligncenter   ep-content-protection-disabled inline" id="1c3da3de-7606-4e9f-9693-d4b570cd2ca30">
-                <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Live Preview</mark> in Video</h2>
-                <p class="preview-description">To experience its full capabilities, you need to install the EmbedPress pro version. Check the settings below for a demo example with YouTube, but it will work with all embedded contents such as videos, audios, documents, etc..</p>
+                <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color"><?php echo esc_html__('Live Preview for Video', 'embedpress'); ?></h2>
+                <p class="preview-description"><?php echo esc_html__( 'Experience EmbedPress Ad feature with YouTube video, but it will work with all embedded contents such as videos, audios, documents, etc..', 'embedpress' ); ?></p>
                 <div class="wp-block-embed__wrapper   ">
                     <div id="ep-gutenberg-content-ep-ad-preview-0" class="ep-gutenberg-content">
                         <div data-ad-id="ep-ad-preview-0" id="ep-ad-preview-0" class="ad-mask" data-ad-index="0">
@@ -201,33 +181,14 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
 
                                         <input type="hidden" id="fileInput-1" name="adFileUrl" value="<?php echo esc_attr($image_demo_adUrl); ?>"/>
                                         <p class="uploaded-file-url-1 uploaded"><?php echo esc_html('File Name: demo-ad.gif'); ?></p>
-                                        <div class="ad__upload__preview" id="yt_ad__upload__preview" style="display:none ">
-                                            <div class="instant__preview">
-                                                <a href="#" id="yt_preview__remove" class="preview__remove"><i class="ep-icon ep-cross"></i></a>
-                                                <img class="instant__preview__img" id="yt_logo_preview" src="" alt="">
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
 
-                                <!-- <div class="ad__adjust__controller__item hidden image-ad-control">
-                                            <span class="controller__label">Ad Width</span>
-                                            <div class="ad__adjust__controller__inputs">
-                                                <input type="range" max="600" data-default="300" value="300" class="opacity__range" name="adWidth">
-                                                <input readonly="" type="number" class="form__control range__value" data-default="300" value="300">
-                                            </div>
-                                        </div>
-                                        <div class="ad__adjust__controller__item hidden image-ad-control">
-                                            <span class="controller__label">Ad Height</span>
-                                            <div class="ad__adjust__controller__inputs">
-                                                <input type="range" max="600" data-default="200" value="200" class="opacity__range" name="adHeight">
-                                                <input readonly="" type="number" class="form__control range__value" data-default="200" value="200">
-                                            </div>
-                                        </div>   -->
+                                
                                 <div class="ad__adjust__controller__item">
                                     <span class="controller__label"><?php echo esc_html__('Ad Redirection URL', 'embedpress'); ?></span>
                                     <div class="ad__adjust__controller__inputs">
-                                        <input type="url" name="adUrl" id="ad_cta_url" class="form__control" data-default="<?php echo esc_url('https://embedpress.com/'); ?>" value="<?php echo esc_url('https://embedpress.com/'); ?>">
+                                        <input type="url" name="adUrl" id="ad_cta_url" class="form__control" data-default="<?php echo esc_url('https://notificationx.com/'); ?>" value="<?php echo esc_url('https://notificationx.com/'); ?>">
                                     </div>
                                 </div>
 
@@ -267,8 +228,10 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
                 </div>
             </div>
             <div class="embedpress-gutenberg-wrapper aligncenter   ep-content-protection-disabled inline" id="1c3da3de-7606-4e9f-9693-d4b570cd2ca31">
-                <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color">Live Preview for Documents</h2>
-                <p class="preview-description">This feature is available in the pro version of EmbedPress. To experience its full capabilities, you need to install the EmbedPress pro version. Check the settings below for a demo example with YouTube, but it will work with all embedded contents such as videos, audios, documents, etc..</p>
+                <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color"><?php echo esc_html__( 'Live Preview for Documents', 'embedpress' ); ?></h2>
+
+                <p class="preview-description"><?php echo esc_html__( 'Experience EmbedPress Ad feature with with a PDF, but it will work with all embedded contents such as videos, audios, documents, etc..', 'embedpress'); ?></p>
+
                 <div class="wp-block-embed__wrapper   ">
                     <div id="ep-gutenberg-content-ep-ad-preview-1" class="ep-gutenberg-content">
                         <div data-ad-id="ep-ad-preview-1" id="ep-ad-preview-1" class="ad-mask" data-ad-index="0">
@@ -280,7 +243,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
                                     $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($pdf_url);
                                 ?>
                                 <iframe title="sample" class="embedpress-embed-document-pdf embedpress-pdf-1701320841615" style="width:550px;height:320px; max-width:100%; display: inline-block" src="<?php echo esc_url($src); ?>" frameborder="0" oncontextmenu="return false;"></iframe>
-                                    <p class="embedpress-el-powered">Powered By EmbedPress</p>
+                                    <p class="embedpress-el-powered"><?php echo esc_html__( 'Powered By EmbedPress', 'embedpress' ); ?></p>
                                 </div>
                             </div>
 
@@ -345,7 +308,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         border: 1px solid #f9f3f3;
     }
     .ad-settings-content {
-        width: calc(100% - 300px);
+        width: calc(100% - 250px);
     }
     h3.ads-settings-title {
         color: #131F4D;
@@ -401,8 +364,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         font-size: 18px;
     }
     .video-ad-prewiew-options {
-        width: calc(100% - 550px);
-        max-width: 600px;
+        width: 40%
     }
     .ad__adjust__controller__item {
         display: flex;
@@ -412,7 +374,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         gap: 20px;
     }
     .ad__adjust__controller__inputs {
-        width: 280px;
+        width: 320px;
         max-width: 100%;
     }
     .ad__adjust__controller__inputs p {
@@ -448,7 +410,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         position: relative;
     }
     .embedpress-gutenberg-wrapper {
-        max-width: 550px;
+        width: 60%;
     }
     h2.wp-block-heading {
         font-size: 22px;
@@ -590,7 +552,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
 
     iframe.ose-youtube {
     /* display: none !important; */
-        max-width: 550px;
+        max-width: 100%;
         max-height: 310px;
         height: 310px;
         width: 550px;
@@ -603,17 +565,18 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         text-align: center;
     }
 
+    @media only screen and (max-width: 1540px) {
 
-    @media only screen and (max-width: 1540px) and (min-width: 1249px) {
-        .ad__adjust__controller__item {
+       .ad__adjust__controller__item {
             flex-direction: column;
             align-items: start;
             padding-right: 15px;
+            gap: 10px;
         }
         .video-ad-prewiew-options .form-input-wrapper {
-            max-height: 430px;
+            max-height: 440px;
             overflow: auto;
-            max-width: 250px;
+            max-width: 100%;
         }
 
 
@@ -629,6 +592,20 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         .video-ad-prewiew-options .form-input-wrapper::-webkit-scrollbar-thumb {
             background: #988FBD;
             border-radius: 5px;
+        }
+        .template__wrapper input[type=range] {
+           margin: 0;
+        }
+
+        form#ad-preview-0 .form-input-wrapper {
+            max-height: 400px!important;
+        }
+    }
+
+
+    @media only screen and (max-width: 1440px){
+        .video-ad-prewiew-options .form-input-wrapper {
+            /* max-width: 250px; */
         }
     }
 
@@ -657,6 +634,18 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         }
         p.ads-settings-description{
             line-height: 1.3;
+        }
+    }
+    @media screen and (max-width: 991px) {
+        [data-ad-id] {
+            max-width: 100%;
+            display: block;
+        }
+
+        iframe.ose-youtube {
+            width: 100%;
+            height: 400px;
+            max-height: 100%;
         }
     }
 

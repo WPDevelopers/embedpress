@@ -98,7 +98,7 @@ export default function AdControl({ attributes, setAttributes }) {
 
 
                 {
-                    (isProPluginActive || adManager) && (
+                    (!isProPluginActive || adManager) && (
                         <div className={'ad-manager-controllers'}>
 
                             <SelectControl
