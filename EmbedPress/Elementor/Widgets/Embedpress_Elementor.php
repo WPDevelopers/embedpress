@@ -3056,7 +3056,8 @@ class Embedpress_Elementor extends Widget_Base
 		}
 
 		$data_player_id = '';
-		if(!empty($settings['emberpress_custom_player']) === 'yes') {
+
+		if(!empty($settings['emberpress_custom_player']) && $settings['emberpress_custom_player'] === 'yes') {
 			$data_player_id = "data-playerid=".$this->get_id();
 		}
 
