@@ -182,7 +182,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                             <Calendly attributes={attributes} setAttributes={setAttributes} isCalendly={isCalendly} />
                             {
-                                isYTChannel && (
+                                isYTChannel && !isYTLive && (
                                     <CustomBranding attributes={attributes} setAttributes={setAttributes} />
                                 )
                             }
