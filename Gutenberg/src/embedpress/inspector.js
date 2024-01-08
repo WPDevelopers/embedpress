@@ -10,6 +10,7 @@ import SlefHosted from './InspectorControl/selfhosted';
 import { EPIcon, InfoIcon } from '../common/icons';
 import Calendly from './InspectorControl/calendly';
 import AdControl from '../common/ads-control';
+import CustomBranding from './InspectorControl/custombranding';
 
 /**
  * WordPress dependencies
@@ -62,11 +63,11 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         setAttributes({ height: '340' });
     }
 
-    if(isSelfHostedAudio){
+    if (isSelfHostedAudio) {
         setAttributes({ height: '48' });
     }
 
-    if(isCalendly && width === '600' && height === '450'){
+    if (isCalendly && width === '600' && height === '450') {
         setAttributes({ height: '950' });
     }
 
@@ -180,7 +181,11 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />
 
                             <Calendly attributes={attributes} setAttributes={setAttributes} isCalendly={isCalendly} />
-                            
+                            {
+                                isYTChannel && (
+                                    <CustomBranding attributes={attributes} setAttributes={setAttributes} />
+                                )
+                            }
                             <AdControl attributes={attributes} setAttributes={setAttributes} />
                             <LockControl attributes={attributes} setAttributes={setAttributes} />
                             <ContentShare attributes={attributes} setAttributes={setAttributes} />
