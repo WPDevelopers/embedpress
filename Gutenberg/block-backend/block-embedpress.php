@@ -262,6 +262,7 @@ function embedpress_render_block_style($attributes)
 	$player_pip = !empty($attributes['playerPip']) ? 'block' : 'none';
 	$logoX = !empty($attributes['logoX']) ? $attributes['logoX'] : 5;
 	$logoY = !empty($attributes['logoY']) ? $attributes['logoX'] : 10;
+	$logoOpacity = !empty($attributes['logoOpacity']) ? $attributes['logoOpacity'] : '1';
 	$player_pip = !empty($attributes['playerPip']) ? 'block' : 'none';
 
 	$playerStyle = '';
@@ -289,22 +290,6 @@ function embedpress_render_block_style($attributes)
 			height: ' . esc_attr($attributes['height']) . 'px!important;
 			max-height: ' . esc_attr($attributes['height']) . 'px!important;
 		}
-
-		[data-playerid="' . md5($client_id). '"] img.watermark {
-			border: 0;
-			position: absolute;
-			bottom: '.$logoY.'%;
-			right: '.$logoX.'%;
-			max-width: 150px;
-			max-height: 75px;
-			opacity: 1;
-			-o-transition: opacity 0.5s ease-in-out;
-			-moz-transition: opacity 0.5s ease-in-out;
-			-webkit-transition: opacity 0.5s ease-in-out;
-			transition: opacity 0.5s ease-in-out;
-			z-index:1;
-		}
-
 		';
 	}
 
@@ -314,7 +299,27 @@ function embedpress_render_block_style($attributes)
 	if(!empty($attributes['customlogo'])){
 		$_iscustomlogo = $uniqid.' img.watermark.ep-custom-logo {
 			display: block !important;
-		}';
+		}
+		
+
+		#ep-gutenberg-content-'. md5($client_id).' img.watermark {
+			border: 0;
+			position: absolute;
+			bottom: '.esc_attr($logoY).'%;
+			right: '.esc_attr($logoX).'%;
+			max-width: 150px;
+			max-height: 75px;
+			-o-transition: opacity 0.5s ease-in-out;
+			-moz-transition: opacity 0.5s ease-in-out;
+			-webkit-transition: opacity 0.5s ease-in-out;
+			transition: opacity 0.5s ease-in-out;
+			z-index:1;
+			opacity: '.esc_attr($logoOpacity).';
+		}
+		#ep-gutenberg-content-'. md5($client_id).' img.watermark:hover {
+			opacity: 1;
+		}
+		';
 	}
 	$youtubeStyles = '<style>
 		' . esc_attr($uniqid) . ' {
