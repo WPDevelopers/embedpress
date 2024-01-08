@@ -275,7 +275,8 @@ class Feature_Enhancer
 				if(isset( $urlInfo->embed ) && preg_match( '/src=\"(.+?)\"/', $urlInfo->embed, $match )){
 					$url_full = $match[1];
 					$query = parse_url( $url_full, PHP_URL_QUERY );
-					parse_str( $query, $params );
+
+					parse_str($query ?? '', $params);
 
 					$params['controls']       = isset($attributes['controls']) ? $attributes['controls']: '1';
 					$params['iv_load_policy'] = !empty($attributes['videoannotations']) ? 1 : 0;
