@@ -382,6 +382,14 @@ Not at all. You can set up everything your team needs without any coding knowled
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [3.9.7] – 2024-01-09 =
+- Added: eSpatial Map embedding support.
+- Fixed: YouTube Embedding issues.
+- Fixed: PDF Embed wasn't showing for Logged out users.
+- Fixed: Custom Branding logo goes big in YouTube videos.
+- Fixed: Deprecated issues with PHP 8.1
+- Few minor bug fixes & improvements.
+
 = [3.9.6] - 2023-12-27 =
 - Improved: Security Enhancement
 - Few minor bug fixes & improvements.
