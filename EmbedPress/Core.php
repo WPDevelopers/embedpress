@@ -144,6 +144,11 @@ class Core {
             if ( $plgSettings->enablePluginInAdmin ) {
                 $this->loaderInstance->add_action('admin_enqueue_scripts', $plgHandlerAdminInstance, 'enqueueScripts');
             }
+
+            if(defined('EMBEDPRESS_SL_ITEM_SLUG')){
+                $this->loaderInstance->add_action('admin_enqueue_scripts', $plgHandlerAdminInstance, 'enqueueLisenceScripts');
+            }
+
         } else {
             $plgHandlerPublicInstance = new EndHandlerPublic($this->getPluginName(), $this->getPluginVersion());
 
