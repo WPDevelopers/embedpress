@@ -92,7 +92,7 @@
             data: {
                 // Your data to be sent in the request body
                 action: 'embedpress/license/submit-otp',
-                _nonce: wpdeveloperLicenseManagerConfig.embedpress_lisence_nonce, //
+                _nonce: wpdeveloperLicenseManagerNonce.embedpress_lisence_nonce, //
                 license: licensesKey,
                 otp: otpCode,
             },
@@ -135,7 +135,7 @@
             data: {
                 // Your data to be sent in the request body
                 action: 'embedpress/license/resend-otp',
-                _nonce: wpdeveloperLicenseManagerConfig.embedpress_lisence_nonce, //
+                _nonce: wpdeveloperLicenseManagerNonce.embedpress_lisence_nonce, //
                 license: licensesKey,
             },
             success: function (response) {
@@ -191,7 +191,7 @@
             data: {
                 // Your data to be sent in the request body
                 action: 'embedpress/license/deactivate',
-                _nonce: wpdeveloperLicenseManagerConfig.embedpress_lisence_nonce, //
+                _nonce: wpdeveloperLicenseManagerNonce.embedpress_lisence_nonce, //
             },
             success: function (response) {
                 // Handle the successful response here
