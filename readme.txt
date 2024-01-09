@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 6.4
 Requires PHP: 5.6
-Stable tag: 3.9.6
+Stable tag: 3.9.7
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
