@@ -71,7 +71,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
     }
 
     if(isTikTok && width === '600' && height === '450'){
-        setAttributes({ width: '400' });
+        setAttributes({ width: '350' });
         setAttributes({ height: '580' });
     }
 
