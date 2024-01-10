@@ -75,12 +75,11 @@ class TikTok extends ProviderAdapter implements ProviderInterface
 
         // Check if the url is already converted to the embed format  
         if ($this->validateTikTok($src_url)) {
-            $iframeSrc = 'https://tiktok.com/embed/' . getTiktokVideoId($this->url);
+            $iframeSrc = 'https://tiktok.com/embed/' . $this->getTiktokVideoId($this->url);
         } else {
             return [];
         }
 
-        print_r($iframeSrc); die;
 
         $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
         $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 350;
