@@ -1826,14 +1826,17 @@ a.site__logo {
     width: 20px;
     text-align: center;
 }
+
 a.sidebar__link.ads-icon span {
-    display: flex!important;
+    display: flex !important;
 }
+
 a.sidebar__link.ads-icon {
     display: flex;
     align-items: center;
 }
-a.sidebar__link.ads-icon.active span svg path,  a.sidebar__link.ads-icon:hover span svg path{
+
+a.sidebar__link.ads-icon.active span svg path, a.sidebar__link.ads-icon:hover span svg path {
     fill: #fff;
 }
 
@@ -2565,6 +2568,7 @@ p.embedpress-tagline {
     display: flex;
     gap: 15px;
 }
+
 .form-inner-field button {
     height: 60px;
 }
@@ -2656,36 +2660,45 @@ span#email-placeholder {
     margin-bottom: 10px;
     border-radius: 5px;
 }
+
 div#invalid-license-key-message, #invalid-verification-key-message {
     padding: 10px;
     background: #f2f2f2;
     border-radius: 5px;
     margin-top: 10px;
 }
+
 .short-description a {
     color: #5b4e96;
 }
+
 div#resend-verification-key-message {
     margin-top: 10px;
 }
-div#resend-verification-key-message a{
+
+div#resend-verification-key-message a {
     color: #5b4e96;
 }
-.show-toast{
-    visibility: visible!important;
-    opacity: 1!important;
+
+.show-toast {
+    visibility: visible !important;
+    opacity: 1 !important;
 }
+
 div#resend-verification-key-message span {
     font-weight: bold;
     color: #5b4e96;
     cursor: pointer;
 }
+
 div#resend-verification-key-message a {
     font-weight: 600;
 }
+
 .form-inner-field .form__group {
     margin-right: 0;
 }
+
 @media (max-width: 479px) {
     .logo__adjust__wrap .logo__upload {
         width: 225px;
@@ -3344,10 +3357,11 @@ input#embedpress-pro-license-key::placeholder {
         padding-left: 35px;
         font-size: 14px;
     }
+
     .form-inner-field button {
         height: 60px;
     }
-    
+
 }
 
 .embedpress-license__details .license__manage {
@@ -4408,4 +4422,80 @@ a.calendly-connect-button img {
         font-size: 12px;
         text-align: center;
     }
+}
+
+
+/* Facebook feed style */
+
+
+/* // Calendly settings page design  */
+.facebook-connector-container {
+    display: flex;
+    gap: 20px;
+}
+
+.facebook-embedpress-authorize-button {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+.facebook-embedpress-authorize-button:hover .embedpress-facebook-icon.dashicons.dashicons-facebook-alt{
+    background: #fff;
+	color: #1877F2;
+}
+.embedpress-facebook-icon.dashicons.dashicons-facebook-alt {
+	background: #1877F2;
+	color: white;
+	border-radius: 4px;
+	/* font-size: 16px; */
+}
+.facebook-settings-title {
+    margin-bottom: 30px !important;
+}
+
+a.facebook-connect-button {
+    display: inline-flex;
+    align-items: center;
+    font-size: 15px;
+    color: rgb(54, 100, 174);
+    gap: 6px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(54, 100, 174);
+    border-image: initial;
+    padding: 8px 20px;
+    border-radius: 10px;
+}
+
+a.facebook-connect-button:hover {
+    color: #fff;
+    background: rgb(54, 100, 174);
+}
+
+a.facebook-connected {
+    /* pointer-events: none !important; */
+    background: rgba(54, 100, 174, 0.08);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgba(54, 100, 174, 0.08);
+    border-image: initial;
+}
+
+a.facebook-connect-button img {
+    width: 20px;
+}
+
+.info-item {
+    display: flex;
+    align-content: center;
+    gap: 10px;
+    align-items: center;
+}
+.info-item a {
+    display: inline-block;
+    height: 50px;
+}
+.info-item .title {
+	font-size: 15px;
+	font-weight: bold;
 }

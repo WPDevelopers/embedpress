@@ -1061,6 +1061,18 @@ a.ep-social-icon.pinterest svg {
   background-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #6354a5));
 }
 
+.ep-pannel-icon {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.ep-pannel-icon svg {
+  width: 18px;
+  height: auto;
+}
+
 .ep-documentation, .ep-tips-and-tricks {
   display: flex;
   align-items: center;
@@ -1177,4 +1189,18 @@ p.ep-live-video-info svg {
 .components-text-control__input::placeholder,
 .components-textarea-control__input::placeholder {
   color: rgb(117, 117, 117);
+}
+
+button.skip-ad-button {
+  position: absolute;
+  bottom: 15px;
+  right: 10px;
+  border: none;
+  background: rgba(212, 21, 86, 0.7098039216) !important;
+  padding: 6px 8px;
+  color: white !important;
+  z-index: 122222222;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 4px;
 }/*# sourceMappingURL=style.css.map */

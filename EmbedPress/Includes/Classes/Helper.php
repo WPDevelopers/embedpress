@@ -984,6 +984,20 @@ class Helper
 
 <?php
 	}
+
+
+	public static function redirect_to_page_type($page_type){
+        $redirect_params = [
+            'page' => 'embedpress',
+            'page_type' => 'facebook',
+        ];
+
+        $redirect_uri = admin_url('admin.php') . '?' . http_build_query($redirect_params);
+
+        wp_redirect($redirect_uri, 302);
+
+        exit();
+    }
 }
 
 ?>

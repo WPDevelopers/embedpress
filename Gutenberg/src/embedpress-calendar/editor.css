@@ -41,7 +41,7 @@
   text-align: center;
 }
 
-.editor-styles-wrapper .wp-block[data-align=center] > * {
+.editor-styles-wrapper .wp-block[data-align=center] > *:not(style) {
   display: inline-block;
 }
 
