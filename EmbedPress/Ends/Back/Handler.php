@@ -97,7 +97,6 @@ class Handler extends EndHandlerAbstract
                 update_option('calendly_scheduled_events', []);
                 update_option('calendly_invitees_list', []);
             }
-
         }
     }
 
@@ -165,16 +164,39 @@ class Handler extends EndHandlerAbstract
         }
     }
 
+    public function get_video_thumbnail($video_id, $access_token)
+    {
+        $endpointUrl = "https://graph.facebook.com/v18.0/{$video_id}";
+        $fields = 'thumbnails';
+        $requestUrl = add_query_arg([
+            'fields' => $fields,
+            'access_token' => $access_token,
+        ], $endpointUrl);
+
+        $response = wp_remote_get($requestUrl);
+
+        if (is_wp_error($response)) {
+            $result = 'Error: ' . $response->get_error_message();
+        } else {
+            $body = wp_remote_retrieve_body($response);
+            $data = json_decode($body, true);
+
+            // Check if thumbnails data is present
+            if (isset($data['thumbnails']['data'][0]['uri'])) {
+                $firstThumbnailUrl = $data['thumbnails']['data'][0]['uri'];
+                // Do something with the first thumbnail URL
+                $result = $firstThumbnailUrl;
+            } else {
+                $result = 'No thumbnails found.';
+            }
+        }
+
+        return $result;
+    }
+
 
     public function fetch_facebook_videos($accessToken, $pageId, $video_type)
     {
-        $transient_key = 'fb_videos_' . md5($accessToken . $pageId . $video_type);
-        $cached_result = get_transient($transient_key);
-
-        if ($cached_result !== false) {
-            return $cached_result;
-        }
-
         $endpointUrl = "https://graph.facebook.com/v18.0/{$pageId}/$video_type";
         $requestUrl = add_query_arg('access_token', $accessToken, $endpointUrl);
         $response = wp_remote_get($requestUrl);
@@ -183,11 +205,11 @@ class Handler extends EndHandlerAbstract
             $result = 'Error: ' . $response->get_error_message();
         } else {
             $result = wp_remote_retrieve_body($response);
-            set_transient($transient_key, $result, HOUR_IN_SECONDS);
         }
 
         return $result;
     }
+
 
     public function handle_facebook_feed_data()
     {
@@ -197,19 +219,21 @@ class Handler extends EndHandlerAbstract
             $videos_by_type = [];
             $fb_feed_data = [];
 
-            $transient_key = 'facebook_feed_data_' . $_GET['page_id'];
+            $access_token = sanitize_text_field($_GET['access_token']);
+            $page_id = sanitize_text_field($_GET['page_id']);
+
+            $transient_key = 'facebook_feed_data_' . $page_id;
 
             $cached_data = get_transient($transient_key);
 
             if ($cached_data) {
                 $fb_feed_data = $cached_data;
             } else {
-                $page_id = $_GET['page_id'];
 
                 $videos_type = ['videos', 'live_videos', 'video_lists', 'video_reels', 'indexed_videos'];
 
                 foreach ($videos_type as $type) {
-                    $result = $this->fetch_facebook_videos($_GET['access_token'], $_GET['page_id'], $type);
+                    $result = $this->fetch_facebook_videos($access_token, $page_id, $type);
                     $videos_data = json_decode($result, true);
 
                     if (is_array($videos_data)) {
@@ -218,14 +242,13 @@ class Handler extends EndHandlerAbstract
                 }
 
                 $fb_feed_data[$page_id] = $videos_by_type;
-                set_transient($transient_key, $fb_feed_data, 60 * 60);
+                set_transient($transient_key, $fb_feed_data, 60 * 60 * 24 * 365);
             }
 
             $this->update_fb_token_data();
             $this->update_fb_page_info();
 
             Helper::redirect_to_page_type('facebook');
-
         }
     }
 
@@ -239,9 +262,7 @@ class Handler extends EndHandlerAbstract
             update_option('facebook_page_info', $options);
 
             Helper::redirect_to_page_type('facebook');
-
-            // echo '<pre>'; print_r(get_option('facebook_page_info')); echo '</pre>'; die;
-        } 
+        }
     }
 
 

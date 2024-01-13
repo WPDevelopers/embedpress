@@ -7,6 +7,7 @@ use EmbedPress\Shortcode;
 use EmbedPress\Includes\Classes\Helper;
 use \Elementor\Controls_Manager;
 use EmbedPress\Providers\Wrapper;
+use EmbedPress\Providers\FacebookFeed;
 
 class Feature_Enhancer
 {
@@ -62,11 +63,11 @@ class Feature_Enhancer
 
 	public function save_source_data(){
 		
-		if( ! wp_verify_nonce( $_POST[ '_source_nonce' ], 'source_nonce_embedpress' ) ) {
+		if( isset($_POST[ '_source_nonce' ]) && ! wp_verify_nonce( $_POST[ '_source_nonce' ], 'source_nonce_embedpress' ) ) {
 			return;
 		}
-		$source_url = $_POST['source_url'];
-		$blockid = $_POST['block_id'];
+		$source_url = sanitize_text_field($_POST['source_url']);
+		$blockid = sanitize_text_field($_POST['block_id']);
 
 		Helper::get_source_data($blockid, $source_url, 'gutenberg_source_data', 'gutenberg_temp_source_data');
 	}
@@ -110,6 +111,13 @@ class Feature_Enhancer
 		if (strpos($url, site_url( )) !== false) {
 			$wrapper = new Wrapper($url, $atts);
 			if ($wrapper->validateUrl($wrapper->getUrl(false))) {
+				return true;
+			}
+		}
+
+		if (strpos($url, 'facebook.com') !== false) {
+			$fbFeed = new FacebookFeed($url, $atts);
+			if ($fbFeed->validateUrl($fbFeed->getUrl(false))) {
 				return true;
 			}
 		}

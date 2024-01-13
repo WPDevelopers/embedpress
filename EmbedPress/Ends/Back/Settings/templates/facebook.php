@@ -1,9 +1,6 @@
 <?php
 
 
-// https://graph.facebook.com/v18.0/?id=https://www.facebook.com/profile.php?id=100095144835536&access_token=EAAanD4tE8h4BOwXXZAUQpeHnFDV52Rxd56RCaADipi9Fq6oFWYAi7KoQGWbJDP4CTUNOAZAnp8n7hWbY3y14hp9waahijTN8SSaswvOerCV9vvnqRnKFRohnZA0xZB6rCDBVPIXnGZAiJYyOkngE9TwYPoGEtfGN0NhKI7gT1E0KbxtNquCBohwbs9DxstPUhkauFXDmpLmZCjdSQTtcZBj6bvo5izvTah9ZC7vE4FHvzDZAGmZCr2XZAaOcZCopyGzTudnY7vquvwZDZD
-
-
 $facebookAppId = '1872535063163422';
 $redirectUri = 'https://api.embedpress.com/facebook-feed.php';
 $state = admin_url('admin.php');
@@ -27,7 +24,6 @@ $params = [
 ];
 
 $oauthDialogUrl = 'https://www.facebook.com/v18.0/dialog/oauth?' . http_build_query($params);
-$remove_page_info_url = admin_url('admin.php') . '?page=embedpress&page_type=facebook&remove_fb_page_info=';
 
 $page_infos = get_option('facebook_page_info');
 
@@ -47,8 +43,6 @@ function get_remove_page_info_url($id)
 
     return $remove_page_info_url;
 }
-
-
 
 ?>
 
