@@ -129,7 +129,8 @@
 .elementor-widget-container iframe {
     max-height: 100% !important;
 }
-.elementor-cbutton-preview-wrapper{
+
+.elementor-cbutton-preview-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -139,7 +140,7 @@
 }
 
 @media only screen and (max-width: 800px) {
-    
+
     .elementor-widget-container .embedpress-facebook-vid-iframe,
     .embedpress-gutenberg-wrapper .embedpress-facebook-vid-iframe,
     .embedpress-facebook-vid-iframe {
@@ -1292,11 +1293,13 @@ p.need-access-message {
 .ep-embed-content-wraper {
     width: 100%;
 }
+
 .embedpress-gutenberg-wrapper.popup_button, .embedpress-elements-wrapper.popup_button {
-    display: none!important;
+    display: none !important;
 }
+
 .elementor-element-edit-mode .embedpress-elements-wrapper.popup_button {
-    display: block!important;
+    display: block !important;
 }
 
 .ep-content-share-enabled .ep-embed-content-wraper {
@@ -1801,11 +1804,32 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     }
 
     .plyr__video-wrapper iframe {
-        max-height: 100%!important;
+        max-height: 100% !important;
     }
 
     .plyr__controls .plyr__volume input[type=range] {
         max-width: 40px;
         min-width: 40px;
     }
+}
+
+
+
+/* Facebook feed style */
+.facebook-video-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    /* Adjust the gap between items as needed */
+}
+
+.facebook-video-item {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.facebook-video-item img {
+    width: 100%;
+    height: auto;
+    display: block;
 }

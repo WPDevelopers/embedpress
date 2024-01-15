@@ -322,7 +322,7 @@ function embedpress_render_block_style($attributes)
 		';
 	}
 	$youtubeStyles = '<style>
-		' . esc_attr($uniqid) . ' {
+		' . esc_attr($uniqid) . ':not(.ose-facebookfeed) {
 			width: ' . esc_attr($attributes['width']) . 'px !important;
 			height: ' . esc_attr($attributes['height']) . 'px!important;
 			max-height: ' . esc_attr($attributes['height']) . 'px !important;

@@ -202,7 +202,7 @@ class Shortcode
 
             if (isset($customAttributes['width'])) {
                 $width = esc_attr($customAttributes['width']); 
-                $attributesHtml[] = "style=\"width:{$width}px; height:{$height}px; max-height:{$height}px; max-width:100%; display:inline-block;\"";
+                // $attributesHtml[] = "style=\"width:{$width}px; height:{$height}px; max-height:{$height}px; max-width:100%; display:inline-block;\"";
             }
 
             // Check if $url is a google shortened url and tries to extract from it which Google service it refers to.

@@ -59,38 +59,41 @@ class FacebookFeed extends ProviderAdapter implements ProviderInterface
         $page_id = $this->getFBPageID($this->url);
 
         $fb_feed_data = get_transient("facebook_feed_data_$page_id");
-        
+
         return $fb_feed_data[$page_id][$type]['data'];
     }
 
-    public function firstEmbedVideo($video_id, $page_id){
+    public function firstEmbedVideo($video_id, $page_id, $width, $height)
+    {
         return '<div class="first-embed-video">
-        <iframe src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/'.$page_id.'/videos/'.esc_attr($video_id).'/&autoplay=true" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-        <div>';
+        <iframe width="' . $width . '" height="' . $height . '" src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/' . $page_id . '/videos/' . esc_attr($video_id) . '/&autoplay=true" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        </div>';
     }
 
-    public function createFeedTemplate($type, $page_id) {
+    public function createFeedTemplate($type, $page_id, $width = 600, $height = 400)
+    {
         $videos = $this->getFacebookFeedData($type);
 
-        
+
         ob_start();
-        
+
         // Wrap the entire content in a container div
         echo '<div class="video-container">';
-    
+
         // Embed the first video separately, if available
         if (!empty($videos) && isset($videos[0]['id'])) {
-            echo $this->firstEmbedVideo($videos[0]['id'], $page_id);
+            echo $this->firstEmbedVideo($videos[0]['id'], $page_id, $width, $height);
         }
-    
-        echo '<div class="facebook-video-item">';
+
+        echo '<div class="facebook-video-container">';
+
         // Output iframe for each video
         foreach ($videos as $video) {
             $videoId = esc_attr($video['id']);
             $iframeSrc = "https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/{$page_id}/$type/{$videoId}/";
-            echo '<div data-video-id="'.esc_attr($videoId).'"><img src="https://placeholder.com/300x200"/></div>';
+            echo '<div data-video-id="' . esc_attr($videoId) . '" class="facebook-video-item"><img src="https://placeholder.com/300x200"/></div>';
         }
-    
+
         // Close the container div
         echo '</div>';
         echo '</div>';
@@ -100,12 +103,12 @@ class FacebookFeed extends ProviderAdapter implements ProviderInterface
             console.log('akash');
             jQuery(document).ready(function() {
 
-                function playVideo(videoId, pageId, type){
+                function playVideo(videoId, pageId, type) {
                     var iframeSrc = `https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/${pageId}/${type}/${videoId}&autoplay=1`;
                     jQuery('.first-embed-video iframe').attr('src', iframeSrc);
                 }
 
-                jQuery('.facebook-video-item [data-video-id]').on('click', function() {
+                jQuery('[data-video-id].facebook-video-item').on('click', function() {
                     var videoId = jQuery(this).data('video-id');
                     var pageId = "<?php echo $page_id; ?>";
                     var type = "<?php echo $type; ?>";
@@ -113,16 +116,16 @@ class FacebookFeed extends ProviderAdapter implements ProviderInterface
                     console.log(videoId);
 
                     playVideo(videoId, pageId, type);
-                    
+
                 });
             });
         </script>
 
-        <?php
-    
+<?php
+
         return ob_get_clean();
     }
-    
+
 
     /**
      * This method fakes an Oembed response.
@@ -141,7 +144,7 @@ class FacebookFeed extends ProviderAdapter implements ProviderInterface
             'provider_name' => 'FacebookFeed',
             'provider_url'  => 'https://facebook.com',
             'title'         => 'Unknown title',
-            'html'          => $this->createFeedTemplate('videos', $this->getFBPageID($this->url)),
+            'html'          => $this->createFeedTemplate('videos', $this->getFBPageID($this->url), $width, $height),
         ];
     }
     /** inline @inheritDoc */
