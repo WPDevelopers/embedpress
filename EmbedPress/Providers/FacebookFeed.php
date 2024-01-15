@@ -66,7 +66,7 @@ class FacebookFeed extends ProviderAdapter implements ProviderInterface
     public function firstEmbedVideo($video_id, $page_id, $width, $height)
     {
         return '<div class="first-embed-video">
-        <iframe width="' . $width . '" height="' . $height . '" src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/' . $page_id . '/videos/' . esc_attr($video_id) . '/&autoplay=true" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        <iframe width="' . esc_attr($width) . '" height="' . esc_attr($height) . '" src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/' . $page_id . '/videos/' .$video_id . '/&autoplay=true" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
         </div>';
     }
 

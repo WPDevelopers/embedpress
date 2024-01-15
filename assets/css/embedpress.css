@@ -1826,6 +1826,7 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
 .facebook-video-item {
     width: 100%;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 .facebook-video-item img {
