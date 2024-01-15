@@ -84,8 +84,6 @@ class Handler extends EndHandlerAbstract
 
             update_option('calendly_user_info', $user_info);
 
-
-
             if (is_embedpress_pro_active() && (!isset($event_types['title']) && $event_types['title'] !== 'Unauthenticated')) {
                 update_option('calendly_event_types', $event_types);
                 update_option('calendly_scheduled_events', $scheduled_events);
@@ -166,14 +164,10 @@ class Handler extends EndHandlerAbstract
 
     public function get_video_thumbnail($video_id, $access_token)
     {
-        $endpointUrl = "https://graph.facebook.com/v18.0/{$video_id}";
-        $fields = 'thumbnails';
-        $requestUrl = add_query_arg([
-            'fields' => $fields,
-            'access_token' => $access_token,
-        ], $endpointUrl);
+        $endpointUrl = "https://graph.facebook.com/v18.0/{$video_id}/thumbnails?access_token=$access_token";
 
-        $response = wp_remote_get($requestUrl);
+
+        $response = wp_remote_get($endpointUrl);
 
         if (is_wp_error($response)) {
             $result = 'Error: ' . $response->get_error_message();
@@ -182,8 +176,8 @@ class Handler extends EndHandlerAbstract
             $data = json_decode($body, true);
 
             // Check if thumbnails data is present
-            if (isset($data['thumbnails']['data'][0]['uri'])) {
-                $firstThumbnailUrl = $data['thumbnails']['data'][0]['uri'];
+            if (isset($data['data'][0]['uri'])) {
+                $firstThumbnailUrl = $data['data'][0]['uri'];
                 // Do something with the first thumbnail URL
                 $result = $firstThumbnailUrl;
             } else {
@@ -226,6 +220,8 @@ class Handler extends EndHandlerAbstract
 
             $cached_data = get_transient($transient_key);
 
+           
+
             if ($cached_data) {
                 $fb_feed_data = $cached_data;
             } else {
@@ -236,9 +232,17 @@ class Handler extends EndHandlerAbstract
                     $result = $this->fetch_facebook_videos($access_token, $page_id, $type);
                     $videos_data = json_decode($result, true);
 
-                    if (is_array($videos_data)) {
+
+                    if (is_array($videos_data) && isset($videos_data['data'])) {
+                        foreach ($videos_data['data'] as &$data) {
+                            $thumbnail_url = $this->get_video_thumbnail($data['id'], $access_token);
+                            $data['thumbnail_url'] = $thumbnail_url;
+                        }
+                        unset($data);  // Unset the reference to avoid accidental modifications later
+                    
                         $videos_by_type[$type] = $videos_data;
                     }
+                    
                 }
 
                 $fb_feed_data[$page_id] = $videos_by_type;

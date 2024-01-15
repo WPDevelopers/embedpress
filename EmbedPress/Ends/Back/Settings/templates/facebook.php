@@ -6,7 +6,7 @@ $redirectUri = 'https://api.embedpress.com/facebook-feed.php';
 $state = admin_url('admin.php');
 
 $scope = [
-    'pages_read_engagement',
+    'pages_read_engagement,',
     'pages_read_user_content',
     'business_management',
     'pages_show_list',
@@ -79,48 +79,51 @@ function get_remove_page_info_url($id)
                             <th>Sync</th>
                             <th></th>
                         </tr>
-                        <?php foreach ($page_infos as $info) :
-                            // echo '<pre>';
-                            // print_r($info);
-                            // echo '</pre>'; 
-                            ?>
-                            <tr>
-                                <td class="fb-page-info">
-                                    <div class="info-item">
-                                        <a href="<?php echo esc_url($info['link']); ?>" target="_blank">
-                                            <img src="<?php echo esc_url($info['picture']['data']['url']); ?>" alt="" class="circle">
-                                        </a>
-                                        <div class="esf-bio-wrap">
+                        <?php
+                        if (is_array($page_infos)) {
+                            foreach ($page_infos as $info) :
+                                // echo '<pre>';
+                                // print_r($info);
+                                // echo '</pre>'; 
+                                ?>
+                                <tr>
+                                    <td class="fb-page-info">
+                                        <div class="info-item">
+                                            <a href="<?php echo esc_url($info['link']); ?>" target="_blank">
+                                                <img src="<?php echo esc_url($info['picture']['data']['url']); ?>" alt="" class="circle">
+                                            </a>
+                                            <div class="esf-bio-wrap">
 
-                                            <span class="title"><?php echo esc_html($info['name']); ?></span>
+                                                <span class="title"><?php echo esc_html($info['name']); ?></span>
 
-                                            <p>
-                                                <?php echo esc_html($info['category']); ?> <br>
-                                                ID: <?php echo esc_html($info['id']); ?>
-                                                <span class="dashicons dashicons-admin-page efbl_copy_id tooltipped" data-position="right" data-clipboard-text="<?php echo esc_attr($info['id']); ?>" data-delay="100" data-tooltip="Copy"></span>
-                                            </p>
+                                                <p>
+                                                    <?php echo esc_html($info['category']); ?> <br>
+                                                    ID: <?php echo esc_html($info['id']); ?>
+                                                    <span class="dashicons dashicons-admin-page efbl_copy_id tooltipped" data-position="right" data-clipboard-text="<?php echo esc_attr($info['id']); ?>" data-delay="100" data-tooltip="Copy"></span>
+                                                </p>
+
+                                            </div>
 
                                         </div>
-
-                                    </div>
-                                </td>
-                                <td class="fb-page-link"><?php echo esc_url($info['link']); ?> </td>
-                                <!-- <td class="attendee">
+                                    </td>
+                                    <td class="fb-page-link"><?php echo esc_url($info['link']); ?> </td>
+                                    <!-- <td class="attendee">
                                     Park jou un </td>
                                 <td class="event-action">
                                     Past </td> -->
-                                <td class="facebook-data-sync">
-                                    <a href="<?php echo esc_url($oauthDialogUrl); ?>" class="facebook-sync-button" target="_self" title="<?php echo esc_attr__('Sync new data', 'embedpress'); ?>">
-                                        <span class="dashicons dashicons-update-alt emcs-dashicon"></span>
-                                    </a>
-                                </td>
-                                <td class="facebook-data-sync">
-                                    <a href="<?php echo esc_url(get_remove_page_info_url($info['id'])); ?>" class="facebook-sync-button" target="_self" title="<?php echo esc_attr__('delete_data', 'embedpress'); ?>">
-                                        <span class="dashicons dashicons-trash emcs-dashicon"></span>
-                                    </a>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
+                                    <td class="facebook-data-sync">
+                                        <a href="<?php echo esc_url($oauthDialogUrl); ?>" class="facebook-sync-button" target="_self" title="<?php echo esc_attr__('Sync new data', 'embedpress'); ?>">
+                                            <span class="dashicons dashicons-update-alt emcs-dashicon"></span>
+                                        </a>
+                                    </td>
+                                    <td class="facebook-data-sync">
+                                        <a href="<?php echo esc_url(get_remove_page_info_url($info['id'])); ?>" class="facebook-sync-button" target="_self" title="<?php echo esc_attr__('delete_data', 'embedpress'); ?>">
+                                            <span class="dashicons dashicons-trash emcs-dashicon"></span>
+                                        </a>
+                                    </td>
+                                </tr>
+                        <?php endforeach;
+                        } ?>
 
                     </tbody>
                 </table>

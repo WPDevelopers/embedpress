@@ -66,7 +66,7 @@ class FacebookFeed extends ProviderAdapter implements ProviderInterface
     public function firstEmbedVideo($video_id, $page_id, $width, $height)
     {
         return '<div class="first-embed-video">
-        <iframe width="' . esc_attr($width) . '" height="' . esc_attr($height) . '" src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/' . $page_id . '/videos/' .$video_id . '/&autoplay=true" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+        <iframe width="' . esc_attr($width) . '" height="' . esc_attr($height) . '" src="https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/' . $page_id . '/videos/' . $video_id . '/&autoplay=true" frameborder="0" allowfullscreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
         </div>';
     }
 
@@ -90,8 +90,9 @@ class FacebookFeed extends ProviderAdapter implements ProviderInterface
         // Output iframe for each video
         foreach ($videos as $video) {
             $videoId = esc_attr($video['id']);
+            $thumbnailUrl = esc_attr($video['thumbnail_url']);
             $iframeSrc = "https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/{$page_id}/$type/{$videoId}/";
-            echo '<div data-video-id="' . esc_attr($videoId) . '" class="facebook-video-item"><img src="https://placeholder.com/300x200"/></div>';
+            echo '<div data-video-id="' . esc_attr($videoId) . '" class="facebook-video-item"><img src="' . esc_url($thumbnailUrl) . '"/></div>';
         }
 
         // Close the container div
