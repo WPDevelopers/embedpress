@@ -80,11 +80,14 @@ export const getYoutubeParams = (params, attributes) => {
 }
 
 export const isYTChannel = (url) => {
-    const channelMatch = url.match(/\/channel\/|\/c\/|\/user\/|\/@[a-z]|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
-    if (!channelMatch)
+    const youtubeChannelMatch = url.match(/^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|channel\/|user\/|@)([^\/\?]+)/i);
+
+    if (!youtubeChannelMatch) {
         return false;
+    }
+
     return true;
-}
+};
 
 export const isYTLive = (url) => {
     const liveMatch = url.match(/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|@[\w-]+)\/live$/);
@@ -216,6 +219,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
 
     return (
         <div>
+
 
             {
                 (isYTChannel && !isYTLive) && (
@@ -386,7 +390,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                     </div>
                                 ) : (
                                     <div className={'ep-video-controlers'}>
-                                        <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive}/>
+                                        <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} />
                                     </div>
                                 )
                             }

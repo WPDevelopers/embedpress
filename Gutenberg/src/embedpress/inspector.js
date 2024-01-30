@@ -29,7 +29,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly }) {
+export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly, isTikTok }) {
 
     const {
         width,
@@ -69,6 +69,11 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
     if (isCalendly && width === '600' && height === '450') {
         setAttributes({ height: '950' });
+    }
+
+    if(isTikTok && width === '600' && height === '450'){
+        setAttributes({ width: '350' });
+        setAttributes({ height: '580' });
     }
 
     return (

@@ -28,7 +28,7 @@ import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, isY
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import ContentShare from '../common/social-share-control';
-import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo } from './functions';
+import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo, isTikTok as _isTikTok } from './functions';
 import { isCalendly as _isCalendly, useCalendly } from './InspectorControl/calendly';
 
 const {
@@ -176,6 +176,7 @@ export default function EmbedPress(props) {
 	const isOpenseaSingle = _isOpenseaSingle(url);
 
 	const isCalendly = _isCalendly(url);
+	const isTikTok = _isTikTok(url);
 
 	const openseaParams = useOpensea(attributes);
 	const youtubeParams = useYTChannel(attributes);
@@ -343,6 +344,7 @@ export default function EmbedPress(props) {
 				isSelfHostedVideo={_isSelfHostedVideo}
 				isSelfHostedAudio={_isSelfHostedAudio}
 				isCalendly={isCalendly}
+				isTikTok={isTikTok}
 			/>
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
