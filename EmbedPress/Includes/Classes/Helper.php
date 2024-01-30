@@ -763,13 +763,11 @@ class Helper
 				$unit = isset($attributes['unitoption']) ? $attributes['unitoption'] : 'px';
 
 				if ($editor === 'elementor') {
-					if($attributes['adSource'] === 'video'){
+					if ($attributes['adSource'] === 'video') {
 						$adFileUrl = isset($attributes['adFileUrl']['url']) ? $attributes['adFileUrl']['url'] : '';
-					}
-					else if($attributes['adSource'] === 'image'){
+					} else if ($attributes['adSource'] === 'image') {
 						$adFileUrl = isset($attributes['adFileUrl1']['url']) ? $attributes['adFileUrl1']['url'] : '';
-					}
-					else{
+					} else {
 						$adFileUrl = isset($attributes['adFileUrl2']['url']) ? $attributes['adFileUrl2']['url'] : '';
 					}
 
@@ -800,12 +798,13 @@ class Helper
 				$showSkipButton = true;
 
 				$isYTChannelClass = '';
-				if(!empty($attributes['url']) && self::is_youtube_channel($attributes['url'])){
+				if (!empty($attributes['url']) && self::is_youtube_channel($attributes['url'])) {
 					$isYTChannelClass = ' ep-youtube-channel';
 				}
 
 				?>
-		<div class="main-ad-template <?php echo esc_attr($adSource); echo esc_attr($isYTChannelClass); ?>" id="<?php echo esc_attr('ad-' . $client_id); ?>" style="display:none">
+		<div class="main-ad-template <?php echo esc_attr($adSource);
+												echo esc_attr($isYTChannelClass); ?>" id="<?php echo esc_attr('ad-' . $client_id); ?>" style="display:none">
 			<div class="ep-ad-container">
 				<div class="ep-ad-content" style="position: relative;">
 					<?php if (!empty($adUrl)) : ?> <a target="_blank" href="<?php echo esc_url($adUrl); ?>"> <?php endif; ?>
@@ -986,18 +985,136 @@ class Helper
 	}
 
 
-	public static function redirect_to_page_type($page_type){
-        $redirect_params = [
-            'page' => 'embedpress',
-            'page_type' => 'facebook',
-        ];
+	public static function redirect_to_page_type($page_type)
+	{
+		$redirect_params = [
+			'page' => 'embedpress',
+			'page_type' => 'facebook',
+		];
 
-        $redirect_uri = admin_url('admin.php') . '?' . http_build_query($redirect_params);
+		$redirect_uri = admin_url('admin.php') . '?' . http_build_query($redirect_params);
 
-        wp_redirect($redirect_uri, 302);
+		wp_redirect($redirect_uri, 302);
 
-        exit();
-    }
+		exit();
+	}
+
+	public static function update_fb_token_data()
+	{
+		// set data in option table
+		if (isset($_GET['page_id'])) {
+			$params_data = [
+				'page_id' => isset($_GET['page_id']) ? $_GET['page_id'] : '',
+				'access_token' => isset($_GET['access_token']) ? $_GET['access_token'] : '',
+				'expires_in' => isset($_GET['expires_in']) ? $_GET['expires_in'] : '',
+			];
+
+			update_option('fb_page_' . $_GET['page_id'], $params_data);
+		}
+	}
+
+	public static function is_exists_same_data($array1, $array2)
+	{
+		$hash1 = md5(serialize($array1));
+		$hash2 = md5(serialize($array2));
+		return ($hash1 === $hash2);
+	}
+
+	public static function update_fb_page_info()
+	{
+		if (isset($_GET['page_id']) && isset($_GET['access_token'])) {
+
+			$page_id = sanitize_text_field($_GET['page_id']);
+			$access_token = sanitize_text_field($_GET['access_token']);
+
+			$api_url = "https://graph.facebook.com/v13.0/{$page_id}?fields=id,name,picture,about,category,link,website&access_token={$access_token}";
+
+			$response = wp_remote_get($api_url);
+
+			if (!is_wp_error($response) && $response['response']['code'] === 200) {
+				$body = wp_remote_retrieve_body($response);
+				$data = json_decode($body, true);
+
+				if (isset($data['id']) && isset($data['name'])) {
+					$options = get_option('facebook_page_info', array());
+
+					// Check if info is available before updating
+					if (!isset($options[$page_id])) {
+						$options[$page_id] = $data;
+						update_option('facebook_page_info', $options);
+						echo 'Page information updated successfully.';
+					} else if (isset($options[$page_id])) {
+						if (!self::is_exists_same_data($data, $options[$page_id])) {
+							$options[$page_id] = $data;
+							update_option('facebook_page_info', $options);
+						}
+					} else {
+						echo 'Page information already exists.';
+					}
+				} else {
+					echo 'Invalid response from Facebook API.';
+				}
+			} else {
+				echo 'Error connecting to Facebook API.';
+			}
+		}
+	}
+
+	public static function get_video_thumbnail($video_id, $access_token)
+	{
+		$endpointUrl = "https://graph.facebook.com/v18.0/{$video_id}/thumbnails?access_token=$access_token";
+
+
+		$response = wp_remote_get($endpointUrl);
+
+		if (is_wp_error($response)) {
+			$result = 'Error: ' . $response->get_error_message();
+		} else {
+			$body = wp_remote_retrieve_body($response);
+			$data = json_decode($body, true);
+
+			// Check if thumbnails data is present
+			if (isset($data['data'][0]['uri'])) {
+				$firstThumbnailUrl = $data['data'][0]['uri'];
+				// Do something with the first thumbnail URL
+				$result = $firstThumbnailUrl;
+			} else {
+				$result = 'No thumbnails found.';
+			}
+		}
+
+		return $result;
+	}
+
+
+	public static function fetch_facebook_videos($accessToken, $pageId, $video_type)
+	{
+		$endpointUrl = "https://graph.facebook.com/v18.0/{$pageId}/$video_type";
+		$requestUrl = add_query_arg('access_token', $accessToken, $endpointUrl);
+		$response = wp_remote_get($requestUrl);
+
+		if (is_wp_error($response)) {
+			$result = 'Error: ' . $response->get_error_message();
+		} else {
+			$result = wp_remote_retrieve_body($response);
+		}
+
+		return $result;
+	}
+
+
+	public static function is_fb_access_token_expired($id)
+	{
+		$data = get_option('fb_page_' . $id);
+
+		if (isset($data['access_token']) && isset($data['expires_in'])) {
+			$currentTime = time();
+			$expirationTime = $currentTime + intval($data['expires_in']);
+			return ($expirationTime > $currentTime);
+		}
+
+		return false;
+	}
 }
 
 ?>

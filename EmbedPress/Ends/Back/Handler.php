@@ -98,116 +98,9 @@ class Handler extends EndHandlerAbstract
         }
     }
 
-
-
-    public function update_fb_token_data()
-    {
-        // set data in option table
-        if (isset($_GET['page_id'])) {
-            $params_data = [
-                'access_token' => isset($_GET['access_token']) ? $_GET['access_token'] : '',
-                'data_access_expiration_time' => isset($_GET['data_access_expiration_time']) ? $_GET['data_access_expiration_time'] : '',
-                'expires_in' => isset($_GET['expires_in']) ? $_GET['expires_in'] : '',
-                'page_id' => isset($_GET['page_id']) ? $_GET['page_id'] : '',
-            ];
-
-            update_option('fb_page_' . $_GET['page_id'], $params_data);
-        }
-    }
-
-    public function is_exists_same_data($array1, $array2)
-    {
-        $hash1 = md5(serialize($array1));
-        $hash2 = md5(serialize($array2));
-        return ($hash1 === $hash2);
-    }
-
-    public function update_fb_page_info()
-    {
-        if (isset($_GET['page_id']) && isset($_GET['access_token'])) {
-
-            $page_id = sanitize_text_field($_GET['page_id']);
-            $access_token = sanitize_text_field($_GET['access_token']);
-
-            $api_url = "https://graph.facebook.com/v13.0/{$page_id}?fields=id,name,picture,about,category,link,website&access_token={$access_token}";
-
-            $response = wp_remote_get($api_url);
-
-            if (!is_wp_error($response) && $response['response']['code'] === 200) {
-                $body = wp_remote_retrieve_body($response);
-                $data = json_decode($body, true);
-
-                if (isset($data['id']) && isset($data['name'])) {
-                    $options = get_option('facebook_page_info', array());
-
-                    // Check if info is available before updating
-                    if (!isset($options[$page_id])) {
-                        $options[$page_id] = $data;
-                        update_option('facebook_page_info', $options);
-                        echo 'Page information updated successfully.';
-                    } else if (isset($options[$page_id])) {
-                        if (!$this->is_exists_same_data($data, $options[$page_id])) {
-                            $options[$page_id] = $data;
-                            update_option('facebook_page_info', $options);
-                        }
-                    } else {
-                        echo 'Page information already exists.';
-                    }
-                } else {
-                    echo 'Invalid response from Facebook API.';
-                }
-            } else {
-                echo 'Error connecting to Facebook API.';
-            }
-        }
-    }
-
-    public function get_video_thumbnail($video_id, $access_token)
-    {
-        $endpointUrl = "https://graph.facebook.com/v18.0/{$video_id}/thumbnails?access_token=$access_token";
-
-
-        $response = wp_remote_get($endpointUrl);
-
-        if (is_wp_error($response)) {
-            $result = 'Error: ' . $response->get_error_message();
-        } else {
-            $body = wp_remote_retrieve_body($response);
-            $data = json_decode($body, true);
-
-            // Check if thumbnails data is present
-            if (isset($data['data'][0]['uri'])) {
-                $firstThumbnailUrl = $data['data'][0]['uri'];
-                // Do something with the first thumbnail URL
-                $result = $firstThumbnailUrl;
-            } else {
-                $result = 'No thumbnails found.';
-            }
-        }
-
-        return $result;
-    }
-
-
-    public function fetch_facebook_videos($accessToken, $pageId, $video_type)
-    {
-        $endpointUrl = "https://graph.facebook.com/v18.0/{$pageId}/$video_type";
-        $requestUrl = add_query_arg('access_token', $accessToken, $endpointUrl);
-        $response = wp_remote_get($requestUrl);
-
-        if (is_wp_error($response)) {
-            $result = 'Error: ' . $response->get_error_message();
-        } else {
-            $result = wp_remote_retrieve_body($response);
-        }
-
-        return $result;
-    }
-
-
+        
     public function handle_facebook_feed_data()
     {
-
         if (isset($_GET['access_token']) && $_GET['access_token'] && $_GET['page_id']) {
 
             $videos_by_type = [];
@@ -218,9 +111,11 @@ class Handler extends EndHandlerAbstract
 
             $transient_key = 'facebook_feed_data_' . $page_id;
 
-            $cached_data = get_transient($transient_key);
+            if (isset($_GET['fb_sync'])) {
+                delete_transient($transient_key);
+            }
 
-           
+            $cached_data = get_transient($transient_key);
 
             if ($cached_data) {
                 $fb_feed_data = $cached_data;
@@ -229,28 +124,30 @@ class Handler extends EndHandlerAbstract
                 $videos_type = ['videos', 'live_videos', 'video_lists', 'video_reels', 'indexed_videos'];
 
                 foreach ($videos_type as $type) {
-                    $result = $this->fetch_facebook_videos($access_token, $page_id, $type);
+                    $result = Helper::fetch_facebook_videos($access_token, $page_id, $type);
                     $videos_data = json_decode($result, true);
 
 
                     if (is_array($videos_data) && isset($videos_data['data'])) {
                         foreach ($videos_data['data'] as &$data) {
-                            $thumbnail_url = $this->get_video_thumbnail($data['id'], $access_token);
+                            $thumbnail_url = Helper::get_video_thumbnail($data['id'], $access_token);
                             $data['thumbnail_url'] = $thumbnail_url;
                         }
                         unset($data);  // Unset the reference to avoid accidental modifications later
-                    
+
                         $videos_by_type[$type] = $videos_data;
                     }
-                    
                 }
 
                 $fb_feed_data[$page_id] = $videos_by_type;
+
+
+
                 set_transient($transient_key, $fb_feed_data, 60 * 60 * 24 * 365);
             }
 
-            $this->update_fb_token_data();
-            $this->update_fb_page_info();
+            Helper::update_fb_token_data();
+            Helper::update_fb_page_info();
 
             Helper::redirect_to_page_type('facebook');
         }
@@ -268,8 +165,6 @@ class Handler extends EndHandlerAbstract
             Helper::redirect_to_page_type('facebook');
         }
     }
-
-
 
     public function enqueueScripts()
     {

@@ -4439,16 +4439,19 @@ a.calendly-connect-button img {
     justify-content: space-between;
     margin-bottom: 15px;
 }
-.facebook-embedpress-authorize-button:hover .embedpress-facebook-icon.dashicons.dashicons-facebook-alt{
+
+.facebook-embedpress-authorize-button:hover .embedpress-facebook-icon.dashicons.dashicons-facebook-alt {
     background: #fff;
-	color: #1877F2;
+    color: #1877F2;
 }
+
 .embedpress-facebook-icon.dashicons.dashicons-facebook-alt {
-	background: #1877F2;
-	color: white;
-	border-radius: 4px;
-	/* font-size: 16px; */
+    background: #1877F2;
+    color: white;
+    border-radius: 4px;
+    /* font-size: 16px; */
 }
+
 .facebook-settings-title {
     margin-bottom: 30px !important;
 }
@@ -4491,11 +4494,73 @@ a.facebook-connect-button img {
     gap: 10px;
     align-items: center;
 }
+
 .info-item a {
     display: inline-block;
     height: 50px;
 }
+
 .info-item .title {
-	font-size: 15px;
-	font-weight: bold;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.fb-page-link {
+    position: relative;
+}
+
+.fb-page-link .toast {
+    position: absolute;
+    top: 23px;
+    right: 10px;
+    background-color: #3664ae;
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 5px;
+    visibility: none;
+    opacity: 0;
+    transition: 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DMSans';
+    font-size: 14px;
+    margin-left: -8px;
+    display: none;
+}
+
+
+.fb-page-link .toast.show-toast {
+    visibility: visible;
+    opacity: 1;
+    margin: 0;
+    display: flex;
+}
+.fb-page-link .copy-button {
+    cursor: pointer;
+}
+
+/* span.link {
+    padding: 10px;
+    border: 1px solid #eff3f9;
+    border-radius: 5px;
+    background: #f1f7ff;
+} */
+span.dashicons.dashicons-admin-page.copy-button, span.link {
+    /* padding: 10px; */
+    border: 1px solid #eff3f9;
+    border-radius: 5px;
+    background: #f1f7ff;
+    height: 35px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+}
+
+span.dashicons.dashicons-admin-page.copy-button {
+    width: 30px;
+    margin-left: -11px;
+    border: none;
+    color: #141f4d;
 }
