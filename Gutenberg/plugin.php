@@ -704,7 +704,8 @@ function getParamData($attributes)
 		$urlParamData['customColor'] = !empty($attributes['customColor']) ? $attributes['customColor'] : '#403A81';
 	}
 
-	return "#key=" . base64_encode(utf8_encode(http_build_query($urlParamData)));
+	return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), 'UTF-8'));
+
 }
 
 function embedpress_pdf_render_block($attributes)
