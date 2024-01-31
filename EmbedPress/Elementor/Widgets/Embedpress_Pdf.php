@@ -580,7 +580,7 @@ class Embedpress_Pdf extends Widget_Base
             $urlParamData['customColor'] = $settings['embedpress_pdf_custom_color'];
         }
 
-        return "#key=" . base64_encode(utf8_encode(http_build_query($urlParamData)));
+        return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), "UTF-8"));
     
     }
 
