@@ -1,17 +1,17 @@
-# Copyright (C) 2023 WPDeveloper
+# Copyright (C) 2024 WPDeveloper
 # This file is distributed under the same license as the EmbedPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: EmbedPress 3.9.5\n"
+"Project-Id-Version: EmbedPress 3.9.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/embedpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-12-27T09:32:01+00:00\n"
+"POT-Creation-Date: 2024-02-01T09:57:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"X-Generator: WP-CLI 2.9.0\n"
+"X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: embedpress\n"
 
 #. Plugin Name of the plugin
@@ -331,8 +331,8 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:716
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:248
 #: EmbedPress/Shortcode.php:995
-#: Gutenberg/plugin.php:780
-#: Gutenberg/plugin.php:880
+#: Gutenberg/plugin.php:781
+#: Gutenberg/plugin.php:881
 msgid "Powered By EmbedPress"
 msgstr ""
 
@@ -346,7 +346,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:72
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:17
 #: Gutenberg/dist/blocks.build.js:969
-#: Gutenberg/src/embedpress/inspector.js:79
+#: Gutenberg/src/embedpress/inspector.js:85
 msgid "General"
 msgstr ""
 
@@ -385,8 +385,8 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:254
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:420
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:308
-#: Gutenberg/dist/blocks.build.js:218
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:308
+#: Gutenberg/dist/blocks.build.js:230
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:312
 msgid "Controls"
 msgstr ""
 
@@ -561,12 +561,12 @@ msgid "Black & White"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:182
-#: Gutenberg/dist/blocks.build.js:218
+#: Gutenberg/dist/blocks.build.js:230
 #: Gutenberg/dist/blocks.build.js:254
 #: Gutenberg/dist/blocks.build.js:993
 #: Gutenberg/src/embedpress/InspectorControl/selfhosted.js:79
 #: Gutenberg/src/embedpress/InspectorControl/vimeo.js:158
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:277
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:281
 msgid "Enable Custom Player"
 msgstr ""
 
@@ -684,8 +684,8 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:470
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:88
-#: Gutenberg/dist/blocks.build.js:218
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:333
+#: Gutenberg/dist/blocks.build.js:230
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:337
 msgid "Progress Bar Color"
 msgstr ""
 
@@ -1366,7 +1366,7 @@ msgstr ""
 msgid "Padding"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3070
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3071
 msgid "You need EmbedPress Pro to Embed Apple Podcast. Note. This message is only visible to you."
 msgstr ""
 
@@ -1851,13 +1851,13 @@ msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:39
 #: EmbedPress/Includes/Traits/Branding.php:31
-#: Gutenberg/dist/blocks.build.js:230
+#: Gutenberg/dist/blocks.build.js:206
 #: Gutenberg/src/embedpress/InspectorControl/custombranding.js:55
 msgid "Custom Branding"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:42
-#: Gutenberg/dist/blocks.build.js:206
+#: Gutenberg/dist/blocks.build.js:218
 #: Gutenberg/src/common/lock-control.js:37
 msgid "Content Protection"
 msgstr ""
@@ -2033,7 +2033,7 @@ msgid "Elements"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:58
-msgid "Ads"
+msgid "Custom Ads"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:65
@@ -2320,8 +2320,8 @@ msgid "Indicates how the player should show related videos when playback of the 
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:178
-#: Gutenberg/dist/blocks.build.js:218
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:360
+#: Gutenberg/dist/blocks.build.js:230
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:364
 msgid "Modest Branding"
 msgstr ""
 
@@ -2606,23 +2606,23 @@ msgstr ""
 msgid "Enter share description"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:346
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:893
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1270
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:354
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:901
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1278
 #: Gutenberg/plugin.php:75
 msgid "Watch from the beginning"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:347
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:894
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1271
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:355
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:902
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1279
 #: Gutenberg/plugin.php:76
 msgid "Skip to where you left off"
 msgstr ""
 
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:348
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:895
-#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1272
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:356
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:903
+#: EmbedPress/Includes/Classes/Feature_Enhancer.php:1280
 #: Gutenberg/plugin.php:77
 msgid "It looks like you've watched<br />part of this video before!"
 msgstr ""
@@ -2708,33 +2708,33 @@ msgstr ""
 msgid "Something went wrong."
 msgstr ""
 
-#: EmbedPress/Providers/Youtube.php:244
-#: EmbedPress/Providers/Youtube.php:433
+#: EmbedPress/Providers/Youtube.php:250
+#: EmbedPress/Providers/Youtube.php:443
 msgid "Sorry, there may be an issue with your YouTube API key."
 msgstr ""
 
-#: EmbedPress/Providers/Youtube.php:360
+#: EmbedPress/Providers/Youtube.php:370
 msgid "Please enter your YouTube API key to embed YouTube Channel."
 msgstr ""
 
-#: EmbedPress/Providers/Youtube.php:426
-#: EmbedPress/Providers/Youtube.php:609
+#: EmbedPress/Providers/Youtube.php:436
+#: EmbedPress/Providers/Youtube.php:619
 msgid "There is nothing on the playlist."
 msgstr ""
 
-#: EmbedPress/Providers/Youtube.php:512
+#: EmbedPress/Providers/Youtube.php:522
 msgid "Prev"
 msgstr ""
 
-#: EmbedPress/Providers/Youtube.php:595
+#: EmbedPress/Providers/Youtube.php:605
 msgid "Next "
 msgstr ""
 
-#: EmbedPress/Providers/Youtube.php:616
+#: EmbedPress/Providers/Youtube.php:626
 msgid "EmbedPress: Please enter your YouTube API key at <a class='ep-link' href='%s' target='_blank' style='color: #5b4e96; text-decoration: none'>EmbedPress > Platforms > YouTube</a> to embed YouTube Channel."
 msgstr ""
 
-#: EmbedPress/Providers/Youtube.php:657
+#: EmbedPress/Providers/Youtube.php:667
 msgid "EmbedPress: "
 msgstr ""
 
@@ -2897,38 +2897,38 @@ msgstr ""
 #: Gutenberg/src/embedpress/InspectorControl/wistia.js:221
 #: Gutenberg/src/embedpress/InspectorControl/wistia.js:241
 #: Gutenberg/src/embedpress/InspectorControl/wistia.js:259
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:353
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:372
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:357
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:376
 msgid "pro"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:218
-#: Gutenberg/dist/blocks.build.js:969
-#: Gutenberg/src/embedpress/inspector.js:158
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:264
-msgid "Tips & Tricks"
-msgstr ""
-
-#: Gutenberg/dist/blocks.build.js:218
-#: Gutenberg/dist/blocks.build.js:254
-#: Gutenberg/src/embedpress/InspectorControl/vimeo.js:156
-#: Gutenberg/src/embedpress/InspectorControl/youtube.js:275
-msgid "Video Controls"
-msgstr ""
-
-#: Gutenberg/dist/blocks.build.js:230
+#: Gutenberg/dist/blocks.build.js:206
 #: Gutenberg/src/embedpress/InspectorControl/custombranding.js:95
 msgid "Logo X position (%)"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:230
+#: Gutenberg/dist/blocks.build.js:206
 #: Gutenberg/src/embedpress/InspectorControl/custombranding.js:104
 msgid "Logo Y position (%)"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:230
+#: Gutenberg/dist/blocks.build.js:206
 #: Gutenberg/src/embedpress/InspectorControl/custombranding.js:113
 msgid "Logo Opacity"
+msgstr ""
+
+#: Gutenberg/dist/blocks.build.js:230
+#: Gutenberg/dist/blocks.build.js:969
+#: Gutenberg/src/embedpress/inspector.js:164
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:268
+msgid "Tips & Tricks"
+msgstr ""
+
+#: Gutenberg/dist/blocks.build.js:230
+#: Gutenberg/dist/blocks.build.js:254
+#: Gutenberg/src/embedpress/InspectorControl/vimeo.js:156
+#: Gutenberg/src/embedpress/InspectorControl/youtube.js:279
+msgid "Video Controls"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:242
@@ -3046,7 +3046,7 @@ msgid "Print/Download"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:969
-#: Gutenberg/src/embedpress/inspector.js:114
+#: Gutenberg/src/embedpress/inspector.js:120
 msgid "You can adjust the width of embedded content."
 msgstr ""
 
