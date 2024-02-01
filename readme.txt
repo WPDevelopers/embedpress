@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 6.4
 Requires PHP: 5.6
-Stable tag: 3.9.7
+Stable tag: 3.9.8
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -328,7 +328,7 @@ This embed plugin is brought to you by the team behind [WPDeveloper](https://wpd
 ### 🔥 WHAT’S NEXT
 If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
-🔝 [Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 1,000,000+ active users in the WordPress repository.
+🔝 [Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 2 millions+ active users in the WordPress repository.
 
 🔔 [NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
 
@@ -381,6 +381,15 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.9.8] – 2024-02-01 =
+- Fixed: YouTube live stream wasn't embedding.
+- Fixed: PHP 8.2 depricated issue.
+- Fixed: Auto-play control of Tiktok embedding.
+- Fixed: SoundCloud settings page wasn't working.
+- Fixed: '.dk' domain URL wasn't embedding.
+- Improved: OpenSea embedding. 
+- Few minor bug fixes & improvements.
 
 = [3.9.7] – 2024-01-09 =
 - Added: eSpatial Map embedding support.
