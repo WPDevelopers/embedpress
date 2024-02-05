@@ -8,6 +8,8 @@ import { getParams } from '../functions';
 import LockControl from '../../common/lock-control';
 import ContentShare from '../../common/social-share-control';
 import AdControl from '../../common/ads-control';
+import { EPIcon } from '../../common/icons';
+
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
@@ -417,7 +419,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                     )
                 }
 
-                <PanelBody title={__("Content")} initialOpen={false} className={'ep-opensea-options'}>
+                <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Content', 'embedpress')}</div>}  initialOpen={false} className={'ep-opensea-options'}>
 
                     {
                         isOpenseaSingle && (
@@ -625,9 +627,9 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                     )
                 }
 
-                <PanelBody title={__("Color and Typography")} initialOpen={false} className={'ep-colors-typography'}>
+                <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Color and Typography', 'embedpress')}</div>} initialOpen={false} className={'ep-colors-typography'}>
                     <p>{__("You can adjust the color and typography of embedded content.")}</p>
-                    <InspectorControls>
+                    <div>
                         <PanelBody title={__("Item")} initialOpen={false}>
                             <ControlHeader headerText={'Background Color'} />
                             <ColorPalette
@@ -993,7 +995,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                 </PanelBody>
                             )
                         }
-                    </InspectorControls>
+                    </div>
 
                 </PanelBody>
 

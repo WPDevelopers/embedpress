@@ -194,7 +194,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             
                 if (!is_wp_error($results)) {
                     $jsonResult = json_decode($results['body']);
-                    $asset = $this->nftNormalizeJSONData($jsonResult, $api_key);
+                    $asset = $this->nftNormalizeJSONData($jsonResult);
                     set_transient($asset_cache_key, $asset, DAY_IN_SECONDS);
                 }
 
@@ -207,9 +207,10 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             }
 
             if(isset($asset['id']) && $asset['collection_slug']){
-
                 $current_price = $this->getNFTCurrentPrice($api_key, $asset['collection_slug'], $asset['id']);
             }
+
+            // print_r($asset); die;
             
             $template = $this->nftSingleItemTemplate($asset, $current_price);
             
@@ -323,12 +324,11 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
             $url = "https://api.opensea.io/api/v2/collection/$matches[1]/nfts?" . http_build_query($param);
 
+            $collection_assets_key = md5($url . $api_key) . '_collection_assets_cache';
 
+            $collection_asset = get_transient($collection_assets_key);
 
-            $singleAsset_cache_key = md5($url . $api_key) . '_singleAsset_cache';
-            $singleAsset = get_transient($singleAsset_cache_key);
-
-            if (false === $singleAsset) {
+            if (false === $collection_asset) {
                 $results = wp_remote_get($url, [
                     'headers' => array(
                         'Content-Type' => 'application/json',
@@ -336,38 +336,38 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                     )
                 ]);
 
+
                 if (!is_wp_error($results) ) {
                     $jsonResult = json_decode($results['body']);
 
-                // print_r($jsonResult); die;
 
+                    // print_r($jsonResult); die;
 
                     if(isset($jsonResult->nfts) && is_array($jsonResult->nfts)){
-                        $singleAsset = array();
+                        $collection_asset = array();
                         foreach ($jsonResult->nfts as $key => $asset) {
-                            $singleAsset[] = $this->normalizeJSONData($asset);
+                            $collection_asset[] = $this->normalizeJSONData($asset);
                         }
-                        set_transient($singleAsset_cache_key, $singleAsset, DAY_IN_SECONDS);
+                        set_transient($collection_assets_key, $collection_asset, DAY_IN_SECONDS);
                     }
                 }
             }
             else{
-                if(is_array($singleAsset)) : $id = $singleAsset[0]; endif;
+                if(is_array($collection_asset)) : $id = $collection_asset[0]; endif;
                 if( empty($id['id'])){
-                    delete_transient($singleAsset_cache_key);
+                    delete_transient($collection_assets_key);
                 }
             }
-
 
             ob_start();
             ?>
 
-                <?php if(!empty($singleAsset) && is_array($singleAsset) ): ?> 
+                <?php if(!empty($collection_asset) && is_array($collection_asset) ): ?> 
                 <div class="ep-parent-wrapper ep-parent-ep-nft-gallery-r1a5mbx ">
                     <div class="ep-nft-gallery-wrapper ep-nft-gallery-r1a5mbx" data-id="ep-nft-gallery-r1a5mbx" data-loadmorelabel="<?php echo esc_attr($loadmorelabel); ?>" data-itemparpage="<?php echo esc_attr($itemperpage); ?>" data-nftid="<?php echo esc_attr( 'ep-'.md5($url .uniqid()) ); ?>">
                         <div class="ep_nft_content_wrap ep_nft__wrapper nft_items <?php echo esc_attr( $ep_layout.' '.$ep_preset ); ?>"  >
                             <?php
-                                foreach ($singleAsset as $key => $asset) {
+                                foreach ($collection_asset as $key => $asset) {
                                     $template = $this->nftItemTemplate($asset);
                                     print_r($template);
                                 }
@@ -392,10 +392,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                     <?php endif; ?>
                 <?php endif; ?>
 
-
             <?php $html = ob_get_clean();
             
-
             return $html;
         }
         return "";
@@ -443,7 +441,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         $current_price = isset($asset->seaport_sell_orders)?$asset->seaport_sell_orders:0;
         $last_sale = isset($asset->last_sale->total_price)?$asset->last_sale->total_price:0;
 
-        $nftItem['id'] = isset($asset->id)?$asset->id:'';
+        $nftItem['id'] = isset($asset->identifier)?$asset->identifier:'';
         $nftItem['name'] = isset($asset->name)?$asset->name:'';
         $nftItem['permalink'] = isset($asset->opensea_url)?$asset->opensea_url:'';
         $nftItem['description'] = isset($asset->description)?$asset->description:'';
@@ -458,20 +456,10 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         $nftItem['last_sale'] = isset($asset->last_sale->total_price)?(float)($asset->last_sale->total_price / 1000000000000000000) : 0;
         $nftItem['creator_url'] = 'https://opensea.io/'.$nftItem['created_by'];
 
-        //single asstet data
-        $nftItem['collectionname'] = isset($asset->collection->name)?$asset->collection->name:'';
-        $nftItem['collection_slug'] = isset($asset->collection->slug)?$asset->collection->slug:'';
-        $nftItem['verified'] = isset($asset->creator->config)?$asset->creator->config:'';
-        $nftItem['rank'] = isset($asset->rarity_data->rank)?$asset->rarity_data->rank:0;
-        $nftItem['address'] = isset($asset->asset_contract->address)?$asset->asset_contract->address:'';
-        $nftItem['schema_name'] = isset($asset->asset_contract->schema_name)?$asset->asset_contract->schema_name:'';
-        $nftItem['token_id'] = isset($asset->token_id)?$asset->token_id:'';
-        $nftItem['usd_price'] = isset($asset->collection->payment_tokens[0]->usd_price)?$asset->collection->payment_tokens[0]->usd_price:'';
-
         return $nftItem;
     }
 
-    public function nftNormalizeJSONData($asset, $api_key){
+    public function nftNormalizeJSONData($asset){
 
         
  
@@ -502,7 +490,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         // Rarity
         $rarity = isset($nft->rarity) ? $nft->rarity : '';
-        $nftItem['rarity_rank'] = isset($rarity->rank) ? $rarity->rank : 0;
+        $nftItem['rank'] = isset($rarity->rank) ? $rarity->rank : 0;
         // Add other rarity properties as needed
 
         // Collection
@@ -861,6 +849,13 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
 
         $last_usd_price = (float) $last_sale * (float) $item['usd_price'];
 
+        $usd_price_tem = '';
+
+        if(!empty($usd_price))
+        {
+            $usd_price_tem = '<sub class="ep-usd-price" '.$this->createStye('priceUSDColor', 'priceUSDFontsize', '').'>$'.round($usd_price, 2).'</sub>';
+        }
+
         // Checked and assigned prefix text value 
         if(!empty($params['prefix_nftcreator']) && $params['prefix_nftcreator'] != 'false' && $params['prefix_nftcreator'] != 'true'){
             $prefix_creator = $params['prefix_nftcreator'];
@@ -907,15 +902,15 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                             <div class="ep-asset-detail-item">Contract Address
                                 <span>
                                     <a class="sc-1f719d57-0 fKAlPV"
-                                        href="'.esc_url('https://etherscan.io/address/'.$item['address']).'" rel="nofollow noopener"
-                                        target="_blank" '.$this->createStye('detailTextLinkColor', '', '').'>'.substr($item['address'], 0, 6).'...'.substr($item['address'], -4).'</a>
+                                        href="'.esc_url('https://etherscan.io/address/'.$item['contract_address']).'" rel="nofollow noopener"
+                                        target="_blank" '.$this->createStye('detailTextLinkColor', '', '').'>'.substr($item['contract_address'], 0, 6).'...'.substr($item['contract_address'], -4).'</a>
                                 </span>
                             </div>
                             <div class="ep-asset-detail-item">Token ID
-                                <span>'.esc_html($item['token_id']).'</span>
+                                <span>'.esc_html($item['id']).'</span>
                             </div>
                             <div class="ep-asset-detail-item">Token Standard
-                                <span>'.esc_html($item['schema_name']).'</span>
+                                <span>'.esc_html($item['token_standard']).'</span>
                             </div>
                         </div>
                     </div>
@@ -945,7 +940,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             $current_price_template = '
             <div class="ep_nft_price ep_current_price">
                 <span class="eb_nft_label" '.$this->createStye('priceLabelColor', 'priceLabelFontsize', '').'>'.esc_html($prefix_current_price).'</span>
-                <span class="eb_nft_price" '.$this->createStye('priceColor', 'priceFontsize', '').'>'. esc_html(round($nft_current_price, 4)).' ETH <sub class="ep-usd-price" '.$this->createStye('priceUSDColor', 'priceUSDFontsize', '').'>$'.round($usd_price, 2).'</sub></span>
+                <span class="eb_nft_price" '.$this->createStye('priceColor', 'priceFontsize', '').'>'. esc_html(round($nft_current_price, 4)).' ETH '.$usd_price_tem.'</span>
             </div>
             ';
         }
@@ -963,7 +958,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             $thumbnail = '<div class="ep_nft_thumbnail">'.$img_thumb.'</div>';
         endif;
 
-        if((($params['nftcreator'] == 'yes') || ($params['nftcreator'] == 'true')) && !empty($created_by)):
+        if((($params['nftcreator'] == 'yes') || ($params['nftcreator'] == 'true')) && !empty($created_by) && !empty($item['creator_url'])):
             $creator = '<div class="ep_nft_owner_wrapper">
                 <div class="ep_nft_creator">';
             if(!empty($creator_img_url)) {
