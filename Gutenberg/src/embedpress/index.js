@@ -766,6 +766,32 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: '5'
 			},
 
+			//FacebookFeed attributes
+			fbFeedType: {
+				type: 'string',
+				default: 'videos'
+			},
+
+			itemPerPage: {
+				type: 'number',
+				default: 10
+			},
+
+			itemPerPage: {
+				type: 'number',
+				default: 10
+			},
+
+			feedColumn: {
+				type: 'string',
+				default: '3'
+			},
+
+			gapBetweenItem: {
+				type: 'string',
+				default: '10'
+			},
+
 		},
 		/**
 		 * The edit function describes the structure of your block in the context of the editor.

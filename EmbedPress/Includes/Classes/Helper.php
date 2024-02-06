@@ -1060,36 +1060,21 @@ class Helper
 		}
 	}
 
-	public static function get_video_thumbnail($video_id, $access_token)
-	{
-		$endpointUrl = "https://graph.facebook.com/v18.0/{$video_id}/thumbnails?access_token=$access_token";
-
-
-		$response = wp_remote_get($endpointUrl);
-
-		if (is_wp_error($response)) {
-			$result = 'Error: ' . $response->get_error_message();
-		} else {
-			$body = wp_remote_retrieve_body($response);
-			$data = json_decode($body, true);
-
-			// Check if thumbnails data is present
-			if (isset($data['data'][0]['uri'])) {
-				$firstThumbnailUrl = $data['data'][0]['uri'];
-				// Do something with the first thumbnail URL
-				$result = $firstThumbnailUrl;
-			} else {
-				$result = 'No thumbnails found.';
-			}
-		}
-
-		return $result;
-	}
-
 
 	public static function fetch_facebook_videos($accessToken, $pageId, $video_type)
 	{
-		$endpointUrl = "https://graph.facebook.com/v18.0/{$pageId}/$video_type";
+		$query_args = [];
+		$args = '';
+		if($video_type === 'videos')
+		{
+			$query_args = array(
+				'fields' => 'id,title,description,live_status,post_views,likes,thumbnails{uri}'
+			);
+			$args = "?" . http_build_query($query_args);
+		}
+		
+		$endpointUrl = "https://graph.facebook.com/v18.0/{$pageId}/$video_type$args";
+
 		$requestUrl = add_query_arg('access_token', $accessToken, $endpointUrl);
 		$response = wp_remote_get($requestUrl);
 

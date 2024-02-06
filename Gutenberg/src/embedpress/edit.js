@@ -28,7 +28,7 @@ import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, isY
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import ContentShare from '../common/social-share-control';
-import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo } from './functions';
+import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo,  isFacebookPage} from './functions';
 import { isCalendly as _isCalendly, useCalendly } from './InspectorControl/calendly';
 
 const {
@@ -80,6 +80,7 @@ export default function EmbedPress(props) {
 
 	const _isSelfHostedVideo = isSelfHostedVideo(url);
 	const _isSelfHostedAudio = isSelfHostedAudio(url);
+	const _isFacebookPage = isFacebookPage(url);
 
 
 	if (clientId == null || clientId == undefined) {
@@ -343,6 +344,7 @@ export default function EmbedPress(props) {
 				isSelfHostedVideo={_isSelfHostedVideo}
 				isSelfHostedAudio={_isSelfHostedAudio}
 				isCalendly={isCalendly}
+				isFacebookPage={_isFacebookPage}
 			/>
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>

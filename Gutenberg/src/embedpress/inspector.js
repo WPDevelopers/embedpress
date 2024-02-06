@@ -28,7 +28,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly }) {
+export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly, isFacebookPage }) {
 
     const {
         width,
@@ -58,7 +58,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         removeTipsAlert();
     }
 
-    if ((isYTVideo || isYTLive || isVimeoVideo) && width === '600' && height === '450') {
+    if ((isYTVideo || isYTLive || isVimeoVideo || isFacebookPage) && width === '600' && height === '450') {
         setAttributes({ height: '340' });
     }
 
@@ -86,7 +86,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                         )
                                     }
                                     {
-                                        (isYTVideo || isVimeoVideo || isYTLive || isSelfHostedVideo) && (
+                                        (isYTVideo || isVimeoVideo || isYTLive || isSelfHostedVideo || isFacebookPage) && (
                                             <SelectControl
                                                 label={__("Video Size")}
                                                 labelPosition='side'
@@ -102,7 +102,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     }
 
                                     {
-                                        ((!isYTVideo && !isYTLive && !isVimeoVideo && !isSelfHostedVideo) || (videosize == 'fixed')) && (
+                                        ((!isYTVideo && !isYTLive && !isVimeoVideo && !isSelfHostedVideo && !isFacebookPage) || (videosize == 'fixed')) && (
                                             <p>{__("You can adjust the width and height of embedded content.")}</p>
                                         )
                                     }
@@ -110,7 +110,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
 
                                     {
-                                        ((isYTVideo || isVimeoVideo || isYTLive || isSelfHostedVideo) && (videosize == 'responsive')) && (
+                                        ((isYTVideo || isVimeoVideo || isYTLive || isSelfHostedVideo || isFacebookPage) && (videosize == 'responsive')) && (
                                             <p>{__("You can adjust the width of embedded content.", "embedpress")}</p>
                                         )
                                     }
@@ -119,7 +119,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                         label={__("Width")}
                                         value={width}
                                         onChange={(width) => {
-                                            (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo) ? (
+                                            (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo || isFacebookPage) ? (
                                                 setAttributes({
                                                     width: `${Math.round(width)}`,
                                                     height: `${roundToNearestFive(Math.round((width * 9) / 16))}`
@@ -131,13 +131,13 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     />
 
                                     {
-                                        ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo) || (videosize == 'fixed')) && (
+                                        ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo && !isFacebookPage) || (videosize == 'fixed')) && (
                                             <TextControl
                                                 label={__("Height")}
                                                 value={height}
                                                 onChange={(height) => {
                                                     {
-                                                        (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo) ? (
+                                                        (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo || isFacebookPage) ? (
                                                             setAttributes({
                                                                 height: `${Math.round(height)}`,
                                                                 width: `${roundToNearestFive(Math.round((height * 16) / 9))}`

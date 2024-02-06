@@ -130,8 +130,7 @@ class Handler extends EndHandlerAbstract
 
                     if (is_array($videos_data) && isset($videos_data['data'])) {
                         foreach ($videos_data['data'] as &$data) {
-                            $thumbnail_url = Helper::get_video_thumbnail($data['id'], $access_token);
-                            $data['thumbnail_url'] = $thumbnail_url;
+                            $data['thumbnail_url'] = $data['thumbnails']['data'][0]['uri'];
                         }
                         unset($data);  // Unset the reference to avoid accidental modifications later
 

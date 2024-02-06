@@ -34,6 +34,12 @@ export const isSelfHostedAudio = (url) => {
     return url.match(/\.(mp3|wav|ogg|aac)$/i);
 }
 
+export const isFacebookPage = (url) => {
+    const facebookPageRegex = /^(https?:\/\/)?(www\.)?facebook\.com\/\d{15,}\/?$/;
+    return facebookPageRegex.test(url);
+}
+
+
 export const initCustomPlayer = (clientId, attributes) => {
 
     const {
@@ -120,7 +126,7 @@ export const initCustomPlayer = (clientId, attributes) => {
                     ...(options.autopause && { autopause: options.autopause }),
                     ...(options.dnt && { dnt: options.dnt }),
                 }
-                
+
             });
 
             player.poster = posterThumbnail;
