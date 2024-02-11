@@ -190,9 +190,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $embedUrl = 'https://www.youtube.com/embed/live_stream?channel='.$channelId.'&feature=oembed';
 
             $attr = [];
-            $attr[] = 'width="'.$params['maxheight'].'"';
-            $attr[] = 'height="'.$params['maxheight'].'";';
-            $attr[] = 'src="' . $embedUrl . '"';
+            $attr[] = 'width="'.esc_attr($params['maxheight']).'"';
+            $attr[] = 'height="'.esc_attr($params['maxheight']).'";';
+            $attr[] = 'src="' . esc_url($embedUrl) . '"';
             $attr[] = 'frameborder="0"';
             $attr[] = 'allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"';
             $attr[] = 'allowfullscreen';
