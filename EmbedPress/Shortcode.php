@@ -108,10 +108,14 @@ class Shortcode
                 'powered_by' => !empty($plgSettings->embedpress_document_powered_by) ? esc_attr($plgSettings->embedpress_document_powered_by) : esc_attr('no'),
             ];
         }
+
+
+        $attributes = array_map('esc_attr', $attributes);
+
+
         $attributes = wp_parse_args($attributes, $default);
         $embed = self::parseContent($subject, true, $attributes);
 
-        // print_r($attributes); die;
 
 
         return is_object($embed) ? $embed->embed : $embed;
@@ -140,6 +144,7 @@ class Shortcode
                 $subject
             );
 
+
             $uniqid = 'ose-uid-'.md5($url);
             $subject = esc_url($subject);
 
@@ -152,7 +157,6 @@ class Shortcode
             $content_uid = md5($url);
 
             self::$ombed_attributes = self::parseContentAttributes($customAttributes, $content_uid);
-
 
             self::set_embera_settings(self::$ombed_attributes);
 
@@ -319,6 +323,7 @@ class Shortcode
                     }
                 }
             }
+
 
 
 

@@ -112,7 +112,7 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
         } else {
 	        $width = isset( $this->config['maxwidth']) ? $this->config['maxwidth']: 960;
 	        $height = isset( $this->config['maxheight']) ? $this->config['maxheight']: 720;
-            $html = '<img src="' . $iframeSrc . '" width="'.$width.'" height="'.$height.'" />';
+            $html = '<img src="' . $iframeSrc . '" width="'.esc_attr($width).'" height="'.esc_attr($height).'" />';
         }
 
         return [

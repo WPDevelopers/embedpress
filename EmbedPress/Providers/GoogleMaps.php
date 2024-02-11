@@ -86,7 +86,7 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
             'provider_name' => 'Google Maps',
             'provider_url'  => 'https://maps.google.com',
             'title'         => 'Unknown title',
-            'html'          => '<iframe title=""  width="'.$width.'" height="'.$height.'" src="'.$iframeSrc.'" frameborder="0"></iframe>',     
+            'html'          => '<iframe title=""  width="'.esc_attr($width).'" height="'.esc_attr($height).'" src="'.$iframeSrc.'" frameborder="0"></iframe>',     
         ];
     }
     /** inline @inheritDoc */

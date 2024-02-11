@@ -89,7 +89,7 @@ class TikTok extends ProviderAdapter implements ProviderInterface
             'provider_name' => 'TikTok',
             'provider_url'  => 'https://tiktok.com',
             'title'         => 'Unknown title',
-            'html'          => '<iframe title=""  width="' . $width . '" height="' . $height . '" src="' . $iframeSrc . '" ></iframe>',
+            'html'          => '<iframe title=""  width="' . esc_attr($width) . '" height="' . esc_attr($height) . '" src="' . $iframeSrc . '" ></iframe>',
         ];
     }
     /** inline @inheritDoc */

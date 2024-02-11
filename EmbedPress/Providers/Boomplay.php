@@ -61,7 +61,8 @@ class Boomplay extends ProviderAdapter implements ProviderInterface
 			$width = isset( $this->config['maxwidth']) ? $this->config['maxwidth']: '100%';
 			$height = isset( $this->config['maxheight']) ? $this->config['maxheight']: 450;
 
-			$html = "<iframe src='https://www.boomplay.com/embed/$content_id/$endpoint_type' frameborder='0' height='$height' width='$width'></iframe>";
+			$html = "<iframe src='" . esc_url("https://www.boomplay.com/embed/$content_id/$endpoint_type") . "' frameborder='0' height='" . esc_attr($height) . "' width='" . esc_attr($width) . "'></iframe>";
+
 
 
 
