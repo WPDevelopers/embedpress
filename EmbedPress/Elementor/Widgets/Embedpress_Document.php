@@ -396,29 +396,29 @@ class Embedpress_Document extends Widget_Base
     protected function render()
     {
         $settings = $this->get_settings();
-
-        $client_id = $this->get_id();
+    
+        $client_id = esc_attr($this->get_id());
         $pass_hash_key = md5($settings['embedpress_doc_lock_content_password']);
-        $url = $this->get_file_url();
+        $url = esc_url($this->get_file_url());
         $id = 'embedpress-pdf-' . $this->get_id();
-
-        if($settings['embedpress_document_type'] === 'url') {
-            if(class_exists( 'ACF' ) && function_exists('get_field')){
-                if(!empty($settings['__dynamic__']) && !empty($settings['__dynamic__']['embedpress_document_file_link'])){
+    
+        if ($settings['embedpress_document_type'] === 'url') {
+            if (class_exists('ACF') && function_exists('get_field')) {
+                if (!empty($settings['__dynamic__']) && !empty($settings['__dynamic__']['embedpress_document_file_link'])) {
                     $decode_url = urldecode(($settings['__dynamic__']['embedpress_document_file_link']));
                     preg_match('/"key":"([^"]+):([^"]+)"/', $decode_url, $matches);
                     if (isset($matches[0])) {
                         if (isset($matches[1])) {
                             $get_acf_key = $matches[1];
-                            $url = get_field($get_acf_key);
-
-                            if(empty($url)){
+                            $url = esc_url(get_field($get_acf_key));
+    
+                            if (empty($url)) {
                                 $pattern = '/"fallback":"([^"]+)"/';
                                 preg_match($pattern, $decode_url, $matches);
-
+    
                                 if (isset($matches[1])) {
-                                    $url = $matches[1];
-                                } 
+                                    $url = esc_url($matches[1]);
+                                }
                             }
                         }
                     }
@@ -426,247 +426,238 @@ class Embedpress_Document extends Widget_Base
             }
         }
         $hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_doc_lock_content_password']));
-
+    
         $dimension = '';
-        if(empty($settings['embedpress_doc_lock_content']) && empty($settings['embedpress_doc_lock_content_password'])){  
-            $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}px;height: {$settings['embedpress_elementor_document_height']['size']}px";
+        if (empty($settings['embedpress_doc_lock_content']) && empty($settings['embedpress_doc_lock_content_password'])) {
+            $dimension = "width: " . esc_attr($settings['embedpress_elementor_document_width']['size']) . "px; height: " . esc_attr($settings['embedpress_elementor_document_height']['size']) . "px";
         }
-
+    
         $content_locked_class = '';
-        if(!empty($settings['embedpress_doc_lock_content']) && !empty($settings['embedpress_doc_lock_content_password'])){
+        if (!empty($settings['embedpress_doc_lock_content']) && !empty($settings['embedpress_doc_lock_content_password'])) {
             $content_locked_class = 'ep-content-locked';
         }
-
-
-        $this->add_render_attribute( 'embedpres-pdf-render', [
-            'class'     => ['embedpress-embed-document-pdf', $id],
+    
+        $this->add_render_attribute('embedpres-pdf-render', [
+            'class' => ['embedpress-embed-document-pdf', $id],
             'data-emid' => $id
-        ] );
-
-        Helper::get_source_data(md5($this->get_id()).'_eb_elementor', $url, 'elementor_source_data', 'elementor_temp_source_data');
-
-        $this->add_render_attribute( 'embedpress-document', [
-            'class' => ['embedpress-document-embed', 'ep-doc-'.md5( $id), 'ose-document', $content_locked_class]
-        ] );
-
-        $embed_settings =  [];
-		$embed_settings['customThumbnail'] = !empty($settings['embedpress_doc_content_share_custom_thumbnail']['url']) ? $settings['embedpress_doc_content_share_custom_thumbnail']['url'] : '';
-
-		$embed_settings['customTitle'] = !empty($settings['embedpress_doc_content_title']) ? $settings['embedpress_doc_content_title'] : Helper::get_file_title($url);
-
-        $embed_settings['customDescription'] = !empty($settings['embedpress_doc_content_descripiton']) ? $settings['embedpress_doc_content_descripiton'] : Helper::get_file_title($url);
-
-		$embed_settings['sharePosition'] = !empty($settings['embedpress_doc_content_share_position']) ? $settings['embedpress_doc_content_share_position'] : 'right';
-        
-		$embed_settings['lockHeading'] = !empty($settings['embedpress_doc_lock_content_heading']) ? $settings['embedpress_doc_lock_content_heading'] : '';
-
-		$embed_settings['lockSubHeading'] = !empty($settings['embedpress_doc_lock_content_sub_heading']) ? $settings['embedpress_doc_lock_content_sub_heading'] : '';
-        
-		$embed_settings['lockErrorMessage'] = !empty($settings['embedpress_doc_lock_content_error_message']) ? $settings['embedpress_doc_lock_content_error_message'] : '';
-
-          
-		$embed_settings['passwordPlaceholder'] = !empty($settings['embedpress_doc_password_placeholder']) ? $settings['embedpress_doc_password_placeholder'] : '';
-        
-		$embed_settings['submitButtonText'] = !empty($settings['embedpress_doc_submit_button_text']) ? $settings['embedpress_doc_submit_button_text'] : '';
- 
-		$embed_settings['submitUnlockingText'] = !empty($settings['embedpress_doc_submit_Unlocking_text']) ? $settings['embedpress_doc_submit_Unlocking_text'] : '';
-
-
-        $embed_settings['enableFooterMessage'] = !empty($settings['embedpress_doc_enable_footer_message']) ? $settings['embedpress_doc_enable_footer_message'] : '';
-        
-		$embed_settings['footerMessage'] = !empty($settings['embedpress_doc_lock_content_footer_message']) ? $settings['embedpress_doc_lock_content_footer_message'] : '';
-        
-
+        ]);
+    
+        Helper::get_source_data(md5($this->get_id()) . '_eb_elementor', $url, 'elementor_source_data', 'elementor_temp_source_data');
+    
+        $this->add_render_attribute('embedpress-document', [
+            'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document', $content_locked_class]
+        ]);
+    
+        $embed_settings = [];
+        $embed_settings['customThumbnail'] = !empty($settings['embedpress_doc_content_share_custom_thumbnail']['url']) ? esc_url($settings['embedpress_doc_content_share_custom_thumbnail']['url']) : '';
+    
+        $embed_settings['customTitle'] = !empty($settings['embedpress_doc_content_title']) ? esc_html($settings['embedpress_doc_content_title']) : esc_html(Helper::get_file_title($url));
+    
+        $embed_settings['customDescription'] = !empty($settings['embedpress_doc_content_descripiton']) ? esc_html($settings['embedpress_doc_content_descripiton']) : esc_html(Helper::get_file_title($url));
+    
+        $embed_settings['sharePosition'] = !empty($settings['embedpress_doc_content_share_position']) ? esc_attr($settings['embedpress_doc_content_share_position']) : 'right';
+    
+        $embed_settings['lockHeading'] = !empty($settings['embedpress_doc_lock_content_heading']) ? esc_html($settings['embedpress_doc_lock_content_heading']) : '';
+    
+        $embed_settings['lockSubHeading'] = !empty($settings['embedpress_doc_lock_content_sub_heading']) ? esc_html($settings['embedpress_doc_lock_content_sub_heading']) : '';
+    
+        $embed_settings['lockErrorMessage'] = !empty($settings['embedpress_doc_lock_content_error_message']) ? esc_html($settings['embedpress_doc_lock_content_error_message']) : '';
+    
+        $embed_settings['passwordPlaceholder'] = !empty($settings['embedpress_doc_password_placeholder']) ? esc_attr($settings['embedpress_doc_password_placeholder']) : '';
+    
+        $embed_settings['submitButtonText'] = !empty($settings['embedpress_doc_submit_button_text']) ? esc_html($settings['embedpress_doc_submit_button_text']) : '';
+    
+        $embed_settings['submitUnlockingText'] = !empty($settings['embedpress_doc_submit_Unlocking_text']) ? esc_html($settings['embedpress_doc_submit_Unlocking_text']) : '';
+    
+        $embed_settings['enableFooterMessage'] = !empty($settings['embedpress_doc_enable_footer_message']) ? esc_attr($settings['embedpress_doc_enable_footer_message']) : '';
+    
+        $embed_settings['footerMessage'] = !empty($settings['embedpress_doc_lock_content_footer_message']) ? esc_html($settings['embedpress_doc_lock_content_footer_message']) : '';
+    
         $content_share_class = '';
-		$share_position_class = '';
-		$share_position = isset($settings['embedpress_doc_content_share_position']) ? $settings['embedpress_doc_content_share_position'] : 'right';
-
-		if(!empty($settings['embedpress_doc_content_share'])) {
-			$content_share_class = 'ep-content-share-enabled';
-			$share_position_class = 'ep-share-position-'.$share_position;
-		}
-        
-        $password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
-        
+        $share_position_class = '';
+        $share_position = isset($settings['embedpress_doc_content_share_position']) ? $settings['embedpress_doc_content_share_position'] : 'right';
+    
+        if (!empty($settings['embedpress_doc_content_share'])) {
+            $content_share_class = 'ep-content-share-enabled';
+            $share_position_class = 'ep-share-position-' . $share_position;
+        }
+    
+        $password_correct = isset($_COOKIE['password_correct_' . $client_id]) ? $_COOKIE['password_correct_' . $client_id] : '';
+    
         $content_protection_class = 'ep-content-protection-enabled';
-		if(empty($settings['embedpress_doc_lock_content']) || empty($settings['embedpress_doc_lock_content_password']) || $hash_pass === $password_correct) {
-			$content_protection_class = 'ep-content-protection-disabled';
-		}
-
+        if (empty($settings['embedpress_doc_lock_content']) || empty($settings['embedpress_doc_lock_content_password']) || $hash_pass === $password_correct) {
+            $content_protection_class = 'ep-content-protection-disabled';
+        }
+    
         $adsAtts = '';
-
-		if(!empty($settings['adManager'])) {
-			$ad = base64_encode(json_encode($settings));
-			$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
-		}
-
+    
+        if (!empty($settings['adManager'])) {
+            $ad = base64_encode(json_encode($settings));
+            $adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
+        }
         ?>
-        
-
+    
         <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
-        
-        <?php
-           
-            
-            do_action( 'embedpress_document_after_embed',  $settings, $url, $id, $this);
-
-            if ( $url != '' ) {
-                if ( $this->is_pdf( $url ) ) {
-                    $this->add_render_attribute( 'embedpres-pdf-render', 'data-emsrc', $url );
-                    $embed_content = '<div ' . $this->get_render_attribute_string( 'embedpres-pdf-render' ) . '>';
-
-                    $embed_content .= '<iframe title="' . esc_attr( Helper::get_file_title($url) ) . '" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr( $dimension ) . '; max-width:100%;" src="' . esc_url( $url ) . '"></iframe>';
-
-                    if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
-                        $embed_content .= sprintf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
+    
+            <?php
+            do_action('embedpress_document_after_embed', $settings, $url, $id, $this);
+    
+            if ($url != '') {
+                if ($this->is_pdf($url)) {
+                    $this->add_render_attribute('embedpres-pdf-render', 'data-emsrc', $url);
+                    $embed_content = '<div ' . $this->get_render_attribute_string('embedpres-pdf-render') . '>';
+    
+                    $embed_content .= '<iframe title="' . esc_attr(Helper::get_file_title($url)) . '" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr($dimension) . '; max-width:100%;" src="' . esc_url($url) . '"></iframe>';
+    
+                    if ($settings['embedpress_document_powered_by'] === 'yes') {
+                        $embed_content .= sprintf('<p class="embedpress-el-powered">%s</p>', esc_html__('Powered By EmbedPress', 'embedpress'));
                     }
                     $embed_content .= '</div>';
-
-                    if ( Plugin::$instance->editor->is_edit_mode() ) {
-                        $embed_content .= $this->render_editor_script( $id, $url );
+    
+                    if (Plugin::$instance->editor->is_edit_mode()) {
+                        $embed_content .= $this->render_editor_script($id, $url);
                     }
-        
                 } else {
-                    if(Helper::is_file_url($url)){ 
+                    if (Helper::is_file_url($url)) {
                         $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';
-                    }
-                    else{
+                    } else {
                         $view_link = 'https://drive.google.com/viewerng/viewer?url=' . urlencode($url) . '&embedded=true&chrome=false';
                     }
-
+    
                     $hostname = parse_url($url, PHP_URL_HOST);
                     $domain = implode(".", array_slice(explode(".", $hostname), -2));
-
+    
                     if ($domain == "google.com") {
-                        $view_link = $url.'?embedded=true';
-                        if(strpos($view_link, '/presentation/')){
+                        $view_link = $url . '?embedded=true';
+                        if (strpos($view_link, '/presentation/')) {
                             $view_link = Helper::get_google_presentation_url($url);
                         }
                     }
-
-                    $embed_content = '<div ' . $this->get_render_attribute_string( 'embedpres-pdf-render' ) . '>';
-
+    
+                    $embed_content = '<div ' . $this->get_render_attribute_string('embedpres-pdf-render') . '>';
+    
                     $is_powered_by = '';
-                    if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
+                    if ($settings['embedpress_document_powered_by'] === 'yes') {
                         $is_powered_by = 'ep-powered-by-enabled';
                     }
-
+    
                     $is_download_enabled = ' enabled-file-download';
-                    if ( $settings[ 'doc_print_download' ] !== 'yes' ) {
+                    if ($settings['doc_print_download'] !== 'yes') {
                         $is_download_enabled = '';
                     }
-
+    
                     $file_extenstion = 'link';
-                    if(!empty(Helper::is_file_url($url))){
+                    if (!empty(Helper::is_file_url($url))) {
                         $file_extenstion = Helper::get_extension_from_file_url($url);
                     }
-
+    
                     $is_custom_theme = '';
-                    if($settings['embedpress_theme_mode'] == 'custom'){
-                        $is_custom_theme = 'data-custom-color='.esc_attr($settings['embedpress_doc_custom_color']).'';
+                    if ($settings['embedpress_theme_mode'] == 'custom') {
+                        $is_custom_theme = 'data-custom-color=' . esc_attr($settings['embedpress_doc_custom_color']) . '';
                     }
-
-                    $embed_content.='<div class="ep-file-download-option-masked ep-file-'.esc_attr($file_extenstion).' '.$is_powered_by.''.$is_download_enabled.'" data-theme-mode="'.esc_attr($settings['embedpress_theme_mode']).'"'.esc_attr( $is_custom_theme ).' data-id="'.esc_attr( $this->get_id() ).'">';
-                    
-
+    
+                    $embed_content .= '<div class="ep-file-download-option-masked ep-file-' . esc_attr($file_extenstion) . ' ' . $is_powered_by . '' . $is_download_enabled . '" data-theme-mode="' . esc_attr($settings['embedpress_theme_mode']) . '"' . esc_attr($is_custom_theme) . ' data-id="' . esc_attr($this->get_id()) . '">';
+    
                     $sandbox = '';
-                    if ( $settings[ 'doc_print_download' ] === 'yes') {
+                    if ($settings['doc_print_download'] === 'yes') {
                         $sandbox = 'sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-presentation allow-same-origin allow-scripts allow-top-navigation allow-top-navigation-by-user-activation"';
                     }
-                    
-                    $embed_content.='<iframe title="' . esc_attr( Helper::get_file_title($url) ) . '" allowfullscreen="true"  mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr( $dimension ) . '; max-width:100%;" src="' . esc_url( $view_link ) . '" '.$sandbox.'>
-                    </iframe>';
-                    
-
-                    if ( $settings[ 'doc_print_download' ] === 'yes' && (Helper::get_extension_from_file_url($url) === 'pptx' || Helper::get_extension_from_file_url($url) === 'ppt' || Helper::get_extension_from_file_url($url) === 'xls' || Helper::get_extension_from_file_url($url) === 'xlsx')) {
-                        $embed_content.='<div class="embed-download-disabled"></div>';
+    
+                    $embed_content .= '<iframe title="' . esc_attr(Helper::get_file_title($url)) . '" allowfullscreen="true"  mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr($dimension) . '; max-width:100%;" src="' . esc_url($view_link) . '" ' . $sandbox . '>
+                </iframe>';
+    
+                    if ($settings['doc_print_download'] === 'yes' && (Helper::get_extension_from_file_url($url) === 'pptx' || Helper::get_extension_from_file_url($url) === 'ppt' || Helper::get_extension_from_file_url($url) === 'xls' || Helper::get_extension_from_file_url($url) === 'xlsx')) {
+                        $embed_content .= '<div class="embed-download-disabled"></div>';
                     }
-
-                    if ( $settings[ 'doc_draw' ] === 'yes') {
-                        $embed_content.='<canvas class="ep-doc-canvas" width="'.esc_attr( $settings['embedpress_elementor_document_width']['size'] ).'" height="'.esc_attr( $settings['embedpress_elementor_document_height']['size'] ).'" ></canvas>';
+    
+                    if ($settings['doc_draw'] === 'yes') {
+                        $embed_content .= '<canvas class="ep-doc-canvas" width="' . esc_attr($settings['embedpress_elementor_document_width']['size']) . '" height="' . esc_attr($settings['embedpress_elementor_document_height']['size']) . '" ></canvas>';
                     }
-                    
-                    if ( $settings[ 'doc_print_download' ] === 'yes' && Helper::get_extension_from_file_url($url) !== 'pptx') {
-                        $embed_content.='<div style="width: 40px; height: 40px; position: absolute; opacity: 0; right: 12px; top: 12px;"></div>';
+    
+                    if ($settings['doc_print_download'] === 'yes' && Helper::get_extension_from_file_url($url) !== 'pptx') {
+                        $embed_content .= '<div style="width: 40px; height: 40px; position: absolute; opacity: 0; right: 12px; top: 12px;"></div>';
                     }
-
-                    if(!empty($settings['doc_toolbar'])){
-                        $embed_content.= '<div class="ep-external-doc-icons">';
-
-                        if(empty(Helper::is_file_url($url))){
-                            $embed_content.= Helper::ep_get_popup_icon(); 
+    
+                    if (!empty($settings['doc_toolbar'])) {
+                        $embed_content .= '<div class="ep-external-doc-icons">';
+    
+                        if (empty(Helper::is_file_url($url))) {
+                            $embed_content .= Helper::ep_get_popup_icon();
                         }
-
-                        if(!empty(Helper::is_file_url($url))){
-                            if(!empty($settings['doc_print_download'])){
-                                $embed_content.= Helper::ep_get_print_icon(); 
-                                $embed_content.= Helper::ep_get_download_icon(); 
+    
+                        if (!empty(Helper::is_file_url($url))) {
+                            if (!empty($settings['doc_print_download'])) {
+                                $embed_content .= Helper::ep_get_print_icon();
+                                $embed_content .= Helper::ep_get_download_icon();
                             }
                         }
-                        if(!empty($settings['doc_draw'])){
-                            $embed_content.= Helper::ep_get_draw_icon(); 
+                        if (!empty($settings['doc_draw'])) {
+                            $embed_content .= Helper::ep_get_draw_icon();
                         }
-                        if(!empty($settings['doc_fullscreen_mode'])){
-                            $embed_content.= Helper::ep_get_fullscreen_icon(); 
-                            $embed_content.= Helper::ep_get_minimize_icon(); 
+                        if (!empty($settings['doc_fullscreen_mode'])) {
+                            $embed_content .= Helper::ep_get_fullscreen_icon();
+                            $embed_content .= Helper::ep_get_minimize_icon();
                         }
-
-                        $embed_content.= '</div>';
+    
+                        $embed_content .= '</div>';
                     }
-                    $embed_content .='</div>';
-                    
-                    if ( $settings[ 'embedpress_document_powered_by' ] === 'yes' ) {
-                        $embed_content.= '<div>';
-                        $embed_content .= sprintf( '<p class="embedpress-el-powered">%s</p>', __( 'Powered By EmbedPress', 'embedpress' ) );
-                        $embed_content .='</div>';
+                    $embed_content .= '</div>';
+    
+                    if ($settings['embedpress_document_powered_by'] === 'yes') {
+                        $embed_content .= '<div>';
+                        $embed_content .= sprintf('<p class="embedpress-el-powered">%s</p>', esc_html__('Powered By EmbedPress', 'embedpress'));
+                        $embed_content .= '</div>';
                     }
-                    
-                    $embed_content .='</div>';
+    
+                    $embed_content .= '</div>';
                 }
             }
-
-
+    
+    
             ?>
-            <div <?php echo esc_attr( $adsAtts ); ?>>
-
-                <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_doc_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_doc_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>">
-                    <div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">
-                    <?php
-
+            <div <?php echo esc_attr($adsAtts); ?>>
+    
+                <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_doc_content_share'])) : echo esc_attr('position-' . $settings['embedpress_doc_content_share_position'] . '-wraper'); endif; ?> <?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);  ?>">
+                    <div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper">
+                        <?php
+    
                         $content_id = $client_id;
                         if ((empty($settings['embedpress_doc_lock_content']) || $settings['embedpress_doc_lock_content'] == 'no' || empty($settings['embedpress_doc_lock_content_password'])) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_' . $client_id]))) {
-                            
-                            if(!empty($settings['embedpress_doc_content_share'])){
+    
+                            if (!empty($settings['embedpress_doc_content_share'])) {
                                 $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
                             }
-                            if(!empty($embed_content)){
+                            if (!empty($embed_content)) {
                                 echo $embed_content;
                             }
                         } else {
-                            if(!empty($settings['embedpress_doc_content_share'])){
+                            if (!empty($settings['embedpress_doc_content_share'])) {
                                 $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
                             }
                             Helper::display_password_form($client_id, $embed_content, $pass_hash_key, $embed_settings);
                         }
-                    ?>
+                        ?>
                     </div>
                 </div>
-                <?php 
-                    if(!empty($settings['adManager'])) {
-                        $embed_content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
-                    }
+                <?php
+                if (!empty($settings['adManager'])) {
+                    $embed_content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
+                }
                 ?>
             </div>
         </div>
-
-        <?php
+    
+    <?php
     }
+    
 
     private function get_file_url()
     {
         $settings = $this->get_settings();
-        return $settings[ 'embedpress_document_type' ] === 'url' ? $settings[ 'embedpress_document_file_link' ][ 'url' ] : $settings[ 'embedpress_document_Uploader' ][ 'url' ];
+        $file_url = $settings['embedpress_document_type'] === 'url' ? esc_url($settings['embedpress_document_file_link']['url']) : esc_url($settings['embedpress_document_Uploader']['url']);
+        return $file_url;
     }
+
 
     protected function render_editor_script( $id, $url )
     {

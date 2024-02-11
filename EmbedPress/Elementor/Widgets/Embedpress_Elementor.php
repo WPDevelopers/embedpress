@@ -2838,16 +2838,18 @@ class Embedpress_Elementor extends Widget_Base
 	public function render_plain_content()
 	{
 		$args = "";
-		$settings      = $this->get_settings_for_display();
+		$settings = $this->get_settings_for_display();
 
 		$_settings = $this->convert_settings($settings);
 		foreach ($_settings as $key => $value) {
-			$args .= "$key='$value' ";
+			$args .= "$key='" . esc_attr($value) . "' ";
 		}
 
 		$args = trim($args);
-		echo "[embedpress $args]{$settings['embedpress_embeded_link']}\[/embedpress]";
+		$embed_code = sprintf("[embedpress %s]%s[/embedpress]", $args, esc_url($settings['embedpress_embeded_link']));
+		echo $embed_code;
 	}
+
 
 	public function get_custom_player_options($settings)
 	{
@@ -2957,7 +2959,6 @@ class Embedpress_Elementor extends Widget_Base
 
 	protected function render()
 	{
-
 		add_filter('embedpress_should_modify_spotify', '__return_false');
 		$settings      = $this->get_settings_for_display();
 
@@ -2967,13 +2968,13 @@ class Embedpress_Elementor extends Widget_Base
 
 		// conditionaly convert settings data
 		$_settings = [];
-		$source = isset($settings['embedpress_pro_embeded_source']) ? $settings['embedpress_pro_embeded_source'] : 'default';
-		$embed_link = isset($settings['embedpress_embeded_link']) ? $settings['embedpress_embeded_link'] : '';
+		$source = isset($settings['embedpress_pro_embeded_source']) ? esc_attr($settings['embedpress_pro_embeded_source']) : 'default';
+		$embed_link = isset($settings['embedpress_embeded_link']) ? esc_url($settings['embedpress_embeded_link']) : '';
 		$pass_hash_key = isset($settings['embedpress_lock_content_password']) ? md5($settings['embedpress_lock_content_password']) : '';
 
 
 
-		Helper::get_source_data(md5($this->get_id()) . '_eb_elementor', $embed_link, 'elementor_source_data', 'elementor_temp_source_data');
+		Helper::get_source_data(md5($this->get_id()) . '_eb_elementor', esc_url($embed_link), 'elementor_source_data', 'elementor_temp_source_data');
 
 		if (!(($source === 'default' || !empty($source[0]) && $source[0] === 'default') && strpos($embed_link, 'opensea.io') !== false)) {
 			$_settings = $this->convert_settings($settings);
