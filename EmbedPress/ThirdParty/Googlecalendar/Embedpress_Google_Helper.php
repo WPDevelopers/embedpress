@@ -445,7 +445,7 @@ class Embedpress_Google_Helper {
 				foreach ($epgcnotices as $notice) {
 					?>
                     <div class="notice notice-<?php echo esc_attr($notice['type']); ?> is-dismissible">
-                        <p><?php echo $notice['content']; ?></p>
+                        <p><?php echo esc_html($notice['content']); ?></p>
                     </div>
 					<?php
 				}
