@@ -41,22 +41,28 @@ class Handler extends EndHandlerAbstract
     public function handle_calendly_data()
     {
 
-        if(isset($_GET['calendly_status']) && !($_GET['calendly_status'] === 'connect' || $_GET['calendly_status'] === 'disconnect' || $_GET['calendly_status'] === 'sync' ))
-        {
-            echo esc_html__('Invalid url.', 'embedpress');
+        // Define valid calendly status values
+        $valid_statuses = array('connect', 'disconnect', 'sync');
+
+        // Check if calendly_status is set and its value is not valid
+        if (isset($_GET['calendly_status']) && !in_array($_GET['calendly_status'], $valid_statuses)) {
+            echo esc_html__('Invalid URL.', 'embedpress');
             die;
         }
 
+        // Check if calendly_status is not empty and _nonce is empty
         if (!empty($_GET['calendly_status']) && empty($_GET['_nonce'])) {
-            echo esc_html__('Invalid nonce.', 'embedpress');
+            echo esc_html__('Invalid nonce', 'embedpress');
             die;
         }
 
-        if (isset($_GET['_nonce'])) {
+        // Check nonce validity
+        if (!empty($_GET['_nonce'])) {
             $verify = wp_verify_nonce($_GET['_nonce'], 'calendly_nonce');
 
-            if (!empty($_GET['access_token']) && !$verify || !empty($_GET['calendly_status']) && !$verify) {
-                echo esc_html__('Invalid nonce.', 'embedpress');
+            // Check if access_token or calendly_status is present and nonce is invalid
+            if (!$verify) {
+                echo esc_html__('Invalid nonce', 'embedpress');
                 die;
             }
         }
@@ -64,7 +70,10 @@ class Handler extends EndHandlerAbstract
 
         if ((!empty($_GET['access_token']) && isset($_GET['page_type']) && $_GET['page_type'] == 'calendly') || (isset($_GET['calendly_status']) && ($_GET['calendly_status'] == 'sync' || $_GET['calendly_status'] == 'connect'))) {
 
-            update_option('is_calendly_connected', true);
+
+            if ($_GET['calendly_status'] === 'connect') {
+                update_option('is_calendly_connected', true);
+            }
 
             if (isset($_GET['access_token']) && !empty($_GET['access_token'])) {
                 $access_token = $_GET['access_token'];
