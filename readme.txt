@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 6.4
 Requires PHP: 5.6
-Stable tag: 3.9.8
+Stable tag: 3.9.9
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -381,6 +381,10 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.9.9] – 2024-02-14 =
+- Improved: Security patch updated for better performance.
+- Few minor bug fixes & improvements.
 
 = [3.9.8] – 2024-02-01 =
 - Fixed: YouTube live stream wasn't embedding.
