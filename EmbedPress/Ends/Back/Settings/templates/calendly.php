@@ -34,13 +34,21 @@ $calendly_tokens = get_option('calendly_tokens');
 $expirationTime = is_array($calendly_tokens) ? ($calendly_tokens['created_at'] ?? 0) + ($calendly_tokens['expires_in'] ?? 0) : 0;
 $currentTimestamp = time();
 
-$calendly_connect_url = $authorize_url;
-$calendly_sync_url = $authorize_url;
-$calendly_disconnect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=disconnect';
+
+// Generate nonce
+$nonce = wp_create_nonce('calendly_nonce');
+
+// Add nonce as a parameter to the URL
+$nonce_param = "&_nonce=$nonce";
+
+$calendly_connect_url = $authorize_url."?calendly_status=connect,_nonce=$nonce";
+$calendly_sync_url = $authorize_url."?calendly_status=connect,_nonce=$nonce";
+
+$calendly_disconnect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=disconnect'.$nonce_param;
 
 if ($currentTimestamp < $expirationTime) {
-    $calendly_connect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=connect';
-    $calendly_sync_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=sync';
+    $calendly_connect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=connect'.$nonce_param;
+    $calendly_sync_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=sync'.$nonce_param;
 
     if (isset($_GET['calendly_status']) && $_GET['calendly_status'] == 'connect') {
         update_option('is_calendly_connected', true);
@@ -176,6 +184,7 @@ if (!is_embedpress_pro_active()) {
     $invtitees_list = [];
     $scheduled_events = [];
     $event_types = [];
+
 }
 
 ?>
@@ -326,7 +335,7 @@ if (!is_embedpress_pro_active()) {
                                 $uuid = getCalendlyUuid($event['uri']);
 
 
-                                $name = $invtitees_list[$uuid]['collection'][$index]['name'];
+                                $name = isset($invtitees_list[$uuid]['collection'][$index]['name']) ? $invtitees_list[$uuid]['collection'][$index]['name'] : null;
 
                                 // Convert event start and end times to DateTime objects
                                 $start_time = new DateTime($event['start_time']);
