@@ -41,8 +41,14 @@ class Handler extends EndHandlerAbstract
     public function handle_calendly_data()
     {
 
+        if(isset($_GET['calendly_status']) && !($_GET['calendly_status'] === 'connect' || $_GET['calendly_status'] === 'disconnect' || $_GET['calendly_status'] === 'sync' ))
+        {
+            echo esc_html__('Invalid url.', 'embedpress');
+            die;
+        }
+
         if (!empty($_GET['calendly_status']) && empty($_GET['_nonce'])) {
-            echo esc_html__('Invalid nonce', 'embedpress');
+            echo esc_html__('Invalid nonce.', 'embedpress');
             die;
         }
 
@@ -50,7 +56,7 @@ class Handler extends EndHandlerAbstract
             $verify = wp_verify_nonce($_GET['_nonce'], 'calendly_nonce');
 
             if (!empty($_GET['access_token']) && !$verify || !empty($_GET['calendly_status']) && !$verify) {
-                echo esc_html__('Invalid nonce', 'embedpress');
+                echo esc_html__('Invalid nonce.', 'embedpress');
                 die;
             }
         }
