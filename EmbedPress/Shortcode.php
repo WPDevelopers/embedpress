@@ -109,9 +109,9 @@ class Shortcode
             ];
         }
 
-
-        $attributes = array_map('esc_attr', $attributes);
-
+        if(is_array($attributes)) {
+            $attributes = array_map('esc_attr', $attributes);
+        }
 
         $attributes = wp_parse_args($attributes, $default);
         $embed = self::parseContent($subject, true, $attributes);
