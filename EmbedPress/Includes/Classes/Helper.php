@@ -609,39 +609,31 @@ class Helper
 				return '';
 			}
 
-			public static function getCalendlyUserInfo($access_token)
-			{
-				// Attempt to retrieve the data from the transient
-				$user_info = get_transient('calendly_user_info_' . md5($access_token));
-
+			public static function getCalendlyUserInfo($access_token) {
+				$transient_name = 'calendly_user_info_' . $access_token;
+				$user_info = get_transient($transient_name);
 				if (false === $user_info) {
-					// If the data is not in the transient, fetch it from the API
 					$user_endpoint = 'https://api.calendly.com/users/me';
-
 					$headers = array(
 						'Authorization' => "Bearer $access_token",
 						'Content-Type' => 'application/json',
 					);
-
 					$args = array(
 						'headers' => $headers,
 					);
-
 					$response = wp_remote_get($user_endpoint, $args);
-
-					if (!is_wp_error($response)) {
-						$body = wp_remote_retrieve_body($response);
-						$data = json_decode($body, true);
-
-						// Store the data in a transient for a specified time (e.g., 1 hour)
-						set_transient('calendly_user_info', $data, HOUR_IN_SECONDS);
-
-						return $data;
+					if (!is_wp_error($response) && 200 === wp_remote_retrieve_response_code($response)) {
+						$user_info = wp_remote_retrieve_body($response);
+						set_transient($transient_name, $user_info, 3600);
+					} else {
+						return false;
 					}
 				}
 
 				return $user_info;
 			}
+			
+
 
 			public static function getCalaendlyEventTypes($user_uri, $access_token)
 			{
@@ -763,13 +755,11 @@ class Helper
 				$unit = isset($attributes['unitoption']) ? $attributes['unitoption'] : 'px';
 
 				if ($editor === 'elementor') {
-					if($attributes['adSource'] === 'video'){
+					if ($attributes['adSource'] === 'video') {
 						$adFileUrl = isset($attributes['adFileUrl']['url']) ? $attributes['adFileUrl']['url'] : '';
-					}
-					else if($attributes['adSource'] === 'image'){
+					} else if ($attributes['adSource'] === 'image') {
 						$adFileUrl = isset($attributes['adFileUrl1']['url']) ? $attributes['adFileUrl1']['url'] : '';
-					}
-					else{
+					} else {
 						$adFileUrl = isset($attributes['adFileUrl2']['url']) ? $attributes['adFileUrl2']['url'] : '';
 					}
 
@@ -800,12 +790,13 @@ class Helper
 				$showSkipButton = true;
 
 				$isYTChannelClass = '';
-				if(!empty($attributes['url']) && self::is_youtube_channel($attributes['url'])){
+				if (!empty($attributes['url']) && self::is_youtube_channel($attributes['url'])) {
 					$isYTChannelClass = ' ep-youtube-channel';
 				}
 
 				?>
-		<div class="main-ad-template <?php echo esc_attr($adSource); echo esc_attr($isYTChannelClass); ?>" id="<?php echo esc_attr('ad-' . $client_id); ?>" style="display:none">
+		<div class="main-ad-template <?php echo esc_attr($adSource);
+												echo esc_attr($isYTChannelClass); ?>" id="<?php echo esc_attr('ad-' . $client_id); ?>" style="display:none">
 			<div class="ep-ad-container">
 				<div class="ep-ad-content" style="position: relative;">
 					<?php if (!empty($adUrl)) : ?> <a target="_blank" href="<?php echo esc_url($adUrl); ?>"> <?php endif; ?>
