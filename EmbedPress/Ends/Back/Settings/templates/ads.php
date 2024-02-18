@@ -68,7 +68,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
                                             <span class="dashicons dashicons-upload"></span> <?php echo esc_html__('Upload', 'embedpress'); ?>
                                         </button>
 
-                                        <input type="hidden" id="fileInput-0" name="adFileUrl" value="<?php echo esc_attr('https://embedpress.com/wp-content/uploads/2023/12/notificationX-demo-ad.mp4'); ?>"/>
+                                        <input type="hidden" id="fileInput-0" name="adFileUrl" value="<?php echo esc_url('https://embedpress.com/wp-content/uploads/2023/12/notificationX-demo-ad.mp4'); ?>"/>
 
                                         <p class="uploaded-file-url-0 uploaded"><?php echo esc_html('File Name: notificationX-demo-ad.mp4'); ?></p>
                                     </div>
@@ -181,7 +181,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
                                             <span class="dashicons dashicons-upload"></span> <?php echo esc_html__('Upload', 'embedpress'); ?>
                                         </button>
 
-                                        <input type="hidden" id="fileInput-1" name="adFileUrl" value="<?php echo esc_attr($image_demo_adUrl); ?>"/>
+                                        <input type="hidden" id="fileInput-1" name="adFileUrl" value="<?php echo esc_url($image_demo_adUrl); ?>"/>
                                         <p class="uploaded-file-url-1 uploaded"><?php echo esc_html('File Name: demo-ad.gif'); ?></p>
                                     </div>
                                 </div>

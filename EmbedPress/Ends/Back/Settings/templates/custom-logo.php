@@ -124,7 +124,7 @@ KAMAL;
 		    $renderer = Helper::get_pdf_renderer();
 		    $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($pdf_url);
 	        ob_start(); ?>
-            <iframe class="embedpress-embed-document-pdf ep-pdf-sample" style="width:500px; max-width:100%; height: 300px; display: inline-block"  src="<?php echo esc_attr(  $src); ?>" ></iframe>
+            <iframe class="embedpress-embed-document-pdf ep-pdf-sample" style="width:500px; max-width:100%; height: 300px; display: inline-block"  src="<?php echo esc_url(  $src); ?>" ></iframe>
         <?php
 		    $preview_video = ob_get_clean();
 		    break;
@@ -147,7 +147,7 @@ KAMAL;
             </label>
             <div class="logo__adjust__wrap <?php echo $pro_active ? '': 'proOverlay'; ?>" style="<?php if ( ('yes' !== $branding) || !$pro_active ) { echo 'display:none;'; } ?>">
                 <label class="logo__upload" id="yt_logo_upload_wrap" style="<?php if (!empty( $logo_url)) { echo 'display:none;'; } ?>">
-                    <input type="hidden" class="preview__logo__input" name="<?php echo esc_attr( $px_logo_url ); ?>" id="<?php echo esc_attr( $px_logo_url ); ?>" data-default="<?php echo esc_attr( $logo_url ); ?>" value="<?php echo $logo_url; ?>">
+                    <input type="hidden" class="preview__logo__input" name="<?php echo esc_attr( $px_logo_url ); ?>" id="<?php echo esc_attr( $px_logo_url ); ?>" data-default="<?php echo esc_url( $logo_url ); ?>" value="<?php echo $logo_url; ?>">
                     <input type="hidden" class="preview__logo__input_id" name="<?php echo esc_attr( $px_logo_id ); ?>" id="<?php echo esc_attr( $px_logo_id ); ?>" data-default="<?php echo esc_attr( $logo_id ); ?>" value="<?php echo $logo_id; ?>">
                     <span class="icon"><i class="ep-icon ep-upload"></i></span>
                     <span class="text"><?php esc_html_e( "Click To Upload", "embedpress" ); ?></span>
@@ -185,7 +185,7 @@ KAMAL;
                         <div class="logo__adjust__controller__item">
                             <label class="controller__label" for="yt_cta_url" ><?php esc_html_e( "Call to Action Link", "embedpress" );?> </label>
                             <div>
-                                <input type="url"  name="<?php echo esc_attr( $px_cta_url ); ?>" id="<?php echo esc_attr( $px_cta_url ); ?>" class="form__control" data-default="<?php echo esc_attr( $cta_url ); ?>" value="<?php echo esc_attr( $cta_url); ?>">
+                                <input type="url"  name="<?php echo esc_attr( $px_cta_url ); ?>" id="<?php echo esc_attr( $px_cta_url ); ?>" class="form__control" data-default="<?php echo esc_url( $cta_url ); ?>" value="<?php echo esc_url( $cta_url); ?>">
 
                                 <p><?php esc_html_e( "You may link the logo to any CTA link.", "embedpress" ); ?></p>
                             </div>
