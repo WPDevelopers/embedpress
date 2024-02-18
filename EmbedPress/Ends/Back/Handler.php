@@ -41,35 +41,20 @@ class Handler extends EndHandlerAbstract
     public function handle_calendly_data()
     {
 
-        // Define valid calendly status values
-        $valid_statuses = array('connect', 'disconnect', 'sync');
-
-        // Check if calendly_status is set and its value is not valid
-        if (isset($_GET['calendly_status']) && !in_array($_GET['calendly_status'], $valid_statuses)) {
-            echo esc_html__('Invalid URL.', 'embedpress');
-            die;
+        if(empty($_GET['_nonce']))
+        {
+            return false;
         }
 
-        // Check if calendly_status is not empty and _nonce is empty
-        if (!empty($_GET['calendly_status']) && empty($_GET['_nonce'])) {
+        $verify = wp_verify_nonce($_GET['_nonce'], 'calendly_nonce');
+
+        // Check if access_token or calendly_status is present and nonce is invalid
+        if (!$verify) {
             echo esc_html__('Invalid nonce', 'embedpress');
             die;
         }
 
-        // Check nonce validity
-        if (!empty($_GET['_nonce'])) {
-            $verify = wp_verify_nonce($_GET['_nonce'], 'calendly_nonce');
-
-            // Check if access_token or calendly_status is present and nonce is invalid
-            if (!$verify) {
-                echo esc_html__('Invalid nonce', 'embedpress');
-                die;
-            }
-        }
-
-
-        if ((!empty($_GET['access_token']) && isset($_GET['page_type']) && $_GET['page_type'] == 'calendly') || (isset($_GET['calendly_status']) && ($_GET['calendly_status'] == 'sync' || $_GET['calendly_status'] == 'connect'))) {
-
+        if ((!empty($_GET['_nonce']) && $verify) && (!empty($_GET['access_token']) && isset($_GET['page_type']) && $_GET['page_type'] == 'calendly') || (isset($_GET['calendly_status']) && ($_GET['calendly_status'] == 'sync' || $_GET['calendly_status'] == 'connect'))) {
 
             if ($_GET['calendly_status'] === 'connect') {
                 update_option('is_calendly_connected', true);

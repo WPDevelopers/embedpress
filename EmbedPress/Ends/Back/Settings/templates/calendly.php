@@ -50,12 +50,12 @@ if ($currentTimestamp < $expirationTime) {
     $calendly_connect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=connect'.$nonce_param;
     $calendly_sync_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=sync'.$nonce_param;
 
-    if (isset($_GET['calendly_status']) && $_GET['calendly_status'] == 'connect') {
+    if (!empty($_GET['_nonce']) && wp_verify_nonce($_GET['_nonce'], 'calendly_nonce') && $_GET['calendly_status'] == 'connect') {
         update_option('is_calendly_connected', true);
     }
 }
 
-if (isset($_GET['calendly_status']) && $_GET['calendly_status'] == 'disconnect') {
+if (!empty($_GET['_nonce']) && wp_verify_nonce($_GET['_nonce'], 'calendly_nonce') && isset($_GET['calendly_status']) && $_GET['calendly_status'] == 'disconnect') {
     update_option('is_calendly_connected', '');
 }
 
