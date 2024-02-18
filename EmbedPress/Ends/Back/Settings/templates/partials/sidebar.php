@@ -26,16 +26,18 @@
                 <?php do_action('ep_before_element_item'); ?>
                 <a href="<?php echo esc_url($ep_page . '&page_type=sources'); ?>" class="sidebar__link <?php echo 'sources' === $template ? 'active' : ''; ?>"><span><i class="ep-icon ep-platform"></i></span> <?php esc_html_e("Sources", "embedpress"); ?></a>
                 <div class="tab-button-section">
-                    <ul class="source-tab">
-                        <!-- <li class="tab-button active" data-tab="all"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/code.svg" alt=""> All</li> -->
-                        <li class="tab-button" data-tab="audio"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/audio.svg" alt="">Audio</li>
-                        <li class="tab-button" data-tab="video"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/video.svg" alt="">Video</li>
-                        <li class="tab-button" data-tab="image"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/image.svg" alt="">Image</li>
-                        <li class="tab-button" data-tab="pdf"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/pdf.svg" alt="">PDF & Docs</li>
-                        <li class="tab-button" data-tab="social"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/social.svg" alt="">Social</li>
-                        <li class="tab-button" data-tab="google"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/google.svg" alt="">Google Sources</li>
-                        <li class="tab-button" data-tab="stream"><img class="source-image" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/sources/stream.svg" alt="">Live Stream</li>
-                    </ul>
+                <ul class="source-tab">
+                    <!-- <li class="tab-button active" data-tab="all"><img class="source-image" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/code.svg'); ?>" alt=""> <?php echo esc_html__('All', 'embedpress'); ?></li> -->
+                    <li class="tab-button" data-tab="audio"><img class="source-image" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/audio.svg'); ?>" alt=""><?php echo esc_html__('Audio', 'embedpress'); ?></li>
+                    <li class="tab-button" data-tab="video"><img class="source-image" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/video.svg'); ?>" alt=""><?php echo esc_html__('Video', 'embedpress'); ?></li>
+                    <li class="tab-button" data-tab="image"><img class="source-image" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/image.svg'); ?>" alt=""><?php echo esc_html__('Image', 'embedpress'); ?></li>
+                    <li class="tab-button" data-tab="pdf"><img class="source-image" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/pdf.svg'); ?>" alt=""><?php echo esc_html__('PDF & Docs', 'embedpress'); ?></li>
+                    <li class="tab-button" data-tab="social"><img class="source-image" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/social.svg'); ?>" alt=""><?php echo esc_html__('Social', 'embedpress'); ?></li>
+                    <li class="tab-button" data-tab="google"><img class="source-image" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/google.svg'); ?>" alt=""><?php echo esc_html__('Google Sources', 'embedpress'); ?></li>
+                    <li class="tab-button" data-tab="stream"><img class="source-image" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/sources/stream.svg'); ?>" alt=""><?php echo esc_html__('Live Stream', 'embedpress'); ?></li>
+                </ul>
+
+
                 </div>
                 <?php do_action('ep_after_element_item'); ?>
             </li>

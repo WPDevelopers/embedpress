@@ -802,7 +802,7 @@ class Helper
 					<?php if (!empty($adUrl)) : ?> <a target="_blank" href="<?php echo esc_url($adUrl); ?>"> <?php endif; ?>
 						<?php if ($adSource === 'video') : ?>
 							<video class="ep-ad" muted>
-								<source src="<?= $adFileUrl ?>">
+								<source src="<?= esc_url($adFileUrl) ?>">
 							</video>
 
 							<div class="ad-timer">
@@ -814,7 +814,7 @@ class Helper
 							</div>
 
 						<?php else : ?>
-							<img class="ep-ad" src="<?= $adFileUrl ?>">
+							<img class="ep-ad" src="<?= esc_url($adFileUrl) ?>">
 						<?php endif; ?>
 
 						<?php if (!empty($adUrl)) : ?>

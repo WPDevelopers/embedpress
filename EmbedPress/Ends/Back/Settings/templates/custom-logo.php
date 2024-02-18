@@ -92,7 +92,7 @@ function embedpress_print_branding_controls($provider='', $prefix='') {
     $px_cta_url = "{$prefix}_cta_url";
     switch ($provider){
         case 'vimeo':
-            $preview_video = '<iframe title="" loading="lazy" src="https://player.vimeo.com/video/463346733" frameborder="0"></iframe>';
+            $preview_video = '<iframe title="" loading="lazy" src="'.esc_url('https://player.vimeo.com/video/463346733').'" frameborder="0"></iframe>';
             break;
         case 'wistia':
 
@@ -155,7 +155,7 @@ KAMAL;
                 <div class="logo__upload__preview" id="yt_logo__upload__preview" style="<?php if ( empty( $logo_url) ) { echo 'display:none'; } ?> ">
                     <div class="instant__preview">
                         <a href="#" id="yt_preview__remove" class="preview__remove"><i class="ep-icon ep-cross"></i></a>
-                        <img class="instant__preview__img" id="yt_logo_preview" src="<?php echo $logo_url; ?>" alt="">
+                        <img class="instant__preview__img" id="yt_logo_preview" src="<?php echo esc_url($logo_url); ?>" alt="">
                     </div>
                 </div>
 
@@ -195,7 +195,7 @@ KAMAL;
                         <span class="title"><?php esc_html_e( "Live Preview", "embedpress" ); ?></span>
                         <div class="preview__box">
 	                        <?php echo  $preview_video ;?>
-                            <img src="<?php echo $logo_url; ?>" class="preview__logo" style="bottom:<?php echo esc_attr( $logo_ypos); ?>%; right:<?php echo esc_attr( $logo_xpos); ?>%; opacity:<?php echo ($logo_opacity/100); ?>;" alt="">
+                            <img src="<?php echo esc_url($logo_url); ?>" class="preview__logo" style="bottom:<?php echo esc_attr( $logo_ypos); ?>%; right:<?php echo esc_attr( $logo_xpos); ?>%; opacity:<?php echo ($logo_opacity/100); ?>;" alt="">
                         </div>
                     </div>
                 </div>

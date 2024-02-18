@@ -199,13 +199,13 @@ if (!is_embedpress_pro_active()) {
                 <?php if (!empty($is_calendly_connected)) : ?>
                     <div title="<?php echo esc_attr__('Calendly already connected', 'embedpress'); ?>">
                         <a href="<?php echo esc_url($calendly_disconnect_url); ?>" class="calendly-connect-button calendly-connected">
-                            <img class="embedpress-calendly-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/calendly.svg" alt="calendly">
+                            <img class="embedpress-calendly-icon" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL.'img/calendly.svg') ?>" alt="calendly">
                             <?php echo esc_html__('Disconnect', 'embedpress'); ?>
                         </a>
                     </div>
                 <?php else : ?>
                     <a href="<?php echo esc_url($calendly_connect_url); ?>" class="calendly-connect-button" target="_self" title="Connect with Calendly">
-                        <img class="embedpress-calendly-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/calendly.svg" alt="calendly">
+                        <img class="embedpress-calendly-icon" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL.'img/calendly.svg') ?>" alt="calendly">
                         <?php echo esc_html__('Connect with Calendly', 'embedpress'); ?>
                     </a>
                 <?php endif; ?>
@@ -219,9 +219,9 @@ if (!is_embedpress_pro_active()) {
             <?php endif; ?>
         </div>
         <div class="tab-container">
-            <div class="calendly-Event-button tab active-tab" onclick="showTab('event-types')">Event Types</div>
+            <div class="calendly-Event-button tab active-tab" onclick="showTab('event-types')"><?php echo esc_html__('Event Types', 'embedpress'); ?></div>
             <!-- Scheduled Events Tab -->
-            <div class="calendly-Scheduled-button tab" onclick="showTab('scheduled-events')">Scheduled Events</div>
+            <div class="calendly-Scheduled-button tab" onclick="showTab('scheduled-events')"><?php echo esc_html__('Scheduled Events', 'embedpress'); ?></div>
         </div>
 
     </div>

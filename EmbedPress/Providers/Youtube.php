@@ -498,7 +498,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                             <div class="item" data-vid="<?php echo $vid; ?>">
                                 <div class="thumb" style="background: <?php echo "url({$thumbnail}) no-repeat center"; ?>">
                                     <div class="play-icon">
-                                        <img src="<?php echo EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'; ?>" alt="">
+                                        <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'); ?>" alt="">
                                     </div>
                                 </div>
                                 <div class="body">
@@ -608,7 +608,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                     <?php endif; ?>
 
                     <div class="ep-loader-wrap">
-                        <div class="ep-loader"><img alt="loading" src="<?php echo EMBEDPRESS_URL_ASSETS . 'images/youtube/spin.gif'; ?>"></div>
+                        <div class="ep-loader"><img alt="loading" src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/spin.gif'); ?>"></div>
                     </div>
 
                 </div>
@@ -678,7 +678,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $attr = [];
         $attr[] = 'width="{width}"';
         $attr[] = 'height="{height}"';
-        $attr[] = 'src="' . $embedUrl . '"';
+        $attr[] = 'src="' . esc_url($embedUrl) . '"';
         $attr[] = 'frameborder="0"';
         $attr[] = 'allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"';
         $attr[] = 'allowfullscreen';

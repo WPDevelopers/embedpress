@@ -28,20 +28,20 @@
 					<img class="embedpress-banner" src="<?php echo esc_url('https://embedpress.com/wp-content/uploads/2023/10/Mega-Page.gif'); ?>" alt="">
 					
 					<ul class="feature-list">
-						<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Social Share</li>
-						<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Lazy Loading</li>
-						<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">SEO Optimized</li>
-						<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Custom Branding</li>
-						<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Content Protection</li>
-						<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Custom Audio & Video Player</li>
-						<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">PDF & Documents Embedding</li>
-						<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Embed From 150+ Sources</li>
-						<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">Wrapper Support</li>
-						<li><img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check2.svg" alt="">& Many more...</li>
+						<li><img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/check2.svg'); ?>" alt=""><?php echo esc_html__('Social Share', 'embedpress'); ?></li>
+						<li><img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/check2.svg'); ?>" alt=""><?php echo esc_html__('Lazy Loading', 'embedpress'); ?></li>
+						<li><img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/check2.svg'); ?>" alt=""><?php echo esc_html__('SEO Optimized', 'embedpress'); ?></li>
+						<li><img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/check2.svg'); ?>" alt=""><?php echo esc_html__('Custom Branding', 'embedpress'); ?></li>
+						<li><img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/check2.svg'); ?>" alt=""><?php echo esc_html__('Content Protection', 'embedpress'); ?></li>
+						<li><img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/check2.svg'); ?>" alt=""><?php echo esc_html__('Custom Audio & Video Player', 'embedpress'); ?></li>
+						<li><img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/check2.svg'); ?>" alt=""><?php echo esc_html__('PDF & Documents Embedding', 'embedpress'); ?></li>
+						<li><img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/check2.svg'); ?>" alt=""><?php echo esc_html__('Embed From 150+ Sources', 'embedpress'); ?></li>
+						<li><img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/check2.svg'); ?>" alt=""><?php echo esc_html__('Wrapper Support', 'embedpress'); ?></li>
+						<li><img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/check2.svg'); ?>" alt=""><?php echo esc_html__('& Many more...', 'embedpress'); ?></li>
 					</ul>
 
+					<a class="pro-upgrade-button" target="_blank" href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>"><?php echo esc_html__('Upgrade to Pro', 'embedpress'); ?> <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/external-white.svg'); ?>" alt=""></a>
 
-					<a class="pro-upgrade-button" target="_blank" href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>">Upgrade to Pro <img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/external-white.svg" alt=""></a>
 				</div>
 
 			</div>
