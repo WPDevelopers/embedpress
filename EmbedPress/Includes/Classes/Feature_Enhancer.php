@@ -1082,7 +1082,7 @@ class Feature_Enhancer
 					//@TODO; test responsive without static height width, keeping for now backward compatibility
 					?>
 			<div class="ose-vimeo wp-block-embed-vimeo <?php echo $align; ?>">
-				<iframe src="<?php echo $iframeUrl; ?>" allowtransparency="true" frameborder="0" width="640" height="360">
+				<iframe src="<?php echo esc_url($iframeUrl); ?>" allowtransparency="true" frameborder="0" width="640" height="360">
 				</iframe>
 			</div>
 <?php

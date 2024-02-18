@@ -868,7 +868,7 @@ function embedpress_calendar_render_block($attributes)
 	<?php
 		if (!empty($url) && !$is_private) {
 			?>
-		<iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_attr($url); ?>"></iframe>
+		<iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_url($url); ?>"></iframe>
 	<?php } else {
 			if (is_embedpress_pro_active()) {
 				echo Embedpress_Google_Helper::shortcode();
