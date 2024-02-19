@@ -10,4 +10,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Generating zip
-        uses: rudlinkon/action-wordpress-build-zip@dev
+        uses: rudlinkon/action-wordpress-build-zip@dev2
