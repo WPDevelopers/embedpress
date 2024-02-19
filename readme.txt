@@ -1,4 +1,4 @@
-=== EmbedPress - Embed PDF, YouTube, Google Docs, Vimeo, Wistia Videos, Audios, Maps & Any Documents in Gutenberg & Elementor ===
+=== EmbedPress – Embed PDF, Google Docs, Vimeo, Wistia, Embed YouTube Videos, Audios, Maps & Embed Any Documents in Gutenberg & Elementor ===
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, seakashdiu, alimuzzamanalim
 Author: WPDeveloper
 Author URI: https://wpdeveloper.com
@@ -6,7 +6,7 @@ Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embe
 Requires at least: 4.6
 Tested up to: 6.4
 Requires PHP: 5.6
-Stable tag: 3.9.9
+Stable tag: 3.9.10
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -381,6 +381,10 @@ Not at all. You can set up everything your team needs without any coding knowled
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.9.10] – 2024-02-19 =
+- Added: Security Enhancement.
+- Few minor bug fixes & improvements.
 
 = [3.9.9] – 2024-02-14 =
 - Improved: Security patch updated for better performance.
