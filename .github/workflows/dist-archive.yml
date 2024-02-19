@@ -1,6 +1,9 @@
 name: Generate WordPress Archive
+
 on:
-  workflow_dispatch
+  push:
+    branches:
+      - latest
 
 jobs:
   generate-archive:
