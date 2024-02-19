@@ -10,8 +10,4 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Generating zip
-        uses: rudlinkon/action-wordpress-build-zip@dev2
-        with:
-          retention-days: 3 # Optional; defaults to 3
-          npm-run-build: true # Optional; defaults to false
-          node-version: 14 # Optional; defaults to 16
+        uses: rudlinkon/action-wordpress-build-zip@master
