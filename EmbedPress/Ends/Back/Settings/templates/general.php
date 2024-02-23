@@ -134,7 +134,7 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? $g_sett
 					</ul>
 
 				<a class="pro-upgrade-button" target="_blank"
-					href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>"><?php echo _esc_html__('Upgrade to Pro', 'embedpress'); ?><img
+					href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>"><?php echo esc_html__('Upgrade to Pro', 'embedpress'); ?><img
 						src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/external-white.svg'); ?>" alt=""></a>
 			</div>
 
