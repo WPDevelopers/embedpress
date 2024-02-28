@@ -268,6 +268,32 @@ class Embedpress_Document extends Widget_Base
 		);
 
         $this->add_control(
+			'important_note_2',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => esc_html__( 'Toolbar and additional feature options become accessible upon selecting the Custom Viewer mode.', 'embedpress' ),
+				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
+                'condition' => [
+                    'embedpress_document_type' => 'file',
+                ],
+			]
+		);
+
+
+        $this->add_control(
+            'embedpress_document_viewer',
+            [
+                'label'   => __('Viewer', 'embedpress'),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'custom',
+                'options' => [
+                    'custom'  => __('Custom', 'embedpress'),
+                    'office' => __('MS Office', 'embedpress'),
+                ],
+            ]
+        );
+
+        $this->add_control(
             'embedpress_theme_mode',
             [
                 'label'   => __('Theme', 'embedpress'),
@@ -279,6 +305,10 @@ class Embedpress_Document extends Widget_Base
                     'light'  => __('Light', 'embedpress'),
                     'custom'  => __('Custom', 'embedpress')
                 ],
+                'condition' => [
+                    'embedpress_document_viewer' => 'custom',
+                ],
+
             ]
         );
 
@@ -289,6 +319,7 @@ class Embedpress_Document extends Widget_Base
 				'type' => \Elementor\Controls_Manager::COLOR,
                 'condition' => [
                     'embedpress_theme_mode' => 'custom',
+                    'embedpress_document_viewer' => 'custom',
                 ],
 			]
 		);
@@ -303,6 +334,9 @@ class Embedpress_Document extends Widget_Base
                 'return_value' => 'yes',
                 'default'      => 'yes',
                 'classes'     => $this->pro_class,
+                'condition' => [
+                    'embedpress_document_viewer' => 'custom',
+                ],
             ]
         );
 
@@ -318,6 +352,7 @@ class Embedpress_Document extends Widget_Base
                 'default'      => 'yes',
                 'condition' => [
                     'doc_toolbar' => 'yes',
+                    'embedpress_document_viewer' => 'custom',
                 ],
             ]
         );
@@ -334,6 +369,7 @@ class Embedpress_Document extends Widget_Base
                 'classes'     => $this->pro_class,
                 'condition' => [
                     'doc_toolbar' => 'yes',
+                    'embedpress_document_viewer' => 'custom',
                 ],
             ]
         );
@@ -350,6 +386,7 @@ class Embedpress_Document extends Widget_Base
                 'default'      => 'yes',
                 'condition' => [
                     'doc_toolbar' => 'yes',
+                    'embedpress_document_viewer' => 'custom',
                 ],
             ]
         );
@@ -523,6 +560,21 @@ class Embedpress_Document extends Widget_Base
                     } else {
                         $view_link = 'https://drive.google.com/viewerng/viewer?url=' . urlencode($url) . '&embedded=true&chrome=false';
                     }
+
+
+                    if($settings['embedpress_document_viewer'] === 'custom')
+                    {
+                        if (Helper::is_file_url($url)) {
+                            $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';
+                        } else {
+                            $view_link = 'https://drive.google.com/viewerng/viewer?url=' . urlencode($url) . '&embedded=true&chrome=false';
+                        }
+                    }
+                    elseif($settings['embedpress_document_viewer'] === 'office')
+                    {
+                        $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';
+                    }
+
     
                     $hostname = parse_url($url, PHP_URL_HOST);
                     $domain = implode(".", array_slice(explode(".", $hostname), -2));
@@ -550,13 +602,20 @@ class Embedpress_Document extends Widget_Base
                     if (!empty(Helper::is_file_url($url))) {
                         $file_extenstion = Helper::get_extension_from_file_url($url);
                     }
+
+                    $is_masked = '';
+
+                    if($settings['embedpress_document_viewer'] === 'custom')
+                    {
+                        $is_masked = 'ep-file-download-option-masked ';
+                    }
     
                     $is_custom_theme = '';
                     if ($settings['embedpress_theme_mode'] == 'custom') {
                         $is_custom_theme = 'data-custom-color=' . esc_attr($settings['embedpress_doc_custom_color']) . '';
                     }
     
-                    $embed_content .= '<div class="ep-file-download-option-masked ep-file-' . esc_attr($file_extenstion) . ' ' . $is_powered_by . '' . $is_download_enabled . '" data-theme-mode="' . esc_attr($settings['embedpress_theme_mode']) . '"' . esc_attr($is_custom_theme) . ' data-id="' . esc_attr($this->get_id()) . '">';
+                    $embed_content .= '<div class="'.esc_attr( $is_masked ).'ep-file-' . esc_attr($file_extenstion) . ' ' . $is_powered_by . '' . $is_download_enabled . '" data-theme-mode="' . esc_attr($settings['embedpress_theme_mode']) . '"' . esc_attr($is_custom_theme) . ' data-id="' . esc_attr($this->get_id()) . '">';
     
                     $sandbox = '';
                     if ($settings['doc_print_download'] === 'yes') {
@@ -578,7 +637,7 @@ class Embedpress_Document extends Widget_Base
                         $embed_content .= '<div style="width: 40px; height: 40px; position: absolute; opacity: 0; right: 12px; top: 12px;"></div>';
                     }
     
-                    if (!empty($settings['doc_toolbar'])) {
+                    if (!empty($settings['doc_toolbar']) && $settings['embedpress_document_viewer'] === 'custom') {
                         $embed_content .= '<div class="ep-external-doc-icons">';
     
                         if (empty(Helper::is_file_url($url))) {
