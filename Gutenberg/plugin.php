@@ -98,7 +98,8 @@ function embedpress_blocks_cgb_editor_assets()
 		'pdf_renderer' => Helper::get_pdf_renderer(),
 		'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
 		'ajaxurl' => admin_url('admin-ajax.php'),
-		'source_nonce' => wp_create_nonce('source_nonce_embedpress')
+		'source_nonce' => wp_create_nonce('source_nonce_embedpress'),
+		'can_upload_media' => current_user_can( 'upload_files' )
 
 	));
 

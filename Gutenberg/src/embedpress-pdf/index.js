@@ -9,13 +9,15 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import {PdfIcon} from '../common/icons';
+import { PdfIcon } from '../common/icons';
 
 
-const {__} = wp.i18n; // Import __() from wp.i18n
-const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
+const { __ } = wp.i18n; // Import __() from wp.i18n
+const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
-if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks['embedpress-pdf']) {
+const canUploadMedia = embedpressObj.can_upload_media;
+
+if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks['embedpress-pdf'] && canUploadMedia) {
 	registerBlockType('embedpress/embedpress-pdf', {
 		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 		title: __('EmbedPress PDF'), // Block title.
@@ -78,7 +80,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: 'string',
 				default: 'In case you don\'t have the password, kindly reach out to content owner or administrator to request access.'
 			},
-			
+
 			contentShare: {
 				type: 'boolean',
 				default: false
@@ -123,7 +125,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "string",
 				default: 'top',
 			},
-			
+
 			download: {
 				type: "boolean",
 				default: true,
@@ -160,7 +162,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: 'string',
 				default: 'px',
 			},
-			
+
 			width: {
 				type: 'number',
 				default: 600,
