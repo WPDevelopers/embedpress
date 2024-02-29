@@ -35,7 +35,9 @@ class Handler extends EndHandlerAbstract
     {
         parent::__construct($pluginName, $pluginVersion);
 
-        add_action('init', [$this, 'handle_calendly_data']);
+        if (!empty($_GET['page_type']) && $_GET['page_type'] == 'calendly') {
+            add_action('init', [$this, 'handle_calendly_data']);
+        }
     }
 
     public function handle_calendly_data()
