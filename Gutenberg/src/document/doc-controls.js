@@ -19,7 +19,7 @@ import { EPIcon, InfoIcon } from '../common/icons';
 
 const DocControls = ({ attributes, setAttributes }) => {
 
-    const { themeMode, customColor, presentation, position, download, draw, toolbar, copy_text, doc_rotation, powered_by } = attributes;
+    const { docViewer, themeMode, customColor, presentation, position, download, draw, toolbar, copy_text, doc_rotation, powered_by } = attributes;
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     if (!document.querySelector('.pro__alert__wrap')) {
@@ -40,22 +40,39 @@ const DocControls = ({ attributes, setAttributes }) => {
         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Document Controls', 'embedpress')}</div>} initialOpen={false}>
 
             <SelectControl
-                label="Theme"
-                value={themeMode}
+                label="Viewer"
+                value={docViewer}
                 options={[
-                    { label: 'System Default', value: 'default' },
-                    { label: 'Dark', value: 'dark' },
-                    { label: 'Light', value: 'light' },
                     { label: 'Custom', value: 'custom' },
+                    { label: 'MS Office', value: 'office' },
                 ]}
-                onChange={(themeMode) =>
-                    setAttributes({ themeMode })
+                onChange={(docViewer) =>
+                    setAttributes({ docViewer })
                 }
                 __nextHasNoMarginBottom
             />
+            {
+                (docViewer === 'custom') && (
+                    <SelectControl
+                        label="Theme"
+                        value={themeMode}
+                        options={[
+                            { label: 'System Default', value: 'default' },
+                            { label: 'Dark', value: 'dark' },
+                            { label: 'Light', value: 'light' },
+                            { label: 'Custom', value: 'custom' },
+                        ]}
+                        onChange={(themeMode) =>
+                            setAttributes({ themeMode })
+                        }
+                        __nextHasNoMarginBottom
+                    />
+                )
+            }
+
 
             {
-                (themeMode === 'custom') && (
+                (themeMode === 'custom') && (docViewer === 'custom') && (
                     <div className={'ep-docs-viewer-colors'}>
                         <ControlHeader headerText={'Color'} />
                         <ColorPalette
@@ -68,26 +85,30 @@ const DocControls = ({ attributes, setAttributes }) => {
                 )
             }
 
-            <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                <ToggleControl
-                    label={__('Toolbar', 'embedpress')}
-                    description={__('Show or Hide toolbar. Note: If you disable toolbar access then every toolbar options will be disabled', 'embedpress')}
-                    onChange={(toolbar) =>
-                        setAttributes({ toolbar })
-                    }
-                    checked={toolbar}
-                    style={{ marginTop: '30px' }}
-                />
-                {
-                    (!isProPluginActive) && (
-                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                    )
-                }
-            </div>
+            {
+                (docViewer === 'custom') && (
 
+                    <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                        <ToggleControl
+                            label={__('Toolbar', 'embedpress')}
+                            description={__('Show or Hide toolbar. Note: If you disable toolbar access then every toolbar options will be disabled', 'embedpress')}
+                            onChange={(toolbar) =>
+                                setAttributes({ toolbar })
+                            }
+                            checked={toolbar}
+                            style={{ marginTop: '30px' }}
+                        />
+                        {
+                            (!isProPluginActive) && (
+                                <span className='isPro'>{__('pro', 'embedpress')}</span>
+                            )
+                        }
+                    </div>
+                )
+            }
 
             {
-                toolbar && (
+                toolbar && (docViewer === 'custom') && (
                     <Fragment>
 
                         <ToggleControl

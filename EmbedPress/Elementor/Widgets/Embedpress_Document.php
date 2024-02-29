@@ -275,6 +275,7 @@ class Embedpress_Document extends Widget_Base
 				'content_classes' => 'elementor-panel-alert elementor-panel-alert-info',
                 'condition' => [
                     'embedpress_document_type' => 'file',
+                    'embedpress_document_viewer' => 'office',
                 ],
 			]
 		);
@@ -625,7 +626,7 @@ class Embedpress_Document extends Widget_Base
                     $embed_content .= '<iframe title="' . esc_attr(Helper::get_file_title($url)) . '" allowfullscreen="true"  mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr($dimension) . '; max-width:100%;" src="' . esc_url($view_link) . '" ' . $sandbox . '>
                 </iframe>';
     
-                    if ($settings['doc_print_download'] === 'yes' && (Helper::get_extension_from_file_url($url) === 'pptx' || Helper::get_extension_from_file_url($url) === 'ppt' || Helper::get_extension_from_file_url($url) === 'xls' || Helper::get_extension_from_file_url($url) === 'xlsx')) {
+                    if ($settings['embedpress_document_viewer'] === 'custom' && $settings['doc_print_download'] === 'yes' && (Helper::get_extension_from_file_url($url) === 'pptx' || Helper::get_extension_from_file_url($url) === 'ppt' || Helper::get_extension_from_file_url($url) === 'xls' || Helper::get_extension_from_file_url($url) === 'xlsx')) {
                         $embed_content .= '<div class="embed-download-disabled"></div>';
                     }
     

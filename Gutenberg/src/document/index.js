@@ -63,6 +63,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: "boolean",
 				default: true,
 			},
+			docViewer: {
+				type: "string",
+				default: 'custom',
+			},
 			themeMode: {
 				type: "string",
 				default: 'default',
@@ -111,6 +115,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				width,
 				height,
 				powered_by,
+				docViewer,
 				themeMode, customColor, presentation, position, download, draw, toolbar, doc_rotation
 			} = props.attributes
 
@@ -147,7 +152,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 					)}
 
 					{mime !== 'application/pdf' && (
-						<div className={`ep-file-download-option-masked ep-gutenberg-file-doc ep-powered-by-enabled ${isDownloadEnabled}`} data-theme-mode={themeMode} data-custom-color={customColor} data-id={id}>
+						<div className={`${docViewer === 'custom' ? 'ep-file-download-option-masked ' : ''}ep-gutenberg-file-doc ep-powered-by-enabled ${isDownloadEnabled}`} data-theme-mode={themeMode} data-custom-color={customColor} data-id={id}>
 							<iframe
 								style={{
 									height: height,
@@ -157,13 +162,13 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 								mozallowfullscreen="true"
 								webkitallowfullscreen="true" />
 							{
-								draw && (
+								draw && docViewer === 'custom' &&  (
 									<canvas class="ep-doc-canvas" width={width} height={height} ></canvas>
 								)
 							}
 
 							{
-								toolbar && (
+								toolbar && docViewer === 'custom' &&  (
 									<div class="ep-external-doc-icons ">
 										{
 											!isFileUrl(href) && (
