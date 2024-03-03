@@ -19,7 +19,7 @@ function embedpress_gutenberg_render_block_wistia( $attributes )
 		$align = 'align' . ( isset( $attributes[ 'align' ] ) ? $attributes[ 'align' ] : 'center' );
 		if ( !empty( $id ) ) :
 			?>
-			<div class="ose-wistia wp-block-embed-youtube <?php echo esc_attr($align); ?>" id="wistia_<?php echo $id; ?>">
+			<div class="ose-wistia wp-block-embed-youtube <?php echo esc_attr($align); ?>" id="wistia_<?php echo esc_attr($id); ?>">
 				<iframe src="<?php echo esc_url($attributes[ 'iframeSrc' ]); ?>" allowtransparency="true" frameborder="0"
 				        class="wistia_embed" name="wistia_embed" width="600" height="330"></iframe>
 				<?php
