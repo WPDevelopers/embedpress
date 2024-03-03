@@ -149,7 +149,7 @@ class DocumentEdit extends Component {
 	render() {
 
 		const { attributes, noticeUI, setAttributes } = this.props;
-		const { href, mime, id, width, height, themeMode, customColor, presentation, position, download, draw, toolbar, copy_text, doc_rotation, powered_by } = attributes;
+		const { href, mime, id, width, height, docViewer, themeMode, customColor, presentation, position, download, draw, toolbar, copy_text, doc_rotation, powered_by } = attributes;
 		const { hasError, interactive, fetching, loadPdf } = this.state;
 		const min = 1;
 		const max = 1000;
@@ -211,15 +211,15 @@ class DocumentEdit extends Component {
 
 						)}
 						{mime !== 'application/pdf' && (
-							<div className={`ep-file-download-option-masked ep-gutenberg-file-doc ep-powered-by-enabled ${isDownloadEnabled}`} data-theme-mode={themeMode} data-custom-color={customColor} data-id={blockId}>
-								<Iframe title="" onMouseUponMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={url} />
+							<div className={`${docViewer === 'custom' ? 'ep-file-download-option-masked ' : ''}ep-gutenberg-file-doc ep-powered-by-enabled ${isDownloadEnabled}`} data-theme-mode={themeMode} data-custom-color={customColor} data-id={blockId}>
+								<iframe title="" onMouseUponMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={url} />
 								{
-									draw && (
+									draw && docViewer === 'custom' &&(
 										<canvas class="ep-doc-canvas" width={width} height={height} ></canvas>
 									)
 								}
 								{
-									toolbar && (
+									toolbar && docViewer === 'custom' && (
 										<div class="ep-external-doc-icons">
 											{
 												!isFileUrl(href) && (
