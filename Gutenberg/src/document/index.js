@@ -17,7 +17,10 @@ import Logo from "../common/Logo";
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
-if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.document) {
+const canUploadMedia = embedpressObj.can_upload_media;
+
+
+if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.document && canUploadMedia) {
 	registerBlockType('embedpress/document', {
 		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 		title: __('Document'), // Block title.
