@@ -541,8 +541,10 @@ class Embedpress_Document extends Widget_Base
             do_action('embedpress_document_after_embed', $settings, $url, $id, $this);
     
             if ($url != '') {
+                $url = esc_url($url);
+
                 if ($this->is_pdf($url)) {
-                    $this->add_render_attribute('embedpres-pdf-render', 'data-emsrc', $url);
+                    $this->add_render_attribute('embedpres-pdf-render', 'data-emsrc', esc_url($url));
                     $embed_content = '<div ' . $this->get_render_attribute_string('embedpres-pdf-render') . '>';
     
                     $embed_content .= '<iframe title="' . esc_attr(Helper::get_file_title($url)) . '" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="' . esc_attr($dimension) . '; max-width:100%;" src="' . esc_url($url) . '"></iframe>';
