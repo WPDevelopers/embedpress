@@ -2,7 +2,7 @@
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, seakashdiu, alimuzzamanalim
 Author: WPDeveloper
 Author URI: https://wpdeveloper.com
-Tags: embed, embed youtube, gutenberg embed, pdf, doc, docs, ppt, elementor embed, video embed, Google Doc, map embed, youTube Embed, content embed, iframes, vimeo embed, wistia, google sheet, youtube player, block editor, embed wordpress, elementor, WPML, Meetup, Boomplay, PDF Logo
+Tags: embed, embed YouTube, Gutenberg embed, embed PDF, embed Google Docs
 Requires at least: 4.6
 Tested up to: 6.4
 Requires PHP: 5.6
@@ -10,26 +10,26 @@ Stable tag: 3.9.10
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
-EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors.
+ EmbedPress lets you embed videos, images, posts, upload PDFs & other 150+ types of content on WordPress sites without coding & enhance storytelling.
 
 == Description ==
 
-= EMBEDPRESS – EMBED ANYTHING FROM 150+ SOURCES -  EMBED YOUTUBE, GOOGLE DOCS, DRIVE, MAPS, VIMEO, WISTIA, SPOTIFY, BOOMPLAY, PDF, PPT ETC & DISPLAY IT USING ELEMENTOR, BLOCK EDITOR, CLASSIC EDITOR & MORE =
+= EMBEDPRESS –  EMBED FROM 150+ SOURCES – EMBED YOUTUBE, SOCIAL FEEDS, GOOGLE DOCS, MAPS, VIMEO, WISTIA, SPOTIFY, ETC WITHOUT CODING & DISPLAY IN WEBSITES CREATED WITH  ELEMENTOR, GUTENBERG BLOCK EDITOR, OR OTHER PAGE BUILDERS =
 
-[EmbedPress](https://embedpress.com/) lets you embed any engaging and interactive multimedia content such as videos, images, posts, audio, maps, documents, PDF, and much more into your WordPress site with one click and showcase it beautifully for your website visitors.
+[EmbedPress](https://embedpress.com/) enhances the interactive storytelling on your WordPress website by offering one-click embeds of videos, social feeds, maps, PDFs, posts, pages, documents, and much more from 150+ multimedia content sources.
 
-Fuel up your storytelling by embedding content directly on to Classic Editor, Gutenberg (Block Editor), Elementor, or by using EmbedPress shortcodes on other WordPress Page Builders with complete ease.
+Fuel up your website's engagement and make it aesthetically pleasing by embedding content directly in Classic Editor, Gutenberg Block Editor, Elementor, or by using EmbedPress shortcodes on other WordPress page builders with ease.
 
 
-https://www.youtube.com/watch?v=fvYKLkEnJbI
+https://youtu.be/fvYKLkEnJbI
 
-### 🔥 RICH MEDIA EMBEDS FROM MORE THAN 150 SITES
+### 🔥 ALL-IN-ONE WORDPRESS EMBEDDING PLUGIN SUPPORTS 150+ SITES
 
-With EmbedPress, all you need is an URL to embed attention-grabbing content from **over 150 websites**. Find the URL for your preferred video, image, audio files, post, or map and simply cut-and-paste the link into a WordPress post. EmbedPress automatically understands the URL and instantly embeds fully responsive content on your websites.
+With EmbedPress, all you need is a URL to embed attention-grabbing content from over 150 websites. Find the URL for your preferred video, image, audio file, post, or map, and simply cut and paste the link into a WordPress post. EmbedPress automatically understands the URL and instantly embeds fully responsive content on your websites.
 
-### 🔗 EMBED CONTENT USING ANY WORDPRESS PAGE BUILDER
+### 🔗 COMPATABLE WITH GUTENBERG EMBED & OTHER WORDPRESS PAGE BUILDERS
 
-EmbedPress makes embedding engaging content on Classic Editor, Gutenberg (Block Editor) & EmbedPress completely hassle-free for you with seamless compatibility.
+EmbedPress makes embedding engaging content on Classic Editor, Gutenberg Block Editor & Elementor completely hassle-free for you with advanced customizations.
 
 Or, you can also effortlessly use advanced [EmbedPress shortcodes](https://embedpress.com/docs/how-to-use-embedpress-shortcodes-page-builders/) to embed content into any of your preferred WordPress Page Builders, like Beaver Builder & Divi, in less than a minute.
 
