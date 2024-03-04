@@ -322,14 +322,14 @@ function embedpress_render_block_style($attributes)
 		';
 	}
 	$youtubeStyles = '<style>
-		' . esc_attr($uniqid) . ' {
+		.ose-youtube' . esc_attr($uniqid) . ' {
 			width: ' . esc_attr($attributes['width']) . 'px !important;
 			height: ' . esc_attr($attributes['height']) . 'px!important;
 			max-height: ' . esc_attr($attributes['height']) . 'px !important;
 			max-width: 100%;
 		}
 
-		' . esc_attr($uniqid) . '>iframe {
+		.ose-youtube' . esc_attr($uniqid) . '>iframe {
 			height: ' . esc_attr($attributes['height']) . 'px !important;
 			max-height: ' . esc_attr($attributes['height']) . 'px !important;
 			width: 100%;
@@ -367,7 +367,7 @@ function embedpress_render_block_style($attributes)
 
 
 		$youtubeStyles = '<style>
-		' . esc_attr($uniqid) . ' {
+		.ose-youtube' . esc_attr($uniqid) . ' {
 			position: relative;
 			width: ' . esc_attr($attributes['width']) . 'px !important;
 			height: ' . esc_attr($height) . 'px !important;
@@ -379,7 +379,7 @@ function embedpress_render_block_style($attributes)
 			padding-top: 0;
 		  }
 
-		  ' . esc_attr($uniqid) . ' > iframe {
+		  .ose-youtube' . esc_attr($uniqid) . ' > iframe {
 			width: 100%;
 			height: 100%;
 			max-height:100%;

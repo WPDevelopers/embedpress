@@ -341,7 +341,6 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                     $jsonResult = json_decode($results['body']);
 
 
-                    // print_r($jsonResult); die;
 
                     if(isset($jsonResult->nfts) && is_array($jsonResult->nfts)){
                         $collection_asset = array();
@@ -387,6 +386,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
                 <?php else: ?>
                     <?php if(is_wp_error( $results ) && defined('WP_DEBUG') && WP_DEBUG): ?>
                         <h4 style="text-align: center"><?php echo esc_html($results->get_error_message()); ?></h4>
+                    <?php elseif(isset($jsonResult->errors[0])): ?>
+                        <h4 style="text-align: center"><?php echo esc_html($jsonResult->errors[0]); ?></h4>
                     <?php else: ?>
                         <h4 style="text-align: center"><?php echo esc_html__('Something went wrong.', 'embedpress'); ?></h4>
                     <?php endif; ?>
@@ -836,18 +837,17 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             alt="'.esc_attr($name).'">';
         }
 
-        $created_by = $item['created_by'];
+        $created_by = isset($item['created_by']) ? $item['created_by'] : '';
+        $creator_img_url = isset($item['creator_img_url']) ? $item['creator_img_url'] : '';
+        $current_price = isset($item['current_price']) ? $item['current_price'] : 0;
+        $usd_price = isset($item['current_price']) && isset($item['usd_price']) ? (float)$item['current_price'] * (float)$item['usd_price'] : 0;
 
-        $creator_img_url = $item['creator_img_url'];
         
-        $current_price = $item['current_price'];
-        $usd_price = (float) $current_price * (float) $item['usd_price'];
-        
-        if(!empty($item['last_sale'] && $item['last_sale'] > 0) ){
+        if(isset($item['last_sale']) && !empty($item['last_sale'] && $item['last_sale'] > 0) ){
             $last_sale = $item['last_sale'];
         }
 
-        $last_usd_price = (float) $last_sale * (float) $item['usd_price'];
+        $last_usd_price = (float) $last_sale * (float) $usd_price;
 
         $usd_price_tem = '';
 
@@ -931,7 +931,7 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
         }
 
 
-        if(($params['collectionname'] == 'yes' || $params['collectionname'] == 'true') && !empty($params['collectionname'])){
+        if((isset($item['collectionname']) && $params['collectionname'] == 'yes' || $params['collectionname'] == 'true') && !empty($params['collectionname'])){
             $collectionname = '<a class="CollectionLink--link" target="_blank" href="'.esc_url('https://opensea.io/collection/'.$item['collection_slug']).'" '.$this->createStye('collectionNameColor', 'collectionNameFZ', '').'><span
             class="CollectionLink--name">'.esc_html($item['collectionname']).$is_verified.'</span></a>';
         }
