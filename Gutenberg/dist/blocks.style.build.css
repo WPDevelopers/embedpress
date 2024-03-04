@@ -844,6 +844,18 @@ button.components-color-palette__custom-color-button {
 .components-color-palette__custom-color-text-wrapper {
   display: none !important; }
 
+.components-panel__body.is-opened.ep-opensea-options h2.components-panel__body-title, .components-panel__body.is-opened.ep-colors-typography h2.components-panel__body-title {
+  margin-bottom: 16px !important; }
+
+.components-panel__body.is-opened.ep-colors-typography .ep-opensea-sub-controls h2.components-panel__body-title {
+  margin-bottom: 0px !important; }
+
+.embedpress-gutenberg-controls .components-panel__body.is-opened h2.components-panel__body-title {
+  margin-bottom: 16px !important; }
+
+.ep-controls-margin {
+  margin-bottom: 16px; }
+
 .ep-video-controlers .ep-control-field .components-base-control__field {
   display: -ms-flexbox;
   display: flex;

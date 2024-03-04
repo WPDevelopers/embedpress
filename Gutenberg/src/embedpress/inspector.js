@@ -81,10 +81,10 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
             <InspectorControls>
                 {
                     !isOpensea && !isOpenseaSingle && (
-                        <div>
+                        <div className='embedpress-gutenberg-controls'>
                             <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('General', 'embedpress')}</div>}>
 
-                                <div>
+                                <div className='ep-controls-margin'>
 
                                     {
                                         isYTLive && (

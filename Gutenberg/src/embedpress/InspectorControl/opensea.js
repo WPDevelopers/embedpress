@@ -343,7 +343,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                 {
                     isOpensea && (
-                        <PanelBody title={__("Query")} initialOpen={true} className={'ep-opensea-options'}>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Query', 'embedpress')}</div>} initialOpen={true} className={'ep-opensea-options'}>
                             <div>
                                 <RangeControl
                                     label={__("Limit", "embedpress")}
@@ -370,7 +370,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                 {
                     isOpensea && (
-                        <PanelBody title={__("Layout")} initialOpen={false} className={'ep-opensea-options'}>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Layout', 'embedpress')}</div>} initialOpen={false} className={'ep-opensea-options'}>
                             <div>
                                 <SelectControl
                                     label={__("Layout", "embedpress")}
@@ -586,7 +586,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                 {
                     isOpensea && (
-                        <PanelBody title={__("Load More")} initialOpen={false} className={'ep-opensea-options'}>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Load More', 'embedpress')}</div>} initialOpen={false} className={'ep-opensea-options'}>
 
 
                             <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
@@ -629,7 +629,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                 <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Color and Typography', 'embedpress')}</div>} initialOpen={false} className={'ep-colors-typography'}>
                     <p>{__("You can adjust the color and typography of embedded content.")}</p>
-                    <div>
+                    <div className='ep-opensea-sub-controls'>
                         <PanelBody title={__("Item")} initialOpen={false}>
                             <ControlHeader headerText={'Background Color'} />
                             <ColorPalette
