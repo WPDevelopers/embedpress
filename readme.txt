@@ -57,7 +57,7 @@ EmbedPress is now certified as a recommended plugin by and 100% compatible with 
 
 EmbedPress makes embedding PDFs and Documents on the Gutenberg Block Editor much easier by introducing an exclusive ‘Document Block’.
 
-https://www.youtube.com/watch?v=1yVbt3XW-Wo&list=PLWHp1xKHCfxAVncPuQlAFHTaRl3kO3qBi
+https://youtu.be/1yVbt3XW-Wo&list=PLWHp1xKHCfxAVncPuQlAFHTaRl3kO3qBi
 
 ### 🎞️ CUSTOMIZE YOUTUBE VIDEO EMBEDS WITH ADVANCED FEATURES [PRO]
 
@@ -104,7 +104,7 @@ We’ve seen that EmbedPress supports YouTube, Wistia and Vimeo, but EmbedPress 
 -   [VideoPress embeds](https://embedpress.com/docs/embed-videopress-videos-wordpress/)
 
 
-https://www.youtube.com/watch?v=1F2mPePF3F4&list=PLWHp1xKHCfxAVncPuQlAFHTaRl3kO3qBi
+https://youtu.be/1F2mPePF3F4&list=PLWHp1xKHCfxAVncPuQlAFHTaRl3kO3qBi
 
 
 ### 🎯 ADD CUSTOM BRANDING WITH MULTIMEDIA EMBEDS [PRO]
@@ -150,7 +150,7 @@ Google Drive is an enormously popular service that has replaced Microsoft Office
 -   [How to use Google Slides in WordPress](https://embedpress.com/docs/embed-google-slides-wordpress/)
 
 
-https://www.youtube.com/watch?v=3CWysKDRoG4
+https://youtu.be/3CWysKDRoG4
 
 
 ### 👍 FACEBOOK POSTS AND VIDEOS
@@ -198,7 +198,7 @@ EmbedPress supports most popular image-hosting sites, including Deviantart, Giph
 
 -   [How to use Instagram in WordPress](https://embedpress.com/docs/embed-instagram-wordpress/)
 
-https://www.youtube.com/watch?v=h8oPwlZ9P5A
+https://youtu.be/h8oPwlZ9P5A
 
 
 ### 📊 CHARTS AND DIAGRAMS
@@ -332,7 +332,7 @@ If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
 🔔 [NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
 
-⏰ [WP Scheduled Posts](https://wordpress.org/plugins/wp-scheduled-posts/)  – Complete solution for WordPress Post Scheduling to manage schedules through an editorial calendar & Social Share.
+⏰ [SchedulePress](https://wordpress.org/plugins/wp-scheduled-posts/)  – Complete solution for WordPress Post Scheduling to manage schedules through an editorial calendar & Social Share.
 
 🗒️ [BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, which also reduces your manual support request.
 
@@ -451,7 +451,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Few minor bug fixes & improvements.
 
 
-[View Full Changelog](https://embedpress.com/changelog)
+[See changelog for all versions.](https://embedpress.com/changelog)
 
 
 == Upgrade Notice ==
