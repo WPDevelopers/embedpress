@@ -20,7 +20,6 @@ EmbedPress lets you embed videos, images, posts, upload PDFs & other 150+ types 
 
 Fuel up your website's engagement and make it aesthetically pleasing by embedding content directly in Classic Editor, Gutenberg Block Editor, Elementor, or by using EmbedPress shortcodes on other WordPress page builders with ease.
 
-
 https://youtu.be/fvYKLkEnJbI
 
 ### 🔥 ALL-IN-ONE WORDPRESS EMBEDDING PLUGIN SUPPORTS 150+ SITES
@@ -33,274 +32,204 @@ EmbedPress makes embedding engaging content on Classic Editor, Gutenberg Block E
 
 Or, you can also effortlessly use advanced [EmbedPress shortcodes](https://embedpress.com/docs/how-to-use-embedpress-shortcodes-page-builders/) to embed content into any of your preferred WordPress Page Builders, like Beaver Builder & Divi, in less than a minute.
 
+### 📄 [EMBED PDF](https://embedpress.com/embed-pdf-document/), DOC, PPT, OR ALMOST ANY FILE TYPE, RIGHT FROM WORDPRESS
+
+Upload PDF, PPT (Powerpoint Presentation), DOCS, XLS (Excel Files), or any file type and embed any documents efficiently. EmbedPress makes embedding PDFs and documents on Gutenberg and Elementor easier with its exclusive ‘Document’ block & addons.
+
+https://youtu.be/1yVbt3XW-Wo
+
+### ⚡ EMBED POSTS AND PAGES FROM COUNTLESS WEBSITES
+
+EmbedPress offers a soothing experience to embed pages and posts from your desired website. This feature is called Wrapper. Now you can embed any websites you want within your website. 
+
+### ↗️ DO SOCIAL SHARE OF EMBEDDED CONTENTS
+
+Sharing content directly from your website is now one click away. You can instantly share embedded content from your website on a variety of platforms with EmbedPress. Display your website content easily in your chosen social feeds without using embed codes.
+
 ### 🤝 TRANSLATE YOUR EMBEDDED CONTENT WITH MULTILINGUAL PLUGIN WPML
 
 EmbedPress is now certified as a recommended plugin by and 100% compatible with the most popular WordPress Multilingual Plugin, WPML. [Translate your favorite embedding solution](https://embedpress.com/docs/translate-embedpress-wpml/) for WordPress into any and all of your preferred languages with a few, easy steps.
 
-### 🌟 Most Popular Sites People Are Embedding with EmbedPress:
+### 🎬 [EMBED VIDEOS](https://embedpress.com/embed-video/) & ENGAGE AUDIENCES
 
--   [Google](https://embedpress.com/docs-category/google-embeds/): You can embed Google Maps, Docs, Forms, Sheets and more.
+You can seamlessly embed YouTube, Wistia, and Vimeo, but EmbedPress and other 25+ video sources:
 
--   [Facebook](https://embedpress.com/docs/embed-facebook-posts-wordpress/): You can embed Facebook posts and videos to your site.
+-   [Embed YouTube videos](https://embedpress.com/docs/embed-youtube-wordpress/)
+-   [Embed Wistia videos](https://embedpress.com/docs/embed-wistia-videos-wordpress/)
+-   [Embed Vimeo videos](https://embedpress.com/docs/embed-vimeo-videos-wordpress/)
+-   [Animoto embeds](https://embedpress.com/docs/embed-animoto-videos-wordpress/)
+-   [College Humor embeds](https://embedpress.com/docs/embed-collegehumor-videos-wordpress/)
+-   [Coub embeds](https://embedpress.com/docs/embed-coub-videos-iwordpress/)
+-   [Crowd Ranking embeds](https://embedpress.com/docs/embed-crowdranking-polls-wordpress/)
+-   [Cloudup embeds](https://embedpress.com/docs/embed-cloudup-videos-images-or-audios-wordpress/)
+-   [Clypit embeds](https://embedpress.com/docs/embed-clypit-audio-wordpress/)
+-   [Daily Motion embeds](https://embedpress.com/docs/embed-dailymotion-videos-wordpress/)
+-   [Funny or Die embeds](https://embedpress.com/docs/embed-funnyordie-videos-wordpress/)
+-   [Hulu embeds](https://embedpress.com/docs/embed-hulu-videos-wordpress/)
+-   [Kickstarter embeds](https://embedpress.com/docs/embed-kickstarter-videos-wordpress/)
+-   [NFB embeds](https://embedpress.com/docs/embed-nfb-videos-wordpress/)
+-   [Sapo Videos embeds](https://embedpress.com/docs/embed-sapo-videos-wordpress/)
+-   [SproutVideo embeds](https://embedpress.com/docs/how-to-embed-sproutvideo/)
+-   [TED embeds](https://embedpress.com/docs/embed-ted-videos-wordpress/)
+-   [Twitch embeds](https://embedpress.com/docs/embed-twitch-streams-chat/)
+-   [VideoPress embeds](https://embedpress.com/docs/embed-videopress-videos-wordpress/)
+-   [Vidyard embeds](https://www.vidyard.com/)
+-   [Wave embeds](https://embedpress.com/docs/how-to-embed-wave-videos-in-wordpress/)
 
--   [Videos](https://embedpress.com/docs-category/video/): You can quickly embed YouTube, Wistia, Vimeo, Dailymotion, or Twitch videos.
+Check the video tutorial 👇
 
--   [Audio](https://embedpress.com/docs-tag/audio): You can embed Spotify, Boomplay, Soundcloud, and Mixcloud audio.
-
--   [Images](https://embedpress.com/docs-category/embeds/): You can embed Imgur, Giphy and Deviantart images, plus others.
-
-
-### 📄 Upload PDF, DOC, PPT or almost any filetypes, right from WordPress
-
--   Supported Filetypes: PDF, PPT (Powerpoint Presentration), DOCS, XLS (Excel Files)
--   Supported Editors: Block Editor (Gutenberg) & Elementor
-
-EmbedPress makes embedding PDFs and Documents on the Gutenberg Block Editor much easier by introducing an exclusive ‘Document Block’.
-
-https://youtu.be/1yVbt3XW-Wo&list=PLWHp1xKHCfxAVncPuQlAFHTaRl3kO3qBi
+https://youtu.be/5UUGEX1Zzs8
 
 ### 🎞️ CUSTOMIZE YOUTUBE VIDEO EMBEDS WITH ADVANCED FEATURES [PRO]
 
--   Add Custom Branding by embedding your own customized logo and call-to-action buttons.
--   Embed a ‘Subscription Button’ and boost conversion rates for your website & your YouTube channel.
--   Show or hide closed captions & enable live chat with every video.
--   Allow autoplay, display video annotations and related videos, and much more.
-
-
-### 🎬 OTHER VIDEO OPTIONS
-
-We’ve seen that EmbedPress supports YouTube, Wistia and Vimeo, but EmbedPress also supports around 20 more video sources:
-
--   [Animoto embeds](https://embedpress.com/docs/embed-animoto-videos-wordpress/)
-
--   [College Humor embeds](https://embedpress.com/docs/embed-collegehumor-videos-wordpress/)
-
--   [Coub embeds](https://embedpress.com/docs/embed-coub-videos-iwordpress/)
-
--   [Crowd Ranking embeds](https://embedpress.com/docs/embed-crowdranking-polls-wordpress/)
-
--   [Cloudup embeds](https://embedpress.com/docs/embed-cloudup-videos-images-or-audios-wordpress/)
-
--   [Clypit embeds](https://embedpress.com/docs/embed-clypit-audio-wordpress/)
-
--   [Daily Motion embeds](https://embedpress.com/docs/embed-dailymotion-videos-wordpress/)
-
--   [Funny or Die embeds](https://embedpress.com/docs/embed-funnyordie-videos-wordpress/)
-
--   [Hulu embeds](https://embedpress.com/docs/embed-hulu-videos-wordpress/)
-
--   [Kickstarter embeds](https://embedpress.com/docs/embed-kickstarter-videos-wordpress/)
-
--   [NFB embeds](https://embedpress.com/docs/embed-nfb-videos-wordpress/)
-
--   [Sapo Videos embeds](https://embedpress.com/docs/embed-sapo-videos-wordpress/)
-
--   [SproutVideo embeds](https://embedpress.com/docs/how-to-embed-sproutvideo/)
-
--   [TED embeds](https://embedpress.com/docs/embed-ted-videos-wordpress/)
-
--   [Twitch embeds](https://embedpress.com/docs/embed-twitch-streams-chat/)
-
--   [VideoPress embeds](https://embedpress.com/docs/embed-videopress-videos-wordpress/)
-
-
-https://youtu.be/1F2mPePF3F4&list=PLWHp1xKHCfxAVncPuQlAFHTaRl3kO3qBi
-
+- Add Custom Branding by embedding your own customized logo and call-to-action buttons.
+- Embed a ‘Subscription Button’ and boost conversion rates for your website & your YouTube channel.
+- Show or hide closed captions & enable live chat with every video.
+- Allow autoplay, display video annotations and related videos, and much more.
 
 ### 🎯 ADD CUSTOM BRANDING WITH MULTIMEDIA EMBEDS [PRO]
 
-Along with **YouTube video embeds**, EmbedPress also enables you to embed custom logos and call-to-action buttons to other multimedia contents to brand them with your website:
+Along with YouTube video embeds, EmbedPress also enables you to embed custom logos and call-to-action buttons in other multimedia content to brand them with your website:
 
--   Custom Branding for Vimeo video embeds [PRO]
--   Custom Branding for Wistia video embeds [PRO]
--   Custom Branding for Twitch stream embeds [PRO]
--   Custom Branding for Dailymotion embed [PRO]
--   Custom Branding for Documents & PDFs [PRO]
+- Custom Branding for Vimeo video embeds [PRO]
+- Custom Branding for Wistia video embeds [PRO]
+- Custom Branding for Twitch stream embeds [PRO]
+- Custom Branding for Dailymotion embed [PRO]
+- Custom Branding for PDFs & Documents [PRO]
 
-
-### 🏆 POWER UP OTHER MULTIMEDIA EMBEDS WITH EXCLUSIVE FEATURES - VIMEO, WISTIA, SPOTIFY & MORE
-
--   [Vimeo](https://embedpress.com/docs/embed-vimeo-videos-wordpress/): Play your videos on Loop [PRO], turn on Auto Pause [PRO], enable DNT [PRO], and much more.
-
--   [Wistia](https://embedpress.com/docs/embed-wistia-videos-wordpress/): Start your videos with a Custom Volume [PRO] with Controls [PRO], enable Captions [PRO], and Rewind videos when needed.
-
--   [Twitch](https://embedpress.com/docs/embed-twitch-streams-chat/): Show Chat [PRO], enable a Custom Theme & Full Screen Button, and more.
-
--   [Dailymotion](https://embedpress.com/docs/how-to-configure-settings-for-dailymotion-video-embeds/): Show Logo [PRO], display Video Information or Play Controls, and more.
-
--   [SoundCloud](https://embedpress.com/docs/how-to-configure-settings-for-soundcloud-audio-embeds/): Add a Buy Button [PRO] or Download Button [PRO], enable Share Button, display Username & more.
-
--   [Spotify](https://embedpress.com/docs/how-to-embed-spotify-artist-follower-widget/): Choose a Player Background Color and embed Artist Follower Buttons [PRO].
+### 🏆 EXCLUSIVE CUSTOMIZATIONS FOR MULTIMEDIA EMBEDS [PRO] 
 
 
-### ☁️ GOOGLE DRIVE: DOCS, SHEETS, DRAWINGS, FORMS, SLIDES, MAPS
+-   [Vimeo](https://embedpress.com/docs/embed-vimeo-videos-wordpress/): Play your videos on Loop, turn on Auto Pause, enable DNT, and much more.
 
-Google Drive is an enormously popular service that has replaced Microsoft Office for many companies. Using Google Drives can bring your information to life, whether it’s stored in documents, maps, drawings, spreadsheets, or presentations. EmbedPress supports all of these Google Drive options:
+-   [Wistia](https://embedpress.com/docs/embed-wistia-videos-wordpress/): Start your videos with a Custom Volume with Controls, enable Captions, and Rewind videos when needed.
 
--   [How to use Google Docs in WordPress](https://embedpress.com/docs/google-docs-embed-wordpress/)
+-   [Twitch](https://embedpress.com/docs/embed-twitch-streams-chat/): Show Chat, enable a Custom Theme & Full Screen Button, and more.
 
--   [How to use Google Forms in WordPress](https://embedpress.com/docs/google-forms-embed-wordpress/)
+-   [Dailymotion](https://embedpress.com/docs/how-to-configure-settings-for-dailymotion-video-embeds/): Show Logo, display Video Information or Play Controls, and more.
 
--   [How to use Google Maps in WordPress](https://embedpress.com/docs/google-maps-embed-wordpress/)
+-   [SoundCloud](https://embedpress.com/docs/how-to-configure-settings-for-soundcloud-audio-embeds/): Add a Buy Button or Download Button, enable Share Button, display Username & more.
 
--   [How to use Google Drawings in WordPress](https://embedpress.com/docs/google-drawings-embed-wordpress/)
+-   [Spotify](https://embedpress.com/docs/how-to-embed-spotify-artist-follower-widget/): Choose a Player Background Color and embed Artist Follower Buttons.
 
--   [How to use Google Sheets in WordPress](https://embedpress.com/docs/embed-google-sheets-wordpress/)
+-   [Custom Video & Audio Player](https://embedpress.com/docs/video-custom-player-controls/): Update the appearance of your embedded audio and videos with advanced settings.
 
--   [How to use Google Slides in WordPress](https://embedpress.com/docs/embed-google-slides-wordpress/)
+- Lazy Loading: Enable lazy loading for embedding images on your website so they load faster.
+-   [Content Protection](https://embedpress.com/docs/add-ep-content-protection-in-embedded-content/): Control the visibility of your embedded content to prevent unauthorized access.
 
+-   [Showcase Ads](https://embedpress.com/docs/how-to-configure-ep-custom-ad/): Showcase ads in embedded content from 150+ sources on your website using images, videos, or direct URLs.
+
+### ☁️ [EMBED GOOGLE SOURCES](https://embedpress.com/embed-google-sources/): DOCS, SHEETS, DRAWINGS, FORMS, SLIDES, MAPS
+
+Embedding Google sources has become easier than ever, whether they're stored in documents, maps, drawings, spreadsheets, or presentations. EmbedPress supports all of these Google Drive options:
+
+-   [Embed Google Docs](https://embedpress.com/docs/google-docs-embed-wordpress/)
+-   [Embed Google Forms](https://embedpress.com/docs/google-forms-embed-wordpress/)
+-   [Embed Google Maps](https://embedpress.com/docs/google-maps-embed-wordpress/)
+-   [Embed Google Drawings](https://embedpress.com/docs/google-drawings-embed-wordpress/)
+-   [Embed Google Sheets](https://embedpress.com/docs/embed-google-sheets-wordpress/)
+-   [Embed Google Slides](https://embedpress.com/docs/embed-google-slides-wordpress/)
+
+Check the video tutorial 👇
 
 https://youtu.be/3CWysKDRoG4
 
+### 👍 [EMBED SOCIAL FEEDS](https://embedpress.com/embed-social/) SEAMLESSLY & FOSTER SOCIAL PROOFS
 
-### 👍 FACEBOOK POSTS AND VIDEOS
+With EmbedPress, you can add Facebook posts to WordPress using just a URL. Facebook post embeds are possible but not easy to use via normal methods. EmbedPress is different; it helps you to embed social feeds instantly without any API integration.
 
-With EmbedPress, you can add Facebook Posts to WordPress, using just a URL. Facebook post embeds are possible, but they’re not easy to use via normal methods. EmbedPress is different:
+-   [Embed Facebook posts, videos](https://embedpress.com/docs/embed-facebook-posts-wordpress/)
+-   [Embed Instagram feeds](https://embedpress.com/docs/embed-instagram-wordpress/)
+-   [Embed TikTok posts](https://embedpress.com/docs/embed-tiktok-in-wordpress/)
+-   [Embed Twitter (X)](https://embedpress.com/docs/embed-twitter-tweets-wordpress/) tweets
 
--   [How to use Facebook embeds in WordPress](https://embedpress.com/docs/embed-facebook-posts-wordpress/)
-
-
-### 🎧 AUDIO: SPOTIFY, SOUNDCLOUD AND MIXCLOUD
-
-EmbedPress supports all of these major options for audio on your WordPress site:
-
--   [How to use Spotify in WordPress](https://embedpress.com/docs/embed-spotify-audios-wordpress/)
-
--   [How to use Boomplay in WordPress](https://embedpress.com/docs/how-to-embed-boomplay-music/)
-
--   [How to use MixCloud in WordPress](https://embedpress.com/docs/embed-mixcloud-audio-wordpress/)
-
--   [How to use SoundCloud in WordPress](https://embedpress.com/docs/embed-soundcloud-audio-wordpress/)
-
-
-Here are multiple other audio options supported by EmbedPress:
-
--   [How to use HuffDuffer in WordPress](https://embedpress.com/docs/embed-huffduffer-audios-wordpress/)
-
--   [How to use Chirbit in WordPress](https://embedpress.com/docs/embed-chirbit-audio-wordpress/)
-
--   [How to use Clyp in WordPress](https://embedpress.com/docs/embed-clypit-audio-wordpress/)
-
--   [How to use ReverbNation in WordPress](https://embedpress.com/docs/embed-reverbnation-audio-wordpress/)
-
-
-### 🖼️ PHOTOS: DEVIANTART, GIPHY, FLICK, IMGUR AND INSTAGRAM
-
-EmbedPress supports most popular image-hosting sites, including Deviantart, Giphy, Imgur, Flick and Instagram:
-
--   [How to use Deviantart in WordPress](https://embedpress.com/docs/embed-deviantart-image-wordpress/)
-
--   [How to use Giphy in WordPress](https://embedpress.com/docs/embed-giphy-gifs-wordpress/)
-
--   [How to use Flickr in WordPress](https://embedpress.com/docs/embed-flickr-image-wordpress/)
-
--   [How to use Imgur in WordPress](https://embedpress.com/docs/embed-imgur-images-wordpress/)
-
--   [How to use Instagram in WordPress](https://embedpress.com/docs/embed-instagram-wordpress/)
+Check the video tutorial 👇
 
 https://youtu.be/h8oPwlZ9P5A
 
+### 🎧 [EMBED AUDIOS](https://embedpress.com/embed-audio/): SPOTIFY, SOUNDCLOUD, MIXCLOUD & OTHERS
 
-### 📊 CHARTS AND DIAGRAMS
+EmbedPress supports all of these major options for audio on your WordPress site. You can embed audio easily using the URL instead of generating embed codes:
+
+-   [Embed Spotify](https://embedpress.com/docs/embed-spotify-audios-wordpress/)
+-   [Embed Boomplay](https://embedpress.com/docs/how-to-embed-boomplay-music/)
+-   [Embed MixCloud](https://embedpress.com/docs/embed-mixcloud-audio-wordpress/)
+-   [Embed SoundCloud](https://embedpress.com/docs/embed-soundcloud-audio-wordpress/)
+-   [Embed HuffDuffer](https://embedpress.com/docs/embed-huffduffer-audios-wordpress/)
+-   [Embed Chirbit](https://embedpress.com/docs/embed-chirbit-audio-wordpress/)
+-   [Embed Clyp](https://embedpress.com/docs/embed-clypit-audio-wordpress/)
+-   [Embed ReverbNation](https://embedpress.com/docs/embed-reverbnation-audio-wordpress/)
+-   [iHeartRadio embeds](https://embedpress.com/docs/how-to-embed-iheartradio-podcasts-in-wordpress/)
+-   [ReverbNation embed](https://embedpress.com/docs/embed-reverbnation-audio-wordpress/)s
+-   [SmugMug embeds](https://embedpress.com/docs/embed-smugmug-images-wordpress/)
+-   [MusicboxManiacs embeds](https://musicboxmaniacs.com/)
+-   [SmashNotes embeds](https://embedpress.com/docs/how-to-embed-smash-notes-podcasts-in-wordpress/)
+-   [Spreaker embeds](https://embedpress.com/docs/how-to-embed-spreaker-podcasts-in-wordpress/)
+
+### 🖼️ [EMBED IMAGES](https://embedpress.com/embed-image/): DEVIANTART, GIPHY, FLICK, IMGUR, ETC
+
+EmbedPress supports most popular image-hosting sites, including Deviantart, Giphy, Imgur, Flick, and others:
+
+-   [Embed Deviantart](https://embedpress.com/docs/embed-deviantart-image-wordpress/)
+- Embed [Giphy](https://embedpress.com/docs/embed-giphy-gifs-wordpress/)
+- Embed [Flickr](https://embedpress.com/docs/embed-flickr-image-wordpress/)
+- Embed [Imgur](https://embedpress.com/docs/embed-imgur-images-wordpress/)
+-   [23hq embeds](https://embedpress.com/docs/embed-23hq-photos-wordpress/)
+-   [GettyImages embeds](https://embedpress.com/docs/embed-23hq-photos-wordpress/)
+-   [Orbitvu embeds](https://embedpress.com/docs/embed-23hq-photos-wordpress/)
+-   [Zoomable embeds](https://embedpress.com/docs/embed-23hq-photos-wordpress/)
+
+### 📊 EMBED CHARTS AND DIAGRAMS
 
 With EmbedPress, you have a wide variety of options for adding charts and diagrams to your WordPress site. We already saw that EmbedPress supports Google Drawings, but here are 5 more options for charts:
 
 -   [AmCharts embeds](https://embedpress.com/docs/embed-amcharts-wordpress/)
-
 -   [Cacoo embeds](https://embedpress.com/docs/embed-cacoo-charts-wordpress/)
-
 -   [ChartBlocks embeds](https://embedpress.com/docs/embed-chartblocks-charts-wordpress/)
-
 -   [CircuitLab embeds](https://embedpress.com/docs/embed-circuitlab-circuit-wordpress/)
-
 -   [Infogram embeds](https://embedpress.com/docs/embed-infogram-charts-wordpress/)
+-   [Datawrapper embeds](https://embedpress.com/docs/how-to-embed-datawrapper-data-charts-in-wordpress/)
 
+### 🎦 [EMBED LIVE STREAM VIDEOS](https://embedpress.com/embed-live-stream-sources/): TWITCH, STREAMABLE, ETC
 
+Make your WordPress site more dynamic and embed live streams to boost engagement and earn revenue. This is much simpler now that you can embed live streaming videos, display live chats, and even add a subscription button, thanks to EmbedPress.
+
+-   [Embed Twitch Live](https://embedpress.com/docs/embed-twitch-streams-chat/)
+-   [Streamable embed](https://embedpress.com/docs/how-to-embed-streamable-videos-in-wordpress/)
+-   [Embed YouTube live](https://embedpress.com/docs/embed-youtube-wordpress/)
+
+Check the video tutorial 👇
+
+https://youtu.be/1F2mPePF3F4
 
 ### ✅ MORE SITES SUPPORTED BY EMBEDPRESS
 
--   [23hq embeds](https://embedpress.com/docs/embed-23hq-photos-wordpress/) (Images)
-
 -   [CodePen embeds](https://embedpress.com/docs/embed-codepen-codes-in-wordpress/) (Code)
-
 -   [Codepoints embed](https://embedpress.com/docs/how-to-embed-codepoints-codes-in-wordpress/) (Code)
-
 -   [CodeSandbox embeds](https://embedpress.com/docs/how-to-embed-codesandbox-codes-in-wordpress/) (Code)
-
--   [Datawrapper embeds](https://embedpress.com/docs/how-to-embed-datawrapper-data-charts-in-wordpress/) (Data Charts)
-
 -   [DocDroid embeds](https://www.docdroid.net/) (Document & PDF)
-
--   [GettyImages embeds](https://embedpress.com/docs/embed-getty-images-wordpress/) (Images)
-
 -   [Gfycat embeds](https://embedpress.com/docs/how-to-embed-gfycat-gifs-in-wordpress/) (GIF)
-
--   [Github Gist embeds](https://embedpress.com/docs/embed-github-gist-snippets-wordpress/) (Code)
-
--   [iHeartRadio embeds](https://embedpress.com/docs/how-to-embed-iheartradio-podcasts-in-wordpress/) (Podcasts)
-
--   [Livestream embeds](https://livestream.com/) (Vimeo Live Streams)
-
+- GitHub [Gist embeds](https://embedpress.com/docs/embed-github-gist-snippets-wordpress/) (Code)
 -   [Loom embeds](https://embedpress.com/docs/how-to-embed-loom-in-wordpress/) (Video)
-
 -   [Meetup embeds](https://embedpress.com/docs/embed-meetup-groups-events-wordpress/) (Groups, Events)
-
 -   [PollDaddy embeds](https://embedpress.com/docs/polldaddy-embed-wordpress/) (Polls, Surveys, Quizzes)
-
 -   [Reddit embeds](https://embedpress.com/docs/embed-reddit-post-wordpress/) (Posts, Comments)
-
 -   [ReleaseWire embeds](https://embedpress.com/docs/embed-releasewire-press-releases-wordpress/) (Press releases)
-
--   [ReverbNation embeds](https://embedpress.com/docs/embed-reverbnation-audio-wordpress/) (Audio & Music)
-
 -   [Scribd embeds](https://embedpress.com/docs/embed-scribd-document-wordpress/) (Documents)
-
 -   [Sketchfab embeds](https://embedpress.com/docs/embed-sketchfab-drawings-wordpress/) (Drawings)
-
 -   [SlideShare embeds](https://embedpress.com/docs/embed-slideshare-presentations-wordpress/) (Presentations)
-
--   [SmugMug embeds](https://embedpress.com/docs/embed-smugmug-images-wordpress/) (Images)
-
--   [Spreaker embeds](https://embedpress.com/docs/how-to-embed-spreaker-podcasts-in-wordpress/) (Podcasts)
-
--   [Streamable embed](https://embedpress.com/docs/how-to-embed-streamable-videos-in-wordpress/) (Video)
-
 -   [The New York Times embeds](https://embedpress.com/docs/embed-the-new-york-times-news-in-wordpres/) (News)
-
--   [Tiktok embeds](https://embedpress.com/docs/embed-tiktok-in-wordpress/) (Videos)
-
 -   [TVCF embeds](https://embedpress.com/docs/how-to-embed-tvcf-advertisements-in-wordpress/) (Advertisements)
-
--   [Vidyard embeds](https://www.vidyard.com/) (Videos)
-
--   [Wave embeds](https://embedpress.com/docs/how-to-embed-wave-videos-in-wordpress/) (Videos)
-
 -   [Wordwall embeds](https://embedpress.com/docs/how-to-embed-wordwall-lessons-in-wordpress/) (Online Lessons & Courses)
-
 -   [EduMedia embeds](https://embedpress.com/docs/how-to-embed-edumedia-science-files-in-wordpress/) (Science Files)
-
 -   [Didacte embeds](https://embedpress.com/docs/how-to-embed-didacte-courses-in-wordpress/) (Online Courses)
-
--   [Orbitvu embeds](https://embedpress.com/docs/how-to-embed-orbitvu-360-images-in-wordpress/) (Images)
-
--   [MusicboxManiacs embeds](https://musicboxmaniacs.com/) (Music)
-
 -   [Zingsoft embeds](https://embedpress.com/docs/how-to-embed-zingsoft-charts-grids-in-wordpress/) (Charts & Grids)
-
--   [SmashNotes embeds](https://embedpress.com/docs/how-to-embed-smash-notes-podcasts-in-wordpress/) (Podcasts)
-
 -   [Codepoints embeds](https://embedpress.com/docs/how-to-embed-codepoints-codes-in-wordpress/) (Codes)
-
 -   [Fitapp embed](https://www.fitapp.info/) (Fitness, Health, and Exercises)
-
--   [Zoomable embeds](https://embedpress.com/docs/how-to-embed-zoomable-in-wordpress-with-embedpress/) (Images)
-
 -   [ChartBlocks embeds](https://embedpress.com/docs/embed-chartblocks-charts-wordpress/) (charts)
-
 -   [Roomshare embeds](http://roomshare.jp/) (Room Share Listing)
 
-
-🙌 After reading this feature list, you can probably imagine EmbedPress is the best plugin in the market. So, do you want to unlock the advanced features? [Upgrade to our Pro version.](https://embedpress.com/#pricing)
+🙌 After reading this feature list, you can probably imagine EmbedPress is the best plugin on the market. So, do you want to unlock the advanced features? [Upgrade to our Pro version.](https://embedpress.com/#pricing)
 
 ### 🚀 BACKED BY A TRUSTED TEAM
 
@@ -308,41 +237,34 @@ This embed plugin is brought to you by the team behind [WPDeveloper](https://wpd
 
 ### 👨‍💻 DOCUMENTATION AND SUPPORT
 
--   For helpful articles and tutorials, go to our [Documentation](https://embedpress.com/documentation/)
-
--   For video tutorials go to our [YouTube Playlist](https://www.youtube.com/playlist?list=PLWHp1xKHCfxAVncPuQlAFHTaRl3kO3qBi)
-
--   If you have any more questions, ask on the [Plugin’s Forum](https://wordpress.org/support/plugin/embedpress/)
-
--   For more information about features, FAQs and documentation, check out our website at [EmbedPress](https://embedpress.com/)
+- For helpful articles and tutorials, go to our [Documentation](https://embedpress.com/documentation/)
+- For video tutorials, go to our [YouTube Playlist](https://www.youtube.com/playlist?list=PLWHp1xKHCfxAVncPuQlAFHTaRl3kO3qBi)
+- If you have any more questions, ask on the [Plugin’s Forum](https://wordpress.org/support/plugin/embedpress/)
+- For more information about features, FAQs, and documentation, check out our website at [EmbedPress](https://embedpress.com/)
 
 
-### 💙 LOVED EmbedPress?
+### 💙 LOVED EMBEDPRESS?
 
--   If you love EmbedPress, [rate us on WordPress](https://wordpress.org/support/plugin/embedpress/reviews/?filter=5)
-
--   Join our [Facebook Group](https://www.facebook.com/groups/wpdeveloper.net/)
-
-
+- If you love EmbedPress, [rate us on WordPress](https://wordpress.org/support/plugin/embedpress/reviews/?filter=5)
+- Join our [Facebook Group](https://www.facebook.com/groups/wpdeveloper.net/)
 
 ### 🔥 WHAT’S NEXT
+
 If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
 🔝 [Essential Addons For Elementor](https://essential-addons.com/elementor/) – Most popular Elementor extensions with 2 millions+ active users in the WordPress repository.
 
 🔔 [NotificationX](https://notificationx.com/) – Best Social Proof & FOMO Marketing Solution to increase conversion rates.
 
-⏰ [SchedulePress](https://wordpress.org/plugins/wp-scheduled-posts/)  – Complete solution for WordPress Post Scheduling to manage schedules through an editorial calendar & Social Share.
+⏰ [SchedulePress](https://wordpress.org/plugins/wp-scheduled-posts/) – Complete solution for WordPress Post Scheduling to manage schedules through an editorial calendar & Social Share.
 
 🗒️ [BetterDocs](https://betterdocs.co/) – Best Documentation & Knowledge Base Plugin for WordPress, which also reduces your manual support request.
 
-☁  [Templately](https://wordpress.org/plugins/templately/): Ultimate Template clouds with 2500+ ready templates for Elementor & Gutenberg along with FREE cloud collaboration with your team
+☁ [Templately](https://wordpress.org/plugins/templately/) – Ultimate Template clouds with 2500+ ready templates for Elementor & Gutenberg along with FREE cloud collaboration.
 
-⭐ [ReviewX](https://wordpress.org/plugins/reviewx/): WooCommerce Product review plugin that allows users to submit product reviews with multiple criteria, photos, videos, and more.
+[💰Better Payment](https://wordpress.org/plugins/better-payment/) – Create stunning payment forms and manage payments for donations, membership, and products seamlessly.
 
-⚡ [Flexia](http://wordpress.org/plugins/flexia): Most lightweight, customizable & multi purpose theme for WordPress.
 
-Visit [WPDeveloper](https://wpdeveloper.com/) to learn more about how to do better in WordPress with [Help Tutorial, Tips & Tricks](https://wpdeveloper.com/blog).
 
 == Installation ==
 
@@ -358,9 +280,6 @@ Visit [WPDeveloper](https://wpdeveloper.com/) to learn more about how to do bett
 3. Follow the [Documentation](https://embedpress.com/documentation/)
 
 
-
-== Frequently Asked Questions ==
-
 = Where Can I Get Support? =
 
 You can ask for help via [the EmbedPress contact form](https://embedpress.com/contact/).
@@ -368,6 +287,31 @@ You can ask for help via [the EmbedPress contact form](https://embedpress.com/co
 = Do I Need Coding Skills To Use EmbedPress? =
 
 Not at all. You can set up everything your team needs without any coding knowledge. We made it super easy.
+
+
+== Frequently Asked Questions ==
+
+### Where Can I Get Embedding Solutions Support?
+
+You can ask for help via [the EmbedPress contact form](https://embedpress.com/contact/).
+
+### Do I Need Coding Skills To Use EmbedPress?
+
+Not at all. You can set up everything your team needs without any coding knowledge. We made it super easy.
+
+Can I Embed Pages And Posts Of Any Website Into Embedpress?
+
+Yes, with EmbedPress you can now embed any website. Just copy the page or post URL and paste it into the EmbedPress blocks. This is called EmbedPress Wrapper.
+
+Do I Need To Integrate API Keys To Showcase Social Feeds On My Website?
+
+No. while you are embedding Facebook, Twitter, TikTok, etc. posts using EmbedPress, just copy the URL and use it directly.
+
+How To Customize Embedded Content iFrames?
+
+Just after embedding the content into your website using EmbedPress, iFrame customization panel will appear. From there, you can update iFrame height and width.
+
+
 
 == Screenshots ==
 
