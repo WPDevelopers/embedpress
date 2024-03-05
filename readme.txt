@@ -326,7 +326,7 @@ Just after embedding the content into your website using EmbedPress, iFrame cust
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [3.9.11] – 2024-03-4 =
+= [3.9.11] – 2024-03-5 =
 - Fixed: OpenSea NFT collection/assets embedding issues.
 - Fixed: Auto Play wasn’t working for Youtube Live Stream
 - Fixed: php fatal errors with: _esc_html__()
