@@ -34,69 +34,80 @@ class Feature_Enhancer
 		add_action('wp_ajax_youtube_rest_api', [$this, 'youtube_rest_api']);
 		add_action('wp_ajax_nopriv_youtube_rest_api', [$this, 'youtube_rest_api']);
 		add_action('embedpress_gutenberg_embed', [$this, 'gutenberg_embed'], 10, 2);
-		add_action( 'wp_ajax_save_source_data', [$this, 'save_source_data'] );
-		add_action( 'save_post', [$this, 'save_source_data_on_post_update'], 10, 3 );
-		add_action( 'wp_ajax_delete_source_data', [$this, 'delete_source_data'] );
-		add_action( 'load-post.php', [$this, 'delete_source_temp_data_on_reload'] );
+		add_action('wp_ajax_save_source_data', [$this, 'save_source_data']);
+		add_action('save_post', [$this, 'save_source_data_on_post_update'], 10, 3);
+		add_action('wp_ajax_delete_source_data', [$this, 'delete_source_data']);
+		add_action('load-post.php', [$this, 'delete_source_temp_data_on_reload']);
 		add_action('embedpress:isEmbra', [$this, 'isEmbra'], 10, 3);
-		add_action( 'elementor/editor/after_save', [$this, 'save_el_source_data_on_post_update'] );
+		add_action('elementor/editor/after_save', [$this, 'save_el_source_data_on_post_update']);
 
 		add_action('wp_head', [$this, 'embedpress_generate_social_share_meta']);
 
-		add_action( 'wp_ajax_get_viewer', function(){
+		add_action('wp_ajax_get_viewer', function () {
 			$pdf = EMBEDPRESS_PATH_BASE . 'assets/pdf/web/viewer.html';
 			// header type html
 			header('Content-Type: text/html');
 			$contents = file_get_contents($pdf);
 			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS . 'pdf/web/' . '">', $contents);
 			die;
-		} );
-		add_action( 'wp_ajax_nopriv_get_viewer', function(){
+		});
+		add_action('wp_ajax_nopriv_get_viewer', function () {
 			$pdf = EMBEDPRESS_PATH_BASE . 'assets/pdf/web/viewer.html';
 			// header type html
 			header('Content-Type: text/html');
 			$contents = file_get_contents($pdf);
 			echo str_replace('<head>', '<head><base href="' . EMBEDPRESS_URL_ASSETS . 'pdf/web/' . '">', $contents);
 			die;
-		} );
+		});
 	}
 
-	public function save_source_data(){
-
-		if( ! wp_verify_nonce( $_POST[ '_source_nonce' ], 'source_nonce_embedpress' ) ) {
+	public function save_source_data()
+	{
+		if (!isset($_POST['_source_nonce']) || !wp_verify_nonce($_POST['_source_nonce'], 'source_nonce_embedpress')) {
 			return;
 		}
-		$source_url = $_POST['source_url'];
-		$blockid = $_POST['block_id'];
+
+		if (!current_user_can('manage_options')) {
+			return;
+		}
+
+		$source_url = isset($_POST['source_url']) ? $_POST['source_url'] : null;
+		$blockid = isset($_POST['block_id']) ? $_POST['block_id'] : null;
+
 
 		Helper::get_source_data($blockid, $source_url, 'gutenberg_source_data', 'gutenberg_temp_source_data');
 	}
 
-	function save_el_source_data_on_post_update( $post_id ) {
+	function save_el_source_data_on_post_update($post_id)
+	{
 		Helper::get_save_source_data_on_post_update('elementor_source_data', 'elementor_temp_source_data');
 	}
 
-	function save_source_data_on_post_update( $post_id, $post, $update ) {
+	function save_source_data_on_post_update($post_id, $post, $update)
+	{
 		if (!empty(strpos($post->post_content, 'wp:embedpress'))) {
 			Helper::get_save_source_data_on_post_update('gutenberg_source_data', 'gutenberg_temp_source_data');
 		}
 	}
 
-	public function delete_source_data() {
-
-		if( ! wp_verify_nonce( $_POST[ '_source_nonce' ], 'source_nonce_embedpress' ) ) {
+	public function delete_source_data()
+	{
+		if (!isset($_POST['_source_nonce']) || !wp_verify_nonce($_POST['_source_nonce'], 'source_nonce_embedpress')) {
 			return;
 		}
-		$blockid = $_POST['block_id'];
+		if (!current_user_can('manage_options')) {
+			return;
+		}
+
+		$blockid = isset($_POST['block_id']) ? $_POST['block_id'] : '';
+
 		Helper::get_delete_source_data($blockid, 'gutenberg_source_data', 'gutenberg_temp_source_data');
 	}
 
-	public function delete_source_temp_data_on_reload() {
+	public function delete_source_temp_data_on_reload()
+	{
 		Helper::get_delete_source_temp_data_on_reload('gutenberg_temp_source_data');
-
 	}
-
-
 
 	public function isEmbra($isEmbra, $url, $atts)
 	{
@@ -114,7 +125,7 @@ class Feature_Enhancer
 			}
 		}
 
-		if (strpos($url, site_url( )) !== false) {
+		if (strpos($url, site_url()) !== false) {
 			$wrapper = new Wrapper($url, $atts);
 			if ($wrapper->validateUrl($wrapper->getUrl(false))) {
 				return true;
@@ -145,33 +156,34 @@ class Feature_Enhancer
 
 	//Check is YouTube single video
 	public function ytValidateUrl($url)
-    {
-        return (bool) (preg_match('~v=(?:[a-z0-9_\-]+)~i', (string) $url));
-    }
+	{
+		return (bool) (preg_match('~v=(?:[a-z0-9_\-]+)~i', (string) $url));
+	}
 
 	//Check is YouTube live video
 	public function ytValidateLiveUrl($url)
-    {
-        return (bool) (preg_match('/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|@[\w-]+)\/live$/', (string) $url));
-    }
+	{
+		return (bool) (preg_match('/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|@[\w-]+)\/live$/', (string) $url));
+	}
 
 
 	//Check is Wistia validate url
 	public function wistiaValidateUrl($url)
-    {
-        return (bool) (preg_match('#\/medias\\\?\/([a-z0-9]+)\.?#i', (string) $url ));
-    }
+	{
+		return (bool) (preg_match('#\/medias\\\?\/([a-z0-9]+)\.?#i', (string) $url));
+	}
 
 	//Check is Wistia validate url
 	public function vimeoValidateUrl($url)
-    {
-		return (bool)preg_match('/https?:\/\/(www\.)?vimeo\.com\/\d+/', (string) $url);
-    }
+	{
+		return (bool) preg_match('/https?:\/\/(www\.)?vimeo\.com\/\d+/', (string) $url);
+	}
 
 
 
 	// Get wistia block attributes
-	public function get_wistia_block_attributes($attributes) {
+	public function get_wistia_block_attributes($attributes)
+	{
 
 		// Embed Options
 		$embedOptions = new \stdClass;
@@ -185,16 +197,16 @@ class Feature_Enhancer
 		$embedOptions->autoPlay = (isset($attributes['wautoplay']) && (bool) $attributes['wautoplay'] === true);
 		$embedOptions->resumable = (isset($attributes['resumable']) && (bool) $attributes['resumable'] === true);
 
-		if(!empty($attributes['wstarttime'])){
+		if (!empty($attributes['wstarttime'])) {
 			$embedOptions->time = isset($attributes['wstarttime']) ? $attributes['wstarttime'] : '';
 		}
 
-		if ( is_embedpress_pro_active() ) {
+		if (is_embedpress_pro_active()) {
 			$embedOptions->volumeControl = (isset($attributes['volumecontrol']) && (bool) $attributes['volumecontrol'] === true);
 
 			$volume = isset($attributes['volume']) ? (float) $attributes['volume'] : 0;
 
-			if ( $volume > 1 ) {
+			if ($volume > 1) {
 				$volume = $volume / 100;
 			}
 			$embedOptions->volume = $volume;
@@ -210,10 +222,10 @@ class Feature_Enhancer
 		}
 
 		// Closed Captions plugin
-		if ( $attributes['captions'] === true ) {
-			$isCaptionsEnabled          = ( $attributes['captions'] === true );
-			$isCaptionsEnabledByDefault = ( $attributes['captions'] === true );
-			if ( $isCaptionsEnabled ) {
+		if ($attributes['captions'] === true) {
+			$isCaptionsEnabled          = ($attributes['captions'] === true);
+			$isCaptionsEnabledByDefault = ($attributes['captions'] === true);
+			if ($isCaptionsEnabled) {
 				$pluginList['captions-v1'] = [
 					'onByDefault' => $isCaptionsEnabledByDefault,
 				];
@@ -252,7 +264,7 @@ class Feature_Enhancer
 				}
 			}
 
-			if(!empty($attributes['url']) && ($this->ytValidateUrl($attributes['url']) || $this->ytValidateLiveUrl($attributes['url']))){
+			if (!empty($attributes['url']) && ($this->ytValidateUrl($attributes['url']) || $this->ytValidateLiveUrl($attributes['url']))) {
 
 				$atts = [
 					'url'	=> $attributes['url'],
@@ -279,13 +291,13 @@ class Feature_Enhancer
 					$embedHTML = $urlInfo->embed;
 				}
 
-				if(isset( $urlInfo->embed ) && preg_match( '/src=\"(.+?)\"/', $urlInfo->embed, $match )){
+				if (isset($urlInfo->embed) && preg_match('/src=\"(.+?)\"/', $urlInfo->embed, $match)) {
 					$url_full = $match[1];
-					$query = parse_url( $url_full, PHP_URL_QUERY );
+					$query = parse_url($url_full, PHP_URL_QUERY);
 
 					parse_str($query ?? '', $params);
 
-					$params['controls']       = isset($attributes['controls']) ? $attributes['controls']: '1';
+					$params['controls']       = isset($attributes['controls']) ? $attributes['controls'] : '1';
 					$params['iv_load_policy'] = !empty($attributes['videoannotations']) ? 1 : 0;
 					$params['fs']             = !empty($attributes['fullscreen']) ? 1 : 0;
 					$params['rel']             = !empty($attributes['relatedvideos']) ? 1 : 0;
@@ -296,9 +308,9 @@ class Feature_Enhancer
 					$params['modestbranding'] = empty($attributes['modestbranding']) ? 0 : 1; // Reverse the condition value for modestbranding. 0 = display, 1 = do not display
 					$params['cc_load_policy'] = !empty($attributes['closedcaptions']) ? 0 : 1;
 
-					preg_match( '/(.+)?\?/', $url_full, $url );
+					preg_match('/(.+)?\?/', $url_full, $url);
 
-					if ( empty( $url) ) {
+					if (empty($url)) {
 						return $embedHTML;
 					}
 
@@ -307,25 +319,22 @@ class Feature_Enhancer
 					// Reassemble the url with the new variables.
 					$url_modified = $url . '?';
 
-					foreach ( $params as $paramName => $paramValue ) {
+					foreach ($params as $paramName => $paramValue) {
 
 						$and = '&';
-						if(array_key_last($params) === $paramName){
+						if (array_key_last($params) === $paramName) {
 							$and = '';
 						}
 
-						if(isset($paramValue) && $paramValue !== ''){
+						if (isset($paramValue) && $paramValue !== '') {
 							$url_modified .= $paramName . '=' . $paramValue . $and;
 						}
 					}
 
 					// Replaces the old url with the new one.
-					$embedHTML = str_replace( $url_full, rtrim( $url_modified, '&' ), $urlInfo->embed );
-
+					$embedHTML = str_replace($url_full, rtrim($url_modified, '&'), $urlInfo->embed);
 				}
-
 			}
-
 		}
 
 		if (!empty($attributes['url']) && $this->wistiaValidateUrl($attributes['url'])) {
@@ -372,7 +381,7 @@ class Feature_Enhancer
 			$embedHTML = $html;
 		}
 
-		if(!empty($attributes['url']) && $this->vimeoValidateUrl($attributes['url'])){
+		if (!empty($attributes['url']) && $this->vimeoValidateUrl($attributes['url'])) {
 			$atts = [
 				'url'	=> $attributes['url'],
 				'vstarttime'    => !empty($attributes['vstarttime']) ? $attributes['vstarttime'] : '',
@@ -396,10 +405,10 @@ class Feature_Enhancer
 				$embedHTML = $urlInfo->embed;
 			}
 
-			if(isset( $urlInfo->embed ) && preg_match( '/src=\"(.+?)\"/', $urlInfo->embed, $match )){
+			if (isset($urlInfo->embed) && preg_match('/src=\"(.+?)\"/', $urlInfo->embed, $match)) {
 				$url_full = $match[1];
-				$query = parse_url( $url_full, PHP_URL_QUERY );
-				parse_str( $query, $params );
+				$query = parse_url($url_full, PHP_URL_QUERY);
+				parse_str($query, $params);
 
 
 				unset($params['amp;dnt']);
@@ -410,18 +419,18 @@ class Feature_Enhancer
 				$params['autoplay'] 		= !empty($attributes['vautoplay']) ? 1 : 0;
 				$params['loop'] 		= !empty($attributes['vloop']) ? 1 : 0;
 				$params['autopause'] 		= !empty($attributes['vautopause']) ? 1 : 0;
-				if(empty($attributes['vautopause'])) :
+				if (empty($attributes['vautopause'])) :
 					$params['dnt'] 		= !empty($attributes['vdnt']) ? 1 : 0;
 				endif;
 				$params['color'] = !empty($attributes['vscheme']) ? str_replace("#", "", $attributes['vscheme']) : '00ADEF';
 
-				if(!empty($attributes['vstarttime'])) :
+				if (!empty($attributes['vstarttime'])) :
 					$params['t'] 			= !empty($attributes['vstarttime']) ? $attributes['vstarttime'] : '';
 				endif;
 
-				preg_match( '/(.+)?\?/', $url_full, $url );
+				preg_match('/(.+)?\?/', $url_full, $url);
 
-				if ( empty( $url) ) {
+				if (empty($url)) {
 					return $embedHTML;
 				}
 
@@ -440,12 +449,11 @@ class Feature_Enhancer
 				$url_modified = str_replace("&t=", "#t=", $url_modified);
 
 				// Replaces the old url with the new one.
-				$embedHTML = str_replace( $url_full, rtrim( $url_modified, '&' ), $urlInfo->embed );
-
+				$embedHTML = str_replace($url_full, rtrim($url_modified, '&'), $urlInfo->embed);
 			}
 		}
 
-		return $embedHTML ;
+		return $embedHTML;
 	}
 
 
@@ -644,7 +652,7 @@ class Feature_Enhancer
 			preg_match('/(.+)?\?/', $url_full, $url);
 			$url = $url[1];
 
-			if(is_object($embed->attributes) && !empty($embed->attributes)){
+			if (is_object($embed->attributes) && !empty($embed->attributes)) {
 				$attributes = (array) $embed->attributes;
 
 				$params['controls']       = isset($attributes['data-controls']) ? $attributes['data-controls'] : '1';
@@ -731,7 +739,7 @@ class Feature_Enhancer
 				}
 			}
 
-			if(!empty($params['autopause'])){
+			if (!empty($params['autopause'])) {
 				unset($params['dnt']);
 				unset($params['amp;dnt']);
 			}
@@ -739,7 +747,7 @@ class Feature_Enhancer
 			// Reassemble the url with the new variables.
 			$url_modified = str_replace("&amp;dnt=1", "", $url_full);
 
-			if(is_object($embed->attributes) && !empty($embed->attributes)){
+			if (is_object($embed->attributes) && !empty($embed->attributes)) {
 				$attributes = (array) $embed->attributes;
 				$attributes = stringToBoolean($attributes);
 
@@ -749,12 +757,12 @@ class Feature_Enhancer
 				$params['autoplay'] 		= !empty($attributes['data-vautoplay']) ? 1 : 0;
 				$params['loop'] 		= !empty($attributes['data-vloop']) ? 1 : 0;
 				$params['autopause'] 		= !empty($attributes['data-vautopause']) ? 1 : 0;
-				if(empty($attributes['data-vautopause'])) :
+				if (empty($attributes['data-vautopause'])) :
 					$params['dnt'] 		= !empty($attributes['data-vdnt']) ? 1 : 0;
 				endif;
 				$params['color'] = !empty($attributes['data-vscheme']) ? str_replace("#", "", $attributes['data-vscheme']) : '00ADEF';
 
-				if(!empty($attributes['data-vstarttime'])) :
+				if (!empty($attributes['data-vstarttime'])) :
 					$params['t'] 			= !empty($attributes['data-vstarttime']) ? $attributes['data-vstarttime'] : '';
 				endif;
 
@@ -763,9 +771,7 @@ class Feature_Enhancer
 				}
 
 				$url_modified = str_replace("&t=", "#t=", $url_modified);
-
-			}
-			else{
+			} else {
 				foreach ($params as $param => $value) {
 					$url_modified = add_query_arg($param, $value, $url_modified);
 				}
@@ -779,7 +785,6 @@ class Feature_Enhancer
 
 			// Replaces the old url with the new one.
 			$embed->embed = str_replace($url_full, $url_modified, $embed->embed);
-
 		}
 
 		return $embed;
@@ -821,7 +826,7 @@ class Feature_Enhancer
 
 			$embedOptions->autoPlay = (isset($options['autoplay']) && (bool) $options['autoplay'] === true);
 
-			if(!empty($options['start_time'])){
+			if (!empty($options['start_time'])) {
 				$embedOptions->time = isset($options['start_time']) ? $options['start_time'] : 0;
 			}
 
@@ -1472,7 +1477,8 @@ class Feature_Enhancer
 		];
 	}
 
-	public function enhance_missing_title($embed){
+	public function enhance_missing_title($embed)
+	{
 
 		$embed_arr = get_object_vars($embed);
 
@@ -1511,10 +1517,10 @@ class Feature_Enhancer
 
 			$id_value = sanitize_text_field($_GET['hash']);
 
-			$url = get_the_permalink( $post_id );
+			$url = get_the_permalink($post_id);
 
 			if (class_exists('Elementor\Plugin') && \Elementor\Plugin::$instance->db->is_built_with_elementor(get_the_ID())) {
-				$page_settings = get_post_meta( $post_id, '_elementor_data', true );
+				$page_settings = get_post_meta($post_id, '_elementor_data', true);
 
 				$ep_settings = Helper::ep_get_elementor_widget_settings($page_settings, $id_value, 'embedpres_elementor');
 				$pdf_settings = Helper::ep_get_elementor_widget_settings($page_settings, $id_value, 'embedpress_pdf');
@@ -1528,15 +1534,13 @@ class Feature_Enhancer
 					$description = !empty($ep_settings['settings']['embedpress_content_descripiton']) ? $ep_settings['settings']['embedpress_content_descripiton'] : '';
 
 					$image_url = !empty($ep_settings['settings']['embedpress_content_share_custom_thumbnail']['url']) ? $ep_settings['settings']['embedpress_content_share_custom_thumbnail']['url'] : '';
-				}
-				else if (is_array($pdf_settings) && !empty($pdf_settings)) {
+				} else if (is_array($pdf_settings) && !empty($pdf_settings)) {
 					$title = !empty($pdf_settings['settings']['embedpress_pdf_content_title']) ? $pdf_settings['settings']['embedpress_pdf_content_title'] : '';
 
 					$description = !empty($pdf_settings['settings']['embedpress_pdf_content_descripiton']) ? $pdf_settings['settings']['embedpress_pdf_content_descripiton'] : '';
 
 					$image_url = !empty($pdf_settings['settings']['embedpress_pdf_content_share_custom_thumbnail']['url']) ? $pdf_settings['settings']['embedpress_pdf_content_share_custom_thumbnail']['url'] : '';
-				}
-				else if (is_array($doc_settings) && !empty($doc_settings)) {
+				} else if (is_array($doc_settings) && !empty($doc_settings)) {
 					$title = !empty($doc_settings['settings']['embedpress_doc_content_title']) ? $doc_settings['settings']['embedpress_doc_content_title'] : '';
 
 					$description = !empty($doc_settings['settings']['embedpress_doc_content_descripiton']) ? $doc_settings['settings']['embedpress_doc_content_descripiton'] : '';
@@ -1565,8 +1569,6 @@ class Feature_Enhancer
 					$tags .= "<meta property='og:description' content='" . esc_attr($description) . "'/>\n";
 					$tags .= "<meta name='twitter:description' content='" . esc_attr($description) . "'/>\n";
 				}
-
-
 			} else {
 
 				$block_content = $post->post_content;
@@ -1600,7 +1602,6 @@ class Feature_Enhancer
 					echo "<meta property='og:description' content='" . esc_attr($description) . "'/>\n";
 					echo "<meta name='twitter:description' content='" . esc_attr($description) . "'/>\n";
 				}
-
 			}
 
 			$tags .= "<meta name='twitter:card' content='summary_large_image'/>\n";
@@ -1608,10 +1609,6 @@ class Feature_Enhancer
 			remove_action('wp_head', 'rel_canonical');
 
 			echo $tags;
-
 		}
 	}
-
-
-
 }

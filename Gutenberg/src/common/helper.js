@@ -81,7 +81,9 @@ export const saveSourceData = (clientId, url) => {
     const data = {
         action: 'save_source_data',
         block_id: clientId,
-        source_url: url
+        source_url: url,
+        _source_nonce: embedpressObj.source_nonce,
+
     };
 
     const encodedData = Object.keys(data)
