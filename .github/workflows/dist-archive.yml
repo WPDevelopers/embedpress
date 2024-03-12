@@ -1,0 +1,13 @@
+name: Generate WordPress Archive
+on:
+  workflow_dispatch
+
+jobs:
+  generate-archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Generating zip
+        uses: rudlinkon/action-wordpress-build-zip@master

@@ -54,7 +54,10 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
         $src_url = urldecode($this->url);
 
         preg_match('/(?<=mid=).*$/', $src_url, $matches);
-        
+
+        $iframeSrc = '';
+        $mid = '';
+
         if (!empty($matches)) {
             $mid = $matches[0].'&ehbc=2E312F';
         }
@@ -67,7 +70,7 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
             // Extract coordinates and zoom from the url
             if (preg_match('~(?:maps\/(?:place|(?:dir\/.+?))\/(.+)\/)?@(-?[0-9\.]+,-?[0-9\.]+).+,([0-9\.]+[a-z])~i', $src_url, $matches)) {
                 $place_name = str_replace("+"," ",$matches[1]);
-            	$z = floatval( $matches[3]);
+                $z = floatval( $matches[3]);
                 $iframeSrc = 'https://maps.google.com/maps?hl=en&ie=UTF8&ll=' . $matches[2] . '&spn=' . $matches[2] . '&q='.$place_name.'&t=m&z=' . round($z) . '&output=embed&iwloc';
             } 
             else if ($this->validateGoogleMapUrl($src_url)){
@@ -86,7 +89,7 @@ class GoogleMaps extends ProviderAdapter implements ProviderInterface
             'provider_name' => 'Google Maps',
             'provider_url'  => 'https://maps.google.com',
             'title'         => 'Unknown title',
-            'html'          => '<iframe title=""  width="'.$width.'" height="'.$height.'" src="'.$iframeSrc.'" frameborder="0"></iframe>',     
+            'html'          => '<iframe title=""  width="'.esc_attr($width).'" height="'.esc_attr($height).'" src="'.esc_url($iframeSrc).'" frameborder="0"></iframe>',     
         ];
     }
     /** inline @inheritDoc */

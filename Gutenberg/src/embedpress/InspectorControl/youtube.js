@@ -7,6 +7,7 @@ import { EPIcon } from '../../common/icons';
 import CustomBranding from './custombranding';
 import CustomPlayerControls from '../../common/custom-player-controls';
 
+
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
 const { __ } = wp.i18n;
@@ -79,11 +80,14 @@ export const getYoutubeParams = (params, attributes) => {
 }
 
 export const isYTChannel = (url) => {
-    const channelMatch = url.match(/\/channel\/|\/c\/|\/user\/|\/@[a-z]|(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(\w+)[^?\/]*$/i);
-    if (!channelMatch)
+    const youtubeChannelMatch = url.match(/^(?:https?:\/\/)?(?:www\.)?youtube\.com\/(?:c\/|channel\/|user\/|@)([^\/\?]+)/i);
+
+    if (!youtubeChannelMatch) {
         return false;
+    }
+
     return true;
-}
+};
 
 export const isYTLive = (url) => {
     const liveMatch = url.match(/^https?:\/\/(?:www\.)?youtube\.com\/(?:channel\/[\w-]+|@[\w-]+)\/live$/);
@@ -228,6 +232,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
     return (
         <div>
 
+
             {
                 (isYTChannel && !isYTLive) && (
                     <div className={'ep__channel-yt-video-options'}>
@@ -283,7 +288,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
             {
                 (isYTVideo || isYTLive || isYTShorts) && (
                     <div className={'ep__single-yt-video-options'}>
-                        <PanelBody title={__("Video Controls", 'embedpress')} initialOpen={false}>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Video Controls', 'embedpress')}</div>} initialOpen={false}>
                             <ToggleControl
                                 label={__("Enable Custom Player", "embedpress")}
                                 checked={customPlayer}
@@ -397,7 +402,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                     </div>
                                 ) : (
                                     <div className={'ep-video-controlers'}>
-                                        <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive}/>
+                                        <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} />
                                     </div>
                                 )
                             }

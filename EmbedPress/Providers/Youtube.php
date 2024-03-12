@@ -84,6 +84,12 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                 ];
             }
         }
+        
+        // $channel___id = $this->get_channel_id_by_handler('adin');
+
+        // echo 'akash';
+        // print_r($channel___id); die;
+
         if(empty($matches[1])){
             preg_match('~\/(@)(\w+)~i', (string) $url, $matches);
             if(!empty($matches[1])){
@@ -181,14 +187,16 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                 }
             }
 
+
+
             $embedUrl = 'https://www.youtube.com/embed/live_stream?channel='.$channelId.'&feature=oembed';
 
             $attr = [];
-            $attr[] = 'width="'.$params['maxheight'].'"';
-            $attr[] = 'height="'.$params['maxheight'].'";';
-            $attr[] = 'src="' . $embedUrl . '"';
+            $attr[] = 'width="'.esc_attr($params['maxheight']).'"';
+            $attr[] = 'height="'.esc_attr($params['maxheight']).'";';
+            $attr[] = 'src="' . esc_url($embedUrl) . '"';
             $attr[] = 'frameborder="0"';
-            $attr[] = 'allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"';
+            $attr[] = 'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"';
             $attr[] = 'allowfullscreen';
 
             $results['html'] = '<iframe ' . implode(' ', $attr) . '></iframe>';
@@ -282,38 +290,42 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
     }
 
-    public function get_channel_id_by_handler($handler){
-        $api_key = self::get_api_key();
-        $username = $handler;
     
-        // Check if the transient exists
-        $transient_name = 'channel_id_' . $handler;
-        $channel_id = get_transient( $transient_name );
-        if ( $channel_id ) {
-            // If the transient exists, return the channel ID
-            return $channel_id;
-        }
+    public function get_channel_id_by_handler($handle)
+    {
+        $transient_key = 'channel_id_' . md5($handle);
+        $channel_id = get_transient($transient_key);
     
-        $url = "https://www.googleapis.com/youtube/v3/search?part=id&type=channel&q={$username}&key={$api_key}";
+        if (false === $channel_id) {
+            $ch = curl_init();
     
-        $response = wp_remote_get($url);
-        if ( is_wp_error( $response ) ) {
-            return false;
-        }
+            $channel_handle = "https://www.youtube.com/@{$handle}";
     
-        $json_response = json_decode(wp_remote_retrieve_body($response), true);
+            curl_setopt($ch, CURLOPT_URL, $channel_handle);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     
-        if(isset($json_response['error'])) {
-            return false;
+            $response = curl_exec($ch);
+    
+            if (curl_errno($ch)) {
+                return 'cURL error: ' . curl_error($ch);
+            }
+    
+            curl_close($ch);
+    
+            $pattern = '/(<link rel="canonical" href="https:\/\/www\.youtube\.com\/channel\/)(.{1,50})(">)/';
+            if (preg_match($pattern, $response, $matches)) {
+                $channel_id = $matches[2];
+                set_transient($transient_key, $channel_id, 30 * DAY_IN_SECONDS);
+
+                return $channel_id;
+            } else {
+                return "Not a channel URL";
+            }
         } else {
-            $channel_id = $json_response['items'][0]['id']['channelId'];
-    
-            // Set the transient for 1 day (86400 seconds)
-            set_transient( $transient_name, $channel_id, MONTH_IN_SECONDS );
-    
             return $channel_id;
         }
     }
+    
 
     /** inline {@inheritdoc} */
     public function getChannelGallery() {
@@ -488,7 +500,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                             <div class="item" data-vid="<?php echo $vid; ?>">
                                 <div class="thumb" style="background: <?php echo "url({$thumbnail}) no-repeat center"; ?>">
                                     <div class="play-icon">
-                                        <img src="<?php echo EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'; ?>" alt="">
+                                        <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'); ?>" alt="">
                                     </div>
                                 </div>
                                 <div class="body">
@@ -598,7 +610,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                     <?php endif; ?>
 
                     <div class="ep-loader-wrap">
-                        <div class="ep-loader"><img alt="loading" src="<?php echo EMBEDPRESS_URL_ASSETS . 'images/youtube/spin.gif'; ?>"></div>
+                        <div class="ep-loader"><img alt="loading" src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/spin.gif'); ?>"></div>
                     </div>
 
                 </div>
@@ -668,9 +680,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $attr = [];
         $attr[] = 'width="{width}"';
         $attr[] = 'height="{height}"';
-        $attr[] = 'src="' . $embedUrl . '"';
+        $attr[] = 'src="' . esc_url($embedUrl) . '"';
         $attr[] = 'frameborder="0"';
-        $attr[] = 'allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"';
+        $attr[] = 'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"';
         $attr[] = 'allowfullscreen';
 
         return [

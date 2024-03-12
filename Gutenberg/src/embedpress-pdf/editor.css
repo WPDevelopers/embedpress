@@ -1,0 +1,18 @@
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+.embedpress-document-editmode .components-placeholder__instructions:after {
+  content: "\aSupported File Type: PDF, DOC, PPT, XLS etc ";
+  white-space: pre;
+}
+
+.wp-block-embedpress-embedpress-pdf + * {
+  clear: both;
+}
+
+.embedpress-document-editmode .components-placeholder__instructions:after {
+  display: none !important;
+}/*# sourceMappingURL=editor.css.map */

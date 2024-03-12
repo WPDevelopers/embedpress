@@ -13,17 +13,20 @@ if ( !isset( $warning_message) ) {
 ?>
 
 <div class="embedpress-toast__message toast__message--success">
-	<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/check.svg" alt="">
+    <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/check.svg'); ?>" alt="">
+
 	<p><?php echo esc_html( $success_message); ?></p>
 </div>
 
 <div class="embedpress-toast__message toast__message--error">
-	<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/error.svg" alt="">
+    <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/error.svg'); ?>" alt="">
+
     <p><?php echo esc_html( $error_message); ?></p>
 </div>
 
 <div class="embedpress-toast__message toast__message--attention">
-	<img src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/attention.svg" alt="">
+    <img src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/attention.svg'); ?>" alt="">
+
     <p><?php echo esc_html( $warning_message); ?></p>
 </div>
 

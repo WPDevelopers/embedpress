@@ -852,6 +852,57 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: 0.6
 			},
 
+			//Ads Manage attributes
+			adManager: {
+				type: 'boolean',
+				default: false
+			},
+			adSource: {
+				type: 'string',
+				default: 'video'
+			},
+			adContent: {
+				type: 'object',
+			},
+			adFileUrl: {
+				type: 'string',
+				default: ''
+			},
+			adWidth: {
+				type: 'string',
+				default: '300'
+			},
+			adHeight: {
+				type: 'string',
+				default: '200'
+			},
+
+			adXPosition: {
+				type: 'number',
+				default: 25
+			},
+			adYPosition: {
+				type: 'number',
+				default: 10
+			},
+
+			adUrl: {
+				type: 'string',
+				default: ''
+			},
+			adStart: {
+				type: 'string',
+				default: '10'
+			},
+			adSkipButton: {
+				type: 'boolean',
+				default: true
+			},
+			adSkipButtonAfter: {
+				type: 'string',
+				default: '5'
+			},
+
 		},
 		/**
 		 * The edit function describes the structure of your block in the context of the editor.

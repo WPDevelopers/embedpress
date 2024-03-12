@@ -44,14 +44,14 @@ class Handler extends EndHandlerAbstract
             'embedpress-pdfobject',
             EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js',
             ['jquery'],
-            $this->pluginVersion,
+            EMBEDPRESS_PLUGIN_VERSION,
             true
         );
         wp_enqueue_script(
             'embedpress-front',
             EMBEDPRESS_URL_ASSETS . 'js/front.js',
             ['jquery', 'embedpress-pdfobject', 'slick'],
-            $this->pluginVersion,
+            EMBEDPRESS_PLUGIN_VERSION,
             true
         );
 
@@ -59,14 +59,29 @@ class Handler extends EndHandlerAbstract
             'initplyr',
             EMBEDPRESS_URL_ASSETS . 'js/initplyr.js',
             ['plyr.polyfilled'],
-            $this->pluginVersion,
+            EMBEDPRESS_PLUGIN_VERSION,
             true
         );
         wp_enqueue_script(
             'embedpress_documents_viewer_script',
             EMBEDPRESS_URL_ASSETS . 'js/documents-viewer-script.js',
             ['jquery'],
-            $this->pluginVersion,
+            EMBEDPRESS_PLUGIN_VERSION,
+            true
+        );
+
+        wp_enqueue_script(
+            'vimeo-player',
+            EMBEDPRESS_URL_ASSETS . 'js/vimeo-player.js',
+            ['jquery'],
+            EMBEDPRESS_PLUGIN_VERSION,
+            true
+        );
+        wp_enqueue_script(
+            'embedpress-ads',
+            EMBEDPRESS_URL_ASSETS . 'js/ads.js',
+            ['jquery', 'vimeo-player', 'wp-data'],
+            EMBEDPRESS_PLUGIN_VERSION,
             true
         );
 
@@ -79,8 +94,14 @@ class Handler extends EndHandlerAbstract
         );
 
 
+
+        wp_enqueue_script( 'embedpress_documents_viewer_script', EMBEDPRESS_URL_ASSETS . 'js/documents-viewer-script.js', ['jquery'],
+            EMBEDPRESS_PLUGIN_VERSION, true );
+
         wp_localize_script('embedpress-front', 'eplocalize', array(
-            'ajaxurl' => admin_url('admin-ajax.php')
+            'ajaxurl' => admin_url('admin-ajax.php'),
+		    'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
+            
         ));
     }
 

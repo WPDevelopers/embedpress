@@ -6,6 +6,7 @@ import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
 import { removedBlockID, saveSourceData, getPlayerOptions, getCarouselOptions, isInstagramFeed as _isInstagramFeed } from '../common/helper';
+import AdTemplate from '../common/ads-template';
 
 import { shareIconsHtml } from '../common/helper';
 import md5 from 'md5';
@@ -31,6 +32,7 @@ import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, isY
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import ContentShare from '../common/social-share-control';
+import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo, isTikTok as _isTikTok } from './functions';
 import { isCalendly as _isCalendly, useCalendly } from './InspectorControl/calendly';
 
 const {
@@ -71,7 +73,14 @@ export default function EmbedPress(props) {
 		cPopupButtonText,
 		cPopupButtonBGColor,
 		cPopupButtonTextColor,
-		cPopupLinkText
+		cPopupLinkText,
+		adManager,
+		adSource,
+		adFileUrl,
+		adWidth,
+		adHeight,
+		adXPosition,
+		adYPosition
 	} = attributes;
 
 	const _isSelfHostedVideo = isSelfHostedVideo(url);
@@ -170,6 +179,7 @@ export default function EmbedPress(props) {
 	const isOpenseaSingle = _isOpenseaSingle(url);
 
 	const isCalendly = _isCalendly(url);
+	const isTikTok = _isTikTok(url);
 
 	const openseaParams = useOpensea(attributes);
 	const { youtubeParams, isYTChannel, isYTVideo, isYTLive } = useYoutube(attributes, url);
@@ -345,6 +355,7 @@ export default function EmbedPress(props) {
 				isSelfHostedVideo={_isSelfHostedVideo}
 				isSelfHostedAudio={_isSelfHostedAudio}
 				isCalendly={isCalendly}
+				isTikTok={isTikTok}
 			/>
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
@@ -390,6 +401,12 @@ export default function EmbedPress(props) {
 								__html: embedHTML + customLogoTemp + epMessage + shareHtml,
 							}}
 						></EmbedWrap>
+
+					{
+						adManager && (adSource === 'image') && adFileUrl && (
+							<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon={false} progressBar={false} inEditor={true} />
+						)
+					}
 
 						{fetching && (
 							<div style={{ filter: 'grayscale(1)', backgroundColor: '#fffafa', opacity: '0.7' }}
@@ -437,6 +454,24 @@ export default function EmbedPress(props) {
 							`
 							[data-source-id="source-${clientId}"] img.watermark{
 								display: none;
+							}
+							`
+						}
+					</style>
+				)
+			}
+			{
+				adManager && (adSource === 'image') && (
+					<style style={{ display: "none" }}>
+						{
+							`
+							[data-source-id="source-${clientId}"] .main-ad-template div, .main-ad-template div img{
+								height: 100%;
+							}
+							[data-source-id="source-${clientId}"] .main-ad-template {
+								position: absolute;
+								bottom: ${adYPosition}%;
+								left: ${adXPosition}%;
 							}
 							`
 						}

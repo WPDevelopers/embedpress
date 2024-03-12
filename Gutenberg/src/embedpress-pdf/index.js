@@ -9,13 +9,15 @@
 import './style.scss';
 import './editor.scss';
 import edit from './edit';
-import {PdfIcon} from '../common/icons';
+import { PdfIcon } from '../common/icons';
 
 
-const {__} = wp.i18n; // Import __() from wp.i18n
-const {registerBlockType} = wp.blocks; // Import registerBlockType() from wp.blocks
+const { __ } = wp.i18n; // Import __() from wp.i18n
+const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
-if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks['embedpress-pdf']) {
+const canUploadMedia = embedpressObj.can_upload_media;
+
+if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks['embedpress-pdf'] && canUploadMedia) {
 	registerBlockType('embedpress/embedpress-pdf', {
 		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 		title: __('EmbedPress PDF'), // Block title.
@@ -78,7 +80,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: 'string',
 				default: 'In case you don\'t have the password, kindly reach out to content owner or administrator to request access.'
 			},
-			
+
 			contentShare: {
 				type: 'boolean',
 				default: false
@@ -123,7 +125,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "string",
 				default: 'top',
 			},
-			
+
 			download: {
 				type: "boolean",
 				default: true,
@@ -160,7 +162,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: 'string',
 				default: 'px',
 			},
-			
+
 			width: {
 				type: 'number',
 				default: 600,
@@ -174,7 +176,58 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			mime: {
 				type: "string",
-			}
+			},
+			//Ads Manage attributes
+			adManager: {
+				type: 'boolean',
+				default: false
+			},
+			adSource: {
+				type: 'string',
+				default: 'video'
+			},
+			adContent: {
+				type: 'object',
+			},
+			adFileUrl: {
+				type: 'string',
+				default: ''
+			},
+			adWidth: {
+				type: 'string',
+				default: '300'
+			},
+			adHeight: {
+				type: 'string',
+				default: '200'
+			},
+
+			adXPosition: {
+				type: 'number',
+				default: 25
+			},
+			adYPosition: {
+				type: 'number',
+				default: 20
+
+			},
+
+			adUrl: {
+				type: 'string',
+				default: ''
+			},
+			adStart: {
+				type: 'string',
+				default: '10'
+			},
+			adSkipButton: {
+				type: 'boolean',
+				default: true
+			},
+			adSkipButtonAfter: {
+				type: 'string',
+				default: '5'
+			},
 		},
 		edit,
 		save: () => null,

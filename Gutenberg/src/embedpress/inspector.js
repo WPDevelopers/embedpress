@@ -10,6 +10,8 @@ import SlefHosted from './InspectorControl/selfhosted';
 import { EPIcon, InfoIcon } from '../common/icons';
 import Instafeed from './InspectorControl/instafeed';
 import Calendly from './InspectorControl/calendly';
+import AdControl from '../common/ads-control';
+import CustomBranding from './InspectorControl/custombranding';
 
 /**
  * WordPress dependencies
@@ -31,7 +33,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly }) {
+export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly, isTikTok }) {
 
     const {
         url,
@@ -81,8 +83,13 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         setAttributes({ height: '48' });
     }
 
-    if(isCalendly && width === '600' && height === '450'){
+    if (isCalendly && width === '600' && height === '450') {
         setAttributes({ height: '950' });
+    }
+
+    if(isTikTok && width === '600' && height === '450'){
+        setAttributes({ width: '350' });
+        setAttributes({ height: '580' });
     }
 
     return (
@@ -90,10 +97,10 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
             <InspectorControls>
                 {
                     !isOpensea && !isOpenseaSingle && (
-                        <div>
-                            <PanelBody title={__("General")}>
+                        <div className='embedpress-gutenberg-controls'>
+                            <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('General', 'embedpress')}</div>}>
 
-                                <div>
+                                <div className='ep-controls-margin'>
 
                                     {
                                         isYTLive && (
@@ -244,7 +251,12 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />
 
                             <Calendly attributes={attributes} setAttributes={setAttributes} isCalendly={isCalendly} />
-
+                            {
+                                isYTChannel && !isYTLive && (
+                                    <CustomBranding attributes={attributes} setAttributes={setAttributes} />
+                                )
+                            }
+                            <AdControl attributes={attributes} setAttributes={setAttributes} />
                             <LockControl attributes={attributes} setAttributes={setAttributes} />
                             <ContentShare attributes={attributes} setAttributes={setAttributes} />
                         </div>

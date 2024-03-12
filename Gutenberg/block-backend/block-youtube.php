@@ -20,8 +20,8 @@ function embedpress_gutenberg_render_block_youtube( $attributes )
 	
 
 	?>
-	<div class="ose-youtube wp-block-embed-youtube ose-youtube-single-video <?php echo $align; ?>">
-		<iframe src="<?php echo $iframeUrl; ?>"
+	<div class="ose-youtube wp-block-embed-youtube ose-youtube-single-video <?php echo esc_attr($align); ?>">
+		<iframe src="<?php echo esc_url($iframeUrl); ?>"
 		        allowtransparency="true"
 		        allowfullscreen="true"
 		        frameborder="0"

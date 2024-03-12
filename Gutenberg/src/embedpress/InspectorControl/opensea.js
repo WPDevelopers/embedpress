@@ -7,6 +7,9 @@ import ControlHeader from '../../common/control-heading';
 import { getParams } from '../functions';
 import LockControl from '../../common/lock-control';
 import ContentShare from '../../common/social-share-control';
+import AdControl from '../../common/ads-control';
+import { EPIcon } from '../../common/icons';
+
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
@@ -340,7 +343,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                 {
                     isOpensea && (
-                        <PanelBody title={__("Query")} initialOpen={true} className={'ep-opensea-options'}>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Query', 'embedpress')}</div>} initialOpen={true} className={'ep-opensea-options'}>
                             <div>
                                 <RangeControl
                                     label={__("Limit", "embedpress")}
@@ -367,7 +370,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                 {
                     isOpensea && (
-                        <PanelBody title={__("Layout")} initialOpen={false} className={'ep-opensea-options'}>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Layout', 'embedpress')}</div>} initialOpen={false} className={'ep-opensea-options'}>
                             <div>
                                 <SelectControl
                                     label={__("Layout", "embedpress")}
@@ -416,7 +419,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                     )
                 }
 
-                <PanelBody title={__("Content")} initialOpen={false} className={'ep-opensea-options'}>
+                <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Content', 'embedpress')}</div>}  initialOpen={false} className={'ep-opensea-options'}>
 
                     {
                         isOpenseaSingle && (
@@ -583,7 +586,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                 {
                     isOpensea && (
-                        <PanelBody title={__("Load More")} initialOpen={false} className={'ep-opensea-options'}>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Load More', 'embedpress')}</div>} initialOpen={false} className={'ep-opensea-options'}>
 
 
                             <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
@@ -624,9 +627,9 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                     )
                 }
 
-                <PanelBody title={__("Color and Typography")} initialOpen={false} className={'ep-colors-typography'}>
+                <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Color and Typography', 'embedpress')}</div>} initialOpen={false} className={'ep-colors-typography'}>
                     <p>{__("You can adjust the color and typography of embedded content.")}</p>
-                    <InspectorControls>
+                    <div className='ep-opensea-sub-controls'>
                         <PanelBody title={__("Item")} initialOpen={false}>
                             <ControlHeader headerText={'Background Color'} />
                             <ColorPalette
@@ -992,10 +995,11 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                                 </PanelBody>
                             )
                         }
-                    </InspectorControls>
+                    </div>
 
                 </PanelBody>
 
+                <AdControl attributes={attributes} setAttributes={setAttributes} />
                 <LockControl attributes={attributes} setAttributes={setAttributes} />
                 <ContentShare attributes={attributes} setAttributes={setAttributes} />
             </div>

@@ -35,6 +35,13 @@ export const isSelfHostedAudio = (url) => {
     return url.match(/\.(mp3|wav|ogg|aac)$/i);
 }
 
+
+export const isTikTok = (url) => {
+    const tiktokMatch = url.match(/^(?:https?:\/\/)?(?:www\.)?tiktok\.com\/@[\w.-]+\/video\/([\w.-]+)$/i);
+    return tiktokMatch !== null;
+};
+
+
 export const initCustomPlayer = (clientId, attributes) => {
 
     const {

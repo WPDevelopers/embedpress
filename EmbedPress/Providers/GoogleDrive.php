@@ -73,7 +73,7 @@ class GoogleDrive extends ProviderAdapter implements ProviderInterface
             'provider_name' => 'Google drive',
             'provider_url'  => 'https://drive.google.com',
             'title'         => 'Unknown title',
-            'html'          => '<iframe title=""  width="' . $width . '" height="' . $height . '" src="' . $iframeSrc . '" ></iframe>',
+            'html'          => '<iframe title=""  width="' . esc_attr($width) . '" height="' . esc_attr($height) . '" src="' . esc_url($iframeSrc) . '" ></iframe>',
         ];
     }
     /** inline @inheritDoc */

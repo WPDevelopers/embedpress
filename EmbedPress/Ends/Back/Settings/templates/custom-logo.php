@@ -92,7 +92,7 @@ function embedpress_print_branding_controls($provider='', $prefix='') {
     $px_cta_url = "{$prefix}_cta_url";
     switch ($provider){
         case 'vimeo':
-            $preview_video = '<iframe title="" loading="lazy" src="https://player.vimeo.com/video/463346733" frameborder="0"></iframe>';
+            $preview_video = '<iframe title="" loading="lazy" src="'.esc_url('https://player.vimeo.com/video/463346733').'" frameborder="0"></iframe>';
             break;
         case 'wistia':
 
@@ -124,7 +124,7 @@ KAMAL;
 		    $renderer = Helper::get_pdf_renderer();
 		    $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($pdf_url);
 	        ob_start(); ?>
-            <iframe class="embedpress-embed-document-pdf ep-pdf-sample" style="width:500px; max-width:100%; height: 300px; display: inline-block"  src="<?php echo esc_attr(  $src); ?>" ></iframe>
+            <iframe class="embedpress-embed-document-pdf ep-pdf-sample" style="width:500px; max-width:100%; height: 300px; display: inline-block"  src="<?php echo esc_url(  $src); ?>" ></iframe>
         <?php
 		    $preview_video = ob_get_clean();
 		    break;
@@ -147,7 +147,7 @@ KAMAL;
             </label>
             <div class="logo__adjust__wrap <?php echo $pro_active ? '': 'proOverlay'; ?>" style="<?php if ( ('yes' !== $branding) || !$pro_active ) { echo 'display:none;'; } ?>">
                 <label class="logo__upload" id="yt_logo_upload_wrap" style="<?php if (!empty( $logo_url)) { echo 'display:none;'; } ?>">
-                    <input type="hidden" class="preview__logo__input" name="<?php echo esc_attr( $px_logo_url ); ?>" id="<?php echo esc_attr( $px_logo_url ); ?>" data-default="<?php echo esc_attr( $logo_url ); ?>" value="<?php echo $logo_url; ?>">
+                    <input type="hidden" class="preview__logo__input" name="<?php echo esc_attr( $px_logo_url ); ?>" id="<?php echo esc_attr( $px_logo_url ); ?>" data-default="<?php echo esc_url( $logo_url ); ?>" value="<?php echo $logo_url; ?>">
                     <input type="hidden" class="preview__logo__input_id" name="<?php echo esc_attr( $px_logo_id ); ?>" id="<?php echo esc_attr( $px_logo_id ); ?>" data-default="<?php echo esc_attr( $logo_id ); ?>" value="<?php echo $logo_id; ?>">
                     <span class="icon"><i class="ep-icon ep-upload"></i></span>
                     <span class="text"><?php esc_html_e( "Click To Upload", "embedpress" ); ?></span>
@@ -155,7 +155,7 @@ KAMAL;
                 <div class="logo__upload__preview" id="yt_logo__upload__preview" style="<?php if ( empty( $logo_url) ) { echo 'display:none'; } ?> ">
                     <div class="instant__preview">
                         <a href="#" id="yt_preview__remove" class="preview__remove"><i class="ep-icon ep-cross"></i></a>
-                        <img class="instant__preview__img" id="yt_logo_preview" src="<?php echo $logo_url; ?>" alt="">
+                        <img class="instant__preview__img" id="yt_logo_preview" src="<?php echo esc_url($logo_url); ?>" alt="">
                     </div>
                 </div>
 
@@ -185,7 +185,7 @@ KAMAL;
                         <div class="logo__adjust__controller__item">
                             <label class="controller__label" for="yt_cta_url" ><?php esc_html_e( "Call to Action Link", "embedpress" );?> </label>
                             <div>
-                                <input type="url"  name="<?php echo esc_attr( $px_cta_url ); ?>" id="<?php echo esc_attr( $px_cta_url ); ?>" class="form__control" data-default="<?php echo esc_attr( $cta_url ); ?>" value="<?php echo esc_attr( $cta_url); ?>">
+                                <input type="url"  name="<?php echo esc_attr( $px_cta_url ); ?>" id="<?php echo esc_attr( $px_cta_url ); ?>" class="form__control" data-default="<?php echo esc_url( $cta_url ); ?>" value="<?php echo esc_url( $cta_url); ?>">
 
                                 <p><?php esc_html_e( "You may link the logo to any CTA link.", "embedpress" ); ?></p>
                             </div>
@@ -195,7 +195,7 @@ KAMAL;
                         <span class="title"><?php esc_html_e( "Live Preview", "embedpress" ); ?></span>
                         <div class="preview__box">
 	                        <?php echo  $preview_video ;?>
-                            <img src="<?php echo $logo_url; ?>" class="preview__logo" style="bottom:<?php echo esc_attr( $logo_ypos); ?>%; right:<?php echo esc_attr( $logo_xpos); ?>%; opacity:<?php echo ($logo_opacity/100); ?>;" alt="">
+                            <img src="<?php echo esc_url($logo_url); ?>" class="preview__logo" style="bottom:<?php echo esc_attr( $logo_ypos); ?>%; right:<?php echo esc_attr( $logo_xpos); ?>%; opacity:<?php echo ($logo_opacity/100); ?>;" alt="">
                         </div>
                     </div>
                 </div>

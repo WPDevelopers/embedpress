@@ -3306,6 +3306,10 @@ class Embedpress_Elementor extends Widget_Base
 					],
 				],
 				'devices' => [ 'desktop', 'tablet', 'mobile' ],
+				'default' => [
+					'size' => 600,
+					'unit' => 'px',
+				],
 				'desktop_default' => [
 					'size' => 600,
 					'unit' => 'px',
@@ -3319,7 +3323,7 @@ class Embedpress_Elementor extends Widget_Base
 					'unit' => 'px',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive, {{WRAPPER}} .ad-youtube-video > iframe 
 					' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
 				],
 			]
@@ -3343,6 +3347,10 @@ class Embedpress_Elementor extends Widget_Base
 					'size' => 400,
 					'unit' => 'px',
 				],
+				'default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
 				'tablet_default' => [
 					'size' => 400,
 					'unit' => 'px',
@@ -3352,7 +3360,7 @@ class Embedpress_Elementor extends Widget_Base
 					'unit' => 'px',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive,{{WRAPPER}} .ad-youtube-video > iframe
 					' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
 				],
 			]
@@ -3416,16 +3424,18 @@ class Embedpress_Elementor extends Widget_Base
 	public function render_plain_content()
 	{
 		$args = "";
-		$settings      = $this->get_settings_for_display();
+		$settings = $this->get_settings_for_display();
 
 		$_settings = $this->convert_settings($settings);
 		foreach ($_settings as $key => $value) {
-			$args .= "$key='$value' ";
+			$args .= "$key='" . esc_attr($value) . "' ";
 		}
 
 		$args = trim($args);
-		echo "[embedpress $args]{$settings['embedpress_embeded_link']}\[/embedpress]";
+		$embed_code = sprintf("[embedpress %s]%s[/embedpress]", $args, esc_url($settings['embedpress_embeded_link']));
+		echo $embed_code;
 	}
+
 
 	public function get_custom_player_options($settings)
 	{
@@ -3587,7 +3597,6 @@ class Embedpress_Elementor extends Widget_Base
 
 	protected function render()
 	{
-
 		add_filter('embedpress_should_modify_spotify', '__return_false');
 		$settings      = $this->get_settings_for_display();
 		$embed_link = isset($settings['embedpress_embeded_link']) ? $settings['embedpress_embeded_link'] : '';
@@ -3618,11 +3627,13 @@ class Embedpress_Elementor extends Widget_Base
 
 		// conditionaly convert settings data
 		$_settings = [];
-		$source = isset($settings['embedpress_pro_embeded_source']) ? $settings['embedpress_pro_embeded_source'] : 'default';
+		$source = isset($settings['embedpress_pro_embeded_source']) ? esc_attr($settings['embedpress_pro_embeded_source']) : 'default';
+		$embed_link = isset($settings['embedpress_embeded_link']) ? esc_url($settings['embedpress_embeded_link']) : '';
 		$pass_hash_key = isset($settings['embedpress_lock_content_password']) ? md5($settings['embedpress_lock_content_password']) : '';
 
 
-		Helper::get_source_data(md5($this->get_id()) . '_eb_elementor', $embed_link, 'elementor_source_data', 'elementor_temp_source_data');
+
+		Helper::get_source_data(md5($this->get_id()) . '_eb_elementor', esc_url($embed_link), 'elementor_source_data', 'elementor_temp_source_data');
 
 		if (!(($source === 'default' || !empty($source[0]) && $source[0] === 'default') && strpos($embed_link, 'opensea.io') !== false)) {
 			$_settings = $this->convert_settings($settings);
@@ -3706,6 +3717,18 @@ class Embedpress_Elementor extends Widget_Base
 
 		$cEmbedType = !empty($settings['cEmbedType']) ? $settings['cEmbedType'] : '';
 
+		$adsAtts = '';
+
+		if(!empty($settings['adManager'])) {
+			$ad = base64_encode(json_encode($settings));
+			$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
+		}
+
+		$data_player_id = '';
+
+		if(!empty($settings['emberpress_custom_player']) && $settings['emberpress_custom_player'] === 'yes') {
+			$data_player_id = "data-playerid=".$this->get_id();
+		}
 
 		?>
 
@@ -3721,6 +3744,11 @@ class Embedpress_Elementor extends Widget_Base
 				<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_content_share'])) : echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper'); endif; ?> <?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); echo esc_attr(' source-' . $source); ?>">
 
 					<div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?><?php echo esc_attr( $this->get_instafeed_layout($settings) ); ?>" <?php echo $data_playerid; ?> <?php echo $data_carouselid; ?> <?php echo $this->get_custom_player_options($settings); ?> <?php echo $this->get_instafeed_carousel_options($settings); ?>>
+				<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_content_share'])) : echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper');
+																															endif; ?> <?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);
+																																																																						echo esc_attr(' source-' . $source); ?>">
+																																																																					<div <?php echo esc_attr( $adsAtts ); ?>>
+					<div  id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?>" <?php echo esc_attr($data_player_id); ?> <?php echo $this->get_custom_player_options($settings); ?>>
 						<?php
 						$content_id = $client_id;
 						if ((empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct))) {
@@ -3735,6 +3763,28 @@ class Embedpress_Elementor extends Widget_Base
 							Helper::display_password_form($client_id, $content, $pass_hash_key, $embed_settings);
 						}
 						?>
+									$content_id = $client_id;
+
+									if ((empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct))) {
+
+										if (!empty($settings['embedpress_content_share'])) {
+											$content .= Helper::embed_content_share($content_id, $embed_settings);
+										}
+										echo $content;
+									} else {
+										if (!empty($settings['embedpress_content_share'])) {
+											$content .= Helper::embed_content_share($content_id, $embed_settings);
+										}
+										Helper::display_password_form($client_id, $content, $pass_hash_key, $embed_settings);
+									}
+								?>
+					</div>
+					<?php 
+
+						if(!empty($settings['adManager'])) {
+							$content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
+						}
+					?>
 					</div>
 
 				</div>

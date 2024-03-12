@@ -436,7 +436,7 @@ class EmbedPress_Notice {
         $output = '';
         if( isset( $this->data['thumbnail'] ) && isset( $this->data['thumbnail'][ $msg_for ] ) ) {
             $output = '<div class="wpdeveloper-notice-thumbnail">';
-                $output .= '<img src="'. $this->data['thumbnail'][ $msg_for ] .'" alt="NotificationX">';
+                $output .= '<img src="'. esc_url($this->data['thumbnail'][ $msg_for ]) .'" alt="NotificationX">';
             $output .= '</div>';
         }
         echo $output;
@@ -574,7 +574,7 @@ class EmbedPress_Notice {
                             $output .= '<span class="'. $link_value['icon_class'] .'"></span>';
                         }
                         if( isset( $link_value['icon_img'] ) ) {
-                            $output .= '<img src="'. $link_value['icon_img'] .'" />';
+                            $output .= '<img src="'. esc_url($link_value['icon_img']) .'" />';
                         }
                         $output .= $link_value['label'];
                         if( isset( $link_value['link'] ) ) {

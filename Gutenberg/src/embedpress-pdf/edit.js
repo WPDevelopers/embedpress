@@ -6,10 +6,12 @@ import Iframe from '../common/Iframe';
 import ControlHeader from '../common/control-heading';
 import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
-import {saveSourceData } from '../common/helper';
+import { saveSourceData } from '../common/helper';
 import LockControl from '../common/lock-control';
 import ContentShare from '../common/social-share-control';
 import SocialShareHtml from '../common/social-share-html';
+import { EPIcon, InfoIcon } from '../common/icons';
+
 
 import {
 	__experimentalToggleGroupControl as ToggleGroupControl,
@@ -17,6 +19,8 @@ import {
 } from '@wordpress/components';
 
 import { PdfIcon } from '../common/icons'
+import AdControl from '../common/ads-control';
+import AdTemplate from '../common/ads-template';
 
 /**
  * WordPress dependencies
@@ -181,7 +185,7 @@ class EmbedPressPDFEdit extends Component {
 
 		const { attributes, noticeUI, setAttributes } = this.props;
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, clientId, sharePosition, contentShare } = attributes;
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition } = attributes;
 
 		if (!clientId) {
 			setAttributes({ clientId: this.props.clientId });
@@ -192,19 +196,19 @@ class EmbedPressPDFEdit extends Component {
 		const max = 1000;
 
 		let width_class = '';
-		if(unitoption == '%'){
+		if (unitoption == '%') {
 			width_class = 'ep-percentage-width';
 		}
-		else{
-			width_class  = 'ep-fixed-width';
+		else {
+			width_class = 'ep-fixed-width';
 		}
 
 		let content_share_class = '';
 		let share_position_class = '';
 		let share_position = sharePosition ? sharePosition : 'right';
-		if(contentShare) {
+		if (contentShare) {
 			content_share_class = 'ep-content-share-enabled';
-			share_position_class = 'ep-share-position-'+share_position;
+			share_position_class = 'ep-share-position-' + share_position;
 		}
 
 		const colors = [
@@ -306,7 +310,7 @@ class EmbedPressPDFEdit extends Component {
 
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
 
-					<div className={'embedpress-document-embed ep-doc-' + id + ' '+ content_share_class+ ' '+share_position_class+' '+width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`} data-source-id={'source-' + clientId} >
+					<div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`} data-source-id={'source-' + clientId} >
 
 						<div className="gutenberg-wraper">
 							<div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
@@ -337,13 +341,18 @@ class EmbedPressPDFEdit extends Component {
 							}
 
 						</div>
+						{
+							adManager && (adSource === 'image') && adFileUrl && (
+								<AdTemplate attributes={attributes} setAttributes={setAttributes} deleteIcon={false} progressBar={false} inEditor={true} />
+							)
+						}
+
 
 					</div>
 
 					<InspectorControls key="inspector">
-						<PanelBody
-							title={__('Embed Size(px)', 'embedpress')}
-						>
+						<PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Embed Size', 'embedpress')}</div>}>
+
 							<div className={'ep-pdf-width-contol'}>
 								<ControlHeader classname={'ep-control-header'} headerText={'WIDTH'} />
 								<RadioControl
@@ -383,11 +392,9 @@ class EmbedPressPDFEdit extends Component {
 							/>
 						</PanelBody>
 
-						<PanelBody
-							title={__('Document Controls', 'embedpress')}
-							initialOpen={false}
-						>
-							
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Document Controls', 'embedpress')}</div>} initialOpen={false}>
+
+
 
 							<SelectControl
 								label="Theme"
@@ -534,9 +541,10 @@ class EmbedPressPDFEdit extends Component {
 							}
 						</PanelBody>
 
+						<AdControl attributes={attributes} setAttributes={setAttributes} />
 						<LockControl attributes={attributes} setAttributes={setAttributes} />
-						
 						<ContentShare attributes={attributes} setAttributes={setAttributes} />
+
 					</InspectorControls>
 
 					<style style={{ display: "none" }}>
@@ -559,6 +567,25 @@ class EmbedPressPDFEdit extends Component {
 							`
 						}
 					</style>
+
+					{
+						adManager && (adSource === 'image') && (
+							<style style={{ display: "none" }}>
+								{
+									`
+							#block-${this.props.clientId} .main-ad-template div, .main-ad-template div img{
+								height: 100%;
+							}
+							#block-${this.props.clientId} .main-ad-template {
+								position: absolute;
+								bottom: ${adYPosition}%;
+								left: ${adXPosition}%;
+							}
+							`
+								}
+							</style>
+						)
+					}
 				</Fragment >
 
 			);

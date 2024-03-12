@@ -65,7 +65,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface
 
         return [
             'type' => 'video',
-            'provider_name' => 'Youtube',
+            'provider_name' => 'Youtube Channel',
             'provider_url' => 'https://www.youtube.com',
             'title' => 'Unknown title',
             'html' => '<iframe ' . implode(' ', $attr). '></iframe>',

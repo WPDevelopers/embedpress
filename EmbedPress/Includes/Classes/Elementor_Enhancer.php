@@ -247,7 +247,9 @@ class Elementor_Enhancer {
 		$query = parse_url( $embed->url, PHP_URL_QUERY );
 		$url   = str_replace( '?' . $query, '', $url_full );
 
-		parse_str( $query, $params );
+		if ($query !== null) {
+			parse_str($query, $params);
+		}
 
 		// Set the class in the attributes
 		$embed->attributes->class = str_replace( '{provider_alias}', 'wistia', $embed->attributes->class );

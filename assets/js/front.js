@@ -361,6 +361,11 @@ let epGlobals = {};
                     document.querySelector('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper').classList.remove('plyr-initialized');
 
                     initPlayer(document.querySelector('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper'));
+                    
+                    if(eplocalize.is_pro_plugin_active){
+                        const adIdEl = document.querySelector('#' + perentSel + '-' + ep_client_id + ' [data-ad-id]');
+                        adInitialization(adIdEl, adIdEl.getAttribute('data-ad-index'));
+                    }
 
                 }
             } else {
@@ -891,9 +896,26 @@ jQuery(window).on("elementor/frontend/init", function () {
         }
 
     };
+
+    const adsHandler = function ($scope, $) {
+        window.epAdIndex = typeof(window.epAdIndex) === 'undefined' ? 0 : window.epAdIndex + 1;
+        console.log(window.epAdIndex);
+        let classes = $scope[0].className;
+        let classJoint = '.' + classes.split(' ').join('.');
+        const selectorEl = document.querySelector(classJoint + ' [data-ad-id]');
+        
+
+        console.log(classJoint);
+        if (jQuery('body').hasClass('elementor-editor-active') && eplocalize.is_pro_plugin_active) {
+            adInitialization(selectorEl, window.epAdIndex);
+        }
+
+    }
+
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpress_pdf.default", filterableGalleryHandler);
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_document.default", filterableGalleryHandler);
+    elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", adsHandler);
 });
 
 

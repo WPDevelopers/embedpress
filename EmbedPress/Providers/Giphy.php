@@ -59,7 +59,7 @@ class Giphy extends ProviderAdapter implements ProviderInterface
 	        $width = isset( $this->config['maxwidth']) ? $this->config['maxwidth']: 400;
 	        $height = isset( $this->config['maxheight']) ? $this->config['maxheight']: 400;
             $html = '<a href="https://giphy.com/gifs/' . $gifId . '">' .
-                    '<img src="https://media.giphy.com/media/' . $gifId . '/giphy.gif" alt="" width="'.$width.'" height="'.$height.'">' .
+                    '<img src="https://media.giphy.com/media/' . $gifId . '/giphy.gif" alt="" width="'.esc_attr($width).'" height="'.esc_attr($height).'">' .
                     '</a>';
 
             $response = [

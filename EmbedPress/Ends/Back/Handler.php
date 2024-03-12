@@ -38,7 +38,9 @@ class Handler extends EndHandlerAbstract
         add_action('wp_ajax_delete_instagram_account', [$this, 'delete_instagram_account']);
         add_action('init', [$this, 'handle_instagram_data']);
 
-        add_action('init', [$this, 'handle_calendly_data']);
+        if (!empty($_GET['page_type']) && $_GET['page_type'] == 'calendly') {
+            add_action('init', [$this, 'handle_calendly_data']);
+        }
 
     }
 
@@ -99,9 +101,24 @@ class Handler extends EndHandlerAbstract
     public function handle_calendly_data()
     {
 
-        if ((!empty($_GET['access_token']) && isset($_GET['page_type']) && $_GET['page_type'] == 'calendly') || (isset($_GET['calendly_status']) && ($_GET['calendly_status'] == 'sync' || $_GET['calendly_status'] == 'connect'))) {
+        if(empty($_GET['_nonce']))
+        {
+            return false;
+        }
 
-            update_option('is_calendly_connected', true);
+        $verify = wp_verify_nonce($_GET['_nonce'], 'calendly_nonce');
+
+        // Check if access_token or calendly_status is present and nonce is invalid
+        if (!$verify) {
+            echo esc_html__('Invalid nonce', 'embedpress');
+            die;
+        }
+
+        if ((!empty($_GET['_nonce']) && $verify) && (!empty($_GET['access_token']) && isset($_GET['page_type']) && $_GET['page_type'] == 'calendly') || (isset($_GET['calendly_status']) && ($_GET['calendly_status'] == 'sync' || $_GET['calendly_status'] == 'connect'))) {
+
+            if ($_GET['calendly_status'] === 'connect') {
+                update_option('is_calendly_connected', true);
+            }
 
             if (isset($_GET['access_token']) && !empty($_GET['access_token'])) {
                 $access_token = $_GET['access_token'];
@@ -116,6 +133,7 @@ class Handler extends EndHandlerAbstract
                 $created_at = $token_data['created_at'];
             }
 
+
             // Create an array to store the tokens and expiration time
             $token_data = array(
                 'access_token' => $access_token,
@@ -127,31 +145,35 @@ class Handler extends EndHandlerAbstract
             // Save the serialized data in a single option key
             update_option('calendly_tokens', $token_data);
 
-            $user_info = Helper::getCalendlyUserInfo($access_token);
-            $event_types = Helper::getCalaendlyEventTypes($user_info['resource']['uri'], $access_token);
-            $scheduled_events = Helper::getCalaendlyScheduledEvents($user_info['resource']['uri'], $access_token);
+            $user_info = json_decode(Helper::getCalendlyUserInfo($access_token), true);
 
-            $invite_list = [];
+            if (!empty($user_info['resource']['uri'])) {
+                $event_types = Helper::getCalaendlyEventTypes($user_info['resource']['uri'], $access_token);
+                $scheduled_events = Helper::getCalaendlyScheduledEvents($user_info['resource']['uri'], $access_token);
 
-            foreach ($scheduled_events['collection'] as $event) :
-                $uuid = Helper::getCalendlyUuid($event['uri']);
-                $invite_list[$uuid] = Helper::getListEventInvitee($uuid, $access_token);
-            endforeach;
+                $invite_list = [];
 
-            update_option('calendly_user_info', $user_info);
+                if (is_array($scheduled_events['collection'])) {
+                    foreach ($scheduled_events['collection'] as $event) :
+                        $uuid = Helper::getCalendlyUuid($event['uri']);
+                        $invite_list[$uuid] = Helper::getListEventInvitee($uuid, $access_token);
+                    endforeach;
+                }
 
+                update_option('calendly_user_info', $user_info);
 
+                if (is_embedpress_pro_active() && (empty($event_types['title']))) {
 
-            if (is_embedpress_pro_active() && (!isset($event_types['title']) && $event_types['title'] !== 'Unauthenticated')) {
-                update_option('calendly_event_types', $event_types);
-                update_option('calendly_scheduled_events', $scheduled_events);
-                update_option('calendly_invitees_list', $invite_list);
-            }
+                    update_option('calendly_event_types', $event_types);
+                    update_option('calendly_scheduled_events', $scheduled_events);
+                    update_option('calendly_invitees_list', $invite_list);
+                }
 
-            if (!is_embedpress_pro_active()) {
-                update_option('calendly_event_types', []);
-                update_option('calendly_scheduled_events', []);
-                update_option('calendly_invitees_list', []);
+                if (!is_embedpress_pro_active()) {
+                    update_option('calendly_event_types', []);
+                    update_option('calendly_scheduled_events', []);
+                    update_option('calendly_invitees_list', []);
+                }
             }
 
             wp_redirect(admin_url('admin.php?page=embedpress&page_type=calendly'), 302);

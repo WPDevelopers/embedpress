@@ -34,20 +34,28 @@ $calendly_tokens = get_option('calendly_tokens');
 $expirationTime = is_array($calendly_tokens) ? ($calendly_tokens['created_at'] ?? 0) + ($calendly_tokens['expires_in'] ?? 0) : 0;
 $currentTimestamp = time();
 
-$calendly_connect_url = $authorize_url;
-$calendly_sync_url = $authorize_url;
-$calendly_disconnect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=disconnect';
+
+// Generate nonce
+$nonce = wp_create_nonce('calendly_nonce');
+
+// Add nonce as a parameter to the URL
+$nonce_param = "&_nonce=$nonce";
+
+$calendly_connect_url = $authorize_url."?calendly_status=connect,_nonce=$nonce";
+$calendly_sync_url = $authorize_url."?calendly_status=connect,_nonce=$nonce";
+
+$calendly_disconnect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=disconnect'.$nonce_param;
 
 if ($currentTimestamp < $expirationTime) {
-    $calendly_connect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=connect';
-    $calendly_sync_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=sync';
+    $calendly_connect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=connect'.$nonce_param;
+    $calendly_sync_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=sync'.$nonce_param;
 
-    if (isset($_GET['calendly_status']) && $_GET['calendly_status'] == 'connect') {
+    if (!empty($_GET['_nonce']) && wp_verify_nonce($_GET['_nonce'], 'calendly_nonce') && $_GET['calendly_status'] == 'connect') {
         update_option('is_calendly_connected', true);
     }
 }
 
-if (isset($_GET['calendly_status']) && $_GET['calendly_status'] == 'disconnect') {
+if (!empty($_GET['_nonce']) && wp_verify_nonce($_GET['_nonce'], 'calendly_nonce') && isset($_GET['calendly_status']) && $_GET['calendly_status'] == 'disconnect') {
     update_option('is_calendly_connected', '');
 }
 
@@ -176,6 +184,7 @@ if (!is_embedpress_pro_active()) {
     $invtitees_list = [];
     $scheduled_events = [];
     $event_types = [];
+
 }
 
 ?>
@@ -190,13 +199,13 @@ if (!is_embedpress_pro_active()) {
                 <?php if (!empty($is_calendly_connected)) : ?>
                     <div title="<?php echo esc_attr__('Calendly already connected', 'embedpress'); ?>">
                         <a href="<?php echo esc_url($calendly_disconnect_url); ?>" class="calendly-connect-button calendly-connected">
-                            <img class="embedpress-calendly-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/calendly.svg" alt="calendly">
+                            <img class="embedpress-calendly-icon" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL.'img/calendly.svg') ?>" alt="calendly">
                             <?php echo esc_html__('Disconnect', 'embedpress'); ?>
                         </a>
                     </div>
                 <?php else : ?>
                     <a href="<?php echo esc_url($calendly_connect_url); ?>" class="calendly-connect-button" target="_self" title="Connect with Calendly">
-                        <img class="embedpress-calendly-icon" src="<?php echo EMBEDPRESS_SETTINGS_ASSETS_URL; ?>img/calendly.svg" alt="calendly">
+                        <img class="embedpress-calendly-icon" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL.'img/calendly.svg') ?>" alt="calendly">
                         <?php echo esc_html__('Connect with Calendly', 'embedpress'); ?>
                     </a>
                 <?php endif; ?>
@@ -210,9 +219,9 @@ if (!is_embedpress_pro_active()) {
             <?php endif; ?>
         </div>
         <div class="tab-container">
-            <div class="calendly-Event-button tab active-tab" onclick="showTab('event-types')">Event Types</div>
+            <div class="calendly-Event-button tab active-tab" onclick="showTab('event-types')"><?php echo esc_html__('Event Types', 'embedpress'); ?></div>
             <!-- Scheduled Events Tab -->
-            <div class="calendly-Scheduled-button tab" onclick="showTab('scheduled-events')">Scheduled Events</div>
+            <div class="calendly-Scheduled-button tab" onclick="showTab('scheduled-events')"><?php echo esc_html__('Scheduled Events', 'embedpress'); ?></div>
         </div>
 
     </div>
@@ -326,7 +335,7 @@ if (!is_embedpress_pro_active()) {
                                 $uuid = getCalendlyUuid($event['uri']);
 
 
-                                $name = $invtitees_list[$uuid]['collection'][$index]['name'];
+                                $name = isset($invtitees_list[$uuid]['collection'][$index]['name']) ? $invtitees_list[$uuid]['collection'][$index]['name'] : null;
 
                                 // Convert event start and end times to DateTime objects
                                 $start_time = new DateTime($event['start_time']);

@@ -729,9 +729,19 @@ button.components-color-palette__custom-color-button {
 //     margin: -16px -16px -16px;
 // }
 
-// .ep-opensea-options h2.components-panel__body-title, .ep-colors-typography h2.components-panel__body-title {
-//     margin: -16px -16px 25px!important;
-// }
+.components-panel__body.is-opened.ep-opensea-options h2.components-panel__body-title, .components-panel__body.is-opened.ep-colors-typography h2.components-panel__body-title {
+    margin-bottom: 16px!important;
+}
+.components-panel__body.is-opened.ep-colors-typography .ep-opensea-sub-controls h2.components-panel__body-title {
+    margin-bottom: 0px!important;
+}
+.embedpress-gutenberg-controls .components-panel__body.is-opened h2.components-panel__body-title {
+    margin-bottom: 16px!important;
+}
+
+.ep-controls-margin{
+    margin-bottom: 16px;
+}
 
 // YouTube single videos controlers CSS
 .ep-video-controlers .ep-control-field .components-base-control__field {
@@ -1061,6 +1071,19 @@ a.ep-social-icon.pinterest svg {
     background-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #6354a5));
 }
 
+.ep-pannel-icon {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+.ep-pannel-icon svg{
+    width: 18px;
+    height: auto;
+}
+
 .ep-documentation, .ep-tips-and-tricks {
     display: flex;
     align-items: center;
@@ -1167,6 +1190,19 @@ p.ep-live-video-info svg {
     color: rgb(117, 117, 117);
 }
 
+button.skip-ad-button {
+    position: absolute;
+    bottom: 15px;
+    right: 10px;
+    border: none;
+    background: #d41556b5 !important;
+    padding: 6px 8px;
+    color: white !important;
+    z-index: 122222222;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 4px;
+}
 
 //instagram feed controls styles
 .components-panel__row.elementor-panel-alert.elementor-panel-warning-info {

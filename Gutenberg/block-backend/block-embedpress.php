@@ -70,6 +70,11 @@ function embedpress_render_block($attributes)
 {
 
 
+	// echo '<pre>';
+	// print_r($attributes);
+	// echo '</pre>';
+
+
 	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
 	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
@@ -106,7 +111,7 @@ function embedpress_render_block($attributes)
 		$_carousel_options = 'data-carousel-options='. htmlentities($carousel_options_string, ENT_QUOTES) .'';
 	}
 
-	$cEmbedType = !empty($attributes['cEmbedType']) ? $attributes['cEmbedType'] : '';
+	$cEmbedType = !empty($attributes['cEmbedType']) ? ' '.$attributes['cEmbedType'] : '';
 
 	$_custom_player = '';
 	$_player_options = '';
@@ -180,6 +185,8 @@ function embedpress_render_block($attributes)
 
 	$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']): '';
 
+	
+
 	if (!empty($attributes['embedHTML'])) {
 		$embed  = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
 
@@ -191,9 +198,13 @@ function embedpress_render_block($attributes)
 			$content_share_class = 'ep-content-share-enabled';
 			$share_position_class = 'ep-share-position-'.$share_position;
 		}
-		$content_protection_class = '';
-		if(!empty($attributes['lockContent']) && !empty($attributes['contentPassword'])) {
-			$content_protection_class = 'ep-content-protection-enabled';
+
+		$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
+		$hash_pass = hash('sha256', wp_salt(32) . md5(isset($attributes['contentPassword']) ? $attributes['contentPassword'] : ''));
+
+		$content_protection_class = 'ep-content-protection-enabled';
+		if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || $hash_pass === $password_correct) {
+			$content_protection_class = 'ep-content-protection-disabled';
 		}
 
 		$aligns = [
@@ -211,6 +222,13 @@ function embedpress_render_block($attributes)
 		$embed = Helper::customLogo($embed, $attributes);
 		$url = !empty($attributes['href']) ? $attributes['href'] : '';
 
+		$adsAtts = '';
+
+		if(!empty($attributes['adManager'])) {
+			$ad = base64_encode(json_encode($attributes));
+			$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
+		}
+
 		ob_start();
 		?>
 		<div class="embedpress-gutenberg-wrapper <?php echo esc_attr( $alignment.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class); echo esc_attr( $cEmbedType ); ?>" id="<?php echo esc_attr($block_id); ?>">
@@ -221,7 +239,8 @@ function embedpress_render_block($attributes)
 			<div class="wp-block-embed__wrapper <?php if(!empty($attributes['contentShare'])) echo esc_attr( 'position-'.$share_position.'-wraper'); ?>  <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
 				<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content">
 					<div 
-						class="ep-embed-content-wraper <?php 
+						<?php echo esc_attr( $adsAtts ); ?> >
+						<div  class="ep-embed-content-wraper <?php 
 							if (!empty($custom_player)) {
 								echo esc_attr($player_preset);
 							} 
@@ -232,22 +251,28 @@ function embedpress_render_block($attributes)
 						<?php echo esc_attr( $_carousel_id ); ?>
 						<?php echo esc_attr($_carousel_options); ?>
 					>
-						<?php
-							$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
-							$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
-							if(empty($attributes['lockContent']) || empty($attributes['contentPassword'])  || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
+							<?php
+								$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
+								$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
+								if(empty($attributes['lockContent']) || empty($attributes['contentPassword'])  || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
 
-								if(!empty($attributes['contentShare'])) {
-									$content_id = $attributes['clientId'];
-									$embed .= Helper::embed_content_share($content_id, $attributes);
+									if(!empty($attributes['contentShare'])) {
+										$content_id = $attributes['clientId'];
+										$embed .= Helper::embed_content_share($content_id, $attributes);
+									}
+									echo $embed;
+								} else {
+									if(!empty($attributes['contentShare'])) {
+										$content_id = $attributes['clientId'];
+										$embed .= Helper::embed_content_share($content_id, $attributes);
+									}
+									Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
 								}
-								echo $embed;
-							} else {
-								if(!empty($attributes['contentShare'])) {
-									$content_id = $attributes['clientId'];
-									$embed .= Helper::embed_content_share($content_id, $attributes);
-								}
-								Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
+							?>
+						</div>
+						<?php 
+							if(!empty($attributes['adManager'])) {
+								$embed .= Helper::generateAdTemplate($client_id, $attributes, 'gutenberg');
 							}
 						?>
 					</div>
@@ -280,6 +305,7 @@ function embedpress_render_block_style($attributes)
 	$player_pip = !empty($attributes['playerPip']) ? 'block' : 'none';
 	$logoX = !empty($attributes['logoX']) ? $attributes['logoX'] : 5;
 	$logoY = !empty($attributes['logoY']) ? $attributes['logoX'] : 10;
+	$logoOpacity = !empty($attributes['logoOpacity']) ? $attributes['logoOpacity'] : '1';
 	$player_pip = !empty($attributes['playerPip']) ? 'block' : 'none';
 
 	$playerStyle = '';
@@ -307,22 +333,6 @@ function embedpress_render_block_style($attributes)
 			height: ' . esc_attr($attributes['height']) . 'px!important;
 			max-height: ' . esc_attr($attributes['height']) . 'px!important;
 		}
-
-		[data-playerid="' . md5($client_id). '"] img.watermark {
-			border: 0;
-			position: absolute;
-			bottom: '.$logoY.'%;
-			right: '.$logoX.'%;
-			max-width: 150px;
-			max-height: 75px;
-			opacity: 1;
-			-o-transition: opacity 0.5s ease-in-out;
-			-moz-transition: opacity 0.5s ease-in-out;
-			-webkit-transition: opacity 0.5s ease-in-out;
-			transition: opacity 0.5s ease-in-out;
-			z-index:1;
-		}
-
 		';
 	}
 
@@ -332,20 +342,43 @@ function embedpress_render_block_style($attributes)
 	if(!empty($attributes['customlogo'])){
 		$_iscustomlogo = $uniqid.' img.watermark.ep-custom-logo {
 			display: block !important;
-		}';
+		}
+		
+
+		#ep-gutenberg-content-'. md5($client_id).' img.watermark {
+			border: 0;
+			position: absolute;
+			bottom: '.esc_attr($logoY).'%;
+			right: '.esc_attr($logoX).'%;
+			max-width: 150px;
+			max-height: 75px;
+			-o-transition: opacity 0.5s ease-in-out;
+			-moz-transition: opacity 0.5s ease-in-out;
+			-webkit-transition: opacity 0.5s ease-in-out;
+			transition: opacity 0.5s ease-in-out;
+			z-index:1;
+			opacity: '.esc_attr($logoOpacity).';
+		}
+		#ep-gutenberg-content-'. md5($client_id).' img.watermark:hover {
+			opacity: 1;
+		}
+		';
 	}
 	$youtubeStyles = '<style>
-		' . esc_attr($uniqid) . ' {
+		.ose-youtube' . esc_attr($uniqid) . ' {
 			width: ' . esc_attr($attributes['width']) . 'px !important;
 			height: ' . esc_attr($attributes['height']) . 'px!important;
+			max-height: ' . esc_attr($attributes['height']) . 'px !important;
 			max-width: 100%;
 		}
 
-		' . esc_attr($uniqid) . '>iframe {
+		.ose-youtube' . esc_attr($uniqid) . '>iframe {
 			height: ' . esc_attr($attributes['height']) . 'px !important;
 			max-height: ' . esc_attr($attributes['height']) . 'px !important;
 			width: 100%;
+			position: relative !important;
 		}
+		
 
 		' . esc_attr($uniqid) . ' .wistia_embed {
 			max-width: 100%;
@@ -366,6 +399,8 @@ function embedpress_render_block_style($attributes)
 		'.$_iscustomlogo.'
 		'.$playerStyle.'
 
+		
+
 	</style>';
 
 	if($attributes['videosize'] == 'responsive') {
@@ -375,7 +410,7 @@ function embedpress_render_block_style($attributes)
 
 
 		$youtubeStyles = '<style>
-		' . esc_attr($uniqid) . ' {
+		.ose-youtube' . esc_attr($uniqid) . ' {
 			position: relative;
 			width: ' . esc_attr($attributes['width']) . 'px !important;
 			height: ' . esc_attr($height) . 'px !important;
@@ -387,7 +422,7 @@ function embedpress_render_block_style($attributes)
 			padding-top: 0;
 		  }
 
-		  ' . esc_attr($uniqid) . ' > iframe {
+		  .ose-youtube' . esc_attr($uniqid) . ' > iframe {
 			width: 100%;
 			height: 100%;
 			max-height:100%;

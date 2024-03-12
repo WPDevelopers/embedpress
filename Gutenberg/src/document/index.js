@@ -17,7 +17,10 @@ import Logo from "../common/Logo";
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
-if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.document) {
+const canUploadMedia = embedpressObj.can_upload_media;
+
+
+if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.document && canUploadMedia) {
 	registerBlockType('embedpress/document', {
 		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 		title: __('Document'), // Block title.
@@ -62,6 +65,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			presentation: {
 				type: "boolean",
 				default: true,
+			},
+			docViewer: {
+				type: "string",
+				default: 'custom',
 			},
 			themeMode: {
 				type: "string",
@@ -111,6 +118,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				width,
 				height,
 				powered_by,
+				docViewer,
 				themeMode, customColor, presentation, position, download, draw, toolbar, doc_rotation
 			} = props.attributes
 
@@ -147,7 +155,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 					)}
 
 					{mime !== 'application/pdf' && (
-						<div className={`ep-file-download-option-masked ep-gutenberg-file-doc ep-powered-by-enabled ${isDownloadEnabled}`} data-theme-mode={themeMode} data-custom-color={customColor} data-id={id}>
+						<div className={`${docViewer === 'custom' ? 'ep-file-download-option-masked ' : ''}ep-gutenberg-file-doc ep-powered-by-enabled ${isDownloadEnabled}`} data-theme-mode={themeMode} data-custom-color={customColor} data-id={id}>
 							<iframe
 								style={{
 									height: height,
@@ -157,13 +165,13 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 								mozallowfullscreen="true"
 								webkitallowfullscreen="true" />
 							{
-								draw && (
+								draw && docViewer === 'custom' &&  (
 									<canvas class="ep-doc-canvas" width={width} height={height} ></canvas>
 								)
 							}
 
 							{
-								toolbar && (
+								toolbar && docViewer === 'custom' &&  (
 									<div class="ep-external-doc-icons ">
 										{
 											!isFileUrl(href) && (

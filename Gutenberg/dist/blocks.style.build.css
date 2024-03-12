@@ -143,6 +143,12 @@
 .pro-control .components-base-control {
   pointer-events: none; }
 
+.pro-control .ad-manager-controllers {
+  opacity: .5; }
+
+.ads-help {
+  margin-top: 30px; }
+
 button.components-flex.components-color-palette__custom-color {
   height: 20px; }
 
@@ -838,6 +844,18 @@ button.components-color-palette__custom-color-button {
 .components-color-palette__custom-color-text-wrapper {
   display: none !important; }
 
+.components-panel__body.is-opened.ep-opensea-options h2.components-panel__body-title, .components-panel__body.is-opened.ep-colors-typography h2.components-panel__body-title {
+  margin-bottom: 16px !important; }
+
+.components-panel__body.is-opened.ep-colors-typography .ep-opensea-sub-controls h2.components-panel__body-title {
+  margin-bottom: 0px !important; }
+
+.embedpress-gutenberg-controls .components-panel__body.is-opened h2.components-panel__body-title {
+  margin-bottom: 16px !important; }
+
+.ep-controls-margin {
+  margin-bottom: 16px; }
+
 .ep-video-controlers .ep-control-field .components-base-control__field {
   display: -ms-flexbox;
   display: flex;
@@ -1155,6 +1173,18 @@ a.ep-social-icon.pinterest svg {
 .content-share-toggle .components-form-toggle.is-checked .components-form-toggle__track {
   background-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #6354a5)); }
 
+.ep-pannel-icon {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 100%;
+  gap: 10px; }
+
+.ep-pannel-icon svg {
+  width: 18px;
+  height: auto; }
+
 .ep-documentation, .ep-tips-and-tricks {
   display: -ms-flexbox;
   display: flex;
@@ -1275,14 +1305,18 @@ p.ep-live-video-info svg {
 .components-textarea-control__input::placeholder {
   color: #757575; }
 
-.components-panel__row.elementor-panel-alert.elementor-panel-warning-info {
-  margin-top: -15px;
-  display: inline-block;
-  font-size: 12px;
+button.skip-ad-button {
+  position: absolute;
+  bottom: 15px;
+  right: 10px;
+  border: none;
+  background: #d41556b5 !important;
+  padding: 6px 8px;
+  color: white !important;
+  z-index: 122222222;
+  font-size: 15px;
   font-weight: bold;
-  background: #F6D88C;
-  padding: 8px 8px;
-  border-radius: 10px; }
+  border-radius: 4px; }
 /**
  * #.# Common SCSS
  *
@@ -1429,11 +1463,11 @@ span.isPro {
   background-color: #b89d9d;
   border: 5px solid #b89d9d; }
 
-.block-editor-block-inspector .components-base-control {
+.ep-gutenberg-controls-wrapper .components-base-control {
   margin-top: 15px;
   margin-bottom: 30px; }
 
-.block-editor-block-inspector .remove-last-child-margin .components-base-control:last-child {
+.ep-gutenberg-controls-wrapper .remove-last-child-margin .components-base-control:last-child {
   margin-bottom: 30px; }
 
 .embedpress-documents-control .components-base-control {
