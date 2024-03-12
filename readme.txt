@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, Gutenberg embed, embed PDF, embed Google Docs
 Requires at least: 4.6
 Tested up to: 6.4
 Requires PHP: 5.6
-Stable tag: 3.9.11
+Stable tag: 3.9.12
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -325,6 +325,11 @@ Just after embedding the content into your website using EmbedPress, iFrame cust
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.9.12] – 2024-03-12 =
+- Added: Security Enhancement. 
+- Fixed: License activation issues with page reload. 
+- Few minor bug fixes and improvements. 
 
 = [3.9.11] – 2024-03-5 =
 - Fixed: OpenSea NFT collection/assets embedding issues.
