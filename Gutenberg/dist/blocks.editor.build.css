@@ -622,7 +622,7 @@ canvas.ep-doc-canvas {
   text-align: center; }
 
 .editor-styles-wrapper .wp-block[data-align=center] > *:not(style) {
-  display: inline-block; }
+  display: inline-table; }
 
 .editor-styles-wrapper .wp-block::after,
 .clear::after {
@@ -730,7 +730,7 @@ h4.cbutton-preview-text {
   text-align: center; }
 
 .editor-styles-wrapper .wp-block[data-align=center] > *:not(style) {
-  display: inline-block; }
+  display: inline-table; }
 
 .editor-styles-wrapper .wp-block::after,
 .clear::after {

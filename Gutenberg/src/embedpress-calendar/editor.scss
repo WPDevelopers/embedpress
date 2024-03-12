@@ -42,9 +42,9 @@
 .editor-styles-wrapper .wp-block[data-align=center]{
 	text-align: center;
 }
-.editor-styles-wrapper .wp-block[data-align=center] > *:not(style) {
-	display: inline-block;
-}
+// .editor-styles-wrapper .wp-block[data-align=center] > *:not(style) {
+// 	display: inline-table;
+// }
 .editor-styles-wrapper .wp-block::after,
 .clear::after{
 	content: '';
