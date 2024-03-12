@@ -204,6 +204,20 @@ class Handler extends EndHandlerAbstract
         }
     }
 
+    public function enqueueLisenceScripts(){
+        wp_enqueue_script(
+            'embedpress-lisence',
+            EMBEDPRESS_URL_ASSETS . 'js/license.js',
+            ['jquery', 'wp-i18n', 'wp-url'],
+            $this->pluginVersion,
+            true
+        );
+
+		wp_localize_script( 'embedpress-lisence', 'wpdeveloperLicenseManagerNonce', array('embedpress_lisence_nonce' => wp_create_nonce( 'wpdeveloper_sl_'.EMBEDPRESS_SL_ITEM_ID.'_nonce' )) );
+
+    }
+    
+
     /**
      * Method that register all stylesheets for the admin area.
      *
