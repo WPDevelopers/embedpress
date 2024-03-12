@@ -509,9 +509,7 @@ jQuery(document).ready(function ($) {
 
 
     });
-});
 
-$(document).ready(function () {
     $('.calendly-event-copy-link').click(function () {
         var eventLink = $(this).data('event-link');
         var tempInput = $('<input>');
@@ -528,3 +526,4 @@ $(document).ready(function () {
         }, 1500);
     });
 });
+
