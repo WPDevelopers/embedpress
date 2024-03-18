@@ -6,9 +6,10 @@
 
 $opensea_settings = get_option( EMBEDPRESS_PLG_NAME.':opensea');
 
-$os_api_key = isset( $opensea_settings['api_key']) ? $opensea_settings['api_key'] : '';
-$limit = isset( $opensea_settings['limit']) ? $opensea_settings['limit'] : 9;
-$orderby = isset( $opensea_settings['orderby']) ? $opensea_settings['orderby'] : 'desc';
+$os_api_key = isset($opensea_settings['api_key']) ? sanitize_text_field($opensea_settings['api_key']) : '';
+$limit = isset($opensea_settings['limit']) ? intval($opensea_settings['limit']) : 9;
+$orderby = isset($opensea_settings['orderby']) ? sanitize_text_field($opensea_settings['orderby']) : 'desc';
+
 
 ?>
 

@@ -4,7 +4,7 @@
  *  All undefined vars comes from 'render_settings_page' method
  *  */
 $settings = get_option( EMBEDPRESS_PLG_NAME.':spotify');
-$spotify_theme = isset( $settings['theme']) ? $settings['theme'] : '1';
+$spotify_theme = isset($settings['theme']) ? sanitize_text_field($settings['theme']) : '1';
 
 ?>
 

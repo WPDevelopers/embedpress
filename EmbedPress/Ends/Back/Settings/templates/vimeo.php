@@ -4,17 +4,17 @@
  *  All undefined vars comes from 'render_settings_page' method
  *  */
 $vm_settings = get_option( EMBEDPRESS_PLG_NAME.':vimeo' );
-$start_time = isset( $vm_settings['start_time']) ? $vm_settings['start_time'] : 0;
 
+$start_time = isset($vm_settings['start_time']) ? sanitize_text_field($vm_settings['start_time']) : 0;
+$autoplay = isset($vm_settings['autoplay']) ? sanitize_text_field($vm_settings['autoplay']) : '';
+$loop = isset($vm_settings['loop']) ? sanitize_text_field($vm_settings['loop']) : '';
+$autopause = isset($vm_settings['autopause']) ? sanitize_text_field($vm_settings['autopause']) : '';
+$vimeo_dnt = isset($vm_settings['vimeo_dnt']) ? intval($vm_settings['vimeo_dnt']) : 1;
+$color = isset($vm_settings['color']) ? esc_attr($vm_settings['color']) : '#5b4e96';
+$display_title = isset($vm_settings['display_title']) ? sanitize_text_field($vm_settings['display_title']) : 1;
+$display_author = isset($vm_settings['display_author']) ? sanitize_text_field($vm_settings['display_author']) : 1;
+$display_avatar = isset($vm_settings['display_avatar']) ? sanitize_text_field($vm_settings['display_avatar']) : 1;
 
-$autoplay = isset( $vm_settings['autoplay']) ? $vm_settings['autoplay'] : '';
-$loop = isset( $vm_settings['loop']) ? $vm_settings['loop'] : '';
-$autopause = isset( $vm_settings['autopause']) ? $vm_settings['autopause'] : '';
-$vimeo_dnt = isset( $vm_settings['vimeo_dnt']) ? $vm_settings['vimeo_dnt'] : 1;
-$color = isset( $vm_settings['color']) ? $vm_settings['color'] : '#5b4e96';//@TODO; ask to confirm #00adef.
-$display_title = isset( $vm_settings['display_title']) ? $vm_settings['display_title'] : 1;
-$display_author = isset( $vm_settings['display_author']) ? $vm_settings['display_author'] : 1;
-$display_avatar = isset( $vm_settings['display_avatar']) ? $vm_settings['display_avatar'] : 1;
 ?>
 <div class="embedpress__settings background__white radius-25 p40">
     <h3><?php esc_html_e( "Vimeo Settings", "embedpress" ); ?></h3>
