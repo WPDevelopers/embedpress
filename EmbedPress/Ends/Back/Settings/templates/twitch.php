@@ -6,11 +6,11 @@
 $twitch_settings = get_option( EMBEDPRESS_PLG_NAME.':twitch');
 $start_time = isset( $twitch_settings['start_time']) ? $twitch_settings['start_time'] : 0;
 
-$autoplay = isset( $twitch_settings['embedpress_pro_twitch_autoplay']) ? $twitch_settings['embedpress_pro_twitch_autoplay'] : 'no';
-$show_chat = isset( $twitch_settings['embedpress_pro_twitch_chat']) ? $twitch_settings['embedpress_pro_twitch_chat'] : 'no';
-$theme = isset( $twitch_settings['embedpress_pro_twitch_theme']) ? $twitch_settings['embedpress_pro_twitch_theme'] : 'dark';
-$fs = isset( $twitch_settings['embedpress_pro_fs']) ? $twitch_settings['embedpress_pro_fs'] : 'yes';
-$mute = isset( $twitch_settings['embedpress_pro_twitch_mute']) ? $twitch_settings['embedpress_pro_twitch_mute'] : 'yes';
+$autoplay = isset( $twitch_settings['embedpress_pro_twitch_autoplay']) ? esc_html($twitch_settings['embedpress_pro_twitch_autoplay']) : 'no';
+$show_chat = isset( $twitch_settings['embedpress_pro_twitch_chat']) ? esc_html($twitch_settings['embedpress_pro_twitch_chat']) : 'no';
+$theme = isset( $twitch_settings['embedpress_pro_twitch_theme']) ? esc_html($twitch_settings['embedpress_pro_twitch_theme']) : 'dark';
+$fs = isset( $twitch_settings['embedpress_pro_fs']) ? esc_html($twitch_settings['embedpress_pro_fs']) : 'yes';
+$mute = isset( $twitch_settings['embedpress_pro_twitch_mute']) ? esc_html($twitch_settings['embedpress_pro_twitch_mute']) : 'yes';
 
 ?>
 
