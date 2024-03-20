@@ -944,7 +944,7 @@ class Feature_Enhancer
 			$muted = isset($settings['embedpress_pro_twitch_mute']) && ('yes' === $settings['embedpress_pro_twitch_mute']) ? 'true' : 'false';
 			$full_screen = isset($settings['embedpress_pro_fs']) && ('yes' === $settings['embedpress_pro_fs']) ? 'true' : 'false';
 			$autoplay = isset($settings['embedpress_pro_twitch_autoplay']) && ('yes' === $settings['embedpress_pro_twitch_autoplay']) ? 'true' : 'false';
-			$theme      = !empty($settings['embedpress_pro_twitch_theme']) ? $settings['embedpress_pro_twitch_theme'] : 'dark';
+			$theme      = !empty($settings['embedpress_pro_twitch_theme']) ? esc_attr($settings['embedpress_pro_twitch_theme']) : 'dark';
 
 			$layout     = 'video';
 			$width      = !empty($atts->{'data-width'}) ? (int) $atts->{'data-width'} : 800;

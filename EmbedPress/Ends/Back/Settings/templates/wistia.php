@@ -4,20 +4,21 @@
  * all undefined vars comes from EmbedPressSettings.php or sometime from main-template.php
  * */
 $wis_settings = get_option( EMBEDPRESS_PLG_NAME.':wistia' );
-$start_time = isset( $wis_settings['start_time']) ? $wis_settings['start_time'] : 0;
-$autoplay = isset( $wis_settings['autoplay']) ? $wis_settings['autoplay'] : '';
-$display_fullscreen_button = isset( $wis_settings['display_fullscreen_button']) ? $wis_settings['display_fullscreen_button'] : 1;
-$display_playbar = isset( $wis_settings['display_playbar']) ? $wis_settings['display_playbar'] : 1;
-$small_play_button = isset( $wis_settings['small_play_button']) ? $wis_settings['small_play_button'] : 1;
-$display_volume_control = isset( $wis_settings['display_volume_control']) ? $wis_settings['display_volume_control'] : 1;
-$volume = isset( $wis_settings['volume']) ? intval( $wis_settings['volume']) : 100;
-$player_color = isset( $wis_settings['player_color']) ? $wis_settings['player_color'] : '#5b4e96'; //@todo; confirm #00adef
-$plugin_resumable = isset( $wis_settings['plugin_resumable']) ? $wis_settings['plugin_resumable'] : '';
-$plugin_captions = isset( $wis_settings['plugin_captions']) ? $wis_settings['plugin_captions'] : '';
-$plugin_captions_default = isset( $wis_settings['plugin_captions_default']) ? $wis_settings['plugin_captions_default'] : '';
-$plugin_focus = isset( $wis_settings['plugin_focus']) ? $wis_settings['plugin_focus'] : '';
-$plugin_rewind = isset( $wis_settings['plugin_rewind']) ? $wis_settings['plugin_rewind'] : '';
-$plugin_rewind_time = isset( $wis_settings['plugin_rewind_time']) ? intval( $wis_settings['plugin_rewind_time']) : 10;
+$start_time = isset($wis_settings['start_time']) ? sanitize_text_field($wis_settings['start_time']) : 0;
+$autoplay = isset($wis_settings['autoplay']) ? sanitize_text_field($wis_settings['autoplay']) : '';
+$display_fullscreen_button = isset($wis_settings['display_fullscreen_button']) ? intval($wis_settings['display_fullscreen_button']) : 1;
+$display_playbar = isset($wis_settings['display_playbar']) ? intval($wis_settings['display_playbar']) : 1;
+$small_play_button = isset($wis_settings['small_play_button']) ? intval($wis_settings['small_play_button']) : 1;
+$display_volume_control = isset($wis_settings['display_volume_control']) ? intval($wis_settings['display_volume_control']) : 1;
+$volume = isset($wis_settings['volume']) ? intval($wis_settings['volume']) : 100;
+$player_color = isset($wis_settings['player_color']) ? esc_attr($wis_settings['player_color']) : '#5b4e96'; //@todo; confirm #00adef
+$plugin_resumable = isset($wis_settings['plugin_resumable']) ? sanitize_text_field($wis_settings['plugin_resumable']) : '';
+$plugin_captions = isset($wis_settings['plugin_captions']) ? sanitize_text_field($wis_settings['plugin_captions']) : '';
+$plugin_captions_default = isset($wis_settings['plugin_captions_default']) ? sanitize_text_field($wis_settings['plugin_captions_default']) : '';
+$plugin_focus = isset($wis_settings['plugin_focus']) ? sanitize_text_field($wis_settings['plugin_focus']) : '';
+$plugin_rewind = isset($wis_settings['plugin_rewind']) ? sanitize_text_field($wis_settings['plugin_rewind']) : '';
+$plugin_rewind_time = isset($wis_settings['plugin_rewind_time']) ? intval($wis_settings['plugin_rewind_time']) : 10;
+
 ?>
 
 <div class="embedpress__settings background__white radius-25 p40">

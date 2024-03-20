@@ -500,7 +500,8 @@ class Elementor_Enhancer {
 			$time = $h . $m . $s;
 		}
 		$muted = ( 'yes' === $settings['embedpress_pro_twitch_mute'] ) ? 'true' : 'false';
-		$theme = ! empty( $settings['embedpress_pro_twitch_theme'] ) ? $settings['embedpress_pro_twitch_theme'] : 'dark';
+		$theme = !empty($settings['embedpress_pro_twitch_theme']) ? esc_attr($settings['embedpress_pro_twitch_theme']) : 'dark';
+		
 		if ( is_embedpress_pro_active() ) {
 
 			$layout = ( 'yes' === $settings['embedpress_pro_twitch_chat'] ) ? 'video-with-chat' : 'video';

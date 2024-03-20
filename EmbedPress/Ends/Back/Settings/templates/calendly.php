@@ -12,9 +12,10 @@ $event_types = !empty(get_option('calendly_event_types')) ? get_option('calendly
 $scheduled_events = !empty(get_option('calendly_scheduled_events')) ? get_option('calendly_scheduled_events') : [];
 $invtitees_list = !empty(get_option('calendly_invitees_list')) ? get_option('calendly_invitees_list') : [];
 
-$avatarUrl = !empty($user_info['resource']['avatar_url']) ? $user_info['resource']['avatar_url'] : '';
-$name = !empty($user_info['resource']['name']) ? $user_info['resource']['name'] : ' ';
-$schedulingUrl = !empty($user_info['resource']['scheduling_url']) ? $user_info['resource']['scheduling_url'] : '';
+$avatarUrl = !empty($user_info['resource']['avatar_url']) ? esc_url($user_info['resource']['avatar_url']) : '';
+$name = !empty($user_info['resource']['name']) ? sanitize_text_field($user_info['resource']['name']) : ' ';
+$schedulingUrl = !empty($user_info['resource']['scheduling_url']) ? esc_url($user_info['resource']['scheduling_url']) : '';
+
 
 if (!function_exists('getCalendlyUuid')) {
     function getCalendlyUuid($url)

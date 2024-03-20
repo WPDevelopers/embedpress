@@ -3,18 +3,17 @@
  * SoundCloud Settings page
  *  All undefined vars comes from 'render_settings_page' method
  *  */
-$sc_settings = get_option( EMBEDPRESS_PLG_NAME.':soundcloud');
-$visual = isset( $sc_settings['visual']) ? $sc_settings['visual'] : '';
-$autoplay = isset( $sc_settings['autoplay']) ? $sc_settings['autoplay'] : '';
-$share_button = isset( $sc_settings['share_button']) ? $sc_settings['share_button'] : '';
-$comments = isset( $sc_settings['comments']) ? $sc_settings['comments'] : 1;
-$color = isset( $sc_settings['color']) ? $sc_settings['color'] : '#dd3333';
-$artwork = isset( $sc_settings['artwork']) ? $sc_settings['artwork'] : '';
-$play_count = isset( $sc_settings['play_count']) ? $sc_settings['play_count'] : 1;
-$username = isset( $sc_settings['username']) ? $sc_settings['username'] : 1;
+$visual = isset($sc_settings['visual']) ? sanitize_text_field($sc_settings['visual']) : '';
+$autoplay = isset($sc_settings['autoplay']) ? sanitize_text_field($sc_settings['autoplay']) : '';
+$share_button = isset($sc_settings['share_button']) ? sanitize_text_field($sc_settings['share_button']) : '';
+$comments = isset($sc_settings['comments']) ? intval($sc_settings['comments']) : 1;
+$color = isset($sc_settings['color']) ? sanitize_text_field($sc_settings['color']) : '#dd3333';
+$artwork = isset($sc_settings['artwork']) ? sanitize_text_field($sc_settings['artwork']) : '';
+$play_count = isset($sc_settings['play_count']) ? intval($sc_settings['play_count']) : 1;
+$username = isset($sc_settings['username']) ? intval($sc_settings['username']) : 1;
 // pro
-$download_button = isset( $sc_settings['download_button']) ? $sc_settings['download_button'] : 1;
-$buy_button = isset( $sc_settings['buy_button']) ? $sc_settings['buy_button'] : 1;
+$download_button = isset($sc_settings['download_button']) ? intval($sc_settings['download_button']) : 1;
+$buy_button = isset($sc_settings['buy_button']) ? intval($sc_settings['buy_button']) : 1;
 
 ?>
 
