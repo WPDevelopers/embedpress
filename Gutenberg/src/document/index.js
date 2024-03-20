@@ -20,7 +20,7 @@ const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.b
 const canUploadMedia = embedpressObj.can_upload_media;
 
 
-if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.document && canUploadMedia) {
+if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.document) {
 	registerBlockType('embedpress/document', {
 		// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 		title: __('Document'), // Block title.
