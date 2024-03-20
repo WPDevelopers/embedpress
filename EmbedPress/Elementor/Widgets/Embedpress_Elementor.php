@@ -441,7 +441,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'yes',
 				'condition'    => [
-					'embedpress_pro_embeded_source'            => ['youtube', 'vimeo'], 
+					'embedpress_pro_embeded_source'            => ['youtube', 'vimeo'],
 					'embedpress_pro_youtube_display_controls!' => '0'
 				]
 			]
@@ -2525,7 +2525,8 @@ class Embedpress_Elementor extends Widget_Base
 	 * Calendly Controls
 	 */
 
-	 public function init_calendly_control_section(){
+	public function init_calendly_control_section()
+	{
 
 		$condition = [
 			'embedpress_pro_embeded_source' => 'calendly',
@@ -2541,12 +2542,12 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'cEmbedType',
 			[
-				'label' => __( 'Embed Type', 'embedpress' ),
+				'label' => __('Embed Type', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'default' => 'inline',
 				'options' => [
-					'inline'  => __( 'Inline', 'embedpress' ),
-					'popup_button' => __( 'Popup Button', 'embedpress' ),
+					'inline'  => __('Inline', 'embedpress'),
+					'popup_button' => __('Popup Button', 'embedpress'),
 				],
 				'condition' => $condition
 			]
@@ -2554,7 +2555,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'popupControlsHeadding',
 			[
-				'label' => esc_html__( 'Popup Button Settings', 'embedpress' ),
+				'label' => esc_html__('Popup Button Settings', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
 				'condition' => [
@@ -2566,7 +2567,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'cPopupButtonText',
 			[
-				'label' => __( 'Button Text', 'embedpress' ),
+				'label' => __('Button Text', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::TEXT,
 				'label_block' => true,
 				'default' => 'Schedule time with me',
@@ -2579,12 +2580,12 @@ class Embedpress_Elementor extends Widget_Base
 				],
 			]
 		);
-		
-	
+
+
 		$this->add_control(
 			'cPopupButtonTextColor',
 			[
-				'label' => __( 'Text Color', 'embedpress' ),
+				'label' => __('Text Color', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'default' => '#ffffff',
 				'condition' => [
@@ -2596,7 +2597,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'cPopupButtonBGColor',
 			[
-				'label' => __( 'Background Color', 'embedpress' ),
+				'label' => __('Background Color', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'default' => '#0000FF',
 				'condition' => [
@@ -2609,7 +2610,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'calendlyControlsHeadding',
 			[
-				'label' => esc_html__( 'Calender Settings', 'embedpress' ),
+				'label' => esc_html__('Calender Settings', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::HEADING,
 				'separator' => 'before',
 			]
@@ -2641,7 +2642,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'hideCookieBanner',
 			[
-				'label' => __( 'Hide Cookie Banner', 'embedpress' ),
+				'label' => __('Hide Cookie Banner', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'default' => '',
 				'condition' => $condition
@@ -2650,37 +2651,37 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'hideEventTypeDetails',
 			[
-				'label' => __( 'Hide Event Type Details', 'embedpress' ),
+				'label' => __('Hide Event Type Details', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'default' => '',
 				'condition' => $condition
 			]
 		);
-		
+
 		$this->add_control(
 			'cBackgroundColor',
 			[
-				'label' => __( 'Background Color', 'embedpress' ),
+				'label' => __('Background Color', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'default' => '',
 				'condition' => $condition
 			]
 		);
-		
+
 		$this->add_control(
 			'cTextColor',
 			[
-				'label' => __( 'Text Color', 'embedpress' ),
+				'label' => __('Text Color', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'default' => '',
 				'condition' => $condition
 			]
 		);
-		
+
 		$this->add_control(
 			'cButtonLinkColor',
 			[
-				'label' => __( 'Button & Link Color', 'embedpress' ),
+				'label' => __('Button & Link Color', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::COLOR,
 				'default' => '',
 				'condition' => $condition
@@ -2688,10 +2689,9 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->end_controls_section();
+	}
 
-	 }
-
-	 //End calendly controlS
+	//End calendly controlS
 
 	public function init_style_controls()
 	{
@@ -2719,7 +2719,7 @@ class Embedpress_Elementor extends Widget_Base
 						'step' => 1,
 					],
 				],
-				'devices' => [ 'desktop', 'tablet', 'mobile' ],
+				'devices' => ['desktop', 'tablet', 'mobile'],
 				'default' => [
 					'size' => 600,
 					'unit' => 'px',
@@ -2742,7 +2742,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 			]
 		);
-		
+
 		$this->add_responsive_control(
 			'height',
 			[
@@ -2756,7 +2756,7 @@ class Embedpress_Elementor extends Widget_Base
 						'step' => 1,
 					],
 				],
-				'devices' => [ 'desktop', 'tablet', 'mobile' ],
+				'devices' => ['desktop', 'tablet', 'mobile'],
 				'desktop_default' => [
 					'size' => 400,
 					'unit' => 'px',
@@ -2858,11 +2858,12 @@ class Embedpress_Elementor extends Widget_Base
 
 		if (!empty($settings['emberpress_custom_player'])) {
 
-			$player_preset = !empty($settings['custom_payer_preset']) ? $settings['custom_payer_preset'] : 'preset-default';
+			$player_preset = !empty($settings['custom_payer_preset']) ? sanitize_text_field($settings['custom_payer_preset']) : 'preset-default';
 
-			$player_color = !empty($settings['embedpress_player_color']) ? $settings['embedpress_player_color'] : '';
+			$player_color = !empty($settings['embedpress_player_color']) ? sanitize_hex_color($settings['embedpress_player_color']) : '';
 
-			$poster_thumbnail = !empty($settings['embedpress_player_poster_thumbnail']['url']) ? $settings['embedpress_player_poster_thumbnail']['url'] : '';
+			$poster_thumbnail = !empty($settings['embedpress_player_poster_thumbnail']['url']) ? esc_url($settings['embedpress_player_poster_thumbnail']['url']) : '';
+
 
 			$is_self_hosted = Helper::check_media_format($settings['embedpress_embeded_link']);
 
@@ -2991,35 +2992,36 @@ class Embedpress_Elementor extends Widget_Base
 		$content       = is_object($embed) ? $embed->embed : $embed;
 
 		$embed_settings =  [];
-		$embed_settings['customThumbnail'] = !empty($settings['embedpress_content_share_custom_thumbnail']['url']) ? $settings['embedpress_content_share_custom_thumbnail']['url'] : '';
+		$embed_settings['customThumbnail'] = !empty($settings['embedpress_content_share_custom_thumbnail']['url']) ? esc_url($settings['embedpress_content_share_custom_thumbnail']['url']) : '';
 
-		$embed_settings['customTitle'] = !empty($settings['embedpress_content_title']) ? $settings['embedpress_content_title'] : Helper::get_file_title($embed_link);
+		$embed_settings['customTitle'] = !empty($settings['embedpress_content_title']) ? sanitize_text_field($settings['embedpress_content_title']) : Helper::get_file_title($embed_link);
 
-		$embed_settings['customDescription'] = !empty($settings['embedpress_content_descripiton']) ? $settings['embedpress_content_descripiton'] : Helper::get_file_title($embed_link);
+		$embed_settings['customDescription'] = !empty($settings['embedpress_content_descripiton']) ? sanitize_text_field($settings['embedpress_content_descripiton']) : Helper::get_file_title($embed_link);
 
-		$embed_settings['sharePosition'] = !empty($settings['embedpress_content_share_position']) ? $settings['embedpress_content_share_position'] : 'right';
+		$embed_settings['sharePosition'] = !empty($settings['embedpress_content_share_position']) ? sanitize_text_field($settings['embedpress_content_share_position']) : 'right';
 
-		$embed_settings['lockHeading'] = !empty($settings['embedpress_lock_content_heading']) ? $settings['embedpress_lock_content_heading'] : '';
+		$embed_settings['lockHeading'] = !empty($settings['embedpress_lock_content_heading']) ? sanitize_text_field($settings['embedpress_lock_content_heading']) : '';
 
-		$embed_settings['lockSubHeading'] = !empty($settings['embedpress_lock_content_sub_heading']) ? $settings['embedpress_lock_content_sub_heading'] : '';
+		$embed_settings['lockSubHeading'] = !empty($settings['embedpress_lock_content_sub_heading']) ? sanitize_text_field($settings['embedpress_lock_content_sub_heading']) : '';
 
-		$embed_settings['passwordPlaceholder'] = !empty($settings['embedpress_password_placeholder']) ? $settings['embedpress_password_placeholder'] : '';
+		$embed_settings['passwordPlaceholder'] = !empty($settings['embedpress_password_placeholder']) ? sanitize_text_field($settings['embedpress_password_placeholder']) : '';
 
-		$embed_settings['submitButtonText'] = !empty($settings['embedpress_submit_button_text']) ? $settings['embedpress_submit_button_text'] : '';
+		$embed_settings['submitButtonText'] = !empty($settings['embedpress_submit_button_text']) ? sanitize_text_field($settings['embedpress_submit_button_text']) : '';
 
-		$embed_settings['submitUnlockingText'] = !empty($settings['embedpress_submit_Unlocking_text']) ? $settings['embedpress_submit_Unlocking_text'] : '';
+		$embed_settings['submitUnlockingText'] = !empty($settings['embedpress_submit_Unlocking_text']) ? sanitize_text_field($settings['embedpress_submit_Unlocking_text']) : '';
 
-		$embed_settings['lockErrorMessage'] = !empty($settings['embedpress_lock_content_error_message']) ? $settings['embedpress_lock_content_error_message'] : '';
+		$embed_settings['lockErrorMessage'] = !empty($settings['embedpress_lock_content_error_message']) ? sanitize_text_field($settings['embedpress_lock_content_error_message']) : '';
 
-		$embed_settings['enableFooterMessage'] = !empty($settings['embedpress_enable_footer_message']) ? $settings['embedpress_enable_footer_message'] : '';
+		$embed_settings['enableFooterMessage'] = !empty($settings['embedpress_enable_footer_message']) ? sanitize_text_field($settings['embedpress_enable_footer_message']) : '';
 
-		$embed_settings['footerMessage'] = !empty($settings['embedpress_lock_content_footer_message']) ? $settings['embedpress_lock_content_footer_message'] : '';
+		$embed_settings['footerMessage'] = !empty($settings['embedpress_lock_content_footer_message']) ? sanitize_text_field($settings['embedpress_lock_content_footer_message']) : '';
+
 
 
 		$client_id = $this->get_id();
-		$hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_lock_content_password']?$settings['embedpress_lock_content_password'] : ''));
+		$hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_lock_content_password'] ? sanitize_text_field($settings['embedpress_lock_content_password']) : ''));
 
-		$password_correct =  isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
+		$password_correct =  isset($_COOKIE['password_correct_' . $client_id]) ? sanitize_text_field($_COOKIE['password_correct_' . $client_id]) : '';
 
 		$ispagination = 'flex';
 
@@ -3027,15 +3029,21 @@ class Embedpress_Elementor extends Widget_Base
 			$ispagination = 'none';
 		}
 
-		if (!empty($settings['columns']) && (int) $settings['columns'] > 0) {
-			$calVal = 'calc(' . (100 / (int) $settings['columns']) . '% - ' . $settings['gapbetweenvideos']['size'] . 'px)';
+
+		$calVal = '';
+
+		if (!empty($settings['columns']) && is_numeric($settings['columns']) && (int) $settings['columns'] > 0) {
+			$columns = (int) $settings['columns'];
+			$gap_size = isset($settings['gapbetweenvideos']['size']) ? absint($settings['gapbetweenvideos']['size']) : 0;
+			$calVal = 'calc(' . (100 / $columns) . '% - ' . $gap_size . 'px)';
 		} else {
 			$calVal = 'auto';
 		}
 
+
 		$content_share_class = '';
 		$share_position_class = '';
-		$share_position = isset($settings['embedpress_content_share_position']) ? $settings['embedpress_content_share_position'] : 'right';
+		$share_position = isset($settings['embedpress_content_share_position']) ? esc_attr($settings['embedpress_content_share_position']) : 'right';
 
 		if (!empty($settings['embedpress_content_share'])) {
 			$content_share_class = 'ep-content-share-enabled';
@@ -3047,24 +3055,25 @@ class Embedpress_Elementor extends Widget_Base
 			$content_protection_class = 'ep-content-protection-disabled';
 		}
 
-		$cEmbedType = !empty($settings['cEmbedType']) ? $settings['cEmbedType'] : '';
+		$cEmbedType = !empty($settings['cEmbedType']) ? sanitize_text_field($settings['cEmbedType']) : '';
 
 		$adsAtts = '';
 
-		if(!empty($settings['adManager'])) {
-			$ad = base64_encode(json_encode($settings));
-			$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
+		if (!empty($settings['adManager'])) {
+			$ad = base64_encode(json_encode($settings)); // Using WordPress JSON encoding function
+			$adsAtts = 'data-ad-id="' . esc_attr($client_id) . '" data-ad-attrs="' . esc_attr($ad) . '" class="ad-mask"';
 		}
 
 		$data_player_id = '';
 
-		if(!empty($settings['emberpress_custom_player']) && $settings['emberpress_custom_player'] === 'yes') {
-			$data_player_id = "data-playerid=".$this->get_id();
+		if (!empty($settings['emberpress_custom_player']) && $settings['emberpress_custom_player'] === 'yes') {
+			$data_player_id = "data-playerid=" . $this->get_id();
 		}
 
 		?>
 
-		<div class="embedpress-elements-wrapper <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : ''; echo esc_attr( $cEmbedType );?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
+		<div class="embedpress-elements-wrapper <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : '';
+														echo esc_attr($cEmbedType); ?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
 			<?php
 					// handle notice display
 					if ($is_editor_view && $is_apple_podcast && !is_embedpress_pro_active()) {
@@ -3073,34 +3082,35 @@ class Embedpress_Elementor extends Widget_Base
 			<?php
 					} else { ?>
 
-				<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_content_share'])) : echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper');
-																															endif; ?> <?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);
-																																																																						echo esc_attr(' source-' . $source); ?>">
-																																																																					<div <?php echo esc_attr( $adsAtts ); ?>>
-					<div  id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?>" <?php echo esc_attr($data_player_id); ?> <?php echo $this->get_custom_player_options($settings); ?>>
+				<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content
+				 <?php if (!empty($settings['embedpress_content_share'])) : 
+				 	echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper');
+								endif; ?> 
+								<?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); echo esc_attr(' source-' . $source); ?>">
+					<div <?php echo $adsAtts; ?>>
+						<div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?>" <?php echo esc_attr($data_player_id); ?> <?php echo $this->get_custom_player_options($settings); ?>>
+							<?php
+										$content_id = $client_id;
+
+										if ((empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct))) {
+
+											if (!empty($settings['embedpress_content_share'])) {
+												$content .= Helper::embed_content_share($content_id, $embed_settings);
+											}
+											echo $content;
+										} else {
+											if (!empty($settings['embedpress_content_share'])) {
+												$content .= Helper::embed_content_share($content_id, $embed_settings);
+											}
+											Helper::display_password_form($client_id, $content, $pass_hash_key, $embed_settings);
+										}
+										?>
+						</div>
 						<?php
-									$content_id = $client_id;
-
-									if ((empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct))) {
-
-										if (!empty($settings['embedpress_content_share'])) {
-											$content .= Helper::embed_content_share($content_id, $embed_settings);
-										}
-										echo $content;
-									} else {
-										if (!empty($settings['embedpress_content_share'])) {
-											$content .= Helper::embed_content_share($content_id, $embed_settings);
-										}
-										Helper::display_password_form($client_id, $content, $pass_hash_key, $embed_settings);
-									}
-								?>
-					</div>
-					<?php 
-
-						if(!empty($settings['adManager'])) {
-							$content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
-						}
-					?>
+							if (!empty($settings['adManager'])) {
+								$content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
+							}
+						?>
 					</div>
 				</div>
 			<?php

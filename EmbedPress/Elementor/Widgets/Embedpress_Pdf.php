@@ -596,7 +596,7 @@ class Embedpress_Pdf extends Widget_Base
 
         $dimension = '';
         
-        $password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
+        $password_correct = isset($_COOKIE['password_correct_' . $client_id]) ? sanitize_text_field($_COOKIE['password_correct_' . $client_id]) : '';
 
         if(empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct))){  
             $dimension = "width: {$settings['embedpress_elementor_document_width']['size']}{$settings['embedpress_elementor_document_width']['unit']}!important;height: {$settings['embedpress_elementor_document_height']['size']}px;";
@@ -616,45 +616,45 @@ class Embedpress_Pdf extends Widget_Base
         ]);
         $this->add_render_attribute('embedpress-document', [
             'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document', $unitoption, $content_locked_class ],
-            'data-thememode' => $settings['embedpress_theme_mode'],
-            'data-customcolor' => $settings['embedpress_pdf_custom_color'],
-            'data-toolbar' => $settings['pdf_toolbar'],
-            'data-toolbar-position' =>  $settings['pdf_toolbar_position'],
-            'data-open' => 'no',
-            'data-presentation-mode' => $settings['pdf_presentation_mode'],
-            'data-download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print_download'] : 'yes',
-            'data-copy' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'yes',
-            'data-rotate' => $settings['pdf_rotate_access'],
-            'data-details' => $settings['pdf_details'],
-            'data-id' => $id
+            'data-thememode' => isset($settings['embedpress_theme_mode']) ? esc_attr($settings['embedpress_theme_mode']) : '',
+            'data-customcolor' => isset($settings['embedpress_pdf_custom_color']) ? esc_attr($settings['embedpress_pdf_custom_color']) : '',
+            'data-toolbar' => isset($settings['pdf_toolbar']) ? esc_attr($settings['pdf_toolbar']) : '',
+            'data-toolbar-position' => isset($settings['pdf_toolbar_position']) ? esc_attr($settings['pdf_toolbar_position']) : '',
+            'data-open' => 'no', // Assuming 'no' is a static value, no need to sanitize
+            'data-presentation-mode' => isset($settings['pdf_presentation_mode']) ? esc_attr($settings['pdf_presentation_mode']) : '',
+            'data-download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION') ? esc_attr($settings['pdf_print_download']) : 'yes', // Assuming 'yes' is a safe fallback
+            'data-copy' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION') ? esc_attr($settings['pdf_text_copy']) : 'yes', // Assuming 'yes' is a safe fallback
+            'data-rotate' => isset($settings['pdf_rotate_access']) ? esc_attr($settings['pdf_rotate_access']) : '',
+            'data-details' => isset($settings['pdf_details']) ? esc_attr($settings['pdf_details']) : '',
+            'data-id' => $id // Assuming $id is safe, no need to sanitize
         ]); 
 
         $embed_settings =  [];
-		$embed_settings['customThumbnail'] = !empty($settings['embedpress_pdf_content_share_custom_thumbnail']['url']) ? $settings['embedpress_pdf_content_share_custom_thumbnail']['url'] : '';
-        
-		$embed_settings['customTitle'] = !empty($settings['embedpress_pdf_content_title']) ? $settings['embedpress_pdf_content_title'] : Helper::get_file_title($url);
+		$embed_settings['customThumbnail'] = !empty($settings['embedpress_pdf_content_share_custom_thumbnail']['url']) ? esc_url($settings['embedpress_pdf_content_share_custom_thumbnail']['url']) : '';
 
-		$embed_settings['customDescription'] = !empty($settings['embedpress_pdf_content_descripiton']) ? $settings['embedpress_pdf_content_descripiton'] : Helper::get_file_title($url);
+        $embed_settings['customTitle'] = !empty($settings['embedpress_pdf_content_title']) ? sanitize_text_field($settings['embedpress_pdf_content_title']) : Helper::get_file_title($url);
 
-		$embed_settings['sharePosition'] = !empty($settings['embedpress_pdf_content_share_position']) ? $settings['embedpress_pdf_content_share_position'] : 'right';
+        $embed_settings['customDescription'] = !empty($settings['embedpress_pdf_content_descripiton']) ? sanitize_text_field($settings['embedpress_pdf_content_descripiton']) : Helper::get_file_title($url);
 
-		$embed_settings['lockHeading'] = !empty($settings['embedpress_pdf_lock_content_heading']) ? $settings['embedpress_pdf_lock_content_heading'] : '';
+        $embed_settings['sharePosition'] = !empty($settings['embedpress_pdf_content_share_position']) ? sanitize_text_field($settings['embedpress_pdf_content_share_position']) : 'right';
 
-		$embed_settings['lockSubHeading'] = !empty($settings['embedpress_pdf_lock_content_sub_heading']) ? $settings['embedpress_pdf_lock_content_sub_heading'] : '';
-        
-		$embed_settings['lockErrorMessage'] = !empty($settings['embedpress_pdf_lock_content_error_message']) ? $settings['embedpress_pdf_lock_content_error_message'] : '';
+        $embed_settings['lockHeading'] = !empty($settings['embedpress_pdf_lock_content_heading']) ? sanitize_text_field($settings['embedpress_pdf_lock_content_heading']) : '';
 
-		$embed_settings['passwordPlaceholder'] = !empty($settings['embedpress_pdf_password_placeholder']) ? $settings['embedpress_pdf_password_placeholder'] : '';
-        
-		$embed_settings['submitButtonText'] = !empty($settings['embedpress_pdf_submit_button_text']) ? $settings['embedpress_pdf_submit_button_text'] : '';
+        $embed_settings['lockSubHeading'] = !empty($settings['embedpress_pdf_lock_content_sub_heading']) ? sanitize_text_field($settings['embedpress_pdf_lock_content_sub_heading']) : '';
 
-        $embed_settings['submitUnlockingText'] = !empty($settings['embedpress_pdf_submit_Unlocking_text']) ? $settings['embedpress_pdf_submit_Unlocking_text'] : '';
-        
-		$embed_settings['enableFooterMessage'] = !empty($settings['embedpress_pdf_enable_footer_message']) ? $settings['embedpress_pdf_enable_footer_message'] : '';
-        
-		$embed_settings['footerMessage'] = !empty($settings['embedpress_pdf_lock_content_footer_message']) ? $settings['embedpress_pdf_lock_content_footer_message'] : '';
+        $embed_settings['lockErrorMessage'] = !empty($settings['embedpress_pdf_lock_content_error_message']) ? sanitize_text_field($settings['embedpress_pdf_lock_content_error_message']) : '';
 
-        
+        $embed_settings['passwordPlaceholder'] = !empty($settings['embedpress_pdf_password_placeholder']) ? sanitize_text_field($settings['embedpress_pdf_password_placeholder']) : '';
+
+        $embed_settings['submitButtonText'] = !empty($settings['embedpress_pdf_submit_button_text']) ? sanitize_text_field($settings['embedpress_pdf_submit_button_text']) : '';
+
+        $embed_settings['submitUnlockingText'] = !empty($settings['embedpress_pdf_submit_Unlocking_text']) ? sanitize_text_field($settings['embedpress_pdf_submit_Unlocking_text']) : '';
+
+        $embed_settings['enableFooterMessage'] = !empty($settings['embedpress_pdf_enable_footer_message']) ? sanitize_text_field($settings['embedpress_pdf_enable_footer_message']) : '';
+
+        $embed_settings['footerMessage'] = !empty($settings['embedpress_pdf_lock_content_footer_message']) ? sanitize_text_field($settings['embedpress_pdf_lock_content_footer_message']) : '';
+
+
         if($settings['embedpress_elementor_document_width']['unit'] === '%'){
 			$width_class = ' ep-percentage-width';
 		}
@@ -672,9 +672,9 @@ class Embedpress_Pdf extends Widget_Base
 
         $adsAtts = '';
 
-		if(!empty($settings['adManager'])) {
-			$ad = base64_encode(json_encode($settings));
-			$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
+		if (!empty($settings['adManager'])) {
+			$ad = base64_encode(json_encode($settings)); // Using WordPress JSON encoding function
+			$adsAtts = 'data-ad-id="' . esc_attr($client_id) . '" data-ad-attrs="' . esc_attr($ad) . '" class="ad-mask"';
 		}
 
         ?>
@@ -721,7 +721,7 @@ class Embedpress_Pdf extends Widget_Base
 
                 ?>
 
-                <div <?php echo esc_attr( $adsAtts ); ?>>
+                <div <?php echo $adsAtts; ?>>
                 
                     <div id="ep-elementor-content-<?php echo esc_attr( $client_id )?>" class="ep-elementor-content <?php if(!empty($settings['embedpress_pdf_content_share'])) : echo esc_attr( 'position-'.$settings['embedpress_pdf_content_share_position'].'-wraper' ); endif; ?> <?php echo  esc_attr($width_class.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?>">
                         <div id="<?php echo esc_attr( $this->get_id() ); ?>" class="ep-embed-content-wraper">

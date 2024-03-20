@@ -288,14 +288,15 @@ class Helper
 
 	public static function display_password_form($client_id = '', $embedHtml = '', $pass_hash_key = '', $attributes = [])
 	{
-		$lock_heading = !empty($attributes['lockHeading']) ? $attributes['lockHeading'] : '';
-		$lock_subheading = !empty($attributes['lockSubHeading']) ? $attributes['lockSubHeading'] : '';
-		$lock_error_message = !empty($attributes['lockErrorMessage']) ? $attributes['lockErrorMessage'] : '';
-		$footer_message = !empty($attributes['footerMessage']) ? $attributes['footerMessage'] : '';
-		$password_placeholder = !empty($attributes['passwordPlaceholder']) ? $attributes['passwordPlaceholder'] : '';
-		$button_text = !empty($attributes['submitButtonText']) ? $attributes['submitButtonText'] : '';
-		$unlocking_text = !empty($attributes['submitUnlockingText']) ? $attributes['submitUnlockingText'] : '';
-		$enable_footer_message = !empty($attributes['enableFooterMessage']) ? $attributes['enableFooterMessage'] : '';
+		$lock_heading = !empty($attributes['lockHeading']) ? sanitize_text_field($attributes['lockHeading']) : '';
+		$lock_subheading = !empty($attributes['lockSubHeading']) ? sanitize_text_field($attributes['lockSubHeading']) : '';
+		$lock_error_message = !empty($attributes['lockErrorMessage']) ? sanitize_text_field($attributes['lockErrorMessage']) : '';
+		$footer_message = !empty($attributes['footerMessage']) ? sanitize_text_field($attributes['footerMessage']) : '';
+		$password_placeholder = !empty($attributes['passwordPlaceholder']) ? sanitize_text_field($attributes['passwordPlaceholder']) : '';
+		$button_text = !empty($attributes['submitButtonText']) ? sanitize_text_field($attributes['submitButtonText']) : '';
+		$unlocking_text = !empty($attributes['submitUnlockingText']) ? sanitize_text_field($attributes['submitUnlockingText']) : '';
+		$enable_footer_message = !empty($attributes['enableFooterMessage']) ? sanitize_text_field($attributes['enableFooterMessage']) : '';
+
 
 		// Set the encryption key and initialization vector (IV)
 		$key = self::get_hash();
