@@ -38,6 +38,10 @@ class Handler extends EndHandlerAbstract
         if (!empty($_GET['page_type']) && $_GET['page_type'] == 'calendly') {
             add_action('init', [$this, 'handle_calendly_data']);
         }
+
+        if(defined('EMBEDPRESS_SL_ITEM_SLUG') && is_admin(  )){
+            add_action('admin_enqueue_scripts',  [$this, 'enqueueLisenceScripts']);
+        }
     }
 
     public function handle_calendly_data()
