@@ -293,4 +293,14 @@ document.getElementById("presentationMode").addEventListener("click", function (
     }
 });
 
+// Check if the user agent contains "iPhone", "iPad", or "iPod"
+function isIOS() {
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+if (isIOS()) {
+    document.getElementById("presentationMode").remove();
+} 
+
+
 
