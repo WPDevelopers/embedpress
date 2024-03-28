@@ -279,3 +279,18 @@ let data = getParamObj(location.hash);
 pdfIframeStyle(data);
 setThemeMode(data.themeMode);
 
+
+document.getElementById("presentationMode").addEventListener("click", function () {
+    var mainContainer = document.getElementById("mainContainer");
+    if (mainContainer && !document.fullscreenElement) {
+        mainContainer.requestFullscreen().catch(err => {
+            alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+        });
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    }
+});
+
+
