@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, Gutenberg embed, embed PDF, embed Google Docs
 Requires at least: 4.6
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 3.9.13
+Stable tag: 3.9.14
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -323,6 +323,11 @@ Just after embedding the content into your website using EmbedPress, iFrame cust
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.9.14] – 2024-03-28 =
+- Fixed: License activation conflicts with Classic editor.
+- Fixed:  Zoom in/out wasn’t working in PDF Presentation mode.
+- Few minor bug fixes & improvements.
 
 = [3.9.13] – 2024-03-21 =
 - Fixed : Gutenberg editor responsive issues.
