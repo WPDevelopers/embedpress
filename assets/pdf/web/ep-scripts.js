@@ -299,8 +299,9 @@ function isIOS() {
 }
 
 if (isIOS()) {
-    document.getElementById("presentationMode").remove();
-} 
-
-
+    document.querySelector(".presentationForAllDevice").remove();
+}
+else{
+    document.querySelector(".presentationForIosDevice").remove();
+}
 

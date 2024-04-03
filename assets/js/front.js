@@ -523,3 +523,21 @@ jQuery(window).on("elementor/frontend/init", function () {
 // });
 
 // testHellowWorld();
+
+
+var iframes = document.querySelectorAll('.embedpress-embed-document-pdf');
+
+iframes.forEach(function(iframe) {
+    iframe.onload = function() {
+        var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        var button = iframeDoc.querySelector('.presentationForIosDevice');
+        button?.addEventListener('click', function() {
+            iframe.classList.toggle('presentationModeEnabledIosDevice');
+        });
+        iframeDoc.addEventListener('keydown', function(event) {
+            if (event.keyCode === 27) {
+                iframe.classList.remove('presentationModeEnabledIosDevice');
+            }
+        });
+    };
+});

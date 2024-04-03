@@ -11883,7 +11883,7 @@ class SecondaryToolbar {
       close,
       eventDetails
     } of this.buttons) {
-      element.addEventListener("click", evt => {
+      element?.addEventListener("click", evt => {
         if (eventName !== null) {
           const details = {
             source: this
