@@ -1288,7 +1288,7 @@ p.need-access-message {
     position: relative;
     width: 100%;
 }
-body div  .presentationModeEnabledIosDevice {
+.presentationModeEnabledIosDevice {
     position: fixed;
     left: 0;
     top: 0;
