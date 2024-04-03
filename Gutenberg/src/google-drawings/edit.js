@@ -4,6 +4,7 @@
 import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
+import { sanitizeUrl } from '../common/helper';
 
 /**
  * WordPress dependencies
@@ -101,7 +102,7 @@ class GoogleDrawingEdit extends Component {
 			return (
 				<Fragment>
 					{fetching ? <EmbedLoading/> : null}
-					<img src={iframeSrc} onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}} width="960"
+					<img src={sanitizeUrl(iframeSrc)} onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}} width="960"
 						 height="720"/>
 					<EmbedControls
 						showEditButton={iframeSrc && !cannotEmbed}

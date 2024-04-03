@@ -5,6 +5,7 @@ import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import Iframe from '../common/Iframe';
+import { sanitizeUrl } from '../common/helper';
 
 /**
  * WordPress dependencies
@@ -121,7 +122,7 @@ class GoogleSlidesEdit extends Component {
                 <Fragment>
                     {fetching  ?  <EmbedLoading /> : null}
 
-                    <Iframe src={iframeSrc} onFocus={ this.hideOverlay } onLoad={this.onLoad} style={{ display: fetching ? 'none' : '' }} frameborder="0" width="600" height="450" />
+                    <Iframe src={sanitizeUrl(iframeSrc)} onFocus={ this.hideOverlay } onLoad={this.onLoad} style={{ display: fetching ? 'none' : '' }} frameborder="0" width="600" height="450" />
 					{ ! interactive && (
 						<div
 							className="block-library-embed__interactive-overlay"

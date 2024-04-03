@@ -11,6 +11,7 @@ import LockControl from '../common/lock-control';
 import ContentShare from '../common/social-share-control';
 import SocialShareHtml from '../common/social-share-html';
 import { EPIcon, InfoIcon } from '../common/icons';
+import { sanitizeUrl } from '../common/helper';
 
 
 import {
@@ -315,12 +316,12 @@ class EmbedPressPDFEdit extends Component {
 						<div className="gutenberg-wraper">
 							<div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
 								{mime === 'application/pdf' && (
-									<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={pdf_viewer_src}></iframe>
+									<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)}></iframe>
 
 								)}
 
 								{mime !== 'application/pdf' && (
-									<Iframe title="" onMouseUponMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={url} />
+									<Iframe title="" onMouseUponMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={sanitizeUrl(url)} />
 								)}
 								{!interactive && (
 									<div

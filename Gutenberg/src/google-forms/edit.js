@@ -6,6 +6,7 @@ import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import Iframe from '../common/Iframe';
 import {googleDrawingsIcon} from "../common/icons";
+import { sanitizeUrl } from '../common/helper';
 
 /**
  * WordPress dependencies
@@ -119,7 +120,7 @@ class GoogleFormsEdit extends Component {
 				<Fragment>
 					{fetching ? <EmbedLoading/> : null}
 
-						<Iframe src={iframeSrc} onFocus={ this.hideOverlay } onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}}
+						<Iframe src={sanitizeUrl(iframeSrc)} onFocus={ this.hideOverlay } onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}}
 								frameborder="0" width="600" height="450"/>
 
 					{ ! interactive && (
