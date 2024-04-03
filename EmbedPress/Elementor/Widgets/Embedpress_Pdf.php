@@ -198,8 +198,8 @@ class Embedpress_Pdf extends Widget_Base
 				],
 				'devices' => [ 'desktop', 'tablet', 'mobile' ],
                 'default' => [
-					'unit' => 'px',
-                    'size' => 600,
+					'unit' => '%',
+                    'size' => 100,
 				],
 				'desktop_default' => [
 					'unit' => 'px',

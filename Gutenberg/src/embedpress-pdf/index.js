@@ -160,7 +160,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			unitoption: {
 				type: 'string',
-				default: 'px',
+				default: '%',
 			},
 
 			width: {
@@ -169,7 +169,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			height: {
 				type: 'number',
-				default: 450,
+				default: 600,
 			},
 			fileName: {
 				type: "string",
