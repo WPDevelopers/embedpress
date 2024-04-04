@@ -525,6 +525,12 @@ class Embedpress_Google_Helper {
 		if (!is_array($atts)) {
 			$atts = [];
 		}
+
+		foreach ($atts as &$value) {
+			$value = esc_attr($value);
+		}
+		unset($value); // Unset reference
+
 		wp_enqueue_style('dashicons');
 		wp_enqueue_style( 'fullcalendar');
 		wp_enqueue_style( 'fullcalendar_daygrid');
