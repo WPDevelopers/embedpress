@@ -565,6 +565,18 @@ class EmbedPressPDFEdit extends Component {
 								float: left;
 							}
 
+							.presentationModeEnabledIosDevice {
+								position: fixed;
+								left: 0;
+								top: 0;
+								border: 0;
+								height: 100%!important;
+								width: 100%!important;
+								z-index: 999999;
+								min-width: 100%!important;
+								min-height: 100%!important;
+							}
+
 							`
 						}
 					</style>

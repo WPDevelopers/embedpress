@@ -280,7 +280,7 @@ pdfIframeStyle(data);
 setThemeMode(data.themeMode);
 
 
-document.getElementById("presentationMode").addEventListener("click", function () {
+document.getElementById("presentationMode")?.addEventListener("click", function () {
     var mainContainer = document.getElementById("mainContainer");
     if (mainContainer && !document.fullscreenElement) {
         mainContainer.requestFullscreen().catch(err => {
@@ -293,14 +293,15 @@ document.getElementById("presentationMode").addEventListener("click", function (
     }
 });
 
-// Check if the user agent contains "iPhone", "iPad", or "iPod"
-function isIOS() {
-    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
-}
+// // Check if the user agent contains "iPhone", "iPad", or "iPod"
+// function isIOS() {
+//     return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+// }
 
-if (isIOS()) {
-    document.getElementById("presentationMode").remove();
-} 
-
-
+// if (isIOS()) {
+//     document.querySelector(".presentationForAllDevice")?.remove();
+// }
+// else{
+//     document.querySelector(".presentationForIosDevice")?.remove();
+// }
 
