@@ -12,6 +12,7 @@ import Iframe from '../common/Iframe';
 const {__} = wp.i18n;
 const {Component, Fragment} = wp.element;
 import {twitchIcon} from '../common/icons'
+import { sanitizeUrl } from '../common/helper';
 
 class TwitchEdit extends Component {
 	constructor() {
@@ -160,7 +161,7 @@ class TwitchEdit extends Component {
 				<Fragment>
 					{fetching ? <EmbedLoading/> : null}
 
-					<Iframe src={IframeUrl}  {...attrs}
+					<Iframe src={sanitizeUrl(IframeUrl)}  {...attrs}
 							onLoad={this.onLoad}
 							style={{display: fetching ? 'none' : ''}}
 							onFocus={this.hideOverlay}

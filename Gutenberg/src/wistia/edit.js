@@ -12,6 +12,7 @@ import Iframe from '../common/Iframe';
 const {__} = wp.i18n;
 const {Component, Fragment} = wp.element;
 import {wistiaIcon} from '../common/icons'
+import { sanitizeUrl } from '../common/helper';
 class WistiaEdit extends Component {
 	constructor() {
 		super(...arguments);
@@ -145,7 +146,7 @@ class WistiaEdit extends Component {
 					{fetching ? <EmbedLoading/> : null}
 
 						<div className="ose-wistia" id={"wistia_" + this.state.mediaId}>
-							<Iframe src={iframeSrc} onFocus={ this.hideOverlay } onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}}
+							<Iframe src={sanitizeUrl(iframeSrc)} onFocus={ this.hideOverlay } onLoad={this.onLoad} style={{display: fetching ? 'none' : ''}}
 									frameborder="0" width="600" height="330"/>
 						</div>
 

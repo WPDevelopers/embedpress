@@ -6,6 +6,7 @@ import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from "../common/embed-placeholder";
 import {CalendarIcon} from "../common/icons";
 import EmbedControls from "../common/embed-controls";
+import { sanitizeUrl } from '../common/helper';
 const {TextControl, PanelBody, ToggleControl} = wp.components;
 const { InspectorControls, useBlockProps } = wp.blockEditor;
 const { Fragment } = wp.element;
@@ -112,7 +113,7 @@ export default function EmbedPressCalendarEdit({attributes, className, setAttrib
 			{ fetching ? <div className={className}><EmbedLoading/> </div> : null}
 
 			{(embedHTML && is_public && !editingURL && !fetching) && <figure { ...blockProps } >
-				{is_public && <iframe style={{display: fetching ? 'none' : ''}} src={url} width={width} height={height}/>
+				{is_public && <iframe style={{display: fetching ? 'none' : ''}} src={sanitizeUrl(url)} width={width} height={height}/>
 				}
 				{ powered_by && (
 					<p className="embedpress-el-powered">Powered By EmbedPress</p>
