@@ -44,58 +44,83 @@ class Handler extends EndHandlerAbstract
     public function enqueueScripts()
     {
 
-        wp_enqueue_script(
-            'embedpress-pdfobject',
-            EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js',
-            ['jquery'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-        wp_enqueue_script(
-            'plyr.polyfilled',
-            EMBEDPRESS_URL_ASSETS . 'js/plyr.polyfilled.js',
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-        wp_enqueue_script(
-            'initplyr',
-            EMBEDPRESS_URL_ASSETS . 'js/initplyr.js',
-            ['plyr.polyfilled'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-        
-        wp_enqueue_script(
-            'embedpress-front',
-            EMBEDPRESS_URL_ASSETS . 'js/front.js',
-            ['jquery', 'embedpress-pdfobject'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
+        $elements = (array) get_option(EMBEDPRESS_PLG_NAME . ":elements", []);
+        $g_elementor = isset($elements['elementor']) ? (array) $elements['elementor'] : [];
+        $g_blocks = isset($elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
 
-        wp_enqueue_script(
-            'vimeo-player',
-            EMBEDPRESS_URL_ASSETS . 'js/vimeo-player.js',
-            ['jquery'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
-        wp_enqueue_script(
-            'embedpress-ads',
-            EMBEDPRESS_URL_ASSETS . 'js/ads.js',
-            ['jquery', 'vimeo-player', 'wp-data'],
-            EMBEDPRESS_PLUGIN_VERSION,
-            true
-        );
+        if (!empty($g_elementor['embedpress-pdf']) || !empty($g_blocks['embedpress-pdf'])) {
+            wp_enqueue_script(
+                'embedpress-pdfobject',
+                EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js',
+                ['jquery'],
+                EMBEDPRESS_PLUGIN_VERSION,
+                true
+            );
+        }
+
+        if (!empty($g_elementor['embedpress']) || !empty($g_blocks['embedpress'])) {
+            wp_enqueue_script(
+                'plyr.polyfilled',
+                EMBEDPRESS_URL_ASSETS . 'js/plyr.polyfilled.js',
+                EMBEDPRESS_PLUGIN_VERSION,
+                true
+            );
+            wp_enqueue_script(
+                'initplyr',
+                EMBEDPRESS_URL_ASSETS . 'js/initplyr.js',
+                ['plyr.polyfilled'],
+                EMBEDPRESS_PLUGIN_VERSION,
+                true
+            );
+
+            wp_enqueue_script(
+                'vimeo-player',
+                EMBEDPRESS_URL_ASSETS . 'js/vimeo-player.js',
+                ['jquery'],
+                EMBEDPRESS_PLUGIN_VERSION,
+                true
+            );
+        }
+
+        $dependencies = ['jquery'];
+        if (!empty($g_elementor['embedpress-pdf']) || !empty($g_blocks['embedpress-pdf'])) {
+            $dependencies[] = 'embedpress-pdfobject';
+        }
+
+        if (!empty($g_elementor['embedpress']) || !empty($g_blocks['embedpress']) || !empty($g_elementor['embedpress-pdf']) || !empty($g_blocks['embedpress-pdf']) || !empty($g_elementor['document']) || !empty($g_blocks['document'])) {
+            wp_enqueue_script(
+                'embedpress-front',
+                EMBEDPRESS_URL_ASSETS . 'js/front.js',
+                $dependencies,
+                EMBEDPRESS_PLUGIN_VERSION,
+                true
+            );
+        }
+
+        if (!empty($g_elementor['embedpress']) || !empty($g_blocks['embedpress']) || !empty($g_elementor['embedpress-pdf']) || !empty($g_blocks['embedpress-pdf'])) {
+            wp_enqueue_script(
+                'embedpress-ads',
+                EMBEDPRESS_URL_ASSETS . 'js/ads.js',
+                ['jquery', 'vimeo-player', 'wp-data'],
+                EMBEDPRESS_PLUGIN_VERSION,
+                true
+            );
+        }
 
 
-        wp_enqueue_script( 'embedpress_documents_viewer_script', EMBEDPRESS_URL_ASSETS . 'js/documents-viewer-script.js', ['jquery'],
-            EMBEDPRESS_PLUGIN_VERSION, true );
+        if (!empty($g_elementor['embedpress-document']) || !empty($g_blocks['document'])) {
+            wp_enqueue_script(
+                'embedpress_documents_viewer_script',
+                EMBEDPRESS_URL_ASSETS . 'js/documents-viewer-script.js',
+                ['jquery'],
+                EMBEDPRESS_PLUGIN_VERSION,
+                true
+            );
+        }
 
         wp_localize_script('embedpress-front', 'eplocalize', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
-		    'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
-            
+            'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
         ));
     }
 
