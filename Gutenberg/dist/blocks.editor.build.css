@@ -621,8 +621,7 @@ canvas.ep-doc-canvas {
 .editor-styles-wrapper .wp-block[data-align=center] {
   text-align: center; }
 
-.editor-styles-wrapper .wp-block::after,
-.clear::after {
+.editor-styles-wrapper .wp-block::after {
   content: '';
   display: block;
   clear: both;
@@ -726,8 +725,7 @@ h4.cbutton-preview-text {
 .editor-styles-wrapper .wp-block[data-align=center] {
   text-align: center; }
 
-.editor-styles-wrapper .wp-block::after,
-.clear::after {
+.editor-styles-wrapper .wp-block::after {
   content: '';
   display: block;
   clear: both;
