@@ -248,6 +248,12 @@ const pdfIframeStyle = (data) => {
         #editorInk{
             display: ${draw}!important;
         }
+        
+        @media all and (max-width:360px) {
+            #toolbarViewerRight #editorModeButtons, #toolbarViewerRight #print,  #toolbarViewerRight #download {
+                display: none!important;
+            }
+        }
 
         ${pdfCustomColor}
 
