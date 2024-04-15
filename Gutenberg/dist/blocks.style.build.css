@@ -205,12 +205,6 @@ body.page .flexia-wrapper > .content-area {
   .embedpress-gutenberg-wrapper.alignleft {
     max-width: 100%; } }
 
-.clear::after {
-  content: "";
-  display: block;
-  clear: both;
-  min-height: 1px; }
-
 .embedpress-gutenberg-wrapper .alignleft,
 .embedpress-gutenberg-wrapper .alignright,
 .embedpress-gutenberg-wrapper .aligncenter {
@@ -1610,9 +1604,3 @@ body.page .flexia-wrapper > .content-area {
   .embedpress-calendar-gutenberg.alignright,
   .embedpress-calendar-gutenberg.alignleft {
     max-width: 100%; } }
-
-.clear::after {
-  content: '';
-  display: block;
-  clear: both;
-  min-height: 1px; }
