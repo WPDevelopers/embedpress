@@ -840,24 +840,35 @@ function embedpress_pdf_render_block($attributes)
 							}
 							?>
 
-					<?php
-							if (!empty($attributes['adManager'])) {
-								$embed .= Helper::generateAdTemplate($client_id, $attributes, 'gutenberg');
-							}
-							?>
-				</div>
-			</div>
+				<?php 
+					if(!empty($attributes['adManager'])) {
+						$embed .= Helper::generateAdTemplate($client_id, $attributes, 'gutenberg');
+					}
+				?>
+			</div>			
 		</div>
-	<?php
-			return ob_get_clean();
-		}
+	</div>
+<?php
+		return ob_get_clean();
 	}
+}
+
+function isGoogleCalendar($url) {
+	$pattern = '/^https:\/\/calendar\.google\.com\/calendar\/embed\?.*$/';
+	return preg_match($pattern, $url);
+}
 
 	function embedpress_calendar_render_block($attributes)
 	{
 
 		$id = !empty($attributes['id']) ? $attributes['id'] : 'embedpress-calendar-' . rand(100, 10000);
 		$url = !empty($attributes['url']) ? $attributes['url'] : '';
+
+	if(!isGoogleCalendar($url))
+	{
+		return;
+	}
+
 		$is_private = isset($attributes['is_public']);
 		$client_id = md5($id);
 		$width = !empty($attributes['width']) ? $attributes['width'] . 'px' : '600px';
