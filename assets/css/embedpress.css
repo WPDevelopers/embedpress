@@ -168,6 +168,11 @@
     }
 }
 
+.ose-matterport .embera-embed-responsive, .ose-matterport .embera-embed-responsive iframe {
+    width: 100%;
+    height: 100%;
+}
+
 /*Meetup Event styling starts */
 .ose-meetup {
     height: auto !important;
