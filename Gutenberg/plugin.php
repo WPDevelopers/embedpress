@@ -50,6 +50,10 @@ add_action('enqueue_block_assets', 'embedpress_blocks_cgb_block_assets');
 function embedpress_blocks_cgb_editor_assets()
 { // phpcs:ignore
 	// Scripts.
+
+	$elements = (array) get_option(EMBEDPRESS_PLG_NAME . ":elements", []);
+	$g_blocks = isset($elements['gutenberg']) ? (array) $elements['gutenberg'] : [];
+
 	if (!wp_script_is('embedpress-pdfobject')) {
 		wp_enqueue_script(
 			'embedpress-pdfobject',
@@ -66,10 +70,16 @@ function embedpress_blocks_cgb_editor_assets()
 		filemtime(EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.build.js'), // Version: File modification time.
 		true // Enqueue the script in the footer.
 	);
-	
-	wp_enqueue_script(
-		'embedpress_documents_viewer_script', EMBEDPRESS_PLUGIN_DIR_URL . 'assets/js/documents-viewer-script.js', array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' ), EMBEDPRESS_PLUGIN_VERSION, true 
-	);
+
+	if (!empty($g_blocks['document'])) {
+		wp_enqueue_script(
+			'embedpress_documents_viewer_script',
+			EMBEDPRESS_PLUGIN_DIR_URL . 'assets/js/documents-viewer-script.js',
+			array('wp-blocks', 'wp-dom-ready', 'wp-edit-post'),
+			EMBEDPRESS_PLUGIN_VERSION,
+			true
+		);
+	}
 
 	$wistia_labels  = array(
 		'watch_from_beginning'       => __('Watch from the beginning', 'embedpress'),
@@ -99,7 +109,7 @@ function embedpress_blocks_cgb_editor_assets()
 		'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
 		'ajaxurl' => admin_url('admin-ajax.php'),
 		'source_nonce' => wp_create_nonce('source_nonce_embedpress'),
-		'can_upload_media' => current_user_can( 'upload_files' )
+		'can_upload_media' => current_user_can('upload_files')
 
 	));
 
@@ -232,12 +242,12 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'string',
 								'default' => ''
 							],
-							
+
 							'videosize' => [
 								'type' => 'string',
 								'default' => 'fixed'
 							],
-							
+
 							'loadmore' => [
 								'type' => 'boolean',
 								'default' => false
@@ -274,7 +284,7 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'boolean',
 								'default' => true
 							],
-							
+
 							'modestbranding' => [
 								'type' => 'string',
 							],
@@ -283,37 +293,37 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'boolean',
 								'default' => false
 							],
-							
+
 							'posterThumbnail' => [
 								'type' => 'string',
 								'default' => ''
 							],
-							
+
 							'playerPreset' => [
 								'type' => 'string',
 								'default' => ''
 							],
-							
+
 							'playerColor' => [
 								'type' => 'string',
 								'default' => '#2e2e99'
 							],
-							
+
 							'playerPip' => [
 								'type' => 'boolean',
 								'default' => false
 							],
-							
+
 							'playerRestart' => [
 								'type' => 'boolean',
 								'default' => true
 							],
-							
+
 							'playerRewind' => [
 								'type' => 'boolean',
 								'default' => true
 							],
-							
+
 							'playerFastForward' => [
 								'type' => 'boolean',
 								'default' => true
@@ -701,188 +711,192 @@ function getParamData($attributes)
 		'doc_details' =>  !empty($attributes['doc_details']) ? 'true' : 'false',
 	);
 
-	if($urlParamData['themeMode'] == 'custom') {
+	if ($urlParamData['themeMode'] == 'custom') {
 		$urlParamData['customColor'] = !empty($attributes['customColor']) ? $attributes['customColor'] : '#403A81';
 	}
 
 	return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), 'UTF-8'));
-
 }
 
 function embedpress_pdf_render_block($attributes)
 {
 
 
-if (!empty($attributes['href'])) {
-	$renderer = Helper::get_pdf_renderer();
-	$pdf_url = $attributes['href'];
-	$id = !empty($attributes['id']) ? $attributes['id'] : 'embedpress-pdf-' . rand(100, 10000);
-	$client_id = md5($id);
-	
-
-	$unitoption = !empty($attributes['unitoption']) ? $attributes['unitoption'] : 'px';
-	$width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : '600px';
-	
-	if($unitoption == '%'){
-		$width_class = ' ep-percentage-width';
-	}
-	else{
-		$width_class = 'ep-fixed-width';
-	}
-	$content_share_class = '';
-	$share_position_class = '';
-	$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
-
-	if(!empty($attributes['contentShare'])) {
-		$content_share_class = 'ep-content-share-enabled';
-		$share_position_class = 'ep-share-position-'.$share_position;
-	}
-	
-	$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
-	$hash_pass = hash('sha256', wp_salt(32) . md5(isset($attributes['contentPassword']) ? $attributes['contentPassword'] : ''));
+	if (!empty($attributes['href'])) {
+		$renderer = Helper::get_pdf_renderer();
+		$pdf_url = $attributes['href'];
+		$id = !empty($attributes['id']) ? $attributes['id'] : 'embedpress-pdf-' . rand(100, 10000);
+		$client_id = md5($id);
 
 
-	$content_protection_class = 'ep-content-protection-enabled';
-	if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || $hash_pass === $password_correct) {
-		$content_protection_class = 'ep-content-protection-disabled';
-	}
+		$unitoption = !empty($attributes['unitoption']) ? $attributes['unitoption'] : 'px';
+		$width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : '600px';
 
-	
-	
-	$height = !empty($attributes['height']) ? $attributes['height'] . 'px' : '600px';
-	$gen_settings    = get_option(EMBEDPRESS_PLG_NAME);
-
-	$powered_by = isset($gen_settings['embedpress_document_powered_by']) && 'yes' === $gen_settings['embedpress_document_powered_by'];
-	if (isset($attributes['powered_by'])) {
-		$powered_by = $attributes['powered_by'];
-	}
-
-	$src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($attributes['href']) . getParamData($attributes);
-
-	$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']): ''; 
-
-	$aligns = [
-		'left' => 'ep-alignleft',
-		'right' => 'ep-alignright',
-		'center' => 'ep-aligncenter',
-		'wide' => 'ep-alignwide',
-		'full' => 'ep-alignfull'
-	];
-	$alignment = isset($attributes['align']) && isset($aligns[$attributes['align']]) ? $aligns[$attributes['align']] : '';
-	$dimension = "width:$width;height:$height";
-	ob_start();
-	?>
-
-
-	<?php
-
-		$embed_code = '<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_url($src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
-			
-		if ($powered_by) {
-			$embed_code .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+		if ($unitoption == '%') {
+			$width_class = ' ep-percentage-width';
+		} else {
+			$width_class = 'ep-fixed-width';
 		}
-		
-		$url = !empty($attributes['href']) ? $attributes['href'] : '';
+		$content_share_class = '';
+		$share_position_class = '';
+		$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
 
-		$adsAtts = '';
-		if(!empty($attributes['adManager'])) {
-			$ad = base64_encode(json_encode($attributes));
-			$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
+		if (!empty($attributes['contentShare'])) {
+			$content_share_class = 'ep-content-share-enabled';
+			$share_position_class = 'ep-share-position-' . $share_position;
 		}
-	?>
 
-	<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content <?php echo  esc_attr( $alignment.' '.$width_class.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class);  ?> ">
-		<div class="embedpress-inner-iframe <?php if ($unitoption === '%') { echo esc_attr('emebedpress-unit-percent'); }  ?> ep-doc-<?php echo esc_attr($client_id); ?>"<?php if ($unitoption === '%' && !empty($attributes['width'])) { $style_attr = 'max-width:' . $attributes['width'] . '%'; } else { $style_attr = 'max-width:100%'; } ?> style="<?php echo esc_attr($style_attr); ?>" id="<?php echo esc_attr($id); ?>">
-			<div <?php echo esc_attr( $adsAtts ); ?> >
-				<?php 
-					do_action('embedpress_pdf_gutenberg_after_embed',  $client_id, 'pdf', $attributes, $pdf_url);
-					$embed = $embed_code;
-					if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
-						
-						$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
-						
-						echo '<div class="ep-embed-content-wraper">';
-							$embed = '<div class="position-'.esc_attr( $share_position ).'-wraper gutenberg-pdf-wraper">';
-							$embed .= $embed_code;
-							$embed.= '</div>';
-							
-							if(!empty($attributes['contentShare'])) {
-								$content_id = $attributes['id'];
-								$embed .= Helper::embed_content_share($content_id, $attributes);
-							}
-							echo $embed;
-						echo '</div>';
-					} else {
-						if(!empty($attributes['contentShare'])) {
-							$content_id = $attributes['clientId'];
-							$embed = '<div class="position-'.esc_attr( $share_position ).'-wraper gutenberg-pdf-wraper">';
-							$embed .= $embed_code;
-							$embed.= '</div>';	
-							$embed .= Helper::embed_content_share($content_id, $attributes);
-						}
-						echo '<div class="ep-embed-content-wraper">';
+		$password_correct = isset($_COOKIE['password_correct_' . $client_id]) ? $_COOKIE['password_correct_' . $client_id] : '';
+		$hash_pass = hash('sha256', wp_salt(32) . md5(isset($attributes['contentPassword']) ? $attributes['contentPassword'] : ''));
+
+
+		$content_protection_class = 'ep-content-protection-enabled';
+		if (empty($attributes['lockContent']) || empty($attributes['contentPassword']) || $hash_pass === $password_correct) {
+			$content_protection_class = 'ep-content-protection-disabled';
+		}
+
+
+
+		$height = !empty($attributes['height']) ? $attributes['height'] . 'px' : '600px';
+		$gen_settings    = get_option(EMBEDPRESS_PLG_NAME);
+
+		$powered_by = isset($gen_settings['embedpress_document_powered_by']) && 'yes' === $gen_settings['embedpress_document_powered_by'];
+		if (isset($attributes['powered_by'])) {
+			$powered_by = $attributes['powered_by'];
+		}
+
+		$src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($attributes['href']) . getParamData($attributes);
+
+		$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']) : '';
+
+		$aligns = [
+			'left' => 'ep-alignleft',
+			'right' => 'ep-alignright',
+			'center' => 'ep-aligncenter',
+			'wide' => 'ep-alignwide',
+			'full' => 'ep-alignfull'
+		];
+		$alignment = isset($attributes['align']) && isset($aligns[$attributes['align']]) ? $aligns[$attributes['align']] : '';
+		$dimension = "width:$width;height:$height";
+		ob_start();
+		?>
+
+
+		<?php
+
+				$embed_code = '<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_url($src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
+
+				if ($powered_by) {
+					$embed_code .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
+				}
+
+				$url = !empty($attributes['href']) ? $attributes['href'] : '';
+
+				$adsAtts = '';
+				if (!empty($attributes['adManager'])) {
+					$ad = base64_encode(json_encode($attributes));
+					$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
+				}
+				?>
+
+		<div id="ep-gutenberg-content-<?php echo esc_attr($client_id) ?>" class="ep-gutenberg-content <?php echo  esc_attr($alignment . ' ' . $width_class . ' ' . $content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);  ?> ">
+			<div class="embedpress-inner-iframe <?php if ($unitoption === '%') {
+															echo esc_attr('emebedpress-unit-percent');
+														}  ?> ep-doc-<?php echo esc_attr($client_id); ?>" <?php if ($unitoption === '%' && !empty($attributes['width'])) {
+																														$style_attr = 'max-width:' . $attributes['width'] . '%';
+																													} else {
+																														$style_attr = 'max-width:100%';
+																													} ?> style="<?php echo esc_attr($style_attr); ?>" id="<?php echo esc_attr($id); ?>">
+				<div <?php echo esc_attr($adsAtts); ?>>
+					<?php
+							do_action('embedpress_pdf_gutenberg_after_embed',  $client_id, 'pdf', $attributes, $pdf_url);
+							$embed = $embed_code;
+							if (empty($attributes['lockContent']) || empty($attributes['contentPassword']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct))) {
+
+								$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
+
+								echo '<div class="ep-embed-content-wraper">';
+								$embed = '<div class="position-' . esc_attr($share_position) . '-wraper gutenberg-pdf-wraper">';
+								$embed .= $embed_code;
+								$embed .= '</div>';
+
+								if (!empty($attributes['contentShare'])) {
+									$content_id = $attributes['id'];
+									$embed .= Helper::embed_content_share($content_id, $attributes);
+								}
+								echo $embed;
+								echo '</div>';
+							} else {
+								if (!empty($attributes['contentShare'])) {
+									$content_id = $attributes['clientId'];
+									$embed = '<div class="position-' . esc_attr($share_position) . '-wraper gutenberg-pdf-wraper">';
+									$embed .= $embed_code;
+									$embed .= '</div>';
+									$embed .= Helper::embed_content_share($content_id, $attributes);
+								}
+								echo '<div class="ep-embed-content-wraper">';
 								Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
-						echo '</div>';
-					}
-				?>
+								echo '</div>';
+							}
+							?>
 
-				<?php 
-					if(!empty($attributes['adManager'])) {
-						$embed .= Helper::generateAdTemplate($client_id, $attributes, 'gutenberg');
-					}
-				?>
-			</div>			
+					<?php
+							if (!empty($attributes['adManager'])) {
+								$embed .= Helper::generateAdTemplate($client_id, $attributes, 'gutenberg');
+							}
+							?>
+				</div>
+			</div>
 		</div>
+	<?php
+			return ob_get_clean();
+		}
+	}
+
+	function embedpress_calendar_render_block($attributes)
+	{
+
+		$id = !empty($attributes['id']) ? $attributes['id'] : 'embedpress-calendar-' . rand(100, 10000);
+		$url = !empty($attributes['url']) ? $attributes['url'] : '';
+		$is_private = isset($attributes['is_public']);
+		$client_id = md5($id);
+		$width = !empty($attributes['width']) ? $attributes['width'] . 'px' : '600px';
+		$height = !empty($attributes['height']) ? $attributes['height'] . 'px' : '600px';
+		$gen_settings    = get_option(EMBEDPRESS_PLG_NAME);
+		$powered_by = isset($gen_settings['embedpress_document_powered_by']) && 'yes' === $gen_settings['embedpress_document_powered_by'];
+		if (isset($attributes['powered_by'])) {
+			$powered_by = $attributes['powered_by'];
+		}
+
+		$aligns = [
+			'left' => 'alignleft',
+			'right' => 'alignright',
+			'wide' => 'alignwide',
+			'full' => 'alignfull'
+		];
+		$alignment = isset($attributes['align']) && isset($aligns[$attributes['align']]) ? $aligns[$attributes['align']] : '';
+		$dimension = "width:$width;height:$height";
+		ob_start();
+		?>
+	<div class="embedpress-calendar-gutenberg embedpress-calendar ose-calendar <?php echo esc_attr($alignment) ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%;">
+
+		<?php
+			if (!empty($url) && !$is_private) {
+				?>
+			<iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_url($url); ?>"></iframe>
+		<?php } else {
+				if (is_embedpress_pro_active()) {
+					echo Embedpress_Google_Helper::shortcode();
+				}
+			} ?>
+		<?php do_action('embedpress_calendar_gutenberg_after_embed',  $client_id, 'calendar', $attributes); ?>
+
+		<?php
+			if ($powered_by) {
+				printf('<p class="embedpress-el-powered" style="width:' . esc_attr($width) . '" >%s</p>', __('Powered By EmbedPress', 'embedpress'));
+			} ?>
+
 	</div>
-<?php
-		return ob_get_clean();
-	}
-}
-
-function embedpress_calendar_render_block($attributes)
-{
-
-	$id = !empty($attributes['id']) ? $attributes['id'] : 'embedpress-calendar-' . rand(100, 10000);
-	$url = !empty($attributes['url']) ? $attributes['url'] : '';
-	$is_private = isset($attributes['is_public']);
-	$client_id = md5($id);
-	$width = !empty($attributes['width']) ? $attributes['width'] . 'px' : '600px';
-	$height = !empty($attributes['height']) ? $attributes['height'] . 'px' : '600px';
-	$gen_settings    = get_option(EMBEDPRESS_PLG_NAME);
-	$powered_by = isset($gen_settings['embedpress_document_powered_by']) && 'yes' === $gen_settings['embedpress_document_powered_by'];
-	if (isset($attributes['powered_by'])) {
-		$powered_by = $attributes['powered_by'];
-	}
-
-	$aligns = [
-		'left' => 'alignleft',
-		'right' => 'alignright',
-		'wide' => 'alignwide',
-		'full' => 'alignfull'
-	];
-	$alignment = isset($attributes['align']) && isset($aligns[$attributes['align']]) ? $aligns[$attributes['align']] : '';
-	$dimension = "width:$width;height:$height";
-	ob_start();
-	?>
-<div class="embedpress-calendar-gutenberg embedpress-calendar ose-calendar <?php echo esc_attr($alignment) ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%;">
-
-	<?php
-		if (!empty($url) && !$is_private) {
-			?>
-		<iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_url($url); ?>"></iframe>
-	<?php } else {
-			if (is_embedpress_pro_active()) {
-				echo Embedpress_Google_Helper::shortcode();
-			}
-		} ?>
-	<?php do_action('embedpress_calendar_gutenberg_after_embed',  $client_id, 'calendar', $attributes); ?>
-
-	<?php
-		if ($powered_by) {
-			printf('<p class="embedpress-el-powered" style="width:' . esc_attr($width) . '" >%s</p>', __('Powered By EmbedPress', 'embedpress'));
-		} ?>
-
-</div>
 <?php
 	return ob_get_clean();
 }
