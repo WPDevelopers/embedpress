@@ -9,11 +9,6 @@ $settings = get_option( EMBEDPRESS_PLG_NAME, []);
 $enablePluginInAdmin = isset( $settings['enablePluginInAdmin'] ) ? $settings['enablePluginInAdmin'] : 1;
 $enablePluginInFront = isset( $settings['enablePluginInFront'] ) ? $settings['enablePluginInFront'] : 1;
 
-echo '<pre>';
-$elements = (array) get_option( EMBEDPRESS_PLG_NAME.":elements", []);
-
-print_r($elements);
-// die;
 ?>
 
 <div class="background__white p-24 radius-16 mb-20">
