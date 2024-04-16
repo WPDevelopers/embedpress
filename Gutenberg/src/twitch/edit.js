@@ -71,7 +71,6 @@ class TwitchEdit extends Component {
 			var iframeSrc = this.decodeHTMLEntities(url);
 			var match = regEx.exec(iframeSrc);
 			var channelName = match[1];
-			console.log(channelName);
 			var type = "channel";
 			var attrs;
 			if (url.indexOf('clips.twitch.tv') > -1) {
@@ -81,7 +80,6 @@ class TwitchEdit extends Component {
 			} else if (url.indexOf('#/chat$#') > -1) {
 				type = 'chat';
 			}
-			console.log(type)
 			switch (type) {
 				case 'channel':
 					iframeSrc = 'https://player.twitch.tv/?channel=' + channelName;

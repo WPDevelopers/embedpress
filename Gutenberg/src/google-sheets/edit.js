@@ -76,7 +76,6 @@ class GoogleSheetsEdit extends Component {
 					var query = iframeSrc.split('?');
 					query = query[1];
 					query = query.split('&');
-					console.log(query)
 					if (query.length > 0) {
 						var hasHeadersParam = false;
 						var hasWidgetParam = false;

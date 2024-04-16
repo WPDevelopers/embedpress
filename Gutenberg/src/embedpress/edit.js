@@ -110,7 +110,6 @@ export default function EmbedPress(props) {
 		let textColor = cPopupButtonTextColor;
 		let bgColor = cPopupButtonBGColor;
 
-		console.log({ cPopupButtonBGColor });
 
 		if (cPopupButtonTextColor && !cPopupButtonTextColor.startsWith("#")) {
 			textColor = "#" + cPopupButtonTextColor;
@@ -221,15 +220,7 @@ export default function EmbedPress(props) {
 				s.setAttribute('id', hash);
 				s.setAttribute('src', url);
 				document.body.appendChild(s);
-				// if(document.querySelector(`[data-source-id=source-${clientId}]`)){
-				// }
-
-				// setTimeout(() => {
-				// 	document.querySelector(`[data-source-id=source-${clientId}]`).appendChild(s);
-				// 	console.log(s);
-				// }, 1500)
-
-				// console.log(document.querySelector(`[data-source-id=source-${clientId}]`));
+				
 
 			}
 		};
@@ -313,10 +304,8 @@ export default function EmbedPress(props) {
 		)
 
 	}
-	// console.log('XopenseaParams', {...openseaParams});
 
 	useEffect(() => {
-		// console.log('openseaParams', {...openseaParams});
 		const delayDebounceFn = setTimeout(() => {
 			if (!((!embedHTML || editingURL) && !fetching)) {
 				embed();

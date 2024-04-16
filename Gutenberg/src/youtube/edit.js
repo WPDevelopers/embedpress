@@ -91,7 +91,6 @@ class YoutubeEdit extends Component {
 
 			this.setState({editingURL: false, cannotEmbed: false});
 			setAttributes({iframeSrc: iframeUrl.href, mediaId});
-			console.log(iframeUrl.href);
 
 		} else {
 			this.setState({

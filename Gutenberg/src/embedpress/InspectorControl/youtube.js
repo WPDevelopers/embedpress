@@ -201,7 +201,6 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     const onSelectImage = (logo) => {
-        console.log(logo.sizes.full.url);
         setAttributes({ posterThumbnail: logo.sizes.full.url });
     }
     const removeImage = (e) => {
