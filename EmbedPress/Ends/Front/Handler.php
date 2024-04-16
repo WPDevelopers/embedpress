@@ -83,6 +83,7 @@ class Handler extends EndHandlerAbstract
         }
 
         $dependencies = ['jquery'];
+
         if (!empty($g_elementor['embedpress-pdf']) || !empty($g_blocks['embedpress-pdf'])) {
             $dependencies[] = 'embedpress-pdfobject';
         }
@@ -101,7 +102,7 @@ class Handler extends EndHandlerAbstract
             wp_enqueue_script(
                 'embedpress-ads',
                 EMBEDPRESS_URL_ASSETS . 'js/ads.js',
-                ['jquery', 'vimeo-player', 'wp-data'],
+                ['jquery', 'wp-data'],
                 EMBEDPRESS_PLUGIN_VERSION,
                 true
             );
