@@ -106,7 +106,7 @@ class GoogleSlidesEdit extends Component {
 
         const label = __( 'Google Slides URL');
 
-        if(!this.isGoogleService(iframeSrc)) {
+        if(iframeSrc && !this.isGoogleService(iframeSrc)) {
             return 'Invalid URL.';
         }   
 

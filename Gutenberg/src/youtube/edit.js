@@ -119,7 +119,7 @@ class YoutubeEdit extends Component {
 		const label = __("YouTube URL");
 		// No preview, or we can't embed the current URL, or we've clicked the edit button.
 
-		if(!this.isYoutube(iframeSrc)){
+		if(iframeSrc && !this.isYoutube(iframeSrc)){
 			return 'Invalid YouTube URL';
 		}
 

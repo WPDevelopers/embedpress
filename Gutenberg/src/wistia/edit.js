@@ -132,7 +132,7 @@ class WistiaEdit extends Component {
 
 		const label = __('Wistia URL');
 
-		if(!this.isWistia(iframeSrc)){
+		if(iframeSrc && !this.isWistia(iframeSrc)){
 			return 'Invalid Wistia Url.'
 		}
 		

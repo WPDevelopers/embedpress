@@ -108,7 +108,7 @@ class GoogleMapsEdit extends Component {
 
 		const label = __('Google Maps URL');
 
-		if(!this.isGoogleService(iframeSrc)) {
+		if(iframeSrc && !this.isGoogleService(iframeSrc)) {
             return 'Invalid URL.';
         }  
 

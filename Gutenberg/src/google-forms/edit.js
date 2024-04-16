@@ -93,7 +93,7 @@ class GoogleFormsEdit extends Component {
 	switchBackToURLInput() {
 		this.setState({editingURL: true});
 	}
-	
+
 	isGoogleService(url) {
         var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
         return googleRegex.test(url);
@@ -103,7 +103,7 @@ class GoogleFormsEdit extends Component {
 		const {url, editingURL, fetching, cannotEmbed, interactive} = this.state;
 		const {iframeSrc} = this.props.attributes;
 
-		if(!this.isGoogleService(iframeSrc)) {
+		if(iframeSrc && !this.isGoogleService(iframeSrc)) {
             return 'Invalid URL.';
         }  
 

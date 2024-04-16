@@ -129,7 +129,7 @@ class GoogleSheetsEdit extends Component {
 
 		const label = __('Google Sheets URL');
 
-		if(!this.isGoogleService(iframeSrc)) {
+		if(iframeSrc && !this.isGoogleService(iframeSrc)) {
             return 'Invalid URL.';
         }  
 

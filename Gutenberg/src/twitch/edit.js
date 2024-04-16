@@ -146,7 +146,7 @@ class TwitchEdit extends Component {
 		const { iframeSrc, attrs } = this.props.attributes;
 
 
-		if(!this.isTwitch(iframeSrc)) {
+		if(iframeSrc && !this.isTwitch(iframeSrc)) {
 			return 'Invalid Twitch URL.';
 		}
 

@@ -86,7 +86,7 @@ class GoogleDrawingEdit extends Component {
 		const {url, editingURL, fetching, cannotEmbed} = this.state;
 		const {iframeSrc} = this.props.attributes;
 
-		if(!this.isGoogleService(iframeSrc)) {
+		if(iframeSrc && !this.isGoogleService(iframeSrc)) {
             return 'Invalid URL.';
         }
 
