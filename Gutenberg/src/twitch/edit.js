@@ -135,7 +135,7 @@ class TwitchEdit extends Component {
 	}
 
 	isTwitch(url) {
-		var twitchRegex = /^(https?:\/\/)?(www\.)?twitch\.tv\/\w+$/;
+		var twitchRegex = /twitch\.tv/;
 		return twitchRegex.test(url);
 	}
 
@@ -144,7 +144,7 @@ class TwitchEdit extends Component {
 		const { iframeSrc, attrs } = this.props.attributes;
 
 
-		if(iframeSrc && !this.isTwitch(iframeSrc)) {
+		if (iframeSrc && !this.isTwitch(iframeSrc)) {
 			return 'Invalid Twitch URL.';
 		}
 
