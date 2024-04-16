@@ -91,6 +91,8 @@ class YoutubeEdit extends Component {
 
 			this.setState({editingURL: false, cannotEmbed: false});
 			setAttributes({iframeSrc: iframeUrl.href, mediaId});
+			console.log(iframeUrl.href);
+
 		} else {
 			this.setState({
 				cannotEmbed: true,
@@ -103,11 +105,24 @@ class YoutubeEdit extends Component {
 		this.setState({editingURL: true});
 	}
 
+	 isYoutube(url){
+		// Regular expression to match YouTube video URLs
+		var youtubeRegex = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})$/;
+		return youtubeRegex.test(url);
+	}
+
+	
+	
 	render() {
 		const {url, editingURL, fetching, cannotEmbed,interactive} = this.state;
 		const {iframeSrc, attrs} = this.props.attributes;
 		const label = __("YouTube URL");
 		// No preview, or we can't embed the current URL, or we've clicked the edit button.
+
+		if(!this.isYoutube(iframeSrc)){
+			return 'Invalid YouTube URL';
+		}
+
 		if (!iframeSrc || editingURL) {
 			return (
 				<EmbedPlaceholder

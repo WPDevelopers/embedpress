@@ -77,9 +77,18 @@ class GoogleDrawingEdit extends Component {
 		this.setState({editingURL: true});
 	}
 
+	isGoogleService(url) {
+        var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
+        return googleRegex.test(url);
+    }
+
 	render() {
 		const {url, editingURL, fetching, cannotEmbed} = this.state;
 		const {iframeSrc} = this.props.attributes;
+
+		if(!this.isGoogleService(iframeSrc)) {
+            return 'Invalid URL.';
+        }
 
 		const label = __('Google Drawings URL (Get your link from File -> Publish to the web -> Link)');
 
