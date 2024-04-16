@@ -135,7 +135,7 @@ class TwitchEdit extends Component {
 	}
 
 	isTwitch(url) {
-		var twitchRegex = /twitch\.tv/;
+		var twitchRegex = /http[s]?:\/\/(?:www\.|clips\.)twitch\.tv\/([0-9a-zA-Z\-\_]+)\/?(chat\/?$|[0-9a-z\-\_]*)?/;
 		return twitchRegex.test(url);
 	}
 

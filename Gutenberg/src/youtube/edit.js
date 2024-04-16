@@ -104,13 +104,11 @@ class YoutubeEdit extends Component {
 		this.setState({editingURL: true});
 	}
 
-	 isYoutube(url){
-		// Regular expression to match YouTube video URLs
-		var youtubeRegex = /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|\S*?[?&]v=)|youtu\.be\/)([a-zA-Z0-9_-]{11})$/;
+	isYoutube(url) {
+		// Regular expression to match if URL contains youtube.com
+		var youtubeRegex = /^(?:https?:\/\/)?(?:www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
 		return youtubeRegex.test(url);
 	}
-
-	
 	
 	render() {
 		const {url, editingURL, fetching, cannotEmbed,interactive} = this.state;
@@ -119,6 +117,7 @@ class YoutubeEdit extends Component {
 		// No preview, or we can't embed the current URL, or we've clicked the edit button.
 
 		if(iframeSrc && !this.isYoutube(iframeSrc)){
+			console.log(iframeSrc);
 			return 'Invalid YouTube URL';
 		}
 
@@ -156,6 +155,7 @@ class YoutubeEdit extends Component {
 							onMouseUp={ this.hideOverlay }
 						/>
 					) }
+
 
 					<EmbedControls
 						showEditButton={iframeSrc && !cannotEmbed}
