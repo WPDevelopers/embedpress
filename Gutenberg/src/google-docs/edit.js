@@ -112,6 +112,11 @@ class GoogleDocsEdit extends Component {
 		this.setState({editingURL: true});
 	}
 
+	isGoogleService(url) {
+        var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
+        return googleRegex.test(url);
+    }
+
 	render() {
 		const {url, editingURL, fetching, cannotEmbed, interactive} = this.state;
 		const {iframeSrc} = this.props.attributes;
