@@ -121,9 +121,8 @@ class WistiaEdit extends Component {
 	}
 
 	isWistia(url) {
-		// Regular expression to match Wistia URLs
-		var wistiaRegex = /^(https?:\/\/)?([A-Za-z0-9_-]+\.)?wistia\.com\/(medias|embed)\/.+/;
-		return wistiaRegex.test(url);
+		const wistiaUrlPattern = /^\/\/fast\.wistia\.net\/embed\/iframe\//;
+		return wistiaUrlPattern.test(url);
 	}
 
 	render() {
@@ -133,6 +132,7 @@ class WistiaEdit extends Component {
 		const label = __('Wistia URL');
 
 		if(iframeSrc && !this.isWistia(iframeSrc)){
+			console.log(iframeSrc);
 			return 'Invalid Wistia Url.'
 		}
 		
