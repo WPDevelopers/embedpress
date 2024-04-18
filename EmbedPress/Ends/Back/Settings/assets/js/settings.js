@@ -510,6 +510,38 @@ jQuery(document).ready(function ($) {
 
     });
 
+    $('#instagram-form').on('submit', function (e) {
+        e.preventDefault(); // Prevent default form submission
+
+        var access_token = $('#instagram-access-token').val();
+        var account_type = $('#account-option').val();
+
+
+        // AJAX request
+        $.ajax({
+            url: ajaxurl, // WordPress AJAX URL
+            type: 'POST',
+            data: {
+                action: 'get_instagram_userdata', // AJAX action hook
+                access_token: access_token, // Access token data
+                account_type: account_type // Access token data
+            },
+            success: function (response) {
+                // Handle the response
+                console.log('Success');
+                setTimeout(() => {
+                    window.location.reload();
+
+                }, 500);
+            },
+            error: function (xhr, status, error) {
+                // Handle errors
+                console.error(error);
+            }
+        });
+    });
+
+
     $('.calendly-event-copy-link').click(function () {
         var eventLink = $(this).data('event-link');
         var tempInput = $('<input>');

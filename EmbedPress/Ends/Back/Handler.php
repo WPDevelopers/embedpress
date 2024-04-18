@@ -36,25 +36,79 @@ class Handler extends EndHandlerAbstract
         parent::__construct($pluginName, $pluginVersion);
 
         add_action('wp_ajax_delete_instagram_account', [$this, 'delete_instagram_account']);
-        add_action('init', [$this, 'handle_instagram_data']);
+        // add_action('init', [$this, 'handle_instagram_data']);
+
+        add_action('wp_ajax_get_instagram_userdata', [$this, 'get_instagram_userdata_ajax']);
+        add_action('wp_ajax_nopriv_get_instagram_userdata', [$this, 'get_instagram_userdata_ajax']);
 
         if (!empty($_GET['page_type']) && $_GET['page_type'] == 'calendly') {
             add_action('init', [$this, 'handle_calendly_data']);
         }
 
-        if(defined('EMBEDPRESS_SL_ITEM_SLUG') && is_admin(  )){
+        if (defined('EMBEDPRESS_SL_ITEM_SLUG') && is_admin()) {
             add_action('admin_enqueue_scripts',  [$this, 'enqueueLisenceScripts']);
         }
-
     }
 
-    public function handle_instagram_data()
+
+    public function get_instagram_userdata_ajax()
     {
-        if (!empty($_GET['user_id'])) {
-            $user_id = isset($_GET['user_id']) ? $_GET['user_id'] : '';
-            $username = isset($_GET['username']) ? $_GET['username'] : '';
-            $account_type = isset($_GET['account_type']) ? $_GET['account_type'] : '';
-            $access_token = isset($_GET['access_token']) ? $_GET['access_token'] : '';
+        if (isset($_POST['access_token'])) {
+            $access_token = sanitize_text_field($_POST['access_token']);
+            $account_type = sanitize_text_field($_POST['account_type']);
+
+            $user_data = $this->get_instagram_userdata($access_token, $account_type);
+
+            $this->handle_instagram_data($user_data);
+
+            wp_send_json($user_data);
+        } else {
+            wp_send_json_error('Access token not provided');
+        }
+    }
+
+
+    public function get_instagram_userdata($access_token, $account_type)
+    {
+        // Check if user data is already cached
+        $user_data = get_transient('instagram_user_data_' . $access_token);
+
+        if (!$user_data) {
+            $user_data = array();
+
+            $response = wp_remote_get('https://graph.instagram.com/me?fields=id,username,account_type&access_token=' . $access_token);
+
+            if (!is_wp_error($response)) {
+                $body = wp_remote_retrieve_body($response);
+                $data = json_decode($body, true);
+
+                if (isset($data['id']) && isset($data['username'])) {
+                    $user_data['access_token'] = $access_token;
+                    $user_data['user_id']          = $data['id'];
+                    $user_data['username']    = $data['username'];
+                    $user_data['account_type'] = $account_type;
+
+                    // Cache user data for 1 hour (adjust the time as needed)
+                    set_transient('instagram_user_data_' . $access_token, $user_data, HOUR_IN_SECONDS);
+                } else {
+                    $user_data['error'] = "Error: Unable to fetch user data.";
+                }
+            } else {
+                $user_data['error'] = "Error: Unable to connect to Instagram API.";
+            }
+        }
+
+        return $user_data;
+    }
+
+
+    public function handle_instagram_data($user_data)
+    {
+        if (empty($user_data['error'])) {
+            $user_id = isset($user_data['user_id']) ? $user_data['user_id'] : '';
+            $username = isset($user_data['username']) ? $user_data['username'] : '';
+            $account_type = isset($user_data['account_type']) ? $user_data['account_type'] : '';
+            $access_token = isset($user_data['access_token']) ? $user_data['access_token'] : '';
 
             $get_instagram_data = get_option('instagram_account_data');
 
@@ -66,10 +120,10 @@ class Handler extends EndHandlerAbstract
                     'access_token' => $access_token,
                 ]
             ];
-            
+
             if (!empty($get_instagram_data)) {
                 $updated = false;
-            
+
                 foreach ($get_instagram_data as &$data) {
 
                     if ($data['user_id'] === $user_id) {
@@ -83,30 +137,28 @@ class Handler extends EndHandlerAbstract
                         break;
                     }
                 }
-            
+
                 if (!$updated) {
                     // If user_id does not exist, add new data
                     $get_instagram_data[] = $token_data[0];
                 }
-            
             } else {
                 // If $get_instagram_data is empty, add the new data directly
                 $get_instagram_data = $token_data;
             }
-            
+
             update_option('instagram_account_data', $get_instagram_data);
-            
+
             wp_redirect(admin_url('admin.php?page=embedpress&page_type=instagram'), 301);
+            
             exit();
         }
-            
     }
 
     public function handle_calendly_data()
     {
 
-        if(empty($_GET['_nonce']))
-        {
+        if (empty($_GET['_nonce'])) {
             return false;
         }
 
@@ -284,7 +336,8 @@ class Handler extends EndHandlerAbstract
         }
     }
 
-    public function enqueueLisenceScripts(){
+    public function enqueueLisenceScripts()
+    {
         wp_enqueue_script(
             'embedpress-lisence',
             EMBEDPRESS_URL_ASSETS . 'js/license.js',
@@ -293,10 +346,9 @@ class Handler extends EndHandlerAbstract
             true
         );
 
-		wp_localize_script( 'embedpress-lisence', 'wpdeveloperLicenseManagerNonce', array('embedpress_lisence_nonce' => wp_create_nonce( 'wpdeveloper_sl_'.EMBEDPRESS_SL_ITEM_ID.'_nonce' )) );
-
+        wp_localize_script('embedpress-lisence', 'wpdeveloperLicenseManagerNonce', array('embedpress_lisence_nonce' => wp_create_nonce('wpdeveloper_sl_' . EMBEDPRESS_SL_ITEM_ID . '_nonce')));
     }
-    
+
 
     /**
      * Method that register all stylesheets for the admin area.
@@ -697,7 +749,7 @@ class Handler extends EndHandlerAbstract
         $data = array_filter($account_data, function ($item) use ($user_id) {
             return $item['user_id'] !== $user_id;
         });
-        
+
 
         update_option('instagram_account_data', $data);
     }

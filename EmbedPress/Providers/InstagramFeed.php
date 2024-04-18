@@ -115,7 +115,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             $api_url = "https://graph.instagram.com/me?fields=id,username,account_type,media_count,followers_count,biography,website&access_token={$accessToken}";
         }
 
-        $connected_account_type = $this->get_connected_account_type($userId);
+        $connected_account_type = $accountType; //$this->get_connected_account_type($userId);
         
 
         // Make a GET request to Instagram's API to retrieve user information
@@ -259,11 +259,11 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$access_token";
         }
 
+
         $transientKey = 'instagram_feed_data_' . md5($api_url);
 
         // Check if transient data exists
         $feed_data = get_transient($transientKey);
-
     
         if ($feed_data === false) {
             // Transient data is not available, fetch the data and store it in a transient
@@ -440,6 +440,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         $profile_picture_url = !empty($profile_info['profile_picture_url']) ? $profile_info['profile_picture_url'] : '';
         $name = !empty($profile_info['name']) ? $profile_info['name'] : '';
 
+        // print_r($profile_info); die;
+
         $connected_account_type = $account_type;
 
         if(strtolower($connected_account_type) === 'business'){
@@ -488,15 +490,14 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
                             </div>
                             <div class="profile-stats">
-                                <ul class="stats-list">
                                     <?php if(!empty($params['instafeedPostsCount']) && $params['instafeedPostsCount'] !== 'false'): ?>
                                         <li class="posts-count">
                                         <?php 
-                                                if(!empty($params['instafeedPostsCountText']) &&$params['instafeedPostsCountText'] !== 'false'):
-                                                        $posts_count_text = str_replace('[count]', '<span class="count">' . $media_count . '</span>', $params['instafeedPostsCountText']);
-
-                                                        echo wp_kses_post($posts_count_text);
-                                                endif;
+                                            
+                                            if(!empty($params['instafeedPostsCountText']) && $params['instafeedPostsCountText'] !== 'false'):
+                                                    $posts_count_text = str_replace('[count]', '<span class="count">' . $media_count . '</span>', $params['instafeedPostsCountText']);
+                                                    echo wp_kses_post($posts_count_text);
+                                            endif;
                                         ?>
                                         
                                         </li>
@@ -632,7 +633,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         $url = $this->getUrl();
         $params = $this->getParams();
 
-        $connected_users =  get_option( 'instagram_account_data' );
+        $connected_users =  get_option( 'instagram_account_data' ); 
+
 
         $username = $this->getInstagramUnserName($url) ? $this->getInstagramUnserName($url) : '';
 
@@ -671,6 +673,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                     if ($account_type === 'business') {
                         $userid = '17841451532462963';
                     }
+
                 } else {
                     // No matching username found
                     $page = site_url() . "/wp-admin/admin.php?page=embedpress&page_type=instagram";
