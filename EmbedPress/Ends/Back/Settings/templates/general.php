@@ -5,13 +5,15 @@
  */
 
 $g_settings = get_option(EMBEDPRESS_PLG_NAME);
-$lazy_load = isset($g_settings['g_lazyload']) ? $g_settings['g_lazyload'] : 0;
-$pdf_custom_color_settings = isset($g_settings['pdf_custom_color_settings']) ? $g_settings['pdf_custom_color_settings'] : 0;
 
-$custom_color = isset($g_settings['custom_color']) ? $g_settings['custom_color'] : '#333333';
+$lazy_load = isset($g_settings['g_lazyload']) ? intval($g_settings['g_lazyload']) : 0;
+$pdf_custom_color_settings = isset($g_settings['pdf_custom_color_settings']) ? intval($g_settings['pdf_custom_color_settings']) : 0;
 
-$enableEmbedResizeHeight = isset($g_settings['enableEmbedResizeHeight']) ? $g_settings['enableEmbedResizeHeight'] : 550;
-$enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? $g_settings['enableEmbedResizeWidth'] : 600;
+$custom_color = isset($g_settings['custom_color']) ? sanitize_text_field($g_settings['custom_color']) : '#333333';
+
+$enableEmbedResizeHeight = isset($g_settings['enableEmbedResizeHeight']) ? intval($g_settings['enableEmbedResizeHeight']) : 550;
+$enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval($g_settings['enableEmbedResizeWidth']) : 600;
+
 ?>
 
 <div class="embedpress__settings  background__white radius-16 p-24">

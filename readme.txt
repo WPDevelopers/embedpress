@@ -4,9 +4,9 @@ Author: WPDeveloper
 Author URI: https://wpdeveloper.com
 Tags: embed, embed YouTube, Gutenberg embed, embed PDF, embed Google Docs
 Requires at least: 4.6
-Tested up to: 6.4
+Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 3.9.11
+Stable tag: 3.9.15
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -141,7 +141,7 @@ With EmbedPress, you can add Facebook posts to WordPress using just a URL. Faceb
 -   [Embed Facebook posts, videos](https://embedpress.com/docs/embed-facebook-posts-wordpress/)
 -   [Embed Instagram feeds](https://embedpress.com/docs/embed-instagram-wordpress/)
 -   [Embed TikTok posts](https://embedpress.com/docs/embed-tiktok-in-wordpress/)
--   [Embed Twitter (X)](https://embedpress.com/docs/embed-twitter-tweets-wordpress/) tweets
+-   [Embed Twitter (X) tweets](https://embedpress.com/docs/embed-twitter-tweets-wordpress/)
 
 Check the video tutorial 👇
 
@@ -158,9 +158,8 @@ EmbedPress supports all of these major options for audio on your WordPress site.
 -   [Embed HuffDuffer](https://embedpress.com/docs/embed-huffduffer-audios-wordpress/)
 -   [Embed Chirbit](https://embedpress.com/docs/embed-chirbit-audio-wordpress/)
 -   [Embed Clyp](https://embedpress.com/docs/embed-clypit-audio-wordpress/)
--   [Embed ReverbNation](https://embedpress.com/docs/embed-reverbnation-audio-wordpress/)
 -   [iHeartRadio embeds](https://embedpress.com/docs/how-to-embed-iheartradio-podcasts-in-wordpress/)
--   [ReverbNation embed](https://embedpress.com/docs/embed-reverbnation-audio-wordpress/)s
+-   [ReverbNation embeds](https://embedpress.com/docs/embed-reverbnation-audio-wordpress/)
 -   [SmugMug embeds](https://embedpress.com/docs/embed-smugmug-images-wordpress/)
 -   [MusicboxManiacs embeds](https://musicboxmaniacs.com/)
 -   [SmashNotes embeds](https://embedpress.com/docs/how-to-embed-smash-notes-podcasts-in-wordpress/)
@@ -171,9 +170,9 @@ EmbedPress supports all of these major options for audio on your WordPress site.
 EmbedPress supports most popular image-hosting sites, including Deviantart, Giphy, Imgur, Flick, and others:
 
 -   [Embed Deviantart](https://embedpress.com/docs/embed-deviantart-image-wordpress/)
-- Embed [Giphy](https://embedpress.com/docs/embed-giphy-gifs-wordpress/)
-- Embed [Flickr](https://embedpress.com/docs/embed-flickr-image-wordpress/)
-- Embed [Imgur](https://embedpress.com/docs/embed-imgur-images-wordpress/)
+-   [Embed Giphy](https://embedpress.com/docs/embed-giphy-gifs-wordpress/)
+-   [Embed Flickr](https://embedpress.com/docs/embed-flickr-image-wordpress/)
+-   [Embed Imgur](https://embedpress.com/docs/embed-imgur-images-wordpress/)
 -   [23hq embeds](https://embedpress.com/docs/embed-23hq-photos-wordpress/)
 -   [GettyImages embeds](https://embedpress.com/docs/embed-23hq-photos-wordpress/)
 -   [Orbitvu embeds](https://embedpress.com/docs/embed-23hq-photos-wordpress/)
@@ -209,7 +208,7 @@ https://youtu.be/1F2mPePF3F4
 -   [CodeSandbox embeds](https://embedpress.com/docs/how-to-embed-codesandbox-codes-in-wordpress/) (Code)
 -   [DocDroid embeds](https://www.docdroid.net/) (Document & PDF)
 -   [Gfycat embeds](https://embedpress.com/docs/how-to-embed-gfycat-gifs-in-wordpress/) (GIF)
-- GitHub [Gist embeds](https://embedpress.com/docs/embed-github-gist-snippets-wordpress/) (Code)
+-   [GitHub Gist embeds](https://embedpress.com/docs/embed-github-gist-snippets-wordpress/) (Code)
 -   [Loom embeds](https://embedpress.com/docs/how-to-embed-loom-in-wordpress/) (Video)
 -   [Meetup embeds](https://embedpress.com/docs/embed-meetup-groups-events-wordpress/) (Groups, Events)
 -   [PollDaddy embeds](https://embedpress.com/docs/polldaddy-embed-wordpress/) (Polls, Surveys, Quizzes)
@@ -262,7 +261,7 @@ If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
 ☁ [Templately](https://wordpress.org/plugins/templately/) – Ultimate Template clouds with 2500+ ready templates for Elementor & Gutenberg along with FREE cloud collaboration.
 
-[💰Better Payment](https://wordpress.org/plugins/better-payment/) – Create stunning payment forms and manage payments for donations, membership, and products seamlessly.
+💰 [Better Payment](https://wordpress.org/plugins/better-payment/) – Create stunning payment forms and manage payments for donations, membership, and products seamlessly.
 
 
 
@@ -299,18 +298,17 @@ You can ask for help via [the EmbedPress contact form](https://embedpress.com/co
 
 Not at all. You can set up everything your team needs without any coding knowledge. We made it super easy.
 
-Can I Embed Pages And Posts Of Any Website Into Embedpress?
+### Can I Embed Pages And Posts Of Any Website Into Embedpress?
 
 Yes, with EmbedPress you can now embed any website. Just copy the page or post URL and paste it into the EmbedPress blocks. This is called EmbedPress Wrapper.
 
-Do I Need To Integrate API Keys To Showcase Social Feeds On My Website?
+### Do I Need To Integrate API Keys To Showcase Social Feeds On My Website?
 
 No. while you are embedding Facebook, Twitter, TikTok, etc. posts using EmbedPress, just copy the URL and use it directly.
 
-How To Customize Embedded Content iFrames?
+### How To Customize Embedded Content iFrames?
 
 Just after embedding the content into your website using EmbedPress, iFrame customization panel will appear. From there, you can update iFrame height and width.
-
 
 
 == Screenshots ==
@@ -325,6 +323,27 @@ Just after embedding the content into your website using EmbedPress, iFrame cust
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.9.15] – 2024-04-04 =
+- Fixed: Embeded PDF fullscreen mode wasn't working for iPhone.
+- Improved: Security Enhancement.
+- Few minor bug fixes & improvements.
+
+= [3.9.14] – 2024-03-28 =
+- Fixed: License activation conflicts with Classic editor.
+- Fixed:  Zoom in/out wasn’t working in PDF Presentation mode.
+- Few minor bug fixes & improvements.
+
+= [3.9.13] – 2024-03-21 =
+- Fixed : Gutenberg editor responsive issues.
+- Improved: Security patch updated.
+- Improved:  PDF controls for Elementor editor.
+- Few minor bug fixes and improvements. 
+
+= [3.9.12] – 2024-03-12 =
+- Added: Security Enhancement. 
+- Fixed: License activation issues with page reload. 
+- Few minor bug fixes and improvements. 
 
 = [3.9.11] – 2024-03-5 =
 - Fixed: OpenSea NFT collection/assets embedding issues.

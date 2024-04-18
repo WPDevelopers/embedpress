@@ -748,7 +748,7 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'unitoption' => [
 								'type' => "string",
-								'default' => 'px',
+								'default' => '%',
 							],
 
 							//Ad attributes

@@ -6,6 +6,7 @@ import EmbedLoading from "../common/embed-loading";
 import EmbedPlaceholder from "../common/embed-placeholder";
 import Iframe from "../common/Iframe";
 import {youtubeIcon} from "../common/icons";
+import { sanitizeUrl } from "../common/helper";
 
 
 /**
@@ -127,7 +128,7 @@ class YoutubeEdit extends Component {
 					{fetching ? <EmbedLoading/> : null}
 
 						<Iframe
-							src={iframeSrc}
+							src={sanitizeUrl(iframeSrc)}
 							{...attrs}
 							onLoad={this.onLoad}
 							style={{display: fetching ? "none" : ""}}

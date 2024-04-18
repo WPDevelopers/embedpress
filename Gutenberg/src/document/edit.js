@@ -5,7 +5,7 @@
 import Iframe from '../common/Iframe';
 import Logo from '../common/Logo';
 import EmbedLoading from '../common/embed-loading';
-import { saveSourceData } from '../common/helper';
+import { sanitizeUrl, saveSourceData } from '../common/helper';
 import { DocumentIcon } from '../common/icons';
 import DocStyle from './doc-style';
 
@@ -212,7 +212,7 @@ class DocumentEdit extends Component {
 						)}
 						{mime !== 'application/pdf' && (
 							<div className={`${docViewer === 'custom' ? 'ep-file-download-option-masked ' : ''}ep-gutenberg-file-doc ep-powered-by-enabled ${isDownloadEnabled}`} data-theme-mode={themeMode} data-custom-color={customColor} data-id={blockId}>
-								<iframe title="" onMouseUponMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={url} />
+								<iframe title="" onMouseUponMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={sanitizeUrl(url)} />
 								{
 									draw && docViewer === 'custom' &&(
 										<canvas class="ep-doc-canvas" width={width} height={height} ></canvas>

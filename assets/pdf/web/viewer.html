@@ -27,14 +27,14 @@ See https://github.com/adobe-type-tools/cmap-resources
     <meta name="google" content="notranslate">
     <title>PDF.js viewer</title>
 
-    <link rel="stylesheet" href="viewer.css">
+    <link rel="stylesheet" href="viewer.css?var=3">
 
 <!-- This snippet is used in production (included from viewer.html) -->
 <link rel="resource" type="application/l10n" href="locale/locale.properties">
-<script src="../build/script.js"></script>
+<script src="../build/script.js?var=3"></script>
 
-  <script src="viewer.js"></script>
-  <script type="module" src="ep-scripts.js"></script>
+  <script src="viewer.js?var=3"></script>
+  <script type="module" src="ep-scripts.js?var=3"></script>
 
   </head>
 
@@ -271,6 +271,11 @@ See https://github.com/adobe-type-tools/cmap-resources
                   tabindex="31" data-l10n-id="presentation_mode">
                   <span data-l10n-id="presentation_mode_label">Presentation Mode</span>
                 </button>
+
+                <!-- <button id="presentationModeIosDevice" class="toolbarButton presentationForIosDevice" title="Switch to Fullscreen Mode"
+                  tabindex="31" data-l10n-id="presentation_mode">
+                  <span data-l10n-id="presentation_mode_label">Presentation Mode Ios</span>
+                </button> -->
 
                 <button id="print" class="toolbarButton hiddenMediumView" title="Print" tabindex="32" data-l10n-id="print">
                   <span data-l10n-id="print_label">Print</span>

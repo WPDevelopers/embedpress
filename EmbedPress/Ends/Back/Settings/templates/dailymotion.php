@@ -4,17 +4,19 @@
  *  All undefined vars comes from 'render_settings_page' method
  *  */
 $dm_settings = get_option( EMBEDPRESS_PLG_NAME.':dailymotion');
-$start_time = isset( $dm_settings['start_time']) ? $dm_settings['start_time'] : 0;
 
-$autoplay = isset( $dm_settings['autoplay']) ? $dm_settings['autoplay'] : '';
-$play_on_mobile = isset( $dm_settings['play_on_mobile']) ? $dm_settings['play_on_mobile'] : '';
-$mute = isset( $dm_settings['mute']) ? $dm_settings['mute'] : '';
-$controls = isset( $dm_settings['controls']) ? $dm_settings['controls'] : 1;
-$video_info = isset( $dm_settings['video_info']) ? $dm_settings['video_info'] : 1;
-$color = isset( $dm_settings['color']) ? $dm_settings['color'] : '#dd3333';
+$start_time = isset($dm_settings['start_time']) ? intval($dm_settings['start_time']) : 0;
+
+$autoplay = isset($dm_settings['autoplay']) ? sanitize_text_field($dm_settings['autoplay']) : '';
+$play_on_mobile = isset($dm_settings['play_on_mobile']) ? sanitize_text_field($dm_settings['play_on_mobile']) : '';
+$mute = isset($dm_settings['mute']) ? sanitize_text_field($dm_settings['mute']) : '';
+$controls = isset($dm_settings['controls']) ? intval($dm_settings['controls']) : 1;
+$video_info = isset($dm_settings['video_info']) ? intval($dm_settings['video_info']) : 1;
+$color = isset($dm_settings['color']) ? sanitize_text_field($dm_settings['color']) : '#dd3333';
 // pro
-$start_time = isset( $dm_settings['start_time']) ? $dm_settings['start_time'] : 0;
-$show_logo = isset( $dm_settings['show_logo']) ? $dm_settings['show_logo'] : 1;
+$start_time = isset($dm_settings['start_time']) ? intval($dm_settings['start_time']) : 0;
+$show_logo = isset($dm_settings['show_logo']) ? intval($dm_settings['show_logo']) : 1;
+
 
 ?>
 

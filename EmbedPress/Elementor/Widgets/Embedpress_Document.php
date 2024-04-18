@@ -488,51 +488,53 @@ class Embedpress_Document extends Widget_Base
     
         $embed_settings = [];
         $embed_settings['customThumbnail'] = !empty($settings['embedpress_doc_content_share_custom_thumbnail']['url']) ? esc_url($settings['embedpress_doc_content_share_custom_thumbnail']['url']) : '';
-    
-        $embed_settings['customTitle'] = !empty($settings['embedpress_doc_content_title']) ? esc_html($settings['embedpress_doc_content_title']) : esc_html(Helper::get_file_title($url));
-    
-        $embed_settings['customDescription'] = !empty($settings['embedpress_doc_content_descripiton']) ? esc_html($settings['embedpress_doc_content_descripiton']) : esc_html(Helper::get_file_title($url));
-    
+
+        $embed_settings['customTitle'] = !empty($settings['embedpress_doc_content_title']) ? sanitize_text_field($settings['embedpress_doc_content_title']) : sanitize_text_field(Helper::get_file_title($url));
+
+        $embed_settings['customDescription'] = !empty($settings['embedpress_doc_content_descripiton']) ? sanitize_text_field($settings['embedpress_doc_content_descripiton']) : sanitize_text_field(Helper::get_file_title($url));
+
         $embed_settings['sharePosition'] = !empty($settings['embedpress_doc_content_share_position']) ? esc_attr($settings['embedpress_doc_content_share_position']) : 'right';
-    
-        $embed_settings['lockHeading'] = !empty($settings['embedpress_doc_lock_content_heading']) ? esc_html($settings['embedpress_doc_lock_content_heading']) : '';
-    
-        $embed_settings['lockSubHeading'] = !empty($settings['embedpress_doc_lock_content_sub_heading']) ? esc_html($settings['embedpress_doc_lock_content_sub_heading']) : '';
-    
-        $embed_settings['lockErrorMessage'] = !empty($settings['embedpress_doc_lock_content_error_message']) ? esc_html($settings['embedpress_doc_lock_content_error_message']) : '';
-    
+
+        $embed_settings['lockHeading'] = !empty($settings['embedpress_doc_lock_content_heading']) ? sanitize_text_field($settings['embedpress_doc_lock_content_heading']) : '';
+
+        $embed_settings['lockSubHeading'] = !empty($settings['embedpress_doc_lock_content_sub_heading']) ? sanitize_text_field($settings['embedpress_doc_lock_content_sub_heading']) : '';
+
+        $embed_settings['lockErrorMessage'] = !empty($settings['embedpress_doc_lock_content_error_message']) ? sanitize_text_field($settings['embedpress_doc_lock_content_error_message']) : '';
+
         $embed_settings['passwordPlaceholder'] = !empty($settings['embedpress_doc_password_placeholder']) ? esc_attr($settings['embedpress_doc_password_placeholder']) : '';
-    
-        $embed_settings['submitButtonText'] = !empty($settings['embedpress_doc_submit_button_text']) ? esc_html($settings['embedpress_doc_submit_button_text']) : '';
-    
-        $embed_settings['submitUnlockingText'] = !empty($settings['embedpress_doc_submit_Unlocking_text']) ? esc_html($settings['embedpress_doc_submit_Unlocking_text']) : '';
-    
+
+        $embed_settings['submitButtonText'] = !empty($settings['embedpress_doc_submit_button_text']) ? sanitize_text_field($settings['embedpress_doc_submit_button_text']) : '';
+
+        $embed_settings['submitUnlockingText'] = !empty($settings['embedpress_doc_submit_Unlocking_text']) ? sanitize_text_field($settings['embedpress_doc_submit_Unlocking_text']) : '';
+
         $embed_settings['enableFooterMessage'] = !empty($settings['embedpress_doc_enable_footer_message']) ? esc_attr($settings['embedpress_doc_enable_footer_message']) : '';
-    
-        $embed_settings['footerMessage'] = !empty($settings['embedpress_doc_lock_content_footer_message']) ? esc_html($settings['embedpress_doc_lock_content_footer_message']) : '';
+
+        $embed_settings['footerMessage'] = !empty($settings['embedpress_doc_lock_content_footer_message']) ? sanitize_text_field($settings['embedpress_doc_lock_content_footer_message']) : '';
+
     
         $content_share_class = '';
         $share_position_class = '';
-        $share_position = isset($settings['embedpress_doc_content_share_position']) ? $settings['embedpress_doc_content_share_position'] : 'right';
+        $share_position = isset($settings['embedpress_doc_content_share_position']) ? esc_attr($settings['embedpress_doc_content_share_position']) : 'right';
     
         if (!empty($settings['embedpress_doc_content_share'])) {
             $content_share_class = 'ep-content-share-enabled';
             $share_position_class = 'ep-share-position-' . $share_position;
         }
     
-        $password_correct = isset($_COOKIE['password_correct_' . $client_id]) ? $_COOKIE['password_correct_' . $client_id] : '';
-    
+        $password_correct = isset($_COOKIE['password_correct_' . $client_id]) ? sanitize_text_field($_COOKIE['password_correct_' . $client_id]) : '';
+
         $content_protection_class = 'ep-content-protection-enabled';
         if (empty($settings['embedpress_doc_lock_content']) || empty($settings['embedpress_doc_lock_content_password']) || $hash_pass === $password_correct) {
             $content_protection_class = 'ep-content-protection-disabled';
         }
     
         $adsAtts = '';
-    
+
         if (!empty($settings['adManager'])) {
-            $ad = base64_encode(json_encode($settings));
-            $adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
+            $ad = base64_encode(json_encode($settings)); // Using WordPress JSON encoding function
+            $adsAtts = 'data-ad-id="' . esc_attr($client_id) . '" data-ad-attrs="' . esc_attr($ad) . '" class="ad-mask"';
         }
+
         ?>
     
         <div <?php echo $this->get_render_attribute_string('embedpress-document'); ?> style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block">
@@ -614,12 +616,15 @@ class Embedpress_Document extends Widget_Base
                     }
     
                     $is_custom_theme = '';
+
                     if ($settings['embedpress_theme_mode'] == 'custom') {
-                        $is_custom_theme = 'data-custom-color=' . esc_attr($settings['embedpress_doc_custom_color']) . '';
+                        $custom_color = sanitize_text_field($settings['embedpress_doc_custom_color']);
+                                                
+                        $is_custom_theme = 'data-custom-color="'.esc_attr($custom_color).'"';
                     }
-    
-                    $embed_content .= '<div class="'.esc_attr( $is_masked ).'ep-file-' . esc_attr($file_extenstion) . ' ' . $is_powered_by . '' . $is_download_enabled . '" data-theme-mode="' . esc_attr($settings['embedpress_theme_mode']) . '"' . esc_attr($is_custom_theme) . ' data-id="' . esc_attr($this->get_id()) . '">';
-    
+
+                    $embed_content .= '<div class="'.esc_attr( $is_masked ).'ep-file-' . esc_attr($file_extenstion) . ' ' . $is_powered_by . '' . $is_download_enabled . '" data-theme-mode="' . esc_attr($settings['embedpress_theme_mode']) . '"' . $is_custom_theme . ' data-id="' . esc_attr($this->get_id()) . '">';
+
                     $sandbox = '';
                     if ($settings['doc_print_download'] === 'yes') {
                         $sandbox = 'sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-presentation allow-same-origin allow-scripts allow-top-navigation allow-top-navigation-by-user-activation"';
@@ -677,7 +682,7 @@ class Embedpress_Document extends Widget_Base
     
     
             ?>
-            <div <?php echo esc_attr($adsAtts); ?>>
+            <div <?php echo $adsAtts; ?>>
     
                 <div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_doc_content_share'])) : echo esc_attr('position-' . $settings['embedpress_doc_content_share_position'] . '-wraper'); endif; ?> <?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);  ?>">
                     <div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper">
