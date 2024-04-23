@@ -281,12 +281,6 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             // Set the transient with an expiration time of, for example, 1 hour (3600 seconds)
             set_transient($transientKey, $feed_data, 3600);
         }
-        
-        // echo '<pre>'; 
-        // print_r($feed_data[$user_id]['hashtag_posts']);
-        // echo '</pre>'; 
-
-        // die;
 
         return $feed_data;
     }
@@ -417,6 +411,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
         $feed_data = $this->data_instagram_feed($accessToken, $account_type, $userID, $limit=100);
 
+        // print_r($userID); die;
+
         $profile_info = $feed_data[$userID]['feed_userinfo'];
         $insta_posts = $feed_data[$userID]['feed_posts'];
 
@@ -491,7 +487,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                             </div>
                             <div class="profile-stats">
                                     <?php if(!empty($params['instafeedPostsCount']) && $params['instafeedPostsCount'] !== 'false'): ?>
-                                        <li class="posts-count">
+                                        <div class="posts-count">
                                         <?php 
                                             
                                             if(!empty($params['instafeedPostsCountText']) && $params['instafeedPostsCountText'] !== 'false'):
@@ -500,7 +496,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                                             endif;
                                         ?>
                                         
-                                        </li>
+                                        </div>
                                     <?php endif; ?>
 
                                     <?php if(!empty($params['instafeedFollowersCount']) && $params['instafeedFollowersCount'] !== 'false'): ?>
@@ -668,12 +664,6 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                     $userid = $connected_users[$index]['user_id'];
                     $account_type = $connected_users[$index]['account_type'];
 
-
-                    // This code will be removed in the future
-                    if ($account_type === 'business') {
-                        $userid = '17841451532462963';
-                    }
-
                 } else {
                     // No matching username found
                     $page = site_url() . "/wp-admin/admin.php?page=embedpress&page_type=instagram";
@@ -687,6 +677,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             if ($this->getInstagramFeedTemplate($access_token, $account_type, $userid )) {
                 $insta_feed['html'] = $this->getInstagramFeedTemplate($access_token, $account_type, $userid );
             }
+
         }
 
 

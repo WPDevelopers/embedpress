@@ -489,6 +489,7 @@ jQuery(document).ready(function ($) {
                 'action': 'delete_instagram_account',
                 'user_id': $userId,
                 'account_type': $accountType,
+                '_nonce': embedpressObj.nonce
             };
 
 
@@ -513,26 +514,42 @@ jQuery(document).ready(function ($) {
     $('#instagram-form').on('submit', function (e) {
         e.preventDefault(); // Prevent default form submission
 
+        console.log($('#instagram-form p'));
+        if($('#instagram-form p').length > 0) {
+            $('#instagram-form p').remove();
+        }
+
         var access_token = $('#instagram-access-token').val();
         var account_type = $('#account-option').val();
 
+        $('#instagram-form button').text('Connecting...');
+        $('#instagram-form button').attr('disabled', 'disabled');
 
         // AJAX request
         $.ajax({
             url: ajaxurl, // WordPress AJAX URL
             type: 'POST',
             data: {
-                action: 'get_instagram_userdata', // AJAX action hook
+                action: 'get_instagram_userdata_ajax', // AJAX action hook
                 access_token: access_token, // Access token data
-                account_type: account_type // Access token data
+                account_type: account_type, // Access token data
+                _nonce: embedpressObj.nonce
             },
             success: function (response) {
                 // Handle the response
-                console.log('Success');
-                setTimeout(() => {
-                    window.location.reload();
-
-                }, 500);
+                if (response.error) {
+                    $('#instagram-form button').text('Connect');
+                    $('#instagram-access-token').after(`<p>${response.error}</p>`);
+                    $('#instagram-form button').removeAttr('disabled');
+                    setTimeout(() => {
+                        $('#instagram-form p').remove();
+                    }, 10000);
+                } else {
+                    $('#instagram-form button').text('Connected');
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+                }
             },
             error: function (xhr, status, error) {
                 // Handle errors
@@ -557,5 +574,21 @@ jQuery(document).ready(function ($) {
             button.find('span').text('Copy link');
         }, 1500);
     });
+
+    $('#open-modal-btn').click(function () {
+        $('.modal-overlay').css('display', 'block');
+    });
+
+    $('.modal-overlay .close-btn').click(function () {
+        $('.modal-overlay').css('display', 'none');
+    });
+
+    $('.user-profile-link').click(function() {
+        var linkToCopy = $(this).attr('title');
+        copyToClipboard(linkToCopy);
+        alert('Link copied to clipboard: ' + linkToCopy);
+    });
 });
+
+
 

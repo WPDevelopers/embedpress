@@ -661,7 +661,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			instafeedProfileImage: {
 				type: 'boolean',
-				default: false,
+				default: true,
 			},
 			instafeedProfileImageUrl: {
 				type: 'string',
@@ -669,7 +669,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			instafeedFollowBtn: {
 				type: 'boolean',
-				default: false,
+				default: true,
 			},
 			instafeedFollowBtnLabel: {
 				type: 'string',
@@ -677,7 +677,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			instafeedPostsCount: {
 				type: 'boolean',
-				default: false,
+				default: true,
 			},
 			instafeedPostsCountText: {
 				type: 'string',
@@ -685,7 +685,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			instafeedFollowersCount: {
 				type: 'boolean',
-				default: false,
+				default: true,
 			},
 			instafeedFollowersCountText: {
 				type: 'string',
@@ -693,7 +693,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			instafeedAccName: {
 				type: 'boolean',
-				default: false,
+				default: true,
 			},
 
 			instaLayout: {
