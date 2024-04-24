@@ -129,7 +129,8 @@
 .elementor-widget-container iframe {
     max-height: 100% !important;
 }
-.elementor-cbutton-preview-wrapper{
+
+.elementor-cbutton-preview-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -139,7 +140,7 @@
 }
 
 @media only screen and (max-width: 800px) {
-    
+
     .elementor-widget-container .embedpress-facebook-vid-iframe,
     .embedpress-gutenberg-wrapper .embedpress-facebook-vid-iframe,
     .embedpress-facebook-vid-iframe {
@@ -1288,25 +1289,29 @@ p.need-access-message {
     position: relative;
     width: 100%;
 }
+
 .presentationModeEnabledIosDevice {
     position: fixed;
     left: 0;
     top: 0;
     border: 0;
-    height: 100%!important;
-    width: 100%!important;
+    height: 100% !important;
+    width: 100% !important;
     z-index: 999999;
-    min-width: 100%!important;
-    min-height: 100%!important;
+    min-width: 100% !important;
+    min-height: 100% !important;
 }
+
 .ep-embed-content-wraper {
     width: 100%;
 }
+
 .embedpress-gutenberg-wrapper.popup_button, .embedpress-elements-wrapper.popup_button {
-    display: none!important;
+    display: none !important;
 }
+
 .elementor-element-edit-mode .embedpress-elements-wrapper.popup_button {
-    display: block!important;
+    display: block !important;
 }
 
 .ep-content-share-enabled .ep-embed-content-wraper {
@@ -1851,10 +1856,12 @@ ul.tabs svg {
     width: 15px;
     height: 15px;
 }
+
 li[data-media-type="ALL"] svg {
     width: 12px;
     height: 12px;
 }
+
 .tabs li {
     margin-right: 15px;
     cursor: pointer;
@@ -1876,34 +1883,44 @@ li[data-media-type="ALL"] svg {
 .tabs li.active {
     /* border-top: 1px solid rgb(115,115,115); */
     position: relative;
-    color: rgb(115,115,115);
+    color: rgb(115, 115, 115);
 
 }
-.tabs li svg{
+
+.tabs li svg {
     border-radius: 2px;
 }
+
 .tabs li.active svg {
-    color: rgb(115,115,115);
+    color: rgb(115, 115, 115);
 }
+
 .tabs li:hover, .tabs li:hover svg, .tabs li:hover .fill-color {
-    color: rgb(115,115,115);
+    color: rgb(115, 115, 115);
 }
+
 .tabs li:hover .fill-color, .tabs li.active .fill-color {
-    fill: rgb(115,115,115)!important;
+    fill: rgb(115, 115, 115) !important;
 }
+
 .tabs li.active::after {
     content: '';
     position: absolute;
     top: -1px;
     height: 1px;
     width: 100%;
-    background-color: rgb(115,115,115);
+    background-color: rgb(115, 115, 115);
     left: 0;
     right: 0;
 }
+
 /* Styles for the profile image and change photo button */
 .profile-image {
     margin-right: 16px;
+}
+
+.posts-count {
+    margin-right: 15px;
 }
 
 .profile-image img {
@@ -1911,6 +1928,7 @@ li[data-media-type="ALL"] svg {
     height: 150px !important;
     object-fit: cover;
     border-radius: 50% !important;
+    border: 3px solid #037bff;
 }
 
 .change-photo-button {
@@ -2016,17 +2034,14 @@ a.profile-link, a.profile-link h2 {
     height: 100% !important;
 }
 
-.insta-grid .embedpress-insta-container .insta-gallery {
-    /* display: flex;
-    flex-wrap: wrap;
-    padding-bottom: 3rem;
-    gap: 5px; */
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(calc(33.333333333333% - 15px), 1fr));
-    gap: 15px;
-    grid-auto-flow: unset!important;
 
+.insta-grid .embedpress-insta-container .insta-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* Set 3 columns */
+    gap: 15px;
+    grid-auto-flow: row; /* Ensure items flow in rows */
 }
+
 
 .insta-carousel .embedpress-insta-container .insta-gallery {
     padding-bottom: 0;
@@ -2110,7 +2125,6 @@ a.profile-link, a.profile-link h2 {
     position: absolute;
     right: 1rem;
     top: 1rem;
-    font-size: 2.5rem;
     text-shadow: 0.2rem 0.2rem 0.2rem rgba(0, 0, 0, .1);
 }
 
@@ -2159,10 +2173,22 @@ a.profile-link, a.profile-link h2 {
 }
 
 .cg-carousel__btns {
-    top: calc(50% - 22px);
+    top: 50%;
     transform: translateY(-50%);
     position: absolute;
     width: 100%;
+}
+
+.cg-carousel__btns button {
+    background: #262323;
+    border: 0;
+    border-radius: 50px;
+    width: 35px;
+    height: 35px;
+    display: inline-grid;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
 button#js-carousel__prev-1 {
@@ -2189,7 +2215,8 @@ button#js-carousel__next-1 {
     position: relative;
     height: 100%;
 }
-.popup-carousel, .cg-carousel__track{
+
+.popup-carousel, .cg-carousel__track {
     height: 100%;
 }
 
@@ -2199,7 +2226,6 @@ button.js-carousel__prev-1 {
     top: 50%;
     transform: translateY(-50%);
     z-index: 1;
-    padding: 8px 15px;
 
 }
 
@@ -2209,13 +2235,12 @@ button.js-carousel__next-1 {
     top: 50%;
     transform: translateY(-50%);
     z-index: 1;
-    padding: 8px 15px;
 
 }
 
 .cg-carousel__btn svg {
-    width: 25px;
-    height: 25px;
+    width: 16px;
+    height: 16px;
 }
 
 .load-more-button-container, .load-more-button-container button {
@@ -2224,6 +2249,7 @@ button.js-carousel__next-1 {
     justify-content: center;
     gap: 5px;
 }
+
 .load-more-button-container button {
     border-style: solid;
     border-top-width: 0;
@@ -2267,9 +2293,6 @@ button.js-carousel__next-1 {
 
 /* Popup Container */
 .popup {
-    background-color: #fff;
-    max-width: 950px;
-    width: 90%;
     border-radius: 10px;
     overflow: hidden;
     position: absolute;
@@ -2279,19 +2302,19 @@ button.js-carousel__next-1 {
     display: flex;
     align-items: center;
     justify-content: center;
-    max-height: calc(100% - 100px);
+    max-height: 100%;
 }
 
-.popup > div{
+/* .popup>div {
     height: calc(100% - 100px);
-}
+} */
 
 /* .popup-md-3.red {
     display: flex;
     align-items: center;
 } */
 
-.popup-md-9.white {
+.popup-container .popup-md-9.white {
     width: 60%;
     overflow: hidden;
 }
@@ -2304,12 +2327,14 @@ button.js-carousel__next-1 {
 .embedpress-popup-img img {
     width: 100%;
     height: auto;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 video.popup-media-image {
     height: 100% !important;
     margin-bottom: -7px !important;
+    max-width: 100%;
+    width: 100%;
 }
 
 img.popup-media-image {
@@ -2324,6 +2349,7 @@ img.popup-media-image {
     justify-content: space-between;
     border-bottom: 1px solid #ddd;
 }
+
 .hashtag-container {
     border-bottom: 1px solid #ddd;
 }
@@ -2333,7 +2359,8 @@ img.popup-media-image {
     max-width: 350px;
     margin: auto;
 }
-.embedpress-hashtag-username{
+
+.embedpress-hashtag-username {
     font-weight: bold;
 }
 
@@ -2343,10 +2370,17 @@ img.popup-media-image {
     width: 30px;
     height: 30px;
     object-fit: cover;
+    border: 2px solid #037bff;
 }
 
 .embedpress-popup-header-img a, .embedpress-hashtag-header-img a {
     text-decoration: none !important;
+}
+
+.embedpress-popup-header-img a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .embedpress-popup-username {
@@ -2355,17 +2389,20 @@ img.popup-media-image {
     font-size: 15px;
     text-decoration: none !important;
 }
+
 img.embedpress-hashtag-round {
-    border-radius: 50px!important;
+    border-radius: 50px !important;
 }
 
 .insta-followbtn a {
     text-decoration: none !important;
-    padding: 8px 15px;
+    padding: 6px 15px;
     background: #007bff;
-    border-radius: 5px;
+    border-radius: 4px;
     color: #fff;
-    font-weight: bold;
+    /* font-weight: bold; */
+    font-size: 15px;
+    font-weight: normal;
 }
 
 /* Text */
@@ -2375,9 +2412,11 @@ img.embedpress-hashtag-round {
     justify-content: space-between;
     flex-grow: 1;
     height: 100%;
+    background-color: #fff;
     /* max-height: calc(100% - 67px);
     margin-top: 33px; */
 }
+
 .embedpress-popup-text {
     font-size: 14px;
     font-weight: normal;
@@ -2385,9 +2424,11 @@ img.embedpress-hashtag-round {
     letter-spacing: 0.04em;
     line-height: 27px;
     padding: 10px;
-    flex: 1;
+    flex: auto;
     border-bottom: 1px solid #ddd;
-
+    text-align: left;
+    max-height: calc(100vh - 300px);
+    overflow: auto;
 }
 
 /* Stats */
@@ -2407,10 +2448,7 @@ img.embedpress-hashtag-round {
     cursor: pointer;
 }
 
-.embedpress-popup-stats .embedpress-inline:hover svg, .embedpress-popup-stats .embedpress-inline a:hover, .embedpress-popup-stats .embedpress-inline:hover, .embedpress-href:hover svg .st0 {
-    color: rgb(115, 115, 115) !important;
-    stroke: rgb(115, 115, 115);
-}
+
 
 .embedpress-popup-stats .embedpress-inline a {
     display: flex;
@@ -2421,10 +2459,10 @@ img.embedpress-hashtag-round {
     font-weight: 400;
 }
 
-/* .embedpress-popup-stats .embedpress-inline a svg {
-    width: 15px;
-} */
-
+.embedpress-popup-stats .embedpress-inline a svg {
+    width: 20px;
+    height: 20px;
+}
 
 /* Share Buttons */
 .hidden {
@@ -2457,10 +2495,28 @@ span.tag-wrapper a {
     text-decoration: none !important;
 }
 
-/* .embedpress-href.embedpress-popup-share svg {
-    width: 15px;
-    height: 15px;
-} */
+.embedpress-href.embedpress-popup-share svg {
+    width: 20px;
+    height: 20px;
+}
+
+.embedpress-popup-instagram-buttons svg {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.embedpress-popup-stats .embedpress-inline:hover svg, .embedpress-popup-stats .embedpress-inline a:hover, .embedpress-popup-stats .embedpress-inline:hover, .embedpress-href:hover svg .st0 {
+    color: rgb(115, 115, 115) !important;
+    /* stroke: rgb(115, 115, 115); */
+}
+
+.embedpress-inline.embedpress-popup-instagram-buttons a:hover svg path {
+    stroke: rgb(115, 115, 115);
+}
+.embedpress-inline.popup-like-button a:hover svg {
+    color: rgb(115, 115, 115);
+    fill: rgb(115, 115, 115);
+}
 
 /* Date */
 .date-post {
@@ -2478,13 +2534,14 @@ div.popup-close {
     cursor: pointer;
     padding: 15px;
     background: #643535;
-    border-radius: 15px;
-    height: 30px;
+    border-radius: 50px;
+    height: 10px;
     width: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     text-transform: uppercase;
+    cursor: pointer;
 }
 
 .load-spin {

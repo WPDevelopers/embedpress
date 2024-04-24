@@ -4091,6 +4091,7 @@ table.emebedpress th {
     gap: 5px;
     font-size: 14px;
     cursor: pointer;
+    margin-bottom: 15px;
 }
 
 .account-button svg {

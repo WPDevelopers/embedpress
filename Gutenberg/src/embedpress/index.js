@@ -743,7 +743,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: true,
 			},
-			instafeedPopupFollowBtnLabel: {
+			instafeedLoadmoreLabel: {
 				type: 'string',
 				default: 'Load More',
 			},

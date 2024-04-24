@@ -395,7 +395,7 @@ let epGlobals = {};
     });
 
     // Get the insta-gallery container element
-    const getPopupTemplate = (instPost, hashtag = '') => {
+    const getPopupTemplate = (instPost, hashtag = '', accountType) => {
 
         let instaPostData = JSON.parse(instPost);
 
@@ -405,15 +405,19 @@ let epGlobals = {};
             likeIcon = '<svg aria-label="Unlike" class="x1lliihq x1n2onr6" color="#FF3040" fill="#FF3040" height="24" viewBox="0 0 48 48" width="24"><path d="M34.6 3.1c-4.5 0-7.9 1.8-10.6 5.6-2.7-3.7-6.1-5.5-10.6-5.5C6 3.1 0 9.6 0 17.6c0 7.3 5.4 12 10.6 16.5.6.5 1.3 1.1 1.9 1.7l2.3 2c4.4 3.9 6.6 5.9 7.6 6.5.5.3 1.1.5 1.6.5s1.1-.2 1.6-.5c1-.6 2.8-2.2 7.8-6.8l2-1.8c.7-.6 1.3-1.2 2-1.7C42.7 29.6 48 25 48 17.6c0-8-6-14.5-13.4-14.5z"/></svg>';
         }
 
+        console.log(instaPostData);
+
         const commentsIcon = '<svg aria-label="Comment" class="x1lliihq x1n2onr6" color="#000" height="24" viewBox="0 0 24 24" width="24"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/></svg>';
 
 
 
         const shareIcon = '<svg aria-label="Share Post" class="x1lliihq x1n2onr6" color="#000" fill="#737373" height="24" viewBox="0 0 24 24" width="24"><path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M22 3 9.218 10.083m2.48 10.251L22 3.001H2l7.218 7.083 2.48 10.25z"/></svg>';
 
-        const instaIcon = '<svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" xml:space="preserve" width="20" height="20"><style>.st0{fill:none;stroke:#000;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}</style><path class="st0" d="M14.375 19.375h-8.75c-2.75 0-5-2.25-5-5v-8.75c0-2.75 2.25-5 5-5h8.75c2.75 0 5 2.25 5 5v8.75c0 2.75-2.25 5-5 5z"/><path class="st0" d="M14.375 10A4.375 4.375 0 0 1 10 14.375 4.375 4.375 0 0 1 5.625 10a4.375 4.375 0 0 1 8.75 0zm1.25-5.625A.625.625 0 0 1 15 5a.625.625 0 0 1-.625-.625.625.625 0 0 1 1.25 0z"/></svg>';
+        const instaIcon = '<svg width="18" height="18" viewBox="0 0 0.338 0.338" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M.248.079H.27M.102.012h.135a.09.09 0 0 1 .09.09v.135a.09.09 0 0 1-.09.09H.102a.09.09 0 0 1-.09-.09V.102a.09.09 0 0 1 .09-.09ZM.17.237a.068.068 0 1 1 0-.135.068.068 0 0 1 0 .135Z" stroke="#000" stroke-width=".032"/></svg>';
 
         const instaUserInfo = instPost.user_info;
+
+        console.log(instaUserInfo);
 
 
 
@@ -466,10 +470,20 @@ let epGlobals = {};
 
         let srcUrl = `https://www.instagram.com/${instaPostData.username}/`;
 
-        if(hashtag){
+        if (hashtag) {
             instaPostData.username = '#' + hashtag;
             srcUrl = `https://www.instagram.com/explore/tags/${hashtag}/`;
         }
+
+        let likeComments = '';
+
+        if (accountType === 'business') {
+            likeComments += `
+        <div class="embedpress-inline popup-like-button"><a target="_blank" href="${instaPostData.permalink}">${likeIcon} ${instaPostData.like_count || 0}</a></div> 
+        <div class="embedpress-inline"><a target="_blank" href="${instaPostData.permalink}">${commentsIcon} ${instaPostData.comments_count || 0}</a></div>
+    `;
+        }
+
 
         let popupHtml = '';
         popupHtml += `
@@ -483,10 +497,8 @@ let epGlobals = {};
                     <div class="embedpress-popup-block embedpress-popup-info">
                         <div class="embedpress-popup-header">
                             <div class="embedpress-popup-header-img"> <a target="_blank" href="${srcUrl}"
-                                    target="_blank" class="embedpress-href"> <img decoding="async" loading="lazy"
-                                        class="embedpress-popup-round"
-                                        src="https://awplife.com/demo/instagram-feed-gallery-premium/wp-content/plugins/instagram-feed-gallery-premium//img/instagram-gallery-premium.png"
-                                        width="30" height="30"> <span class="embedpress-popup-username">${instaPostData.username}</span>
+                                    target="_blank" class="embedpress-href">
+                                     <img decoding="async" loading="lazy" class="embedpress-popup-round" src="${instaPostData.profile_picture_url}" width="30" height="30"> <span class="embedpress-popup-username">${instaPostData.username}</span>
                                 </a>
                             </div>
                             <div class="insta-followbtn">
@@ -495,8 +507,8 @@ let epGlobals = {};
                         </div>
                         <div class="embedpress-popup-text">${captionText}</div>
                         <div class="embedpress-popup-stats">
-                            <div class="embedpress-inline"><a target="_blank" href="${instaPostData.permalink}">${likeIcon} ${instaPostData.like_count || 0}</a></div> <div
-                                class="embedpress-inline"><a target="_blank" href="${instaPostData.permalink}">${commentsIcon} ${instaPostData.comments_count || 0}</a></div><div class="embedpress-inline">
+                            ${likeComments}
+                                <div class="embedpress-inline">
                                 <p class="embedpress-popup-share-buttons hidden"> <a
                                         href="https://www.facebook.com/sharer/sharer.php?u=${instaPostData.permalink}"><span
                                             class="fa fa-facebook-square shr-btn shr-btn-fcbk"></span></a> <a
@@ -509,7 +521,7 @@ let epGlobals = {};
                                         href="https://pinterest.com/pin/create/button/?url=${instaPostData.permalink}"
                                         target="_blank"><span class="fa fa-pinterest-square shr-btn"></span></a></p>
                                 <div class="embedpress-href embedpress-popup-share">${shareIcon}</div>
-                            </div><div class="embedpress-inline"><a
+                            </div><div class="embedpress-inline embedpress-popup-instagram-buttons"><a
                                     href="${instaPostData.permalink}" target="_blank"
                                     class="embedpress-href">${instaIcon}</a></div>
                         </div>
@@ -531,6 +543,7 @@ let epGlobals = {};
             // Check if the clicked element has the class insta-gallery-item
             const instaItem = event.target.closest('.insta-gallery-item');
 
+
             if (instaItem) {
 
                 const postData = instaItem.dataset.postdata;
@@ -538,9 +551,11 @@ let epGlobals = {};
                 const postid = instaItem.getAttribute('data-insta-postid');
                 const postIndex = instaItem.getAttribute('data-postindex');
                 const tkey = instaItem.parentElement.parentElement.getAttribute('data-tkey');
+                const accountType = instaItem.parentElement.parentElement.getAttribute('data-connected-acc-type');
+
 
                 let hashtag = '';
-                if(document.querySelector('[data-tkey="' + tkey + '"]').getAttribute('data-hashtag')){
+                if (document.querySelector('[data-tkey="' + tkey + '"]').getAttribute('data-hashtag')) {
                     hashtag = document.querySelector('[data-tkey="' + tkey + '"]').getAttribute('data-hashtag');
                 }
 
@@ -550,7 +565,7 @@ let epGlobals = {};
                     closestPopup.style.display = 'block';
                 }
 
-                event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData, hashtag);
+                event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData, hashtag, accountType);
 
                 const followText = event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').getAttribute('data-follow-text');
 
@@ -654,7 +669,7 @@ let epGlobals = {};
                 'connected_account_type': connectedAccount
             };
 
-            if(feedType === 'hashtag_type'){
+            if (feedType === 'hashtag_type') {
                 data.hashtag_id = hashtagId;
             }
 
@@ -940,8 +955,7 @@ function presentationModeForIOS(iframes) {
     });
 }
 
-function isIOSDevice()
-{
+function isIOSDevice() {
     return /iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 

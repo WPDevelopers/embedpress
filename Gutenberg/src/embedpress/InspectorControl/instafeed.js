@@ -6,6 +6,8 @@ import { addProAlert, isPro, removeAlert, isInstagramFeed } from '../../common/h
 import ControlHeader from '../../common/control-heading';
 import CustomBranding from './custombranding';
 import { getParams } from '../functions';
+import { EPIcon } from './../../common/icons';
+
 
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
@@ -205,7 +207,7 @@ export default function Instafeed({ attributes, setAttributes }) {
             {
                 (_isInstagramFeed) && (
                     <div className={'ep__instafeed-options'}>
-                        <PanelBody title={__('Instagram Profile Settings', 'embedpress')} initialOpen={false}>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Profile Settings', 'embedpress')}</div>} initialOpen={false}>
                             <ToggleControl
                                 label={__('Profile Image', 'embedpress')}
                                 checked={instafeedProfileImage}
@@ -230,7 +232,7 @@ export default function Instafeed({ attributes, setAttributes }) {
                                     allowedTypes={['image']}
                                     value={instafeedProfileImageUrl}
                                     render={({ open }) => (
-                                        <Button className={'ep-logo-upload-button'} icon={!instafeedProfileImageUrl ? 'upload' : 'update'} onClick={open}>
+                                        <Button className={'ep-logo-upload-button instagram-profile-image-uploader'} icon={!instafeedProfileImageUrl ? 'upload' : 'update'} onClick={open}>
                                             {
                                                 (!instafeedProfileImageUrl) ? 'Upload Image' : 'Change Image'
                                             }
@@ -265,12 +267,16 @@ export default function Instafeed({ attributes, setAttributes }) {
                                 />
                             )}
 
-                            <ToggleControl
-                                label={__('Followers Count', 'embedpress')}
-                                checked={instafeedFollowersCount}
-                                onChange={(instafeedFollowersCount) => setAttributes({ instafeedFollowersCount })}
-                            />
-                            {instafeedFollowersCount && (
+
+                            {instafeedAccountType === 'business' && (
+                                <ToggleControl
+                                    label={__('Followers Count', 'embedpress')}
+                                    checked={instafeedFollowersCount}
+                                    onChange={(instafeedFollowersCount) => setAttributes({ instafeedFollowersCount })}
+                                />
+                            )}
+
+                            {instafeedFollowersCount && (instafeedAccountType === 'business') && (
                                 <TextControl
                                     label={__('Count Text', 'embedpress')}
                                     value={instafeedFollowersCountText}
@@ -287,7 +293,7 @@ export default function Instafeed({ attributes, setAttributes }) {
 
                         </PanelBody>
 
-                        <PanelBody title={__('Instagram Feed Settings', 'embedpress')} initialOpen={false}>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Feed Settings', 'embedpress')}</div>} initialOpen={false}>
                             {
                                 _isInstagramFeed && (
                                     <div className='instafeed-controls'>
@@ -392,17 +398,25 @@ export default function Instafeed({ attributes, setAttributes }) {
                                             checked={instafeedTab}
                                             onChange={(instafeedTab) => setAttributes({ instafeedTab })}
                                         />
+                                        {
+                                            (instafeedAccountType === 'business') && (
+                                                <ToggleControl
+                                                    label={__('Likes Count', 'embedpress')}
+                                                    checked={instafeedLikesCount}
+                                                    onChange={(instafeedLikesCount) => setAttributes({ instafeedLikesCount })}
+                                                />
+                                            )
+                                        }
+                                        {
+                                            (instafeedAccountType === 'business') && (
+                                                <ToggleControl
+                                                    label={__('Comments Count', 'embedpress')}
+                                                    checked={instafeedCommentsCount}
+                                                    onChange={(instafeedCommentsCount) => setAttributes({ instafeedCommentsCount })}
+                                                />
+                                            )
+                                        }
 
-                                        <ToggleControl
-                                            label={__('Likes Count', 'embedpress')}
-                                            checked={instafeedLikesCount}
-                                            onChange={(instafeedLikesCount) => setAttributes({ instafeedLikesCount })}
-                                        />
-                                        <ToggleControl
-                                            label={__('Comments Count', 'embedpress')}
-                                            checked={instafeedCommentsCount}
-                                            onChange={(instafeedCommentsCount) => setAttributes({ instafeedCommentsCount })}
-                                        />
 
                                         <ToggleControl
                                             label={__('Popup', 'embedpress')}
@@ -452,10 +466,10 @@ export default function Instafeed({ attributes, setAttributes }) {
 
                         <CustomBranding attributes={attributes} setAttributes={setAttributes} />
 
-                    </div>
+                    </div >
                 )
             }
-        </div>
+        </div >
 
 
     )
