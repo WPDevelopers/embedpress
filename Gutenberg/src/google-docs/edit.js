@@ -112,9 +112,19 @@ class GoogleDocsEdit extends Component {
 		this.setState({editingURL: true});
 	}
 
+	isGoogleService(url) {
+        var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
+        return googleRegex.test(url);
+    }
+
 	render() {
 		const {url, editingURL, fetching, cannotEmbed, interactive} = this.state;
 		const {iframeSrc} = this.props.attributes;
+
+		if(iframeSrc && !this.isGoogleService(iframeSrc)) {
+            return 'Invalid URL.';
+        }
+
 		const label = __('Google Docs URL');
 
 		// No preview, or we can't embed the current URL, or we've clicked the edit button.

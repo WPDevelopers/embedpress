@@ -38,12 +38,12 @@ body.page .flexia-wrapper > .content-area {
     max-width: 100%;
   }
 }
-.clear::after {
+/* .clear::after {
   content: "";
   display: block;
   clear: both;
   min-height: 1px;
-}
+} */
 
 .embedpress-gutenberg-wrapper .alignleft,
 .embedpress-gutenberg-wrapper .alignright,

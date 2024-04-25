@@ -1194,7 +1194,7 @@ body {
     right: 0;
     bottom: 0;
     left: 0;
-    min-width: 350px
+    /* min-width: 350px */
 }
 
 #sidebarContent {
@@ -2618,11 +2618,10 @@ dialog :link {
         display: none
     }
 }
-@media all and (max-width:360px) {
-    #toolbarViewerRight #editorModeButtons, #toolbarViewerRight #print {
+@media all and (max-width:450px) {
+    #toolbarViewerRight #editorModeButtons, #toolbarViewerRight #print,  #toolbarViewerRight #download {
         display: none!important;
     }
-
 }
 
 :root, [ep-data-theme=light] {

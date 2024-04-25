@@ -45,12 +45,12 @@ body.page .flexia-wrapper > .content-area {
     }
 }
 
-.clear::after {
-    content: "";
-    display: block;
-    clear: both;
-    min-height: 1px;
-}
+// .clear::after {
+//     content: "";
+//     display: block;
+//     clear: both;
+//     min-height: 1px;
+// }
 
 .embedpress-gutenberg-wrapper .alignleft,
 .embedpress-gutenberg-wrapper .alignright,

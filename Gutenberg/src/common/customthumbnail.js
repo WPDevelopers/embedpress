@@ -33,7 +33,6 @@ export default function CustomThumbnail({ attributes, setAttributes }) {
     } = attributes;
 
     const onSelectImage = (logo) => {
-        console.log(logo.sizes.full.url);
         setAttributes({ customThumbnail: logo.sizes.full.url });
     }
     const removeImage = (e) => {

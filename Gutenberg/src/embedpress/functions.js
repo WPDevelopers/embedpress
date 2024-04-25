@@ -69,8 +69,6 @@ export const initCustomPlayer = (clientId, attributes) => {
     const _isSelfHostedVideo = (isSelfHostedVideo(url));
 
 
-    // console.log({vautopause, vdnt})
-
     const intervalId = setInterval(() => {
 
         let playerElement = document.querySelector(`[data-playerid="${clientId}"] .ose-embedpress-responsive`);

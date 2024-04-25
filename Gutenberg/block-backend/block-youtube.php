@@ -8,6 +8,14 @@
  *
  * @return false|string
  */
+
+ function isYoutube($url) {
+    $pattern = '/^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?(.*&)?v=|(embed|v)\/))|youtu.be\/([a-zA-Z0-9_-]{11})/';
+    
+    return preg_match($pattern, $url);
+}
+
+
 function embedpress_gutenberg_render_block_youtube( $attributes )
 {
 	ob_start();
@@ -18,6 +26,10 @@ function embedpress_gutenberg_render_block_youtube( $attributes )
 		$iframeUrl = add_query_arg( $param, $value, $iframeUrl );
 	}
 	
+	if(!isYoutube($iframeUrl))
+	{
+		return;
+	}
 
 	?>
 	<div class="ose-youtube wp-block-embed-youtube ose-youtube-single-video <?php echo esc_attr($align); ?>">

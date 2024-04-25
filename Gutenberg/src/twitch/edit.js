@@ -9,9 +9,9 @@ import Iframe from '../common/Iframe';
 /**
  * WordPress dependencies
  */
-const {__} = wp.i18n;
-const {Component, Fragment} = wp.element;
-import {twitchIcon} from '../common/icons'
+const { __ } = wp.i18n;
+const { Component, Fragment } = wp.element;
+import { twitchIcon } from '../common/icons'
 import { sanitizeUrl } from '../common/helper';
 
 class TwitchEdit extends Component {
@@ -32,14 +32,14 @@ class TwitchEdit extends Component {
 
 	static getDerivedStateFromProps(nextProps, state) {
 		if (!nextProps.isSelected && state.interactive) {
-			return {interactive: false};
+			return { interactive: false };
 		}
 
 		return null;
 	}
 
 	hideOverlay() {
-		this.setState({interactive: true});
+		this.setState({ interactive: true });
 	}
 
 	onLoad() {
@@ -63,15 +63,14 @@ class TwitchEdit extends Component {
 		if (event) {
 			event.preventDefault();
 		}
-		const {url} = this.state;
-		const {setAttributes} = this.props;
-		setAttributes({url});
+		const { url } = this.state;
+		const { setAttributes } = this.props;
+		setAttributes({ url });
 		var regEx = /http[s]?:\/\/(?:www\.|clips\.)twitch\.tv\/([0-9a-zA-Z\-\_]+)\/?(chat\/?$|[0-9a-z\-\_]*)?/
 		if (url && url.match(regEx)) {
 			var iframeSrc = this.decodeHTMLEntities(url);
 			var match = regEx.exec(iframeSrc);
 			var channelName = match[1];
-			console.log(channelName);
 			var type = "channel";
 			var attrs;
 			if (url.indexOf('clips.twitch.tv') > -1) {
@@ -81,7 +80,6 @@ class TwitchEdit extends Component {
 			} else if (url.indexOf('#/chat$#') > -1) {
 				type = 'chat';
 			}
-			console.log(type)
 			switch (type) {
 				case 'channel':
 					iframeSrc = 'https://player.twitch.tv/?channel=' + channelName;
@@ -122,8 +120,8 @@ class TwitchEdit extends Component {
 					}
 					break;
 			}
-			this.setState({editingURL: false, cannotEmbed: false});
-			setAttributes({iframeSrc, attrs})
+			this.setState({ editingURL: false, cannotEmbed: false });
+			setAttributes({ iframeSrc, attrs })
 		} else {
 			this.setState({
 				cannotEmbed: true,
@@ -133,12 +131,22 @@ class TwitchEdit extends Component {
 	}
 
 	switchBackToURLInput() {
-		this.setState({editingURL: true});
+		this.setState({ editingURL: true });
+	}
+
+	isTwitch(url) {
+		var twitchRegex = /http[s]?:\/\/(?:www\.|clips\.)twitch\.tv\/([0-9a-zA-Z\-\_]+)\/?(chat\/?$|[0-9a-z\-\_]*)?/;
+		return twitchRegex.test(url);
 	}
 
 	render() {
-		const {url, editingURL, fetching, cannotEmbed,interactive} = this.state;
-		const {iframeSrc, attrs} = this.props.attributes;
+		const { url, editingURL, fetching, cannotEmbed, interactive } = this.state;
+		const { iframeSrc, attrs } = this.props.attributes;
+
+
+		if (iframeSrc && !this.isTwitch(iframeSrc)) {
+			return 'Invalid Twitch URL.';
+		}
 
 		const label = __('Twitch URL');
 		// No preview, or we can't embed the current URL, or we've clicked the edit button.
@@ -149,31 +157,31 @@ class TwitchEdit extends Component {
 					onSubmit={this.setUrl}
 					value={url}
 					cannotEmbed={cannotEmbed}
-					onChange={(event) => this.setState({url: event.target.value})}
+					onChange={(event) => this.setState({ url: event.target.value })}
 					icon={twitchIcon}
 					DocTitle={__('Learn more about twitch embed')}
 					docLink={'https://embedpress.com/docs/embed-twitch-streams-chat/'}
 				/>
 			);
 		} else {
-			const IframeUrl = iframeSrc+'&parent='+embedpressObj.twitch_host;
+			const IframeUrl = iframeSrc + '&parent=' + embedpressObj.twitch_host;
 			return (
 				<Fragment>
-					{fetching ? <EmbedLoading/> : null}
+					{fetching ? <EmbedLoading /> : null}
 
 					<Iframe src={sanitizeUrl(IframeUrl)}  {...attrs}
-							onLoad={this.onLoad}
-							style={{display: fetching ? 'none' : ''}}
-							onFocus={this.hideOverlay}
-							width="600"
-							height="450"/>
+						onLoad={this.onLoad}
+						style={{ display: fetching ? 'none' : '' }}
+						onFocus={this.hideOverlay}
+						width="600"
+						height="450" />
 
-					{ ! interactive && (
+					{!interactive && (
 						<div
 							className="block-library-embed__interactive-overlay"
-							onMouseUp={ this.hideOverlay }
+							onMouseUp={this.hideOverlay}
 						/>
-					) }
+					)}
 
 					<EmbedControls
 						showEditButton={iframeSrc && !cannotEmbed}

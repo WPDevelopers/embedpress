@@ -120,12 +120,21 @@ class WistiaEdit extends Component {
 		this.setState({editingURL: true});
 	}
 
+	isWistia(url) {
+		const wistiaUrlPattern = /^\/\/fast\.wistia\.net\/embed\/iframe\//;
+		return wistiaUrlPattern.test(url);
+	}
+
 	render() {
 		const {url, editingURL, fetching, cannotEmbed,interactive} = this.state;
 		const {iframeSrc} = this.props.attributes;
 
 		const label = __('Wistia URL');
 
+		if(iframeSrc && !this.isWistia(iframeSrc)){
+			return 'Invalid Wistia Url.'
+		}
+		
 		// No preview, or we can't embed the current URL, or we've clicked the edit button.
 		if (!iframeSrc || editingURL) {
 			return (

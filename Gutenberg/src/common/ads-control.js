@@ -58,8 +58,6 @@ export default function AdControl({ attributes, setAttributes }) {
         }
     }
 
-    console.log({ adContent, adFileUrl })
-
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     const inputRef = useRef(null);
@@ -94,7 +92,6 @@ export default function AdControl({ attributes, setAttributes }) {
                         <span className='isPro'>{__('pro', 'embedpress')}</span>
                     )
                 }
-                {/* console.log({EPIcon}) */}
 
 
                 {

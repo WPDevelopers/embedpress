@@ -134,7 +134,6 @@ export default function Vimeo({ attributes, setAttributes, isVimeoVideo }) {
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     const onSelectImage = (logo) => {
-        console.log(logo.sizes.full.url);
         setAttributes({ customlogo: logo.sizes.full.url });
     }
     const removeImage = (e) => {

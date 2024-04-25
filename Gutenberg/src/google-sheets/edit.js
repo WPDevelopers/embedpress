@@ -76,7 +76,6 @@ class GoogleSheetsEdit extends Component {
 					var query = iframeSrc.split('?');
 					query = query[1];
 					query = query.split('&');
-					console.log(query)
 					if (query.length > 0) {
 						var hasHeadersParam = false;
 						var hasWidgetParam = false;
@@ -118,11 +117,20 @@ class GoogleSheetsEdit extends Component {
 		this.setState({editingURL: true});
 	}
 
+	isGoogleService(url) {
+        var googleRegex = /(?:https?:\/\/)?(?:[^./]+\.)?google\.(com?\.)?[a-z]+(?:\.[a-z]+)?/;
+        return googleRegex.test(url);
+    }
+
 	render() {
 		const {url, editingURL, fetching, cannotEmbed, interactive} = this.state;
 		const {iframeSrc} = this.props.attributes;
 
 		const label = __('Google Sheets URL');
+
+		if(iframeSrc && !this.isGoogleService(iframeSrc)) {
+            return 'Invalid URL.';
+        }  
 
 		// No preview, or we can't embed the current URL, or we've clicked the edit button.
 		if (!iframeSrc || editingURL) {

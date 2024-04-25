@@ -70,11 +70,6 @@ function embedpress_render_block($attributes)
 {
 
 
-	// echo '<pre>';
-	// print_r($attributes);
-	// echo '</pre>';
-
-
 	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
 	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
@@ -338,6 +333,8 @@ function embedpress_render_block_style($attributes)
 
 
 	$_iscustomlogo = '';
+	
+	$youtubeStyles = '';
 
 	if(!empty($attributes['customlogo'])){
 		$_iscustomlogo = $uniqid.' img.watermark.ep-custom-logo {
@@ -440,6 +437,18 @@ function embedpress_render_block_style($attributes)
 
 	</style>';
 	}
+
+	$youtubeStyles .= '<style>
+		.ose-matterport' . esc_attr($uniqid) . ' {
+			position: relative;
+			width: ' . esc_attr($attributes['width']) . 'px !important;
+			height: ' . esc_attr($attributes['height']) . 'px !important;
+			max-width: 100%;
+		  }
+
+	</style>';
+
+
 
 	return $youtubeStyles;
 }

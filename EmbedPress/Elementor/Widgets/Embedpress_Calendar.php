@@ -285,12 +285,21 @@ class Embedpress_Calendar extends Widget_Base
 		}
 	}
 
+	public function isGoogleCalendar($url) {
+		$pattern = '/^https:\/\/calendar\.google\.com\/calendar\/embed\?.*$/';
+		return preg_match($pattern, $url);
+	}
 
 	protected function render()
 	{
 		$settings = $this->get_settings();
 		$id = 'embedpress-calendar-' . $this->get_id();
 		$dimension = "width: " . esc_attr($settings['embedpress_elementor_calendar_width']['size']) . "px; height: " . esc_attr($settings['embedpress_elementor_calendar_height']['size']) . "px";
+
+		if(!empty($settings['embedpress_public_cal_link']) && !$this->isGoogleCalendar($settings['embedpress_public_cal_link'])) {
+			echo esc_html__('Invalid Calendar URL.');
+			return;
+		}
 
 		$this->add_render_attribute('embedpress-calendar-render', [
 			'class' => ['embedpress-embed-calendar-calendar', $id],

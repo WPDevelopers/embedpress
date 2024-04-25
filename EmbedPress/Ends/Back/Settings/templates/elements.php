@@ -8,6 +8,7 @@ $e_blocks = isset( $elements['elementor']) ? (array) $elements['elementor'] : []
 $settings = get_option( EMBEDPRESS_PLG_NAME, []);
 $enablePluginInAdmin = isset( $settings['enablePluginInAdmin'] ) ? $settings['enablePluginInAdmin'] : 1;
 $enablePluginInFront = isset( $settings['enablePluginInFront'] ) ? $settings['enablePluginInFront'] : 1;
+
 ?>
 
 <div class="background__white p-24 radius-16 mb-20">
