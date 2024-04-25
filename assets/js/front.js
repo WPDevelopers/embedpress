@@ -674,17 +674,29 @@ let epGlobals = {};
             }
 
             jQuery.post(eplocalize.ajaxurl, data, function (response) {
-                if (response.html?.trim() !== '') {
-                    var $responseHtml = $(response.html).css('opacity', 0);
+
+                console.log(response);
+
+                if (response.total_feed_posts >= response.next_post_index) {
+                    var $responseHtml = $(response.html);
+
                     $(`[data-tkey="${tkey}"] .insta-gallery`).append($responseHtml);
+
                     $responseHtml.animate({ opacity: 1 }, 1000);
+
                     $('.insta-loadmore-spinicon').remove();
+
                     loadedPosts = response.next_post_index;
+
                     loadmoreBtn.data('loaded-posts', loadedPosts);
 
                     // After loading more items, reinitialize the tabs for the specific container
                     const containerEl = loadmoreBtn.closest('.ose-instagram-feed')[0];
                     epGlobals.initializeTabs(containerEl);
+
+                    if (response.total_feed_posts == response.next_post_index) {
+                        loadmoreBtn.hide();
+                    }
                 } else {
                     loadmoreBtn.hide();
                 }
@@ -764,7 +776,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-
+   
 
 });
 
@@ -934,10 +946,6 @@ jQuery(window).on("elementor/frontend/init", function () {
 });
 
 
-
-
-
-
 function presentationModeForIOS(iframes) {
     iframes?.forEach(function (iframe) {
         iframe.onload = function () {
@@ -963,5 +971,6 @@ if (isIOSDevice()) {
     var iframes = document.querySelectorAll('.embedpress-embed-document-pdf');
     presentationModeForIOS(iframes)
 }
+
 
 

@@ -753,7 +753,8 @@ class Helper
 
 			wp_send_json(array(
 				'html' => $feed_item,
-				'next_post_index' => $next_start_index 
+				'next_post_index' => $next_start_index,
+				'total_feed_posts' => count($feed_posts)
 			));
 		} else {
 			wp_send_json('');

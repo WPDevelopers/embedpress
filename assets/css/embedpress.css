@@ -2214,11 +2214,23 @@ button#js-carousel__next-1 {
 .embedpress-popup-block.embedpress-popup-img {
     position: relative;
     height: 100%;
+    display: flex;
+    background: #000;
 }
 
 .popup-carousel, .cg-carousel__track {
     height: 100%;
 }
+
+.popup-container .popup-carousel .cg-carousel__track {
+    align-items: center;
+    background-color: #000;
+}
+.popup-container .popup-carousel {
+    background-color: #000;
+}
+
+
 
 button.js-carousel__prev-1 {
     position: absolute;
@@ -2257,8 +2269,8 @@ button.js-carousel__next-1 {
     border-left-width: 0;
     border-bottom-width: 0;
     color: #ffffff;
-    border-color: #0170B9;
-    background-color: #0170B9;
+    border-color: #037bff;
+    background-color: #037bff;
     padding-top: 15px;
     padding-right: 30px;
     padding-bottom: 15px;
@@ -2266,6 +2278,9 @@ button.js-carousel__next-1 {
     font-family: inherit;
     font-weight: inherit;
     line-height: 1em;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 30px;
 }
 
 
@@ -2331,14 +2346,13 @@ button.js-carousel__next-1 {
 }
 
 video.popup-media-image {
-    height: 100% !important;
-    margin-bottom: -7px !important;
+    height: auto;
     max-width: 100%;
     width: 100%;
 }
 
 img.popup-media-image {
-    height: 100% !important;
+    height: auto;
 }
 
 /* Header */
@@ -2373,14 +2387,13 @@ img.popup-media-image {
     border: 2px solid #037bff;
 }
 
-.embedpress-popup-header-img a, .embedpress-hashtag-header-img a {
-    text-decoration: none !important;
-}
 
-.embedpress-popup-header-img a {
+
+.embedpress-popup-header-img a, .embedpress-hashtag-header-img a {
     display: flex;
     align-items: center;
     justify-content: center;
+    text-decoration: none !important;
 }
 
 .embedpress-popup-username {
@@ -2398,10 +2411,9 @@ img.embedpress-hashtag-round {
     text-decoration: none !important;
     padding: 6px 15px;
     background: #007bff;
-    border-radius: 4px;
-    color: #fff;
-    /* font-weight: bold; */
-    font-size: 15px;
+    border-radius: 5px;
+    color: #fff!important;
+    font-size: 12px;
     font-weight: normal;
 }
 
@@ -2422,7 +2434,7 @@ img.embedpress-hashtag-round {
     font-weight: normal;
     overflow: hidden;
     letter-spacing: 0.04em;
-    line-height: 27px;
+    line-height: 1.8rem;
     padding: 10px;
     flex: auto;
     border-bottom: 1px solid #ddd;
@@ -2436,7 +2448,7 @@ img.embedpress-hashtag-round {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
+    padding: 12px 10px;
 }
 
 .embedpress-popup-stats .embedpress-inline {
@@ -2457,6 +2469,7 @@ img.embedpress-hashtag-round {
     color: #000;
     text-decoration: none;
     font-weight: 400;
+    line-height: 1.6rem;
 }
 
 .embedpress-popup-stats .embedpress-inline a svg {

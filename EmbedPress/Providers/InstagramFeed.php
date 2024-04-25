@@ -351,7 +351,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 </div>
             </div>
             <div class="insta-gallery-item-info">
-                <?php if ((strtolower($account_type) === 'business' && $params['instafeedAccountType'] === 'business')  && ((!empty($params['instafeedLikesCount']) && $params['instafeedLikesCount'] !== 'false') || (!empty($params['instafeedLikesCount']) || $params['instafeedLikesCount'] !== 'false'))) : ?>
+                <?php if ($params['instafeedFeedType'] === 'hashtag_type' || (strtolower($account_type) === 'business' && $params['instafeedAccountType'] === 'business')  && ((!empty($params['instafeedLikesCount']) && $params['instafeedLikesCount'] !== 'false') || (!empty($params['instafeedLikesCount']) || $params['instafeedLikesCount'] !== 'false'))) : ?>
                     <div class="insta-item-reaction-count">
                         <?php if (!empty($params['instafeedLikesCount']) && $params['instafeedLikesCount'] !== 'false') : ?>
                             <div class="insta-gallery-item-likes">
