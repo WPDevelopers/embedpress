@@ -253,11 +253,19 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
     public function data_instagram_feed($access_token, $connected_account_type, $user_id, $limit = 100)
     {
 
+        $params = $this->getParams();
+        $feed_type = $params['instafeedFeedType'];
 
         if (strtolower($connected_account_type) === 'business') {
-            $api_url = "https://graph.facebook.com/v17.0/$user_id/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=$limit&access_token=$access_token";
+            $api_url = "https://graph.facebook.com/v17.0/$user_id/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=$limit&access_token=$access_token$connected_account_type$feed_type";
         } else {
-            $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$access_token";
+            $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$access_token$connected_account_type$feed_type";
+        }
+
+        if (strtolower($connected_account_type) === 'business') {
+            $api_url = "$user_id$limit$access_token$connected_account_type$feed_type";
+        } else {
+            $api_url = "$limit$access_token$connected_account_type$feed_type";
         }
 
 
@@ -441,9 +449,15 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 $connected_account_type = $account_type;
 
                 if (strtolower($connected_account_type) === 'business') {
-                    $tkey = md5('https://graph.facebook.com/v17.0/' . $id . '/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=' . $limit . '&access_token=' . $accessToken);
+                    $tkey = md5('https://graph.facebook.com/v17.0/' . $id . '/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=' . $limit . '&access_token=' . $accessToken.$connected_account_type.$feed_type);
                 } else {
-                    $tkey = md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$accessToken");
+                    $tkey = md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$accessToken$accessToken$connected_account_type$feed_type");
+                }
+
+                if (strtolower($connected_account_type) === 'business') {
+                    $tkey = md5("$id$limit$accessToken$connected_account_type$feed_type");
+                } else {
+                    $tkey = md5("$limit$accessToken$accessToken$connected_account_type$feed_type");
                 }
 
                 if (is_array($insta_posts) and !empty($insta_posts)) {

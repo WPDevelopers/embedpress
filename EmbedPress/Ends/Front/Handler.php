@@ -76,6 +76,14 @@ class Handler extends EndHandlerAbstract
                 EMBEDPRESS_PLUGIN_VERSION,
                 true
             );
+
+            wp_enqueue_script(
+                'slick',
+                EMBEDPRESS_URL_ASSETS . 'js/slick.min.js',
+                ['jquery'],
+                $this->pluginVersion,
+                false
+            );
         }
 
         $dependencies = ['jquery'];
@@ -114,6 +122,8 @@ class Handler extends EndHandlerAbstract
                 true
             );
         }
+
+
 
         wp_localize_script('embedpress-front', 'eplocalize', array(
             'ajaxurl' => admin_url('admin-ajax.php'),

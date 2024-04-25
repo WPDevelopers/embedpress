@@ -2080,7 +2080,7 @@ a.profile-link, a.profile-link h2 {
 
 .insta-masonry .embedpress-insta-container .insta-gallery .insta-gallery-item video.insta-gallery-image {
     height: 550px;
-    margin-bottom: -7px;
+    margin-bottom: -13px;
 }
 
 .embedpress-insta-container .insta-gallery-item .insta-gallery-item-info,
@@ -2096,6 +2096,9 @@ a.profile-link, a.profile-link h2 {
     transition: 0.3s;
     opacity: 0;
     visibility: hidden;
+}
+.insta-masonry .embedpress-insta-container .insta-gallery-item .insta-gallery-item-info {
+    height: calc(100% + 4px);
 }
 
 
@@ -2137,6 +2140,10 @@ a.profile-link, a.profile-link h2 {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.insta-masonry .embedpress-insta-container .insta-gallery-image {
+    margin-bottom: -13px;
 }
 
 .insta-gallery-item-info svg {
@@ -2418,7 +2425,7 @@ img.embedpress-hashtag-round {
     background: #007bff;
     border-radius: 5px;
     color: #fff!important;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: normal;
 }
 

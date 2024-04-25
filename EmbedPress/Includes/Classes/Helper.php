@@ -642,13 +642,12 @@ class Helper
 
 	// Ajax Methods get instagram feed data
 	public function loadmore_data_handler() {
-		$insta_transient_key = isset($_POST['insta_transient_key']) ? $_POST['insta_transient_key'] : '';
-		$connected_account_type = isset($_POST['connected_account_type']) ? $_POST['connected_account_type'] : 'personal';
+		$insta_transient_key = isset($_POST['insta_transient_key']) ? sanitize_text_field($_POST['insta_transient_key']) : '';
+		$connected_account_type = isset($_POST['connected_account_type']) ? sanitize_text_field($_POST['connected_account_type']) : 'personal';
+		$hashtag_id = isset($_POST['hashtag_id']) ? sanitize_text_field($_POST['hashtag_id']) : '';
+		$feed_type = isset($_POST['feed_type']) ? sanitize_text_field($_POST['feed_type']) : 'user_aacount_type';
+		$user_id = isset($_POST['user_id']) ? sanitize_text_field($_POST['user_id']) : '';
 
-		$hashtag_id = isset($_POST['hashtag_id']) ? $_POST['hashtag_id'] : '';
-
-		$feed_type = isset($_POST['feed_type']) ? $_POST['feed_type'] : 'user_aacount_type';
-		$user_id = isset($_POST['user_id']) ? $_POST['user_id'] : '';
 
 		$feed_data = get_transient('instagram_feed_data_'.$insta_transient_key);
 
@@ -666,6 +665,7 @@ class Helper
 		else{
 			$feed_posts = [];
 		}
+
 		
 		if (is_array($feed_posts) && count($feed_posts) > 0) {
 			$loaded_posts = isset($_POST['loaded_posts']) ? intval($_POST['loaded_posts']) : 0;
