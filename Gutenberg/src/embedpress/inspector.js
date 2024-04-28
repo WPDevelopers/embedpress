@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert, isInstagramFeed } from '../common/helper';
+import { isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert, isInstagramFeed, isInstagramHashtag } from '../common/helper';
 import LockControl from '../common/lock-control';
 import ContentShare from '../common/social-share-control';
 import Youtube from './InspectorControl/youtube';
@@ -87,9 +87,16 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         setAttributes({ height: '950' });
     }
 
-    if(isTikTok && width === '600' && height === '450'){
+    if (isTikTok && width === '600' && height === '450') {
         setAttributes({ width: '350' });
         setAttributes({ height: '580' });
+    }
+
+    if (isInstagramHashtag(url)) {
+        setAttributes({ instafeedFeedType: 'hashtag_type' });
+        setAttributes({ width: '900' });
+
+
     }
 
     return (

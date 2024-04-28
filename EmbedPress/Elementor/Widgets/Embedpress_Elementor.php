@@ -3774,21 +3774,6 @@ class Embedpress_Elementor extends Widget_Base
 							Helper::display_password_form($client_id, $content, $pass_hash_key, $embed_settings);
 						}
 						?>
-									$content_id = $client_id;
-
-										if ((empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct))) {
-
-											if (!empty($settings['embedpress_content_share'])) {
-												$content .= Helper::embed_content_share($content_id, $embed_settings);
-											}
-											echo $content;
-										} else {
-											if (!empty($settings['embedpress_content_share'])) {
-												$content .= Helper::embed_content_share($content_id, $embed_settings);
-											}
-											Helper::display_password_form($client_id, $content, $pass_hash_key, $embed_settings);
-										}
-										?>
 						</div>
 						<?php
 							if (!empty($settings['adManager'])) {

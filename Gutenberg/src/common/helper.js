@@ -399,3 +399,8 @@ export const getCarouselOptions = ({ attributes }) => {
 
     return carouselOptionsString;
 }
+
+export const isInstagramHashtag = (url) => {
+    const instagramHashtagRegex = /^https?:\/\/(?:www\.)?instagram\.com\/explore\/tags\/([^/]+)\/?$/i;
+    return instagramHashtagRegex.test(url);
+}

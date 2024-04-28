@@ -257,19 +257,12 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         $feed_type = $params['instafeedFeedType'];
 
         if (strtolower($connected_account_type) === 'business') {
-            $api_url = "https://graph.facebook.com/v17.0/$user_id/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=$limit&access_token=$access_token$connected_account_type$feed_type";
+            $tkey = md5($access_token . $user_id . $limit . $connected_account_type . $feed_type);
         } else {
-            $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$access_token$connected_account_type$feed_type";
+            $tkey = md5($access_token . $limit . $connected_account_type . $feed_type);
         }
 
-        if (strtolower($connected_account_type) === 'business') {
-            $api_url = "$user_id$limit$access_token$connected_account_type$feed_type";
-        } else {
-            $api_url = "$limit$access_token$connected_account_type$feed_type";
-        }
-
-
-        $transientKey = 'instagram_feed_data_' . md5($api_url);
+        $transientKey = 'instagram_feed_data_' . $tkey;
 
         // Check if transient data exists
         $feed_data = get_transient($transientKey);
@@ -411,30 +404,54 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                     $column = (100 / intval(!empty($params['instafeedColumns']) ? $params['instafeedColumns'] : 1));
                     $gap = $params['instafeedColumnsGap'];
 
-                    $styleAttribute = 'style="grid-template-columns: repeat('.esc_attr($column).', minmax(0, 1fr)); gap: ' . esc_attr($gap) . 'px;"';
+                    $styleAttribute = 'style="grid-template-columns: repeat(' . esc_attr($column) . ', minmax(0, 1fr)); gap: ' . esc_attr($gap) . 'px;"';
                 } else if ($params['instaLayout'] === 'insta-masonry') {
                     $styleAttribute = 'style="column-count: ' . esc_attr($params['instafeedColumns']) . '; gap: ' . esc_attr($params['instafeedColumnsGap']) . 'px;"';
                 }
 
+                $feed_data =  $this->data_instagram_feed($accessToken, $account_type, $userID, $limit = 100);
 
-                $feed_data = $this->data_instagram_feed($accessToken, $account_type, $userID, $limit = 100);
-
-                // print_r($userID); die;
+                if (!empty($feed_data[$userID]['feed_userinfo']['error'])) {
+                    return $feed_data[$userID]['feed_userinfo']['error']['message'];
+                }
 
                 $profile_info = $feed_data[$userID]['feed_userinfo'];
                 $insta_posts = $feed_data[$userID]['feed_posts'];
 
                 $hashtag_id = '';
                 if (!empty($hashtag)) {
+
+                    $hashtag_feed = get_option('instagram_hashtag_feed');
+
+                    if (empty($hashtag_feed)) {
+                        $hashtag_feed = array('instagram_hashtag_feed' => array());
+                    }
+
                     $hashtag_id = $this->getHashTagId($accessToken, $hashtag, $userID);
+
                     $insta_posts = $this->getHashtagPosts($accessToken, $hashtag, $userID);
+
+                    if (!isset($hashtag_feed['instagram_hashtag_feed'][$hashtag_id])) {
+                        $hashtag_feed['instagram_hashtag_feed'][$hashtag_id] = array();
+                    }
+
+                    // Add new posts to the existing ones, avoiding duplicates
+                    foreach ($insta_posts as $post) {
+                        $post_id = $post['id'];
+                        // Check if post ID already exists in the current hashtag feed
+                        $existing_ids = array_column($hashtag_feed['instagram_hashtag_feed'][$hashtag_id], 'id');
+                        if (!in_array($post_id, $existing_ids)) {
+                            $hashtag_feed['instagram_hashtag_feed'][$hashtag_id][] = $post;
+                        }
+                    }
+
+                    update_option('instagram_hashtag_feed', $hashtag_feed);
+
+                    $hashtag_feeds = get_option('instagram_hashtag_feed');
+                    $insta_posts = $hashtag_feeds['instagram_hashtag_feed'][$hashtag_id];
+
                 }
 
-                // echo '<pre>';
-                // print_r($insta_posts);
-                // echo '</pre>';
-
-                // die;
 
                 // Check and assign each item to separate variables
                 $id = !empty($profile_info['id']) ? $profile_info['id'] : '';
@@ -444,20 +461,13 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 $profile_picture_url = !empty($profile_info['profile_picture_url']) ? $profile_info['profile_picture_url'] : '';
                 $name = !empty($profile_info['name']) ? $profile_info['name'] : '';
 
-                // print_r($profile_info); die;
 
                 $connected_account_type = $account_type;
 
                 if (strtolower($connected_account_type) === 'business') {
-                    $tkey = md5('https://graph.facebook.com/v17.0/' . $id . '/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=' . $limit . '&access_token=' . $accessToken.$connected_account_type.$feed_type);
+                    $tkey = md5($accessToken . $id . $limit .  $connected_account_type . $feed_type);
                 } else {
-                    $tkey = md5("https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$accessToken$accessToken$connected_account_type$feed_type");
-                }
-
-                if (strtolower($connected_account_type) === 'business') {
-                    $tkey = md5("$id$limit$accessToken$connected_account_type$feed_type");
-                } else {
-                    $tkey = md5("$limit$accessToken$accessToken$connected_account_type$feed_type");
+                    $tkey = md5($accessToken . $limit . $connected_account_type . $feed_type);
                 }
 
                 if (is_array($insta_posts) and !empty($insta_posts)) {
@@ -473,6 +483,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                             $avater_url = $params['instafeedProfileImageUrl'];
                         }
 
+                        $feed_data[$id]['feed_userinfo']['profile_picture_url'] = $avater_url;
+                        update_option('_transient_instagram_feed_data_' . $tkey, $feed_data);
                         ?>
 
             <?php if (empty($hashtag) || $hashtag === 'false') : ?>
@@ -502,10 +514,10 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                             <?php if (!empty($params['instafeedPostsCount']) && $params['instafeedPostsCount'] !== 'false') : ?>
                                 <div class="posts-count">
                                     <?php if (!empty($params['instafeedPostsCountText']) && $params['instafeedPostsCountText'] !== 'false') :
-                                        $posts_count_text = str_replace('[count]', '<span class="count">' . $media_count . '</span>', $params['instafeedPostsCountText']);
-                                        echo wp_kses_post($posts_count_text);
-                                    endif;
-                                    ?>
+                                                            $posts_count_text = str_replace('[count]', '<span class="count">' . $media_count . '</span>', $params['instafeedPostsCountText']);
+                                                            echo wp_kses_post($posts_count_text);
+                                                        endif;
+                                                        ?>
 
                                 </div>
                             <?php endif; ?>
@@ -516,10 +528,10 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                                         <?php if (!empty($params['instafeedPostsCountText']) && $params['instafeedPostsCountText'] !== 'false') : ?>
                                             <a class="followers-link" target="_blank" href="<?php echo esc_url('https://instagram.com/' . $username . '/followers'); ?>" role="link" tabindex="0">
                                                 <?php
-                                                    $followers_count_text = str_replace('[count]', '<span class="count">' . $followers_count . '</span>', $params['instafeedFollowersCountText']);
+                                                                            $followers_count_text = str_replace('[count]', '<span class="count">' . $followers_count . '</span>', $params['instafeedFollowersCountText']);
 
-                                                    echo wp_kses_post($followers_count_text);
-                                                    ?>
+                                                                            echo wp_kses_post($followers_count_text);
+                                                                            ?>
                                             </a>
                                         <?php endif; ?>
                                     </div>
@@ -681,10 +693,11 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                     $access_token = $connected_users[$index]['access_token'];
                     $userid = $connected_users[$index]['user_id'];
                     $account_type = $connected_users[$index]['account_type'];
+                    // <a href="' . esc_url($page) . '">here</a>
                 } else {
                     // No matching username found
                     $page = site_url() . "/wp-admin/admin.php?page=embedpress&page_type=instagram";
-                    $insta_feed['html'] = '<h4 style="text-align:center;">Please add your access token from <a href="' . esc_url($page) . '">here</a>.</h4>';
+                    $insta_feed['html'] = '<p style="text-align:center;">Please add your access token from instagram settings page.</p>';
                     return $insta_feed;
                 }
             }

@@ -2,7 +2,7 @@
  * WordPress dependencies
  */
 
-import { addProAlert, isPro, removeAlert, isInstagramFeed } from '../../common/helper';
+import { addProAlert, isPro, removeAlert, isInstagramFeed, isInstagramHashtag } from '../../common/helper';
 import ControlHeader from '../../common/control-heading';
 import CustomBranding from './custombranding';
 import { getParams } from '../functions';
@@ -200,6 +200,8 @@ export default function Instafeed({ attributes, setAttributes }) {
         { label: '4', value: '4' },
         { label: '6', value: '6' },
     ];
+
+   
 
     return (
         <div>

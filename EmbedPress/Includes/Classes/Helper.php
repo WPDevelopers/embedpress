@@ -651,9 +651,9 @@ class Helper
 
 		$feed_data = get_transient('instagram_feed_data_'.$insta_transient_key);
 
-		$transient_key = 'hashtag_posts_'.$hashtag_id;
-
-        $hashtag_posts = get_transient($transient_key);
+		$profile_picture_url = isset($feed_data[$user_id]['feed_userinfo']['profile_picture_url']) ? $feed_data[$user_id]['feed_userinfo']['profile_picture_url'] : '';
+		
+        $hashtag_posts = get_transient('hashtag_posts_'.$hashtag_id);
 
     
 		if($feed_type === 'user_account_type' && isset($feed_data[$user_id]['feed_posts'])){
@@ -688,6 +688,8 @@ class Helper
 					$username = !empty($post['username']) ? $post['username'] : '';
 					$like_count = !empty($post['like_count']) ? $post['like_count'] : 0;
 					$comments_count = !empty($post['comments_count']) ? $post['comments_count'] : 0;
+
+					$post['profile_picture_url'] = $profile_picture_url;
 				?>
 					
 				<div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr( $post['id'] )?>" data-postindex="<?php echo esc_attr( $post_index ); ?>" data-postdata="<?php echo htmlspecialchars(json_encode($post), ENT_QUOTES, 'UTF-8'); ?>" data-media-type="<?php echo esc_attr( $media_type );?>">
@@ -1137,6 +1139,8 @@ class Helper
 
 <?php
 	}
+
+	
 }
 
 ?>

@@ -286,6 +286,9 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
 .wp-block-embed.is-loading p {
   margin: 0 !important; }
 
+.wp-block-embed.is-loading svg {
+  margin-top: 0; }
+
 /**
 * NFT card frontend style
 */
