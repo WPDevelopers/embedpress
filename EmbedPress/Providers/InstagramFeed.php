@@ -92,7 +92,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
     public function get_connected_account_type($userID)
     {
-        $instagram_account_data = get_option('instagram_account_data');
+        $instagram_account_data = get_option('ep_instagram_account_data');
 
         if (is_array($instagram_account_data) && !empty($instagram_account_data)) {
             foreach ($instagram_account_data as $account) {
@@ -213,13 +213,14 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                     $transient_data = '';
                 }
 
-                // Set the transient with a 1-hour expiration
-                set_transient($transient_key, $transient_data, HOUR_IN_SECONDS);
+                // Set the transient with a 30-day expiration
+                set_transient($transient_key, $transient_data, 30 * DAY_IN_SECONDS);
             }
         }
 
         return $transient_data;
     }
+
 
     public function getHashTagPosts($access_token, $hashtag, $user_id)
     {
@@ -259,43 +260,6 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         }
     }
 
-
-    public function data_instagram_feed($access_token, $connected_account_type, $user_id, $limit = 100)
-    {
-
-        $params = $this->getParams();
-        $feed_type = $params['instafeedFeedType'];
-
-        if (strtolower($connected_account_type) === 'business') {
-            $tkey = md5($access_token . $user_id . $limit . $connected_account_type . $feed_type);
-        } else {
-            $tkey = md5($access_token . $limit . $connected_account_type . $feed_type);
-        }
-
-        $transientKey = 'instagram_feed_data_' . $tkey;
-
-        // Check if transient data exists
-        $feed_data = get_transient($transientKey);
-
-        if ($feed_data === false) {
-            // Transient data is not available, fetch the data and store it in a transient
-            $feed_userinfo = $this->getInstagramUserInfo($access_token, $connected_account_type, $user_id);
-            $feed_posts = $this->getInstagramPosts($access_token, $connected_account_type, $user_id, $limit = 100);
-            // $feed_posts = $this->getHashtagPosts($access_token, $hashtag, $user_id);
-
-            $feed_data = [
-                $user_id => [
-                    'feed_userinfo' => $feed_userinfo,
-                    'feed_posts' => $feed_posts,
-                ]
-            ];
-
-            // Set the transient with an expiration time of, for example, 1 hour (3600 seconds)
-            set_transient($transientKey, $feed_data, 3600);
-        }
-
-        return $feed_data;
-    }
 
     public function update_instagram_feed_data($access_token, $connected_account_type, $user_id, $limit = 100)
     {
@@ -437,10 +401,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 } else if ($params['instaLayout'] === 'insta-masonry') {
                     $styleAttribute = 'style="column-count: ' . esc_attr($params['instafeedColumns']) . '; gap: ' . esc_attr($params['instafeedColumnsGap']) . 'px;"';
                 }
-                
-                $feed_data =  $this->data_instagram_feed($accessToken, $account_type, $userID, $limit = 100);
-                
-                $feed_data = get_option('ep_instagram_feed_data');  
+
+                $feed_data = get_option('ep_instagram_feed_data');
 
                 if (!empty($feed_data[$userID]['feed_userinfo']['error'])) {
                     return $feed_data[$userID]['feed_userinfo']['error']['message'];
@@ -451,37 +413,28 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
                 $hashtag_id = '';
                 if (!empty($hashtag)) {
-
-                    $hashtag_feed = get_option('ep_instagram_hashtag_feed');
-
-                    if (empty($hashtag_feed)) {
-                        $hashtag_feed = array('ep_instagram_hashtag_feed' => array());
-                    }
+                    $option_key = 'ep_instagram_hashtag_feed';
+                    $hashtag_feed = get_option($option_key, array());
 
                     $hashtag_id = $this->getHashTagId($accessToken, $hashtag, $userID);
-
                     $insta_posts = $this->getHashtagPosts($accessToken, $hashtag, $userID);
 
-                    if (!isset($hashtag_feed['ep_instagram_hashtag_feed'][$hashtag_id])) {
-                        $hashtag_feed['ep_instagram_hashtag_feed'][$hashtag_id] = array();
+                    if (!isset($hashtag_feed[$hashtag_id])) {
+                        $hashtag_feed[$hashtag_id] = array();
                     }
 
                     // Add new posts to the existing ones, avoiding duplicates
+                    $existing_ids = array_column($hashtag_feed[$hashtag_id], 'id');
                     foreach ($insta_posts as $post) {
                         $post_id = $post['id'];
-                        // Check if post ID already exists in the current hashtag feed
-                        $existing_ids = array_column($hashtag_feed['ep_instagram_hashtag_feed'][$hashtag_id], 'id');
                         if (!in_array($post_id, $existing_ids)) {
-                            $hashtag_feed['ep_instagram_hashtag_feed'][$hashtag_id][] = $post;
+                            $hashtag_feed[$hashtag_id][] = $post;
                         }
                     }
 
-                    update_option('ep_instagram_hashtag_feed', $hashtag_feed);
-
-                    $hashtag_feeds = get_option('ep_instagram_hashtag_feed');
-                    $insta_posts = $hashtag_feeds['ep_instagram_hashtag_feed'][$hashtag_id];
+                    update_option($option_key, $hashtag_feed);
+                    $insta_posts = $hashtag_feed[$hashtag_id];
                 }
-
 
                 // Check and assign each item to separate variables
                 $id = !empty($profile_info['id']) ? $profile_info['id'] : '';
@@ -495,10 +448,15 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 $connected_account_type = $account_type;
 
                 if (strtolower($connected_account_type) === 'business') {
-                    $tkey = md5($accessToken . $id . $limit .  $connected_account_type . $feed_type);
+                    $tkey = md5($accessToken . $id .  $connected_account_type . $feed_type);
                 } else {
-                    $tkey = md5($accessToken . $limit . $connected_account_type . $feed_type);
+                    $tkey = md5($accessToken . $connected_account_type . $feed_type);
                 }
+
+                $loadmore_key = $hashtag_id;
+                if (empty($hashtag) || $hashtag === 'false') :
+                    $loadmore_key = $userID;
+                endif;
 
                 if (is_array($insta_posts) and !empty($insta_posts)) {
                     ob_start(); ?>
@@ -514,7 +472,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                         }
 
                         $feed_data[$id]['feed_userinfo']['profile_picture_url'] = $avater_url;
-                        update_option('_transient_instagram_feed_data_' . $tkey, $feed_data);
+                        update_option('instagram_feed_data', $feed_data);
                         ?>
 
             <?php if (empty($hashtag) || $hashtag === 'false') : ?>
@@ -610,8 +568,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 </div>
             <?php endif; ?>
 
-            <div class="instagram-container">
-                <div class="embedpress-insta-container" data-tkey="<?php echo esc_attr($tkey); ?>" data-feed-type="<?php echo esc_attr($feed_type); ?>" data-hashtag="<?php echo esc_attr($hashtag); ?>" data-hashtag-id="<?php echo esc_attr($hashtag_id); ?>" data-connected-acc-type="<?php echo esc_attr($connected_account_type); ?>" data-uid="<?php echo esc_attr($userID); ?>">
+            <div class="instagram-container"  data-feed-type="<?php echo esc_attr($feed_type); ?>" data-hashtag="<?php echo esc_attr($hashtag); ?>" data-hashtag-id="<?php echo esc_attr($hashtag_id); ?>" data-connected-acc-type="<?php echo esc_attr($connected_account_type); ?>" data-uid="<?php echo esc_attr($userID); ?>">
+                <div class="embedpress-insta-container">
                     <div class="insta-gallery cg-carousel__track js-carousel__track" <?php echo  $styleAttribute; ?>>
                         <?php
                                     $posts_per_page = 12;
@@ -650,17 +608,21 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                         </div>
                     </div>
                 <?php endif; ?>
+
+                <?php if (!empty($params['instafeedLoadmore']) && $params['instafeedLoadmore'] !== 'false') : ?>
+
+
+                    <?php if (count($insta_posts) > $posts_per_page) : ?>
+                        <div class="load-more-button-container" data-loadmorekey="<?php echo esc_attr($loadmore_key); ?>" data-loaded-posts="<?php echo esc_attr($posts_per_page); ?>" data-posts-per-page="<?php echo esc_attr($posts_per_page); ?>">
+                            <button class="insta-load-more-button">
+                                <?php echo !empty($params['instafeedLoadmoreLabel']) ? esc_html($params['instafeedLoadmoreLabel']) : ''; ?>
+                            </button>
+                        </div>
+                    <?php endif; ?>
+                <?php endif; ?>
+
             </div>
 
-            <?php if (!empty($params['instafeedLoadmore']) && $params['instafeedLoadmore'] !== 'false') : ?>
-                <?php if (count($insta_posts) > $posts_per_page) : ?>
-                    <div class="load-more-button-container" data-loadmorekey="<?php echo esc_attr($tkey); ?>" data-loaded-posts="<?php echo esc_attr($posts_per_page); ?>" data-posts-per-page="<?php echo esc_attr($posts_per_page); ?>">
-                        <button class="insta-load-more-button">
-                            <?php echo !empty($params['instafeedLoadmoreLabel']) ? esc_html($params['instafeedLoadmoreLabel']) : ''; ?>
-                        </button>
-                    </div>
-                <?php endif; ?>
-            <?php endif; ?>
 
 <?php
             $feed_template = ob_get_clean();
@@ -689,7 +651,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         $url = $this->getUrl();
         $params = $this->getParams();
 
-        $connected_users =  get_option('instagram_account_data');
+        $connected_users =  get_option('ep_instagram_account_data');
 
 
         $username = $this->getInstagramUnserName($url) ? $this->getInstagramUnserName($url) : '';

@@ -642,31 +642,43 @@ class Helper
 
 	// Ajax Methods get instagram feed data
 	public function loadmore_data_handler() {
-		$insta_transient_key = isset($_POST['insta_transient_key']) ? sanitize_text_field($_POST['insta_transient_key']) : '';
 		$connected_account_type = isset($_POST['connected_account_type']) ? sanitize_text_field($_POST['connected_account_type']) : 'personal';
 		$hashtag_id = isset($_POST['hashtag_id']) ? sanitize_text_field($_POST['hashtag_id']) : '';
 		$feed_type = isset($_POST['feed_type']) ? sanitize_text_field($_POST['feed_type']) : 'user_aacount_type';
 		$user_id = isset($_POST['user_id']) ? sanitize_text_field($_POST['user_id']) : '';
+		$loadmore_key = isset($_POST['loadmore_key']) ? sanitize_text_field($_POST['loadmore_key']) : '';
+		$nonce = isset($_POST['_nonce']) ? sanitize_text_field($_POST['_nonce']) : '';
 
-
-		$feed_data = get_transient('instagram_feed_data_'.$insta_transient_key);
-
-		$profile_picture_url = isset($feed_data[$user_id]['feed_userinfo']['profile_picture_url']) ? $feed_data[$user_id]['feed_userinfo']['profile_picture_url'] : '';
-		
-        $hashtag_posts = get_transient('hashtag_posts_'.$hashtag_id);
-
-    
-		if($feed_type === 'user_account_type' && isset($feed_data[$user_id]['feed_posts'])){
-			$feed_posts = $feed_data[$user_id]['feed_posts'];
+		// Verify nonce
+		if ( ! wp_verify_nonce( $nonce, 'ep_nonce' ) ) {
+			wp_send_json_error( 'Invalid nonce' );
+			wp_die(); // Terminate script execution if nonce is invalid
 		}
-		else if($feed_type === 'hashtag_type' && isset($hashtag_posts[$hashtag_id])){
-			$feed_posts = $hashtag_posts[$hashtag_id];
+
+		$feeds_data = get_option('ep_instagram_feed_data');
+		$user_data = $feeds_data[$user_id]['feed_userinfo'];
+
+		
+		if($feed_type == 'hashtag_type'){
+			$feeds_data = get_option('ep_instagram_hashtag_feed');
+			$feeds_data = $feeds_data['ep_instagram_hashtag_feed'];
+		}
+
+		$feed_data = $feeds_data;
+
+		$profile_picture_url = isset($user_data['profile_picture_url']) ? $user_data['profile_picture_url'] : '';
+
+		
+		if($feed_type === 'user_account_type' && isset($feed_data[$loadmore_key]['feed_posts'])){
+			$feed_posts = $feed_data[$loadmore_key]['feed_posts'];
+		}
+		else if($feed_type === 'hashtag_type' && isset($feed_data[$loadmore_key])){
+			$feed_posts = $feed_data[$loadmore_key];
 		}
 		else{
-			$feed_posts = [];
+			$feed_posts = ['error'];
 		}
 
-		
 		if (is_array($feed_posts) && count($feed_posts) > 0) {
 			$loaded_posts = isset($_POST['loaded_posts']) ? intval($_POST['loaded_posts']) : 0;
 			$posts_per_page = isset($_POST['posts_per_page']) ? intval($_POST['posts_per_page']) : 0;

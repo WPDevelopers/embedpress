@@ -153,7 +153,7 @@ class Handler extends EndHandlerAbstract
             $account_type = isset($user_data['account_type']) ? $user_data['account_type'] : '';
             $access_token = isset($user_data['access_token']) ? $user_data['access_token'] : '';
 
-            $get_instagram_data = get_option('instagram_account_data');
+            $get_instagram_data = get_option('ep_instagram_account_data');
 
             $token_data = [
                 [
@@ -190,7 +190,7 @@ class Handler extends EndHandlerAbstract
                 $get_instagram_data = $token_data;
             }
 
-            update_option('instagram_account_data', $get_instagram_data);
+            update_option('ep_instagram_account_data', $get_instagram_data);
 
             wp_redirect(admin_url('admin.php?page=embedpress&page_type=instagram'), 301);
 
@@ -788,13 +788,13 @@ class Handler extends EndHandlerAbstract
         if (isset($_POST['_nonce']) && wp_verify_nonce($_POST['_nonce'], 'embedpress_elements_action')) {
             $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : '';
             $account_type = isset($_POST['account_type']) ? $_POST['account_type'] : '';
-            $account_data = get_option('instagram_account_data');
+            $account_data = get_option('ep_instagram_account_data');
 
             $data = array_filter($account_data, function ($item) use ($user_id) {
                 return $item['user_id'] !== $user_id;
             });
             $data = array_values($data);
-            update_option('instagram_account_data', $data);
+            update_option('ep_instagram_account_data', $data);
         } else {
             wp_die('Nonce verification failed.');
         }

@@ -8,9 +8,9 @@ $personal_token_url = 'https://www.instagram.com/oauth/authorize?app_id=22506280
 
 $business_token_url = 'https://www.facebook.com/dialog/oauth?client_id=928673724899905&redirect_uri=https://api.embedpress.com/facebook.php&response_type=code&scope=pages_show_list,instagram_basic,instagram_manage_comments,instagram_manage_insights,pages_read_engagement&state=' . admin_url('admin.php') . '&user_id=5511';
 
-$personal_data = !empty(get_option('instagram_account_data')) ? get_option('instagram_account_data') : [];
+$personal_data = !empty(get_option('ep_instagram_account_data')) ? get_option('ep_instagram_account_data') : [];
 
-$business_data = !empty(get_option('instagram_account_data')) ? get_option('instagram_account_data') : [];;
+$business_data = !empty(get_option('ep_instagram_account_data')) ? get_option('ep_instagram_account_data') : [];;
 
 $get_data = $personal_data;
 

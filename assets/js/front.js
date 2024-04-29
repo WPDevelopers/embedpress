@@ -550,10 +550,12 @@ let epGlobals = {};
                 const tkey = container.parentElement.getAttribute('data-tkey');
                 const accountType = container.parentElement.getAttribute('data-connected-acc-type');
 
+                console.log(container);
+
                 let hashtag = '';
 
-                if (document.querySelector('[data-tkey="' + tkey + '"]').getAttribute('data-hashtag')) {
-                    hashtag = document.querySelector('[data-tkey="' + tkey + '"]').getAttribute('data-hashtag');
+                if (instaItem.closest('.instagram-container').getAttribute('data-hashtag')) {
+                    hashtag = instaItem.closest('.instagram-container').getAttribute('data-hashtag');
                 }
 
                 const closestPopup = event.target.closest('.ose-instagram-feed').querySelector('.insta-popup');
@@ -561,6 +563,7 @@ let epGlobals = {};
                 if (closestPopup) {
                     closestPopup.style.display = 'block';
                 }
+
 
                 event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData, hashtag, accountType);
 
@@ -644,15 +647,15 @@ let epGlobals = {};
     epGlobals.instaLoadMore = () => {
         $('.insta-load-more-button').on('click', function (e) {
             const loadmoreBtn = $(this).closest('.load-more-button-container');
-            const tkey = loadmoreBtn.data('loadmorekey');
-            const connectedAccount = $(`[data-tkey="${tkey}"]`).data('connected-acc-type');
-            const feedType = $(`[data-tkey="${tkey}"]`).data('feed-type');
-            const hashtagId = $(`[data-tkey="${tkey}"]`).data('hashtag-id');
-            const userId = $(`[data-tkey="${tkey}"]`).data('uid');
+            const loadmoreKey = loadmoreBtn.data('loadmorekey');
+            const connectedAccount = $(this).closest('.instagram-container').data('connected-acc-type');
+            const feedType = $(this).closest('.instagram-container').data('feed-type');
+            const hashtagId = $(this).closest('.instagram-container').data('hashtag-id');
+            const userId = $(this).closest('.instagram-container').data('uid');
             let loadedPosts = loadmoreBtn.data('loaded-posts') || 0;
             let postsPerPage = loadmoreBtn.data('posts-per-page') || 0;
 
-            console.log(tkey);
+            const instaContainer = $(this).closest('.instagram-container');
 
             const spinicon = `<svg class="insta-loadmore-spinicon" width="18" height="18" fill="${'#fff'}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_GuJz{transform-origin:center;animation:spinner_STY6 1.5s linear infinite}@keyframes spinner_STY6{100%{transform:rotate(360deg)}}</style><g class="spinner_GuJz"><circle cx="3" cy="12" r="2"/><circle cx="21" cy="12" r="2"/><circle cx="12" cy="21" r="2"/><circle cx="12" cy="3" r="2"/><circle cx="5.64" cy="5.64" r="2"/><circle cx="18.36" cy="18.36" r="2"/><circle cx="5.64" cy="18.36" r="2"/><circle cx="18.36" cy="5.64" r="2"/></g></svg>`;
 
@@ -660,12 +663,13 @@ let epGlobals = {};
 
             var data = {
                 'action': 'loadmore_data_handler',
-                'insta_transient_key': tkey,
                 'user_id': userId,
                 'loaded_posts': loadedPosts,
                 'posts_per_page': postsPerPage,
                 'feed_type': feedType,
-                'connected_account_type': connectedAccount
+                'connected_account_type': connectedAccount,
+                'loadmore_key': loadmoreKey,
+                '_nonce': eplocalize.nonce
             };
 
             if (feedType === 'hashtag_type') {
@@ -679,11 +683,10 @@ let epGlobals = {};
                 if (response.total_feed_posts >= response.next_post_index) {
                     var $responseHtml = $(response.html);
 
-                    $(`[data-tkey="${tkey}"] .insta-gallery`).append($responseHtml);
-
+                    instaContainer.find('.insta-gallery').append($responseHtml);
                     $responseHtml.animate({ opacity: 1 }, 1000);
 
-                    $('.insta-loadmore-spinicon').remove();
+                    instaContainer.find('.insta-loadmore-spinicon').remove();
 
                     loadedPosts = response.next_post_index;
 
