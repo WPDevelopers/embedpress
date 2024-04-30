@@ -393,7 +393,6 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 $styleAttribute = '';
 
                 if ($params['instaLayout'] === 'insta-grid') {
-
                     $column = (100 / intval(!empty($params['instafeedColumns']) ? $params['instafeedColumns'] : 1));
                     $gap = $params['instafeedColumnsGap'];
 
@@ -422,15 +421,27 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                     if (!isset($hashtag_feed[$hashtag_id])) {
                         $hashtag_feed[$hashtag_id] = array();
                     }
-
+                    
                     // Add new posts to the existing ones, avoiding duplicates
                     $existing_ids = array_column($hashtag_feed[$hashtag_id], 'id');
+                    $new_posts = array();
                     foreach ($insta_posts as $post) {
                         $post_id = $post['id'];
                         if (!in_array($post_id, $existing_ids)) {
-                            $hashtag_feed[$hashtag_id][] = $post;
+                            $new_posts[] = $post;
                         }
                     }
+                    
+                    // Merge new posts with existing posts
+                    $new_posts_count = count($new_posts);
+                    if ($new_posts_count > 0) {
+                        // If there are new posts
+                        $hashtag_feed[$hashtag_id] = array_merge($new_posts, $hashtag_feed[$hashtag_id]);
+                    
+                        // Truncate the array to store only the latest 100 posts
+                        $hashtag_feed[$hashtag_id] = array_slice($hashtag_feed[$hashtag_id], 0, 100);
+                    }
+                    
 
                     update_option($option_key, $hashtag_feed);
                     $insta_posts = $hashtag_feed[$hashtag_id];
@@ -472,7 +483,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                         }
 
                         $feed_data[$id]['feed_userinfo']['profile_picture_url'] = $avater_url;
-                        update_option('instagram_feed_data', $feed_data);
+
+                        update_option('ep_instagram_feed_data', $feed_data);
                         ?>
 
             <?php if (empty($hashtag) || $hashtag === 'false') : ?>

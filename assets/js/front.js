@@ -364,7 +364,7 @@ let epGlobals = {};
 
                     if (eplocalize.is_pro_plugin_active) {
                         const adIdEl = document.querySelector('#' + perentSel + '-' + ep_client_id + ' [data-ad-id]');
-                        adInitialization(adIdEl, adIdEl.getAttribute('data-ad-index'));
+                        adInitialization(adIdEl, adIdEl?.getAttribute('data-ad-index'));
                     }
 
                 }
@@ -475,6 +475,8 @@ let epGlobals = {};
 
         let likeComments = '';
 
+        console.log(accountType);
+
         if (accountType === 'business') {
             likeComments += `
         <div class="embedpress-inline popup-like-button"><a target="_blank" href="${instaPostData.permalink}">${likeIcon} ${instaPostData.like_count || 0}</a></div> 
@@ -546,19 +548,15 @@ let epGlobals = {};
                 const postData = instaItem.dataset.postdata;
 
                 const postid = instaItem.getAttribute('data-insta-postid');
-                const postIndex = instaItem.getAttribute('data-postindex');
-                const tkey = container.parentElement.getAttribute('data-tkey');
-                const accountType = container.parentElement.getAttribute('data-connected-acc-type');
-
-                console.log(container);
+                const accountType = container?.closest('.instagram-container')?.getAttribute('data-connected-acc-type');
 
                 let hashtag = '';
 
                 if (instaItem.closest('.instagram-container').getAttribute('data-hashtag')) {
-                    hashtag = instaItem.closest('.instagram-container').getAttribute('data-hashtag');
+                    hashtag = instaItem?.closest('.instagram-container')?.getAttribute('data-hashtag');
                 }
 
-                const closestPopup = event.target.closest('.ose-instagram-feed').querySelector('.insta-popup');
+                const closestPopup = event.target.closest('.ose-instagram-feed')?.querySelector('.insta-popup');
 
                 if (closestPopup) {
                     closestPopup.style.display = 'block';
@@ -615,6 +613,13 @@ let epGlobals = {};
                 return; // No element clicked, ignore the event
             }
 
+            if(containerEl.querySelector('.load-more-button-container') && (clickedElement.getAttribute('data-media-type') === 'VIDEO' || clickedElement.getAttribute('data-media-type') === 'CAROUSEL_ALBUM')) {
+                containerEl.querySelector('.load-more-button-container').style.display = 'none';
+            }
+            else if(containerEl.querySelector('.load-more-button-container') && (clickedElement.getAttribute('data-media-type') === 'ALL')){
+                containerEl.querySelector('.load-more-button-container').style.display = 'flex';
+            }
+
             // Handle tab click
             if (clickedElement.matches('.tabs li')) {
                 if (clickedElement.classList.contains('active')) {
@@ -646,6 +651,7 @@ let epGlobals = {};
 
     epGlobals.instaLoadMore = () => {
         $('.insta-load-more-button').on('click', function (e) {
+            const that = $(this);
             const loadmoreBtn = $(this).closest('.load-more-button-container');
             const loadmoreKey = loadmoreBtn.data('loadmorekey');
             const connectedAccount = $(this).closest('.instagram-container').data('connected-acc-type');
@@ -659,7 +665,9 @@ let epGlobals = {};
 
             const spinicon = `<svg class="insta-loadmore-spinicon" width="18" height="18" fill="${'#fff'}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_GuJz{transform-origin:center;animation:spinner_STY6 1.5s linear infinite}@keyframes spinner_STY6{100%{transform:rotate(360deg)}}</style><g class="spinner_GuJz"><circle cx="3" cy="12" r="2"/><circle cx="21" cy="12" r="2"/><circle cx="12" cy="21" r="2"/><circle cx="12" cy="3" r="2"/><circle cx="5.64" cy="5.64" r="2"/><circle cx="18.36" cy="18.36" r="2"/><circle cx="5.64" cy="18.36" r="2"/><circle cx="18.36" cy="5.64" r="2"/></g></svg>`;
 
-            $(this).append(spinicon);
+            that.append(spinicon);
+            that.attr('disabled', true);
+
 
             var data = {
                 'action': 'loadmore_data_handler',
@@ -678,13 +686,11 @@ let epGlobals = {};
 
             jQuery.post(eplocalize.ajaxurl, data, function (response) {
 
-                console.log(response);
-                
                 if (response.total_feed_posts >= response.next_post_index) {
                     var $responseHtml = $(response.html);
 
                     instaContainer.find('.insta-gallery').append($responseHtml);
-                    $responseHtml.animate({ opacity: 1 }, 1000);
+                    that.removeAttr('disabled');
 
                     instaContainer.find('.insta-loadmore-spinicon').remove();
 
@@ -697,10 +703,10 @@ let epGlobals = {};
                     epGlobals.initializeTabs(containerEl);
 
                     if (response.total_feed_posts == response.next_post_index) {
-                        loadmoreBtn.hide();
+                        loadmoreBtn.remove();
                     }
                 } else {
-                    loadmoreBtn.hide();
+                    loadmoreBtn.remove();
                 }
             });
         });

@@ -2810,7 +2810,7 @@ class Embedpress_Elementor extends Widget_Base
 				'classes'     => $this->pro_class,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => '',
+				'default'      => 'yes',
 				'condition'   => $condition,
 			]
 		);
@@ -2823,7 +2823,7 @@ class Embedpress_Elementor extends Widget_Base
 				'classes'     => $this->pro_class,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => '',
+				'default'      => 'yes',
 				'condition'   => [
 					'instafeedAccountType' => 'business',
 					'embedpress_pro_embeded_source' => 'instafeed'
@@ -2839,7 +2839,7 @@ class Embedpress_Elementor extends Widget_Base
 				'classes'     => $this->pro_class,
 				'label_block'  => false,
 				'return_value' => 'yes',
-				'default'      => '',
+				'default'      => 'yes',
 				'condition'   => [
 					'instafeedAccountType' => 'business',
 					'embedpress_pro_embeded_source' => 'instafeed'
@@ -3613,12 +3613,12 @@ class Embedpress_Elementor extends Widget_Base
 		}
 
 		if($settings['instafeedFeedType'] === 'hashtag_type' && !$this->validInstagramTagUrl($embed_link)){
-			echo 'Please valid hashtag link url';
+			echo 'Please add valid hashtag link url';
 			return '';
 		}
 
 		if($settings['instafeedFeedType'] === 'user_account_type' && !$this->validUserAccountUrl($embed_link)){
-			echo 'Please valid user account link url';
+			echo 'Please add valid user account link url';
 			return '';
 		}
 		

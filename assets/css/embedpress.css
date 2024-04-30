@@ -2049,7 +2049,9 @@ a.profile-link, a.profile-link h2 {
 
 
 .insta-carousel .embedpress-insta-container .insta-gallery {
-    padding-bottom: 0;
+    grid-auto-columns: calc(25% + 0px);
+    gap: 0px;
+    left: 0px;
 }
 
 .insta-masonry .embedpress-insta-container .insta-gallery {
@@ -2330,6 +2332,7 @@ button.js-carousel__next-1 {
     align-items: center;
     justify-content: center;
     max-height: 100%;
+    max-width: 100%;
 }
 
 /* .popup>div {
@@ -2361,6 +2364,9 @@ video.popup-media-image {
     height: auto;
     max-width: 100%;
     width: 100%;
+    max-height: 100vh;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 img.popup-media-image {
@@ -2373,11 +2379,11 @@ img.popup-media-image {
     align-items: center;
     padding: 15px 10px;
     justify-content: space-between;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #f4e9e9;
 }
 
 .hashtag-container {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #f4e9e9;
 }
 
 .embedpress-hashtag-header {
@@ -2449,10 +2455,11 @@ img.embedpress-hashtag-round {
     line-height: 1.8rem;
     padding: 10px;
     flex: auto;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #f4e9e9;
     text-align: left;
-    max-height: calc(100vh - 300px);
+    max-height: calc(100vh - 235px);
     overflow: auto;
+    word-break: break-all;
 }
 
 /* Stats */
@@ -2460,7 +2467,7 @@ img.embedpress-hashtag-round {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 10px;
+    padding: 16px 10px;
 }
 
 .embedpress-popup-stats .embedpress-inline {

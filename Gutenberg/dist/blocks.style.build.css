@@ -1326,6 +1326,9 @@ button.skip-ad-button {
   background: #F6D88C;
   padding: 8px 8px;
   border-radius: 10px; }
+
+.components-panel__row.elementor-panel-alert.elementor-panel-warning-info.margin-bottom-10 {
+  margin-bottom: 10px; }
 /**
  * #.# Common SCSS
  *

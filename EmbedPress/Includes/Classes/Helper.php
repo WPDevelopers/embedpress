@@ -658,26 +658,23 @@ class Helper
 		$feeds_data = get_option('ep_instagram_feed_data');
 		$user_data = $feeds_data[$user_id]['feed_userinfo'];
 
-		
 		if($feed_type == 'hashtag_type'){
 			$feeds_data = get_option('ep_instagram_hashtag_feed');
-			$feeds_data = $feeds_data['ep_instagram_hashtag_feed'];
 		}
 
-		$feed_data = $feeds_data;
 
 		$profile_picture_url = isset($user_data['profile_picture_url']) ? $user_data['profile_picture_url'] : '';
 
-		
-		if($feed_type === 'user_account_type' && isset($feed_data[$loadmore_key]['feed_posts'])){
-			$feed_posts = $feed_data[$loadmore_key]['feed_posts'];
+		if($feed_type === 'user_account_type' && isset($feeds_data[$loadmore_key]['feed_posts'])){
+			$feed_posts = $feeds_data[$loadmore_key]['feed_posts'];
 		}
-		else if($feed_type === 'hashtag_type' && isset($feed_data[$loadmore_key])){
-			$feed_posts = $feed_data[$loadmore_key];
+		else if($feed_type === 'hashtag_type' && isset($feeds_data[$loadmore_key])){
+			$feed_posts = $feeds_data[$loadmore_key];
 		}
 		else{
 			$feed_posts = ['error'];
 		}
+
 
 		if (is_array($feed_posts) && count($feed_posts) > 0) {
 			$loaded_posts = isset($_POST['loaded_posts']) ? intval($_POST['loaded_posts']) : 0;

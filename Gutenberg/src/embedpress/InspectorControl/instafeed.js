@@ -25,6 +25,7 @@ const {
     PanelBody,
     Button,
     ColorPalette,
+    PanelRow
 } = wp.components;
 
 
@@ -201,7 +202,10 @@ export default function Instafeed({ attributes, setAttributes }) {
         { label: '6', value: '6' },
     ];
 
-   
+    if(instaLayout === 'insta-carousel'){
+        setAttributes({instafeedLoadmore: false})
+    }
+
 
     return (
         <div>
@@ -310,6 +314,13 @@ export default function Instafeed({ attributes, setAttributes }) {
                                             onChange={(instaLayout) => setAttributes({ instaLayout })}
                                             __nextHasNoMarginBottom
                                         />
+
+                                        {instaLayout === 'insta-carousel' && (
+                                            <PanelRow className="elementor-panel-alert elementor-panel-warning-info margin-bottom-10">
+                                                Changes will apply in frontend.
+                                            </PanelRow>
+
+                                        )}
 
 
                                         {(instaLayout === 'insta-grid' || instaLayout === 'insta-masonry') && (
