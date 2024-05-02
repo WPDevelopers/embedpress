@@ -410,7 +410,6 @@ let epGlobals = {};
         const commentsIcon = '<svg aria-label="Comment" class="x1lliihq x1n2onr6" color="#000" height="24" viewBox="0 0 24 24" width="24"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/></svg>';
 
 
-
         const shareIcon = '<svg aria-label="Share Post" class="x1lliihq x1n2onr6" color="#000" fill="#737373" height="24" viewBox="0 0 24 24" width="24"><path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M22 3 9.218 10.083m2.48 10.251L22 3.001H2l7.218 7.083 2.48 10.25z"/></svg>';
 
         const instaIcon = '<svg width="18" height="18" viewBox="0 0 0.338 0.338" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M.248.079H.27M.102.012h.135a.09.09 0 0 1 .09.09v.135a.09.09 0 0 1-.09.09H.102a.09.09 0 0 1-.09-.09V.102a.09.09 0 0 1 .09-.09ZM.17.237a.068.068 0 1 1 0-.135.068.068 0 0 1 0 .135Z" stroke="#000" stroke-width=".032"/></svg>';
@@ -613,10 +612,10 @@ let epGlobals = {};
                 return; // No element clicked, ignore the event
             }
 
-            if(containerEl.querySelector('.load-more-button-container') && (clickedElement.getAttribute('data-media-type') === 'VIDEO' || clickedElement.getAttribute('data-media-type') === 'CAROUSEL_ALBUM')) {
+            if (containerEl.querySelector('.load-more-button-container') && (clickedElement.getAttribute('data-media-type') === 'VIDEO' || clickedElement.getAttribute('data-media-type') === 'CAROUSEL_ALBUM')) {
                 containerEl.querySelector('.load-more-button-container').style.display = 'none';
             }
-            else if(containerEl.querySelector('.load-more-button-container') && (clickedElement.getAttribute('data-media-type') === 'ALL')){
+            else if (containerEl.querySelector('.load-more-button-container') && (clickedElement.getAttribute('data-media-type') === 'ALL')) {
                 containerEl.querySelector('.load-more-button-container').style.display = 'flex';
             }
 
@@ -784,7 +783,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-   
+
 
 });
 

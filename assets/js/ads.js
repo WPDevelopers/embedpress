@@ -51,7 +51,7 @@ const hashParentClass = (element, className) => {
 
 const adInitialization = (adContainer, index) => {
 
-    const adAtts = JSON.parse(atob(adContainer.getAttribute('data-ad-attrs')));
+    const adAtts = JSON.parse(atob(adContainer?.getAttribute('data-ad-attrs')));
 
     const blockId = adAtts.clientId;
     const blockIdMD5 = adContainer.getAttribute('data-ad-id');

@@ -266,17 +266,17 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         $option_key = 'ep_instagram_feed_data';
         $feed_data = get_option($option_key, array());
 
-        if (!isset($feed_data[$user_id])) {
-            $feed_userinfo = $this->getInstagramUserInfo($access_token, $connected_account_type, $user_id);
-            $feed_posts = $this->getInstagramPosts($access_token, $connected_account_type, $user_id, $limit);
+        // if (!isset($feed_data[$user_id])) {
+        $feed_userinfo = $this->getInstagramUserInfo($access_token, $connected_account_type, $user_id);
+        $feed_posts = $this->getInstagramPosts($access_token, $connected_account_type, $user_id, $limit);
 
-            $feed_data[$user_id] = [
-                'feed_userinfo' => $feed_userinfo,
-                'feed_posts' => $feed_posts,
-            ];
+        $feed_data[$user_id] = [
+            'feed_userinfo' => $feed_userinfo,
+            'feed_posts' => $feed_posts,
+        ];
 
-            update_option($option_key, $feed_data);
-        }
+        update_option($option_key, $feed_data);
+        // }
     }
 
 
@@ -418,33 +418,37 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                     $hashtag_id = $this->getHashTagId($accessToken, $hashtag, $userID);
                     $insta_posts = $this->getHashtagPosts($accessToken, $hashtag, $userID);
 
-                    if (!isset($hashtag_feed[$hashtag_id])) {
-                        $hashtag_feed[$hashtag_id] = array();
-                    }
-                    
-                    // Add new posts to the existing ones, avoiding duplicates
-                    $existing_ids = array_column($hashtag_feed[$hashtag_id], 'id');
-                    $new_posts = array();
-                    foreach ($insta_posts as $post) {
-                        $post_id = $post['id'];
-                        if (!in_array($post_id, $existing_ids)) {
-                            $new_posts[] = $post;
-                        }
-                    }
-                    
-                    // Merge new posts with existing posts
-                    $new_posts_count = count($new_posts);
-                    if ($new_posts_count > 0) {
-                        // If there are new posts
-                        $hashtag_feed[$hashtag_id] = array_merge($new_posts, $hashtag_feed[$hashtag_id]);
-                    
-                        // Truncate the array to store only the latest 100 posts
-                        $hashtag_feed[$hashtag_id] = array_slice($hashtag_feed[$hashtag_id], 0, 100);
-                    }
-                    
+                    $hashtag_feed[$hashtag_id] = $insta_posts;
 
-                    update_option($option_key, $hashtag_feed);
-                    $insta_posts = $hashtag_feed[$hashtag_id];
+                    update_option($option_key, $hashtag_feed); 
+
+                    // if (!isset($hashtag_feed[$hashtag_id])) {
+                    //     $hashtag_feed[$hashtag_id] = array();
+                    // }
+
+                    // // Add new posts to the existing ones, avoiding duplicates
+                    // $existing_ids = array_column($hashtag_feed[$hashtag_id], 'id');
+                    // $new_posts = array();
+                    // foreach ($insta_posts as $post) {
+                    //     $post_id = $post['id'];
+                    //     if (!in_array($post_id, $existing_ids)) {
+                    //         $new_posts[] = $post;
+                    //     }
+                    // }
+
+                    // // Merge new posts with existing posts
+                    // $new_posts_count = count($new_posts);
+                    // if ($new_posts_count > 0) {
+                    //     // If there are new posts
+                    //     $hashtag_feed[$hashtag_id] = array_merge($new_posts, $hashtag_feed[$hashtag_id]);
+
+                    //     // Truncate the array to store only the latest 100 posts
+                    //     $hashtag_feed[$hashtag_id] = array_slice($hashtag_feed[$hashtag_id], 0, 100);
+                    // }
+
+
+                    // update_option($option_key, $hashtag_feed);
+                    // $insta_posts = $hashtag_feed[$hashtag_id];
                 }
 
                 // Check and assign each item to separate variables
@@ -580,7 +584,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 </div>
             <?php endif; ?>
 
-            <div class="instagram-container"  data-feed-type="<?php echo esc_attr($feed_type); ?>" data-hashtag="<?php echo esc_attr($hashtag); ?>" data-hashtag-id="<?php echo esc_attr($hashtag_id); ?>" data-connected-acc-type="<?php echo esc_attr($connected_account_type); ?>" data-uid="<?php echo esc_attr($userID); ?>">
+            <div class="instagram-container" data-feed-type="<?php echo esc_attr($feed_type); ?>" data-hashtag="<?php echo esc_attr($hashtag); ?>" data-hashtag-id="<?php echo esc_attr($hashtag_id); ?>" data-connected-acc-type="<?php echo esc_attr($connected_account_type); ?>" data-uid="<?php echo esc_attr($userID); ?>">
                 <div class="embedpress-insta-container">
                     <div class="insta-gallery cg-carousel__track js-carousel__track" <?php echo  $styleAttribute; ?>>
                         <?php
