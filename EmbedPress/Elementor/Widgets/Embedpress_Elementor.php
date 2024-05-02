@@ -2824,9 +2824,30 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
-				'condition'   => [
-					'instafeedAccountType' => 'business',
-					'embedpress_pro_embeded_source' => 'instafeed'
+				'conditions' => [
+					'relation' => 'or',
+					'terms' => [
+						[
+							'name' => 'instafeedFeedType',
+							'operator' => '===',
+							'value' => 'hashtag_type',
+						],
+						[
+							'relation' => 'and',
+							'terms' => [
+								[
+									'name' => 'instafeedAccountType',
+									'operator' => '===',
+									'value' => 'business',
+								],
+								[
+									'name' => 'embedpress_pro_embeded_source',
+									'operator' => '===',
+									'value' => 'instafeed',
+								],
+							],
+						],
+					],
 				],
 			]
 		);
@@ -2840,10 +2861,33 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'yes',
-				'condition'   => [
-					'instafeedAccountType' => 'business',
-					'embedpress_pro_embeded_source' => 'instafeed'
+
+				'conditions' => [
+					'relation' => 'or',
+					'terms' => [
+						[
+							'name' => 'instafeedFeedType',
+							'operator' => '===',
+							'value' => 'hashtag_type',
+						],
+						[
+							'relation' => 'and',
+							'terms' => [
+								[
+									'name' => 'instafeedAccountType',
+									'operator' => '===',
+									'value' => 'business',
+								],
+								[
+									'name' => 'embedpress_pro_embeded_source',
+									'operator' => '===',
+									'value' => 'instafeed',
+								],
+							],
+						],
+					],
 				],
+				
 			]
 		);
 		

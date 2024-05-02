@@ -399,7 +399,6 @@ let epGlobals = {};
 
         let instaPostData = JSON.parse(instPost);
 
-        console.log(instaPostData);
 
         let likeIcon = '<svg aria-label="Like" class="x1lliihq x1n2onr6" color="#262626" fill="#262626" height="24" viewBox="0 0 24 24" width="24"><path d="M16.792 3.904A4.989 4.989 0 0 1 21.5 9.122c0 3.072-2.652 4.959-5.197 7.222-2.512 2.243-3.865 3.469-4.303 3.752-.477-.309-2.143-1.823-4.303-3.752C5.141 14.072 2.5 12.167 2.5 9.122a4.989 4.989 0 0 1 4.708-5.218 4.21 4.21 0 0 1 3.675 1.941c.84 1.175.98 1.763 1.12 1.763s.278-.588 1.11-1.766a4.17 4.17 0 0 1 3.679-1.938m0-2a6.04 6.04 0 0 0-4.797 2.127 6.052 6.052 0 0 0-4.787-2.127A6.985 6.985 0 0 0 .5 9.122c0 3.61 2.55 5.827 5.015 7.97.283.246.569.494.853.747l1.027.918a44.998 44.998 0 0 0 3.518 3.018 2 2 0 0 0 2.174 0 45.263 45.263 0 0 0 3.626-3.115l.922-.824c.293-.26.59-.519.885-.774 2.334-2.025 4.98-4.32 4.98-7.94a6.985 6.985 0 0 0-6.708-7.218Z"/></svg>';
 
@@ -470,11 +469,8 @@ let epGlobals = {};
             srcUrl = `https://www.instagram.com/explore/tags/${hashtag}/`;
         }
 
-        console.log(hashtag);
 
         let likeComments = '';
-
-        console.log(accountType);
 
         if (accountType === 'business') {
             likeComments += `
@@ -508,17 +504,15 @@ let epGlobals = {};
                         <div class="embedpress-popup-stats">
                             ${likeComments}
                                 <div class="embedpress-inline">
-                                <p class="embedpress-popup-share-buttons hidden"> <a
-                                        href="https://www.facebook.com/sharer/sharer.php?u=${instaPostData.permalink}"><span
-                                            class="fa fa-facebook-square shr-btn shr-btn-fcbk"></span></a> <a
+                                <div class="embedpress-popup-share-buttons"> <a
+                                        href="https://www.facebook.com/sharer/sharer.php?u=${instaPostData.permalink}">
+                                        <span class="dashicons dashicons-facebook"></span></a> <a
                                         href="https://twitter.com/home?status=${instaPostData.permalink}"
-                                        target="_blank"><span class="fa fa-twitter-square shr-btn"></span></a> <a
-                                        href="https://plus.google.com/share?url=${instaPostData.permalink}"
-                                        target="_blank"><span class="fa fa-google-plus-square shr-btn"></span></a> <a
-                                        href="https://www.linkedin.com/shareArticle?mini=true&amp;url=${instaPostData.permalink}"
-                                        target="_blank"><span class="fa fa-linkedin-square shr-btn"></span></a> <a
+                                        target="_blank"><span class="dashicons dashicons-twitter"></span></a>                                       
+                                        <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=${instaPostData.permalink}"
+                                        target="_blank"><span class="dashicons dashicons-linkedin"></span></a> <a
                                         href="https://pinterest.com/pin/create/button/?url=${instaPostData.permalink}"
-                                        target="_blank"><span class="fa fa-pinterest-square shr-btn"></span></a></p>
+                                        target="_blank"><span class="dashicons dashicons-pinterest"></span></a></div>
                                 <div class="embedpress-href embedpress-popup-share">${shareIcon}</div>
                             </div><div class="embedpress-inline embedpress-popup-instagram-buttons"><a
                                     href="${instaPostData.permalink}" target="_blank"
@@ -664,7 +658,12 @@ let epGlobals = {};
 
             const spinicon = `<svg class="insta-loadmore-spinicon" width="18" height="18" fill="${'#fff'}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_GuJz{transform-origin:center;animation:spinner_STY6 1.5s linear infinite}@keyframes spinner_STY6{100%{transform:rotate(360deg)}}</style><g class="spinner_GuJz"><circle cx="3" cy="12" r="2"/><circle cx="21" cy="12" r="2"/><circle cx="12" cy="21" r="2"/><circle cx="12" cy="3" r="2"/><circle cx="5.64" cy="5.64" r="2"/><circle cx="18.36" cy="18.36" r="2"/><circle cx="5.64" cy="18.36" r="2"/><circle cx="18.36" cy="5.64" r="2"/></g></svg>`;
 
-            that.append(spinicon);
+            // Check if no spinicon exists
+            if (instaContainer.find('.insta-loadmore-spinicon').length === 0) {
+                const spinicon = `<svg class="insta-loadmore-spinicon" width="18" height="18" fill="${'#fff'}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_GuJz{transform-origin:center;animation:spinner_STY6 1.5s linear infinite}@keyframes spinner_STY6{100%{transform:rotate(360deg)}}</style><g class="spinner_GuJz"><circle cx="3" cy="12" r="2"/><circle cx="21" cy="12" r="2"/><circle cx="12" cy="21" r="2"/><circle cx="12" cy="3" r="2"/><circle cx="5.64" cy="5.64" r="2"/><circle cx="18.36" cy="18.36" r="2"/><circle cx="5.64" cy="18.36" r="2"/><circle cx="18.36" cy="5.64" r="2"/></g></svg>`;
+                that.append(spinicon);
+            }
+
             that.attr('disabled', true);
 
 
@@ -720,8 +719,31 @@ let epGlobals = {};
 
     if ($('.embedpress-gutenberg-wrapper .ose-instagram-feed').length > 0) {
         epGlobals.instaLoadMore();
-
     }
+
+    $(document).on({
+        mouseenter: function () {
+            $('.embedpress-popup-share-buttons').addClass('show');
+        },
+        mouseleave: function () {
+            var buttons = $('.embedpress-popup-share-buttons');
+            setTimeout(function () {
+                if (!buttons.is(':hover')) buttons.removeClass('show');
+            }, 200);
+        }
+    }, '.embedpress-href.embedpress-popup-share, .embedpress-popup-share-buttons');
+
+    $(document).on({
+        mouseenter: function () {
+            $(this).addClass('show');
+        },
+        mouseleave: function () {
+            $(this).removeClass('show');
+        }
+    }, '.embedpress-popup-share-buttons');
+
+
+
 
 
 })(jQuery);
@@ -914,8 +936,8 @@ jQuery(window).on("elementor/frontend/init", function () {
         if (instaFeed) {
             epGlobals.initializeTabs(instaFeed);
         }
-        if (instaFeed) {
-            epGlobals.instaPopup(instaFeed);
+        if (instaGallery) {
+            epGlobals.instaPopup(instaGallery);
 
             $('.popup-close').click(function (e) {
                 // Hide the popup by setting display to none
