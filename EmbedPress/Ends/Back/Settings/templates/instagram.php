@@ -46,10 +46,14 @@ $is_connected = false;
                                         <option value="personal" selected><?php echo esc_html__('Personal', 'embedpress'); ?></option>
                                         <option value="business"><?php echo esc_html__('Business', 'embedpress'); ?></option>
                                     </select>
-                                    <a target="_blank" title="<?php echo esc_html__("Learn More", "embedpress"); ?>" href="<?php echo esc_url( 'https://embedpress.com/instagram' ); ?>">?</a>
                                 </div>
+
                                 <label for="instagram-access-token"><?php echo esc_html__('Access Token: '); ?></label>
                                 <input type="text" name="instagram-access-token" id="instagram-access-token" class="instagram-access-token form__control" required>
+                                <div>
+                                    <a class="for-business hidden" target="_blank" href="/get-access-token"><?php echo esc_html__( 'Get access token', 'embedpress' ); ?></a>
+                                    <a class="for-personal" target="_blank" href="/get-access-token">Get access token</a>
+                                </div>
                                 <button class="button button__themeColor copy__button" type="submit"><span><?php echo esc_html__('Connect', 'embedpress'); ?></span></button>
                             </form>
                         </div>
@@ -96,7 +100,7 @@ $is_connected = false;
                                     </td>
                                     <td style="text-transform: uppercase;"><?php echo esc_attr($data['account_type']); ?></td>
 
-                                    <td><button class="user-profile-link" title="<?php echo esc_attr( 'https://instagram.com/'.$data['username'] )?>">Copy</button></td>
+                                    <td><button class="user-profile-link" title="<?php echo esc_attr('https://instagram.com/' . $data['username']) ?>">Copy</button></td>
 
                                     <td>
                                         <button class="button button-secondary account-delete-button"><i class="dashicons dashicons-trash"></i></button>

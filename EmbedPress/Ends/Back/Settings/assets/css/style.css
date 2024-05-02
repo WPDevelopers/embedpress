@@ -2026,7 +2026,6 @@ a.sidebar__link.ads-icon.active span svg path, a.sidebar__link.ads-icon:hover sp
     height: 40px;
     padding: 0 20px;
     border-radius: 5px;
-    background: #ffffff;
     border: 1px solid #E6EFFB;
     color: #25396F;
     width: 100%;
@@ -4619,6 +4618,7 @@ form#instagram-form select#account-option, form#instagram-form input#instagram-a
     height: 45px;
     margin-bottom: 10px;
     border-radius: 5px;
+    background: none;
 }
 
 /* Styling for overlay background */
@@ -4676,6 +4676,15 @@ form#instagram-form label {
     display: inline-block;
 }
 
+a.for-business, a.for-personal{
+    display: inline-block;
+    text-decoration: underline;
+    font-size: 14px;
+    font-weight: normal;
+    color: inherit;
+    margin-bottom: 10px;
+    color: #2271b1;
+}
 
 .no-account-connected {
     text-align: center;
