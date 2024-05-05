@@ -221,7 +221,7 @@ function embedpress_render_block($attributes)
 
 		if(!empty($attributes['adManager'])) {
 			$ad = base64_encode(json_encode($attributes));
-			$adsAtts = "data-sponserd-id=$client_id data-sponserd-attrs=$ad class=ad-mask";
+			$adsAtts = "data-sponsored-id=$client_id data-sponsored-attrs=$ad class=ad-mask";
 		}
 
 		ob_start();

@@ -4737,3 +4737,7 @@ a.for-business, a.for-personal{
 .user-profile-link:hover {
     background-color: #0056b3;
 }
+
+.emebedpress img.user-avatar{
+    border: 2px solid #037bff;
+}

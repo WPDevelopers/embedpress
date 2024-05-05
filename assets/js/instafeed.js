@@ -96,7 +96,7 @@ let instaGlobals = {};
                             <div class="embedpress-popup-header-img"> <a target="_blank" href="https://www.instagram.com/${instaPostData.username}/"
                                     target="_blank" class="embedpress-href"> <img decoding="async" loading="lazy"
                                         class="embedpress-popup-round"
-                                        src="https://awplife.com/demo/instagram-feed-gallery-premium/wp-content/plugins/instagram-feed-gallery-premium//img/instagram-gallery-premium.png"
+                                        src="http://2.gravatar.com/avatar/b642b4217b34b1e8d3bd915fc65c4452?s=150&d=mm&r=g"
                                         width="30" height="30"> <span class="embedpress-popup-username">${instaPostData.username}</span>
                                 </a>
                             </div>

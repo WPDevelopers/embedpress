@@ -157,7 +157,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     />
 
                                     {
-                                        ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo) || (videosize == 'fixed')) && (
+                                        ((!isInstagramFeed(url) && !isInstagramHashtag(url)) &&  (!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo) || (videosize == 'fixed')) && (
                                             <TextControl
                                                 label={__("Height")}
                                                 value={height}

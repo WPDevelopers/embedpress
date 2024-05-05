@@ -515,7 +515,7 @@ jQuery(document).ready(function ($) {
         e.preventDefault(); // Prevent default form submission
 
         console.log($('#instagram-form p'));
-        if($('#instagram-form p').length > 0) {
+        if ($('#instagram-form p').length > 0) {
             $('#instagram-form p').remove();
         }
 
@@ -583,7 +583,13 @@ jQuery(document).ready(function ($) {
         $('.modal-overlay').css('display', 'none');
     });
 
-    $('.user-profile-link').click(function() {
+    $(document).on('click', function (e) {
+        if (e.target.classList.contains('modal-overlay')) {
+            $('.modal-overlay').css('display', 'none');
+        }
+    });
+
+    $('.user-profile-link').click(function () {
         var linkToCopy = $(this).attr('title');
         copyToClipboard(linkToCopy);
         alert('Link copied to clipboard: ' + linkToCopy);

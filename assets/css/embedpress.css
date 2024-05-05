@@ -2517,7 +2517,7 @@ img.embedpress-hashtag-round {
     margin-top: 5px;
 }
 .embedpress-popup-share-buttons {
-    background: #037bff;
+    background: #f4f9ff;
     position: absolute;
     top: -50px;
     left: -55px;
@@ -2539,12 +2539,33 @@ img.embedpress-hashtag-round {
 .embedpress-popup-share-buttons::before {
     content: "";
     position: absolute;
-    bottom: -16px;
+    bottom: -15px;
     left: 50%;
     margin-left: -8px;
     border-width: 8px;
     border-style: solid;
-    border-color: #037bff transparent transparent transparent;
+    border-color: #f4f9ff transparent transparent transparent;
+}
+.embedpress-popup-share-buttons::before {
+    content: "";
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #f4f9ff transparent transparent transparent;
+    z-index: 1!important;
+}
+.embedpress-popup-share-buttons::after {
+    content: "";
+    position: absolute;
+    bottom: -16.1px;
+    left: 50%;
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: #e7eaef transparent transparent transparent;
 }
 
 .embedpress-popup-share-buttons span {
@@ -2552,6 +2573,23 @@ img.embedpress-hashtag-round {
     font-size: 18px;
     display: flex;
     align-items: center;
+}
+
+.embedpress-popup-share-buttons span svg {
+    width: 16px!important;
+    height: 16px!important;
+}
+
+.embedpress-popup-share-buttons span.dashicons.dashicons-linkedin {
+    color: #0077b5;
+}
+
+.embedpress-popup-share-buttons span.dashicons.dashicons-facebook {
+    color: #1877F2;
+}
+
+.embedpress-popup-share-buttons span.dashicons.dashicons-pinterest {
+    color: #E60023;
 }
 
 span.tag-wrapper a {

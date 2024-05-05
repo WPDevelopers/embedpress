@@ -10,9 +10,13 @@ $business_token_url = 'https://www.facebook.com/dialog/oauth?client_id=928673724
 
 $personal_data = !empty(get_option('ep_instagram_account_data')) ? get_option('ep_instagram_account_data') : [];
 
-$business_data = !empty(get_option('ep_instagram_account_data')) ? get_option('ep_instagram_account_data') : [];;
+$business_data = !empty(get_option('ep_instagram_account_data')) ? get_option('ep_instagram_account_data') : [];
+
+$feed_data = !empty(get_option('ep_instagram_feed_data')) ? get_option('ep_instagram_feed_data') : [];
 
 $get_data = $personal_data;
+
+
 
 $is_connected = false;
 
@@ -81,11 +85,20 @@ $is_connected = false;
                         <?php if (is_array($get_data) && count($get_data) > 0) : ?>
                             <?php
                                 $avater_url = 'http://2.gravatar.com/avatar/b642b4217b34b1e8d3bd915fc65c4452?s=150&d=mm&r=g';
+
                                 if (!empty($get_data['account_type']) && (strtolower($get_data['account_type'])  === 'business')) {
                                     $avater_url = '';
                                 }
+
                                 ?>
                             <?php foreach ($get_data as $data) : ?>
+
+                                <?php if (!empty($feed_data[$data['user_id']]['feed_userinfo']['profile_picture_url'])) :
+                                    $avater_url = $feed_data[$data['user_id']]['feed_userinfo']['profile_picture_url'];
+                                else:
+                                    $avater_url = 'http://2.gravatar.com/avatar/b642b4217b34b1e8d3bd915fc65c4452?s=150&d=mm&r=g';
+                                endif; ?>
+
                                 <tr data-userid="<?php echo esc_attr($data['user_id']); ?>" data-accounttype="<?php echo esc_attr($data['account_type']); ?>">
                                     <td>
                                         <div class="user-image"><img class="user-avatar" src="<?php echo esc_url($avater_url); ?>"></div>
@@ -93,10 +106,10 @@ $is_connected = false;
                                     <td><?php echo esc_html($data['username']) ?></td>
                                     <td><?php echo esc_html($data['user_id']) ?></td>
                                     <?php
-                                            if (!empty($data['user_id'])) {
-                                                $is_connected = true;
-                                            }
-                                            ?>
+                                        if (!empty($data['user_id'])) {
+                                            $is_connected = true;
+                                        }
+                                        ?>
                                     <td style="width: 300px;">
                                         <input type="text" readonly="" value="<?php echo esc_attr($data['access_token']); ?>" maxlength="20" pattern="">
                                         <span>...</span>

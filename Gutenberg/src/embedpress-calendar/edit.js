@@ -6,7 +6,7 @@ import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from "../common/embed-placeholder";
 import { CalendarIcon } from "../common/icons";
 import EmbedControls from "../common/embed-controls";
-import { sanitizeUrl } from '../common/helper';
+import { sanitizeUrl, isInstagramFeed, isInstagramHashtag } from '../common/helper';
 const { TextControl, PanelBody, ToggleControl } = wp.components;
 const { InspectorControls, useBlockProps } = wp.blockEditor;
 const { Fragment } = wp.element;
@@ -77,11 +77,17 @@ export default function EmbedPressCalendarEdit({ attributes, className, setAttri
 						value={width}
 						onChange={(width) => setAttributes({ width })}
 					/>
-					<TextControl
-						label={__("Height", 'embedpress')}
-						value={height}
-						onChange={(height) => setAttributes({ height })}
-					/>
+
+					{
+						(!isInstagramFeed(url) && !isInstagramHashtag(url)) && (
+							<TextControl
+								label={__("Height", 'embedpress')}
+								value={height}
+								onChange={(height) => setAttributes({ height })}
+							/>
+						)
+					}
+
 
 				</PanelBody>
 				<PanelBody title={__("Calendar Type and other options", 'embedpress')}>

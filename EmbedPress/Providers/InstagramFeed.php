@@ -455,7 +455,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                     ob_start(); ?>
 
             <?php
-                        $avater_url = 'https://awplife.com/demo/instagram-feed-gallery-premium/wp-content/plugins/instagram-feed-gallery-premium//img/instagram-gallery-premium.png';
+                        $avater_url = 'http://2.gravatar.com/avatar/b642b4217b34b1e8d3bd915fc65c4452?s=150&d=mm&r=g';
 
                         if (!empty($connected_account_type) && (strtolower($connected_account_type)  === 'business')) {
                             $avater_url = $profile_picture_url;

@@ -363,7 +363,7 @@ let epGlobals = {};
                     initPlayer(document.querySelector('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper'));
 
                     if (eplocalize.is_pro_plugin_active) {
-                        const adIdEl = document.querySelector('#' + perentSel + '-' + ep_client_id + ' [data-sponserd-id]');
+                        const adIdEl = document.querySelector('#' + perentSel + '-' + ep_client_id + ' [data-sponsored-id]');
                         adInitialization(adIdEl, adIdEl?.getAttribute('data-ad-index'));
                     }
 
@@ -507,8 +507,10 @@ let epGlobals = {};
                                 <div class="embedpress-popup-share-buttons"> <a
                                         href="https://www.facebook.com/sharer/sharer.php?u=${instaPostData.permalink}">
                                         <span class="dashicons dashicons-facebook"></span></a> <a
-                                        href="https://twitter.com/home?status=${instaPostData.permalink}"
-                                        target="_blank"><span class="dashicons dashicons-twitter"></span></a>                                       
+                                        href="https://twitter.com/intent/tweet?url=${instaPostData.permalink}"
+                                        target="_blank"><span>
+                                        <svg viewBox="0 0 18 18" aria-hidden="true" class="r-4qtqp9 r-yyyyoo r-dnmrzs r-bnwqim r-1plcrui r-lrvibr r-lrsllp r-18jsvk2 r-16y2uox r-8kz0gk" width="18" height="18"><path d="M13.683 1.688h2.481l-5.42 6.195 6.377 8.43h-4.993L8.217 11.2l-4.474 5.113H1.26l5.798-6.626L.941 1.688H6.06l3.535 4.673zm-.871 13.14h1.375L5.313 3.095H3.838z"/></svg>
+                                        </span></a>                                       
                                         <a href="https://www.linkedin.com/shareArticle?mini=true&amp;url=${instaPostData.permalink}"
                                         target="_blank"><span class="dashicons dashicons-linkedin"></span></a> <a
                                         href="https://pinterest.com/pin/create/button/?url=${instaPostData.permalink}"
@@ -590,6 +592,13 @@ let epGlobals = {};
         // Hide the popup by setting display to none
         $('.insta-popup').hide();
         $('.popup-container').remove();
+    });
+
+    $(document).on('click', function (e) {
+        if (e.target.classList.contains('popup-wrapper')) {
+            $('.insta-popup').hide();
+            $('.popup-container').remove();
+        }
     });
 
 
@@ -957,7 +966,7 @@ jQuery(window).on("elementor/frontend/init", function () {
         window.epAdIndex = typeof (window.epAdIndex) === 'undefined' ? 0 : window.epAdIndex + 1;
         let classes = $scope[0].className;
         let classJoint = '.' + classes.split(' ').join('.');
-        const selectorEl = document.querySelector(classJoint + ' [data-sponserd-id]');
+        const selectorEl = document.querySelector(classJoint + ' [data-sponsored-id]');
 
         if (jQuery('body').hasClass('elementor-editor-active') && eplocalize.is_pro_plugin_active) {
             adInitialization(selectorEl, window.epAdIndex);

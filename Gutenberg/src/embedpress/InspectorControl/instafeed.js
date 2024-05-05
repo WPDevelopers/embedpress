@@ -53,6 +53,7 @@ export const getInstafeedParams = (params, attributes) => {
     }
     // which attributes should be passed with rest api.
     const defaults = {
+        width: '900',
         instafeedAccName: true,
         instafeedProfileImage: true,
         instafeedProfileImageUrl: '',
@@ -93,6 +94,7 @@ export const getInstafeedParams = (params, attributes) => {
 export const useInstafeed = (attributes) => {
     // which attribute should call embed();
     const defaults = {
+        width: null,
         instaLayout: null,
         instafeedFeedType: null,
         instafeedAccountType: null,
