@@ -25,7 +25,6 @@ const {
     SelectControl,
     ToggleControl,
     PanelRow,
-    RawHTML,
 } = wp.components;
 
 const {
@@ -92,12 +91,10 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         setAttributes({ height: '580' });
     }
 
-    if (isInstagramHashtag(url)) {
-        setAttributes({ instafeedFeedType: 'hashtag_type' });
-        setAttributes({ width: '900' });
-
-
-    }
+    // if (isInstagramHashtag(url)) {
+    //     setAttributes({ instafeedFeedType: 'hashtag_type' });
+    //     setAttributes({ width: '900' });
+    // }
 
     return (
         !editingURL && embedHTML && (
@@ -212,10 +209,10 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                             />
 
                                             {!isProPluginActive && instafeedFeedType === 'hashtag_type' && (
-                                                <PanelRow>
-                                                    <RawHTML>
-                                                        {`<a style="color: red" target="_blank" href="https://wpdeveloper.com/in/upgrade-embedpress">${__('Only Available in Pro Version!', 'essential-addons-for-elementor-lite')}</a>`}
-                                                    </RawHTML>
+                                                <PanelRow className="elementor-panel-alert elementor-panel-warning-info">
+                                                    <a style={{ color: 'red' }} target="_blank" href="https://wpdeveloper.com/in/upgrade-embedpress">
+                                                        {__('Only Available in Pro Version!', 'embedpress')}
+                                                    </a>
                                                 </PanelRow>
                                             )}
                                             {instafeedFeedType === 'user_account_type' && (
@@ -230,7 +227,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                                 />
                                             )}
 
-                                            {instafeedFeedType === 'hashtag_type' && (
+                                            {isProPluginActive && instafeedFeedType === 'hashtag_type' && (
                                                 <PanelRow className="elementor-panel-alert elementor-panel-warning-info">
                                                     To embed #hashtag posts you need to connect business account. <a href="/learnmore">Learn More</a>
                                                 </PanelRow>

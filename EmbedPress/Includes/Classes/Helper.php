@@ -41,6 +41,10 @@ class Helper
 	// 	echo 'abstract';
 	// }
 
+	public static function akash(){
+		echo 'akash';
+	}
+
 	public static function parse_query($str, $urlEncoding = true)
 	{
 		$result = [];
@@ -1039,13 +1043,13 @@ class Helper
 				display: inline-block;
 			}
 
-			[data-ad-id] {
+			div[data-ad-id] {
 				position: relative;
-				display: inline-block;
+				display: inline-block!important;
 
 			}
 
-			.ep-percentage-width [data-ad-id] {
+			.ep-percentage-width div[data-ad-id] {
 				display: block;
 			}
 
@@ -1149,7 +1153,14 @@ class Helper
 <?php
 	}
 
-	
+
+	public static function is_pro_active(){
+		if (defined('EMBEDPRESS_SL_ITEM_SLUG')) {
+			return true;
+		}
+		return false;
+	}
+
 }
 
 ?>

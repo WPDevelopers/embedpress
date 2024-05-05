@@ -4672,6 +4672,18 @@ form#instagram-form .close-btn {
     border-radius: 5px;
 }
 
+form#instagram-form button {
+    background-color: #594E91;
+    color: #fff;
+}
+
+.form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
 form#instagram-form label {
     display: inline-block;
 }

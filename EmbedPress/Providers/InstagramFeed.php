@@ -345,7 +345,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 </div>
             </div>
             <div class="insta-gallery-item-info">
-                <?php if ($params['instafeedFeedType'] === 'hashtag_type' || (strtolower($account_type) === 'business' && $params['instafeedAccountType'] === 'business')  && ((!empty($params['instafeedLikesCount']) && $params['instafeedLikesCount'] !== 'false') || (!empty($params['instafeedLikesCount']) || $params['instafeedLikesCount'] !== 'false'))) : ?>
+                <?php if (Helper::is_pro_active() && ($params['instafeedFeedType'] === 'hashtag_type' || (strtolower($account_type) === 'business' && $params['instafeedAccountType'] === 'business')  && ((!empty($params['instafeedLikesCount']) && $params['instafeedLikesCount'] !== 'false') || (!empty($params['instafeedLikesCount']) || $params['instafeedLikesCount'] !== 'false')))) : ?>
                     <div class="insta-item-reaction-count">
                         <?php if (!empty($params['instafeedLikesCount']) && $params['instafeedLikesCount'] !== 'false') : ?>
                             <div class="insta-gallery-item-likes">
@@ -376,7 +376,13 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             {
                 $params = $this->getParams();
 
-                $hashtag = $this->getHashTag($this->url);
+                $hashtag = $this->getHashTag($this->url); 
+                if(!empty($hashtag) && !Helper::is_pro_active()){
+                    return sprintf(
+                        esc_html__( 'Unlock %s support by upgrading to our %s! Upgrade today to unlock a whole new level of functionality and make the most out of your experience with Hashtag.', 'embedpress' ), '<strong>hashtag</strong>', '<strong>Pro subscription</strong>'
+                    );   
+
+                }
 
                 $feed_type = $params['instafeedFeedType'];
 
@@ -541,7 +547,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 </div>
             <?php endif; ?>
 
-            <?php if (!empty($params['instafeedTab']) && $params['instafeedTab'] !== 'false') : ?>
+            <?php if (Helper::is_pro_active() && (!empty($params['instafeedTab']) && $params['instafeedTab'] !== 'false')) : ?>
                 <div class="posts-tab-options">
                     <ul class="tabs">
                         <li data-media-type="ALL" class="active"><svg class="_ab6-" color="#000" height="20" viewBox="5 5 30 30" width="20">

@@ -472,7 +472,7 @@ let epGlobals = {};
 
         let likeComments = '';
 
-        if (accountType === 'business') {
+        if (eplocalize.is_pro_plugin_active && accountType === 'business') {
             likeComments += `
         <div class="embedpress-inline popup-like-button"><a target="_blank" href="${instaPostData.permalink}">${likeIcon} ${instaPostData.like_count || 0}</a></div> 
         <div class="embedpress-inline"><a target="_blank" href="${instaPostData.permalink}">${commentsIcon} ${instaPostData.comments_count || 0}</a></div>

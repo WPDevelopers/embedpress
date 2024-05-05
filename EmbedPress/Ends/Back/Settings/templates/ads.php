@@ -436,7 +436,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         opacity: 0
     }
 
-    [data-ad-id] {
+    div[data-ad-id] {
         position: relative;
         display: inline-block;
         max-width: 100%;
@@ -677,7 +677,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         }
     }
     @media screen and (max-width: 991px) {
-        [data-ad-id] {
+        div[data-ad-id] {
             max-width: 100%;
             display: block;
         }

@@ -49,12 +49,16 @@ $is_connected = false;
                                 </div>
 
                                 <label for="instagram-access-token"><?php echo esc_html__('Access Token: '); ?></label>
-                                <input type="text" name="instagram-access-token" id="instagram-access-token" class="instagram-access-token form__control" required>
-                                <div>
-                                    <a class="for-business hidden" target="_blank" href="/get-access-token"><?php echo esc_html__( 'Get access token', 'embedpress' ); ?></a>
-                                    <a class="for-personal" target="_blank" href="/get-access-token">Get access token</a>
+                                <input type="text" name="instagram-access-token" id="instagram-access-token" class="instagram-access-token form__control" placeholder="<?php echo esc_attr('Enter valid access token.', 'embedpress') ?>" required>
+
+                                <div class="form-footer">
+                                    <button class="button button__themeColor copy__button" type="submit"><span><?php echo esc_html__('Connect', 'embedpress'); ?></span></button>
+
+                                    <div>
+                                        <a class="for-business hidden" target="_blank" href="/get-access-token"><?php echo esc_html__('Get access token', 'embedpress'); ?></a>
+                                        <a class="for-personal" target="_blank" href="/get-access-token">Get access token</a>
+                                    </div>
                                 </div>
-                                <button class="button button__themeColor copy__button" type="submit"><span><?php echo esc_html__('Connect', 'embedpress'); ?></span></button>
                             </form>
                         </div>
                     </div>
