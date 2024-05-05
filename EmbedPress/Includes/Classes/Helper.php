@@ -1036,20 +1036,20 @@ class Helper
 				/* display: none !important; */
 			}
 
-			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template {
+			[data-sponserd-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template {
 				width: <?php echo esc_attr($width); ?><?php echo esc_attr($unit); ?>;
 				height: <?php echo esc_attr($height); ?>px;
 				max-width: 100%;
 				display: inline-block;
 			}
 
-			div[data-ad-id] {
+			div[data-sponserd-id] {
 				position: relative;
 				display: inline-block!important;
 
 			}
 
-			.ep-percentage-width div[data-ad-id] {
+			.ep-percentage-width div[data-sponserd-id] {
 				display: block;
 			}
 
@@ -1061,15 +1061,15 @@ class Helper
 				height: auto;
 			}
 
-			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template.image.ad-running {
+			[data-sponserd-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template.image.ad-running {
 				width: <?php echo esc_attr($adWidth); ?>px !important;
 				height: <?php echo esc_attr($adHeight); ?>px !important;
 				bottom: <?php echo esc_attr($adYPosition); ?>%;
 				left: <?php echo esc_attr($adXPosition); ?>%;
 			}
 
-			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template .ep-ad-content,
-			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template .ep-ad-container,
+			[data-sponserd-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template .ep-ad-content,
+			[data-sponserd-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template .ep-ad-container,
 			.main-ad-template div img {
 				height: 100%;
 				object-fit: cover;
@@ -1143,7 +1143,7 @@ class Helper
 
 			}
 
-			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .hidden {
+			[data-sponserd-id="<?php echo esc_attr($client_id) ?>"] .hidden {
 				display: none !important;
 			}
 		</style>

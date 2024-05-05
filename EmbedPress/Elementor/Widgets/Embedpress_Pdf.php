@@ -674,7 +674,7 @@ class Embedpress_Pdf extends Widget_Base
 
 		if (!empty($settings['adManager'])) {
 			$ad = base64_encode(json_encode($settings)); // Using WordPress JSON encoding function
-			$adsAtts = 'data-ad-id="' . esc_attr($client_id) . '" data-ad-attrs="' . esc_attr($ad) . '" class="ad-mask"';
+			$adsAtts = 'data-sponserd-id="' . esc_attr($client_id) . '" data-sponserd-attrs="' . esc_attr($ad) . '" class="ad-mask"';
 		}
 
         ?>

@@ -924,7 +924,7 @@ function embedpress_pdf_render_block($attributes)
 				$adsAtts = '';
 				if (!empty($attributes['adManager'])) {
 					$ad = base64_encode(json_encode($attributes));
-					$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
+					$adsAtts = "data-sponserd-id=$client_id data-sponserd-attrs=$ad class=ad-mask";
 				}
 				?>
 

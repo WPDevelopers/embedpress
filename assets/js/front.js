@@ -363,7 +363,7 @@ let epGlobals = {};
                     initPlayer(document.querySelector('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper'));
 
                     if (eplocalize.is_pro_plugin_active) {
-                        const adIdEl = document.querySelector('#' + perentSel + '-' + ep_client_id + ' [data-ad-id]');
+                        const adIdEl = document.querySelector('#' + perentSel + '-' + ep_client_id + ' [data-sponserd-id]');
                         adInitialization(adIdEl, adIdEl?.getAttribute('data-ad-index'));
                     }
 
@@ -957,7 +957,7 @@ jQuery(window).on("elementor/frontend/init", function () {
         window.epAdIndex = typeof (window.epAdIndex) === 'undefined' ? 0 : window.epAdIndex + 1;
         let classes = $scope[0].className;
         let classJoint = '.' + classes.split(' ').join('.');
-        const selectorEl = document.querySelector(classJoint + ' [data-ad-id]');
+        const selectorEl = document.querySelector(classJoint + ' [data-sponserd-id]');
 
         if (jQuery('body').hasClass('elementor-editor-active') && eplocalize.is_pro_plugin_active) {
             adInitialization(selectorEl, window.epAdIndex);
