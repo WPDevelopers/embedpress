@@ -50,6 +50,10 @@ const hashParentClass = (element, className) => {
 
 
 const adInitialization = (adContainer, index) => {
+    
+    if(!adContainer){
+        return;
+    }
 
     const adAtts = JSON.parse(atob(adContainer.getAttribute('data-ad-attrs')));
 
