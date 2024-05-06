@@ -166,6 +166,13 @@ class Handler extends EndHandlerAbstract
                 $this->pluginVersion,
                 false
             );
+            wp_enqueue_script(
+                'gutenberg-general',
+                EMBEDPRESS_URL_ASSETS . 'js/gutneberg-script.js',
+                ['wp-data'],
+                $this->pluginVersion,
+                false
+            );
 
             wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css', $this->pluginVersion, true);
 
