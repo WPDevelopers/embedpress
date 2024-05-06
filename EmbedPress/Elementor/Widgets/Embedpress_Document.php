@@ -438,7 +438,7 @@ class Embedpress_Document extends Widget_Base
         $client_id = esc_attr($this->get_id());
         $pass_hash_key = md5($settings['embedpress_doc_lock_content_password']);
         $url = esc_url($this->get_file_url());
-        $id = 'embedpress-pdf-' . $this->get_id();
+        $id = 'embedpress-pdf-' . esc_attr($this->get_id());
     
         if ($settings['embedpress_document_type'] === 'url') {
             if (class_exists('ACF') && function_exists('get_field')) {
