@@ -2514,7 +2514,6 @@ img.embedpress-hashtag-round {
     display: flex;
     align-items: center;
     gap: 6px;
-    margin-top: 5px;
 }
 .embedpress-popup-share-buttons {
     background: #f4f9ff;
@@ -2604,9 +2603,11 @@ span.tag-wrapper a {
 
 .embedpress-popup-instagram-buttons svg {
     width: 18px !important;
-    height: 18px !important;
+    height: 20px !important;
 }
-
+.embedpress-popup-stats .embedpress-inline{
+    transition: 0.3s;
+}
 .embedpress-popup-stats .embedpress-inline:hover svg, .embedpress-popup-stats .embedpress-inline a:hover, .embedpress-popup-stats .embedpress-inline:hover, .embedpress-href:hover svg .st0 {
     color: rgb(115, 115, 115) !important;
     /* stroke: rgb(115, 115, 115); */
@@ -2617,6 +2618,10 @@ span.tag-wrapper a {
 }
 .embedpress-inline.popup-like-button a:hover svg {
     color: rgb(115, 115, 115);
+    fill: rgb(115, 115, 115);
+}
+
+.embedpress-href.embedpress-popup-share:hover svg{
     fill: rgb(115, 115, 115);
 }
 

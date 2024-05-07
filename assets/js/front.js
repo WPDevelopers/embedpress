@@ -408,10 +408,11 @@ let epGlobals = {};
 
         const commentsIcon = '<svg aria-label="Comment" class="x1lliihq x1n2onr6" color="#000" height="24" viewBox="0 0 24 24" width="24"><path d="M20.656 17.008a9.993 9.993 0 1 0-3.59 3.615L22 22Z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"/></svg>';
 
-
-        const shareIcon = '<svg aria-label="Share Post" class="x1lliihq x1n2onr6" color="#000" fill="#737373" height="24" viewBox="0 0 24 24" width="24"><path fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M22 3 9.218 10.083m2.48 10.251L22 3.001H2l7.218 7.083 2.48 10.25z"/></svg>';
+        const shareIcon = '<svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg"><path stroke-width="1" d="m.543.282-.2-.2A.025.025 0 0 0 .3.1v.089a.275.275 0 0 0-.25.274V.5a.025.025 0 0 0 .045.015.3.3 0 0 1 .197-.101L.3.413V.5a.025.025 0 0 0 .043.018l.2-.2a.025.025 0 0 0 0-.035M.35.44V.388A.025.025 0 0 0 .325.363L.286.365a.35.35 0 0 0-.185.074.225.225 0 0 1 .224-.201A.025.025 0 0 0 .35.213V.16L.49.3Z"/></svg>'; 
 
         const instaIcon = '<svg width="18" height="18" viewBox="0 0 0.338 0.338" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M.248.079H.27M.102.012h.135a.09.09 0 0 1 .09.09v.135a.09.09 0 0 1-.09.09H.102a.09.09 0 0 1-.09-.09V.102a.09.09 0 0 1 .09-.09ZM.17.237a.068.068 0 1 1 0-.135.068.068 0 0 1 0 .135Z" stroke="#000" stroke-width=".032"/></svg>';
+
+
 
         const instaUserInfo = instPost.user_info;
 
