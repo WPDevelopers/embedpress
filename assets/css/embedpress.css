@@ -2203,6 +2203,7 @@ a.profile-link, a.profile-link h2 {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    padding: 0;
 }
 
 button#js-carousel__prev-1 {
