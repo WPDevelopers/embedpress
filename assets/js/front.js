@@ -68,22 +68,27 @@ let epGlobals = {};
     }
 
     epGlobals.handlePosterImageLoad = function () {
-        var posterImage = document.querySelector(".plyr__poster");
-        if (posterImage) {
-            var videoWrapper = document.querySelector(".plyr__video-wrapper");
-            var observer = new MutationObserver(function (mutationsList, observer) {
-                var posterImageStyle = window.getComputedStyle(posterImage);
-                if (posterImageStyle.getPropertyValue('background-image') !== 'none') {
-                    setTimeout(function () {
-                        videoWrapper.style.opacity = "1";
-                    }, 200);
-                    observer.disconnect();
-                }
-            });
-
-            observer.observe(posterImage, { attributes: true, attributeFilter: ['style'] });
-        }
+        var posterImages = document.querySelectorAll(".plyr__poster");
+        posterImages.forEach(function(posterImage) {
+            if (posterImage) {
+                var videoWrappers = document.querySelectorAll("[data-playerid]");
+                videoWrappers.forEach(function(videoWrapper) {
+                    var observer = new MutationObserver(function (mutationsList, observer) {
+                        var posterImageStyle = window.getComputedStyle(posterImage);
+                        if (posterImageStyle.getPropertyValue('background-image') !== 'none') {
+                            setTimeout(function () {
+                                videoWrapper.style.opacity = "1";
+                            }, 200);
+                            observer.disconnect();
+                        }
+                    });
+        
+                    observer.observe(posterImage, { attributes: true, attributeFilter: ['style'] });
+                });
+            }
+        });
     }
+    
 
 
     // Run on initial load.

@@ -1810,7 +1810,7 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     pointer-events: none !important;
 }
 
-.plyr__video-wrapper{
+[data-playerid]{
     opacity: 0;
 }
 .plyr--paused.plyr__poster-enabled .plyr__poster {

@@ -115,10 +115,10 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
                     </div>
                 </div>
             </div>
-            <div class="embedpress-gutenberg-wrapper aligncenter   ep-content-protection-disabled inline" id="1c3da3de-7606-4e9f-9693-d4b570cd2ca30">
+            <div class="embedpress-gutenberg-wrapper aligncenter ep-content-protection-disabled inline" id="1c3da3de-7606-4e9f-9693-d4b570cd2ca30">
                 <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color"><?php echo esc_html__('Live Preview for Video', 'embedpress'); ?></h2>
                 <p class="preview-description"><?php echo esc_html__( 'Experience EmbedPress Ad feature with YouTube video, but it will work with all embedded contents such as videos, audios, documents, etc..', 'embedpress' ); ?></p>
-                <div class="wp-block-embed__wrapper   ">
+                <div class="wp-block-embed__wrapper">
                     <div id="ep-gutenberg-content-ep-ad-preview-0" class="ep-gutenberg-content">
                         <div data-ad-id="ep-ad-preview-0" id="ep-ad-preview-0" class="ad-mask" data-ad-index="0">
                             <div class="ep-embed-content-wraper ">
@@ -128,7 +128,6 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
                                 </div>
                             <div class="main-ad-template" id="ad-template-0" data-adType="video" style="display:none">
                                 <div class="ep-ad-container">
-
                                     <div class="ep-ad-content ad-video hidden" style="position: relative;">
                                         <a target="_blank" class="ad-url" href="#"> 
 
