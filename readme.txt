@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, Gutenberg embed, embed PDF, embed Google Docs
 Requires at least: 4.6
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 3.9.16
+Stable tag: 3.9.17
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -323,6 +323,13 @@ Just after embedding the content into your website using EmbedPress, iFrame cust
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [3.9.17] – 2024-05-07 =
+- Fixed: Custom thumbnail wasn’t working properly on Custom player.
+- Fixed: Custom player conflicts with Scisco theme.
+- Fixed: Custom thumbnail wasn’t showing on Youtube video.
+- Improved: Security Enhancement (Reported by Wordfence).
+- Few minor bug fixes & improvements.
 
 = [3.9.16] – 2024-04-16 =
 - Fixed: Global CSS breaks page layout.
