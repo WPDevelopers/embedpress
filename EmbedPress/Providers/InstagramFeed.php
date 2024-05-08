@@ -62,6 +62,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         'instafeedLikesCount',
         'instafeedCommentsCount',
         'instafeedFeedType',
+        'slidesShow',
+        'carouselSpacing'
     ];
 
     /** inline {@inheritdoc} */
@@ -376,12 +378,13 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             {
                 $params = $this->getParams();
 
-                $hashtag = $this->getHashTag($this->url); 
-                if(!empty($hashtag) && !Helper::is_pro_active()){
+                $hashtag = $this->getHashTag($this->url);
+                if (!empty($hashtag) && !Helper::is_pro_active()) {
                     return sprintf(
-                        esc_html__( 'Unlock %s support by upgrading to our %s! Upgrade today to unlock a whole new level of functionality and make the most out of your experience with Hashtag.', 'embedpress' ), '<strong>hashtag</strong>', '<strong>Pro subscription</strong>'
-                    );   
-
+                        esc_html__('Unlock %s support by upgrading to our %s! Upgrade today to unlock a whole new level of functionality and make the most out of your experience with Hashtag.', 'embedpress'),
+                        '<strong>hashtag</strong>',
+                        '<strong>Pro subscription</strong>'
+                    );
                 }
 
                 $feed_type = $params['instafeedFeedType'];
@@ -398,14 +401,34 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
                 $styleAttribute = '';
 
-                if ($params['instaLayout'] === 'insta-grid') {
-                    $column = (100 / intval(!empty($params['instafeedColumns']) ? $params['instafeedColumns'] : 1));
-                    $gap = $params['instafeedColumnsGap'];
+                if (isset($params['instaLayout'])) {
+                    if ($params['instaLayout'] === 'insta-grid') {
 
-                    $styleAttribute = 'style="grid-template-columns: repeat(' . esc_attr($column) . ', minmax(0, 1fr)); gap: ' . esc_attr($gap) . 'px;"';
-                } else if ($params['instaLayout'] === 'insta-masonry') {
-                    $styleAttribute = 'style="column-count: ' . esc_attr($params['instafeedColumns']) . '; gap: ' . esc_attr($params['instafeedColumnsGap']) . 'px;"';
+
+                        if (isset($params['instafeedColumns']) && is_numeric($params['instafeedColumns']) && $params['instafeedColumns'] > 0) {
+                            $column = (100 / intval($params['instafeedColumns']));
+                            $gap = isset($params['instafeedColumnsGap']) ? $params['instafeedColumnsGap'] : 0;
+
+                            $styleAttribute = 'style="grid-template-columns: repeat(' . esc_attr($params['instafeedColumns']) . ', minmax(0, 1fr)); gap: ' . esc_attr($gap) . 'px;"';
+                        } else {
+                            $styleAttribute = 'style="grid-template-columns: repeat(1, minmax(0, 1fr));"';
+                        }
+                    } else if ($params['instaLayout'] === 'insta-masonry') {
+                        $styleAttribute = 'style="column-count: ' . esc_attr($params['instafeedColumns']) . '; gap: ' . esc_attr(isset($params['instafeedColumnsGap']) ? $params['instafeedColumnsGap'] : 0) . 'px;"';
+                    } else if ($params['instaLayout'] === 'insta-carousel') {
+                        $styleAttribute = '';
+                        if (isset($params['slidesShow'])) {
+                            $column = (100 / intval($params['slidesShow']));
+                            $space = isset($params['carouselSpacing']) ? $params['carouselSpacing'] : 0;
+                            $styleAttribute = $styleAttribute = 'style="grid-auto-columns: calc(' . esc_attr($column) . '% - ' . esc_attr($space) . 'px); gap: ' . esc_attr($space) . 'px"'; // Or some default style
+                        }
+                    } else {
+                        $styleAttribute = ''; // Or some default style
+                    }
+                } else {
+                    $styleAttribute = ''; // Or some default style
                 }
+
 
                 $feed_data = get_option('ep_instagram_feed_data');
 
@@ -426,7 +449,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
                     $hashtag_feed[$hashtag_id] = $insta_posts;
 
-                    update_option($option_key, $hashtag_feed); 
+                    update_option($option_key, $hashtag_feed);
                 }
 
                 // Check and assign each item to separate variables
@@ -496,10 +519,10 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                             <?php if (!empty($params['instafeedPostsCount']) && $params['instafeedPostsCount'] !== 'false') : ?>
                                 <div class="posts-count">
                                     <?php if (!empty($params['instafeedPostsCountText']) && $params['instafeedPostsCountText'] !== 'false' && $params['instafeedPostsCountText'] !== 'true') :
-                                        $posts_count_text = str_replace('[count]', '<span class="count">' . $media_count . '</span>', $params['instafeedPostsCountText']);
-                                        echo wp_kses_post($posts_count_text);
-                                    endif;
-                                    ?>
+                                                            $posts_count_text = str_replace('[count]', '<span class="count">' . $media_count . '</span>', $params['instafeedPostsCountText']);
+                                                            echo wp_kses_post($posts_count_text);
+                                                        endif;
+                                                        ?>
 
                                 </div>
                             <?php endif; ?>
@@ -507,7 +530,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                             <?php if (!empty($params['instafeedFollowersCount']) && $params['instafeedFollowersCount'] !== 'false' && $params['instafeedFollowersCountText'] !== 'true') : ?>
                                 <?php if (strtolower($connected_account_type) !== 'personal') : ?>
                                     <div class="followers-count">
-                                        <?php if (!empty($params['instafeedPostsCountText']) && $params['instafeedPostsCountText'] !== 'false' && $params['instafeedPostsCountText'] !== 'true' ) : ?>
+                                        <?php if (!empty($params['instafeedPostsCountText']) && $params['instafeedPostsCountText'] !== 'false' && $params['instafeedPostsCountText'] !== 'true') : ?>
                                             <a class="followers-link" target="_blank" href="<?php echo esc_url('https://instagram.com/' . $username . '/followers'); ?>" role="link" tabindex="0">
                                                 <?php
                                                                             $followers_count_text = str_replace('[count]', '<span class="count">' . $followers_count . '</span>', $params['instafeedFollowersCountText']);

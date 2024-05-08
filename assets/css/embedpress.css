@@ -1848,16 +1848,17 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
 }
 
 /* Styling for the tabs */
-.tabs {
+.posts-tab-options .tabs {
     list-style: none;
     padding: 0;
     margin: 0;
     display: inline-flex;
     border-radius: 5px;
     gap: 25px;
+    padding: 0;
 }
 
-ul.tabs svg {
+.posts-tab-options .tabs svg {
     width: 15px;
     height: 15px;
 }
@@ -1867,7 +1868,7 @@ li[data-media-type="ALL"] svg {
     height: 12px;
 }
 
-.tabs li {
+.posts-tab-options .tabs li {
     margin-right: 15px;
     cursor: pointer;
     padding: 10px 0;
@@ -1880,35 +1881,35 @@ li[data-media-type="ALL"] svg {
     gap: 6px;
 }
 
-.tabs li:last-child {
+.posts-tab-options .tabs li:last-child {
     margin-right: 0;
 }
 
 /* Styling for the active tab */
-.tabs li.active {
+.posts-tab-options .tabs li.active {
     /* border-top: 1px solid rgb(115,115,115); */
     position: relative;
     color: rgb(115, 115, 115);
 
 }
 
-.tabs li svg {
+.posts-tab-options .tabs li svg {
     border-radius: 2px;
 }
 
-.tabs li.active svg {
+.posts-tab-options .tabs li.active svg {
     color: rgb(115, 115, 115);
 }
 
-.tabs li:hover, .tabs li:hover svg, .tabs li:hover .fill-color {
+.posts-tab-options .tabs li:hover, .posts-tab-options .tabs li:hover svg, .posts-tab-options .tabs li:hover .fill-color {
     color: rgb(115, 115, 115);
 }
 
-.tabs li:hover .fill-color, .tabs li.active .fill-color {
+.posts-tab-options .tabs li:hover .fill-color, .posts-tab-options .tabs li.active .fill-color {
     fill: rgb(115, 115, 115) !important;
 }
 
-.tabs li.active::after {
+.posts-tab-options .tabs li.active::after {
     content: '';
     position: absolute;
     top: -1px;
@@ -2142,6 +2143,7 @@ a.profile-link, a.profile-link h2 {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    min-height: 320px;
 }
 
 .insta-masonry .embedpress-insta-container .insta-gallery-image {
@@ -2191,6 +2193,14 @@ a.profile-link, a.profile-link h2 {
     transform: translateY(-50%);
     position: absolute;
     width: 100%;
+}
+
+.ep-embed-content-wraper.insta-carousel .cg-carousel__btns {
+	top: calc(50% - 16px);
+}
+.ep-embed-content-wraper.insta-carousel .insta-gallery-item-permalink {
+	display: flex;
+	align-content: center;
 }
 
 .cg-carousel__btns button {
