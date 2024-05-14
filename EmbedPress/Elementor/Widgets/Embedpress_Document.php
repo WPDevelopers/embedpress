@@ -42,6 +42,20 @@ class Embedpress_Document extends Widget_Base
         return 'icon-document';
     }
 
+    public function get_style_depends()
+	{
+		return [];
+	}
+
+	public function get_script_depends()
+	{
+		return [
+            'embedpress-front',
+            'embedpress-ads',
+            'embedpress_documents_viewer_script'
+		];
+	}
+
     /**
      * Get widget keywords.
      *

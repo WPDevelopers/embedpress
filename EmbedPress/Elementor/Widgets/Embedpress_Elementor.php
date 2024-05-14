@@ -44,6 +44,23 @@ class Embedpress_Elementor extends Widget_Base
 		return 'icon-embedpress';
 	}
 
+	public function get_style_depends()
+	{
+		return ['plyr'];
+	}
+
+	public function get_script_depends()
+	{
+		return [
+			'plyr.polyfilled',
+			'initplyr',
+			'vimeo-player',
+			'embedpress-front',
+			'embedpress-ads',
+		];
+	}
+
+
 	/**
 	 * Get widget keywords.
 	 *
@@ -3083,10 +3100,11 @@ class Embedpress_Elementor extends Widget_Base
 					} else { ?>
 
 				<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content
-				 <?php if (!empty($settings['embedpress_content_share'])) : 
-				 	echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper');
+				 <?php if (!empty($settings['embedpress_content_share'])) :
+									echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper');
 								endif; ?> 
-								<?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); echo esc_attr(' source-' . $source); ?>">
+								<?php echo  esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);
+											echo esc_attr(' source-' . $source); ?>">
 					<div <?php echo $adsAtts; ?>>
 						<div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?>" <?php echo esc_attr($data_player_id); ?> <?php echo $this->get_custom_player_options($settings); ?>>
 							<?php
@@ -3107,10 +3125,10 @@ class Embedpress_Elementor extends Widget_Base
 										?>
 						</div>
 						<?php
-							if (!empty($settings['adManager'])) {
-								$content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
-							}
-						?>
+									if (!empty($settings['adManager'])) {
+										$content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
+									}
+									?>
 					</div>
 				</div>
 			<?php

@@ -64,10 +64,28 @@ if(!function_exists('lock_content_form_handler')){
 	}
 }
 
+function embedpress_block_scripts() {
 
+    $script_handles = [
+        'plyr.polyfilled',
+        'initplyr',
+        'vimeo-player',
+        'embedpress-front',
+        'embedpress-ads'
+    ];
+
+    foreach ($script_handles as $handle) {
+        wp_enqueue_script($handle);
+    }
+
+	wp_enqueue_style('plyr');
+}
 
 function embedpress_render_block($attributes)
 {
+
+	embedpress_block_scripts();
+
 
 	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
