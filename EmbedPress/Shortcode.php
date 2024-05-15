@@ -116,6 +116,11 @@ class Shortcode
         $attributes = wp_parse_args($attributes, $default);
         $embed = self::parseContent($subject, true, $attributes);
 
+        $arrsy = get_object_vars($embed);
+
+       if(!empty($arrsy[$embed->url]['provider_name']) && $arrsy[$embed->url]['provider_name'] === 'Instagram Feed'){
+            $embed->embed = '<div class="ep-embed-content-wraper insta-grid">' . $embed->embed . '</div>';
+       };
 
 
         return is_object($embed) ? $embed->embed : $embed;

@@ -3,27 +3,27 @@ $icon_src = EMBEDPRESS_SETTINGS_ASSETS_URL . "img/sources/icons";
 
 
 $sources = [
-    ["name" => "Instagram", "icon" => $icon_src . "/instagram.png", "type" => "social", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=instagram", "doc_url" => "https://embedpress.com/docs/embed-instagram-wordpress/"],
-    ["name" => "YouTube", "icon" => $icon_src . "/youtube.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=youtube", "doc_url" => "https://embedpress.com/docs/embed-youtube-wordpress/"],
-    ["name" => "YouTube Live", "icon" => $icon_src . "/youtubelive.png", "type" => "stream", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=youtube", "doc_url" => "https://embedpress.com/docs/embed-youtube-wordpress/"],
+    ["name" => "Instagram", "arival_status" => "new", "icon" => $icon_src . "/instagram.png", "type" => "social", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=instagram", "doc_url" => "https://embedpress.com/docs/embed-instagram-wordpress/"],
+    ["name" => "YouTube", "arival_status" => "popular", "icon" => $icon_src . "/youtube.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=youtube", "doc_url" => "https://embedpress.com/docs/embed-youtube-wordpress/"],
+    ["name" => "YouTube Live", "arival_status" => "popular", "icon" => $icon_src . "/youtubelive.png", "type" => "stream", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=youtube", "doc_url" => "https://embedpress.com/docs/embed-youtube-wordpress/"],
     ["name" => "Vimeo", "icon" => $icon_src . "/vimeo.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=vimeo", "doc_url" => "https://embedpress.com/docs/embed-vimeo-videos-wordpress/"],
-    ["name" => "Wistia", "icon" => $icon_src . "/wistia.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=wistia", "doc_url" => "https://embedpress.com/docs/embed-wistia-videos-wordpress/"],
+    ["name" => "Wistia", "arival_status" => "popular", "icon" => $icon_src . "/wistia.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=wistia", "doc_url" => "https://embedpress.com/docs/embed-wistia-videos-wordpress/"],
     ["name" => "Twitch", "icon" => $icon_src . "/twitch.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=twitch", "doc_url" => "https://embedpress.com/docs/embed-twitch-streams-chat/"],
     ["name" => "Dailymotion", "icon" => $icon_src . "/dailymotion.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=dailymotion", "doc_url" => "https://embedpress.com/docs/embed-dailymotion-videos-wordpress/"],
-    ["name" => "PDF", "icon" => $icon_src . "/pdf.png", "type" => "pdf", "doc_url" => "https://wpdeveloper.com/embed-pdf-documents-wordpress"],
+    ["name" => "PDF", "arival_status" => "popular", "icon" => $icon_src . "/pdf.png", "type" => "pdf", "doc_url" => "https://wpdeveloper.com/embed-pdf-documents-wordpress"],
     ["name" => "SoundCloud", "icon" => $icon_src . "/soundcloud.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=soundcloud", "doc_url" => "https://embedpress.com/docs/embed-soundcloud-audio-wordpress/"],
-    ["name" => "Spotify", "icon" => $icon_src . "/spotify.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=spotify", "doc_url" => "https://embedpress.com/docs/embed-spotify-audios-wordpress/"],
+    ["name" => "Spotify", "arival_status" => "popular",  "icon" => $icon_src . "/spotify.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=spotify", "doc_url" => "https://embedpress.com/docs/embed-spotify-audios-wordpress/"],
     ["name" => "Google Calendar", "icon" => $icon_src . "/google-calendar.png", "type" => "google", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=google-calendar", "doc_url" => "https://embedpress.com/docs/embed-google-calendar-in-wordpress/"],
-    ["name" => "OpenSea NFT", "icon" => $icon_src . "/opensea.png", "type" => "image", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=opensea", "doc_url" => "https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/"],
+    ["name" => "OpenSea NFT", "arival_status" => "popular", "icon" => $icon_src . "/opensea.png", "type" => "image", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=opensea", "doc_url" => "https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/"],
     ["name" => "Calendly", "icon" => $icon_src . "/calendly.png", "type" => "calendar", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=calendly", "doc_url" => "https://embedpress.com/docs/how-to-embed-calendly-events-with-embedpress/"],
     ["name" => "Google Drawings", "icon" => $icon_src . "/google-drawings.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-drawings-wordpress/"],
-    ["name" => "Google Docs", "icon" => $icon_src . "/google-docs.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-docs-wordpress/"],
-    ["name" => "Google Slides", "icon" => $icon_src . "/google-slides.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-slides-wordpress/"],
+    ["name" => "Google Docs", "arival_status" => "popular", "icon" => $icon_src . "/google-docs.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-docs-wordpress/"],
+    ["name" => "Google Slides", "arival_status" => "popular", "icon" => $icon_src . "/google-slides.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-slides-wordpress/"],
     ["name" => "Google Forms", "icon" => $icon_src . "/google-forms.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-forms-wordpress/"],
-    ["name" => "Google Maps", "icon" => $icon_src . "/google-maps.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-maps-wordpress/"],
+    ["name" => "Google Maps", "arival_status" => "popular", "icon" => $icon_src . "/google-maps.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-maps-wordpress/"],
     ["name" => "Google Sheets", "icon" => $icon_src . "/google-sheets.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-sheets-wordpress/"],
     ["name" => "X", "icon" => $icon_src . "/x.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-twitter-tweets-wordpress/"],
-    ["name" => "Facebook", "icon" => $icon_src . "/facebook.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-facebook-posts-wordpress/"],
+    ["name" => "Facebook", "arival_status" => "popular", "icon" => $icon_src . "/facebook.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-facebook-posts-wordpress/"],
     ["name" => "Github", "icon" => $icon_src . "/github.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-github-gist-snippets-wordpress/"],
     ["name" => "Tumblr", "icon" => $icon_src . "/tumblr.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-tumblr-wordpress/"],
     ["name" => "WordPress.tv", "icon" => $icon_src . "/wordpress-tv.png", "type" => "video",  "doc_url" => "https://embedpress.com/docs/embed-wordpress-tv-videos-wordpress/"],
@@ -193,6 +193,9 @@ $sources = [
                     </svg>
                 </a>
             </div>
+            <?php if(!empty($source['arival_status'])): ?>
+                <div class="ribbon-container <?php echo esc_attr($source['arival_status']); ?>"><?php echo esc_html($source['arival_status']); ?></div>
+            <?php endif; ?>
         </div>
         <?php $index++;
         endforeach; ?>

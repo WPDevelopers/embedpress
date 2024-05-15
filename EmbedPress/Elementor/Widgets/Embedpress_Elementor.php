@@ -2715,7 +2715,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(    
 			'embedpress_carousel_autoplay_speed',
 			[
-				'label' => esc_html__( 'Autoplay Speed', 'embedpress' ),
+				'label' => esc_html__( 'Autoplay Speed(ms)', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::NUMBER,
 				'min' => 0,
 				'step' => 1,
@@ -2729,7 +2729,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'embedpress_carousel_transition_speed',
 			[
-				'label' => esc_html__( 'Transition Speed', 'embedpress' ),
+				'label' => esc_html__( 'Transition Speed(ms)', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::NUMBER,
 				'min' => 0,
 				'step' => 1,
@@ -2923,7 +2923,7 @@ class Embedpress_Elementor extends Widget_Base
 			'instafeedPopupFollowBtnLabel',
 			[
 				'type' => \Elementor\Controls_Manager::TEXT,
-				'label' => esc_html__('Button Label', 'embedpress'),
+				'label' => esc_html__('Follow Button Label', 'embedpress'),
 				'placeholder' => 'Follow',
 				'default' => 'Follow',
 				'separator'    => 'after',
@@ -2954,7 +2954,7 @@ class Embedpress_Elementor extends Widget_Base
 			'instafeedLoadmoreLabel',
 			[
 				'type' => \Elementor\Controls_Manager::TEXT,
-				'label' => esc_html__('Load More Label', 'embedpress'),
+				'label' => esc_html__('Load More Button Label', 'embedpress'),
 				'placeholder' => 'Load More',
 				'default' => 'Load More',
 				'condition'    => [

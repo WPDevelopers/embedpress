@@ -744,7 +744,17 @@ button.components-color-palette__custom-color-button {
 }
 
 .ep-controls-margin{
-    margin-bottom: 16px;
+    margin-bottom: 24px;
+}
+
+
+
+.ep__instafeed-options .instagram-profile-image-uploader {
+    margin-bottom: 0;
+}
+
+.block-editor-block-inspector .components-base-control:last-child{
+    margin-bottom: 24px!important;
 }
 
 // YouTube single videos controlers CSS

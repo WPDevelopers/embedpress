@@ -1930,8 +1930,8 @@ li[data-media-type="ALL"] svg {
 }
 
 .profile-image img {
-    width: 150px;
-    height: 150px !important;
+    width: 120px;
+    height: 120px !important;
     object-fit: cover;
     border-radius: 50% !important;
     border: 3px solid #037bff;
@@ -1996,6 +1996,11 @@ li[data-media-type="ALL"] svg {
     margin-bottom: 12px;
     text-align: left;
 }
+
+section.profile-details div:last-child {
+    margin: 0;
+}
+
 
 .bio {
     font-size: 14px;

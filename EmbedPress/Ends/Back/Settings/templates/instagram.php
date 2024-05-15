@@ -59,8 +59,8 @@ $is_connected = false;
                                     <button class="button button__themeColor copy__button" type="submit"><span><?php echo esc_html__('Connect', 'embedpress'); ?></span></button>
 
                                     <div>
-                                        <a class="for-business hidden" target="_blank" href="/get-access-token"><?php echo esc_html__('Get access token', 'embedpress'); ?></a>
-                                        <a class="for-personal" target="_blank" href="/get-access-token">Get access token</a>
+                                        <a class="for-business hidden" target="_blank" href="<?php echo esc_url('https://embedpress.com/docs/generate-instagram-access-token/'); ?>"><?php echo esc_html__('Get access token', 'embedpress'); ?></a>
+                                        <a class="for-personal" target="_blank" href="<?php echo esc_url('https://embedpress.com/docs/generate-instagram-access-token/'); ?>"><?php echo esc_html__('Get access token', 'embedpress'); ?></a>
                                     </div>
                                 </div>
                             </form>
@@ -71,13 +71,15 @@ $is_connected = false;
                 <table class="emebedpress">
                     <thead>
                         <tr>
-                            <th><?php echo esc_html__('Image', 'embedpress'); ?></th>
-                            <th><?php echo esc_html__('Username', 'embedpress'); ?></th>
                             <th><?php echo esc_html__('Account', 'embedpress'); ?></th>
+                            <!-- <th><?php echo esc_html__('Username', 'embedpress'); ?></th> -->
                             <th><?php echo esc_html__('Access Token', 'embedpress'); ?></th>
+                            <th><?php echo esc_html__('Expire Date', 'embedpress'); ?></th>
                             <th><?php echo esc_html__('Type', 'embedpress'); ?></th>
                             <th><?php echo esc_html__('Profile Link', 'embedpress'); ?></th>
+                            <th><?php echo esc_html__('Sync', 'embedpress'); ?></th>
                             <th><?php echo esc_html__('Action', 'embedpress'); ?></th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -94,31 +96,38 @@ $is_connected = false;
                             <?php foreach ($get_data as $data) : ?>
 
                                 <?php if (!empty($feed_data[$data['user_id']]['feed_userinfo']['profile_picture_url'])) :
-                                    $avater_url = $feed_data[$data['user_id']]['feed_userinfo']['profile_picture_url'];
-                                else:
-                                    $avater_url = 'http://2.gravatar.com/avatar/b642b4217b34b1e8d3bd915fc65c4452?s=150&d=mm&r=g';
-                                endif; ?>
+                                            $avater_url = $feed_data[$data['user_id']]['feed_userinfo']['profile_picture_url'];
+                                        else :
+                                            $avater_url = 'http://2.gravatar.com/avatar/b642b4217b34b1e8d3bd915fc65c4452?s=150&d=mm&r=g';
+                                        endif; ?>
 
                                 <tr data-userid="<?php echo esc_attr($data['user_id']); ?>" data-accounttype="<?php echo esc_attr($data['account_type']); ?>">
-                                    <td>
+                                    <td class="instagram-user-account">
                                         <div class="user-image"><img class="user-avatar" src="<?php echo esc_url($avater_url); ?>"></div>
+                                        <div>
+
+                                            <div class="username"><?php echo esc_html($data['username']) ?></div>
+                                            <div class="userid"><?php echo esc_html($data['user_id']) ?></div>
+                                        </div>
                                     </td>
-                                    <td><?php echo esc_html($data['username']) ?></td>
-                                    <td><?php echo esc_html($data['user_id']) ?></td>
                                     <?php
-                                        if (!empty($data['user_id'])) {
-                                            $is_connected = true;
-                                        }
-                                        ?>
+                                            if (!empty($data['user_id'])) {
+                                                $is_connected = true;
+                                            }
+                                            ?>
                                     <td style="width: 300px;">
                                         <input type="text" readonly="" value="<?php echo esc_attr($data['access_token']); ?>" maxlength="20" pattern="">
                                         <span>...</span>
                                         <!-- <button class="button button-primary"><i class="dashicons dashicons-admin-page"></i></button> -->
                                     </td>
+                                    <td>1312</td>
                                     <td style="text-transform: uppercase;"><?php echo esc_attr($data['account_type']); ?></td>
 
                                     <td><button class="user-profile-link" title="<?php echo esc_attr('https://instagram.com/' . $data['username']) ?>">Copy</button></td>
 
+                                    <td>
+                                        <a href="#" class=""><i class="dashicons dashicons-update-alt emcs-dashicon"></i></a>
+                                    </td>
                                     <td>
                                         <button class="button button-secondary account-delete-button"><i class="dashicons dashicons-trash"></i></button>
                                     </td>

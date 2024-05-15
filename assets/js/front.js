@@ -480,6 +480,7 @@ let epGlobals = {};
     `;
         }
 
+        console.log(instaPostData);
 
         let popupHtml = '';
         popupHtml += `
@@ -506,7 +507,7 @@ let epGlobals = {};
                             ${likeComments}
                                 <div class="embedpress-inline">
                                 <div class="embedpress-popup-share-buttons"> <a
-                                        href="https://www.facebook.com/sharer/sharer.php?u=${instaPostData.permalink}">
+                                        href="https://www.facebook.com/sharer/sharer.php?u=${instaPostData.permalink}" target="_blank">
                                         <span class="dashicons dashicons-facebook"></span></a> <a
                                         href="https://twitter.com/intent/tweet?url=${instaPostData.permalink}"
                                         target="_blank"><span>

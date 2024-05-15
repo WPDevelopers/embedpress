@@ -3855,7 +3855,7 @@ img.source-image {
     -ms-grid-columns: 1fr 1fr 1fr;
     grid-template-columns: repeat(3, 1fr);
     /* Three items per row */
-    gap: 15px;
+    gap: 30px;
     /* Adjust the gap between items as needed */
 }
 
@@ -3867,13 +3867,14 @@ img.source-image {
 }
 
 .source-item {
-    padding: 10px;
+    padding: 15px;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: space-between;
     background: #f5f7fd;
     border-radius: 8px;
+    position: relative;
 }
 
 .tab-button-section {
@@ -3896,6 +3897,31 @@ li.sidebar__item.show .tab-button-section {
     line-height: 120%;
     /* 16.8px */
     letter-spacing: -0.28px;
+}
+
+.ribbon-container {
+    position: absolute;
+    top: -12px;
+    left: 45px;
+    background: #524cff;
+    padding: 5px;
+    border-radius: 4px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff!important;
+    font-size: 12px!important;
+    text-transform: capitalize;
+}
+.ribbon-container.new {
+    background-color: #059862;
+}
+.ribbon-container.popular {
+    background-color: #0064FF;
+}
+.ribbon-container.updated {
+    background-color: #6C757D;
 }
 
 .source-left .icon {
@@ -4016,8 +4042,8 @@ table.emebedpress th {
 }
 
 .emebedpress img.user-avatar {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     object-fit: cover;
 }
@@ -4071,6 +4097,18 @@ table.emebedpress th {
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 50px;
+}
+td.instagram-user-account .username {
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.4rem;
+}
+td.instagram-user-account .userid {
+    text-align: left;
+    font-size: 13px;
+    line-height: 1.4rem;
+
 }
 
 .account-section p {
@@ -4618,7 +4656,6 @@ form#instagram-form select#account-option, form#instagram-form input#instagram-a
     height: 45px;
     margin-bottom: 10px;
     border-radius: 5px;
-    background: none;
 }
 
 /* Styling for overlay background */
@@ -4740,4 +4777,10 @@ a.for-business, a.for-personal{
 
 .emebedpress img.user-avatar{
     border: 2px solid #037bff;
+}
+
+td.instagram-user-account {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }

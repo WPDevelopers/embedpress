@@ -347,7 +347,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                 </div>
             </div>
             <div class="insta-gallery-item-info">
-                <?php if (Helper::is_pro_active() && ($params['instafeedFeedType'] === 'hashtag_type' || (strtolower($account_type) === 'business' && $params['instafeedAccountType'] === 'business')  && ((!empty($params['instafeedLikesCount']) && $params['instafeedLikesCount'] !== 'false') || (!empty($params['instafeedLikesCount']) || $params['instafeedLikesCount'] !== 'false')))) : ?>
+                <?php if (Helper::is_pro_active() && (isset($params['instafeedFeedType']) && $params['instafeedFeedType'] === 'hashtag_type' || (isset($params['instafeedAccountType']) && strtolower($account_type) === 'business' && $params['instafeedAccountType'] === 'business')  && ((!empty($params['instafeedLikesCount']) && $params['instafeedLikesCount'] !== 'false') || (!empty($params['instafeedLikesCount']) || $params['instafeedLikesCount'] !== 'false')))) : ?>
                     <div class="insta-item-reaction-count">
                         <?php if (!empty($params['instafeedLikesCount']) && $params['instafeedLikesCount'] !== 'false') : ?>
                             <div class="insta-gallery-item-likes">
@@ -387,7 +387,7 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
                     );
                 }
 
-                $feed_type = $params['instafeedFeedType'];
+                $feed_type = isset($params['instafeedFeedType']) ? $params['instafeedFeedType'] : 'user_account_type';
 
                 if ($feed_type === 'user_account_type' && !empty($hashtag)) {
                     return 'Please add valid url for user account';

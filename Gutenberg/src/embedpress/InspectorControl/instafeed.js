@@ -357,7 +357,7 @@ export default function Instafeed({ attributes, setAttributes }) {
                                             (instaLayout === 'insta-carousel') && (
                                                 <div>
                                                     <SelectControl
-                                                        label={__("Slides to Show")}
+                                                        label={__("Slides to Show", "embedpress")}
                                                         value={slidesShow}
                                                         options={[
                                                             { label: '1', value: '1' },
@@ -376,35 +376,35 @@ export default function Instafeed({ attributes, setAttributes }) {
                                                     />
 
                                                     <ToggleControl
-                                                        label={__("Autoplay")}
+                                                        label={__("Autoplay", "embedpress")}
                                                         checked={carouselAutoplay}
                                                         onChange={(carouselAutoplay) => setAttributes({ carouselAutoplay })}
                                                     />
                                                     <TextControl
-                                                        label={__("Autoplay Speed")}
+                                                        label={__("Autoplay Speed(ms)", "embedpress")}
                                                         value={autoplaySpeed}
                                                         onChange={(autoplaySpeed) => setAttributes({ autoplaySpeed })}
                                                     />
                                                     <TextControl
-                                                        label={__("Transition Speed")}
+                                                        label={__("Transition Speed(ms)", "embedpress")}
                                                         value={transitionSpeed}
                                                         onChange={(transitionSpeed) => setAttributes({ transitionSpeed })}
                                                     />
 
                                                     <ToggleControl
-                                                        label={__("Loop")}
+                                                        label={__("Loop", "embedpress")}
                                                         checked={carouselLoop}
                                                         onChange={(carouselLoop) => setAttributes({ carouselLoop })}
                                                     />
 
                                                     <TextControl
-                                                        label={__("Space")}
+                                                        label={__("Space", "embedpress")}
                                                         value={carouselSpacing}
                                                         onChange={(carouselSpacing) => setAttributes({ carouselSpacing })}
                                                     />
 
                                                     <ToggleControl
-                                                        label={__("Arrows")}
+                                                        label={__("Arrows", "embedpress")}
                                                         checked={carouselArrows}
                                                         onChange={(carouselArrows) => setAttributes({ carouselArrows })}
                                                     />
@@ -483,7 +483,7 @@ export default function Instafeed({ attributes, setAttributes }) {
                                                 />
                                                 {instafeedPopupFollowBtn && (
                                                     <TextControl
-                                                        label={__('Button Label', 'embedpress')}
+                                                        label={__('Follow Button Label', 'embedpress')}
                                                         value={instafeedPopupFollowBtnLabel}
                                                         onChange={(instafeedPopupFollowBtnLabel) => setAttributes({ instafeedPopupFollowBtnLabel })}
                                                     />
@@ -500,7 +500,7 @@ export default function Instafeed({ attributes, setAttributes }) {
                                         )}
                                         {instafeedLoadmore && (
                                             <TextControl
-                                                label={__('Load More Label', 'embedpress')}
+                                                label={__('Load More Button Label', 'embedpress')}
                                                 value={instafeedLoadmoreLabel}
                                                 onChange={(instafeedLoadmoreLabel) => setAttributes({ instafeedLoadmoreLabel })}
                                             />

@@ -851,7 +851,13 @@ button.components-color-palette__custom-color-button {
   margin-bottom: 16px !important; }
 
 .ep-controls-margin {
-  margin-bottom: 16px; }
+  margin-bottom: 24px; }
+
+.ep__instafeed-options .instagram-profile-image-uploader {
+  margin-bottom: 0; }
+
+.block-editor-block-inspector .components-base-control:last-child {
+  margin-bottom: 24px !important; }
 
 .ep-video-controlers .ep-control-field .components-base-control__field {
   display: -ms-flexbox;
@@ -1486,7 +1492,7 @@ span.isPro {
   margin-top: 0 !important; }
 
 .pro-control-active {
-  margin-bottom: 30px; }
+  margin-bottom: 24px; }
 
 .disabled-content-protection .pro-control-active, .disabled-content-protection .pro-control {
   margin-bottom: 0; }

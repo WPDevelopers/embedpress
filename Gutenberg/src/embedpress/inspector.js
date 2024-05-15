@@ -91,10 +91,11 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         setAttributes({ height: '580' });
     }
 
-    // if (isInstagramHashtag(url)) {
-    //     setAttributes({ instafeedFeedType: 'hashtag_type' });
-    //     setAttributes({ width: '900' });
-    // }
+    if (isInstagramHashtag(url) && width === '600') {
+        setAttributes({ instafeedFeedType: 'hashtag_type' });
+        setAttributes({ width: '900' });
+    }
+
 
     return (
         !editingURL && embedHTML && (
@@ -157,7 +158,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     />
 
                                     {
-                                        ((!isInstagramFeed(url) && !isInstagramHashtag(url)) &&  (!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo) || (videosize == 'fixed')) && (
+                                        ((!isInstagramFeed(url) && !isInstagramHashtag(url)) &&  ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo) || (videosize == 'fixed'))) && (
                                             <TextControl
                                                 label={__("Height")}
                                                 value={height}
