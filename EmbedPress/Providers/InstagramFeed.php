@@ -24,7 +24,7 @@ class InstagramFeed extends Instagram
 {
     /** inline {@inheritdoc} */
     protected $shouldSendRequest = false;
-    
+
     /**
      * Method that verifies if the embed URL belongs to InstagramFeed.
      *
@@ -74,22 +74,21 @@ class InstagramFeed extends Instagram
         return $this->allowedParams;
     }
 
-     public function __construct($url, array $config = [])
-     {
-         parent::__construct($url, $config);
+    public function __construct($url, array $config = [])
+    {
+        parent::__construct($url, $config);
+    }
 
-     }
- 
- 
+
 
     public function validateUrl(Url $url)
     {
-        return 
-        parent::validateUrl($url) ||
-        (bool) preg_match(
-            '/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?|explore\/tags\/[a-zA-Z0-9_\-]+\/?)$/',
-            (string) $url
-        );
+        return
+            parent::validateUrl($url) ||
+            (bool) preg_match(
+                '/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?|explore\/tags\/[a-zA-Z0-9_\-]+\/?)$/',
+                (string) $url
+            );
     }
 
     public function validateInstagramFeed($url)
@@ -242,6 +241,8 @@ class InstagramFeed extends Instagram
 
         $post['account_type'] = $account_type;
         $post['profile_picture_url'] = $profile_picture_url;
+        $post['popup_follow_button'] = isset($params['instafeedPopupFollowBtn']) ? $params['instafeedPopupFollowBtn'] : true;
+        $post['popup_follow_button_text'] = isset($params['instafeedPopupFollowBtnLabel']) ? $params['instafeedPopupFollowBtnLabel'] : 'Follow';
 
         ob_start(); ?>
         <div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr($post['id']) ?>" data-postindex="<?php echo esc_attr($index + 1); ?>" data-postdata="<?php echo htmlspecialchars(json_encode($post), ENT_QUOTES, 'UTF-8'); ?>" data-media-type="<?php echo esc_attr($media_type); ?>">
@@ -594,12 +595,11 @@ class InstagramFeed extends Instagram
     public function getStaticResponse()
     {
         $url = $this->getUrl();
-        $params = $this->getParams();
 
-        if(parent::validateUrl($this->url)){
+        if (parent::validateUrl($this->url)) {
             return parent::getStaticResponse();
         }
-        
+
         $insta_feed = [
             "title"         => "Unknown Title",
             "type"          => "video",
