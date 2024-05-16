@@ -537,6 +537,7 @@ jQuery(document).ready(function ($) {
             },
             success: function (response) {
                 // Handle the response
+                console.log(response);
                 if (response.error) {
                     $('#instagram-form button').text('Connect');
                     $('#instagram-access-token').after(`<p>${response.error}</p>`);

@@ -75,14 +75,20 @@ class Handler extends EndHandlerAbstract
                 $feed_userinfo =  Helper::getInstagramUserInfo($access_token, $account_type, $user_id, true);
                 $feed_posts    =  Helper::getInstagramPosts($access_token, $account_type, $user_id, 100, true);
 
-                $feed_data[$user_id] = [
-                    'feed_userinfo' => $feed_userinfo,
-                    'feed_posts' => $feed_posts,
-                ];
+                if (!empty($user_id)) {
+                    $feed_data[$user_id] = [
+                        'feed_userinfo' => $feed_userinfo,
+                        'feed_posts' => $feed_posts,
+                    ];
 
-                delete_transient('instagram_user_info_' . $user_id);
-                delete_transient('instagram_posts_' . $user_id);
-                update_option('ep_instagram_feed_data', $feed_data);
+                    delete_transient('instagram_user_info_' . $user_id);
+                    delete_transient('instagram_posts_' . $user_id);
+                    update_option('ep_instagram_feed_data', $feed_data);
+                }
+                else{
+                    $feed_data['error'] = "Access token Invalid or expired.";
+                }
+
 
                 wp_send_json($feed_data);
             } else {
@@ -147,11 +153,11 @@ class Handler extends EndHandlerAbstract
         }
     }
 
-    public function get_instagram_profile_picture($access_token, $userid){
-        
-    }
+    public function get_instagram_profile_picture($access_token, $userid)
+    { }
 
-    public function get_instagram_user_id($access_token, $account_type){
+    public function get_instagram_user_id($access_token, $account_type)
+    {
         // Check if user data is already cached
         $user_id = get_transient('instagram_user_id_' . $access_token);
 
@@ -177,7 +183,6 @@ class Handler extends EndHandlerAbstract
 
                         set_transient('instagram_user_id_' . $access_token, $data['id'], HOUR_IN_SECONDS);
                         return $data['id'];
-
                     } else {
                         $data['error'] = "Access token Invalid or expired.";
                     }
