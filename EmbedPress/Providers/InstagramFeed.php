@@ -432,6 +432,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
                 $feed_data = get_option('ep_instagram_feed_data');
 
+                // print_r($feed_data); die;
+
                 if (!empty($feed_data[$userID]['feed_userinfo']['error'])) {
                     return $feed_data[$userID]['feed_userinfo']['error']['message'];
                 }

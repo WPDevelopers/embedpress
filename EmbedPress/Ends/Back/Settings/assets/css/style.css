@@ -4784,3 +4784,17 @@ td.instagram-user-account {
     align-items: center;
     gap: 10px;
 }
+
+td.instagram-sync-data{
+    cursor: pointer;
+}
+
+.sync-spin {
+    animation: spin 1s linear infinite; /* Apply the spin animation */
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg); /* Rotate the element 360 degrees */
+    }
+}

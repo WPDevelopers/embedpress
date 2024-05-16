@@ -17,7 +17,6 @@ $feed_data = !empty(get_option('ep_instagram_feed_data')) ? get_option('ep_insta
 $get_data = $personal_data;
 
 
-
 $is_connected = false;
 
 
@@ -74,7 +73,7 @@ $is_connected = false;
                             <th><?php echo esc_html__('Account', 'embedpress'); ?></th>
                             <!-- <th><?php echo esc_html__('Username', 'embedpress'); ?></th> -->
                             <th><?php echo esc_html__('Access Token', 'embedpress'); ?></th>
-                            <th><?php echo esc_html__('Expire Date', 'embedpress'); ?></th>
+                            <!-- <th><?php echo esc_html__('Expire Date', 'embedpress'); ?></th> -->
                             <th><?php echo esc_html__('Type', 'embedpress'); ?></th>
                             <th><?php echo esc_html__('Profile Link', 'embedpress'); ?></th>
                             <th><?php echo esc_html__('Sync', 'embedpress'); ?></th>
@@ -120,13 +119,13 @@ $is_connected = false;
                                         <span>...</span>
                                         <!-- <button class="button button-primary"><i class="dashicons dashicons-admin-page"></i></button> -->
                                     </td>
-                                    <td>1312</td>
+                                    <!-- <td>1312</td> -->
                                     <td style="text-transform: uppercase;"><?php echo esc_attr($data['account_type']); ?></td>
 
                                     <td><button class="user-profile-link" title="<?php echo esc_attr('https://instagram.com/' . $data['username']) ?>">Copy</button></td>
 
-                                    <td>
-                                        <a href="#" class=""><i class="dashicons dashicons-update-alt emcs-dashicon"></i></a>
+                                    <td class="instagram-sync-data" data-userid="<?php echo esc_attr($data['user_id'])?>" data-acceess-token="<?php echo esc_attr($data['access_token'])?>" data-account-type="<?php echo esc_attr($data['account_type'])?>">
+                                       <i class="dashicons dashicons-update-alt emcs-dashicon"></i>
                                     </td>
                                     <td>
                                         <button class="button button-secondary account-delete-button"><i class="dashicons dashicons-trash"></i></button>

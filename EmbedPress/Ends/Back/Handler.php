@@ -48,6 +48,9 @@ class Handler extends EndHandlerAbstract
         if (defined('EMBEDPRESS_SL_ITEM_SLUG') && is_admin()) {
             add_action('admin_enqueue_scripts',  [$this, 'enqueueLisenceScripts']);
         }
+
+        add_action('wp_ajax_sync_instagram_data_ajax', [$this, 'sync_instagram_data_ajax']);
+        add_action('wp_ajax_nopriv_sync_instagram_data_ajax', [$this, 'sync_instagram_data_ajax']);
     }
 
 
@@ -63,6 +66,38 @@ class Handler extends EndHandlerAbstract
                 $this->handle_instagram_data($user_data);
 
                 wp_send_json($user_data);
+            } else {
+                wp_send_json_error('Access token not provided');
+            }
+        } else {
+            wp_send_json_error('Nonce verification failed');
+        }
+    }
+
+    public function sync_instagram_data_ajax()
+    {
+        if (isset($_POST['_nonce']) && wp_verify_nonce($_POST['_nonce'], 'embedpress_elements_action')) {
+            if (isset($_POST['access_token'])) {
+
+                $access_token = sanitize_text_field($_POST['access_token']);
+                $account_type = sanitize_text_field($_POST['account_type']);
+                $user_id = sanitize_text_field($_POST['user_id']);
+
+                $option_key = 'ep_instagram_feed_data';
+                $feed_data = get_option($option_key, array());
+
+                $feed_userinfo =  Helper::getInstagramUserInfo($access_token, $account_type, $user_id);
+                $feed_posts    =  Helper::getInstagramPosts($access_token, $account_type, $user_id);
+
+                $feed_data[$user_id] = [
+                    'feed_userinfo' => $feed_userinfo,
+                    'feed_posts' => $feed_posts,
+                ];
+
+                update_option('ep_instagram_feed_data', $feed_data);
+
+
+                wp_send_json($feed_data);
             } else {
                 wp_send_json_error('Access token not provided');
             }

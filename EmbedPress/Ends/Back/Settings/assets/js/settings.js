@@ -514,7 +514,7 @@ jQuery(document).ready(function ($) {
     $('#instagram-form').on('submit', function (e) {
         e.preventDefault(); // Prevent default form submission
 
-        console.log($('#instagram-form p'));
+
         if ($('#instagram-form p').length > 0) {
             $('#instagram-form p').remove();
         }
@@ -557,6 +557,51 @@ jQuery(document).ready(function ($) {
             }
         });
     });
+
+
+    $('.instagram-sync-data').on('click', function (e) {
+        e.preventDefault(); // Prevent default form submission
+        $that = $(this);
+
+        var access_token = $that.data('acceess-token');
+        var account_type = $that.data('account-type');
+        var user_id = $that.data('userid');
+
+        // Add or remove the spinner class to start or stop the spinning animation
+        $that.find('i').addClass('sync-spin'); // Start spinning
+
+
+        // AJAX request
+        $.ajax({
+            url: ajaxurl, // WordPress AJAX URL
+            type: 'POST',
+            data: {
+                action: 'sync_instagram_data_ajax', // AJAX action hook
+                access_token: access_token, // Access token data
+                account_type: account_type, // Account type data
+                user_id: user_id, // User ID data
+                _nonce: embedpressObj.nonce
+            },
+            success: function (response) {
+                // Handle the response
+                console.log(response);
+                if (response.error) {
+                } else {
+                    $that.removeClass('sync-spin'); // Stop spinning
+
+                    $that.text('Synced.');
+                    setTimeout(() => {
+                        // window.location.reload();
+                    }, 1000);
+                }
+            },
+            error: function (xhr, status, error) {
+                // Handle errors
+                console.error(error);
+            }
+        });
+    });
+
 
 
     $('.calendly-event-copy-link').click(function () {
