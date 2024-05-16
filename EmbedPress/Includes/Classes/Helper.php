@@ -1173,8 +1173,22 @@ class Helper
 	}
 
 
-	public static function getInstagramUserInfo($accessToken, $accountType, $userId)
+	public static function getInstagramUserInfo($accessToken, $accountType, $userId, $is_sync = false)
 	{
+		if ($is_sync) {
+			// If $is_sync is true, don't use transient
+			$use_transient = false;
+		} else {
+			// If $is_sync is false, use transient
+			$transient_key = 'instagram_user_info_' . $userId;
+			$use_transient = true;
+		}
+
+		if ($use_transient && false !== ($userInfo = get_transient($transient_key))) {
+			// If transient exists, return cached user info
+			return $userInfo;
+		}
+
 		if (strtolower($accountType) === 'business') {
 			$api_url = 'https://graph.facebook.com/' . $userId . '?fields=biography,id,username,website,followers_count,media_count,profile_picture_url,name&access_token=' . $accessToken;
 		} else {
@@ -1192,18 +1206,40 @@ class Helper
 			$userInfo = json_decode($userInfoBody, true);
 
 			$userInfo['connected_account_type'] = $connected_account_type;
+			$userInfo['access_token'] = $accessToken;
+
 
 			if (!isset($userInfo['profile_picture_url'])) {
 				$userInfo['profile_picture_url'] = '';
+			}
+
+			// If not using transient, cache the user info for an hour
+			if ($use_transient) {
+				set_transient($transient_key, $userInfo, HOUR_IN_SECONDS);
 			}
 
 			return $userInfo;
 		}
 	}
 
+
 	// Get Instagram posts, videos, reels
-	public static function getInstagramPosts($access_token, $account_type, $userId, $limit = 100)
+	public static function getInstagramPosts($access_token, $account_type, $userId, $limit = 100, $is_sync = false)
 	{
+		if ($is_sync) {
+			// If $is_sync is true, don't use transient
+			$use_transient = false;
+		} else {
+			// If $is_sync is false, use transient
+			$transient_key = 'instagram_posts_' . $userId;
+			$use_transient = true;
+		}
+
+		if ($use_transient && false !== ($posts = get_transient($transient_key))) {
+			// If transient exists, return cached posts
+			return $posts;
+		}
+
 		if (strtolower($account_type) === 'business') {
 			$api_url = 'https://graph.facebook.com/v17.0/' . $userId . '/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=' . $limit . '&access_token=' . $access_token;
 		} else {
@@ -1220,6 +1256,11 @@ class Helper
 
 			if (empty($posts['data'])) {
 				return 'Please add Instagram Access Token';
+			}
+
+			// If not using transient, cache the posts for an hour
+			if ($use_transient) {
+				set_transient($transient_key, $posts['data'], HOUR_IN_SECONDS);
 			}
 
 			return $posts['data'];

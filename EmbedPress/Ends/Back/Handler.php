@@ -61,11 +61,30 @@ class Handler extends EndHandlerAbstract
                 $access_token = sanitize_text_field($_POST['access_token']);
                 $account_type = sanitize_text_field($_POST['account_type']);
 
-                $user_data = $this->get_instagram_userdata($access_token, $account_type);
+                // $user_data = $this->get_instagram_userdata($access_token, $account_type);
 
-                $this->handle_instagram_data($user_data);
+                // $this->handle_instagram_data($user_data);
 
-                wp_send_json($user_data);
+                $access_token = sanitize_text_field($_POST['access_token']);
+                $account_type = sanitize_text_field($_POST['account_type']);
+                $user_id = $this->get_instagram_userid($access_token, $account_type);
+
+                $option_key = 'ep_instagram_feed_data';
+                $feed_data = get_option($option_key, array());
+
+                $feed_userinfo =  Helper::getInstagramUserInfo($access_token, $account_type, $user_id, true);
+                $feed_posts    =  Helper::getInstagramPosts($access_token, $account_type, $user_id, 100, true);
+
+                $feed_data[$user_id] = [
+                    'feed_userinfo' => $feed_userinfo,
+                    'feed_posts' => $feed_posts,
+                ];
+
+                delete_transient('instagram_user_info_' . $user_id);
+                delete_transient('instagram_posts_' . $user_id);
+                update_option('ep_instagram_feed_data', $feed_data);
+
+                wp_send_json($feed_data);
             } else {
                 wp_send_json_error('Access token not provided');
             }
@@ -86,14 +105,16 @@ class Handler extends EndHandlerAbstract
                 $option_key = 'ep_instagram_feed_data';
                 $feed_data = get_option($option_key, array());
 
-                $feed_userinfo =  Helper::getInstagramUserInfo($access_token, $account_type, $user_id);
-                $feed_posts    =  Helper::getInstagramPosts($access_token, $account_type, $user_id);
+                $feed_userinfo =  Helper::getInstagramUserInfo($access_token, $account_type, $user_id, true);
+                $feed_posts    =  Helper::getInstagramPosts($access_token, $account_type, $user_id, 100, true);
 
                 $feed_data[$user_id] = [
                     'feed_userinfo' => $feed_userinfo,
                     'feed_posts' => $feed_posts,
                 ];
 
+                delete_transient('instagram_user_info_' . $user_id);
+                delete_transient('instagram_posts_' . $user_id);
                 update_option('ep_instagram_feed_data', $feed_data);
 
 
@@ -124,6 +145,52 @@ class Handler extends EndHandlerAbstract
         } else {
             $user_data['error'] = "Error: Unable to connect to Instagram API.";
         }
+    }
+
+    public function get_instagram_user_id($access_token, $account_type){
+        // Check if user data is already cached
+        $user_id = get_transient('instagram_user_id_' . $access_token);
+
+        if (!$user_id) {
+            $user_id = array();
+
+            if ($account_type == 'personal') {
+                $response = wp_remote_get('https://graph.instagram.com/me?fields=id,username,account_type&access_token=' . $access_token);
+            } else {
+                $response = wp_remote_get('https://graph.facebook.com/v19.0/me/accounts?fields=connected_instagram_account{id,name,username,followers_count}&access_token=' . $access_token);
+            }
+
+
+            if (!is_wp_error($response)) {
+
+                $body = wp_remote_retrieve_body($response);
+                $data = json_decode($body, true);
+
+                if ($account_type == 'personal') {
+
+                    if (isset($data['id']) && isset($data['username'])) {
+                        return $data['id'];
+
+                        set_transient('instagram_user_id_' . $access_token, $data['id'], HOUR_IN_SECONDS);
+                        return $data['id'];
+
+                    } else {
+                        $data['error'] = "Access token Invalid or expired.";
+                    }
+                } else {
+                    if (isset($data['data'][0]['connected_instagram_account']['id']) && isset($data['data'][0]['connected_instagram_account']['username'])) {
+                        set_transient('instagram_user_id_' . $access_token, $data['data'][0]['connected_instagram_account']['id'], HOUR_IN_SECONDS);
+                        return $data['data'][0]['connected_instagram_account']['id'];
+                    } else {
+                        $data['error'] = "Access token Invalid or expired.";
+                    }
+                }
+            } else {
+                $data['error'] = "Error: Unable to connect to Instagram API.";
+            }
+        }
+
+        return $data;
     }
 
     public function get_instagram_userdata($access_token, $account_type)
@@ -178,6 +245,8 @@ class Handler extends EndHandlerAbstract
 
         return $user_data;
     }
+
+
 
 
     public function handle_instagram_data($user_data)

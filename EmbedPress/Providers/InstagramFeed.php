@@ -5,6 +5,7 @@ namespace EmbedPress\Providers;
 use EmbedPress\Includes\Classes\Helper;
 use Embera\Provider\ProviderAdapter;
 use Embera\Provider\ProviderInterface;
+use Embera\Provider\Instagram;
 use Embera\Url;
 
 (defined('ABSPATH') && defined('EMBEDPRESS_IS_LOADED')) or die("No direct script access allowed.");
@@ -19,12 +20,11 @@ use Embera\Url;
  * @license     GPLv3 or later
  * @since       1.0.0
  */
-class InstagramFeed extends ProviderAdapter implements ProviderInterface
+class InstagramFeed extends Instagram
 {
     /** inline {@inheritdoc} */
     protected $shouldSendRequest = false;
-
-    protected static $hosts = ["instagram.com"];
+    
     /**
      * Method that verifies if the embed URL belongs to InstagramFeed.
      *
@@ -74,10 +74,19 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         return $this->allowedParams;
     }
 
+     public function __construct($url, array $config = [])
+     {
+         parent::__construct($url, $config);
+
+     }
+ 
+ 
 
     public function validateUrl(Url $url)
     {
-        return (bool) preg_match(
+        return 
+        parent::validateUrl($url) ||
+        (bool) preg_match(
             '/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?|explore\/tags\/[a-zA-Z0-9_\-]+\/?)$/',
             (string) $url
         );
@@ -106,80 +115,6 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
         return false;
     }
-
-    // get instagram user info
-    public function getInstagramUserInfo($accessToken, $accountType, $userId)
-    {
-        $transient_key = 'instagram_user_info_' . md5($accessToken . $accountType . $userId);
-        $cached_user_info = get_transient($transient_key);
-
-        if ($cached_user_info !== false) {
-            return $cached_user_info;
-        }
-
-        if (strtolower($accountType) === 'business') {
-            $api_url = 'https://graph.facebook.com/' . $userId . '?fields=biography,id,username,website,followers_count,media_count,profile_picture_url,name&access_token=' . $accessToken;
-        } else {
-            $api_url = "https://graph.instagram.com/me?fields=id,username,account_type,media_count,followers_count,biography,website&access_token={$accessToken}";
-        }
-
-        $connected_account_type = $accountType;
-
-        $userInfoResponse = wp_remote_get($api_url);
-
-        if (is_wp_error($userInfoResponse)) {
-            echo 'Error: Unable to retrieve Instagram user information.';
-        } else {
-            $userInfoBody = wp_remote_retrieve_body($userInfoResponse);
-            $userInfo = json_decode($userInfoBody, true);
-
-            $userInfo['connected_account_type'] = $connected_account_type;
-
-            if (!isset($userInfo['profile_picture_url'])) {
-                $userInfo['profile_picture_url'] = '';
-            }
-
-            set_transient($transient_key, $userInfo, 3600);
-
-            return $userInfo;
-        }
-    }
-
-
-    // Get Instagram posts, videos, reels
-    public function getInstagramPosts($access_token, $account_type, $userId, $limit = 100)
-    {
-        $transient_key = 'instagram_posts_' . md5($access_token . $account_type . $userId . $limit);
-        $cached_posts = get_transient($transient_key);
-
-        if ($cached_posts !== false) {
-            return $cached_posts;
-        }
-
-        if (strtolower($account_type) === 'business') {
-            $api_url = 'https://graph.facebook.com/v17.0/' . $userId . '/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=' . $limit . '&access_token=' . $access_token;
-        } else {
-            $api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$access_token";
-        }
-
-        $postsResponse = wp_remote_get($api_url);
-
-        if (is_wp_error($postsResponse)) {
-            echo 'Error: Unable to retrieve Instagram posts.';
-        } else {
-            $postsBody = wp_remote_retrieve_body($postsResponse);
-            $posts = json_decode($postsBody, true);
-
-            if (empty($posts['data'])) {
-                return 'Please add Instagram Access Token';
-            }
-
-            set_transient($transient_key, $posts['data'], 3600);
-
-            return $posts['data'];
-        }
-    }
-
 
     public function getHashTag($url)
     {
@@ -268,9 +203,8 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
         $option_key = 'ep_instagram_feed_data';
         $feed_data = get_option($option_key, array());
 
-        // if (!isset($feed_data[$user_id])) {
-        $feed_userinfo = $this->getInstagramUserInfo($access_token, $connected_account_type, $user_id);
-        $feed_posts = $this->getInstagramPosts($access_token, $connected_account_type, $user_id, $limit);
+        $feed_userinfo =  Helper::getInstagramUserInfo($access_token, $connected_account_type, $user_id, false);
+        $feed_posts    =  Helper::getInstagramPosts($access_token, $connected_account_type, $user_id, $limit, false);
 
         $feed_data[$user_id] = [
             'feed_userinfo' => $feed_userinfo,
@@ -659,6 +593,13 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
 
     public function getStaticResponse()
     {
+        $url = $this->getUrl();
+        $params = $this->getParams();
+
+        if(parent::validateUrl($this->url)){
+            return parent::getStaticResponse();
+        }
+        
         $insta_feed = [
             "title"         => "Unknown Title",
             "type"          => "video",
@@ -666,9 +607,6 @@ class InstagramFeed extends ProviderAdapter implements ProviderInterface
             "provider_url"  => 'https://instagram.com',
             'html'          => "",
         ];
-
-        $url = $this->getUrl();
-        $params = $this->getParams();
 
         $connected_users =  get_option('ep_instagram_account_data');
 

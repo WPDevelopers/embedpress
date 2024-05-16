@@ -537,6 +537,7 @@ jQuery(document).ready(function ($) {
             },
             success: function (response) {
                 // Handle the response
+                console.log(response);
                 if (response.error) {
                     $('#instagram-form button').text('Connect');
                     $('#instagram-access-token').after(`<p>${response.error}</p>`);
@@ -547,7 +548,7 @@ jQuery(document).ready(function ($) {
                 } else {
                     $('#instagram-form button').text('Connected');
                     setTimeout(() => {
-                        window.location.reload();
+                        // window.location.reload();
                     }, 1000);
                 }
             },
@@ -569,6 +570,7 @@ jQuery(document).ready(function ($) {
 
         // Add or remove the spinner class to start or stop the spinning animation
         $that.find('i').addClass('sync-spin'); // Start spinning
+        $that.attr('disabled', 'disabled');
 
 
         // AJAX request
@@ -586,12 +588,13 @@ jQuery(document).ready(function ($) {
                 // Handle the response
                 console.log(response);
                 if (response.error) {
+                    $that.removeAttr('disabled');
                 } else {
                     $that.removeClass('sync-spin'); // Stop spinning
 
                     $that.text('Synced.');
                     setTimeout(() => {
-                        // window.location.reload();
+                        window.location.reload();
                     }, 1000);
                 }
             },
