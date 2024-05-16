@@ -537,7 +537,6 @@ jQuery(document).ready(function ($) {
             },
             success: function (response) {
                 // Handle the response
-                console.log(response);
                 if (response.error) {
                     $('#instagram-form button').text('Connect');
                     $('#instagram-access-token').after(`<p>${response.error}</p>`);
@@ -548,7 +547,7 @@ jQuery(document).ready(function ($) {
                 } else {
                     $('#instagram-form button').text('Connected');
                     setTimeout(() => {
-                        // window.location.reload();
+                        window.location.reload();
                     }, 1000);
                 }
             },

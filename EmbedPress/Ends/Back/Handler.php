@@ -61,9 +61,9 @@ class Handler extends EndHandlerAbstract
                 $access_token = sanitize_text_field($_POST['access_token']);
                 $account_type = sanitize_text_field($_POST['account_type']);
 
-                // $user_data = $this->get_instagram_userdata($access_token, $account_type);
+                $user_data = $this->get_instagram_userdata($access_token, $account_type);
 
-                // $this->handle_instagram_data($user_data);
+                $this->handle_instagram_data($user_data);
 
                 $access_token = sanitize_text_field($_POST['access_token']);
                 $account_type = sanitize_text_field($_POST['account_type']);
@@ -145,6 +145,10 @@ class Handler extends EndHandlerAbstract
         } else {
             $user_data['error'] = "Error: Unable to connect to Instagram API.";
         }
+    }
+
+    public function get_instagram_profile_picture($access_token, $userid){
+        
     }
 
     public function get_instagram_user_id($access_token, $account_type){
