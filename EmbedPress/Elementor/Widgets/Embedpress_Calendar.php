@@ -293,7 +293,7 @@ class Embedpress_Calendar extends Widget_Base
 	protected function render()
 	{
 		$settings = $this->get_settings();
-		$id = 'embedpress-calendar-' . $this->get_id();
+		$id = 'embedpress-calendar-' .esc_attr( $this->get_id());
 		$dimension = "width: " . esc_attr($settings['embedpress_elementor_calendar_width']['size']) . "px; height: " . esc_attr($settings['embedpress_elementor_calendar_height']['size']) . "px";
 
 		if(!empty($settings['embedpress_public_cal_link']) && !$this->isGoogleCalendar($settings['embedpress_public_cal_link'])) {

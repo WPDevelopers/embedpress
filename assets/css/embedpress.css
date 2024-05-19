@@ -1814,6 +1814,14 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     pointer-events: none !important;
 }
 
+[data-playerid]{
+    opacity: 0;
+}
+.plyr--paused.plyr__poster-enabled .plyr__poster {
+	display: block !important;
+	opacity: 1;
+}
+
 @media only screen and (max-width: 767px) {
     .plyr__controls [data-plyr="restart"], .plyr__controls [data-plyr="rewind"], .plyr__controls [data-plyr="fast-forward"], .plyr__controls [data-plyr="pip"] {
         display: none !important;

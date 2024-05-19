@@ -3368,8 +3368,8 @@ class Embedpress_Elementor extends Widget_Base
 					'unit' => 'px',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive, {{WRAPPER}} .ad-youtube-video > iframe 
-					' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive, {{WRAPPER}} .ad-youtube-video > iframe, 
+					{{WRAPPER}} .plyr--video' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
 				],
 			]
 		);
@@ -3405,8 +3405,8 @@ class Embedpress_Elementor extends Widget_Base
 					'unit' => 'px',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive,{{WRAPPER}} .ad-youtube-video > iframe
-					' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive,{{WRAPPER}} .ad-youtube-video > iframe,
+					{{WRAPPER}} .plyr--video' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
 				],
 				'condition' => [
 					'embedpress_pro_embeded_source!' => 'instafeed'
@@ -3783,13 +3783,13 @@ class Embedpress_Elementor extends Widget_Base
 		$data_player_id = '';
 
 		if (!empty($settings['emberpress_custom_player']) && $settings['emberpress_custom_player'] === 'yes') {
-			$data_player_id = "data-playerid=" . $this->get_id();
+			$data_player_id = "data-playerid=" . esc_attr($this->get_id());
 		}
 
 		?>
 
 		<div class="embedpress-elements-wrapper <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : '';
-														echo esc_attr($cEmbedType); ?>" id="ep-elements-id-<?php echo $this->get_id(); ?>">
+														echo esc_attr($cEmbedType); ?>" id="ep-elements-id-<?php echo esc_attr($this->get_id()); ?>">
 			<?php
 					// handle notice display
 					if ($is_editor_view && $is_apple_podcast && !is_embedpress_pro_active()) {

@@ -67,6 +67,30 @@ let epGlobals = {};
         });
     }
 
+    epGlobals.handlePosterImageLoad = function () {
+        var posterImages = document.querySelectorAll(".plyr__poster");
+        posterImages.forEach(function(posterImage) {
+            if (posterImage) {
+                var videoWrappers = document.querySelectorAll("[data-playerid]");
+                videoWrappers.forEach(function(videoWrapper) {
+                    var observer = new MutationObserver(function (mutationsList, observer) {
+                        var posterImageStyle = window.getComputedStyle(posterImage);
+                        if (posterImageStyle.getPropertyValue('background-image') !== 'none') {
+                            setTimeout(function () {
+                                videoWrapper.style.opacity = "1";
+                            }, 200);
+                            observer.disconnect();
+                        }
+                    });
+        
+                    observer.observe(posterImage, { attributes: true, attributeFilter: ['style'] });
+                });
+            }
+        });
+    }
+    
+
+
     // Run on initial load.
     embedPressResponsiveEmbeds();
 
@@ -987,6 +1011,7 @@ jQuery(window).on("elementor/frontend/init", function () {
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpress_pdf.default", filterableGalleryHandler);
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_document.default", filterableGalleryHandler);
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", adsHandler);
+    elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", epGlobals.handlePosterImageLoad);
 });
 
 
@@ -1016,5 +1041,4 @@ if (isIOSDevice()) {
     presentationModeForIOS(iframes)
 }
 
-
-
+document.addEventListener("DOMContentLoaded", epGlobals.handlePosterImageLoad);

@@ -279,8 +279,7 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
   -ms-user-select: none; }
 
 .ep__components-placeholder,
-.wp-block-embedpress-embedpress,
-.block-editor-block-list__block {
+.wp-block-embedpress-embedpress {
   clear: both !important; }
 
 .wp-block-embed.is-loading p {
@@ -1528,7 +1527,7 @@ span.isPro {
 .embedpress-inner-iframe.ep-alignleft {
   text-align: left; }
 
-.ep__components-placeholder, .wp-block-embedpress-embedpress, .block-editor-block-list__block {
+.ep__components-placeholder, .wp-block-embedpress-embedpress {
   clear: both !important; }
 
 .ep-pdf-width-contol {

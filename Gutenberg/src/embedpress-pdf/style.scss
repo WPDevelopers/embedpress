@@ -221,7 +221,10 @@ span.isPro {
 //     text-align:left;
 // }
 
-.ep__components-placeholder, .wp-block-embedpress-embedpress, .block-editor-block-list__block{
+// .ep__components-placeholder, .wp-block-embedpress-embedpress, .block-editor-block-list__block{
+//     clear: both!important;
+// }
+.ep__components-placeholder, .wp-block-embedpress-embedpress{
     clear: both!important;
 }
 
