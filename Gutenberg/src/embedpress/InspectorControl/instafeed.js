@@ -302,12 +302,13 @@ export default function Instafeed({ attributes, setAttributes }) {
                                 />
                             )}
 
-                            <ToggleControl
-                                label={__('Account Name', 'embedpress')}
-                                checked={instafeedAccName}
-                                onChange={(instafeedAccName) => setAttributes({ instafeedAccName })}
-                            />
-
+                            {instafeedAccountType === 'business' && (
+                                <ToggleControl
+                                    label={__('Account Name', 'embedpress')}
+                                    checked={instafeedAccName}
+                                    onChange={(instafeedAccName) => setAttributes({ instafeedAccName })}
+                                />
+                            )}
 
                         </PanelBody>
 

@@ -241,6 +241,8 @@ class InstagramFeed extends Instagram
 
         $post['account_type'] = $account_type;
         $post['profile_picture_url'] = $profile_picture_url;
+        $post['show_likes_count'] = isset($params['instafeedLikesCount']) ? $params['instafeedLikesCount'] : false;
+        $post['show_comments_count'] = isset($params['instafeedCommentsCount']) ? $params['instafeedCommentsCount'] : false;
         $post['popup_follow_button'] = isset($params['instafeedPopupFollowBtn']) ? $params['instafeedPopupFollowBtn'] : true;
         $post['popup_follow_button_text'] = isset($params['instafeedPopupFollowBtnLabel']) ? $params['instafeedPopupFollowBtnLabel'] : 'Follow';
 
@@ -467,13 +469,13 @@ class InstagramFeed extends Instagram
                             <?php if (!empty($params['instafeedFollowersCount']) && $params['instafeedFollowersCount'] !== 'false' && $params['instafeedFollowersCountText'] !== 'true') : ?>
                                 <?php if (strtolower($connected_account_type) !== 'personal') : ?>
                                     <div class="followers-count">
-                                        <?php if (!empty($params['instafeedPostsCountText']) && $params['instafeedPostsCountText'] !== 'false' && $params['instafeedPostsCountText'] !== 'true') : ?>
+                                        <?php if (!empty($params['instafeedFollowersCountText']) && $params['instafeedFollowersCountText'] !== 'false' && $params['instafeedFollowersCountText'] !== 'true') : ?>
                                             <a class="followers-link" target="_blank" href="<?php echo esc_url('https://instagram.com/' . $username . '/followers'); ?>" role="link" tabindex="0">
                                                 <?php
-                                                                            $followers_count_text = str_replace('[count]', '<span class="count">' . $followers_count . '</span>', $params['instafeedFollowersCountText']);
+                                                    $followers_count_text = str_replace('[count]', '<span class="count">' . $followers_count . '</span>', $params['instafeedFollowersCountText']);
 
-                                                                            echo wp_kses_post($followers_count_text);
-                                                                            ?>
+                                                    echo wp_kses_post($followers_count_text);
+                                                    ?>
                                             </a>
                                         <?php endif; ?>
                                     </div>

@@ -2822,8 +2822,8 @@ class Embedpress_Elementor extends Widget_Base
 				'type'         => Controls_Manager::SWITCHER,
 				'classes'     => $this->pro_class,
 				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'yes',
+				'return_value' => 'true',
+				'default'      => 'true',
 				'conditions' => [
 					'relation' => 'or',
 					'terms' => [
@@ -2859,8 +2859,8 @@ class Embedpress_Elementor extends Widget_Base
 				'type'         => Controls_Manager::SWITCHER,
 				'classes'     => $this->pro_class,
 				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'yes',
+				'return_value' => 'true',
+				'default'      => 'true',
 
 				'conditions' => [
 					'relation' => 'or',
@@ -3123,6 +3123,7 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default'      => 'yes',
 				'condition' => [
+					'instafeedAccountType!' => 'personal',
 					'instafeedFeedType!' => 'hashtag_type',
 					'embedpress_pro_embeded_source' => 'instafeed'
 				],
@@ -3406,6 +3407,9 @@ class Embedpress_Elementor extends Widget_Base
 				'selectors' => [
 					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive,{{WRAPPER}} .ad-youtube-video > iframe
 					' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
+				],
+				'condition' => [
+					'embedpress_pro_embeded_source!' => 'instafeed'
 				],
 			]
 		);

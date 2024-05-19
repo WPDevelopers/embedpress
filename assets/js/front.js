@@ -474,14 +474,21 @@ let epGlobals = {};
         let likeComments = '';
 
         if (eplocalize.is_pro_plugin_active && accountType === 'business') {
-            likeComments += `
-        <div class="embedpress-inline popup-like-button"><a target="_blank" href="${instaPostData.permalink}">${likeIcon} ${instaPostData.like_count || 0}</a></div> 
-        <div class="embedpress-inline"><a target="_blank" href="${instaPostData.permalink}">${commentsIcon} ${instaPostData.comments_count || 0}</a></div>
-    `;
+            if (instaPostData.show_likes_count == 'true') {
+                likeComments += `
+                    <div class="embedpress-inline popup-like-button"><a target="_blank" href="${instaPostData.permalink}">${likeIcon} ${instaPostData.like_count || 0}</a></div> 
+                `;
+            }
+            if (instaPostData.show_comments_count == 'true') {
+                likeComments += `
+                    <div class="embedpress-inline"><a target="_blank" href="${instaPostData.permalink}">${commentsIcon} ${instaPostData.comments_count || 0}</a></div>
+                `;
+            }
         }
+        
 
         let followBtn = '';
-        if (instaPostData.popup_follow_button == 'true') {
+        if (instaPostData.popup_follow_button == 'true' || instaPostData.popup_follow_button == 'yes') {
             followBtn = `<div class="insta-followbtn">
                 <a target="_new" href="${srcUrl}" type="button" class="btn btn-primary">${instaPostData.popup_follow_button_text}</a>
             </div>`;
@@ -565,10 +572,6 @@ let epGlobals = {};
 
 
                 event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData, hashtag, accountType);
-
-                const followText = event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').getAttribute('data-follow-text');
-
-                event.target.closest('.ose-instagram-feed').querySelector('.insta-followbtn a').innerText = followText;
 
                 if (!document.querySelector(`#post-${postid}`).classList.contains('carousel-is-initialized')) {
                     const carousel = new CgCarousel(`#post-${postid}`, { slidesPerView: 1, loop: true }, {});

@@ -299,7 +299,7 @@ function embedpress_render_block_style($attributes)
 	$player_color = !empty($attributes['playerColor']) ? $attributes['playerColor'] : '';
 	$player_pip = !empty($attributes['playerPip']) ? 'block' : 'none';
 	$logoX = !empty($attributes['logoX']) ? $attributes['logoX'] : 5;
-	$logoY = !empty($attributes['logoY']) ? $attributes['logoX'] : 10;
+	$logoY = !empty($attributes['logoY']) ? $attributes['logoY'] : 10;
 	$logoOpacity = !empty($attributes['logoOpacity']) ? $attributes['logoOpacity'] : '1';
 	$player_pip = !empty($attributes['playerPip']) ? 'block' : 'none';
 

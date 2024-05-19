@@ -230,7 +230,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
 
                                             {isProPluginActive && instafeedFeedType === 'hashtag_type' && (
                                                 <PanelRow className="elementor-panel-alert elementor-panel-warning-info">
-                                                    To embed #hashtag posts you need to connect business account. <a href="/learnmore">Learn More</a>
+                                                    To embed #hashtag posts you need to connect business account. <a href="https://embedpress.com/docs/generate-instagram-access-token/">Learn More</a>
                                                 </PanelRow>
                                             )}
 
