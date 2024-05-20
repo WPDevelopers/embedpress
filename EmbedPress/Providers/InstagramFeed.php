@@ -556,10 +556,10 @@ class InstagramFeed extends Instagram
                 </div>
 
                 <!-- Popup div -->
-                <?php if (!empty($params['instafeedPopup']) && $params['instafeedPopup'] !== 'false' && $params['instafeedPopupFollowBtnLabel'] !== 'false' && $params['instafeedPopupFollowBtnLabel'] !== 'true') : ?>
+                <?php if (!empty($params['instafeedPopup']) && $params['instafeedPopup'] !== 'false') : ?>
                     <div class="insta-popup" style="display: none;">
                         <div class="popup-wrapper popup-is-opened">
-                            <div class="popup popup-is-initialized" tabindex="-1" data-follow-text="<?php echo (!empty($params['instafeedPopupFollowBtnLabel']) && $params['instafeedPopupFollowBtnLabel'] !== 'false') ? esc_attr($params['instafeedPopupFollowBtnLabel']) : ''; ?>"> </div>
+                            <div class="popup popup-is-initialized" tabindex="-1"> </div>
                             <div class="popup-close">✕</div>
                         </div>
                     </div>

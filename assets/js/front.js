@@ -69,10 +69,10 @@ let epGlobals = {};
 
     epGlobals.handlePosterImageLoad = function () {
         var posterImages = document.querySelectorAll(".plyr__poster");
-        posterImages.forEach(function(posterImage) {
+        posterImages.forEach(function (posterImage) {
             if (posterImage) {
                 var videoWrappers = document.querySelectorAll("[data-playerid]");
-                videoWrappers.forEach(function(videoWrapper) {
+                videoWrappers.forEach(function (videoWrapper) {
                     var observer = new MutationObserver(function (mutationsList, observer) {
                         var posterImageStyle = window.getComputedStyle(posterImage);
                         if (posterImageStyle.getPropertyValue('background-image') !== 'none') {
@@ -82,13 +82,13 @@ let epGlobals = {};
                             observer.disconnect();
                         }
                     });
-        
+
                     observer.observe(posterImage, { attributes: true, attributeFilter: ['style'] });
                 });
             }
         });
     }
-    
+
 
 
     // Run on initial load.
@@ -509,9 +509,12 @@ let epGlobals = {};
                 `;
             }
         }
-        
+
 
         let followBtn = '';
+            if(instaPostData.popup_follow_button_text == 'false'){
+                instaPostData.popup_follow_button_text = '';
+            }
         if (instaPostData.popup_follow_button == 'true' || instaPostData.popup_follow_button == 'yes') {
             followBtn = `<div class="insta-followbtn">
                 <a target="_new" href="${srcUrl}" type="button" class="btn btn-primary">${instaPostData.popup_follow_button_text}</a>
@@ -595,9 +598,15 @@ let epGlobals = {};
                 }
 
 
-                event.target.closest('.ose-instagram-feed').querySelector('.popup-is-initialized').innerHTML = getPopupTemplate(postData, hashtag, accountType);
+                var feedElement = event.target.closest('.ose-instagram-feed');
+                if (feedElement) {
+                    var popupElement = feedElement.querySelector('.popup-is-initialized');
+                    if (popupElement) {
+                        popupElement.innerHTML = getPopupTemplate(postData, hashtag, accountType);
+                    } 
+                }
 
-                if (!document.querySelector(`#post-${postid}`).classList.contains('carousel-is-initialized')) {
+                if (!document.querySelector(`#post-${postid}`)?.classList.contains('carousel-is-initialized')) {
                     const carousel = new CgCarousel(`#post-${postid}`, { slidesPerView: 1, loop: true }, {});
 
                     const next = document.querySelector(`#post-${postid} .js-carousel__next-1`);
@@ -606,7 +615,7 @@ let epGlobals = {};
                     const prev = document.querySelector(`#post-${postid} .js-carousel__prev-1`);
                     prev?.addEventListener('click', () => carousel.prev());
 
-                    document.querySelector(`#post-${postid}`).classList.add('carousel-is-initialized');
+                    document.querySelector(`#post-${postid}`)?.classList.add('carousel-is-initialized');
                 }
 
             }
