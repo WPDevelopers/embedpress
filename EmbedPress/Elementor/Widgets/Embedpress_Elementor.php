@@ -179,7 +179,7 @@ class Embedpress_Elementor extends Widget_Base
 			'instafeed_feed_type_important_note',
 			[
 				'type' => \Elementor\Controls_Manager::RAW_HTML,
-				'raw' => 'To embed #hashtag posts you need to connect bussiness account. <a href="/learnmore">Learn More</a>',
+				'raw' => 'To embed #hashtag posts you need to connect bussiness account. <a href="'.esc_url('https://embedpress.com/docs/generate-instagram-access-token/').'">Learn More</a>',
 				'content_classes' => 'elementor-panel-alert elementor-panel-warning-info',
 				'condition'   => [
 					'instafeedFeedType' => 'hashtag_type',
