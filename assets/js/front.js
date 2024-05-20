@@ -512,9 +512,9 @@ let epGlobals = {};
 
 
         let followBtn = '';
-            if(instaPostData.popup_follow_button_text == 'false'){
-                instaPostData.popup_follow_button_text = '';
-            }
+        if (instaPostData.popup_follow_button_text == 'false') {
+            instaPostData.popup_follow_button_text = '';
+        }
         if (instaPostData.popup_follow_button == 'true' || instaPostData.popup_follow_button == 'yes') {
             followBtn = `<div class="insta-followbtn">
                 <a target="_new" href="${srcUrl}" type="button" class="btn btn-primary">${instaPostData.popup_follow_button_text}</a>
@@ -603,7 +603,7 @@ let epGlobals = {};
                     var popupElement = feedElement.querySelector('.popup-is-initialized');
                     if (popupElement) {
                         popupElement.innerHTML = getPopupTemplate(postData, hashtag, accountType);
-                    } 
+                    }
                 }
 
                 if (!document.querySelector(`#post-${postid}`)?.classList.contains('carousel-is-initialized')) {
@@ -696,16 +696,16 @@ let epGlobals = {};
     epGlobals.instaLoadMore = () => {
         $('.insta-load-more-button').on('click', function (e) {
             const that = $(this);
-            const loadmoreBtn = $(this).closest('.load-more-button-container');
+            const loadmoreBtn = that.closest('.load-more-button-container');
             const loadmoreKey = loadmoreBtn.data('loadmorekey');
-            const connectedAccount = $(this).closest('.instagram-container').data('connected-acc-type');
-            const feedType = $(this).closest('.instagram-container').data('feed-type');
-            const hashtagId = $(this).closest('.instagram-container').data('hashtag-id');
-            const userId = $(this).closest('.instagram-container').data('uid');
+            const connectedAccount = that.closest('.instagram-container').data('connected-acc-type');
+            const feedType = that.closest('.instagram-container').data('feed-type');
+            const hashtagId = that.closest('.instagram-container').data('hashtag-id');
+            const userId = that.closest('.instagram-container').data('uid');
             let loadedPosts = loadmoreBtn.data('loaded-posts') || 0;
             let postsPerPage = loadmoreBtn.data('posts-per-page') || 0;
 
-            const instaContainer = $(this).closest('.instagram-container');
+            const instaContainer = that.closest('.instagram-container');
 
             const spinicon = `<svg class="insta-loadmore-spinicon" width="18" height="18" fill="${'#fff'}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_GuJz{transform-origin:center;animation:spinner_STY6 1.5s linear infinite}@keyframes spinner_STY6{100%{transform:rotate(360deg)}}</style><g class="spinner_GuJz"><circle cx="3" cy="12" r="2"/><circle cx="21" cy="12" r="2"/><circle cx="12" cy="21" r="2"/><circle cx="12" cy="3" r="2"/><circle cx="5.64" cy="5.64" r="2"/><circle cx="18.36" cy="18.36" r="2"/><circle cx="5.64" cy="18.36" r="2"/><circle cx="18.36" cy="5.64" r="2"/></g></svg>`;
 

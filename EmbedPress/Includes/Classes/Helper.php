@@ -1056,7 +1056,7 @@ class Helper
 			div[data-sponsored-id] {
 				position: relative;
 				display: inline-block !important;
-
+				max-width: 100%;
 			}
 
 			.ep-percentage-width div[data-sponsored-id] {
