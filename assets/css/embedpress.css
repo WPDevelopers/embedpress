@@ -2747,6 +2747,9 @@ div.popup-close {
     .popup-container .popup-md-3 {
         width: 100%;
     }
+    .embedpress-popup-text{
+        max-height: 300px;
+    }
 
 }
 
