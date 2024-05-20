@@ -34,16 +34,6 @@ class Helper
 		add_action('wp_ajax_loadmore_data_handler', [$this, 'loadmore_data_handler']);
 		add_action('wp_ajax_nopriv_loadmore_data_handler', [$this, 'loadmore_data_handler']);
 
-		// add_action( 'wp_head', [$this, 'ep_add_meta_tags'] );
-	}
-
-	// public function ep_add_meta_tags() {
-	// 	echo 'abstract';
-	// }
-
-	public static function akash()
-	{
-		echo 'akash';
 	}
 
 	public static function parse_query($str, $urlEncoding = true)
@@ -660,6 +650,10 @@ class Helper
 				$user_id = isset($_POST['user_id']) ? sanitize_text_field($_POST['user_id']) : '';
 				$loadmore_key = isset($_POST['loadmore_key']) ? sanitize_text_field($_POST['loadmore_key']) : '';
 				$nonce = isset($_POST['_nonce']) ? sanitize_text_field($_POST['_nonce']) : '';
+				$params = isset($_POST['params']) ? sanitize_text_field($_POST['params']) : '';
+				// $params = json_decode($params, true);
+				$params = stripslashes($params); // Remove extra backslashes
+				$params = json_decode($params, true);
 
 				// Verify nonce
 				if (!wp_verify_nonce($nonce, 'ep_nonce')) {
@@ -709,6 +703,10 @@ class Helper
 							$comments_count = !empty($post['comments_count']) ? $post['comments_count'] : 0;
 
 							$post['profile_picture_url'] = $profile_picture_url;
+							$post['show_likes_count'] = isset($params['show_likes_count']) ? $params['show_likes_count'] : false;
+							$post['show_comments_count'] = isset($params['show_comments_count']) ? $params['show_comments_count'] : false;
+							$post['popup_follow_button'] = isset($params['popup_follow_button']) ? $params['popup_follow_button'] : true;
+							$post['popup_follow_button_text'] = isset($params['popup_follow_button_text']) ? $params['popup_follow_button_text'] : 'Follow';
 							?>
 
 					<div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr($post['id']) ?>" data-postindex="<?php echo esc_attr($post_index); ?>" data-postdata="<?php echo htmlspecialchars(json_encode($post), ENT_QUOTES, 'UTF-8'); ?>" data-media-type="<?php echo esc_attr($media_type); ?>">

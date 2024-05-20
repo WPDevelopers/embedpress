@@ -100,6 +100,8 @@ class InstagramFeed extends Instagram
     }
 
 
+
+
     public function get_connected_account_type($userID)
     {
         $instagram_account_data = get_option('ep_instagram_account_data');
@@ -524,7 +526,19 @@ class InstagramFeed extends Instagram
                 </div>
             <?php endif; ?>
 
-            <div class="instagram-container" data-feed-type="<?php echo esc_attr($feed_type); ?>" data-hashtag="<?php echo esc_attr($hashtag); ?>" data-hashtag-id="<?php echo esc_attr($hashtag_id); ?>" data-connected-acc-type="<?php echo esc_attr($connected_account_type); ?>" data-uid="<?php echo esc_attr($userID); ?>">
+            <?php 
+               $params_data = [
+                'show_likes_count' => isset($params['instafeedLikesCount']) ? $params['instafeedLikesCount'] : false,
+                'show_comments_count' => isset($params['instafeedCommentsCount']) ? $params['instafeedCommentsCount'] : false,
+                'popup_follow_button' => isset($params['instafeedPopupFollowBtn']) ? $params['instafeedPopupFollowBtn'] : true,
+                'popup_follow_button_text' => isset($params['instafeedPopupFollowBtnLabel']) ? $params['instafeedPopupFollowBtnLabel'] : 'Follow'
+            ];
+            
+            $params_data_json = json_encode($params_data);
+
+            ?>
+
+            <div class="instagram-container" data-feed-type="<?php echo esc_attr($feed_type); ?>" data-hashtag="<?php echo esc_attr($hashtag); ?>" data-hashtag-id="<?php echo esc_attr($hashtag_id); ?>" data-connected-acc-type="<?php echo esc_attr($connected_account_type); ?>" data-uid="<?php echo esc_attr($userID); ?>" data-params="<?php echo htmlspecialchars($params_data_json, ENT_QUOTES, 'UTF-8'); ?>">
                 <div class="embedpress-insta-container">
                     <div class="insta-gallery cg-carousel__track js-carousel__track" <?php echo  $styleAttribute; ?>>
                         <?php

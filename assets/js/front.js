@@ -583,7 +583,7 @@ let epGlobals = {};
                 const postData = instaItem.dataset.postdata;
 
                 const postid = instaItem.getAttribute('data-insta-postid');
-                const accountType = container?.closest('.instagram-container')?.getAttribute('data-connected-acc-type');
+                const accountType = container?.closest('.instagram-container')?.getAttribute('data-connected-acc-type');            
 
                 let hashtag = '';
 
@@ -694,7 +694,8 @@ let epGlobals = {};
     }
 
     epGlobals.instaLoadMore = () => {
-        $('.insta-load-more-button').on('click', function (e) {
+        // Unbind any previously bound click event to avoid multiple bindings
+        $('.insta-load-more-button').off('click').on('click', function (e) {
             const that = $(this);
             const loadmoreBtn = that.closest('.load-more-button-container');
             const loadmoreKey = loadmoreBtn.data('loadmorekey');
@@ -704,6 +705,8 @@ let epGlobals = {};
             const userId = that.closest('.instagram-container').data('uid');
             let loadedPosts = loadmoreBtn.data('loaded-posts') || 0;
             let postsPerPage = loadmoreBtn.data('posts-per-page') || 0;
+            const params = JSON.stringify(that.closest('.instagram-container').data('params'));
+
 
             const instaContainer = that.closest('.instagram-container');
 
@@ -711,12 +714,10 @@ let epGlobals = {};
 
             // Check if no spinicon exists
             if (instaContainer.find('.insta-loadmore-spinicon').length === 0) {
-                const spinicon = `<svg class="insta-loadmore-spinicon" width="18" height="18" fill="${'#fff'}" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><style>.spinner_GuJz{transform-origin:center;animation:spinner_STY6 1.5s linear infinite}@keyframes spinner_STY6{100%{transform:rotate(360deg)}}</style><g class="spinner_GuJz"><circle cx="3" cy="12" r="2"/><circle cx="21" cy="12" r="2"/><circle cx="12" cy="21" r="2"/><circle cx="12" cy="3" r="2"/><circle cx="5.64" cy="5.64" r="2"/><circle cx="18.36" cy="18.36" r="2"/><circle cx="5.64" cy="18.36" r="2"/><circle cx="18.36" cy="5.64" r="2"/></g></svg>`;
                 that.append(spinicon);
             }
 
             that.attr('disabled', true);
-
 
             var data = {
                 'action': 'loadmore_data_handler',
@@ -726,6 +727,7 @@ let epGlobals = {};
                 'feed_type': feedType,
                 'connected_account_type': connectedAccount,
                 'loadmore_key': loadmoreKey,
+                'params': params,
                 '_nonce': eplocalize.nonce
             };
 
@@ -734,7 +736,6 @@ let epGlobals = {};
             }
 
             jQuery.post(eplocalize.ajaxurl, data, function (response) {
-
                 if (response.total_feed_posts >= response.next_post_index) {
                     var $responseHtml = $(response.html);
 
@@ -751,7 +752,7 @@ let epGlobals = {};
                     const containerEl = loadmoreBtn.closest('.ose-instagram-feed')[0];
                     epGlobals.initializeTabs(containerEl);
 
-                    if (response.total_feed_posts == response.next_post_index) {
+                    if (response.total_feed_posts === response.next_post_index) {
                         loadmoreBtn.remove();
                     }
                 } else {
@@ -759,8 +760,8 @@ let epGlobals = {};
                 }
             });
         });
-
     }
+
 
     if (instafeeds.length > 0) {
         instafeeds.forEach(function (feed) {
