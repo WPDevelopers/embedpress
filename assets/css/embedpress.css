@@ -1814,12 +1814,13 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
     pointer-events: none !important;
 }
 
-[data-playerid]{
+[data-playerid] {
     opacity: 0;
 }
+
 .plyr--paused.plyr__poster-enabled .plyr__poster {
-	display: block !important;
-	opacity: 1;
+    display: block !important;
+    opacity: 1;
 }
 
 @media only screen and (max-width: 767px) {
@@ -2056,9 +2057,11 @@ a.profile-link, a.profile-link h2 {
 
 .insta-grid .embedpress-insta-container .insta-gallery {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr)); /* Set 3 columns */
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    /* Set 3 columns */
     gap: 15px;
-    grid-auto-flow: row; /* Ensure items flow in rows */
+    grid-auto-flow: row;
+    /* Ensure items flow in rows */
 }
 
 
@@ -2113,6 +2116,7 @@ a.profile-link, a.profile-link h2 {
     opacity: 0;
     visibility: hidden;
 }
+
 .insta-masonry .embedpress-insta-container .insta-gallery-item .insta-gallery-item-info {
     height: calc(100% + 4px);
 }
@@ -2209,11 +2213,12 @@ a.profile-link, a.profile-link h2 {
 }
 
 .ep-embed-content-wraper.insta-carousel .cg-carousel__btns {
-	top: calc(50% - 16px);
+    top: calc(50% - 16px);
 }
+
 .ep-embed-content-wraper.insta-carousel .insta-gallery-item-permalink {
-	display: flex;
-	align-content: center;
+    display: flex;
+    align-content: center;
 }
 
 .cg-carousel__btns button {
@@ -2264,6 +2269,7 @@ button#js-carousel__next-1 {
     align-items: center;
     background-color: #000;
 }
+
 .popup-container .popup-carousel {
     background-color: #000;
 }
@@ -2421,12 +2427,12 @@ img.popup-media-image {
 }
 
 .embedpress-popup-header-img img, .embedpress-hashtag-header-img img {
-    border-radius: 50%!important;
+    border-radius: 50% !important;
     margin-right: 10px;
     width: 30px;
-    height: 30px!important;
+    height: 30px !important;
     object-fit: cover;
-    border: 2px solid #037bff!important;
+    border: 2px solid #037bff !important;
 }
 
 .embedpress-popup-header-img a, .embedpress-hashtag-header-img a {
@@ -2452,7 +2458,7 @@ img.embedpress-hashtag-round {
     padding: 6px 15px;
     background: #007bff;
     border-radius: 5px;
-    color: #fff!important;
+    color: #fff !important;
     font-size: 14px;
     font-weight: normal;
 }
@@ -2539,6 +2545,7 @@ img.embedpress-hashtag-round {
     align-items: center;
     gap: 6px;
 }
+
 .embedpress-popup-share-buttons {
     background: #f4f9ff;
     position: absolute;
@@ -2553,7 +2560,7 @@ img.embedpress-hashtag-round {
     transition: 0.3s;
 }
 
-.embedpress-popup-share-buttons.show{
+.embedpress-popup-share-buttons.show {
     visibility: visible;
     opacity: 1;
     margin-bottom: 0;
@@ -2569,6 +2576,7 @@ img.embedpress-hashtag-round {
     border-style: solid;
     border-color: #f4f9ff transparent transparent transparent;
 }
+
 .embedpress-popup-share-buttons::before {
     content: "";
     position: absolute;
@@ -2578,8 +2586,9 @@ img.embedpress-hashtag-round {
     border-width: 8px;
     border-style: solid;
     border-color: #f4f9ff transparent transparent transparent;
-    z-index: 1!important;
+    z-index: 1 !important;
 }
+
 .embedpress-popup-share-buttons::after {
     content: "";
     position: absolute;
@@ -2599,8 +2608,8 @@ img.embedpress-hashtag-round {
 }
 
 .embedpress-popup-share-buttons span svg {
-    width: 16px!important;
-    height: 16px!important;
+    width: 16px !important;
+    height: 16px !important;
 }
 
 .embedpress-popup-share-buttons span.dashicons.dashicons-linkedin {
@@ -2629,9 +2638,11 @@ span.tag-wrapper a {
     width: 18px !important;
     height: 20px !important;
 }
-.embedpress-popup-stats .embedpress-inline{
+
+.embedpress-popup-stats .embedpress-inline {
     transition: 0.3s;
 }
+
 .embedpress-popup-stats .embedpress-inline:hover svg, .embedpress-popup-stats .embedpress-inline a:hover, .embedpress-popup-stats .embedpress-inline:hover, .embedpress-href:hover svg .st0 {
     color: rgb(115, 115, 115) !important;
     /* stroke: rgb(115, 115, 115); */
@@ -2640,12 +2651,13 @@ span.tag-wrapper a {
 .embedpress-inline.embedpress-popup-instagram-buttons a:hover svg path {
     stroke: rgb(115, 115, 115);
 }
+
 .embedpress-inline.popup-like-button a:hover svg {
     color: rgb(115, 115, 115);
     fill: rgb(115, 115, 115);
 }
 
-.embedpress-href.embedpress-popup-share:hover svg{
+.embedpress-href.embedpress-popup-share:hover svg {
     fill: rgb(115, 115, 115);
 }
 
@@ -2710,5 +2722,54 @@ div.popup-close {
 
     100% {
         transform: rotate(360deg);
+    }
+}
+
+@media screen and (max-width: 1200px) {
+
+    .popup-container .popup-md-9.white {
+        width: 50%;
+    }
+    .popup-container .popup-md-3 {
+        width: 50%;
+    }
+
+}
+@media screen and (max-width: 991px) {
+    .popup-container {
+        flex-direction: column;
+    }
+
+    .popup-container .popup-md-9.white {
+        width: 100%;
+    }
+
+    .popup-container .popup-md-3 {
+        width: 100%;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+    .insta-grid .embedpress-insta-container .insta-gallery {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .insta-grid .embedpress-insta-container .insta-gallery {
+        grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
+    }
+
+    .profile-header {
+        flex-direction: column;
+    }
+
+    .embedpress-popup-text {
+        max-height: 250px;
+    }
+
+    .insta-followbtn {
+        display: none;
     }
 }
