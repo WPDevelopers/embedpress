@@ -2757,6 +2757,9 @@ div.popup-close {
     .insta-grid .embedpress-insta-container .insta-gallery {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
+    .embedpress-popup-text {
+        max-height: 250px;
+    }
 }
 
 @media screen and (max-width: 420px) {
@@ -2769,7 +2772,7 @@ div.popup-close {
     }
 
     .embedpress-popup-text {
-        max-height: 250px;
+        max-height: 200px;
     }
 
     .insta-followbtn {
