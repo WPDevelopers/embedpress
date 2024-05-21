@@ -105,7 +105,17 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                         <div className='embedpress-gutenberg-controls'>
                             <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('General', 'embedpress')}</div>}>
 
+
+
                                 <div className='ep-controls-margin'>
+                                    {
+                                        isInstagramFeed(url) && (
+                                            <PanelRow>
+                                               <div style={{ marginBottom: '10px', backgroundColor: '#ebe4ff', padding: '8px', borderRadius: '8px', fontWeight: 500 }} className='elementor-panel-alert elementor-panel-warning-info'>To enable full Instagram embedding experience, please add your access token <a href="/wp-admin/admin.php?page=embedpress&page_type=instagram" target='_blank'>here</a>.</div> 
+                                            </PanelRow>
+
+                                        )
+                                    }
 
                                     {
                                         isYTLive && (
@@ -158,7 +168,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     />
 
                                     {
-                                        ((!isInstagramFeed(url) && !isInstagramHashtag(url)) &&  ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo) || (videosize == 'fixed'))) && (
+                                        ((!isInstagramFeed(url) && !isInstagramHashtag(url)) && ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo) || (videosize == 'fixed'))) && (
                                             <TextControl
                                                 label={__("Height")}
                                                 value={height}
@@ -197,6 +207,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                 {
                                     isInstagramFeed(url) && (
                                         <div>
+
                                             <SelectControl
                                                 label="Feed Type"
                                                 value={instafeedFeedType}

@@ -100,6 +100,23 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
+		$this->add_control(
+			'instafeed_access_token_notice',
+			[
+				'type' => \Elementor\Controls_Manager::RAW_HTML,
+				'raw' => sprintf('%s <a href="%s" target="_blank">here</a>.',
+					esc_html__('To enable full Instagram embedding experience, please add your access token ', 'embedpress'),
+					esc_url(admin_url('/admin.php?page=embedpress&page_type=instagram'))
+				),
+				'content_classes' => 'elementor-panel-alert elementor-panel-warning-info',
+				'condition'   => [
+					'embedpress_pro_embeded_source' => 'instafeed',
+				],
+			]
+		);
+		
+		
+
 		do_action('embedpress/embeded/extend', $this);
 		$this->add_control(
 			'embedpress_pro_embeded_source',

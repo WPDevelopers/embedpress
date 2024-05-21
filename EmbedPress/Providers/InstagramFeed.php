@@ -662,7 +662,7 @@ class InstagramFeed extends Instagram
                 } else {
                     // No matching username found
                     $page = site_url() . "/wp-admin/admin.php?page=embedpress&page_type=instagram";
-                    $insta_feed['html'] = '<p style="text-align:center;">Please add your access token from instagram settings page.</p>';
+                    $insta_feed['html'] = '<p style="text-align:center;height:100%;display:flex;justify-content:center;align-items:center;margin:0;flex-direction: column;">To enable full Instagram embedding experience, please add your access token by navigating to: <b>Dashboard > EmbedPress > Settings > Sources > Instagram</></p>';
                     return $insta_feed;
                 }
             }
