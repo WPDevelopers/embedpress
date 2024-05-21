@@ -2991,7 +2991,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'instafeedProfileImage',
 			[
-				'label'        => __('Profile Image', 'embedpress'),
+				'label' => __('Profile Image', 'embedpress'),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
@@ -3005,8 +3005,9 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			"instafeedProfileImageUrl",
 			[
-				'label' => __('Image', 'embedpress'),
+				'label' => sprintf(__('Image %s', 'embedpress'), $this->pro_text),
 				'type' => Controls_Manager::MEDIA,
+				'classes'     => $this->pro_class,
 				'dynamic' => [
 					'active' => false,
 				],
