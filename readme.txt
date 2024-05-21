@@ -325,7 +325,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 = [4.0.0] – 2024-05-21 =  
-- Improved: Entire Instagram Embedding experience.
+- Added: Instagram feed embedding support with advanced layouts.
+- Improved: EP dashboard UI.
 - Few minor bug fixes & improvements.
 
 = [3.9.17] – 2024-05-07 =
