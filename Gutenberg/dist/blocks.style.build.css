@@ -1371,7 +1371,8 @@ button.skip-ad-button {
   clear: both; }
 
 .pro-control {
-  position: relative; }
+  position: relative;
+  margin-bottom: 20px; }
 
 span.isPro {
   position: absolute;

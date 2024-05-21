@@ -236,8 +236,9 @@ export default function Instafeed({ attributes, setAttributes }) {
                             }
 
 
-                            <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                {instafeedProfileImage && (
+                            {instafeedProfileImage && (
+                                <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+
                                     <MediaUpload
                                         onSelect={onSelectImage}
                                         allowedTypes={['image']}
@@ -250,13 +251,15 @@ export default function Instafeed({ attributes, setAttributes }) {
                                             </Button>
                                         )}
                                     />
-                                )}
-                                {
-                                    (!isProPluginActive) && (
-                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                    )
-                                }
-                            </div>
+
+
+                                    {
+                                        (!isProPluginActive) && (
+                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                        )
+                                    }
+                                </div>
+                            )}
 
                             <ToggleControl
                                 label={__('Follow Button', 'embedpress')}
@@ -431,42 +434,42 @@ export default function Instafeed({ attributes, setAttributes }) {
                                                 )
                                             }
                                         </div>
+                                        {
+                                            (instafeedAccountType === 'business' || instafeedFeedType === 'hashtag_type') && (
+                                                <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
 
-                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                            {
-                                                (instafeedAccountType === 'business' || instafeedFeedType === 'hashtag_type') && (
                                                     <ToggleControl
                                                         label={__('Likes Count', 'embedpress')}
                                                         checked={instafeedLikesCount}
                                                         onChange={(instafeedLikesCount) => setAttributes({ instafeedLikesCount })}
                                                     />
-                                                )
-                                            }
-                                            {
-                                                (!isProPluginActive) && (
-                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                )
-                                            }
-                                        </div>
 
-                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                            {
-                                                (instafeedAccountType === 'business' || instafeedFeedType === 'hashtag_type') && (
+                                                    {
+                                                        (!isProPluginActive) && (
+                                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                                        )
+                                                    }
+                                                </div>
+                                            )
+                                        }
+                                        {
+                                            (instafeedAccountType === 'business' || instafeedFeedType === 'hashtag_type') && (
+                                                <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+
                                                     <ToggleControl
                                                         label={__('Comments Count', 'embedpress')}
                                                         checked={instafeedCommentsCount}
                                                         onChange={(instafeedCommentsCount) => setAttributes({ instafeedCommentsCount })}
                                                     />
-                                                )
-                                            }
-                                            {
-                                                (!isProPluginActive) && (
-                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                )
-                                            }
-                                        </div>
 
-
+                                                    {
+                                                        (!isProPluginActive) && (
+                                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
+                                                        )
+                                                    }
+                                                </div>
+                                            )
+                                        }
 
 
                                         <ToggleControl
