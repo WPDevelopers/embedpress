@@ -2523,9 +2523,6 @@ img.embedpress-hashtag-round {
 }
 
 /* Share Buttons */
-.hidden {
-    display: none !important;
-}
 
 .embedpress-popup-share-buttons {
     padding: 10px;
