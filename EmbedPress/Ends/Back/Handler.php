@@ -84,8 +84,7 @@ class Handler extends EndHandlerAbstract
                     delete_transient('instagram_user_info_' . $user_id);
                     delete_transient('instagram_posts_' . $user_id);
                     update_option('ep_instagram_feed_data', $feed_data);
-                }
-                else{
+                } else {
                     $feed_data['error'] = "Access token Invalid or expired.";
                 }
 
@@ -440,9 +439,9 @@ class Handler extends EndHandlerAbstract
                 false
             );
 
-            wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css', $this->pluginVersion, true);
+            wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css', array(), $this->pluginVersion);
+            wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', array(), $this->pluginVersion);
 
-            wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true);
 
             wp_enqueue_script(
                 'slick',
@@ -459,9 +458,8 @@ class Handler extends EndHandlerAbstract
                 false
             );
 
-            wp_enqueue_style('slick', EMBEDPRESS_URL_ASSETS . 'css/slick.min.css', $this->pluginVersion, true);
-
-            wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true);
+            wp_enqueue_style('slick', EMBEDPRESS_URL_ASSETS . 'css/slick.min.css', array(), $this->pluginVersion);
+            wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', array(), $this->pluginVersion);
         }
 
         //load embedpress admin js
