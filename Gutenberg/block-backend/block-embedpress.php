@@ -73,7 +73,6 @@ function embedpress_block_scripts() {
         'embedpress-front',
         'embedpress-ads',
 		'cg-carousel',
-		'init-carousel',
     ];
 
 	$style_handles = [

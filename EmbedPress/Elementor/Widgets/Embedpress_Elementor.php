@@ -62,7 +62,6 @@ class Embedpress_Elementor extends Widget_Base
 			'embedpress-front',
 			'embedpress-ads',
 			'cg-carousel',
-			'init-carousel'
 		];
 	}
 

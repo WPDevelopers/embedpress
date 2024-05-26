@@ -80,10 +80,6 @@ class Handler extends EndHandlerAbstract
 
         $dependencies = ['jquery'];
 
-        if (!empty($g_elementor['embedpress-pdf']) || !empty($g_blocks['embedpress-pdf'])) {
-            $dependencies[] = 'embedpress-pdfobject';
-        }
-
         wp_register_script(
             'embedpress-front',
             EMBEDPRESS_URL_ASSETS . 'js/front.js',
