@@ -47,7 +47,10 @@ class Embedpress_Elementor extends Widget_Base
 
 	public function get_style_depends()
 	{
-		return ['plyr'];
+		return [
+			'plyr',
+			'slick'
+		];
 	}
 
 	public function get_script_depends()
