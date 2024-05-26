@@ -1,4 +1,5 @@
 const { useState, useEffect } = wp.element;
+const { isShallowEqualObjects } = wp.isShallowEqual;
 
 export const mergeAtts = (defaults, attributes) => {
     const out = {};
@@ -125,12 +126,73 @@ export const initCustomPlayer = (clientId, attributes) => {
                     ...(options.autopause && { autopause: options.autopause }),
                     ...(options.dnt && { dnt: options.dnt }),
                 }
-                
+
             });
 
             player.poster = posterThumbnail;
         }
     }, 200);
 
-
 }
+
+
+export const initCarousel = (clientId, attributes) => {
+    const {
+        url,
+        instaLayout,
+        slidesShow,
+        slidesScroll,
+        carouselAutoplay,
+        autoplaySpeed,
+        transitionSpeed,
+        carouselLoop,
+        carouselArrows,
+        carouselSpacing
+    } = attributes;
+
+    const options = {
+        layout: instaLayout,
+        slidesPerView: slidesShow,
+        spacing: carouselSpacing,
+        loop: carouselLoop,
+        autoplay: carouselAutoplay,
+        autoplaySpeed: autoplaySpeed,
+        transitionSpeed: transitionSpeed,
+        arrows: carouselArrows,
+        breakpoints: {
+            768: {
+              slidesPerView: 2
+            },
+            1024: {
+              slidesPerView: 4
+            }
+        }
+    };
+
+    const intervalId = setInterval(() => {
+        let carouselSelector = document.querySelector(`[data-carouselid="${clientId}"] .embedpress-insta-container`);
+        if (carouselSelector) {
+
+            clearInterval(intervalId);
+            
+            const carousel = new CgCarousel(`[data-carouselid="${clientId}"] .embedpress-insta-container`, options, {});
+
+            if(carouselArrows){
+                document.querySelector(`[data-carouselid="${clientId}"] .cg-carousel__btns`).classList.remove('hidden');
+            }
+            else{
+                document.querySelector(`[data-carouselid="${clientId}"] .cg-carousel__btns`).classList.add('hidden');
+            }
+
+            // Navigation
+            const next1 = document.querySelector(`[data-carouselid="${clientId}"] #js-carousel__next-1`);
+            next1.addEventListener('click', () => carousel.next());
+
+            const prev1 = document.querySelector(`[data-carouselid="${clientId}"] #js-carousel__prev-1`);
+            prev1.addEventListener('click', () => carousel.prev());
+
+        }
+    }, 200);
+}
+
+

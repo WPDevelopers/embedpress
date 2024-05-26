@@ -264,6 +264,18 @@ export const epAdjustHexColor = (hexColor, percentage) => {
     return newHexColor;
 }
 
+// check if is valid instafeed url
+export const isInstagramFeed = (url) => {
+    const pattern = /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?|explore\/tags\/[a-zA-Z0-9_\-]+\/?)$/;
+    return pattern.test(url);
+}
+
+
+const pattern = /^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?|explore\/tags\/[a-zA-Z0-9_\-]+\/?)$/;
+const url = "your-instagram-url-here"; // Replace this with the actual URL you want to check
+const isMatch = pattern.test(url);
+console.log(isMatch);
+
 
 export const getPlayerOptions = ({ attributes }) => {
 
@@ -351,4 +363,44 @@ export const sanitizeUrl = (url) => {
         console.error('Error sanitizing URL:', error.message);
         return '/404';
     }
+}
+
+
+export const getCarouselOptions = ({ attributes }) => {
+
+    const {
+        instaLayout,
+        slidesShow,
+        slidesScroll,
+        carouselAutoplay,
+        autoplaySpeed,
+        transitionSpeed,
+        carouselLoop,
+        carouselArrows,
+        carouselSpacing,
+    } = attributes;
+
+    if (instaLayout !== 'insta-carousel') {
+        return '';
+    }
+
+    const carouselOptions = {
+        layout: instaLayout,
+        slideshow: slidesShow,
+        autoplay: carouselAutoplay,
+        autoplayspeed: autoplaySpeed,
+        transitionspeed: transitionSpeed,
+        loop: carouselLoop,
+        arrows: carouselArrows,
+        spacing: carouselSpacing
+    };
+
+    const carouselOptionsString = JSON.stringify(carouselOptions);
+
+    return carouselOptionsString;
+}
+
+export const isInstagramHashtag = (url) => {
+    const instagramHashtagRegex = /^https?:\/\/(?:www\.)?instagram\.com\/explore\/tags\/([^/]+)\/?$/i;
+    return instagramHashtagRegex.test(url);
 }

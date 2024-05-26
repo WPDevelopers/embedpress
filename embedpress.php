@@ -6,7 +6,7 @@
  * Description: EmbedPress lets you embed videos, images, posts, audio, maps and upload PDF, DOC, PPT & all other types of content into your WordPress site with one-click and showcase it beautifully for the visitors. 150+ sources supported.
  * Author: WPDeveloper
  * Author URI: https://wpdeveloper.com
- * Version: 3.9.17
+ * Version: 4.0.0
  * Text Domain: embedpress
  * Domain Path: /languages
  *
@@ -38,7 +38,7 @@ define('EMBEDPRESS_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('EMBEDPRESS_FILE', __FILE__);
 
 if (!defined('EMBEDPRESS_PLUGIN_VERSION')) {
-    define('EMBEDPRESS_PLUGIN_VERSION', '3.9.17');
+    define('EMBEDPRESS_PLUGIN_VERSION', '4.0.0');
 }
 
 define('EMBEDPRESS_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
@@ -48,6 +48,7 @@ define('EMBEDPRESS_GUTENBERG_DIR_PATH', EMBEDPRESS_PLUGIN_DIR_PATH . 'Gutenberg/
 define('EMBEDPRESS_SETTINGS_ASSETS_URL', EMBEDPRESS_PLUGIN_DIR_URL . 'EmbedPress/Ends/Back/Settings/assets/');
 define('EMBEDPRESS_SETTINGS_PATH', EMBEDPRESS_PLUGIN_DIR_PATH . 'EmbedPress/Ends/Back/Settings/');
 define('EMBEDPRESS_PLUGIN_URL', plugins_url('/', __FILE__));
+
 
 require_once EMBEDPRESS_PLUGIN_DIR_PATH . 'includes.php';
 
@@ -92,6 +93,8 @@ $embedPressPlugin->initialize();
 new Feature_Enhancer();
 new Extend_Elementor_Controls();
 new Extend_CustomPlayer_Controls();
+
+new Helper();
 
 
 if (is_plugin_active('elementor/elementor.php')) {
@@ -139,5 +142,4 @@ function ep_track_embed_usage()
     $wpdb->insert('embed_usage_log', array('embed_type' => $embed_type, 'user_id' => get_current_user_id()));
 }
 add_action('embed_content', 'ep_track_embed_usage');
-
 

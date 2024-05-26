@@ -1826,14 +1826,17 @@ a.site__logo {
     width: 20px;
     text-align: center;
 }
+
 a.sidebar__link.ads-icon span {
-    display: flex!important;
+    display: flex !important;
 }
+
 a.sidebar__link.ads-icon {
     display: flex;
     align-items: center;
 }
-a.sidebar__link.ads-icon.active span svg path,  a.sidebar__link.ads-icon:hover span svg path{
+
+a.sidebar__link.ads-icon.active span svg path, a.sidebar__link.ads-icon:hover span svg path {
     fill: #fff;
 }
 
@@ -2023,7 +2026,6 @@ a.sidebar__link.ads-icon.active span svg path,  a.sidebar__link.ads-icon:hover s
     height: 40px;
     padding: 0 20px;
     border-radius: 5px;
-    background: #ffffff;
     border: 1px solid #E6EFFB;
     color: #25396F;
     width: 100%;
@@ -2565,6 +2567,7 @@ p.embedpress-tagline {
     display: flex;
     gap: 15px;
 }
+
 .form-inner-field button {
     height: 60px;
 }
@@ -2656,36 +2659,45 @@ span#email-placeholder {
     margin-bottom: 10px;
     border-radius: 5px;
 }
+
 div#invalid-license-key-message, #invalid-verification-key-message {
     padding: 10px;
     background: #f2f2f2;
     border-radius: 5px;
     margin-top: 10px;
 }
+
 .short-description a {
     color: #5b4e96;
 }
+
 div#resend-verification-key-message {
     margin-top: 10px;
 }
-div#resend-verification-key-message a{
+
+div#resend-verification-key-message a {
     color: #5b4e96;
 }
-.show-toast{
-    visibility: visible!important;
-    opacity: 1!important;
+
+.show-toast {
+    visibility: visible !important;
+    opacity: 1 !important;
 }
+
 div#resend-verification-key-message span {
     font-weight: bold;
     color: #5b4e96;
     cursor: pointer;
 }
+
 div#resend-verification-key-message a {
     font-weight: 600;
 }
+
 .form-inner-field .form__group {
     margin-right: 0;
 }
+
 @media (max-width: 479px) {
     .logo__adjust__wrap .logo__upload {
         width: 225px;
@@ -3344,10 +3356,11 @@ input#embedpress-pro-license-key::placeholder {
         padding-left: 35px;
         font-size: 14px;
     }
+
     .form-inner-field button {
         height: 60px;
     }
-    
+
 }
 
 .embedpress-license__details .license__manage {
@@ -3842,7 +3855,7 @@ img.source-image {
     -ms-grid-columns: 1fr 1fr 1fr;
     grid-template-columns: repeat(3, 1fr);
     /* Three items per row */
-    gap: 15px;
+    gap: 30px;
     /* Adjust the gap between items as needed */
 }
 
@@ -3854,13 +3867,14 @@ img.source-image {
 }
 
 .source-item {
-    padding: 10px;
+    padding: 15px;
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: space-between;
     background: #f5f7fd;
     border-radius: 8px;
+    position: relative;
 }
 
 .tab-button-section {
@@ -3883,6 +3897,31 @@ li.sidebar__item.show .tab-button-section {
     line-height: 120%;
     /* 16.8px */
     letter-spacing: -0.28px;
+}
+
+.ribbon-container {
+    position: absolute;
+    top: -12px;
+    left: 45px;
+    background: #524cff;
+    padding: 5px;
+    border-radius: 4px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff!important;
+    font-size: 12px!important;
+    text-transform: capitalize;
+}
+.ribbon-container.new {
+    background-color: #059862;
+}
+.ribbon-container.popular {
+    background-color: #0064FF;
+}
+.ribbon-container.updated {
+    background-color: #6C757D;
 }
 
 .source-left .icon {
@@ -3961,19 +4000,215 @@ li.sidebar__item.show .tab-button-section {
         -ms-grid-columns: 1fr 1fr;
         grid-template-columns: repeat(2, 1fr);
     }
-
-    .embedpress-body .embedpress-sidebar {
-        display: inline-flex;
-        min-width: 50px;
-        margin-right: 0;
-        align-items: center;
-    }
-
-    .premium-button {
-        margin-top: 0px !important;
-        padding: 0 4px 0 0;
-    }
 }
+
+/* Instagram setting css */
+/* Reset default table styles */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+}
+
+/* Apply custom styles for the 'emebedpress' class */
+.emebedpress {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.emebedpress thead {
+    background-color: #F5F7FD;
+}
+
+.emebedpress th, .emebedpress td {
+    padding: 12px;
+    text-align: left;
+    position: relative;
+    text-align: center;
+}
+
+table.emebedpress th {
+    white-space: nowrap;
+    width: 150px;
+    font-weight: bold;
+
+}
+
+.emebedpress tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.emebedpress img.user-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.emebedpress input[type="text"] {
+    width: 60%;
+    box-sizing: border-box;
+    border: none;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+}
+
+.emebedpress .button {
+    background-color: #0073aa;
+    color: #fff;
+    border: none;
+    padding: 6px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.emebedpress .button i {
+    font-size: 18px;
+
+}
+
+.emebedpress .button-primary {
+    background-color: #5b4e96;
+    position: absolute;
+    right: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.emebedpress .button-secondary {
+    background-color: #f44336 !important;
+}
+
+.emebedpress .button-secondary:focus i {
+    color: white;
+}
+
+/* Styles for the account-section */
+/* .account-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+} */
+
+.user-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+}
+td.instagram-user-account .username {
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.4rem;
+}
+td.instagram-user-account .userid {
+    text-align: left;
+    font-size: 13px;
+    line-height: 1.4rem;
+
+}
+
+.account-section p {
+    margin-bottom: 10px;
+}
+
+.account-button {
+    text-decoration: none !important;
+    background-color: #0073aa !important;
+    color: #fff !important;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-right: 10px;
+    display: inline-flex !important;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 15px;
+}
+
+.account-button svg {
+    fill: currentColor;
+    width: 20px;
+    height: 20px;
+}
+
+.personal-account {
+    background-color: #4caf50;
+}
+
+.business-account {
+    background-color: #f44336;
+}
+
+.account-link {
+    margin-left: 10px;
+    color: #0073aa;
+    text-decoration: none;
+}
+
+.premium-field {
+    display: inline-block;
+    margin-left: 10px;
+    color: #999;
+}
+
+.premium-field small {
+    font-size: 12px;
+}
+
+.description.hidden {
+    display: none;
+}
+
+/* delete alrert box */
+.custom-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+}
+
+.custom-dialog p {
+    margin: 0 0 10px;
+}
+
+.custom-dialog button {
+    margin-right: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.custom-dialog button:hover {
+    background-color: #0056b3;
+}
+
+.custom-dialog button:last-child {
+    margin-right: 0;
+    background-color: #ccc;
+}
+
+/* Optional: To make the buttons the same width */
+.custom-dialog button {
+    width: 80px;
+}
+
+.premium-button {
+    margin-top: 0px !important;
+    padding: 0 4px 0 0;
+}
+
 
 @media only screen and (max-width: 767px) {
     .tab-content-section {
@@ -4407,5 +4642,159 @@ a.calendly-connect-button img {
         padding: 8px 5px;
         font-size: 12px;
         text-align: center;
+    }
+}
+
+form#instagram-form {
+    width: 400px;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+form#instagram-form select#account-option, form#instagram-form input#instagram-access-token {
+    width: 100%;
+    height: 45px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+/* Styling for overlay background */
+.account-section .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Semi-transparent black */
+    z-index: 9999;
+    /* Ensure it's on top of everything */
+    display: none;
+    /* Hide by default */
+}
+
+/* Styling for the modal itself */
+.account-section .modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    /* Drop shadow effect */
+    z-index: 10000;
+    /* Ensure it's on top of the overlay */
+    max-width: 80%;
+    /* Adjust the maximum width as needed */
+    max-height: 80%;
+    /* Adjust the maximum height as needed */
+    overflow-y: auto;
+    /* Enable vertical scrolling if content overflows */
+}
+
+/* Styling for close button */
+form#instagram-form .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    background: #f2f2f2;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+form#instagram-form button {
+    background-color: #594E91;
+    color: #fff;
+}
+
+.form-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+form#instagram-form label {
+    display: inline-block;
+}
+
+a.for-business, a.for-personal{
+    display: inline-block;
+    text-decoration: underline;
+    font-size: 14px;
+    font-weight: normal;
+    color: inherit;
+    margin-bottom: 10px;
+    color: #2271b1;
+}
+
+.no-account-connected {
+    text-align: center;
+    margin: 45px;
+}
+
+#instagram-form .form-group {
+    position: relative;
+}
+
+#instagram-form .form-group a {
+    position: absolute;
+    background: #f5f6ff;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    right: 0;
+    top: 12px;
+    right: 12px;
+    border-radius: 5px;
+}
+
+.user-profile-link {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.user-profile-link:hover {
+    background-color: #0056b3;
+}
+
+.emebedpress img.user-avatar{
+    border: 2px solid #037bff;
+}
+
+td.instagram-user-account {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+td.instagram-sync-data{
+    cursor: pointer;
+}
+
+.sync-spin {
+    animation: spin 1s linear infinite; /* Apply the spin animation */
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg); /* Rotate the element 360 degrees */
     }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace EmbedPress\Ends\Back\Settings;
 
+use EmbedPress\Includes\Classes\Helper; 
+
 class EmbedpressSettings {
 	var $page_slug = '';
 	/**
@@ -18,6 +20,7 @@ class EmbedpressSettings {
 		// ajax
 		add_action( 'wp_ajax_embedpress_elements_action', [$this, 'update_elements_list']);
 		add_action( 'wp_ajax_embedpress_settings_action', [$this, 'save_settings']);
+		
 
 		// Migration
 		$option = 'embedpress_elements_updated'; // to update initially for backward compatibility
@@ -80,6 +83,8 @@ class EmbedpressSettings {
 		}
 
 		add_action( 'admin_init', [$this, 'embedpress_maybe_redirect_to_settings']  );
+
+		
 
 
 	}

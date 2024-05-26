@@ -120,7 +120,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
                 <p class="preview-description"><?php echo esc_html__( 'Experience EmbedPress Ad feature with YouTube video, but it will work with all embedded contents such as videos, audios, documents, etc..', 'embedpress' ); ?></p>
                 <div class="wp-block-embed__wrapper">
                     <div id="ep-gutenberg-content-ep-ad-preview-0" class="ep-gutenberg-content">
-                        <div data-ad-id="ep-ad-preview-0" id="ep-ad-preview-0" class="ad-mask" data-ad-index="0">
+                        <div data-sponsored-id="ep-ad-preview-0" id="ep-ad-preview-0" class="ad-mask" data-ad-index="0">
                             <div class="ep-embed-content-wraper ">
                                 <div class="ose-youtube ose-embedpress-responsive">
                                 <iframe width="560" height="315" src="<?php echo esc_url($youtube_embed_url); ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -235,7 +235,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
 
                 <div class="wp-block-embed__wrapper   ">
                     <div id="ep-gutenberg-content-ep-ad-preview-1" class="ep-gutenberg-content">
-                        <div data-ad-id="ep-ad-preview-1" id="ep-ad-preview-1" class="ad-mask" data-ad-index="0">
+                        <div data-sponsored-id="ep-ad-preview-1" id="ep-ad-preview-1" class="ad-mask" data-ad-index="0">
                             <div class="ep-embed-content-wraper">
                                 <div class="position-right-wraper gutenberg-pdf-wraper">
                                 <?php 
@@ -435,7 +435,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         opacity: 0
     }
 
-    [data-ad-id] {
+    div[data-sponsored-id] {
         position: relative;
         display: inline-block;
         max-width: 100%;
@@ -451,7 +451,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         height: auto;
     }
 
-    [data-ad-id] .main-ad-template.image.ad-running {
+    [data-sponsored-id] .main-ad-template.image.ad-running {
         border-radius: 5px;
     }
 
@@ -523,19 +523,19 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         justify-content: center;
     }
 
-    [data-ad-id] .hidden, .hidden {
+    [data-sponsored-id] .hidden, .hidden {
         display: none !important;
     }
 
     /* Specific Styles for Ad Type 1 */
-    [data-ad-id="ep-ad-preview-0"] .main-ad-template {
+    [data-sponsored-id="ep-ad-preview-0"] .main-ad-template {
         width: 550px;
         height: 310px;
         max-width: 100%;
         display: inline-block;
     }
 
-    [data-ad-id="ep-ad-preview-0"] .main-ad-template.image.ad-running {
+    [data-sponsored-id="ep-ad-preview-0"] .main-ad-template.image.ad-running {
         width: 300px;
         height: 200px;
         bottom: 10%;
@@ -543,14 +543,14 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
     }
 
     /* Specific Styles for Ad Type 2 */
-    [data-ad-id="ep-ad-preview-1"] .main-ad-template {
+    [data-sponsored-id="ep-ad-preview-1"] .main-ad-template {
         width: 550px;
         height: 310px;
         max-width: 100%;
         display: inline-block;
     }
 
-    [data-ad-id="ep-ad-preview-1"] .main-ad-template.image.ad-running {
+    [data-sponsored-id="ep-ad-preview-1"] .main-ad-template.image.ad-running {
         width: 300px !important;
         height: 200px !important;
         bottom: 10%;
@@ -676,7 +676,7 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
         }
     }
     @media screen and (max-width: 991px) {
-        [data-ad-id] {
+        div[data-sponsored-id] {
             max-width: 100%;
             display: block;
         }
@@ -707,8 +707,8 @@ if (!isPyr) {
 }
 
 
-let adsConainers = document.querySelectorAll('[data-ad-id]');
-let container = document.querySelector('[data-ad-id]');
+let adsConainers = document.querySelectorAll('[data-sponsored-id]');
+let container = document.querySelector('[data-sponsored-id]');
 var player = [];
 var playerInit = [];
 var playerIndex = 0;
@@ -747,7 +747,7 @@ const hashParentClass = (element, className) => {
 const adInitialization = (adContainer, index, adAtts, adType) => {
 
     const blockId = adAtts.clientId;
-    const blockIdMD5 = adContainer.getAttribute('data-ad-id');
+    const blockIdMD5 = adContainer.getAttribute('data-sponsored-id');
     const adStartAfter = adAtts.adStart * 1000;
     const adContent = adAtts.adContent;
     const adVideo = adContainer.querySelector('.ep-ad');

@@ -148,6 +148,10 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
     margin: 0 !important;
 }
 
+.wp-block-embed.is-loading svg {
+    margin-top: 0;
+}
+
 /**
 * NFT card frontend style
 */
@@ -739,7 +743,17 @@ button.components-color-palette__custom-color-button {
 }
 
 .ep-controls-margin{
-    margin-bottom: 16px;
+    margin-bottom: 24px;
+}
+
+
+
+.ep__instafeed-options .instagram-profile-image-uploader {
+    margin-bottom: 0;
+}
+
+.block-editor-block-inspector .components-base-control:last-child{
+    margin-bottom: 24px!important;
 }
 
 // YouTube single videos controlers CSS
@@ -796,6 +810,9 @@ button.ep-remove__image {
     border: 1px solid #ddd;
     border-radius: 5px;
     padding: 20px 15px;
+}
+.instagram-profile-image-uploader{
+    margin-bottom: 20px;
 }
 
 .ep-yt-related-videos .components-base-control {
@@ -1201,4 +1218,18 @@ button.skip-ad-button {
     font-size: 15px;
     font-weight: bold;
     border-radius: 4px;
+}
+
+//instagram feed controls styles
+.components-panel__row.elementor-panel-alert.elementor-panel-warning-info {
+    margin-top: -15px;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    background: #F6D88C;
+    padding: 8px 8px;
+    border-radius: 10px;
+}
+.components-panel__row.elementor-panel-alert.elementor-panel-warning-info.margin-bottom-10 {
+    margin-bottom: 10px;
 }

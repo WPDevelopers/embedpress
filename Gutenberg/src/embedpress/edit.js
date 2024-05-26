@@ -5,7 +5,7 @@ import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
 import EmbedWrap from '../common/embed-wrap';
-import { removedBlockID, saveSourceData, getPlayerOptions } from '../common/helper';
+import { removedBlockID, saveSourceData, getPlayerOptions, getCarouselOptions, isInstagramFeed as _isInstagramFeed } from '../common/helper';
 import AdTemplate from '../common/ads-template';
 
 import { shareIconsHtml } from '../common/helper';
@@ -24,11 +24,13 @@ const { select, subscribe } = wp.data;
 const { __ } = wp.i18n;
 import { embedPressIcon } from '../common/icons';
 import { isOpensea as _isOpensea, isOpenseaSingle as _isOpenseaSingle, useOpensea } from './InspectorControl/opensea';
+import { useInstafeed } from './InspectorControl/instafeed';
+import { useYoutube } from './InspectorControl/youtube';
 import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, isYTLive as _isYTLive, isYTShorts as _isYTShorts, useYTVideo } from './InspectorControl/youtube';
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import ContentShare from '../common/social-share-control';
-import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo, isTikTok as _isTikTok } from './functions';
+import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo, initCarousel, isTikTok as _isTikTok } from './functions';
 import { isCalendly as _isCalendly, useCalendly } from './InspectorControl/calendly';
 
 const {
@@ -62,6 +64,7 @@ export default function EmbedPress(props) {
 		logoOpacity,
 		clientId,
 		customPlayer,
+		instaLayout,
 		playerPreset,
 		cEmbedType,
 		cButtonLinkColor,
@@ -91,6 +94,7 @@ export default function EmbedPress(props) {
 	if (customPlayer) {
 		playerPresetClass = playerPreset;
 	}
+
 
 	let content_share_class = '';
 	let share_position_class = '';
@@ -163,13 +167,10 @@ export default function EmbedPress(props) {
 	}
 
 	const blockProps = useBlockProps ? useBlockProps() : [];
-
-	const isYTChannel = _isYTChannel(url);
-	const isYTVideo = _isYTVideo(url);
-	const isYTLive = _isYTLive(url);
 	const isYTShorts = _isYTShorts(url);
 	const isWistiaVideo = _isWistiaVideo(url);
 	const isVimeoVideo = _isVimeoVideo(url);
+	const isInstagramFeed = _isInstagramFeed(url);
 
 	const isOpensea = _isOpensea(url);
 	const isOpenseaSingle = _isOpenseaSingle(url);
@@ -178,10 +179,11 @@ export default function EmbedPress(props) {
 	const isTikTok = _isTikTok(url);
 
 	const openseaParams = useOpensea(attributes);
-	const youtubeParams = useYTChannel(attributes);
-	const youtubeVideoParams = useYTVideo(attributes);
+	const { youtubeParams, isYTChannel, isYTVideo, isYTLive } = useYoutube(attributes, url);
 	const wistiaVideoParams = useWistiaVideo(attributes);
+	const youtubeVideoParams = useYTVideo(attributes);
 	const vimeoVideoParams = useVimeoVideo(attributes);
+	const instafeedParams = useInstafeed(attributes);
 	const calendlyParamns = useCalendly(attributes);
 
 	let source = '';
@@ -190,6 +192,10 @@ export default function EmbedPress(props) {
 		source = ' source-opensea';
 	}
 
+	let instaLayoutClass = '';
+	if (isInstagramFeed) {
+		instaLayoutClass = instaLayout;
+	}
 
 	function switchBackToURLInput() {
 		setAttributes({ editingURL: true });
@@ -303,6 +309,10 @@ export default function EmbedPress(props) {
 			initCustomPlayer(_md5ClientId, attributes)
 		)
 
+		if (instaLayout === 'insta-carousel') {
+			initCarousel(_md5ClientId, attributes);
+		}
+
 	}
 
 	useEffect(() => {
@@ -314,7 +324,7 @@ export default function EmbedPress(props) {
 		return () => {
 			clearTimeout(delayDebounceFn)
 		}
-	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, calendlyParamns, contentShare, lockContent]);
+	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent]);
 
 	return (
 		<Fragment>
@@ -357,16 +367,28 @@ export default function EmbedPress(props) {
 					(!isYTChannel || (!!editingURL || editingURL === 0)) &&
 					(!isWistiaVideo || (!!editingURL || editingURL === 0)) &&
 					(!isVimeoVideo || (!!editingURL || editingURL === 0)) &&
-					(!isCalendly || (!!editingURL || editingURL === 0))
+					(!isCalendly || (!!editingURL || editingURL === 0)) &&
+					(!isInstagramFeed || (!!editingURL || editingURL === 0))
 				) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTLive || isYTShorts || isWistiaVideo || isVimeoVideo || isCalendly)) && <figure {...blockProps} data-source-id={'source-' + clientId} >
-				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
-					<EmbedWrap className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass}`} style={{ display: (fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isYTShorts && !isWistiaVideo && !isVimeoVideo && !isCalendly) ? 'none' : (isOpensea || isOpenseaSingle) ? 'block' : 'inline-block', position: 'relative' }} {...(customPlayer ? { 'data-playerid': md5(clientId) } : {})} {...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})} dangerouslySetInnerHTML={{
-						__html: embedHTML + customLogoTemp + epMessage + shareHtml + cPopupButton,
-					}}>
-					</EmbedWrap>
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTShorts || isWistiaVideo || isVimeoVideo || isCalendly || isInstagramFeed)) && ( <figure {...blockProps} data-source-id={'source-' + clientId}>
+				
+					<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
+						<EmbedWrap
+							className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass} ${instaLayoutClass}`}
+							style={{
+								display: fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isYTShorts && !isWistiaVideo && !isVimeoVideo && !isCalendly && !isInstagramFeed ? 'none' : isOpensea || isOpenseaSingle ? 'block' : 'inline-block',
+								position: 'relative'
+							}}
+							{...(customPlayer ? { 'data-playerid': md5(clientId) } : {})}
+							{...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})}
+							{...(instaLayout === 'insta-carousel' ? { 'data-carouselid': md5(clientId) } : {})}
+							{...(instaLayout === 'insta-carousel' ? { 'data-carousel-options': getCarouselOptions({ attributes }) } : {})}
+							dangerouslySetInnerHTML={{
+								__html: embedHTML + customLogoTemp + epMessage + shareHtml,
+							}}
+						></EmbedWrap>
 
 					{
 						adManager && (adSource === 'image') && adFileUrl && (
@@ -374,30 +396,28 @@ export default function EmbedPress(props) {
 						)
 					}
 
-					{
-						fetching && (
-							<div style={{ filter: 'grayscale(1))', backgroundColor: '#fffafa', opacity: '0.7' }}
+						{fetching && (
+							<div style={{ filter: 'grayscale(1)', backgroundColor: '#fffafa', opacity: '0.7' }}
 								className="block-library-embed__interactive-overlay"
 								onMouseUp={setAttributes({ interactive: true })}
 							/>
-						)
-					}
+						)}
 
-					{
-						(!isOpensea && !isOpenseaSingle) && (
+						{!isOpensea && !isOpenseaSingle && (
 							<div
 								className="block-library-embed__interactive-overlay"
 								onMouseUp={setAttributes({ interactive: true })}
 							/>
-						)
-					}
+						)}
 
-					<EmbedControls
-						showEditButton={embedHTML && !cannotEmbed}
-						switchBackToURLInput={switchBackToURLInput}
-					/>
-				</div>
-			</figure>}
+						<EmbedControls
+							showEditButton={embedHTML && !cannotEmbed}
+							switchBackToURLInput={switchBackToURLInput}
+						/>
+					</div>
+				</figure>
+			)}
+
 
 			<DynamicStyles attributes={attributes} />
 

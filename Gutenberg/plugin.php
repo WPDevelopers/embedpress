@@ -438,6 +438,135 @@ function embedpress_gutenberg_register_all_block()
 								'default' => false
 							],
 
+							// instaFeed attributes
+							'instaLayout' => [
+								'type' => 'string',
+								'default' => 'insta-grid',
+							],
+							'instafeedFeedType' => [
+								'type' => 'string',
+								'default' => 'user_account_type',
+							],
+							'instafeedAccountType' => [
+								'type' => 'string',
+								'default' => 'personal',
+							],
+							'instafeedProfileImage' => [
+		         						'type' => 'boolean',
+								'default' => true,
+							],
+							'instafeedProfileImageUrl' => [
+								'type' => 'string',
+								'default' => '',
+							],
+							'instafeedFollowBtn' => [
+								'type' => 'boolean',
+								'default' => true,
+							],
+							'instafeedFollowBtnLabel' => [
+								'type' => 'string',
+								'default' => 'Follow',
+							],
+							'instafeedPostsCount' => [
+								'type' => 'boolean',
+								'default' => true,
+							],
+							'instafeedPostsCountText' => [
+								'type' => 'string',
+								'default' => '[count] posts',
+							],
+							'instafeedFollowersCount' => [
+								'type' => 'boolean',
+								'default' => true,
+							],
+							'instafeedFollowersCountText' => [
+								'type' => 'string',
+								'default' => '[count] followers',
+							],
+							'instafeedAccName' => [
+								'type' => 'boolean',
+								'default' => true,
+							],
+							'instafeedColumns' => [
+								'type' => 'string',
+								'default' => '3',
+							],
+							'instafeedColumnsGap' => [
+								'type' => 'string',
+								'default' => '5',
+							],
+							'instafeedPostsPerPage' => [
+								'type' => 'string',
+								'default' => '12',
+							],
+							'instafeedTab' => [
+								'type' => 'boolean',
+								'default' => true,
+							],
+							'instafeedLikesCount' => [
+								'type' => 'boolean',
+								'default' => true,
+							],
+							'instafeedCommentsCount' => [
+								'type' => 'boolean',
+								'default' => true,
+							],
+							'instafeedPopup' => [
+								'type' => 'boolean',
+								'default' => true,
+							],
+							'instafeedPopupFollowBtn' => [
+								'type' => 'boolean',
+								'default' => true,
+							],
+							'instafeedPopupFollowBtnLabel' => [
+								'type' => 'string',
+								'default' => 'Follow',
+							],
+							'instafeedLoadmore' => [
+								'type' => 'boolean',
+								'default' => true,
+							],
+							'instafeedLoadmoreLabel' => [
+								'type' => 'string',
+								'default' => 'Load More',
+							],
+							'slidesShow' => [
+								'type' => 'string',
+								'default' => '4',
+							],
+							'slidesScroll' => [
+								'type' => 'string',
+								'default' => '4',
+							],
+							'carouselAutoplay' => [
+								'type' => 'boolean',
+								'default' => false,
+							],
+							'autoplaySpeed' => [
+								'type' => 'string',
+								'default' => '3000',
+							],
+							'transitionSpeed' => [
+								'type' => 'string',
+								'default' => '1000',
+							],
+							'carouselLoop' => [
+								'type' => 'boolean',
+								'default' => true,
+							],
+							'carouselArrows' => [
+								'type' => 'boolean',
+								'default' => true,
+							],
+							'carouselSpacing' => [
+								'type' => 'string',
+								'default' => '0',
+							],
+							'carouselDots' => [
+								'type' => 'boolean',
+								'default' => false,
+							],
 							// Calendly attributes
 							'cEmbedType' => array(
 								'type' => 'string',
@@ -823,7 +952,7 @@ function embedpress_pdf_render_block($attributes)
 				$adsAtts = '';
 				if (!empty($attributes['adManager'])) {
 					$ad = base64_encode(json_encode($attributes));
-					$adsAtts = "data-ad-id=$client_id data-ad-attrs=$ad class=ad-mask";
+					$adsAtts = "data-sponsored-id=$client_id data-sponsored-attrs=$ad class=ad-mask";
 				}
 				?>
 

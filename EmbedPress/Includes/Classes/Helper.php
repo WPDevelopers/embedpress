@@ -29,12 +29,11 @@ class Helper
 	{
 		add_action('wp_ajax_lock_content_form_handler', [$this, 'lock_content_form_handler']);
 		add_action('wp_ajax_nopriv_lock_content_form_handler', [$this, 'lock_content_form_handler']);
-		add_action('wp_head', [$this, 'ep_add_meta_tags']);
-	}
 
-	public function ep_add_meta_tags()
-	{
-		echo 'abstract';
+
+		add_action('wp_ajax_loadmore_data_handler', [$this, 'loadmore_data_handler']);
+		add_action('wp_ajax_nopriv_loadmore_data_handler', [$this, 'loadmore_data_handler']);
+
 	}
 
 	public static function parse_query($str, $urlEncoding = true)
@@ -559,6 +558,48 @@ class Helper
 				return $svg;
 			}
 
+			public static function get_insta_video_icon()
+			{
+				$svg = '<svg class="insta-video-icon" aria-label="Clip" class="x1lliihq x1n2onr6" color="#FFF" fill="#FFF" height="20" viewBox="1.111 1.111 24.444 24.447" width="20">
+		<path d="m14.248 1.111 3.304 5.558h-6.2L8.408 1.146c.229-.014.466-.024.713-.03l.379-.005Zm2.586 0h.331c3.4 0 4.964.838 6.267 2.097a6.674 6.674 0 0 1 1.773 3.133l.078.328H20.14l-3.307-5.558ZM6.093 1.53l2.74 5.139H1.382a6.678 6.678 0 0 1 4.38-5.033ZM16.91 15.79l-5.05-2.916a1.01 1.01 0 0 0-1.507.742l-.009.133v5.831a1.011 1.011 0 0 0 1.394.933l.121-.059 5.05-2.916a1.01 1.01 0 0 0 .111-1.674l-.111-.076-5.05-2.916ZM1.132 8.891h24.404l.017.4.003.21v7.666c0 3.401-.839 4.966-2.098 6.267-1.279 1.238-2.778 2.062-5.922 2.121l-.371.003H9.501c-3.4 0-4.963-.839-6.267-2.099-1.238-1.278-2.06-2.776-2.12-5.922l-.003-.37V9.501l.003-.21Z" fill-rule="evenodd" /></svg>';
+
+				return $svg;
+			}
+
+			public static function get_insta_image_carousel_icon()
+			{
+				$svg = '<svg aria-label="Carousel" class="x1lliihq x1n2onr6" color="#FFF" fill="#FFF" height="25" viewBox="0 0 43.636 43.636" width="25">
+		<path d="M31.636 27V10a4.695 4.695 0 0 0-4.727-4.727H10A4.695 4.695 0 0 0 5.273 10v17A4.695 4.695 0 0 0 10 31.727h17c2.545-.091 4.636-2.182 4.636-4.727zm4-13.364v14.636c0 4.091-3.364 7.455-7.455 7.455H13.545c-.545 0-.818.636-.455 1 .909 1 2.182 1.636 3.727 1.636h12.182a9.35 9.35 0 0 0 9.364-9.364V16.818a5.076 5.076 0 0 0-1.636-3.727c-.455-.364-1.091 0-1.091.545z" /></svg>';
+
+				return $svg;
+			}
+
+			public static function get_insta_image_icon()
+			{
+				$svg = '<svg width="22" height="22" viewBox="0 0 0.6 0.6" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M.175.05A.125.125 0 0 0 .05.175v.25A.125.125 0 0 0 .175.55h.25A.125.125 0 0 0 .55.425v-.25A.125.125 0 0 0 .425.05h-.25ZM.2.225a.025.025 0 1 1 .05 0 .025.025 0 0 1-.05 0ZM.225.15a.075.075 0 1 0 0 .15.075.075 0 0 0 0-.15Zm.138.205A.025.025 0 0 1 .398.351l.048.042A.025.025 0 1 0 .479.355L.43.312a.075.075 0 0 0-.107.011l-.04.05a.024.024 0 0 1-.032.005.074.074 0 0 0-.099.015L.118.432a.025.025 0 0 0 .038.033l.035-.04A.024.024 0 0 1 .223.42.074.074 0 0 0 .322.405l.04-.05Z" fill="#fff"/></svg>';
+
+				return $svg;
+			}
+
+			public static function get_insta_like_icon()
+			{
+				$svg = '<svg version="1.1" id="Uploaded to svgrepo.com" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 0.8 0.8" xml:space="preserve"><path d="M.225.25C.225.264.214.275.2.275S.175.264.175.25.186.225.2.225.225.236.225.25zM.75.3C.75.453.589.582.485.65a1.06 1.06 0 0 1-.073.044.025.025 0 0 1-.024 0A1.049 1.049 0 0 1 .315.65C.211.582.05.453.05.3a.2.2 0 0 1 .2-.2.199.199 0 0 1 .15.068A.199.199 0 0 1 .55.1a.2.2 0 0 1 .2.2zM.25.25a.05.05 0 1 0-.1 0 .05.05 0 0 0 .1 0z" style="fill:#fff"/></svg>';
+
+				return $svg;
+			}
+			public static function get_insta_comment_icon()
+			{
+				$svg = '<svg fill="#fff" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 2.5 2.5" xml:space="preserve"><path d="M2.374.446a.063.063 0 0 0-.061-.057H.991a.063.063 0 0 0-.063.057H.927v.328h.559c.029 0 .053.022.056.051h.001v.731h.275l.162.162a.063.063 0 0 0 .116-.035v-.127h.217a.063.063 0 0 0 .06-.051h.002V.446h-.001z"/><path d="M1.361.899H.18A.056.056 0 0 0 .125.95v.946h.001a.057.057 0 0 0 .054.045h.194v.113a.057.057 0 0 0 .104.032l.145-.145h.738c.027 0 .05-.02.056-.045h.001V.95h-.001a.056.056 0 0 0-.056-.051z"/></svg>';
+
+				return $svg;
+			}
+			public static function get_instagram_icon()
+			{
+				$svg = '<svg version="1.1" id="Icons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" xml:space="preserve" width="1285" height="400"><style>.st0{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10}</style><path class="st0" d="M14.375 19.375h-8.75c-2.75 0-5-2.25-5-5v-8.75c0-2.75 2.25-5 5-5h8.75c2.75 0 5 2.25 5 5v8.75c0 2.75-2.25 5-5 5z"/><path class="st0" d="M14.375 10A4.375 4.375 0 0 1 10 14.375 4.375 4.375 0 0 1 5.625 10a4.375 4.375 0 0 1 8.75 0zm1.25-5.625A.625.625 0 0 1 15 5a.625.625 0 0 1-.625-.625.625.625 0 0 1 1.25 0z"/></svg>';
+
+				return $svg;
+			}
+
 			public static function get_google_presentation_url($embedded_url)
 			{
 				$parsed_url = parse_url($embedded_url);
@@ -600,6 +641,148 @@ class Helper
 				];
 			}
 
+			// Ajax Methods get instagram feed data
+			public function loadmore_data_handler()
+			{
+				$connected_account_type = isset($_POST['connected_account_type']) ? sanitize_text_field($_POST['connected_account_type']) : 'personal';
+				$hashtag_id = isset($_POST['hashtag_id']) ? sanitize_text_field($_POST['hashtag_id']) : '';
+				$feed_type = isset($_POST['feed_type']) ? sanitize_text_field($_POST['feed_type']) : 'user_aacount_type';
+				$user_id = isset($_POST['user_id']) ? sanitize_text_field($_POST['user_id']) : '';
+				$loadmore_key = isset($_POST['loadmore_key']) ? sanitize_text_field($_POST['loadmore_key']) : '';
+				$nonce = isset($_POST['_nonce']) ? sanitize_text_field($_POST['_nonce']) : '';
+				$params = isset($_POST['params']) ? sanitize_text_field($_POST['params']) : '';
+				// $params = json_decode($params, true);
+				$params = stripslashes($params); // Remove extra backslashes
+				$params = json_decode($params, true);
+
+				// Verify nonce
+				if (!wp_verify_nonce($nonce, 'ep_nonce')) {
+					wp_send_json_error('Invalid nonce');
+					wp_die(); // Terminate script execution if nonce is invalid
+				}
+
+				$feeds_data = get_option('ep_instagram_feed_data');
+				$user_data = $feeds_data[$user_id]['feed_userinfo'];
+
+				if ($feed_type == 'hashtag_type') {
+					$feeds_data = get_option('ep_instagram_hashtag_feed');
+				}
+
+
+				$profile_picture_url = isset($user_data['profile_picture_url']) ? $user_data['profile_picture_url'] : '';
+
+				if ($feed_type === 'user_account_type' && isset($feeds_data[$loadmore_key]['feed_posts'])) {
+					$feed_posts = $feeds_data[$loadmore_key]['feed_posts'];
+				} else if ($feed_type === 'hashtag_type' && isset($feeds_data[$loadmore_key])) {
+					$feed_posts = $feeds_data[$loadmore_key];
+				} else {
+					$feed_posts = ['error'];
+				}
+
+
+				if (is_array($feed_posts) && count($feed_posts) > 0) {
+					$loaded_posts = isset($_POST['loaded_posts']) ? intval($_POST['loaded_posts']) : 0;
+					$posts_per_page = isset($_POST['posts_per_page']) ? intval($_POST['posts_per_page']) : 0;
+
+					$post_index = $loaded_posts + 1;
+					$start_index = $loaded_posts;
+
+					$next_posts = array_slice($feed_posts, $start_index, $posts_per_page);
+
+					ob_start();
+
+					if (is_array($next_posts) && count($next_posts) > 0) :
+						foreach ($next_posts as $post) :
+							$caption = !empty($post['caption']) ? $post['caption'] : '';
+							$media_type = !empty($post['media_type']) ? $post['media_type'] : '';
+							$media_url = !empty($post['media_url']) ? $post['media_url'] : '';
+							$permalink = !empty($post['permalink']) ? $post['permalink'] : '';
+							$timestamp = !empty($post['timestamp']) ? $post['timestamp'] : '';
+							$username = !empty($post['username']) ? $post['username'] : '';
+							$like_count = !empty($post['like_count']) ? $post['like_count'] : 0;
+							$comments_count = !empty($post['comments_count']) ? $post['comments_count'] : 0;
+
+							$post['profile_picture_url'] = $profile_picture_url;
+							$post['show_likes_count'] = isset($params['show_likes_count']) ? $params['show_likes_count'] : false;
+							$post['show_comments_count'] = isset($params['show_comments_count']) ? $params['show_comments_count'] : false;
+							$post['popup_follow_button'] = isset($params['popup_follow_button']) ? $params['popup_follow_button'] : true;
+							$post['popup_follow_button_text'] = isset($params['popup_follow_button_text']) ? $params['popup_follow_button_text'] : 'Follow';
+							?>
+
+					<div class="insta-gallery-item cg-carousel__slide js-carousel__slide" data-insta-postid="<?php echo esc_attr($post['id']) ?>" data-postindex="<?php echo esc_attr($post_index); ?>" data-postdata="<?php echo htmlspecialchars(json_encode($post), ENT_QUOTES, 'UTF-8'); ?>" data-media-type="<?php echo esc_attr($media_type); ?>">
+						<?php
+
+											if (!empty($hashtag_id) && $media_type == 'CAROUSEL_ALBUM') {
+												if (isset($post['children']['data'][0]['media_url'])) {
+													$hashtag_media_url = $post['children']['data'][0]['media_url'];
+													$hashtag_media_type = $post['children']['data'][0]['media_type'];
+
+													if ($hashtag_media_type == 'VIDEO') {
+														echo '<video class="insta-gallery-image" src="' . esc_url($hashtag_media_url) . '"></video>';
+													} else {
+														echo ' <img class="insta-gallery-image" src="' . esc_url($hashtag_media_url) . '" alt="' . esc_attr('image') . '">';
+													}
+												}
+											} else {
+												if ($media_type == 'VIDEO') {
+													echo '<video class="insta-gallery-image" src="' . esc_url($media_url) . '"></video>';
+												} else {
+													echo ' <img class="insta-gallery-image" src="' . esc_url($media_url) . '" alt="' . esc_attr('image') . '">';
+												}
+											}
+											?>
+
+						<div class="insta-gallery-item-type">
+							<div class="insta-gallery-item-type-icon">
+								<?php
+													if ($media_type == 'VIDEO') {
+														echo Helper::get_insta_video_icon();
+													} else if ($media_type == 'CAROUSEL_ALBUM') {
+														echo Helper::get_insta_image_carousel_icon();
+													} else {
+														echo Helper::get_insta_image_icon();
+													}
+													?>
+							</div>
+						</div>
+						<div class="insta-gallery-item-info">
+							<?php if (strtolower($connected_account_type) === 'business') : ?>
+								<div class="insta-item-reaction-count">
+									<div class="insta-gallery-item-likes">
+										<?php echo Helper::get_insta_like_icon();
+																echo esc_html($like_count); ?>
+									</div>
+									<div class="insta-gallery-item-comments">
+										<?php echo Helper::get_insta_comment_icon();
+																echo esc_html($comments_count); ?>
+									</div>
+								</div>
+							<?php else : ?>
+								<div class="insta-gallery-item-permalink">
+									<?php echo Helper::get_instagram_icon(); ?>
+								</div>
+							<?php endif; ?>
+						</div>
+					</div>
+
+		<?php $post_index++;
+						endforeach;
+					endif;
+
+					$feed_item = ob_get_clean();
+
+					$next_start_index = $start_index + count($next_posts);
+
+					wp_send_json(array(
+						'html' => $feed_item,
+						'next_post_index' => $next_start_index,
+						'total_feed_posts' => count($feed_posts)
+					));
+				} else {
+					wp_send_json('');
+				}
+			}
+
 			public static function getCalendlyUuid($url)
 			{
 				$pattern = '/\/([0-9a-fA-F-]+)$/';
@@ -610,7 +793,8 @@ class Helper
 				return '';
 			}
 
-			public static function getCalendlyUserInfo($access_token) {
+			public static function getCalendlyUserInfo($access_token)
+			{
 				$transient_name = 'calendly_user_info_' . $access_token;
 				$user_info = get_transient($transient_name);
 				if (false === $user_info) {
@@ -633,7 +817,7 @@ class Helper
 
 				return $user_info;
 			}
-			
+
 
 
 			public static function getCalaendlyEventTypes($user_uri, $access_token)
@@ -860,20 +1044,20 @@ class Helper
 				/* display: none !important; */
 			}
 
-			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template {
+			[data-sponsored-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template {
 				width: <?php echo esc_attr($width); ?><?php echo esc_attr($unit); ?>;
 				height: <?php echo esc_attr($height); ?>px;
 				max-width: 100%;
 				display: inline-block;
 			}
 
-			[data-ad-id] {
+			div[data-sponsored-id] {
 				position: relative;
-				display: inline-block;
-
+				display: inline-block !important;
+				max-width: 100%;
 			}
 
-			.ep-percentage-width [data-ad-id] {
+			.ep-percentage-width div[data-sponsored-id] {
 				display: block;
 			}
 
@@ -885,15 +1069,15 @@ class Helper
 				height: auto;
 			}
 
-			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template.image.ad-running {
+			[data-sponsored-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template.image.ad-running {
 				width: <?php echo esc_attr($adWidth); ?>px !important;
 				height: <?php echo esc_attr($adHeight); ?>px !important;
 				bottom: <?php echo esc_attr($adYPosition); ?>%;
 				left: <?php echo esc_attr($adXPosition); ?>%;
 			}
 
-			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template .ep-ad-content,
-			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template .ep-ad-container,
+			[data-sponsored-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template .ep-ad-content,
+			[data-sponsored-id="<?php echo esc_attr($client_id) ?>"] .main-ad-template .ep-ad-container,
 			.main-ad-template div img {
 				height: 100%;
 				object-fit: cover;
@@ -967,7 +1151,7 @@ class Helper
 
 			}
 
-			[data-ad-id="<?php echo esc_attr($client_id) ?>"] .hidden {
+			[data-sponsored-id="<?php echo esc_attr($client_id) ?>"] .hidden {
 				display: none !important;
 			}
 		</style>
@@ -976,6 +1160,111 @@ class Helper
 
 <?php
 	}
+
+
+	public static function is_pro_active()
+	{
+		if (defined('EMBEDPRESS_SL_ITEM_SLUG')) {
+			return true;
+		}
+		return false;
+	}
+
+
+	public static function getInstagramUserInfo($accessToken, $accountType, $userId, $is_sync = false)
+	{
+		if ($is_sync) {
+			// If $is_sync is true, don't use transient
+			$use_transient = false;
+		} else {
+			// If $is_sync is false, use transient
+			$transient_key = 'instagram_user_info_' . $userId;
+			$use_transient = true;
+		}
+
+		if ($use_transient && false !== ($userInfo = get_transient($transient_key))) {
+			// If transient exists, return cached user info
+			return $userInfo;
+		}
+
+		if (strtolower($accountType) === 'business') {
+			$api_url = 'https://graph.facebook.com/' . $userId . '?fields=biography,id,username,website,followers_count,media_count,profile_picture_url,name&access_token=' . $accessToken;
+		} else {
+			$api_url = "https://graph.instagram.com/me?fields=id,username,account_type,media_count,followers_count,biography,website&access_token={$accessToken}";
+		}
+
+		$connected_account_type = $accountType;
+
+		$userInfoResponse = wp_remote_get($api_url);
+
+		if (is_wp_error($userInfoResponse)) {
+			echo 'Error: Unable to retrieve Instagram user information.';
+		} else {
+			$userInfoBody = wp_remote_retrieve_body($userInfoResponse);
+			$userInfo = json_decode($userInfoBody, true);
+
+			$userInfo['connected_account_type'] = $connected_account_type;
+			$userInfo['access_token'] = $accessToken;
+
+
+			if (!isset($userInfo['profile_picture_url'])) {
+				$userInfo['profile_picture_url'] = '';
+			}
+
+			// If not using transient, cache the user info for an hour
+			if ($use_transient) {
+				set_transient($transient_key, $userInfo, HOUR_IN_SECONDS);
+			}
+
+			return $userInfo;
+		}
+	}
+
+
+	// Get Instagram posts, videos, reels
+	public static function getInstagramPosts($access_token, $account_type, $userId, $limit = 100, $is_sync = false)
+	{
+		if ($is_sync) {
+			// If $is_sync is true, don't use transient
+			$use_transient = false;
+		} else {
+			// If $is_sync is false, use transient
+			$transient_key = 'instagram_posts_' . $userId;
+			$use_transient = true;
+		}
+
+		if ($use_transient && false !== ($posts = get_transient($transient_key))) {
+			// If transient exists, return cached posts
+			return $posts;
+		}
+
+		if (strtolower($account_type) === 'business') {
+			$api_url = 'https://graph.facebook.com/v17.0/' . $userId . '/media?fields=media_url,media_product_type,thumbnail_url,caption,id,media_type,timestamp,username,comments_count,like_count,permalink,children%7Bmedia_url,id,media_type,timestamp,permalink,thumbnail_url%7D&limit=' . $limit . '&access_token=' . $access_token;
+		} else {
+			$api_url = "https://graph.instagram.com/me/media?fields=id,caption,media_type,media_url,children{media_url,id,media_type},permalink,timestamp,username,thumbnail_url&limit=$limit&access_token=$access_token";
+		}
+
+		$postsResponse = wp_remote_get($api_url);
+
+		if (is_wp_error($postsResponse)) {
+			echo 'Error: Unable to retrieve Instagram posts.';
+		} else {
+			$postsBody = wp_remote_retrieve_body($postsResponse);
+			$posts = json_decode($postsBody, true);
+
+			if (empty($posts['data'])) {
+				return 'Please add Instagram Access Token';
+			}
+
+			// If not using transient, cache the posts for an hour
+			if ($use_transient) {
+				set_transient($transient_key, $posts['data'], HOUR_IN_SECONDS);
+			}
+
+			return $posts['data'];
+		}
+	}
 }
+
 
 ?>

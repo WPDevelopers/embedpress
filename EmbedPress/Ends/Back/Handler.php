@@ -35,20 +35,286 @@ class Handler extends EndHandlerAbstract
     {
         parent::__construct($pluginName, $pluginVersion);
 
+        add_action('wp_ajax_delete_instagram_account', [$this, 'delete_instagram_account']);
+        // add_action('init', [$this, 'handle_instagram_data']);
+
+        add_action('wp_ajax_get_instagram_userdata_ajax', [$this, 'get_instagram_userdata_ajax']);
+        add_action('wp_ajax_nopriv_get_instagram_userdata_ajax', [$this, 'get_instagram_userdata_ajax']);
+
         if (!empty($_GET['page_type']) && $_GET['page_type'] == 'calendly') {
             add_action('init', [$this, 'handle_calendly_data']);
         }
 
-        if(defined('EMBEDPRESS_SL_ITEM_SLUG') && is_admin(  )){
+        if (defined('EMBEDPRESS_SL_ITEM_SLUG') && is_admin()) {
             add_action('admin_enqueue_scripts',  [$this, 'enqueueLisenceScripts']);
+        }
+
+        add_action('wp_ajax_sync_instagram_data_ajax', [$this, 'sync_instagram_data_ajax']);
+        add_action('wp_ajax_nopriv_sync_instagram_data_ajax', [$this, 'sync_instagram_data_ajax']);
+    }
+
+
+    public function get_instagram_userdata_ajax()
+    {
+        if (isset($_POST['_nonce']) && wp_verify_nonce($_POST['_nonce'], 'embedpress_elements_action')) {
+            if (isset($_POST['access_token'])) {
+                $access_token = sanitize_text_field($_POST['access_token']);
+                $account_type = sanitize_text_field($_POST['account_type']);
+
+                $user_data = $this->get_instagram_userdata($access_token, $account_type);
+
+                $this->handle_instagram_data($user_data);
+
+                $access_token = sanitize_text_field($_POST['access_token']);
+                $account_type = sanitize_text_field($_POST['account_type']);
+                $user_id = $this->get_instagram_userid($access_token, $account_type);
+
+                $option_key = 'ep_instagram_feed_data';
+                $feed_data = get_option($option_key, array());
+
+                $feed_userinfo =  Helper::getInstagramUserInfo($access_token, $account_type, $user_id, true);
+                $feed_posts    =  Helper::getInstagramPosts($access_token, $account_type, $user_id, 100, true);
+
+                if (!empty($user_id)) {
+                    $feed_data[$user_id] = [
+                        'feed_userinfo' => $feed_userinfo,
+                        'feed_posts' => $feed_posts,
+                    ];
+
+                    delete_transient('instagram_user_info_' . $user_id);
+                    delete_transient('instagram_posts_' . $user_id);
+                    update_option('ep_instagram_feed_data', $feed_data);
+                }
+                else{
+                    $feed_data['error'] = "Access token Invalid or expired.";
+                }
+
+
+                wp_send_json($feed_data);
+            } else {
+                wp_send_json_error('Access token not provided');
+            }
+        } else {
+            wp_send_json_error('Nonce verification failed');
+        }
+    }
+
+    public function sync_instagram_data_ajax()
+    {
+        if (isset($_POST['_nonce']) && wp_verify_nonce($_POST['_nonce'], 'embedpress_elements_action')) {
+            if (isset($_POST['access_token'])) {
+
+                $access_token = sanitize_text_field($_POST['access_token']);
+                $account_type = sanitize_text_field($_POST['account_type']);
+                $user_id = sanitize_text_field($_POST['user_id']);
+
+                $option_key = 'ep_instagram_feed_data';
+                $feed_data = get_option($option_key, array());
+
+                $feed_userinfo =  Helper::getInstagramUserInfo($access_token, $account_type, $user_id, true);
+                $feed_posts    =  Helper::getInstagramPosts($access_token, $account_type, $user_id, 100, true);
+
+                $feed_data[$user_id] = [
+                    'feed_userinfo' => $feed_userinfo,
+                    'feed_posts' => $feed_posts,
+                ];
+
+                delete_transient('instagram_user_info_' . $user_id);
+                delete_transient('instagram_posts_' . $user_id);
+                update_option('ep_instagram_feed_data', $feed_data);
+
+
+                wp_send_json($feed_data);
+            } else {
+                wp_send_json_error('Access token not provided');
+            }
+        } else {
+            wp_send_json_error('Nonce verification failed');
+        }
+    }
+
+
+    public function get_instagram_userid($access_token)
+    {
+        $response = "https://graph.facebook.com/v19.0/me/accounts?fields=connected_instagram_account{id}&access_token=$access_token";
+        if (!is_wp_error($response)) {
+
+            $body = wp_remote_retrieve_body($response);
+            $data = json_decode($body, true);
+
+            // Extract the connected Instagram account ID
+            if (isset($data['data'][0]['connected_instagram_account']['id'])) {
+                return $data['data'][0]['connected_instagram_account']['id'];
+            } else {
+                return '';
+            }
+        } else {
+            $user_data['error'] = "Error: Unable to connect to Instagram API.";
+        }
+    }
+
+    public function get_instagram_profile_picture($access_token, $userid)
+    { }
+
+    public function get_instagram_user_id($access_token, $account_type)
+    {
+        // Check if user data is already cached
+        $user_id = get_transient('instagram_user_id_' . $access_token);
+
+        if (!$user_id) {
+            $user_id = array();
+
+            if ($account_type == 'personal') {
+                $response = wp_remote_get('https://graph.instagram.com/me?fields=id,username,account_type&access_token=' . $access_token);
+            } else {
+                $response = wp_remote_get('https://graph.facebook.com/v19.0/me/accounts?fields=connected_instagram_account{id,name,username,followers_count}&access_token=' . $access_token);
+            }
+
+
+            if (!is_wp_error($response)) {
+
+                $body = wp_remote_retrieve_body($response);
+                $data = json_decode($body, true);
+
+                if ($account_type == 'personal') {
+
+                    if (isset($data['id']) && isset($data['username'])) {
+                        return $data['id'];
+
+                        set_transient('instagram_user_id_' . $access_token, $data['id'], HOUR_IN_SECONDS);
+                        return $data['id'];
+                    } else {
+                        $data['error'] = "Access token Invalid or expired.";
+                    }
+                } else {
+                    if (isset($data['data'][0]['connected_instagram_account']['id']) && isset($data['data'][0]['connected_instagram_account']['username'])) {
+                        set_transient('instagram_user_id_' . $access_token, $data['data'][0]['connected_instagram_account']['id'], HOUR_IN_SECONDS);
+                        return $data['data'][0]['connected_instagram_account']['id'];
+                    } else {
+                        $data['error'] = "Access token Invalid or expired.";
+                    }
+                }
+            } else {
+                $data['error'] = "Error: Unable to connect to Instagram API.";
+            }
+        }
+
+        return $data;
+    }
+
+    public function get_instagram_userdata($access_token, $account_type)
+    {
+        // Check if user data is already cached
+        $user_data = get_transient('instagram_user_data_' . $access_token);
+
+        if (!$user_data) {
+            $user_data = array();
+
+            if ($account_type == 'personal') {
+                $response = wp_remote_get('https://graph.instagram.com/me?fields=id,username,account_type&access_token=' . $access_token);
+            } else {
+                $response = wp_remote_get('https://graph.facebook.com/v19.0/me/accounts?fields=connected_instagram_account{id,name,username,followers_count}&access_token=' . $access_token);
+            }
+
+
+            if (!is_wp_error($response)) {
+
+                $body = wp_remote_retrieve_body($response);
+                $data = json_decode($body, true);
+
+                if ($account_type == 'personal') {
+
+                    if (isset($data['id']) && isset($data['username'])) {
+                        $user_data['access_token'] = $access_token;
+                        $user_data['user_id']          = $data['id'];
+                        $user_data['username']    = $data['username'];
+                        $user_data['account_type'] = $account_type;
+
+                        set_transient('instagram_user_data_' . $access_token, $user_data, HOUR_IN_SECONDS);
+                    } else {
+                        $user_data['error'] = "Access token Invalid or expired.";
+                    }
+                } else {
+                    if (isset($data['data'][0]['connected_instagram_account']['id']) && isset($data['data'][0]['connected_instagram_account']['username'])) {
+                        $user_data['access_token'] = $access_token;
+                        $user_data['user_id'] = $data['data'][0]['connected_instagram_account']['id']; // Assuming 'id' refers to Facebook account ID
+                        $user_data['instagram_id'] = $data['data'][0]['connected_instagram_account']['id'];
+                        $user_data['username'] = $data['data'][0]['connected_instagram_account']['username'];
+                        $user_data['account_type'] = $account_type;
+
+                        set_transient('instagram_user_data_' . $access_token, $user_data, HOUR_IN_SECONDS);
+                    } else {
+                        $user_data['error'] = "Access token Invalid or expired.";
+                    }
+                }
+            } else {
+                $user_data['error'] = "Error: Unable to connect to Instagram API.";
+            }
+        }
+
+        return $user_data;
+    }
+
+
+
+
+    public function handle_instagram_data($user_data)
+    {
+        if (empty($user_data['error'])) {
+            $user_id = isset($user_data['user_id']) ? $user_data['user_id'] : '';
+            $username = isset($user_data['username']) ? $user_data['username'] : '';
+            $account_type = isset($user_data['account_type']) ? $user_data['account_type'] : '';
+            $access_token = isset($user_data['access_token']) ? $user_data['access_token'] : '';
+
+            $get_instagram_data = get_option('ep_instagram_account_data');
+
+            $token_data = [
+                [
+                    'user_id' => $user_id,
+                    'username' => $username,
+                    'account_type' => $account_type,
+                    'access_token' => $access_token,
+                ]
+            ];
+
+            if (!empty($get_instagram_data)) {
+                $updated = false;
+
+                foreach ($get_instagram_data as &$data) {
+
+                    if ($data['user_id'] === $user_id) {
+
+                        // If user_id matches, update the data
+                        $data['username'] = $username;
+                        $data['account_type'] = $account_type;
+                        $data['access_token'] = $access_token;
+
+                        $updated = true;
+                        break;
+                    }
+                }
+
+                if (!$updated) {
+                    // If user_id does not exist, add new data
+                    $get_instagram_data[] = $token_data[0];
+                }
+            } else {
+                // If $get_instagram_data is empty, add the new data directly
+                $get_instagram_data = $token_data;
+            }
+
+            update_option('ep_instagram_account_data', $get_instagram_data);
+
+            wp_redirect(admin_url('admin.php?page=embedpress&page_type=instagram'), 301);
+
+            exit();
         }
     }
 
     public function handle_calendly_data()
     {
 
-        if(empty($_GET['_nonce']))
-        {
+        if (empty($_GET['_nonce'])) {
             return false;
         }
 
@@ -177,8 +443,26 @@ class Handler extends EndHandlerAbstract
             wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css', $this->pluginVersion, true);
 
             wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true);
-        }
 
+            wp_enqueue_script(
+                'slick',
+                EMBEDPRESS_URL_ASSETS . 'js/slick.min.js',
+                ['jquery'],
+                $this->pluginVersion,
+                false
+            );
+            wp_enqueue_script(
+                'init-carousel',
+                EMBEDPRESS_URL_ASSETS . 'js/initCarousel.js',
+                ['jquery', 'slick'],
+                $this->pluginVersion,
+                false
+            );
+
+            wp_enqueue_style('slick', EMBEDPRESS_URL_ASSETS . 'css/slick.min.css', $this->pluginVersion, true);
+
+            wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', $this->pluginVersion, true);
+        }
 
         //load embedpress admin js
 
@@ -215,7 +499,8 @@ class Handler extends EndHandlerAbstract
         }
     }
 
-    public function enqueueLisenceScripts(){
+    public function enqueueLisenceScripts()
+    {
         wp_enqueue_script(
             'embedpress-lisence',
             EMBEDPRESS_URL_ASSETS . 'js/license.js',
@@ -224,10 +509,9 @@ class Handler extends EndHandlerAbstract
             true
         );
 
-		wp_localize_script( 'embedpress-lisence', 'wpdeveloperLicenseManagerNonce', array('embedpress_lisence_nonce' => wp_create_nonce( 'wpdeveloper_sl_'.EMBEDPRESS_SL_ITEM_ID.'_nonce' )) );
-
+        wp_localize_script('embedpress-lisence', 'wpdeveloperLicenseManagerNonce', array('embedpress_lisence_nonce' => wp_create_nonce('wpdeveloper_sl_' . EMBEDPRESS_SL_ITEM_ID . '_nonce')));
     }
-    
+
 
     /**
      * Method that register all stylesheets for the admin area.
@@ -618,6 +902,25 @@ class Handler extends EndHandlerAbstract
             'opensea.io/assets/*',
         ];
     }
+
+    public function delete_instagram_account()
+    {
+        if (isset($_POST['_nonce']) && wp_verify_nonce($_POST['_nonce'], 'embedpress_elements_action')) {
+            $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : '';
+            $account_type = isset($_POST['account_type']) ? $_POST['account_type'] : '';
+            $account_data = get_option('ep_instagram_account_data');
+
+            $data = array_filter($account_data, function ($item) use ($user_id) {
+                return $item['user_id'] !== $user_id;
+            });
+            $data = array_values($data);
+            update_option('ep_instagram_account_data', $data);
+        } else {
+            wp_die('Nonce verification failed.');
+        }
+    }
+
+
 
     /**
      * Update admin notice view status

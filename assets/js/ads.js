@@ -14,8 +14,8 @@ if (!isPyr) {
 
 
 
-let adsConainers = document.querySelectorAll('[data-ad-id]');
-let container = document.querySelector('[data-ad-id]');
+let adsConainers = document.querySelectorAll('[data-sponsored-id]');
+let container = document.querySelector('[data-sponsored-id]');
 const player = [];
 let playerIndex = 0;
 
@@ -55,10 +55,10 @@ const adInitialization = (adContainer, index) => {
         return;
     }
 
-    const adAtts = JSON.parse(atob(adContainer.getAttribute('data-ad-attrs')));
+    const adAtts = JSON.parse(atob(adContainer?.getAttribute('data-sponsored-attrs')));
 
     const blockId = adAtts.clientId;
-    const blockIdMD5 = adContainer.getAttribute('data-ad-id');
+    const blockIdMD5 = adContainer.getAttribute('data-sponsored-id');
     const adStartAfter = adAtts.adStart * 1000;
     const adContent = adAtts.adContent;
     const adVideo = adContainer.querySelector('.ep-ad');

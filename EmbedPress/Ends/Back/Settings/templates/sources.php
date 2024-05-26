@@ -3,27 +3,27 @@ $icon_src = EMBEDPRESS_SETTINGS_ASSETS_URL . "img/sources/icons";
 
 
 $sources = [
-    ["name" => "YouTube", "icon" => $icon_src . "/youtube.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=youtube", "doc_url" => "https://embedpress.com/docs/embed-youtube-wordpress/"],
-    ["name" => "YouTube Live", "icon" => $icon_src . "/youtubelive.png", "type" => "stream", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=youtube", "doc_url" => "https://embedpress.com/docs/embed-youtube-wordpress/"],
-    ["name" => "Vimeo", "icon" => $icon_src . "/vimeo.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=vimeo", "doc_url" => "https://embedpress.com/docs/embed-vimeo-videos-wordpress/"],
-    ["name" => "Wistia", "icon" => $icon_src . "/wistia.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=wistia", "doc_url" => "https://embedpress.com/docs/embed-wistia-videos-wordpress/"],
-    ["name" => "Twitch", "icon" => $icon_src . "/twitch.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=twitch", "doc_url" => "https://embedpress.com/docs/embed-twitch-streams-chat/"],
-    ["name" => "Dailymotion", "icon" => $icon_src . "/dailymotion.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=dailymotion", "doc_url" => "https://embedpress.com/docs/embed-dailymotion-videos-wordpress/"],
-    ["name" => "PDF", "icon" => $icon_src . "/pdf.png", "type" => "pdf", "doc_url" => "https://wpdeveloper.com/embed-pdf-documents-wordpress"],
-    ["name" => "SoundCloud", "icon" => $icon_src . "/soundcloud.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=soundcloud", "doc_url" => "https://embedpress.com/docs/embed-soundcloud-audio-wordpress/"],
-    ["name" => "Spotify", "icon" => $icon_src . "/spotify.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=spotify", "doc_url" => "https://embedpress.com/docs/embed-spotify-audios-wordpress/"],
-    ["name" => "Google Calendar", "icon" => $icon_src . "/google-calendar.png", "type" => "google", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=google-calendar", "doc_url" => "https://embedpress.com/docs/embed-google-calendar-in-wordpress/"],
-    ["name" => "OpenSea NFT", "icon" => $icon_src . "/opensea.png", "type" => "image", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=opensea", "doc_url" => "https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/"],
-    ["name" => "Calendly", "icon" => $icon_src . "/calendly.png", "type" => "calendar", "settings" => true, "settings_url" => admin_url('admin.php')."?page=embedpress&page_type=calendly", "doc_url" => "https://embedpress.com/docs/how-to-embed-calendly-events-with-embedpress/"],
+    ["name" => "Instagram", "arival_status" => "new", "icon" => $icon_src . "/instagram.png", "type" => "social", "settings" => true, "settings_url" => "/wp-admin/admin.php?page=embedpress&page_type=instagram", "doc_url" => "https://embedpress.com/docs/embed-instagram-wordpress/"],
+    ["name" => "YouTube", "arival_status" => "popular", "icon" => $icon_src . "/youtube.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=youtube", "doc_url" => "https://embedpress.com/docs/embed-youtube-wordpress/"],
+    ["name" => "YouTube Live", "arival_status" => "popular", "icon" => $icon_src . "/youtubelive.png", "type" => "stream", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=youtube", "doc_url" => "https://embedpress.com/docs/embed-youtube-wordpress/"],
+    ["name" => "Vimeo", "arival_status" => "popular", "icon" => $icon_src . "/vimeo.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=vimeo", "doc_url" => "https://embedpress.com/docs/embed-vimeo-videos-wordpress/"],
+    ["name" => "Wistia", "arival_status" => "popular", "icon" => $icon_src . "/wistia.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=wistia", "doc_url" => "https://embedpress.com/docs/embed-wistia-videos-wordpress/"],
+    ["name" => "Twitch", "icon" => $icon_src . "/twitch.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=twitch", "doc_url" => "https://embedpress.com/docs/embed-twitch-streams-chat/"],
+    ["name" => "Dailymotion", "arival_status" => "popular", "icon" => $icon_src . "/dailymotion.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=dailymotion", "doc_url" => "https://embedpress.com/docs/embed-dailymotion-videos-wordpress/"],
+    ["name" => "PDF", "arival_status" => "popular", "icon" => $icon_src . "/pdf.png", "type" => "pdf", "doc_url" => "https://wpdeveloper.com/embed-pdf-documents-wordpress"],
+    ["name" => "SoundCloud", "icon" => $icon_src . "/soundcloud.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=soundcloud", "doc_url" => "https://embedpress.com/docs/embed-soundcloud-audio-wordpress/"],
+    ["name" => "Spotify", "arival_status" => "popular",  "icon" => $icon_src . "/spotify.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=spotify", "doc_url" => "https://embedpress.com/docs/embed-spotify-audios-wordpress/"],
+    ["name" => "Google Calendar", "icon" => $icon_src . "/google-calendar.png", "type" => "google", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=google-calendar", "doc_url" => "https://embedpress.com/docs/embed-google-calendar-in-wordpress/"],
+    ["name" => "OpenSea NFT", "arival_status" => "popular", "icon" => $icon_src . "/opensea.png", "type" => "image", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=opensea", "doc_url" => "https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/"],
+    ["name" => "Calendly", "arival_status" => "new", "icon" => $icon_src . "/calendly.png", "type" => "calendar", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=calendly", "doc_url" => "https://embedpress.com/docs/how-to-embed-calendly-events-with-embedpress/"],
     ["name" => "Google Drawings", "icon" => $icon_src . "/google-drawings.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-drawings-wordpress/"],
-    ["name" => "Google Docs", "icon" => $icon_src . "/google-docs.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-docs-wordpress/"],
-    ["name" => "Google Slides", "icon" => $icon_src . "/google-slides.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-slides-wordpress/"],
+    ["name" => "Google Docs", "arival_status" => "popular", "icon" => $icon_src . "/google-docs.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-docs-wordpress/"],
+    ["name" => "Google Slides", "arival_status" => "popular", "icon" => $icon_src . "/google-slides.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-slides-wordpress/"],
     ["name" => "Google Forms", "icon" => $icon_src . "/google-forms.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-forms-wordpress/"],
-    ["name" => "Google Maps", "icon" => $icon_src . "/google-maps.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-maps-wordpress/"],
+    ["name" => "Google Maps", "arival_status" => "popular", "icon" => $icon_src . "/google-maps.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-maps-wordpress/"],
     ["name" => "Google Sheets", "icon" => $icon_src . "/google-sheets.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-sheets-wordpress/"],
     ["name" => "X", "icon" => $icon_src . "/x.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-twitter-tweets-wordpress/"],
-    ["name" => "Facebook", "icon" => $icon_src . "/facebook.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-facebook-posts-wordpress/"],
-    ["name" => "Instagram", "icon" => $icon_src . "/instagram.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-instagram-wordpress/"],
+    ["name" => "Facebook", "arival_status" => "popular", "icon" => $icon_src . "/facebook.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-facebook-posts-wordpress/"],
     ["name" => "Github", "icon" => $icon_src . "/github.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-github-gist-snippets-wordpress/"],
     ["name" => "Tumblr", "icon" => $icon_src . "/tumblr.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-tumblr-wordpress/"],
     ["name" => "WordPress.tv", "icon" => $icon_src . "/wordpress-tv.png", "type" => "video",  "doc_url" => "https://embedpress.com/docs/embed-wordpress-tv-videos-wordpress/"],
@@ -135,7 +135,7 @@ $sources = [
     ["name" => "Eyrie", "icon" => $icon_src . "/eyrie.png", "type" => "photo", "doc_url" => "https://embedpress.com/docs/how-to-embed-eyrie-photo-albums-in-wordpress/"],
     ["name" => "Cambridge Map", "icon" => $icon_src . "/cambridge-map.png", "type" => "map", "doc_url" => "https://embedpress.com/docs/how-to-embed-university-cambridge-map/"],
     ["name" => "Mermaid", "icon" => $icon_src . "/mermaid.png", "type" => "graphics", "doc_url" => "https://embedpress.com/docs/embed-mermaid-in-wordpress/"],
-    ["name" => "Facebook Live", "icon" => $icon_src . "/facebooklive.png", "type" => "stream", "doc_url" => "https://embedpress.com/docs/embed-facebook-posts-wordpress/"],
+    ["name" => "Facebook Live", "arival_status" => "popular", "icon" => $icon_src . "/facebooklive.png", "type" => "stream", "doc_url" => "https://embedpress.com/docs/embed-facebook-posts-wordpress/"],
     ["name" => "PolariShare", "icon" => $icon_src . "/polarishare.png", "type" => "stream", "doc_url" => "https://embedpress.com/docs/how-to-embed-polarishare-videos-in-wordpress/"],
 
 ];
@@ -150,63 +150,63 @@ $sources = [
         <?php
         $index = 0;
         foreach ($sources as $source) : ?>
-        <div class="source-item" data-tab="<?php echo esc_attr($source['type']); ?>">
-            <div class="source-left">
-                <div class="icon">
-                    <img class="source-image" src="<?php echo esc_url($source['icon']); ?>"
-                        alt="<?php echo esc_attr($source['name']); ?>">
+            <div class="source-item" data-tab="<?php echo esc_attr($source['type']); ?>">
+                <div class="source-left">
+                    <div class="icon">
+                        <img class="source-image" src="<?php echo esc_url($source['icon']); ?>" alt="<?php echo esc_attr($source['name']); ?>">
+                    </div>
+                    <span class="source-name"><?php echo esc_html($source['name']); ?></span>
                 </div>
-                <span class="source-name"><?php echo esc_html($source['name']); ?></span>
-            </div>
-            <div class="source-right">
+                <div class="source-right">
 
-                <?php if (!empty($source['settings'])) : ?>
-                <a href="<?php echo esc_url($source['settings_url']); ?>">
-                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g clip-path="url(#a)" stroke="#988FBD" stroke-linecap="round" stroke-linejoin="round">
-                            <path
-                                d="M6.883 2.878c.284-1.17 1.95-1.17 2.234 0a1.15 1.15 0 0 0 1.715.71c1.029-.626 2.207.551 1.58 1.58a1.148 1.148 0 0 0 .71 1.715c1.17.284 1.17 1.95 0 2.234a1.15 1.15 0 0 0-.71 1.715c.626 1.029-.551 2.207-1.58 1.58a1.148 1.148 0 0 0-1.715.71c-.284 1.17-1.95 1.17-2.234 0a1.15 1.15 0 0 0-1.715-.71c-1.029.626-2.207-.551-1.58-1.58a1.15 1.15 0 0 0-.71-1.715c-1.17-.284-1.17-1.95 0-2.234a1.15 1.15 0 0 0 .71-1.715c-.626-1.029.551-2.207 1.58-1.58a1.149 1.149 0 0 0 1.715-.71Z" />
-                            <path d="M6 8a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z" />
-                        </g>
-                        <defs>
-                            <clipPath id="a">
-                                <path fill="#fff" d="M0 0h16v16H0z" />
-                            </clipPath>
-                        </defs>
-                    </svg>
-                </a>
+                    <?php if (!empty($source['settings'])) : ?>
+                        <a href="<?php echo esc_url($source['settings_url']); ?>">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#a)" stroke="#988FBD" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M6.883 2.878c.284-1.17 1.95-1.17 2.234 0a1.15 1.15 0 0 0 1.715.71c1.029-.626 2.207.551 1.58 1.58a1.148 1.148 0 0 0 .71 1.715c1.17.284 1.17 1.95 0 2.234a1.15 1.15 0 0 0-.71 1.715c.626 1.029-.551 2.207-1.58 1.58a1.148 1.148 0 0 0-1.715.71c-.284 1.17-1.95 1.17-2.234 0a1.15 1.15 0 0 0-1.715-.71c-1.029.626-2.207-.551-1.58-1.58a1.15 1.15 0 0 0-.71-1.715c-1.17-.284-1.17-1.95 0-2.234a1.15 1.15 0 0 0 .71-1.715c-.626-1.029.551-2.207 1.58-1.58a1.149 1.149 0 0 0 1.715-.71Z" />
+                                    <path d="M6 8a2 2 0 1 0 4 0 2 2 0 0 0-4 0Z" />
+                                </g>
+                                <defs>
+                                    <clipPath id="a">
+                                        <path fill="#fff" d="M0 0h16v16H0z" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                    <?php endif; ?>
+
+                    <a href="<?php if (!empty($source['doc_url'])) : echo esc_url($source['doc_url']);
+                                    endif; ?>" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                            <g clip-path="url(#a)" stroke="#988FBD" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9.333 2v2.667a.667.667 0 0 0 .667.666h2.666" />
+                                <path d="M11.333 14H4.666a1.334 1.334 0 0 1-1.333-1.333V3.333A1.333 1.333 0 0 1 4.666 2h4.667l3.333 3.333v7.334A1.333 1.333 0 0 1 11.333 14ZM6 11.333h4M6 8.667h4" />
+                            </g>
+                            <defs>
+                                <clipPath id="a">
+                                    <path fill="#fff" d="M0 0h16v16H0z" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </a>
+                </div>
+                <?php if (!empty($source['arival_status'])) : ?>
+                    <div class="ribbon-container <?php echo esc_attr($source['arival_status']); ?>"><?php echo esc_html($source['arival_status']); ?></div>
                 <?php endif; ?>
-
-                <a href="<?php if(!empty($source['doc_url'])): echo esc_url($source['doc_url']); endif; ?>"
-                    target="_blank">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-                        <g clip-path="url(#a)" stroke="#988FBD" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M9.333 2v2.667a.667.667 0 0 0 .667.666h2.666" />
-                            <path
-                                d="M11.333 14H4.666a1.334 1.334 0 0 1-1.333-1.333V3.333A1.333 1.333 0 0 1 4.666 2h4.667l3.333 3.333v7.334A1.333 1.333 0 0 1 11.333 14ZM6 11.333h4M6 8.667h4" />
-                        </g>
-                        <defs>
-                            <clipPath id="a">
-                                <path fill="#fff" d="M0 0h16v16H0z" />
-                            </clipPath>
-                        </defs>
-                    </svg>
-                </a>
             </div>
-        </div>
         <?php $index++;
         endforeach; ?>
     </div>
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         var tabButtons = document.querySelectorAll(".tab-button");
         var tabItems = document.querySelectorAll(".source-item");
 
-        tabButtons.forEach(function (button) {
-            button.addEventListener("click", function () {
-                tabButtons.forEach(function (btn) {
+        tabButtons.forEach(function(button) {
+            button.addEventListener("click", function() {
+                tabButtons.forEach(function(btn) {
                     btn.classList.remove("active");
                 });
 
@@ -214,7 +214,7 @@ $sources = [
 
                 var tabName = button.getAttribute("data-tab");
 
-                tabItems.forEach(function (item) {
+                tabItems.forEach(function(item) {
                     var dataTabs = item.getAttribute("data-tab").split(' ');
                     if (tabName === "all" || dataTabs.includes(tabName)) {
                         item.style.display = "flex";

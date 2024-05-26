@@ -278,6 +278,8 @@ class OpenSea extends ProviderAdapter implements ProviderInterface {
             $html = "";
             $params = $this->getParams();
 
+
+
             //This limit comes from Elementor and Gutenberg
             if(! empty( $params['limit'] ) &&  $params['limit']  != 'false'){
                 $limit =  $params['limit'];

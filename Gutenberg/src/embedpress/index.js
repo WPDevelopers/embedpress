@@ -10,6 +10,7 @@ import './style.scss';
 import './editor.scss';
 import edit from './edit';
 import { embedPressIcon } from '../common/icons';
+import { init as instafeedInit } from './InspectorControl/instafeed';
 import { init as openseaInit } from './InspectorControl/opensea';
 import { init as calendlyInit } from './InspectorControl/calendly';
 import { init as youtubeInit } from './InspectorControl/youtube';
@@ -648,6 +649,142 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: true,
 			},
 
+			//Instagram Feed attributes
+
+			instafeedFeedType: {
+				type: 'string',
+				default: 'user_account_type',
+			},
+			instafeedAccountType: {
+				type: 'string',
+				default: 'personal',
+			},
+			instafeedProfileImage: {
+				type: 'boolean',
+				default: true,
+			},
+			instafeedProfileImageUrl: {
+				type: 'string',
+				default: '',
+			},
+			instafeedFollowBtn: {
+				type: 'boolean',
+				default: true,
+			},
+			instafeedFollowBtnLabel: {
+				type: 'string',
+				default: 'Follow',
+			},
+			instafeedPostsCount: {
+				type: 'boolean',
+				default: true,
+			},
+			instafeedPostsCountText: {
+				type: 'string',
+				default: '[count] posts',
+			},
+			instafeedFollowersCount: {
+				type: 'boolean',
+				default: true,
+			},
+			instafeedFollowersCountText: {
+				type: 'string',
+				default: '[count] followers',
+			},
+			instafeedAccName: {
+				type: 'boolean',
+				default: true,
+			},
+
+			instaLayout: {
+				type: 'string',
+				default: 'insta-grid'
+			},
+			instafeedColumns: {
+				type: 'string',
+				default: '3'
+			},
+			instafeedColumnsGap: {
+				type: 'string',
+				default: '5'
+			},
+			instafeedPostsPerPage: {
+				type: 'string',
+				default: '12'
+			},
+			instafeedTab: {
+				type: 'boolean',
+				default: true,
+			},
+			instafeedLikesCount: {
+				type: 'boolean',
+				default: true,
+			},
+			instafeedCommentsCount: {
+				type: 'boolean',
+				default: true,
+			},
+			instafeedPopup: {
+				type: 'boolean',
+				default: true,
+			},
+
+
+			instafeedPopupFollowBtn: {
+				type: 'boolean',
+				default: true,
+			},
+
+			instafeedPopupFollowBtnLabel: {
+				type: 'string',
+				default: 'Follow',
+			},
+			instafeedLoadmore: {
+				type: 'boolean',
+				default: true,
+			},
+			instafeedLoadmoreLabel: {
+				type: 'string',
+				default: 'Load More',
+			},
+
+			slidesShow: {
+				type: 'string',
+				default: '4'
+			},
+			slidesScroll: {
+				type: 'string',
+				default: '4'
+			},
+			carouselAutoplay: {
+				type: 'boolean',
+				default: false
+			},
+			autoplaySpeed: {
+				type: 'string',
+				default: '3000'
+			},
+			transitionSpeed: {
+				type: 'string',
+				default: '1000'
+			},
+			carouselLoop: {
+				type: 'boolean',
+				default: true
+			},
+			carouselArrows: {
+				type: 'boolean',
+				default: true
+			},
+			carouselSpacing: {
+				type: 'string',
+				default: '0'
+			},
+			carouselDots: {
+				type: 'boolean',
+				default: false
+			},
+
 			// Calendly attributes
 			cEmbedType: {
 				type: 'string',
@@ -788,9 +925,9 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 		save: () => null,
 	});
 
-
-	openseaInit();
+	instafeedInit();
 	youtubeInit();
+	openseaInit();
 	wistiaInit();
 	vimeoInit();
 	calendlyInit();

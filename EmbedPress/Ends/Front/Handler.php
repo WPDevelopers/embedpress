@@ -35,9 +35,7 @@ class Handler extends EndHandlerAbstract
     public static function enqueueStyles()
     {
         wp_enqueue_style(EMBEDPRESS_PLG_NAME, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css');
-
     }
-
 
     public function enqueueScripts()
     {
@@ -48,6 +46,7 @@ class Handler extends EndHandlerAbstract
 
         // register style
         wp_register_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css');
+        wp_register_style('slick', EMBEDPRESS_URL_ASSETS . 'css/slick.min.css');
 
         wp_register_script(
             'embedpress-pdfobject',
@@ -111,9 +110,12 @@ class Handler extends EndHandlerAbstract
         );
 
 
+
+
         wp_localize_script('embedpress-front', 'eplocalize', array(
             'ajaxurl' => admin_url('admin-ajax.php'),
             'is_pro_plugin_active' => defined('EMBEDPRESS_SL_ITEM_SLUG'),
+            'nonce' => wp_create_nonce( 'ep_nonce' ),
         ));
     }
 

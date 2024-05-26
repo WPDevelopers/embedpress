@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert } from '../common/helper';
+import { isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert, isInstagramFeed, isInstagramHashtag } from '../common/helper';
 import LockControl from '../common/lock-control';
 import ContentShare from '../common/social-share-control';
 import Youtube from './InspectorControl/youtube';
@@ -8,6 +8,7 @@ import Wistia from './InspectorControl/wistia';
 import Vimeo from './InspectorControl/vimeo';
 import SlefHosted from './InspectorControl/selfhosted';
 import { EPIcon, InfoIcon } from '../common/icons';
+import Instafeed from './InspectorControl/instafeed';
 import Calendly from './InspectorControl/calendly';
 import AdControl from '../common/ads-control';
 import CustomBranding from './InspectorControl/custombranding';
@@ -19,9 +20,11 @@ const { __ } = wp.i18n;
 
 const {
     TextControl,
+    NumberControl,
     PanelBody,
     SelectControl,
-    ToggleControl
+    ToggleControl,
+    PanelRow,
 } = wp.components;
 
 const {
@@ -32,9 +35,21 @@ const {
 export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly, isTikTok }) {
 
     const {
+        url,
         width,
         height,
         videosize,
+        instaLayout,
+        instafeedFeedType,
+        instafeedAccountType,
+        slidesShow,
+        slidesScroll,
+        carouselAutoplay,
+        autoplaySpeed,
+        transitionSpeed,
+        carouselLoop,
+        carouselArrows,
+        carouselSpacing,
         lockContent,
         contentPassword,
         editingURL,
@@ -71,10 +86,16 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         setAttributes({ height: '950' });
     }
 
-    if(isTikTok && width === '600' && height === '450'){
+    if (isTikTok && width === '600' && height === '450') {
         setAttributes({ width: '350' });
         setAttributes({ height: '580' });
     }
+
+    if (isInstagramHashtag(url) && width === '600') {
+        setAttributes({ instafeedFeedType: 'hashtag_type' });
+        setAttributes({ width: '900' });
+    }
+
 
     return (
         !editingURL && embedHTML && (
@@ -84,7 +105,17 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                         <div className='embedpress-gutenberg-controls'>
                             <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('General', 'embedpress')}</div>}>
 
+
+
                                 <div className='ep-controls-margin'>
+                                    {
+                                        isInstagramFeed(url) && (
+                                            <PanelRow>
+                                               <div style={{ marginBottom: '10px', backgroundColor: '#ebe4ff', padding: '8px', borderRadius: '8px', fontWeight: 500 }} className='elementor-panel-alert elementor-panel-warning-info'>To enable full Instagram embedding experience, please add your access token <a href="/wp-admin/admin.php?page=embedpress&page_type=instagram" target='_blank'>here</a>.</div> 
+                                            </PanelRow>
+
+                                        )
+                                    }
 
                                     {
                                         isYTLive && (
@@ -137,7 +168,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     />
 
                                     {
-                                        ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo) || (videosize == 'fixed')) && (
+                                        ((!isInstagramFeed(url) && !isInstagramHashtag(url)) && ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo) || (videosize == 'fixed'))) && (
                                             <TextControl
                                                 label={__("Height")}
                                                 value={height}
@@ -171,10 +202,60 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     !isYTLive && !isYTShorts && (
                                         <Youtube attributes={attributes} setAttributes={setAttributes} isYTChannel={isYTChannel} />
                                     )
-
                                 }
 
+                                {
+                                    isInstagramFeed(url) && (
+                                        <div>
+
+                                            <SelectControl
+                                                label="Feed Type"
+                                                value={instafeedFeedType}
+                                                options={[
+                                                    { label: 'User Account', value: 'user_account_type' },
+                                                    { label: 'Hashtag', value: 'hashtag_type' },
+                                                    { label: 'Tagged(Coming Soon)', value: 'tagged_type' },
+                                                    { label: 'Mixed(Coming Soon)', value: 'mixed_type' }
+                                                ]}
+                                                onChange={(instafeedFeedType) => setAttributes({ instafeedFeedType })}
+                                            />
+
+                                            {!isProPluginActive && instafeedFeedType === 'hashtag_type' && (
+                                                <PanelRow className="elementor-panel-alert elementor-panel-warning-info">
+                                                    <a style={{ color: 'red' }} target="_blank" href="https://wpdeveloper.com/in/upgrade-embedpress">
+                                                        {__('Only Available in Pro Version!', 'embedpress')}
+                                                    </a>
+                                                </PanelRow>
+                                            )}
+                                            {instafeedFeedType === 'user_account_type' && (
+                                                <SelectControl
+                                                    label="Account Type"
+                                                    value={instafeedAccountType}
+                                                    options={[
+                                                        { label: 'Personal', value: 'personal' },
+                                                        { label: 'Business', value: 'business' }
+                                                    ]}
+                                                    onChange={(instafeedAccountType) => setAttributes({ instafeedAccountType })}
+                                                />
+                                            )}
+
+                                            {isProPluginActive && instafeedFeedType === 'hashtag_type' && (
+                                                <PanelRow className="elementor-panel-alert elementor-panel-warning-info">
+                                                    To embed #hashtag posts you need to connect business account. <a href="https://embedpress.com/docs/generate-instagram-access-token/">Learn More</a>
+                                                </PanelRow>
+                                            )}
+
+                                        </div>
+                                    )
+                                }
+
+
+
+
+
                             </PanelBody>
+
+                            <Instafeed attributes={attributes} setAttributes={setAttributes} />
 
                             <Youtube attributes={attributes} setAttributes={setAttributes} isYTVideo={isYTVideo} isYTLive={isYTLive} isYTShorts={isYTShorts} />
                             <Youtube attributes={attributes} setAttributes={setAttributes} />
