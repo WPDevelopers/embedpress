@@ -194,7 +194,7 @@ class Elementor_Enhancer {
 		preg_match( '/src=\"(.+?)\"/', $embed->embed, $match );
 		$url_full = $match[1];
 		$params   = [
-			'color'    => str_replace( '#', '', $setting['embedpress_pro_vimeo_color'] ),
+			'color' => str_replace('#', '', isset($setting['embedpress_pro_vimeo_color']) ? $setting['embedpress_pro_vimeo_color'] : ''),
 			'title'    => $setting['embedpress_pro_vimeo_display_title'] === 'yes' ? 1 : 0,
 			'byline'   => $setting['embedpress_pro_vimeo_display_author'] === 'yes' ? 1 : 0,
 			'portrait' => $setting['embedpress_pro_vimeo_avatar'] === 'yes' ? 1 : 0,
