@@ -887,7 +887,7 @@ const adInitialization = (adContainer, index, adAtts, adType) => {
     if(adType == 'video'){
         // Add an event listener to check for video end
         adVideo?.addEventListener('play', () => {
-            if (playerInit?.length > 0) {
+            if (typeof playerInit !== 'undefined' && playerInit.length > 0) {
                 playerInit[playerId]?.stop();
             }
         });

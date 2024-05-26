@@ -45,6 +45,28 @@ class Embedpress_Elementor extends Widget_Base
 		return 'icon-embedpress';
 	}
 
+	public function get_style_depends()
+	{
+		return [
+			'plyr',
+			'cg-carousel'
+		];
+	}
+
+	public function get_script_depends()
+	{
+		return [
+			'plyr.polyfilled',
+			'initplyr',
+			'vimeo-player',
+			'embedpress-front',
+			'embedpress-ads',
+			'cg-carousel',
+			'init-carousel'
+		];
+	}
+
+
 	/**
 	 * Get widget keywords.
 	 *

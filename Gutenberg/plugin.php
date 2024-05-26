@@ -170,6 +170,16 @@ function embedpress_gutenberg_register_all_block()
 				if ('embedpress' === $blocks_to_register) {
 					register_block_type('embedpress/embedpress', [
 						'render_callback' => 'embedpress_render_block',
+						// 'style' => [
+						// 	'plyr',
+						// ],
+						// 'script' => [
+						// 	'plyr.polyfilled',
+						// 	'initplyr',
+						// 	'vimeo-player',
+						// 	'embedpress-front',
+						// 	'embedpress-ads',
+						// ],
 						'attributes'      => array(
 							'clientId' => [
 								'type' => 'string',
@@ -808,6 +818,10 @@ function embedpress_gutenberg_register_all_block()
 					register_block_type('embedpress/embedpress-calendar', [
 						'render_callback' => 'embedpress_calendar_render_block',
 					]);
+				} elseif ('document' === $blocks_to_register) {
+					register_block_type('embedpress/' . $blocks_to_register, [
+						// 'render_callback' => 'embedpress_document_render_block',
+					]);
 				} else {
 					register_block_type('embedpress/' . $blocks_to_register);
 				}
@@ -847,9 +861,23 @@ function getParamData($attributes)
 	return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), 'UTF-8'));
 }
 
+function embedpress_pdf_block_scripts() {
+
+    $script_handles = [
+        'embedpress-pdfobject',
+		'embedpress-front',
+		'embedpress-ads',
+    ];
+
+    foreach ($script_handles as $handle) {
+        wp_enqueue_script($handle);
+    }
+
+}
+
 function embedpress_pdf_render_block($attributes)
 {
-
+	embedpress_pdf_block_scripts();
 
 	if (!empty($attributes['href'])) {
 		$renderer = Helper::get_pdf_renderer();
@@ -1040,3 +1068,19 @@ function isGoogleCalendar($url) {
 <?php
 	return ob_get_clean();
 }
+
+
+
+function embedpress_document_block_scripts() {
+    if (!is_admin() && has_block('embedpress/document')) {
+		$script_handles = [
+			'embedpress-front',
+			'embedpress_documents_viewer_script'
+		];
+	
+		foreach ($script_handles as $handle) {
+			wp_enqueue_script($handle);
+		}
+    }
+}
+add_action('wp_enqueue_scripts', 'embedpress_document_block_scripts');

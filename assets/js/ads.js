@@ -98,7 +98,7 @@ const adInitialization = (adContainer, index) => {
         if (adContainer.classList.contains('ad-mask')) {
             playerId = adContainer.querySelector('[data-playerid]')?.getAttribute('data-playerid');
 
-            if (playerInit.length > 0) {
+            if (typeof playerInit !== 'undefined' && playerInit.length > 0) {
                 playerInit[playerId]?.play();
             }
 
@@ -150,7 +150,7 @@ const adInitialization = (adContainer, index) => {
     // Add a click event listener to the skip button
     skipButton?.addEventListener('click', () => {
         adTemplate.remove();
-        if (playerInit.length > 0) {
+        if (typeof playerInit !== 'undefined' && playerInit.length > 0) {
             playerInit[playerId]?.play();
 
         }
@@ -162,7 +162,7 @@ const adInitialization = (adContainer, index) => {
 
     // Add an event listener to check for video end
     adVideo?.addEventListener('play', () => {
-        if (playerInit.length > 0) {
+        if (playerInit && playerInit?.length > 0) {
             playerInit[playerId]?.stop();
         }
     });

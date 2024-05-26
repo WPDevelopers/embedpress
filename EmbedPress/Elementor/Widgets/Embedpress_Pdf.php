@@ -44,6 +44,20 @@ class Embedpress_Pdf extends Widget_Base
         return 'icon-pdf';
     }
 
+    public function get_style_depends()
+    {
+        return [];
+    }
+
+    public function get_script_depends()
+    {
+        return [
+            'embedpress-pdfobject',
+            'embedpress-front',
+            'embedpress-ads'
+        ];
+    }
+
     /**
      * Get widget keywords.
      *
