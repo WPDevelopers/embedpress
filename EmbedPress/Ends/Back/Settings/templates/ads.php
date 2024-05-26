@@ -14,42 +14,46 @@ $youtube_embed_url = 'https://www.youtube.com/embed/coLxfjnrm3I?enablejsapi=1&or
 ?>
 
 <div class="embedpress_calendly_settings  background__white radius-25 p40">
+    <?php
+    global $pro_active;
+    if (!$pro_active) :
+        ?>
+        <div class="ad-settings-top">
+            <div class="ad-settings-content">
+                <h3 class="ads-settings-title">
+                    <?php
+                        echo wp_kses_post(
+                            sprintf(
+                                esc_html__(
+                                    'Advertise Across %s with EmbedPress – Your Gateway to Unlimited Exposure!',
+                                    'embedpress'
+                                ),
+                                '<a target="_blank" href="' . esc_url('https://embedpress.com/sources/') . '"><span style="color:#FF7369">' . esc_html__('150+ Platforms', 'embedpress') . '</span></a>'
+                            )
+                        );
+                        ?>
 
-    <div class="ad-settings-top">
-        <div class="ad-settings-content">
-            <h3 class="ads-settings-title">
-                <?php
-                echo wp_kses_post(
-                    sprintf(
-                        esc_html__(
-                            'Advertise Across %s with EmbedPress – Your Gateway to Unlimited Exposure!',
-                            'embedpress'
-                        ),
-                        '<a target="_blank" href="' . esc_url('https://embedpress.com/sources/') . '"><span style="color:#FF7369">' . esc_html__('150+ Platforms', 'embedpress') . '</span></a>'
-                    )
-                );
-                ?>
+                </h3>
+                <p class="ads-settings-description">
+                    <?php
+                        echo wp_kses_post(
+                            sprintf(
+                                esc_html__(
+                                    "Now, you can showcase your ads across %s, guaranteeing unlimited exposure for your business through your embedded contents. This is a pro feature but you can check the settings below for a demo example. | %s",
+                                    'embedpress'
+                                ),
+                                '<strong>' . esc_html__('150+ diverse platforms', 'embedpress') . '</strong>',
+                                '<a href="' . esc_url('https://embedpress.com/docs/how-to-configure-ep-ads-settings/                            ') . '" target="_blank" style="color:#FF7369"><strong>' . esc_html__('Docs', 'embedpress') . '</strong></a>'
+                            )
+                        );
 
-            </h3>
-            <p class="ads-settings-description">
-                <?php
-                echo wp_kses_post(
-                    sprintf(
-                        esc_html__(
-                            "Now, you can showcase your ads across %s, guaranteeing unlimited exposure for your business through your embedded contents. This is a pro feature but you can check the settings below for a demo example. | %s",
-                            'embedpress'
-                        ),
-                        '<strong>' . esc_html__('150+ diverse platforms', 'embedpress') . '</strong>',
-                        '<a href="' . esc_url('https://embedpress.com/docs/how-to-configure-ep-ads-settings/                            ') . '" target="_blank" style="color:#FF7369"><strong>' . esc_html__('Docs', 'embedpress') . '</strong></a>'
-                    )
-                );
+                        ?>
+                </p>
+            </div>
+            <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="button button-pro-upgrade"><?php echo esc_html__('Upgrade To Pro', 'embedpress'); ?><i class="ep-icon ep-link-icon"></i></a>
 
-                ?>
-            </p>
         </div>
-        <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="button button-pro-upgrade"><?php echo esc_html__('Upgrade To Pro', 'embedpress'); ?><i class="ep-icon ep-link-icon"></i></a>
-
-    </div>
+    <?php endif; ?>
 
 
     <div class="entry-content clear" ast-blocks-layout="true" itemprop="text">
