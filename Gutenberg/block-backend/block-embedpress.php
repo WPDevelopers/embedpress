@@ -71,12 +71,14 @@ function embedpress_block_scripts() {
         'initplyr',
         'vimeo-player',
         'embedpress-front',
-        'embedpress-ads'
+        'embedpress-ads',
+		'cg-carousel',
+		'init-carousel',
     ];
 
 	$style_handles = [
 		'plyr',
-		'slick'
+		'cg-carousel'
 	];
 
     foreach ($script_handles as $handle) {

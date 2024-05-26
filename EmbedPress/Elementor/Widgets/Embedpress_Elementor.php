@@ -49,7 +49,7 @@ class Embedpress_Elementor extends Widget_Base
 	{
 		return [
 			'plyr',
-			'slick'
+			'cg-carousel'
 		];
 	}
 
@@ -61,6 +61,8 @@ class Embedpress_Elementor extends Widget_Base
 			'vimeo-player',
 			'embedpress-front',
 			'embedpress-ads',
+			'cg-carousel',
+			'init-carousel'
 		];
 	}
 

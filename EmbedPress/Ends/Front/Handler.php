@@ -46,7 +46,7 @@ class Handler extends EndHandlerAbstract
 
         // register style
         wp_register_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css');
-        wp_register_style('slick', EMBEDPRESS_URL_ASSETS . 'css/slick.min.css');
+        wp_register_style('cg-carousel', EMBEDPRESS_URL_ASSETS . 'css/carousel.min.css');
 
         wp_register_script(
             'embedpress-pdfobject',
@@ -109,7 +109,22 @@ class Handler extends EndHandlerAbstract
             true
         );
 
+        
+        wp_register_script(
+            'cg-carousel',
+            EMBEDPRESS_URL_ASSETS . 'js/carousel.min.js',
+            ['jquery'],
+            EMBEDPRESS_PLUGIN_VERSION,
+            true
+        );
 
+        wp_register_script(
+            'init-carousel',
+            EMBEDPRESS_URL_ASSETS . 'js/initCarousel.js',
+            ['jquery', 'cg-carousel'],
+            EMBEDPRESS_PLUGIN_VERSION,
+            true
+        );
 
 
         wp_localize_script('embedpress-front', 'eplocalize', array(
