@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, Gutenberg embed, embed PDF, embed Google Docs
 Requires at least: 4.6
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 4.0.0
+Stable tag: 4.0.1
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -323,6 +323,14 @@ Just after embedding the content into your website using EmbedPress, iFrame cust
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [4.0.1] – 2024-05-26 =  
+- Added: LinkedIn post embedding support.
+- Fixed: Design broken issues with latest Elementor.
+- Fixed: X post embedding issues.
+- Fixed: Conflict with WooCommerce product editor panel.
+- Improved: Optimized code for better performance.
+- Few minor bug fixes & improvements.
 
 = [4.0.0] – 2024-05-21 =  
 - Added: Instagram feed embedding support with advanced layouts.
