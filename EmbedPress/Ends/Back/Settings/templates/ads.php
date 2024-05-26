@@ -458,7 +458,7 @@ if(!$pro_active){
 
     .ose-youtube {
         /* display: none !important; */
-        /* opacity: 0 */
+        opacity: 0
     }
 
     div[data-sponsored-id] {
@@ -487,7 +487,12 @@ if(!$pro_active){
         display: flex;
         align-items: center;
         background-color: #000;
+        justify-content: center;
 
+    }
+
+    .ep-ad-content.ad-video {
+        height: 100%;
     }
 
     a.ad-url {
@@ -730,47 +735,44 @@ if(!$pro_active){
 </style>
 
 
-
 <script>
-    const isPyr = document.querySelector('[data-playerid]') ? .getAttribute('data-playerid');
+    // Check if data-playerid attribute exists and get its value
+    const isPyr = document.querySelector('[data-playerid]')?.getAttribute('data-playerid');
+
     if (!isPyr) {
-        var scriptUrl = 'https:\/\/www.youtube.com\/s\/player\/9d15588c\/www-widgetapi.vflset\/www-widgetapi.js';
+        var scriptUrl = 'https://www.youtube.com/s/player/9d15588c/www-widgetapi.vflset/www-widgetapi.js';
         try {
             var ttPolicy = window.trustedTypes.createPolicy("youtube-widget-api", {
                 createScriptURL: function(x) {
-                    return x
+                    return x;
                 }
             });
-            scriptUrl = ttPolicy.createScriptURL(scriptUrl)
+            scriptUrl = ttPolicy.createScriptURL(scriptUrl);
         } catch (e) {}
+
         var YT;
-        if (!window["YT"]) YT = {
-            loading: 0,
-            loaded: 0
-        };
+        if (!window["YT"]) YT = { loading: 0, loaded: 0 };
         var YTConfig;
-        if (!window["YTConfig"]) YTConfig = {
-            "host": "https://www.youtube.com"
-        };
+        if (!window["YTConfig"]) YTConfig = { "host": "https://www.youtube.com" };
         if (!YT.loading) {
             YT.loading = 1;
             (function() {
                 var l = [];
                 YT.ready = function(f) {
                     if (YT.loaded) f();
-                    else l.push(f)
+                    else l.push(f);
                 };
                 window.onYTReady = function() {
                     YT.loaded = 1;
                     var i = 0;
                     for (; i < l.length; i++) try {
-                        l[i]()
+                        l[i]();
                     } catch (e) {}
                 };
                 YT.setConfig = function(c) {
                     var k;
                     for (k in c)
-                        if (c.hasOwnProperty(k)) YTConfig[k] = c[k]
+                        if (c.hasOwnProperty(k)) YTConfig[k] = c[k];
                 };
                 var a = document.createElement("script");
                 a.type = "text/javascript";
@@ -780,25 +782,22 @@ if(!$pro_active){
                 var c = document.currentScript;
                 if (c) {
                     var n = c.nonce || c.getAttribute("nonce");
-                    if (n) a.setAttribute("nonce",
-                        n)
+                    if (n) a.setAttribute("nonce", n);
                 }
                 var b = document.getElementsByTagName("script")[0];
-                b.parentNode.insertBefore(a, b)
-            })()
-        };
+                b.parentNode.insertBefore(a, b);
+            })();
+        }
     }
 
-
-    let adsConainers = document.querySelectorAll('[data-sponsored-id]');
+    let adsContainers = document.querySelectorAll('[data-sponsored-id]');
     let container = document.querySelector('[data-sponsored-id]');
     var player = [];
     var playerInit = [];
     var playerIndex = 0;
-    let adTimeOut;
+    let adTimeout;
 
-
-    adsConainers = Array.from(adsConainers);
+    adsContainers = Array.from(adsContainers);
 
     const getYTVideoId = (url) => {
         // Check if the input is a string
@@ -815,20 +814,18 @@ if(!$pro_active){
         return false;
     }
 
-    const hashParentClass = (element, className) => {
-        var parent = element.parentNode;
+    const hasParentClass = (element, className) => {
+    var parent = element.parentNode;
 
-        while (parent && !parent.classList ? .contains(className)) {
-            parent = parent.parentNode;
-        }
-
-        return !!parent;
+    while (parent && !(parent.classList && parent.classList.contains(className))) {
+        parent = parent.parentNode;
     }
 
+    return !!(parent && parent.classList && parent.classList.contains(className));
+}
 
 
     const adInitialization = (adContainer, index, adAtts, adType) => {
-
         const blockId = adAtts.clientId;
         const blockIdMD5 = adContainer.getAttribute('data-sponsored-id');
         const adStartAfter = adAtts.adStart * 1000;
@@ -840,13 +837,7 @@ if(!$pro_active){
         const adSkipButtonAfter = parseInt(adAtts.adSkipButtonAfter);
         const adSkipButton = adAtts.adSkipButton;
         const adUrl = adAtts.adUrl;
-        // const adWidth = adAtts.adWidth;
-        // const adHeight = adAtts.adHeight;
 
-
-        // addWrapperForYoutube(adContainer, srcUrl, adAtts);
-
-        // let adVideo = adContainer.querySelector('#ad-' + blockId + ' .ep-ad');
         adVideos.push(adVideo);
 
         const adTemplate = adContainer.querySelector('.main-ad-template');
@@ -857,46 +848,42 @@ if(!$pro_active){
         var playerId;
         const adMask = adContainer;
 
-
         let playbackInitiated = false;
 
         if (skipButton && adSource !== 'video') {
             skipButton.style.display = 'inline-block';
         }
 
-        const hashClass = hashParentClass(adContainer, 'ep-content-protection-enabled');
+        const hashClass = hasParentClass(adContainer, 'ep-content-protection-enabled');
 
         if (hashClass) {
             adContainer.classList.remove('ad-mask');
         }
 
-        playerId = adContainer.querySelector('[data-playerid]') ? .getAttribute('data-playerid');
+        playerId = adContainer.querySelector('[data-playerid]')?.getAttribute('data-playerid');
 
         if (getYTVideoId(srcUrl)) {
-            player[index] ? .playVideo();
-            player[index] ? .seekTo(0);
+            player[index]?.playVideo();
+            player[index]?.seekTo(0);
         }
-        clearTimeout(adTimeOut);
+        clearTimeout(adTimeout);
 
         adTemplate.classList.remove('image', 'video');
         adTemplate.classList.add(adType);
 
-
         if (adType === 'image' && adUrl) {
-            adTemplate.querySelector('.ad-image .ad-url') ? .setAttribute('href', adUrl);
+            adTemplate.querySelector('.ad-image .ad-url')?.setAttribute('href', adUrl);
         } else {
-            adTemplate.querySelector('.ad-video .ad-url') ? .setAttribute('href', adUrl);
+            adTemplate.querySelector('.ad-video .ad-url')?.setAttribute('href', adUrl);
         }
 
-
         if (!playbackInitiated) {
-            adTimeOut = setTimeout(() => {
+            adTimeout = setTimeout(() => {
                 if (adSource !== 'image') {
                     adContainer.querySelector('.ep-embed-content-wraper').classList.add('hidden');
                 }
-                adTemplate ? .classList.add('ad-running');
-
-                adTemplate ? .classList.remove('hidden');
+                adTemplate?.classList.add('ad-running');
+                adTemplate?.classList.remove('hidden');
                 if (adVideo && adSource === 'video') {
                     adVideo.muted = false;
                     adTemplate.querySelector('.ad-video').classList.remove('hidden');
@@ -915,12 +902,10 @@ if(!$pro_active){
 
         adContainer.classList.remove('ad-mask');
 
-
         if (adType == 'video') {
-            adVideo ? .addEventListener('timeupdate', () => {
-                const currentTime = adVideo ? .currentTime;
-                const videoDuration = adVideo ? .duration;
-
+            adVideo?.addEventListener('timeupdate', () => {
+                const currentTime = adVideo?.currentTime;
+                const videoDuration = adVideo?.duration;
 
                 if (currentTime <= videoDuration) {
                     const remainingTime = Math.max(0, videoDuration - currentTime); // Ensure it's not negative
@@ -932,7 +917,6 @@ if(!$pro_active){
                     progressBar.style.width = progress + '%';
 
                     if (adSkipButton && currentTime >= adSkipButtonAfter) {
-                        // Show the skip button after 3 seconds
                         skipButton.style.display = 'inline-block';
                     } else {
                         skipButton.style.display = 'none';
@@ -940,11 +924,10 @@ if(!$pro_active){
                 }
             });
         }
-        // Add a click event listener to the skip button
-        document ? .addEventListener('click', (event) => {
+
+        document?.addEventListener('click', (event) => {
             if (event.target.classList.contains('skip-ad-button')) {
-                // event.target.classList.add('hidden');
-                adTemplate ? .classList.remove('ad-running');
+                adTemplate?.classList.remove('ad-running');
                 document.querySelector('.preview-btn-' + index).innerText = 'Play Preview';
                 document.querySelector('.preview-btn-' + index).removeAttribute('disabled');
 
@@ -953,7 +936,7 @@ if(!$pro_active){
                     adVideo.currentTime = 0;
 
                     if (getYTVideoId(srcUrl)) {
-                        player[index] ? .playVideo();
+                        player[index]?.playVideo();
                     }
                     adTemplate.querySelector('.ad-video').classList.add('hidden');
 
@@ -965,16 +948,13 @@ if(!$pro_active){
         });
 
         if (adType == 'video') {
-            // Add an event listener to check for video end
-            adVideo ? .addEventListener('play', () => {
+            adVideo?.addEventListener('play', () => {
                 if (typeof playerInit !== 'undefined' && playerInit.length > 0) {
-                    playerInit[playerId] ? .stop();
+                    playerInit[playerId]?.stop();
                 }
             });
 
-            // Add an event listener to check for video end
-            adVideo ? .addEventListener('ended', () => {
-                // Remove the main ad template from the DOM when the video ends
+            adVideo?.addEventListener('ended', () => {
                 adTemplate.classList.add('hidden');
                 adContainer.querySelector('.ep-embed-content-wraper').classList.remove('hidden');
                 document.querySelector('.preview-btn-' + index).innerText = 'Play Preview';
@@ -982,39 +962,29 @@ if(!$pro_active){
             });
         }
         playerIndex++;
-
     }
 
-
-
     function onYouTubeIframeAPIReady(iframe, srcUrl, adVideo, index) {
-        // Find the iframe by its src attribute
-
         if (iframe && getYTVideoId(srcUrl) !== null) {
             player[index] = new YT.Player(iframe, {
                 videoId: getYTVideoId(srcUrl),
-
                 events: {
                     'onReady': (event) => onPlayerReady(event, adVideo),
                 }
             });
-
         }
     }
 
-    // This function is called when the player is ready
     function onPlayerReady(event, adVideo) {
-        adVideo ? .addEventListener('ended', function() {
+        adVideo?.addEventListener('ended', function() {
             event.target.playVideo();
         });
 
-        adVideo ? .addEventListener('play', function() {
+        adVideo?.addEventListener('play', function() {
             event.target.pauseVideo();
         });
         event.target.g.style = 'opacity: 1';
-
     }
-
 
     window.onload = function() {
         let yVideos = setInterval(() => {
@@ -1023,9 +993,9 @@ if(!$pro_active){
                 clearInterval(yVideos);
 
                 youtubeVideos.forEach((yVideo, index) => {
-                    const srcUrl = yVideo.querySelector('iframe') ? .getAttribute('src');
-                    const adVideo = yVideo.closest('.ad-mask') ? .querySelector('.ep-ad');
-                    const isYTChannel = yVideo.closest('.ad-mask') ? .querySelector('.ep-youtube-channel');
+                    const srcUrl = yVideo.querySelector('iframe')?.getAttribute('src');
+                    const adVideo = yVideo.closest('.ad-mask')?.querySelector('.ep-ad');
+                    const isYTChannel = yVideo.closest('.ad-mask')?.querySelector('.ep-youtube-channel');
                     if (adVideo && !isYTChannel) {
                         onYouTubeIframeAPIReady(yVideo, srcUrl, adVideo, index);
                     }
@@ -1034,22 +1004,16 @@ if(!$pro_active){
         }, 100);
     };
 
-
-
     function getFormData(index) {
-
-
         var form = document.getElementById("ad-preview-" + index);
         var formData = new FormData(form);
 
-        // To get all form data as an object, you can convert FormData to JSON
         var formDataObject = {};
         formData.forEach(function(value, key) {
             formDataObject[key] = value;
         });
 
         return formDataObject;
-
     }
 
     const rangeUpdate = () => {
@@ -1067,7 +1031,6 @@ if(!$pro_active){
 
     rangeUpdate();
 
-
     jQuery(document).on('click', '.preview-btn-0', function(e) {
         e.preventDefault();
         const index = 0;
@@ -1075,34 +1038,31 @@ if(!$pro_active){
         const adType = document.querySelector('#ad-template-' + index).getAttribute('data-adType');
         const currentAdAtts = getFormData(index);
 
-
         const adAtts = {
             "clientId": "1c3da3de-7606-4e9f-9693-d4b570cd2ca30",
             "url": "https://www.youtube.com/watch?v=AMU66nbFnGg&pp=ygUMd3BkZXZlbG9lcGVy",
             "height": "310",
             "adManager": true,
-            "adFileUrl": currentAdAtts ? .adFileUrl,
-            "adUrl": currentAdAtts ? .adUrl,
+            "adFileUrl": currentAdAtts?.adFileUrl,
+            "adUrl": currentAdAtts?.adUrl,
             "width": "600",
-            "adSource": adType ? adType : 'video',
-            // "adWidth": currentAdAtts?.adWidth,
-            // "adHeight": currentAdAtts?.adHeight,
+            "adSource": adType ?? 'video',
             "adXPosition": 25,
             "adYPosition": 10,
-            "adStart": currentAdAtts ? .adStart,
-            "adSkipButton": currentAdAtts ? .adSkipButton === 'yes' ? true : false,
-            "adSkipButtonAfter": currentAdAtts ? .adSkipButtonAfter
+            "adStart": currentAdAtts?.adStart,
+            "adSkipButton": currentAdAtts?.adSkipButton === 'yes' ? true : false,
+            "adSkipButtonAfter": currentAdAtts?.adSkipButtonAfter
         }
 
-        if (currentAdAtts ? .adFileUrl) {
+        if (currentAdAtts?.adFileUrl) {
             adInitialization(adContainer, index, adAtts, adType);
             jQuery('.preview-btn-' + index).attr('disabled', true);
 
-            let startIn = parseInt(currentAdAtts ? .adStart) - 1;
-            const setinterval = setInterval(() => {
-                jQuery('.preview-btn-' + index).text('Ad staring in ' + startIn-- + ' sec');
+            let startIn = parseInt(currentAdAtts?.adStart) - 1;
+            const setIntervalId = setInterval(() => {
+                jQuery('.preview-btn-' + index).text('Ad starting in ' + startIn-- + ' sec');
                 if (startIn === -1) {
-                    clearInterval(setinterval);
+                    clearInterval(setIntervalId);
                     jQuery('.preview-btn-' + index).text('Ad Running');
                 }
             }, 1000);
@@ -1118,41 +1078,38 @@ if(!$pro_active){
         const adType = document.querySelector('#ad-template-' + index).getAttribute('data-adType');
         const currentAdAtts = getFormData(index);
 
-
         const adAtts = {
             "clientId": "1c3da3de-7606-4e9f-9693-d4b570cd2ca31",
             "url": "https://www.africau.edu/images/default/sample.pdf",
             "height": "310",
             "adManager": true,
-            "adFileUrl": currentAdAtts ? .adFileUrl,
-            "adUrl": currentAdAtts ? .adUrl,
+            "adFileUrl": currentAdAtts?.adFileUrl,
+            "adUrl": currentAdAtts?.adUrl,
             "width": "600",
-            "adSource": adType ? adType : 'video',
-            // "adWidth": currentAdAtts?.adWidth,
-            // "adHeight": currentAdAtts?.adHeight,
+            "adSource": adType ?? 'video',
             "adXPosition": 25,
             "adYPosition": 10,
-            "adStart": currentAdAtts ? .adStart,
-            "adSkipButton": currentAdAtts ? .adSkipButton === 'yes' ? true : false,
-            "adSkipButtonAfter": currentAdAtts ? .adSkipButtonAfter
+            "adStart": currentAdAtts?.adStart,
+            "adSkipButton": currentAdAtts?.adSkipButton === 'yes' ? true : false,
+            "adSkipButtonAfter": currentAdAtts?.adSkipButtonAfter
         }
 
-        if (currentAdAtts ? .adFileUrl) {
+        if (currentAdAtts?.adFileUrl) {
             adInitialization(adContainer, index, adAtts, adType);
             jQuery('.preview-btn-' + index).attr('disabled', true);
 
-            let startIn = parseInt(currentAdAtts ? .adStart) - 1;
-            const setinterval = setInterval(() => {
-                jQuery('.preview-btn-' + index).text('Ad staring in ' + startIn-- + ' sec');
+            let startIn = parseInt(currentAdAtts?.adStart) - 1;
+            const setIntervalId = setInterval(() => {
+                jQuery('.preview-btn-' + index).text('Ad starting in ' + startIn-- + ' sec');
                 if (startIn === -1) {
-                    clearInterval(setinterval);
+                    clearInterval(setIntervalId);
                     jQuery('.preview-btn-' + index).text('Ad Running');
                 }
             }, 1000);
         } else {
             jQuery('.uploaded-file-url-' + index).text('Please upload a video/image Ad.');
         }
-    })
+    });
 </script>
 
 <script>
