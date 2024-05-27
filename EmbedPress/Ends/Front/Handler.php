@@ -122,6 +122,35 @@ class Handler extends EndHandlerAbstract
             true
         );
 
+        wp_register_script(
+            'html2canvass',
+            EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/js/html2canvas.min.js',
+            ['jquery'],
+            EMBEDPRESS_PLUGIN_VERSION,
+            true
+        );
+        wp_register_script(
+            'threes',
+            EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/js/three.min.js',
+            ['jquery'],
+            EMBEDPRESS_PLUGIN_VERSION,
+            true
+        );
+        wp_register_script(
+            'pdfs',
+            EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/js/pdf.min.js',
+            ['jquery'],
+            EMBEDPRESS_PLUGIN_VERSION,
+            true
+        );
+        wp_register_script(
+            '3dflipbooks',
+            EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/js/3dflipbook.min.js',
+            ['jquery'],
+            EMBEDPRESS_PLUGIN_VERSION,
+            true
+        );
+
 
         wp_localize_script('embedpress-front', 'eplocalize', array(
             'ajaxurl' => admin_url('admin-ajax.php'),

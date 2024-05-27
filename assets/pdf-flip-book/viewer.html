@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Debugging</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <style type="text/css">
+      body {
+        background-color: #333;
+        margin: 0;
+        padding: 0;
+      }
+      .viewer-container {
+        height: 100vh;
+        width: 100%;
+      }
+      .fullscreen {
+        background-color: #333;
+      }
+    </style>
+
+    <div class="viewer-container" id="viewer-container"></div>
+
+    <script src="../../../../../wp-includes/js/jquery/jquery.js"></script>
+    <script src="js/html2canvas.min.js"></script>
+    <script src="js/three.min.js"></script>
+    <script src="js/pdf.min.js"></script>
+    <script src="js/3dflipbook.min.js"></script>
+
+    <script type="text/javascript">
+      var template = {
+        html: "templates/default-book-view.html",
+        links: [
+          {
+            rel: "stylesheet",
+            href: "css/font-awesome.min.css",
+          },
+        ],
+        styles: ["css/short-black-book-view.css"],
+        script: "js/default-book-view.js",
+        sounds: {
+          startFlip: "sounds/start-flip.mp3",
+          endFlip: "sounds/end-flip.mp3",
+        },
+      };
+
+      // Book 1 {
+      jQuery("#viewer-container").FlipBook({
+        pdf: "https://embedpress.test/wp-content/uploads/2024/05/pdfcoffee.com_computer-programming-3-pdf-free.pdf",
+        template: template,
+      });
+    </script>
+  </body>
+</html>
