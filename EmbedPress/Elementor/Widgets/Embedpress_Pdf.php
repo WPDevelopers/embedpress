@@ -766,7 +766,7 @@ class Embedpress_Pdf extends Widget_Base
 
 
 
-                    <iframe src="<?php echo EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/viewer.html'; ?>" frameborder="0"></iframe>
+                    <iframe src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/viewer.html?file='.$url); ?>" frameborder="0" ></iframe>
 
                     </div>
                     <?php 

@@ -8,8 +8,6 @@
   height: 100%;
 }
 
-.flip-book .view .fnav {
-}
 
 .flip-book .view .prev, .flip-book .view .next {
   position: absolute;
@@ -251,9 +249,7 @@
 .ctrl .fnavbar .menu .active {
   background-color: #444;
 }
-.ctrl .fnavbar .menu .active:hover {
-  /*background-color: #444;*/
-}
+
 .ctrl .fnavbar .menu li:hover {
   background-color: #333;
   cursor: pointer;
@@ -627,4 +623,8 @@ li.dropup.fnav-item.toggle.widSettings ul.menu li a {
 span.icon.next-page-icon svg, span.icon.previous-page-icon svg {
   height: 45px;
   width: auto;
+}
+
+.ctrl .fnavbar .fnav .hidden.but-show{
+  display: inline;
 }
