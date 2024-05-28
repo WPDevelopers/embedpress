@@ -128,7 +128,7 @@
   position: relative;
 }
 
-.flip-book .controls .fnavbar {
+/* .flip-book .controls .fnavbar {
   margin: 0 auto;
   opacity: 0.3;
   transition: opacity 2s ease-in-out 3s;
@@ -137,7 +137,7 @@
 .flip-book .controls .fnavbar:hover {
   opacity: 1;
   transition: opacity 1s ease;
-}
+} */
 
 .flip-book .controls .ctrl {
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -150,7 +150,7 @@
 }
 .ctrl .fnavbar {
   text-align: center;
-  background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%);
+  /* background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%); */
   background-repeat: repeat-x;
   padding: 3px;
   overflow: visible;
@@ -625,6 +625,6 @@ li.dropup.fnav-item.toggle.widSettings ul.menu li a {
 }
 
 span.icon.next-page-icon svg, span.icon.previous-page-icon svg {
-  height: 60px;
+  height: 45px;
   width: auto;
 }
