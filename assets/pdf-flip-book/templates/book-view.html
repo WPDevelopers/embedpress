@@ -121,8 +121,8 @@
 
           <li class="dropup fnav-item toggle widSettings">
             <a href="/#"><div class="icon-caret"><span class="icon">
-              <svg title="<$tr>Settings</$tr>" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#a)"><path d="M29.057 9.762c.188.51.029 1.078-.375 1.441l-2.537 2.309q.098.73.1 1.488c.002.758-.035 1.002-.1 1.488l2.537 2.309c.404.363.563.932.375 1.441a14.5 14.5 0 0 1-.926 2.01l-.275.475a15 15 0 0 1-1.295 1.828c-.346.422-.92.563-1.436.398l-3.264-1.037a11.3 11.3 0 0 1-2.578 1.488l-.732 3.346c-.117.533-.527.955-1.066 1.043q-1.215.204-2.49.205c-1.275.001-1.682-.07-2.49-.205-.539-.088-.949-.51-1.066-1.043l-.732-3.346c-.921-.38-1.788-.88-2.578-1.488l-3.258 1.043c-.516.164-1.09.018-1.436-.398a15 15 0 0 1-1.295-1.828l-.275-.475a14.6 14.6 0 0 1-.926-2.01 1.33 1.33 0 0 1 .375-1.441l2.537-2.309a11.2 11.2 0 0 1 0-2.982l-2.537-2.309a1.33 1.33 0 0 1-.375-1.441q.388-1.044.926-2.01l.275-.475q.582-.967 1.295-1.828c.346-.422.92-.563 1.436-.398l3.264 1.037A11.3 11.3 0 0 1 10.713 4.6l.732-3.346c.117-.533.527-.955 1.066-1.043Q13.723.001 15 0c1.277 0 1.682.07 2.49.205.539.088.949.51 1.066 1.043l.732 3.346a11.3 11.3 0 0 1 2.578 1.488l3.264-1.037c.516-.164 1.09-.018 1.436.398q.713.86 1.295 1.828l.275.475q.537.966.926 2.01zM15 19.688a4.687 4.687 0 1 0 0-9.375 4.687 4.687 0 1 0 0 9.375" fill="#fff"/></g><defs><clipPath id="a"><path fill="#fff" d="M0 0h30v30H0z"/></clipPath></defs></svg>
-              <i class="caret"></i>
+
+              <svg title="<$tr>Settings</$tr>" width="18.513" height="20" viewBox="0 0 18.513 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10.34.451c-.6-.6-1.573-.6-2.173 0L.493 8.125a1.537 1.537 0 0 0 2.173 2.173l6.591-6.591 6.59 6.585a1.537 1.537 0 0 0 2.173-2.173L10.346.445zm7.674 16.882L10.34 9.659c-.6-.6-1.573-.6-2.173 0L.493 17.333a1.537 1.537 0 0 0 2.173 2.173l6.591-6.59 6.59 6.585a1.537 1.537 0 0 0 2.173-2.173z" fill="#fff"/></svg>
             </span></div></a>
 
             <ul class="menu hidden">
@@ -153,3 +153,43 @@
 
   </div>
 </div>
+
+<script></script>
+
+<script>
+  // Step 1: Base64 Decode
+  const settingsString = localStorage.getItem('flipbook_settings');
+
+  // Step 2: Create URLSearchParams object
+  const urlParams = new URLSearchParams(settingsString);
+
+  // Step 3: Convert URLSearchParams to Object
+  const params = {};
+  for (const [key, value] of urlParams.entries()) {
+    params[key] = (value === 'yes' || value === 'true') ? true : (value === 'no' || value === 'false' ? false : value);
+  }
+
+  console.log(params);
+
+  // Ensure the DOM is fully loaded before manipulating it
+    if (!(params?.toolbar)) {
+      document.querySelector(".flip-book .controls")?.remove();
+    }
+    if (!(params?.download)) {
+      document.querySelector("li.fnav-item.cmdSave")?.remove();
+      document.querySelector("li.fnav-item.cmdPrint")?.remove();
+    }
+    if (!(params?.presentation)) {
+      document.querySelector("li.fnav-item.cmdFullScreen")?.remove();
+    }
+
+    if (params?.position === 'top') {
+      const element = document.querySelector(".flip-book .controls");
+      if (element) {
+        element.style.setProperty('position', 'absolute', 'important');
+        element.style.setProperty('top', '80px', 'important');
+        element.style.setProperty('transform', 'translate(-50%, -50%)', 'important');
+      }
+    }
+
+</script>

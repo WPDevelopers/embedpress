@@ -164,6 +164,7 @@
   font-size: 0;
   display: flex;
   text-align: left;
+  gap: 10px;
 }
 .ctrl .fnavbar .fnav li{
   font-size: 12pt;
@@ -171,16 +172,32 @@
   width: auto;
 }
 .ctrl .fnavbar .fnav .fnav-item {
-  display: inline-block;
+  display: flex!important;
+  align-items: center;
+  justify-content: center;
 }
+
 .ctrl .fnavbar .fnav .hidden {
   display: none;
 }
 .ctrl .fnavbar .fnav .fnav-item>a {
-  padding: 10px;
+  /* padding: 10px; */
   display: inline-block;
   color: #ccc;
 }
+
+.ctrl .fnavbar .fnav .fnav-item>a {
+  /* padding: 10px; */
+  display: inline-block;
+  color: #ccc;
+  width: 30px;
+  display: inline-block;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .ctrl .fnavbar .fnav>.active>a {
   color: #fff;
 }
@@ -198,8 +215,9 @@
   color: #888;
   cursor: not-allowed;
 }
-.ctrl .fnavbar .fnav>.active {
+.ctrl .fnavbar .fnav>.active a{
   background: #222;
+  border-radius: 5px;
 }
 
 .ctrl .fnavbar .fnav .dropdown, .ctrl .fnavbar .fnav .dropup {
@@ -627,4 +645,8 @@ span.icon.next-page-icon svg, span.icon.previous-page-icon svg {
 
 .ctrl .fnavbar .fnav .hidden.but-show{
   display: inline;
+}
+
+li.fnav-item.disabled {
+  opacity: 0.5;
 }

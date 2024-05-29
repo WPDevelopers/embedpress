@@ -31,14 +31,9 @@
     <script type="text/javascript">
       var template = {
         html: "templates/book-view.html",
-        links: [
-          {
-            rel: "stylesheet",
-            href: "css/font-awesome.min.css",
-          },
-        ],
+        links: [],
         styles: ["css/ep-black-book-view.css"],
-        script: "js/default-book-view.js",
+        script:"js/default-book-view.js",
         sounds: {
           startFlip: "sounds/start-flip.mp3",
           endFlip: "sounds/end-flip.mp3",
@@ -47,44 +42,72 @@
     </script>
 
     <script>
-      // Ensure the script runs after the page has fully loaded
+        // Ensure the script runs after the page has fully loaded
 
-      // Function to extract the file URL from the query parameters
-      function extractFileUrl(src) {
-        // Parse the URL
-
-        console.log(src);
-
-        var url = new URL(src);
-
-        // Extract the 'file' parameter from the query string
-        var fileUrl = url.searchParams.get("file");
-
-        return fileUrl;
-      }
-
-      var parentIframeSrc;
-
-      window.onload = function () {
-        // Access the parent window
-        var parentWindow = window.parent;
-
-        // Get the iframes within the parent window
-        var iframes = parentWindow.document.getElementsByTagName("iframe");
-
-        for (var i = 0; i < iframes.length; i++) {
-          if (iframes[i].contentWindow === window) {
-            // Get the src attribute of the iframe
-            parentIframeSrc = iframes[i].src;
-
-            // Book 1 {
-            jQuery("#viewer-container").FlipBook({
-              pdf: extractFileUrl(parentIframeSrc),
-              template: template,
-            });
-          }
+        // Function to extract the file URL from the query parameters
+        function extractFileParamData(src, $param) {
+          // Parse the URL
+          var url = new URL(src);
+          // Extract the 'file' parameter from the query string
+          var fileUrl = url.searchParams.get($param);
+          return fileUrl;
         }
-      };
+
+        var parentIframeSrc;
+
+        var params = {};
+
+        window.onload = function () {
+          // Access the parent window
+          var parentWindow = window.parent;
+
+          // Get the iframes within the parent window
+          var iframes = parentWindow.document.getElementsByTagName("iframe");
+
+          for (var i = 0; i < iframes.length; i++) {
+            if (iframes[i].contentWindow === window) {
+              // Get the src attribute of the iframe
+              parentIframeSrc = iframes[i].src;
+
+              // Book 1 {
+              jQuery("#viewer-container").FlipBook({
+                pdf: extractFileParamData(parentIframeSrc, "file"),
+                template: template,
+              });
+
+              // The encoded string you want to decode
+              const encodedString = extractFileParamData(parentIframeSrc, "key");
+
+              // Step 1: Base64 Decode
+              const decodedString = atob(encodedString);
+
+              // Step 1: Create URLSearchParams object
+              const urlParams = new URLSearchParams(decodedString);
+
+              // Step 2: Convert URLSearchParams to Object
+              const paramsObject = {};
+              for (const [key, value] of urlParams.entries()) {
+                params[key] =
+                  value == "yes" || value == "true"
+                    ? true
+                    : value == "no"
+                    ? false
+                    : value;
+              }
+
+              localStorage.setItem('flipbook_settings', decodedString);
+
+              break; // Exit the loop once the matching iframe is found and processed
+            }
+
+              // themeMode=default&
+              // toolbar=true
+              // presentation=true&
+              // download=yes&
+              // &pdf_details=true
+            }
+          }
+        
     </script>
   </body>
 </html>

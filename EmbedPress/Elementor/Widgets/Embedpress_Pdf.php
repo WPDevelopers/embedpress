@@ -166,8 +166,19 @@ class Embedpress_Pdf extends Widget_Base
             ]
         );
 
-        
 
+        $this->add_control(
+            'embedpress_pdf_viewer_style',
+            [
+                'label'   => __('Viewer Style', 'embedpress'),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'default',
+                'options' => [
+                    'modern'        => __('Mordern', 'embedpress'),
+                    'flip-book' => __('Flip Book', 'embedpress'),
+                ],
+            ]
+        );
 
         $this->add_control(
             'embedpress_pdf_zoom',
@@ -441,6 +452,7 @@ class Embedpress_Pdf extends Widget_Base
                 'classes'     => $this->pro_class,
                 'condition' => [
                     'pdf_toolbar' => 'yes',
+                    'embedpress_pdf_viewer_style' => 'modern',
                 ],
             ]
         );
@@ -456,6 +468,7 @@ class Embedpress_Pdf extends Widget_Base
                 'default'      => 'yes',
                 'condition' => [
                     'pdf_toolbar' => 'yes',
+                    'embedpress_pdf_viewer_style' => 'modern',
                 ],
             ]
         );
@@ -471,6 +484,7 @@ class Embedpress_Pdf extends Widget_Base
                 'classes'     => $this->pro_class,
                 'condition' => [
                     'pdf_toolbar' => 'yes',
+                    'embedpress_pdf_viewer_style' => 'modern',
                 ],
             ]
         );
@@ -486,6 +500,7 @@ class Embedpress_Pdf extends Widget_Base
                 'default'      => 'yes',
                 'condition' => [
                     'pdf_toolbar' => 'yes',
+                    'embedpress_pdf_viewer_style' => 'modern',
                 ],
             ]
         );
@@ -501,6 +516,7 @@ class Embedpress_Pdf extends Widget_Base
                 'default'      => 'yes',
                 'condition' => [
                     'pdf_toolbar' => 'yes',
+                    'embedpress_pdf_viewer_style' => 'modern',
                 ],
             ]
         );
@@ -596,6 +612,10 @@ class Embedpress_Pdf extends Widget_Base
 
         if($settings['embedpress_theme_mode'] == 'custom') {
             $urlParamData['customColor'] = $settings['embedpress_pdf_custom_color'];
+        }
+
+        if($settings['embedpress_pdf_viewer_style'] == 'flip-book'){
+            return "&key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), "UTF-8"));
         }
 
         return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), "UTF-8"));
@@ -721,8 +741,15 @@ class Embedpress_Pdf extends Widget_Base
                             $src = $src . "&zoom=$zoom";
                         }
                     }
-                    
-                    $embed_content = '<iframe title="'.esc_attr(Helper::get_file_title($url)).'" class="embedpress-embed-document-pdf '.esc_attr($id).'" style="'.esc_attr($dimension).'; max-width:100%; display: inline-block" src="'.esc_url($src).'"';
+                    if(isset($settings['embedpress_pdf_viewer_style']) && $settings['embedpress_pdf_viewer_style'] === 'modern') {
+                        $embed_content = '<iframe title="'.esc_attr(Helper::get_file_title($url)).'" class="embedpress-embed-document-pdf '.esc_attr($id).'" style="'.esc_attr($dimension).'; max-width:100%; display: inline-block" src="'.esc_url($src).'"';
+                    }
+                    else{
+                        $src = urlencode($url).$this->getParamData($settings);
+                        $embed_content = '<iframe title="'.esc_attr(Helper::get_file_title($url)).'" class="embedpress-embed-document-pdf '.esc_attr($id).'" style="'.esc_attr($dimension).'; max-width:100%; display: inline-block" src="'.esc_url(EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/viewer.html?file='.$src).'"';
+                    }
+
+
 
                     
                     $embed_content .= ' '.$this->get_render_attribute_string('embedpres-pdf-render').' frameborder="0"></iframe>';
@@ -762,11 +789,7 @@ class Embedpress_Pdf extends Widget_Base
                                     Helper::display_password_form($client_id, $embed, $pass_hash_key, $embed_settings);
                                 }
                             ?>
-                        </div>
-
-
-
-                    <iframe src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/viewer.html?file='.$url); ?>" frameborder="0" ></iframe>
+                        </div> 
 
                     </div>
                     <?php 
