@@ -299,15 +299,13 @@ document.getElementById("presentationMode")?.addEventListener("click", function 
     }
 });
 
-// // Check if the user agent contains "iPhone", "iPad", or "iPod"
-// function isIOS() {
-//     return /iPhone|iPad|iPod/i.test(navigator.userAgent);
-// }
+document.getElementById("viewBookmark")?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const url = e.target.getAttribute('href'); 
+    const state = {}; 
+    history.pushState(state, '', url);
+    alert(`Current Page: ${url}`);
+});
 
-// if (isIOS()) {
-//     document.querySelector(".presentationForAllDevice")?.remove();
-// }
-// else{
-//     document.querySelector(".presentationForIosDevice")?.remove();
-// }
+
 
