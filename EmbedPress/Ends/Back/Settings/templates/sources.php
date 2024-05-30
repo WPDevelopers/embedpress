@@ -26,8 +26,8 @@ $sources = [
 
     ["name" => "Facebook", "arival_status" => "popular", "icon" => $icon_src . "/facebook.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-facebook-posts-wordpress/"],
     ["name" => "Facebook Live", "arival_status" => "popular", "icon" => $icon_src . "/facebooklive.png", "type" => "social", "doc_url" => "https://embedpress.com/docs/embed-facebook-posts-wordpress/"],
-    ["name" => "X", "icon" => $icon_src . "/x.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-twitter-tweets-wordpress/"],
-    ["name" => "LinkedIn", "arival_status" => "new", "icon" => $icon_src . "/linkedin.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-twitter-tweets-wordpress/"],
+    ["name" => "X", "arival_status" => "updated", "icon" => $icon_src . "/x.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-twitter-tweets-wordpress/"],
+    ["name" => "LinkedIn", "arival_status" => "new", "icon" => $icon_src . "/linkedin.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-linkedin-posts-in-wordpress/"],
 
 
     ["name" => "Github", "icon" => $icon_src . "/github.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-github-gist-snippets-wordpress/"],
