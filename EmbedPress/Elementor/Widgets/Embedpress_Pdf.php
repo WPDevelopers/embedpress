@@ -172,9 +172,9 @@ class Embedpress_Pdf extends Widget_Base
             [
                 'label'   => __('Viewer Style', 'embedpress'),
                 'type'    => Controls_Manager::SELECT,
-                'default' => 'default',
+                'default' => 'modern',
                 'options' => [
-                    'modern'        => __('Mordern', 'embedpress'),
+                    'modern'        => __('Modern', 'embedpress'),
                     'flip-book' => __('Flip Book', 'embedpress'),
                 ],
             ]

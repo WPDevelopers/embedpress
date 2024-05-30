@@ -183,12 +183,16 @@
       document.querySelector("li.fnav-item.cmdFullScreen")?.remove();
     }
 
+    
+    const element = document.querySelector(".flip-book .controls");
     if (params?.position === 'top') {
-      const element = document.querySelector(".flip-book .controls");
       if (element) {
-        element.style.setProperty('position', 'absolute', 'important');
-        element.style.setProperty('top', '80px', 'important');
-        element.style.setProperty('transform', 'translate(-50%, -50%)', 'important');
+        element.classList.add('toolbar-position-top');
+      }
+    }
+    else{
+      if (element) {
+        element.classList.add('toolbar-position-bittom');
       }
     }
 
