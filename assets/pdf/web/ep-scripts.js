@@ -301,10 +301,10 @@ document.getElementById("presentationMode")?.addEventListener("click", function 
 
 document.getElementById("viewBookmark")?.addEventListener('click', (e) => {
     e.preventDefault();
-    const url = e.target.getAttribute('href'); 
-    const state = {}; 
-    history.pushState(state, '', url);
-    alert(`Current Page: ${url}`);
+    const url = e.target.getAttribute('href');
+    if (url !== null) {
+        alert(`Current Page: ${url}`);
+    }
 });
 
 
