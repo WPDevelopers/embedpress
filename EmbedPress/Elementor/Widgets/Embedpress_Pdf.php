@@ -207,7 +207,7 @@ class Embedpress_Pdf extends Widget_Base
 				'range' => [
 					'px' => [
 						'min' => 1,
-						'max' => 1000,
+						'max' => 1500,
 					],
 				],
 				'devices' => [ 'desktop', 'tablet', 'mobile' ],
@@ -249,7 +249,7 @@ class Embedpress_Pdf extends Widget_Base
 				'devices' => [ 'desktop', 'tablet', 'mobile' ],
                 'default' => [
 					'unit' => 'px',
-                    'size' => 600,
+                    'size' => Helper::get_options_value('enableEmbedResizeHeight'),
 				],
 				'desktop_default' => [
 					'unit' => 'px',
@@ -351,6 +351,7 @@ class Embedpress_Pdf extends Widget_Base
 			[
 				'label' => esc_html__( 'Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => Helper::get_options_value('custom_color'),
                 'condition' => [
                     'embedpress_theme_mode' => 'custom',
                 ],

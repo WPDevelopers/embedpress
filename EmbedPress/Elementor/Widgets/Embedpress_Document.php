@@ -161,7 +161,7 @@ class Embedpress_Document extends Widget_Base
 				'devices' => [ 'desktop', 'tablet', 'mobile' ],
                 'default' => [
 					'unit' => 'px',
-                    'size' => 600,
+                    'size' => Helper::get_options_value('enableEmbedResizeWidth'),
 				],
 				'desktop_default' => [
 					'unit' => 'px',
@@ -190,13 +190,13 @@ class Embedpress_Document extends Widget_Base
 				'range' => [
 					'px' => [
 						'min' => 1,
-						'max' => 1000,
+						'max' => 1500,
 					],
 				],
 				'devices' => [ 'desktop', 'tablet', 'mobile' ],
                 'default' => [
 					'unit' => 'px',
-                    'size' => 600,
+                    'size' => Helper::get_options_value('enableEmbedResizeHeight'), 
 				],
 				'desktop_default' => [
 					'unit' => 'px',

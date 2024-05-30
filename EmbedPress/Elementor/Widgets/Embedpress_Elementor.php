@@ -106,6 +106,8 @@ class Embedpress_Elementor extends Widget_Base
 		];
 	}
 
+	
+
 	protected function register_controls()
 	{
 		$this->pro_class = is_embedpress_pro_active() ? '' : 'embedpress-pro-control  not-active';
@@ -3391,7 +3393,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'devices' => ['desktop', 'tablet', 'mobile'],
 				'default' => [
-					'size' => 600,
+					'size' => Helper::get_options_value('enableEmbedResizeWidth'),
 					'unit' => 'px',
 				],
 				'desktop_default' => [
@@ -3432,7 +3434,7 @@ class Embedpress_Elementor extends Widget_Base
 					'unit' => 'px',
 				],
 				'default' => [
-					'size' => 400,
+					'size' => Helper::get_options_value('enableEmbedResizeHeight'),
 					'unit' => 'px',
 				],
 				'tablet_default' => [
