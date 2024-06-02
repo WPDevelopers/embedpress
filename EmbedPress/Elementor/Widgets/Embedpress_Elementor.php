@@ -3607,7 +3607,8 @@ class Embedpress_Elementor extends Widget_Base
 			}
 
 			$playerOptionsString = json_encode($playerOptions);
-			$_player_options = 'data-options=\'' . htmlentities($playerOptionsString, ENT_QUOTES) . '\'';
+			$_player_options = 'data-options=' . htmlentities($playerOptionsString, ENT_QUOTES);
+
 		}
 
 		return $_player_options;
@@ -3804,7 +3805,7 @@ class Embedpress_Elementor extends Widget_Base
 
 		$data_playerid = '';
 		if(!empty($settings['embedpress_custom_player'])){
-			$data_playerid = 'data-playerid="'.esc_attr($this->get_id()).'"';
+			$data_playerid = 'data-playerid='.esc_attr($this->get_id());
 		}
 
 		$data_carouselid = '';

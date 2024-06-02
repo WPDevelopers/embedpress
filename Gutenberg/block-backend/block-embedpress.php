@@ -140,7 +140,7 @@ function embedpress_render_block($attributes)
 
 		$is_self_hosted = Helper::check_media_format($attributes['url']);
 
-		$_custom_player = 'data-playerid="' . esc_attr($client_id) . '"';
+		$_custom_player = 'data-playerid=' . esc_attr($client_id);
 		$player_preset = !empty($attributes['playerPreset']) ? $attributes['playerPreset'] : 'preset-default';
 		$player_color = !empty($attributes['playerColor']) ? $attributes['playerColor'] : '';
 		$poster_thumbnail = !empty($attributes['posterThumbnail']) ? $attributes['posterThumbnail'] : '';
@@ -200,7 +200,7 @@ function embedpress_render_block($attributes)
 		}
 
 		$playerOptionsString = json_encode($playerOptions);
-		$_player_options = 'data-options=\'' . htmlentities($playerOptionsString, ENT_QUOTES) . '\'';
+		$_player_options = 'data-options='. htmlentities($playerOptionsString, ENT_QUOTES);
 	}
 
 	$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']): '';
