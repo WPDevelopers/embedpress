@@ -55,23 +55,23 @@ function initPlayer(wrapper) {
 
   // Get the options for the player from the wrapper's data attribute
   let options = document.querySelector(`[data-playerid='${playerId}']`)?.getAttribute('data-options');
-  
-  if(!options) {
+
+  if (!options) {
     return false;
   }
 
   // Parse the options string into a JSON object
   if (typeof options === 'string') {
     try {
-        options = JSON.parse(options);
+      options = JSON.parse(options);
     } catch (e) {
-        console.error('Invalid JSON format:', e);
-        return;
+      console.error('Invalid JSON format:', e);
+      return;
     }
-} else {
+  } else {
     console.error('Options is not a string');
     return;
-}
+  }
 
 
   // Create DOM elements from the icon strings
@@ -101,12 +101,12 @@ function initPlayer(wrapper) {
     else if (options.self_hosted && options.hosted_format === 'audio') {
       selector = `[data-playerid='${playerId}'] .ose-embedpress-responsive audio`;
     }
-    
-    
+
+
     // Set the main color of the player
     document.querySelector(`[data-playerid='${playerId}']`).style.setProperty('--plyr-color-main', options.player_color);
     document.querySelector(`[data-playerid='${playerId}'].custom-player-preset-1, [data-playerid='${playerId}'].custom-player-preset-3, [data-playerid='${playerId}'].custom-player-preset-4`)?.style.setProperty('--plyr-range-fill-background', '#ffffff');
-    
+
     // Set the poster thumbnail for the player
     if (document.querySelector(`[data-playerid='${playerId}'] iframe`)) {
       document.querySelector(`[data-playerid='${playerId}'] iframe`).setAttribute('data-poster', options.poster_thumbnail);
@@ -169,10 +169,16 @@ function initPlayer(wrapper) {
 
     playerInit[playerId] = player;
 
-    
+
 
     // Mark the wrapper as initialized
     wrapper.classList.add('plyr-initialized');
+    
+    if (wrapper.querySelector('.plyr__poster')) {
+      wrapper.style.opacity = '1';
+    }
+
+
   }
 
   // Check for the existence of the player's pip button at regular intervals
