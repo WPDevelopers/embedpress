@@ -173,6 +173,10 @@ function initPlayer(wrapper) {
 
     // Mark the wrapper as initialized
     wrapper.classList.add('plyr-initialized');
+
+    if (wrapper.querySelector('.plyr__poster')) {
+      wrapper.style.opacity = '1';
+    }
   }
 
   // Check for the existence of the player's pip button at regular intervals
@@ -209,8 +213,6 @@ function initPlayer(wrapper) {
           const pipPlay = document.querySelector(`[data-playerid="${playerId}"] .plyr__video-wrapper .pip-play`);
           const pipPause = document.querySelector(`[data-playerid="${playerId}"] .plyr__video-wrapper .pip-pause`);
           const pipClose = document.querySelector(`[data-playerid="${playerId}"] .plyr__video-wrapper .pip-close`);
-
-          console.log(pipClose);
 
           pipClose.addEventListener('click', () => {
             iframeSelector.classList.remove('pip-mode');
