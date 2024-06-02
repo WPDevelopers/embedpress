@@ -98,7 +98,7 @@ function embedpress_render_block($attributes)
 	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
 	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
-	$instaLayout = !empty($attributes['instaLayout']) ? $attributes['instaLayout'] : 'insta-grid';
+	$instaLayout = !empty($attributes['instaLayout']) ? ' '.$attributes['instaLayout'] : ' insta-grid';
 
 	$_carousel_options = '';
 	$_carousel_id = '';
