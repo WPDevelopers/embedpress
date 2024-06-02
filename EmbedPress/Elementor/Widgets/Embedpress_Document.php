@@ -491,7 +491,7 @@ class Embedpress_Document extends Widget_Base
     
         $this->add_render_attribute('embedpres-pdf-render', [
             'class' => ['embedpress-embed-document-pdf', $id],
-            'data-emid' => $id
+            'data-emid' => esc_attr($id)
         ]);
     
         Helper::get_source_data(md5($this->get_id()) . '_eb_elementor', $url, 'elementor_source_data', 'elementor_temp_source_data');
