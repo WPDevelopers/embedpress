@@ -681,14 +681,14 @@ function embedpress_gutenberg_register_all_block()
 							'clientId' => [
 								'type' => 'string',
 							],
-							'height' => [
-								'type' => 'string',
-								'default' => get_options_value('enableEmbedResizeHeight')
-							],
-							'width' => [
-								'type' => 'string',
-								'default' => get_options_value('enableEmbedResizeWidth')
-							],
+							// 'height' => [
+							// 	'type' => 'string',
+							// 	'default' => (int) get_options_value('enableEmbedResizeHeight')
+							// ],
+							// 'width' => [
+							// 	'type' => 'string',
+							// 	'default' =>  (int) get_options_value('enableEmbedResizeWidth')
+							// ],
 							'customColor' => [
 								'type' => 'string',
 								'default' => get_options_value('custom_color')
@@ -917,7 +917,7 @@ function embedpress_pdf_render_block($attributes)
 
 
 		$unitoption = !empty($attributes['unitoption']) ? $attributes['unitoption'] : 'px';
-		$width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : '600px';
+		$width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : get_options_value('enableEmbedResizeWidth').'px';
 
 		if ($unitoption == '%') {
 			$width_class = ' ep-percentage-width';
@@ -944,7 +944,7 @@ function embedpress_pdf_render_block($attributes)
 
 
 
-		$height = !empty($attributes['height']) ? $attributes['height'] . 'px' : '600px';
+		$height = !empty($attributes['height']) ? $attributes['height'] . 'px' : get_options_value('enableEmbedResizeHeight').'px';
 		$gen_settings    = get_option(EMBEDPRESS_PLG_NAME);
 
 		$powered_by = isset($gen_settings['embedpress_document_powered_by']) && 'yes' === $gen_settings['embedpress_document_powered_by'];
