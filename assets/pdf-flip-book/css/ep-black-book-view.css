@@ -360,8 +360,7 @@
 
 .flip-book .float-wnd .header {
   border-radius: 4px 4px 0 0;
-  background-color: #3c3c3c;
-  background-image: linear-gradient(to bottom, #3c3c3c 0, #222 100%);
+  background-color: #333333;
   background-repeat: repeat-x;
   padding: 7px 10px;
   border: 1px solid #444;
@@ -369,14 +368,20 @@
   color: #fff;
   font-weight: bold;
   cursor: move;
+  font-family: sans-serif;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
 }
 
 .flip-book .float-wnd .header .close {
-  top: 5px;
   right: 8px;
   font-size: 14px;
   position: absolute;
   color: #ccc;
+}
+.flip-book .float-wnd .header .close svg{
+  height: 10px;
 }
 
 .flip-book .float-wnd .header .close:hover {
@@ -409,7 +414,7 @@
 }
 
 .ctrl .toc .toc-menu {
-  padding: 5px 10px;
+  padding: 8px 10px;
 }
 
 .ctrl .toc .toc-menu ul {
@@ -424,7 +429,7 @@
 
 .ctrl .toc .toc-menu a {
   color: #ccc;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .ctrl .toc .toc-menu a:hover {
@@ -672,6 +677,7 @@ span.icon.arrow-icon svg, .sound-icon svg {
 
 li.dropup.fnav-item.toggle.widSettings ul.menu {
   border-radius: 6px;
+  bottom: 38px;
 }
 
 li.dropup.fnav-item.toggle.widSettings ul.menu li a {
@@ -699,7 +705,7 @@ li.fnav-item.disabled {
   top: calc(-100% + 60px) !important;
 }
 
-.controls.toolbar-position-top .icon-caret svg {
+.controls .icon-caret svg {
   transform: rotate(90deg);
 }
 

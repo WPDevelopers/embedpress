@@ -385,7 +385,7 @@ class Embedpress_Pdf extends Widget_Base
             ]
         );
 
-
+        
         $this->add_control(
             'pdf_toolbar_position',
             [
@@ -411,21 +411,6 @@ class Embedpress_Pdf extends Widget_Base
 
 
         $this->add_control(
-            'pdf_presentation_mode',
-            [
-                'label'        => __('PDF Presentation Mode', 'embedpress'),
-                'type'         => Controls_Manager::SWITCHER,
-                'label_on'     => __('Show', 'embedpress'),
-                'label_off'    => __('Hide', 'embedpress'),
-                'return_value' => 'yes',
-                'default'      => 'yes',
-                'condition' => [
-                    'pdf_toolbar' => 'yes',
-                ],
-            ]
-        );
-
-        $this->add_control(
             'pdf_print_download',
             [
                 'label'        => sprintf(__('Print/Download %s', 'embedpress'), $this->pro_text),
@@ -440,6 +425,82 @@ class Embedpress_Pdf extends Widget_Base
                 ],
             ]
         );
+
+
+
+        $this->add_control(
+            'pdf_zoom_in',
+            [
+                'label'        => __('Zoom In', 'embedpress'),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Show', 'embedpress'),
+                'label_off'    => __('Hide', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
+            ]
+        );
+        $this->add_control(
+            'pdf_zoom_out',
+            [
+                'label'        => __('Zoom Out', 'embedpress'),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Show', 'embedpress'),
+                'label_off'    => __('Hide', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
+            ]
+        );
+        $this->add_control(
+            'pdf_fit_view',
+            [
+                'label'        => __('Fit View', 'embedpress'),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Show', 'embedpress'),
+                'label_off'    => __('Hide', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
+            ]
+        );
+        $this->add_control(
+            'pdf_bookmark',
+            [
+                'label'        => __('Bookmark', 'embedpress'),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Show', 'embedpress'),
+                'label_off'    => __('Hide', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
+            ]
+        );
+
+
+        $this->add_control(
+            'pdf_presentation_mode',
+            [
+                'label'        => __('PDF Presentation Mode', 'embedpress'),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Show', 'embedpress'),
+                'label_off'    => __('Hide', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
+            ]
+        );
+
         $this->add_control(
             'pdf_text_copy',
             [
@@ -608,6 +669,10 @@ class Embedpress_Pdf extends Widget_Base
             'draw' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['draw'] : 'true',
             'pdf_rotation' => !empty($settings['pdf_rotate_access'])  ? 'true' : 'false',
             'pdf_details' => !empty($settings['pdf_details'])  ? 'true' : 'false',
+            'zoom_in' => !empty($settings['pdf_zoom_in'])  ? 'true' : 'false',
+            'zoom_out' => !empty($settings['pdf_zoom_out'])  ? 'true' : 'false',
+            'fit_view' => !empty($settings['pdf_fit_view'])  ? 'true' : 'false',
+            'bookmark' => !empty($settings['pdf_bookmark'])  ? 'true' : 'false',
         );
 
         if($settings['embedpress_theme_mode'] == 'custom') {
