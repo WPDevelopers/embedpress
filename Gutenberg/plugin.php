@@ -767,6 +767,22 @@ function embedpress_gutenberg_register_all_block()
 								'type' => "string",
 								'default' => '%',
 							],
+							'zoomIn' => [
+								'type' => "boolean",
+								'default' => true,
+							],
+							'zoomOut' => [
+								'type' => "boolean",
+								'default' => true,
+							],
+							'fitView' => [
+								'type' => "boolean",
+								'default' => true,
+							],
+							'bookmark' => [
+								'type' => "boolean",
+								'default' => true,
+							],
 
 							//Ad attributes
 							'adManager' => [
