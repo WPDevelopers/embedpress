@@ -2624,7 +2624,7 @@ dialog :link {
     }
 }
 
-:root, [ep-data-theme=light] {
+:root {
     --loadingBar-end-offset: 0;
     --toolbar-icon-opacity: 0.7;
     --main-color: rgba(12, 12, 13, 1);
@@ -2706,6 +2706,45 @@ dialog :link {
     }
 }
 
+[ep-data-theme=light] {
+    --loadingBar-end-offset: 0;
+    --toolbar-icon-opacity: 0.7;
+    --main-color: rgba(12, 12, 13, 1);
+    --body-bg-color: rgba(237, 237, 240, 1);
+    --errorWrapper-bg-color: rgba(255, 110, 110, 1);
+    --progressBar-color: rgba(10, 132, 255, 1);
+    --progressBar-indeterminate-bg-color: rgba(221, 221, 222, 1);
+    --progressBar-indeterminate-blend-color: rgba(116, 177, 239, 1);
+    --scrollbar-color: auto;
+    --scrollbar-bg-color: auto;
+    --toolbar-icon-bg-color: rgba(0, 0, 0, 1);
+    --toolbar-icon-hover-bg-color: rgba(0, 0, 0, 1);
+    --sidebar-narrow-bg-color: rgba(237, 237, 240, 0.9);
+    --sidebar-toolbar-bg-color: rgba(245, 246, 247, 1);
+    --toolbar-bg-color: rgba(249, 249, 250, 1);
+    --toolbar-border-color: rgba(204, 204, 204, 1);
+    --button-hover-color: rgba(221, 222, 223, 1);
+    --toggled-btn-color: rgba(0, 0, 0, 1);
+    --dropdown-btn-bg-color: rgba(215, 215, 219, 1);
+    --field-color: rgba(6, 6, 6, 1);
+    --field-bg-color: rgba(255, 255, 255, 1);
+    --field-border-color: rgba(187, 187, 188, 1);
+    --findbar-nextprevious-btn-bg-color: rgba(227, 228, 230, 1);
+    --treeitem-color: rgba(0, 0, 0, 0.8);
+    --treeitem-hover-color: rgba(0, 0, 0, 0.9);
+    --treeitem-selected-color: rgba(0, 0, 0, 0.9);
+    --treeitem-selected-bg-color: rgba(0, 0, 0, 0.25);
+    --sidebaritem-bg-color: rgba(0, 0, 0, 0.15);
+    --doorhanger-bg-color: rgba(255, 255, 255, 1);
+    --doorhanger-border-color: rgba(12, 12, 13, 0.2);
+    --doorhanger-hover-color: rgba(12, 12, 13, 1);
+    --doorhanger-hover-bg-color: rgba(237, 237, 237, 1);
+    --doorhanger-separator-color: rgba(222, 222, 222, 1);
+    --overlay-button-border: 0 none;
+    --overlay-button-bg-color: rgba(12, 12, 13, 0.1);
+    --overlay-button-hover-bg-color: rgba(12, 12, 13, 0.3);
+    --loading-icon: url(images/loading.svg)
+}
 [ep-data-theme=dark] {
     --body-bg-color: rgba(42, 42, 46, 1);
     --button-hover-color: rgba(102, 102, 103, 1);
