@@ -1,6 +1,21 @@
+@media (prefers-color-scheme:dark) {
+  :root {
+    --body-bg-color: rgba(42, 42, 46, 1);
+  }
+}
+
+:root {
+  --body-bg-color: rgba(212, 212, 215, 1);
+}
+
+[ep-data-theme=dark] {
+  --body-bg-color: rgba(42, 42, 46, 1);
+}
+
 .flip-book {
   position: relative;
   height: 100%;
+  background-color: var(--body-bg-color);
 }
 
 .flip-book .view {
@@ -380,7 +395,8 @@
   position: absolute;
   color: #ccc;
 }
-.flip-book .float-wnd .header .close svg{
+
+.flip-book .float-wnd .header .close svg {
   height: 10px;
 }
 
@@ -712,6 +728,7 @@ li.fnav-item.disabled {
 .controls.toolbar-position-top ul.menu {
   top: 40px;
 }
+
 .controls.toolbar-position-bottom ul.menu {
   bottom: 100%;
 }
