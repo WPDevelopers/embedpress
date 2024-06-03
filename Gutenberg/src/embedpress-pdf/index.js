@@ -163,6 +163,27 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				default: '%',
 			},
 
+			viewerStyle: {
+				type: "string",
+				default: 'modern',
+			},
+			zoomIn: {
+				type: "boolean",
+				default: true,
+			},
+			zoomOut: {
+				type: "boolean",
+				default: true,
+			},
+			fitView: {
+				type: "boolean",
+				default: true,
+			},
+			bookmark: {
+				type: "boolean",
+				default: true,
+			},
+
 			width: {
 				type: 'number',
 				default: 600,
