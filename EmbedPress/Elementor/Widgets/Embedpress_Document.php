@@ -44,15 +44,18 @@ class Embedpress_Document extends Widget_Base
 
     public function get_style_depends()
 	{
-		return [];
+		return [
+            'embedpress-style'
+        ];
 	}
 
 	public function get_script_depends()
 	{
+
 		return [
             'embedpress-front',
             'embedpress-ads',
-            'embedpress_documents_viewer_script'
+            'embedpress_documents_viewer_script', 
 		];
 	}
 

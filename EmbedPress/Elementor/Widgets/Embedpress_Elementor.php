@@ -49,7 +49,8 @@ class Embedpress_Elementor extends Widget_Base
 	{
 		return [
 			'plyr',
-			'cg-carousel'
+			'cg-carousel',
+			'embedpress-style'		
 		];
 	}
 
@@ -3685,8 +3686,10 @@ class Embedpress_Elementor extends Widget_Base
 
 	protected function render()
 	{
-		add_filter('embedpress_should_modify_spotify', '__return_false');
 		$settings      = $this->get_settings_for_display();
+		Helper::get_enable_settings_data_for_scripts($settings);
+
+		add_filter('embedpress_should_modify_spotify', '__return_false');
 		$embed_link = isset($settings['embedpress_embeded_link']) ? $settings['embedpress_embeded_link'] : '';
 
 

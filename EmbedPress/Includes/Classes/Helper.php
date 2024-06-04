@@ -1264,7 +1264,18 @@ class Helper
 			return $posts['data'];
 		}
 	}
+
+	public static function get_enable_settings_data_for_scripts($settings){
+	
+		$settings_data = [];
+	
+		if(isset($settings['enable_custom_ads']) && $settings['enable_custom_ads'] === 'yes'){
+			$settings_data['enable_custom_ads'] = 'yes';
+		}
+		else{
+			$settings_data['enable_custom_ads'] = '';
+		}
+	
+		update_option('enable_settings', $settings_data);
+	}
 }
-
-
-?>

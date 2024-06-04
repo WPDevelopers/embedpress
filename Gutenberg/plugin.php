@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
 function embedpress_blocks_cgb_block_assets()
 { // phpcs:ignore
 	// Styles.
-	wp_enqueue_style(
+	wp_register_style(
 		'embedpress_blocks-cgb-style-css', // Handle.
 		EMBEDPRESS_GUTENBERG_DIR_URL . 'dist/blocks.style.build.css', // Block style CSS.
 		is_admin() ? array('wp-editor') : null, // Dependency to include the CSS after it.
@@ -120,6 +120,7 @@ function embedpress_blocks_cgb_editor_assets()
 		array('wp-edit-blocks'), // Dependency to include the CSS after it.
 		filemtime(EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.editor.build.css') // Version: File modification time.
 	);
+	wp_enqueue_style('embedpress_blocks-cgb-style-css');
 }
 
 // Hook: Editor assets.
@@ -873,6 +874,15 @@ function embedpress_pdf_block_scripts() {
         wp_enqueue_script($handle);
     }
 
+	$style_handles = [
+		'embedpress_blocks-cgb-style-css',
+		'embedpress-style'
+	];
+
+	foreach ($style_handles as $handle) {
+		wp_enqueue_style($handle);
+	}
+
 }
 
 function embedpress_pdf_render_block($attributes)
@@ -1080,6 +1090,15 @@ function embedpress_document_block_scripts() {
 	
 		foreach ($script_handles as $handle) {
 			wp_enqueue_script($handle);
+		}
+
+		$style_handles = [
+			'embedpress_blocks-cgb-style-css',
+			'embedpress-style'
+		];
+	
+		foreach ($style_handles as $handle) {
+			wp_enqueue_style($handle);
 		}
     }
 }

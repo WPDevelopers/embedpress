@@ -46,7 +46,9 @@ class Embedpress_Pdf extends Widget_Base
 
     public function get_style_depends()
     {
-        return [];
+        return [
+            'embedpress-style',
+        ];
     }
 
     public function get_script_depends()
@@ -54,7 +56,7 @@ class Embedpress_Pdf extends Widget_Base
         return [
             'embedpress-pdfobject',
             'embedpress-front',
-            'embedpress-ads'
+            'embedpress-ads',
         ];
     }
 

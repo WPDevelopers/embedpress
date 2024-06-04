@@ -77,7 +77,9 @@ function embedpress_block_scripts() {
 
 	$style_handles = [
 		'plyr',
-		'cg-carousel'
+		'cg-carousel',
+		'embedpress_blocks-cgb-style-css',
+		'embedpress-style'
 	];
 
     foreach ($script_handles as $handle) {
