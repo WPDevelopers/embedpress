@@ -125,6 +125,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "string",
 				default: 'top',
 			},
+			flipbook_toolbar_position: {
+				type: "string",
+				default: 'bottom',
+			},
 
 			download: {
 				type: "boolean",

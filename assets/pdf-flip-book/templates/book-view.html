@@ -200,15 +200,25 @@
 
     
     const element = document.querySelector(".flip-book .controls");
-    if (params?.position === 'top') {
+    if (params?.flipbook_toolbar_position === 'top') {
       if (element) {
         element.classList.add('toolbar-position-top');
       }
     }
     else{
       if (element) {
-        element.classList.add('toolbar-position-bittom');
+        element.classList.add('toolbar-position-bottom');
       }
     }
+
+    //Create theme mode function
+const setThemeMode = (themeMode) => {
+    const htmlEL = document.getElementsByTagName("html")[0];
+    if (htmlEL) {
+        htmlEL.setAttribute('ep-data-theme', themeMode);
+    }
+}
+
+setThemeMode(params.themeMode);
 
 </script>

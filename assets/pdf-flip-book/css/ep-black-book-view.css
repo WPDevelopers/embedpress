@@ -1,15 +1,32 @@
+:root {
+  --body-bg-color: rgba(212, 212, 215, 1);
+  --toolbar-bg-color: rgb(249 249 250);
+  --toolbar-icon-color: rgb(0 0 0);
+  --toolbar-active-icon-bg-color: rgb(221 222 223);
+}
+
 @media (prefers-color-scheme:dark) {
   :root {
     --body-bg-color: rgba(42, 42, 46, 1);
+    --toolbar-bg-color: #3c3c3c;
+    --toolbar-icon-color: #fff;
+    --toolbar-active-icon-bg-color: #222;
+
   }
 }
 
-:root {
+[ep-data-theme=light] {
   --body-bg-color: rgba(212, 212, 215, 1);
+  --toolbar-bg-color: rgb(249 249 250);
+  --toolbar-icon-color: rgb(0 0 0);
+  --toolbar-active-icon-bg-color: rgb(221 222 223);
 }
 
 [ep-data-theme=dark] {
   --body-bg-color: rgba(42, 42, 46, 1);
+  --toolbar-bg-color: #3c3c3c;
+  --toolbar-icon-color: #fff;
+  --toolbar-active-icon-bg-color: #222;
 }
 
 .flip-book {
@@ -169,7 +186,7 @@
   background-repeat: repeat-x;
   padding: 3px;
   overflow: visible;
-  background-color: #3c3c3c;
+  background-color: var(--toolbar-bg-color);
 
   border-radius: 4px;
 }
@@ -243,7 +260,7 @@
 }
 
 .ctrl .fnavbar .fnav>.active a {
-  background: #222;
+  background: var(--toolbar-active-icon-bg-color);
   border-radius: 5px;
 }
 
@@ -253,7 +270,7 @@
 
 .ctrl .fnavbar .fnav .dropdown .menu {
   top: 100%;
-  box-shadow: 3px 0 3px #222;
+  box-shadow: 3px 0 3px var(--toolbar-active-icon-bg-color);
 }
 
 .ctrl .fnavbar .fnav .icon-caret {
@@ -269,7 +286,7 @@
 }
 
 .ctrl .fnavbar .fnav .dropup .menu {
-  box-shadow: 3px 0 3px #222;
+  box-shadow: 3px 0 3px var(--toolbar-active-icon-bg-color);
 }
 
 .ctrl .fnavbar .fnav .dropup .caret {
@@ -282,7 +299,7 @@
 .ctrl .fnavbar .menu {
   position: absolute;
   border: 1px solid #444;
-  background-color: #222;
+  background-color: var(--toolbar-active-icon-bg-color);
   z-index: 10;
   min-width: 160px;
 }
@@ -678,6 +695,11 @@ span.icon svg {
   width: auto;
   height: 14px;
 }
+
+span.icon svg path {
+  fill: var(--toolbar-icon-color);
+}
+
 
 .icon-caret svg {
   margin-right: 2px;

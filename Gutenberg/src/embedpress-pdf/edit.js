@@ -182,11 +182,12 @@ class EmbedPressPDFEdit extends Component {
 
 	}
 
+
 	render() {
 
 		const { attributes, noticeUI, setAttributes } = this.props;
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
 
 		if (!clientId) {
 			setAttributes({ clientId: this.props.clientId });
@@ -253,11 +254,13 @@ class EmbedPressPDFEdit extends Component {
 					customColor: (customColor && (customColor !== 'default')) ? customColor : '#403A81',
 				}
 			}
+
 			let _pdf_params = {
 				themeMode: themeMode ? themeMode : 'default',
 				...colorsObj,
 				presentation: presentation ? presentation : false,
 				position: position ? position : 'top',
+				flipbook_toolbar_position: flipbook_toolbar_position ? flipbook_toolbar_position : 'bottom',
 				download: download ? download : false,
 				toolbar: toolbar ? toolbar : false,
 				copy_text: copy_text ? copy_text : false,
@@ -274,25 +277,26 @@ class EmbedPressPDFEdit extends Component {
 
 			// Convert object to query string
 			const queryString = new URLSearchParams(_pdf_params).toString();
-    
+
 			// Encode the query string to base64
-			const base64String = btoa(encodeURIComponent(queryString).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+			const base64String = btoa(encodeURIComponent(queryString).replace(/%([0-9A-F]{2})/g, function (match, p1) {
 				return String.fromCharCode(parseInt(p1, 16));
 			}));
-			
+
 			// Return the formatted string
 			pdf_params = "key=" + base64String;
 
 			let __url = href.split('#');
-			
+
 			__url = encodeURIComponent(__url[0]);
 
-			if(viewerStyle === 'flip-book'){
+			if (viewerStyle === 'flip-book') {
 				return `${__url}&${pdf_params}`;
 			}
 
 			return `${__url}#${pdf_params}`;
 		}
+
 
 		if (!href || hasError) {
 			return (
@@ -487,10 +491,20 @@ class EmbedPressPDFEdit extends Component {
 							{
 								toolbar && (
 									<Fragment>
-										<ToggleGroupControl label="Toolbar Position" value={position} onChange={(position) => setAttributes({ position })}>
-											<ToggleGroupControlOption value="top" label="Top" />
-											<ToggleGroupControlOption value="bottom" label="Bottom" />
-										</ToggleGroupControl>
+
+										{
+											(viewerStyle === 'flip-book') ? (
+												<ToggleGroupControl label="Toolbar Position" value={flipbook_toolbar_position} onChange={(flipbook_toolbar_position) => setAttributes({ flipbook_toolbar_position })}>
+													<ToggleGroupControlOption value="top" label="Top" />
+													<ToggleGroupControlOption value="bottom" label="Bottom" />
+												</ToggleGroupControl>
+											) : (
+												<ToggleGroupControl label="Toolbar Position" value={position} onChange={(position) => setAttributes({ position })}>
+													<ToggleGroupControlOption value="top" label="Top" />
+													<ToggleGroupControlOption value="bottom" label="Bottom" />
+												</ToggleGroupControl>
+											)
+										}
 
 
 										<ToggleControl

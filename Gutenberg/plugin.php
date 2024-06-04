@@ -725,6 +725,10 @@ function embedpress_gutenberg_register_all_block()
 								'type' => "string",
 								'default' => 'top',
 							],
+							'flipbook_toolbar_position' => [
+								'type' => "string",
+								'default' => 'bottom',
+							],
 
 							'print' => [
 								'type' => "boolean",
