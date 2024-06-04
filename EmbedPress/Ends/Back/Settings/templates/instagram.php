@@ -55,7 +55,7 @@ $is_connected = false;
                                 </div>
 
                                 <label for="instagram-access-token"><?php echo esc_html__('Access Token: '); ?></label>
-                                <input type="text" name="instagram-access-token" id="instagram-access-token" class="instagram-access-token form__control" placeholder="<?php echo esc_attr('Enter valid access token.', 'embedpress') ?>" required>
+                                <input type="text" name="instagram-access-token" id="instagram-access-token" class="instagram-access-token form__control" placeholder="<?php echo esc_attr__('Enter valid access token.', 'embedpress') ?>" required>
 
                                 <div class="form-footer">
                                     <button class="button button__themeColor copy__button" type="submit"><span><?php echo esc_html__('Connect', 'embedpress'); ?></span></button>
