@@ -45,25 +45,49 @@ class Embedpress_Elementor extends Widget_Base
 		return 'icon-embedpress';
 	}
 
-	public function get_style_depends()
-	{
-		return [
-			'plyr',
-			'cg-carousel',
-			'embedpress-style'		
-		];
+	public function get_style_depends() {
+		$handler_keys = get_option('enabled_elementor_scripts', []);
+		
+		$handles = [];
+	
+		if (isset($handler_keys['enabled_custom_player']) && $handler_keys['enabled_custom_player'] === 'yes') {
+			$handles[] = 'plyr';
+		}
+		if (isset($handler_keys['enabled_instafeed']) && $handler_keys['enabled_instafeed'] === 'yes') {
+			$handles[] = 'cg-carousel';
+		}
+	
+		$handles[] = 'embedpress-elementor-css';
+		$handles[] = 'embedpress-style';
+
+	
+		return $handles;
 	}
+	
+	
 
 	public function get_script_depends()
 	{
-		return [
-			'plyr.polyfilled',
-			'initplyr',
-			'vimeo-player',
-			'embedpress-front',
-			'embedpress-ads',
-			'cg-carousel',
-		];
+		$handler_keys = get_option('enabled_elementor_scripts', []);
+		
+		$handles = [];
+	
+		if (isset($handler_keys['enabled_custom_player']) && $handler_keys['enabled_custom_player'] === 'yes') {
+			$handles[] = 'plyr.polyfilled';
+			$handles[] = 'initplyr';
+			$handles[] = 'vimeo-player';	
+		}
+		$handles[] = 'embedpress-front';
+		
+		if (isset($handler_keys['enabled_ads']) && $handler_keys['enabled_ads'] === 'yes') {
+			$handles[] = 'embedpress-ads';
+		}
+
+		if (isset($handler_keys['enabled_instafeed']) && $handler_keys['enabled_instafeed'] === 'yes') {
+			$handles[] = 'cg-carousel';
+		}
+
+		return $handles;
 	}
 
 

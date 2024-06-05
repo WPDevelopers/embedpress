@@ -1265,17 +1265,18 @@ class Helper
 		}
 	}
 
-	public static function get_enable_settings_data_for_scripts($settings){
+	public static function get_enable_settings_data_for_scripts($settings) {
+		$settings_data = [
+			'enabled_ads' => isset($settings['adManager']) && $settings['adManager'] === 'yes' ? 'yes' : '',
+
+			'enabled_custom_player' => isset($settings['emberpress_custom_player']) && $settings['emberpress_custom_player'] === 'yes' ? 'yes' : '',
+
+			'enabled_instafeed' => isset($settings['embedpress_pro_embeded_source']) && $settings['embedpress_pro_embeded_source'] === 'instafeed' ? 'yes' : '',
+
+			'enabled_docs_custom_viewer' => isset($settings['embedpress_document_viewer']) && $settings['embedpress_document_viewer'] === 'custom' ? 'yes' : '',
+		];
 	
-		$settings_data = [];
-	
-		if(isset($settings['enable_custom_ads']) && $settings['enable_custom_ads'] === 'yes'){
-			$settings_data['enable_custom_ads'] = 'yes';
-		}
-		else{
-			$settings_data['enable_custom_ads'] = '';
-		}
-	
-		update_option('enable_settings', $settings_data);
+		update_option('enabled_elementor_scripts', $settings_data);
 	}
+	
 }

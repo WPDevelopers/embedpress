@@ -45,6 +45,7 @@ class Embedpress_Document extends Widget_Base
     public function get_style_depends()
 	{
 		return [
+            'embedpress-elementor-css',
             'embedpress-style'
         ];
 	}
@@ -52,11 +53,20 @@ class Embedpress_Document extends Widget_Base
 	public function get_script_depends()
 	{
 
-		return [
-            'embedpress-front',
-            'embedpress-ads',
-            'embedpress_documents_viewer_script', 
-		];
+        $handler_keys = get_option('enabled_elementor_scripts', []);
+		
+		$handles = [];
+	
+		$handles[] = 'embedpress-front';
+		
+		if (isset($handler_keys['enabled_ads']) && $handler_keys['enabled_ads'] === 'yes') {
+			$handles[] = 'embedpress-ads';
+		}
+		if (isset($handler_keys['enabled_docs_custom_viewer']) && $handler_keys['enabled_docs_custom_viewer'] === 'yes') {
+			$handles[] = 'embedpress_documents_viewer_script';
+		}
+
+		return $handles;
 	}
 
     /**
@@ -451,6 +461,8 @@ class Embedpress_Document extends Widget_Base
     protected function render()
     {
         $settings = $this->get_settings();
+        
+		Helper::get_enable_settings_data_for_scripts($settings);
     
         $client_id = esc_attr($this->get_id());
         $pass_hash_key = md5($settings['embedpress_doc_lock_content_password']);
