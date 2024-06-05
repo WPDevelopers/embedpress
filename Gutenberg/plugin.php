@@ -892,13 +892,16 @@ function getParamData($attributes)
 	return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), 'UTF-8'));
 }
 
-function embedpress_pdf_block_scripts() {
+function embedpress_pdf_block_scripts($attributes) {
 
-    $script_handles = [
-        'embedpress-pdfobject',
-		'embedpress-front',
-		'embedpress-ads',
-    ];
+	$script_handles = [];
+	
+	$script_handles[] = 'embedpress-pdfobject';
+	$script_handles[] = 'embedpress-front';
+
+	if(!empty($attributes['adManager'])){
+		$script_handles[] = 'embedpress-ads';
+	}
 
     foreach ($script_handles as $handle) {
         wp_enqueue_script($handle);
@@ -917,7 +920,7 @@ function embedpress_pdf_block_scripts() {
 
 function embedpress_pdf_render_block($attributes)
 {
-	embedpress_pdf_block_scripts();
+	embedpress_pdf_block_scripts($attributes);
 
 	if (!empty($attributes['href'])) {
 		$renderer = Helper::get_pdf_renderer();
@@ -1108,8 +1111,6 @@ function isGoogleCalendar($url) {
 <?php
 	return ob_get_clean();
 }
-
-
 
 function embedpress_document_block_scripts() {
     if (!is_admin() && has_block('embedpress/document')) {
