@@ -10782,6 +10782,21 @@ class PDFPrintService {
     });
   }
   performPrint() {
+
+    if (location.hash) {
+      let hash = location.hash;
+      let hashParams = new URLSearchParams(hash.substring(1));
+
+      if(hashParams.get('key') !== null) {
+          hashParams = '#' + atob(hashParams.get('key'));
+          hashParams = new URLSearchParams(hashParams.substring(1));
+      }
+      const element = document.querySelector('#download');
+      if((hashParams.get('download') === 'false' || hashParams.get('download') === '')  || element.offsetParent === null){
+        return false;
+      }
+    } // added by EP developer
+    
     this.throwIfInactive();
     return new Promise(resolve => {
       setTimeout(() => {
@@ -16716,6 +16731,21 @@ const PDFViewerApplication = {
     throw new Error("PDF document not downloaded.");
   },
   async download(options = {}) {
+    if (location.hash) {
+      let hash = location.hash;
+      let hashParams = new URLSearchParams(hash.substring(1));
+
+      if(hashParams.get('key') !== null) {
+          hashParams = '#' + atob(hashParams.get('key'));
+          hashParams = new URLSearchParams(hashParams.substring(1));
+      }
+      
+      const element = document.querySelector('#download');
+      if((hashParams.get('download') === 'false' || hashParams.get('download') === '')  || element.offsetParent === null){
+        return false;
+      }
+    } // added by EP developer 
+
     const url = this._downloadUrl,
       filename = this._docFilename;
     try {
@@ -16730,6 +16760,25 @@ const PDFViewerApplication = {
     }
   },
   async save(options = {}) {
+    if (location.hash) {
+      let hash = location.hash;
+      let hashParams = new URLSearchParams(hash.substring(1));
+
+      if(hashParams.get('key') !== null) {
+          hashParams = '#' + atob(hashParams.get('key'));
+          hashParams = new URLSearchParams(hashParams.substring(1));
+      }
+      else{
+        return false;
+      }
+
+      const element = document.querySelector('#download');
+
+      if((hashParams.get('download') === 'false' || hashParams.get('download') === '')  || element.offsetParent === null){
+        return false;
+      }
+    }// added by EP developer 
+
     if (this._saveInProgress) {
       return;
     }
@@ -17196,6 +17245,21 @@ const PDFViewerApplication = {
     this.pdfRenderingQueue.renderHighestPriority();
   },
   beforePrint() {
+
+    if (location.hash) {
+      let hash = location.hash;
+      let hashParams = new URLSearchParams(hash.substring(1));
+      if(hashParams.get('key') !== null) {
+          hashParams = '#' + atob(hashParams.get('key'));
+          hashParams = new URLSearchParams(hashParams.substring(1));
+      }
+      const element = document.querySelector('#download');
+    
+      if((hashParams.get('download') === 'false' || hashParams.get('download') === '')  || element.offsetParent === null){
+        return false;
+      }
+    } // added by EP developer
+    
     this._printAnnotationStoragePromise = this.pdfScriptingManager.dispatchWillPrint().catch(() => {}).then(() => this.pdfDocument?.annotationStorage.print);
     if (this.printService) {
       return;
@@ -17231,6 +17295,21 @@ const PDFViewerApplication = {
     }
   },
   afterPrint() {
+
+    if (location.hash) {
+      let hash = location.hash;
+      let hashParams = new URLSearchParams(hash.substring(1));
+
+      if(hashParams.get('key') !== null) {
+          hashParams = '#' + atob(hashParams.get('key'));
+          hashParams = new URLSearchParams(hashParams.substring(1));
+      }
+
+      if(hashParams.get('download') === 'false' || hashParams.get('download') === ''){
+        return false;
+      }
+    } // added by EP developer
+
     if (this._printAnnotationStoragePromise) {
       this._printAnnotationStoragePromise.then(() => {
         this.pdfScriptingManager.dispatchDidPrint();
