@@ -207,7 +207,9 @@ class DocumentEdit extends Component {
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
 					<div className={'embedpress-document-embed ep-doc-' + id} style={{ height: height, width: width }}>
 						{mime === 'application/pdf' && (
-							<div style={{ height: height, width: width }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} ></div>
+							<div style={{ height: height, width: width }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} >
+								<embed style={{ height: height, width: width }} onLoad={this.onLoad} src={sanitizeUrl(href)}></embed>
+							</div>
 
 						)}
 						{mime !== 'application/pdf' && (

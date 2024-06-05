@@ -131,6 +131,8 @@ class Embedpress_Elementor extends Widget_Base
 		];
 	}
 
+	
+
 	protected function register_controls()
 	{
 		$this->pro_class = is_embedpress_pro_active() ? '' : 'embedpress-pro-control  not-active';
@@ -3416,7 +3418,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'devices' => ['desktop', 'tablet', 'mobile'],
 				'default' => [
-					'size' => 600,
+					'size' => Helper::get_options_value('enableEmbedResizeWidth'),
 					'unit' => 'px',
 				],
 				'desktop_default' => [
@@ -3457,7 +3459,7 @@ class Embedpress_Elementor extends Widget_Base
 					'unit' => 'px',
 				],
 				'default' => [
-					'size' => 400,
+					'size' => Helper::get_options_value('enableEmbedResizeHeight'),
 					'unit' => 'px',
 				],
 				'tablet_default' => [
@@ -3630,7 +3632,8 @@ class Embedpress_Elementor extends Widget_Base
 			}
 
 			$playerOptionsString = json_encode($playerOptions);
-			$_player_options = 'data-options=\'' . htmlentities($playerOptionsString, ENT_QUOTES) . '\'';
+			$_player_options = 'data-options=' . htmlentities($playerOptionsString, ENT_QUOTES);
+
 		}
 
 		return $_player_options;
@@ -3829,7 +3832,7 @@ class Embedpress_Elementor extends Widget_Base
 
 		$data_playerid = '';
 		if(!empty($settings['embedpress_custom_player'])){
-			$data_playerid = 'data-playerid="'.esc_attr($this->get_id()).'"';
+			$data_playerid = 'data-playerid='.esc_attr($this->get_id());
 		}
 
 		$data_carouselid = '';

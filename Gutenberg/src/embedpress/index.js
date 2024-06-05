@@ -65,11 +65,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			height: {
 				type: 'string',
-				default: '450'
+				default: embedpressObj.iframe_height || '450'
 			},
 			width: {
 				type: 'string',
-				default: '600'
+				default: embedpressObj.iframe_width || '600'
 			},
 			lockContent: {
 				type: 'boolean',

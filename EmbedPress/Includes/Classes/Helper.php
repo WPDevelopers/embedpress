@@ -1279,4 +1279,12 @@ class Helper
 		update_option('enabled_elementor_scripts', $settings_data);
 	}
 	
+	public static function get_options_value($key){
+		$g_settings = get_option(EMBEDPRESS_PLG_NAME);
+
+		if(isset($g_settings[$key])){
+			return $g_settings[$key];
+		}
+		return '';
+	}
 }
