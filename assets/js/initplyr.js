@@ -100,6 +100,7 @@ function initPlayer(wrapper) {
     }
     else if (options.self_hosted && options.hosted_format === 'audio') {
       selector = `[data-playerid='${playerId}'] .ose-embedpress-responsive audio`;
+      wrapper.style.opacity = "1";
     }
     
     
