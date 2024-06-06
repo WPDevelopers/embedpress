@@ -249,6 +249,12 @@ function embedpress_render_block($attributes)
 			$adsAtts = "data-sponsored-id=$client_id data-sponsored-attrs=$ad class=ad-mask";
 		}
 
+		$hosted_format = '';
+		if (!empty($custom_player)) {			
+			$self_hosted = Helper::check_media_format($attributes['url']);
+			$hosted_format = isset($self_hosted['format']) ? $self_hosted['format'] : '';
+		}
+
 		ob_start();
 		?>
 		<div class="embedpress-gutenberg-wrapper <?php echo esc_attr( $alignment.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class); echo esc_attr( $cEmbedType ); ?>" id="<?php echo esc_attr($block_id); ?>">
@@ -265,7 +271,7 @@ function embedpress_render_block($attributes)
 								echo esc_attr($player_preset);
 							} 
 							echo esc_attr($instaLayout);
-						?>" 
+						?> <?php echo esc_attr($hosted_format); ?>" 
 						<?php echo esc_attr($_custom_player); ?> 
 						<?php echo esc_attr($_player_options); ?> 
 						<?php echo esc_attr( $_carousel_id ); ?>

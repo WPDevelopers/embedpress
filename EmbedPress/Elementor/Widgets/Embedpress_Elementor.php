@@ -3827,6 +3827,12 @@ class Embedpress_Elementor extends Widget_Base
 		if (!empty($settings['emberpress_custom_player']) && $settings['emberpress_custom_player'] === 'yes') {
 			$data_player_id = "data-playerid=" . esc_attr($this->get_id());
 		}
+		
+		$hosted_format = '';
+		if (!empty($settings['emberpress_custom_player'])) {			
+			$self_hosted = Helper::check_media_format($settings['embedpress_embeded_link']);
+			$hosted_format =  isset($self_hosted['format']) ? $self_hosted['format'] : '';
+		}
 
 		?>
 
@@ -3840,7 +3846,7 @@ class Embedpress_Elementor extends Widget_Base
 					<?php
 				} else { ?>
 					<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_content_share'])) : echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper'); endif; ?> <?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); echo esc_attr(' source-' . $source); ?>">
-						<div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?><?php echo esc_attr($this->get_instafeed_layout($settings)); ?>" <?php echo $data_playerid; ?> <?php echo $data_carouselid; ?> <?php echo $this->get_custom_player_options($settings); ?> <?php echo $this->get_instafeed_carousel_options($settings); ?>>
+						<div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?><?php echo esc_attr($this->get_instafeed_layout($settings)); ?> <?php echo esc_attr($hosted_format); ?>" <?php echo $data_playerid; ?> <?php echo $data_carouselid; ?> <?php echo $this->get_custom_player_options($settings); ?> <?php echo $this->get_instafeed_carousel_options($settings); ?>>
 							<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content
 							<?php if (!empty($settings['embedpress_content_share'])) : echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper'); endif; ?> 
 							<?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); echo esc_attr(' source-' . $source); ?>">

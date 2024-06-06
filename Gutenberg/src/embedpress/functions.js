@@ -85,7 +85,7 @@ export const initCustomPlayer = (clientId, attributes) => {
 
             let options = document.querySelector(`[data-playerid="${clientId}"]`).getAttribute('data-options');
             options = JSON.parse(options);
-
+            document.querySelector(`[data-playerid="${clientId}"]`).style.opacity = '1';
             const player = new Plyr(playerElement, {
                 controls: [
                     'play-large',
@@ -129,6 +129,8 @@ export const initCustomPlayer = (clientId, attributes) => {
 
             });
 
+          
+
             player.poster = posterThumbnail;
         }
     }, 200);
@@ -161,10 +163,10 @@ export const initCarousel = (clientId, attributes) => {
         arrows: carouselArrows,
         breakpoints: {
             768: {
-              slidesPerView: 2
+                slidesPerView: 2
             },
             1024: {
-              slidesPerView: 4
+                slidesPerView: 4
             }
         }
     };
@@ -174,13 +176,13 @@ export const initCarousel = (clientId, attributes) => {
         if (carouselSelector) {
 
             clearInterval(intervalId);
-            
+
             const carousel = new CgCarousel(`[data-carouselid="${clientId}"] .embedpress-insta-container`, options, {});
 
-            if(carouselArrows){
+            if (carouselArrows) {
                 document.querySelector(`[data-carouselid="${clientId}"] .cg-carousel__btns`).classList.remove('hidden');
             }
-            else{
+            else {
                 document.querySelector(`[data-carouselid="${clientId}"] .cg-carousel__btns`).classList.add('hidden');
             }
 
