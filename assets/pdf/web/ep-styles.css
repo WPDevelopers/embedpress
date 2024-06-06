@@ -327,6 +327,12 @@
     /*Added by ep developer */
 }
 
+a.secondaryToolbarButton {
+    padding-top: 0;
+    display: flex;
+    align-items: center;
+}
+
 @media all and (max-width:820px) {
     #outerContainer .hiddenLargeView {
         display: none
@@ -361,5 +367,10 @@
 @media all and (max-width:450px) {
     #toolbarViewerRight #editorModeButtons, #toolbarViewerRight #print,  #toolbarViewerRight #download {
         display: none!important;
+    }
+}
+@media all and (max-width:320px) {
+    span.loadingInput.start, #numPages {
+        display: none;
     }
 }

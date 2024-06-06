@@ -194,9 +194,9 @@ See https://github.com/adobe-type-tools/cmap-resources
 
             <div class="horizontalToolbarSeparator"></div>
 
-            <button id="presentationMode" class="secondaryToolbarButton" title="Switch to Presentation Mode" tabindex="54" data-l10n-id="pdfjs-presentation-mode-button">
+            <button id="presentationMode" class="hidden secondaryToolbarButton" title="Switch to Presentation Mode" tabindex="54" data-l10n-id="pdfjs-presentation-mode-button">
               <span data-l10n-id="pdfjs-presentation-mode-button-label">Presentation Mode</span>
-            </button>
+            </button> <!--hidden class added by ep developer -->
 
             <a href="#" id="viewBookmark" class="secondaryToolbarButton" title="Current Page (View URL from Current Page)" tabindex="55" data-l10n-id="pdfjs-bookmark-button">
               <span data-l10n-id="pdfjs-bookmark-button-label">Current Page</span>
@@ -312,6 +312,10 @@ See https://github.com/adobe-type-tools/cmap-resources
                 </div>
 
                 <div id="editorModeSeparator" class="verticalToolbarSeparator"></div>
+
+                <button id="presentationMode" class="toolbarButton hiddenMediumView presentationMode" title="Switch to Presentation Mode" tabindex="31" data-l10n-id="presentation_mode">
+                  <span data-l10n-id="presentation_mode_label">Presentation Mode</span>
+                </button> <!-- added by ep developer -->
 
                 <button id="print" class="toolbarButton hiddenMediumView" title="Print" tabindex="41" data-l10n-id="pdfjs-print-button">
                   <span data-l10n-id="pdfjs-print-button-label">Print</span>
