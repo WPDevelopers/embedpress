@@ -6,6 +6,8 @@ import { addProAlert, isPro, removeAlert } from '../../common/helper';
 import ControlHeader from '../../common/control-heading';
 import CustomBranding from './custombranding';
 import CustomPlayerControls from '../../common/custom-player-controls';
+import { EPIcon } from './../../common/icons';
+
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
@@ -73,7 +75,7 @@ export default function SelfHosted({ attributes, setAttributes }) {
             {
                 (isSelfHostedVideo(url) || isSelfHostedAudio(url)) && (
                     <div className={'ep__vimeo-video-options'}>
-                        <PanelBody title={__(panelTitle, 'embedpress')} initialOpen={false}>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__(panelTitle, 'embedpress')}</div>} initialOpen={false}>
                             <ToggleControl
                                 label={__("Enable Custom Player", "embedpress")}
                                 checked={customPlayer}
