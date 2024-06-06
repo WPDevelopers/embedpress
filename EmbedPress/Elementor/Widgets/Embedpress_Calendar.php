@@ -179,7 +179,7 @@ class Embedpress_Calendar extends Widget_Base
 				'separator' => 'before',
 				'default'   => [
 					'unit' => 'px',
-					'size' => 600,
+					'size' => Helper::get_options_value('enableEmbedResizeWidth'),
 				],
 				'range'     => [
 					'px' => [
@@ -188,7 +188,7 @@ class Embedpress_Calendar extends Widget_Base
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} .embedpress-calendar-embed iframe'               => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
+					'{{WRAPPER}} .embedpress-calendar-embed iframe'  => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
 				],
                 'render_type' => 'template',
 			]
@@ -201,7 +201,7 @@ class Embedpress_Calendar extends Widget_Base
 				'type'      => Controls_Manager::SLIDER,
 				'default'   => [
 					'unit' => 'px',
-					'size' => 600,
+					'size' => Helper::get_options_value('enableEmbedResizeHeight'),
 				],
 				'range'     => [
 					'px' => [
@@ -302,8 +302,8 @@ class Embedpress_Calendar extends Widget_Base
 		}
 
 		$this->add_render_attribute('embedpress-calendar-render', [
-			'class' => ['embedpress-embed-calendar-calendar', $id],
-			'data-emid' => $id
+			'class' => ['embedpress-embed-calendar-calendar', esc_attr($id)],
+			'data-emid' => esc_attr($id)
 		]);
 		$this->add_render_attribute('embedpress-calendar', [
 			'class' => ['embedpress-calendar-embed', 'ep-cal-' . md5($id), 'ose-calendar']

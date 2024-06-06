@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, Gutenberg embed, embed PDF, embed Google Docs
 Requires at least: 4.6
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 4.0.1
+Stable tag: 4.0.2
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -323,6 +323,14 @@ Just after embedding the content into your website using EmbedPress, iFrame cust
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [4.0.2] – 2024-06-04 =  
+- Fixed: Embedded video's issues with Custom Player.
+- Fixed: PDF’s Save & Print button weren’t working on small devices
+- Fixed: Current page preview wasn’t working for Embeded PDF.
+- Fixed: Security Enhancement (Reported by Wordfence).
+- Improved: Global settings support for height, width, and PDF custom color.
+- Few minor bug fixes & improvements.
 
 = [4.0.1] – 2024-05-26 =  
 - Added: LinkedIn post embedding support.

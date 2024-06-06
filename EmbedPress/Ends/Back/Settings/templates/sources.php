@@ -13,17 +13,23 @@ $sources = [
     ["name" => "PDF", "arival_status" => "popular", "icon" => $icon_src . "/pdf.png", "type" => "pdf", "doc_url" => "https://wpdeveloper.com/embed-pdf-documents-wordpress"],
     ["name" => "SoundCloud", "icon" => $icon_src . "/soundcloud.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=soundcloud", "doc_url" => "https://embedpress.com/docs/embed-soundcloud-audio-wordpress/"],
     ["name" => "Spotify", "arival_status" => "popular",  "icon" => $icon_src . "/spotify.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=spotify", "doc_url" => "https://embedpress.com/docs/embed-spotify-audios-wordpress/"],
-    ["name" => "Google Calendar", "icon" => $icon_src . "/google-calendar.png", "type" => "google", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=google-calendar", "doc_url" => "https://embedpress.com/docs/embed-google-calendar-in-wordpress/"],
+   
     ["name" => "OpenSea NFT", "arival_status" => "popular", "icon" => $icon_src . "/opensea.png", "type" => "image", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=opensea", "doc_url" => "https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/"],
     ["name" => "Calendly", "arival_status" => "new", "icon" => $icon_src . "/calendly.png", "type" => "calendar", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=calendly", "doc_url" => "https://embedpress.com/docs/how-to-embed-calendly-events-with-embedpress/"],
-    ["name" => "Google Drawings", "icon" => $icon_src . "/google-drawings.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-drawings-wordpress/"],
     ["name" => "Google Docs", "arival_status" => "popular", "icon" => $icon_src . "/google-docs.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-docs-wordpress/"],
     ["name" => "Google Slides", "arival_status" => "popular", "icon" => $icon_src . "/google-slides.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-slides-wordpress/"],
     ["name" => "Google Forms", "icon" => $icon_src . "/google-forms.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-forms-wordpress/"],
     ["name" => "Google Maps", "arival_status" => "popular", "icon" => $icon_src . "/google-maps.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-maps-wordpress/"],
     ["name" => "Google Sheets", "icon" => $icon_src . "/google-sheets.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-sheets-wordpress/"],
-    ["name" => "X", "icon" => $icon_src . "/x.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-twitter-tweets-wordpress/"],
+    ["name" => "Google Calendar", "icon" => $icon_src . "/google-calendar.png", "type" => "google", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=google-calendar", "doc_url" => "https://embedpress.com/docs/embed-google-calendar-in-wordpress/"],
+    ["name" => "Google Drawings", "icon" => $icon_src . "/google-drawings.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-drawings-wordpress/"],
+
     ["name" => "Facebook", "arival_status" => "popular", "icon" => $icon_src . "/facebook.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-facebook-posts-wordpress/"],
+    ["name" => "Facebook Live", "arival_status" => "popular", "icon" => $icon_src . "/facebooklive.png", "type" => "social", "doc_url" => "https://embedpress.com/docs/embed-facebook-posts-wordpress/"],
+    ["name" => "X", "arival_status" => "updated", "icon" => $icon_src . "/x.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-twitter-tweets-wordpress/"],
+    ["name" => "LinkedIn", "arival_status" => "new", "icon" => $icon_src . "/linkedin.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-linkedin-posts-in-wordpress/"],
+
+
     ["name" => "Github", "icon" => $icon_src . "/github.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-github-gist-snippets-wordpress/"],
     ["name" => "Tumblr", "icon" => $icon_src . "/tumblr.png", "type" => "social",  "doc_url" => "https://embedpress.com/docs/embed-tumblr-wordpress/"],
     ["name" => "WordPress.tv", "icon" => $icon_src . "/wordpress-tv.png", "type" => "video",  "doc_url" => "https://embedpress.com/docs/embed-wordpress-tv-videos-wordpress/"],
@@ -135,7 +141,6 @@ $sources = [
     ["name" => "Eyrie", "icon" => $icon_src . "/eyrie.png", "type" => "photo", "doc_url" => "https://embedpress.com/docs/how-to-embed-eyrie-photo-albums-in-wordpress/"],
     ["name" => "Cambridge Map", "icon" => $icon_src . "/cambridge-map.png", "type" => "map", "doc_url" => "https://embedpress.com/docs/how-to-embed-university-cambridge-map/"],
     ["name" => "Mermaid", "icon" => $icon_src . "/mermaid.png", "type" => "graphics", "doc_url" => "https://embedpress.com/docs/embed-mermaid-in-wordpress/"],
-    ["name" => "Facebook Live", "arival_status" => "popular", "icon" => $icon_src . "/facebooklive.png", "type" => "stream", "doc_url" => "https://embedpress.com/docs/embed-facebook-posts-wordpress/"],
     ["name" => "PolariShare", "icon" => $icon_src . "/polarishare.png", "type" => "stream", "doc_url" => "https://embedpress.com/docs/how-to-embed-polarishare-videos-in-wordpress/"],
 
 ];

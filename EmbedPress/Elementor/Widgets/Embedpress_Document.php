@@ -161,7 +161,7 @@ class Embedpress_Document extends Widget_Base
 				'devices' => [ 'desktop', 'tablet', 'mobile' ],
                 'default' => [
 					'unit' => 'px',
-                    'size' => 600,
+                    'size' => Helper::get_options_value('enableEmbedResizeWidth'),
 				],
 				'desktop_default' => [
 					'unit' => 'px',
@@ -190,13 +190,13 @@ class Embedpress_Document extends Widget_Base
 				'range' => [
 					'px' => [
 						'min' => 1,
-						'max' => 1000,
+						'max' => 1500,
 					],
 				],
 				'devices' => [ 'desktop', 'tablet', 'mobile' ],
                 'default' => [
 					'unit' => 'px',
-                    'size' => 600,
+                    'size' => Helper::get_options_value('enableEmbedResizeHeight'), 
 				],
 				'desktop_default' => [
 					'unit' => 'px',
@@ -491,7 +491,7 @@ class Embedpress_Document extends Widget_Base
     
         $this->add_render_attribute('embedpres-pdf-render', [
             'class' => ['embedpress-embed-document-pdf', $id],
-            'data-emid' => $id
+            'data-emid' => esc_attr($id)
         ]);
     
         Helper::get_source_data(md5($this->get_id()) . '_eb_elementor', $url, 'elementor_source_data', 'elementor_temp_source_data');

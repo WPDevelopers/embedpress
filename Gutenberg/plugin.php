@@ -37,6 +37,18 @@ function embedpress_blocks_cgb_block_assets()
 // Hook: Frontend assets.
 add_action('enqueue_block_assets', 'embedpress_blocks_cgb_block_assets');
 
+if(!function_exists('get_options_value')){
+	function get_options_value($key){
+		$g_settings = get_option(EMBEDPRESS_PLG_NAME);
+	
+		if(isset($g_settings[$key])){
+			return $g_settings[$key];
+		}
+		return '';
+	}
+}
+
+
 /**
  * Enqueue Gutenberg block assets for backend editor.
  *
@@ -110,7 +122,10 @@ function embedpress_blocks_cgb_editor_assets()
 		'ajaxurl' => admin_url('admin-ajax.php'),
 		'source_nonce' => wp_create_nonce('source_nonce_embedpress'),
 		'can_upload_media' => current_user_can('upload_files'),
-		'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS
+		'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
+		'iframe_width' => get_options_value('enableEmbedResizeWidth'),
+		'iframe_height' => get_options_value('enableEmbedResizeHeight'),
+		'pdf_custom_color' => get_options_value('custom_color'),
 
 	));
 
@@ -187,11 +202,11 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'height' => [
 								'type' => 'string',
-								'default' => '450'
+								'default' => get_options_value('enableEmbedResizeHeight')
 							],
 							'width' => [
 								'type' => 'string',
-								'default' => '600'
+								'default' => get_options_value('enableEmbedResizeWidth')
 							],
 							'lockContent' => [
 								'type' => 'boolean',
@@ -664,6 +679,21 @@ function embedpress_gutenberg_register_all_block()
 				} elseif ('embedpress-pdf' === $blocks_to_register) {
 					register_block_type('embedpress/embedpress-pdf', [
 						'attributes'      => array(
+							'clientId' => [
+								'type' => 'string',
+							],
+							// 'height' => [
+							// 	'type' => 'string',
+							// 	'default' => (int) get_options_value('enableEmbedResizeHeight')
+							// ],
+							// 'width' => [
+							// 	'type' => 'string',
+							// 	'default' =>  (int) get_options_value('enableEmbedResizeWidth')
+							// ],
+							'customColor' => [
+								'type' => 'string',
+								'default' => get_options_value('custom_color')
+							],
 							'powered_by' => [
 								'type' => 'boolean',
 								'default' => true
@@ -916,7 +946,7 @@ function embedpress_pdf_render_block($attributes)
 
 
 		$unitoption = !empty($attributes['unitoption']) ? $attributes['unitoption'] : 'px';
-		$width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : '600px';
+		$width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : get_options_value('enableEmbedResizeWidth').'px';
 
 		if ($unitoption == '%') {
 			$width_class = ' ep-percentage-width';
@@ -943,7 +973,7 @@ function embedpress_pdf_render_block($attributes)
 
 
 
-		$height = !empty($attributes['height']) ? $attributes['height'] . 'px' : '600px';
+		$height = !empty($attributes['height']) ? $attributes['height'] . 'px' : get_options_value('enableEmbedResizeHeight').'px';
 		$gen_settings    = get_option(EMBEDPRESS_PLG_NAME);
 
 		$powered_by = isset($gen_settings['embedpress_document_powered_by']) && 'yes' === $gen_settings['embedpress_document_powered_by'];

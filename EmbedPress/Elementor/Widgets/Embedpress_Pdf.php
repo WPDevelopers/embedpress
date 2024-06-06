@@ -222,7 +222,7 @@ class Embedpress_Pdf extends Widget_Base
 				'range' => [
 					'px' => [
 						'min' => 1,
-						'max' => 1000,
+						'max' => 1500,
 					],
 				],
 				'devices' => [ 'desktop', 'tablet', 'mobile' ],
@@ -264,7 +264,7 @@ class Embedpress_Pdf extends Widget_Base
 				'devices' => [ 'desktop', 'tablet', 'mobile' ],
                 'default' => [
 					'unit' => 'px',
-                    'size' => 600,
+                    'size' => Helper::get_options_value('enableEmbedResizeHeight'),
 				],
 				'desktop_default' => [
 					'unit' => 'px',
@@ -366,6 +366,7 @@ class Embedpress_Pdf extends Widget_Base
 			[
 				'label' => esc_html__( 'Color', 'embedpress' ),
 				'type' => \Elementor\Controls_Manager::COLOR,
+                'default' => Helper::get_options_value('custom_color'),
                 'condition' => [
                     'embedpress_theme_mode' => 'custom',
                 ],
@@ -714,8 +715,8 @@ class Embedpress_Pdf extends Widget_Base
 
         $pass_hash_key = md5($settings['embedpress_pdf_lock_content_password']);
         $this->add_render_attribute('embedpres-pdf-render', [
-            'class'     => ['embedpress-embed-document-pdf', $id],
-            'data-emid' => $id
+            'class'     => ['embedpress-embed-document-pdf', esc_attr($id)],
+            'data-emid' => esc_attr($id)
         ]);
         $this->add_render_attribute('embedpress-document', [
             'class' => ['embedpress-document-embed', 'ep-doc-' . md5($id), 'ose-document', $unitoption, $content_locked_class ],
@@ -790,7 +791,6 @@ class Embedpress_Pdf extends Widget_Base
                 $url = esc_url($url);
 
                 if ($this->is_pdf($url) && !$this->is_external_url($url)) {
-                    $this->add_render_attribute('embedpres-pdf-render',  esc_url($url));
                     $renderer = Helper::get_pdf_renderer();
                     $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($url).$this->getParamData($settings);
                     if (!empty($settings['embedpress_pdf_zoom'])) {

@@ -3922,6 +3922,7 @@ li.sidebar__item.show .tab-button-section {
 }
 .ribbon-container.updated {
     background-color: #6C757D;
+    border: none;
 }
 
 .source-left .icon {

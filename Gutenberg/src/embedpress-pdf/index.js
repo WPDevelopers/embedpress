@@ -119,7 +119,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			customColor: {
 				type: "string",
-				default: '#403A81',
+				default: embedpressObj.pdf_custom_color || '#403A81',
 			},
 			position: {
 				type: "string",
@@ -190,11 +190,11 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 
 			width: {
 				type: 'number',
-				default: 600,
+				default: parseInt(embedpressObj.iframe_width) || 600,
 			},
 			height: {
 				type: 'number',
-				default: 600,
+				default: parseInt(embedpressObj.iframe_height) || 600,
 			},
 			fileName: {
 				type: "string",

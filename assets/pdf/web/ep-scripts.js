@@ -248,12 +248,24 @@ const pdfIframeStyle = (data) => {
         #editorInk{
             display: ${draw}!important;
         }
-        
+
         @media all and (max-width:360px) {
-            #toolbarViewerRight #editorModeButtons, #toolbarViewerRight #print,  #toolbarViewerRight #download {
-                display: none!important;
+            @media all and (max-width:360px) {
+                #toolbarViewerRight #editorModeButtons, #toolbarViewerRight #print, #toolbarViewerRight #download {
+                    visibility: hidden!important;
+                    width: 0;
+                    height: 0;
+                    display: inline-block;
+                    margin: 0;
+                    padding: 0;
+                    opacity: 0;
+                }
+                div#toolbarViewerRight {
+                    max-width: 68px;
+                }
             }
         }
+
 
         ${pdfCustomColor}
 
@@ -299,15 +311,13 @@ document.getElementById("presentationMode")?.addEventListener("click", function 
     }
 });
 
-// // Check if the user agent contains "iPhone", "iPad", or "iPod"
-// function isIOS() {
-//     return /iPhone|iPad|iPod/i.test(navigator.userAgent);
-// }
+document.getElementById("viewBookmark")?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const url = e.target.getAttribute('href');
+    if (url !== null) {
+        alert(`Current Page: ${url}`);
+    }
+});
 
-// if (isIOS()) {
-//     document.querySelector(".presentationForAllDevice")?.remove();
-// }
-// else{
-//     document.querySelector(".presentationForIosDevice")?.remove();
-// }
+
 
