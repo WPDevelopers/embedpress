@@ -3071,7 +3071,7 @@ body{
 #mainContainer{
   position:absolute;
   inset:0;
-  min-width:350px;
+  /* min-width:350px; added by ep developer */
 }
 
 #sidebarContent{

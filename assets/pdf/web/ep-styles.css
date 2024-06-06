@@ -326,3 +326,40 @@
     font-size: 12px !important;
     /*Added by ep developer */
 }
+
+@media all and (max-width:820px) {
+    #outerContainer .hiddenLargeView {
+        display: none
+    }
+
+    #outerContainer .visibleLargeView {
+        display: inherit
+    }
+}
+
+@media all and (max-width:750px) {
+    #outerContainer .hiddenMediumView {
+        display: none
+    }
+
+    #outerContainer .visibleMediumView {
+        display: inherit
+    }
+}
+
+@media all and (max-width:690px) {
+    .hiddenSmallView, .hiddenSmallView * {
+        display: none
+    }
+}
+
+@media all and (max-width:560px) {
+    #editorModeButtons {
+        display: none
+    }
+}
+@media all and (max-width:450px) {
+    #toolbarViewerRight #editorModeButtons, #toolbarViewerRight #print,  #toolbarViewerRight #download {
+        display: none!important;
+    }
+}

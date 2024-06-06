@@ -223,7 +223,7 @@ const pdfIframeStyle = (data) => {
         #secondaryOpenFile, #toolbarViewerRight #openFile{
             display: none!important;
         }
-        #secondaryDownload, #secondaryPrint, #toolbarViewerRight #print, #toolbarViewerRight #download{
+        #secondaryDownload, #secondaryPrint, #print, #download{
             display: ${download}!important;
         }
         #pageRotateCw{
