@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
 function embedpress_blocks_cgb_block_assets()
 { // phpcs:ignore
 	// Styles.
-	wp_enqueue_style(
+	wp_register_style(
 		'embedpress_blocks-cgb-style-css', // Handle.
 		EMBEDPRESS_GUTENBERG_DIR_URL . 'dist/blocks.style.build.css', // Block style CSS.
 		is_admin() ? array('wp-editor') : null, // Dependency to include the CSS after it.
@@ -135,6 +135,7 @@ function embedpress_blocks_cgb_editor_assets()
 		array('wp-edit-blocks'), // Dependency to include the CSS after it.
 		filemtime(EMBEDPRESS_GUTENBERG_DIR_PATH . 'dist/blocks.editor.build.css') // Version: File modification time.
 	);
+	wp_enqueue_style('embedpress_blocks-cgb-style-css');
 }
 
 // Hook: Editor assets.
@@ -891,23 +892,35 @@ function getParamData($attributes)
 	return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), 'UTF-8'));
 }
 
-function embedpress_pdf_block_scripts() {
+function embedpress_pdf_block_scripts($attributes) {
 
-    $script_handles = [
-        'embedpress-pdfobject',
-		'embedpress-front',
-		'embedpress-ads',
-    ];
+	$script_handles = [];
+	
+	$script_handles[] = 'embedpress-pdfobject';
+	$script_handles[] = 'embedpress-front';
+
+	if(!empty($attributes['adManager'])){
+		$script_handles[] = 'embedpress-ads';
+	}
 
     foreach ($script_handles as $handle) {
         wp_enqueue_script($handle);
     }
 
+	$style_handles = [
+		'embedpress_blocks-cgb-style-css',
+		'embedpress-style'
+	];
+
+	foreach ($style_handles as $handle) {
+		wp_enqueue_style($handle);
+	}
+
 }
 
 function embedpress_pdf_render_block($attributes)
 {
-	embedpress_pdf_block_scripts();
+	embedpress_pdf_block_scripts($attributes);
 
 	if (!empty($attributes['href'])) {
 		$renderer = Helper::get_pdf_renderer();
@@ -1099,8 +1112,6 @@ function isGoogleCalendar($url) {
 	return ob_get_clean();
 }
 
-
-
 function embedpress_document_block_scripts() {
     if (!is_admin() && has_block('embedpress/document')) {
 		$script_handles = [
@@ -1110,6 +1121,15 @@ function embedpress_document_block_scripts() {
 	
 		foreach ($script_handles as $handle) {
 			wp_enqueue_script($handle);
+		}
+
+		$style_handles = [
+			'embedpress_blocks-cgb-style-css',
+			'embedpress-style'
+		];
+	
+		foreach ($style_handles as $handle) {
+			wp_enqueue_style($handle);
 		}
     }
 }

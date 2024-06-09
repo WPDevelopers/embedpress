@@ -64,25 +64,42 @@ if(!function_exists('lock_content_form_handler')){
 	}
 }
 
-function embedpress_block_scripts() {
+function embedpress_block_scripts($attributes) {
 
-    $script_handles = [
-        'plyr.polyfilled',
-        'initplyr',
-        'vimeo-player',
-        'embedpress-front',
-        'embedpress-ads',
-		'cg-carousel',
-    ];
+	$script_handles = [];
 
-	$style_handles = [
-		'plyr',
-		'cg-carousel'
-	];
+	if(!empty($attributes['customPlayer'])){
+		$script_handles[] = 'plyr.polyfilled';
+		$script_handles[] = 'initplyr';
+		$script_handles[] = 'vimeo-player';
+	}
+	
+	$script_handles[] = 'embedpress-front';
+
+	if(!empty($attributes['adManager'])){
+		$script_handles[] = 'embedpress-ads';
+	}
+
+	if(!empty($attributes['instaLayout']) && $attributes['instaLayout'] == 'insta-carousel'){
+		$script_handles[] = 'cg-carousel';
+	}
 
     foreach ($script_handles as $handle) {
         wp_enqueue_script($handle);
     }
+
+	$style_handles = [];
+
+	if(!empty($attributes['customPlayer'])){
+		$style_handles[] = 'plyr';
+	}
+
+	if(!empty($attributes['instaLayout']) && $attributes['instaLayout'] == 'insta-carousel'){
+		$style_handles[] = 'cg-carousel';
+	}
+
+	$style_handles[] = 'embedpress_blocks-cgb-style-css';
+	$style_handles[] = 'embedpress-style';
 
     foreach ($style_handles as $handle) {
         wp_enqueue_style($handle);
@@ -92,7 +109,7 @@ function embedpress_block_scripts() {
 function embedpress_render_block($attributes)
 {
 
-	embedpress_block_scripts();
+	embedpress_block_scripts($attributes);
 
 
 	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';

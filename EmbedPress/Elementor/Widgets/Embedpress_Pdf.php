@@ -46,16 +46,27 @@ class Embedpress_Pdf extends Widget_Base
 
     public function get_style_depends()
     {
-        return [];
+        return [
+            'embedpress-elementor-css',
+            'embedpress-style',
+        ];
     }
 
     public function get_script_depends()
     {
-        return [
-            'embedpress-pdfobject',
-            'embedpress-front',
-            'embedpress-ads'
-        ];
+
+        $handler_keys = get_option('enabled_elementor_scripts', []);
+		
+		$handles = [];
+	
+		$handles[] = 'embedpress-pdfobject';
+		$handles[] = 'embedpress-front';
+		
+		if (isset($handler_keys['enabled_ads']) && $handler_keys['enabled_ads'] === 'yes') {
+			$handles[] = 'embedpress-ads';
+		}
+
+		return $handles;
     }
 
     /**
@@ -543,6 +554,8 @@ class Embedpress_Pdf extends Widget_Base
     public function render()
     {
         $settings = $this->get_settings();
+        
+		Helper::get_enable_settings_data_for_scripts($settings);
     
         $url = $this->get_file_url();
 

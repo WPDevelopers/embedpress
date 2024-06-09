@@ -112,7 +112,9 @@ function initPlayer(wrapper) {
     if (document.querySelector(`[data-playerid='${playerId}'] iframe`)) {
       document.querySelector(`[data-playerid='${playerId}'] iframe`).setAttribute('data-poster', options.poster_thumbnail);
     }
-
+    if (document.querySelector(`[data-playerid='${playerId}'] video`)) {
+      document.querySelector(`[data-playerid='${playerId}'] video`).setAttribute('data-poster', options.poster_thumbnail);
+    }
 
     // Define the controls to be displayed
     const controls = [
@@ -175,8 +177,16 @@ function initPlayer(wrapper) {
     // Mark the wrapper as initialized
     wrapper.classList.add('plyr-initialized');
 
-    if (wrapper.querySelector('.plyr__poster')) {
-      wrapper.style.opacity = '1';
+    const posterElement = wrapper.querySelector('.plyr__poster');
+
+    if (posterElement) {
+      const interval = setInterval(() => {
+        if (posterElement && posterElement.style.backgroundImage) {
+          wrapper.style.opacity = '1';
+          clearInterval(interval);
+        }
+      }, 200);
+
     }
 
   }
