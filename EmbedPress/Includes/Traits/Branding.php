@@ -79,7 +79,7 @@ Trait Branding {
 					'size' => 10,
 				],
 				'selectors' => [
-					"{{WRAPPER}} .ose-{$provider_name} .watermark" => 'right: {{SIZE}}{{UNIT}};',
+					"{{WRAPPER}} .ose-{$provider_name} .watermark, {{WRAPPER}} .ep-embed-content-wraper .watermark" => 'right: {{SIZE}}{{UNIT}};',
 				],
 				'condition'    => $logo_condition,
 				'classes'     => $this->pro_class,
@@ -108,7 +108,7 @@ Trait Branding {
 					'size' => 10,
 				],
 				'selectors' => [
-					"{{WRAPPER}} .ose-{$provider_name} .watermark" => 'bottom: {{SIZE}}{{UNIT}};',
+					"{{WRAPPER}} .ose-{$provider_name} .watermark, {{WRAPPER}} .ep-embed-content-wraper .watermark" => 'bottom: {{SIZE}}{{UNIT}};',
 				],
 				'condition'    => $logo_condition,
 				'classes'     => $this->pro_class,
@@ -141,7 +141,7 @@ Trait Branding {
 					],
 				],
 				'selectors' => [
-					"{{WRAPPER}} .ose-{$provider_name} .watermark" => 'opacity: {{SIZE}};',
+					"{{WRAPPER}} .ose-{$provider_name} .watermark, {{WRAPPER}} .ep-embed-content-wraper .watermark" => 'opacity: {{SIZE}}!important;',
 				],
 				'condition'    => $logo_condition,
 				'classes'     => $this->pro_class,
@@ -170,7 +170,7 @@ Trait Branding {
 					],
 				],
 				'selectors' => [
-					"{{WRAPPER}} .ose-{$provider_name} .watermark:hover" => 'opacity: {{SIZE}};',
+					"{{WRAPPER}} .ose-{$provider_name} .watermark:hover, {{WRAPPER}} .ep-embed-content-wraper .watermark:hover" => 'opacity: {{SIZE}};',
 				],
 				'condition'    => $logo_condition,
 				'classes'     => $this->pro_class,
