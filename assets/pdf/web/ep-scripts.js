@@ -223,7 +223,7 @@ const pdfIframeStyle = (data) => {
         #secondaryOpenFile, #toolbarViewerRight #openFile{
             display: none!important;
         }
-        #secondaryDownload, #secondaryPrint, #toolbarViewerRight #print, #toolbarViewerRight #download{
+        #secondaryDownload, #secondaryPrint, #print, #download{
             display: ${download}!important;
         }
         #pageRotateCw{
@@ -248,24 +248,6 @@ const pdfIframeStyle = (data) => {
         #editorInk{
             display: ${draw}!important;
         }
-
-        @media all and (max-width:360px) {
-            @media all and (max-width:360px) {
-                #toolbarViewerRight #editorModeButtons, #toolbarViewerRight #print, #toolbarViewerRight #download {
-                    visibility: hidden!important;
-                    width: 0;
-                    height: 0;
-                    display: inline-block;
-                    margin: 0;
-                    padding: 0;
-                    opacity: 0;
-                }
-                div#toolbarViewerRight {
-                    max-width: 68px;
-                }
-            }
-        }
-
 
         ${pdfCustomColor}
 
@@ -298,7 +280,10 @@ pdfIframeStyle(data);
 setThemeMode(data.themeMode);
 
 
-document.getElementById("presentationMode")?.addEventListener("click", function () {
+
+document.querySelector(".presentationMode")?.addEventListener("click", function () {
+
+    console.log("presentation mode clicked");
     var mainContainer = document.getElementById("mainContainer");
     if (mainContainer && !document.fullscreenElement) {
         mainContainer.requestFullscreen().catch(err => {
@@ -319,5 +304,4 @@ document.getElementById("viewBookmark")?.addEventListener('click', (e) => {
     }
 });
 
-
-
+console.log('this is akash test page');
