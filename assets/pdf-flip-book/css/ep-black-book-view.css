@@ -3,6 +3,7 @@
   --toolbar-bg-color: rgb(249 249 250);
   --toolbar-icon-color: rgb(0 0 0);
   --toolbar-active-icon-bg-color: rgb(221 222 223);
+  --toolbar-item-hover-bg-color: rgb(221 222 223);
 }
 
 @media (prefers-color-scheme:dark) {
@@ -11,6 +12,8 @@
     --toolbar-bg-color: #3c3c3c;
     --toolbar-icon-color: #fff;
     --toolbar-active-icon-bg-color: #222;
+    --toolbar-item-hover-bg-color: #333;
+
 
   }
 }
@@ -107,7 +110,7 @@
   margin: 0 auto;
   border-radius: 30px;
   padding: 5px;
-  box-shadow: 0px 0px 3px #000;
+  box-shadow: 0px 0px 3px var(--body-bg-color);
   margin-bottom: 10px;
 }
 
@@ -145,7 +148,7 @@
 
 .flip-book .loading-progress .caption {
   background-color: #555;
-  border: 1px solid #333;
+  border: 1px solid var(--toolbar-item-hover-bg-color);
   padding: 7px 10px;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 10pt;
@@ -270,7 +273,7 @@
 
 .ctrl .fnavbar .fnav .dropdown .menu {
   top: 100%;
-  box-shadow: 3px 0 3px var(--toolbar-active-icon-bg-color);
+  box-shadow: 3px 0 3px var(--toolbar-bg-color);
 }
 
 .ctrl .fnavbar .fnav .icon-caret {
@@ -286,7 +289,7 @@
 }
 
 .ctrl .fnavbar .fnav .dropup .menu {
-  box-shadow: 3px 0 3px var(--toolbar-active-icon-bg-color);
+  box-shadow: 3px 0 3px var(--toolbar-bg-color);
 }
 
 .ctrl .fnavbar .fnav .dropup .caret {
@@ -298,8 +301,8 @@
 
 .ctrl .fnavbar .menu {
   position: absolute;
-  border: 1px solid #444;
-  background-color: var(--toolbar-active-icon-bg-color);
+  border: 1px solid var(--toolbar-item-hover-bg-color);
+  background-color: var(--toolbar-bg-color);
   z-index: 10;
   min-width: 160px;
 }
@@ -311,17 +314,17 @@
 
 .ctrl .fnavbar .menu .divider {
   height: 1px;
-  background-color: #444;
+  background-color: var(--toolbar-item-hover-bg-color);
   padding: 0;
   margin: 5px 0;
 }
 
 .ctrl .fnavbar .menu .active {
-  background-color: #444;
+  background-color: var(--toolbar-active-icon-bg-color);
 }
 
 .ctrl .fnavbar .menu li:hover {
-  background-color: #333;
+  background-color: var(--toolbar-item-hover-bg-color);
   cursor: pointer;
 }
 
@@ -383,7 +386,7 @@
   background-color: #1a1a1a;
   width: 300px;
   z-index: 1;
-  box-shadow: 3px 0 3px #222;
+  box-shadow: 3px 0 3px var(--toolbar-toolbar-bg-color);
 }
 
 .flip-book .float-wnd.hidden {
@@ -392,10 +395,10 @@
 
 .flip-book .float-wnd .header {
   border-radius: 4px 4px 0 0;
-  background-color: #333333;
+  background-color: var(--toolbar-item-hover-bg-color);
   background-repeat: repeat-x;
   padding: 7px 10px;
-  border: 1px solid #444;
+  border: 1px solid var(--toolbar-item-hover-bg-color);
   border-bottom: none;
   color: #fff;
   font-weight: bold;
@@ -428,7 +431,7 @@
 }
 
 .flip-book .float-wnd .body {
-  border: 1px solid #444;
+  border: 1px solid var(--toolbar-item-hover-bg-color);
   border-top: none;
 }
 
@@ -436,6 +439,7 @@
 
 .ctrl .toc {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: var(--body-bg-color);
 }
 
 .ctrl .toc a {
@@ -552,11 +556,11 @@
 }
 
 .ctrl .bookmarks .item .area:hover {
-  background-color: #444;
+  background-color: var(--toolbar-item-hover-bg-color);
 }
 
 .ctrl .bookmarks .item .area:active {
-  background-color: #333;
+  background-color: var(--toolbar-item-hover-bg-color);
 }
 
 .ctrl .bookmarks .item a {
@@ -646,7 +650,7 @@
 
 .ctrl .thumbnails .item:hover {
   border: 1px solid #555;
-  background-color: #444;
+  background-color: var(--toolbar-item-hover-bg-color);
 }
 
 .ctrl .thumbnails .heading {
@@ -661,7 +665,7 @@
 }
 
 .ctrl .search .result:hover {
-  background-color: #444;
+  background-color: var(--toolbar-item-hover-bg-color);
 }
 
 .ctrl .search .results a {
@@ -716,6 +720,7 @@ span.icon.arrow-icon svg, .sound-icon svg {
 li.dropup.fnav-item.toggle.widSettings ul.menu {
   border-radius: 6px;
   bottom: 38px;
+  overflow: hidden;
 }
 
 li.dropup.fnav-item.toggle.widSettings ul.menu li a {
