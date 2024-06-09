@@ -98,7 +98,7 @@ class Embedpress_Elementor_Integration {
      * @since  2.4.3
      */
     public function embedpress_enqueue_style() {
-        wp_enqueue_style(
+        wp_register_style(
             'embedpress-elementor-css',
             EMBEDPRESS_URL_ASSETS . 'css/embedpress-elementor.css',
             false,
