@@ -182,11 +182,12 @@ class EmbedPressPDFEdit extends Component {
 
 	}
 
+
 	render() {
 
 		const { attributes, noticeUI, setAttributes } = this.props;
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition } = attributes;
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
 
 		if (!clientId) {
 			setAttributes({ clientId: this.props.clientId });
@@ -253,11 +254,13 @@ class EmbedPressPDFEdit extends Component {
 					customColor: (customColor && (customColor !== 'default')) ? customColor : '#403A81',
 				}
 			}
+
 			let _pdf_params = {
 				themeMode: themeMode ? themeMode : 'default',
 				...colorsObj,
 				presentation: presentation ? presentation : false,
 				position: position ? position : 'top',
+				flipbook_toolbar_position: flipbook_toolbar_position ? flipbook_toolbar_position : 'bottom',
 				download: download ? download : false,
 				toolbar: toolbar ? toolbar : false,
 				copy_text: copy_text ? copy_text : false,
@@ -266,15 +269,34 @@ class EmbedPressPDFEdit extends Component {
 				toolbar_position: toolbar_position ? toolbar_position : 'top',
 				doc_details: doc_details ? doc_details : false,
 				doc_rotation: doc_rotation ? doc_rotation : false,
+				zoom_in: zoomIn ? zoomIn : false,
+				zoom_out: zoomOut ? zoomOut : false,
+				fit_view: fitView ? fitView : false,
+				bookmark: bookmark ? bookmark : false,
 			};
 
-			pdf_params = new URLSearchParams(_pdf_params).toString();
+			// Convert object to query string
+			const queryString = new URLSearchParams(_pdf_params).toString();
+
+			// Encode the query string to base64
+			const base64String = btoa(encodeURIComponent(queryString).replace(/%([0-9A-F]{2})/g, function (match, p1) {
+				return String.fromCharCode(parseInt(p1, 16));
+			}));
+
+			// Return the formatted string
+			pdf_params = "key=" + base64String;
 
 			let __url = href.split('#');
+
 			__url = encodeURIComponent(__url[0]);
+
+			if (viewerStyle === 'flip-book') {
+				return `${__url}&${pdf_params}`;
+			}
 
 			return `${__url}#${pdf_params}`;
 		}
+
 
 		if (!href || hasError) {
 			return (
@@ -302,9 +324,11 @@ class EmbedPressPDFEdit extends Component {
 			);
 		} else {
 			const url = '//view.officeapps.live.com/op/embed.aspx?src=' + getParamData(href);
-			const pdf_viewer_src = embedpressObj.pdf_renderer + ((embedpressObj.pdf_renderer.indexOf('?') === -1) ? '?' : '&') + 'file=' + getParamData(href);
+			let pdf_viewer_src = embedpressObj.pdf_renderer + ((embedpressObj.pdf_renderer.indexOf('?') === -1) ? '?' : '&') + 'file=' + getParamData(href);
 
-			// this.iframeManupulate(`.${id}`, themeMode, presentation, position, download, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation);
+			if (viewerStyle === 'flip-book') {
+				pdf_viewer_src = embedpressObj.EMBEDPRESS_URL_ASSETS + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
+			}
 
 			return (
 				<Fragment>
@@ -316,7 +340,13 @@ class EmbedPressPDFEdit extends Component {
 						<div className="gutenberg-wraper">
 							<div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
 								{mime === 'application/pdf' && (
-									<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)}></iframe>
+									(viewerStyle === 'modern') ? (
+										<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)}></iframe>
+									) : (
+
+										<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)}></iframe>
+									)
+
 
 								)}
 
@@ -393,9 +423,21 @@ class EmbedPressPDFEdit extends Component {
 							/>
 						</PanelBody>
 
-                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Document Controls', 'embedpress')}</div>} initialOpen={false}>
+						<PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Document Controls', 'embedpress')}</div>} initialOpen={false}>
 
 
+							<SelectControl
+								label="Viewer Style"
+								value={viewerStyle}
+								options={[
+									{ label: 'Modern', value: 'modern' },
+									{ label: 'Flip Book', value: 'flip-book' },
+								]}
+								onChange={(viewerStyle) =>
+									setAttributes({ viewerStyle })
+								}
+								__nextHasNoMarginBottom
+							/>
 
 							<SelectControl
 								label="Theme"
@@ -426,6 +468,8 @@ class EmbedPressPDFEdit extends Component {
 								)
 							}
 
+
+
 							<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
 								<ToggleControl
 									label={__('Toolbar', 'embedpress')}
@@ -447,10 +491,20 @@ class EmbedPressPDFEdit extends Component {
 							{
 								toolbar && (
 									<Fragment>
-										<ToggleGroupControl label="Toolbar Position" value={position} onChange={(position) => setAttributes({ position })}>
-											<ToggleGroupControlOption value="top" label="Top" />
-											<ToggleGroupControlOption value="bottom" label="Bottom" />
-										</ToggleGroupControl>
+
+										{
+											(viewerStyle === 'flip-book') ? (
+												<ToggleGroupControl label="Toolbar Position" value={flipbook_toolbar_position} onChange={(flipbook_toolbar_position) => setAttributes({ flipbook_toolbar_position })}>
+													<ToggleGroupControlOption value="top" label="Top" />
+													<ToggleGroupControlOption value="bottom" label="Bottom" />
+												</ToggleGroupControl>
+											) : (
+												<ToggleGroupControl label="Toolbar Position" value={position} onChange={(position) => setAttributes({ position })}>
+													<ToggleGroupControlOption value="top" label="Top" />
+													<ToggleGroupControlOption value="bottom" label="Bottom" />
+												</ToggleGroupControl>
+											)
+										}
 
 
 										<ToggleControl
@@ -476,58 +530,96 @@ class EmbedPressPDFEdit extends Component {
 											}
 										</div>
 
-										<ToggleControl
-											label={__('Add Text', 'embedpress')}
-											onChange={(add_text) =>
-												setAttributes({ add_text })
-											}
-											checked={add_text}
-										/>
+										{
+											(viewerStyle === 'modern') ? (
+												<Fragment>
+													<ToggleControl
+														label={__('Add Text', 'embedpress')}
+														onChange={(add_text) =>
+															setAttributes({ add_text })
+														}
+														checked={add_text}
+													/>
 
-										<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
-											<ToggleControl
-												label={__('Draw', 'embedpress')}
-												onChange={(draw) =>
-													setAttributes({ draw })
-												}
-												checked={draw}
-											/>
-											{
-												(!isProPluginActive) && (
-													<span className='isPro'>{__('pro', 'embedpress')}</span>
-												)
-											}
-										</div>
+													<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
+														<ToggleControl
+															label={__('Draw', 'embedpress')}
+															onChange={(draw) =>
+																setAttributes({ draw })
+															}
+															checked={draw}
+														/>
+														{
+															(!isProPluginActive) && (
+																<span className='isPro'>{__('pro', 'embedpress')}</span>
+															)
+														}
+													</div>
 
-										<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
-											<ToggleControl
-												label={__('Copy Text', 'embedpress')}
-												onChange={(copy_text) =>
-													setAttributes({ copy_text })
-												}
-												checked={copy_text}
-												className={'disabled'}
-											/>
-											{
-												(!isProPluginActive) && (
-													<span className='isPro'>{__('pro', 'embedpress')}</span>
-												)
-											}
-										</div>
-										<ToggleControl
-											label={__('Rotation', 'embedpress')}
-											onChange={(doc_rotation) =>
-												setAttributes({ doc_rotation })
-											}
-											checked={doc_rotation}
-										/>
-										<ToggleControl
-											label={__('Properties', 'embedpress')}
-											onChange={(doc_details) =>
-												setAttributes({ doc_details })
-											}
-											checked={doc_details}
-										/>
+													<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
+														<ToggleControl
+															label={__('Copy Text', 'embedpress')}
+															onChange={(copy_text) =>
+																setAttributes({ copy_text })
+															}
+															checked={copy_text}
+															className={'disabled'}
+														/>
+														{
+															(!isProPluginActive) && (
+																<span className='isPro'>{__('pro', 'embedpress')}</span>
+															)
+														}
+													</div>
+													<ToggleControl
+														label={__('Rotation', 'embedpress')}
+														onChange={(doc_rotation) =>
+															setAttributes({ doc_rotation })
+														}
+														checked={doc_rotation}
+													/>
+													<ToggleControl
+														label={__('Properties', 'embedpress')}
+														onChange={(doc_details) =>
+															setAttributes({ doc_details })
+														}
+														checked={doc_details}
+													/>
+												</Fragment>
+											) : (
+												<Fragment>
+													<ToggleControl
+														label={__('Zoom In', 'embedpress')}
+														onChange={(zoomIn) =>
+															setAttributes({ zoomIn })
+														}
+														checked={zoomIn}
+													/>
+													<ToggleControl
+														label={__('Zoom Out', 'embedpress')}
+														onChange={(zoomOut) =>
+															setAttributes({ zoomOut })
+														}
+														checked={zoomOut}
+													/>
+													<ToggleControl
+														label={__('Fit View', 'embedpress')}
+														onChange={(fitView) =>
+															setAttributes({ fitView })
+														}
+														checked={fitView}
+													/>
+													<ToggleControl
+														label={__('Bookmark', 'embedpress')}
+														onChange={(bookmark) =>
+															setAttributes({ bookmark })
+														}
+														checked={bookmark}
+													/>
+												</Fragment>
+											)
+										}
+
 										<ToggleControl
 											label={__('Powered By', 'embedpress')}
 											onChange={(powered_by) =>

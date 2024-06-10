@@ -122,6 +122,7 @@ function embedpress_blocks_cgb_editor_assets()
 		'ajaxurl' => admin_url('admin-ajax.php'),
 		'source_nonce' => wp_create_nonce('source_nonce_embedpress'),
 		'can_upload_media' => current_user_can('upload_files'),
+		'EMBEDPRESS_URL_ASSETS' => EMBEDPRESS_URL_ASSETS,
 		'iframe_width' => get_options_value('enableEmbedResizeWidth'),
 		'iframe_height' => get_options_value('enableEmbedResizeHeight'),
 		'pdf_custom_color' => get_options_value('custom_color'),
@@ -755,6 +756,10 @@ function embedpress_gutenberg_register_all_block()
 								'type' => "string",
 								'default' => 'top',
 							],
+							'flipbook_toolbar_position' => [
+								'type' => "string",
+								'default' => 'bottom',
+							],
 
 							'print' => [
 								'type' => "boolean",
@@ -796,6 +801,22 @@ function embedpress_gutenberg_register_all_block()
 							'unitoption' => [
 								'type' => "string",
 								'default' => '%',
+							],
+							'zoomIn' => [
+								'type' => "boolean",
+								'default' => true,
+							],
+							'zoomOut' => [
+								'type' => "boolean",
+								'default' => true,
+							],
+							'fitView' => [
+								'type' => "boolean",
+								'default' => true,
+							],
+							'bookmark' => [
+								'type' => "boolean",
+								'default' => true,
 							],
 
 							//Ad attributes
@@ -883,10 +904,18 @@ function getParamData($attributes)
 		'draw' =>  !empty($attributes['draw']) ? 'true' : 'false',
 		'doc_rotation' => !empty($attributes['doc_rotation']) ? 'true' : 'false',
 		'doc_details' =>  !empty($attributes['doc_details']) ? 'true' : 'false',
+		'zoom_in' =>  !empty($attributes['zoomIn'])  ? 'true' : 'false',
+		'zoom_out' => !empty($attributes['zoomOut'])  ? 'true' : 'false',
+		'fit_view' => !empty($attributes['fitView'])  ? 'true' : 'false',
+		'bookmark' => !empty($attributes['bookmark'])  ? 'true' : 'false',
 	);
 
 	if ($urlParamData['themeMode'] == 'custom') {
 		$urlParamData['customColor'] = !empty($attributes['customColor']) ? $attributes['customColor'] : '#403A81';
+	}
+
+	if (isset($attributes['viewerStyle']) && $attributes['viewerStyle'] == 'flip-book') {
+		return "&key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), 'UTF-8'));
 	}
 
 	return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), 'UTF-8'));
@@ -983,14 +1012,17 @@ function embedpress_pdf_render_block($attributes)
 
 
 		<?php
-
+		
+				$url = !empty($attributes['href']) ? $attributes['href'] : '';
+				
 				$embed_code = '<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_url($src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
-
+				if(isset($attributes['viewerStyle']) && $attributes['viewerStyle'] === 'flip-book') {
+					$src = urlencode($url).getParamData($attributes);
+					$embed_code = '<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="'.esc_url(EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/viewer.html?file='.$src).'" frameborder="0" oncontextmenu="return false;"></iframe> ';
+				}
 				if ($powered_by) {
 					$embed_code .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
 				}
-
-				$url = !empty($attributes['href']) ? $attributes['href'] : '';
 
 				$adsAtts = '';
 				if (!empty($attributes['adManager'])) {

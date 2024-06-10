@@ -125,6 +125,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "string",
 				default: 'top',
 			},
+			flipbook_toolbar_position: {
+				type: "string",
+				default: 'bottom',
+			},
 
 			download: {
 				type: "boolean",
@@ -161,6 +165,27 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			unitoption: {
 				type: 'string',
 				default: '%',
+			},
+
+			viewerStyle: {
+				type: "string",
+				default: 'modern',
+			},
+			zoomIn: {
+				type: "boolean",
+				default: true,
+			},
+			zoomOut: {
+				type: "boolean",
+				default: true,
+			},
+			fitView: {
+				type: "boolean",
+				default: true,
+			},
+			bookmark: {
+				type: "boolean",
+				default: true,
 			},
 
 			width: {
