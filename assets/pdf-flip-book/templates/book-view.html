@@ -163,7 +163,7 @@
               
           </span></a></li> -->
 
-          <li class="fnav-item but-show"><a id="download-pdf" href="/#"><span class="icon">
+          <li class="fnav-item but-show cmdDownload"><a id="download-pdf" href="/#"><span class="icon">
                 <svg title="<$tr>Download</$tr>" width="20" height="20" viewBox="0 0 20 20" fill="none"
                   xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -361,7 +361,7 @@
     document.querySelector(".flip-book .controls")?.remove();
   }
   if (!(params?.download)) {
-    document.querySelector("li.fnav-item.cmdSave")?.remove();
+    document.querySelector("li.fnav-item.cmdDownload")?.remove();
     document.querySelector("li.fnav-item.cmdPrint")?.remove();
   }
   if (!(params?.presentation)) {
@@ -380,6 +380,10 @@
     document.querySelector("li.fnav-item.cmdToc")?.remove();
   }
 
+
+  if (!params?.flipbook_toolbar_position) {
+    params.flipbook_toolbar_position = params.position;
+  }
 
   const element = document.querySelector(".flip-book .controls");
   if (params?.flipbook_toolbar_position === 'top') {
@@ -453,6 +457,8 @@
   }
 
   pdfIframeStyle();
+
+  console.log(params);
 
 
   const DownloadPDF = (pdfUrl) => {
