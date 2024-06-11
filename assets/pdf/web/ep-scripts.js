@@ -37,9 +37,10 @@ const getParamObj = (hash) => {
             position: hashParams.get('position'),
             download: hashParams.get('download'),
             toolbar: hashParams.get('toolbar'),
-            doc_details: hashParams.get('doc_details'),
-            doc_rotation: hashParams.get('doc_rotation'),
+            doc_details: hashParams.get('pdf_details'),
+            doc_rotation: hashParams.get('pdf_rotation'),
         };
+        
 
 
         if (hashParams.get('download') !== 'true' && hashParams.get('download') !== 'yes') {
