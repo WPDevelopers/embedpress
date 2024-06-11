@@ -163,7 +163,7 @@
               
           </span></a></li> -->
 
-          <li class="fnav-item cmdSave but-show"><a href="/#"><span class="icon">
+          <li class="fnav-item but-show cmdDownload"><a id="download-pdf" href="/#"><span class="icon">
                 <svg title="<$tr>Download</$tr>" width="20" height="20" viewBox="0 0 20 20" fill="none"
                   xmlns="http://www.w3.org/2000/svg">
                   <path
@@ -201,12 +201,12 @@
             <a href="/#">
               <div class="icon-caret"><span class="icon">
 
-                  <svg title="<$tr>Settings</$tr>" width="18.513" height="20" viewBox="0 0 18.513 20" fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
+                  <svg width="112" height="432" viewBox="0 0 112 432" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
-                      d="M10.34.451c-.6-.6-1.573-.6-2.173 0L.493 8.125a1.537 1.537 0 0 0 2.173 2.173l6.591-6.591 6.59 6.585a1.537 1.537 0 0 0 2.173-2.173L10.346.445zm7.674 16.882L10.34 9.659c-.6-.6-1.573-.6-2.173 0L.493 17.333a1.537 1.537 0 0 0 2.173 2.173l6.591-6.59 6.59 6.585a1.537 1.537 0 0 0 2.173-2.173z"
-                      fill="#fff" />
+                      d="M56 320C41.1479 320 26.9041 325.9 16.402 336.402C5.89998 346.904 0 361.148 0 376C0 390.852 5.89998 405.096 16.402 415.598C26.9041 426.1 41.1479 432 56 432C70.8521 432 85.0959 426.1 95.598 415.598C106.1 405.096 112 390.852 112 376C112 361.148 106.1 346.904 95.598 336.402C85.0959 325.9 70.8521 320 56 320ZM56 160C41.1479 160 26.9041 165.9 16.402 176.402C5.89998 186.904 0 201.148 0 216C0 230.852 5.89998 245.096 16.402 255.598C26.9041 266.1 41.1479 272 56 272C70.8521 272 85.0959 266.1 95.598 255.598C106.1 245.096 112 230.852 112 216C112 201.148 106.1 186.904 95.598 176.402C85.0959 165.9 70.8521 160 56 160ZM112 56C112 41.1479 106.1 26.9041 95.598 16.402C85.0959 5.89998 70.8521 0 56 0C41.1479 0 26.9041 5.89998 16.402 16.402C5.89998 26.9041 0 41.1479 0 56C0 70.8521 5.89998 85.0959 16.402 95.598C26.9041 106.1 41.1479 112 56 112C70.8521 112 85.0959 106.1 95.598 95.598C106.1 85.0959 112 70.8521 112 56Z"
+                      fill="white" />
                   </svg>
+
                 </span></div>
             </a>
 
@@ -255,8 +255,8 @@
                   </span>
                   <$tr>Stats</$tr>
                 </a></li>
-              <li class="divider"></li>
-              <li class="cmdLightingUp"><a href="/#"><span class="icon arrow-icon">
+              <!-- <li class="divider"></li> -->
+              <!-- <li class="cmdLightingUp"><a href="/#"><span class="icon arrow-icon">
                     <svg width="35.019" height="20" viewBox="0 0 35.019 20" fill="none"
                       xmlns="http://www.w3.org/2000/svg">
                       <path
@@ -275,7 +275,7 @@
                     </svg>
                   </span>
                   <$tr>Reduce lighting</$tr>
-                </a></li>
+                </a></li> -->
             </ul>
           </li>
         </ul>
@@ -335,6 +335,7 @@
       // Extract the data attribute from the src (assuming it's in the query string)
       var dataUrlParams = new URLSearchParams(new URL(parentSrc).search);
       var dataKey = dataUrlParams.get('key');
+      var dataFile = dataUrlParams.get('file');
 
       var dataParams = atob(dataKey);
 
@@ -360,7 +361,7 @@
     document.querySelector(".flip-book .controls")?.remove();
   }
   if (!(params?.download)) {
-    document.querySelector("li.fnav-item.cmdSave")?.remove();
+    document.querySelector("li.fnav-item.cmdDownload")?.remove();
     document.querySelector("li.fnav-item.cmdPrint")?.remove();
   }
   if (!(params?.presentation)) {
@@ -380,6 +381,10 @@
   }
 
 
+  if (!params?.flipbook_toolbar_position) {
+    params.flipbook_toolbar_position = params.position;
+  }
+
   const element = document.querySelector(".flip-book .controls");
   if (params?.flipbook_toolbar_position === 'top') {
     if (element) {
@@ -392,6 +397,7 @@
     }
   }
 
+
   //Create theme mode function
   const setThemeMode = (themeMode) => {
     const htmlEL = document.getElementsByTagName("html")[0];
@@ -399,6 +405,7 @@
       htmlEL.setAttribute('ep-data-theme', themeMode);
     }
   }
+
 
   setThemeMode(params.themeMode);
 
@@ -428,8 +435,10 @@
           --body-bg-color: ${params.customColor};
           --toolbar-bg-color: ${adjustHexColor(params.customColor, 15)};
           --toolbar-icon-color: ${iconsTextsColor};
-          --toolbar-active-icon-bg-color: ${adjustHexColor(params.customColor,25)};
+          --toolbar-active-icon-bg-color: ${adjustHexColor(params.customColor, 25)};
           --toolbar-item-hover-bg-color: ${adjustHexColor(params.customColor, 25)};
+          --toolbar-current-page-number-bg-color: ${adjustHexColor(params.customColor, 10)};
+          --toolbar-page-number-bg-color: ${adjustHexColor(params.customColor, 20)};
         }
         `;
 
@@ -448,4 +457,31 @@
   }
 
   pdfIframeStyle();
+
+  console.log(params);
+
+
+  const DownloadPDF = (pdfUrl) => {
+    const fileName = pdfUrl.split('/').pop();
+
+    fetch(pdfUrl)
+      .then(response => response.blob())
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+      })
+      .catch(error => console.error('Error downloading the PDF:', error));
+  }
+
+  document.getElementById('download-pdf').addEventListener('click', function (e) {
+    e.preventDefault();
+    DownloadPDF(dataFile);
+  });
+
 </script>

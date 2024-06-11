@@ -2,8 +2,12 @@
   --body-bg-color: rgba(212, 212, 215, 1);
   --toolbar-bg-color: rgb(249 249 250);
   --toolbar-icon-color: rgb(0 0 0);
+  --toolbar-text-color: rgb(0 0 0);
   --toolbar-active-icon-bg-color: rgb(221 222 223);
   --toolbar-item-hover-bg-color: rgb(221 222 223);
+  --toolbar-current-page-number-bg-color: #ddd;
+  --toolbar-page-number-bg-color: #ccc;
+
 }
 
 @media (prefers-color-scheme:dark) {
@@ -11,8 +15,11 @@
     --body-bg-color: rgba(42, 42, 46, 1);
     --toolbar-bg-color: #3c3c3c;
     --toolbar-icon-color: #fff;
+    --toolbar-text-color: #fff;
     --toolbar-active-icon-bg-color: #222;
     --toolbar-item-hover-bg-color: #333;
+    --toolbar-current-page-number-bg-color: #222;
+    --toolbar-page-number-bg-color: #333;
 
 
   }
@@ -23,13 +30,22 @@
   --toolbar-bg-color: rgb(249 249 250);
   --toolbar-icon-color: rgb(0 0 0);
   --toolbar-active-icon-bg-color: rgb(221 222 223);
+  --toolbar-item-hover-bg-color: rgb(221 222 223);
+  --toolbar-text-color: rgb(0 0 0);
+  --toolbar-current-page-number-bg-color: #ddd;
+  --toolbar-page-number-bg-color: #ccc;
 }
 
 [ep-data-theme=dark] {
   --body-bg-color: rgba(42, 42, 46, 1);
   --toolbar-bg-color: #3c3c3c;
   --toolbar-icon-color: #fff;
+  --toolbar-text-color: #fff;
   --toolbar-active-icon-bg-color: #222;
+  --toolbar-item-hover-bg-color: #333;
+  --toolbar-current-page-number-bg-color: #222;
+  --toolbar-page-number-bg-color: #333;
+
 }
 
 .flip-book {
@@ -329,7 +345,7 @@
 }
 
 .ctrl .fnavbar .menu li a {
-  color: #fff;
+  color: var(--toolbar-text-color);
 }
 
 .ctrl .fnavbar .menu .disabled a {
@@ -357,8 +373,8 @@
   display: inline-block;
   font-size: 11pt;
   border: 0;
-  color: #000;
-  background-color: #ccc;
+  color: var(--toolbar-text-color);
+  background-color: var(--toolbar-page-number-bg-color);
   font-weight: bold;
   border-radius: 0;
   margin: 0;
@@ -368,7 +384,7 @@
 .ctrl .pages .number {
   border-top-left-radius: 5px;
   border-bottom-left-radius: 5px;
-  background-color: #ddd;
+  background-color: var(--toolbar-current-page-number-bg-color);
 }
 
 .ctrl .pages .amount {
@@ -720,6 +736,7 @@ span.icon.arrow-icon svg, .sound-icon svg {
 li.dropup.fnav-item.toggle.widSettings ul.menu {
   border-radius: 6px;
   bottom: 38px;
+  min-height: 60px;
   overflow: hidden;
 }
 
@@ -746,10 +763,6 @@ li.fnav-item.disabled {
 
 .controls.toolbar-position-top {
   top: calc(-100% + 60px) !important;
-}
-
-.controls .icon-caret svg {
-  transform: rotate(90deg);
 }
 
 .controls.toolbar-position-top ul.menu {
