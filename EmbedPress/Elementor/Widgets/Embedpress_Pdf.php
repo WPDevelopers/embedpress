@@ -467,6 +467,7 @@ class Embedpress_Pdf extends Widget_Base
                 'default'      => 'yes',
                 'condition' => [
                     'pdf_toolbar' => 'yes',
+                    'embedpress_pdf_viewer_style' => 'flip-book',
                 ],
             ]
         );
@@ -481,6 +482,7 @@ class Embedpress_Pdf extends Widget_Base
                 'default'      => 'yes',
                 'condition' => [
                     'pdf_toolbar' => 'yes',
+                    'embedpress_pdf_viewer_style' => 'flip-book',
                 ],
             ]
         );
@@ -495,6 +497,7 @@ class Embedpress_Pdf extends Widget_Base
                 'default'      => 'yes',
                 'condition' => [
                     'pdf_toolbar' => 'yes',
+                    'embedpress_pdf_viewer_style' => 'flip-book',
                 ],
             ]
         );
@@ -509,6 +512,7 @@ class Embedpress_Pdf extends Widget_Base
                 'default'      => 'yes',
                 'condition' => [
                     'pdf_toolbar' => 'yes',
+                    'embedpress_pdf_viewer_style' => 'flip-book',
                 ],
             ]
         );
