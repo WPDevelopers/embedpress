@@ -543,6 +543,9 @@ class Embedpress_Pdf extends Widget_Base
     public function render()
     {
         $settings = $this->get_settings();
+
+        // echo '<pre>';
+        // print_r($settings); die;
     
         $url = $this->get_file_url();
 
