@@ -543,30 +543,38 @@ class Embedpress_Pdf extends Widget_Base
     public function render()
     {
         $settings = $this->get_settings();
-
-        // echo '<pre>';
-        // print_r($settings); die;
     
         $url = $this->get_file_url();
 
         if($settings['embedpress_pdf_type'] === 'url') {
-            if(class_exists( 'ACF' ) && function_exists('get_field')){
-                if(!empty($settings['__dynamic__']) && !empty($settings['__dynamic__']['embedpress_pdf_file_link'])){
-                    $decode_url = urldecode(($settings['__dynamic__']['embedpress_pdf_file_link']));
 
-                    preg_match('/"key":"([^"]+):([^"]+)"/', $decode_url, $matches);
-                    if (isset($matches[0])) {
-                        if (isset($matches[1])) {
-                            $get_acf_key = $matches[1];
+            if(!empty($settings['__dynamic__']) && !empty($settings['__dynamic__']['embedpress_pdf_file_link'])){
+                $decode_url = urldecode(($settings['__dynamic__']['embedpress_pdf_file_link']));
+
+                preg_match('/name="([^"]+)"/', $decode_url, $name_matches);
+
+                if (!empty($name_matches[1])) {
+                    $name_key = $name_matches[1];
+                    if ($name_key === 'acf-url' && class_exists('ACF') && function_exists('get_field')) {
+                        $pattern = '/"key":"([^"]+):([^"]+)"/';
+                        preg_match($pattern, $decode_url, $matches);
+                    } elseif ($name_key === 'toolset-url' && class_exists('Types_Helper_Output_Meta_Box')) {
+                        $pattern = '/"key":"[^"]+:(.*?)"/';
+                        preg_match($pattern, $decode_url, $matches);
+                    }
+
+                    if (!empty($matches[1])) {
+                        $get_acf_key = $matches[1];
+                        if ($name_key === 'acf-url') {
                             $url = get_field($get_acf_key);
+                        } elseif ($name_key === 'toolset-url') {
+                            $url = get_post_meta(get_the_ID(), 'wpcf-' . $get_acf_key, true);
+                        }
 
-                            if(empty($url)){
-                                $pattern = '/"fallback":"([^"]+)"/';
-                                preg_match($pattern, $decode_url, $matches);
-
-                                if (isset($matches[1])) {
-                                    $url = $matches[1];
-                                } 
+                        if (empty($url)) {
+                            preg_match('/"fallback":"([^"]+)"/', $decode_url, $fallback_matches);
+                            if (!empty($fallback_matches[1])) {
+                                $url = $fallback_matches[1];
                             }
                         }
                     }
