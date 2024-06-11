@@ -406,6 +406,30 @@ class Embedpress_Pdf extends Widget_Base
                 'toggle' => true,
                 'condition' => [
                     'pdf_toolbar' => 'yes',
+                    'embedpress_pdf_viewer_style' => 'modern',
+                ],
+            ]
+        );
+        $this->add_control(
+            'flipbook_toolbar_position',
+            [
+                'label' => esc_html__('Toolbar Position', 'embedpress'),
+                'type' => \Elementor\Controls_Manager::CHOOSE,
+                'options' => [
+                    'top' => [
+                        'title' => esc_html__('Top', 'embedpress'),
+                        'icon' => 'eicon-arrow-up',
+                    ],
+                    'bottom' => [
+                        'title' => esc_html__('Bottom', 'embedpress'),
+                        'icon' => 'eicon-arrow-down',
+                    ],
+                ],
+                'default' => 'bottom',
+                'toggle' => true,
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                    'embedpress_pdf_viewer_style' => 'flip-book',
                 ],
             ]
         );
@@ -674,6 +698,7 @@ class Embedpress_Pdf extends Widget_Base
             'zoom_out' => !empty($settings['pdf_zoom_out'])  ? 'true' : 'false',
             'fit_view' => !empty($settings['pdf_fit_view'])  ? 'true' : 'false',
             'bookmark' => !empty($settings['pdf_bookmark'])  ? 'true' : 'false',
+            'flipbook_toolbar_position' => !empty($settings['flipbook_toolbar_position'])  ? $settings['flipbook_toolbar_position'] : 'bottom',
         );
 
         if($settings['embedpress_theme_mode'] == 'custom') {
@@ -723,7 +748,7 @@ class Embedpress_Pdf extends Widget_Base
             'data-thememode' => isset($settings['embedpress_theme_mode']) ? esc_attr($settings['embedpress_theme_mode']) : '',
             'data-customcolor' => isset($settings['embedpress_pdf_custom_color']) ? esc_attr($settings['embedpress_pdf_custom_color']) : '',
             'data-toolbar' => isset($settings['pdf_toolbar']) ? esc_attr($settings['pdf_toolbar']) : '',
-            'data-toolbar-position' => isset($settings['pdf_toolbar_position']) ? esc_attr($settings['pdf_toolbar_position']) : '',
+            'data-toolbar-position' => isset($settings['pdf_toolbar_position']) ? esc_attr($settings['pdf_toolbar_position']) : 'top',
             'data-open' => 'no', // Assuming 'no' is a static value, no need to sanitize
             'data-presentation-mode' => isset($settings['pdf_presentation_mode']) ? esc_attr($settings['pdf_presentation_mode']) : '',
             'data-download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION') ? esc_attr($settings['pdf_print_download']) : 'yes', // Assuming 'yes' is a safe fallback
