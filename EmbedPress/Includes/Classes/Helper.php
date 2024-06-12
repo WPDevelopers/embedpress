@@ -1056,6 +1056,9 @@ class Helper
 				display: inline-block !important;
 				max-width: 100%;
 			}
+			.embedpress-document-embed div[data-sponsored-id], .embedpress-document-embed .main-ad-template.video {
+				width: 100%;
+			}
 
 			.ep-percentage-width div[data-sponsored-id] {
 				display: block;

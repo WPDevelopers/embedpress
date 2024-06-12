@@ -466,9 +466,10 @@ if(!$pro_active){
         display: inline-block;
         max-width: 100%;
     }
-
-
-
+    .embedpress-document-embed div[data-sponsored-id] {
+        width: 100%;
+    }
+    
     .main-ad-template.image.ad-running {
         position: absolute;
         z-index: 1;
