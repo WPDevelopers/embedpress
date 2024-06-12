@@ -477,8 +477,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
             if (strpos($options['playlistId'], 'UU') === 0) {
                 // sort only channels
-                usort($jsonResult->items, array(get_class(), 'compare_vid_date')); // sorts in place
+                usort($jsonResult->items, array(self::class, 'compare_vid_date')); // sorts in place
             }
+            
 
             ob_start();
             ?>
