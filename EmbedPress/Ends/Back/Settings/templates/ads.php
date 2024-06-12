@@ -156,7 +156,7 @@ if(!$pro_active){
 
 
                                         <button title="Skip Ad" class="skip-ad-button" style="display: none;">
-                                            <?php echo esc_html__('Skip Ads', 'embedpress'); ?> </button>
+                                            <?php echo esc_html__('Skip Ad', 'embedpress'); ?> </button>
 
                                     </div>
 
@@ -165,7 +165,7 @@ if(!$pro_active){
                                             <img decoding="async" class="ep-ad" src="<?php echo esc_url($image_demo_adUrl); ?>">
                                         </a>
                                         <button title="Skip Ad" class="skip-ad-button" style="display: inline-block;">
-                                            <?php echo esc_html__('Skip Ads', 'embedpress'); ?> </button>
+                                            <?php echo esc_html__('Skip Ad', 'embedpress'); ?> </button>
 
                                     </div>
                                 </div>
@@ -278,7 +278,7 @@ if(!$pro_active){
 
 
                                         <button title="Skip Ad" class="skip-ad-button" style="display: none;">
-                                            <?php echo esc_html__('Skip Ads', 'embedpress'); ?> </button>
+                                            <?php echo esc_html__('Skip Ad', 'embedpress'); ?> </button>
 
                                     </div>
 
@@ -287,7 +287,7 @@ if(!$pro_active){
                                             <img decoding="async" class="ep-ad" src="<?php echo esc_url($image_demo_adUrl); ?>">
                                         </a>
                                         <button title="Skip Ad" class="skip-ad-button" style="display: inline-block;">
-                                            <?php echo esc_html__('Skip Ads', 'embedpress'); ?> </button>
+                                            <?php echo esc_html__('Skip Ad', 'embedpress'); ?> </button>
 
                                     </div>
                                 </div>
@@ -539,6 +539,7 @@ if(!$pro_active){
         text-transform: capitalize;
         font-weight: 600;
         font-size: 12px;
+        padding: 0;
     }
 
     .ad-timer {

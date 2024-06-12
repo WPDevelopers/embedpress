@@ -1837,7 +1837,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:281
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:290
 #: EmbedPress/Includes/Classes/Helper.php:1012
-msgid "Skip Ads"
+msgid "Skip Ad"
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:242

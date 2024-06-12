@@ -1323,7 +1323,8 @@ button.skip-ad-button {
   z-index: 122222222;
   font-size: 15px;
   font-weight: bold;
-  border-radius: 4px; }
+  border-radius: 4px;
+  padding: 0; }
 
 .components-panel__row.elementor-panel-alert.elementor-panel-warning-info {
   margin-top: -15px;

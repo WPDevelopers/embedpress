@@ -1009,7 +1009,7 @@ class Helper
 
 					<?php if (!empty($adSkipButton) && !empty($showSkipButton)) : ?>
 						<button title="Skip Ad" class="skip-ad-button" style="display: none;">
-							<?php echo esc_html__('Skip Ads', 'embedpress'); ?>
+							<?php echo esc_html__('Skip Ad', 'embedpress'); ?>
 						</button>
 					<?php endif; ?>
 
@@ -1132,6 +1132,7 @@ class Helper
 				align-items: center;
 				justify-content: center;
 				cursor: pointer;
+				padding: 0;
 
 			}
 

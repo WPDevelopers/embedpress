@@ -184,9 +184,13 @@ class Embedpress_Pdf extends Widget_Base
                     'modern'        => __('Modern', 'embedpress'),
                     'flip-book' => __('Flip Book', 'embedpress'),
                 ],
-                'condition' => [
-                    'embedpress_pdf_file_link_from' => 'self'
-                ]
+                'conditions' => [
+                    'relation' => 'or',
+                    'terms' => [
+                        ['name' => 'embedpress_pdf_type', 'operator' => '===', 'value' => 'file'],
+                        ['name' => 'embedpress_pdf_file_link_from', 'operator' => '===', 'value' => 'self'],
+                    ],
+                ],
             ]
         );
 
