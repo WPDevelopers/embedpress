@@ -1322,6 +1322,9 @@ p.need-access-message {
 .ep-content-share-enabled .ep-embed-content-wraper {
     display: flex !important;
 }
+.ep-content-share-enabled .ep-embed-content-wraper.hidden {
+    display: none !important;
+}
 
 .ep-share-position-right .ep-embed-content-wraper {
     flex-direction: row;

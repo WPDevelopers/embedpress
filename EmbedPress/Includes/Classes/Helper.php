@@ -1055,6 +1055,7 @@ class Helper
 				position: relative;
 				display: inline-block !important;
 				max-width: 100%;
+				width: 100%;
 			}
 			.embedpress-document-embed div[data-sponsored-id], .embedpress-document-embed .main-ad-template.video {
 				width: 100%;
