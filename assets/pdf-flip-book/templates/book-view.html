@@ -2,7 +2,7 @@
   <div class="view">
     <div class="fnav">
       <div class="prev">
-        <a class="cmdBackward" href="/#"><span class="icon previous-page-icon">
+        <a class="cmdBackward but-show" href="/#"><span class="icon previous-page-icon">
             <svg title="<$tr>Previous page</$tr>" width="28.947" height="49.999" viewBox="0 0 28.947 49.999" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <path
@@ -12,7 +12,7 @@
           </span></a>
       </div>
       <div class="next">
-        <a class="cmdForward" href="/#"><span class="icon next-page-icon">
+        <a class="cmdForward but-show" href="/#"><span class="icon next-page-icon">
             <svg title="<$tr>Next page</$tr>" width="29.605" height="50" viewBox="0 0 29.605 50" fill="none"
               xmlns="http://www.w3.org/2000/svg">
               <path
@@ -378,11 +378,6 @@
   }
   if (!(params?.bookmark)) {
     document.querySelector("li.fnav-item.cmdToc")?.remove();
-  }
-
-
-  if (!params?.flipbook_toolbar_position) {
-    params.flipbook_toolbar_position = params.position;
   }
 
   const element = document.querySelector(".flip-book .controls");

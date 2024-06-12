@@ -47,9 +47,9 @@
     pointer-events: none;
 }
 .pro-control .ad-manager-controllers {
-    opacity: .5;
+    opacity: 0.5;
 }
-.ads-help{
+.ads-help {
     margin-top: 30px;
 }
 button.components-flex.components-color-palette__custom-color {
@@ -75,4 +75,9 @@ button.components-flex.components-color-palette__custom-color {
     .ep-file-download-option-masked {
         height: 100%;
     }
+
+    iframe.embedpress-embed-document-pdf {
+        max-height: 480px;
+    }
+
 }

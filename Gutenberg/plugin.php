@@ -908,6 +908,7 @@ function getParamData($attributes)
 		'zoom_out' => !empty($attributes['zoomOut'])  ? 'true' : 'false',
 		'fit_view' => !empty($attributes['fitView'])  ? 'true' : 'false',
 		'bookmark' => !empty($attributes['bookmark'])  ? 'true' : 'false',
+		'flipbook_toolbar_position' => !empty($attributes['flipbook_toolbar_position'])  ? $attributes['flipbook_toolbar_position'] : 'bottom',
 	);
 
 	if ($urlParamData['themeMode'] == 'custom') {

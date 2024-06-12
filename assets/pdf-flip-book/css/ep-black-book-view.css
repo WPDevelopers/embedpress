@@ -757,6 +757,10 @@ span.icon.next-page-icon svg, span.icon.previous-page-icon svg {
   display: inline;
 }
 
+.hidden.but-show {
+  display: inline !important;
+}
+
 li.fnav-item.disabled {
   opacity: 0.5;
 }
@@ -771,4 +775,28 @@ li.fnav-item.disabled {
 
 .controls.toolbar-position-bottom ul.menu {
   bottom: 100%;
+}
+
+@media only screen and (max-width: 680px) {
+  .ctrl .fnavbar .fnav li.fnav-item.cmdToc, .ctrl .fnavbar .fnav li.fnav-item.cmdZoomIn, .ctrl .fnavbar .fnav li.fnav-item.cmdZoomOut, .ctrl .fnavbar .fnav li.fnav-item.cmdDefaultZoom, .ctrl .fnavbar .fnav li.fnav-item.cmdPrint {
+    display: none !important;
+  }
+
+  iframe.embedpress-embed-document-pdf.embedpress-pdf-1718089021903 {
+    max-height: 380px;
+  }
+
+  .flip-book .controls {
+    transform: scale(.8);
+    top: calc(-100% + 45px) !important;
+  }
+
+  .next span.icon svg path, .prev span.icon svg path {
+    fill: #888;
+  }
+
+  .next span.icon svg, .prev span.icon svg {
+    height: 30px;
+  }
+
 }
