@@ -215,6 +215,9 @@ class Embedpress_Pdf extends Widget_Base
                     '300'         => __('300%', 'embedpress'),
                     '400'         => __('400%', 'embedpress'),
                 ],
+                'condition' => [
+                    'embedpress_pdf_viewer_style' => 'modern'
+                ]
             ]
         );
         $this->add_control(
@@ -257,7 +260,7 @@ class Embedpress_Pdf extends Widget_Base
 					'unit' => 'px',
 				],
 				'selectors' => [
-                    '{{WRAPPER}} .embedpress-document-embed iframe'               => 'width: {{SIZE}}{{UNIT}}!important; max-width: {{SIZE}}{{UNIT}}!important',
+                    '{{WRAPPER}} .embedpress-document-embed iframe, , {{WRAPPER}} .ep-share-position-bottom .ep-embed-content-wraper'               => 'width: {{SIZE}}{{UNIT}}!important; max-width: {{SIZE}}{{UNIT}}!important',
                     // '{{WRAPPER}} .embedpress-document-embed' => 'width: {{SIZE}}{{UNIT}}; max-width: 100%',
                     // '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
                 ],

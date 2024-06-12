@@ -778,7 +778,7 @@ li.fnav-item.disabled {
 }
 
 @media only screen and (max-width: 680px) {
-  .ctrl .fnavbar .fnav li.fnav-item.cmdToc, .ctrl .fnavbar .fnav li.fnav-item.cmdZoomIn, .ctrl .fnavbar .fnav li.fnav-item.cmdZoomOut, .ctrl .fnavbar .fnav li.fnav-item.cmdDefaultZoom, .ctrl .fnavbar .fnav li.fnav-item.cmdPrint {
+  .ctrl .fnavbar .fnav li.fnav-item.cmdToc, .ctrl .fnavbar .fnav li.fnav-item.cmdForward, .ctrl .fnavbar .fnav li.fnav-item.cmdBackward, .ctrl .fnavbar .fnav li.fnav-item.cmdDefaultZoom, .ctrl .fnavbar .fnav li.fnav-item.cmdPrint {
     display: none !important;
   }
 
@@ -788,6 +788,9 @@ li.fnav-item.disabled {
 
   .flip-book .controls {
     transform: scale(.8);
+  }
+
+  .flip-book .controls.toolbar-position-top {
     top: calc(-100% + 45px) !important;
   }
 
@@ -797,6 +800,10 @@ li.fnav-item.disabled {
 
   .next span.icon svg, .prev span.icon svg {
     height: 30px;
+  }
+
+  li.dropup.fnav-item.toggle.widSettings ul.menu {
+    right: 0;
   }
 
 }

@@ -1327,6 +1327,10 @@ p.need-access-message {
     flex-direction: row;
 }
 
+.ep-content-share-enabled .ep-embed-content-wraper>div:first-child{
+    width: 100%;
+}
+
 .ep-share-position-left .ep-embed-content-wraper {
     flex-direction: row-reverse;
 }
@@ -1364,6 +1368,10 @@ p.need-access-message {
     left: 0px;
     top: 0;
     flex-direction: column;
+}
+
+.ep-social-share.share-position-bottom, .ep-social-share.share-position-top{
+    justify-content: center;
 }
 
 .embedpress-gutenberg-wrapper .ep-social-share.share-position-left, .ep-elementor-content .ep-social-share.share-position-left {
