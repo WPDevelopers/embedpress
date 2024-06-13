@@ -131,7 +131,7 @@ class Helper
 			if (!empty($provider[$source_url])) {
 				$source_name = $provider[$source_url]->getProviderName();
 			} else {
-				$source_name = 'Unknown Source';
+				$source_name = explode('.', parse_url($source_url, PHP_URL_HOST))[1]; 
 			}
 		}
 
