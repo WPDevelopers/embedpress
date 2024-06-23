@@ -30,7 +30,7 @@ let epGlobals = {};
             selector.forEach((function (value, index, thisArg) {
                 let id = value.dataset['emid'];
                 let src = value.dataset['emsrc'];
-                PDFObject.embed(src, "." + id, option);
+                PDFObject?.embed(src, "." + id, option);
             }));
         }
         if (typeof epGlobals.youtubeChannelGallery === 'function') {
