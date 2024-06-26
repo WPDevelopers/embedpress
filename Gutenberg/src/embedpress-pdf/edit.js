@@ -187,7 +187,7 @@ class EmbedPressPDFEdit extends Component {
 
 		const { attributes, noticeUI, setAttributes } = this.props;
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
 
 		if (!clientId) {
 			setAttributes({ clientId: this.props.clientId });
@@ -269,6 +269,7 @@ class EmbedPressPDFEdit extends Component {
 				toolbar_position: toolbar_position ? toolbar_position : 'top',
 				doc_details: doc_details ? doc_details : false,
 				doc_rotation: doc_rotation ? doc_rotation : false,
+				add_image: add_image ? add_image : false,
 				zoom_in: zoomIn ? zoomIn : false,
 				zoom_out: zoomOut ? zoomOut : false,
 				fit_view: fitView ? fitView : false,
@@ -572,12 +573,20 @@ class EmbedPressPDFEdit extends Component {
 														}
 													</div>
 													<ToggleControl
+														label={__('Add Image', 'embedpress')}
+														onChange={(add_image) =>
+															setAttributes({ add_image })
+														}
+														checked={add_image}
+													/>
+													<ToggleControl
 														label={__('Rotation', 'embedpress')}
 														onChange={(doc_rotation) =>
 															setAttributes({ doc_rotation })
 														}
 														checked={doc_rotation}
 													/>
+
 													<ToggleControl
 														label={__('Properties', 'embedpress')}
 														onChange={(doc_details) =>
