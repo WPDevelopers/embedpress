@@ -493,6 +493,14 @@ function embedpress_render_block_style($attributes)
 			height: ' . esc_attr($attributes['height']) . 'px !important;
 			max-width: 100%;
 		  }
+		.ose-giphy' . esc_attr($uniqid) . ' img{
+			position: relative;
+			width: ' . esc_attr($attributes['width']) . 'px !important;
+			height: ' . esc_attr($attributes['height']) . 'px !important;
+			max-width: 100%;
+		  }
+
+
 
 	</style>';
 
