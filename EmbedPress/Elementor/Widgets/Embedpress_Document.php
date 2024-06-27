@@ -57,6 +57,7 @@ class Embedpress_Document extends Widget_Base
 		
 		$handles = [];
 	
+		$handles[] = 'embedpress-pdfobject';
 		$handles[] = 'embedpress-front';
 		
 		if (isset($handler_keys['enabled_ads']) && $handler_keys['enabled_ads'] === 'yes') {

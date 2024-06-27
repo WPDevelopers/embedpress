@@ -1153,6 +1153,7 @@ function isGoogleCalendar($url) {
 function embedpress_document_block_scripts() {
     if (!is_admin() && has_block('embedpress/document')) {
 		$script_handles = [
+			'embedpress-pdfobject',
 			'embedpress-front',
 			'embedpress_documents_viewer_script'
 		];
