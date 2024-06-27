@@ -33,7 +33,6 @@ class Helper
 
 		add_action('wp_ajax_loadmore_data_handler', [$this, 'loadmore_data_handler']);
 		add_action('wp_ajax_nopriv_loadmore_data_handler', [$this, 'loadmore_data_handler']);
-
 	}
 
 	public static function parse_query($str, $urlEncoding = true)
@@ -128,10 +127,23 @@ class Helper
 			Shortcode::get_embera_instance();
 			$collectios = Shortcode::get_collection();
 			$provider = $collectios->findProviders($source_url);
+
 			if (!empty($provider[$source_url])) {
 				$source_name = $provider[$source_url]->getProviderName();
 			} else {
-				$source_name = explode('.', parse_url($source_url, PHP_URL_HOST))[1]; 
+				$host = parse_url($source_url, PHP_URL_HOST);
+				if ($host) {
+					$parts = explode('.', $host);
+					if (count($parts) > 1) {
+						$source_name = $parts[1];
+					} else {
+						// Handle the case where the host doesn't have at least two parts
+						$source_name = $host;
+					}
+				} else {
+					// Handle the case where parse_url fails
+					$source_name = 'unknown';
+				}
 			}
 		}
 
@@ -1057,7 +1069,9 @@ class Helper
 				max-width: 100%;
 				width: 100%;
 			}
-			.embedpress-document-embed div[data-sponsored-id], .embedpress-document-embed .main-ad-template.video {
+
+			.embedpress-document-embed div[data-sponsored-id],
+			.embedpress-document-embed .main-ad-template.video {
 				width: 100%;
 			}
 
@@ -1270,7 +1284,8 @@ class Helper
 		}
 	}
 
-	public static function get_enable_settings_data_for_scripts($settings) {
+	public static function get_enable_settings_data_for_scripts($settings)
+	{
 		$settings_data = [
 			'enabled_ads' => isset($settings['adManager']) && $settings['adManager'] === 'yes' ? 'yes' : '',
 
@@ -1280,14 +1295,15 @@ class Helper
 
 			'enabled_docs_custom_viewer' => isset($settings['embedpress_document_viewer']) && $settings['embedpress_document_viewer'] === 'custom' ? 'yes' : '',
 		];
-	
+
 		update_option('enabled_elementor_scripts', $settings_data);
 	}
-	
-	public static function get_options_value($key){
+
+	public static function get_options_value($key)
+	{
 		$g_settings = get_option(EMBEDPRESS_PLG_NAME);
 
-		if(isset($g_settings[$key])){
+		if (isset($g_settings[$key])) {
 			return $g_settings[$key];
 		}
 		return '';
