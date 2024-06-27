@@ -597,6 +597,21 @@ class Embedpress_Pdf extends Widget_Base
         );
 
         $this->add_control(
+            'add_image',
+            [
+                'label'        => __('Add Image', 'embedpress'),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Show', 'embedpress'),
+                'label_off'    => __('Hide', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                    'embedpress_pdf_viewer_style' => 'modern',
+                ],
+            ]
+        );
+        $this->add_control(
             'pdf_rotate_access',
             [
                 'label'        => __('Rotation', 'embedpress'),
@@ -726,6 +741,7 @@ class Embedpress_Pdf extends Widget_Base
             'copy_text' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'true',
             'add_text' => !empty($settings['add_text']) ? 'true' : 'false',
             'draw' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['draw'] : 'true',
+            'add_image' => !empty($settings['add_image'])  ? 'true' : 'false',
             'pdf_rotation' => !empty($settings['pdf_rotate_access'])  ? 'true' : 'false',
             'pdf_details' => !empty($settings['pdf_details'])  ? 'true' : 'false',
             'zoom_in' => !empty($settings['pdf_zoom_in'])  ? 'true' : 'false',
@@ -787,6 +803,7 @@ class Embedpress_Pdf extends Widget_Base
             'data-presentation-mode' => isset($settings['pdf_presentation_mode']) ? esc_attr($settings['pdf_presentation_mode']) : '',
             'data-download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION') ? esc_attr($settings['pdf_print_download']) : 'yes', // Assuming 'yes' is a safe fallback
             'data-copy' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION') ? esc_attr($settings['pdf_text_copy']) : 'yes', // Assuming 'yes' is a safe fallback
+            'data-add-image' => isset($settings['add_image']) ? esc_attr($settings['add_image']) : '',
             'data-rotate' => isset($settings['pdf_rotate_access']) ? esc_attr($settings['pdf_rotate_access']) : '',
             'data-details' => isset($settings['pdf_details']) ? esc_attr($settings['pdf_details']) : '',
             'data-id' => $id // Assuming $id is safe, no need to sanitize

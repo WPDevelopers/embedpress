@@ -34,6 +34,7 @@ const getParamObj = (hash) => {
             copy_text: hashParams.get('copy_text'),
             add_text: hashParams.get('add_text'),
             draw: hashParams.get('draw'),
+            add_image: hashParams.get('add_image'),
             position: hashParams.get('position'),
             download: hashParams.get('download'),
             toolbar: hashParams.get('toolbar'),
@@ -109,7 +110,7 @@ const pdfIframeStyle = (data) => {
     let settingsPos = '';
 
     if (data.toolbar === false || data.toolbar == 'false') {
-        data.presentation = false; data.download = true; data.copy_text = true; data.add_text = true; data.draw = true, data.doc_details = false; data.doc_rotation = false;
+        data.presentation = false; data.download = true; data.copy_text = true; data.add_text = true; data.draw = true, data.doc_details = false; data.doc_rotation = false, data.add_image = false;
     }
 
     let position = 'top';
@@ -124,10 +125,10 @@ const pdfIframeStyle = (data) => {
         copy_text = 'text';
     }
 
-    // console.log({data});
 
     let doc_details = isDisplay(data.doc_details);
     let doc_rotation = isDisplay(data.doc_rotation);
+    let add_image = isDisplay(data.add_image);
 
     const otherhead = document.getElementsByTagName("head")[0];
 
@@ -230,6 +231,9 @@ const pdfIframeStyle = (data) => {
         #pageRotateCw{
             display: ${doc_rotation}!important;
         }
+        #editorStamp{
+            display: ${add_image}!important;
+        }
         #pageRotateCcw{
             display: ${doc_rotation}!important;
         }
@@ -304,5 +308,3 @@ document.getElementById("viewBookmark")?.addEventListener('click', (e) => {
         alert(`Current Page: ${url}`);
     }
 });
-
-console.log('this is akash test page');
