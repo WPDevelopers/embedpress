@@ -3435,7 +3435,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'selectors' => [
 					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive, {{WRAPPER}} .ad-youtube-video > iframe, 
-					{{WRAPPER}} .plyr--video' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
+					{{WRAPPER}} .plyr--video, {{WRAPPER}} .ose-giphy img' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
 				],
 			]
 		);
@@ -3472,7 +3472,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'selectors' => [
 					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive,{{WRAPPER}} .ad-youtube-video > iframe,
-					{{WRAPPER}} .plyr--video' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
+					{{WRAPPER}} .plyr--video, {{WRAPPER}} .ose-giphy img' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
 				],
 				'condition' => [
 					'embedpress_pro_embeded_source!' => 'instafeed'
