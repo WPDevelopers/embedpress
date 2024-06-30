@@ -324,6 +324,12 @@ Just after embedding the content into your website using EmbedPress, iFrame cust
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [4.0.4] – 2024-06-30 =  
+- Fixed: Giphy Embedding issues.
+- Added: ‘Add image’ controller in EmbedPress PDF.
+- Fixed: Conflicts with BetterDocs plugin.
+- Few minor bug fixes and improvements.
+
 = [4.0.3] – 2024-06-12 =  
 - Added: 3D FlipBook viewer for Embedded PDF.
 - Fixed: PHP 8.3 deprecated issues.
