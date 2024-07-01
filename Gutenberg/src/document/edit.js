@@ -204,7 +204,7 @@ class DocumentEdit extends Component {
 			let url = '//view.officeapps.live.com/op/embed.aspx?src=' + href; // + '?' + queryString;
 
 			if(docViewer === 'google') {
-				url = 'http://docs.google.com/gview?embedded=true&url=' + href;
+				url = '//docs.google.com/gview?embedded=true&url=' + href;
 			}
 			return (
 				<Fragment>

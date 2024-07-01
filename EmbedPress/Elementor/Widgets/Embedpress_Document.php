@@ -612,7 +612,7 @@ class Embedpress_Document extends Widget_Base
                     }
                     elseif($settings['embedpress_document_viewer'] === 'google')
                     {
-                        $view_link = 'http://docs.google.com/gview?embedded=true&url=' . urlencode($url);
+                        $view_link = '//docs.google.com/gview?embedded=true&url=' . urlencode($url);
                     }
     
                     $hostname = parse_url($url, PHP_URL_HOST);

@@ -143,7 +143,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			let iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src=' + href // + '?' + queryString;
 			
 			if(docViewer === 'google') {
-				iframeSrc = 'http://docs.google.com/gview?embedded=true&url=' + href;
+				iframeSrc = '//docs.google.com/gview?embedded=true&url=' + href;
 			}
 
 			return (
