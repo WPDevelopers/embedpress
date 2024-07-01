@@ -2,9 +2,12 @@
 
 namespace EmbedPress\Providers\TemplateLayouts;
 
+
 use Embera\Provider\ProviderAdapter;
 use Embera\Provider\ProviderInterface;
 use Embera\Url;
+use EmbedPress\Includes\Classes\Helper;
+
 
 class YoutubeLayout
 {
@@ -24,7 +27,7 @@ class YoutubeLayout
             <div class="channel-info">
                 <div class="info-description">
                     <h1 class="channel-name"><?php echo $title; ?></h1>
-                    <p class="channel-details"><?php echo esc_html($customUrl); ?> · <?php echo esc_html($subscriberCount); ?> subscribers · <?php echo esc_html($videoCount); ?> videos</p>
+                    <p class="channel-details"><?php echo esc_html($customUrl); ?> · <?php echo esc_html(Helper::format_number($subscriberCount)); ?> subscribers · <?php echo esc_html(Helper::format_number($videoCount)); ?> videos</p>
                 </div>
                 <a target="_blank" href="<?php echo esc_url('youtube.com/' . $customUrl) ?>" class="subscribe-button">
                     <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -38,4 +41,262 @@ class YoutubeLayout
 
         return $channel_layout;
     }
+
+
+    public static function create_grid_layout($options, $data) {
+        $nextPageToken = '';
+        $prevPageToken = '';
+        $gallobj       = new \stdClass();
+        $options       = wp_parse_args($options, [
+            'playlistId'  => '',
+            'pageToken'   => '',
+            'pagesize'    => $data['get_pagesize'] ? $data['get_pagesize'] : 6,
+            'currentpage' => '',
+            'columns'     => 3,
+            'thumbnail'   => 'medium',
+            'gallery'     => true,
+            'autonext'    => true,
+            'thumbplay'   => true,
+            'apiKey'      => $data['get_api_key'],
+            'hideprivate' => '',
+        ]);
+        $options['pagesize'] = $options['pagesize'] > 50 ? 50 : $options['pagesize'];
+        $options['pagesize'] = $options['pagesize'] < 1 ? 1 : $options['pagesize'];
+
+        if (empty($options['apiKey'])) {
+            $gallobj->html = $data['get_api_key_error_message'];
+            return $gallobj;
+        }
+
+        $apiEndpoint = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,status,contentDetails&playlistId=' . $options['playlistId']
+            . '&maxResults=' . $options['pagesize']
+            . '&key=' . $options['apiKey'];
+        if ($options['pageToken'] != null) {
+            $apiEndpoint .= '&pageToken=' . $options['pageToken'];
+        }
+
+
+
+        $transient_key          = 'ep_embed_youtube_channel_' . md5($apiEndpoint);
+        $gallobj->transient_key = $transient_key;
+        $jsonResult             = get_transient($transient_key);
+
+
+        if (empty($jsonResult)) {
+            $apiResult = wp_remote_get($apiEndpoint, array('timeout' => $data['curltimeout']));
+            if (is_wp_error($apiResult)) {
+                $gallobj->html = Helper::clean_api_error_html($apiResult->get_error_message(), true);
+                return $gallobj;
+            }
+            $jsonResult = json_decode($apiResult['body']);
+            
+            if (empty($jsonResult->error)) {
+                set_transient($transient_key, $jsonResult, MINUTE_IN_SECONDS * 20);
+            }
+            else{
+                set_transient($transient_key, $jsonResult, 10);
+            }
+        }
+
+
+
+        if (isset($jsonResult->error)) {
+            if(!empty($jsonResult->error->errors[0]->reason) && $jsonResult->error->errors[0]->reason == 'playlistNotFound'){
+                $gallobj->html = Helper::clean_api_error_html(__('There is nothing on the playlist.', 'embedpress'));
+                return $gallobj;
+            }
+            if (isset($jsonResult->error->message)) {
+                $gallobj->html = Helper::clean_api_error_html($jsonResult->error->message);
+                return $gallobj;
+            }
+            $gallobj->html = Helper::clean_api_error_html(__('Sorry, there may be an issue with your YouTube API key.', 'embedpress'));
+            return $gallobj;
+        }
+
+
+
+        $resultsPerPage = $jsonResult->pageInfo->resultsPerPage;
+        $totalResults = $jsonResult->pageInfo->totalResults;
+        $totalPages = ceil($totalResults / $resultsPerPage);
+        if (isset($jsonResult->nextPageToken)) {
+            $nextPageToken = $jsonResult->nextPageToken;
+        }
+
+        if (isset($jsonResult->prevPageToken)) {
+            $prevPageToken = $jsonResult->prevPageToken;
+        }
+
+
+        if (!empty($jsonResult->items) && is_array($jsonResult->items)) :
+            if($options['gallery'] === "false"){
+                $gallobj->html = "";
+                if(count($jsonResult->items) === 1){
+                    $gallobj->first_vid = Helper::get_id($jsonResult->items[0]);
+                }
+                return $gallobj;
+            }
+
+            if(count($jsonResult->items) === 1 && empty($nextPageToken) && empty($prevPageToken)){
+                $gallobj->first_vid = Helper::get_id($jsonResult->items[0]);
+                $gallobj->html = "";
+                return $gallobj;
+            }
+
+            if (strpos($options['playlistId'], 'UU') === 0) {
+                // sort only channels
+                usort($jsonResult->items, array(Helper::class, 'compare_vid_date')); // sorts in place
+            }
+            
+
+            ob_start();
+
+            ?>
+
+            <div class="ep-youtube__content__block"  data-unique-id="<?php echo wp_rand(); ?>">
+                <div class="youtube__content__body">
+                    <?php 
+                    $channel_info = $data['get_channel_info'];
+                    echo YoutubeLayout::create_channel_info_layout($channel_info); ?>
+
+                    <div class="content__wrap">
+                        <?php foreach ($jsonResult->items as $item) : ?>
+                            <?php
+                            $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
+                            $thumbnail = Helper::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
+                            $vid = Helper::get_id($item);
+                            if (empty($gallobj->first_vid)) {
+                                $gallobj->first_vid = $vid;
+                            }
+                            if ($privacyStatus == 'private' && $options['hideprivate']) {
+                                continue;
+                            }
+                            ?>
+                            <div class="item" data-vid="<?php echo $vid; ?>">
+                                <div class="thumb" style="background: <?php echo "url({$thumbnail}) no-repeat center"; ?>">
+                                    <div class="play-icon">
+                                        <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'); ?>" alt="">
+                                    </div>
+                                </div>
+                                <div class="body">
+                                    <p><?php echo $item->snippet->title; ?></p>
+                                </div>
+                            </div>
+
+                        <?php endforeach; ?>
+                        <div class="item" style="height: 0"></div>
+                    </div>
+
+
+                    <?php if ($totalPages > 1) : ?>
+                        <div class="ep-youtube__content__pagination <?php echo (empty($prevPageToken) && empty($nextPageToken)) ? ' hide ' : ''; ?>">
+                            <div
+                                class="ep-prev" <?php echo empty($prevPageToken) ? ' style="display:none" ' : ''; ?>
+                                data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
+                                data-pagetoken="<?php echo esc_attr($prevPageToken) ?>"
+                                data-pagesize="<?php echo intval($options['pagesize']) ?>"
+                            >
+                                <span><?php _e("Prev", "embedpress"); ?></span>
+                            </div>
+                            <div class="is_desktop_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
+                                <?php
+
+                                    $numOfPages = $totalPages;
+                                    $renderedEllipses = false;
+
+                                    $currentPage = !empty($options['currentpage'])?$options['currentpage'] : 1;
+
+                                    for($i = 1; $i<=$numOfPages; $i++)
+                                    {
+                                        //render pages 1 - 3
+                                        if($i < 4) {
+                                            //render link
+                                            $is_current = $i == (int)$currentPage? "active__current_page" : "";
+
+                                            echo wp_kses_post("<span class='page-number  $is_current' data-page='$i'>$i</span>");
+
+                                        }
+
+                                        //render current page number
+                                        else if($i == (int)$currentPage) {
+                                            //render link
+                                            echo wp_kses_post('<span class="page-number active__current_page" data-page="'.$i.'">'.$i.'</span>');
+                                            //reset ellipses
+                                            $renderedEllipses = false;
+                                        }
+
+                                        //last page number
+                                        else if ($i >= $numOfPages - 1) {
+                                            //render link
+                                            echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>');
+                                        }
+
+                                        //make sure you only do this once per ellipses group
+                                        else {
+                                        if (!$renderedEllipses){
+                                            print("...");
+                                            $renderedEllipses = true;
+                                        }
+                                        }
+                                    }
+                                ?>
+
+                            </div>
+
+                            <div class="is_mobile_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
+                                <?php
+
+                                    $numOfPages = $totalPages;
+                                    $renderedEllipses = false;
+
+                                    $currentPage = !empty($options['currentpage'])?$options['currentpage'] : 1;
+
+                                    for($i = 1; $i<=$numOfPages; $i++)
+                                    {
+
+                                        //render current page number
+                                    if($i == (int)$currentPage) {
+                                            //render link
+                                            echo wp_kses_post('<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>');
+                                            //reset ellipses
+                                            $renderedEllipses = false;
+                                        }
+
+                                        //last page number
+                                        else if ($i >= $numOfPages ) {
+                                            //render link
+                                            echo wp_kses_post('...<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>');
+                                        }
+                                    }
+                                ?>
+
+                            </div>
+
+
+                            <div
+                                class="ep-next " <?php echo empty($nextPageToken) ? ' style="display:none" ' : ''; ?>
+                                data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
+                                data-pagetoken="<?php echo esc_attr($nextPageToken) ?>"
+                                data-pagesize="<?php echo intval($options['pagesize']) ?>"
+                            >
+                                <span><?php _e("Next ", "embedpress"); ?> </span>
+                            </div>
+                        </div>
+                    <?php endif; ?>
+
+                    <div class="ep-loader-wrap">
+                        <div class="ep-loader"><img alt="loading" src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/spin.gif'); ?>"></div>
+                    </div>
+
+                </div>
+            </div>
+            <?php
+            $gallobj->html = ob_get_clean();
+        else:
+            $gallobj->html = Helper::clean_api_error_html(__("There is nothing on the playlist.", 'embedpress'));
+        endif;
+
+        return $gallobj;
+    }
 }
+
+

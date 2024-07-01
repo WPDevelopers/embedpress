@@ -17,6 +17,8 @@ use Embera\Provider\ProviderAdapter;
 use Embera\Provider\ProviderInterface;
 use Embera\Url;
 
+use EmbedPress\Includes\Classes\Helper;
+
 use EmbedPress\Providers\TemplateLayouts\YoutubeLayout;
 
 /**
@@ -328,6 +330,19 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             return $channel_id;
         }
     }
+
+    public function layout_data(){
+        $data = [];
+        $data['get_pagesize'] = $this->get_pagesize(); 
+        $data['get_api_key'] = $this->get_api_key(); 
+        $data['get_api_key_error_message'] = $this->get_api_key_error_message(); 
+        $data['get_channel_info'] = $this->get_channel_info(); 
+        $data['get_api_key'] = $this->get_api_key(); 
+        $data['curltimeout'] = self::$curltimeout; 
+        $data['self::class'] = self::class; 
+
+        return $data;
+    }
     
 
     /** inline {@inheritdoc} */
@@ -349,7 +364,12 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             if(!empty($params['pagesize'])){
                 $gallery_args['pagesize'] = $params['pagesize'];
             }
-            $gallery         = $this->get_gallery_page($gallery_args);
+
+            $layout_data = $this->layout_data();
+
+            $gallery         = YoutubeLayout::create_grid_layout($gallery_args, $layout_data);
+
+            // $gallery         = $this->get_gallery_page($gallery_args);
 
             if (!empty($gallery->first_vid)) {
                 $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";

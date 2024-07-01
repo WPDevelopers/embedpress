@@ -33,7 +33,6 @@ class Helper
 
 		add_action('wp_ajax_loadmore_data_handler', [$this, 'loadmore_data_handler']);
 		add_action('wp_ajax_nopriv_loadmore_data_handler', [$this, 'loadmore_data_handler']);
-
 	}
 
 	public static function parse_query($str, $urlEncoding = true)
@@ -1057,7 +1056,9 @@ class Helper
 				max-width: 100%;
 				width: 100%;
 			}
-			.embedpress-document-embed div[data-sponsored-id], .embedpress-document-embed .main-ad-template.video {
+
+			.embedpress-document-embed div[data-sponsored-id],
+			.embedpress-document-embed .main-ad-template.video {
 				width: 100%;
 			}
 
@@ -1270,7 +1271,8 @@ class Helper
 		}
 	}
 
-	public static function get_enable_settings_data_for_scripts($settings) {
+	public static function get_enable_settings_data_for_scripts($settings)
+	{
 		$settings_data = [
 			'enabled_ads' => isset($settings['adManager']) && $settings['adManager'] === 'yes' ? 'yes' : '',
 
@@ -1280,16 +1282,76 @@ class Helper
 
 			'enabled_docs_custom_viewer' => isset($settings['embedpress_document_viewer']) && $settings['embedpress_document_viewer'] === 'custom' ? 'yes' : '',
 		];
-	
+
 		update_option('enabled_elementor_scripts', $settings_data);
 	}
-	
-	public static function get_options_value($key){
+
+	public static function get_options_value($key)
+	{
 		$g_settings = get_option(EMBEDPRESS_PLG_NAME);
 
-		if(isset($g_settings[$key])){
+		if (isset($g_settings[$key])) {
 			return $g_settings[$key];
 		}
 		return '';
 	}
+
+
+	public static function format_number($number)
+	{
+		if ($number >= 1000000000) {
+			return number_format($number / 1000000000, 1) . 'b';
+		} elseif ($number >= 1000000) {
+			return number_format($number / 1000000, 1) . 'm';
+		} elseif ($number >= 1000) {
+			return number_format($number / 1000, 1) . 'k';
+		} else {
+			return $number;
+		}
+	}
+
+	public static function get_id($item){
+        $vid = isset($item->snippet->resourceId->videoId) ? $item->snippet->resourceId->videoId : null;
+        $vid = $vid ? $vid : (isset($item->id->videoId) ? $item->id->videoId : null);
+        $vid = $vid ? $vid : (isset($item->id) ? $item->id : null);
+        return $vid;
+    }
+
+	public static function clean_api_error($raw_message) {
+        return htmlspecialchars(strip_tags(preg_replace('@&key=[^& ]+@i', '&key=*******', $raw_message)));
+    }
+
+	public static function clean_api_error_html($raw_message) {
+        $clean_html = '';
+        if ((defined('REST_REQUEST') && REST_REQUEST) || current_user_can('manage_options')) {
+            $clean_html = '<div>' . __('EmbedPress: ', 'embedpress') . self::clean_api_error($raw_message) . '</div>';
+        }
+        return $clean_html;
+    }
+
+	public static function get_thumbnail_url($item, $quality, $privacyStatus) {
+        $url = "";
+        if ($privacyStatus == 'private') {
+            $url = EMBEDPRESS_URL_ASSETS . 'images/youtube/private.png';
+        } elseif (isset($item->snippet->thumbnails->{$quality}->url)) {
+            $url = $item->snippet->thumbnails->{$quality}->url;
+        } elseif (isset($item->snippet->thumbnails->medium->url)) {
+            $url = $item->snippet->thumbnails->medium->url;
+        } elseif (isset($item->snippet->thumbnails->default->url)) {
+            $url = $item->snippet->thumbnails->default->url;
+        } elseif (isset($item->snippet->thumbnails->high->url)) {
+            $url = $item->snippet->thumbnails->high->url;
+        } else {
+            $url = EMBEDPRESS_URL_ASSETS . 'images/youtube/deleted-video-thumb.png';
+        }
+        return $url;
+    }
+
+	public static function compare_vid_date($a, $b) {
+        $dateA = strtotime($a->snippet->publishedAt);
+        $dateB = strtotime($b->snippet->publishedAt);
+
+        // Sort in descending order (newest first)
+        return $dateB - $dateA;
+    }
 }
