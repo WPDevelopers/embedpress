@@ -15,6 +15,7 @@ export const dynamicStyles = ({ attributes }) => {
         videosize,
         ispagination,
         gapbetweenvideos,
+        yt_channel_layout,
         columns,
         customlogo,
         loadmore,

@@ -739,6 +739,31 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->add_control(
+			'yt_channel_layout',
+			[
+				'label'       => __('Layout', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label_block' => false,
+				'default' => 'gallery',
+				'options' => [
+					'gallery'  => esc_html__('gallery', 'embedpress'),
+					'grid'  => esc_html__('Grid', 'embedpress'),
+					'list'  => esc_html__('List', 'embedpress'),
+					'carousel'  => esc_html__('Carousel', 'embedpress'),
+				],
+				'conditions'  => [
+					'terms' => [
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => '===',
+							'value' => 'youtube',
+						],
+					],
+				]
+			]
+		);
+
+		$this->add_control(
 			'pagesize',
 			[
 				'label'       => __('Video Per Page', 'embedpress'),

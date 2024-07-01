@@ -36,7 +36,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     protected $endpoint = 'https://www.youtube.com/oembed?format=json&scheme=https';
     protected static $channel_endpoint = 'https://www.googleapis.com/youtube/v3/';
     /** @var array Array with allowed params for the current Provider */
-    protected $allowedParams = [ 'maxwidth', 'maxheight', 'pagesize', 'thumbnail', 'gallery', 'hideprivate', 'columns', 'ispagination', 'gapbetweenvideos' ];
+    protected $allowedParams = [ 'maxwidth', 'maxheight', 'pagesize', 'thumbnail', 'gallery', 'hideprivate', 'columns', 'ispagination', 'gapbetweenvideos', 'yt_channel_layout' ];
 
     /** inline {@inheritdoc} */
     protected static $hosts = [
@@ -367,11 +367,14 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
             $layout_data = $this->layout_data();
 
-            $gallery         = YoutubeLayout::create_grid_layout($gallery_args, $layout_data);
-
+            $gallery        = YoutubeLayout::create_gallery_layout($gallery_args, $layout_data);
+            $gallery        = YoutubeLayout::create_grid_layout($gallery_args, $layout_data);
             // $gallery         = $this->get_gallery_page($gallery_args);
 
-            if (!empty($gallery->first_vid)) {
+            echo '<pre>';
+            print_r($this->getParams()); die;
+
+            if (!empty($gallery->first_vid ) && $params['yt_channel_layout'] === 'gallery') {
                 $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
                 $main_iframe = "<div class='ep-first-video'><iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe></div>";
             }

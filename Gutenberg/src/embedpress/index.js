@@ -157,6 +157,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: true
 			},
+			yt_channel_layout: {
+				type: 'string',
+				default: 'gallery'
+			},
 			pagesize: {
 				type: 'number',
 				default: 6

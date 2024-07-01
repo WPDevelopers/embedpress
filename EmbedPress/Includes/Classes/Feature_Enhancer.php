@@ -6,6 +6,7 @@ use \EmbedPress\Providers\Youtube;
 use EmbedPress\Shortcode;
 use EmbedPress\Includes\Classes\Helper;
 use \Elementor\Controls_Manager;
+use EmbedPress\Providers\TemplateLayouts\YoutubeLayout;
 use EmbedPress\Providers\TikTok;
 use EmbedPress\Providers\Wrapper;
 
@@ -137,9 +138,10 @@ class Feature_Enhancer
 
 	public function youtube_rest_api()
 	{
-		$result = Youtube::get_gallery_page([
+		$result = YoutubeLayout::create_grid_layout([
 			'playlistId'        => isset($_POST['playlistid']) ? sanitize_text_field($_POST['playlistid']) : null,
 			'pageToken'         => isset($_POST['pagetoken']) ? sanitize_text_field($_POST['pagetoken']) : null,
+			'yt_channel_layout'          => isset($_POST['yt_channel_layout']) ? sanitize_text_field($_POST['yt_channel_layout']) : 'gallery',
 			'pagesize'          => isset($_POST['pagesize']) ? sanitize_text_field($_POST['pagesize']) : null,
 			'currentpage'       => isset($_POST['currentpage']) ? sanitize_text_field($_POST['currentpage']) : null,
 			'columns'           => isset($_POST['epcolumns']) ? sanitize_text_field($_POST['epcolumns']) : null,
@@ -148,7 +150,7 @@ class Feature_Enhancer
 			'autonext'          => isset($_POST['autonext']) ? sanitize_text_field($_POST['autonext']) : null,
 			'thumbplay'         => isset($_POST['thumbplay']) ? sanitize_text_field($_POST['thumbplay']) : null,
 			'thumbnail_quality' => isset($_POST['thumbnail_quality']) ? sanitize_text_field($_POST['thumbnail_quality']) : null,
-		]);
+		], Youtube::layout_data());
 
 		wp_send_json($result);
 	}
@@ -252,6 +254,7 @@ class Feature_Enhancer
 					'width'    => intval($attributes['width']),
 					'height'   => intval($attributes['height']),
 					'pagesize' => isset($attributes['pagesize']) ? intval($attributes['pagesize']) : 6,
+					'yt_channel_layout' => isset($attributes['yt_channel_layout']) ? intval($attributes['yt_channel_layout']) : 'gallery',
 					'columns' => isset($attributes['columns']) ? intval($attributes['columns']) : 3,
 					'ispagination' => isset($attributes['ispagination']) ? $attributes['ispagination'] : 0,
 					'gapbetweenvideos' => isset($attributes['gapbetweenvideos']) ? $attributes['gapbetweenvideos'] : 30,
