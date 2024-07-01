@@ -235,6 +235,17 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
             {
                 (isYTChannel && !isYTLive) && (
                     <div className={'ep__channel-yt-video-options'}>
+                        <SelectControl
+                            label={__("Layout")}
+                            value={columns}
+                            options={[
+                                { label: 'Default', value: 'default' },
+                                { label: 'Default', value: 'default' },
+                            ]}
+                            onChange={(columns) => setAttributes({ columns })}
+                            __nextHasNoMarginBottom
+                        />
+
                         <TextControl
                             label={__("Video Per Page")}
                             value={pagesize}

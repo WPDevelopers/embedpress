@@ -17,6 +17,8 @@ use Embera\Provider\ProviderAdapter;
 use Embera\Provider\ProviderInterface;
 use Embera\Url;
 
+use EmbedPress\Providers\TemplateLayouts\YoutubeLayout;
+
 /**
  * youtube.com Provider
  * @link https://youtube.com
@@ -59,6 +61,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     public function normalizeUrl(Url $url) {
         return $url;
     }
+    
 
     public function isChannel($url = null) {
         if (empty($url)) {
@@ -119,12 +122,12 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         return (string) $this->endpoint;
     }
 
-    protected static function get_api_key() {
+    protected function get_api_key() {
         $settings = (array) get_option(EMBEDPRESS_PLG_NAME . ':youtube', []);
         return !empty($settings['api_key']) ? $settings['api_key'] : '';
     }
 
-    protected static function get_pagesize() {
+    protected function get_pagesize() {
         $settings = (array) get_option(EMBEDPRESS_PLG_NAME . ':youtube', []);
         return !empty($settings['pagesize']) ? $settings['pagesize'] : '';
     }
@@ -132,10 +135,10 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     /** inline {@inheritdoc} */
     public function getParams() {
         $params = parent::getParams();
-        if ($this->isChannel() && self::get_api_key()) {
+        if ($this->isChannel() && $this->get_api_key()) {
             $channel        = $this->getChannel();
             $params['part'] = 'contentDetails,snippet';
-            $params['key']  = self::get_api_key();
+            $params['key']  = $this->get_api_key();
             if ($channel['type'] == 'c') {
                 $params['forUsername'] = $channel['id'];
             } else {
@@ -227,16 +230,16 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $channel_url = $this->constructUrl('channels', $this->getParams());
         }
 
-        if (empty(self::get_api_key())) {
+        if (empty($this->get_api_key())) {
             $result['error'] = true;
-            $result['html'] = self::get_api_key_error_message();
+            $result['html'] = $this->get_api_key_error_message();
             return $result;
         }
 
         $apiResult = wp_remote_get($channel_url, array('timeout' => self::$curltimeout));
         if (is_wp_error($apiResult)) {
             $result['error'] = true;
-            $result['html'] = self::clean_api_error_html($apiResult->get_error_message(), true);
+            $result['html'] = $this->clean_api_error_html($apiResult->get_error_message(), true);
             set_transient($transient_key, $result, 10);
             return $result;
         }
@@ -246,10 +249,10 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         if (isset($jsonResult->error)) {
             $result['error'] = true;
             if (isset($jsonResult->error->message)) {
-                $result['html'] = self::clean_api_error_html($jsonResult->error->message, true);
+                $result['html'] = $this->clean_api_error_html($jsonResult->error->message, true);
             }
             else{
-                $result['html'] = self::clean_api_error_html(__('Sorry, there may be an issue with your YouTube API key.', 'embedpress'));
+                $result['html'] = $this->clean_api_error_html(__('Sorry, there may be an issue with your YouTube API key.', 'embedpress'));
             }
             set_transient($transient_key, $result, MINUTE_IN_SECONDS);
             return $result;
@@ -285,7 +288,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             preg_match("/<meta\s+itemprop=[\"']channelId[\"']\s+content=[\"'](.*?)[\"']\/?>/", $channel_html, $matches);
             if(!empty($matches[1])){
                 $url = "https://www.youtube.com/channel/{$matches[1]}";
-                $this->url = $this->normalizeUrl(new Url($url));
+                $url = $this->normalizeUrl(new Url($url));
             }
         }
     }
@@ -346,34 +349,73 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             if(!empty($params['pagesize'])){
                 $gallery_args['pagesize'] = $params['pagesize'];
             }
-            $gallery         = self::get_gallery_page($gallery_args);
+            $gallery         = $this->get_gallery_page($gallery_args);
 
             if (!empty($gallery->first_vid)) {
                 $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
                 $main_iframe = "<div class='ep-first-video'><iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe></div>";
             }
             if($gallery->html && $this->validateTYLiveUrl($this->getUrl())){
-                $styles      = self::styles($params, $this->getUrl());
+                $styles      = $this->styles($params, $this->getUrl());
                 return [
                     "title"         => $title,
                     "html"          => "<div class='ep-player-wrap'>$main_iframe $styles</div>",
                 ];
             }
             if($gallery->html){
-                $styles      = self::styles($params, $this->getUrl());
+                $styles      = $this->styles($params, $this->getUrl());
                 return [
                     "title"         => $title,
                     "html"          => "<div class='ep-player-wrap'>$main_iframe {$gallery->html} $styles</div>",
                 ];
             }
         }
-        elseif ($this->isChannel() && empty(self::get_api_key()) && current_user_can('manage_options')) {
+        elseif ($this->isChannel() && empty($this->get_api_key()) && current_user_can('manage_options')) {
             return [
                 "html"          => "<div class='ep-player-wrap'>" . __('Please enter your YouTube API key to embed YouTube Channel.', 'embedpress') . "</div>",
             ];
         }
 
         return $response;
+    }
+    
+
+    public function get_channel_info() {
+        $api_key = $this->get_api_key();
+        $channel_id = $this->getChannel($this->url);
+        $channel_id = $channel_id['id'];
+
+
+        // Create a unique transient key based on the channel ID
+        $transient_key = 'youtube_channel_info_' . $channel_id;
+
+        // Attempt to get cached response
+        $channel_info = get_transient($transient_key);
+
+        if ($channel_info === false) {
+            // No cached response, make the API call
+            $endpoint = "https://www.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics&id=$channel_id&key=$api_key";
+            $response = wp_remote_get($endpoint);
+
+            if (is_wp_error($response)) {
+                return 'Error fetching channel info';
+            }
+
+            $body = wp_remote_retrieve_body($response);
+            $data = json_decode($body, true);
+
+            if (empty($data['items'])) {
+                return 'No channel information found';
+            }
+
+            $channel_info = $data['items'][0];
+
+            // Cache the response for 1 hour
+            set_transient($transient_key, $channel_info, HOUR_IN_SECONDS);
+        }
+
+        return $channel_info;
+        
     }
 
     /**
@@ -382,48 +424,53 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
      * @param array $options
      * @return object
      */
-    public static function get_gallery_page($options) {
+    public function get_gallery_page($options) {
         $nextPageToken = '';
         $prevPageToken = '';
         $gallobj       = new \stdClass();
         $options       = wp_parse_args($options, [
             'playlistId'  => '',
             'pageToken'   => '',
-            'pagesize'    => self::get_pagesize() ? self::get_pagesize() : 6,
+            'pagesize'    => $this->get_pagesize() ? $this->get_pagesize() : 6,
             'currentpage' => '',
             'columns'     => 3,
             'thumbnail'   => 'medium',
             'gallery'     => true,
             'autonext'    => true,
             'thumbplay'   => true,
-            'apiKey'      => self::get_api_key(),
+            'apiKey'      => $this->get_api_key(),
             'hideprivate' => '',
         ]);
         $options['pagesize'] = $options['pagesize'] > 50 ? 50 : $options['pagesize'];
         $options['pagesize'] = $options['pagesize'] < 1 ? 1 : $options['pagesize'];
 
         if (empty($options['apiKey'])) {
-            $gallobj->html = self::get_api_key_error_message();
+            $gallobj->html = $this->get_api_key_error_message();
             return $gallobj;
         }
 
-        $apiEndpoint = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,status&playlistId=' . $options['playlistId']
+        $apiEndpoint = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,status,contentDetails&playlistId=' . $options['playlistId']
             . '&maxResults=' . $options['pagesize']
             . '&key=' . $options['apiKey'];
         if ($options['pageToken'] != null) {
             $apiEndpoint .= '&pageToken=' . $options['pageToken'];
         }
 
+
+
         $transient_key          = 'ep_embed_youtube_channel_' . md5($apiEndpoint);
         $gallobj->transient_key = $transient_key;
         $jsonResult             = get_transient($transient_key);
+
+
         if (empty($jsonResult)) {
             $apiResult = wp_remote_get($apiEndpoint, array('timeout' => self::$curltimeout));
             if (is_wp_error($apiResult)) {
-                $gallobj->html = self::clean_api_error_html($apiResult->get_error_message(), true);
+                $gallobj->html = $this->clean_api_error_html($apiResult->get_error_message(), true);
                 return $gallobj;
             }
             $jsonResult = json_decode($apiResult['body']);
+            
             if (empty($jsonResult->error)) {
                 set_transient($transient_key, $jsonResult, MINUTE_IN_SECONDS * 20);
             }
@@ -433,16 +480,17 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
 
 
+
         if (isset($jsonResult->error)) {
             if(!empty($jsonResult->error->errors[0]->reason) && $jsonResult->error->errors[0]->reason == 'playlistNotFound'){
-                $gallobj->html = self::clean_api_error_html(__('There is nothing on the playlist.', 'embedpress'));
+                $gallobj->html = $this->clean_api_error_html(__('There is nothing on the playlist.', 'embedpress'));
                 return $gallobj;
             }
             if (isset($jsonResult->error->message)) {
-                $gallobj->html = self::clean_api_error_html($jsonResult->error->message);
+                $gallobj->html = $this->clean_api_error_html($jsonResult->error->message);
                 return $gallobj;
             }
-            $gallobj->html = self::clean_api_error_html(__('Sorry, there may be an issue with your YouTube API key.', 'embedpress'));
+            $gallobj->html = $this->clean_api_error_html(__('Sorry, there may be an issue with your YouTube API key.', 'embedpress'));
             return $gallobj;
         }
 
@@ -464,13 +512,13 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             if($options['gallery'] === "false"){
                 $gallobj->html = "";
                 if(count($jsonResult->items) === 1){
-                    $gallobj->first_vid = self::get_id($jsonResult->items[0]);
+                    $gallobj->first_vid = $this->get_id($jsonResult->items[0]);
                 }
                 return $gallobj;
             }
 
             if(count($jsonResult->items) === 1 && empty($nextPageToken) && empty($prevPageToken)){
-                $gallobj->first_vid = self::get_id($jsonResult->items[0]);
+                $gallobj->first_vid = $this->get_id($jsonResult->items[0]);
                 $gallobj->html = "";
                 return $gallobj;
             }
@@ -482,15 +530,21 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             
 
             ob_start();
+
             ?>
+
             <div class="ep-youtube__content__block"  data-unique-id="<?php echo wp_rand(); ?>">
                 <div class="youtube__content__body">
+                    <?php 
+                    $channel_info = $this->get_channel_info();
+                    echo YoutubeLayout::create_channel_info_layout($channel_info); ?>
+
                     <div class="content__wrap">
                         <?php foreach ($jsonResult->items as $item) : ?>
                             <?php
                             $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
-                            $thumbnail = self::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
-                            $vid = self::get_id($item);
+                            $thumbnail = $this->get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
+                            $vid = $this->get_id($item);
                             if (empty($gallobj->first_vid)) {
                                 $gallobj->first_vid = $vid;
                             }
@@ -619,23 +673,23 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             <?php
             $gallobj->html = ob_get_clean();
         else:
-            $gallobj->html = self::clean_api_error_html(__("There is nothing on the playlist.", 'embedpress'));
+            $gallobj->html = $this->clean_api_error_html(__("There is nothing on the playlist.", 'embedpress'));
         endif;
 
         return $gallobj;
     }
 
-    public static function get_api_key_error_message(){
+    public function get_api_key_error_message(){
         return '<div>' . sprintf(__("EmbedPress: Please enter your YouTube API key at <a class='ep-link' href='%s' target='_blank' style='color: #5b4e96; text-decoration: none'>EmbedPress > Platforms > YouTube</a> to embed YouTube Channel.", "embedpress"), admin_url('?page=embedpress&page_type=youtube#api_key'))  . '</div>';
     }
 
-    public static function get_id($item){
+    public function get_id($item){
         $vid = isset($item->snippet->resourceId->videoId) ? $item->snippet->resourceId->videoId : null;
         $vid = $vid ? $vid : (isset($item->id->videoId) ? $item->id->videoId : null);
         $vid = $vid ? $vid : (isset($item->id) ? $item->id : null);
         return $vid;
     }
-    public static function get_thumbnail_url($item, $quality, $privacyStatus) {
+    public function get_thumbnail_url($item, $quality, $privacyStatus) {
         $url = "";
         if ($privacyStatus == 'private') {
             $url = EMBEDPRESS_URL_ASSETS . 'images/youtube/private.png';
@@ -653,21 +707,21 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         return $url;
     }
 
-    public static function compare_vid_date($a, $b) {
+    public function compare_vid_date($a, $b) {
         if ($a->snippet->publishedAt == $b->snippet->publishedAt) {
             return 0;
         }
         return ($a->snippet->publishedAt > $b->snippet->publishedAt) ? -1 : 1;
     }
 
-    public static function clean_api_error($raw_message) {
+    public function clean_api_error($raw_message) {
         return htmlspecialchars(strip_tags(preg_replace('@&key=[^& ]+@i', '&key=*******', $raw_message)));
     }
 
-    public static function clean_api_error_html($raw_message) {
+    public function clean_api_error_html($raw_message) {
         $clean_html = '';
         if ((defined('REST_REQUEST') && REST_REQUEST) || current_user_can('manage_options')) {
-            $clean_html = '<div>' . __('EmbedPress: ', 'embedpress') . self::clean_api_error($raw_message) . '</div>';
+            $clean_html = '<div>' . __('EmbedPress: ', 'embedpress') . $this->clean_api_error($raw_message) . '</div>';
         }
         return $clean_html;
     }
@@ -695,13 +749,13 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         ];
     }
 
-    // public static $num = 0;
+    // public $num = 0;
 
 
 
-    public static $x = 0;
+    public $x = 0;
 
-    public static function styles($params, $url){
+    public function styles($params, $url){
 
         $uniqid = '.ose-youtube.ose-uid-'.md5($url);
 

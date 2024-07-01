@@ -1322,6 +1322,7 @@ p.need-access-message {
 .ep-content-share-enabled .ep-embed-content-wraper {
     display: flex !important;
 }
+
 .ep-content-share-enabled .ep-embed-content-wraper.hidden {
     display: none !important;
 }
@@ -1330,7 +1331,7 @@ p.need-access-message {
     flex-direction: row;
 }
 
-.ep-content-share-enabled .ep-embed-content-wraper>div:first-child{
+.ep-content-share-enabled .ep-embed-content-wraper>div:first-child {
     width: 100%;
 }
 
@@ -1373,7 +1374,7 @@ p.need-access-message {
     flex-direction: column;
 }
 
-.ep-social-share.share-position-bottom, .ep-social-share.share-position-top{
+.ep-social-share.share-position-bottom, .ep-social-share.share-position-top {
     justify-content: center;
 }
 
@@ -1828,6 +1829,7 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
 [data-playerid] {
     opacity: 0;
 }
+
 [data-playerid].audio.plyr-initialized {
     opacity: 1;
 }
@@ -2726,7 +2728,7 @@ div.popup-close {
     animation: spinner 4s linear infinite;
 }
 
-.ad-youtube-video{
+.ad-youtube-video {
     height: 100%;
 }
 
@@ -2745,11 +2747,13 @@ div.popup-close {
     .popup-container .popup-md-9.white {
         width: 50%;
     }
+
     .popup-container .popup-md-3 {
         width: 50%;
     }
 
 }
+
 @media screen and (max-width: 991px) {
     .popup-container {
         flex-direction: column;
@@ -2762,7 +2766,8 @@ div.popup-close {
     .popup-container .popup-md-3 {
         width: 100%;
     }
-    .embedpress-popup-text{
+
+    .embedpress-popup-text {
         max-height: 300px;
     }
 
@@ -2772,6 +2777,7 @@ div.popup-close {
     .insta-grid .embedpress-insta-container .insta-gallery {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
+
     .embedpress-popup-text {
         max-height: 250px;
     }
@@ -2793,4 +2799,69 @@ div.popup-close {
     .insta-followbtn {
         display: none;
     }
+}
+
+
+/* Youtube Advance layout style */
+
+
+.ose-youtube .channel-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.ose-youtube .profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.ose-youtube .channel-info {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.ose-youtube .info-description {
+    margin-bottom: 20px;
+}
+
+
+
+.ose-youtube .channel-name {
+    font-size: 24px;
+    margin: 0;
+}
+
+.ose-youtube .channel-details {
+    margin: 5px 0;
+}
+
+.ose-youtube .more-info {
+    text-decoration: none;
+}
+
+.ose-youtube .subscribe-button {
+    background-color: red;
+    border: none;
+    padding: 10px 20px 10px 12px;
+    border-radius: 30px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    /* display: inline; */
+    text-decoration: none!important;
+    color: white;
+    font-weight: 600;
+}
+
+.ose-youtube .subscribe-button svg{
+    height: 20px;
+    width: auto;
+}
+
+.ose-youtube .subscribe-button:hover {
+    background-color: #ff6868;
 }
