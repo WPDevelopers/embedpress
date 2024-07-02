@@ -67,7 +67,7 @@ export const getYoutubeParams = (params, attributes) => {
     if (isYTChannel(attributes.url) && !isYTLive(attributes.url)) {
         ytcAtts = {
             pagesize: 6,
-            // ytChannelLayout: 'gallery',
+            ytChannelLayout: 'gallery',
         }
     }
 
@@ -122,7 +122,7 @@ export const useYTChannel = (attributes) => {
     // which attribute should call embed();
     const defaults = {
         pagesize: null,
-        // ytChannelLayout: null,
+        ytChannelLayout: null,
     };
 
     const param = getParams({}, attributes, defaults);
@@ -243,9 +243,9 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                             value={ytChannelLayout}
                             options={[
                                 { label: 'Gallery', value: 'gallery' },
-                                { label: 'Grid (pro)', value: 'grid' },
-                                { label: 'List (pro)', value: 'list' },
-                                { label: 'Carousel (pro)', value: 'carousel' },
+                                { label: 'Grid', value: 'grid' },
+                                { label: 'List', value: 'list' },
+                                { label: 'Carousel', value: 'carousel' },
                             ]}
                             onChange={(ytChannelLayout) => setAttributes({ ytChannelLayout })}
                             __nextHasNoMarginBottom

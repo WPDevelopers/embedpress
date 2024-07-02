@@ -375,7 +375,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
             
 
-            if (!empty($gallery->first_vid ) && isset($params['ytChannelLayout']) && $params['ytChannelLayout'] === 'gallery') {
+            if (!empty($gallery->first_vid )) {
                 $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
                 $main_iframe = "<div class='ep-first-video'><iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe></div>";
             }
@@ -781,9 +781,6 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     public $x = 0;
 
     public function styles($params, $url){
-
-        // echo '<pre>';
-        // print_r($params); die;
 
         $uniqid = '.ose-youtube.ose-uid-'.md5($url);
 
