@@ -20,10 +20,13 @@ class YoutubeLayout
         $videoCount = $channel_info['statistics']['videoCount'];
         $thumbnailUrl = $channel_info['snippet']['thumbnails']['high']['url'];
 
+        // echo '<pre>';
+        // print_r($thumbnailUrl); die;
+
         ob_start();
         ?>
         <div class="channel-header">
-            <img src="<?php echo $thumbnailUrl; ?>" alt="Channel Profile" class="profile-picture">
+            <img src="<?php echo esc_url($thumbnailUrl); ?>" alt="Channel Profile" class="profile-picture">
             <div class="channel-info">
                 <div class="info-description">
                     <h1 class="channel-name"><?php echo $title; ?></h1>

@@ -739,7 +739,7 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->add_control(
-			'yt_channel_layout',
+			'ytChannelLayout',
 			[
 				'label'       => __('Layout', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::SELECT,

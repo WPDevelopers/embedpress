@@ -67,7 +67,7 @@ export const getYoutubeParams = (params, attributes) => {
     if (isYTChannel(attributes.url) && !isYTLive(attributes.url)) {
         ytcAtts = {
             pagesize: 6,
-            yt_channel_layout: 'gallery',
+            // ytChannelLayout: 'gallery',
         }
     }
 
@@ -122,7 +122,7 @@ export const useYTChannel = (attributes) => {
     // which attribute should call embed();
     const defaults = {
         pagesize: null,
-        yt_channel_layout: null,
+        // ytChannelLayout: null,
     };
 
     const param = getParams({}, attributes, defaults);
@@ -196,7 +196,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         url,
         ispagination,
         pagesize,
-        yt_channel_layout,
+        ytChannelLayout,
         columns,
         gapbetweenvideos,
         videosize,
@@ -240,14 +240,14 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                     <div className={'ep__channel-yt-video-options'}>
                         <SelectControl
                             label={__("Layout")}
-                            value={yt_channel_layout}
+                            value={ytChannelLayout}
                             options={[
                                 { label: 'Gallery', value: 'gallery' },
                                 { label: 'Grid (pro)', value: 'grid' },
                                 { label: 'List (pro)', value: 'list' },
                                 { label: 'Carousel (pro)', value: 'carousel' },
                             ]}
-                            onChange={(yt_channel_layout) => setAttributes({ yt_channel_layout })}
+                            onChange={(ytChannelLayout) => setAttributes({ ytChannelLayout })}
                             __nextHasNoMarginBottom
                         />
 

@@ -141,7 +141,7 @@ class Feature_Enhancer
 		$result = YoutubeLayout::create_grid_layout([
 			'playlistId'        => isset($_POST['playlistid']) ? sanitize_text_field($_POST['playlistid']) : null,
 			'pageToken'         => isset($_POST['pagetoken']) ? sanitize_text_field($_POST['pagetoken']) : null,
-			'yt_channel_layout'          => isset($_POST['yt_channel_layout']) ? sanitize_text_field($_POST['yt_channel_layout']) : 'gallery',
+			'ytChannelLayout'          => isset($_POST['ytChannelLayout']) ? sanitize_text_field($_POST['ytChannelLayout']) : 'gallery',
 			'pagesize'          => isset($_POST['pagesize']) ? sanitize_text_field($_POST['pagesize']) : null,
 			'currentpage'       => isset($_POST['currentpage']) ? sanitize_text_field($_POST['currentpage']) : null,
 			'columns'           => isset($_POST['epcolumns']) ? sanitize_text_field($_POST['epcolumns']) : null,
@@ -254,7 +254,7 @@ class Feature_Enhancer
 					'width'    => intval($attributes['width']),
 					'height'   => intval($attributes['height']),
 					'pagesize' => isset($attributes['pagesize']) ? intval($attributes['pagesize']) : 6,
-					'yt_channel_layout' => isset($attributes['yt_channel_layout']) ? intval($attributes['yt_channel_layout']) : 'gallery',
+					'ytChannelLayout' => isset($attributes['ytChannelLayout']) ? intval($attributes['ytChannelLayout']) : '',
 					'columns' => isset($attributes['columns']) ? intval($attributes['columns']) : 3,
 					'ispagination' => isset($attributes['ispagination']) ? $attributes['ispagination'] : 0,
 					'gapbetweenvideos' => isset($attributes['gapbetweenvideos']) ? $attributes['gapbetweenvideos'] : 30,
@@ -592,6 +592,7 @@ class Feature_Enhancer
 			// Parse the url to retrieve all its info like variables etc.
 			$url_full = $match[1];
 			$query = parse_url($url_full, PHP_URL_QUERY);
+			$query = $query ?? ''; // Ensure $query is a string
 			parse_str($query, $params);
 			// Handle `color` option.
 			if (!empty($options['color'])) {
@@ -653,7 +654,9 @@ class Feature_Enhancer
 			}
 
 			preg_match('/(.+)?\?/', $url_full, $url);
-			$url = $url[1];
+			if (isset($url[1])) {
+				$url = $url[1];
+			}
 
 			if (is_object($embed->attributes) && !empty($embed->attributes)) {
 				$attributes = (array) $embed->attributes;
@@ -670,11 +673,18 @@ class Feature_Enhancer
 				$params['cc_load_policy'] = !empty($attributes['data-closedcaptions']) && ($attributes['data-closedcaptions'] == 'true') ? 0 : 1;
 			}
 
-			// Reassemble the url with the new variables.
-			$url_modified = $url . '?';
+			// Ensure $url is a string. If $url is an array, convert it to a string or use a specific element.
+			$url_string = is_array($url) ? (isset($url[0]) ? $url[0] : '') : $url;
+
+			// Reassemble the URL with the new variables.
+			$url_modified = $url_string . '?';
 			foreach ($params as $paramName => $paramValue) {
-				$url_modified .= $paramName . '=' . $paramValue . '&';
+				$url_modified .= urlencode($paramName) . '=' . urlencode($paramValue) . '&';
 			}
+
+			// Remove the trailing '&' or '?' if no parameters were added.
+			$url_modified = rtrim($url_modified, '&?');
+
 
 			// Replaces the old url with the new one.
 			$embed->embed = str_replace($url_full, rtrim($url_modified, '&'), $embed->embed);

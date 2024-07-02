@@ -36,7 +36,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     protected $endpoint = 'https://www.youtube.com/oembed?format=json&scheme=https';
     protected static $channel_endpoint = 'https://www.googleapis.com/youtube/v3/';
     /** @var array Array with allowed params for the current Provider */
-    protected $allowedParams = [ 'maxwidth', 'maxheight', 'pagesize', 'thumbnail', 'gallery', 'hideprivate', 'columns', 'ispagination', 'gapbetweenvideos', 'yt_channel_layout' ];
+    protected $allowedParams = [ 'maxwidth', 'maxheight', 'pagesize', 'thumbnail', 'gallery', 'hideprivate', 'columns', 'ispagination', 'gapbetweenvideos', 'ytChannelLayout' ];
 
     /** inline {@inheritdoc} */
     protected static $hosts = [
@@ -137,6 +137,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     /** inline {@inheritdoc} */
     public function getParams() {
         $params = parent::getParams();
+
+
+        print_r($params); die;
         if ($this->isChannel() && $this->get_api_key()) {
             $channel        = $this->getChannel();
             $params['part'] = 'contentDetails,snippet';
@@ -210,6 +213,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $channel = $this->getChannelGallery();
             $results = array_merge($results, $channel);
         }
+        
         return $results;
     }
 
@@ -371,10 +375,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $gallery        = YoutubeLayout::create_grid_layout($gallery_args, $layout_data);
             // $gallery         = $this->get_gallery_page($gallery_args);
 
-            echo '<pre>';
-            print_r($this->getParams()); die;
+            
 
-            if (!empty($gallery->first_vid ) && $params['yt_channel_layout'] === 'gallery') {
+            if (!empty($gallery->first_vid ) && isset($params['ytChannelLayout']) && $params['ytChannelLayout'] === 'gallery') {
                 $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
                 $main_iframe = "<div class='ep-first-video'><iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe></div>";
             }
@@ -457,6 +460,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             'pagesize'    => $this->get_pagesize() ? $this->get_pagesize() : 6,
             'currentpage' => '',
             'columns'     => 3,
+            'ytChannelLayout' => 'gallery',
             'thumbnail'   => 'medium',
             'gallery'     => true,
             'autonext'    => true,
@@ -779,6 +783,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     public $x = 0;
 
     public function styles($params, $url){
+
+        // echo '<pre>';
+        // print_r($params); die;
 
         $uniqid = '.ose-youtube.ose-uid-'.md5($url);
 

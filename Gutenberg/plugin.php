@@ -315,6 +315,10 @@ function embedpress_gutenberg_register_all_block()
 							'modestbranding' => [
 								'type' => 'string',
 							],
+							'ytChannelLayout' => [
+								'type' => 'string',
+								'default' => 'gallery',
+							],
 							// custom player attributes
 							'customPlayer' => [
 								'type' => 'boolean',
