@@ -1052,3 +1052,56 @@ if (isIOSDevice()) {
 }
 
 document.addEventListener("DOMContentLoaded", epGlobals.handlePosterImageLoad);
+
+document.addEventListener('DOMContentLoaded', function () {
+    const items = document.querySelectorAll('.item');
+    const videoPopup = document.getElementById('videoPopup');
+    const videoIframe = document.getElementById('videoIframe');
+    const closeBtn = document.querySelector('.close');
+    const nextBtn = document.getElementById('nextVideo');
+    const prevBtn = document.getElementById('prevVideo');
+
+    let currentIndex = -1;
+
+    function openVideoPopup(index) {
+        if (index >= 0 && index < items.length) {
+            currentIndex = index;
+            const videoId = items[currentIndex].getAttribute('data-vid');
+            if (videoId) {
+                videoIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                videoPopup.style.display = 'block';
+            }
+        }
+    }
+
+    function closeVideoPopup() {
+        videoPopup.style.display = 'none';
+        videoIframe.src = '';
+    }
+
+    items.forEach((item, index) => {
+        item.addEventListener('click', function () {
+            openVideoPopup(index);
+        });
+    });
+
+    closeBtn.addEventListener('click', closeVideoPopup);
+
+    window.addEventListener('click', function (event) {
+        if (event.target === videoPopup) {
+            closeVideoPopup();
+        }
+    });
+
+    nextBtn.addEventListener('click', function () {
+        if (currentIndex >= 0 && currentIndex < items.length - 1) {
+            openVideoPopup(currentIndex + 1);
+        }
+    });
+
+    prevBtn.addEventListener('click', function () {
+        if (currentIndex > 0) {
+            openVideoPopup(currentIndex - 1);
+        }
+    });
+});
