@@ -546,7 +546,6 @@ class YoutubeLayout
                 </div>
             </div>
 
-            <div class="ose-youtube">
                 <div id="videoPopup" class="video-popup">
                     <div class="video-popup-content">
                         <span class="close">&times;</span>
@@ -557,7 +556,6 @@ class YoutubeLayout
                         </div>
                     </div>
                 </div>
-            </div>
 
             <?php
             $gallobj->html = ob_get_clean();

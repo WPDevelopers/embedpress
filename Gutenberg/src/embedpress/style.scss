@@ -92,6 +92,8 @@ body.page .flexia-wrapper > .content-area {
     position: relative;
     height: 0;
     padding-bottom: 56.25%;
+    border-radius: 15px;
+    overflow: hidden;
 }
 
 .ep-first-video iframe {

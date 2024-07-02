@@ -373,6 +373,23 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $gallery        = YoutubeLayout::create_grid_layout($gallery_args, $layout_data);
             // $gallery         = $this->get_gallery_page($gallery_args);
 
+            $channel_layout = 'layout-gallery';
+
+            if(isset($params['ytChannelLayout'])){
+                if($params['ytChannelLayout'] === 'gallery'){
+                    $channel_layout = 'layout-gallery';
+                }
+                else if($params['ytChannelLayout'] === 'grid'){
+                    $channel_layout = 'layout-grid';
+                }
+                else if($params['ytChannelLayout'] === 'list'){
+                    $channel_layout = 'layout-list';
+                }
+                else if($params['ytChannelLayout'] === 'carousel'){
+                    $channel_layout = 'layout-carousel';
+                }
+            }
+
             
             // echo '<pre>';
             // print_r($this->getParams()); die;
@@ -392,7 +409,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                 $styles      = $this->styles($params, $this->getUrl());
                 return [
                     "title"         => $title,
-                    "html"          => "<div class='ep-player-wrap'>$main_iframe {$gallery->html} $styles</div>",
+                    "html"          => "<div class='ep-player-wrap $channel_layout'>$main_iframe {$gallery->html} $styles</div>",
                 ];
             }
         }
@@ -884,6 +901,8 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             position: relative;
             background: #222;
             background-size: contain !important;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
         .ep-youtube__content__block .thumb:after {
