@@ -138,8 +138,6 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     public function getParams() {
         $params = parent::getParams();
 
-
-        print_r($params); die;
         if ($this->isChannel() && $this->get_api_key()) {
             $channel        = $this->getChannel();
             $params['part'] = 'contentDetails,snippet';
