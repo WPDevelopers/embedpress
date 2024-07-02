@@ -90,10 +90,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             }
         }
         
-        // $channel___id = $this->get_channel_id_by_handler('adin');
-
-        // echo 'akash';
-        // print_r($channel___id); die;
+        
 
         if(empty($matches[1])){
             preg_match('~\/(@)(\w+)~i', (string) $url, $matches);

@@ -1062,6 +1062,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const videoPopup = document.getElementById('videoPopup');
     const videoIframe = document.getElementById('videoIframe');
+    const videoDescription = document.getElementById('videoDescription');
     const closeBtn = document.querySelector('.close');
     const nextBtn = document.getElementById('nextVideo');
     const prevBtn = document.getElementById('prevVideo');
@@ -1072,8 +1073,11 @@ document.addEventListener('DOMContentLoaded', function () {
         if (index >= 0 && index < items.length) {
             currentIndex = index;
             const videoId = items[currentIndex].getAttribute('data-vid');
+            const description = items[currentIndex].querySelector('.video-description').innerHTML;
+
             if (videoId) {
                 videoIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+                videoDescription.innerHTML = description;
                 videoPopup.style.display = 'block';
 
                 // Update navigation buttons visibility
@@ -1085,6 +1089,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function closeVideoPopup() {
         videoPopup.style.display = 'none';
         videoIframe.src = '';
+        videoDescription.innerHTML = '';
     }
 
     function updateNavigationButtons() {

@@ -1367,4 +1367,41 @@ class Helper
         // Sort in descending order (newest first)
         return $dateB - $dateA;
     }
+
+
+	public static function get_youtube_video_data($api_key, $video_id) {
+        // Set a unique transient name based on the video ID
+        $transient_name = 'youtube_video_data_' . $video_id;
+        
+        // Try to get data from the transient cache
+        $video_data = get_transient($transient_name);
+        
+        // If no cached data, fetch from the API
+        if ($video_data === false) {
+            // YouTube Data API URL
+            $url = "https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id={$video_id}&key={$api_key}";
+    
+            // Fetch the data from the API
+            $response = wp_remote_get($url);
+            
+            if (is_wp_error($response)) {
+                return false; // Return false if there is an error
+            }
+            
+            $body = wp_remote_retrieve_body($response);
+            $video_data = json_decode($body, true);
+            
+            if (isset($video_data['items'][0])) {
+                $video_data = $video_data['items'][0];
+                
+                // Cache the data in a transient for 12 hours
+                set_transient($transient_name, $video_data, 24 * HOUR_IN_SECONDS);
+            } else {
+                return false; // Return false if no data found
+            }
+        }
+    
+        return $video_data;
+    }
+    
 }
