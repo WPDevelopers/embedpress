@@ -6,12 +6,9 @@ function handlePosterImageLoad() {
         // Iterate over each posterImage
         posterImages.forEach(function(posterImage) {
             if (posterImage) {
-                console.log("after condition", posterImage);
-
                 var observer = new MutationObserver(function(mutationsList, observer) {
                     var posterImageStyle = window.getComputedStyle(posterImage);
                     if (posterImageStyle.getPropertyValue('background-image') !== 'none') {
-                        console.log("After background-image property");
                         setTimeout(function() {
                             videoWrapper.style.opacity = "1";
                         }, 200);

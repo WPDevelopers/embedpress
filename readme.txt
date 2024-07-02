@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, Gutenberg embed, embed PDF, embed Google Docs
 Requires at least: 4.6
 Tested up to: 6.5
 Requires PHP: 5.6
-Stable tag: 4.0.3
+Stable tag: 4.0.4
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -323,6 +323,12 @@ Just after embedding the content into your website using EmbedPress, iFrame cust
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [4.0.4] – 2024-06-30 =  
+- Fixed: Giphy Embedding issues.
+- Added: ‘Add image’ controller in EmbedPress PDF.
+- Fixed: Conflicts with BetterDocs plugin.
+- Few minor bug fixes and improvements.
 
 = [4.0.3] – 2024-06-12 =  
 - Added: 3D FlipBook viewer for Embedded PDF.

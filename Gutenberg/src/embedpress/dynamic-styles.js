@@ -147,6 +147,10 @@ export const dynamicStyles = ({ attributes }) => {
                         height: ${height}px!important;
                         width: ${width}px!important;
                     }
+                    [data-source-id="source-${clientId}"] .ose-giphy img{
+                        height: ${height}px!important;
+                        width: ${width}px!important;
+                    }
                     
                     
                 `}

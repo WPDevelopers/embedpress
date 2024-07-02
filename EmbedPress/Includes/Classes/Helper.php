@@ -127,10 +127,23 @@ class Helper
 			Shortcode::get_embera_instance();
 			$collectios = Shortcode::get_collection();
 			$provider = $collectios->findProviders($source_url);
+
 			if (!empty($provider[$source_url])) {
 				$source_name = $provider[$source_url]->getProviderName();
 			} else {
-				$source_name = 'Unknown Source';
+				$host = parse_url($source_url, PHP_URL_HOST);
+				if ($host) {
+					$parts = explode('.', $host);
+					if (count($parts) > 1) {
+						$source_name = $parts[1];
+					} else {
+						// Handle the case where the host doesn't have at least two parts
+						$source_name = $host;
+					}
+				} else {
+					// Handle the case where parse_url fails
+					$source_name = 'unknown';
+				}
 			}
 		}
 

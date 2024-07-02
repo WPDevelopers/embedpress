@@ -28,7 +28,7 @@ class Giphy extends ProviderAdapter implements ProviderInterface
      *
      * @var     string
      */
-    private $urlRegexPattern = '~http[s]?:\/\/(?:www\.)?giphy\.com\/gifs\/([a-zA-Z0-9\-]+)|i.giphy\.com\/([a-zA-Z0-9\-]+)(\.gif)~';
+    private $urlRegexPattern = '~http[s]?:\/\/(?:www\.)?giphy\.com\/(?:gifs|clips)\/(?:[a-zA-Z0-9\-]+\-)?([a-zA-Z0-9]+)(?:[^\w\-]|$)|i.giphy\.com\/([a-zA-Z0-9]+)(\.gif)~';
 
     /**
      * Method that verifies if the embed URL belongs to Giphy.
@@ -38,9 +38,18 @@ class Giphy extends ProviderAdapter implements ProviderInterface
      * @since   1.5.0
      *
      */
+
     public function validateUrl(Url $url)
     {
-        return (bool) preg_match($this->urlRegexPattern, (string) $url);
+        $urlString = (string) $url;
+
+        if (preg_match($this->urlRegexPattern, $urlString, $matches)) {
+            // Check which group matched and extract the GIF ID
+            $gifId = isset($matches[1]) && !empty($matches[1]) ? $matches[1] : (isset($matches[2]) ? $matches[2] : null);
+            return $gifId;
+        }
+
+        return false;
     }
 
     /**
@@ -56,11 +65,11 @@ class Giphy extends ProviderAdapter implements ProviderInterface
 
         if (preg_match($this->urlRegexPattern, $url, $matches)) {
             $gifId = count($matches) > 3 && strtolower($matches[3]) === ".gif" ? $matches[2] : $matches[1];
-	        $width = isset( $this->config['maxwidth']) ? $this->config['maxwidth']: 400;
-	        $height = isset( $this->config['maxheight']) ? $this->config['maxheight']: 400;
+            $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 400;
+            $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 400;
             $html = '<a href="https://giphy.com/gifs/' . $gifId . '">' .
-                    '<img src="https://media.giphy.com/media/' . $gifId . '/giphy.gif" alt="" width="'.esc_attr($width).'" height="'.esc_attr($height).'">' .
-                    '</a>';
+                '<img src="https://media.giphy.com/media/' . $gifId . '/giphy.gif" alt="" width="' . esc_attr($width) . '" height="' . esc_attr($height) . '">' .
+                '</a>';
 
             $response = [
                 'type'          => 'image',
@@ -76,7 +85,7 @@ class Giphy extends ProviderAdapter implements ProviderInterface
         return $response;
     }
     /** inline @inheritDoc */
-    public function modifyResponse( array $response = [])
+    public function modifyResponse(array $response = [])
     {
         return $this->fakeResponse();
     }

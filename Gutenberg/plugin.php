@@ -798,6 +798,10 @@ function embedpress_gutenberg_register_all_block()
 								'type' => "boolean",
 								'default' => true,
 							],
+							'add_image' => [
+								'type' => "boolean",
+								'default' => true,
+							],
 							'unitoption' => [
 								'type' => "string",
 								'default' => '%',
@@ -903,6 +907,7 @@ function getParamData($attributes)
 		'add_text' =>  !empty($attributes['add_text']) ? 'true' : 'false',
 		'draw' =>  !empty($attributes['draw']) ? 'true' : 'false',
 		'doc_rotation' => !empty($attributes['doc_rotation']) ? 'true' : 'false',
+		'add_image' => !empty($attributes['add_image']) ? 'true' : 'false',
 		'doc_details' =>  !empty($attributes['doc_details']) ? 'true' : 'false',
 		'zoom_in' =>  !empty($attributes['zoomIn'])  ? 'true' : 'false',
 		'zoom_out' => !empty($attributes['zoomOut'])  ? 'true' : 'false',
@@ -1148,6 +1153,7 @@ function isGoogleCalendar($url) {
 function embedpress_document_block_scripts() {
     if (!is_admin() && has_block('embedpress/document')) {
 		$script_handles = [
+			'embedpress-pdfobject',
 			'embedpress-front',
 			'embedpress_documents_viewer_script'
 		];

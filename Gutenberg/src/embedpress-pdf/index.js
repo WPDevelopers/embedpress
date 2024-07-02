@@ -150,6 +150,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "boolean",
 				default: true,
 			},
+			add_image: {
+				type: "boolean",
+				default: true,
+			},
 			toolbar: {
 				type: "boolean",
 				default: true,

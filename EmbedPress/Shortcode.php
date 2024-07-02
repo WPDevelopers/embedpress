@@ -941,6 +941,7 @@ KAMAL;
             'add_text' => isset($attributes['add_text']) ? esc_attr($attributes['add_text']) : 'true',
             'draw' => isset($attributes['draw']) ? esc_attr($attributes['draw']) : 'true',
             'doc_rotation' => isset($attributes['doc_rotation']) ? esc_attr($attributes['doc_rotation']) : 'true',
+            'add_image' => isset($attributes['add_image']) ? esc_attr($attributes['add_image']) : 'true',
             'doc_details' => isset($attributes['doc_details']) ? esc_attr($attributes['doc_details']) : 'true',
 
         );
