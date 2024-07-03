@@ -366,8 +366,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
             $layout_data = $this->layout_data();
 
-            $gallery        = YoutubeLayout::create_gallery_layout($gallery_args, $layout_data);
-            $gallery        = YoutubeLayout::create_grid_layout($gallery_args, $layout_data);
+            
             // $gallery         = $this->get_gallery_page($gallery_args);
 
             $channel_layout = 'layout-gallery';
@@ -375,9 +374,13 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             if(isset($params['ytChannelLayout'])){
                 if($params['ytChannelLayout'] === 'gallery'){
                     $channel_layout = 'layout-gallery';
+                    $gallery  = YoutubeLayout::create_gallery_layout($gallery_args, $layout_data);
+
                 }
                 else if($params['ytChannelLayout'] === 'grid'){
                     $channel_layout = 'layout-grid';
+                    $gallery        = YoutubeLayout::create_grid_layout($gallery_args, $layout_data);
+
                 }
                 else if($params['ytChannelLayout'] === 'list'){
                     $channel_layout = 'layout-list';
@@ -391,24 +394,29 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             // echo '<pre>';
             // print_r($this->getParams()); die;
 
-            if (!empty($gallery->first_vid ) && isset($params['ytChannelLayout']) && $params['ytChannelLayout'] === 'gallery') {
+            $main_iframe = '';
+            if (!empty($gallery->first_vid) && isset($params['ytChannelLayout']) && $params['ytChannelLayout'] === 'gallery') {
                 $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
                 $main_iframe = "<div class='ep-first-video'><iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe></div>";
             }
-            if($gallery->html && $this->validateTYLiveUrl($this->getUrl())){
-                $styles      = $this->styles($params, $this->getUrl());
+
+            if ($gallery->html) {
+                $styles = $this->styles($params, $this->getUrl());
+                $html_content = $main_iframe . $gallery->html . ' ' . $styles;
+
+                if ($this->validateTYLiveUrl($this->getUrl())) {
+                    return [
+                        "title" => $title,
+                        "html"  => "<div class='ep-player-wrap'>$main_iframe $styles</div>",
+                    ];
+                }
+
                 return [
-                    "title"         => $title,
-                    "html"          => "<div class='ep-player-wrap'>$main_iframe $styles</div>",
+                    "title" => $title,
+                    "html"  => "<div class='ep-player-wrap $channel_layout'>$html_content</div>",
                 ];
             }
-            if($gallery->html){
-                $styles      = $this->styles($params, $this->getUrl());
-                return [
-                    "title"         => $title,
-                    "html"          => "<div class='ep-player-wrap $channel_layout'>$main_iframe {$gallery->html} $styles</div>",
-                ];
-            }
+
         }
         elseif ($this->isChannel() && empty($this->get_api_key()) && current_user_can('manage_options')) {
             return [
@@ -803,198 +811,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         ob_start();
         ?>
         <style>
-            html {
-                scroll-behavior: smooth;
-            }
-        .ep-player-wrap .hide {
-            display: none;
-        }
-
-        .ep-gdrp-content {
-            background: #222;
-            padding: 50px 30px;
-            color: #fff;
-        }
-
-        .ep-gdrp-content a {
-            color: #fff;
-        }
-
-        .ep-youtube__content__pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 30px;
-            gap: 10px;
-        }
-        .ep-loader-wrap {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .ep-youtube__content__pagination .ep-prev,
-        .ep-youtube__content__pagination .ep-next {
-            cursor: pointer;
-            border: 1px solid rgba(0, 0, 0, .1);
-            border-radius: 30px;
-            padding: 0 20px;
-            height: 40px;
-            transition: .3s;
-            display: flex;
-            align-items: center;
-        }
-        .ep-youtube__content__pagination .ep-prev:hover,
-        .ep-youtube__content__pagination .ep-next:hover{
-            background-color: #5B4E96;
-            color: #fff;
-        }
-        .ep-youtube__content__pagination .ep-page-numbers {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .ep-youtube__content__pagination .ep-page-numbers > span {
-            border: 1px solid rgba(0, 0, 0, .1);
-            border-radius: 30px;
-            display: inline-block;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .active__current_page{
-            background: #5B4E96;
-            color: #fff;
-        }
-
-        .ep-youtube__content__block .youtube__content__body .content__wrap {
-            margin-top: 30px;
-            display: grid;
-            grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .ep-youtube__content__block .item {
-            cursor: pointer;
-            white-space: initial;
-        }
-
-        .ep-youtube__content__block .item:hover .thumb .play-icon {
-            opacity: 1;
-            top: 50%;
-        }
-
-        .ep-youtube__content__block .item:hover .thumb:after {
-            opacity: .4;
-            z-index: 0;
-        }
-
-        .ep-youtube__content__block .thumb {
-            padding-top: 56.25%;
-            margin-bottom: 5px;
-            position: relative;
-            background: #222;
-            background-size: contain !important;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .ep-youtube__content__block .thumb:after {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 100%;
-            content: '';
-            background: #000;
-            opacity: 0;
-            transition: opacity .3s ease;
-        }
-
-        .ep-youtube__content__block .thumb:before {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 100%;
-            content: '';
-            background: #222;
-            z-index: -1;
-        }
-
-        .ep-youtube__content__block .thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .ep-youtube__content__block .thumb .play-icon {
-            width: 50px;
-            height: auto;
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: all .3s ease;
-            z-index: 2;
-        }
-
-        .ep-youtube__content__block .thumb .play-icon img {
-            width: 100;
-        }
-
-        .ep-youtube__content__block .body p {
-            margin-bottom: 0;
-            font-size: 15px;
-            text-align: left;
-            line-height: 1.5;
-            font-weight: 400;
-        }
-        .ep-youtube__content__block.loading .ep-youtube__content__pagination {
-            display: none;
-        }
-
-        .ep-youtube__content__block .ep-loader {
-            display: none;
-        }
-
-        .ep-youtube__content__block.loading .ep-loader {
-            display: block;
-        }
-        .ep-loader img {
-            width: 20px;
-        }
-        .is_mobile_device{
-            display: none!important;
-        }
-
-
-        .is_mobile_devic.ep-page-numbers {
-            gap: 5px;
-        }
-
-        @media only screen and (max-width: 480px) {
-            .is_desktop_device{
-                display: none!important;
-            }
-            .ep-youtube__content__pagination .ep-page-numbers > span {
-                width: 35px;
-                height: 35px;
-            }
-            .ep-youtube__content__pagination .ep-prev, .ep-youtube__content__pagination .ep-next{
-                height: 35px;
-            }
-            .is_mobile_device{
-                display: flex!important;;
-            }
-            .ep-youtube__content__pagination .ep-page-numbers {
-                gap: 5px;
-            }
-        }
+        
         <?php
         $attributes_data = $params;
 

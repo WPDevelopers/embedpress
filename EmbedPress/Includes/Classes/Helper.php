@@ -1323,85 +1323,124 @@ class Helper
 		}
 	}
 
-	public static function get_id($item){
-        $vid = isset($item->snippet->resourceId->videoId) ? $item->snippet->resourceId->videoId : null;
-        $vid = $vid ? $vid : (isset($item->id->videoId) ? $item->id->videoId : null);
-        $vid = $vid ? $vid : (isset($item->id) ? $item->id : null);
-        return $vid;
-    }
+	public static function get_id($item)
+	{
+		$vid = isset($item->snippet->resourceId->videoId) ? $item->snippet->resourceId->videoId : null;
+		$vid = $vid ? $vid : (isset($item->id->videoId) ? $item->id->videoId : null);
+		$vid = $vid ? $vid : (isset($item->id) ? $item->id : null);
+		return $vid;
+	}
 
-	public static function clean_api_error($raw_message) {
-        return htmlspecialchars(strip_tags(preg_replace('@&key=[^& ]+@i', '&key=*******', $raw_message)));
-    }
+	public static function clean_api_error($raw_message)
+	{
+		return htmlspecialchars(strip_tags(preg_replace('@&key=[^& ]+@i', '&key=*******', $raw_message)));
+	}
 
-	public static function clean_api_error_html($raw_message) {
-        $clean_html = '';
-        if ((defined('REST_REQUEST') && REST_REQUEST) || current_user_can('manage_options')) {
-            $clean_html = '<div>' . __('EmbedPress: ', 'embedpress') . self::clean_api_error($raw_message) . '</div>';
-        }
-        return $clean_html;
-    }
+	public static function clean_api_error_html($raw_message)
+	{
+		$clean_html = '';
+		if ((defined('REST_REQUEST') && REST_REQUEST) || current_user_can('manage_options')) {
+			$clean_html = '<div>' . __('EmbedPress: ', 'embedpress') . self::clean_api_error($raw_message) . '</div>';
+		}
+		return $clean_html;
+	}
 
-	public static function get_thumbnail_url($item, $quality, $privacyStatus) {
-        $url = "";
-        if ($privacyStatus == 'private') {
-            $url = EMBEDPRESS_URL_ASSETS . 'images/youtube/private.png';
-        } elseif (isset($item->snippet->thumbnails->{$quality}->url)) {
-            $url = $item->snippet->thumbnails->{$quality}->url;
-        } elseif (isset($item->snippet->thumbnails->medium->url)) {
-            $url = $item->snippet->thumbnails->medium->url;
-        } elseif (isset($item->snippet->thumbnails->default->url)) {
-            $url = $item->snippet->thumbnails->default->url;
-        } elseif (isset($item->snippet->thumbnails->high->url)) {
-            $url = $item->snippet->thumbnails->high->url;
-        } else {
-            $url = EMBEDPRESS_URL_ASSETS . 'images/youtube/deleted-video-thumb.png';
-        }
-        return $url;
-    }
+	public static function get_thumbnail_url($item, $quality, $privacyStatus)
+	{
+		$url = "";
+		if ($privacyStatus == 'private') {
+			$url = EMBEDPRESS_URL_ASSETS . 'images/youtube/private.png';
+		} elseif (isset($item->snippet->thumbnails->{$quality}->url)) {
+			$url = $item->snippet->thumbnails->{$quality}->url;
+		} elseif (isset($item->snippet->thumbnails->medium->url)) {
+			$url = $item->snippet->thumbnails->medium->url;
+		} elseif (isset($item->snippet->thumbnails->default->url)) {
+			$url = $item->snippet->thumbnails->default->url;
+		} elseif (isset($item->snippet->thumbnails->high->url)) {
+			$url = $item->snippet->thumbnails->high->url;
+		} else {
+			$url = EMBEDPRESS_URL_ASSETS . 'images/youtube/deleted-video-thumb.png';
+		}
+		return $url;
+	}
 
-	public static function compare_vid_date($a, $b) {
-        $dateA = strtotime($a->snippet->publishedAt);
-        $dateB = strtotime($b->snippet->publishedAt);
+	public static function compare_vid_date($a, $b)
+	{
+		$dateA = strtotime($a->snippet->publishedAt);
+		$dateB = strtotime($b->snippet->publishedAt);
 
-        // Sort in descending order (newest first)
-        return $dateB - $dateA;
-    }
+		// Sort in descending order (newest first)
+		return $dateB - $dateA;
+	}
 
 
-	public static function get_youtube_video_data($api_key, $video_id) {
-        // Set a unique transient name based on the video ID
-        $transient_name = 'youtube_video_data_' . $video_id;
-        
-        // Try to get data from the transient cache
-        $video_data = get_transient($transient_name);
-        
-        // If no cached data, fetch from the API
-        if ($video_data === false) {
-            // YouTube Data API URL
-            $url = "https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id={$video_id}&key={$api_key}";
-    
-            // Fetch the data from the API
-            $response = wp_remote_get($url);
-            
-            if (is_wp_error($response)) {
-                return false; // Return false if there is an error
-            }
-            
-            $body = wp_remote_retrieve_body($response);
-            $video_data = json_decode($body, true);
-            
-            if (isset($video_data['items'][0])) {
-                $video_data = $video_data['items'][0];
-                
-                // Cache the data in a transient for 12 hours
-                set_transient($transient_name, $video_data, 24 * HOUR_IN_SECONDS);
-            } else {
-                return false; // Return false if no data found
-            }
-        }
-    
-        return $video_data;
-    }
-    
+	public static function get_youtube_video_data($api_key, $video_id)
+	{
+		// Set a unique transient name based on the video ID
+		$transient_name = 'youtube_video_data_' . $video_id;
+
+		// Try to get data from the transient cache
+		$video_data = get_transient($transient_name);
+
+		// If no cached data, fetch from the API
+		if ($video_data === false) {
+			// YouTube Data API URL
+			$url = "https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails,statistics&id={$video_id}&key={$api_key}";
+
+			// Fetch the data from the API
+			$response = wp_remote_get($url);
+
+			if (is_wp_error($response)) {
+				return false; // Return false if there is an error
+			}
+
+			$body = wp_remote_retrieve_body($response);
+			$video_data = json_decode($body, true);
+
+			if (isset($video_data['items'][0])) {
+				$video_data = $video_data['items'][0];
+
+				// Cache the data in a transient for 12 hours
+				set_transient($transient_name, $video_data, 24 * HOUR_IN_SECONDS);
+			} else {
+				return false; // Return false if no data found
+			}
+		}
+
+		return $video_data;
+	}
+
+	public static function trimTitle($title, $wordCount)
+	{
+		$words = explode(' ', $title);
+
+		if (count($words) <= $wordCount) {
+			return $title; // No trimming needed
+		}
+
+		$trimmedWords = array_slice($words, 0, $wordCount);
+
+		return implode(' ', $trimmedWords) . ' ...';
+	}
+
+	public static function timeAgo($datetime) {
+		$now = new \DateTime();
+		$date = new \DateTime($datetime);
+		$interval = $now->diff($date);
+	
+		if ($interval->y > 0) {
+			return $interval->y . ' year' . ($interval->y > 1 ? 's' : '') . ' ago';
+		} elseif ($interval->m > 0) {
+			return $interval->m . ' month' . ($interval->m > 1 ? 's' : '') . ' ago';
+		} elseif ($interval->d > 0) {
+			return $interval->d . ' day' . ($interval->d > 1 ? 's' : '') . ' ago';
+		} elseif ($interval->h > 0) {
+			return $interval->h . ' hour' . ($interval->h > 1 ? 's' : '') . ' ago';
+		} elseif ($interval->i > 0) {
+			return $interval->i . ' minute' . ($interval->i > 1 ? 's' : '') . ' ago';
+		} else {
+			return 'just now';
+		}
+	}
+		
 }

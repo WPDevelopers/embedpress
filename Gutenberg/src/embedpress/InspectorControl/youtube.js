@@ -231,6 +231,13 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         removeTipsAlert();
     }
 
+    if(ytChannelLayout === 'grid' && columns === 1){
+        setAttributes({ columns: 3 });
+    }
+    if(ytChannelLayout === 'list'){
+        setAttributes({ columns: 1 });
+    }
+
     return (
         <div>
 
@@ -265,6 +272,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                             value={columns}
                             options={[
                                 { label: 'Auto', value: 'auto' },
+                                { label: '1', value: '1' },
                                 { label: '2', value: '2' },
                                 { label: '3', value: '3' },
                                 { label: '4', value: '4' },

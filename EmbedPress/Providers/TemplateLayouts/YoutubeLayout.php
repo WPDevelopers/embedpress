@@ -14,16 +14,24 @@ class YoutubeLayout
 
     public static function create_channel_info_layout($channel_info)
     {
-        $title = $channel_info['snippet']['title'];
-        $handle = $channel_info['snippet']['customUrl'];
-        $subscriberCount = $channel_info['statistics']['subscriberCount'];
-        $videoCount = $channel_info['statistics']['videoCount'];
-        $thumbnailUrl = $channel_info['snippet']['thumbnails']['high']['url'];
+        $title = isset($channel_info['snippet']['title']) ? $channel_info['snippet']['title'] : null;
+        $handle = isset($channel_info['snippet']['customUrl']) ? $channel_info['snippet']['customUrl'] : null;
+        $subscriberCount = isset($channel_info['statistics']['subscriberCount']) ? $channel_info['statistics']['subscriberCount'] : null;
+        $videoCount = isset($channel_info['statistics']['videoCount']) ? $channel_info['statistics']['videoCount'] : null;
+        $thumbnailUrl = isset($channel_info['snippet']['thumbnails']['high']['url']) ? $channel_info['snippet']['thumbnails']['high']['url'] : null;
+
+        echo 'profile picture: '. $thumbnailUrl;
+
+        echo '<pre>';
+        echo '<img data-="https://placeholder.com/40" alt="" />';  
         
+        print_r(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)); die;
+
         ob_start();
         ?>
         <div class="channel-header">
-            <img src="<?php echo esc_url($thumbnailUrl); ?>" alt="Channel Profile" class="profile-picture">
+            <!-- profile picture: <?php echo $thumbnailUrl;; ?> -->
+            <img src="<?php echo esc_url($thumbnailUrl); ?>" alt="<?php echo esc_attr($title); ?>" class="profile-picture">
             <div class="channel-info">
                 <div class="info-description">
                     <h1 class="channel-name"><?php echo esc_html($title); ?></h1>
@@ -44,15 +52,16 @@ class YoutubeLayout
 
 
     public static function generate_youtube_video_description($video_data) {
-        $title = $video_data['snippet']['title'];
-        $description = $video_data['snippet']['description'];
-        $publishedAt = date("M j, Y", strtotime($video_data['snippet']['publishedAt']));
-        $channelTitle = $video_data['snippet']['channelTitle'];
-        $viewCount = $video_data['statistics']['viewCount'];
-        $likeCount = $video_data['statistics']['likeCount'];
-        $commentCount = $video_data['statistics']['commentCount'];
-        $videoId = $video_data['id'];
-        $videoUrl = "https://www.youtube.com/watch?v={$videoId}";
+        $title = isset($video_data['snippet']['title']) ? $video_data['snippet']['title'] : null;
+        $description = isset($video_data['snippet']['description']) ? $video_data['snippet']['description'] : null;
+        $publishedAt = isset($video_data['snippet']['publishedAt']) ? date("M j, Y", strtotime($video_data['snippet']['publishedAt'])) : null;
+        $channelTitle = isset($video_data['snippet']['channelTitle']) ? $video_data['snippet']['channelTitle'] : null;
+        $viewCount = isset($video_data['statistics']['viewCount']) ? $video_data['statistics']['viewCount'] : null;
+        $likeCount = isset($video_data['statistics']['likeCount']) ? $video_data['statistics']['likeCount'] : null;
+        $commentCount = isset($video_data['statistics']['commentCount']) ? $video_data['statistics']['commentCount'] : null;
+        $videoId = isset($video_data['id']) ? $video_data['id'] : null;
+        $videoUrl = $videoId ? "https://www.youtube.com/watch?v={$videoId}" : null;
+
     
         $html = "
         <div class='youtube-video-description'>
@@ -68,8 +77,8 @@ class YoutubeLayout
             </div>
             <div class='youtube-video-footer'>
                 <div class='youtube-video-stats'>
-                    <span><i class='fa fa-thumbs-up'></i> {$likeCount}</span>
-                    <span><i class='fa fa-comments'></i> {$commentCount}</span>
+                    <span><svg width='20' height='17.539' viewBox='0 0 20 17.539' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M12.648.109a2.814 2.814 0 0 0-3.477 1.93l-.223.781a3.4 3.4 0 0 1-.762 1.367L6.182 6.39a.937.937 0 0 0 1.387 1.261l2.004-2.203a5.3 5.3 0 0 0 1.176-2.113l.223-.781a.937.937 0 1 1 1.805.515l-.223.781a7.2 7.2 0 0 1-1.039 2.168c-.203.285-.227.66-.066.973s.48.508.832.508H17.5a.627.627 0 0 1 .219 1.211.94.94 0 0 0-.375 1.5.624.624 0 0 1-.352 1.027.938.938 0 0 0-.562 1.504.625.625 0 0 1-.265.969.94.94 0 0 0-.563 1.125.627.627 0 0 1-.602.793h-3.809c-.492 0-.977-.145-1.387-.418l-2.41-1.605c-.43-.289-1.012-.172-1.301.262s-.172 1.012.262 1.301l2.41 1.605c.719.48 1.563.734 2.426.734H15a2.5 2.5 0 0 0 2.5-2.422 2.5 2.5 0 0 0 .887-2.461 2.49 2.49 0 0 0 .879-2.722A2.53 2.53 0 0 0 20 8.125a2.5 2.5 0 0 0-2.5-2.5h-3.605c.184-.406.34-.828.461-1.258l.223-.781a2.814 2.814 0 0 0-1.93-3.477M1.25 6.25A1.25 1.25 0 0 0 0 7.5v8.75c0 .691.559 1.25 1.25 1.25h2.5A1.25 1.25 0 0 0 5 16.25V7.5a1.25 1.25 0 0 0-1.25-1.25z' fill='#fff'/></svg> {$likeCount}</span>
+                    <span><svg width='20' height='15.975' viewBox='0 0 20 15.975' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M2.783 9.644a1.5 1.5 0 0 0-.234-1.741c-.664-.699-1.02-1.538-1.02-2.412 0-1.981 1.991-3.994 4.992-3.994s4.992 2.012 4.992 3.994-1.991 3.994-4.992 3.994a6.3 6.3 0 0 1-1.179-.112 1.5 1.5 0 0 0-.958.131q-.192.098-.393.187c-.499.225-1.027.421-1.557.562a14 14 0 0 0 .346-.608zM.031 5.491c0 1.304.537 2.499 1.432 3.441l-.087.159C1.055 9.665.68 10.23.234 10.717a.751.751 0 0 0 .546 1.264c1.342 0 2.699-.415 3.828-.927q.227-.104.443-.212c.471.094.964.14 1.47.14 3.585 0 6.49-2.459 6.49-5.491S10.106 0 6.521 0 .031 2.459.031 5.491m13.479 9.485c.505 0 .995-.05 1.47-.14q.217.109.443.212c1.129.512 2.487.927 3.828.927a.746.746 0 0 0 .542-1.26c-.443-.487-.817-1.051-1.142-1.626l-.087-.159c.899-.945 1.435-2.14 1.435-3.445 0-2.945-2.743-5.351-6.184-5.485q.192.712.193 1.491v.019c2.721.209 4.493 2.106 4.493 3.975 0 .874-.356 1.713-1.02 2.409a1.5 1.5 0 0 0-.234 1.741l.1.184q.118.21.246.424a10 10 0 0 1-1.557-.562q-.201-.089-.393-.187a1.5 1.5 0 0 0-.958-.131q-.566.112-1.179.112c-1.925 0-3.432-.827-4.268-1.944a8.7 8.7 0 0 1-1.56.368c1.058 1.823 3.274 3.078 5.832 3.078' fill='#fff'/></svg> {$commentCount}</span>
                 </div>
             </div>
         </div>";
@@ -450,6 +459,11 @@ class YoutubeLayout
 
                 <?php 
                     $channel_info = $data['get_channel_info'];
+
+
+                    $chanelTitle = isset($channel_info['snippet']['title']) ? $channel_info['snippet']['title'] : null;
+                    $thumbnailUrl = isset($channel_info['snippet']['thumbnails']['high']['url']) ? $channel_info['snippet']['thumbnails']['high']['url'] : null;
+                    
                     echo self::create_channel_info_layout($channel_info);
                 ?>
             <div class="ep-youtube__content__block" data-unique-id="<?php echo wp_rand(); ?>">
@@ -461,6 +475,10 @@ class YoutubeLayout
                             $thumbnail = Helper::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
                             $vid = Helper::get_id($item);
                             $video_data = Helper::get_youtube_video_data($data['get_api_key'], $vid);
+
+                            $videoTitle = isset($video_data['snippet']['title']) ? $video_data['snippet']['title'] : null;
+                            $publishedAt = isset($video_data['snippet']['publishedAt']) ? date("M j, Y", strtotime($video_data['snippet']['publishedAt'])) : null;
+                            $viewCount = isset($video_data['statistics']['viewCount']) ? $video_data['statistics']['viewCount'] : null;
 
                             if (empty($gallobj->first_vid)) {
                                 $gallobj->first_vid = $vid;
@@ -476,7 +494,17 @@ class YoutubeLayout
                                     </div>
                                 </div>
                                 <div class="body">
-                                    <p><?php echo $item->snippet->title; ?></p>
+                                    <div class="description-container">
+                                        <div class="thumbnail"><img src="<?php echo esc_url($thumbnailUrl ); ?>"/></div>
+                                        <div class="details">
+                                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 8)); ?></div>
+                                            <div class="channel"><?php echo esc_html($chanelTitle); ?></div>
+                                            <div class="views-time">
+                                                <span class="views"><?php echo esc_html($viewCount . ' views')?></span> • <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
                                 <div class="video-description" style="display: none;">
                                     <?php echo  self::generate_youtube_video_description($video_data); ?>
@@ -493,7 +521,7 @@ class YoutubeLayout
             <div id="videoPopup" class="video-popup">
                 <div class="video-popup-content">
                     <span class="close">&times;</span>
-                    <iframe id="videoIframe" frameborder="0" allowfullscreen></iframe>
+                    <iframe id="videoIframe" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
                     <div id="videoDescription"></div> <!-- Add this div for the description -->
                     <div class="popup-controls">
                         <span id="prevVideo" class="nav-icon prev-icon">&#10094;</span>
