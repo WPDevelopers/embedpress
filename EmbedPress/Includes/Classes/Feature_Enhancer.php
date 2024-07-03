@@ -583,7 +583,7 @@ class Feature_Enhancer
 
 		if (
 			$isYoutube && isset($embed->embed)
-			&& preg_match('/src=\"(.+?)\"/', $embed->embed, $match)
+			&& preg_match('/<iframe[^>]+src=["\']([^"\']+)[^>]*>/', $embed->embed, $match)
 		) {
 
 			// for compatibility only, @TODO; remove later after deep testing.
@@ -653,9 +653,11 @@ class Feature_Enhancer
 				}
 			}
 
-			preg_match('/(.+)?\?/', $url_full, $url);
-			if (isset($url[1])) {
-				$url = $url[1];
+
+			$url = explode('?', $url_full);
+
+			if (isset($url[0])) {
+				$url = $url[0];
 			}
 
 			if (is_object($embed->attributes) && !empty($embed->attributes)) {

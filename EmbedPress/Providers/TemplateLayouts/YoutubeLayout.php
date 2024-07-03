@@ -20,17 +20,9 @@ class YoutubeLayout
         $videoCount = isset($channel_info['statistics']['videoCount']) ? $channel_info['statistics']['videoCount'] : null;
         $thumbnailUrl = isset($channel_info['snippet']['thumbnails']['high']['url']) ? $channel_info['snippet']['thumbnails']['high']['url'] : null;
 
-        echo 'profile picture: '. $thumbnailUrl;
-
-        echo '<pre>';
-        echo '<img data-="https://placeholder.com/40" alt="" />';  
-        
-        print_r(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)); die;
-
         ob_start();
         ?>
         <div class="channel-header">
-            <!-- profile picture: <?php echo $thumbnailUrl;; ?> -->
             <img src="<?php echo esc_url($thumbnailUrl); ?>" alt="<?php echo esc_attr($title); ?>" class="profile-picture">
             <div class="channel-info">
                 <div class="info-description">
@@ -87,265 +79,200 @@ class YoutubeLayout
     }
 
 
-    public static function create_gallery_layout($options, $data) {
-        $nextPageToken = '';
-        $prevPageToken = '';
-        $gallobj       = new \stdClass();
-        $options       = wp_parse_args($options, [
-            'playlistId'  => '',
-            'pageToken'   => '',
-            'pagesize'    => $data['get_pagesize'] ? $data['get_pagesize'] : 6,
-            'currentpage' => '',
-            'columns'     => 3,
-            'thumbnail'   => 'medium',
-            'gallery'     => true,
-            'autonext'    => true,
-            'thumbplay'   => true,
-            'apiKey'      => $data['get_api_key'],
-            'hideprivate' => '',
-        ]);
-        $options['pagesize'] = $options['pagesize'] > 50 ? 50 : $options['pagesize'];
-        $options['pagesize'] = $options['pagesize'] < 1 ? 1 : $options['pagesize'];
-
-        if (empty($options['apiKey'])) {
-            $gallobj->html = $data['get_api_key_error_message'];
-            return $gallobj;
-        }
-
-        $apiEndpoint = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,status,contentDetails&playlistId=' . $options['playlistId']
-            . '&maxResults=' . $options['pagesize']
-            . '&key=' . $options['apiKey'];
-        if ($options['pageToken'] != null) {
-            $apiEndpoint .= '&pageToken=' . $options['pageToken'];
-        }
+    public static function create_list_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb){
+        foreach ($jsonResult->items as $item) : ?>
+            <?php
+            $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
+            $thumbnail = Helper::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
+            $vid = Helper::get_id($item);
+            $video_data = Helper::get_youtube_video_data($data['get_api_key'], $vid);
 
 
+            $videoTitle = isset($video_data['snippet']['title']) ? $video_data['snippet']['title'] : null;
+            $videoDescription = isset($video_data['snippet']['description']) ? $video_data['snippet']['description'] : null;
+            $publishedAt = isset($video_data['snippet']['publishedAt']) ? date("M j, Y", strtotime($video_data['snippet']['publishedAt'])) : null;
+            $viewCount = isset($video_data['statistics']['viewCount']) ? $video_data['statistics']['viewCount'] : null;
 
-        $transient_key          = 'ep_embed_youtube_channel_' . md5($apiEndpoint);
-        $gallobj->transient_key = $transient_key;
-        $jsonResult             = get_transient($transient_key);
-
-
-        if (empty($jsonResult)) {
-            $apiResult = wp_remote_get($apiEndpoint, array('timeout' => $data['curltimeout']));
-            if (is_wp_error($apiResult)) {
-                $gallobj->html = Helper::clean_api_error_html($apiResult->get_error_message(), true);
-                return $gallobj;
+            if (empty($gallobj->first_vid)) {
+                $gallobj->first_vid = $vid;
             }
-            $jsonResult = json_decode($apiResult['body']);
-            
-            if (empty($jsonResult->error)) {
-                set_transient($transient_key, $jsonResult, MINUTE_IN_SECONDS * 20);
+            if ($privacyStatus == 'private' && $options['hideprivate']) {
+                continue;
             }
-            else{
-                set_transient($transient_key, $jsonResult, 10);
-            }
-        }
-
-
-
-        if (isset($jsonResult->error)) {
-            if(!empty($jsonResult->error->errors[0]->reason) && $jsonResult->error->errors[0]->reason == 'playlistNotFound'){
-                $gallobj->html = Helper::clean_api_error_html(__('There is nothing on the playlist.', 'embedpress'));
-                return $gallobj;
-            }
-            if (isset($jsonResult->error->message)) {
-                $gallobj->html = Helper::clean_api_error_html($jsonResult->error->message);
-                return $gallobj;
-            }
-            $gallobj->html = Helper::clean_api_error_html(__('Sorry, there may be an issue with your YouTube API key.', 'embedpress'));
-            return $gallobj;
-        }
-
-
-
-        $resultsPerPage = $jsonResult->pageInfo->resultsPerPage;
-        $totalResults = $jsonResult->pageInfo->totalResults;
-        $totalPages = ceil($totalResults / $resultsPerPage);
-        if (isset($jsonResult->nextPageToken)) {
-            $nextPageToken = $jsonResult->nextPageToken;
-        }
-
-        if (isset($jsonResult->prevPageToken)) {
-            $prevPageToken = $jsonResult->prevPageToken;
-        }
-
-
-        if (!empty($jsonResult->items) && is_array($jsonResult->items)) :
-            if($options['gallery'] === "false"){
-                $gallobj->html = "";
-                if(count($jsonResult->items) === 1){
-                    $gallobj->first_vid = Helper::get_id($jsonResult->items[0]);
-                }
-                return $gallobj;
-            }
-
-            if(count($jsonResult->items) === 1 && empty($nextPageToken) && empty($prevPageToken)){
-                $gallobj->first_vid = Helper::get_id($jsonResult->items[0]);
-                $gallobj->html = "";
-                return $gallobj;
-            }
-
-            if (strpos($options['playlistId'], 'UU') === 0) {
-                // sort only channels
-                usort($jsonResult->items, array(Helper::class, 'compare_vid_date')); // sorts in place
-            }
-            
-
-            ob_start();
-
             ?>
-
-
-            <?php 
-                $channel_info = $data['get_channel_info'];
-                echo self::create_channel_info_layout($channel_info); 
-            ?>
-            <div class="ep-youtube__content__block"  data-unique-id="<?php echo wp_rand(); ?>">
-                <div class="youtube__content__body">
-
-                    <div class="content__wrap">
-                        <?php foreach ($jsonResult->items as $item) : ?>
-                            <?php
-                            $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
-                            $thumbnail = Helper::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
-                            $vid = Helper::get_id($item);
-                            if (empty($gallobj->first_vid)) {
-                                $gallobj->first_vid = $vid;
-                            }
-                            if ($privacyStatus == 'private' && $options['hideprivate']) {
-                                continue;
-                            }
-                            ?>
-                            <div class="item" data-vid="<?php echo $vid; ?>">
-                                <div class="thumb" style="background: <?php echo "url({$thumbnail}) no-repeat center"; ?>">
-                                    <div class="play-icon">
-                                        <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'); ?>" alt="">
-                                    </div>
-                                </div>
-                                <div class="body">
-                                    <p><?php echo $item->snippet->title; ?></p>
-                                </div>
-                            </div>
-
-                        <?php endforeach; ?>
-                        <div class="item" style="height: 0"></div>
+            <div class="item" data-vid="<?php echo $vid; ?>">
+                <div class="thumb" style="background: <?php echo "url({$thumbnail}) no-repeat center"; ?>">
+                    <div class="play-icon">
+                        <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'); ?>" alt="">
                     </div>
+                </div>
+                <div class="body">
+                    <div class="description-container">
+                        <div class="thumbnail"><img src="<?php echo esc_url($channelThumb ); ?>"/></div>
+                        <div class="details">
+                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 8)); ?></div>
+                            <div class="channel"><?php echo esc_html($channelTitle); ?></div>
 
-
-                    <?php if ($totalPages > 1) : ?>
-                        <div class="ep-youtube__content__pagination <?php echo (empty($prevPageToken) && empty($nextPageToken)) ? ' hide ' : ''; ?>">
-                            <div
-                                class="ep-prev" <?php echo empty($prevPageToken) ? ' style="display:none" ' : ''; ?>
-                                data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
-                                data-pagetoken="<?php echo esc_attr($prevPageToken) ?>"
-                                data-pagesize="<?php echo intval($options['pagesize']) ?>"
-                            >
-                                <span><?php _e("Prev", "embedpress"); ?></span>
-                            </div>
-                            <div class="is_desktop_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
-                                <?php
-
-                                    $numOfPages = $totalPages;
-                                    $renderedEllipses = false;
-
-                                    $currentPage = !empty($options['currentpage'])?$options['currentpage'] : 1;
-
-                                    for($i = 1; $i<=$numOfPages; $i++)
-                                    {
-                                        //render pages 1 - 3
-                                        if($i < 4) {
-                                            //render link
-                                            $is_current = $i == (int)$currentPage? "active__current_page" : "";
-
-                                            echo wp_kses_post("<span class='page-number  $is_current' data-page='$i'>$i</span>");
-
-                                        }
-
-                                        //render current page number
-                                        else if($i == (int)$currentPage) {
-                                            //render link
-                                            echo wp_kses_post('<span class="page-number active__current_page" data-page="'.$i.'">'.$i.'</span>');
-                                            //reset ellipses
-                                            $renderedEllipses = false;
-                                        }
-
-                                        //last page number
-                                        else if ($i >= $numOfPages - 1) {
-                                            //render link
-                                            echo wp_kses_post('<span class="page-number" data-page="'.$i.'">'.$i.'</span>');
-                                        }
-
-                                        //make sure you only do this once per ellipses group
-                                        else {
-                                        if (!$renderedEllipses){
-                                            print("...");
-                                            $renderedEllipses = true;
-                                        }
-                                        }
-                                    }
-                                ?>
-
-                            </div>
-
-                            <div class="is_mobile_device ep-page-numbers <?php echo $totalPages > 1 ? '' : 'hide'; ?>">
-                                <?php
-
-                                    $numOfPages = $totalPages;
-                                    $renderedEllipses = false;
-
-                                    $currentPage = !empty($options['currentpage'])?$options['currentpage'] : 1;
-
-                                    for($i = 1; $i<=$numOfPages; $i++)
-                                    {
-
-                                        //render current page number
-                                    if($i == (int)$currentPage) {
-                                            //render link
-                                            echo wp_kses_post('<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>');
-                                            //reset ellipses
-                                            $renderedEllipses = false;
-                                        }
-
-                                        //last page number
-                                        else if ($i >= $numOfPages ) {
-                                            //render link
-                                            echo wp_kses_post('...<span class="page-number-mobile" data-page="'.$i.'">'.$i.'</span>');
-                                        }
-                                    }
-                                ?>
-
-                            </div>
-
-
-                            <div
-                                class="ep-next " <?php echo empty($nextPageToken) ? ' style="display:none" ' : ''; ?>
-                                data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
-                                data-pagetoken="<?php echo esc_attr($nextPageToken) ?>"
-                                data-pagesize="<?php echo intval($options['pagesize']) ?>"
-                            >
-                                <span><?php _e("Next ", "embedpress"); ?> </span>
+                            <div class="list-video-description"><?php echo esc_html(Helper::trimTitle($videoDescription, 25)); ?></div>
+                            <div class="views-time">
+                                <span class="views"><?php echo esc_html($viewCount . ' views')?></span> • <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
                             </div>
                         </div>
-                    <?php endif; ?>
-
-                    <div class="ep-loader-wrap">
-                        <div class="ep-loader"><img alt="loading" src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/spin.gif'); ?>"></div>
                     </div>
 
                 </div>
+                <div class="video-description" style="display: none;">
+                    <?php echo  self::generate_youtube_video_description($video_data); ?>
+                </div>
             </div>
+        <?php endforeach;
+    }
+    public static function create_gallery_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb){
+        foreach ($jsonResult->items as $item) : ?>
             <?php
-            $gallobj->html = ob_get_clean();
-        else:
-            $gallobj->html = Helper::clean_api_error_html(__("There is nothing on the playlist.", 'embedpress'));
-        endif;
+            $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
+            $thumbnail = Helper::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
+            $vid = Helper::get_id($item);
+            $video_data = Helper::get_youtube_video_data($data['get_api_key'], $vid);
 
-        return $gallobj;
+            // echo '<pre>';
+            // print_r($video_data); die;
+
+            $videoTitle = isset($video_data['snippet']['title']) ? $video_data['snippet']['title'] : null;
+            $videoDescription = isset($video_data['snippet']['description']) ? $video_data['snippet']['description'] : null;
+            $publishedAt = isset($video_data['snippet']['publishedAt']) ? date("M j, Y", strtotime($video_data['snippet']['publishedAt'])) : null;
+            $viewCount = isset($video_data['statistics']['viewCount']) ? $video_data['statistics']['viewCount'] : null;
+
+            if (empty($gallobj->first_vid)) {
+                $gallobj->first_vid = $vid;
+            }
+            if ($privacyStatus == 'private' && $options['hideprivate']) {
+                continue;
+            }
+            ?>
+            <div class="item" data-vid="<?php echo $vid; ?>">
+                <div class="thumb" style="background: <?php echo "url({$thumbnail}) no-repeat center"; ?>">
+                    <div class="play-icon">
+                        <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'); ?>" alt="">
+                    </div>
+                </div>
+                <div class="body">
+                    <div class="description-container">
+                        <div class="thumbnail"><img src="<?php echo esc_url($channelThumb ); ?>"/></div>
+                        <div class="details">
+                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 8)); ?></div>
+                            <div class="channel"><?php echo esc_html($channelTitle); ?></div>
+                            <div class="views-time">
+                                <span class="views"><?php echo esc_html($viewCount . ' views')?></span> • <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="video-description" style="display: none;">
+                    <?php echo  self::generate_youtube_video_description($video_data); ?>
+                </div>
+            </div>
+        <?php endforeach;
+    }
+    public static function create_grid_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb){
+        foreach ($jsonResult->items as $item) : ?>
+            <?php
+            $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
+            $thumbnail = Helper::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
+            $vid = Helper::get_id($item);
+            $video_data = Helper::get_youtube_video_data($data['get_api_key'], $vid);
+
+            // echo '<pre>';
+            // print_r($video_data); die;
+
+            $videoTitle = isset($video_data['snippet']['title']) ? $video_data['snippet']['title'] : null;
+            $videoDescription = isset($video_data['snippet']['description']) ? $video_data['snippet']['description'] : null;
+            $publishedAt = isset($video_data['snippet']['publishedAt']) ? date("M j, Y", strtotime($video_data['snippet']['publishedAt'])) : null;
+            $viewCount = isset($video_data['statistics']['viewCount']) ? $video_data['statistics']['viewCount'] : null;
+
+            if (empty($gallobj->first_vid)) {
+                $gallobj->first_vid = $vid;
+            }
+            if ($privacyStatus == 'private' && $options['hideprivate']) {
+                continue;
+            }
+            ?>
+            <div class="item" data-vid="<?php echo $vid; ?>">
+                <div class="thumb" style="background: <?php echo "url({$thumbnail}) no-repeat center"; ?>">
+                    <div class="play-icon">
+                        <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'); ?>" alt="">
+                    </div>
+                </div>
+                <div class="body">
+                    <div class="description-container">
+                        <div class="thumbnail"><img src="<?php echo esc_url($channelThumb ); ?>"/></div>
+                        <div class="details">
+                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 8)); ?></div>
+                            <div class="channel"><?php echo esc_html($channelTitle); ?></div>
+                            <div class="views-time">
+                                <span class="views"><?php echo esc_html($viewCount . ' views')?></span> • <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="video-description" style="display: none;">
+                    <?php echo  self::generate_youtube_video_description($video_data); ?>
+                </div>
+            </div>
+        <?php endforeach;
+    }
+    public static function create_carousel_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb){
+        foreach ($jsonResult->items as $item) : ?>
+            <?php
+            $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
+            $thumbnail = Helper::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
+            $vid = Helper::get_id($item);
+            $video_data = Helper::get_youtube_video_data($data['get_api_key'], $vid);
+
+            // echo '<pre>';
+            // print_r($video_data); die;
+
+            $videoTitle = isset($video_data['snippet']['title']) ? $video_data['snippet']['title'] : null;
+            $videoDescription = isset($video_data['snippet']['description']) ? $video_data['snippet']['description'] : null;
+            $publishedAt = isset($video_data['snippet']['publishedAt']) ? date("M j, Y", strtotime($video_data['snippet']['publishedAt'])) : null;
+            $viewCount = isset($video_data['statistics']['viewCount']) ? $video_data['statistics']['viewCount'] : null;
+
+            if (empty($gallobj->first_vid)) {
+                $gallobj->first_vid = $vid;
+            }
+            if ($privacyStatus == 'private' && $options['hideprivate']) {
+                continue;
+            }
+            ?>
+            <div class="item" data-vid="<?php echo $vid; ?>">
+                <div class="thumb" style="background: <?php echo "url({$thumbnail}) no-repeat center"; ?>">
+                    <div class="play-icon">
+                        <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'); ?>" alt="">
+                    </div>
+                </div>
+                <div class="body">
+                    <div class="description-container">
+                        <div class="thumbnail"><img src="<?php echo esc_url($channelThumb ); ?>"/></div>
+                        <div class="details">
+                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 8)); ?></div>
+                            <div class="channel"><?php echo esc_html($channelTitle); ?></div>
+                            <div class="views-time">
+                                <span class="views"><?php echo esc_html($viewCount . ' views')?></span> • <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="video-description" style="display: none;">
+                    <?php echo  self::generate_youtube_video_description($video_data); ?>
+                </div>
+            </div>
+        <?php endforeach;
     }
 
-
-    public static function create_grid_layout($options, $data) {
+    public static function create_youtube_layout($options, $data, $layout) {
         $nextPageToken = '';
         $prevPageToken = '';
         $gallobj       = new \stdClass();
@@ -462,55 +389,28 @@ class YoutubeLayout
 
 
                     $chanelTitle = isset($channel_info['snippet']['title']) ? $channel_info['snippet']['title'] : null;
-                    $thumbnailUrl = isset($channel_info['snippet']['thumbnails']['high']['url']) ? $channel_info['snippet']['thumbnails']['high']['url'] : null;
+                    $channelThumb = isset($channel_info['snippet']['thumbnails']['high']['url']) ? $channel_info['snippet']['thumbnails']['high']['url'] : null;
                     
                     echo self::create_channel_info_layout($channel_info);
                 ?>
             <div class="ep-youtube__content__block" data-unique-id="<?php echo wp_rand(); ?>">
                 <div class="youtube__content__body">
                     <div class="content__wrap">
-                        <?php foreach ($jsonResult->items as $item) : ?>
-                            <?php
-                            $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
-                            $thumbnail = Helper::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
-                            $vid = Helper::get_id($item);
-                            $video_data = Helper::get_youtube_video_data($data['get_api_key'], $vid);
 
-                            $videoTitle = isset($video_data['snippet']['title']) ? $video_data['snippet']['title'] : null;
-                            $publishedAt = isset($video_data['snippet']['publishedAt']) ? date("M j, Y", strtotime($video_data['snippet']['publishedAt'])) : null;
-                            $viewCount = isset($video_data['statistics']['viewCount']) ? $video_data['statistics']['viewCount'] : null;
-
-                            if (empty($gallobj->first_vid)) {
-                                $gallobj->first_vid = $vid;
-                            }
-                            if ($privacyStatus == 'private' && $options['hideprivate']) {
-                                continue;
-                            }
-                            ?>
-                            <div class="item" data-vid="<?php echo $vid; ?>">
-                                <div class="thumb" style="background: <?php echo "url({$thumbnail}) no-repeat center"; ?>">
-                                    <div class="play-icon">
-                                        <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'); ?>" alt="">
-                                    </div>
-                                </div>
-                                <div class="body">
-                                    <div class="description-container">
-                                        <div class="thumbnail"><img src="<?php echo esc_url($thumbnailUrl ); ?>"/></div>
-                                        <div class="details">
-                                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 8)); ?></div>
-                                            <div class="channel"><?php echo esc_html($chanelTitle); ?></div>
-                                            <div class="views-time">
-                                                <span class="views"><?php echo esc_html($viewCount . ' views')?></span> • <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="video-description" style="display: none;">
-                                    <?php echo  self::generate_youtube_video_description($video_data); ?>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
+                        <?php 
+                                if($layout === 'gallery'){
+                                    echo self::create_gallery_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
+                                }
+                                else if($layout === 'grid'){
+                                    echo self::create_grid_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
+                                }
+                                else if($layout === 'list'){
+                                    echo self::create_list_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
+                                }
+                                else if($layout === 'carousel'){
+                                    echo self::create_carousel_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
+                                }
+                        ?>
                         <div class="item" style="height: 0"></div>
                     </div>
                     <!-- Pagination and other content remains unchanged -->

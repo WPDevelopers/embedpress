@@ -1054,7 +1054,7 @@ if (isIOSDevice()) {
 document.addEventListener("DOMContentLoaded", epGlobals.handlePosterImageLoad);
 
 document.addEventListener('DOMContentLoaded', function () {
-    const items = document.querySelectorAll('.layout-grid .item');
+    const items = document.querySelectorAll('.layout-grid .item, .layout-list .item, .layout-carousel .item');
 
     if(items.length <= 0){
         return false;

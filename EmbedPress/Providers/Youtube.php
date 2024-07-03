@@ -374,21 +374,25 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             if(isset($params['ytChannelLayout'])){
                 if($params['ytChannelLayout'] === 'gallery'){
                     $channel_layout = 'layout-gallery';
-                    $gallery  = YoutubeLayout::create_gallery_layout($gallery_args, $layout_data);
 
                 }
                 else if($params['ytChannelLayout'] === 'grid'){
                     $channel_layout = 'layout-grid';
-                    $gallery        = YoutubeLayout::create_grid_layout($gallery_args, $layout_data);
-
                 }
                 else if($params['ytChannelLayout'] === 'list'){
                     $channel_layout = 'layout-list';
+
                 }
                 else if($params['ytChannelLayout'] === 'carousel'){
                     $channel_layout = 'layout-carousel';
+
                 }
+
+                $gallery  = YoutubeLayout::create_youtube_layout($gallery_args, $layout_data, $params['ytChannelLayout']);
+
             }
+
+            
 
             
             // echo '<pre>';

@@ -3007,7 +3007,10 @@ div.popup-close {
 }
 
 /* Youtube Advance layout style */
-
+.embedded-youtube-channel .ose-youtube {
+    height: 100% !important;
+    max-height: 100% !important;
+}
 
 .ose-youtube .channel-header {
     display: flex;
@@ -3303,3 +3306,4 @@ div.popup-close {
     padding-top: 20.25%;
     width: 36%;
 }
+

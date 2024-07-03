@@ -238,6 +238,8 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         setAttributes({ columns: 1 });
     }
 
+    console.log(attributes);
+
     return (
         <div>
 
