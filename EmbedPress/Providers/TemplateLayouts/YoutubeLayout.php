@@ -29,7 +29,7 @@ class YoutubeLayout
                     <h1 class="channel-name"><?php echo esc_html($title); ?></h1>
                     <p class="channel-details"><?php echo esc_html($handle); ?> · <?php echo esc_html(Helper::format_number($subscriberCount)); ?> subscribers · <?php echo esc_html(Helper::format_number($videoCount)); ?> videos</p>
                 </div>
-                <a target="_blank" href="<?php echo esc_url('youtube.com/' . $handle);  ?>" class="subscribe-button">
+                <a target="_blank" href="<?php echo esc_url('https://www.youtube.com/' . $handle);  ?>" class="subscribe-button">
                     <svg width="16" height="20" viewBox="0 0 16 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M9.467 1.653A1.6 1.6 0 0 1 8.4 3.093 6.026 6.026 0 0 1 14 9.067v4.586c0 1.067.053 1.92.96 2.4a.694.694 0 0 1-.267 1.28H8.88a1.333 1.333 0 1 1-1.76 0H1.36a.693.693 0 0 1-.32-1.28c.907-.48.96-1.333.96-2.4V9.067a6.027 6.027 0 0 1 5.6-5.974 1.493 1.493 0 1 1 1.867-1.44m-1.44 2.774a4.8 4.8 0 0 0-4.694 4.64v4.693c0 .587 0 1.493-.373 2.293h10.133c-.426-.8-.373-1.653-.373-2.293V9.067a4.8 4.8 0 0 0-1.405-3.289c-.874-.874-2.052-1.324-3.288-1.351" fill="#fff" /></svg>
                     <?php echo esc_html__('Subscribe', 'embbedpress'); ?></a>

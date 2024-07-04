@@ -162,8 +162,8 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: 'gallery'
 			},
 			pagesize: {
-				type: 'number',
-				default: 6
+				type: 'string',
+				default: '6'
 			},
 			columns: {
 				type: 'string',

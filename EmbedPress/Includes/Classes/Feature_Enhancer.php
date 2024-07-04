@@ -138,7 +138,7 @@ class Feature_Enhancer
 
 	public function youtube_rest_api()
 	{
-		$result = YoutubeLayout::create_grid_layout([
+		$result = YoutubeLayout::create_youtube_layout([
 			'playlistId'        => isset($_POST['playlistid']) ? sanitize_text_field($_POST['playlistid']) : null,
 			'pageToken'         => isset($_POST['pagetoken']) ? sanitize_text_field($_POST['pagetoken']) : null,
 			'ytChannelLayout'          => isset($_POST['ytChannelLayout']) ? sanitize_text_field($_POST['ytChannelLayout']) : 'gallery',
@@ -150,7 +150,7 @@ class Feature_Enhancer
 			'autonext'          => isset($_POST['autonext']) ? sanitize_text_field($_POST['autonext']) : null,
 			'thumbplay'         => isset($_POST['thumbplay']) ? sanitize_text_field($_POST['thumbplay']) : null,
 			'thumbnail_quality' => isset($_POST['thumbnail_quality']) ? sanitize_text_field($_POST['thumbnail_quality']) : null,
-		], Youtube::layout_data());
+		], Youtube::layout_data(), '');
 
 		wp_send_json($result);
 	}

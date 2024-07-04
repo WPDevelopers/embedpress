@@ -44,6 +44,8 @@ removedBlockID();
 export default function EmbedPress(props) {
 	const { attributes, className, setAttributes } = props;
 
+	console.log({attributes})
+
 	// @todo remove unused atts from here.
 	const {
 		url,
@@ -96,9 +98,10 @@ export default function EmbedPress(props) {
 	}
 	let ytChannelClass = '';
 
-	if (isYTChannel) {
+	if (_isYTChannel(url)) {
 		ytChannelClass = 'embedded-youtube-channel';
 	}
+	
 
 
 	let content_share_class = '';
@@ -330,6 +333,8 @@ export default function EmbedPress(props) {
 			clearTimeout(delayDebounceFn)
 		}
 	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent]);
+
+	console.log(attributes);
 
 	return (
 		<Fragment>

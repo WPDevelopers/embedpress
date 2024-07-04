@@ -213,6 +213,8 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         customPlayer
     } = attributes;
 
+    console.log(attributes);
+
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     const onSelectImage = (logo) => {
@@ -238,7 +240,8 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         setAttributes({ columns: 1 });
     }
 
-    console.log(attributes);
+    console.log(typeof pagesize)
+
 
     return (
         <div>
@@ -264,8 +267,8 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                             label={__("Video Per Page")}
                             value={pagesize}
                             onChange={(pagesize) => setAttributes({ pagesize })}
-                            type={'number'}
-                            max={50}
+                            // type={'number'}
+                            // max={50}
                         />
                         <p>Specify the number of videos you wish to show on each page.</p>
 
