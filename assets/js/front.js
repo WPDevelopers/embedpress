@@ -943,8 +943,8 @@ document.addEventListener('DOMContentLoaded', () => {
         updateCarousel();
     }
 
-    nextButton.addEventListener('click', nextSlide);
-    prevButton.addEventListener('click', prevSlide);
+    nextButton?.addEventListener('click', nextSlide);
+    prevButton?.addEventListener('click', prevSlide);
 
     // Optional: Autoplay
     let autoplay = false;

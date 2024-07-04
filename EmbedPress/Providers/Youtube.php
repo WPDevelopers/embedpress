@@ -341,6 +341,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $data['self::class'] = self::class; 
 
         return $data;
+
     }
     
 
@@ -470,6 +471,12 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         
     }
 
+    
+    public function get_layout() {
+        $params = $this->getParams();
+        return $params['ytChannelLayout'];
+    }
+
     /**
      * Undocumented function
      *
@@ -552,6 +559,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $resultsPerPage = $jsonResult->pageInfo->resultsPerPage;
         $totalResults = $jsonResult->pageInfo->totalResults;
         $totalPages = ceil($totalResults / $resultsPerPage);
+
         if (isset($jsonResult->nextPageToken)) {
             $nextPageToken = $jsonResult->nextPageToken;
         }
@@ -581,7 +589,6 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                 usort($jsonResult->items, array(self::class, 'compare_vid_date')); // sorts in place
             }
             
-
             ob_start();
 
             ?>
