@@ -730,6 +730,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
                 </div>
             </div>
+            
             <?php
             $gallobj->html = ob_get_clean();
         else:
