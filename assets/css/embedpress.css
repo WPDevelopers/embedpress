@@ -151,7 +151,7 @@
         max-height: 100% !important;
     }
 
-    .ep-youtube__content__block .youtube__content__body .content__wrap {
+    .ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel) {
         grid-template-columns: repeat(auto-fit, minmax(calc(50% - 30px), 1fr)) !important;
     }
 }
@@ -164,7 +164,7 @@
         max-height: 390px !important;
     }
 
-    .ep-youtube__content__block .youtube__content__body .content__wrap {
+    .ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel) {
         grid-template-columns: repeat(auto-fit, minmax(calc(100% - 30px), 1fr)) !important;
     }
 }
@@ -2872,16 +2872,25 @@ div.popup-close {
     color: #fff;
 }
 
-.ep-youtube__content__block .youtube__content__body .content__wrap {
+.ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel) {
     margin-top: 30px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
 }
 
+
+[data-youtube-channel-carousel].ep-youtube__content__block {
+    position: relative
+}
+
 .ep-youtube__content__block .item {
     cursor: pointer;
     white-space: initial;
+}
+
+.ep-youtube__content__block .youtube-carousel .item {
+    margin: 10px;
 }
 
 .ep-youtube__content__block .item:hover .thumb .play-icon {
@@ -3302,8 +3311,53 @@ div.popup-close {
     width: 100%;
     gap: 20px;
 }
+
 .ep-player-wrap.layout-list .ep-youtube__content__block .thumb {
     padding-top: 20.25%;
     width: 36%;
 }
 
+/* Youtube Carousel Css */
+[data-youtube-channel-carousel] .youtube-carousel-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+[data-youtube-channel-carousel] .youtube-carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+[data-youtube-channel-carousel] .youtube-carousel  .item {
+    min-width: calc(33.3333% - 20px);
+    /* Adjust this value to show more or fewer items */
+    box-sizing: border-box;
+}
+
+[data-youtube-channel-carousel] button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    box-shadow: none;
+    background-color: #000000ba;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    justify-content: center;
+}
+
+[data-youtube-channel-carousel] button.preview {
+    left: -40px;
+
+}
+
+button.next {
+    right: -40px;
+}

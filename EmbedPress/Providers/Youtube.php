@@ -843,7 +843,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
 
         ?>
-        <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .youtube__content__body .content__wrap {
+        <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel) {
             gap: <?php echo esc_html($gap); ?>px !important;
             margin-top: <?php echo esc_html($gap); ?>px !important;
             grid-template-columns: <?php echo $repeatCol; ?>;

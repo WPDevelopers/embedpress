@@ -583,7 +583,7 @@ let epGlobals = {};
                 const postData = instaItem.dataset.postdata;
 
                 const postid = instaItem.getAttribute('data-insta-postid');
-                const accountType = container?.closest('.instagram-container')?.getAttribute('data-connected-acc-type');            
+                const accountType = container?.closest('.instagram-container')?.getAttribute('data-connected-acc-type');
 
                 let hashtag = '';
 
@@ -829,10 +829,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Navigation
         const next = document.querySelector(`[data-carouselid="${carouselId}"] #js-carousel__next-1`);
-        next.addEventListener('click', () => carousel.next());
+        next?.addEventListener('click', () => carousel.next());
 
         const prev = document.querySelector(`[data-carouselid="${carouselId}"] #js-carousel__prev-1`);
-        prev.addEventListener('click', () => carousel.prev());
+        prev?.addEventListener('click', () => carousel.prev());
     }
 
     const instaWrappers = document.querySelectorAll('.ep-embed-content-wraper');
@@ -857,9 +857,117 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Youtube Channel Carousel
+
+    const youtubeCarouselWraper = document.querySelectorAll('[data-youtube-channel-carousel]');
+
+    if (youtubeCarouselWraper.length > 0) {
+        youtubeCarouselWraper.forEach((wrapper) => {
+            const carouselId = wrapper.getAttribute('data-youtube-channel-carousel');
+            if (!carouselId) return;
+
+            // let options = wrapper.getAttribute(`data-carousel-options`);
+
+            // options = JSON.parse(options);
+
+            const carouselSelector = `[data-youtube-channel-carousel="${carouselId}"] .youtube__content__body`;
+
+            // if (options.arrows) {
+            //     document.querySelector(`[data-youtube-channel-carousel="${carouselId}"] .cg-carousel__btns`).classList.remove('hidden');
+            // }
+
+            const options = {
+                slidesPerView: 2,
+                autoplay: true,
+                loop: true,
+                breakpoints: {
+                    768: {
+                        slidesPerView: 2
+                    },
+                    1024: {
+                        slidesPerView: 4
+                    }
+                }
+            }
+
+            // epGlobals.initCarousel(carouselSelector, options, {});
+
+        });
+    }
+
+    console.log(youtubeCarouselWraper);
+
+
+
 
 
 });
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const carousel = document.querySelector('.youtube-carousel');
+    const items = document.querySelectorAll('.item');
+    const prevButton = document.querySelector('.preview');
+    const nextButton = document.querySelector('.next');
+
+    const itemsToShow = 3; // Number of items to display at once
+    const totalItems = items.length;
+    let currentIndex = 0;
+
+    function updateCarousel() {
+        const offset = -currentIndex * (100 / itemsToShow);
+        carousel.style.transform = `translateX(${offset}%)`;
+    }
+
+    function nextSlide() {
+        const remainingItems = totalItems - (currentIndex + itemsToShow);
+        if (remainingItems >= itemsToShow) {
+            currentIndex += itemsToShow;
+        } else if (remainingItems > 0) {
+            currentIndex += remainingItems;
+        } else {
+            currentIndex = 0;
+        }
+        updateCarousel();
+    }
+
+    function prevSlide() {
+        if (currentIndex > 0) {
+            currentIndex -= itemsToShow;
+            if (currentIndex < 0) {
+                currentIndex = 0;
+            }
+        } else {
+            currentIndex = totalItems - itemsToShow;
+        }
+        updateCarousel();
+    }
+
+    nextButton.addEventListener('click', nextSlide);
+    prevButton.addEventListener('click', prevSlide);
+
+    // Optional: Autoplay
+    let autoplay = false;
+    const autoplayInterval = 3000; // Change the time as needed
+    let autoplayId;
+
+    function startAutoplay() {
+        autoplayId = setInterval(nextSlide, autoplayInterval);
+    }
+
+    function stopAutoplay() {
+        clearInterval(autoplayId);
+    }
+
+    if (autoplay) {
+        startAutoplay();
+
+        // Stop autoplay on mouseover, resume on mouseout
+        carousel.addEventListener('mouseover', stopAutoplay);
+        carousel.addEventListener('mouseout', startAutoplay);
+    }
+});
+
 
 
 
@@ -1056,7 +1164,7 @@ document.addEventListener("DOMContentLoaded", epGlobals.handlePosterImageLoad);
 document.addEventListener('DOMContentLoaded', function () {
     const items = document.querySelectorAll('.layout-grid .item, .layout-list .item, .layout-carousel .item');
 
-    if(items.length <= 0){
+    if (items.length <= 0) {
         return false;
     }
 

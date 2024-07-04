@@ -89,7 +89,7 @@ export const dynamicStyles = ({ attributes }) => {
 
                 <style style={{ display: "none" }}>
                     {`
-                    [data-source-id="source-${clientId}"] .ep-youtube__content__block .youtube__content__body .content__wrap{
+                    [data-source-id="source-${clientId}"] .ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel){
                         gap: ${gapbetweenvideos}px!important;
                         margin-top: ${gapbetweenvideos}px!important;
                         display: grid!important;

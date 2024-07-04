@@ -66,6 +66,8 @@ if(!function_exists('lock_content_form_handler')){
 
 function embedpress_block_scripts($attributes) {
 
+	// print_r($attributes); die;
+
 	$script_handles = [];
 
 	if(!empty($attributes['customPlayer'])){
@@ -80,7 +82,7 @@ function embedpress_block_scripts($attributes) {
 		$script_handles[] = 'embedpress-ads';
 	}
 
-	if(!empty($attributes['instaLayout']) && $attributes['instaLayout'] == 'insta-carousel'){
+	if((!empty($attributes['instaLayout']) && $attributes['instaLayout'] == 'insta-carousel') || (!empty($attributes['ytChannelLayout']) && $attributes['ytChannelLayout'] == 'carousel')){
 		$script_handles[] = 'cg-carousel';
 	}
 
@@ -94,7 +96,7 @@ function embedpress_block_scripts($attributes) {
 		$style_handles[] = 'plyr';
 	}
 
-	if(!empty($attributes['instaLayout']) && $attributes['instaLayout'] == 'insta-carousel'){
+	if((!empty($attributes['instaLayout']) && $attributes['instaLayout'] == 'insta-carousel') || (!empty($attributes['ytChannelLayout']) && $attributes['ytChannelLayout'] == 'carousel')){
 		$style_handles[] = 'cg-carousel';
 	}
 

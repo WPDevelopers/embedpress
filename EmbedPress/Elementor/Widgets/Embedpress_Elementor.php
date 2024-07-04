@@ -841,7 +841,7 @@ class Embedpress_Elementor extends Widget_Base
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} .ep-youtube__content__block .youtube__content__body .content__wrap' => 'gap: {{SIZE}}{{UNIT}}!important;margin-top: {{SIZE}}{{UNIT}}!important;',
+					'{{WRAPPER}} .ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel)' => 'gap: {{SIZE}}{{UNIT}}!important;margin-top: {{SIZE}}{{UNIT}}!important;',
 				],
 			]
 		);

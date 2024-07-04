@@ -387,15 +387,22 @@ class YoutubeLayout
                 <?php 
                     $channel_info = $data['get_channel_info'];
 
-
                     $chanelTitle = isset($channel_info['snippet']['title']) ? $channel_info['snippet']['title'] : null;
                     $channelThumb = isset($channel_info['snippet']['thumbnails']['high']['url']) ? $channel_info['snippet']['thumbnails']['high']['url'] : null;
                     
                     echo self::create_channel_info_layout($channel_info);
+
+                    $carouselWrapperClass = '';
+                    $carouselSelectorId = '';
+                    if($layout == 'carousel') {
+                        $carouselWrapperClass = 'youtube-carousel';
+                        $carouselSelectorId = 'data-youtube-channel-carousel="carousel-'.esc_attr(md5($channel_info['id'])).'"';
+                    }
                 ?>
-            <div class="ep-youtube__content__block" data-unique-id="<?php echo wp_rand(); ?>">
-                <div class="youtube__content__body">
-                    <div class="content__wrap">
+
+            <div class="ep-youtube__content__block" <?php echo $carouselSelectorId; ?> data-unique-id="<?php echo esc_attr(md5($channel_info['id'])); ?>">
+                <div class="youtube__content__body youtube-carousel-container">
+                    <div class="content__wrap <?php echo esc_attr($carouselWrapperClass);  ?>" >
 
                         <?php 
                                 if($layout === 'gallery'){
@@ -415,6 +422,14 @@ class YoutubeLayout
                     </div>
                     <!-- Pagination and other content remains unchanged -->
                 </div>
+
+
+                <?php  if($layout === 'carousel'): ?>
+                        <div class="carousel-controls">
+                            <button class="preview">❮</button>
+                            <button class="next">❯</button>
+                     <?php endif; ?>
+
             </div>
 
 
