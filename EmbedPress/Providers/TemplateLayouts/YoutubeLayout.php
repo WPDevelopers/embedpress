@@ -273,7 +273,7 @@ class YoutubeLayout
     }
 
 
-    public static function create_youtube_layout($options, $data, $layout) {
+    public static function create_youtube_layout($options, $data, $layout, $url) {
         $nextPageToken = '';
         $prevPageToken = '';
         $gallobj       = new \stdClass();
@@ -388,20 +388,31 @@ class YoutubeLayout
                 <?php 
                     $channel_info = $data['get_channel_info'];
 
+                  
+
                     $chanelTitle = isset($channel_info['snippet']['title']) ? $channel_info['snippet']['title'] : null;
                     $channelThumb = isset($channel_info['snippet']['thumbnails']['high']['url']) ? $channel_info['snippet']['thumbnails']['high']['url'] : null;
                     
+
+                    echo '<pre>';
+                    print_r($channelThumb);
+
                     echo self::create_channel_info_layout($channel_info);
+
+                    $channel_id = '';
+                    if(isset($channel_info['id'])) {
+                        $channel_id = $channel_info['id'];
+                    }
 
                     $carouselWrapperClass = '';
                     $carouselSelectorId = '';
                     if($layout == 'carousel') {
                         $carouselWrapperClass = 'youtube-carousel';
-                        $carouselSelectorId = 'data-youtube-channel-carousel="carousel-'.esc_attr(md5($channel_info['id'])).'"';
+                        $carouselSelectorId = 'data-youtube-channel-carousel="carousel-'.esc_attr(md5($channel_id)).'"';
                     }
                 ?>
 
-            <div class="ep-youtube__content__block" <?php echo $carouselSelectorId; ?> data-unique-id="<?php echo esc_attr(md5($channel_info['id'])); ?>">
+            <div class="ep-youtube__content__block" <?php echo $carouselSelectorId; ?> data-unique-id="<?php echo esc_attr(md5($channel_id)); ?>">
                 <div class="youtube__content__body youtube-carousel-container">
                     <div class="content__wrap <?php echo esc_attr($carouselWrapperClass);  ?>" >
 
@@ -418,6 +429,9 @@ class YoutubeLayout
                                 else if($layout === 'carousel'){
                                     echo self::create_carousel_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
                                 }
+                                else{
+                                    echo self::create_grid_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
+                                }
                         ?>
                         <div class="item" style="height: 0"></div>
                     </div>
@@ -430,6 +444,8 @@ class YoutubeLayout
                                 data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
                                 data-pagetoken="<?php echo esc_attr($prevPageToken) ?>"
                                 data-pagesize="<?php echo intval($options['pagesize']) ?>"
+                                data-url="<?php echo esc_url($url);  ?>"
+
                             >
                                 <span><?php _e("Prev", "embedpress"); ?></span>
                             </div>
@@ -513,6 +529,7 @@ class YoutubeLayout
                                 data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
                                 data-pagetoken="<?php echo esc_attr($nextPageToken) ?>"
                                 data-pagesize="<?php echo intval($options['pagesize']) ?>"
+                                data-url="<?php echo esc_url($url);  ?>"
                             >
                                 <span><?php _e("Next ", "embedpress"); ?> </span>
                             </div>

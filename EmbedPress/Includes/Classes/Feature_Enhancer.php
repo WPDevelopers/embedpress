@@ -136,42 +136,19 @@ class Feature_Enhancer
 		return $isEmbra;
 	}
 
-	public function youtube_rest_api()
-	{
-		// Instantiate the class
-		$youtube = new Youtube($config = '');
-
-
-		// Call the non-static method
-		// $result = $youtube->someMethod();
-
-		$result = YoutubeLayout::create_youtube_layout([
-			'playlistId'        => isset($_POST['playlistid']) ? sanitize_text_field($_POST['playlistid']) : null,
-			'pageToken'         => isset($_POST['pagetoken']) ? sanitize_text_field($_POST['pagetoken']) : null,
-			'ytChannelLayout'   => isset($_POST['ytChannelLayout']) ? sanitize_text_field($_POST['ytChannelLayout']) : 'gallery',
-			'pagesize'          => isset($_POST['pagesize']) ? sanitize_text_field($_POST['pagesize']) : null,
-			'currentpage'       => isset($_POST['currentpage']) ? sanitize_text_field($_POST['currentpage']) : null,
-			'columns'           => isset($_POST['epcolumns']) ? sanitize_text_field($_POST['epcolumns']) : null,
-			'showTitle'         => isset($_POST['showtitle']) ? sanitize_text_field($_POST['showtitle']) : null,
-			'showPaging'        => isset($_POST['showpaging']) ? sanitize_text_field($_POST['showpaging']) : null,
-			'autonext'          => isset($_POST['autonext']) ? sanitize_text_field($_POST['autonext']) : null,
-			'thumbplay'         => isset($_POST['thumbplay']) ? sanitize_text_field($_POST['thumbplay']) : null,
-			'thumbnail_quality' => isset($_POST['thumbnail_quality']) ? sanitize_text_field($_POST['thumbnail_quality']) : null,
-		], $youtube->layout_data(), $youtube->get_layout());
-
-		// print_r($youtube->layout_data()); die;
-
-		wp_send_json($result);
-	}
-
 	// public function youtube_rest_api()
 	// {
 	// 	// Instantiate the class
 	// 	$youtube = new Youtube($config = '');
 
-	// 	$result = $youtube->get_gallery_page([
+
+	// 	// Call the non-static method
+	// 	// $result = $youtube->someMethod();
+
+	// 	$result = YoutubeLayout::create_youtube_layout([
 	// 		'playlistId'        => isset($_POST['playlistid']) ? sanitize_text_field($_POST['playlistid']) : null,
 	// 		'pageToken'         => isset($_POST['pagetoken']) ? sanitize_text_field($_POST['pagetoken']) : null,
+	// 		'ytChannelLayout'   => isset($_POST['ytChannelLayout']) ? sanitize_text_field($_POST['ytChannelLayout']) : 'gallery',
 	// 		'pagesize'          => isset($_POST['pagesize']) ? sanitize_text_field($_POST['pagesize']) : null,
 	// 		'currentpage'       => isset($_POST['currentpage']) ? sanitize_text_field($_POST['currentpage']) : null,
 	// 		'columns'           => isset($_POST['epcolumns']) ? sanitize_text_field($_POST['epcolumns']) : null,
@@ -180,10 +157,38 @@ class Feature_Enhancer
 	// 		'autonext'          => isset($_POST['autonext']) ? sanitize_text_field($_POST['autonext']) : null,
 	// 		'thumbplay'         => isset($_POST['thumbplay']) ? sanitize_text_field($_POST['thumbplay']) : null,
 	// 		'thumbnail_quality' => isset($_POST['thumbnail_quality']) ? sanitize_text_field($_POST['thumbnail_quality']) : null,
-	// 	]);
+	// 	], $youtube->layout_data(), $youtube->get_layout());
+
+	// 	// print_r($youtube->layout_data()); die;
 
 	// 	wp_send_json($result);
 	// }
+
+	public function youtube_rest_api()
+	{
+		// Instantiate the class
+		$youtube = new Youtube($config = '');
+
+		// echo '<pre>';
+
+		// print_r($_POST);
+
+		$result = $youtube->get_gallery_page([
+			'playlistId'        => isset($_POST['playlistid']) ? sanitize_text_field($_POST['playlistid']) : null,
+			'pageToken'         => isset($_POST['pagetoken']) ? sanitize_text_field($_POST['pagetoken']) : null,
+			'pagesize'          => isset($_POST['pagesize']) ? sanitize_text_field($_POST['pagesize']) : null,
+			'currentpage'       => isset($_POST['currentpage']) ? sanitize_text_field($_POST['currentpage']) : null,
+			'columns'           => isset($_POST['epcolumns']) ? sanitize_text_field($_POST['epcolumns']) : null,
+			'showTitle'         => isset($_POST['showtitle']) ? sanitize_text_field($_POST['showtitle']) : null,
+			'showPaging'        => isset($_POST['showpaging']) ? sanitize_text_field($_POST['showpaging']) : null,
+			'autonext'          => isset($_POST['autonext']) ? sanitize_text_field($_POST['autonext']) : null,
+			'thumbplay'         => isset($_POST['thumbplay']) ? sanitize_text_field($_POST['thumbplay']) : null,
+			'thumbnail_quality' => isset($_POST['thumbnail_quality']) ? sanitize_text_field($_POST['thumbnail_quality']) : null,
+			'channel_url'		=> isset($_POST['channelUrl']) ? sanitize_text_field($_POST['channelUrl']) : ''
+		]);
+
+		wp_send_json($result);
+	}
 
 
 	//Check is YouTube single video

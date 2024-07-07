@@ -389,7 +389,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
                 }
 
-                $gallery  = YoutubeLayout::create_youtube_layout($gallery_args, $layout_data, $params['ytChannelLayout']);
+
+
+                $gallery  = YoutubeLayout::create_youtube_layout($gallery_args, $layout_data, $params['ytChannelLayout'], $this->url);
 
             }
 
@@ -462,10 +464,14 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             }
 
             $channel_info = $data['items'][0];
+            
 
             // Cache the response for 1 hour
             set_transient($transient_key, $channel_info, HOUR_IN_SECONDS);
         }
+
+        update_option('youtube_channel_info_'. md5($this->url), $channel_info);
+
 
         return $channel_info;
         
@@ -596,10 +602,45 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             <div class="ep-youtube__content__block"  data-unique-id="<?php echo wp_rand(); ?>">
                 <div class="youtube__content__body">
                     <?php 
-                    $channel_info = $this->get_channel_info();
-                    echo YoutubeLayout::create_channel_info_layout($channel_info); ?>
+                     ?>
 
                     <div class="content__wrap">
+
+                    <?php 
+
+                                $data = $this->layout_data();
+
+                                $channel_info = get_option('youtube_channel_info_'.md5($options['channel_url']));
+
+                               
+
+                                $channelTitle = isset($channel_info['snippet']['title']) ? $channel_info['snippet']['title'] : null;
+                                $channelThumb = isset($channel_info['snippet']['thumbnails']['high']['url']) ? $channel_info['snippet']['thumbnails']['high']['url'] : null;
+                                $layout = $this->get_layout();
+
+                                // echo '<pre>';
+                                // print_r($channelTitle); 
+                                // print_r($channelTitle); 
+                                
+                                if($layout === 'gallery'){
+                                    echo YoutubeLayout::create_gallery_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+                                }
+                                else if($layout === 'grid'){
+                                    echo YoutubeLayout::create_grid_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+                                }
+                                else if($layout === 'list'){
+                                    echo YoutubeLayout::create_list_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+                                }
+                                else if($layout === 'carousel'){
+                                    echo YoutubeLayout::create_carousel_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+                                }
+                                else{
+                                    echo YoutubeLayout::create_grid_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+
+                                }
+
+                        ?>
+<!--                         
                         <?php foreach ($jsonResult->items as $item) : ?>
                             <?php
                             $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
@@ -623,7 +664,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                 </div>
                             </div>
 
-                        <?php endforeach; ?>
+                        <?php endforeach; ?> -->
                         <div class="item" style="height: 0"></div>
                     </div>
 

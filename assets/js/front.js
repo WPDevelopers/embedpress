@@ -249,6 +249,7 @@ let epGlobals = {};
                 playlistid: this.getAttribute("data-playlistid"),
                 pagetoken: this.getAttribute("data-pagetoken"),
                 pagesize: this.getAttribute("data-pagesize"),
+                channelUrl: this.getAttribute("data-url"),
                 currentpage: currentPage
             };
 
