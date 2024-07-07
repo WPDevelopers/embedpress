@@ -10,21 +10,21 @@ Stable tag: 4.0.4
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
-EmbedPress lets you embed videos, images, posts, upload PDFs & other 150+ types of content on WordPress sites without coding & enhance storytelling.
+EmbedPress lets you embed videos, images, posts, upload PDFs, embed PDF 3D flipbook & other content on WordPress sites without coding & enhance storytelling.
 
 == Description ==
 
-= EMBEDPRESS –  EMBED FROM 150+ SOURCES – EMBED YOUTUBE, SOCIAL FEEDS, GOOGLE DOCS, MAPS, VIMEO, WISTIA, SPOTIFY, ETC WITHOUT CODING & DISPLAY IN WEBSITES CREATED WITH  ELEMENTOR, GUTENBERG BLOCK EDITOR, OR OTHER PAGE BUILDERS =
+= EMBEDPRESS – EMBED FROM UNLIMITED SOURCES – EMBED PDF WITH 3D FLIPBOOK VIEWER, EMBED YOUTUBE, SOCIAL FEEDS, GOOGLE DOCS, MAPS, VIMEO, WISTIA, SPOTIFY, ETC WITHOUT CODING & DISPLAY IN WEBSITES CREATED WITH  ELEMENTOR, GUTENBERG BLOCK EDITOR, OR OTHER PAGE BUILDERS =
 
-[EmbedPress](https://embedpress.com/) enhances the interactive storytelling on your WordPress website by offering one-click embeds of videos, social feeds, maps, PDFs, posts, pages, documents, and much more from 150+ multimedia content sources.
+[EmbedPress](https://embedpress.com/) enhances the interactive storytelling on your WordPress website by offering one-click embeds of videos, social feeds, maps, PDFs, 3D flipbooks, posts, pages, documents, and much more from unlimited multimedia content sources.
 
 Fuel up your website's engagement and make it aesthetically pleasing by embedding content directly in Classic Editor, Gutenberg Block Editor, Elementor, or by using EmbedPress shortcodes on other WordPress page builders with ease.
 
 https://youtu.be/fvYKLkEnJbI
 
-### 🔥 ALL-IN-ONE WORDPRESS EMBEDDING PLUGIN SUPPORTS 150+ SITES
+### 🔥 ALL-IN-ONE WORDPRESS EMBEDDING PLUGIN SUPPORTS UNLIMITED SOURCES
 
-With EmbedPress, all you need is a URL to embed attention-grabbing content from over 150 websites. Find the URL for your preferred video, image, audio file, post, or map, and simply cut and paste the link into a WordPress post. EmbedPress automatically understands the URL and instantly embeds fully responsive content on your websites.
+With EmbedPress, all you need is a URL to embed attention-grabbing content from over unlimited websites. Find the URL for your preferred video, image, audio file, post, or map, and simply cut and paste the link into a WordPress post. EmbedPress automatically understands the URL and instantly embeds fully responsive content on your websites. EmbedPress also makes it simple to embed PDF with 3D flipbook viewer in only one click.
 
 ### 🔗 COMPATABLE WITH GUTENBERG EMBED & OTHER WORDPRESS PAGE BUILDERS
 
@@ -38,7 +38,11 @@ Upload PDF, PPT (Powerpoint Presentation), DOCS, XLS (Excel Files), or any file 
 
 https://youtu.be/1yVbt3XW-Wo
 
-### ⚡ EMBED POSTS AND PAGES FROM COUNTLESS WEBSITES
+### ⚡ [DISPLAY 3D FLIPBOOK] (https://embedpress.com/docs/turn-embedded-pdf-into-a-3d-flip-book/) PDF VIEWER ON YOUR SITE
+
+EmbedPress allows you to embed PDFs and convert them into 3D PDF flipbook with a single click. Make your PDF 3D flipbooks more dynamic to capture viewers' attention immediately. Moreover, you can add a toolbar, sound effects and more to make your PDF 3D flipbook more interactive.
+
+### ⚡ [EMBED POSTS] (https://embedpress.com/docs/embed-web-pages-post-embedpress-wrapper/) AND PAGES FROM COUNTLESS WEBSITES
 
 EmbedPress offers a soothing experience to embed pages and posts from your desired website. This feature is called Wrapper. Now you can embed any websites you want within your website. 
 
@@ -309,6 +313,10 @@ No. while you are embedding Facebook, Twitter, TikTok, etc. posts using EmbedPre
 ### How To Customize Embedded Content iFrames?
 
 Just after embedding the content into your website using EmbedPress, iFrame customization panel will appear. From there, you can update iFrame height and width.
+
+### How To Create A 3D Flipbook WordPress Post?
+
+JWith EmbedPress you can easily create PDF flipbooks. First, upload PDF into your website. Then embed PDF with EmbedPress PDF block. From the right side panel you will find the option to create 3D flipbook. Click on it and instantly you will get 3D flipbook PDF viewer.
 
 
 == Screenshots ==
