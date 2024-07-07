@@ -38,11 +38,11 @@ Upload PDF, PPT (Powerpoint Presentation), DOCS, XLS (Excel Files), or any file 
 
 https://youtu.be/1yVbt3XW-Wo
 
-### ⚡ [DISPLAY 3D FLIPBOOK] (https://embedpress.com/docs/turn-embedded-pdf-into-a-3d-flip-book/) PDF VIEWER ON YOUR SITE
+### ⚡ [DISPLAY 3D FLIPBOOK](https://embedpress.com/docs/turn-embedded-pdf-into-a-3d-flip-book/) PDF VIEWER ON YOUR SITE
 
 EmbedPress allows you to embed PDFs and convert them into 3D PDF flipbook with a single click. Make your PDF 3D flipbooks more dynamic to capture viewers' attention immediately. Moreover, you can add a toolbar, sound effects and more to make your PDF 3D flipbook more interactive.
 
-### ⚡ [EMBED POSTS] (https://embedpress.com/docs/embed-web-pages-post-embedpress-wrapper/) AND PAGES FROM COUNTLESS WEBSITES
+### ⚡ [EMBED POSTS](https://embedpress.com/docs/embed-web-pages-post-embedpress-wrapper/) AND PAGES FROM COUNTLESS WEBSITES
 
 EmbedPress offers a soothing experience to embed pages and posts from your desired website. This feature is called Wrapper. Now you can embed any websites you want within your website. 
 
