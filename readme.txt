@@ -316,7 +316,7 @@ Just after embedding the content into your website using EmbedPress, iFrame cust
 
 ### How To Create A 3D Flipbook WordPress Post?
 
-JWith EmbedPress you can easily create PDF flipbooks. First, upload PDF into your website. Then embed PDF with EmbedPress PDF block. From the right side panel you will find the option to create 3D flipbook. Click on it and instantly you will get 3D flipbook PDF viewer.
+With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your website. Then embed PDF with EmbedPress PDF block. From the right side panel you will find the option to create 3D flipbook. Click on it and instantly you will get 3D flipbook PDF viewer.
 
 
 == Screenshots ==
