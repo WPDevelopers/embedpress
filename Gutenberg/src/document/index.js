@@ -140,7 +140,12 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				isDownloadEnabled = '';
 			}
 
-			const iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src=' + href // + '?' + queryString;
+			let iframeSrc = '//view.officeapps.live.com/op/embed.aspx?src=' + href // + '?' + queryString;
+			
+			if(docViewer === 'google') {
+				iframeSrc = '//docs.google.com/gview?embedded=true&url=' + href;
+			}
+
 			return (
 				<div className={'embedpress-document-embed ep-doc-' + id} style={{ height: height, width: width }}>
 					{mime === 'application/pdf' && (
