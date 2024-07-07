@@ -56,6 +56,12 @@ class Handler extends EndHandlerAbstract
 
     public function get_instagram_userdata_ajax()
     {
+
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(array('message' => 'You do not have sufficient permissions to access this functionality.'));
+            return;
+        }
+
         if (isset($_POST['_nonce']) && wp_verify_nonce($_POST['_nonce'], 'embedpress_elements_action')) {
             if (isset($_POST['access_token'])) {
                 $access_token = sanitize_text_field($_POST['access_token']);
@@ -100,6 +106,11 @@ class Handler extends EndHandlerAbstract
 
     public function sync_instagram_data_ajax()
     {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(array('message' => 'You do not have sufficient permissions to access this functionality.'));
+            return;
+        }
+
         if (isset($_POST['_nonce']) && wp_verify_nonce($_POST['_nonce'], 'embedpress_elements_action')) {
             if (isset($_POST['access_token'])) {
 
@@ -904,6 +915,11 @@ class Handler extends EndHandlerAbstract
 
     public function delete_instagram_account()
     {
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(array('message' => 'You do not have sufficient permissions to access this functionality.'));
+            return;
+        }
+        
         if (isset($_POST['_nonce']) && wp_verify_nonce($_POST['_nonce'], 'embedpress_elements_action')) {
             $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : '';
             $account_type = isset($_POST['account_type']) ? $_POST['account_type'] : '';
