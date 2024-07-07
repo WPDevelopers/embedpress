@@ -394,9 +394,6 @@ class YoutubeLayout
                     $channelThumb = isset($channel_info['snippet']['thumbnails']['high']['url']) ? $channel_info['snippet']['thumbnails']['high']['url'] : null;
                     
 
-                    echo '<pre>';
-                    print_r($channelThumb);
-
                     echo self::create_channel_info_layout($channel_info);
 
                     $channel_id = '';
