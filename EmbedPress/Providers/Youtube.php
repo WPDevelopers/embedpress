@@ -490,6 +490,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
      * @return object
      */
     public function get_gallery_page($options) {
+
         $nextPageToken = '';
         $prevPageToken = '';
         $gallobj       = new \stdClass();
@@ -610,8 +611,11 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
                                 $data = $this->layout_data();
 
+
                                 $channel_info = get_option('youtube_channel_info_'.md5($options['channel_url']));
 
+                                // echo '<pre>';
+                                // print_r($options);
                                
 
                                 $channelTitle = isset($channel_info['snippet']['title']) ? $channel_info['snippet']['title'] : null;

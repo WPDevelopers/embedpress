@@ -2,6 +2,7 @@
 
 namespace EmbedPress\Includes\Classes;
 
+use EmbedPress\Providers\TemplateLayouts\YoutubeLayout;
 use EmbedPress\Shortcode;
 
 if (!defined('ABSPATH')) {
@@ -33,7 +34,40 @@ class Helper
 
 		add_action('wp_ajax_loadmore_data_handler', [$this, 'loadmore_data_handler']);
 		add_action('wp_ajax_nopriv_loadmore_data_handler', [$this, 'loadmore_data_handler']);
+
+
+		add_action('wp_ajax_fetch_video_description', [$this, 'ajax_video_popup_description']);
+		add_action('wp_ajax_nopriv_fetch_video_description', [$this, 'ajax_video_popup_description']);
 	}
+
+	public function ajax_video_popup_description() {
+		if (isset($_POST['vid'])) {
+			$api_key = self::get_api_key();
+			$vid = sanitize_text_field($_POST['vid']);
+
+			$video_data = Helper::get_youtube_video_data($api_key, $vid);
+
+			if ($video_data) {
+				ob_start();
+				?>
+				<div class="video-description">
+					<?php echo YoutubeLayout::generate_youtube_video_description($video_data); ?>
+				</div>
+				<?php
+				$description_html = ob_get_clean();
+				wp_send_json_success(['description' => $description_html]);
+			} else {
+				wp_send_json_error(['error' => 'Failed to fetch video data.']);
+			}
+		} else {
+			wp_send_json_error(['error' => 'Invalid video ID.']);
+		}
+	}
+
+	public static function get_api_key() {
+        $settings = (array) get_option(EMBEDPRESS_PLG_NAME . ':youtube', []);
+        return !empty($settings['api_key']) ? $settings['api_key'] : '';
+    }
 
 	public static function parse_query($str, $urlEncoding = true)
 	{

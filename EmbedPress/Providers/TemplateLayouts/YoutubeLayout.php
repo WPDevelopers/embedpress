@@ -12,7 +12,9 @@ use EmbedPress\Includes\Classes\Helper;
 class YoutubeLayout
 {
 
-    public static function create_channel_info_layout($channel_info)
+   
+
+    public static function create_channel_info_layout($channel_info, $channel_url)
     {
         $title = isset($channel_info['snippet']['title']) ? $channel_info['snippet']['title'] : null;
         $handle = isset($channel_info['snippet']['customUrl']) ? $channel_info['snippet']['customUrl'] : null;
@@ -22,7 +24,7 @@ class YoutubeLayout
 
         ob_start();
         ?>
-        <div class="channel-header">
+        <div class="channel-header" data-channel-url="<?php echo esc_url($channel_url); ?>">
             <img src="<?php echo esc_url($thumbnailUrl); ?>" alt="<?php echo esc_attr($title); ?>" class="profile-picture">
             <div class="channel-info">
                 <div class="info-description">
@@ -80,18 +82,17 @@ class YoutubeLayout
 
 
     public static function create_list_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb){
+
+        $channelTitle = $data['get_channel_info']['snippet']['title'];
+        $channelThumb = $data['get_channel_info']['snippet']['thumbnails']['default']['url'];
+        
         foreach ($jsonResult->items as $item) : ?>
             <?php
             $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
             $thumbnail = Helper::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
             $vid = Helper::get_id($item);
-            $video_data = Helper::get_youtube_video_data($data['get_api_key'], $vid);
-
-
-            $videoTitle = isset($video_data['snippet']['title']) ? $video_data['snippet']['title'] : null;
-            $videoDescription = isset($video_data['snippet']['description']) ? $video_data['snippet']['description'] : null;
-            $publishedAt = isset($video_data['snippet']['publishedAt']) ? date("M j, Y", strtotime($video_data['snippet']['publishedAt'])) : null;
-            $viewCount = isset($video_data['statistics']['viewCount']) ? $video_data['statistics']['viewCount'] : null;
+            $videoTitle = isset($item->snippet->title) ? $item->snippet->title : '';
+            $publishedAt = isset($item->snippet->publishedAt) ? $item->snippet->publishedAt : '';
 
             if (empty($gallobj->first_vid)) {
                 $gallobj->first_vid = $vid;
@@ -110,38 +111,30 @@ class YoutubeLayout
                     <div class="description-container">
                         <div class="thumbnail"><img src="<?php echo esc_url($channelThumb ); ?>"/></div>
                         <div class="details">
-                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 8)); ?></div>
                             <div class="channel"><?php echo esc_html($channelTitle); ?></div>
-
-                            <div class="list-video-description"><?php echo esc_html(Helper::trimTitle($videoDescription, 25)); ?></div>
+                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 6)); ?></div>
+                            
                             <div class="views-time">
-                                <span class="views"><?php echo esc_html($viewCount . ' views')?></span> • <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
+                                 <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
                             </div>
                         </div>
                     </div>
-
-                </div>
-                <div class="video-description" style="display: none;">
-                    <?php echo  self::generate_youtube_video_description($video_data); ?>
-                </div>
+                </div>            
             </div>
         <?php endforeach;
     }
     public static function create_gallery_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb){
+
+        $channelTitle = $data['get_channel_info']['snippet']['title'];
+        $channelThumb = $data['get_channel_info']['snippet']['thumbnails']['default']['url'];
+
         foreach ($jsonResult->items as $item) : ?>
             <?php
             $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
             $thumbnail = Helper::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
             $vid = Helper::get_id($item);
-            $video_data = Helper::get_youtube_video_data($data['get_api_key'], $vid);
-
-            // echo '<pre>';
-            // print_r($video_data); die;
-
-            $videoTitle = isset($video_data['snippet']['title']) ? $video_data['snippet']['title'] : null;
-            $videoDescription = isset($video_data['snippet']['description']) ? $video_data['snippet']['description'] : null;
-            $publishedAt = isset($video_data['snippet']['publishedAt']) ? date("M j, Y", strtotime($video_data['snippet']['publishedAt'])) : null;
-            $viewCount = isset($video_data['statistics']['viewCount']) ? $video_data['statistics']['viewCount'] : null;
+            $videoTitle = isset($item->snippet->title) ? $item->snippet->title : '';
+            $publishedAt = isset($item->snippet->publishedAt) ? $item->snippet->publishedAt : '';
 
             if (empty($gallobj->first_vid)) {
                 $gallobj->first_vid = $vid;
@@ -160,36 +153,32 @@ class YoutubeLayout
                     <div class="description-container">
                         <div class="thumbnail"><img src="<?php echo esc_url($channelThumb ); ?>"/></div>
                         <div class="details">
-                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 8)); ?></div>
                             <div class="channel"><?php echo esc_html($channelTitle); ?></div>
+                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 6)); ?></div>
+                            
                             <div class="views-time">
-                                <span class="views"><?php echo esc_html($viewCount . ' views')?></span> • <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
+                                 <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
                             </div>
                         </div>
                     </div>
-
-                </div>
-                <div class="video-description" style="display: none;">
-                    <?php echo  self::generate_youtube_video_description($video_data); ?>
-                </div>
+                </div>            
             </div>
         <?php endforeach;
     }
     public static function create_grid_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb){
+
+        if(empty($channelTitle)){
+            $channelTitle = isset($data['get_channel_info']['snippet']['title']) ? $data['get_channel_info']['snippet']['title'] : '';
+            $channelThumb = isset($data['get_channel_info']['snippet']['thumbnails']['default']['url']) ? $data['get_channel_info']['snippet']['thumbnails']['default']['url'] : '';
+        }
+
         foreach ($jsonResult->items as $item) : ?>
             <?php
             $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
             $thumbnail = Helper::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
             $vid = Helper::get_id($item);
-            $video_data = Helper::get_youtube_video_data($data['get_api_key'], $vid);
-
-            // echo '<pre>';
-            // print_r($video_data); die;
-
-            $videoTitle = isset($video_data['snippet']['title']) ? $video_data['snippet']['title'] : null;
-            $videoDescription = isset($video_data['snippet']['description']) ? $video_data['snippet']['description'] : null;
-            $publishedAt = isset($video_data['snippet']['publishedAt']) ? date("M j, Y", strtotime($video_data['snippet']['publishedAt'])) : null;
-            $viewCount = isset($video_data['statistics']['viewCount']) ? $video_data['statistics']['viewCount'] : null;
+            $videoTitle = isset($item->snippet->title) ? $item->snippet->title : '';
+            $publishedAt = isset($item->snippet->publishedAt) ? $item->snippet->publishedAt : '';
 
             if (empty($gallobj->first_vid)) {
                 $gallobj->first_vid = $vid;
@@ -208,36 +197,30 @@ class YoutubeLayout
                     <div class="description-container">
                         <div class="thumbnail"><img src="<?php echo esc_url($channelThumb ); ?>"/></div>
                         <div class="details">
-                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 8)); ?></div>
                             <div class="channel"><?php echo esc_html($channelTitle); ?></div>
+                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 6)); ?></div>
+                            
                             <div class="views-time">
-                                <span class="views"><?php echo esc_html($viewCount . ' views')?></span> • <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
+                                 <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
                             </div>
                         </div>
                     </div>
-
-                </div>
-                <div class="video-description" style="display: none;">
-                    <?php echo  self::generate_youtube_video_description($video_data); ?>
-                </div>
+                </div>            
             </div>
         <?php endforeach;
     }
     public static function create_carousel_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb){
+
+        $channelTitle = $data['get_channel_info']['snippet']['title'];
+        $channelThumb = $data['get_channel_info']['snippet']['thumbnails']['default']['url'];
+
         foreach ($jsonResult->items as $item) : ?>
             <?php
             $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
             $thumbnail = Helper::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
             $vid = Helper::get_id($item);
-            $video_data = Helper::get_youtube_video_data($data['get_api_key'], $vid);
-
-            // echo '<pre>';
-            // print_r($video_data); die;
-
-            $videoTitle = isset($video_data['snippet']['title']) ? $video_data['snippet']['title'] : null;
-            $videoDescription = isset($video_data['snippet']['description']) ? $video_data['snippet']['description'] : null;
-            $publishedAt = isset($video_data['snippet']['publishedAt']) ? date("M j, Y", strtotime($video_data['snippet']['publishedAt'])) : null;
-            $viewCount = isset($video_data['statistics']['viewCount']) ? $video_data['statistics']['viewCount'] : null;
+            $videoTitle = isset($item->snippet->title) ? $item->snippet->title : '';
+            $publishedAt = isset($item->snippet->publishedAt) ? $item->snippet->publishedAt : '';
 
             if (empty($gallobj->first_vid)) {
                 $gallobj->first_vid = $vid;
@@ -256,18 +239,15 @@ class YoutubeLayout
                     <div class="description-container">
                         <div class="thumbnail"><img src="<?php echo esc_url($channelThumb ); ?>"/></div>
                         <div class="details">
-                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 8)); ?></div>
                             <div class="channel"><?php echo esc_html($channelTitle); ?></div>
+                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 6)); ?></div>
+                            
                             <div class="views-time">
-                                <span class="views"><?php echo esc_html($viewCount . ' views')?></span> • <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
+                                 <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
                             </div>
                         </div>
                     </div>
-
-                </div>
-                <div class="video-description" style="display: none;">
-                    <?php echo  self::generate_youtube_video_description($video_data); ?>
-                </div>
+                </div>            
             </div>
         <?php endforeach;
     }
@@ -394,7 +374,7 @@ class YoutubeLayout
                     $channelThumb = isset($channel_info['snippet']['thumbnails']['high']['url']) ? $channel_info['snippet']['thumbnails']['high']['url'] : null;
                     
 
-                    echo self::create_channel_info_layout($channel_info);
+                    echo self::create_channel_info_layout($channel_info, $url);
 
                     $channel_id = '';
                     if(isset($channel_info['id'])) {
@@ -441,7 +421,6 @@ class YoutubeLayout
                                 data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
                                 data-pagetoken="<?php echo esc_attr($prevPageToken) ?>"
                                 data-pagesize="<?php echo intval($options['pagesize']) ?>"
-                                data-url="<?php echo esc_url($url);  ?>"
 
                             >
                                 <span><?php _e("Prev", "embedpress"); ?></span>
@@ -526,7 +505,6 @@ class YoutubeLayout
                                 data-playlistid="<?php echo esc_attr($options['playlistId']) ?>"
                                 data-pagetoken="<?php echo esc_attr($nextPageToken) ?>"
                                 data-pagesize="<?php echo intval($options['pagesize']) ?>"
-                                data-url="<?php echo esc_url($url);  ?>"
                             >
                                 <span><?php _e("Next ", "embedpress"); ?> </span>
                             </div>
