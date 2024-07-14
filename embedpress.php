@@ -38,7 +38,7 @@ define('EMBEDPRESS_PLUGIN_BASENAME', plugin_basename(__FILE__));
 define('EMBEDPRESS_FILE', __FILE__);
 
 if (!defined('EMBEDPRESS_PLUGIN_VERSION')) {
-    define('EMBEDPRESS_PLUGIN_VERSION', '4.0.4');
+    define('EMBEDPRESS_PLUGIN_VERSION', '4.0.5');
 }
 
 define('EMBEDPRESS_PLUGIN_DIR_PATH', plugin_dir_path(__FILE__));
@@ -117,29 +117,4 @@ if (class_exists('EmbedPress_Licensing')) {
     $is_pro_active = true;
 }
 
-function get_embed_type()
-{
-    // Get the post content
-    $content = get_the_content();
-    // Use regular expressions to find the embed type used in the post
-    preg_match('/\[embedpress.*?type="(.*?)"/', $content, $matches);
-    // Return the embed type
-    if (!empty($matches[1])) {
-        return $matches[1];
-    } else {
-        return false;
-    }
-}
-
-
-function ep_track_embed_usage()
-{
-    // Get the type of embed used (e.g. "youtube", "vimeo", "google_doc", etc.)
-    $embed_type = 'youtube';
-
-    // Log the embed type and user ID in a database
-    global $wpdb;
-    $wpdb->insert('embed_usage_log', array('embed_type' => $embed_type, 'user_id' => get_current_user_id()));
-}
-add_action('embed_content', 'ep_track_embed_usage');
 

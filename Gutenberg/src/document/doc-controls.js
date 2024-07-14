@@ -45,6 +45,7 @@ const DocControls = ({ attributes, setAttributes }) => {
                 options={[
                     { label: 'Custom', value: 'custom' },
                     { label: 'MS Office', value: 'office' },
+                    { label: 'Google', value: 'google' },
                 ]}
                 onChange={(docViewer) =>
                     setAttributes({ docViewer })

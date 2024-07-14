@@ -318,6 +318,7 @@ class Embedpress_Document extends Widget_Base
                 'options' => [
                     'custom'  => __('Custom', 'embedpress'),
                     'office' => __('MS Office', 'embedpress'),
+                    'google' => __('Google', 'embedpress'),
                 ],
             ]
         );
@@ -609,7 +610,10 @@ class Embedpress_Document extends Widget_Base
                     {
                         $view_link = '//view.officeapps.live.com/op/embed.aspx?src=' . urlencode($url) . '&embedded=true';
                     }
-
+                    elseif($settings['embedpress_document_viewer'] === 'google')
+                    {
+                        $view_link = '//docs.google.com/gview?embedded=true&url=' . urlencode($url);
+                    }
     
                     $hostname = parse_url($url, PHP_URL_HOST);
                     $domain = implode(".", array_slice(explode(".", $hostname), -2));

@@ -110,6 +110,12 @@ class EmbedpressSettings {
 
 	}
 	public function update_elements_list() {
+
+		if (!current_user_can('manage_options')) {
+			wp_send_json_error(array('message' => 'You do not have sufficient permissions to access this functionality.'));
+			return;
+		}
+		
 		if ( !empty($_POST['_wpnonce'] && wp_verify_nonce( $_POST['_wpnonce'], 'embedpress_elements_action')) ) {
 			$option = EMBEDPRESS_PLG_NAME.":elements";
 			$elements = (array) get_option( $option, []);

@@ -201,7 +201,11 @@ class DocumentEdit extends Component {
 
 			);
 		} else {
-			const url = '//view.officeapps.live.com/op/embed.aspx?src=' + href // + '?' + queryString;
+			let url = '//view.officeapps.live.com/op/embed.aspx?src=' + href; // + '?' + queryString;
+
+			if(docViewer === 'google') {
+				url = '//docs.google.com/gview?embedded=true&url=' + href;
+			}
 			return (
 				<Fragment>
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
