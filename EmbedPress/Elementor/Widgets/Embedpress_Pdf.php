@@ -275,7 +275,7 @@ class Embedpress_Pdf extends Widget_Base
 				'range' => [
 					'px' => [
 						'min' => 1,
-						'max' => 1000,
+						'max' => 2000,
 					],
 				],
 				'devices' => [ 'desktop', 'tablet', 'mobile' ],
