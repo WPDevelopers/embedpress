@@ -1052,3 +1052,14 @@ if (isIOSDevice()) {
 }
 
 document.addEventListener("DOMContentLoaded", epGlobals.handlePosterImageLoad);
+
+
+document.addEventListener("DOMContentLoaded", function() {
+    const selector = document.querySelector("iframe.embedpress-embed-document-pdf");
+    if (selector) {
+        // Remove the opacity class after 1 second
+        setTimeout(() => {
+            selector.style.opacity = 1;
+        }, 500); // 1000 milliseconds = 1 second
+    }
+});
