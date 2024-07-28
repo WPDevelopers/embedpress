@@ -480,7 +480,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     
     public function get_layout() {
         $params = $this->getParams();
-        return $params['ytChannelLayout'];
+        return isset($params['ytChannelLayout']) ? $params['ytChannelLayout'] : '';
     }
 
     /**

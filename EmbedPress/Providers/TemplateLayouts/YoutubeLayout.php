@@ -526,8 +526,10 @@ class YoutubeLayout
             <div id="videoPopup" class="video-popup">
                 <div class="video-popup-content">
                     <span class="close">&times;</span>
-                    <iframe id="videoIframe" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-                    <div id="videoDescription"></div> <!-- Add this div for the description -->
+                    <div class="video-popup-inner-content">
+                        <iframe id="videoIframe" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                        <div id="videoDescription"></div> <!-- Add this div for the description -->
+                    </div>
                     <div class="popup-controls">
                         <span id="prevVideo" class="nav-icon prev-icon">&#10094;</span>
                         <span id="nextVideo" class="nav-icon next-icon">&#10095;</span>

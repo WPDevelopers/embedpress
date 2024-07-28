@@ -177,16 +177,16 @@ export const useYTVideo = (attributes) => {
 }
 
 export const useYoutube = (attributes, url) => {
-	init();
+    init();
 
-	const attrs = isYTChannel(url) ? useYTChannel(attributes) : useYTVideo(attributes);
+    const attrs = isYTChannel(url) ? useYTChannel(attributes) : useYTVideo(attributes);
 
     return {
-		youtubeParams: attrs,
-		isYTChannel  : isYTChannel(url),
-		isYTVideo    : isYTVideo(url),
-		isYTLive     : isYTLive(url),
-	};
+        youtubeParams: attrs,
+        isYTChannel: isYTChannel(url),
+        isYTVideo: isYTVideo(url),
+        isYTLive: isYTLive(url),
+    };
 }
 
 
@@ -233,10 +233,10 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         removeTipsAlert();
     }
 
-    if(ytChannelLayout === 'grid' && columns === 1){
+    if (ytChannelLayout === 'grid' && columns === 1) {
         setAttributes({ columns: 3 });
     }
-    if(ytChannelLayout === 'list'){
+    if (ytChannelLayout === 'list') {
         setAttributes({ columns: 1 });
     }
 
@@ -267,25 +267,30 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                             label={__("Video Per Page")}
                             value={pagesize}
                             onChange={(pagesize) => setAttributes({ pagesize })}
-                            // type={'number'}
-                            // max={50}
+                        // type={'number'}
+                        // max={50}
                         />
                         <p>Specify the number of videos you wish to show on each page.</p>
 
-                        <SelectControl
-                            label={__("Column")}
-                            value={columns}
-                            options={[
-                                { label: 'Auto', value: 'auto' },
-                                { label: '1', value: '1' },
-                                { label: '2', value: '2' },
-                                { label: '3', value: '3' },
-                                { label: '4', value: '4' },
-                                { label: '6', value: '6' },
-                            ]}
-                            onChange={(columns) => setAttributes({ columns })}
-                            __nextHasNoMarginBottom
-                        />
+                        {
+                            ytChannelLayout !== 'list' && (
+                                <SelectControl
+                                    label={__("Column")}
+                                    value={columns}
+                                    options={[
+                                        { label: 'Auto', value: 'auto' },
+                                        { label: '1', value: '1' },
+                                        { label: '2', value: '2' },
+                                        { label: '3', value: '3' },
+                                        { label: '4', value: '4' },
+                                        { label: '6', value: '6' },
+                                    ]}
+                                    onChange={(columns) => setAttributes({ columns })}
+                                    __nextHasNoMarginBottom
+                                />
+
+                            )
+                        }
 
                         <RangeControl
                             label={__('Gap Between Videos')}
