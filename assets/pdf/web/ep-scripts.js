@@ -315,7 +315,7 @@ const pdfViewer = document.querySelector('.pdfViewer');
 // Function to check content and update opacity
 function updateOpacity() {
     if (pdfViewer.innerHTML.trim()) {
-        document.querySelector('body').style.opacity = '1';
+        document.querySelector('html').style.opacity = '1';
         clearInterval(intervalId);  // Clear the interval once opacity is set to 1
     }
 }
