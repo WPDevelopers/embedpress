@@ -2794,13 +2794,3 @@ div.popup-close {
         display: none;
     }
 }
-
-/* Add this to your CSS file */
-iframe.embedpress-embed-document-pdf {
-    opacity: 0;
-    transition: opacity 1s;
-}
-
-body{
-    background-color: #000!important;
-}
