@@ -150,7 +150,14 @@ class Shortcode
                 $subject
             );
 
-            
+            if(strpos($url, 'youtube.com/embed') !== false){
+                preg_match("/embed\/([a-zA-Z0-9_-]+)/", $url, $matches);
+
+                if (isset($matches[1])) {
+                    $videoId = $matches[1];
+                    $url = 'https://www.youtube.com/watch?v='.$videoId;
+                }
+            }
 
 
             $uniqid = 'ose-uid-'.md5($url);
