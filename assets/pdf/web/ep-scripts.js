@@ -308,20 +308,3 @@ document.getElementById("viewBookmark")?.addEventListener('click', (e) => {
         alert(`Current Page: ${url}`);
     }
 });
-
-// Select the .pdfViewer element
-const pdfViewer = document.querySelector('.pdfViewer');
-
-// Function to check content and update opacity
-function updateOpacity() {
-    if (pdfViewer.innerHTML.trim()) {
-        document.querySelector('html').style.opacity = '1';
-        clearInterval(intervalId);  // Clear the interval once opacity is set to 1
-    }
-}
-
-// Set the interval to check the content every 500 milliseconds (0.5 seconds)
-const intervalId = setInterval(updateOpacity, 500);
-
-// Initial check
-updateOpacity();
