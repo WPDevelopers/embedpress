@@ -3875,7 +3875,7 @@ class Embedpress_Elementor extends Widget_Base
 				} else { ?>
 					<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_content_share'])) : echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper'); endif; ?> <?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); echo esc_attr(' source-' . $source); ?>">
 					<div id="<?php echo esc_attr($this->get_id()); ?>"
-						class="ep-embed-content-wrapper <?php echo esc_attr($settings['custom_player_preset']); ?><?php echo esc_attr($this->get_instafeed_layout($settings)); ?> <?php echo esc_attr($hosted_format); ?>"
+						class="ep-embed-content-wrapper <?php echo isset($settings['custom_player_preset']) ? esc_attr($settings['custom_player_preset']) : ''; ?> <?php echo esc_attr($this->get_instafeed_layout($settings)); ?> <?php echo esc_attr($hosted_format); ?>"
 						<?php echo $data_playerid; ?>
 						<?php echo $data_carouselid; ?>
 						<?php echo $this->get_custom_player_options($settings); ?>
