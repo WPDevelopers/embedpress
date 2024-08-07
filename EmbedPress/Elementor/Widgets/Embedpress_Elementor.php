@@ -3831,13 +3831,14 @@ class Embedpress_Elementor extends Widget_Base
 		}
 
 		$data_playerid = '';
-		if(!empty($settings['embedpress_custom_player'])){
-			$data_playerid = 'data-playerid='.esc_attr($this->get_id());
+		if (!empty($settings['embedpress_custom_player'])) {
+			$data_playerid = 'data-playerid="' . esc_attr($this->get_id()) . '"';
+			// $data_playerid = 'data-playerid='.esc_attr($this->get_id());
 		}
 
 		$data_carouselid = '';
-		if(!empty($settings['instaLayout'] && $settings['instaLayout'] === 'insta-carousel')){
-			$data_playerid = 'data-carouselid="'.esc_attr($this->get_id()).'"';
+		if (!empty($settings['instaLayout']) && $settings['instaLayout'] === 'insta-carousel') {
+			$data_carouselid = 'data-carouselid="' . esc_attr($this->get_id()) . '"';
 		}
 
 		$cEmbedType = !empty($settings['cEmbedType']) ? sanitize_text_field($settings['cEmbedType']) : '';
@@ -3852,8 +3853,8 @@ class Embedpress_Elementor extends Widget_Base
 		$data_player_id = '';
 
 		if (!empty($settings['emberpress_custom_player']) && $settings['emberpress_custom_player'] === 'yes') {
-			$data_player_id = "data-playerid=" . esc_attr($this->get_id());
-		}
+			$data_player_id = "data-playerid='" . esc_attr($this->get_id()) . "'";
+		} 
 		
 		$hosted_format = '';
 		if (!empty($settings['emberpress_custom_player'])) {			
@@ -3873,12 +3874,17 @@ class Embedpress_Elementor extends Widget_Base
 					<?php
 				} else { ?>
 					<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_content_share'])) : echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper'); endif; ?> <?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); echo esc_attr(' source-' . $source); ?>">
-						<div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?><?php echo esc_attr($this->get_instafeed_layout($settings)); ?> <?php echo esc_attr($hosted_format); ?>" <?php echo $data_playerid; ?> <?php echo $data_carouselid; ?> <?php echo $this->get_custom_player_options($settings); ?> <?php echo $this->get_instafeed_carousel_options($settings); ?>>
+					<div id="<?php echo esc_attr($this->get_id()); ?>"
+						class="ep-embed-content-wrapper <?php echo esc_attr($settings['custom_player_preset']); ?><?php echo esc_attr($this->get_instafeed_layout($settings)); ?> <?php echo esc_attr($hosted_format); ?>"
+						<?php echo $data_playerid; ?>
+						<?php echo $data_carouselid; ?>
+						<?php echo $this->get_custom_player_options($settings); ?>
+						<?php echo $this->get_instafeed_carousel_options($settings); ?>>
 							<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content
 							<?php if (!empty($settings['embedpress_content_share'])) : echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper'); endif; ?> 
 							<?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); echo esc_attr(' source-' . $source); ?>">
 								<div <?php echo $adsAtts; ?>>
-									<div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?>" <?php echo esc_attr($data_player_id); ?> <?php echo $this->get_custom_player_options($settings); ?>>
+									<div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?>" <?php echo $data_player_id; ?> <?php echo $this->get_custom_player_options($settings); ?>>
 										<?php
 										$content_id = $client_id;
 										if ((empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct))) {
