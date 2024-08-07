@@ -113,6 +113,10 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "boolean",
 				default: true,
 			},
+			lazyLoad: {
+				type: "boolean",
+				default: false,
+			},
 			themeMode: {
 				type: "string",
 				default: 'default',

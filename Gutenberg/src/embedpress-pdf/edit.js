@@ -187,7 +187,7 @@ class EmbedPressPDFEdit extends Component {
 
 		const { attributes, noticeUI, setAttributes } = this.props;
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
 
 		if (!clientId) {
 			setAttributes({ clientId: this.props.clientId });
@@ -259,6 +259,7 @@ class EmbedPressPDFEdit extends Component {
 				themeMode: themeMode ? themeMode : 'default',
 				...colorsObj,
 				presentation: presentation ? presentation : false,
+				lazyLoad: lazyLoad ? lazyLoad : false,
 				position: position ? position : 'top',
 				flipbook_toolbar_position: flipbook_toolbar_position ? flipbook_toolbar_position : 'bottom',
 				download: download ? download : false,
@@ -298,6 +299,8 @@ class EmbedPressPDFEdit extends Component {
 			return `${__url}#${pdf_params}`;
 		}
 
+		console.log(lazyLoad);
+
 
 		if (!href || hasError) {
 			return (
@@ -330,6 +333,7 @@ class EmbedPressPDFEdit extends Component {
 			if (viewerStyle === 'flip-book') {
 				pdf_viewer_src = embedpressObj.EMBEDPRESS_URL_ASSETS + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
 			}
+
 
 			return (
 				<Fragment>
@@ -514,6 +518,14 @@ class EmbedPressPDFEdit extends Component {
 												setAttributes({ presentation })
 											}
 											checked={presentation}
+										/>
+
+										<ToggleControl
+											label={__('Lazy Load', 'embedpress')}
+											onChange={(lazyLoad) =>
+												setAttributes({ lazyLoad })
+											}
+											checked={lazyLoad}
 										/>
 
 										<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>

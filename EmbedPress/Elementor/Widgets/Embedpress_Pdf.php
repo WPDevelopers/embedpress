@@ -546,6 +546,20 @@ class Embedpress_Pdf extends Widget_Base
                 ],
             ]
         );
+        $this->add_control(
+            'pdf_lazyload',
+            [
+                'label'        => __('Lazy Load', 'embedpress'),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Yes', 'embedpress'),
+                'label_off'    => __('No', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => '',
+                'condition' => [
+                    'pdf_toolbar' => 'yes',
+                ],
+            ]
+        );
 
         $this->add_control(
             'pdf_text_copy',
@@ -737,6 +751,7 @@ class Embedpress_Pdf extends Widget_Base
             'toolbar' => !empty($settings['pdf_toolbar']) ? 'true' : 'false',
             'position' =>  $settings['pdf_toolbar_position'],
             'presentation' => !empty($settings['pdf_presentation_mode']) ? 'true' : 'false',
+            'lazyLoad' => !empty($settings['pdf_lazyload']) ? 'true' : 'false',
             'download' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_print_download'] : 'true',
             'copy_text' => defined('EMBEDPRESS_PRO_PLUGIN_VERSION')? $settings['pdf_text_copy'] : 'true',
             'add_text' => !empty($settings['add_text']) ? 'true' : 'false',

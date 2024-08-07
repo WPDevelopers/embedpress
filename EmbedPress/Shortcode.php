@@ -941,6 +941,7 @@ KAMAL;
         $urlParamData = array(
             'themeMode' => isset($attributes['theme_mode']) ? esc_attr($attributes['theme_mode']) : 'default',
             'toolbar' => isset($attributes['toolbar']) ? esc_attr($attributes['toolbar']) : 'true',
+            'lazyLoad' => isset($attributes['lazyLoad']) ? esc_attr($attributes['lazyLoad']) : 'false',
             'position' => isset($attributes['toolbar_position']) ? esc_attr($attributes['toolbar_position']) : 'top',
             'presentation' => isset($attributes['presentation']) ? esc_attr($attributes['presentation']) : 'true',
             'download' => isset($attributes['download']) ? esc_attr($attributes['download']) : 'true',

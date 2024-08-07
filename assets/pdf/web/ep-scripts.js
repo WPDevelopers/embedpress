@@ -31,6 +31,7 @@ const getParamObj = (hash) => {
             themeMode: hashParams.get('themeMode'),
             ...colorsObj,
             presentation: hashParams.get('presentation'),
+            lazyLoad: hashParams.get('lazyLoad'),
             copy_text: hashParams.get('copy_text'),
             add_text: hashParams.get('add_text'),
             draw: hashParams.get('draw'),
@@ -136,6 +137,10 @@ const pdfIframeStyle = (data) => {
     style.setAttribute('id', 'EBiframeStyleID');
 
     let pdfCustomColor = '';
+
+
+
+    console.log(data);
 
     if (data.themeMode == 'custom') {
         if (!data.customColor) {
@@ -272,6 +277,7 @@ const manupulatePDFIframe = (e) => {
     let data = getParamObj(hashNewUrl.hash);
     pdfIframeStyle(data);
     setThemeMode(data.themeMode);
+
 }
 
 window.addEventListener('hashchange', (e) => {
@@ -308,3 +314,22 @@ document.getElementById("viewBookmark")?.addEventListener('click', (e) => {
         alert(`Current Page: ${url}`);
     }
 });
+
+
+if (data.lazyLoad === false || data.lazyLoad == 'false') {
+    document.querySelector('html').style.opacity = '1';
+}
+else {
+    function updateOpacity() {
+        const pdfViewer = document.querySelector('.pdfViewer');
+        
+        if (pdfViewer.innerHTML.trim()) {
+            document.querySelector('html').style.opacity = '1';
+            document.querySelector('html').style.transition = '500ms';
+            clearInterval(intervalId);  // Clear the interval once opacity is set to 1
+        }
+    }
+    const intervalId = setInterval(updateOpacity, 100);
+    updateOpacity();
+}
+
