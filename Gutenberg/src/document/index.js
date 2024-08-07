@@ -17,7 +17,6 @@ import Logo from "../common/Logo";
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
-const canUploadMedia = embedpressObj.can_upload_media;
 
 
 if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.document) {
@@ -34,7 +33,8 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 		],
 		supports: {
 			align: ["wide", "full", "right", "left"],
-			default: ''
+			default: '',
+			html: false
 		},
 		attributes: {
 			id: {
