@@ -267,10 +267,6 @@ If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
 💰 [Better Payment](https://wordpress.org/plugins/better-payment/) – Create stunning payment forms and manage payments for donations, membership, and products seamlessly.
 
-== Credits ==
-- This plugin  includes PDF.js by Mozilla.
-- It also utilizes 3D FlipBook – PDF Flipbook WordPress by iberezansky.
-
 == Acknowledgements ==
 
 This plugin incorporates code from the following sources:
