@@ -271,6 +271,12 @@ If you like EmbedPress, then consider checking out our other WordPress Plugins:
 - This plugin  includes PDF.js by Mozilla.
 - It also utilizes 3D FlipBook – PDF Flipbook WordPress by iberezansky.
 
+== Acknowledgements ==
+
+This plugin incorporates code from the following sources:
+- [PDF.js by Mozilla](https://github.com/mozilla/pdf.js/): Used for rendering PDF documents.
+- [PDF Flipbook WordPress by iberezansky](https://3dflipbook.net/): Used for creating the 3D flipbook effect.
+
 == Installation ==
 
 = Modern Way: =
