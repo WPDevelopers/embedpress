@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, Gutenberg embed, embed PDF, embed Google Docs, Socia
 Requires at least: 4.6
 Tested up to: 6.6
 Requires PHP: 5.6
-Stable tag: 4.0.9
+Stable tag: 4.0.10
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -336,7 +336,11 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [4.0.8] – 2024-08-8 =  
+= [4.0.10] – 2024-08-12 =  
+- Improved: Security Enhancement reported by PatchStack.
+- Few minor bug fixes & improvements.
+
+= [4.0.9] – 2024-08-8 =  
 - Improved: Added lazy load option for PDF embeds.
 - Enhanced: Security improvements reported by Patchstack (Kinorth).
 - Fixed: few minor bugs and overall performance enhancements.
