@@ -4,6 +4,8 @@
 
 import { addProAlert, isPro, removeAlert } from '../../common/helper';
 const { __ } = wp.i18n;
+import { applyFilters } from '@wordpress/hooks';
+
 import { EPIcon } from '../../common/icons';
 
 
@@ -26,7 +28,7 @@ import {
  */
 
 
-export default function CustomBranding({ attributes, setAttributes}) {
+export default function CustomBranding({ attributes, setAttributes }) {
 
     const {
         customlogo,
@@ -49,6 +51,8 @@ export default function CustomBranding({ attributes, setAttributes}) {
         document.querySelector('body').append(isPro('none'));
         removeAlert();
     }
+
+    const customLogoSettings = applyFilters('embedpress.customLogoSettings', [], attributes, setAttributes);
 
     return (
         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Custom Branding', 'embedpress')}</div>} initialOpen={false}>
@@ -87,51 +91,7 @@ export default function CustomBranding({ attributes, setAttributes}) {
                 }
             </div>
 
-            {
-                isProPluginActive && customlogo && (
-                    <div className={'ep-custom-logo-position'}>
-                        <RangeControl
-                            label={__('Logo X position (%)', 'embedpress')}
-                            value={logoX}
-                            onChange={(logoX) =>
-                                setAttributes({ logoX })
-                            }
-                            max={100}
-                            min={0}
-                        />
-                        <RangeControl
-                            label={__('Logo Y position (%)', 'embedpress')}
-                            value={logoY}
-                            onChange={(logoY) =>
-                                setAttributes({ logoY })
-                            }
-                            max={100}
-                            min={0}
-                        />
-                        <RangeControl
-                            label={__('Logo Opacity', 'embedpress')}
-                            value={logoOpacity}
-                            onChange={(logoOpacity) =>
-                                setAttributes({ logoOpacity })
-                            }
-                            max={1}
-                            min={0}
-                            step={.05}
-                        />
-
-                        <TextControl
-                            label="CTA Link"
-                            value={customlogoUrl}
-                            onChange={(customlogoUrl) =>
-                                setAttributes({ customlogoUrl })
-                            }
-                            placeholder={'https://exmple.com'}
-                        />
-
-                    </div>
-                )
-
-            }
+            {customLogoSettings}
         </PanelBody>
     )
 }
