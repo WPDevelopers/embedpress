@@ -1,5 +1,6 @@
 import { addProAlert, isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert } from './helper';
 const { __ } = wp.i18n;
+const { applyFilters } = wp.hooks;
 
 const {
     SelectControl,
@@ -70,6 +71,14 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
         document.querySelector('body').append(tipsTricksAlert('none'));
         removeTipsAlert();
     }
+
+    const tooltipPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Tooltip', 'embedpress'), true);
+    const autoHideControlsPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Auto Hide Controls', 'embedpress'), true);
+    const sourceLinkPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Source Link', 'embedpress'), true);
+    const stickyVideoPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Sticky Video', 'embedpress'), false);
+    const UploadPlaceholder = applyFilters('embedpress.uploadPlaceholder', [], __('Sticky Video', 'embedpress'), false);
+
+    const presetPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Preset', 'embedpress'), 'default', 'Default');
 
     return (
         <div className="ep-custom-player-controls">

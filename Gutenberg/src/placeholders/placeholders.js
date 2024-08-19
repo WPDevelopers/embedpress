@@ -2,7 +2,7 @@ import { addFilter } from '@wordpress/hooks';
 import {
     MediaUpload,
 } from "@wordpress/block-editor";
-import { Button } from '@wordpress/components';
+import { ToggleControl, SelectControl, Button } from '@wordpress/components';
 const { __ } = wp.i18n;
 
 import { addProAlert } from '../common/helper';
@@ -24,6 +24,49 @@ if (!isProPluginActive) {
                                 {__('Upload Image', 'embedpress')}
                             </Button>
                         )}
+                    />
+                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                </div>
+            );
+            return settings;
+        }
+    );
+
+    addFilter(
+        'embedpress.togglePlaceholder',
+        'embedpress/togglePlaceholder',
+        (settings, label, checked) => {
+
+            console.log({ checked });
+
+            settings.push(
+                <div className={"pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                    <ToggleControl
+                        label={__(label)}
+                        checked={checked}
+                    />
+                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                </div>
+            );
+            return settings;
+        }
+    );
+
+    addFilter(
+        'embedpress.selectPlaceholder',
+        'embedpress/selectPlaceholder',
+        (settings, label, value, optionLabel) => {
+
+            settings.push(
+                <div className={"pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                    <SelectControl
+                        label={__(label, "embedpress")}
+                        value={value}
+                        options={[
+                            { label: optionLabel, value: value }
+                        ]}
+                        className={'ep-select-control-field'}
+                        __nextHasNoMarginBottom
                     />
                     <span className='isPro'>{__('pro', 'embedpress')}</span>
                 </div>
