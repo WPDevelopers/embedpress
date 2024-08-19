@@ -33,7 +33,9 @@ export default function LockControl({ attributes, setAttributes }) {
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
-    const inputRef = useRef(null);
+
+    const lockContentControllers = applyFilters('embedpress.lockContentControllers', [], attributes, setAttributes);
+    console.log(lockContentControllers);
 
     return (
         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Content Protection', 'embedpress')}</div>} initialOpen={false} className={lockContent ? "" : "disabled-content-protection"} >
@@ -51,7 +53,7 @@ export default function LockControl({ attributes, setAttributes }) {
                 }
             </div>
 
-            {applyFilters('embedpress/lockContentControllers', [], attributes, setAttributes)}
+            {lockContentControllers}
         </PanelBody>
     )
 }
