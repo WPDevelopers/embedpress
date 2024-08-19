@@ -53,44 +53,11 @@ export default function CustomBranding({ attributes, setAttributes }) {
     }
 
     const customLogoSettings = applyFilters('embedpress.customLogoSettings', [], attributes, setAttributes);
+    const placeholder = applyFilters('embedpress.uploadPlaceholder', []);
 
     return (
         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Custom Branding', 'embedpress')}</div>} initialOpen={false}>
-            {
-                isProPluginActive && customlogo && (
-                    <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
-                        <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
-                            <span class="dashicon dashicons dashicons-trash"></span>
-                        </button>
-                        <img
-                            src={customlogo}
-                            alt="John"
-                        />
-                    </div>
-                )
-            }
-
-            <div className={isProPluginActive ? "pro-control-active ep-custom-logo-button" : "pro-control ep-custom-logo-button"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                <MediaUpload
-                    onSelect={onSelectImage}
-                    allowedTypes={['image']}
-                    value={customlogo}
-                    render={({ open }) => (
-                        <Button className={'ep-logo-upload-button'} icon={!customlogo ? 'upload' : 'update'} onClick={open}>
-                            {
-                                (!isProPluginActive || !customlogo) ? 'Upload Image' : 'Change Image'
-                            }
-                        </Button>
-                    )}
-
-                />
-                {
-                    (!isProPluginActive) && (
-                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                    )
-                }
-            </div>
-
+            {placeholder}
             {customLogoSettings}
         </PanelBody>
     )

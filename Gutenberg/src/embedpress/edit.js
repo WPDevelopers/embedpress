@@ -1,6 +1,8 @@
 /**
  * Internal dependencies
  */
+import { applyFilters } from '@wordpress/hooks';
+
 import EmbedControls from '../common/embed-controls';
 import EmbedLoading from '../common/embed-loading';
 import EmbedPlaceholder from '../common/embed-placeholder';
@@ -12,7 +14,6 @@ import { shareIconsHtml } from '../common/helper';
 import md5 from 'md5';
 import Inspector from './inspector';
 import DynamicStyles from './dynamic-styles';
-const { applyFilters } = wp.hooks;
 const apiFetch = wp.apiFetch;
 
 const { select, subscribe } = wp.data;
@@ -135,27 +136,7 @@ export default function EmbedPress(props) {
 
 	}
 
-	if (customlogo) {
-		customLogoStyle = `
-				border: 0;
-				position: absolute;
-				bottom: ${logoY}%;
-				right: ${logoX}%;
-				max-width: 150px;
-				max-height: 75px;
-				opacity: ${logoOpacity};
-				// z-index: 5;
-				-o-transition: opacity 0.5s ease-in-out;
-				-moz-transition: opacity 0.5s ease-in-out;
-				-webkit-transition: opacity 0.5s ease-in-out;
-				transition: opacity 0.5s ease-in-out;
-				`
-		customLogoTemp = `<img decoding="async"  src="${customlogo}" class="watermark ep-custom-logo" width="auto" height="auto">`;
-
-		if (customlogoUrl) {
-			customLogoTemp = `<a href="${customlogoUrl}" target="_blank"><img decoding="async" src="${customlogo}" class="watermark  ep-custom-logo" width="auto" height="auto"></a>`;
-		}
-	}
+	customLogoTemp = applyFilters('embedpress.customLogoComponent', [], attributes);
 
 	if (_isWistiaVideo(url)) {
 		epMessage = `<span class='ep-wistia-message'> Changes will be affected in frontend. </span>`;
@@ -226,7 +207,7 @@ export default function EmbedPress(props) {
 				s.setAttribute('id', hash);
 				s.setAttribute('src', url);
 				document.body.appendChild(s);
-				
+
 
 			}
 		};
@@ -372,23 +353,23 @@ export default function EmbedPress(props) {
 				) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTShorts || isWistiaVideo || isVimeoVideo || isCalendly || isInstagramFeed)) && ( <figure {...blockProps} data-source-id={'source-' + clientId}>
-				
-					<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
-						<EmbedWrap
-							className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass} ${instaLayoutClass}`}
-							style={{
-								display: fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isYTShorts && !isWistiaVideo && !isVimeoVideo && !isCalendly && !isInstagramFeed ? 'none' : isOpensea || isOpenseaSingle ? 'block' : 'inline-block',
-								position: 'relative'
-							}}
-							{...(customPlayer ? { 'data-playerid': md5(clientId) } : {})}
-							{...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})}
-							{...(instaLayout === 'insta-carousel' ? { 'data-carouselid': md5(clientId) } : {})}
-							{...(instaLayout === 'insta-carousel' ? { 'data-carousel-options': getCarouselOptions({ attributes }) } : {})}
-							dangerouslySetInnerHTML={{
-								__html: embedHTML + customLogoTemp + epMessage + shareHtml,
-							}}
-						></EmbedWrap>
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTShorts || isWistiaVideo || isVimeoVideo || isCalendly || isInstagramFeed)) && (<figure {...blockProps} data-source-id={'source-' + clientId}>
+
+				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
+					<EmbedWrap
+						className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass} ${instaLayoutClass}`}
+						style={{
+							display: fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isYTShorts && !isWistiaVideo && !isVimeoVideo && !isCalendly && !isInstagramFeed ? 'none' : isOpensea || isOpenseaSingle ? 'block' : 'inline-block',
+							position: 'relative'
+						}}
+						{...(customPlayer ? { 'data-playerid': md5(clientId) } : {})}
+						{...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})}
+						{...(instaLayout === 'insta-carousel' ? { 'data-carouselid': md5(clientId) } : {})}
+						{...(instaLayout === 'insta-carousel' ? { 'data-carousel-options': getCarouselOptions({ attributes }) } : {})}
+						dangerouslySetInnerHTML={{
+							__html: embedHTML + customLogoTemp + epMessage + shareHtml,
+						}}
+					></EmbedWrap>
 
 					{
 						adManager && (adSource === 'image') && adFileUrl && (
@@ -396,26 +377,26 @@ export default function EmbedPress(props) {
 						)
 					}
 
-						{fetching && (
-							<div style={{ filter: 'grayscale(1)', backgroundColor: '#fffafa', opacity: '0.7' }}
-								className="block-library-embed__interactive-overlay"
-								onMouseUp={setAttributes({ interactive: true })}
-							/>
-						)}
-
-						{!isOpensea && !isOpenseaSingle && (
-							<div
-								className="block-library-embed__interactive-overlay"
-								onMouseUp={setAttributes({ interactive: true })}
-							/>
-						)}
-
-						<EmbedControls
-							showEditButton={embedHTML && !cannotEmbed}
-							switchBackToURLInput={switchBackToURLInput}
+					{fetching && (
+						<div style={{ filter: 'grayscale(1)', backgroundColor: '#fffafa', opacity: '0.7' }}
+							className="block-library-embed__interactive-overlay"
+							onMouseUp={setAttributes({ interactive: true })}
 						/>
-					</div>
-				</figure>
+					)}
+
+					{!isOpensea && !isOpenseaSingle && (
+						<div
+							className="block-library-embed__interactive-overlay"
+							onMouseUp={setAttributes({ interactive: true })}
+						/>
+					)}
+
+					<EmbedControls
+						showEditButton={embedHTML && !cannotEmbed}
+						switchBackToURLInput={switchBackToURLInput}
+					/>
+				</div>
+			</figure>
 			)}
 
 
