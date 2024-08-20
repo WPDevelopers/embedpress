@@ -2,8 +2,10 @@ import { addFilter } from '@wordpress/hooks';
 import {
     MediaUpload,
 } from "@wordpress/block-editor";
-import { ToggleControl, SelectControl, Button } from '@wordpress/components';
+import { ToggleControl, SelectControl, Button, ColorPalette } from '@wordpress/components';
 const { __ } = wp.i18n;
+
+import ControlHeader from '../common/control-heading';
 
 import { addProAlert } from '../common/helper';
 const isProPluginActive = embedpressObj.is_pro_plugin_active;
@@ -19,8 +21,8 @@ if (!isProPluginActive) {
             settings.push(
                 <div className={"pro-control ep-custom-logo-button"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                     <MediaUpload
-                        render={({ open }) => (
-                            <Button className={'ep-logo-upload-button'} icon={'upload'} onClick={open}>
+                        render={() => (
+                            <Button className={'ep-logo-upload-button'} icon={'upload'}>
                                 {__('Upload Image', 'embedpress')}
                             </Button>
                         )}
@@ -67,6 +69,27 @@ if (!isProPluginActive) {
                         ]}
                         className={'ep-select-control-field'}
                         __nextHasNoMarginBottom
+                    />
+                    <span className='isPro'>{__('pro', 'embedpress')}</span>
+                </div>
+            );
+            return settings;
+        }
+    );
+    addFilter(
+        'embedpress.colorPlatePlaceholder',
+        'embedpress/colorPlatePlaceholder',
+        (settings, label, value, colors) => {
+
+            console.log(colors);
+
+            settings.push(
+                <div className={"pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                    <ControlHeader headerText={label} />
+                    <ColorPalette
+                        label={__(label)}
+                        colors={colors}
+                        value={value}
                     />
                     <span className='isPro'>{__('pro', 'embedpress')}</span>
                 </div>
