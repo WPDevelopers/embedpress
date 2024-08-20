@@ -92,6 +92,8 @@ class YoutubeLayout
             $thumbnail = Helper::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
             $vid = Helper::get_id($item);
             $videoTitle = isset($item->snippet->title) ? $item->snippet->title : '';
+            $videoDescription = isset($item->snippet->description) ? $item->snippet->description : '';
+
             $publishedAt = isset($item->snippet->publishedAt) ? $item->snippet->publishedAt : '';
 
             if (empty($gallobj->first_vid)) {
@@ -112,7 +114,8 @@ class YoutubeLayout
                         <div class="thumbnail"><img src="<?php echo esc_url($channelThumb ); ?>"/></div>
                         <div class="details">
                             <div class="channel"><?php echo esc_html($channelTitle); ?></div>
-                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 6)); ?></div>
+                            <div class="title"><?php echo esc_html($videoTitle); ?></div>
+                            <p class="description"><?php echo esc_html(Helper::trimTitle($videoDescription, 25)); ?></p>
                             
                             <div class="views-time">
                                  <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
@@ -414,7 +417,7 @@ class YoutubeLayout
                     </div>
                     
                     <!-- Pagination and other content remains unchanged -->
-                    <?php if ($totalPages > 1) : ?>
+                    <?php if ($totalPages > 1 && $layout !== 'carousel') : ?>
                         <div class="ep-youtube__content__pagination <?php echo (empty($prevPageToken) && empty($nextPageToken)) ? ' hide ' : ''; ?>">
                             <div
                                 class="ep-prev" <?php echo empty($prevPageToken) ? ' style="display:none" ' : ''; ?>

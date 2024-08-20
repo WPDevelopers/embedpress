@@ -669,11 +669,15 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                             </div>
 
                         <?php endforeach; ?> -->
+
                         <div class="item" style="height: 0"></div>
                     </div>
 
 
-                    <?php if ($totalPages > 1) : ?>
+                    <?php 
+                    $layout = $this->get_layout();
+                    
+                    if ($totalPages > 1 && $layout !== 'carousel') : ?>
                         <div class="ep-youtube__content__pagination <?php echo (empty($prevPageToken) && empty($nextPageToken)) ? ' hide ' : ''; ?>">
                             <div
                                 class="ep-prev" <?php echo empty($prevPageToken) ? ' style="display:none" ' : ''; ?>
@@ -904,6 +908,8 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .ep-youtube__content__pagination {
             display: <?php echo esc_html($is_pagination); ?>!important;
         }
+
+
 
         <?php
             if($is_pagination){

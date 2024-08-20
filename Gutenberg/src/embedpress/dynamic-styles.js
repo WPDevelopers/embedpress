@@ -34,7 +34,7 @@ export const dynamicStyles = ({ attributes }) => {
         playerFastForward,
         playerDownload,
 
-        instaLayout 
+        instaLayout
     } = attributes;
 
 
@@ -75,7 +75,7 @@ export const dynamicStyles = ({ attributes }) => {
     }
 
     let carouselBtns = 'none';
-    if(instaLayout === 'insta-carousel'){
+    if (instaLayout === 'insta-carousel') {
         carouselBtns = 'block';
     }
 
@@ -113,6 +113,10 @@ export const dynamicStyles = ({ attributes }) => {
                     }
                     [data-source-id="source-${clientId}"] img.watermark{
                         display: none;
+                    }
+
+                    [data-source-id="source-${clientId}"] .layout-list .ep-youtube__content__block .youtube__content__body .content__wrap{
+                        grid-template-columns: repeat(auto-fit, minmax(calc(100% - 30px), 1fr))!important;
                     }
                     ${_iscustomlogo}
                     `}
@@ -265,9 +269,9 @@ export const dynamicStyles = ({ attributes }) => {
                             [data-source-id="source-${clientId}"] .custom-player-preset-1, [data-source-id="source-${clientId}"] .custom-player-preset-3, [data-source-id="source-${clientId}"] .custom-player-preset-4{
                             --plyr-color-main: ${playerColor && playerColor.length === 7
                                 ? `rgb(${parseInt(playerColor.slice(1, 3), 16)}, ${parseInt(playerColor.slice(3, 5), 16)}, ${parseInt(playerColor.slice(5, 7), 16)})`
-                            
+
                                 : 'rgba(0, 0, 0, .8)'
-                                
+
                             }; /* Transparent with dynamic color */
                             --plyr-range-fill-background: #fff;
 

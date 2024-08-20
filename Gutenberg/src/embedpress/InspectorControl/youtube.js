@@ -302,11 +302,15 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                         <p>Specify the gap between youtube videos.</p>
 
 
-                        <ToggleControl
-                            label={__("Pagination")}
-                            checked={ispagination}
-                            onChange={(ispagination) => setAttributes({ ispagination })}
-                        />
+                        {
+                            (ytChannelLayout != 'carousel') && (
+                                <ToggleControl
+                                    label={__("Pagination")}
+                                    checked={ispagination}
+                                    onChange={(ispagination) => setAttributes({ ispagination })}
+                                />
+                            )
+                        }
 
                         <div className={'ep-tips-and-tricks'}>
                             {EPIcon}
