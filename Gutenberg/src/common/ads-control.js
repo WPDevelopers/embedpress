@@ -60,8 +60,6 @@ export default function AdControl({ attributes, setAttributes }) {
         }
     }
 
-    const isProPluginActive = embedpressObj.is_pro_plugin_active;
-
     const inputRef = useRef(null);
 
     let adLabel = 'Ad Content';
@@ -69,41 +67,21 @@ export default function AdControl({ attributes, setAttributes }) {
         adLabel = 'Preview';
     }
 
-    const addManagerSettings = applyFilters('embedpress.adManagerSettings', [], attributes, setAttributes);
-
+    const togglePlaceholder = applyFilters('embedpress.togglePlaceholder', [], 'Ads Settings', true);
+    const adsPlaceholder = applyFilters('embedpress.adsPlaceholder', []);
 
     return (
 
         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Ads Settings', 'embedpress')}</div>} initialOpen={false} className={adManager ? "" : "disabled-content-protection"} >
-            <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                {
-                    isProPluginActive ? (
-                        <ToggleControl
-                            label={__("Ads Settings", "embedpress")}
-                            checked={adManager}
-                            onChange={(adManager) => setAttributes({ adManager: adManager })}
-                        />
-                    ) : (
-                        <ToggleControl
-                            label={__("Ads Settings", "embedpress")}
-                            checked={true}
-                        />
-                    )
-                }
 
-                {
-                    (!isProPluginActive) && (
-                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                    )
-                }
+            {applyFilters('embedpress.adsSettings', [togglePlaceholder], attributes, setAttributes)}
+            {applyFilters('embedpress.adManagerSettings', [adsPlaceholder], attributes, setAttributes)}
 
-                {addManagerSettings}
-
-                <div className={'ep-documentation ads-help'}>
-                    {EPIcon}
-                    <a href="https://embedpress.com/docs/add-ep-content-protection-in-embedded-content/" target={'_blank'}> {__('Need Help?', 'emebdpress')} </a>
-                </div>
+            <div className={'ep-documentation ads-help'}>
+                {EPIcon}
+                <a href="https://embedpress.com/docs/add-ep-content-protection-in-embedded-content/" target={'_blank'}> {__('Need Help?', 'emebdpress')} </a>
             </div>
+
         </PanelBody>
     )
 }

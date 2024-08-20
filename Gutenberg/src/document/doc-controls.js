@@ -13,6 +13,8 @@ import {
  */
 const { __ } = wp.i18n;
 const { Fragment } = wp.element;
+const { applyFilters } = wp.hooks;
+
 const { PanelBody, ToggleControl, SelectControl, ColorPalette } = wp.components;
 import { addProAlert, isPro, removeAlert } from '../common/helper';
 import { EPIcon, InfoIcon } from '../common/icons';
@@ -34,6 +36,10 @@ const DocControls = ({ attributes, setAttributes }) => {
         { name: '', color: '#333333' },
         { name: '', color: '#000264' },
     ];
+
+    const toolbarPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Toolbar', 'embedpress'), true);
+    const printPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Print/Download', 'embedpress'), true);
+
 
     return (
 
@@ -87,26 +93,11 @@ const DocControls = ({ attributes, setAttributes }) => {
             }
 
             {
-                (docViewer === 'custom') && (
-
-                    <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                        <ToggleControl
-                            label={__('Toolbar', 'embedpress')}
-                            description={__('Show or Hide toolbar. Note: If you disable toolbar access then every toolbar options will be disabled', 'embedpress')}
-                            onChange={(toolbar) =>
-                                setAttributes({ toolbar })
-                            }
-                            checked={toolbar}
-                            style={{ marginTop: '30px' }}
-                        />
-                        {
-                            (!isProPluginActive) && (
-                                <span className='isPro'>{__('pro', 'embedpress')}</span>
-                            )
-                        }
-                    </div>
+                docViewer === 'custom' && (
+                    applyFilters('embedpress.documentControls', [toolbarPlaceholder], attributes, setAttributes, 'toolbar')
                 )
             }
+
 
             {
                 toolbar && (docViewer === 'custom') && (
@@ -119,21 +110,8 @@ const DocControls = ({ attributes, setAttributes }) => {
                             }
                             checked={presentation}
                         />
-
-                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                            <ToggleControl
-                                label={__('Print/Download', 'embedpress')}
-                                onChange={(download) =>
-                                    setAttributes({ download })
-                                }
-                                checked={download}
-                            />
-                            {
-                                (!isProPluginActive) && (
-                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                )
-                            }
-                        </div>
+            
+                        {applyFilters('embedpress.documentControls', [printPlaceholder], attributes, setAttributes, 'print')}
 
                         <ToggleControl
                             label={__('Draw', 'embedpress')}

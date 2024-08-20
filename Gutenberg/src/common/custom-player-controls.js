@@ -56,8 +56,6 @@ const CustomPlayerControls = (props) => {
         plySourceText = 'Source Link';
     }
 
-    const isProPluginActive = embedpressObj.is_pro_plugin_active;
-
     const onSelectImage = (logo) => {
         setAttributes({ posterThumbnail: logo.sizes.full.url });
     }

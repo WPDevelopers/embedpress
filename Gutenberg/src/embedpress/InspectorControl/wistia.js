@@ -24,6 +24,7 @@ const {
 import {
     MediaUpload,
 } from "@wordpress/block-editor";
+import { EPIcon } from '../../common/icons';
 
 
 
@@ -169,7 +170,8 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
             {
                 isWistiaVideo && (
                     <div className={'ep__single-yt-video-options'}>
-                        <PanelBody title={__("Wistia Video Controls", 'embedpress')} initialOpen={false}>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Wistia Video Controls', 'embedpress')}</div>} initialOpen={false}>
+
                             <div className={'ep-video-controlers'}>
                                 <TextControl
                                     label={__("Start Time (In Seconds)")}
@@ -206,7 +208,7 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                     checked={smallplaybutton}
                                     onChange={(smallplaybutton) => setAttributes({ smallplaybutton })}
                                 />
-                            
+
 
                                 <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
                                     <ToggleControl

@@ -25,6 +25,7 @@ const {
 import {
     MediaUpload,
 } from "@wordpress/block-editor";
+import { EPIcon } from '../../common/icons';
 
 
 export const init = () => {
@@ -152,7 +153,7 @@ export default function Vimeo({ attributes, setAttributes, isVimeoVideo }) {
             {
                 isVimeoVideo && (
                     <div className={'ep__vimeo-video-options'}>
-                        <PanelBody title={__("Video Controls", 'embedpress')} initialOpen={false}>
+                        <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Video Controls', 'embedpress')}</div>} initialOpen={false}>
                             <ToggleControl
                                 label={__("Enable Custom Player", "embedpress")}
                                 checked={customPlayer}

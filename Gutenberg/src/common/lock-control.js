@@ -31,29 +31,13 @@ export default function LockControl({ attributes, setAttributes }) {
         contentPassword
     } = attributes;
 
-    const isProPluginActive = embedpressObj.is_pro_plugin_active;
-
-
-    const lockContentControllers = applyFilters('embedpress.lockContentControllers', [], attributes, setAttributes);
-    console.log(lockContentControllers);
+    
+    const togglePlacehoder = applyFilters('embedpress.togglePlaceholder', [], 'Enable Content Protection', false);
 
     return (
         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Content Protection', 'embedpress')}</div>} initialOpen={false} className={lockContent ? "" : "disabled-content-protection"} >
-            <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                <ToggleControl
-                    label={__("Enable Content Protection")}
-                    checked={lockContent}
-                    onChange={(lockContent) => setAttributes({ lockContent })}
-                />
-
-                {
-                    (!isProPluginActive) && (
-                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                    )
-                }
-            </div>
-
-            {lockContentControllers}
+            {applyFilters('embedpress.toggleContentProtection', [togglePlacehoder], attributes, setAttributes)}
+            {applyFilters('embedpress.lockContentControllers', [], attributes, setAttributes)}
         </PanelBody>
     )
 }
