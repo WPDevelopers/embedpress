@@ -159,7 +159,7 @@ const CustomPlayerControls = (props) => {
             }
 
             {
-                isVimeoVideo && (
+                isVimeoVideo && customPlayer && (
                     <div className='vimeo-player-controls'>
                         <ToggleControl
                             label={__("Auto Play")}
