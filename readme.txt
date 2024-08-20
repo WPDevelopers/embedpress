@@ -4,9 +4,9 @@ Author: WPDeveloper
 Author URI: https://wpdeveloper.com
 Tags: embed, embed YouTube, Gutenberg embed, embed PDF, embed Google Docs, Social Feeds
 Requires at least: 4.6
-Tested up to: 6.5
+Tested up to: 6.6
 Requires PHP: 5.6
-Stable tag: 4.0.5
+Stable tag: 4.0.10
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -38,11 +38,11 @@ Upload PDF, PPT (Powerpoint Presentation), DOCS, XLS (Excel Files), or any file 
 
 https://youtu.be/1yVbt3XW-Wo
 
-### ⚡ [DISPLAY 3D FLIPBOOK] (https://embedpress.com/docs/turn-embedded-pdf-into-a-3d-flip-book/) PDF VIEWER ON YOUR SITE
+### ⚡ [DISPLAY 3D FLIPBOOK](https://embedpress.com/docs/turn-embedded-pdf-into-a-3d-flip-book/) PDF VIEWER ON YOUR SITE
 
 EmbedPress allows you to embed PDFs and convert them into 3D PDF flipbook with a single click. Make your PDF 3D flipbooks more dynamic to capture viewers' attention immediately. Moreover, you can add a toolbar, sound effects and more to make your PDF 3D flipbook more interactive.
 
-### ⚡ [EMBED POSTS] (https://embedpress.com/docs/embed-web-pages-post-embedpress-wrapper/) AND PAGES FROM COUNTLESS WEBSITES
+### ⚡ [EMBED POSTS](https://embedpress.com/docs/embed-web-pages-post-embedpress-wrapper/) AND PAGES FROM COUNTLESS WEBSITES
 
 EmbedPress offers a soothing experience to embed pages and posts from your desired website. This feature is called Wrapper. Now you can embed any websites you want within your website. 
 
@@ -267,7 +267,11 @@ If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
 💰 [Better Payment](https://wordpress.org/plugins/better-payment/) – Create stunning payment forms and manage payments for donations, membership, and products seamlessly.
 
+== Acknowledgements ==
 
+This plugin incorporates code from the following sources:
+- [PDF.js by Mozilla](https://github.com/mozilla/pdf.js/): Used for rendering PDF documents.
+- [PDF Flipbook WordPress by iberezansky](https://3dflipbook.net/): Used for creating the 3D flipbook effect.
 
 == Installation ==
 
@@ -331,6 +335,28 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [4.0.10] – 2024-08-12 =  
+- Improved: Security Enhancement reported by PatchStack.
+- Few minor bug fixes & improvements.
+
+= [4.0.9] – 2024-08-8 =  
+- Improved: Added lazy load option for PDF embeds.
+- Enhanced: Security improvements reported by Patchstack (Kinorth).
+- Fixed: few minor bugs and overall performance enhancements.
+
+= [4.0.8] – 2024-07-31 =  
+- Hotfix: PDF stopped loading. 
+
+= [4.0.7] – 2024-07-31 =  
+- Fixed: Youtube Video embedding issue.
+- Improved: Embedded PDF's way of loading in frontend.
+- Few minor bug fixes & improvements.
+
+= [4.0.6] – 2024-07-16 =  
+- Added: WordPress 6.6 compatibility.
+- Fixed: PDF Download, Print and Presentation for IOS devices.
+- Few minor bug fixes & improvements.
 
 = [4.0.5] – 2024-07-07 =  
 - Added: Google viewer for PPTX file.

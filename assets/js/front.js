@@ -1145,7 +1145,7 @@ function presentationModeForIOS(iframes) {
     iframes?.forEach(function (iframe) {
         iframe.onload = function () {
             var iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-            var button = iframeDoc?.querySelector('#presentationMode');
+            var button = iframeDoc?.querySelector('#presentationMode.presentationMode');
             button?.addEventListener('click', function () {
                 iframe.classList.toggle('presentationModeEnabledIosDevice');
             });

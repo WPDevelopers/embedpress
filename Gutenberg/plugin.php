@@ -754,6 +754,10 @@ function embedpress_gutenberg_register_all_block()
 								'type' => "boolean",
 								'default' => true,
 							],
+							'lazyLoad' => [
+								'type' => "boolean",
+								'default' => false,
+							],
 
 							'position' => [
 								'type' => "string",
@@ -905,6 +909,7 @@ function getParamData($attributes)
 		'toolbar' =>  !empty($attributes['toolbar']) ? 'true' : 'false',
 		'position' =>  $attributes['position'],
 		'presentation' =>  !empty($attributes['presentation']) ? 'true' : 'false',
+		'lazyLoad' =>  !empty($attributes['lazyLoad']) ? 'true' : 'false',
 		'download' =>  !empty($attributes['download']) ? 'true' : 'false',
 		'copy_text' =>  !empty($attributes['copy_text']) ? 'true' : 'false',
 		'add_text' =>  !empty($attributes['add_text']) ? 'true' : 'false',

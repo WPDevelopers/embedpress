@@ -406,7 +406,7 @@ class Handler extends EndHandlerAbstract
     public function enqueueScripts()
     {
         global $pagenow;
-        if ('post.php' === $pagenow) {
+        if ('post.php' === $pagenow || 'post-new.php' === $pagenow) {
             $urlSchemes = apply_filters('embedpress:getAdditionalURLSchemes', $this->getUrlSchemes());
 
             wp_enqueue_script(
@@ -449,6 +449,7 @@ class Handler extends EndHandlerAbstract
                 $this->pluginVersion,
                 false
             );
+            
 
             wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css', array(), $this->pluginVersion);
             wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', array(), $this->pluginVersion);
