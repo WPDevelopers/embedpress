@@ -159,7 +159,7 @@ const CustomPlayerControls = (props) => {
             }
 
             {
-                isVimeoVideo && customPlayer && (
+                isVimeoVideo && (
                     <div className='vimeo-player-controls'>
                         <ToggleControl
                             label={__("Auto Play")}
@@ -167,23 +167,9 @@ const CustomPlayerControls = (props) => {
                             onChange={(vautoplay) => setAttributes({ vautoplay })}
                         />
 
-                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                            <ToggleControl
-                                label={__("Auto Pause")}
-                                checked={vautopause}
-                                onChange={(vautopause) => setAttributes({ vautopause })}
-                            />
-                            <p className={'is-ep-description'}>{__('Automatically stop the current video from playing when another one starts.', 'embedpress')}</p>
-                            {
-                                (!isProPluginActive) && (
-                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                )
-                            }
-                        </div>
-
                         {applyFilters('embedpress.vimeoControls', [autoPause], attributes, setAttributes, 'autoPause')}
                         {applyFilters('embedpress.vimeoControls', [dnt], attributes, setAttributes, 'dnt')}
-                        
+
                     </div>
                 )
             }
