@@ -3325,6 +3325,10 @@ figure .ep-youtube__content__block .thumb {
 
 /* Youtube List layout design */
 
+.ep-player-wrap.layout-gallery .ep-first-video iframe {
+    border-radius: 15px;
+}
+
 .ep-player-wrap.layout-list .ep-youtube__content__block .item {
     display: flex;
     width: 100%;
@@ -3333,7 +3337,8 @@ figure .ep-youtube__content__block .thumb {
 
 .ep-player-wrap.layout-list .ep-youtube__content__block .thumb {
     padding-top: 20.25%;
-    width: 36%;
+    min-width: 250px;
+    max-width: 300px;
 }
 
 /* Youtube Carousel Css */

@@ -805,6 +805,11 @@ class Embedpress_Elementor extends Widget_Base
 							'operator' => '===',
 							'value' => 'youtube',
 						],
+						[
+							'name' => 'ytChannelLayout',
+							'operator' => '!==',
+							'value' => 'list',
+						],
 					],
 				]
 			]

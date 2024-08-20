@@ -372,6 +372,8 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
             $channel_layout = 'layout-gallery';
 
+            $gallery  = YoutubeLayout::create_youtube_layout($gallery_args, $layout_data, $channel_layout, $this->url);
+
             if(isset($params['ytChannelLayout'])){
                 if($params['ytChannelLayout'] === 'gallery'){
                     $channel_layout = 'layout-gallery';
@@ -909,6 +911,9 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             display: <?php echo esc_html($is_pagination); ?>!important;
         }
 
+        <?php echo esc_attr($uniqid); ?> .layout-list .ep-youtube__content__block .youtube__content__body .content__wrap{
+            grid-template-columns: repeat(auto-fit, minmax(calc(100% - 30px), 1fr))!important;
+        }
 
 
         <?php
