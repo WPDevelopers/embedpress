@@ -22,7 +22,6 @@ import { EPIcon, InfoIcon } from '../common/icons';
 const DocControls = ({ attributes, setAttributes }) => {
 
     const { docViewer, themeMode, customColor, presentation, position, download, draw, toolbar, copy_text, doc_rotation, powered_by } = attributes;
-    const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     if (!document.querySelector('.pro__alert__wrap')) {
         document.querySelector('body').append(isPro('none'));

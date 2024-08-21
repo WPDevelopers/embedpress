@@ -32,6 +32,9 @@ const {
 const {
     InspectorControls
 } = wp.blockEditor;
+const {
+    applyFilters
+} = wp.hooks;
 
 export const init = () => {
     addFilter('embedpress_block_rest_param', 'embedpress', getOpenseaParams, 10);
@@ -337,6 +340,18 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
     const fallbackFontSize = 16;
 
+
+    const profileImagePlaceholder = applyFilters('embedpress.uploadPlaceholder', [], __('Sticky Video', 'embedpress'), false);
+
+
+    const creatorPrefixPlaceholder = applyFilters('embedpress.textControlPlaceholder', [], __('Creator Prefix', 'embedpress'), '');
+    const pricePrefixPlaceholder = applyFilters('embedpress.textControlPlaceholder', [], __('Price Prefix', 'embedpress'), '');
+    const lastSalePrefixPlaceholder = applyFilters('embedpress.textControlPlaceholder', [], __('Last Sale Prefix', 'embedpress'), '');
+    const buttonLabelPlaceholder = applyFilters('embedpress.textControlPlaceholder', [], __('Button Label', 'embedpress'), '');
+    const rankLabelPlaceholder = applyFilters('embedpress.textControlPlaceholder', [], __('Rank Label', 'embedpress'), '');
+    const detailsLabelPlaceholder = applyFilters('embedpress.textControlPlaceholder', [], __('Details Label', 'embedpress'), '');
+    const loadmorePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Load More', 'embedpress'), false);
+
     return (
         (isOpensea || isOpenseaSingle) && (
             <div>
@@ -419,7 +434,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                     )
                 }
 
-                <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Content', 'embedpress')}</div>}  initialOpen={false} className={'ep-opensea-options'}>
+                <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Content', 'embedpress')}</div>} initialOpen={false} className={'ep-opensea-options'}>
 
                     {
                         isOpenseaSingle && (
@@ -448,18 +463,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                     />
                     {
                         nftcreator && (
-                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                <TextControl
-                                    label={__("Creator Prefix", "embedpress")}
-                                    value={prefix_nftcreator}
-                                    onChange={(prefix_nftcreator) => setAttributes({ prefix_nftcreator })}
-                                />
-                                {
-                                    (!isProPluginActive) && (
-                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                    )
-                                }
-                            </div>
+                            applyFilters('embedpress.openseaControls', [creatorPrefixPlaceholder], attributes, setAttributes, 'creatorPrefix')
                         )
                     }
 
@@ -470,18 +474,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                     />
                     {
                         nftprice && (
-                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                <TextControl
-                                    label={__("Price Prefix", "embedpress")}
-                                    value={prefix_nftprice}
-                                    onChange={(prefix_nftprice) => setAttributes({ prefix_nftprice })}
-                                />
-                                {
-                                    (!isProPluginActive) && (
-                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                    )
-                                }
-                            </div>
+                            applyFilters('embedpress.openseaControls', [pricePrefixPlaceholder], attributes, setAttributes, 'pricePrefix')
                         )
                     }
 
@@ -493,19 +486,8 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                     {
                         nftlastsale && (
-                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                <TextControl
-                                    label={__("Last Sale Prefix", "embedpress")}
-                                    value={prefix_nftlastsale}
-                                    onChange={(prefix_nftlastsale) => setAttributes({ prefix_nftlastsale })}
-                                />
+                            applyFilters('embedpress.openseaControls', [lastSalePrefixPlaceholder], attributes, setAttributes, 'lastSalePrefix')
 
-                                {
-                                    (!isProPluginActive) && (
-                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                    )
-                                }
-                            </div>
                         )
                     }
 
@@ -516,18 +498,8 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                     />
                     {
                         nftbutton && (
-                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                <TextControl
-                                    label={__("Button Label", "embedpress")}
-                                    value={label_nftbutton}
-                                    onChange={(label_nftbutton) => setAttributes({ label_nftbutton })}
-                                />
-                                {
-                                    (!isProPluginActive) && (
-                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                    )
-                                }
-                            </div>
+                            applyFilters('embedpress.openseaControls', [buttonLabelPlaceholder], attributes, setAttributes, 'buttonLabel')
+
                         )
                     }
 
@@ -542,18 +514,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                                 {
                                     nftrank && (
-                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                            <TextControl
-                                                label={__("Rank Label", "embedpress")}
-                                                value={label_nftrank}
-                                                onChange={(label_nftrank) => setAttributes({ label_nftrank })}
-                                            />
-                                            {
-                                                (!isProPluginActive) && (
-                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                )
-                                            }
-                                        </div>
+                                        applyFilters('embedpress.openseaControls', [rankLabelPlaceholder], attributes, setAttributes, 'rankLabel')
                                     )
                                 }
 
@@ -565,20 +526,11 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
 
                                 {
                                     nftdetails && (
-                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                            <TextControl
-                                                label={__("Details Label", "embedpress")}
-                                                value={label_nftdetails}
-                                                onChange={(label_nftdetails) => setAttributes({ label_nftdetails })}
-                                            />
-                                            {
-                                                (!isProPluginActive) && (
-                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                )
-                                            }
-                                        </div>
+                                        applyFilters('embedpress.openseaControls', [detailsLabelPlaceholder], attributes, setAttributes, 'detailsLabel')
+
                                     )
                                 }
+
                             </div>
                         )
                     }
@@ -587,42 +539,7 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                 {
                     isOpensea && (
                         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Load More', 'embedpress')}</div>} initialOpen={false} className={'ep-opensea-options'}>
-
-
-                            <div className={isProPluginActive ? "pro-control-active" : "pro-control opensea-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                <ToggleControl
-                                    label={__("Load More", "embedpress")}
-                                    checked={loadmore}
-                                    onChange={(loadmore) => setAttributes({ loadmore })}
-                                />
-
-                                {
-                                    (!isProPluginActive) && (
-                                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                    )
-                                }
-                                {
-                                    loadmore && (
-                                        <div>
-                                            <RangeControl
-                                                label={__("Item Per Page", "embedpress")}
-                                                value={itemperpage}
-                                                onChange={(itemperpage) => setAttributes({ itemperpage })}
-                                                min={1}
-                                                max={100}
-                                            />
-
-                                            <TextControl
-                                                label={__("Load More Label", "embedpress")}
-                                                value={loadmorelabel}
-                                                onChange={(loadmorelabel) => setAttributes({ loadmorelabel })}
-                                            />
-                                        </div>
-
-                                    )
-                                }
-                            </div>
-
+                            {applyFilters('embedpress.openseaControls', [loadmorePlaceholder], attributes, setAttributes, 'loadMore')}
                         </PanelBody>
                     )
                 }
@@ -867,34 +784,8 @@ export default function OpenSea({ attributes, setAttributes, isOpensea, isOpense
                         </PanelBody>
 
                         {
-                            (isProPluginActive && loadmore) && (
-                                <PanelBody title={__("Load More")} initialOpen={false}>
-
-                                    <ControlHeader headerText={'Color'} />
-                                    <ColorPalette
-                                        label={__("Text Color")}
-                                        colors={colors}
-                                        value={loadmoreTextColor}
-                                        onChange={(loadmoreTextColor) => setAttributes({ loadmoreTextColor })}
-                                    />
-
-                                    <ControlHeader headerText={'Background Color'} />
-                                    <ColorPalette
-                                        label={__("Color")}
-                                        colors={colors}
-                                        value={loadmoreBackgroundColor}
-                                        onChange={(loadmoreBackgroundColor) => setAttributes({ loadmoreBackgroundColor })}
-                                    />
-
-                                    <ControlHeader headerText={'Font Size'} />
-                                    <FontSizePicker
-                                        __nextHasNoMarginBottom
-                                        fontSizes={fontSizes}
-                                        value={loadmoreTextFontsize}
-                                        fallbackFontSize={fallbackFontSize}
-                                        onChange={(loadmoreTextFontsize) => setAttributes({ loadmoreTextFontsize })}
-                                    />
-                                </PanelBody>
+                            (loadmore) && (
+                                applyFilters('embedpress.openseaControls', [], attributes, setAttributes, 'loadmorePanelBody')
                             )
                         }
 

@@ -940,6 +940,9 @@ button.ep-remove__image {
 .content-share-controls .ep-custom-logo-button {
   margin-bottom: 30px !important; }
 
+.pro-control.ep-custom-logo-button {
+  margin-bottom: 20px !important; }
+
 .ep-custom-logo-button .isPro {
   top: 50%;
   -webkit-transform: translate(0%, -50%);

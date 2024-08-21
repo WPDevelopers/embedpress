@@ -165,6 +165,8 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
         { name: '', color: '#FFA500' },
     ];
 
+    
+
     return (
         <div>
             {

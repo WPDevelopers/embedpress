@@ -11,6 +11,7 @@ import { blanKTabIcon } from '../../common/icons';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
+const { applyFilters } = wp.hooks;
 const { __ } = wp.i18n;
 const { addFilter } = wp.hooks;
 
@@ -177,6 +178,8 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
         { name: '', color: '#FFA500' }
     ];
 
+    const cDataPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Calendly Data', 'embedpress'), false);
+
 
 
     return (
@@ -194,21 +197,12 @@ export default function Calendly({ attributes, setAttributes, isCalendly }) {
                             onChange={(cEmbedType) => setAttributes({ cEmbedType })}
                         />
 
-                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                            <ToggleControl
-                                label={__("Calendly Data")}
-                                checked={calendlyData}
-                                onChange={(calendlyData) => setAttributes({ calendlyData })}
-                            />
 
-                            {
-                                (!isProPluginActive) && (
-                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                )
-                            }
-                        </div>
+
+                        {applyFilters('embedpress.calendlyControls', [cDataPlaceholder], attributes, setAttributes, 'calendlyData')}
+
                         {
-                            isProPluginActive && calendlyData && (
+                            calendlyData && (
                                 <div className={'ep-calendly-data-link'}>
                                     {blanKTabIcon}
                                     <a href="/wp-admin/admin.php?page=embedpress&page_type=calendly" target={'_blank'} > {__("View Calendly Data", "embedpress")} </a>

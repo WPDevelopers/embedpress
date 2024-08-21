@@ -14,6 +14,7 @@ const { isShallowEqualObjects } = wp.isShallowEqual;
 
 import { MediaUpload } from "@wordpress/block-editor";
 const { useState, useEffect } = wp.element;
+const { applyFilters } = wp.hooks;
 const { __ } = wp.i18n;
 const { addFilter } = wp.hooks;
 
@@ -36,16 +37,9 @@ const {
  */
 
 
-
-
-
-const isProPluginActive = embedpressObj.is_pro_plugin_active;
-
-
 export const init = () => {
     addFilter('embedpress_block_rest_param', 'embedpress', getInstafeedParams, 10);
 }
-
 
 export const getInstafeedParams = (params, attributes) => {
     if (!attributes.url || !(isInstagramFeed(attributes.url))) {
@@ -208,6 +202,11 @@ export default function Instafeed({ attributes, setAttributes }) {
         setAttributes({ instafeedLoadmore: false })
     }
 
+    const profileImagePlaceholder = applyFilters('embedpress.uploadPlaceholder', [], __('Sticky Video', 'embedpress'), false);
+    const feedTabPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Feed Tab', 'embedpress'), false);
+    const likesCountPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Likes Count', 'embedpress'), false);
+    const commentsCountPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Comments Count', 'embedpress'), false);
+
 
     return (
         <div>
@@ -235,30 +234,8 @@ export default function Instafeed({ attributes, setAttributes }) {
                                 )
                             }
 
-
                             {instafeedProfileImage && (
-                                <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-
-                                    <MediaUpload
-                                        onSelect={onSelectImage}
-                                        allowedTypes={['image']}
-                                        value={instafeedProfileImageUrl}
-                                        render={({ open }) => (
-                                            <Button className={'ep-logo-upload-button instagram-profile-image-uploader'} icon={!instafeedProfileImageUrl ? 'upload' : 'update'} onClick={open}>
-                                                {
-                                                    (!instafeedProfileImageUrl) ? 'Upload Image' : 'Change Image'
-                                                }
-                                            </Button>
-                                        )}
-                                    />
-
-
-                                    {
-                                        (!isProPluginActive) && (
-                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                        )
-                                    }
-                                </div>
+                                applyFilters('embedpress.instafeedControls', [profileImagePlaceholder], attributes, setAttributes, 'profileImage')
                             )}
 
                             <ToggleControl
@@ -422,52 +399,18 @@ export default function Instafeed({ attributes, setAttributes }) {
                                             onChange={(instafeedPostsPerPage) => setAttributes({ instafeedPostsPerPage })}
                                         />
 
-                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                            <ToggleControl
-                                                label={__('Feed Tab', 'embedpress')}
-                                                checked={instafeedTab}
-                                                onChange={(instafeedTab) => setAttributes({ instafeedTab })}
-                                            />
-                                            {
-                                                (!isProPluginActive) && (
-                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                )
-                                            }
-                                        </div>
+                                        {applyFilters('embedpress.instafeedControls', [feedTabPlaceholder], attributes, setAttributes, 'feedTab')}
+
+
                                         {
                                             (instafeedAccountType === 'business' || instafeedFeedType === 'hashtag_type') && (
-                                                <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-
-                                                    <ToggleControl
-                                                        label={__('Likes Count', 'embedpress')}
-                                                        checked={instafeedLikesCount}
-                                                        onChange={(instafeedLikesCount) => setAttributes({ instafeedLikesCount })}
-                                                    />
-
-                                                    {
-                                                        (!isProPluginActive) && (
-                                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                        )
-                                                    }
-                                                </div>
+                                                applyFilters('embedpress.instafeedControls', [likesCountPlaceholder], attributes, setAttributes, 'likesCount')
                                             )
                                         }
                                         {
                                             (instafeedAccountType === 'business' || instafeedFeedType === 'hashtag_type') && (
-                                                <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
+                                                applyFilters('embedpress.instafeedControls', [commentsCountPlaceholder], attributes, setAttributes, 'commentsCount')
 
-                                                    <ToggleControl
-                                                        label={__('Comments Count', 'embedpress')}
-                                                        checked={instafeedCommentsCount}
-                                                        onChange={(instafeedCommentsCount) => setAttributes({ instafeedCommentsCount })}
-                                                    />
-
-                                                    {
-                                                        (!isProPluginActive) && (
-                                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                        )
-                                                    }
-                                                </div>
                                             )
                                         }
 
