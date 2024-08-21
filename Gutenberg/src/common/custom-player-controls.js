@@ -82,7 +82,6 @@ const CustomPlayerControls = (props) => {
 
     const colorPlatePlaceholder = applyFilters('embedpress.colorPlatePlaceholder', [], __('Player Color', 'embedpress'), '#5b4e96', colors);
 
-    const loop = applyFilters('embedpress.togglePlaceholder', [], __('Loop', 'embedpress'), false);
     const autoPause = applyFilters('embedpress.togglePlaceholder', [], __('Auto Paause', 'embedpress'), false);
     const dnt = applyFilters('embedpress.togglePlaceholder', [], __('DNT', 'embedpress'), false);
 

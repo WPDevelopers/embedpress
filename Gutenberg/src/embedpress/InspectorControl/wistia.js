@@ -9,7 +9,7 @@ import CustomBranding from './custombranding';
 import { getParams } from '../functions';
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
-const { addFilter } = wp.hooks;
+const { addFilter, applyFilters } = wp.hooks;
 
 const {
     TextControl,
@@ -165,7 +165,9 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
         { name: '', color: '#FFA500' },
     ];
 
-    
+    const captionsPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Captions', 'embedpress'), true);
+    const volumePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Volume Control', 'embedpress'), true);
+    const volumeRangePlaceholder = applyFilters('embedpress.rangeControlPlaceholder', [], __('Volume'), 50, 0, 100, true);
 
     return (
         <div>
@@ -212,19 +214,7 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                 />
 
 
-                                <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                    <ToggleControl
-                                        label={__("Captions")}
-                                        checked={captions}
-                                        onChange={(captions) => setAttributes({ captions })}
-                                    />
-
-                                    {
-                                        (!isProPluginActive) && (
-                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                        )
-                                    }
-                                </div>
+                                {applyFilters('embedpress.wistiaControls', [captionsPlaceholder], attributes, setAttributes, 'captions')}
 
                                 <ToggleControl
                                     label={__("Playbar")}
@@ -232,37 +222,13 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                     onChange={(playbar) => setAttributes({ playbar })}
                                 />
 
-                                <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                    <ToggleControl
-                                        label={__("Volume Control")}
-                                        checked={volumecontrol}
-                                        onChange={(volumecontrol) => setAttributes({ volumecontrol })}
-                                    />
+                               
 
-                                    {
-                                        (!isProPluginActive) && (
-                                            <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                        )
-                                    }
-                                </div>
+                                {applyFilters('embedpress.wistiaControls', [volumePlaceholder], attributes, setAttributes, 'volume')}
 
                                 {
                                     volumecontrol && (
-
-                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                            <RangeControl
-                                                label={__("Volume", "embedpress")}
-                                                value={volume}
-                                                onChange={(volume) => setAttributes({ volume })}
-                                                min={1}
-                                                max={100}
-                                            />
-                                            {
-                                                (!isProPluginActive) && (
-                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                )
-                                            }
-                                        </div>
+                                        applyFilters('embedpress.wistiaControls', [volumeRangePlaceholder], attributes, setAttributes, 'volumeRange')
                                     )
                                 }
 
