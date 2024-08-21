@@ -239,8 +239,14 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
     if (ytChannelLayout === 'list') {
         setAttributes({ columns: 1 });
     }
+    let videoPerPageText = 'Video per page';
+    if (ytChannelLayout === 'carousel') {
+        videoPerPageText = "Number of videos (max 50)"
+    }
 
     console.log(typeof pagesize)
+
+
 
 
     return (
@@ -264,7 +270,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                         />
 
                         <TextControl
-                            label={__("Video Per Page")}
+                            label={__(videoPerPageText)}
                             value={pagesize}
                             onChange={(pagesize) => setAttributes({ pagesize })}
                         // type={'number'}
@@ -273,7 +279,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                         <p>Specify the number of videos you wish to show on each page.</p>
 
                         {
-                            ytChannelLayout !== 'list' && (
+                            ytChannelLayout !== 'list' && ytChannelLayout !== 'carousel' && (
                                 <SelectControl
                                     label={__("Column")}
                                     value={columns}
@@ -291,15 +297,21 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
 
                             )
                         }
+                        {
+                            ytChannelLayout !== 'carousel' && (
+                                <div>
+                                    <RangeControl
+                                        label={__('Gap Between Videos')}
+                                        value={gapbetweenvideos}
+                                        onChange={(gap) => setAttributes({ gapbetweenvideos: gap })}
+                                        min={1}
+                                        max={100}
+                                    />
+                                    <p>Specify the gap between youtube videos.</p>
+                                </div>
+                            )
+                        }
 
-                        <RangeControl
-                            label={__('Gap Between Videos')}
-                            value={gapbetweenvideos}
-                            onChange={(gap) => setAttributes({ gapbetweenvideos: gap })}
-                            min={1}
-                            max={100}
-                        />
-                        <p>Specify the gap between youtube videos.</p>
 
 
                         {
