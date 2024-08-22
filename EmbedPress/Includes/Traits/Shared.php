@@ -54,7 +54,7 @@ trait Shared
 
         try {
             $this->notices();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             unset($e);
         }
 
@@ -67,12 +67,13 @@ trait Shared
         $_assets_url = plugins_url('assets/', EMBEDPRESS_PLUGIN_BASENAME);
 
         $notices = new Notices([
-            'id'          => 'embedpress',
-            'storage_key' => 'notices',
-            'lifetime'    => 3,
-            'stylesheet_url'      => $_assets_url . 'css/admin-notices.css',
-            'styles'      => $_assets_url . 'css/admin-notices.css',
-            'priority'    => 6
+            // 'dev_mode'       => true,
+            'id'             => 'embedpress',
+            'storage_key'    => 'notices',
+            'lifetime'       => 3,
+            'stylesheet_url' => $_assets_url . 'css/admin-notices.css',
+            'styles'         => $_assets_url . 'css/admin-notices.css',
+            'priority'       => 6
         ]);
 
         /**
@@ -141,6 +142,25 @@ trait Shared
             ]
         );
 
+        // $b_message            = '<p style="margin-top: 0; margin-bottom: 10px;">Black Friday Sale: Save up to 40% now & <strong>embed from 150+</strong> sources with advanced features ⚡</p><a class="button button-primary" href="https://wpdeveloper.com/upgrade/embedpress-bfcm" target="_blank">Upgrade to pro</a> <button data-dismiss="true" class="dismiss-btn button button-link">I don’t want to save money</button>';
+        // $_black_friday_notice = [
+        //     'thumbnail' => $_assets_url . 'images/full-logo.svg',
+        //     'html'      => $b_message,
+        // ];
+
+        // $notices->add(
+        //     'black_friday_notice',
+        //     $_black_friday_notice,
+        //     [
+        //         'start'       => $notices->time(),
+        //         'recurrence'  => false,
+        //         'dismissible' => true,
+        //         'refresh'     => EMBEDPRESS_VERSION,
+        //         "expire"      => strtotime('11:59:59pm 2nd December, 2023'),
+        //         'display_if'  => !is_plugin_active('embedpress-pro/embedpress-pro.php')
+        //     ]
+        // );
+
         $b_message            = '<p style="margin-top: 0; margin-bottom: 10px;">Black Friday Sale: Save up to 40% now & <strong>embed from 150+</strong> sources with advanced features ⚡</p><a class="button button-primary" href="https://wpdeveloper.com/upgrade/embedpress-bfcm" target="_blank">Upgrade to pro</a> <button data-dismiss="true" class="dismiss-btn button button-link">I don’t want to save money</button>';
         $_black_friday_notice = [
             'thumbnail' => $_assets_url . 'images/full-logo.svg',
@@ -148,14 +168,14 @@ trait Shared
         ];
 
         $notices->add(
-            'black_friday_notice',
+            '100k_notice',
             $_black_friday_notice,
             [
                 'start'       => $notices->time(),
                 'recurrence'  => false,
                 'dismissible' => true,
                 'refresh'     => EMBEDPRESS_VERSION,
-                "expire"      => strtotime('11:59:59pm 2nd December, 2023'),
+                "expire"      => strtotime('11:59:59pm 2nd December, 2024'),
                 'display_if'  => !is_plugin_active('embedpress-pro/embedpress-pro.php')
             ]
         );
