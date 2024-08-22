@@ -20,6 +20,7 @@ class Embedpress_Elementor extends Widget_Base
 	protected $pro_class = '';
 	protected $pro_text = '';
 	protected $pro_label = '';
+
 	public function get_name()
 	{
 		return 'embedpres_elementor';
@@ -750,10 +751,10 @@ class Embedpress_Elementor extends Widget_Base
 				'label_block' => false,
 				'default' => 'gallery',
 				'options' => [
-					'gallery'  => esc_html__('gallery', 'embedpress'),
-					'grid'  => esc_html__('Grid', 'embedpress'),
+					'gallery'  => esc_html__('Gallery', 'embedpress'),
 					'list'  => esc_html__('List', 'embedpress'),
-					'carousel'  => esc_html__('Carousel', 'embedpress'),
+					'grid'  => sprintf(esc_html__('Grid %s', 'embedpress'), $this->pro_label),
+					'carousel'  => sprintf(esc_html__('Carousel %s', 'embedpress'), $this->pro_label),
 				],
 				'conditions'  => [
 					'terms' => [
@@ -3771,12 +3772,16 @@ class Embedpress_Elementor extends Widget_Base
 
 	protected function render()
 	{
+
 		$settings      = $this->get_settings_for_display();
 		Helper::get_enable_settings_data_for_scripts($settings);
 
 		add_filter('embedpress_should_modify_spotify', '__return_false');
 		$embed_link = isset($settings['embedpress_embeded_link']) ? $settings['embedpress_embeded_link'] : '';
 
+		if (!is_embedpress_pro_active() && ($settings['ytChannelLayout'] === 'grid' || $settings['ytChannelLayout'] === 'carousel')) {
+			return '';
+		}
 
 		if (!is_embedpress_pro_active() && ($settings['instaLayout'] === 'insta-masonry' || $settings['instaLayout'] === 'insta-carousel' || $settings['instafeedFeedType'] === 'hashtag_type')) {
 			return '';
