@@ -3495,6 +3495,12 @@ button.next {
         max-height: 300px;
     }
 
+    .video-popup .close {
+        top: -25px;
+        transform: translate(0%, -50%);
+        right: unset;
+    }
+
 
 }
 
