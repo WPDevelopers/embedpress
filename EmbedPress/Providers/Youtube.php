@@ -915,7 +915,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
 
         @media (max-width: 420px) {
-            <?php echo esc_attr($uniqid); ?> .layout-list .ep-youtube__content__block .youtube__content__body .content__wrap {
+            <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel) {
                 gap: 30px !important;
             }
         }
