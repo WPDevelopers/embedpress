@@ -315,6 +315,9 @@ function embedpress_gutenberg_register_all_block()
 							'modestbranding' => [
 								'type' => 'string',
 							],
+							'pagesize' => [
+								'type' => 'number',
+							],
 							// custom player attributes
 							'customPlayer' => [
 								'type' => 'boolean',

@@ -151,7 +151,7 @@
         max-height: 100% !important;
     }
 
-    .ep-youtube__content__block .youtube__content__body .content__wrap {
+    .ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel) {
         grid-template-columns: repeat(auto-fit, minmax(calc(50% - 30px), 1fr)) !important;
     }
 }
@@ -164,7 +164,7 @@
         max-height: 390px !important;
     }
 
-    .ep-youtube__content__block .youtube__content__body .content__wrap {
+    .ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel) {
         grid-template-columns: repeat(auto-fit, minmax(calc(100% - 30px), 1fr)) !important;
     }
 }
@@ -1322,6 +1322,7 @@ p.need-access-message {
 .ep-content-share-enabled .ep-embed-content-wraper {
     display: flex !important;
 }
+
 .ep-content-share-enabled .ep-embed-content-wraper.hidden {
     display: none !important;
 }
@@ -1330,7 +1331,7 @@ p.need-access-message {
     flex-direction: row;
 }
 
-.ep-content-share-enabled .ep-embed-content-wraper>div:first-child{
+.ep-content-share-enabled .ep-embed-content-wraper>div:first-child {
     width: 100%;
 }
 
@@ -1373,7 +1374,7 @@ p.need-access-message {
     flex-direction: column;
 }
 
-.ep-social-share.share-position-bottom, .ep-social-share.share-position-top{
+.ep-social-share.share-position-bottom, .ep-social-share.share-position-top {
     justify-content: center;
 }
 
@@ -1828,6 +1829,7 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
 [data-playerid] {
     opacity: 0;
 }
+
 [data-playerid].audio.plyr-initialized {
     opacity: 1;
 }
@@ -2726,7 +2728,7 @@ div.popup-close {
     animation: spinner 4s linear infinite;
 }
 
-.ad-youtube-video{
+.ad-youtube-video {
     height: 100%;
 }
 
@@ -2745,11 +2747,13 @@ div.popup-close {
     .popup-container .popup-md-9.white {
         width: 50%;
     }
+
     .popup-container .popup-md-3 {
         width: 50%;
     }
 
 }
+
 @media screen and (max-width: 991px) {
     .popup-container {
         flex-direction: column;
@@ -2762,7 +2766,8 @@ div.popup-close {
     .popup-container .popup-md-3 {
         width: 100%;
     }
-    .embedpress-popup-text{
+
+    .embedpress-popup-text {
         max-height: 300px;
     }
 
@@ -2772,6 +2777,7 @@ div.popup-close {
     .insta-grid .embedpress-insta-container .insta-gallery {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
+
     .embedpress-popup-text {
         max-height: 250px;
     }
@@ -2793,4 +2799,757 @@ div.popup-close {
     .insta-followbtn {
         display: none;
     }
+}
+
+/* youtube channel css */
+
+.ep-player-wrap .hide {
+    display: none;
+}
+
+.ep-gdrp-content {
+    background: #222;
+    padding: 50px 30px;
+    color: #fff;
+}
+
+.ep-gdrp-content a {
+    color: #fff;
+}
+
+.ep-youtube__content__pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    gap: 10px;
+}
+
+.ep-loader-wrap {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.ep-youtube__content__pagination .ep-prev,
+.ep-youtube__content__pagination .ep-next {
+    cursor: pointer;
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: 30px;
+    padding: 0 20px;
+    height: 40px;
+    transition: .3s;
+    display: flex;
+    align-items: center;
+}
+
+.ep-youtube__content__pagination .ep-prev:hover,
+.ep-youtube__content__pagination .ep-next:hover {
+    background-color: #5B4E96;
+    color: #fff;
+}
+
+.ep-youtube__content__pagination .ep-page-numbers {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.ep-youtube__content__pagination .ep-page-numbers>span {
+    border: 1px solid rgba(0, 0, 0, .1);
+    border-radius: 30px;
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.active__current_page {
+    background: #5B4E96;
+    color: #fff;
+}
+
+.ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel) {
+    margin-top: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+
+[data-source-id] .layout-list .ep-youtube__content__block .youtube__content__body .content__wrap {
+    grid-template-columns: repeat(auto-fit, minmax(calc(100% - 30px), 1fr)) !important;
+}
+
+[data-youtube-channel-carousel].ep-youtube__content__block {
+    position: relative
+}
+
+.ep-youtube__content__block .item {
+    cursor: pointer;
+    white-space: initial;
+}
+
+.ep-youtube__content__block .youtube-carousel .item {
+    margin: 10px;
+}
+
+.ep-youtube__content__block .item:hover .thumb .play-icon {
+    opacity: 1;
+    top: 50%;
+}
+
+.ep-youtube__content__block .item:hover .thumb:after {
+    opacity: .4;
+    z-index: 0;
+}
+
+.ep-youtube__content__block .thumb {
+    padding-top: 56.25%;
+    margin-bottom: 5px;
+    position: relative;
+    background-color: #222;
+    background-size: contain !important;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+figure .ep-youtube__content__block .thumb {
+    background-color: #222 !important;
+}
+
+.ep-youtube__content__block .thumb:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    content: '';
+    background: #000;
+    opacity: 0;
+    transition: opacity .3s ease;
+}
+
+.ep-youtube__content__block .thumb:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    content: '';
+    background: #222;
+    z-index: -1;
+}
+
+.ep-youtube__content__block .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ep-youtube__content__block .thumb .play-icon {
+    width: 50px;
+    height: auto;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: all .3s ease;
+    z-index: 2;
+}
+
+.ep-youtube__content__block .thumb .play-icon img {
+    width: 100;
+}
+
+.ep-youtube__content__block .body p {
+    margin-bottom: 0;
+    font-size: 15px;
+    text-align: left;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+.ep-youtube__content__block.loading .ep-youtube__content__pagination {
+    display: none;
+}
+
+.ep-youtube__content__block .ep-loader {
+    display: none;
+}
+
+.ep-youtube__content__block.loading .ep-loader {
+    display: block;
+}
+
+.ep-loader img {
+    width: 20px;
+}
+
+.is_mobile_device {
+    display: none !important;
+}
+
+
+.is_mobile_devic.ep-page-numbers {
+    gap: 5px;
+}
+
+@media only screen and (max-width: 480px) {
+    .is_desktop_device {
+        display: none !important;
+    }
+
+    .ep-youtube__content__pagination .ep-page-numbers>span {
+        width: 35px;
+        height: 35px;
+    }
+
+    .ep-youtube__content__pagination .ep-prev, .ep-youtube__content__pagination .ep-next {
+        height: 35px;
+    }
+
+    .is_mobile_device {
+        display: flex !important;
+        ;
+    }
+
+    .ep-youtube__content__pagination .ep-page-numbers {
+        gap: 5px;
+    }
+}
+
+/* Youtube Advance layout style */
+.embedded-youtube-channel .ose-youtube {
+    height: 100% !important;
+    max-height: 100% !important;
+}
+
+.ose-youtube .channel-header {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.ose-youtube .profile-picture {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+
+.ose-youtube .channel-info {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.ose-youtube .info-description {
+    margin-bottom: 20px;
+}
+
+
+
+.ose-youtube .channel-name {
+    font-size: 24px;
+    margin: 0;
+}
+
+.ose-youtube .channel-details {
+    margin: 5px 0;
+}
+
+.ose-youtube .more-info {
+    text-decoration: none;
+}
+
+.ose-youtube .subscribe-button {
+    background-color: red;
+    border: none;
+    padding: 10px 20px 10px 12px;
+    border-radius: 30px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    /* display: inline; */
+    text-decoration: none !important;
+    color: white;
+    font-weight: 600;
+}
+
+.ose-youtube .subscribe-button svg {
+    height: 20px;
+    width: 20px;
+    margin-right: 5px;
+}
+
+.ose-youtube .subscribe-button:hover {
+    background-color: #ff6868;
+}
+
+.video-popup {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.95);
+}
+
+.video-popup-content {
+    position: absolute;
+    left: 50%;
+    top: calc(50% + 30px);
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    text-align: center;
+}
+
+.video-popup-inner-content {
+    width: 100%;
+    height: 100%;
+    max-height: 90vh;
+    overflow: auto !important;
+    border: 1px solid #333;
+    border-radius: 8px;
+    background: #000;
+    box-sizing: border-box;
+    padding: 20px;
+
+}
+
+.video-popup-content iframe {
+    width: 700px !important;
+    height: 420px !important;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.video-popup .close {
+    position: absolute;
+    top: -25px;
+    right: -30px;
+    color: #fff;
+    font-size: 35px;
+}
+
+.video-popup .close:hover,
+.video-popup .close:focus {
+    color: #999;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.video-popup .popup-controls {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+    /* Allow clicks to pass through to iframe */
+}
+
+.video-popup .nav-icon {
+    pointer-events: auto;
+    /* Enable click events */
+    color: white;
+    font-size: 50px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.video-popup .prev-icon {
+    position: absolute;
+    left: -60%;
+    top: 50%;
+    transform: translate(0, -50%);
+    padding: 10px;
+}
+
+.video-popup .next-icon {
+    position: absolute;
+    right: -60%;
+    top: 50%;
+    transform: translate(0, -50%);
+    padding: 10px;
+}
+
+#videoDescription {
+    color: #fff;
+    font-size: 14px;
+}
+
+
+.youtube-video-description {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0 20px;
+    bottom: no;
+    max-width: 700px;
+    text-align: left;
+}
+
+.youtube-video-header h1 {
+    font-size: 20px;
+    margin: 0 0 10px 0;
+    color: #fff;
+}
+
+.youtube-video-meta {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.youtube-video-meta span {
+    margin-right: 10px;
+}
+
+.youtube-video-body {
+    max-height: 200px;
+    overflow: auto;
+}
+
+.youtube-video-body p {
+    font-size: 15px;
+    margin: 0 0 20px 0;
+    color: #ddd;
+}
+
+.youtube-video-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 5px;
+}
+
+.youtube-video-link {
+    font-size: 16px;
+    color: #0073aa;
+    text-decoration: none;
+}
+
+.youtube-video-link:hover {
+    text-decoration: underline;
+}
+
+.youtube-video-stats {
+    font-size: 14px;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.youtube-video-stats svg {
+    height: 12px;
+    width: 14px;
+}
+
+.youtube-video-stats span {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #dad2d2;
+}
+
+.youtube-video-stats i {
+    margin-right: 5px;
+}
+
+/* grid item description */
+
+.description-container {
+    display: flex;
+    /* background-color: #ffffff; */
+    border-radius: 4px;
+    max-width: 600px;
+    text-align: left;
+    margin-top: 10px;
+}
+
+.body {
+    width: 100%;
+}
+
+.thumbnail {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    margin-right: 10px;
+}
+
+.thumbnail img {
+    border-radius: 50%;
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: calc(100% - 30px);
+}
+
+.title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #000000;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.channel,
+.views,
+.time {
+    font-size: 14px;
+    color: #606060;
+}
+
+.channel {
+    margin-bottom: 4px;
+}
+
+/* Youtube List layout design */
+
+.ep-player-wrap.layout-gallery .ep-first-video iframe {
+    border-radius: 15px;
+}
+
+.ep-player-wrap.layout-list .ep-youtube__content__block .item {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+}
+
+.ep-player-wrap.layout-list .ep-youtube__content__block .thumb {
+    padding-top: 20.25%;
+    min-width: 250px;
+    max-width: 300px;
+}
+
+/* Youtube Carousel Css */
+[data-youtube-channel-carousel] .youtube-carousel-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+
+[data-youtube-channel-carousel] .youtube-carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+[data-youtube-channel-carousel] .youtube-carousel .item {
+    min-width: calc(33.3333% - 20px);
+    /* Adjust this value to show more or fewer items */
+    box-sizing: border-box;
+}
+
+
+
+[data-youtube-channel-carousel] button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    box-shadow: none;
+    background-color: #000000ba;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    border-radius: 50%;
+    justify-content: center;
+}
+
+[data-youtube-channel-carousel] button.preview {
+    left: -100px;
+
+}
+
+button.next {
+    right: -100px;
+}
+
+@media screen and (max-width: 1400px) {
+    .ose-youtube .video-popup-content iframe {
+        height: 305px !important;
+    }
+
+    .ose-youtube .prev-icon {
+        left: -50%
+    }
+
+    .ose-youtube .next-icon {
+        right: -50%
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .ose-youtube .video-popup-content iframe {
+        height: 305px !important;
+    }
+
+    .ose-youtube .prev-icon {
+        left: -40%
+    }
+
+    .ose-youtube .next-icon {
+        right: -40%
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .ose-youtube .video-popup-content iframe {
+        height: 305px !important;
+    }
+
+    .ose-youtube .prev-icon {
+        left: -40%
+    }
+
+    .ose-youtube .next-icon {
+        right: -40%
+    }
+}
+
+
+@media screen and (max-width: 576px) {
+    .ose-youtube .prev-icon {
+        left: -26%
+    }
+
+    .ose-youtube .next-icon {
+        right: -26%
+    }
+}
+
+@media screen and (max-width: 580px) {
+    .ose-youtube .prev-icon {
+        left: -18%;
+    }
+
+    .ose-youtube .next-icon {
+        right: -18%;
+    }
+}
+
+
+
+.youtube-video-body {
+    display: none;
+}
+
+
+.video-popup-content {
+    width: 100%;
+    max-width: 720px;
+    margin: auto;
+}
+
+@media (max-width: 1024px) {
+    .youtube-carousel .item {
+        min-width: calc(50% - 20px) !important;
+        /* Show 2 items */
+    }
+}
+
+@media (max-width: 768px) {
+    .youtube-carousel .item {
+        min-width: calc(100% - 20px) !important;
+        /* Show 1 item */
+    }
+
+    [data-youtube-channel-carousel] button.preview {
+        left: 0 !important;
+    }
+
+    [data-youtube-channel-carousel] button.next {
+        right: 0;
+    }
+
+    .video-popup-content {
+        width: calc(100% - 40px);
+        margin: auto;
+    }
+
+    .video-popup-content iframe {
+        max-height: 300px;
+    }
+
+    .video-popup .close {
+        top: -25px;
+        transform: translate(0%, -50%);
+        right: unset;
+    }
+
+
+}
+
+@media (max-width: 580px) {
+    .ep-first-video {
+        margin-bottom: 20px;
+    }
+
+    .video-popup-content iframe {
+        max-height: 220px;
+    }
+
+    .ep-player-wrap .ep-youtube__content__block .item {
+        gap: 15px;
+    }
+
+    .ep-embed-content-wraper .ep-youtube__content__block .youtube__content__body .content__wrap {
+        gap: 30px !important;
+    }
+
+    .ose-youtube .profile-picture {
+        width: 80px;
+        height: 80px;
+    }
+
+    .ose-youtube .channel-header {
+        gap: 10px;
+        align-items: start;
+        padding: 0;
+
+    }
+
+    .description-container {
+        margin-top: 0px;
+    }
+
+    .description-container p.description {
+        display: none;
+    }
+
+    .ep-player-wrap.layout-list .ep-youtube__content__block .item {
+        flex-direction: column;
+    }
+
+    .ep-player-wrap.layout-list .ep-youtube__content__block .thumb {
+        min-width: 100%;
+        min-height: 200px;
+    }
+
+
+
 }

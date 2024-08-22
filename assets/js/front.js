@@ -209,6 +209,7 @@ let epGlobals = {};
             if (vid) {
                 if (iframe) {
                     var vidSrc = iframe[0].src.replace(/(.*\/embed\/)([^\?&"'>]+)(.+)?/, `\$1${vid}\$3`);
+                    console.log(vidSrc);
                     if (vidSrc.indexOf('autoplay') > 0) {
                         vidSrc = vidSrc.replace('autoplay=0', 'autoplay=1');
                     }
@@ -224,6 +225,13 @@ let epGlobals = {};
         var currentPage = 1;
 
         let nearestEpContentId = playerWrap.querySelector('.ep-youtube__content__block').getAttribute('data-unique-id');
+
+        let epContentBlock = playerWrap.querySelector('.ep-youtube__content__block');
+        let parentElement = epContentBlock.parentElement;
+
+        // Get the value of data-channel-url attribute from a sibling
+        let channelUrl = parentElement.querySelector('[data-channel-url]').getAttribute('data-channel-url');
+
 
         delegate(playerWrap, "click", ".ep-next, .ep-prev", function (event) {
             const totalPages = event.target.closest('.ose-youtube').getAttribute('data-total-pages');
@@ -249,6 +257,7 @@ let epGlobals = {};
                 playlistid: this.getAttribute("data-playlistid"),
                 pagetoken: this.getAttribute("data-pagetoken"),
                 pagesize: this.getAttribute("data-pagesize"),
+                channelUrl: channelUrl,
                 currentpage: currentPage
             };
 
@@ -583,7 +592,7 @@ let epGlobals = {};
                 const postData = instaItem.dataset.postdata;
 
                 const postid = instaItem.getAttribute('data-insta-postid');
-                const accountType = container?.closest('.instagram-container')?.getAttribute('data-connected-acc-type');            
+                const accountType = container?.closest('.instagram-container')?.getAttribute('data-connected-acc-type');
 
                 let hashtag = '';
 
@@ -829,10 +838,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Navigation
         const next = document.querySelector(`[data-carouselid="${carouselId}"] #js-carousel__next-1`);
-        next.addEventListener('click', () => carousel.next());
+        next?.addEventListener('click', () => carousel.next());
 
         const prev = document.querySelector(`[data-carouselid="${carouselId}"] #js-carousel__prev-1`);
-        prev.addEventListener('click', () => carousel.prev());
+        prev?.addEventListener('click', () => carousel.prev());
     }
 
     const instaWrappers = document.querySelectorAll('.ep-embed-content-wraper');
@@ -857,9 +866,136 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    // Youtube Channel Carousel
+
+    const youtubeCarouselWraper = document.querySelectorAll('[data-youtube-channel-carousel]');
+
+    if (youtubeCarouselWraper.length > 0) {
+        youtubeCarouselWraper.forEach((wrapper) => {
+            const carouselId = wrapper.getAttribute('data-youtube-channel-carousel');
+            if (!carouselId) return;
+
+            // let options = wrapper.getAttribute(`data-carousel-options`);
+
+            // options = JSON.parse(options);
+
+            const carouselSelector = `[data-youtube-channel-carousel="${carouselId}"] .youtube__content__body`;
+
+            // if (options.arrows) {
+            //     document.querySelector(`[data-youtube-channel-carousel="${carouselId}"] .cg-carousel__btns`).classList.remove('hidden');
+            // }
+
+            const options = {
+                slidesPerView: 2,
+                autoplay: true,
+                loop: true,
+                breakpoints: {
+                    768: {
+                        slidesPerView: 2
+                    },
+                    1024: {
+                        slidesPerView: 4
+                    }
+                }
+            }
+
+            // epGlobals.initCarousel(carouselSelector, options, {});
+
+        });
+    }
+
+    console.log(youtubeCarouselWraper);
+
+
+
 
 
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const carousel = document.querySelector('.youtube-carousel');
+    const items = document.querySelectorAll('.item');
+    const prevButton = document.querySelector('.preview');
+    const nextButton = document.querySelector('.next');
+
+    let itemsToShow = getItemsToShow(); // Determine items to show based on screen width
+
+    console.log(itemsToShow);
+    const totalItems = items.length;
+    let currentIndex = 0;
+
+    function updateCarousel() {
+        const offset = -currentIndex * (100 / itemsToShow);
+        carousel.style.transform = `translateX(${offset}%)`;
+    }
+
+    function nextSlide() {
+        const remainingItems = totalItems - (currentIndex + itemsToShow);
+        if (remainingItems >= itemsToShow) {
+            currentIndex += itemsToShow;
+        } else if (remainingItems > 0) {
+            currentIndex += remainingItems;
+        } else {
+            currentIndex = 0;
+        }
+        updateCarousel();
+    }
+
+    function prevSlide() {
+        if (currentIndex > 0) {
+            currentIndex -= itemsToShow;
+            if (currentIndex < 0) {
+                currentIndex = 0;
+            }
+        } else {
+            currentIndex = totalItems - itemsToShow;
+        }
+        updateCarousel();
+    }
+
+    nextButton?.addEventListener('click', nextSlide);
+    prevButton?.addEventListener('click', prevSlide);
+
+    // Optional: Autoplay
+    let autoplay = false;
+    const autoplayInterval = 3000; // Change the time as needed
+    let autoplayId;
+
+    function startAutoplay() {
+        autoplayId = setInterval(nextSlide, autoplayInterval);
+    }
+
+    function stopAutoplay() {
+        clearInterval(autoplayId);
+    }
+
+    if (autoplay) {
+        startAutoplay();
+
+        // Stop autoplay on mouseover, resume on mouseout
+        carousel.addEventListener('mouseover', stopAutoplay);
+        carousel.addEventListener('mouseout', startAutoplay);
+    }
+
+    // Handle responsive behavior
+    window.addEventListener('resize', () => {
+        itemsToShow = getItemsToShow();
+        updateCarousel();
+
+    });
+
+    function getItemsToShow() {
+        const width = window.innerWidth;
+        if (width >= 1024) {
+            return 3;
+        } else if (width >= 768) {
+            return 2;
+        } else {
+            return 1;
+        }
+    }
+});
+
 
 
 
@@ -1052,3 +1188,184 @@ if (isIOSDevice()) {
 }
 
 document.addEventListener("DOMContentLoaded", epGlobals.handlePosterImageLoad);
+
+
+
+// document.addEventListener('DOMContentLoaded', function () {
+//     const videoPopup = document.getElementById('videoPopup');
+//     const videoIframe = document.getElementById('videoIframe');
+//     const videoDescription = document.getElementById('videoDescription');
+//     const closeBtn = document.querySelector('.close');
+//     const nextBtn = document.getElementById('nextVideo');
+//     const prevBtn = document.getElementById('prevVideo');
+
+//     let currentIndex = -1;
+
+//     function openVideoPopup(index) {
+//         const items = document.querySelectorAll('.layout-grid .item, .layout-list .item, .layout-carousel .item');
+//         if (index >= 0 && index < items.length) {
+//             currentIndex = index;
+//             const videoId = items[currentIndex].getAttribute('data-vid');
+//             const description = items[currentIndex].querySelector('.video-description').innerHTML;
+
+//             if (videoId) {
+//                 videoIframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+//                 videoDescription.innerHTML = description;
+//                 videoPopup.style.display = 'block';
+
+//                 // Update navigation buttons visibility
+//                 updateNavigationButtons();
+//             }
+//         }
+//     }
+
+//     function closeVideoPopup() {
+//         videoPopup.style.display = 'none';
+//         videoIframe.src = '';
+//         videoDescription.innerHTML = '';
+//     }
+
+//     function updateNavigationButtons() {
+//         const items = document.querySelectorAll('.layout-grid .item, .layout-list .item, .layout-carousel .item');
+//         if (currentIndex <= 0) {
+//             prevBtn.style.display = 'none';
+//         } else {
+//             prevBtn.style.display = 'block';
+//         }
+
+//         if (currentIndex >= items.length - 1) {
+//             nextBtn.style.display = 'none';
+//         } else {
+//             nextBtn.style.display = 'block';
+//         }
+//     }
+
+//     document.addEventListener('click', function (event) {
+//         const items = document.querySelectorAll('.layout-grid .item, .layout-list .item, .layout-carousel .item');
+//         const item = event.target.closest('.layout-grid .item, .layout-list .item, .layout-carousel .item');
+//         if (item) {
+//             const index = Array.prototype.indexOf.call(items, item);
+//             openVideoPopup(index);
+//         }
+//     });
+
+//     closeBtn.addEventListener('click', closeVideoPopup);
+
+//     window.addEventListener('click', function (event) {
+//         if (event.target === videoPopup) {
+//             closeVideoPopup();
+//         }
+//     });
+
+//     nextBtn.addEventListener('click', function () {
+//         const items = document.querySelectorAll('.layout-grid .item, .layout-list .item, .layout-carousel .item');
+//         if (currentIndex >= 0 && currentIndex < items.length - 1) {
+//             openVideoPopup(currentIndex + 1);
+//         }
+//     });
+
+//     prevBtn.addEventListener('click', function () {
+//         if (currentIndex > 0) {
+//             openVideoPopup(currentIndex - 1);
+//         }
+//     });
+// });
+
+
+jQuery(document).ready(function ($) {
+
+    let currentIndex = -1;
+
+    function createVideoPopup() {
+        const videoPopupHtml = `
+            <div id="videoPopup" class="video-popup">
+                <div class="video-popup-content">
+                    <span class="close">&times;</span>
+                    <div class="video-popup-inner-content">
+                        <iframe id="videoIframe" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                        <div id="videoDescription"></div>
+                    </div>
+                    <div class="popup-controls">
+                        <span id="prevVideo" class="nav-icon prev-icon">&#10094;</span>
+                        <span id="nextVideo" class="nav-icon next-icon">&#10095;</span>
+                    </div>
+                </div>
+            </div>`;
+        return $(videoPopupHtml).appendTo('body');
+    }
+
+    function openVideoPopup(index) {
+        const items = $('.layout-grid .item, .layout-list .item, .layout-carousel .item');
+        if (index >= 0 && index < items.length) {
+            currentIndex = index;
+            const videoId = $(items[currentIndex]).data('vid');
+            const videoPopup = createVideoPopup();
+            const videoIframe = videoPopup.find('#videoIframe');
+            const videoDescriptionContainer = videoPopup.find('#videoDescription');
+            const closeBtn = videoPopup.find('.close');
+            const nextBtn = videoPopup.find('#nextVideo');
+            const prevBtn = videoPopup.find('#prevVideo');
+
+            if (videoId) {
+                fetchVideoData(videoId, videoIframe, videoDescriptionContainer);
+                videoPopup.show();
+                updateNavigationButtons(nextBtn, prevBtn, items);
+
+                closeBtn.on('click', () => {
+                    closeVideoPopup(videoPopup);
+                });
+
+                $(window).on('click', function (event) {
+                    if ($(event.target).is(videoPopup)) {
+                        closeVideoPopup(videoPopup);
+                    }
+                });
+
+                nextBtn.on('click', function () {
+                    if (currentIndex >= 0 && currentIndex < items.length - 1) {
+                        openVideoPopup(currentIndex + 1);
+                    }
+                });
+
+                prevBtn.on('click', function () {
+                    if (currentIndex > 0) {
+                        openVideoPopup(currentIndex - 1);
+                    }
+                });
+            }
+        }
+    }
+
+    function closeVideoPopup(videoPopup) {
+        videoPopup.remove();
+        currentIndex = -1; // Reset the index
+    }
+
+    function updateNavigationButtons(nextBtn, prevBtn, items) {
+        prevBtn.toggle(currentIndex > 0);
+        nextBtn.toggle(currentIndex < items.length - 1);
+    }
+
+    function fetchVideoData(videoId, videoIframe, videoDescriptionContainer) {
+        const data = {
+            action: 'fetch_video_description',
+            vid: videoId
+        };
+
+        $.post(eplocalize.ajaxurl, data, function (response) {
+            if (response.success) {
+                videoIframe.attr('src', `https://www.youtube.com/embed/${videoId}?autoplay=1`);
+                videoDescriptionContainer.html(response.data.description);
+            } else {
+                console.error('Error fetching video data:', response?.data?.error);
+            }
+        });
+    }
+
+    $(document).on('click', '.layout-grid .item, .layout-list .item, .layout-carousel .item', function () {
+        const items = $('.layout-grid .item, .layout-list .item, .layout-carousel .item');
+        const index = items.index(this);
+        openVideoPopup(index);
+    });
+});
+

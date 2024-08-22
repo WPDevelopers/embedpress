@@ -44,6 +44,8 @@ removedBlockID();
 export default function EmbedPress(props) {
 	const { attributes, className, setAttributes } = props;
 
+	console.log({attributes})
+
 	// @todo remove unused atts from here.
 	const {
 		url,
@@ -94,6 +96,12 @@ export default function EmbedPress(props) {
 	if (customPlayer) {
 		playerPresetClass = playerPreset;
 	}
+	let ytChannelClass = '';
+
+	if (_isYTChannel(url)) {
+		ytChannelClass = 'embedded-youtube-channel';
+	}
+	
 
 
 	let content_share_class = '';
@@ -326,6 +334,8 @@ export default function EmbedPress(props) {
 		}
 	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent]);
 
+	console.log(attributes);
+
 	return (
 		<Fragment>
 
@@ -376,7 +386,7 @@ export default function EmbedPress(props) {
 				
 					<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
 						<EmbedWrap
-							className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass} ${instaLayoutClass}`}
+							className={`position-${sharePosition}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}
 							style={{
 								display: fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isYTShorts && !isWistiaVideo && !isVimeoVideo && !isCalendly && !isInstagramFeed ? 'none' : isOpensea || isOpenseaSingle ? 'block' : 'inline-block',
 								position: 'relative'

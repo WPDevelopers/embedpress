@@ -6,6 +6,7 @@ use \EmbedPress\Providers\Youtube;
 use EmbedPress\Shortcode;
 use EmbedPress\Includes\Classes\Helper;
 use \Elementor\Controls_Manager;
+use EmbedPress\Providers\TemplateLayouts\YoutubeLayout;
 use EmbedPress\Providers\TikTok;
 use EmbedPress\Providers\Wrapper;
 
@@ -135,9 +136,44 @@ class Feature_Enhancer
 		return $isEmbra;
 	}
 
+	// public function youtube_rest_api()
+	// {
+	// 	// Instantiate the class
+	// 	$youtube = new Youtube($config = '');
+
+
+	// 	// Call the non-static method
+	// 	// $result = $youtube->someMethod();
+
+	// 	$result = YoutubeLayout::create_youtube_layout([
+	// 		'playlistId'        => isset($_POST['playlistid']) ? sanitize_text_field($_POST['playlistid']) : null,
+	// 		'pageToken'         => isset($_POST['pagetoken']) ? sanitize_text_field($_POST['pagetoken']) : null,
+	// 		'ytChannelLayout'   => isset($_POST['ytChannelLayout']) ? sanitize_text_field($_POST['ytChannelLayout']) : 'gallery',
+	// 		'pagesize'          => isset($_POST['pagesize']) ? sanitize_text_field($_POST['pagesize']) : null,
+	// 		'currentpage'       => isset($_POST['currentpage']) ? sanitize_text_field($_POST['currentpage']) : null,
+	// 		'columns'           => isset($_POST['epcolumns']) ? sanitize_text_field($_POST['epcolumns']) : null,
+	// 		'showTitle'         => isset($_POST['showtitle']) ? sanitize_text_field($_POST['showtitle']) : null,
+	// 		'showPaging'        => isset($_POST['showpaging']) ? sanitize_text_field($_POST['showpaging']) : null,
+	// 		'autonext'          => isset($_POST['autonext']) ? sanitize_text_field($_POST['autonext']) : null,
+	// 		'thumbplay'         => isset($_POST['thumbplay']) ? sanitize_text_field($_POST['thumbplay']) : null,
+	// 		'thumbnail_quality' => isset($_POST['thumbnail_quality']) ? sanitize_text_field($_POST['thumbnail_quality']) : null,
+	// 	], $youtube->layout_data(), $youtube->get_layout());
+
+	// 	// print_r($youtube->layout_data()); die;
+
+	// 	wp_send_json($result);
+	// }
+
 	public function youtube_rest_api()
 	{
-		$result = Youtube::get_gallery_page([
+		// Instantiate the class
+		$youtube = new Youtube($config = '');
+
+		// echo '<pre>';
+
+		// print_r($_POST);
+
+		$result = $youtube->get_gallery_page([
 			'playlistId'        => isset($_POST['playlistid']) ? sanitize_text_field($_POST['playlistid']) : null,
 			'pageToken'         => isset($_POST['pagetoken']) ? sanitize_text_field($_POST['pagetoken']) : null,
 			'pagesize'          => isset($_POST['pagesize']) ? sanitize_text_field($_POST['pagesize']) : null,
@@ -148,6 +184,7 @@ class Feature_Enhancer
 			'autonext'          => isset($_POST['autonext']) ? sanitize_text_field($_POST['autonext']) : null,
 			'thumbplay'         => isset($_POST['thumbplay']) ? sanitize_text_field($_POST['thumbplay']) : null,
 			'thumbnail_quality' => isset($_POST['thumbnail_quality']) ? sanitize_text_field($_POST['thumbnail_quality']) : null,
+			'channel_url'		=> isset($_POST['channelUrl']) ? sanitize_text_field($_POST['channelUrl']) : ''
 		]);
 
 		wp_send_json($result);
@@ -252,6 +289,7 @@ class Feature_Enhancer
 					'width'    => intval($attributes['width']),
 					'height'   => intval($attributes['height']),
 					'pagesize' => isset($attributes['pagesize']) ? intval($attributes['pagesize']) : 6,
+					'ytChannelLayout' => isset($attributes['ytChannelLayout']) ? $attributes['ytChannelLayout'] : 'gallery',
 					'columns' => isset($attributes['columns']) ? intval($attributes['columns']) : 3,
 					'ispagination' => isset($attributes['ispagination']) ? $attributes['ispagination'] : 0,
 					'gapbetweenvideos' => isset($attributes['gapbetweenvideos']) ? $attributes['gapbetweenvideos'] : 30,
@@ -580,7 +618,7 @@ class Feature_Enhancer
 
 		if (
 			$isYoutube && isset($embed->embed)
-			&& preg_match('/src=\"(.+?)\"/', $embed->embed, $match)
+			&& preg_match('/<iframe[^>]+src=["\']([^"\']+)[^>]*>/', $embed->embed, $match)
 		) {
 
 			// for compatibility only, @TODO; remove later after deep testing.
@@ -589,6 +627,7 @@ class Feature_Enhancer
 			// Parse the url to retrieve all its info like variables etc.
 			$url_full = $match[1];
 			$query = parse_url($url_full, PHP_URL_QUERY);
+			$query = $query ?? ''; // Ensure $query is a string
 			parse_str($query, $params);
 			// Handle `color` option.
 			if (!empty($options['color'])) {
@@ -649,8 +688,12 @@ class Feature_Enhancer
 				}
 			}
 
-			preg_match('/(.+)?\?/', $url_full, $url);
-			$url = $url[1];
+
+			$url = explode('?', $url_full);
+
+			if (isset($url[0])) {
+				$url = $url[0];
+			}
 
 			if (is_object($embed->attributes) && !empty($embed->attributes)) {
 				$attributes = (array) $embed->attributes;
@@ -667,11 +710,18 @@ class Feature_Enhancer
 				$params['cc_load_policy'] = !empty($attributes['data-closedcaptions']) && ($attributes['data-closedcaptions'] == 'true') ? 0 : 1;
 			}
 
-			// Reassemble the url with the new variables.
-			$url_modified = $url . '?';
+			// Ensure $url is a string. If $url is an array, convert it to a string or use a specific element.
+			$url_string = is_array($url) ? (isset($url[0]) ? $url[0] : '') : $url;
+
+			// Reassemble the URL with the new variables.
+			$url_modified = $url_string . '?';
 			foreach ($params as $paramName => $paramValue) {
-				$url_modified .= $paramName . '=' . $paramValue . '&';
+				$url_modified .= urlencode($paramName) . '=' . urlencode($paramValue) . '&';
 			}
+
+			// Remove the trailing '&' or '?' if no parameters were added.
+			$url_modified = rtrim($url_modified, '&?');
+
 
 			// Replaces the old url with the new one.
 			$embed->embed = str_replace($url_full, rtrim($url_modified, '&'), $embed->embed);
