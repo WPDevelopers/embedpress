@@ -244,10 +244,14 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         videoPerPageText = "Number of videos (max 50)"
     }
 
-    console.log(typeof pagesize)
+    let proLabel = ' (Pro)';
+    if (isProPluginActive) {
+        proLabel = '';
+    }
 
-
-
+    // if (!isProPluginActive && (ytChannelLayout == 'grid' || ytChannelLayout == 'carousel')) {
+    //     document.querySelector('.pro__alert__wrap').style.display = 'block';
+    // }
 
     return (
         <div>
@@ -261,9 +265,9 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                             value={ytChannelLayout}
                             options={[
                                 { label: 'Gallery', value: 'gallery' },
-                                { label: 'Grid', value: 'grid' },
                                 { label: 'List', value: 'list' },
-                                { label: 'Carousel', value: 'carousel' },
+                                { label: 'Grid' + proLabel, value: 'grid' },
+                                { label: 'Carousel' + proLabel, value: 'carousel' },
                             ]}
                             onChange={(ytChannelLayout) => setAttributes({ ytChannelLayout })}
                             __nextHasNoMarginBottom
