@@ -3083,7 +3083,8 @@ figure .ep-youtube__content__block .thumb {
 
 .ose-youtube .subscribe-button svg {
     height: 20px;
-    width: auto;
+    width: 20px;
+    margin-right: 5px;
 }
 
 .ose-youtube .subscribe-button:hover {
