@@ -3475,10 +3475,49 @@ button.next {
     }
 
 }
-@media (max-width: 420px) {
-    .ose-youtube .channel-header {
-        flex-direction: column;
-        gap: 20px;
+
+@media (max-width: 580px) {
+    .ep-first-video {
+        margin-bottom: 20px;
     }
+
+    .ep-player-wrap .ep-youtube__content__block .item {
+        gap: 15px;
+    }
+
+    .ep-embed-content-wraper .ep-youtube__content__block .youtube__content__body .content__wrap {
+        gap: 30px !important;
+    }
+
+    .ose-youtube .profile-picture {
+        width: 80px;
+        height: 80px;
+    }
+
+    .ose-youtube .channel-header {
+        gap: 10px;
+        align-items: start;
+        padding: 0;
+
+    }
+
+    .description-container {
+        margin-top: 0px;
+    }
+
+    .description-container p.description {
+        display: none;
+    }
+
+    .ep-player-wrap.layout-list .ep-youtube__content__block .item {
+        flex-direction: column;
+    }
+
+    .ep-player-wrap.layout-list .ep-youtube__content__block .thumb {
+        min-width: 100%;
+        min-height: 200px;
+    }
+
+
 
 }

@@ -914,6 +914,11 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             grid-template-columns: repeat(auto-fit, minmax(calc(100% - 30px), 1fr))!important;
         }
 
+        @media (max-width: 420px) {
+            <?php echo esc_attr($uniqid); ?> .layout-list .ep-youtube__content__block .youtube__content__body .content__wrap {
+                gap: 30px !important;
+            }
+        }
 
         <?php
             if($is_pagination){
