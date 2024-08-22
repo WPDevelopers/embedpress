@@ -390,6 +390,7 @@ class YoutubeLayout
                         $carouselWrapperClass = 'youtube-carousel';
                         $carouselSelectorId = 'data-youtube-channel-carousel="carousel-'.esc_attr(md5($channel_id)).'"';
                     }
+                    
                 ?>
 
             <div class="ep-youtube__content__block" <?php echo $carouselSelectorId; ?> data-unique-id="<?php echo esc_attr(md5($channel_id)); ?>">
@@ -400,17 +401,19 @@ class YoutubeLayout
                                 if($layout === 'gallery'){
                                     echo self::create_gallery_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
                                 }
-                                else if($layout === 'grid'){
-                                    echo self::create_grid_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
-                                }
+                          
                                 else if($layout === 'list'){
                                     echo self::create_list_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
+                                }
+                                else if($layout === 'grid'){
+                                    echo self::create_grid_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
                                 }
                                 else if($layout === 'carousel'){
                                     echo self::create_carousel_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
                                 }
                                 else{
-                                    echo self::create_grid_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
+                                    echo self::create_gallery_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
+
                                 }
                         ?>
                         <div class="item" style="height: 0"></div>
