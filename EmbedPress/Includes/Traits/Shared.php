@@ -161,9 +161,9 @@ trait Shared
         //     ]
         // );
 
-        $b_message            = '<p style="margin-top: 0; margin-bottom: 10px;">Join us to celebrate 100K+ happy users!<br><span>Enjoy up to 30% OFF for EmbedPress PRO & embed from 150+ sources</span></p><a class="button button-primary" href="https://wpdeveloper.com/upgrade/embedpress-bfcm" target="_blank">Upgrade to PRO</a> <button data-dismiss="true" class="dismiss-btn button button-link">I don’t want to save money</button>';
+        $b_message            = '<p style="margin-top: 0; margin-bottom: 10px;">Join us to celebrate 100K+ happy users!<br><span>Enjoy up to 30% OFF for EmbedPress PRO & embed from 150+ sources 🥳</span></p><a class="button button-primary" href="https://wpdeveloper.com/upgrade/embedpress-bfcm" target="_blank">Upgrade to PRO</a> <button data-dismiss="true" class="dismiss-btn button button-link">I don’t want to save money</button>';
         $_black_friday_notice = [
-            'thumbnail' => $_assets_url . 'images/logo-main-white.svg',
+            'thumbnail' => $_assets_url . 'images/full-logo.svg',
             'html'      => $b_message,
         ];
 
