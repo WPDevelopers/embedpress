@@ -175,7 +175,7 @@ trait Shared
                 'recurrence'  => false,
                 'dismissible' => true,
                 'refresh'     => EMBEDPRESS_VERSION,
-                "expire"      => strtotime('11:59:59pm 2nd December, 2024'),
+                "expire"      => strtotime('11:59:59pm 12th September, 2024'),
                 'display_if'  => !is_plugin_active('embedpress-pro/embedpress-pro.php')
             ]
         );
