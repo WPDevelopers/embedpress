@@ -249,10 +249,6 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         proLabel = '';
     }
 
-    // if (!isProPluginActive && (ytChannelLayout == 'grid' || ytChannelLayout == 'carousel')) {
-    //     document.querySelector('.pro__alert__wrap').style.display = 'block';
-    // }
-
     return (
         <div>
 
