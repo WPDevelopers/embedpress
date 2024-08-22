@@ -3453,6 +3453,17 @@ button.next {
 
 
 
+.youtube-video-body {
+    display: none;
+}
+
+
+.video-popup-content {
+    width: 100%;
+    max-width: 720px;
+    margin: auto;
+}
+
 @media (max-width: 1024px) {
     .youtube-carousel .item {
         min-width: calc(50% - 20px) !important;
@@ -3474,11 +3485,25 @@ button.next {
         right: 0;
     }
 
+    .video-popup-content {
+        width: calc(100% - 40px);
+        margin: auto;
+    }
+
+    .video-popup-content iframe {
+        max-height: 300px;
+    }
+
+
 }
 
 @media (max-width: 580px) {
     .ep-first-video {
         margin-bottom: 20px;
+    }
+
+    .video-popup-content iframe {
+        max-height: 220px;
     }
 
     .ep-player-wrap .ep-youtube__content__block .item {
