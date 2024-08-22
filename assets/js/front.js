@@ -1272,61 +1272,81 @@ document.addEventListener("DOMContentLoaded", epGlobals.handlePosterImageLoad);
 // });
 
 
-
 jQuery(document).ready(function ($) {
-    // Define the popup wrapper and content
-    const videoPopupHtml = `
-        <div id="videoPopup" class="video-popup">
-            <div class="video-popup-content">
-                <span class="close">&times;</span>
-                <div class="video-popup-inner-content">
-                    <iframe id="videoIframe" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
-                    <div id="videoDescription"></div>
-                </div>
-                <div class="popup-controls">
-                    <span id="prevVideo" class="nav-icon prev-icon">&#10094;</span>
-                    <span id="nextVideo" class="nav-icon next-icon">&#10095;</span>
-                </div>
-            </div>
-        </div>`;
-
-    // Append the popup to the body
-    const videoPopup = $(videoPopupHtml).appendTo('body');
-    const videoIframe = videoPopup.find('#videoIframe');
-    const videoDescriptionContainer = videoPopup.find('#videoDescription');
-    const closeBtn = videoPopup.find('.close');
-    const nextBtn = videoPopup.find('#nextVideo');
-    const prevBtn = videoPopup.find('#prevVideo');
 
     let currentIndex = -1;
+
+    function createVideoPopup() {
+        const videoPopupHtml = `
+            <div id="videoPopup" class="video-popup">
+                <div class="video-popup-content">
+                    <span class="close">&times;</span>
+                    <div class="video-popup-inner-content">
+                        <iframe id="videoIframe" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                        <div id="videoDescription"></div>
+                    </div>
+                    <div class="popup-controls">
+                        <span id="prevVideo" class="nav-icon prev-icon">&#10094;</span>
+                        <span id="nextVideo" class="nav-icon next-icon">&#10095;</span>
+                    </div>
+                </div>
+            </div>`;
+        return $(videoPopupHtml).appendTo('body');
+    }
 
     function openVideoPopup(index) {
         const items = $('.layout-grid .item, .layout-list .item, .layout-carousel .item');
         if (index >= 0 && index < items.length) {
             currentIndex = index;
             const videoId = $(items[currentIndex]).data('vid');
+            const videoPopup = createVideoPopup();
+            const videoIframe = videoPopup.find('#videoIframe');
+            const videoDescriptionContainer = videoPopup.find('#videoDescription');
+            const closeBtn = videoPopup.find('.close');
+            const nextBtn = videoPopup.find('#nextVideo');
+            const prevBtn = videoPopup.find('#prevVideo');
 
             if (videoId) {
-                fetchVideoData(videoId);
+                fetchVideoData(videoId, videoIframe, videoDescriptionContainer);
                 videoPopup.show();
-                updateNavigationButtons();
+                updateNavigationButtons(nextBtn, prevBtn, items);
+
+                closeBtn.on('click', () => {
+                    closeVideoPopup(videoPopup);
+                });
+
+                $(window).on('click', function (event) {
+                    if ($(event.target).is(videoPopup)) {
+                        closeVideoPopup(videoPopup);
+                    }
+                });
+
+                nextBtn.on('click', function () {
+                    if (currentIndex >= 0 && currentIndex < items.length - 1) {
+                        openVideoPopup(currentIndex + 1);
+                    }
+                });
+
+                prevBtn.on('click', function () {
+                    if (currentIndex > 0) {
+                        openVideoPopup(currentIndex - 1);
+                    }
+                });
             }
         }
     }
 
-    function closeVideoPopup() {
-        videoPopup.hide();
-        videoIframe.attr('src', '');
-        videoDescriptionContainer.html('');
+    function closeVideoPopup(videoPopup) {
+        videoPopup.remove();
+        currentIndex = -1; // Reset the index
     }
 
-    function updateNavigationButtons() {
-        const items = $('.layout-grid .item, .layout-list .item, .layout-carousel .item');
+    function updateNavigationButtons(nextBtn, prevBtn, items) {
         prevBtn.toggle(currentIndex > 0);
         nextBtn.toggle(currentIndex < items.length - 1);
     }
 
-    function fetchVideoData(videoId) {
+    function fetchVideoData(videoId, videoIframe, videoDescriptionContainer) {
         const data = {
             action: 'fetch_video_description',
             vid: videoId
@@ -1346,27 +1366,6 @@ jQuery(document).ready(function ($) {
         const items = $('.layout-grid .item, .layout-list .item, .layout-carousel .item');
         const index = items.index(this);
         openVideoPopup(index);
-    });
-
-    closeBtn.on('click', closeVideoPopup);
-
-    $(window).on('click', function (event) {
-        if ($(event.target).is(videoPopup)) {
-            closeVideoPopup();
-        }
-    });
-
-    nextBtn.on('click', function () {
-        const items = $('.layout-grid .item, .layout-list .item, .layout-carousel .item');
-        if (currentIndex >= 0 && currentIndex < items.length - 1) {
-            openVideoPopup(currentIndex + 1);
-        }
-    });
-
-    prevBtn.on('click', function () {
-        if (currentIndex > 0) {
-            openVideoPopup(currentIndex - 1);
-        }
     });
 });
 
