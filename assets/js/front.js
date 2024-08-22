@@ -912,14 +912,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-
 document.addEventListener('DOMContentLoaded', () => {
     const carousel = document.querySelector('.youtube-carousel');
     const items = document.querySelectorAll('.item');
     const prevButton = document.querySelector('.preview');
     const nextButton = document.querySelector('.next');
 
-    const itemsToShow = 3; // Number of items to display at once
+    let itemsToShow = getItemsToShow(); // Determine items to show based on screen width
+
+    console.log(itemsToShow);
     const totalItems = items.length;
     let currentIndex = 0;
 
@@ -974,6 +975,24 @@ document.addEventListener('DOMContentLoaded', () => {
         // Stop autoplay on mouseover, resume on mouseout
         carousel.addEventListener('mouseover', stopAutoplay);
         carousel.addEventListener('mouseout', startAutoplay);
+    }
+
+    // Handle responsive behavior
+    window.addEventListener('resize', () => {
+        itemsToShow = getItemsToShow();
+        updateCarousel();
+
+    });
+
+    function getItemsToShow() {
+        const width = window.innerWidth;
+        if (width >= 1024) {
+            return 3;
+        } else if (width >= 768) {
+            return 2;
+        } else {
+            return 1;
+        }
     }
 });
 

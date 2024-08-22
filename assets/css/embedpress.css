@@ -3359,6 +3359,8 @@ figure .ep-youtube__content__block .thumb {
     box-sizing: border-box;
 }
 
+
+
 [data-youtube-channel-carousel] button {
     position: absolute;
     top: 50%;
@@ -3447,4 +3449,36 @@ button.next {
     .ose-youtube .next-icon {
         right: -18%;
     }
+}
+
+
+
+@media (max-width: 1024px) {
+    .youtube-carousel .item {
+        min-width: calc(50% - 20px) !important;
+        /* Show 2 items */
+    }
+}
+
+@media (max-width: 768px) {
+    .youtube-carousel .item {
+        min-width: calc(100% - 20px) !important;
+        /* Show 1 item */
+    }
+
+    [data-youtube-channel-carousel] button.preview {
+        left: 0 !important;
+    }
+
+    [data-youtube-channel-carousel] button.next {
+        right: 0;
+    }
+
+}
+@media (max-width: 420px) {
+    .ose-youtube .channel-header {
+        flex-direction: column;
+        gap: 20px;
+    }
+
 }
