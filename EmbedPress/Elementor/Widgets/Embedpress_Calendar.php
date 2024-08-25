@@ -322,6 +322,8 @@ class Embedpress_Calendar extends Widget_Base
 					if ($is_editor_view && empty($settings['embedpress_public_cal_link']) && !$is_private_cal) { ?>
 						<p><?php esc_html_e('Please paste your public google calendar link.', 'embedpress'); ?></p>
 					<?php }
+
+
 					if ($is_editor_view && $is_private_cal) {
 						if (!is_embedpress_pro_active()) { ?>
 							<p><?php esc_html_e('You need EmbedPress Pro to display Private Calendar Data.', 'embedpress'); ?></p>
@@ -329,10 +331,9 @@ class Embedpress_Calendar extends Widget_Base
 							<p><?php esc_html_e('Private Calendar Data will be displayed in the frontend', 'embedpress'); ?></p>
 						<?php }
 					} else {
-						if (is_embedpress_pro_active()) {
-							echo Embedpress_Google_Helper::shortcode();
-						}
+						echo do_action('google_calendar_shortcode', 10);
 					}
+
 				} ?>
 			</div>
 			<?php
