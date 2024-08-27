@@ -331,7 +331,7 @@ class Embedpress_Calendar extends Widget_Base
 							<p><?php esc_html_e('Private Calendar Data will be displayed in the frontend', 'embedpress'); ?></p>
 						<?php }
 					} else {
-						echo do_action('google_calendar_shortcode', 10);
+						do_action('embedpress_google_helper_shortcode', 10);
 					}
 
 				} ?>

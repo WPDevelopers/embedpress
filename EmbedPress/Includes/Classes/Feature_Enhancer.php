@@ -201,16 +201,7 @@ class Feature_Enhancer
 			$embedOptions->time = isset($attributes['wstarttime']) ? $attributes['wstarttime'] : '';
 		}
 
-		if (is_embedpress_pro_active()) {
-			$embedOptions->volumeControl = (isset($attributes['volumecontrol']) && (bool) $attributes['volumecontrol'] === true);
-
-			$volume = isset($attributes['volume']) ? (float) $attributes['volume'] : 0;
-
-			if ($volume > 1) {
-				$volume = $volume / 100;
-			}
-			$embedOptions->volume = $volume;
-		}
+		do_action('embedpress_wistia_block_attributes', 10, $embedOptions, $attributes);
 
 		$pluginList = [];
 
@@ -995,9 +986,9 @@ class Feature_Enhancer
 						$params['playsinline'] = 1;
 					}
 					$params['start'] = (int) isset($options['start_time']) ? $options['start_time'] : null;
-					if (is_embedpress_pro_active()) {
-						$params['ui-logo'] = (int) isset($options['show_logo']) ? $options['show_logo'] : null;
-					}
+
+					do_action('embedpress_enhance_dailymotion', 10, $params, $options);
+					
 
 					$url_modified = $url_full;
 					foreach ($params as $param => $value) {
@@ -1033,10 +1024,7 @@ class Feature_Enhancer
 						'show_user'      => isset($options['username']) && $options['username'] == '1' ? 'true' : 'false',
 					];
 
-					if (is_embedpress_pro_active()) {
-						$params['buying'] = isset($options['buy_button']) && $options['buy_button'] == '1' ? 'true' : 'false';
-						$params['download'] = isset($options['download_button']) && $options['download_button'] == '1' ? 'true' : 'false';
-					}
+					do_action('embedpress_enhance_soundcloud', 10, $params, $options);
 
 					$url_modified = $url_full;
 					foreach ($params as $param => $value) {

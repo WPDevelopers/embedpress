@@ -213,14 +213,9 @@ if (!is_embedpress_pro_active()) {
                     </a>
                 <?php endif; ?>
             </div>
-            <?php if ($is_calendly_connected && is_embedpress_pro_active()) : ?>
-                <div class="calendly-sync-button">
-                    <a href="<?php echo esc_url($calendly_sync_url); ?>" class="calendly-connect-button" target="_self" title="Sync new calendly data">
-                        <span class="dashicons dashicons-update-alt emcs-dashicon"></span><?php echo esc_html__('Sync', 'embedpress'); ?>
-                    </a>
-                </div>
-                <?php ?>
-            <?php endif; ?>
+
+            <?php do_action('embedpress/calendly_sync_button', $is_calendly_connected, $calendly_sync_url); ?>
+
         </div>
         <div class="tab-container">
             <div class="calendly-Event-button tab active-tab" onclick="showTab('event-types')"><?php echo esc_html__('Event Types', 'embedpress'); ?></div>
@@ -257,9 +252,7 @@ if (!is_embedpress_pro_active()) {
                             <?php echo esc_html__('Events', 'embedpress'); ?>
                         <?php endif; ?>
                     </div>
-                    <div class="calendly-data<?php if (!is_embedpress_pro_active()) : echo '-placeholder';
-                                                endif; ?>">
-
+                    <div class="calendly-data<?php if (!is_embedpress_pro_active()) : echo '-placeholder'; endif; ?>">
                         <div class="event-type-card-list">
                             <?php
                             if (is_array($event_types) && isset($event_types['collection']) && count($event_types['collection']) > 0) {
@@ -313,8 +306,7 @@ if (!is_embedpress_pro_active()) {
     <div class="tab-content" id="scheduled-events">
 
         <div class="calendly-day-list">
-            <div class="calendly-data<?php if (!is_embedpress_pro_active()) : echo '-placeholder';
-                                        endif; ?>">
+            <div class="calendly-data<?php if (!is_embedpress_pro_active()) : echo '-placeholder'; endif; ?>">
                 <table class="rwd-table" cellspacing="0">
                     <tbody>
                         <tr>
@@ -412,13 +404,9 @@ if (!is_embedpress_pro_active()) {
                     </tbody>
                 </table>
 
-                <?php
-                if (is_embedpress_pro_active() && !$is_calendly_connected) :
-                    echo '<br>' . esc_html__('Please connect with calendly', 'embedpress');
-                elseif (is_embedpress_pro_active() && $is_calendly_connected && count($sorted_events) < 1) :
-                    echo esc_html__('Calendly has no schedule.', 'embedpress');
-                endif;
-                ?>
+
+                <?php do_action('embedpress/calendly_connect_text_label', $is_calendly_connected, $sorted_events); ?>
+
 
                 <?php if (!is_embedpress_pro_active()) : ?>
                     <div class="overlay">
