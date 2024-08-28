@@ -3271,7 +3271,7 @@ figure .ep-youtube__content__block .thumb {
 
 /* grid item description */
 
-.description-container {
+.youtube-body-content .description-container {
     display: flex;
     /* background-color: #ffffff; */
     border-radius: 4px;
@@ -3280,32 +3280,32 @@ figure .ep-youtube__content__block .thumb {
     margin-top: 10px;
 }
 
-.body {
+.youtube-body-content.body {
     width: 100%;
 }
 
-.thumbnail {
+.youtube-body-content .thumbnail {
     width: 30px;
     height: 30px;
     border-radius: 4px;
     margin-right: 10px;
 }
 
-.thumbnail img {
+.youtube-body-content .thumbnail img {
     border-radius: 50%;
     margin-right: 10px;
     width: 30px;
     height: 30px;
 }
 
-.details {
+.youtube-body-content .details {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: calc(100% - 30px);
 }
 
-.title {
+.youtube-body-content .title {
     font-size: 14px;
     font-weight: 500;
     color: #000000;
@@ -3313,14 +3313,14 @@ figure .ep-youtube__content__block .thumb {
     line-height: 1.4;
 }
 
-.channel,
-.views,
-.time {
+.youtube-body-content .channel,
+.youtube-body-content .views,
+.youtube-body-content .time {
     font-size: 14px;
     color: #606060;
 }
 
-.channel {
+.youtube-body-content .channel {
     margin-bottom: 4px;
 }
 
@@ -3385,7 +3385,7 @@ figure .ep-youtube__content__block .thumb {
 
 }
 
-button.next {
+.carousel-controls button.next {
     right: -100px;
 }
 
