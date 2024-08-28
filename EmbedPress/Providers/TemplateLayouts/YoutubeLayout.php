@@ -152,7 +152,7 @@ class YoutubeLayout
                         <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'); ?>" alt="">
                     </div>
                 </div>
-                <div class="body">
+                <div class="body youtube-body-content">
                     <div class="description-container">
                         <div class="thumbnail"><img src="<?php echo esc_url($channelThumb ); ?>"/></div>
                         <div class="details">
@@ -196,7 +196,7 @@ class YoutubeLayout
                         <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'); ?>" alt="">
                     </div>
                 </div>
-                <div class="body">
+                <div class="body youtube-body-content">
                     <div class="description-container">
                         <div class="thumbnail"><img src="<?php echo esc_url($channelThumb ); ?>"/></div>
                         <div class="details">
@@ -238,7 +238,7 @@ class YoutubeLayout
                         <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'); ?>" alt="">
                     </div>
                 </div>
-                <div class="body">
+                <div class="body youtube-body-content">
                     <div class="description-container">
                         <div class="thumbnail"><img src="<?php echo esc_url($channelThumb ); ?>"/></div>
                         <div class="details">
