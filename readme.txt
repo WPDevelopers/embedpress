@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, PDF viewer, Gutenberg embed, embed PDF, embed Google
 Requires at least: 4.6
 Tested up to: 6.6
 Requires PHP: 5.6
-Stable tag: 4.0.11
+Stable tag: 4.0.12
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -335,6 +335,10 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [4.0.12] – 2024-08-28 =  
+- fixed: Thumbnail size issues in media library.  
+- Few minor bug fixes and improvements.
 
 = [4.0.11] – 2024-08-22 =  
 - Added: Advanced layouts for Youtube Embed.
