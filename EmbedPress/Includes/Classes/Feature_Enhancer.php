@@ -201,7 +201,7 @@ class Feature_Enhancer
 			$embedOptions->time = isset($attributes['wstarttime']) ? $attributes['wstarttime'] : '';
 		}
 
-		do_action('embedpress_wistia_block_attributes', 10, $embedOptions, $attributes);
+		$embedOptions = apply_filters('embedpress_wistia_block_attributes', 10, $embedOptions, $attributes);
 
 		$pluginList = [];
 
@@ -987,7 +987,7 @@ class Feature_Enhancer
 					}
 					$params['start'] = (int) isset($options['start_time']) ? $options['start_time'] : null;
 
-					do_action('embedpress_enhance_dailymotion', 10, $params, $options);
+					$params = apply_filters('embedpress_enhance_dailymotion', 10, $params, $options);
 					
 
 					$url_modified = $url_full;
@@ -1024,7 +1024,7 @@ class Feature_Enhancer
 						'show_user'      => isset($options['username']) && $options['username'] == '1' ? 'true' : 'false',
 					];
 
-					do_action('embedpress_enhance_soundcloud', 10, $params, $options);
+					$params = apply_filters('embedpress_enhance_soundcloud', 10, $params, $options);
 
 					$url_modified = $url_full;
 					foreach ($params as $param => $value) {

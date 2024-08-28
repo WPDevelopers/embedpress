@@ -27,7 +27,7 @@ class Elementor_Enhancer {
 
 			$params['color'] = $setting['embedpress_pro_youtube_progress_bar_color'];
 
-			do_action('embedpress/elementor_enhancer_youtube', $params, $setting);
+			$params = apply_filters('embedpress/elementor_enhancer_youtube', $params, $setting);
 
 			preg_match( '/(.+)?\?/', $url_full, $url );
 			if ( empty( $url) ) {
@@ -43,7 +43,7 @@ class Elementor_Enhancer {
 			// Replaces the old url with the new one.
 			$embed->embed = str_replace( $url_full, rtrim( $url_modified, '&' ), $embed->embed );
 
-			do_action('embedpress/elementor_enhancer_youtube_cta', $embed, $setting);
+			$embed = apply_filters('embedpress/elementor_enhancer_youtube_cta', $embed, $setting);
 
 		}
 
@@ -197,7 +197,7 @@ class Elementor_Enhancer {
 			$params['autoplay'] = 1;
 		}
 
-		do_action('embedpress/elementor_enhancer_vimeo', $params, $setting);
+		$params = apply_filters('embedpress/elementor_enhancer_vimeo', $params, $setting);
 		
 
 		$url_modified = str_replace("dnt=1&", "", $url_full);
@@ -211,7 +211,7 @@ class Elementor_Enhancer {
 		// Replaces the old url with the new one.
 		$embed->embed = str_replace( $url_full, $url_modified, $embed->embed );
 
-		do_action('embedpress/elementor_enhancer_vimeo_cta', $embed, $setting);
+		$embed = apply_filters('embedpress/elementor_enhancer_vimeo_cta', $embed, $setting);
 
 		return $embed;
 	}
@@ -248,7 +248,7 @@ class Elementor_Enhancer {
 			$embedOptions->time             = $setting['embedpress_pro_video_start_time'];
 		}
 
-		do_action('embedpress/elementor_enhancer_wistia', $embedOptions, $setting);
+		$embedOptions = apply_filters('embedpress/elementor_enhancer_wistia', $embedOptions, $setting);
 
 
 		// Plugins
@@ -276,7 +276,7 @@ class Elementor_Enhancer {
 			}
 		}
 
-		do_action('embedpress/elementor_enhancer_wistia_captions', $embedOptions, $setting);
+		$embedOptions = apply_filters('embedpress/elementor_enhancer_wistia_captions', $embedOptions, $setting);
 
 
 		// Rewind plugin
@@ -336,7 +336,7 @@ class Elementor_Enhancer {
 		$html         .= '</div>';
 		$embed->embed = $html;
 
-		do_action('embedpress/elementor_enhancer_wistia_cta', $embed, $setting);
+		$embed = apply_filters('embedpress/elementor_enhancer_wistia_cta', $embed, $setting);
 
 		return $embed;
 	}
@@ -381,7 +381,7 @@ class Elementor_Enhancer {
 			'download'       => 'false',
 		];
 
-		do_action('embedpress/elementor_enhancer_soundcloud', $params, $setting);	
+		$params = apply_filters('embedpress/elementor_enhancer_soundcloud', $params, $setting);	
 
 		$url_modified = $url_full;
 		foreach ( $params as $param => $value ) {
@@ -417,7 +417,7 @@ class Elementor_Enhancer {
 			$params['playsinline'] = 1;
 		}
 
-		do_action('embedpress/elementor_enhancer_dailymotion', $params, $setting);
+		$params = apply_filters('embedpress/elementor_enhancer_dailymotion', $params, $setting);
 
 		$url_modified = $url_full;
 		foreach ( $params as $param => $value ) {
@@ -425,7 +425,7 @@ class Elementor_Enhancer {
 		}
 		$embed->embed = str_replace( $url_full, $url_modified, $embed->embed );
 
-		do_action('embedpress/elementor_enhancer_dailymotion_cta', $embed, $setting);
+		$embed = apply_filters('embedpress/elementor_enhancer_dailymotion_cta', $embed, $setting);
 
 		return $embed;
 	}
@@ -460,7 +460,7 @@ class Elementor_Enhancer {
 		$theme = !empty($settings['embedpress_pro_twitch_theme']) ? esc_attr($settings['embedpress_pro_twitch_theme']) : 'dark';
 	
 
-		do_action('embedpress/elementor_enhancer_twitch', $settings);
+		$layout = apply_filters('embedpress/elementor_enhancer_twitch', 'video', $settings);
 
 
 		$url      = "https://embed.twitch.tv?autoplay={$autoplay}&channel={$channel}&height={$height}&layout={$layout}&migration=true&muted={$muted}&theme={$theme}&time={$time}&video={$video}&width={$width}&allowfullscreen={$full_screen}";
@@ -472,7 +472,7 @@ class Elementor_Enhancer {
 		$url_full             = $match[1];
 		$embed_content->embed = str_replace( $url_full, $url, $embed_content->embed );
 
-		do_action('embedpress/elementor_enhancer_twitch_cta', $embed_content, $settings);
+		$embed_content = apply_filters('embedpress/elementor_enhancer_twitch_cta', $embed_content, $settings);
 
 
 		return $embed_content;

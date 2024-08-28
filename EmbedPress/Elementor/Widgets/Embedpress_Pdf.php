@@ -86,11 +86,11 @@ class Embedpress_Pdf extends Widget_Base
 
     protected function register_controls()
     {
-        $this->pro_class = is_embedpress_pro_active() ? '' : 'embedpress-pro-control not-active';
-        $this->pro_text = is_embedpress_pro_active() ? '' : '<sup class="embedpress-pro-label" style="color:red">' . __('Pro', 'embedpress') . '</sup>';
-
-        $this->pro_class = apply_filters('embedpress/pro_class', '');
-        $this->pro_text = apply_filters('embedpress/pro_text', '');
+        $class = 'embedpress-pro-control not-active';
+        $text =  '<sup class="embedpress-pro-label" style="color:red">' . __('Pro', 'embedpress') . '</sup>';
+        $this->pro_class = apply_filters('embedpress/pro_class', $class);
+        $this->pro_text = apply_filters('embedpress/pro_text', $text);
+        
         /**
          * EmbedPress Content Settings
          */
