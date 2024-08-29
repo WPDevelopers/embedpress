@@ -260,7 +260,7 @@ class Embedpress_Calendar extends Widget_Base
 
 		$this->end_controls_section();
 
-		if (! is_embedpress_pro_active()) {
+		if (!apply_filters('embedpress/is_allow_rander', false)) {
 			$this->start_controls_section(
 				'embedpress_pro_section',
 				[
@@ -328,8 +328,8 @@ class Embedpress_Calendar extends Widget_Base
 
 
 					if ($is_editor_view && $is_private_cal) {
-						
-						if (!is_embedpress_pro_active()) { ?>
+
+						if (!apply_filters('embedpress/is_allow_rander', false)) { ?>
 							<p><?php esc_html_e('You need EmbedPress Pro to display Private Calendar Data.', 'embedpress'); ?></p>
 						<?php } else { ?>
 							<p><?php esc_html_e('Private Calendar Data will be displayed in the frontend', 'embedpress'); ?></p>

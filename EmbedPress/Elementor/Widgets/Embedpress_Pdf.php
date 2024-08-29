@@ -664,7 +664,7 @@ class Embedpress_Pdf extends Widget_Base
 
         do_action( 'extend_elementor_controls', $this, '_pdf_', $this->pro_text, $this->pro_class);
 
-        if (!is_embedpress_pro_active()) {
+        if (!apply_filters('embedpress/is_allow_rander', false)) {
             $this->start_controls_section(
                 'embedpress_pro_section',
                 [

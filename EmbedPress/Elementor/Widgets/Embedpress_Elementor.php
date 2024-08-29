@@ -213,7 +213,7 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-		if ( !is_embedpress_pro_active() ) {
+		if ( !apply_filters('embedpress/is_allow_rander', false) ) {
 			$this->add_control(
 				'embedpress_insta_layout__pro_enable_warning_1',
 				[
@@ -413,7 +413,7 @@ class Embedpress_Elementor extends Widget_Base
 
 		do_action('extend_elementor_controls', $this, '_', $this->pro_text, $this->pro_class);
 
-		if (!is_embedpress_pro_active()) {
+		if (!apply_filters('embedpress/is_allow_rander', false)) {
 			$this->start_controls_section(
 				'embedpress_pro_section',
 				[
@@ -2692,7 +2692,7 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-		if ( !is_embedpress_pro_active() ) {
+		if ( !apply_filters('embedpress/is_allow_rander', false) ) {
 			$this->add_control(
 				'embedpress_insta_layout__pro_enable_warning',
 				[
@@ -3724,7 +3724,7 @@ class Embedpress_Elementor extends Widget_Base
 		$embed_link = isset($settings['embedpress_embeded_link']) ? $settings['embedpress_embeded_link'] : '';
 
 
-		if(!is_embedpress_pro_active() && ($settings['instaLayout'] === 'insta-masonry' || $settings['instaLayout'] === 'insta-carousel' || $settings['instafeedFeedType'] === 'hashtag_type')){
+		if(!apply_filters('embedpress/is_allow_rander', false) && ($settings['instaLayout'] === 'insta-masonry' || $settings['instaLayout'] === 'insta-carousel' || $settings['instafeedFeedType'] === 'hashtag_type')){
 			return '';
 		}
 

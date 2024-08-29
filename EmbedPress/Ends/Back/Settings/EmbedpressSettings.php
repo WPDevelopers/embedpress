@@ -188,7 +188,7 @@ class EmbedpressSettings {
 		$gen_menu_template_names = apply_filters('ep_general_menu_tmpl_names', ['general', 'shortcode',]);
 		$platform_menu_template_names = apply_filters('ep_platform_menu_tmpl_names', [ 'youtube', 'vimeo', 'wistia', 'twitch','dailymotion', 'soundcloud' ,'spotify','google-calendar','opensea']);
 		$brand_menu_template_names = apply_filters('ep_brand_menu_templates', ['custom-logo', 'branding',]);
-		$pro_active = is_embedpress_pro_active();
+		$pro_active = apply_filters('embedpress/is_allow_rander', false);
 		$coming_soon = "<span class='ep-coming-soon'>". esc_html__( '(Coming soon)', 'embedpress'). "</span>";
 		$success_message = esc_html__( "Settings Updated", "embedpress" );
 		$error_message = esc_html__( "Ops! Something went wrong.", "embedpress" );

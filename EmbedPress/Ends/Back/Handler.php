@@ -384,7 +384,7 @@ class Handler extends EndHandlerAbstract
 
                 update_option('calendly_user_info', $user_info);
 
-                if (!is_embedpress_pro_active()) {
+                if (!apply_filters('embedpress/is_allow_rander', false)) {
                     update_option('calendly_event_types', []);
                     update_option('calendly_scheduled_events', []);
                     update_option('calendly_invitees_list', []);

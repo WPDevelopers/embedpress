@@ -68,7 +68,7 @@ if (!$is_calendly_connected) {
     $event_types = [];
 }
 
-if (!is_embedpress_pro_active()) {
+if (!apply_filters('embedpress/is_allow_rander', false)) {
     $invtitees_list = [
         'e84408fc-d58a-421a-bf65-5efeefa182b0' => [
             'collection' => [
@@ -252,7 +252,7 @@ if (!is_embedpress_pro_active()) {
                             <?php echo esc_html__('Events', 'embedpress'); ?>
                         <?php endif; ?>
                     </div>
-                    <div class="calendly-data<?php if (!is_embedpress_pro_active()) : echo '-placeholder'; endif; ?>">
+                    <div class="calendly-data<?php if (!apply_filters('embedpress/is_allow_rander', false)) : echo '-placeholder'; endif; ?>">
                         <div class="event-type-card-list">
                             <?php
                             if (is_array($event_types) && isset($event_types['collection']) && count($event_types['collection']) > 0) {
@@ -290,7 +290,7 @@ if (!is_embedpress_pro_active()) {
                             ?>
                         </div>
 
-                        <?php if (!is_embedpress_pro_active()) : ?>
+                        <?php if (!apply_filters('embedpress/is_allow_rander', false)) : ?>
                             <div class="overlay">
                                 <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" class="overlay-button" target="_blank"><?php echo esc_html__('Get PRO to Unlock', 'embedpress'); ?></a>
                             </div>
@@ -306,7 +306,7 @@ if (!is_embedpress_pro_active()) {
     <div class="tab-content" id="scheduled-events">
 
         <div class="calendly-day-list">
-            <div class="calendly-data<?php if (!is_embedpress_pro_active()) : echo '-placeholder'; endif; ?>">
+            <div class="calendly-data<?php if (!apply_filters('embedpress/is_allow_rander', false)) : echo '-placeholder'; endif; ?>">
                 <table class="rwd-table" cellspacing="0">
                     <tbody>
                         <tr>
@@ -408,7 +408,7 @@ if (!is_embedpress_pro_active()) {
                 <?php do_action('embedpress/calendly_connect_text_label', $is_calendly_connected, $sorted_events); ?>
 
 
-                <?php if (!is_embedpress_pro_active()) : ?>
+                <?php if (!apply_filters('embedpress/is_allow_rander', false)) : ?>
                     <div class="overlay">
                         <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" class="overlay-button" target="_blank"><?php echo esc_html__('Get PRO to Unlock', 'embedpress'); ?></a>
                     </div>
