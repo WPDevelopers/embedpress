@@ -3870,52 +3870,81 @@ class Embedpress_Elementor extends Widget_Base
 
 		<div class="embedpress-elements-wrapper <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : '';
 			echo esc_attr($cEmbedType); ?>" id="ep-elements-id-<?php echo esc_attr($this->get_id()); ?>">
-			<?php
-				// handle notice display
-				if ($is_editor_view && $is_apple_podcast && !is_embedpress_pro_active()) {
-					?>
-					<p><?php esc_html_e('You need EmbedPress Pro to Embed Apple Podcast. Note. This message is only visible to you.', 'embedpress'); ?></p>
-					<?php
-				} else { ?>
-					<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_content_share'])) : echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper'); endif; ?> <?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); echo esc_attr(' source-' . $source); ?>">
-					<div id="<?php echo esc_attr($this->get_id()); ?>"
-						class="ep-embed-content-wrapper <?php echo isset($settings['custom_player_preset']) ? esc_attr($settings['custom_player_preset']) : ''; ?> <?php echo esc_attr($this->get_instafeed_layout($settings)); ?> <?php echo esc_attr($hosted_format); ?>"
+
+			<?php if(!apply_filters('embedpress/is_allow_rander', false) && $is_editor_view && $is_apple_podcast) : ?>
+
+				<p><?php esc_html_e('You need EmbedPress Pro to Embed Apple Podcast. Note. This message is only visible to you.', 'embedpress'); ?></p>
+			<?php else: ?>
+				<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" 
+					class="ep-elementor-content 
+					<?php 
+						if (!empty($settings['embedpress_content_share'])) : 
+							echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper'); 
+						endif; 
+					?> 
+					<?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); ?> 
+					<?php echo esc_attr('source-' . $source); ?>">
+
+					<div id="<?php echo esc_attr($this->get_id()); ?>" 
+						class="ep-embed-content-wrapper 
+						<?php echo isset($settings['custom_player_preset']) ? esc_attr($settings['custom_player_preset']) : ''; ?> 
+						<?php echo esc_attr($this->get_instafeed_layout($settings)); ?> 
+						<?php echo esc_attr($hosted_format); ?>" 
 						<?php echo $data_playerid; ?>
 						<?php echo $data_carouselid; ?>
 						<?php echo $this->get_custom_player_options($settings); ?>
 						<?php echo $this->get_instafeed_carousel_options($settings); ?>>
-							<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content
-							<?php if (!empty($settings['embedpress_content_share'])) : echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper'); endif; ?> 
-							<?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); echo esc_attr(' source-' . $source); ?>">
-								<div <?php echo $adsAtts; ?>>
-									<div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?>" <?php echo $data_player_id; ?> <?php echo $this->get_custom_player_options($settings); ?>>
-										<?php
-										$content_id = $client_id;
-										if ((empty($settings['embedpress_lock_content']) || empty($settings['embedpress_lock_content_password']) || $settings['embedpress_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct))) {
-											if (!empty($settings['embedpress_content_share'])) {
-												$content .= Helper::embed_content_share($content_id, $embed_settings);
-											}
-											echo $content;
-										} else {
-											if (!empty($settings['embedpress_content_share'])) {
-												$content .= Helper::embed_content_share($content_id, $embed_settings);
-											}
-											Helper::display_password_form($client_id, $content, $pass_hash_key, $embed_settings);
-										}
-										?>
-									</div>
+
+						<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" 
+							class="ep-elementor-content 
+							<?php 
+								if (!empty($settings['embedpress_content_share'])) : 
+									echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper'); 
+								endif; 
+							?> 
+							<?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); ?> 
+							<?php echo esc_attr('source-' . $source); ?>">
+
+							<div <?php echo $adsAtts; ?>>
+								<div id="<?php echo esc_attr($this->get_id()); ?>" 
+									class="ep-embed-content-wraper 
+									<?php echo esc_attr($settings['custom_payer_preset']); ?>" 
+									<?php echo $data_player_id; ?> 
+									<?php echo $this->get_custom_player_options($settings); ?>>
+
 									<?php
-									if (!empty($settings['adManager'])) {
-										$content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
+									$content_id = $client_id;
+									if (
+										(empty($settings['embedpress_lock_content']) || 
+										empty($settings['embedpress_lock_content_password']) || 
+										$settings['embedpress_lock_content'] == 'no') || 
+										(!empty(Helper::is_password_correct($client_id)) && 
+										($hash_pass === $password_correct))
+									) {
+										if (!empty($settings['embedpress_content_share'])) {
+											$content .= Helper::embed_content_share($content_id, $embed_settings);
+										}
+										echo $content;
+									} else {
+										if (!empty($settings['embedpress_content_share'])) {
+											$content .= Helper::embed_content_share($content_id, $embed_settings);
+										}
+										Helper::display_password_form($client_id, $content, $pass_hash_key, $embed_settings);
 									}
 									?>
 								</div>
+
+								<?php
+								if (!empty($settings['adManager'])) {
+									$content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
+								}
+								?>
 							</div>
 						</div>
 					</div>
-				<?php
-				}
-			?>
+				</div>
+			<?php endif;?>
+				
 		</div>
 
 

@@ -328,11 +328,13 @@ class Embedpress_Calendar extends Widget_Base
 
 
 					if ($is_editor_view && $is_private_cal) {
+						
 						if (!is_embedpress_pro_active()) { ?>
 							<p><?php esc_html_e('You need EmbedPress Pro to display Private Calendar Data.', 'embedpress'); ?></p>
 						<?php } else { ?>
 							<p><?php esc_html_e('Private Calendar Data will be displayed in the frontend', 'embedpress'); ?></p>
 						<?php }
+						
 					} else {
 						do_action('embedpress_google_helper_shortcode', 10);
 					}
