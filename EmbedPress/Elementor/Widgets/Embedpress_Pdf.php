@@ -933,7 +933,14 @@ class Embedpress_Pdf extends Widget_Base
                                 $embed = '<div>'.$embed_content.'</div>';
 
                                 $content_id = $client_id;
-                                if((empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password']) || $settings['embedpress_pdf_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
+                                if((empty($settings['embedpress_pdf_lock_content']) || 
+                                empty($settings['embedpress_pdf_lock_content_password']) || 
+                                $settings['embedpress_pdf_lock_content'] == 'no') || 
+                                (!empty(Helper::is_password_correct($client_id)) && 
+                                ($hash_pass === $password_correct)) ||
+								!apply_filters('embedpress/is_allow_rander', false)
+
+                                ){
                                     if(!empty($settings['embedpress_pdf_content_share'])){
                                         $embed  .= Helper::embed_content_share($content_id, $embed_settings);
                                     }
@@ -943,7 +950,7 @@ class Embedpress_Pdf extends Widget_Base
                                     if(!empty($settings['embedpress_pdf_content_share'])){
                                         $embed .= Helper::embed_content_share($content_id, $embed_settings);
                                     }
-                                    Helper::display_password_form($client_id, $embed, $pass_hash_key, $embed_settings);
+                                    do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $embed_settings);
                                 }
                             ?>
                         </div> 

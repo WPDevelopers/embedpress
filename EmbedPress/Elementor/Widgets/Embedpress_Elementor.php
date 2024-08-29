@@ -3919,7 +3919,8 @@ class Embedpress_Elementor extends Widget_Base
 										empty($settings['embedpress_lock_content_password']) || 
 										$settings['embedpress_lock_content'] == 'no') || 
 										(!empty(Helper::is_password_correct($client_id)) && 
-										($hash_pass === $password_correct))
+										($hash_pass === $password_correct) ) || 
+										!apply_filters('embedpress/is_allow_rander', false)
 									) {
 										if (!empty($settings['embedpress_content_share'])) {
 											$content .= Helper::embed_content_share($content_id, $embed_settings);
@@ -3929,7 +3930,7 @@ class Embedpress_Elementor extends Widget_Base
 										if (!empty($settings['embedpress_content_share'])) {
 											$content .= Helper::embed_content_share($content_id, $embed_settings);
 										}
-										Helper::display_password_form($client_id, $content, $pass_hash_key, $embed_settings);
+										do_action('embedpress/display_password_form', $client_id, $content, $pass_hash_key, $embed_settings);
 									}
 									?>
 								</div>

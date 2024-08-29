@@ -726,7 +726,14 @@ class Embedpress_Document extends Widget_Base
                         <?php
     
                         $content_id = $client_id;
-                        if ((empty($settings['embedpress_doc_lock_content']) || $settings['embedpress_doc_lock_content'] == 'no' || empty($settings['embedpress_doc_lock_content_password'])) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $_COOKIE['password_correct_' . $client_id]))) {
+                        if (
+                            (empty($settings['embedpress_doc_lock_content']) || 
+                            $settings['embedpress_doc_lock_content'] == 'no' || 
+                            empty($settings['embedpress_doc_lock_content_password'])) || 
+                            (!empty(Helper::is_password_correct($client_id)) && 
+                            ($hash_pass === $_COOKIE['password_correct_' . $client_id])) ||
+                            !apply_filters('embedpress/is_allow_rander', false)
+                            ) {
     
                             if (!empty($settings['embedpress_doc_content_share'])) {
                                 $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
@@ -738,7 +745,7 @@ class Embedpress_Document extends Widget_Base
                             if (!empty($settings['embedpress_doc_content_share'])) {
                                 $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
                             }
-                            Helper::display_password_form($client_id, $embed_content, $pass_hash_key, $embed_settings);
+                            do_action('embedpress/display_password_form', $client_id, $embed_content, $pass_hash_key, $embed_settings);
                         }
                         ?>
                     </div>
