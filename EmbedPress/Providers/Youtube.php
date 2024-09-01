@@ -615,36 +615,25 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
                                 $channel_info = get_option('youtube_channel_info_'.md5($options['channel_url']));
 
-                                // echo '<pre>';
-                                // print_r($options);
-                               
-
                                 $channelTitle = isset($channel_info['snippet']['title']) ? $channel_info['snippet']['title'] : null;
                                 $channelThumb = isset($channel_info['snippet']['thumbnails']['high']['url']) ? $channel_info['snippet']['thumbnails']['high']['url'] : null;
                                 $layout = $this->get_layout();
 
-                                // echo '<pre>';
-                                // print_r($channelTitle); 
-                                // print_r($channelTitle); 
                                 
                                 if($layout === 'gallery'){
                                     echo YoutubeLayout::create_gallery_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
                                 }
                                 else if($layout === 'grid'){
-                                    // echo YoutubeLayout::create_grid_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
-
                                     do_action('embedpress/youtube_grid_layout', $jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb);
                                 }
                                 else if($layout === 'list'){
                                     echo YoutubeLayout::create_list_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
                                 }
                                 else if($layout === 'carousel'){
-                                    // echo YoutubeLayout::create_carousel_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
                                     do_action('embedpress/youtube_carousel_layout', $jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb);
-
                                 }
                                 else{
-                                    echo YoutubeLayout::create_grid_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+                                    echo YoutubeLayout::create_gallery_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
 
                                 }
 

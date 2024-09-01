@@ -1081,14 +1081,14 @@ function embedpress_pdf_render_block($attributes)
 									$embed .= Helper::embed_content_share($content_id, $attributes);
 								}
 								echo '<div class="ep-embed-content-wraper">';
-								Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
+									do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $attributes);
 								echo '</div>';
 							}
 							?>
 
-				<?php 
+					<?php 
 					if(!empty($attributes['adManager'])) {
-						$embed .= Helper::generateAdTemplate($client_id, $attributes, 'gutenberg');
+						$embed = apply_filters('embedpress/generate_ad_template', $embed, $client_id, $attributes, 'gutenberg');
 					}
 				?>
 			</div>			

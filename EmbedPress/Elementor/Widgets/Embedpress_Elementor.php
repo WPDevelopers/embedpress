@@ -3989,9 +3989,10 @@ class Embedpress_Elementor extends Widget_Base
 								</div>
 
 								<?php
-								if (!empty($settings['adManager'])) {
-									$content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
-								}
+									if (!empty($settings['adManager'])) {
+										$content = apply_filters('embedpress/generate_ad_template', $content, $client_id, $settings, 'elementor');
+
+									}
 								?>
 							</div>
 						</div>
