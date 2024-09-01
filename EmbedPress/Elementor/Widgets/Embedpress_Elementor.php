@@ -743,6 +743,32 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->add_control(
+			'ytChannelLayout',
+			[
+				'label'       => __('Layout', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'label_block' => false,
+				'default' => 'gallery',
+				'options' => [
+					'gallery'  => esc_html__('Gallery', 'embedpress'),
+					'list'  => esc_html__('List', 'embedpress'),
+					'grid'  => sprintf(esc_html__('Grid %s', 'embedpress'), $this->pro_label),
+					'carousel'  => sprintf(esc_html__('Carousel %s', 'embedpress'), $this->pro_label),
+				],
+				'conditions'  => [
+					'terms' => [
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => '===',
+							'value' => 'youtube',
+						],
+					],
+				]
+			]
+		);
+
+
+		$this->add_control(
 			'pagesize',
 			[
 				'label'       => __('Video Per Page', 'embedpress'),
@@ -784,6 +810,16 @@ class Embedpress_Elementor extends Widget_Base
 							'operator' => '===',
 							'value' => 'youtube',
 						],
+						[
+							'name' => 'ytChannelLayout',
+							'operator' => '!==',
+							'value' => 'list',
+						],
+						[
+							'name' => 'ytChannelLayout',
+							'operator' => '!==',
+							'value' => 'carousel',
+						],
 					],
 				]
 			]
@@ -817,10 +853,15 @@ class Embedpress_Elementor extends Widget_Base
 							'operator' => '===',
 							'value' => 'youtube',
 						],
+						[
+							'name' => 'ytChannelLayout',
+							'operator' => '!==',
+							'value' => 'carousel',
+						],
 					],
 				],
 				'selectors' => [
-					'{{WRAPPER}} .ep-youtube__content__block .youtube__content__body .content__wrap' => 'gap: {{SIZE}}{{UNIT}}!important;margin-top: {{SIZE}}{{UNIT}}!important;',
+					'{{WRAPPER}} .ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel)' => 'gap: {{SIZE}}{{UNIT}}!important;margin-top: {{SIZE}}{{UNIT}}!important;',
 				],
 			]
 		);
@@ -835,10 +876,22 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off' => esc_html__('Hide', 'embedpress'),
 				'return_value' => 'show',
 				'default'      => 'show',
-				'condition'    => $yt_condition,
+				'condition'    => [
+					'terms' => [
+						[
+							'name' => 'embedpress_pro_embeded_source',
+							'operator' => '===',
+							'value' => 'youtube',
+						],
+						[
+							'name' => 'ytChannelLayout',
+							'operator' => '!==',
+							'value' => 'carousel',
+						],
+					],
+				],
 			]
 		);
-
 
 		$this->end_controls_section();
 	}
@@ -3449,7 +3502,7 @@ class Embedpress_Elementor extends Widget_Base
 			[
 				'label' => __('Height', 'embedpress'),
 				'type' => Controls_Manager::SLIDER,
-				'size_units' => ['px'],
+				'size_units' => ['px', '%'],
 				'range' => [
 					'px' => [
 						'min' => 0,
