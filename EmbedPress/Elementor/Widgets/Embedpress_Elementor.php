@@ -3949,7 +3949,6 @@ class Embedpress_Elementor extends Widget_Base
 		</div>
 
 
-
 		<?php if ($settings['embedpress_pro_embeded_source'] === 'youtube') : ?>
 			<style>
 				#ep-elements-id-<?php echo esc_html($this->get_id()); ?>.ep-youtube__content__block .youtube__content__body .content__wrap {
