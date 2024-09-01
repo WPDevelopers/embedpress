@@ -45,6 +45,8 @@ removedBlockID();
 export default function EmbedPress(props) {
 	const { attributes, className, setAttributes } = props;
 
+	console.log({attributes})
+
 	// @todo remove unused atts from here.
 	const {
 		url,
@@ -95,6 +97,12 @@ export default function EmbedPress(props) {
 	if (customPlayer) {
 		playerPresetClass = playerPreset;
 	}
+	let ytChannelClass = '';
+
+	if (_isYTChannel(url)) {
+		ytChannelClass = 'embedded-youtube-channel';
+	}
+	
 
 
 	let content_share_class = '';
@@ -307,6 +315,8 @@ export default function EmbedPress(props) {
 		}
 	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent]);
 
+	console.log(attributes);
+
 	return (
 		<Fragment>
 
@@ -353,23 +363,23 @@ export default function EmbedPress(props) {
 				) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTShorts || isWistiaVideo || isVimeoVideo || isCalendly || isInstagramFeed)) && (<figure {...blockProps} data-source-id={'source-' + clientId}>
-
-				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
-					<EmbedWrap
-						className={`position-${sharePosition}-wraper ep-embed-content-wraper ${playerPresetClass} ${instaLayoutClass}`}
-						style={{
-							display: fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isYTShorts && !isWistiaVideo && !isVimeoVideo && !isCalendly && !isInstagramFeed ? 'none' : isOpensea || isOpenseaSingle ? 'block' : 'inline-block',
-							position: 'relative'
-						}}
-						{...(customPlayer ? { 'data-playerid': md5(clientId) } : {})}
-						{...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})}
-						{...(instaLayout === 'insta-carousel' ? { 'data-carouselid': md5(clientId) } : {})}
-						{...(instaLayout === 'insta-carousel' ? { 'data-carousel-options': getCarouselOptions({ attributes }) } : {})}
-						dangerouslySetInnerHTML={{
-							__html: embedHTML + customLogoTemp + epMessage + shareHtml,
-						}}
-					></EmbedWrap>
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTShorts || isWistiaVideo || isVimeoVideo || isCalendly || isInstagramFeed)) && ( <figure {...blockProps} data-source-id={'source-' + clientId}>
+				
+					<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
+						<EmbedWrap
+							className={`position-${sharePosition}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}
+							style={{
+								display: fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isYTShorts && !isWistiaVideo && !isVimeoVideo && !isCalendly && !isInstagramFeed ? 'none' : isOpensea || isOpenseaSingle ? 'block' : 'inline-block',
+								position: 'relative'
+							}}
+							{...(customPlayer ? { 'data-playerid': md5(clientId) } : {})}
+							{...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})}
+							{...(instaLayout === 'insta-carousel' ? { 'data-carouselid': md5(clientId) } : {})}
+							{...(instaLayout === 'insta-carousel' ? { 'data-carousel-options': getCarouselOptions({ attributes }) } : {})}
+							dangerouslySetInnerHTML={{
+								__html: embedHTML + customLogoTemp + epMessage + shareHtml,
+							}}
+						></EmbedWrap>
 
 					{
 						adManager && (adSource === 'image') && adFileUrl && (

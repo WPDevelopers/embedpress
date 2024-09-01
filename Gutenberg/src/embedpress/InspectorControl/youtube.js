@@ -68,6 +68,7 @@ export const getYoutubeParams = (params, attributes) => {
     if (isYTChannel(attributes.url) && !isYTLive(attributes.url)) {
         ytcAtts = {
             pagesize: 6,
+            ytChannelLayout: 'gallery',
         }
     }
 
@@ -122,6 +123,7 @@ export const useYTChannel = (attributes) => {
     // which attribute should call embed();
     const defaults = {
         pagesize: null,
+        ytChannelLayout: null,
     };
 
     const param = getParams({}, attributes, defaults);
@@ -195,6 +197,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         url,
         ispagination,
         pagesize,
+        ytChannelLayout,
         columns,
         gapbetweenvideos,
         videosize,
@@ -210,6 +213,8 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         relatedvideos,
         customPlayer
     } = attributes;
+
+    console.log(attributes);
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
@@ -232,6 +237,21 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
     const togglePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Closed Captions', 'embedpress'), true);
     const selectPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Modest Branding', 'embedpress'), 'display', 'Display');
 
+    if (ytChannelLayout === 'grid' && columns === 1) {
+        setAttributes({ columns: 3 });
+    }
+    if (ytChannelLayout === 'list') {
+        setAttributes({ columns: 1 });
+    }
+    let videoPerPageText = 'Video per page';
+    if (ytChannelLayout === 'carousel') {
+        videoPerPageText = "Number of videos (max 50)"
+    }
+
+    let proLabel = ' (Pro)';
+    if (isProPluginActive) {
+        proLabel = '';
+    }
 
     return (
         <div>
@@ -240,44 +260,73 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
             {
                 (isYTChannel && !isYTLive) && (
                     <div className={'ep__channel-yt-video-options'}>
-                        <TextControl
-                            label={__("Video Per Page")}
-                            value={pagesize}
-                            onChange={(pagesize) => setAttributes({ pagesize })}
-                            type={'number'}
-                            max={50}
-                        />
-                        <p>Specify the number of videos you wish to show on each page.</p>
-
                         <SelectControl
-                            label={__("Column")}
-                            value={columns}
+                            label={__("Layout")}
+                            value={ytChannelLayout}
                             options={[
-                                { label: 'Auto', value: 'auto' },
-                                { label: '2', value: '2' },
-                                { label: '3', value: '3' },
-                                { label: '4', value: '4' },
-                                { label: '6', value: '6' },
+                                { label: 'Gallery', value: 'gallery' },
+                                { label: 'List', value: 'list' },
+                                { label: 'Grid' + proLabel, value: 'grid' },
+                                { label: 'Carousel' + proLabel, value: 'carousel' },
                             ]}
-                            onChange={(columns) => setAttributes({ columns })}
+                            onChange={(ytChannelLayout) => setAttributes({ ytChannelLayout })}
                             __nextHasNoMarginBottom
                         />
 
-                        <RangeControl
-                            label={__('Gap Between Videos')}
-                            value={gapbetweenvideos}
-                            onChange={(gap) => setAttributes({ gapbetweenvideos: gap })}
-                            min={1}
-                            max={100}
+                        <TextControl
+                            label={__(videoPerPageText)}
+                            value={pagesize}
+                            onChange={(pagesize) => setAttributes({ pagesize })}
+                        // type={'number'}
+                        // max={50}
                         />
-                        <p>Specify the gap between youtube videos.</p>
+                        <p>Specify the number of videos you wish to show on each page.</p>
+
+                        {
+                            ytChannelLayout !== 'list' && ytChannelLayout !== 'carousel' && (
+                                <SelectControl
+                                    label={__("Column")}
+                                    value={columns}
+                                    options={[
+                                        { label: 'Auto', value: 'auto' },
+                                        { label: '1', value: '1' },
+                                        { label: '2', value: '2' },
+                                        { label: '3', value: '3' },
+                                        { label: '4', value: '4' },
+                                        { label: '6', value: '6' },
+                                    ]}
+                                    onChange={(columns) => setAttributes({ columns })}
+                                    __nextHasNoMarginBottom
+                                />
+
+                            )
+                        }
+                        {
+                            ytChannelLayout !== 'carousel' && (
+                                <div>
+                                    <RangeControl
+                                        label={__('Gap Between Videos')}
+                                        value={gapbetweenvideos}
+                                        onChange={(gap) => setAttributes({ gapbetweenvideos: gap })}
+                                        min={1}
+                                        max={100}
+                                    />
+                                    <p>Specify the gap between youtube videos.</p>
+                                </div>
+                            )
+                        }
 
 
-                        <ToggleControl
-                            label={__("Pagination")}
-                            checked={ispagination}
-                            onChange={(ispagination) => setAttributes({ ispagination })}
-                        />
+
+                        {
+                            (ytChannelLayout != 'carousel') && (
+                                <ToggleControl
+                                    label={__("Pagination")}
+                                    checked={ispagination}
+                                    onChange={(ispagination) => setAttributes({ ispagination })}
+                                />
+                            )
+                        }
 
                         <div className={'ep-tips-and-tricks'}>
                             {EPIcon}

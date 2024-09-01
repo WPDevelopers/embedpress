@@ -66,6 +66,8 @@ if(!function_exists('lock_content_form_handler')){
 
 function embedpress_block_scripts($attributes) {
 
+	// print_r($attributes); die;
+
 	$script_handles = [];
 
 	if(!empty($attributes['customPlayer'])){
@@ -80,7 +82,7 @@ function embedpress_block_scripts($attributes) {
 		$script_handles[] = 'embedpress-ads';
 	}
 
-	if(!empty($attributes['instaLayout']) && $attributes['instaLayout'] == 'insta-carousel'){
+	if((!empty($attributes['instaLayout']) && $attributes['instaLayout'] == 'insta-carousel') || (!empty($attributes['ytChannelLayout']) && $attributes['ytChannelLayout'] == 'carousel')){
 		$script_handles[] = 'cg-carousel';
 	}
 
@@ -94,7 +96,7 @@ function embedpress_block_scripts($attributes) {
 		$style_handles[] = 'plyr';
 	}
 
-	if(!empty($attributes['instaLayout']) && $attributes['instaLayout'] == 'insta-carousel'){
+	if((!empty($attributes['instaLayout']) && $attributes['instaLayout'] == 'insta-carousel') || (!empty($attributes['ytChannelLayout']) && $attributes['ytChannelLayout'] == 'carousel')){
 		$style_handles[] = 'cg-carousel';
 	}
 
@@ -272,6 +274,11 @@ function embedpress_render_block($attributes)
 			$hosted_format = isset($self_hosted['format']) ? $self_hosted['format'] : '';
 		}
 
+		$yt_channel_class = '';
+		if(Helper::is_youtube_channel($attributes['url'])){
+			$yt_channel_class = 'embedded-youtube-channel';
+		}
+
 		ob_start();
 		?>
 		<div class="embedpress-gutenberg-wrapper <?php echo esc_attr( $alignment.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class); echo esc_attr( $cEmbedType ); ?>" id="<?php echo esc_attr($block_id); ?>">
@@ -288,7 +295,7 @@ function embedpress_render_block($attributes)
 								echo esc_attr($player_preset);
 							} 
 							echo esc_attr($instaLayout);
-						?> <?php echo esc_attr($hosted_format); ?>" 
+						?> <?php echo esc_attr($hosted_format); ?> <?php echo esc_attr($yt_channel_class); ?>" 
 						<?php echo esc_attr($_custom_player); ?> 
 						<?php echo esc_attr($_player_options); ?> 
 						<?php echo esc_attr( $_carousel_id ); ?>
@@ -339,7 +346,6 @@ function embedpress_render_block($attributes)
 
 function embedpress_render_block_style($attributes)
 {
-
 	$uniqid = !empty($attributes['url']) ? '.ose-uid-' . md5($attributes['url']) : '';
 	$client_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
 

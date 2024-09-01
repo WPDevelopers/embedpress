@@ -17,6 +17,10 @@ use Embera\Provider\ProviderAdapter;
 use Embera\Provider\ProviderInterface;
 use Embera\Url;
 
+use EmbedPress\Includes\Classes\Helper;
+
+use EmbedPress\Providers\TemplateLayouts\YoutubeLayout;
+
 /**
  * youtube.com Provider
  * @link https://youtube.com
@@ -32,7 +36,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     protected $endpoint = 'https://www.youtube.com/oembed?format=json&scheme=https';
     protected static $channel_endpoint = 'https://www.googleapis.com/youtube/v3/';
     /** @var array Array with allowed params for the current Provider */
-    protected $allowedParams = [ 'maxwidth', 'maxheight', 'pagesize', 'thumbnail', 'gallery', 'hideprivate', 'columns', 'ispagination', 'gapbetweenvideos' ];
+    protected $allowedParams = [ 'maxwidth', 'maxheight', 'pagesize', 'thumbnail', 'gallery', 'hideprivate', 'columns', 'ispagination', 'gapbetweenvideos', 'ytChannelLayout' ];
 
     /** inline {@inheritdoc} */
     protected static $hosts = [
@@ -59,6 +63,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     public function normalizeUrl(Url $url) {
         return $url;
     }
+    
 
     public function isChannel($url = null) {
         if (empty($url)) {
@@ -85,10 +90,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             }
         }
         
-        // $channel___id = $this->get_channel_id_by_handler('adin');
-
-        // echo 'akash';
-        // print_r($channel___id); die;
+        
 
         if(empty($matches[1])){
             preg_match('~\/(@)(\w+)~i', (string) $url, $matches);
@@ -119,12 +121,12 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         return (string) $this->endpoint;
     }
 
-    protected static function get_api_key() {
+    protected function get_api_key() {
         $settings = (array) get_option(EMBEDPRESS_PLG_NAME . ':youtube', []);
         return !empty($settings['api_key']) ? $settings['api_key'] : '';
     }
 
-    protected static function get_pagesize() {
+    protected function get_pagesize() {
         $settings = (array) get_option(EMBEDPRESS_PLG_NAME . ':youtube', []);
         return !empty($settings['pagesize']) ? $settings['pagesize'] : '';
     }
@@ -132,10 +134,11 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
     /** inline {@inheritdoc} */
     public function getParams() {
         $params = parent::getParams();
-        if ($this->isChannel() && self::get_api_key()) {
+
+        if ($this->isChannel() && $this->get_api_key()) {
             $channel        = $this->getChannel();
             $params['part'] = 'contentDetails,snippet';
-            $params['key']  = self::get_api_key();
+            $params['key']  = $this->get_api_key();
             if ($channel['type'] == 'c') {
                 $params['forUsername'] = $channel['id'];
             } else {
@@ -205,6 +208,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $channel = $this->getChannelGallery();
             $results = array_merge($results, $channel);
         }
+        
         return $results;
     }
 
@@ -227,16 +231,16 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             $channel_url = $this->constructUrl('channels', $this->getParams());
         }
 
-        if (empty(self::get_api_key())) {
+        if (empty($this->get_api_key())) {
             $result['error'] = true;
-            $result['html'] = self::get_api_key_error_message();
+            $result['html'] = $this->get_api_key_error_message();
             return $result;
         }
 
         $apiResult = wp_remote_get($channel_url, array('timeout' => self::$curltimeout));
         if (is_wp_error($apiResult)) {
             $result['error'] = true;
-            $result['html'] = self::clean_api_error_html($apiResult->get_error_message(), true);
+            $result['html'] = $this->clean_api_error_html($apiResult->get_error_message(), true);
             set_transient($transient_key, $result, 10);
             return $result;
         }
@@ -246,10 +250,10 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         if (isset($jsonResult->error)) {
             $result['error'] = true;
             if (isset($jsonResult->error->message)) {
-                $result['html'] = self::clean_api_error_html($jsonResult->error->message, true);
+                $result['html'] = $this->clean_api_error_html($jsonResult->error->message, true);
             }
             else{
-                $result['html'] = self::clean_api_error_html(__('Sorry, there may be an issue with your YouTube API key.', 'embedpress'));
+                $result['html'] = $this->clean_api_error_html(__('Sorry, there may be an issue with your YouTube API key.', 'embedpress'));
             }
             set_transient($transient_key, $result, MINUTE_IN_SECONDS);
             return $result;
@@ -285,7 +289,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             preg_match("/<meta\s+itemprop=[\"']channelId[\"']\s+content=[\"'](.*?)[\"']\/?>/", $channel_html, $matches);
             if(!empty($matches[1])){
                 $url = "https://www.youtube.com/channel/{$matches[1]}";
-                $this->url = $this->normalizeUrl(new Url($url));
+                $url = $this->normalizeUrl(new Url($url));
             }
         }
     }
@@ -325,6 +329,20 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             return $channel_id;
         }
     }
+
+    public function layout_data(){
+        $data = [];
+        $data['get_pagesize'] = $this->get_pagesize(); 
+        $data['get_api_key'] = $this->get_api_key(); 
+        $data['get_api_key_error_message'] = $this->get_api_key_error_message(); 
+        $data['get_channel_info'] = $this->get_channel_info(); 
+        $data['get_api_key'] = $this->get_api_key(); 
+        $data['curltimeout'] = self::$curltimeout; 
+        $data['self::class'] = self::class; 
+
+        return $data;
+
+    }
     
 
     /** inline {@inheritdoc} */
@@ -346,34 +364,124 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             if(!empty($params['pagesize'])){
                 $gallery_args['pagesize'] = $params['pagesize'];
             }
-            $gallery         = self::get_gallery_page($gallery_args);
 
-            if (!empty($gallery->first_vid)) {
+            $layout_data = $this->layout_data();
+
+            
+            // $gallery         = $this->get_gallery_page($gallery_args);
+
+            $channel_layout = 'layout-gallery';
+
+            $gallery  = YoutubeLayout::create_youtube_layout($gallery_args, $layout_data, $channel_layout, $this->url);
+
+            if(isset($params['ytChannelLayout'])){
+                if($params['ytChannelLayout'] === 'gallery'){
+                    $channel_layout = 'layout-gallery';
+
+                }
+                else if($params['ytChannelLayout'] === 'grid'){
+                    $channel_layout = 'layout-grid';
+                }
+                else if($params['ytChannelLayout'] === 'list'){
+                    $channel_layout = 'layout-list';
+
+                }
+                else if($params['ytChannelLayout'] === 'carousel'){
+                    $channel_layout = 'layout-carousel';
+
+                }
+
+
+
+                $gallery  = YoutubeLayout::create_youtube_layout($gallery_args, $layout_data, $params['ytChannelLayout'], $this->url);
+
+            }
+
+
+            $main_iframe = '';
+            if (!empty($gallery->first_vid) && isset($params['ytChannelLayout']) && $params['ytChannelLayout'] === 'gallery') {
                 $rel = "https://www.youtube.com/embed/{$gallery->first_vid}?feature=oembed";
                 $main_iframe = "<div class='ep-first-video'><iframe width='{$params['maxwidth']}' height='{$params['maxheight']}' src='$rel' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture' allowfullscreen title='{$title}'></iframe></div>";
             }
-            if($gallery->html && $this->validateTYLiveUrl($this->getUrl())){
-                $styles      = self::styles($params, $this->getUrl());
+
+            if (!is_embedpress_pro_active() && isset($params['ytChannelLayout']) && ($params['ytChannelLayout'] == 'grid' || $params['ytChannelLayout'] == 'carousel')) {
+                return [];
+            }            
+
+            if ($gallery->html) {
+                $styles = $this->styles($params, $this->getUrl());
+                $html_content = $main_iframe . $gallery->html . ' ' . $styles;
+
+                if ($this->validateTYLiveUrl($this->getUrl())) {
+                    return [
+                        "title" => $title,
+                        "html"  => "<div class='ep-player-wrap'>$main_iframe $styles</div>",
+                    ];
+                }
+
                 return [
-                    "title"         => $title,
-                    "html"          => "<div class='ep-player-wrap'>$main_iframe $styles</div>",
+                    "title" => $title,
+                    "html"  => "<div class='ep-player-wrap $channel_layout'>$html_content</div>",
                 ];
             }
-            if($gallery->html){
-                $styles      = self::styles($params, $this->getUrl());
-                return [
-                    "title"         => $title,
-                    "html"          => "<div class='ep-player-wrap'>$main_iframe {$gallery->html} $styles</div>",
-                ];
-            }
+
         }
-        elseif ($this->isChannel() && empty(self::get_api_key()) && current_user_can('manage_options')) {
+        elseif ($this->isChannel() && empty($this->get_api_key()) && current_user_can('manage_options')) {
             return [
                 "html"          => "<div class='ep-player-wrap'>" . __('Please enter your YouTube API key to embed YouTube Channel.', 'embedpress') . "</div>",
             ];
         }
 
         return $response;
+    }
+    
+
+    public function get_channel_info() {
+        $api_key = $this->get_api_key();
+        $channel_id = $this->getChannel($this->url);
+        $channel_id = $channel_id['id'];
+
+
+        // Create a unique transient key based on the channel ID
+        $transient_key = 'youtube_channel_info_' . $channel_id;
+
+        // Attempt to get cached response
+        $channel_info = get_transient($transient_key);
+
+        if ($channel_info === false) {
+            // No cached response, make the API call
+            $endpoint = "https://www.googleapis.com/youtube/v3/channels?part=snippet%2Cstatistics&id=$channel_id&key=$api_key";
+            $response = wp_remote_get($endpoint);
+
+            if (is_wp_error($response)) {
+                return 'Error fetching channel info';
+            }
+
+            $body = wp_remote_retrieve_body($response);
+            $data = json_decode($body, true);
+
+            if (empty($data['items'])) {
+                return 'No channel information found';
+            }
+
+            $channel_info = $data['items'][0];
+            
+
+            // Cache the response for 1 hour
+            set_transient($transient_key, $channel_info, HOUR_IN_SECONDS);
+        }
+
+        update_option('youtube_channel_info_'. md5($this->url), $channel_info);
+
+
+        return $channel_info;
+        
+    }
+
+    
+    public function get_layout() {
+        $params = $this->getParams();
+        return isset($params['ytChannelLayout']) ? $params['ytChannelLayout'] : '';
     }
 
     /**
@@ -382,48 +490,55 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
      * @param array $options
      * @return object
      */
-    public static function get_gallery_page($options) {
+    public function get_gallery_page($options) {
+
         $nextPageToken = '';
         $prevPageToken = '';
         $gallobj       = new \stdClass();
         $options       = wp_parse_args($options, [
             'playlistId'  => '',
             'pageToken'   => '',
-            'pagesize'    => self::get_pagesize() ? self::get_pagesize() : 6,
+            'pagesize'    => $this->get_pagesize() ? $this->get_pagesize() : 6,
             'currentpage' => '',
             'columns'     => 3,
+            'ytChannelLayout' => 'gallery',
             'thumbnail'   => 'medium',
             'gallery'     => true,
             'autonext'    => true,
             'thumbplay'   => true,
-            'apiKey'      => self::get_api_key(),
+            'apiKey'      => $this->get_api_key(),
             'hideprivate' => '',
         ]);
         $options['pagesize'] = $options['pagesize'] > 50 ? 50 : $options['pagesize'];
         $options['pagesize'] = $options['pagesize'] < 1 ? 1 : $options['pagesize'];
 
         if (empty($options['apiKey'])) {
-            $gallobj->html = self::get_api_key_error_message();
+            $gallobj->html = $this->get_api_key_error_message();
             return $gallobj;
         }
 
-        $apiEndpoint = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,status&playlistId=' . $options['playlistId']
+        $apiEndpoint = 'https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,status,contentDetails&playlistId=' . $options['playlistId']
             . '&maxResults=' . $options['pagesize']
             . '&key=' . $options['apiKey'];
         if ($options['pageToken'] != null) {
             $apiEndpoint .= '&pageToken=' . $options['pageToken'];
         }
 
+
+
         $transient_key          = 'ep_embed_youtube_channel_' . md5($apiEndpoint);
         $gallobj->transient_key = $transient_key;
         $jsonResult             = get_transient($transient_key);
+
+
         if (empty($jsonResult)) {
             $apiResult = wp_remote_get($apiEndpoint, array('timeout' => self::$curltimeout));
             if (is_wp_error($apiResult)) {
-                $gallobj->html = self::clean_api_error_html($apiResult->get_error_message(), true);
+                $gallobj->html = $this->clean_api_error_html($apiResult->get_error_message(), true);
                 return $gallobj;
             }
             $jsonResult = json_decode($apiResult['body']);
+            
             if (empty($jsonResult->error)) {
                 set_transient($transient_key, $jsonResult, MINUTE_IN_SECONDS * 20);
             }
@@ -433,16 +548,17 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
 
 
+
         if (isset($jsonResult->error)) {
             if(!empty($jsonResult->error->errors[0]->reason) && $jsonResult->error->errors[0]->reason == 'playlistNotFound'){
-                $gallobj->html = self::clean_api_error_html(__('There is nothing on the playlist.', 'embedpress'));
+                $gallobj->html = $this->clean_api_error_html(__('There is nothing on the playlist.', 'embedpress'));
                 return $gallobj;
             }
             if (isset($jsonResult->error->message)) {
-                $gallobj->html = self::clean_api_error_html($jsonResult->error->message);
+                $gallobj->html = $this->clean_api_error_html($jsonResult->error->message);
                 return $gallobj;
             }
-            $gallobj->html = self::clean_api_error_html(__('Sorry, there may be an issue with your YouTube API key.', 'embedpress'));
+            $gallobj->html = $this->clean_api_error_html(__('Sorry, there may be an issue with your YouTube API key.', 'embedpress'));
             return $gallobj;
         }
 
@@ -451,6 +567,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         $resultsPerPage = $jsonResult->pageInfo->resultsPerPage;
         $totalResults = $jsonResult->pageInfo->totalResults;
         $totalPages = ceil($totalResults / $resultsPerPage);
+
         if (isset($jsonResult->nextPageToken)) {
             $nextPageToken = $jsonResult->nextPageToken;
         }
@@ -464,13 +581,13 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
             if($options['gallery'] === "false"){
                 $gallobj->html = "";
                 if(count($jsonResult->items) === 1){
-                    $gallobj->first_vid = self::get_id($jsonResult->items[0]);
+                    $gallobj->first_vid = $this->get_id($jsonResult->items[0]);
                 }
                 return $gallobj;
             }
 
             if(count($jsonResult->items) === 1 && empty($nextPageToken) && empty($prevPageToken)){
-                $gallobj->first_vid = self::get_id($jsonResult->items[0]);
+                $gallobj->first_vid = $this->get_id($jsonResult->items[0]);
                 $gallobj->html = "";
                 return $gallobj;
             }
@@ -480,17 +597,60 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                 usort($jsonResult->items, array(self::class, 'compare_vid_date')); // sorts in place
             }
             
-
             ob_start();
+
             ?>
+
             <div class="ep-youtube__content__block"  data-unique-id="<?php echo wp_rand(); ?>">
                 <div class="youtube__content__body">
+                    <?php 
+                     ?>
+
                     <div class="content__wrap">
+
+                    <?php 
+
+                                $data = $this->layout_data();
+
+
+                                $channel_info = get_option('youtube_channel_info_'.md5($options['channel_url']));
+
+                                // echo '<pre>';
+                                // print_r($options);
+                               
+
+                                $channelTitle = isset($channel_info['snippet']['title']) ? $channel_info['snippet']['title'] : null;
+                                $channelThumb = isset($channel_info['snippet']['thumbnails']['high']['url']) ? $channel_info['snippet']['thumbnails']['high']['url'] : null;
+                                $layout = $this->get_layout();
+
+                                // echo '<pre>';
+                                // print_r($channelTitle); 
+                                // print_r($channelTitle); 
+                                
+                                if($layout === 'gallery'){
+                                    echo YoutubeLayout::create_gallery_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+                                }
+                                else if($layout === 'grid'){
+                                    echo YoutubeLayout::create_grid_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+                                }
+                                else if($layout === 'list'){
+                                    echo YoutubeLayout::create_list_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+                                }
+                                else if($layout === 'carousel'){
+                                    echo YoutubeLayout::create_carousel_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+                                }
+                                else{
+                                    echo YoutubeLayout::create_grid_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb); 
+
+                                }
+
+                        ?>
+<!--                         
                         <?php foreach ($jsonResult->items as $item) : ?>
                             <?php
                             $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
-                            $thumbnail = self::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
-                            $vid = self::get_id($item);
+                            $thumbnail = $this->get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
+                            $vid = $this->get_id($item);
                             if (empty($gallobj->first_vid)) {
                                 $gallobj->first_vid = $vid;
                             }
@@ -509,12 +669,16 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
                                 </div>
                             </div>
 
-                        <?php endforeach; ?>
+                        <?php endforeach; ?> -->
+
                         <div class="item" style="height: 0"></div>
                     </div>
 
 
-                    <?php if ($totalPages > 1) : ?>
+                    <?php 
+                    $layout = $this->get_layout();
+                    
+                    if ($totalPages > 1 && $layout !== 'carousel') : ?>
                         <div class="ep-youtube__content__pagination <?php echo (empty($prevPageToken) && empty($nextPageToken)) ? ' hide ' : ''; ?>">
                             <div
                                 class="ep-prev" <?php echo empty($prevPageToken) ? ' style="display:none" ' : ''; ?>
@@ -616,26 +780,27 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
                 </div>
             </div>
+            
             <?php
             $gallobj->html = ob_get_clean();
         else:
-            $gallobj->html = self::clean_api_error_html(__("There is nothing on the playlist.", 'embedpress'));
+            $gallobj->html = $this->clean_api_error_html(__("There is nothing on the playlist.", 'embedpress'));
         endif;
 
         return $gallobj;
     }
 
-    public static function get_api_key_error_message(){
+    public function get_api_key_error_message(){
         return '<div>' . sprintf(__("EmbedPress: Please enter your YouTube API key at <a class='ep-link' href='%s' target='_blank' style='color: #5b4e96; text-decoration: none'>EmbedPress > Platforms > YouTube</a> to embed YouTube Channel.", "embedpress"), admin_url('?page=embedpress&page_type=youtube#api_key'))  . '</div>';
     }
 
-    public static function get_id($item){
+    public function get_id($item){
         $vid = isset($item->snippet->resourceId->videoId) ? $item->snippet->resourceId->videoId : null;
         $vid = $vid ? $vid : (isset($item->id->videoId) ? $item->id->videoId : null);
         $vid = $vid ? $vid : (isset($item->id) ? $item->id : null);
         return $vid;
     }
-    public static function get_thumbnail_url($item, $quality, $privacyStatus) {
+    public function get_thumbnail_url($item, $quality, $privacyStatus) {
         $url = "";
         if ($privacyStatus == 'private') {
             $url = EMBEDPRESS_URL_ASSETS . 'images/youtube/private.png';
@@ -653,21 +818,21 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         return $url;
     }
 
-    public static function compare_vid_date($a, $b) {
+    public function compare_vid_date($a, $b) {
         if ($a->snippet->publishedAt == $b->snippet->publishedAt) {
             return 0;
         }
         return ($a->snippet->publishedAt > $b->snippet->publishedAt) ? -1 : 1;
     }
 
-    public static function clean_api_error($raw_message) {
+    public function clean_api_error($raw_message) {
         return htmlspecialchars(strip_tags(preg_replace('@&key=[^& ]+@i', '&key=*******', $raw_message)));
     }
 
-    public static function clean_api_error_html($raw_message) {
+    public function clean_api_error_html($raw_message) {
         $clean_html = '';
         if ((defined('REST_REQUEST') && REST_REQUEST) || current_user_can('manage_options')) {
-            $clean_html = '<div>' . __('EmbedPress: ', 'embedpress') . self::clean_api_error($raw_message) . '</div>';
+            $clean_html = '<div>' . __('EmbedPress: ', 'embedpress') . $this->clean_api_error($raw_message) . '</div>';
         }
         return $clean_html;
     }
@@ -695,209 +860,20 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         ];
     }
 
-    // public static $num = 0;
+    // public $num = 0;
 
 
 
-    public static $x = 0;
+    public $x = 0;
 
-    public static function styles($params, $url){
+    public function styles($params, $url){
 
         $uniqid = '.ose-youtube.ose-uid-'.md5($url);
 
         ob_start();
         ?>
         <style>
-            html {
-                scroll-behavior: smooth;
-            }
-        .ep-player-wrap .hide {
-            display: none;
-        }
-
-        .ep-gdrp-content {
-            background: #222;
-            padding: 50px 30px;
-            color: #fff;
-        }
-
-        .ep-gdrp-content a {
-            color: #fff;
-        }
-
-        .ep-youtube__content__pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 30px;
-            gap: 10px;
-        }
-        .ep-loader-wrap {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .ep-youtube__content__pagination .ep-prev,
-        .ep-youtube__content__pagination .ep-next {
-            cursor: pointer;
-            border: 1px solid rgba(0, 0, 0, .1);
-            border-radius: 30px;
-            padding: 0 20px;
-            height: 40px;
-            transition: .3s;
-            display: flex;
-            align-items: center;
-        }
-        .ep-youtube__content__pagination .ep-prev:hover,
-        .ep-youtube__content__pagination .ep-next:hover{
-            background-color: #5B4E96;
-            color: #fff;
-        }
-        .ep-youtube__content__pagination .ep-page-numbers {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .ep-youtube__content__pagination .ep-page-numbers > span {
-            border: 1px solid rgba(0, 0, 0, .1);
-            border-radius: 30px;
-            display: inline-block;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .active__current_page{
-            background: #5B4E96;
-            color: #fff;
-        }
-
-        .ep-youtube__content__block .youtube__content__body .content__wrap {
-            margin-top: 30px;
-            display: grid;
-            grid-template-columns:repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .ep-youtube__content__block .item {
-            cursor: pointer;
-            white-space: initial;
-        }
-
-        .ep-youtube__content__block .item:hover .thumb .play-icon {
-            opacity: 1;
-            top: 50%;
-        }
-
-        .ep-youtube__content__block .item:hover .thumb:after {
-            opacity: .4;
-            z-index: 0;
-        }
-
-        .ep-youtube__content__block .thumb {
-            padding-top: 56.25%;
-            margin-bottom: 5px;
-            position: relative;
-            background: #222;
-            background-size: contain !important;
-        }
-
-        .ep-youtube__content__block .thumb:after {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 100%;
-            content: '';
-            background: #000;
-            opacity: 0;
-            transition: opacity .3s ease;
-        }
-
-        .ep-youtube__content__block .thumb:before {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            width: 100%;
-            content: '';
-            background: #222;
-            z-index: -1;
-        }
-
-        .ep-youtube__content__block .thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .ep-youtube__content__block .thumb .play-icon {
-            width: 50px;
-            height: auto;
-            position: absolute;
-            top: 40%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: all .3s ease;
-            z-index: 2;
-        }
-
-        .ep-youtube__content__block .thumb .play-icon img {
-            width: 100;
-        }
-
-        .ep-youtube__content__block .body p {
-            margin-bottom: 0;
-            font-size: 15px;
-            text-align: left;
-            line-height: 1.5;
-            font-weight: 400;
-        }
-        .ep-youtube__content__block.loading .ep-youtube__content__pagination {
-            display: none;
-        }
-
-        .ep-youtube__content__block .ep-loader {
-            display: none;
-        }
-
-        .ep-youtube__content__block.loading .ep-loader {
-            display: block;
-        }
-        .ep-loader img {
-            width: 20px;
-        }
-        .is_mobile_device{
-            display: none!important;
-        }
-
-
-        .is_mobile_devic.ep-page-numbers {
-            gap: 5px;
-        }
-
-        @media only screen and (max-width: 480px) {
-            .is_desktop_device{
-                display: none!important;
-            }
-            .ep-youtube__content__pagination .ep-page-numbers > span {
-                width: 35px;
-                height: 35px;
-            }
-            .ep-youtube__content__pagination .ep-prev, .ep-youtube__content__pagination .ep-next{
-                height: 35px;
-            }
-            .is_mobile_device{
-                display: flex!important;;
-            }
-            .ep-youtube__content__pagination .ep-page-numbers {
-                gap: 5px;
-            }
-        }
+        
         <?php
         $attributes_data = $params;
 
@@ -925,13 +901,23 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
         }
 
         ?>
-        <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .youtube__content__body .content__wrap {
+        <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel) {
             gap: <?php echo esc_html($gap); ?>px !important;
             margin-top: <?php echo esc_html($gap); ?>px !important;
             grid-template-columns: <?php echo $repeatCol; ?>;
         }
         <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .ep-youtube__content__pagination {
             display: <?php echo esc_html($is_pagination); ?>!important;
+        }
+
+        <?php echo esc_attr($uniqid); ?> .layout-list .ep-youtube__content__block .youtube__content__body .content__wrap{
+            grid-template-columns: repeat(auto-fit, minmax(calc(100% - 30px), 1fr))!important;
+        }
+
+        @media (max-width: 420px) {
+            <?php echo esc_attr($uniqid); ?> .ep-youtube__content__block .youtube__content__body .content__wrap:not(.youtube-carousel) {
+                gap: 30px !important;
+            }
         }
 
         <?php

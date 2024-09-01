@@ -1,14 +1,14 @@
 #wpnotice-embedpress-optin {
-	display: block !important;
+    display: block !important;
 }
 
-.wpnotice-content-wrapper > p {
+.wpnotice-content-wrapper>p {
     margin-top: 0px;
     margin-bottom: 0px;
 }
 
 #wpnotice-embedpress-freedom30 .wpnotice-thumbnail-wrapper {
-	padding: 10px 0px 10px 0px !important;
+    padding: 10px 0px 10px 0px !important;
 }
 
 .wpnotice-thumbnail-wrapper img {
@@ -26,124 +26,208 @@
 
 
 .notice-embedpress-review {
-padding: 10px;
-background-color: #fff;
-border-radius: 3px;
-margin: 15px;
-display: -webkit-box;
-display: -ms-flexbox;
-display: flex;
--webkit-box-align: center;
--ms-flex-align: center;
-align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 3px;
+    margin: 15px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
 }
+
 .notice-embedpress-review:after {
-content: "";
-display: table;
-clear: both;
+    content: "";
+    display: table;
+    clear: both;
 }
-.wpdeveloper-update-notice{
-margin-top: 20px;
+
+.wpdeveloper-update-notice {
+    margin-top: 20px;
 }
+
 .wpdeveloper-update-notice .notice-dismiss {
-top: auto;
+    top: auto;
 }
+
 .wpdeveloper-notice-thumbnail {
-width: 40px;
-float: left;
-padding: 5px 5px 5px 10px;
-text-align: center;
-border-right: 4px solid transparent;
+    width: 40px;
+    float: left;
+    padding: 5px 5px 5px 10px;
+    text-align: center;
+    border-right: 4px solid transparent;
 }
+
 .wpdeveloper-notice-thumbnail img {
-width: 100%;
-opacity: 0.85;
--webkit-transition: all 0.3s;
--o-transition: all 0.3s;
-transition: all 0.3s;
+    width: 100%;
+    opacity: 0.85;
+    -webkit-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    transition: all 0.3s;
 }
+
 .wpdeveloper-notice-thumbnail img:hover {
-opacity: 1;
+    opacity: 1;
 }
 
 .notice-links {
-margin: 8px 0 0 0;
-padding: 0;
+    margin: 8px 0 0 0;
+    padding: 0;
 }
+
 .notice-links li {
-display: inline-block;
-margin-right: 15px;
+    display: inline-block;
+    margin-right: 15px;
 }
+
 .notice-links li a {
-display: inline-block;
-text-decoration: none;
-position: relative;
+    display: inline-block;
+    text-decoration: none;
+    position: relative;
 }
 
 .wpdeveloper-notice-message {
-padding: 10px;
+    padding: 10px;
 }
+
 .wpdeveloper-upsale-notice .wpdeveloper-notice-message {
-display: -webkit-box;
-display: -ms-flexbox;
-display: flex;
--webkit-box-align: center;
--ms-flex-align: center;
-align-items: center;
-padding: 10px 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    padding: 10px 0;
 }
-.wpdeveloper-upsale-notice .wpdeveloper-notice-message + .notice-dismiss {
-top: 10px;
+
+.wpdeveloper-upsale-notice .wpdeveloper-notice-message+.notice-dismiss {
+    top: 10px;
 }
+
 .wpdeveloper-upsale-notice #plugin-install-core {
-margin-left: 10px;
+    margin-left: 10px;
 }
+
 .notice.notice-has-thumbnail {
-padding-left: 0;
-display: flex;
-align-items: center;
+    padding-left: 0;
+    display: flex;
+    align-items: center;
 }
+
 .wpdeveloper-upsale-notice {
-display: -webkit-box;
-display: -ms-flexbox;
-display: flex;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
 }
+
 .wpdeveloper-upsale-notice .wpdeveloper-notice-thumbnail {
-padding: 10px;
-width: 40px;
+    padding: 10px;
+    width: 40px;
 }
+
 .wpdeveloper-upsale-notice .wpdeveloper-notice-thumbnail img {
-width: 32px;
+    width: 32px;
 }
+
 .toplevel_page_eael-settings .wp-menu-image img {
-max-width: 20px;
-padding-top: 8px !important;
+    max-width: 20px;
+    padding-top: 8px !important;
 }
+
 .wpdeveloper-upsale-notice .wpdeveloper-notice-message .button {
-margin-left: 15px;
+    margin-left: 15px;
 }
 
 #embedpress-settings-wrapper a.embedpress-settings-link {
-color: #0073aa;
+    color: #0073aa;
 }
 
 #wpnotice-embedpress-black_friday_notice {
     padding: 16px 0;
 }
+
 #wpnotice-embedpress-black_friday_notice.notice-info {
     border-left-color: #5b4e96;
 }
+
 #wpnotice-embedpress-black_friday_notice .wpnotice-thumbnail-wrapper {
     padding-left: 30px;
     padding-right: 28px;
 }
+
 #wpnotice-embedpress-black_friday_notice .wpnotice-content-wrapper a {
     text-transform: capitalize;
     margin-right: 16px;
 }
+
 #wpnotice-embedpress-black_friday_notice .wpnotice-content-wrapper button {
     text-transform: capitalize;
 }
+
 #wpnotice-embedpress-black_friday_notice .wpnotice-content-wrapper button:hover {
     background-color: transparent;
+}
+
+#wpbody-content #wpnotice-embedpress-100k_notice {
+    padding: 8px 20px;
+    gap: 32px !important;
+}
+
+#wpbody-content #wpnotice-embedpress-100k_notice .notice-info {
+    border: none;
+    border-left: 5px solid #d63638;
+}
+
+#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-thumbnail-wrapper img {
+    max-width: 144px !important;
+}
+
+#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper p {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper p span {
+    font-weight: 400;
+}
+
+#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper button {
+    display: none;
+}
+
+#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper .button-primary {
+    margin-right: 30px;
+}
+
+@media all and (max-width: 1024px) {
+
+    #wpbody-content #wpnotice-embedpress-100k_notice {
+        padding: 8px 20px;
+        gap: 30px !important;
+    }
+
+    #wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper {
+        flex-wrap: wrap;
+    }
+
+    #wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper p {
+        padding-right: 30px !important;
+    }
+
+    #wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper {
+        gap: 12px;
+    }
 }
