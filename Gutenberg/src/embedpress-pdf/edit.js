@@ -518,7 +518,7 @@ class EmbedPressPDFEdit extends Component {
 											checked={lazyLoad}
 										/>
 
-										{applyFilters('embedpress.pdfControls', [printPlaceholder], attributes, setAttributes, 'download')}
+										{applyFilters('embedpress.pdfControls', [printPlaceholder], attributes, setAttributes, 'print')}
 
 
 										{
