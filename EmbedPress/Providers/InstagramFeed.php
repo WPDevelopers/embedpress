@@ -287,7 +287,7 @@ class InstagramFeed extends Instagram
             </div>
             <div class="insta-gallery-item-info">
                 <?php if (apply_filters('embedpress/is_allow_rander', false) && (isset($params['instafeedFeedType']) && $params['instafeedFeedType'] === 'hashtag_type' || (isset($params['instafeedAccountType']) && strtolower($account_type) === 'business' && $params['instafeedAccountType'] === 'business')  && ((!empty($params['instafeedLikesCount']) && $params['instafeedLikesCount'] !== 'false') || (!empty($params['instafeedLikesCount']) || $params['instafeedLikesCount'] !== 'false')))) : ?>
-                    <?php do_action('embedpress/instafeed_reaction_count'); ?>
+                    <?php do_action('embedpress/instafeed_reaction_count', $params, $like_count, $comments_count); ?>
                 <?php else : ?>
                     <div class="insta-gallery-item-permalink">
                         <?php echo Helper::get_instagram_icon(); ?>
