@@ -285,7 +285,9 @@ if (!apply_filters('embedpress/is_allow_rander', false)) {
                             <?php
                                 endforeach;
                             } else {
-                                do_action('embedpress/connected_text_label', $is_calendly_connected, $event_types['collection']);
+                                if(isset($event_types['collection'])){
+                                    do_action('embedpress/connected_text_label', $is_calendly_connected, $event_types['collection']);
+                                }
                             }
                             ?>
                         </div>
