@@ -315,7 +315,6 @@ export default function EmbedPress(props) {
 		}
 	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent]);
 
-	console.log(attributes);
 
 	return (
 		<Fragment>

@@ -202,15 +202,16 @@ export default function Instafeed({ attributes, setAttributes }) {
         setAttributes({ instafeedLoadmore: false })
     }
 
-    const profileImagePlaceholder = applyFilters('embedpress.uploadPlaceholder', [], __('Sticky Video', 'embedpress'), false);
+    const profileImagePlaceholder = applyFilters('embedpress.uploadPlaceholder', []);
     const feedTabPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Feed Tab', 'embedpress'), false);
     const likesCountPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Likes Count', 'embedpress'), false);
     const commentsCountPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Comments Count', 'embedpress'), false);
 
 
+
     return (
         <div>
-
+           
             {
                 (_isInstagramFeed) && (
                     <div className={'ep__instafeed-options'}>
@@ -218,7 +219,10 @@ export default function Instafeed({ attributes, setAttributes }) {
                             <ToggleControl
                                 label={__('Profile Image', 'embedpress')}
                                 checked={instafeedProfileImage}
-                                onChange={(instafeedProfileImage) => setAttributes({ instafeedProfileImage })}
+                                onChange={(instafeedProfileImage) => {
+                                    setAttributes({ instafeedProfileImage });
+                                    console.log({instafeedProfileImage});
+                                }}
                             />
                             {
                                 instafeedProfileImageUrl && (
@@ -331,9 +335,6 @@ export default function Instafeed({ attributes, setAttributes }) {
                                                 />
                                             </div>
                                         )}
-                                        {
-                                            console.log({ instafeedColumns })
-                                        }
                                         {
                                             (instaLayout === 'insta-carousel') && (
                                                 <div>

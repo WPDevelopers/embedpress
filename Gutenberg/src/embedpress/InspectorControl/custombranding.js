@@ -52,13 +52,11 @@ export default function CustomBranding({ attributes, setAttributes }) {
         removeAlert();
     }
 
-    const customLogoSettings = applyFilters('embedpress.customLogoSettings', [], attributes, setAttributes);
     const placeholder = applyFilters('embedpress.uploadPlaceholder', []);
 
     return (
         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Custom Branding', 'embedpress')}</div>} initialOpen={false}>
-            {placeholder}
-            {customLogoSettings}
+            {applyFilters('embedpress.customLogoSettings', [placeholder], attributes, setAttributes)}
         </PanelBody>
     )
 }

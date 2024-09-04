@@ -214,7 +214,6 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         customPlayer
     } = attributes;
 
-    console.log(attributes);
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
