@@ -1297,6 +1297,9 @@ jQuery(document).ready(function ($) {
     function openVideoPopup(index) {
         const items = $('.layout-grid .item, .layout-list .item, .layout-carousel .item');
         if (index >= 0 && index < items.length) {
+            // Remove any existing video popup before creating a new one
+            $('#videoPopup').remove();
+
             currentIndex = index;
             const videoId = $(items[currentIndex]).data('vid');
             const videoPopup = createVideoPopup();
@@ -1335,6 +1338,7 @@ jQuery(document).ready(function ($) {
             }
         }
     }
+
 
     function closeVideoPopup(videoPopup) {
         videoPopup.remove();

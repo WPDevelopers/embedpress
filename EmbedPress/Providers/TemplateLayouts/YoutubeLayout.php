@@ -83,8 +83,8 @@ class YoutubeLayout
 
     public static function create_list_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb){
 
-        $channelTitle = $data['get_channel_info']['snippet']['title'];
-        $channelThumb = $data['get_channel_info']['snippet']['thumbnails']['default']['url'];
+        // $channelTitle = $data['get_channel_info']['snippet']['title'];
+        // $channelThumb = $data['get_channel_info']['snippet']['thumbnails']['default']['url'];
         
         foreach ($jsonResult->items as $item) : ?>
             <?php
@@ -128,8 +128,8 @@ class YoutubeLayout
     }
     public static function create_gallery_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb){
 
-        $channelTitle = $data['get_channel_info']['snippet']['title'];
-        $channelThumb = $data['get_channel_info']['snippet']['thumbnails']['default']['url'];
+        // $channelTitle = $data['get_channel_info']['snippet']['title'];
+        // $channelThumb = $data['get_channel_info']['snippet']['thumbnails']['default']['url'];
 
         foreach ($jsonResult->items as $item) : ?>
             <?php
