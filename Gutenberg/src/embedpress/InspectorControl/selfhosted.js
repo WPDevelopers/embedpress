@@ -43,7 +43,8 @@ export default function SelfHosted({ attributes, setAttributes }) {
         logoX,
         logoY,
         customlogoUrl,
-        logoOpacity
+        logoOpacity,
+        autoPause
     } = attributes;
 
 
@@ -65,7 +66,7 @@ export default function SelfHosted({ attributes, setAttributes }) {
     }
 
     let panelTitle = 'Video Controls';
-    if(_isSelfHostedAudio){
+    if (_isSelfHostedAudio) {
         panelTitle = 'Audio Controls';
     }
 
@@ -77,13 +78,20 @@ export default function SelfHosted({ attributes, setAttributes }) {
                     <div className={'ep__vimeo-video-options'}>
                         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__(panelTitle, 'embedpress')}</div>} initialOpen={false}>
                             <ToggleControl
+                                label={__("Auto-Pause", "embedpress")}
+                                checked={autoPause}
+                                onChange={(autoPause) => setAttributes({ autoPause })}
+                            />
+                            <p className='control-description'>Pauses other players when a new one starts.</p>
+
+                            <ToggleControl
                                 label={__("Enable Custom Player", "embedpress")}
                                 checked={customPlayer}
                                 onChange={(customPlayer) => setAttributes({ customPlayer })}
                             />
                             {
                                 customPlayer && (
-                                    <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} isSelfHostedVideo={_isSelfHostedVideo} isSelfHostedAudio={_isSelfHostedAudio}/>
+                                    <CustomPlayerControls attributes={attributes} setAttributes={setAttributes} isSelfHostedVideo={_isSelfHostedVideo} isSelfHostedAudio={_isSelfHostedAudio} />
                                 )
                             }
 

@@ -295,6 +295,21 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
+		$this->add_control(
+			'embedpress_audio_video_auto_pause',
+			[
+				'label'        => __('Auto Pause', 'embedpress'),
+				'description'        => __('Set it to "Yes" to display related videos from all channels. Otherwise, related videos will show from the same channel.', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition' => [
+					'embedpress_pro_embeded_source' => ['selfhosted_video', 'selfhosted_audio']
+				],
+			]
+		);
+
 
 
 		$this->add_control(
@@ -660,7 +675,7 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 
-
+		
 
 
 		do_action('extend_customplayer_controls', $this, '_', $this->pro_text, $this->pro_class);
@@ -3925,6 +3940,11 @@ class Embedpress_Elementor extends Widget_Base
 			$hosted_format =  isset($self_hosted['format']) ? $self_hosted['format'] : '';
 		}
 
+		$autoPause = '';
+		if(!empty($settings['embedpress_audio_video_auto_pause'])){
+			$autoPause = ' enabled-auto-pause';
+		}
+
 		?>
 
 		<div class="embedpress-elements-wrapper <?php echo !empty($settings['embedpress_elementor_aspect_ratio']) ? 'embedpress-fit-aspect-ratio' : '';
@@ -3938,13 +3958,13 @@ class Embedpress_Elementor extends Widget_Base
 					} else { ?>
 				<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content <?php if (!empty($settings['embedpress_content_share'])) : echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper');
 																															endif; ?> <?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);
-																																																																						echo esc_attr(' source-' . $source); ?>">
+																																					echo esc_attr(' source-' . $source); ?>">
 					<div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wrapper <?php echo isset($settings['custom_player_preset']) ? esc_attr($settings['custom_player_preset']) : ''; ?> <?php echo esc_attr($this->get_instafeed_layout($settings)); ?> <?php echo esc_attr($hosted_format); ?>" <?php echo $data_playerid; ?> <?php echo $data_carouselid; ?> <?php echo $this->get_custom_player_options($settings); ?> <?php echo $this->get_instafeed_carousel_options($settings); ?>>
 						<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" class="ep-elementor-content
 							<?php if (!empty($settings['embedpress_content_share'])) : echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper');
 										endif; ?> 
 							<?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);
-										echo esc_attr(' source-' . $source); ?>">
+										echo esc_attr(' source-' . $source); ?> <?php echo esc_attr($autoPause); ?>">
 							<div <?php echo $adsAtts; ?>>
 								<div id="<?php echo esc_attr($this->get_id()); ?>" class="ep-embed-content-wraper <?php echo esc_attr($settings['custom_payer_preset']); ?>" <?php echo $data_player_id; ?> <?php echo $this->get_custom_player_options($settings); ?>>
 									<?php

@@ -914,6 +914,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', () => {
     const carousel = document.querySelector('.youtube-carousel');
+
+    if (!carousel) return;
+
     const items = document.querySelectorAll('.item');
     const prevButton = document.querySelector('.preview');
     const nextButton = document.querySelector('.next');
@@ -1369,3 +1372,22 @@ jQuery(document).ready(function ($) {
     });
 });
 
+
+
+// pause audio/video
+
+jQuery(document).ready(function () {
+    const players = jQuery('.enabled-auto-pause audio, .enabled-auto-pause video');
+
+    function pauseAllExcept(currentPlayer) {
+        players.each(function () {
+            if (this !== currentPlayer[0]) {
+                this.pause();
+            }
+        });
+    }
+
+    players.on('play', function () {
+        pauseAllExcept(jQuery(this));
+    });
+});
