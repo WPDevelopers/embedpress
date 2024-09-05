@@ -310,8 +310,6 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-
-
 		$this->add_control(
 			'spotify_theme',
 			[
