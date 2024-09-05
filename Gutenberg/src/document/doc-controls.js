@@ -13,13 +13,13 @@ import {
  */
 const { __ } = wp.i18n;
 const { Fragment } = wp.element;
-const { PanelBody, ToggleControl, SelectControl, ColorPalette } = wp.components;
+const { PanelBody, ToggleControl, SelectControl, TextControl, ColorPalette } = wp.components;
 import { addProAlert, isPro, removeAlert } from '../common/helper';
 import { EPIcon, InfoIcon } from '../common/icons';
 
 const DocControls = ({ attributes, setAttributes }) => {
 
-    const { docViewer, themeMode, customColor, presentation, position, download, draw, toolbar, copy_text, doc_rotation, powered_by } = attributes;
+    const { docViewer, themeMode, customColor, presentation, position, download, draw, toolbar, copy_text, doc_rotation, powered_by, href } = attributes;
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     if (!document.querySelector('.pro__alert__wrap')) {
@@ -39,6 +39,13 @@ const DocControls = ({ attributes, setAttributes }) => {
 
         <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Document Controls', 'embedpress')}</div>} initialOpen={false}>
 
+            <TextControl
+                label={__('Document URL', 'embedpress')}
+                type="text"
+                value={href || ''}
+                onChange={(href) => setAttributes({ href })}
+            />
+            
             <SelectControl
                 label="Viewer"
                 value={docViewer}
