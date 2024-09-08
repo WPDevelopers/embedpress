@@ -914,6 +914,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener('DOMContentLoaded', () => {
     const carousel = document.querySelector('.youtube-carousel');
+
+    if (!carousel) {
+        return;
+    }
+
     const items = document.querySelectorAll('.item');
     const prevButton = document.querySelector('.preview');
     const nextButton = document.querySelector('.next');
