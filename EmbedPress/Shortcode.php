@@ -77,7 +77,6 @@ class Shortcode
         add_shortcode('embed_oembed_html', ['\\EmbedPress\\Shortcode', 'do_shortcode']);
         add_shortcode('embedpress', ['\\EmbedPress\\Shortcode', 'do_shortcode']);
         add_shortcode('embedpress_pdf', ['\\EmbedPress\\Shortcode', 'do_shortcode_pdf']);
-
     }
 
     /**
@@ -109,19 +108,19 @@ class Shortcode
             ];
         }
 
-        if(is_array($attributes)) {
+        if (is_array($attributes)) {
             $attributes = array_map('esc_attr', $attributes);
         }
 
         $attributes = wp_parse_args($attributes, $default);
         $embed = self::parseContent($subject, true, $attributes);
 
-        if(is_object($embed)) {
+        if (is_object($embed)) {
             $array = get_object_vars($embed);
-            if(!empty($array[$embed->url]['provider_name']) && $array[$embed->url]['provider_name'] === 'Instagram Feed'){
-                    $embed->embed = '<div class="ep-embed-content-wraper insta-grid">' . $embed->embed . '</div>';
+            if (!empty($array[$embed->url]['provider_name']) && $array[$embed->url]['provider_name'] === 'Instagram Feed') {
+                $embed->embed = '<div class="ep-embed-content-wraper insta-grid">' . $embed->embed . '</div>';
             };
-        }   
+        }
 
 
         return is_object($embed) ? $embed->embed : $embed;
@@ -150,17 +149,17 @@ class Shortcode
                 $subject
             );
 
-            if(strpos($url, 'youtube.com/embed') !== false){
+            if (strpos($url, 'youtube.com/embed') !== false) {
                 preg_match("/embed\/([a-zA-Z0-9_-]+)/", $url, $matches);
 
                 if (isset($matches[1])) {
                     $videoId = $matches[1];
-                    $url = 'https://www.youtube.com/watch?v='.$videoId;
+                    $url = 'https://www.youtube.com/watch?v=' . $videoId;
                 }
             }
 
 
-            $uniqid = 'ose-uid-'.md5($url);
+            $uniqid = 'ose-uid-' . md5($url);
             $subject = esc_url($subject);
 
 
@@ -177,7 +176,7 @@ class Shortcode
 
             // Identify what service provider the shortcode's link belongs to
             $is_embra_provider = apply_filters('embedpress:isEmbra', false, $url, self::get_embera_settings());
-            
+
             if ($is_embra_provider || (strpos($url, 'meetup.com') !== false) || (strpos($url, 'sway.office.com') !== false)) {
                 $serviceProvider = '';
             } else {
@@ -210,29 +209,29 @@ class Shortcode
             }
 
             // Transform all shortcode attributes into html form. I.e.: {foo: "joe"} -> foo="joe"
-            $attributesHtml = ['class="ose-{provider_alias} ' . $uniqid .' ose-embedpress-responsive"'];
+            $attributesHtml = ['class="ose-{provider_alias} ' . $uniqid . ' ose-embedpress-responsive"'];
             //$attributesHtml = [];
             //foreach ( self::$ombed_attributes as $attrName => $attrValue ) {
             //    $attributesHtml[] = $attrName . '="' . $attrValue . '"';
             //}
             if (isset($customAttributes['height'])) {
-                $height = esc_attr($customAttributes['height']); 
+                $height = esc_attr($customAttributes['height']);
             }
 
             if (isset($customAttributes['width'])) {
-                $width = esc_attr($customAttributes['width']); 
+                $width = esc_attr($customAttributes['width']);
                 $attributesHtml[] = "style=\"width:{$width}px; height:{$height}px; max-height:{$height}px; max-width:100%; display:inline-block;\"";
             }
 
             // Check if $url is a google shortened url and tries to extract from it which Google service it refers to.
             self::check_for_google_url($url);
             $provider_name = self::get_provider_name($urlData, $url);
-            
+
             // $html = '{html}';
             // if (strpos($url, 'youtube') !== false) {
             //     $html = '<div class="youtube-video">{html}</div>';
             // }
-            
+
             $embedTemplate = '<div ' . implode(' ', $attributesHtml) . '>{html}</div>';
 
             $parsedContent = self::get_content_from_template($url, $embedTemplate, $serviceProvider);
@@ -380,13 +379,13 @@ KAMAL;
 
                 // Attributes to remove
                 $attributesToRemove = 'autoplay;';
-            
+
                 // New attribute to add
-                $newAttribute = 'encrypted-media;'.'accelerometer;'.'autoplay;'.'clipboard-write;'.'gyroscope;'.'picture-in-picture';
-                
+                $newAttribute = 'encrypted-media;' . 'accelerometer;' . 'autoplay;' . 'clipboard-write;' . 'gyroscope;' . 'picture-in-picture';
+
                 // Remove existing attributes
                 $embed->embed = str_replace($attributesToRemove, $newAttribute, $embed->embed);
-                
+
                 return $embed;
             }
         }
@@ -435,7 +434,8 @@ KAMAL;
 
     // self::$attributes_data = self::$ombed_attributes;
 
-    public static function getAttributesData(){
+    public static function getAttributesData()
+    {
         self::$attributes_data = self::get_oembed_attributes();
         // return self::get_oembed_attributes();
         return self::$attributes_data;
@@ -577,13 +577,12 @@ KAMAL;
 
                     $attrName = str_replace($attrNameDefaultPrefix, "", $attrName);
 
-                    if(is_bool($attrValue)){
-                        if($attrValue)
+                    if (is_bool($attrValue)) {
+                        if ($attrValue)
                             $attrValue = "true";
                         else
                             $attrValue = "false";
-                    }
-                    else if (!strlen($attrValue)) {
+                    } else if (!strlen($attrValue)) {
                         if ($attrName[0] === "!") {
                             $attrValue = "false";
                             $attrName = substr($attrName, 1);
@@ -653,12 +652,11 @@ KAMAL;
         }
 
         foreach ($attributes as $key => $value) {
-            if(strpos($key, 'data-') === 0){
+            if (strpos($key, 'data-') === 0) {
                 $key = str_replace('data-', '', $key);
                 self::$emberaInstanceSettings[$key] = $value;
             }
         }
-
     }
 
     protected static function get_embera_settings()
@@ -666,7 +664,8 @@ KAMAL;
         return self::$emberaInstanceSettings;
     }
 
-    public static function get_block_controls_data(){
+    public static function get_block_controls_data()
+    {
         var_dump(self::$emberaInstanceSettings);
     }
 
@@ -789,12 +788,11 @@ KAMAL;
 
     protected static function get_content_from_template($url, $template, $serviceProvider)
     {
-        if (is_embedpress_pro_active()) {
-            if (strpos($url, 'podcasts.apple.com')) {
-                $iframe_url = str_replace('podcasts.apple.com', 'embed.podcasts.apple.com', $url);
-                $html = '<iframe allow="autoplay *; encrypted-media *; fullscreen *" frameborder="0" height="175" style="width:100%;max-width:660px;overflow:hidden;background:transparent;" src="' . esc_url($iframe_url) . '"></iframe>';
-                return str_replace('{html}', $html, $template);
-            }
+
+        $html = apply_filters('embed_apple_podcast', '', $url, $template, $serviceProvider);
+
+        if (!empty($html)) {
+            return $html;
         }
 
         if (empty($serviceProvider)) {
@@ -936,7 +934,8 @@ KAMAL;
         return $embed;
     }
 
-    public static function getParamData($attributes){
+    public static function getParamData($attributes)
+    {
 
         $urlParamData = array(
             'themeMode' => isset($attributes['theme_mode']) ? esc_attr($attributes['theme_mode']) : 'default',
@@ -954,11 +953,11 @@ KAMAL;
 
         );
 
-        if($urlParamData['themeMode'] == 'custom') {
+        if ($urlParamData['themeMode'] == 'custom') {
             $urlParamData['customColor'] = isset($attributes['custom_color']) ? esc_attr($attributes['custom_color']) : '#333333';
         }
 
-        return "#". http_build_query($urlParamData);
+        return "#" . http_build_query($urlParamData);
     }
 
     public static function do_shortcode_pdf($attributes = [], $subject = null)
@@ -967,14 +966,14 @@ KAMAL;
 
         $default = [
             'width'  => esc_attr($plgSettings->enableEmbedResizeWidth),
-            'height' => esc_attr($plgSettings->enableEmbedResizeHeight), 
+            'height' => esc_attr($plgSettings->enableEmbedResizeHeight),
             'powered_by' => !empty($plgSettings->embedpress_document_powered_by) ? esc_attr($plgSettings->embedpress_document_powered_by) : esc_attr('no'),
         ];
 
-        if(!empty($plgSettings->pdf_custom_color_settings)){
-             $default['theme_mode'] = 'custom';
+        if (!empty($plgSettings->pdf_custom_color_settings)) {
+            $default['theme_mode'] = 'custom';
         }
-        if(isset($default['theme_mode']) && $default['theme_mode'] == 'custom' ){
+        if (isset($default['theme_mode']) && $default['theme_mode'] == 'custom') {
             $default['custom_color'] = esc_attr($plgSettings->custom_color);
         }
 
@@ -998,7 +997,7 @@ KAMAL;
                 <?php if ($url != '') {
                             if (self::is_pdf($url) && !self::is_external_url($url)) {
                                 $renderer = Helper::get_pdf_renderer();
-                                $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($url).self::getParamData($attributes);
+                                $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($url) . self::getParamData($attributes);
                                 ?>
                         <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" title="" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" data-emsrc="<?php echo esc_url($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" src="<?php echo esc_url($src); ?>" frameborder="0"></iframe>
                     <?php
@@ -1010,9 +1009,9 @@ KAMAL;
                         </div>
 
                 <?php
-               
+
                             }
-                            
+
                             if (!empty($attributes['powered_by']) && $attributes['powered_by'] === 'yes') {
                                 printf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
                             }
@@ -1036,6 +1035,4 @@ KAMAL;
             $arr = explode('.', $url);
             return end($arr) === 'pdf';
         }
-
-
     }

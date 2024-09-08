@@ -10,6 +10,7 @@ import CustomPlayerControls from '../../common/custom-player-controls';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
+const { applyFilters } = wp.hooks;
 const { __ } = wp.i18n;
 const { addFilter } = wp.hooks;
 
@@ -213,7 +214,6 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         customPlayer
     } = attributes;
 
-    console.log(attributes);
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
@@ -232,6 +232,9 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         document.querySelector('body').append(tipsTricksAlert('none'));
         removeTipsAlert();
     }
+
+    const togglePlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Closed Captions', 'embedpress'), true);
+    const selectPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Modest Branding', 'embedpress'), 'display', 'Display');
 
     if (ytChannelLayout === 'grid' && columns === 1) {
         setAttributes({ columns: 3 });
@@ -406,38 +409,8 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                             __nextHasNoMarginBottom
                                         />
 
-                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                            <ToggleControl
-                                                label={__("Closed Captions")}
-                                                checked={closedcaptions}
-                                                onChange={(closedcaptions) => setAttributes({ closedcaptions })}
-                                            />
-
-                                            {
-                                                (!isProPluginActive) && (
-                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                )
-                                            }
-                                        </div>
-
-                                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                                            <SelectControl
-                                                label={__("Modest Branding", "embedpress")}
-                                                value={modestbranding}
-                                                options={[
-                                                    { label: 'Display', value: '0' },
-                                                    { label: 'Do Not Display', value: '1' },
-                                                ]}
-                                                onChange={(modestbranding) => setAttributes({ modestbranding })}
-                                                className={'ep-select-control-field'}
-                                                __nextHasNoMarginBottom
-                                            />
-                                            {
-                                                (!isProPluginActive) && (
-                                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                                )
-                                            }
-                                        </div>
+                                        {applyFilters('embedpress.youtubeControls', [togglePlaceholder], attributes, setAttributes, 'closedCaptions')}
+                                        {applyFilters('embedpress.youtubeControls', [selectPlaceholder], attributes, setAttributes, 'modestBranding')}
 
                                         <div className='ep-yt-related-videos'>
                                             <ToggleControl

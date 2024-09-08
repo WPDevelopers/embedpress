@@ -384,18 +384,14 @@ class Handler extends EndHandlerAbstract
 
                 update_option('calendly_user_info', $user_info);
 
-                if (is_embedpress_pro_active() && (empty($event_types['title']))) {
-
-                    update_option('calendly_event_types', $event_types);
-                    update_option('calendly_scheduled_events', $scheduled_events);
-                    update_option('calendly_invitees_list', $invite_list);
-                }
-
-                if (!is_embedpress_pro_active()) {
+                if (!apply_filters('embedpress/is_allow_rander', false)) {
                     update_option('calendly_event_types', []);
                     update_option('calendly_scheduled_events', []);
                     update_option('calendly_invitees_list', []);
+                } else {
+                    do_action('embedepress/calendly_event_data',  $event_types, $scheduled_events, $invite_list);
                 }
+                            
             }
 
             wp_redirect(admin_url('admin.php?page=embedpress&page_type=calendly'), 302);

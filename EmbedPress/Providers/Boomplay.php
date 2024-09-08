@@ -79,15 +79,15 @@ class Boomplay extends ProviderAdapter implements ProviderInterface
 				$alert_message = sprintf( '<p><strong>%s</strong>. <span style="font-size: 13px;">%s</span></p>', __( 'Embedding Boomplay playlists and albums are supported in EmbedPress Pro', 'embedpress'), __( 'This message is only visible to you.', 'embedpress'));
 				// for gutenberg
 
-				if ( !is_embedpress_pro_active() ) {
+				if ( !apply_filters('embedpress/is_allow_rander', false) ) {
 					$response['alert'] = $alert_message;
 				}
 
-				if (  is_admin() && !is_embedpress_pro_active()  ) {
+				if (  is_admin() && !apply_filters('embedpress/is_allow_rander', false)  ) {
 					$response['html'] = $alert_message;
 				}
 
-				if ( !is_admin() && !is_embedpress_pro_active() ) {
+				if ( !is_admin() && !apply_filters('embedpress/is_allow_rander', false) ) {
 					$response['html'] = $url;
 				}
 

@@ -86,8 +86,11 @@ class Embedpress_Pdf extends Widget_Base
 
     protected function register_controls()
     {
-        $this->pro_class = is_embedpress_pro_active() ? '' : 'embedpress-pro-control not-active';
-        $this->pro_text = is_embedpress_pro_active() ? '' : '<sup class="embedpress-pro-label" style="color:red">' . __('Pro', 'embedpress') . '</sup>';
+        $class = 'embedpress-pro-control not-active';
+        $text =  '<sup class="embedpress-pro-label" style="color:red">' . __('Pro', 'embedpress') . '</sup>';
+        $this->pro_class = apply_filters('embedpress/pro_class', $class);
+        $this->pro_text = apply_filters('embedpress/pro_text', $text);
+        
         /**
          * EmbedPress Content Settings
          */
@@ -661,7 +664,7 @@ class Embedpress_Pdf extends Widget_Base
 
         do_action( 'extend_elementor_controls', $this, '_pdf_', $this->pro_text, $this->pro_class);
 
-        if (!is_embedpress_pro_active()) {
+        if (!apply_filters('embedpress/is_allow_rander', false)) {
             $this->start_controls_section(
                 'embedpress_pro_section',
                 [
@@ -930,7 +933,14 @@ class Embedpress_Pdf extends Widget_Base
                                 $embed = '<div>'.$embed_content.'</div>';
 
                                 $content_id = $client_id;
-                                if((empty($settings['embedpress_pdf_lock_content']) || empty($settings['embedpress_pdf_lock_content_password']) || $settings['embedpress_pdf_lock_content'] == 'no') || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
+                                if((empty($settings['embedpress_pdf_lock_content']) || 
+                                empty($settings['embedpress_pdf_lock_content_password']) || 
+                                $settings['embedpress_pdf_lock_content'] == 'no') || 
+                                (!empty(Helper::is_password_correct($client_id)) && 
+                                ($hash_pass === $password_correct)) ||
+								!apply_filters('embedpress/is_allow_rander', false)
+
+                                ){
                                     if(!empty($settings['embedpress_pdf_content_share'])){
                                         $embed  .= Helper::embed_content_share($content_id, $embed_settings);
                                     }
@@ -940,7 +950,7 @@ class Embedpress_Pdf extends Widget_Base
                                     if(!empty($settings['embedpress_pdf_content_share'])){
                                         $embed .= Helper::embed_content_share($content_id, $embed_settings);
                                     }
-                                    Helper::display_password_form($client_id, $embed, $pass_hash_key, $embed_settings);
+                                    do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $embed_settings);
                                 }
                             ?>
                         </div> 
@@ -948,7 +958,8 @@ class Embedpress_Pdf extends Widget_Base
                     </div>
                     <?php 
 						if(!empty($settings['adManager'])) {
-							$embed_content .= Helper::generateAdTemplate($client_id, $settings, 'elementor');
+							$embed_content = apply_filters('embedpress/generate_ad_template', $embed_content, $client_id, $settings, 'elementor');
+
 						}
 					?>
                 </div>

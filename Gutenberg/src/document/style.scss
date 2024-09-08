@@ -49,6 +49,15 @@
 .pro-control .ad-manager-controllers {
     opacity: 0.5;
 }
+
+.ad-manager-controllers.opacity {
+    opacity: 0.3;
+}
+
+.pro-control.ep-custom-logo-button button {
+    opacity: .3;
+}
+
 .ads-help {
     margin-top: 30px;
 }
@@ -79,5 +88,4 @@ button.components-flex.components-color-palette__custom-color {
     iframe.embedpress-embed-document-pdf {
         max-height: 480px;
     }
-
 }

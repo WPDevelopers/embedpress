@@ -1,5 +1,6 @@
 import { addProAlert, isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert } from './helper';
 const { __ } = wp.i18n;
+const { applyFilters } = wp.hooks;
 
 const {
     SelectControl,
@@ -24,7 +25,9 @@ import {
 import ControlHeader from './control-heading';
 import { isSelfHostedVideo } from '../embedpress/functions';
 
-const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, isYTShorts, isVimeoVideo, isSelfHostedAudio }) => {
+const CustomPlayerControls = (props) => {
+    const { attributes, setAttributes, isYTVideo, isYTLive, isYTShorts, isVimeoVideo, isSelfHostedAudio } = props;
+
     const {
         url,
         customPlayer,
@@ -53,8 +56,6 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
         plySourceText = 'Source Link';
     }
 
-    const isProPluginActive = embedpressObj.is_pro_plugin_active;
-
     const onSelectImage = (logo) => {
         setAttributes({ posterThumbnail: logo.sizes.full.url });
     }
@@ -71,35 +72,23 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
         removeTipsAlert();
     }
 
+    const tooltipPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Tooltip', 'embedpress'), true);
+    const autoHideControlsPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Auto Hide Controls', 'embedpress'), true);
+    const sourceLinkPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Source Link', 'embedpress'), true);
+    const stickyVideoPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Sticky Video', 'embedpress'), false);
+    const UploadPlaceholder = applyFilters('embedpress.uploadPlaceholder', [], __('Sticky Video', 'embedpress'), false);
+
+    const presetPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Preset', 'embedpress'), 'default', 'Default');
+
+    const colorPlatePlaceholder = applyFilters('embedpress.colorPlatePlaceholder', [], __('Player Color', 'embedpress'), '#5b4e96', colors);
+
+    const autoPause = applyFilters('embedpress.togglePlaceholder', [], __('Auto Paause', 'embedpress'), false);
+    const dnt = applyFilters('embedpress.togglePlaceholder', [], __('DNT', 'embedpress'), false);
+
     return (
         <div className="ep-custom-player-controls">
 
-            {
-                !isSelfHostedAudio && (
-
-                    <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                        <SelectControl
-                            label={__("Preset")}
-                            value={playerPreset}
-                            options={[
-                                { label: 'Default', value: 'preset-default' },
-                                { label: 'Preset 1', value: 'custom-player-preset-1' },
-                                // { label: 'Preset 2', value: 'custom-player-preset-2' },
-                                { label: 'Preset 2', value: 'custom-player-preset-3' },
-                                // { label: 'Preset 4', value: 'custom-player-preset-4' },
-                            ]}
-                            onChange={(playerPreset) => setAttributes({ playerPreset })}
-                            __nextHasNoMarginBottom
-                        />
-                        {
-                            (!isProPluginActive) && (
-                                <span className='isPro'>{__('pro', 'embedpress')}</span>
-                            )
-                        }
-                    </div>
-                )
-            }
-
+            {applyFilters('embedpress.youtubeControls', [presetPlaceholder], attributes, setAttributes, 'preset', props)}
 
             {
                 (isYTLive || isYTVideo || isYTShorts) && (
@@ -144,24 +133,11 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
                 )
             }
 
-            <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                <ControlHeader headerText={'Player Color'} />
-                <ColorPalette
-                    label={__("Player Color")}
-                    colors={colors}
-                    value={playerColor}
-                    onChange={(playerColor) => setAttributes({ playerColor })}
-                />
-                {
-                    (!isProPluginActive) && (
-                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                    )
-                }
-            </div>
+            {applyFilters('embedpress.youtubeControls', [colorPlatePlaceholder], attributes, setAttributes, 'playerColor')}
 
 
             {
-                customPlayer && ( isYTLive || isYTVideo) && (
+                customPlayer && (isYTLive || isYTVideo) && (
                     <div className={'remove-last-child-margin'}>
                         <ToggleControl
                             label={__("Auto Play")}
@@ -187,35 +163,10 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
                             checked={vautoplay}
                             onChange={(vautoplay) => setAttributes({ vautoplay })}
                         />
-                        
-                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                            <ToggleControl
-                                label={__("Auto Pause")}
-                                checked={vautopause}
-                                onChange={(vautopause) => setAttributes({ vautopause })}
-                            />
-                            <p className={'is-ep-description'}>{__('Automatically stop the current video from playing when another one starts.', 'embedpress')}</p>
-                            {
-                                (!isProPluginActive) && (
-                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                )
-                            }
-                        </div>
 
-                        <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                            <ToggleControl
-                                label={__("DNT")}
-                                checked={vdnt}
-                                onChange={(vdnt) => setAttributes({ vdnt })}
-                            />
-                            <p className={'is-ep-description'}>{__('Enabling this will block session data tracking, including cookies. If Auto Pause is enabled this will not work.', 'embedpress')}</p>
+                        {applyFilters('embedpress.vimeoControls', [autoPause], attributes, setAttributes, 'autoPause')}
+                        {applyFilters('embedpress.vimeoControls', [dnt], attributes, setAttributes, 'dnt')}
 
-                            {
-                                (!isProPluginActive) && (
-                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                )
-                            }
-                        </div>
                     </div>
                 )
             }
@@ -235,66 +186,11 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
                 checked={playerFastForward}
                 onChange={(playerFastForward) => setAttributes({ playerFastForward })}
             />
-            <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                <ToggleControl
-                    label={__("Tooltip")}
-                    checked={playerTooltip}
-                    onChange={(playerTooltip) => setAttributes({ playerTooltip })}
-                />
-                {
-                    (!isProPluginActive) && (
-                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                    )
-                }
-            </div>
 
-            {
-                !isSelfHostedAudio && (
-                    <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                        <ToggleControl
-                            label={__("Auto Hide Controls")}
-                            checked={playerHideControls}
-                            onChange={(playerHideControls) => setAttributes({ playerHideControls })}
-                        />
-                        {
-                            (!isProPluginActive) && (
-                                <span className='isPro'>{__('pro', 'embedpress')}</span>
-                            )
-                        }
-                    </div>
-                )
-            }
-
-            <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                <ToggleControl
-                    label={__(plySourceText)}
-                    checked={playerDownload}
-                    onChange={(playerDownload) => setAttributes({ playerDownload })}
-                />
-                {
-                    (!isProPluginActive) && (
-                        <span className='isPro'>{__('pro', 'embedpress')}</span>
-                    )
-                }
-            </div>
-
-            {
-                !isSelfHostedAudio && (
-                    <div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                        <ToggleControl
-                            label={__("Sticky Video")}
-                            checked={playerPip}
-                            onChange={(playerPip) => setAttributes({ playerPip })}
-                        />
-                        {
-                            (!isProPluginActive) && (
-                                <span className='isPro'>{__('pro', 'embedpress')}</span>
-                            )
-                        }
-                        <p className={'is-ep-description'}>{__("Watch video and seamlessly scroll through other content with a sleek pop-up window.")}</p>
-                    </div>
-                )
-            }
+            {applyFilters('embedpress.youtubeControls', [tooltipPlaceholder], attributes, setAttributes, 'tooltip')}
+            {applyFilters('embedpress.youtubeControls', [autoHideControlsPlaceholder], attributes, setAttributes, 'autoHide')}
+            {applyFilters('embedpress.youtubeControls', [sourceLinkPlaceholder], attributes, setAttributes, 'sourceLink')}
+            {applyFilters('embedpress.youtubeControls', [stickyVideoPlaceholder], attributes, setAttributes, 'stickyVideo')}
 
             {
                 (isYTLive || isYTVideo) && (
@@ -312,47 +208,13 @@ const CustomPlayerControls = ({ attributes, setAttributes, isYTVideo, isYTLive, 
             {
                 !isSelfHostedAudio && (
                     <div>
-
                         <ControlHeader headerText={'Thumbnail'} />
-                        {
-                            isProPluginActive && posterThumbnail && (
-                                <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
-                                    <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
-                                        <span class="dashicon dashicons dashicons-trash"></span>
-                                    </button>
-                                    <img
-                                        src={posterThumbnail}
-                                        alt="John"
-                                    />
-                                </div>
-                            )
-                        }
-
-
-                        <div className={isProPluginActive ? "pro-control-active ep-custom-logo-button" : "pro-control ep-custom-logo-button"} onClick={(e) => { addProAlert(e, isProPluginActive) }}>
-                            <MediaUpload
-                                onSelect={onSelectImage}
-                                allowedTypes={['image']}
-                                value={posterThumbnail}
-                                render={({ open }) => (
-                                    <Button className={'ep-logo-upload-button'} icon={!posterThumbnail ? 'upload' : 'update'} onClick={open}>
-                                        {
-                                            (!isProPluginActive || !posterThumbnail) ? 'Upload Image' : 'Change Image'
-                                        }
-                                    </Button>
-                                )}
-
-                            />
-                            {
-                                (!isProPluginActive) && (
-                                    <span className='isPro'>{__('pro', 'embedpress')}</span>
-                                )
-                            }
-                        </div>
-
+                        {applyFilters('embedpress.youtubeControls', UploadPlaceholder, attributes, setAttributes, 'thumbnail', props)}
                     </div>
                 )
             }
+
+
         </div>
     )
 }

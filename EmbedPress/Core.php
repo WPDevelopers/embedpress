@@ -521,7 +521,7 @@ class Core {
 				'embedpress') . '">' . __('Settings', 'embedpress') . '</a>';
 
 		array_unshift($links, $settingsLink);
-		if ( !is_embedpress_pro_active() ) {
+		if ( !apply_filters('embedpress/is_allow_rander', false) ) {
 			$links[] = '<a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="embedpress-go-pro-action" style="color: green">'.__('Go Pro', 'embedpress').'</a>';
 		}
 		return $links;

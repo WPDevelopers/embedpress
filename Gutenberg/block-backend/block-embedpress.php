@@ -316,13 +316,15 @@ function embedpress_render_block($attributes)
 										$content_id = $attributes['clientId'];
 										$embed .= Helper::embed_content_share($content_id, $attributes);
 									}
-									Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
+									do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $attributes);
+
 								}
 							?>
 						</div>
 						<?php 
 							if(!empty($attributes['adManager'])) {
-								$embed .= Helper::generateAdTemplate($client_id, $attributes, 'gutenberg');
+								$embed = apply_filters('embedpress/generate_ad_template', $embed, $client_id, $attributes, 'gutenberg');
+
 							}
 						?>
 					</div>

@@ -125,8 +125,11 @@ class Embedpress_Calendar extends Widget_Base
 
 	protected function register_controls()
 	{
-		$this->pro_class = is_embedpress_pro_active() ? '': 'embedpress-pro-control not-active';
-		$this->pro_text = is_embedpress_pro_active() ? '': '<sup class="embedpress-pro-label" style="color:red">'.__('Pro', 'embedpress').'</sup>';
+		$class = 'embedpress-pro-control not-active';
+        $text =  '<sup class="embedpress-pro-label" style="color:red">' . __('Pro', 'embedpress') . '</sup>';
+        $this->pro_class = apply_filters('embedpress/pro_class', $class);
+        $this->pro_text = apply_filters('embedpress/pro_text', $text);
+		
 		/**
 		 * EmbedPress Content Settings
 		 */
@@ -257,7 +260,7 @@ class Embedpress_Calendar extends Widget_Base
 
 		$this->end_controls_section();
 
-		if (! is_embedpress_pro_active()) {
+		if (!apply_filters('embedpress/is_allow_rander', false)) {
 			$this->start_controls_section(
 				'embedpress_pro_section',
 				[
@@ -322,17 +325,20 @@ class Embedpress_Calendar extends Widget_Base
 					if ($is_editor_view && empty($settings['embedpress_public_cal_link']) && !$is_private_cal) { ?>
 						<p><?php esc_html_e('Please paste your public google calendar link.', 'embedpress'); ?></p>
 					<?php }
+
+
 					if ($is_editor_view && $is_private_cal) {
-						if (!is_embedpress_pro_active()) { ?>
+
+						if (!apply_filters('embedpress/is_allow_rander', false)) { ?>
 							<p><?php esc_html_e('You need EmbedPress Pro to display Private Calendar Data.', 'embedpress'); ?></p>
 						<?php } else { ?>
 							<p><?php esc_html_e('Private Calendar Data will be displayed in the frontend', 'embedpress'); ?></p>
 						<?php }
+						
 					} else {
-						if (is_embedpress_pro_active()) {
-							echo Embedpress_Google_Helper::shortcode();
-						}
+						do_action('embedpress_google_helper_shortcode', 10);
 					}
+
 				} ?>
 			</div>
 			<?php

@@ -42,14 +42,14 @@ $nonce = wp_create_nonce('calendly_nonce');
 // Add nonce as a parameter to the URL
 $nonce_param = "&_nonce=$nonce";
 
-$calendly_connect_url = $authorize_url."?calendly_status=connect,_nonce=$nonce";
-$calendly_sync_url = $authorize_url."?calendly_status=connect,_nonce=$nonce";
+$calendly_connect_url = $authorize_url . "?calendly_status=connect,_nonce=$nonce";
+$calendly_sync_url = $authorize_url . "?calendly_status=connect,_nonce=$nonce";
 
-$calendly_disconnect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=disconnect'.$nonce_param;
+$calendly_disconnect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=disconnect' . $nonce_param;
 
 if ($currentTimestamp < $expirationTime) {
-    $calendly_connect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=connect'.$nonce_param;
-    $calendly_sync_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=sync'.$nonce_param;
+    $calendly_connect_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=connect' . $nonce_param;
+    $calendly_sync_url = '/wp-admin/admin.php?page=embedpress&page_type=calendly&calendly_status=sync' . $nonce_param;
 
     if (!empty($_GET['_nonce']) && wp_verify_nonce($_GET['_nonce'], 'calendly_nonce') && $_GET['calendly_status'] == 'connect') {
         update_option('is_calendly_connected', true);
@@ -62,7 +62,13 @@ if (!empty($_GET['_nonce']) && wp_verify_nonce($_GET['_nonce'], 'calendly_nonce'
 
 $is_calendly_connected = get_option('is_calendly_connected');
 
-if (!is_embedpress_pro_active()) {
+if (!$is_calendly_connected) {
+    $invtitees_list = [];
+    $scheduled_events = [];
+    $event_types = [];
+}
+
+if (!apply_filters('embedpress/is_allow_rander', false)) {
     $invtitees_list = [
         'e84408fc-d58a-421a-bf65-5efeefa182b0' => [
             'collection' => [
@@ -181,12 +187,8 @@ if (!is_embedpress_pro_active()) {
             ],
         ]
     ];
-} else if (is_embedpress_pro_active() && !$is_calendly_connected) {
-    $invtitees_list = [];
-    $scheduled_events = [];
-    $event_types = [];
-
 }
+
 
 ?>
 
@@ -200,24 +202,20 @@ if (!is_embedpress_pro_active()) {
                 <?php if (!empty($is_calendly_connected)) : ?>
                     <div title="<?php echo esc_attr__('Calendly already connected', 'embedpress'); ?>">
                         <a href="<?php echo esc_url($calendly_disconnect_url); ?>" class="calendly-connect-button calendly-connected">
-                            <img class="embedpress-calendly-icon" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL.'img/calendly.svg') ?>" alt="calendly">
+                            <img class="embedpress-calendly-icon" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/calendly.svg') ?>" alt="calendly">
                             <?php echo esc_html__('Disconnect', 'embedpress'); ?>
                         </a>
                     </div>
                 <?php else : ?>
                     <a href="<?php echo esc_url($calendly_connect_url); ?>" class="calendly-connect-button" target="_self" title="Connect with Calendly">
-                        <img class="embedpress-calendly-icon" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL.'img/calendly.svg') ?>" alt="calendly">
+                        <img class="embedpress-calendly-icon" src="<?php echo esc_url(EMBEDPRESS_SETTINGS_ASSETS_URL . 'img/calendly.svg') ?>" alt="calendly">
                         <?php echo esc_html__('Connect with Calendly', 'embedpress'); ?>
                     </a>
                 <?php endif; ?>
             </div>
-            <?php if ($is_calendly_connected && is_embedpress_pro_active()) : ?>
-                <div class="calendly-sync-button">
-                    <a href="<?php echo esc_url($calendly_sync_url); ?>" class="calendly-connect-button" target="_self" title="Sync new calendly data">
-                        <span class="dashicons dashicons-update-alt emcs-dashicon"></span><?php echo esc_html__('Sync', 'embedpress'); ?>
-                    </a>
-                </div>
-            <?php endif; ?>
+
+            <?php do_action('embedpress/calendly_sync_button', $is_calendly_connected, $calendly_sync_url); ?>
+
         </div>
         <div class="tab-container">
             <div class="calendly-Event-button tab active-tab" onclick="showTab('event-types')"><?php echo esc_html__('Event Types', 'embedpress'); ?></div>
@@ -254,12 +252,10 @@ if (!is_embedpress_pro_active()) {
                             <?php echo esc_html__('Events', 'embedpress'); ?>
                         <?php endif; ?>
                     </div>
-                    <div class="calendly-data<?php if (!is_embedpress_pro_active()) : echo '-placeholder';
-                                                endif; ?>">
-
+                    <div class="calendly-data<?php if (!apply_filters('embedpress/is_allow_rander', false)) : echo '-placeholder'; endif; ?>">
                         <div class="event-type-card-list">
                             <?php
-                            if (is_array($event_types) && isset($event_types['collection']) && count($event_types['collection']) > 0) :
+                            if (is_array($event_types) && isset($event_types['collection']) && count($event_types['collection']) > 0) {
                                 foreach ($event_types['collection'] as $item) :
                                     $status = 'In-active';
                                     if (!empty($item['active'])) {
@@ -288,16 +284,15 @@ if (!is_embedpress_pro_active()) {
                                     </div>
                             <?php
                                 endforeach;
-                            elseif (is_embedpress_pro_active() && !$is_calendly_connected) :
-                                echo esc_html__('Please connect with calendly', 'embedpress');
-                            elseif (is_embedpress_pro_active() && $is_calendly_connected && isset($event_types['collection']) && count($event_types['collection']) < 1) :
-                                echo esc_html__('Calendly has no events.', 'embedpress');
-                            endif;
-
+                            } else {
+                                if(isset($event_types['collection'])){
+                                    do_action('embedpress/connected_text_label', $is_calendly_connected, $event_types['collection']);
+                                }
+                            }
                             ?>
                         </div>
 
-                        <?php if (!is_embedpress_pro_active()) : ?>
+                        <?php if (!apply_filters('embedpress/is_allow_rander', false)) : ?>
                             <div class="overlay">
                                 <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" class="overlay-button" target="_blank"><?php echo esc_html__('Get PRO to Unlock', 'embedpress'); ?></a>
                             </div>
@@ -313,8 +308,7 @@ if (!is_embedpress_pro_active()) {
     <div class="tab-content" id="scheduled-events">
 
         <div class="calendly-day-list">
-            <div class="calendly-data<?php if (!is_embedpress_pro_active()) : echo '-placeholder';
-                                        endif; ?>">
+            <div class="calendly-data<?php if (!apply_filters('embedpress/is_allow_rander', false)) : echo '-placeholder'; endif; ?>">
                 <table class="rwd-table" cellspacing="0">
                     <tbody>
                         <tr>
@@ -402,7 +396,7 @@ if (!is_embedpress_pro_active()) {
                                         <?php echo $is_past_event ? 'Past' : 'Upcoming'; ?>
                                     </td>
                                     <td class="scheduled-status">
-                                        <?php echo esc_html( ucfirst($event['status']) ); ?>
+                                        <?php echo esc_html(ucfirst($event['status'])); ?>
                                     </td>
                                 </tr>
 
@@ -412,15 +406,11 @@ if (!is_embedpress_pro_active()) {
                     </tbody>
                 </table>
 
-                <?php
-                if (is_embedpress_pro_active() && !$is_calendly_connected) :
-                    echo '<br>' . esc_html__('Please connect with calendly', 'embedpress');
-                elseif (is_embedpress_pro_active() && $is_calendly_connected && count($sorted_events) < 1) :
-                    echo esc_html__('Calendly has no schedule.', 'embedpress');
-                endif;
-                ?>
 
-                <?php if (!is_embedpress_pro_active()) : ?>
+                <?php do_action('embedpress/calendly_connect_text_label', $is_calendly_connected, $sorted_events); ?>
+
+
+                <?php if (!apply_filters('embedpress/is_allow_rander', false)) : ?>
                     <div class="overlay">
                         <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" class="overlay-button" target="_blank"><?php echo esc_html__('Get PRO to Unlock', 'embedpress'); ?></a>
                     </div>

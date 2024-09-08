@@ -31,6 +31,7 @@ const { __ } = wp.i18n;
 const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
 const { BlockIcon, MediaPlaceholder, InspectorControls } = wp.blockEditor;
 const { Component, Fragment, useEffect } = wp.element;
+const { applyFilters } = wp.hooks;
 const { RangeControl, PanelBody, ExternalLink, ToggleControl, SelectControl, RadioControl, ColorPalette } = wp.components;
 
 const ALLOWED_MEDIA_TYPES = [
@@ -183,6 +184,8 @@ class EmbedPressPDFEdit extends Component {
 	}
 
 
+
+
 	render() {
 
 		const { attributes, noticeUI, setAttributes } = this.props;
@@ -300,6 +303,11 @@ class EmbedPressPDFEdit extends Component {
 		}
 
 		console.log(lazyLoad);
+
+		const toobarPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Toolbar', 'embedpress'), true);
+		const printPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Print/Download', 'embedpress'), true);
+		const drawPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Draw', 'embedpress'), false);
+		const copyPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Copy  Text', 'embedpress'), true);
 
 
 		if (!href || hasError) {
@@ -473,25 +481,7 @@ class EmbedPressPDFEdit extends Component {
 								)
 							}
 
-
-
-							<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
-								<ToggleControl
-									label={__('Toolbar', 'embedpress')}
-									description={__('Show or Hide toolbar. Note: If you disable toolbar access then every toolbar options will be disabled', 'embedpress')}
-									onChange={(toolbar) =>
-										setAttributes({ toolbar })
-									}
-									checked={toolbar}
-									style={{ marginTop: '30px' }}
-								/>
-								{
-									(!isProPluginActive) && (
-										<span className='isPro'>{__('pro', 'embedpress')}</span>
-									)
-								}
-							</div>
-
+							{applyFilters('embedpress.pdfControls', [toobarPlaceholder], attributes, setAttributes, 'toolbar')}
 
 							{
 								toolbar && (
@@ -528,20 +518,8 @@ class EmbedPressPDFEdit extends Component {
 											checked={lazyLoad}
 										/>
 
-										<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
-											<ToggleControl
-												label={__('Print/Download', 'embedpress')}
-												onChange={(download) =>
-													setAttributes({ download })
-												}
-												checked={download}
-											/>
-											{
-												(!isProPluginActive) && (
-													<span className='isPro'>{__('pro', 'embedpress')}</span>
-												)
-											}
-										</div>
+										{applyFilters('embedpress.pdfControls', [printPlaceholder], attributes, setAttributes, 'print')}
+
 
 										{
 											(viewerStyle === 'modern') ? (
@@ -552,38 +530,12 @@ class EmbedPressPDFEdit extends Component {
 															setAttributes({ add_text })
 														}
 														checked={add_text}
-													/>
+													/>												
 
-													<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
-														<ToggleControl
-															label={__('Draw', 'embedpress')}
-															onChange={(draw) =>
-																setAttributes({ draw })
-															}
-															checked={draw}
-														/>
-														{
-															(!isProPluginActive) && (
-																<span className='isPro'>{__('pro', 'embedpress')}</span>
-															)
-														}
-													</div>
+													{applyFilters('embedpress.pdfControls', [drawPlaceholder], attributes, setAttributes, 'draw')}
+													{applyFilters('embedpress.pdfControls', [copyPlaceholder], attributes, setAttributes, 'copyText')}
 
-													<div className={isProPluginActive ? "pro-control-active" : "pro-control"} onClick={(e) => { this.addProAlert(e, isProPluginActive) }}>
-														<ToggleControl
-															label={__('Copy Text', 'embedpress')}
-															onChange={(copy_text) =>
-																setAttributes({ copy_text })
-															}
-															checked={copy_text}
-															className={'disabled'}
-														/>
-														{
-															(!isProPluginActive) && (
-																<span className='isPro'>{__('pro', 'embedpress')}</span>
-															)
-														}
-													</div>
+
 													<ToggleControl
 														label={__('Add Image', 'embedpress')}
 														onChange={(add_image) =>

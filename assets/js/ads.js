@@ -50,12 +50,16 @@ const hashParentClass = (element, className) => {
 
 
 const adInitialization = (adContainer, index) => {
+
     
     if(!adContainer){
         return;
     }
 
     const adAtts = JSON.parse(atob(adContainer?.getAttribute('data-sponsored-attrs')));
+
+    console.log({adAtts});
+
 
     const blockId = adAtts.clientId;
     const blockIdMD5 = adContainer.getAttribute('data-sponsored-id');
@@ -178,8 +182,15 @@ const adInitialization = (adContainer, index) => {
 
 }
 
+const isYoutubeChannel = (srcUrl) => {
+    const youtubeChannelRegex = /^(https?:\/\/)?(www\.)?youtube\.com\/(channel|user)\/[A-Za-z0-9_-]+\/?$/;
+    return youtubeChannelRegex.test(srcUrl);
+};
+
 const addWrapperForYoutube = (adContainer, srcUrl, adAtts) => {
+
     const youtubeIframe = adContainer.querySelector(`.ose-youtube iframe`);
+
     if (youtubeIframe && getYTVideoId(srcUrl)) {
 
         const divWrapper = document.createElement('div');

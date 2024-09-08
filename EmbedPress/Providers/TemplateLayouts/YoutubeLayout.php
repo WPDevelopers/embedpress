@@ -83,8 +83,8 @@ class YoutubeLayout
 
     public static function create_list_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb){
 
-        $channelTitle = $data['get_channel_info']['snippet']['title'];
-        $channelThumb = $data['get_channel_info']['snippet']['thumbnails']['default']['url'];
+        // $channelTitle = $data['get_channel_info']['snippet']['title'];
+        // $channelThumb = $data['get_channel_info']['snippet']['thumbnails']['default']['url'];
         
         foreach ($jsonResult->items as $item) : ?>
             <?php
@@ -128,8 +128,8 @@ class YoutubeLayout
     }
     public static function create_gallery_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb){
 
-        $channelTitle = $data['get_channel_info']['snippet']['title'];
-        $channelThumb = $data['get_channel_info']['snippet']['thumbnails']['default']['url'];
+        // $channelTitle = $data['get_channel_info']['snippet']['title'];
+        // $channelThumb = $data['get_channel_info']['snippet']['thumbnails']['default']['url'];
 
         foreach ($jsonResult->items as $item) : ?>
             <?php
@@ -168,93 +168,7 @@ class YoutubeLayout
             </div>
         <?php endforeach;
     }
-    public static function create_grid_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb){
-
-        if(empty($channelTitle)){
-            $channelTitle = isset($data['get_channel_info']['snippet']['title']) ? $data['get_channel_info']['snippet']['title'] : '';
-            $channelThumb = isset($data['get_channel_info']['snippet']['thumbnails']['default']['url']) ? $data['get_channel_info']['snippet']['thumbnails']['default']['url'] : '';
-        }
-
-        foreach ($jsonResult->items as $item) : ?>
-            <?php
-            $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
-            $thumbnail = Helper::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
-            $vid = Helper::get_id($item);
-            $videoTitle = isset($item->snippet->title) ? $item->snippet->title : '';
-            $publishedAt = isset($item->snippet->publishedAt) ? $item->snippet->publishedAt : '';
-
-            if (empty($gallobj->first_vid)) {
-                $gallobj->first_vid = $vid;
-            }
-            if ($privacyStatus == 'private' && $options['hideprivate']) {
-                continue;
-            }
-            ?>
-            <div class="item" data-vid="<?php echo $vid; ?>">
-                <div class="thumb" style="background: <?php echo "url({$thumbnail}) no-repeat center"; ?>">
-                    <div class="play-icon">
-                        <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'); ?>" alt="">
-                    </div>
-                </div>
-                <div class="body youtube-body-content">
-                    <div class="description-container">
-                        <div class="thumbnail"><img src="<?php echo esc_url($channelThumb ); ?>"/></div>
-                        <div class="details">
-                            <div class="channel"><?php echo esc_html($channelTitle); ?></div>
-                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 6)); ?></div>
-                            
-                            <div class="views-time">
-                                 <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>            
-            </div>
-        <?php endforeach;
-    }
-    public static function create_carousel_layout($jsonResult, $gallobj, $options, $data, $channelTitle, $channelThumb){
-
-        $channelTitle = $data['get_channel_info']['snippet']['title'];
-        $channelThumb = $data['get_channel_info']['snippet']['thumbnails']['default']['url'];
-
-        foreach ($jsonResult->items as $item) : ?>
-            <?php
-            $privacyStatus = isset($item->status->privacyStatus) ? $item->status->privacyStatus : null;
-            $thumbnail = Helper::get_thumbnail_url($item, $options['thumbnail'], $privacyStatus);
-            $vid = Helper::get_id($item);
-            $videoTitle = isset($item->snippet->title) ? $item->snippet->title : '';
-            $publishedAt = isset($item->snippet->publishedAt) ? $item->snippet->publishedAt : '';
-
-            if (empty($gallobj->first_vid)) {
-                $gallobj->first_vid = $vid;
-            }
-            if ($privacyStatus == 'private' && $options['hideprivate']) {
-                continue;
-            }
-            ?>
-            <div class="item" data-vid="<?php echo $vid; ?>">
-                <div class="thumb" style="background: <?php echo "url({$thumbnail}) no-repeat center"; ?>">
-                    <div class="play-icon">
-                        <img src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'images/youtube/youtube-play.png'); ?>" alt="">
-                    </div>
-                </div>
-                <div class="body youtube-body-content">
-                    <div class="description-container">
-                        <div class="thumbnail"><img src="<?php echo esc_url($channelThumb ); ?>"/></div>
-                        <div class="details">
-                            <div class="channel"><?php echo esc_html($channelTitle); ?></div>
-                            <div class="title"><?php echo esc_html(Helper::trimTitle($videoTitle, 6)); ?></div>
-                            
-                            <div class="views-time">
-                                 <span class="time"><?php echo esc_html(Helper::timeAgo($publishedAt)); ?></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>            
-            </div>
-        <?php endforeach;
-    }
-
+    
 
     public static function create_youtube_layout($options, $data, $layout, $url) {
         $nextPageToken = '';
@@ -406,10 +320,11 @@ class YoutubeLayout
                                     echo self::create_list_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
                                 }
                                 else if($layout === 'grid'){
-                                    echo self::create_grid_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
+                                    do_action('embedpress/youtube_grid_layout', $jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb);
+
                                 }
                                 else if($layout === 'carousel'){
-                                    echo self::create_carousel_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 
+                                    do_action('embedpress/youtube_carousel_layout', $jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb);
                                 }
                                 else{
                                     echo self::create_gallery_layout($jsonResult, $gallobj, $options, $data, $chanelTitle, $channelThumb); 

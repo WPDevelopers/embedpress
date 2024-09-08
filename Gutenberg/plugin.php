@@ -1081,14 +1081,14 @@ function embedpress_pdf_render_block($attributes)
 									$embed .= Helper::embed_content_share($content_id, $attributes);
 								}
 								echo '<div class="ep-embed-content-wraper">';
-								Helper::display_password_form($client_id, $embed, $pass_hash_key, $attributes);
+									do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $attributes);
 								echo '</div>';
 							}
 							?>
 
-				<?php 
+					<?php 
 					if(!empty($attributes['adManager'])) {
-						$embed .= Helper::generateAdTemplate($client_id, $attributes, 'gutenberg');
+						$embed = apply_filters('embedpress/generate_ad_template', $embed, $client_id, $attributes, 'gutenberg');
 					}
 				?>
 			</div>			
@@ -1142,9 +1142,8 @@ function isGoogleCalendar($url) {
 				?>
 			<iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_url($url); ?>"></iframe>
 		<?php } else {
-				if (is_embedpress_pro_active()) {
-					echo Embedpress_Google_Helper::shortcode();
-				}
+				do_action('embedpress_google_helper_shortcode', 10);
+
 			} ?>
 		<?php do_action('embedpress_calendar_gutenberg_after_embed',  $client_id, 'calendar', $attributes); ?>
 

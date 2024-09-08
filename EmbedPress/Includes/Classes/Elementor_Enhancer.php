@@ -34,13 +34,7 @@ class Elementor_Enhancer {
 
 			$params['color'] = $setting['embedpress_pro_youtube_progress_bar_color'];
 
-			if ( is_embedpress_pro_active() ) {
-				$params['modestbranding'] = $setting['embedpress_pro_youtube_modest_branding'];
-				if ( $setting['embedpress_pro_youtube_force_closed_captions'] === 'yes' ) {
-					$params['cc_load_policy'] = 1;
-				}
-			}
-
+			$params = apply_filters('embedpress/elementor_enhancer_youtube', $params, $setting);
 
 			preg_match( '/(.+)?\?/', $url_full, $url );
 			if ( empty( $url) ) {
@@ -55,9 +49,8 @@ class Elementor_Enhancer {
 			}
 			// Replaces the old url with the new one.
 			$embed->embed = str_replace( $url_full, rtrim( $url_modified, '&' ), $embed->embed );
-			if ( is_embedpress_pro_active() ) {
-				$embed = self::apply_cta_markup( $embed, $setting, 'youtube' );
-			}
+
+			$embed = apply_filters('embedpress/elementor_enhancer_youtube_cta', $embed, $setting);
 
 		}
 
@@ -211,18 +204,7 @@ class Elementor_Enhancer {
 			$params['autoplay'] = 1;
 		}
 
-		if ( is_embedpress_pro_active() ) {
-			if ( $setting['embedpress_pro_vimeo_loop'] === 'yes' ) {
-				$params['loop'] = 1;
-			}
-			if ( $setting['embedpress_pro_vimeo_autopause'] === 'yes' ) {
-				$params['autopause'] = 1;
-			}
-			
-			if ( $setting['embedpress_pro_vimeo_autopause'] !== 'yes' ) {
-				$params ['dnt'] = $setting['embedpress_pro_vimeo_dnt'] === 'yes' ? 1 : 0;
-			}
-		}
+		$params = apply_filters('embedpress/elementor_enhancer_vimeo', $params, $setting);
 		
 
 		$url_modified = str_replace("dnt=1&", "", $url_full);
@@ -235,9 +217,8 @@ class Elementor_Enhancer {
 		$url_modified .= '#t=' . $setting['embedpress_pro_video_start_time'];
 		// Replaces the old url with the new one.
 		$embed->embed = str_replace( $url_full, $url_modified, $embed->embed );
-		if ( is_embedpress_pro_active() ) {
-			return self::apply_cta_markup( $embed, $setting, 'vimeo' );
-		}
+
+		$embed = apply_filters('embedpress/elementor_enhancer_vimeo_cta', $embed, $setting);
 
 		return $embed;
 	}
@@ -273,15 +254,8 @@ class Elementor_Enhancer {
 		if($setting['embedpress_pro_video_start_time']){
 			$embedOptions->time             = $setting['embedpress_pro_video_start_time'];
 		}
-		if ( is_embedpress_pro_active() ) {
-			$embedOptions->volumeControl = ( $setting['embedpress_pro_wistia_volume_control'] === 'yes' );
 
-			$volume = isset($setting['embedpress_pro_wistia_volume']['size']) ? (float) $setting['embedpress_pro_wistia_volume']['size'] : 0;
-			if ( $volume > 1 ) {
-				$volume = $volume / 100;
-			}
-			$embedOptions->volume = $volume;
-		}
+		$embedOptions = apply_filters('embedpress/elementor_enhancer_wistia', $embedOptions, $setting);
 
 
 		// Plugins
@@ -309,22 +283,8 @@ class Elementor_Enhancer {
 			}
 		}
 
-		// Closed Captions plugin
-		if ( is_embedpress_pro_active() ) {
-			if ( $setting['embedpress_pro_wistia_captions'] === 'yes' ) {
-				$isCaptionsEnabled          = ( $setting['embedpress_pro_wistia_captions'] === 'yes' );
-				$isCaptionsEnabledByDefault = ( $setting['embedpress_pro_wistia_captions_enabled_by_default'] === 'yes' );
-				if ( $isCaptionsEnabled ) {
-					$pluginList['captions-v1'] = [
-						'onByDefault' => $isCaptionsEnabledByDefault,
-					];
-				}
-				$embedOptions->captions        = $isCaptionsEnabled;
-				$embedOptions->captionsDefault = $isCaptionsEnabledByDefault;
-			}
+		$embedOptions = apply_filters('embedpress/elementor_enhancer_wistia_captions', $embedOptions, $setting);
 
-
-		}
 
 		// Rewind plugin
 		if ( $setting['embedpress_pro_wistia_rewind'] === 'yes' ) {
@@ -382,9 +342,8 @@ class Elementor_Enhancer {
 		$html         .= '<div ' . join( ' ', $attribs ) . "></div>\n";
 		$html         .= '</div>';
 		$embed->embed = $html;
-		if ( is_embedpress_pro_active() ) {
-			return self::apply_cta_markup( $embed, $setting, 'wistia' );
-		}
+
+		$embed = apply_filters('embedpress/elementor_enhancer_wistia_cta', $embed, $setting);
 
 		return $embed;
 	}
@@ -428,10 +387,8 @@ class Elementor_Enhancer {
 			'buying'         => 'false',
 			'download'       => 'false',
 		];
-		if ( is_embedpress_pro_active() ) {
-			$params['buying']   = $setting['embedpress_pro_soundcloud_buy_button'] === 'yes' ? 'true' : 'false';
-			$params['download'] = $setting['embedpress_pro_soundcloud_download_button'] === 'yes' ? 'true' : 'false';
-		}
+
+		$params = apply_filters('embedpress/elementor_enhancer_soundcloud', $params, $setting);	
 
 		$url_modified = $url_full;
 		foreach ( $params as $param => $value ) {
@@ -466,17 +423,17 @@ class Elementor_Enhancer {
 		if ( $setting['embedpress_pro_dailymotion_play_on_mobile'] === 'yes' ) {
 			$params['playsinline'] = 1;
 		}
-		if ( is_embedpress_pro_active() ) {
-			$params['ui-logo'] = isset( $setting['embedpress_pro_dailymotion_ui_logo']) && ($setting['embedpress_pro_dailymotion_ui_logo'] === 'yes') ? 1 : 0;
-		}
+
+		$params = apply_filters('embedpress/elementor_enhancer_dailymotion', $params, $setting);
+
 		$url_modified = $url_full;
 		foreach ( $params as $param => $value ) {
 			$url_modified = add_query_arg( $param, $value, $url_modified );
 		}
 		$embed->embed = str_replace( $url_full, $url_modified, $embed->embed );
-		if ( is_embedpress_pro_active() ) {
-			return self::apply_cta_markup( $embed, $setting, 'dailymotion' );
-		}
+
+		$embed = apply_filters('embedpress/elementor_enhancer_dailymotion_cta', $embed, $setting);
+
 		return $embed;
 	}
 
@@ -508,12 +465,10 @@ class Elementor_Enhancer {
 		}
 		$muted = ( 'yes' === $settings['embedpress_pro_twitch_mute'] ) ? 'true' : 'false';
 		$theme = !empty($settings['embedpress_pro_twitch_theme']) ? esc_attr($settings['embedpress_pro_twitch_theme']) : 'dark';
-		
-		if ( is_embedpress_pro_active() ) {
+	
 
-			$layout = ( 'yes' === $settings['embedpress_pro_twitch_chat'] ) ? 'video-with-chat' : 'video';
+		$layout = apply_filters('embedpress/elementor_enhancer_twitch', 'video', $settings);
 
-		}
 
 		$url      = "https://embed.twitch.tv?autoplay={$autoplay}&channel={$channel}&height={$height}&layout={$layout}&migration=true&muted={$muted}&theme={$theme}&time={$time}&video={$video}&width={$width}&allowfullscreen={$full_screen}";
 
@@ -523,9 +478,9 @@ class Elementor_Enhancer {
 		preg_match( '/src=\"(.+?)\"/', $embed_content->embed, $match );
 		$url_full             = $match[1];
 		$embed_content->embed = str_replace( $url_full, $url, $embed_content->embed );
-		if ( is_embedpress_pro_active() ) {
-			return self::apply_cta_markup( $embed_content, $settings, 'twitch' );
-		}
+
+		$embed_content = apply_filters('embedpress/elementor_enhancer_twitch_cta', $embed_content, $settings);
+
 
 		return $embed_content;
 	}

@@ -146,6 +146,12 @@
 .pro-control .ad-manager-controllers {
   opacity: 0.5; }
 
+.ad-manager-controllers.opacity {
+  opacity: 0.3; }
+
+.pro-control.ep-custom-logo-button button {
+  opacity: .3; }
+
 .ads-help {
   margin-top: 30px; }
 
@@ -261,6 +267,9 @@ body.page .flexia-wrapper > .content-area {
 .components-base-control__field,
 .components-input-control__label {
   font-weight: 600; }
+
+.ad-upload {
+  margin-bottom: 20px; }
 
 label.components-truncate.components-text.components-input-control__label.em5sgkm4.ecfd-bd--d-eecc-1iznhho.em57xhy0 {
   font-weight: 600 !important; }
@@ -844,7 +853,8 @@ button.components-color-palette__custom-color-button {
 .components-color-palette__custom-color-text-wrapper {
   display: none !important; }
 
-.components-panel__body.is-opened.ep-opensea-options h2.components-panel__body-title, .components-panel__body.is-opened.ep-colors-typography h2.components-panel__body-title {
+.components-panel__body.is-opened.ep-opensea-options h2.components-panel__body-title,
+.components-panel__body.is-opened.ep-colors-typography h2.components-panel__body-title {
   margin-bottom: 16px !important; }
 
 .components-panel__body.is-opened.ep-colors-typography .ep-opensea-sub-controls h2.components-panel__body-title {
@@ -932,11 +942,17 @@ button.ep-remove__image {
 .content-share-controls .ep-custom-logo-button {
   margin-bottom: 30px !important; }
 
+.pro-control.ep-custom-logo-button {
+  margin-bottom: 20px !important; }
+
 .ep-custom-logo-button .isPro {
   top: 50%;
   -webkit-transform: translate(0%, -50%);
       -ms-transform: translate(0%, -50%);
           transform: translate(0%, -50%); }
+
+.ep-custom-logo-position {
+  margin-top: 20px; }
 
 .ep-yt-related-videos p,
 .ep-video-controlers p {
@@ -1057,7 +1073,10 @@ span.copy-tooltip {
   display: -ms-flexbox;
   display: flex; }
 
-.position-right-wraper.gutenberg-pdf-wraper, .position-left-wraper.gutenberg-pdf-wraper, .position-top-wraper.gutenberg-pdf-wraper, .position-bottom-wraper.gutenberg-pdf-wraper {
+.position-right-wraper.gutenberg-pdf-wraper,
+.position-left-wraper.gutenberg-pdf-wraper,
+.position-top-wraper.gutenberg-pdf-wraper,
+.position-bottom-wraper.gutenberg-pdf-wraper {
   width: 100%; }
 
 .ep-share-position-right .gutenberg-wraper {
@@ -1194,7 +1213,8 @@ a.ep-social-icon.pinterest svg {
   width: 18px;
   height: auto; }
 
-.ep-documentation, .ep-tips-and-tricks {
+.ep-documentation,
+.ep-tips-and-tricks {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;
@@ -1202,11 +1222,13 @@ a.ep-social-icon.pinterest svg {
   gap: 10px;
   margin-bottom: 5px; }
 
-.ep-documentation svg, .ep-tips-and-tricks svg {
+.ep-documentation svg,
+.ep-tips-and-tricks svg {
   width: 25px;
   height: auto; }
 
-.ep-documentation a, .ep-tips-and-tricks a {
+.ep-documentation a,
+.ep-tips-and-tricks a {
   font-weight: 500;
   font-size: 13px;
   color: #5b4e96; }
@@ -1263,19 +1285,19 @@ a.ep-social-icon.pinterest svg {
 .tips__alert__wrap .tips__alert__card h2 {
   font-size: 17.5px;
   font-weight: 500;
-  color: #131F4D;
+  color: #131f4d;
   margin-bottom: 15px; }
 
 .tips__alert__wrap .tips__alert__card p {
   font-size: 14px;
   font-weight: 400;
-  color: #7C8DB5;
+  color: #7c8db5;
   margin-bottom: 15px; }
 
 .tips__alert__wrap .tips__alert__card a {
   text-decoration: underline;
   font-weight: 700;
-  color: #131F4D; }
+  color: #131f4d; }
 
 .tips__alert__wrap .tips__alert__card .button {
   -ms-flex-item-align: end;
@@ -1291,7 +1313,7 @@ p.ep-live-video-info {
   gap: 8px;
   font-size: 12px;
   font-weight: bold;
-  background: #F6D88C;
+  background: #f6d88c;
   padding: 8px 8px;
   border-radius: 10px; }
 
@@ -1333,7 +1355,7 @@ button.skip-ad-button {
   display: inline-block;
   font-size: 12px;
   font-weight: bold;
-  background: #F6D88C;
+  background: #f6d88c;
   padding: 8px 8px;
   border-radius: 10px; }
 

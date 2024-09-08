@@ -117,6 +117,10 @@ body.page .flexia-wrapper > .content-area {
     font-weight: 600;
 }
 
+.ad-upload {
+    margin-bottom: 20px;
+}
+
 label.components-truncate.components-text.components-input-control__label.em5sgkm4.ecfd-bd--d-eecc-1iznhho.em57xhy0 {
     font-weight: 600 !important;
 }
@@ -142,7 +146,7 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
 }
 
 .ep__components-placeholder,
-.wp-block-embedpress-embedpress{
+.wp-block-embedpress-embedpress {
     clear: both !important;
 }
 
@@ -197,7 +201,11 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
     padding-bottom: 15px;
     background-color: #ffffff;
     border-radius: 10px;
-    transition: background 0.5s, border 0.5s, border-radius 0.5s, box-shadow 0.5s;
+    transition:
+        background 0.5s,
+        border 0.5s,
+        border-radius 0.5s,
+        box-shadow 0.5s;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.09);
     overflow: hidden;
     padding: 15px;
@@ -315,7 +323,10 @@ span.eb_nft_currency svg {
     padding-right: 20px;
     padding-left: 20px;
     padding-bottom: 15px;
-    transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s;
+    transition:
+        border 0.5s,
+        border-radius 0.5s,
+        box-shadow 0.5s;
 }
 
 .ep_nft_content .ep_nft_button button:hover a {
@@ -358,7 +369,10 @@ span.eb_nft_currency svg {
     color: #ffffff;
     font-size: 14px;
     padding: 10px 20px;
-    transition: border 0.5s, border-radius 0.5s, box-shadow 0.5s;
+    transition:
+        border 0.5s,
+        border-radius 0.5s,
+        box-shadow 0.5s;
     display: block;
     text-align: center;
     font-weight: 500;
@@ -705,7 +719,7 @@ span.eb_nft_currency svg {
         width: 100%;
     }
 
-    .ep-embed-content-wraper>div {
+    .ep-embed-content-wraper > div {
         max-width: 100%;
     }
 }
@@ -727,35 +741,34 @@ button.components-color-palette__custom-color-button {
     height: 24px;
 }
 .components-color-palette__custom-color-text-wrapper {
-    display: none!important;
+    display: none !important;
 }
 
 // .components-panel__body.is-opened>.components-panel__body-title {
 //     margin: -16px -16px -16px;
 // }
 
-.components-panel__body.is-opened.ep-opensea-options h2.components-panel__body-title, .components-panel__body.is-opened.ep-colors-typography h2.components-panel__body-title {
-    margin-bottom: 16px!important;
+.components-panel__body.is-opened.ep-opensea-options h2.components-panel__body-title,
+.components-panel__body.is-opened.ep-colors-typography h2.components-panel__body-title {
+    margin-bottom: 16px !important;
 }
 .components-panel__body.is-opened.ep-colors-typography .ep-opensea-sub-controls h2.components-panel__body-title {
-    margin-bottom: 0px!important;
+    margin-bottom: 0px !important;
 }
 .embedpress-gutenberg-controls .components-panel__body.is-opened h2.components-panel__body-title {
-    margin-bottom: 16px!important;
+    margin-bottom: 16px !important;
 }
 
-.ep-controls-margin{
+.ep-controls-margin {
     margin-bottom: 24px;
 }
-
-
 
 .ep__instafeed-options .instagram-profile-image-uploader {
     margin-bottom: 0;
 }
 
-.block-editor-block-inspector .components-base-control:last-child{
-    margin-bottom: 24px!important;
+.block-editor-block-inspector .components-base-control:last-child {
+    margin-bottom: 24px !important;
 }
 
 // YouTube single videos controlers CSS
@@ -813,7 +826,7 @@ button.ep-remove__image {
     border-radius: 5px;
     padding: 20px 15px;
 }
-.instagram-profile-image-uploader{
+.instagram-profile-image-uploader {
     margin-bottom: 20px;
 }
 
@@ -828,9 +841,17 @@ button.ep-remove__image {
     margin-bottom: 30px !important;
 }
 
+.pro-control.ep-custom-logo-button {
+    margin-bottom: 20px !important;
+}
+
 .ep-custom-logo-button .isPro {
     top: 50%;
     transform: translate(0%, -50%);
+}
+
+.ep-custom-logo-position {
+    margin-top: 20px;
 }
 
 .ep-yt-related-videos p,
@@ -937,10 +958,10 @@ span.copy-tooltip {
 .gutenberg-block-wraper.ep-content-share-enabled .ep-embed-content-wraper {
     align-items: center;
 }
-.gutenberg-block-wraper.ep-content-share-enabled .position-left-wraper.ep-embed-content-wraper{
+.gutenberg-block-wraper.ep-content-share-enabled .position-left-wraper.ep-embed-content-wraper {
     align-items: self-start;
 }
-.gutenberg-block-wraper.ep-content-share-enabled .position-right-wraper.ep-embed-content-wraper{
+.gutenberg-block-wraper.ep-content-share-enabled .position-right-wraper.ep-embed-content-wraper {
     align-items: self-start;
 }
 
@@ -956,24 +977,26 @@ span.copy-tooltip {
 .gutenberg-wraper {
     display: flex;
 }
-.position-right-wraper.gutenberg-pdf-wraper, .position-left-wraper.gutenberg-pdf-wraper, .position-top-wraper.gutenberg-pdf-wraper, .position-bottom-wraper.gutenberg-pdf-wraper{
+.position-right-wraper.gutenberg-pdf-wraper,
+.position-left-wraper.gutenberg-pdf-wraper,
+.position-top-wraper.gutenberg-pdf-wraper,
+.position-bottom-wraper.gutenberg-pdf-wraper {
     width: 100%;
 }
-.ep-share-position-right .gutenberg-wraper{
+.ep-share-position-right .gutenberg-wraper {
     flex-direction: row;
 }
-.ep-share-position-left .gutenberg-wraper{
+.ep-share-position-left .gutenberg-wraper {
     flex-direction: row-reverse;
 }
 
-.ep-share-position-bottom .gutenberg-wraper{
+.ep-share-position-bottom .gutenberg-wraper {
     flex-direction: column;
 }
 
 .ep-share-position-top .gutenberg-wraper {
     flex-direction: column-reverse;
 }
-
 
 .ep-social-share {
     display: flex;
@@ -1097,22 +1120,25 @@ a.ep-social-icon.pinterest svg {
     width: 100%;
     gap: 10px;
 }
-.ep-pannel-icon svg{
+.ep-pannel-icon svg {
     width: 18px;
     height: auto;
 }
 
-.ep-documentation, .ep-tips-and-tricks {
+.ep-documentation,
+.ep-tips-and-tricks {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 5px;
 }
-.ep-documentation svg, .ep-tips-and-tricks svg {
+.ep-documentation svg,
+.ep-tips-and-tricks svg {
     width: 25px;
     height: auto;
 }
-.ep-documentation a, .ep-tips-and-tricks a {
+.ep-documentation a,
+.ep-tips-and-tricks a {
     font-weight: 500;
     font-size: 13px;
     color: #5b4e96;
@@ -1126,7 +1152,7 @@ a.ep-social-icon.pinterest svg {
     gap: 5px;
     margin-bottom: 5px;
     padding: 0 10px;
-    margin-top: -10px!important;
+    margin-top: -10px !important;
     margin-bottom: 15px;
 }
 .ep-calendly-data-link svg {
@@ -1138,8 +1164,6 @@ a.ep-social-icon.pinterest svg {
     font-size: 14px;
     color: #5b4e96;
 }
-
-
 
 .tips__alert__wrap {
     position: fixed;
@@ -1169,19 +1193,19 @@ a.ep-social-icon.pinterest svg {
 .tips__alert__wrap .tips__alert__card h2 {
     font-size: 17.5px;
     font-weight: 500;
-    color: #131F4D;
+    color: #131f4d;
     margin-bottom: 15px;
 }
 .tips__alert__wrap .tips__alert__card p {
     font-size: 14px;
     font-weight: 400;
-    color: #7C8DB5;
+    color: #7c8db5;
     margin-bottom: 15px;
 }
 .tips__alert__wrap .tips__alert__card a {
     text-decoration: underline;
     font-weight: 700;
-    color: #131F4D;
+    color: #131f4d;
 }
 .tips__alert__wrap .tips__alert__card .button {
     align-self: flex-end;
@@ -1196,7 +1220,7 @@ p.ep-live-video-info {
     gap: 8px;
     font-size: 12px;
     font-weight: bold;
-    background: #F6D88C;
+    background: #f6d88c;
     padding: 8px 8px;
     border-radius: 10px;
 }
@@ -1229,7 +1253,7 @@ button.skip-ad-button {
     display: inline-block;
     font-size: 12px;
     font-weight: bold;
-    background: #F6D88C;
+    background: #f6d88c;
     padding: 8px 8px;
     border-radius: 10px;
 }

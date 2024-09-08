@@ -111,7 +111,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     {
                                         isInstagramFeed(url) && (
                                             <PanelRow>
-                                               <div style={{ marginBottom: '10px', backgroundColor: '#ebe4ff', padding: '8px', borderRadius: '8px', fontWeight: 500 }} className='elementor-panel-alert elementor-panel-warning-info'>To enable full Instagram embedding experience, please add your access token <a href="/wp-admin/admin.php?page=embedpress&page_type=instagram" target='_blank'>here</a>.</div> 
+                                                <div style={{ marginBottom: '10px', backgroundColor: '#ebe4ff', padding: '8px', borderRadius: '8px', fontWeight: 500 }} className='elementor-panel-alert elementor-panel-warning-info'>To enable full Instagram embedding experience, please add your access token <a href="/wp-admin/admin.php?page=embedpress&page_type=instagram" target='_blank'>here</a>.</div>
                                             </PanelRow>
 
                                         )
@@ -239,10 +239,8 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                                 />
                                             )}
 
-                                            {isProPluginActive && instafeedFeedType === 'hashtag_type' && (
-                                                <PanelRow className="elementor-panel-alert elementor-panel-warning-info">
-                                                    To embed #hashtag posts you need to connect business account. <a href="https://embedpress.com/docs/generate-instagram-access-token/">Learn More</a>
-                                                </PanelRow>
+                                            {instafeedFeedType === 'hashtag_type' && (
+                                                applyFilters('embedpress.commonControls', [], attributes, setAttributes, 'warningInfo')
                                             )}
 
                                         </div>
