@@ -3938,7 +3938,7 @@ class Embedpress_Elementor extends Widget_Base
 					<?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); ?> 
 					<?php echo esc_attr('source-' . $source); ?>">
 
-					<div id="source-content-id-<?php echo esc_attr(md5($settings['embedpress_embeded_link'])); ?>" 
+					<div id="<?php echo esc_attr($this->get_id()); ?>" 
 						class="ep-embed-content-wrapper 
 						<?php echo isset($settings['custom_player_preset']) ? esc_attr($settings['custom_player_preset']) : ''; ?> 
 						<?php echo esc_attr($this->get_instafeed_layout($settings)); ?> 

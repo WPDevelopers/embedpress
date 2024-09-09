@@ -861,7 +861,7 @@ class Youtube extends ProviderAdapter implements ProviderInterface {
 
     public function styles($params, $url){
 
-        $uniqid = '#source-content-id-'.md5($url).' .ose-embedpress-responsive.ose-youtube.ose-uid-'.md5($url);
+        $uniqid = '.ose-youtube.ose-uid-'.md5($url);
 
         ob_start();
         ?>
