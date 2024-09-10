@@ -180,9 +180,9 @@ trait Shared
             ]
         );
 
-        $compatibility_message = '<p style="margin-top: 0; margin-bottom: 10px;"><strong style="color:#FF7369;">Action Needed:</strong> Please update EmbedPress Pro to the latest version (<strong>v3.6.5</strong>) for enhanced features and compatibility.</p>';
+        $compatibility_message = '<p style="margin-top: 0; margin-bottom: 0px;"><strong style="color:#FF7369;">Action Needed:</strong> Please update <strong>EmbedPress Pro</strong> to the latest version (<strong>v3.6.5</strong>) for enhanced features and compatibility.</p>';
         $compatibility_notice = [
-            'thumbnail' => $_assets_url . 'images/full-logo.svg',
+            // 'thumbnail' => $_assets_url . 'images/full-logo.svg',
             'html'      => $compatibility_message,
         ];
 

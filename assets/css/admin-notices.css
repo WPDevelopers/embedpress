@@ -176,6 +176,10 @@
     gap: 32px !important;
 }
 
+#wpbody-content #wpnotice-embedpress-compatibility {
+    min-height: 35px;
+}
+
 #wpbody-content #wpnotice-embedpress-100k_notice .notice-info,
 #wpbody-content #wpnotice-embedpress-compatibility .notice-info {
     border: none;
