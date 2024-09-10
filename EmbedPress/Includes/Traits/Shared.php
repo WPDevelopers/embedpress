@@ -161,7 +161,7 @@ trait Shared
         //     ]
         // );
 
-        $b_message            = '<p style="margin-top: 0; margin-bottom: 10px;">Join Us in Celebrating 100K+ Users! <span>Enjoy up to 30% OFF for EmbedPress PRO & embed from 150+ sources</span></p><a class="button button-primary" href="https://wpdeveloper.com/upgrade/embedpress-bfcm" target="_blank">Upgrade to PRO</a> <button data-dismiss="true" class="dismiss-btn button button-link">I don’t want to save money</button>';
+        $b_message            = '<p style="margin-top: 0; margin-bottom: 10px;"><strong>Join Us in Celebrating 100K+ Users!</strong> Enjoy up to 30% OFF for EmbedPress PRO & embed from 150+ sources</p><a class="button button-primary" href="https://wpdeveloper.com/upgrade/embedpress-bfcm" target="_blank">Upgrade to PRO</a> <button data-dismiss="true" class="dismiss-btn button button-link">I don’t want to save money</button>';
         $_black_friday_notice = [
             'thumbnail' => $_assets_url . 'images/full-logo.svg',
             'html'      => $b_message,
@@ -177,6 +177,26 @@ trait Shared
                 'refresh'     => EMBEDPRESS_VERSION,
                 "expire"      => strtotime('11:59:59pm 12th September, 2024'),
                 'display_if'  => !is_plugin_active('embedpress-pro/embedpress-pro.php')
+            ]
+        );
+
+        $compatibility_message = '<p style="margin-top: 0; margin-bottom: 10px;"><strong style="color:#FF7369;">Action Needed:</strong> Please update EmbedPress Pro to the latest version (<strong>v3.6.5</strong>) for enhanced features and compatibility.</p>';
+        $compatibility_notice = [
+            'thumbnail' => $_assets_url . 'images/full-logo.svg',
+            'html'      => $compatibility_message,
+        ];
+
+        $notices->add(
+            'compatibility',
+            $compatibility_notice,
+            [
+                'start'       => $notices->time(),
+                'type'        => 'warning',
+                'recurrence'  => false,
+                'dismissible' => true,
+                'refresh'     => EMBEDPRESS_VERSION,
+                // "expire"      => strtotime('11:59:59pm 12th September, 2024'),
+                'display_if'  => is_plugin_active('embedpress-pro/embedpress-pro.php') && version_compare(EMBEDPRESS_PRO_PLUGIN_VERSION, '3.6.5', '<'),
             ]
         );
 

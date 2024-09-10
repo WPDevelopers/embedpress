@@ -170,21 +170,25 @@
     background-color: transparent;
 }
 
-#wpbody-content #wpnotice-embedpress-100k_notice {
+#wpbody-content #wpnotice-embedpress-100k_notice,
+#wpbody-content #wpnotice-embedpress-compatibility {
     padding: 8px 20px;
     gap: 32px !important;
 }
 
-#wpbody-content #wpnotice-embedpress-100k_notice .notice-info {
+#wpbody-content #wpnotice-embedpress-100k_notice .notice-info,
+#wpbody-content #wpnotice-embedpress-compatibility .notice-info {
     border: none;
     border-left: 5px solid #d63638;
 }
 
-#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-thumbnail-wrapper img {
+#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-thumbnail-wrapper img,
+#wpbody-content #wpnotice-embedpress-compatibility .wpnotice-thumbnail-wrapper img {
     max-width: 144px !important;
 }
 
-#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper {
+#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper,
+#wpbody-content #wpnotice-embedpress-compatibility .wpnotice-content-wrapper {
     flex: 1;
     display: flex;
     align-items: center;
@@ -192,42 +196,49 @@
     gap: 20px;
 }
 
-#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper p {
+#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper p,
+#wpbody-content #wpnotice-embedpress-compatibility .wpnotice-content-wrapper p {
     font-size: 14px;
     line-height: 20px;
-    font-weight: 600;
     margin: 0 !important;
     padding: 0 !important;
 }
-
-#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper p span {
+/*
+#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper p span,
+#wpbody-content #wpnotice-embedpress-compatibility .wpnotice-content-wrapper p span {
     font-weight: 400;
-}
+} */
 
-#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper button {
+#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper button,
+#wpbody-content #wpnotice-embedpress-compatibility .wpnotice-content-wrapper button {
     display: none;
 }
 
-#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper .button-primary {
+#wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper .button-primary,
+#wpbody-content #wpnotice-embedpress-compatibility .wpnotice-content-wrapper .button-primary {
     margin-right: 30px;
 }
 
 @media all and (max-width: 1024px) {
 
-    #wpbody-content #wpnotice-embedpress-100k_notice {
+    #wpbody-content #wpnotice-embedpress-100k_notice,
+    #wpbody-content #wpnotice-embedpress-compatibility {
         padding: 8px 20px;
         gap: 30px !important;
     }
 
-    #wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper {
+    #wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper,
+    #wpbody-content #wpnotice-embedpress-compatibility .wpnotice-content-wrapper {
         flex-wrap: wrap;
     }
 
-    #wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper p {
+    #wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper p,
+    #wpbody-content #wpnotice-embedpress-compatibility .wpnotice-content-wrapper p {
         padding-right: 30px !important;
     }
 
-    #wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper {
+    #wpbody-content #wpnotice-embedpress-100k_notice .wpnotice-content-wrapper,
+    #wpbody-content #wpnotice-embedpress-compatibility .wpnotice-content-wrapper {
         gap: 12px;
     }
 }
