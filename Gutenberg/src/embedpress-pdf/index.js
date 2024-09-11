@@ -30,8 +30,8 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			__('document'),
 		],
 		supports: {
-			align: ["left", "center", "right"],
-			default: ''
+			align: ["left", "center", "right", "wide", "full"],
+			default: 'center',
 		},
 		attributes: {
 			id: {
