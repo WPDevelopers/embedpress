@@ -251,7 +251,11 @@ This embed plugin is brought to you by the team behind [WPDeveloper](https://wpd
 - If you love EmbedPress, [rate us on WordPress](https://wordpress.org/support/plugin/embedpress/reviews/?filter=5)
 - Join our [Facebook Group](https://www.facebook.com/groups/wpdeveloper.net/)
 
-### 🔥 WHAT’S NEXT
+### 💪 CONTRIBUTE
+
+The full source code is available on [GitHub Repository](https://github.com/WPDevelopers/embedpress). Feel free to contribute or report an issue.
+
+### 🔥 WHAT’S NEXT?
 
 If you like EmbedPress, then consider checking out our other WordPress Plugins:
 
@@ -272,6 +276,8 @@ If you like EmbedPress, then consider checking out our other WordPress Plugins:
 This plugin incorporates code from the following sources:
 - [PDF.js by Mozilla](https://github.com/mozilla/pdf.js/): Used for rendering PDF documents.
 - [PDF Flipbook WordPress by iberezansky](https://3dflipbook.net/): Used for creating the 3D flipbook effect.
+- [Plyr](https://github.com/sampotts/plyr) : Used for displaying video/audio player
+- [Glider](http://nickpiscitelli.github.io/Glider.js) : Used for making Carousel layout
 
 == Installation ==
 

@@ -407,7 +407,7 @@ class Handler extends EndHandlerAbstract
 
             wp_enqueue_script(
                 'embedpress-pdfobject',
-                EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js',
+                EMBEDPRESS_URL_ASSETS . 'js/pdfobject.js',
                 [],
                 $this->pluginVersion,
                 false

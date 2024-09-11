@@ -50,7 +50,7 @@ class Handler extends EndHandlerAbstract
 
         wp_register_script(
             'embedpress-pdfobject',
-            EMBEDPRESS_URL_ASSETS . 'js/pdfobject.min.js',
+            EMBEDPRESS_URL_ASSETS . 'js/pdfobject.js',
             ['jquery'],
             EMBEDPRESS_PLUGIN_VERSION,
             true
