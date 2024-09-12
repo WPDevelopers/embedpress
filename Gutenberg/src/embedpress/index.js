@@ -541,6 +541,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 
 			// custom player attributes
+			autoPause: {
+				type: 'boolean',
+				default: false
+			},
+			customPlayer: {
+				type: 'boolean',
+				default: false
+			},
 			customPlayer: {
 				type: 'boolean',
 				default: false

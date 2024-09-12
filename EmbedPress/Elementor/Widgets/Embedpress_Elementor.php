@@ -294,7 +294,20 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-
+		$this->add_control(
+			'embedpress_audio_video_auto_pause',
+			[
+				'label'        => __('Auto Pause', 'embedpress'),
+				'description'        => __('Set it to "Yes" to display related videos from all channels. Otherwise, related videos will show from the same channel.', 'embedpress'),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'yes',
+				'condition' => [
+					'embedpress_pro_embeded_source' => ['selfhosted_video', 'selfhosted_audio']
+				],
+			]
+		);
 
 		$this->add_control(
 			'spotify_theme',
@@ -659,7 +672,7 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 
-
+		
 
 
 		do_action('extend_customplayer_controls', $this, '_', $this->pro_text, $this->pro_class);
@@ -3917,6 +3930,11 @@ class Embedpress_Elementor extends Widget_Base
 		if (!empty($settings['emberpress_custom_player'])) {			
 			$self_hosted = Helper::check_media_format($settings['embedpress_embeded_link']);
 			$hosted_format =  isset($self_hosted['format']) ? $self_hosted['format'] : '';
+		}
+
+		$autoPause = '';
+		if(!empty($settings['embedpress_audio_video_auto_pause'])){
+			$autoPause = ' enabled-auto-pause';
 		}
 
 		?>

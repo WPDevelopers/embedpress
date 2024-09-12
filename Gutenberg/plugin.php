@@ -319,6 +319,10 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'number',
 							],
 							// custom player attributes
+							'autoPause' => [
+								'type' => 'boolean',
+								'default' => false
+							],
 							'customPlayer' => [
 								'type' => 'boolean',
 								'default' => false

@@ -1378,3 +1378,22 @@ jQuery(document).ready(function ($) {
     });
 });
 
+
+
+// pause audio/video
+
+jQuery(document).ready(function () {
+    const players = jQuery('.enabled-auto-pause audio, .enabled-auto-pause video');
+
+    function pauseAllExcept(currentPlayer) {
+        players.each(function () {
+            if (this !== currentPlayer[0]) {
+                this.pause();
+            }
+        });
+    }
+
+    players.on('play', function () {
+        pauseAllExcept(jQuery(this));
+    });
+});

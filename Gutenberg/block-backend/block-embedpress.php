@@ -279,6 +279,11 @@ function embedpress_render_block($attributes)
 			$yt_channel_class = 'embedded-youtube-channel';
 		}
 
+		$autoPause = '';
+		if(!empty($attributes['autoPause'])){
+			$autoPause = ' enabled-auto-pause';
+		}
+
 		ob_start();
 		?>
 		<div class="embedpress-gutenberg-wrapper <?php echo esc_attr( $alignment.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class); echo esc_attr( $cEmbedType ); ?>" id="<?php echo esc_attr($block_id); ?>">
@@ -287,7 +292,7 @@ function embedpress_render_block($attributes)
 				$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
 			?>
 			<div class="wp-block-embed__wrapper <?php if(!empty($attributes['contentShare'])) echo esc_attr( 'position-'.$share_position.'-wraper'); ?>  <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
-				<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content">
+				<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content<?php  echo esc_attr($autoPause); ?>">
 					<div 
 						<?php echo esc_attr( $adsAtts ); ?> >
 						<div  class="ep-embed-content-wraper <?php 
