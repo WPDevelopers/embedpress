@@ -32,7 +32,8 @@ const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
 const { BlockIcon, MediaPlaceholder, InspectorControls } = wp.blockEditor;
 const { Component, Fragment, useEffect } = wp.element;
 const { applyFilters } = wp.hooks;
-const { RangeControl, PanelBody, ExternalLink, ToggleControl, SelectControl, RadioControl, ColorPalette } = wp.components;
+
+const { RangeControl, PanelBody, ExternalLink, ToggleControl, TextControl, SelectControl, RadioControl, ColorPalette } = wp.components;
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
@@ -438,6 +439,12 @@ class EmbedPressPDFEdit extends Component {
 
 						<PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Document Controls', 'embedpress')}</div>} initialOpen={false}>
 
+							<TextControl
+								label={__('Document URL', 'embedpress')}
+								type="text"
+								value={attributes.href || ''}
+								onChange={(href) => setAttributes({ href })}
+							/>
 
 							<SelectControl
 								label="Viewer Style"
@@ -486,6 +493,7 @@ class EmbedPressPDFEdit extends Component {
 							{
 								toolbar && (
 									<Fragment>
+
 
 										{
 											(viewerStyle === 'flip-book') ? (
