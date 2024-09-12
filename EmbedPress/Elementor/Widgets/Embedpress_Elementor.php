@@ -3954,7 +3954,8 @@ class Embedpress_Elementor extends Widget_Base
 						endif; 
 					?> 
 					<?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); ?> 
-					<?php echo esc_attr('source-' . $source); ?>">
+					<?php echo esc_attr('source-' . $source); ?>
+					<?php echo esc_attr($autoPause); ?>">
 
 					<div id="<?php echo esc_attr($this->get_id()); ?>" 
 						class="ep-embed-content-wrapper 
