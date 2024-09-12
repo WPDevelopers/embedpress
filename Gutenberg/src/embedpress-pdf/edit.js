@@ -19,6 +19,9 @@ import {
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
 
+const { BlockControls } = wp.blockEditor;
+const { ToolbarButton } = wp.components;
+
 import { PdfIcon } from '../common/icons'
 import AdControl from '../common/ads-control';
 import AdTemplate from '../common/ads-template';
@@ -347,6 +350,15 @@ class EmbedPressPDFEdit extends Component {
 			return (
 				<Fragment>
 
+					<BlockControls>
+						<ToolbarButton
+							className="components-edit-button"
+							icon="edit"
+							label={__('Re Upoload', 'embedpress')}
+							onClick={() => setAttributes({ href: '' })}
+						/>
+					</BlockControls>
+
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
 
 					<div className={'embedpress-document-embed ep-doc-' + id + ' ' + content_share_class + ' ' + share_position_class + ' ' + width_class} style={{ width: width + unitoption, maxWidth: '100%' }} id={`ep-doc-${this.props.clientId}`} data-source-id={'source-' + clientId} >
@@ -538,7 +550,7 @@ class EmbedPressPDFEdit extends Component {
 															setAttributes({ add_text })
 														}
 														checked={add_text}
-													/>												
+													/>
 
 													{applyFilters('embedpress.pdfControls', [drawPlaceholder], attributes, setAttributes, 'draw')}
 													{applyFilters('embedpress.pdfControls', [copyPlaceholder], attributes, setAttributes, 'copyText')}

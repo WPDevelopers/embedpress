@@ -17,12 +17,13 @@ const { __ } = wp.i18n;
 const { getBlobByURL, isBlobURL, revokeBlobURL } = wp.blob;
 const { BlockIcon, MediaPlaceholder, InspectorControls } = wp.blockEditor;
 const { Component, Fragment } = wp.element;
-const { RangeControl, PanelBody, ExternalLink, ToggleControl } = wp.components;
+const { RangeControl, PanelBody, ExternalLink, ToggleControl, ToolbarButton } = wp.components;
 import { epGetPopupIcon, epGetDownloadIcon, epGetPrintIcon, epGetFullscreenIcon, epGetMinimizeIcon, epGetDrawIcon } from '../common/icons';
 import { isFileUrl } from '../common/helper';
 import DocControls from './doc-controls';
 import { EPIcon, InfoIcon } from '../common/icons';
 
+const { BlockControls } = wp.blockEditor;
 
 const ALLOWED_MEDIA_TYPES = [
 	'application/pdf',
@@ -203,11 +204,20 @@ class DocumentEdit extends Component {
 		} else {
 			let url = '//view.officeapps.live.com/op/embed.aspx?src=' + href; // + '?' + queryString;
 
-			if(docViewer === 'google') {
+			if (docViewer === 'google') {
 				url = '//docs.google.com/gview?embedded=true&url=' + href;
 			}
 			return (
 				<Fragment>
+					<BlockControls>
+						<ToolbarButton
+							className="components-edit-button"
+							icon="edit"
+							label={__('Re Upoload', 'embedpress')}
+							onClick={() => setAttributes({ href: '' })}
+						/>
+					</BlockControls>
+
 					{(fetching && mime !== 'application/pdf') ? <EmbedLoading /> : null}
 					<div className={'embedpress-document-embed ep-doc-' + id} style={{ height: height, width: width }}>
 						{mime === 'application/pdf' && (
@@ -220,7 +230,7 @@ class DocumentEdit extends Component {
 							<div className={`${docViewer === 'custom' ? 'ep-file-download-option-masked ' : ''}ep-gutenberg-file-doc ep-powered-by-enabled ${isDownloadEnabled}`} data-theme-mode={themeMode} data-custom-color={customColor} data-id={blockId}>
 								<iframe title="" onMouseUponMouseUp={this.hideOverlay} style={{ height: height, width: width, display: fetching || !loadPdf ? 'none' : '' }} onLoad={this.onLoad} src={sanitizeUrl(url)} />
 								{
-									draw && docViewer === 'custom' &&(
+									draw && docViewer === 'custom' && (
 										<canvas class="ep-doc-canvas" width={width} height={height} ></canvas>
 									)
 								}
