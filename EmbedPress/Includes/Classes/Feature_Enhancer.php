@@ -818,7 +818,8 @@ class Feature_Enhancer
 				}
 
 				if (empty($attributes['data-vstarttime']) && isset($options['start_time'])) {
-					$url_modified .= '#t=' . $options['start_time'];
+					$start_time = sanitize_text_field($options['start_time']);
+					$url_modified .= '#t=' . $start_time;
 				}
 			}
 
