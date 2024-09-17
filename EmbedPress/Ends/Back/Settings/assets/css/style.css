@@ -4799,3 +4799,13 @@ td.instagram-sync-data{
         transform: rotate(360deg); /* Rotate the element 360 degrees */
     }
 }
+
+
+/* leon css  */
+h3.cart-title{
+    font-size: 18px ;
+    font-weight: 700px;
+}
+ul.feature-list li{
+    color: #25396F;
+}

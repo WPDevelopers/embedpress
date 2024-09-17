@@ -20,8 +20,9 @@ if(!$pro_active){
 
 ?>
 
-<div class="embedpress_calendly_settings  background__white radius-25 p40">
-    <div class="ad-settings-top">
+<div class="embedpress_calendly_settings  background__white radius-25 p40" >
+<div class="border">
+<div class="ad-settings-top">
         <div <?php if(!$pro_active): echo 'class="ad-settings-content"'; endif; ?>>
             <h3 class="ads-settings-title">
                 <?php
@@ -61,8 +62,50 @@ if(!$pro_active){
             <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="button button-pro-upgrade"><?php echo esc_html__('Upgrade To Pro', 'embedpress'); ?><i class="ep-icon ep-link-icon"></i></a>
         <?php endif; ?>
     </div>
+</div>
+  
+
+    <div class="ad-toggle_wrapper">
+         <div class="btn-video ad-toggle_btn  ad-active_btn " >
+           <span>  
+           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">               
+             <g clip-path="url(#clip0_952_112)">
+               <path d="M15 10L19.553 7.724C19.7054 7.64783 19.8748 7.61188 20.045 7.61954C20.2152 7.62721 20.3806 7.67824 20.5256 7.7678C20.6706 7.85736 20.7902 7.98247 20.8733 8.13127C20.9563 8.28006 20.9999 8.44761 21 8.618V15.382C20.9999 15.5524 20.9563 15.7199 20.8733 15.8687C20.7902 16.0175 20.6706 16.1426 20.5256 16.2322C20.3806 16.3218 20.2152 16.3728 20.045 16.3805C19.8748 16.3881 19.7054 16.3522 19.553 16.276L15 14V10Z" stroke="#25396F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+               <path d="M3 8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H13C13.5304 6 14.0391 6.21071 14.4142 6.58579C14.7893 6.96086 15 7.46957 15 8V16C15 16.5304 14.7893 17.0391 14.4142 17.4142C14.0391 17.7893 13.5304 18 13 18H5C4.46957 18 3.96086 17.7893 3.58579 17.4142C3.21071 17.0391 3 16.5304 3 16V8Z" stroke="#25396F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+               </g>
+               <defs>
+               <clipPath id="clip0_952_112">
+               <rect width="24" height="24" fill="white"/>
+               </clipPath>
+               </defs>
+               </svg>
+
+           </span>
+           <span>Video</span>
+         </div>
+       <div class="btn-img ad-toggle_btn ">
+           <span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                   <g clip-path="url(#clip0_952_123)">
+                   <path d="M12.5 6.66663H12.5083" stroke="#7C8DB5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                   <path d="M2.5 5C2.5 4.33696 2.76339 3.70107 3.23223 3.23223C3.70107 2.76339 4.33696 2.5 5 2.5H15C15.663 2.5 16.2989 2.76339 16.7678 3.23223C17.2366 3.70107 17.5 4.33696 17.5 5V15C17.5 15.663 17.2366 16.2989 16.7678 16.7678C16.2989 17.2366 15.663 17.5 15 17.5H5C4.33696 17.5 3.70107 17.2366 3.23223 16.7678C2.76339 16.2989 2.5 15.663 2.5 15V5Z" stroke="#7C8DB5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                   <path d="M2.5 13.3333L6.66667 9.16665C7.44 8.42248 8.39333 8.42248 9.16667 9.16665L13.3333 13.3333" stroke="#7C8DB5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                   <path d="M11.666 11.6667L12.4993 10.8334C13.2727 10.0892 14.226 10.0892 14.9993 10.8334L17.4993 13.3334" stroke="#7C8DB5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                   </g>
+                   <defs>
+                   <clipPath id="clip0_952_123">
+                   <rect width="20" height="20" fill="white"/>
+                   </clipPath>
+                   </defs>
+                 </svg>
+           </span>
+           <span>Images</span>
+       </div>
+    </div>
 
     <div class="entry-content clear" ast-blocks-layout="true" itemprop="text">
+
+    <div class="ad-wrapper video-body toggle-active">
         <div class="ad-preview-sectiion">
             <div class="video-ad-prewiew-options">
                 <div class="ad__adjust__wrap " style="display: block;">
@@ -71,16 +114,17 @@ if(!$pro_active){
                         <form class="ad__adjust__controller" id="ad-preview-0">
                             <div class="form-input-wrapper">
                                 <div class="ad__adjust__controller__item">
-                                    <span class="controller__label"><?php echo esc_html__('Upload Ad', 'embedpress'); ?></span>
+                                    <span class="controller__label negative-margin"><?php echo esc_html__('Upload Ad', 'embedpress'); ?></span>
                                     <div class="ad__adjust__controller__inputs ad-upload-options">
 
                                         <button class="uploadBtn" type="button" data-upload-index="0">
                                             <span class="dashicons dashicons-upload"></span> <?php echo esc_html__('Upload', 'embedpress'); ?>
                                         </button>
-
+                             
                                         <input type="hidden" id="fileInput-0" name="adFileUrl" value="<?php echo esc_url('https://embedpress.com/wp-content/uploads/2023/12/notificationX-demo-ad.mp4'); ?>" />
 
-                                        <p class="uploaded-file-url-0 uploaded"><?php echo esc_html('File Name: notificationX-demo-ad.mp4'); ?></p>
+                                        <p class="uploaded-file-url-0 uploaded"><?php echo esc_html('notificationX-demo-ad.mp4'); ?></p>
+                      
                                     </div>
                                 </div>
 
@@ -94,32 +138,68 @@ if(!$pro_active){
                                 <div class="ad__adjust__controller__item">
                                     <span class="controller__label"><?php echo esc_html__('Ad Start After (Sec)', 'embedpress'); ?></span>
                                     <div class="ad__adjust__controller__inputs">
-                                        <input type="range" min="1" max="100" data-default="10" value="10" class="opacity__range" name="adStart">
-                                        <input readonly="" type="number" class="form__control range__value" data-default="10" value="10">
+                                       
+                                    <div class="range-control opacity-range_control">
+                                        <span class="range_negative">
+                                          <div class="controller negative-controller"></div>
+                                        </span>
+                                        <!-- <input type="range" min="1" max="100" data-default="10" value="10" class="opacity__range" name="adStart"> -->
+                                         <div class="show-value">
+                                            <!-- <span class="input-value_show">6</span> -->
+                                            <input  type="number" class="form__control range__value" data-default="10" value="10">
+                                           
+                                         </div>
+                                         
+                                         <span class="range_positive"> 
+                                         <div class="controller controller-roted"></div>
+                                         <div class="controller"></div>
+                                         </span>
+                                    </div>    
                                     </div>
                                 </div>
 
                                 <div class="ad__adjust__controller__item skip-controller">
                                     <span class="controller__label"><?php echo esc_html__('Skip Button', 'embedpress'); ?></span>
                                     <div class="ad__adjust__controller__inputs">
+
+
                                         <label class="input__switch switch__text ">
                                             <input type="checkbox" name="adSkipButton" data-default="no" data-value="no" value="yes" checked>
                                             <span></span>
 
                                         </label>
+
+
+                                        
                                     </div>
                                 </div>
 
                                 <div class="ad__adjust__controller__item skip-controller">
                                     <span class="controller__label"><?php echo esc_html__('Skip Button After (Sec)', 'embedpress'); ?></span>
                                     <div class="ad__adjust__controller__inputs">
-                                        <input type="range" min="1" max="100" data-default="5" value="5" class="x__range" name="adSkipButtonAfter">
-                                        <input readonly="" type="number" class="form__control range__value" data-default="5" value="5">
-                                    </div>
+                                 <div class="range-control skip-range_control">
+                                       <span class="range_negative">
+                                           <div class="controller negative-controller"></div>
+                                        </span>
+                                            <!-- <input type="range" min="1" max="100" data-default="5" value="5" class="x__range" name="adSkipButtonAfter"> -->
+
+
+                                            <div class="show-value">
+                                            <!-- <span class="input-value_show">6</span> -->
+                                            <input  type="number" class="form__control range__value " data-default="5" value="5">
+                                         </div>
+                                          
+
+                                            <span class="range_positive"> 
+                                         <div class="controller controller-roted"></div>
+                                         <div class="controller"></div>
+                                         </span>
+                                 </div>
+                                 </div>
                                 </div>
                             </div>
 
-                            <button type="submit" class="button preview-btn-0"> <?php echo esc_html__('Start Preview', 'embedpress'); ?> </button>
+
                         </form>
 
                     </div>
@@ -129,7 +209,7 @@ if(!$pro_active){
                 <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color"><?php echo esc_html__('Live Preview for Video', 'embedpress'); ?></h2>
                 <p class="preview-description"><?php echo esc_html__('Experience EmbedPress Ad feature with YouTube video, but it will work with all embedded contents such as videos, audios, documents, etc..', 'embedpress'); ?></p>
                 <div class="wp-block-embed__wrapper">
-                    <div id="ep-gutenberg-content-ep-ad-preview-0" class="ep-gutenberg-content">
+                    <div id="ep-gutenberg-content-ep-ad-preview-0" class="ep-gutenberg-content margin-bottom-24px">
                         <div data-sponsored-id="ep-ad-preview-0" id="ep-ad-preview-0" class="ad-mask" data-ad-index="0">
                             <div class="ep-embed-content-wraper ">
                                 <div class="ose-youtube ose-embedpress-responsive">
@@ -172,10 +252,18 @@ if(!$pro_active){
                             </div>
                         </div>
                     </div>
+
+                    <button type="submit" class="button preview-btn-0"> <?php echo esc_html__('Start Preview', 'embedpress'); ?> </button>
                 </div>
             </div>
 
+
+
         </div>
+   </div>
+
+      
+   <div class="ad-wrapper img-body ">
         <div class="ad-preview-sectiion">
             <div class="video-ad-prewiew-options">
                 <div class="ad__adjust__wrap " style="display: block;">
@@ -184,14 +272,14 @@ if(!$pro_active){
                             <div class="form-input-wrapper">
 
                                 <div class="ad__adjust__controller__item">
-                                    <span class="controller__label"><?php echo esc_html__('Upload Ad', 'embedpress'); ?></span>
+                                    <span class="controller__label negative-margin"><?php echo esc_html__('Upload Ad', 'embedpress'); ?></span>
                                     <div class="ad__adjust__controller__inputs ad-upload-options">
                                         <button class="uploadBtn" type="button" data-upload-index="1">
                                             <span class="dashicons dashicons-upload"></span> <?php echo esc_html__('Upload', 'embedpress'); ?>
                                         </button>
 
                                         <input type="hidden" id="fileInput-1" name="adFileUrl" value="<?php echo esc_url($image_demo_adUrl); ?>" />
-                                        <p class="uploaded-file-url-1 uploaded"><?php echo esc_html('File Name: demo-ad.gif'); ?></p>
+                                        <p class="uploaded-file-url-1 uploaded"><?php echo esc_html('demo-ad.gif'); ?></p>
                                     </div>
                                 </div>
 
@@ -206,8 +294,25 @@ if(!$pro_active){
                                 <div class="ad__adjust__controller__item">
                                     <span class="controller__label"><?php echo esc_html__('Ad Start After (Sec)', 'embedpress'); ?></span>
                                     <div class="ad__adjust__controller__inputs">
-                                        <input type="range" max="100" data-default="10" value="10" class="opacity__range" name="adStart">
-                                        <input readonly="" type="number" class="form__control range__value" data-default="10" value="10">
+                                    <div class="range-control image-range_control">
+                                       <span class="range_negative">
+                                           <div class="controller negative-controller"></div>
+                                        </span>
+                                             <!-- <input type="range" max="100" data-default="10" value="10" class="opacity__range" name="adStart"> -->
+
+                                            <div class="show-value">
+                                            <!-- <span class="input-value_show">6</span> -->
+                                            <input  type="number" class="form__control range__value" data-default="10" value="10">
+                                         </div>
+                                          
+
+                                            <span class="range_positive"> 
+                                         <div class="controller controller-roted"></div>
+                                         <div class="controller"></div>
+                                         </span>
+                                 </div>
+                                     
+                                     
                                     </div>
                                 </div>
 
@@ -231,8 +336,7 @@ if(!$pro_active){
                                 </div>
 
                             </div>
-                            <button type="submit" class="button preview-btn-1"> <?php echo esc_html__('Start Preview', 'embedpress'); ?> </button>
-
+                           
                         </form>
 
                     </div>
@@ -244,7 +348,7 @@ if(!$pro_active){
                 <p class="preview-description"><?php echo esc_html__('Experience EmbedPress Ad feature with with a PDF, but it will work with all embedded contents such as videos, audios, documents, etc..', 'embedpress'); ?></p>
 
                 <div class="wp-block-embed__wrapper   ">
-                    <div id="ep-gutenberg-content-ep-ad-preview-1" class="ep-gutenberg-content">
+                    <div id="ep-gutenberg-content-ep-ad-preview-1" class="ep-gutenberg-content margin-bottom-24px">
                         <div data-sponsored-id="ep-ad-preview-1" id="ep-ad-preview-1" class="ad-mask" data-ad-index="0">
                             <div class="ep-embed-content-wraper">
                                 <div class="position-right-wraper gutenberg-pdf-wraper">
@@ -254,7 +358,7 @@ if(!$pro_active){
                                     $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($pdf_url);
                                     ?>
                                     <iframe title="sample" class="embedpress-embed-document-pdf embedpress-pdf-1701320841615" style="width:550px;height:320px; max-width:100%; display: inline-block" src="<?php echo esc_url($src); ?>" frameborder="0" oncontextmenu="return false;"></iframe>
-                                    <p class="embedpress-el-powered"><?php echo esc_html__('Powered By EmbedPress', 'embedpress'); ?></p>
+                                    <!-- <p class="embedpress-el-powered"><?php echo esc_html__('Powered By EmbedPress', 'embedpress'); ?></p> -->
                                 </div>
                             </div>
 
@@ -295,8 +399,13 @@ if(!$pro_active){
                         </div>
                     </div>
                 </div>
+
+                <button type="submit" class="button preview-btn-1"> <?php echo esc_html__('Start Preview', 'embedpress'); ?> </button>
+
+
             </div>
 
+        </div>
         </div>
     </div>
 
@@ -434,6 +543,9 @@ if(!$pro_active){
 
     .ep-embed-content-wraper {
         position: relative;
+    }
+    .ep-embed-content-wraper iframe{
+        border-radius: 8px;
     }
 
     .embedpress-gutenberg-wrapper {
