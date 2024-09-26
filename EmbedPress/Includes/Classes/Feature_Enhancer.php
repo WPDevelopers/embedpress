@@ -271,7 +271,7 @@ class Feature_Enhancer
 
 	public function gutenberg_embed($embedHTML, $attributes)
 	{
-		$attributes = Helper::removeQoute($attributes);
+		$attributes = Helper::removeQuote($attributes);
 
 		if (!empty($attributes['url'])) {
 			$youtube = new Youtube($attributes['url']);
@@ -288,7 +288,7 @@ class Feature_Enhancer
 					'gapbetweenvideos' => isset($attributes['gapbetweenvideos']) ? $attributes['gapbetweenvideos'] : 30,
 				];
 
-				$atts = Helper::removeQoute($atts);
+				$atts = Helper::removeQuote($atts);
 
 				$urlInfo = Shortcode::parseContent($attributes['url'], true, $atts);
 
@@ -318,7 +318,7 @@ class Feature_Enhancer
 					'logoOpacity' => !empty($attributes['logoOpacity']) ? $attributes['logoOpacity'] : 0.6,
 				];
 				
-				$atts = Helper::removeQoute($atts);
+				$atts = Helper::removeQuote($atts);
 
 				$urlInfo = Shortcode::parseContent($attributes['url'], true, $atts);
 
@@ -434,7 +434,7 @@ class Feature_Enhancer
 				'logoOpacity' => !empty($attributes['logoOpacity']) ? $attributes['logoOpacity'] : 0.6,
 			];
 
-			$atts = Helper::removeQoute($atts);
+			$atts = Helper::removeQuote($atts);
 
 			$urlInfo = Shortcode::parseContent($attributes['url'], true, $atts);
 

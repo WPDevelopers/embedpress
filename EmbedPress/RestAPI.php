@@ -41,7 +41,7 @@ class RestAPI
             return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
         }
 
-        $atts = Helper::removeQoute($atts);
+        $atts = Helper::removeQuote($atts);
 
         $urlInfo = Shortcode::parseContent( $url, true, $atts);
         if (empty($urlInfo)) {

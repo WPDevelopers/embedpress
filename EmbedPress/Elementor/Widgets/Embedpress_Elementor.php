@@ -3831,7 +3831,7 @@ class Embedpress_Elementor extends Widget_Base
 			$source = 'opensea';
 		}
 
-        $_settings = Helper::removeQoute($_settings);
+        $_settings = Helper::removeQuote($_settings);
 
 
 		$embed_content = Shortcode::parseContent($settings['embedpress_embeded_link'], true, $_settings);

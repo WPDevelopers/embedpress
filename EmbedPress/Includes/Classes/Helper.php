@@ -1243,7 +1243,7 @@ class Helper
 		}
 	}
 
-	public static function removeQoute($attributes)
+	public static function removeQuote($attributes)
 	{
 		$parsedAttributes = [];
 
