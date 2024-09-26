@@ -273,8 +273,6 @@ class Feature_Enhancer
 	{
 		$attributes = Helper::removeQoute($attributes);
 
-		error_log(print_r($attributes, true));
-
 		if (!empty($attributes['url'])) {
 			$youtube = new Youtube($attributes['url']);
 
@@ -657,7 +655,7 @@ class Feature_Enhancer
 				unset($params['controls']);
 			}
 			if (isset($options['start_time'])) {
-				// $params['start'] = $options['start_time'];
+				$params['start'] = $options['start_time'];
 			} else {
 				unset($params['start']);
 			}
@@ -705,7 +703,7 @@ class Feature_Enhancer
 				$params['rel']             = !empty($attributes['data-relatedvideos']) && ($attributes['data-relatedvideos'] == 'true') ? 1 : 0;
 				$params['end']            = !empty($attributes['data-endtime']) ? $attributes['data-endtime'] : '';
 				$params['autoplay'] 		= !empty($attributes['data-autoplay']) && ($attributes['data-autoplay'] == 'true') ? 1 : 0;
-				// $params['start'] 			= !empty($attributes['data-starttime']) ? $attributes['data-starttime'] : '';
+				$params['start'] 			= !empty($attributes['data-starttime']) ? $attributes['data-starttime'] : '';
 				$params['color'] = !empty($attributes['data-progressbarcolor']) ? $attributes['data-progressbarcolor'] : 'red';
 				$params['modestbranding'] = empty($attributes['data-modestbranding']) ? 0 : 1; // Reverse the condition value for modestbranding. 0 = display, 1 = do not display
 				$params['cc_load_policy'] = !empty($attributes['data-closedcaptions']) && ($attributes['data-closedcaptions'] == 'true') ? 0 : 1;
@@ -828,8 +826,8 @@ class Feature_Enhancer
 				}
 
 				if (empty($attributes['data-vstarttime']) && isset($options['start_time'])) {
-					// $start_time = sanitize_text_field($options['start_time']);
-					// $url_modified .= '#t=' . $start_time;
+					$start_time = sanitize_text_field($options['start_time']);
+					$url_modified .= '#t=' . $start_time;
 				}
 			}
 
@@ -1046,7 +1044,7 @@ class Feature_Enhancer
 					if (isset($options['play_on_mobile']) && $options['play_on_mobile'] == '1') {
 						$params['playsinline'] = 1;
 					}
-					// $params['start'] = (int) isset($options['start_time']) ? $options['start_time'] : null;
+					$params['start'] = (int) isset($options['start_time']) ? $options['start_time'] : null;
 
 					$params = apply_filters('embedpress_enhance_dailymotion', $params, $options);
 					

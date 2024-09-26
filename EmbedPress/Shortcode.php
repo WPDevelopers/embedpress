@@ -631,10 +631,6 @@ KAMAL;
             $attributes['style'] = "width:{$width}px;height:{$height}px;";
         }
 
-        // echo '<pre>';
-        // var_dump($attributes); die;
-        
-
         return $attributes;
     }
 
