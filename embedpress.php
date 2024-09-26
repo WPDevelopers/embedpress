@@ -120,3 +120,4 @@ $is_pro_active = false;
 if (class_exists('EmbedPress_Licensing')) {
     $is_pro_active = true;
 }
+
