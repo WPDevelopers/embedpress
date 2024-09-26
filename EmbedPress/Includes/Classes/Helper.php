@@ -1246,11 +1246,20 @@ class Helper
 	public static function removeQoute($attributes)
 	{
 		$parsedAttributes = [];
-		// Iterate through the array
-		foreach ($attributes as $key => $value) {
-			$parsedAttributes[$key] = str_replace(['"', "'"], '', $value);
-		}
 
+		// Regular expression to match any attribute that starts with 'on' (case-insensitive)
+		$regex = '/^on.*/i';
+	
+		foreach ($attributes as $key => $value) {
+			// Remove quotes from the value
+			$cleanValue = str_replace(['"', "'"], '', $value);
+	
+			// If the key does not match the regex, keep the attribute
+			if (!preg_match($regex, $key)) {
+				$parsedAttributes[$key] = $cleanValue;
+			}
+		}
+	
 		return $parsedAttributes;
 	}
 }

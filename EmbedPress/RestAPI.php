@@ -2,6 +2,7 @@
 
 namespace EmbedPress;
 
+use EmbedPress\Includes\Classes\Helper;
 use Embera\Embera;
 use WP_Error as WP_ErrorAlias;
 use WP_REST_Request;
