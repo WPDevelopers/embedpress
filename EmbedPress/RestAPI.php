@@ -2,6 +2,7 @@
 
 namespace EmbedPress;
 
+use EmbedPress\Includes\Classes\Helper;
 use Embera\Embera;
 use WP_Error as WP_ErrorAlias;
 use WP_REST_Request;
@@ -39,6 +40,8 @@ class RestAPI
         if (empty($url)) {
             return new WP_ErrorAlias('embedpress_invalid_url', 'Invalid Embed URL', ['status' => 404]);
         }
+
+        $atts = Helper::removeQuote($atts);
 
         $urlInfo = Shortcode::parseContent( $url, true, $atts);
         if (empty($urlInfo)) {

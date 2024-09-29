@@ -170,7 +170,7 @@ export default function Vimeo({ attributes, setAttributes, isVimeoVideo }) {
                                             label={__("Start Time (In Seconds)")}
                                             value={vstarttime}
                                             onChange={(vstarttime) => setAttributes({ vstarttime })}
-                                            type={'text'}
+                                            type={'number'}
                                             className={'ep-control-field'}
 
                                         />

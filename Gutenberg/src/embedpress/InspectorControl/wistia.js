@@ -181,7 +181,7 @@ export default function Wistia({ attributes, setAttributes, isWistiaVideo }) {
                                     label={__("Start Time (In Seconds)")}
                                     value={wstarttime}
                                     onChange={(wstarttime) => setAttributes({ wstarttime })}
-                                    type={'text'}
+                                    type={'number'}
                                     className={'ep-control-field'}
 
                                 />

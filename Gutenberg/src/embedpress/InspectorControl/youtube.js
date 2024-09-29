@@ -354,7 +354,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                             label={__("Start Time (in seconds)")}
                                             value={starttime}
                                             onChange={(starttime) => setAttributes({ starttime })}
-                                            type={'text'}
+                                            type={'number'}
                                             className={'ep-control-field'}
                                         />
 
@@ -362,7 +362,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                                             label={__("End Time (in seconds)")}
                                             value={endtime}
                                             onChange={(endtime) => setAttributes({ endtime })}
-                                            type={'text'}
+                                            type={'number'}
                                             className={'ep-control-field'}
                                         />
 

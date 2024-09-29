@@ -3831,6 +3831,9 @@ class Embedpress_Elementor extends Widget_Base
 			$source = 'opensea';
 		}
 
+        $_settings = Helper::removeQuote($_settings);
+
+
 		$embed_content = Shortcode::parseContent($settings['embedpress_embeded_link'], true, $_settings);
 		$embed_content = $this->onAfterEmbedSpotify($embed_content, $settings);
 		$embed         = apply_filters('embedpress_elementor_embed', $embed_content, $settings);

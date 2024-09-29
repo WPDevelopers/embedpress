@@ -40,7 +40,8 @@ class Helper
 		add_action('wp_ajax_nopriv_fetch_video_description', [$this, 'ajax_video_popup_description']);
 	}
 
-	public function ajax_video_popup_description() {
+	public function ajax_video_popup_description()
+	{
 		if (isset($_POST['vid'])) {
 			$api_key = self::get_api_key();
 			$vid = sanitize_text_field($_POST['vid']);
@@ -53,316 +54,317 @@ class Helper
 				<div class="video-description">
 					<?php echo YoutubeLayout::generate_youtube_video_description($video_data); ?>
 				</div>
-				<?php
-				$description_html = ob_get_clean();
-				wp_send_json_success(['description' => $description_html]);
-			} else {
-				wp_send_json_error(['error' => 'Failed to fetch video data.']);
-			}
-		} else {
-			wp_send_json_error(['error' => 'Invalid video ID.']);
-		}
-	}
-
-	public static function get_api_key() {
-        $settings = (array) get_option(EMBEDPRESS_PLG_NAME . ':youtube', []);
-        return !empty($settings['api_key']) ? $settings['api_key'] : '';
-    }
-
-	public static function parse_query($str, $urlEncoding = true)
-	{
-		$result = [];
-
-		if ($str === '') {
-			return $result;
-		}
-
-		if ($urlEncoding === true) {
-			$decoder = function ($value) {
-				return rawurldecode(str_replace('+', ' ', $value));
-			};
-		} elseif ($urlEncoding === PHP_QUERY_RFC3986) {
-			$decoder = 'rawurldecode';
-		} elseif ($urlEncoding === PHP_QUERY_RFC1738) {
-			$decoder = 'urldecode';
-		} else {
-			$decoder = function ($str) {
-				return $str;
-			};
-		}
-
-		foreach (explode('&', $str) as $kvp) {
-			$parts = explode('=', $kvp, 2);
-			$key = $decoder($parts[0]);
-			$value = isset($parts[1]) ? $decoder($parts[1]) : null;
-			if (!isset($result[$key])) {
-				$result[$key] = $value;
-			} else {
-				if (!is_array($result[$key])) {
-					$result[$key] = [$result[$key]];
-				}
-				$result[$key][] = $value;
-			}
-		}
-
-		return $result;
-	}
-	public static function get_pdf_renderer()
-	{
-		// $renderer = EMBEDPRESS_URL_ASSETS . 'pdf/web/viewer.html';
-
-		$renderer = admin_url('admin-ajax.php?action=get_viewer');
-
-		// @TODO; apply settings query args here
-		return $renderer;
-	}
-
-	public static  function get_extension_from_file_url($url)
-	{
-		$urlSplit = explode(".", $url);
-		$ext = end($urlSplit);
-		return $ext;
-	}
-
-	public static function is_file_url($url)
-	{
-		$pattern = '/\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i';
-		return preg_match($pattern, $url) === 1;
-	}
-
-	public static function is_opensea($url)
-	{
-		return strpos($url, "opensea.io") !== false;
-	}
-	public static function is_youtube_channel($url)
-	{
-		return (bool) (preg_match('~(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(?:channel\/|c\/|user\/|@)(\w+)~i', (string) $url));
-	}
-
-	public static function is_youtube($url)
-	{
-		return (bool) (preg_match('~(?:https?://)?(?:www\.)?(?:youtube\.com|youtu\.be)/watch\?v=([^&]+)~i', (string) $url));
-	}
-
-	// Saved sources data temporary in wp_options table
-	public static function get_source_data($blockid, $source_url, $source_option_name, $source_temp_option_name)
-	{
-
-
-		if (self::is_youtube_channel($source_url)) {
-			$source_name = 'YoutubeChannel';
-		} else if (self::is_youtube($source_url)) {
-			$source_name = 'Youtube';
-		} else if (!empty(self::is_file_url($source_url))) {
-			$source_name = 'document_' . self::get_extension_from_file_url($source_url);
-		} else if (self::is_opensea($source_url)) {
-			$source_name  = 'OpenSea';
-		} else {
-			Shortcode::get_embera_instance();
-			$collectios = Shortcode::get_collection();
-			$provider = $collectios->findProviders($source_url);
-
-			if (!empty($provider[$source_url])) {
-				$source_name = $provider[$source_url]->getProviderName();
-			} else {
-				$host = parse_url($source_url, PHP_URL_HOST);
-				if ($host) {
-					$parts = explode('.', $host);
-					if (count($parts) > 1) {
-						$source_name = $parts[1];
+		<?php
+						$description_html = ob_get_clean();
+						wp_send_json_success(['description' => $description_html]);
 					} else {
-						// Handle the case where the host doesn't have at least two parts
-						$source_name = $host;
+						wp_send_json_error(['error' => 'Failed to fetch video data.']);
 					}
 				} else {
-					// Handle the case where parse_url fails
-					$source_name = 'unknown';
-				}
-			}
-		}
-
-		if (!empty($blockid) && $blockid != 'undefined') {
-			$sources = json_decode(get_option($source_temp_option_name), true);
-
-			if (!$sources) {
-				$sources = array();
-			}
-			$exists = false;
-
-			foreach ($sources as $i => $source) {
-				if ($source['id'] === $blockid) {
-					$sources[$i]['source']['name'] = $source_name;
-					$sources[$i]['source']['url'] = $source_url;
-					$exists = true;
-					break;
+					wp_send_json_error(['error' => 'Invalid video ID.']);
 				}
 			}
 
-			if (!$exists) {
-				$sources[] = array('id' => $blockid, 'source' => array('name' => $source_name, 'url' => $source_url, 'count' => 1));
+			public static function get_api_key()
+			{
+				$settings = (array) get_option(EMBEDPRESS_PLG_NAME . ':youtube', []);
+				return !empty($settings['api_key']) ? $settings['api_key'] : '';
 			}
 
-			update_option($source_temp_option_name, json_encode($sources));
-		}
-	}
+			public static function parse_query($str, $urlEncoding = true)
+			{
+				$result = [];
 
-	// Saved source data when post updated
-	public static function get_save_source_data_on_post_update($source_option_name, $source_temp_option_name)
-	{
+				if ($str === '') {
+					return $result;
+				}
 
-		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-			return;
-		}
-		$temp_data = json_decode(get_option($source_temp_option_name), true);
-		$source_data = json_decode(get_option($source_option_name), true);
-		if (!$temp_data) {
-			$temp_data = array();
-		}
-		if (!$source_data) {
-			$source_data = array();
-		}
+				if ($urlEncoding === true) {
+					$decoder = function ($value) {
+						return rawurldecode(str_replace('+', ' ', $value));
+					};
+				} elseif ($urlEncoding === PHP_QUERY_RFC3986) {
+					$decoder = 'rawurldecode';
+				} elseif ($urlEncoding === PHP_QUERY_RFC1738) {
+					$decoder = 'urldecode';
+				} else {
+					$decoder = function ($str) {
+						return $str;
+					};
+				}
 
-		$sources = array_merge($temp_data, $source_data);
-
-		$unique_sources = array();
-		foreach ($sources as $source) {
-			$unique_sources[$source['id']] = $source;
-		}
-
-		$unique_sources = array_values($unique_sources);
-
-		delete_option($source_temp_option_name);
-
-		update_option($source_option_name, json_encode($unique_sources));
-	}
-
-	//Delete source data from option table when widget is removed
-	public static function get_delete_source_data($blockid, $source_option_name, $source_temp_option_name)
-	{
-		if (!empty($blockid) && $blockid != 'undefined') {
-			$sources = json_decode(get_option($source_option_name), true);
-			$temp_sources = json_decode(get_option($source_temp_option_name), true);
-			if ($sources) {
-				foreach ($sources as $i => $source) {
-					if ($source['id'] === $blockid) {
-						unset($sources[$i]);
-						break;
+				foreach (explode('&', $str) as $kvp) {
+					$parts = explode('=', $kvp, 2);
+					$key = $decoder($parts[0]);
+					$value = isset($parts[1]) ? $decoder($parts[1]) : null;
+					if (!isset($result[$key])) {
+						$result[$key] = $value;
+					} else {
+						if (!is_array($result[$key])) {
+							$result[$key] = [$result[$key]];
+						}
+						$result[$key][] = $value;
 					}
 				}
-				update_option($source_option_name, json_encode(array_values($sources)));
+
+				return $result;
 			}
-			if ($temp_sources) {
-				foreach ($temp_sources as $i => $source) {
-					if ($source['id'] === $blockid) {
-						unset($temp_sources[$i]);
-						break;
+			public static function get_pdf_renderer()
+			{
+				// $renderer = EMBEDPRESS_URL_ASSETS . 'pdf/web/viewer.html';
+
+				$renderer = admin_url('admin-ajax.php?action=get_viewer');
+
+				// @TODO; apply settings query args here
+				return $renderer;
+			}
+
+			public static  function get_extension_from_file_url($url)
+			{
+				$urlSplit = explode(".", $url);
+				$ext = end($urlSplit);
+				return $ext;
+			}
+
+			public static function is_file_url($url)
+			{
+				$pattern = '/\.([0-9a-z]+)(?=[?#])|(\.)(?:[\w]+)$/i';
+				return preg_match($pattern, $url) === 1;
+			}
+
+			public static function is_opensea($url)
+			{
+				return strpos($url, "opensea.io") !== false;
+			}
+			public static function is_youtube_channel($url)
+			{
+				return (bool) (preg_match('~(?:https?:\/\/)?(?:www\.)?(?:youtube.com\/)(?:channel\/|c\/|user\/|@)(\w+)~i', (string) $url));
+			}
+
+			public static function is_youtube($url)
+			{
+				return (bool) (preg_match('~(?:https?://)?(?:www\.)?(?:youtube\.com|youtu\.be)/watch\?v=([^&]+)~i', (string) $url));
+			}
+
+			// Saved sources data temporary in wp_options table
+			public static function get_source_data($blockid, $source_url, $source_option_name, $source_temp_option_name)
+			{
+
+
+				if (self::is_youtube_channel($source_url)) {
+					$source_name = 'YoutubeChannel';
+				} else if (self::is_youtube($source_url)) {
+					$source_name = 'Youtube';
+				} else if (!empty(self::is_file_url($source_url))) {
+					$source_name = 'document_' . self::get_extension_from_file_url($source_url);
+				} else if (self::is_opensea($source_url)) {
+					$source_name  = 'OpenSea';
+				} else {
+					Shortcode::get_embera_instance();
+					$collectios = Shortcode::get_collection();
+					$provider = $collectios->findProviders($source_url);
+
+					if (!empty($provider[$source_url])) {
+						$source_name = $provider[$source_url]->getProviderName();
+					} else {
+						$host = parse_url($source_url, PHP_URL_HOST);
+						if ($host) {
+							$parts = explode('.', $host);
+							if (count($parts) > 1) {
+								$source_name = $parts[1];
+							} else {
+								// Handle the case where the host doesn't have at least two parts
+								$source_name = $host;
+							}
+						} else {
+							// Handle the case where parse_url fails
+							$source_name = 'unknown';
+						}
 					}
 				}
-				update_option($source_temp_option_name, json_encode(array_values($temp_sources)));
+
+				if (!empty($blockid) && $blockid != 'undefined') {
+					$sources = json_decode(get_option($source_temp_option_name), true);
+
+					if (!$sources) {
+						$sources = array();
+					}
+					$exists = false;
+
+					foreach ($sources as $i => $source) {
+						if ($source['id'] === $blockid) {
+							$sources[$i]['source']['name'] = $source_name;
+							$sources[$i]['source']['url'] = $source_url;
+							$exists = true;
+							break;
+						}
+					}
+
+					if (!$exists) {
+						$sources[] = array('id' => $blockid, 'source' => array('name' => $source_name, 'url' => $source_url, 'count' => 1));
+					}
+
+					update_option($source_temp_option_name, json_encode($sources));
+				}
 			}
-		}
-		wp_die();
-	}
 
-	//Delete source temporary data when reload without update or publish
-	public static function get_delete_source_temp_data_on_reload($source_temp_option_name)
-	{
-		$source_temp_data = json_decode(get_option($source_temp_option_name), true);
-		if ($source_temp_data) {
-			delete_option($source_temp_option_name);
-		}
-	}
+			// Saved source data when post updated
+			public static function get_save_source_data_on_post_update($source_option_name, $source_temp_option_name)
+			{
 
-	public static function get_file_title($url)
-	{
-		return get_the_title(attachment_url_to_postid($url));
-	}
+				if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+					return;
+				}
+				$temp_data = json_decode(get_option($source_temp_option_name), true);
+				$source_data = json_decode(get_option($source_option_name), true);
+				if (!$temp_data) {
+					$temp_data = array();
+				}
+				if (!$source_data) {
+					$source_data = array();
+				}
 
-	public static function get_hash()
-	{
-		$hash_key = get_option(EMBEDPRESS_PLG_NAME . '_hash_key');
-		if (!$hash_key) {
-			$hash_key = wp_hash_password(wp_generate_password(30));
-			update_option(EMBEDPRESS_PLG_NAME . '_hash_key', $hash_key);
-		}
-		return $hash_key;
-	}
+				$sources = array_merge($temp_data, $source_data);
 
-	public function lock_content_form_handler()
-	{
+				$unique_sources = array();
+				foreach ($sources as $source) {
+					$unique_sources[$source['id']] = $source;
+				}
 
-		$client_id = isset($_POST['client_id']) ? sanitize_text_field($_POST['client_id']) : '';
-		$password = isset($_POST['password']) ? sanitize_text_field($_POST['password']) : '';
-		$post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
+				$unique_sources = array_values($unique_sources);
 
-		$epbase64 = get_post_meta($post_id, 'ep_base_' . $client_id, false);
-		$hash_key = get_post_meta($post_id, 'hash_key_' . $client_id, false);
+				delete_option($source_temp_option_name);
 
-		// Set the decryption key and initialization vector (IV)
-		$key = self::get_hash();
+				update_option($source_option_name, json_encode($unique_sources));
+			}
 
-		// Decode the base64 encoded cipher
-		$cipher = base64_decode($epbase64);
-		// Decrypt the cipher using AES-128-CBC encryption
+			//Delete source data from option table when widget is removed
+			public static function get_delete_source_data($blockid, $source_option_name, $source_temp_option_name)
+			{
+				if (!empty($blockid) && $blockid != 'undefined') {
+					$sources = json_decode(get_option($source_option_name), true);
+					$temp_sources = json_decode(get_option($source_temp_option_name), true);
+					if ($sources) {
+						foreach ($sources as $i => $source) {
+							if ($source['id'] === $blockid) {
+								unset($sources[$i]);
+								break;
+							}
+						}
+						update_option($source_option_name, json_encode(array_values($sources)));
+					}
+					if ($temp_sources) {
+						foreach ($temp_sources as $i => $source) {
+							if ($source['id'] === $blockid) {
+								unset($temp_sources[$i]);
+								break;
+							}
+						}
+						update_option($source_temp_option_name, json_encode(array_values($temp_sources)));
+					}
+				}
+				wp_die();
+			}
 
-		$wp_pass_key = hash('sha256', wp_salt(32) . md5($password));
-		$iv = substr($wp_pass_key, 0, 16);
-		if ($wp_pass_key === $hash_key) {
-			setcookie("password_correct_", $password, time() + 3600);
+			//Delete source temporary data when reload without update or publish
+			public static function get_delete_source_temp_data_on_reload($source_temp_option_name)
+			{
+				$source_temp_data = json_decode(get_option($source_temp_option_name), true);
+				if ($source_temp_data) {
+					delete_option($source_temp_option_name);
+				}
+			}
 
-			$embed = openssl_decrypt($cipher, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv) . '<script>
+			public static function get_file_title($url)
+			{
+				return get_the_title(attachment_url_to_postid($url));
+			}
+
+			public static function get_hash()
+			{
+				$hash_key = get_option(EMBEDPRESS_PLG_NAME . '_hash_key');
+				if (!$hash_key) {
+					$hash_key = wp_hash_password(wp_generate_password(30));
+					update_option(EMBEDPRESS_PLG_NAME . '_hash_key', $hash_key);
+				}
+				return $hash_key;
+			}
+
+			public function lock_content_form_handler()
+			{
+
+				$client_id = isset($_POST['client_id']) ? sanitize_text_field($_POST['client_id']) : '';
+				$password = isset($_POST['password']) ? sanitize_text_field($_POST['password']) : '';
+				$post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
+
+				$epbase64 = get_post_meta($post_id, 'ep_base_' . $client_id, false);
+				$hash_key = get_post_meta($post_id, 'hash_key_' . $client_id, false);
+
+				// Set the decryption key and initialization vector (IV)
+				$key = self::get_hash();
+
+				// Decode the base64 encoded cipher
+				$cipher = base64_decode($epbase64);
+				// Decrypt the cipher using AES-128-CBC encryption
+
+				$wp_pass_key = hash('sha256', wp_salt(32) . md5($password));
+				$iv = substr($wp_pass_key, 0, 16);
+				if ($wp_pass_key === $hash_key) {
+					setcookie("password_correct_", $password, time() + 3600);
+
+					$embed = openssl_decrypt($cipher, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv) . '<script>
 		const now = new Date();
 		const time = now.getTime();
 		const expireTime = time + 1000 * 60 * 60 * 24 * 30;
 		now.setTime(expireTime);
 		document.cookie = "password_correct_' . esc_js($client_id) . '=' . esc_js($hash_key) . '; expires=" + now.toUTCString() + "; path=/";
 	</script>';
-		} else {
-			$embed = 0;
-		}
+				} else {
+					$embed = 0;
+				}
 
-		// Process the form data and return a response
-		$response = array(
-			'success' => true,
-			'password' => $password,
-			'embedHtml' => $embed,
-		);
+				// Process the form data and return a response
+				$response = array(
+					'success' => true,
+					'password' => $password,
+					'embedHtml' => $embed,
+				);
 
-		wp_send_json($response);
-	}
+				wp_send_json($response);
+			}
 
-	public static function display_password_form($client_id = '', $embedHtml = '', $pass_hash_key = '', $attributes = [])
-	{
-		$lock_heading = !empty($attributes['lockHeading']) ? sanitize_text_field($attributes['lockHeading']) : '';
-		$lock_subheading = !empty($attributes['lockSubHeading']) ? sanitize_text_field($attributes['lockSubHeading']) : '';
-		$lock_error_message = !empty($attributes['lockErrorMessage']) ? sanitize_text_field($attributes['lockErrorMessage']) : '';
-		$footer_message = !empty($attributes['footerMessage']) ? sanitize_text_field($attributes['footerMessage']) : '';
-		$password_placeholder = !empty($attributes['passwordPlaceholder']) ? sanitize_text_field($attributes['passwordPlaceholder']) : '';
-		$button_text = !empty($attributes['submitButtonText']) ? sanitize_text_field($attributes['submitButtonText']) : '';
-		$unlocking_text = !empty($attributes['submitUnlockingText']) ? sanitize_text_field($attributes['submitUnlockingText']) : '';
-		$enable_footer_message = !empty($attributes['enableFooterMessage']) ? sanitize_text_field($attributes['enableFooterMessage']) : '';
-
-
-		// Set the encryption key and initialization vector (IV)
-		$key = self::get_hash();
-
-		$salt = wp_salt(32);
-		$wp_hash_key = hash('sha256', $salt . $pass_hash_key);
-		$iv = substr($wp_hash_key, 0, 16);
+			public static function display_password_form($client_id = '', $embedHtml = '', $pass_hash_key = '', $attributes = [])
+			{
+				$lock_heading = !empty($attributes['lockHeading']) ? sanitize_text_field($attributes['lockHeading']) : '';
+				$lock_subheading = !empty($attributes['lockSubHeading']) ? sanitize_text_field($attributes['lockSubHeading']) : '';
+				$lock_error_message = !empty($attributes['lockErrorMessage']) ? sanitize_text_field($attributes['lockErrorMessage']) : '';
+				$footer_message = !empty($attributes['footerMessage']) ? sanitize_text_field($attributes['footerMessage']) : '';
+				$password_placeholder = !empty($attributes['passwordPlaceholder']) ? sanitize_text_field($attributes['passwordPlaceholder']) : '';
+				$button_text = !empty($attributes['submitButtonText']) ? sanitize_text_field($attributes['submitButtonText']) : '';
+				$unlocking_text = !empty($attributes['submitUnlockingText']) ? sanitize_text_field($attributes['submitUnlockingText']) : '';
+				$enable_footer_message = !empty($attributes['enableFooterMessage']) ? sanitize_text_field($attributes['enableFooterMessage']) : '';
 
 
-		// Encrypt the plaintext using AES-128-CBC encryption
-		$cipher = openssl_encrypt($embedHtml, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv);
+				// Set the encryption key and initialization vector (IV)
+				$key = self::get_hash();
 
-		// Base64 encode the encrypted cipher
-		$encrypted_data = base64_encode($cipher);
+				$salt = wp_salt(32);
+				$wp_hash_key = hash('sha256', $salt . $pass_hash_key);
+				$iv = substr($wp_hash_key, 0, 16);
 
-		update_post_meta(get_the_ID(), 'ep_base_' . $client_id, $encrypted_data);
-		update_post_meta(get_the_ID(), 'hash_key_' . $client_id, $wp_hash_key);
 
-		$lock_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g fill="#6354a5" class="color134563 svgShape"><path d="M46.3 28.7h-3v-6.4C43.3 16.1 38.2 11 32 11c-6.2 0-11.3 5.1-11.3 11.3v6.4h-3v-6.4C17.7 14.4 24.1 8 32 8s14.3 6.4 14.3 14.3v6.4" fill="#6354a5" class="color000000 svgShape"></path><path d="M44.8 55.9H19.2c-2.6 0-4.8-2.2-4.8-4.8V31.9c0-2.6 2.2-4.8 4.8-4.8h25.6c2.6 0 4.8 2.2 4.8 4.8v19.2c0 2.7-2.2 4.8-4.8 4.8zM19.2 30.3c-.9 0-1.6.7-1.6 1.6v19.2c0 .9.7 1.6 1.6 1.6h25.6c.9 0 1.6-.7 1.6-1.6V31.9c0-.9-.7-1.6-1.6-1.6H19.2z" fill="#6354a5" class="color000000 svgShape"></path><path d="M35.2 36.7c0 1.8-1.4 3.2-3.2 3.2s-3.2-1.4-3.2-3.2 1.4-3.2 3.2-3.2 3.2 1.5 3.2 3.2" fill="#6354a5" class="color000000 svgShape"></path><path d="M32.8 36.7h-1.6l-1.6 9.6h4.8l-1.6-9.6" fill="#6354a5" class="color000000 svgShape"></path></g></svg>';
+				// Encrypt the plaintext using AES-128-CBC encryption
+				$cipher = openssl_encrypt($embedHtml, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv);
 
-		echo '
+				// Base64 encode the encrypted cipher
+				$encrypted_data = base64_encode($cipher);
+
+				update_post_meta(get_the_ID(), 'ep_base_' . $client_id, $encrypted_data);
+				update_post_meta(get_the_ID(), 'hash_key_' . $client_id, $wp_hash_key);
+
+				$lock_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g fill="#6354a5" class="color134563 svgShape"><path d="M46.3 28.7h-3v-6.4C43.3 16.1 38.2 11 32 11c-6.2 0-11.3 5.1-11.3 11.3v6.4h-3v-6.4C17.7 14.4 24.1 8 32 8s14.3 6.4 14.3 14.3v6.4" fill="#6354a5" class="color000000 svgShape"></path><path d="M44.8 55.9H19.2c-2.6 0-4.8-2.2-4.8-4.8V31.9c0-2.6 2.2-4.8 4.8-4.8h25.6c2.6 0 4.8 2.2 4.8 4.8v19.2c0 2.7-2.2 4.8-4.8 4.8zM19.2 30.3c-.9 0-1.6.7-1.6 1.6v19.2c0 .9.7 1.6 1.6 1.6h25.6c.9 0 1.6-.7 1.6-1.6V31.9c0-.9-.7-1.6-1.6-1.6H19.2z" fill="#6354a5" class="color000000 svgShape"></path><path d="M35.2 36.7c0 1.8-1.4 3.2-3.2 3.2s-3.2-1.4-3.2-3.2 1.4-3.2 3.2-3.2 3.2 1.5 3.2 3.2" fill="#6354a5" class="color000000 svgShape"></path><path d="M32.8 36.7h-1.6l-1.6 9.6h4.8l-1.6-9.6" fill="#6354a5" class="color000000 svgShape"></path></g></svg>';
+
+				echo '
 		<div class="password-form-container">
 			<h2>' . esc_html($lock_heading) . '</h2>
 			<p>' . esc_html($lock_subheading) . ' </p>
@@ -381,32 +383,32 @@ class Helper
 				' . (!empty($enable_footer_message) ? '<p class="need-access-message">' . esc_html($footer_message) . '</p>' : '') . '
 			</div>
 		';
-	}
+			}
 
-	// Check if the user has already entered the correct password
-	public static function is_password_correct($client_id)
-	{
-		if (isset($_COOKIE['password_correct_' . $client_id])) {
-			return $_COOKIE['password_correct_' . $client_id];
-		} else {
-			return false;
-		}
-	}
+			// Check if the user has already entered the correct password
+			public static function is_password_correct($client_id)
+			{
+				if (isset($_COOKIE['password_correct_' . $client_id])) {
+					return $_COOKIE['password_correct_' . $client_id];
+				} else {
+					return false;
+				}
+			}
 
-	public static function customLogo($embedHTML, $atts)
-	{
-		$x = !empty($atts['logoX']) ? $atts['logoX'] : 0;
-		$y = !empty($atts['logoY']) ? $atts['logoY'] : 0;
-		$uniqid = !empty($atts['url']) ? '.ose-uid-' . md5($atts['url']) : '';
+			public static function customLogo($embedHTML, $atts)
+			{
+				$x = !empty($atts['logoX']) ? $atts['logoX'] : 0;
+				$y = !empty($atts['logoY']) ? $atts['logoY'] : 0;
+				$uniqid = !empty($atts['url']) ? '.ose-uid-' . md5($atts['url']) : '';
 
-		$brandUrl = !empty($atts['customlogoUrl']) ? $atts['customlogoUrl'] : '';
-		$opacity = !empty($atts['logoOpacity']) ? $atts['logoOpacity'] : '';
+				$brandUrl = !empty($atts['customlogoUrl']) ? $atts['customlogoUrl'] : '';
+				$opacity = !empty($atts['logoOpacity']) ? $atts['logoOpacity'] : '';
 
-		$cssClass = !empty($atts['url']) ? '.ose-uid-' . md5($atts['url']) : '.ose-youtube';
+				$cssClass = !empty($atts['url']) ? '.ose-uid-' . md5($atts['url']) : '.ose-youtube';
 
 
 
-		ob_start(); ?>
+				ob_start(); ?>
 		<style type="text/css">
 			<?php echo esc_html($cssClass); ?> {
 				position: relative;
@@ -811,171 +813,171 @@ class Helper
 						</div>
 					</div>
 
-		<?php $post_index++;
-						endforeach;
-					endif;
+<?php $post_index++;
+				endforeach;
+			endif;
 
-					$feed_item = ob_get_clean();
+			$feed_item = ob_get_clean();
 
-					$next_start_index = $start_index + count($next_posts);
+			$next_start_index = $start_index + count($next_posts);
 
-					wp_send_json(array(
-						'html' => $feed_item,
-						'next_post_index' => $next_start_index,
-						'total_feed_posts' => count($feed_posts)
-					));
-				} else {
-					wp_send_json('');
-				}
+			wp_send_json(array(
+				'html' => $feed_item,
+				'next_post_index' => $next_start_index,
+				'total_feed_posts' => count($feed_posts)
+			));
+		} else {
+			wp_send_json('');
+		}
+	}
+
+	public static function getCalendlyUuid($url)
+	{
+		$pattern = '/\/([0-9a-fA-F-]+)$/';
+		if (preg_match($pattern, $url, $matches)) {
+			$uuid = $matches[1];
+			return $uuid;
+		}
+		return '';
+	}
+
+	public static function getCalendlyUserInfo($access_token)
+	{
+		$transient_name = 'calendly_user_info_' . $access_token;
+		$user_info = get_transient($transient_name);
+		if (false === $user_info) {
+			$user_endpoint = 'https://api.calendly.com/users/me';
+			$headers = array(
+				'Authorization' => "Bearer $access_token",
+				'Content-Type' => 'application/json',
+			);
+			$args = array(
+				'headers' => $headers,
+			);
+			$response = wp_remote_get($user_endpoint, $args);
+			if (!is_wp_error($response) && 200 === wp_remote_retrieve_response_code($response)) {
+				$user_info = wp_remote_retrieve_body($response);
+				set_transient($transient_name, $user_info, 3600);
+			} else {
+				return false;
 			}
+		}
 
-			public static function getCalendlyUuid($url)
-			{
-				$pattern = '/\/([0-9a-fA-F-]+)$/';
-				if (preg_match($pattern, $url, $matches)) {
-					$uuid = $matches[1];
-					return $uuid;
-				}
-				return '';
-			}
-
-			public static function getCalendlyUserInfo($access_token)
-			{
-				$transient_name = 'calendly_user_info_' . $access_token;
-				$user_info = get_transient($transient_name);
-				if (false === $user_info) {
-					$user_endpoint = 'https://api.calendly.com/users/me';
-					$headers = array(
-						'Authorization' => "Bearer $access_token",
-						'Content-Type' => 'application/json',
-					);
-					$args = array(
-						'headers' => $headers,
-					);
-					$response = wp_remote_get($user_endpoint, $args);
-					if (!is_wp_error($response) && 200 === wp_remote_retrieve_response_code($response)) {
-						$user_info = wp_remote_retrieve_body($response);
-						set_transient($transient_name, $user_info, 3600);
-					} else {
-						return false;
-					}
-				}
-
-				return $user_info;
-			}
+		return $user_info;
+	}
 
 
 
-			public static function getCalaendlyEventTypes($user_uri, $access_token)
-			{
-				// Attempt to retrieve the data from the transient
-				$events_list = get_transient('calendly_events_list_' . md5($access_token));
+	public static function getCalaendlyEventTypes($user_uri, $access_token)
+	{
+		// Attempt to retrieve the data from the transient
+		$events_list = get_transient('calendly_events_list_' . md5($access_token));
 
-				if (false === $events_list) {
-					// If the data is not in the transient, fetch it from the API
-					$events_endpoint = "https://api.calendly.com/event_types?user=$user_uri";
+		if (false === $events_list) {
+			// If the data is not in the transient, fetch it from the API
+			$events_endpoint = "https://api.calendly.com/event_types?user=$user_uri";
 
-					$headers = array(
-						'Authorization' => "Bearer $access_token",
-						'Content-Type' => 'application/json',
-					);
+			$headers = array(
+				'Authorization' => "Bearer $access_token",
+				'Content-Type' => 'application/json',
+			);
 
-					$args = array(
-						'headers' => $headers,
-					);
+			$args = array(
+				'headers' => $headers,
+			);
 
-					$response = wp_remote_get($events_endpoint, $args);
+			$response = wp_remote_get($events_endpoint, $args);
 
-					if (!is_wp_error($response)) {
-						$body = wp_remote_retrieve_body($response);
-						$events_list = json_decode($body, true);
+			if (!is_wp_error($response)) {
+				$body = wp_remote_retrieve_body($response);
+				$events_list = json_decode($body, true);
 
-						// Store the data in a transient for a specified time (e.g., 1 hour)
-						set_transient('calendly_events_list', $events_list, HOUR_IN_SECONDS);
-
-						return $events_list;
-					}
-				}
+				// Store the data in a transient for a specified time (e.g., 1 hour)
+				set_transient('calendly_events_list', $events_list, HOUR_IN_SECONDS);
 
 				return $events_list;
 			}
+		}
 
-			public static function getListEventInvitee($uuid, $access_token)
-			{
-				// Attempt to retrieve the data from the transient
-				$invitee_list = get_transient('calendly_invitee_list_' . md5($access_token));
+		return $events_list;
+	}
 
-				if (false === $invitee_list) {
-					// If the data is not in the transient, fetch it from the API
-					$events_endpoint = "https://api.calendly.com/scheduled_events/$uuid/invitees";
+	public static function getListEventInvitee($uuid, $access_token)
+	{
+		// Attempt to retrieve the data from the transient
+		$invitee_list = get_transient('calendly_invitee_list_' . md5($access_token));
 
-					$headers = array(
-						'Authorization' => "Bearer $access_token",
-						'Content-Type' => 'application/json',
-					);
+		if (false === $invitee_list) {
+			// If the data is not in the transient, fetch it from the API
+			$events_endpoint = "https://api.calendly.com/scheduled_events/$uuid/invitees";
 
-					$args = array(
-						'headers' => $headers,
-					);
+			$headers = array(
+				'Authorization' => "Bearer $access_token",
+				'Content-Type' => 'application/json',
+			);
 
-					$response = wp_remote_get($events_endpoint, $args);
+			$args = array(
+				'headers' => $headers,
+			);
 
-					if (!is_wp_error($response)) {
-						$body = wp_remote_retrieve_body($response);
-						$invitee_list = json_decode($body, true);
+			$response = wp_remote_get($events_endpoint, $args);
 
-						// Store the data in a transient for a specified time (e.g., 1 hour)
-						set_transient('calendly_invitee_list', $invitee_list, HOUR_IN_SECONDS);
+			if (!is_wp_error($response)) {
+				$body = wp_remote_retrieve_body($response);
+				$invitee_list = json_decode($body, true);
 
-						return $invitee_list;
-					}
-				}
+				// Store the data in a transient for a specified time (e.g., 1 hour)
+				set_transient('calendly_invitee_list', $invitee_list, HOUR_IN_SECONDS);
 
 				return $invitee_list;
 			}
+		}
 
-			public static function getCalaendlyScheduledEvents($user_uri, $access_token)
-			{
-				// Attempt to retrieve the data from the transient
-				$events_list = get_transient('calendly_events_list_' . md5($access_token));
+		return $invitee_list;
+	}
 
-				if (false === $events_list) {
-					// If the data is not in the transient, fetch it from the API
-					$events_endpoint = "https://api.calendly.com/scheduled_events?user=$user_uri";
+	public static function getCalaendlyScheduledEvents($user_uri, $access_token)
+	{
+		// Attempt to retrieve the data from the transient
+		$events_list = get_transient('calendly_events_list_' . md5($access_token));
 
-					$headers = array(
-						'Authorization' => "Bearer $access_token",
-						'Content-Type' => 'application/json',
-					);
+		if (false === $events_list) {
+			// If the data is not in the transient, fetch it from the API
+			$events_endpoint = "https://api.calendly.com/scheduled_events?user=$user_uri";
 
-					$args = array(
-						'headers' => $headers,
-					);
+			$headers = array(
+				'Authorization' => "Bearer $access_token",
+				'Content-Type' => 'application/json',
+			);
 
-					$response = wp_remote_get($events_endpoint, $args);
+			$args = array(
+				'headers' => $headers,
+			);
 
-					if (!is_wp_error($response)) {
-						$body = wp_remote_retrieve_body($response);
-						$events_list = json_decode($body, true);
+			$response = wp_remote_get($events_endpoint, $args);
 
-						// Store the data in a transient for a specified time (e.g., 1 hour)
-						set_transient('calendly_events_list', $events_list, HOUR_IN_SECONDS);
+			if (!is_wp_error($response)) {
+				$body = wp_remote_retrieve_body($response);
+				$events_list = json_decode($body, true);
 
-						return $events_list;
-					}
-				}
+				// Store the data in a transient for a specified time (e.g., 1 hour)
+				set_transient('calendly_events_list', $events_list, HOUR_IN_SECONDS);
 
 				return $events_list;
 			}
+		}
+
+		return $events_list;
+	}
 
 
-			public static function parseDuration($durationString)
-			{
-				list($minutes, $seconds) = explode(':', $durationString);
-				return intval($minutes) * 60 + intval($seconds);
-			}
+	public static function parseDuration($durationString)
+	{
+		list($minutes, $seconds) = explode(':', $durationString);
+		return intval($minutes) * 60 + intval($seconds);
+	}
 
-		
+
 
 
 	public static function is_pro_active()
@@ -1228,11 +1230,12 @@ class Helper
 		return implode(' ', $trimmedWords) . ' ...';
 	}
 
-	public static function timeAgo($datetime) {
+	public static function timeAgo($datetime)
+	{
 		$now = new \DateTime();
 		$date = new \DateTime($datetime);
 		$interval = $now->diff($date);
-	
+
 		if ($interval->y > 0) {
 			return $interval->y . ' year' . ($interval->y > 1 ? 's' : '') . ' ago';
 		} elseif ($interval->m > 0) {
@@ -1247,5 +1250,24 @@ class Helper
 			return 'just now';
 		}
 	}
-		
+
+	public static function removeQuote($attributes)
+	{
+		$parsedAttributes = [];
+
+		// Regular expression to match any attribute that starts with 'on' (case-insensitive)
+		$regex = '/^on.*/i';
+	
+		foreach ($attributes as $key => $value) {
+			// Remove quotes from the value
+			$cleanValue = str_replace(['"', "'"], '', $value);
+	
+			// If the key does not match the regex, keep the attribute
+			if (!preg_match($regex, $key)) {
+				$parsedAttributes[$key] = $cleanValue;
+			}
+		}
+	
+		return $parsedAttributes;
+	}
 }
