@@ -47,6 +47,17 @@ if(!function_exists('get_options_value')){
 		return '';
 	}
 }
+if(!function_exists('get_branding_value')){
+	function get_branding_value($key, $provider)
+	{
+		$settings = get_option( EMBEDPRESS_PLG_NAME.':'.$provider, []);
+
+		if(isset( $settings[$key])) {
+			return $settings[$key];
+		}
+		return '';
+	}
+}
 
 
 /**
@@ -126,6 +137,12 @@ function embedpress_blocks_cgb_editor_assets()
 		'iframe_width' => get_options_value('enableEmbedResizeWidth'),
 		'iframe_height' => get_options_value('enableEmbedResizeHeight'),
 		'pdf_custom_color' => get_options_value('custom_color'),
+		'pdf_custom_color' => get_options_value('custom_color'),
+		'youtube_brand_logo_url' => get_branding_value('logo_url', 'youtube'),
+		'vimeo_brand_logo_url' => get_branding_value('logo_url', 'vimeo'),
+		'wistia_brand_logo_url' => get_branding_value('logo_url', 'wistia'),
+		'twitch_brand_logo_url' => get_branding_value('logo_url', 'twitch'),
+		'dailymotion_brand_logo_url' => get_branding_value('logo_url', 'dailymotion'),
 
 	));
 

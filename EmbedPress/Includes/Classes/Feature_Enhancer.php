@@ -307,6 +307,7 @@ class Feature_Enhancer
 					'closedcaptions'   => !empty($attributes['closedcaptions']) ? 1 : 0,
 					'modestbranding'   => !empty($attributes['modestbranding']) ? $attributes['modestbranding'] : '',
 					'relatedvideos'   => !empty($attributes['relatedvideos']) ? 1 : 0,
+
 					'customlogo'   => !empty($attributes['customlogo']) ? $attributes['customlogo'] : '',
 					'logoX' => !empty($attributes['logoX']) ? $attributes['logoX'] : 5,
 					'logoY' => !empty($attributes['logoY']) ? $attributes['logoY'] : 10,
@@ -411,6 +412,7 @@ class Feature_Enhancer
 		}
 
 		if (!empty($attributes['url']) && $this->vimeoValidateUrl($attributes['url'])) {
+
 			$atts = [
 				'url'	=> $attributes['url'],
 				'vstarttime'    => !empty($attributes['vstarttime']) ? $attributes['vstarttime'] : '',

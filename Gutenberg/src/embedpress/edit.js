@@ -45,7 +45,7 @@ removedBlockID();
 export default function EmbedPress(props) {
 	const { attributes, className, setAttributes } = props;
 
-	console.log({attributes})
+
 
 	// @todo remove unused atts from here.
 	const {
@@ -84,6 +84,31 @@ export default function EmbedPress(props) {
 		adYPosition
 	} = attributes;
 
+	// Dynamically set the custom logo based on the URL
+	useEffect(() => {
+		if (url.includes('youtube.com') || url.includes('youtu.be')) {
+			setAttributes({
+				customlogo: embedpressObj.youtube_brand_logo_url || ''
+			});
+		} else if (url.includes('vimeo.com')) {
+			setAttributes({
+				customlogo: embedpressObj.vimeo_brand_logo_url || ''
+			});
+		} else if (url.includes('wistia.com')) {
+			setAttributes({
+				customlogo: embedpressObj.wistia_brand_logo_url || ''
+			});
+		} else if (url.includes('twitch.com')) {
+			setAttributes({
+				customlogo: embedpressObj.twitch_brand_logo_url || ''
+			});
+		} else if (url.includes('dailymotion.com')) {
+			setAttributes({
+				customlogo: embedpressObj.dailymotion_brand_logo_url || ''
+			});
+		}
+	}, [url])
+	
 	const _isSelfHostedVideo = isSelfHostedVideo(url);
 	const _isSelfHostedAudio = isSelfHostedAudio(url);
 
@@ -102,7 +127,7 @@ export default function EmbedPress(props) {
 	if (_isYTChannel(url)) {
 		ytChannelClass = 'embedded-youtube-channel';
 	}
-	
+
 
 
 	let content_share_class = '';
@@ -316,6 +341,7 @@ export default function EmbedPress(props) {
 	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent]);
 
 
+
 	return (
 		<Fragment>
 
@@ -362,23 +388,23 @@ export default function EmbedPress(props) {
 				) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTShorts || isWistiaVideo || isVimeoVideo || isCalendly || isInstagramFeed)) && ( <figure {...blockProps} data-source-id={'source-' + clientId}>
-				
-					<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
-						<EmbedWrap
-							className={`position-${sharePosition}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}
-							style={{
-								display: fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isYTShorts && !isWistiaVideo && !isVimeoVideo && !isCalendly && !isInstagramFeed ? 'none' : isOpensea || isOpenseaSingle ? 'block' : 'inline-block',
-								position: 'relative'
-							}}
-							{...(customPlayer ? { 'data-playerid': md5(clientId) } : {})}
-							{...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})}
-							{...(instaLayout === 'insta-carousel' ? { 'data-carouselid': md5(clientId) } : {})}
-							{...(instaLayout === 'insta-carousel' ? { 'data-carousel-options': getCarouselOptions({ attributes }) } : {})}
-							dangerouslySetInnerHTML={{
-								__html: embedHTML + customLogoTemp + epMessage + shareHtml,
-							}}
-						></EmbedWrap>
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTShorts || isWistiaVideo || isVimeoVideo || isCalendly || isInstagramFeed)) && (<figure {...blockProps} data-source-id={'source-' + clientId}>
+
+				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
+					<EmbedWrap
+						className={`position-${sharePosition}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}
+						style={{
+							display: fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isYTShorts && !isWistiaVideo && !isVimeoVideo && !isCalendly && !isInstagramFeed ? 'none' : isOpensea || isOpenseaSingle ? 'block' : 'inline-block',
+							position: 'relative'
+						}}
+						{...(customPlayer ? { 'data-playerid': md5(clientId) } : {})}
+						{...(customPlayer ? { 'data-options': getPlayerOptions({ attributes }) } : {})}
+						{...(instaLayout === 'insta-carousel' ? { 'data-carouselid': md5(clientId) } : {})}
+						{...(instaLayout === 'insta-carousel' ? { 'data-carousel-options': getCarouselOptions({ attributes }) } : {})}
+						dangerouslySetInnerHTML={{
+							__html: embedHTML + customLogoTemp + epMessage + shareHtml,
+						}}
+					></EmbedWrap>
 
 					{
 						adManager && (adSource === 'image') && adFileUrl && (

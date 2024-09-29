@@ -1105,6 +1105,14 @@ class Helper
 		}
 		return '';
 	}
+	public static function get_branding_value($key, $provider)
+	{
+		$settings = get_option( EMBEDPRESS_PLG_NAME.':'.$provider, []);
+		if(isset( $settings[$key])) {
+			return $settings[$key];
+		}
+		return '';
+	}
 
 
 	public static function format_number($number)
