@@ -2439,34 +2439,6 @@ a.sidebar__link.ads-icon.active span svg path, a.sidebar__link.ads-icon:hover sp
 }
 
 
-@media (min-width: 992px) and (max-width: 1199px) {
-    .embedpress_general_settings__form:not(:last-child), .embedpress__shortcode {
-        width: 100%;
-        margin-right: 0;
-    }
-
-}
-
-@media (max-width:1024px) {
-    .shortcode-settings-wrapper, .embedpress_general_settings__form:not(:last-child), .embedpress__shortcode {
-        width: 100%;
-        display: block;
-    }
-
-    .embedpress-upgrade-pro-sidebar {
-        display: none;
-    }
-
-}
-
-@media (max-width: 767px) {
-    .embedpress_general_settings__form:not(:last-child) {
-        width: 100%;
-        margin-right: 0;
-    }
-
-}
-
 .embedpress-upgrade-pro-sidebar .gradient-color {
     border-radius: 12px;
     background: white;
@@ -2531,7 +2503,7 @@ p.embedpress-tagline {
 .pro-upgrade-button {
     border-radius: 8px;
     background: #FF7369;
-    padding: 16px 20px;
+    padding: 12px 0px;
     color: #fff !important;
     text-align: center;
     font-size: 16px;
@@ -3910,16 +3882,19 @@ li.sidebar__item.show .tab-button-section {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff!important;
-    font-size: 12px!important;
+    color: #fff !important;
+    font-size: 12px !important;
     text-transform: capitalize;
 }
+
 .ribbon-container.new {
     background-color: #059862;
 }
+
 .ribbon-container.popular {
     background-color: #0064FF;
 }
+
 .ribbon-container.updated {
     background-color: #6C757D;
     border: none;
@@ -4100,11 +4075,13 @@ table.emebedpress th {
     justify-content: center;
     width: 50px;
 }
+
 td.instagram-user-account .username {
     text-align: left;
     font-size: 16px;
     line-height: 1.4rem;
 }
+
 td.instagram-user-account .userid {
     text-align: left;
     font-size: 13px;
@@ -4726,7 +4703,7 @@ form#instagram-form label {
     display: inline-block;
 }
 
-a.for-business, a.for-personal{
+a.for-business, a.for-personal {
     display: inline-block;
     text-decoration: underline;
     font-size: 14px;
@@ -4776,7 +4753,7 @@ a.for-business, a.for-personal{
     background-color: #0056b3;
 }
 
-.emebedpress img.user-avatar{
+.emebedpress img.user-avatar {
     border: 2px solid #037bff;
 }
 
@@ -4786,16 +4763,67 @@ td.instagram-user-account {
     gap: 10px;
 }
 
-td.instagram-sync-data{
+td.instagram-sync-data {
     cursor: pointer;
 }
 
 .sync-spin {
-    animation: spin 1s linear infinite; /* Apply the spin animation */
+    animation: spin 1s linear infinite;
+    /* Apply the spin animation */
 }
 
 @keyframes spin {
     to {
-        transform: rotate(360deg); /* Rotate the element 360 degrees */
+        transform: rotate(360deg);
+        /* Rotate the element 360 degrees */
     }
+}
+
+
+@media (max-width: 1450px) {
+
+    .form__control__wrap .input__switch .logo__adjust__toggler {
+        top: calc(100% + 5px);
+        left: 0;
+    }
+
+    .template__wrapper label {
+        margin-bottom: 20px;
+    }
+
+}
+
+@media (max-width: 1350px) {
+    .embedpress_general_settings__form:not(:last-child), .embedpress__shortcode {
+        width: 100%;
+        margin-right: 0;
+    }
+
+
+
+}
+
+@media (min-width: 991px) and (max-width:1120px) {
+    .shortcode-settings-wrapper, .embedpress_general_settings__form:not(:last-child), .embedpress__shortcode {
+        width: 100%;
+        /* display: block; */
+    }
+
+    .embedpress-upgrade-pro-sidebar {
+        display: none;
+    }
+
+
+}
+
+@media (max-width: 767px) {
+    .embedpress_general_settings__form:not(:last-child) {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .embedpress-upgrade-pro-sidebar {
+        display: none;
+    }
+
 }
