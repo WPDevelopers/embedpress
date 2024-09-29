@@ -1,34 +1,40 @@
 <?php
+
 namespace EmbedPress\Includes\Traits;
-if ( !defined( 'ABSPATH' ) ) {
+
+if (!defined('ABSPATH')) {
 	exit;
 } // Exit if accessed directly
 use Elementor\Controls_Manager as Controls_Manager;
 use Elementor\Group_Control_Image_Size;
+use EmbedPress\Includes\Classes\Helper;
 
-Trait Branding {
+
+trait Branding
+{
 	/**
 	 * @param string $provider_name
 	 */
-	public function init_branding_controls( $provider_name='' ) {
-		if ( !isset( $this->pro_class) ) {
+	public function init_branding_controls($provider_name = '')
+	{
+		if (!isset($this->pro_class)) {
 			$this->pro_class = '';
 		}
-		if ( !isset( $this->pro_text) ) {
+		if (!isset($this->pro_text)) {
 			$this->pro_text = '';
 		}
 		$logo_condition = [
-			"embedpress_pro_{$provider_name}_logo[url]!" =>''
+			"embedpress_pro_{$provider_name}_logo[url]!" => ''
 		];
 		$condition = [];
-		if ( $provider_name !== 'document' ) {
+		if ($provider_name !== 'document') {
 			$logo_condition["embedpress_pro_embeded_source"] = $provider_name;
 			$condition["embedpress_pro_embeded_source"] = $provider_name;
 		}
 		$this->add_control(
 			"{$provider_name}_custom_logo_cta_heading",
 			[
-				'label' => __( 'Custom Branding', 'embedpress' ),
+				'label' => __('Custom Branding', 'embedpress'),
 				'type' => Controls_Manager::HEADING,
 				'separator' => 'before',
 				'condition' => $condition,
@@ -37,16 +43,20 @@ Trait Branding {
 		$this->add_control(
 			"embedpress_pro_{$provider_name}_logo",
 			[
-				'label' => sprintf(__( 'Custom Logo %s', 'embedpress' ), $this->pro_text ),
-				'description' => __( 'Leave it empty to hide it', 'embedpress' ),
+				'label' => sprintf(__('Custom Logo %s', 'embedpress'), $this->pro_text),
+				'description' => __('Leave it empty to hide it', 'embedpress'),
 				'type' => Controls_Manager::MEDIA,
 				'dynamic' => [
 					'active' => true,
 				],
 				'classes'     => $this->pro_class,
 				'condition'     => $condition,
+				'default' => [
+					'url' => Helper::get_branding_value('logo_url', $provider_name)
+				],
 			]
 		);
+
 		$this->add_group_control(
 			Group_Control_Image_Size::get_type(),
 			[
@@ -59,10 +69,10 @@ Trait Branding {
 		$this->add_responsive_control(
 			"embedpress_pro_{$provider_name}_logo_xpos",
 			[
-				'label' => sprintf( __( 'Logo X Position %s', 'embedpress' ), $this->pro_text),
-				'description' => __( 'Change this number to move your logo in horizontal direction.', 'embedpress' ),
+				'label' => sprintf(__('Logo X Position %s', 'embedpress'), $this->pro_text),
+				'description' => __('Change this number to move your logo in horizontal direction.', 'embedpress'),
 				'type' => Controls_Manager::SLIDER,
-				'size_units' => [ 'px', '%' ],
+				'size_units' => ['px', '%'],
 				'range' => [
 					'px' => [
 						'min' => 0,
@@ -88,10 +98,10 @@ Trait Branding {
 		$this->add_responsive_control(
 			"embedpress_pro_{$provider_name}_logo_ypos",
 			[
-				'label' => sprintf( __( 'Logo Y Position %s', 'embedpress' ), $this->pro_text),
-				'description' => __( 'Change this number to move your logo in vertical direction.', 'embedpress' ),
+				'label' => sprintf(__('Logo Y Position %s', 'embedpress'), $this->pro_text),
+				'description' => __('Change this number to move your logo in vertical direction.', 'embedpress'),
 				'type' => Controls_Manager::SLIDER,
-				'size_units' => [ 'px', '%' ],
+				'size_units' => ['px', '%'],
 				'range' => [
 					'px' => [
 						'min' => 0,
@@ -121,15 +131,16 @@ Trait Branding {
 				'condition'    => $logo_condition,
 			]
 		);
-		$this->start_controls_tab( "ep_{$provider_name}_cta_normal_tab",
+		$this->start_controls_tab(
+			"ep_{$provider_name}_cta_normal_tab",
 			[
-				'label' => __( 'Normal', 'embedpress' ),
+				'label' => __('Normal', 'embedpress'),
 			]
 		);
 		$this->add_control(
 			"embedpress_pro_{$provider_name}_logo_opacity",
 			[
-				'label' => sprintf( __( 'Logo Opacity %s', 'embedpress' ), $this->pro_text),
+				'label' => sprintf(__('Logo Opacity %s', 'embedpress'), $this->pro_text),
 				'type' => Controls_Manager::SLIDER,
 				'default' => [
 					'size' => .5,
@@ -149,17 +160,18 @@ Trait Branding {
 			]
 		);
 		$this->end_controls_tab();
-		$this->start_controls_tab( "ep_{$provider_name}_cta_hover__tab",
+		$this->start_controls_tab(
+			"ep_{$provider_name}_cta_hover__tab",
 			[
-				'label' => __( 'Hover', 'embedpress' ),
+				'label' => __('Hover', 'embedpress'),
 			]
 		);
 		$this->add_control(
 			"embedpress_pro_{$provider_name}_logo_opacity_hover",
 			[
-				'label' => sprintf( __( 'Logo Opacity %s', 'embedpress' ), $this->pro_text),
+				'label' => sprintf(__('Logo Opacity %s', 'embedpress'), $this->pro_text),
 				'type' => Controls_Manager::SLIDER,
-				'size_units' => [ '%'],
+				'size_units' => ['%'],
 				'default' => [
 					'size' => 1,
 				],
@@ -182,13 +194,13 @@ Trait Branding {
 		$this->add_control(
 			"embedpress_pro_{$provider_name}_cta",
 			[
-				'label' => sprintf( __( 'CTA link for Logo %s', 'embedpress' ), $this->pro_text),
-				'description' => __( 'You can show the logo inside a link. Leave it empty to hide it', 'embedpress' ),
+				'label' => sprintf(__('CTA link for Logo %s', 'embedpress'), $this->pro_text),
+				'description' => __('You can show the logo inside a link. Leave it empty to hide it', 'embedpress'),
 				'type' => Controls_Manager::URL,
 				'dynamic' => [
 					'active' => true,
 				],
-				'placeholder' => __( 'https://your-link.com', 'embedpress' ),
+				'placeholder' => __('https://your-link.com', 'embedpress'),
 				'condition'    => $logo_condition,
 				'classes'     => $this->pro_class,
 				'separator' => 'before',
