@@ -644,5 +644,3 @@ jQuery(document).ready(function ($) {
     });
 });
 
-
-

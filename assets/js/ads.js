@@ -80,7 +80,7 @@ const adInitialization = (adContainer, index) => {
     const adTemplate = adContainer.querySelector('.main-ad-template');
     const progressBar = adContainer.querySelector('.progress-bar');
     const skipButton = adContainer.querySelector('.skip-ad-button');
-    const adRunningTime = adContainer.querySelector('.ad-running-time');
+    const adRunningTime = adContainer.querySelector('.sponsored-running-time');
     var playerId;
     const adMask = adContainer;
 
@@ -94,12 +94,12 @@ const adInitialization = (adContainer, index) => {
     const hashClass = hashParentClass(adContainer, 'ep-content-protection-enabled');
 
     if (hashClass) {
-        adContainer.classList.remove('ad-mask');
+        adContainer.classList.remove('sponsored-mask');
     }
 
     adMask?.addEventListener('click', function () {
 
-        if (adContainer.classList.contains('ad-mask')) {
+        if (adContainer.classList.contains('sponsored-mask')) {
             playerId = adContainer.querySelector('[data-playerid]')?.getAttribute('data-playerid');
 
             if (typeof playerInit !== 'undefined' && playerInit.length > 0) {
@@ -115,7 +115,7 @@ const adInitialization = (adContainer, index) => {
                     if (adSource !== 'image') {
                         adContainer.querySelector('.ep-embed-content-wraper').classList.add('hidden');
                     }
-                    adTemplate?.classList.add('ad-running');
+                    adTemplate?.classList.add('sponsored-running');
                     if (adVideo && adSource === 'video') {
                         adVideo.muted = false;
                         adVideo.play();
@@ -125,7 +125,7 @@ const adInitialization = (adContainer, index) => {
                 playbackInitiated = true;
             }
 
-            adContainer.classList.remove('ad-mask');
+            adContainer.classList.remove('sponsored-mask');
         }
 
     });
@@ -241,8 +241,8 @@ if (adsConainers.length > 0 && eplocalize.is_pro_plugin_active) {
 
                 youtubeVideos.forEach((yVideo, index) => {
                     const srcUrl = yVideo.querySelector('iframe')?.getAttribute('src');
-                    const adVideo = yVideo.closest('.ad-mask')?.querySelector('.ep-ad');
-                    const isYTChannel = yVideo.closest('.ad-mask')?.querySelector('.ep-youtube-channel');
+                    const adVideo = yVideo.closest('.sponsored-mask')?.querySelector('.ep-ad');
+                    const isYTChannel = yVideo.closest('.sponsored-mask')?.querySelector('.ep-youtube-channel');
                     if (adVideo && !isYTChannel) {
 
                         console.log(isYTChannel);
@@ -266,5 +266,5 @@ if (adsConainers.length > 0 && eplocalize.is_pro_plugin_active) {
     });
 }
 else{
-    jQuery('.ad-mask').removeClass('ad-mask');
+    jQuery('.sponsored-mask').removeClass('sponsored-mask');
 }

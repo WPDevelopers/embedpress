@@ -20,9 +20,10 @@ if(!$pro_active){
 
 ?>
 
-<div class="embedpress_calendly_settings  background__white radius-25 p40">
-    <div class="ad-settings-top">
-        <div <?php if(!$pro_active): echo 'class="ad-settings-content"'; endif; ?>>
+<div class="embedpress_calendly_settings  background__white radius-25 p40" >
+<div class="border">
+<div class="sponsored-settings-top">
+        <div <?php if(!$pro_active): echo 'class="sponsored-settings-content"'; endif; ?>>
             <h3 class="ads-settings-title">
                 <?php
                 echo wp_kses_post(
@@ -61,9 +62,51 @@ if(!$pro_active){
             <a href="<?php echo esc_url('https://wpdeveloper.com/in/upgrade-embedpress'); ?>" target="_blank" class="button button-pro-upgrade"><?php echo esc_html__('Upgrade To Pro', 'embedpress'); ?><i class="ep-icon ep-link-icon"></i></a>
         <?php endif; ?>
     </div>
+</div>
+  
+
+    <div class="sponsored-toggle_wrapper">
+         <div class="btn-video sponsored-toggle_btn  sponsored-active_btn " >
+           <span>  
+           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">               
+             <g clip-path="url(#clip0_952_112)">
+               <path d="M15 10L19.553 7.724C19.7054 7.64783 19.8748 7.61188 20.045 7.61954C20.2152 7.62721 20.3806 7.67824 20.5256 7.7678C20.6706 7.85736 20.7902 7.98247 20.8733 8.13127C20.9563 8.28006 20.9999 8.44761 21 8.618V15.382C20.9999 15.5524 20.9563 15.7199 20.8733 15.8687C20.7902 16.0175 20.6706 16.1426 20.5256 16.2322C20.3806 16.3218 20.2152 16.3728 20.045 16.3805C19.8748 16.3881 19.7054 16.3522 19.553 16.276L15 14V10Z" stroke="#25396F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+               <path d="M3 8C3 7.46957 3.21071 6.96086 3.58579 6.58579C3.96086 6.21071 4.46957 6 5 6H13C13.5304 6 14.0391 6.21071 14.4142 6.58579C14.7893 6.96086 15 7.46957 15 8V16C15 16.5304 14.7893 17.0391 14.4142 17.4142C14.0391 17.7893 13.5304 18 13 18H5C4.46957 18 3.96086 17.7893 3.58579 17.4142C3.21071 17.0391 3 16.5304 3 16V8Z" stroke="#25396F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+               </g>
+               <defs>
+               <clipPath id="clip0_952_112">
+               <rect width="24" height="24" fill="white"/>
+               </clipPath>
+               </defs>
+               </svg>
+
+           </span>
+           <span>Video</span>
+         </div>
+       <div class="btn-img sponsored-toggle_btn ">
+           <span>
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                   <g clip-path="url(#clip0_952_123)">
+                   <path d="M12.5 6.66663H12.5083" stroke="#7C8DB5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                   <path d="M2.5 5C2.5 4.33696 2.76339 3.70107 3.23223 3.23223C3.70107 2.76339 4.33696 2.5 5 2.5H15C15.663 2.5 16.2989 2.76339 16.7678 3.23223C17.2366 3.70107 17.5 4.33696 17.5 5V15C17.5 15.663 17.2366 16.2989 16.7678 16.7678C16.2989 17.2366 15.663 17.5 15 17.5H5C4.33696 17.5 3.70107 17.2366 3.23223 16.7678C2.76339 16.2989 2.5 15.663 2.5 15V5Z" stroke="#7C8DB5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                   <path d="M2.5 13.3333L6.66667 9.16665C7.44 8.42248 8.39333 8.42248 9.16667 9.16665L13.3333 13.3333" stroke="#7C8DB5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                   <path d="M11.666 11.6667L12.4993 10.8334C13.2727 10.0892 14.226 10.0892 14.9993 10.8334L17.4993 13.3334" stroke="#7C8DB5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                   </g>
+                   <defs>
+                   <clipPath id="clip0_952_123">
+                   <rect width="20" height="20" fill="white"/>
+                   </clipPath>
+                   </defs>
+                 </svg>
+           </span>
+           <span>Images</span>
+       </div>
+    </div>
 
     <div class="entry-content clear" ast-blocks-layout="true" itemprop="text">
-        <div class="ad-preview-sectiion">
+
+    <div class="sponsored-wrapper video-body toggle-active">
+        <div class="sponsored-preview-sectiion">
             <div class="video-ad-prewiew-options">
                 <div class="ad__adjust__wrap " style="display: block;">
 
@@ -71,16 +114,17 @@ if(!$pro_active){
                         <form class="ad__adjust__controller" id="ad-preview-0">
                             <div class="form-input-wrapper">
                                 <div class="ad__adjust__controller__item">
-                                    <span class="controller__label"><?php echo esc_html__('Upload Ad', 'embedpress'); ?></span>
-                                    <div class="ad__adjust__controller__inputs ad-upload-options">
+                                    <span class="controller__label negative-margin"><?php echo esc_html__('Upload Ad', 'embedpress'); ?></span>
+                                    <div class="ad__adjust__controller__inputs sponsored-upload-options">
 
                                         <button class="uploadBtn" type="button" data-upload-index="0">
                                             <span class="dashicons dashicons-upload"></span> <?php echo esc_html__('Upload', 'embedpress'); ?>
                                         </button>
-
+                             
                                         <input type="hidden" id="fileInput-0" name="adFileUrl" value="<?php echo esc_url('https://embedpress.com/wp-content/uploads/2023/12/notificationX-demo-ad.mp4'); ?>" />
 
-                                        <p class="uploaded-file-url-0 uploaded"><?php echo esc_html('File Name: notificationX-demo-ad.mp4'); ?></p>
+                                        <p class="uploaded-file-url-0 uploaded"><?php echo esc_html('notificationX-demo-ad.mp4'); ?></p>
+                      
                                     </div>
                                 </div>
 
@@ -94,32 +138,68 @@ if(!$pro_active){
                                 <div class="ad__adjust__controller__item">
                                     <span class="controller__label"><?php echo esc_html__('Ad Start After (Sec)', 'embedpress'); ?></span>
                                     <div class="ad__adjust__controller__inputs">
-                                        <input type="range" min="1" max="100" data-default="10" value="10" class="opacity__range" name="adStart">
-                                        <input readonly="" type="number" class="form__control range__value" data-default="10" value="10">
+                                       
+                                    <div class="range-control opacity-range_control">
+                                        <span class="range_negative">
+                                          <div class="controller negative-controller"></div>
+                                        </span>
+                                        <!-- <input type="range" min="1" max="100" data-default="10" value="10" class="opacity__range" name="adStart"> -->
+                                         <div class="show-value">
+                                            <!-- <span class="input-value_show">6</span> -->
+                                            <input  type="number" class="form__control range__value" data-default="10" value="10">
+                                           
+                                         </div>
+                                         
+                                         <span class="range_positive"> 
+                                         <div class="controller controller-roted"></div>
+                                         <div class="controller"></div>
+                                         </span>
+                                    </div>    
                                     </div>
                                 </div>
 
                                 <div class="ad__adjust__controller__item skip-controller">
                                     <span class="controller__label"><?php echo esc_html__('Skip Button', 'embedpress'); ?></span>
                                     <div class="ad__adjust__controller__inputs">
+
+
                                         <label class="input__switch switch__text ">
                                             <input type="checkbox" name="adSkipButton" data-default="no" data-value="no" value="yes" checked>
                                             <span></span>
 
                                         </label>
+
+
+                                        
                                     </div>
                                 </div>
 
                                 <div class="ad__adjust__controller__item skip-controller">
                                     <span class="controller__label"><?php echo esc_html__('Skip Button After (Sec)', 'embedpress'); ?></span>
                                     <div class="ad__adjust__controller__inputs">
-                                        <input type="range" min="1" max="100" data-default="5" value="5" class="x__range" name="adSkipButtonAfter">
-                                        <input readonly="" type="number" class="form__control range__value" data-default="5" value="5">
-                                    </div>
+                                 <div class="range-control skip-range_control">
+                                       <span class="range_negative">
+                                           <div class="controller negative-controller"></div>
+                                        </span>
+                                            <!-- <input type="range" min="1" max="100" data-default="5" value="5" class="x__range" name="adSkipButtonAfter"> -->
+
+
+                                            <div class="show-value">
+                                            <!-- <span class="input-value_show">6</span> -->
+                                            <input  type="number" class="form__control range__value " data-default="5" value="5">
+                                         </div>
+                                          
+
+                                            <span class="range_positive"> 
+                                         <div class="controller controller-roted"></div>
+                                         <div class="controller"></div>
+                                         </span>
+                                 </div>
+                                 </div>
                                 </div>
                             </div>
 
-                            <button type="submit" class="button preview-btn-0"> <?php echo esc_html__('Start Preview', 'embedpress'); ?> </button>
+
                         </form>
 
                     </div>
@@ -129,8 +209,8 @@ if(!$pro_active){
                 <h2 class="wp-block-heading has-text-align-center"><mark style="background-color:rgba(0, 0, 0, 0)" class="has-inline-color has-ast-global-color-2-color"><?php echo esc_html__('Live Preview for Video', 'embedpress'); ?></h2>
                 <p class="preview-description"><?php echo esc_html__('Experience EmbedPress Ad feature with YouTube video, but it will work with all embedded contents such as videos, audios, documents, etc..', 'embedpress'); ?></p>
                 <div class="wp-block-embed__wrapper">
-                    <div id="ep-gutenberg-content-ep-ad-preview-0" class="ep-gutenberg-content">
-                        <div data-sponsored-id="ep-ad-preview-0" id="ep-ad-preview-0" class="ad-mask" data-ad-index="0">
+                    <div id="ep-gutenberg-content-ep-ad-preview-0" class="ep-gutenberg-content margin-bottom-24px">
+                        <div data-sponsored-id="ep-ad-preview-0" id="ep-ad-preview-0" class="sponsored-mask" data-ad-index="0">
                             <div class="ep-embed-content-wraper ">
                                 <div class="ose-youtube ose-embedpress-responsive">
                                     <iframe width="560" height="315" src="<?php echo esc_url($youtube_embed_url); ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -138,16 +218,16 @@ if(!$pro_active){
                             </div>
                             <div class="main-ad-template" id="ad-template-0" data-adType="video" style="display:none">
                                 <div class="ep-ad-container">
-                                    <div class="ep-ad-content ad-video hidden" style="position: relative;">
-                                        <a target="_blank" class="ad-url" href="#">
+                                    <div class="ep-ad-content sponsored-video hidden" style="position: relative;">
+                                        <a target="_blank" class="sponsored-url" href="#">
 
                                             <video class="ep-ad" muted="">
                                                 <source src="<?php echo esc_url($video_demo_adUrl); ?>">
                                             </video>
 
-                                            <div class="ad-timer">
-                                                <span class="ad-running-time"></span>
-                                                <span class="ad-duration">&nbsp;• Ad</span>
+                                            <div class="sponsored-timer">
+                                                <span class="sponsored-running-time"></span>
+                                                <span class="sponsored-duration">&nbsp;• Ad</span>
                                             </div>
                                             <div class="progress-bar-container">
                                                 <div class="progress-bar"></div>
@@ -160,8 +240,8 @@ if(!$pro_active){
 
                                     </div>
 
-                                    <div class="ep-ad-content ad-image hidden" style="position: relative;">
-                                        <a target="_blank" class="ad-url" href="#">
+                                    <div class="ep-ad-content sponsored-image hidden" style="position: relative;">
+                                        <a target="_blank" class="sponsored-url" href="#">
                                             <img decoding="async" class="ep-ad" src="<?php echo esc_url($image_demo_adUrl); ?>">
                                         </a>
                                         <button title="Skip Ad" class="skip-ad-button" style="display: inline-block;">
@@ -172,11 +252,19 @@ if(!$pro_active){
                             </div>
                         </div>
                     </div>
+
+                    <button type="submit" class="button preview-btn-0"> <?php echo esc_html__('Start Preview', 'embedpress'); ?> </button>
                 </div>
             </div>
 
+
+
         </div>
-        <div class="ad-preview-sectiion">
+   </div>
+
+      
+   <div class="sponsored-wrapper img-body ">
+        <div class="sponsored-preview-sectiion">
             <div class="video-ad-prewiew-options">
                 <div class="ad__adjust__wrap " style="display: block;">
                     <div class="ad__adjust">
@@ -184,14 +272,14 @@ if(!$pro_active){
                             <div class="form-input-wrapper">
 
                                 <div class="ad__adjust__controller__item">
-                                    <span class="controller__label"><?php echo esc_html__('Upload Ad', 'embedpress'); ?></span>
-                                    <div class="ad__adjust__controller__inputs ad-upload-options">
+                                    <span class="controller__label negative-margin"><?php echo esc_html__('Upload Ad', 'embedpress'); ?></span>
+                                    <div class="ad__adjust__controller__inputs sponsored-upload-options">
                                         <button class="uploadBtn" type="button" data-upload-index="1">
                                             <span class="dashicons dashicons-upload"></span> <?php echo esc_html__('Upload', 'embedpress'); ?>
                                         </button>
 
                                         <input type="hidden" id="fileInput-1" name="adFileUrl" value="<?php echo esc_url($image_demo_adUrl); ?>" />
-                                        <p class="uploaded-file-url-1 uploaded"><?php echo esc_html('File Name: demo-ad.gif'); ?></p>
+                                        <p class="uploaded-file-url-1 uploaded"><?php echo esc_html('demo-ad.gif'); ?></p>
                                     </div>
                                 </div>
 
@@ -206,8 +294,25 @@ if(!$pro_active){
                                 <div class="ad__adjust__controller__item">
                                     <span class="controller__label"><?php echo esc_html__('Ad Start After (Sec)', 'embedpress'); ?></span>
                                     <div class="ad__adjust__controller__inputs">
-                                        <input type="range" max="100" data-default="10" value="10" class="opacity__range" name="adStart">
-                                        <input readonly="" type="number" class="form__control range__value" data-default="10" value="10">
+                                    <div class="range-control image-range_control">
+                                       <span class="range_negative">
+                                           <div class="controller negative-controller"></div>
+                                        </span>
+                                             <!-- <input type="range" max="100" data-default="10" value="10" class="opacity__range" name="adStart"> -->
+
+                                            <div class="show-value">
+                                            <!-- <span class="input-value_show">6</span> -->
+                                            <input  type="number" class="form__control range__value" data-default="10" value="10">
+                                         </div>
+                                          
+
+                                            <span class="range_positive"> 
+                                         <div class="controller controller-roted"></div>
+                                         <div class="controller"></div>
+                                         </span>
+                                 </div>
+                                     
+                                     
                                     </div>
                                 </div>
 
@@ -231,8 +336,7 @@ if(!$pro_active){
                                 </div>
 
                             </div>
-                            <button type="submit" class="button preview-btn-1"> <?php echo esc_html__('Start Preview', 'embedpress'); ?> </button>
-
+                           
                         </form>
 
                     </div>
@@ -244,8 +348,8 @@ if(!$pro_active){
                 <p class="preview-description"><?php echo esc_html__('Experience EmbedPress Ad feature with with a PDF, but it will work with all embedded contents such as videos, audios, documents, etc..', 'embedpress'); ?></p>
 
                 <div class="wp-block-embed__wrapper   ">
-                    <div id="ep-gutenberg-content-ep-ad-preview-1" class="ep-gutenberg-content">
-                        <div data-sponsored-id="ep-ad-preview-1" id="ep-ad-preview-1" class="ad-mask" data-ad-index="0">
+                    <div id="ep-gutenberg-content-ep-ad-preview-1" class="ep-gutenberg-content margin-bottom-24px">
+                        <div data-sponsored-id="ep-ad-preview-1" id="ep-ad-preview-1" class="sponsored-mask" data-ad-index="0">
                             <div class="ep-embed-content-wraper">
                                 <div class="position-right-wraper gutenberg-pdf-wraper">
                                     <?php
@@ -254,22 +358,22 @@ if(!$pro_active){
                                     $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($pdf_url);
                                     ?>
                                     <iframe title="sample" class="embedpress-embed-document-pdf embedpress-pdf-1701320841615" style="width:550px;height:320px; max-width:100%; display: inline-block" src="<?php echo esc_url($src); ?>" frameborder="0" oncontextmenu="return false;"></iframe>
-                                    <p class="embedpress-el-powered"><?php echo esc_html__('Powered By EmbedPress', 'embedpress'); ?></p>
+                                    <!-- <p class="embedpress-el-powered"><?php echo esc_html__('Powered By EmbedPress', 'embedpress'); ?></p> -->
                                 </div>
                             </div>
 
                             <div class="main-ad-template" id="ad-template-1" data-adType="image" style="display:none">
                                 <div class="ep-ad-container">
-                                    <div class="ep-ad-content ad-video hidden" style="position: relative;">
-                                        <a target="_blank" class="ad-url" href="#">
+                                    <div class="ep-ad-content sponsored-video hidden" style="position: relative;">
+                                        <a target="_blank" class="sponsored-url" href="#">
 
                                             <video class="ep-ad" muted="">
                                                 <source src="<?php echo esc_url($video_demo_adUrl); ?>">
                                             </video>
 
-                                            <div class="ad-timer">
-                                                <span class="ad-running-time"></span>
-                                                <span class="ad-duration">&nbsp;• Ad</span>
+                                            <div class="sponsored-timer">
+                                                <span class="sponsored-running-time"></span>
+                                                <span class="sponsored-duration">&nbsp;• Ad</span>
                                             </div>
                                             <div class="progress-bar-container">
                                                 <div class="progress-bar"></div>
@@ -282,8 +386,8 @@ if(!$pro_active){
 
                                     </div>
 
-                                    <div class="ep-ad-content ad-image hidden" style="position: relative;">
-                                        <a target="_blank" class="ad-url" href="#">
+                                    <div class="ep-ad-content sponsored-image hidden" style="position: relative;">
+                                        <a target="_blank" class="sponsored-url" href="#">
                                             <img decoding="async" class="ep-ad" src="<?php echo esc_url($image_demo_adUrl); ?>">
                                         </a>
                                         <button title="Skip Ad" class="skip-ad-button" style="display: inline-block;">
@@ -295,8 +399,13 @@ if(!$pro_active){
                         </div>
                     </div>
                 </div>
+
+                <button type="submit" class="button preview-btn-1"> <?php echo esc_html__('Start Preview', 'embedpress'); ?> </button>
+
+
             </div>
 
+        </div>
         </div>
     </div>
 
@@ -308,7 +417,7 @@ if(!$pro_active){
         padding: 0 10px;
     }
 
-    .ad-settings-top {
+    .sponsored-settings-top {
         padding: 20px 25px;
         /* background: #EEEDF4; */
         color: #444;
@@ -320,7 +429,7 @@ if(!$pro_active){
         border: 1px solid #f9f3f3;
     }
 
-    .ad-settings-content {
+    .sponsored-settings-content {
         width: calc(100% - 240px);
     }
 
@@ -344,7 +453,7 @@ if(!$pro_active){
         width: 180px;
     }
 
-    .ad-preview-sectiion {
+    .sponsored-preview-sectiion {
         display: flex;
         gap: 30px;
         justify-content: space-around;
@@ -354,7 +463,7 @@ if(!$pro_active){
     }
 
 
-    .ad-upload-options {
+    .sponsored-upload-options {
         width: 320px;
     }
 
@@ -406,24 +515,24 @@ if(!$pro_active){
     }
 
     /* Common Styles */
-    /* .ad-mask .ose-embedpress-responsive {
+    /* .sponsored-mask .ose-embedpress-responsive {
         position: relative;
     } */
 
-    .ad-running {
+    .sponsored-running {
         display: inline-block !important;
     }
 
-    .ep-ad-content.ad-image img {
+    .ep-ad-content.sponsored-image img {
         object-fit: cover;
     }
 
-    .ep-ad-content.ad-image {
+    .ep-ad-content.sponsored-image {
         height: 100%;
         width: 100%;
     }
 
-    /* .ad-mask .ep-embed-content-wraper::after {
+    /* .sponsored-mask .ep-embed-content-wraper::after {
         content: '';
         position: absolute;
         top: 0;
@@ -434,6 +543,9 @@ if(!$pro_active){
 
     .ep-embed-content-wraper {
         position: relative;
+    }
+    .ep-embed-content-wraper iframe{
+        border-radius: 8px;
     }
 
     .embedpress-gutenberg-wrapper {
@@ -470,7 +582,7 @@ if(!$pro_active){
         width: 100%;
     }
     
-    .main-ad-template.image.ad-running {
+    .main-ad-template.image.sponsored-running {
         position: absolute;
         z-index: 1;
         bottom: 75px;
@@ -478,7 +590,7 @@ if(!$pro_active){
         height: auto;
     }
 
-    [data-sponsored-id] .main-ad-template.image.ad-running {
+    [data-sponsored-id] .main-ad-template.image.sponsored-running {
         border-radius: 5px;
     }
 
@@ -492,11 +604,11 @@ if(!$pro_active){
 
     }
 
-    .ep-ad-content.ad-video {
+    .ep-ad-content.sponsored-video {
         height: 100%;
     }
 
-    a.ad-url {
+    a.sponsored-url {
         display: inline;
     }
 
@@ -542,7 +654,7 @@ if(!$pro_active){
         padding: 0;
     }
 
-    .ad-timer {
+    .sponsored-timer {
         position: absolute;
         background: #d41556b5;
         font-size: 14px;
@@ -573,7 +685,7 @@ if(!$pro_active){
         display: inline-block;
     }
 
-    [data-sponsored-id="ep-ad-preview-0"] .main-ad-template.image.ad-running {
+    [data-sponsored-id="ep-ad-preview-0"] .main-ad-template.image.sponsored-running {
         width: 300px;
         height: 200px;
         bottom: 10%;
@@ -588,7 +700,7 @@ if(!$pro_active){
         display: inline-block;
     }
 
-    [data-sponsored-id="ep-ad-preview-1"] .main-ad-template.image.ad-running {
+    [data-sponsored-id="ep-ad-preview-1"] .main-ad-template.image.sponsored-running {
         width: 300px !important;
         height: 200px !important;
         bottom: 10%;
@@ -692,7 +804,7 @@ if(!$pro_active){
     }
 
     @media screen and (max-width: 1250px) {
-        .ad-preview-sectiion {
+        .sponsored-preview-sectiion {
             flex-direction: column-reverse;
         }
 
@@ -704,11 +816,11 @@ if(!$pro_active){
             width: 100%;
         }
 
-        .ad-settings-top {
+        .sponsored-settings-top {
             display: block;
         }
 
-        .ad-settings-content {
+        .sponsored-settings-content {
             width: 100%;
             margin-bottom: 15px;
         }
@@ -846,7 +958,7 @@ if(!$pro_active){
         const imageAdTemplate = adContainer.querySelector('.main-ad-template.image');
         const progressBar = adContainer.querySelector('.progress-bar');
         const skipButton = adTemplate.querySelector('.skip-ad-button');
-        const adRunningTime = adContainer.querySelector('.ad-running-time');
+        const adRunningTime = adContainer.querySelector('.sponsored-running-time');
         var playerId;
         const adMask = adContainer;
 
@@ -859,7 +971,7 @@ if(!$pro_active){
         const hashClass = hasParentClass(adContainer, 'ep-content-protection-enabled');
 
         if (hashClass) {
-            adContainer.classList.remove('ad-mask');
+            adContainer.classList.remove('sponsored-mask');
         }
 
         playerId = adContainer.querySelector('[data-playerid]')?.getAttribute('data-playerid');
@@ -874,9 +986,9 @@ if(!$pro_active){
         adTemplate.classList.add(adType);
 
         if (adType === 'image' && adUrl) {
-            adTemplate.querySelector('.ad-image .ad-url')?.setAttribute('href', adUrl);
+            adTemplate.querySelector('.sponsored-image .sponsored-url')?.setAttribute('href', adUrl);
         } else {
-            adTemplate.querySelector('.ad-video .ad-url')?.setAttribute('href', adUrl);
+            adTemplate.querySelector('.sponsored-video .sponsored-url')?.setAttribute('href', adUrl);
         }
 
         if (!playbackInitiated) {
@@ -884,25 +996,25 @@ if(!$pro_active){
                 if (adSource !== 'image') {
                     adContainer.querySelector('.ep-embed-content-wraper').classList.add('hidden');
                 }
-                adTemplate?.classList.add('ad-running');
+                adTemplate?.classList.add('sponsored-running');
                 adTemplate?.classList.remove('hidden');
                 if (adVideo && adSource === 'video') {
                     adVideo.muted = false;
-                    adTemplate.querySelector('.ad-video').classList.remove('hidden');
-                    adTemplate.querySelector('.ad-image').classList.add('hidden');
+                    adTemplate.querySelector('.sponsored-video').classList.remove('hidden');
+                    adTemplate.querySelector('.sponsored-image').classList.add('hidden');
                     adVideo.play();
                 }
 
                 if (adType === 'image') {
-                    adTemplate.querySelector('.ad-image').classList.remove('hidden');
-                    adTemplate.querySelector('.ad-video').classList.add('hidden');
+                    adTemplate.querySelector('.sponsored-image').classList.remove('hidden');
+                    adTemplate.querySelector('.sponsored-video').classList.add('hidden');
                 }
             }, adStartAfter);
 
             playbackInitiated = true;
         }
 
-        adContainer.classList.remove('ad-mask');
+        adContainer.classList.remove('sponsored-mask');
 
         if (adType == 'video') {
             adVideo?.addEventListener('timeupdate', () => {
@@ -929,7 +1041,7 @@ if(!$pro_active){
 
         document?.addEventListener('click', (event) => {
             if (event.target.classList.contains('skip-ad-button')) {
-                adTemplate?.classList.remove('ad-running');
+                adTemplate?.classList.remove('sponsored-running');
                 document.querySelector('.preview-btn-' + index).innerText = 'Play Preview';
                 document.querySelector('.preview-btn-' + index).removeAttribute('disabled');
 
@@ -940,10 +1052,10 @@ if(!$pro_active){
                     if (getYTVideoId(srcUrl)) {
                         player[index]?.playVideo();
                     }
-                    adTemplate.querySelector('.ad-video').classList.add('hidden');
+                    adTemplate.querySelector('.sponsored-video').classList.add('hidden');
 
                 } else {
-                    adTemplate.querySelector('.ad-image').classList.add('hidden');
+                    adTemplate.querySelector('.sponsored-image').classList.add('hidden');
                 }
                 adContainer.querySelector('.ep-embed-content-wraper').classList.remove('hidden');
             }
@@ -996,8 +1108,8 @@ if(!$pro_active){
 
                 youtubeVideos.forEach((yVideo, index) => {
                     const srcUrl = yVideo.querySelector('iframe')?.getAttribute('src');
-                    const adVideo = yVideo.closest('.ad-mask')?.querySelector('.ep-ad');
-                    const isYTChannel = yVideo.closest('.ad-mask')?.querySelector('.ep-youtube-channel');
+                    const adVideo = yVideo.closest('.sponsored-mask')?.querySelector('.ep-ad');
+                    const isYTChannel = yVideo.closest('.sponsored-mask')?.querySelector('.ep-youtube-channel');
                     if (adVideo && !isYTChannel) {
                         onYouTubeIframeAPIReady(yVideo, srcUrl, adVideo, index);
                     }

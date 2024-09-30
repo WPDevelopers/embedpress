@@ -143,10 +143,10 @@
 .pro-control .components-base-control {
   pointer-events: none; }
 
-.pro-control .ad-manager-controllers {
+.pro-control .sponsored-manager-controllers {
   opacity: 0.5; }
 
-.ad-manager-controllers.opacity {
+.sponsored-manager-controllers.opacity {
   opacity: 0.3; }
 
 .pro-control.ep-custom-logo-button button {
@@ -272,7 +272,7 @@ body.page .flexia-wrapper > .content-area {
 .components-input-control__label {
   font-weight: 600; }
 
-.ad-upload {
+.sponsored-upload {
   margin-bottom: 20px; }
 
 label.components-truncate.components-text.components-input-control__label.em5sgkm4.ecfd-bd--d-eecc-1iznhho.em57xhy0 {

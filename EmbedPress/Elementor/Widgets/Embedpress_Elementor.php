@@ -3504,7 +3504,7 @@ class Embedpress_Elementor extends Widget_Base
 					'unit' => 'px',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive, {{WRAPPER}} .ad-youtube-video > iframe, 
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive, {{WRAPPER}} .sponsored-youtube-video > iframe, 
 					{{WRAPPER}} .plyr--video, {{WRAPPER}} .ose-giphy img' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
 				],
 			]
@@ -3541,7 +3541,7 @@ class Embedpress_Elementor extends Widget_Base
 					'unit' => 'px',
 				],
 				'selectors' => [
-					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive,{{WRAPPER}} .ad-youtube-video > iframe,
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive,{{WRAPPER}} .sponsored-youtube-video > iframe,
 					{{WRAPPER}} .plyr--video, {{WRAPPER}} .ose-giphy img' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
 				],
 				'condition' => [
@@ -3920,7 +3920,7 @@ class Embedpress_Elementor extends Widget_Base
 
 		if (!empty($settings['adManager'])) {
 			$ad = base64_encode(json_encode($settings)); // Using WordPress JSON encoding function
-			$adsAtts = 'data-sponsored-id="' . esc_attr($client_id) . '" data-sponsored-attrs="' . esc_attr($ad) . '" class="ad-mask"';
+			$adsAtts = 'data-sponsored-id="' . esc_attr($client_id) . '" data-sponsored-attrs="' . esc_attr($ad) . '" class="sponsored-mask"';
 		}
 
 		$data_player_id = '';

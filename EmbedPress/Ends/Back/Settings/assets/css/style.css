@@ -3452,9 +3452,8 @@ input#embedpress-pro-license-key::placeholder {
     }
 }
 
-.element__item.isPro .pro__item {
-    /* display: block; */
-}
+/* .element__item.isPro .pro__item {
+ display: block; }*/
 
 .element__item h5 {
     font-size: 18px;
@@ -4770,6 +4769,17 @@ td.instagram-sync-data {
 .sync-spin {
     animation: spin 1s linear infinite;
     /* Apply the spin animation */
+}
+
+
+
+/* leon css  */
+h3.cart-title{
+    font-size: 18px ;
+    font-weight: 700px;
+}
+ul.feature-list li{
+    color: #25396F;
 }
 
 @keyframes spin {
