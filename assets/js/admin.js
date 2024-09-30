@@ -63,8 +63,8 @@ rengeControls?.forEach((rangeControl) => {
 videoBtn?.addEventListener('click', function () {
 
     if (adToggleSwitch) {
-        this.classList.add('ad-active_btn');
-        imgBtn.classList.remove('ad-active_btn');
+        this.classList.add('sponsored-active_btn');
+        imgBtn.classList.remove('sponsored-active_btn');
         videoBtnBody.classList.add('toggle-active');
         imgBtnBody.classList.remove('toggle-active');
     }
@@ -72,8 +72,8 @@ videoBtn?.addEventListener('click', function () {
 
 imgBtn?.addEventListener('click', function () {
     if (adToggleSwitch) {
-        this.classList.add('ad-active_btn');
-        videoBtn.classList.remove('ad-active_btn');
+        this.classList.add('sponsored-active_btn');
+        videoBtn.classList.remove('sponsored-active_btn');
         imgBtnBody.classList.add('toggle-active');
         videoBtnBody.classList.remove('toggle-active');
 
@@ -89,14 +89,14 @@ closePopPup?.addEventListener('click', function () {
 })
 
 activeIcon?.addEventListener('click', function(){
-    slideLink.classList.add('ad-link_active');
-    this.classList.remove('ad-link_active');
-    closeIcon.classList.add('ad-link_active')
+    slideLink.classList.add('sponsored-link_active');
+    this.classList.remove('sponsored-link_active');
+    closeIcon.classList.add('sponsored-link_active')
 })
 closeIcon?.addEventListener('click', function(){
-    slideLink.classList.remove('ad-link_active');
-    this.classList.remove('ad-link_active');
-    activeIcon.classList.add('ad-link_active')
+    slideLink.classList.remove('sponsored-link_active');
+    this.classList.remove('sponsored-link_active');
+    activeIcon.classList.add('sponsored-link_active')
 })
 
 

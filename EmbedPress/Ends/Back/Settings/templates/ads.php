@@ -66,7 +66,7 @@ if(!$pro_active){
   
 
     <div class="sponsored-toggle_wrapper">
-         <div class="btn-video ad-toggle_btn  ad-active_btn " >
+         <div class="btn-video sponsored-toggle_btn  sponsored-active_btn " >
            <span>  
            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">               
              <g clip-path="url(#clip0_952_112)">
@@ -83,7 +83,7 @@ if(!$pro_active){
            </span>
            <span>Video</span>
          </div>
-       <div class="btn-img ad-toggle_btn ">
+       <div class="btn-img sponsored-toggle_btn ">
            <span>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                    <g clip-path="url(#clip0_952_123)">
@@ -115,7 +115,7 @@ if(!$pro_active){
                             <div class="form-input-wrapper">
                                 <div class="ad__adjust__controller__item">
                                     <span class="controller__label negative-margin"><?php echo esc_html__('Upload Ad', 'embedpress'); ?></span>
-                                    <div class="ad__adjust__controller__inputs ad-upload-options">
+                                    <div class="ad__adjust__controller__inputs sponsored-upload-options">
 
                                         <button class="uploadBtn" type="button" data-upload-index="0">
                                             <span class="dashicons dashicons-upload"></span> <?php echo esc_html__('Upload', 'embedpress'); ?>
@@ -218,7 +218,7 @@ if(!$pro_active){
                             </div>
                             <div class="main-ad-template" id="ad-template-0" data-adType="video" style="display:none">
                                 <div class="ep-ad-container">
-                                    <div class="ep-ad-content ad-video hidden" style="position: relative;">
+                                    <div class="ep-ad-content sponsored-video hidden" style="position: relative;">
                                         <a target="_blank" class="sponsored-url" href="#">
 
                                             <video class="ep-ad" muted="">
@@ -240,7 +240,7 @@ if(!$pro_active){
 
                                     </div>
 
-                                    <div class="ep-ad-content ad-image hidden" style="position: relative;">
+                                    <div class="ep-ad-content sponsored-image hidden" style="position: relative;">
                                         <a target="_blank" class="sponsored-url" href="#">
                                             <img decoding="async" class="ep-ad" src="<?php echo esc_url($image_demo_adUrl); ?>">
                                         </a>
@@ -273,7 +273,7 @@ if(!$pro_active){
 
                                 <div class="ad__adjust__controller__item">
                                     <span class="controller__label negative-margin"><?php echo esc_html__('Upload Ad', 'embedpress'); ?></span>
-                                    <div class="ad__adjust__controller__inputs ad-upload-options">
+                                    <div class="ad__adjust__controller__inputs sponsored-upload-options">
                                         <button class="uploadBtn" type="button" data-upload-index="1">
                                             <span class="dashicons dashicons-upload"></span> <?php echo esc_html__('Upload', 'embedpress'); ?>
                                         </button>
@@ -364,7 +364,7 @@ if(!$pro_active){
 
                             <div class="main-ad-template" id="ad-template-1" data-adType="image" style="display:none">
                                 <div class="ep-ad-container">
-                                    <div class="ep-ad-content ad-video hidden" style="position: relative;">
+                                    <div class="ep-ad-content sponsored-video hidden" style="position: relative;">
                                         <a target="_blank" class="sponsored-url" href="#">
 
                                             <video class="ep-ad" muted="">
@@ -386,7 +386,7 @@ if(!$pro_active){
 
                                     </div>
 
-                                    <div class="ep-ad-content ad-image hidden" style="position: relative;">
+                                    <div class="ep-ad-content sponsored-image hidden" style="position: relative;">
                                         <a target="_blank" class="sponsored-url" href="#">
                                             <img decoding="async" class="ep-ad" src="<?php echo esc_url($image_demo_adUrl); ?>">
                                         </a>
@@ -971,7 +971,7 @@ if(!$pro_active){
         const hashClass = hasParentClass(adContainer, 'ep-content-protection-enabled');
 
         if (hashClass) {
-            adContainer.classList.remove('ad-mask');
+            adContainer.classList.remove('sponsored-mask');
         }
 
         playerId = adContainer.querySelector('[data-playerid]')?.getAttribute('data-playerid');
@@ -996,7 +996,7 @@ if(!$pro_active){
                 if (adSource !== 'image') {
                     adContainer.querySelector('.ep-embed-content-wraper').classList.add('hidden');
                 }
-                adTemplate?.classList.add('ad-running');
+                adTemplate?.classList.add('sponsored-running');
                 adTemplate?.classList.remove('hidden');
                 if (adVideo && adSource === 'video') {
                     adVideo.muted = false;
@@ -1014,7 +1014,7 @@ if(!$pro_active){
             playbackInitiated = true;
         }
 
-        adContainer.classList.remove('ad-mask');
+        adContainer.classList.remove('sponsored-mask');
 
         if (adType == 'video') {
             adVideo?.addEventListener('timeupdate', () => {
@@ -1041,7 +1041,7 @@ if(!$pro_active){
 
         document?.addEventListener('click', (event) => {
             if (event.target.classList.contains('skip-ad-button')) {
-                adTemplate?.classList.remove('ad-running');
+                adTemplate?.classList.remove('sponsored-running');
                 document.querySelector('.preview-btn-' + index).innerText = 'Play Preview';
                 document.querySelector('.preview-btn-' + index).removeAttribute('disabled');
 
