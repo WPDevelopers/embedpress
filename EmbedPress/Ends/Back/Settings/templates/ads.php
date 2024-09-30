@@ -22,8 +22,8 @@ if(!$pro_active){
 
 <div class="embedpress_calendly_settings  background__white radius-25 p40" >
 <div class="border">
-<div class="ad-settings-top">
-        <div <?php if(!$pro_active): echo 'class="ad-settings-content"'; endif; ?>>
+<div class="sponsored-settings-top">
+        <div <?php if(!$pro_active): echo 'class="sponsored-settings-content"'; endif; ?>>
             <h3 class="ads-settings-title">
                 <?php
                 echo wp_kses_post(
@@ -65,7 +65,7 @@ if(!$pro_active){
 </div>
   
 
-    <div class="ad-toggle_wrapper">
+    <div class="sponsored-toggle_wrapper">
          <div class="btn-video ad-toggle_btn  ad-active_btn " >
            <span>  
            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">               
@@ -105,8 +105,8 @@ if(!$pro_active){
 
     <div class="entry-content clear" ast-blocks-layout="true" itemprop="text">
 
-    <div class="ad-wrapper video-body toggle-active">
-        <div class="ad-preview-sectiion">
+    <div class="sponsored-wrapper video-body toggle-active">
+        <div class="sponsored-preview-sectiion">
             <div class="video-ad-prewiew-options">
                 <div class="ad__adjust__wrap " style="display: block;">
 
@@ -210,7 +210,7 @@ if(!$pro_active){
                 <p class="preview-description"><?php echo esc_html__('Experience EmbedPress Ad feature with YouTube video, but it will work with all embedded contents such as videos, audios, documents, etc..', 'embedpress'); ?></p>
                 <div class="wp-block-embed__wrapper">
                     <div id="ep-gutenberg-content-ep-ad-preview-0" class="ep-gutenberg-content margin-bottom-24px">
-                        <div data-sponsored-id="ep-ad-preview-0" id="ep-ad-preview-0" class="ad-mask" data-ad-index="0">
+                        <div data-sponsored-id="ep-ad-preview-0" id="ep-ad-preview-0" class="sponsored-mask" data-ad-index="0">
                             <div class="ep-embed-content-wraper ">
                                 <div class="ose-youtube ose-embedpress-responsive">
                                     <iframe width="560" height="315" src="<?php echo esc_url($youtube_embed_url); ?>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
@@ -219,15 +219,15 @@ if(!$pro_active){
                             <div class="main-ad-template" id="ad-template-0" data-adType="video" style="display:none">
                                 <div class="ep-ad-container">
                                     <div class="ep-ad-content ad-video hidden" style="position: relative;">
-                                        <a target="_blank" class="ad-url" href="#">
+                                        <a target="_blank" class="sponsored-url" href="#">
 
                                             <video class="ep-ad" muted="">
                                                 <source src="<?php echo esc_url($video_demo_adUrl); ?>">
                                             </video>
 
-                                            <div class="ad-timer">
-                                                <span class="ad-running-time"></span>
-                                                <span class="ad-duration">&nbsp;• Ad</span>
+                                            <div class="sponsored-timer">
+                                                <span class="sponsored-running-time"></span>
+                                                <span class="sponsored-duration">&nbsp;• Ad</span>
                                             </div>
                                             <div class="progress-bar-container">
                                                 <div class="progress-bar"></div>
@@ -241,7 +241,7 @@ if(!$pro_active){
                                     </div>
 
                                     <div class="ep-ad-content ad-image hidden" style="position: relative;">
-                                        <a target="_blank" class="ad-url" href="#">
+                                        <a target="_blank" class="sponsored-url" href="#">
                                             <img decoding="async" class="ep-ad" src="<?php echo esc_url($image_demo_adUrl); ?>">
                                         </a>
                                         <button title="Skip Ad" class="skip-ad-button" style="display: inline-block;">
@@ -263,8 +263,8 @@ if(!$pro_active){
    </div>
 
       
-   <div class="ad-wrapper img-body ">
-        <div class="ad-preview-sectiion">
+   <div class="sponsored-wrapper img-body ">
+        <div class="sponsored-preview-sectiion">
             <div class="video-ad-prewiew-options">
                 <div class="ad__adjust__wrap " style="display: block;">
                     <div class="ad__adjust">
@@ -349,7 +349,7 @@ if(!$pro_active){
 
                 <div class="wp-block-embed__wrapper   ">
                     <div id="ep-gutenberg-content-ep-ad-preview-1" class="ep-gutenberg-content margin-bottom-24px">
-                        <div data-sponsored-id="ep-ad-preview-1" id="ep-ad-preview-1" class="ad-mask" data-ad-index="0">
+                        <div data-sponsored-id="ep-ad-preview-1" id="ep-ad-preview-1" class="sponsored-mask" data-ad-index="0">
                             <div class="ep-embed-content-wraper">
                                 <div class="position-right-wraper gutenberg-pdf-wraper">
                                     <?php
@@ -365,15 +365,15 @@ if(!$pro_active){
                             <div class="main-ad-template" id="ad-template-1" data-adType="image" style="display:none">
                                 <div class="ep-ad-container">
                                     <div class="ep-ad-content ad-video hidden" style="position: relative;">
-                                        <a target="_blank" class="ad-url" href="#">
+                                        <a target="_blank" class="sponsored-url" href="#">
 
                                             <video class="ep-ad" muted="">
                                                 <source src="<?php echo esc_url($video_demo_adUrl); ?>">
                                             </video>
 
-                                            <div class="ad-timer">
-                                                <span class="ad-running-time"></span>
-                                                <span class="ad-duration">&nbsp;• Ad</span>
+                                            <div class="sponsored-timer">
+                                                <span class="sponsored-running-time"></span>
+                                                <span class="sponsored-duration">&nbsp;• Ad</span>
                                             </div>
                                             <div class="progress-bar-container">
                                                 <div class="progress-bar"></div>
@@ -387,7 +387,7 @@ if(!$pro_active){
                                     </div>
 
                                     <div class="ep-ad-content ad-image hidden" style="position: relative;">
-                                        <a target="_blank" class="ad-url" href="#">
+                                        <a target="_blank" class="sponsored-url" href="#">
                                             <img decoding="async" class="ep-ad" src="<?php echo esc_url($image_demo_adUrl); ?>">
                                         </a>
                                         <button title="Skip Ad" class="skip-ad-button" style="display: inline-block;">
@@ -417,7 +417,7 @@ if(!$pro_active){
         padding: 0 10px;
     }
 
-    .ad-settings-top {
+    .sponsored-settings-top {
         padding: 20px 25px;
         /* background: #EEEDF4; */
         color: #444;
@@ -429,7 +429,7 @@ if(!$pro_active){
         border: 1px solid #f9f3f3;
     }
 
-    .ad-settings-content {
+    .sponsored-settings-content {
         width: calc(100% - 240px);
     }
 
@@ -453,7 +453,7 @@ if(!$pro_active){
         width: 180px;
     }
 
-    .ad-preview-sectiion {
+    .sponsored-preview-sectiion {
         display: flex;
         gap: 30px;
         justify-content: space-around;
@@ -463,7 +463,7 @@ if(!$pro_active){
     }
 
 
-    .ad-upload-options {
+    .sponsored-upload-options {
         width: 320px;
     }
 
@@ -515,24 +515,24 @@ if(!$pro_active){
     }
 
     /* Common Styles */
-    /* .ad-mask .ose-embedpress-responsive {
+    /* .sponsored-mask .ose-embedpress-responsive {
         position: relative;
     } */
 
-    .ad-running {
+    .sponsored-running {
         display: inline-block !important;
     }
 
-    .ep-ad-content.ad-image img {
+    .ep-ad-content.sponsored-image img {
         object-fit: cover;
     }
 
-    .ep-ad-content.ad-image {
+    .ep-ad-content.sponsored-image {
         height: 100%;
         width: 100%;
     }
 
-    /* .ad-mask .ep-embed-content-wraper::after {
+    /* .sponsored-mask .ep-embed-content-wraper::after {
         content: '';
         position: absolute;
         top: 0;
@@ -582,7 +582,7 @@ if(!$pro_active){
         width: 100%;
     }
     
-    .main-ad-template.image.ad-running {
+    .main-ad-template.image.sponsored-running {
         position: absolute;
         z-index: 1;
         bottom: 75px;
@@ -590,7 +590,7 @@ if(!$pro_active){
         height: auto;
     }
 
-    [data-sponsored-id] .main-ad-template.image.ad-running {
+    [data-sponsored-id] .main-ad-template.image.sponsored-running {
         border-radius: 5px;
     }
 
@@ -604,11 +604,11 @@ if(!$pro_active){
 
     }
 
-    .ep-ad-content.ad-video {
+    .ep-ad-content.sponsored-video {
         height: 100%;
     }
 
-    a.ad-url {
+    a.sponsored-url {
         display: inline;
     }
 
@@ -654,7 +654,7 @@ if(!$pro_active){
         padding: 0;
     }
 
-    .ad-timer {
+    .sponsored-timer {
         position: absolute;
         background: #d41556b5;
         font-size: 14px;
@@ -685,7 +685,7 @@ if(!$pro_active){
         display: inline-block;
     }
 
-    [data-sponsored-id="ep-ad-preview-0"] .main-ad-template.image.ad-running {
+    [data-sponsored-id="ep-ad-preview-0"] .main-ad-template.image.sponsored-running {
         width: 300px;
         height: 200px;
         bottom: 10%;
@@ -700,7 +700,7 @@ if(!$pro_active){
         display: inline-block;
     }
 
-    [data-sponsored-id="ep-ad-preview-1"] .main-ad-template.image.ad-running {
+    [data-sponsored-id="ep-ad-preview-1"] .main-ad-template.image.sponsored-running {
         width: 300px !important;
         height: 200px !important;
         bottom: 10%;
@@ -804,7 +804,7 @@ if(!$pro_active){
     }
 
     @media screen and (max-width: 1250px) {
-        .ad-preview-sectiion {
+        .sponsored-preview-sectiion {
             flex-direction: column-reverse;
         }
 
@@ -816,11 +816,11 @@ if(!$pro_active){
             width: 100%;
         }
 
-        .ad-settings-top {
+        .sponsored-settings-top {
             display: block;
         }
 
-        .ad-settings-content {
+        .sponsored-settings-content {
             width: 100%;
             margin-bottom: 15px;
         }
@@ -958,7 +958,7 @@ if(!$pro_active){
         const imageAdTemplate = adContainer.querySelector('.main-ad-template.image');
         const progressBar = adContainer.querySelector('.progress-bar');
         const skipButton = adTemplate.querySelector('.skip-ad-button');
-        const adRunningTime = adContainer.querySelector('.ad-running-time');
+        const adRunningTime = adContainer.querySelector('.sponsored-running-time');
         var playerId;
         const adMask = adContainer;
 
@@ -986,9 +986,9 @@ if(!$pro_active){
         adTemplate.classList.add(adType);
 
         if (adType === 'image' && adUrl) {
-            adTemplate.querySelector('.ad-image .ad-url')?.setAttribute('href', adUrl);
+            adTemplate.querySelector('.sponsored-image .sponsored-url')?.setAttribute('href', adUrl);
         } else {
-            adTemplate.querySelector('.ad-video .ad-url')?.setAttribute('href', adUrl);
+            adTemplate.querySelector('.sponsored-video .sponsored-url')?.setAttribute('href', adUrl);
         }
 
         if (!playbackInitiated) {
@@ -1000,14 +1000,14 @@ if(!$pro_active){
                 adTemplate?.classList.remove('hidden');
                 if (adVideo && adSource === 'video') {
                     adVideo.muted = false;
-                    adTemplate.querySelector('.ad-video').classList.remove('hidden');
-                    adTemplate.querySelector('.ad-image').classList.add('hidden');
+                    adTemplate.querySelector('.sponsored-video').classList.remove('hidden');
+                    adTemplate.querySelector('.sponsored-image').classList.add('hidden');
                     adVideo.play();
                 }
 
                 if (adType === 'image') {
-                    adTemplate.querySelector('.ad-image').classList.remove('hidden');
-                    adTemplate.querySelector('.ad-video').classList.add('hidden');
+                    adTemplate.querySelector('.sponsored-image').classList.remove('hidden');
+                    adTemplate.querySelector('.sponsored-video').classList.add('hidden');
                 }
             }, adStartAfter);
 
@@ -1052,10 +1052,10 @@ if(!$pro_active){
                     if (getYTVideoId(srcUrl)) {
                         player[index]?.playVideo();
                     }
-                    adTemplate.querySelector('.ad-video').classList.add('hidden');
+                    adTemplate.querySelector('.sponsored-video').classList.add('hidden');
 
                 } else {
-                    adTemplate.querySelector('.ad-image').classList.add('hidden');
+                    adTemplate.querySelector('.sponsored-image').classList.add('hidden');
                 }
                 adContainer.querySelector('.ep-embed-content-wraper').classList.remove('hidden');
             }
@@ -1108,8 +1108,8 @@ if(!$pro_active){
 
                 youtubeVideos.forEach((yVideo, index) => {
                     const srcUrl = yVideo.querySelector('iframe')?.getAttribute('src');
-                    const adVideo = yVideo.closest('.ad-mask')?.querySelector('.ep-ad');
-                    const isYTChannel = yVideo.closest('.ad-mask')?.querySelector('.ep-youtube-channel');
+                    const adVideo = yVideo.closest('.sponsored-mask')?.querySelector('.ep-ad');
+                    const isYTChannel = yVideo.closest('.sponsored-mask')?.querySelector('.ep-youtube-channel');
                     if (adVideo && !isYTChannel) {
                         onYouTubeIframeAPIReady(yVideo, srcUrl, adVideo, index);
                     }

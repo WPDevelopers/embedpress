@@ -80,7 +80,7 @@ const adInitialization = (adContainer, index) => {
     const adTemplate = adContainer.querySelector('.main-ad-template');
     const progressBar = adContainer.querySelector('.progress-bar');
     const skipButton = adContainer.querySelector('.skip-ad-button');
-    const adRunningTime = adContainer.querySelector('.ad-running-time');
+    const adRunningTime = adContainer.querySelector('.sponsored-running-time');
     var playerId;
     const adMask = adContainer;
 
@@ -241,8 +241,8 @@ if (adsConainers.length > 0 && eplocalize.is_pro_plugin_active) {
 
                 youtubeVideos.forEach((yVideo, index) => {
                     const srcUrl = yVideo.querySelector('iframe')?.getAttribute('src');
-                    const adVideo = yVideo.closest('.ad-mask')?.querySelector('.ep-ad');
-                    const isYTChannel = yVideo.closest('.ad-mask')?.querySelector('.ep-youtube-channel');
+                    const adVideo = yVideo.closest('.sponsored-mask')?.querySelector('.ep-ad');
+                    const isYTChannel = yVideo.closest('.sponsored-mask')?.querySelector('.ep-youtube-channel');
                     if (adVideo && !isYTChannel) {
 
                         console.log(isYTChannel);
@@ -266,5 +266,5 @@ if (adsConainers.length > 0 && eplocalize.is_pro_plugin_active) {
     });
 }
 else{
-    jQuery('.ad-mask').removeClass('ad-mask');
+    jQuery('.sponsored-mask').removeClass('ad-mask');
 }

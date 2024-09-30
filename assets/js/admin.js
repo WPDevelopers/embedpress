@@ -29,7 +29,7 @@
 // leon js 
 
 const rengeControls = document.querySelectorAll('.range-control');
-const adToggleSwitch = document.querySelector('.ad-active_btn');
+const adToggleSwitch = document.querySelector('.sponsored-active_btn');
 const videoBtn = document.querySelector('.btn-video');
 const imgBtn = document.querySelector('.btn-img');
 const videoBtnBody = document.querySelector('.video-body');
@@ -37,7 +37,7 @@ const imgBtnBody = document.querySelector('.img-body');
 const videoPlayBtn = document.querySelector('.video-play_btn');
 const videoPopPup = document.querySelector('.popup-video-wrap');
 const closePopPup = document.querySelector('.close-video_btn');
-const slideLink = document.querySelector('.ad-floating_quick-links_wrapper');
+const slideLink = document.querySelector('.sponsored-floating_quick-links_wrapper');
 const activeIcon = document.querySelector('.active-icon');
 const closeIcon = document.querySelector('.close-icon');
 

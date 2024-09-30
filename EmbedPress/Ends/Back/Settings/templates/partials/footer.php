@@ -61,7 +61,7 @@
   
     </div>
 
-    <div class="ad-floating_action">
+    <div class="sponsored-floating_action">
         
     </div>
 </div>
