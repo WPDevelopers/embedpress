@@ -4782,7 +4782,7 @@ td.instagram-sync-data {
 
 @media (max-width: 1450px) {
 
-    .form__control__wrap .input__switch .logo__adjust__toggler {
+    .pdf_custom_color_settings .form__control__wrap .input__switch .logo__adjust__toggler {
         top: calc(100% + 5px);
         left: 0;
     }

@@ -65,7 +65,7 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 							} ?>
 							</div>
 						</div>
-						<div class="form__group">
+						<div class="form__group<?php echo !is_embedpress_pro_active() ? ' pdf_custom_color_settings' : ''; ?>">
 							<p class="form__label"><?php echo esc_html__('PDF Custom Color', 'embedpress'); ?></p>
 							<div class="form__control__wrap">
 								<label class="input__switch switch__text">
