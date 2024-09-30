@@ -571,7 +571,7 @@
 }
 
 .ad__adjust__controller__item .controller__label {
-    font-weight: 500 ;
+    font-weight: 500;
 }
 
 .margin-bottom-24px {
@@ -673,6 +673,9 @@
     left: 130px;
     border-radius: 50%;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .popup-video-wrap {
@@ -681,7 +684,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: #140B3566;
+    background: #140b35e0;
     z-index: 11;
     display: none;
 }
@@ -703,11 +706,10 @@
 .close-video_btn {
     z-index: 999;
     position: absolute;
-    left: 73%;
-    top: 22%;
+    right: -40px;
+    top: -30px;
     cursor: pointer;
     background-color: transparent;
-
 }
 
 .close-video_btn .close-btn:before,
@@ -715,10 +717,10 @@
     position: absolute;
     left: 17px;
     content: ' ';
-    height: 25px;
+    height: 18px;
     width: 2px;
     background-color: #333;
-    top: 5px;
+    top: 9px;
 }
 
 .close-video_btn .close-btn {
@@ -780,13 +782,13 @@ a.intro-docu_btn {
 }
 
 
-.sponsored-floating_quick-links_wrapper{
+.sponsored-floating_quick-links_wrapper {
     display: none;
 }
 
 .sponsored-floating_quick-links {
     position: fixed;
-    background-color: #140B3566;
+    background-color: #140b35e0;
     top: 0;
     left: 0;
     height: 100vh;
@@ -844,6 +846,7 @@ a.intro-docu_btn {
     z-index: 999;
     border-radius: 50%;
     cursor: pointer;
+    transition: 0.5s;
 }
 
 .sponsored-link_list .sponsored-link_list-item a:hover .sponsored-link_icon {
@@ -871,5 +874,5 @@ a.intro-docu_btn {
     bottom: 20px;
     right: 20px;
     position: fixed;
-     box-shadow: 0px 18px 24px 8px #190A5314;
+    box-shadow: 0px 18px 24px 8px #190A5314;
 }

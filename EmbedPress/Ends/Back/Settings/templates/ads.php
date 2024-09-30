@@ -143,10 +143,8 @@ if(!$pro_active){
                                         <span class="range_negative">
                                           <div class="controller negative-controller"></div>
                                         </span>
-                                        <!-- <input type="range" min="1" max="100" data-default="10" value="10" class="opacity__range" name="adStart"> -->
                                          <div class="show-value">
-                                            <!-- <span class="input-value_show">6</span> -->
-                                            <input  type="number" class="form__control range__value" data-default="10" value="10">
+                                            <input  type="number" name="adStart" class="form__control range__value" data-default="10" value="10">
                                            
                                          </div>
                                          
@@ -181,12 +179,8 @@ if(!$pro_active){
                                        <span class="range_negative">
                                            <div class="controller negative-controller"></div>
                                         </span>
-                                            <!-- <input type="range" min="1" max="100" data-default="5" value="5" class="x__range" name="adSkipButtonAfter"> -->
-
-
                                             <div class="show-value">
-                                            <!-- <span class="input-value_show">6</span> -->
-                                            <input  type="number" class="form__control range__value " data-default="5" value="5">
+                                            <input  type="number" name="adSkipButtonAfter" class="form__control range__value " data-default="5" value="5">
                                          </div>
                                           
 
@@ -298,11 +292,10 @@ if(!$pro_active){
                                        <span class="range_negative">
                                            <div class="controller negative-controller"></div>
                                         </span>
-                                             <!-- <input type="range" max="100" data-default="10" value="10" class="opacity__range" name="adStart"> -->
 
                                             <div class="show-value">
                                             <!-- <span class="input-value_show">6</span> -->
-                                            <input  type="number" class="form__control range__value" data-default="10" value="10">
+                                            <input  type="number" name="adStart" class="form__control range__value" data-default="10" value="10">
                                          </div>
                                           
 
@@ -330,8 +323,8 @@ if(!$pro_active){
                                 <div class="ad__adjust__controller__item skip-controller hidden">
                                     <span class="controller__label"><?php echo esc_html__('Skip Button After (Sec)', 'embedpress'); ?></span>
                                     <div class="ad__adjust__controller__inputs">
-                                        <input type="range" max="100" data-default="5" value="5" class="x__range" name="adSkipButtonAfter">
-                                        <input readonly="" type="number" class="form__control range__value" data-default="5" value="5">
+
+                                        <input readonly="" type="number" name="adSkipButtonAfter" class="form__control range__value" data-default="5" value="5">
                                     </div>
                                 </div>
 
@@ -1167,6 +1160,8 @@ if(!$pro_active){
             "adSkipButton": currentAdAtts?.adSkipButton === 'yes' ? true : false,
             "adSkipButtonAfter": currentAdAtts?.adSkipButtonAfter
         }
+
+        console.log(currentAdAtts);
 
         if (currentAdAtts?.adFileUrl) {
             adInitialization(adContainer, index, adAtts, adType);

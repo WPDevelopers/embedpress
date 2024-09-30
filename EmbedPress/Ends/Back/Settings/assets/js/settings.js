@@ -642,5 +642,13 @@ jQuery(document).ready(function ($) {
         copyToClipboard(linkToCopy);
         alert('Link copied to clipboard: ' + linkToCopy);
     });
+
+    $('.popup-video-wrap').click(function (e) {
+        console.log(e.target.classList.contains('popup-video-wrap'));
+        
+        if (e.target.classList.contains('popup-video-wrap')) {
+            $('.popup-video-wrap').removeClass('popup-active');
+        }
+    });
 });
 

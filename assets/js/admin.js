@@ -38,6 +38,7 @@ const videoPlayBtn = document.querySelector('.video-play_btn');
 const videoPopPup = document.querySelector('.popup-video-wrap');
 const closePopPup = document.querySelector('.close-video_btn');
 const slideLink = document.querySelector('.sponsored-floating_quick-links_wrapper');
+const floatingQuckLinks = document.querySelector('.sponsored-floating_quick-links');
 const activeIcon = document.querySelector('.active-icon');
 const closeIcon = document.querySelector('.close-icon');
 
@@ -97,6 +98,11 @@ closeIcon?.addEventListener('click', function(){
     slideLink.classList.remove('sponsored-link_active');
     this.classList.remove('sponsored-link_active');
     activeIcon.classList.add('sponsored-link_active')
+})
+floatingQuckLinks?.addEventListener('click', function(){
+    slideLink.classList.remove('sponsored-link_active');
+    activeIcon.classList.add('sponsored-link_active');
+    closeIcon.classList.remove('sponsored-link_active')
 })
 
 
