@@ -527,6 +527,7 @@ a.color__instagram:hover, a.color__instagram:focus {
 
 .background__white {
     background-color: #ffffff;
+    overflow-x: hidden;
 }
 
 .background__dark {
@@ -1486,6 +1487,7 @@ button.button__instagram.hover__highlight:hover .icon {
 
 .template__wrapper .radius-16 {
     border-radius: 16px;
+    overflow-x: hidden;
 }
 
 .template__wrapper .radius-20 {
@@ -1800,9 +1802,19 @@ a.site__logo {
     width: 100%;
     font-size: 16px;
     font-weight: 500;
-    color: #25396F;
+    color: #988FBD;
     border-radius: 8px;
     position: relative;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+}
+
+
+
+.embedpress-sidebar .sidebar__menu li.sidebar__item a svg {
+    height: 20px;
 }
 
 .embedpress-sidebar .sidebar__menu .sidebar__item .sidebar__link--toggler:before {
@@ -1820,10 +1832,38 @@ a.site__logo {
     display: block;
 }
 
+a.sidebar__link.active.general svg path, a.sidebar__link.active.elements svg path, a.sidebar__link.active.branding svg path {
+    stroke: #fff;
+}
+
+.general.sidebar__link:hover svg path, .elements.sidebar__link:hover svg path, .branding.sidebar__link:hover svg path {
+    stroke: #fff;
+}
+
+a.sidebar__link.active.sources svg path, a.sidebar__link.active.shortcode svg path {
+    fill: #fff;
+}
+
+.sources.sidebar__link:hover svg path, .shortcode.sidebar__link:hover svg path {
+    fill: #fff;
+}
+
+a.sidebar__link.ads-icon.active svg path {
+    stroke: #fff;
+}
+
+a.sidebar__link.ads-icon svg path {
+    stroke: #988FBD;
+}
+
+a.sidebar__link.ads-icon:hover svg path {
+    stroke: #fff;
+}
+
 .embedpress-sidebar .sidebar__menu .sidebar__item .sidebar__link span {
     display: inline-block;
-    margin-right: 10px;
     width: 20px;
+    height: 19px;
     text-align: center;
 }
 
@@ -3386,8 +3426,11 @@ input#embedpress-pro-license-key::placeholder {
     height: 50px;
     width: 50px;
     border-radius: 10px;
-    background: #5B4E96;
+    background: #F0EFF6;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @media (min-width: 1199px) and (max-width: 1399px) {
@@ -3411,10 +3454,11 @@ input#embedpress-pro-license-key::placeholder {
 }
 
 .embedpress-card h3 {
-    font-size: 26px;
-    font-weight: 500;
+    font-size: 25px;
+    font-weight: 5;
     color: #131F4D;
     margin-bottom: 10px;
+    margin-top: 5px;
 }
 
 @media (max-width: 767px) {
@@ -4774,11 +4818,12 @@ td.instagram-sync-data {
 
 
 /* leon css  */
-h3.cart-title{
-    font-size: 18px ;
+h3.cart-title {
+    font-size: 18px;
     font-weight: 700px;
 }
-ul.feature-list li{
+
+ul.feature-list li {
     color: #25396F;
 }
 

@@ -554,7 +554,7 @@ if(!$pro_active){
     p.preview-description {
         font-size: 16px;
         line-height: 1.6;
-        color: #25396F;
+        color: #7C8DB5;
         margin-bottom: 15px;
         width: 580px;
         max-width: 100%;

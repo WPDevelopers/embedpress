@@ -29,7 +29,7 @@
             <div class="intro-text_wrapper">
                 <h4 class="intro-header">Get Started with EmbedPress</h4>
                 <p class="intro-sub_header">The premium version helps us to continue development of the product incorporating even more features and enhancements. You will also get world class support from our dedicated team, 24/7.</p>
-                <a href="#" class="intro-docu_btn">Documentation</a>
+                <a href="https://embedpress.com/documentation/" class="intro-docu_btn">Documentation</a>
             </div>
             <div class="popup-video-wrap"></div>
 

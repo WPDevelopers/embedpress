@@ -664,8 +664,8 @@
 
 .img-box button.video-play_btn {
     background-color: #ffffff80;
-    height: 48px;
-    width: 48px;
+    height: 60px;
+    width: 60px;
     position: absolute;
     border-radius: 50%;
     cursor: pointer;
@@ -674,7 +674,7 @@
     justify-content: center;
     top: 50%;
     left: 50%;
-    transform: translate(-24px, -24px);
+    transform: translate(-30px, -30px);
 }
 
 .popup-video-wrap {
@@ -896,6 +896,7 @@ a.intro-docu_btn {
 
     .video-container .img-box img {
         height: 100%;
+        border-radius: 8px 8px 0 0;
     }
 
     .intro-text_wrapper {
