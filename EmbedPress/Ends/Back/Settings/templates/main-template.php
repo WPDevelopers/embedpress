@@ -31,16 +31,7 @@
                 <p class="intro-sub_header">The premium version helps us to continue development of the product incorporating even more features and enhancements. You will also get world class support from our dedicated team, 24/7.</p>
                 <a href="#" class="intro-docu_btn">Documentation</a>
             </div>
-            <div class="popup-video-wrap">
-                <div class="popup-video">
-                    <button class="close-video_btn">
-                        <a href="#" class="close-btn"></a>
-                    </button>
-
-                    <iframe src="https://www.youtube.com/embed/vKSaF8NvMiQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-                    </iframe>
-                </div>
-            </div>
+            <div class="popup-video-wrap"></div>
 
         </div>
 
