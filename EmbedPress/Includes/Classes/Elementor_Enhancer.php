@@ -408,8 +408,15 @@ class Elementor_Enhancer {
 		if ( ! isset( $embed->provider_name ) || strtoupper( $embed->provider_name ) !== 'DAILYMOTION' || ! isset( $embed->embed ) || $setting['embedpress_pro_embeded_source'] !== 'dailymotion' ) {
 			return $embed;
 		}
+		
 		preg_match( '/src=\"(.+?)\"/', $embed->embed, $match );
-		$url_full = $match[1];
+
+		if (isset($match[1])) {
+			$url_full = $match[1];
+		} else {
+			$url_full = null;
+		}
+
 		$params   = [
 			'ui-highlight'         => str_replace( '#', '', $setting['embedpress_pro_dailymotion_control_color'] ),
 			'start'                => isset( $setting['embedpress_pro_video_start_time'] ) ? (int) $setting['embedpress_pro_video_start_time'] : 0,
