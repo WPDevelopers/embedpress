@@ -1533,6 +1533,7 @@ button.button__instagram.hover__highlight:hover .icon {
     width: 100%;
     margin: 0 auto;
     max-width: 1700px;
+    overflow-x: hidden;
 }
 
 .o-hidden {
