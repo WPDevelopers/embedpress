@@ -1569,6 +1569,12 @@ button.button__instagram.hover__highlight:hover .icon {
     flex-grow: 1;
 } */
 
+.embedpress-sidebar-wrapper {
+    position: relative;
+    z-index: 1;
+}
+
+
 .embedpress-body .embedpress-sidebar {
     -webkit-box-flex: 0;
     -ms-flex: 0 0 240px;
@@ -1723,6 +1729,8 @@ a.site__logo {
 @media all and (max-width: 767px) {
     .embedpress-version-wrapper li {
         font-size: 14px;
+        text-align: left;
+        margin-bottom: 5px;
     }
 }
 
