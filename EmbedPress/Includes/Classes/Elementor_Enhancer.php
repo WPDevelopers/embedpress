@@ -441,7 +441,12 @@ class Elementor_Enhancer {
 		if ( ! isset( $embed_content->embed ) || $settings['embedpress_pro_embeded_source'] !== 'twitch' ) {
 			return $embed_content;
 		}
-		$e           = current( $embed_content );
+		if (is_object($embed_content)) {
+			$embed_content_array = (array) $embed_content;
+			$e = current($embed_content_array);
+		} else {
+			$e = current($embed_content); // Assuming it's already an array
+		}
 
 		if ( ! isset( $e['provider_name'] ) || strtoupper( $e['provider_name'] ) !== 'TWITCH' ) {
             return $embed_content;
@@ -454,8 +459,9 @@ class Elementor_Enhancer {
 		$full_screen = ( 'yes' === $settings['embedpress_pro_fs'] ) ? 'true' : 'false';
 		$autoplay    = ( 'yes' === $settings['embedpress_pro_twitch_autoplay'] ) ? 'true' : 'false';
 		$layout      = 'video';
-		$width       = (int) $settings['width']['size'];
-		$height      = (int) $settings['height']['size'];
+		$width  = isset($settings['width']['size']) ? (int) $settings['width']['size'] : 600;  // Default to 0 if not set
+		$height = isset($settings['height']['size']) ? (int) $settings['height']['size'] : 340; // Default to 0
+
 		if ( ! empty( $settings['embedpress_pro_video_start_time'] ) ) {
 			$ta   = explode( ':', gmdate( "G:i:s", $settings['embedpress_pro_video_start_time'] ) );
 			$h    = $ta[0] . 'h';

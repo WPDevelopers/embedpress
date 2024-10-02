@@ -51,8 +51,8 @@ if(!function_exists('get_branding_value')){
 	function get_branding_value($key, $provider)
 	{
 		$settings = get_option( EMBEDPRESS_PLG_NAME.':'.$provider, []);
-
-		if(isset( $settings[$key])) {
+		
+		if(isset($settings['branding']) && $settings['branding'] === 'yes'  && isset( $settings[$key])) {
 			return $settings[$key];
 		}
 		return '';
