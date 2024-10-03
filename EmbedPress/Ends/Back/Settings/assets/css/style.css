@@ -3417,7 +3417,7 @@ input#embedpress-pro-license-key::placeholder {
 
 @media (min-width: 1199px) and (max-width: 1399px) {
     .embedpress-card {
-        padding-left: 24px;
+        padding-left: 24px !important;
     }
 }
 
