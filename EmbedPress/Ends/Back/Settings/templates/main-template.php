@@ -11,7 +11,7 @@
     <div class="embedpress__container">
         <?php include_once EMBEDPRESS_SETTINGS_PATH . 'templates/partials/logo.php'; ?>
 
-        <?php if (isset($_GET['page_type']) && $_GET['page_type'] === 'general') : ?>
+        <?php if ((isset($_GET['page_type']) && $_GET['page_type'] === 'general') || (!isset($_GET['page_type']) && $_GET['page'] === 'embedpress')) : ?>
             <div class="intro-banner">
                 <div class="video-container">
                     <div class="img-box">
