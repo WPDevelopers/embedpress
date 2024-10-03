@@ -28,7 +28,7 @@
             </div>
             <div class="intro-text_wrapper">
                 <h4 class="intro-header">Get Started with EmbedPress</h4>
-                <p class="intro-sub_header">The premium version helps us to continue development of the product incorporating even more features and enhancements. You will also get world class support from our dedicated team, 24/7.</p>
+                <p class="intro-sub_header">All-in-one WordPress embedding solution that makes storytelling easy with one-click embeds from videos, social feeds, maps, PDFs, 3D flipbooks, and more from any sources. It also offers a custom player, options to display custom ads, content protection, and much more.</p>
                 <a href="https://embedpress.com/documentation/" target="_blank" class="intro-docu_btn">Documentation</a>
             </div>
             <div class="popup-video-wrap"></div>

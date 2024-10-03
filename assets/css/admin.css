@@ -754,7 +754,7 @@
 
 .intro-text_wrapper {
     margin: 24px;
-    max-width: 600px;
+    max-width: 790px;
     margin-left: 0;
 }
 
@@ -784,7 +784,6 @@ a.intro-docu_btn {
     border-radius: 6px;
 }
 
-
 .sponsored-floating_quick-links_wrapper {
     display: none;
 }
@@ -803,8 +802,7 @@ a.intro-docu_btn {
     padding: 90px 25px;
 }
 
-
-.sponsored-floating_quick-icon {
+/* .sponsored-floating_quick-icon {
     display: none;
     line-height: 0;
     padding: 16px;
@@ -814,6 +812,33 @@ a.intro-docu_btn {
 .sponsored-link_active {
     display: block;
 
+} */
+
+.sponsored-quick_link .sponsored-floating_quick-icon {
+    opacity: 0;
+    visibility: hidden;
+    line-height: 0;
+    padding: 16px;
+    border-radius: 50%;
+    /* transition: all 0.3s ease-in-out;
+    transform: scale(0.2); */
+}
+
+.sponsored-quick_link .sponsored-floating_quick-icon.active-icon {
+    transition: all 0.3s ease-in-out;
+    /* transform: scale(1.4); */
+}
+
+.sponsored-quick_link .sponsored-floating_quick-icon.close-icon {
+    transition: all 0.3s ease-in-out;
+    /* transform: scale(.4); */
+}
+
+.sponsored-quick_link .sponsored-link_active.sponsored-link_active {
+    opacity: 1;
+    visibility: visible;
+    /* transition: all 0.3s ease-in-out;
+    transform: scale(1); */
 }
 
 .sponsored-link_list .sponsored-link_list-item {
@@ -862,8 +887,6 @@ a.intro-docu_btn {
 .sponsored-link_list .sponsored-link_list-item a:hover .sponsored-link_icon svg path {
     fill: #ffffff;
 }
-
-
 
 .sponsored-quick_link .sponsored-link_bg {
     background-color: white;
