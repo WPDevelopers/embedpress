@@ -798,8 +798,6 @@ a.intro-docu_btn {
     background-color: transparent;
     bottom: 18px;
     right: 22px;
-    height: 100vh;
-    width: 100vw;
     z-index: 99;
     display: flex;
     justify-content: right;
@@ -818,6 +816,11 @@ a.intro-docu_btn {
 .sponsored-quick_link .sponsored-floating_quick-icon {
     position: absolute;
     transform: scale(.6);
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .sponsored-quick_link .sponsored-floating_quick-icon.active-icon {
