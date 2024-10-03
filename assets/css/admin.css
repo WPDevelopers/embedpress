@@ -791,7 +791,7 @@ a.intro-docu_btn {
 
 .sponsored-floating_quick-links {
     position: fixed;
-    background-color: #140b35e0;
+    background-color: transparent;
     top: 0;
     left: 0;
     height: 100vh;
@@ -823,7 +823,7 @@ a.intro-docu_btn {
 .sponsored-link_list .sponsored-link_list-item a {
     display: flex;
     align-items: center;
-    margin-bottom: 25px;
+    margin-bottom: 6px;
     justify-content: flex-end;
 }
 
@@ -835,6 +835,7 @@ a.intro-docu_btn {
     font-size: 16px;
     font-weight: 500;
     text-align: left;
+    box-shadow: 0 18px 24px 8px rgba(23, 10, 83, .20);
 
 }
 
@@ -848,6 +849,7 @@ a.intro-docu_btn {
     justify-content: center;
     z-index: 999;
     border-radius: 50%;
+    box-shadow: 0 18px 24px 8px rgba(23, 10, 83, .20);
     cursor: pointer;
     transition: 0.5s;
 }
@@ -877,7 +879,7 @@ a.intro-docu_btn {
     bottom: 20px;
     right: 20px;
     position: fixed;
-    box-shadow: 0px 18px 24px 8px #190A5314;
+    box-shadow: 0px 18px 24px 8px rgba(23, 10, 83, 0.20);
 }
 
 @media (max-width: 768px) {
@@ -926,6 +928,7 @@ a.intro-docu_btn {
     }
 
 }
+
 @media (max-width: 440px) {
     .sponsored-toggle_wrapper {
         flex-direction: column;
