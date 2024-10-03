@@ -784,66 +784,147 @@ a.intro-docu_btn {
     border-radius: 6px;
 }
 
-.sponsored-floating_quick-links_wrapper {
+/* .sponsored-floating_quick-links_wrapper {
     display: none;
 }
+.sponsored-link_active {
+    display: block;
+
+}
+*/
 
 .sponsored-floating_quick-links {
     position: fixed;
     background-color: transparent;
-    top: 0;
-    left: 0;
+    bottom: 18px;
+    right: 22px;
     height: 100vh;
     width: 100vw;
     z-index: 99;
     display: flex;
     justify-content: right;
     align-items: flex-end;
-    padding: 90px 25px;
 }
 
-/* .sponsored-floating_quick-icon {
+/* 
+.sponsored-floating_quick-icon {
     display: none;
     line-height: 0;
     padding: 16px;
     border-radius: 50%;
-}
-
-.sponsored-link_active {
-    display: block;
-
 } */
 
+
 .sponsored-quick_link .sponsored-floating_quick-icon {
-    opacity: 0;
-    visibility: hidden;
-    line-height: 0;
-    padding: 16px;
-    border-radius: 50%;
-    /* transition: all 0.3s ease-in-out;
-    transform: scale(0.2); */
+    position: absolute;
+    transform: scale(.6);
 }
 
 .sponsored-quick_link .sponsored-floating_quick-icon.active-icon {
-    transition: all 0.3s ease-in-out;
-    /* transform: scale(1.4); */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease-in-out;
 }
 
 .sponsored-quick_link .sponsored-floating_quick-icon.close-icon {
-    transition: all 0.3s ease-in-out;
-    /* transform: scale(.4); */
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease-in-out;
 }
 
-.sponsored-quick_link .sponsored-link_active.sponsored-link_active {
+
+.sponsored-quick_link .sponsored-floating_quick-icon.active-icon.sponsored-link_active {
     opacity: 1;
     visibility: visible;
-    /* transition: all 0.3s ease-in-out;
-    transform: scale(1); */
+    transition: all 0.3s ease-in-out;
+    transform: scale(1);
 }
 
-.sponsored-link_list .sponsored-link_list-item {
-    text-align: right;
+.sponsored-quick_link .sponsored-floating_quick-icon.close-icon.sponsored-link_active {
+    opacity: 1;
+    visibility: visible;
+    transition: all 0.3s ease-in-out;
+    transform: scale(1);
 }
+
+.sponsored-floating_quick-links_wrapper.sponsored-link_active .floating-item {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
+.sponsored-link_active .floating-item.item-1 {
+    transition: transform 0.2s 105ms;
+}
+
+.sponsored-link_active .floating-item.item-2 {
+    transition: transform 0.2s 70ms;
+}
+
+.sponsored-link_active .floating-item.item-3 {
+    transition: transform 0.2s 35ms;
+}
+
+.sponsored-link_active .floating-item.item-4 {
+    transition: transform 0.2s 0ms;
+}
+
+.floating-item.item-1 {
+    bottom: 268px;
+}
+
+.floating-item.item-2 {
+    bottom: 204px;
+}
+
+.floating-item.item-3 {
+    bottom: 142px;
+}
+
+.floating-item.item-4 {
+    bottom: 80px;
+}
+
+.sponsored-floating_quick-links_wrapper .floating-item {
+    position: absolute;
+    right: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0);
+    transition: all 0.2s ease-in-out;
+}
+
+.floating-item .sponsored-items--details {
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #092161;
+    padding: 8px 16px;
+    background: #FFFFFF;
+    border-radius: 4px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: calc(100% + 16px);
+    white-space: nowrap;
+    box-shadow: 0px 18px 24px 8px rgba(23, 10, 83, 0.1215686275);
+    transition: all 0.2s ease-out;
+}
+
+.floating-item .sponsored-items--icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 48px;
+    height: 48px;
+    background: #FFFFFF;
+    border-radius: 50%;
+    box-shadow: 0px 18px 24px 8px rgba(23, 10, 83, 0.215686275);
+}
+
+/* .sponsored-link_list .sponsored-link_list-item {
+    text-align: right;
+} 
 
 .sponsored-link_list .sponsored-link_list-item a {
     display: flex;
@@ -878,6 +959,7 @@ a.intro-docu_btn {
     cursor: pointer;
     transition: 0.5s;
 }
+*/
 
 .sponsored-link_list .sponsored-link_list-item a:hover .sponsored-link_icon {
     background-color: #FF7369;
