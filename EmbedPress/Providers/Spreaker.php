@@ -21,7 +21,7 @@ use Embera\Url;
 class Spreaker extends ProviderAdapter implements ProviderInterface
 {
     /** inline {@inheritdoc} */
-    protected static $hosts = ["tiktok.com"];
+    protected static $hosts = ["spreaker.com"];
     /**
      * Method that verifies if the embed URL belongs to Spreaker.
      *
@@ -30,8 +30,10 @@ class Spreaker extends ProviderAdapter implements ProviderInterface
      * @since   1.0.0
      *
      */
+
     public function validateUrl(Url $url)
     {
+
         return (bool) (preg_match('~spreaker\.com/show/([^/]+)~i', (string) $url) ||
             preg_match('~spreaker\.com/user/([^/]+)(/[^/]+)?~i', (string) $url));
     }
@@ -65,6 +67,9 @@ class Spreaker extends ProviderAdapter implements ProviderInterface
     public function fakeResponse()
     {
         $src_url = urldecode($this->url);
+
+
+        error_log(print_r($src_url, true));
 
 
         // Check if the url is already converted to the embed format  

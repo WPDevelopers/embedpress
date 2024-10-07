@@ -843,6 +843,76 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: 'Schedule time with me'
 			},
 
+			//Spreaker attributes
+			theme: {
+				type: 'string',
+				default: 'light'
+			},
+			color: {
+				type: 'string',
+				default: ''
+			},
+			coverImageUrl: {
+				type: 'string',
+				default: ''
+			},
+			playlist: {
+				type: 'string',
+				default: 'false'
+			},
+			playlistContinuous: {
+				type: 'boolean',
+				default: false
+			},
+			playlistLoop: {
+				type: 'boolean',
+				default: false
+			},
+			playlistAutoupdate: {
+				type: 'boolean',
+				default: true
+			},
+			chaptersImage: {
+				type: 'boolean',
+				default: true
+			},
+			episodeImagePosition: {
+				type: 'string',
+				default: 'right'
+			},
+			hideLikes: {
+				type: 'boolean',
+				default: false
+			},
+			hideComments: {
+				type: 'boolean',
+				default: false
+			},
+			hideSharing: {
+				type: 'boolean',
+				default: false
+			},
+			hideLogo: {
+				type: 'boolean',
+				default: false
+			},
+			hideEpisodeDescription: {
+				type: 'boolean',
+				default: false
+			},
+			hidePlaylistDescriptions: {
+				type: 'boolean',
+				default: false
+			},
+			hidePlaylistImages: {
+				type: 'boolean',
+				default: false
+			},
+			hideDownload: {
+				type: 'boolean',
+				default: true
+			},
+
 			//Custom logo atributes
 			customlogo: {
 				type: 'string',
