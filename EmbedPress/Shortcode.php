@@ -960,6 +960,14 @@ KAMAL;
         return "#" . http_build_query($urlParamData);
     }
 
+    public static function getUnit($value)
+    {
+        if (preg_match('/[a-zA-Z%]+$/', $value, $matches)) {
+            return '';
+        }
+        return 'px';
+    }
+
     public static function do_shortcode_pdf($attributes = [], $subject = null)
     {
         $plgSettings = Core::getSettings();
@@ -991,7 +999,12 @@ KAMAL;
         ob_start();
 
         $id = 'embedpress-pdf-shortcode';
-        $dimension = "width: {$attributes['width']}px;height: {$attributes['height']}px";
+
+        $widthUnit = self::getUnit($attributes['width']);
+        $heightUnit = self::getUnit($attributes['height']);
+
+        $dimension = "width: {$attributes['width']}{$widthUnit}; height: {$attributes['height']}{$heightUnit};";
+
         ?>
             <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . md5($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block">
                 <?php if ($url != '') {
