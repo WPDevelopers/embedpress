@@ -25,6 +25,77 @@ const {
 } = wp.components;
 
 
+export const init = () => {
+    addFilter('embedpress_block_rest_param', 'embedpress', getSpreakerParams, 10);
+}
+
+export const getSpreakerParams = (params, attributes) => {
+    if (!attributes.url || !(isSpreakerUrl(attributes.url))) {
+        return params;
+    }
+    // which attributes should be passed with rest api.
+    const defaults = {
+        theme: 'light',
+        color: '',
+        coverImageUrl: '',
+        playlist: 'false',
+        playlistContinuous: 'false',
+        playlistLoop: 'false',
+        playlistAutoupdate: 'true',
+        chaptersImage: 'true',
+        episodeImagePosition: 'right',
+        hideLikes: 'false',
+        hideComments: 'false',
+        hideSharing: 'false',
+        hideLogo: 'false',
+        hideEpisodeDescription: 'false',
+        hidePlaylistDescriptions: 'false',
+        hidePlaylistImages: 'false',
+        hideDownload: 'true',
+    };
+
+
+    return getParams(params, attributes, defaults);
+}
+
+
+export const useSpreaker = (attributes) => {
+    // which attribute should call embed();
+    const defaults = {
+        theme: null,
+        color: null,
+        coverImageUrl: null,
+        playlist: null,
+        playlistContinuous: null,
+        playlistLoop: null,
+        playlistAutoupdate: null,
+        chaptersImage: null,
+        episodeImagePosition: null,
+        hideLikes: null,
+        hideComments: null,
+        hideSharing: null,
+        hideLogo: null,
+        hideEpisodeDescription: null,
+        hidePlaylistDescriptions: null,
+        hidePlaylistImages: null,
+        hideDownload: null,
+    };
+
+    const param = getParams({}, attributes, defaults);
+    const [atts, setAtts] = useState(param);
+
+    useEffect(() => {
+        const param = getParams(atts, attributes, defaults);
+        if (!isShallowEqualObjects(atts || {}, param)) {
+            setAtts(param);
+        }
+    }, [attributes]);
+
+    return atts;
+}
+
+
+
 export default function Spreaker({ attributes, setAttributes }) {
     const {
         url,

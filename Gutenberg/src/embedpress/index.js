@@ -16,6 +16,7 @@ import { init as calendlyInit } from './InspectorControl/calendly';
 import { init as youtubeInit } from './InspectorControl/youtube';
 import { init as wistiaInit } from './InspectorControl/wistia';
 import { init as vimeoInit } from './InspectorControl/vimeo';
+import { init as spreakerInit } from './InspectorControl/spreaker';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
@@ -844,73 +845,61 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 
 			//Spreaker attributes
-			theme: {
-				type: 'string',
-				default: 'light'
-			},
-			color: {
-				type: 'string',
-				default: ''
-			},
-			coverImageUrl: {
-				type: 'string',
-				default: ''
-			},
 			playlist: {
 				type: 'string',
 				default: 'false'
 			},
 			playlistContinuous: {
-				type: 'boolean',
-				default: false
+				type: 'string',
+				default: 'false'
 			},
 			playlistLoop: {
-				type: 'boolean',
-				default: false
+				type: 'string',
+				default: 'false'
 			},
 			playlistAutoupdate: {
-				type: 'boolean',
-				default: true
+				type: 'string',
+				default: 'true'
 			},
 			chaptersImage: {
-				type: 'boolean',
-				default: true
+				type: 'string',
+				default: 'true'
 			},
 			episodeImagePosition: {
 				type: 'string',
 				default: 'right'
 			},
 			hideLikes: {
-				type: 'boolean',
-				default: false
+				type: 'string',
+				default: 'false'
 			},
 			hideComments: {
-				type: 'boolean',
-				default: false
+				type: 'string',
+				default: 'false'
 			},
 			hideSharing: {
-				type: 'boolean',
-				default: false
+				type: 'string',
+				default: 'false'
 			},
 			hideLogo: {
-				type: 'boolean',
-				default: false
+				type: 'string',
+				default: 'false'
 			},
 			hideEpisodeDescription: {
-				type: 'boolean',
-				default: false
+				type: 'string',
+				default: 'false'
 			},
 			hidePlaylistDescriptions: {
-				type: 'boolean',
-				default: false
+				type: 'string',
+				default: 'false'
 			},
 			hidePlaylistImages: {
-				type: 'boolean',
-				default: false
+				type: 'string',
+				default: 'false'
 			},
 			hideDownload: {
-				type: 'boolean',
-				default: true
+				type: 'string',
+				default: 'true'
 			},
 
 			//Custom logo atributes
@@ -1013,4 +1002,5 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 	wistiaInit();
 	vimeoInit();
 	calendlyInit();
+	spreakerInit();
 }

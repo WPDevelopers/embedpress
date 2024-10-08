@@ -30,8 +30,9 @@ import { useYoutube } from './InspectorControl/youtube';
 import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, isYTLive as _isYTLive, isYTShorts as _isYTShorts, useYTVideo } from './InspectorControl/youtube';
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
+import { useSpreaker } from './InspectorControl/spreaker';
 import ContentShare from '../common/social-share-control';
-import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo, initCarousel, isTikTok as _isTikTok } from './functions';
+import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo, initCarousel, isTikTok as _isTikTok, isSpreakerUrl as _isSpreakerUrl } from './functions';
 import { isCalendly as _isCalendly, useCalendly } from './InspectorControl/calendly';
 
 const {
@@ -108,7 +109,7 @@ export default function EmbedPress(props) {
 			});
 		}
 	}, [url])
-	
+
 	const _isSelfHostedVideo = isSelfHostedVideo(url);
 	const _isSelfHostedAudio = isSelfHostedAudio(url);
 
@@ -185,6 +186,7 @@ export default function EmbedPress(props) {
 	const isWistiaVideo = _isWistiaVideo(url);
 	const isVimeoVideo = _isVimeoVideo(url);
 	const isInstagramFeed = _isInstagramFeed(url);
+	const isSpreaker = _isSpreakerUrl(url);
 
 	const isOpensea = _isOpensea(url);
 	const isOpenseaSingle = _isOpenseaSingle(url);
@@ -199,6 +201,7 @@ export default function EmbedPress(props) {
 	const vimeoVideoParams = useVimeoVideo(attributes);
 	const instafeedParams = useInstafeed(attributes);
 	const calendlyParamns = useCalendly(attributes);
+	const spreakerParams = useSpreaker(attributes);
 
 	let source = '';
 
@@ -338,7 +341,7 @@ export default function EmbedPress(props) {
 		return () => {
 			clearTimeout(delayDebounceFn)
 		}
-	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent]);
+	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent, spreakerParams]);
 
 
 
@@ -360,6 +363,7 @@ export default function EmbedPress(props) {
 				isSelfHostedAudio={_isSelfHostedAudio}
 				isCalendly={isCalendly}
 				isTikTok={isTikTok}
+				isSpreaker={isSpreaker}
 			/>
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
@@ -384,11 +388,12 @@ export default function EmbedPress(props) {
 					(!isWistiaVideo || (!!editingURL || editingURL === 0)) &&
 					(!isVimeoVideo || (!!editingURL || editingURL === 0)) &&
 					(!isCalendly || (!!editingURL || editingURL === 0)) &&
-					(!isInstagramFeed || (!!editingURL || editingURL === 0))
+					(!isInstagramFeed || (!!editingURL || editingURL === 0)) &&
+					(!isSpreaker || (!!editingURL || editingURL === 0))
 				) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTShorts || isWistiaVideo || isVimeoVideo || isCalendly || isInstagramFeed)) && (<figure {...blockProps} data-source-id={'source-' + clientId}>
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTShorts || isWistiaVideo || isVimeoVideo || isCalendly || isInstagramFeed || isSpreaker)) && (<figure {...blockProps} data-source-id={'source-' + clientId}>
 
 				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
 					<EmbedWrap
@@ -482,9 +487,6 @@ export default function EmbedPress(props) {
 					</style>
 				)
 			}
-
-
-
 
 		</Fragment>
 
