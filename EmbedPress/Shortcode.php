@@ -1002,11 +1002,19 @@ KAMAL;
 
         $widthUnit = self::getUnit($attributes['width']);
         $heightUnit = self::getUnit($attributes['height']);
+        $alignMent  = isset($attributes['alignment']) ? $attributes['alignment'] : '';
+
+        $alignmentStyle  =  'margin: auto';
+        if ($alignMent == 'left') {
+            $alignmentStyle  =  'margin-right: auto!important; margin-left: 0!important';
+        } elseif ($alignMent == 'right') {
+            $alignmentStyle  =  'margin-left: auto!important; margin-right: 0!important';
+        }
 
         $dimension = "width: {$attributes['width']}{$widthUnit}; height: {$attributes['height']}{$heightUnit};";
 
         ?>
-            <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . md5($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block">
+            <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . md5($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block; <?php echo esc_attr($alignmentStyle); ?>;">
                 <?php if ($url != '') {
                             if (self::is_pdf($url) && !self::is_external_url($url)) {
                                 $renderer = Helper::get_pdf_renderer();
