@@ -807,7 +807,9 @@ class Feature_Enhancer
 
 			if (is_object($embed->attributes) && !empty($embed->attributes)) {
 				$attributes = (array) $embed->attributes;
+
 				$attributes = stringToBoolean($attributes);
+				
 
 				$params['title'] = !empty($attributes['data-vtitle']) ? 1 : 0;
 				$params['byline']             = !empty($attributes['data-vauthor'])  ? 1 : 0;

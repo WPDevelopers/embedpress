@@ -11,6 +11,8 @@ import { EPIcon } from './../../common/icons';
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 const { useState, useEffect } = wp.element;
+import { MediaUpload } from '@wordpress/block-editor';
+
 const { __ } = wp.i18n;
 const { addFilter } = wp.hooks;
 
@@ -38,22 +40,21 @@ export const getSpreakerParams = (params, attributes) => {
         theme: 'light',
         color: '',
         coverImageUrl: '',
-        playlist: 'false',
-        playlistContinuous: 'false',
-        playlistLoop: 'false',
-        playlistAutoupdate: 'true',
-        chaptersImage: 'true',
+        playlist: false,
+        playlistContinuous: false,
+        playlistLoop: false,
+        playlistAutoupdate: true,
+        chaptersImage: true,
         episodeImagePosition: 'right',
-        hideLikes: 'false',
-        hideComments: 'false',
-        hideSharing: 'false',
-        hideLogo: 'false',
-        hideEpisodeDescription: 'false',
-        hidePlaylistDescriptions: 'false',
-        hidePlaylistImages: 'false',
-        hideDownload: 'true',
+        hideLikes: false,
+        hideComments: false,
+        hideSharing: false,
+        hideLogo: false,
+        hideEpisodeDescription: false,
+        hidePlaylistDescriptions: false,
+        hidePlaylistImages: false,
+        hideDownload: true,
     };
-
 
     return getParams(params, attributes, defaults);
 }
@@ -121,11 +122,11 @@ export default function Spreaker({ attributes, setAttributes }) {
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
     const onSelectImage = (logo) => {
-        setAttributes({ customlogo: logo.sizes.full.url });
+        setAttributes({ coverImageUrl: logo.sizes.full.url });
     }
 
     const removeImage = (e) => {
-        setAttributes({ customlogo: '' });
+        setAttributes({ coverImageUrl: '' });
     }
 
     if (!document.querySelector('.pro__alert__wrap')) {
@@ -133,12 +134,20 @@ export default function Spreaker({ attributes, setAttributes }) {
         removeAlert();
     }
 
+    const colors = [
+        { name: 'Red', color: '#FF0000' },
+        { name: 'Green', color: '#00FF00' },
+        { name: 'Blue', color: '#0000FF' },
+        { name: 'Yellow', color: '#FFFF00' },
+        { name: 'Orange', color: '#FFA500' },
+        { name: 'Purple', color: '#800080' }
+    ];
+
     return (
         <div>
             {isSpreakerUrl(url) && (
                 <div className={'ep__vimeo-video-options'}>
                     <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('Spreaker Controls', 'embedpress')}</div>} initialOpen={false}>
-                        {/* Theme Control */}
                         <SelectControl
                             label={__('Theme', 'embedpress')}
                             value={theme}
@@ -146,60 +155,78 @@ export default function Spreaker({ attributes, setAttributes }) {
                                 { label: __('Light', 'embedpress'), value: 'light' },
                                 { label: __('Dark', 'embedpress'), value: 'dark' },
                             ]}
-                            onChange={(value) => setAttributes({ theme: value })}
+                            onChange={(theme) => setAttributes({ theme })}
                         />
 
-                        {/* Color Control */}
-                        <TextControl
-                            label={__('Main Color (Hex)', 'embedpress')}
+                        <ControlHeader headerText={'Main Color '} />
+                        <ColorPalette
+                            colors={colors}
                             value={color}
-                            onChange={(value) => setAttributes({ color: value })}
-                            help={__('Enter hex color (e.g., FF0000 or F00)', 'embedpress')}
+                            onChange={(color) => setAttributes({ color })}
                         />
+                        <ControlHeader headerText={'Cover Image'} />
 
-                        {/* Cover Image Control */}
-                        <TextControl
-                            label={__('Cover Image URL', 'embedpress')}
-                            value={coverImageUrl}
-                            onChange={(value) => setAttributes({ coverImageUrl: value })}
-                        />
+                        {
+                            coverImageUrl && (
+                                <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
+                                    <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
+                                        <span class="dashicon dashicons dashicons-trash"></span>
+                                    </button>
+                                    <img
+                                        src={coverImageUrl}
+                                        alt="John"
+                                    />
+                                </div>
+                            )
+                        }
 
-                        {/* Playlist Control */}
+
+                        <div className={'pro-control-active ep-custom-logo-button'}>
+                            <MediaUpload
+                                onSelect={onSelectImage}
+                                allowedTypes={['image']}
+                                value={coverImageUrl}
+                                render={({ open }) => (
+                                    <Button className={'ep-logo-upload-button'} icon={!coverImageUrl ? 'upload' : 'update'} onClick={open}>
+                                        {
+                                            (!coverImageUrl) ? 'Upload Image' : 'Change Image'
+                                        }
+                                    </Button>
+                                )}
+
+                            />
+                        </div>
+
                         <ToggleControl
                             label={__('Enable Playlist', 'embedpress')}
-                            checked={playlist === 'show'}
-                            onChange={(value) => setAttributes({ playlist: value ? 'show' : 'false' })}
+                            checked={playlist}
+                            onChange={(playlist) => setAttributes({ playlist })}
                         />
 
-                        {/* Playlist Continuous Control */}
                         <ToggleControl
                             label={__('Continuous Playlist', 'embedpress')}
                             checked={playlistContinuous}
-                            onChange={(value) => setAttributes({ playlistContinuous: value })}
+                            onChange={(playlistContinuous) => setAttributes({ playlistContinuous })}
                         />
 
-                        {/* Playlist Loop Control */}
                         <ToggleControl
                             label={__('Loop Playlist', 'embedpress')}
                             checked={playlistLoop}
-                            onChange={(value) => setAttributes({ playlistLoop: value })}
+                            onChange={(playlistLoop) => setAttributes({ playlistLoop })}
                         />
 
-                        {/* Playlist Autoupdate Control */}
                         <ToggleControl
                             label={__('Playlist Autoupdate', 'embedpress')}
                             checked={playlistAutoupdate}
-                            onChange={(value) => setAttributes({ playlistAutoupdate: value })}
+                            onChange={(playlistAutoupdate) => setAttributes({ playlistAutoupdate })}
                         />
 
-                        {/* Chapters Image Control */}
                         <ToggleControl
                             label={__('Show Chapters Images', 'embedpress')}
                             checked={chaptersImage}
-                            onChange={(value) => setAttributes({ chaptersImage: value })}
+                            onChange={(chaptersImage) => setAttributes({ chaptersImage })}
                         />
 
-                        {/* Episode Image Position Control */}
                         <SelectControl
                             label={__('Episode Image Position', 'embedpress')}
                             value={episodeImagePosition}
@@ -207,50 +234,59 @@ export default function Spreaker({ attributes, setAttributes }) {
                                 { label: __('Right', 'embedpress'), value: 'right' },
                                 { label: __('Left', 'embedpress'), value: 'left' },
                             ]}
-                            onChange={(value) => setAttributes({ episodeImagePosition: value })}
+                            onChange={(episodeImagePosition) => setAttributes({ episodeImagePosition })}
                         />
 
-                        {/* Hide Controls */}
                         <ToggleControl
                             label={__('Hide Likes', 'embedpress')}
                             checked={hideLikes}
-                            onChange={(value) => setAttributes({ hideLikes: value })}
+                            onChange={(hideLikes) => setAttributes({ hideLikes })}
                         />
+
                         <ToggleControl
                             label={__('Hide Comments', 'embedpress')}
                             checked={hideComments}
-                            onChange={(value) => setAttributes({ hideComments: value })}
+                            onChange={(hideComments) => setAttributes({ hideComments })}
                         />
+
                         <ToggleControl
                             label={__('Hide Sharing', 'embedpress')}
                             checked={hideSharing}
-                            onChange={(value) => setAttributes({ hideSharing: value })}
+                            onChange={(hideSharing) => setAttributes({ hideSharing })}
                         />
+
                         <ToggleControl
                             label={__('Hide Logo', 'embedpress')}
                             checked={hideLogo}
-                            onChange={(value) => setAttributes({ hideLogo: value })}
+                            onChange={(hideLogo) => setAttributes({ hideLogo })}
+                            help={__('Hide the Spreaker logo and branding in the player. Requires Broadcaster plan or higher.', 'embedpress')}
                         />
+
+
                         <ToggleControl
                             label={__('Hide Episode Description', 'embedpress')}
                             checked={hideEpisodeDescription}
-                            onChange={(value) => setAttributes({ hideEpisodeDescription: value })}
+                            onChange={(hideEpisodeDescription) => setAttributes({ hideEpisodeDescription })}
                         />
+
                         <ToggleControl
                             label={__('Hide Playlist Descriptions', 'embedpress')}
                             checked={hidePlaylistDescriptions}
-                            onChange={(value) => setAttributes({ hidePlaylistDescriptions: value })}
+                            onChange={(hidePlaylistDescriptions) => setAttributes({ hidePlaylistDescriptions })}
                         />
+
                         <ToggleControl
                             label={__('Hide Playlist Images', 'embedpress')}
                             checked={hidePlaylistImages}
-                            onChange={(value) => setAttributes({ hidePlaylistImages: value })}
+                            onChange={(hidePlaylistImages) => setAttributes({ hidePlaylistImages })}
                         />
+
                         <ToggleControl
                             label={__('Hide Download', 'embedpress')}
                             checked={hideDownload}
-                            onChange={(value) => setAttributes({ hideDownload: value })}
+                            onChange={(hideDownload) => setAttributes({ hideDownload })}
                         />
+
                     </PanelBody>
 
                     <CustomBranding attributes={attributes} setAttributes={setAttributes} />

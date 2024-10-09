@@ -845,62 +845,75 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 
 			//Spreaker attributes
-			playlist: {
+			theme: {
 				type: 'string',
-				default: 'false'
+				default: 'light'
+			},
+			color: {
+				type: 'string',
+				default: ''
+			},
+			coverImageUrl: {
+				type: 'string',
+				default: ''
+			},
+			playlist: {
+				type: 'boolean',
+				default: false
 			},
 			playlistContinuous: {
-				type: 'string',
-				default: 'false'
+				type: 'boolean',
+				default: false
 			},
 			playlistLoop: {
-				type: 'string',
-				default: 'false'
+				type: 'boolean',
+				default: false
 			},
 			playlistAutoupdate: {
-				type: 'string',
-				default: 'true'
+				type: 'boolean',
+				default: true
 			},
 			chaptersImage: {
-				type: 'string',
-				default: 'true'
+				type: 'boolean',
+				default: true
 			},
 			episodeImagePosition: {
 				type: 'string',
 				default: 'right'
 			},
 			hideLikes: {
-				type: 'string',
-				default: 'false'
+				type: 'boolean',
+				default: false
 			},
 			hideComments: {
-				type: 'string',
-				default: 'false'
+				type: 'boolean',
+				default: false
 			},
 			hideSharing: {
-				type: 'string',
-				default: 'false'
+				type: 'boolean',
+				default: false
 			},
 			hideLogo: {
-				type: 'string',
-				default: 'false'
+				type: 'boolean',
+				default: false
 			},
 			hideEpisodeDescription: {
-				type: 'string',
-				default: 'false'
+				type: 'boolean',
+				default: false
 			},
 			hidePlaylistDescriptions: {
-				type: 'string',
-				default: 'false'
+				type: 'boolean',
+				default: false
 			},
 			hidePlaylistImages: {
-				type: 'string',
-				default: 'false'
+				type: 'boolean',
+				default: false
 			},
 			hideDownload: {
-				type: 'string',
-				default: 'true'
+				type: 'boolean',
+				default: true
 			},
+
 
 			//Custom logo atributes
 			customlogo: {

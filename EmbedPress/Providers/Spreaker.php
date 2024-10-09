@@ -96,41 +96,42 @@ class Spreaker extends ProviderAdapter implements ProviderInterface
      * @return  array
      */
 
-    public function boolToStr($value)
-    {
-        return $value ? 'true' : 'false';
-    }
 
     public function fakeResponse()
     {
         $src_url = urldecode($this->url);
         $params  = $this->getParams();
 
-        error_log(print_r($params['hideLikes'], true));
 
         $query_param  = [
             'theme' => $params['theme'] ?? 'light',
-            // 'color' => $params['color'] ?? null,
-            // 'cover_image_url' => $params['coverImageUrl'] ?? null,
-            'playlist' => $params['playlist'] ?? 'false',
-            'playlist-continuous' => $params['playlistContinuous'] ?? 'false',
-            'playlist-loop' => $params['playlistLoop'] ?? 'false',
-            'playlist-autoupdate' => $params['playlistAutoupdate'] == 'true' ? 'true' : 'false',
-            'chapters-image' => $params['chaptersImage'] == 'true' ? 'true' : 'false',
+            'playlist' => $params['playlist'] == 1 ? 'true' : 'false',
+            'playlist-continuous' => $params['playlistContinuous'] == 1 ? 'true' : 'false',
+            'playlist-loop' => $params['playlistLoop'] == 1 ? 'true' : 'false',
+            'playlist-autoupdate' => $params['playlistAutoupdate'] == 1 ? 'true' : 'false',
+            'chapters-image' => $params['chaptersImage'] == 1 ? 'true' : 'false',
             'episode_image_position' => $params['episodeImagePosition'] ?? 'right',
-            'hide-likes' => $params['hideLikes'] ? 'true' : 'false',
-            'hide-comments' => $params['hideComments'] ?? 'false',
-            'hide-sharing' => $params['hideSharing'] ?? 'false',
-            'hide-logo' => $params['hideLogo'] ?? 'false',
-            'hide-episode-description' => $params['hideEpisodeDescription'] ?? 'false',
-            'hide-playlist-descriptions' => $params['hidePlaylistDescriptions'] ?? 'false',
-            'hide-playlist-images' => $params['hidePlaylistImages'] ?? 'false',
-            'hide-download' => $params['hideDownload'] == 'true' ? 'true' : 'false',
+            'hide-likes' => $params['hideLikes'] == 1 ? 'true' : 'false',
+            'hide-comments' => $params['hideComments'] == 1 ? 'true' : 'false',
+            'hide-sharing' => $params['hideSharing'] == 1 ? 'true' : 'false',
+            'hide-logo' => $params['hideLogo'] == 1 ? 'true' : 'false',
+            'hide-episode-description' => $params['hideEpisodeDescription'] == 1 ? 'true' : 'false',
+            'hide-playlist-descriptions' => $params['hidePlaylistDescriptions'] == 1 ? 'true' : 'false',
+            'hide-playlist-images' => $params['hidePlaylistImages'] == 1 ? 'true' : 'false',
+            'hide-download' => $params['hideDownload'] == 1 ? 'true' : 'false',
         ];
 
+        if (is_string($params['color']) && !empty($params['color'])) {
+            $query_param['color'] = $params['color'];
+        }
+        if (is_string($params['coverImageUrl']) && !empty($params['coverImageUrl'])) {
+            $query_param['cover_image_url'] = $params['coverImageUrl'];
+        }
+
+
+        error_log(print_r($params, true));
+
         $query_string = http_build_query($query_param);
-
-
 
         // Check if the url is already converted to the embed format  
         if ($this->validateSpreaker($src_url)) {
