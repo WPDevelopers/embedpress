@@ -1109,9 +1109,9 @@ class Helper
 	}
 	public static function get_branding_value($key, $provider)
 	{
-		$settings = get_option( EMBEDPRESS_PLG_NAME.':'.$provider, []);
-		
-		if(isset($settings['branding']) && $settings['branding'] === 'yes'  && isset( $settings[$key])) {
+		$settings = get_option(EMBEDPRESS_PLG_NAME . ':' . $provider, []);
+
+		if (isset($settings['branding']) && $settings['branding'] === 'yes'  && isset($settings[$key])) {
 			return $settings[$key];
 		}
 		return '';
@@ -1256,19 +1256,20 @@ class Helper
 	{
 		$parsedAttributes = [];
 
-		// Regular expression to match any attribute that starts with 'on' (case-insensitive)
 		$regex = '/^on.*/i';
-	
+
 		foreach ($attributes as $key => $value) {
-			// Remove quotes from the value
-			$cleanValue = str_replace(['"', "'"], '', $value);
-	
-			// If the key does not match the regex, keep the attribute
+			if (is_string($value)) {
+				$cleanValue = str_replace(['"', "'"], '', $value);
+			} else {
+				$cleanValue = $value;
+			}
+
 			if (!preg_match($regex, $key)) {
 				$parsedAttributes[$key] = $cleanValue;
 			}
 		}
-	
+
 		return $parsedAttributes;
 	}
 }
