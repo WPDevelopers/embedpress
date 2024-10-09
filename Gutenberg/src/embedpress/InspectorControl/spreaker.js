@@ -14,7 +14,7 @@ const { useState, useEffect } = wp.element;
 import { MediaUpload } from '@wordpress/block-editor';
 
 const { __ } = wp.i18n;
-const { addFilter } = wp.hooks;
+const { addFilter, applyFilters } = wp.hooks;
 
 const {
     TextControl,
@@ -143,6 +143,10 @@ export default function Spreaker({ attributes, setAttributes }) {
         { name: 'Purple', color: '#800080' }
     ];
 
+    const hideDoownloadPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Disable Download', 'embedpress'), false);
+    const playlistContinuousPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Continuous Playlist', 'embedpress'), false);
+    const uploadPlaceholder = applyFilters('embedpress.uploadPlaceholder', []);
+
     return (
         <div>
             {isSpreakerUrl(url) && (
@@ -166,36 +170,7 @@ export default function Spreaker({ attributes, setAttributes }) {
                         />
                         <ControlHeader headerText={'Cover Image'} />
 
-                        {
-                            coverImageUrl && (
-                                <div className={'ep__custom-logo'} style={{ position: 'relative' }}>
-                                    <button title="Remove Image" className="ep-remove__image" type="button" onClick={removeImage} >
-                                        <span class="dashicon dashicons dashicons-trash"></span>
-                                    </button>
-                                    <img
-                                        src={coverImageUrl}
-                                        alt="John"
-                                    />
-                                </div>
-                            )
-                        }
-
-
-                        <div className={'pro-control-active ep-custom-logo-button'}>
-                            <MediaUpload
-                                onSelect={onSelectImage}
-                                allowedTypes={['image']}
-                                value={coverImageUrl}
-                                render={({ open }) => (
-                                    <Button className={'ep-logo-upload-button'} icon={!coverImageUrl ? 'upload' : 'update'} onClick={open}>
-                                        {
-                                            (!coverImageUrl) ? 'Upload Image' : 'Change Image'
-                                        }
-                                    </Button>
-                                )}
-
-                            />
-                        </div>
+                        {applyFilters('embedpress.spreakerControls', [uploadPlaceholder], attributes, setAttributes, 'coverImage')}
 
                         <ToggleControl
                             label={__('Enable Playlist', 'embedpress')}
@@ -203,11 +178,8 @@ export default function Spreaker({ attributes, setAttributes }) {
                             onChange={(playlist) => setAttributes({ playlist })}
                         />
 
-                        <ToggleControl
-                            label={__('Continuous Playlist', 'embedpress')}
-                            checked={playlistContinuous}
-                            onChange={(playlistContinuous) => setAttributes({ playlistContinuous })}
-                        />
+                        {applyFilters('embedpress.spreakerControls', [hideDoownloadPlaceholder], attributes, setAttributes, 'hideDownload')}
+                        {applyFilters('embedpress.spreakerControls', [playlistContinuousPlaceholder], attributes, setAttributes, 'playlistContinuous')}
 
                         <ToggleControl
                             label={__('Loop Playlist', 'embedpress')}
@@ -279,12 +251,6 @@ export default function Spreaker({ attributes, setAttributes }) {
                             label={__('Hide Playlist Images', 'embedpress')}
                             checked={hidePlaylistImages}
                             onChange={(hidePlaylistImages) => setAttributes({ hidePlaylistImages })}
-                        />
-
-                        <ToggleControl
-                            label={__('Hide Download', 'embedpress')}
-                            checked={hideDownload}
-                            onChange={(hideDownload) => setAttributes({ hideDownload })}
                         />
 
                     </PanelBody>
