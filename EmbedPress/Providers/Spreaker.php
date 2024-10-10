@@ -102,29 +102,29 @@ class Spreaker extends ProviderAdapter implements ProviderInterface
         $src_url = urldecode($this->url);
         $params  = $this->getParams();
 
-
         $query_param  = [
-            'theme' => $params['theme'] ?? 'light',
-            'playlist' => $params['playlist'] == 1 ? 'true' : 'false',
-            'playlist-continuous' => $params['playlistContinuous'] == 1 ? 'true' : 'false',
-            'playlist-loop' => $params['playlistLoop'] == 1 ? 'true' : 'false',
-            'playlist-autoupdate' => $params['playlistAutoupdate'] == 1 ? 'true' : 'false',
-            'chapters-image' => $params['chaptersImage'] == 1 ? 'true' : 'false',
-            'episode_image_position' => $params['episodeImagePosition'] ?? 'right',
-            'hide-likes' => $params['hideLikes'] == 1 ? 'true' : 'false',
-            'hide-comments' => $params['hideComments'] == 1 ? 'true' : 'false',
-            'hide-sharing' => $params['hideSharing'] == 1 ? 'true' : 'false',
-            'hide-logo' => $params['hideLogo'] == 1 ? 'true' : 'false',
-            'hide-episode-description' => $params['hideEpisodeDescription'] == 1 ? 'true' : 'false',
-            'hide-playlist-descriptions' => $params['hidePlaylistDescriptions'] == 1 ? 'true' : 'false',
-            'hide-playlist-images' => $params['hidePlaylistImages'] == 1 ? 'true' : 'false',
-            'hide-download' => $params['hideDownload'] == 1 ? 'true' : 'false',
+            'theme' => isset($params['theme']) ? $params['theme'] : 'light',
+            'playlist' => isset($params['playlist']) && ($params['playlist'] == 1 || $params['playlist'] == 'yes') ? 'true' : 'false',
+            'playlist-continuous' => isset($params['playlistContinuous']) && ($params['playlistContinuous'] == 1 || $params['playlistContinuous'] == 'yes') ? 'true' : 'false',
+            'playlist-loop' => isset($params['playlistLoop']) && ($params['playlistLoop'] == 1 || $params['playlistLoop'] == 'yes') ? 'true' : 'false',
+            'playlist-autoupdate' => isset($params['playlistAutoupdate']) && ($params['playlistAutoupdate'] == 1 || $params['playlistAutoupdate'] == 'yes') ? 'true' : 'false',
+            'chapters-image' => isset($params['chaptersImage']) && ($params['chaptersImage'] == 1 || $params['chaptersImage'] == 'yes') ? 'true' : 'false',
+            'episode_image_position' => isset($params['episodeImagePosition']) ? $params['episodeImagePosition'] : 'right',
+            'hide-likes' => isset($params['hideLikes']) && ($params['hideLikes'] == 1 || $params['hideLikes'] == 'yes') ? 'true' : 'false',
+            'hide-comments' => isset($params['hideComments']) && ($params['hideComments'] == 1 || $params['hideComments'] == 'yes') ? 'true' : 'false',
+            'hide-sharing' => isset($params['hideSharing']) && ($params['hideSharing'] == 1 || $params['hideSharing'] == 'yes') ? 'true' : 'false',
+            'hide-logo' => isset($params['hideLogo']) && ($params['hideLogo'] == 1 || $params['hideLogo'] == 'yes') ? 'true' : 'false',
+            'hide-episode-description' => isset($params['hideEpisodeDescription']) && ($params['hideEpisodeDescription'] == 1 || $params['hideEpisodeDescription'] == 'yes') ? 'true' : 'false',
+            'hide-playlist-descriptions' => isset($params['hidePlaylistDescriptions']) && ($params['hidePlaylistDescriptions'] == 1 || $params['hidePlaylistDescriptions'] == 'yes') ? 'true' : 'false',
+            'hide-playlist-images' => isset($params['hidePlaylistImages']) && ($params['hidePlaylistImages'] == 1 || $params['hidePlaylistImages'] == 'yes') ? 'true' : 'false',
+            'hide-download' => isset($params['hideDownload']) && ($params['hideDownload'] == 1 || $params['hideDownload'] == 'yes') ? 'true' : 'false',
         ];
 
-        if (is_string($params['color']) && !empty($params['color'])) {
+
+        if (!empty($params['color']) && is_string($params['color'])) {
             $query_param['color'] = $params['color'];
         }
-        if (is_string($params['coverImageUrl']) && !empty($params['coverImageUrl'])) {
+        if (!empty($params['coverImageUrl']) && is_string($params['coverImageUrl'])) {
             $query_param['cover_image_url'] = $params['coverImageUrl'];
         }
 
