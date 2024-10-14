@@ -3488,7 +3488,7 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'devices' => ['desktop', 'tablet', 'mobile'],
 				'default' => [
-					'size' => Helper::get_options_value('enableEmbedResizeWidth'),
+                    'size' => !empty($value = intval(Helper::get_options_value('enableEmbedResizeWidth'))) ? $value : 600,
 					'unit' => 'px',
 				],
 				'desktop_default' => [
@@ -3529,7 +3529,7 @@ class Embedpress_Elementor extends Widget_Base
 					'unit' => 'px',
 				],
 				'default' => [
-					'size' => Helper::get_options_value('enableEmbedResizeHeight'),
+                    'size' => !empty($value = intval(Helper::get_options_value('enableEmbedResizeHeight'))) ? $value : 600,
 					'unit' => 'px',
 				],
 				'tablet_default' => [

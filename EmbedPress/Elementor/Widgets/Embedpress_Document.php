@@ -175,25 +175,25 @@ class Embedpress_Document extends Widget_Base
 						'max' => 1000,
 					],
 				],
-				'devices' => [ 'desktop', 'tablet', 'mobile' ],
+				// 'devices' => [ 'desktop', 'tablet', 'mobile' ],
                 'default' => [
 					'unit' => 'px',
-                    'size' => Helper::get_options_value('enableEmbedResizeWidth'),
+                    'size' => !empty($value = intval(Helper::get_options_value('enableEmbedResizeWidth'))) ? $value : 600,
 				],
-				'desktop_default' => [
-					'unit' => 'px',
-                    'size' => 600,
-				],
-				'tablet_default' => [
-					'size' => 400,
-					'unit' => 'px',
-				],
-				'mobile_default' => [
-					'size' => 300,
-					'unit' => 'px',
-				],
+				// 'desktop_default' => [
+				// 	'unit' => 'px',
+                //     'size' => 600,
+				// ],
+				// 'tablet_default' => [
+				// 	'size' => 400,
+				// 	'unit' => 'px',
+				// ],
+				// 'mobile_default' => [
+				// 	'size' => 300,
+				// 	'unit' => 'px',
+				// ],
 				'selectors' => [
-                    '{{WRAPPER}} .embedpress-document-embed iframe'               => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
+                    '{{WRAPPER}} .embedpress-document-embed iframe'               => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%; background-color: #fff',
                     '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
                     '{{WRAPPER}} .embedpress-document-embed'                      => 'width: {{SIZE}}{{UNIT}} !important; max-width: 100%',
                 ],
@@ -210,23 +210,23 @@ class Embedpress_Document extends Widget_Base
 						'max' => 1500,
 					],
 				],
-				'devices' => [ 'desktop', 'tablet', 'mobile' ],
+				// 'devices' => [ 'desktop', 'tablet', 'mobile' ],
                 'default' => [
 					'unit' => 'px',
-                    'size' => Helper::get_options_value('enableEmbedResizeHeight'), 
+                    'size' => !empty($value = intval(Helper::get_options_value('enableEmbedResizeHeight'))) ? $value : 600,
 				],
-				'desktop_default' => [
-					'unit' => 'px',
-                    'size' => 600,
-				],
-				'tablet_default' => [
-					'size' => 400,
-					'unit' => 'px',
-				],
-				'mobile_default' => [
-					'size' => 300,
-					'unit' => 'px',
-				],
+				// 'desktop_default' => [
+				// 	'unit' => 'px',
+                //     'size' => 600,
+				// ],
+				// 'tablet_default' => [
+				// 	'size' => 400,
+				// 	'unit' => 'px',
+				// ],
+				// 'mobile_default' => [
+				// 	'size' => 300,
+				// 	'unit' => 'px',
+				// ],
 				'selectors' => [
                     '{{WRAPPER}} .embedpress-document-embed iframe' => 'height: {{SIZE}}{{UNIT}}!important;',
                     '{{WRAPPER}} .embedpress-document-embed .pdfobject-container' => 'height: {{SIZE}}{{UNIT}};',
@@ -500,7 +500,12 @@ class Embedpress_Document extends Widget_Base
         $hash_pass = hash('sha256', wp_salt(32) . md5($settings['embedpress_doc_lock_content_password']));
     
         $dimension = '';
-        if (empty($settings['embedpress_doc_lock_content']) && empty($settings['embedpress_doc_lock_content_password'])) {
+        if (
+            empty($settings['embedpress_doc_lock_content']) && 
+            empty($settings['embedpress_doc_lock_content_password']) &&
+            isset($settings['embedpress_elementor_document_width']) && 
+            isset($settings['embedpress_elementor_document_height']) 
+            ) {
             $dimension = "width: " . esc_attr($settings['embedpress_elementor_document_width']['size']) . "px; height: " . esc_attr($settings['embedpress_elementor_document_height']['size']) . "px";
         }
     
@@ -674,7 +679,11 @@ class Embedpress_Document extends Widget_Base
                         $embed_content .= '<div class="embed-download-disabled"></div>';
                     }
     
-                    if ($settings['doc_draw'] === 'yes') {
+                    if (
+                        $settings['doc_draw'] === 'yes' && 
+                        isset($settings['embedpress_elementor_document_width']) && 
+                        isset($settings['embedpress_elementor_document_height']) 
+                        ) {
                         $embed_content .= '<canvas class="ep-doc-canvas" width="' . esc_attr($settings['embedpress_elementor_document_width']['size']) . '" height="' . esc_attr($settings['embedpress_elementor_document_height']['size']) . '" ></canvas>';
                     }
     

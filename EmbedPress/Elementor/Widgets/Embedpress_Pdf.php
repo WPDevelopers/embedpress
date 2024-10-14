@@ -248,7 +248,7 @@ class Embedpress_Pdf extends Widget_Base
 				'devices' => [ 'desktop', 'tablet', 'mobile' ],
                 'default' => [
 					'unit' => '%',
-                    'size' => 100,
+                    'size' => !empty($value = intval(Helper::get_options_value('enableEmbedResizeWidth'))) ? $value : 600,
 				],
 				'desktop_default' => [
 					'unit' => 'px',
@@ -284,7 +284,8 @@ class Embedpress_Pdf extends Widget_Base
 				'devices' => [ 'desktop', 'tablet', 'mobile' ],
                 'default' => [
 					'unit' => 'px',
-                    'size' => Helper::get_options_value('enableEmbedResizeHeight'),
+                    'size' => !empty($value = intval(Helper::get_options_value('enableEmbedResizeHeight'))) ? $value : 600,
+
 				],
 				'desktop_default' => [
 					'unit' => 'px',
