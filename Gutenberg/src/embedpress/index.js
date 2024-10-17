@@ -16,6 +16,7 @@ import { init as calendlyInit } from './InspectorControl/calendly';
 import { init as youtubeInit } from './InspectorControl/youtube';
 import { init as wistiaInit } from './InspectorControl/wistia';
 import { init as vimeoInit } from './InspectorControl/vimeo';
+import { init as spreakerInit } from './InspectorControl/spreaker';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
@@ -843,6 +844,77 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: 'Schedule time with me'
 			},
 
+			//Spreaker attributes
+			theme: {
+				type: 'string',
+				default: 'light'
+			},
+			color: {
+				type: 'string',
+				default: ''
+			},
+			coverImageUrl: {
+				type: 'string',
+				default: ''
+			},
+			playlist: {
+				type: 'boolean',
+				default: false
+			},
+			playlistContinuous: {
+				type: 'boolean',
+				default: false
+			},
+			playlistLoop: {
+				type: 'boolean',
+				default: false
+			},
+			playlistAutoupdate: {
+				type: 'boolean',
+				default: true
+			},
+			chaptersImage: {
+				type: 'boolean',
+				default: true
+			},
+			episodeImagePosition: {
+				type: 'string',
+				default: 'right'
+			},
+			hideLikes: {
+				type: 'boolean',
+				default: false
+			},
+			hideComments: {
+				type: 'boolean',
+				default: false
+			},
+			hideSharing: {
+				type: 'boolean',
+				default: false
+			},
+			hideLogo: {
+				type: 'boolean',
+				default: false
+			},
+			hideEpisodeDescription: {
+				type: 'boolean',
+				default: false
+			},
+			hidePlaylistDescriptions: {
+				type: 'boolean',
+				default: false
+			},
+			hidePlaylistImages: {
+				type: 'boolean',
+				default: false
+			},
+			hideDownload: {
+				type: 'boolean',
+				default: true
+			},
+
+
 			//Custom logo atributes
 			customlogo: {
 				type: 'string',
@@ -943,4 +1015,5 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 	wistiaInit();
 	vimeoInit();
 	calendlyInit();
+	spreakerInit();
 }

@@ -181,16 +181,18 @@ class Embedpress_Elementor extends Widget_Base
 					'default'     => __('Default', 'embedpress'),
 					'youtube'     => __('YouTube', 'embedpress'),
 					'vimeo'       => __('Vimeo', 'embedpress'),
+					'instagram_feed'  => __('Instagram Feed', 'embedpress'),
+					'twitch'      => __('Twitch', 'embedpress'),
+					'soundcloud'  => __('SoundCloud', 'embedpress'),
 					'dailymotion' => __('Dailymotion', 'embedpress'),
 					'wistia'      => __('Wistia', 'embedpress'),
-					'twitch'  => __('Twitch', 'embedpress'),
-					'soundcloud'  => __('SoundCloud', 'embedpress'),
-					'opensea'  => __('OpenSea', 'embedpress'),
-					'instafeed'  => __('Instagram Feed', 'embedpress'),
-					'calendly'  => __('Calendly', 'embedpress'),
+					'calendly'    => __('Calendly', 'embedpress'),
+					'opensea'     => __('OpenSea', 'embedpress'),
+					'spreaker'    => __('Spreaker', 'embedpress'),
 					'selfhosted_video' => __('Self-hosted Video', 'embedpress'),
 					'selfhosted_audio'  => __('Self-hosted Audio', 'embedpress'),
 				]
+
 			]
 		);
 
@@ -422,6 +424,12 @@ class Embedpress_Elementor extends Widget_Base
 		 * Calendly Control section
 		 */
 		$this->init_calendly_control_section();
+
+		/**
+		 * Spreaker Control section
+		 */
+		$this->init_spreaker_control_section();
+		
 
 
 		do_action('extend_elementor_controls', $this, '_', $this->pro_text, $this->pro_class);
@@ -1794,6 +1802,7 @@ class Embedpress_Elementor extends Widget_Base
 						'calendly',
 						'selfhosted_video',
 						'selfhosted_audio',
+						'spreaker',
 					],
 				],
 			]
@@ -1824,6 +1833,8 @@ class Embedpress_Elementor extends Widget_Base
 						'calendly',
 						'selfhosted_video',
 						'selfhosted_audio',
+						'spreaker',
+
 					],
 				],
 			]
@@ -3459,6 +3470,244 @@ class Embedpress_Elementor extends Widget_Base
 	}
 
 	//End calendly controlS
+	
+	/**
+	 * Start Spreaker Controls
+	 */
+	public function init_spreaker_control_section()
+	{
+
+		$condition = [
+			'embedpress_pro_embeded_source' => 'spreaker',
+		];
+
+		$this->start_controls_section(
+			'embedpress_spreaker_control_section',
+			[
+				'label'       => __('Spreaker Controls', 'embedpress'),
+				'condition'    => $condition,
+			]
+		);
+		
+		$this->add_control(
+			'theme',
+			[
+				'label' => __('Theme', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => 'light',
+				'options' => [
+					'light' => __('Light', 'embedpress'),
+					'dark' => __('Dark', 'embedpress'),
+				],
+			]
+		);
+
+		$this->add_control(
+			'color',
+			[
+				'label' => __('Main Color', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::COLOR,
+			]
+		);
+
+		$this->add_control(
+			"coverImageUrl",
+			[
+				'label' => sprintf(__('Cover Image %s', 'embedpress'), $this->pro_text),
+				'type' => Controls_Manager::MEDIA,
+				'dynamic' => [
+					'active' => true,
+				],
+				'classes'     => $this->pro_class,
+				
+			]
+		);
+
+		$this->add_control(
+			'playlist',
+			[
+				'label' => __('Enable Playlist', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => 'yes',
+			]
+		);
+
+		$this->add_control(
+			'hideDownload',
+			[
+				'label' => sprintf(__('Disable Download %s', 'embedpress'), $this->pro_text),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => 'no',
+				'classes'     => $this->pro_class,
+			]
+		);
+
+		$this->add_control(
+			'playlistContinuous',
+			[
+				'label' => sprintf(__('Continuous Playlist %s', 'embedpress'), $this->pro_text),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => 'no',
+				'classes'     => $this->pro_class,
+			]
+		);
+
+		$this->add_control(
+			'playlistLoop',
+			[
+				'label' => __('Loop Playlist', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => 'yes',
+			]
+		);
+
+		$this->add_control(
+			'playlistAutoupdate',
+			[
+				'label' => __('Playlist Autoupdate', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => 'yes',
+			]
+		);
+
+		$this->add_control(
+			'showChaptersImage',
+			[
+				'label' => __('Show Chapters Images', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => 'yes',
+			]
+		);
+
+		$this->add_control(
+			'episodeImagePosition',
+			[
+				'label' => __('Episode Image Position', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'default' => 'right',
+				'options' => [
+					'right' => __('Right', 'embedpress'),
+					'left' => __('Left', 'embedpress'),
+				],
+				'label_block' => true,
+			]
+		);
+
+		$this->add_control(
+			'hideLikes',
+			[
+				'label' => __('Hide Likes', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => 'no',
+			]
+		);
+
+		$this->add_control(
+			'hideComments',
+			[
+				'label' => __('Hide Comments', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => 'no',
+			]
+		);
+
+		$this->add_control(
+			'hideSharing',
+			[
+				'label' => __('Hide Sharing', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => 'no',
+			]
+		);
+
+		$this->add_control(
+			'hideLogo',
+			[
+				'label' => __('Hide Logo', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => 'no',
+				'description' => __('Hide the Spreaker logo and branding in the player. Requires Broadcaster plan or higher.', 'embedpress'),
+			]
+		);
+
+		$this->add_control(
+			'hideEpisodeDescription',
+			[
+				'label' => __('Hide Episode Description', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => 'no',
+			]
+		);
+
+		$this->add_control(
+			'hidePlaylistDescriptions',
+			[
+				'label' => __('Hide Playlist Descriptions', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => 'no',
+			]
+		);
+
+		$this->add_control(
+			'hidePlaylistImages',
+			[
+				'label' => __('Hide Playlist Images', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => 'no',
+			]
+		);
+
+		
+
+
+		$this->end_controls_section();
+	}
+
+	/**
+	 * End Spreaker Controls
+	 */
+
+
+
 
 	public function init_style_controls()
 	{

@@ -12,6 +12,7 @@ import Instafeed from './InspectorControl/instafeed';
 import Calendly from './InspectorControl/calendly';
 import AdControl from '../common/ads-control';
 import CustomBranding from './InspectorControl/custombranding';
+import Spreaker from './InspectorControl/spreaker';
 
 /**
  * WordPress dependencies
@@ -32,7 +33,7 @@ const {
 } = wp.blockEditor;
 
 
-export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly, isTikTok }) {
+export default function Inspector({ attributes, setAttributes, isYTChannel, isYTVideo, isYTLive, isYTShorts, isOpensea, isOpenseaSingle, isWistiaVideo, isVimeoVideo, isSelfHostedVideo, isSelfHostedAudio, isCalendly, isTikTok, isSpreaker }) {
 
     const {
         url,
@@ -259,6 +260,8 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <Youtube attributes={attributes} setAttributes={setAttributes} />
 
                             <SlefHosted attributes={attributes} setAttributes={setAttributes} />
+                            
+                            <Spreaker  attributes={attributes} setAttributes={setAttributes}/>
 
 
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />

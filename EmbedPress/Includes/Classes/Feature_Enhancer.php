@@ -8,6 +8,7 @@ use EmbedPress\Includes\Classes\Helper;
 use \Elementor\Controls_Manager;
 use EmbedPress\Providers\TemplateLayouts\YoutubeLayout;
 use EmbedPress\Providers\TikTok;
+use EmbedPress\Providers\Spreaker;
 use EmbedPress\Providers\Wrapper;
 
 class Feature_Enhancer
@@ -122,6 +123,12 @@ class Feature_Enhancer
 		if (strpos($url, 'tiktok.com') !== false) {
 			$tiktok = new TikTok($url, $atts);
 			if ($tiktok->validateUrl($tiktok->getUrl(false))) {
+				return true;
+			}
+		}
+		if (strpos($url, 'spreaker.com') !== false) {
+			$spreaker = new Spreaker($url, $atts);
+			if ($spreaker->validateUrl($spreaker->getUrl(false))) {
 				return true;
 			}
 		}
@@ -318,7 +325,7 @@ class Feature_Enhancer
 					'customlogoUrl' => !empty($attributes['customlogoUrl']) ? $attributes['customlogoUrl'] : '',
 					'logoOpacity' => !empty($attributes['logoOpacity']) ? $attributes['logoOpacity'] : 0.6,
 				];
-				
+
 				$atts = Helper::removeQuote($atts);
 
 				$urlInfo = Shortcode::parseContent($attributes['url'], true, $atts);
@@ -800,7 +807,9 @@ class Feature_Enhancer
 
 			if (is_object($embed->attributes) && !empty($embed->attributes)) {
 				$attributes = (array) $embed->attributes;
+
 				$attributes = stringToBoolean($attributes);
+				
 
 				$params['title'] = !empty($attributes['data-vtitle']) ? 1 : 0;
 				$params['byline']             = !empty($attributes['data-vauthor'])  ? 1 : 0;
@@ -1049,7 +1058,7 @@ class Feature_Enhancer
 					$params['start'] = (int) isset($options['start_time']) ? $options['start_time'] : null;
 
 					$params = apply_filters('embedpress_enhance_dailymotion', $params, $options);
-					
+
 
 					$url_modified = $url_full;
 					foreach ($params as $param => $value) {

@@ -36,4 +36,5 @@ $additionalServiceProviders = [
 	EMBEDPRESS_NAMESPACE . "\\Providers\\Calendly"    => ["*.calendly.com","calendly.com"], 
 	EMBEDPRESS_NAMESPACE . "\\Providers\\LinkedIn"    => ["*.linkedin.com","linkedin.com"], 
 	EMBEDPRESS_NAMESPACE . "\\Providers\\SelfHosted"    => [$host_url['host'], "*.com", "*.net", "*.org", "*.edu", "*.gov", "*.mil", "*.int", "*.biz", "*.info", "*.jobs", "*.mobi", "*.name", "*.aero", "*.coop", "*.travel", "*.museum", "*.cat", "*.pro", "*.tel", "*.asia", "*.xxx", "*.post", "*.geo", "*.nato", "*.tl", "*.dk"], 
+	EMBEDPRESS_NAMESPACE . "\\Providers\\Spreaker"    => ["*.spreaker.com","spreaker.com"],
 ];

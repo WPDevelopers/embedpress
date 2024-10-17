@@ -41,6 +41,11 @@ export const isTikTok = (url) => {
     return tiktokMatch !== null;
 };
 
+export const isSpreakerUrl = (url) => {
+    const spreakerPattern = /^https?:\/\/(www\.)?spreaker\.com\/.+$/;
+    return spreakerPattern.test(url);
+}
+
 
 export const initCustomPlayer = (clientId, attributes) => {
 
@@ -129,7 +134,7 @@ export const initCustomPlayer = (clientId, attributes) => {
 
             });
 
-          
+
 
             player.poster = posterThumbnail;
         }
