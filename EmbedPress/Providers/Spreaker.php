@@ -65,15 +65,18 @@ class Spreaker extends ProviderAdapter implements ProviderInterface
 
         return (bool) (preg_match('~spreaker\.com/show/([^/]+)~i', (string) $url) ||
             preg_match('~spreaker\.com/user/([^/]+)(/[^/]+)?~i', (string) $url) ||
-            preg_match('~spreaker\.com/podcast/([^/]+)~i', (string) $url));
+            preg_match('~spreaker\.com/podcast/([^/]+)~i', (string) $url) ||
+            preg_match('~spreaker\.com/episode/([^/]+)(?:/.*)?~i', (string) $url));
     }
 
     public function validateSpreaker($url)
     {
         return (bool) (preg_match('~spreaker\.com/show/([^/]+)~i', (string) $url) ||
             preg_match('~spreaker\.com/user/([^/]+)(/[^/]+)?~i', (string) $url) ||
-            preg_match('~spreaker\.com/podcast/([^/]+)~i', (string) $url));
+            preg_match('~spreaker\.com/podcast/([^/]+)~i', (string) $url) ||
+            preg_match('~spreaker\.com/episode/([^/]+)(?:/.*)?~i', (string) $url));
     }
+
 
     public function extractPodcastId($url)
     {
@@ -112,29 +115,26 @@ class Spreaker extends ProviderAdapter implements ProviderInterface
         $src_url = urldecode($this->url);
         $params  = $this->getParams();
 
-        // $params = http_build_query($params);
-
-        // error_log(print_r('Params', true));
-        error_log(print_r(gettype($params['playlist']), true));
-
         $query_param = [
-            'theme' => $this->getStringParam($params['theme'], 'light'),
-            'playlist' => $this->getBooleanParam($params['playlist']),
-            'playlist-continuous' => $this->getBooleanParam($params['playlistContinuous']),
-            'playlist-loop' => $this->getBooleanParam($params['playlistLoop']),
-            'playlist-autoupdate' => $this->getBooleanParam($params['playlistAutoupdate']),
-            'chapters-image' => $this->getBooleanParam($params['chaptersImage']),
-            'episode_image_position' => $this->getStringParam($params['episodeImagePosition'], 'right'),
-            'hide-likes' => $this->getBooleanParam($params['hideLikes']),
-            'hide-comments' => $this->getBooleanParam($params['hideComments']),
-            'hide-sharing' => $this->getBooleanParam($params['hideSharing']),
-            'hide-logo' => $this->getBooleanParam($params['hideLogo']),
-            'hide-episode-description' => $this->getBooleanParam($params['hideEpisodeDescription']),
-            'hide-playlist-descriptions' => $this->getBooleanParam($params['hidePlaylistDescriptions']),
-            'hide-playlist-images' => $this->getBooleanParam($params['hidePlaylistImages']),
-            'hide-download' => $this->getBooleanParam($params['hideDownload']),
+            'theme' => isset($params['theme']) ? $this->getStringParam($params['theme'], 'light') : 'light',
+            'chapters-image' => isset($params['chaptersImage']) ? $this->getBooleanParam($params['chaptersImage']) : false,
+            'episode_image_position' => isset($params['episodeImagePosition']) ? $this->getStringParam($params['episodeImagePosition'], 'right') : 'right',
+            'hide-likes' => isset($params['hideLikes']) ? $this->getBooleanParam($params['hideLikes']) : false,
+            'hide-comments' => isset($params['hideComments']) ? $this->getBooleanParam($params['hideComments']) : false,
+            'hide-sharing' => isset($params['hideSharing']) ? $this->getBooleanParam($params['hideSharing']) : false,
+            'hide-logo' => isset($params['hideLogo']) ? $this->getBooleanParam($params['hideLogo']) : false,
+            'hide-episode-description' => isset($params['hideEpisodeDescription']) ? $this->getBooleanParam($params['hideEpisodeDescription']) : false,
+            'hide-download' => isset($params['hideDownload']) ? $this->getBooleanParam($params['hideDownload']) : false,
         ];
 
+        if (strpos($src_url, 'spreaker.com/podcast/') !== false) {
+            $query_param['playlist'] = isset($params['playlist']) ? $this->getBooleanParam($params['playlist']) : false;
+            $query_param['playlist-continuous'] = isset($params['playlistContinuous']) ? $this->getBooleanParam($params['playlistContinuous']) : false;
+            $query_param['playlist-loop'] = isset($params['playlistLoop']) ? $this->getBooleanParam($params['playlistLoop']) : false;
+            $query_param['playlist-autoupdate'] = isset($params['playlistAutoupdate']) ? $this->getBooleanParam($params['playlistAutoupdate']) : false;
+            $query_param['hide-playlist-descriptions'] = isset($params['hidePlaylistDescriptions']) ? $this->getBooleanParam($params['hidePlaylistDescriptions']) : false;
+            $query_param['hide-playlist-images'] = isset($params['hidePlaylistImages']) ? $this->getBooleanParam($params['hidePlaylistImages']) : false;
+        }
 
         if (!empty($params['color']) && is_string($params['color'])) {
             $query_param['color'] = $params['color'];
@@ -143,21 +143,16 @@ class Spreaker extends ProviderAdapter implements ProviderInterface
             $query_param['cover_image_url'] = $params['coverImageUrl'];
         }
 
-
-        // error_log(print_r($query_param, true));
-
         $query_string = http_build_query($query_param);
 
         // Check if the url is already converted to the embed format  
-        if ($this->validateSpreaker($src_url)) {
+        if ($this->validateSpreaker($src_url) && strpos($src_url, 'spreaker.com/podcast/')) {
             $iframeSrc = 'https://widget.spreaker.com/player?show_id=' . $this->extractPodcastId($src_url) . '&' . $query_string;
+        } else if ($this->validateSpreaker($src_url) && strpos($src_url, 'spreaker.com/episode/')) {
+            $iframeSrc = 'https://widget.spreaker.com/player?episode_id=' . $this->extractPodcastId($src_url) . '&' . $query_string;
         } else {
             return [];
         }
-        error_log(print_r('Query Params', true));
-        error_log(print_r($query_string, true));
-
-
 
         $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
         $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 350;
@@ -170,6 +165,7 @@ class Spreaker extends ProviderAdapter implements ProviderInterface
             'html'          => '<iframe title="This is title"  width="' . esc_attr($width) . '" height="' . esc_attr($height) . '" src="' . esc_url($iframeSrc) . '" ></iframe>',
         ];
     }
+
     /** inline @inheritDoc */
     public function modifyResponse(array $response = [])
     {

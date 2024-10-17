@@ -42,7 +42,7 @@ export const isTikTok = (url) => {
 };
 
 export const isSpreakerUrl = (url) => {
-    const spreakerPattern = /^https?:\/\/(www\.)?spreaker\.com\/.+$/;
+    const spreakerPattern = /^https?:\/\/(www\.)?spreaker\.com\/(show|user|podcast|episode)\/[^/]+/;
     return spreakerPattern.test(url);
 }
 

@@ -911,7 +911,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			hideDownload: {
 				type: 'boolean',
-				default: true
+				default: false
 			},
 
 

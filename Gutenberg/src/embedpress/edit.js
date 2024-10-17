@@ -132,10 +132,14 @@ export default function EmbedPress(props) {
 	}
 
 	useEffect(() => {
-		if (_isSpreakerUrl(url) && editingURL && !coverImageUrl && !playlist) {
+		if (_isSpreakerUrl(url) && !coverImageUrl && !playlist) {
 			setAttributes({ height: 200 });
 		}
-	}, [url, editingURL, coverImageUrl, playlist]);
+		if (_isSpreakerUrl(url) && (playlist)) {
+			setAttributes({ height: 450 });
+		}
+
+	}, [url, coverImageUrl, playlist]);
 
 	useEffect(() => {
 		if ((isYTVideo || isYTLive || isSelfHostedVideo(url) || isVimeoVideo || isWistiaVideo) && editingURL) {

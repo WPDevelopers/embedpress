@@ -918,7 +918,7 @@ function embedpress_gutenberg_register_all_block()
 							),
 							'hideDownload' => array(
 								'type' => 'boolean',
-								'default' => true,
+								'default' => false,
 							),
 							//Ad attributes
 							'adManager' => [
