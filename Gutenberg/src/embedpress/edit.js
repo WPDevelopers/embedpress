@@ -137,6 +137,12 @@ export default function EmbedPress(props) {
 		}
 	}, [url, editingURL, coverImageUrl, playlist]);
 
+	useEffect(() => {
+		if ((isYTVideo || isYTLive || isSelfHostedVideo(url) || isVimeoVideo || isWistiaVideo) && editingURL) {
+			setAttributes({ height: 340 });
+		}
+	}, [url, editingURL]);
+
 
 	let content_share_class = '';
 	let share_position_class = '';
