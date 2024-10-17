@@ -147,6 +147,8 @@ export default function Spreaker({ attributes, setAttributes }) {
     const playlistContinuousPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Continuous Playlist', 'embedpress'), false);
     const uploadPlaceholder = applyFilters('embedpress.uploadPlaceholder', []);
 
+   
+
     return (
         <div>
             {isSpreakerUrl(url) && (

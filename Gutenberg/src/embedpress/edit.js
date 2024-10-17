@@ -82,7 +82,9 @@ export default function EmbedPress(props) {
 		adWidth,
 		adHeight,
 		adXPosition,
-		adYPosition
+		adYPosition,
+		coverImageUrl,
+		playlist
 	} = attributes;
 
 	// Dynamically set the custom logo based on the URL
@@ -129,6 +131,11 @@ export default function EmbedPress(props) {
 		ytChannelClass = 'embedded-youtube-channel';
 	}
 
+	useEffect(() => {
+		if (_isSpreakerUrl(url) && editingURL && !coverImageUrl && !playlist) {
+			setAttributes({ height: 200 });
+		}
+	}, [url, editingURL, coverImageUrl, playlist]);
 
 
 	let content_share_class = '';

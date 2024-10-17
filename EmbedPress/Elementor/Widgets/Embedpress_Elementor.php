@@ -3651,6 +3651,7 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off' => __('No', 'embedpress'),
 				'return_value' => 'yes',
 				'default' => 'yes',
+				'description' => __('Only applies if the podcast includes chapter images.', 'embedpress'),
 			]
 		);
 
@@ -3716,10 +3717,6 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		
-
-		
-
-
 		$this->end_controls_section();
 	}
 
