@@ -3725,8 +3725,6 @@ class Embedpress_Elementor extends Widget_Base
 	 */
 
 
-
-
 	public function init_style_controls()
 	{
 		$this->start_controls_section(
