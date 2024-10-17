@@ -96,28 +96,43 @@ class Spreaker extends ProviderAdapter implements ProviderInterface
      * @return  array
      */
 
+    public function getBooleanParam($param, $default = false)
+    {
+        return isset($param) && is_string($param) && ($param == 'true' || $param == 'yes') ? 'true' : ($default ? 'true' : 'false');
+    }
+
+    public function getStringParam($param, $default = '')
+    {
+        return isset($param) && is_string($param) ? $param : $default;
+    }
+
 
     public function fakeResponse()
     {
         $src_url = urldecode($this->url);
         $params  = $this->getParams();
 
-        $query_param  = [
-            'theme' => isset($params['theme']) ? $params['theme'] : 'light',
-            'playlist' => isset($params['playlist']) && ($params['playlist'] == 1 || $params['playlist'] == 'yes') ? 'true' : 'false',
-            'playlist-continuous' => isset($params['playlistContinuous']) && ($params['playlistContinuous'] == 1 || $params['playlistContinuous'] == 'yes') ? 'true' : 'false',
-            'playlist-loop' => isset($params['playlistLoop']) && ($params['playlistLoop'] == 1 || $params['playlistLoop'] == 'yes') ? 'true' : 'false',
-            'playlist-autoupdate' => isset($params['playlistAutoupdate']) && ($params['playlistAutoupdate'] == 1 || $params['playlistAutoupdate'] == 'yes') ? 'true' : 'false',
-            'chapters-image' => isset($params['chaptersImage']) && ($params['chaptersImage'] == 1 || $params['chaptersImage'] == 'yes') ? 'true' : 'false',
-            'episode_image_position' => isset($params['episodeImagePosition']) ? $params['episodeImagePosition'] : 'right',
-            'hide-likes' => isset($params['hideLikes']) && ($params['hideLikes'] == 1 || $params['hideLikes'] == 'yes') ? 'true' : 'false',
-            'hide-comments' => isset($params['hideComments']) && ($params['hideComments'] == 1 || $params['hideComments'] == 'yes') ? 'true' : 'false',
-            'hide-sharing' => isset($params['hideSharing']) && ($params['hideSharing'] == 1 || $params['hideSharing'] == 'yes') ? 'true' : 'false',
-            'hide-logo' => isset($params['hideLogo']) && ($params['hideLogo'] == 1 || $params['hideLogo'] == 'yes') ? 'true' : 'false',
-            'hide-episode-description' => isset($params['hideEpisodeDescription']) && ($params['hideEpisodeDescription'] == 1 || $params['hideEpisodeDescription'] == 'yes') ? 'true' : 'false',
-            'hide-playlist-descriptions' => isset($params['hidePlaylistDescriptions']) && ($params['hidePlaylistDescriptions'] == 1 || $params['hidePlaylistDescriptions'] == 'yes') ? 'true' : 'false',
-            'hide-playlist-images' => isset($params['hidePlaylistImages']) && ($params['hidePlaylistImages'] == 1 || $params['hidePlaylistImages'] == 'yes') ? 'true' : 'false',
-            'hide-download' => isset($params['hideDownload']) && ($params['hideDownload'] == 1 || $params['hideDownload'] == 'yes') ? 'true' : 'false',
+        // $params = http_build_query($params);
+
+        // error_log(print_r('Params', true));
+        error_log(print_r(gettype($params['playlist']), true));
+
+        $query_param = [
+            'theme' => $this->getStringParam($params['theme'], 'light'),
+            'playlist' => $this->getBooleanParam($params['playlist']),
+            'playlist-continuous' => $this->getBooleanParam($params['playlistContinuous']),
+            'playlist-loop' => $this->getBooleanParam($params['playlistLoop']),
+            'playlist-autoupdate' => $this->getBooleanParam($params['playlistAutoupdate']),
+            'chapters-image' => $this->getBooleanParam($params['chaptersImage']),
+            'episode_image_position' => $this->getStringParam($params['episodeImagePosition'], 'right'),
+            'hide-likes' => $this->getBooleanParam($params['hideLikes']),
+            'hide-comments' => $this->getBooleanParam($params['hideComments']),
+            'hide-sharing' => $this->getBooleanParam($params['hideSharing']),
+            'hide-logo' => $this->getBooleanParam($params['hideLogo']),
+            'hide-episode-description' => $this->getBooleanParam($params['hideEpisodeDescription']),
+            'hide-playlist-descriptions' => $this->getBooleanParam($params['hidePlaylistDescriptions']),
+            'hide-playlist-images' => $this->getBooleanParam($params['hidePlaylistImages']),
+            'hide-download' => $this->getBooleanParam($params['hideDownload']),
         ];
 
 
@@ -129,7 +144,7 @@ class Spreaker extends ProviderAdapter implements ProviderInterface
         }
 
 
-        error_log(print_r($params, true));
+        // error_log(print_r($query_param, true));
 
         $query_string = http_build_query($query_param);
 
@@ -139,6 +154,9 @@ class Spreaker extends ProviderAdapter implements ProviderInterface
         } else {
             return [];
         }
+        error_log(print_r('Query Params', true));
+        error_log(print_r($query_string, true));
+
 
 
         $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;

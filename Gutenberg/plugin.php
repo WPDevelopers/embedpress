@@ -37,22 +37,23 @@ function embedpress_blocks_cgb_block_assets()
 // Hook: Frontend assets.
 add_action('enqueue_block_assets', 'embedpress_blocks_cgb_block_assets');
 
-if(!function_exists('get_options_value')){
-	function get_options_value($key){
+if (!function_exists('get_options_value')) {
+	function get_options_value($key)
+	{
 		$g_settings = get_option(EMBEDPRESS_PLG_NAME);
-	
-		if(isset($g_settings[$key])){
+
+		if (isset($g_settings[$key])) {
 			return $g_settings[$key];
 		}
 		return '';
 	}
 }
-if(!function_exists('get_branding_value')){
+if (!function_exists('get_branding_value')) {
 	function get_branding_value($key, $provider)
 	{
-		$settings = get_option( EMBEDPRESS_PLG_NAME.':'.$provider, []);
-		
-		if(isset($settings['branding']) && $settings['branding'] === 'yes'  && isset( $settings[$key])) {
+		$settings = get_option(EMBEDPRESS_PLG_NAME . ':' . $provider, []);
+
+		if (isset($settings['branding']) && $settings['branding'] === 'yes'  && isset($settings[$key])) {
 			return $settings[$key];
 		}
 		return '';
@@ -493,7 +494,7 @@ function embedpress_gutenberg_register_all_block()
 								'default' => 'personal',
 							],
 							'instafeedProfileImage' => [
-		         						'type' => 'boolean',
+								'type' => 'boolean',
 								'default' => true,
 							],
 							'instafeedProfileImageUrl' => [
@@ -850,7 +851,75 @@ function embedpress_gutenberg_register_all_block()
 								'type' => "boolean",
 								'default' => true,
 							],
-
+							//Spreaker
+							'theme' => array(
+								'type' => 'string',
+								'default' => 'light',
+							),
+							'color' => array(
+								'type' => 'string',
+								'default' => '',
+							),
+							'coverImageUrl' => array(
+								'type' => 'string',
+								'default' => '',
+							),
+							'playlist' => array(
+								'type' => 'boolean',
+								'default' => false,
+							),
+							'playlistContinuous' => array(
+								'type' => 'boolean',
+								'default' => false,
+							),
+							'playlistLoop' => array(
+								'type' => 'boolean',
+								'default' => false,
+							),
+							'playlistAutoupdate' => array(
+								'type' => 'boolean',
+								'default' => true,
+							),
+							'chaptersImage' => array(
+								'type' => 'boolean',
+								'default' => true,
+							),
+							'episodeImagePosition' => array(
+								'type' => 'string',
+								'default' => 'right',
+							),
+							'hideLikes' => array(
+								'type' => 'boolean',
+								'default' => false,
+							),
+							'hideComments' => array(
+								'type' => 'boolean',
+								'default' => false,
+							),
+							'hideSharing' => array(
+								'type' => 'boolean',
+								'default' => false,
+							),
+							'hideLogo' => array(
+								'type' => 'boolean',
+								'default' => false,
+							),
+							'hideEpisodeDescription' => array(
+								'type' => 'boolean',
+								'default' => false,
+							),
+							'hidePlaylistDescriptions' => array(
+								'type' => 'boolean',
+								'default' => false,
+							),
+							'hidePlaylistImages' => array(
+								'type' => 'boolean',
+								'default' => false,
+							),
+							'hideDownload' => array(
+								'type' => 'boolean',
+								'default' => true,
+							),
 							//Ad attributes
 							'adManager' => [
 								'type' => 'boolean',
@@ -956,20 +1025,21 @@ function getParamData($attributes)
 	return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), 'UTF-8'));
 }
 
-function embedpress_pdf_block_scripts($attributes) {
+function embedpress_pdf_block_scripts($attributes)
+{
 
 	$script_handles = [];
-	
+
 	$script_handles[] = 'embedpress-pdfobject';
 	$script_handles[] = 'embedpress-front';
 
-	if(!empty($attributes['adManager'])){
+	if (!empty($attributes['adManager'])) {
 		$script_handles[] = 'embedpress-ads';
 	}
 
-    foreach ($script_handles as $handle) {
-        wp_enqueue_script($handle);
-    }
+	foreach ($script_handles as $handle) {
+		wp_enqueue_script($handle);
+	}
 
 	$style_handles = [
 		'embedpress_blocks-cgb-style-css',
@@ -979,7 +1049,6 @@ function embedpress_pdf_block_scripts($attributes) {
 	foreach ($style_handles as $handle) {
 		wp_enqueue_style($handle);
 	}
-
 }
 
 function embedpress_pdf_render_block($attributes)
@@ -994,7 +1063,7 @@ function embedpress_pdf_render_block($attributes)
 
 
 		$unitoption = !empty($attributes['unitoption']) ? $attributes['unitoption'] : 'px';
-		$width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : get_options_value('enableEmbedResizeWidth').'px';
+		$width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : get_options_value('enableEmbedResizeWidth') . 'px';
 
 		if ($unitoption == '%') {
 			$width_class = ' ep-percentage-width';
@@ -1021,7 +1090,7 @@ function embedpress_pdf_render_block($attributes)
 
 
 
-		$height = !empty($attributes['height']) ? $attributes['height'] . 'px' : get_options_value('enableEmbedResizeHeight').'px';
+		$height = !empty($attributes['height']) ? $attributes['height'] . 'px' : get_options_value('enableEmbedResizeHeight') . 'px';
 		$gen_settings    = get_option(EMBEDPRESS_PLG_NAME);
 
 		$powered_by = isset($gen_settings['embedpress_document_powered_by']) && 'yes' === $gen_settings['embedpress_document_powered_by'];
@@ -1047,13 +1116,13 @@ function embedpress_pdf_render_block($attributes)
 
 
 		<?php
-		
+
 				$url = !empty($attributes['href']) ? $attributes['href'] : '';
-				
+
 				$embed_code = '<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_url($src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
-				if(isset($attributes['viewerStyle']) && $attributes['viewerStyle'] === 'flip-book') {
-					$src = urlencode($url).getParamData($attributes);
-					$embed_code = '<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="'.esc_url(EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/viewer.html?file='.$src).'" frameborder="0" oncontextmenu="return false;"></iframe> ';
+				if (isset($attributes['viewerStyle']) && $attributes['viewerStyle'] === 'flip-book') {
+					$src = urlencode($url) . getParamData($attributes);
+					$embed_code = '<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_url(EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/viewer.html?file=' . $src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
 				}
 				if ($powered_by) {
 					$embed_code .= sprintf('<p class="embedpress-el-powered">%s</p>', __('Powered By EmbedPress', 'embedpress'));
@@ -1102,28 +1171,29 @@ function embedpress_pdf_render_block($attributes)
 									$embed .= Helper::embed_content_share($content_id, $attributes);
 								}
 								echo '<div class="ep-embed-content-wraper">';
-									do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $attributes);
+								do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $attributes);
 								echo '</div>';
 							}
 							?>
 
-					<?php 
-					if(!empty($attributes['adManager'])) {
-						$embed = apply_filters('embedpress/generate_ad_template', $embed, $client_id, $attributes, 'gutenberg');
-					}
-				?>
-			</div>			
+					<?php
+							if (!empty($attributes['adManager'])) {
+								$embed = apply_filters('embedpress/generate_ad_template', $embed, $client_id, $attributes, 'gutenberg');
+							}
+							?>
+				</div>
+			</div>
 		</div>
-	</div>
-<?php
-		return ob_get_clean();
+	<?php
+			return ob_get_clean();
+		}
 	}
-}
 
-function isGoogleCalendar($url) {
-	$pattern = '/^https:\/\/calendar\.google\.com\/calendar\/embed\?.*$/';
-	return preg_match($pattern, $url);
-}
+	function isGoogleCalendar($url)
+	{
+		$pattern = '/^https:\/\/calendar\.google\.com\/calendar\/embed\?.*$/';
+		return preg_match($pattern, $url);
+	}
 
 	function embedpress_calendar_render_block($attributes)
 	{
@@ -1131,10 +1201,9 @@ function isGoogleCalendar($url) {
 		$id = !empty($attributes['id']) ? $attributes['id'] : 'embedpress-calendar-' . rand(100, 10000);
 		$url = !empty($attributes['url']) ? $attributes['url'] : '';
 
-	if(!isGoogleCalendar($url))
-	{
-		return;
-	}
+		if (!isGoogleCalendar($url)) {
+			return;
+		}
 
 		$is_private = isset($attributes['is_public']);
 		$client_id = md5($id);
@@ -1164,7 +1233,6 @@ function isGoogleCalendar($url) {
 			<iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_url($url); ?>"></iframe>
 		<?php } else {
 				do_action('embedpress_google_helper_shortcode', 10);
-
 			} ?>
 		<?php do_action('embedpress_calendar_gutenberg_after_embed',  $client_id, 'calendar', $attributes); ?>
 
@@ -1178,14 +1246,15 @@ function isGoogleCalendar($url) {
 	return ob_get_clean();
 }
 
-function embedpress_document_block_scripts() {
-    if (!is_admin() && has_block('embedpress/document')) {
+function embedpress_document_block_scripts()
+{
+	if (!is_admin() && has_block('embedpress/document')) {
 		$script_handles = [
 			'embedpress-pdfobject',
 			'embedpress-front',
 			'embedpress_documents_viewer_script'
 		];
-	
+
 		foreach ($script_handles as $handle) {
 			wp_enqueue_script($handle);
 		}
@@ -1194,10 +1263,10 @@ function embedpress_document_block_scripts() {
 			'embedpress_blocks-cgb-style-css',
 			'embedpress-style'
 		];
-	
+
 		foreach ($style_handles as $handle) {
 			wp_enqueue_style($handle);
 		}
-    }
+	}
 }
 add_action('wp_enqueue_scripts', 'embedpress_document_block_scripts');

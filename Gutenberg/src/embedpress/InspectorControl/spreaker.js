@@ -172,32 +172,48 @@ export default function Spreaker({ attributes, setAttributes }) {
 
                         {applyFilters('embedpress.spreakerControls', [uploadPlaceholder], attributes, setAttributes, 'coverImage')}
 
+                        {applyFilters('embedpress.spreakerControls', [hideDoownloadPlaceholder], attributes, setAttributes, 'hideDownload')}
+
                         <ToggleControl
                             label={__('Enable Playlist', 'embedpress')}
+                            help={__('This option is for podcast playlists and doesn’t affect individual episodes.', 'embedpress')}
                             checked={playlist}
                             onChange={(playlist) => setAttributes({ playlist })}
                         />
 
-                        {applyFilters('embedpress.spreakerControls', [hideDoownloadPlaceholder], attributes, setAttributes, 'hideDownload')}
-                        {applyFilters('embedpress.spreakerControls', [playlistContinuousPlaceholder], attributes, setAttributes, 'playlistContinuous')}
+                        {
+                            playlist && (
+                                <div>
+                                    {applyFilters('embedpress.spreakerControls', [playlistContinuousPlaceholder], attributes, setAttributes, 'playlistContinuous')}
 
-                        <ToggleControl
-                            label={__('Loop Playlist', 'embedpress')}
-                            checked={playlistLoop}
-                            onChange={(playlistLoop) => setAttributes({ playlistLoop })}
-                        />
+                                    <ToggleControl
+                                        label={__('Loop Playlist', 'embedpress')}
+                                        checked={playlistLoop}
+                                        onChange={(playlistLoop) => setAttributes({ playlistLoop })}
+                                    />
 
-                        <ToggleControl
-                            label={__('Playlist Autoupdate', 'embedpress')}
-                            checked={playlistAutoupdate}
-                            onChange={(playlistAutoupdate) => setAttributes({ playlistAutoupdate })}
-                        />
+                                    <ToggleControl
+                                        label={__('Playlist Autoupdate', 'embedpress')}
+                                        checked={playlistAutoupdate}
+                                        onChange={(playlistAutoupdate) => setAttributes({ playlistAutoupdate })}
+                                    />
 
-                        <ToggleControl
-                            label={__('Show Chapters Images', 'embedpress')}
-                            checked={chaptersImage}
-                            onChange={(chaptersImage) => setAttributes({ chaptersImage })}
-                        />
+
+                                    <ToggleControl
+                                        label={__('Hide Playlist Descriptions', 'embedpress')}
+                                        checked={hidePlaylistDescriptions}
+                                        onChange={(hidePlaylistDescriptions) => setAttributes({ hidePlaylistDescriptions })}
+                                    />
+
+                                    <ToggleControl
+                                        label={__('Hide Playlist Images', 'embedpress')}
+                                        checked={hidePlaylistImages}
+                                        onChange={(hidePlaylistImages) => setAttributes({ hidePlaylistImages })}
+                                    />
+                                </div>
+                            )
+                        }
+
 
                         <SelectControl
                             label={__('Episode Image Position', 'embedpress')}
@@ -209,6 +225,12 @@ export default function Spreaker({ attributes, setAttributes }) {
                             onChange={(episodeImagePosition) => setAttributes({ episodeImagePosition })}
                         />
 
+                        <ToggleControl
+                            label={__('Show Chapters Images', 'embedpress')}
+                            checked={chaptersImage}
+                            onChange={(chaptersImage) => setAttributes({ chaptersImage })}
+                            help={__('Only applies if the podcast includes chapter images.', 'embedpress')}
+                        />
                         <ToggleControl
                             label={__('Hide Likes', 'embedpress')}
                             checked={hideLikes}
@@ -241,17 +263,7 @@ export default function Spreaker({ attributes, setAttributes }) {
                             onChange={(hideEpisodeDescription) => setAttributes({ hideEpisodeDescription })}
                         />
 
-                        <ToggleControl
-                            label={__('Hide Playlist Descriptions', 'embedpress')}
-                            checked={hidePlaylistDescriptions}
-                            onChange={(hidePlaylistDescriptions) => setAttributes({ hidePlaylistDescriptions })}
-                        />
 
-                        <ToggleControl
-                            label={__('Hide Playlist Images', 'embedpress')}
-                            checked={hidePlaylistImages}
-                            onChange={(hidePlaylistImages) => setAttributes({ hidePlaylistImages })}
-                        />
 
                     </PanelBody>
 

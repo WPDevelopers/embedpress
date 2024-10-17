@@ -3523,17 +3523,7 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-		$this->add_control(
-			'playlist',
-			[
-				'label' => __('Enable Playlist', 'embedpress'),
-				'type' => \Elementor\Controls_Manager::SWITCHER,
-				'label_on' => __('Yes', 'embedpress'),
-				'label_off' => __('No', 'embedpress'),
-				'return_value' => 'yes',
-				'default' => 'yes',
-			]
-		);
+
 
 		$this->add_control(
 			'hideDownload',
@@ -3549,6 +3539,20 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		$this->add_control(
+			'playlist',
+			[
+				'label' => __('Enable Playlist', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => 'yes',
+				'description' => __('This option is for podcast playlists and doesn’t affect individual episodes.', 'embedpress'),
+			]
+		);
+		
+
+		$this->add_control(
 			'playlistContinuous',
 			[
 				'label' => sprintf(__('Continuous Playlist %s', 'embedpress'), $this->pro_text),
@@ -3558,6 +3562,9 @@ class Embedpress_Elementor extends Widget_Base
 				'return_value' => 'yes',
 				'default' => 'no',
 				'classes'     => $this->pro_class,
+				'condition' => [
+					'playlist' => 'yes',
+				],
 			]
 		);
 
@@ -3570,6 +3577,9 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off' => __('No', 'embedpress'),
 				'return_value' => 'yes',
 				'default' => 'yes',
+				'condition' => [
+					'playlist' => 'yes',
+				],
 			]
 		);
 
@@ -3582,18 +3592,38 @@ class Embedpress_Elementor extends Widget_Base
 				'label_off' => __('No', 'embedpress'),
 				'return_value' => 'yes',
 				'default' => 'yes',
+				'condition' => [
+					'playlist' => 'yes',
+				],
 			]
 		);
-
 		$this->add_control(
-			'showChaptersImage',
+			'hidePlaylistDescriptions',
 			[
-				'label' => __('Show Chapters Images', 'embedpress'),
+				'label' => __('Hide Playlist Descriptions', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::SWITCHER,
 				'label_on' => __('Yes', 'embedpress'),
 				'label_off' => __('No', 'embedpress'),
 				'return_value' => 'yes',
-				'default' => 'yes',
+				'default' => 'no',
+				'condition' => [
+					'playlist' => 'yes',
+				],
+			]
+		);
+
+		$this->add_control(
+			'hidePlaylistImages',
+			[
+				'label' => __('Hide Playlist Images', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => 'no',
+				'condition' => [
+					'playlist' => 'yes',
+				],
 			]
 		);
 
@@ -3608,6 +3638,19 @@ class Embedpress_Elementor extends Widget_Base
 					'left' => __('Left', 'embedpress'),
 				],
 				'label_block' => true,
+			]
+		);
+
+
+		$this->add_control(
+			'showChaptersImage',
+			[
+				'label' => __('Show Chapters Images', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'return_value' => 'yes',
+				'default' => 'yes',
 			]
 		);
 
@@ -3672,29 +3715,7 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-		$this->add_control(
-			'hidePlaylistDescriptions',
-			[
-				'label' => __('Hide Playlist Descriptions', 'embedpress'),
-				'type' => \Elementor\Controls_Manager::SWITCHER,
-				'label_on' => __('Yes', 'embedpress'),
-				'label_off' => __('No', 'embedpress'),
-				'return_value' => 'yes',
-				'default' => 'no',
-			]
-		);
-
-		$this->add_control(
-			'hidePlaylistImages',
-			[
-				'label' => __('Hide Playlist Images', 'embedpress'),
-				'type' => \Elementor\Controls_Manager::SWITCHER,
-				'label_on' => __('Yes', 'embedpress'),
-				'label_off' => __('No', 'embedpress'),
-				'return_value' => 'yes',
-				'default' => 'no',
-			]
-		);
+		
 
 		
 
