@@ -145,6 +145,7 @@ export default function Spreaker({ attributes, setAttributes }) {
 
     const hideDoownloadPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Disable Download', 'embedpress'), false);
     const playlistContinuousPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Continuous Playlist', 'embedpress'), false);
+    const loopPlaylistPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Loop Playlist', 'embedpress'), false);
     const uploadPlaceholder = applyFilters('embedpress.uploadPlaceholder', []);
 
    
@@ -187,12 +188,8 @@ export default function Spreaker({ attributes, setAttributes }) {
                             playlist && (
                                 <div>
                                     {applyFilters('embedpress.spreakerControls', [playlistContinuousPlaceholder], attributes, setAttributes, 'playlistContinuous')}
-
-                                    <ToggleControl
-                                        label={__('Loop Playlist', 'embedpress')}
-                                        checked={playlistLoop}
-                                        onChange={(playlistLoop) => setAttributes({ playlistLoop })}
-                                    />
+                                    
+                                    {applyFilters('embedpress.spreakerControls', [loopPlaylistPlaceholder], attributes, setAttributes, 'playlistLoop')}
 
                                     <ToggleControl
                                         label={__('Playlist Autoupdate', 'embedpress')}

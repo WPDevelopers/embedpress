@@ -3579,6 +3579,7 @@ class Embedpress_Elementor extends Widget_Base
 				'default' => 'yes',
 				'condition' => [
 					'playlist' => 'yes',
+					'playlistContinuous' => 'yes',
 				],
 			]
 		);
