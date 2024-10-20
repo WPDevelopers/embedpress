@@ -209,7 +209,6 @@ let epGlobals = {};
             if (vid) {
                 if (iframe) {
                     var vidSrc = iframe[0].src.replace(/(.*\/embed\/)([^\?&"'>]+)(.+)?/, `\$1${vid}\$3`);
-                    console.log(vidSrc);
                     if (vidSrc.indexOf('autoplay') > 0) {
                         vidSrc = vidSrc.replace('autoplay=0', 'autoplay=1');
                     }
@@ -529,7 +528,6 @@ let epGlobals = {};
                 <a target="_new" href="${srcUrl}" type="button" class="btn btn-primary">${instaPostData.popup_follow_button_text}</a>
             </div>`;
         }
-        console.log(instaPostData);
 
         let popupHtml = '';
         popupHtml += `
@@ -904,10 +902,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    console.log(youtubeCarouselWraper);
-
-
-
 
 
 });
@@ -925,7 +919,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let itemsToShow = getItemsToShow(); // Determine items to show based on screen width
 
-    console.log(itemsToShow);
     const totalItems = items.length;
     let currentIndex = 0;
 
