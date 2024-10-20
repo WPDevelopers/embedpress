@@ -13,6 +13,7 @@ $sources = [
     ["name" => "PDF", "arival_status" => "popular", "icon" => $icon_src . "/pdf.png", "type" => "pdf", "doc_url" => "https://wpdeveloper.com/embed-pdf-documents-wordpress"],
     ["name" => "SoundCloud", "icon" => $icon_src . "/soundcloud.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=soundcloud", "doc_url" => "https://embedpress.com/docs/embed-soundcloud-audio-wordpress/"],
     ["name" => "Spotify", "arival_status" => "popular",  "icon" => $icon_src . "/spotify.png", "type" => "audio", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=spotify", "doc_url" => "https://embedpress.com/docs/embed-spotify-audios-wordpress/"],
+    ["name" => "Spreaker", "arival_status" => "updated", "icon" => $icon_src . "/spreaker.png", "type" => "podcast", "doc_url" => "https://embedpress.com/docs/how-to-embed-spreaker-podcasts-in-wordpress/"],
 
     ["name" => "OpenSea NFT", "arival_status" => "popular", "icon" => $icon_src . "/opensea.png", "type" => "image", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=opensea", "doc_url" => "https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/"],
     ["name" => "Calendly", "arival_status" => "new", "icon" => $icon_src . "/calendly.png", "type" => "calendar", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=calendly", "doc_url" => "https://embedpress.com/docs/how-to-embed-calendly-events-with-embedpress/"],
@@ -62,7 +63,6 @@ $sources = [
     ["name" => "Coub", "icon" => $icon_src . "/coub-videos.png", "type" => "video", "doc_url" => "https://embedpress.com/docs/embed-coub-videos-iwordpress/"],
     ["name" => "Speaker Deck", "icon" => $icon_src . "/speakerdeck.png", "type" => "presentation", "doc_url" => "https://embedpress.com/docs/embed-speakerdeck-presentations-wordpress/"],
     ["name" => "ReverbNation", "icon" => $icon_src . "/reverbnation.png", "type" => "audio", "doc_url" => "https://embedpress.com/docs/embed-reverbnation-audio-wordpress/"],
-    ["name" => "Spreaker", "arival_status" => "updated", "icon" => $icon_src . "/spreaker.png", "type" => "podcast", "doc_url" => "https://embedpress.com/docs/how-to-embed-spreaker-podcasts-in-wordpress/"],
     ["name" => "Vidyard", "icon" => $icon_src . "/vidyard.png", "type" => "video", "doc_url" => "https://embedpress.com/docs/embed-vidyard-in-wordpress/"],
     ["name" => "LearningApps", "icon" => $icon_src . "/learningapps.png", "type" => "app", "doc_url" => "https://embedpress.com/docs/how-to-embed-learningapps-apps-in-wordpress/"],
     ["name" => "iHeartRadio", "icon" => $icon_src . "/iHeartradio.png", "type" => "podcast", "doc_url" => "https://embedpress.com/docs/how-to-embed-iheartradio-podcasts-in-wordpress/"],
