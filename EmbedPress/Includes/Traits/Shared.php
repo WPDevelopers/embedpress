@@ -196,27 +196,9 @@ trait Shared
                 'dismissible' => true,
                 'refresh'     => EMBEDPRESS_VERSION,
                 "expire"      => strtotime('11:59:59pm 3rd November, 2024'),
-                'display_if'  => !is_plugin_active('embedpress-pro/embedpress-pro.php')
-            ]
-        );
+                'display_if' => !is_plugin_active('embedpress-pro/embedpress-pro.php') && ($_SERVER['REQUEST_URI'] === '/wp-admin/' || $_SERVER['REQUEST_URI'] === '/wp-admin/index.php'),
 
-        $compatibility_message = '<p style="margin-top: 0; margin-bottom: 0px;"><strong style="color:#FF7369;">Action Needed:</strong> Please update <strong>EmbedPress Pro</strong> to the latest version (<strong>v3.6.5</strong>) for enhanced features and compatibility.</p>';
-        $compatibility_notice = [
-            // 'thumbnail' => $_assets_url . 'images/full-logo.svg',
-            'html'      => $compatibility_message,
-        ];
 
-        $notices->add(
-            'compatibility',
-            $compatibility_notice,
-            [
-                'start'       => $notices->time(),
-                'type'        => 'warning',
-                'recurrence'  => false,
-                'dismissible' => true,
-                'refresh'     => EMBEDPRESS_VERSION,
-                // "expire"      => strtotime('11:59:59pm 12th September, 2024'),
-                'display_if'  => is_plugin_active('embedpress-pro/embedpress-pro.php') && version_compare(EMBEDPRESS_PRO_PLUGIN_VERSION, '3.6.5', '<'),
             ]
         );
 
@@ -237,5 +219,12 @@ trait Shared
      * @since  2.4.0
      */
     public function embedpress_admin_notice()
-    { }
+    {
+        $compatibility_message = '<p style="margin-top: 0; margin-bottom: 0px;"><strong style="color:#FF7369;">Action Needed:</strong> Please update <strong>EmbedPress Pro</strong> to the latest version (<strong>v3.6.5</strong>) for enhanced features and compatibility.</p>';
+
+
+        if (is_plugin_active('embedpress-pro/embedpress-pro.php') && version_compare(EMBEDPRESS_PRO_PLUGIN_VERSION, '3.6.5', '<')) {
+            echo '<div class="notice notice-warning">' . $compatibility_message . '</div>';
+        }
+    }
 }
