@@ -342,6 +342,13 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [4.1.1] – 2024-10-23 =  
+- Added: Spreaker embedding support.
+- Added: Height/Width unit selection (px/%) for shortcodes.
+- Fixed: Height and width issues in the EmbedPress Elementor widget.
+- Fixed: Responsive display issues with Google Docs.
+- Few minor bug fixes and improvements.
+
 = [4.1.0] – 2024-10-03 =  
 - Fixed: Dailymotion video embedding issue in Elementor.
 - Fixed: Global Branding settings issue.
