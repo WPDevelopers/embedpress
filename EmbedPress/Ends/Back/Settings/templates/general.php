@@ -11,7 +11,7 @@ $pdf_custom_color_settings = isset($g_settings['pdf_custom_color_settings']) ? i
 
 $custom_color = isset($g_settings['custom_color']) ? sanitize_text_field($g_settings['custom_color']) : '#333333';
 
-$enableEmbedResizeHeight = isset($g_settings['enableEmbedResizeHeight']) ? intval($g_settings['enableEmbedResizeHeight']) : 550;
+$enableEmbedResizeHeight = isset($g_settings['enableEmbedResizeHeight']) ? intval($g_settings['enableEmbedResizeHeight']) : 600;
 $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval($g_settings['enableEmbedResizeWidth']) : 600;
 
 ?>
