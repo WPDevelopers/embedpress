@@ -158,6 +158,18 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: "boolean",
 				default: true,
 			},
+			selection_tool: {
+				type: "string",
+				default: 'text-tool',
+			},
+			scrolling: {
+				type: "string",
+				default: 'page',
+			},
+			spreads: {
+				type: "string",
+				default: 'normal',
+			},
 			toolbar: {
 				type: "boolean",
 				default: true,

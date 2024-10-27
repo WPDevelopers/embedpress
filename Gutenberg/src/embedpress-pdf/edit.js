@@ -194,7 +194,7 @@ class EmbedPressPDFEdit extends Component {
 
 		const { attributes, noticeUI, setAttributes } = this.props;
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
 
 		if (!clientId) {
 			setAttributes({ clientId: this.props.clientId });
@@ -577,6 +577,49 @@ class EmbedPressPDFEdit extends Component {
 															setAttributes({ doc_details })
 														}
 														checked={doc_details}
+													/>
+
+
+													<SelectControl
+														label="Default Selection Tool"
+														value={selection_tool}
+														options={[
+															{ label: 'Text Tool', value: 'text-tool' },
+															{ label: 'Hand Tool', value: 'hand-tool' },
+														]}
+														onChange={(selection_tool) =>
+															setAttributes({ selection_tool })
+														}
+														__nextHasNoMarginBottom
+													/>
+
+													<SelectControl
+														label="Default Scrolling"
+														value={scrolling}
+														options={[
+															{ label: 'Page Scrolling', value: 'page' },
+															{ label: 'Vertical Scrolling', value: 'vertical' },
+															{ label: 'Horizontal Scrolling', value: 'horizontal' },
+															{ label: 'Wrapped Scrolling', value: 'wrapped' },
+														]}
+														onChange={(scrolling) =>
+															setAttributes({ scrolling })
+														}
+														__nextHasNoMarginBottom
+													/>
+
+													<SelectControl
+														label="Default Spreads"
+														value={spreads}
+														options={[
+															{ label: 'No Spreads', value: 'normal' },
+															{ label: 'Odd Spreads', value: 'odd' },
+															{ label: 'Even Spreads', value: 'even' },
+														]}
+														onChange={(spreads) =>
+															setAttributes({ spreads })
+														}
+														__nextHasNoMarginBottom
 													/>
 												</Fragment>
 											) : (
