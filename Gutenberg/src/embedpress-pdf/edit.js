@@ -242,6 +242,9 @@ class EmbedPressPDFEdit extends Component {
 			setAttributes({ download: true });
 			setAttributes({ copy_text: true });
 			setAttributes({ draw: false });
+			setAttributes({ selection_tool: '0' });
+			setAttributes({ scrolling: '-1' });
+
 		}
 
 		if (!document.querySelector('.pro__alert__wrap')) {
@@ -282,6 +285,10 @@ class EmbedPressPDFEdit extends Component {
 				zoom_out: zoomOut ? zoomOut : false,
 				fit_view: fitView ? fitView : false,
 				bookmark: bookmark ? bookmark : false,
+				selection_tool: selection_tool ? selection_tool : '0',
+				scrolling: scrolling ? scrolling : '-1',
+				spreads: spreads ? spreads : '-1',
+
 			};
 
 			// Convert object to query string
@@ -311,8 +318,9 @@ class EmbedPressPDFEdit extends Component {
 		const toobarPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Toolbar', 'embedpress'), true);
 		const printPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Print/Download', 'embedpress'), true);
 		const drawPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Draw', 'embedpress'), false);
-		const copyPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Copy  Text', 'embedpress'), true);
-
+		const copyPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Copy Text', 'embedpress'), true);
+		const selectionPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Default Selection Tool', 'embedpress'), true);
+		const scrollingPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Default Scrolling', 'embedpress'), true);
 
 		if (!href || hasError) {
 			return (
@@ -579,42 +587,16 @@ class EmbedPressPDFEdit extends Component {
 														checked={doc_details}
 													/>
 
-
-													<SelectControl
-														label="Default Selection Tool"
-														value={selection_tool}
-														options={[
-															{ label: 'Text Tool', value: 'text-tool' },
-															{ label: 'Hand Tool', value: 'hand-tool' },
-														]}
-														onChange={(selection_tool) =>
-															setAttributes({ selection_tool })
-														}
-														__nextHasNoMarginBottom
-													/>
-
-													<SelectControl
-														label="Default Scrolling"
-														value={scrolling}
-														options={[
-															{ label: 'Page Scrolling', value: 'page' },
-															{ label: 'Vertical Scrolling', value: 'vertical' },
-															{ label: 'Horizontal Scrolling', value: 'horizontal' },
-															{ label: 'Wrapped Scrolling', value: 'wrapped' },
-														]}
-														onChange={(scrolling) =>
-															setAttributes({ scrolling })
-														}
-														__nextHasNoMarginBottom
-													/>
+													{applyFilters('embedpress.pdfControls', [selectionPlaceholder], attributes, setAttributes, 'selectionTool')}
+													{applyFilters('embedpress.pdfControls', [scrollingPlaceholder], attributes, setAttributes, 'scrolling')}
 
 													<SelectControl
 														label="Default Spreads"
 														value={spreads}
 														options={[
-															{ label: 'No Spreads', value: 'normal' },
-															{ label: 'Odd Spreads', value: 'odd' },
-															{ label: 'Even Spreads', value: 'even' },
+															{ label: 'No Spreads', value: '-1' },
+															{ label: 'Odd Spreads', value: '0' },
+															{ label: 'Even Spreads', value: '1' },
 														]}
 														onChange={(spreads) =>
 															setAttributes({ spreads })

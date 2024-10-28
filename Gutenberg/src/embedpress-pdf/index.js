@@ -160,15 +160,15 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			selection_tool: {
 				type: "string",
-				default: 'text-tool',
+				default: '0',
 			},
 			scrolling: {
 				type: "string",
-				default: 'page',
+				default: '-1',
 			},
 			spreads: {
 				type: "string",
-				default: 'normal',
+				default: '-1',
 			},
 			toolbar: {
 				type: "boolean",

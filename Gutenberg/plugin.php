@@ -803,6 +803,18 @@ function embedpress_gutenberg_register_all_block()
 								'type' => "boolean",
 								'default' => true,
 							],
+							'selection_tool' => [
+								'type' => "string",
+								'default' => '0',
+							],
+							'scrolling' => [
+								'type' => "string",
+								'default' => '-1',
+							],
+							'spreads' => [
+								'type' => "string",
+								'default' => '-1',
+							],
 							'copy_text' => [
 								'type' => "boolean",
 								'default' => true,
@@ -1012,6 +1024,9 @@ function getParamData($attributes)
 		'fit_view' => !empty($attributes['fitView'])  ? 'true' : 'false',
 		'bookmark' => !empty($attributes['bookmark'])  ? 'true' : 'false',
 		'flipbook_toolbar_position' => !empty($attributes['flipbook_toolbar_position'])  ? $attributes['flipbook_toolbar_position'] : 'bottom',
+		'selection_tool' => isset($attributes['selection_tool']) ? esc_attr($attributes['selection_tool']) : '0',
+		'scrolling' => isset($attributes['scrolling']) ? esc_attr($attributes['scrolling']) : '-1',
+		'spreads' => isset($attributes['spreads']) ? esc_attr($attributes['spreads']) : '-1',
 	);
 
 	if ($urlParamData['themeMode'] == 'custom') {
