@@ -294,6 +294,7 @@ class EmbedPressPDFEdit extends Component {
 			// Convert object to query string
 			const queryString = new URLSearchParams(_pdf_params).toString();
 
+
 			// Encode the query string to base64
 			const base64String = btoa(encodeURIComponent(queryString).replace(/%([0-9A-F]{2})/g, function (match, p1) {
 				return String.fromCharCode(parseInt(p1, 16));
@@ -301,6 +302,8 @@ class EmbedPressPDFEdit extends Component {
 
 			// Return the formatted string
 			pdf_params = "key=" + base64String;
+
+			console.log(pdf_params);
 
 			let __url = href.split('#');
 
@@ -319,8 +322,10 @@ class EmbedPressPDFEdit extends Component {
 		const printPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Print/Download', 'embedpress'), true);
 		const drawPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Draw', 'embedpress'), false);
 		const copyPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Copy Text', 'embedpress'), true);
-		const selectionPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Default Selection Tool', 'embedpress'), true);
-		const scrollingPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Default Scrolling', 'embedpress'), true);
+
+		const scrollingPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Default Scrolling', 'embedpress'), '-1', 'Page Scrolling');
+
+		const selectionPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Default Selection Tool', 'embedpress'), '0', 'Text Tool');
 
 		if (!href || hasError) {
 			return (
@@ -348,7 +353,8 @@ class EmbedPressPDFEdit extends Component {
 			);
 		} else {
 			const url = '//view.officeapps.live.com/op/embed.aspx?src=' + getParamData(href);
-			let pdf_viewer_src = embedpressObj.pdf_renderer + ((embedpressObj.pdf_renderer.indexOf('?') === -1) ? '?' : '&') + 'file=' + getParamData(href);
+
+			let pdf_viewer_src = embedpressObj.pdf_renderer + ((embedpressObj.pdf_renderer.indexOf('?') === -1) ? '?' : '&') + 'scrolling=' + scrolling + '&selection_tool=' + selection_tool + '&spreads=' + spreads + '&file=' + getParamData(href);
 
 			if (viewerStyle === 'flip-book') {
 				pdf_viewer_src = embedpressObj.EMBEDPRESS_URL_ASSETS + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
@@ -374,6 +380,7 @@ class EmbedPressPDFEdit extends Component {
 						<div className="gutenberg-wraper">
 							<div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
 								{mime === 'application/pdf' && (
+
 									(viewerStyle === 'modern') ? (
 										<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)}></iframe>
 									) : (
@@ -588,21 +595,27 @@ class EmbedPressPDFEdit extends Component {
 													/>
 
 													{applyFilters('embedpress.pdfControls', [selectionPlaceholder], attributes, setAttributes, 'selectionTool')}
+
 													{applyFilters('embedpress.pdfControls', [scrollingPlaceholder], attributes, setAttributes, 'scrolling')}
 
-													<SelectControl
-														label="Default Spreads"
-														value={spreads}
-														options={[
-															{ label: 'No Spreads', value: '-1' },
-															{ label: 'Odd Spreads', value: '0' },
-															{ label: 'Even Spreads', value: '1' },
-														]}
-														onChange={(spreads) =>
-															setAttributes({ spreads })
-														}
-														__nextHasNoMarginBottom
-													/>
+													{
+														scrolling !== '1' && (
+															<SelectControl
+																label="Default Spreads"
+																value={spreads}
+																options={[
+																	{ label: 'No Spreads', value: '-1' },
+																	{ label: 'Odd Spreads', value: '0' },
+																	{ label: 'Even Spreads', value: '1' },
+																]}
+																onChange={(spreads) =>
+																	setAttributes({ spreads })
+																}
+																__nextHasNoMarginBottom
+															/>
+														)
+													}
+
 												</Fragment>
 											) : (
 												<Fragment>
