@@ -661,6 +661,54 @@ class Embedpress_Pdf extends Widget_Base
             ]
         );
 
+        $this->add_control(
+            'selection_tool',
+            [
+                'label'        => sprintf(__('Default Selection Tool %s', 'embedpress'), $this->pro_text),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => [
+                    '0' => esc_html__('Text Tool', 'embedpress'),
+                    '1' => esc_html__('Hand Tool', 'embedpress'),
+                ],
+                'default' => '0',
+                'classes'     => $this->pro_class,
+
+            ]
+        );
+        
+        $this->add_control(
+            'scrolling',
+            [
+                'label'        => sprintf(__('Default Scrolling %s', 'embedpress'), $this->pro_text),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => [
+                    '-1' => esc_html__('Page Scrolling', 'embedpress'),
+                    '0'  => esc_html__('Vertical Scrolling', 'embedpress'),
+                    '1'  => esc_html__('Horizontal Scrolling', 'embedpress'),
+                    '2'  => esc_html__('Wrapped Scrolling', 'embedpress'),
+                ],
+                'default' => '0',
+                'classes'     => $this->pro_class,
+            ]
+        );
+        
+        $this->add_control(
+            'spreads',
+            [
+                'label' => esc_html__('Default Spreads', 'embedpress'),
+                'type' => \Elementor\Controls_Manager::SELECT,
+                'options' => [
+                    '-1' => esc_html__('No Spreads', 'embedpress'),
+                    '0'  => esc_html__('Odd Spreads', 'embedpress'),
+                    '1'  => esc_html__('Even Spreads', 'embedpress'),
+                ],
+                'default' => '-1',
+                'condition'   => [
+                    'scrolling!' => '1',
+                ],
+            ]
+        );
+
         $this->end_controls_section();
 
         do_action( 'extend_elementor_controls', $this, '_pdf_', $this->pro_text, $this->pro_class);
@@ -768,7 +816,11 @@ class Embedpress_Pdf extends Widget_Base
             'fit_view' => !empty($settings['pdf_fit_view'])  ? 'true' : 'false',
             'bookmark' => !empty($settings['pdf_bookmark'])  ? 'true' : 'false',
             'flipbook_toolbar_position' => !empty($settings['flipbook_toolbar_position'])  ? $settings['flipbook_toolbar_position'] : 'bottom',
+            'selection_tool' => isset($settings['selection_tool']) ? esc_attr($settings['selection_tool']) : '0',
+            'scrolling' => isset($settings['scrolling']) ? esc_attr($settings['scrolling']) : '-1',
+            'spreads' => isset($settings['spreads']) ? esc_attr($settings['spreads']) : '-1',
         );
+
 
         if($settings['embedpress_theme_mode'] == 'custom') {
             $urlParamData['customColor'] = $settings['embedpress_pdf_custom_color'];
@@ -825,7 +877,10 @@ class Embedpress_Pdf extends Widget_Base
             'data-add-image' => isset($settings['add_image']) ? esc_attr($settings['add_image']) : '',
             'data-rotate' => isset($settings['pdf_rotate_access']) ? esc_attr($settings['pdf_rotate_access']) : '',
             'data-details' => isset($settings['pdf_details']) ? esc_attr($settings['pdf_details']) : '',
-            'data-id' => $id // Assuming $id is safe, no need to sanitize
+            'data-id' => $id, // Assuming $id is safe, no need to sanitize
+            'data-selection-tool' => isset($settings['selection_tool']) ? esc_attr($settings['selection_tool']) : '0',
+            'data-scrolling' => isset($settings['scrolling']) ? esc_attr($settings['scrolling']) : '-1',
+            'data-spreads' => isset($settings['spreads']) ? esc_attr($settings['spreads']) : '-1',
         ]); 
 
         $embed_settings =  [];
@@ -887,7 +942,14 @@ class Embedpress_Pdf extends Widget_Base
 
                 if ($this->is_pdf($url) && !$this->is_external_url($url)) {
                     $renderer = Helper::get_pdf_renderer();
-                    $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($url).$this->getParamData($settings);
+                    $src = $renderer . ((strpos($renderer, '?') === false) ? '?' : '&') 
+                        . 'file=' . urlencode($url) 
+                        . '&scrolling=' . $settings['scrolling'] 
+                        . '&selection_tool=' . $settings['selection_tool'] 
+                        . '&spreads=' . $settings['spreads']
+                        . $this->getParamData($settings);
+
+
                     if (!empty($settings['embedpress_pdf_zoom'])) {
                         $zoom = $settings['embedpress_pdf_zoom'];
                         if ($zoom == 'custom') {
@@ -901,6 +963,7 @@ class Embedpress_Pdf extends Widget_Base
                             $src = $src . "&zoom=$zoom";
                         }
                     }
+                    
                     if(isset($settings['embedpress_pdf_viewer_style']) && $settings['embedpress_pdf_viewer_style'] === 'modern') {
                         $embed_content = '<iframe title="'.esc_attr(Helper::get_file_title($url)).'" class="embedpress-embed-document-pdf '.esc_attr($id).'" style="'.esc_attr($dimension).'; max-width:100%; display: inline-block" src="'.esc_url($src).'"';
                     }

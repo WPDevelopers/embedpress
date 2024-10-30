@@ -164,7 +164,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			scrolling: {
 				type: "string",
-				default: '-1',
+				default: '0',
 			},
 			spreads: {
 				type: "string",
