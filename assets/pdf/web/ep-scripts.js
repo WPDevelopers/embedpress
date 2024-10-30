@@ -43,8 +43,6 @@ const getParamObj = (hash) => {
             doc_rotation: hashParams.get('pdf_rotation'),
         };
 
-
-
         if (hashParams.get('download') !== 'true' && hashParams.get('download') !== 'yes') {
             window.addEventListener('beforeunload', function (event) {
                 event.stopImmediatePropagation();

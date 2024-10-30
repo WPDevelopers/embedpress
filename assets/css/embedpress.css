@@ -1447,6 +1447,25 @@ a.ep-social-icon.pinterest svg {
     pointer-events: none;
 }
 
+.pro__alert__wrap .pro__alert__card h2 {
+    font-size: 32px;
+    font-weight: 450;
+    color: #131f4d;
+    margin-bottom: 15px;
+}
+.pro__alert__wrap .pro__alert__card p {
+    font-size: 14px;
+    font-weight: 400;
+    color: #7c8db5;
+    margin-top: 10px;
+}
+
+.pro__alert__wrap .pro__alert__card p a {
+    text-decoration: underline;
+    font-weight: 700;
+    color: #131f4d;
+}
+
 .emebedpress-unit-percent, .ep-elementor-content.ep-percentage-width {
     width: 100%;
 }

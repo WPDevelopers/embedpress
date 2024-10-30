@@ -188,8 +188,6 @@ class EmbedPressPDFEdit extends Component {
 	}
 
 
-
-
 	render() {
 
 		const { attributes, noticeUI, setAttributes } = this.props;

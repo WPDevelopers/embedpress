@@ -228,6 +228,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         document.querySelector('body').append(isPro('none'));
         removeAlert();
     }
+
     if (!document.querySelector('.tips__alert__wrap')) {
         document.querySelector('body').append(tipsTricksAlert('none'));
         removeTipsAlert();
@@ -250,6 +251,11 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
     let proLabel = ' (Pro)';
     if (isProPluginActive) {
         proLabel = '';
+    }
+
+    if (ytChannelLayout == 'grid' || ytChannelLayout == 'carousel') {
+        addProAlert(null, isProPluginActive);
+        setAttributes({ ytChannelLayout: 'gallery' });
     }
 
     return (
@@ -276,8 +282,6 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
                             label={__(videoPerPageText)}
                             value={pagesize}
                             onChange={(pagesize) => setAttributes({ pagesize })}
-                        // type={'number'}
-                        // max={50}
                         />
                         <p>Specify the number of videos you wish to show on each page.</p>
 
