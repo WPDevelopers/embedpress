@@ -84,10 +84,9 @@ add_action('plugins_loaded', function () {
 });
 $editor_check = get_option('classic-editor-replace');
 
-if(isset($_GET['classic-editor']) || isset($_POST['action']) && $_POST['action'] == 'embedpress_do_ajax_request') {
+if (isset($_GET['classic-editor']) || isset($_POST['action']) && $_POST['action'] == 'embedpress_do_ajax_request') {
     $embedPressPlugin = new CoreLegacy();
-}
-elseif ((Compatibility::isWordPress5() && !Compatibility::isClassicalEditorActive()) || (Compatibility::isClassicalEditorActive() && 'block' === $editor_check)) {
+} elseif ((Compatibility::isWordPress5() && !Compatibility::isClassicalEditorActive()) || (Compatibility::isClassicalEditorActive() && 'block' === $editor_check)) {
     $embedPressPlugin = new Core();
 } else {
     $embedPressPlugin = new CoreLegacy();
@@ -121,3 +120,8 @@ if (class_exists('EmbedPress_Licensing')) {
     $is_pro_active = true;
 }
 
+add_action('wp_enqueue_scripts', 'load_scripts');
+function load_scripts()
+{
+    Shortcode::shortcode_scripts();
+}

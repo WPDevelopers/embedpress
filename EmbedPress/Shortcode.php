@@ -61,6 +61,27 @@ class Shortcode
     private static $ombed_attributes;
     public static $attributes_data;
 
+    public static function shortcode_scripts()
+    {
+        $dependencies = ['jquery'];
+
+        wp_enqueue_style(
+            'embedpress-style',
+            EMBEDPRESS_URL_ASSETS . 'css/embedpress.css',
+            EMBEDPRESS_PLUGIN_VERSION,
+            true
+        );
+
+
+        // Enqueue script for MentionNode
+        wp_enqueue_script(
+            'embedpress-front',
+            EMBEDPRESS_URL_ASSETS . 'js/front.js',
+            $dependencies,
+            EMBEDPRESS_PLUGIN_VERSION,
+            true
+        );
+    }
 
     /**
      * Register the plugin's shortcode into WordPress.
@@ -121,7 +142,6 @@ class Shortcode
                 $embed->embed = '<div class="ep-embed-content-wraper insta-grid">' . $embed->embed . '</div>';
             };
         }
-
 
         return is_object($embed) ? $embed->embed : $embed;
     }
