@@ -38,7 +38,8 @@ export const dynamicStyles = ({ attributes }) => {
     } = attributes;
 
 
-    const _md5ClientId = md5(clientId);
+	const _md5ClientId = md5(clientId || '');
+
 
     // const _posterThumbnail = posterThumbnail ? 'block' : 'none';
     // const _playerPreset = playerPreset ? 'block' : 'none';

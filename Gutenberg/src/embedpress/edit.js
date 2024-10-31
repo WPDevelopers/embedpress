@@ -119,7 +119,7 @@ export default function EmbedPress(props) {
 	if (clientId == null || clientId == undefined) {
 		setAttributes({ clientId: props.clientId });
 	}
-	const _md5ClientId = md5(clientId);
+	const _md5ClientId = md5(clientId || props.clientId);
 
 	let playerPresetClass = '';
 	if (customPlayer) {
