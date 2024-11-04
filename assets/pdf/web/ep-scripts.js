@@ -44,6 +44,7 @@ const getParamObj = (hash) => {
             selection_tool: hashParams.get('selection_tool'),
             scrolling: hashParams.get('scrolling'),
             spreads: hashParams.get('spreads'),
+            is_pro_active: hashParams.get('is_pro_active'),
         };
 
 

@@ -819,6 +819,8 @@ class Embedpress_Pdf extends Widget_Base
             'selection_tool' => isset($settings['selection_tool']) ? esc_attr($settings['selection_tool']) : '0',
             'scrolling' => isset($settings['scrolling']) ? esc_attr($settings['scrolling']) : '-1',
             'spreads' => isset($settings['spreads']) ? esc_attr($settings['spreads']) : '-1',
+            'is_pro_active' => apply_filters('embedpress/is_allow_rander', false)
+
         );
 
 
