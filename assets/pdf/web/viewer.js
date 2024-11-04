@@ -5383,7 +5383,7 @@ class BasePreferences {
     pageColorsForeground: "CanvasText",
     pdfBugEnabled: false,
     sidebarViewOnLoad: -1,
-    scrollModeOnLoad: parseInt(this.#newParams.get('is_pro_active')) ? parseInt(this.#newParams.get('scrolling')) : 0, // added by EP developer,
+    scrollModeOnLoad: parseInt(this.#newParams.get('is_pro_active')) ? parseInt(this.#newParams.get('scrolling')) : -1, // added by EP developer,
     spreadModeOnLoad: parseInt(this.#newParams.get('spreads')), // added by EP developer,
     textLayerMode: 1,
     viewOnLoad: 0,
