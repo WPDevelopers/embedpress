@@ -253,7 +253,7 @@ export default function Youtube({ attributes, setAttributes, isYTChannel, isYTVi
         proLabel = '';
     }
 
-    if (ytChannelLayout == 'grid' || ytChannelLayout == 'carousel') {
+    if (!isProPluginActive && (ytChannelLayout == 'grid' || ytChannelLayout == 'carousel')) {
         addProAlert(null, isProPluginActive);
         setAttributes({ ytChannelLayout: 'gallery' });
     }
