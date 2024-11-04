@@ -168,7 +168,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			spreads: {
 				type: "string",
-				default: '-1',
+				default: '0',
 			},
 			toolbar: {
 				type: "boolean",

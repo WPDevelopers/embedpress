@@ -698,9 +698,9 @@ class Embedpress_Pdf extends Widget_Base
                 'label' => esc_html__('Default Spreads', 'embedpress'),
                 'type' => \Elementor\Controls_Manager::SELECT,
                 'options' => [
-                    '-1' => esc_html__('No Spreads', 'embedpress'),
-                    '0'  => esc_html__('Odd Spreads', 'embedpress'),
-                    '1'  => esc_html__('Even Spreads', 'embedpress'),
+                    '0' => esc_html__('No Spreads', 'embedpress'),
+                    '1'  => esc_html__('Odd Spreads', 'embedpress'),
+                    '2'  => esc_html__('Even Spreads', 'embedpress'),
                 ],
                 'default' => '-1',
                 'condition'   => [

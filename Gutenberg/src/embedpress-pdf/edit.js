@@ -287,7 +287,7 @@ class EmbedPressPDFEdit extends Component {
 				bookmark: bookmark ? bookmark : false,
 				selection_tool: selection_tool ? selection_tool : '0',
 				scrolling: scrolling ? scrolling : '-1',
-				spreads: spreads ? spreads : '-1',
+				spreads: spreads ? spreads : '0',
 
 			};
 
@@ -604,9 +604,9 @@ class EmbedPressPDFEdit extends Component {
 																label="Default Spreads"
 																value={spreads}
 																options={[
-																	{ label: 'No Spreads', value: '-1' },
-																	{ label: 'Odd Spreads', value: '0' },
-																	{ label: 'Even Spreads', value: '1' },
+																	{ label: 'No Spreads', value: '0' },
+																	{ label: 'Odd Spreads', value: '1' },
+																	{ label: 'Even Spreads', value: '2' },
 																]}
 																onChange={(spreads) =>
 																	setAttributes({ spreads })

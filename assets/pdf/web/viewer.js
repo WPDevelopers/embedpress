@@ -5359,6 +5359,7 @@ class BasePreferences {
   #newParams = new URLSearchParams(this.#params.substring(1));
 // added by EP developer
 
+
   #defaults = Object.freeze({
     annotationEditorMode: 0,
     annotationMode: 2,
@@ -5382,7 +5383,7 @@ class BasePreferences {
     pageColorsForeground: "CanvasText",
     pdfBugEnabled: false,
     sidebarViewOnLoad: -1,
-    scrollModeOnLoad: parseInt(this.#newParams.get('is_pro_active')) ? parseInt(this.#newParams.get('scrolling')) : -1, // added by EP developer,
+    scrollModeOnLoad: parseInt(this.#newParams.get('is_pro_active')) ? parseInt(this.#newParams.get('scrolling')) : 0, // added by EP developer,
     spreadModeOnLoad: parseInt(this.#newParams.get('spreads')), // added by EP developer,
     textLayerMode: 1,
     viewOnLoad: 0,
@@ -5442,6 +5443,9 @@ class BasePreferences {
     await this.#initializedPromise;
     const defaultValue = this.#defaults[name],
       oldPrefs = structuredClone(this.#prefs);
+
+      console.log({defaultValue});
+      
     if (defaultValue === undefined) {
       throw new Error(`Set preference: "${name}" is undefined.`);
     } else if (value === undefined) {
