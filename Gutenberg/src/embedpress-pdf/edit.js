@@ -301,8 +301,6 @@ class EmbedPressPDFEdit extends Component {
 			// Return the formatted string
 			pdf_params = "key=" + base64String;
 
-			console.log(pdf_params);
-
 			let __url = href.split('#');
 
 			__url = encodeURIComponent(__url[0]);
@@ -314,7 +312,6 @@ class EmbedPressPDFEdit extends Component {
 			return `${__url}#${pdf_params}`;
 		}
 
-		console.log(lazyLoad);
 
 		const toobarPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Toolbar', 'embedpress'), true);
 		const printPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Print/Download', 'embedpress'), true);

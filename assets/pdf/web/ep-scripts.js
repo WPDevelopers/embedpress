@@ -143,8 +143,6 @@ const pdfIframeStyle = (data) => {
 
 
 
-    console.log(data);
-
     if (data.themeMode == 'custom') {
         if (!data.customColor) {
             data.customColor = '#38383d';
@@ -297,7 +295,6 @@ setThemeMode(data.themeMode);
 
 document.querySelector(".presentationMode")?.addEventListener("click", function () {
 
-    console.log("presentation mode clicked");
     var mainContainer = document.getElementById("mainContainer");
     if (mainContainer && !document.fullscreenElement) {
         mainContainer.requestFullscreen().catch(err => {
