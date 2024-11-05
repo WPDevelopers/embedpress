@@ -970,6 +970,9 @@ KAMAL;
             'doc_rotation' => isset($attributes['doc_rotation']) ? esc_attr($attributes['doc_rotation']) : 'true',
             'add_image' => isset($attributes['add_image']) ? esc_attr($attributes['add_image']) : 'true',
             'doc_details' => isset($attributes['doc_details']) ? esc_attr($attributes['doc_details']) : 'true',
+            'selection_tool' => isset($attributes['selection_tool']) ? esc_attr($attributes['selection_tool']) : '0',
+            'scrolling' => isset($attributes['scrolling']) ? esc_attr($attributes['scrolling']) : '-1',
+            'spreads' => isset($attributes['spreads']) ? esc_attr($attributes['spreads']) : '-1',
 
         );
 

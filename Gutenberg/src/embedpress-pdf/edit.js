@@ -192,7 +192,7 @@ class EmbedPressPDFEdit extends Component {
 
 		const { attributes, noticeUI, setAttributes } = this.props;
 
-		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
+		const { href, mime, id, unitoption, width, height, powered_by, themeMode, customColor, presentation, lazyLoad, position, flipbook_toolbar_position, download, add_text, draw, open, toolbar, copy_text, toolbar_position, doc_details, doc_rotation, add_image, selection_tool, scrolling, spreads, clientId, sharePosition, contentShare, adManager, adSource, adFileUrl, adWidth, adHeight, adXPosition, adYPosition, viewerStyle, zoomIn, zoomOut, fitView, bookmark } = attributes;
 
 		if (!clientId) {
 			setAttributes({ clientId: this.props.clientId });
@@ -240,6 +240,9 @@ class EmbedPressPDFEdit extends Component {
 			setAttributes({ download: true });
 			setAttributes({ copy_text: true });
 			setAttributes({ draw: false });
+			setAttributes({ selection_tool: '0' });
+			setAttributes({ scrolling: '-1' });
+
 		}
 
 		if (!document.querySelector('.pro__alert__wrap')) {
@@ -280,10 +283,15 @@ class EmbedPressPDFEdit extends Component {
 				zoom_out: zoomOut ? zoomOut : false,
 				fit_view: fitView ? fitView : false,
 				bookmark: bookmark ? bookmark : false,
+				selection_tool: selection_tool ? selection_tool : '0',
+				scrolling: scrolling ? scrolling : '-1',
+				spreads: spreads ? spreads : '0',
+
 			};
 
 			// Convert object to query string
 			const queryString = new URLSearchParams(_pdf_params).toString();
+
 
 			// Encode the query string to base64
 			const base64String = btoa(encodeURIComponent(queryString).replace(/%([0-9A-F]{2})/g, function (match, p1) {
@@ -292,6 +300,8 @@ class EmbedPressPDFEdit extends Component {
 
 			// Return the formatted string
 			pdf_params = "key=" + base64String;
+
+			console.log(pdf_params);
 
 			let __url = href.split('#');
 
@@ -309,8 +319,11 @@ class EmbedPressPDFEdit extends Component {
 		const toobarPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Toolbar', 'embedpress'), true);
 		const printPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Print/Download', 'embedpress'), true);
 		const drawPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Draw', 'embedpress'), false);
-		const copyPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Copy  Text', 'embedpress'), true);
+		const copyPlaceholder = applyFilters('embedpress.togglePlaceholder', [], __('Copy Text', 'embedpress'), true);
 
+		const scrollingPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Default Scrolling', 'embedpress'), '-1', 'Page Scrolling');
+
+		const selectionPlaceholder = applyFilters('embedpress.selectPlaceholder', [], __('Default Selection Tool', 'embedpress'), '0', 'Text Tool');
 
 		if (!href || hasError) {
 			return (
@@ -338,7 +351,8 @@ class EmbedPressPDFEdit extends Component {
 			);
 		} else {
 			const url = '//view.officeapps.live.com/op/embed.aspx?src=' + getParamData(href);
-			let pdf_viewer_src = embedpressObj.pdf_renderer + ((embedpressObj.pdf_renderer.indexOf('?') === -1) ? '?' : '&') + 'file=' + getParamData(href);
+
+			let pdf_viewer_src = embedpressObj.pdf_renderer + ((embedpressObj.pdf_renderer.indexOf('?') === -1) ? '?' : '&') + 'scrolling=' + scrolling + '&selection_tool=' + selection_tool + '&spreads=' + spreads + '&file=' + getParamData(href);
 
 			if (viewerStyle === 'flip-book') {
 				pdf_viewer_src = embedpressObj.EMBEDPRESS_URL_ASSETS + 'pdf-flip-book/viewer.html?file=' + getParamData(href);
@@ -364,6 +378,7 @@ class EmbedPressPDFEdit extends Component {
 						<div className="gutenberg-wraper">
 							<div className={`position-${sharePosition}-wraper gutenberg-pdf-wraper`}>
 								{mime === 'application/pdf' && (
+
 									(viewerStyle === 'modern') ? (
 										<iframe title="" powered_by={powered_by} style={{ height: height, width: '100%' }} className={'embedpress-embed-document-pdf' + ' ' + id} data-emid={id} src={sanitizeUrl(pdf_viewer_src)}></iframe>
 									) : (
@@ -576,6 +591,29 @@ class EmbedPressPDFEdit extends Component {
 														}
 														checked={doc_details}
 													/>
+
+													{applyFilters('embedpress.pdfControls', [selectionPlaceholder], attributes, setAttributes, 'selectionTool')}
+
+													{applyFilters('embedpress.pdfControls', [scrollingPlaceholder], attributes, setAttributes, 'scrolling')}
+
+													{
+														scrolling !== '1' && (
+															<SelectControl
+																label="Default Spreads"
+																value={spreads}
+																options={[
+																	{ label: 'No Spreads', value: '0' },
+																	{ label: 'Odd Spreads', value: '1' },
+																	{ label: 'Even Spreads', value: '2' },
+																]}
+																onChange={(spreads) =>
+																	setAttributes({ spreads })
+																}
+																__nextHasNoMarginBottom
+															/>
+														)
+													}
+
 												</Fragment>
 											) : (
 												<Fragment>
