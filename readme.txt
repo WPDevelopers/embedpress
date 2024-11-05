@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, PDF viewer, Gutenberg embed, embed PDF, embed Google
 Requires at least: 4.6
 Tested up to: 6.6
 Requires PHP: 5.6
-Stable tag: 4.1.1
+Stable tag: 4.1.2
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
