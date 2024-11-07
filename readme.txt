@@ -2,7 +2,7 @@
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, seakashdiu, alimuzzamanalim
 Author: WPDeveloper
 Author URI: https://wpdeveloper.com
-Tags: embed, YouTube, Social Feed, embed PDF, PDF
+Tags: embed, embed YouTube, embed PDF, Google Docs, Social Feeds
 Requires at least: 4.6
 Tested up to: 6.6
 Requires PHP: 5.6
