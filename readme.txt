@@ -342,7 +342,7 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [4.1.2] – 2024-11-05 =  
+= [4.1.2] – 2024-11-07 =  
 - Fixed: Shortcode issues with Beaver Builder.
 - Fixed: Undefined error in Gutenberg Editor.
 - Fixed: Facebook embedding issues.
