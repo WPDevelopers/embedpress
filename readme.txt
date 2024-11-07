@@ -2,7 +2,7 @@
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, seakashdiu, alimuzzamanalim
 Author: WPDeveloper
 Author URI: https://wpdeveloper.com
-Tags: embed, embed YouTube, PDF viewer, Gutenberg embed, embed PDF, embed Google Docs, Social Feeds
+Tags: embed, YouTube, Social Feed, embed PDF, PDF
 Requires at least: 4.6
 Tested up to: 6.6
 Requires PHP: 5.6
@@ -10,7 +10,7 @@ Stable tag: 4.1.2
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
-EmbedPress lets you embed videos, images, posts, upload PDFs, embed PDF 3D flipbook & other content on WordPress sites without coding & enhance storytelling.
+EmbedPress lets you embed videos, pages, social feeds, embed PDF 3D flipbooks & other content on WordPress without coding & enhance storytelling.
 
 == Description ==
 
