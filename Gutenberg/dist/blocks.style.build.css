@@ -1151,22 +1151,22 @@ span.copy-tooltip {
 a.ep-social-icon.pinterest svg {
   height: 25px; }
 
-.facebook {
+.ep-social-share .facebook {
   background-color: #3b5998; }
 
-.facebook svg {
+.ep-social-share .facebook svg {
   width: 40px; }
 
-.twitter {
+.ep-social-share .twitter {
   background-color: #55acee; }
 
-.pinterest {
+.ep-social-share .pinterest {
   background-color: #bd081c; }
 
-.linkedin {
+.ep-social-share .linkedin {
   background-color: #0077b5; }
 
-.reddit {
+.ep-social-share .reddit {
   background-color: #ff4500; }
 
 .ep-social-icon i {
