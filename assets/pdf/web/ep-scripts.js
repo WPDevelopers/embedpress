@@ -248,6 +248,9 @@ const pdfIframeStyle = (data) => {
         }
         .textLayer{
             user-select: ${copy_text}!important;
+            -webkit-user-select: ${copy_text}!important;
+            -moz-user-select: ${copy_text}!important;   
+            -ms-user-select: ${copy_text}!important;    
         }
         button#cursorSelectTool{
             display: ${copy_text}!important;
