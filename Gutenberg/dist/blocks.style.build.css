@@ -1550,6 +1550,9 @@ span.isPro {
 .embedpress-document-embed.embedpress-pdf {
   width: 100%; }
 
+.embedpress-document-embed {
+  position: relative; }
+
 .embedpress-inner-iframe {
   text-align: center;
   position: relative; }
