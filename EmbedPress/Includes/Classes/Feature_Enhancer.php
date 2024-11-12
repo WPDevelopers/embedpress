@@ -716,6 +716,8 @@ class Feature_Enhancer
 				$params['color'] = !empty($attributes['data-progressbarcolor']) ? $attributes['data-progressbarcolor'] : 'red';
 				$params['modestbranding'] = empty($attributes['data-modestbranding']) ? 0 : 1; // Reverse the condition value for modestbranding. 0 = display, 1 = do not display
 				$params['cc_load_policy'] = !empty($attributes['data-closedcaptions']) && ($attributes['data-closedcaptions'] == 'true') ? 0 : 1;
+				$params['playsinline']    = '1';
+				
 			}
 
 			// Ensure $url is a string. If $url is an array, convert it to a string or use a specific element.
