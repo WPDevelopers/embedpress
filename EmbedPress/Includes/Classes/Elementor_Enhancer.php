@@ -27,6 +27,7 @@ class Elementor_Enhancer {
 			$params['fs']             = ( $setting['embedpress_pro_youtube_enable_fullscreen_button'] === 'yes' ) ? 1 : 0;
 			$params['rel']             = ( $setting['embedpress_pro_youtube_display_related_videos'] === 'yes' ) ? 1 : 0;
 			$params['end']            = $setting['embedpress_pro_youtube_end_time'];
+			$params['playsinline']    = 1;
 			if ( $setting['embedpress_pro_youtube_auto_play'] === 'yes' ) {
 				$params['autoplay'] = 1;
 			}
