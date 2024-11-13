@@ -205,9 +205,9 @@ trait Shared
 
         $b_friday_message = '<div class="black_friday_2024_notice"><p class="notice-message">🔒 Unlock advanced embedding functionalities with EmbedPress PRO & enjoy <strong>up to %40 Off</strong> this Black Friday.</p>
         <div class="notice-links">
-            <a class="button button-primary" href="https://embedpress.com/#pricing" target="_blank">
+            <a class="button button-primary" href="https://embedpress.com/bfcm24-pricing" target="_blank">
         ' . $king_icon . ' Upgrade to PRO</a> 
-            <a class="full-price-link" href="https://embedpress.com/#pricing" target="_blank">No, I prefer to pay full price</a>
+            <a class="full-price-link" href="https://embedpress.com/bfcm24-pricing" target="_blank">No, I prefer to pay full price</a>
         </div>
         </div>';
         $_black_friday_2024_notice = [
