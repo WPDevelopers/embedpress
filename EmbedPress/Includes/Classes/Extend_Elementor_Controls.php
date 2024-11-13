@@ -422,7 +422,7 @@ class Extend_Elementor_Controls
 		$that->add_control(
 			'embedpress' . $infix . 'content_share_custom_thumbnail',
 			[
-				'label' => esc_html__('Thumbnail', 'textdomain'),
+				'label' => esc_html__('Thumbnail', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::MEDIA,
 				'default' => [
 					'url' => \Elementor\Utils::get_placeholder_image_src(),
