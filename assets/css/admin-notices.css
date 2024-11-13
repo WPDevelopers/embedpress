@@ -330,6 +330,10 @@ div#wpnotice-embedpress-black_friday_2024_notice {
     gap: 50px !important;
 }
 
+.notice-info {
+    border-left-color: #1e1e1e;
+}
+
 @media screen and (max-width: 767px) {
 
     div#wpnotice-embedpress-helloween_2024_notice {
