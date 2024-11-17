@@ -1078,7 +1078,8 @@ function embedpress_pdf_render_block($attributes)
 
 
 		$unitoption = !empty($attributes['unitoption']) ? $attributes['unitoption'] : 'px';
-		$width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : get_options_value('enableEmbedResizeWidth') . 'px';
+		$width = !empty($attributes['width']) ? $attributes['width'] . $unitoption : (get_options_value('enableEmbedResizeWidth') ?: 600) . 'px';
+
 
 		if ($unitoption == '%') {
 			$width_class = ' ep-percentage-width';
@@ -1104,8 +1105,10 @@ function embedpress_pdf_render_block($attributes)
 		}
 
 
+		$height = !empty($attributes['height'])
+			? $attributes['height'] . 'px'
+			: (get_options_value('enableEmbedResizeHeight') ?: 600) . 'px';
 
-		$height = !empty($attributes['height']) ? $attributes['height'] . 'px' : get_options_value('enableEmbedResizeHeight') . 'px';
 		$gen_settings    = get_option(EMBEDPRESS_PLG_NAME);
 
 		$powered_by = isset($gen_settings['embedpress_document_powered_by']) && 'yes' === $gen_settings['embedpress_document_powered_by'];

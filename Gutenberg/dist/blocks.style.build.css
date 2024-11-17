@@ -1579,15 +1579,20 @@ span.isPro {
 .ep-unit-choice-option {
   margin: 0 !important;
   position: absolute;
-  top: 15px;
+  top: 5px;
   right: 0; }
+  .ep-unit-choice-option .components-base-control {
+    margin-bottom: 0px !important; }
 
-.ep-unit-choice-option .components-base-control__field .components-flex {
+.ep-unit-choice-option .components-base-control__field .components-flex,
+.ep-unit-choice-option .components-flex {
   -ms-flex-direction: row !important;
       flex-direction: row !important;
   -ms-flex-pack: end;
       justify-content: end;
-  gap: 5px; }
+  gap: 10px;
+  padding: 4px 5px;
+  border-radius: 4px; }
 
 .ep-unit-choice-option .components-radio-control__option {
   position: relative; }
@@ -1601,11 +1606,16 @@ span.isPro {
   -webkit-transform: translate(-50%, -50%);
       -ms-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
-  font-size: 12px; }
+  font-size: 10px;
+  left: -18px; }
 
 .ep-unit-choice-option .components-radio-control__input {
   margin: 0;
-  border: none; }
+  border: none;
+  width: 20px !important;
+  height: 20px !important;
+  max-width: 20px !important;
+  max-height: 20px !important; }
 
 .ep-unit-choice-option .components-radio-control__input[type="radio"]:checked:before {
   background-color: var(--wp-admin-theme-color);

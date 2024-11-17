@@ -38,7 +38,7 @@ export const dynamicStyles = ({ attributes }) => {
     } = attributes;
 
 
-	const _md5ClientId = md5(clientId || '');
+    const _md5ClientId = md5(clientId || '');
 
 
     // const _posterThumbnail = posterThumbnail ? 'block' : 'none';
@@ -153,6 +153,10 @@ export const dynamicStyles = ({ attributes }) => {
                         width: ${width}px!important;
                     }
                     [data-source-id="source-${clientId}"] .ose-giphy img{
+                        height: ${height}px!important;
+                        width: ${width}px!important;
+                    }
+                    [data-source-id="source-${clientId}"] .ose-google-docs img{
                         height: ${height}px!important;
                         width: ${width}px!important;
                     }

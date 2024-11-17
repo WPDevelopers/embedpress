@@ -66,7 +66,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			height: {
 				type: 'string',
-				default: embedpressObj.iframe_height || '450'
+				default: embedpressObj.iframe_height || '600'
 			},
 			width: {
 				type: 'string',

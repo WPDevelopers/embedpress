@@ -75,7 +75,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         removeTipsAlert();
     }
 
-    if ((isYTVideo || isYTLive || isVimeoVideo) && width === '600' && height === '450') {
+    if ((isYTVideo || isYTLive || isVimeoVideo) && width === '600' && height === '600') {
         setAttributes({ height: '340' });
     }
 
@@ -83,11 +83,11 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         setAttributes({ height: '48' });
     }
 
-    if (isCalendly && width === '600' && height === '450') {
+    if (isCalendly && width === '600' && height === '600') {
         setAttributes({ height: '950' });
     }
 
-    if (isTikTok && width === '600' && height === '450') {
+    if (isTikTok && width === '600' && height === '600') {
         setAttributes({ width: '350' });
         setAttributes({ height: '580' });
     }

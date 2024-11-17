@@ -241,13 +241,21 @@ span.isPro {
 .ep-unit-choice-option {
     margin: 0 !important;
     position: absolute;
-    top: 15px;
+    top: 5px;
     right: 0;
+
+    .components-base-control {
+        margin-bottom: 0px !important;
+    }
+
 }
-.ep-unit-choice-option .components-base-control__field .components-flex {
+.ep-unit-choice-option .components-base-control__field .components-flex,
+.ep-unit-choice-option .components-flex {
     flex-direction: row !important;
     justify-content: end;
-    gap: 5px;
+    gap: 10px;
+    padding: 4px 5px;
+    border-radius: 4px;
 }
 
 .ep-unit-choice-option .components-radio-control__option {
@@ -258,12 +266,18 @@ span.isPro {
     top: 50%; /* position the top  edge of the element at the middle of the parent */
     left: 50%; /* position the left edge of the element at the middle of the parent */
     transform: translate(-50%, -50%);
-    font-size: 12px;
+    font-size: 10px;
+    // color: inherit!important;
+    left: -18px;
 }
 
 .ep-unit-choice-option .components-radio-control__input {
     margin: 0;
     border: none;
+    width: 20px !important;
+    height: 20px !important;
+    max-width: 20px !important;
+    max-height: 20px !important;
 }
 
 .ep-unit-choice-option .components-radio-control__input[type="radio"]:checked:before {
