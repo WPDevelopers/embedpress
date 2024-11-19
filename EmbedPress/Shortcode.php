@@ -246,6 +246,7 @@ class Shortcode
             // Check if $url is a google shortened url and tries to extract from it which Google service it refers to.
             self::check_for_google_url($url);
             $provider_name = self::get_provider_name($urlData, $url);
+            $provider_name = sanitize_text_field($provider_name);
 
             // $html = '{html}';
             // if (strpos($url, 'youtube') !== false) {
@@ -257,7 +258,7 @@ class Shortcode
             $parsedContent = self::get_content_from_template($url, $embedTemplate, $serviceProvider);
             // Replace all single quotes to double quotes. I.e: foo='joe' -> foo="joe"
             $parsedContent = str_replace("'", '"', $parsedContent);
-            $parsedContent = str_replace("{provider_alias}", $provider_name, $parsedContent);
+            $parsedContent = str_replace("{provider_alias}", esc_html($provider_name), $parsedContent);
             $parsedContent = str_replace('sandbox="allow-scripts"', 'sandbox="allow-modals allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"', $parsedContent);
             $parsedContent = str_replace('<iframe ', '<iframe allowFullScreen="true" ', $parsedContent);
 
