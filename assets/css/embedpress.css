@@ -1453,6 +1453,7 @@ a.ep-social-icon.pinterest svg {
     color: #131f4d;
     margin-bottom: 15px;
 }
+
 .pro__alert__wrap .pro__alert__card p {
     font-size: 14px;
     font-weight: 400;
@@ -3408,6 +3409,26 @@ figure .ep-youtube__content__block .thumb {
     right: -100px;
 }
 
+
+/* full calender style overide */
+
+.fc-list-table .fc-event, .fc-list-table .fc-event:hover {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+.fc-list-table .fc-event, .fc-list-table .fc-event-dot {
+    background-color: transparent !important;
+}
+
+.fc table.fc-list-table {
+    table-layout: inherit !important;
+}
+
+.fc-list-table .fc-event {
+    display: table-row !important;
+}
+
 @media screen and (max-width: 1400px) {
     .ose-youtube .video-popup-content iframe {
         height: 305px !important;
@@ -3572,6 +3593,3 @@ figure .ep-youtube__content__block .thumb {
 
 
 }
-
-
-
