@@ -1022,12 +1022,13 @@ class Embedpress_Pdf extends Widget_Base
                         </div> 
 
                     </div>
-                    <?php 
-						if(!empty($settings['adManager'])) {
-							$embed_content = apply_filters('embedpress/generate_ad_template', $embed_content, $client_id, $settings, 'elementor');
+        
 
-						}
-					?>
+                    <?php
+                        if (!empty($settings['adManager']) &&  (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct) )){
+                            $embed_content = apply_filters('embedpress/generate_ad_template', $embed_content, $client_id, $settings, 'elementor');
+                        }
+                    ?>
                 </div>
             <?php
                 

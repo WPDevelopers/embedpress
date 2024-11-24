@@ -4287,9 +4287,8 @@ class Embedpress_Elementor extends Widget_Base
 								</div>
 
 								<?php
-									if (!empty($settings['adManager'])) {
+									if (!empty($settings['adManager']) && (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct) )) {
 										$content = apply_filters('embedpress/generate_ad_template', $content, $client_id, $settings, 'elementor');
-
 									}
 								?>
 							</div>
