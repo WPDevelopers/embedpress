@@ -51,7 +51,19 @@
 }
 
 .pro-control .sponsored-manager-controllers {
-  opacity: .5;
+  opacity: 0.5;
+}
+
+.sponsored-manager-controllers.opacity {
+  opacity: 0.3;
+}
+
+.pro-control.ep-custom-logo-button button {
+  opacity: 0.3;
+}
+
+.ads-help {
+  margin-top: 30px;
 }
 
 button.components-flex.components-color-palette__custom-color {
@@ -70,14 +82,19 @@ button.components-flex.components-color-palette__custom-color {
   max-width: 100% !important;
 }
 
+.components-edit-button {
+  border-right: 1px solid #1e1e1e;
+  border-radius: 0;
+}
+
 @media only screen and (max-width: 767px) {
   .wp-block-embedpress-document.embedpress-document-embed {
     max-height: 400px !important;
   }
-
   .ep-file-download-option-masked {
     height: 100%;
   }
-}
-
-/*# sourceMappingURL=style.css.map */
+  iframe.embedpress-embed-document-pdf {
+    max-height: 480px;
+  }
+}/*# sourceMappingURL=style.css.map */

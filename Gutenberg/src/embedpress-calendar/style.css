@@ -32,10 +32,4 @@ body.page .flexia-wrapper > .content-area {
   .embedpress-calendar-gutenberg.alignleft {
     max-width: 100%;
   }
-}
-.clear::after {
-  content: "";
-  display: block;
-  clear: both;
-  min-height: 1px;
 }/*# sourceMappingURL=style.css.map */

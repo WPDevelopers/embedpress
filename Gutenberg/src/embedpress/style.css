@@ -7,7 +7,8 @@
   margin: 30px auto;
 }
 .embedpress-gutenberg-wrapper iframe {
-  max-width: 100%;
+  max-width: 100% !important;
+  max-height: 100% !important;
 }
 
 .embedpress-gutenberg-wrapper.alignright {
@@ -38,13 +39,6 @@ body.page .flexia-wrapper > .content-area {
     max-width: 100%;
   }
 }
-/* .clear::after {
-  content: "";
-  display: block;
-  clear: both;
-  min-height: 1px;
-} */
-
 .embedpress-gutenberg-wrapper .alignleft,
 .embedpress-gutenberg-wrapper .alignright,
 .embedpress-gutenberg-wrapper .aligncenter {
@@ -87,6 +81,8 @@ body.page .flexia-wrapper > .content-area {
   position: relative;
   height: 0;
   padding-bottom: 56.25%;
+  border-radius: 15px;
+  overflow: hidden;
 }
 
 .ep-first-video iframe {
@@ -108,6 +104,10 @@ body.page .flexia-wrapper > .content-area {
 .components-base-control__field,
 .components-input-control__label {
   font-weight: 600;
+}
+
+.sponsored-upload {
+  margin-bottom: 20px;
 }
 
 label.components-truncate.components-text.components-input-control__label.em5sgkm4.ecfd-bd--d-eecc-1iznhho.em57xhy0 {
@@ -135,13 +135,16 @@ label.components-truncate.components-text.components-input-control__label.em5sgk
 }
 
 .ep__components-placeholder,
-.wp-block-embedpress-embedpress,
-.block-editor-block-list__block {
+.wp-block-embedpress-embedpress {
   clear: both !important;
 }
 
 .wp-block-embed.is-loading p {
   margin: 0 !important;
+}
+
+.wp-block-embed.is-loading svg {
+  margin-top: 0;
 }
 
 /**
@@ -723,6 +726,31 @@ button.components-color-palette__custom-color-button {
   display: none !important;
 }
 
+.components-panel__body.is-opened.ep-opensea-options h2.components-panel__body-title,
+.components-panel__body.is-opened.ep-colors-typography h2.components-panel__body-title {
+  margin-bottom: 16px !important;
+}
+
+.components-panel__body.is-opened.ep-colors-typography .ep-opensea-sub-controls h2.components-panel__body-title {
+  margin-bottom: 0px !important;
+}
+
+.embedpress-gutenberg-controls .components-panel__body.is-opened h2.components-panel__body-title {
+  margin-bottom: 16px !important;
+}
+
+.ep-controls-margin {
+  margin-bottom: 24px;
+}
+
+.ep__instafeed-options .instagram-profile-image-uploader {
+  margin-bottom: 0;
+}
+
+.block-editor-block-inspector .components-base-control:last-child {
+  margin-bottom: 24px !important;
+}
+
 .ep-video-controlers .ep-control-field .components-base-control__field {
   display: flex;
   justify-content: space-between;
@@ -783,21 +811,29 @@ button.ep-remove__image {
   padding: 20px 15px;
 }
 
-.ep-yt-related-videos .components-base-control {
-  margin-bottom: 10px !important;
+.instagram-profile-image-uploader {
+  margin-bottom: 20px;
 }
 
-.ep-custom-logo-button {
-  margin-bottom: 0px !important;
+.ep-yt-related-videos .components-base-control {
+  margin-bottom: 10px !important;
 }
 
 .content-share-controls .ep-custom-logo-button {
   margin-bottom: 30px !important;
 }
 
+.pro-control.ep-custom-logo-button {
+  margin-bottom: 20px !important;
+}
+
 .ep-custom-logo-button .isPro {
   top: 50%;
   transform: translate(0%, -50%);
+}
+
+.ep-custom-logo-position {
+  margin-top: 20px;
 }
 
 .ep-yt-related-videos p,
@@ -926,7 +962,10 @@ span.copy-tooltip {
   display: flex;
 }
 
-.position-right-wraper.gutenberg-pdf-wraper, .position-left-wraper.gutenberg-pdf-wraper, .position-top-wraper.gutenberg-pdf-wraper, .position-bottom-wraper.gutenberg-pdf-wraper {
+.position-right-wraper.gutenberg-pdf-wraper,
+.position-left-wraper.gutenberg-pdf-wraper,
+.position-top-wraper.gutenberg-pdf-wraper,
+.position-bottom-wraper.gutenberg-pdf-wraper {
   width: 100%;
 }
 
@@ -1001,27 +1040,27 @@ a.ep-social-icon.pinterest svg {
   height: 25px;
 }
 
-.facebook {
+.ep-social-share .facebook {
   background-color: #3b5998;
 }
 
-.facebook svg {
+.ep-social-share .facebook svg {
   width: 40px;
 }
 
-.twitter {
+.ep-social-share .twitter {
   background-color: #55acee;
 }
 
-.pinterest {
+.ep-social-share .pinterest {
   background-color: #bd081c;
 }
 
-.linkedin {
+.ep-social-share .linkedin {
   background-color: #0077b5;
 }
 
-.reddit {
+.ep-social-share .reddit {
   background-color: #ff4500;
 }
 
@@ -1061,19 +1100,34 @@ a.ep-social-icon.pinterest svg {
   background-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #6354a5));
 }
 
-.ep-documentation, .ep-tips-and-tricks {
+.ep-pannel-icon {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.ep-pannel-icon svg {
+  width: 18px;
+  height: auto;
+}
+
+.ep-documentation,
+.ep-tips-and-tricks {
   display: flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 5px;
 }
 
-.ep-documentation svg, .ep-tips-and-tricks svg {
+.ep-documentation svg,
+.ep-tips-and-tricks svg {
   width: 25px;
   height: auto;
 }
 
-.ep-documentation a, .ep-tips-and-tricks a {
+.ep-documentation a,
+.ep-tips-and-tricks a {
   font-weight: 500;
   font-size: 13px;
   color: #5b4e96;
@@ -1131,21 +1185,21 @@ a.ep-social-icon.pinterest svg {
 .tips__alert__wrap .tips__alert__card h2 {
   font-size: 17.5px;
   font-weight: 500;
-  color: #131F4D;
+  color: #131f4d;
   margin-bottom: 15px;
 }
 
 .tips__alert__wrap .tips__alert__card p {
   font-size: 14px;
   font-weight: 400;
-  color: #7C8DB5;
+  color: #7c8db5;
   margin-bottom: 15px;
 }
 
 .tips__alert__wrap .tips__alert__card a {
   text-decoration: underline;
   font-weight: 700;
-  color: #131F4D;
+  color: #131f4d;
 }
 
 .tips__alert__wrap .tips__alert__card .button {
@@ -1161,7 +1215,7 @@ p.ep-live-video-info {
   gap: 8px;
   font-size: 12px;
   font-weight: bold;
-  background: #F6D88C;
+  background: #f6d88c;
   padding: 8px 8px;
   border-radius: 10px;
 }
@@ -1177,4 +1231,41 @@ p.ep-live-video-info svg {
 .components-text-control__input::placeholder,
 .components-textarea-control__input::placeholder {
   color: rgb(117, 117, 117);
+}
+
+button.skip-ad-button {
+  position: absolute;
+  bottom: 15px;
+  right: 10px;
+  border: none;
+  background: rgba(212, 21, 86, 0.7098039216) !important;
+  padding: 6px 8px;
+  color: white !important;
+  z-index: 122222222;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 4px;
+  padding: 0;
+}
+
+.components-panel__row.elementor-panel-alert.elementor-panel-warning-info {
+  margin-top: -15px;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: bold;
+  background: #f6d88c;
+  padding: 8px 8px;
+  border-radius: 10px;
+}
+
+.components-panel__row.elementor-panel-alert.elementor-panel-warning-info.margin-bottom-10 {
+  margin-bottom: 10px;
+}
+
+.control-description {
+  margin-top: -10px !important;
+  margin-bottom: 20px;
+  font-size: 12px;
+  font-style: normal;
+  color: #757575;
 }/*# sourceMappingURL=style.css.map */
