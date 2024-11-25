@@ -1,4 +1,4 @@
-=== EmbedPress – Embed PDF, 3D Flipbook, Social Feeds, Google Docs, Vimeo, Wistia, YouTube Videos, Audios, Google Maps in Gutenberg Block & Elementor ===
+=== EmbedPress – Embed PDF, PDF 3D FlipBook, Instagram Social Feeds, Google Docs, Vimeo, Wistia, YouTube Videos, Maps & Upload PDF Documents ===
 Contributors: EmbedPress, asif2bd, re_enter_rupok, wpdevteam, seakashdiu, alimuzzamanalim
 Author: WPDeveloper
 Author URI: https://wpdeveloper.com
@@ -6,7 +6,7 @@ Tags: embed, embed YouTube, embed PDF, Google Docs, Social Feeds
 Requires at least: 4.6
 Tested up to: 6.7
 Requires PHP: 5.6
-Stable tag: 4.1.3
+Stable tag: 4.1.4
 License: GPLv3 or later
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -341,6 +341,12 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
+
+= [4.1.4] – 2024-11-25 =  
+- Fixed: Global height & width control issues.
+- Fixed: CSS conflict with the Pretty Google Calendar plugin.
+- Improved: Security enhancements for better performance.
+- Few minor bug fixes and improvements.
 
 = [4.1.3] – 2024-11-13 =  
 - Fixed: Custom player switching issues to full-screen mode on iPhone.
