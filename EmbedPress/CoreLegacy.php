@@ -128,7 +128,8 @@ class CoreLegacy
         if (is_admin()) {
             new EmbedpressSettings();
             $plgSettings = self::getSettings();
-            $this->admin_notice();
+
+            add_action( 'init', [ $this, 'admin_notice' ] );
 
             add_filter('plugin_action_links_embedpress/embedpress.php',
                 ['\\EmbedPress\\CoreLegacy', 'handleActionLinks'], 10, 2);
