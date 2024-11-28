@@ -181,7 +181,7 @@ class Embedpress_Elementor extends Widget_Base
 					'default'     => __('Default', 'embedpress'),
 					'youtube'     => __('YouTube', 'embedpress'),
 					'vimeo'       => __('Vimeo', 'embedpress'),
-					'instagram_feed'  => __('Instagram Feed', 'embedpress'),
+					'instafeed'  => __('Instagram Feed', 'embedpress'),
 					'twitch'      => __('Twitch', 'embedpress'),
 					'soundcloud'  => __('SoundCloud', 'embedpress'),
 					'dailymotion' => __('Dailymotion', 'embedpress'),
