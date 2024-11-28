@@ -909,10 +909,10 @@ document.addEventListener('DOMContentLoaded', function () {
 document.addEventListener('DOMContentLoaded', () => {
     const carousel = document.querySelector('.youtube-carousel');
 
-    if(!carousel) {
+    if (!carousel) {
         return;
     }
-    
+
     const items = document.querySelectorAll('.item');
     const prevButton = document.querySelector('.preview');
     const nextButton = document.querySelector('.next');
@@ -1095,10 +1095,12 @@ jQuery(window).on("elementor/frontend/init", function () {
         });
 
 
-        const instaWrappers = document.querySelectorAll('.ep-embed-content-wraper');
+        const instaWrappers = document.querySelectorAll('.ep-embed-content-wrapper');
 
         if (instaWrappers.length > 0) {
+
             instaWrappers.forEach((wrapper) => {
+                wrapper.classList.add('class-content-wrapper');
                 const carouselId = wrapper.getAttribute('data-carouselid');
 
                 if (!carouselId) return;
@@ -1108,6 +1110,7 @@ jQuery(window).on("elementor/frontend/init", function () {
                 options = JSON.parse(options);
                 const carouselSelector = `[data-carouselid="${carouselId}"] .embedpress-insta-container`;
 
+
                 if (options.arrows) {
                     document.querySelector(`[data-carouselid="${carouselId}"] .cg-carousel__btns`).classList.remove('hidden');
                 }
@@ -1116,6 +1119,7 @@ jQuery(window).on("elementor/frontend/init", function () {
 
             });
         }
+
 
         const instaFeed = document.querySelector(`${selectorEl} .ose-instagram-feed`);
         const instaGallery = document.querySelector(`${selectorEl} .insta-gallery`);
