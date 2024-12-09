@@ -1,4 +1,6 @@
 import { useRef } from 'react';
+const { applyFilters } = wp.hooks;
+
 import { isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert, isInstagramFeed, isInstagramHashtag } from '../common/helper';
 import LockControl from '../common/lock-control';
 import ContentShare from '../common/social-share-control';
