@@ -14,12 +14,10 @@ class Elementor_Enhancer {
 
 			$url_full = $match[1];
 			$query = parse_url($url_full, PHP_URL_QUERY);
-			if ($query !== null) {
-				parse_str($query, $parsedQuery);
-				// $parsedQuery will contain the parsed query string as an associative array
+			if (!empty($query)) {
+				parse_str($query, $params);
 			} else {
-				$parsedQuery = [];
-				// Handle the case where there's no query string
+				$params = [];
 			}
 
 			$params['controls']       = $setting['embedpress_pro_youtube_display_controls'];
