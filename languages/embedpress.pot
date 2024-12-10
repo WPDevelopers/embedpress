@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the EmbedPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: EmbedPress 4.1.3\n"
+"Project-Id-Version: EmbedPress 4.1.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/embedpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2024-11-25T06:15:13+00:00\n"
+"POT-Creation-Date: 2024-12-10T04:11:37+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: embedpress\n"
@@ -362,7 +362,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:100
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:21
 #: Gutenberg/dist/blocks.build.js:1004
-#: Gutenberg/src/embedpress/inspector.js:107
+#: Gutenberg/src/embedpress/inspector.js:109
 msgid "General"
 msgstr ""
 
@@ -1806,7 +1806,7 @@ msgstr ""
 msgid "Padding"
 msgstr ""
 
-#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4226
+#: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4232
 msgid "You need EmbedPress Pro to Embed Apple Podcast. Note. This message is only visible to you."
 msgstr ""
 
@@ -3528,7 +3528,7 @@ msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:229
 #: Gutenberg/dist/blocks.build.js:1004
-#: Gutenberg/src/embedpress/inspector.js:196
+#: Gutenberg/src/embedpress/inspector.js:198
 #: Gutenberg/src/embedpress/InspectorControl/youtube.js:336
 msgid "Tips & Tricks"
 msgstr ""
@@ -3745,12 +3745,12 @@ msgid "Document URL"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1004
-#: Gutenberg/src/embedpress/inspector.js:152
+#: Gutenberg/src/embedpress/inspector.js:154
 msgid "You can adjust the width of embedded content."
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:1004
-#: Gutenberg/src/embedpress/inspector.js:227
+#: Gutenberg/src/embedpress/inspector.js:229
 msgid "Only Available in Pro Version!"
 msgstr ""
 
