@@ -342,7 +342,7 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-= [4.1.5] – 2024-12-09 =
+= [4.1.5] – 2024-12-10 =
 - Fixed: Issues with YouTube Live and Playlist functionality.
 - Fixed: Missing Instagram controls in Elementor.
 - Few minor bug fixes & improvements.
