@@ -1266,7 +1266,25 @@ function embedpress_pdf_render_block($attributes)
 
 function embedpress_document_block_scripts()
 {
-	if (!is_admin() && has_block('embedpress/document')) {
+	// Exit if this is the admin panel
+	if (is_admin()) {
+		return;
+	}
+
+	global $post;
+
+	// Check for the presence of the 'embedpress/document' block
+	$block_exists = false;
+
+	if (function_exists('has_block')) {
+		$block_exists = has_block('embedpress/document');
+	} elseif (isset($post->post_content)) {
+		// Fallback for older WordPress versions
+		$block_exists = strpos($post->post_content, '<!-- wp:embedpress/document') !== false;
+	}
+
+	// If the block exists, enqueue the scripts and styles
+	if ($block_exists) {
 		$script_handles = [
 			'embedpress-pdfobject',
 			'embedpress-front',
