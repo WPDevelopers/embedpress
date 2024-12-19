@@ -228,6 +228,31 @@ trait Shared
             ]
         );
 
+        $holiday_message = '<div class="holiday_2024_notice"><p class="notice-message">🎁 <strong>SAVE 25% now</strong> & unlock advanced embedding functionalities from 150+ multi-media sources in 2025.</p>
+        <div class="notice-links">
+            <a class="button button-primary" href="https://embedpress.com/holiday24-admin-notice" target="_blank">
+        ' . $king_icon . ' GET PRO Lifetime Access</a> 
+            <a class="full-price-link" href="https://embedpress.com/holiday24-admin-notice" target="_blank">No, I prefer to pay full price</a>
+        </div>
+        </div>';
+        $_holiday_2024_notice = [
+            'thumbnail' => $_assets_url . 'images/full-logo.svg',
+            'html'      => $holiday_message,
+        ];
+
+        $notices->add(
+            'holiday_2024_notice',
+            $_holiday_2024_notice,
+            [
+                'start'       => $notices->time(),
+                'recurrence'  => false,
+                'dismissible' => true,
+                'refresh'     => EMBEDPRESS_VERSION,
+                "expire"      => strtotime('11:59:59pm 10th January, 2025'),
+                'display_if' => !is_plugin_active('embedpress-pro/embedpress-pro.php') && ($_SERVER['REQUEST_URI'] === '/wp-admin/' || $_SERVER['REQUEST_URI'] === '/wp-admin/index.php'),
+            ]
+        );
+
         $notices->init();
 
         self::$cache_bank->create_account($notices);

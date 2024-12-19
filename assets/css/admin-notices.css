@@ -281,11 +281,11 @@ div#wpnotice-embedpress-helloween_2024_notice {
 
 
 
-.black_friday_2024_notice {
+.holiday_2024_notice {
     padding: 15px 0;
 }
 
-.black_friday_2024_notice a.button.button-primary {
+.holiday_2024_notice a.button.button-primary {
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -294,12 +294,12 @@ div#wpnotice-embedpress-helloween_2024_notice {
     min-height: 32px;
 }
 
-.black_friday_2024_notice a.button.button-primary svg {
+.holiday_2024_notice a.button.button-primary svg {
     height: 16px;
     width: auto;
 }
 
-.black_friday_2024_notice p.notice-message {
+.holiday_2024_notice p.notice-message {
     margin-bottom: 8px;
     margin-top: 0;
     padding-top: 0;
@@ -326,7 +326,7 @@ div#wpnotice-embedpress-helloween_2024_notice {
     margin-top: 0;
 }
 
-div#wpnotice-embedpress-black_friday_2024_notice {
+div#wpnotice-embedpress-holiday_2024_notice {
     gap: 50px !important;
     padding-left: 40px;
 }
@@ -340,7 +340,7 @@ div#wpnotice-embedpress-black_friday_2024_notice {
     div#wpnotice-embedpress-helloween_2024_notice {
         display: none !important;
     }
-    div#wpnotice-embedpress-black_friday_2024_notice {
+    div#wpnotice-embedpress-holiday_2024_notice {
         display: none !important;
     }
 }
