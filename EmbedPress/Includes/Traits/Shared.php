@@ -232,7 +232,7 @@ trait Shared
         <div class="notice-links">
             <a class="button button-primary" href="https://embedpress.com/holiday24-admin-notice" target="_blank">
         ' . $king_icon . ' GET PRO Lifetime Access</a> 
-            <a class="full-price-link" href="https://embedpress.com/holiday24-admin-notice" target="_blank">No, I prefer to pay full price</a>
+            <a class="full-price-link" href="https://embedpress.com/holiday24-admin-notice" target="_blank">No, I’ll Pay Full Price Later</a>
         </div>
         </div>';
         $_holiday_2024_notice = [
