@@ -305,7 +305,7 @@ div#wpnotice-embedpress-helloween_2024_notice {
     padding-top: 0;
 }
 
-.full-price-link {
+.embedpress-notice-dismiss-button {
     font-weight: 400;
     line-height: 19.36px;
     text-align: center;
@@ -340,6 +340,7 @@ div#wpnotice-embedpress-holiday_2024_notice {
     div#wpnotice-embedpress-helloween_2024_notice {
         display: none !important;
     }
+
     div#wpnotice-embedpress-holiday_2024_notice {
         display: none !important;
     }
