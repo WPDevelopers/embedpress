@@ -277,7 +277,7 @@ let epGlobals = {};
 
             let x = 1;
 
-            sendRequest("/wp-admin/admin-ajax.php", formBody, function (request) {
+            sendRequest(eplocalize.ajaxurl, formBody, function (request) {
                 if (galleryWrapper && galleryWrapper[0] && request.responseText) {
                     var response = JSON.parse(request.responseText);
                     galleryWrapper[0].outerHTML = response.html;
