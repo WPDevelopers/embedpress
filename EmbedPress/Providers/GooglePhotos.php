@@ -24,7 +24,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
 
     private $allowed_url_patttern = "/^https:\/\/photos\.app\.goo\.gl\/|^https:\/\/photos\.google\.com\/share\//";
 
-    static public $name = "pavex-embed-player";
+    static public $name = "google-photos-album";
 
 
 
@@ -79,18 +79,20 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
      */
     private function get_html($props, $expiration = 0)
     {
-        if (self::$index == 1) {
-            wp_enqueue_script(self::$name, $this->player_js, [], false, true);
-        }
 
-        global $post;
-        $transient = sprintf('%s-%d-%d', self::$name, $post->ID, self::$index++);
+        // Generate a unique transient key using the URL's MD5 hash
+        $url_hash = md5($props->link);
+        $transient = sprintf('%s-%s', self::$name, $url_hash);
 
-        if ($html = get_transient($transient)) {
+        // Attempt to retrieve the cached HTML
+        $html = get_transient($transient);
+        if ($html) {
             return $html;
         }
 
-        if ($html = $this->get_embed_player_html_code($props)) {
+        // Generate the HTML if not cached
+        $html = $this->get_embed_player_html_code($props);
+        if ($html) {
             $expiration = $expiration > 0 ? $expiration : $this->min_expiration;
             set_transient($transient, $html, $expiration);
             return $html;
@@ -169,7 +171,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
                 $items_code .= '<object data="' . esc_url($src) . '"></object>';
             }
 
-            return "<!-- publicalbum.org -->\n"
+            return ""
                 . '<div class="pa-' . $props->mode . '-widget" style="' . esc_attr($style) . '"'
                 . ' data-link="' . esc_url($props->link) . '"'
                 . ' data-found="' . count($photos) . '"'
@@ -209,20 +211,15 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
     {
         $src_url = urldecode($this->url);
 
-        error_log(print_r($src_url, true));
-
-        die;
-
-
         $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
         $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 450;
 
         return [
             'type'          => 'rich',
-            'provider_name' => 'Google drive',
+            'provider_name' => 'Google Photos',
             'provider_url'  => 'https://photos.app.goo.gl',
             'title'         => 'Unknown title',
-            'html'          => $this->getcode($src_url, $width, $height),
+            'html'          => $this->getcode($src_url, $width, $height) . '<script src="' . $this->player_js . '"></script>',
         ];
     }
     /** inline @inheritDoc */

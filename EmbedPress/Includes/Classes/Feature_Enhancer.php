@@ -10,6 +10,7 @@ use EmbedPress\Providers\TemplateLayouts\YoutubeLayout;
 use EmbedPress\Providers\TikTok;
 use EmbedPress\Providers\Spreaker;
 use EmbedPress\Providers\Wrapper;
+use EmbedPress\Providers\GooglePhotos;
 
 class Feature_Enhancer
 {
@@ -129,6 +130,15 @@ class Feature_Enhancer
 		if (strpos($url, 'spreaker.com') !== false) {
 			$spreaker = new Spreaker($url, $atts);
 			if ($spreaker->validateUrl($spreaker->getUrl(false))) {
+				return true;
+			}
+		}
+
+
+		if (strpos($url, 'photos.app.goo.gl') !== false) {
+			$google_photos = new GooglePhotos($url, $atts);
+
+			if ($google_photos->validateUrl($google_photos->getUrl(false))) {
 				return true;
 			}
 		}
