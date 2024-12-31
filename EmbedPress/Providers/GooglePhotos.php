@@ -10,57 +10,24 @@ use Embera\Url;
 
 class GooglePhotos extends ProviderAdapter implements ProviderInterface
 {
-    /** Supported hosts */
     protected static $hosts = ["photos.app.goo.gl", "photos.google.com"];
-
-    /** Embed player JavaScript URL */
     private $player_js = "https://cdn.jsdelivr.net/npm/publicalbum@latest/embed-ui.min.js";
-
-    /** Unique index for multiple embeds in the same post */
-    private static $index = 1;
-
-    /** Transient expiration time */
-    private $min_expiration = 3600; // 1 hour
-
+    private $min_expiration = 3600;
     private $allowed_url_patttern = "/^https:\/\/photos\.app\.goo\.gl\/|^https:\/\/photos\.google\.com\/share\//";
-
     static public $name = "google-photos-album";
 
-
-
-    /**
-     * Validate whether the URL belongs to a Google Photos album.
-     *
-     * @param Url $url
-     * @return bool
-     */
     public function validateUrl(Url $url)
     {
-
-        return preg_match(
-            '~^https:\/\/(photos\.app\.goo\.gl|photos\.google\.com)\/.*$~i',
-            (string) $url
-        );
+        return preg_match('~^https:\/\/(photos\.app\.goo\.gl|photos\.google\.com)\/.*$~i', (string) $url);
     }
 
-    /**
-     * Generate the embedding HTML for the Google Photos album.
-     *
-     * @param string $link
-     * @param int $width
-     * @param int $height
-     * @param int $imageWidth
-     * @param int $imageHeight
-     * @param int $expiration
-     * @return string|null
-     */
     public function getcode($link, $width = 0, $height = 480, $imageWidth = 1920, $imageHeight = 1080, $expiration = 0)
     {
         if (is_object($link)) {
             return $this->get_html($link, $expiration);
         }
 
-        $props = $this->create_default_props();
+        $props = $this->create_default_attr();
         $props->link = $link;
         $props->width = $width;
         $props->height = $height;
@@ -70,28 +37,16 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         return $this->get_html($props, $expiration);
     }
 
-    /**
-     * Generate HTML using the fetched photos and metadata.
-     *
-     * @param object $props
-     * @param int $expiration
-     * @return string|null
-     */
     private function get_html($props, $expiration = 0)
     {
-
-        // Generate a unique transient key using the URL's MD5 hash
         $url_hash = md5($props->link);
         $transient = sprintf('%s-%s', self::$name, $url_hash);
-
-        // Attempt to retrieve the cached HTML
         $html = get_transient($transient);
         if ($html) {
             return $html;
         }
 
-        // Generate the HTML if not cached
-        $html = $this->get_embed_player_html_code($props);
+        $html = $this->get_embed_google_photos_html($props);
         if ($html) {
             $expiration = $expiration > 0 ? $expiration : $this->min_expiration;
             set_transient($transient, $html, $expiration);
@@ -101,12 +56,6 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         return null;
     }
 
-    /**
-     * Fetch the contents of a remote URL.
-     *
-     * @param string $url
-     * @return string|null
-     */
     private function get_remote_contents($url)
     {
         if (preg_match($this->allowed_url_patttern, $url)) {
@@ -118,15 +67,8 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         return null;
     }
 
-    /**
-     * Parse Open Graph tags from HTML content.
-     *
-     * @param string $contents
-     * @return array
-     */
     private function parse_ogtags($contents)
     {
-        $m = null;
         preg_match_all('~<\s*meta\s+property="(og:[^"]+)"\s+content="([^"]*)~i', $contents, $m);
         $ogtags = [];
         for ($i = 0; $i < count($m[1]); $i++) {
@@ -135,35 +77,20 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         return $ogtags;
     }
 
-    /**
-     * Parse photo URLs from HTML content.
-     *
-     * @param string $contents
-     * @return array
-     */
     private function parse_photos($contents)
     {
-        $m = null;
-        preg_match_all('~\"(http[^"]+)"\,[0-9^,]+\,[0-9^,]+~i', $contents, $m);
+        preg_match_all('~\"(http[^"]+)\"\,[0-9^,]+\,[0-9^,]+~i', $contents, $m);
         return array_unique($m[1]);
     }
 
-    /**
-     * Generate the embed player HTML code for the album.
-     *
-     * @param object $props
-     * @return string|null
-     */
-    private function get_embed_player_html_code($props)
+    private function get_embed_google_photos_html($props)
     {
         if ($contents = $this->get_remote_contents($props->link)) {
             $og = $this->parse_ogtags($contents);
             $title = isset($og['og:title']) ? $og['og:title'] : null;
             $photos = $this->parse_photos($contents);
 
-            $style = 'display:none;'
-                . 'width:' . ($props->width === 0 ? '100%' : ($props->width . 'px')) . ';'
-                . 'height:' . ($props->height === 0 ? '100%' : ($props->height . 'px')) . ';';
+            $style = 'display:none;' . 'width:' . ($props->width === 0 ? '100%' : ($props->width . 'px')) . ';' . 'height:' . ($props->height === 0 ? '100%' : ($props->height . 'px')) . ';';
 
             $items_code = '';
             foreach ($photos as $photo) {
@@ -171,22 +98,12 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
                 $items_code .= '<object data="' . esc_url($src) . '"></object>';
             }
 
-            return ""
-                . '<div class="pa-' . $props->mode . '-widget" style="' . esc_attr($style) . '"'
-                . ' data-link="' . esc_url($props->link) . '"'
-                . ' data-found="' . count($photos) . '"'
-                . ($title ? ' data-title="' . esc_attr($title) . '"' : '')
-                . '>' . $items_code . '</div>' . "\n";
+            return '<div class="pa-' . $props->mode . '-widget" style="' . esc_attr($style) . '"' . ' data-link="' . esc_url($props->link) . '"' . ' data-found="' . count($photos) . '"' . ($title ? ' data-title="' . esc_attr($title) . '"' : '') . '>' . $items_code . '</div>' . "\n";
         }
         return null;
     }
 
-    /**
-     * Create default embedding properties.
-     *
-     * @return \stdClass
-     */
-    private function create_default_props()
+    private function create_default_attr()
     {
         $props = new \stdClass();
         $props->mode = 'gallery-player';
@@ -195,18 +112,11 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $props->imageWidth = 1920;
         $props->imageHeight = 1080;
         $props->slideshowAutoplay = false;
-        $props->slideshowDelay = 5; // Seconds
+        $props->slideshowDelay = 5;
         $props->backgroundColor = '#000000';
         return $props;
     }
 
-    /**
-     * This method fakes an Oembed response.
-     *
-     * @since   1.0.0
-     *
-     * @return  array
-     */
     public function fakeResponse()
     {
         $src_url = urldecode($this->url);
@@ -215,14 +125,14 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 450;
 
         return [
-            'type'          => 'rich',
+            'type' => 'rich',
             'provider_name' => 'Google Photos',
-            'provider_url'  => 'https://photos.app.goo.gl',
-            'title'         => 'Unknown title',
-            'html'          => $this->getcode($src_url, $width, $height) . '<script src="' . $this->player_js . '"></script>',
+            'provider_url' => 'https://photos.app.goo.gl',
+            'title' => 'Unknown title',
+            'html' => $this->getcode($src_url, $width, $height) . '<script src="' . $this->player_js . '"></script>',
         ];
     }
-    /** inline @inheritDoc */
+
     public function modifyResponse(array $response = [])
     {
         return $this->fakeResponse();
