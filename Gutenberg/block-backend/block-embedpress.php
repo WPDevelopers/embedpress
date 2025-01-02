@@ -228,8 +228,6 @@ function embedpress_render_block($attributes)
 	if (!empty($attributes['embedHTML'])) {
 		$embed  = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
 
-		error_log(print_r($embed, true));
-
 		$content_share_class = '';
 		$share_position_class = '';
 		$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';

@@ -16,16 +16,50 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
     private $allowed_url_patttern = "/^https:\/\/photos\.app\.goo\.gl\/|^https:\/\/photos\.google\.com\/share\//";
     static public $name = "google-photos-album";
 
+    /** @var array Array with allowed params for the current Provider */
+    protected $allowedParams = [
+        'mode',
+        'maxwidth',
+        'maxheight',
+        'imageWidth',
+        'imageHeight',
+        'playerAutoplay',
+        'delay',
+        'repeat',
+        'mediaitemsAspectRatio',
+        'mediaitemsEnlarge',
+        'mediaitemsStretch',
+        'mediaitemsCover',
+        'backgroundColor',
+        'expiration',
+    ];
+
+
+    /** inline {@inheritdoc} */
+    protected $httpsSupport = true;
+
+    public function getAllowedParams()
+    {
+        return $this->allowedParams;
+    }
+
+    public function __construct($url, array $config = [])
+    {
+        parent::__construct($url, $config);
+    }
+
     public function validateUrl(Url $url)
     {
         return preg_match('~^https:\/\/(photos\.app\.goo\.gl|photos\.google\.com)\/.*$~i', (string) $url);
     }
 
-    public function getcode($link, $width = 0, $height = 480, $imageWidth = 1920, $imageHeight = 1080, $expiration = 0)
+    public function get_embeded_content($link, $width = 0, $height = 480, $imageWidth = 1920, $imageHeight = 1080, $expiration = 0, $mode = 'gallery-player', $playerAutoplay = false, $delay = 5, $repeat = true, $aspectRatio = true, $enlarge = true, $stretch = true, $cover = false, $backgroundColor = '#000000')
     {
         if (is_object($link)) {
             return $this->get_html($link, $expiration);
         }
+
+
 
         $props = $this->create_default_attr();
         $props->link = $link;
@@ -33,14 +67,28 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $props->height = $height;
         $props->imageWidth = $imageWidth;
         $props->imageHeight = $imageHeight;
+        $props->mode = $mode;
+        $props->slideshowAutoplay = $playerAutoplay;
+        $props->slideshowDelay = $delay;
+        $props->repeat = $repeat;
+        $props->mediaitemsAspectRatio = $aspectRatio;
+        $props->mediaitemsEnlarge = $enlarge;
+        $props->mediaitemsStretch = $stretch;
+        $props->mediaitemsCover = $cover;
+        $props->backgroundColor = $backgroundColor;
 
         return $this->get_html($props, $expiration);
     }
 
     private function get_html($props, $expiration = 0)
     {
+
+
+        // Generate a hash from the $props object for uniqueness
+        $props_hash = md5(serialize($props));
         $url_hash = md5($props->link);
-        $transient = sprintf('%s-%s', self::$name, $url_hash);
+        $transient = sprintf('%s-%s-%s', self::$name, $url_hash, $props_hash);
+
         $html = get_transient($transient);
         if ($html) {
             return $html;
@@ -55,6 +103,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
 
         return null;
     }
+
 
     private function get_remote_contents($url)
     {
@@ -85,20 +134,54 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
 
     private function get_embed_google_photos_html($props)
     {
+
+        error_log(print_r($props, true));
+
         if ($contents = $this->get_remote_contents($props->link)) {
             $og = $this->parse_ogtags($contents);
-            $title = isset($og['og:title']) ? $og['og:title'] : null;
+            $title = $og['og:title'] ?? null;
             $photos = $this->parse_photos($contents);
 
-            $style = 'display:none;' . 'width:' . ($props->width === 0 ? '100%' : ($props->width . 'px')) . ';' . 'height:' . ($props->height === 0 ? '100%' : ($props->height . 'px')) . ';';
+            $style = sprintf(
+                'display:none;width:%s;height:%s;',
+                $props->width === 0 ? '100%' : ($props->width . 'px'),
+                $props->height === 0 ? '100%' : ($props->height . 'px')
+            );
 
             $items_code = '';
             foreach ($photos as $photo) {
                 $src = sprintf('%s=w%d-h%d', $photo, $props->imageWidth, $props->imageHeight);
-                $items_code .= '<object data="' . esc_url($src) . '"></object>';
+                $items_code .= sprintf('<object data="%s"></object>', esc_url($src));
             }
 
-            return '<div class="pa-' . $props->mode . '-widget" style="' . esc_attr($style) . '"' . ' data-link="' . esc_url($props->link) . '"' . ' data-found="' . count($photos) . '"' . ($title ? ' data-title="' . esc_attr($title) . '"' : '') . '>' . $items_code . '</div>' . "\n";
+            $attributes = [
+                'data-link' => $props->link,
+                'data-found' => count($photos),
+                'data-title' => $title,
+                'data-autoplay' => 'false', //
+                'data-delay' => $props->slideshowDelay > 0 ? $props->slideshowDelay : null,
+                'data-repeat' => 'true',
+                'data-mediaitems-aspectratio' => $props->mediaitemsAspectRatio ? 'true' : 'false',
+                'data-mediaitems-enlarge' => $props->mediaitemsEnlarge ? 'true' : 'false',
+                'data-mediaitems-stretch' => $props->mediaitemsStretch ? 'true' : 'false',
+                'data-mediaitems-cover' => $props->mediaitemsCover ? 'true' : 'false',
+                'data-background-color' => $props->backgroundColor,
+            ];
+
+            $attributes_string = '';
+            foreach ($attributes as $key => $value) {
+                if ($value !== null) {
+                    $attributes_string .= sprintf(' %s="%s"', $key, $value);
+                }
+            }
+
+            return sprintf(
+                "<div class=\"pa-%s-widget\" style=\"%s\"%s>%s</div>\n",
+                $props->mode,
+                $style,
+                $attributes_string,
+                $items_code
+            );
         }
         return null;
     }
@@ -113,6 +196,11 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $props->imageHeight = 1080;
         $props->slideshowAutoplay = false;
         $props->slideshowDelay = 5;
+        $props->repeat = true;
+        $props->mediaitemsAspectRatio = true;
+        $props->mediaitemsEnlarge = true;
+        $props->mediaitemsStretch = true;
+        $props->mediaitemsCover = false;
         $props->backgroundColor = '#000000';
         return $props;
     }
@@ -121,15 +209,37 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
     {
         $src_url = urldecode($this->url);
 
+        // Extract configuration or set defaults
         $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
         $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 450;
 
+        // Fetch parameters
+        $params = $this->getParams();
+
+
+        // Pass parameters explicitly
         return [
             'type' => 'rich',
             'provider_name' => 'Google Photos',
             'provider_url' => 'https://photos.app.goo.gl',
-            'title' => 'Unknown title',
-            'html' => $this->getcode($src_url, $width, $height) . '<script src="' . $this->player_js . '"></script>',
+            'title' => $params['title'] ?? 'Unknown title',
+            'html' => $this->get_embeded_content(
+                $src_url,
+                $width,
+                $height,
+                $width,
+                $height,
+                $params['expiration'] ?? 0,
+                $params['mode'] ?? 'gallery-player',
+                $params['playerAutoplay'],
+                $params['delay'] ?? 2,
+                $params['repeat'],
+                $params['mediaitemsAspectRatio'],
+                $params['mediaitemsEnlarge'],
+                $params['mediaitemsStretch'],
+                $params['mediaitemsCover'],               
+                $params['backgroundColor'],
+            ) . '<script src="' . $this->player_js . '"></script>',
         ];
     }
 
