@@ -2,6 +2,7 @@
 
 namespace EmbedPress\Providers;
 
+use EmbedPress\Includes\Classes\Helper;
 use Embera\Provider\ProviderAdapter;
 use Embera\Provider\ProviderInterface;
 use Embera\Url;
@@ -135,8 +136,6 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
     private function get_embed_google_photos_html($props)
     {
 
-        error_log(print_r($props, true));
-
         if ($contents = $this->get_remote_contents($props->link)) {
             $og = $this->parse_ogtags($contents);
             $title = $og['og:title'] ?? null;
@@ -158,15 +157,16 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
                 'data-link' => $props->link,
                 'data-found' => count($photos),
                 'data-title' => $title,
-                'data-autoplay' => 'false', //
-                'data-delay' => $props->slideshowDelay > 0 ? $props->slideshowDelay : null,
-                'data-repeat' => 'true',
-                'data-mediaitems-aspectratio' => $props->mediaitemsAspectRatio ? 'true' : 'false',
-                'data-mediaitems-enlarge' => $props->mediaitemsEnlarge ? 'true' : 'false',
-                'data-mediaitems-stretch' => $props->mediaitemsStretch ? 'true' : 'false',
-                'data-mediaitems-cover' => $props->mediaitemsCover ? 'true' : 'false',
+                'data-mediaitems-aspect-ratio' => $props->mediaitemsAspectRatio, 
+                'data-mediaitems-enlarge' => $props->mediaitemsEnlarge,
+                'data-mediaitems-stretch' => $props->mediaitemsStretch,
+                'data-mediaitems-cover' => $props->mediaitemsCover,
                 'data-background-color' => $props->backgroundColor,
             ];
+
+
+            // Apply filter to allow modification of attributes
+            $attributes = apply_filters('embedpress_google_photos_attributes', $attributes, $props);
 
             $attributes_string = '';
             foreach ($attributes as $key => $value) {
@@ -217,7 +217,17 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $params = $this->getParams();
 
 
-        // Pass parameters explicitly
+        $expiration = $params['expiration'] ?? 3600;
+        $mode = $params['mode'] ?? 'carousel';
+        $playerAutoplay = isset($params['playerAutoplay']) ? Helper::getBooleanParam($params['playerAutoplay']) : false;
+        $delay = $params['delay'] ?? 5;
+        $repeat = isset($params['repeat']) ? Helper::getBooleanParam($params['repeat']) : false;
+        $aspectRatio = isset($params['mediaitemsAspectRatio']) ? Helper::getBooleanParam($params['mediaitemsAspectRatio']) : false;
+        $enlarge = isset($params['mediaitemsEnlarge']) ? Helper::getBooleanParam($params['mediaitemsEnlarge']) : false;
+        $stretch = isset($params['mediaitemsStretch']) ? Helper::getBooleanParam($params['mediaitemsStretch']) : false;
+        $cover = isset($params['mediaitemsCover']) ? Helper::getBooleanParam($params['mediaitemsCover']) : false;
+        $backgroundColor = $params['backgroundColor'] ?? '#000000';
+
         return [
             'type' => 'rich',
             'provider_name' => 'Google Photos',
@@ -229,16 +239,16 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
                 $height,
                 $width,
                 $height,
-                $params['expiration'] ?? 0,
-                $params['mode'] ?? 'gallery-player',
-                $params['playerAutoplay'],
-                $params['delay'] ?? 2,
-                $params['repeat'],
-                $params['mediaitemsAspectRatio'],
-                $params['mediaitemsEnlarge'],
-                $params['mediaitemsStretch'],
-                $params['mediaitemsCover'],               
-                $params['backgroundColor'],
+                $expiration,
+                $mode,
+                $playerAutoplay,
+                $delay,
+                $repeat,
+                $aspectRatio,
+                $enlarge,
+                $stretch,
+                $cover,
+                $backgroundColor
             ) . '<script src="' . $this->player_js . '"></script>',
         ];
     }

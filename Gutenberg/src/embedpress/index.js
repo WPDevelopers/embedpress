@@ -958,7 +958,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			backgroundColor: {
 				type: 'string',
-				default: ''
+				default: '#000000'
 			},
 			expiration: {
 				type: 'number',

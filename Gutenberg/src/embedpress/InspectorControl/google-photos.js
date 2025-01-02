@@ -4,6 +4,8 @@
 import { isGooglePhotosUrl } from '../functions';
 import { EPIcon } from './../../common/icons';
 import { getParams } from '../functions';
+import { addProAlert, isPro, removeAlert, addTipsTrick, removeTipsAlert, tipsTricksAlert } from '../../common/helper';
+
 
 const { isShallowEqualObjects } = wp.isShallowEqual;
 
@@ -106,19 +108,35 @@ export default function GooglePhotos({ attributes, setAttributes }) {
         { name: 'Purple', color: '#800080' }
     ];
 
+    const isProPluginActive = embedpressObj.is_pro_plugin_active;
+
+    let proLabel = ' (Pro)';
+    if (isProPluginActive) {
+        proLabel = '';
+    }
+
+
     return (
         <div>
             {isGooglePhotosUrl(url) && (
                 <div className={'ep__google-photos-options'}>
                     <PanelBody title={<div className='ep-pannel-icon'>{EPIcon} {__('GooglePhotos Controls', 'embedpress')}</div>} initialOpen={true}>
                         <SelectControl
-                            label={__('Mode', 'embedpress')}
+                            label={__('Album Mode', 'embedpress')}
                             value={mode}
                             options={[
                                 { label: __('Carousel', 'embedpress'), value: 'carousel' },
-                                { label: __('Gallery Player', 'embedpress'), value: 'gallery-player' },
+                                { label: __('Gallery Player' + proLabel, 'embedpress'), value: 'gallery-player' },
+                                { label: __('Grid' + proLabel + ' (Comming soon)', 'embedpress'), value: 'gallery-grid' },
+                                { label: __('Masonary' + proLabel + ' (Comming soon)', 'embedpress'), value: 'gallery-masonary' },
                             ]}
-                            onChange={(mode) => setAttributes({ mode })}
+                            onChange={(mode) => {
+                                if ((mode === 'gallery-player' || mode === 'gallery-grid' || mode === 'gallery-masonary') && !isProPluginActive) {
+                                    addProAlert(null, isProPluginActive);
+                                } else {
+                                    setAttributes({ mode })
+                                }
+                            }}
                         />
                         {
                             mode == 'gallery-player' && (
