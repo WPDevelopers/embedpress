@@ -21,6 +21,8 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
     protected $allowedParams = [
         'mode',
         'maxwidth',
+        'google_photos_width',
+        'google_photos_height',
         'maxheight',
         'imageWidth',
         'imageHeight',
@@ -209,13 +211,19 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
     {
         $src_url = urldecode($this->url);
 
+        // Fetch parameters
+        $params = $this->getParams();
+
         // Extract configuration or set defaults
         $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
         $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 450;
 
-        // Fetch parameters
-        $params = $this->getParams();
-
+        if(isset($params['google_photos_width'])){
+            $width = $params['google_photos_width'];
+        }
+        if(isset($params['google_photos_height'])){
+            $height = $params['google_photos_height'];
+        }
 
         $expiration = $params['expiration'] ?? 3600;
         $mode = $params['mode'] ?? 'carousel';

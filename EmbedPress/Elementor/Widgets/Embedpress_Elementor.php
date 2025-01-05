@@ -189,7 +189,7 @@ class Embedpress_Elementor extends Widget_Base
 					'calendly'    => __('Calendly', 'embedpress'),
 					'opensea'     => __('OpenSea', 'embedpress'),
 					'spreaker'    => __('Spreaker', 'embedpress'),
-					'google-photos'    => __('Google Photos', 'embedpress'),
+					'google_photos'    => __('Google Photos', 'embedpress'),
 					'selfhosted_video' => __('Self-hosted Video', 'embedpress'),
 					'selfhosted_audio'  => __('Self-hosted Audio', 'embedpress'),
 				]
@@ -1806,6 +1806,7 @@ class Embedpress_Elementor extends Widget_Base
 						'selfhosted_video',
 						'selfhosted_audio',
 						'spreaker',
+						'google_photos'
 					],
 				],
 			]
@@ -1837,6 +1838,7 @@ class Embedpress_Elementor extends Widget_Base
 						'selfhosted_video',
 						'selfhosted_audio',
 						'spreaker',
+						'google_photos'
 
 					],
 				],
@@ -3727,7 +3729,7 @@ class Embedpress_Elementor extends Widget_Base
 	public function init_google_photos_control_setion()
 	{
 		$condition = [
-			'embedpress_pro_embeded_source' => 'google-photos',
+			'embedpress_pro_embeded_source' => 'google_photos',
 		];
 
 		$this->start_controls_section(
@@ -3914,7 +3916,12 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'selectors' => [
 					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive, {{WRAPPER}} .sponsored-youtube-video > iframe, 
-					{{WRAPPER}} .plyr--video, {{WRAPPER}} .ose-giphy img' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
+					{{WRAPPER}} .plyr--video, 
+					{{WRAPPER}} .ose-giphy img,
+					{{WRAPPER}} .jx-gallery-player-widget' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
+				],
+				'condition' => [
+					'embedpress_pro_embeded_source!' => 'google_photos',
 				],
 			]
 		);
@@ -3951,10 +3958,86 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'selectors' => [
 					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive,{{WRAPPER}} .sponsored-youtube-video > iframe,
-					{{WRAPPER}} .plyr--video, {{WRAPPER}} .ose-giphy img' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
+					{{WRAPPER}} .plyr--video, 
+					{{WRAPPER}} .ose-giphy img,
+					{{WRAPPER}} .jx-gallery-player-widget' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
 				],
 				'condition' => [
-					'embedpress_pro_embeded_source!' => 'instafeed'
+					'embedpress_pro_embeded_source!' => 'instafeed',
+					'embedpress_pro_embeded_source!' => 'google_photos',
+				],
+			]
+		);
+		$this->add_responsive_control(
+			'google_photos_width',
+			[
+				'label' => __('Width', 'embedpress'),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => ['px'],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 1500,
+						'step' => 1,
+					],
+				],
+				'devices' => ['desktop', 'tablet', 'mobile'],
+				'default' => [
+                    'size' => !empty($value = intval(Helper::get_options_value('enableEmbedResizeWidth'))) ? $value : 600,
+					'unit' => 'px',
+				],
+				'desktop_default' => [
+					'size' => 600,
+					'unit' => 'px',
+				],
+				'tablet_default' => [
+					'size' => 600,
+					'unit' => 'px',
+				],
+				'mobile_default' => [
+					'size' => 600,
+					'unit' => 'px',
+				],
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'google_photos'
+				],
+				
+			]
+		);
+
+		$this->add_responsive_control(
+			'google_photos_height',
+			[
+				'label' => __('Height', 'embedpress'),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => ['px', '%'],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 1500,
+						'step' => 1,
+					],
+				],
+				'devices' => ['desktop', 'tablet', 'mobile'],
+				'desktop_default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
+				'default' => [
+                    'size' => !empty($value = intval(Helper::get_options_value('enableEmbedResizeHeight'))) ? $value : 600,
+					'unit' => 'px',
+				],
+				'tablet_default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
+				'mobile_default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
+				
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'google_photos'
 				],
 			]
 		);
