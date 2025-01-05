@@ -166,7 +166,7 @@ export default function GooglePhotos({ attributes, setAttributes }) {
 
 
 
-                        <ToggleControl
+                        {/* <ToggleControl
                             label={__('Keep Aspect Ratio', 'embedpress')}
                             checked={mediaitemsAspectRatio}
                             onChange={(mediaitemsAspectRatio) => setAttributes({ mediaitemsAspectRatio })}
@@ -188,7 +188,7 @@ export default function GooglePhotos({ attributes, setAttributes }) {
                             label={__('Cover', 'embedpress')}
                             checked={mediaitemsCover}
                             onChange={(mediaitemsCover) => setAttributes({ mediaitemsCover })}
-                        />
+                        /> */}
 
                         <ColorPalette
                             label={__('Background Color', 'embedpress')}

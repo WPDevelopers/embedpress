@@ -144,10 +144,11 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             $photos = $this->parse_photos($contents);
 
             $style = sprintf(
-                'display:none;width:%s;height:%s;',
+                'display: none; width: %s; height: %s; max-width: 100%%;',
                 $props->width === 0 ? '100%' : ($props->width . 'px'),
                 $props->height === 0 ? '100%' : ($props->height . 'px')
             );
+            
 
             $items_code = '';
             foreach ($photos as $photo) {

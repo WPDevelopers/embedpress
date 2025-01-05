@@ -3804,41 +3804,41 @@ class Embedpress_Elementor extends Widget_Base
 		);
 
 		// Toggles for Media Items
-		$this->add_control(
-			'mediaitemsAspectRatio',
-			[
-				'label' => __('Keep Aspect Ratio', 'embedpress'),
-				'type' => \Elementor\Controls_Manager::SWITCHER,
-				'default' => 'yes',
-			]
-		);
+		// $this->add_control(
+		// 	'mediaitemsAspectRatio',
+		// 	[
+		// 		'label' => __('Keep Aspect Ratio', 'embedpress'),
+		// 		'type' => \Elementor\Controls_Manager::SWITCHER,
+		// 		'default' => 'yes',
+		// 	]
+		// );
 
-		$this->add_control(
-			'mediaitemsEnlarge',
-			[
-				'label' => __('Enlarge', 'embedpress'),
-				'type' => \Elementor\Controls_Manager::SWITCHER,
-				'default' => 'no',
-			]
-		);
+		// $this->add_control(
+		// 	'mediaitemsEnlarge',
+		// 	[
+		// 		'label' => __('Enlarge', 'embedpress'),
+		// 		'type' => \Elementor\Controls_Manager::SWITCHER,
+		// 		'default' => 'no',
+		// 	]
+		// );
 
-		$this->add_control(
-			'mediaitemsStretch',
-			[
-				'label' => __('Stretch', 'embedpress'),
-				'type' => \Elementor\Controls_Manager::SWITCHER,
-				'default' => 'no',
-			]
-		);
+		// $this->add_control(
+		// 	'mediaitemsStretch',
+		// 	[
+		// 		'label' => __('Stretch', 'embedpress'),
+		// 		'type' => \Elementor\Controls_Manager::SWITCHER,
+		// 		'default' => 'no',
+		// 	]
+		// );
 
-		$this->add_control(
-			'mediaitemsCover',
-			[
-				'label' => __('Cover', 'embedpress'),
-				'type' => \Elementor\Controls_Manager::SWITCHER,
-				'default' => 'no',
-			]
-		);
+		// $this->add_control(
+		// 	'mediaitemsCover',
+		// 	[
+		// 		'label' => __('Cover', 'embedpress'),
+		// 		'type' => \Elementor\Controls_Manager::SWITCHER,
+		// 		'default' => 'no',
+		// 	]
+		// );
 
 		// Background Color
 		$this->add_control(
