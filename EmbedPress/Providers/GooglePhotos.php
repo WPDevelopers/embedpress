@@ -220,9 +220,11 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 450;
 
         if(isset($params['google_photos_width'])){
+            $this->config['maxwidth'] = $params['google_photos_width'];
             $width = $params['google_photos_width'];
         }
         if(isset($params['google_photos_height'])){
+            $this->config['maxwidth'] = $params['google_photos_height'];
             $height = $params['google_photos_height'];
         }
 

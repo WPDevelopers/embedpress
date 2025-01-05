@@ -3998,6 +3998,11 @@ class Embedpress_Elementor extends Widget_Base
 					'size' => 600,
 					'unit' => 'px',
 				],
+				'selectors' => [
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-google-photos iframe,
+					{{WRAPPER}} .ose-google-photos,
+					{{WRAPPER}} .jx-gallery-player-widget' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
+				],
 				'condition' => [
 					'embedpress_pro_embeded_source' => 'google_photos'
 				],
