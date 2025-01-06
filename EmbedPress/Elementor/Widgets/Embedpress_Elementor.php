@@ -3868,7 +3868,7 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'expiration',
 			[
-				'label' => __('Expiration (minutes)', 'embedpress'),
+				'label' => __('Sync after (minutes)', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::NUMBER,
 				'min' => 0,
 				'max' => 1440,

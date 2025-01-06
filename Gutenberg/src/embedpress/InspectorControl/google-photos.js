@@ -198,7 +198,7 @@ export default function GooglePhotos({ attributes, setAttributes }) {
                         />
 
                         <RangeControl
-                            label={__('Expiration (minutes)', 'embedpress')}
+                            label={__('Sync after (minutes)', 'embedpress')}
                             value={expiration}
                             onChange={(expiration) => setAttributes({ expiration })}
                             min={0}
