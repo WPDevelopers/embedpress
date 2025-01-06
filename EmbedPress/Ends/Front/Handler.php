@@ -89,6 +89,14 @@ class Handler extends EndHandlerAbstract
         );
 
         wp_register_script(
+            'embedpress-google-photos-album',
+            EMBEDPRESS_URL_ASSETS . 'js/embed-ui.min.js',
+            $dependencies,
+            EMBEDPRESS_PLUGIN_VERSION,
+            true
+        );
+
+        wp_register_script(
             'embedpress-ads',
             EMBEDPRESS_URL_ASSETS . 'js/ads.js',
             ['jquery', 'wp-data'],

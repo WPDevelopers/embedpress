@@ -189,6 +189,7 @@ class Embedpress_Elementor extends Widget_Base
 					'calendly'    => __('Calendly', 'embedpress'),
 					'opensea'     => __('OpenSea', 'embedpress'),
 					'spreaker'    => __('Spreaker', 'embedpress'),
+					'google_photos'    => __('Google Photos', 'embedpress'),
 					'selfhosted_video' => __('Self-hosted Video', 'embedpress'),
 					'selfhosted_audio'  => __('Self-hosted Audio', 'embedpress'),
 				]
@@ -429,6 +430,8 @@ class Embedpress_Elementor extends Widget_Base
 		 * Spreaker Control section
 		 */
 		$this->init_spreaker_control_section();
+		
+		$this->init_google_photos_control_setion();
 		
 
 
@@ -1803,6 +1806,7 @@ class Embedpress_Elementor extends Widget_Base
 						'selfhosted_video',
 						'selfhosted_audio',
 						'spreaker',
+						'google_photos'
 					],
 				],
 			]
@@ -1834,6 +1838,7 @@ class Embedpress_Elementor extends Widget_Base
 						'selfhosted_video',
 						'selfhosted_audio',
 						'spreaker',
+						'google_photos'
 
 					],
 				],
@@ -3721,6 +3726,160 @@ class Embedpress_Elementor extends Widget_Base
 		$this->end_controls_section();
 	}
 
+	public function init_google_photos_control_setion()
+	{
+		$condition = [
+			'embedpress_pro_embeded_source' => 'google_photos',
+		];
+
+		$this->start_controls_section(
+			'google_photos_controls_section',
+			[
+				'label' => __('Google Photos Controls', 'embedpress'),
+				'condition'    => $condition,
+			]
+		);
+
+		
+
+		// $this->pro_text
+		// Mode Selection
+		$this->add_control(
+			'mode',
+			[
+				'label' => __('Album Mode', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'options' => [
+					'carousel' => __('Carousel', 'embedpress'),
+					'gallery-player' => __('Gallery Player', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
+					'gallery-grid' => __('Grid', 'embedpress') . ' ' . __($this->pro_text .' (Coming Soon)', 'embedpress'),
+					'gallery-masonary' => __('Masonary', 'embedpress') . ' ' . __($this->pro_text . ' (Coming Soon)', 'embedpress'),
+				],
+				'default' => 'carousel',
+			]
+		);
+
+		if ( !apply_filters('embedpress/is_allow_rander', false) ) {
+			$this->add_control(
+				'embedpress_google_photos__pro_enable_warning_1',
+				[
+					'label'     => sprintf( '<a style="color: red" target="_blank" href="https://wpdeveloper.com/in/upgrade-embedpress">%s</a>',
+						esc_html__( 'Only Available in Pro Version!', 'essential-addons-for-elementor-lite' ) ),
+					'type'      => Controls_Manager::RAW_HTML,
+					'condition' => [
+						'mode' => [ 'gallery-player', 'gallery-grid', 'gallery-masonary'],
+					],
+				]
+			);
+		}
+
+
+		// Player Autoplay, Delay, and Repeat
+		$this->add_control(
+			'playerAutoplay',
+			[
+				'label' => __('Autoplay', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'default' => 'no',
+				'condition' => [
+					'mode' => 'gallery-player',
+				],
+			]
+		);
+
+		$this->add_control(
+			'delay',
+			[
+				'label' => __('Delay (seconds)', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::NUMBER,
+				'min' => 1,
+				'max' => 60,
+				'default' => 5,
+				'condition' => [
+					'mode' => 'gallery-player',
+				],
+			]
+		);
+
+		$this->add_control(
+			'repeat',
+			[
+				'label' => __('Repeat', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SWITCHER,
+				'label_on' => __('Yes', 'embedpress'),
+				'label_off' => __('No', 'embedpress'),
+				'default' => 'no',
+				'condition' => [
+					'mode' => 'gallery-player',
+				],
+			]
+		);
+
+		// Toggles for Media Items
+		// $this->add_control(
+		// 	'mediaitemsAspectRatio',
+		// 	[
+		// 		'label' => __('Keep Aspect Ratio', 'embedpress'),
+		// 		'type' => \Elementor\Controls_Manager::SWITCHER,
+		// 		'default' => 'yes',
+		// 	]
+		// );
+
+		// $this->add_control(
+		// 	'mediaitemsEnlarge',
+		// 	[
+		// 		'label' => __('Enlarge', 'embedpress'),
+		// 		'type' => \Elementor\Controls_Manager::SWITCHER,
+		// 		'default' => 'no',
+		// 	]
+		// );
+
+		// $this->add_control(
+		// 	'mediaitemsStretch',
+		// 	[
+		// 		'label' => __('Stretch', 'embedpress'),
+		// 		'type' => \Elementor\Controls_Manager::SWITCHER,
+		// 		'default' => 'no',
+		// 	]
+		// );
+
+		// $this->add_control(
+		// 	'mediaitemsCover',
+		// 	[
+		// 		'label' => __('Cover', 'embedpress'),
+		// 		'type' => \Elementor\Controls_Manager::SWITCHER,
+		// 		'default' => 'no',
+		// 	]
+		// );
+
+		// Background Color
+		$this->add_control(
+			'backgroundColor',
+			[
+				'label' => __('Background Color', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::COLOR,
+				'default' => '#000000',
+			]
+		);
+
+		// Expiration
+		$this->add_control(
+			'expiration',
+			[
+				'label' => __('Expiration (minutes)', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::NUMBER,
+				'min' => 0,
+				'max' => 1440,
+				'default' => 60,
+			]
+		);
+
+		$this->end_controls_section();
+	}
+	
+
 	/**
 	 * End Spreaker Controls
 	 */
@@ -3771,7 +3930,12 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'selectors' => [
 					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive>iframe,{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive, {{WRAPPER}} .sponsored-youtube-video > iframe, 
-					{{WRAPPER}} .plyr--video, {{WRAPPER}} .ose-giphy img' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
+					{{WRAPPER}} .plyr--video, 
+					{{WRAPPER}} .ose-giphy img,
+					{{WRAPPER}} .jx-gallery-player-widget' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
+				],
+				'condition' => [
+					'embedpress_pro_embeded_source!' => 'google_photos',
 				],
 			]
 		);
@@ -3808,10 +3972,91 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'selectors' => [
 					'{{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive iframe, {{WRAPPER}} .embedpress-elements-wrapper .ose-embedpress-responsive,{{WRAPPER}} .sponsored-youtube-video > iframe,
-					{{WRAPPER}} .plyr--video, {{WRAPPER}} .ose-giphy img' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
+					{{WRAPPER}} .plyr--video, 
+					{{WRAPPER}} .ose-giphy img,
+					{{WRAPPER}} .jx-gallery-player-widget' => 'height: {{size}}{{UNIT}}!important;max-height: 100%!important',
 				],
 				'condition' => [
-					'embedpress_pro_embeded_source!' => 'instafeed'
+					'embedpress_pro_embeded_source!' => 'instafeed',
+					'embedpress_pro_embeded_source!' => 'google_photos',
+				],
+			]
+		);
+		$this->add_responsive_control(
+			'google_photos_width',
+			[
+				'label' => __('Width', 'embedpress'),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => ['px'],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 1500,
+						'step' => 1,
+					],
+				],
+				'devices' => ['desktop', 'tablet', 'mobile'],
+				'default' => [
+                    'size' => !empty($value = intval(Helper::get_options_value('enableEmbedResizeWidth'))) ? $value : 600,
+					'unit' => 'px',
+				],
+				'desktop_default' => [
+					'size' => 600,
+					'unit' => 'px',
+				],
+				'tablet_default' => [
+					'size' => 600,
+					'unit' => 'px',
+				],
+				'mobile_default' => [
+					'size' => 600,
+					'unit' => 'px',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .embedpress-elements-wrapper .ose-google-photos iframe,
+					{{WRAPPER}} .ose-google-photos,
+					{{WRAPPER}} .jx-gallery-player-widget' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
+				],
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'google_photos'
+				],
+				
+			]
+		);
+
+		$this->add_responsive_control(
+			'google_photos_height',
+			[
+				'label' => __('Height', 'embedpress'),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => ['px', '%'],
+				'range' => [
+					'px' => [
+						'min' => 0,
+						'max' => 1500,
+						'step' => 1,
+					],
+				],
+				'devices' => ['desktop', 'tablet', 'mobile'],
+				'desktop_default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
+				'default' => [
+                    'size' => !empty($value = intval(Helper::get_options_value('enableEmbedResizeHeight'))) ? $value : 600,
+					'unit' => 'px',
+				],
+				'tablet_default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
+				'mobile_default' => [
+					'size' => 400,
+					'unit' => 'px',
+				],
+				
+				'condition' => [
+					'embedpress_pro_embeded_source' => 'google_photos'
 				],
 			]
 		);
@@ -4076,6 +4321,16 @@ class Embedpress_Elementor extends Widget_Base
 			return '';
 		}
 
+		if(!apply_filters('embedpress/is_allow_rander', false) && ($settings['mode'] !== 'carousel')){
+			echo '<div class="pro__alert__wrap" style="display: block;">
+					<div class="pro__alert__card">
+							<h2>Opps...</h2>
+							<p>You need to upgrade to the <a style="font-weight: bold; color: #5B4E96; text-decoration: underline" href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Premium</a> Version to use this feature</p>
+					</div>
+				</div>';
+			return '';
+		}
+
 		if($settings['instafeedFeedType'] === 'mixed_type' || $settings['instafeedFeedType'] === 'tagged_type'){
 			echo 'Comming Soon.';
 			return '';
@@ -4120,6 +4375,8 @@ class Embedpress_Elementor extends Widget_Base
 		$embed_content = $this->onAfterEmbedSpotify($embed_content, $settings);
 		$embed         = apply_filters('embedpress_elementor_embed', $embed_content, $settings);
 		$content       = is_object($embed) ? $embed->embed : $embed;
+
+
 
 		$embed_settings =  [];
 		$embed_settings['customThumbnail'] = !empty($settings['embedpress_content_share_custom_thumbnail']['url']) ? esc_url($settings['embedpress_content_share_custom_thumbnail']['url']) : '';
@@ -4301,6 +4558,7 @@ class Embedpress_Elementor extends Widget_Base
 						</div>
 					</div>
 				</div>
+
 			<?php endif;?>
 				
 		</div>

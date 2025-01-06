@@ -465,6 +465,13 @@ class Handler extends EndHandlerAbstract
                 $this->pluginVersion,
                 false
             );
+            wp_enqueue_script(
+                'embedpress-google-photos-album',
+                EMBEDPRESS_URL_ASSETS . 'js/embed-ui.min.js',
+                [],
+                $this->pluginVersion,
+                true
+            );
 
             wp_enqueue_style('cg-carousel', EMBEDPRESS_URL_ASSETS . 'css/carousel.min.css', $this->pluginVersion, true);
 

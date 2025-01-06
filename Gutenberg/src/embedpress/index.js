@@ -17,6 +17,7 @@ import { init as youtubeInit } from './InspectorControl/youtube';
 import { init as wistiaInit } from './InspectorControl/wistia';
 import { init as vimeoInit } from './InspectorControl/vimeo';
 import { init as spreakerInit } from './InspectorControl/spreaker';
+import { init as googlePhotos } from './InspectorControl/google-photos';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
@@ -914,6 +915,55 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: false
 			},
 
+			// Google photos attributes
+			mode: {
+				type: 'string',
+				default: 'carousel'
+			},
+			imageWidth: {
+				type: 'number',
+				default: 800
+			},
+			imageHeight: {
+				type: 'number',
+				default: 600
+			},
+			playerAutoplay: {
+				type: 'boolean',
+				default: false
+			},
+			delay: {
+				type: 'number',
+				default: 5
+			},
+			repeat: {
+				type: 'boolean',
+				default: true
+			},
+			mediaitemsAspectRatio: {
+				type: 'boolean',
+				default: true
+			},
+			mediaitemsEnlarge: {
+				type: 'boolean',
+				default: false
+			},
+			mediaitemsStretch: {
+				type: 'boolean',
+				default: false
+			},
+			mediaitemsCover: {
+				type: 'boolean',
+				default: false
+			},
+			backgroundColor: {
+				type: 'string',
+				default: '#000000'
+			},
+			expiration: {
+				type: 'number',
+				default: 60
+			},
 
 			//Custom logo atributes
 			customlogo: {
@@ -1016,4 +1066,6 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 	vimeoInit();
 	calendlyInit();
 	spreakerInit();
+	googlePhotos();
+	
 }

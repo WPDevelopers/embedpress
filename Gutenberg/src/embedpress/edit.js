@@ -31,8 +31,9 @@ import { isYTChannel as _isYTChannel, useYTChannel, isYTVideo as _isYTVideo, isY
 import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorControl/wistia';
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import { useSpreaker } from './InspectorControl/spreaker';
+import { useGooglePhotos } from './InspectorControl/google-photos';
 import ContentShare from '../common/social-share-control';
-import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo, initCarousel, isTikTok as _isTikTok, isSpreakerUrl as _isSpreakerUrl } from './functions';
+import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo, initCarousel, isTikTok as _isTikTok, isSpreakerUrl as _isSpreakerUrl, isGooglePhotosUrl as _isGooglePhotosUrl } from './functions';
 import { isCalendly as _isCalendly, useCalendly } from './InspectorControl/calendly';
 
 const {
@@ -204,6 +205,7 @@ export default function EmbedPress(props) {
 	const isVimeoVideo = _isVimeoVideo(url);
 	const isInstagramFeed = _isInstagramFeed(url);
 	const isSpreaker = _isSpreakerUrl(url);
+	const isGooglePhotos = _isGooglePhotosUrl(url);
 
 	const isOpensea = _isOpensea(url);
 	const isOpenseaSingle = _isOpenseaSingle(url);
@@ -219,6 +221,7 @@ export default function EmbedPress(props) {
 	const instafeedParams = useInstafeed(attributes);
 	const calendlyParamns = useCalendly(attributes);
 	const spreakerParams = useSpreaker(attributes);
+	const googlePhotosParams = useGooglePhotos(attributes);
 
 	let source = '';
 
@@ -358,7 +361,7 @@ export default function EmbedPress(props) {
 		return () => {
 			clearTimeout(delayDebounceFn)
 		}
-	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent, spreakerParams]);
+	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent, spreakerParams, googlePhotosParams]);
 
 
 
@@ -381,6 +384,7 @@ export default function EmbedPress(props) {
 				isCalendly={isCalendly}
 				isTikTok={isTikTok}
 				isSpreaker={isSpreaker}
+				isGooglePhotos={isGooglePhotos}
 			/>
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
@@ -406,7 +410,8 @@ export default function EmbedPress(props) {
 					(!isVimeoVideo || (!!editingURL || editingURL === 0)) &&
 					(!isCalendly || (!!editingURL || editingURL === 0)) &&
 					(!isInstagramFeed || (!!editingURL || editingURL === 0)) &&
-					(!isSpreaker || (!!editingURL || editingURL === 0))
+					(!isSpreaker || (!!editingURL || editingURL === 0)) &&
+					(!isGooglePhotos || (!!editingURL || editingURL === 0))
 				) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 

@@ -66,8 +66,6 @@ if(!function_exists('lock_content_form_handler')){
 
 function embedpress_block_scripts($attributes) {
 
-	// print_r($attributes); die;
-
 	$script_handles = [];
 
 	if(!empty($attributes['customPlayer'])){
@@ -76,6 +74,7 @@ function embedpress_block_scripts($attributes) {
 		$script_handles[] = 'vimeo-player';
 	}
 	
+	$script_handles[] = 'embedpress-google-photos-album';
 	$script_handles[] = 'embedpress-front';
 
 	if(!empty($attributes['adManager'])){

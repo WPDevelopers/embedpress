@@ -1272,4 +1272,9 @@ class Helper
 
 		return $parsedAttributes;
 	}
+
+	public static function getBooleanParam($param, $default = false)
+    {
+        return isset($param) && is_string($param) && ($param == 'true' || $param == 'yes') ? 'true' : ($default ? 'true' : 'false');
+    }
 }

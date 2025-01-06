@@ -46,6 +46,11 @@ export const isSpreakerUrl = (url) => {
     return spreakerPattern.test(url);
 }
 
+export const isGooglePhotosUrl = (url) => {
+    const googlePhotosPattern = /^https:\/\/(photos\.app\.goo\.gl|photos\.google\.com)\/.*$/i;
+    return googlePhotosPattern.test(url);
+}
+
 
 export const initCustomPlayer = (clientId, attributes) => {
 

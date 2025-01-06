@@ -932,6 +932,54 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'boolean',
 								'default' => false,
 							),
+							'mode' => array(
+								'type' => 'string',
+								'default' => 'carousel'
+							),
+							'imageWidth' => array(
+								'type' => 'number',
+								'default' => 800
+							),
+							'imageHeight' => array(
+								'type' => 'number',
+								'default' => 600
+							),
+							'playerAutoplay' => array(
+								'type' => 'boolean',
+								'default' => false
+							),
+							'delay' => array(
+								'type' => 'number',
+								'default' => 5
+							),
+							'repeat' => array(
+								'type' => 'boolean',
+								'default' => true
+							),
+							'mediaitemsAspectRatio' => array(
+								'type' => 'boolean',
+								'default' => true
+							),
+							'mediaitemsEnlarge' => array(
+								'type' => 'boolean',
+								'default' => false
+							),
+							'mediaitemsStretch' => array(
+								'type' => 'boolean',
+								'default' => false
+							),
+							'mediaitemsCover' => array(
+								'type' => 'boolean',
+								'default' => false
+							),
+							'backgroundColor' => array(
+								'type' => 'string',
+								'default' => ''
+							),
+							'expiration' => array(
+								'type' => 'number',
+								'default' => 60
+							),
 							//Ad attributes
 							'adManager' => [
 								'type' => 'boolean',
