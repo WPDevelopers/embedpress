@@ -278,6 +278,7 @@ This plugin incorporates code from the following sources:
 - [PDF Flipbook WordPress by iberezansky](https://3dflipbook.net/): Used for creating the 3D flipbook effect.
 - [Plyr](https://github.com/sampotts/plyr) : Used for displaying video/audio player
 - [Glider](http://nickpiscitelli.github.io/Glider.js) : Used for making Carousel layout
+- [PublicAlbum](publicalbum.org) : Used for creating a Google Photos gallery player
 
 == Installation ==
 
