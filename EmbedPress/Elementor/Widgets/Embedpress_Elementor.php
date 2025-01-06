@@ -3759,6 +3759,20 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
+		if ( !apply_filters('embedpress/is_allow_rander', false) ) {
+			$this->add_control(
+				'embedpress_google_photos__pro_enable_warning_1',
+				[
+					'label'     => sprintf( '<a style="color: red" target="_blank" href="https://wpdeveloper.com/in/upgrade-embedpress">%s</a>',
+						esc_html__( 'Only Available in Pro Version!', 'essential-addons-for-elementor-lite' ) ),
+					'type'      => Controls_Manager::RAW_HTML,
+					'condition' => [
+						'mode' => [ 'gallery-player', 'gallery-grid', 'gallery-masonary'],
+					],
+				]
+			);
+		}
+
 
 		// Player Autoplay, Delay, and Repeat
 		$this->add_control(
@@ -3854,11 +3868,11 @@ class Embedpress_Elementor extends Widget_Base
 		$this->add_control(
 			'expiration',
 			[
-				'label' => __('Expiration (seconds)', 'embedpress'),
+				'label' => __('Expiration (minutes)', 'embedpress'),
 				'type' => \Elementor\Controls_Manager::NUMBER,
 				'min' => 0,
-				'max' => 86400,
-				'default' => 3600,
+				'max' => 1440,
+				'default' => 60,
 			]
 		);
 
@@ -4307,6 +4321,16 @@ class Embedpress_Elementor extends Widget_Base
 			return '';
 		}
 
+		if(!apply_filters('embedpress/is_allow_rander', false) && ($settings['mode'] !== 'carousel')){
+			echo '<div class="pro__alert__wrap" style="display: block;">
+					<div class="pro__alert__card">
+							<h2>Opps...</h2>
+							<p>You need to upgrade to the <a style="font-weight: bold; color: #5B4E96; text-decoration: underline" href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Premium</a> Version to use this feature</p>
+					</div>
+				</div>';
+			return '';
+		}
+
 		if($settings['instafeedFeedType'] === 'mixed_type' || $settings['instafeedFeedType'] === 'tagged_type'){
 			echo 'Comming Soon.';
 			return '';
@@ -4464,76 +4488,67 @@ class Embedpress_Elementor extends Widget_Base
 
 				<p><?php esc_html_e('You need EmbedPress Pro to Embed Apple Podcast. Note. This message is only visible to you.', 'embedpress'); ?></p>
 			<?php else: ?>
-				<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" 
+				<div id="ep-elementor-content-<?php echo esc_attr($client_id); ?>" 
 					class="ep-elementor-content 
 					<?php 
-						if (!empty($settings['embedpress_content_share'])) : 
-							echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper'); 
-						endif; 
+						echo !empty($settings['embedpress_content_share']) 
+							? esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper') 
+							: ''; 
 					?> 
 					<?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); ?> 
-					<?php echo esc_attr('source-' . $source); ?>
-					<?php echo esc_attr($autoPause); ?>">
+					<?php echo esc_attr('source-' . $source . ' ' . $autoPause); ?>">
 
 					<div id="<?php echo esc_attr($this->get_id()); ?>" 
 						class="ep-embed-content-wrapper 
-						<?php echo isset($settings['custom_player_preset']) ? esc_attr($settings['custom_player_preset']) : ''; ?> 
+						<?php echo isset($settings['custom_player_preset']) 
+							? esc_attr($settings['custom_player_preset']) 
+							: ''; ?> 
 						<?php echo esc_attr($this->get_instafeed_layout($settings)); ?> 
 						<?php echo esc_attr($hosted_format); ?>" 
-						<?php echo $data_playerid; ?>
-						<?php echo $data_carouselid; ?>
-						<?php echo $this->get_custom_player_options($settings); ?>
+						<?php echo $data_playerid; ?> 
+						<?php echo $data_carouselid; ?> 
+						<?php echo $this->get_custom_player_options($settings); ?> 
 						<?php echo $this->get_instafeed_carousel_options($settings); ?>>
 
-						<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" 
-							class="ep-elementor-content 
-							<?php 
-								if (!empty($settings['embedpress_content_share'])) : 
-									echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper'); 
-								endif; 
-							?> 
-							<?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); ?> 
-							<?php echo esc_attr('source-' . $source); ?>">
-
-							<div <?php echo $adsAtts; ?>>
-								<div id="<?php echo esc_attr($this->get_id()); ?>" 
-									class="ep-embed-content-wraper 
-									<?php echo esc_attr($settings['custom_payer_preset']); ?>" 
-									<?php echo $data_player_id; ?> 
-									<?php echo $this->get_custom_player_options($settings); ?>>
-
-									<?php
-									$content_id = $client_id;
-									if (
-										(empty($settings['embedpress_lock_content']) || 
-										empty($settings['embedpress_lock_content_password']) || 
-										$settings['embedpress_lock_content'] == 'no') || 
-										(!empty(Helper::is_password_correct($client_id)) && 
-										($hash_pass === $password_correct) ) || 
-										!apply_filters('embedpress/is_allow_rander', false)
-									) {
-										if (!empty($settings['embedpress_content_share'])) {
-											$content .= Helper::embed_content_share($content_id, $embed_settings);
-										}
-										echo $content;
-									} else {
-										if (!empty($settings['embedpress_content_share'])) {
-											$content .= Helper::embed_content_share($content_id, $embed_settings);
-										}
-										do_action('embedpress/display_password_form', $client_id, $content, $pass_hash_key, $embed_settings);
-									}
-									?>
-								</div>
+						<div <?php echo $adsAtts; ?>>
+							<div class="ep-embed-content-wraper 
+								<?php echo esc_attr($settings['custom_player_preset']); ?>" 
+								<?php echo $data_player_id; ?> 
+								<?php echo $this->get_custom_player_options($settings); ?>>
 
 								<?php
-									if (!empty($settings['adManager']) && (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct) )) {
-										$content = apply_filters('embedpress/generate_ad_template', $content, $client_id, $settings, 'elementor');
+								$content_id = $client_id;
+								if (
+									empty($settings['embedpress_lock_content']) || 
+									empty($settings['embedpress_lock_content_password']) || 
+									$settings['embedpress_lock_content'] == 'no' || 
+									(!empty(Helper::is_password_correct($client_id)) && 
+									($hash_pass === $password_correct)) || 
+									!apply_filters('embedpress/is_allow_rander', false)
+								) {
+									if (!empty($settings['embedpress_content_share'])) {
+										$content .= Helper::embed_content_share($content_id, $embed_settings);
 									}
+									echo $content;
+								} else {
+									if (!empty($settings['embedpress_content_share'])) {
+										$content .= Helper::embed_content_share($content_id, $embed_settings);
+									}
+									do_action('embedpress/display_password_form', $client_id, $content, $pass_hash_key, $embed_settings);
+								}
+
+								if (!empty($settings['adManager']) && 
+									(!empty(Helper::is_password_correct($client_id)) && 
+									($hash_pass === $password_correct))
+								) {
+									$content = apply_filters('embedpress/generate_ad_template', $content, $client_id, $settings, 'elementor');
+								}
 								?>
 							</div>
 						</div>
 					</div>
 				</div>
+
 			<?php endif;?>
 				
 		</div>
