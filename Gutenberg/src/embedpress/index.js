@@ -962,7 +962,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 			},
 			expiration: {
 				type: 'number',
-				default: 0
+				default: 60
 			},
 
 			//Custom logo atributes

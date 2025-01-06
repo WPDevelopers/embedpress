@@ -198,11 +198,11 @@ export default function GooglePhotos({ attributes, setAttributes }) {
                         />
 
                         <RangeControl
-                            label={__('Expiration', 'embedpress')}
+                            label={__('Expiration (minutes)', 'embedpress')}
                             value={expiration}
                             onChange={(expiration) => setAttributes({ expiration })}
                             min={0}
-                            max={86400}
+                            max={1440}
                         />
                     </PanelBody>
                 </div>

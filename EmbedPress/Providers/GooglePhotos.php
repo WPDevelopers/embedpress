@@ -13,7 +13,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
 {
     protected static $hosts = ["photos.app.goo.gl", "photos.google.com"];
     private $player_js = "https://cdn.jsdelivr.net/npm/publicalbum@latest/embed-ui.min.js";
-    private $min_expiration = 3600;
+    private $min_expiration = 60;
     private $allowed_url_patttern = "/^https:\/\/photos\.app\.goo\.gl\/|^https:\/\/photos\.google\.com\/share\//";
     static public $name = "google-photos-album";
 
@@ -56,7 +56,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         return preg_match('~^https:\/\/(photos\.app\.goo\.gl|photos\.google\.com)\/.*$~i', (string) $url);
     }
 
-    public function get_embeded_content($link, $width = 0, $height = 480, $imageWidth = 1920, $imageHeight = 1080, $expiration = 0, $mode = 'gallery-player', $playerAutoplay = false, $delay = 5, $repeat = true, $aspectRatio = true, $enlarge = true, $stretch = true, $cover = false, $backgroundColor = '#000000')
+    public function get_embeded_content($link, $width = 0, $height = 480, $imageWidth = 1920, $imageHeight = 1080, $expiration = 60, $mode = 'gallery-player', $playerAutoplay = false, $delay = 5, $repeat = true, $aspectRatio = true, $enlarge = true, $stretch = true, $cover = false, $backgroundColor = '#000000')
     {
         if (is_object($link)) {
             return $this->get_html($link, $expiration);
@@ -100,7 +100,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $html = $this->get_embed_google_photos_html($props);
         if ($html) {
             $expiration = $expiration > 0 ? $expiration : $this->min_expiration;
-            set_transient($transient, $html, $expiration);
+            set_transient($transient, $html, $expiration * 60);
             return $html;
         }
 
@@ -228,7 +228,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             $height = $params['google_photos_height'];
         }
 
-        $expiration = $params['expiration'] ?? 3600;
+        $expiration = $params['expiration'] ?? 60;
         $mode = $params['mode'] ?? 'carousel';
         $playerAutoplay = isset($params['playerAutoplay']) ? Helper::getBooleanParam($params['playerAutoplay']) : false;
         $delay = $params['delay'] ?? 5;

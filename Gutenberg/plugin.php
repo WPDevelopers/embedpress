@@ -978,7 +978,7 @@ function embedpress_gutenberg_register_all_block()
 							),
 							'expiration' => array(
 								'type' => 'number',
-								'default' => 0
+								'default' => 60
 							),
 							//Ad attributes
 							'adManager' => [
