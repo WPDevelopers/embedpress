@@ -71,6 +71,27 @@ if (!function_exists('get_branding_value')) {
  * @since 1.0.0
  */
 
+function get_user_roles()
+{
+	global $wp_roles; // Access global roles object
+	$user_roles = [];
+
+	$user_roles[] = [
+		'value' => '',
+		'label' => 'Any',
+	];
+	if (isset($wp_roles->roles) && is_array($wp_roles->roles)) {
+		foreach ($wp_roles->roles as $role_key => $role_data) {
+			$user_roles[] = [
+				'value' => $role_key,       // Machine-readable key
+				'label' => $role_data['name'], // Human-readable name
+			];
+		}
+	}
+
+	return $user_roles;
+}
+
 function embedpress_blocks_cgb_editor_assets()
 { // phpcs:ignore
 	// Scripts.
@@ -144,6 +165,7 @@ function embedpress_blocks_cgb_editor_assets()
 		'wistia_brand_logo_url' => get_branding_value('logo_url', 'wistia'),
 		'twitch_brand_logo_url' => get_branding_value('logo_url', 'twitch'),
 		'dailymotion_brand_logo_url' => get_branding_value('logo_url', 'dailymotion'),
+		'user_roles' => get_user_roles()
 
 	));
 
@@ -230,6 +252,14 @@ function embedpress_gutenberg_register_all_block()
 							'lockContent' => [
 								'type' => 'boolean',
 								'default' => false
+							],
+							'protectionType' => [
+								'type' => 'string',
+								'default' => 'user-role'
+							],
+							'userRole' => [
+								'type' => 'string',
+								'default' => ''
 							],
 							'lockHeading' => [
 								'type' => 'string',
@@ -1238,6 +1268,7 @@ function embedpress_pdf_render_block($attributes)
 								}
 								echo '<div class="ep-embed-content-wraper">';
 								do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $attributes);
+								do_action('embedpress/content_portection_content', $client_id,  $attributes);
 								echo '</div>';
 							}
 							?>

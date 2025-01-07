@@ -77,6 +77,14 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'boolean',
 				default: false
 			},
+			protectionType: {
+				type: 'string',
+				default: 'user-role'
+			},
+			userRole: {
+				type: 'string',
+				default: ''
+			},
 			contentPassword: {
 				type: 'string',
 				default: ''
@@ -1067,5 +1075,5 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 	calendlyInit();
 	spreakerInit();
 	googlePhotos();
-	
+
 }

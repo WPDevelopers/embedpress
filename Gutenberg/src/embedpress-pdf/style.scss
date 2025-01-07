@@ -173,6 +173,10 @@ span.isPro {
     margin-bottom: 10px;
 }
 
+.lock-content-pass-input {
+    position: relative;
+}
+
 .ep-alignleft {
     text-align: left;
 }
@@ -247,7 +251,6 @@ span.isPro {
     .components-base-control {
         margin-bottom: 0px !important;
     }
-
 }
 .ep-unit-choice-option .components-base-control__field .components-flex,
 .ep-unit-choice-option .components-flex {
