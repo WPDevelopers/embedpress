@@ -20,6 +20,8 @@ export default function LockControl({ attributes, setAttributes }) {
 
     const {
         lockContent,
+        protectionType,
+        userRole,
         lockHeading,
         lockSubHeading,
         lockErrorMessage,

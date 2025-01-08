@@ -28,8 +28,6 @@ export const init = () => {
 
 export const getGooglePhotosParams = (params, attributes) => {
 
-    console.log({ attributes });
-
     if (!attributes.url || !isGooglePhotosUrl(attributes.url)) {
         return params;
     }

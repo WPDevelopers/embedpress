@@ -258,8 +258,8 @@ function embedpress_gutenberg_register_all_block()
 								'default' => 'user-role'
 							],
 							'userRole' => [
-								'type' => 'string',
-								'default' => ''
+								'type' => 'array',
+								'default' => []
 							],
 							'lockHeading' => [
 								'type' => 'string',
@@ -758,6 +758,14 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'boolean',
 								'default' => false
 							],
+							'protectionType' => [
+								'type' => 'string',
+								'default' => 'user-role'
+							],
+							'userRole' => [
+								'type' => 'array',
+								'default' => []
+							],
 							'lockHeading' => [
 								'type' => 'string',
 								'default' => 'Content Locked'
@@ -1243,6 +1251,7 @@ function embedpress_pdf_render_block($attributes)
 					<?php
 							do_action('embedpress_pdf_gutenberg_after_embed',  $client_id, 'pdf', $attributes, $pdf_url);
 							$embed = $embed_code;
+							
 							if (empty($attributes['lockContent']) || empty($attributes['contentPassword']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct))) {
 
 								$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
@@ -1267,10 +1276,14 @@ function embedpress_pdf_render_block($attributes)
 									$embed .= Helper::embed_content_share($content_id, $attributes);
 								}
 								echo '<div class="ep-embed-content-wraper">';
-								do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $attributes);
-								do_action('embedpress/content_portection_content', $client_id,  $attributes);
+								if ($attributes['protectionType'] == 'password') {
+									do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $attributes);
+								} else {
+									do_action('embedpress/content_protection_content', $client_id,  $attributes);
+								}
 								echo '</div>';
 							}
+							
 							?>
 
 					<?php

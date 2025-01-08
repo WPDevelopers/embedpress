@@ -64,6 +64,20 @@ if(!function_exists('lock_content_form_handler')){
 	}
 }
 
+function has_allowed_roles($attributes){
+
+	
+	$allowed_roles = $attributes['userRole'] ?? [];
+
+	if(count($allowed_roles) == 1 && empty($allowed_roles[0])){
+		return true;
+	}
+	$current_user = wp_get_current_user();
+	$user_roles = $current_user->roles;
+
+	return !empty(array_intersect($user_roles, $allowed_roles));
+}
+
 function embedpress_block_scripts($attributes) {
 
 	$script_handles = [];
@@ -308,7 +322,7 @@ function embedpress_render_block($attributes)
 							<?php
 								$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
 								$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
-								if(empty($attributes['lockContent']) || empty($attributes['contentPassword'])  || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) ){
+								if(empty($attributes['lockContent']) || empty($attributes['contentPassword'])  || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct)) || has_allowed_roles($attributes)){
 
 									if(!empty($attributes['contentShare'])) {
 										$content_id = $attributes['clientId'];
@@ -320,7 +334,12 @@ function embedpress_render_block($attributes)
 										$content_id = $attributes['clientId'];
 										$embed .= Helper::embed_content_share($content_id, $attributes);
 									}
-									do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $attributes);
+
+									if ($attributes['protectionType'] == 'password') {
+										do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $attributes);
+									} else {
+										do_action('embedpress/content_protection_content', $client_id,  $attributes);
+									}
 
 								}
 							?>

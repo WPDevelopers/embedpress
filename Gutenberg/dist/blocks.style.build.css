@@ -1538,6 +1538,9 @@ span.isPro {
 .disabled-content-protection .pro-control .components-toggle-control {
   margin-bottom: 10px; }
 
+.lock-content-pass-input {
+  position: relative; }
+
 .ep-alignleft {
   text-align: left; }
 

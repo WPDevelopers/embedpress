@@ -82,8 +82,8 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: 'user-role'
 			},
 			userRole: {
-				type: 'string',
-				default: ''
+				type: 'array',
+				default: []
 			},
 			contentPassword: {
 				type: 'string',
