@@ -136,7 +136,7 @@ class Embedpress_Elementor extends Widget_Base
 	protected function register_controls()
 	{
 		$class = 'embedpress-pro-control not-active';
-        $text =  '<sup class="embedpress-pro-label" style="color:red">' . __('Pro', 'embedpress') . '</sup>';
+        $text =  '<sup class="embedpress-pro-label" style="color:red">' . __('(pro)', 'embedpress') . '</sup>';
 		$label = '(pro)';
         $this->pro_class = apply_filters('embedpress/pro_class', $class);
         $this->pro_label = apply_filters('embedpress/pro_label', $label);
@@ -4300,6 +4300,30 @@ class Embedpress_Elementor extends Widget_Base
 		add_filter('embedpress_should_modify_spotify', '__return_false');
 		$embed_link = isset($settings['embedpress_embeded_link']) ? $settings['embedpress_embeded_link'] : '';
 
+		if(!apply_filters('embedpress/is_allow_rander', false) && ($settings['mode'] === 'gallery-player')){
+			echo '<div class="pro__alert__wrap" style="display: block;">
+					<div class="pro__alert__card">
+							<h2>Opps...</h2>
+							<p>You need to upgrade to the <a style="font-weight: bold; color: #5B4E96; text-decoration: underline" href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Premium</a> Version to use this feature</p>
+					</div>
+				</div>';
+			return '';
+		}
+
+		if($settings['instafeedFeedType'] === 'mixed_type' || $settings['instafeedFeedType'] === 'tagged_type'){
+			echo 'Comming Soon.';
+			return '';
+		}
+
+		if($settings['instafeedFeedType'] === 'hashtag_type' && !$this->validInstagramTagUrl($embed_link)){
+			echo 'Please add valid hashtag link url';
+			return '';
+		}
+
+		if($settings['instafeedFeedType'] === 'user_account_type' && !$this->validUserAccountUrl($embed_link)){
+			echo 'Please add valid user account link url';
+			return '';
+		}
 
 		if(!apply_filters('embedpress/is_allow_rander', false) && ($settings['instaLayout'] === 'insta-masonry' || $settings['instaLayout'] === 'insta-carousel' || $settings['instafeedFeedType'] === 'hashtag_type')){
 			echo '<div class="pro__alert__wrap" style="display: block;">
@@ -4312,16 +4336,6 @@ class Embedpress_Elementor extends Widget_Base
 		}
 		
 		if(!apply_filters('embedpress/is_allow_rander', false) && ($settings['ytChannelLayout'] === 'carousel' || $settings['ytChannelLayout'] === 'grid')){
-			echo '<div class="pro__alert__wrap" style="display: block;">
-					<div class="pro__alert__card">
-							<h2>Opps...</h2>
-							<p>You need to upgrade to the <a style="font-weight: bold; color: #5B4E96; text-decoration: underline" href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Premium</a> Version to use this feature</p>
-					</div>
-				</div>';
-			return '';
-		}
-
-		if(!apply_filters('embedpress/is_allow_rander', false) && ($settings['mode'] !== 'carousel')){
 			echo '<div class="pro__alert__wrap" style="display: block;">
 					<div class="pro__alert__card">
 							<h2>Opps...</h2>
