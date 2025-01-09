@@ -1274,7 +1274,19 @@ class Helper
 	}
 
 	public static function getBooleanParam($param, $default = false)
-    {
-        return isset($param) && is_string($param) && ($param == 'true' || $param == 'yes') ? 'true' : ($default ? 'true' : 'false');
-    }
+	{
+		return isset($param) && is_string($param) && ($param == 'true' || $param == 'yes') ? 'true' : ($default ? 'true' : 'false');
+	}
+
+	public static function has_allowed_roles($allowed_roles = [])
+	{
+
+		if (empty($allowed_roles) || (count($allowed_roles) == 1 && empty($allowed_roles[0]))) {
+			return true;
+		}
+		$current_user = wp_get_current_user();
+		$user_roles = $current_user->roles;
+
+		return !empty(array_intersect($user_roles, $allowed_roles));
+	}
 }

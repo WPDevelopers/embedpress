@@ -4416,7 +4416,10 @@ class Embedpress_Elementor extends Widget_Base
 		$embed_settings['enableFooterMessage'] = !empty($settings['embedpress_enable_footer_message']) ? sanitize_text_field($settings['embedpress_enable_footer_message']) : '';
 
 		$embed_settings['footerMessage'] = !empty($settings['embedpress_lock_content_footer_message']) ? sanitize_text_field($settings['embedpress_lock_content_footer_message']) : '';
+		
+		$embed_settings['userRole'] = !empty($settings['embedpress_select_roles']) ? $settings['embedpress_select_roles'] : [];
 
+		$embed_settings['protectionMessage'] = !empty($settings['embedpress_protection_message']) ? $settings['embedpress_protection_message'] : '';
 
 
 		$client_id = $this->get_id();
@@ -4429,7 +4432,6 @@ class Embedpress_Elementor extends Widget_Base
 		if ($settings['pagination'] != 'show') {
 			$ispagination = 'none';
 		}
-
 
 		$calVal = '';
 
@@ -4543,22 +4545,27 @@ class Embedpress_Elementor extends Widget_Base
 									<?php
 									$content_id = $client_id;
 									if (
-										(empty($settings['embedpress_lock_content']) || 
-										empty($settings['embedpress_lock_content_password']) || 
-										$settings['embedpress_lock_content'] == 'no') || 
-										(!empty(Helper::is_password_correct($client_id)) && 
-										($hash_pass === $password_correct) ) || 
-										!apply_filters('embedpress/is_allow_rander', false)
+										(empty($settings['embedpress_lock_content']) || ($settings['embedpress_protection_type'] == 'password' && empty($settings['embedpress_lock_content_password'])) || $settings['embedpress_lock_content'] == 'no') || 
+										(!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct) ) || 
+										!apply_filters('embedpress/is_allow_rander', false) || 
+										($settings['embedpress_protection_type'] == 'user-role' && Helper::has_allowed_roles($embed_settings['userRole']))
 									) {
 										if (!empty($settings['embedpress_content_share'])) {
 											$content .= Helper::embed_content_share($content_id, $embed_settings);
 										}
+
 										echo $content;
 									} else {
 										if (!empty($settings['embedpress_content_share'])) {
 											$content .= Helper::embed_content_share($content_id, $embed_settings);
 										}
-										do_action('embedpress/display_password_form', $client_id, $content, $pass_hash_key, $embed_settings);
+
+										if ($settings['embedpress_protection_type'] == 'password') {
+											do_action('embedpress/display_password_form', $client_id, $content, $pass_hash_key, $embed_settings);
+
+										} else {
+											do_action('embedpress/content_protection_content', $client_id, $embed_settings['protectionMessage'],  $embed_settings['userRole']);
+										}
 									}
 									?>
 								</div>

@@ -12,6 +12,22 @@ class Extend_Elementor_Controls
 		add_action('extend_elementor_controls', [$this, 'extend_elementor_share_and_lock_controls'], 10, 4);
 	}
 
+	public function get_user_roles()
+	{
+		global $wp_roles;
+
+		$all = $wp_roles->roles;
+		$all_roles = array();
+
+		if (!empty($all)) {
+			foreach ($all as $key => $value) {
+				$all_roles[$key] = $all[$key]['name'];
+			}
+		}
+
+		return $all_roles;
+	}
+
 	public function extend_elementor_share_and_lock_controls($that, $infix = '', $pro_text = '', $pro_class = '')
 	{
 		$ad_condition = [
@@ -231,6 +247,54 @@ class Extend_Elementor_Controls
 		);
 
 		$that->add_control(
+			'embedpress' . $infix . 'protection_type',
+			[
+				'label' => __('Protection Type', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT,
+				'options' => [
+					'user-role' => __('User Role', 'embedpress'),
+					'password' => __('Password', 'embedpress'),
+				],
+				'default' => 'user-role',
+				'condition' => [
+					'embedpress' . $infix . 'lock_content' => 'yes',
+				]
+			]
+		);
+		$user_role_condition = [
+			'embedpress' . $infix . 'protection_type' => 'user-role',
+			'embedpress' . $infix . 'lock_content' => 'yes',
+		];
+		$password_condition = [
+			'embedpress' . $infix . 'protection_type' => 'password',
+			'embedpress' . $infix . 'lock_content' => 'yes',
+		];
+
+		$that->add_control(
+			'embedpress' . $infix . 'select_roles',
+			[
+				'label' => __('Select roles', 'embedpress'),
+				'type' => \Elementor\Controls_Manager::SELECT2,
+				'multiple' => true,
+				'options' => $this->get_user_roles(),
+				'label_block' => true,
+				'default' => [''],
+				'condition'   => $user_role_condition
+			]
+		);
+		$that->add_control(
+			'embedpress' . $infix . 'protection_message',
+			[
+				'label'       => __('Protection Message', 'embedpress'),
+				'type'        => Controls_Manager::TEXTAREA,
+				'default'     => sprintf(__('You do not have access to this content. Only users with the following roles can view it: %s.', 'embedpress'), '[user_roles]'),
+				'placeholder' => sprintf(__('You do not have access to this content. Only users with the following roles can view it: %s.', 'embedpress'), '[user_roles]'),
+				'label_block' => true,
+				'condition'   => $user_role_condition
+			]
+		);
+
+		$that->add_control(
 			'embedpress' . $infix . 'lock_content_password',
 			[
 				'label'       => __('Set Password', 'embedpress'),
@@ -238,9 +302,8 @@ class Extend_Elementor_Controls
 				'default'	=> '',
 				'placeholder'	=> '••••••',
 				'label_block' => false,
-				'condition'   => [
-					'embedpress' . $infix . 'lock_content' => 'yes'
-				]
+				'condition'   => $password_condition
+
 			]
 		);
 
@@ -253,9 +316,8 @@ class Extend_Elementor_Controls
 				'default' => 'Oops, that wasn\'t the right password. Try again.',
 				'placeholder' => __('Oops, that wasn\'t the right password. Try again.', 'embedpress'),
 				'label_block' => true,
-				'condition' => [
-					'embedpress' . $infix . 'lock_content' => 'yes'
-				]
+				'condition'   => $password_condition
+
 			]
 		);
 		$that->add_control(
@@ -266,9 +328,8 @@ class Extend_Elementor_Controls
 				'default' => 'Password',
 				'placeholder' => __('Password', 'embedpress'),
 				'label_block' => false,
-				'condition' => [
-					'embedpress' . $infix . 'lock_content' => 'yes'
-				]
+				'condition'   => $password_condition
+
 			]
 		);
 		$that->add_control(
@@ -279,9 +340,8 @@ class Extend_Elementor_Controls
 				'default' => 'Unlock',
 				'placeholder' => __('Unlock', 'embedpress'),
 				'label_block' => false,
-				'condition' => [
-					'embedpress' . $infix . 'lock_content' => 'yes'
-				]
+				'condition'   => $password_condition
+
 			]
 		);
 		$that->add_control(
@@ -292,9 +352,8 @@ class Extend_Elementor_Controls
 				'default' => 'Unlocking...',
 				'placeholder' => __('Unlocking...', 'embedpress'),
 				'label_block' => false,
-				'condition' => [
-					'embedpress' . $infix . 'lock_content' => 'yes'
-				]
+				'condition'   => $password_condition
+
 			]
 		);
 
@@ -306,9 +365,8 @@ class Extend_Elementor_Controls
 				'default' => 'Content Locked',
 				'placeholder' => __('Content Locked', 'embedpress'),
 				'label_block' => false,
-				'condition' => [
-					'embedpress' . $infix . 'lock_content' => 'yes'
-				]
+				'condition'   => $password_condition
+
 			]
 		);
 
@@ -320,9 +378,8 @@ class Extend_Elementor_Controls
 				'default' => 'Content is locked and requires password to access it.',
 				'placeholder' => __('Content is locked and requires password to access it.', 'embedpress'),
 				'label_block' => true,
-				'condition' => [
-					'embedpress' . $infix . 'lock_content' => 'yes'
-				]
+				'condition'   => $password_condition
+
 			]
 		);
 
@@ -335,9 +392,7 @@ class Extend_Elementor_Controls
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => '',
-				'condition' => [
-					'embedpress' . $infix . 'lock_content' => 'yes'
-				],
+				'condition'   => $password_condition
 
 			]
 		);
@@ -352,7 +407,7 @@ class Extend_Elementor_Controls
 				'label_block' => true,
 				'condition' => [
 					'embedpress' . $infix . 'enable_footer_message' => 'yes',
-					'embedpress' . $infix . 'lock_content' => 'yes'
+					'embedpress' . $infix . 'protection_type' => 'password'
 				]
 			]
 		);
