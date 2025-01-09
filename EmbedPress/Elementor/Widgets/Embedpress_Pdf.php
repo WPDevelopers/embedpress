@@ -1006,7 +1006,7 @@ class Embedpress_Pdf extends Widget_Base
                                 if(
                                
                                 (empty($settings['embedpress_pdf_lock_content']) || ($settings['embedpress_pdf_protection_type'] == 'password' && empty($settings['embedpress_pdf_lock_content_password'])) || $settings['embedpress_pdf_lock_content'] == 'no') || 
-                                (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct) ) || 
+                                ($settings['embedpress_pdf_protection_type'] == 'password' && !empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct) ) || 
                                 !apply_filters('embedpress/is_allow_rander', false) || 
                                 ($settings['embedpress_pdf_protection_type'] == 'user-role' && Helper::has_allowed_roles($embed_settings['userRole']))
 
@@ -1021,7 +1021,7 @@ class Embedpress_Pdf extends Widget_Base
                                         $embed .= Helper::embed_content_share($content_id, $embed_settings);
                                     }
 
-                                    if ($settings['embedpress_protection_type'] == 'password') {
+                                    if ($settings['embedpress_pdf_protection_type'] == 'password') {
                                         do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $embed_settings);
                                     } else {
                                         do_action('embedpress/content_protection_content', $client_id, $embed_settings['protectionMessage'],  $embed_settings['userRole']);

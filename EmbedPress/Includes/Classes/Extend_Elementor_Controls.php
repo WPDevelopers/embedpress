@@ -253,7 +253,7 @@ class Extend_Elementor_Controls
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'options' => [
 					'user-role' => __('User Role', 'embedpress'),
-					'password' => __('Password', 'embedpress'),
+					'password' => __('Password Protected', 'embedpress'),
 				],
 				'default' => 'user-role',
 				'condition' => [

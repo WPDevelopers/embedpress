@@ -4546,7 +4546,7 @@ class Embedpress_Elementor extends Widget_Base
 									$content_id = $client_id;
 									if (
 										(empty($settings['embedpress_lock_content']) || ($settings['embedpress_protection_type'] == 'password' && empty($settings['embedpress_lock_content_password'])) || $settings['embedpress_lock_content'] == 'no') || 
-										(!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct) ) || 
+										($settings['embedpress_protection_type'] == 'password' && !empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct) ) || 
 										!apply_filters('embedpress/is_allow_rander', false) || 
 										($settings['embedpress_protection_type'] == 'user-role' && Helper::has_allowed_roles($embed_settings['userRole']))
 									) {

@@ -550,6 +550,10 @@ class Embedpress_Document extends Widget_Base
 
         $embed_settings['footerMessage'] = !empty($settings['embedpress_doc_lock_content_footer_message']) ? sanitize_text_field($settings['embedpress_doc_lock_content_footer_message']) : '';
 
+        $embed_settings['userRole'] = !empty($settings['embedpress_doc_select_roles']) ? $settings['embedpress_doc_select_roles'] : [];
+
+		$embed_settings['protectionMessage'] = !empty($settings['embedpress_doc_protection_message']) ? $settings['embedpress_doc_protection_message'] : '';
+
     
         $content_share_class = '';
         $share_position_class = '';
@@ -736,12 +740,10 @@ class Embedpress_Document extends Widget_Base
     
                         $content_id = $client_id;
                         if (
-                            (empty($settings['embedpress_doc_lock_content']) || 
-                            $settings['embedpress_doc_lock_content'] == 'no' || 
-                            empty($settings['embedpress_doc_lock_content_password'])) || 
-                            (!empty(Helper::is_password_correct($client_id)) && 
-                            ($hash_pass === $_COOKIE['password_correct_' . $client_id])) ||
-                            !apply_filters('embedpress/is_allow_rander', false)
+                            (empty($settings['embedpress_doc_lock_content']) || ($settings['embedpress_doc_protection_type'] == 'password' && empty($settings['embedpress_doc_lock_content_password'])) || $settings['embedpress_doc_lock_content'] == 'no') || 
+                            ($settings['embedpress_doc_protection_type'] == 'password' && !empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct) ) || 
+                            !apply_filters('embedpress/is_allow_rander', false) || 
+                            ($settings['embedpress_doc_protection_type'] == 'user-role' && Helper::has_allowed_roles($embed_settings['userRole']))
                             ) {
     
                             if (!empty($settings['embedpress_doc_content_share'])) {
@@ -754,7 +756,11 @@ class Embedpress_Document extends Widget_Base
                             if (!empty($settings['embedpress_doc_content_share'])) {
                                 $embed_content .= Helper::embed_content_share($content_id, $embed_settings);
                             }
-                            do_action('embedpress/display_password_form', $client_id, $embed_content, $pass_hash_key, $embed_settings);
+                            if ($settings['embedpress_doc_protection_type'] == 'password') {
+                                do_action('embedpress/display_password_form', $client_id, $embed_content, $pass_hash_key, $embed_settings);
+                            } else {
+                                do_action('embedpress/content_protection_content', $client_id, $embed_settings['protectionMessage'],  $embed_settings['userRole']);
+                            }
                         }
                         ?>
                     </div>
