@@ -256,10 +256,14 @@ function embedpress_gutenberg_register_all_block()
 							'protectionType' => [
 								'type' => 'string',
 								'default' => 'user-role'
-							],
+							],	
 							'userRole' => [
 								'type' => 'array',
 								'default' => []
+							],
+							'protectionMessage' => [
+								'type' => 'string',
+								'default' => 'You do not have access to this content. Only users with the following roles can view it: [user_roles]'
 							],
 							'lockHeading' => [
 								'type' => 'string',
@@ -761,10 +765,14 @@ function embedpress_gutenberg_register_all_block()
 							'protectionType' => [
 								'type' => 'string',
 								'default' => 'user-role'
-							],
+							],	
 							'userRole' => [
 								'type' => 'array',
 								'default' => []
+							],
+							'protectionMessage' => [
+								'type' => 'string',
+								'default' => 'You do not have access to this content. Only users with the following roles can view it: [user_roles]'
 							],
 							'lockHeading' => [
 								'type' => 'string',
@@ -1152,6 +1160,22 @@ function embedpress_pdf_block_scripts($attributes)
 	}
 }
 
+if (!function_exists('has_content_allowed_roles')) {
+    function has_content_allowed_roles($allowed_roles = []) {
+
+        if ((count($allowed_roles) === 1 && empty($allowed_roles[0]))) {
+            return true;
+        }
+
+        $current_user = wp_get_current_user();
+        $user_roles = $current_user->roles;
+
+        return !empty(array_intersect($user_roles, $allowed_roles));
+    }
+}
+
+
+
 function embedpress_pdf_render_block($attributes)
 {
 	embedpress_pdf_block_scripts($attributes);
@@ -1252,7 +1276,12 @@ function embedpress_pdf_render_block($attributes)
 							do_action('embedpress_pdf_gutenberg_after_embed',  $client_id, 'pdf', $attributes, $pdf_url);
 							$embed = $embed_code;
 							
-							if (empty($attributes['lockContent']) || empty($attributes['contentPassword']) || (!empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct))) {
+							if (
+								empty($attributes['lockContent']) || 
+								($attributes['protectionType'] == 'password' && empty($attributes['contentPassword'])) || 
+								($attributes['protectionType'] == 'password' &&  (!empty(Helper::is_password_correct($client_id))) && ($hash_pass === $password_correct)) ||
+								($attributes['protectionType'] == 'user-role' && has_content_allowed_roles($attributes['userRole']))
+							) {
 
 								$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
 
@@ -1279,7 +1308,7 @@ function embedpress_pdf_render_block($attributes)
 								if ($attributes['protectionType'] == 'password') {
 									do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $attributes);
 								} else {
-									do_action('embedpress/content_protection_content', $client_id,  $attributes);
+									do_action('embedpress/content_protection_content', $client_id, $attributes['protectionMessage'],  $attributes['userRole']);
 								}
 								echo '</div>';
 							}

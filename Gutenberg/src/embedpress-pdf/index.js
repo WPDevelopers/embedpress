@@ -44,6 +44,18 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 				type: 'boolean',
 				default: false
 			},
+			protectionType: {
+				type: 'string',
+				default: 'user-role'
+			},
+			userRole: {
+				type: 'array',
+				default: []
+			},
+			protectionMessage: {
+				type: 'string',
+				default: 'You do not have access to this content. Only users with the following roles can view it: [user_roles]'
+			},
 			contentPassword: {
 				type: 'string',
 				default: ''

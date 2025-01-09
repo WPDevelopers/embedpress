@@ -181,6 +181,10 @@ span.isPro {
   margin-bottom: 10px;
 }
 
+.lock-content-pass-input {
+  position: relative;
+}
+
 .ep-alignleft {
   text-align: left;
 }
