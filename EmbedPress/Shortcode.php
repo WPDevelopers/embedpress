@@ -114,16 +114,79 @@ class Shortcode
 
 
 
+    public static function content_protection_content($client_id = '', $protection_message = '', $allowed_roles = [])
+    {
+        $default_message = "This content is protected. Please log in or contact the administrator for access.";
+        $protection_message = $protection_message ?: $default_message;
+
+        $current_user = wp_get_current_user();
+        $user_roles = $current_user->roles;
+
+        if (!empty($user_roles) && array_intersect($user_roles, $allowed_roles)) {
+            echo '';
+            return;
+        }
+
+        if (strpos($protection_message, '[user_roles]') !== false) {
+            $role_list = implode(', ', $allowed_roles);
+            $protection_message = str_replace('[user_roles]', $role_list, $protection_message);
+        }
+
+        return sprintf('<div class="protected-message">%s</div>', esc_html($protection_message));
+    }
+
+    public static function display_password_form($client_id = '', $embedHtml = '', $pass_hash_key = '', $attributes = [])
+    {
+        $lock_heading = !empty($attributes['lockHeading']) ? sanitize_text_field($attributes['lockHeading']) : 'Content Locked';
+        $lock_subheading = !empty($attributes['lockSubHeading']) ? sanitize_text_field($attributes['lockSubHeading']) : 'Content is locked and requires password to access it.';
+        $lock_error_message = !empty($attributes['lockErrorMessage']) ? sanitize_text_field($attributes['lockErrorMessage']) : "Oops, that wasn't the right password. Try again.";
+        $footer_message = !empty($attributes['footerMessage']) ? sanitize_text_field($attributes['footerMessage']) : "In case you don't have the password, kindly reach out to content owner or administrator to request access.";
+        $password_placeholder = !empty($attributes['passwordPlaceholder']) ? sanitize_text_field($attributes['passwordPlaceholder']) : 'Password';
+        $button_text = !empty($attributes['submitButtonText']) ? sanitize_text_field($attributes['submitButtonText']) : 'Unlock';
+        $unlocking_text = !empty($attributes['submitUnlockingText']) ? sanitize_text_field($attributes['submitUnlockingText']) : 'Unlocking';
+        $enable_footer_message = !empty($attributes['enableFooterMessage']);
+
+        $key = Helper::get_hash();
+        $salt = wp_salt(32);
+        $wp_hash_key = hash('sha256', $salt . $pass_hash_key);
+        $iv = substr($wp_hash_key, 0, 16);
+
+        $cipher = openssl_encrypt($embedHtml, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv);
+        $encrypted_data = base64_encode($cipher);
+
+        update_post_meta(get_the_ID(), 'ep_base_' . $client_id, $encrypted_data);
+        update_post_meta(get_the_ID(), 'hash_key_' . $client_id, $wp_hash_key);
+
+        $lock_icon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><g fill="#6354a5" class="color134563 svgShape"><path d="M46.3 28.7h-3v-6.4C43.3 16.1 38.2 11 32 11c-6.2 0-11.3 5.1-11.3 11.3v6.4h-3v-6.4C17.7 14.4 24.1 8 32 8s14.3 6.4 14.3 14.3v6.4" fill="#6354a5" class="color000000 svgShape"></path><path d="M44.8 55.9H19.2c-2.6 0-4.8-2.2-4.8-4.8V31.9c0-2.6 2.2-4.8 4.8-4.8h25.6c2.6 0 4.8 2.2 4.8 4.8v19.2c0 2.7-2.2 4.8-4.8 4.8zM19.2 30.3c-.9 0-1.6.7-1.6 1.6v19.2c0 .9.7 1.6 1.6 1.6h25.6c.9 0 1.6-.7 1.6-1.6V31.9c0-.9-.7-1.6-1.6-1.6H19.2z" fill="#6354a5" class="color000000 svgShape"></path><path d="M35.2 36.7c0 1.8-1.4 3.2-3.2 3.2s-3.2-1.4-3.2-3.2 1.4-3.2 3.2-3.2 3.2 1.5 3.2 3.2" fill="#6354a5" class="color000000 svgShape"></path><path d="M32.8 36.7h-1.6l-1.6 9.6h4.8l-1.6-9.6" fill="#6354a5" class="color000000 svgShape"></path></g></svg>';
+
+        return '
+        <div id="ep-shortcode-content-'.$client_id.'" class="ep-shortcode-content">	
+            <div class="ep-embed-content-wraper">
+                <div class="password-form-container">
+                    <h2>' . esc_html($lock_heading) . '</h2>
+                    <p>' . esc_html($lock_subheading) . '</p>
+                    <form class="password-form" method="post" data-unlocking-text="' . esc_attr($unlocking_text) . '">
+                        <div class="password-field">
+                            <span class="lock-icon">' . $lock_icon . '</span>
+                            <input type="password" name="pass_' . esc_attr($client_id) . '" placeholder="' . esc_attr($password_placeholder) . '" required>
+                        </div>
+                        <input type="hidden" name="ep_client_id" value="' . esc_attr($client_id) . '">
+                        <input type="hidden" name="post_id" value="' . esc_attr(get_the_ID()) . '">
+                        <input type="submit" name="password_submit" value="' . esc_attr($button_text) . '">
+                        <div class="error-message hidden">' . esc_html($lock_error_message) . '</div>
+                    </form>
+                    ' . ($enable_footer_message ? '<p class="need-access-message">' . esc_html($footer_message) . '</p>' : '') . '
+                </div>
+            </div>
+        </div>';
+    }
+
 
     public static function do_shortcode($attributes = [], $subject = null)
     {
         $plgSettings = Core::getSettings();
 
 
-
-        // echo '<pre>';
-        // print_r($attributes);
-        
         $default = [];
         if ($plgSettings->enableGlobalEmbedResize) {
             $default = [
@@ -166,14 +229,14 @@ class Shortcode
         $protection_type = $attributes['protection_type'] ?? 'user-role';
         $protection_password = $attributes['protection_password'] ?? '';
         $protection_content = isset($attributes['protection_content']) ? $attributes['protection_content'] === 'true' : false;
-        $user_roles = isset($attributes['user_roles']) ? explode(', ', $attributes['user_roles']) : [];
+        $user_role = isset($attributes['user_roles']) ? explode(', ', $attributes['user_roles']) : '';
         $protection_message = $attributes['protection_message'] ?? '';
 
         // Conditions for content protection
         $password_protected = $protection_type == 'password' && !empty($protection_password);
 
         $password_verified = $password_protected && !empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct);
-        $user_role_protected = $protection_type === 'user-role' && Helper::has_allowed_roles($user_roles);
+        $user_role_protected = $protection_type === 'user-role' && Helper::has_allowed_roles($user_role);
 
         // Check if protection conditions are not met
         if (
@@ -182,13 +245,11 @@ class Shortcode
                 $user_role_protected)
         ) {
             if ($password_protected) {
-                do_action('embedpress/display_password_form', $client_id, $embed->embed, $pass_hash_key, $attributes);
+                return self::display_password_form($client_id, $embed->embed, $pass_hash_key, $attributes);
             } else {
-                do_action('embedpress/content_protection_content', $client_id, $protection_message, $user_roles);
+                return self::content_protection_content($client_id, $protection_message, $user_role);
             }
-            return;
         }
-
 
 
         if (is_object($embed)) {
@@ -1084,6 +1145,38 @@ KAMAL;
 
         $dimension = "width: {$attributes['width']}{$widthUnit}; height: {$attributes['height']}{$heightUnit};";
 
+
+        $client_id = is_object('$embed') ? md5('$embed->embed')  : '';
+
+        $hash_pass = isset($attributes['protection_password'])
+            ? hash('sha256', wp_salt(32) . md5($attributes['protection_password']))
+            : '';
+
+        $pass_hash_key = isset($attributes['protection_password'])
+            ? md5($attributes['protection_password'])
+            : '';
+
+        $password_correct = $_COOKIE['password_correct_' . $client_id] ?? '';
+
+        $protection_type = $attributes['protection_type'] ?? 'user-role';
+        $protection_password = $attributes['protection_password'] ?? '';
+        $protection_content = isset($attributes['protection_content']) ? $attributes['protection_content'] === 'true' : false;
+        $user_role = isset($attributes['user_roles']) ? explode(', ', $attributes['user_roles']) : '';
+        $protection_message = $attributes['protection_message'] ?? '';
+
+        // Conditions for content protection
+        $password_protected = $protection_type == 'password' && !empty($protection_password);
+
+        $password_verified = $password_protected && !empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct);
+        $user_role_protected = $protection_type === 'user-role' && Helper::has_allowed_roles($user_role);
+
+        // Check if protection conditions are not met
+        if (!(empty($protection_content) ||$user_role_protected)) {
+            if ($protection_type  == 'user-role') {
+                return self::content_protection_content($client_id, $protection_message, $user_role);     
+            } 
+        }
+
         ?>
             <div class="embedpress-document-embed ose-document <?php echo 'ep-doc-' . md5($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: block">
                 <?php if ($url != '') {
@@ -1100,7 +1193,7 @@ KAMAL;
                             <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%;" src="<?php echo esc_url($url); ?>" data-emsrc="<?php echo esc_url($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>"></iframe>
                         </div>
 
-                <?php
+                    <?php
 
                             }
 

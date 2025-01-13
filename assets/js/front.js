@@ -373,7 +373,6 @@ let epGlobals = {};
         jQuery.post(eplocalize.ajaxurl, data, function (response) {
             if (response.success) {
                 if (!response.embedHtml) {
-
                     jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="submit"]').val(buttonText);
                     jQuery('#' + perentSel + '-' + ep_client_id + ' .password-form input[type="password"]').val('');
                     jQuery(that).closest('.password-form-container').find('.error-message').removeClass('hidden');
@@ -390,13 +389,16 @@ let epGlobals = {};
                     }
 
                     // Custom player initialization when content protection enabled
-                    document.querySelector('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper').classList.remove('plyr-initialized');
+                    document.querySelector('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper')?.classList?.remove('plyr-initialized');
 
-                    initPlayer(document.querySelector('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper'));
-
+                    if (typeof initPlayer === 'function') {
+                        initPlayer(document.querySelector('#' + perentSel + '-' + ep_client_id + ' .ep-embed-content-wraper'));
+                    }
                     if (eplocalize.is_pro_plugin_active) {
                         const adIdEl = document.querySelector('#' + perentSel + '-' + ep_client_id + ' [data-sponsored-id]');
-                        adInitialization(adIdEl, adIdEl?.getAttribute('data-ad-index'));
+                        if (typeof adInitialization === 'function') {
+                            adInitialization(adIdEl, adIdEl?.getAttribute('data-ad-index'));
+                        }
                     }
 
                 }
@@ -411,6 +413,11 @@ let epGlobals = {};
     jQuery('.ep-gutenberg-content .password-form').submit(function (e) {
         e.preventDefault(); // Prevent the default form submission
         unlockSubmitHander('ep-gutenberg-content', this);
+    });
+
+    jQuery('.ep-shortcode-content .password-form').submit(function (e) {
+        e.preventDefault(); // Prevent the default form submission
+        unlockSubmitHander('ep-shortcode-content', this);
     });
 
     window.addEventListener('load', function (e) {
