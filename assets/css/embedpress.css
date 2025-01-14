@@ -3111,7 +3111,7 @@ figure .ep-youtube__content__block .thumb {
     background-color: #ff6868;
 }
 
-.video-popup {
+#videoPopup.video-popup {
     display: none;
     position: fixed;
     z-index: 1000;
