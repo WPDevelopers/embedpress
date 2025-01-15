@@ -974,9 +974,9 @@ KAMAL;
             'selection_tool' => isset($attributes['selection_tool']) ? esc_attr($attributes['selection_tool']) : '0',
             'scrolling' => isset($attributes['scrolling']) ? esc_attr($attributes['scrolling']) : '-1',
             'spreads' => isset($attributes['spreads']) ? esc_attr($attributes['spreads']) : '-1',
-            'zoom_in' =>  isset($attributes['zoomIn'])  ? $attributes['zoomIn'] : 'true',
-            'zoom_out' => isset($attributes['zoomOut'])  ? $attributes['zoomOut'] : 'true',
-            'fit_view' => isset($attributes['fitView'])  ? $attributes['fitView'] : 'true',
+            'zoom_in' =>  isset($attributes['zoom_in'])  ? $attributes['zoom_in'] : 'true',
+            'zoom_out' => isset($attributes['zoom_out'])  ? $attributes['zoom_out'] : 'true',
+            'fit_view' => isset($attributes['fit_view'])  ? $attributes['fit_view'] : 'true',
             'bookmark' => isset($attributes['bookmark'])  ? $attributes['bookmark'] : 'true',
             'flipbook_toolbar_position' => !empty($attributes['toolbar_position'])  ? $attributes['toolbar_position'] : 'bottom',
         );
