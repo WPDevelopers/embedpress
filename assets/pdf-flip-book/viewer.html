@@ -82,6 +82,8 @@
           // The encoded string you want to decode
           const encodedString = extractFileParamData(parentIframeSrc, "key");
 
+          console.log({parentIframeSrc});
+
           // Step 1: Base64 Decode
           const decodedString = atob(encodedString);
 

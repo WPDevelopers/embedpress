@@ -1057,7 +1057,7 @@ function getParamData($attributes)
 	$urlParamData = array(
 		'themeMode' =>  !empty($attributes['themeMode']) ? $attributes['themeMode'] : 'default',
 		'toolbar' =>  !empty($attributes['toolbar']) ? 'true' : 'false',
-		'position' =>  $attributes['position'],
+		'position' =>  $attributes['position'] ?? 'top',
 		'presentation' =>  !empty($attributes['presentation']) ? 'true' : 'false',
 		'lazyLoad' =>  !empty($attributes['lazyLoad']) ? 'true' : 'false',
 		'download' =>  !empty($attributes['download']) ? 'true' : 'false',
@@ -1186,6 +1186,7 @@ function embedpress_pdf_render_block($attributes)
 				$url = !empty($attributes['href']) ? $attributes['href'] : '';
 
 				$embed_code = '<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_url($src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
+				
 				if (isset($attributes['viewerStyle']) && $attributes['viewerStyle'] === 'flip-book') {
 					$src = urlencode($url) . getParamData($attributes);
 					$embed_code = '<iframe title="' . esc_attr(Helper::get_file_title($attributes['href'])) . '" class="embedpress-embed-document-pdf ' . esc_attr($id) . '" style="' . esc_attr($dimension) . '; max-width:100%; display: inline-block" src="' . esc_url(EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/viewer.html?file=' . $src) . '" frameborder="0" oncontextmenu="return false;"></iframe> ';
