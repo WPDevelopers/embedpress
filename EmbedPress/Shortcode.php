@@ -204,16 +204,6 @@ class Shortcode
         $embed = self::parseContent($subject, true, $attributes);
 
 
-
-
-        //attr
-
-        // protection_content='true/false' default 'false'
-        // protection_type = 'password/user-role' default 'user-role' | if password -> password='your password' | if user-role -> user_role='role1, role2'
-        // if protection_type = 'user-role' -> protection_message='your protection message'
-
-
-
         $client_id = is_object($embed) ? md5($embed->embed)  : '';
 
         $hash_pass = isset($attributes['protection_password'])
@@ -229,26 +219,25 @@ class Shortcode
         $protection_type = $attributes['protection_type'] ?? 'user-role';
         $protection_password = $attributes['protection_password'] ?? '';
         $protection_content = isset($attributes['protection_content']) ? $attributes['protection_content'] === 'true' : false;
-        $user_role = isset($attributes['user_roles']) ? explode(', ', $attributes['user_roles']) : '';
+        $user_role = isset($attributes['user_roles']) ? explode(',', preg_replace('/\s*,\s*/', ',', $attributes['user_roles'])) : '';
         $protection_message = $attributes['protection_message'] ?? '';
+
 
         // Conditions for content protection
         $password_protected = $protection_type == 'password' && !empty($protection_password);
 
         $password_verified = $password_protected && !empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct);
-        $user_role_protected = $protection_type === 'user-role' && Helper::has_allowed_roles($user_role);
+        $user_role_protected = $protection_type === 'user-role' && Helper::has_allowed_roles($user_role);  
 
-        // Check if protection conditions are not met
         if (
-            !(empty($protection_content) ||
-                $password_verified ||
-                $user_role_protected)
+            apply_filters('embedpress/is_allow_rander', false) &&
+            ($protection_content == 'true') &&
+            (($protection_type == 'password' && !$password_verified) || ($protection_type == 'user-role' && !Helper::has_allowed_roles($user_role)) )  
         ) {
-            if ($password_protected) {
-                return self::display_password_form($client_id, $embed->embed, $pass_hash_key, $attributes);
-            } else {
-                return self::content_protection_content($client_id, $protection_message, $user_role);
-            }
+            
+            return $password_protected
+                ? self::display_password_form($client_id, $embed->embed, $pass_hash_key, $attributes)
+                : self::content_protection_content($client_id, $protection_message, $user_role);
         }
 
 
@@ -1161,7 +1150,8 @@ KAMAL;
         $protection_type = $attributes['protection_type'] ?? 'user-role';
         $protection_password = $attributes['protection_password'] ?? '';
         $protection_content = isset($attributes['protection_content']) ? $attributes['protection_content'] === 'true' : false;
-        $user_role = isset($attributes['user_roles']) ? explode(', ', $attributes['user_roles']) : '';
+        $user_role = isset($attributes['user_roles']) ? explode(',', preg_replace('/\s*,\s*/', ',', $attributes['user_roles'])) : '';
+
         $protection_message = $attributes['protection_message'] ?? '';
 
         // Conditions for content protection
@@ -1170,11 +1160,13 @@ KAMAL;
         $password_verified = $password_protected && !empty(Helper::is_password_correct($client_id)) && ($hash_pass === $password_correct);
         $user_role_protected = $protection_type === 'user-role' && Helper::has_allowed_roles($user_role);
 
-        // Check if protection conditions are not met
-        if (!(empty($protection_content) ||$user_role_protected)) {
-            if ($protection_type  == 'user-role') {
-                return self::content_protection_content($client_id, $protection_message, $user_role);     
-            } 
+        if (
+            apply_filters('embedpress/is_allow_rander', false) &&
+            ($protection_content == 'true') &&
+            (($protection_type == 'user-role' && !Helper::has_allowed_roles($user_role)) )  
+        ) {
+            
+            return self::content_protection_content($client_id, $protection_message, $user_role);
         }
 
         ?>

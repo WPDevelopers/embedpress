@@ -10,7 +10,8 @@
   "dependencies": {
     "cgb-scripts": "*",
     "classnames": "^2.2.5",
-    "md5": "^2.3.0"
+    "md5": "^2.3.0",
+    "react-select": "^5.9.0"
   },
   "devDependencies": {
     "node-sass": "^7.0.1"
