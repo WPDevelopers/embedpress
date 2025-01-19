@@ -46,7 +46,7 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks[
 			},
 			protectionType: {
 				type: 'string',
-				default: 'user-role'
+				default: 'password'
 			},
 			userRole: {
 				type: 'array',

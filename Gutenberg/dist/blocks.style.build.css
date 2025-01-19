@@ -1370,6 +1370,67 @@ button.skip-ad-button {
   font-size: 12px;
   font-style: normal;
   color: #757575; }
+
+.ep-select-control {
+  margin-bottom: 16px; }
+  .ep-select-control .ep-select-control-label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px; }
+  .ep-select-control .dropdown {
+    position: relative; }
+  .ep-select-control .dropdown-header {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: justify;
+        justify-content: space-between;
+    -ms-flex-align: center;
+        align-items: center;
+    border: 1px solid #ccc;
+    padding: 8px;
+    cursor: pointer;
+    background-color: #fff;
+    border-radius: 4px; }
+  .ep-select-control .dropdown-header .arrow {
+    font-size: 12px; }
+  .ep-select-control .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 4px;
+    z-index: 10;
+    max-height: 250px;
+    overflow-y: auto;
+    -webkit-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 8px; }
+  .ep-select-control .search-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px; }
+  .ep-select-control .dropdown-item {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+        align-items: center;
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 4px; }
+  .ep-select-control .dropdown-item:hover {
+    background-color: #f0f0f0; }
+  .ep-select-control .dropdown-item.selected {
+    background-color: #e6f7ff; }
+  .ep-select-control .dropdown-item input {
+    margin-right: 8px; }
+  .ep-select-control .no-options {
+    padding: 8px;
+    text-align: center;
+    color: #888; }
 /**
  * #.# Common SCSS
  *

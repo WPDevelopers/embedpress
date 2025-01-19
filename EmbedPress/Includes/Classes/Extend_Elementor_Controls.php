@@ -255,7 +255,7 @@ class Extend_Elementor_Controls
 					'user-role' => __('User Role', 'embedpress'),
 					'password' => __('Password Protected', 'embedpress'),
 				],
-				'default' => 'user-role',
+				'default' => 'password',
 				'condition' => [
 					'embedpress' . $infix . 'lock_content' => 'yes',
 				]

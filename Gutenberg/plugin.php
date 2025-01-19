@@ -255,7 +255,7 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'protectionType' => [
 								'type' => 'string',
-								'default' => 'user-role'
+								'default' => 'password'
 							],	
 							'userRole' => [
 								'type' => 'array',
@@ -764,7 +764,7 @@ function embedpress_gutenberg_register_all_block()
 							],
 							'protectionType' => [
 								'type' => 'string',
-								'default' => 'user-role'
+								'default' => 'password'
 							],	
 							'userRole' => [
 								'type' => 'array',

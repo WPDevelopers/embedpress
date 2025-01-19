@@ -234,7 +234,6 @@ class Shortcode
             ($protection_content == 'true') &&
             (($protection_type == 'password' && !$password_verified) || ($protection_type == 'user-role' && !Helper::has_allowed_roles($user_role)) )  
         ) {
-            
             return $password_protected
                 ? self::display_password_form($client_id, $embed->embed, $pass_hash_key, $attributes)
                 : self::content_protection_content($client_id, $protection_message, $user_role);
