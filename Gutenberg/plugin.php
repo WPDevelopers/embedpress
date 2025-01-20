@@ -75,11 +75,7 @@ function get_user_roles()
 {
 	global $wp_roles; // Access global roles object
 	$user_roles = [];
-
-	$user_roles[] = [
-		'value' => '',
-		'label' => 'Any',
-	];
+	
 	if (isset($wp_roles->roles) && is_array($wp_roles->roles)) {
 		foreach ($wp_roles->roles as $role_key => $role_data) {
 			$user_roles[] = [

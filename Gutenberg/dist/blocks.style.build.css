@@ -1374,9 +1374,21 @@ button.skip-ad-button {
 .ep-select-control {
   margin-bottom: 16px; }
   .ep-select-control .ep-select-control-label {
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.4;
+    text-transform: uppercase;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
     display: block;
-    font-weight: bold;
-    margin-bottom: 8px; }
+    padding-top: 0px;
+    padding-bottom: 0px;
+    max-width: 100%;
+    z-index: 1;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+       text-overflow: ellipsis;
+    white-space: nowrap; }
   .ep-select-control .dropdown {
     position: relative; }
   .ep-select-control .dropdown-header {
@@ -1390,9 +1402,11 @@ button.skip-ad-button {
     padding: 8px;
     cursor: pointer;
     background-color: #fff;
-    border-radius: 4px; }
-  .ep-select-control .dropdown-header .arrow {
-    font-size: 12px; }
+    border-radius: 4px;
+    font-weight: 600; }
+  .ep-select-control span.arrow-dropdown svg {
+    width: 18px;
+    height: 18px; }
   .ep-select-control .dropdown-menu {
     position: absolute;
     top: 100%;
@@ -1409,7 +1423,7 @@ button.skip-ad-button {
     padding: 8px; }
   .ep-select-control .search-input {
     width: 100%;
-    padding: 8px;
+    padding: 5px 8px;
     margin-bottom: 8px;
     border: 1px solid #ccc;
     border-radius: 4px; }
@@ -1421,6 +1435,8 @@ button.skip-ad-button {
     padding: 8px;
     cursor: pointer;
     border-radius: 4px; }
+    .ep-select-control .dropdown-item label {
+      cursor: pointer; }
   .ep-select-control .dropdown-item:hover {
     background-color: #f0f0f0; }
   .ep-select-control .dropdown-item.selected {
