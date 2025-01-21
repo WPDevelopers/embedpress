@@ -1064,14 +1064,14 @@ KAMAL;
 
         $urlParamData = array(
             'themeMode' => isset($attributes['theme_mode']) ? esc_attr($attributes['theme_mode']) : 'default',
-            'toolbar' => isset($attributes['toolbar']) ? esc_attr($attributes['toolbar']) : 'true',
+            'toolbar' => apply_filters('embedpress/is_allow_rander', false) && isset($attributes['toolbar']) ? esc_attr($attributes['toolbar']) : 'true',
             'lazyLoad' => isset($attributes['lazyLoad']) ? esc_attr($attributes['lazyLoad']) : 'false',
             'position' => isset($attributes['toolbar_position']) ? esc_attr($attributes['toolbar_position']) : 'top',
             'presentation' => isset($attributes['presentation']) ? esc_attr($attributes['presentation']) : 'true',
-            'download' => isset($attributes['download']) ? esc_attr($attributes['download']) : 'true',
-            'copy_text' => isset($attributes['copy_text']) ? esc_attr($attributes['copy_text']) : 'true',
+            'download' => apply_filters('embedpress/is_allow_rander', false) && isset($attributes['download']) ? esc_attr($attributes['download']) : 'true',
+            'copy_text' => apply_filters('embedpress/is_allow_rander', false) && isset($attributes['copy_text']) ? esc_attr($attributes['copy_text']) : 'true',
             'add_text' => isset($attributes['add_text']) ? esc_attr($attributes['add_text']) : 'true',
-            'draw' => isset($attributes['draw']) ? esc_attr($attributes['draw']) : 'true',
+            'draw' => apply_filters('embedpress/is_allow_rander', false) && isset($attributes['draw']) ? esc_attr($attributes['draw']) : 'true',
             'doc_rotation' => isset($attributes['doc_rotation']) ? esc_attr($attributes['doc_rotation']) : 'true',
             'add_image' => isset($attributes['add_image']) ? esc_attr($attributes['add_image']) : 'true',
             'doc_details' => isset($attributes['doc_details']) ? esc_attr($attributes['doc_details']) : 'true',
