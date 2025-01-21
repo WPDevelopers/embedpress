@@ -322,6 +322,7 @@ function embedpress_render_block($attributes)
 								$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
 								$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
 								if(
+									!apply_filters('embedpress/is_allow_rander', false) ||
 									empty($attributes['lockContent']) || 
 									($attributes['protectionType'] == 'password' && empty($attributes['contentPassword'])) || 
 									($attributes['protectionType'] == 'password' &&  (!empty(Helper::is_password_correct($client_id))) && ($hash_pass === $password_correct)) ||

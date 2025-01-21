@@ -1273,6 +1273,7 @@ function embedpress_pdf_render_block($attributes)
 							$embed = $embed_code;
 							
 							if (
+								!apply_filters('embedpress/is_allow_rander', false) ||
 								empty($attributes['lockContent']) || 
 								($attributes['protectionType'] == 'password' && empty($attributes['contentPassword'])) || 
 								($attributes['protectionType'] == 'password' &&  (!empty(Helper::is_password_correct($client_id))) && ($hash_pass === $password_correct)) ||
