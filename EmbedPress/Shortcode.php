@@ -1078,14 +1078,23 @@ KAMAL;
             'selection_tool' => isset($attributes['selection_tool']) ? esc_attr($attributes['selection_tool']) : '0',
             'scrolling' => isset($attributes['scrolling']) ? esc_attr($attributes['scrolling']) : '-1',
             'spreads' => isset($attributes['spreads']) ? esc_attr($attributes['spreads']) : '-1',
-
+            'zoom_in' =>  isset($attributes['zoom_in'])  ? $attributes['zoom_in'] : 'true',
+            'zoom_out' => isset($attributes['zoom_out'])  ? $attributes['zoom_out'] : 'true',
+            'fit_view' => isset($attributes['fit_view'])  ? $attributes['fit_view'] : 'true',
+            'bookmark' => isset($attributes['bookmark'])  ? $attributes['bookmark'] : 'true',
+            'flipbook_toolbar_position' => !empty($attributes['toolbar_position'])  ? $attributes['toolbar_position'] : 'bottom',
         );
 
         if ($urlParamData['themeMode'] == 'custom') {
             $urlParamData['customColor'] = isset($attributes['custom_color']) ? esc_attr($attributes['custom_color']) : '#333333';
         }
 
-        return "#" . http_build_query($urlParamData);
+        if (isset($attributes['viewer_style']) && $attributes['viewer_style'] == 'flip-book') {
+            return "&key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), 'UTF-8'));
+        }
+
+        return "#key=" . base64_encode(mb_convert_encoding(http_build_query($urlParamData), 'UTF-8'));
+
     }
 
     public static function getUnit($value)
@@ -1114,7 +1123,6 @@ KAMAL;
         }
 
         $attributes = wp_parse_args($attributes, $default);
-
 
         $url = preg_replace(
             '/(\[' . EMBEDPRESS_SHORTCODE . '(?:\]|.+?\])|\[\/' . EMBEDPRESS_SHORTCODE . '\])/i',
@@ -1173,18 +1181,28 @@ KAMAL;
                 <?php if ($url != '') {
                             if (self::is_pdf($url) && !self::is_external_url($url)) {
                                 $renderer = Helper::get_pdf_renderer();
-                                $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($url) . self::getParamData($attributes);
-                                ?>
-                        <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" title="" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" data-emsrc="<?php echo esc_url($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" src="<?php echo esc_url($src); ?>" frameborder="0"></iframe>
-                    <?php
 
-                                } else {
+                                $src = $renderer . ((strpos($renderer, '?') == false) ? '?' : '&') . 'file=' . urlencode($url) . self::getParamData($attributes);
+
+
+                                if (isset($attributes['viewer_style']) && $attributes['viewer_style'] === 'flip-book') {
+                                    $src = urlencode($url) . self::getParamData($attributes);
                                     ?>
+                            <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" src="<?php echo esc_url(EMBEDPRESS_URL_ASSETS . 'pdf-flip-book/viewer.html?file=' . $src); ?>" frameborder="0" oncontextmenu="return false;">
+                            </iframe>
+                        <?php
+                                        } else {
+                                            ?>
+                            <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%; display: inline-block" data-emsrc="<?php echo esc_url($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>" src="<?php echo esc_url($src); ?>" frameborder="0">
+                            </iframe>
+                        <?php
+                                        }
+                                    } else {
+                                        ?>
                         <div>
                             <iframe title="<?php echo esc_attr(Helper::get_file_title($url)); ?>" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true" style="<?php echo esc_attr($dimension); ?>; max-width:100%;" src="<?php echo esc_url($url); ?>" data-emsrc="<?php echo esc_url($url); ?>" data-emid="<?php echo esc_attr($id); ?>" class="embedpress-embed-document-pdf <?php echo esc_attr($id); ?>"></iframe>
                         </div>
-
-                    <?php
+                <?php
 
                             }
 
