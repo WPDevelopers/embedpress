@@ -343,6 +343,12 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [4.1.9] – 2025-01-22 =
+- Added: Flipbook PDF embedding support for the Classic Editor.
+- Fixed: Google Maps embedding issues.
+- Fixed: Compatibility issue with Essential Addons’ Filterable Video Gallery widget.
+- Minor bug fixes and performance enhancements.
+
 = [4.1.8] – 2025-01-07 =
 - Fixed: Embedding on Elementor wasn’t working properly. 
 - Few minor bug fixes & improvements.
