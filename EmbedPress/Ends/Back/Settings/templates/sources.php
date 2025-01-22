@@ -3,7 +3,7 @@ $icon_src = EMBEDPRESS_SETTINGS_ASSETS_URL . "img/sources/icons";
 
 
 $sources = [
-    ["name" => "Google Photos", "arival_status" => "new", "icon" => $icon_src . "/google-photos.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-photos-in-wordpress/"],
+    ["name" => "Google Photos", "arival_status" => "new", "icon" => $icon_src . "/google-photos.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-photos-in-wordpress/"],
     ["name" => "Instagram", "arival_status" => "new", "icon" => $icon_src . "/instagram.png", "type" => "social", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=instagram", "doc_url" => "https://embedpress.com/docs/embed-instagram-wordpress/"],
     ["name" => "YouTube", "arival_status" => "popular", "icon" => $icon_src . "/youtube.png", "type" => "video", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=youtube", "doc_url" => "https://embedpress.com/docs/embed-youtube-wordpress/"],
     ["name" => "YouTube Live", "arival_status" => "popular", "icon" => $icon_src . "/youtubelive.png", "type" => "stream", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=youtube", "doc_url" => "https://embedpress.com/docs/embed-youtube-wordpress/"],
