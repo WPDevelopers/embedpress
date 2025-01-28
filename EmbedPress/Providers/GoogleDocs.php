@@ -88,6 +88,8 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
         $body = wp_remote_retrieve_body($response);
         $data = json_decode($body, true);
 
+        error_log(print_r($data, true));
+
         if (isset($data['error'])) {
             error_log('Error fetching document: ' . $data['error']['message']);
             return false;
@@ -120,6 +122,9 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
             }
         }
 
+        // Render positioned objects
+        $html_content .= $this->render_positioned_objects();
+
         // Apply styles to the rendered content
         return $this->render_document_with_styles($html_content);
     }
@@ -144,10 +149,49 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
         $height = isset($embedded_object['size']['height']['magnitude']) ? $embedded_object['size']['height']['magnitude'] . 'pt' : 'auto';
 
         // Render image
-        return "<img src=\"{$content_uri}\" alt=\"{$alt_text}\" style=\"width: {$width}; height: {$height}; margin: 9pt;\" />";
+        return "<img src=\"{$content_uri}\" alt=\"{$alt_text}\" style=\"width: {$width}!important; height: {$height}!important; margin: 9pt;\" />";
     }
 
+    private function render_positioned_objects()
+    {
+        $html = '';
 
+        if (isset($this->document_data['positionedObjects'])) {
+            foreach ($this->document_data['positionedObjects'] as $object_id => $positioned_object) {
+                $html .= $this->render_positioned_object($object_id, $positioned_object);
+            }
+        }
+
+        return $html;
+    }
+
+    private function render_positioned_object($object_id, $positioned_object)
+    {
+        // Extract embedded object properties
+        $embedded_object = $positioned_object['positionedObjectProperties']['embeddedObject'] ?? null;
+
+        if (!$embedded_object || !isset($embedded_object['imageProperties']['contentUri'])) {
+            return ''; // Skip non-image objects
+        }
+
+        // Extract image data
+        $content_uri = esc_url($embedded_object['imageProperties']['contentUri']);
+        $alt_text = esc_attr($embedded_object['description'] ?? 'Image');
+        $width = isset($embedded_object['size']['width']['magnitude']) ? $embedded_object['size']['width']['magnitude'] . 'pt' : 'auto';
+        $height = isset($embedded_object['size']['height']['magnitude']) ? $embedded_object['size']['height']['magnitude'] . 'pt' : 'auto';
+
+        // Extract positioning data
+        $positioning = $positioned_object['positionedObjectProperties']['positioning'] ?? [];
+        $left_offset = isset($positioning['leftOffset']['magnitude']) ? $positioning['leftOffset']['magnitude'] . 'pt' : '0';
+        $top_offset = isset($positioning['topOffset']['magnitude']) ? $positioning['topOffset']['magnitude'] . 'pt' : '0';
+        $layout = $positioning['layout'] ?? 'WRAP_TEXT';
+
+        // Apply CSS for positioning
+        $style = "position: absolute; left: {$left_offset}; top: {$top_offset}; width: {$width}; height: {$height};";
+
+        // Render the image
+        return "<img src=\"{$content_uri}\" alt=\"{$alt_text}\" style=\"{$style}\" />";
+    }
 
     private function render_element($element)
     {
@@ -452,47 +496,48 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
     private function render_document_with_styles($html_content)
     {
         $style = '
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-                line-height: 1.5;
-            }
-            h1, h2, h3, h4, h5, h6 {
-                font-family: "Arial", sans-serif;
-                font-weight: bold;
-            }
-            p {
-                margin: 0 0 15px 0;
-            }
-            a {
-                color: #1a0dab;
-                text-decoration: none;
-            }
-            u {
-                text-decoration: underline;
-            }
-            s {
-                text-decoration: line-through;
-            }
-            .google-docs-table {
-                border-collapse: collapse;
-                width: 100%;
-            }
-            .google-docs-table td, .google-docs-table th {
-                border: 1px solid #ddd;
-                padding: 8px;
-            }
-        </style>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+            position: relative; /* Required for absolute positioning */
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: "Arial", sans-serif;
+            font-weight: bold;
+        }
+        p {
+            margin: 0 0 15px 0;
+        }
+        a {
+            color: #1a0dab;
+            text-decoration: none;
+        }
+        u {
+            text-decoration: underline;
+        }
+        s {
+            text-decoration: line-through;
+        }
+        .google-docs-table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .google-docs-table td, .google-docs-table th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
     ';
 
         return $style . $html_content;
     }
-
-
-
-
 
     public function fakeResponse()
     {
@@ -501,6 +546,7 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
         $document_id = $this->get_document_id($this->url);
 
         $data = $this->fetch_and_render_google_doc($document_id);
+
 
         // Check the type of document
         preg_match('~google\.com/(?:.+/)?(document|presentation|spreadsheets|forms|drawings)/~i', $iframeSrc, $matches);
