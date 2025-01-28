@@ -86,6 +86,10 @@
     padding-bottom: 74.5%;
 }
 
+.ose-google-docs {
+    text-align: left;
+}
+
 .ose-google-docs.ose-google-docs-document.responsive,
 .ose-google-docs.ose-google-docs-forms.responsive,
 .ose-google-docs.ose-google-docs-spreadsheets.responsive {
