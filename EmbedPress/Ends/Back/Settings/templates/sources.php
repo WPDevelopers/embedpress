@@ -18,7 +18,7 @@ $sources = [
 
     ["name" => "OpenSea NFT", "arival_status" => "popular", "icon" => $icon_src . "/opensea.png", "type" => "image", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=opensea", "doc_url" => "https://embedpress.com/docs/embed-opensea-nft-collections-wordpress/"],
     ["name" => "Calendly", "arival_status" => "new", "icon" => $icon_src . "/calendly.png", "type" => "calendar", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=calendly", "doc_url" => "https://embedpress.com/docs/how-to-embed-calendly-events-with-embedpress/"],
-    ["name" => "Google Docs", "arival_status" => "popular", "icon" => $icon_src . "/google-docs.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-docs-wordpress/"],
+    ["name" => "Google Docs", "arival_status" => "popular", "icon" => $icon_src . "/google-docs.png", "settings" => true, "settings_url" => admin_url('admin.php') . "?page=embedpress&page_type=google-docs", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-docs-wordpress/"],
     ["name" => "Google Slides", "arival_status" => "popular", "icon" => $icon_src . "/google-slides.png", "type" => "google pdf", "doc_url" => "https://embedpress.com/docs/embed-google-slides-wordpress/"],
     ["name" => "Google Forms", "icon" => $icon_src . "/google-forms.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-forms-wordpress/"],
     ["name" => "Google Maps", "arival_status" => "popular", "icon" => $icon_src . "/google-maps.png", "type" => "google", "doc_url" => "https://embedpress.com/docs/embed-google-maps-wordpress/"],
