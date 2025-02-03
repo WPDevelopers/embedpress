@@ -16,6 +16,7 @@ import AdControl from '../common/ads-control';
 import CustomBranding from './InspectorControl/custombranding';
 import Spreaker from './InspectorControl/spreaker';
 import GooglePhotos from './InspectorControl/google-photos';
+import GoogleDocs from './InspectorControl/google-docs';
 
 /**
  * WordPress dependencies
@@ -271,8 +272,10 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <Vimeo attributes={attributes} setAttributes={setAttributes} isVimeoVideo={isVimeoVideo} />
 
                             <Calendly attributes={attributes} setAttributes={setAttributes} isCalendly={isCalendly} />
-
+                            
                             <GooglePhotos attributes={attributes} setAttributes={setAttributes} />
+
+                            <GoogleDocs attributes={attributes} setAttributes={setAttributes} />
 
                             {
                                 isYTChannel && !isYTLive && (

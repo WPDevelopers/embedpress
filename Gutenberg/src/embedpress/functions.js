@@ -51,6 +51,11 @@ export const isGooglePhotosUrl = (url) => {
     return googlePhotosPattern.test(url);
 }
 
+export const isGoogleDocsUrl = (url) => {
+    const googleDocsPattern = /^https:\/\/docs\.google\.com\/document\/d\/[^/]+/i;
+    return googleDocsPattern.test(url);
+};
+
 
 export const initCustomPlayer = (clientId, attributes) => {
 

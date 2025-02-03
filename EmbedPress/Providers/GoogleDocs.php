@@ -88,7 +88,7 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
         $body = wp_remote_retrieve_body($response);
         $data = json_decode($body, true);
 
-        error_log(print_r($data, true));
+        // error_log(print_r($data, true));
 
         if (isset($data['error'])) {
             error_log('Error fetching document: ' . $data['error']['message']);
@@ -104,11 +104,19 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
         // Fetch the document
         $this->document_data = $this->fetch_google_doc($document_id);
 
+        $namedStyle = $this->generate_css($this->name_styles($this->document_data), '.ose-google-docs');
+        $documentedStyle = $this->generate_document_css($this->document_styles($this->document_data), '.ose-google-docs');
+
+
+        error_log(print_r($this->document_styles($this->document_data), true));
+
         if (!$this->document_data || empty($this->document_data['body']['content'])) {
             return '<p>Error fetching document or no content available.</p>';
         }
 
-        $html_content = '';
+        $html_content = '' . $namedStyle;
+
+
 
         // Loop through content elements
         foreach ($this->document_data['body']['content'] as $element) {
@@ -116,11 +124,11 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
         }
 
         // Render inline objects (images, etc.)
-        if (isset($this->document_data['inlineObjects'])) {
-            foreach ($this->document_data['inlineObjects'] as $object_id => $inline_object) {
-                $html_content .= $this->render_inline_object($object_id, $inline_object);
-            }
-        }
+        // if (isset($this->document_data['inlineObjects'])) {
+        //     foreach ($this->document_data['inlineObjects'] as $object_id => $inline_object) {
+        //         $html_content .= $this->render_inline_object($object_id, $inline_object);
+        //     }
+        // }
 
         // Render positioned objects
         $html_content .= $this->render_positioned_objects();
@@ -209,7 +217,6 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
         // Render images (inlineObjects)
         if (isset($element['inlineObjectElement'])) {
             return $this->render_image($element['inlineObjectElement']);
-            error_log(print_r($element['inlineObjectElement'], true));
         } else {
             error_log(print_r('Noting founed', true));
         }
@@ -539,6 +546,287 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
         return $style . $html_content;
     }
 
+    private function document_styles($data)
+    {
+        $style = [];
+
+        // Extract background color
+        if (isset($data['documentStyle']['background']['color']['color']['rgbColor'])) {
+            $rgb = $data['documentStyle']['background']['color']['color']['rgbColor'];
+            $style['background_color'] = sprintf(
+                "rgb(%d, %d, %d)",
+                isset($rgb['red']) ? $rgb['red'] * 255 : 0,
+                isset($rgb['green']) ? $rgb['green'] * 255 : 0,
+                isset($rgb['blue']) ? $rgb['blue'] * 255 : 0
+            );
+        }
+
+        // Extract margins
+        $margins = ['marginTop', 'marginBottom', 'marginLeft', 'marginRight', 'marginHeader', 'marginFooter'];
+        foreach ($margins as $margin) {
+            if (isset($data['documentStyle'][$margin]['magnitude'])) {
+                $style[$margin] = $data['documentStyle'][$margin]['magnitude'] . ' ' . $data['documentStyle'][$margin]['unit'];
+            }
+        }
+
+        // Extract page size
+        if (isset($data['documentStyle']['pageSize'])) {
+            $style['page_size'] = [
+                'width' => $data['documentStyle']['pageSize']['width']['magnitude'] . ' ' . $data['documentStyle']['pageSize']['width']['unit'],
+                'height' => $data['documentStyle']['pageSize']['height']['magnitude'] . ' ' . $data['documentStyle']['pageSize']['height']['unit']
+            ];
+        }
+
+        // Extract named styles (Normal text, Headings)
+        if (isset($data['namedStyles']['styles'])) {
+            foreach ($data['namedStyles']['styles'] as $namedStyle) {
+                $type = strtolower(str_replace('_', ' ', $namedStyle['namedStyleType']));
+                $style['named_styles'][$type] = [];
+
+                if (isset($namedStyle['textStyle'])) {
+                    $textStyle = $namedStyle['textStyle'];
+                    $style['named_styles'][$type]['bold'] = !empty($textStyle['bold']);
+                    $style['named_styles'][$type]['italic'] = !empty($textStyle['italic']);
+                    $style['named_styles'][$type]['underline'] = !empty($textStyle['underline']);
+
+                    // Font and size
+                    if (isset($textStyle['fontSize']['magnitude'])) {
+                        $style['named_styles'][$type]['font_size'] = $textStyle['fontSize']['magnitude'] . ' ' . $textStyle['fontSize']['unit'];
+                    }
+                    if (isset($textStyle['weightedFontFamily']['fontFamily'])) {
+                        $style['named_styles'][$type]['font_family'] = $textStyle['weightedFontFamily']['fontFamily'];
+                    }
+                }
+
+                if (isset($namedStyle['paragraphStyle'])) {
+                    $paragraphStyle = $namedStyle['paragraphStyle'];
+                    $style['named_styles'][$type]['alignment'] = $paragraphStyle['alignment'] ?? 'START';
+                    $style['named_styles'][$type]['line_spacing'] = $paragraphStyle['lineSpacing'] ?? 115;
+
+                    // Extract spacing
+                    if (isset($paragraphStyle['spaceAbove']['magnitude'])) {
+                        $style['named_styles'][$type]['space_above'] = $paragraphStyle['spaceAbove']['magnitude'] . ' PT';
+                    }
+                    if (isset($paragraphStyle['spaceBelow']['magnitude'])) {
+                        $style['named_styles'][$type]['space_below'] = $paragraphStyle['spaceBelow']['magnitude'] . ' PT';
+                    }
+                }
+            }
+        }
+        // error_log(print_r($style));
+
+
+        return $style;
+    }
+
+    private function name_styles($data)
+    {
+        $namedStyles = [];
+
+
+        if (isset($data['namedStyles']['styles'])) {
+
+            foreach ($data['namedStyles']['styles'] as $style) {
+                $styleType = strtolower(str_replace('_', ' ', $style['namedStyleType']));
+                $namedStyles[$styleType] = [];
+
+                // Extract text style properties
+                if (isset($style['textStyle'])) {
+                    $textStyle = $style['textStyle'];
+                    $namedStyles[$styleType]['bold'] = !empty($textStyle['bold']);
+                    $namedStyles[$styleType]['italic'] = !empty($textStyle['italic']);
+                    $namedStyles[$styleType]['underline'] = !empty($textStyle['underline']);
+                    $namedStyles[$styleType]['strikethrough'] = !empty($textStyle['strikethrough']);
+                    $namedStyles[$styleType]['small_caps'] = !empty($textStyle['smallCaps']);
+
+                    // Font size
+                    if (isset($textStyle['fontSize']['magnitude'])) {
+                        $namedStyles[$styleType]['font_size'] = $textStyle['fontSize']['magnitude'] . ' ' . $textStyle['fontSize']['unit'];
+                    }
+
+                    // Font family
+                    if (isset($textStyle['weightedFontFamily']['fontFamily'])) {
+                        $namedStyles[$styleType]['font_family'] = $textStyle['weightedFontFamily']['fontFamily'];
+                    }
+                }
+
+                // Extract paragraph style properties
+                if (isset($style['paragraphStyle'])) {
+                    $paragraphStyle = $style['paragraphStyle'];
+                    $namedStyles[$styleType]['alignment'] = $paragraphStyle['alignment'] ?? 'START';
+                    $namedStyles[$styleType]['line_spacing'] = $paragraphStyle['lineSpacing'] ?? 115;
+                    $namedStyles[$styleType]['direction'] = $paragraphStyle['direction'] ?? 'LEFT_TO_RIGHT';
+
+                    // Spacing
+                    if (isset($paragraphStyle['spaceAbove']['magnitude'])) {
+                        $namedStyles[$styleType]['space_above'] = $paragraphStyle['spaceAbove']['magnitude'] . ' ' . $paragraphStyle['spaceAbove']['unit'];
+                    }
+                    if (isset($paragraphStyle['spaceBelow']['magnitude'])) {
+                        $namedStyles[$styleType]['space_below'] = $paragraphStyle['spaceBelow']['magnitude'] . ' ' . $paragraphStyle['spaceBelow']['unit'];
+                    }
+
+                    // Keep settings
+                    $namedStyles[$styleType]['keep_lines_together'] = !empty($paragraphStyle['keepLinesTogether']);
+                    $namedStyles[$styleType]['keep_with_next'] = !empty($paragraphStyle['keepWithNext']);
+                    $namedStyles[$styleType]['avoid_widow_and_orphan'] = !empty($paragraphStyle['avoidWidowAndOrphan']);
+                    $namedStyles[$styleType]['page_break_before'] = !empty($paragraphStyle['pageBreakBefore']);
+                }
+            }
+        }
+
+
+        // error_log(print_r($data['namedStyles'], true));
+        // error_log(print_r($namedStyles, true));
+
+
+        return $namedStyles;
+    }
+
+    private function getTagForStyleType($styleType)
+    {
+        // error_log(print_r($styleType, true));
+
+        $map = [
+            'normal text' => 'p',
+            'heading 1' => 'h1',
+            'heading 2' => 'h2',
+            'heading 3' => 'h3',
+            'heading 4' => 'h4',
+            'heading 5' => 'h5',
+            'heading 6' => 'h6',
+            'subtitle' => 'h3',
+            'title' => 'h1',
+        ];
+
+        return $map[$styleType] ?? 'div'; // Default to 'div' if no match
+    }
+
+    public function generate_css($namedStyles, $selector)
+    {
+        $css = "<style>\n";
+        foreach ($namedStyles as $styleType => $style) {
+            $tag = $this->getTagForStyleType($styleType);
+            $css .= "$selector $tag {\n";
+
+            // Font Size - Remove space before unit
+            if (!empty($style['font_size'])) {
+                $css .= "    font-size: " . str_replace(' ', '', $style['font_size']) . ";\n";
+            }
+
+            // Font Family
+            if (!empty($style['font_family'])) {
+                $css .= "    font-family: '{$style['font_family']}', sans-serif;\n";
+            }
+
+            // Font Styles
+            if (!empty($style['bold'])) {
+                $css .= "    font-weight: bold;\n";
+            }
+            if (!empty($style['italic'])) {
+                $css .= "    font-style: italic;\n";
+            }
+            if (!empty($style['underline'])) {
+                $css .= "    text-decoration: underline;\n";
+            }
+            if (!empty($style['strikethrough'])) {
+                $css .= "    text-decoration: line-through;\n";
+            }
+            if (!empty($style['small_caps'])) {
+                $css .= "    font-variant: small-caps;\n";
+            }
+
+            // Text Alignment
+            if (!empty($style['alignment'])) {
+                $align = strtolower($style['alignment']);
+                if ($align === 'start') $align = 'left';
+                if ($align === 'end') $align = 'right';
+                $css .= "    text-align: {$align};\n";
+            }
+
+            // Line Spacing (Ensure valid percentage)
+            if (!empty($style['line_spacing'])) {
+                $css .= "    line-height: {$style['line_spacing']}%;\n";
+            }
+
+            // Margin Top - Remove space before unit
+            if (!empty($style['space_above'])) {
+                $css .= "    margin-top: " . str_replace(' ', '', $style['space_above']) . ";\n";
+            }
+
+            // Margin Bottom - Remove space before unit
+            if (!empty($style['space_below'])) {
+                $css .= "    margin-bottom: " . str_replace(' ', '', $style['space_below']) . ";\n";
+            }
+
+            $css .= "}\n";
+        }
+        $css .= "</style>\n";
+        return $css;
+    }
+
+    public function generate_document_css($documentStyle, $selector)
+    {
+        $css = "<style>\n";
+
+        // Page margins
+        $css .= "$selector {\n";
+        $css .= "    margin-top: " . str_replace(' ', '', $documentStyle['marginTop']) . ";\n";
+        $css .= "    margin-bottom: " . str_replace(' ', '', $documentStyle['marginBottom']) . ";\n";
+        $css .= "    margin-left: " . str_replace(' ', '', $documentStyle['marginLeft']) . ";\n";
+        $css .= "    margin-right: " . str_replace(' ', '', $documentStyle['marginRight']) . ";\n";
+        $css .= "}\n";
+
+        // Page size
+        $css .= "$selector @page {\n";
+        $css .= "    size: " . str_replace(' ', '', $documentStyle['page_size']['width']) . " " . str_replace(' ', '', $documentStyle['page_size']['height']) . ";\n";
+        $css .= "}\n";
+
+        // Named styles
+        foreach ($documentStyle['named_styles'] as $styleType => $style) {
+            $css .= "$selector .$styleType {\n";
+
+            if (!empty($style['font_size'])) {
+                $css .= "    font-size: " . str_replace(' ', '', $style['font_size']) . ";\n";
+            }
+            if (!empty($style['font_family'])) {
+                $css .= "    font-family: '{$style['font_family']}', sans-serif;\n";
+            }
+            if (!empty($style['bold'])) {
+                $css .= "    font-weight: bold;\n";
+            }
+            if (!empty($style['italic'])) {
+                $css .= "    font-style: italic;\n";
+            }
+            if (!empty($style['underline'])) {
+                $css .= "    text-decoration: underline;\n";
+            }
+            if (!empty($style['alignment'])) {
+                $align = strtolower($style['alignment']);
+                if ($align === 'start') $align = 'left';
+                if ($align === 'end') $align = 'right';
+                $css .= "    text-align: {$align};\n";
+            }
+            if (!empty($style['line_spacing'])) {
+                $css .= "    line-height: {$style['line_spacing']}%;\n";
+            }
+            if (!empty($style['space_above'])) {
+                $css .= "    margin-top: " . str_replace(' ', '', $style['space_above']) . ";\n";
+            }
+            if (!empty($style['space_below'])) {
+                $css .= "    margin-bottom: " . str_replace(' ', '', $style['space_below']) . ";\n";
+            }
+
+            $css .= "}\n";
+        }
+
+        $css .= "</style>\n";
+        return $css;
+    }
+
+
+
+
+
     public function fakeResponse()
     {
         $iframeSrc = html_entity_decode($this->url);
@@ -546,7 +834,6 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
         $document_id = $this->get_document_id($this->url);
 
         $data = $this->fetch_and_render_google_doc($document_id);
-
 
         // Check the type of document
         preg_match('~google\.com/(?:.+/)?(document|presentation|spreadsheets|forms|drawings)/~i', $iframeSrc, $matches);

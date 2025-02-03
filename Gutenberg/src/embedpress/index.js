@@ -1049,6 +1049,237 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				default: '5'
 			},
 
+			// google docs controls
+			fileName: {
+				type: "string",
+			},
+			mime: {
+				type: "string",
+			},
+			powered_by: {
+				type: "boolean",
+				default: true,
+			},
+
+			presentation: {
+				type: "boolean",
+				default: true,
+			},
+			docViewer: {
+				type: "string",
+				default: 'custom',
+			},
+			themeMode: {
+				type: "string",
+				default: 'default',
+			},
+			customColor: {
+				type: "string",
+				default: '#403A81',
+			},
+			position: {
+				type: "string",
+				default: 'top',
+			},
+
+			download: {
+				type: "boolean",
+				default: true,
+			},
+			open: {
+				type: "boolean",
+				default: false,
+			},
+			copy_text: {
+				type: "boolean",
+				default: true,
+			},
+			draw: {
+				type: "boolean",
+				default: true,
+			},
+			toolbar: {
+				type: "boolean",
+				default: true,
+			},
+			doc_rotation: {
+				type: 'boolean',
+				default: true,
+			},
+			// Typography Attributes for H1 - H6
+			h1FontSize: {
+				type: 'number',
+				default: 32,
+			},
+			h1LineHeight: {
+				type: 'number',
+				default: 1.5,
+			},
+			h1LetterSpacing: {
+				type: 'number',
+				default: 0,
+			},
+			h1FontFamily: {
+				type: 'string',
+				default: 'default',
+			},
+			h1FontWeight: {
+				type: 'string',
+				default: 'normal',
+			},
+			h1TextTransform: {
+				type: 'string',
+				default: 'none',
+			},
+			h1Color: {
+				type: 'string',
+				default: '',
+			},
+
+			h2FontSize: {
+				type: 'number',
+				default: 28,
+			},
+			h2LineHeight: {
+				type: 'number',
+				default: 1.5,
+			},
+			h2LetterSpacing: {
+				type: 'number',
+				default: 0,
+			},
+			h2FontFamily: {
+				type: 'string',
+				default: 'default',
+			},
+			h2FontWeight: {
+				type: 'string',
+				default: 'normal',
+			},
+			h2TextTransform: {
+				type: 'string',
+				default: 'none',
+			},
+			h2Color: {
+				type: 'string',
+				default: '',
+			},
+
+			h3FontSize: {
+				type: 'number',
+				default: 24,
+			},
+			h3LineHeight: {
+				type: 'number',
+				default: 1.5,
+			},
+			h3LetterSpacing: {
+				type: 'number',
+				default: 0,
+			},
+			h3FontFamily: {
+				type: 'string',
+				default: 'default',
+			},
+			h3FontWeight: {
+				type: 'string',
+				default: 'normal',
+			},
+			h3TextTransform: {
+				type: 'string',
+				default: 'none',
+			},
+			h3Color: {
+				type: 'string',
+				default: '',
+			},
+
+			h4FontSize: {
+				type: 'number',
+				default: 20,
+			},
+			h4LineHeight: {
+				type: 'number',
+				default: 1.5,
+			},
+			h4LetterSpacing: {
+				type: 'number',
+				default: 0,
+			},
+			h4FontFamily: {
+				type: 'string',
+				default: 'default',
+			},
+			h4FontWeight: {
+				type: 'string',
+				default: 'normal',
+			},
+			h4TextTransform: {
+				type: 'string',
+				default: 'none',
+			},
+			h4Color: {
+				type: 'string',
+				default: '',
+			},
+
+			h5FontSize: {
+				type: 'number',
+				default: 18,
+			},
+			h5LineHeight: {
+				type: 'number',
+				default: 1.5,
+			},
+			h5LetterSpacing: {
+				type: 'number',
+				default: 0,
+			},
+			h5FontFamily: {
+				type: 'string',
+				default: 'default',
+			},
+			h5FontWeight: {
+				type: 'string',
+				default: 'normal',
+			},
+			h5TextTransform: {
+				type: 'string',
+				default: 'none',
+			},
+			h5Color: {
+				type: 'string',
+				default: '',
+			},
+
+			h6FontSize: {
+				type: 'number',
+				default: 16,
+			},
+			h6LineHeight: {
+				type: 'number',
+				default: 1.5,
+			},
+			h6LetterSpacing: {
+				type: 'number',
+				default: 0,
+			},
+			h6FontFamily: {
+				type: 'string',
+				default: 'default',
+			},
+			h6FontWeight: {
+				type: 'string',
+				default: 'normal',
+			},
+			h6TextTransform: {
+				type: 'string',
+				default: 'none',
+			},
+			h6Color: {
+				type: 'string',
+				default: '',
+			},
 		},
 		/**
 		 * The edit function describes the structure of your block in the context of the editor.

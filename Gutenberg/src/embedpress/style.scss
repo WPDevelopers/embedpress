@@ -759,6 +759,15 @@ button.components-color-palette__custom-color-button {
 .embedpress-gutenberg-controls .components-panel__body.is-opened h2.components-panel__body-title {
     margin-bottom: 16px !important;
 }
+.embedpress-gutenberg-controls {
+    .components-tab-panel__tabs {
+        justify-content: space-around;
+    }
+
+    .components-tab-panel__tabs button {
+        padding: 0 12px;
+    }
+}
 
 .ep-controls-margin {
     margin-bottom: 24px;
