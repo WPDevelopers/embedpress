@@ -20,6 +20,8 @@ use Embera\Url;
  * @license     GPLv3 or later
  * @since       1.0.0
  */
+
+
 class InstagramFeed extends Instagram
 {
     /** inline {@inheritdoc} */
@@ -77,6 +79,10 @@ class InstagramFeed extends Instagram
     public function __construct($url, array $config = [])
     {
         parent::__construct($url, $config);
+
+        if ($this->validateReelUrl($url)) {
+            add_action('wp_footer', [$this, 'enqueue_instagram_script'], 100);
+        }
     }
 
 
@@ -86,10 +92,11 @@ class InstagramFeed extends Instagram
         return
             parent::validateUrl($url) ||
             (bool) preg_match(
-                '/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?|explore\/tags\/[a-zA-Z0-9_\-]+\/?)$/',
+                '/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?|explore\/tags\/[a-zA-Z0-9_\-]+\/?|(?:reel|p)\/[a-zA-Z0-9_-]+\/?)$/',
                 (string) $url
             );
     }
+
 
     public function validateInstagramFeed($url)
     {
@@ -100,7 +107,22 @@ class InstagramFeed extends Instagram
     }
 
 
+    public function validateReelUrl($url)
+    {
+        return (bool) preg_match(
+            '/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:reel|p)\/[a-zA-Z0-9_-]+\/?$/',
+            (string) $url
+        );
+    }
+    function enqueue_instagram_script()
+    {
+        static $script_loaded = false;
 
+        if (!$script_loaded) {
+            echo '<script async src="https://www.instagram.com/embed.js"></script>';
+            $script_loaded = true;
+        }
+    }
 
     public function get_connected_account_type($userID)
     {
@@ -275,14 +297,14 @@ class InstagramFeed extends Instagram
             <div class="insta-gallery-item-type">
                 <div class="insta-gallery-item-type-icon">
                     <?php
-                        if ($media_type == 'VIDEO') {
-                            echo Helper::get_insta_video_icon();
-                        } else if ($media_type == 'CAROUSEL_ALBUM') {
-                            echo Helper::get_insta_image_carousel_icon();
-                        } else {
-                            echo Helper::get_insta_image_icon();
-                        }
-                    ?>
+                            if ($media_type == 'VIDEO') {
+                                echo Helper::get_insta_video_icon();
+                            } else if ($media_type == 'CAROUSEL_ALBUM') {
+                                echo Helper::get_insta_image_carousel_icon();
+                            } else {
+                                echo Helper::get_insta_image_icon();
+                            }
+                            ?>
                 </div>
             </div>
             <div class="insta-gallery-item-info">
@@ -461,10 +483,10 @@ class InstagramFeed extends Instagram
                                         <?php if (!empty($params['instafeedFollowersCountText']) && $params['instafeedFollowersCountText'] !== 'false' && $params['instafeedFollowersCountText'] !== 'true') : ?>
                                             <a class="followers-link" target="_blank" href="<?php echo esc_url('https://instagram.com/' . $username . '/followers'); ?>" role="link" tabindex="0">
                                                 <?php
-                                                    $followers_count_text = str_replace('[count]', '<span class="count">' . $followers_count . '</span>', $params['instafeedFollowersCountText']);
+                                                                            $followers_count_text = str_replace('[count]', '<span class="count">' . $followers_count . '</span>', $params['instafeedFollowersCountText']);
 
-                                                    echo wp_kses_post($followers_count_text);
-                                                    ?>
+                                                                            echo wp_kses_post($followers_count_text);
+                                                                            ?>
                                             </a>
                                         <?php endif; ?>
                                     </div>
@@ -502,17 +524,17 @@ class InstagramFeed extends Instagram
                 <?php do_action('embedpress/instafeed_tab_option'); ?>
             <?php endif; ?>
 
-            <?php 
-               $params_data = [
-                'show_likes_count' => isset($params['instafeedLikesCount']) ? $params['instafeedLikesCount'] : false,
-                'show_comments_count' => isset($params['instafeedCommentsCount']) ? $params['instafeedCommentsCount'] : false,
-                'popup_follow_button' => isset($params['instafeedPopupFollowBtn']) ? $params['instafeedPopupFollowBtn'] : true,
-                'popup_follow_button_text' => isset($params['instafeedPopupFollowBtnLabel']) ? $params['instafeedPopupFollowBtnLabel'] : 'Follow'
-            ];
-            
-            $params_data_json = json_encode($params_data);
+            <?php
+                        $params_data = [
+                            'show_likes_count' => isset($params['instafeedLikesCount']) ? $params['instafeedLikesCount'] : false,
+                            'show_comments_count' => isset($params['instafeedCommentsCount']) ? $params['instafeedCommentsCount'] : false,
+                            'popup_follow_button' => isset($params['instafeedPopupFollowBtn']) ? $params['instafeedPopupFollowBtn'] : true,
+                            'popup_follow_button_text' => isset($params['instafeedPopupFollowBtnLabel']) ? $params['instafeedPopupFollowBtnLabel'] : 'Follow'
+                        ];
 
-            ?>
+                        $params_data_json = json_encode($params_data);
+
+                        ?>
 
             <div class="instagram-container" data-feed-type="<?php echo esc_attr($feed_type); ?>" data-hashtag="<?php echo esc_attr($hashtag); ?>" data-hashtag-id="<?php echo esc_attr($hashtag_id); ?>" data-connected-acc-type="<?php echo esc_attr($connected_account_type); ?>" data-uid="<?php echo esc_attr($userID); ?>" data-params="<?php echo htmlspecialchars($params_data_json, ENT_QUOTES, 'UTF-8'); ?>">
                 <div class="embedpress-insta-container">
@@ -600,8 +622,16 @@ class InstagramFeed extends Instagram
             'html'          => "",
         ];
 
-        $connected_users =  get_option('ep_instagram_account_data');
+        $preview_text = 'Instagram will loaad in the frontend';
 
+        if ($this->validateReelUrl($url)) {
+            $IG_reel = '<blockquote style="background-color: #ddd" class="instagram-media" data-instgrm-permalink="' . esc_url($url) . '" data-instgrm-version="14">' . esc_html__('$preview_text', 'embedpress') . '</blockquote>';
+
+            $insta_feed['html'] = $IG_reel;
+            return $insta_feed;
+        
+
+        $connected_users =  get_option('ep_instagram_account_data');
 
         $username = $this->getInstagramUnserName($url) ? $this->getInstagramUnserName($url) : '';
 
@@ -613,7 +643,6 @@ class InstagramFeed extends Instagram
                 }
             }
         }
-
 
         $access_token = ''; // The access token';
         $account_type = '';

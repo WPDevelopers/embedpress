@@ -4,12 +4,12 @@ function handlePosterImageLoad() {
         var videoWrappers = document.querySelectorAll("[data-playerid]");
 
         // Iterate over each posterImage
-        posterImages.forEach(function(posterImage) {
+        posterImages.forEach(function (posterImage) {
             if (posterImage) {
-                var observer = new MutationObserver(function(mutationsList, observer) {
+                var observer = new MutationObserver(function (mutationsList, observer) {
                     var posterImageStyle = window.getComputedStyle(posterImage);
                     if (posterImageStyle.getPropertyValue('background-image') !== 'none') {
-                        setTimeout(function() {
+                        setTimeout(function () {
                             videoWrapper.style.opacity = "1";
                         }, 200);
                         observer.disconnect();
@@ -24,7 +24,7 @@ function handlePosterImageLoad() {
         });
 
         // Iterate over each videoWrapper
-        videoWrappers.forEach(function(videoWrapper) {
+        videoWrappers.forEach(function (videoWrapper) {
             if (videoWrapper && posterImages.length > 0) {
                 videoWrapper.style.opacity = "1";
             }
