@@ -622,15 +622,14 @@ class InstagramFeed extends Instagram
             'html'          => "",
         ];
 
-        $preview_text = 'Instagram will loaad in the frontend';
+        $preview_text = 'Instagram will load in the frontend.';
 
         if ($this->validateReelUrl($url)) {
-            $IG_reel = '<blockquote style="background-color: #ddd" class="instagram-media" data-instgrm-permalink="' . esc_url($url) . '" data-instgrm-version="14">' . esc_html__('$preview_text', 'embedpress') . '</blockquote>';
+            $IG_reel = '<blockquote class="instagram-media" data-instgrm-permalink="' . esc_url($url) . '" data-instgrm-version="14">' . esc_html__($preview_text, 'embedpress') . '</blockquote>';
 
             $insta_feed['html'] = $IG_reel;
             return $insta_feed;
-        
-
+        }
         $connected_users =  get_option('ep_instagram_account_data');
 
         $username = $this->getInstagramUnserName($url) ? $this->getInstagramUnserName($url) : '';
