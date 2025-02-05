@@ -126,7 +126,7 @@
     width: 100%;
 }
 
-.elementor-widget-container iframe {
+.elementor-widget iframe {
     max-height: 100% !important;
 }
 
@@ -141,7 +141,7 @@
 
 @media only screen and (max-width: 800px) {
 
-    .elementor-widget-container .embedpress-facebook-vid-iframe,
+    .elementor-widget-embedpres_elementor .embedpress-facebook-vid-iframe,
     .embedpress-gutenberg-wrapper .embedpress-facebook-vid-iframe,
     .embedpress-facebook-vid-iframe {
         max-height: inherit !important;
@@ -158,7 +158,7 @@
 
 @media only screen and (max-width: 500px) {
 
-    .elementor-widget-container .embedpress-facebook-vid-iframe,
+    .elementor-widget-embedpres_elementor .embedpress-facebook-vid-iframe,
     .embedpress-gutenberg-wrapper .embedpress-facebook-vid-iframe,
     .embedpress-facebook-vid-iframe {
         max-height: 390px !important;
@@ -1102,7 +1102,7 @@ span.ep-nft-rank {
     margin-bottom: 20px;
 }
 
-.elementor-widget-container .ep-nft-gallery-wrapper .ep-loadmore-wrapper button, .embedpress-gutenberg-wrapper .ep-nft-gallery-wrapper .ep-loadmore-wrapper button {
+.elementor-widget-embedpres_elementor .ep-nft-gallery-wrapper .ep-loadmore-wrapper button, .embedpress-gutenberg-wrapper .ep-nft-gallery-wrapper .ep-loadmore-wrapper button {
     display: none;
 }
 
