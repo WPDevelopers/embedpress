@@ -343,6 +343,13 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [4.1.10] – 2025-02-05 =
+- Added: Airtable Embedding Support.
+- Improved: Instagram Reel Embedding.
+- Fixed: Deprecated CSS class issue in Elementor.
+- Fixed: Fatal error occurred due to the redeclaration of the get_user_roles() function.
+- Few minor bug fixes & improvements.
+
 = [4.1.9] – 2025-01-22 =
 - Added: Flipbook PDF embedding support for the Classic Editor.
 - Fixed: Google Maps embedding issues.
