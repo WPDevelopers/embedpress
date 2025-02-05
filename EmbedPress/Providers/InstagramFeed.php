@@ -622,10 +622,17 @@ class InstagramFeed extends Instagram
             'html'          => "",
         ];
 
-        $preview_text = 'Instagram will load in the frontend.';
 
         if ($this->validateReelUrl($url)) {
-            $IG_reel = '<blockquote class="instagram-media" data-instgrm-permalink="' . esc_url($url) . '" data-instgrm-version="14">' . esc_html__($preview_text, 'embedpress') . '</blockquote>';
+            
+            $params = $this->getParams();
+            $width = isset($params['maxwidth']) ? $params['maxwidth'] : 380;
+            $height = isset($params['maxheight']) ? $params['maxheight'] : 600;
+
+            $clean_url = rtrim($url, '/');
+            $src_url = $clean_url . '/embed';
+
+            $IG_reel = '<iframe width="' . esc_attr($width) . 'px" width="' . esc_attr($height) . 'px" allowtransparency="true" allowfullscreen="true" frameborder="0" height="534" data-instgrm-payload-id="instagram-media-payload-0" scrolling="no" style="background-color: white; border-radius: 3px; border: 1px solid rgb(219, 219, 219); box-shadow: none; display: block; margin: 0px 0px 12px; min-width: 326px; padding: 0px;" class="instagram-media instagram-media-rendered" src="' . esc_url($src_url) . '">Fetching content</iframe>';
 
             $insta_feed['html'] = $IG_reel;
             return $insta_feed;
