@@ -71,21 +71,23 @@ if (!function_exists('get_branding_value')) {
  * @since 1.0.0
  */
 
-function get_user_roles()
-{
-	global $wp_roles; // Access global roles object
-	$user_roles = [];
+if (!function_exists('embedpress_get_user_roles')) {
+	function embedpress_get_user_roles()
+	{
+		global $wp_roles; // Access global roles object
+		$user_roles = [];
 
-	if (isset($wp_roles->roles) && is_array($wp_roles->roles)) {
-		foreach ($wp_roles->roles as $role_key => $role_data) {
-			$user_roles[] = [
-				'value' => $role_key,       // Machine-readable key
-				'label' => $role_data['name'], // Human-readable name
-			];
+		if (isset($wp_roles->roles) && is_array($wp_roles->roles)) {
+			foreach ($wp_roles->roles as $role_key => $role_data) {
+				$user_roles[] = [
+					'value' => $role_key,       // Machine-readable key
+					'label' => $role_data['name'], // Human-readable name
+				];
+			}
 		}
-	}
 
-	return $user_roles;
+		return $user_roles;
+	}
 }
 
 function embedpress_blocks_cgb_editor_assets()
@@ -161,7 +163,7 @@ function embedpress_blocks_cgb_editor_assets()
 		'wistia_brand_logo_url' => get_branding_value('logo_url', 'wistia'),
 		'twitch_brand_logo_url' => get_branding_value('logo_url', 'twitch'),
 		'dailymotion_brand_logo_url' => get_branding_value('logo_url', 'dailymotion'),
-		'user_roles' => get_user_roles()
+		'user_roles' => embedpress_get_user_roles()
 
 	));
 

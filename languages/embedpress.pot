@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the EmbedPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: EmbedPress 4.1.9\n"
+"Project-Id-Version: EmbedPress 4.1.10\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/embedpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-01-22T03:48:21+00:00\n"
+"POT-Creation-Date: 2025-02-05T06:51:48+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: embedpress\n"
@@ -127,7 +127,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3988
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:240
 #: Gutenberg/dist/blocks.build.js:870
-#: Gutenberg/dist/blocks.build.js:1150
+#: Gutenberg/dist/blocks.build.js:1151
 #: Gutenberg/src/document/edit.js:277
 #: Gutenberg/src/embedpress-calendar/edit.js:76
 msgid "Width"
@@ -139,8 +139,8 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4030
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:277
 #: Gutenberg/dist/blocks.build.js:870
-#: Gutenberg/dist/blocks.build.js:1095
-#: Gutenberg/dist/blocks.build.js:1150
+#: Gutenberg/dist/blocks.build.js:1096
+#: Gutenberg/dist/blocks.build.js:1151
 #: Gutenberg/src/document/edit.js:289
 #: Gutenberg/src/embedpress-calendar/edit.js:84
 #: Gutenberg/src/embedpress-pdf/edit.js:449
@@ -186,8 +186,8 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:250
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:265
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:337
-#: Gutenberg/dist/blocks.build.js:1095
-#: Gutenberg/dist/blocks.build.js:1150
+#: Gutenberg/dist/blocks.build.js:1096
+#: Gutenberg/dist/blocks.build.js:1151
 #: Gutenberg/src/embedpress-calendar/edit.js:96
 #: Gutenberg/src/embedpress-pdf/edit.js:650
 msgid "Powered By"
@@ -348,7 +348,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:992
 #: EmbedPress/Ends/Back/Settings/templates/ads.php:354
 #: EmbedPress/Shortcode.php:1210
-#: Gutenberg/plugin.php:1253
+#: Gutenberg/plugin.php:1256
 #: Gutenberg/plugin.php:1378
 msgid "Powered By EmbedPress"
 msgstr ""
@@ -402,7 +402,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:285
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:584
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:358
-#: Gutenberg/dist/blocks.build.js:229
+#: Gutenberg/dist/blocks.build.js:240
 #: Gutenberg/src/embedpress/InspectorControl/youtube.js:380
 msgid "Controls"
 msgstr ""
@@ -503,7 +503,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:414
 #: Gutenberg/dist/blocks.build.js:894
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/document/doc-controls.js:123
 #: Gutenberg/src/embedpress-pdf/edit.js:318
 msgid "Draw"
@@ -669,7 +669,7 @@ msgid "Black & White"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:337
-#: Gutenberg/dist/blocks.build.js:229
+#: Gutenberg/dist/blocks.build.js:240
 #: Gutenberg/dist/blocks.build.js:288
 #: Gutenberg/dist/blocks.build.js:1040
 #: Gutenberg/src/embedpress/InspectorControl/selfhosted.js:88
@@ -789,7 +789,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:634
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:88
-#: Gutenberg/dist/blocks.build.js:229
+#: Gutenberg/dist/blocks.build.js:240
 #: Gutenberg/src/embedpress/InspectorControl/youtube.js:405
 msgid "Progress Bar Color"
 msgstr ""
@@ -1871,7 +1871,7 @@ msgid "You need EmbedPress Pro to Embed Apple Podcast. Note. This message is onl
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:29
-#: Gutenberg/dist/blocks.build.js:1063
+#: Gutenberg/dist/blocks.build.js:1064
 #: Gutenberg/src/embedpress-pdf/index.js:23
 msgid "EmbedPress PDF"
 msgstr ""
@@ -1978,25 +1978,25 @@ msgid "Bottom"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:480
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/embedpress-pdf/edit.js:618
 msgid "Zoom In"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:495
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/embedpress-pdf/edit.js:625
 msgid "Zoom Out"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:510
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/embedpress-pdf/edit.js:632
 msgid "Fit View"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:525
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/embedpress-pdf/edit.js:639
 msgid "Bookmark"
 msgstr ""
@@ -2007,7 +2007,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:556
 #: EmbedPress/Ends/Back/Settings/templates/general.php:53
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/embedpress-pdf/edit.js:544
 msgid "Lazy Load"
 msgstr ""
@@ -2017,7 +2017,7 @@ msgid "Copy Text %s"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:588
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/embedpress-pdf/edit.js:558
 msgid "Add Text"
 msgstr ""
@@ -2027,19 +2027,19 @@ msgid "Draw %s"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:620
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/embedpress-pdf/edit.js:570
 msgid "Add Image"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:635
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/embedpress-pdf/edit.js:577
 msgid "Rotation"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:651
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/embedpress-pdf/edit.js:585
 msgid "Properties"
 msgstr ""
@@ -2417,7 +2417,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/general.php:126
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:33
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:31
-#: Gutenberg/dist/blocks.build.js:217
+#: Gutenberg/dist/blocks.build.js:228
 #: Gutenberg/src/common/social-share-control.js:29
 msgid "Social Share"
 msgstr ""
@@ -3039,7 +3039,7 @@ msgid "Indicates how the player should show related videos when playback of the 
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:178
-#: Gutenberg/dist/blocks.build.js:229
+#: Gutenberg/dist/blocks.build.js:240
 #: Gutenberg/src/embedpress/InspectorControl/youtube.js:238
 msgid "Modest Branding"
 msgstr ""
@@ -3193,7 +3193,7 @@ msgid "Upload Video"
 msgstr ""
 
 #: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:66
-#: Gutenberg/dist/blocks.build.js:1161
+#: Gutenberg/dist/blocks.build.js:1162
 #: Gutenberg/src/placeholders/placeholders.js:35
 msgid "Upload Image"
 msgstr ""
@@ -3355,21 +3355,21 @@ msgstr ""
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:416
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:981
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1355
-#: Gutenberg/plugin.php:126
+#: Gutenberg/plugin.php:128
 msgid "Watch from the beginning"
 msgstr ""
 
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:417
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:982
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1356
-#: Gutenberg/plugin.php:127
+#: Gutenberg/plugin.php:129
 msgid "Skip to where you left off"
 msgstr ""
 
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:418
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:983
 #: EmbedPress/Includes/Classes/Feature_Enhancer.php:1357
-#: Gutenberg/plugin.php:128
+#: Gutenberg/plugin.php:130
 msgid "It looks like you've watched<br />part of this video before!"
 msgstr ""
 
@@ -3451,7 +3451,7 @@ msgstr ""
 msgid "This message is only visible to you."
 msgstr ""
 
-#: EmbedPress/Providers/InstagramFeed.php:310
+#: EmbedPress/Providers/InstagramFeed.php:332
 msgid "Unlock %s support by upgrading to our %s! Upgrade today to unlock a whole new level of functionality and make the most out of your experience with Hashtag."
 msgstr ""
 
@@ -3606,19 +3606,19 @@ msgstr ""
 msgid "License has been deactivated"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:229
+#: Gutenberg/dist/blocks.build.js:240
 #: Gutenberg/src/embedpress/InspectorControl/youtube.js:237
 msgid "Closed Captions"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:229
+#: Gutenberg/dist/blocks.build.js:240
 #: Gutenberg/dist/blocks.build.js:1016
 #: Gutenberg/src/embedpress/inspector.js:199
 #: Gutenberg/src/embedpress/InspectorControl/youtube.js:336
 msgid "Tips & Tricks"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:229
+#: Gutenberg/dist/blocks.build.js:240
 #: Gutenberg/dist/blocks.build.js:288
 #: Gutenberg/src/embedpress/InspectorControl/vimeo.js:160
 #: Gutenberg/src/embedpress/InspectorControl/youtube.js:347
@@ -3798,42 +3798,42 @@ msgid "Delay"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:870
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/document/edit.js:216
 #: Gutenberg/src/embedpress-pdf/edit.js:366
 msgid "Re Upoload"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:870
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/document/edit.js:274
 #: Gutenberg/src/embedpress-pdf/edit.js:421
 msgid "Embed Size"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:894
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/document/doc-controls.js:39
 #: Gutenberg/src/embedpress-pdf/edit.js:316
 msgid "Toolbar"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:894
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/document/doc-controls.js:40
 #: Gutenberg/src/embedpress-pdf/edit.js:317
 msgid "Print/Download"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:894
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/document/doc-controls.js:45
 #: Gutenberg/src/embedpress-pdf/edit.js:462
 msgid "Document Controls"
 msgstr ""
 
 #: Gutenberg/dist/blocks.build.js:894
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/document/doc-controls.js:48
 #: Gutenberg/src/embedpress-pdf/edit.js:465
 msgid "Document URL"
@@ -3854,47 +3854,47 @@ msgstr ""
 msgid "Auto-Pause"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/embedpress-pdf/edit.js:319
 msgid "Copy Text"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/embedpress-pdf/edit.js:321
 msgid "Default Scrolling"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/embedpress-pdf/edit.js:323
 msgid "Default Selection Tool"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1095
+#: Gutenberg/dist/blocks.build.js:1096
 #: Gutenberg/src/embedpress-pdf/edit.js:536
 msgid "Presentation Mode"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1150
+#: Gutenberg/dist/blocks.build.js:1151
 #: Gutenberg/src/embedpress-calendar/edit.js:73
 msgid "Customize Embedded Calendar"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1150
+#: Gutenberg/dist/blocks.build.js:1151
 #: Gutenberg/src/embedpress-calendar/edit.js:74
 msgid "You can adjust the width and height of embedded content."
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1150
+#: Gutenberg/dist/blocks.build.js:1151
 #: Gutenberg/src/embedpress-calendar/edit.js:93
 msgid "Calendar Type and other options"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1150
+#: Gutenberg/dist/blocks.build.js:1151
 #: Gutenberg/src/embedpress-calendar/edit.js:94
 msgid "You can show public calendar without any API key"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1150
+#: Gutenberg/dist/blocks.build.js:1151
 #: Gutenberg/src/embedpress-calendar/edit.js:103
 msgid "Embedding Public Calendar"
 msgstr ""
