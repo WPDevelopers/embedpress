@@ -30,6 +30,10 @@
     height: auto;
 }
 
+.ep-embed-content-wraper .ose-google-docs {
+    text-align: left;
+}
+
 .ose-dailymotion.responsive iframe,
 .ose-kickstarter.responsive iframe,
 .ose-rutube.responsive iframe,
@@ -1310,7 +1314,9 @@ p.need-access-message {
     min-width: 100% !important;
     min-height: 100% !important;
 }
-
+.gutenberg-block-wraper{
+    max-width: 100%;
+}
 .ep-embed-content-wraper {
     width: 100%;
 }

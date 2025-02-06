@@ -1081,7 +1081,6 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: "string",
 				default: 'top',
 			},
-
 			download: {
 				type: "boolean",
 				default: true,
