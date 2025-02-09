@@ -125,9 +125,3 @@ function load_scripts()
 {
     Shortcode::shortcode_scripts();
 }
-
-
-function add_instagram_script() {
-    echo '<script async src="https://www.instagram.com/embed.js"></script>';
-}
-add_action('wp_footer', 'add_instagram_script', 100);
