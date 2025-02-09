@@ -4,6 +4,7 @@ import { isYTChannel, isYTVideo, isYTLive } from "./InspectorControl/youtube";
 import { isVimeoVideo } from "./InspectorControl/vimeo";
 import { isInstagramFeed } from '../common/helper';
 import md5 from 'md5';
+import { isGoogleDocsUrl } from './functions';
 
 export const dynamicStyles = ({ attributes }) => {
 
@@ -36,6 +37,8 @@ export const dynamicStyles = ({ attributes }) => {
 
         instaLayout
     } = attributes;
+
+    const { h1FontSize, h1LineHeight, h1LetterSpacing, h1FontFamily, h1FontWeight, h1TextTransform, h1Color, h2FontSize, h2LineHeight, h2LetterSpacing, h2FontFamily, h2FontWeight, h2TextTransform, h2Color, h3FontSize, h3LineHeight, h3LetterSpacing, h3FontFamily, h3FontWeight, h3TextTransform, h3Color, h4FontSize, h4LineHeight, h4LetterSpacing, h4FontFamily, h4FontWeight, h4TextTransform, h4Color, h5FontSize, h5LineHeight, h5LetterSpacing, h5FontFamily, h5FontWeight, h5TextTransform, h5Color, h6FontSize, h6LineHeight, h6LetterSpacing, h6FontFamily, h6FontWeight, h6TextTransform, h6Color, pFontSize, pLineHeight, pLetterSpacing, pFontFamily, pFontWeight, pTextTransform, pColor } = attributes;
 
 
     const _md5ClientId = md5(clientId || '');
@@ -160,7 +163,6 @@ export const dynamicStyles = ({ attributes }) => {
                         height: ${height}px!important;
                         width: ${width}px!important;
                     }
-                    
                     
                 `}
                     </style>
@@ -326,6 +328,83 @@ export const dynamicStyles = ({ attributes }) => {
                             [data-carouselid="${clientId}"] .cg-carousel__btns{
                                 display: ${carouselBtns}
                             };
+                            
+                        `}
+                    </style>
+                )
+            }
+            {
+                isGoogleDocsUrl(url) && (
+                    <style style={{ display: "none" }}>
+                        {`
+                            [data-source-id="source-${clientId}"] .ose-google-docs h1 {
+								font-size: ${h1FontSize}px;
+								line-height: ${h1LineHeight};
+								letter-spacing: ${h1LetterSpacing};
+								font-family: ${h1FontFamily};
+								font-weight: ${h1FontWeight};
+								text-transform: ${h1TextTransform};
+								color: ${h1Color};
+							}
+
+							[data-source-id="source-${clientId}"] .ose-google-docs h2 {
+								font-size: ${h2FontSize}px;
+								line-height: ${h2LineHeight};
+								letter-spacing: ${h2LetterSpacing};
+								font-family: ${h2FontFamily};
+								font-weight: ${h2FontWeight};
+								text-transform: ${h2TextTransform};
+								color: ${h2Color};
+							}
+
+							[data-source-id="source-${clientId}"] .ose-google-docs h3 {
+								font-size: ${h3FontSize}px;
+								line-height: ${h3LineHeight};
+								letter-spacing: ${h3LetterSpacing};
+								font-family: ${h3FontFamily};
+								font-weight: ${h3FontWeight};
+								text-transform: ${h3TextTransform};
+								color: ${h3Color};
+							}
+
+							[data-source-id="source-${clientId}"] .ose-google-docs h4 {
+								font-size: ${h4FontSize}px;
+								line-height: ${h4LineHeight};
+								letter-spacing: ${h4LetterSpacing};
+								font-family: ${h4FontFamily};
+								font-weight: ${h4FontWeight};
+								text-transform: ${h4TextTransform};
+								color: ${h4Color};
+							}
+
+							[data-source-id="source-${clientId}"] .ose-google-docs h5 {
+								font-size: ${h5FontSize}px;
+								line-height: ${h5LineHeight};
+								letter-spacing: ${h5LetterSpacing};
+								font-family: ${h5FontFamily};
+								font-weight: ${h5FontWeight};
+								text-transform: ${h5TextTransform};
+								color: ${h5Color};
+							}
+
+							[data-source-id="source-${clientId}"] .ose-google-docs h6 {
+								font-size: ${h6FontSize}px;
+								line-height: ${h6LineHeight};
+								letter-spacing: ${h6LetterSpacing};
+								font-family: ${h6FontFamily};
+								font-weight: ${h6FontWeight};
+								text-transform: ${h6TextTransform};
+								color: ${h6Color};
+                            }
+							[data-source-id="source-${clientId}"] .ose-google-docs p {
+								font-size: ${pFontSize}px!important;
+								line-height: ${pLineHeight};
+								letter-spacing: ${pLetterSpacing};
+								font-family: ${pFontFamily};
+								font-weight: ${pFontWeight};
+								text-transform: ${pTextTransform};
+								color: ${pColor};
+							}
                             
                         `}
                     </style>

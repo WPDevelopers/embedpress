@@ -787,6 +787,208 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'boolean',
 								'default' => true,
 							],
+							'h1FontSize' => [
+								'type' => 'number',
+								'default' => 32,
+							],
+							'h1LineHeight' => [
+								'type' => 'number',
+								'default' => 1.5,
+							],
+							'h1LetterSpacing' => [
+								'type' => 'number',
+								'default' => 0,
+							],
+							'h1FontFamily' => [
+								'type' => 'string',
+								'default' => 'default',
+							],
+							'h1FontWeight' => [
+								'type' => 'string',
+								'default' => 'normal',
+							],
+							'h1TextTransform' => [
+								'type' => 'string',
+								'default' => 'none',
+							],
+							'h1Color' => [
+								'type' => 'string',
+								'default' => '',
+							],
+
+							'h2FontSize' => [
+								'type' => 'number',
+								'default' => 28,
+							],
+							'h2LineHeight' => [
+								'type' => 'number',
+								'default' => 1.5,
+							],
+							'h2LetterSpacing' => [
+								'type' => 'number',
+								'default' => 0,
+							],
+							'h2FontFamily' => [
+								'type' => 'string',
+								'default' => 'default',
+							],
+							'h2FontWeight' => [
+								'type' => 'string',
+								'default' => 'normal',
+							],
+							'h2TextTransform' => [
+								'type' => 'string',
+								'default' => 'none',
+							],
+							'h2Color' => [
+								'type' => 'string',
+								'default' => '',
+							],
+
+							'h3FontSize' => [
+								'type' => 'number',
+								'default' => 24,
+							],
+							'h3LineHeight' => [
+								'type' => 'number',
+								'default' => 1.5,
+							],
+							'h3LetterSpacing' => [
+								'type' => 'number',
+								'default' => 0,
+							],
+							'h3FontFamily' => [
+								'type' => 'string',
+								'default' => 'default',
+							],
+							'h3FontWeight' => [
+								'type' => 'string',
+								'default' => 'normal',
+							],
+							'h3TextTransform' => [
+								'type' => 'string',
+								'default' => 'none',
+							],
+							'h3Color' => [
+								'type' => 'string',
+								'default' => '',
+							],
+
+							'h4FontSize' => [
+								'type' => 'number',
+								'default' => 20,
+							],
+							'h4LineHeight' => [
+								'type' => 'number',
+								'default' => 1.5,
+							],
+							'h4LetterSpacing' => [
+								'type' => 'number',
+								'default' => 0,
+							],
+							'h4FontFamily' => [
+								'type' => 'string',
+								'default' => 'default',
+							],
+							'h4FontWeight' => [
+								'type' => 'string',
+								'default' => 'normal',
+							],
+							'h4TextTransform' => [
+								'type' => 'string',
+								'default' => 'none',
+							],
+							'h4Color' => [
+								'type' => 'string',
+								'default' => '',
+							],
+
+							'h5FontSize' => [
+								'type' => 'number',
+								'default' => 18,
+							],
+							'h5LineHeight' => [
+								'type' => 'number',
+								'default' => 1.5,
+							],
+							'h5LetterSpacing' => [
+								'type' => 'number',
+								'default' => 0,
+							],
+							'h5FontFamily' => [
+								'type' => 'string',
+								'default' => 'default',
+							],
+							'h5FontWeight' => [
+								'type' => 'string',
+								'default' => 'normal',
+							],
+							'h5TextTransform' => [
+								'type' => 'string',
+								'default' => 'none',
+							],
+							'h5Color' => [
+								'type' => 'string',
+								'default' => '',
+							],
+
+							'h6FontSize' => [
+								'type' => 'number',
+								'default' => 16,
+							],
+							'h6LineHeight' => [
+								'type' => 'number',
+								'default' => 1.5,
+							],
+							'h6LetterSpacing' => [
+								'type' => 'number',
+								'default' => 0,
+							],
+							'h6FontFamily' => [
+								'type' => 'string',
+								'default' => 'default',
+							],
+							'h6FontWeight' => [
+								'type' => 'string',
+								'default' => 'normal',
+							],
+							'h6TextTransform' => [
+								'type' => 'string',
+								'default' => 'none',
+							],
+							'h6Color' => [
+								'type' => 'string',
+								'default' => '',
+							],
+
+							'pFontSize' => [
+								'type' => 'number',
+								'default' => 16,
+							],
+							'pLineHeight' => [
+								'type' => 'number',
+								'default' => 1.5,
+							],
+							'pLetterSpacing' => [
+								'type' => 'number',
+								'default' => 0,
+							],
+							'pFontFamily' => [
+								'type' => 'string',
+								'default' => 'default',
+							],
+							'pFontWeight' => [
+								'type' => 'string',
+								'default' => 'normal',
+							],
+							'pTextTransform' => [
+								'type' => 'string',
+								'default' => 'none',
+							],
+							'pColor' => [
+								'type' => 'string',
+								'default' => '',
+							],
 
 						),
 					]);

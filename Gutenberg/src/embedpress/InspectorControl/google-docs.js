@@ -24,7 +24,7 @@ import { EPIcon, InfoIcon } from '../../common/icons';
 import { isGoogleDocsUrl } from '../functions';
 
 export const Heading1 = ({ attributes, setAttributes }) => {
-    const { h1FontSize, h1LineHeight, h1LetterSpacing, h1FontFamily, h1FontWeight, h1TextTransform } = attributes;
+    const { h1FontSize, h1LineHeight, h1LetterSpacing, h1FontFamily, h1FontWeight, h1TextTransform, h1Color } = attributes;
 
     return (
         <div>
@@ -107,7 +107,7 @@ export const Heading1 = ({ attributes, setAttributes }) => {
 }
 
 export const Heading2 = ({ attributes, setAttributes }) => {
-    const { h2FontSize, h2LineHeight, h2LetterSpacing, h2FontFamily, h2FontWeight, h2TextTransform } = attributes;
+    const { h2FontSize, h2LineHeight, h2LetterSpacing, h2FontFamily, h2FontWeight, h2TextTransform, h2Color } = attributes;
 
     return (
         <div>
@@ -190,7 +190,7 @@ export const Heading2 = ({ attributes, setAttributes }) => {
 }
 
 export const Heading3 = ({ attributes, setAttributes }) => {
-    const { h3FontSize, h3LineHeight, h3LetterSpacing, h3FontFamily, h3FontWeight, h3TextTransform } = attributes;
+    const { h3FontSize, h3LineHeight, h3LetterSpacing, h3FontFamily, h3FontWeight, h3TextTransform, h3Color } = attributes;
 
     return (
         <div>
@@ -273,7 +273,7 @@ export const Heading3 = ({ attributes, setAttributes }) => {
 }
 
 export const Heading4 = ({ attributes, setAttributes }) => {
-    const { h4FontSize, h4LineHeight, h4LetterSpacing, h4FontFamily, h4FontWeight, h4TextTransform } = attributes;
+    const { h4FontSize, h4LineHeight, h4LetterSpacing, h4FontFamily, h4FontWeight, h4TextTransform, h4Color } = attributes;
 
     return (
         <div>
@@ -355,7 +355,7 @@ export const Heading4 = ({ attributes, setAttributes }) => {
     );
 }
 export const Heading5 = ({ attributes, setAttributes }) => {
-    const { h5FontSize, h5LineHeight, h5LetterSpacing, h5FontFamily, h5FontWeight, h5TextTransform } = attributes;
+    const { h5FontSize, h5LineHeight, h5LetterSpacing, h5FontFamily, h5FontWeight, h5TextTransform, h5Color } = attributes;
 
     return (
         <div>
@@ -438,7 +438,7 @@ export const Heading5 = ({ attributes, setAttributes }) => {
 }
 
 export const Heading6 = ({ attributes, setAttributes }) => {
-    const { h6FontSize, h6LineHeight, h6LetterSpacing, h6FontFamily, h6FontWeight, h6TextTransform } = attributes;
+    const { h6FontSize, h6LineHeight, h6LetterSpacing, h6FontFamily, h6FontWeight, h6TextTransform, h6Color } = attributes;
 
     return (
         <div>
@@ -515,6 +515,91 @@ export const Heading6 = ({ attributes, setAttributes }) => {
             <ColorPalette
                 value={h6Color}
                 onChange={(h6Color) => setAttributes({ h6Color })}
+            />
+        </div>
+    );
+}
+
+export const NormalText = ({ attributes, setAttributes }) => {
+    const { pFontSize, pLineHeight, pLetterSpacing, pFontFamily, pFontWeight, pTextTransform, pColor } = attributes;
+
+    console.log({ pFontSize });
+
+    return (
+        <div>
+            {/* Font Size */}
+            <RangeControl
+                label={__('p Font Size', 'embedpress')}
+                value={pFontSize}
+                onChange={(pFontSize) => setAttributes({ pFontSize })}
+                min={10}
+                max={100}
+            />
+
+            {/* Line Height */}
+            <RangeControl
+                label={__('p Line Height', 'embedpress')}
+                value={pLineHeight}
+                onChange={(pLineHeight) => setAttributes({ pLineHeight })}
+                min={1}
+                max={3}
+                step={0.1}
+            />
+
+            {/* Letter Spacing */}
+            <RangeControl
+                label={__('p Letter Spacing', 'embedpress')}
+                value={pLetterSpacing}
+                onChange={(pLetterSpacing) => setAttributes({ pLetterSpacing })}
+                min={-5}
+                max={10}
+                step={0.1}
+            />
+
+            {/* Font Family */}
+            <SelectControl
+                label={__('p Font Family', 'embedpress')}
+                value={pFontFamily}
+                options={[
+                    { label: 'Default', value: 'default' },
+                    { label: 'Arial', value: 'Arial, sans-serif' },
+                    { label: 'Times New Roman', value: 'Times New Roman, serif' },
+                    { label: 'Georgia', value: 'Georgia, serif' },
+                    { label: 'Courier New', value: 'Courier New, monospace' },
+                    { label: 'Verdana', value: 'Verdana, sans-serif' }
+                ]}
+                onChange={(pFontFamily) => setAttributes({ pFontFamily })}
+            />
+
+            {/* Font Weight */}
+            <SelectControl
+                label={__('p Font Weight', 'embedpress')}
+                value={pFontWeight}
+                options={[
+                    { label: 'Normal', value: 'normal' },
+                    { label: 'Bold', value: 'bold' },
+                    { label: 'Light', value: 'light' }
+                ]}
+                onChange={(pFontWeight) => setAttributes({ pFontWeight })}
+            />
+
+            {/* Text Transform */}
+            <SelectControl
+                label={__('p Text Transform', 'embedpress')}
+                value={pTextTransform}
+                options={[
+                    { label: 'None', value: 'none' },
+                    { label: 'Uppercase', value: 'uppercase' },
+                    { label: 'Lowercase', value: 'lowercase' },
+                    { label: 'Capitalize', value: 'capitalize' }
+                ]}
+                onChange={(pTextTransform) => setAttributes({ pTextTransform })}
+            />
+
+            {/* Color Picker */}
+            <ColorPalette
+                value={pColor}
+                onChange={(pColor) => setAttributes({ pColor })}
             />
         </div>
     );
@@ -663,88 +748,32 @@ const GoogleDocs = ({ attributes, setAttributes }) => {
                                     { name: 'heading_3', title: 'H3' },
                                     { name: 'heading_4', title: 'H4' },
                                     { name: 'heading_5', title: 'H5' },
-                                    { name: 'heading_6', title: 'H6' }
+                                    { name: 'heading_6', title: 'H6' },
+                                    { name: 'normal_text', title: 'P' }
                                 ]}
                             >
-                                {() => (
-                                    <div>
-                                        {/* Font Size */}
-                                        <RangeControl
-                                            label={__('H1 Font Size', 'embedpress')}
-                                            value={h1FontSize}
-                                            onChange={(h1FontSize) => setAttributes({ h1FontSize })}
-                                            min={10}
-                                            max={100}
-                                        />
-
-                                        {/* Line Height */}
-                                        <RangeControl
-                                            label={__('H1 Line Height', 'embedpress')}
-                                            value={h1LineHeight}
-                                            onChange={(h1LineHeight) => setAttributes({ h1LineHeight })}
-                                            min={1}
-                                            max={3}
-                                            step={0.1}
-                                        />
-
-                                        {/* Letter Spacing */}
-                                        <RangeControl
-                                            label={__('H1 Letter Spacing', 'embedpress')}
-                                            value={h1LetterSpacing}
-                                            onChange={(h1LetterSpacing) => setAttributes({ h1LetterSpacing })}
-                                            min={-5}
-                                            max={10}
-                                            step={0.1}
-                                        />
-
-                                        {/* Font Family */}
-                                        <SelectControl
-                                            label={__('H1 Font Family', 'embedpress')}
-                                            value={h1FontFamily}
-                                            options={[
-                                                { label: 'Default', value: 'default' },
-                                                { label: 'Arial', value: 'Arial, sans-serif' },
-                                                { label: 'Times New Roman', value: 'Times New Roman, serif' },
-                                                { label: 'Georgia', value: 'Georgia, serif' },
-                                                { label: 'Courier New', value: 'Courier New, monospace' },
-                                                { label: 'Verdana', value: 'Verdana, sans-serif' }
-                                            ]}
-                                            onChange={(h1FontFamily) => setAttributes({ h1FontFamily })}
-                                        />
-
-                                        {/* Font Weight */}
-                                        <SelectControl
-                                            label={__('H1 Font Weight', 'embedpress')}
-                                            value={h1FontWeight}
-                                            options={[
-                                                { label: 'Normal', value: 'normal' },
-                                                { label: 'Bold', value: 'bold' },
-                                                { label: 'Light', value: 'light' }
-                                            ]}
-                                            onChange={(h1FontWeight) => setAttributes({ h1FontWeight })}
-                                        />
-
-                                        {/* Text Transform */}
-                                        <SelectControl
-                                            label={__('H1 Text Transform', 'embedpress')}
-                                            value={h1TextTransform}
-                                            options={[
-                                                { label: 'None', value: 'none' },
-                                                { label: 'Uppercase', value: 'uppercase' },
-                                                { label: 'Lowercase', value: 'lowercase' },
-                                                { label: 'Capitalize', value: 'capitalize' }
-                                            ]}
-                                            onChange={(h1TextTransform) => setAttributes({ h1TextTransform })}
-                                        />
-
-                                        {/* Color Picker */}
-                                        <ColorPalette
-                                            value={h1Color}
-                                            onChange={(h1Color) => setAttributes({ h1Color })}
-                                        />
-                                    </div>
-                                )}
+                                {() => {
+                                    switch (activeTab) {
+                                        case 'heading_1':
+                                            return <Heading1 attributes={attributes} setAttributes={setAttributes} />;
+                                        case 'heading_2':
+                                            return <Heading2 attributes={attributes} setAttributes={setAttributes} />;
+                                        case 'heading_3':
+                                            return <Heading3 attributes={attributes} setAttributes={setAttributes} />;
+                                        case 'heading_4':
+                                            return <Heading4 attributes={attributes} setAttributes={setAttributes} />;
+                                        case 'heading_5':
+                                            return <Heading5 attributes={attributes} setAttributes={setAttributes} />;
+                                        case 'heading_6':
+                                            return <Heading6 attributes={attributes} setAttributes={setAttributes} />;
+                                        case 'normal_text':
+                                            return <NormalText attributes={attributes} setAttributes={setAttributes} />;
+                                        default:
+                                            return null;
+                                    }
+                                }}
                             </TabPanel>
+
                         </PanelBody>
                     </Fragment>
 

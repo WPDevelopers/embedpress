@@ -1279,6 +1279,35 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: '',
 			},
+			pFontSize: {
+				type: 'number',
+				default: 16,
+			},
+			pLineHeight: {
+				type: 'number',
+				default: 1.5,
+			},
+			pLetterSpacing: {
+				type: 'number',
+				default: 0,
+			},
+			pFontFamily: {
+				type: 'string',
+				default: 'default',
+			},
+			pFontWeight: {
+				type: 'string',
+				default: 'normal',
+			},
+			pTextTransform: {
+				type: 'string',
+				default: 'none',
+			},
+			pColor: {
+				type: 'string',
+				default: '',
+			},
+			
 		},
 		/**
 		 * The edit function describes the structure of your block in the context of the editor.

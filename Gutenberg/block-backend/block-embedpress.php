@@ -120,6 +120,91 @@ function embedpress_block_scripts($attributes) {
     }
 }
 
+function embedpress_render_google_docs_style($attributes) {
+    if (empty($attributes) || !isset($attributes['clientId'])) {
+        return '';
+    }
+
+    $client_id = esc_attr($attributes['clientId']);
+    
+    $styles = "
+        <style>
+            [data-source-id='source-{$client_id}'] .ose-google-docs h1 {
+                font-size: {$attributes['h1FontSize']}px;
+                line-height: {$attributes['h1LineHeight']};
+                letter-spacing: {$attributes['h1LetterSpacing']}px;
+                font-family: {$attributes['h1FontFamily']};
+                font-weight: {$attributes['h1FontWeight']};
+                text-transform: {$attributes['h1TextTransform']};
+                color: {$attributes['h1Color']};
+            }
+            
+            [data-source-id='source-{$client_id}'] .ose-google-docs h2 {
+                font-size: {$attributes['h2FontSize']}px;
+                line-height: {$attributes['h2LineHeight']};
+                letter-spacing: {$attributes['h2LetterSpacing']}px;
+                font-family: {$attributes['h2FontFamily']};
+                font-weight: {$attributes['h2FontWeight']};
+                text-transform: {$attributes['h2TextTransform']};
+                color: {$attributes['h2Color']};
+            }
+            
+            [data-source-id='source-{$client_id}'] .ose-google-docs h3 {
+                font-size: {$attributes['h3FontSize']}px;
+                line-height: {$attributes['h3LineHeight']};
+                letter-spacing: {$attributes['h3LetterSpacing']}px;
+                font-family: {$attributes['h3FontFamily']};
+                font-weight: {$attributes['h3FontWeight']};
+                text-transform: {$attributes['h3TextTransform']};
+                color: {$attributes['h3Color']};
+            }
+            
+            [data-source-id='source-{$client_id}'] .ose-google-docs h4 {
+                font-size: {$attributes['h4FontSize']}px;
+                line-height: {$attributes['h4LineHeight']};
+                letter-spacing: {$attributes['h4LetterSpacing']}px;
+                font-family: {$attributes['h4FontFamily']};
+                font-weight: {$attributes['h4FontWeight']};
+                text-transform: {$attributes['h4TextTransform']};
+                color: {$attributes['h4Color']};
+            }
+            
+            [data-source-id='source-{$client_id}'] .ose-google-docs h5 {
+                font-size: {$attributes['h5FontSize']}px;
+                line-height: {$attributes['h5LineHeight']};
+                letter-spacing: {$attributes['h5LetterSpacing']}px;
+                font-family: {$attributes['h5FontFamily']};
+                font-weight: {$attributes['h5FontWeight']};
+                text-transform: {$attributes['h5TextTransform']};
+                color: {$attributes['h5Color']};
+            }
+            
+            [data-source-id='source-{$client_id}'] .ose-google-docs h6 {
+                font-size: {$attributes['h6FontSize']}px;
+                line-height: {$attributes['h6LineHeight']};
+                letter-spacing: {$attributes['h6LetterSpacing']}px;
+                font-family: {$attributes['h6FontFamily']};
+                font-weight: {$attributes['h6FontWeight']};
+                text-transform: {$attributes['h6TextTransform']};
+                color: {$attributes['h6Color']};
+            }
+            
+            [data-source-id='source-{$client_id}'] .ose-google-docs p {
+                font-size: {$attributes['pFontSize']}px !important;
+                line-height: {$attributes['pLineHeight']};
+                letter-spacing: {$attributes['pLetterSpacing']}px;
+                font-family: {$attributes['pFontFamily']};
+                font-weight: {$attributes['pFontWeight']};
+                text-transform: {$attributes['pTextTransform']};
+                color: {$attributes['pColor']};
+            }
+        </style>
+    ";
+
+    return $styles;
+}
+
+
 function embedpress_render_block($attributes)
 {
 
@@ -365,6 +450,7 @@ function embedpress_render_block($attributes)
 		<?php
 
 		echo embedpress_render_block_style($attributes);
+		echo embedpress_render_google_docs_style($attributes);
 
 
 		return ob_get_clean();
