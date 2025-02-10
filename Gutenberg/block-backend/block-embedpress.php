@@ -11,19 +11,20 @@ if (!defined('ABSPATH')) {
  * @param array $attributes
  */
 
-if(!function_exists('lock_content_form_handler')){
+if (!function_exists('lock_content_form_handler')) {
 	add_action('wp_ajax_lock_content_form_handler', 'lock_content_form_handler');
 	add_action('wp_ajax_nopriv_lock_content_form_handler', 'lock_content_form_handler');
 
-	function lock_content_form_handler() {
+	function lock_content_form_handler()
+	{
 		// print_r($embedHTML);
 
 		$client_id = isset($_POST['client_id']) ? sanitize_text_field($_POST['client_id']) : '';
 		$password = isset($_POST['password']) ? sanitize_text_field($_POST['password']) : '';
 		$post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
-		
-		$epbase64 = get_post_meta( $post_id, 'ep_base_' .$client_id, true );	
-		$hash_key = get_post_meta( $post_id, 'hash_key_' .$client_id, true  );
+
+		$epbase64 = get_post_meta($post_id, 'ep_base_' . $client_id, true);
+		$hash_key = get_post_meta($post_id, 'hash_key_' . $client_id, true);
 
 		// Set the decryption key and initialization vector (IV)
 		$key = Helper::get_hash();
@@ -36,100 +37,100 @@ if(!function_exists('lock_content_form_handler')){
 		$iv = substr($wp_pass_key, 0, 16);
 
 		if ($wp_pass_key === $hash_key) {
-			setcookie("password_correct_", $password, time()+3600);
+			setcookie("password_correct_", $password, time() + 3600);
 
 			$embed = openssl_decrypt($cipher, 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv) . '<script>
 			var now = new Date();
 			var time = now.getTime();
 			var expireTime = time + 1000 * 60 * 60 * 24 * 30;
 			now.setTime(expireTime);
-			document.cookie = "password_correct_'.esc_js($client_id).'='.esc_js($hash_key).'; expires=" + now.toUTCString() + "; path=/";
+			document.cookie = "password_correct_' . esc_js($client_id) . '=' . esc_js($hash_key) . '; expires=" + now.toUTCString() + "; path=/";
 		</script>';
-
-		}
-		else{
+		} else {
 			$embed = 0;
 		}
 
 		// Process the form data and return a response
 		$response = array(
-		'success' => true,
-		'password' => $password,
-		'embedHtml' => $embed,
-		'post_id' => $post_id
+			'success' => true,
+			'password' => $password,
+			'embedHtml' => $embed,
+			'post_id' => $post_id
 		);
 
 		wp_send_json($response);
-
 	}
 }
 
 if (!function_exists('has_content_allowed_roles')) {
-    function has_content_allowed_roles($allowed_roles = []) {
-        if ((count($allowed_roles) === 1 && empty($allowed_roles[0]))) {
-            return true;
-        }
+	function has_content_allowed_roles($allowed_roles = [])
+	{
+		if ((count($allowed_roles) === 1 && empty($allowed_roles[0]))) {
+			return true;
+		}
 
-        $current_user = wp_get_current_user();
-        $user_roles = $current_user->roles;
+		$current_user = wp_get_current_user();
+		$user_roles = $current_user->roles;
 
-        return !empty(array_intersect($user_roles, $allowed_roles));
-    }
+		return !empty(array_intersect($user_roles, $allowed_roles));
+	}
 }
 
-function embedpress_block_scripts($attributes) {
+function embedpress_block_scripts($attributes)
+{
 
 	$script_handles = [];
 
-	if(!empty($attributes['customPlayer'])){
+	if (!empty($attributes['customPlayer'])) {
 		$script_handles[] = 'plyr.polyfilled';
 		$script_handles[] = 'initplyr';
 		$script_handles[] = 'vimeo-player';
 	}
-	
+
 	$script_handles[] = 'embedpress-google-photos-album';
 	$script_handles[] = 'embedpress-front';
 
-	if(!empty($attributes['adManager'])){
+	if (!empty($attributes['adManager'])) {
 		$script_handles[] = 'embedpress-ads';
 	}
 
-	if((!empty($attributes['instaLayout']) && $attributes['instaLayout'] == 'insta-carousel') || (!empty($attributes['ytChannelLayout']) && $attributes['ytChannelLayout'] == 'carousel')){
+	if ((!empty($attributes['instaLayout']) && $attributes['instaLayout'] == 'insta-carousel') || (!empty($attributes['ytChannelLayout']) && $attributes['ytChannelLayout'] == 'carousel')) {
 		$script_handles[] = 'cg-carousel';
 	}
 
-    foreach ($script_handles as $handle) {
-        wp_enqueue_script($handle);
-    }
+	foreach ($script_handles as $handle) {
+		wp_enqueue_script($handle);
+	}
 
 	$style_handles = [];
 
-	if(!empty($attributes['customPlayer'])){
+	if (!empty($attributes['customPlayer'])) {
 		$style_handles[] = 'plyr';
 	}
 
-	if((!empty($attributes['instaLayout']) && $attributes['instaLayout'] == 'insta-carousel') || (!empty($attributes['ytChannelLayout']) && $attributes['ytChannelLayout'] == 'carousel')){
+	if ((!empty($attributes['instaLayout']) && $attributes['instaLayout'] == 'insta-carousel') || (!empty($attributes['ytChannelLayout']) && $attributes['ytChannelLayout'] == 'carousel')) {
 		$style_handles[] = 'cg-carousel';
 	}
 
 	$style_handles[] = 'embedpress_blocks-cgb-style-css';
 	$style_handles[] = 'embedpress-style';
 
-    foreach ($style_handles as $handle) {
-        wp_enqueue_style($handle);
-    }
+	foreach ($style_handles as $handle) {
+		wp_enqueue_style($handle);
+	}
 }
 
-function embedpress_render_google_docs_style($attributes) {
-    if (empty($attributes) || !isset($attributes['clientId'])) {
-        return '';
-    }
+function embedpress_render_google_docs_style($attributes)
+{
+	if (empty($attributes) || !isset($attributes['clientId'])) {
+		return '';
+	}
 
-    $client_id = esc_attr($attributes['clientId']);
-    
-    $styles = "
+	$client_id = md5($attributes['clientId']);
+
+	$styles = "
         <style>
-            [data-source-id='source-{$client_id}'] .ose-google-docs h1 {
+            #ep-gutenberg-content-$client_id .ose-embedpress-responsive h1 {
                 font-size: {$attributes['h1FontSize']}px;
                 line-height: {$attributes['h1LineHeight']};
                 letter-spacing: {$attributes['h1LetterSpacing']}px;
@@ -139,7 +140,7 @@ function embedpress_render_google_docs_style($attributes) {
                 color: {$attributes['h1Color']};
             }
             
-            [data-source-id='source-{$client_id}'] .ose-google-docs h2 {
+            #ep-gutenberg-content-$client_id .ose-embedpress-responsive h2 {
                 font-size: {$attributes['h2FontSize']}px;
                 line-height: {$attributes['h2LineHeight']};
                 letter-spacing: {$attributes['h2LetterSpacing']}px;
@@ -149,7 +150,7 @@ function embedpress_render_google_docs_style($attributes) {
                 color: {$attributes['h2Color']};
             }
             
-            [data-source-id='source-{$client_id}'] .ose-google-docs h3 {
+            #ep-gutenberg-content-$client_id .ose-embedpress-responsive h3 {
                 font-size: {$attributes['h3FontSize']}px;
                 line-height: {$attributes['h3LineHeight']};
                 letter-spacing: {$attributes['h3LetterSpacing']}px;
@@ -159,7 +160,7 @@ function embedpress_render_google_docs_style($attributes) {
                 color: {$attributes['h3Color']};
             }
             
-            [data-source-id='source-{$client_id}'] .ose-google-docs h4 {
+            #ep-gutenberg-content-$client_id .ose-embedpress-responsive h4 {
                 font-size: {$attributes['h4FontSize']}px;
                 line-height: {$attributes['h4LineHeight']};
                 letter-spacing: {$attributes['h4LetterSpacing']}px;
@@ -169,7 +170,7 @@ function embedpress_render_google_docs_style($attributes) {
                 color: {$attributes['h4Color']};
             }
             
-            [data-source-id='source-{$client_id}'] .ose-google-docs h5 {
+            #ep-gutenberg-content-$client_id .ose-embedpress-responsive h5 {
                 font-size: {$attributes['h5FontSize']}px;
                 line-height: {$attributes['h5LineHeight']};
                 letter-spacing: {$attributes['h5LetterSpacing']}px;
@@ -179,7 +180,7 @@ function embedpress_render_google_docs_style($attributes) {
                 color: {$attributes['h5Color']};
             }
             
-            [data-source-id='source-{$client_id}'] .ose-google-docs h6 {
+            #ep-gutenberg-content-$client_id .ose-embedpress-responsive h6 {
                 font-size: {$attributes['h6FontSize']}px;
                 line-height: {$attributes['h6LineHeight']};
                 letter-spacing: {$attributes['h6LetterSpacing']}px;
@@ -189,7 +190,7 @@ function embedpress_render_google_docs_style($attributes) {
                 color: {$attributes['h6Color']};
             }
             
-            [data-source-id='source-{$client_id}'] .ose-google-docs p {
+            #ep-gutenberg-content-$client_id .ose-embedpress-responsive p {
                 font-size: {$attributes['pFontSize']}px !important;
                 line-height: {$attributes['pLineHeight']};
                 letter-spacing: {$attributes['pLetterSpacing']}px;
@@ -201,7 +202,7 @@ function embedpress_render_google_docs_style($attributes) {
         </style>
     ";
 
-    return $styles;
+	return $styles;
 }
 
 
@@ -217,11 +218,11 @@ function embedpress_render_block($attributes)
 	$client_id = !empty($attributes['clientId']) ? md5($attributes['clientId']) : '';
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
 	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
-	$instaLayout = !empty($attributes['instaLayout']) ? ' '.$attributes['instaLayout'] : ' insta-grid';
+	$instaLayout = !empty($attributes['instaLayout']) ? ' ' . $attributes['instaLayout'] : ' insta-grid';
 
 	$_carousel_options = '';
 	$_carousel_id = '';
-	if(!empty($attributes['instaLayout']) && $attributes['instaLayout'] === 'insta-carousel'){
+	if (!empty($attributes['instaLayout']) && $attributes['instaLayout'] === 'insta-carousel') {
 		$_carousel_id = 'data-carouselid=' . esc_attr($client_id) . '';
 
 		$layout = $attributes['instaLayout'];
@@ -232,9 +233,9 @@ function embedpress_render_block($attributes)
 		$carouselLoop = !empty($attributes['carouselLoop']) ? $attributes['carouselLoop'] : 0;
 		$carouselArrows = !empty($attributes['carouselArrows']) ? $attributes['carouselArrows'] : 0;
 		$spacing = !empty($attributes['carouselSpacing']) ? $attributes['carouselSpacing'] : 0;
-		
+
 		// print_r($attributes); 
-		
+
 		$carousel_options = [
 			'layout' => $layout,
 			'slideshow' => $slidesShow,
@@ -247,10 +248,10 @@ function embedpress_render_block($attributes)
 		];
 
 		$carousel_options_string = json_encode($carousel_options);
-		$_carousel_options = 'data-carousel-options='. htmlentities($carousel_options_string, ENT_QUOTES) .'';
+		$_carousel_options = 'data-carousel-options=' . htmlentities($carousel_options_string, ENT_QUOTES) . '';
 	}
 
-	$cEmbedType = !empty($attributes['cEmbedType']) ? ' '.$attributes['cEmbedType'] : '';
+	$cEmbedType = !empty($attributes['cEmbedType']) ? ' ' . $attributes['cEmbedType'] : '';
 
 	$_custom_player = '';
 	$_player_options = '';
@@ -284,47 +285,47 @@ function embedpress_render_block($attributes)
 			'download' => $player_download,
 		];
 
-		if(!empty($attributes['fullscreen'])){
+		if (!empty($attributes['fullscreen'])) {
 			$playerOptions['fullscreen'] = $attributes['fullscreen'];
 		}
 
-		if(!empty($is_self_hosted['selhosted'])){
+		if (!empty($is_self_hosted['selhosted'])) {
 			$playerOptions['self_hosted'] = $is_self_hosted['selhosted'];
 			$playerOptions['hosted_format'] = $is_self_hosted['format'];
 		}
 
 		//Youtube options
-		if(!empty($attributes['starttime'])){
+		if (!empty($attributes['starttime'])) {
 			$playerOptions['start'] = $attributes['starttime'];
 		}
-		if(!empty($attributes['endtime'])){
+		if (!empty($attributes['endtime'])) {
 			$playerOptions['end'] = $attributes['endtime'];
 		}
-		if(!empty($attributes['relatedvideos'])){
+		if (!empty($attributes['relatedvideos'])) {
 			$playerOptions['rel'] = $attributes['relatedvideos'];
 		}
 
 		//vimeo options
-		if(!empty($attributes['vstarttime'])){
+		if (!empty($attributes['vstarttime'])) {
 			$playerOptions['t'] = $attributes['vstarttime'];
 		}
-		if(!empty($attributes['vautoplay'])){
+		if (!empty($attributes['vautoplay'])) {
 			$playerOptions['vautoplay'] = $attributes['vautoplay'];
 		}
-		if(!empty($attributes['vautopause'])){
+		if (!empty($attributes['vautopause'])) {
 			$playerOptions['autopause'] = $attributes['vautopause'];
 		}
-		if(!empty($attributes['vdnt'])){
+		if (!empty($attributes['vdnt'])) {
 			$playerOptions['dnt'] = $attributes['vdnt'];
 		}
 
 		$playerOptionsString = json_encode($playerOptions);
-		$_player_options = 'data-options='. htmlentities($playerOptionsString, ENT_QUOTES);
+		$_player_options = 'data-options=' . htmlentities($playerOptionsString, ENT_QUOTES);
 	}
 
-	$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']): '';
+	$pass_hash_key = isset($attributes['contentPassword']) ? md5($attributes['contentPassword']) : '';
 
-	
+
 
 	if (!empty($attributes['embedHTML'])) {
 		$embed  = apply_filters('embedpress_gutenberg_embed', $attributes['embedHTML'], $attributes);
@@ -333,16 +334,16 @@ function embedpress_render_block($attributes)
 		$share_position_class = '';
 		$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
 
-		if(!empty($attributes['contentShare'])) {
+		if (!empty($attributes['contentShare'])) {
 			$content_share_class = 'ep-content-share-enabled';
-			$share_position_class = 'ep-share-position-'.$share_position;
+			$share_position_class = 'ep-share-position-' . $share_position;
 		}
 
-		$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
+		$password_correct = isset($_COOKIE['password_correct_' . $client_id]) ? $_COOKIE['password_correct_' . $client_id] : '';
 		$hash_pass = hash('sha256', wp_salt(32) . md5(isset($attributes['contentPassword']) ? $attributes['contentPassword'] : ''));
 
 		$content_protection_class = 'ep-content-protection-enabled';
-		if(empty($attributes['lockContent']) || empty($attributes['contentPassword']) || $hash_pass === $password_correct) {
+		if (empty($attributes['lockContent']) || empty($attributes['contentPassword']) || $hash_pass === $password_correct) {
 			$content_protection_class = 'ep-content-protection-disabled';
 		}
 
@@ -363,99 +364,87 @@ function embedpress_render_block($attributes)
 
 		$adsAtts = '';
 
-		if(!empty($attributes['adManager'])) {
+		if (!empty($attributes['adManager'])) {
 			$ad = base64_encode(json_encode($attributes));
 			$adsAtts = "data-sponsored-id=$client_id data-sponsored-attrs=$ad class=sponsored-mask";
 		}
 
 		$hosted_format = '';
-		if (!empty($custom_player)) {			
+		if (!empty($custom_player)) {
 			$self_hosted = Helper::check_media_format($attributes['url']);
 			$hosted_format = isset($self_hosted['format']) ? $self_hosted['format'] : '';
 		}
 
 		$yt_channel_class = '';
-		if(Helper::is_youtube_channel($attributes['url'])){
+		if (Helper::is_youtube_channel($attributes['url'])) {
 			$yt_channel_class = 'embedded-youtube-channel';
 		}
 
 		$autoPause = '';
-		if(!empty($attributes['autoPause'])){
+		if (!empty($attributes['autoPause'])) {
 			$autoPause = ' enabled-auto-pause';
 		}
 
 		ob_start();
 		?>
-		<div class="embedpress-gutenberg-wrapper <?php echo esc_attr( $alignment.' '.$content_share_class.' '.$share_position_class.' '.$content_protection_class); echo esc_attr( $cEmbedType ); ?>" id="<?php echo esc_attr($block_id); ?>">
+		<div class="embedpress-gutenberg-wrapper <?php echo esc_attr($alignment . ' ' . $content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class);
+															echo esc_attr($cEmbedType); ?>" id="<?php echo esc_attr($block_id); ?>">
 			<?php
-				$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
-				$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
-			?>
-			<div class="wp-block-embed__wrapper <?php if(!empty($attributes['contentShare'])) echo esc_attr( 'position-'.$share_position.'-wraper'); ?>  <?php if($attributes['videosize'] == 'responsive') echo esc_attr( 'ep-video-responsive' ); ?>">
-				<div id="ep-gutenberg-content-<?php echo esc_attr( $client_id )?>" class="ep-gutenberg-content<?php  echo esc_attr($autoPause); ?>">
-					<div 
-						<?php echo esc_attr( $adsAtts ); ?> >
-						<div  class="ep-embed-content-wraper <?php 
-							if (!empty($custom_player)) {
-								echo esc_attr($player_preset);
-							} 
-							echo esc_attr($instaLayout);
-						?> <?php echo esc_attr($hosted_format); ?> <?php echo esc_attr($yt_channel_class); ?>" 
-						<?php echo esc_attr($_custom_player); ?> 
-						<?php echo esc_attr($_player_options); ?> 
-						<?php echo esc_attr( $_carousel_id ); ?>
-						<?php echo esc_attr($_carousel_options); ?>
-					>
+					$share_position = isset($attributes['sharePosition']) ? $attributes['sharePosition'] : 'right';
+					$custom_thumbnail = isset($attributes['customThumbnail']) ? $attributes['customThumbnail'] : '';
+					?>
+			<div class="wp-block-embed__wrapper <?php if (!empty($attributes['contentShare'])) echo esc_attr('position-' . $share_position . '-wraper'); ?>  <?php if ($attributes['videosize'] == 'responsive') echo esc_attr('ep-video-responsive'); ?>">
+				<div id="ep-gutenberg-content-<?php echo esc_attr($client_id) ?>" class="ep-gutenberg-content<?php echo esc_attr($autoPause); ?>">
+					<div <?php echo esc_attr($adsAtts); ?>>
+						<div class="ep-embed-content-wraper <?php
+																	if (!empty($custom_player)) {
+																		echo esc_attr($player_preset);
+																	}
+																	echo esc_attr($instaLayout);
+																	?> <?php echo esc_attr($hosted_format); ?> <?php echo esc_attr($yt_channel_class); ?>" <?php echo esc_attr($_custom_player); ?> <?php echo esc_attr($_player_options); ?> <?php echo esc_attr($_carousel_id); ?> <?php echo esc_attr($_carousel_options); ?>>
 							<?php
-								$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
-								$password_correct = isset($_COOKIE['password_correct_'.$client_id]) ? $_COOKIE['password_correct_'.$client_id] : '';
-								if(
-									!apply_filters('embedpress/is_allow_rander', false) ||
-									empty($attributes['lockContent']) || 
-									($attributes['protectionType'] == 'password' && empty($attributes['contentPassword'])) || 
-									($attributes['protectionType'] == 'password' &&  (!empty(Helper::is_password_correct($client_id))) && ($hash_pass === $password_correct)) ||
-									($attributes['protectionType'] == 'user-role' && has_content_allowed_roles($attributes['userRole']))
-								){
+									$hash_pass = hash('sha256', wp_salt(32) . md5($attributes['contentPassword']));
+									$password_correct = isset($_COOKIE['password_correct_' . $client_id]) ? $_COOKIE['password_correct_' . $client_id] : '';
+									if (
+										!apply_filters('embedpress/is_allow_rander', false) ||
+										empty($attributes['lockContent']) || ($attributes['protectionType'] == 'password' && empty($attributes['contentPassword'])) || ($attributes['protectionType'] == 'password' && (!empty(Helper::is_password_correct($client_id))) && ($hash_pass === $password_correct)) || ($attributes['protectionType'] == 'user-role' && has_content_allowed_roles($attributes['userRole']))
+									) {
 
-									if(!empty($attributes['contentShare'])) {
-										$content_id = $attributes['clientId'];
-										$embed .= Helper::embed_content_share($content_id, $attributes);
-									}
-									echo $embed;
-								} else {
-									if(!empty($attributes['contentShare'])) {
-										$content_id = $attributes['clientId'];
-										$embed .= Helper::embed_content_share($content_id, $attributes);
-									}
-
-									if ($attributes['protectionType'] == 'password') {
-										do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $attributes);
+										if (!empty($attributes['contentShare'])) {
+											$content_id = $attributes['clientId'];
+											$embed .= Helper::embed_content_share($content_id, $attributes);
+										}
+										echo $embed;
 									} else {
-										do_action('embedpress/content_protection_content', $client_id, $attributes['protectionMessage'], $attributes['userRole']);
+										if (!empty($attributes['contentShare'])) {
+											$content_id = $attributes['clientId'];
+											$embed .= Helper::embed_content_share($content_id, $attributes);
+										}
+
+										if ($attributes['protectionType'] == 'password') {
+											do_action('embedpress/display_password_form', $client_id, $embed, $pass_hash_key, $attributes);
+										} else {
+											do_action('embedpress/content_protection_content', $client_id, $attributes['protectionMessage'], $attributes['userRole']);
+										}
 									}
-
-								}
-							?>
+									?>
 						</div>
-						<?php 
-							if(!empty($attributes['adManager'])) {
-								$embed = apply_filters('embedpress/generate_ad_template', $embed, $client_id, $attributes, 'gutenberg');
-
-							}
-						?>
+						<?php
+								if (!empty($attributes['adManager'])) {
+									$embed = apply_filters('embedpress/generate_ad_template', $embed, $client_id, $attributes, 'gutenberg');
+								}
+								?>
 					</div>
 				</div>
 			</div>
 		</div>
-		<?php
+<?php
 
 		echo embedpress_render_block_style($attributes);
 		echo embedpress_render_google_docs_style($attributes);
 
 
 		return ob_get_clean();
-
-
 	}
 }
 
@@ -480,23 +469,21 @@ function embedpress_render_block_style($attributes)
 
 	if (!empty($custom_player)) {
 		$playerStyle = '
-		[data-playerid="' . md5($client_id). '"] {
+		[data-playerid="' . md5($client_id) . '"] {
 			--plyr-color-main: ' . ($player_color && strlen($player_color) === 7
-				? 'rgba(' . hexdec(substr($player_color, 1, 2)) . ', ' . hexdec(substr($player_color, 3, 2)) . ', ' . hexdec(substr($player_color, 5, 2)) . ', .8)!important;'
-				: 'rgba(0, 0, 0, .8)!important;'
-			) . ';
+			? 'rgba(' . hexdec(substr($player_color, 1, 2)) . ', ' . hexdec(substr($player_color, 3, 2)) . ', ' . hexdec(substr($player_color, 5, 2)) . ', .8)!important;'
+			: 'rgba(0, 0, 0, .8)!important;') . ';
 		}
-		[data-playerid="' . md5($client_id). '"].custom-player-preset-3, [data-playerid="' . md5($client_id). '"].custom-player-preset-4 {
+		[data-playerid="' . md5($client_id) . '"].custom-player-preset-3, [data-playerid="' . md5($client_id) . '"].custom-player-preset-4 {
 			--plyr-color-main: ' . ($player_color && strlen($player_color) === 7
-				? 'rgb(' . hexdec(substr($player_color, 1, 2)) . ', ' . hexdec(substr($player_color, 3, 2)) . ', ' . hexdec(substr($player_color, 5, 2)) . ')!important;'
-				: 'rgba(0, 0, 0, .8)!important;'
-			) . ';
+			? 'rgb(' . hexdec(substr($player_color, 1, 2)) . ', ' . hexdec(substr($player_color, 3, 2)) . ', ' . hexdec(substr($player_color, 5, 2)) . ')!important;'
+			: 'rgba(0, 0, 0, .8)!important;') . ';
 		}
-		[data-playerid="' . md5($client_id). '"] [data-plyr="pip"] {
-			display: '.$player_pip.';
+		[data-playerid="' . md5($client_id) . '"] [data-plyr="pip"] {
+			display: ' . $player_pip . ';
 		}
 
-		[data-playerid="' . md5($client_id). '"] .plyr{
+		[data-playerid="' . md5($client_id) . '"] .plyr{
 			width: ' . esc_attr($attributes['width']) . 'px !important;
 			height: ' . esc_attr($attributes['height']) . 'px!important;
 			max-height: ' . esc_attr($attributes['height']) . 'px!important;
@@ -506,20 +493,20 @@ function embedpress_render_block_style($attributes)
 
 
 	$_iscustomlogo = '';
-	
+
 	$youtubeStyles = '';
 
-	if(!empty($attributes['customlogo'])){
-		$_iscustomlogo = $uniqid.' img.watermark.ep-custom-logo {
+	if (!empty($attributes['customlogo'])) {
+		$_iscustomlogo = $uniqid . ' img.watermark.ep-custom-logo {
 			display: block !important;
 		}
 		
 
-		#ep-gutenberg-content-'. md5($client_id).' img.watermark {
+		#ep-gutenberg-content-' . md5($client_id) . ' img.watermark {
 			border: 0;
 			position: absolute;
-			bottom: '.esc_attr($logoY).'%;
-			right: '.esc_attr($logoX).'%;
+			bottom: ' . esc_attr($logoY) . '%;
+			right: ' . esc_attr($logoX) . '%;
 			max-width: 150px;
 			max-height: 75px;
 			-o-transition: opacity 0.5s ease-in-out;
@@ -527,9 +514,9 @@ function embedpress_render_block_style($attributes)
 			-webkit-transition: opacity 0.5s ease-in-out;
 			transition: opacity 0.5s ease-in-out;
 			z-index:1;
-			opacity: '.esc_attr($logoOpacity).';
+			opacity: ' . esc_attr($logoOpacity) . ';
 		}
-		#ep-gutenberg-content-'. md5($client_id).' img.watermark:hover {
+		#ep-gutenberg-content-' . md5($client_id) . ' img.watermark:hover {
 			opacity: 1;
 		}
 		';
@@ -554,29 +541,29 @@ function embedpress_render_block_style($attributes)
 			max-width: 100%;
 		}
 
-		.alignright .ose-wistia' . esc_attr($uniqid) .'{
+		.alignright .ose-wistia' . esc_attr($uniqid) . '{
 			margin-left: auto;
 		}
-		.alignleft .ose-wistia' . esc_attr($uniqid) .'{
+		.alignleft .ose-wistia' . esc_attr($uniqid) . '{
 			margin-right: auto;
 		}
-		.aligncenter .ose-wistia' . esc_attr($uniqid) .'{
+		.aligncenter .ose-wistia' . esc_attr($uniqid) . '{
 			margin: auto;
 		}
-		'.$uniqid.' img.watermark{
+		' . $uniqid . ' img.watermark{
 			display: none;
 		}
-		'.$_iscustomlogo.'
-		'.$playerStyle.'
+		' . $_iscustomlogo . '
+		' . $playerStyle . '
 
 		
 
 	</style>';
 
-	if($attributes['videosize'] == 'responsive') {
+	if ($attributes['videosize'] == 'responsive') {
 
 		$width = isset($attributes['width']) ? $attributes['width'] : 600;
-		$height = $width * (9/16);
+		$height = $width * (9 / 16);
 
 
 		$youtubeStyles = '<style>
@@ -602,11 +589,11 @@ function embedpress_render_block_style($attributes)
 			display: inline-block!important;
 			max-width: 100%;
 		  }
-		  '.$uniqid.' img.watermark{
+		  ' . $uniqid . ' img.watermark{
 				display: none;
 			}
-		  '.$_iscustomlogo.'
-		'.$playerStyle.'
+		  ' . $_iscustomlogo . '
+		' . $playerStyle . '
 
 	</style>';
 	}

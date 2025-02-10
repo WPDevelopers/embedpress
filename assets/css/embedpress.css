@@ -34,6 +34,10 @@
     text-align: left;
 }
 
+.ep-embed-content-wraper .ose-google-docs ul {
+    margin-top: 0;
+}
+
 .ep-embed-content-wraper .ose-google-docs p span {
     word-wrap: break-word;
 }
