@@ -39,4 +39,5 @@ $additionalServiceProviders = [
 	EMBEDPRESS_NAMESPACE . "\\Providers\\SelfHosted"    => [$host_url['host'], "*.com", "*.net", "*.org", "*.edu", "*.gov", "*.mil", "*.int", "*.biz", "*.info", "*.jobs", "*.mobi", "*.name", "*.aero", "*.coop", "*.travel", "*.museum", "*.cat", "*.pro", "*.tel", "*.asia", "*.xxx", "*.post", "*.geo", "*.nato", "*.tl", "*.dk"], 
 	EMBEDPRESS_NAMESPACE . "\\Providers\\Spreaker"    => ["*.spreaker.com","spreaker.com"],
 	EMBEDPRESS_NAMESPACE . "\\Providers\\AirTable"    => ["*.airtable.com","airtable.com"],
+	EMBEDPRESS_NAMESPACE . "\\Providers\\Canva"    => ["*.canva.com","canva.com"],
 ];
