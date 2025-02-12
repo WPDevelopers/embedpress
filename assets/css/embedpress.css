@@ -32,6 +32,7 @@
 
 .ep-embed-content-wraper .ose-google-docs {
     text-align: left;
+    overflow: auto;
 }
 
 .ep-embed-content-wraper .ose-google-docs ul {

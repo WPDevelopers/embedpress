@@ -20,6 +20,86 @@ use Embera\Url;
  */
 class GoogleDocs extends ProviderAdapter implements ProviderInterface
 {
+    protected static $hosts = ["docs.google.com"];
+
+    /** @var array Array with allowed params for the current Provider */
+    protected $allowedParams = [
+        'maxwidth',
+        'maxheight',
+        'docViewer',
+        'h1FontSize',
+        'h1LineHeight',
+        'h1LetterSpacing',
+        'h1FontFamily',
+        'h1FontWeight',
+        'h1TextTransform',
+        'h1Color',
+        'h2FontSize',
+        'h2LineHeight',
+        'h2LetterSpacing',
+        'h2FontFamily',
+        'h2FontWeight',
+        'h2TextTransform',
+        'h2Color',
+        'h3FontSize',
+        'h3LineHeight',
+        'h3LetterSpacing',
+        'h3FontFamily',
+        'h3FontWeight',
+        'h3TextTransform',
+        'h3Color',
+        'h4FontSize',
+        'h4LineHeight',
+        'h4LetterSpacing',
+        'h4FontFamily',
+        'h4FontWeight',
+        'h4TextTransform',
+        'h4Color',
+        'h5FontSize',
+        'h5LineHeight',
+        'h5LetterSpacing',
+        'h5FontFamily',
+        'h5FontWeight',
+        'h5TextTransform',
+        'h5Color',
+        'h6FontSize',
+        'h6LineHeight',
+        'h6LetterSpacing',
+        'h6FontFamily',
+        'h6FontWeight',
+        'h6TextTransform',
+        'h6Color',
+        'pFontSize',
+        'pLineHeight',
+        'pLetterSpacing',
+        'pFontFamily',
+        'pFontWeight',
+        'pTextTransform',
+        'pColor',
+        'liFontSize',
+        'liLineHeight',
+        'liLetterSpacing',
+        'liFontFamily',
+        'liFontWeight',
+        'liTextTransform',
+        'liColor'
+    ];
+
+
+    /** inline {@inheritdoc} */
+    protected $httpsSupport = true;
+
+    public function getAllowedParams()
+    {
+        return $this->allowedParams;
+    }
+
+    public function __construct($url, array $config = [])
+    {
+        parent::__construct($url, $config);
+    }
+
+
     /**
      * Method that verifies if the embed URL belongs to GoogleDocs.
      *
@@ -88,8 +168,6 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
         $body = wp_remote_retrieve_body($response);
         $data = json_decode($body, true);
 
-        // error_log(print_r($data, true));
-
         if (isset($data['error'])) {
             error_log('Error fetching document: ' . $data['error']['message']);
             return false;
@@ -106,9 +184,6 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
 
         $namedStyle = $this->generate_css($this->name_styles($this->document_data), '.ose-google-docs');
         $documentedStyle = $this->generate_document_css($this->document_styles($this->document_data), '.ose-google-docs');
-
-
-        error_log(print_r($this->document_styles($this->document_data), true));
 
         if (!$this->document_data || empty($this->document_data['body']['content'])) {
             return '<p>Error fetching document or no content available.</p>';
@@ -613,8 +688,6 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
                 }
             }
         }
-        // error_log(print_r($style));
-
 
         return $style;
     }
@@ -674,17 +747,11 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
             }
         }
 
-
-        // error_log(print_r($data['namedStyles'], true));
-        // error_log(print_r($namedStyles, true));
-
-
         return $namedStyles;
     }
 
     private function getTagForStyleType($styleType)
     {
-        // error_log(print_r($styleType, true));
 
         $map = [
             'normal text' => 'p',
@@ -833,7 +900,10 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
 
         $document_id = $this->get_document_id($this->url);
 
-        $data = $this->fetch_and_render_google_doc($document_id);
+        $params = $this->getParams();
+
+        error_log(print_r($params, true));
+
 
         // Check the type of document
         preg_match('~google\.com/(?:.+/)?(document|presentation|spreadsheets|forms|drawings)/~i', $iframeSrc, $matches);
@@ -897,15 +967,23 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
 
         $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
         $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 450;
-        if ($type !== 'drawings') {
+
+        $html = '';
+
+        if ($type == 'document' && isset($params['docViewer']) && $params['docViewer'] == 'custom') {
+            $data = $this->fetch_and_render_google_doc($document_id);
+            $html = $data;
+        } else if ($type == 'document' && isset($params['docViewer']) && $params['docViewer'] !== 'custom') {
             $html = '<iframe src="' . esc_url($iframeSrc) . '" frameborder="0" width="' . $width . '" height="' . $height . '" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>';
-        } else {
+        }
+
+        if ($type !== 'drawings' && $type !== 'document') {
+            $html = '<iframe src="' . esc_url($iframeSrc) . '" frameborder="0" width="' . $width . '" height="' . $height . '" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>';
+        } else if ($type === 'drawings') {
             $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 960;
             $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 720;
             $html = '<img src="' . esc_url($iframeSrc) . '" width="' . esc_attr($width) . '" height="' . esc_attr($height) . '" />';
         }
-
-        $html = $data;
 
         return [
             'type'          => 'rich',

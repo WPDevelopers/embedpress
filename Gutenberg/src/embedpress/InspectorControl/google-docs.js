@@ -13,15 +13,180 @@ import {
 /**
  * WordPress dependencies
  */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 const { __ } = wp.i18n;
 const { Fragment } = wp.element;
-const { applyFilters } = wp.hooks;
+const { applyFilters, addFilter } = wp.hooks;
+const { isShallowEqualObjects } = wp.isShallowEqual;
 
 const { PanelBody, ToggleControl, SelectControl, TextControl, ColorPalette, RangeControl } = wp.components;
 import { addProAlert, isPro, removeAlert } from '../../common/helper';
 import { EPIcon, InfoIcon } from '../../common/icons';
-import { isGoogleDocsUrl } from '../functions';
+import { getParams, isGoogleDocsUrl } from '../functions';
+
+export const init = () => {
+    addFilter('embedpress_block_rest_param', 'embedpress', getGoogleDocsParams, 10);
+}
+
+export const getGoogleDocsParams = (params, attributes) => {
+    if (!attributes.url || !(isGoogleDocsUrl(attributes.url))) {
+        return params;
+    }
+    // which attributes should be passed with rest api.
+    const defaults = {
+        width: '900',
+        height: '600',
+        docViewer: 'google',
+        h1FontSize: 32,
+        h1LineHeight: 1.5,
+        h1LetterSpacing: 0,
+        h1FontFamily: 'default',
+        h1FontWeight: 'normal',
+        h1TextTransform: 'none',
+        h1Color: '',
+
+        h2FontSize: 28,
+        h2LineHeight: 1.5,
+        h2LetterSpacing: 0,
+        h2FontFamily: 'default',
+        h2FontWeight: 'normal',
+        h2TextTransform: 'none',
+        h2Color: '',
+
+        h3FontSize: 24,
+        h3LineHeight: 1.5,
+        h3LetterSpacing: 0,
+        h3FontFamily: 'default',
+        h3FontWeight: 'normal',
+        h3TextTransform: 'none',
+        h3Color: '',
+
+        h4FontSize: 20,
+        h4LineHeight: 1.5,
+        h4LetterSpacing: 0,
+        h4FontFamily: 'default',
+        h4FontWeight: 'normal',
+        h4TextTransform: 'none',
+        h4Color: '',
+
+        h5FontSize: 18,
+        h5LineHeight: 1.5,
+        h5LetterSpacing: 0,
+        h5FontFamily: 'default',
+        h5FontWeight: 'normal',
+        h5TextTransform: 'none',
+        h5Color: '',
+
+        h6FontSize: 16,
+        h6LineHeight: 1.5,
+        h6LetterSpacing: 0,
+        h6FontFamily: 'default',
+        h6FontWeight: 'normal',
+        h6TextTransform: 'none',
+        h6Color: '',
+
+        pFontSize: 16,
+        pLineHeight: 1.5,
+        pLetterSpacing: 0,
+        pFontFamily: 'default',
+        pFontWeight: 'normal',
+        pTextTransform: 'none',
+        pColor: '',
+
+        liFontSize: 16,
+        liLineHeight: 1.5,
+        liLetterSpacing: 0,
+        liFontFamily: 'default',
+        liFontWeight: 'normal',
+        liTextTransform: 'none',
+        liColor: '',
+    };
+
+    return getParams(params, attributes, defaults);
+}
+//
+export const useGoogleDocs = (attributes) => {
+    // which attribute should call embed();
+    const defaults = {
+        width: null,
+        docViewer: null,
+        h1FontSize: null,
+        h1LineHeight: null,
+        h1LetterSpacing: null,
+        h1FontFamily: null,
+        h1FontWeight: null,
+        h1TextTransform: null,
+        h1Color: null,
+
+        h2FontSize: null,
+        h2LineHeight: null,
+        h2LetterSpacing: null,
+        h2FontFamily: null,
+        h2FontWeight: null,
+        h2TextTransform: null,
+        h2Color: null,
+
+        h3FontSize: null,
+        h3LineHeight: null,
+        h3LetterSpacing: null,
+        h3FontFamily: null,
+        h3FontWeight: null,
+        h3TextTransform: null,
+        h3Color: null,
+
+        h4FontSize: null,
+        h4LineHeight: null,
+        h4LetterSpacing: null,
+        h4FontFamily: null,
+        h4FontWeight: null,
+        h4TextTransform: null,
+        h4Color: null,
+
+        h5FontSize: null,
+        h5LineHeight: null,
+        h5LetterSpacing: null,
+        h5FontFamily: null,
+        h5FontWeight: null,
+        h5TextTransform: null,
+        h5Color: null,
+
+        h6FontSize: null,
+        h6LineHeight: null,
+        h6LetterSpacing: null,
+        h6FontFamily: null,
+        h6FontWeight: null,
+        h6TextTransform: null,
+        h6Color: null,
+
+        pFontSize: null,
+        pLineHeight: null,
+        pLetterSpacing: null,
+        pFontFamily: null,
+        pFontWeight: null,
+        pTextTransform: null,
+        pColor: null,
+
+        liFontSize: null,
+        liLineHeight: null,
+        liLetterSpacing: null,
+        liFontFamily: null,
+        liFontWeight: null,
+        liTextTransform: null,
+        liColor: null,
+    };
+
+    const param = getParams({}, attributes, defaults);
+    const [atts, setAtts] = useState(param);
+
+    useEffect(() => {
+        const param = getParams(atts, attributes, defaults);
+        if (!isShallowEqualObjects(atts || {}, param)) {
+            setAtts(param);
+        }
+    }, [attributes]);
+
+    return atts;
+}
 
 export const Heading1 = ({ attributes, setAttributes }) => {
     const { h1FontSize, h1LineHeight, h1LetterSpacing, h1FontFamily, h1FontWeight, h1TextTransform, h1Color } = attributes;
@@ -604,6 +769,89 @@ export const NormalText = ({ attributes, setAttributes }) => {
         </div>
     );
 }
+export const ListStyle = ({ attributes, setAttributes }) => {
+    const { liFontSize, liLineHeight, liLetterSpacing, liFontFamily, liFontWeight, liTextTransform, liColor } = attributes;
+
+
+    return (
+        <div>
+            {/* Font Size */}
+            <RangeControl
+                label={__('LI Font Size', 'embedpress')}
+                value={liFontSize}
+                onChange={(liFontSize) => setAttributes({ liFontSize })}
+                min={10}
+                max={100}
+            />
+
+            {/* Line Height */}
+            <RangeControl
+                label={__('LI Line Height', 'embedpress')}
+                value={liLineHeight}
+                onChange={(liLineHeight) => setAttributes({ liLineHeight })}
+                min={1}
+                max={3}
+                step={0.1}
+            />
+
+            {/* Letter Spacing */}
+            <RangeControl
+                label={__('LI Letter Spacing', 'embedpress')}
+                value={liLetterSpacing}
+                onChange={(liLetterSpacing) => setAttributes({ liLetterSpacing })}
+                min={-5}
+                max={10}
+                step={0.1}
+            />
+
+            {/* Font Family */}
+            <SelectControl
+                label={__('LI Font Family', 'embedpress')}
+                value={liFontFamily}
+                options={[
+                    { label: 'Default', value: 'default' },
+                    { label: 'Arial', value: 'Arial, sans-serif' },
+                    { label: 'Times New Roman', value: 'Times New Roman, serif' },
+                    { label: 'Georgia', value: 'Georgia, serif' },
+                    { label: 'Courier New', value: 'Courier New, monospace' },
+                    { label: 'Verdana', value: 'Verdana, sans-serif' }
+                ]}
+                onChange={(liFontFamily) => setAttributes({ liFontFamily })}
+            />
+
+            {/* Font Weight */}
+            <SelectControl
+                label={__('LI Font Weight', 'embedpress')}
+                value={liFontWeight}
+                options={[
+                    { label: 'Normal', value: 'normal' },
+                    { label: 'Bold', value: 'bold' },
+                    { label: 'Light', value: 'light' }
+                ]}
+                onChange={(liFontWeight) => setAttributes({ liFontWeight })}
+            />
+
+            {/* Text Transform */}
+            <SelectControl
+                label={__('LI Text Transform', 'embedpress')}
+                value={liTextTransform}
+                options={[
+                    { label: 'None', value: 'none' },
+                    { label: 'Uppercase', value: 'uppercase' },
+                    { label: 'Lowercase', value: 'lowercase' },
+                    { label: 'Capitalize', value: 'capitalize' }
+                ]}
+                onChange={(liTextTransform) => setAttributes({ liTextTransform })}
+            />
+
+            {/* Color Picker */}
+            <ColorPalette
+                value={liColor}
+                onChange={(liColor) => setAttributes({ liColor })}
+            />
+        </div>
+    );
+}
 
 
 const GoogleDocs = ({ attributes, setAttributes }) => {
@@ -749,7 +997,8 @@ const GoogleDocs = ({ attributes, setAttributes }) => {
                                     { name: 'heading_4', title: 'H4' },
                                     { name: 'heading_5', title: 'H5' },
                                     { name: 'heading_6', title: 'H6' },
-                                    { name: 'normal_text', title: 'P' }
+                                    { name: 'normal_text', title: 'P' },
+                                    { name: 'list_style', title: 'LI' }
                                 ]}
                             >
                                 {() => {
@@ -768,6 +1017,8 @@ const GoogleDocs = ({ attributes, setAttributes }) => {
                                             return <Heading6 attributes={attributes} setAttributes={setAttributes} />;
                                         case 'normal_text':
                                             return <NormalText attributes={attributes} setAttributes={setAttributes} />;
+                                        case 'list_style':
+                                            return <ListStyle attributes={attributes} setAttributes={setAttributes} />;
                                         default:
                                             return null;
                                     }

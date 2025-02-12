@@ -989,6 +989,34 @@ function embedpress_gutenberg_register_all_block()
 								'type' => 'string',
 								'default' => '',
 							],
+							'liFontSize' => [
+								'type' => 'number',
+								'default' => 16,
+							],
+							'liLineHeight' => [
+								'type' => 'number',
+								'default' => 1.5,
+							],
+					 		'liLetterSpacing' => [
+								'type' => 'number',
+								'default' => 0,
+							],
+							'liFontFamily' => [
+								'type' => 'string',
+								'default' => 'default',
+							],
+							'liFontWeight' => [
+								'type' => 'string',
+								'default' => 'normal',
+							],
+							'liTextTransform' => [
+								'type' => 'string',
+								'default' => 'none',
+							],
+							'liColor' => [
+								'type' => 'string',
+								'default' => '',
+							],
 
 						),
 					]);

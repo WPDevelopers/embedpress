@@ -38,7 +38,7 @@ export const dynamicStyles = ({ attributes }) => {
         instaLayout
     } = attributes;
 
-    const { h1FontSize, h1LineHeight, h1LetterSpacing, h1FontFamily, h1FontWeight, h1TextTransform, h1Color, h2FontSize, h2LineHeight, h2LetterSpacing, h2FontFamily, h2FontWeight, h2TextTransform, h2Color, h3FontSize, h3LineHeight, h3LetterSpacing, h3FontFamily, h3FontWeight, h3TextTransform, h3Color, h4FontSize, h4LineHeight, h4LetterSpacing, h4FontFamily, h4FontWeight, h4TextTransform, h4Color, h5FontSize, h5LineHeight, h5LetterSpacing, h5FontFamily, h5FontWeight, h5TextTransform, h5Color, h6FontSize, h6LineHeight, h6LetterSpacing, h6FontFamily, h6FontWeight, h6TextTransform, h6Color, pFontSize, pLineHeight, pLetterSpacing, pFontFamily, pFontWeight, pTextTransform, pColor } = attributes;
+    const { h1FontSize, h1LineHeight, h1LetterSpacing, h1FontFamily, h1FontWeight, h1TextTransform, h1Color, h2FontSize, h2LineHeight, h2LetterSpacing, h2FontFamily, h2FontWeight, h2TextTransform, h2Color, h3FontSize, h3LineHeight, h3LetterSpacing, h3FontFamily, h3FontWeight, h3TextTransform, h3Color, h4FontSize, h4LineHeight, h4LetterSpacing, h4FontFamily, h4FontWeight, h4TextTransform, h4Color, h5FontSize, h5LineHeight, h5LetterSpacing, h5FontFamily, h5FontWeight, h5TextTransform, h5Color, h6FontSize, h6LineHeight, h6LetterSpacing, h6FontFamily, h6FontWeight, h6TextTransform, h6Color, pFontSize, pLineHeight, pLetterSpacing, pFontFamily, pFontWeight, pTextTransform, pColor, liFontSize, liLineHeight, liLetterSpacing, liFontFamily, liFontWeight, liTextTransform, liColor } = attributes;
 
 
     const _md5ClientId = md5(clientId || '');
@@ -405,6 +405,16 @@ export const dynamicStyles = ({ attributes }) => {
 								text-transform: ${pTextTransform};
 								color: ${pColor};
 							}
+
+							[data-source-id="source-${clientId}"] .ose-google-docs li {
+                                font-size: ${liFontSize}px!important;
+                                line-height: ${liLineHeight};
+                                letter-spacing: ${liLetterSpacing};
+                                font-family: ${liFontFamily};
+                                font-weight: ${liFontWeight};
+                                text-transform: ${liTextTransform};
+                                color: ${liColor};
+                            }
                             
                         `}
                     </style>

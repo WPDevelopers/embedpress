@@ -18,6 +18,7 @@ import { init as wistiaInit } from './InspectorControl/wistia';
 import { init as vimeoInit } from './InspectorControl/vimeo';
 import { init as spreakerInit } from './InspectorControl/spreaker';
 import { init as googlePhotos } from './InspectorControl/google-photos';
+import { init as googleDocs } from './InspectorControl/google-docs';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
@@ -1307,7 +1308,35 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 				type: 'string',
 				default: '',
 			},
-			
+			liFontSize: {
+				type: 'number',
+				default: 16,
+			},
+			liLineHeight: {
+				type: 'number',
+				default: 1.5,
+			},
+			liLetterSpacing: {
+				type: 'number',
+				default: 0,
+			},
+			liFontFamily: {
+				type: 'string',
+				default: 'default',
+			},
+			liFontWeight: {
+				type: 'string',
+				default: 'normal',
+			},
+			liTextTransform: {
+				type: 'string',
+				default: 'none',
+			},
+			liColor: {
+				type: 'string',
+				default: '',
+			},
+
 		},
 		/**
 		 * The edit function describes the structure of your block in the context of the editor.
@@ -1338,5 +1367,6 @@ if (embedpressObj && embedpressObj.active_blocks && embedpressObj.active_blocks.
 	calendlyInit();
 	spreakerInit();
 	googlePhotos();
+	googleDocs();
 
 }

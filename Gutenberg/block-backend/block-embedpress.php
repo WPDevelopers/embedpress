@@ -199,6 +199,15 @@ function embedpress_render_google_docs_style($attributes)
                 text-transform: {$attributes['pTextTransform']};
                 color: {$attributes['pColor']};
             }
+            #ep-gutenberg-content-$client_id .ose-embedpress-responsive li {
+                font-size: {$attributes['liFontSize']}px !important;
+                line-height: {$attributes['liLineHeight']};
+                letter-spacing: {$attributes['liLetterSpacing']}px;
+                font-family: {$attributes['liFontFamily']};
+                font-weight: {$attributes['liFontWeight']};
+                text-transform: {$attributes['liTextTransform']};
+                color: {$attributes['liColor']};
+            }
         </style>
     ";
 

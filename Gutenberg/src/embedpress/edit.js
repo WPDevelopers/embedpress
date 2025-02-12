@@ -32,8 +32,9 @@ import { isWistiaVideo as _isWistiaVideo, useWistiaVideo } from './InspectorCont
 import { isVimeoVideo as _isVimeoVideo, useVimeoVideo } from './InspectorControl/vimeo';
 import { useSpreaker } from './InspectorControl/spreaker';
 import { useGooglePhotos } from './InspectorControl/google-photos';
+import { useGoogleDocs } from './InspectorControl/google-docs';
 import ContentShare from '../common/social-share-control';
-import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo, initCarousel, isTikTok as _isTikTok, isSpreakerUrl as _isSpreakerUrl, isGooglePhotosUrl as _isGooglePhotosUrl } from './functions';
+import { initCustomPlayer, isSelfHostedAudio, isSelfHostedVideo, initCarousel, isTikTok as _isTikTok, isSpreakerUrl as _isSpreakerUrl, isGooglePhotosUrl as _isGooglePhotosUrl, isGoogleDocsUrl as _isGoogleDocsUrl } from './functions';
 import { isCalendly as _isCalendly, useCalendly } from './InspectorControl/calendly';
 
 const {
@@ -210,6 +211,7 @@ export default function EmbedPress(props) {
 	const isInstagramFeed = _isInstagramFeed(url);
 	const isSpreaker = _isSpreakerUrl(url);
 	const isGooglePhotos = _isGooglePhotosUrl(url);
+	const isGoogleDocsUrl = _isGoogleDocsUrl(url);
 
 	const isOpensea = _isOpensea(url);
 	const isOpenseaSingle = _isOpenseaSingle(url);
@@ -226,6 +228,7 @@ export default function EmbedPress(props) {
 	const calendlyParamns = useCalendly(attributes);
 	const spreakerParams = useSpreaker(attributes);
 	const googlePhotosParams = useGooglePhotos(attributes);
+	const googleDocsParams = useGoogleDocs(attributes);
 
 	let source = '';
 
@@ -365,7 +368,7 @@ export default function EmbedPress(props) {
 		return () => {
 			clearTimeout(delayDebounceFn)
 		}
-	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent, spreakerParams, googlePhotosParams]);
+	}, [openseaParams, youtubeParams, youtubeVideoParams, wistiaVideoParams, vimeoVideoParams, instafeedParams, calendlyParamns, contentShare, lockContent, spreakerParams, googlePhotosParams, googleDocsParams]);
 
 
 	return (
@@ -388,6 +391,7 @@ export default function EmbedPress(props) {
 				isTikTok={isTikTok}
 				isSpreaker={isSpreaker}
 				isGooglePhotos={isGooglePhotos}
+				isGoogleDocsUrl={isGoogleDocsUrl}
 			/>
 
 			{((!embedHTML || !!editingURL) && !fetching) && <div {...blockProps}>
@@ -414,17 +418,18 @@ export default function EmbedPress(props) {
 					(!isCalendly || (!!editingURL || editingURL === 0)) &&
 					(!isInstagramFeed || (!!editingURL || editingURL === 0)) &&
 					(!isSpreaker || (!!editingURL || editingURL === 0)) &&
-					(!isGooglePhotos || (!!editingURL || editingURL === 0))
+					(!isGooglePhotos || (!!editingURL || editingURL === 0)) &&
+					(!isGoogleDocsUrl || (!!editingURL || editingURL === 0))
 				) && fetching && (<div className={className}><EmbedLoading /> </div>)
 			}
 
-			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTShorts || isWistiaVideo || isVimeoVideo || isCalendly || isInstagramFeed || isSpreaker)) && (<figure {...blockProps} data-source-id={'source-' + clientId}>
+			{(embedHTML && !editingURL && (!fetching || isOpensea || isOpenseaSingle || isYTChannel || isYTVideo || isYTShorts || isWistiaVideo || isVimeoVideo || isCalendly || isInstagramFeed || isSpreaker || isGoogleDocsUrl)) && (<figure {...blockProps} data-source-id={'source-' + clientId}>
 
 				<div className={'gutenberg-block-wraper' + ' ' + content_share_class + ' ' + share_position_class + source}>
 					<EmbedWrap
 						className={`position-${sharePosition}-wraper ep-embed-content-wraper ${ytChannelClass} ${playerPresetClass} ${instaLayoutClass}`}
 						style={{
-							display: fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isYTShorts && !isWistiaVideo && !isVimeoVideo && !isCalendly && !isInstagramFeed ? 'none' : isOpensea || isOpenseaSingle ? 'block' : 'inline-block',
+							display: fetching && !isOpensea && !isOpenseaSingle && !isYTChannel && !isYTVideo && !isYTLive && !isYTShorts && !isWistiaVideo && !isVimeoVideo && !isCalendly && !isInstagramFeed && !isGoogleDocsUrl && !isGooglePhotos ? 'none' : isOpensea || isOpenseaSingle ? 'block' : 'inline-block',
 							position: 'relative'
 						}}
 						{...(customPlayer ? { 'data-playerid': md5(clientId) } : {})}
@@ -442,14 +447,14 @@ export default function EmbedPress(props) {
 						)
 					}
 
-					{fetching && (
+					{fetching && !isGoogleDocsUrl && (
 						<div style={{ filter: 'grayscale(1)', backgroundColor: '#fffafa', opacity: '0.7' }}
 							className="block-library-embed__interactive-overlay"
 							onMouseUp={setAttributes({ interactive: true })}
 						/>
 					)}
 
-					{!isOpensea && !isOpenseaSingle && (
+					{!isOpensea && !isOpenseaSingle && !isGoogleDocsUrl && (
 						<div
 							className="block-library-embed__interactive-overlay"
 							onMouseUp={setAttributes({ interactive: true })}

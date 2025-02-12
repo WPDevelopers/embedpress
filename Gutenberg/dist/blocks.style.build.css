@@ -871,10 +871,16 @@ button.components-color-palette__custom-color-button {
 .embedpress-gutenberg-controls .components-tab-panel__tabs {
   -ms-flex-pack: distribute;
       justify-content: space-around;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  /* 4 items per row */
+  gap: 10px; }
 
 .embedpress-gutenberg-controls .components-tab-panel__tabs button {
-  padding: 0 10px; }
+  padding: 0 10px;
+  -ms-flex-pack: center;
+      justify-content: center; }
 
 .ep-controls-margin {
   margin-bottom: 24px; }
