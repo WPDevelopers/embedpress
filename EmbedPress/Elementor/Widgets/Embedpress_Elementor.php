@@ -78,6 +78,7 @@ class Embedpress_Elementor extends Widget_Base
 			$handles[] = 'vimeo-player';	
 		}
 		$handles[] = 'embedpress-front';
+		$handles[] = 'embedpress_documents_viewer_script';
 		
 		if (isset($handler_keys['enabled_ads']) && $handler_keys['enabled_ads'] === 'yes') {
 			$handles[] = 'embedpress-ads';
@@ -190,6 +191,7 @@ class Embedpress_Elementor extends Widget_Base
 					'opensea'     => __('OpenSea', 'embedpress'),
 					'spreaker'    => __('Spreaker', 'embedpress'),
 					'google_photos'    => __('Google Photos', 'embedpress'),
+					'google_docs'    => __('Google Docs', 'embedpress'),
 					'selfhosted_video' => __('Self-hosted Video', 'embedpress'),
 					'selfhosted_audio'  => __('Self-hosted Audio', 'embedpress'),
 				]
@@ -433,6 +435,7 @@ class Embedpress_Elementor extends Widget_Base
 		
 		$this->init_google_photos_control_setion();
 		
+		$this->init_google_docs_document_controls();
 
 
 		do_action('extend_elementor_controls', $this, '_', $this->pro_text, $this->pro_class);
@@ -465,6 +468,7 @@ class Embedpress_Elementor extends Widget_Base
 		}
 
 		$this->init_style_controls();
+		$this->init_google_docs_style();
 		$this->init_opensea_color_and_typography();
 	}
 
@@ -1806,7 +1810,8 @@ class Embedpress_Elementor extends Widget_Base
 						'selfhosted_video',
 						'selfhosted_audio',
 						'spreaker',
-						'google_photos'
+						'google_photos',
+						'google_docs'
 					],
 				],
 			]
@@ -1838,8 +1843,8 @@ class Embedpress_Elementor extends Widget_Base
 						'selfhosted_video',
 						'selfhosted_audio',
 						'spreaker',
-						'google_photos'
-
+						'google_photos',
+						'google_docs'
 					],
 				],
 			]
@@ -3878,7 +3883,224 @@ class Embedpress_Elementor extends Widget_Base
 
 		$this->end_controls_section();
 	}
-	
+
+	public function init_google_docs_document_controls(){
+
+		$condition = [
+			'embedpress_pro_embeded_source' => 'google_docs',
+		];
+
+		$this->start_controls_section(
+			'embedpress_google_docs_documents_control_section',
+			[
+				'label'       => __('Controls', 'embedpress'),
+				'condition'    => $condition,
+			]
+		);
+        
+		$this->add_control(
+            'docViewer',
+            [
+                'label'   => __('Viewer', 'embedpress'),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'google',
+                'options' => [
+                    'google'  => __('Google', 'embedpress'),
+                    'custom' => __('EmbedPress Viewer', 'embedpress'),
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'embedpress_theme_mode',
+            [
+                'label'   => __('Theme', 'embedpress'),
+                'type'    => Controls_Manager::SELECT,
+                'default' => 'default',
+                'options' => [
+                    'default' => __('System Default', 'embedpress'),
+                    'dark' => __('Dark', 'embedpress'),
+                    'light'  => __('Light', 'embedpress'),
+                    'custom'  => __('Custom', 'embedpress')
+                ],
+                'condition' => [
+                    'docViewer' => 'custom',
+                ],
+
+            ]
+        );
+
+        $this->add_control(
+			'embedpress_doc_custom_color',
+			[
+				'label' => esc_html__( 'Color', 'embedpress' ),
+				'type' => \Elementor\Controls_Manager::COLOR,
+                'condition' => [
+                    'embedpress_theme_mode' => 'custom',
+                    'docViewer' => 'custom',
+                ],
+			]
+		);
+
+        $this->add_control(
+            'doc_toolbar',
+            [
+                'label'        => sprintf(__('Toolbar %s', 'embedpress'), $this->pro_text),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Show', 'embedpress'),
+                'label_off'    => __('Hide', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+                'classes'     => $this->pro_class,
+                'condition' => [
+                    'docViewer' => 'custom',
+                ],
+            ]
+        );
+
+
+        $this->add_control(
+            'doc_fullscreen_mode',
+            [
+                'label'        => __('Fullscreen', 'embedpress'),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Show', 'embedpress'),
+                'label_off'    => __('Hide', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+                'condition' => [
+                    'doc_toolbar' => 'yes',
+                    'docViewer' => 'custom',
+                ],
+            ]
+        );
+
+        $this->add_control(
+            'doc_print_download',
+            [
+                'label'        => sprintf(__('Print/Download %s', 'embedpress'), $this->pro_text),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Show', 'embedpress'),
+                'label_off'    => __('Hide', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+                'classes'     => $this->pro_class,
+                'condition' => [
+                    'doc_toolbar' => 'yes',
+                    'docViewer' => 'custom',
+                ],
+            ]
+        );
+    
+ 
+        $this->add_control(
+            'doc_draw',
+            [
+                'label'        => __('Draw', 'embedpress'),
+                'type'         => Controls_Manager::SWITCHER,
+                'label_on'     => __('Show', 'embedpress'),
+                'label_off'    => __('Hide', 'embedpress'),
+                'return_value' => 'yes',
+                'default'      => 'yes',
+                'condition' => [
+                    'doc_toolbar' => 'yes',
+                    'docViewer' => 'custom',
+                ],
+            ]
+        );
+
+        
+        $this->end_controls_section();
+	}
+	public function init_google_docs_style()
+	{
+		$condition = [
+			'embedpress_pro_embeded_source' => 'google_docs',
+		];
+
+		$this->start_controls_section(
+			'embedpress_google_docs_color_typography_control_section',
+			[
+				'label'       => __('Color and Typography', 'embedpress'),
+				'tab'   => Controls_Manager::TAB_STYLE,
+				'condition'    => $condition,
+			]
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'label' => esc_html__('H1 Typography', 'embedpress'),
+				'name' => 'google_docs_h1_typography',
+				'selector' => '{{WRAPPER}} .ose-google-docs h1',
+			]
+		);
+
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'label' => esc_html__('H2 Typography', 'embedpress'),
+				'name' => 'google_docs_h2_typography',
+				'selector' => '{{WRAPPER}} .ose-google-docs h2',
+			]
+		);
+		
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'label' => esc_html__('H3 Typography', 'embedpress'),
+				'name' => 'google_docs_h3_typography',
+				'selector' => '{{WRAPPER}} .ose-google-docs h3',
+			]
+		);
+		
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'label' => esc_html__('H4 Typography', 'embedpress'),
+				'name' => 'google_docs_h4_typography',
+				'selector' => '{{WRAPPER}} .ose-google-docs h4',
+			]
+		);
+		
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'label' => esc_html__('H5 Typography', 'embedpress'),
+				'name' => 'google_docs_h5_typography',
+				'selector' => '{{WRAPPER}} .ose-google-docs h5',
+			]
+		);
+		
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'label' => esc_html__('H6 Typography', 'embedpress'),
+				'name' => 'google_docs_h6_typography',
+				'selector' => '{{WRAPPER}} .ose-google-docs h6',
+			]
+		);
+		
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'label' => esc_html__('Paragraph Typography', 'embedpress'),
+				'name' => 'google_docs_p_typography',
+				'selector' => '{{WRAPPER}} .ose-google-docs p',
+			]
+		);
+		
+		$this->add_group_control(
+			\Elementor\Group_Control_Typography::get_type(),
+			[
+				'label' => esc_html__('List Item Typography', 'embedpress'),
+				'name' => 'google_docs_li_typography',
+				'selector' => '{{WRAPPER}} .ose-google-docs li',
+			]
+		);
+		
+		$this->end_controls_section();
+	}
 
 	/**
 	 * End Spreaker Controls
@@ -4534,11 +4756,19 @@ class Embedpress_Elementor extends Widget_Base
 							?> 
 							<?php echo esc_attr($content_share_class . ' ' . $share_position_class . ' ' . $content_protection_class); ?> 
 							<?php echo esc_attr('source-' . $source); ?>">
+							<?php 
+								$is_masked = '';
 
+								if($settings['docViewer'] === 'custom')
+								{
+									$is_masked = 'ep-file-download-option-masked ';
+								}
+							?>
 							<div <?php echo $adsAtts; ?>>
 								<div id="<?php echo esc_attr($this->get_id()); ?>" 
-									class="ep-embed-content-wraper 
-									<?php echo esc_attr($settings['custom_payer_preset']); ?>" 
+									class="ep-embed-content-wraper
+									<?php echo esc_attr($settings['custom_payer_preset']); ?>
+									<?php echo esc_attr($is_masked); ?>" 
 									<?php echo $data_player_id; ?> 
 									<?php echo $this->get_custom_player_options($settings); ?>>
 
@@ -4552,6 +4782,46 @@ class Embedpress_Elementor extends Widget_Base
 									) {
 										if (!empty($settings['embedpress_content_share'])) {
 											$content .= Helper::embed_content_share($content_id, $embed_settings);
+										}
+
+										if ($settings['docViewer'] === 'custom' && $settings['doc_print_download'] === 'yes' && (Helper::get_extension_from_file_url($embed_link) === 'pptx' || Helper::get_extension_from_file_url($embed_link) === 'ppt' || Helper::get_extension_from_file_url($embed_link) === 'xls' || Helper::get_extension_from_file_url($embed_link) === 'xlsx')) {
+											$content .= '<div class="embed-download-disabled"></div>';
+										}
+						
+										if (
+											$settings['doc_draw'] === 'yes' && 
+											isset($settings['embedpress_elementor_document_width']) && 
+											isset($settings['embedpress_elementor_document_height']) 
+											) {
+											$content .= '<canvas class="ep-doc-canvas" width="' . esc_attr($settings['embedpress_elementor_document_width']['size']) . '" height="' . esc_attr($settings['embedpress_elementor_document_height']['size']) . '" ></canvas>';
+										}
+						
+										if ($settings['doc_print_download'] === 'yes' && Helper::get_extension_from_file_url($embed_link) !== 'pptx') {
+											$content .= '<div style="width: 40px; height: 40px; position: absolute; opacity: 0; right: 12px; top: 12px;"></div>';
+										}
+
+										if (!empty($settings['doc_toolbar']) && $settings['docViewer'] === 'custom') {
+											$content .= '<div class="ep-external-doc-icons">';
+						
+											if (empty(Helper::is_file_url($embed_link))) {
+												$content .= Helper::ep_get_popup_icon();
+											}
+						
+											if (!empty(Helper::is_file_url($embed_link))) {
+												if (!empty($settings['doc_print_download'])) {
+													$content .= Helper::ep_get_print_icon();
+													$content .= Helper::ep_get_download_icon();
+												}
+											}
+											if (!empty($settings['doc_draw'])) {
+												$content .= Helper::ep_get_draw_icon();
+											}
+											if (!empty($settings['doc_fullscreen_mode'])) {
+												$content .= Helper::ep_get_fullscreen_icon();
+												$content .= Helper::ep_get_minimize_icon();
+											}
+						
+											$content .= '</div>';
 										}
 
 										echo $content;

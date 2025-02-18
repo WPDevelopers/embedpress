@@ -101,146 +101,114 @@ embedpressDocViewer.viewerStyle = () => {
     }
 }
 embedpressDocViewer.epDocumentsViewerController = () => {
-    const viwerParentEls = document.querySelectorAll('.ep-file-download-option-masked');
-  
-    function handleFullscreenChange() {
+  const viwerParentEls = document.querySelectorAll('.ep-file-download-option-masked');
+
+  function handleFullscreenChange() {
+    viwerParentEls.forEach((el) => {
       if (!document.fullscreenElement) {
-        viwerParentEls.forEach((el) => {
-          el.classList.remove('fullscreen-enabled');
-          el.querySelector('.ep-doc-minimize-icon').style.display = 'none';
-          el.querySelector('.ep-doc-fullscreen-icon').style.display = 'flex';
+        el.classList.remove('fullscreen-enabled');
+        el.style.width = '';
+        el.style.height = '';
+        el.style.position = '';
+        el.style.top = '';
+        el.style.left = '';
+        el.style.background = '';
+        el.style.zIndex = '';
+
+        el.querySelector('.ep-doc-minimize-icon').style.display = 'none';
+        el.querySelector('.ep-doc-fullscreen-icon').style.display = 'flex';
+
+        const viewerElement = el.querySelector('iframe') || el.querySelector('.ose-google-docs');
+        if (viewerElement) {
+          viewerElement.style.width = '';
+          viewerElement.style.height = '';
+        }
+      }
+    });
+  }
+
+  function handleClick(event) {
+    event.stopPropagation();
+
+    const viwerParentEl = event.target.closest('.ep-file-download-option-masked');
+    if (!viwerParentEl) return;
+
+    const viewerElement = viwerParentEl.querySelector('iframe') || viwerParentEl.querySelector('.ose-google-docs');
+    if (!viewerElement) return;
+
+    const popupIcon = event.target.closest('.ep-doc-popup-icon svg');
+    const printIcon = event.target.closest('.ep-doc-print-icon svg');
+    const downloadIcon = event.target.closest('.ep-doc-download-icon svg');
+    const minimizeIcon = event.target.closest('.ep-doc-minimize-icon svg');
+    const fullscreenIcon = event.target.closest('.ep-doc-fullscreen-icon svg');
+
+    if (popupIcon instanceof SVGElement) {
+      window.open(viewerElement.getAttribute('src'), '_blank');
+    } else if (printIcon instanceof SVGElement) {
+      window.open(`https://view.officeapps.live.com/op/view.aspx?src=${viewerElement.getAttribute('src')}&wdOrigin=BROWSELINK`, '_blank');
+    } else if (downloadIcon instanceof SVGElement) {
+      fetch(viewerElement.getAttribute('src'), { mode: 'no-cors' })
+        .then(response => {
+          if (response.ok) {
+            response.blob().then(blob => {
+              const url = window.URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = 'document';
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+            });
+          } else {
+            window.location.href = viewerElement.getAttribute('src');
+          }
+        })
+        .catch(() => {
+          window.location.href = viewerElement.getAttribute('src');
         });
+    } else if (minimizeIcon instanceof SVGElement) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
       }
-    }
-  
-    function handleClick(event) {
-      event.stopPropagation();
-  
-      const viwerParentEl = event.target.closest('.ep-file-download-option-masked');
-  
-      if (!viwerParentEl) return;
-  
-      const viewerIframeEl = viwerParentEl.querySelector('iframe');
-      if (!viewerIframeEl) return;
-  
-      const iframeSrc = decodeURIComponent(viewerIframeEl.getAttribute('src'));
-      if (!iframeSrc) return;
-  
-      const regex = /(url|src)=([^&]+)/;
-      const match = iframeSrc.match(regex);
-      let fileUrl = match && match[2];
-  
-      if (!fileUrl) {
-        fileUrl = iframeSrc;
+    } else if (fullscreenIcon instanceof SVGElement) {
+      if (viwerParentEl.requestFullscreen) {
+        viwerParentEl.requestFullscreen();
+      } else if (viwerParentEl.webkitRequestFullscreen) {
+        viwerParentEl.webkitRequestFullscreen();
+      } else if (viwerParentEl.msRequestFullscreen) {
+        viwerParentEl.msRequestFullscreen();
       }
-  
-      const popupIcon = event.target.closest('.ep-doc-popup-icon svg');
-      const printIcon = event.target.closest('.ep-doc-print-icon svg');
-      const downloadcIcon = event.target.closest('.ep-doc-download-icon svg');
-      const minimizeIcon = event.target.closest('.ep-doc-minimize-icon svg');
-      const fullscreenIcon = event.target.closest('.ep-doc-fullscreen-icon svg');
-  
-      if (popupIcon instanceof SVGElement) {
-        window.open(fileUrl, '_blank');
-      } else if (printIcon instanceof SVGElement) {
-        const newTab = window.open(`https://view.officeapps.live.com/op/view.aspx?src=${fileUrl}&wdOrigin=BROWSELINK`, '_blank');
-      } else if (downloadcIcon instanceof SVGElement) {
-        fetch(fileUrl, { mode: 'no-cors' })
-          .then(response => {
-            if (response.ok) {
-              response.blob().then(blob => {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-              });
-            } else {
-              window.location.href = fileUrl;
-            }
-          })
-          .catch(error => {
-            window.location.href = fileUrl;
-          });
-      } else if (minimizeIcon instanceof SVGElement) {
-        if (document.exitFullscreen) {
-          document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-          document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) {
-          document.msExitFullscreen();
-        }
-      } else if (fullscreenIcon instanceof SVGElement) {
-        if (viwerParentEl.requestFullscreen) {
-          viwerParentEl.requestFullscreen();
-        } else if (viwerParentEl.webkitRequestFullscreen) {
-          viwerParentEl.webkitRequestFullscreen();
-        } else if (viwerParentEl.msRequestFullscreen) {
-          viwerParentEl.msRequestFullscreen();
-        }
-  
-        viwerParentEl.querySelector(".ep-doc-minimize-icon").style.display = 'flex';
-        viwerParentEl.querySelector(".ep-doc-fullscreen-icon").style.display = 'none';
-        viwerParentEl.classList.add("fullscreen-enabled");
-      }
+
+      viwerParentEl.classList.add("fullscreen-enabled");
+
+      viwerParentEl.style.width = "100vw";
+      viwerParentEl.style.height = "100vh";
+      viwerParentEl.style.position = "fixed";
+      viwerParentEl.style.top = "0";
+      viwerParentEl.style.left = "0";
+      viwerParentEl.style.background = "#fff";
+      viwerParentEl.style.zIndex = "9999";
+
+      if (viewerElement) {
+        viewerElement.setAttribute(
+          "style",
+          "width: 100% !important; height: 100% !important;"
+        );
+      }      
+
+      viwerParentEl.querySelector(".ep-doc-minimize-icon").style.display = 'flex';
+      viwerParentEl.querySelector(".ep-doc-fullscreen-icon").style.display = 'none';
     }
-  
-    function handleDrawIconClick(event) {
-      event.stopPropagation();
-  
-      const drawIcon = event.target.closest('.ep-doc-draw-icon svg');
-      if (!drawIcon) return;
-  
-      const viwerParentEl = drawIcon.closest('.ep-file-download-option-masked');
-      if (!viwerParentEl) return;
-  
-      const canvas = viwerParentEl.querySelector(".ep-doc-canvas");
-      const drawToggle = viwerParentEl.querySelector(".ep-doc-draw-icon svg");
-      if (!canvas || !drawToggle) return;
-  
-      const ctx = canvas.getContext("2d");
-      let isDrawing = false;
-      let canDraw = false;
-  
-      canvas.addEventListener("mousedown", function (e) {
-        if (canDraw) {
-          isDrawing = true;
-          const rect = canvas.getBoundingClientRect();
-          const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
-          const x = e.pageX - rect.left - scrollX;
-          const y = e.pageY - rect.top;
-          ctx.beginPath();
-          ctx.moveTo(x, y);
-        }
-      });
-  
-      canvas.addEventListener("mousemove", function (e) {
-        if (isDrawing && canDraw) {
-          const rect = canvas.getBoundingClientRect();
-          const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
-          const x = e.pageX - rect.left - scrollX;
-          const y = e.pageY - rect.top;
-          ctx.lineTo(x, y);
-          ctx.stroke();
-        }
-      });
-  
-      canvas.addEventListener("mouseup", function (e) {
-        isDrawing = false;
-      });
-  
-  
-      drawToggle.parentNode.classList.toggle("active");
-      canDraw = drawToggle.parentNode.classList.contains("active");
-      canvas.style.display = canDraw ? "block" : "none";
-    }
-  
-    document.addEventListener('click', handleClick);
-    document.addEventListener('click', handleDrawIconClick);
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-  };
+  }
+
+  document.addEventListener('click', handleClick);
+  document.addEventListener('fullscreenchange', handleFullscreenChange);
+};
+
   
 
 if (typeof embedpressDocViewer.epDocumentsViewerController === "function") {
@@ -272,6 +240,7 @@ jQuery(window).on("elementor/frontend/init", function () {
 
     };
     elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_document.default", filterableGalleryHandler);
+    elementorFrontend.hooks.addAction("frontend/element_ready/embedpres_elementor.default", filterableGalleryHandler);
 });
 
 

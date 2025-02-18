@@ -89,6 +89,8 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
     /** inline {@inheritdoc} */
     protected $httpsSupport = true;
 
+    public $document_data = [];
+
     public function getAllowedParams()
     {
         return $this->allowedParams;
@@ -197,13 +199,6 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
         foreach ($this->document_data['body']['content'] as $element) {
             $html_content .= $this->render_element($element);
         }
-
-        // Render inline objects (images, etc.)
-        // if (isset($this->document_data['inlineObjects'])) {
-        //     foreach ($this->document_data['inlineObjects'] as $object_id => $inline_object) {
-        //         $html_content .= $this->render_inline_object($object_id, $inline_object);
-        //     }
-        // }
 
         // Render positioned objects
         $html_content .= $this->render_positioned_objects();
@@ -817,12 +812,12 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
 
             // Margin Top - Remove space before unit
             if (!empty($style['space_above'])) {
-                $css .= "    margin-top: " . str_replace(' ', '', $style['space_above']) . ";\n";
+                $css .= "    margin-top: " . str_replace(' ', '', $style['space_above'] ?? '') . ";\n";
             }
 
             // Margin Bottom - Remove space before unit
             if (!empty($style['space_below'])) {
-                $css .= "    margin-bottom: " . str_replace(' ', '', $style['space_below']) . ";\n";
+                $css .= "    margin-bottom: " . str_replace(' ', '', $style['space_below'] ?? '') . ";\n";
             }
 
             $css .= "}\n";
@@ -837,53 +832,55 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
 
         // Page margins
         $css .= "$selector {\n";
-        $css .= "    margin-top: " . str_replace(' ', '', $documentStyle['marginTop']) . ";\n";
-        $css .= "    margin-bottom: " . str_replace(' ', '', $documentStyle['marginBottom']) . ";\n";
-        $css .= "    margin-left: " . str_replace(' ', '', $documentStyle['marginLeft']) . ";\n";
-        $css .= "    margin-right: " . str_replace(' ', '', $documentStyle['marginRight']) . ";\n";
+        $css .= "    margin-top: " . str_replace(' ', '', $documentStyle['marginTop'] ?? '') . ";\n";
+        $css .= "    margin-bottom: " . str_replace(' ', '', $documentStyle['marginBottom'] ?? '') . ";\n";
+        $css .= "    margin-left: " . str_replace(' ', '', $documentStyle['marginLeft'] ?? '') . ";\n";
+        $css .= "    margin-right: " . str_replace(' ', '', $documentStyle['marginRight'] ?? '') . ";\n";
         $css .= "}\n";
 
         // Page size
         $css .= "$selector @page {\n";
-        $css .= "    size: " . str_replace(' ', '', $documentStyle['page_size']['width']) . " " . str_replace(' ', '', $documentStyle['page_size']['height']) . ";\n";
+        $css .= "    size: " . str_replace(' ', '', $documentStyle['page_size']['width'] ?? '') . " " . str_replace(' ', '', $documentStyle['page_size']['height'] ?? '') . ";\n";
         $css .= "}\n";
 
         // Named styles
-        foreach ($documentStyle['named_styles'] as $styleType => $style) {
-            $css .= "$selector .$styleType {\n";
+        if (isset($documentStyle['named_styles'])) {
+            foreach ($documentStyle['named_styles'] as $styleType => $style) {
+                $css .= "$selector .$styleType {\n";
 
-            if (!empty($style['font_size'])) {
-                $css .= "    font-size: " . str_replace(' ', '', $style['font_size']) . ";\n";
-            }
-            if (!empty($style['font_family'])) {
-                $css .= "    font-family: '{$style['font_family']}', sans-serif;\n";
-            }
-            if (!empty($style['bold'])) {
-                $css .= "    font-weight: bold;\n";
-            }
-            if (!empty($style['italic'])) {
-                $css .= "    font-style: italic;\n";
-            }
-            if (!empty($style['underline'])) {
-                $css .= "    text-decoration: underline;\n";
-            }
-            if (!empty($style['alignment'])) {
-                $align = strtolower($style['alignment']);
-                if ($align === 'start') $align = 'left';
-                if ($align === 'end') $align = 'right';
-                $css .= "    text-align: {$align};\n";
-            }
-            if (!empty($style['line_spacing'])) {
-                $css .= "    line-height: {$style['line_spacing']}%;\n";
-            }
-            if (!empty($style['space_above'])) {
-                $css .= "    margin-top: " . str_replace(' ', '', $style['space_above']) . ";\n";
-            }
-            if (!empty($style['space_below'])) {
-                $css .= "    margin-bottom: " . str_replace(' ', '', $style['space_below']) . ";\n";
-            }
+                if (!empty($style['font_size'])) {
+                    $css .= "    font-size: " . str_replace(' ', '', $style['font_size'] ?? '') . ";\n";
+                }
+                if (!empty($style['font_family'])) {
+                    $css .= "    font-family: '{$style['font_family']}', sans-serif;\n";
+                }
+                if (!empty($style['bold'])) {
+                    $css .= "    font-weight: bold;\n";
+                }
+                if (!empty($style['italic'])) {
+                    $css .= "    font-style: italic;\n";
+                }
+                if (!empty($style['underline'])) {
+                    $css .= "    text-decoration: underline;\n";
+                }
+                if (!empty($style['alignment'])) {
+                    $align = strtolower($style['alignment']);
+                    if ($align === 'start') $align = 'left';
+                    if ($align === 'end') $align = 'right';
+                    $css .= "    text-align: {$align};\n";
+                }
+                if (!empty($style['line_spacing'])) {
+                    $css .= "    line-height: {$style['line_spacing']}%;\n";
+                }
+                if (!empty($style['space_above'])) {
+                    $css .= "    margin-top: " . str_replace(' ', '', $style['space_above'] ?? '') . ";\n";
+                }
+                if (!empty($style['space_below'])) {
+                    $css .= "    margin-bottom: " . str_replace(' ', '', $style['space_below'] ?? '') . ";\n";
+                }
 
-            $css .= "}\n";
+                $css .= "}\n";
+            }
         }
 
         $css .= "</style>\n";
@@ -924,7 +921,7 @@ class GoogleDocs extends ProviderAdapter implements ProviderInterface
             case 'presentation':
                 // Convert the /pub to /embed if needed
                 if (preg_match('~/pub\?~i', $iframeSrc)) {
-                    $iframeSrc = str_replace('/pub?', '/embed?', $iframeSrc);
+                    $iframeSrc = str_replace('/pub?', '/embed?', $iframeSrc ?? '');
                 }
                 break;
 

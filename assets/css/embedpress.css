@@ -30,6 +30,12 @@
     height: auto;
 }
 
+.fullscreen-enabled .ose-google-docs {
+    width: 100% !important;
+    height: 100% !important;
+    background: white;
+}
+
 .ep-embed-content-wraper .ose-google-docs {
     text-align: left;
     overflow: auto;
