@@ -78,7 +78,7 @@ class Embedpress_Elementor extends Widget_Base
 			$handles[] = 'vimeo-player';	
 		}
 		$handles[] = 'embedpress-front';
-		$handles[] = 'embedpress_documents_viewer_script';
+		$handles[] = 'embedpress_google_docs_script';
 		
 		if (isset($handler_keys['enabled_ads']) && $handler_keys['enabled_ads'] === 'yes') {
 			$handles[] = 'embedpress-ads';
@@ -3939,6 +3939,10 @@ class Embedpress_Elementor extends Widget_Base
                     'embedpress_theme_mode' => 'custom',
                     'docViewer' => 'custom',
                 ],
+				// 'selector' => '{{WRAPPER}} .ep-file-download-option-masked::after',
+				// 'selectors' => [
+				// 	'{{WRAPPER}} .ep-file-download-option-masked::after, {{WRAPPER}} .ep-external-doc-icons' => 'background: {{VALUE}} !important;',
+				// ],
 			]
 		);
 
@@ -4504,12 +4508,62 @@ class Embedpress_Elementor extends Widget_Base
 		return $_settings;
 	}
 
+	public function generate_google_docs_typography_styles($settings) {
+		if ($settings['embedpress_pro_embeded_source'] !== 'google_docs') {
+			return;
+		}
+	
+		$typography_selectors = [
+			'google_docs_h1_typography' => 'h1',
+			'google_docs_h2_typography' => 'h2',
+			'google_docs_h3_typography' => 'h3',
+			'google_docs_h4_typography' => 'h4',
+			'google_docs_h5_typography' => 'h5',
+			'google_docs_h6_typography' => 'h6',
+			'google_docs_p_typography'  => 'p',
+			'google_docs_li_typography' => 'li',
+		];
+	
+		$custom_styles = '';
+	
+		foreach ($typography_selectors as $key => $tag) {
+			if (!empty($settings["{$key}_typography"]) && $settings["{$key}_typography"] === 'custom') {
+				
+				$font_family      = !empty($settings["{$key}_font_family"]) ? "font-family: '{$settings["{$key}_font_family"]}' !important;" : '';
+				$font_weight      = !empty($settings["{$key}_font_weight"]) ? "font-weight: {$settings["{$key}_font_weight"]} !important;" : '';
+				$text_transform   = !empty($settings["{$key}_text_transform"]) ? "text-transform: {$settings["{$key}_text_transform"]} !important;" : '';
+				$font_style       = !empty($settings["{$key}_font_style"]) ? "font-style: {$settings["{$key}_font_style"]} !important;" : '';
+				$text_decoration  = !empty($settings["{$key}_text_decoration"]) ? "text-decoration: {$settings["{$key}_text_decoration"]} !important;" : '';
+	
+				// Handle size-based properties
+				$font_size        = (!empty($settings["{$key}_font_size"]['size'])) ? 
+									"font-size: {$settings["{$key}_font_size"]['size']}{$settings["{$key}_font_size"]['unit']} !important;" : '';
+	
+				$line_height      = (!empty($settings["{$key}_line_height"]['size'])) ? 
+									"line-height: {$settings["{$key}_line_height"]['size']}{$settings["{$key}_line_height"]['unit']} !important;" : '';
+	
+				$letter_spacing   = (!empty($settings["{$key}_letter_spacing"]['size'])) ? 
+									"letter-spacing: {$settings["{$key}_letter_spacing"]['size']}{$settings["{$key}_letter_spacing"]['unit']} !important;" : '';
+	
+				$word_spacing     = (!empty($settings["{$key}_word_spacing"]['size'])) ? 
+									"word-spacing: {$settings["{$key}_word_spacing"]['size']}{$settings["{$key}_word_spacing"]['unit']} !important;" : '';
+	
+				$custom_styles .= ".ose-google-docs {$tag} { {$font_family} {$font_size} {$font_weight} {$text_transform} {$font_style} {$text_decoration} {$line_height} {$letter_spacing} {$word_spacing} }\n";
+			}
+		}
+	
+		if (!empty($custom_styles)) {
+			echo "<style>{$custom_styles}</style>";
+		}
+	}
+	
+
 	public function validUserAccountUrl($url){
         $pattern = '/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/(?:[a-zA-Z0-9_\.]+\/?)$/';
         return (bool) preg_match($pattern, $url);
     }
 
-    function validInstagramTagUrl($url) {
+    public function validInstagramTagUrl($url) {
         $pattern = '/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/explore\/tags\/[a-zA-Z0-9_\-]+\/?$/';
         return (bool) preg_match($pattern, $url);
     }
@@ -4748,7 +4802,7 @@ class Embedpress_Elementor extends Widget_Base
 						<?php echo $this->get_instafeed_carousel_options($settings); ?>>
 
 						<div id="ep-elementor-content-<?php echo esc_attr($client_id) ?>" 
-							class="ep-elementor-content 
+							class="ep-elementor-content <?php echo esc_attr($settings['embedpress_pro_embeded_source']); ?>
 							<?php 
 								if (!empty($settings['embedpress_content_share'])) : 
 									echo esc_attr('position-' . $settings['embedpress_content_share_position'] . '-wraper'); 
@@ -4763,6 +4817,15 @@ class Embedpress_Elementor extends Widget_Base
 								{
 									$is_masked = 'ep-file-download-option-masked ';
 								}
+
+								$is_custom_theme = '';
+
+								if ($settings['embedpress_theme_mode'] == 'custom') {
+									$custom_color = sanitize_text_field($settings['embedpress_doc_custom_color']);
+															
+									$is_custom_theme = 'data-custom-color="'.esc_attr($custom_color).'"';
+								}
+
 							?>
 							<div <?php echo $adsAtts; ?>>
 								<div id="<?php echo esc_attr($this->get_id()); ?>" 
@@ -4770,7 +4833,9 @@ class Embedpress_Elementor extends Widget_Base
 									<?php echo esc_attr($settings['custom_payer_preset']); ?>
 									<?php echo esc_attr($is_masked); ?>" 
 									<?php echo $data_player_id; ?> 
-									<?php echo $this->get_custom_player_options($settings); ?>>
+									<?php echo $this->get_custom_player_options($settings); ?>
+									<?php echo 'data-theme-mode="' . esc_attr($settings['embedpress_theme_mode']) . '"' . $is_custom_theme . ' data-id="' . esc_attr($this->get_id()) . '"'; ?>
+									>
 
 									<?php
 									$content_id = $client_id;
@@ -4832,12 +4897,16 @@ class Embedpress_Elementor extends Widget_Base
 
 										if ($settings['embedpress_protection_type'] == 'password') {
 											do_action('embedpress/display_password_form', $client_id, $content, $pass_hash_key, $embed_settings);
-
 										} else {
 											do_action('embedpress/content_protection_content', $client_id, $embed_settings['protectionMessage'],  $embed_settings['userRole']);
 										}
 									}
 									?>
+
+									<?php if($settings['embedpress_pro_embeded_source'] == 'google_docs'):
+										$settings = $this->get_settings_for_display();
+										$this->generate_google_docs_typography_styles($settings);
+									endif; ?>
 								</div>
 
 								<?php
@@ -4845,9 +4914,13 @@ class Embedpress_Elementor extends Widget_Base
 										$content = apply_filters('embedpress/generate_ad_template', $content, $client_id, $settings, 'elementor');
 									}
 								?>
+
+							
 							</div>
 						</div>
 					</div>
+
+					
 				</div>
 
 			<?php endif;?>

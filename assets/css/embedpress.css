@@ -35,11 +35,13 @@
     height: 100% !important;
     background: white;
     text-align: left;
+    padding: 20px;
 }
 
 .ep-embed-content-wraper .ose-google-docs {
     text-align: left;
     overflow: auto;
+    background-color: white;
 }
 
 .ep-embed-content-wraper .ose-google-docs ul {

@@ -113,6 +113,14 @@ class Handler extends EndHandlerAbstract
             true
         );
 
+        wp_register_script(
+            'embedpress_google_docs_script',
+            EMBEDPRESS_URL_ASSETS . 'js/google-docs.js',
+            ['jquery'],
+            EMBEDPRESS_PLUGIN_VERSION,
+            true
+        );
+
         
         wp_register_script(
             'cg-carousel',
