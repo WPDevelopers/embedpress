@@ -1649,11 +1649,12 @@ a.ep-social-icon.pinterest svg {
     position: absolute;
     width: 100%;
     height: 30px;
-    background: var(--viewer-primary-color);
+    /* background: var(--viewer-primary-color); */
     z-index: 1;
     bottom: 0;
     content: '';
     left: 0;
+    background-color: #f86c6c;
 }
 
 .ep-file-download-option-masked.ep-file-docx::after {
