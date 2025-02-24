@@ -115,7 +115,7 @@ embedpressDocViewer.epDocumentsViewerController = () => {
 
   function handleClick(event) {
 
-    console.log(event.target);
+    console.log(event.target.closest('.ep-doc-fullscreen-icon'));
 
     event.stopPropagation();
 
@@ -139,6 +139,7 @@ embedpressDocViewer.epDocumentsViewerController = () => {
     const minimizeIcon = event.target.closest('.ep-doc-minimize-icon, .ep-doc-minimize-icon svg, .ep-doc-minimize-icon path, .ep-doc-minimize-icon use');
     const fullscreenIcon = event.target.closest('.ep-doc-fullscreen-icon, .ep-doc-fullscreen-icon svg, .ep-doc-fullscreen-icon path, .ep-doc-fullscreen-icon use');
 
+    
     if (popupIcon) {
       window.open(fileUrl, '_blank');
     } else if (printIcon) {

@@ -1532,7 +1532,6 @@ a.ep-social-icon.pinterest svg {
     position: relative;
     width: 100%;
     height: 100%;
-    overflow: hidden;
 }
 
 .ep-file-download-option-masked .overlay {
@@ -1591,10 +1590,12 @@ a.ep-social-icon.pinterest svg {
     background: var(--viewer-primary-color);
     border-radius: 6px;
     z-index: 2;
-    bottom: -18px;
+    bottom: -60px;
     left: 50%;
     transform: translate(-50%, -50%);
-    padding: 0 10px;
+    width: 100%;
+    height: 40px;
+    justify-content: center;
 }
 
 .ep-external-doc-icons svg {
@@ -1638,8 +1639,11 @@ a.ep-social-icon.pinterest svg {
 
 .elementor .elementor-element.elementor-element .embedpress-document-embed .fullscreen-enabled iframe, .embedpress-document-embed .fullscreen-enabled iframe {
     width: 100% !important;
-    height: 100% !important;
+    height: calc(100% - 38px) !important;
+
 }
+
+
 
 .ep-file-download-option-masked.ep-file-link.fullscreen-enabled iframe {
     margin-left: 22%;
@@ -1649,12 +1653,19 @@ a.ep-social-icon.pinterest svg {
     position: absolute;
     width: 100%;
     height: 30px;
-    /* background: var(--viewer-primary-color); */
+    background: #000;
     z-index: 1;
     bottom: 0;
     content: '';
     left: 0;
-    background-color: #f86c6c;
+}
+
+.elementor .elementor-element.elementor-element .embedpress-document-embed .fullscreen-enabled.ep-file-download-option-masked::after {
+    bottom: 38px;
+}
+
+.elementor .elementor-element.elementor-element .embedpress-document-embed .fullscreen-enabled .ep-external-doc-icons {
+    bottom: 0;
 }
 
 .ep-file-download-option-masked.ep-file-docx::after {
