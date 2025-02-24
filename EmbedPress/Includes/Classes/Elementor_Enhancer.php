@@ -282,7 +282,8 @@ class Elementor_Enhancer {
 			}
 		}
 
-		$embedOptions = apply_filters('embedpress/elementor_enhancer_wistia_captions', $embedOptions, $setting);
+		$embedOptions = apply_filters('embedpress/elementor_enhancer_wistia_captions', $embedOptions, $setting, $pluginList);
+		$pluginList = apply_filters('embedpress/elementor_enhancer_wistia_pluginlist', $embedOptions, $setting, $pluginList);
 
 
 		// Rewind plugin

@@ -1199,24 +1199,6 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-
-
-		$this->add_control(
-			'embedpress_pro_wistia_captions_enabled_by_default',
-			[
-				'label'        => __('Captions Enabled By Default', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'no',
-				'condition'    => [
-					'embedpress_pro_embeded_source'  => 'wistia',
-					'embedpress_pro_wistia_captions' => 'yes'
-				],
-				'classes'     => $this->pro_class,
-			]
-		);
-
 		$this->add_control(
 			'embedpress_pro_wistia_player_options',
 			[
@@ -1262,46 +1244,62 @@ class Embedpress_Elementor extends Widget_Base
 
 
 
-		$this->add_control(
-			'embedpress_pro_wistia_resumable',
-			[
-				'label'        => __('Resumable', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'no',
-				'condition'    => [
-					'embedpress_pro_embeded_source' => 'wistia'
-				],
-			]
-		);
+		// $this->add_control(
+		// 	'embedpress_pro_wistia_resumable',
+		// 	[
+		// 		'label'        => __('Resumable', 'embedpress'),
+		// 		'type'         => Controls_Manager::SWITCHER,
+		// 		'label_block'  => false,
+		// 		'return_value' => 'yes',
+		// 		'default'      => 'no',
+		// 		'condition'    => [
+		// 			'embedpress_pro_embeded_source' => 'wistia'
+		// 		],
+		// 	]
+		// );
 
 
-		$this->add_control(
-			'embedpress_pro_wistia_focus',
-			[
-				'label'        => __('Focus', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'no',
-				'condition'    => [
-					'embedpress_pro_embeded_source' => 'wistia'
-				],
-			]
-		);
+		// $this->add_control(
+		// 	'embedpress_pro_wistia_focus',
+		// 	[
+		// 		'label'        => __('Focus', 'embedpress'),
+		// 		'type'         => Controls_Manager::SWITCHER,
+		// 		'label_block'  => false,
+		// 		'return_value' => 'yes',
+		// 		'default'      => 'no',
+		// 		'condition'    => [
+		// 			'embedpress_pro_embeded_source' => 'wistia'
+		// 		],
+		// 	]
+		// );
 
 		// --- Wistia PRO Controls --
 		$this->add_control(
 			'embedpress_pro_wistia_captions',
 			[
-				'label'        => sprintf(__('Closed Captions %s', 'embedpress'), $this->pro_text),
+				'label'        => sprintf(__('Captions %s', 'embedpress'), $this->pro_text),
 				'type'         => Controls_Manager::SWITCHER,
 				'label_block'  => false,
 				'return_value' => 'yes',
 				'default'      => 'no',
 				'condition'    => [
 					'embedpress_pro_embeded_source' => 'wistia'
+				],
+				'classes'     => $this->pro_class,
+			]
+		);
+
+		$this->add_control(
+			'embedpress_pro_wistia_captions_enabled_by_default',
+			[
+				'label'        => sprintf(__('Caption Enabled by Default', 'embedpress'), $this->pro_text),
+				'type'         => Controls_Manager::SWITCHER,
+				'label_block'  => false,
+				'return_value' => 'yes',
+				'default'      => 'no',
+				'condition'    => [
+					'embedpress_pro_embeded_source' => 'wistia',
+					'embedpress_pro_wistia_captions' => 'yes'
 				],
 				'classes'     => $this->pro_class,
 			]
@@ -1358,40 +1356,40 @@ class Embedpress_Elementor extends Widget_Base
 			]
 		);
 
-		$this->add_control(
-			'embedpress_pro_wistia_rewind',
-			[
-				'label'        => __('Rewind', 'embedpress'),
-				'type'         => Controls_Manager::SWITCHER,
-				'label_block'  => false,
-				'return_value' => 'yes',
-				'default'      => 'no',
-				'condition'    => [
-					'embedpress_pro_embeded_source' => 'wistia'
-				],
-			]
-		);
+		// $this->add_control(
+		// 	'embedpress_pro_wistia_rewind',
+		// 	[
+		// 		'label'        => __('Rewind', 'embedpress'),
+		// 		'type'         => Controls_Manager::SWITCHER,
+		// 		'label_block'  => false,
+		// 		'return_value' => 'yes',
+		// 		'default'      => 'no',
+		// 		'condition'    => [
+		// 			'embedpress_pro_embeded_source' => 'wistia'
+		// 		],
+		// 	]
+		// );
 
-		$this->add_control(
-			'embedpress_pro_wistia_rewind_time',
-			[
-				'label'     => __('Rewind time', 'embedpress'),
-				'type'      => Controls_Manager::SLIDER,
-				'default'   => [
-					'size' => 10,
-				],
-				'range'     => [
-					'px' => [
-						'min' => 1,
-						'max' => 100,
-					]
-				],
-				'condition' => [
-					'embedpress_pro_wistia_rewind'  => 'yes',
-					'embedpress_pro_embeded_source' => 'wistia'
-				],
-			]
-		);
+		// $this->add_control(
+		// 	'embedpress_pro_wistia_rewind_time',
+		// 	[
+		// 		'label'     => __('Rewind time', 'embedpress'),
+		// 		'type'      => Controls_Manager::SLIDER,
+		// 		'default'   => [
+		// 			'size' => 10,
+		// 		],
+		// 		'range'     => [
+		// 			'px' => [
+		// 				'min' => 1,
+		// 				'max' => 100,
+		// 			]
+		// 		],
+		// 		'condition' => [
+		// 			'embedpress_pro_wistia_rewind'  => 'yes',
+		// 			'embedpress_pro_embeded_source' => 'wistia'
+		// 		],
+		// 	]
+		// );
 		$this->init_branding_controls('wistia');
 	}
 	//End Wistia controls
