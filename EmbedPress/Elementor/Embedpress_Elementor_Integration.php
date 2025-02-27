@@ -342,8 +342,12 @@ class Embedpress_Elementor_Integration
                                         <h4>Share your feeling</h4>
                                         <div class="stars">
                                             ${[1, 2, 3, 4, 5].map(i => `
-                                                <svg width="20" height="18.667" viewBox="0 0 20 18.667" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#a)"><path d="m7.3 5.709-4.963.72-.087.017a.777.777 0 0 0-.343 1.309l3.595 3.499-.848 4.943-.009.087a.777.777 0 0 0 1.139.733l4.437-2.333 4.428 2.333.077.036a.777.777 0 0 0 1.053-.855l-.849-4.944 3.596-3.5.061-.067a.777.777 0 0 0-.493-1.259l-4.961-.72-2.218-4.495a.777.777 0 0 0-1.396 0z" fill="#B1B8C2"/></g><defs><clipPath id="a"><path fill="#fff" d="M.888 0h18.667v18.667H.888z"/></clipPath></defs></svg>
-
+                                                <svg class="star" data-rating="${i}" width="20" height="18.667" viewBox="0 0 20 18.667" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <g clip-path="url(#a)">
+                                                        <path d="m7.3 5.709-4.963.72-.087.017a.777.777 0 0 0-.343 1.309l3.595 3.499-.848 4.943-.009.087a.777.777 0 0 0 1.139.733l4.437-2.333 4.428 2.333.077.036a.777.777 0 0 0 1.053-.855l-.849-4.944 3.596-3.5.061-.067a.777.777 0 0 0-.493-1.259l-4.961-.72-2.218-4.495a.777.777 0 0 0-1.396 0z" fill="#B1B8C2"/>
+                                                    </g>
+                                                    <defs><clipPath id="a"><path fill="#fff" d="M.888 0h18.667v18.667H.888z"/></clipPath></defs>
+                                                </svg>
                                             `).join('')}
                                         </div>
                                     ` : `
@@ -370,6 +374,12 @@ class Embedpress_Elementor_Integration
 
                         // Insert upsell section after the targetNode
                         $(upsellHtml).insertAfter(targetNode);
+
+                         // Attach click event to stars AFTER they are added to the DOM
+                        $(".star").on("click", function () {
+                            let selectedRating = $(this).data("rating");
+                            handleRating(selectedRating);
+                        });
                     }
 
                     function addUpsellSection(node) {
@@ -413,7 +423,7 @@ class Embedpress_Elementor_Integration
                 window.handleRating = handleRating;
                 window.setMessage = setMessage;
             });
-            </script>
+        </script>
 
         <?php
     }
