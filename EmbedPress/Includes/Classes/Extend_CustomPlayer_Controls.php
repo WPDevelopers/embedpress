@@ -95,4 +95,6 @@ class Extend_CustomPlayer_Controls
 		);
 
 	}
+
+	
 }

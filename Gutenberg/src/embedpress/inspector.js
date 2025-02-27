@@ -16,6 +16,7 @@ import AdControl from '../common/ads-control';
 import CustomBranding from './InspectorControl/custombranding';
 import Spreaker from './InspectorControl/spreaker';
 import GooglePhotos from './InspectorControl/google-photos';
+import Upgrade from './Upgrade';
 
 /**
  * WordPress dependencies
@@ -104,6 +105,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
     return (
         !editingURL && embedHTML && (
             <InspectorControls>
+                <Upgrade />
                 {
                     !isOpensea && !isOpenseaSingle && (
                         <div className='embedpress-gutenberg-controls'>
@@ -263,8 +265,8 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                             <Youtube attributes={attributes} setAttributes={setAttributes} />
 
                             <SlefHosted attributes={attributes} setAttributes={setAttributes} />
-                            
-                            <Spreaker  attributes={attributes} setAttributes={setAttributes}/>
+
+                            <Spreaker attributes={attributes} setAttributes={setAttributes} />
 
 
                             <Wistia attributes={attributes} setAttributes={setAttributes} isWistiaVideo={isWistiaVideo} />

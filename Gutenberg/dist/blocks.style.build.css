@@ -1447,6 +1447,104 @@ button.skip-ad-button {
     padding: 8px;
     text-align: center;
     color: #888; }
+
+.plugin-rating {
+  font-family: system-ui;
+  padding: 15px;
+  padding-top: 0;
+  margin-top: -10px; }
+  .plugin-rating h4 {
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1d2939; }
+  .plugin-rating .stars {
+    display: -ms-flexbox;
+    display: flex;
+    gap: 5px;
+    margin-bottom: 20px; }
+    .plugin-rating .stars .star {
+      color: #b1b8c2;
+      cursor: pointer;
+      width: 20px;
+      height: 20px; }
+  .plugin-rating .tankyou-msg-container {
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    text-align: left;
+    background: -webkit-linear-gradient(268.68deg, #f5f3ff 1.12%, #ffffff 98.95%);
+    background: -o-linear-gradient(268.68deg, #f5f3ff 1.12%, #ffffff 98.95%);
+    background: linear-gradient(181.32deg, #f5f3ff 1.12%, #ffffff 98.95%);
+    border: 0.6px solid #f4efec;
+    position: relative;
+    margin-bottom: 12px; }
+    .plugin-rating .tankyou-msg-container span.close-icon {
+      position: absolute;
+      top: 8px;
+      right: 8px; }
+      .plugin-rating .tankyou-msg-container span.close-icon svg {
+        height: 12px;
+        width: 12px;
+        cursor: pointer; }
+    .plugin-rating .tankyou-msg-container span.undo-review {
+      color: #5b4e96;
+      font-weight: 400;
+      text-decoration: none;
+      cursor: pointer; }
+  .plugin-rating p.thank-you-message {
+    font-weight: 400;
+    color: #232c39;
+    margin-bottom: 8px;
+    font-size: 12px; }
+  .plugin-rating .chat-button {
+    background-color: #5b4e96;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    gap: 5px;
+    font-weight: 400;
+    width: 100%; }
+    .plugin-rating .chat-button svg {
+      width: 18px;
+      height: 18px; }
+    .plugin-rating .chat-button:hover {
+      background-color: #4b3293; }
+  .plugin-rating .upgrade-box {
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 8px;
+    text-align: left;
+    background: -webkit-linear-gradient(268.68deg, #fffbf8 1.12%, #ffffff 98.95%);
+    background: -o-linear-gradient(268.68deg, #fffbf8 1.12%, #ffffff 98.95%);
+    background: linear-gradient(181.32deg, #fffbf8 1.12%, #ffffff 98.95%);
+    border: 0.6px solid #f4efec; }
+    .plugin-rating .upgrade-box h5 {
+      font-size: 14px;
+      margin-top: 0;
+      margin-bottom: 10px;
+      color: #1d2939;
+      font-weight: 600; }
+    .plugin-rating .upgrade-box p {
+      font-size: 12px;
+      color: #232c39;
+      margin-bottom: 12px;
+      font-weight: 400; }
+    .plugin-rating .upgrade-box .upgrade-link {
+      color: #ec6e00;
+      font-weight: 400;
+      text-decoration: none; }
+      .plugin-rating .upgrade-box .upgrade-link:hover {
+        text-decoration: underline; }
 /**
  * #.# Common SCSS
  *
