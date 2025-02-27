@@ -141,135 +141,280 @@ class Embedpress_Elementor_Integration
     public function elementor_upsale() {
         ?>
         <style>
-            .embedpress-upsell-section {
-                background: #1e1e1e;
+            .elementor-panel .plugin-rating {
+                font-family: system-ui;
                 padding: 15px;
-                border-radius: 10px;
-                margin-top: 15px;
-                text-align: center;
-                color: white;
+                padding-top: 0;
             }
-    
-            .embedpress-upsell-section h4 {
+            
+            .elementor-panel .rating-chat-content {
+                border-radius: 4px;
+                border-width: 0.6px;
+                gap: 12px;
+                padding: 15px;
+                background-color: #FDFAFF;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                border: 0.6px solid #ECEFF5;
+                overflow: hidden;
+            }   
+
+            .rating-chat-content::after {
+                content: "";
+                position: absolute;
+                top: -65px;
+                right: -65px;
+                width: 120px;
+                height: 120px;
+                background: radial-gradient(circle, rgb(121 62 255 / 14%) 20%, transparent 70%);
+                border-radius: 50%;
+            }
+
+
+            /* .rating-chat-content::after{
+                content: '';
+                background: linear-gradient(175.54deg, rgba(81, 241, 255, 0.117) 19.13%, rgba(71, 58, 217, 0.132319) 22.57%, rgba(127, 22, 255, 0.2085) 39.66%, rgba(17, 1, 35, 0.3) 60.19%);
+                transform: rotate(60deg);
+                top: 0;
+                right: 0;
+                z-index: 1212;
+                width: 118.63550843535211px;
+                height: 208.14842708207777px;
+                position: absolute;
+                transform: rotate(60deg);
+                backdrop-filter: blur(20px);
+            } */
+
+
+            .elementor-panel .plugin-rating h4 {
+                font-size: 15px;
+                font-weight: 500;
+            }
+
+            .elementor-panel .plugin-rating .stars {
+                display: flex;
+                gap: 5px;
                 margin-bottom: 10px;
-                font-size: 16px;
             }
-    
-            .stars svg {
+
+            .elementor-panel .plugin-rating .stars .star {
+                color: #b1b8c2;
                 cursor: pointer;
-                margin: 0 3px;
-                transition: fill 0.3s ease;
+                width: 20px;
+                height: 20px;
             }
-    
-            .chat-button {
+
+            .elementor-panel .plugin-rating .tankyou-msg-container {
+                padding: 15px;
+                margin-top: 20px;
+                border-radius: 8px;
+                text-align: left;
+                background: linear-gradient(181.32deg, #f5f3ff 1.12%, #ffffff 98.95%);
+                border: 0.6px solid #f4efec;
+                position: relative;
+                margin-bottom: 12px;
+            }
+
+            .elementor-panel .plugin-rating .tankyou-msg-container span.close-icon {
+                position: absolute;
+                top: 8px;
+                right: 8px;
+            }
+
+            .elementor-panel .plugin-rating .tankyou-msg-container span.close-icon svg {
+                height: 12px;
+                width: 12px;
+                cursor: pointer;
+            }
+
+            .elementor-panel .plugin-rating .tankyou-msg-container span.undo-review {
+                color: #5b4e96;
+                font-weight: 400;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            .elementor-panel .plugin-rating p.thank-you-message {
+                font-weight: 400;
+                color: #232c39;
+                margin-bottom: 8px;
+                font-size: 12px;
+            }
+
+            .elementor-panel .plugin-rating .chat-button {
+                background-color: #5b4e96;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 12px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                background: #0073aa;
-                color: white;
-                border: none;
-                padding: 10px;
+                gap: 5px;
+                font-weight: 400;
                 width: 100%;
-                border-radius: 5px;
-                margin-top: 10px;
-                cursor: pointer;
+            }
+
+            .elementor-panel .plugin-rating .chat-button svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .elementor-panel .plugin-rating .chat-button:hover {
+                background-color: #4b3293;
+            }
+
+            .elementor-panel .plugin-rating .upgrade-box {
+                padding: 15px;
+                margin-top: 20px;
+                border-radius: 8px;
+                text-align: left;
+                background: linear-gradient(181.32deg, #fffbf8 1.12%, #ffffff 98.95%);
+                border: 0.6px solid #f4efec;
+            }
+
+            .elementor-panel .plugin-rating .upgrade-box h5 {
                 font-size: 14px;
-                transition: background 0.3s;
+                margin-top: 0;
+                margin-bottom: 10px;
+                color: #1d2939;
+                font-weight: 600;
             }
-    
-            .chat-button:hover {
-                background: #005a87;
+
+            .elementor-panel .plugin-rating .upgrade-box p {
+                font-size: 12px;
+                color: #232c39;
+                margin-bottom: 12px;
+                font-weight: 400;
+                line-height: 1.6;
             }
-    
-            .upgrade-box {
-                margin-top: 10px;
-                padding: 10px;
-                background: #2a2a2a;
-                border-radius: 5px;
-            }
-    
-            .upgrade-link {
-                display: block;
-                background: #ff4d4d;
-                color: white;
-                padding: 8px;
-                margin-top: 8px;
-                border-radius: 5px;
+
+            .elementor-panel .plugin-rating .upgrade-box .upgrade-link {
+                color: #ec6e00;
+                font-weight: 400;
                 text-decoration: none;
-                transition: background 0.3s;
             }
-    
-            .upgrade-link:hover {
-                background: #e03e3e;
+
+            .elementor-panel .plugin-rating .upgrade-box .upgrade-link:hover {
+                text-decoration: underline;
             }
+
         </style>
     
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 if (typeof jQuery === 'undefined') {
-                    console.error("jQuery is not loaded!");
+                    console.error("❌ jQuery is not loaded!");
                     return;
                 }
-                
+
                 jQuery(document).ready(function ($) {
-                console.log("jQuery is loaded and ready!");
+                    console.log("✅ jQuery is loaded and ready!");
 
-                function addUpsellSection(targetNode) {
-                    if (!targetNode) return;
+                    let message = ""; // Store the thank-you message state
+                    let rating = 0; // Store rating state
+                    let targetNode = null; // Store reference to the Elementor controls section
 
-                    if (!$(targetNode).find('.embedpress-upsell-section').length) {
-                        console.log("Elementor Panel Found!");
+                    function handleRating(selectedRating) {
+                        rating = selectedRating;
+                        message = `Thanks for rating ${rating} stars!`;
+                        renderUpsellSection();
+                    }
+
+                    function setMessage(value) {
+                        message = value;
+                        renderUpsellSection();
+                    }
+
+                    function renderUpsellSection() {
+                        if (!targetNode) return;
+
+                        // Remove previous upsell section
+                        $(".plugin-rating").remove();
 
                         let upsellHtml = `
-                            <div class="embedpress-upsell-section">
-                                <h4>⭐ Share Your Experience</h4>
-                                <div class="stars" id="embedpress-rating">
-                                    ${[...Array(5)].map((_, i) => `<svg class="star" data-rate="${i + 1}" width="18" height="18" viewBox="0 0 14 14" fill="#B1B8C2" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M4.80913 4.28162L1.08747 4.82121L1.02155 4.83462C0.921766 4.86111 0.830798 4.91361 0.757938 4.98676C0.685079 5.0599 0.632937 5.15107 0.606838 5.25096C0.580738 5.35085 0.581617 5.45588 0.609384 5.55531C0.637151 5.65475 0.690811 5.74504 0.764885 5.81695L3.46105 8.44137L2.82522 12.1485L2.81763 12.2126C2.81153 12.3158 2.83296 12.4188 2.87973 12.511C2.9265 12.6032 2.99694 12.6813 3.08383 12.7373C3.17072 12.7934 3.27094 12.8253 3.37422 12.8299C3.47751 12.8344 3.58015 12.8114 3.67163 12.7633L7.00013 11.0133L10.3211 12.7633L10.3794 12.7901C10.4757 12.828 10.5803 12.8397 10.6826 12.8238C10.7848 12.808 10.881 12.7652 10.9613 12.6999C11.0416 12.6345 11.103 12.5491 11.1394 12.4522C11.1757 12.3553 11.1856 12.2504 11.168 12.1485L10.5316 8.44137L13.229 5.81637L13.2745 5.76679C13.3395 5.68674 13.3821 5.59089 13.398 5.489C13.4139 5.38712 13.4025 5.28284 13.3649 5.1868C13.3274 5.09075 13.2651 5.00637 13.1843 4.94225C13.1036 4.87813 13.0073 4.83657 12.9052 4.82179L9.18355 4.28162L7.51989 0.909955C7.47175 0.812267 7.39722 0.730005 7.30475 0.672482C7.21227 0.61496 7.10554 0.584473 6.99663 0.584473C6.88773 0.584473 6.781 0.61496 6.68852 0.672482C6.59605 0.730005 6.52152 0.812267 6.47338 0.909955L4.80913 4.28162Z"/>
-                                    </svg>`).join('')}
+                            <div class="plugin-rating">
+                                <div class="rating-chat-content">
+                                    ${message === "" ? `
+                                        <h4>Share your feeling</h4>
+                                        <div class="stars">
+                                            ${[1, 2, 3, 4, 5].map(i => `
+                                                <svg width="20" height="18.667" viewBox="0 0 20 18.667" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#a)"><path d="m7.3 5.709-4.963.72-.087.017a.777.777 0 0 0-.343 1.309l3.595 3.499-.848 4.943-.009.087a.777.777 0 0 0 1.139.733l4.437-2.333 4.428 2.333.077.036a.777.777 0 0 0 1.053-.855l-.849-4.944 3.596-3.5.061-.067a.777.777 0 0 0-.493-1.259l-4.961-.72-2.218-4.495a.777.777 0 0 0-1.396 0z" fill="#B1B8C2"/></g><defs><clipPath id="a"><path fill="#fff" d="M.888 0h18.667v18.667H.888z"/></clipPath></defs></svg>
+
+                                            `).join('')}
+                                        </div>
+                                    ` : `
+                                        <div class="thank-you-msg-container">
+                                            <p class="thank-you-message">${message}</p>
+                                            <span class="undo-review" onclick="setMessage('')">Undo</span>
+                                            <span class="close-icon">
+                                                <svg onclick="setMessage('')" width="16" height="16" viewBox="0 0 0.48 0.48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M.106.106a.02.02 0 0 1 .028 0L.24.212.346.106a.02.02 0 1 1 .028.028L.268.24l.106.106a.02.02 0 0 1-.028.028L.24.268.134.374A.02.02 0 0 1 .106.346L.212.24.106.134a.02.02 0 0 1 0-.028" fill="#0D0D0D" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                    `}
+                                    <p>We are here to help</p>
+                                    <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="chat-button"><svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#a)" fill="#fff"><path d="M7.93.727H1.555C.97.727.5 1.198.5 1.782V6c0 .584.471 1.055 1.055 1.055h.351V8.11c0 .254.263.438.52.31.008-.008.022-.008.029-.015 1.934-1.297 1.5-1.008 1.933-1.294a.35.35 0 0 1 .19-.056H7.93c.583 0 1.054-.47 1.054-1.055V1.782c0-.584-.47-1.055-1.054-1.055M5.117 4.946h-2.86c-.463 0-.465-.703 0-.703h2.86c.464 0 .466.703 0 .703m2.11-1.406h-4.97c-.463 0-.465-.704 0-.704h4.97c.463 0 .465.704 0 .704" /><path d="M11.445 3.54H9.687V6c0 .97-.787 1.758-1.757 1.758H4.684l-.668.443v.612c0 .584.47 1.055 1.054 1.055h3.457l2.018 1.35c.276.153.549-.033.549-.296V9.868h.351c.584 0 1.055-.471 1.055-1.055V4.594c0-.583-.471-1.054-1.055-1.054" /></g><defs><clipPath id="a"><path fill="#fff" d="M.5 0h12v12H.5z" /></clipPath></defs></svg>Initiate Chat</a>
                                 </div>
-                                <button class="chat-button">💬 Initiate Chat</button>
                                 <div class="upgrade-box">
-                                    <h5>🚀 Want Advanced Features?</h5>
-                                    <p>Get more powerful widgets & extensions to elevate your Elementor website.</p>
+                                    <h5>Want Advanced Features?</h5>
+                                    <p>Get more powerful widgets & extensions to elevate your Elementor website</p>
                                     <a href="https://embedpress.com/#pricing" target="_blank" class="upgrade-link">Upgrade to PRO</a>
                                 </div>
                             </div>
                         `;
 
-                        $(targetNode).append(upsellHtml);
-                        console.log("Upsell section added!");
+                        // Insert upsell section after the targetNode
+                        $(upsellHtml).insertAfter(targetNode);
                     }
-                }
 
-                // **Using MutationObserver to detect when the element appears**
-                const observer = new MutationObserver((mutations) => {
-                    mutations.forEach((mutation) => {
-                        mutation.addedNodes.forEach((node) => {
-                            if ($(node).hasClass('elementor-control-embedpress_pro_section')) {
-                                console.log("✅ embedpress_pro_section detected!");
-                                addUpsellSection(node);
-                            }
+                    function addUpsellSection(node) {
+                        if (!node) return;
+
+                        targetNode = node; // Store reference to the correct node
+                        if (!$(".plugin-rating").length) {
+                            console.log("✅ Elementor Panel Found! Adding Upsell Section...");
+                            renderUpsellSection();
+                        }
+                    }
+
+                    // **Using MutationObserver to detect when the element appears**
+                    const observer = new MutationObserver((mutations) => {
+                        mutations.forEach((mutation) => {
+                            mutation.addedNodes.forEach((node) => {
+                                if ($(node).hasClass("elementor-controls-stack")) {
+                                    const elementorControls = node.querySelector("#elementor-controls");
+                                    if (elementorControls) {
+                                        addUpsellSection(elementorControls);
+                                    }
+                                }
+                            });
                         });
                     });
+
+                    // **Start observing Elementor panel for changes**
+                    const elementorPanel = document.querySelector(".elementor-panel");
+                    if (elementorPanel) {
+                        observer.observe(elementorPanel, {
+                            childList: true,
+                            subtree: true,
+                        });
+                        console.log("🔍 Observer started on Elementor Panel");
+                    } else {
+                        console.log("❌ Elementor panel not found, observer not started.");
+                    }
                 });
 
-                // **Start observing Elementor panel for changes**
-                const elementorPanel = document.querySelector('.elementor-panel');
-                if (elementorPanel) {
-                    observer.observe(elementorPanel, {
-                        childList: true,
-                        subtree: true
-                    });
-                    console.log("🔍 Observer started on Elementor Panel");
-                } else {
-                    console.log("❌ Elementor panel not found, observer not started.");
-                }
+                // Expose functions globally so `onclick` events work
+                window.handleRating = handleRating;
+                window.setMessage = setMessage;
             });
+            </script>
 
-
-            });
-        </script>
         <?php
     }
     
