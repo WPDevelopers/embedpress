@@ -1451,13 +1451,14 @@ button.skip-ad-button {
 .plugin-rating {
   font-family: system-ui;
   padding: 15px;
-  padding-top: 0;
-  margin-top: -10px; }
+  padding-top: 10px;
+  border-top: 1px solid #e0e0e0; }
   .plugin-rating h4 {
     margin-bottom: 8px;
     font-size: 15px;
     font-weight: 500;
-    color: #1d2939; }
+    color: #1d2939;
+    margin-top: 0; }
   .plugin-rating .stars {
     display: -ms-flexbox;
     display: flex;
@@ -1496,7 +1497,7 @@ button.skip-ad-button {
     font-weight: 400;
     color: #232c39;
     margin-bottom: 8px;
-    font-size: 12px; }
+    font-size: 14px; }
   .plugin-rating .chat-button {
     background-color: #5b4e96;
     color: white;

@@ -105,7 +105,6 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
     return (
         !editingURL && embedHTML && (
             <InspectorControls>
-                <Upgrade />
                 {
                     !isOpensea && !isOpenseaSingle && (
                         <div className='embedpress-gutenberg-controls'>
@@ -289,6 +288,8 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                 }
 
                 <OpenSea attributes={attributes} setAttributes={setAttributes} isOpensea={isOpensea} isOpenseaSingle={isOpenseaSingle} />
+
+                <Upgrade />
 
             </InspectorControls >
         )

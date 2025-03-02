@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const Upgrade = () => {
     const [rating, setRating] = useState(0);

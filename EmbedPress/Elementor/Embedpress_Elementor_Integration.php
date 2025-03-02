@@ -205,41 +205,45 @@ class Embedpress_Elementor_Integration
                 height: 20px;
             }
 
-            .elementor-panel .plugin-rating .tankyou-msg-container {
+            .elementor-panel .plugin-rating .thank-you-msg-container {
                 padding: 15px;
-                margin-top: 20px;
                 border-radius: 8px;
                 text-align: left;
                 background: linear-gradient(181.32deg, #f5f3ff 1.12%, #ffffff 98.95%);
                 border: 0.6px solid #f4efec;
                 position: relative;
-                margin-bottom: 12px;
             }
 
-            .elementor-panel .plugin-rating .tankyou-msg-container span.close-icon {
+            .elementor-panel .plugin-rating .thank-you-msg-container span.close-icon {
                 position: absolute;
                 top: 8px;
                 right: 8px;
             }
 
-            .elementor-panel .plugin-rating .tankyou-msg-container span.close-icon svg {
+            .elementor-panel .plugin-rating .thank-you-msg-container span.close-icon svg {
                 height: 12px;
                 width: 12px;
                 cursor: pointer;
             }
 
-            .elementor-panel .plugin-rating .tankyou-msg-container span.undo-review {
-                color: #5b4e96;
-                font-weight: 400;
-                text-decoration: none;
-                cursor: pointer;
-            }
+            /* .elementor-panel .plugin-rating .tankyou-msg-container span.close-icon {
+                position: absolute;
+                top: 8px;
+                right: 8px;
+            } */
 
-            .elementor-panel .plugin-rating p.thank-you-message {
+            .elementor-panel .plugin-rating .thank-you-msg-container p.thank-you-message {
                 font-weight: 400;
                 color: #232c39;
                 margin-bottom: 8px;
                 font-size: 12px;
+            }
+
+            .elementor-panel .plugin-rating .thank-you-msg-container span.undo-review {
+                color: #5b4e96;
+                font-weight: 400;
+                text-decoration: none;
+                cursor: pointer!important;
             }
 
             .elementor-panel .plugin-rating .chat-button {
@@ -319,9 +323,21 @@ class Embedpress_Elementor_Integration
                     let targetNode = null; // Store reference to the Elementor controls section
 
                     function handleRating(selectedRating) {
+
+                        console.log(selectedRating);
+                        
                         rating = selectedRating;
-                        message = `Thanks for rating ${rating} stars!`;
-                        renderUpsellSection();
+
+                        $(".star").each(function () {
+                            const starValue = $(this).data("rating");
+                            $(this).attr("fill", starValue <= rating ? "#FFD700" : "#B1B8C2"); // Gold for selected, Grey for unselected
+                        });
+
+                        // Delay message update by 2 seconds
+                        setTimeout(() => {
+                            message = `Thanks for rating ${rating} stars!`;
+                            renderUpsellSection();
+                        }, 2000);
                     }
 
                     function setMessage(value) {
@@ -332,8 +348,7 @@ class Embedpress_Elementor_Integration
                     function renderUpsellSection() {
                         if (!targetNode) return;
 
-                        // Remove previous upsell section
-                        $(".plugin-rating").remove();
+                        $(".plugin-rating").remove(); // Remove previous upsell section
 
                         let upsellHtml = `
                             <div class="plugin-rating">
@@ -344,7 +359,7 @@ class Embedpress_Elementor_Integration
                                             ${[1, 2, 3, 4, 5].map(i => `
                                                 <svg class="star" data-rating="${i}" width="20" height="18.667" viewBox="0 0 20 18.667" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <g clip-path="url(#a)">
-                                                        <path d="m7.3 5.709-4.963.72-.087.017a.777.777 0 0 0-.343 1.309l3.595 3.499-.848 4.943-.009.087a.777.777 0 0 0 1.139.733l4.437-2.333 4.428 2.333.077.036a.777.777 0 0 0 1.053-.855l-.849-4.944 3.596-3.5.061-.067a.777.777 0 0 0-.493-1.259l-4.961-.72-2.218-4.495a.777.777 0 0 0-1.396 0z" fill="#B1B8C2"/>
+                                                        <path d="m7.3 5.709-4.963.72-.087.017a.777.777 0 0 0-.343 1.309l3.595 3.499-.848 4.943-.009.087a.777.777 0 0 0 1.139.733l4.437-2.333 4.428 2.333.077.036a.777.777 0 0 0 1.053-.855l-.849-4.944 3.596-3.5.061-.067a.777.777 0 0 0-.493-1.259l-4.961-.72-2.218-4.495a.777.777 0 0 0-1.396 0z" fill="${i <= rating ? '#FFD700' : '#B1B8C2'}"/>
                                                     </g>
                                                     <defs><clipPath id="a"><path fill="#fff" d="M.888 0h18.667v18.667H.888z"/></clipPath></defs>
                                                 </svg>
@@ -353,16 +368,16 @@ class Embedpress_Elementor_Integration
                                     ` : `
                                         <div class="thank-you-msg-container">
                                             <p class="thank-you-message">${message}</p>
-                                            <span class="undo-review" onclick="setMessage('')">Undo</span>
+                                            <span class="undo-review">Undo</span>
                                             <span class="close-icon">
-                                                <svg onclick="setMessage('')" width="16" height="16" viewBox="0 0 0.48 0.48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <svg class="close-review" width="16" height="16" viewBox="0 0 0.48 0.48" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M.106.106a.02.02 0 0 1 .028 0L.24.212.346.106a.02.02 0 1 1 .028.028L.268.24l.106.106a.02.02 0 0 1-.028.028L.24.268.134.374A.02.02 0 0 1 .106.346L.212.24.106.134a.02.02 0 0 1 0-.028" fill="#0D0D0D" />
                                                 </svg>
                                             </span>
                                         </div>
                                     `}
                                     <p>We are here to help</p>
-                                    <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="chat-button"><svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#a)" fill="#fff"><path d="M7.93.727H1.555C.97.727.5 1.198.5 1.782V6c0 .584.471 1.055 1.055 1.055h.351V8.11c0 .254.263.438.52.31.008-.008.022-.008.029-.015 1.934-1.297 1.5-1.008 1.933-1.294a.35.35 0 0 1 .19-.056H7.93c.583 0 1.054-.47 1.054-1.055V1.782c0-.584-.47-1.055-1.054-1.055M5.117 4.946h-2.86c-.463 0-.465-.703 0-.703h2.86c.464 0 .466.703 0 .703m2.11-1.406h-4.97c-.463 0-.465-.704 0-.704h4.97c.463 0 .465.704 0 .704" /><path d="M11.445 3.54H9.687V6c0 .97-.787 1.758-1.757 1.758H4.684l-.668.443v.612c0 .584.47 1.055 1.054 1.055h3.457l2.018 1.35c.276.153.549-.033.549-.296V9.868h.351c.584 0 1.055-.471 1.055-1.055V4.594c0-.583-.471-1.054-1.055-1.054" /></g><defs><clipPath id="a"><path fill="#fff" d="M.5 0h12v12H.5z" /></clipPath></defs></svg>Initiate Chat</a>
+                                    <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="chat-button">Initiate Chat</a>
                                 </div>
                                 <div class="upgrade-box">
                                     <h5>Want Advanced Features?</h5>
@@ -372,13 +387,22 @@ class Embedpress_Elementor_Integration
                             </div>
                         `;
 
-                        // Insert upsell section after the targetNode
                         $(upsellHtml).insertAfter(targetNode);
 
-                         // Attach click event to stars AFTER they are added to the DOM
+                        // Attach click event to stars
                         $(".star").on("click", function () {
                             let selectedRating = $(this).data("rating");
                             handleRating(selectedRating);
+                        });
+
+                        // Attach undo event
+                        $(".undo-review").on("click", function () {
+                            setMessage(""); // Reset message
+                        });
+
+                        // Attach close event
+                        $(".close-review").on("click", function () {
+                            $(".thank-you-msg-container").remove(); // Remove the upsell section
                         });
                     }
 
@@ -392,7 +416,7 @@ class Embedpress_Elementor_Integration
                         }
                     }
 
-                    // **Using MutationObserver to detect when the element appears**
+                    // MutationObserver to detect Elementor panel changes
                     const observer = new MutationObserver((mutations) => {
                         mutations.forEach((mutation) => {
                             mutation.addedNodes.forEach((node) => {
@@ -406,7 +430,7 @@ class Embedpress_Elementor_Integration
                         });
                     });
 
-                    // **Start observing Elementor panel for changes**
+                    // Start observing Elementor panel for changes
                     const elementorPanel = document.querySelector(".elementor-panel");
                     if (elementorPanel) {
                         observer.observe(elementorPanel, {
@@ -419,10 +443,12 @@ class Embedpress_Elementor_Integration
                     }
                 });
 
-                // Expose functions globally so `onclick` events work
+                // Expose functions globally for event handlers
                 window.handleRating = handleRating;
                 window.setMessage = setMessage;
             });
+
+
         </script>
 
         <?php
