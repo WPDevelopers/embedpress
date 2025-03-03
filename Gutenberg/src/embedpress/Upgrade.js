@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 const Upgrade = () => {
     const [rating, setRating] = useState(0);
     const [message, setMessage] = useState("");
+    const [showForm, setShowForm] = useState(false);
 
     const [ratingClosed, setRatingClosed] = useState(() => localStorage.getItem("ratingClosed") === "true");
 
@@ -18,8 +19,9 @@ const Upgrade = () => {
         setRating(selectedRating);
 
         if (selectedRating < 5) {
-            setTimeout(() => setMessage("Thank you for your feedback!"), 1000 * 1);
-            setTimeout(() => setMessage(""), 1000 * 60);
+            // setTimeout(() => setMessage("Thank you for your feedback!"), 1000 * 1);
+            // setTimeout(() => setMessage(""), 1000 * 60);
+            setShowForm(true);
         } else {
             window.open("https://wordpress.org/support/plugin/embedpress/reviews/?filter=4#new-post", "_blank");
         }
@@ -28,7 +30,7 @@ const Upgrade = () => {
     return (
         <div className="plugin-rating">
             {
-                !message && (
+                !message && !showForm && (
                     <frameElement>
                         <h4>Share your feeling</h4>
                         <div className="stars">
@@ -52,6 +54,22 @@ const Upgrade = () => {
                 )
             }
 
+            {
+                showForm && (
+                    <div className="feedback-submit-container">
+                        <h5 className="help-message">Help us make it better!</h5>
+                        <p className="form-description">Description</p>
+                        <form onSubmit={() => console.log('hello world')}>
+                            <div className="form-group">
+                                <textarea placeholder="Describe your issue in details" type="text" rows={4} className="form-control"></textarea>
+                            </div>
+                            <div className="form-group">
+                                <button className="submit-button" type="submit">Send</button>
+                            </div>
+                        </form>
+                    </div>
+                )
+            }
             {message && (
                 <div className="tankyou-msg-container">
                     <p className="thank-you-message">{message}</p>

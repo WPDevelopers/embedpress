@@ -1469,26 +1469,85 @@ button.skip-ad-button {
       cursor: pointer;
       width: 20px;
       height: 20px; }
-  .plugin-rating .tankyou-msg-container {
-    padding: 15px;
+  .plugin-rating .tankyou-msg-container,
+  .plugin-rating .feedback-submit-container {
     margin-top: 20px;
     border-radius: 8px;
     text-align: left;
-    background: -webkit-linear-gradient(268.68deg, #f5f3ff 1.12%, #ffffff 98.95%);
-    background: -o-linear-gradient(268.68deg, #f5f3ff 1.12%, #ffffff 98.95%);
-    background: linear-gradient(181.32deg, #f5f3ff 1.12%, #ffffff 98.95%);
-    border: 0.6px solid #f4efec;
     position: relative;
-    margin-bottom: 12px; }
-    .plugin-rating .tankyou-msg-container span.close-icon {
+    margin-bottom: 25px; }
+    .plugin-rating .tankyou-msg-container textarea.form-control,
+    .plugin-rating .feedback-submit-container textarea.form-control {
+      width: 100%;
+      background: #fff;
+      outline: 1px solid #ebe1f2;
+      margin-bottom: 5px;
+      border: none; }
+      .plugin-rating .tankyou-msg-container textarea.form-control::-webkit-input-placeholder,
+      .plugin-rating .feedback-submit-container textarea.form-control::-webkit-input-placeholder {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 1.8;
+        color: #5f6c7f; }
+      .plugin-rating .tankyou-msg-container textarea.form-control::-moz-placeholder,
+      .plugin-rating .feedback-submit-container textarea.form-control::-moz-placeholder {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 1.8;
+        color: #5f6c7f; }
+      .plugin-rating .tankyou-msg-container textarea.form-control::-ms-input-placeholder,
+      .plugin-rating .feedback-submit-container textarea.form-control::-ms-input-placeholder {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 1.8;
+        color: #5f6c7f; }
+      .plugin-rating .tankyou-msg-container textarea.form-control::placeholder,
+      .plugin-rating .feedback-submit-container textarea.form-control::placeholder {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 1.8;
+        color: #5f6c7f; }
+    .plugin-rating .tankyou-msg-container textarea:focus,
+    .plugin-rating .feedback-submit-container textarea:focus {
+      outline-color: #5B4E96;
+      -webkit-box-shadow: none !important;
+              box-shadow: none !important;
+      outline: 1px solid #5B4E96; }
+    .plugin-rating .tankyou-msg-container .submit-button,
+    .plugin-rating .feedback-submit-container .submit-button {
+      border-radius: 4px;
+      border-width: 1px;
+      padding-top: 6px;
+      padding-right: 8px;
+      padding-bottom: 6px;
+      padding-left: 8px;
+      width: 100%;
+      border: 1px solid #5b4e96;
+      color: #5b4e96;
+      background: #fff; }
+    .plugin-rating .tankyou-msg-container .help-message,
+    .plugin-rating .feedback-submit-container .help-message {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 12px;
+      letter-spacing: 0%;
+      margin-bottom: 15px;
+      margin-top: 0; }
+    .plugin-rating .tankyou-msg-container p.form-description,
+    .plugin-rating .feedback-submit-container p.form-description {
+      font-size: 12px; }
+    .plugin-rating .tankyou-msg-container span.close-icon,
+    .plugin-rating .feedback-submit-container span.close-icon {
       position: absolute;
       top: 8px;
       right: 8px; }
-      .plugin-rating .tankyou-msg-container span.close-icon svg {
+      .plugin-rating .tankyou-msg-container span.close-icon svg,
+      .plugin-rating .feedback-submit-container span.close-icon svg {
         height: 12px;
         width: 12px;
         cursor: pointer; }
-    .plugin-rating .tankyou-msg-container span.undo-review {
+    .plugin-rating .tankyou-msg-container span.undo-review,
+    .plugin-rating .feedback-submit-container span.undo-review {
       color: #5b4e96;
       font-weight: 400;
       text-decoration: none;
