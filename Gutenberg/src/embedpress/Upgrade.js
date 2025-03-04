@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { select } from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 
 const Upgrade = () => {
-    const [rating, setRating] = useState(0);
-    const [message, setMessage] = useState("");
-    const [showForm, setShowForm] = useState(false);
-
     const [ratingClosed, setRatingClosed] = useState(() => localStorage.getItem("ratingClosed") === "true");
+    const [rating, setRating] = useState(0);
+    const [showForm, setShowForm] = useState(false);
+    const [message, setMessage] = useState("");
+
+    const textareaRef = useRef(null);
+
+    const currentUser = useSelect(select => select('core').getCurrentUser(), []);
 
     useEffect(() => {
         localStorage.setItem("ratingClosed", ratingClosed);
@@ -21,10 +26,46 @@ const Upgrade = () => {
         if (selectedRating < 5) {
             // setTimeout(() => setMessage("Thank you for your feedback!"), 1000 * 1);
             // setTimeout(() => setMessage(""), 1000 * 60);
+
             setShowForm(true);
+            setTimeout(() => {
+                if (textareaRef.current) {
+                    textareaRef.current.focus();
+                }
+            }, 0);
         } else {
             window.open("https://wordpress.org/support/plugin/embedpress/reviews/?filter=4#new-post", "_blank");
         }
+    };
+
+    const handleSubmit = (event) => {
+        event.preventDefault(); // Prevent the default form submission behavior
+
+        const formData = new FormData(event.target);
+        const data = {
+            name: currentUser.name,
+            email: currentUser.email,
+            rating: rating,
+            message: formData.get('message')
+        };
+
+        console.log({ data });
+
+        // Send the data using fetch or any other method
+        fetch('/your-api-endpoint', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     };
 
     return (
@@ -59,9 +100,9 @@ const Upgrade = () => {
                     <div className="feedback-submit-container">
                         <h5 className="help-message">Help us make it better!</h5>
                         <p className="form-description">Description</p>
-                        <form onSubmit={() => console.log('hello world')}>
+                        <form onSubmit={handleSubmit}>
                             <div className="form-group">
-                                <textarea placeholder="Describe your issue in details" type="text" rows={4} className="form-control"></textarea>
+                                <textarea name="message" ref={textareaRef} placeholder="Describe your issue in details" type="text" rows={4} className="form-control"></textarea>
                             </div>
                             <div className="form-group">
                                 <button className="submit-button" type="submit">Send</button>
