@@ -25,12 +25,37 @@ const Upgrade = () => {
         setRatingClosed(true);
     };
 
+    const sendFiveStarRating = () => {
+        const data = {
+            name: currentUser.display_name,
+            email: currentUser.user_email,
+            rating: '5',
+            message: ''
+        };
+
+        fetch('/wp-json/embedpress/v1/send-feedback', { // Updated API endpoint
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                setShowThank(true);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to send email.');
+            });
+    }
+
     const handleRating = (selectedRating) => {
         setRating(selectedRating);
 
         if (selectedRating < 5) {
-            // setTimeout(() => setMessage("Thank you for your feedback!"), 1000 * 1);
-            // setTimeout(() => setMessage(""), 1000 * 60);
+            setTimeout(() => setShowThank(false), 1000 * 5);
 
             setShowForm(true);
             setTimeout(() => {
@@ -39,10 +64,17 @@ const Upgrade = () => {
                 }
             }, 0);
         } else {
+            setShowThank(true);
             setShowRateButton(true);
-            // window.open("https://wordpress.org/support/plugin/embedpress/reviews/?filter=4#new-post", "_blank");
+            sendFiveStarRating();
+
+            setTimeout(() => setShowThank(false), 1000 * 10);
         }
     };
+
+    const handlFiveStarRating = () => {
+        window.open("https://wordpress.org/support/plugin/embedpress/reviews/?filter=4#new-post", "_blank");
+    }
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -77,7 +109,7 @@ const Upgrade = () => {
     return (
         <div className="plugin-rating">
             {
-                !message && !showForm && (
+                !message && !showForm && !showThank && (
                     <frameElement>
                         <h4>Share your feeling</h4>
                         <div className="stars">
@@ -124,7 +156,7 @@ const Upgrade = () => {
 
                     {
                         showRateButton && (
-                            <button className="submit-button" type="submit">
+                            <button className="rating-button" onClick={handlFiveStarRating}>
                                 Rate the plugin
                                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 2.083 6.25 5l-2.5 2.917" stroke="#5B4E96" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
                             </button>

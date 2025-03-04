@@ -1421,7 +1421,7 @@ button.skip-ad-button {
             outline: 1px solid #5b4e96;
         }
 
-        .submit-button {
+        .submit-button,  .rating-button{
             border-radius: 4px;
             border-width: 1px;
             padding: 8px;
@@ -1430,6 +1430,14 @@ button.skip-ad-button {
             color: #5b4e96;
             background: #fff;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            svg{
+                height: 18px;
+                width: 18px;
+            }
         }
 
         .help-message {
@@ -1468,7 +1476,7 @@ button.skip-ad-button {
     p.thank-you-message {
         font-weight: 400;
         color: #5f6c7f;
-        margin-bottom: 8px;
+        margin-bottom: 15px;
         font-size: 14px;
     }
     .chat-button {
