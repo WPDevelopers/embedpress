@@ -343,6 +343,12 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [4.2.0] – 2025-03-04 =
+- Added: Support for embedding Canva templates
+- Fixed: Google Album responsiveness issue on mobile devices
+- Improved: Instagram embedding.
+- Few minor bug fixes & improvements.
+
 = [4.1.10] – 2025-02-05 =
 - Added: Airtable Embedding Support.
 - Improved: Instagram Reel Embedding.
