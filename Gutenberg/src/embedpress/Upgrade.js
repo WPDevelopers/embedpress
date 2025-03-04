@@ -5,6 +5,9 @@ import { useSelect } from '@wordpress/data';
 const Upgrade = () => {
     const [ratingClosed, setRatingClosed] = useState(() => localStorage.getItem("ratingClosed") === "true");
     const [rating, setRating] = useState(0);
+    const [showThank, setShowThank] = useState(false);
+    const [showRateButton, setShowRateButton] = useState(false);
+
     const [showForm, setShowForm] = useState(false);
     const [message, setMessage] = useState("");
 
@@ -36,7 +39,8 @@ const Upgrade = () => {
                 }
             }, 0);
         } else {
-            window.open("https://wordpress.org/support/plugin/embedpress/reviews/?filter=4#new-post", "_blank");
+            setShowRateButton(true);
+            // window.open("https://wordpress.org/support/plugin/embedpress/reviews/?filter=4#new-post", "_blank");
         }
     };
 
@@ -61,7 +65,7 @@ const Upgrade = () => {
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
-                alert(data.message); // Show success message
+                setShowThank(true);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -98,7 +102,7 @@ const Upgrade = () => {
             }
 
             {
-                showForm && (
+                showForm && !showThank && (
                     <div className="feedback-submit-container">
                         <h5 className="help-message">Help us make it better!</h5>
                         <p className="form-description">Description</p>
@@ -113,13 +117,19 @@ const Upgrade = () => {
                     </div>
                 )
             }
-            {message && (
+            {showThank && (
                 <div className="tankyou-msg-container">
-                    <p className="thank-you-message">{message}</p>
-                    <span className="undo-review" onClick={() => setMessage("")}>Undo</span>
-                    <span className="close-icon">
-                        <svg onClick={() => setMessage("")} width="16" height="16" viewBox="0 0 0.48 0.48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M.106.106a.02.02 0 0 1 .028 0L.24.212.346.106a.02.02 0 1 1 .028.028L.268.24l.106.106a.02.02 0 0 1-.028.028L.24.268.134.374A.02.02 0 0 1 .106.346L.212.24.106.134a.02.02 0 0 1 0-.028" fill="#0D0D0D" /></svg>
-                    </span>
+                    <h5 className="help-message">Thanks for sharing!</h5>
+                    <p className="thank-you-message">We really appreciate you taking the time to share your thoughts with us. </p>
+
+                    {
+                        showRateButton && (
+                            <button className="submit-button" type="submit">
+                                Rate the plugin
+                                <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3.75 2.083 6.25 5l-2.5 2.917" stroke="#5B4E96" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                            </button>
+                        )
+                    }
                 </div>
             )}
             <p>We are here to help</p>

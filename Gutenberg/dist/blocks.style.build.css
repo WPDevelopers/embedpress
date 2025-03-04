@@ -1471,7 +1471,7 @@ button.skip-ad-button {
       height: 20px; }
   .plugin-rating .tankyou-msg-container,
   .plugin-rating .feedback-submit-container {
-    margin-top: 20px;
+    margin-top: 10px;
     border-radius: 8px;
     text-align: left;
     position: relative;
@@ -1509,10 +1509,10 @@ button.skip-ad-button {
         color: #5f6c7f; }
     .plugin-rating .tankyou-msg-container textarea:focus,
     .plugin-rating .feedback-submit-container textarea:focus {
-      outline-color: #5B4E96;
+      outline-color: #5b4e96;
       -webkit-box-shadow: none !important;
               box-shadow: none !important;
-      outline: 1px solid #5B4E96; }
+      outline: 1px solid #5b4e96; }
     .plugin-rating .tankyou-msg-container .submit-button,
     .plugin-rating .feedback-submit-container .submit-button {
       border-radius: 4px;
@@ -1525,7 +1525,7 @@ button.skip-ad-button {
       cursor: pointer; }
     .plugin-rating .tankyou-msg-container .help-message,
     .plugin-rating .feedback-submit-container .help-message {
-      font-weight: 400;
+      font-weight: 500;
       font-size: 14px;
       line-height: 12px;
       letter-spacing: 0%;
@@ -1552,7 +1552,7 @@ button.skip-ad-button {
       cursor: pointer; }
   .plugin-rating p.thank-you-message {
     font-weight: 400;
-    color: #232c39;
+    color: #5f6c7f;
     margin-bottom: 8px;
     font-size: 14px; }
   .plugin-rating .chat-button {

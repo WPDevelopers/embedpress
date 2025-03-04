@@ -1390,7 +1390,7 @@ button.skip-ad-button {
     .tankyou-msg-container,
     .feedback-submit-container {
         // padding: 15px;
-        margin-top: 20px;
+        margin-top: 10px;
         border-radius: 8px;
         text-align: left;
         // background: -webkit-linear-gradient(268.68deg, #f5f3ff 1.12%, #ffffff 98.95%);
@@ -1416,9 +1416,9 @@ button.skip-ad-button {
         }
 
         textarea:focus {
-            outline-color: #5B4E96;
-            box-shadow: none!important;
-            outline: 1px solid #5B4E96;
+            outline-color: #5b4e96;
+            box-shadow: none !important;
+            outline: 1px solid #5b4e96;
         }
 
         .submit-button {
@@ -1433,7 +1433,7 @@ button.skip-ad-button {
         }
 
         .help-message {
-            font-weight: 400;
+            font-weight: 500;
             font-size: 14px;
             line-height: 12px;
             letter-spacing: 0%;
@@ -1467,7 +1467,7 @@ button.skip-ad-button {
 
     p.thank-you-message {
         font-weight: 400;
-        color: #232c39;
+        color: #5f6c7f;
         margin-bottom: 8px;
         font-size: 14px;
     }

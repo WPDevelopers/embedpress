@@ -380,10 +380,15 @@ class Core {
         );
     }
 
-    public function send_user_feedback_email(WP_REST_Request $request) {
-        $params = $request->get_json_params();
-    
-        $to = 'admin@example.com'; // Replace with the recipient's email
+    public function send_user_feedback_email($params) {
+
+
+		$params = $params->get_params();
+
+        error_log(print_r($params, true));
+
+        
+        $to = 'linkon@wpdeveloper.com'; // Replace with the recipient's email
         $subject = 'New Feedback from ' . esc_html($params['name']);
         $message = "Name: " . esc_html($params['name']) . "\n";
         $message .= "Email: " . esc_html($params['email']) . "\n";
@@ -397,18 +402,18 @@ class Core {
     
         // Send the email
         $sent = wp_mail($to, $subject, $message, $headers);
-    
+
         if ($sent) {
-            return new WP_REST_Response(['message' => 'Email sent successfully!'], 200);
+            return new \WP_REST_Response(['message' => 'Email sent successfully!'], 200);
         } else {
-            return new WP_REST_Response(['message' => 'Failed to send email.'], 500);
+            return new \WP_REST_Response(['message' => 'Failed to send email.'], 500);
         }
     }
     
     public function register_feedback_email_endpoint() {
         register_rest_route('embedpress/v1', '/send-feedback', [
             'methods' => 'POST',
-            'callback' => 'send_user_feedback_email',
+            'callback' => [$this, 'send_user_feedback_email'],
             'permission_callback' => '__return_true'
         ]);
     }
