@@ -139,6 +139,8 @@ function embedpress_blocks_cgb_editor_assets()
 	endif;
 	$pars_url = wp_parse_url(get_site_url());
 	$documents_cta_options = (array) get_option(EMBEDPRESS_PLG_NAME . ':document');
+	$current_user = wp_get_current_user();
+
 	wp_localize_script('embedpress_blocks-cgb-block-js', 'embedpressObj', array(
 		'wistia_labels'  => $wistia_labels,
 		'wisita_options' => $wistia_options,
@@ -163,7 +165,8 @@ function embedpress_blocks_cgb_editor_assets()
 		'wistia_brand_logo_url' => get_branding_value('logo_url', 'wistia'),
 		'twitch_brand_logo_url' => get_branding_value('logo_url', 'twitch'),
 		'dailymotion_brand_logo_url' => get_branding_value('logo_url', 'dailymotion'),
-		'user_roles' => embedpress_get_user_roles()
+		'user_roles' => embedpress_get_user_roles(),
+		'current_user' => $current_user->data,
 
 	));
 

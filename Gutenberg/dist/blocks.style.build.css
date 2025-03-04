@@ -1521,7 +1521,8 @@ button.skip-ad-button {
       width: 100%;
       border: 1px solid #5b4e96;
       color: #5b4e96;
-      background: #fff; }
+      background: #fff;
+      cursor: pointer; }
     .plugin-rating .tankyou-msg-container .help-message,
     .plugin-rating .feedback-submit-container .help-message {
       font-weight: 400;

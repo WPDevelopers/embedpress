@@ -10,7 +10,9 @@ const Upgrade = () => {
 
     const textareaRef = useRef(null);
 
-    const currentUser = useSelect(select => select('core').getCurrentUser(), []);
+    const currentUser = embedpressObj.current_user || {};
+
+    console.log({ currentUser });
 
     useEffect(() => {
         localStorage.setItem("ratingClosed", ratingClosed);
@@ -39,20 +41,17 @@ const Upgrade = () => {
     };
 
     const handleSubmit = (event) => {
-        event.preventDefault(); // Prevent the default form submission behavior
+        event.preventDefault();
 
         const formData = new FormData(event.target);
         const data = {
-            name: currentUser.name,
-            email: currentUser.email,
+            name: currentUser.display_name,
+            email: currentUser.user_email,
             rating: rating,
             message: formData.get('message')
         };
 
-        console.log({ data });
-
-        // Send the data using fetch or any other method
-        fetch('/your-api-endpoint', {
+        fetch('/wp-json/embedpress/v1/send-feedback', { // Updated API endpoint
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -62,11 +61,14 @@ const Upgrade = () => {
             .then(response => response.json())
             .then(data => {
                 console.log('Success:', data);
+                alert(data.message); // Show success message
             })
-            .catch((error) => {
+            .catch(error => {
                 console.error('Error:', error);
+                alert('Failed to send email.');
             });
     };
+
 
     return (
         <div className="plugin-rating">

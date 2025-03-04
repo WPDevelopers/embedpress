@@ -126,6 +126,8 @@ class Core {
         global $wp_actions;
         add_filter('oembed_providers', [$this, 'addOEmbedProviders']);
         add_action('rest_api_init', [$this, 'registerOEmbedRestRoutes']);
+        add_action('rest_api_init', [$this, 'register_feedback_email_endpoint']);
+
 
         $this->start_plugin_tracking();
 
@@ -377,6 +379,41 @@ class Core {
             ]
         );
     }
+
+    public function send_user_feedback_email(WP_REST_Request $request) {
+        $params = $request->get_json_params();
+    
+        $to = 'admin@example.com'; // Replace with the recipient's email
+        $subject = 'New Feedback from ' . esc_html($params['name']);
+        $message = "Name: " . esc_html($params['name']) . "\n";
+        $message .= "Email: " . esc_html($params['email']) . "\n";
+        $message .= "Rating: " . esc_html($params['rating']) . "\n";
+        $message .= "Message:\n" . esc_html($params['message']) . "\n";
+    
+        $headers = [
+            'Content-Type: text/plain; charset=UTF-8',
+            'From: ' . esc_html($params['name']) . ' <' . esc_html($params['email']) . '>'
+        ];
+    
+        // Send the email
+        $sent = wp_mail($to, $subject, $message, $headers);
+    
+        if ($sent) {
+            return new WP_REST_Response(['message' => 'Email sent successfully!'], 200);
+        } else {
+            return new WP_REST_Response(['message' => 'Failed to send email.'], 500);
+        }
+    }
+    
+    public function register_feedback_email_endpoint() {
+        register_rest_route('embedpress/v1', '/send-feedback', [
+            'methods' => 'POST',
+            'callback' => 'send_user_feedback_email',
+            'permission_callback' => '__return_true'
+        ]);
+    }
+    
+    
 
     /**
      * Callback called right after the plugin has been activated.
