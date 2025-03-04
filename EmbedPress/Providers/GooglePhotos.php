@@ -14,7 +14,8 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
     protected static $hosts = ["photos.app.goo.gl", "photos.google.com"];
     private $player_js = "https://cdn.jsdelivr.net/npm/publicalbum@latest/embed-ui.min.js";
     private $min_expiration = 60;
-    private $allowed_url_patttern = "/^https:\/\/photos\.app\.goo\.gl\/|^https:\/\/photos\.google\.com\/share\//";
+    private $allowed_url_patttern = "/^https:\/\/photos\.app\.goo\.gl\/|^https:\/\/photos\.google\.com(?:\/u\/\d+)?\/share\//";
+
     static public $name = "google-photos-album";
 
     /** @var array Array with allowed params for the current Provider */
@@ -148,7 +149,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
                 $props->width === 0 ? '100%' : ($props->width . 'px'),
                 $props->height === 0 ? '100%' : ($props->height . 'px')
             );
-            
+
 
             $items_code = '';
             foreach ($photos as $photo) {
@@ -160,7 +161,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
                 'data-link' => $props->link,
                 'data-found' => count($photos),
                 'data-title' => $title,
-                'data-mediaitems-aspect-ratio' => $props->mediaitemsAspectRatio, 
+                'data-mediaitems-aspect-ratio' => $props->mediaitemsAspectRatio,
                 'data-mediaitems-enlarge' => $props->mediaitemsEnlarge,
                 'data-mediaitems-stretch' => $props->mediaitemsStretch,
                 'data-mediaitems-cover' => $props->mediaitemsCover,
@@ -219,11 +220,11 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $width = isset($this->config['maxwidth']) ? $this->config['maxwidth'] : 600;
         $height = isset($this->config['maxheight']) ? $this->config['maxheight'] : 450;
 
-        if(isset($params['google_photos_width'])){
+        if (isset($params['google_photos_width'])) {
             $this->config['maxwidth'] = $params['google_photos_width'];
             $width = $params['google_photos_width'];
         }
-        if(isset($params['google_photos_height'])){
+        if (isset($params['google_photos_height'])) {
             $this->config['maxwidth'] = $params['google_photos_height'];
             $height = $params['google_photos_height'];
         }
