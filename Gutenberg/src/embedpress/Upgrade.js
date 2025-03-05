@@ -14,12 +14,8 @@ const Upgrade = () => {
     const textareaRef = useRef(null);
 
     const currentUser = embedpressObj.current_user || {};
+    const isProPluginActive = embedpressObj.is_pro_plugin_active;
 
-    console.log({ currentUser });
-
-    useEffect(() => {
-        localStorage.setItem("ratingClosed", ratingClosed);
-    }, [ratingClosed]);
 
     const handleCloseRating = () => {
         setRatingClosed(true);
@@ -55,7 +51,12 @@ const Upgrade = () => {
         setRating(selectedRating);
 
         if (selectedRating < 5) {
-            setTimeout(() => setShowThank(false), 1000 * 5);
+            setTimeout(() => {
+                setShowThank(false);
+                localStorage.setItem("ratingClosed", true);
+            }, 1000 * 10);
+
+            console.log({ selectedRating });
 
             setShowForm(true);
             setTimeout(() => {
@@ -68,7 +69,10 @@ const Upgrade = () => {
             setShowRateButton(true);
             sendFiveStarRating();
 
-            setTimeout(() => setShowThank(false), 1000 * 10);
+            setTimeout(() => {
+                setShowThank(false);
+                localStorage.setItem("ratingClosed", true);
+            }, 1000 * 60);
         }
     };
 
@@ -109,7 +113,7 @@ const Upgrade = () => {
     return (
         <div className="plugin-rating">
             {
-                !message && !showForm && !showThank && (
+                !showForm && !showThank && !ratingClosed && (
                     <frameElement>
                         <h4>Share your feeling</h4>
                         <div className="stars">
@@ -134,7 +138,7 @@ const Upgrade = () => {
             }
 
             {
-                showForm && !showThank && (
+                showForm && !showThank && !ratingClosed && (
                     <div className="feedback-submit-container">
                         <h5 className="help-message">Help us make it better!</h5>
                         <p className="form-description">Description</p>
@@ -149,7 +153,7 @@ const Upgrade = () => {
                     </div>
                 )
             }
-            {showThank && (
+            {showThank && !ratingClosed && (
                 <div className="tankyou-msg-container">
                     <h5 className="help-message">Thanks for sharing!</h5>
                     <p className="thank-you-message">We really appreciate you taking the time to share your thoughts with us. </p>
@@ -166,11 +170,17 @@ const Upgrade = () => {
             )}
             <p>We are here to help</p>
             <button className="chat-button"><svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#a)" fill="#fff"><path d="M7.93.727H1.555C.97.727.5 1.198.5 1.782V6c0 .584.471 1.055 1.055 1.055h.351V8.11c0 .254.263.438.52.31.008-.008.022-.008.029-.015 1.934-1.297 1.5-1.008 1.933-1.294a.35.35 0 0 1 .19-.056H7.93c.583 0 1.054-.47 1.054-1.055V1.782c0-.584-.47-1.055-1.054-1.055M5.117 4.946h-2.86c-.463 0-.465-.703 0-.703h2.86c.464 0 .466.703 0 .703m2.11-1.406h-4.97c-.463 0-.465-.704 0-.704h4.97c.463 0 .465.704 0 .704" /><path d="M11.445 3.54H9.687V6c0 .97-.787 1.758-1.757 1.758H4.684l-.668.443v.612c0 .584.47 1.055 1.054 1.055h3.457l2.018 1.35c.276.153.549-.033.549-.296V9.868h.351c.584 0 1.055-.471 1.055-1.055V4.594c0-.583-.471-1.054-1.055-1.054" /></g><defs><clipPath id="a"><path fill="#fff" d="M.5 0h12v12H.5z" /></clipPath></defs></svg>Initiate Chat</button>
-            <div className="upgrade-box">
-                <h5>Want Advanced Features?</h5>
-                <p>Get more powerful widgets & extensions to elevate your Elementor website</p>
-                <a href="https://embedpress.com/#pricing" target="_blank" className="upgrade-link">Upgrade to PRO</a>
-            </div>
+
+            {
+                !isProPluginActive && (
+                    <div className="upgrade-box">
+                        <h5>Want Advanced Features?</h5>
+                        <p>Get more powerful widgets & extensions to elevate your Elementor website</p>
+                        <a href="https://embedpress.com/#pricing" target="_blank" className="upgrade-link">Upgrade to PRO</a>
+                    </div>
+                )
+            }
+
         </div>
     );
 };
