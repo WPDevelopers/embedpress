@@ -1359,3 +1359,26 @@ button.skip-ad-button {
         color: #888;
     }
 }
+
+
+
+@media screen and (max-width: 991px) {
+    .ose-google-photos, .ose-google-photos div, .ose-google-photos iframe {
+        height: 350px !important;
+        max-height: 350px !important;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .ose-google-photos, .ose-google-photos div, .ose-google-photos iframe {
+        height: 250px !important;
+        max-height: 250px !important;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .ose-google-photos, .ose-google-photos div, .ose-google-photos iframe {
+        height: 200px !important;
+        max-height: 200px !important;
+    }
+}

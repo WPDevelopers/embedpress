@@ -64,7 +64,6 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         }
 
 
-
         $props = $this->create_default_attr();
         $props->link = $link;
         $props->width = $width;
@@ -75,10 +74,6 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
         $props->slideshowAutoplay = $playerAutoplay;
         $props->slideshowDelay = $delay;
         $props->repeat = $repeat;
-        $props->mediaitemsAspectRatio = $aspectRatio;
-        $props->mediaitemsEnlarge = $enlarge;
-        $props->mediaitemsStretch = $stretch;
-        $props->mediaitemsCover = $cover;
         $props->backgroundColor = $backgroundColor;
 
         return $this->get_html($props, $expiration);
@@ -161,10 +156,10 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
                 'data-link' => $props->link,
                 'data-found' => count($photos),
                 'data-title' => $title,
-                'data-mediaitems-aspect-ratio' => $props->mediaitemsAspectRatio,
-                'data-mediaitems-enlarge' => $props->mediaitemsEnlarge,
-                'data-mediaitems-stretch' => $props->mediaitemsStretch,
-                'data-mediaitems-cover' => $props->mediaitemsCover,
+                'data-mediaitems-aspect-ratio' => '',
+                'data-mediaitems-enlarge' => '',
+                'data-mediaitems-stretch' => '',
+                'data-mediaitems-cover' => '',
                 'data-background-color' => $props->backgroundColor,
             ];
 
