@@ -133,7 +133,6 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
 
     private function get_embed_google_photos_html($props)
     {
-
         if ($contents = $this->get_remote_contents($props->link)) {
             $og = $this->parse_ogtags($contents);
             $title = $og['og:title'] ?? null;
@@ -145,11 +144,28 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
                 $props->height === 0 ? '100%' : ($props->height . 'px')
             );
 
-
             $items_code = '';
-            foreach ($photos as $photo) {
-                $src = sprintf('%s=w%d-h%d', $photo, $props->imageWidth, $props->imageHeight);
-                $items_code .= sprintf('<object data="%s"></object>', esc_url($src));
+
+            if (true) {
+                $items_code .= sprintf('<div class="photos-%s">', esc_attr($props->mode));
+
+                foreach ($photos as $photo) {
+                    $src = sprintf('%s=w%d-h%d', $photo, $props->imageWidth, $props->imageHeight);
+                    $items_code .= sprintf('<div class="photo-item"><img src="%s" loading="lazy" alt="Photo"/></div>', esc_url($src));
+                }
+
+                $items_code .= '</div>';
+
+                return sprintf(
+                    "<div class=\"google-photos-%s-widget\">%s</div>\n",
+                    esc_attr($props->mode),
+                    $items_code
+                );
+            } else {
+                foreach ($photos as $photo) {
+                    $src = sprintf('%s=w%d-h%d', $photo, $props->imageWidth, $props->imageHeight);
+                    $items_code .= sprintf('<object data="%s"></object>', esc_url($src));
+                }
             }
 
             $attributes = [
@@ -163,7 +179,6 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
                 'data-background-color' => $props->backgroundColor,
             ];
 
-
             // Apply filter to allow modification of attributes
             $attributes = apply_filters('embedpress_google_photos_attributes', $attributes, $props);
 
@@ -176,7 +191,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
 
             return sprintf(
                 "<div class=\"pa-%s-widget\" style=\"%s\"%s>%s</div>\n",
-                $props->mode,
+                esc_attr($props->mode),
                 $style,
                 $attributes_string,
                 $items_code
