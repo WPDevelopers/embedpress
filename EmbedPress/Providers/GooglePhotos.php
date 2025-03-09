@@ -142,7 +142,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             $style = sprintf(
                 'display: none; width: %s; height: %s; max-width: 100%%;',
                 $props->width === 0 ? '100%' : ($props->width . 'px'),
-                $props->height === 0 ? '100%' : ($props->height . 'px')
+                $props->height === 0 ? '100%' : ('100%')
             );
 
 
@@ -156,7 +156,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
                 'data-link' => $props->link,
                 'data-found' => count($photos),
                 'data-title' => $title,
-                'data-mediaitems-aspect-ratio' => '',
+                'data-mediaitems-aspect-ratio' => true,
                 'data-mediaitems-enlarge' => '',
                 'data-mediaitems-stretch' => '',
                 'data-mediaitems-cover' => '',
