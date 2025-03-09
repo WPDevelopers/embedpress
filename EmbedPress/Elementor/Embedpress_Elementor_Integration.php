@@ -154,10 +154,12 @@ class Embedpress_Elementor_Integration
                 gap: 12px;
                 padding: 15px;
                 background-color: #FDFAFF;
+                background-color: #1A1C1F;
                 position: relative;
                 display: flex;
                 flex-direction: column;
                 border: 0.6px solid #ECEFF5;
+                border: 0.6px solid #272A2F;
                 overflow: hidden;
             }
 
@@ -197,10 +199,12 @@ class Embedpress_Elementor_Integration
                 display: flex;
                 gap: 5px;
                 margin-bottom: 10px;
+                color: #FFFFFF;
             }
 
             .elementor-panel .plugin-rating .stars .star {
                 color: #b1b8c2;
+                color: #676D76;
                 cursor: pointer;
                 width: 20px;
                 height: 20px;
@@ -278,7 +282,9 @@ class Embedpress_Elementor_Integration
                 border-radius: 8px;
                 text-align: left;
                 background: linear-gradient(181.32deg, #fffbf8 1.12%, #ffffff 98.95%);
+                background: linear-gradient(181.32deg, #1F2023 1.12%, #18191B 98.95%);
                 border: 0.6px solid #f4efec;
+                border: 0.6px solid #272A2F
             }
 
             .elementor-panel .plugin-rating .upgrade-box h5 {
@@ -286,12 +292,15 @@ class Embedpress_Elementor_Integration
                 margin-top: 0;
                 margin-bottom: 10px;
                 color: #1d2939;
+                color: #fff;
                 font-weight: 600;
             }
 
             .elementor-panel .plugin-rating .upgrade-box p {
                 font-size: 12px;
                 color: #232c39;
+                color: #CBCBD0;
+
                 margin-bottom: 12px;
                 font-weight: 400;
                 line-height: 1.6;
@@ -376,6 +385,7 @@ class Embedpress_Elementor_Integration
                 margin-bottom: 10px;
                 margin-top: 0;
                 color: #0C0D0E;
+                color: #ffffff;
             }
 
             .elementor-panel p.form-description {
@@ -383,6 +393,7 @@ class Embedpress_Elementor_Integration
                 margin-bottom: 10px;
                 font-family: system-ui;
                 color: #0D0E0F;
+                color: #CBCBD0;
             }
 
             .elementor-panel span.close-icon {
@@ -407,7 +418,7 @@ class Embedpress_Elementor_Integration
             .elementor-panel p.thank-you-message {
                 font-weight: 400;
                 color: #5f6c7f;
-                margin-bottom: 15px;
+                color: #CBCBD0;
                 font-size: 14px;
                 line-height: 1.6;
             }
@@ -426,6 +437,12 @@ class Embedpress_Elementor_Integration
                 gap: 5px;
                 font-weight: 400;
                 width: 100%;
+            }
+
+            .elementor-panel .chat-button {
+                background-color: transparent;
+                border: 1px solid #5B4E96;
+                color: #fff;
             }
 
             .elementor-panel .chat-button svg {
