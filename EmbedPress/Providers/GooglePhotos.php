@@ -152,6 +152,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
                 foreach ($photos as $photo) {
                     $src = sprintf('%s=w%d-h%d', $photo, $props->imageWidth, $props->imageHeight);
                     $items_code .= sprintf('<div class="photo-item" id="photo-'.md5($src).'"><img src="%s" loading="lazy" alt="Photo"/></div>', esc_url($src));
+
                 }
 
                 $items_code .= '</div>';

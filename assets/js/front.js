@@ -1401,3 +1401,12 @@ jQuery(document).ready(function () {
         pauseAllExcept(jQuery(this));
     });
 });
+
+
+//Leon scripts
+
+const photoItems = document.querySelectorAll('.photo-item')
+
+photoItems.forEach((photoItem) => {
+    
+})
