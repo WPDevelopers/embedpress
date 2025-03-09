@@ -138,7 +138,8 @@ class Embedpress_Elementor_Integration
         return $providers;
     }
 
-    public function elementor_upsale() {
+    public function elementor_upsale()
+    {
         ?>
         <style>
             .elementor-panel .plugin-rating {
@@ -146,7 +147,7 @@ class Embedpress_Elementor_Integration
                 padding: 15px;
                 padding-top: 0;
             }
-            
+
             .elementor-panel .rating-chat-content {
                 border-radius: 4px;
                 border-width: 0.6px;
@@ -158,7 +159,7 @@ class Embedpress_Elementor_Integration
                 flex-direction: column;
                 border: 0.6px solid #ECEFF5;
                 overflow: hidden;
-            }   
+            }
 
             .rating-chat-content::after {
                 content: "";
@@ -226,7 +227,7 @@ class Embedpress_Elementor_Integration
                 cursor: pointer;
             }
 
-            /* .elementor-panel .plugin-rating .tankyou-msg-container span.close-icon {
+            /* .elementor-panel .plugin-rating .thankyou-msg-container span.close-icon {
                 position: absolute;
                 top: 8px;
                 right: 8px;
@@ -243,7 +244,7 @@ class Embedpress_Elementor_Integration
                 color: #5b4e96;
                 font-weight: 400;
                 text-decoration: none;
-                cursor: pointer!important;
+                cursor: pointer !important;
             }
 
             .elementor-panel .plugin-rating .chat-button {
@@ -306,38 +307,177 @@ class Embedpress_Elementor_Integration
                 text-decoration: underline;
             }
 
+
+
+            .elementor-panel .thankyou-msg-container,
+            .elementor-panel .feedback-submit-container {
+                border-radius: 8px;
+                text-align: left;
+                position: relative;
+                margin-bottom: 10px;
+            }
+
+            .elementor-panel .thankyou-msg-container textarea.form-control,
+            .elementor-panel .feedback-submit-container textarea.form-control {
+                width: 100%;
+                background: #fff;
+                outline: 1px solid #ebe1f2;
+                margin-bottom: 10px;
+                border: none;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 1.6;
+                font-family: system-ui;
+                padding: 4px 8px;
+            }
+
+            .elementor-panel .thankyou-msg-container textarea.form-control::placeholder,
+            .elementor-panel .feedback-submit-container textarea.form-control::placeholder {
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 1.6;
+                color: #5f6c7f;
+                font-family: system-ui;
+            }
+
+            .elementor-panel .thankyou-msg-container textarea:focus,
+            .elementor-panel .feedback-submit-container textarea:focus {
+                outline-color: #5b4e96;
+                box-shadow: none !important;
+                outline: 1px solid #5b4e96;
+            }
+
+            .elementor-panel .submit-button,
+            .elementor-panel .rating-button {
+                border-radius: 4px;
+                border-width: 1px;
+                padding: 8px;
+                width: 100%;
+                border: 1px solid #5b4e96;
+                color: #5b4e96;
+                background: #fdfaff;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .elementor-panel .submit-button svg,
+            .elementor-panel .rating-button svg {
+                height: 18px;
+                width: 18px;
+            }
+
+            .elementor-panel .help-message {
+                font-weight: 500;
+                font-size: 15px;
+                line-height: 1.6;
+                letter-spacing: 0%;
+                margin-bottom: 10px;
+                margin-top: 0;
+                color: #0C0D0E;
+            }
+
+            .elementor-panel p.form-description {
+                font-size: 14px;
+                margin-bottom: 10px;
+                font-family: system-ui;
+                color: #0D0E0F;
+            }
+
+            .elementor-panel span.close-icon {
+                position: absolute;
+                top: 8px;
+                right: 8px;
+            }
+
+            .elementor-panel span.close-icon svg {
+                height: 12px;
+                width: 12px;
+                cursor: pointer;
+            }
+
+            .elementor-panel span.undo-review {
+                color: #5b4e96;
+                font-weight: 400;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            .elementor-panel p.thank-you-message {
+                font-weight: 400;
+                color: #5f6c7f;
+                margin-bottom: 15px;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+
+            .elementor-panel .chat-button {
+                background-color: #5b4e96;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                cursor: pointer;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 5px;
+                font-weight: 400;
+                width: 100%;
+            }
+
+            .elementor-panel .chat-button svg {
+                width: 18px;
+                height: 18px;
+            }
+
+            .elementor-panel .chat-button:hover {
+                background-color: #4b3293;
+            }
         </style>
-    
+
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
+            document.addEventListener("DOMContentLoaded", function() {
                 if (typeof jQuery === 'undefined') {
                     console.error("❌ jQuery is not loaded!");
                     return;
                 }
 
-                jQuery(document).ready(function ($) {
+                jQuery(document).ready(function($) {
                     console.log("✅ jQuery is loaded and ready!");
 
                     let message = ""; // Store the thank-you message state
                     let rating = 0; // Store rating state
+                    let showThank = localStorage.getItem("feedbackSubmitted") ? 1 : 0;; // Store rating state
                     let targetNode = null; // Store reference to the Elementor controls section
+                    const currentUser = <?php echo json_encode(wp_get_current_user()->data); ?>;
 
                     function handleRating(selectedRating) {
-
                         console.log(selectedRating);
-                        
+
                         rating = selectedRating;
 
-                        $(".star").each(function () {
+                        $(".star").each(function() {
                             const starValue = $(this).data("rating");
                             $(this).attr("fill", starValue <= rating ? "#FFD700" : "#B1B8C2"); // Gold for selected, Grey for unselected
                         });
 
+                        if (rating == 5) {
+                            sendFiveStarRating();
+                        }
+
                         // Delay message update by 2 seconds
                         setTimeout(() => {
-                            message = `Thanks for rating ${rating} stars!`;
+                            if (rating < 5) {
+                                message = "Please describe your issue in details.";
+                            } else {
+                                message = `Thanks for rating ${rating} stars!`;
+                            }
                             renderUpsellSection();
-                        }, 2000);
+                        }, 500);
+
                     }
 
                     function setMessage(value) {
@@ -345,38 +485,135 @@ class Embedpress_Elementor_Integration
                         renderUpsellSection();
                     }
 
+                    function handleSubmit(event) {
+                        event.preventDefault();
+
+                        const formData = new FormData(event.target);
+                        const data = {
+                            name: currentUser.display_name,
+                            email: currentUser.user_email,
+                            rating: rating,
+                            message: formData.get('message')
+                        };
+
+                        fetch('/wp-json/embedpress/v1/send-feedback', { // Updated API endpoint
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(data)
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Success:', data);
+                                showThank = 1;
+
+                                localStorage.setItem("feedbackSubmitted", "true");
+                                renderUpsellSection();
+
+                                setTimeout(() => {
+                                    $(".thankyou-msg-container").fadeOut(500, function() {
+                                        localStorage.setItem("ratingClosed", "true");
+                                        $(this).remove();
+                                    });
+                                }, 3000); // Disappear after 3 seconds
+
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Failed to send email.');
+                            });
+                    };
+
+                    function sendFiveStarRating() {
+                        const data = {
+                            name: currentUser.display_name,
+                            email: currentUser.user_email,
+                            rating: '5',
+                            message: ''
+                        };
+
+                        fetch('/wp-json/embedpress/v1/send-feedback', { // Updated API endpoint
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify(data)
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('Success:', data);
+                                localStorage.setItem("feedbackSubmitted", "true");
+                                renderUpsellSection();
+
+                                setTimeout(() => {
+                                    $(".thankyou-msg-container").fadeOut(500, function() {
+                                        localStorage.setItem("ratingClosed", "true");
+                                        $(this).remove();
+                                    });
+                                }, 60 * 1000); // Disappear after 3 seconds
+
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                alert('Failed to send email.');
+                            });
+                    }
+
                     function renderUpsellSection() {
                         if (!targetNode) return;
 
                         $(".plugin-rating").remove(); // Remove previous upsell section
 
+                        const ratingClosed = localStorage.getItem("ratingClosed") ? 1 : 0;
+
                         let upsellHtml = `
                             <div class="plugin-rating">
                                 <div class="rating-chat-content">
-                                    ${message === "" ? `
-                                        <h4>Share your feeling</h4>
-                                        <div class="stars">
-                                            ${[1, 2, 3, 4, 5].map(i => `
-                                                <svg class="star" data-rating="${i}" width="20" height="18.667" viewBox="0 0 20 18.667" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <g clip-path="url(#a)">
-                                                        <path d="m7.3 5.709-4.963.72-.087.017a.777.777 0 0 0-.343 1.309l3.595 3.499-.848 4.943-.009.087a.777.777 0 0 0 1.139.733l4.437-2.333 4.428 2.333.077.036a.777.777 0 0 0 1.053-.855l-.849-4.944 3.596-3.5.061-.067a.777.777 0 0 0-.493-1.259l-4.961-.72-2.218-4.495a.777.777 0 0 0-1.396 0z" fill="${i <= rating ? '#FFD700' : '#B1B8C2'}"/>
-                                                    </g>
-                                                    <defs><clipPath id="a"><path fill="#fff" d="M.888 0h18.667v18.667H.888z"/></clipPath></defs>
-                                                </svg>
-                                            `).join('')}
-                                        </div>
-                                    ` : `
-                                        <div class="thank-you-msg-container">
-                                            <p class="thank-you-message">${message}</p>
-                                            <span class="undo-review">Undo</span>
-                                            <span class="close-icon">
-                                                <svg class="close-review" width="16" height="16" viewBox="0 0 0.48 0.48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M.106.106a.02.02 0 0 1 .028 0L.24.212.346.106a.02.02 0 1 1 .028.028L.268.24l.106.106a.02.02 0 0 1-.028.028L.24.268.134.374A.02.02 0 0 1 .106.346L.212.24.106.134a.02.02 0 0 1 0-.028" fill="#0D0D0D" />
-                                                </svg>
-                                            </span>
-                                        </div>
-                                    `}
-                                    <p>We are here to help</p>
+                                    ${!ratingClosed ? `
+                                        ${((rating && rating == 5) || showThank) ? `
+                                            <div class="thankyou-msg-container">
+                                                <h5 class="help-message">Thanks for sharing!</h5>
+                                                <p class="thank-you-message">We really appreciate you taking the time to share your thoughts with us.</p>
+
+                                                ${rating == 5 ? `
+                                                    <button class="rating-button">
+                                                        Rate the plugin
+                                                        <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M3.75 2.083 6.25 5l-2.5 2.917" stroke="#5B4E96" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
+                                                        </svg>
+                                                    </button>
+                                                ` : ''}
+                                            </div>
+                                        ` : rating && rating < 5 ? `
+                                            <div class="feedback-submit-container">
+                                                <h5 class="help-message">Help us make it better!</h5>
+                                                <p class="form-description">Description</p>
+                                                <form id="feedback-form">
+                                                    <div class="form-group">
+                                                        <textarea name="message" placeholder="Describe your issue in details" type="text" rows="4" class="form-control"></textarea>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <button class="submit-button" type="submit">Send</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        ` : `
+                                            <h4>Share your feeling</h4>
+                                            <div class="stars">
+                                                ${[1, 2, 3, 4, 5].map(i => `
+                                                    <svg class="star" data-rating="${i}" width="20" height="18.667" viewBox="0 0 20 18.667" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <g clip-path="url(#a)">
+                                                            <path d="m7.3 5.709-4.963.72-.087.017a.777.777 0 0 0-.343 1.309l3.595 3.499-.848 4.943-.009.087a.777.777 0 0 0 1.139.733l4.437-2.333 4.428 2.333.077.036a.777.777 0 0 0 1.053-.855l-.849-4.944 3.596-3.5.061-.067a.777.777 0 0 0-.493-1.259l-4.961-.72-2.218-4.495a.777.777 0 0 0-1.396 0z" fill="${i <= rating ? '#FFD700' : '#B1B8C2'}"/>
+                                                        </g>
+                                                        <defs><clipPath id="a"><path fill="#fff" d="M.888 0h18.667v18.667H.888z"/></clipPath></defs>
+                                                    </svg>
+                                                `).join('')}
+                                            </div>
+                                        `}
+                                    ` : ''}
+
+                                    <p style="font-weight: 500">We are here to help</p>
                                     <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="chat-button">Initiate Chat</a>
                                 </div>
                                 <div class="upgrade-box">
@@ -390,20 +627,16 @@ class Embedpress_Elementor_Integration
                         $(upsellHtml).insertAfter(targetNode);
 
                         // Attach click event to stars
-                        $(".star").on("click", function () {
+                        $(".star").on("click", function() {
                             let selectedRating = $(this).data("rating");
                             handleRating(selectedRating);
                         });
 
-                        // Attach undo event
-                        $(".undo-review").on("click", function () {
-                            setMessage(""); // Reset message
+                        $(".rating-button").on("click", function() {
+                            window.open('https://wordpress.org/support/plugin/embedpress/reviews/#new-post')
                         });
 
-                        // Attach close event
-                        $(".close-review").on("click", function () {
-                            $(".thank-you-msg-container").remove(); // Remove the upsell section
-                        });
+                        $("#feedback-form").on("submit", handleSubmit);
                     }
 
                     function addUpsellSection(node) {
@@ -447,11 +680,8 @@ class Embedpress_Elementor_Integration
                 window.handleRating = handleRating;
                 window.setMessage = setMessage;
             });
-
-
         </script>
 
-        <?php
+<?php
     }
-    
 }
