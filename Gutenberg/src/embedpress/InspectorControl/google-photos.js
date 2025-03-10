@@ -125,8 +125,9 @@ export default function GooglePhotos({ attributes, setAttributes }) {
                             options={[
                                 { label: __('Carousel', 'embedpress'), value: 'carousel' },
                                 { label: __('Gallery Player' + proLabel, 'embedpress'), value: 'gallery-player' },
-                                { label: __('Grid' + proLabel + ' (Comming soon)', 'embedpress'), value: 'gallery-grid' },
-                                { label: __('Masonary' + proLabel + ' (Comming soon)', 'embedpress'), value: 'gallery-masonary' },
+                                { label: __('Grid' + proLabel, 'embedpress'), value: 'gallery-grid' },
+                                { label: __('Masonry ' + proLabel, 'embedpress'), value: 'gallery-masonary' },
+                                { label: __('Justify ' + proLabel, 'embedpress'), value: 'gallery-justify' },
                             ]}
                             onChange={(mode) => {
                                 if ((mode === 'gallery-player' || mode === 'gallery-grid' || mode === 'gallery-masonary') && !isProPluginActive) {

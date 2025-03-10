@@ -2766,6 +2766,7 @@ class Embedpress_Elementor extends Widget_Base
 					'insta-grid' => esc_html__( 'Grid', 'embedpress' ),
 					'insta-masonry' => sprintf(__('Masonry%s', 'embedpress'), $this->pro_label),
 					'insta-carousel' => sprintf(__('Carousel%s', 'embedpress'), $this->pro_label),
+					'insta-justify' => sprintf(__('Justify%s', 'embedpress'), $this->pro_label),
 				],
 				'default' => 'insta-grid',
 				'condition'   => $condition,
