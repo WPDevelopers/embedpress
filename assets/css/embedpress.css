@@ -3595,11 +3595,26 @@ figure .ep-youtube__content__block .thumb {
 
 /* Leons style */
 
+.photo-item {
+    width: 100%;
+    height: 200px;
+    background-color: #f1efef;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    /* border-radius: 8px; */
+    font-size: 20px;
+    color: white;
+    text-align: center;
+}
+
+
 /* masonary */
 
 .photos-gallery-masonary {
-    columns: 300px;
-    gap: 8px;
+    columns: 250px;
+    gap: 5px;
     position: relative;
 }
 
@@ -3607,9 +3622,8 @@ figure .ep-youtube__content__block .thumb {
     width: 100%;
     height: auto;
     object-fit: cover;
-    border-radius: 10px;
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
     cursor: pointer;
 }
 
@@ -3618,15 +3632,14 @@ figure .ep-youtube__content__block .thumb {
     height: 100%;
     object-fit: cover;
     display: block;
-    border-radius: 8px;
-    /* Optional: adds rounded corners */
 }
 
 /* grid */
 
+
 .photos-gallery-grid {
     display: grid;
-    gap: 8px;
+    gap: 5px;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     position: relative;
 }
@@ -3643,31 +3656,38 @@ figure .ep-youtube__content__block .thumb {
     height: 100%;
     object-fit: cover;
     display: block;
-    border-radius: 8px;
-    /* Optional: adds rounded corners */
 }
 
+/* justify */
+.photos-gallery-justify {
+    display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+    gap: 3px;
+  }
+  
+  .photos-gallery-justify .photo-item {
+    flex: 1 0 auto;
+    width: auto;
+    height: 250px;
+    
+  }
+  
+  .photos-gallery-justify .photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  
 /* Basic styling */
 .photos-gallery-grid, .photos-gallery-masonry {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
+    gap: 3px;
     margin: 20px;
 }
 
-.photo-item {
-    width: 100%;
-    height: 200px;
-    background-color: #ccc;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    border-radius: 8px;
-    font-size: 20px;
-    color: white;
-    text-align: center;
-}
 
 /* Popup styles */
 .popup-overlay {
@@ -3676,7 +3696,7 @@ figure .ep-youtube__content__block .thumb {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.8);
     display: none;
     justify-content: center;
     align-items: center;
@@ -3691,7 +3711,7 @@ figure .ep-youtube__content__block .thumb {
     max-height: 80%;
     width: 100%;
     height: 100%;
-    background-color: #000;
+    background-color: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
