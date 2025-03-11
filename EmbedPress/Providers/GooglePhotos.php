@@ -138,6 +138,7 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
             $title = $og['og:title'] ?? null;
             $photos = $this->parse_photos($contents);
 
+
             $style = sprintf(
                 'display: none; width: %s; height: %s; max-width: 100%%;',
                 $props->width === 0 ? '100%' : ($props->width . 'px'),
@@ -146,12 +147,12 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
 
             $items_code = '';
 
-            if (true) {
+            if ($props->mode == 'gallery-justify' || $props->mode == 'gallery-masonary' || $props->mode == 'gallery-grid') {
                 $items_code .= sprintf('<div class="photos-%s">', esc_attr($props->mode));
                 $counter = 0;
                 foreach ($photos as $photo) {
                     $src = sprintf('%s=w%d-h%d', $photo, $props->imageWidth, $props->imageHeight);
-                    $items_code .= sprintf('<div class="photo-item" data-item-number="'.esc_attr($counter++).'" id="photo-' . md5($src) . '"><img src="%s" loading="lazy" alt="Photo"/></div>', esc_url($src));
+                    $items_code .= sprintf('<div class="photo-item" data-item-number="' . esc_attr($counter++) . '" id="photo-' . md5($src) . '"><img src="%s" loading="lazy" alt="Photo"/></div>', esc_url($src));
                 }
 
                 $items_code .= '</div>';

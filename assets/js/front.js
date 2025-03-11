@@ -1396,7 +1396,7 @@ jQuery(document).ready(function ($) {
                     <svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.525.275h-.39L.268.143A.025.025 0 1 0 .233.108L.058.283a.025.025 0 0 0 0 .035l.175.175a.025.025 0 0 0 .035 0 .025.025 0 0 0 0-.035L.135.325h.39a.025.025 0 0 0 0-.05" style="fill:#fff"/></svg>
                     </button>
                     <div id="popup-content">
-                        <img id="popup-image" src="" alt="Popup Image">
+                        <img id="popup-image" src="" alt="Popup Image" loading="lazy">
                     </div>
                     <button class="next-btn" id="next-btn">
                     <svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.543.282.368.107a.025.025 0 0 0-.035.035l.133.132H.075a.025.025 0 0 0 0 .05h.39L.332.456a.025.025 0 0 0 0 .035.025.025 0 0 0 .035 0L.542.316a.025.025 0 0 0 0-.035" style="fill:#fff"/></svg>
@@ -1419,7 +1419,7 @@ jQuery(document).ready(function ($) {
     });
 
     $('#popup-overlay').on('click', function (e) {
-        if ($(e.target).is('#popup-overlay')) {
+        if ($(e.target).is('#popup-overlay') || $(e.target).is('.popup')) {
             $('#popup-overlay').hide();
         }
     });
