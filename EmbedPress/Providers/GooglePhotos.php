@@ -158,8 +158,9 @@ class GooglePhotos extends ProviderAdapter implements ProviderInterface
                 $items_code .= '</div>';
 
                 return sprintf(
-                    "<div class=\"google-photos-%s-widget\">%s</div>\n",
+                    "<div class=\"google-photos-%s-widget\"><h3 style='text-align:left; margin: 22px 10px;'>%s</h3>%s</div>\n",
                     esc_attr($props->mode),
+                    $title,
                     $items_code
                 );
             } else {
