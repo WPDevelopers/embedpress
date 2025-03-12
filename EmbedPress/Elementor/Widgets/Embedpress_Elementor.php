@@ -3751,8 +3751,9 @@ class Embedpress_Elementor extends Widget_Base
 				'options' => [
 					'carousel' => __('Carousel', 'embedpress'),
 					'gallery-player' => __('Gallery Player', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
-					'gallery-grid' => __('Grid', 'embedpress') . ' ' . __($this->pro_text .' (Coming Soon)', 'embedpress'),
-					'gallery-masonary' => __('Masonary', 'embedpress') . ' ' . __($this->pro_text . ' (Coming Soon)', 'embedpress'),
+					'gallery-grid' => __('Grid', 'embedpress') . ' ' . __($this->pro_text , 'embedpress'),
+					'gallery-masonary' => __('Masonary', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
+					'gallery-justify' => __('Justify', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
 				],
 				'default' => 'carousel',
 			]

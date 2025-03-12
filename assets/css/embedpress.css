@@ -3599,7 +3599,6 @@ figure .ep-youtube__content__block .thumb {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 3px;
-    margin: 20px;
 }
 
 .photo-item {
@@ -3790,7 +3789,7 @@ figure .ep-youtube__content__block .thumb {
     /* justify */
 
     .photos-gallery-justify .photo-item {
-        height: 200px !important;
+        height: 220px !important;
 
     }
 }

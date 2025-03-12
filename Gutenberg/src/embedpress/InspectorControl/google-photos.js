@@ -189,12 +189,16 @@ export default function GooglePhotos({ attributes, setAttributes }) {
                             onChange={(mediaitemsCover) => setAttributes({ mediaitemsCover })}
                         /> */}
 
-                        <ColorPalette
-                            label={__('Background Color', 'embedpress')}
-                            colors={colors}
-                            value={backgroundColor}
-                            onChange={(backgroundColor) => setAttributes({ backgroundColor })}
-                        />
+                        {
+                            mode == 'gallery-player' || mode == 'carousel' && (
+                                <ColorPalette
+                                    label={__('Background Color', 'embedpress')}
+                                    colors={colors}
+                                    value={backgroundColor}
+                                    onChange={(backgroundColor) => setAttributes({ backgroundColor })}
+                                />
+                            )
+                        }
 
                         <RangeControl
                             label={__('Sync after (minutes)', 'embedpress')}
