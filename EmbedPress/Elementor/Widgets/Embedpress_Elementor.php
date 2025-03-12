@@ -136,7 +136,7 @@ class Embedpress_Elementor extends Widget_Base
 	protected function register_controls()
 	{
 		$class = 'embedpress-pro-control not-active';
-        $text =  '<sup class="embedpress-pro-label" style="color:red">' . __('(pro)', 'embedpress') . '</sup>';
+        $text =  '<sup class="embedpress-pro-label" style="color:red">' . __('(Pro)', 'embedpress') . '</sup>';
 		$label = '(pro)';
         $this->pro_class = apply_filters('embedpress/pro_class', $class);
         $this->pro_label = apply_filters('embedpress/pro_label', $label);
@@ -3750,7 +3750,7 @@ class Embedpress_Elementor extends Widget_Base
 				'type' => \Elementor\Controls_Manager::SELECT,
 				'options' => [
 					'carousel' => __('Carousel', 'embedpress'),
-					'gallery-player' => __('Gallery Player', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
+					'gallery-player' => __('Gallery Player', 'embedpress'),
 					'gallery-grid' => __('Grid', 'embedpress') . ' ' . __($this->pro_text , 'embedpress'),
 					'gallery-masonary' => __('Masonary', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
 					'gallery-justify' => __('Justify', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
@@ -3767,7 +3767,7 @@ class Embedpress_Elementor extends Widget_Base
 						esc_html__( 'Only Available in Pro Version!', 'essential-addons-for-elementor-lite' ) ),
 					'type'      => Controls_Manager::RAW_HTML,
 					'condition' => [
-						'mode' => [ 'gallery-player', 'gallery-grid', 'gallery-masonary'],
+						'mode' => ['gallery-grid', 'gallery-masonary', 'gallery-justify'],
 					],
 				]
 			);
@@ -4300,7 +4300,7 @@ class Embedpress_Elementor extends Widget_Base
 		add_filter('embedpress_should_modify_spotify', '__return_false');
 		$embed_link = isset($settings['embedpress_embeded_link']) ? $settings['embedpress_embeded_link'] : '';
 
-		if(!apply_filters('embedpress/is_allow_rander', false) && ($settings['mode'] === 'gallery-player')){
+		if(!apply_filters('embedpress/is_allow_rander', false) && ($settings['mode'] === 'gallery-grid' || $settings['mode'] === 'gallery-masonary' || $settings['mode'] === 'gallery-justify')){
 			echo '<div class="pro__alert__wrap" style="display: block;">
 					<div class="pro__alert__card">
 							<h2>Opps...</h2>

@@ -124,13 +124,13 @@ export default function GooglePhotos({ attributes, setAttributes }) {
                             value={mode}
                             options={[
                                 { label: __('Carousel', 'embedpress'), value: 'carousel' },
-                                { label: __('Gallery Player' + proLabel, 'embedpress'), value: 'gallery-player' },
+                                { label: __('Gallery Player', 'embedpress'), value: 'gallery-player' },
                                 { label: __('Grid' + proLabel, 'embedpress'), value: 'gallery-grid' },
                                 { label: __('Masonry ' + proLabel, 'embedpress'), value: 'gallery-masonary' },
                                 { label: __('Justify ' + proLabel, 'embedpress'), value: 'gallery-justify' },
                             ]}
                             onChange={(mode) => {
-                                if ((mode === 'gallery-player' || mode === 'gallery-grid' || mode === 'gallery-masonary') && !isProPluginActive) {
+                                if ((mode === 'gallery-justify' || mode === 'gallery-grid' || mode === 'gallery-masonary') && !isProPluginActive) {
                                     addProAlert(null, isProPluginActive);
                                 } else {
                                     setAttributes({ mode })
