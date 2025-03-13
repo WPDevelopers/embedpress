@@ -1,5 +1,5 @@
 <?php
-define('GOOGLE_CLIENT_ID', '101957997425-edogk95lmlfeorjuaoh4cs7ae06i22bs.apps.googleusercontent.com');
+define('GOOGLE_CLIENT_ID', '782642433163-m5u85fbes79u6id8mhevcl5g0g2j82mv.apps.googleusercontent.com');
 define('GOOGLE_REDIRECT_URI', 'https://api.embedpress.com/google-docs.php');
 
 // Authorization URL
@@ -24,45 +24,6 @@ $nonce = wp_create_nonce('google_nonce');
 $nonce_param = "&_nonce=$nonce";
 $google_connect_url = "{$authorize_url}&google_status=connect$nonce_param";
 
-// Save Google user information
-if (isset($_GET['access_token'], $_GET['username'], $_GET['user_id'], $_GET['email'], $_GET['picture'])) {
-    $access_token = sanitize_text_field($_GET['access_token']);
-    $username = sanitize_text_field($_GET['username']);
-    $user_id = sanitize_text_field($_GET['user_id']);
-    $email = sanitize_email($_GET['email']);
-    $picture = esc_url_raw($_GET['picture']);
-
-    // Save user data by user_id
-    $user_info[$user_id] = [
-        'access_token' => $access_token,
-        'name' => $username,
-        'email' => $email,
-        'avatar_url' => $picture,
-        'created_at' => time(),
-    ];
-
-    update_option('google_user_info', $user_info);
-
-    // Save access token separately
-    update_option('google_tokens', ['access_token' => $access_token, 'created_at' => time()]);
-    update_option('is_google_connected', true);
-
-    wp_redirect(admin_url('admin.php?page=embedpress&page_type=google-docs'));
-    exit;
-}
-
-// Remove Google account by user_id
-if (isset($_GET['google_status']) && $_GET['google_status'] === 'disconnect' && isset($_GET['user_id'])) {
-    $user_id_to_remove = sanitize_text_field($_GET['user_id']);
-
-    if (isset($user_info[$user_id_to_remove])) {
-        unset($user_info[$user_id_to_remove]);
-        update_option('google_user_info', $user_info);
-    }
-
-    wp_redirect(admin_url('admin.php?page=embedpress&page_type=google-docs'));
-    exit;
-}
 ?>
 
 <div class="embedpress_google_settings background__white radius-25 p40">

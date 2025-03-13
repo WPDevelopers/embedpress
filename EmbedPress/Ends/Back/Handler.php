@@ -45,6 +45,10 @@ class Handler extends EndHandlerAbstract
             add_action('init', [$this, 'handle_calendly_data']);
         }
 
+        if (!empty($_GET['page_type']) && $_GET['page_type'] == 'google-docs') {
+            add_action('init', [$this, 'handle_google_docs']);
+        }
+
         if (defined('EMBEDPRESS_SL_ITEM_SLUG') && is_admin()) {
             add_action('admin_enqueue_scripts',  [$this, 'enqueueLisenceScripts']);
         }
@@ -391,11 +395,57 @@ class Handler extends EndHandlerAbstract
                 } else {
                     do_action('embedepress/calendly_event_data',  $event_types, $scheduled_events, $invite_list);
                 }
-                            
             }
 
             wp_redirect(admin_url('admin.php?page=embedpress&page_type=calendly'), 302);
             exit();
+        }
+    }
+
+    public function handle_google_docs()
+    {
+
+        $user_info = get_option('google_user_info', []);
+
+        // Save Google user information
+        if (isset($_GET['access_token'], $_GET['username'], $_GET['user_id'], $_GET['email'], $_GET['picture'])) {
+            $access_token = sanitize_text_field($_GET['access_token']);
+            $username = sanitize_text_field($_GET['username']);
+            $user_id = sanitize_text_field($_GET['user_id']);
+            $email = sanitize_email($_GET['email']);
+            $picture = esc_url_raw($_GET['picture']);
+
+            // Save user data by user_id
+            $user_info[$user_id] = [
+                'access_token' => $access_token,
+                'name' => $username,
+                'email' => $email,
+                'avatar_url' => $picture,
+                'created_at' => time(),
+            ];
+
+            update_option('google_user_info', $user_info);
+
+            // Save access token separately
+            update_option('google_tokens', ['access_token' => $access_token, 'created_at' => time()]);
+            update_option('is_google_connected', true);
+
+            wp_redirect(admin_url('admin.php?page=embedpress&page_type=google-docs'));
+            exit;
+        }
+
+        // Remove Google account by user_id
+        if (isset($_GET['google_status']) && $_GET['google_status'] === 'disconnect' && isset($_GET['user_id'])) {
+            $user_id_to_remove = sanitize_text_field($_GET['user_id']);
+
+
+            if (isset($user_info[$user_id_to_remove])) {
+                unset($user_info[$user_id_to_remove]);
+                update_option('google_user_info', $user_info);
+            }
+
+            wp_redirect(admin_url('admin.php?page=embedpress&page_type=google-docs'));
+            exit;
         }
     }
 
@@ -445,7 +495,7 @@ class Handler extends EndHandlerAbstract
                 $this->pluginVersion,
                 false
             );
-            
+
 
             wp_enqueue_style('plyr', EMBEDPRESS_URL_ASSETS . 'css/plyr.css', array(), $this->pluginVersion);
             wp_enqueue_style($this->pluginName, EMBEDPRESS_URL_ASSETS . 'css/embedpress.css', array(), $this->pluginVersion);
@@ -923,7 +973,7 @@ class Handler extends EndHandlerAbstract
             wp_send_json_error(array('message' => 'You do not have sufficient permissions to access this functionality.'));
             return;
         }
-        
+
         if (isset($_POST['_nonce']) && wp_verify_nonce($_POST['_nonce'], 'embedpress_elements_action')) {
             $user_id = isset($_POST['user_id']) ? $_POST['user_id'] : '';
             $account_type = isset($_POST['account_type']) ? $_POST['account_type'] : '';
