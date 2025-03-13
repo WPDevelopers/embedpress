@@ -76,17 +76,6 @@ class InstagramFeed extends Instagram
         return $this->allowedParams;
     }
 
-    public function __construct($url, array $config = [])
-    {
-        parent::__construct($url, $config);
-
-        if ($this->validateReelUrl($url)) {
-            add_action('wp_footer', [$this, 'enqueue_instagram_script'], 100);
-        }
-    }
-
-
-
     public function validateUrl(Url $url)
     {
         return

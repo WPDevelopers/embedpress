@@ -262,48 +262,11 @@ class Elementor_Enhancer {
 
 		$pluginList = [];
 
-		// Resumable
 
-		if ( $setting['embedpress_pro_wistia_resumable'] === 'yes' ) {
-			// Add the resumable plugin
-			$pluginList['resumable'] = [
-				'src'   => $pluginsBaseURL . '/resumable.min.js',
-				'async' => true,
-			];
-		}
+		$embedOptions = apply_filters('embedpress/elementor_enhancer_wistia_captions', $embedOptions, $setting, $pluginList);
+		$pluginList = apply_filters('embedpress/elementor_enhancer_wistia_pluginlist', $embedOptions, $setting, $pluginList);
 
 
-		// Add a fix for the autoplay and resumable work better together
-		if ( isset( $options->autoPlay ) ) {
-			if ( $setting['embedpress_pro_wistia_resumable'] === 'yes' ) {
-				$pluginList['fixautoplayresumable'] = [
-					'src' => $pluginsBaseURL . '/fixautoplayresumable.min.js',
-				];
-			}
-		}
-
-		$embedOptions = apply_filters('embedpress/elementor_enhancer_wistia_captions', $embedOptions, $setting);
-
-
-		// Rewind plugin
-		if ( $setting['embedpress_pro_wistia_rewind'] === 'yes' ) {
-
-			$embedOptions->rewindTime = (int) $setting['embedpress_pro_wistia_rewind_time'];
-			$pluginList['rewind']     = [
-				'src' => $pluginsBaseURL . '/rewind.min.js',
-			];
-
-		}
-		// Focus plugin
-		if ( $setting['embedpress_pro_wistia_focus'] === 'yes' ) {
-			$isFocusEnabled             = ( $setting['embedpress_pro_wistia_focus'] === 'yes' );
-			$pluginList['dimthelights'] = [
-				'src'     => $pluginsBaseURL . '/dimthelights.min.js',
-				'autoDim' => $isFocusEnabled,
-			];
-
-			$embedOptions->focus = $isFocusEnabled;
-		}
 		$embedOptions->plugin = $pluginList;
 		$embedOptions         = json_encode( $embedOptions );
 
