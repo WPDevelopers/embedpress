@@ -467,9 +467,11 @@ class Embedpress_Elementor_Integration
 
                     let message = ""; // Store the thank-you message state
                     let rating = 0; // Store rating state
-                    let showThank = localStorage.getItem("feedbackSubmitted") ? 1 : 0;; // Store rating state
+                    let showThank = localStorage.getItem("feedbackSubmitted") ? 1 : 0; // Store rating state
                     let targetNode = null; // Store reference to the Elementor controls section
+
                     const currentUser = <?php echo json_encode(wp_get_current_user()->data); ?>;
+                    const isProActive = <?php echo json_encode(is_plugin_active('embedpress-pro/embedpress-pro.php')); ?>;
 
                     function handleRating(selectedRating) {
                         console.log(selectedRating);
@@ -633,11 +635,12 @@ class Embedpress_Elementor_Integration
                                     <p style="font-weight: 500">We are here to help</p>
                                     <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="chat-button">Initiate Chat</a>
                                 </div>
-                                <div class="upgrade-box">
-                                    <h5>Want Advanced Features?</h5>
-                                    <p>Get more powerful widgets & extensions to elevate your Elementor website</p>
-                                    <a href="https://embedpress.com/#pricing" target="_blank" class="upgrade-link">Upgrade to PRO</a>
-                                </div>
+                                ${!isProActive ? `
+                                    <div class="upgrade-box">
+                                        <h5>Want Advanced Features?</h5>
+                                        <p>Get more powerful widgets & extensions to elevate your Elementor website</p>
+                                        <a href="https://embedpress.com/#pricing" target="_blank" class="upgrade-link">Upgrade to PRO</a>
+                                    </div>` : ''}
                             </div>
                         `;
 
