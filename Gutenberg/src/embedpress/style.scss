@@ -105,17 +105,17 @@ body.page .flexia-wrapper > .content-area {
     height: 100%;
 }
 
-.components-base-control__label {
-    font-weight: 600;
+.embedpress-gutenberg-controls .components-base-control__label {
+    font-weight: 500;
 }
 
-.components-input-control__label {
-    font-weight: 600;
+.embedpress-gutenberg-controls .components-input-control__label {
+    font-weight: 500;
 }
 
-.components-base-control__field,
-.components-input-control__label {
-    font-weight: 600;
+.embedpress-gutenberg-controls .components-base-control__field,
+.embedpress-gutenberg-controls .components-input-control__label {
+    font-weight: 500;
 }
 
 .sponsored-upload {
@@ -1225,8 +1225,8 @@ p.ep-live-video-info {
 p.ep-live-video-info svg {
     width: 20px;
 }
-.components-text-control__input::placeholder,
-.components-textarea-control__input::placeholder {
+.embedpress-gutenberg-controls .components-text-control__input::placeholder,
+.embedpress-gutenberg-controls .components-textarea-control__input::placeholder {
     color: rgb(117, 117, 117);
 }
 

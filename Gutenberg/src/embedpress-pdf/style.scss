@@ -288,7 +288,7 @@ span.isPro {
     border: 4px solid var(--wp-admin-theme-color);
 }
 
-.components-radio-control__input[type="radio"]:checked + label {
+.ep-unit-choice-option .components-radio-control__input[type="radio"]:checked + label {
     color: white;
 }
 
