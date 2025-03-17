@@ -150,8 +150,8 @@
     --progressBar-color: rgba(10, 132, 255, 1);
     --progressBar-indeterminate-bg-color: rgba(221, 221, 222, 1);
     --progressBar-indeterminate-blend-color: rgba(116, 177, 239, 1);
-    --scrollbar-color: auto;
-    --scrollbar-bg-color: auto;
+    --scrollbar-color: rgba(121, 121, 123, 1);
+    --scrollbar-bg-color: rgb(237 237 240);
     --toolbar-icon-bg-color: rgba(0, 0, 0, 1);
     --toolbar-icon-hover-bg-color: rgba(0, 0, 0, 1);
 
