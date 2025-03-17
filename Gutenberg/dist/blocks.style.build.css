@@ -263,15 +263,15 @@ body.page .flexia-wrapper > .content-area {
   width: 100%;
   height: 100%; }
 
-.components-base-control__label {
-  font-weight: 600; }
+.embedpress-gutenberg-controls .components-base-control__label {
+  font-weight: 500; }
 
-.components-input-control__label {
-  font-weight: 600; }
+.embedpress-gutenberg-controls .components-input-control__label {
+  font-weight: 500; }
 
-.components-base-control__field,
-.components-input-control__label {
-  font-weight: 600; }
+.embedpress-gutenberg-controls .components-base-control__field,
+.embedpress-gutenberg-controls .components-input-control__label {
+  font-weight: 500; }
 
 .sponsored-upload {
   margin-bottom: 20px; }
@@ -1322,20 +1322,20 @@ p.ep-live-video-info {
 p.ep-live-video-info svg {
   width: 20px; }
 
-.components-text-control__input::-webkit-input-placeholder,
-.components-textarea-control__input::-webkit-input-placeholder {
+.embedpress-gutenberg-controls .components-text-control__input::-webkit-input-placeholder,
+.embedpress-gutenberg-controls .components-textarea-control__input::-webkit-input-placeholder {
   color: #757575; }
 
-.components-text-control__input::-moz-placeholder,
-.components-textarea-control__input::-moz-placeholder {
+.embedpress-gutenberg-controls .components-text-control__input::-moz-placeholder,
+.embedpress-gutenberg-controls .components-textarea-control__input::-moz-placeholder {
   color: #757575; }
 
-.components-text-control__input::-ms-input-placeholder,
-.components-textarea-control__input::-ms-input-placeholder {
+.embedpress-gutenberg-controls .components-text-control__input::-ms-input-placeholder,
+.embedpress-gutenberg-controls .components-textarea-control__input::-ms-input-placeholder {
   color: #757575; }
 
-.components-text-control__input::placeholder,
-.components-textarea-control__input::placeholder {
+.embedpress-gutenberg-controls .components-text-control__input::placeholder,
+.embedpress-gutenberg-controls .components-textarea-control__input::placeholder {
   color: #757575; }
 
 button.skip-ad-button {
@@ -1701,7 +1701,7 @@ span.isPro {
   background-color: var(--wp-admin-theme-color);
   border: 4px solid var(--wp-admin-theme-color); }
 
-.components-radio-control__input[type="radio"]:checked + label {
+.ep-unit-choice-option .components-radio-control__input[type="radio"]:checked + label {
   color: white; }
 
 .ep-pdf-width-contol .ep-control-header {
