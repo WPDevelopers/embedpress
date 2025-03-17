@@ -3752,7 +3752,7 @@ class Embedpress_Elementor extends Widget_Base
 					'carousel' => __('Carousel', 'embedpress'),
 					'gallery-player' => __('Gallery Player', 'embedpress'),
 					'gallery-grid' => __('Grid', 'embedpress') . ' ' . __($this->pro_text , 'embedpress'),
-					'gallery-masonary' => __('Masonary', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
+					'gallery-masonary' => __('Masonry', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
 					'gallery-justify' => __('Justify', 'embedpress') . ' ' . __($this->pro_text, 'embedpress'),
 				],
 				'default' => 'carousel',
@@ -4056,7 +4056,8 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				
 				'condition' => [
-					'embedpress_pro_embeded_source' => 'google_photos'
+					'embedpress_pro_embeded_source' => 'google_photos',
+					'mode!' => ['gallery-grid', 'gallery-masonary', 'gallery-justify'],
 				],
 			]
 		);
