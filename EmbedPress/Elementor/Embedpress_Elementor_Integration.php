@@ -142,6 +142,71 @@ class Embedpress_Elementor_Integration
     {
         ?>
         <style>
+            :root {
+                /* Light Mode Variables */
+                --background-color: #FDFAFF;
+                --text-color: #0C0D0E;
+                --secondary-text-color: #5f6c7f;
+                --description-text-color: #5f6c7f;
+                --border-color: #ECEFF5;
+                --button-bg: #5b4e96;
+                --button-text: #ffffff;
+                --upgrade-bg: linear-gradient(181.32deg, #fffbf8 1.12%, #ffffff 98.95%);
+                --star-color: #b1b8c2;
+                --placeholder-text-color: #5f6c7f;
+                --submit-button-color: #fff;
+                --form-control-backgound: #fff;
+            }
+
+            @media (prefers-color-scheme: dark) {
+                :root {
+                    /* Dark Mode Variables */
+                    --background-color: #1A1C1F;
+                    --text-color: #ffffff;
+                    --secondary-text-color: #CBCBD0;
+                    --description-text-color: #fff;
+                    --border-color: #272A2F;
+                    --button-bg: #4b3293;
+                    --button-text: #ffffff;
+                    --upgrade-bg: linear-gradient(181.32deg, #1F2023 1.12%, #18191B 98.95%);
+                    --star-color: #676D76;
+                    --placeholder-text-color: #CBCBD0;
+                    --submit-button-color: #5b4e96;
+                    --form-control-backgound: #1F2124;
+
+                }
+            }
+
+            /* Applying Variables */
+            .elementor-panel .rating-chat-content {
+                background-color: var(--background-color);
+                border: 0.6px solid var(--border-color);
+                color: var(--text-color);
+            }
+
+            .elementor-panel .plugin-rating h4 {
+                color: var(--text-color);
+            }
+
+            .elementor-panel .plugin-rating .chat-button {
+                background-color: var(--button-bg);
+                color: var(--button-text);
+            }
+
+            .elementor-panel .plugin-rating .upgrade-box {
+                background: var(--upgrade-bg);
+                border: 0.6px solid var(--border-color);
+            }
+
+            .elementor-panel p.thank-you-message {
+                color: var(--secondary-text-color);
+            }
+
+            .elementor-panel .plugin-rating .stars .star {
+                color: var(--star-color);
+            }
+
+
             .elementor-panel .plugin-rating {
                 font-family: system-ui;
                 padding: 15px;
@@ -153,13 +218,9 @@ class Embedpress_Elementor_Integration
                 border-width: 0.6px;
                 gap: 12px;
                 padding: 15px;
-                background-color: #FDFAFF;
-                background-color: #1A1C1F;
                 position: relative;
                 display: flex;
                 flex-direction: column;
-                border: 0.6px solid #ECEFF5;
-                border: 0.6px solid #272A2F;
                 overflow: hidden;
             }
 
@@ -203,8 +264,6 @@ class Embedpress_Elementor_Integration
             }
 
             .elementor-panel .plugin-rating .stars .star {
-                color: #b1b8c2;
-                color: #676D76;
                 cursor: pointer;
                 width: 20px;
                 height: 20px;
@@ -252,7 +311,6 @@ class Embedpress_Elementor_Integration
             }
 
             .elementor-panel .plugin-rating .chat-button {
-                background-color: #5b4e96;
                 color: white;
                 border: none;
                 padding: 10px 20px;
@@ -281,10 +339,6 @@ class Embedpress_Elementor_Integration
                 margin-top: 20px;
                 border-radius: 8px;
                 text-align: left;
-                background: linear-gradient(181.32deg, #fffbf8 1.12%, #ffffff 98.95%);
-                background: linear-gradient(181.32deg, #1F2023 1.12%, #18191B 98.95%);
-                border: 0.6px solid #f4efec;
-                border: 0.6px solid #272A2F
             }
 
             .elementor-panel .plugin-rating .upgrade-box h5 {
@@ -298,9 +352,7 @@ class Embedpress_Elementor_Integration
 
             .elementor-panel .plugin-rating .upgrade-box p {
                 font-size: 12px;
-                color: #232c39;
-                color: #CBCBD0;
-
+                color: var(--secondary-text-color);
                 margin-bottom: 12px;
                 font-weight: 400;
                 line-height: 1.6;
@@ -329,15 +381,15 @@ class Embedpress_Elementor_Integration
             .elementor-panel .thankyou-msg-container textarea.form-control,
             .elementor-panel .feedback-submit-container textarea.form-control {
                 width: 100%;
-                background: #fff;
-                outline: 1px solid #ebe1f2;
+                background: var(--form-control-backgound);
+                outline: 1px solid var(--border-color);
                 margin-bottom: 10px;
                 border: none;
                 font-weight: 400;
                 font-size: 14px;
                 line-height: 1.6;
                 font-family: system-ui;
-                padding: 4px 8px;
+                padding: 8px 8px;
             }
 
             .elementor-panel .thankyou-msg-container textarea.form-control::placeholder,
@@ -345,7 +397,7 @@ class Embedpress_Elementor_Integration
                 font-weight: 400;
                 font-size: 14px;
                 line-height: 1.6;
-                color: #5f6c7f;
+                color: var(--placeholder-text-color);
                 font-family: system-ui;
             }
 
@@ -360,15 +412,16 @@ class Embedpress_Elementor_Integration
             .elementor-panel .rating-button {
                 border-radius: 4px;
                 border-width: 1px;
-                padding: 8px;
                 width: 100%;
                 border: 1px solid #5b4e96;
-                color: #5b4e96;
-                background: #fdfaff;
+                color: var(--submit-button-color);
+                background: transparent;
                 cursor: pointer;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                padding: 12px 8px;
+
             }
 
             .elementor-panel .submit-button svg,
@@ -383,17 +436,15 @@ class Embedpress_Elementor_Integration
                 line-height: 1.6;
                 letter-spacing: 0%;
                 margin-bottom: 10px;
-                margin-top: 0;
-                color: #0C0D0E;
-                color: #ffffff;
+                margin-top: 0
+                color: var(--text-color)
             }
 
             .elementor-panel p.form-description {
                 font-size: 14px;
-                margin-bottom: 10px;
+                margin-bottom: 12px;
                 font-family: system-ui;
-                color: #0D0E0F;
-                color: #CBCBD0;
+                color: var(--description-text-color);
             }
 
             .elementor-panel span.close-icon {
@@ -417,8 +468,7 @@ class Embedpress_Elementor_Integration
 
             .elementor-panel p.thank-you-message {
                 font-weight: 400;
-                color: #5f6c7f;
-                color: #CBCBD0;
+                color: var(--secondary-text-color);
                 font-size: 14px;
                 line-height: 1.6;
             }
@@ -435,7 +485,7 @@ class Embedpress_Elementor_Integration
                 align-items: center;
                 justify-content: center;
                 gap: 5px;
-                font-weight: 400;
+                font-weight: 500;
                 width: 100%;
             }
 
@@ -633,7 +683,10 @@ class Embedpress_Elementor_Integration
                                     ` : ''}
 
                                     <p style="font-weight: 500">We are here to help</p>
-                                    <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="chat-button">Initiate Chat</a>
+                                    <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="chat-button">
+                                        
+                                        Initiate Chat
+                                    </a>
                                 </div>
                                 ${!isProActive ? `
                                     <div class="upgrade-box">
