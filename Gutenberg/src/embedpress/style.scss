@@ -1485,7 +1485,7 @@ button.skip-ad-button {
         padding: 10px 20px;
         border-radius: 5px;
         cursor: pointer;
-        font-size: 12px;
+        font-size: 14px;
         display: -ms-flexbox;
         display: flex;
         -ms-flex-align: center;
@@ -1495,6 +1495,7 @@ button.skip-ad-button {
         gap: 5px;
         font-weight: 400;
         width: 100%;
+        text-decoration: none;
 
         svg {
             width: 18px;

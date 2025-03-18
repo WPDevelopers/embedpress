@@ -154,8 +154,26 @@ class Embedpress_Elementor_Integration
                 --upgrade-bg: linear-gradient(181.32deg, #fffbf8 1.12%, #ffffff 98.95%);
                 --star-color: #b1b8c2;
                 --placeholder-text-color: #5f6c7f;
-                --submit-button-color: #fff;
+                --submit-button-color: #5b4e96;
                 --form-control-backgound: #fff;
+            }
+
+            @media (prefers-color-scheme: light) {
+                :root {
+                    /* Light Mode Variables */
+                    --background-color: #FDFAFF;
+                    --text-color: #0C0D0E;
+                    --secondary-text-color: #5f6c7f;
+                    --description-text-color: #5f6c7f;
+                    --border-color: #ECEFF5;
+                    --button-bg: #5b4e96;
+                    --button-text: #ffffff;
+                    --upgrade-bg: linear-gradient(181.32deg, #fffbf8 1.12%, #ffffff 98.95%);
+                    --star-color: #b1b8c2;
+                    --placeholder-text-color: #5f6c7f;
+                    --submit-button-color: #5b4e96;
+                    --form-control-backgound: #fff;
+                }
             }
 
             @media (prefers-color-scheme: dark) {
@@ -171,7 +189,7 @@ class Embedpress_Elementor_Integration
                     --upgrade-bg: linear-gradient(181.32deg, #1F2023 1.12%, #18191B 98.95%);
                     --star-color: #676D76;
                     --placeholder-text-color: #CBCBD0;
-                    --submit-button-color: #5b4e96;
+                    --submit-button-color: #fff;
                     --form-control-backgound: #1F2124;
 
                 }
@@ -316,7 +334,7 @@ class Embedpress_Elementor_Integration
                 padding: 10px 20px;
                 border-radius: 5px;
                 cursor: pointer;
-                font-size: 12px;
+                font-size: 14px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -493,10 +511,11 @@ class Embedpress_Elementor_Integration
                 border: 1px solid #5B4E96;
                 color: #fff;
             }
+
             .elementor-panel .rating-button {
                 background-color: transparent;
                 border: 1px solid #5B4E96;
-                color: #fff;
+                color: var(--submit-button-color);
                 margin-top: 20px;
             }
 
@@ -645,7 +664,7 @@ class Embedpress_Elementor_Integration
                             <div class="plugin-rating">
                                 <div class="rating-chat-content">
                                     ${!ratingClosed ? `
-                                        ${((rating && rating == 5) || showThank) ? `
+                                        ${((rating && rating == 5) || showThank)  ? `
                                             <div class="thankyou-msg-container">
                                                 <h5 class="help-message">Thanks for sharing!</h5>
                                                 <p class="thank-you-message">We really appreciate you taking the time to share your thoughts with us.</p>
@@ -688,7 +707,7 @@ class Embedpress_Elementor_Integration
                                     ` : ''}
 
                                     <p style="font-weight: 500">We are here to help</p>
-                                    <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank" class="chat-button">
+                                    <a href="https://wpdeveloper.com/support?open_crisp=true" target="_blank" class="chat-button">
                                         <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#a)" fill="#fff"><path d="M7.93.727H1.555C.97.727.5 1.198.5 1.782V6c0 .584.471 1.055 1.055 1.055h.351V8.11c0 .254.263.438.52.31.008-.008.022-.008.029-.015 1.934-1.297 1.5-1.008 1.933-1.294a.35.35 0 0 1 .19-.056H7.93c.583 0 1.054-.47 1.054-1.055V1.782c0-.584-.47-1.055-1.054-1.055M5.117 4.946h-2.86c-.463 0-.465-.703 0-.703h2.86c.464 0 .466.703 0 .703m2.11-1.406h-4.97c-.463 0-.465-.704 0-.704h4.97c.463 0 .465.704 0 .704" /><path d="M11.445 3.54H9.687V6c0 .97-.787 1.758-1.757 1.758H4.684l-.668.443v.612c0 .584.47 1.055 1.054 1.055h3.457l2.018 1.35c.276.153.549-.033.549-.296V9.868h.351c.584 0 1.055-.471 1.055-1.055V4.594c0-.583-.471-1.054-1.055-1.054" /></g><defs><clipPath id="a"><path fill="#fff" d="M.5 0h12v12H.5z" /></clipPath></defs></svg>
                                         Initiate Chat
                                     </a>
