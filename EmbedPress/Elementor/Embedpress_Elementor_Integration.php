@@ -156,6 +156,7 @@ class Embedpress_Elementor_Integration
                 --placeholder-text-color: #5f6c7f;
                 --submit-button-color: #5b4e96;
                 --form-control-backgound: #fff;
+                --upgrade-box-title-color: #1d2939;
             }
 
             @media (prefers-color-scheme: light) {
@@ -173,6 +174,8 @@ class Embedpress_Elementor_Integration
                     --placeholder-text-color: #5f6c7f;
                     --submit-button-color: #5b4e96;
                     --form-control-backgound: #fff;
+                    --upgrade-box-title-color: #1d2939;
+
                 }
             }
 
@@ -191,6 +194,8 @@ class Embedpress_Elementor_Integration
                     --placeholder-text-color: #CBCBD0;
                     --submit-button-color: #fff;
                     --form-control-backgound: #1F2124;
+                    --upgrade-box-title-color: #fff;
+
 
                 }
             }
@@ -354,7 +359,7 @@ class Embedpress_Elementor_Integration
 
             .elementor-panel .plugin-rating .upgrade-box {
                 padding: 15px;
-                margin-top: 20px;
+                margin-top: 15px;
                 border-radius: 8px;
                 text-align: left;
             }
@@ -365,6 +370,7 @@ class Embedpress_Elementor_Integration
                 margin-bottom: 10px;
                 color: #1d2939;
                 color: #fff;
+                color: var(--upgrade-box-title-color);
                 font-weight: 600;
             }
 
