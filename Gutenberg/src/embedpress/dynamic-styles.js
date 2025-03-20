@@ -160,6 +160,11 @@ export const dynamicStyles = ({ attributes }) => {
                         height: ${height}px!important;
                         width: ${width}px!important;
                     }
+
+                    [data-source-id="source-${clientId}"] .ose-embedpress-responsive.ose-google-photos{
+                        height: 100% !important;
+                        max-height: 100% !important;
+                    }
                     
                     
                 `}
