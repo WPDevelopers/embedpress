@@ -109,13 +109,16 @@ const Upgrade = () => {
             });
     };
 
+    const thankMsgHeading = rating == 5 ? 'We’re glad that you liked us! :heart_eyes:': 'We appreciate it!';
+    const thankMsgDes = rating == 5 ? 'If you don’t mind, could you take 30 seconds to review us on WordPress? Your feedback will help us improve and grow. Thank you in advance! :pray:' : 'A heartfelt gratitude for managing the time to share your thoughts with us';
+
 
     return (
         <div className="plugin-rating">
             {
                 !showForm && !showThank && !ratingClosed && (
                     <frameElement>
-                        <h4>Share your feeling</h4>
+                        <h4>Rate EmbedPress</h4>
                         <div className="stars">
                             {[...Array(5)].map((_, i) => (
                                 <svg
@@ -141,7 +144,7 @@ const Upgrade = () => {
                 showForm && !showThank && !ratingClosed && (
                     <div className="feedback-submit-container">
                         <h5 className="help-message">Help us make it better!</h5>
-                        <p className="form-description">Description</p>
+                        <p className="form-description">Please share what went wrong with The NotificationX so that we can improve further*</p>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <textarea name="message" ref={textareaRef} placeholder="Describe your issue in details" type="text" rows={4} className="form-control"></textarea>
@@ -153,10 +156,13 @@ const Upgrade = () => {
                     </div>
                 )
             }
+
+            
+
             {showThank && !ratingClosed && (
                 <div className="tankyou-msg-container">
-                    <h5 className="help-message">Thanks for sharing!</h5>
-                    <p className="thank-you-message">We really appreciate you taking the time to share your thoughts with us. </p>
+                    <h5 className="help-message">{thankMsgHeading}</h5>
+                    <p className="thank-you-message">{thankMsgDes}</p>
 
                     {
                         showRateButton && (
@@ -168,14 +174,15 @@ const Upgrade = () => {
                     }
                 </div>
             )}
-            <p>We are here to help</p>
-            <a href="https://embedpress.com/?support=true" target="_blank" className="chat-button"><svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#a)" fill="#fff"><path d="M7.93.727H1.555C.97.727.5 1.198.5 1.782V6c0 .584.471 1.055 1.055 1.055h.351V8.11c0 .254.263.438.52.31.008-.008.022-.008.029-.015 1.934-1.297 1.5-1.008 1.933-1.294a.35.35 0 0 1 .19-.056H7.93c.583 0 1.054-.47 1.054-1.055V1.782c0-.584-.47-1.055-1.054-1.055M5.117 4.946h-2.86c-.463 0-.465-.703 0-.703h2.86c.464 0 .466.703 0 .703m2.11-1.406h-4.97c-.463 0-.465-.704 0-.704h4.97c.463 0 .465.704 0 .704" /><path d="M11.445 3.54H9.687V6c0 .97-.787 1.758-1.757 1.758H4.684l-.668.443v.612c0 .584.47 1.055 1.054 1.055h3.457l2.018 1.35c.276.153.549-.033.549-.296V9.868h.351c.584 0 1.055-.471 1.055-1.055V4.594c0-.583-.471-1.054-1.055-1.054" /></g><defs><clipPath id="a"><path fill="#fff" d="M.5 0h12v12H.5z" /></clipPath></defs></svg>Initiate Chat</a>
+
+            <p>Need help? We're here</p>
+            <a href="https://embedpress.com/?support=true" target="_blank" className="chat-button"><svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#a)" fill="#fff"><path d="M7.93.727H1.555C.97.727.5 1.198.5 1.782V6c0 .584.471 1.055 1.055 1.055h.351V8.11c0 .254.263.438.52.31.008-.008.022-.008.029-.015 1.934-1.297 1.5-1.008 1.933-1.294a.35.35 0 0 1 .19-.056H7.93c.583 0 1.054-.47 1.054-1.055V1.782c0-.584-.47-1.055-1.054-1.055M5.117 4.946h-2.86c-.463 0-.465-.703 0-.703h2.86c.464 0 .466.703 0 .703m2.11-1.406h-4.97c-.463 0-.465-.704 0-.704h4.97c.463 0 .465.704 0 .704" /><path d="M11.445 3.54H9.687V6c0 .97-.787 1.758-1.757 1.758H4.684l-.668.443v.612c0 .584.47 1.055 1.054 1.055h3.457l2.018 1.35c.276.153.549-.033.549-.296V9.868h.351c.584 0 1.055-.471 1.055-1.055V4.594c0-.583-.471-1.054-1.055-1.054" /></g><defs><clipPath id="a"><path fill="#fff" d="M.5 0h12v12H.5z" /></clipPath></defs></svg>Let’s Chat</a>
 
             {
                 !isProPluginActive && (
                     <div className="upgrade-box">
-                        <h5>Want Advanced Features?</h5>
-                        <p>Get more powerful widgets & extensions to elevate your Elementor website</p>
+                        <h5>Want to explore more?</h5>
+                        <p>Dive in and discover all the premium features</p>
                         <a href="https://embedpress.com/#pricing" target="_blank" className="upgrade-link">Upgrade to PRO</a>
                     </div>
                 )

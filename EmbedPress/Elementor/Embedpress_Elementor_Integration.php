@@ -666,18 +666,22 @@ class Embedpress_Elementor_Integration
 
                         const ratingClosed = localStorage.getItem("ratingClosed") ? 1 : 0;
 
+                        const thnkMsgHeading = rating == 5 ? 'We appreciate it!' : 'We’re glad that you liked us! :heart_eyes:';
+                        const thnkMsgDsc = rating == 5 ? 'A heartfelt gratitude for managing the time to share your thoughts with us' : 'If you don’t mind, could you take 30 seconds to review us on WordPress? Your feedback will help us improve and grow. Thank you in advance! :pray:If you don’t mind, could you take 30 seconds to review us on WordPress? Your feedback will help us improve and grow. Thank you in advance! :pray:';
+
                         let upsellHtml = `
                             <div class="plugin-rating">
                                 <div class="rating-chat-content">
                                     ${!ratingClosed ? `
                                         ${((rating && rating == 5) || showThank)  ? `
                                             <div class="thankyou-msg-container">
-                                                <h5 class="help-message">Thanks for sharing!</h5>
-                                                <p class="thank-you-message">We really appreciate you taking the time to share your thoughts with us.</p>
+                                            
+                                                <h5 class="help-message">${thnkMsgHeading}</h5>
+                                                <p class="thank-you-message">${thnkMsgDsc}</p>
 
                                                 ${rating == 5 ? `
                                                     <button class="rating-button">
-                                                        Rate the plugin
+                                                        Rate the Plugin
                                                         <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                             <path d="M3.75 2.083 6.25 5l-2.5 2.917" stroke="#5B4E96" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" />
                                                         </svg>
@@ -687,7 +691,7 @@ class Embedpress_Elementor_Integration
                                         ` : rating && rating < 5 ? `
                                             <div class="feedback-submit-container">
                                                 <h5 class="help-message">Help us make it better!</h5>
-                                                <p class="form-description">Description</p>
+                                                <p class="form-description">Please share what went wrong with The NotificationX so that we can improve further*</p>
                                                 <form id="feedback-form">
                                                     <div class="form-group">
                                                         <textarea name="message" placeholder="Describe your issue in details" type="text" rows="4" class="form-control"></textarea>
@@ -698,7 +702,7 @@ class Embedpress_Elementor_Integration
                                                 </form>
                                             </div>
                                         ` : `
-                                            <h4>Share your feeling</h4>
+                                            <h4>Rate EmbedPress</h4>
                                             <div class="stars">
                                                 ${[1, 2, 3, 4, 5].map(i => `
                                                     <svg class="star" data-rating="${i}" width="20" height="18.667" viewBox="0 0 20 18.667" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -712,16 +716,16 @@ class Embedpress_Elementor_Integration
                                         `}
                                     ` : ''}
 
-                                    <p style="font-weight: 500">We are here to help</p>
+                                    <p style="font-weight: 500">Need help? We're here</p>
                                     <a href="https://embedpress.com/?support=true" target="_blank" class="chat-button">
                                         <svg width="13" height="12" viewBox="0 0 13 12" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#a)" fill="#fff"><path d="M7.93.727H1.555C.97.727.5 1.198.5 1.782V6c0 .584.471 1.055 1.055 1.055h.351V8.11c0 .254.263.438.52.31.008-.008.022-.008.029-.015 1.934-1.297 1.5-1.008 1.933-1.294a.35.35 0 0 1 .19-.056H7.93c.583 0 1.054-.47 1.054-1.055V1.782c0-.584-.47-1.055-1.054-1.055M5.117 4.946h-2.86c-.463 0-.465-.703 0-.703h2.86c.464 0 .466.703 0 .703m2.11-1.406h-4.97c-.463 0-.465-.704 0-.704h4.97c.463 0 .465.704 0 .704" /><path d="M11.445 3.54H9.687V6c0 .97-.787 1.758-1.757 1.758H4.684l-.668.443v.612c0 .584.47 1.055 1.054 1.055h3.457l2.018 1.35c.276.153.549-.033.549-.296V9.868h.351c.584 0 1.055-.471 1.055-1.055V4.594c0-.583-.471-1.054-1.055-1.054" /></g><defs><clipPath id="a"><path fill="#fff" d="M.5 0h12v12H.5z" /></clipPath></defs></svg>
-                                        Initiate Chat
+                                        Let’s Chat
                                     </a>
                                 </div>
                                 ${!isProActive ? `
                                     <div class="upgrade-box">
-                                        <h5>Want Advanced Features?</h5>
-                                        <p>Get more powerful widgets & extensions to elevate your Elementor website</p>
+                                        <h5>Want to explore more?</h5>
+                                        <p>Dive in and discover all the premium features</p>
                                         <a href="https://embedpress.com/#pricing" target="_blank" class="upgrade-link">Upgrade to PRO</a>
                                     </div>` : ''}
                             </div>

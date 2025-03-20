@@ -75,11 +75,11 @@ class Elementor_Upsell
                 <?php endfor; ?>
             </div>
 
-            <button class="chat-button">Initiate Chat</button>
+            <button class="chat-button">Let’s Chat</button>
 
             <div class="upgrade-box">
-                <h5>Want Advanced Features?</h5>
-                <p>Get more powerful widgets & extensions to elevate your Elementor website.</p>
+                <h5>Want to explore more?</h5>
+                <p>Dive in and discover all the premium features.</p>
                 <a href="https://embedpress.com/#pricing" target="_blank" class="upgrade-link">Upgrade to PRO</a>
             </div>
         </div>
