@@ -213,6 +213,9 @@ const pdfIframeStyle = (data) => {
             bottom: 32px;
             top: auto; 
         }
+        #mainContainer {
+            top: -40px!important;
+        }
     `;
     }
 
@@ -325,7 +328,7 @@ if (data.lazyLoad === false || data.lazyLoad == 'false') {
 else {
     function updateOpacity() {
         const pdfViewer = document.querySelector('.pdfViewer');
-        
+
         if (pdfViewer.innerHTML.trim()) {
             document.querySelector('html').style.opacity = '1';
             document.querySelector('html').style.transition = '500ms';
