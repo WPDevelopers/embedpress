@@ -22,6 +22,7 @@ import { epGetPopupIcon, epGetDownloadIcon, epGetPrintIcon, epGetFullscreenIcon,
 import { isFileUrl } from '../common/helper';
 import DocControls from './doc-controls';
 import { EPIcon, InfoIcon } from '../common/icons';
+import Upgrade from '../embedpress/Upgrade';
 
 const { BlockControls } = wp.blockEditor;
 
@@ -301,6 +302,8 @@ class DocumentEdit extends Component {
 						</PanelBody>
 
 						<DocControls attributes={attributes} setAttributes={setAttributes} />
+
+						<Upgrade />
 
 					</InspectorControls>
 				</Fragment>

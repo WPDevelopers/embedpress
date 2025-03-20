@@ -25,6 +25,7 @@ const { ToolbarButton } = wp.components;
 import { PdfIcon } from '../common/icons'
 import AdControl from '../common/ads-control';
 import AdTemplate from '../common/ads-template';
+import Upgrade from '../embedpress/Upgrade';
 
 /**
  * WordPress dependencies
@@ -663,6 +664,8 @@ class EmbedPressPDFEdit extends Component {
 						<AdControl attributes={attributes} setAttributes={setAttributes} />
 						<LockControl attributes={attributes} setAttributes={setAttributes} />
 						<ContentShare attributes={attributes} setAttributes={setAttributes} />
+
+						<Upgrade />
 
 					</InspectorControls>
 
