@@ -3592,6 +3592,11 @@ figure .ep-youtube__content__block .thumb {
 
 }
 
+.ose-google-photos {
+    height: 100% !important;
+    max-height: 100% !important;
+}
+
 
 /* Leons style */
 /* Basic styling */
