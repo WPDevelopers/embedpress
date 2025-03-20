@@ -17,7 +17,7 @@
     --progressBar-indeterminate-bg-color: rgba(221, 221, 222, 1);
     --progressBar-indeterminate-blend-color: rgba(116, 177, 239, 1);
     --scrollbar-color: auto;
-    --scrollbar-bg-color: auto;
+    --scrollbar-bg-color: transparent;
     --toolbar-icon-bg-color: rgba(0, 0, 0, 1);
     --toolbar-icon-hover-bg-color: rgba(0, 0, 0, 1);
 
@@ -150,8 +150,8 @@
     --progressBar-color: rgba(10, 132, 255, 1);
     --progressBar-indeterminate-bg-color: rgba(221, 221, 222, 1);
     --progressBar-indeterminate-blend-color: rgba(116, 177, 239, 1);
-    --scrollbar-color: auto;
-    --scrollbar-bg-color: auto;
+    --scrollbar-color: rgba(121, 121, 123, 1);
+    --scrollbar-bg-color: transparent;
     --toolbar-icon-bg-color: rgba(0, 0, 0, 1);
     --toolbar-icon-hover-bg-color: rgba(0, 0, 0, 1);
 
@@ -274,7 +274,7 @@
     --progressBar-indeterminate-bg-color: rgba(40, 40, 43, 1);
     --progressBar-indeterminate-blend-color: rgba(20, 68, 133, 1);
     --scrollbar-color: rgba(121, 121, 123, 1);
-    --scrollbar-bg-color: rgba(35, 35, 39, 1);
+    --scrollbar-bg-color: transparent;
     --toolbar-icon-bg-color: rgba(255, 255, 255, 1);
     --toolbar-icon-hover-bg-color: rgba(255, 255, 255, 1);
 
