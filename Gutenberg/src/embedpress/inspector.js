@@ -17,6 +17,7 @@ import CustomBranding from './InspectorControl/custombranding';
 import Spreaker from './InspectorControl/spreaker';
 import GooglePhotos from './InspectorControl/google-photos';
 import Upgrade from './Upgrade';
+import { isGooglePhotosUrl } from './functions';
 
 /**
  * WordPress dependencies
@@ -59,6 +60,7 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
         contentPassword,
         editingURL,
         embedHTML,
+        mode,
     } = attributes;
 
     const isProPluginActive = embedpressObj.is_pro_plugin_active;
@@ -173,24 +175,23 @@ export default function Inspector({ attributes, setAttributes, isYTChannel, isYT
                                     />
 
                                     {
-                                        ((!isInstagramFeed(url) && !isInstagramHashtag(url) && !isYTChannel) && ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo) || (videosize == 'fixed'))) && (
+                                        (!isGooglePhotosUrl(url) && ((!isInstagramFeed(url) && !isInstagramHashtag(url) && !isYTChannel) && ((!isYTVideo && !isVimeoVideo && !isYTLive && !isSelfHostedVideo) || (videosize == 'fixed')))) ||
+                                            (isGooglePhotosUrl(url) && (mode === 'carousel' || mode === 'gallery-player')) ? (
                                             <TextControl
                                                 label={__("Height")}
                                                 value={height}
                                                 onChange={(height) => {
-                                                    {
-                                                        (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo) ? (
-                                                            setAttributes({
-                                                                height: `${Math.round(height)}`,
-                                                                width: `${roundToNearestFive(Math.round((height * 16) / 9))}`
-                                                            })
-                                                        ) : (
-                                                            setAttributes({ height })
-                                                        )
+                                                    if (isVimeoVideo || isYTVideo || isYTLive || isSelfHostedVideo) {
+                                                        setAttributes({
+                                                            height: `${Math.round(height)}`,
+                                                            width: `${roundToNearestFive(Math.round((height * 16) / 9))}`
+                                                        });
+                                                    } else {
+                                                        setAttributes({ height });
                                                     }
                                                 }}
                                             />
-                                        )
+                                        ) : null
                                     }
 
                                     {

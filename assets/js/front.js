@@ -1382,6 +1382,74 @@ jQuery(document).ready(function ($) {
     });
 });
 
+jQuery(document).ready(function ($) {
+
+    function createPopupGooglePhotos() {
+        if ($('#popup-overlay').length === 0) {
+            const photoPopup = `
+            <div class="popup-overlay" id="popup-overlay">
+                <div class="popup">
+                    <span class="close-btn" id="close-btn">
+                        <svg width="20" height="20" viewBox="0 0 0.6 0.6" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M.132.132a.025.025 0 0 1 .035 0L.3.265.432.133a.025.025 0 1 1 .035.035L.335.3l.132.132a.025.025 0 0 1-.035.035L.3.335.168.467A.025.025 0 0 1 .133.432L.265.3.132.168a.025.025 0 0 1 0-.035" fill="#fff"/></svg>
+                    </span>
+                    <button class="prev-btn" id="prev-btn">
+                    <svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.525.275h-.39L.268.143A.025.025 0 1 0 .233.108L.058.283a.025.025 0 0 0 0 .035l.175.175a.025.025 0 0 0 .035 0 .025.025 0 0 0 0-.035L.135.325h.39a.025.025 0 0 0 0-.05" style="fill:#fff"/></svg>
+                    </button>
+                    <div id="popup-content">
+                        <img id="popup-image" src="" alt="Popup Image" loading="lazy">
+                    </div>
+                    <button class="next-btn" id="next-btn">
+                    <svg width="20" height="20" viewBox="0 0 0.6 0.6" data-name="Flat Color" xmlns="http://www.w3.org/2000/svg" class="icon flat-color"><path d="M.543.282.368.107a.025.025 0 0 0-.035.035l.133.132H.075a.025.025 0 0 0 0 .05h.39L.332.456a.025.025 0 0 0 0 .035.025.025 0 0 0 .035 0L.542.316a.025.025 0 0 0 0-.035" style="fill:#fff"/></svg>
+                    </button>
+                </div>
+            </div>`;
+            $('body').append(photoPopup);
+        }
+    }
+
+    createPopupGooglePhotos(); // Ensure popup exists
+
+    let currentIndex = 0;
+    const $photos = $('.photo-item');
+
+    $('.photo-item').on('click', function () {
+        currentIndex = $photos.index(this);
+        updatePopupImage();
+        $('#popup-overlay').show();
+    });
+
+    $('#popup-overlay').on('click', function (e) {
+        if ($(e.target).is('#popup-overlay') || $(e.target).is('.popup')) {
+            $('#popup-overlay').hide();
+        }
+    });
+
+
+
+
+    $('#close-btn').on('click', function () {
+        $('#popup-overlay').hide();
+    });
+
+    $('#prev-btn').on('click', function () {
+        currentIndex = (currentIndex - 1 + $photos.length) % $photos.length;
+        updatePopupImage();
+    });
+
+    $('#next-btn').on('click', function () {
+        currentIndex = (currentIndex + 1) % $photos.length;
+        updatePopupImage();
+    });
+
+    function updatePopupImage() {
+        const imgSrc = $photos.eq(currentIndex).find('img').attr('src');
+        $('#popup-image').attr('src', imgSrc);
+    }
+
+
+
+
+});
 
 
 // pause audio/video
@@ -1401,3 +1469,12 @@ jQuery(document).ready(function () {
         pauseAllExcept(jQuery(this));
     });
 });
+
+
+//Leon scripts
+
+const photoItems = document.querySelectorAll('.photo-item')
+
+photoItems.forEach((photoItem) => {
+
+})
