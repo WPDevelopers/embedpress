@@ -130,6 +130,7 @@ function embedpress_render_block($attributes)
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
 	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
 	$instaLayout = !empty($attributes['instaLayout']) ? ' '.$attributes['instaLayout'] : ' insta-grid';
+	$mode = !empty($attributes['mode']) ? ' photos-'.$attributes['mode'] : '';
 
 	$_carousel_options = '';
 	$_carousel_id = '';
@@ -312,6 +313,7 @@ function embedpress_render_block($attributes)
 								echo esc_attr($player_preset);
 							} 
 							echo esc_attr($instaLayout);
+							echo esc_attr($mode);
 						?> <?php echo esc_attr($hosted_format); ?> <?php echo esc_attr($yt_channel_class); ?>" 
 						<?php echo esc_attr($_custom_player); ?> 
 						<?php echo esc_attr($_player_options); ?> 

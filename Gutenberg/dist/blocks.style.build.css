@@ -1512,7 +1512,8 @@ button.skip-ad-button {
       -webkit-box-shadow: none !important;
               box-shadow: none !important;
       outline: 1px solid #5b4e96; }
-    .plugin-rating .tankyou-msg-container .submit-button, .plugin-rating .tankyou-msg-container .rating-button,
+    .plugin-rating .tankyou-msg-container .submit-button,
+    .plugin-rating .tankyou-msg-container .rating-button,
     .plugin-rating .feedback-submit-container .submit-button,
     .plugin-rating .feedback-submit-container .rating-button {
       border-radius: 4px;
@@ -1529,7 +1530,8 @@ button.skip-ad-button {
           align-items: center;
       -ms-flex-pack: center;
           justify-content: center; }
-      .plugin-rating .tankyou-msg-container .submit-button svg, .plugin-rating .tankyou-msg-container .rating-button svg,
+      .plugin-rating .tankyou-msg-container .submit-button svg,
+      .plugin-rating .tankyou-msg-container .rating-button svg,
       .plugin-rating .feedback-submit-container .submit-button svg,
       .plugin-rating .feedback-submit-container .rating-button svg {
         height: 18px;
@@ -1616,7 +1618,9 @@ button.skip-ad-button {
       .plugin-rating .upgrade-box .upgrade-link:hover {
         text-decoration: underline; }
 
-.ose-google-photos {
+.photos-gallery-grid .ose-google-photos,
+.photos-gallery-masonary .ose-google-photos,
+.photos-gallery-justify .ose-google-photos {
   height: 100% !important;
   max-height: 100% !important; }
 /**

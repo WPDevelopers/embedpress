@@ -76,7 +76,7 @@ const Upgrade = () => {
     };
 
     const handlFiveStarRating = () => {
-        window.open("https://wordpress.org/support/plugin/embedpress/reviews/?filter=4#new-post", "_blank");
+        window.open("https://wordpress.org/support/plugin/embedpress/reviews/#new-post", "_blank");
     }
 
     const handleSubmit = (event) => {

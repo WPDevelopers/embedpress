@@ -3934,9 +3934,6 @@ class Embedpress_Elementor extends Widget_Base
 					{{WRAPPER}} .ose-giphy img,
 					{{WRAPPER}} .jx-gallery-player-widget' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
 				],
-				'condition' => [
-					'embedpress_pro_embeded_source!' => 'google_photos',
-				],
 			]
 		);
 
@@ -3978,89 +3975,11 @@ class Embedpress_Elementor extends Widget_Base
 				],
 				'condition' => [
 					'embedpress_pro_embeded_source!' => 'instafeed',
-					'embedpress_pro_embeded_source!' => 'google_photos',
+					'mode!' => ['gallery-masonary', 'gallery-grid', 'gallery-justify'],
 				],
 			]
 		);
-		$this->add_responsive_control(
-			'google_photos_width',
-			[
-				'label' => __('Width', 'embedpress'),
-				'type' => Controls_Manager::SLIDER,
-				'size_units' => ['px'],
-				'range' => [
-					'px' => [
-						'min' => 0,
-						'max' => 1500,
-						'step' => 1,
-					],
-				],
-				'devices' => ['desktop', 'tablet', 'mobile'],
-				'default' => [
-                    'size' => !empty($value = intval(Helper::get_options_value('enableEmbedResizeWidth'))) ? $value : 600,
-					'unit' => 'px',
-				],
-				'desktop_default' => [
-					'size' => 600,
-					'unit' => 'px',
-				],
-				'tablet_default' => [
-					'size' => 600,
-					'unit' => 'px',
-				],
-				'mobile_default' => [
-					'size' => 600,
-					'unit' => 'px',
-				],
-				'selectors' => [
-					'{{WRAPPER}} .embedpress-elements-wrapper .ose-google-photos iframe,
-					{{WRAPPER}} .ose-google-photos,
-					{{WRAPPER}} .jx-gallery-player-widget' => 'width: {{size}}{{UNIT}}!important; max-width: 100%!important;',
-				],
-				'condition' => [
-					'embedpress_pro_embeded_source' => 'google_photos'
-				],
-				
-			]
-		);
-
-		$this->add_responsive_control(
-			'google_photos_height',
-			[
-				'label' => __('Height', 'embedpress'),
-				'type' => Controls_Manager::SLIDER,
-				'size_units' => ['px', '%'],
-				'range' => [
-					'px' => [
-						'min' => 0,
-						'max' => 1500,
-						'step' => 1,
-					],
-				],
-				'devices' => ['desktop', 'tablet', 'mobile'],
-				'desktop_default' => [
-					'size' => 400,
-					'unit' => 'px',
-				],
-				'default' => [
-                    'size' => !empty($value = intval(Helper::get_options_value('enableEmbedResizeHeight'))) ? $value : 600,
-					'unit' => 'px',
-				],
-				'tablet_default' => [
-					'size' => 400,
-					'unit' => 'px',
-				],
-				'mobile_default' => [
-					'size' => 400,
-					'unit' => 'px',
-				],
-				
-				'condition' => [
-					'embedpress_pro_embeded_source' => 'google_photos',
-					'mode!' => ['gallery-grid', 'gallery-masonary', 'gallery-justify'],
-				],
-			]
-		);
+		
 		$this->add_control(
 			'width_height_important_note',
 			[
@@ -4520,6 +4439,7 @@ class Embedpress_Elementor extends Widget_Base
 						class="ep-embed-content-wrapper 
 						<?php echo isset($settings['custom_player_preset']) ? esc_attr($settings['custom_player_preset']) : ''; ?> 
 						<?php echo esc_attr($this->get_instafeed_layout($settings)); ?> 
+						<?php echo esc_attr('photos-'.$settings['mode']); ?>
 						<?php echo esc_attr($hosted_format); ?>" 
 						<?php echo $data_playerid; ?>
 						<?php echo $data_carouselid; ?>
