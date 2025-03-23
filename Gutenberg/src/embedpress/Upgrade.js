@@ -3,7 +3,9 @@ import { select } from '@wordpress/data';
 import { useSelect } from '@wordpress/data';
 
 const Upgrade = () => {
-    const [ratingClosed, setRatingClosed] = useState(() => localStorage.getItem("ratingClosed") === "true");
+    const isEmbedpressFeedbackSubmited = embedpressObj.is_embedpress_feedback_submited;
+
+    const [ratingClosed, setRatingClosed] = useState(isEmbedpressFeedbackSubmited);
     const [rating, setRating] = useState(5);
     const [showThank, setShowThank] = useState(false);
     const [showRateButton, setShowRateButton] = useState(false);
@@ -109,14 +111,14 @@ const Upgrade = () => {
             });
     };
 
-    const thankMsgHeading = rating == 5 ? 'We’re glad that you liked us! :heart_eyes:' : 'We appreciate it!';
-    const thankMsgDes = rating == 5 ? 'If you don’t mind, could you take 30 seconds to review us on WordPress? Your feedback will help us improve and grow. Thank you in advance! :pray:' : 'A heartfelt gratitude for managing the time to share your thoughts with us.';
+    const thankMsgHeading = rating == 5 ? 'We’re glad that you liked us! 😍' : 'We appreciate it!';
+    const thankMsgDes = rating == 5 ? 'If you don’t mind, could you take 30 seconds to review us on WordPress? Your feedback will help us improve and grow. Thank you in advance! 🙏' : 'A heartfelt gratitude for managing the time to share your thoughts with us.';
 
 
     return (
         <div className="plugin-rating">
             {
-                !showForm && !showThank && !ratingClosed && (
+                !showForm && !showThank && !ratingClosed && !isEmbedpressFeedbackSubmited && (
                     <frameElement>
                         <h4>Rate EmbedPress</h4>
                         <div className="stars">
@@ -143,7 +145,7 @@ const Upgrade = () => {
             }
 
             {
-                showForm && !showThank && !ratingClosed && (
+                showForm && !showThank && !ratingClosed && !isEmbedpressFeedbackSubmited && (
                     <div className="feedback-submit-container">
                         <h5 className="help-message">Help us make it better!</h5>
                         <p className="form-description">Please share what went wrong with The EmbedPress so that we can improve further*</p>
@@ -161,7 +163,7 @@ const Upgrade = () => {
 
 
 
-            {showThank && !ratingClosed && (
+            {showThank && !ratingClosed && !isEmbedpressFeedbackSubmited && (
                 <div className="tankyou-msg-container">
                     <h5 className="help-message">{thankMsgHeading}</h5>
                     <p className="thank-you-message">{thankMsgDes}</p>

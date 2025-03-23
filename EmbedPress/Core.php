@@ -441,6 +441,7 @@ class Core
         $sent = wp_mail($to, $subject, $message, $headers);
 
         if ($sent) {
+            update_option( 'embedpress_feedback_submited', true );
             return new \WP_REST_Response(['message' => 'Email sent successfully!'], 200);
         } else {
             return new \WP_REST_Response(['message' => 'Failed to send email.'], 500);

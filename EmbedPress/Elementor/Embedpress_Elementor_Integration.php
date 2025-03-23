@@ -468,6 +468,7 @@ class Embedpress_Elementor_Integration
                 margin-bottom: 12px;
                 font-family: system-ui;
                 color: var(--description-text-color);
+                line-height: 1.4;
             }
 
             .elementor-panel span.close-icon {
@@ -552,6 +553,7 @@ class Embedpress_Elementor_Integration
 
                     const currentUser = <?php echo json_encode(wp_get_current_user()->data); ?>;
                     const isProActive = <?php echo json_encode(is_plugin_active('embedpress-pro/embedpress-pro.php')); ?>;
+                    const isEmbedpressFeedbackSubmited = <?php echo json_encode(get_option('embedpress_feedback_submited')); ?>;
 
                     function handleRating(selectedRating) {
                         console.log(selectedRating);
@@ -612,7 +614,6 @@ class Embedpress_Elementor_Integration
 
                                 setTimeout(() => {
                                     $(".thankyou-msg-container").fadeOut(500, function() {
-                                        localStorage.setItem("ratingClosed", "true");
                                         $(this).remove();
                                     });
                                 }, 3000); // Disappear after 3 seconds
@@ -645,13 +646,6 @@ class Embedpress_Elementor_Integration
                                 localStorage.setItem("feedbackSubmitted", "true");
                                 renderUpsellSection();
 
-                                setTimeout(() => {
-                                    $(".thankyou-msg-container").fadeOut(500, function() {
-                                        localStorage.setItem("ratingClosed", "true");
-                                        $(this).remove();
-                                    });
-                                }, 60 * 1000); // Disappear after 3 seconds
-
                             })
                             .catch(error => {
                                 console.error('Error:', error);
@@ -664,15 +658,14 @@ class Embedpress_Elementor_Integration
 
                         $(".plugin-rating").remove(); // Remove previous upsell section
 
-                        const ratingClosed = localStorage.getItem("ratingClosed") ? 1 : 0;
 
-                        const thnkMsgHeading = rating == 5 ? 'We appreciate it!' : 'We’re glad that you liked us! :heart_eyes:';
-                        const thnkMsgDsc = rating == 5 ? 'A heartfelt gratitude for managing the time to share your thoughts with us' : 'If you don’t mind, could you take 30 seconds to review us on WordPress? Your feedback will help us improve and grow. Thank you in advance! :pray:If you don’t mind, could you take 30 seconds to review us on WordPress? Your feedback will help us improve and grow. Thank you in advance! :pray:';
+                        const thnkMsgHeading = rating < 5 ? 'We appreciate it!' : 'We’re glad that you liked us! 😍';
+                        const thnkMsgDsc = rating < 5 ? 'A heartfelt gratitude for managing the time to share your thoughts with us' : 'If you don’t mind, could you take 30 seconds to review us on WordPress? Your feedback will help us improve and grow. Thank you in advance! 🙏';
 
                         let upsellHtml = `
                             <div class="plugin-rating">
                                 <div class="rating-chat-content">
-                                    ${!ratingClosed ? `
+                                    ${!isEmbedpressFeedbackSubmited ? `
                                         ${((rating && rating == 5) || showThank)  ? `
                                             <div class="thankyou-msg-container">
                                             
@@ -703,11 +696,12 @@ class Embedpress_Elementor_Integration
                                             </div>
                                         ` : `
                                             <h4>Rate EmbedPress</h4>
-                                            <div class="stars">
+                                            <div class="stars">  
                                                 ${[1, 2, 3, 4, 5].map(i => `
-                                                    <svg class="star" data-rating="${i}" width="20" height="18.667" viewBox="0 0 20 18.667" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <svg class="star" data-rating="${i}" width="20" height="18.667" viewBox="0 0 20 18.667" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                                        style={{ cursor: "pointer", transition: "fill 0.2s ease-in-out" }}>
                                                         <g clip-path="url(#a)">
-                                                            <path d="m7.3 5.709-4.963.72-.087.017a.777.777 0 0 0-.343 1.309l3.595 3.499-.848 4.943-.009.087a.777.777 0 0 0 1.139.733l4.437-2.333 4.428 2.333.077.036a.777.777 0 0 0 1.053-.855l-.849-4.944 3.596-3.5.061-.067a.777.777 0 0 0-.493-1.259l-4.961-.72-2.218-4.495a.777.777 0 0 0-1.396 0z" fill="${i <= rating ? '#FFD700' : '#B1B8C2'}"/>
+                                                            <path d="m7.3 5.709-4.963.72-.087.017a.777.777 0 0 0-.343 1.309l3.595 3.499-.848 4.943-.009.087a.777.777 0 0 0 1.139.733l4.437-2.333 4.428 2.333.077.036a.777.777 0 0 0 1.053-.855l-.849-4.944 3.596-3.5.061-.067a.777.777 0 0 0-.493-1.259l-4.961-.72-2.218-4.495a.777.777 0 0 0-1.396 0z"/>
                                                         </g>
                                                         <defs><clipPath id="a"><path fill="#fff" d="M.888 0h18.667v18.667H.888z"/></clipPath></defs>
                                                     </svg>
@@ -733,11 +727,38 @@ class Embedpress_Elementor_Integration
 
                         $(upsellHtml).insertAfter(targetNode);
 
-                        // Attach click event to stars
-                        $(".star").on("click", function() {
-                            let selectedRating = $(this).data("rating");
-                            handleRating(selectedRating);
+
+
+                        let currentRating = 0; // Store the selected rating
+                        $(".star").attr("fill", "#FFD700");
+
+                        $(".star").on("mouseenter", function() {
+                            let hoverRating = $(this).data("rating");
+
+                            console.log(hoverRating);
+
+                            $(".star").each(function() {
+                                $(this).attr("fill", $(this).data("rating") <= hoverRating ? "#FFD700" : "#B1B8C2");
+                            });
                         });
+
+                        $(".star").on("mouseleave", function() {
+                            $(".star").each(function() {
+                                $(this).attr("fill", $(this).data("rating") <= currentRating ? "#FFD700" : "#B1B8C2");
+                            });
+                        });
+
+                        $(".star").on("click", function() {
+                            currentRating = $(this).data("rating");
+
+                            $(".star").each(function() {
+                                $(this).attr("fill", $(this).data("rating") <= currentRating ? "#FFD700" : "#B1B8C2");
+                            });
+
+                            handleRating(currentRating);
+                        });
+
+
 
                         $(".rating-button").on("click", function() {
                             window.open('https://wordpress.org/support/plugin/embedpress/reviews/#new-post')
