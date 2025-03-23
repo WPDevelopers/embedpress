@@ -397,33 +397,53 @@ class Core
     {
         $params = $params->get_params();
 
+        $site_name   = get_bloginfo('name');
+        $site_url    = get_site_url();
+        $admin_email = get_option('admin_email');
+        $wp_version  = get_bloginfo('version');
+
+        $admin_user = get_user_by('ID', 1);
+        if ($admin_user) {
+            $first_name = get_user_meta($admin_user->ID, 'first_name', true);
+            $last_name = get_user_meta($admin_user->ID, 'last_name', true);
+            
+            $admin_full_name = trim("$first_name $last_name");
+            
+            // Fallback to display name if full name is not set
+            if (empty($admin_full_name)) {
+                $admin_full_name = $admin_user->display_name;
+            }
+        } else {
+            $admin_full_name = 'Unknown';
+        }
+
         $to = 'support@wpdeveloper.com'; // Replace with the recipient's email
         $subject = '[IMPORTANT] New feedback received from an EmbedPress user.';
 
         // HTML Email Template
-        $message = '<html><body style="font-family: Arial, sans-serif; background-color: #f4f6f8; padding: 20px;">';
+        $message = '<html><body style="font-family: Arial, sans-serif;  padding: 20px;">';
         $message .= '<div style="max-width: 600px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin: auto;">';
-        $message .= '<div style="text-align: center; padding-bottom: 20px;">';
+        $message .= '<div style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #ddd">';
         $message .= '<img src="https://embedpress.com/wp-content/uploads/2025/03/logo.png" alt="EmbedPress" style="max-width: 150px;">';
         $message .= '</div>';
-        $message .= '<h2 style="color: #333; text-align: center;">Feedback Overview</h2>';
-        $message .= '<table style="width: 100%; border-collapse: collapse; background: #f9f9f9;">';
+        $message .= '<h2 style="font-family: system-ui; color: #333; text-align: center;">Feedback Overview</h2>';
+        $message .= '<table style="font-family: system-ui; width: 100%; border-collapse: collapse; border: 1px solid #ddd">';
 
         // Email
         $message .= '<tr><td style="padding: 10px; font-weight: bold; border-bottom: 1px solid #ddd;">Email :</td>';
-        $message .= '<td style="padding: 10px; border-bottom: 1px solid #ddd;">' . esc_html($params['email']) . '</td></tr>';
+        $message .= '<td style="padding: 10px; border-bottom: 1px solid #ddd;"><a href="mailto:' . esc_attr($params['email']) . '">' . esc_html($params['email']) . '</a></td></tr>';
 
         // Rating
         $message .= '<tr><td style="padding: 10px; font-weight: bold; border-bottom: 1px solid #ddd;">Rating :</td>';
-        $message .= '<td style="padding: 10px; border-bottom: 1px solid #ddd;">' . esc_html($params['rating']) . '</td></tr>';
+        $message .= '<td style="padding: 10px; border-bottom: 1px solid #ddd;">' . esc_html($params['rating']) . ' ⭐️</td></tr>';
 
         // User
         $message .= '<tr><td style="padding: 10px; font-weight: bold; border-bottom: 1px solid #ddd;">User :</td>';
-        $message .= '<td style="padding: 10px; border-bottom: 1px solid #ddd; color: blue;">' . esc_html($params['user']) . '</td></tr>';
+        $message .= '<td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: 600;">' . esc_html($admin_full_name) . '</td></tr>';
 
         // Pack
-        $message .= '<tr><td style="padding: 10px; font-weight: bold; border-bottom: 1px solid #ddd;">Pack :</td>';
-        $message .= '<td style="padding: 10px; border-bottom: 1px solid #ddd;"><a href="' . esc_url($params['pack_link']) . '" style="color: blue; text-decoration: none;">' . esc_html($params['pack']) . '</a></td></tr>';
+        $message .= '<tr><td style="padding: 10px; font-weight: bold; border-bottom: 1px solid #ddd;">Site Url :</td>';
+        $message .= '<td style="padding: 10px; border-bottom: 1px solid #ddd;"><a target="_blank" href="' . esc_url($site_url) . '" style="color: blue;">' . esc_html($site_url) . '</a></td></tr>';
 
         // Feedback
         $message .= '<tr><td style="padding: 10px; font-weight: bold;">Feedback :</td>';
