@@ -4,9 +4,11 @@ import { useSelect } from '@wordpress/data';
 
 const Upgrade = () => {
     const [ratingClosed, setRatingClosed] = useState(() => localStorage.getItem("ratingClosed") === "true");
-    const [rating, setRating] = useState(0);
+    const [rating, setRating] = useState(5);
     const [showThank, setShowThank] = useState(false);
     const [showRateButton, setShowRateButton] = useState(false);
+
+    const [hover, setHover] = useState(0);
 
     const [showForm, setShowForm] = useState(false);
     const [message, setMessage] = useState("");
@@ -51,14 +53,9 @@ const Upgrade = () => {
         setRating(selectedRating);
 
         if (selectedRating < 5) {
-            setTimeout(() => {
-                setShowThank(false);
-                localStorage.setItem("ratingClosed", true);
-            }, 1000 * 10);
-
-            console.log({ selectedRating });
 
             setShowForm(true);
+
             setTimeout(() => {
                 if (textareaRef.current) {
                     textareaRef.current.focus();
@@ -102,6 +99,9 @@ const Upgrade = () => {
             .then(data => {
                 console.log('Success:', data);
                 setShowThank(true);
+                setShowForm(false);
+                localStorage.setItem("ratingClosed", true);
+
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -109,8 +109,8 @@ const Upgrade = () => {
             });
     };
 
-    const thankMsgHeading = rating == 5 ? 'We’re glad that you liked us! :heart_eyes:': 'We appreciate it!';
-    const thankMsgDes = rating == 5 ? 'If you don’t mind, could you take 30 seconds to review us on WordPress? Your feedback will help us improve and grow. Thank you in advance! :pray:' : 'A heartfelt gratitude for managing the time to share your thoughts with us';
+    const thankMsgHeading = rating == 5 ? 'We’re glad that you liked us! :heart_eyes:' : 'We appreciate it!';
+    const thankMsgDes = rating == 5 ? 'If you don’t mind, could you take 30 seconds to review us on WordPress? Your feedback will help us improve and grow. Thank you in advance! :pray:' : 'A heartfelt gratitude for managing the time to share your thoughts with us.';
 
 
     return (
@@ -127,10 +127,12 @@ const Upgrade = () => {
                                     width="14"
                                     height="14"
                                     viewBox="0 0 14 14"
-                                    fill={i < rating ? "#FFD700" : "#B1B8C2"} // Fill selected stars
+                                    fill={i < (hover || rating) ? "#FFD700" : "#B1B8C2"} // Gold when hovered/selected, gray otherwise
                                     xmlns="http://www.w3.org/2000/svg"
                                     onClick={() => handleRating(i + 1)}
-                                    style={{ cursor: "pointer" }}
+                                    onMouseEnter={() => setHover(i + 1)}
+                                    onMouseLeave={() => { setRating(0); setHover(0) }}
+                                    style={{ cursor: "pointer", transition: "fill 0.2s ease-in-out" }}
                                 >
                                     <path d="M4.80913 4.28162L1.08747 4.82121L1.02155 4.83462C0.921766 4.86111 0.830798 4.91361 0.757938 4.98676C0.685079 5.0599 0.632937 5.15107 0.606838 5.25096C0.580738 5.35085 0.581617 5.45588 0.609384 5.55531C0.637151 5.65475 0.690811 5.74504 0.764885 5.81695L3.46105 8.44137L2.82522 12.1485L2.81763 12.2126C2.81153 12.3158 2.83296 12.4188 2.87973 12.511C2.9265 12.6032 2.99694 12.6813 3.08383 12.7373C3.17072 12.7934 3.27094 12.8253 3.37422 12.8299C3.47751 12.8344 3.58015 12.8114 3.67163 12.7633L7.00013 11.0133L10.3211 12.7633L10.3794 12.7901C10.4757 12.828 10.5803 12.8397 10.6826 12.8238C10.7848 12.808 10.881 12.7652 10.9613 12.6999C11.0416 12.6345 11.103 12.5491 11.1394 12.4522C11.1757 12.3553 11.1856 12.2504 11.168 12.1485L10.5316 8.44137L13.229 5.81637L13.2745 5.76679C13.3395 5.68674 13.3821 5.59089 13.398 5.489C13.4139 5.38712 13.4025 5.28284 13.3649 5.1868C13.3274 5.09075 13.2651 5.00637 13.1843 4.94225C13.1036 4.87813 13.0073 4.83657 12.9052 4.82179L9.18355 4.28162L7.51989 0.909955C7.47175 0.812267 7.39722 0.730005 7.30475 0.672482C7.21227 0.61496 7.10554 0.584473 6.99663 0.584473C6.88773 0.584473 6.781 0.61496 6.68852 0.672482C6.59605 0.730005 6.52152 0.812267 6.47338 0.909955L4.80913 4.28162Z" />
                                 </svg>
@@ -157,7 +159,7 @@ const Upgrade = () => {
                 )
             }
 
-            
+
 
             {showThank && !ratingClosed && (
                 <div className="tankyou-msg-container">
