@@ -144,7 +144,7 @@ const Upgrade = () => {
                 showForm && !showThank && !ratingClosed && (
                     <div className="feedback-submit-container">
                         <h5 className="help-message">Help us make it better!</h5>
-                        <p className="form-description">Please share what went wrong with The NotificationX so that we can improve further*</p>
+                        <p className="form-description">Please share what went wrong with The EmbedPress so that we can improve further*</p>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
                                 <textarea name="message" ref={textareaRef} placeholder="Describe your issue in details" type="text" rows={4} className="form-control"></textarea>

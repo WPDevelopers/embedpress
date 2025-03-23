@@ -691,7 +691,7 @@ class Embedpress_Elementor_Integration
                                         ` : rating && rating < 5 ? `
                                             <div class="feedback-submit-container">
                                                 <h5 class="help-message">Help us make it better!</h5>
-                                                <p class="form-description">Please share what went wrong with The NotificationX so that we can improve further*</p>
+                                                <p class="form-description">Please share what went wrong with The EmbedPress so that we can improve further*</p>
                                                 <form id="feedback-form">
                                                     <div class="form-group">
                                                         <textarea name="message" placeholder="Describe your issue in details" type="text" rows="4" class="form-control"></textarea>
