@@ -5,7 +5,7 @@ import { useSelect } from '@wordpress/data';
 const Upgrade = () => {
     const isEmbedpressFeedbackSubmited = embedpressObj.is_embedpress_feedback_submited;
 
-    const [ratingClosed, setRatingClosed] = useState(isEmbedpressFeedbackSubmited);
+    const [ratingClosed, setRatingClosed] = useState(() => localStorage.getItem("ratingClosed") === "true");
     const [rating, setRating] = useState(5);
     const [showThank, setShowThank] = useState(false);
     const [showRateButton, setShowRateButton] = useState(false);
@@ -67,11 +67,8 @@ const Upgrade = () => {
             setShowThank(true);
             setShowRateButton(true);
             sendFiveStarRating();
+            localStorage.setItem("ratingClosed", true);
 
-            setTimeout(() => {
-                setShowThank(false);
-                localStorage.setItem("ratingClosed", true);
-            }, 1000 * 60);
         }
     };
 
