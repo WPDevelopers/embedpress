@@ -430,23 +430,23 @@ class Core
         $message .= '<table style="font-family: system-ui; width: 100%; border-collapse: collapse; border: 1px solid #ddd">';
 
         // Email
-        $message .= '<tr><td style="padding: 10px; font-weight: bold; border-bottom: 1px solid #ddd;">Email :</td>';
+        $message .= '<tr><td style="padding: 10px; font-weight: bold; width: 100px; border-bottom: 1px solid #ddd;">Email :</td>';
         $message .= '<td style="padding: 10px; border-bottom: 1px solid #ddd;"><a href="mailto:' . esc_attr($params['email']) . '">' . esc_html($params['email']) . '</a></td></tr>';
 
         // Rating
-        $message .= '<tr><td style="padding: 10px; font-weight: bold; border-bottom: 1px solid #ddd;">Rating :</td>';
+        $message .= '<tr><td style="padding: 10px; font-weight: bold; width: 100px; border-bottom: 1px solid #ddd;">Rating :</td>';
         $message .= '<td style="padding: 10px; border-bottom: 1px solid #ddd;">' . esc_html($params['rating']) . ' ⭐️</td></tr>';
 
         // User
-        $message .= '<tr><td style="padding: 10px; font-weight: bold; border-bottom: 1px solid #ddd;">User :</td>';
-        $message .= '<td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: 600;">' . esc_html($admin_full_name) . '</td></tr>';
+        $message .= '<tr><td style="padding: 10px; font-weight: bold; width: 100px; border-bottom: 1px solid #ddd;">User :</td>';
+        $message .= '<td style="padding: 10px; border-bottom: 1px solid #ddd; font-weight: 500;">' . esc_html($admin_full_name) . '</td></tr>';
 
         // Pack
-        $message .= '<tr><td style="padding: 10px; font-weight: bold; border-bottom: 1px solid #ddd;">Site Url :</td>';
+        $message .= '<tr><td style="padding: 10px; font-weight: bold; width: 100px; border-bottom: 1px solid #ddd;">Site Url :</td>';
         $message .= '<td style="padding: 10px; border-bottom: 1px solid #ddd;"><a target="_blank" href="' . esc_url($site_url) . '" style="color: blue;">' . esc_html($site_url) . '</a></td></tr>';
 
         // Feedback
-        $message .= '<tr><td style="padding: 10px; font-weight: bold;">Feedback :</td>';
+        $message .= '<tr><td style="padding: 10px; font-weight: bold; width: 100px; display: flex;">Feedback :</td>';
         $message .= '<td style="padding: 10px;">' . nl2br(esc_html($params['message'])) . '</td></tr>';
 
         $message .= '</table>';
