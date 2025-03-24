@@ -3592,9 +3592,9 @@ figure .ep-youtube__content__block .thumb {
 
 }
 
-.photos-gallery-grid .ose-google-photos,
-.photos-gallery-masonary .ose-google-photos,
-.photos-gallery-justify .ose-google-photos {
+.ep-google-photos-gallery-grid .ose-google-photos,
+.ep-google-photos-gallery-masonary .ose-google-photos,
+.ep-google-photos-gallery-justify .ose-google-photos {
     height: 100% !important;
     max-height: 100% !important;
 }

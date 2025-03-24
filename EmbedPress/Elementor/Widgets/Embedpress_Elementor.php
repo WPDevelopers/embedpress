@@ -4439,7 +4439,7 @@ class Embedpress_Elementor extends Widget_Base
 						class="ep-embed-content-wrapper 
 						<?php echo isset($settings['custom_player_preset']) ? esc_attr($settings['custom_player_preset']) : ''; ?> 
 						<?php echo esc_attr($this->get_instafeed_layout($settings)); ?> 
-						<?php echo esc_attr('photos-'.$settings['mode']); ?>
+						<?php echo esc_attr('ep-google-photos-'.$settings['mode']); ?>
 						<?php echo esc_attr($hosted_format); ?>" 
 						<?php echo $data_playerid; ?>
 						<?php echo $data_carouselid; ?>

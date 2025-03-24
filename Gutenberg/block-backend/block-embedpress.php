@@ -130,7 +130,7 @@ function embedpress_render_block($attributes)
 	$block_id = !empty($attributes['clientId']) ? $attributes['clientId'] : '';
 	$custom_player = !empty($attributes['customPlayer']) ? $attributes['customPlayer'] : 0;
 	$instaLayout = !empty($attributes['instaLayout']) ? ' '.$attributes['instaLayout'] : ' insta-grid';
-	$mode = !empty($attributes['mode']) ? ' photos-'.$attributes['mode'] : '';
+	$mode = !empty($attributes['mode']) ? ' ep-google-photos-'.$attributes['mode'] : '';
 
 	$_carousel_options = '';
 	$_carousel_id = '';
