@@ -687,7 +687,7 @@ class Embedpress_Elementor_Integration
                                                 <p class="form-description">Please share what went wrong with The EmbedPress so that we can improve further*</p>
                                                 <form id="feedback-form">
                                                     <div class="form-group">
-                                                        <textarea name="message" placeholder="Describe your issue in details" type="text" rows="4" class="form-control"></textarea>
+                                                        <textarea name="message" placeholder="Describe your issue in details" type="text" rows="4" class="form-control" required></textarea>
                                                     </div>
                                                     <div class="form-group">
                                                         <button class="submit-button" type="submit">Send</button>

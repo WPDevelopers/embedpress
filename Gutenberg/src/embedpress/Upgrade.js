@@ -148,7 +148,7 @@ const Upgrade = () => {
                         <p className="form-description">Please share what went wrong with The EmbedPress so that we can improve further*</p>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">
-                                <textarea name="message" ref={textareaRef} placeholder="Describe your issue in details" type="text" rows={4} className="form-control"></textarea>
+                                <textarea name="message" ref={textareaRef} placeholder="Describe your issue in details" type="text" rows={4} className="form-control" required></textarea>
                             </div>
                             <div className="form-group">
                                 <button className="submit-button" type="submit">Send</button>
