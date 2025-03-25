@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the EmbedPress plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: EmbedPress 4.2.1\n"
+"Project-Id-Version: EmbedPress 4.2.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/embedpress\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2025-03-24T07:56:56+00:00\n"
+"POT-Creation-Date: 2025-03-25T08:12:01+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.8.1\n"
 "X-Domain: embedpress\n"
@@ -125,8 +125,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:171
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3904
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:240
-#: Gutenberg/dist/blocks.build.js:892
-#: Gutenberg/dist/blocks.build.js:1172
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:278
 #: Gutenberg/src/embedpress-calendar/edit.js:76
 msgid "Width"
@@ -136,9 +135,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:206
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3943
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:277
-#: Gutenberg/dist/blocks.build.js:892
-#: Gutenberg/dist/blocks.build.js:1117
-#: Gutenberg/dist/blocks.build.js:1172
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:290
 #: Gutenberg/src/embedpress-calendar/edit.js:84
 #: Gutenberg/src/embedpress-pdf/edit.js:450
@@ -158,7 +155,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4020
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:317
 #: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:447
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:222
 msgid "Left"
 msgstr ""
@@ -176,7 +173,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:4028
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:325
 #: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:445
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:221
 msgid "Right"
 msgstr ""
@@ -184,8 +181,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Calendar.php:250
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:265
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:337
-#: Gutenberg/dist/blocks.build.js:1117
-#: Gutenberg/dist/blocks.build.js:1172
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-calendar/edit.js:96
 #: Gutenberg/src/embedpress-pdf/edit.js:651
 msgid "Powered By"
@@ -360,7 +356,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3893
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:100
 #: EmbedPress/Ends/Back/Settings/templates/partials/sidebar.php:21
-#: Gutenberg/dist/blocks.build.js:1038
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/inspector.js:113
 msgid "General"
 msgstr ""
@@ -400,7 +396,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:285
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:584
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:358
-#: Gutenberg/dist/blocks.build.js:229
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/youtube.js:380
 msgid "Controls"
 msgstr ""
@@ -438,7 +434,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:373
 #: EmbedPress/Ends/Back/Settings/templates/twitch.php:67
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:255
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:159
 msgid "Theme"
 msgstr ""
@@ -455,7 +451,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:378
 #: EmbedPress/Ends/Back/Settings/templates/twitch.php:72
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:261
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:163
 msgid "Dark"
 msgstr ""
@@ -465,7 +461,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3503
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:379
 #: EmbedPress/Ends/Back/Settings/templates/twitch.php:73
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:162
 msgid "Light"
 msgstr ""
@@ -489,7 +485,7 @@ msgid "Toolbar %s"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:380
-#: Gutenberg/dist/blocks.build.js:916
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/doc-controls.js:113
 msgid "Fullscreen"
 msgstr ""
@@ -500,8 +496,7 @@ msgid "Print/Download %s"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Document.php:414
-#: Gutenberg/dist/blocks.build.js:916
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/doc-controls.js:123
 #: Gutenberg/src/embedpress-pdf/edit.js:319
 msgid "Draw"
@@ -667,9 +662,7 @@ msgid "Black & White"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:337
-#: Gutenberg/dist/blocks.build.js:229
-#: Gutenberg/dist/blocks.build.js:288
-#: Gutenberg/dist/blocks.build.js:1062
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/selfhosted.js:88
 #: Gutenberg/src/embedpress/InspectorControl/vimeo.js:162
 #: Gutenberg/src/embedpress/InspectorControl/youtube.js:349
@@ -787,7 +780,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:634
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:88
-#: Gutenberg/dist/blocks.build.js:229
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/youtube.js:405
 msgid "Progress Bar Color"
 msgstr ""
@@ -838,7 +831,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1888
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2764
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:239
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:388
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:391
 msgid "Layout"
@@ -1024,8 +1017,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1410
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3781
-#: Gutenberg/dist/blocks.build.js:360
-#: Gutenberg/dist/blocks.build.js:396
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/customplayer.js:59
 #: Gutenberg/src/embedpress/InspectorControl/google-photos.js:144
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:361
@@ -1201,7 +1193,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2018
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2353
 #: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:457
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:454
 msgid "Title"
 msgstr ""
@@ -1219,14 +1211,14 @@ msgid "Loop %s"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1786
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:364
 msgid "Limit"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1818
 #: EmbedPress/Ends/Back/Settings/templates/opensea.php:41
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:372
 msgid "Order By"
 msgstr ""
@@ -1262,8 +1254,7 @@ msgid "Grid"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1913
-#: Gutenberg/dist/blocks.build.js:264
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/common/custom-player-controls.js:81
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:402
 msgid "Preset"
@@ -1280,28 +1271,28 @@ msgid "5"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1967
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:425
 msgid "Gap Between Item"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:1990
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2316
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:442
 msgid "Collection Name"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2005
 #: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:480
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:449
 msgid "Thumbnail"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2032
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2381
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:460
 msgid "Creator"
 msgstr ""
@@ -1327,7 +1318,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2090
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2107
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2108
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:482
 msgid "Last Sale"
 msgstr ""
@@ -1363,7 +1354,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2209
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2210
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2571
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:510
 msgid "Rank"
 msgstr ""
@@ -1376,7 +1367,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2240
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2241
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2651
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:522
 msgid "Details"
 msgstr ""
@@ -1386,7 +1377,7 @@ msgid "Details Label %s"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2262
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:547
 msgid "Color and Typography"
 msgstr ""
@@ -1401,7 +1392,7 @@ msgstr ""
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3382
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3446
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3861
-#: Gutenberg/dist/blocks.build.js:396
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/google-photos.js:195
 msgid "Background Color"
 msgstr ""
@@ -1425,8 +1416,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2517
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3092
-#: Gutenberg/dist/blocks.build.js:276
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:444
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:353
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:541
@@ -1480,13 +1470,13 @@ msgid "Justify%s"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2814
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:332
 msgid "Column Gap"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2830
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:342
 msgid "Slides to Show"
 msgstr ""
@@ -1508,28 +1498,27 @@ msgid "10"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2868
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:366
 msgid "Autoplay Speed(ms)"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2882
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:371
 msgid "Transition Speed(ms)"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2896
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:51
-#: Gutenberg/dist/blocks.build.js:288
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:377
 #: Gutenberg/src/embedpress/InspectorControl/vimeo.js:149
 msgid "Loop"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2911
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:389
 msgid "Arrows"
 msgstr ""
@@ -1539,7 +1528,7 @@ msgid "Spacing"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:2943
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:398
 msgid "Posts Per Page"
 msgstr ""
@@ -1557,25 +1546,25 @@ msgid "Comments Count %s"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3048
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:420
 msgid "Popup"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3060
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:428
 msgid "Popup Follow Button"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3076
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:434
 msgid "Follow Button Label"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3107
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:451
 msgid "Load More Button Label"
 msgstr ""
@@ -1585,7 +1574,7 @@ msgid "Instagram Profile Settings"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3144
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:220
 msgid "Profile Image"
 msgstr ""
@@ -1595,7 +1584,7 @@ msgid "Image %s"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3176
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:246
 msgid "Follow Button"
 msgstr ""
@@ -1605,14 +1594,14 @@ msgid "Follow"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3206
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:259
 msgid "Posts Count"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3220
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3252
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:266
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:283
 msgid "Count Text"
@@ -1623,7 +1612,7 @@ msgid "[count] posts"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3237
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:275
 msgid "Followers Count"
 msgstr ""
@@ -1633,7 +1622,7 @@ msgid "[count] followers"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3271
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:291
 msgid "Account Name"
 msgstr ""
@@ -1647,7 +1636,7 @@ msgid "Calendly Controls"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3327
-#: Gutenberg/dist/blocks.build.js:372
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/calendly.js:191
 msgid "Embed Type"
 msgstr ""
@@ -1690,7 +1679,7 @@ msgid "Button & Link Color"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3491
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:157
 msgid "Spreaker Controls"
 msgstr ""
@@ -1708,13 +1697,13 @@ msgid "Disable Download %s"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3548
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:181
 msgid "Enable Playlist"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3554
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:182
 msgid "This option is for podcast playlists and doesn’t affect individual episodes."
 msgstr ""
@@ -1724,79 +1713,79 @@ msgid "Continuous Playlist %s"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3578
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:148
 msgid "Loop Playlist"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3594
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:195
 msgid "Playlist Autoupdate"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3608
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:202
 msgid "Hide Playlist Descriptions"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3623
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:208
 msgid "Hide Playlist Images"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3638
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:218
 msgid "Episode Image Position"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3653
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:228
 msgid "Show Chapters Images"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3659
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:231
 msgid "Only applies if the podcast includes chapter images."
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3666
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:234
 msgid "Hide Likes"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3678
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:240
 msgid "Hide Comments"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3690
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:246
 msgid "Hide Sharing"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3702
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:252
 msgid "Hide Logo"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3708
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:255
 msgid "Hide the Spreaker logo and branding in the player. Requires Broadcaster plan or higher."
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3715
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:260
 msgid "Hide Episode Description"
 msgstr ""
@@ -1806,19 +1795,19 @@ msgid "Google Photos Controls"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3749
-#: Gutenberg/dist/blocks.build.js:396
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/google-photos.js:123
 msgid "Album Mode"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3752
-#: Gutenberg/dist/blocks.build.js:396
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/google-photos.js:126
 msgid "Carousel"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3753
-#: Gutenberg/dist/blocks.build.js:396
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/google-photos.js:127
 msgid "Gallery Player"
 msgstr ""
@@ -1836,13 +1825,13 @@ msgid "Delay (seconds)"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3809
-#: Gutenberg/dist/blocks.build.js:396
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/google-photos.js:158
 msgid "Repeat"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Elementor.php:3871
-#: Gutenberg/dist/blocks.build.js:396
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/google-photos.js:204
 msgid "Sync after (minutes)"
 msgstr ""
@@ -1864,7 +1853,7 @@ msgid "You need EmbedPress Pro to Embed Apple Podcast. Note. This message is onl
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:29
-#: Gutenberg/dist/blocks.build.js:1085
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-pdf/index.js:23
 msgid "EmbedPress PDF"
 msgstr ""
@@ -1971,25 +1960,25 @@ msgid "Bottom"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:480
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-pdf/edit.js:619
 msgid "Zoom In"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:495
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-pdf/edit.js:626
 msgid "Zoom Out"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:510
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-pdf/edit.js:633
 msgid "Fit View"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:525
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-pdf/edit.js:640
 msgid "Bookmark"
 msgstr ""
@@ -2000,7 +1989,7 @@ msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:556
 #: EmbedPress/Ends/Back/Settings/templates/general.php:53
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-pdf/edit.js:545
 msgid "Lazy Load"
 msgstr ""
@@ -2010,7 +1999,7 @@ msgid "Copy Text %s"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:588
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-pdf/edit.js:559
 msgid "Add Text"
 msgstr ""
@@ -2020,19 +2009,19 @@ msgid "Draw %s"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:620
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-pdf/edit.js:571
 msgid "Add Image"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:635
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-pdf/edit.js:578
 msgid "Rotation"
 msgstr ""
 
 #: EmbedPress/Elementor/Widgets/Embedpress_Pdf.php:651
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-pdf/edit.js:586
 msgid "Properties"
 msgstr ""
@@ -2410,7 +2399,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/general.php:126
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:33
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:31
-#: Gutenberg/dist/blocks.build.js:217
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/common/social-share-control.js:29
 msgid "Social Share"
 msgstr ""
@@ -2431,7 +2420,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:39
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:34
 #: EmbedPress/Includes/Traits/Branding.php:37
-#: Gutenberg/dist/blocks.build.js:194
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/custombranding.js:58
 msgid "Custom Branding"
 msgstr ""
@@ -2439,7 +2428,7 @@ msgstr ""
 #: EmbedPress/Ends/Back/Settings/templates/general.php:130
 #: EmbedPress/Ends/Back/Settings/templates/go-premium.php:42
 #: EmbedPress/Ends/Back/Settings/templates/shortcode.php:35
-#: Gutenberg/dist/blocks.build.js:252
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/common/lock-control.js:40
 msgid "Content Protection"
 msgstr ""
@@ -2853,8 +2842,7 @@ msgid "Play the video again automatically when it reaches the end."
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/vimeo.php:85
-#: Gutenberg/dist/blocks.build.js:264
-#: Gutenberg/dist/blocks.build.js:288
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/common/custom-player-controls.js:86
 #: Gutenberg/src/embedpress/InspectorControl/vimeo.js:151
 msgid "DNT"
@@ -2905,7 +2893,7 @@ msgid "Indicates whether the small play button is visible on the bottom left."
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/wistia.php:89
-#: Gutenberg/dist/blocks.build.js:348
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/wistia.js:169
 msgid "Volume Control"
 msgstr ""
@@ -3036,7 +3024,7 @@ msgid "Indicates how the player should show related videos when playback of the 
 msgstr ""
 
 #: EmbedPress/Ends/Back/Settings/templates/youtube.php:178
-#: Gutenberg/dist/blocks.build.js:229
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/youtube.js:238
 msgid "Modest Branding"
 msgstr ""
@@ -3194,7 +3182,7 @@ msgid "Upload Video"
 msgstr ""
 
 #: EmbedPress/Includes/Classes/Extend_Elementor_Controls.php:66
-#: Gutenberg/dist/blocks.build.js:1183
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/placeholders/placeholders.js:35
 msgid "Upload Image"
 msgstr ""
@@ -3627,295 +3615,284 @@ msgstr ""
 msgid "License has been deactivated"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:229
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/youtube.js:237
 msgid "Closed Captions"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:229
-#: Gutenberg/dist/blocks.build.js:1038
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/inspector.js:201
 #: Gutenberg/src/embedpress/InspectorControl/youtube.js:336
 msgid "Tips & Tricks"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:229
-#: Gutenberg/dist/blocks.build.js:288
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/vimeo.js:160
 #: Gutenberg/src/embedpress/InspectorControl/youtube.js:347
 msgid "Video Controls"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:264
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/common/custom-player-controls.js:75
 msgid "Tooltip"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:264
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/common/custom-player-controls.js:76
 msgid "Auto Hide Controls"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:264
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/common/custom-player-controls.js:77
 msgid "Source Link"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:264
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/common/custom-player-controls.js:78
 #: Gutenberg/src/common/custom-player-controls.js:79
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:344
 msgid "Sticky Video"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:264
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/common/custom-player-controls.js:83
 msgid "Player Color"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:264
-#: Gutenberg/dist/blocks.build.js:288
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/common/custom-player-controls.js:85
 #: Gutenberg/src/embedpress/InspectorControl/vimeo.js:150
 msgid "Auto Paause"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:347
 msgid "Creator Prefix"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:348
 msgid "Price Prefix"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:349
 msgid "Last Sale Prefix"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:276
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:252
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:350
 msgid "Button Label"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:351
 msgid "Rank Label"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:352
 msgid "Details Label"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:361
 msgid "Query"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:415
 msgid "Item Per Row"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:437
 msgid "Content"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:471
 msgid "Show Price"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:276
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/opensea.js:495
 msgid "Show Button"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:336
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/common/ads-control.js:75
 msgid "Ads Settings"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:348
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/wistia.js:168
 msgid "Captions"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:348
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/wistia.js:177
 msgid "Wistia Video Controls"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:206
 msgid "Feed Tab"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:207
 msgid "Likes Count"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:208
 msgid "Comments Count"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:218
 msgid "Profile Settings"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:299
 msgid "Feed Settings"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:326
 msgid "Columns"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:360
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/instafeed.js:383
 msgid "Space"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:372
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/calendly.js:181
 msgid "Calendly Data"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:372
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/calendly.js:208
 msgid "View Calendly Data"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:146
 msgid "Disable Download"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:384
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/spreaker.js:147
 msgid "Continuous Playlist"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:396
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/google-photos.js:121
 msgid "GooglePhotos Controls"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:396
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/google-photos.js:150
 msgid "Delay"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:892
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:217
 #: Gutenberg/src/embedpress-pdf/edit.js:367
 msgid "Re Upoload"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:892
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/edit.js:275
 #: Gutenberg/src/embedpress-pdf/edit.js:422
 msgid "Embed Size"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:916
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/doc-controls.js:39
 #: Gutenberg/src/embedpress-pdf/edit.js:317
 msgid "Toolbar"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:916
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/doc-controls.js:40
 #: Gutenberg/src/embedpress-pdf/edit.js:318
 msgid "Print/Download"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:916
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/doc-controls.js:45
 #: Gutenberg/src/embedpress-pdf/edit.js:463
 msgid "Document Controls"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:916
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/document/doc-controls.js:48
 #: Gutenberg/src/embedpress-pdf/edit.js:466
 msgid "Document URL"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1038
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/inspector.js:158
 msgid "You can adjust the width of embedded content."
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1038
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/inspector.js:232
 msgid "Only Available in Pro Version!"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1062
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress/InspectorControl/selfhosted.js:81
 msgid "Auto-Pause"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-pdf/edit.js:320
 msgid "Copy Text"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-pdf/edit.js:322
 msgid "Default Scrolling"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-pdf/edit.js:324
 msgid "Default Selection Tool"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1117
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-pdf/edit.js:537
 msgid "Presentation Mode"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1172
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-calendar/edit.js:73
 msgid "Customize Embedded Calendar"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1172
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-calendar/edit.js:74
 msgid "You can adjust the width and height of embedded content."
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1172
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-calendar/edit.js:93
 msgid "Calendar Type and other options"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1172
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-calendar/edit.js:94
 msgid "You can show public calendar without any API key"
 msgstr ""
 
-#: Gutenberg/dist/blocks.build.js:1172
+#: Gutenberg/dist/blocks.build.js:1
 #: Gutenberg/src/embedpress-calendar/edit.js:103
 msgid "Embedding Public Calendar"
 msgstr ""
