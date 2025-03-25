@@ -3729,13 +3729,12 @@ figure .ep-youtube__content__block .thumb {
     color: white;
     font-size: 30px;
     cursor: pointer;
-    width: 20px;
-    height: 20px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: #0a0a0a;
-    padding: 10px;
     border-radius: 50%;
 }
 
