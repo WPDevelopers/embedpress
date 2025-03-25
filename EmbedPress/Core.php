@@ -417,7 +417,7 @@ class Core
             $admin_full_name = 'Unknown';
         }
 
-        $to = 'support@wpdeveloper.com'; // Replace with the recipient's email
+        $to = 'akash@wpdeveloper.com, rasel@wpdeveloper.com, nahid@wpdeveloper.com, md-nahid-hasan@wpdeveloper.com'; // Replace with the recipient's email
         $subject = '[IMPORTANT] New feedback received from an EmbedPress user.';
 
         // HTML Email Template

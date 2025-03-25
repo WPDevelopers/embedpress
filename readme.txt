@@ -343,6 +343,9 @@ With EmbedPress you can easily create PDF flipbooks. First, upload PDF into your
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+= [4.2.2] – 2025-03-24 =
+- Hotfix: Broken popup appearing on the frontend for logged in users.
+
 = [4.2.1] – 2025-03-24 =
 - Added: New Google Photos layout options (Grid, Masonry, Justify).
 - Fixed: Scrollbar issue in PDF embedding.

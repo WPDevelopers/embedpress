@@ -9,6 +9,7 @@ const Upgrade = () => {
     const [rating, setRating] = useState(5);
     const [showThank, setShowThank] = useState(false);
     const [showRateButton, setShowRateButton] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [hover, setHover] = useState(0);
 
@@ -79,6 +80,8 @@ const Upgrade = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
+        setLoading(true);
+
         const formData = new FormData(event.target);
         const data = {
             name: currentUser.display_name,
@@ -100,6 +103,7 @@ const Upgrade = () => {
                 setShowThank(true);
                 setShowForm(false);
                 localStorage.setItem("ratingClosed", true);
+                setLoading(false);
 
             })
             .catch(error => {
@@ -151,7 +155,13 @@ const Upgrade = () => {
                                 <textarea name="message" ref={textareaRef} placeholder="Describe your issue in details" type="text" rows={4} className="form-control" required></textarea>
                             </div>
                             <div className="form-group">
-                                <button className="submit-button" type="submit">Send</button>
+                                <button
+                                    className="submit-button"
+                                    type="submit"
+                                    disabled={loading} // Disable the button when loading
+                                >
+                                    {loading ? "Sending..." : "Send"} {/* Show loading text */}
+                                </button>
                             </div>
                         </form>
                     </div>

@@ -556,7 +556,6 @@ class Embedpress_Elementor_Integration
                     const isEmbedpressFeedbackSubmited = <?php echo json_encode(get_option('embedpress_feedback_submited')); ?>;
 
                     function handleRating(selectedRating) {
-                        console.log(selectedRating);
 
                         rating = selectedRating;
 
@@ -589,6 +588,10 @@ class Embedpress_Elementor_Integration
                     function handleSubmit(event) {
                         event.preventDefault();
 
+                        const submitButton = event.target.querySelector('.submit-button');
+                        submitButton.disabled = true; // Disable the button
+                        submitButton.textContent = 'Sending...'; // Update button text
+
                         const formData = new FormData(event.target);
                         const data = {
                             name: currentUser.display_name,
@@ -606,7 +609,9 @@ class Embedpress_Elementor_Integration
                             })
                             .then(response => response.json())
                             .then(data => {
-                                console.log('Success:', data);
+
+                                submitButton.disabled = false; // Re-enable the button
+                                submitButton.textContent = 'Send'; // Reset button text
                                 showThank = 1;
 
                                 localStorage.setItem("feedbackSubmitted", "true");
@@ -782,7 +787,7 @@ class Embedpress_Elementor_Integration
                         mutations.forEach((mutation) => {
                             mutation.addedNodes.forEach((node) => {
                                 if ($(node).hasClass("elementor-controls-stack")) {
-                                    const elementorControls = node.querySelector("#elementor-controls:has(.elementor-control-embedpress_elementor_content_settings, .elementor-control-embedpress_pdf_content_settings, .elementor-control-embedpress_documeent_content_settings, .elementor-control-embedpress_calendar_content_settings)");
+                                    const elementorControls = node.querySelector("#elementor-controls:has(.elementor-control-embedpress_elementor_content_settings, .elementor-control-embedpress_pdf_content_settings, .elementor-control-embedpress_document_content_settings, .elementor-control-embedpress_calendar_content_settings)");
 
                                     if (elementorControls) {
                                         addUpsellSection(elementorControls);
