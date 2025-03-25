@@ -782,7 +782,8 @@ class Embedpress_Elementor_Integration
                         mutations.forEach((mutation) => {
                             mutation.addedNodes.forEach((node) => {
                                 if ($(node).hasClass("elementor-controls-stack")) {
-                                    const elementorControls = node.querySelector("#elementor-controls");
+                                    const elementorControls = node.querySelector("#elementor-controls:has(.elementor-control-embedpress_elementor_content_settings, .elementor-control-embedpress_pdf_content_settings, .elementor-control-embedpress_documeent_content_settings, .elementor-control-embedpress_calendar_content_settings)");
+
                                     if (elementorControls) {
                                         addUpsellSection(elementorControls);
                                     }
