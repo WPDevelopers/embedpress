@@ -116,7 +116,7 @@ const Upgrade = () => {
     const thankMsgHeading = rating == 5 ? 'We’re glad that you liked us! 😍' : 'We appreciate it!';
     const thankMsgDes = rating == 5 ? 'If you don’t mind, could you take 30 seconds to review us on WordPress? Your feedback will help us improve and grow. Thank you in advance! 🙏' : 'A heartfelt gratitude for managing the time to share your thoughts with us.';
 
-    if(turn_off_rating_help && isProPluginActive) {
+    if(!turn_off_rating_help && isProPluginActive) {
         return null;
     }
 
@@ -125,7 +125,7 @@ const Upgrade = () => {
         <div className={`plugin-rating${turn_off_rating_help ? ' turn_off_ratting_help' : ''}`}>
 
             {
-                !turn_off_rating_help && (
+                turn_off_rating_help && (
                     <frameElement>
 
                         {

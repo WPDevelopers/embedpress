@@ -95,7 +95,7 @@ $enableEmbedResizeWidth = isset($g_settings['enableEmbedResizeWidth']) ? intval(
 							</div>
 						</div>
 						<div class="form__group turn_off_rating_help">
-							<p class="form__label"><?php echo esc_html__('Turn Off Rating & Help', 'embedpress'); ?></p>
+							<p class="form__label"><?php echo esc_html__('Rating & Help', 'embedpress'); ?></p>
 							<div class="form__control__wrap">
 								<label class="input__switch switch__text">
 									<input type="checkbox" name="turn_off_rating_help"
