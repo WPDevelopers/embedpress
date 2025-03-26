@@ -10,6 +10,7 @@ use EmbedPress\Elementor\Widgets\Embedpress_Calendar;
 use EmbedPress\Elementor\Widgets\Embedpress_Document;
 use EmbedPress\Elementor\Widgets\Embedpress_Elementor;
 use EmbedPress\Elementor\Widgets\Embedpress_Pdf;
+use EmbedPress\Includes\Classes\Helper;
 
 class Embedpress_Elementor_Integration
 {
@@ -30,8 +31,9 @@ class Embedpress_Elementor_Integration
             add_action('elementor/widgets/register', array($this, 'register_widget'));
             add_filter('oembed_providers', [$this, 'addOEmbedProviders']);
 
-
-            add_action('elementor/editor/after_enqueue_scripts', [$this, 'elementor_upsale']);
+            if (Helper::get_options_value('turn_on_rating_help')) {
+                add_action('elementor/editor/after_enqueue_scripts', [$this, 'elementor_upsale']);
+            }
         }
     }
 

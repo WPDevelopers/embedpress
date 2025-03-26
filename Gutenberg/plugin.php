@@ -168,6 +168,7 @@ function embedpress_blocks_cgb_editor_assets()
 		'user_roles' => embedpress_get_user_roles(),
 		'current_user' => $current_user->data,
 		'is_embedpress_feedback_submited' => get_option('embedpress_feedback_submited'),
+		'turn_on_rating_help' => get_options_value('turn_on_rating_help'),
 
 	));
 
