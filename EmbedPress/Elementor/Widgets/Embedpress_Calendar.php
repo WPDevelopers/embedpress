@@ -260,32 +260,6 @@ class Embedpress_Calendar extends Widget_Base
 
 		$this->end_controls_section();
 
-		if (!apply_filters('embedpress/is_allow_rander', false)) {
-			$this->start_controls_section(
-				'embedpress_pro_section',
-				[
-					'label' => __('Go Premium for More Features', 'embedpress'),
-				]
-			);
-
-			$this->add_control(
-				'embedpress_pro_cta',
-				[
-					'label' => __('Unlock more possibilities', 'embedpress'),
-					'type' => Controls_Manager::CHOOSE,
-					'options' => [
-						'1' => [
-							'title' => '',
-							'icon' => 'eicon-lock',
-						],
-					],
-					'default' => '1',
-					'description' => '<span class="pro-feature"> Get the  <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Pro version</a> for more provider support and customization options.</span>',
-				]
-			);
-
-			$this->end_controls_section();
-		}
 	}
 
 	public function isGoogleCalendar($url) {

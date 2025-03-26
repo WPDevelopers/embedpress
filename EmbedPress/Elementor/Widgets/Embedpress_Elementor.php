@@ -437,33 +437,6 @@ class Embedpress_Elementor extends Widget_Base
 
 		do_action('extend_elementor_controls', $this, '_', $this->pro_text, $this->pro_class);
 
-		if (!apply_filters('embedpress/is_allow_rander', false)) {
-			$this->start_controls_section(
-				'embedpress_pro_section',
-				[
-					'label' => __('Go Premium for More Features', 'embedpress'),
-				]
-			);
-
-			$this->add_control(
-				'embedpress_pro_cta',
-				[
-					'label' => __('Unlock more possibilities', 'embedpress'),
-					'type' => Controls_Manager::CHOOSE,
-					'options' => [
-						'1' => [
-							'title' => '',
-							'icon' => 'eicon-lock',
-						],
-					],
-					'default' => '1',
-					'description' => '<span class="pro-feature"> Get the  <a href="https://wpdeveloper.com/in/upgrade-embedpress" target="_blank">Pro version</a> for more provider support and customization options.</span>',
-				]
-			);
-
-			$this->end_controls_section();
-		}
-
 		$this->init_style_controls();
 		$this->init_opensea_color_and_typography();
 	}
