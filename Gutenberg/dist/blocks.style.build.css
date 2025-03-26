@@ -1618,6 +1618,13 @@ button.skip-ad-button {
       .plugin-rating .upgrade-box .upgrade-link:hover {
         text-decoration: underline; }
 
+.plugin-rating.turn_off_ratting_help {
+  padding: 0;
+  margin: 0; }
+  .plugin-rating.turn_off_ratting_help .upgrade-box {
+    margin: 0;
+    border-radius: 0; }
+
 .photos-gallery-grid .ose-google-photos,
 .photos-gallery-masonary .ose-google-photos,
 .photos-gallery-justify .ose-google-photos {
