@@ -1305,14 +1305,13 @@ class Helper
 				// It's a global color reference
 				$global_id = str_replace('globals/colors?id=', '', $color_setting);
 
-
-
 				$kit  = Plugin::$instance->kits_manager->get_current_settings();
 
-				$global_colors = isset($kit['system_colors']) ? $kit['system_colors'] : [];
+				$system_colors = isset($kit['system_colors']) ? $kit['system_colors'] : [];
+				$custom_colors = isset($kit['custom_colors']) ? $kit['custom_colors'] : [];
+				$global_colors = array_merge($system_colors, $custom_colors);
 
 				foreach ($global_colors as $color) {
-
 
 					if ($color['_id'] === $global_id) {
 						$global_color = $color['color'];  // Found a match, set the color
