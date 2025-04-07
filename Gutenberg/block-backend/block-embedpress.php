@@ -116,7 +116,7 @@ function embedpress_block_scripts($attributes) {
 	$style_handles[] = 'embedpress-style';
 
     foreach ($style_handles as $handle) {
-        wp_enqueue_style($handle);
+        wp_enqueue_style($handle, false, [], EMBEDPRESS_PLUGIN_VERSION);
     }
 }
 
