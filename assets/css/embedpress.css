@@ -1857,6 +1857,7 @@ figure .plyr--full-ui .plyr__video-embed>.plyr__video-embed__container {
 .plyr--paused.plyr__poster-enabled .plyr__poster {
     display: block !important;
     opacity: 1;
+    background-size: cover;
 }
 
 @media only screen and (max-width: 767px) {
